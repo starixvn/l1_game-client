@@ -15,6 +15,5 @@ deploy:
     - scp -r -P 2201 ./src/build/web-mobile/* root@35.194.253.55:/var/www/r97/web-mobile
   tags:
     - deploy-cocos-web-mobile
-  artifacts:
-    paths:
-      - build/web-mobile
+  only:
+    - /^deploy-\d{8}-\d+.*$/
