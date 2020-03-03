@@ -6,7 +6,7 @@ thegame:
   script:
     - sh /opt/cocos-build.sh --path . --build "platform=web-mobile"
   tags:
-    - deploy
+    - deploy-cocos-web-mobile
   artifacts:
     paths:
       - build/web-mobile
