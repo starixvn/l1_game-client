@@ -534,7 +534,7 @@ cc.Class({
 			if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
 				var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
 				this.showWaitTime(time);
-				if (cc.RedT.setting.taixiu.time_remain < 23) {
+				if (cc.RedT.setting.taixiu.time_remain < 71) {
 					this.efStop();
 				}
 				if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {

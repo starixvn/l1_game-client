@@ -1,9 +1,9 @@
 cc.Class({
     extends: cc.Component,
     statics:{
-        betTime: 16,
-        waitTime: 11,
-        nanTime: 21,
-        redTime: 5
+        betTime: 61,
+        waitTime: 16,
+        nanTime: 66,
+        redTime: 10
     }
 });
