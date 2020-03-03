@@ -1,3 +1,4 @@
+image: keymetrics/pm2:6
 stages:
   - deploy
 deploy:
@@ -6,7 +7,7 @@ deploy:
     - echo "====== Deploy to production server ======"
     - apk update && apk upgrade
     - apk add git openssh bash
-    - s- eval $(ssh-agent -s)
+    - eval $(ssh-agent -s)
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
     - mkdir -p ~/.ssh
