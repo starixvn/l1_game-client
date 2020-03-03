@@ -4,7 +4,7 @@ thegame:
   stage: build
   image: sercand/cocos-creator:1.8.0-web
   script:
-    - sh /opt/cocos-build.sh --path . --build "platform=web-mobile"
+    - sh /opt/cocos-build.sh --path ./src --build "platform=web-mobile"
   tags:
     - deploy-cocos-web-mobile
   artifacts:
