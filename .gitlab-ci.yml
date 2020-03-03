@@ -1,10 +1,14 @@
 stages:
-  - build
-thegame:
-  stage: build
-  image: sercand/cocos-creator:1.8.0-web
+  - deploy
+deploy:
+  stage: deploy
   script:
-    - sh /opt/cocos-build.sh --path ./src --build "platform=web-mobile"
+    - s- eval $(ssh-agent -s)
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - scp -P 2201 ./src/build/web-mobile root@35.194.253.55:/var/www/r97/web-mobile
   tags:
     - deploy-cocos-web-mobile
   artifacts:
