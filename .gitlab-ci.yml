@@ -4,8 +4,8 @@ deploy:
   stage: deploy
   script:
     - echo "====== Deploy to production server ======"
-    - apt update && apk upgrade
-    - apk add git openssh bash
+    - apt update
+    - apt install git openssh bash
     - eval $(ssh-agent -s)
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
