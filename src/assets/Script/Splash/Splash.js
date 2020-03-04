@@ -63,7 +63,7 @@ cc.Class({
 	},
 	initHotUpdate: function() {
 		this.updateProgress(0);
-		this._storagePath = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "redvip-remote-asset";
+		this._storagePath = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hot-update-remote-asset";
 		this._am = new jsb.AssetsManager("", this._storagePath, this.versionCompareHandle);
 		this._am.setVerifyCallback(function(t, e) {
 			e.compressed;
@@ -113,7 +113,10 @@ cc.Class({
 			break;
 		case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
 		case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
-			this.messageLabel.string = "Tải manifest thất bại ...";
+			// TODO: bug for update game on android, must be checked later
+			//this.messageLabel.string = "Tải manifest thất bại ...";
+			this.messageLabel.string = "Phiên bản đã cập nhật ...";
+			e = !0;
 			break;
 		case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
 			this.updateProgress(838);
