@@ -664,19 +664,15 @@ cc.Class({
     this.timeWait.string = "00:" + helper.numberPad(time, 2);
   },
   showBetTime: function(time) {
-    if (cc.RedT.setting.taixiu.getLogs) {
-      this.timeCuoc.string = time;
-    }
-    this.timePopup.node.active &&
-      (this.timePopup.string = time) &&
-      (this.timePopup.node.color = cc.color(155, 75, 2, 255));
-    if (cc.RedT.setting.taixiu.time_remain <= Constants.redTime)
-      this.timeCuoc.node.color = cc.color(255, 69, 69, 255);
-    else this.timeCuoc.node.color = cc.Color.WHITE;
-
-    var self = this;
     var firstTimeChar = time.substr(0, 1);
     var secondTimeChar = time.substr(1, 1);
+
+    if (firstTimeChar != this.firstBetTime.spriteFrame.name) {
+      this.handleBetTimeAnimation(this.firstBetTime);
+    }
+    this.handleBetTimeAnimation(this.secondBetTime);
+    var self = this;
+
     cc.loader.loadRes("/Game/TaiXiu/bettime", cc.SpriteAtlas, function(
       err,
       atlas
@@ -686,6 +682,34 @@ cc.Class({
       var secondFrame = atlas.getSpriteFrame(secondTimeChar);
       self.secondBetTime.spriteFrame = secondFrame;
     });
+    // if (cc.RedT.setting.taixiu.getLogs) {
+    //   this.timeCuoc.string = time;
+    // }
+    // this.timePopup.node.active &&
+    //   (this.timePopup.string = time) &&
+    //   (this.timePopup.node.color = cc.color(155, 75, 2, 255));
+    // if (cc.RedT.setting.taixiu.time_remain <= Constants.redTime)
+    //   this.timeCuoc.node.color = cc.color(255, 69, 69, 255);
+    // else this.timeCuoc.node.color = cc.Color.WHITE;
+  },
+  handleBetTimeAnimation(betTimeControl) {
+    cc.tween(betTimeControl.node)
+      .to(0, {
+        position: cc.v2(betTimeControl.node.x, betTimeControl.node.y + 40),
+        opacity: 0
+      })
+      .to(0.2, {
+        position: cc.v2(betTimeControl.node.x, betTimeControl.node.y),
+        opacity: 255
+      })
+      .to(0.1, {
+        position: cc.v2(betTimeControl.node.x, betTimeControl.node.y - 10)
+      })
+      .to(0.1, {
+        position: cc.v2(betTimeControl.node.x, betTimeControl.node.y),
+        opacity: 255
+      })
+      .start();
   },
   onDataChanLe: function(data) {
     if (this.red) {
