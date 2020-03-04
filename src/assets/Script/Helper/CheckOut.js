@@ -25,7 +25,8 @@ cc.Class({
         },
         isChecked: false,
     },
-    __preload() {
+    
+    onLoad: function() {
     	var self = this;
     	this.actionOn  = cc.sequence(cc.moveTo(0.1, cc.v2(30, 0)), cc.callFunc(function() {
                     self.spriteFrame = self.BgOn;
