@@ -1,11 +1,12 @@
+image: keymetrics/pm2:6
 stages:
   - deploy
 deploy:
   stage: deploy
   script:
     - echo "====== Deploy to production server ======"
-    # - apt update
-    # - apt install git openssh bash
+    - apt update && apk upgrade
+    - apk add git openssh bash
     - eval $(ssh-agent -s)
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
@@ -13,6 +14,6 @@ deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - scp -r -P 2201 ./src/build/web-mobile/* root@35.194.253.55:/var/www/r97/web-mobile
   tags:
-    - deploy-cocos-web-mobile
+    - docker
   only:
     - /^deploy-\d{8}-\d+.*$/
