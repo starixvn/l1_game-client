@@ -14,6 +14,7 @@ var manifest = {
 var dest = './assets/';
 var src = './build/jsb-link/';
 var serverDest = '../../r97-server/src/public/hot-update/'
+var nativeAppInstallPath = '../../r97-server/src/public/';
 
 // Parse arguments
 var i = 2;
@@ -145,6 +146,13 @@ fs.writeFile(serverDestVersion, JSON.stringify(manifest), (err) => {
         return console.error(err);
         }
         console.log('copy src done!');
+    });
+
+    ncp(path.join(src, 'publish/android'), path.join(nativeAppInstallPath, 'native-apps'), function (err) {
+        if (err) {
+        return console.error(err);
+        }
+        console.log('copy native apps done!');
     });
 
 
