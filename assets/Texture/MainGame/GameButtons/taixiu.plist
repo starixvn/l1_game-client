@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Tai xiu Background</key>
+            <key>Tai xiu Background.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,22 +19,37 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dice</key>
+            <key>Tai.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{138,151}</string>
+                <string>{105,58}</string>
                 <key>spriteSourceSize</key>
-                <string>{138,151}</string>
+                <string>{105,58}</string>
                 <key>textureRect</key>
-                <string>{{557,346},{138,151}}</string>
+                <string>{{1,425},{105,58}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>Xiu.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{115,63}</string>
+                <key>spriteSourceSize</key>
+                <string>{115,63}</string>
+                <key>textureRect</key>
+                <string>{{241,372},{115,63}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>dice 1</key>
+            <key>dice 1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -45,11 +60,11 @@
                 <key>spriteSourceSize</key>
                 <string>{100,89}</string>
                 <key>textureRect</key>
-                <string>{{241,372},{100,89}}</string>
+                <string>{{306,372},{100,89}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>dice 2</key>
+            <key>dice 2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -62,39 +77,24 @@
                 <key>textureRect</key>
                 <string>{{397,355},{120,132}}</string>
                 <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>dice 3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{143,152}</string>
+                <key>spriteSourceSize</key>
+                <string>{143,152}</string>
+                <key>textureRect</key>
+                <string>{{715,343},{143,152}}</string>
+                <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>dice 3</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{143,152}</string>
-                <key>spriteSourceSize</key>
-                <string>{143,152}</string>
-                <key>textureRect</key>
-                <string>{{1016,161},{143,152}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>dice blur hoz</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{158,174}</string>
-                <key>spriteSourceSize</key>
-                <string>{158,174}</string>
-                <key>textureRect</key>
-                <string>{{397,179},{158,174}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>dice blur hoz-1</key>
+            <key>dice blur hoz-1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -109,7 +109,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dice blur hoz-2</key>
+            <key>dice blur hoz-2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -124,7 +124,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dice blur hoz-3</key>
+            <key>dice blur hoz-3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -139,7 +139,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dice blur hoz-4</key>
+            <key>dice blur hoz-4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -154,22 +154,22 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dice blur ver</key>
+            <key>dice blur hoz.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{158,151}</string>
+                <string>{158,174}</string>
                 <key>spriteSourceSize</key>
-                <string>{158,151}</string>
+                <string>{158,174}</string>
                 <key>textureRect</key>
-                <string>{{992,1},{158,151}}</string>
+                <string>{{397,179},{158,174}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
-            <key>dice blur ver-1</key>
+            <key>dice blur ver-1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -184,7 +184,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>dice blur ver-2</key>
+            <key>dice blur ver-2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -199,7 +199,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>dice blur ver-3</key>
+            <key>dice blur ver-3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -214,7 +214,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>dice blur ver-4</key>
+            <key>dice blur ver-4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -229,7 +229,22 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>dice-1</key>
+            <key>dice blur ver.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{158,151}</string>
+                <key>spriteSourceSize</key>
+                <string>{158,151}</string>
+                <key>textureRect</key>
+                <string>{{992,1},{158,151}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>dice-1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -240,11 +255,11 @@
                 <key>spriteSourceSize</key>
                 <string>{149,158}</string>
                 <key>textureRect</key>
-                <string>{{868,323},{149,158}}</string>
+                <string>{{869,323},{149,158}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dice-2</key>
+            <key>dice-2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -255,11 +270,11 @@
                 <key>spriteSourceSize</key>
                 <string>{156,140}</string>
                 <key>textureRect</key>
-                <string>{{710,343},{156,140}}</string>
+                <string>{{557,346},{156,140}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dice-3</key>
+            <key>dice-3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -270,11 +285,11 @@
                 <key>spriteSourceSize</key>
                 <string>{149,150}</string>
                 <key>textureRect</key>
-                <string>{{1019,315},{149,150}}</string>
+                <string>{{1020,314},{149,150}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dice-4</key>
+            <key>dice-4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -289,18 +304,18 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>tai xiu text</key>
+            <key>dice.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{198,54}</string>
+                <string>{138,151}</string>
                 <key>spriteSourceSize</key>
-                <string>{198,54}</string>
+                <string>{138,151}</string>
                 <key>textureRect</key>
-                <string>{{1,425},{198,54}}</string>
+                <string>{{1016,161},{138,151}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -316,9 +331,9 @@
             <key>realTextureFileName</key>
             <string>taixiu.png</string>
             <key>size</key>
-            <string>{1169,485}</string>
+            <string>{1170,488}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:64ae45971ebcdb7a9185034a5e7207f4:df9050484c986e2d594ccf8820d0f786:4693879863866966e278ae92aa3474b5$</string>
+            <string>$TexturePacker:SmartUpdate:fb04725cff86ddfd920f3e90f2b87009:3bc4550f5c1f5fc9d442fb5915a5778f:4693879863866966e278ae92aa3474b5$</string>
             <key>textureFileName</key>
             <string>taixiu.png</string>
         </dict>
