@@ -6,7 +6,7 @@ var manifest = {
     packageUrl: 'http://minigame.luminetsoft.com/',
     remoteManifestUrl: 'http://minigame.luminetsoft.com/project.manifest',
     remoteVersionUrl: 'http://minigame.luminetsoft.com/version.manifest',
-    version: '1.0.1',
+    version: '1.0.2',
     assets: {},
     searchPaths: []
 };
