@@ -6,12 +6,10 @@ var manifest = {
     packageUrl: 'http://minigame.luminetsoft.com/hot-update',
     remoteManifestUrl: 'http://minigame.luminetsoft.com/hot-update/project.manifest',
     remoteVersionUrl: 'http://minigame.luminetsoft.com/hot-update/version.manifest',
-    version: '1.0.2',
+    version: '1.0.6',
     assets: {},
     searchPaths: []
 };
-
-manifest.version = `1.0.5`;
 
 var dest = './assets/';
 var src = './build/jsb-link/';
