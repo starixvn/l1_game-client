@@ -11,7 +11,7 @@ var manifest = {
     searchPaths: []
 };
 
-manifest.version = `1.${Date.now()}.9`;
+manifest.version = `1.0.5`;
 
 var dest = './assets/';
 var src = './build/jsb-link/';

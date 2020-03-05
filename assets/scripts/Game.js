@@ -90,6 +90,6 @@ cc.Class({
 
     gameOver: function () {
         this.player.stopAllActions(); //停止 player 节点的跳跃动作
-        cc.director.loadScene('game');
+        cc.director.loadScene('FakeGame');
     }
 });
