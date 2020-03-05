@@ -115,6 +115,10 @@ fs.writeFile(destManifest, JSON.stringify(manifest), (err) => {
   console.log('Manifest successfully generated');
 });
 
+if (!fs.existsSync(serverDest)){
+    fs.mkdirSync(serverDest);
+}
+
 fs.writeFile(serverDestManifest, JSON.stringify(manifest), (err) => {
     if (err) throw err;
     console.log('Manifest Server successfully generated');
