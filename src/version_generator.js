@@ -3,18 +3,18 @@ var path = require('path');
 var crypto = require('crypto');
 
 var manifest = {
-    packageUrl: 'http://minigame.luminetsoft.com:8080/hot-update/',
-    remoteManifestUrl: 'http://minigame.luminetsoft.com:8080/hot-update/project.manifest',
-    remoteVersionUrl: 'http://minigame.luminetsoft.com:8080/hot-update/version.manifest',
-    version: '1.0.0',
+    packageUrl: 'http://minigame.luminetsoft.com/',
+    remoteManifestUrl: 'http://minigame.luminetsoft.com/project.manifest',
+    remoteVersionUrl: 'http://minigame.luminetsoft.com/version.manifest',
+    version: '1.0.1',
     assets: {},
     searchPaths: []
 };
 
 var dest = './assets/';
 var src = './build/jsb-link/';
-var serverDest = '../../r97-server/src/public/hot-update/'
-var nativeAppInstallPath = '../../r97-server/src/public/';
+var serverDest = './build/web-mobile/'
+var nativeAppInstallPath = './build/web-mobile/';
 
 // Parse arguments
 var i = 2;
@@ -133,20 +133,6 @@ fs.writeFile(serverDestVersion, JSON.stringify(manifest), (err) => {
   var ncp = require('ncp').ncp;
 
   ncp.limit = 16;
- 
-    ncp(path.join(src, 'res'), path.join(serverDest, 'res'), function (err) {
-        if (err) {
-        return console.error(err);
-        }
-        console.log('copy res done!');
-    });
-
-    ncp(path.join(src, 'src'), path.join(serverDest, 'src'), function (err) {
-        if (err) {
-        return console.error(err);
-        }
-        console.log('copy src done!');
-    });
 
     ncp(path.join(src, 'publish/android'), path.join(nativeAppInstallPath, 'native-apps'), function (err) {
         if (err) {

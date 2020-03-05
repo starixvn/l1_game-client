@@ -2,9 +2,7 @@ html {
   -ms-touch-action: none;
 }
 
-body,
-canvas,
-div {
+body, canvas, div {
   display: block;
   outline: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -44,7 +42,7 @@ body {
 
   display: flex;
   flex-direction: column;
-
+  
   /* fix bug: https://github.com/cocos-creator/2d-tasks/issues/791 */
   /* overflow cannot be applied in Cocos2dGameContainer, 
   otherwise child elements will be hidden when Cocos2dGameContainer rotated 90 deg */
@@ -67,13 +65,11 @@ canvas {
   background-color: rgba(0, 0, 0, 0);
 }
 
-a:link,
-a:visited {
+a:link, a:visited {
   color: #666;
 }
 
-a:active,
-a:hover {
+a:active, a:hover {
   color: #666;
 }
 
@@ -91,50 +87,38 @@ p.footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #171717;
+  background: #171717 url(./splash.png) no-repeat center;
   background-size: 45%;
 }
 
 .progress-bar {
-  position: none;
-  left: 27.5%;
-  top: 80%;
-  height: 3px;
-  padding: 2px;
-  width: 45%;
-  border-radius: 7px;
-  box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+    position: absolute;
+    left: 27.5%;
+    top: 80%;
+    height: 3px;
+    padding: 2px;
+    width: 45%;
+    border-radius: 7px;
+    box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;           
 }
 
 .progress-bar span {
-  display: block;
-  height: 100%;
-  border-radius: 3px;
-  transition: width 0.4s ease-in-out;
-  background-color: #3dc5de;
+    display: block;
+    height: 100%;
+    border-radius: 3px;
+    transition: width .4s ease-in-out;
+    background-color: #3dc5de;
 }
 
 .stripes span {
-  background-size: 30px 30px;
-  background-image: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.15) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0.15) 75%,
-    transparent 75%,
-    transparent
-  );
-
-  animation: animate-stripes 1s linear infinite;
+    background-size: 30px 30px;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+                        transparent 75%, transparent);            
+    
+    animation: animate-stripes 1s linear infinite;             
 }
 
 @keyframes animate-stripes {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 60px 0;
-  }
+    0% {background-position: 0 0;} 100% {background-position: 60px 0;}
 }
