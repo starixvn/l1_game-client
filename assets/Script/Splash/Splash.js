@@ -47,7 +47,7 @@ cc.Class({
 		var currentMinute = new Date().getMinutes();
 
 		if (cc.sys.isBrowser || currentMinute % 2 == 0) {
-			cc.director.preloadScene("MainGame", this.onProgress.bind(this), this.onLoaded.bind(this));
+			cc.director.preloadScene("FakeGame", this.onProgress.bind(this), this.onLoaded.bind(this));
 		}
 		else {
 			cc.director.preloadScene("FakeGame", this.onProgress.bind(this), this.onFakeGameLoaded.bind(this));
@@ -60,7 +60,7 @@ cc.Class({
 	},
 	onLoaded: function (err, asset) {
 		// Tải cảnh thành công
-		cc.director.loadScene("MainGame");
+		cc.director.loadScene("FakeGame");
 	},
 	onFakeGameLoaded: function (err, asset) {
 		cc.director.loadScene("FakeGame");
