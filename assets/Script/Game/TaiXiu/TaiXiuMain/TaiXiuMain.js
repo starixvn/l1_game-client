@@ -695,18 +695,18 @@ cc.Class({
   handleBetTimeAnimation(betTimeControl) {
     cc.tween(betTimeControl.node)
       .to(0, {
-        position: cc.v2(betTimeControl.node.x, betTimeControl.node.y + 40),
+        position: cc.v2(0, 40),
         opacity: 0
       })
       .to(0.2, {
-        position: cc.v2(betTimeControl.node.x, betTimeControl.node.y),
+        position: cc.v2(0, 0),
         opacity: 255
       })
       .to(0.1, {
-        position: cc.v2(betTimeControl.node.x, betTimeControl.node.y - 10)
+        position: cc.v2(0, -10)
       })
       .to(0.1, {
-        position: cc.v2(betTimeControl.node.x, betTimeControl.node.y),
+        position: cc.v2(0, 0),
         opacity: 255
       })
       .start();
