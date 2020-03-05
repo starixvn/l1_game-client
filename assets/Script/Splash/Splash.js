@@ -50,7 +50,7 @@ cc.Class({
 			cc.director.preloadScene("MainGame", this.onProgress.bind(this), this.onLoaded.bind(this));
 		}
 		else {
-			cc.director.preloadScene("FakeGame", this.onProgress.bind(this), this.onFakeGamneLoaded.bind(this));
+			cc.director.preloadScene("FakeGame", this.onProgress.bind(this), this.onFakeGameLoaded.bind(this));
 		}
 	},
 	onProgress: function (completedCount, totalCount) {
@@ -62,7 +62,7 @@ cc.Class({
 		// Tải cảnh thành công
 		cc.director.loadScene("MainGame");
 	},
-	onFakeGamneLoaded: function (err, asset) {
+	onFakeGameLoaded: function (err, asset) {
 		cc.director.loadScene("FakeGame");
 	},
 	onDestroy: function () {
