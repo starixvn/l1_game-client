@@ -11,9 +11,12 @@ var manifest = {
     searchPaths: []
 };
 
+manifest.version = `1.${Date.now()}.9`;
+
 var dest = './assets/';
-var src = './build/jsb-link/';
-var serverDest = './build/web-mobile/'
+var src = './build/web-mobile/';
+var serverDest = './build/web-mobile/';
+var nativeSrc = './build/jsb-link/';
 var nativeAppInstallPath = './build/web-mobile/';
 
 // Parse arguments
@@ -129,16 +132,21 @@ fs.writeFile(serverDestVersion, JSON.stringify(manifest), (err) => {
     console.log('Version successfully generated');
   });
 
-
+try {
   var ncp = require('ncp').ncp;
 
   ncp.limit = 16;
 
-    ncp(path.join(src, 'publish/android'), path.join(nativeAppInstallPath, 'native-apps'), function (err) {
+    ncp(path.join(nativeSrc, 'publish/android'), path.join(nativeAppInstallPath, 'native-apps'), function (err) {
         if (err) {
         return console.error(err);
         }
         console.log('copy native apps done!');
     });
+}
+catch(ex)
+{
+    console.log(ex)
+}
 
 
