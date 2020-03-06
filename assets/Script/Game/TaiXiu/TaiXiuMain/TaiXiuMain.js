@@ -671,15 +671,19 @@ cc.Class({
       this.handleBetTimeAnimation(this.firstBetTime);
     }
     this.handleBetTimeAnimation(this.secondBetTime);
-    var self = this;
 
+    var self = this;
     cc.loader.loadRes("/Game/TaiXiu/bettime", cc.SpriteAtlas, function(
       err,
       atlas
     ) {
-      var firstFrame = atlas.getSpriteFrame(firstTimeChar);
+      var firstFrame = atlas.getSpriteFrame(
+        firstTimeChar + (time <= Constants.redTime ? "red" : "")
+      );
       self.firstBetTime.spriteFrame = firstFrame;
-      var secondFrame = atlas.getSpriteFrame(secondTimeChar);
+      var secondFrame = atlas.getSpriteFrame(
+        secondTimeChar + (time <= Constants.redTime ? "red" : "")
+      );
       self.secondBetTime.spriteFrame = secondFrame;
     });
     // if (cc.RedT.setting.taixiu.getLogs) {
