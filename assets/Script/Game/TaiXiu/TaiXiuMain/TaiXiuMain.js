@@ -675,7 +675,7 @@ cc.Class({
     var firstTimeChar = time.substr(0, 1);
     var secondTimeChar = time.substr(1, 1);
 
-    if (firstTimeChar != this.firstBetTime.spriteFrame.name) {
+    if (!this.firstBetTime.spriteFrame.name.includes(firstTimeChar)) {
       this.handleBetTimeAnimation(this.firstBetTime);
     }
     this.handleBetTimeAnimation(this.secondBetTime);

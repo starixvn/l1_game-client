@@ -1795,8 +1795,8 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
-      "g": 235,
-      "b": 10,
+      "g": 227,
+      "b": 116,
       "a": 255
     },
     "_contentSize": {
@@ -1813,7 +1813,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -248,
+        -249,
         -8,
         0,
         0,
@@ -1902,8 +1902,8 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
-      "g": 235,
-      "b": 10,
+      "g": 227,
+      "b": 116,
       "a": 255
     },
     "_contentSize": {
@@ -1920,7 +1920,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        248,
+        236,
         -8,
         0,
         0,
@@ -2524,7 +2524,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 98,
+      "width": 110,
       "height": 70
     },
     "_anchorPoint": {
@@ -2536,7 +2536,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        235,
+        236,
         58,
         0,
         0,
@@ -2577,7 +2577,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "7d1d3284-30f9-44fd-b3bc-1e3d0f7c620d"
+      "__uuid__": "26066503-e88f-41b0-9a71-6a274f9539a7"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -2591,7 +2591,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
+      "__uuid__": "fdc7574e-8733-46fd-aefa-d0774dadf3c4"
     },
     "_id": ""
   },
@@ -2646,7 +2646,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 93.3333333,
+      "width": 110,
       "height": 70
     },
     "_anchorPoint": {
@@ -2658,7 +2658,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -250,
+        -249,
         58,
         0,
         0,
@@ -2699,7 +2699,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "94cb54a0-eb16-418e-bf61-c0d26ab0a18a"
+      "__uuid__": "8d12bc15-0ee2-4756-a343-e7fd8d8adaf5"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -2713,7 +2713,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
+      "__uuid__": "fdc7574e-8733-46fd-aefa-d0774dadf3c4"
     },
     "_id": ""
   },
@@ -202102,7 +202102,7 @@
       "ctor": "Float64Array",
       "array": [
         -93,
-        29.5,
+        30,
         0,
         0,
         0,
@@ -202445,7 +202445,11 @@
       "__id__": 5515
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -202752,7 +202756,11 @@
       "__id__": 5524
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": true,
     "_string": "Nhập tiền cược...",
     "_N$string": "Nhập tiền cược...",
@@ -202791,11 +202799,8 @@
     "_enabled": true,
     "_useOriginalSize": false,
     "_string": "",
-    "returnType": 0,
-    "_N$returnType": 1,
-    "_N$placeholder": "Nhập tiền cược...",
-    "maxLength": 20,
-    "_N$maxLength": 15,
+    "returnType": 1,
+    "maxLength": 15,
     "_tabIndex": 0,
     "editingDidBegan": [
       {
@@ -266329,7 +266334,11 @@
       "__id__": 7288
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
