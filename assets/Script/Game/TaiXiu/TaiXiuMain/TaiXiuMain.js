@@ -191,7 +191,11 @@ cc.Class({
     TX_Chat: TX_Chat,
     TX_Board: TX_Board,
     red: true,
-    taixiu: true
+    taixiu: true,
+    centerRoundLight: {
+      default: null,
+      type: cc.Sprite
+    }
   },
   init: function(obj) {
     this.RedT = obj;
@@ -270,6 +274,10 @@ cc.Class({
     this.TX_Chat.init(this);
 
     this.diaNan.getComponent("TaiXiu_DiaNan").init(this);
+
+    this.centerRoundLight.node.runAction(
+      cc.repeatForever(cc.rotateBy(1.1, 360))
+    );
 
     this.keyHandle = function(t) {
       return t.keyCode === cc.macro.KEY.tab
@@ -699,7 +707,7 @@ cc.Class({
   handleBetTimeAnimation(betTimeControl) {
     cc.tween(betTimeControl.node)
       .to(0, {
-        position: cc.v2(0, 40),
+        position: cc.v2(0, 60),
         opacity: 0
       })
       .to(0.2, {
