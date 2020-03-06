@@ -58,6 +58,6 @@ cc.Class({
   onCuocClick: function() {},
   onCloseClick: function() {
     this.node.active = false;
-    this.RedT.input.string = this.RedT.RedT.board ? "" : "ĐẶT";
+    this.RedT.input.string = this.RedT.RedT.board ? "" : "ĐẶT CƯỢC";
   }
 });
