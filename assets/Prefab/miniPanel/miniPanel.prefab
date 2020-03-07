@@ -120067,7 +120067,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150,
+      "width": 61.5,
       "height": 22.5
     },
     "_anchorPoint": {
@@ -120118,8 +120118,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Tài Xỉu - Chẵn Lẻ",
-    "_N$string": "Tài Xỉu - Chẵn Lẻ",
+    "_string": "Tài Xỉu",
+    "_N$string": "Tài Xỉu",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -122872,7 +122872,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 835,
-      "height": 1280
+      "height": 500
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -122980,7 +122980,11 @@
       "__id__": 3318
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "MINI GAME TÀI XỈU LÀ GAME GÌ?",
     "_N$string": "MINI GAME TÀI XỈU LÀ GAME GÌ?",
@@ -123083,7 +123087,11 @@
       "__id__": 3321
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "Game Tài Xỉu là một trong những game lắc xí ngầu may mắn, phổ biến và được yêu thích nhất hiện nay. Game thường thu hút đông đảo người chơi bởi cách chơi rất đơn giản, dễ hiểu và có kết quả nhanh chóng.",
     "_N$string": "Game Tài Xỉu là một trong những game lắc xí ngầu may mắn, phổ biến và được yêu thích nhất hiện nay. Game thường thu hút đông đảo người chơi bởi cách chơi rất đơn giản, dễ hiểu và có kết quả nhanh chóng.",
@@ -123122,7 +123130,7 @@
       "__id__": 3317
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 3325
@@ -123186,7 +123194,11 @@
       "__id__": 3324
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -123259,7 +123271,7 @@
       "ctor": "Float64Array",
       "array": [
         -371,
-        -463,
+        -150,
         0,
         0,
         0,
@@ -123291,7 +123303,11 @@
       "__id__": 3327
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "CÁCH CHƠI:",
     "_N$string": "CÁCH CHƠI:",
@@ -123362,7 +123378,7 @@
       "ctor": "Float64Array",
       "array": [
         -351,
-        -486,
+        -173,
         0,
         0,
         0,
@@ -123394,7 +123410,11 @@
       "__id__": 3330
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "- Bạn chỉ cần thực hiện một thao tác duy nhất là đặt tiền vào cửa Tài hoặc Xỉu, rồi chờ đợi kết quả.\n- Nếu như kết quả trả về đúng như kết quả bạn đặt, thì bạn sẽ nhật được số tiền tương ứng. Hệ thống sẽ tiến hành trừ phế trên tổng số tiền thắng của bạn.\n- Nếu như bạn chọn sai kết quả thì dĩ nhiên bạn bị mất toàn bộ số tiền đã đặt.\n- Nếu như nói chơi TÀI XỈU hoàn toàn phụ thuộc vào yếu tố may rủi, thì lại vừa đúng vừa sai. Bởi lẽ ngoài yếu tố may mắn thì bạn cũng cần phải có kỹ năng: Kỹ năng phán đoán, Kỹ năng soi cầu, và tâm lý phải vững...\nChỉ cần có chiến thuật tốt và một chút may mắn. là bạn có thể trở thành người thắng cuộc rồi.",
     "_N$string": "- Bạn chỉ cần thực hiện một thao tác duy nhất là đặt tiền vào cửa Tài hoặc Xỉu, rồi chờ đợi kết quả.\n- Nếu như kết quả trả về đúng như kết quả bạn đặt, thì bạn sẽ nhật được số tiền tương ứng. Hệ thống sẽ tiến hành trừ phế trên tổng số tiền thắng của bạn.\n- Nếu như bạn chọn sai kết quả thì dĩ nhiên bạn bị mất toàn bộ số tiền đã đặt.\n- Nếu như nói chơi TÀI XỈU hoàn toàn phụ thuộc vào yếu tố may rủi, thì lại vừa đúng vừa sai. Bởi lẽ ngoài yếu tố may mắn thì bạn cũng cần phải có kỹ năng: Kỹ năng phán đoán, Kỹ năng soi cầu, và tâm lý phải vững...\nChỉ cần có chiến thuật tốt và một chút may mắn. là bạn có thể trở thành người thắng cuộc rồi.",
@@ -123433,7 +123453,7 @@
       "__id__": 3317
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 3334
@@ -123497,7 +123517,11 @@
       "__id__": 3333
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "MINI GAME CHẴN LẺ LÀ GAME GÌ?",
     "_N$string": "MINI GAME CHẴN LẺ LÀ GAME GÌ?",
@@ -123536,7 +123560,7 @@
       "__id__": 3317
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 3337
@@ -123600,7 +123624,11 @@
       "__id__": 3336
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "Nếu bạn là tín đồ của tài xỉu - minigame hot nhất trên Cổng game thu hút hàng nghìn người tham gia thì chắc chắn  sẽ không thể bỏ qua game CHẴN LẺ. Một tựa game thú vị không kém cạnh ra mắt người chơi với lối chơi đơn giản, dễ chơi dễ thắng. Tuy nhiên người chơi cần có sự tính toán hợp lý và đưa ra những phán đoán chính sác để mang lại những kết quả như mong đợi.",
     "_N$string": "Nếu bạn là tín đồ của tài xỉu - minigame hot nhất trên Cổng game thu hút hàng nghìn người tham gia thì chắc chắn  sẽ không thể bỏ qua game CHẴN LẺ. Một tựa game thú vị không kém cạnh ra mắt người chơi với lối chơi đơn giản, dễ chơi dễ thắng. Tuy nhiên người chơi cần có sự tính toán hợp lý và đưa ra những phán đoán chính sác để mang lại những kết quả như mong đợi.",
@@ -123639,7 +123667,7 @@
       "__id__": 3317
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 3340
@@ -123703,7 +123731,11 @@
       "__id__": 3339
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "CÁCH CHƠI:",
     "_N$string": "CÁCH CHƠI:",
@@ -123742,7 +123774,7 @@
       "__id__": 3317
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 3343
@@ -123806,7 +123838,11 @@
       "__id__": 3342
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "- Cách chơi khá đơn giản, người chơi chỉ cần đặt tiền vào hai cửa Chẵn hoặc Lẻ và chờ đợi kết quả. Thời gian cho 1 ván chơi là 60 giây.\n- Sau khi xóc song tổng điểm của 3 mặt xúc xắc sẽ được dùng để xác định kết quả của ván cược.\n- Nếu bạn đưa ra dự đoán chính sác thì sẽ được gấp đôi số tiền cược. Ngược lại, dự đoán sai bạn sẽ mất toàn bộ số tiền cược.",
     "_N$string": "- Cách chơi khá đơn giản, người chơi chỉ cần đặt tiền vào hai cửa Chẵn hoặc Lẻ và chờ đợi kết quả. Thời gian cho 1 ván chơi là 60 giây.\n- Sau khi xóc song tổng điểm của 3 mặt xúc xắc sẽ được dùng để xác định kết quả của ván cược.\n- Nếu bạn đưa ra dự đoán chính sác thì sẽ được gấp đôi số tiền cược. Ngược lại, dự đoán sai bạn sẽ mất toàn bộ số tiền cược.",
@@ -123877,7 +123913,7 @@
       "ctor": "Float64Array",
       "array": [
         -371,
-        -1220,
+        -425,
         0,
         0,
         0,
@@ -123909,7 +123945,11 @@
       "__id__": 3345
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "CÁCH TÍNH ĐIỂM:",
     "_N$string": "CÁCH TÍNH ĐIỂM:",
@@ -123980,7 +124020,7 @@
       "ctor": "Float64Array",
       "array": [
         -351,
-        -1235.6,
+        -450,
         0,
         0,
         0,
@@ -124012,7 +124052,11 @@
       "__id__": 3348
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "- Người thắng cuộc sẽ nhận được số tiền gấp đôi số tiền cược -2% phế.",
     "_N$string": "- Người thắng cuộc sẽ nhận được số tiền gấp đôi số tiền cược -2% phế.",
@@ -124062,7 +124106,11 @@
       "__id__": 3316
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_spriteFrame": null,
     "_type": 0,
     "_segments": 64,
@@ -144087,7 +144135,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 835,
-      "height": 820
+      "height": 500
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -144195,7 +144243,11 @@
       "__id__": 3910
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "HƯỚNG DẪN CHƠI GAME BẦU CUA:",
     "_N$string": "HƯỚNG DẪN CHƠI GAME BẦU CUA:",
@@ -144298,7 +144350,11 @@
       "__id__": 3913
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "Bầu cua hay là bầu cua tôm cá  là một trò chơi phổ biến ở Việt Nam. Với lối chơi đơn giản, bất cứ ai cũng có thể học và chơi được ngay lập tức.",
     "_N$string": "Bầu cua hay là bầu cua tôm cá  là một trò chơi phổ biến ở Việt Nam. Với lối chơi đơn giản, bất cứ ai cũng có thể học và chơi được ngay lập tức.",
@@ -144337,7 +144393,7 @@
       "__id__": 3909
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 3917
@@ -144401,7 +144457,11 @@
       "__id__": 3916
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -144474,7 +144534,7 @@
       "ctor": "Float64Array",
       "array": [
         -371,
-        -523,
+        -120,
         0,
         0,
         0,
@@ -144506,7 +144566,11 @@
       "__id__": 3919
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "CÁCH CHƠI:",
     "_N$string": "CÁCH CHƠI:",
@@ -144577,7 +144641,7 @@
       "ctor": "Float64Array",
       "array": [
         -351,
-        -539,
+        -145,
         0,
         0,
         0,
@@ -144609,7 +144673,11 @@
       "__id__": 3922
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "- Game bầu cua sử dụng 3 viên xúc xắc có 6 mặt, mỗi mặt sẽ có 1 hình tương ứng với hình trên ô đặt cược: Hươu – Gà – Tôm – Cá – Bầu – Cua.\n   * Mở đầu ván chơi, các bạn sẽ có 60 giây để đặt cược (đặt tối đa 3 cửa). Sau đó hệ thống sẽ tiến hành tung xúc xắc. Các bạn sẽ dựa vào số hình trên đó để phân định thắng thua:\n   * Nếu trùng 1 hình, các bạn sẽ được 1 lần tiền cược, trùng 2 hình được 2 lần tiền cược, trùng cả 3 hình sẽ được 3 lần tiền cược.\n   * Nếu không trùng hình nào, tất nhiên BẠN sẽ mất toàn bộ số tiền cược.",
     "_N$string": "- Game bầu cua sử dụng 3 viên xúc xắc có 6 mặt, mỗi mặt sẽ có 1 hình tương ứng với hình trên ô đặt cược: Hươu – Gà – Tôm – Cá – Bầu – Cua.\n   * Mở đầu ván chơi, các bạn sẽ có 60 giây để đặt cược (đặt tối đa 3 cửa). Sau đó hệ thống sẽ tiến hành tung xúc xắc. Các bạn sẽ dựa vào số hình trên đó để phân định thắng thua:\n   * Nếu trùng 1 hình, các bạn sẽ được 1 lần tiền cược, trùng 2 hình được 2 lần tiền cược, trùng cả 3 hình sẽ được 3 lần tiền cược.\n   * Nếu không trùng hình nào, tất nhiên BẠN sẽ mất toàn bộ số tiền cược.",
@@ -144886,7 +144954,7 @@
       "ctor": "Float64Array",
       "array": [
         -351,
-        -769,
+        -350,
         0,
         0,
         0,
@@ -144918,7 +144986,11 @@
       "__id__": 3931
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
     "_string": "Hệ thống trả thưởng 98% cho người chơi!",
     "_N$string": "Hệ thống trả thưởng 98% cho người chơi!",
@@ -144968,7 +145040,11 @@
       "__id__": 3908
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_spriteFrame": null,
     "_type": 0,
     "_segments": 64,
