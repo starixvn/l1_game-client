@@ -10,7 +10,7 @@ module.exports = {
   setting: {},
   util: {},
 
-  connect: function (url, path = "/", port = false, ss = false) {
+  connect: function(url, path = "/", port = false, ss = false) {
     if (!this.isConnected) {
       this._socket = new WebSocket(
         "ws" + (ss ? "s" : "") + "://" + url + (!!port ? ":" + port : "") + path
@@ -22,11 +22,11 @@ module.exports = {
       this.isConnected = !0;
     }
   },
-  disconnect: function () {
+  disconnect: function() {
     this.isConnected = !1;
     this._socket.close();
   },
-  send: function (message) {
+  send: function(message) {
     try {
       //this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message))
       this._socket.send(this._encodeMessage(message));
@@ -38,16 +38,16 @@ module.exports = {
       });
     }
   },
-  _decodeMessage: function (message) {
+  _decodeMessage: function(message) {
     return JSON.parse(message);
   },
-  _encodeMessage: function (message) {
+  _encodeMessage: function(message) {
     return JSON.stringify(message);
   },
-  _onSocketConnect: function () {
+  _onSocketConnect: function() {
     cc.RedT.isConnected = true;
   },
-  _onSocketDisconnect: function () {
+  _onSocketDisconnect: function() {
     cc.RedT.isConnected = false;
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.inGame.signOut();
@@ -56,52 +56,51 @@ module.exports = {
     }
     cc.RedT.reconnect();
   },
-  _onSocketData: function (message) {
+  _onSocketData: function(message) {
     var data = message.data;
     data = cc.RedT._decodeMessage(data);
     cc.RedT.inGame.onData(data);
   },
-  _onSocketError: function (message) { },
-  reconnect: function () {
-    //this.connect('127.0.0.1:8080', '/websocket');
-    //this.connect('34.85.29.130', '/websocket');
-    this.connect("35.194.253.55:8080", "/websocket");
+  _onSocketError: function(message) {},
+  reconnect: function() {
+    this.connect("127.0.0.1:8080", "/websocket");
+    //this.connect("35.194.253.55:8080", "/websocket");
   },
-  init: function () {
+  init: function() {
     this.initPrototype();
   },
-  initPrototype: function () {
+  initPrototype: function() {
     String.format ||
-      (String.format = function (t) {
+      (String.format = function(t) {
         var i = Array.prototype.slice.call(arguments, 1);
-        return t.replace(/{(\d+)}/g, function (t, e) {
+        return t.replace(/{(\d+)}/g, function(t, e) {
           return void 0 !== i[e] ? i[e] : t;
         });
       });
   },
   // Function localStorage
-  setAutoLogin: function (bool) {
+  setAutoLogin: function(bool) {
     localStorage.setItem("AUTO_LOGIN", bool);
   },
-  isAutoLogin: function () {
+  isAutoLogin: function() {
     var check = localStorage.getItem("AUTO_LOGIN");
     return check == "true";
   },
-  setSoundGame: function (bool) {
+  setSoundGame: function(bool) {
     localStorage.setItem("SOUND_GAME", bool);
   },
-  isSoundGame: function () {
+  isSoundGame: function() {
     var check = localStorage.getItem("SOUND_GAME");
     return check == "true";
   },
-  setSoundBackground: function (bool) {
+  setSoundBackground: function(bool) {
     localStorage.setItem("SOUND_BACKGROUND", bool);
   },
-  isSoundBackground: function () {
+  isSoundBackground: function() {
     var check = localStorage.getItem("SOUND_BACKGROUND");
     return check == "true";
   },
-  userData: function (data) {
+  userData: function(data) {
     if (void 0 !== data.name) {
       this.user.name = data.name;
     }

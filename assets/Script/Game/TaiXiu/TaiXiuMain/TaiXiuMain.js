@@ -616,7 +616,6 @@ cc.Class({
             this.efStop();
           }
           if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
-            this.nodeKetQua.active = false;
             this.isNan && (this.diaNan.active = false);
           }
         } else {
@@ -627,7 +626,7 @@ cc.Class({
           this.efStop();
           this.nodeTimeWait.active = this.nodeKetQua.active = this.diaNan.active = false;
           this.spriteNan.node.active = this.betTime.active = true;
-          if (cc.RedT.setting.taixiu.time_remain > 0) {
+          if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
             var time = helper.numberPad(
               cc.RedT.setting.taixiu.time_remain - 1,
               2
@@ -655,7 +654,7 @@ cc.Class({
       this.nodeTimeWait.active = false;
       this.betTime.active = true;
 
-      if (cc.RedT.setting.taixiu.time_remain > 0) {
+      if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
         var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - 1, 2);
         this.showBetTime(time);
       }
