@@ -267,7 +267,7 @@ cc.Class({
     this.diaNan.getComponent("TaiXiu_DiaNan").init(this);
 
     this.centerRoundLight.node.runAction(
-      cc.repeatForever(cc.rotateBy(1.1, 360))
+      cc.repeatForever(cc.rotateBy(1.1, -360))
     );
 
     this.keyHandle = function(t) {
