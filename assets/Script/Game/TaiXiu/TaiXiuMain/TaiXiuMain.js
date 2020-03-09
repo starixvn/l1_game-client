@@ -291,9 +291,17 @@ cc.Class({
       self.input.string = "ĐẶT CƯỢC";
       self.TX_Board.node.active = false;
       if (isNaN(bet) || bet < 1000) {
-        NoticeUtil.showNoticeMessage(this, "Tiền cược tối thiểu là 1.000");
+        NoticeUtil.showNoticeMessage(
+          this,
+          "Tiền cược tối thiểu là 1.000" + " " + (self.red ? "SCOIN" : "Xu")
+        );
       } else if (bet > 1000000000) {
-        NoticeUtil.showNoticeMessage(this, "Tiền cược tối đa là 1.000.000.000");
+        NoticeUtil.showNoticeMessage(
+          this,
+          "Tiền cược tối đa là 1.000.000.000" +
+            " " +
+            (self.red ? "SCOIN" : "Xu")
+        );
       } else {
         cc.RedT.send({
           taixiu: {
