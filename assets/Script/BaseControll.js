@@ -64,7 +64,7 @@ module.exports = {
   _onSocketError: function(message) {},
   reconnect: function() {
     //this.connect("127.0.0.1:8080", "/websocket");
-    this.connect("35.194.253.55:8080", "/websocket");
+    this.connect("minigame.luminetsoft.com:8080", "/websocket");
   },
   init: function() {
     this.initPrototype();
