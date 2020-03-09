@@ -20,6 +20,9 @@ cc.Class({
       this.content = result;
     });
   },
+  onDestroy: function() {
+    cc.sys.garbageCollect();
+  },
   onEnable: function() {
     this.get_data();
   },

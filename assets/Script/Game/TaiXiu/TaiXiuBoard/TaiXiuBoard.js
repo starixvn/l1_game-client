@@ -20,6 +20,9 @@ cc.Class({
   init(obj) {
     this.RedT = obj;
   },
+  onDestroy: function() {
+    cc.sys.garbageCollect();
+  },
   ChonTienClick: function(event, value) {
     this.RedT.input.string = helper.numberWithCommas(
       helper.getOnlyNumberInString(this.RedT.input.string) * 1 + value * 1

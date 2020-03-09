@@ -320,6 +320,9 @@ cc.Class({
       this.inputLeft.node.active = this.inputRight.node.active = true;
     }
   },
+  onDestroy: function() {
+    cc.sys.garbageCollect();
+  },
   onEnable: function() {
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
@@ -350,6 +353,7 @@ cc.Class({
       BrowserUtil.inputRemoveEvent(this.inputLeft, "input", this.updateValue);
       BrowserUtil.inputRemoveEvent(this.inputRight, "input", this.updateValue);
     }
+    cc.sys.garbageCollect();
   },
   updateValue: function(e) {
     let value = helper.numberWithCommas(
