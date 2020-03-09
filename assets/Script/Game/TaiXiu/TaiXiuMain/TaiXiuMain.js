@@ -241,17 +241,7 @@ cc.Class({
       if (this.isNan) {
       } else {
         this.dataLogs();
-        this.nodeKetQua.active = true;
-        if (this.diemSo > 10) {
-          this.efTai.play();
-        } else {
-          this.efXiu.play();
-        }
-        if (this.diemSo % 2) {
-          this.efLe.play();
-        } else {
-          this.efChan.play();
-        }
+        this.showResult();
       }
       this.diceAnimation.node.active = false;
     };
@@ -298,7 +288,7 @@ cc.Class({
     this.onCuocClick = function() {
       var bet = helper.getOnlyNumberInString(self.input.string);
       bet = parseInt(bet);
-      self.input.string = "";
+      self.input.string = "ĐẶT CƯỢC";
       self.TX_Board.node.active = false;
       if (isNaN(bet) || bet < 1000) {
         NoticeUtil.showNoticeMessage(this, "Tiền cược tối thiểu là 1.000");
@@ -612,11 +602,14 @@ cc.Class({
             2
           );
           this.showWaitTime(time);
-          if (cc.RedT.setting.taixiu.time_remain < 61) {
-            this.efStop();
-          }
+          // if (cc.RedT.setting.taixiu.time_remain < 61) {
+          //   this.efStop();
+          // }
           if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
-            this.isNan && (this.diaNan.active = false);
+            if (this.isNan) {
+              this.showResult();
+              this.diaNan.active = false;
+            }
           }
         } else {
           if (!!this.dice[0].node.active) {
@@ -1003,47 +996,62 @@ cc.Class({
     setTimeout(
       function() {
         if (!this.isNan) {
-          var temp = new cc.Node();
-          temp.addComponent(cc.Label);
-          temp = temp.getComponent(cc.Label);
-          temp.string =
-            (data.win ? "+" : "-") + helper.numberWithCommas(data.bet);
-          temp.font = data.win ? this.fontCong : this.fontTru;
-          temp.lineHeight = 130;
-          temp.fontSize = 22;
-          temp.node.position = cc.v2(data.select ? -252 : 252, -50);
-          this.notice.addChild(temp.node);
-          temp.node.runAction(
-            cc.sequence(
-              cc.moveTo(3, cc.v2(data.select ? -252 : 252, 130)),
-              cc.callFunc(function() {
-                this.node.destroy();
-              }, temp)
-            )
-          );
-          if (void 0 !== data.thuong && data.thuong > 0) {
-            var thuong = new cc.Node();
-            thuong.addComponent(cc.Label);
-            thuong = thuong.getComponent(cc.Label);
-            thuong.string =
-              (data.win ? "+" : "-") + helper.numberWithCommas(data.thuong);
-            thuong.font = cc.RedT.util.fontEffect;
-            thuong.lineHeight = 90;
-            thuong.fontSize = 14;
-            this.notice.addChild(thuong.node);
-            thuong.node.runAction(
-              cc.sequence(
-                cc.moveTo(3, cc.v2(0, 100)),
-                cc.callFunc(function() {
-                  this.node.destroy();
-                }, thuong)
-              )
-            );
-          }
+          this.showBetWinLoss(data);
         }
         cc.RedT.send({ taixiu: { get_new: true } });
       }.bind(this),
       2e3
     );
+  },
+  showResult: function() {
+    this.nodeKetQua.active = true;
+    if (this.diemSo > 10) {
+      this.efTai.play();
+    } else {
+      this.efXiu.play();
+    }
+    if (this.diemSo % 2) {
+      this.efLe.play();
+    } else {
+      this.efChan.play();
+    }
+  },
+  showBetWinLoss: function(data) {
+    var temp = new cc.Node();
+    temp.addComponent(cc.Label);
+    temp = temp.getComponent(cc.Label);
+    temp.string = (data.win ? "+" : "-") + helper.numberWithCommas(data.bet);
+    temp.font = data.win ? this.fontCong : this.fontTru;
+    temp.lineHeight = 130;
+    temp.fontSize = 22;
+    temp.node.position = cc.v2(data.select ? -252 : 252, -50);
+    this.notice.addChild(temp.node);
+    temp.node.runAction(
+      cc.sequence(
+        cc.moveTo(3, cc.v2(data.select ? -252 : 252, 130)),
+        cc.callFunc(function() {
+          this.node.destroy();
+        }, temp)
+      )
+    );
+    if (void 0 !== data.thuong && data.thuong > 0) {
+      var thuong = new cc.Node();
+      thuong.addComponent(cc.Label);
+      thuong = thuong.getComponent(cc.Label);
+      thuong.string =
+        (data.win ? "+" : "-") + helper.numberWithCommas(data.thuong);
+      thuong.font = cc.RedT.util.fontEffect;
+      thuong.lineHeight = 90;
+      thuong.fontSize = 14;
+      this.notice.addChild(thuong.node);
+      thuong.node.runAction(
+        cc.sequence(
+          cc.moveTo(3, cc.v2(0, 100)),
+          cc.callFunc(function() {
+            this.node.destroy();
+          }, thuong)
+        )
+      );
+    }
   }
 });
