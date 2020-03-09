@@ -267,7 +267,7 @@ cc.Class({
     this.diaNan.getComponent("TaiXiu_DiaNan").init(this);
 
     this.centerRoundLight.node.runAction(
-      cc.repeatForever(cc.rotateBy(1.1, -360))
+      cc.repeatForever(cc.rotateBy(1.1, 360))
     );
 
     this.keyHandle = function(t) {
@@ -320,9 +320,6 @@ cc.Class({
       this.inputLeft.node.active = this.inputRight.node.active = true;
     }
   },
-  onDestroy: function() {
-    cc.sys.garbageCollect();
-  },
   onEnable: function() {
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
@@ -353,7 +350,6 @@ cc.Class({
       BrowserUtil.inputRemoveEvent(this.inputLeft, "input", this.updateValue);
       BrowserUtil.inputRemoveEvent(this.inputRight, "input", this.updateValue);
     }
-    cc.sys.garbageCollect();
   },
   updateValue: function(e) {
     let value = helper.numberWithCommas(

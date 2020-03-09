@@ -28,7 +28,6 @@ cc.Class({
   },
   onDisable: function() {
     this.regEvent(false);
-    cc.sys.garbageCollect();
   },
   regEvent: function(bool) {
     cc.RedT.send({
@@ -53,7 +52,6 @@ cc.Class({
     cc.RedT.audio.playUnClick();
     this.node.active = this.TX_Top.node.active = this.TX_ThongKe.node.active = this.TX_Main.TX_Board.node.active = !1;
     localStorage.setItem("taixiu", false);
-    cc.sys.garbageCollect();
   },
   newGame: function() {
     this.TX_ThongKe.node.active = this.TX_Main.TX_Board.node.active = false;
@@ -61,8 +59,5 @@ cc.Class({
   },
   signIn: function() {
     !this.node.active && (this.TX_Main.nodeTimePopup.active = true);
-  },
-  onDestroy: function() {
-    cc.sys.garbageCollect();
   }
 });
