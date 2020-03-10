@@ -50,7 +50,8 @@ deploy-ios-testflight:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=ios;optimizeHotUpdate=true"
     - cp -R ./build-files/ios/ ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
-    - fastlane beta ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
+    - cd ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
+    - fastlane beta
   tags:
     - deploy-cocos-ios-testflight
   only:
