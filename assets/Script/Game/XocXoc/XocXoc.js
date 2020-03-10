@@ -180,7 +180,7 @@ cc.Class({
 		this.log_top.reverse();
 
 		this.me_name.string = cc.RedT.user.name;
-		this.me_balans.string = helper.formatMoneyNumber(cc.RedT.user.red);
+		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
@@ -218,9 +218,9 @@ cc.Class({
 	},
 	userData: function (data) {
 		if (this.red) {
-			this.me_balans.string = helper.formatMoneyNumber(data.red);
+			this.me_balans.string = helper.numberWithCommas(data.red);
 		} else {
-			this.me_balans.string = helper.formatMoneyNumber(data.xu);
+			this.me_balans.string = helper.numberWithCommas(data.xu);
 		}
 	},
 	xocxoc: function (data) {
