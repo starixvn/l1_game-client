@@ -28,7 +28,7 @@ platform :ios do
 		export_method: "app-store",
    		export_options: {
       		provisioningProfiles: { 
-        		"com.l1.minigame" => "Provisioning Profile Name"
+        		"com.l1.minigame" => "L1.MNG.Distribution"
       		}
     	})
 	changelog_from_git_commits
