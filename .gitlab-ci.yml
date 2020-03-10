@@ -1,20 +1,57 @@
 image: keymetrics/pm2:6
 stages:
-  - deploy
-deploy:
-  stage: deploy
+  # - deploy
+  - deploy-web-mobile
+  - deploy-ios-testflight
+# deploy:
+#   stage: deploy
+#   script:
+#     - echo "====== Deploy to production server ======"
+#     - apk update && apk upgrade
+#     - apk add git openssh bash
+#     - eval $(ssh-agent -s)
+#     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+#     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
+#     - mkdir -p ~/.ssh
+#     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+#     - cp ./build/style-mobile.css ./build/web-mobile -f
+#     - scp -r -P 2201 ./build/web-mobile/* root@35.194.253.55:/var/www/r97/web-mobile
+#   tags:
+#     - docker
+#   only:
+#     - /^deploy-\d{8}-\d+.*$/
+
+  deploy:
+  stage: deploy-web-mobile
   script:
-    - echo "====== Deploy to production server ======"
-    - apk update && apk upgrade
-    - apk add git openssh bash
+    - echo "====== Build Cocos Web Mobile ======"
+    - apt update
     - eval $(ssh-agent -s)
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
     - cp ./build/style-mobile.css ./build/web-mobile -f
     - scp -r -P 2201 ./build/web-mobile/* root@35.194.253.55:/var/www/r97/web-mobile
   tags:
-    - docker
+    - deploy-cocos-web-mobile
+  only:
+    - /^deploy-\d{8}-\d+.*$/
+
+  deploy:
+  stage: deploy-ios-testflight
+  script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - apt update
+    - eval $(ssh-agent -s)
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=ios;optimizeHotUpdate=true;orientation={'landscapeLeft': true, 'landscapeRight': true}"
+    - fastlane beta
+  tags:
+    - deploy-cocos-ios-testflight
   only:
     - /^deploy-\d{8}-\d+.*$/
