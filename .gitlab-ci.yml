@@ -48,7 +48,7 @@ deploy-ios-testflight:
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=ios;optimizeHotUpdate=true"
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build --compile "platform=ios;optimizeHotUpdate=true"
     - cp -R ./build-files/ios/ ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
     - cd ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
     - fastlane beta
