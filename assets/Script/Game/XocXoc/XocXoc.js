@@ -8,58 +8,58 @@ cc.Class({
 	extends: cc.Component,
 
 	properties: {
-		audioMoBat:      cc.AudioSource,
+		audioMoBat: cc.AudioSource,
 		audioSingleChip: cc.AudioSource,
-		audioMultiChip:  cc.AudioSource,
-		audioXocDia:     cc.AudioSource,
+		audioMultiChip: cc.AudioSource,
+		audioXocDia: cc.AudioSource,
 
 		audioMultiChip2: cc.AudioSource,
 		audioMultiChip3: cc.AudioSource,
 		audioMultiChip4: cc.AudioSource,
 		audioMultiChip5: cc.AudioSource,
 
-		box_chan:   cc.Node,
-		box_le:     cc.Node,
-		box_red3:   cc.Node,
-		box_red4:   cc.Node,
+		box_chan: cc.Node,
+		box_le: cc.Node,
+		box_red3: cc.Node,
+		box_red4: cc.Node,
 		box_white3: cc.Node,
 		box_white4: cc.Node,
 
-		total_chan:   cc.Label,
-		total_le:     cc.Label,
-		total_red3:   cc.Label,
-		total_red4:   cc.Label,
+		total_chan: cc.Label,
+		total_le: cc.Label,
+		total_red3: cc.Label,
+		total_red4: cc.Label,
 		total_white3: cc.Label,
 		total_white4: cc.Label,
 
-		me_chan:   cc.Label,
-		me_le:     cc.Label,
-		me_red3:   cc.Label,
-		me_red4:   cc.Label,
+		me_chan: cc.Label,
+		me_le: cc.Label,
+		me_red3: cc.Label,
+		me_red4: cc.Label,
 		me_white3: cc.Label,
 		me_white4: cc.Label,
 
-		me_name:   cc.Label,
+		me_name: cc.Label,
 		me_balans: cc.Label,
 
 		labelTime: cc.Label,
-		timeWait:  cc.Label,
-		nodeWait:  cc.Node,
+		timeWait: cc.Label,
+		nodeWait: cc.Node,
 
-		box_chip:    cc.Node,
+		box_chip: cc.Node,
 
-		users_bg:    cc.Node,
+		users_bg: cc.Node,
 		users_count: cc.Label,
 
 		nodeBat: cc.Node,
 
-		chip_1000:    cc.SpriteFrame,
-		chip_10000:   cc.SpriteFrame,
-		chip_50000:   cc.SpriteFrame,
-		chip_100000:  cc.SpriteFrame,
+		chip_1000: cc.SpriteFrame,
+		chip_10000: cc.SpriteFrame,
+		chip_50000: cc.SpriteFrame,
+		chip_100000: cc.SpriteFrame,
 		chip_1000000: cc.SpriteFrame,
 
-		dot_red:   cc.SpriteFrame,
+		dot_red: cc.SpriteFrame,
 		dot_white: cc.SpriteFrame,
 
 		dot: {
@@ -68,62 +68,62 @@ cc.Class({
 		},
 
 		log_chan: cc.Label,
-		log_le:   cc.Label,
-		log_top:  cc.Node,
-		logMain:  cc.Node,
+		log_le: cc.Label,
+		log_top: cc.Node,
+		logMain: cc.Node,
 
-		redH:    cc.Node,
+		redH: cc.Node,
 		miniNotice: cc.Node,
 
 		Animation: cc.Animation,
 
 		prefabNotice: cc.Prefab,
 
-		bet:     cc.Node,
+		bet: cc.Node,
 		nodeRed: cc.Node,
-		nodeXu:  cc.Node,
+		nodeXu: cc.Node,
 
 		MiniPanel: cc.Prefab,
-		loading:   cc.Node,
-		notice:    notice,
-		dialog:    dialog,
+		loading: cc.Node,
+		notice: notice,
+		dialog: dialog,
 
 		red: true,
 	},
-	ctor: function(){
+	ctor: function () {
 		this.logs = [];
-		this.nan  = false;
+		this.nan = false;
 		this.cuoc = '1000';
-		this.actionBatOpen  = cc.moveTo(0.5, cc.v2(0, 246));
+		this.actionBatOpen = cc.moveTo(0.5, cc.v2(0, 246));
 		this.actionBatClose = cc.sequence(
-			cc.callFunc(function(){
+			cc.callFunc(function () {
 				this.resetData();
 			}, this),
 			cc.moveTo(0.5, cc.v2(0, 0)),
 			cc.delayTime(0.5),
-			cc.callFunc(function(){
+			cc.callFunc(function () {
 				this.audioXocDia.play();
 				this.Animation.play();
 			}, this));
-		this.maxDot = {x:44, y:44};
+		this.maxDot = { x: 44, y: 44 };
 
-		this.maxBox1_3 = {x:103, y:104};
-		this.maxBox1_1 = {x:121, y:184};
+		this.maxBox1_3 = { x: 103, y: 104 };
+		this.maxBox1_1 = { x: 121, y: 184 };
 
 		this.clients = {
 			'red': {
-				'chan':   0,
-				'le':     0,
-				'red3':   0,
-				'red4':   0,
+				'chan': 0,
+				'le': 0,
+				'red3': 0,
+				'red4': 0,
 				'white3': 0,
 				'white4': 0,
 			},
 			'xu': {
-				'chan':   0,
-				'le':     0,
-				'red3':   0,
-				'red4':   0,
+				'chan': 0,
+				'le': 0,
+				'red3': 0,
+				'red4': 0,
 				'white3': 0,
 				'white4': 0,
 			},
@@ -131,39 +131,46 @@ cc.Class({
 
 		this.users = {
 			'red': {
-				'chan':   0,
-				'le':     0,
-				'red3':   0,
-				'red4':   0,
+				'chan': 0,
+				'le': 0,
+				'red3': 0,
+				'red4': 0,
 				'white3': 0,
 				'white4': 0,
 			},
 			'xu': {
-				'chan':   0,
-				'le':     0,
-				'red3':   0,
-				'red4':   0,
+				'chan': 0,
+				'le': 0,
+				'red3': 0,
+				'red4': 0,
 				'white3': 0,
 				'white4': 0,
 			},
 		};
 	},
-	onLoad () {
+	onLoad() {
+		this.me_chan.node.color = cc.Color.YELLOW;
+		this.me_le.node.color = cc.Color.YELLOW;
+		this.me_red3.node.color = cc.Color.YELLOW;
+		this.me_red4.node.color = cc.Color.YELLOW;
+		this.me_white3.node.color = cc.Color.YELLOW;
+		this.me_white4.node.color = cc.Color.YELLOW;
+
 		cc.RedT.inGame = this;
 		var MiniPanel = cc.instantiate(this.MiniPanel);
 		cc.RedT.MiniPanel = MiniPanel.getComponent('MiniPanel');
 		this.redH.insertChild(MiniPanel);
 
-		this.logMain = this.logMain.children.map(function(obj){
+		this.logMain = this.logMain.children.map(function (obj) {
 			return obj.children[0].getComponent(cc.Sprite);
 		});
 
 		this.logMain.reverse();
 
-		this.log_top = this.log_top.children.map(function(obj){
-			let data = {'cell':obj};
-			let cell = obj.children.map(function(obj){
-				return {c:obj.children[0].getComponent(cc.Sprite), t:obj.children[1].getComponent(cc.Label)};
+		this.log_top = this.log_top.children.map(function (obj) {
+			let data = { 'cell': obj };
+			let cell = obj.children.map(function (obj) {
+				return { c: obj.children[0].getComponent(cc.Sprite), t: obj.children[1].getComponent(cc.Label) };
 			});
 			cell.reverse();
 			data.data = cell;
@@ -173,50 +180,50 @@ cc.Class({
 		this.log_top.reverse();
 
 		this.me_name.string = cc.RedT.user.name;
-		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
+		this.me_balans.string = helper.formatMoneyNumber(cc.RedT.user.red);
 
-		cc.RedT.send({scene:"xocxoc", g:{xocxoc:{ingame:true}}});
+		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
-	onData: function(data) {
+	onData: function (data) {
 		//console.log(data);
-		if (void 0 !== data.user){
+		if (void 0 !== data.user) {
 			this.userData(data.user);
 			cc.RedT.userData(data.user);
 		}
-		if (void 0 !== data.xocxoc){
+		if (void 0 !== data.xocxoc) {
 			this.xocxoc(data.xocxoc);
 		}
-		if (void 0 !== data.mini){
+		if (void 0 !== data.mini) {
 			cc.RedT.MiniPanel.onData(data.mini);
 		}
-		if (void 0 !== data.TopHu){
+		if (void 0 !== data.TopHu) {
 			cc.RedT.MiniPanel.TopHu.onData(data.TopHu);
 		}
-		if (void 0 !== data.taixiu){
+		if (void 0 !== data.taixiu) {
 			cc.RedT.MiniPanel.TaiXiu.TX_Main.onData(data.taixiu);
 		}
 	},
-	backGame: function(){
+	backGame: function () {
 		clearInterval(this.timeInterval);
-		cc.RedT.send({g:{xocxoc:{outgame:true}}});
+		cc.RedT.send({ g: { xocxoc: { outgame: true } } });
 		this.loading.active = true;
 		void 0 !== this.timeOut && clearTimeout(this.timeOut);
 		cc.director.loadScene('MainGame');
 	},
-	signOut: function(){
+	signOut: function () {
 		clearInterval(this.timeInterval);
-		cc.director.loadScene('MainGame', function(){
+		cc.director.loadScene('MainGame', function () {
 			cc.RedT.inGame.signOut();
 		});
 	},
-	userData: function(data){
+	userData: function (data) {
 		if (this.red) {
-			this.me_balans.string = helper.numberWithCommas(data.red);
-		}else{
-			this.me_balans.string = helper.numberWithCommas(data.xu);
+			this.me_balans.string = helper.formatMoneyNumber(data.red);
+		} else {
+			this.me_balans.string = helper.formatMoneyNumber(data.xu);
 		}
 	},
-	xocxoc: function(data){
+	xocxoc: function (data) {
 		//console.log(data);
 		if (!!data.ingame) {
 			this.xocxocIngame(data.ingame);
@@ -249,7 +256,7 @@ cc.Class({
 			this.addNotice(data.notice);
 		}
 	},
-	xocxocIngame: function(data){
+	xocxocIngame: function (data) {
 		if (data.client) {
 			this.countClient(data.client);
 		}
@@ -257,7 +264,7 @@ cc.Class({
 			this.ingameChip(data.chip);
 		}
 		if (!!data.time) {
-			this.time_remain = data.time-1;
+			this.time_remain = data.time - 1;
 			this.playTime();
 			if (this.time_remain > 32 && data.logs.length) {
 				this.nodeBat.position = cc.v2(0, 246);
@@ -277,38 +284,38 @@ cc.Class({
 		if (!!data.chats) {
 		}
 	},
-	ingameChip: function(data){
+	ingameChip: function (data) {
 		for (let [key, value] of Object.entries(data)) {
 			let max = this.maxBox1_3;
-			switch(data.box) {
+			switch (data.box) {
 				case 'chan':
 					max = this.maxBox1_1;
-				break;
+					break;
 
 				case 'le':
 					max = this.maxBox1_1;
-				break;
+					break;
 			}
 			for (let [keyT, valueT] of Object.entries(value)) {
 				if (valueT > 0) {
 					while (valueT) {
-						let x = (Math.random()*(max.x+1))>>0;
-						let y = (Math.random()*(max.y+1))>>0;
+						let x = (Math.random() * (max.x + 1)) >> 0;
+						let y = (Math.random() * (max.y + 1)) >> 0;
 
 						let newN = new cc.Node;
 						newN = newN.addComponent(cc.Sprite);
-						newN.spriteFrame = this['chip_'+keyT];
+						newN.spriteFrame = this['chip_' + keyT];
 						newN.node.position = cc.v2(x, y);
 						newN.node.scale = 0.3;
-						this['box_'+key].children[1].addChild(newN.node);
+						this['box_' + key].children[1].addChild(newN.node);
 						valueT--;
 					}
 				}
 			}
 		}
 	},
-	xocxocFinish: function(data){
-		let dice = {red1:data[0], red2:data[1], red3:data[2], red4:data[3]};
+	xocxocFinish: function (data) {
+		let dice = { red1: data[0], red2: data[1], red3: data[2], red4: data[3] };
 		this.logs.unshift(dice);
 		this.logs.length > 48 && this.logs.pop();
 		this.setDot(data);
@@ -320,7 +327,7 @@ cc.Class({
 			this.FinishTT();
 		}
 	},
-	FinishTT: function(){
+	FinishTT: function () {
 		this.audioMoBat.play();
 		this.nodeBat.runAction(
 			cc.sequence(
@@ -332,47 +339,47 @@ cc.Class({
 		);
 		this.setLogs();
 	},
-	showKQ: function(){
+	showKQ: function () {
 		let data = Object.values(this.logs[0]);
 		let numb = 0;
-		data.forEach(function(dot){
+		data.forEach(function (dot) {
 			if (dot) {
 				numb++;
 			}
 		});
 
-		if (!(numb%2)) {
+		if (!(numb % 2)) {
 			this.box_chan.children[0].active = true;
-		}else{
+		} else {
 			this.box_le.children[0].active = true;
 		}
 
-		switch(numb) {
+		switch (numb) {
 			case 0:
 				this.box_white4.children[0].active = true;
-			break;
+				break;
 
 			case 1:
 				this.box_white3.children[0].active = true;
-			break;
+				break;
 
 			case 3:
 				this.box_red3.children[0].active = true;
-			break;
+				break;
 
 			case 4:
 				this.box_red4.children[0].active = true;
-			break;
+				break;
 		}
 	},
-	showKQ2: function(){
+	showKQ2: function () {
 		let audioLost = 0;
-		let audioWin  = 0;
+		let audioWin = 0;
 		let node1 = null;
 		let node2 = null;
-		let data  = Object.values(this.logs[0]);
-		let numb  = 0;
-		data.forEach(function(dot){
+		let data = Object.values(this.logs[0]);
+		let numb = 0;
+		data.forEach(function (dot) {
 			if (dot) {
 				numb++;
 			}
@@ -380,13 +387,13 @@ cc.Class({
 
 		let position = this.box_chip.parent.convertToWorldSpaceAR(this.box_chip.position);
 		let centerMid = null;
-		let centerLR  = null;
+		let centerLR = null;
 
-		if (!(numb%2)) {
+		if (!(numb % 2)) {
 			node1 = this.box_chan.children[1];
 			audioLost += this.box_le.children[1].children.length;
 			centerMid = this.box_le.children[1].convertToNodeSpaceAR(position);
-			Promise.all(this.box_le.children[1].children.map(function(chip){
+			Promise.all(this.box_le.children[1].children.map(function (chip) {
 				chip.runAction(
 					cc.spawn(
 						cc.scaleTo(0.4, 0.5),
@@ -394,11 +401,11 @@ cc.Class({
 					),
 				);
 			}));
-		}else{
+		} else {
 			node1 = this.box_le.children[1];
 			audioLost += this.box_chan.children[1].children.length;
 			centerMid = this.box_chan.children[1].convertToNodeSpaceAR(position);
-			Promise.all(this.box_chan.children[1].children.map(function(chip){
+			Promise.all(this.box_chan.children[1].children.map(function (chip) {
 				chip.runAction(
 					cc.spawn(
 						cc.scaleTo(0.4, 0.5),
@@ -408,16 +415,16 @@ cc.Class({
 			}));
 		}
 
-		let red3   = this.box_red3.children[1].convertToNodeSpaceAR(position);
-		let red4   = this.box_red4.children[1].convertToNodeSpaceAR(position);
+		let red3 = this.box_red3.children[1].convertToNodeSpaceAR(position);
+		let red4 = this.box_red4.children[1].convertToNodeSpaceAR(position);
 		let white3 = this.box_white3.children[1].convertToNodeSpaceAR(position);
 		let white4 = this.box_white4.children[1].convertToNodeSpaceAR(position);
 
-		switch(numb) {
+		switch (numb) {
 			case 0:
 				node2 = this.box_white4.children[1];
-				audioLost += this.box_red3.children[1].children.length+this.box_red4.children[1].children.length+this.box_white3.children[1].children.length;
-				Promise.all(this.box_red3.children[1].children.map(function(chip){
+				audioLost += this.box_red3.children[1].children.length + this.box_red4.children[1].children.length + this.box_white3.children[1].children.length;
+				Promise.all(this.box_red3.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -425,7 +432,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_red4.children[1].children.map(function(chip){
+				Promise.all(this.box_red4.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -433,7 +440,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_white3.children[1].children.map(function(chip){
+				Promise.all(this.box_white3.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -441,12 +448,12 @@ cc.Class({
 						),
 					);
 				}));
-			break;
+				break;
 
 			case 1:
 				node2 = this.box_white3.children[1];
-				audioLost += this.box_red3.children[1].children.length+this.box_red4.children[1].children.length+this.box_white4.children[1].children.length;
-				Promise.all(this.box_red3.children[1].children.map(function(chip){
+				audioLost += this.box_red3.children[1].children.length + this.box_red4.children[1].children.length + this.box_white4.children[1].children.length;
+				Promise.all(this.box_red3.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -454,7 +461,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_red4.children[1].children.map(function(chip){
+				Promise.all(this.box_red4.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -462,7 +469,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_white4.children[1].children.map(function(chip){
+				Promise.all(this.box_white4.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -470,11 +477,11 @@ cc.Class({
 						),
 					);
 				}));
-			break;
+				break;
 
 			case 2:
-				audioLost += this.box_red3.children[1].children.length+this.box_red4.children[1].children.length+this.box_white3.children[1].children.length+this.box_white4.children[1].children.length;
-				Promise.all(this.box_red3.children[1].children.map(function(chip){
+				audioLost += this.box_red3.children[1].children.length + this.box_red4.children[1].children.length + this.box_white3.children[1].children.length + this.box_white4.children[1].children.length;
+				Promise.all(this.box_red3.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -482,7 +489,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_red4.children[1].children.map(function(chip){
+				Promise.all(this.box_red4.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -490,7 +497,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_white3.children[1].children.map(function(chip){
+				Promise.all(this.box_white3.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -498,7 +505,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_white4.children[1].children.map(function(chip){
+				Promise.all(this.box_white4.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -506,12 +513,12 @@ cc.Class({
 						),
 					);
 				}));
-			break;
+				break;
 
 			case 3:
 				node2 = this.box_red3.children[1];
-				audioLost += this.box_white3.children[1].children.length+this.box_red4.children[1].children.length+this.box_white4.children[1].children.length;
-				Promise.all(this.box_white3.children[1].children.map(function(chip){
+				audioLost += this.box_white3.children[1].children.length + this.box_red4.children[1].children.length + this.box_white4.children[1].children.length;
+				Promise.all(this.box_white3.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -519,7 +526,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_red4.children[1].children.map(function(chip){
+				Promise.all(this.box_red4.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -527,7 +534,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_white4.children[1].children.map(function(chip){
+				Promise.all(this.box_white4.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -535,12 +542,12 @@ cc.Class({
 						),
 					);
 				}));
-			break;
+				break;
 
 			case 4:
 				node2 = this.box_red4.children[1];
-				audioLost += this.box_white3.children[1].children.length+this.box_red3.children[1].children.length+this.box_white4.children[1].children.length;
-				Promise.all(this.box_white3.children[1].children.map(function(chip){
+				audioLost += this.box_white3.children[1].children.length + this.box_red3.children[1].children.length + this.box_white4.children[1].children.length;
+				Promise.all(this.box_white3.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -548,7 +555,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_red3.children[1].children.map(function(chip){
+				Promise.all(this.box_red3.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -556,7 +563,7 @@ cc.Class({
 						),
 					);
 				}));
-				Promise.all(this.box_white4.children[1].children.map(function(chip){
+				Promise.all(this.box_white4.children[1].children.map(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.scaleTo(0.4, 0.5),
@@ -564,19 +571,19 @@ cc.Class({
 						),
 					);
 				}));
-			break;
+				break;
 		}
 		!!audioLost && this.audioMultiChip.play();
-		setTimeout(function(){
+		setTimeout(function () {
 			let self = this;
 			audioWin += node1.children.length;
-			node1.children.forEach(function(chip){
+			node1.children.forEach(function (chip) {
 				let copy = cc.instantiate(chip);
 				copy.position = centerMid;
-				copy.scale    = 0.5;
+				copy.scale = 0.5;
 
-				let x = (Math.random()*(self.maxBox1_1.x+1))>>0;
-				let y = (Math.random()*(self.maxBox1_1.y+1))>>0;
+				let x = (Math.random() * (self.maxBox1_1.x + 1)) >> 0;
+				let y = (Math.random() * (self.maxBox1_1.y + 1)) >> 0;
 
 				node1.addChild(copy);
 				copy.runAction(
@@ -586,7 +593,7 @@ cc.Class({
 							cc.moveTo(0.4, cc.v2(x, y))
 						),
 						cc.sequence(
-							cc.moveTo(0.1, cc.v2(x, y-6)),
+							cc.moveTo(0.1, cc.v2(x, y - 6)),
 							cc.moveTo(0.1, cc.v2(x, y))
 						)
 					));
@@ -595,13 +602,13 @@ cc.Class({
 			if (node2) {
 				audioWin += node2.children.length;
 				let node2red = node2.convertToNodeSpaceAR(position);
-				node2.children.forEach(function(chip){
+				node2.children.forEach(function (chip) {
 					let copy = cc.instantiate(chip);
 					copy.position = node2red;
-					copy.scale    = 0.5;
+					copy.scale = 0.5;
 
-					let x = (Math.random()*(self.maxBox1_3.x+1))>>0;
-					let y = (Math.random()*(self.maxBox1_3.y+1))>>0;
+					let x = (Math.random() * (self.maxBox1_3.x + 1)) >> 0;
+					let y = (Math.random() * (self.maxBox1_3.y + 1)) >> 0;
 
 					node2.addChild(copy);
 					copy.runAction(
@@ -611,26 +618,26 @@ cc.Class({
 								cc.moveTo(0.4, cc.v2(x, y))
 							),
 							cc.sequence(
-								cc.moveTo(0.1, cc.v2(x, y-6)),
+								cc.moveTo(0.1, cc.v2(x, y - 6)),
 								cc.moveTo(0.1, cc.v2(x, y))
 							)
 						));
 				});
 			}
 			if (!!audioWin) {
-				Promise.all([1,2,3,4,5].map(function(audio){
+				Promise.all([1, 2, 3, 4, 5].map(function (audio) {
 					if (audio !== 1) {
-						self['audioMultiChip'+audio].play();
-					}else{
+						self['audioMultiChip' + audio].play();
+					} else {
 						self.audioMultiChip.play();
 					}
 				}));
 			}
-			setTimeout(function(){
+			setTimeout(function () {
 				let positionUser = this.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
 				let position1_1 = node1.convertToNodeSpaceAR(positionUser);
 
-				node1.children.forEach(function(chip){
+				node1.children.forEach(function (chip) {
 					chip.runAction(
 						cc.spawn(
 							cc.fadeTo(0.4, 0),
@@ -639,7 +646,7 @@ cc.Class({
 				});
 				if (node2) {
 					let position1_3 = node2.convertToNodeSpaceAR(positionUser);
-					node2.children.forEach(function(chip){
+					node2.children.forEach(function (chip) {
 						chip.runAction(
 							cc.spawn(
 								cc.fadeTo(0.4, 0),
@@ -650,100 +657,100 @@ cc.Class({
 			}.bind(this), 3000);
 		}.bind(this), 1500);
 	},
-	setDot: function(data){
+	setDot: function (data) {
 		let self = this;
-		let Dot_x = (Math.random()*(this.maxDot.x+1))>>0;
-		let Dot_y = (Math.random()*(this.maxDot.y+1))>>0;
-		let DotCheck = Dot_y-Dot_x;
+		let Dot_x = (Math.random() * (this.maxDot.x + 1)) >> 0;
+		let Dot_y = (Math.random() * (this.maxDot.y + 1)) >> 0;
+		let DotCheck = Dot_y - Dot_x;
 		if (DotCheck > 22) {
-			Dot_y = Dot_y-Dot_y/1.4;
+			Dot_y = Dot_y - Dot_y / 1.4;
 		}
 		this.dot[0].node.position = cc.v2(Dot_x, Dot_y);
 
-		Dot_x = (Math.random()*(this.maxDot.x+1))>>0;
-		Dot_y = (Math.random()*(this.maxDot.y+1))>>0;
-		DotCheck = Dot_y-Dot_x;
+		Dot_x = (Math.random() * (this.maxDot.x + 1)) >> 0;
+		Dot_y = (Math.random() * (this.maxDot.y + 1)) >> 0;
+		DotCheck = Dot_y - Dot_x;
 		if (DotCheck > 22) {
-			Dot_y = Dot_y-Dot_y/1.4;
+			Dot_y = Dot_y - Dot_y / 1.4;
 		}
 		this.dot[1].node.position = cc.v2(Dot_x, Dot_y);
 
-		Dot_x = (Math.random()*(this.maxDot.x+1))>>0;
-		Dot_y = (Math.random()*(this.maxDot.y+1))>>0;
-		DotCheck = Dot_y-Dot_x;
+		Dot_x = (Math.random() * (this.maxDot.x + 1)) >> 0;
+		Dot_y = (Math.random() * (this.maxDot.y + 1)) >> 0;
+		DotCheck = Dot_y - Dot_x;
 		if (DotCheck > 22) {
-			Dot_y = Dot_y-Dot_y/1.4;
+			Dot_y = Dot_y - Dot_y / 1.4;
 		}
 		this.dot[2].node.position = cc.v2(Dot_x, Dot_y);
 
-		Dot_x = (Math.random()*(this.maxDot.x+1))>>0;
-		Dot_y = (Math.random()*(this.maxDot.y+1))>>0;
-		DotCheck = Dot_y-Dot_x;
+		Dot_x = (Math.random() * (this.maxDot.x + 1)) >> 0;
+		Dot_y = (Math.random() * (this.maxDot.y + 1)) >> 0;
+		DotCheck = Dot_y - Dot_x;
 		if (DotCheck > 22) {
-			Dot_y = Dot_y-Dot_y/1.4;
+			Dot_y = Dot_y - Dot_y / 1.4;
 		}
 		this.dot[3].node.position = cc.v2(Dot_x, Dot_y);
 
-		this.dot.forEach(function(dot, index){
+		this.dot.forEach(function (dot, index) {
 			let check = data[index];
 			if (check) {
 				dot.spriteFrame = self.dot_red;
-			}else{
+			} else {
 				dot.spriteFrame = self.dot_white;
 			}
 		});
 	},
-	playTime: function(){
+	playTime: function () {
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
-		this.timeInterval = setInterval(function(){
+		this.timeInterval = setInterval(function () {
 			if (this.time_remain > 32) {
-				var time = helper.numberPad(this.time_remain-33, 2);
+				var time = helper.numberPad(this.time_remain - 33, 2);
 				this.timeWait.string = time;
 				this.labelTime.node.active = false;
 				this.nodeWait.active = true;
-			}else if(this.time_remain > 30){
+			} else if (this.time_remain > 30) {
 				// Xoc Dia
 				this.labelTime.node.active = false;
 				this.nodeWait.active = false;
 				this.time_remain === 32 && this.nodeBat.runAction(this.actionBatClose);
-			}else{
+			} else {
 				if (this.time_remain > -1) {
 					var time = helper.numberPad(this.time_remain, 2);
-					this.labelTime.node.active  = true;
-					this.nodeWait.active  = false;
+					this.labelTime.node.active = true;
+					this.nodeWait.active = false;
 					this.labelTime.string = time;
 
 					if (this.time_remain < 11) {
 						this.labelTime.node.color = cc.Color.RED;
-					}else{
+					} else {
 						this.labelTime.node.color = cc.Color.WHITE
 					}
-				}else clearInterval(this.timeInterval);
+				} else clearInterval(this.timeInterval);
 			}
 			this.time_remain--;
 		}.bind(this), 1000);
 	},
-	countClient: function(client){
+	countClient: function (client) {
 		this.users_count.string = client;
 	},
-	updateData: function(data){
+	updateData: function (data) {
 		if (this.red) {
-			this.total_chan.string   = data.red.chan   > 0 ? helper.numberWithCommas(data.red.chan)   : '';
-			this.total_le.string     = data.red.le     > 0 ? helper.numberWithCommas(data.red.le)     : '';
-			this.total_red3.string   = data.red.red3   > 0 ? helper.numberWithCommas(data.red.red3)   : '';
-			this.total_red4.string   = data.red.red4   > 0 ? helper.numberWithCommas(data.red.red4)   : '';
-			this.total_white3.string = data.red.white3 > 0 ? helper.numberWithCommas(data.red.white3) : '';
-			this.total_white4.string = data.red.white4 > 0 ? helper.numberWithCommas(data.red.white4) : '';
-		}else{
-			this.total_chan.string   = data.xu.chan   > 0 ? helper.numberWithCommas(data.xu.chan)   : '';
-			this.total_le.string     = data.xu.le     > 0 ? helper.numberWithCommas(data.xu.le)     : '';
-			this.total_red3.string   = data.xu.red3   > 0 ? helper.numberWithCommas(data.xu.red3)   : '';
-			this.total_red4.string   = data.xu.red4   > 0 ? helper.numberWithCommas(data.xu.red4)   : '';
-			this.total_white3.string = data.xu.white3 > 0 ? helper.numberWithCommas(data.xu.white3) : '';
-			this.total_white4.string = data.xu.white4 > 0 ? helper.numberWithCommas(data.xu.white4) : '';
+			this.total_chan.string = data.red.chan > 0 ? helper.formatMoneyNumber(data.red.chan) : '';
+			this.total_le.string = data.red.le > 0 ? helper.formatMoneyNumber(data.red.le) : '';
+			this.total_red3.string = data.red.red3 > 0 ? helper.formatMoneyNumber(data.red.red3) : '';
+			this.total_red4.string = data.red.red4 > 0 ? helper.formatMoneyNumber(data.red.red4) : '';
+			this.total_white3.string = data.red.white3 > 0 ? helper.formatMoneyNumber(data.red.white3) : '';
+			this.total_white4.string = data.red.white4 > 0 ? helper.formatMoneyNumber(data.red.white4) : '';
+		} else {
+			this.total_chan.string = data.xu.chan > 0 ? helper.formatMoneyNumber(data.xu.chan) : '';
+			this.total_le.string = data.xu.le > 0 ? helper.formatMoneyNumber(data.xu.le) : '';
+			this.total_red3.string = data.xu.red3 > 0 ? helper.formatMoneyNumber(data.xu.red3) : '';
+			this.total_red4.string = data.xu.red4 > 0 ? helper.formatMoneyNumber(data.xu.red4) : '';
+			this.total_white3.string = data.xu.white3 > 0 ? helper.formatMoneyNumber(data.xu.white3) : '';
+			this.total_white4.string = data.xu.white4 > 0 ? helper.formatMoneyNumber(data.xu.white4) : '';
 		}
 	},
-	resetData: function(){
+	resetData: function () {
 		this.box_chan.children[1].removeAllChildren();
 		this.box_le.children[1].removeAllChildren();
 		this.box_white4.children[1].removeAllChildren();
@@ -751,74 +758,74 @@ cc.Class({
 		this.box_red3.children[1].removeAllChildren();
 		this.box_red4.children[1].removeAllChildren();
 
-		this.box_chan.children[0].active   = false;
-		this.box_le.children[0].active     = false;
+		this.box_chan.children[0].active = false;
+		this.box_le.children[0].active = false;
 		this.box_white4.children[0].active = false;
 		this.box_white3.children[0].active = false;
-		this.box_red3.children[0].active   = false;
-		this.box_red4.children[0].active   = false;
+		this.box_red3.children[0].active = false;
+		this.box_red4.children[0].active = false;
 
-		this.total_chan.string   = '';
-		this.total_le.string     = '';
-		this.total_red3.string   = '';
-		this.total_red4.string   = '';
+		this.total_chan.string = '';
+		this.total_le.string = '';
+		this.total_red3.string = '';
+		this.total_red4.string = '';
 		this.total_white3.string = '';
 		this.total_white4.string = '';
 
-		this.me_chan.string   = '';
-		this.me_le.string     = '';
-		this.me_red3.string   = '';
-		this.me_red4.string   = '';
+		this.me_chan.string = '';
+		this.me_le.string = '';
+		this.me_red3.string = '';
+		this.me_red4.string = '';
 		this.me_white3.string = '';
 		this.me_white4.string = '';
 
-		this.users.red.chan   = 0;
-		this.users.red.le     = 0;
-		this.users.red.red3   = 0;
-		this.users.red.red4   = 0;
+		this.users.red.chan = 0;
+		this.users.red.le = 0;
+		this.users.red.red3 = 0;
+		this.users.red.red4 = 0;
 		this.users.red.white3 = 0;
 		this.users.red.white4 = 0;
 
-		this.users.xu.chan   = 0;
-		this.users.xu.le     = 0;
-		this.users.xu.red3   = 0;
-		this.users.xu.red4   = 0;
+		this.users.xu.chan = 0;
+		this.users.xu.le = 0;
+		this.users.xu.red3 = 0;
+		this.users.xu.red4 = 0;
 		this.users.xu.white3 = 0;
 		this.users.xu.white4 = 0;
 
-		this.clients.red.chan   = 0;
-		this.clients.red.le     = 0;
-		this.clients.red.red3   = 0;
-		this.clients.red.red4   = 0;
+		this.clients.red.chan = 0;
+		this.clients.red.le = 0;
+		this.clients.red.red3 = 0;
+		this.clients.red.red4 = 0;
 		this.clients.red.white3 = 0;
 		this.clients.red.white4 = 0;
 
-		this.clients.xu.chan   = 0;
-		this.clients.xu.le     = 0;
-		this.clients.xu.red3   = 0;
-		this.clients.xu.red4   = 0;
+		this.clients.xu.chan = 0;
+		this.clients.xu.le = 0;
+		this.clients.xu.red3 = 0;
+		this.clients.xu.red4 = 0;
 		this.clients.xu.white3 = 0;
 		this.clients.xu.white4 = 0;
 	},
-	setLogs: function(){
+	setLogs: function () {
 		let self = this;
-		this.logMain.forEach(function(obj, index){
+		this.logMain.forEach(function (obj, index) {
 			let data = self.logs[index];
 			if (data) {
 				obj.node.active = true;
 				data = Object.values(data);
 				let gameChan = 0;     // Là chẵn
-				data.forEach(function(kqH){
+				data.forEach(function (kqH) {
 					if (kqH) {
 						gameChan++;
 					}
 				});
-				if (!(gameChan%2)) {
+				if (!(gameChan % 2)) {
 					obj.spriteFrame = self.dot_white;
-				}else{
+				} else {
 					obj.spriteFrame = self.dot_red;
 				}
-			}else{
+			} else {
 				obj.node.active = false;
 			}
 		});
@@ -831,16 +838,16 @@ cc.Class({
 
 		let newArr = self.logs.slice();
 		newArr.reverse();
-		newArr.forEach(function(newDS){
+		newArr.forEach(function (newDS) {
 			let data = Object.values(newDS);
 			let gameChan = 0;
-			data.forEach(function(kqH){
+			data.forEach(function (kqH) {
 				if (kqH) {
 					gameChan++;
 				}
 			});
 
-			let type  = !(gameChan%2);
+			let type = !(gameChan % 2);
 			if (tmp_DS === -1) {
 				tmp_DS = type;
 			}
@@ -860,45 +867,45 @@ cc.Class({
 		tmp_arrA.reverse();
 		tmp_arrA = tmp_arrA.slice(0, 12);
 
-		this.log_top.forEach(function(obj, index){
+		this.log_top.forEach(function (obj, index) {
 			let data = tmp_arrA[index];
 			if (data) {
 				obj.cell.active = true;
 
-				obj.data.forEach(function(cell, j){
+				obj.data.forEach(function (cell, j) {
 					let jD = data[j];
 					if (void 0 !== jD) {
 						cell.c.node.parent.active = true;
-						cell.c.spriteFrame = !(jD%2) ? (jD === 4 ? self.dot_red : self.dot_white) : self.dot_red;
+						cell.c.spriteFrame = !(jD % 2) ? (jD === 4 ? self.dot_red : self.dot_white) : self.dot_red;
 						cell.t.string = jD === 0 ? 4 : jD;
 
-						if (!(jD%2)) {
+						if (!(jD % 2)) {
 							c_chan++;
-						}else{
+						} else {
 							c_le++;
 						}
-					}else{
+					} else {
 						cell.c.node.parent.active = false;
 					}
 				});
-			}else{
+			} else {
 				obj.cell.active = false;
 			}
 		});
 
 		this.log_chan.string = c_chan;
-		this.log_le.string   = c_le;
+		this.log_le.string = c_le;
 	},
-	changerBet: function(event, bet){
+	changerBet: function (event, bet) {
 		let target = event.target;
 		this.cuoc = target.name;
-		this.bet.children.forEach(function(obj){
+		this.bet.children.forEach(function (obj) {
 			if (obj == target) {
 				obj.children[0].active = false;
 				obj.children[1].active = true;
 				obj.pauseSystemEvents();
 				obj.opacity = 255;
-			}else{
+			} else {
 				obj.children[0].active = true;
 				obj.children[1].active = false;
 				obj.resumeSystemEvents();
@@ -906,51 +913,51 @@ cc.Class({
 			}
 		})
 	},
-	changerCoint: function(){
-		this.red            = !this.red;
+	changerCoint: function () {
+		this.red = !this.red;
 		this.nodeRed.active = !this.nodeRed.active;
-		this.nodeXu.active  = !this.nodeXu.active;
+		this.nodeXu.active = !this.nodeXu.active;
 		this.updateMeCoint();
 	},
-	onCuoc: function(event, box){
-		cc.RedT.send({g:{xocxoc:{cuoc:{red:this.red, cuoc:this.cuoc, box:box}}}});
+	onCuoc: function (event, box) {
+		cc.RedT.send({ g: { xocxoc: { cuoc: { red: this.red, cuoc: this.cuoc, box: box } } } });
 	},
-	addNotice:function(text){
+	addNotice: function (text) {
 		var notice = cc.instantiate(this.prefabNotice)
 		var noticeComponent = notice.getComponent('mini_warning')
 		noticeComponent.text.string = text;
 		this.miniNotice.addChild(notice);
 	},
-	clientsChip: function(data){
+	clientsChip: function (data) {
 		let nodeBox = null;
-		let max     = this.maxBox1_3;
+		let max = this.maxBox1_3;
 
-		switch(data.box) {
+		switch (data.box) {
 			case 'chan':
 				nodeBox = this.box_chan;
 				max = this.maxBox1_1;
-			break;
+				break;
 
 			case 'le':
 				nodeBox = this.box_le;
 				max = this.maxBox1_1;
-			break;
+				break;
 
 			case 'red3':
 				nodeBox = this.box_red3;
-			break;
+				break;
 
 			case 'red4':
 				nodeBox = this.box_red4;
-			break;
+				break;
 
 			case 'white3':
 				nodeBox = this.box_white3;
-			break;
+				break;
 
 			case 'white4':
 				nodeBox = this.box_white4;
-			break;
+				break;
 		}
 
 		let position = this.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
@@ -958,12 +965,12 @@ cc.Class({
 
 		let newN = new cc.Node;
 		newN = newN.addComponent(cc.Sprite);
-		newN.spriteFrame = this['chip_'+data.cuoc];
+		newN.spriteFrame = this['chip_' + data.cuoc];
 		newN.node.position = position;
-		newN.node.scale    = 0.67;
+		newN.node.scale = 0.67;
 
-		let x = (Math.random()*(max.x+1))>>0;
-		let y = (Math.random()*(max.y+1))>>0;
+		let x = (Math.random() * (max.x + 1)) >> 0;
+		let y = (Math.random() * (max.y + 1)) >> 0;
 
 		nodeBox.children[1].addChild(newN.node);
 
@@ -977,50 +984,50 @@ cc.Class({
 					cc.scaleTo(0.4, 0.3),
 					cc.moveTo(0.4, cc.v2(x, y))
 				),
-				cc.callFunc(function(){this.play()}, copy),
+				cc.callFunc(function () { this.play() }, copy),
 				cc.sequence(
-					cc.moveTo(0.1, cc.v2(x, y-6)),
+					cc.moveTo(0.1, cc.v2(x, y - 6)),
 					cc.moveTo(0.1, cc.v2(x, y))
 				)
 			));
 	},
-	meChip: function(data){
+	meChip: function (data) {
 		let nodeBet = null;
 		let nodeBox = null;
-		let max     = this.maxBox1_3;
+		let max = this.maxBox1_3;
 
-		this.bet.children.forEach(function(bet){
+		this.bet.children.forEach(function (bet) {
 			if (bet.name == data.cuoc) {
 				nodeBet = bet;
 			}
 		});
 
-		switch(data.box) {
+		switch (data.box) {
 			case 'chan':
 				nodeBox = this.box_chan;
 				max = this.maxBox1_1;
-			break;
+				break;
 
 			case 'le':
 				nodeBox = this.box_le;
 				max = this.maxBox1_1;
-			break;
+				break;
 
 			case 'red3':
 				nodeBox = this.box_red3;
-			break;
+				break;
 
 			case 'red4':
 				nodeBox = this.box_red4;
-			break;
+				break;
 
 			case 'white3':
 				nodeBox = this.box_white3;
-			break;
+				break;
 
 			case 'white4':
 				nodeBox = this.box_white4;
-			break;
+				break;
 		}
 
 		let position = nodeBet.parent.convertToWorldSpaceAR(nodeBet.position);
@@ -1028,11 +1035,11 @@ cc.Class({
 
 		let newN = new cc.Node;
 		newN = newN.addComponent(cc.Sprite);
-		newN.spriteFrame = this['chip_'+data.cuoc];
+		newN.spriteFrame = this['chip_' + data.cuoc];
 		newN.node.position = position;
 
-		let x = (Math.random()*(max.x+1))>>0;
-		let y = (Math.random()*(max.y+1))>>0;
+		let x = (Math.random() * (max.x + 1)) >> 0;
+		let y = (Math.random() * (max.y + 1)) >> 0;
 
 		// this.audioSingleChip.node
 		nodeBox.children[1].addChild(newN.node);
@@ -1045,14 +1052,14 @@ cc.Class({
 					cc.scaleTo(0.3, 0.3),
 					cc.moveTo(0.3, cc.v2(x, y))
 				),
-				cc.callFunc(function(){this.play()}, copy),
+				cc.callFunc(function () { this.play() }, copy),
 				cc.sequence(
-					cc.moveTo(0.1, cc.v2(x, y+6)),
+					cc.moveTo(0.1, cc.v2(x, y + 6)),
 					cc.moveTo(0.1, cc.v2(x, y))
 				)
 			));
 	},
-	updateMe: function(data){
+	updateMe: function (data) {
 		if (data.red) {
 			this.updateMeRed(data.red);
 		}
@@ -1060,60 +1067,60 @@ cc.Class({
 			this.updateMeXu(data.xu);
 		}
 	},
-	updateMeRed: function(data){
+	updateMeRed: function (data) {
 		if (data.chan > 0) {
 			this.users.red.chan = data.chan;
-			this.red && (this.me_chan.string = helper.numberWithCommas(data.chan));
+			this.red && (this.me_chan.string = helper.formatMoneyNumber(data.chan));
 		}
 		if (data.le > 0) {
 			this.users.red.le = data.le;
-			this.red && (this.me_le.string = helper.numberWithCommas(data.le));
+			this.red && (this.me_le.string = helper.formatMoneyNumber(data.le));
 		}
 		if (data.red3 > 0) {
 			this.users.red.red3 = data.red3;
-			this.red && (this.me_red3.string = helper.numberWithCommas(data.red3));
+			this.red && (this.me_red3.string = helper.formatMoneyNumber(data.red3));
 		}
 		if (data.red4 > 0) {
 			this.users.red.red4 = data.red4;
-			this.red && (this.me_red4.string = helper.numberWithCommas(data.red4));
+			this.red && (this.me_red4.string = helper.formatMoneyNumber(data.red4));
 		}
 		if (data.white3 > 0) {
 			this.users.red.white3 = data.white3;
-			this.red && (this.me_white3.string = helper.numberWithCommas(data.white3));
+			this.red && (this.me_white3.string = helper.formatMoneyNumber(data.white3));
 		}
 		if (data.white4 > 0) {
 			this.users.red.white4 = data.white4;
-			this.red && (this.me_white4.string = helper.numberWithCommas(data.white4));
+			this.red && (this.me_white4.string = helper.formatMoneyNumber(data.white4));
 		}
 	},
-	updateMeXu: function(data){
+	updateMeXu: function (data) {
 		if (data.chan > 0) {
 			this.users.xu.chan = data.chan;
-			!this.red && (this.me_chan.string = helper.numberWithCommas(data.chan));
+			!this.red && (this.me_chan.string = helper.formatMoneyNumber(data.chan));
 		}
 		if (data.le > 0) {
 			this.users.xu.le = data.le;
-			!this.red && (this.me_le.string = helper.numberWithCommas(data.le));
+			!this.red && (this.me_le.string = helper.formatMoneyNumber(data.le));
 		}
 		if (data.red3 > 0) {
 			this.users.xu.red3 = data.red3;
-			!this.red && (this.me_red3.string = helper.numberWithCommas(data.red3));
+			!this.red && (this.me_red3.string = helper.formatMoneyNumber(data.red3));
 		}
 		if (data.red4 > 0) {
 			this.users.xu.red4 = data.red4;
-			!this.red && (this.me_red4.string = helper.numberWithCommas(data.red4));
+			!this.red && (this.me_red4.string = helper.formatMoneyNumber(data.red4));
 		}
 		if (data.white3 > 0) {
 			this.users.xu.white3 = data.white3;
-			!this.red && (this.me_white3.string = helper.numberWithCommas(data.white3));
+			!this.red && (this.me_white3.string = helper.formatMoneyNumber(data.white3));
 		}
 		if (data.white4 > 0) {
 			this.users.xu.white4 = data.white4;
-			!this.red && (this.me_white4.string = helper.numberWithCommas(data.white4));
+			!this.red && (this.me_white4.string = helper.formatMoneyNumber(data.white4));
 		}
 	},
 
-	updateClient: function(data){
+	updateClient: function (data) {
 		if (data.red) {
 			this.updateClientRed(data.red);
 		}
@@ -1121,114 +1128,114 @@ cc.Class({
 			this.updateClientXu(data.xu);
 		}
 	},
-	updateClientRed: function(data){
+	updateClientRed: function (data) {
 		if (data.chan > 0) {
 			this.clients.red.chan = data.chan;
-			this.red && (this.total_chan.string = helper.numberWithCommas(data.chan));
+			this.red && (this.total_chan.string = helper.formatMoneyNumber(data.chan));
 		}
 		if (data.le > 0) {
 			this.clients.red.le = data.le;
-			this.red && (this.total_le.string = helper.numberWithCommas(data.le));
+			this.red && (this.total_le.string = helper.formatMoneyNumber(data.le));
 		}
 		if (data.red3 > 0) {
 			this.clients.red.red3 = data.red3;
-			this.red && (this.total_red3.string = helper.numberWithCommas(data.red3));
+			this.red && (this.total_red3.string = helper.formatMoneyNumber(data.red3));
 		}
 		if (data.red4 > 0) {
 			this.clients.red.red4 = data.red4;
-			this.red && (this.total_red4.string = helper.numberWithCommas(data.red4));
+			this.red && (this.total_red4.string = helper.formatMoneyNumber(data.red4));
 		}
 		if (data.white3 > 0) {
 			this.clients.red.white3 = data.white3;
-			this.red && (this.total_white3.string = helper.numberWithCommas(data.white3));
+			this.red && (this.total_white3.string = helper.formatMoneyNumber(data.white3));
 		}
 		if (data.white4 > 0) {
 			this.clients.red.white4 = data.white4;
-			this.red && (this.total_white4.string = helper.numberWithCommas(data.white4));
+			this.red && (this.total_white4.string = helper.formatMoneyNumber(data.white4));
 		}
 	},
-	updateClientXu: function(data){
+	updateClientXu: function (data) {
 		if (data.chan > 0) {
 			this.clients.xu.chan = data.chan;
-			!this.red && (this.total_chan.string = helper.numberWithCommas(data.chan));
+			!this.red && (this.total_chan.string = helper.formatMoneyNumber(data.chan));
 		}
 		if (data.le > 0) {
 			this.clients.xu.le = data.le;
-			!this.red && (this.total_le.string = helper.numberWithCommas(data.le));
+			!this.red && (this.total_le.string = helper.formatMoneyNumber(data.le));
 		}
 		if (data.red3 > 0) {
 			this.clients.xu.red3 = data.red3;
-			!this.red && (this.total_red3.string = helper.numberWithCommas(data.red3));
+			!this.red && (this.total_red3.string = helper.formatMoneyNumber(data.red3));
 		}
 		if (data.red4 > 0) {
 			this.clients.xu.red4 = data.red4;
-			!this.red && (this.total_red4.string = helper.numberWithCommas(data.red4));
+			!this.red && (this.total_red4.string = helper.formatMoneyNumber(data.red4));
 		}
 		if (data.white3 > 0) {
 			this.clients.xu.white3 = data.white3;
-			!this.red && (this.total_white3.string = helper.numberWithCommas(data.white3));
+			!this.red && (this.total_white3.string = helper.formatMoneyNumber(data.white3));
 		}
 		if (data.white4 > 0) {
 			this.clients.xu.white4 = data.white4;
-			!this.red && (this.total_white4.string = helper.numberWithCommas(data.white4));
+			!this.red && (this.total_white4.string = helper.formatMoneyNumber(data.white4));
 		}
 	},
-	updateMeCoint: function(){
+	updateMeCoint: function () {
 		if (this.red) {
-			this.me_chan.string   = this.users.red.chan   > 0 ? helper.numberWithCommas(this.users.red.chan)   : '';
-			this.me_le.string     = this.users.red.le     > 0 ? helper.numberWithCommas(this.users.red.le)     : '';
-			this.me_red3.string   = this.users.red.red3   > 0 ? helper.numberWithCommas(this.users.red.red3)   : '';
-			this.me_red4.string   = this.users.red.red4   > 0 ? helper.numberWithCommas(this.users.red.red4)   : '';
-			this.me_white3.string = this.users.red.white3 > 0 ? helper.numberWithCommas(this.users.red.white3) : '';
-			this.me_white4.string = this.users.red.white4 > 0 ? helper.numberWithCommas(this.users.red.white4) : '';
+			this.me_chan.string = this.users.red.chan > 0 ? helper.formatMoneyNumber(this.users.red.chan) : '';
+			this.me_le.string = this.users.red.le > 0 ? helper.formatMoneyNumber(this.users.red.le) : '';
+			this.me_red3.string = this.users.red.red3 > 0 ? helper.formatMoneyNumber(this.users.red.red3) : '';
+			this.me_red4.string = this.users.red.red4 > 0 ? helper.formatMoneyNumber(this.users.red.red4) : '';
+			this.me_white3.string = this.users.red.white3 > 0 ? helper.formatMoneyNumber(this.users.red.white3) : '';
+			this.me_white4.string = this.users.red.white4 > 0 ? helper.formatMoneyNumber(this.users.red.white4) : '';
 
-			this.total_chan.string   = this.clients.red.chan   > 0 ? helper.numberWithCommas(this.clients.red.chan)   : '';
-			this.total_le.string     = this.clients.red.le     > 0 ? helper.numberWithCommas(this.clients.red.le)     : '';
-			this.total_red3.string   = this.clients.red.red3   > 0 ? helper.numberWithCommas(this.clients.red.red3)   : '';
-			this.total_red4.string   = this.clients.red.red4   > 0 ? helper.numberWithCommas(this.clients.red.red4)   : '';
-			this.total_white3.string = this.clients.red.white3 > 0 ? helper.numberWithCommas(this.clients.red.white3) : '';
-			this.total_white4.string = this.clients.red.white4 > 0 ? helper.numberWithCommas(this.clients.red.white4) : '';
-		}else{
-			this.me_chan.string   = this.users.xu.chan   > 0 ? helper.numberWithCommas(this.users.xu.chan)   : '';
-			this.me_le.string     = this.users.xu.le     > 0 ? helper.numberWithCommas(this.users.xu.le)     : '';
-			this.me_red3.string   = this.users.xu.red3   > 0 ? helper.numberWithCommas(this.users.xu.red3)   : '';
-			this.me_red4.string   = this.users.xu.red4   > 0 ? helper.numberWithCommas(this.users.xu.red4)   : '';
-			this.me_white3.string = this.users.xu.white3 > 0 ? helper.numberWithCommas(this.users.xu.white3) : '';
-			this.me_white4.string = this.users.xu.white4 > 0 ? helper.numberWithCommas(this.users.xu.white4) : '';
+			this.total_chan.string = this.clients.red.chan > 0 ? helper.formatMoneyNumber(this.clients.red.chan) : '';
+			this.total_le.string = this.clients.red.le > 0 ? helper.formatMoneyNumber(this.clients.red.le) : '';
+			this.total_red3.string = this.clients.red.red3 > 0 ? helper.formatMoneyNumber(this.clients.red.red3) : '';
+			this.total_red4.string = this.clients.red.red4 > 0 ? helper.formatMoneyNumber(this.clients.red.red4) : '';
+			this.total_white3.string = this.clients.red.white3 > 0 ? helper.formatMoneyNumber(this.clients.red.white3) : '';
+			this.total_white4.string = this.clients.red.white4 > 0 ? helper.formatMoneyNumber(this.clients.red.white4) : '';
+		} else {
+			this.me_chan.string = this.users.xu.chan > 0 ? helper.formatMoneyNumber(this.users.xu.chan) : '';
+			this.me_le.string = this.users.xu.le > 0 ? helper.formatMoneyNumber(this.users.xu.le) : '';
+			this.me_red3.string = this.users.xu.red3 > 0 ? helper.formatMoneyNumber(this.users.xu.red3) : '';
+			this.me_red4.string = this.users.xu.red4 > 0 ? helper.formatMoneyNumber(this.users.xu.red4) : '';
+			this.me_white3.string = this.users.xu.white3 > 0 ? helper.formatMoneyNumber(this.users.xu.white3) : '';
+			this.me_white4.string = this.users.xu.white4 > 0 ? helper.formatMoneyNumber(this.users.xu.white4) : '';
 
-			this.total_chan.string   = this.clients.xu.chan   > 0 ? helper.numberWithCommas(this.clients.xu.chan)   : '';
-			this.total_le.string     = this.clients.xu.le     > 0 ? helper.numberWithCommas(this.clients.xu.le)     : '';
-			this.total_red3.string   = this.clients.xu.red3   > 0 ? helper.numberWithCommas(this.clients.xu.red3)   : '';
-			this.total_red4.string   = this.clients.xu.red4   > 0 ? helper.numberWithCommas(this.clients.xu.red4)   : '';
-			this.total_white3.string = this.clients.xu.white3 > 0 ? helper.numberWithCommas(this.clients.xu.white3) : '';
-			this.total_white4.string = this.clients.xu.white4 > 0 ? helper.numberWithCommas(this.clients.xu.white4) : '';
+			this.total_chan.string = this.clients.xu.chan > 0 ? helper.formatMoneyNumber(this.clients.xu.chan) : '';
+			this.total_le.string = this.clients.xu.le > 0 ? helper.formatMoneyNumber(this.clients.xu.le) : '';
+			this.total_red3.string = this.clients.xu.red3 > 0 ? helper.formatMoneyNumber(this.clients.xu.red3) : '';
+			this.total_red4.string = this.clients.xu.red4 > 0 ? helper.formatMoneyNumber(this.clients.xu.red4) : '';
+			this.total_white3.string = this.clients.xu.white3 > 0 ? helper.formatMoneyNumber(this.clients.xu.white3) : '';
+			this.total_white4.string = this.clients.xu.white4 > 0 ? helper.formatMoneyNumber(this.clients.xu.white4) : '';
 		}
 	},
-	status: function(data){
-		setTimeout(function() {
+	status: function (data) {
+		setTimeout(function () {
 			var temp = new cc.Node;
 			temp.addComponent(cc.Label);
 			temp = temp.getComponent(cc.Label);
-			temp.string = (data.win ? '+' : '-') + helper.numberWithCommas(data.bet);
+			temp.string = (data.win ? '+' : '-') + helper.formatMoneyNumber(data.bet);
 			temp.font = data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
 			temp.lineHeight = 130;
-			temp.fontSize   = 25;
+			temp.fontSize = 25;
 			temp.node.position = cc.v2(0, 90);
 			this.miniNotice.addChild(temp.node);
-			temp.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 200)), cc.callFunc(function(){this.node.destroy()}, temp)));
-			data.win && cc.RedT.send({user:{updateCoint: true}});
-			if(void 0 !== data.thuong && data.thuong > 0){
+			temp.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 200)), cc.callFunc(function () { this.node.destroy() }, temp)));
+			data.win && cc.RedT.send({ user: { updateCoint: true } });
+			if (void 0 !== data.thuong && data.thuong > 0) {
 				var thuong = new cc.Node;
 				thuong.addComponent(cc.Label);
 				thuong = thuong.getComponent(cc.Label);
-				thuong.string = '+' + helper.numberWithCommas(data.thuong);
+				thuong.string = '+' + helper.formatMoneyNumber(data.thuong);
 				thuong.font = cc.RedT.util.fontEffect;
 				thuong.lineHeight = 90;
-				thuong.fontSize   = 14;
+				thuong.fontSize = 14;
 				this.miniNotice.addChild(thuong.node);
-				thuong.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 100)), cc.callFunc(function(){this.node.destroy()}, thuong)))
+				thuong.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 100)), cc.callFunc(function () { this.node.destroy() }, thuong)))
 			}
 		}
-		.bind(this), 4e3)
+			.bind(this), 4e3)
 	},
 });
