@@ -31,7 +31,7 @@ deploy-web-mobile:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
-    - cp ./build/style-mobile.css ./build/web-mobile -f
+    - cp -R ./build-files/web-mobile ./build/web-mobile
     - scp -r -P 2201 ./build/web-mobile/* root@35.194.253.55:/var/www/r97/web-mobile
   tags:
     - deploy-cocos-web-mobile
