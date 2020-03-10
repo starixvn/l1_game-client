@@ -22,6 +22,12 @@ platform :ios do
     		build_number: latest_testflight_build_number.to_i + 1,
     		xcodeproj: "L1.xcodeproj"
   	)
+	update_info_plist( # update app identifier string
+		plist_path: "ios/Info.plist",
+		block: proc do |plist|
+              plist['ITSAppUsesNonExemptEncryption'] = false
+            end
+	)
 	build_app(
 		scheme: "L1-mobile",
 		export_xcargs: "-allowProvisioningUpdates",
