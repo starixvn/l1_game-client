@@ -20,7 +20,7 @@ stages:
 #   only:
 #     - /^deploy-\d{8}-\d+.*$/
 
-deploy:
+deploy-web-mobile:
   stage: deploy-web-mobile
   script:
     - echo "====== Build Cocos Web Mobile ======"
@@ -38,7 +38,7 @@ deploy:
   only:
     - /^deploy-\d{8}-\d+.*$/
 
-deploy:
+deploy-ios-testflight:
   stage: deploy-ios-testflight
   script:
     - echo "====== Build Cocos Web Mobile ======"
