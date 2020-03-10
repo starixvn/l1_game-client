@@ -36,7 +36,9 @@ deploy-web-mobile:
   tags:
     - deploy-cocos-web-mobile
   only:
+    - /^deploy-web-\d{8}-\d+.*$/
     - /^deploy-\d{8}-\d+.*$/
+
 deploy-ios-testflight:
   stage: deploy-ios-testflight
   script:
@@ -54,4 +56,5 @@ deploy-ios-testflight:
   tags:
     - deploy-cocos-ios-testflight
   only:
+    - /^deploy-ios-\d{8}-\d+.*$/
     - /^deploy-\d{8}-\d+.*$/
