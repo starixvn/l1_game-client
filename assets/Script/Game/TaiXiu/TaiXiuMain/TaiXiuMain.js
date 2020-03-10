@@ -745,11 +745,23 @@ cc.Class({
     if (void 0 !== cc.RedT.inGame.onGetTaiXiu) {
       cc.RedT.inGame.onGetTaiXiu(data.red_tai, data.red_xiu);
     }
+
     if (this.red) {
-      void 0 !== data.red_tai &&
-        (this.totalLeft.string = helper.numberWithCommas(data.red_tai));
-      void 0 !== data.red_xiu &&
-        (this.totalRight.string = helper.numberWithCommas(data.red_xiu));
+      if (void 0 !== data.red_tai) {
+        var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
+
+        if (sTai - data.red_tai != 0) {
+          helper.numberTo(this.totalLeft, sTai, data.red_tai, 500, true);
+        }
+      }
+      if (void 0 !== data.red_xiu) {
+        var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
+
+        if (sXiu - data.red_xiu != 0) {
+          helper.numberTo(this.totalRight, sXiu, data.red_xiu, 500, true);
+        }
+      }
+
       void 0 !== data.red_me_tai &&
         (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
       void 0 !== data.red_me_xiu &&
