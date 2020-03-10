@@ -3,41 +3,41 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-       game:    cc.Node,
-       content: cc.Node,
-       title:   cc.Label,
+        game: cc.Node,
+        content: cc.Node,
+        title: cc.Label,
     },
-    init: function(){
-        Promise.all(this.game.children.map(function(obj){
+    init: function () {
+        Promise.all(this.game.children.map(function (obj) {
             return obj.children[1].getComponent(cc.Label);
         }))
-        .then(result => {
-            this.game = result;
-        })
+            .then(result => {
+                this.game = result;
+            })
     },
-    selectGame: function(event, game) {
+    selectGame: function (event, game) {
         this.select(game)
     },
-    select: function(game) {
+    select: function (game) {
         cc.RedT.audio.playClick();
         var self = this;
-        Promise.all(this.game.map(function(obj){
-            var parent = obj.node.parent;
-            if (parent.name == game) {
-                parent.children[0].active = true;
-                parent.pauseSystemEvents();
-                self.title.string = obj.string;
-            }else{
-                parent.children[0].active = false;
-                parent.resumeSystemEvents();
+        Promise.all(this.game.children.map(function (obj) {
+            //var parent = obj.node.parent;
+            if (obj.name == game) {
+                obj.children[0].active = true;
+                obj.pauseSystemEvents();
+                self.title.string = obj.children[1].getComponent(cc.Label).string;
+            } else {
+                obj.children[0].active = false;
+                obj.resumeSystemEvents();
             }
             return void 0;
         }))
 
-        Promise.all(this.content.children.map(function(obj){
+        Promise.all(this.content.children.map(function (obj) {
             if (obj.name == game) {
                 obj.active = true;
-            }else{
+            } else {
                 obj.active = false;
             }
             return void 0;
