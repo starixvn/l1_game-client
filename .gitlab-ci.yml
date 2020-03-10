@@ -1,6 +1,6 @@
 stages:
   # - deploy
-  - deploy-web-mobile
+  # - deploy-web-mobile
   - deploy-ios-testflight
 # deploy:
 #   stage: deploy
@@ -49,7 +49,8 @@ deploy-ios-testflight:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=ios;optimizeHotUpdate=true"
-    - fastlane beta
+    - cp -R ./build-files/ios/ ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
+    - fastlane beta ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
   tags:
     - deploy-cocos-ios-testflight
   only:
