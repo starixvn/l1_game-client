@@ -23,6 +23,7 @@ platform :ios do
     		xcodeproj: "L1.xcodeproj"
   	)
 	build_app(
+		scheme: "L1-mobile",
 		export_xcargs: "-allowProvisioningUpdates",
 		export_method: "app-store",
    		export_options: {
