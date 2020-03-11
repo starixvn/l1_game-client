@@ -149,13 +149,6 @@ cc.Class({
 		};
 	},
 	onLoad() {
-		this.me_chan.node.color = cc.Color.YELLOW;
-		this.me_le.node.color = cc.Color.YELLOW;
-		this.me_red3.node.color = cc.Color.YELLOW;
-		this.me_red4.node.color = cc.Color.YELLOW;
-		this.me_white3.node.color = cc.Color.YELLOW;
-		this.me_white4.node.color = cc.Color.YELLOW;
-
 		cc.RedT.inGame = this;
 		var MiniPanel = cc.instantiate(this.MiniPanel);
 		cc.RedT.MiniPanel = MiniPanel.getComponent('MiniPanel');
