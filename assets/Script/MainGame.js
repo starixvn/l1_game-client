@@ -128,6 +128,7 @@ cc.Class({
     }
   },
   onData: function(data) {
+    console.log(data);
     if (void 0 !== data["unauth"]) {
       this.unAuthorized(data["unauth"]);
     }
