@@ -49,10 +49,10 @@ cc.Class({
     );
   },
   openMiniGame: function(e, name) {
-    //  cc.RedT.MiniPanel[name].openGame();
-    console.log(name);
     if (name == "TaiXiu") {
       cc.RedT.MiniPanel.openGame(name);
+    } else {
+      cc.RedT.MiniPanel[name].openGame();
     }
   },
   regGame: function(e, name) {

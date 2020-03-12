@@ -102,7 +102,6 @@ cc.Class({
     this.CaoThap.newGame();
   },
   onData: function(data) {
-    console.log(data);
     if (void 0 !== data.poker) {
       this.MiniPoker.onData(data.poker);
     }
@@ -130,7 +129,6 @@ cc.Class({
     }
   },
   onDataTaiXiu: function(taiXiuData) {
-    console.log(taiXiuData);
     if (void 0 !== taiXiuData) {
       this.TaiXiuNew.TX_Main.onData(taiXiuData);
       //cc.RedT.MiniPanel.TaiXiu.TX_Main.onData(data.taixiu);

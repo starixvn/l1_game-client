@@ -200,7 +200,6 @@ cc.Class({
   },
   init: function(obj) {
     this.RedT = obj;
-    console.log(this.RedT);
     cc.RedT.setting.taixiu.data = cc.RedT.setting.taixiu.data || {
       taixiu: {},
       chanle: {},
@@ -510,7 +509,6 @@ cc.Class({
     );
   },
   onData: function(data) {
-    console.log(data);
     if (void 0 !== data.get_phien) {
       this.RedT.TX_LichSuPhien.onData(data.get_phien);
     }
