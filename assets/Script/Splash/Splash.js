@@ -47,10 +47,7 @@ cc.Class({
     let self = this;
     let urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("token")) {
-      var config = {
-          headers: {'Access-Control-Allow-Origin': '*'}
-      }
-      axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`, config)
+      axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`)
       //axios.get(`http://localhost:8080/authenticate?token=${urlParams.get("token")}`)
         .then(function (response) {
           if (response.data.isAuthenticated) {
