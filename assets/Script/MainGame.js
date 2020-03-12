@@ -128,7 +128,6 @@ cc.Class({
     }
   },
   onData: function(data) {
-    console.log(data);
     if (void 0 !== data["unauth"]) {
       this.unAuthorized(data["unauth"]);
     }
@@ -148,7 +147,6 @@ cc.Class({
     }
     if (void 0 !== data.taixiu) {
       cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
-      //cc.RedT.MiniPanel.TaiXiu.TX_Main.onData(data.taixiu);
     }
     if (void 0 !== data.shop) {
       this.dialog.shop.onData(data.shop);
