@@ -1,3 +1,5 @@
+const axios = require('../Util/axios');
+
 cc.Class({
   extends: cc.Component,
   properties: {
@@ -14,7 +16,7 @@ cc.Class({
     _canRetry: !1,
     _storagePath: ""
   },
-  onLoad: function() {
+  onLoad: function () {
     this.isLoadScene = !1;
     this.isLoadConfig = !1;
     this.initOneSign();
@@ -22,34 +24,57 @@ cc.Class({
       ? this.loadAssets()
       : (this.initHotUpdate(), this.checkUpdate());
   },
-  initOneSign: function() {
+  initOneSign: function () {
     this.checkPlugin() &&
       (sdkbox.PluginOneSignal.init(),
-      sdkbox.PluginOneSignal.setListener({
-        onSendTag: function(t, e, i) {},
-        onGetTags: function(t) {},
-        onIdsAvailable: function(t, e) {},
-        onPostNotification: function(t, e) {},
-        onNotification: function(t, e, i) {}
-      }));
+        sdkbox.PluginOneSignal.setListener({
+          onSendTag: function (t, e, i) { },
+          onGetTags: function (t) { },
+          onIdsAvailable: function (t, e) { },
+          onPostNotification: function (t, e) { },
+          onNotification: function (t, e, i) { }
+        }));
   },
-  checkPlugin: function() {
+  checkPlugin: function () {
     return "undefined" == typeof sdkbox
       ? (console.log("sdkbox is undefined"), !1)
       : void 0 !== sdkbox.PluginOneSignal ||
-          (console.log("sdkbox.PluginFacebook is undefined"), !1);
+      (console.log("sdkbox.PluginFacebook is undefined"), !1);
   },
-  loadAssets: function() {
+  loadAssets: function () {
     this.updateProgress(0);
     this.messageLabel.string = "Đang lấy dữ liệu game ...";
-    setTimeout(
-      function() {
-        this.loadScene();
-      }.bind(this),
-      100
-    );
+    let self = this;
+    let urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("token")) {
+      
+      axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`)
+      //axios.get(`http://localhost:8080/authenticate?token=${urlParams.get("token")}`)
+        .then(function (response) {
+          if (response.data.isAuthenticated) {
+            window.username = response.data.username;
+            self.loadScene();
+          }
+          else {
+            self.messageLabel.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
+          }
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          self.messageLabel.string = "Đăng nhập lỗi.";
+          console.log(error);
+        });
+    }
+    else {
+      setTimeout(
+        function () {
+          this.loadScene();
+        }.bind(this),
+        100
+      );
+    }
   },
-  loadScene: function() {
+  loadScene: function () {
     var currentMinute = new Date().getMinutes();
 
     cc.director.preloadScene(
@@ -64,25 +89,25 @@ cc.Class({
     // 	cc.director.preloadScene("FakeGame", this.onProgress.bind(this), this.onFakeGameLoaded.bind(this));
     // }
   },
-  onProgress: function(completedCount, totalCount) {
+  onProgress: function (completedCount, totalCount) {
     // đang tải cảnh
     var RedT = ((completedCount / totalCount) * 838) >> 0;
     this.updateProgress(RedT);
   },
-  onLoaded: function(err, asset) {
+  onLoaded: function (err, asset) {
     // Tải cảnh thành công
     cc.director.loadScene("MainGame");
   },
-  onFakeGameLoaded: function(err, asset) {
+  onFakeGameLoaded: function (err, asset) {
     cc.director.loadScene("FakeGame");
   },
-  onDestroy: function() {
+  onDestroy: function () {
     if (this._updateListener) {
       this._am.setEventCallback(null);
       this._updateListener = null;
     }
   },
-  initHotUpdate: function() {
+  initHotUpdate: function () {
     this.updateProgress(0);
     this._storagePath =
       (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") +
@@ -93,14 +118,14 @@ cc.Class({
       this.versionCompareHandle
     );
     this._am.setVerifyCallback(
-      function(t, e) {
+      function (t, e) {
         e.compressed;
         return !0;
       }.bind(this)
     );
     cc.sys.os === cc.sys.OS_ANDROID && this._am.setMaxConcurrentTask(2);
   },
-  checkUpdate: function() {
+  checkUpdate: function () {
     if (this._updating) {
       this.messageLabel.string = "Đang kiểm tra phiên bản ...";
       return;
@@ -114,7 +139,7 @@ cc.Class({
     this._am.checkUpdate();
     this._updating = true;
   },
-  hotUpdate: function() {
+  hotUpdate: function () {
     if (this._am && !this._updating) {
       this._am.setEventCallback(this.updateCb.bind(this));
 
@@ -126,15 +151,15 @@ cc.Class({
       this._updating = true;
     }
   },
-  retry: function() {
+  retry: function () {
     !this._updating &&
       this._canRetry &&
       ((this.retryButtonNode.active = !1),
-      (this._canRetry = !1),
-      (this.messageLabel.string = "Thử lại ..."),
-      this._am.downloadFailedAssets());
+        (this._canRetry = !1),
+        (this.messageLabel.string = "Thử lại ..."),
+        this._am.downloadFailedAssets());
   },
-  checkCb: function(t) {
+  checkCb: function (t) {
     var e = !1,
       i = !1;
     switch (t.getEventCode()) {
@@ -167,7 +192,7 @@ cc.Class({
     e && this.loadAssets();
     i && this.hotUpdate();
   },
-  updateCb: function(event) {
+  updateCb: function (event) {
     var needRestart = false;
     var failed = false;
     switch (event.getEventCode()) {
@@ -234,10 +259,10 @@ cc.Class({
       cc.game.restart();
     }
   },
-  onRetryClick: function() {
+  onRetryClick: function () {
     this.retry();
   },
-  versionCompareHandle: function(t, e) {
+  versionCompareHandle: function (t, e) {
     console.log(
       "JS Custom Version Compare: version A is " + t + ", version B is " + e
     ),
@@ -251,7 +276,7 @@ cc.Class({
     }
     return o.length > i.length ? -1 : 0;
   },
-  updateProgress: function(progress) {
+  updateProgress: function (progress) {
     this.updateProgressBar.width = progress;
     this.star.position = cc.v2(progress, 0);
   }

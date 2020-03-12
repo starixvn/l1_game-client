@@ -59,6 +59,7 @@ cc.Class({
 		if (this.username.string.length > 14 || this.username.string.length < 3 || this.username.string.match(new RegExp("^[a-zA-Z0-9]+$")) === null){
 			cc.RedT.inGame.notice.show({title:"TÊN NHÂN VẬT", text:'Tên Nhân vật từ 3 đến 14 ký tự và không chứa ký tự đặc biệt!!'});
 		}else{
+			//Ricky: Client SignName
 			cc.RedT.send({signName: this.username.string});
 		}
 

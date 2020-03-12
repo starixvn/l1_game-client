@@ -62,6 +62,11 @@ cc.Class({
     this.iconMegaJ = this.iconMegaJ.getComponent("iconGameHu");
     this.iconTaiXiu = this.iconTaiXiu.getComponent("iconGameTaiXiu");
 
+		//Ricky: window.username
+		if (!!window.username) {
+			cc.RedT.inGame.auth({ authentication: { username: window.username, isSso: true } });
+		}
+
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.send({ scene: "home" });
       this.header.reset();
