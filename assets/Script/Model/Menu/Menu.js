@@ -15,86 +15,17 @@ cc.Class({
     ).then(result => {
       this.games = result;
     });
-    this.setTimeAds();
     this.node._onPreDestroy = function() {
       clearTimeout(this.adsTime);
     }.bind(this);
   },
-  onEnable: function() {
-    this.adsContent.content.on(
-      cc.Node.EventType.TOUCH_START,
-      this.eventStart,
-      this
-    );
-    this.adsContent.content.on(
-      cc.Node.EventType.TOUCH_END,
-      this.setTimeAds,
-      this
-    );
-    this.adsContent.content.on(
-      cc.Node.EventType.TOUCH_CANCEL,
-      this.setTimeAds,
-      this
-    );
-    this.adsContent.content.on(
-      cc.Node.EventType.MOUSE_ENTER,
-      this.eventStart,
-      this
-    );
-    this.adsContent.content.on(
-      cc.Node.EventType.MOUSE_LEAVE,
-      this.setTimeAds,
-      this
-    );
-  },
-  onDisable: function() {
-    this.adsContent.content.off(
-      cc.Node.EventType.TOUCH_START,
-      this.eventStart,
-      this
-    );
-    this.adsContent.content.off(
-      cc.Node.EventType.TOUCH_END,
-      this.setTimeAds,
-      this
-    );
-    this.adsContent.content.off(
-      cc.Node.EventType.TOUCH_CANCEL,
-      this.setTimeAds,
-      this
-    );
-    this.adsContent.content.off(
-      cc.Node.EventType.MOUSE_ENTER,
-      this.eventStart,
-      this
-    );
-    this.adsContent.content.off(
-      cc.Node.EventType.MOUSE_LEAVE,
-      this.setTimeAds,
-      this
-    );
-  },
-  nextAds: function() {
-    var self = this;
-    if (this.adsContent._curPageIdx == this.adsContent._pages.length - 1) {
-      this.adsContent.scrollToPage(0, 1.5);
-    } else {
-      this.adsContent.scrollToPage(this.adsContent._curPageIdx + 1, 0.85);
-    }
-    this.setTimeAds();
-  },
+  onEnable: function() {},
+  onDisable: function() {},
+
   eventStart: function() {
     clearTimeout(this.adsTime);
   },
-  setTimeAds: function() {
-    this.eventStart();
-    this.adsTime = setTimeout(
-      function() {
-        this.nextAds();
-      }.bind(this),
-      this.adsTimeNext * 1000
-    );
-  },
+
   onHeadSelect: function(e) {
     Promise.all(
       this.header.children.map(function(obj) {
