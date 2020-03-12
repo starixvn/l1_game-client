@@ -214,9 +214,9 @@ cc.Class({
         data.red
       );
     }
-    if (void 0 !== data.xu) {
-      this.header.userXu.string = helper.numberWithCommas(data.xu);
-    }
+    // if (void 0 !== data.xu) {
+    //   this.header.userXu.string = helper.numberWithCommas(data.xu);
+    // }
     if (void 0 !== data.ketSat) {
       this.dialog.profile.KetSat.redKet.string = helper.numberWithCommas(
         data.ketSat
