@@ -56,16 +56,18 @@ cc.Class({
     cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
     this.redhat.insertChild(MiniPanel);
 
-    this.iconCandy = this.iconCandy.getComponent("iconGameHu");
-    this.iconVQRed = this.iconVQRed.getComponent("iconGameHu");
-    this.iconLongLan = this.iconLongLan.getComponent("iconGameHu");
-    this.iconMegaJ = this.iconMegaJ.getComponent("iconGameHu");
-    this.iconTaiXiu = this.iconTaiXiu.getComponent("iconGameTaiXiu");
+    // this.iconCandy = this.iconCandy.getComponent("iconGameHu");
+    // this.iconVQRed = this.iconVQRed.getComponent("iconGameHu");
+    // this.iconLongLan = this.iconLongLan.getComponent("iconGameHu");
+    // this.iconMegaJ = this.iconMegaJ.getComponent("iconGameHu");
+    // this.iconTaiXiu = this.iconTaiXiu.getComponent("iconGameTaiXiu");
 
-		//Ricky: window.username
-		if (!!window.username) {
-			cc.RedT.inGame.auth({ authentication: { username: window.username, isSso: true } });
-		}
+    //Ricky: window.username
+    if (!!window.username) {
+      cc.RedT.inGame.auth({
+        authentication: { username: window.username, isSso: true }
+      });
+    }
 
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.send({ scene: "home" });
@@ -277,14 +279,14 @@ cc.Class({
     this.dialog.iMessage.reset();
   },
   onGetTaiXiu: function(tai, xiu) {
-    var sTai = helper.getOnlyNumberInString(this.iconTaiXiu.tai.string);
-    var sXiu = helper.getOnlyNumberInString(this.iconTaiXiu.xiu.string);
-    if (sTai - tai != 0) {
-      helper.numberTo(this.iconTaiXiu.tai, sTai, tai, 1000, true);
-    }
-    if (sXiu - xiu != 0) {
-      helper.numberTo(this.iconTaiXiu.xiu, sXiu, xiu, 1000, true);
-    }
+    // var sTai = helper.getOnlyNumberInString(this.iconTaiXiu.tai.string);
+    // var sXiu = helper.getOnlyNumberInString(this.iconTaiXiu.xiu.string);
+    // if (sTai - tai != 0) {
+    //   helper.numberTo(this.iconTaiXiu.tai, sTai, tai, 1000, true);
+    // }
+    // if (sXiu - xiu != 0) {
+    //   helper.numberTo(this.iconTaiXiu.xiu, sXiu, xiu, 1000, true);
+    // }
   },
   onGetHu: function() {
     if (void 0 !== cc.RedT.setting.topHu.data) {
