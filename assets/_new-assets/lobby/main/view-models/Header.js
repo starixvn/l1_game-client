@@ -57,5 +57,13 @@ cc.Class({
   reset: function() {
     this.level(cc.RedT.user.level);
     this.updateEXP(cc.RedT.user.vipHT, cc.RedT.user.vipNext);
+  },
+  signOut: function() {
+    cc.RedT.inGame.notice.show({
+      title: "ĐĂNG XUẤT",
+      text:
+        "Xác nhận hành động.\nHành động thực hiện đăng xuất khỏi tài khoản này?",
+      button: { type: "sign_out", text: "ĐĂNG XUẤT" }
+    });
   }
 });
