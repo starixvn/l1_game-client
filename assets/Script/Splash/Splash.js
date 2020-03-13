@@ -44,43 +44,51 @@ cc.Class({
   loadAssets: function () {
     this.updateProgress(0);
     this.messageLabel.string = "Đang lấy dữ liệu game ...";
-    let self = this;
-    let urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("token")) {
-      axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`)
-      //axios.get(`http://localhost:8080/authenticate?token=${urlParams.get("token")}`)
-        .then(function (response) {
-          if (response.data.isAuthenticated) {
-            window.username = response.data.username;
-            self.loadScene();
-          }
-          else {
-            self.messageLabel.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
-          }
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          self.messageLabel.string = "Đăng nhập lỗi.";
-          console.log(error);
-        });
+    if (cc.sys.isBrowser) {
+      let self = this;
+      let urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("token")) {
+        axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`)
+          //axios.get(`http://localhost:8080/authenticate?token=${urlParams.get("token")}`)
+          .then(function (response) {
+            if (response.data.isAuthenticated) {
+              window.username = response.data.username;
+              self.loadScene();
+            }
+            else {
+              self.messageLabel.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
+            }
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            self.messageLabel.string = "Đăng nhập lỗi.";
+            console.log(error);
+          });
+      }
+      else
+      {
+        this.loadScene();
+      }
     }
     else {
-      setTimeout(
-        function () {
-          this.loadScene();
-        }.bind(this),
-        100
-      );
+      this.loadScene();
     }
+
   },
   loadScene: function () {
-    var currentMinute = new Date().getMinutes();
+    setTimeout(
+      function () {
+        var currentMinute = new Date().getMinutes();
 
-    cc.director.preloadScene(
-      "MainGame",
-      this.onProgress.bind(this),
-      this.onLoaded.bind(this)
+        cc.director.preloadScene(
+          "MainGame",
+          this.onProgress.bind(this),
+          this.onLoaded.bind(this)
+        );
+      }.bind(this),
+      100
     );
+    
     // if (cc.sys.isBrowser || currentMinute % 2 == 0) {
     // 	cc.director.preloadScene("MainGame", this.onProgress.bind(this), this.onLoaded.bind(this));
     // }
