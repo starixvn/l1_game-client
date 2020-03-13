@@ -77,7 +77,7 @@ cc.Class({
       this.header.userRed.string = this.dialog.profile.KetSat.redHT.string = helper.numberWithCommas(
         cc.RedT.user.red
       );
-      this.header.userXu.string = helper.numberWithCommas(cc.RedT.user.xu);
+      //  this.header.userXu.string = helper.numberWithCommas(cc.RedT.user.xu);
       this.dialog.profile.KetSat.redKet.string = helper.numberWithCommas(
         cc.RedT.user.ketSat
       );
@@ -90,11 +90,11 @@ cc.Class({
     } else {
       this.dialog.settings.setMusic();
     }
-    var check = localStorage.getItem("SOUND_BACKGROUND");
-    if (check == null || cc.RedT.isSoundBackground()) {
-      cc.RedT.setSoundBackground(true);
-      this.playMusic();
-    }
+    // var check = localStorage.getItem("SOUND_BACKGROUND");
+    // if (check == null || cc.RedT.isSoundBackground()) {
+    //   cc.RedT.setSoundBackground(true);
+    //   this.playMusic();
+    // }
   },
   auth: function(obj) {
     var self = this;
