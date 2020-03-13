@@ -70,6 +70,7 @@ cc.Class({
     }
 
     if (cc.RedT.IS_LOGIN) {
+      console.log("on main game");
       cc.RedT.send({ scene: "home" });
       this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
@@ -203,6 +204,7 @@ cc.Class({
     }
   },
   dataUser: function(data) {
+    console.log(data);
     if (void 0 !== data.name) {
       this.header.userName.string = data.name;
       this.dialog.profile.CaNhan.username.string = data.name;
@@ -253,6 +255,9 @@ cc.Class({
     if (void 0 !== data.level) {
       this.header.level(data.level);
       this.header.updateEXP(data.vipHT, data.vipNext);
+    }
+    if (void 0 !== data.avatarId) {
+      this.header.setAvatar(data.avatarId);
     }
   },
   signOut: function() {

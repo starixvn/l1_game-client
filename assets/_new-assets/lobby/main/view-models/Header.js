@@ -28,12 +28,14 @@ cc.Class({
       default: null,
       type: cc.Label
     },
-    maskFull: 0
+    maskFull: 0,
+    avatarImages: {
+      default: [],
+      type: cc.SpriteFrame
+    }
   },
   onLoad() {
-    console.log("here");
     if (cc.RedT.IS_LOGIN) {
-      console.log("here login");
       this.isSignIn();
     } else {
       this.isSignOut();
@@ -44,7 +46,7 @@ cc.Class({
     this.nodeGuest.active = false;
   },
   isSignOut: function() {
-    this.userName.string = this.userRed.string;
+    this.userName.string = this.userRed.string = "";
     this.nodeUsers.active = false;
     this.nodeGuest.active = true;
   },
@@ -65,5 +67,8 @@ cc.Class({
         "Xác nhận hành động.\nHành động thực hiện đăng xuất khỏi tài khoản này?",
       button: { type: "sign_out", text: "ĐĂNG XUẤT" }
     });
+  },
+  setAvatar: function(avatarId) {
+    this.avatar.spriteFrame = this.avatarImages[avatarId];
   }
 });
