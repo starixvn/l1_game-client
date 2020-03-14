@@ -8,56 +8,56 @@ cc.Class({
 	extends: cc.Component,
 
 	properties: {
-		redhat:       cc.Node,
-		balans:       cc.Label,
-		username:     cc.Label,
-		today:        cc.Label,
-		nodeNotice:   cc.Node,
+		redhat: cc.Node,
+		balans: cc.Label,
+		username: cc.Label,
+		today: cc.Label,
+		nodeNotice: cc.Node,
 		prefabNotice: cc.Prefab,
-		MiniPanel:    cc.Prefab,
-		loading:      cc.Node,
-		notice:       notice,
+		MiniPanel: cc.Prefab,
+		loading: cc.Node,
+		notice: notice,
 
-		XoSo_Main:    XoSo_Main,
+		XoSo_Main: XoSo_Main,
 
-		games:       cc.Node,
-		position:    '',
+		games: cc.Node,
+		position: '',
 	},
-	onLoad () {
+	onLoad() {
 		cc.RedT.inGame = this;
 		var MiniPanel = cc.instantiate(this.MiniPanel);
 		cc.RedT.MiniPanel = MiniPanel.getComponent('MiniPanel');
 		this.redhat.insertChild(MiniPanel);
 
-		cc.RedT.send({scene:'xo_so'});
+		cc.RedT.send({ scene: 'xo_so' });
 		this.username.string = cc.RedT.user.name;
-		this.balans.string   = helper.numberWithCommas(cc.RedT.user.red);
+		this.balans.string = helper.numberWithCommas(cc.RedT.user.red);
 
 		this.XoSo_Main.init(this);
 	},
-	onData: function(data) {
-		console.log(data);
-		if (void 0 !== data.user){
+	onData: function (data) {
+		//console.log(data);
+		if (void 0 !== data.user) {
 			this.userData(data.user);
 			cc.RedT.userData(data.user);
 		}
-		if (void 0 !== data.XoSo){
+		if (void 0 !== data.XoSo) {
 			this.XoSo(data.XoSo);
 		}
-		if (void 0 !== data.mini){
+		if (void 0 !== data.mini) {
 			cc.RedT.MiniPanel.onData(data.mini);
 		}
-		if (void 0 !== data.TopHu){
+		if (void 0 !== data.TopHu) {
 			cc.RedT.MiniPanel.TopHu.onData(data.TopHu);
 		}
-		if (void 0 !== data.taixiu){
+		if (void 0 !== data.taixiu) {
 			cc.RedT.MiniPanel.TaiXiu.TX_Main.onData(data.taixiu);
 		}
-		if (void 0 !== data.notice){
+		if (void 0 !== data.notice) {
 			this.notice.show(data.notice);
 		}
 	},
-	XoSo: function(data){
+	XoSo: function (data) {
 		if (void 0 !== data.notice) {
 			this.addNotice(data.notice);
 		}
@@ -68,17 +68,17 @@ cc.Class({
 			this.XoSo_Main.KetQua.onData(data.kq);
 		}
 	},
-	userData: function(data){
+	userData: function (data) {
 		this.balans.string = helper.numberWithCommas(data.red);
 	},
-	addNotice:function(text){
+	addNotice: function (text) {
 		var notice = cc.instantiate(this.prefabNotice)
 		var noticeComponent = notice.getComponent('mini_warning')
 		noticeComponent.text.string = text;
 		this.nodeNotice.addChild(notice);
 	},
-	backGame: function(){
-		switch(this.position) {
+	backGame: function () {
+		switch (this.position) {
 			case 'Main':
 				this.loading.active = true;
 				void 0 !== this.timeOut && clearTimeout(this.timeOut);
@@ -97,16 +97,16 @@ cc.Class({
 				break;
 		}
 	},
-	signOut: function(){
-		cc.director.loadScene('MainGame', function(){
+	signOut: function () {
+		cc.director.loadScene('MainGame', function () {
 			cc.RedT.inGame.signOut();
 		});
 	},
-	update: function(){
+	update: function () {
 		let timestamp = new Date();
-		this.today.string = this.day(timestamp.getDay()) + ' ' + helper.addZero10(timestamp.getDate()) + '/' + helper.addZero10((timestamp.getMonth()+1)) + '/' + timestamp.getFullYear() + ' ' + helper.addZero10(timestamp.getHours()) + ':' + helper.addZero10(timestamp.getMinutes()) + ':' + helper.addZero10(timestamp.getSeconds());
+		this.today.string = this.day(timestamp.getDay()) + ' ' + helper.addZero10(timestamp.getDate()) + '/' + helper.addZero10((timestamp.getMonth() + 1)) + '/' + timestamp.getFullYear() + ' ' + helper.addZero10(timestamp.getHours()) + ':' + helper.addZero10(timestamp.getMinutes()) + ':' + helper.addZero10(timestamp.getSeconds());
 	},
-	day: function(day){
+	day: function (day) {
 		let weekday = new Array(7);
 		weekday[0] = "CN";
 		weekday[1] = "T2";
@@ -117,12 +117,12 @@ cc.Class({
 		weekday[6] = "T7";
 		return weekday[day];
 	},
-	onSelectDat: function(event, game) {
+	onSelectDat: function (event, game) {
 		this.position = game;
-		this.games.children.forEach(function(obj){
+		this.games.children.forEach(function (obj) {
 			if (obj.name === game) {
 				obj.active = true;
-			}else{
+			} else {
 				obj.active = false;
 			}
 		});

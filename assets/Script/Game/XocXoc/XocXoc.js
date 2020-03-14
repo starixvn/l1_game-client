@@ -3,6 +3,7 @@ let helper = require('Helper');
 let notice = require('Notice');
 
 let dialog = require('XocXoc_dialog');
+let module_Player = require('XocXoc_Player');
 
 cc.Class({
 	extends: cc.Component,
@@ -89,6 +90,11 @@ cc.Class({
 		dialog: dialog,
 
 		red: true,
+
+		players: {
+			default: [],
+			type: module_Player,
+		},
 	},
 	ctor: function () {
 		this.logs = [];
@@ -146,6 +152,16 @@ cc.Class({
 				'white3': 0,
 				'white4': 0,
 			},
+		};
+
+		this.otherPlayers = {};
+		this.Positions = {
+			1: { id: 1, data: null },
+			2: { id: 2, data: null },
+			3: { id: 3, data: null },
+			4: { id: 4, data: null },
+			5: { id: 5, data: null },
+			6: { id: 6, data: null },
 		};
 	},
 	onLoad() {
@@ -216,10 +232,36 @@ cc.Class({
 			this.me_balans.string = helper.numberWithCommas(data.xu);
 		}
 	},
+
+	xocxocOutgame: function (data) {
+		if (!!data.playerId) {
+			let positions = Object.values(this.Positions);
+			let position = positions.find(function (t) { return t.data != null && t.data.id == data.playerId; });
+
+			if (position) {
+				this.Positions[position.id].data = null;
+				this.players[position.id - 1].setInfo(null);
+				let keys = Object.keys(this.otherPlayers);
+				if (keys.length > 0) {
+					let newPlayer = this.otherPlayers[keys[0]];
+					this.addPlayer(newPlayer);
+					delete this.otherPlayers[newPlayer.id];
+				}
+			} else {
+				delete this.otherPlayers[data.playerId];
+			}
+
+			this.countClient()
+		}
+	},
+
 	xocxoc: function (data) {
 		//console.log(data);
 		if (!!data.ingame) {
 			this.xocxocIngame(data.ingame);
+		}
+		if (!!data.outgame) {
+			this.xocxocOutgame(data.outgame);
 		}
 		if (!!data.finish) {
 			this.xocxocFinish(data.finish);
@@ -232,6 +274,9 @@ cc.Class({
 		}
 		if (!!data.status) {
 			this.status(data.status);
+		}
+		if (!!data.clientStatus) {
+			this.clientStatus(data.clientStatus);
 		}
 		if (!!data.chip) {
 			this.clientsChip(data.chip);
@@ -250,9 +295,6 @@ cc.Class({
 		}
 	},
 	xocxocIngame: function (data) {
-		if (data.client) {
-			this.countClient(data.client);
-		}
 		if (!!data.chip) {
 			this.ingameChip(data.chip);
 		}
@@ -276,7 +318,45 @@ cc.Class({
 		}
 		if (!!data.chats) {
 		}
+		if (!!data.player) {
+			this.addPlayer(data.player);
+		}
+		if (!!data.players) {
+			this.addPlayers(data.players);
+		}
+
+		this.countClient()
 	},
+
+	addPlayers: function (data) {
+		let players = Object.values(data);
+
+		let length = players.length < 6 ? players.length : 6;
+		for (let i = 0; i < length; i++) {
+			let player = players[i];
+			this.players[i].setInfo(player);
+			this.Positions[i + 1].data = player;
+			delete data[player.id];
+		}
+
+		if (players.length > 6) {
+			this.otherPlayers = data;
+		}
+	},
+
+	addPlayer: function (player) {
+		let positions = Object.values(this.Positions);
+		let emptyPositions = positions.filter(function (t) { return t.data == null });
+
+		if (emptyPositions.length > 0) {
+			var selectedPos = emptyPositions[0];
+			this.Positions[selectedPos.id].data = player;
+			this.players[selectedPos.id - 1].setInfo(player);
+		} else {
+			this.otherPlayers[player.id] = player;
+		}
+	},
+
 	ingameChip: function (data) {
 		for (let [key, value] of Object.entries(data)) {
 			let max = this.maxBox1_3;
@@ -723,8 +803,8 @@ cc.Class({
 			this.time_remain--;
 		}.bind(this), 1000);
 	},
-	countClient: function (client) {
-		this.users_count.string = client;
+	countClient: function () {
+		this.users_count.string = Object.keys(this.otherPlayers).length;
 	},
 	updateData: function (data) {
 		if (this.red) {
@@ -952,8 +1032,22 @@ cc.Class({
 				nodeBox = this.box_white4;
 				break;
 		}
+		let slots = Object.values(this.Positions);
+		let playerSlot = slots.find(function (t) { return t.data && t.data.id == data.playerId; });
+		let position = null;
+		if (playerSlot) {
+			playerSlot.data.red = data.red;
+			let slotIndex = playerSlot.id - 1;
+			position = this.players[slotIndex].node.convertToWorldSpaceAR(this.players[slotIndex].node.children[0].position);
+			this.players[slotIndex].setInfo(playerSlot.data);
+		} else {
+			position = this.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
 
-		let position = this.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
+			if (this.otherPlayers[data.playerId]) {
+				this.otherPlayers[data.playerId].red = data.red;
+			}
+		}
+
 		position = nodeBox.children[1].convertToNodeSpaceAR(position);
 
 		let newN = new cc.Node;
@@ -1228,7 +1322,40 @@ cc.Class({
 				this.miniNotice.addChild(thuong.node);
 				thuong.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 100)), cc.callFunc(function () { this.node.destroy() }, thuong)))
 			}
+		}.bind(this), 4e3)
+	},
+
+	clientStatus: function (data) {
+		let playerSlot = this.getPlayerSlot(data.playerId);
+
+		if (playerSlot) {
+			setTimeout(function () {
+				var temp = new cc.Node;
+				temp.addComponent(cc.Label);
+				temp = temp.getComponent(cc.Label);
+				temp.string = (data.win ? '+' : '-') + helper.formatMoneyNumber(data.bet);
+				temp.font = data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
+				temp.lineHeight = 130;
+				temp.fontSize = 25;
+				temp.node.position = cc.v2(0, 0);
+				const slotIndex = playerSlot.id - 1;
+				this.players[slotIndex].node.addChild(temp.node);
+				temp.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 20)), cc.callFunc(function () { this.node.destroy() }, temp)));
+				if (data.win) {
+					playerSlot.data.red = parseInt(playerSlot.data.red) + data.bet;
+					this.players[slotIndex].setInfo(playerSlot.data);
+				}
+			}.bind(this, 4e3));
+		} else {
+			if (this.otherPlayers[data.playerId]) {
+				let red = parseInt(this.otherPlayers[data.playerId].red);
+				this.otherPlayers[data.playerId].red = red + data.bet;
+			}
 		}
-			.bind(this), 4e3)
+	},
+
+	getPlayerSlot: function (playerId) {
+		let slots = Object.values(this.Positions);
+		return slots.find(function (t) { return t.data && t.data.id == playerId; });
 	},
 });
