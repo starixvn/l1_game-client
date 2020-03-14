@@ -162,7 +162,11 @@ cc.Class({
 			4: { id: 4, data: null },
 			5: { id: 5, data: null },
 			6: { id: 6, data: null },
+			7: { id: 7, data: null },
+			8: { id: 8, data: null },
+			9: { id: 9, data: null },
 		};
+		this.numberOfSlots = 9;
 	},
 	onLoad() {
 		cc.RedT.inGame = this;
@@ -331,7 +335,7 @@ cc.Class({
 	addPlayers: function (data) {
 		let players = Object.values(data);
 
-		let length = players.length < 6 ? players.length : 6;
+		let length = players.length < this.numberOfSlots ? players.length : this.numberOfSlots;
 		for (let i = 0; i < length; i++) {
 			let player = players[i];
 			this.players[i].setInfo(player);
@@ -339,7 +343,7 @@ cc.Class({
 			delete data[player.id];
 		}
 
-		if (players.length > 6) {
+		if (players.length > this.numberOfSlots) {
 			this.otherPlayers = data;
 		}
 	},
