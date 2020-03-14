@@ -1330,6 +1330,7 @@ cc.Class({
 	},
 
 	clientStatus: function (data) {
+		console.log(data);
 		let playerSlot = this.getPlayerSlot(data.playerId);
 
 		if (playerSlot) {
