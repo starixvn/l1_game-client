@@ -40,8 +40,12 @@ cc.Class({
     PrefabNoHu: cc.Prefab, // TODO
     prefabBigWin: cc.Prefab, // TODO
     PrefabTaiXiu: cc.Prefab,
+    PrefabBauCua: cc.Prefab,
     light: true,
     TaiXiuNew: {
+      default: {}
+    },
+    BauCuaNew: {
       default: {}
     }
   },
@@ -56,7 +60,7 @@ cc.Class({
     this.Dialog.init(this);
     this.MiniPoker.init(this);
     this.BigBabol.init(this);
-    this.BauCua.init(this);
+    //   this.BauCua.init(this);
     this.BaCay.init(this);
     this.CaoThap.init(this);
     this.AngryBirds.init(this);
@@ -70,6 +74,11 @@ cc.Class({
     taiXiu.init(this);
     this.TaiXiuNew = taiXiu;
 
+    var bauCuaPrefab = cc.instantiate(this.PrefabBauCua);
+    var bauCua = bauCuaPrefab.getComponent("BauCuaNew");
+    bauCua.init(this);
+    this.BauCuaNew = bauCua;
+
     if (cc.RedT.IS_LOGIN) {
       this.signIn();
     }
@@ -77,9 +86,16 @@ cc.Class({
       this.LightChanger();
     }
   },
-  openGame: function (name) {
-    this.TaiXiuNew.openGame();
-    this.minigame.insertChild(this.TaiXiuNew.node);
+  openGame: function(name) {
+    if (name == "TaiXiu") {
+      this.TaiXiuNew.openGame();
+      this.minigame.insertChild(this.TaiXiuNew.node);
+    }
+
+    if (name == "BauCua") {
+      this.BauCuaNew.openGame();
+      this.minigame.insertChild(this.BauCuaNew.node);
+    }
   },
   LightChanger: function () {
     this.light = cc.RedT.setting.light = !this.light;
@@ -109,7 +125,8 @@ cc.Class({
       this.BigBabol.onData(data.big_babol);
     }
     if (void 0 !== data.baucua) {
-      this.BauCua.onData(data.baucua);
+      //this.BauCua.onData(data.baucua);
+      this.BauCuaNew.onData(data.baucua);
     }
     if (void 0 !== data.bacay) {
       this.BaCay.onData(data.bacay);
@@ -123,9 +140,14 @@ cc.Class({
     if (void 0 !== data.megaj) {
       this.MegaJackpot.onData(data.megaj);
     }
+    if (void 0 !== data && this.TaiXiuNew !== undefined) {
+      this.TaiXiuNew.TX_Main.onData(data);
+    }
   },
-  onDataTaiXiu: function (taiXiuData) {
-    this.TaiXiuNew.TX_Main.onData(taiXiuData);
+  onDataTaiXiu: function(taiXiuData) {
+    if (void 0 !== taiXiuData) {
+      this.TaiXiuNew.TX_Main.onData(taiXiuData);
+    }
   },
   onDestroy: function () {
     clearInterval(this.TaiXiu.TX_Main.timeInterval);
