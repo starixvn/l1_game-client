@@ -84,7 +84,7 @@ cc.Class({
       },
       logLV: {},
       red: true,
-      bet: "100"
+      bet: "1"
     };
 
     var check = localStorage.getItem("bauCua");
@@ -119,7 +119,7 @@ cc.Class({
   onLoad() {
     this.ttOffset = null;
   },
-  onEnable: function() {
+  onEnable: function () {
     //this.onGetHu();
     this.regEvent(true);
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -128,7 +128,7 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
   },
-  onDisable: function() {
+  onDisable: function () {
     this.regEvent(false);
     this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
@@ -137,32 +137,35 @@ cc.Class({
     this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
     //this.onCloseGame();
   },
-  regEvent: function(bool) {
+  regEvent: function (bool) {
     cc.RedT.send({
       g: {
-        baucua: !cc.RedT.setting.baucua.regOpen
-          ? { view: bool, regOpen: true }
-          : { view: bool }
+        baucua: !cc.RedT.setting.baucua.regOpen ? {
+          view: bool,
+          regOpen: true
+        } : {
+          view: bool
+        }
       }
     });
   },
-  eventStart: function(e) {
+  eventStart: function (e) {
     this.setTop();
     this.ttOffset = cc.v2(
       e.touch.getLocationX() - this.node.position.x,
       e.touch.getLocationY() - this.node.position.y
     );
   },
-  eventMove: function(e) {
+  eventMove: function (e) {
     this.node.position = cc.v2(
       e.touch.getLocationX() - this.ttOffset.x,
       e.touch.getLocationY() - this.ttOffset.y
     );
   },
-  eventEnd: function() {
+  eventEnd: function () {
     cc.RedT.setting.baucua.position = this.node.position;
   },
-  openGame: function() {
+  openGame: function () {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
       this.node.active = !0;
@@ -170,15 +173,15 @@ cc.Class({
       // this.setTop();
     } else cc.RedT.inGame.dialog.showSignIn();
   },
-  closeGame: function() {
+  closeGame: function () {
     cc.RedT.audio.playUnClick();
     this.node.active = !1;
     localStorage.setItem("bauCua", false);
   },
-  setTop: function() {
+  setTop: function () {
     this.node.parent.insertChild(this.node);
   },
-  changerCoint: function() {
+  changerCoint: function () {
     this.red = !this.red;
     this.nodeRed.active = !this.nodeRed.active;
     this.nodeXu.active = !this.nodeXu.active;
@@ -187,10 +190,10 @@ cc.Class({
     cc.RedT.setting.baucua.red = this.red;
     //this.onGetHu();
   },
-  intChangerBet: function() {
+  intChangerBet: function () {
     var self = this;
     Promise.all(
-      this.bet.children.map(function(obj) {
+      this.bet.children.map(function (obj) {
         if (obj.name == cc.RedT.setting.baucua.bet) {
           self.cuoc = obj.name;
           obj.children[0].active = true;
@@ -202,11 +205,11 @@ cc.Class({
       })
     );
   },
-  changerBet: function(event, bet) {
+  changerBet: function (event, bet) {
     this.cuoc = bet;
     var target = event.target;
     Promise.all(
-      this.bet.children.map(function(obj) {
+      this.bet.children.map(function (obj) {
         if (obj == target) {
           obj.children[0].active = true;
           obj.pauseSystemEvents();
@@ -219,7 +222,7 @@ cc.Class({
     cc.RedT.setting.baucua.bet = target.name;
     //this.onGetHu();
   },
-  AnimationFinish: function() {
+  AnimationFinish: function () {
     this.addLogs();
     var dice = cc.RedT.setting.baucua.logs[0];
     var heSo = {};
@@ -239,40 +242,47 @@ cc.Class({
     }
     this.logLVHandling(cc.RedT.setting.baucua.logLV);
   },
-  datCuoc: function(e, linhVat) {
-    if (this.cuoc < 100) {
-      this.addNotice("Vui lòng chọn mức cược...");
-    } else {
+  datCuoc: function (e, linhVat) {
+    // if (this.cuoc < 100) {
+    //   this.addNotice("Vui lòng chọn mức cược...");
+    // } else 
+    {
       cc.RedT.send({
         g: {
-          baucua: { cuoc: { cuoc: this.cuoc, red: this.red, linhVat: linhVat } }
+          baucua: {
+            cuoc: {
+              cuoc: this.cuoc,
+              red: this.red,
+              linhVat: linhVat
+            }
+          }
         }
       });
     }
   },
-  addNotice: function(text) {
+  addNotice: function (text) {
     var notice = cc.instantiate(this.prefabNotice);
     var noticeComponent = notice.getComponent("mini_warning");
     noticeComponent.text.string = text;
     this.notice.addChild(notice);
   },
-  setDice: function(dices) {
+  setDice: function (dices) {
     var self = this;
     Promise.all(
-      dices.map(function(dice, index) {
+      dices.map(function (dice, index) {
         self.dices[index].spriteFrame = self.iconLV[dice];
       })
     );
   },
-  addLogs: function() {
+  addLogs: function () {
     var self = this;
     this.logs.removeAllChildren();
     Promise.all(
-      cc.RedT.setting.baucua.logs.map(function(log, index) {
+      cc.RedT.setting.baucua.logs.map(function (log, index) {
         var node = cc.instantiate(self.prefabLogs);
         var nodeComponent = node.getComponent("BauCua_logMini");
         Promise.all(
-          nodeComponent.icon.map(function(sp, i) {
+          nodeComponent.icon.map(function (sp, i) {
             sp.spriteFrame = self.iconMini[log[i]];
           })
         );
@@ -285,7 +295,7 @@ cc.Class({
       })
     );
   },
-  onData: function(data) {
+  onData: function (data) {
     if (void 0 !== data.data) {
       var a = Object.assign(cc.RedT.setting.baucua.data, data.data);
       this.DataHandling(data.data);
@@ -325,12 +335,15 @@ cc.Class({
           data.finish.dices[1],
           data.finish.dices[2]
         ]);
+        this.showWinSlot(data.finish.dices);
         cc.RedT.setting.baucua.logs.length > 15 &&
           cc.RedT.setting.baucua.logs.pop();
         this.setDice(data.finish.dices);
         // Play
         this.Animation.node.active = true;
         this.Animation.play();
+        var duration = this.Animation.currentClip.duration;
+
       }
 
       cc.RedT.setting.baucua.time_remain = 72;
@@ -340,10 +353,23 @@ cc.Class({
       this.addNotice(data.notice);
     }
   },
-  playTime: function() {
+  resetAllSlot: function () {
+    for (var i = 0; i < this.linhVat.length; ++i) {
+      this.linhVat[i].updateState(true);
+    }
+  },
+  showWinSlot: function (dices) {
+    for (var i = 0; i < this.linhVat.length; ++i) {
+      this.linhVat[i].updateState(false);
+    }
+    dices.forEach(i => {
+      this.linhVat[i].updateState(true);
+    });
+  },
+  playTime: function () {
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
     this.timeInterval = setInterval(
-      function() {
+      function () {
         if (cc.RedT.setting.baucua.time_remain > 61) {
           let time = helper.numberPad(
             cc.RedT.setting.baucua.time_remain - 62,
@@ -363,6 +389,7 @@ cc.Class({
           ) {
             this.resetData();
           }
+          this.resetAllSlot();
           this.titleTime.string = "Đặt cược";
           if (cc.RedT.setting.baucua.time_remain > 0) {
             let time = helper.numberPad(
@@ -370,7 +397,7 @@ cc.Class({
               2
             );
             this.labelTime.string = time;
-            this.labelTime.node.color = cc.Color.BLACK;
+            this.labelTime.node.color = cc.Color.WHITE;
           } else clearInterval(this.timeInterval);
         }
         cc.RedT.setting.baucua.time_remain--;
@@ -378,7 +405,7 @@ cc.Class({
       1000
     );
   },
-  nextRealTime: function() {
+  nextRealTime: function () {
     if (cc.RedT.setting.baucua.time_remain > 61) {
       var time = helper.numberPad(cc.RedT.setting.baucua.time_remain - 62, 2);
       this.labelTime.node.color = cc.Color.RED;
@@ -389,11 +416,11 @@ cc.Class({
       if (cc.RedT.setting.baucua.time_remain > 0) {
         var time = helper.numberPad(cc.RedT.setting.baucua.time_remain - 1, 2);
         this.labelTime.string = time;
-        this.labelTime.node.color = cc.Color.BLACK;
+        this.labelTime.node.color = cc.Color.WHITE;
       }
     }
   },
-  logLVHandling: function(data) {
+  logLVHandling: function (data) {
     this.logHuou.string = helper.numberWithCommas(data[0]);
     this.logBau.string = helper.numberWithCommas(data[1]);
     this.logGa.string = helper.numberWithCommas(data[2]);
@@ -401,7 +428,7 @@ cc.Class({
     this.logCua.string = helper.numberWithCommas(data[4]);
     this.logTom.string = helper.numberWithCommas(data[5]);
   },
-  DataHandling: function(data) {
+  DataHandling: function (data) {
     if (this.red) {
       if (void 0 !== data.redHuou) {
         this.linhVat[0].totallCuoc(data.redHuou);
@@ -480,17 +507,17 @@ cc.Class({
       }
     }
   },
-  unSelect: function() {
+  unSelect: function () {
     Promise.all(
-      this.linhVat.map(function(linhVat) {
+      this.linhVat.map(function (linhVat) {
         linhVat.unSelect();
       })
     );
   },
-  resetData: function() {
+  resetData: function () {
     var data = Object.keys(cc.RedT.setting.baucua.data);
     Promise.all(
-      data.map(function(key) {
+      data.map(function (key) {
         return (cc.RedT.setting.baucua.data[key] = 0);
       })
     ).then(result => {
@@ -499,14 +526,14 @@ cc.Class({
 
     this.unSelect();
   },
-  newGame: function() {
+  newGame: function () {
     cc.RedT.setting.baucua.regOpen = false;
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
     //this.resetData.resetData();
   },
-  status: function(data) {
+  status: function (data) {
     setTimeout(
-      function() {
+      function () {
         var temp = new cc.Node();
         temp.addComponent(cc.Label);
         temp = temp.getComponent(cc.Label);
@@ -520,12 +547,16 @@ cc.Class({
         temp.node.runAction(
           cc.sequence(
             cc.moveTo(3.5, cc.v2(0, 200)),
-            cc.callFunc(function() {
+            cc.callFunc(function () {
               this.node.destroy();
             }, temp)
           )
         );
-        data.win && cc.RedT.send({ user: { updateCoint: true } });
+        data.win && cc.RedT.send({
+          user: {
+            updateCoint: true
+          }
+        });
         if (void 0 !== data.thuong && data.thuong > 0) {
           var thuong = new cc.Node();
           thuong.addComponent(cc.Label);
@@ -538,7 +569,7 @@ cc.Class({
           thuong.node.runAction(
             cc.sequence(
               cc.moveTo(3, cc.v2(0, 100)),
-              cc.callFunc(function() {
+              cc.callFunc(function () {
                 this.node.destroy();
               }, thuong)
             )
