@@ -47,12 +47,22 @@ cc.Class({
     if (cc.sys.isBrowser) {
       let self = this;
       let urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has("token")) {
-        axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`)
-          //axios.get(`http://localhost:8080/authenticate?token=${urlParams.get("token")}`)
+      let authData = JSON.parse(cc.sys.localStorage.getItem('scss'));
+      if (authData && authData.isAuthenticated) {
+        console.log(authData);
+        window.authData = authData;
+        self.loadScene();
+      }
+      else if (urlParams.has("token")) {
+        //axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`)
+        axios.get(`http://localhost:8080/authenticate?token=${urlParams.get("token")}`)
           .then(function (response) {
             if (response.data.isAuthenticated) {
-              window.username = response.data.username;
+              window.authData = response.data;
+              window.authData.time = new Date();
+
+              cc.sys.localStorage.setItem("scss", JSON.stringify(response.data));
+
               self.loadScene();
             }
             else {
@@ -65,8 +75,7 @@ cc.Class({
             console.log(error);
           });
       }
-      else
-      {
+      else {
         this.loadScene();
       }
     }
@@ -88,7 +97,7 @@ cc.Class({
       }.bind(this),
       100
     );
-    
+
     // if (cc.sys.isBrowser || currentMinute % 2 == 0) {
     // 	cc.director.preloadScene("MainGame", this.onProgress.bind(this), this.onLoaded.bind(this));
     // }

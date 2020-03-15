@@ -38,7 +38,7 @@ cc.Class({
     url: cc.String,
     appApk: cc.String
   },
-  onLoad: function() {
+  onLoad: function () {
     document.cookie = "redT=1702;path=/";
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;
@@ -63,9 +63,14 @@ cc.Class({
     // this.iconTaiXiu = this.iconTaiXiu.getComponent("iconGameTaiXiu");
 
     //Ricky: window.username
-    if (!!window.username) {
+    if (!!window.authData) {
       cc.RedT.inGame.auth({
-        authentication: { username: window.username, isSso: true }
+        authentication:
+        {
+          username: window.authData.username,
+          isSso: true,
+          data: window.authData
+        }
       });
     }
 
@@ -97,19 +102,19 @@ cc.Class({
     //   this.playMusic();
     // }
   },
-  auth: function(obj) {
+  auth: function (obj) {
     var self = this;
     this.loading.active = true;
     //cc.RedT.reconnect();
     if (cc.RedT._socket == null || cc.RedT._socket.readyState != 1) {
-      setTimeout(function() {
+      setTimeout(function () {
         cc.RedT.send(obj);
       }, 300);
     } else {
       cc.RedT.send(obj);
     }
   },
-  unAuthorized: function(data) {
+  unAuthorized: function (data) {
     this.loading.active = false;
     if (void 0 !== data["message"]) {
       this.notice.show({
@@ -120,7 +125,7 @@ cc.Class({
       this.notice.show(data);
     }
   },
-  Authorized: function(Authorized) {
+  Authorized: function (Authorized) {
     this.loading.active = false;
     if (!Authorized) {
       this.dialog.showSignName();
@@ -128,7 +133,7 @@ cc.Class({
       this.signIn();
     }
   },
-  onData: function(data) {
+  onData: function (data) {
     if (void 0 !== data["unauth"]) {
       this.unAuthorized(data["unauth"]);
     }
@@ -180,7 +185,7 @@ cc.Class({
       this.dialog.iMessage.onData(data.message);
     }
   },
-  captcha: function(data) {
+  captcha: function (data) {
     switch (data.name) {
       case "signUp":
         this.dialog.signUp.initCaptcha(data.data);
@@ -203,7 +208,7 @@ cc.Class({
         break;
     }
   },
-  dataUser: function(data) {
+  dataUser: function (data) {
     console.log(data);
     if (void 0 !== data.name) {
       this.header.userName.string = data.name;
@@ -260,19 +265,19 @@ cc.Class({
       this.header.setAvatar(data.avatarId);
     }
   },
-  signOut: function() {
+  signOut: function () {
     cc.RedT.user = {};
     cc.RedT.IS_LOGIN = false;
     this.AllReset();
     cc.sys.localStorage.removeItem("infoRed8");
   },
-  signIn: function() {
+  signIn: function () {
     cc.RedT.IS_LOGIN = true;
     this.header.isSignIn();
     this.dialog.onBack();
     cc.RedT.MiniPanel.signIn();
   },
-  AllReset: function() {
+  AllReset: function () {
     this.loading.active = false;
     this.newsContents.reset();
     this.header.isSignOut();
@@ -281,7 +286,7 @@ cc.Class({
     cc.RedT.MiniPanel.newGame();
     this.dialog.iMessage.reset();
   },
-  onGetTaiXiu: function(tai, xiu) {
+  onGetTaiXiu: function (tai, xiu) {
     // var sTai = helper.getOnlyNumberInString(this.iconTaiXiu.tai.string);
     // var sXiu = helper.getOnlyNumberInString(this.iconTaiXiu.xiu.string);
     // if (sTai - tai != 0) {
@@ -291,7 +296,7 @@ cc.Class({
     //   helper.numberTo(this.iconTaiXiu.xiu, sXiu, xiu, 1000, true);
     // }
   },
-  onGetHu: function() {
+  onGetHu: function () {
     if (void 0 !== cc.RedT.setting.topHu.data) {
       var self = this;
       // Vương Quốc Red
@@ -393,31 +398,31 @@ cc.Class({
 			*/
     }
   },
-  playMusic: function() {
+  playMusic: function () {
     this.audioBG.play();
   },
-  pauseMusic: function() {
+  pauseMusic: function () {
     this.audioBG.pause();
   },
-  resumeMusic: function() {
+  resumeMusic: function () {
     //cc.audioEngine.resumeMusic();
   },
-  audioClick: function() {
+  audioClick: function () {
     cc.RedT.audio.playClick();
   },
-  audioUnClick: function() {
+  audioUnClick: function () {
     cc.RedT.audio.playUnClick();
   },
-  fanpage: function() {
+  fanpage: function () {
     cc.sys.openURL(this.url + "/fanpage/");
   },
-  ios: function() {
+  ios: function () {
     cc.sys.openURL(this.url + "/help/ios");
   },
-  android: function() {
+  android: function () {
     cc.sys.openURL(this.url + "/download/" + this.appApk);
   },
-  telegram: function() {
+  telegram: function () {
     cc.sys.openURL(this.url + "/telegram/");
   }
 
