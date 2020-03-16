@@ -6,7 +6,7 @@
 
 //PRO
 const configs = {
-    gameServerUrl: 'http://minigame.luminetsoft.com:8080',
+    gameServerUrl: 'http://minigame.luminetsoft.com:8080/',
     webSocketEndpoint: 'minigame.luminetsoft.com:8080'
 }
 
