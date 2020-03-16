@@ -80,7 +80,7 @@ cc.Class({
     onLoginClick: function() {
         var error = null;
 
-        if (this.username.string.length > 32 || this.username.string.length < 3 || this.username.string.match(new RegExp("^[a-zA-Z0-9]+$")) === null)
+        if (this.username.string.length > 32 || this.username.string.length < 3 || this.username.string.match(new RegExp("^[a-zA-Z0-9_]+$")) === null)
             error = 'Tên tài khoản không đúng!!';
         else if (this.password.string.length > 32 || this.password.string.length < 6)
             error = 'Mật khẩu không đúng!!';

@@ -1,4 +1,4 @@
-const axios = require('../Util/axios');
+const authManager = require('../common/authManager');
 
 cc.Class({
   extends: cc.Component,
@@ -45,35 +45,10 @@ cc.Class({
     this.updateProgress(0);
     this.messageLabel.string = "Đang lấy dữ liệu game ...";
     if (cc.sys.isBrowser) {
-      let self = this;
-      let urlParams = new URLSearchParams(window.location.search);
-      let authData = JSON.parse(cc.sys.localStorage.getItem('scss'));
-      if (authData && authData.isAuthenticated) {
-        console.log(authData);
-        window.authData = authData;
-        self.loadScene();
-      }
-      else if (urlParams.has("token")) {
-        axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`)
-        //axios.get(`http://localhost:8080/authenticate?token=${urlParams.get("token")}`)
-          .then(function (response) {
-            if (response.data.isAuthenticated) {
-              window.authData = response.data;
-              window.authData.time = new Date();
-
-              cc.sys.localStorage.setItem("scss", JSON.stringify(response.data));
-
-              self.loadScene();
-            }
-            else {
-              self.messageLabel.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
-            }
-            console.log(response.data);
-          })
-          .catch(function (error) {
-            self.messageLabel.string = "Đăng nhập lỗi.";
-            console.log(error);
-          });
+      if (authManager.checkSSO(this.messageLabel, function() {
+        this.loadScene()
+      }.bind(this))) {
+        return;
       }
       else {
         this.loadScene();
@@ -87,8 +62,6 @@ cc.Class({
   loadScene: function () {
     setTimeout(
       function () {
-        var currentMinute = new Date().getMinutes();
-
         cc.director.preloadScene(
           "MainGame",
           this.onProgress.bind(this),

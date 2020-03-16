@@ -1,3 +1,4 @@
+const authManager = require('./common/authManager');
 var helper = require("Helper");
 
 var baseControll = require("BaseControll");
@@ -63,16 +64,7 @@ cc.Class({
     // this.iconTaiXiu = this.iconTaiXiu.getComponent("iconGameTaiXiu");
 
     //Ricky: window.username
-    if (!!window.authData) {
-      cc.RedT.inGame.auth({
-        authentication:
-        {
-          username: window.authData.username,
-          isSso: true,
-          data: window.authData
-        }
-      });
-    }
+    authManager.triggerSignIn(cc.RedT.inGame);
 
     if (cc.RedT.IS_LOGIN) {
       console.log("on main game");
