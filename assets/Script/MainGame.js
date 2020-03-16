@@ -254,6 +254,10 @@ cc.Class({
     if (void 0 !== data.avatarId) {
       this.header.setAvatar(data.avatarId);
     }
+
+    if (data.ss) {
+      authManager.storeSessionData(data.ss);
+    }
   },
   signOut: function () {
     cc.RedT.user = {};
