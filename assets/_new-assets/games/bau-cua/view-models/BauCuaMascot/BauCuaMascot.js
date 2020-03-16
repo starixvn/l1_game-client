@@ -23,6 +23,10 @@ cc.Class({
         this.xLabel.string = 'x' + x;
     },
     unSelect: function () {},
+    clearCuoc: function () {
+        this.totall.string = 0;
+        this.me.string = '';
+    },
     updateState: function (show) {
         this.node.children[0].active = show;
     },

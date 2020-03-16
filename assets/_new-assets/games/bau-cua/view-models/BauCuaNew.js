@@ -48,10 +48,12 @@ cc.Class({
     notice: cc.Node,
     prefabNotice: cc.Prefab,
 
+    currentCuoc: 0,
     cuoc: "",
     red: true
   },
   init(obj) {
+    this.currentCuoc = 0;
     this.RedT = obj;
     this.Top = obj.Dialog.BauCua_top;
     this.LichSu = obj.Dialog.BauCua_LichSu;
@@ -244,10 +246,12 @@ cc.Class({
     this.logLVHandling(cc.RedT.setting.baucua.logLV);
   },
   datCuoc: function (e, linhVat) {
-    // if (this.cuoc < 100) {
-    //   this.addNotice("Vui lòng chọn mức cược...");
-    // } else 
-    {
+    var cuoc = parseInt(this.cuoc);
+    if (this.currentCuoc + cuoc > 100) {
+      this.addNotice("Không thể cược hơn 100 !!! ");
+    } else {
+      this.currentCuoc = cuoc + this.currentCuoc;
+
       cc.RedT.send({
         g: {
           baucua: {
@@ -360,6 +364,7 @@ cc.Class({
   resetAllSlot: function () {
     for (var i = 0; i < this.linhVat.length; ++i) {
       this.linhVat[i].updateState(true);
+      this.linhVat[i].clearCuoc();
     }
   },
   showWinSlot: function (dices) {
@@ -393,7 +398,7 @@ cc.Class({
           ) {
             this.resetData();
           }
-          this.resetAllSlot();
+
           this.titleTime.string = "Đặt cược";
           if (cc.RedT.setting.baucua.time_remain > 0) {
             let time = helper.numberPad(
@@ -529,6 +534,9 @@ cc.Class({
     });
 
     this.unSelect();
+
+    this.currentCuoc = 0;
+    this.resetAllSlot();
   },
   newGame: function () {
     cc.RedT.setting.baucua.regOpen = false;
