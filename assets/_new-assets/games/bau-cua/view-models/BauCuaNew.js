@@ -335,15 +335,18 @@ cc.Class({
           data.finish.dices[1],
           data.finish.dices[2]
         ]);
-        this.showWinSlot(data.finish.dices);
         cc.RedT.setting.baucua.logs.length > 15 &&
           cc.RedT.setting.baucua.logs.pop();
         this.setDice(data.finish.dices);
         // Play
         this.Animation.node.active = true;
         this.Animation.play();
-        var duration = this.Animation.currentClip.duration;
-
+        cc.tween(this.node)
+          .delay(1)
+          .call(() => {
+            this.showWinSlot(data.finish.dices);
+          })
+          .start();
       }
 
       cc.RedT.setting.baucua.time_remain = 72;
