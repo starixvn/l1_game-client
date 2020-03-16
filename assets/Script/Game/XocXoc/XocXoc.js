@@ -100,7 +100,7 @@ cc.Class({
 	ctor: function () {
 		this.logs = [];
 		this.nan = false;
-		this.cuoc = '1000';
+		this.cuoc = '1';
 		this.actionBatOpen = cc.moveTo(0.5, cc.v2(0, 246));
 		this.actionBatClose = cc.sequence(
 			cc.callFunc(function () {
@@ -473,24 +473,14 @@ cc.Class({
 			audioLost += this.box_le.children[1].children.length;
 			centerMid = this.box_le.children[1].convertToNodeSpaceAR(position);
 			Promise.all(this.box_le.children[1].children.map(function (chip) {
-				chip.runAction(
-					cc.spawn(
-						cc.scaleTo(0.4, 0.5),
-						cc.moveTo(0.4, centerMid)
-					),
-				);
+				chip.runAction(cc.moveTo(0.4, centerMid));
 			}));
 		} else {
 			node1 = this.box_le.children[1];
 			audioLost += this.box_chan.children[1].children.length;
 			centerMid = this.box_chan.children[1].convertToNodeSpaceAR(position);
 			Promise.all(this.box_chan.children[1].children.map(function (chip) {
-				chip.runAction(
-					cc.spawn(
-						cc.scaleTo(0.4, 0.5),
-						cc.moveTo(0.4, centerMid)
-					),
-				);
+				chip.runAction(cc.moveTo(0.4, centerMid));
 			}));
 		}
 
@@ -504,28 +494,13 @@ cc.Class({
 				node2 = this.box_white4.children[1];
 				audioLost += this.box_red3.children[1].children.length + this.box_red4.children[1].children.length + this.box_white3.children[1].children.length;
 				Promise.all(this.box_red3.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, red3)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, red3));
 				}));
 				Promise.all(this.box_red4.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, red4)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, red4));
 				}));
 				Promise.all(this.box_white3.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, white3)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, white3));
 				}));
 				break;
 
@@ -533,64 +508,29 @@ cc.Class({
 				node2 = this.box_white3.children[1];
 				audioLost += this.box_red3.children[1].children.length + this.box_red4.children[1].children.length + this.box_white4.children[1].children.length;
 				Promise.all(this.box_red3.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, red3)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, red3));
 				}));
 				Promise.all(this.box_red4.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, red4)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, red4));
 				}));
 				Promise.all(this.box_white4.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, white4)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, white4));
 				}));
 				break;
 
 			case 2:
 				audioLost += this.box_red3.children[1].children.length + this.box_red4.children[1].children.length + this.box_white3.children[1].children.length + this.box_white4.children[1].children.length;
 				Promise.all(this.box_red3.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, red3)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, red3));
 				}));
 				Promise.all(this.box_red4.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, red4)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, red4));
 				}));
 				Promise.all(this.box_white3.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, white4)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, white3));
 				}));
 				Promise.all(this.box_white4.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, white4)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, white4));
 				}));
 				break;
 
@@ -598,28 +538,13 @@ cc.Class({
 				node2 = this.box_red3.children[1];
 				audioLost += this.box_white3.children[1].children.length + this.box_red4.children[1].children.length + this.box_white4.children[1].children.length;
 				Promise.all(this.box_white3.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, white3)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, white3));
 				}));
 				Promise.all(this.box_red4.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, red4)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, red4));
 				}));
 				Promise.all(this.box_white4.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, white4)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, white4));
 				}));
 				break;
 
@@ -627,28 +552,13 @@ cc.Class({
 				node2 = this.box_red4.children[1];
 				audioLost += this.box_white3.children[1].children.length + this.box_red3.children[1].children.length + this.box_white4.children[1].children.length;
 				Promise.all(this.box_white3.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, white3)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, white3));
 				}));
 				Promise.all(this.box_red3.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, red3)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, red3));
 				}));
 				Promise.all(this.box_white4.children[1].children.map(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.5),
-							cc.moveTo(0.4, white4)
-						),
-					);
+					chip.runAction(cc.moveTo(0.4, white4));
 				}));
 				break;
 		}
@@ -659,23 +569,13 @@ cc.Class({
 			node1.children.forEach(function (chip) {
 				let copy = cc.instantiate(chip);
 				copy.position = centerMid;
-				copy.scale = 0.5;
+				//copy.scale = 0.5;
 
 				let x = (Math.random() * (self.maxBox1_1.x + 1)) >> 0;
 				let y = (Math.random() * (self.maxBox1_1.y + 1)) >> 0;
 
 				node1.addChild(copy);
-				copy.runAction(
-					cc.sequence(
-						cc.spawn(
-							cc.scaleTo(0.4, 0.3),
-							cc.moveTo(0.4, cc.v2(x, y))
-						),
-						cc.sequence(
-							cc.moveTo(0.1, cc.v2(x, y - 6)),
-							cc.moveTo(0.1, cc.v2(x, y))
-						)
-					));
+				copy.runAction(cc.moveTo(0.4, cc.v2(x, y)));
 			});
 
 			if (node2) {
@@ -684,23 +584,13 @@ cc.Class({
 				node2.children.forEach(function (chip) {
 					let copy = cc.instantiate(chip);
 					copy.position = node2red;
-					copy.scale = 0.5;
+					//copy.scale = 0.5;
 
 					let x = (Math.random() * (self.maxBox1_3.x + 1)) >> 0;
 					let y = (Math.random() * (self.maxBox1_3.y + 1)) >> 0;
 
 					node2.addChild(copy);
-					copy.runAction(
-						cc.sequence(
-							cc.spawn(
-								cc.scaleTo(0.4, 0.3),
-								cc.moveTo(0.4, cc.v2(x, y))
-							),
-							cc.sequence(
-								cc.moveTo(0.1, cc.v2(x, y - 6)),
-								cc.moveTo(0.1, cc.v2(x, y))
-							)
-						));
+					copy.runAction(cc.moveTo(0.4, cc.v2(x, y)));
 				});
 			}
 			if (!!audioWin) {
@@ -719,7 +609,7 @@ cc.Class({
 				node1.children.forEach(function (chip) {
 					chip.runAction(
 						cc.spawn(
-							cc.fadeTo(0.4, 0),
+							cc.fadeTo(1, 0),
 							cc.moveTo(0.4, position1_1)
 						));
 				});
@@ -728,7 +618,7 @@ cc.Class({
 					node2.children.forEach(function (chip) {
 						chip.runAction(
 							cc.spawn(
-								cc.fadeTo(0.4, 0),
+								cc.fadeTo(1, 0),
 								cc.moveTo(0.4, position1_3)
 							));
 					});
@@ -978,6 +868,7 @@ cc.Class({
 	changerBet: function (event, bet) {
 		let target = event.target;
 		this.cuoc = target.name;
+		console.log(this.cuoc);
 		this.bet.children.forEach(function (obj) {
 			if (obj == target) {
 				obj.children[1].active = true;
@@ -1069,10 +960,11 @@ cc.Class({
 
 		newN.node.runAction(
 			cc.sequence(
-				cc.spawn(
-					cc.scaleTo(1, 1),
-					cc.moveTo(0.4, cc.v2(x, y))
-				),
+				cc.moveTo(0.4, cc.v2(x, y)),
+				// cc.spawn(
+				// 	cc.scaleTo(1, 1),
+				// 	cc.moveTo(0.4, cc.v2(x, y))
+				// ),
 				cc.callFunc(function () { this.play() }, copy)
 			));
 	},
@@ -1133,10 +1025,11 @@ cc.Class({
 		copy = copy.getComponent(cc.AudioSource);
 		newN.node.runAction(
 			cc.sequence(
-				cc.spawn(
-					cc.scaleTo(1, 1),
-					cc.moveTo(0.3, cc.v2(x, y))
-				),
+				cc.moveTo(0.3, cc.v2(x, y)),
+				// cc.spawn(
+				// 	cc.scaleTo(1, 1),
+				// 	cc.moveTo(0.3, cc.v2(x, y))
+				// ),
 				cc.callFunc(function () { this.play() }, copy),
 				cc.sequence(
 					cc.moveTo(0.1, cc.v2(x, y + 6)),
