@@ -85,7 +85,7 @@ cc.Class({
         cc.RedT.user.joinedOn
       );
     } else {
-      this.dialog.settings.setMusic();
+      //this.dialog.settings.setMusic();
     }
     // var check = localStorage.getItem("SOUND_BACKGROUND");
     // if (check == null || cc.RedT.isSoundBackground()) {
