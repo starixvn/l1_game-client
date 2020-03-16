@@ -54,8 +54,8 @@ cc.Class({
         self.loadScene();
       }
       else if (urlParams.has("token")) {
-        //axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`)
-        axios.get(`http://localhost:8080/authenticate?token=${urlParams.get("token")}`)
+        axios.get(`http://minigame.luminetsoft.com:8080/authenticate?token=${urlParams.get("token")}`)
+        //axios.get(`http://localhost:8080/authenticate?token=${urlParams.get("token")}`)
           .then(function (response) {
             if (response.data.isAuthenticated) {
               window.authData = response.data;
