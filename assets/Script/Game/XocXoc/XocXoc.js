@@ -198,7 +198,6 @@ cc.Class({
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
 	onData: function (data) {
-		//console.log(data);
 		if (void 0 !== data.user) {
 			this.userData(data.user);
 			cc.RedT.userData(data.user);
@@ -213,7 +212,7 @@ cc.Class({
 			cc.RedT.MiniPanel.TopHu.onData(data.TopHu);
 		}
 		if (void 0 !== data.taixiu) {
-			cc.RedT.MiniPanel.TaiXiu.TX_Main.onData(data.taixiu);
+			cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
 		}
 	},
 	backGame: function () {
@@ -260,7 +259,6 @@ cc.Class({
 	},
 
 	xocxoc: function (data) {
-		//console.log(data);
 		if (!!data.ingame) {
 			this.xocxocIngame(data.ingame);
 		}
@@ -845,7 +843,19 @@ cc.Class({
 					let jD = data[j];
 					if (void 0 !== jD) {
 						cell.c.node.parent.active = true;
-						cell.c.spriteFrame = !(jD % 2) ? (jD === 4 ? self.dot_red : self.dot_white) : self.dot_red;
+						//cell.c.spriteFrame = !(jD % 2) ? (jD === 4 ? self.dot_red : self.dot_white) : self.dot_red;
+						if (!(jD % 2)) {
+							if (jD === 4) {
+								cell.c.spriteFrame = self.dot_red;
+								cell.t.node.color = cc.Color.WHITE;
+							} else {
+								cell.c.spriteFrame = self.dot_white;
+								cell.t.node.color = cc.Color.BLACK;
+							}
+						} else {
+							cell.c.spriteFrame = self.dot_red;
+							cell.t.node.color = cc.Color.WHITE;
+						}
 						cell.t.string = jD === 0 ? 4 : jD;
 
 						if (!(jD % 2)) {
@@ -868,7 +878,6 @@ cc.Class({
 	changerBet: function (event, bet) {
 		let target = event.target;
 		this.cuoc = target.name;
-		console.log(this.cuoc);
 		this.bet.children.forEach(function (obj) {
 			if (obj == target) {
 				obj.children[1].active = true;
@@ -1217,7 +1226,6 @@ cc.Class({
 	},
 
 	clientStatus: function (data) {
-		console.log(data);
 		let playerSlot = this.getPlayerSlot(data.playerId);
 
 		if (playerSlot) {
