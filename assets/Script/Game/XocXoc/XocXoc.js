@@ -54,11 +54,12 @@ cc.Class({
 
 		nodeBat: cc.Node,
 
-		chip_1000: cc.SpriteFrame,
-		chip_10000: cc.SpriteFrame,
-		chip_50000: cc.SpriteFrame,
-		chip_100000: cc.SpriteFrame,
-		chip_1000000: cc.SpriteFrame,
+		chip_1: cc.SpriteFrame,
+		chip_5: cc.SpriteFrame,
+		chip_10: cc.SpriteFrame,
+		chip_20: cc.SpriteFrame,
+		chip_50: cc.SpriteFrame,
+		chip_100: cc.SpriteFrame,
 
 		dot_red: cc.SpriteFrame,
 		dot_white: cc.SpriteFrame,
