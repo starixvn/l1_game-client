@@ -101,7 +101,7 @@ cc.Class({
 		this.logs = [];
 		this.nan = false;
 		this.cuoc = '1';
-		this.actionBatOpen = cc.moveTo(0.5, cc.v2(0, 246));
+		this.actionBatOpen = cc.moveTo(0.5, cc.v2(0, 150));
 		this.actionBatClose = cc.sequence(
 			cc.callFunc(function () {
 				this.resetData();
@@ -306,7 +306,7 @@ cc.Class({
 			this.time_remain = data.time - 1;
 			this.playTime();
 			if (this.time_remain > 32 && data.logs.length) {
-				this.nodeBat.position = cc.v2(0, 246);
+				this.nodeBat.position = cc.v2(0, 150);
 				this.setDot([data.logs[0].red1, data.logs[0].red2, data.logs[0].red3, data.logs[0].red4]);
 			}
 		}
