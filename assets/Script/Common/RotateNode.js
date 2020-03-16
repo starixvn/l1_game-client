@@ -2,7 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        DegreePerSecond: 90,
+        DegreePerSecond: 360,
     },
 
     onEnable() {

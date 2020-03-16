@@ -211,17 +211,31 @@ cc.Class({
   changerBet: function (event, bet) {
     this.cuoc = bet;
     var target = event.target;
-    Promise.all(
-      this.bet.children.map(function (obj) {
-        if (obj == target) {
-          obj.children[0].active = true;
-          obj.pauseSystemEvents();
-        } else {
-          obj.children[0].active = false;
-          obj.resumeSystemEvents();
-        }
-      })
-    );
+    // Promise.all(
+    this.bet.children.map(function (obj) {
+      if (obj == target) {
+        obj.children[0].active = true;
+        obj.zIndex = 2;
+        cc.tween(obj)
+          .to(0.2, {
+            scale: 1.15,
+            position: cc.v2(obj.position.x, 12)
+          })
+          .start();
+        obj.pauseSystemEvents();
+      } else {
+        obj.children[0].active = false;
+        obj.zIndex = 1;
+        cc.tween(obj)
+          .to(0.2, {
+            scale: 1,
+            position: cc.v2(obj.position.x, 0)
+          })
+          .start();
+        obj.resumeSystemEvents();
+      }
+    })
+    // );
     cc.RedT.setting.baucua.bet = target.name;
     //this.onGetHu();
   },
