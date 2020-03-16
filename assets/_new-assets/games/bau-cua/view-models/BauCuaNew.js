@@ -377,7 +377,7 @@ cc.Class({
   },
   resetAllSlot: function () {
     for (var i = 0; i < this.linhVat.length; ++i) {
-      this.linhVat[i].updateState(true);
+      this.linhVat[i].resetState();
       this.linhVat[i].clearCuoc();
     }
   },
