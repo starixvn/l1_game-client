@@ -1,5 +1,6 @@
 var helper = require("Helper");
 var BauCua_linhVat = require("BauCuaMascot");
+var BCConstants = require("BCConstants");
 
 cc.Class({
   extends: cc.Component,
@@ -349,7 +350,7 @@ cc.Class({
           .start();
       }
 
-      cc.RedT.setting.baucua.time_remain = 72;
+      cc.RedT.setting.baucua.time_remain = BCConstants.betTime + 12;
       this.playTime();
     }
     if (void 0 !== data.notice) {
@@ -373,22 +374,22 @@ cc.Class({
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
     this.timeInterval = setInterval(
       function () {
-        if (cc.RedT.setting.baucua.time_remain > 61) {
+        if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
           let time = helper.numberPad(
-            cc.RedT.setting.baucua.time_remain - 62,
+            cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2),
             2
           );
           this.labelTime.node.color = cc.Color.RED;
           this.labelTime.string = time;
           this.titleTime.string = "Xem phiên";
-          if (cc.RedT.setting.baucua.time_remain < 66) {
+          if (cc.RedT.setting.baucua.time_remain < (BCConstants.betTime + 6)) {
             this.Animation.node.active = false;
           }
         } else {
           this.Animation.node.active = false;
           if (
             cc.RedT.setting.baucua.regOpen &&
-            cc.RedT.setting.baucua.time_remain == 61
+            cc.RedT.setting.baucua.time_remain == (BCConstants.betTime + 1)
           ) {
             this.resetData();
           }
@@ -409,8 +410,8 @@ cc.Class({
     );
   },
   nextRealTime: function () {
-    if (cc.RedT.setting.baucua.time_remain > 61) {
-      var time = helper.numberPad(cc.RedT.setting.baucua.time_remain - 62, 2);
+    if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
+      var time = helper.numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
       this.labelTime.node.color = cc.Color.RED;
       this.labelTime.string = helper.numberPad(time, 2);
       this.titleTime.string = "Xem phiên";
