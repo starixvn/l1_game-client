@@ -50,7 +50,7 @@ cc.Class({
       cc.RedT.setting.light = true;
     }
     var self = this;
-    this.node._onPreDestroy = function() {
+    this.node._onPreDestroy = function () {
       self.onDestroy();
     };
     this.Dialog.init(this);
@@ -77,11 +77,11 @@ cc.Class({
       this.LightChanger();
     }
   },
-  openGame: function(name) {
+  openGame: function (name) {
     this.TaiXiuNew.openGame();
     this.minigame.insertChild(this.TaiXiuNew.node);
   },
-  LightChanger: function() {
+  LightChanger: function () {
     this.light = cc.RedT.setting.light = !this.light;
     if (this.light) {
       this.bgLight.active = false;
@@ -91,17 +91,17 @@ cc.Class({
       this.spriteLight.spriteFrame = this.onLight;
     }
   },
-  signIn: function() {
+  signIn: function () {
     this.minigame.active = true;
-    this.TaiXiu.signIn();
+    //this.TaiXiu.signIn();
   },
-  newGame: function() {
+  newGame: function () {
     this.minigame.active = false;
     this.Dialog.onCloseDialog();
     this.BauCua.newGame();
     this.CaoThap.newGame();
   },
-  onData: function(data) {
+  onData: function (data) {
     if (void 0 !== data.poker) {
       this.MiniPoker.onData(data.poker);
     }
@@ -123,27 +123,20 @@ cc.Class({
     if (void 0 !== data.megaj) {
       this.MegaJackpot.onData(data.megaj);
     }
-    if (void 0 !== data && this.TaiXiuNew !== undefined) {
-      this.TaiXiuNew.TX_Main.onData(data);
-      //cc.RedT.MiniPanel.TaiXiu.TX_Main.onData(data.taixiu);
-    }
   },
-  onDataTaiXiu: function(taiXiuData) {
-    if (void 0 !== taiXiuData) {
-      this.TaiXiuNew.TX_Main.onData(taiXiuData);
-      //cc.RedT.MiniPanel.TaiXiu.TX_Main.onData(data.taixiu);
-    }
+  onDataTaiXiu: function (taiXiuData) {
+    this.TaiXiuNew.TX_Main.onData(taiXiuData);
   },
-  onDestroy: function() {
+  onDestroy: function () {
     clearInterval(this.TaiXiu.TX_Main.timeInterval);
     clearInterval(this.BauCua.timeInterval);
     void 0 !== this.CaoThap.timeInterval &&
       clearInterval(this.CaoThap.timeInterval);
   },
-  playClick: function() {
+  playClick: function () {
     cc.RedT.audio.playClick();
   },
-  playUnClick: function() {
+  playUnClick: function () {
     cc.RedT.audio.playUnClick();
   }
 });

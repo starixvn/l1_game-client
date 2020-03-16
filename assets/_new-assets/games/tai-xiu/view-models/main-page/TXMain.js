@@ -290,17 +290,15 @@ cc.Class({
       bet = parseInt(bet);
       self.input.string = "ĐẶT CƯỢC";
       self.TX_Board.node.active = false;
-      if (isNaN(bet) || bet < 1000) {
+      if (isNaN(bet) || bet < Constants.minBet) {
         NoticeUtil.showNoticeMessage(
           this,
-          "Tiền cược tối thiểu là 1.000" + " " + (self.red ? "SCOIN" : "Xu")
+          "Tiền cược tối thiểu là " + Constants.minBet
         );
-      } else if (bet > 1000000000) {
+      } else if (bet > Constants.maxBet) {
         NoticeUtil.showNoticeMessage(
           this,
-          "Tiền cược tối đa là 1.000.000.000" +
-            " " +
-            (self.red ? "SCOIN" : "Xu")
+          "Tiền cược tối đa là " + Constants.maxBet
         );
       } else {
         cc.RedT.send({
@@ -534,6 +532,7 @@ cc.Class({
       this.TX_Chat.onData(data.chat);
     }
     if (void 0 !== data.status) {
+      console.log(status);
       this.status(data.status);
     }
     if (void 0 !== data.get_log) {

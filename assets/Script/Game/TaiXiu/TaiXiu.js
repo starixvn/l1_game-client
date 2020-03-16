@@ -11,17 +11,16 @@ cc.Class({
     board: true
   },
   init(obj) {
-    cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
-    this.TX_LichSu = obj.Dialog.TaiXiuLichSu;
-    this.TX_LichSuPhien = obj.Dialog.TaiXiuLichSuPhien;
-    this.TX_Main.init(this);
-    this.TX_ThongKe.init(this);
-    this.TX_Top.init(this);
-
-    var check = localStorage.getItem("taixiu");
-    if (check == "true") {
-      this.node.active = true;
-    }
+    // cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
+    // this.TX_LichSu = obj.Dialog.TaiXiuLichSu;
+    // this.TX_LichSuPhien = obj.Dialog.TaiXiuLichSuPhien;
+    // this.TX_Main.init(this);
+    // this.TX_ThongKe.init(this);
+    // this.TX_Top.init(this);
+    // var check = localStorage.getItem("taixiu");
+    // if (check == "true") {
+    //   this.node.active = true;
+    // }
   },
   onEnable: function() {
     this.regEvent(true);

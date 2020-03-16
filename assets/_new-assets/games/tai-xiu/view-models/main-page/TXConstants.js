@@ -5,6 +5,8 @@ cc.Class({
     waitTime: 15,
     nanTime: 55,
     redTime: 5,
-    minBetTime: 1
+    minBetTime: 1,
+    minBet: 1,
+    maxBet: 100
   }
 });
