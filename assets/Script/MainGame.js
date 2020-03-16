@@ -67,7 +67,6 @@ cc.Class({
     authManager.triggerSignIn(cc.RedT.inGame);
 
     if (cc.RedT.IS_LOGIN) {
-      console.log("on main game");
       cc.RedT.send({ scene: "home" });
       this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
@@ -201,7 +200,6 @@ cc.Class({
     }
   },
   dataUser: function (data) {
-    console.log(data);
     if (void 0 !== data.name) {
       this.header.userName.string = data.name;
       this.dialog.profile.CaNhan.username.string = data.name;

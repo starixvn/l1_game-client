@@ -23,24 +23,23 @@ cc.Class({
       this.node.active = true;
     }
   },
-  onEnable: function() {
-    console.log("onEnable");
+  onEnable: function () {
     this.regEvent(true);
   },
-  onDisable: function() {
+  onDisable: function () {
     this.regEvent(false);
   },
-  regEvent: function(bool) {
+  regEvent: function (bool) {
     cc.RedT.send({
       taixiu: !cc.RedT.setting.taixiu.getLogs
         ? { view: bool, getLogs: true }
         : { view: bool }
     });
   },
-  setTop: function() {
+  setTop: function () {
     this.node.parent.insertChild(this.node);
   },
-  openGame: function(e, taixiu = "1") {
+  openGame: function (e, taixiu = "1") {
     cc.RedT.audio.playClick();
 
     if (cc.RedT.IS_LOGIN) {
@@ -51,16 +50,16 @@ cc.Class({
       // this.setTop();
     } else cc.RedT.inGame.dialog.showSignIn();
   },
-  closeGame: function() {
+  closeGame: function () {
     cc.RedT.audio.playUnClick();
     this.node.active = this.TX_Top.node.active = this.TX_ThongKe.node.active = this.TX_Main.TX_Board.node.active = !1;
     localStorage.setItem("taixiu", false);
   },
-  newGame: function() {
+  newGame: function () {
     this.TX_ThongKe.node.active = this.TX_Main.TX_Board.node.active = false;
     this.TX_Main.setDefautl();
   },
-  signIn: function() {
+  signIn: function () {
     !this.node.active && (this.TX_Main.nodeTimePopup.active = true);
   }
 });
