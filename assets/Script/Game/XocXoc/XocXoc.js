@@ -164,9 +164,8 @@ cc.Class({
 			6: { id: 6, data: null },
 			7: { id: 7, data: null },
 			8: { id: 8, data: null },
-			9: { id: 9, data: null },
 		};
-		this.numberOfSlots = 9;
+		this.numberOfSlots = 8;
 	},
 	onLoad() {
 		cc.RedT.inGame = this;
@@ -980,15 +979,11 @@ cc.Class({
 		this.cuoc = target.name;
 		this.bet.children.forEach(function (obj) {
 			if (obj == target) {
-				obj.children[0].active = false;
 				obj.children[1].active = true;
 				obj.pauseSystemEvents();
-				obj.opacity = 255;
 			} else {
-				obj.children[0].active = true;
 				obj.children[1].active = false;
 				obj.resumeSystemEvents();
-				obj.opacity = 99;
 			}
 		})
 	},
@@ -1060,7 +1055,7 @@ cc.Class({
 		newN = newN.addComponent(cc.Sprite);
 		newN.spriteFrame = this['chip_' + data.cuoc];
 		newN.node.position = position;
-		newN.node.scale = 0.67;
+		//newN.node.scale = 0.67;
 
 		let x = (Math.random() * (max.x + 1)) >> 0;
 		let y = (Math.random() * (max.y + 1)) >> 0;
@@ -1074,14 +1069,10 @@ cc.Class({
 		newN.node.runAction(
 			cc.sequence(
 				cc.spawn(
-					cc.scaleTo(0.4, 0.3),
+					cc.scaleTo(1, 1),
 					cc.moveTo(0.4, cc.v2(x, y))
 				),
-				cc.callFunc(function () { this.play() }, copy),
-				cc.sequence(
-					cc.moveTo(0.1, cc.v2(x, y - 6)),
-					cc.moveTo(0.1, cc.v2(x, y))
-				)
+				cc.callFunc(function () { this.play() }, copy)
 			));
 	},
 	meChip: function (data) {
@@ -1142,7 +1133,7 @@ cc.Class({
 		newN.node.runAction(
 			cc.sequence(
 				cc.spawn(
-					cc.scaleTo(0.3, 0.3),
+					cc.scaleTo(1, 1),
 					cc.moveTo(0.3, cc.v2(x, y))
 				),
 				cc.callFunc(function () { this.play() }, copy),

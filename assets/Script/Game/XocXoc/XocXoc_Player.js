@@ -18,7 +18,6 @@ cc.Class({
             this.node.active = true;
             !!data.red && (this.balance.string = helper.formatMoneyNumber(data.red));
             !!data.name && (this.nickname.string = data.name);
-            console.log(this.Avatar);
         } else {
             this.node.active = false;
         }
