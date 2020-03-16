@@ -2,7 +2,7 @@
 cc.Class({
     extends: cc.Component,
     properties: {
-    	audioClick: {
+        audioClick: {
             default: null,
             type: cc.AudioClip
         },
@@ -14,47 +14,47 @@ cc.Class({
             default: null,
             type: cc.AudioClip
         },
-    	jackpot:  {
+        jackpot: {
             default: null,
             type: cc.AudioClip
         },
-        bigWin:   {
+        bigWin: {
             default: null,
             type: cc.AudioClip
         },
-        moneywin:   {
+        moneywin: {
             default: null,
             type: cc.AudioClip
         },
-        bonus:   {
+        bonus: {
             default: null,
             type: cc.AudioClip
         },
-        megaWin:   {
+        megaWin: {
             default: null,
             type: cc.AudioClip
         },
-        winHu:   {
+        winHu: {
             default: null,
             type: cc.AudioClip
         },
     },
-    _playSFX: function(clip) {
-        if (cc.RedT.IS_SOUND){
+    _playSFX: function (clip) {
+        if (cc.RedT.IS_SOUND) {
             cc.audioEngine.playEffect(clip, false);
         }
     },
     // Audio Effect
-    playClick: function(){
-    	this._playSFX(this.audioClick);
+    playClick: function () {
+        //	this._playSFX(this.audioClick);
     },
-    playUnClick: function(){
-        this._playSFX(this.audioClick2);
+    playUnClick: function () {
+        //    this._playSFX(this.audioClick2);
     },
-    playNoticeJackP: function(){
-        this._playSFX(this.thongbao_jackpot);
+    playNoticeJackP: function () {
+        //   this._playSFX(this.thongbao_jackpot);
     },
-    playEf: function(audio){
-        this._playSFX(this[audio]);
+    playEf: function (audio) {
+        //   this._playSFX(this[audio]);
     },
 });
