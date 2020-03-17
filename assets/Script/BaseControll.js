@@ -65,8 +65,8 @@ module.exports = {
   },
   _onSocketError: function (message) { },
   reconnect: function () {
-    //this.connect("10.18.50.121:8080", "/websocket");
-    this.connect("35.194.253.55:8080", "/websocket");
+    this.connect(configs.webSocketEndpoint, "/websocket");
+    //this.connect("35.194.253.55:8080", "/websocket");
   },
   init: function () {
     this.initPrototype();

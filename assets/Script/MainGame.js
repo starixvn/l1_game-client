@@ -1,4 +1,4 @@
-//const authManager = require('./common/authManager');
+const authManager = require('./common/authManager');
 var helper = require("Helper");
 
 var baseControll = require("BaseControll");

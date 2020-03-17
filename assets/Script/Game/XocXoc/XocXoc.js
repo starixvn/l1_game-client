@@ -881,9 +881,23 @@ cc.Class({
 		this.bet.children.forEach(function (obj) {
 			if (obj == target) {
 				obj.children[1].active = true;
+				obj.zIndex = 2;
+				cc.tween(obj)
+					.to(0.2, {
+						scale: 1.15,
+						position: cc.v2(obj.position.x, 12)
+					})
+					.start();
 				obj.pauseSystemEvents();
 			} else {
 				obj.children[1].active = false;
+				obj.zIndex = 1;
+				cc.tween(obj)
+					.to(0.2, {
+						scale: 1,
+						position: cc.v2(obj.position.x, 0)
+					})
+					.start();
 				obj.resumeSystemEvents();
 			}
 		})
