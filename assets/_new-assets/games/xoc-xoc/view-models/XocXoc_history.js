@@ -15,6 +15,9 @@ cc.Class({
 
         red: true,
     },
+    init(obj) {
+        this.RedT = obj;
+    },
     onLoad() {
         let page = cc.instantiate(this.page);
         page.y = -263;
