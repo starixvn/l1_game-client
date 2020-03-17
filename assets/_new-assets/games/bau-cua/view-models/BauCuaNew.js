@@ -1,6 +1,7 @@
 var helper = require("Helper");
 var BauCua_linhVat = require("BauCuaMascot");
 var BCConstants = require("BCConstants");
+var AnimatedTime = require("../commons/AnimatedTime");
 
 cc.Class({
   extends: cc.Component,
@@ -34,7 +35,7 @@ cc.Class({
     logCua: cc.Label,
     logTom: cc.Label,
     titleTime: cc.Label,
-    labelTime: cc.Label,
+    animatedTime: AnimatedTime,
     labelHu: cc.Label,
 
     Animation: cc.Animation,
@@ -398,8 +399,7 @@ cc.Class({
             cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2),
             2
           );
-          this.labelTime.node.color = cc.Color.RED;
-          this.labelTime.string = time;
+          this.animatedTime.setTime(time, true);
           this.titleTime.string = "Xem phiên";
           if (cc.RedT.setting.baucua.time_remain < (BCConstants.betTime + 6)) {
             this.Animation.node.active = false;
@@ -419,8 +419,8 @@ cc.Class({
               cc.RedT.setting.baucua.time_remain - 1,
               2
             );
-            this.labelTime.string = time;
-            this.labelTime.node.color = cc.Color.WHITE;
+            this.animatedTime.setTime(time);
+
           } else clearInterval(this.timeInterval);
         }
         cc.RedT.setting.baucua.time_remain--;
@@ -431,15 +431,13 @@ cc.Class({
   nextRealTime: function () {
     if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
       var time = helper.numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
-      this.labelTime.node.color = cc.Color.RED;
-      this.labelTime.string = helper.numberPad(time, 2);
+      this.animatedTime.setTime(helper.numberPad(time, 2), true);
       this.titleTime.string = "Xem phiên";
     } else {
       this.titleTime.string = "Đặt cược";
       if (cc.RedT.setting.baucua.time_remain > 0) {
         var time = helper.numberPad(cc.RedT.setting.baucua.time_remain - 1, 2);
-        this.labelTime.string = time;
-        this.labelTime.node.color = cc.Color.WHITE;
+        this.animatedTime.setTime(time);
       }
     }
   },
