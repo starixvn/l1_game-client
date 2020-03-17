@@ -19,7 +19,7 @@ function checkSSO(labelMessage, cb) {
                     window.authData = response.data;
                     window.authData.time = new Date();
 
-                    cc.sys.localStorage.setItem(sessionIdStorageName, JSON.stringify(response.data));
+                    storeSession(sessionIdStorageName, response.data);
 
                     cb();
                 }
@@ -43,6 +43,14 @@ function signOut() {
     cc.sys.localStorage.removeItem(sessionIdStorageName);
 }
 
+function storeSession(name, data){
+    cc.sys.localStorage.setItem(name, JSON.stringify(data));
+}
+
+function storeSessionData(data){
+    cc.sys.localStorage.setItem(sessionIdStorageName, JSON.stringify(data));
+}
+
 function triggerSignIn(mainGame) {
     if (!!window.authData) {
         mainGame.auth({
@@ -57,7 +65,9 @@ function triggerSignIn(mainGame) {
 }
 
 module.exports = {
-    checkSSO: checkSSO,
-    signOut: signOut,
-    triggerSignIn: triggerSignIn
+    checkSSO,
+    signOut,
+    triggerSignIn,
+    storeSession,
+    storeSessionData
 }

@@ -1,4 +1,10 @@
-//LOCAL
+//DEV MACHINE
+// const configs = {
+//     gameServerUrl: 'http://localhost:8080/',
+//     webSocketEndpoint: 'localhost:8080'
+// }
+
+//DEV MACHINE
 // const configs = {
 //     gameServerUrl: 'http://localhost:8080/',
 //     webSocketEndpoint: 'localhost:8080'

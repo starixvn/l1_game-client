@@ -1,4 +1,4 @@
-const authManager = require('./common/authManager');
+//const authManager = require('./common/authManager');
 var helper = require("Helper");
 
 var baseControll = require("BaseControll");
@@ -64,7 +64,7 @@ cc.Class({
     // this.iconTaiXiu = this.iconTaiXiu.getComponent("iconGameTaiXiu");
 
     //Ricky: window.username
-    authManager.triggerSignIn(cc.RedT.inGame);
+    // authManager.triggerSignIn(cc.RedT.inGame);
 
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.send({ scene: "home" });
@@ -85,7 +85,7 @@ cc.Class({
         cc.RedT.user.joinedOn
       );
     } else {
-      this.dialog.settings.setMusic();
+      //this.dialog.settings.setMusic();
     }
     // var check = localStorage.getItem("SOUND_BACKGROUND");
     // if (check == null || cc.RedT.isSoundBackground()) {
@@ -254,6 +254,10 @@ cc.Class({
     if (void 0 !== data.avatarId) {
       this.header.setAvatar(data.avatarId);
     }
+
+    if (data.ss) {
+      authManager.storeSessionData(data.ss);
+    }
   },
   signOut: function () {
     cc.RedT.user = {};
@@ -398,10 +402,10 @@ cc.Class({
     //cc.audioEngine.resumeMusic();
   },
   audioClick: function () {
-    cc.RedT.audio.playClick();
+    // cc.RedT.audio.playClick();
   },
   audioUnClick: function () {
-    cc.RedT.audio.playUnClick();
+    // cc.RedT.audio.playUnClick();
   },
   fanpage: function () {
     cc.sys.openURL(this.url + "/fanpage/");

@@ -1,4 +1,6 @@
 
+const authManager = require('./../../common/authManager');
+
 cc.Class({
     extends: cc.Component,
 
@@ -53,6 +55,7 @@ cc.Class({
         switch(this.type) {
             case 'sign_out':
                 cc.RedT._socket.close();
+                authManager.signOut();
                 this.node.active = false;
             break;
             case 'reg_otp':

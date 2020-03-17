@@ -28,12 +28,12 @@ export default class Footer extends cc.Component {
   }
 
   public onClickBackgroundMusic() {
-    cc.RedT.audio.playClick();
+    //   cc.RedT.audio.playClick();
     cc.RedT.isSoundBackground() ? this.setMusicOff() : this.setMusicOn();
   }
 
   public onClickSoundGame() {
-    cc.RedT.audio.playClick();
+    // cc.RedT.audio.playClick();
     cc.RedT.isSoundGame() ? this.setSoundGameOff() : this.setSoundGameOn();
   }
 
