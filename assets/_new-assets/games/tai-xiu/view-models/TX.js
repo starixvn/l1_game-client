@@ -10,7 +10,8 @@ cc.Class({
     TX_Top: TX_Top,
     board: true,
     TX_HistoryPrefab: cc.Prefab,
-    TX_HistoryBetPrefab: cc.Prefab
+    TX_HistoryBetPrefab: cc.Prefab,
+    GuidePrefab: cc.Prefab,
   },
 
   init(obj) {
@@ -73,5 +74,11 @@ cc.Class({
     this.TXBetHistory.init(this);
     this.TXBetHistory.getPhien(event.target.phien)
     this.node.addChild(taiXiuBetHistoryPrefab);
-  }
+  },
+  showGuide: function () {
+    var dialog = cc.instantiate(this.GuidePrefab);
+    this.node.addChild(dialog);
+    var guide = dialog.getComponent("dialogHuongDan");
+    guide.select("TaiXiu");
+  },
 });

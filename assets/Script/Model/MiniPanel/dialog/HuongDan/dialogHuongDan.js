@@ -7,14 +7,6 @@ cc.Class({
         content: cc.Node,
         title: cc.Label,
     },
-    init: function () {
-        Promise.all(this.game.children.map(function (obj) {
-            return obj.children[1].getComponent(cc.Label);
-        }))
-            .then(result => {
-                this.game = result;
-            })
-    },
     selectGame: function (event, game) {
         this.select(game)
     },
@@ -43,4 +35,7 @@ cc.Class({
             return void 0;
         }))
     },
+    closeDialog: function () {
+        this.node.destroy();
+    }
 });
