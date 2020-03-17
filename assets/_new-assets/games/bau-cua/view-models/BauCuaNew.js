@@ -51,13 +51,13 @@ cc.Class({
 
     currentCuoc: 0,
     cuoc: "",
-    red: true
+    red: true,
+    topDialog: cc.Prefab,
+    historyDialog: cc.Prefab,
   },
   init(obj) {
     this.currentCuoc = 0;
     this.RedT = obj;
-    this.Top = obj.Dialog.BauCua_top;
-    this.LichSu = obj.Dialog.BauCua_LichSu;
     cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
       regOpen: false,
       data: {
@@ -148,8 +148,8 @@ cc.Class({
           view: bool,
           regOpen: true
         } : {
-          view: bool
-        }
+            view: bool
+          }
       }
     });
   },
@@ -181,6 +181,18 @@ cc.Class({
     cc.RedT.audio.playUnClick();
     this.node.active = !1;
     localStorage.setItem("bauCua", false);
+  },
+  pressedTopDialog() {
+    var dialog = cc.instantiate(this.topDialog);
+    this.node.addChild(dialog);
+    this.Top = dialog.getComponent("BauCuaTop");
+    this.Top.init(this);
+  },
+  pressedHistoryDialog() {
+    var dialog = cc.instantiate(this.historyDialog);
+    this.node.addChild(dialog);
+    this.LichSu = dialog.getComponent("BauCuaHistory");
+    this.LichSu.init(this);
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
@@ -332,10 +344,10 @@ cc.Class({
       this.addLogs();
     }
     if (void 0 !== data.tops) {
-      this.Top.onData(data.tops);
+      this.Top && this.Top.onData(data.tops);
     }
     if (void 0 !== data.viewlogs) {
-      this.LichSu.onData(data.viewlogs);
+      this.LichSu && this.LichSu.onData(data.viewlogs);
     }
     if (void 0 !== data.regOpen) {
       cc.RedT.setting.baucua.regOpen = true;
