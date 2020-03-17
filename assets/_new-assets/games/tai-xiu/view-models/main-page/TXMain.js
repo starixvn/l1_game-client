@@ -535,7 +535,7 @@ cc.Class({
       this.status(data.status);
     }
     if (void 0 !== data.get_log) {
-      this.RedT.TX_LichSu.onData(data.get_log);
+      this.RedT.TXHistory.onData(data.get_log);
     }
     if (void 0 !== data.logs) {
       cc.RedT.setting.taixiu.logs = data.logs;

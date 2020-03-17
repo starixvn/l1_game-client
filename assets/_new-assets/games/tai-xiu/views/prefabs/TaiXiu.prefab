@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "TaiXiuNew",
+    "_name": "TaiXiu",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -23777,11 +23777,13 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 1
+    },
     "component": "",
-    "_componentId": "",
-    "handler": "",
-    "customEventData": ""
+    "_componentId": "3d515cq+2BEC7iSmNYh2g0/",
+    "handler": "showPopUpDialog",
+    "customEventData": "History"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -28058,7 +28060,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "scrollview",
+    "_name": "ScrollView",
     "_objFlags": 0,
     "_parent": {
       "__id__": 696
@@ -28370,7 +28372,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "button-close",
+    "_name": "CloseButton",
     "_objFlags": 0,
     "_parent": {
       "__id__": 696
@@ -28554,12 +28556,12 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 1
+      "__id__": 763
     },
     "asset": {
-      "__uuid__": "822df7ef-13a5-482e-8504-0a81f3049c13"
+      "__uuid__": "3ad15192-35b8-42b1-a32a-186cc02228a0"
     },
-    "fileId": "8epnV8mqZOm5mUnXkIt25J",
+    "fileId": "d9yMmdm3tIH55Ihb6Fck94",
     "sync": false
   },
   {
@@ -86093,6 +86095,13 @@
       "__id__": 791
     },
     "board": false,
+    "PopupDialogPrefab": null,
+    "TX_HistoryPrefab": {
+      "__uuid__": "b412ff88-945b-49c8-96bf-92bc78fdbace"
+    },
+    "TX_HistoryBetPrefab": {
+      "__uuid__": "d71fc6c0-61bf-4918-b151-c103c327135b"
+    },
     "_id": ""
   },
   {
