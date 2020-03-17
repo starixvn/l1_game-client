@@ -402,10 +402,10 @@ cc.Class({
     //cc.audioEngine.resumeMusic();
   },
   audioClick: function () {
-    // cc.RedT.audio.playClick();
+    cc.RedT.audio.playClick();
   },
   audioUnClick: function () {
-    // cc.RedT.audio.playUnClick();
+    cc.RedT.audio.playUnClick();
   },
   fanpage: function () {
     cc.sys.openURL(this.url + "/fanpage/");
