@@ -1,4 +1,4 @@
-const axios = require('../Util/axios');
+const httpHelper = require('../Helper/httpHelper');
 const configs = require('./configs');
 const sessionIdStorageName = 'scss';
 
@@ -13,25 +13,28 @@ function checkSSO(labelMessage, cb) {
         cb();
     }
     else if (urlParams.has("token")) {
-        axios.get(`${configs.gameServerUrl}authenticate?token=${urlParams.get("token")}`)
-            .then(function (response) {
-                if (response.data.isAuthenticated) {
-                    window.authData = response.data;
+        const url = `${configs.gameServerUrl}authenticate?token=${urlParams.get("token")}`;
+
+        try {
+            httpHelper.get(url, function (response) {
+                if (response.isAuthenticated) {
+                    window.authData = response;
                     window.authData.time = new Date();
 
-                    storeSession(sessionIdStorageName, response.data);
+                    storeSession(sessionIdStorageName, response);
 
                     cb();
                 }
                 else {
                     labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
                 }
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                labelMessage.string = "Đăng nhập lỗi.";
-                console.log(error);
+                console.log(response);
             });
+        }
+        catch (error) {
+            labelMessage.string = "Đăng nhập lỗi.";
+            console.log(error);
+        }
 
         isSuccess = true;
     }
@@ -43,11 +46,11 @@ function signOut() {
     cc.sys.localStorage.removeItem(sessionIdStorageName);
 }
 
-function storeSession(name, data){
+function storeSession(name, data) {
     cc.sys.localStorage.setItem(name, JSON.stringify(data));
 }
 
-function storeSessionData(data){
+function storeSessionData(data) {
     cc.sys.localStorage.setItem(sessionIdStorageName, JSON.stringify(data));
 }
 
