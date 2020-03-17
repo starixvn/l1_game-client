@@ -30,6 +30,9 @@ cc.Class({
   onDisable: function () {
     this.regEvent(false);
   },
+  setTop: function () {
+    this.node.parent.insertChild(this.node);
+  },
   regEvent: function (bool) {
     cc.RedT.send({
       taixiu: !cc.RedT.setting.taixiu.getLogs
@@ -58,10 +61,17 @@ cc.Class({
   signIn: function () {
     !this.node.active && (this.TX_Main.nodeTimePopup.active = true);
   },
-  showPopUpDialog: function (popupName) {
+  showHistory: function () {
     var taiXiuHistoryPrefab = cc.instantiate(this.TX_HistoryPrefab);
     this.TXHistory = taiXiuHistoryPrefab.getComponent("TXHistory");
     this.TXHistory.init(this);
     this.node.addChild(taiXiuHistoryPrefab);
+  },
+  showBetHistory: function (event) {
+    var taiXiuBetHistoryPrefab = cc.instantiate(this.TX_HistoryBetPrefab);
+    this.TXBetHistory = taiXiuBetHistoryPrefab.getComponent("TXBetHistory");
+    this.TXBetHistory.init(this);
+    this.TXBetHistory.getPhien(event.target.phien)
+    this.node.addChild(taiXiuBetHistoryPrefab);
   }
 });

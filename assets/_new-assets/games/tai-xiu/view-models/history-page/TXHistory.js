@@ -13,13 +13,6 @@ cc.Class({
   },
   onLoad() {
     this.page.init(this);
-    // Promise.all(
-    //   this.content.children.map(function (obj) {
-    //     return obj.getComponent("TXHistoryItem");
-    //   })
-    // ).then(result => {
-    //   this.content = result;
-    // });
   },
   onEnable: function () {
     this.get_data();
