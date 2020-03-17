@@ -1,8 +1,8 @@
 //DEV MACHINE
-const configs = {
-    gameServerUrl: 'http://localhost:8080/',
-    webSocketEndpoint: 'localhost:8080'
-}
+// const configs = {
+//     gameServerUrl: 'http://localhost:8080/',
+//     webSocketEndpoint: 'localhost:8080'
+// }
 
 //DEV MACHINE
 // const configs = {
@@ -11,9 +11,9 @@ const configs = {
 // }
 
 //PRO
-// const configs = {
-//     gameServerUrl: 'http://minigame.luminetsoft.com:8080/',
-//     webSocketEndpoint: 'minigame.luminetsoft.com:8080'
-// }
+const configs = {
+    gameServerUrl: 'http://minigame.luminetsoft.com:8080/',
+    webSocketEndpoint: 'minigame.luminetsoft.com:8080'
+}
 
 module.exports = configs;
