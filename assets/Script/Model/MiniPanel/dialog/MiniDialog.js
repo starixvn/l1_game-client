@@ -1,38 +1,26 @@
 
-var TaiXiuLichSuPhien = require('TaiXiuLichSuPhien'),
-	TaiXiuLichSu = require('TaiXiuLichSu'),
-	MiniPoker_LichSu = require('MiniPoker_LichSu'),
+var MiniPoker_LichSu = require('MiniPoker_LichSu'),
 	MiniPoker_Top = require('MiniPoker_Top'),
 	BigBabol_LichSu = require('BigBabol_LichSu'),
 	BigBabol_Top = require('BigBabol_Top'),
-	BauCua_LichSu = require('BauCua_LichSu'),
-	BauCua_top = require('BauCua_top'),
 	Mini3Cay_history = require('Mini3Cay_history'),
 	Mini3Cay_top = require('Mini3Cay_top'),
 	CaoThap_history = require('CaoThap_history'),
 	CaoThap_top = require('CaoThap_top'),
-
 	AngryBird_history = require('AngryBird_history'),
 	AngryBird_top = require('AngryBird_top'),
-
-	HuongDan = require('dialogHuongDan');
-
-var MegaJ_history = require('MegaJ_history');
-var MegaJ_top = require('MegaJ_top');
+	MegaJ_history = require('MegaJ_history'),
+	MegaJ_top = require('MegaJ_top');
 
 
 cc.Class({
 	extends: cc.Component,
 
 	properties: {
-		TaiXiuLichSuPhien: TaiXiuLichSuPhien,
-		TaiXiuLichSu: TaiXiuLichSu,
 		MiniPoker_LichSu: MiniPoker_LichSu,
 		MiniPoker_Top: MiniPoker_Top,
 		BigBabol_LichSu: BigBabol_LichSu,
 		BigBabol_Top: BigBabol_Top,
-		BauCua_LichSu: BauCua_LichSu,
-		BauCua_top: BauCua_top,
 		Mini3Cay_history: Mini3Cay_history,
 		Mini3Cay_top: Mini3Cay_top,
 		CaoThap_history: CaoThap_history,
@@ -43,16 +31,12 @@ cc.Class({
 		MegaJ_history: MegaJ_history,
 		MegaJ_top: MegaJ_top,
 
-		HuongDan: HuongDan,
 		instructionPrefab: cc.Prefab,
 	},
 
 	init: function (obj) {
 		this.objShow = null;
 		this.objTmp = null;
-		this.TaiXiuLichSuPhien.init(obj.TaiXiu);
-		this.BauCua_LichSu.init(obj.BauCua);
-		//this.HuongDan.init();
 	},
 
 	onClickBack: function () {
@@ -101,14 +85,7 @@ cc.Class({
 	},
 
 	// Show
-	showTaiXiuLichSuPhien: function () {
-		this.node.active = this.TaiXiuLichSuPhien.node.active = true;
-		this.objShow = this.TaiXiuLichSuPhien.node;
-	},
-	showTaiXiuLichSu: function () {
-		this.node.active = this.TaiXiuLichSu.node.active = true;
-		this.objShow = this.TaiXiuLichSu.node;
-	},
+
 	showMiniPokerLichSu: function () {
 		this.node.active = this.MiniPoker_LichSu.node.active = true;
 		this.objShow = this.MiniPoker_LichSu.node;
@@ -124,14 +101,6 @@ cc.Class({
 	showBigBabolTop: function () {
 		this.node.active = this.BigBabol_Top.node.active = true;
 		this.objShow = this.BigBabol_Top.node;
-	},
-	showBauCuaLichSu: function () {
-		this.node.active = this.BauCua_LichSu.node.active = true;
-		this.objShow = this.BauCua_LichSu.node;
-	},
-	showBauCuaTop: function () {
-		this.node.active = this.BauCua_top.node.active = true;
-		this.objShow = this.BauCua_top.node;
 	},
 	showMini3Cay_history: function () {
 		this.node.active = this.Mini3Cay_history.node.active = true;
@@ -177,9 +146,5 @@ cc.Class({
 		let huongDan = obj.getComponent('dialogHuongDan');
 		huongDan.select(name);
 		this.node.addChild(obj);
-
-		// this.node.active = this.HuongDan.node.active = true;
-		// this.objShow = this.HuongDan.node;
-		// this.HuongDan.select(name);
 	},
 });

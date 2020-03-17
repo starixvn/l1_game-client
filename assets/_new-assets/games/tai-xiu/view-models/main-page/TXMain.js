@@ -229,7 +229,7 @@ cc.Class({
     Promise.all(
       this.dotLogs.children.map(function (dot) {
         var temp = dot.getComponent(cc.Sprite);
-        temp.mod = dot.getComponent("TaiXiuMain_logTips");
+        temp.mod = dot.getComponent("TXLogTips");
         return temp;
       })
     ).then(resulf => {
@@ -508,7 +508,7 @@ cc.Class({
   },
   onData: function (data) {
     if (void 0 !== data.get_phien) {
-      this.RedT.TX_LichSuPhien.onData(data.get_phien);
+      this.RedT.TXBetHistory.onData(data.get_phien);
     }
     if (void 0 !== data.err) {
       NoticeUtil.showNoticeMessage(this, data.err);
@@ -535,7 +535,7 @@ cc.Class({
       this.status(data.status);
     }
     if (void 0 !== data.get_log) {
-      this.RedT.TX_LichSu.onData(data.get_log);
+      this.RedT.TXHistory.onData(data.get_log);
     }
     if (void 0 !== data.logs) {
       cc.RedT.setting.taixiu.logs = data.logs;

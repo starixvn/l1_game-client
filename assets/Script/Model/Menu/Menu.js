@@ -49,7 +49,7 @@ cc.Class({
     );
   },
   openMiniGame: function(e, name) {
-    if (name == "TaiXiu") {
+    if (name == "TaiXiu" || name == "BauCua") {
       cc.RedT.MiniPanel.openGame(name);
     } else {
       cc.RedT.MiniPanel[name].openGame();

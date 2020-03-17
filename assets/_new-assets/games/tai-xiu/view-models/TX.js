@@ -8,17 +8,19 @@ cc.Class({
     TX_Main: TX_Main,
     TX_ThongKe: TX_ThongKe,
     TX_Top: TX_Top,
-    board: true
+    board: true,
+    TX_HistoryPrefab: cc.Prefab,
+    TX_HistoryBetPrefab: cc.Prefab,
+    GuidePrefab: cc.Prefab,
   },
+
   init(obj) {
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
-    this.TX_LichSu = obj.Dialog.TaiXiuLichSu;
-    this.TX_LichSuPhien = obj.Dialog.TaiXiuLichSuPhien;
     this.TX_Main.init(this);
     this.TX_ThongKe.init(this);
     this.TX_Top.init(this);
-
     var check = localStorage.getItem("taixiu");
+
     if (check == "true") {
       this.node.active = true;
     }
@@ -29,15 +31,15 @@ cc.Class({
   onDisable: function () {
     this.regEvent(false);
   },
+  setTop: function () {
+    this.node.parent.insertChild(this.node);
+  },
   regEvent: function (bool) {
     cc.RedT.send({
       taixiu: !cc.RedT.setting.taixiu.getLogs
         ? { view: bool, getLogs: true }
         : { view: bool }
     });
-  },
-  setTop: function () {
-    this.node.parent.insertChild(this.node);
   },
   openGame: function (e, taixiu = "1") {
     cc.RedT.audio.playClick();
@@ -46,8 +48,6 @@ cc.Class({
       this.TX_Main.initGame(taixiu == "1");
       this.node.active = 1;
       localStorage.setItem("taixiu", true);
-
-      // this.setTop();
     } else cc.RedT.inGame.dialog.showSignIn();
   },
   closeGame: function () {
@@ -61,5 +61,24 @@ cc.Class({
   },
   signIn: function () {
     !this.node.active && (this.TX_Main.nodeTimePopup.active = true);
-  }
+  },
+  showHistory: function () {
+    var taiXiuHistoryPrefab = cc.instantiate(this.TX_HistoryPrefab);
+    this.TXHistory = taiXiuHistoryPrefab.getComponent("TXHistory");
+    this.TXHistory.init(this);
+    this.node.addChild(taiXiuHistoryPrefab);
+  },
+  showBetHistory: function (event) {
+    var taiXiuBetHistoryPrefab = cc.instantiate(this.TX_HistoryBetPrefab);
+    this.TXBetHistory = taiXiuBetHistoryPrefab.getComponent("TXBetHistory");
+    this.TXBetHistory.init(this);
+    this.TXBetHistory.getPhien(event.target.phien)
+    this.node.addChild(taiXiuBetHistoryPrefab);
+  },
+  showGuide: function () {
+    var dialog = cc.instantiate(this.GuidePrefab);
+    this.node.addChild(dialog);
+    var guide = dialog.getComponent("dialogHuongDan");
+    guide.select("TaiXiu");
+  },
 });
