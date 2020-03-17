@@ -20,7 +20,7 @@ cc.Class({
         }
     },
     Select: function (x) {
-        this.xLabel.node.active = true;
+        this.xLabel.node.active = x != 1;
         this.xLabel.string = 'x' + x;
     },
     unSelect: function () {
