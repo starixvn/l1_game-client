@@ -1,5 +1,7 @@
-
-const authManager = require('./../../common/authManager');
+let authManager = null;
+if (cc.sys.isBrowser) {
+    authManager = require('./../../common/authManager');
+}
 
 cc.Class({
     extends: cc.Component,
@@ -25,7 +27,7 @@ cc.Class({
     onDisable: function () {
         this.clean();
     },
-    show: function(data) {
+    show: function (data) {
         this.node.active = true;
         if (void 0 !== data.load) {
             cc.RedT.inGame.loading.active = !1;
@@ -37,27 +39,29 @@ cc.Class({
             this.text.string = data.text;
         }
         if (void 0 !== data.button) {
-            this.text.node.y   = 8;
-            this.type          = data.button.type;
+            this.text.node.y = 8;
+            this.type = data.button.type;
             this.button.string = data.button.text;
             this.nodeButton.active = true;
-        }else{
+        } else {
             this.nodeButton.active = false;
             this.text.node.y = -14;
         }
     },
-    close: function(){
+    close: function () {
         cc.RedT.audio.playUnClick();
         this.node.active = false;
     },
-    onClickButton: function(){
+    onClickButton: function () {
         cc.RedT.audio.playClick();
-        switch(this.type) {
+        switch (this.type) {
             case 'sign_out':
                 cc.RedT._socket.close();
-                authManager.signOut();
+                if (authManager) {
+                    authManager.signOut();
+                }
                 this.node.active = false;
-            break;
+                break;
             case 'reg_otp':
                 this.node.active = false;
                 if (cc.RedT.inGame.dialog.objShow != null) {
@@ -66,10 +70,10 @@ cc.Class({
                 }
                 cc.RedT.inGame.dialog.showProfile(null, 'BaoMat');
                 cc.RedT.inGame.dialog.profile.BaoMat.onSelectHead(null, 'DangKyOTP');
-            break;
+                break;
         }
     },
-    clean: function(){
+    clean: function () {
         this.title.string = this.text.string = this.button.string = '';
     },
 });

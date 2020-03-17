@@ -1,4 +1,7 @@
-const authManager = require('./common/authManager');
+let authManager = null;
+if (cc.sys.isBrowser) {
+  authManager = require('./common/authManager');
+}
 var helper = require("Helper");
 
 var baseControll = require("BaseControll");
@@ -64,7 +67,9 @@ cc.Class({
     // this.iconTaiXiu = this.iconTaiXiu.getComponent("iconGameTaiXiu");
 
     //Ricky: window.username
-    authManager.triggerSignIn(cc.RedT.inGame);
+    if (authManager) {
+      authManager.triggerSignIn(cc.RedT.inGame);
+    }
 
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.send({ scene: "home" });

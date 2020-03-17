@@ -53,14 +53,16 @@ function storeSessionData(data){
 
 function triggerSignIn(mainGame) {
     if (!!window.authData) {
-        mainGame.auth({
-            authentication:
-            {
-                username: window.authData.username,
-                isSso: true,
-                data: window.authData
-            }
-        });
+        setTimeout(() => {
+            mainGame.auth({
+                authentication:
+                {
+                    username: window.authData.username,
+                    isSso: true,
+                    data: window.authData
+                }
+            });
+        }, 500);
     }
 }
 

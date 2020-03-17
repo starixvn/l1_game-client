@@ -1,4 +1,7 @@
-const authManager = require('../common/authManager');
+let authManager = null; 
+if (cc.sys.isBrowser) {
+  authManager = require('../common/authManager');
+}
 
 cc.Class({
   extends: cc.Component,
@@ -44,8 +47,8 @@ cc.Class({
   loadAssets: function () {
     this.updateProgress(0);
     this.messageLabel.string = "Đang lấy dữ liệu game ...";
-    if (cc.sys.isBrowser) {
-      if (authManager.checkSSO(this.messageLabel, function() {
+    if (cc.sys.isBrowser && authManager) {
+      if (authManager.checkSSO(this.messageLabel, function () {
         this.loadScene()
       }.bind(this))) {
         return;
