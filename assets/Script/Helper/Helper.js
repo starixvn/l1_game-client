@@ -49,10 +49,9 @@ function nFormatter(t, e) {
 function numberWithCommas(number) {
   if (number) {
     var result = (number = parseFloat(number)).toFixed(2).toString().split(".");
-    return (
-      (result[0] = result[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")),
-      result.join(".")
-    );
+    result[0] = result[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    return result[1] !== "00" ? result.join(".") : result[0];
   }
   return "0";
 }
