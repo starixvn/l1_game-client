@@ -1,7 +1,4 @@
-let authManager = null;
-if (cc.sys.isBrowser) {
-    authManager = require('./../../../../Script/common/authManager');
-}
+let authManager =  require('./../../../../Script/common/authManager');
 
 cc.Class({
     extends: cc.Component,

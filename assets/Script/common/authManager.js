@@ -5,7 +5,7 @@ const sessionIdStorageName = 'scss';
 function checkSSO(labelMessage, cb) {
     let isSuccess = false;
     let urlParams = new URLSearchParams(window.location.search);
-    let authData = JSON.parse(cc.sys.localStorage.getItem('scss'));
+    let authData = getSession();
     if (authData && authData.isAuthenticated) {
         isSuccess = true;
         console.log(authData);
@@ -44,6 +44,10 @@ function checkSSO(labelMessage, cb) {
 
 function signOut() {
     cc.sys.localStorage.removeItem(sessionIdStorageName);
+}
+
+function getSession() {
+    return JSON.parse(cc.sys.localStorage.getItem('scss'));
 }
 
 function storeSession(name, data) {

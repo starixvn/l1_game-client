@@ -1,7 +1,4 @@
-let authManager = null;
-if (cc.sys.isBrowser) {
-  authManager = require('./common/authManager');
-}
+let authManager = require('./common/authManager');
 var helper = require("Helper");
 
 var baseControll = require("BaseControll");
