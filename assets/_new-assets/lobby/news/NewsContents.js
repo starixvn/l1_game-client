@@ -16,7 +16,7 @@ cc.Class({
 		}
 		for (var i = 0; i < this.node.childrenCount; i++) {
 			var child = this.node.children[i];
-			child.position = cc.v2(child.position.x - 160 * t, 0);
+			child.position = cc.v2(child.position.x - 100 * t, 0);
 
 			if (child.position.x + child.width < - this.RedT.node.width) {
 				child.destroy();
@@ -82,10 +82,8 @@ cc.Class({
 
 	AddNewsNode(node) {
 		var count = this.node.childrenCount;
-		if (count > 10) {
-			return;
-		}
 		var lastItemX = this.RedT.node.width + 200;
+
 		if (count > 0) {
 			var lastNode = this.node.children[count - 1];
 			lastItemX = Math.max(lastNode.position.x + 450, lastItemX);
