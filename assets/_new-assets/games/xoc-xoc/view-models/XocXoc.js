@@ -113,7 +113,7 @@ cc.Class({
 				cc.RedT.isSoundGame() && this.audioXocDia.play();
 				this.Animation.play();
 			}, this));
-		this.maxDot = { x: 40, y: 40 };
+		this.maxDot = { x: 30, y: 30 };
 
 		this.maxBox1_3 = { x: 103, y: 40 };
 		this.maxBox1_1 = { x: 180, y: 70 };
