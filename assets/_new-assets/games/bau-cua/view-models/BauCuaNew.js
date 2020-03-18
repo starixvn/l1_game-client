@@ -198,7 +198,7 @@ cc.Class({
     var dialog = cc.instantiate(this.guidePrefab);
     this.node.addChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");
-    guide.select("TaiXiu");
+    guide.select("BauCua");
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
