@@ -1,8 +1,6 @@
 
 let helper = require('Helper');
 let notice = require('Notice');
-
-let dialog = require('XocXoc_dialog');
 let module_Player = require('XocXoc_Player');
 
 cc.Class({
@@ -90,7 +88,6 @@ cc.Class({
 		MiniPanel: cc.Prefab,
 		loading: cc.Node,
 		notice: notice,
-		dialog: dialog,
 
 		red: true,
 
@@ -271,7 +268,7 @@ cc.Class({
 			this.xocxocFinish(data.finish);
 		}
 		if (!!data.history) {
-			this.dialog.history.onData(data.history);
+			this.history && this.history.onData(data.history);
 		}
 		if (!!data.top) {
 			//top win
@@ -1280,7 +1277,7 @@ cc.Class({
 		this.node.addChild(dialog);
 	},
 
-	onpenHistory: function () {
+	openHistory: function () {
 		let dialog = cc.instantiate(this.prefabHistory);
 		this.node.addChild(dialog);
 		this.history = dialog.getComponent("XocXoc_history");

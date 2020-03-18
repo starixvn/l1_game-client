@@ -108,4 +108,9 @@ cc.Class({
             }
         }))
     },
+
+    closeDialog: function () {
+        this.node.destroy();
+
+    },
 });
