@@ -196,7 +196,8 @@ cc.Class({
     centerRoundLight: {
       default: null,
       type: cc.Sprite
-    }
+    },
+    AnimatedTime: cc.Component
   },
   init: function (obj) {
     this.RedT = obj;
@@ -548,7 +549,8 @@ cc.Class({
       if (cc.RedT.setting.taixiu.time_remain >= Constants.betTime) {
         this.setDice(!0);
         this.nodeTimeWait.active = true;
-        this.betTime.active = false;
+        this.AnimatedTime.node.active = false;
+        //this.betTime.active = false;
       }
       cc.RedT.setting.taixiu.getLogs = true;
     }
@@ -589,7 +591,8 @@ cc.Class({
           }
         }
         this.nodeTimeWait.active = true;
-        this.betTime.active = false;
+        //this.betTime.active = false;
+        this.AnimatedTime.node.active = false;
       }
       cc.RedT.setting.taixiu.time_remain =
         Constants.betTime + Constants.waitTime;
@@ -628,13 +631,14 @@ cc.Class({
           }
           this.efStop();
           this.nodeTimeWait.active = this.nodeKetQua.active = this.diaNan.active = false;
-          this.spriteNan.node.active = this.betTime.active = true;
+          this.spriteNan.node.active = this.AnimatedTime.node.active = true;
           if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
             var time = helper.numberPad(
               cc.RedT.setting.taixiu.time_remain - 1,
               2
             );
-            this.showBetTime(time);
+            //this.showBetTime(time);
+            this.AnimatedTime.setTime(time);
           } else clearInterval(this.timeInterval);
         }
         cc.RedT.setting.taixiu.time_remain--;
@@ -646,7 +650,8 @@ cc.Class({
     if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
       this.setDice(true);
       this.nodeTimeWait.active = true;
-      this.betTime.active = false;
+      //this.betTime.active = false;
+      this.AnimatedTime.node.active = false;
 
       var time = helper.numberPad(
         cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1,
@@ -655,11 +660,12 @@ cc.Class({
       this.showWaitTime(time);
     } else {
       this.nodeTimeWait.active = false;
-      this.betTime.active = true;
-
+      // this.betTime.active = true;
+      this.AnimatedTime.node.active = true;
       if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
         var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - 1, 2);
-        this.showBetTime(time);
+        // this.showBetTime(time);
+        this.AnimatedTime.setTime(time);
       }
     }
   },
