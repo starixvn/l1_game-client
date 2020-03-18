@@ -55,6 +55,7 @@ cc.Class({
     red: true,
     topDialog: cc.Prefab,
     historyDialog: cc.Prefab,
+    guidePrefab: cc.Prefab,
   },
   init(obj) {
     this.currentCuoc = 0;
@@ -192,6 +193,12 @@ cc.Class({
     this.node.addChild(dialog);
     this.LichSu = dialog.getComponent("BauCuaHistory");
     this.LichSu.init(this);
+  },
+  pressedShowGuide() {
+    var dialog = cc.instantiate(this.guidePrefab);
+    this.node.addChild(dialog);
+    var guide = dialog.getComponent("dialogHuongDan");
+    guide.select("TaiXiu");
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
