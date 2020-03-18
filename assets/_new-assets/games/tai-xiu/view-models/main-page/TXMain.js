@@ -13,8 +13,8 @@ cc.Class({
       default: null,
       type: cc.Node
     },
-    inputL: cc.Node,
-    inputR: cc.Node,
+    inputL: cc.Sprite,
+    inputR: cc.Sprite,
     inputLTxt: cc.Label,
     inputRTxt: cc.Label,
     inputLeft: {
@@ -197,7 +197,15 @@ cc.Class({
       default: null,
       type: cc.Sprite
     },
-    AnimatedTime: cc.Component
+    AnimatedTime: cc.Component,
+    BetButtonClickedFrame: {
+      default: null,
+      type: cc.SpriteFrame
+    },
+    BetButtonUnClickedFrame: {
+      default: null,
+      type: cc.SpriteFrame
+    },
   },
   init: function (obj) {
     this.RedT = obj;
@@ -291,6 +299,7 @@ cc.Class({
       bet = parseInt(bet);
       self.input.string = "ĐẶT CƯỢC";
       self.TX_Board.node.active = false;
+      this.setBetButtonClicked(false);
       if (isNaN(bet) || bet < Constants.minBet) {
         NoticeUtil.showNoticeMessage(
           this,
@@ -473,11 +482,26 @@ cc.Class({
     this.node.parent.insertChild(this.node);
     this.RedT.setTop();
   },
+  setBetButtonClicked(isClick, select) {
+    if (isClick) {
+      if (select == "right") {
+        this.inputR.spriteFrame = this.BetButtonClickedFrame;
+      }
+      else {
+        this.inputL.spriteFrame = this.BetButtonClickedFrame;
+      }
+    }
+    else {
+      this.inputL.spriteFrame = this.BetButtonUnClickedFrame;
+      this.inputR.spriteFrame = this.BetButtonUnClickedFrame;
+    }
+  },
   onSelectInput: function (event, select) {
     if (this.TX_Board.node.active) {
       return;
     }
 
+    this.setBetButtonClicked(true, select);
     this.TX_Board.node.active = true;
     this.inputOld = select;
     switch (select) {
