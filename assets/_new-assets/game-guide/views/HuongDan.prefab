@@ -6707,7 +6707,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 833,
+      "width": 829,
       "height": 488
     },
     "_anchorPoint": {
@@ -6719,7 +6719,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        6,
+        14,
         0,
         0,
         0,
@@ -8016,7 +8016,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 833.6,
+      "width": 832,
       "height": 488
     },
     "_anchorPoint": {
@@ -8028,7 +8028,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        7.2,
+        15,
         0,
         0,
         0,
@@ -8159,7 +8159,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 835,
-      "height": 753
+      "height": 787
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -10638,7 +10638,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 367.6
+      "height": 418
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -10650,7 +10650,7 @@
       "ctor": "Float64Array",
       "array": [
         -388.098,
-        -465.42,
+        -490.62,
         0,
         0,
         0,
@@ -10714,7 +10714,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        163.8,
+        189,
         0,
         0,
         0,
@@ -10809,7 +10809,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 775,
-      "height": 327.6
+      "height": 378
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -10821,7 +10821,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        143.8,
+        169,
         0,
         0,
         0,
@@ -10859,8 +10859,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Người chơi có thể đặt cược vào 1 hoặc nhiều linh vật cùng lúc trong cùng 1 lượt chơi và không bị giới hạn số tiền đặt cược.\n- Thời gian đặt cược cho mỗi phiên sẽ được hiển thị đếm ngược trên bàn chơi. Khi hết thời gian đặt cược, xúc xắc sẽ bắt đầu lắc và kết quả sẽ được hiển thị.\n- Người chơi sẽ thắng nếu trong ba viên xúc xắc xuất hiện linh vật mà người chơi đã đặt cược. Khi đó tiền cược sẽ được hoàn trả và người chơi sẽ nhận được tiền thưởng bằng với số lần linh vật (đã đặt cược) xuất hiện nhân với số tiền cược.\n           Tiền thắng = Tiền cược + Tiền cược * Số lần linh vật xuất hiện\n    * Ví dụ: \n       Nếu người chơi đặt 2.000 VND vào cửa Tôm và kết quả ra ba con Tôm. \n            Tiền thắng = 2.000 + 3 * 2.000 = 8.000\n- Nếu linh vật người chơi chọn không xuất hiện, đồng nghĩa với việc người chơi thua và mất số tiền cược.",
-    "_N$string": "- Người chơi có thể đặt cược vào 1 hoặc nhiều linh vật cùng lúc trong cùng 1 lượt chơi và không bị giới hạn số tiền đặt cược.\n- Thời gian đặt cược cho mỗi phiên sẽ được hiển thị đếm ngược trên bàn chơi. Khi hết thời gian đặt cược, xúc xắc sẽ bắt đầu lắc và kết quả sẽ được hiển thị.\n- Người chơi sẽ thắng nếu trong ba viên xúc xắc xuất hiện linh vật mà người chơi đã đặt cược. Khi đó tiền cược sẽ được hoàn trả và người chơi sẽ nhận được tiền thưởng bằng với số lần linh vật (đã đặt cược) xuất hiện nhân với số tiền cược.\n           Tiền thắng = Tiền cược + Tiền cược * Số lần linh vật xuất hiện\n    * Ví dụ: \n       Nếu người chơi đặt 2.000 VND vào cửa Tôm và kết quả ra ba con Tôm. \n            Tiền thắng = 2.000 + 3 * 2.000 = 8.000\n- Nếu linh vật người chơi chọn không xuất hiện, đồng nghĩa với việc người chơi thua và mất số tiền cược.",
+    "_string": "- Người chơi có thể đặt cược vào 1 hoặc nhiều linh vật cùng lúc trong cùng 1 lượt chơi và không bị giới hạn số lần đặt cược. Lưu ý, không thể hủy cược sau khi đặt.\n- Số tiền cược phải nằm trong khoảng từ 1$ đến 100$ cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là 100$\n- Thời gian đặt cược cho mỗi phiên sẽ được hiển thị đếm ngược trên bàn chơi. Khi hết thời gian đặt cược, xúc xắc sẽ bắt đầu lắc và kết quả sẽ được hiển thị.\n- Người chơi sẽ thắng nếu trong ba viên xúc xắc xuất hiện linh vật mà người chơi đã đặt cược. Khi đó tiền cược sẽ được hoàn trả và người chơi sẽ nhận được tiền thưởng bằng với số lần linh vật (đã đặt cược) xuất hiện nhân với số tiền cược.\n           Tiền thắng = Tiền cược + Tiền cược * Số lần linh vật xuất hiện\n    * Ví dụ: \n       Nếu người chơi đặt 2.000 VND vào cửa Tôm và kết quả ra ba con Tôm. \n            Tiền thắng = 2.000 + 3 * 2.000 = 8.000\n- Nếu linh vật người chơi chọn không xuất hiện, đồng nghĩa với việc người chơi thua và mất số tiền cược.",
+    "_N$string": "- Người chơi có thể đặt cược vào 1 hoặc nhiều linh vật cùng lúc trong cùng 1 lượt chơi và không bị giới hạn số lần đặt cược. Lưu ý, không thể hủy cược sau khi đặt.\n- Số tiền cược phải nằm trong khoảng từ 1$ đến 100$ cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là 100$\n- Thời gian đặt cược cho mỗi phiên sẽ được hiển thị đếm ngược trên bàn chơi. Khi hết thời gian đặt cược, xúc xắc sẽ bắt đầu lắc và kết quả sẽ được hiển thị.\n- Người chơi sẽ thắng nếu trong ba viên xúc xắc xuất hiện linh vật mà người chơi đã đặt cược. Khi đó tiền cược sẽ được hoàn trả và người chơi sẽ nhận được tiền thưởng bằng với số lần linh vật (đã đặt cược) xuất hiện nhân với số tiền cược.\n           Tiền thắng = Tiền cược + Tiền cược * Số lần linh vật xuất hiện\n    * Ví dụ: \n       Nếu người chơi đặt 2.000 VND vào cửa Tôm và kết quả ra ba con Tôm. \n            Tiền thắng = 2.000 + 3 * 2.000 = 8.000\n- Nếu linh vật người chơi chọn không xuất hiện, đồng nghĩa với việc người chơi thua và mất số tiền cược.",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -10899,7 +10899,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 367.6
+      "height": 418
     },
     "_resize": 1,
     "_N$layoutType": 2,
@@ -10979,7 +10979,7 @@
       "ctor": "Float64Array",
       "array": [
         -388.098,
-        -691.82,
+        -742.22,
         0,
         0,
         0,
@@ -11272,10 +11272,10 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 835,
-      "height": 753
+      "height": 787
     },
     "_resize": 0,
-    "_N$layoutType": 0,
+    "_N$layoutType": 2,
     "_N$padding": 0,
     "_N$cellSize": {
       "__type__": "cc.Size",
