@@ -473,6 +473,10 @@ cc.Class({
     this.RedT.setTop();
   },
   onSelectInput: function (event, select) {
+    if (this.TX_Board.node.active) {
+      return;
+    }
+
     this.TX_Board.node.active = true;
     this.inputOld = select;
     switch (select) {
