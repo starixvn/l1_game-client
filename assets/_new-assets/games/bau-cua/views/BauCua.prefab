@@ -14592,10 +14592,12 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 1
+    },
     "component": "",
     "_componentId": "c3c6dYicrdAhaFpLb47Wn2c",
-    "handler": "",
+    "handler": "pressedShowGuide",
     "customEventData": ""
   },
   {
@@ -15015,6 +15017,9 @@
     },
     "historyDialog": {
       "__uuid__": "fa2b2523-aae1-4a87-a9f8-93158113566b"
+    },
+    "guidePrefab": {
+      "__uuid__": "ece45f91-5f20-4b2d-9b02-fe0f3f8ae5f4"
     },
     "_id": ""
   },
