@@ -104,14 +104,11 @@ cc.Class({
       this.nextRealTime();
     }
     if (cc.RedT.IS_LOGIN) {
-      this.logLVHandling(cc.RedT.setting.baucua.logLV);
       this.DataHandling(cc.RedT.setting.baucua.data);
       if (this.red != cc.RedT.setting.baucua.red) {
         this.changerCoint();
       }
-      if (void 0 !== cc.RedT.setting.baucua.logLV) {
-        this.logLVHandling(cc.RedT.setting.baucua.logLV);
-      }
+
       if (void 0 !== cc.RedT.setting.baucua.logs) {
         this.addLogs();
       }
@@ -258,7 +255,6 @@ cc.Class({
     var heSo = {};
     for (var i = 0; i < 3; i++) {
       var dataT = dice[i];
-      cc.RedT.setting.baucua.logLV[dataT] += 1;
       if (void 0 === heSo[dataT]) {
         heSo[dataT] = 1;
       } else {
@@ -270,7 +266,6 @@ cc.Class({
         this.linhVat[j].Select(heSo[j]);
       }
     }
-    this.logLVHandling(cc.RedT.setting.baucua.logLV);
   },
   datCuoc: function (e, linhVat) {
     var cuoc = parseInt(this.cuoc);
@@ -311,12 +306,17 @@ cc.Class({
     this.logs.removeAllChildren();
     var limitLog = 30;
     var count = Math.min(limitLog, cc.RedT.setting.baucua.logs.length);
+    var LinhVat = [0, 0, 0, 0, 0, 0];
     for (var index = 0; index < count; index++) {
       var log = cc.RedT.setting.baucua.logs[index];
+      LinhVat[log[0]] += 1;
+      LinhVat[log[1]] += 1;
+      LinhVat[log[2]] += 1;
       var node = cc.instantiate(self.prefabLogs);
       var nodeComponent = node.getComponent("BauCua_logMini");
       Promise.all(
         nodeComponent.icon.map(function (sp, i) {
+
           sp.spriteFrame = self.iconMini[log[i]];
         })
       );
@@ -327,15 +327,13 @@ cc.Class({
       }
       self.logs.addChild(node);
     }
+
+    this.logLVHandling(LinhVat);
   },
   onData: function (data) {
     if (void 0 !== data.data) {
       var a = Object.assign(cc.RedT.setting.baucua.data, data.data);
       this.DataHandling(data.data);
-    }
-    if (void 0 !== data.logLV) {
-      Object.assign(cc.RedT.setting.baucua.logLV, data.logLV);
-      this.logLVHandling(data.logLV);
     }
     if (void 0 !== data.status) {
       this.status(data.status);
