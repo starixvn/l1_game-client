@@ -208,10 +208,10 @@ cc.Class({
     if (data.ss) {
       authManager.storeSessionData(data.ss);
     }
-    // if (void 0 !== data.name) {
-    //   this.header.userName.string = data.name;
-    //   this.dialog.profile.CaNhan.username.string = data.name;
-    // }
+
+    if (void 0 !== data.name) {
+      this.header.userName.string = data.name;
+    }
 
     // if (void 0 !== data.xu) {
     //   this.header.userXu.string = helper.numberWithCommas(data.xu);
