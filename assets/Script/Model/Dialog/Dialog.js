@@ -1,37 +1,20 @@
 
 var signIn = require('SignIn'),
 	signUp = require('SignUp'),
-	forGotPass = require('ForGotPass'),
 	signName = require('SignName'),
-	shop = require('Shop'),
-	profile = require('Profile'),
-	the_cao = require('TheCao'),
-	GiftCode = require('GiftCode'),
-	DEvent = require('DEvent'),
-	PokerNap = require('PokerNap'),
 	iMessage = require('iMessage');
 cc.Class({
 	extends: cc.Component,
 	properties: {
 		signIn: signIn,
 		signUp: signUp,
-		ForGotPass: forGotPass,
 		signName: signName,
-		shop: shop,
-		profile: profile,
-		the_cao: the_cao,
-		GiftCode: GiftCode,
-		DEvent: DEvent,
-		PokerNap: PokerNap,
 		iMessage: iMessage,
 	},
 	init: function () {
 		this.actionShow = cc.spawn(cc.scaleTo(0.5, 1).easing(cc.easeBackOut(2.5)), cc.fadeTo(0.5, 255));
 		this.objShow = null;
 		this.objTmp = null;
-		this.shop.init();
-		this.profile.init();
-		this.the_cao.init();
 	},
 
 	onClickBack: function () {
@@ -98,55 +81,10 @@ cc.Class({
 		this.node.active = this.signUp.node.active = true;
 		this.objShow = this.signUp.node;
 	},
-	showForGotPass: function () {
-		this.objShow.active = false;
-		this.ForGotPass.node.previous = this.objShow;
-		this.node.active = this.ForGotPass.node.active = true;
-		this.objShow = this.ForGotPass.node;
-	},
 	showSignName: function () {
 		this.node.active = this.signName.node.active = true;
 		this.signUp.node.active = this.signIn.node.active = false;
 		this.objShow = this.signName.node;
-	},
-	showShop: function (event, name) {
-		if (cc.RedT.IS_LOGIN) {
-			this.node.active = this.shop.node.active = true;
-			this.objShow = this.shop.node;
-			this.shop.superView(name);
-		} else {
-			this.showSignIn();
-		}
-	},
-	showProfile: function (event, name) {
-		this.node.active = this.profile.node.active = true;
-		this.objShow = this.profile.node;
-		this.profile.superView(name);
-	},
-	// showSetting: function(event){
-	// 	this.node.active = this.settings.node.active = true;
-	// 	this.objShow     = this.settings.node;
-	// },
-	showGiftCode: function (event) {
-		if (cc.RedT.IS_LOGIN) {
-			this.node.active = this.GiftCode.node.active = true;
-			this.objShow = this.GiftCode.node;
-		} else {
-			this.showSignIn();
-		}
-	},
-	showDEvent: function (event) {
-		if (cc.RedT.IS_LOGIN) {
-			this.node.active = this.DEvent.node.active = true;
-			this.objShow = this.DEvent.node;
-		} else {
-			this.showSignIn();
-		}
-	},
-	showPokerNap: function (obj) {
-		this.node.active = this.PokerNap.node.active = true;
-		this.objShow = this.PokerNap.node;
-		this.PokerNap.init(obj);
 	},
 	showiMessage: function (obj) {
 		this.node.active = this.iMessage.node.active = true;
