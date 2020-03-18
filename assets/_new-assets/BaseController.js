@@ -1,4 +1,4 @@
-const configs = require('./common/configs');
+const configs = require('Configs');
 
 module.exports = {
   IS_LOGIN: false,

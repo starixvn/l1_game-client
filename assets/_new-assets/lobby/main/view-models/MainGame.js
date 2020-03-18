@@ -1,7 +1,7 @@
-let authManager = require('./common/authManager');
+let authManager = require('AuthManager');
 var helper = require("Helper");
 
-var baseControll = require("BaseControll");
+var baseControll = require("BaseController");
 
 var header = require("Header"),
   dialog = require("Dialog"),
