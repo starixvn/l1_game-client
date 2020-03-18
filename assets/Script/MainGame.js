@@ -64,7 +64,7 @@ cc.Class({
     // this.iconTaiXiu = this.iconTaiXiu.getComponent("iconGameTaiXiu");
 
     //Ricky: window.username
-    if (authManager) {
+    if (authManager && !cc.RedT.IS_LOGIN) {
       authManager.triggerSignIn(cc.RedT.inGame);
     }
 

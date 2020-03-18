@@ -22,7 +22,7 @@ function checkSSO(labelMessage, cb) {
                     window.authData.time = new Date();
 
                     storeSession(sessionIdStorageName, response);
-
+                    clearTokenOnUrl();
                     cb();
                 }
                 else {
@@ -40,6 +40,15 @@ function checkSSO(labelMessage, cb) {
     }
 
     return isSuccess;
+}
+
+function clearTokenOnUrl() {
+    try {
+        history.pushState(null, "", location.href.split("?")[0]);
+    }
+    catch (ex) {
+        console.log(ex);
+    }
 }
 
 function signOut() {
