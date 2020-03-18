@@ -1,4 +1,4 @@
-let authManager = require('../common/authManager');
+let authManager = require('AuthManager');
 
 cc.Class({
   extends: cc.Component,

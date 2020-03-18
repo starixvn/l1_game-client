@@ -1,5 +1,5 @@
-const httpHelper = require('../Helper/httpHelper');
-const configs = require('./configs');
+const httpHelper = require('httpHelper');
+const configs = require('Configs');
 const sessionIdStorageName = 'scss';
 
 function checkSSO(labelMessage, cb) {
