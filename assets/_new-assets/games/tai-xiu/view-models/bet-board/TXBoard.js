@@ -20,44 +20,34 @@ cc.Class({
   init(obj) {
     this.RedT = obj;
   },
-  ChonTienClick: function(event, value) {
+  ChonTienClick: function (event, value) {
     this.RedT.input.string = helper.numberWithCommas(
       helper.getOnlyNumberInString(this.RedT.input.string) * 1 + value * 1
     );
   },
-  ChonSoClick: function(event, value) {
-    this.RedT.input.string = helper.numberWithCommas(
-      helper.getOnlyNumberInString(this.RedT.input.string + value)
-    );
-  },
-  onBackClick: function() {
+  onBackClick: function () {
     var number = helper.getOnlyNumberInString(this.RedT.input.string);
     this.RedT.input.string = helper.numberWithCommas(
       number.slice(0, number.length - 1)
     );
   },
-  onCleanClick: function() {
+  onCleanClick: function () {
     this.RedT.input.string = "";
   },
-  onAllClick: function() {
+  onAllClick: function () {
     this.RedT.input.string = helper.numberWithCommas(
       this.RedT.red ? cc.RedT.user.red : cc.RedT.user.xu
     );
+    this.RedT.setBetButtonClicked(false);
   },
-  onChangerTypeClick: function() {
-    if (this.nodeChonTien.active) {
-      this.nodeChonTien.active = false;
-      this.nodeChonSo.active = true;
-      this.textType.string = "CHỌN";
-    } else {
-      this.nodeChonSo.active = false;
-      this.nodeChonTien.active = true;
-      this.textType.string = "SỐ KHÁC";
-    }
-  },
-  onCuocClick: function() {},
-  onCloseClick: function() {
+  onCloseClick: function () {
     this.node.active = false;
-    this.RedT.input.string = this.RedT.RedT.board ? "" : "ĐẶT CƯỢC";
+    this.RedT.input.string = "ĐẶT CƯỢC";
+    this.RedT.setBetButtonClicked(false);
+  },
+  onOkClick: function () {
+    this.node.active = false;
+    this.RedT.input.string = "ĐẶT CƯỢC";
+    this.RedT.setBetButtonClicked(false);
   }
 });
