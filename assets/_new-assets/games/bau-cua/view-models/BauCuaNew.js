@@ -416,10 +416,10 @@ cc.Class({
           this.waitedTime.node.parent.active = true;
           this.waitedTime.string = time == "00" ? '' : "00:" + time;
           this.titleTime.string = "Xem phiên";
-          if (cc.RedT.setting.baucua.time_remain < (BCConstants.betTime + 6)) {
-            // show countdown           
-            // this.Animation.node.active = false;
-          }
+          // if (cc.RedT.setting.baucua.time_remain < (BCConstants.betTime + 6)) {
+          // show countdown           
+          // this.Animation.node.active = false;
+          // }
         } else {
           this.Animation.node.active = false;
           if (
@@ -432,7 +432,7 @@ cc.Class({
           }
 
           this.titleTime.string = "Đặt cược";
-          if (cc.RedT.setting.baucua.time_remain > 0) {
+          if (cc.RedT.setting.baucua.time_remain > 1) {
             let time = helper.numberPad(
               cc.RedT.setting.baucua.time_remain - 1,
               2
