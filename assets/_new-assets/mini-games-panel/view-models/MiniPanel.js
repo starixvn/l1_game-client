@@ -102,24 +102,24 @@ cc.Class({
     if (void 0 !== data.poker) {
       this.MiniPoker.onData(data.poker);
     }
-    if (void 0 !== data.big_babol) {
-      this.BigBabol.onData(data.big_babol);
-    }
+    // if (void 0 !== data.big_babol) {
+    //   this.BigBabol.onData(data.big_babol);
+    // }
     if (void 0 !== data.baucua) {
       this.BauCua.onData(data.baucua);
     }
-    if (void 0 !== data.bacay) {
-      this.BaCay.onData(data.bacay);
-    }
-    if (void 0 !== data.caothap) {
-      this.CaoThap.onData(data.caothap);
-    }
-    if (void 0 !== data.arb) {
-      this.AngryBirds.onData(data.arb);
-    }
-    if (void 0 !== data.megaj) {
-      this.MegaJackpot.onData(data.megaj);
-    }
+    // if (void 0 !== data.bacay) {
+    //   this.BaCay.onData(data.bacay);
+    // }
+    // if (void 0 !== data.caothap) {
+    //   this.CaoThap.onData(data.caothap);
+    // }
+    // if (void 0 !== data.arb) {
+    //   this.AngryBirds.onData(data.arb);
+    // }
+    // if (void 0 !== data.megaj) {
+    //   this.MegaJackpot.onData(data.megaj);
+    // }
   },
   onDataTaiXiu: function (taiXiuData) {
     if (void 0 !== taiXiuData) {
@@ -129,8 +129,8 @@ cc.Class({
   onDestroy: function () {
     clearInterval(this.TaiXiu.TX_Main.timeInterval);
     clearInterval(this.BauCua.timeInterval);
-    void 0 !== this.CaoThap.timeInterval &&
-      clearInterval(this.CaoThap.timeInterval);
+    // void 0 !== this.CaoThap.timeInterval &&
+    //   clearInterval(this.CaoThap.timeInterval);
   },
   playClick: function () {
     cc.RedT.audio.playClick();

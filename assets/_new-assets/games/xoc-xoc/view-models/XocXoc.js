@@ -61,6 +61,8 @@ cc.Class({
 
 		dot_red: cc.SpriteFrame,
 		dot_white: cc.SpriteFrame,
+		dot_red_large: cc.SpriteFrame,
+		dot_white_large: cc.SpriteFrame,
 
 		dot: {
 			default: [],
@@ -111,7 +113,7 @@ cc.Class({
 				cc.RedT.isSoundGame() && this.audioXocDia.play();
 				this.Animation.play();
 			}, this));
-		this.maxDot = { x: 44, y: 44 };
+		this.maxDot = { x: 30, y: 30 };
 
 		this.maxBox1_3 = { x: 103, y: 40 };
 		this.maxBox1_1 = { x: 180, y: 70 };
@@ -667,9 +669,9 @@ cc.Class({
 		this.dot.forEach(function (dot, index) {
 			let check = data[index];
 			if (check) {
-				dot.spriteFrame = self.dot_red;
+				dot.spriteFrame = self.dot_red_large;
 			} else {
-				dot.spriteFrame = self.dot_white;
+				dot.spriteFrame = self.dot_white_large;
 			}
 		});
 	},
