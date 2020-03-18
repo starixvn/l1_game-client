@@ -16,7 +16,7 @@ cc.Class({
         if (!!cuoc) {
             this.totall.string = helper.nFormatter(cuoc, 1);
         } else {
-            this.totall.string = 0;
+            this.totall.string = '';
         }
     },
     Select: function (x) {
