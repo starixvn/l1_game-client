@@ -309,23 +309,24 @@ cc.Class({
   addLogs: function () {
     var self = this;
     this.logs.removeAllChildren();
-    Promise.all(
-      cc.RedT.setting.baucua.logs.map(function (log, index) {
-        var node = cc.instantiate(self.prefabLogs);
-        var nodeComponent = node.getComponent("BauCua_logMini");
-        Promise.all(
-          nodeComponent.icon.map(function (sp, i) {
-            sp.spriteFrame = self.iconMini[log[i]];
-          })
-        );
-        if (index == 0) {
-          node.children[0].children[0].active = true;
-          node.children[1].children[0].active = true;
-          node.children[2].children[0].active = true;
-        }
-        self.logs.addChild(node);
-      })
-    );
+    var limitLog = 30;
+    var count = Math.min(limitLog, cc.RedT.setting.baucua.logs.length);
+    for (var index = 0; index < count; index++) {
+      var log = cc.RedT.setting.baucua.logs[index];
+      var node = cc.instantiate(self.prefabLogs);
+      var nodeComponent = node.getComponent("BauCua_logMini");
+      Promise.all(
+        nodeComponent.icon.map(function (sp, i) {
+          sp.spriteFrame = self.iconMini[log[i]];
+        })
+      );
+      if (index == 0) {
+        node.children[0].children[0].active = true;
+        node.children[1].children[0].active = true;
+        node.children[2].children[0].active = true;
+      }
+      self.logs.addChild(node);
+    }
   },
   onData: function (data) {
     if (void 0 !== data.data) {
