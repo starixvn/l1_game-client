@@ -322,9 +322,7 @@ cc.Class({
         })
       );
       if (index == 0) {
-        node.children[0].children[0].active = true;
-        node.children[1].children[0].active = true;
-        node.children[2].children[0].active = true;
+        node.children[3].active = true;
       }
       self.logs.addChild(node);
     }
@@ -413,8 +411,9 @@ cc.Class({
             2
           );
           // this.animatedTime.setTime(time, true);
-          this.waitedTime.node.parent.active = true;
           this.waitedTime.string = time == "00" ? '' : "00:" + time;
+          this.waitedTime.node.parent.active = true && time != "00";
+
           this.titleTime.string = "Xem phiên";
           // if (cc.RedT.setting.baucua.time_remain < (BCConstants.betTime + 6)) {
           // show countdown           
