@@ -8,7 +8,6 @@ cc.Class({
 	},
 	init: function (obj) {
 		this.RedT = obj;
-		this.lastItemX = this.RedT.node.width + 200;
 	},
 	update: function (t) {
 		if (this.node.childrenCount === 0) {
@@ -82,8 +81,16 @@ cc.Class({
 	},
 
 	AddNewsNode(node) {
-		node.position = cc.v2(this.lastItemX, 0);
+		var count = this.node.childrenCount;
+		if (count > 10) {
+			return;
+		}
+		var lastItemX = this.RedT.node.width + 200;
+		if (count > 0) {
+			var lastNode = this.node.children[count - 1];
+			lastItemX = Math.max(lastNode.position.x + 450, lastItemX);
+		}
+		node.position = cc.v2(lastItemX, 0);
 		this.node.addChild(node);
-		this.lastItemX += node.width + 300;
 	}
 });
