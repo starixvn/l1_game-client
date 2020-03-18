@@ -1,7 +1,6 @@
 var helper = require("Helper");
 var BauCua_linhVat = require("BauCuaMascot");
 var BCConstants = require("BCConstants");
-var AnimatedTime = require("../commons/AnimatedTime");
 
 cc.Class({
   extends: cc.Component,
@@ -35,7 +34,7 @@ cc.Class({
     logCua: cc.Label,
     logTom: cc.Label,
     titleTime: cc.Label,
-    animatedTime: AnimatedTime,
+    animatedTime: cc.Component,
     waitedTime: cc.Label,
     labelHu: cc.Label,
 
@@ -443,6 +442,7 @@ cc.Class({
               cc.RedT.setting.baucua.time_remain - 1,
               2
             );
+
             this.animatedTime.setTime(time);
 
           } else clearInterval(this.timeInterval);

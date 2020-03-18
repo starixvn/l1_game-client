@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class AnimatedTime extends cc.Component {
 
     @property(cc.Label)
     firstChar: cc.Label = null;
@@ -10,18 +10,21 @@ export default class NewClass extends cc.Component {
     secondChar: cc.Label = null;
 
     private timeToChangeColor: number = 5;
-    private defaultColor: cc.Color;
-
+    private changedColor: cc.Color = cc.Color.RED;
     public onLoad() {
         this.node.active = false;
-        this.defaultColor = this.firstChar.node.color;
     }
 
     setRedTime(time: number) {
         this.timeToChangeColor = time;
     }
 
-    public setTime(time: number, forceChangeColor = false, changedColor: cc.Color = cc.Color.RED) {
+    setChangedColor(color: cc.Color) {
+        this.changedColor = color;
+    }
+
+    public setTime(time: number, forceChangeColor = false) {
+        this.node.active = true;
         var firstTimeChar = time.toString().substr(0, 1);
         var secondTimeChar = time.toString().substr(1, 1);
 
@@ -34,13 +37,11 @@ export default class NewClass extends cc.Component {
         this.secondChar.string = secondTimeChar;
 
         var colorChange = (forceChangeColor || (this.timeToChangeColor != undefined && time <= this.timeToChangeColor));
-        this.firstChar.node.color = colorChange ? changedColor : this.defaultColor;
+        this.firstChar.node.color = colorChange ? this.changedColor : cc.Color.WHITE;
         this.secondChar.node.color = this.firstChar.node.color;
     }
 
     private handleBetTimeAnimation(node: cc.Node) {
-        var nodeY = node.position.y;
-
         cc.tween(node)
             .to(0, {
                 position: cc.v2(node.position.x, 60),
