@@ -414,7 +414,7 @@ cc.Class({
           );
           // this.animatedTime.setTime(time, true);
           this.waitedTime.node.parent.active = true;
-          this.waitedTime.string = "00:" + time;
+          this.waitedTime.string = time == "00" ? '' : "00:" + time;
           this.titleTime.string = "Xem phiên";
           if (cc.RedT.setting.baucua.time_remain < (BCConstants.betTime + 6)) {
             // show countdown           
