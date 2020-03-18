@@ -44,8 +44,9 @@ cc.Class({
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;
       cc.RedT.init();
-      cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
     }
+
+    cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
     // Connect Server
     cc.RedT.reconnect();
 
@@ -57,13 +58,6 @@ cc.Class({
     cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
     this.redhat.insertChild(MiniPanel);
 
-    // this.iconCandy = this.iconCandy.getComponent("iconGameHu");
-    // this.iconVQRed = this.iconVQRed.getComponent("iconGameHu");
-    // this.iconLongLan = this.iconLongLan.getComponent("iconGameHu");
-    // this.iconMegaJ = this.iconMegaJ.getComponent("iconGameHu");
-    // this.iconTaiXiu = this.iconTaiXiu.getComponent("iconGameTaiXiu");
-
-    //Ricky: window.username
     if (authManager && !cc.RedT.IS_LOGIN) {
       authManager.triggerSignIn(cc.RedT.inGame);
     }
@@ -72,23 +66,13 @@ cc.Class({
       cc.RedT.send({ scene: "home" });
       this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
-      this.dialog.profile.CaNhan.username.string = cc.RedT.user.name;
       this.header.userRed.string = this.dialog.profile.KetSat.redHT.string = this.formatUserCurrency(cc.RedT.user.red);
-      this.dialog.profile.KetSat.redKet.string = helper.numberWithCommas(
-        cc.RedT.user.ketSat
-      );
-      this.dialog.profile.CaNhan.UID.string = cc.RedT.user.UID;
-      this.dialog.profile.CaNhan.phone.string = cc.RedT.user.phone;
-      this.dialog.profile.CaNhan.email.string = cc.RedT.user.email;
-      this.dialog.profile.CaNhan.joinedOn.string = helper.getStringDateByTime(
-        cc.RedT.user.joinedOn
-      );
     }
   },
   auth: function (obj) {
     var self = this;
     this.loading.active = true;
-    //cc.RedT.reconnect();
+
     if (cc.RedT._socket == null || cc.RedT._socket.readyState != 1) {
       setTimeout(function () {
         cc.RedT.send(obj);
