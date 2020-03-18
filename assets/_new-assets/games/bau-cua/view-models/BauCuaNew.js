@@ -36,6 +36,7 @@ cc.Class({
     logTom: cc.Label,
     titleTime: cc.Label,
     animatedTime: AnimatedTime,
+    waitedTime: cc.Label,
     labelHu: cc.Label,
 
     Animation: cc.Animation,
@@ -119,6 +120,7 @@ cc.Class({
   },
   onLoad() {
     this.ttOffset = null;
+    this.animatedTime.setRedTime(BCConstants.stopBetTime);
   },
   onEnable: function () {
     //this.onGetHu();
@@ -379,7 +381,7 @@ cc.Class({
           .start();
       }
 
-      cc.RedT.setting.baucua.time_remain = BCConstants.betTime + 12;
+      cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
       this.playTime();
     }
     if (void 0 !== data.notice) {
@@ -405,14 +407,18 @@ cc.Class({
     this.timeInterval = setInterval(
       function () {
         if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
+          //count down to next round
           let time = helper.numberPad(
             cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2),
             2
           );
-          this.animatedTime.setTime(time, true);
+          // this.animatedTime.setTime(time, true);
+          this.waitedTime.node.parent.active = true;
+          this.waitedTime.string = "00:" + time;
           this.titleTime.string = "Xem phiên";
           if (cc.RedT.setting.baucua.time_remain < (BCConstants.betTime + 6)) {
-            this.Animation.node.active = false;
+            // show countdown           
+            // this.Animation.node.active = false;
           }
         } else {
           this.Animation.node.active = false;
@@ -420,6 +426,8 @@ cc.Class({
             cc.RedT.setting.baucua.regOpen &&
             cc.RedT.setting.baucua.time_remain == (BCConstants.betTime + 1)
           ) {
+            this.waitedTime.node.parent.active = false;
+            this.Animation.node.active = false;
             this.resetData();
           }
 
