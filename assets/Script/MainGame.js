@@ -86,14 +86,7 @@ cc.Class({
       this.dialog.profile.CaNhan.joinedOn.string = helper.getStringDateByTime(
         cc.RedT.user.joinedOn
       );
-    } else {
-      //this.dialog.settings.setMusic();
     }
-    // var check = localStorage.getItem("SOUND_BACKGROUND");
-    // if (check == null || cc.RedT.isSoundBackground()) {
-    //   cc.RedT.setSoundBackground(true);
-    //   this.playMusic();
-    // }
   },
   auth: function (obj) {
     var self = this;
@@ -140,19 +133,19 @@ cc.Class({
     if (void 0 !== data.mini) {
       cc.RedT.MiniPanel.onData(data.mini);
     }
-    if (void 0 !== data.TopHu) {
-      cc.RedT.MiniPanel.TopHu.onData(data.TopHu);
-      this.dialog.DEvent.onHU(data.TopHu);
-    }
+    // if (void 0 !== data.TopHu) {
+    //   cc.RedT.MiniPanel.TopHu.onData(data.TopHu);
+    //   this.dialog.DEvent.onHU(data.TopHu);
+    // }
     if (void 0 !== data.taixiu) {
       cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
     }
-    if (void 0 !== data.shop) {
-      this.dialog.shop.onData(data.shop);
-    }
-    if (void 0 !== data.profile) {
-      this.dialog.profile.onData(data.profile);
-    }
+    // if (void 0 !== data.shop) {
+    //   this.dialog.shop.onData(data.shop);
+    // }
+    // if (void 0 !== data.profile) {
+    //   this.dialog.profile.onData(data.profile);
+    // }
     if (void 0 !== data.notice) {
       this.notice.show(data.notice);
     }
@@ -202,57 +195,12 @@ cc.Class({
     }
   },
   dataUser: function (data) {
-    if (void 0 !== data.name) {
-      this.header.userName.string = data.name;
-      this.dialog.profile.CaNhan.username.string = data.name;
-    }
     if (void 0 !== data.red) {
-      this.header.userRed.string = this.dialog.profile.KetSat.redHT.string = helper.numberWithCommas(
+      this.header.userRed.string = helper.numberWithCommas(
         data.red
       );
     }
-    // if (void 0 !== data.xu) {
-    //   this.header.userXu.string = helper.numberWithCommas(data.xu);
-    // }
-    if (void 0 !== data.ketSat) {
-      this.dialog.profile.KetSat.redKet.string = helper.numberWithCommas(
-        data.ketSat
-      );
-    }
-    if (void 0 !== data.UID) {
-      this.dialog.profile.CaNhan.UID.string = data.UID;
-    }
-    if (void 0 !== data.phone) {
-      this.dialog.profile.CaNhan.phone.string = data.phone;
-      this.dialog.profile.BaoMat.DangKyOTP.statusOTP(
-        !helper.isEmpty(data.phone)
-      );
-      if (!helper.isEmpty(data.phone)) {
-        this.dialog.profile.BaoMat.DangKyOTP.labelPhone.string = data.phone;
-        cc.sys.localStorage.setItem("infoRed8", JSON.stringify(data));
-      }
-    }
-    if (void 0 !== data.email) {
-      this.dialog.profile.CaNhan.email.string = data.email;
-      if (!helper.isEmpty(data.email)) {
-        this.dialog.profile.BaoMat.DangKyOTP.labelEmail.string = data.email;
-      }
-    }
-    if (void 0 !== data.cmt) {
-      this.dialog.profile.CaNhan.cmt.string = data.cmt;
-      if (!helper.isEmpty(data.cmt)) {
-        this.dialog.profile.BaoMat.DangKyOTP.labelCMT.string = data.cmt;
-      }
-    }
-    if (void 0 !== data.joinedOn) {
-      this.dialog.profile.CaNhan.joinedOn.string = helper.getStringDateByTime(
-        data.joinedOn
-      );
-    }
-    if (void 0 !== data.level) {
-      this.header.level(data.level);
-      this.header.updateEXP(data.vipHT, data.vipNext);
-    }
+
     if (void 0 !== data.avatarId) {
       this.header.setAvatar(data.avatarId);
     }
@@ -260,6 +208,54 @@ cc.Class({
     if (data.ss) {
       authManager.storeSessionData(data.ss);
     }
+    // if (void 0 !== data.name) {
+    //   this.header.userName.string = data.name;
+    //   this.dialog.profile.CaNhan.username.string = data.name;
+    // }
+
+    // if (void 0 !== data.xu) {
+    //   this.header.userXu.string = helper.numberWithCommas(data.xu);
+    // }
+    // if (void 0 !== data.ketSat) {
+    //   this.dialog.profile.KetSat.redKet.string = helper.numberWithCommas(
+    //     data.ketSat
+    //   );
+    // }
+    // if (void 0 !== data.UID) {
+    //   this.dialog.profile.CaNhan.UID.string = data.UID;
+    // }
+    // if (void 0 !== data.phone) {
+    //   this.dialog.profile.CaNhan.phone.string = data.phone;
+    //   this.dialog.profile.BaoMat.DangKyOTP.statusOTP(
+    //     !helper.isEmpty(data.phone)
+    //   );
+    //   if (!helper.isEmpty(data.phone)) {
+    //     this.dialog.profile.BaoMat.DangKyOTP.labelPhone.string = data.phone;
+    //     cc.sys.localStorage.setItem("infoRed8", JSON.stringify(data));
+    //   }
+    // }
+    // if (void 0 !== data.email) {
+    //   this.dialog.profile.CaNhan.email.string = data.email;
+    //   if (!helper.isEmpty(data.email)) {
+    //     this.dialog.profile.BaoMat.DangKyOTP.labelEmail.string = data.email;
+    //   }
+    // }
+    // if (void 0 !== data.cmt) {
+    //   this.dialog.profile.CaNhan.cmt.string = data.cmt;
+    //   if (!helper.isEmpty(data.cmt)) {
+    //     this.dialog.profile.BaoMat.DangKyOTP.labelCMT.string = data.cmt;
+    //   }
+    // }
+    // if (void 0 !== data.joinedOn) {
+    //   this.dialog.profile.CaNhan.joinedOn.string = helper.getStringDateByTime(
+    //     data.joinedOn
+    //   );
+    // }
+    // if (void 0 !== data.level) {
+    //   this.header.level(data.level);
+    //   this.header.updateEXP(data.vipHT, data.vipNext);
+    // }
+
   },
   signOut: function () {
     cc.RedT.user = {};
@@ -281,16 +277,6 @@ cc.Class({
     this.MenuRoom.onBack();
     cc.RedT.MiniPanel.newGame();
     this.dialog.iMessage.reset();
-  },
-  onGetTaiXiu: function (tai, xiu) {
-    // var sTai = helper.getOnlyNumberInString(this.iconTaiXiu.tai.string);
-    // var sXiu = helper.getOnlyNumberInString(this.iconTaiXiu.xiu.string);
-    // if (sTai - tai != 0) {
-    //   helper.numberTo(this.iconTaiXiu.tai, sTai, tai, 1000, true);
-    // }
-    // if (sXiu - xiu != 0) {
-    //   helper.numberTo(this.iconTaiXiu.xiu, sXiu, xiu, 1000, true);
-    // }
   },
   onGetHu: function () {
     if (void 0 !== cc.RedT.setting.topHu.data) {
