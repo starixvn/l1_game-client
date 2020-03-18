@@ -108,7 +108,7 @@ cc.Class({
 			cc.moveTo(0.5, cc.v2(0, 0)),
 			cc.delayTime(0.5),
 			cc.callFunc(function () {
-				this.audioXocDia.play();
+				cc.RedT.isSoundGame() && this.audioXocDia.play();
 				this.Animation.play();
 			}, this));
 		this.maxDot = { x: 44, y: 44 };
@@ -404,7 +404,10 @@ cc.Class({
 		}
 	},
 	FinishTT: function () {
-		this.audioMoBat.play();
+		if (cc.RedT.isSoundGame()) {
+			this.audioMoBat.play();
+		}
+
 		this.nodeBat.runAction(
 			cc.sequence(
 				this.actionBatOpen,
@@ -559,7 +562,11 @@ cc.Class({
 				}));
 				break;
 		}
-		!!audioLost && this.audioMultiChip.play();
+
+		if (cc.RedT.isSoundGame()) {
+			!!audioLost && this.audioMultiChip.play();
+		}
+
 		setTimeout(function () {
 			let self = this;
 			audioWin += node1.children.length;
@@ -590,7 +597,7 @@ cc.Class({
 					copy.runAction(cc.moveTo(0.4, cc.v2(x, y)));
 				});
 			}
-			if (!!audioWin) {
+			if (!!audioWin && cc.RedT.isSoundGame()) {
 				Promise.all([1, 2, 3, 4, 5].map(function (audio) {
 					if (audio !== 1) {
 						self['audioMultiChip' + audio].play();
@@ -987,7 +994,7 @@ cc.Class({
 				// 	cc.scaleTo(1, 1),
 				// 	cc.moveTo(0.4, cc.v2(x, y))
 				// ),
-				cc.callFunc(function () { this.play() }, copy)
+				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy)
 			));
 	},
 	meChip: function (data) {
@@ -1052,7 +1059,7 @@ cc.Class({
 				// 	cc.scaleTo(1, 1),
 				// 	cc.moveTo(0.3, cc.v2(x, y))
 				// ),
-				cc.callFunc(function () { this.play() }, copy),
+				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy),
 				cc.sequence(
 					cc.moveTo(0.1, cc.v2(x, y + 6)),
 					cc.moveTo(0.1, cc.v2(x, y))
