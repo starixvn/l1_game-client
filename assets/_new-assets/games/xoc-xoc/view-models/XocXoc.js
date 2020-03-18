@@ -97,6 +97,7 @@ cc.Class({
 			default: [],
 			type: module_Player,
 		},
+		gameRound: cc.Label
 	},
 	ctor: function () {
 		this.logs = [];
@@ -115,7 +116,7 @@ cc.Class({
 			}, this));
 		this.maxDot = { x: 25, y: 25 };
 
-		this.maxBox1_3 = { x: 103, y: 40 };
+		this.maxBox1_3 = { x: 80, y: 40 };
 		this.maxBox1_1 = { x: 180, y: 70 };
 
 		this.clients = {
@@ -306,7 +307,8 @@ cc.Class({
 			this.playTime();
 			if (this.time_remain > 32 && data.logs.length) {
 				this.nodeBat.position = cc.v2(0, 150);
-				this.setDot([data.logs[0].red1, data.logs[0].red2, data.logs[0].red3, data.logs[0].red4]);
+				let dots = data.logs[0].dots;
+				this.setDot([dots.red1, dots.red2, dots.red3, dots.red4]);
 			}
 		}
 		if (!!data.data) {
@@ -315,6 +317,7 @@ cc.Class({
 		if (!!data.logs) {
 			this.logs = data.logs;
 			this.setLogs();
+			this.setGameRound();
 		}
 		if (!!data.me) {
 			this.updateMe(data.me);
@@ -393,10 +396,10 @@ cc.Class({
 		}
 	},
 	xocxocFinish: function (data) {
-		let dice = { red1: data[0], red2: data[1], red3: data[2], red4: data[3] };
+		let dice = { dots: [data.dots[0], data.dots[1], data.dots[2], data.dots[3]], round: data.round };
 		this.logs.unshift(dice);
 		this.logs.length > 48 && this.logs.pop();
-		this.setDot(data);
+		this.setDot(dice.dots);
 		this.labelTime.node.active = false;
 		this.time_remain = 43;
 		this.playTime();
@@ -419,9 +422,10 @@ cc.Class({
 			)
 		);
 		this.setLogs();
+		this.setGameRound();
 	},
 	showKQ: function () {
-		let data = Object.values(this.logs[0]);
+		let data = Object.values(this.logs[0].dots);
 		let numb = 0;
 		data.forEach(function (dot) {
 			if (dot) {
@@ -458,7 +462,7 @@ cc.Class({
 		let audioWin = 0;
 		let node1 = null;
 		let node2 = null;
-		let data = Object.values(this.logs[0]);
+		let data = Object.values(this.logs[0].dots);
 		let numb = 0;
 		data.forEach(function (dot) {
 			if (dot) {
@@ -785,7 +789,7 @@ cc.Class({
 	setLogs: function () {
 		let self = this;
 		this.logMain.forEach(function (obj, index) {
-			let data = self.logs[index];
+			let data = self.logs[index].dots;
 			if (data) {
 				obj.node.active = true;
 				data = Object.values(data);
@@ -814,7 +818,7 @@ cc.Class({
 		let newArr = self.logs.slice();
 		newArr.reverse();
 		newArr.forEach(function (newDS) {
-			let data = Object.values(newDS);
+			let data = Object.values(newDS.dots);
 			let gameChan = 0;
 			data.forEach(function (kqH) {
 				if (kqH) {
@@ -1291,5 +1295,9 @@ cc.Class({
 		this.node.addChild(dialog);
 		this.history = dialog.getComponent("XocXoc_history");
 		this.history.init(this);
+	},
+
+	setGameRound: function () {
+		this.gameRound.string = "#" + this.logs[0].round;
 	},
 });
