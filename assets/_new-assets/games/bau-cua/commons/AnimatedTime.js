@@ -15,10 +15,17 @@ cc.Class({
             type: cc.Sprite
         },
     },
+
+    onLoad() {
+        this.node.active = false;
+    },
+
     setRedTime: function (time) {
         this.redTime = time;
     },
     setTime: function (time, forceRed = false) {
+        this.node.active = true;
+
         var firstTimeChar = time.substr(0, 1);
         var secondTimeChar = time.substr(1, 1);
 
