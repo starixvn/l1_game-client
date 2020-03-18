@@ -316,7 +316,6 @@ cc.Class({
       var nodeComponent = node.getComponent("BauCua_logMini");
       Promise.all(
         nodeComponent.icon.map(function (sp, i) {
-
           sp.spriteFrame = self.iconMini[log[i]];
         })
       );
