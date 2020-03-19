@@ -6,13 +6,7 @@ function checkSSO(labelMessage, cb) {
     let isSuccess = false;
     let urlParams = new URLSearchParams(window.location.search);
     let authData = getSession();
-    if (authData && authData.isAuthenticated) {
-        isSuccess = true;
-        console.log(authData);
-        window.authData = authData;
-        cb();
-    }
-    else if (urlParams.has("token")) {
+    if (urlParams.has("token")) {
         const url = `${configs.gameServerUrl}authenticate?token=${urlParams.get("token")}`;
 
         try {
@@ -37,6 +31,12 @@ function checkSSO(labelMessage, cb) {
         }
 
         isSuccess = true;
+    }
+    else if (authData && authData.isAuthenticated) {
+        isSuccess = true;
+        console.log(authData);
+        window.authData = authData;
+        cb();
     }
 
     return isSuccess;

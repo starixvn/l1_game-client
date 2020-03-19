@@ -141,5 +141,8 @@ module.exports = {
     if (void 0 !== data.vipNext) {
       this.user.vipNext = data.vipNext;
     }
+    if (void 0 !== data.currency) {
+      this.user.currency = data.currency;
+    }
   }
 };
