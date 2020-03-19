@@ -49,7 +49,6 @@ cc.Class({
     notice: cc.Node,
     prefabNotice: cc.Prefab,
 
-    currentCuoc: 0,
     cuoc: "",
     red: true,
     topDialog: cc.Prefab,
@@ -57,7 +56,6 @@ cc.Class({
     guidePrefab: cc.Prefab,
   },
   init(obj) {
-    this.currentCuoc = 0;
     this.RedT = obj;
     cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
       regOpen: false,
@@ -277,23 +275,17 @@ cc.Class({
   },
   datCuoc: function (e, linhVat) {
     var cuoc = parseInt(this.cuoc);
-    if (this.currentCuoc + cuoc > 100) {
-      this.addNotice("Không thể cược hơn 100 !!! ");
-    } else {
-      this.currentCuoc = cuoc + this.currentCuoc;
-
-      cc.RedT.send({
-        g: {
-          baucua: {
-            cuoc: {
-              cuoc: this.cuoc,
-              red: this.red,
-              linhVat: linhVat
-            }
+    cc.RedT.send({
+      g: {
+        baucua: {
+          cuoc: {
+            cuoc: this.cuoc,
+            red: this.red,
+            linhVat: linhVat
           }
         }
-      });
-    }
+      }
+    });
   },
   addNotice: function (text) {
     var notice = cc.instantiate(this.prefabNotice);
@@ -571,7 +563,6 @@ cc.Class({
 
     this.unSelect();
 
-    this.currentCuoc = 0;
     this.resetAllSlot();
   },
   newGame: function () {
