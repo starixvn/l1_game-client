@@ -66,7 +66,7 @@ cc.Class({
       cc.RedT.send({ scene: "home" });
       this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
-      this.header.userRed.string = this.dialog.profile.KetSat.redHT.string = this.formatUserCurrency(cc.RedT.user.red);
+      this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
     }
   },
   auth: function (obj) {
@@ -176,15 +176,15 @@ cc.Class({
     }
   },
   formatUserCurrency: function (red, currency) {
-    const userCurrency = cc.RedT.user.currency 
-      ? cc.RedT.user.currency.toUpperCase() 
+    const userCurrency = cc.RedT.user.currency
+      ? cc.RedT.user.currency.toUpperCase()
       : currency;
 
     return `${helper.numberWithCommas(red)} ${userCurrency}`;
   },
   dataUser: function (data) {
     if (void 0 !== data.red) {
-      this.header.userRed.string = this.dialog.profile.KetSat.redHT.string = this.formatUserCurrency(data.red, data.currency);
+      this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
     }
 
     if (void 0 !== data.avatarId) {
