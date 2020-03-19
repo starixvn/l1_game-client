@@ -7,6 +7,11 @@ cc.Class({
         totall: cc.Label,
         me: cc.Label,
     },
+
+    onLoad() {
+        this.lastTotalCuoc = 0;
+    },
+
     meCuoc: function (cuoc) {
         if (!!cuoc) {
             this.me.string = helper.nFormatter(cuoc, 1);
@@ -14,7 +19,8 @@ cc.Class({
     },
     totallCuoc: function (cuoc) {
         if (!!cuoc) {
-            this.totall.string = helper.nFormatter(cuoc, 1);
+            helper.numberTo(this.totall, this.lastTotalCuoc, cuoc, 1000);
+            this.lastTotalCuoc = cuoc;
         } else {
             this.totall.string = '';
         }
