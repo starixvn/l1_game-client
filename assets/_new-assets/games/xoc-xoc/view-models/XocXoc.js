@@ -1,6 +1,5 @@
 
 let helper = require('Helper');
-let notice = require('Notice');
 let module_Player = require('XocXoc_Player');
 
 cc.Class({
@@ -89,7 +88,7 @@ cc.Class({
 
 		MiniPanel: cc.Prefab,
 		loading: cc.Node,
-		notice: notice,
+		notice: cc.Node,
 
 		red: true,
 
@@ -297,6 +296,14 @@ cc.Class({
 		if (void 0 !== data.notice) {
 			this.addNotice(data.notice);
 		}
+		if (void 0 !== data.um) {
+			this.showUMMessage();
+		}
+
+	},
+	showUMMessage: function () {
+		clearInterval(this.timeInterval);
+		this.notice.active = true;
 	},
 	xocxocIngame: function (data) {
 		if (!!data.chip) {

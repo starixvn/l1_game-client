@@ -117,10 +117,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 753
+        "__id__": 752
       },
       {
-        "__id__": 754
+        "__id__": 753
       }
     ],
     "_prefab": null,
@@ -35631,14 +35631,14 @@
     "_active": false,
     "_components": [
       {
-        "__id__": 750
+        "__id__": 749
       },
       {
-        "__id__": 751
+        "__id__": 750
       }
     ],
     "_prefab": {
-      "__id__": 752
+      "__id__": 751
     },
     "_opacity": 255,
     "_color": {
@@ -35891,11 +35891,11 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 722
+      "__id__": 2
     },
     "component": "",
-    "_componentId": "55b77gHOPlJAY+OiMpR3w95",
-    "handler": "close",
+    "_componentId": "24723lmj75OaaA5CAEsELDw",
+    "handler": "backGame",
     "customEventData": ""
   },
   {
@@ -36049,7 +36049,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 176.56,
       "height": 60.94
     },
     "_anchorPoint": {
@@ -36207,8 +36207,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "",
-    "_N$string": "",
+    "_string": "Thông báo",
+    "_N$string": "Thông báo",
     "_fontSize": 25,
     "_lineHeight": 78,
     "_enableWrapText": true,
@@ -36314,8 +36314,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "",
-    "_N$string": "",
+    "_string": "Hệ thống đang bảo trì. Vui lòng quay lại sau...",
+    "_N$string": "Hệ thống đang bảo trì. Vui lòng quay lại sau...",
     "_fontSize": 20,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -36355,7 +36355,7 @@
         "__id__": 742
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 745
@@ -36365,7 +36365,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 749
+      "__id__": 748
     },
     "_opacity": 255,
     "_color": {
@@ -36441,8 +36441,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 154.97,
-      "height": 47.5
+      "width": 42.16,
+      "height": 46.31
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -36486,10 +36486,14 @@
       "__id__": 742
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_useOriginalSize": false,
-    "_string": "",
-    "_N$string": "",
+    "_string": "OK",
+    "_N$string": "OK",
     "_fontSize": 19,
     "_lineHeight": 78,
     "_enableWrapText": true,
@@ -36525,7 +36529,11 @@
       "__id__": 741
     },
     "_enabled": true,
-    "_materials": [],
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -36562,9 +36570,6 @@
     "clickEvents": [
       {
         "__id__": 747
-      },
-      {
-        "__id__": 748
       }
     ],
     "_N$interactable": true,
@@ -36625,19 +36630,11 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 722
+      "__id__": 2
     },
     "component": "",
-    "_componentId": "55b77gHOPlJAY+OiMpR3w95",
-    "handler": "onClickButton",
-    "customEventData": ""
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": null,
-    "component": "",
-    "_componentId": "738b2QcBnhOn7bLV2UFI4l9",
-    "handler": "playClick",
+    "_componentId": "24723lmj75OaaA5CAEsELDw",
+    "handler": "backGame",
     "customEventData": ""
   },
   {
@@ -36931,7 +36928,7 @@
       "__id__": 709
     },
     "notice": {
-      "__id__": 751
+      "__id__": 722
     },
     "red": true,
     "players": [
