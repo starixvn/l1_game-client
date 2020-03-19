@@ -31,11 +31,11 @@ cc.Class({
         this.me.string = '';
     },
     updateState: function (show) {
-        this.node.children[0].active = show;
         this.node.children[1].active = show;
+        this.node.children[2].active = show;
     },
     resetState: function () {
-        this.node.children[0].active = false; // highlight
-        this.node.children[1].active = true;
+        this.node.children[1].active = false; // highlight
+        this.node.children[2].active = true;
     },
 });
