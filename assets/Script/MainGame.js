@@ -73,10 +73,7 @@ cc.Class({
       this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
       this.dialog.profile.CaNhan.username.string = cc.RedT.user.name;
-      this.header.userRed.string = this.dialog.profile.KetSat.redHT.string = helper.numberWithCommas(
-        cc.RedT.user.red
-      );
-      //  this.header.userXu.string = helper.numberWithCommas(cc.RedT.user.xu);
+      this.header.userRed.string = this.dialog.profile.KetSat.redHT.string = this.formatUserCurrency(cc.RedT.user.red);
       this.dialog.profile.KetSat.redKet.string = helper.numberWithCommas(
         cc.RedT.user.ketSat
       );
@@ -201,15 +198,20 @@ cc.Class({
         break;
     }
   },
+  formatUserCurrency: function (red, currency) {
+    const userCurrency = cc.RedT.user.currency 
+      ? cc.RedT.user.currency.toUpperCase() 
+      : currency;
+
+    return `${helper.numberWithCommas(red)} ${userCurrency}`;
+  },
   dataUser: function (data) {
     if (void 0 !== data.name) {
       this.header.userName.string = data.name;
       this.dialog.profile.CaNhan.username.string = data.name;
     }
     if (void 0 !== data.red) {
-      this.header.userRed.string = this.dialog.profile.KetSat.redHT.string = helper.numberWithCommas(
-        data.red
-      );
+      this.header.userRed.string = this.dialog.profile.KetSat.redHT.string = this.formatUserCurrency(data.red, data.currency);
     }
     // if (void 0 !== data.xu) {
     //   this.header.userXu.string = helper.numberWithCommas(data.xu);
