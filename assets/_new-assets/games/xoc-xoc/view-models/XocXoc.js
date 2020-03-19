@@ -55,9 +55,9 @@ cc.Class({
 		chip_1: cc.SpriteFrame,
 		chip_5: cc.SpriteFrame,
 		chip_10: cc.SpriteFrame,
-		chip_20: cc.SpriteFrame,
 		chip_50: cc.SpriteFrame,
 		chip_100: cc.SpriteFrame,
+		chip_200: cc.SpriteFrame,
 
 		dot_red: cc.SpriteFrame,
 		dot_white: cc.SpriteFrame,
