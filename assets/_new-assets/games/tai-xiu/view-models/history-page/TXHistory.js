@@ -48,8 +48,8 @@ cc.Class({
           dataT.dice1 + "-" + dataT.dice2 + "-" + dataT.dice3 + "  " + tong;
         item.cuoc.string = Helper.numberWithCommas(dataT.bet);
         item.tralai.string = Helper.numberWithCommas(dataT.tralai);
-        item.donvi.string = dataT.red ? "SCOIN" : "XU";
-        item.donvi.node.color = dataT.red
+        item.win.string = Helper.numberWithCommas(dataT.betwin);
+        item.win.node.color = dataT.red
           ? cc.Color.YELLOW
           : item.donvi.node.color.fromHEX("#E2E2E2");
 
