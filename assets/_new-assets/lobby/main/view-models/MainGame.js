@@ -21,6 +21,7 @@ cc.Class({
     },
     header: header,
     center: cc.Node,
+    menuCenter: cc.Node,
     news: cc.Node,
     newsContents: newsContents,
     bgLoading: bgLoading,
@@ -70,8 +71,17 @@ cc.Class({
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
     }
 
+    this.center.on("size-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
       this.center.scale = 0.7;
+    }
+    repositionMenu();
+  },
+  repositionMenu() {
+    var menuCenterWidth = this.menuCenter.width;
+    if (menuCenterWidth < this.center.width) {
+      this.menuCenter.parent.getComponent(cc.ScrollView).enabled = false;
+      this.menuCenter.position = cc.v2(- menuCenterWidth / 2, this.menuCenter.position.y);
     }
   },
   auth: function (obj) {
@@ -345,30 +355,30 @@ cc.Class({
       // });
 
       /*
-			// MegaJacpot
-			Promise.all(cc.RedT.setting.topHu.data['megaj'].filter(function(temp){
-				return temp.red == true;
-			}))
-			.then(result => {
-				let h100 = result.filter(function(temp){return temp.type == 100});
-				let h1k  = result.filter(function(temp){return temp.type == 1000});
-				let h10k = result.filter(function(temp){return temp.type == 10000});
-
-				let r100 = helper.getOnlyNumberInString(this.iconMegaJ.hu100.string);
-				let r1k  = helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string);
-				let r10k = helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string);
-
-				if (r100-h100[0].bet != 0) {
-					helper.numberTo(this.iconMegaJ.hu100, helper.getOnlyNumberInString(this.iconMegaJ.hu100.string), h100[0].bet, 4900, true);
-				}
-				if (r1k-h1k[0].bet != 0) {
-					helper.numberTo(this.iconMegaJ.hu1k, helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string), h1k[0].bet, 4900, true);
-				}
-				if (r10k-h10k[0].bet != 0) {
-					helper.numberTo(this.iconMegaJ.hu10k, helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string), h10k[0].bet, 4900, true);
-				}
-			});
-			*/
+      // MegaJacpot
+      Promise.all(cc.RedT.setting.topHu.data['megaj'].filter(function(temp){
+        return temp.red == true;
+      }))
+      .then(result => {
+        let h100 = result.filter(function(temp){return temp.type == 100});
+        let h1k  = result.filter(function(temp){return temp.type == 1000});
+        let h10k = result.filter(function(temp){return temp.type == 10000});
+ 
+        let r100 = helper.getOnlyNumberInString(this.iconMegaJ.hu100.string);
+        let r1k  = helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string);
+        let r10k = helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string);
+ 
+        if (r100-h100[0].bet != 0) {
+          helper.numberTo(this.iconMegaJ.hu100, helper.getOnlyNumberInString(this.iconMegaJ.hu100.string), h100[0].bet, 4900, true);
+        }
+        if (r1k-h1k[0].bet != 0) {
+          helper.numberTo(this.iconMegaJ.hu1k, helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string), h1k[0].bet, 4900, true);
+        }
+        if (r10k-h10k[0].bet != 0) {
+          helper.numberTo(this.iconMegaJ.hu10k, helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string), h10k[0].bet, 4900, true);
+        }
+      });
+      */
     }
   },
   playMusic: function () {
@@ -401,80 +411,80 @@ cc.Class({
 
   /**
 	
-		checkLoginFacebook: function() {
-			if (cc.sys.isBrowser && FB) {
-				var self = this;
-				self.loading.active = true;
-				!isInitFB && FB && FB.init({
-					appId: "1979927462336372",
-					autoLogAppEvents: !0,
-					xfbml: !0,
-					cookie: !0,
-					version: "v3.1"
-				}),
-				FB.getLoginStatus(function(t) {
-					if ("connected" === t.status) {
-						var e = t.authResponse.userID
-						  , i = s.LOGIN_FACEBOOK_TYPE
-						  , o = t.authResponse.accessToken;
-						self.loginSocial(e, "", i, o)
-					} else
-						self.setAutoLogin(!1),
-					self.loading.active = false;
-				})
-			}
-		},
-		loginFacebook: function() {
-			if (cc.sys.isBrowser && FB) {
-				var self = this;
-				self.loading.active = true;
-				FB && (FB.init({
-					appId: "308158023154919",
-					autoLogAppEvents: !0,
-					xfbml: !0,
-					cookie: !0,
-					version: "v3.1"
-				}),
-				FB.login(function(t) {
-					console.log(t)
-					self.loading.active = false;
-					if (t.authResponse) {
-						var uid   = t.authResponse.userID
-						  , type  = s.LOGIN_FACEBOOK_TYPE
-						  , token = t.authResponse.accessToken;
-						self.loginSocial(uid, "", type, token)
-					} else
-						self.setAutoLogin(!1),
-				}))
-			}
-		},
-		loginSocial: function(e, i, o, n, t) {
-			var s = this
-			  , a = {
-				social_id: e,
-				email: i,
-				social_type: o,
-				access_token: n,
-				register_code: this.getRegisterCode(),
-				mkt_code: this.getMarketingCode(),
-				device_id: this.getDeviceID(),
-				fid: this.getFID()
-			};
-			t && (a.otp = t);
-			this.api.registerSocial(a, function(t) {
-				0 === t.data.login_status ? (s.OTPLogin.setLoginFacebook(e, i, o, n),
-				s.OTPLogin.clear(),
-				s.hideProcessingNode(),
-				s.GameCenterUI.showOtpLoginFormNode()) : (s.setAutoLogin(!0),
-				s.setAccountType(!0),
-				s.initDataAndConnectSFS(t.data),
-				s.GameCenterUI.hideOtpLoginFormNode(),
-				t.data.user.is_new && c.addTrackCompleteRegistration())
-			}, function(t) {
-				s.setAutoLogin(!1),
-				s.deProcessingNode(),
-				s.showDialogMessage(r.LOGIN_TITLE, t.msg)
-			})
-		},
-		*/
+    checkLoginFacebook: function() {
+      if (cc.sys.isBrowser && FB) {
+        var self = this;
+        self.loading.active = true;
+        !isInitFB && FB && FB.init({
+          appId: "1979927462336372",
+          autoLogAppEvents: !0,
+          xfbml: !0,
+          cookie: !0,
+          version: "v3.1"
+        }),
+        FB.getLoginStatus(function(t) {
+          if ("connected" === t.status) {
+            var e = t.authResponse.userID
+              , i = s.LOGIN_FACEBOOK_TYPE
+              , o = t.authResponse.accessToken;
+            self.loginSocial(e, "", i, o)
+          } else
+            self.setAutoLogin(!1),
+          self.loading.active = false;
+        })
+      }
+    },
+    loginFacebook: function() {
+      if (cc.sys.isBrowser && FB) {
+        var self = this;
+        self.loading.active = true;
+        FB && (FB.init({
+          appId: "308158023154919",
+          autoLogAppEvents: !0,
+          xfbml: !0,
+          cookie: !0,
+          version: "v3.1"
+        }),
+        FB.login(function(t) {
+          console.log(t)
+          self.loading.active = false;
+          if (t.authResponse) {
+            var uid   = t.authResponse.userID
+              , type  = s.LOGIN_FACEBOOK_TYPE
+              , token = t.authResponse.accessToken;
+            self.loginSocial(uid, "", type, token)
+          } else
+            self.setAutoLogin(!1),
+        }))
+      }
+    },
+    loginSocial: function(e, i, o, n, t) {
+      var s = this
+        , a = {
+        social_id: e,
+        email: i,
+        social_type: o,
+        access_token: n,
+        register_code: this.getRegisterCode(),
+        mkt_code: this.getMarketingCode(),
+        device_id: this.getDeviceID(),
+        fid: this.getFID()
+      };
+      t && (a.otp = t);
+      this.api.registerSocial(a, function(t) {
+        0 === t.data.login_status ? (s.OTPLogin.setLoginFacebook(e, i, o, n),
+        s.OTPLogin.clear(),
+        s.hideProcessingNode(),
+        s.GameCenterUI.showOtpLoginFormNode()) : (s.setAutoLogin(!0),
+        s.setAccountType(!0),
+        s.initDataAndConnectSFS(t.data),
+        s.GameCenterUI.hideOtpLoginFormNode(),
+        t.data.user.is_new && c.addTrackCompleteRegistration())
+      }, function(t) {
+        s.setAutoLogin(!1),
+        s.deProcessingNode(),
+        s.showDialogMessage(r.LOGIN_TITLE, t.msg)
+      })
+    },
+    */
 });
