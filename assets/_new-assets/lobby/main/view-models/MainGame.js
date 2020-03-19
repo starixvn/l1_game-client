@@ -20,6 +20,7 @@ cc.Class({
       type: cc.Prefab
     },
     header: header,
+    center: cc.Node,
     news: cc.Node,
     newsContents: newsContents,
     bgLoading: bgLoading,
@@ -67,6 +68,10 @@ cc.Class({
       this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
+    }
+
+    if (!cc.sys.isMobile) {
+      this.center.scale = 0.7;
     }
   },
   auth: function (obj) {
