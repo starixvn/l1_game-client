@@ -109,7 +109,7 @@ cc.Class({
 				this.resetData();
 			}, this),
 			cc.moveTo(0.5, cc.v2(0, 0)),
-			cc.delayTime(0.5),
+			//cc.delayTime(0.5),
 			cc.callFunc(function () {
 				cc.RedT.isSoundGame() && this.audioXocDia.play();
 				this.Animation.play();
@@ -303,9 +303,9 @@ cc.Class({
 			this.ingameChip(data.chip);
 		}
 		if (!!data.time) {
-			this.time_remain = data.time - 1;
+			this.time_remain = data.time;
 			this.playTime();
-			if (this.time_remain > 32 && data.logs.length) {
+			if (this.time_remain > 31 && data.logs.length) {
 				this.nodeBat.position = cc.v2(0, 150);
 				let dots = data.logs[0].dots;
 				this.setDot([dots.red1, dots.red2, dots.red3, dots.red4]);
@@ -401,7 +401,7 @@ cc.Class({
 		this.logs.length > 48 && this.logs.pop();
 		this.setDot(dice.dots);
 		this.labelTime.node.active = false;
-		this.time_remain = 43;
+		this.time_remain = 44;
 		this.playTime();
 
 		if (!this.nan) {
@@ -682,24 +682,22 @@ cc.Class({
 	playTime: function () {
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		this.timeInterval = setInterval(function () {
-			if (this.time_remain > 32) {
-				var time = helper.numberPad(this.time_remain - 33, 2);
+			if (this.time_remain > 33) {
+				var time = helper.numberPad(this.time_remain - 34, 2);
 				this.timeWait.string = time;
 				this.labelTime.node.active = false;
 				this.nodeWait.active = true;
-			} else if (this.time_remain > 30) {
-				// Xoc Dia
-				this.labelTime.node.active = false;
+			} else if (this.time_remain > 31) {
 				this.nodeWait.active = false;
-				this.time_remain === 32 && this.nodeBat.runAction(this.actionBatClose);
+				this.time_remain === 33 && this.nodeBat.runAction(this.actionBatClose);
 			} else {
-				if (this.time_remain > -1) {
-					var time = helper.numberPad(this.time_remain, 2);
+				if (this.time_remain > 0) {
+					var time = helper.numberPad(this.time_remain - 1, 2);
 					this.labelTime.node.active = true;
 					this.nodeWait.active = false;
 					this.labelTime.string = time;
 
-					if (this.time_remain < 11) {
+					if (this.time_remain < 5) {
 						this.labelTime.node.color = cc.Color.RED;
 					} else {
 						this.labelTime.node.color = cc.Color.WHITE
