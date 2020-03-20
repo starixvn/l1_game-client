@@ -168,6 +168,7 @@ cc.Class({
 			8: { id: 8, data: null },
 		};
 		this.numberOfSlots = 8;
+		this.winners = {};
 	},
 	onLoad() {
 		cc.RedT.inGame = this;
@@ -277,9 +278,6 @@ cc.Class({
 		}
 		if (!!data.status) {
 			this.status(data.status);
-		}
-		if (!!data.clientStatus) {
-			this.clientStatus(data.clientStatus);
 		}
 		if (!!data.chip) {
 			this.clientsChip(data.chip);
@@ -403,7 +401,8 @@ cc.Class({
 		}
 	},
 	xocxocFinish: function (data) {
-		let dice = { dots: [data.dots[0], data.dots[1], data.dots[2], data.dots[3]], round: data.round };
+		this.winners = data.winClients;
+		let dice = { dots: data.dots, round: data.round };
 		this.logs.unshift(dice);
 		this.logs.length > 48 && this.logs.pop();
 		this.setDot(dice.dots);
@@ -583,10 +582,10 @@ cc.Class({
 		setTimeout(function () {
 			let self = this;
 			audioWin += node1.children.length;
+			let node1red = node1.convertToNodeSpaceAR(position);
 			node1.children.forEach(function (chip) {
 				let copy = cc.instantiate(chip);
-				copy.position = centerMid;
-				//copy.scale = 0.5;
+				copy.position = node1red;
 
 				let x = (Math.random() * (self.maxBox1_1.x + 1)) >> 0;
 				let y = (Math.random() * (self.maxBox1_1.y + 1)) >> 0;
@@ -601,7 +600,6 @@ cc.Class({
 				node2.children.forEach(function (chip) {
 					let copy = cc.instantiate(chip);
 					copy.position = node2red;
-					//copy.scale = 0.5;
 
 					let x = (Math.random() * (self.maxBox1_3.x + 1)) >> 0;
 					let y = (Math.random() * (self.maxBox1_3.y + 1)) >> 0;
@@ -620,29 +618,79 @@ cc.Class({
 				}));
 			}
 			setTimeout(function () {
-				let positionUser = this.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
-				let position1_1 = node1.convertToNodeSpaceAR(positionUser);
+				if (self.winners) {
+					let winnerIds = Object.keys(self.winners);
+					let mainIndex = 0;
+					let subIndex = 0;
+					winnerIds.forEach(function (id) {
+						let winnerData = self.winners[id];
+						let slot = self.getPlayerSlot(id);
+						if (slot) {
+							let slotIndex = slot.id - 1;
+							let player = self.players[slotIndex];
+							let slotPosition = player.node.parent.convertToWorldSpaceAR(player.node.position);
 
-				node1.children.forEach(function (chip) {
-					chip.runAction(
-						cc.spawn(
-							cc.fadeTo(1, 0),
-							cc.moveTo(0.4, position1_1)
-						));
-				});
-				if (node2) {
-					let position1_3 = node2.convertToNodeSpaceAR(positionUser);
-					node2.children.forEach(function (chip) {
-						chip.runAction(
-							cc.spawn(
-								cc.fadeTo(1, 0),
-								cc.moveTo(0.4, position1_3)
-							));
+							if (winnerData.boxs.main) {
+								let random = Math.floor(Math.random() * 3) + 1;
+								let position = node1.convertToNodeSpaceAR(slotPosition);
+								for (let i = 0; i < random; i++) {
+									node1.children[mainIndex + i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+								}
+								mainIndex += random;
+							}
+
+							if (node2 && winnerData.boxs.sub) {
+								let random = Math.floor(Math.random() * 3) + 1;
+								let position = node2.convertToNodeSpaceAR(slotPosition);
+								for (let i = 0; i < random; i++) {
+									node2.children[subIndex + i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+								}
+								subIndex += random;
+							}
+
+							let resultLabel = self.createWinResultNode(winnerData.bet)
+							player.node.addChild(resultLabel.node);
+							resultLabel.node.position = cc.v2(0, 0);
+							resultLabel.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 20)), cc.callFunc(function () { this.node.destroy() }, resultLabel)));
+
+							slot.data.red = parseFloat(slot.data.red) + winnerData.bet;
+							player.setInfo(slot.data);
+						}
+						else {
+							let red = parseFloat(self.otherPlayers[id].red);
+							self.otherPlayers[id].red = red + winnerData.bet;
+						}
 					});
+
+					let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
+					let position1_1 = node1.convertToNodeSpaceAR(otherUsersPosition);
+					for (let i = mainIndex; i < node1.children.length; i++) {
+						node1.children[i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_1)));
+					}
+
+					if (node2) {
+						let position1_3 = node2.convertToNodeSpaceAR(otherUsersPosition);
+						for (let i = subIndex; i < node2.children.length; i++) {
+							node2.children[i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_3)));
+						}
+					}
 				}
 			}.bind(this), 3000);
 		}.bind(this), 1500);
 	},
+
+	createWinResultNode: function (winResult) {
+		var temp = new cc.Node;
+		temp.addComponent(cc.Label);
+		temp = temp.getComponent(cc.Label);
+		temp.string = "+" + helper.formatMoneyNumber(winResult);
+		temp.font = cc.RedT.util.fontCong;
+		temp.lineHeight = 130;
+		temp.fontSize = 25;
+
+		return temp;
+	},
+
 	setDot: function (data) {
 		let self = this;
 		let Dot_x = (Math.random() * (this.maxDot.x + 1)) >> 0;
@@ -704,7 +752,7 @@ cc.Class({
 					this.nodeWait.active = false;
 					this.labelTime.string = time;
 
-					if (this.time_remain < 5) {
+					if (time <= 5) {
 						this.labelTime.node.color = cc.Color.RED;
 					} else {
 						this.labelTime.node.color = cc.Color.WHITE
@@ -987,7 +1035,6 @@ cc.Class({
 		newN = newN.addComponent(cc.Sprite);
 		newN.spriteFrame = this['chip_' + data.cuoc];
 		newN.node.position = position;
-		//newN.node.scale = 0.67;
 
 		let x = (Math.random() * (max.x + 1)) >> 0;
 		let y = (Math.random() * (max.y + 1)) >> 0;
@@ -1001,10 +1048,6 @@ cc.Class({
 		newN.node.runAction(
 			cc.sequence(
 				cc.moveTo(0.4, cc.v2(x, y)),
-				// cc.spawn(
-				// 	cc.scaleTo(1, 1),
-				// 	cc.moveTo(0.4, cc.v2(x, y))
-				// ),
 				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy)
 			));
 	},
@@ -1066,10 +1109,6 @@ cc.Class({
 		newN.node.runAction(
 			cc.sequence(
 				cc.moveTo(0.3, cc.v2(x, y)),
-				// cc.spawn(
-				// 	cc.scaleTo(1, 1),
-				// 	cc.moveTo(0.3, cc.v2(x, y))
-				// ),
 				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy),
 				cc.sequence(
 					cc.moveTo(0.1, cc.v2(x, y + 6)),
@@ -1254,35 +1293,6 @@ cc.Class({
 				thuong.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 100)), cc.callFunc(function () { this.node.destroy() }, thuong)))
 			}
 		}.bind(this), 4e3)
-	},
-
-	clientStatus: function (data) {
-		let playerSlot = this.getPlayerSlot(data.playerId);
-
-		if (playerSlot) {
-			setTimeout(function () {
-				var temp = new cc.Node;
-				temp.addComponent(cc.Label);
-				temp = temp.getComponent(cc.Label);
-				temp.string = (data.win ? '+' : '-') + helper.formatMoneyNumber(data.bet);
-				temp.font = data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
-				temp.lineHeight = 130;
-				temp.fontSize = 25;
-				temp.node.position = cc.v2(0, 0);
-				const slotIndex = playerSlot.id - 1;
-				this.players[slotIndex].node.addChild(temp.node);
-				temp.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 20)), cc.callFunc(function () { this.node.destroy() }, temp)));
-				if (data.win) {
-					playerSlot.data.red = parseInt(playerSlot.data.red) + data.bet;
-					this.players[slotIndex].setInfo(playerSlot.data);
-				}
-			}.bind(this, 4e3));
-		} else {
-			if (this.otherPlayers[data.playerId]) {
-				let red = parseInt(this.otherPlayers[data.playerId].red);
-				this.otherPlayers[data.playerId].red = red + data.bet;
-			}
-		}
 	},
 
 	getPlayerSlot: function (playerId) {
