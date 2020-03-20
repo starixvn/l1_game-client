@@ -34,6 +34,7 @@ cc.Class({
     logCua: cc.Label,
     logTom: cc.Label,
     titleTime: cc.Label,
+    phienLabel: cc.Label,
     animatedTime: cc.Component,
     waitedTime: cc.Label,
     labelHu: cc.Label,
@@ -335,6 +336,9 @@ cc.Class({
     if (void 0 !== data.status) {
       this.status(data.status);
     }
+    if (void 0 !== data.phien) {
+      this.setPhien(data.phien);
+    }
     if (void 0 !== data.logs) {
       cc.RedT.setting.baucua.logs = data.logs;
       this.addLogs();
@@ -379,10 +383,14 @@ cc.Class({
 
       cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
       this.playTime();
+      this.setPhien(data.finish.phien + 1);
     }
     if (void 0 !== data.notice) {
       this.addNotice(data.notice);
     }
+  },
+  setPhien(phien) {
+    this.phienLabel.string = "#" + phien;
   },
   resetAllSlot: function () {
     for (var i = 0; i < this.linhVat.length; ++i) {
