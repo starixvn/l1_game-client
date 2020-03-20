@@ -83,6 +83,9 @@ cc.Class({
       this.menuCenter.parent.getComponent(cc.ScrollView).enabled = false;
       this.menuCenter.position = cc.v2(- menuCenterWidth / 2, this.menuCenter.position.y);
     }
+    else {
+      this.menuCenter.position = cc.v2(- this.center.width / 2, this.menuCenter.position.y);
+    }
   },
   auth: function (obj) {
     var self = this;
@@ -363,11 +366,11 @@ cc.Class({
         let h100 = result.filter(function(temp){return temp.type == 100});
         let h1k  = result.filter(function(temp){return temp.type == 1000});
         let h10k = result.filter(function(temp){return temp.type == 10000});
- 
+   
         let r100 = helper.getOnlyNumberInString(this.iconMegaJ.hu100.string);
         let r1k  = helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string);
         let r10k = helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string);
- 
+   
         if (r100-h100[0].bet != 0) {
           helper.numberTo(this.iconMegaJ.hu100, helper.getOnlyNumberInString(this.iconMegaJ.hu100.string), h100[0].bet, 4900, true);
         }
