@@ -57,7 +57,7 @@ cc.Class({
     guidePrefab: cc.Prefab,
   },
   init(obj) {
-    this.RedT = obj;
+    this.RedT = obj; // MiniPanel
     cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
       regOpen: false,
       data: {
@@ -90,6 +90,8 @@ cc.Class({
       red: true,
       bet: "1"
     };
+
+    this.disabled = false;
 
     var check = localStorage.getItem("bauCua");
     if (check == "true") {
@@ -170,10 +172,23 @@ cc.Class({
   openGame: function () {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
+      if (this.disabled) {
+        this.disableGame();
+        return;
+      }
       this.node.active = !0;
       localStorage.setItem("bauCua", true);
       // this.setTop();
-    } else cc.RedT.inGame.dialog.showSignIn();
+    } else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+  },
+  disableGame() {
+    this.node.active = false;
+    this.RedT.mainGame.notice.show({
+      // title: "ĐĂNG KÝ",
+      text: "Hệ thống đang bảo trì. Vui lòng quay lại sau..."
+    });
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
@@ -329,6 +344,9 @@ cc.Class({
     this.logLVHandling(LinhVat);
   },
   onData: function (data) {
+    if (void 0 !== data.um) {
+      this.disabled = data.um;
+    }
     if (void 0 !== data.data) {
       var a = Object.assign(cc.RedT.setting.baucua.data, data.data);
       this.DataHandling(data.data);
@@ -351,6 +369,9 @@ cc.Class({
     }
     if (void 0 !== data.regOpen) {
       cc.RedT.setting.baucua.regOpen = true;
+      if (this.disabled) {
+        this.disableGame();
+      }
     }
     if (void 0 !== data.time_remain) {
       cc.RedT.setting.baucua.time_remain = data.time_remain;
@@ -407,9 +428,14 @@ cc.Class({
     });
   },
   playTime: function () {
+    if (this.disabled) {
+      this.disableGame();
+      return;
+    }
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
     this.timeInterval = setInterval(
       function () {
+        console.log("bc playtime  ", cc.RedT.setting.baucua.time_remain);
         if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
           //count down to next round
           let time = helper.numberPad(
@@ -417,6 +443,7 @@ cc.Class({
             2
           );
           // this.animatedTime.setTime(time, true);
+          console.log("")
           this.waitedTime.string = time == "00" ? '' : "00:" + time;
           this.waitedTime.node.parent.active = true && time != "00";
 
@@ -434,6 +461,11 @@ cc.Class({
             this.waitedTime.node.parent.active = false;
             this.Animation.node.active = false;
             this.resetData();
+            if (this.disabled) {
+              this.disableGame();
+              clearInterval(this.timeInterval);
+              return;
+            }
           }
 
           this.titleTime.string = "Đặt cược";
@@ -451,6 +483,9 @@ cc.Class({
       }.bind(this),
       1000
     );
+  },
+  checkDisable() {
+
   },
   nextRealTime: function () {
     if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {

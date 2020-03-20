@@ -58,6 +58,7 @@ cc.Class({
 
     var MiniPanel = cc.instantiate(this.PrefabT[1]);
     cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
+    cc.RedT.MiniPanel.mainGame = this;
     this.redhat.insertChild(MiniPanel);
 
     if (authManager && !cc.RedT.IS_LOGIN) {
