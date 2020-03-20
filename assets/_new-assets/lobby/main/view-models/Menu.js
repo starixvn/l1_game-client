@@ -1,4 +1,4 @@
-var GameIds = require('GameIdConfigs');
+const configs = require('Configs');
 
 cc.Class({
   extends: cc.Component,
@@ -51,7 +51,7 @@ cc.Class({
     );
   },
   openMiniGame: function (e, id) {
-    if (id == GameIds.TaiXiu || id == GameIds.BauCua) {
+    if (id == configs.gameIds.TaiXiu || id == configs.gameIds.BauCua) {
       cc.RedT.MiniPanel.openGame(id);
     } else {
       cc.RedT.MiniPanel[id].openGame();

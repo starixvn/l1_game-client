@@ -207,7 +207,7 @@ cc.Class({
     }
 
     if (void 0 !== window.openGameId) {
-      Menu.openMiniGame(window.openGameId);
+      cc.RedT.MiniPanel.openGame(window.openGameId);
     }
 
     if (void 0 !== data.avatarId) {

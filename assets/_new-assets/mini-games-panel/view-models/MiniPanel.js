@@ -7,7 +7,7 @@ var MiniPoker = require("MiniPoker"),
   Dialog = require("MiniDialog");
 
 var MegaJackpot = require("MegaJackpot");
-var GameIds = require('GameIdConfigs');
+const configs = require('Configs');
 
 cc.Class({
   extends: cc.Component,
@@ -68,12 +68,12 @@ cc.Class({
     }
   },
   openGame: function (id) {
-    if (id == GameIds.TaiXiu) {
+    if (id == configs.gameIds.TaiXiu) {
       this.TaiXiu.openGame();
       this.minigame.insertChild(this.TaiXiu.node);
     }
 
-    if (id == GameIds.BauCua) {
+    if (id == configs.gameIds.BauCua) {
       this.BauCua.openGame();
       this.minigame.insertChild(this.BauCua.node);
     }
