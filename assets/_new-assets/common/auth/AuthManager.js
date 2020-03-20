@@ -14,7 +14,8 @@ function checkSSO(labelMessage, cb) {
                 if (response.isAuthenticated) {
                     window.authData = response;
                     window.authData.time = new Date();
-
+                    console.log(urlParams.get("gameId"));
+                    window.openGameId = urlParams.get("gameId");
                     storeSession(sessionIdStorageName, response);
                     clearTokenOnUrl();
                     cb();

@@ -1,3 +1,5 @@
+const configs = require('Configs');
+
 cc.Class({
   extends: cc.Component,
 
@@ -9,26 +11,26 @@ cc.Class({
   },
   onLoad() {
     Promise.all(
-      this.games.children.map(function(obj) {
+      this.games.children.map(function (obj) {
         return obj.getComponent("iconGame");
       })
     ).then(result => {
       this.games = result;
     });
-    this.node._onPreDestroy = function() {
+    this.node._onPreDestroy = function () {
       clearTimeout(this.adsTime);
     }.bind(this);
   },
-  onEnable: function() {},
-  onDisable: function() {},
+  onEnable: function () { },
+  onDisable: function () { },
 
-  eventStart: function() {
+  eventStart: function () {
     clearTimeout(this.adsTime);
   },
 
-  onHeadSelect: function(e) {
+  onHeadSelect: function (e) {
     Promise.all(
-      this.header.children.map(function(obj) {
+      this.header.children.map(function (obj) {
         if (obj == e.target) {
           obj.children[0].active = false;
           obj.pauseSystemEvents();
@@ -39,7 +41,7 @@ cc.Class({
       })
     );
     Promise.all(
-      this.games.map(function(game) {
+      this.games.map(function (game) {
         if (e.target.name == "all" || game[e.target.name]) {
           game.node.active = true;
         } else {
@@ -48,14 +50,14 @@ cc.Class({
       })
     );
   },
-  openMiniGame: function(e, name) {
-    if (name == "TaiXiu" || name == "BauCua") {
-      cc.RedT.MiniPanel.openGame(name);
+  openMiniGame: function (e, id) {
+    if (id == configs.gameIds.TaiXiu || id == configs.gameIds.BauCua) {
+      cc.RedT.MiniPanel.openGame(id);
     } else {
-      cc.RedT.MiniPanel[name].openGame();
+      cc.RedT.MiniPanel[id].openGame();
     }
   },
-  regGame: function(e, name) {
+  regGame: function (e, name) {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.inGame.loading.active = true;
@@ -64,7 +66,7 @@ cc.Class({
       cc.RedT.inGame.dialog.showSignIn();
     }
   },
-  openGame: function(e, name) {
+  openGame: function (e, name) {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.inGame.loading.active = true;
@@ -73,7 +75,7 @@ cc.Class({
       cc.RedT.inGame.dialog.showSignIn();
     }
   },
-  openTXCL: function(e, taixiu) {
+  openTXCL: function (e, taixiu) {
     // Open Tài Xỉu | Chẵn Lẻ
     cc.RedT.MiniPanel.TaiXiu.openGame(null, taixiu);
   }

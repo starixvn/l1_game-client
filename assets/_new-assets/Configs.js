@@ -13,7 +13,12 @@
 //PRO
 const configs = {
     gameServerUrl: 'http://35.194.253.55:8080/',
-    webSocketEndpoint: '35.194.253.55:8080'
+    webSocketEndpoint: '35.194.253.55:8080',
+    gameIds: {
+        TaiXiu: 1,
+        XocXoc: 2,
+        BauCua: 3
+    }
 }
 
 module.exports = configs;
