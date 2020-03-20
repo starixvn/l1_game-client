@@ -14,11 +14,12 @@ cc.Class({
 			this.reset();
 			return;
 		}
+		var limitLeft = - this.node.parent.width / 2;
 		for (var i = 0; i < this.node.childrenCount; i++) {
 			var child = this.node.children[i];
 			child.position = cc.v2(child.position.x - 100 * t, 0);
 
-			if (child.position.x + child.width < - this.RedT.node.width) {
+			if (child.position.x + child.width < limitLeft) {
 				child.destroy();
 			}
 		}
@@ -82,7 +83,7 @@ cc.Class({
 
 	AddNewsNode(node) {
 		var count = this.node.childrenCount;
-		var lastItemX = this.RedT.node.width + 200;
+		var lastItemX = this.node.parent.width / 2 + 200;
 
 		if (count > 0) {
 			var lastNode = this.node.children[count - 1];
