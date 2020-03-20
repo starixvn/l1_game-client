@@ -51,7 +51,7 @@ cc.Class({
         item.win.string = Helper.numberWithCommas(dataT.betwin);
         item.win.node.color = dataT.win
           ? cc.Color.YELLOW
-          : item.donvi.node.color.fromHEX("#E2E2E2");
+          : item.win.node.color.fromHEX("#E2E2E2");
 
         item.time.node.color = dataT.win
           ? cc.Color.YELLOW

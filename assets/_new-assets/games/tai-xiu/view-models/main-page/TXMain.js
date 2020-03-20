@@ -206,6 +206,10 @@ cc.Class({
       default: null,
       type: cc.SpriteFrame
     },
+    UMWarning: {
+      default: null,
+      type: cc.Node
+    },
   },
   init: function (obj) {
     this.RedT = obj;
@@ -537,13 +541,21 @@ cc.Class({
   },
   onData: function (data) {
     if (void 0 !== data.um) {
-      this.nodeTimeWait.active = true;
-      this.nodeTimeWait.string = "Game Toang Rồi !!!"
-
-      if (!this.AnimatedTime.node.active) {
-
-        return;
+      if (!this.isUM) {
+        this.isUM = true;
+        this.UMWarning.active = true;
+        this.centerRoundLight.node.stopAllActions();
       }
+
+      return;
+    }
+
+    if (this.isUM) {
+      this.isUM = false;
+      this.centerRoundLight.node.runAction(
+        cc.repeatForever(cc.rotateBy(1.1, 360))
+      );
+      this.UMWarning.active = false;
     }
 
     if (void 0 !== data.get_phien) {
@@ -643,6 +655,8 @@ cc.Class({
   },
   playTime: function () {
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
+    var self = this;
+
     this.timeInterval = setInterval(
       function () {
         if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
@@ -659,19 +673,20 @@ cc.Class({
             }
           }
         } else {
+
           if (!!this.dice[0].node.active) {
             this.setDice(false, false);
             this.reset();
           }
           this.efStop();
           this.nodeTimeWait.active = this.nodeKetQua.active = this.diaNan.active = false;
-          this.spriteNan.node.active = this.AnimatedTime.node.active = true;
           if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
             var time = helper.numberPad(
               cc.RedT.setting.taixiu.time_remain - 1,
               2
             );
             this.AnimatedTime.setTime(time);
+            this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
           } else clearInterval(this.timeInterval);
         }
         cc.RedT.setting.taixiu.time_remain--;

@@ -19,10 +19,10 @@ cc.Class({
                 cc.scaleTo(0.09, 1.5),
                 cc.fadeTo(0.09, 0)
             ),
-            cc.callFunc(function(){
+            cc.callFunc(function () {
                 this.node.destroyAllChildren();
                 this.node.destroy();
             }, this)
         ));
-    },
+    }
 });
