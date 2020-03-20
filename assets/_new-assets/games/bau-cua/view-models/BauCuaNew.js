@@ -44,6 +44,7 @@ cc.Class({
     bet: cc.Node,
     nodeRed: cc.Node,
     nodeXu: cc.Node,
+    logNode: cc.Node,
     logs: cc.Node,
     prefabLogs: cc.Prefab,
 
@@ -322,6 +323,12 @@ cc.Class({
     this.logs.removeAllChildren();
     var limitLog = 30;
     var count = Math.min(limitLog, cc.RedT.setting.baucua.logs.length);
+    if (count === 0) {
+      this.logNode.active = false;
+      return;
+    }
+    this.logNode.active = true;
+
     var LinhVat = [0, 0, 0, 0, 0, 0];
     for (var index = 0; index < count; index++) {
       var log = cc.RedT.setting.baucua.logs[index];
