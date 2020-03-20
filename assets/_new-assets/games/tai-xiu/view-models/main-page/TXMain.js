@@ -536,6 +536,16 @@ cc.Class({
     );
   },
   onData: function (data) {
+    if (void 0 !== data.um) {
+      this.nodeTimeWait.active = true;
+      this.nodeTimeWait.string = "Game Toang Rồi !!!"
+
+      if (!this.AnimatedTime.node.active) {
+
+        return;
+      }
+    }
+
     if (void 0 !== data.get_phien) {
       this.RedT.TXBetHistory.onData(data.get_phien);
     }
@@ -622,6 +632,8 @@ cc.Class({
         Constants.betTime + Constants.waitTime;
       this.playTime();
     }
+
+
   },
   efStop: function () {
     this.efTai.stop();
@@ -639,9 +651,7 @@ cc.Class({
             2
           );
           this.showWaitTime(time);
-          // if (cc.RedT.setting.taixiu.time_remain < 61) {
-          //   this.efStop();
-          // }
+
           if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
             if (this.isNan) {
               this.showResult();
@@ -661,7 +671,6 @@ cc.Class({
               cc.RedT.setting.taixiu.time_remain - 1,
               2
             );
-            //this.showBetTime(time);
             this.AnimatedTime.setTime(time);
           } else clearInterval(this.timeInterval);
         }
@@ -674,7 +683,6 @@ cc.Class({
     if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
       this.setDice(true);
       this.nodeTimeWait.active = true;
-      //this.betTime.active = false;
       this.AnimatedTime.node.active = false;
 
       var time = helper.numberPad(
