@@ -186,7 +186,7 @@ cc.Class({
   disableGame() {
     this.node.active = false;
     this.RedT.mainGame.notice.show({
-      // title: "ĐĂNG KÝ",
+      title: "THÔNG BÁO",
       text: "Hệ thống đang bảo trì. Vui lòng quay lại sau..."
     });
   },
