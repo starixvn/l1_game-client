@@ -9,7 +9,8 @@ var header = require("Header"),
   newsContents = require("NewsContents"),
   bgLoading = require("bgLoading"),
   MenuRoom = require("MenuRoom"),
-  notice = require("Notice");
+  notice = require("Notice"),
+  Menu = require("Menu");
 
 cc.Class({
   extends: cc.Component,
@@ -203,6 +204,10 @@ cc.Class({
   dataUser: function (data) {
     if (void 0 !== data.red) {
       this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
+    }
+
+    if (void 0 !== window.openGameId) {
+      Menu.openMiniGame(window.openGameId);
     }
 
     if (void 0 !== data.avatarId) {
