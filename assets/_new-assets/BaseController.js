@@ -81,24 +81,24 @@ module.exports = {
   },
   // Function localStorage
   setAutoLogin: function (bool) {
-    localStorage.setItem("AUTO_LOGIN", bool);
+    cc.sys.localStorage.setItem("AUTO_LOGIN", bool);
   },
   isAutoLogin: function () {
-    var check = localStorage.getItem("AUTO_LOGIN");
+    var check = cc.sys.localStorage.getItem("AUTO_LOGIN");
     return check == "true";
   },
   setSoundGame: function (bool) {
-    localStorage.setItem("SOUND_GAME", bool);
+    cc.sys.localStorage.setItem("SOUND_GAME", bool);
   },
   isSoundGame: function () {
-    var check = localStorage.getItem("SOUND_GAME");
+    var check = cc.sys.localStorage.getItem("SOUND_GAME");
     return check == "true";
   },
   setSoundBackground: function (bool) {
-    localStorage.setItem("SOUND_BACKGROUND", bool);
+    cc.sys.localStorage.setItem("SOUND_BACKGROUND", bool);
   },
   isSoundBackground: function () {
-    var check = localStorage.getItem("SOUND_BACKGROUND");
+    var check = cc.sys.localStorage.getItem("SOUND_BACKGROUND");
     return check == "true";
   },
   userData: function (data) {

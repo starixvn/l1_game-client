@@ -38,13 +38,8 @@ export default class Footer extends cc.Component {
   }
 
   private initSoundAndMusic() {
-    if (!cc.RedT.IS_LOGIN) {
-      this.setMusicOn();
-      this.setSoundGameOn();
-    } else {
-      cc.RedT.isSoundBackground() ? this.setMusicOn() : this.setMusicOff();
-      cc.RedT.isSoundGame() ? this.setSoundGameOn() : this.setSoundGameOff();
-    }
+    cc.RedT.isSoundBackground() ? this.setMusicOn() : this.setMusicOff();
+    cc.RedT.isSoundGame() ? this.setSoundGameOn() : this.setSoundGameOff();
   }
 
   private setSoundGameOn() {
