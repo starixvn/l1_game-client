@@ -49,7 +49,7 @@ cc.Class({
         item.cuoc.string = Helper.numberWithCommas(dataT.bet);
         item.tralai.string = Helper.numberWithCommas(dataT.tralai);
         item.win.string = Helper.numberWithCommas(dataT.betwin);
-        item.win.node.color = dataT.red
+        item.win.node.color = dataT.win
           ? cc.Color.YELLOW
           : item.donvi.node.color.fromHEX("#E2E2E2");
 
