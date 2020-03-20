@@ -33,6 +33,7 @@ cc.Class({
         this.xLabel.node.active = false;
     },
     clearCuoc: function () {
+        this.lastTotalCuoc = 0;
         this.totall.string = 0;
         this.me.string = '';
     },
