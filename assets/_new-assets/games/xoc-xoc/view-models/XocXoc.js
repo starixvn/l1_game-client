@@ -126,15 +126,7 @@ cc.Class({
 				'red4': 0,
 				'white3': 0,
 				'white4': 0,
-			},
-			'xu': {
-				'chan': 0,
-				'le': 0,
-				'red3': 0,
-				'red4': 0,
-				'white3': 0,
-				'white4': 0,
-			},
+			}
 		};
 
 		this.users = {
@@ -145,15 +137,7 @@ cc.Class({
 				'red4': 0,
 				'white3': 0,
 				'white4': 0,
-			},
-			'xu': {
-				'chan': 0,
-				'le': 0,
-				'red3': 0,
-				'red4': 0,
-				'white3': 0,
-				'white4': 0,
-			},
+			}
 		};
 
 		this.otherPlayers = {};
@@ -231,11 +215,7 @@ cc.Class({
 		});
 	},
 	userData: function (data) {
-		if (this.red) {
-			this.me_balans.string = helper.numberWithCommas(data.red);
-		} else {
-			this.me_balans.string = helper.numberWithCommas(data.xu);
-		}
+		this.me_balans.string = helper.numberWithCommas(data.red);
 	},
 
 	xocxocOutgame: function (data) {
@@ -634,7 +614,8 @@ cc.Class({
 								let random = Math.floor(Math.random() * 3) + 1;
 								let position = node1.convertToNodeSpaceAR(slotPosition);
 								for (let i = 0; i < random; i++) {
-									node1.children[mainIndex + i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+									let child = node1.children[mainIndex + i];
+									child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
 								}
 								mainIndex += random;
 							}
@@ -643,7 +624,8 @@ cc.Class({
 								let random = Math.floor(Math.random() * 3) + 1;
 								let position = node2.convertToNodeSpaceAR(slotPosition);
 								for (let i = 0; i < random; i++) {
-									node2.children[subIndex + i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+									let child = node2.children[subIndex + i];
+									child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
 								}
 								subIndex += random;
 							}
@@ -665,7 +647,8 @@ cc.Class({
 					let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
 					let position1_1 = node1.convertToNodeSpaceAR(otherUsersPosition);
 					for (let i = mainIndex; i < node1.children.length; i++) {
-						node1.children[i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_1)));
+						let child = node1.children[i];
+						child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_1)));
 					}
 
 					if (node2) {
@@ -773,13 +756,6 @@ cc.Class({
 			this.total_red4.string = data.red.red4 > 0 ? helper.formatMoneyNumber(data.red.red4) : '';
 			this.total_white3.string = data.red.white3 > 0 ? helper.formatMoneyNumber(data.red.white3) : '';
 			this.total_white4.string = data.red.white4 > 0 ? helper.formatMoneyNumber(data.red.white4) : '';
-		} else {
-			this.total_chan.string = data.xu.chan > 0 ? helper.formatMoneyNumber(data.xu.chan) : '';
-			this.total_le.string = data.xu.le > 0 ? helper.formatMoneyNumber(data.xu.le) : '';
-			this.total_red3.string = data.xu.red3 > 0 ? helper.formatMoneyNumber(data.xu.red3) : '';
-			this.total_red4.string = data.xu.red4 > 0 ? helper.formatMoneyNumber(data.xu.red4) : '';
-			this.total_white3.string = data.xu.white3 > 0 ? helper.formatMoneyNumber(data.xu.white3) : '';
-			this.total_white4.string = data.xu.white4 > 0 ? helper.formatMoneyNumber(data.xu.white4) : '';
 		}
 	},
 	resetData: function () {
@@ -818,26 +794,12 @@ cc.Class({
 		this.users.red.white3 = 0;
 		this.users.red.white4 = 0;
 
-		this.users.xu.chan = 0;
-		this.users.xu.le = 0;
-		this.users.xu.red3 = 0;
-		this.users.xu.red4 = 0;
-		this.users.xu.white3 = 0;
-		this.users.xu.white4 = 0;
-
 		this.clients.red.chan = 0;
 		this.clients.red.le = 0;
 		this.clients.red.red3 = 0;
 		this.clients.red.red4 = 0;
 		this.clients.red.white3 = 0;
 		this.clients.red.white4 = 0;
-
-		this.clients.xu.chan = 0;
-		this.clients.xu.le = 0;
-		this.clients.xu.red3 = 0;
-		this.clients.xu.red4 = 0;
-		this.clients.xu.white3 = 0;
-		this.clients.xu.white4 = 0;
 	},
 	setLogs: function () {
 		let self = this;
@@ -1120,9 +1082,6 @@ cc.Class({
 		if (data.red) {
 			this.updateMeRed(data.red);
 		}
-		if (data.xu) {
-			this.updateMeXu(data.xu);
-		}
 	},
 	updateMeRed: function (data) {
 		if (data.chan > 0) {
@@ -1150,41 +1109,13 @@ cc.Class({
 			this.red && (this.me_white4.string = helper.formatMoneyNumber(data.white4));
 		}
 	},
-	updateMeXu: function (data) {
-		if (data.chan > 0) {
-			this.users.xu.chan = data.chan;
-			!this.red && (this.me_chan.string = helper.formatMoneyNumber(data.chan));
-		}
-		if (data.le > 0) {
-			this.users.xu.le = data.le;
-			!this.red && (this.me_le.string = helper.formatMoneyNumber(data.le));
-		}
-		if (data.red3 > 0) {
-			this.users.xu.red3 = data.red3;
-			!this.red && (this.me_red3.string = helper.formatMoneyNumber(data.red3));
-		}
-		if (data.red4 > 0) {
-			this.users.xu.red4 = data.red4;
-			!this.red && (this.me_red4.string = helper.formatMoneyNumber(data.red4));
-		}
-		if (data.white3 > 0) {
-			this.users.xu.white3 = data.white3;
-			!this.red && (this.me_white3.string = helper.formatMoneyNumber(data.white3));
-		}
-		if (data.white4 > 0) {
-			this.users.xu.white4 = data.white4;
-			!this.red && (this.me_white4.string = helper.formatMoneyNumber(data.white4));
-		}
-	},
 
 	updateClient: function (data) {
 		if (data.red) {
 			this.updateClientRed(data.red);
 		}
-		if (data.xu) {
-			this.updateClientXu(data.xu);
-		}
 	},
+
 	updateClientRed: function (data) {
 		if (data.chan > 0) {
 			this.clients.red.chan = data.chan;
@@ -1211,62 +1142,21 @@ cc.Class({
 			this.red && (this.total_white4.string = helper.formatMoneyNumber(data.white4));
 		}
 	},
-	updateClientXu: function (data) {
-		if (data.chan > 0) {
-			this.clients.xu.chan = data.chan;
-			!this.red && (this.total_chan.string = helper.formatMoneyNumber(data.chan));
-		}
-		if (data.le > 0) {
-			this.clients.xu.le = data.le;
-			!this.red && (this.total_le.string = helper.formatMoneyNumber(data.le));
-		}
-		if (data.red3 > 0) {
-			this.clients.xu.red3 = data.red3;
-			!this.red && (this.total_red3.string = helper.formatMoneyNumber(data.red3));
-		}
-		if (data.red4 > 0) {
-			this.clients.xu.red4 = data.red4;
-			!this.red && (this.total_red4.string = helper.formatMoneyNumber(data.red4));
-		}
-		if (data.white3 > 0) {
-			this.clients.xu.white3 = data.white3;
-			!this.red && (this.total_white3.string = helper.formatMoneyNumber(data.white3));
-		}
-		if (data.white4 > 0) {
-			this.clients.xu.white4 = data.white4;
-			!this.red && (this.total_white4.string = helper.formatMoneyNumber(data.white4));
-		}
-	},
+
 	updateMeCoint: function () {
-		if (this.red) {
-			this.me_chan.string = this.users.red.chan > 0 ? helper.formatMoneyNumber(this.users.red.chan) : '';
-			this.me_le.string = this.users.red.le > 0 ? helper.formatMoneyNumber(this.users.red.le) : '';
-			this.me_red3.string = this.users.red.red3 > 0 ? helper.formatMoneyNumber(this.users.red.red3) : '';
-			this.me_red4.string = this.users.red.red4 > 0 ? helper.formatMoneyNumber(this.users.red.red4) : '';
-			this.me_white3.string = this.users.red.white3 > 0 ? helper.formatMoneyNumber(this.users.red.white3) : '';
-			this.me_white4.string = this.users.red.white4 > 0 ? helper.formatMoneyNumber(this.users.red.white4) : '';
+		this.me_chan.string = this.users.red.chan > 0 ? helper.formatMoneyNumber(this.users.red.chan) : '';
+		this.me_le.string = this.users.red.le > 0 ? helper.formatMoneyNumber(this.users.red.le) : '';
+		this.me_red3.string = this.users.red.red3 > 0 ? helper.formatMoneyNumber(this.users.red.red3) : '';
+		this.me_red4.string = this.users.red.red4 > 0 ? helper.formatMoneyNumber(this.users.red.red4) : '';
+		this.me_white3.string = this.users.red.white3 > 0 ? helper.formatMoneyNumber(this.users.red.white3) : '';
+		this.me_white4.string = this.users.red.white4 > 0 ? helper.formatMoneyNumber(this.users.red.white4) : '';
 
-			this.total_chan.string = this.clients.red.chan > 0 ? helper.formatMoneyNumber(this.clients.red.chan) : '';
-			this.total_le.string = this.clients.red.le > 0 ? helper.formatMoneyNumber(this.clients.red.le) : '';
-			this.total_red3.string = this.clients.red.red3 > 0 ? helper.formatMoneyNumber(this.clients.red.red3) : '';
-			this.total_red4.string = this.clients.red.red4 > 0 ? helper.formatMoneyNumber(this.clients.red.red4) : '';
-			this.total_white3.string = this.clients.red.white3 > 0 ? helper.formatMoneyNumber(this.clients.red.white3) : '';
-			this.total_white4.string = this.clients.red.white4 > 0 ? helper.formatMoneyNumber(this.clients.red.white4) : '';
-		} else {
-			this.me_chan.string = this.users.xu.chan > 0 ? helper.formatMoneyNumber(this.users.xu.chan) : '';
-			this.me_le.string = this.users.xu.le > 0 ? helper.formatMoneyNumber(this.users.xu.le) : '';
-			this.me_red3.string = this.users.xu.red3 > 0 ? helper.formatMoneyNumber(this.users.xu.red3) : '';
-			this.me_red4.string = this.users.xu.red4 > 0 ? helper.formatMoneyNumber(this.users.xu.red4) : '';
-			this.me_white3.string = this.users.xu.white3 > 0 ? helper.formatMoneyNumber(this.users.xu.white3) : '';
-			this.me_white4.string = this.users.xu.white4 > 0 ? helper.formatMoneyNumber(this.users.xu.white4) : '';
-
-			this.total_chan.string = this.clients.xu.chan > 0 ? helper.formatMoneyNumber(this.clients.xu.chan) : '';
-			this.total_le.string = this.clients.xu.le > 0 ? helper.formatMoneyNumber(this.clients.xu.le) : '';
-			this.total_red3.string = this.clients.xu.red3 > 0 ? helper.formatMoneyNumber(this.clients.xu.red3) : '';
-			this.total_red4.string = this.clients.xu.red4 > 0 ? helper.formatMoneyNumber(this.clients.xu.red4) : '';
-			this.total_white3.string = this.clients.xu.white3 > 0 ? helper.formatMoneyNumber(this.clients.xu.white3) : '';
-			this.total_white4.string = this.clients.xu.white4 > 0 ? helper.formatMoneyNumber(this.clients.xu.white4) : '';
-		}
+		this.total_chan.string = this.clients.red.chan > 0 ? helper.formatMoneyNumber(this.clients.red.chan) : '';
+		this.total_le.string = this.clients.red.le > 0 ? helper.formatMoneyNumber(this.clients.red.le) : '';
+		this.total_red3.string = this.clients.red.red3 > 0 ? helper.formatMoneyNumber(this.clients.red.red3) : '';
+		this.total_red4.string = this.clients.red.red4 > 0 ? helper.formatMoneyNumber(this.clients.red.red4) : '';
+		this.total_white3.string = this.clients.red.white3 > 0 ? helper.formatMoneyNumber(this.clients.red.white3) : '';
+		this.total_white4.string = this.clients.red.white4 > 0 ? helper.formatMoneyNumber(this.clients.red.white4) : '';
 	},
 	status: function (data) {
 		setTimeout(function () {
