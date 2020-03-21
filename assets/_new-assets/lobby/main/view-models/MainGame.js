@@ -209,6 +209,7 @@ cc.Class({
 
     if (void 0 !== window.openGameId) {
       cc.RedT.MiniPanel.openGame(window.openGameId);
+      window.openGameId = null;
     }
 
     if (void 0 !== data.avatarId) {
