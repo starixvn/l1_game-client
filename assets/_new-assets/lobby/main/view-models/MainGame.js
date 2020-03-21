@@ -197,10 +197,10 @@ cc.Class({
   },
   formatUserCurrency: function (red, currency) {
     const userCurrency = cc.RedT.user.currency
-      ? cc.RedT.user.currency.toUpperCase()
+      ? cc.RedT.user.currency
       : currency;
 
-    return `${helper.numberWithCommas(red)} ${userCurrency}`;
+    return `${helper.numberWithCommas(red)} ${userCurrency.toUpperCase()}`;
   },
   dataUser: function (data) {
     if (void 0 !== data.red) {
@@ -209,6 +209,7 @@ cc.Class({
 
     if (void 0 !== window.openGameId) {
       cc.RedT.MiniPanel.openGame(window.openGameId);
+      window.openGameId = null;
     }
 
     if (void 0 !== data.avatarId) {
