@@ -353,6 +353,7 @@ cc.Class({
   },
   onData: function (data) {
     if (void 0 !== data.userCount) {
+      this.userCountLabel.node.parent.active = true;
       this.userCountLabel.string = data.userCount;
     }
     if (void 0 !== data.um) {
