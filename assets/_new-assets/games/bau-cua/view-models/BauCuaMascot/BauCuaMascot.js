@@ -19,7 +19,8 @@ cc.Class({
     },
     totallCuoc: function (cuoc) {
         if (!!cuoc) {
-            helper.numberTo(this.totall, this.lastTotalCuoc, cuoc, 1000);
+            // helper.numberTo(this.totall, this.lastTotalCuoc, cuoc, 1000);
+            this.totall.string = helper.nFormatter(cuoc, 1);
             this.lastTotalCuoc = cuoc;
         } else {
             this.totall.string = '';
