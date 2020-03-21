@@ -75,7 +75,7 @@ cc.Class({
 
     this.center.on("size-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
-      this.center.scale = 0.7;
+      this.center.scale = 0.8;
     }
     this.repositionMenu();
   },
