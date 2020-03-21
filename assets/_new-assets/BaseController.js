@@ -105,6 +105,9 @@ module.exports = {
     if (void 0 !== data.name) {
       this.user.name = data.name;
     }
+    if (void 0 !== data.avatarId) {
+      this.user.avatarId = data.avatarId;
+    }
     if (void 0 !== data.red) {
       this.user.red = data.red;
     }

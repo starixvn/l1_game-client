@@ -96,7 +96,12 @@ cc.Class({
 			default: [],
 			type: module_Player,
 		},
-		gameRound: cc.Label
+		gameRound: cc.Label,
+		avatar: cc.Sprite,
+		avatarImages: {
+			default: [],
+			type: cc.SpriteFrame
+		}
 	},
 	ctor: function () {
 		this.logs = [];
@@ -181,6 +186,7 @@ cc.Class({
 
 		this.me_name.string = cc.RedT.user.name;
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
+		this.avatar.spriteFrame = this.avatarImages[cc.RedT.user.avatarId];
 
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
