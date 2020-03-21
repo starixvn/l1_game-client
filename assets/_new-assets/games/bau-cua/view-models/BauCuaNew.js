@@ -35,6 +35,7 @@ cc.Class({
     logTom: cc.Label,
     titleTime: cc.Label,
     phienLabel: cc.Label,
+    userCountLabel: cc.Label,
     animatedTime: cc.Component,
     waitedTime: cc.Label,
     labelHu: cc.Label,
@@ -351,6 +352,9 @@ cc.Class({
     this.logLVHandling(LinhVat);
   },
   onData: function (data) {
+    if (void 0 !== data.userCount) {
+      this.userCountLabel.string = data.userCount;
+    }
     if (void 0 !== data.um) {
       this.disabled = data.um;
     }
