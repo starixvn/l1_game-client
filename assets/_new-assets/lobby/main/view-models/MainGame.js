@@ -198,7 +198,7 @@ cc.Class({
   formatUserCurrency: function (red, currency) {
     const userCurrency = cc.RedT.user.currency
       ? cc.RedT.user.currency.toUpperCase()
-      : currency;
+      : currency === undefined ? '' : currency;
 
     return `${helper.numberWithCommas(red)} ${userCurrency}`;
   },
