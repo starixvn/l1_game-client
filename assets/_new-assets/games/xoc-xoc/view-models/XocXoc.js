@@ -153,6 +153,7 @@ cc.Class({
 		};
 		this.numberOfSlots = 8;
 		this.winners = {};
+		this.status = {};
 	},
 	onLoad() {
 		cc.RedT.inGame = this;
@@ -257,7 +258,8 @@ cc.Class({
 			//top win
 		}
 		if (!!data.status) {
-			this.status(data.status);
+			//this.status(data.status);
+			this.status = data.status;
 		}
 		if (!!data.chip) {
 			this.clientsChip(data.chip);
@@ -458,7 +460,6 @@ cc.Class({
 
 		let position = this.box_chip.parent.convertToWorldSpaceAR(this.box_chip.position);
 		let centerMid = null;
-		let centerLR = null;
 
 		if (!(numb % 2)) {
 			node1 = this.box_chan.children[4];
@@ -598,64 +599,92 @@ cc.Class({
 				}));
 			}
 			setTimeout(function () {
-				if (self.winners) {
-					let winnerIds = Object.keys(self.winners);
-					let mainIndex = 0;
-					let subIndex = 0;
-					winnerIds.forEach(function (id) {
-						let winnerData = self.winners[id];
-						let slot = self.getPlayerSlot(id);
-						if (slot) {
-							let slotIndex = slot.id - 1;
-							let player = self.players[slotIndex];
-							let slotPosition = player.node.parent.convertToWorldSpaceAR(player.node.position);
-
-							if (winnerData.boxs.main) {
-								let random = Math.floor(Math.random() * 3) + 1;
-								let position = node1.convertToNodeSpaceAR(slotPosition);
-								for (let i = 0; i < random; i++) {
-									let child = node1.children[mainIndex + i];
-									child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
-								}
-								mainIndex += random;
-							}
-
-							if (node2 && winnerData.boxs.sub) {
-								let random = Math.floor(Math.random() * 3) + 1;
-								let position = node2.convertToNodeSpaceAR(slotPosition);
-								for (let i = 0; i < random; i++) {
-									let child = node2.children[subIndex + i];
-									child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
-								}
-								subIndex += random;
-							}
-
-							let resultLabel = self.createWinResultNode(winnerData.bet)
-							player.node.addChild(resultLabel.node);
-							resultLabel.node.position = cc.v2(0, 0);
-							resultLabel.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 20)), cc.callFunc(function () { this.node.destroy() }, resultLabel)));
-
-							slot.data.red = parseFloat(slot.data.red) + winnerData.bet;
-							player.setInfo(slot.data);
+				let mainIndex = 0;
+				let subIndex = 0;
+				let status = self.status;
+				if (status.win) {
+					let userPositon = self.me_name.node.parent.convertToWorldSpaceAR(self.me_name.node.position);
+					if (status.boxs.main) {
+						let random = Math.floor(Math.random() * 3) + 1;
+						let position = node1.convertToNodeSpaceAR(userPositon);
+						for (let i = 0; i < random; i++) {
+							let child = node1.children[mainIndex + i];
+							child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
 						}
-						else {
-							let red = parseFloat(self.otherPlayers[id].red);
-							self.otherPlayers[id].red = red + winnerData.bet;
-						}
-					});
-
-					let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
-					let position1_1 = node1.convertToNodeSpaceAR(otherUsersPosition);
-					for (let i = mainIndex; i < node1.children.length; i++) {
-						let child = node1.children[i];
-						child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_1)));
+						mainIndex += random;
 					}
 
-					if (node2) {
-						let position1_3 = node2.convertToNodeSpaceAR(otherUsersPosition);
-						for (let i = subIndex; i < node2.children.length; i++) {
-							node2.children[i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_3)));
+					if (node2 && status.boxs.sub) {
+						let random = Math.floor(Math.random() * 3) + 1;
+						let position = node2.convertToNodeSpaceAR(userPositon);
+						for (let i = 0; i < random; i++) {
+							let child = node2.children[subIndex + i];
+							child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
 						}
+						subIndex += random;
+					}
+
+					var temp = self.createWinResultNode(status.bet);
+					temp.node.position = cc.v2(0, 90);
+					this.miniNotice.addChild(temp.node);
+					temp.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 200)), cc.callFunc(function () { this.node.destroy() }, temp)));
+					cc.RedT.send({ user: { updateCoint: true } });
+				}
+
+				let winnerIds = Object.keys(self.winners);
+				winnerIds.forEach(function (id) {
+					let winnerData = self.winners[id];
+					let slot = self.getPlayerSlot(id);
+					if (slot) {
+						let slotIndex = slot.id - 1;
+						let player = self.players[slotIndex];
+						let slotPosition = player.node.parent.convertToWorldSpaceAR(player.node.position);
+
+						if (winnerData.boxs.main) {
+							let random = Math.floor(Math.random() * 3) + 1;
+							let position = node1.convertToNodeSpaceAR(slotPosition);
+							for (let i = 0; i < random; i++) {
+								let child = node1.children[mainIndex + i];
+								child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+							}
+							mainIndex += random;
+						}
+
+						if (node2 && winnerData.boxs.sub) {
+							let random = Math.floor(Math.random() * 3) + 1;
+							let position = node2.convertToNodeSpaceAR(slotPosition);
+							for (let i = 0; i < random; i++) {
+								let child = node2.children[subIndex + i];
+								child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+							}
+							subIndex += random;
+						}
+
+						let resultLabel = self.createWinResultNode(winnerData.bet)
+						player.node.addChild(resultLabel.node);
+						resultLabel.node.position = cc.v2(0, 0);
+						resultLabel.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 20)), cc.callFunc(function () { this.node.destroy() }, resultLabel)));
+
+						slot.data.red = parseFloat(slot.data.red) + winnerData.bet;
+						player.setInfo(slot.data);
+					}
+					else if (self.otherPlayers[id]) {
+						let red = parseFloat(self.otherPlayers[id].red);
+						self.otherPlayers[id].red = red ? (red + winnerData.bet) : winnerData.bet;
+					}
+				});
+
+				let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
+				let position1_1 = node1.convertToNodeSpaceAR(otherUsersPosition);
+				for (let i = mainIndex; i < node1.children.length; i++) {
+					let child = node1.children[i];
+					child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_1)));
+				}
+
+				if (node2) {
+					let position1_3 = node2.convertToNodeSpaceAR(otherUsersPosition);
+					for (let i = subIndex; i < node2.children.length; i++) {
+						node2.children[i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_3)));
 					}
 				}
 			}.bind(this), 3000);
@@ -944,6 +973,13 @@ cc.Class({
 		noticeComponent.text.string = text;
 		this.miniNotice.addChild(notice);
 	},
+	createChipNode: function (position, bet) {
+		let newN = new cc.Node;
+		newN = newN.addComponent(cc.Sprite);
+		newN.spriteFrame = this['chip_' + bet];
+		newN.node.position = position;
+		return newN;
+	},
 	clientsChip: function (data) {
 		let nodeBox = null;
 		let max = this.maxBox1_3;
@@ -975,8 +1011,8 @@ cc.Class({
 				nodeBox = this.box_white4;
 				break;
 		}
-		let slots = Object.values(this.Positions);
-		let playerSlot = slots.find(function (t) { return t.data && t.data.id == data.playerId; });
+
+		let playerSlot = this.getPlayerSlot(data.playerId);
 		let position = null;
 		if (playerSlot) {
 			playerSlot.data.red = data.red;
@@ -993,10 +1029,7 @@ cc.Class({
 
 		position = nodeBox.children[4].convertToNodeSpaceAR(position);
 
-		let newN = new cc.Node;
-		newN = newN.addComponent(cc.Sprite);
-		newN.spriteFrame = this['chip_' + data.cuoc];
-		newN.node.position = position;
+		let newN = this.createChipNode(position, data.cuoc);
 
 		let x = (Math.random() * (max.x + 1)) >> 0;
 		let y = (Math.random() * (max.y + 1)) >> 0;
@@ -1055,16 +1088,14 @@ cc.Class({
 		let position = nodeBet.parent.convertToWorldSpaceAR(nodeBet.position);
 		position = nodeBox.children[4].convertToNodeSpaceAR(position);
 
-		let newN = new cc.Node;
-		newN = newN.addComponent(cc.Sprite);
-		newN.spriteFrame = this['chip_' + data.cuoc];
-		newN.node.position = position;
+		let newN = this.createChipNode(position, data.cuoc);
 
 		let x = (Math.random() * (max.x + 1)) >> 0;
 		let y = (Math.random() * (max.y + 1)) >> 0;
 
 		// this.audioSingleChip.node
 		nodeBox.children[4].addChild(newN.node);
+
 		let copy = cc.instantiate(this.audioSingleChip.node);
 		newN.node.addChild(copy);
 		copy = copy.getComponent(cc.AudioSource);
