@@ -43,7 +43,7 @@ deploy-ios-testflight:
     - cd ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
     - fastlane beta
   tags:
-    - deploy-cocos-ios-testflight
-  only:
-    - /^deploy-ios-\d{8}-\d+.*$/
-    - /^deploy-\d{8}-\d+.*$/
+    - deploy-cocos-ios-tf
+ # only:
+ #   - /^deploy-ios-\d{8}-\d+.*$/
+ #   - /^deploy-\d{8}-\d+.*$/
