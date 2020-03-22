@@ -12,8 +12,8 @@
 
 //PRO
 const configs = {
-    gameServerUrl: 'http://35.194.253.55:8080/',
-    webSocketEndpoint: '35.194.253.55:8080',
+    gameServerUrl: 'http://124.158.13.228:8080/',
+    webSocketEndpoint: '124.158.13.228:8080',
     gameIds: {
         TaiXiu: 1,
         XocXoc: 2,
