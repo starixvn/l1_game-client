@@ -6,7 +6,7 @@ deploy-web-mobile:
   stage: deploy-web-mobile
   before_script:
     - echo "====== Build Cocos Web Mobile ======"
-    - brew update
+    - sudo brew update
     - eval $(ssh-agent -s)
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
     - mkdir -p ~/.ssh
@@ -25,7 +25,7 @@ deploy-ios-testflight:
   stage: deploy-ios-testflight
   script:
     - echo "====== Build Cocos Web Mobile ======"
-    - brew update
+    - sudo brew update
     - eval $(ssh-agent -s)
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
