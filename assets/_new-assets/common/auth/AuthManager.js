@@ -52,12 +52,20 @@ function clearTokenOnUrl() {
     }
 }
 
+function getSessionKey() {
+    if (window.location && window.location.hostname) {
+        return `${window.location.hostname}.${sessionIdStorageName}`;
+    }
+
+    return sessionIdStorageName;
+}
+
 function signOut() {
-    cc.sys.localStorage.removeItem(sessionIdStorageName);
+    cc.sys.localStorage.removeItem(getSessionKey());
 }
 
 function getSession() {
-    return JSON.parse(cc.sys.localStorage.getItem('scss'));
+    return JSON.parse(cc.sys.localStorage.getItem(getSessionKey()));
 }
 
 function storeSession(name, data) {
@@ -65,7 +73,7 @@ function storeSession(name, data) {
 }
 
 function storeSessionData(data) {
-    cc.sys.localStorage.setItem(sessionIdStorageName, JSON.stringify(data));
+    cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
 }
 
 function triggerSignIn(mainGame) {

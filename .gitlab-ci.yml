@@ -44,6 +44,6 @@ deploy-ios-testflight:
     - fastlane beta
   tags:
     - deploy-cocos-ios-tf
- # only:
- #   - /^deploy-ios-\d{8}-\d+.*$/
- #   - /^deploy-\d{8}-\d+.*$/
+  only:
+    - /^deploy-ios-\d{8}-\d+.*$/
+    - /^deploy-\d{8}-\d+.*$/
