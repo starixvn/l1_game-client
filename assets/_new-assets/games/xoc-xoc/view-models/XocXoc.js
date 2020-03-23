@@ -101,7 +101,8 @@ cc.Class({
 		avatarImages: {
 			default: [],
 			type: cc.SpriteFrame
-		}
+		},
+		center: cc.Node
 	},
 	ctor: function () {
 		this.logs = [];
@@ -187,7 +188,9 @@ cc.Class({
 		this.me_name.string = cc.RedT.user.name;
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 		this.avatar.spriteFrame = this.avatarImages[cc.RedT.user.avatarId];
-
+		if (!cc.sys.isMobile) {
+			this.center.scale = 0.8;
+		}
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
 	onData: function (data) {
