@@ -348,17 +348,26 @@ cc.Class({
 	},
 
 	addPlayer: function (player) {
-		let positions = Object.values(this.Positions);
-		let emptyPositions = positions.filter(function (t) { return t.data == null });
+		var playerSlot = this.getPlayerSlot(player.id);
+		if (!playerSlot) {
+			let emptySlots = this.getEmptySlots();
 
-		if (emptyPositions.length > 0) {
-			var selectedPos = emptyPositions[0];
-			this.Positions[selectedPos.id].data = player;
-			this.players[selectedPos.id - 1].setInfo(player);
-			this.players[selectedPos.id - 1].setAvatar();
-		} else {
-			this.otherPlayers[player.id] = player;
+			if (emptySlots.length > 0) {
+				var selectedPos = emptySlots[0];
+				this.Positions[selectedPos.id].data = player;
+				this.players[selectedPos.id - 1].setInfo(player);
+				this.players[selectedPos.id - 1].setAvatar();
+			} else {
+				this.otherPlayers[player.id] = player;
+			}
 		}
+	},
+
+	getEmptySlots: function () {
+		let slots = Object.values(this.Positions);
+		let emptySlots = slots.filter(function (t) { return t.data == null });
+
+		return emptySlots;
 	},
 
 	ingameChip: function (data) {
