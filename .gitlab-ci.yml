@@ -1,7 +1,6 @@
 stages:
   - build
-  - deploy-web-mobile
-  - deploy-ios-testflight
+  - deploy
 
 build:
   stage: build
@@ -9,9 +8,11 @@ build:
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
   tags:
     - deploy-cocos-web-mobile
+  only:
+    - master
 
 deploy-web-mobile:
-  stage: deploy-web-mobile
+  stage: deploy
   before_script:
     - echo "====== Build Cocos Web Mobile ======"
     - eval $(ssh-agent -s)
@@ -25,12 +26,14 @@ deploy-web-mobile:
     - tar czf - ./build/web-mobile/* | ssh root@124.158.13.228 "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
   tags:
     - deploy-cocos-web-mobile
+  environment:
+    name: web
   only:
    - /^deploy-web-\d{8}-\d+.*$/
    - /^deploy-\d{8}-\d+.*$/
 
 deploy-ios-testflight:
-  stage: deploy-ios-testflight
+  stage: deploy
   script:
     - echo "====== Build Cocos Web Mobile ======"
     - eval $(ssh-agent -s)
@@ -44,6 +47,8 @@ deploy-ios-testflight:
     - fastlane beta
   tags:
     - deploy-cocos-ios-tf
+  environment:
+    name: ios-testflight
   only:
     - /^deploy-ios-\d{8}-\d+.*$/
     - /^deploy-\d{8}-\d+.*$/
