@@ -395,7 +395,7 @@ cc.Class({
     }
 
     if (void 0 !== data.chipCuoc) {
-      // this.addChipThrowAnimation(data.chipCuoc);
+      this.addChipThrowAnimation(data.chipCuoc);
     }
 
     if (void 0 !== data.um) {
