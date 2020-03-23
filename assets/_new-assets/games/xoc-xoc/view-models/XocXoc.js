@@ -1234,12 +1234,12 @@ cc.Class({
 
 	openGuide: function () {
 		let dialog = cc.instantiate(this.prefabGuide);
-		this.node.addChild(dialog);
+		this.center.addChild(dialog);
 	},
 
 	openHistory: function () {
 		let dialog = cc.instantiate(this.prefabHistory);
-		this.node.addChild(dialog);
+		this.center.addChild(dialog);
 		this.history = dialog.getComponent("XocXoc_history");
 		this.history.init(this);
 	},
