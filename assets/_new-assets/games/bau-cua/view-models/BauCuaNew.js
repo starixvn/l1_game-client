@@ -328,8 +328,7 @@ cc.Class({
   addLogs: function () {
     var self = this;
     this.logs.removeAllChildren();
-    var limitLog = 30;
-    var count = Math.min(limitLog, cc.RedT.setting.baucua.logs.length);
+    var count = Math.min(BCConstants.limitLog, cc.RedT.setting.baucua.logs.length);
     if (count === 0) {
       this.logNode.active = false;
       return;
@@ -442,7 +441,7 @@ cc.Class({
           data.finish.dices[1],
           data.finish.dices[2]
         ]);
-        cc.RedT.setting.baucua.logs.length > 15 &&
+        cc.RedT.setting.baucua.logs.length > BCConstants.limitLog &&
           cc.RedT.setting.baucua.logs.pop();
         this.setDice(data.finish.dices);
         // Play
