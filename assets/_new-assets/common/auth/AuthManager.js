@@ -16,7 +16,7 @@ function checkSSO(labelMessage, cb) {
                     window.authData.time = new Date();
                     console.log(urlParams.get("gameId"));
                     window.openGameId = urlParams.get("gameId");
-                    storeSession(sessionIdStorageName, response);
+                    storeSession(response);
                     clearTokenOnUrl();
                     cb();
                 }
@@ -33,7 +33,7 @@ function checkSSO(labelMessage, cb) {
 
         isSuccess = true;
     }
-    else if (authData && authData.isAuthenticated) {
+    else if (authData && authData.isAuthenticated && authData.ss) {
         isSuccess = true;
         console.log(authData);
         window.authData = authData;
@@ -68,8 +68,8 @@ function getSession() {
     return JSON.parse(cc.sys.localStorage.getItem(getSessionKey()));
 }
 
-function storeSession(name, data) {
-    cc.sys.localStorage.setItem(name, JSON.stringify(data));
+function storeSession(data) {
+    cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
 }
 
 function storeSessionData(data) {
