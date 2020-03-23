@@ -8,6 +8,8 @@ build:
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
   tags:
     - deploy-cocos-web-mobile
+  only:
+    - master
 
 deploy-web-mobile:
   stage: deploy
