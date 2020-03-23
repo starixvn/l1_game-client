@@ -14,7 +14,8 @@ cc.Class({
 			this.reset();
 			return;
 		}
-		var limitLeft = - this.node.parent.width / 2;
+		var limitLeft = - this.node.parent.width / 4;
+		console.log(limitLeft);
 		for (var i = 0; i < this.node.childrenCount; i++) {
 			var child = this.node.children[i];
 			child.position = cc.v2(child.position.x - 100 * t, 0);
