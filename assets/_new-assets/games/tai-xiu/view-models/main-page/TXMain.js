@@ -338,9 +338,7 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
-
     this.RedT.board && cc.sys.isBrowser && this.addEvent();
-    // TODO: this.nodeTimePopup.active = false;
 
     if (this.RedT.board) {
       BrowserUtil.inputAddEvent(this.inputLeft, "input", this.updateValue);
@@ -356,7 +354,6 @@ cc.Class({
 
     this.RedT.board && cc.sys.isBrowser && this.removeEvent();
     this.clean();
-    // TODO:  !!cc.RedT.IS_LOGIN && (this.nodeTimePopup.active = true);
 
     if (this.RedT.board) {
       BrowserUtil.inputRemoveEvent(this.inputLeft, "input", this.updateValue);

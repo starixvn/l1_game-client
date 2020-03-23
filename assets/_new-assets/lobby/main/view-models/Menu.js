@@ -1,5 +1,3 @@
-const configs = require('Configs');
-
 cc.Class({
   extends: cc.Component,
 
@@ -50,13 +48,6 @@ cc.Class({
       })
     );
   },
-  openMiniGame: function (e, id) {
-    if (id == configs.gameIds.TaiXiu || id == configs.gameIds.BauCua) {
-      cc.RedT.MiniPanel.openGame(id);
-    } else {
-      cc.RedT.MiniPanel[id].openGame();
-    }
-  },
   regGame: function (e, name) {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
@@ -75,8 +66,13 @@ cc.Class({
       cc.RedT.inGame.dialog.showSignIn();
     }
   },
-  openTXCL: function (e, taixiu) {
-    // Open Tài Xỉu | Chẵn Lẻ
-    cc.RedT.MiniPanel.TaiXiu.openGame(null, taixiu);
-  }
+  openTaiXiu: function () {
+    cc.RedT.MiniPanel.openTaiXiu();
+  },
+  openBauCua: function () {
+    cc.RedT.MiniPanel.openBauCua();
+  },
+  openMiniPoker: function () {
+    cc.RedT.MiniPanel.openMiniPoker();
+  },
 });

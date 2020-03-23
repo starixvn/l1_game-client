@@ -17,7 +17,8 @@ const configs = {
     gameIds: {
         TaiXiu: 1,
         XocXoc: 2,
-        BauCua: 3
+        BauCua: 3,
+        MiniPoker: 4
     }
 }
 

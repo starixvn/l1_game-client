@@ -1,5 +1,4 @@
-var MiniPoker = require("MiniPoker"),
-  BigBabol = require("BigBabol"),
+var BigBabol = require("BigBabol"),
   BaCay = require("Mini3Cay"),
   CaoThap = require("CaoThap"),
   AngryBirds = require("AngryBirds"),
@@ -7,7 +6,6 @@ var MiniPoker = require("MiniPoker"),
   Dialog = require("MiniDialog");
 
 var MegaJackpot = require("MegaJackpot");
-const configs = require('Configs');
 
 cc.Class({
   extends: cc.Component,
@@ -18,29 +16,26 @@ cc.Class({
       type: cc.Node
     },
     Dialog: Dialog,
-    MiniPoker: MiniPoker,
     BigBabol: BigBabol,
     BaCay: BaCay,
     CaoThap: CaoThap,
     AngryBirds: AngryBirds,
     MegaJackpot: MegaJackpot,
-
     TopHu: TopHu,
-
     bgLight: cc.Node,
     spriteLight: cc.Sprite,
     onLight: cc.SpriteFrame,
     offLight: cc.SpriteFrame,
-
     nodeEfect: cc.Node,
-    // Prefab
-    PrefabNoHu: cc.Prefab, // TODO
-    prefabBigWin: cc.Prefab, // TODO
+    PrefabNoHu: cc.Prefab,
+    prefabBigWin: cc.Prefab,
     PrefabTaiXiu: cc.Prefab,
     PrefabBauCua: cc.Prefab,
+    PrefabMiniPoker: cc.Prefab,
     light: true
   },
   onLoad() {
+    console.log("load mini")
     if (void 0 === cc.RedT.setting.light) {
       cc.RedT.setting.light = true;
     }
@@ -49,7 +44,6 @@ cc.Class({
       self.onDestroy();
     };
     this.Dialog.init(this);
-    this.MiniPoker.init(this);
     this.TopHu.init(this);
 
     var taiXiuPrefab = cc.instantiate(this.PrefabTaiXiu);
@@ -60,28 +54,18 @@ cc.Class({
     this.BauCua = bauCuaPrefab.getComponent("BauCuaNew");
     this.BauCua.init(this);
 
+    var miniPoker = cc.instantiate(this.PrefabMiniPoker);
+    this.MiniPoker = miniPoker.getComponent("MiniPoker");
+    this.MiniPoker.init(this);
+
     if (cc.RedT.IS_LOGIN) {
       this.signIn();
     }
     if (cc.RedT.setting.light != this.light) {
-      this.LightChanger();
+      this.changeLight();
     }
   },
-  clickGame: function (e, id) {
-    this.openGame(id);
-  },
-  openGame: function (id) {
-    if (id == configs.gameIds.TaiXiu) {
-      this.TaiXiu.openGame();
-      this.minigame.insertChild(this.TaiXiu.node);
-    }
-
-    if (id == configs.gameIds.BauCua) {
-      this.BauCua.openGame();
-      this.minigame.insertChild(this.BauCua.node);
-    }
-  },
-  LightChanger: function () {
+  changeLight: function () {
     this.light = cc.RedT.setting.light = !this.light;
     if (this.light) {
       this.bgLight.active = false;
@@ -119,5 +103,17 @@ cc.Class({
   },
   playUnClick: function () {
     cc.RedT.audio.playUnClick();
-  }
+  },
+  openTaiXiu: function () {
+    this.TaiXiu.openGame();
+    this.minigame.insertChild(this.TaiXiu.node);
+  },
+  openBauCua: function () {
+    this.BauCua.openGame();
+    this.minigame.insertChild(this.BauCua.node);
+  },
+  openMiniPoker: function () {
+    this.MiniPoker.openGame();
+    this.minigame.insertChild(this.MiniPoker.node);
+  },
 });
