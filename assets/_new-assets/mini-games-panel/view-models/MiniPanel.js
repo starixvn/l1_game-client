@@ -67,6 +67,9 @@ cc.Class({
       this.LightChanger();
     }
   },
+  clickGame: function (e, id) {
+    this.openGame(id);
+  },
   openGame: function (id) {
     if (id == configs.gameIds.TaiXiu) {
       this.TaiXiu.openGame();

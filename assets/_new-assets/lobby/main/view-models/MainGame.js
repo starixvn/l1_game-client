@@ -105,8 +105,10 @@ cc.Class({
     this.loading.active = false;
     if (void 0 !== data["message"]) {
       this.notice.show({
-        title: "ĐĂNG KÝ",
-        text: "Có lỗi sảy ra, xin vui lòng thử lại..."
+        title: "THÔNG BÁO",
+        text: data.isSessionExpired || data.noPassword
+          ? "Phiên làm việc đã hết hạn, bạn hãy đăng nhập lại..."
+          : "Có lỗi sảy ra, xin vui lòng thử lại..."
       });
     } else {
       this.notice.show(data);

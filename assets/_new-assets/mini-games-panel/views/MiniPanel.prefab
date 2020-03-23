@@ -30774,8 +30774,8 @@
     },
     "component": "",
     "_componentId": "ccccah+dOlLRKuFndZetoIH",
-    "handler": "openGame",
-    "customEventData": "TaiXiu"
+    "handler": "clickGame",
+    "customEventData": "1"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -30961,11 +30961,13 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 1
+    },
     "component": "",
-    "_componentId": "913f0/duAtI8acXyToc0QnK",
-    "handler": "openGame",
-    "customEventData": ""
+    "_componentId": "ccccah+dOlLRKuFndZetoIH",
+    "handler": "clickGame",
+    "customEventData": "3"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -32026,8 +32028,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        0,
+        5.883,
+        7.843,
         0,
         0,
         0,

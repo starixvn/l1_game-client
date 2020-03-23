@@ -296,7 +296,7 @@ cc.Class({
 	},
 	xocxocIngame: function (data) {
 		if (!!data.chip) {
-			this.ingameChip(data.chip);
+			//this.ingameChip(data.chip);
 		}
 		if (!!data.time) {
 			this.time_remain = data.time;
@@ -706,7 +706,7 @@ cc.Class({
 		var temp = new cc.Node;
 		temp.addComponent(cc.Label);
 		temp = temp.getComponent(cc.Label);
-		temp.string = "+" + helper.formatMoneyNumber(winResult);
+		temp.string = "+" + helper.numberWithCommas(winResult);
 		temp.font = cc.RedT.util.fontCong;
 		temp.lineHeight = 130;
 		temp.fontSize = 25;
@@ -790,12 +790,12 @@ cc.Class({
 	},
 	updateData: function (data) {
 		if (this.red) {
-			this.total_chan.string = data.red.chan > 0 ? helper.formatMoneyNumber(data.red.chan) : '';
-			this.total_le.string = data.red.le > 0 ? helper.formatMoneyNumber(data.red.le) : '';
-			this.total_red3.string = data.red.red3 > 0 ? helper.formatMoneyNumber(data.red.red3) : '';
-			this.total_red4.string = data.red.red4 > 0 ? helper.formatMoneyNumber(data.red.red4) : '';
-			this.total_white3.string = data.red.white3 > 0 ? helper.formatMoneyNumber(data.red.white3) : '';
-			this.total_white4.string = data.red.white4 > 0 ? helper.formatMoneyNumber(data.red.white4) : '';
+			this.total_chan.string = data.red.chan > 0 ? helper.numberWithCommas(data.red.chan) : '';
+			this.total_le.string = data.red.le > 0 ? helper.numberWithCommas(data.red.le) : '';
+			this.total_red3.string = data.red.red3 > 0 ? helper.numberWithCommas(data.red.red3) : '';
+			this.total_red4.string = data.red.red4 > 0 ? helper.numberWithCommas(data.red.red4) : '';
+			this.total_white3.string = data.red.white3 > 0 ? helper.numberWithCommas(data.red.white3) : '';
+			this.total_white4.string = data.red.white4 > 0 ? helper.numberWithCommas(data.red.white4) : '';
 		}
 	},
 	resetData: function () {
@@ -1128,27 +1128,27 @@ cc.Class({
 	updateMeRed: function (data) {
 		if (data.chan > 0) {
 			this.users.red.chan = data.chan;
-			this.red && (this.me_chan.string = helper.formatMoneyNumber(data.chan));
+			this.red && (this.me_chan.string = helper.numberWithCommas(data.chan));
 		}
 		if (data.le > 0) {
 			this.users.red.le = data.le;
-			this.red && (this.me_le.string = helper.formatMoneyNumber(data.le));
+			this.red && (this.me_le.string = helper.numberWithCommas(data.le));
 		}
 		if (data.red3 > 0) {
 			this.users.red.red3 = data.red3;
-			this.red && (this.me_red3.string = helper.formatMoneyNumber(data.red3));
+			this.red && (this.me_red3.string = helper.numberWithCommas(data.red3));
 		}
 		if (data.red4 > 0) {
 			this.users.red.red4 = data.red4;
-			this.red && (this.me_red4.string = helper.formatMoneyNumber(data.red4));
+			this.red && (this.me_red4.string = helper.numberWithCommas(data.red4));
 		}
 		if (data.white3 > 0) {
 			this.users.red.white3 = data.white3;
-			this.red && (this.me_white3.string = helper.formatMoneyNumber(data.white3));
+			this.red && (this.me_white3.string = helper.numberWithCommas(data.white3));
 		}
 		if (data.white4 > 0) {
 			this.users.red.white4 = data.white4;
-			this.red && (this.me_white4.string = helper.formatMoneyNumber(data.white4));
+			this.red && (this.me_white4.string = helper.numberWithCommas(data.white4));
 		}
 	},
 
@@ -1161,51 +1161,51 @@ cc.Class({
 	updateClientRed: function (data) {
 		if (data.chan > 0) {
 			this.clients.red.chan = data.chan;
-			this.red && (this.total_chan.string = helper.formatMoneyNumber(data.chan));
+			this.red && (this.total_chan.string = helper.numberWithCommas(data.chan));
 		}
 		if (data.le > 0) {
 			this.clients.red.le = data.le;
-			this.red && (this.total_le.string = helper.formatMoneyNumber(data.le));
+			this.red && (this.total_le.string = helper.numberWithCommas(data.le));
 		}
 		if (data.red3 > 0) {
 			this.clients.red.red3 = data.red3;
-			this.red && (this.total_red3.string = helper.formatMoneyNumber(data.red3));
+			this.red && (this.total_red3.string = helper.numberWithCommas(data.red3));
 		}
 		if (data.red4 > 0) {
 			this.clients.red.red4 = data.red4;
-			this.red && (this.total_red4.string = helper.formatMoneyNumber(data.red4));
+			this.red && (this.total_red4.string = helper.numberWithCommas(data.red4));
 		}
 		if (data.white3 > 0) {
 			this.clients.red.white3 = data.white3;
-			this.red && (this.total_white3.string = helper.formatMoneyNumber(data.white3));
+			this.red && (this.total_white3.string = helper.numberWithCommas(data.white3));
 		}
 		if (data.white4 > 0) {
 			this.clients.red.white4 = data.white4;
-			this.red && (this.total_white4.string = helper.formatMoneyNumber(data.white4));
+			this.red && (this.total_white4.string = helper.numberWithCommas(data.white4));
 		}
 	},
 
 	updateMeCoint: function () {
-		this.me_chan.string = this.users.red.chan > 0 ? helper.formatMoneyNumber(this.users.red.chan) : '';
-		this.me_le.string = this.users.red.le > 0 ? helper.formatMoneyNumber(this.users.red.le) : '';
-		this.me_red3.string = this.users.red.red3 > 0 ? helper.formatMoneyNumber(this.users.red.red3) : '';
-		this.me_red4.string = this.users.red.red4 > 0 ? helper.formatMoneyNumber(this.users.red.red4) : '';
-		this.me_white3.string = this.users.red.white3 > 0 ? helper.formatMoneyNumber(this.users.red.white3) : '';
-		this.me_white4.string = this.users.red.white4 > 0 ? helper.formatMoneyNumber(this.users.red.white4) : '';
+		this.me_chan.string = this.users.red.chan > 0 ? helper.numberWithCommas(this.users.red.chan) : '';
+		this.me_le.string = this.users.red.le > 0 ? helper.numberWithCommas(this.users.red.le) : '';
+		this.me_red3.string = this.users.red.red3 > 0 ? helper.numberWithCommas(this.users.red.red3) : '';
+		this.me_red4.string = this.users.red.red4 > 0 ? helper.numberWithCommas(this.users.red.red4) : '';
+		this.me_white3.string = this.users.red.white3 > 0 ? helper.numberWithCommas(this.users.red.white3) : '';
+		this.me_white4.string = this.users.red.white4 > 0 ? helper.numberWithCommas(this.users.red.white4) : '';
 
-		this.total_chan.string = this.clients.red.chan > 0 ? helper.formatMoneyNumber(this.clients.red.chan) : '';
-		this.total_le.string = this.clients.red.le > 0 ? helper.formatMoneyNumber(this.clients.red.le) : '';
-		this.total_red3.string = this.clients.red.red3 > 0 ? helper.formatMoneyNumber(this.clients.red.red3) : '';
-		this.total_red4.string = this.clients.red.red4 > 0 ? helper.formatMoneyNumber(this.clients.red.red4) : '';
-		this.total_white3.string = this.clients.red.white3 > 0 ? helper.formatMoneyNumber(this.clients.red.white3) : '';
-		this.total_white4.string = this.clients.red.white4 > 0 ? helper.formatMoneyNumber(this.clients.red.white4) : '';
+		this.total_chan.string = this.clients.red.chan > 0 ? helper.numberWithCommas(this.clients.red.chan) : '';
+		this.total_le.string = this.clients.red.le > 0 ? helper.numberWithCommas(this.clients.red.le) : '';
+		this.total_red3.string = this.clients.red.red3 > 0 ? helper.numberWithCommas(this.clients.red.red3) : '';
+		this.total_red4.string = this.clients.red.red4 > 0 ? helper.numberWithCommas(this.clients.red.red4) : '';
+		this.total_white3.string = this.clients.red.white3 > 0 ? helper.numberWithCommas(this.clients.red.white3) : '';
+		this.total_white4.string = this.clients.red.white4 > 0 ? helper.numberWithCommas(this.clients.red.white4) : '';
 	},
 	status: function (data) {
 		setTimeout(function () {
 			var temp = new cc.Node;
 			temp.addComponent(cc.Label);
 			temp = temp.getComponent(cc.Label);
-			temp.string = (data.win ? '+' : '-') + helper.formatMoneyNumber(data.bet);
+			temp.string = (data.win ? '+' : '-') + helper.numberWithCommas(data.bet);
 			temp.font = data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
 			temp.lineHeight = 130;
 			temp.fontSize = 25;
@@ -1217,7 +1217,7 @@ cc.Class({
 				var thuong = new cc.Node;
 				thuong.addComponent(cc.Label);
 				thuong = thuong.getComponent(cc.Label);
-				thuong.string = '+' + helper.formatMoneyNumber(data.thuong);
+				thuong.string = '+' + helper.numberWithCommas(data.thuong);
 				thuong.font = cc.RedT.util.fontEffect;
 				thuong.lineHeight = 90;
 				thuong.fontSize = 14;
