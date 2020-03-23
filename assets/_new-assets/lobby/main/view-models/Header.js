@@ -41,34 +41,34 @@ cc.Class({
       this.isSignOut();
     }
   },
-  isSignIn: function() {
+  isSignIn: function () {
     this.nodeUsers.active = true;
     this.nodeGuest.active = false;
   },
-  isSignOut: function() {
+  isSignOut: function () {
     this.userName.string = this.userRed.string = "";
     this.nodeUsers.active = false;
     this.nodeGuest.active = true;
   },
-  level: function(level) {
+  level: function (level) {
     this.vip.string = "VIP" + level;
   },
-  updateEXP: function(ht, next) {
+  updateEXP: function (ht, next) {
     this.exp.width = (ht / next) * this.maskFull;
   },
-  reset: function() {
+  reset: function () {
     this.level(cc.RedT.user.level);
     this.updateEXP(cc.RedT.user.vipHT, cc.RedT.user.vipNext);
   },
-  signOut: function() {
+  signOut: function () {
     cc.RedT.inGame.notice.show({
       title: "ĐĂNG XUẤT",
       text:
-        "Xác nhận hành động.\nHành động thực hiện đăng xuất khỏi tài khoản này?",
-      button: { type: "sign_out", text: "ĐĂNG XUẤT" }
+        "Bạn có muốn đăng xuất không?",
+      button: { type: "sign_out", text: "ĐỒNG Ý" }
     });
   },
-  setAvatar: function(avatarId) {
+  setAvatar: function (avatarId) {
     this.avatar.spriteFrame = this.avatarImages[avatarId];
   }
 });

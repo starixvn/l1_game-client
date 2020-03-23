@@ -108,7 +108,7 @@ cc.Class({
         title: "THÔNG BÁO",
         text: data.isSessionExpired || data.noPassword
           ? "Phiên làm việc đã hết hạn, bạn hãy đăng nhập lại..."
-          : "Có lỗi sảy ra, xin vui lòng thử lại..."
+          : "Có lỗi xảy ra, xin vui lòng thử lại..."
       });
     } else {
       this.notice.show(data);
