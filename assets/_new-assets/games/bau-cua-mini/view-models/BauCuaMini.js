@@ -32,7 +32,6 @@ cc.Class({
       type: cc.SpriteFrame
     },
 
-    chipContainer: cc.Node,
     logHuou: cc.Label,
     logBau: cc.Label,
     logGa: cc.Label,
@@ -366,22 +365,22 @@ cc.Class({
     }
     var node = new cc.Node();
     node.addComponent(cc.Sprite).spriteFrame = this.chipSprites[spriteIndex];
-    this.chipContainer.addChild(node);
+    this.node.addChild(node);
     this.betChipList.push(node);
 
     var chipBet = this.bet.children.find(obj => obj.name == chipCuoc.chip);
     var totalNode = this.userCountLabel.node;
     if (chipCuoc.ownChip) {
-      node.position = this.chipContainer.convertToNodeSpaceAR(chipBet.parent.convertToWorldSpaceAR(chipBet.position));
+      node.position = this.node.convertToNodeSpaceAR(chipBet.parent.convertToWorldSpaceAR(chipBet.position));
     } else {
-      node.position = this.chipContainer.convertToNodeSpaceAR(totalNode.parent.convertToWorldSpaceAR(totalNode.position));
+      node.position = this.node.convertToNodeSpaceAR(totalNode.parent.convertToWorldSpaceAR(totalNode.position));
     }
 
     var linhvatNode = this.linhVat[chipCuoc.linhvat].node;
-    var padding = 0.2;
+    var padding = 0.1;
     var randomX = padding + Math.random() * (1 - 2 * padding);
     var randomY = padding + Math.random() * (1 - 2 * padding);
-    var linhvatPos = this.chipContainer.convertToNodeSpaceAR(linhvatNode.parent.convertToWorldSpaceAR(linhvatNode.position));
+    var linhvatPos = this.node.convertToNodeSpaceAR(linhvatNode.parent.convertToWorldSpaceAR(linhvatNode.position));
     linhvatPos = linhvatPos.add(cc.v2(linhvatNode.width * (- 0.5 + padding + randomX), linhvatNode.height * (-0.5 + padding + randomY)));
     cc.tween(node)
       .to(0.2, {
