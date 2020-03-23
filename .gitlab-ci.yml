@@ -1,31 +1,38 @@
 stages:
-  # - deploy
+  - build
   - deploy-web-mobile
   - deploy-ios-testflight
+
+build:
+  stage: build
+  script:
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
+  tags:
+    - deploy-cocos-web-mobile
+
 deploy-web-mobile:
   stage: deploy-web-mobile
-  script:
+  before_script:
     - echo "====== Build Cocos Web Mobile ======"
-    - brew update
     - eval $(ssh-agent -s)
-    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
     - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
+  script:
+    - echo "====== Deploying to server ======"
     - cp -R ./build-files/web-mobile/* ./build/web-mobile
-    - tar czf - ./build/web-mobile/* | ssh -p 2201 root@35.194.253.55 "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
+    - tar czf - ./build/web-mobile/* | ssh root@124.158.13.228 "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
   tags:
     - deploy-cocos-web-mobile
   only:
-    - /^deploy-web-\d{8}-\d+.*$/
-    - /^deploy-\d{8}-\d+.*$/
+   - /^deploy-web-\d{8}-\d+.*$/
+   - /^deploy-\d{8}-\d+.*$/
 
 deploy-ios-testflight:
   stage: deploy-ios-testflight
   script:
     - echo "====== Build Cocos Web Mobile ======"
-    - brew update
     - eval $(ssh-agent -s)
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
@@ -36,7 +43,7 @@ deploy-ios-testflight:
     - cd ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
     - fastlane beta
   tags:
-    - deploy-cocos-ios-testflight
-  only:
-    - /^deploy-ios-\d{8}-\d+.*$/
-    - /^deploy-\d{8}-\d+.*$/
+    - deploy-cocos-ios-tf
+ # only:
+ #   - /^deploy-ios-\d{8}-\d+.*$/
+ #   - /^deploy-\d{8}-\d+.*$/
