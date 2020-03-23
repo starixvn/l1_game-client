@@ -101,7 +101,8 @@ cc.Class({
 		avatarImages: {
 			default: [],
 			type: cc.SpriteFrame
-		}
+		},
+		center: cc.Node
 	},
 	ctor: function () {
 		this.logs = [];
@@ -187,7 +188,9 @@ cc.Class({
 		this.me_name.string = cc.RedT.user.name;
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 		this.avatar.spriteFrame = this.avatarImages[cc.RedT.user.avatarId];
-
+		if (!cc.sys.isMobile) {
+			this.center.scale = 0.8;
+		}
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
 	onData: function (data) {
@@ -635,6 +638,8 @@ cc.Class({
 					this.miniNotice.addChild(temp.node);
 					temp.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 200)), cc.callFunc(function () { this.node.destroy() }, temp)));
 					cc.RedT.send({ user: { updateCoint: true } });
+
+					self.status = {};
 				}
 
 				let winnerIds = Object.keys(self.winners);
@@ -1229,12 +1234,12 @@ cc.Class({
 
 	openGuide: function () {
 		let dialog = cc.instantiate(this.prefabGuide);
-		this.node.addChild(dialog);
+		this.center.addChild(dialog);
 	},
 
 	openHistory: function () {
 		let dialog = cc.instantiate(this.prefabHistory);
-		this.node.addChild(dialog);
+		this.center.addChild(dialog);
 		this.history = dialog.getComponent("XocXoc_history");
 		this.history.init(this);
 	},
