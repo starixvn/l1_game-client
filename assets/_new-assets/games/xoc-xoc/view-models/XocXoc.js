@@ -638,6 +638,8 @@ cc.Class({
 					this.miniNotice.addChild(temp.node);
 					temp.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 200)), cc.callFunc(function () { this.node.destroy() }, temp)));
 					cc.RedT.send({ user: { updateCoint: true } });
+
+					self.status = {};
 				}
 
 				let winnerIds = Object.keys(self.winners);
