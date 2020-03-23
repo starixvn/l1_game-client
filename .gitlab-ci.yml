@@ -25,8 +25,7 @@ deploy-web-mobile:
   tags:
     - deploy-cocos-web-mobile
   environment:
-    - name: web
-    - url: http://games.lumigame.com
+    - web
   only:
    - /^deploy-web-\d{8}-\d+.*$/
    - /^deploy-\d{8}-\d+.*$/
