@@ -51,7 +51,7 @@ cc.Class({
     this.TaiXiu.init(this);
 
     var bauCuaPrefab = cc.instantiate(this.PrefabBauCua);
-    this.BauCua = bauCuaPrefab.getComponent("BauCuaNew");
+    this.BauCua = bauCuaPrefab.getComponent("BauCuaMini");
     this.BauCua.init(this);
 
     var miniPoker = cc.instantiate(this.PrefabMiniPoker);
