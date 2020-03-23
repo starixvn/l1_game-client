@@ -56,6 +56,7 @@ cc.Class({
     prefabLogs: cc.Prefab,
 
     notice: cc.Node,
+    umWarning: cc.Node,
     prefabNotice: cc.Prefab,
 
     cuoc: "",
@@ -181,10 +182,10 @@ cc.Class({
   openGame: function () {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
-      if (this.disabled) {
-        this.disableGame();
-        return;
-      }
+      // if (this.disabled) {
+      //   this.disableGame();
+      //   return;
+      // }
       this.node.active = !0;
       localStorage.setItem("bauCua", true);
       // this.setTop();
@@ -193,11 +194,11 @@ cc.Class({
     }
   },
   disableGame() {
-    this.node.active = false;
-    this.RedT.mainGame.notice.show({
-      title: "THÔNG BÁO",
-      text: "Hệ thống đang bảo trì. Vui lòng quay lại sau..."
-    });
+    // this.node.active = false;
+    // this.RedT.mainGame.notice.show({
+    //   title: "THÔNG BÁO",
+    //   text: "Hệ thống đang bảo trì. Vui lòng quay lại sau..."
+    // });
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
@@ -400,7 +401,9 @@ cc.Class({
 
     if (void 0 !== data.um) {
       this.disabled = data.um;
+      this.umWarning.active = this.disabled;
     }
+
     if (void 0 !== data.data) {
       var a = Object.assign(cc.RedT.setting.baucua.data, data.data);
       this.DataHandling(data.data);
