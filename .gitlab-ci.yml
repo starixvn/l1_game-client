@@ -47,7 +47,7 @@ deploy-ios-testflight:
   tags:
     - deploy-cocos-ios-tf
   environment:
-    - name: ios-testflight
+    - ios-testflight
   only:
     - /^deploy-ios-\d{8}-\d+.*$/
     - /^deploy-\d{8}-\d+.*$/
