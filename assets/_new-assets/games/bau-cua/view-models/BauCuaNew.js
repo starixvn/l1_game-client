@@ -27,6 +27,11 @@ cc.Class({
       type: cc.Sprite
     },
 
+    chipSprites: {
+      default: [],
+      type: cc.SpriteFrame
+    },
+
     logHuou: cc.Label,
     logBau: cc.Label,
     logGa: cc.Label,
@@ -120,6 +125,7 @@ cc.Class({
     }
 
     this.Animation.on("finished", this.AnimationFinish, this);
+    this.betChipList = [];
   },
   onLoad() {
     this.ttOffset = null;
@@ -351,11 +357,47 @@ cc.Class({
 
     this.logLVHandling(LinhVat);
   },
+  addChipThrowAnimation(chipCuoc) {
+    var list = [1, 5, 10, 50, 100, 200];
+    var spriteIndex = list.findIndex(i => i === chipCuoc.chip);
+    if (spriteIndex === -1) {
+      return;
+    }
+    var node = new cc.Node();
+    node.addComponent(cc.Sprite).spriteFrame = this.chipSprites[spriteIndex];
+    this.node.addChild(node);
+    this.betChipList.push(node);
+
+    var chipBet = this.bet.children.find(obj => obj.name == chipCuoc.chip);
+    var totalNode = this.userCountLabel.node;
+    if (chipCuoc.ownChip) {
+      node.position = this.node.convertToNodeSpaceAR(chipBet.parent.convertToWorldSpaceAR(chipBet.position));
+    } else {
+      node.position = this.node.convertToNodeSpaceAR(totalNode.parent.convertToWorldSpaceAR(totalNode.position));
+    }
+
+    var linhvatNode = this.linhVat[chipCuoc.linhvat].node;
+    var padding = 0.1;
+    var randomX = padding + Math.random() * (1 - 2 * padding);
+    var randomY = padding + Math.random() * (1 - 2 * padding);
+    var linhvatPos = this.node.convertToNodeSpaceAR(linhvatNode.parent.convertToWorldSpaceAR(linhvatNode.position));
+    linhvatPos = linhvatPos.add(cc.v2(linhvatNode.width * (- 0.5 + padding + randomX), linhvatNode.height * (-0.5 + padding + randomY)));
+    cc.tween(node)
+      .to(0.2, {
+        position: cc.v2(linhvatPos.x, linhvatPos.y)
+      })
+      .start();
+  },
   onData: function (data) {
     if (void 0 !== data.userCount) {
       this.userCountLabel.node.parent.active = true;
       this.userCountLabel.string = data.userCount;
     }
+
+    if (void 0 !== data.chipCuoc) {
+      // this.addChipThrowAnimation(data.chipCuoc);
+    }
+
     if (void 0 !== data.um) {
       this.disabled = data.um;
     }
@@ -430,6 +472,8 @@ cc.Class({
       this.linhVat[i].resetState();
       this.linhVat[i].clearCuoc();
     }
+    this.betChipList.forEach(chip => chip.destroy());
+    this.betChipList = [];
   },
   showWinSlot: function (dices) {
     for (var i = 0; i < this.linhVat.length; ++i) {
@@ -447,7 +491,6 @@ cc.Class({
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
     this.timeInterval = setInterval(
       function () {
-        console.log("bc playtime  ", cc.RedT.setting.baucua.time_remain);
         if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
           //count down to next round
           let time = helper.numberPad(
@@ -455,7 +498,6 @@ cc.Class({
             2
           );
           // this.animatedTime.setTime(time, true);
-          console.log("")
           this.waitedTime.string = time == "00" ? '' : "00:" + time;
           this.waitedTime.node.parent.active = true && time != "00";
 
@@ -495,9 +537,6 @@ cc.Class({
       }.bind(this),
       1000
     );
-  },
-  checkDisable() {
-
   },
   nextRealTime: function () {
     if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
