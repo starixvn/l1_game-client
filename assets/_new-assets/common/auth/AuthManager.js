@@ -83,7 +83,6 @@ function triggerSignIn(mainGame) {
                 authentication:
                 {
                     username: window.authData.username,
-                    isSso: true,
                     data: window.authData
                 }
             });
