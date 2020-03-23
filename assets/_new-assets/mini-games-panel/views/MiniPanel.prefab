@@ -261,8 +261,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 50,
-      "height": 55
+      "width": 120,
+      "height": 120
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -273,8 +273,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -647,
-        338,
+        -625.627,
+        310.1700000000001,
         0,
         0,
         0,
@@ -309,9 +309,9 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 9,
-    "_left": 27,
+    "_left": 13.373000000000047,
     "_right": 0,
-    "_top": 27.5,
+    "_top": 22.829999999999956,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -341,10 +341,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "5319e66b-6a00-44ad-9666-c08f78a6ba75"
+      "__uuid__": "c835399f-bed8-48ac-8e12-c20769ff757a"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -436,7 +436,7 @@
     },
     "component": "",
     "_componentId": "ccccah+dOlLRKuFndZetoIH",
-    "handler": "LightChanger",
+    "handler": "changeLight",
     "customEventData": ""
   },
   {
@@ -10914,10 +10914,10 @@
       "__id__": 8
     },
     "onLight": {
-      "__uuid__": "41084d60-4aec-4558-96d9-8d6cabe3f00b"
+      "__uuid__": "9a2fdd06-e387-46f2-b183-3a32af2119c6"
     },
     "offLight": {
-      "__uuid__": "5319e66b-6a00-44ad-9666-c08f78a6ba75"
+      "__uuid__": "c835399f-bed8-48ac-8e12-c20769ff757a"
     },
     "nodeEfect": {
       "__id__": 280
