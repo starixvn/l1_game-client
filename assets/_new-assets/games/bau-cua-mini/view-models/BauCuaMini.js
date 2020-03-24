@@ -127,6 +127,7 @@ cc.Class({
 
     this.Animation.on("finished", this.AnimationFinish, this);
     this.betChipList = [];
+    this.localPhien = "";
 
     var self = this;
     cc.game.on(cc.game.EVENT_HIDE, function () {
@@ -469,14 +470,18 @@ cc.Class({
 
       cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
       this.playTime();
-      this.setPhien(data.finish.phien + 1);
+      this.localPhien = data.finish.phien + 1;
     }
     if (void 0 !== data.notice) {
       this.addNotice(data.notice);
     }
   },
   setPhien(phien) {
-    this.phienLabel.string = "#" + phien;
+    if (phien == "") {
+      this.phienLabel.string = "";
+    } else {
+      this.phienLabel.string = "#" + phien;
+    }
   },
   resetAllSlot: function () {
     for (var i = 0; i < this.linhVat.length; ++i) {
@@ -534,6 +539,7 @@ cc.Class({
             }
           }
 
+          this.setPhien(this.localPhien);
           this.titleTime.string = "Đặt cược";
           if (cc.RedT.setting.baucua.time_remain > 1) {
             let time = helper.numberPad(
