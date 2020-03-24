@@ -49,16 +49,13 @@ cc.Class({
       cc.RedT.init();
     }
 
-    cc.game.setFrameRate(59);
     cc.game.on(cc.game.EVENT_HIDE, function () {
-      cc.game.pause();
+      cc.RedT.GAME_IS_SHOWED = false;
     });
 
-    // For event when the app entering foreground
     cc.game.on(cc.game.EVENT_SHOW, function () {
-      cc.game.resume();
+      cc.RedT.GAME_IS_SHOWED = true;
     });
-
 
     cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
     // Connect Server
