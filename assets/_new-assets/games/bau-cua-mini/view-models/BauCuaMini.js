@@ -394,9 +394,9 @@ cc.Class({
       this.userCountLabel.string = data.userCount;
     }
 
-    if (void 0 !== data.chipCuoc) {
-      this.addChipThrowAnimation(data.chipCuoc);
-    }
+    // if (void 0 !== data.chipCuoc) {
+    //   this.addChipThrowAnimation(data.chipCuoc);
+    // }
 
     if (void 0 !== data.um) {
       this.disabled = data.um;
