@@ -164,7 +164,7 @@ cc.Class({
 		}
 	},
 	onChangerGame: function () {
-		this.RedT.MiniPoker.onGetHu();
+		//this.RedT.MiniPoker.onGetHu();
 		// this.RedT.BaCay.onGetHu();
 		// this.RedT.BigBabol.onGetHu();
 		// this.RedT.CaoThap.onGetHu();
