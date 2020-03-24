@@ -50,6 +50,7 @@ cc.Class({
 				obj.time.string = helper.getStringDateByTime(dataT.time);
 				obj.phien.string = dataT.phien;
 				obj.thang.string = helper.numberWithCommas(dataT.betwin);
+				obj.thang.node.color = dataT.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 				Promise.all(obj.kq.map(function (kq, j) {
 					kq.spriteFrame = self.RedT.iconMini[dataT.kq[j]];
 				}))

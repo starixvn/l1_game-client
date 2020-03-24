@@ -627,14 +627,13 @@ cc.Class({
           this.onDiceAnimationFinish();
         } else {
           this.diceAnimation.node.active = true;
-          if (this.node.activeInHierarchy) {
+          if (this.node.activeInHierarchy && cc.RedT.GAME_IS_SHOWED) {
             this.diceAnimation.play();
           } else {
             this.onDiceAnimationFinish();
           }
         }
         this.nodeTimeWait.active = true;
-        //this.betTime.active = false;
         this.AnimatedTime.node.active = false;
       }
       cc.RedT.setting.taixiu.time_remain =

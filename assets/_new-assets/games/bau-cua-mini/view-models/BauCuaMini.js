@@ -127,6 +127,18 @@ cc.Class({
 
     this.Animation.on("finished", this.AnimationFinish, this);
     this.betChipList = [];
+    this.localPhien = "";
+
+    var self = this;
+    cc.game.on(cc.game.EVENT_HIDE, function () {
+      self.Animation.off("finished", self.AnimationFinish, self);
+      self.resetGame();
+      clearInterval(self.timeInterval);
+    });
+
+    cc.game.on(cc.game.EVENT_SHOW, function () {
+      self.Animation.on("finished", self.AnimationFinish, self);
+    });
   },
   onLoad() {
     this.ttOffset = null;
@@ -141,6 +153,9 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+
+    this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
+    this.setPhien(this.localPhien);
   },
   onDisable: function () {
     this.regEvent(false);
@@ -152,7 +167,7 @@ cc.Class({
     //this.onCloseGame();
   },
   regEvent: function (bool) {
-    cc.RedT.send({
+    var data = {
       g: {
         baucua: !cc.RedT.setting.baucua.regOpen ? {
           view: bool,
@@ -161,7 +176,8 @@ cc.Class({
             view: bool
           }
       }
-    });
+    };
+    cc.RedT.send(data);
   },
   eventStart: function (e) {
     this.setTop();
@@ -182,10 +198,7 @@ cc.Class({
   openGame: function () {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
-      // if (this.disabled) {
-      //   this.disableGame();
-      //   return;
-      // }
+      this.showUMWarning(this.disabled);
       this.node.active = !0;
       localStorage.setItem("bauCua", true);
       // this.setTop();
@@ -193,12 +206,13 @@ cc.Class({
       cc.RedT.inGame.dialog.showSignIn();
     }
   },
-  disableGame() {
+  showUMWarning(show) {
     // this.node.active = false;
     // this.RedT.mainGame.notice.show({
     //   title: "THÔNG BÁO",
     //   text: "Hệ thống đang bảo trì. Vui lòng quay lại sau..."
     // });
+    this.umWarning.active = show;
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
@@ -284,6 +298,7 @@ cc.Class({
   AnimationFinish: function () {
     this.addLogs();
     var dice = cc.RedT.setting.baucua.logs[0];
+    this.showWinSlot(dice);
     var heSo = {};
     for (var i = 0; i < 3; i++) {
       var dataT = dice[i];
@@ -300,7 +315,6 @@ cc.Class({
     }
   },
   datCuoc: function (e, linhVat) {
-    var cuoc = parseInt(this.cuoc);
     cc.RedT.send({
       g: {
         baucua: {
@@ -390,19 +404,20 @@ cc.Class({
       .start();
   },
   onData: function (data) {
-    if (void 0 !== data.userCount) {
-      this.userCountLabel.node.parent.active = true;
-      this.userCountLabel.string = data.userCount;
+    if (void 0 !== data.um) {
+      this.disabled = data.um;
+      return;
     }
+    this.disabled = false;
+
+    // if (void 0 !== data.userCount) {
+    //   this.userCountLabel.node.parent.active = true;
+    //   this.userCountLabel.string = data.userCount;
+    // }
 
     // if (void 0 !== data.chipCuoc) {
     //   this.addChipThrowAnimation(data.chipCuoc);
     // }
-
-    if (void 0 !== data.um) {
-      this.disabled = data.um;
-      this.umWarning.active = this.disabled;
-    }
 
     if (void 0 !== data.data) {
       var a = Object.assign(cc.RedT.setting.baucua.data, data.data);
@@ -426,9 +441,7 @@ cc.Class({
     }
     if (void 0 !== data.regOpen) {
       cc.RedT.setting.baucua.regOpen = true;
-      if (this.disabled) {
-        this.disableGame();
-      }
+      this.showUMWarning(this.disabled);
     }
     if (void 0 !== data.time_remain) {
       cc.RedT.setting.baucua.time_remain = data.time_remain;
@@ -451,24 +464,28 @@ cc.Class({
         // Play
         this.Animation.node.active = true;
         this.Animation.play();
-        cc.tween(this.node)
-          .delay(1)
-          .call(() => {
-            this.showWinSlot(data.finish.dices);
-          })
-          .start();
+        // cc.tween(this.node)
+        //   .delay(1)
+        //   .call(() => {
+        //     this.showWinSlot(data.finish.dices);
+        //   })
+        //   .start();
       }
 
       cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
       this.playTime();
-      this.setPhien(data.finish.phien + 1);
+      this.localPhien = data.finish.phien + 1;
     }
     if (void 0 !== data.notice) {
       this.addNotice(data.notice);
     }
   },
   setPhien(phien) {
-    this.phienLabel.string = "#" + phien;
+    if (phien == "") {
+      this.phienLabel.string = "";
+    } else {
+      this.phienLabel.string = "#" + phien;
+    }
   },
   resetAllSlot: function () {
     for (var i = 0; i < this.linhVat.length; ++i) {
@@ -488,7 +505,7 @@ cc.Class({
   },
   playTime: function () {
     if (this.disabled) {
-      this.disableGame();
+      this.showUMWarning(this.disabled);
       return;
     }
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
@@ -501,6 +518,7 @@ cc.Class({
             2
           );
           // this.animatedTime.setTime(time, true);
+          this.animatedTime.node.active = false;
           this.waitedTime.string = time == "00" ? '' : "00:" + time;
           this.waitedTime.node.parent.active = true && time != "00";
 
@@ -510,21 +528,22 @@ cc.Class({
           // this.Animation.node.active = false;
           // }
         } else {
+          this.animatedTime.node.active = true;
           this.Animation.node.active = false;
           if (
             cc.RedT.setting.baucua.regOpen &&
             cc.RedT.setting.baucua.time_remain == (BCConstants.betTime + 1)
           ) {
-            this.waitedTime.node.parent.active = false;
-            this.Animation.node.active = false;
-            this.resetData();
+            this.resetGame();
             if (this.disabled) {
-              this.disableGame();
+              this.animatedTime.node.active = false;
+              this.showUMWarning(this.disabled);
               clearInterval(this.timeInterval);
               return;
             }
           }
 
+          this.setPhien(this.localPhien);
           this.titleTime.string = "Đặt cược";
           if (cc.RedT.setting.baucua.time_remain > 1) {
             let time = helper.numberPad(
@@ -648,7 +667,7 @@ cc.Class({
       })
     );
   },
-  resetData: function () {
+  resetGame: function () {
     var data = Object.keys(cc.RedT.setting.baucua.data);
     Promise.all(
       data.map(function (key) {
@@ -661,12 +680,16 @@ cc.Class({
     this.unSelect();
 
     this.resetAllSlot();
+
+    this.waitedTime.node.parent.active = false;
+    this.Animation.stop();
+    this.Animation.node.active = false;
+    this.notice.removeAllChildren();
   },
-  newGame: function () {
-    cc.RedT.setting.baucua.regOpen = false;
-    void 0 !== this.timeInterval && clearInterval(this.timeInterval);
-    //this.resetData.resetData();
-  },
+  // newGame: function () {
+  //   cc.RedT.setting.baucua.regOpen = false;
+  //   void 0 !== this.timeInterval && clearInterval(this.timeInterval);
+  // },
   status: function (data) {
     setTimeout(
       function () {

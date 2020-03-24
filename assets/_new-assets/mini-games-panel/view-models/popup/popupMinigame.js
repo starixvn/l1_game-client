@@ -95,7 +95,7 @@ cc.Class({
 				} else {
 					this.nodeTime.position = cc.v2(-155.7, -5.6);
 				}
-				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 1.2).easing(cc.easeBackOut(3.0)), cc.rotateTo(0.3, 720)), cc.callFunc(function () {
+				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 1.1).easing(cc.easeBackOut(3.0)), cc.rotateTo(0.3, 720)), cc.callFunc(function () {
 					this.toggleRuning = false
 				}, this)))
 			}

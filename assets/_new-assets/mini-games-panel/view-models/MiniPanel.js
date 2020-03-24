@@ -6,6 +6,7 @@ var BigBabol = require("BigBabol"),
   Dialog = require("MiniDialog");
 
 var MegaJackpot = require("MegaJackpot");
+var configs = require("Configs")
 
 cc.Class({
   extends: cc.Component,
@@ -35,7 +36,6 @@ cc.Class({
     light: true
   },
   onLoad() {
-    console.log("load mini")
     if (void 0 === cc.RedT.setting.light) {
       cc.RedT.setting.light = true;
     }
@@ -104,13 +104,25 @@ cc.Class({
   playUnClick: function () {
     cc.RedT.audio.playUnClick();
   },
+  openGame(id) {
+    console.log('opengame: ' + id);
+    console.log(configs.gameIds);
+
+    if (id == configs.gameIds.TaiXiu) {
+      this.openTaiXiu();
+    }
+    else if (id == configs.gameIds.BauCua) {
+      this.openBauCua();
+    }
+  },
   openTaiXiu: function () {
     this.TaiXiu.openGame();
     this.minigame.insertChild(this.TaiXiu.node);
   },
   openBauCua: function () {
-    this.BauCua.openGame();
     this.minigame.insertChild(this.BauCua.node);
+    this.BauCua.node.active = false;
+    this.BauCua.openGame();
   },
   openMiniPoker: function () {
     this.MiniPoker.openGame();
