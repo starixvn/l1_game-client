@@ -22,7 +22,6 @@ deploy-web-mobile:
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto;md5Cache=true"
   script:
     - echo "====== Deploying to server ======"
-    - cp -R ./build-files/web-mobile/* ./build/web-mobile
     - tar czf - ./build/web-mobile/* | ssh root@124.158.13.228 "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
   tags:
     - deploy-cocos-web-mobile
