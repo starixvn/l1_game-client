@@ -870,7 +870,7 @@ cc.Class({
 					}
 				});
 				if (!(gameChan % 2)) {
-					obj.spriteFrame = self.dot_white;
+					obj.spriteFrame = gameChan === 4 ? self.dot_red : self.dot_white;
 				} else {
 					obj.spriteFrame = self.dot_red;
 				}
