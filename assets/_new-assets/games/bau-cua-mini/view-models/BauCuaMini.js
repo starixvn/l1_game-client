@@ -193,10 +193,7 @@ cc.Class({
   openGame: function () {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
-      // if (this.disabled) {
-      //   this.disableGame();
-      //   return;
-      // }
+      this.showUMWarning(this.disabled);
       this.node.active = !0;
       localStorage.setItem("bauCua", true);
       // this.setTop();
@@ -204,12 +201,13 @@ cc.Class({
       cc.RedT.inGame.dialog.showSignIn();
     }
   },
-  disableGame() {
+  showUMWarning(show) {
     // this.node.active = false;
     // this.RedT.mainGame.notice.show({
     //   title: "THÔNG BÁO",
     //   text: "Hệ thống đang bảo trì. Vui lòng quay lại sau..."
     // });
+    this.umWarning.active = show;
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
@@ -401,19 +399,20 @@ cc.Class({
       .start();
   },
   onData: function (data) {
-    if (void 0 !== data.userCount) {
-      this.userCountLabel.node.parent.active = true;
-      this.userCountLabel.string = data.userCount;
+    if (void 0 !== data.um) {
+      this.disabled = data.um;
+      return;
     }
+    this.disabled = false;
+
+    // if (void 0 !== data.userCount) {
+    //   this.userCountLabel.node.parent.active = true;
+    //   this.userCountLabel.string = data.userCount;
+    // }
 
     // if (void 0 !== data.chipCuoc) {
     //   this.addChipThrowAnimation(data.chipCuoc);
     // }
-
-    if (void 0 !== data.um) {
-      this.disabled = data.um;
-      this.umWarning.active = this.disabled;
-    }
 
     if (void 0 !== data.data) {
       var a = Object.assign(cc.RedT.setting.baucua.data, data.data);
@@ -437,9 +436,7 @@ cc.Class({
     }
     if (void 0 !== data.regOpen) {
       cc.RedT.setting.baucua.regOpen = true;
-      if (this.disabled) {
-        this.disableGame();
-      }
+      this.showUMWarning(this.disabled);
     }
     if (void 0 !== data.time_remain) {
       cc.RedT.setting.baucua.time_remain = data.time_remain;
@@ -499,7 +496,7 @@ cc.Class({
   },
   playTime: function () {
     if (this.disabled) {
-      this.disableGame();
+      this.showUMWarning(this.disabled);
       return;
     }
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
@@ -512,6 +509,7 @@ cc.Class({
             2
           );
           // this.animatedTime.setTime(time, true);
+          this.animatedTime.node.active = false;
           this.waitedTime.string = time == "00" ? '' : "00:" + time;
           this.waitedTime.node.parent.active = true && time != "00";
 
@@ -521,6 +519,7 @@ cc.Class({
           // this.Animation.node.active = false;
           // }
         } else {
+          this.animatedTime.node.active = true;
           this.Animation.node.active = false;
           if (
             cc.RedT.setting.baucua.regOpen &&
@@ -528,7 +527,8 @@ cc.Class({
           ) {
             this.resetGame();
             if (this.disabled) {
-              this.disableGame();
+              this.animatedTime.node.active = false;
+              this.showUMWarning(this.disabled);
               clearInterval(this.timeInterval);
               return;
             }
