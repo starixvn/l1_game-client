@@ -6,6 +6,7 @@ var BigBabol = require("BigBabol"),
   Dialog = require("MiniDialog");
 
 var MegaJackpot = require("MegaJackpot");
+var configs = require("Configs")
 
 cc.Class({
   extends: cc.Component,
@@ -103,6 +104,14 @@ cc.Class({
   },
   playUnClick: function () {
     cc.RedT.audio.playUnClick();
+  },
+  openGame(id) {
+    if (id === configs.gameIds.TaiXiu) {
+      this.openTaiXiu();
+    }
+    else if (id === configs.gameIds.BauCua) {
+      this.openBauCua();
+    }
   },
   openTaiXiu: function () {
     this.TaiXiu.openGame();
