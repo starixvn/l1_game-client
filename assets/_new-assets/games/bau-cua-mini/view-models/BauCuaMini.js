@@ -131,6 +131,7 @@ cc.Class({
   onLoad() {
     this.ttOffset = null;
     this.animatedTime.setRedTime(BCConstants.stopBetTime);
+    this.logNode.active = false;
   },
   onEnable: function () {
     //this.onGetHu();
