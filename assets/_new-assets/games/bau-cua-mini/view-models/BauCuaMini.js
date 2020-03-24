@@ -127,6 +127,17 @@ cc.Class({
 
     this.Animation.on("finished", this.AnimationFinish, this);
     this.betChipList = [];
+
+    var self = this;
+    cc.game.on(cc.game.EVENT_HIDE, function () {
+      self.Animation.off("finished", self.AnimationFinish, self);
+      self.resetGame();
+      clearInterval(self.timeInterval);
+    });
+
+    cc.game.on(cc.game.EVENT_SHOW, function () {
+      self.Animation.on("finished", self.AnimationFinish, self);
+    });
   },
   onLoad() {
     this.ttOffset = null;
@@ -284,6 +295,7 @@ cc.Class({
   AnimationFinish: function () {
     this.addLogs();
     var dice = cc.RedT.setting.baucua.logs[0];
+    this.showWinSlot(dice);
     var heSo = {};
     for (var i = 0; i < 3; i++) {
       var dataT = dice[i];
@@ -300,7 +312,6 @@ cc.Class({
     }
   },
   datCuoc: function (e, linhVat) {
-    var cuoc = parseInt(this.cuoc);
     cc.RedT.send({
       g: {
         baucua: {
@@ -451,12 +462,12 @@ cc.Class({
         // Play
         this.Animation.node.active = true;
         this.Animation.play();
-        cc.tween(this.node)
-          .delay(1)
-          .call(() => {
-            this.showWinSlot(data.finish.dices);
-          })
-          .start();
+        // cc.tween(this.node)
+        //   .delay(1)
+        //   .call(() => {
+        //     this.showWinSlot(data.finish.dices);
+        //   })
+        //   .start();
       }
 
       cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
@@ -515,9 +526,7 @@ cc.Class({
             cc.RedT.setting.baucua.regOpen &&
             cc.RedT.setting.baucua.time_remain == (BCConstants.betTime + 1)
           ) {
-            this.waitedTime.node.parent.active = false;
-            this.Animation.node.active = false;
-            this.resetData();
+            this.resetGame();
             if (this.disabled) {
               this.disableGame();
               clearInterval(this.timeInterval);
@@ -648,7 +657,7 @@ cc.Class({
       })
     );
   },
-  resetData: function () {
+  resetGame: function () {
     var data = Object.keys(cc.RedT.setting.baucua.data);
     Promise.all(
       data.map(function (key) {
@@ -661,11 +670,15 @@ cc.Class({
     this.unSelect();
 
     this.resetAllSlot();
+
+    this.waitedTime.node.parent.active = false;
+    this.Animation.stop();
+    this.Animation.node.active = false;
+    this.notice.removeAllChildren();
   },
   newGame: function () {
     cc.RedT.setting.baucua.regOpen = false;
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
-    //this.resetData.resetData();
   },
   status: function (data) {
     setTimeout(
