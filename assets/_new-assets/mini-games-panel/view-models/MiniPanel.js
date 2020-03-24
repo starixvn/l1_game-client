@@ -120,8 +120,9 @@ cc.Class({
     this.minigame.insertChild(this.TaiXiu.node);
   },
   openBauCua: function () {
-    this.BauCua.openGame();
     this.minigame.insertChild(this.BauCua.node);
+    this.BauCua.node.active = false;
+    this.BauCua.openGame();
   },
   openMiniPoker: function () {
     this.MiniPoker.openGame();

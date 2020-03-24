@@ -153,6 +153,9 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+
+    this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
+    this.setPhien(this.localPhien);
   },
   onDisable: function () {
     this.regEvent(false);
@@ -164,7 +167,7 @@ cc.Class({
     //this.onCloseGame();
   },
   regEvent: function (bool) {
-    cc.RedT.send({
+    var data = {
       g: {
         baucua: !cc.RedT.setting.baucua.regOpen ? {
           view: bool,
@@ -173,7 +176,8 @@ cc.Class({
             view: bool
           }
       }
-    });
+    };
+    cc.RedT.send(data);
   },
   eventStart: function (e) {
     this.setTop();
@@ -682,10 +686,10 @@ cc.Class({
     this.Animation.node.active = false;
     this.notice.removeAllChildren();
   },
-  newGame: function () {
-    cc.RedT.setting.baucua.regOpen = false;
-    void 0 !== this.timeInterval && clearInterval(this.timeInterval);
-  },
+  // newGame: function () {
+  //   cc.RedT.setting.baucua.regOpen = false;
+  //   void 0 !== this.timeInterval && clearInterval(this.timeInterval);
+  // },
   status: function (data) {
     setTimeout(
       function () {
