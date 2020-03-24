@@ -20,9 +20,10 @@ cc.Class({
     this.isLoadScene = !1;
     this.isLoadConfig = !1;
     this.initOneSign();
-    cc.sys.isBrowser
-      ? this.loadAssets()
-      : (this.initHotUpdate(), this.checkUpdate());
+    this.loadAssets();
+    // cc.sys.isBrowser
+    //   ? this.loadAssets()
+    //   : (this.initHotUpdate(), this.checkUpdate());
   },
   initOneSign: function () {
     this.checkPlugin() &&
