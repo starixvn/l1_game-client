@@ -1260,6 +1260,7 @@ cc.Class({
 	},
 
 	setGameRound: function () {
-		this.gameRound.string = "#" + this.logs[0].round;
+		let round = this.logs[0].round + 1
+		this.gameRound.string = "#" + round;
 	},
 });
