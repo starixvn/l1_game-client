@@ -310,7 +310,7 @@ cc.Class({
 			if (this.time_remain > 31 && data.logs.length) {
 				this.nodeBat.position = cc.v2(0, 150);
 				let dots = data.logs[0].dots;
-				this.setDot([dots.red1, dots.red2, dots.red3, dots.red4]);
+				this.setDot([dots[0], dots[1], dots[2], dots[3]]);
 			}
 		}
 		if (!!data.data) {
@@ -870,7 +870,7 @@ cc.Class({
 					}
 				});
 				if (!(gameChan % 2)) {
-					obj.spriteFrame = self.dot_white;
+					obj.spriteFrame = gameChan === 4 ? self.dot_red : self.dot_white;
 				} else {
 					obj.spriteFrame = self.dot_red;
 				}
