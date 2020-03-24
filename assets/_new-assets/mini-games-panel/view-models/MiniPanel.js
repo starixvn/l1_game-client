@@ -36,7 +36,6 @@ cc.Class({
     light: true
   },
   onLoad() {
-    console.log("load mini")
     if (void 0 === cc.RedT.setting.light) {
       cc.RedT.setting.light = true;
     }
@@ -106,10 +105,13 @@ cc.Class({
     cc.RedT.audio.playUnClick();
   },
   openGame(id) {
-    if (id === configs.gameIds.TaiXiu) {
+    console.log('opengame: ' + id);
+    console.log(configs.gameIds);
+
+    if (id == configs.gameIds.TaiXiu) {
       this.openTaiXiu();
     }
-    else if (id === configs.gameIds.BauCua) {
+    else if (id == configs.gameIds.BauCua) {
       this.openBauCua();
     }
   },
