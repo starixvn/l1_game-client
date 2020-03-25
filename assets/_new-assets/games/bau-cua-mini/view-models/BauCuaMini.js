@@ -137,6 +137,15 @@ cc.Class({
 
     cc.game.on(cc.game.EVENT_SHOW, function () {
       self.Animation.on("finished", self.AnimationFinish, self);
+
+      var data = {
+        g: {
+          baucua: {
+            regOpen: true
+          }
+        }
+      };
+      cc.RedT.send(data);
     });
   },
   onLoad() {
@@ -457,12 +466,6 @@ cc.Class({
         // Play
         this.Animation.node.active = true;
         this.Animation.play();
-        // cc.tween(this.node)
-        //   .delay(1)
-        //   .call(() => {
-        //     this.showWinSlot(data.finish.dices);
-        //   })
-        //   .start();
       }
 
       cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
@@ -510,7 +513,6 @@ cc.Class({
             cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2),
             2
           );
-          // this.animatedTime.setTime(time, true);
           this.animatedTime.node.active = false;
           this.waitedTime.string = time == "00" ? '' : "00:" + time;
           this.waitedTime.node.parent.active = true && time != "00";
@@ -521,7 +523,6 @@ cc.Class({
           // this.Animation.node.active = false;
           // }
         } else {
-          this.animatedTime.node.active = true;
           this.Animation.node.active = false;
           if (
             cc.RedT.setting.baucua.regOpen &&
@@ -544,6 +545,7 @@ cc.Class({
               2
             );
 
+            this.animatedTime.node.active = true;
             this.animatedTime.setTime(time);
 
           } else clearInterval(this.timeInterval);
@@ -674,6 +676,7 @@ cc.Class({
 
     this.resetAllSlot();
 
+    this.animatedTime.node.active = false;
     this.waitedTime.node.parent.active = false;
     this.Animation.stop();
     this.Animation.node.active = false;
