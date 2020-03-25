@@ -240,7 +240,7 @@ cc.Class({
     guide.select("BauCua");
   },
   setTop: function () {
-    this.node.parent.insertChild(this.node);
+    // this.node.parent.insertChild(this.node);
   },
   changerCoint: function () {
     this.red = !this.red;
