@@ -4,7 +4,7 @@ module.exports = {
   IS_LOGIN: false,
   IS_SOUND: true,
   isConnected: false,
-  GAME_IS_SHOWED: true,
+  recheckIn: null,
   _socket: null,
 
   user: {},
@@ -21,6 +21,17 @@ module.exports = {
       this._socket.onclose = this._onSocketDisconnect;
       this._socket.onmessage = this._onSocketData;
       this._socket.onerror = this._onSocketError;
+      let self = this;
+      if (this.recheckIn) {
+        clearInterval(this.recheckIn);
+      }
+      this.recheckIn = setInterval(() => {
+        try {
+          if (self.isConnected) {
+            self.send({ reCheckin: true });
+          }
+        } catch (ex) { }
+      }, 60 * 1000);
       this.isConnected = !0;
     }
   },
