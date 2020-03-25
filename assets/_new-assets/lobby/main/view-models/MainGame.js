@@ -181,6 +181,13 @@ cc.Class({
     if (!!data.message) {
       this.dialog.iMessage.onData(data.message);
     }
+
+    if (!!data.apiError) {
+      this.notice.show({
+        title: "LỖI",
+        text: data.apiError.message
+      });
+    }
   },
   captcha: function (data) {
     switch (data.name) {
