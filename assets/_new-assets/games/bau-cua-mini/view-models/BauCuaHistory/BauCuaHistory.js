@@ -68,7 +68,8 @@ cc.Class({
 		}))
 	},
 	pressedCloseDialog() {
-		this.node.destroy();
+		var dialog = this.node.getComponent("CommonDialog");
+		dialog && dialog.closeDialog();
 	}
 	/**
 	reset: function(){
