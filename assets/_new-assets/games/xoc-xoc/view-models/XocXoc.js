@@ -870,7 +870,7 @@ cc.Class({
 					}
 				});
 				if (!(gameChan % 2)) {
-					obj.spriteFrame = gameChan === 4 ? self.dot_red : self.dot_white;
+					obj.spriteFrame = self.dot_white;
 				} else {
 					obj.spriteFrame = self.dot_red;
 				}
@@ -925,15 +925,9 @@ cc.Class({
 					let jD = data[j];
 					if (void 0 !== jD) {
 						cell.c.node.parent.active = true;
-						//cell.c.spriteFrame = !(jD % 2) ? (jD === 4 ? self.dot_red : self.dot_white) : self.dot_red;
 						if (!(jD % 2)) {
-							if (jD === 4) {
-								cell.c.spriteFrame = self.dot_red;
-								cell.t.node.color = cc.Color.WHITE;
-							} else {
-								cell.c.spriteFrame = self.dot_white;
-								cell.t.node.color = cc.Color.BLACK;
-							}
+							cell.c.spriteFrame = self.dot_white;
+							cell.t.node.color = cc.Color.BLACK;
 						} else {
 							cell.c.spriteFrame = self.dot_red;
 							cell.t.node.color = cc.Color.WHITE;

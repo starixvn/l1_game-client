@@ -63,16 +63,10 @@ cc.Class({
                         numb++;
                     }
                 });
-                //obj.kqSprite.spriteFrame = numb === 0 ? self.iconRed : (!(numb % 2) ? self.iconWhite : self.iconRed);
-                //obj.kqSprite.spriteFrame = !(numb % 2) ? (numb === 4 ? self.iconRed : self.iconWhite) : self.iconRed;
+
                 if (!(numb % 2)) {
-                    if (numb === 4) {
-                        obj.kqSprite.spriteFrame = self.iconRed;
-                        obj.kqLabel.node.color = cc.Color.WHITE;
-                    } else {
-                        obj.kqSprite.spriteFrame = self.iconWhite;
-                        obj.kqLabel.node.color = cc.Color.BLACK;
-                    }
+                    obj.kqSprite.spriteFrame = self.iconWhite;
+                    obj.kqLabel.node.color = cc.Color.BLACK;
                 } else {
                     obj.kqSprite.spriteFrame = self.iconRed;
                     obj.kqLabel.node.color = cc.Color.WHITE;
