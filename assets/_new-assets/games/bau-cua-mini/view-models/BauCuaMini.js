@@ -198,8 +198,10 @@ cc.Class({
   openGame: function () {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
-      this.showUMWarning(this.disabled);
       this.node.active = !0;
+      if (this.timeInterval === undefined) {
+        this.showUMWarning(this.disabled);
+      }
       localStorage.setItem("bauCua", true);
       // this.setTop();
     } else {
@@ -399,7 +401,7 @@ cc.Class({
       return;
     }
     this.disabled = false;
-    this.showUMWarning(this.disabled);
+    this.showUMWarning(false);
 
     // if (void 0 !== data.userCount) {
     //   this.userCountLabel.node.parent.active = true;
