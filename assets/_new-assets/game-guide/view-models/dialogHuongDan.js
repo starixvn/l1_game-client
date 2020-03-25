@@ -36,6 +36,7 @@ cc.Class({
         }))
     },
     closeDialog: function () {
-        this.node.destroy();
+        var dialog = this.node.getComponent("CommonDialog");
+        dialog && dialog.closeDialog();
     }
 });

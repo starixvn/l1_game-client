@@ -3,9 +3,7 @@ var BigBabol = require("BigBabol"),
   CaoThap = require("CaoThap"),
   AngryBirds = require("AngryBirds"),
   TopHu = require("popupTopHu"),
-  Dialog = require("MiniDialog");
-
-var MegaJackpot = require("MegaJackpot");
+  MegaJackpot = require("MegaJackpot");
 var configs = require("Configs")
 
 cc.Class({
@@ -16,7 +14,7 @@ cc.Class({
       default: null,
       type: cc.Node
     },
-    Dialog: Dialog,
+    Dialog: cc.Node,
     BigBabol: BigBabol,
     BaCay: BaCay,
     CaoThap: CaoThap,
@@ -43,7 +41,6 @@ cc.Class({
     this.node._onPreDestroy = function () {
       self.onDestroy();
     };
-    this.Dialog.init(this);
     this.TopHu.init(this);
 
     var taiXiuPrefab = cc.instantiate(this.PrefabTaiXiu);
