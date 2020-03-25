@@ -46,6 +46,12 @@ cc.Class({
 		this.panel.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
 		this.panel.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
 		this.panel.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+
+		this.list.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
+		this.list.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+		this.list.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+		this.list.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+		this.list.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 	},
 	onDisable: function () {
 		this.panel.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -53,6 +59,12 @@ cc.Class({
 		this.panel.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
 		this.panel.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
 		this.panel.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+
+		this.list.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
+		this.list.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+		this.list.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+		this.list.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+		this.list.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 	},
 	eventStart: function (e) {
 		this.setTop();

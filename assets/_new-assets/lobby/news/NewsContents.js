@@ -31,6 +31,10 @@ cc.Class({
 		this.node.active = false;
 	},
 	onData: function (data) {
+		if (!cc.RedT.GAME_IS_SHOWED) {
+			return;
+		}
+
 		if (void 0 !== data.a) {
 			this.NewsAddArray(data.a)
 		}
