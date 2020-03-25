@@ -189,9 +189,7 @@ cc.Class({
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 		this.avatar.spriteFrame = this.avatarImages[cc.RedT.user.avatarId];
 		let self = this;
-		cc.game.on(cc.game.EVENT_HIDE, function () {
-			self.backGame();
-		});
+		cc.game.on(cc.game.EVENT_HIDE, self.backGame);
 		if (!cc.sys.isMobile) {
 			this.center.scale = 0.8;
 		}
@@ -222,10 +220,12 @@ cc.Class({
 			this.loading.active = true;
 		}
 		void 0 !== this.timeOut && clearTimeout(this.timeOut);
+		cc.game.off(cc.game.EVENT_HIDE, self.backGame);
 		cc.director.loadScene('MainGame');
 	},
 	signOut: function () {
 		clearInterval(this.timeInterval);
+		cc.game.off(cc.game.EVENT_HIDE, self.backGame);
 		cc.director.loadScene('MainGame', function () {
 			cc.RedT.inGame.signOut();
 		});
