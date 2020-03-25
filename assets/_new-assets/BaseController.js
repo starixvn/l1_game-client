@@ -4,6 +4,7 @@ module.exports = {
   IS_LOGIN: false,
   IS_SOUND: true,
   isConnected: false,
+  GAME_IS_SHOWED: true,
   recheckIn: null,
   _socket: null,
 
