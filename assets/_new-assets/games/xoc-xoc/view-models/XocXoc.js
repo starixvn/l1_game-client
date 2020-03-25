@@ -657,7 +657,7 @@ cc.Class({
 						winnerPrefab.runAction(
 							cc.sequence(
 								cc.callFunc(function () { animation.play(); }),
-								cc.delayTime(3),
+								cc.delayTime(self.time_remain - 33),
 								cc.callFunc(function () { this.destroy() }, winnerPrefab)
 							)
 						);
@@ -665,15 +665,17 @@ cc.Class({
 						cc.RedT.send({ user: { updateCoint: true } });
 					}
 
-					var temp = self.createWinResultNode(status.bet, status.win);
-					temp.node.position = cc.v2(0, 90);
-					this.miniNotice.addChild(temp.node);
-					temp.node.runAction(
-						cc.sequence(
-							cc.moveTo(4, cc.v2(0, 200)),
-							cc.callFunc(function () { this.node.destroy() }, temp)
-						)
-					);
+					if (status.bet) {
+						var temp = self.createWinResultNode(status.bet, status.win);
+						temp.node.position = cc.v2(0, 90);
+						this.miniNotice.addChild(temp.node);
+						temp.node.runAction(
+							cc.sequence(
+								cc.moveTo(4, cc.v2(0, 200)),
+								cc.callFunc(function () { this.node.destroy() }, temp)
+							)
+						);
+					}
 					self.status = {};
 				}
 
@@ -721,7 +723,7 @@ cc.Class({
 						winnerPrefab.runAction(
 							cc.sequence(
 								cc.callFunc(function () { animation.play(); }),
-								cc.delayTime(3),
+								cc.delayTime(self.time_remain - 33),
 								cc.callFunc(function () { this.destroy() }, winnerPrefab)
 							)
 						);
