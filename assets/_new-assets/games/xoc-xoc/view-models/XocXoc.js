@@ -102,7 +102,8 @@ cc.Class({
 			default: [],
 			type: cc.SpriteFrame
 		},
-		center: cc.Node
+		center: cc.Node,
+		winnerPrefab: cc.Prefab
 	},
 	ctor: function () {
 		this.logs = [];
@@ -651,7 +652,12 @@ cc.Class({
 					var temp = self.createWinResultNode(status.bet);
 					temp.node.position = cc.v2(0, 90);
 					this.miniNotice.addChild(temp.node);
-					temp.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 200)), cc.callFunc(function () { this.node.destroy() }, temp)));
+					temp.node.runAction(
+						cc.sequence(
+							cc.moveTo(4, cc.v2(0, 200)),
+							cc.callFunc(function () { this.node.destroy() }, temp)
+						)
+					);
 					cc.RedT.send({ user: { updateCoint: true } });
 
 					self.status = {};
@@ -693,6 +699,17 @@ cc.Class({
 
 						slot.data.red = parseFloat(slot.data.red) + winnerData.bet;
 						player.setInfo(slot.data);
+
+						let winnerPrefab = cc.instantiate(self.winnerPrefab);
+						player.node.addChild(winnerPrefab);
+						let animation = winnerPrefab.getComponent(cc.Animation);
+						winnerPrefab.runAction(
+							cc.sequence(
+								cc.callFunc(function () { animation.play(); }),
+								cc.delayTime(3),
+								cc.callFunc(function () { this.destroy() }, winnerPrefab)
+							)
+						);
 					}
 					else if (self.otherPlayers[id]) {
 						let red = parseFloat(self.otherPlayers[id].red);
