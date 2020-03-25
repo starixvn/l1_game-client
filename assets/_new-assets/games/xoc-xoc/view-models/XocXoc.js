@@ -37,6 +37,7 @@ cc.Class({
 		me_white3: cc.Label,
 		me_white4: cc.Label,
 
+		me: cc.Node,
 		me_name: cc.Label,
 		me_balans: cc.Label,
 
@@ -627,29 +628,44 @@ cc.Class({
 				let mainIndex = 0;
 				let subIndex = 0;
 				let status = self.status;
-				if (status.win) {
-					let userPositon = self.me_name.node.parent.convertToWorldSpaceAR(self.me_name.node.position);
-					if (status.boxs.main) {
-						let random = Math.floor(Math.random() * 3) + 1;
-						let position = node1.convertToNodeSpaceAR(userPositon);
-						for (let i = 0; i < random; i++) {
-							let child = node1.children[mainIndex + i];
-							child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+				if (status) {
+					if (status.win) {
+						let userPositon = self.me_name.node.parent.convertToWorldSpaceAR(self.me_name.node.position);
+						if (status.boxs.main) {
+							let random = Math.floor(Math.random() * 3) + 1;
+							let position = node1.convertToNodeSpaceAR(userPositon);
+							for (let i = 0; i < random; i++) {
+								let child = node1.children[mainIndex + i];
+								child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+							}
+							mainIndex += random;
 						}
-						mainIndex += random;
+
+						if (node2 && status.boxs.sub) {
+							let random = Math.floor(Math.random() * 3) + 1;
+							let position = node2.convertToNodeSpaceAR(userPositon);
+							for (let i = 0; i < random; i++) {
+								let child = node2.children[subIndex + i];
+								child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+							}
+							subIndex += random;
+						}
+
+						let winnerPrefab = cc.instantiate(self.winnerPrefab);
+						self.me.addChild(winnerPrefab);
+						let animation = winnerPrefab.getComponent(cc.Animation);
+						winnerPrefab.runAction(
+							cc.sequence(
+								cc.callFunc(function () { animation.play(); }),
+								cc.delayTime(3),
+								cc.callFunc(function () { this.destroy() }, winnerPrefab)
+							)
+						);
+
+						cc.RedT.send({ user: { updateCoint: true } });
 					}
 
-					if (node2 && status.boxs.sub) {
-						let random = Math.floor(Math.random() * 3) + 1;
-						let position = node2.convertToNodeSpaceAR(userPositon);
-						for (let i = 0; i < random; i++) {
-							let child = node2.children[subIndex + i];
-							child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
-						}
-						subIndex += random;
-					}
-
-					var temp = self.createWinResultNode(status.bet);
+					var temp = self.createWinResultNode(status.bet, status.win);
 					temp.node.position = cc.v2(0, 90);
 					this.miniNotice.addChild(temp.node);
 					temp.node.runAction(
@@ -658,10 +674,9 @@ cc.Class({
 							cc.callFunc(function () { this.node.destroy() }, temp)
 						)
 					);
-					cc.RedT.send({ user: { updateCoint: true } });
-
 					self.status = {};
 				}
+
 
 				let winnerIds = Object.keys(self.winners);
 				winnerIds.forEach(function (id) {
@@ -734,12 +749,12 @@ cc.Class({
 		}.bind(this), 1500);
 	},
 
-	createWinResultNode: function (winResult) {
+	createWinResultNode: function (winResult, isWin = true) {
 		var temp = new cc.Node;
 		temp.addComponent(cc.Label);
 		temp = temp.getComponent(cc.Label);
-		temp.string = "+" + helper.numberWithCommas(winResult);
-		temp.font = cc.RedT.util.fontCong;
+		temp.string = (isWin ? '+' : '-') + helper.numberWithCommas(winResult);
+		temp.font = isWin ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;;
 		temp.lineHeight = 130;
 		temp.fontSize = 25;
 
