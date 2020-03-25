@@ -65,7 +65,7 @@ cc.Class({
     guidePrefab: cc.Prefab,
   },
   init(obj) {
-    this.RedT = obj; // MiniPanel
+    this.miniPanel = obj; // MiniPanel
     cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
       regOpen: false,
       data: {
@@ -122,7 +122,6 @@ cc.Class({
       if (void 0 !== cc.RedT.setting.baucua.logs) {
         this.addLogs();
       }
-      this.intChangerBet();
     }
 
     this.Animation.on("finished", this.AnimationFinish, this);
@@ -144,6 +143,7 @@ cc.Class({
     this.ttOffset = null;
     this.animatedTime.setRedTime(BCConstants.stopBetTime);
     this.logNode.active = false;
+    this.initChangerBet();
   },
   onEnable: function () {
     //this.onGetHu();
@@ -208,7 +208,7 @@ cc.Class({
   },
   showUMWarning(show) {
     // this.node.active = false;
-    // this.RedT.mainGame.notice.show({
+    // this.miniPanel.mainGame.notice.show({
     //   title: "THÔNG BÁO",
     //   text: "Hệ thống đang bảo trì. Vui lòng quay lại sau..."
     // });
@@ -221,19 +221,19 @@ cc.Class({
   },
   pressedTopDialog() {
     var dialog = cc.instantiate(this.topDialog);
-    this.node.addChild(dialog);
+    this.miniPanel.node.addChild(dialog);
     this.Top = dialog.getComponent("BauCuaTop");
     this.Top.init(this);
   },
   pressedHistoryDialog() {
     var dialog = cc.instantiate(this.historyDialog);
-    this.node.addChild(dialog);
+    this.miniPanel.node.addChild(dialog);
     this.LichSu = dialog.getComponent("BauCuaHistory");
     this.LichSu.init(this);
   },
   pressedShowGuide() {
     var dialog = cc.instantiate(this.guidePrefab);
-    this.node.addChild(dialog);
+    this.miniPanel.node.addChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");
     guide.select("BauCua");
   },
@@ -249,27 +249,13 @@ cc.Class({
     cc.RedT.setting.baucua.red = this.red;
     //this.onGetHu();
   },
-  intChangerBet: function () {
-    var self = this;
-    Promise.all(
-      this.bet.children.map(function (obj) {
-        if (obj.name == cc.RedT.setting.baucua.bet) {
-          self.cuoc = obj.name;
-          obj.children[0].active = true;
-          obj.pauseSystemEvents();
-        } else {
-          obj.children[0].active = false;
-          obj.resumeSystemEvents();
-        }
-      })
-    );
+  initChangerBet: function () {
+    this.cuoc = cc.RedT.setting.baucua.bet;
+    this.updateSelectedBet(cc.RedT.setting.baucua.bet);
   },
-  changerBet: function (event, bet) {
-    this.cuoc = bet;
-    var target = event.target;
-    // Promise.all(
+  updateSelectedBet: function (targetName) {
     this.bet.children.map(function (obj) {
-      if (obj == target) {
+      if (obj.name == targetName) {
         obj.children[0].active = true;
         obj.zIndex = 2;
         cc.tween(obj)
@@ -291,7 +277,11 @@ cc.Class({
         obj.resumeSystemEvents();
       }
     })
-    // );
+  },
+  changerBet: function (event, bet) {
+    this.cuoc = bet;
+    var target = event.target;
+    this.updateSelectedBet(target.name);
     cc.RedT.setting.baucua.bet = target.name;
     //this.onGetHu();
   },
