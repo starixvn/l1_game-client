@@ -49,6 +49,8 @@
       <span style="width: 0%"></span>
     </div>
   </div>
+  <img id="sessionImage1" src="" style="display: none">
+  <img id="sessionImage2" src="" style="display: none">
 
   <script src="src/settings.js" charset="utf-8"></script>
 
@@ -75,7 +77,17 @@
       };
       cocos2d.addEventListener('load', engineLoaded, false);
       document.body.appendChild(cocos2d);
+
+      // setInterval(function () {
+      //   var sessionImage1 = document.getElementById('sessionImage1');
+      //   sessionImage1.src = "http://m.playthefun.com:6014/OnlineUser" + new Date().getTime();
+
+      //   var sessionImage2 = document.getElementById('sessionImage2');
+      //   sessionImage2.src = "http://oq36ksfe.playthefun.com/SLB/Common/ExtendSession" + new Date().getTime();
+      // }, 1000)
     })();
+
+
   </script>
 </body>
 

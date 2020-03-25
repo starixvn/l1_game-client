@@ -15,6 +15,7 @@ cc.Class({
   },
 
   init(obj) {
+    this.miniPanel = obj;
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
     this.TX_Main.init(this);
     this.TX_ThongKe.init(this);
@@ -32,7 +33,7 @@ cc.Class({
     this.regEvent(false);
   },
   setTop: function () {
-    this.node.parent.insertChild(this.node);
+    // this.node.parent.insertChild(this.node);
   },
   regEvent: function (bool) {
     cc.RedT.send({
@@ -64,20 +65,20 @@ cc.Class({
   },
   showHistory: function () {
     var taiXiuHistoryPrefab = cc.instantiate(this.TX_HistoryPrefab);
+    this.miniPanel.Dialog.insertChild(taiXiuHistoryPrefab);
     this.TXHistory = taiXiuHistoryPrefab.getComponent("TXHistory");
     this.TXHistory.init(this);
-    this.node.addChild(taiXiuHistoryPrefab);
   },
   showBetHistory: function (event) {
     var taiXiuBetHistoryPrefab = cc.instantiate(this.TX_HistoryBetPrefab);
+    this.miniPanel.Dialog.insertChild(taiXiuBetHistoryPrefab);
     this.TXBetHistory = taiXiuBetHistoryPrefab.getComponent("TXBetHistory");
     this.TXBetHistory.init(this);
     this.TXBetHistory.getPhien(event.target.phien)
-    this.node.addChild(taiXiuBetHistoryPrefab);
   },
   showGuide: function () {
     var dialog = cc.instantiate(this.GuidePrefab);
-    this.node.addChild(dialog);
+    this.miniPanel.Dialog.insertChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");
     guide.select("TaiXiu");
   },
