@@ -399,6 +399,7 @@ cc.Class({
       return;
     }
     this.disabled = false;
+    this.showUMWarning(this.disabled);
 
     // if (void 0 !== data.userCount) {
     //   this.userCountLabel.node.parent.active = true;
