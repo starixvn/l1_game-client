@@ -191,7 +191,9 @@ cc.Class({
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 		this.avatar.spriteFrame = this.avatarImages[cc.RedT.user.avatarId];
 		let self = this;
-		cc.game.on(cc.game.EVENT_HIDE, self.backGame);
+		cc.game.on(cc.game.EVENT_HIDE, function () {
+			self.backGame();
+		});
 		if (!cc.sys.isMobile) {
 			this.center.scale = 0.8;
 		}
@@ -657,7 +659,7 @@ cc.Class({
 						winnerPrefab.runAction(
 							cc.sequence(
 								cc.callFunc(function () { animation.play(); }),
-								cc.delayTime(3),
+								cc.delayTime(self.time_remain - 33),
 								cc.callFunc(function () { this.destroy() }, winnerPrefab)
 							)
 						);
@@ -665,15 +667,17 @@ cc.Class({
 						cc.RedT.send({ user: { updateCoint: true } });
 					}
 
-					var temp = self.createWinResultNode(status.bet, status.win);
-					temp.node.position = cc.v2(0, 90);
-					this.miniNotice.addChild(temp.node);
-					temp.node.runAction(
-						cc.sequence(
-							cc.moveTo(4, cc.v2(0, 200)),
-							cc.callFunc(function () { this.node.destroy() }, temp)
-						)
-					);
+					if (status.bet) {
+						var temp = self.createWinResultNode(status.bet, status.win);
+						temp.node.position = cc.v2(0, 90);
+						this.miniNotice.addChild(temp.node);
+						temp.node.runAction(
+							cc.sequence(
+								cc.moveTo(4, cc.v2(0, 200)),
+								cc.callFunc(function () { this.node.destroy() }, temp)
+							)
+						);
+					}
 					self.status = {};
 				}
 
@@ -721,7 +725,7 @@ cc.Class({
 						winnerPrefab.runAction(
 							cc.sequence(
 								cc.callFunc(function () { animation.play(); }),
-								cc.delayTime(3),
+								cc.delayTime(self.time_remain - 33),
 								cc.callFunc(function () { this.destroy() }, winnerPrefab)
 							)
 						);
