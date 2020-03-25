@@ -191,7 +191,9 @@ cc.Class({
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 		this.avatar.spriteFrame = this.avatarImages[cc.RedT.user.avatarId];
 		let self = this;
-		cc.game.on(cc.game.EVENT_HIDE, self.backGame);
+		cc.game.on(cc.game.EVENT_HIDE, function () {
+			self.backGame();
+		});
 		if (!cc.sys.isMobile) {
 			this.center.scale = 0.8;
 		}
