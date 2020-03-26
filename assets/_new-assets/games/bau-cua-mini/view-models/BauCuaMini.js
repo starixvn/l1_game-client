@@ -524,6 +524,8 @@ cc.Class({
           // }
         } else {
           this.Animation.node.active = false;
+          this.setPhien(this.localPhien);
+
           if (
             cc.RedT.setting.baucua.regOpen &&
             cc.RedT.setting.baucua.time_remain == (BCConstants.betTime + 1)
@@ -537,7 +539,6 @@ cc.Class({
             }
           }
 
-          this.setPhien(this.localPhien);
           this.titleTime.string = "Đặt cược";
           if (cc.RedT.setting.baucua.time_remain > 1) {
             let time = helper.numberPad(
