@@ -1,5 +1,6 @@
 const configs = require('Configs');
 const ga = require("GameAnalytics");
+const authManager = require('./common/auth/AuthManager');
 
 module.exports = {
   IS_LOGIN: false,
@@ -30,6 +31,7 @@ module.exports = {
       this.recheckIn = setInterval(() => {
         try {
           if (self.isConnected) {
+            authManager.checkAndUpdateRecheckIn();
             self.send({ reCheckin: true });
           }
         } catch (ex) { }

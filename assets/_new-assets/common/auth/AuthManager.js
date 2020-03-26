@@ -17,7 +17,7 @@ function checkSSO(labelMessage, cb) {
                     response.isSSO = true;
                     console.log(urlParams.get("gameId"));
                     window.openGameId = urlParams.get("gameId");
-                    storeSession(response);
+                    storeSessionData(response);
                     clearTokenOnUrl();
                     cb();
                 }
@@ -73,10 +73,6 @@ function isSSO() {
     return session && session.isSSO;
 }
 
-function storeSession(data) {
-    cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
-}
-
 function storeSessionData(data) {
     cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
 }
@@ -95,11 +91,30 @@ function triggerSignIn(mainGame) {
     }
 }
 
+function checkAndUpdateRecheckIn() {
+    const session = getSession();
+
+    if (session && session.time) {
+        const now = new Date();
+        const lastRecheckIn = new Date(session.time);
+        const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
+        console.log(`differenceInMinutes: ${differenceInMinutes}`)
+
+        if (differenceInMinutes > 4.8) {
+            signOut();
+        }
+        else {
+            session.time = new Date();
+            storeSessionData(session);
+        }
+    }
+}
+
 module.exports = {
     checkSSO,
     signOut,
-    triggerSignIn,
-    storeSession,
     storeSessionData,
+    triggerSignIn,
+    checkAndUpdateRecheckIn,
     isSSO
 }

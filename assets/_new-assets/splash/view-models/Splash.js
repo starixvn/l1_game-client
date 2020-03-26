@@ -1,5 +1,5 @@
-let authManager = require('AuthManager');
-const logger = require('logger')();
+let authManager = require('./../../common/auth/AuthManager');
+const logger = require('./../../common/logger')();
 const configs = require('Configs');
 const ga = require("GameAnalytics");
 
@@ -68,6 +68,7 @@ cc.Class({
     this.updateProgress(0);
     this.messageLabel.string = "Đang lấy dữ liệu game ...";
     if (cc.sys.isBrowser && authManager) {
+      authManager.checkAndUpdateRecheckIn();
       if (authManager.checkSSO(this.messageLabel, function () {
         this.loadScene()
       }.bind(this))) {
