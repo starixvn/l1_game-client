@@ -82,21 +82,6 @@ module.exports = {
   },
   init: function () {
     this.initPrototype();
-    this.initGameAnalytics();
-    cc.view.enableAutoFullScreen(true);
-  },
-  initGameAnalytics: function () {
-    ga.GameAnalytics.setEnabledInfoLog(true);
-    ga.GameAnalytics.initialize(configs.gameAnalytics.clientId, configs.gameAnalytics.secretKey);
-    ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "World01", "Level01", "Section01");
-
-    cc.game.on(cc.game.EVENT_HIDE, function () {
-      ga.GameAnalytics.endSession(); // End session
-    }.bind(this));
-
-    cc.game.on(cc.game.EVENT_SHOW, function () {
-      ga.GameAnalytics.startSession(); // Start session
-    }.bind(this))
   },
   initPrototype: function () {
     String.format ||

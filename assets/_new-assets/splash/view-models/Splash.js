@@ -1,5 +1,7 @@
 let authManager = require('AuthManager');
-const logger = require('./../../common/logger')();
+const logger = require('logger')();
+const configs = require('Configs');
+const ga = require("GameAnalytics");
 
 cc.Class({
   extends: cc.Component,
@@ -18,6 +20,11 @@ cc.Class({
     _storagePath: ""
   },
   onLoad: function () {
+    cc.view.enableRetina(cc.sys.os === cc.sys.OS_IOS ? true : false);
+    cc.view.resizeWithBrowserSize(true);
+    cc.view.enableAutoFullScreen(true);
+    this.initGameAnalytics();
+
     this.isLoadScene = !1;
     this.isLoadConfig = !1;
     this.initOneSign();
@@ -37,6 +44,19 @@ cc.Class({
           onPostNotification: function (t, e) { },
           onNotification: function (t, e, i) { }
         }));
+  },
+  initGameAnalytics: function () {
+    ga.GameAnalytics.setEnabledInfoLog(true);
+    ga.GameAnalytics.initialize(configs.gameAnalytics.clientId, configs.gameAnalytics.secretKey);
+    ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "World01", "Level01", "Section01");
+
+    cc.game.on(cc.game.EVENT_HIDE, function () {
+      ga.GameAnalytics.endSession(); // End session
+    }.bind(this));
+
+    cc.game.on(cc.game.EVENT_SHOW, function () {
+      ga.GameAnalytics.startSession(); // Start session
+    }.bind(this))
   },
   checkPlugin: function () {
     return "undefined" == typeof sdkbox
