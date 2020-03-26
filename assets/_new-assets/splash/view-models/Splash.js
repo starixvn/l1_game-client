@@ -20,7 +20,7 @@ cc.Class({
     _storagePath: ""
   },
   onLoad: function () {
-    cc.view.enableAutoFullScreen(true);
+    //cc.view.enableAutoFullScreen(true);
     this.initGameAnalytics();
 
     this.isLoadScene = !1;
