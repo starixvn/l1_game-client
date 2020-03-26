@@ -48,7 +48,7 @@ cc.Class({
     }
   },
   isSignIn: function () {
-    if (authManager.isSSO()) {
+    if (authManager.isSSO() && this.signOutbtn) {
       this.signOutbtn.active = false;
     }
     this.nodeUsers.active = true;
