@@ -164,7 +164,6 @@ cc.Class({
     this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
-    this.setPhien(this.localPhien);
   },
   onDisable: function () {
     this.regEvent(false);
@@ -429,6 +428,7 @@ cc.Class({
       this.status(data.status);
     }
     if (void 0 !== data.phien) {
+      this.localPhien = data.phien;
       this.setPhien(data.phien);
     }
     if (void 0 !== data.logs) {
