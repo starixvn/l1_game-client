@@ -31,7 +31,9 @@ module.exports = {
       this.recheckIn = setInterval(() => {
         try {
           if (self.isConnected) {
-            authManager.checkAndUpdateRecheckIn();
+            if (self.IS_LOGIN) {
+              authManager.checkAndUpdateRecheckIn();
+            }
             self.send({ reCheckin: true });
           }
         } catch (ex) { }
