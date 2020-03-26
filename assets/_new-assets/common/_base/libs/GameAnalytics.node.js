@@ -5,45 +5,45 @@ code.google.com/p/crypto-js
 (c) 2009-2013 by Jeff Mott. All rights reserved.
 code.google.com/p/crypto-js/wiki/License
 */
-var CryptoJS = CryptoJS || function(h, s) {
+var CryptoJS = CryptoJS || function (h, s) {
     var f = {},
         g = f.lib = {},
-        q = function() {},
+        q = function () { },
         m = g.Base = {
-            extend: function(a) {
+            extend: function (a) {
                 q.prototype = this;
                 var c = new q;
                 a && c.mixIn(a);
-                c.hasOwnProperty("init") || (c.init = function() {
+                c.hasOwnProperty("init") || (c.init = function () {
                     c.$super.init.apply(this, arguments)
                 });
                 c.init.prototype = c;
                 c.$super = this;
                 return c
             },
-            create: function() {
+            create: function () {
                 var a = this.extend();
                 a.init.apply(a, arguments);
                 return a
             },
-            init: function() {},
-            mixIn: function(a) {
+            init: function () { },
+            mixIn: function (a) {
                 for (var c in a) a.hasOwnProperty(c) && (this[c] = a[c]);
                 a.hasOwnProperty("toString") && (this.toString = a.toString)
             },
-            clone: function() {
+            clone: function () {
                 return this.init.prototype.extend(this)
             }
         },
         r = g.WordArray = m.extend({
-            init: function(a, c) {
+            init: function (a, c) {
                 a = this.words = a || [];
                 this.sigBytes = c != s ? c : 4 * a.length
             },
-            toString: function(a) {
+            toString: function (a) {
                 return (a || k).stringify(this)
             },
-            concat: function(a) {
+            concat: function (a) {
                 var c = this.words,
                     d = a.words,
                     b = this.sigBytes;
@@ -57,26 +57,26 @@ var CryptoJS = CryptoJS || function(h, s) {
                 this.sigBytes += a;
                 return this
             },
-            clamp: function() {
+            clamp: function () {
                 var a = this.words,
                     c = this.sigBytes;
                 a[c >>> 2] &= 4294967295 <<
                     32 - 8 * (c % 4);
                 a.length = h.ceil(c / 4)
             },
-            clone: function() {
+            clone: function () {
                 var a = m.clone.call(this);
                 a.words = this.words.slice(0);
                 return a
             },
-            random: function(a) {
+            random: function (a) {
                 for (var c = [], d = 0; d < a; d += 4) c.push(4294967296 * h.random() | 0);
                 return new r.init(c, a)
             }
         }),
         l = f.enc = {},
         k = l.Hex = {
-            stringify: function(a) {
+            stringify: function (a) {
                 var c = a.words;
                 a = a.sigBytes;
                 for (var d = [], b = 0; b < a; b++) {
@@ -86,47 +86,47 @@ var CryptoJS = CryptoJS || function(h, s) {
                 }
                 return d.join("")
             },
-            parse: function(a) {
+            parse: function (a) {
                 for (var c = a.length, d = [], b = 0; b < c; b += 2) d[b >>> 3] |= parseInt(a.substr(b,
                     2), 16) << 24 - 4 * (b % 8);
                 return new r.init(d, c / 2)
             }
         },
         n = l.Latin1 = {
-            stringify: function(a) {
+            stringify: function (a) {
                 var c = a.words;
                 a = a.sigBytes;
                 for (var d = [], b = 0; b < a; b++) d.push(String.fromCharCode(c[b >>> 2] >>> 24 - 8 * (b % 4) & 255));
                 return d.join("")
             },
-            parse: function(a) {
+            parse: function (a) {
                 for (var c = a.length, d = [], b = 0; b < c; b++) d[b >>> 2] |= (a.charCodeAt(b) & 255) << 24 - 8 * (b % 4);
                 return new r.init(d, c)
             }
         },
         j = l.Utf8 = {
-            stringify: function(a) {
+            stringify: function (a) {
                 try {
                     return decodeURIComponent(escape(n.stringify(a)))
                 } catch (c) {
                     throw Error("Malformed UTF-8 data");
                 }
             },
-            parse: function(a) {
+            parse: function (a) {
                 return n.parse(unescape(encodeURIComponent(a)))
             }
         },
         u = g.BufferedBlockAlgorithm = m.extend({
-            reset: function() {
+            reset: function () {
                 this._data = new r.init;
                 this._nDataBytes = 0
             },
-            _append: function(a) {
+            _append: function (a) {
                 "string" == typeof a && (a = j.parse(a));
                 this._data.concat(a);
                 this._nDataBytes += a.sigBytes
             },
-            _process: function(a) {
+            _process: function (a) {
                 var c = this._data,
                     d = c.words,
                     b = c.sigBytes,
@@ -142,7 +142,7 @@ var CryptoJS = CryptoJS || function(h, s) {
                 }
                 return new r.init(g, b)
             },
-            clone: function() {
+            clone: function () {
                 var a = m.clone.call(this);
                 a._data = this._data.clone();
                 return a
@@ -151,31 +151,31 @@ var CryptoJS = CryptoJS || function(h, s) {
         });
     g.Hasher = u.extend({
         cfg: m.extend(),
-        init: function(a) {
+        init: function (a) {
             this.cfg = this.cfg.extend(a);
             this.reset()
         },
-        reset: function() {
+        reset: function () {
             u.reset.call(this);
             this._doReset()
         },
-        update: function(a) {
+        update: function (a) {
             this._append(a);
             this._process();
             return this
         },
-        finalize: function(a) {
+        finalize: function (a) {
             a && this._append(a);
             return this._doFinalize()
         },
         blockSize: 16,
-        _createHelper: function(a) {
-            return function(c, d) {
+        _createHelper: function (a) {
+            return function (c, d) {
                 return (new a.init(d)).finalize(c)
             }
         },
-        _createHmacHelper: function(a) {
-            return function(c, d) {
+        _createHmacHelper: function (a) {
+            return function (c, d) {
                 return (new t.HMAC.init(a,
                     d)).finalize(c)
             }
@@ -184,10 +184,10 @@ var CryptoJS = CryptoJS || function(h, s) {
     var t = f.algo = {};
     return f
 }(Math);
-(function(h) {
-    for (var s = CryptoJS, f = s.lib, g = f.WordArray, q = f.Hasher, f = s.algo, m = [], r = [], l = function(a) {
-            return 4294967296 * (a - (a | 0)) | 0
-        }, k = 2, n = 0; 64 > n;) {
+(function (h) {
+    for (var s = CryptoJS, f = s.lib, g = f.WordArray, q = f.Hasher, f = s.algo, m = [], r = [], l = function (a) {
+        return 4294967296 * (a - (a | 0)) | 0
+    }, k = 2, n = 0; 64 > n;) {
         var j;
         a: {
             j = k;
@@ -203,10 +203,10 @@ var CryptoJS = CryptoJS || function(h, s) {
     }
     var a = [],
         f = f.SHA256 = q.extend({
-            _doReset: function() {
+            _doReset: function () {
                 this._hash = new g.init(m.slice(0))
             },
-            _doProcessBlock: function(c, d) {
+            _doProcessBlock: function (c, d) {
                 for (var b = this._hash.words, e = b[0], f = b[1], g = b[2], j = b[3], h = b[4], m = b[5], n = b[6], q = b[7], p = 0; 64 > p; p++) {
                     if (16 > p) a[p] =
                         c[d + p] | 0;
@@ -235,7 +235,7 @@ var CryptoJS = CryptoJS || function(h, s) {
                 b[6] = b[6] + n | 0;
                 b[7] = b[7] + q | 0
             },
-            _doFinalize: function() {
+            _doFinalize: function () {
                 var a = this._data,
                     d = a.words,
                     b = 8 * this._nDataBytes,
@@ -247,7 +247,7 @@ var CryptoJS = CryptoJS || function(h, s) {
                 this._process();
                 return this._hash
             },
-            clone: function() {
+            clone: function () {
                 var a = q.clone.call(this);
                 a._hash = this._hash.clone();
                 return a
@@ -256,11 +256,11 @@ var CryptoJS = CryptoJS || function(h, s) {
     s.SHA256 = q._createHelper(f);
     s.HmacSHA256 = q._createHmacHelper(f)
 })(Math);
-(function() {
+(function () {
     var h = CryptoJS,
         s = h.enc.Utf8;
     h.algo.HMAC = h.lib.Base.extend({
-        init: function(f, g) {
+        init: function (f, g) {
             f = this._hasher = new f.init;
             "string" == typeof g && (g = s.parse(g));
             var h = f.blockSize,
@@ -271,16 +271,16 @@ var CryptoJS = CryptoJS || function(h, s) {
             r.sigBytes = l.sigBytes = m;
             this.reset()
         },
-        reset: function() {
+        reset: function () {
             var f = this._hasher;
             f.reset();
             f.update(this._iKey)
         },
-        update: function(f) {
+        update: function (f) {
             this._hasher.update(f);
             return this
         },
-        finalize: function(f) {
+        finalize: function (f) {
             var g =
                 this._hasher;
             f = g.finalize(f);
@@ -296,11 +296,11 @@ code.google.com/p/crypto-js
 (c) 2009-2013 by Jeff Mott. All rights reserved.
 code.google.com/p/crypto-js/wiki/License
 */
-(function() {
+(function () {
     var h = CryptoJS,
         j = h.lib.WordArray;
     h.enc.Base64 = {
-        stringify: function(b) {
+        stringify: function (b) {
             var e = b.words,
                 f = b.sigBytes,
                 c = this._map;
@@ -312,7 +312,7 @@ code.google.com/p/crypto-js/wiki/License
                 for (; b.length % 4;) b.push(e);
             return b.join("")
         },
-        parse: function(b) {
+        parse: function (b) {
             var e = b.length,
                 f = this._map,
                 c = f.charAt(64);
@@ -3470,4 +3470,5 @@ var gameanalytics;
 })(gameanalytics || (gameanalytics = {}));
 gameanalytics.GameAnalytics.init();
 var GameAnalytics = gameanalytics.GameAnalytics.gaCommand;
+
 module.exports = gameanalytics;
