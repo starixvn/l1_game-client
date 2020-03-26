@@ -18,12 +18,11 @@ cc.Class({
 		this.page.y = -307;
 		this.node.addChild(this.page);
 		this.page = this.page.getComponent('Pagination');
-		Promise.all(this.content.children.map(function (obj) {
+
+		this.content = this.content.children.map(function (obj) {
 			return obj.getComponent('BauCuaHistoryItem');
-		}))
-			.then(result => {
-				this.content = result;
-			})
+		})
+
 		this.page.init(this);
 	},
 	onEnable: function () {
@@ -43,7 +42,7 @@ cc.Class({
 	onData: function (data) {
 		var self = this;
 		this.page.onSet(data.page, data.kmess, data.total);
-		Promise.all(this.content.map(function (obj, i) {
+		this.content.forEach(function (obj, i) {
 			var dataT = data.data[i]
 			if (void 0 !== dataT) {
 				obj.node.active = true
@@ -51,31 +50,25 @@ cc.Class({
 				obj.phien.string = dataT.phien;
 				obj.thang.string = helper.numberWithCommas(dataT.betwin);
 				obj.thang.node.color = dataT.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-				Promise.all(obj.kq.map(function (kq, j) {
+				obj.kq.forEach(function (kq, j) {
 					kq.spriteFrame = self.RedT.iconMini[dataT.kq[j]];
-				}))
-				Promise.all(obj.datLabel.map(function (cuoc, k) {
+				});
+
+				obj.datLabel.forEach(function (cuoc, k) {
 					if (dataT[k] > 0) {
 						cuoc.node.parent.active = true;
 						cuoc.string = helper.nFormatter(dataT[k], 1);
 					} else {
 						cuoc.node.parent.active = false;
 					}
-				}))
+				})
 			} else {
 				obj.node.active = false
 			}
-		}))
+		})
 	},
 	pressedCloseDialog() {
 		var dialog = this.node.getComponent("CommonDialog");
 		dialog && dialog.closeDialog();
 	}
-	/**
-	reset: function(){
-		Promise.all(this.content.children.map(function(obj){
-			obj.node.active = false;
-		}))
-	},
-	*/
 });
