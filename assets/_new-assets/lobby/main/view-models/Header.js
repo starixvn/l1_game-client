@@ -1,3 +1,5 @@
+const authManager = require('./../../../common/auth/AuthManager');
+
 cc.Class({
   extends: cc.Component,
 
@@ -32,6 +34,10 @@ cc.Class({
     avatarImages: {
       default: [],
       type: cc.SpriteFrame
+    },
+    signOutbtn: {
+      default: null,
+      type: cc.Node
     }
   },
   onLoad() {
@@ -42,6 +48,9 @@ cc.Class({
     }
   },
   isSignIn: function () {
+    if (authManager.isSSO()) {
+      this.signOutbtn.active = false;
+    }
     this.nodeUsers.active = true;
     this.nodeGuest.active = false;
   },

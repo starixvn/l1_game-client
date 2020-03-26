@@ -14,6 +14,7 @@ function checkSSO(labelMessage, cb) {
                 if (response.isAuthenticated) {
                     window.authData = response;
                     window.authData.time = new Date();
+                    response.isSSO = true;
                     console.log(urlParams.get("gameId"));
                     window.openGameId = urlParams.get("gameId");
                     storeSession(response);
@@ -67,6 +68,11 @@ function getSession() {
     return JSON.parse(cc.sys.localStorage.getItem(getSessionKey()));
 }
 
+function isSSO() {
+    const session = getSession();
+    return session && session.isSSO;
+}
+
 function storeSession(data) {
     cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
 }
@@ -94,5 +100,6 @@ module.exports = {
     signOut,
     triggerSignIn,
     storeSession,
-    storeSessionData
+    storeSessionData,
+    isSSO
 }
