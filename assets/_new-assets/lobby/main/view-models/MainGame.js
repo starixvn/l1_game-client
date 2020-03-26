@@ -143,8 +143,10 @@ cc.Class({
       cc.RedT.userData(data.user);
 
       try {
-        const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
-        logger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
+        if (data.user.name) {
+          const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
+          logger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
+        }
       } catch (ex) { console.log(ex) }
     }
     if (void 0 !== data.mini) {
