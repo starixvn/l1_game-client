@@ -1,5 +1,6 @@
 
 let Helper = require('Helper');
+const logger = require('../../../../common/logger');
 
 cc.Class({
     extends: cc.Component,
@@ -25,10 +26,12 @@ cc.Class({
         this.page = page.getComponent('Pagination');
         Promise.all(this.content.children.map(function (obj) {
             return obj.getComponent('XocXoc_history_item');
-        }))
-            .then(tab => {
-                this.content = tab;
-            })
+        })).then(tab => {
+            this.content = tab;
+        }).catch(error => {
+            logger.logError(error);
+        });
+
         this.page.init(this);
     },
     onEnable: function () {
@@ -112,7 +115,9 @@ cc.Class({
             } else {
                 obj.node.active = false;
             }
-        }))
+        })).catch(error => {
+            logger.logError(error);
+        });
     },
 
     closeDialog: function () {
