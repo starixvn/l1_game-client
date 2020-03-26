@@ -82,22 +82,18 @@ module.exports = {
   },
   init: function () {
     this.initPrototype();
-
+    this.initGameAnalytics();
+    cc.view.enableAutoFullScreen(true);
+  },
+  initGameAnalytics: function () {
     ga.GameAnalytics.setEnabledInfoLog(true);
-    ga.GameAnalytics.initialize("093146669bf12df12eeedd2d57ddb469", "f41dc948ed66a029406413327a68b6ae27fe4e6c");
+    ga.GameAnalytics.initialize(configs.gameAnalytics.clientId, configs.gameAnalytics.secretKey);
     ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "World01", "Level01", "Section01");
 
-    // you can check any time if it initialized correctly 
-    if (ga.GameAnalytics.isSdkReady(true, false)) {
-      // do whatever you want
-    }
-    // For example you can put these lines into onLoad function of your component:
-    // Game goes background
     cc.game.on(cc.game.EVENT_HIDE, function () {
       ga.GameAnalytics.endSession(); // End session
     }.bind(this));
 
-    // Game comes foreground
     cc.game.on(cc.game.EVENT_SHOW, function () {
       ga.GameAnalytics.startSession(); // Start session
     }.bind(this))
