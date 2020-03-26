@@ -19,7 +19,7 @@ deploy-web-mobile:
     - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto;md5Cache=true"
   script:
     - echo "====== Deploying to server ======"
     - tar czf - ./build/web-mobile/* | ssh root@124.158.13.228 "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
