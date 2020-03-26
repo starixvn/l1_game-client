@@ -230,27 +230,18 @@ cc.Class({
     localStorage.setItem("bauCua", false);
   },
   pressedTopDialog() {
-    if (this.disabled) {
-      return;
-    }
     var dialog = cc.instantiate(this.topDialog);
     this.miniPanel.Dialog.insertChild(dialog);
     this.Top = dialog.getComponent("BauCuaTop");
     this.Top.init(this);
   },
   pressedHistoryDialog() {
-    if (this.disabled) {
-      return;
-    }
     var dialog = cc.instantiate(this.historyDialog);
     this.miniPanel.Dialog.insertChild(dialog);
     this.LichSu = dialog.getComponent("BauCuaHistory");
     this.LichSu.init(this);
   },
   pressedShowGuide() {
-    if (this.disabled) {
-      return;
-    }
     var dialog = cc.instantiate(this.guidePrefab);
     this.miniPanel.Dialog.insertChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");
@@ -413,6 +404,19 @@ cc.Class({
       .start();
   },
   onData: function (data) {
+    if (void 0 !== data.tops) {
+      this.Top && this.Top.onData(data.tops);
+      if (this.disabled) {
+        return;
+      }
+    }
+    if (void 0 !== data.viewlogs) {
+      this.LichSu && this.LichSu.onData(data.viewlogs);
+      if (this.disabled) {
+        return;
+      }
+    }
+
     if (void 0 !== data.um) {
       this.disabled = data.um;
       return;
@@ -444,12 +448,7 @@ cc.Class({
       cc.RedT.setting.baucua.logs = data.logs;
       this.addLogs();
     }
-    if (void 0 !== data.tops) {
-      this.Top && this.Top.onData(data.tops);
-    }
-    if (void 0 !== data.viewlogs) {
-      this.LichSu && this.LichSu.onData(data.viewlogs);
-    }
+
     if (void 0 !== data.regOpen) {
       cc.RedT.setting.baucua.regOpen = true;
       this.showUMWarning(this.disabled);
