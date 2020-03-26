@@ -28,7 +28,7 @@ cc.Class({
     onData: function (data) {
         this.content.removeAllChildren();
         var self = this;
-        Promise.all(data.map(function (obj, index) {
+        data.forEach(function (obj, index) {
             var item = cc.instantiate(self.item);
             var itemComponent = item.getComponent('BauCuaTopItem');
             itemComponent.stt.string = index + 1;
@@ -36,7 +36,7 @@ cc.Class({
             itemComponent.win.string = helper.numberWithCommas(obj.bet);
             item.children[0].active = !(index & 1);
             self.content.addChild(item);
-        }))
+        })
     },
     pressedCloseDialog() {
         var dialog = this.node.getComponent("CommonDialog");
