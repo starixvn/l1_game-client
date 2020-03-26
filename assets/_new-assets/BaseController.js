@@ -1,5 +1,5 @@
 const configs = require('Configs');
-// const ga = require("gameanalytics");
+const ga = require("gameanalytics");
 
 module.exports = {
   IS_LOGIN: false,
@@ -83,24 +83,24 @@ module.exports = {
   init: function () {
     this.initPrototype();
 
-    // ga.GameAnalytics.setEnabledInfoLog(true);
-    // ga.GameAnalytics.initialize("093146669bf12df12eeedd2d57ddb469", "f41dc948ed66a029406413327a68b6ae27fe4e6c");
-    // ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "World01", "Level01", "Section01");
+    ga.GameAnalytics.setEnabledInfoLog(true);
+    ga.GameAnalytics.initialize("093146669bf12df12eeedd2d57ddb469", "f41dc948ed66a029406413327a68b6ae27fe4e6c");
+    ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "World01", "Level01", "Section01");
 
-    // // you can check any time if it initialized correctly 
-    // if (ga.GameAnalytics.isSdkReady(true, false)) {
-    //   // do whatever you want
-    // }
-    // // For example you can put these lines into onLoad function of your component:
-    // // Game goes background
-    // cc.game.on(cc.game.EVENT_HIDE, function () {
-    //   ga.GameAnalytics.endSession(); // End session
-    // }.bind(this));
+    // you can check any time if it initialized correctly 
+    if (ga.GameAnalytics.isSdkReady(true, false)) {
+      // do whatever you want
+    }
+    // For example you can put these lines into onLoad function of your component:
+    // Game goes background
+    cc.game.on(cc.game.EVENT_HIDE, function () {
+      ga.GameAnalytics.endSession(); // End session
+    }.bind(this));
 
-    // // Game comes foreground
-    // cc.game.on(cc.game.EVENT_SHOW, function () {
-    //   ga.GameAnalytics.startSession(); // Start session
-    // }.bind(this))
+    // Game comes foreground
+    cc.game.on(cc.game.EVENT_SHOW, function () {
+      ga.GameAnalytics.startSession(); // Start session
+    }.bind(this))
   },
   initPrototype: function () {
     String.format ||
