@@ -164,7 +164,6 @@ cc.Class({
     this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
-    this.setPhien(this.localPhien);
   },
   onDisable: function () {
     this.regEvent(false);
@@ -405,6 +404,19 @@ cc.Class({
       .start();
   },
   onData: function (data) {
+    if (void 0 !== data.tops) {
+      this.Top && this.Top.onData(data.tops);
+      if (this.disabled) {
+        return;
+      }
+    }
+    if (void 0 !== data.viewlogs) {
+      this.LichSu && this.LichSu.onData(data.viewlogs);
+      if (this.disabled) {
+        return;
+      }
+    }
+
     if (void 0 !== data.um) {
       this.disabled = data.um;
       return;
@@ -429,18 +441,14 @@ cc.Class({
       this.status(data.status);
     }
     if (void 0 !== data.phien) {
+      this.localPhien = data.phien;
       this.setPhien(data.phien);
     }
     if (void 0 !== data.logs) {
       cc.RedT.setting.baucua.logs = data.logs;
       this.addLogs();
     }
-    if (void 0 !== data.tops) {
-      this.Top && this.Top.onData(data.tops);
-    }
-    if (void 0 !== data.viewlogs) {
-      this.LichSu && this.LichSu.onData(data.viewlogs);
-    }
+
     if (void 0 !== data.regOpen) {
       cc.RedT.setting.baucua.regOpen = true;
       this.showUMWarning(this.disabled);
@@ -524,6 +532,8 @@ cc.Class({
           // }
         } else {
           this.Animation.node.active = false;
+          this.setPhien(this.localPhien);
+
           if (
             cc.RedT.setting.baucua.regOpen &&
             cc.RedT.setting.baucua.time_remain == (BCConstants.betTime + 1)
@@ -537,7 +547,6 @@ cc.Class({
             }
           }
 
-          this.setPhien(this.localPhien);
           this.titleTime.string = "Đặt cược";
           if (cc.RedT.setting.baucua.time_remain > 1) {
             let time = helper.numberPad(
