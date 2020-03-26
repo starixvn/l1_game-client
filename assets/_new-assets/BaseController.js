@@ -1,6 +1,7 @@
 const configs = require('Configs');
 const ga = require("GameAnalytics");
 const authManager = require('./common/auth/AuthManager');
+const logger = require
 
 module.exports = {
   IS_LOGIN: false,
@@ -25,21 +26,24 @@ module.exports = {
       this._socket.onmessage = this._onSocketData;
       this._socket.onerror = this._onSocketError;
       let self = this;
-      if (this.recheckIn) {
-        clearInterval(this.recheckIn);
+      if (this.recheckInId) {
+        clearInterval(this.recheckInId);
       }
-      this.recheckIn = setInterval(() => {
-        try {
-          if (self.isConnected) {
-            if (self.IS_LOGIN) {
-              authManager.checkAndUpdateRecheckIn();
-            }
-            self.send({ reCheckin: true });
-          }
-        } catch (ex) { }
+      this.recheckInId = setInterval(() => {
+        self.recheckIn(self);
       }, 60 * 1000);
       this.isConnected = !0;
     }
+  },
+  recheckIn: function (self) {
+    try {
+      if (self.isConnected) {
+        if (self.IS_LOGIN) {
+          authManager.checkAndUpdateRecheckIn();
+        }
+        self.send({ reCheckin: true });
+      }
+    } catch (ex) { console.log(JSON.stringify(ex)) }
   },
   disconnect: function () {
     this.isConnected = !1;
@@ -80,7 +84,9 @@ module.exports = {
     data = cc.RedT._decodeMessage(data);
     cc.RedT.inGame.onData(data);
   },
-  _onSocketError: function (message) { },
+  _onSocketError: function (message) {
+
+  },
   reconnect: function () {
     this.connect(configs.webSocketEndpoint, "/websocket");
   },
