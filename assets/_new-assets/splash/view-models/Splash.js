@@ -1,4 +1,5 @@
 let authManager = require('AuthManager');
+const logger = require('./../../common/logger')();
 
 cc.Class({
   extends: cc.Component,
@@ -20,6 +21,7 @@ cc.Class({
     this.isLoadScene = !1;
     this.isLoadConfig = !1;
     this.initOneSign();
+    logger.start();
     this.loadAssets();
     // cc.sys.isBrowser
     //   ? this.loadAssets()

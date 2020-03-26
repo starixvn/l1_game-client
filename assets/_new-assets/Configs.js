@@ -19,7 +19,8 @@ const configs = {
         XocXoc: 2,
         BauCua: 3,
         MiniPoker: 4
-    }
+    },
+    sentryUrl: 'https://6d451e2a7a454bc48ba1ca24f69bd9c9@sentry.io/5175285'
 }
 
 module.exports = configs;

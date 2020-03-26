@@ -35,7 +35,6 @@ function checkSSO(labelMessage, cb) {
     }
     else if (authData && authData.isAuthenticated && authData.ss) {
         isSuccess = true;
-        console.log(authData);
         window.authData = authData;
         cb();
     }

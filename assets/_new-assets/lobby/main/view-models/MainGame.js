@@ -1,5 +1,6 @@
 let authManager = require('AuthManager');
 var helper = require("Helper");
+const logger = require('./../../../common/logger')();
 
 var baseControll = require("BaseController");
 
@@ -140,6 +141,11 @@ cc.Class({
     if (void 0 !== data.user) {
       this.dataUser(data.user);
       cc.RedT.userData(data.user);
+
+      try {
+        const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
+        logger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
+      } catch (ex) { console.log(ex) }
     }
     if (void 0 !== data.mini) {
       cc.RedT.MiniPanel.onData(data.mini);
