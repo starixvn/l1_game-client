@@ -68,6 +68,7 @@ deploy-web-mobile_SIT:
     - echo "====== Push to git compiled ======"
     - git clone git@gitlab.com:l1-compiled/game-client-compiled.git ./publish
     - cp -R ./build/web-mobile/* ./publish
+    - cp ./gitlab-ci-after-script.sh ./publish
     - cd ./publish
     - git add .
     - if [ -z "$(git status --porcelain)" ]; then echo "Nothing change"; else git commit -m "$COMMIT_MESSAGE"; fi
