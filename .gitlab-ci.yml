@@ -1,7 +1,6 @@
 stages:
   - build
-  - deploy-local
-  - deploy-sit
+  - deploy
 
 build:
   stage: build
@@ -13,7 +12,7 @@ build:
     - master
 
 deploy-ios-testflight:
-  stage: deploy-local
+  stage: deploy
   script:
     - echo "====== Build Cocos Web Mobile ======"
     - eval $(ssh-agent -s)
@@ -34,7 +33,7 @@ deploy-ios-testflight:
     - /^deploy-\d{8}-\d+.*$/
     
 deploy-web-mobile_LOCAL:
-  stage: deploy-local
+  stage: deploy
   before_script:
     - echo "====== Build Cocos Web Mobile ======"
     - eval $(ssh-agent -s)
@@ -48,13 +47,14 @@ deploy-web-mobile_LOCAL:
   tags:
     - deploy-cocos-web-mobile
   environment:
-    name: LOCAL-WEB
+    name: LOCAL
   only:
+   - /^deploy-local-web-\d{8}-\d+.*$/
    - /^deploy-web-\d{8}-\d+.*$/
    - /^deploy-\d{8}-\d+.*$/
    
 deploy-web-mobile_SIT:
-  stage: deploy-sit
+  stage: deploy
   before_script:
     - echo "====== Build Cocos Web Mobile ======"
     - eval $(ssh-agent -s)
@@ -75,8 +75,9 @@ deploy-web-mobile_SIT:
   tags:
     - deploy-cocos-web-mobile
   environment:
-    name: SIT-WEB
-#  only:
-#   - /^deploy-web-\d{8}-\d+.*$/
-#   - /^deploy-\d{8}-\d+.*$/
+    name: SIT
+  only:
+   - /^deploy-sit-web-\d{8}-\d+.*$/
+   - /^deploy-web-\d{8}-\d+.*$/
+   - /^deploy-\d{8}-\d+.*$/
 
