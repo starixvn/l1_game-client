@@ -31,10 +31,7 @@ cc.Class({
       type: cc.Label
     },
     maskFull: 0,
-    avatarImages: {
-      default: [],
-      type: cc.SpriteFrame
-    },
+
     signOutbtn: {
       default: null,
       type: cc.Node
@@ -78,6 +75,10 @@ cc.Class({
     });
   },
   setAvatar: function (avatarId) {
-    this.avatar.spriteFrame = this.avatarImages[avatarId];
+    let self = this;
+    cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
+      let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+      self.avatar.spriteFrame = frame;
+    });
   }
 });

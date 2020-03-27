@@ -23,6 +23,10 @@ cc.Class({
         }
     },
     setAvatar: function () {
-        this.Avatar.spriteFrame = this.avatarImages[(Math.random() * 12) >> 0];
+        let avatarId = ((Math.random() * 40) + 1) >> 0
+        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
+            let frame = atlas.getSpriteFrame(avatarId);
+            self.Avatar.spriteFrame = frame;
+        });
     }
 })

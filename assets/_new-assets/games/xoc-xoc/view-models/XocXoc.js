@@ -100,10 +100,6 @@ cc.Class({
 		},
 		gameRound: cc.Label,
 		avatar: cc.Sprite,
-		avatarImages: {
-			default: [],
-			type: cc.SpriteFrame
-		},
 		center: cc.Node,
 		winnerPrefab: cc.Prefab
 	},
@@ -194,8 +190,12 @@ cc.Class({
 
 		this.me_name.string = cc.RedT.user.name;
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
-		this.avatar.spriteFrame = this.avatarImages[cc.RedT.user.avatarId];
 		let self = this;
+		cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
+			let avatarId = cc.RedT.user.avatarId;
+			let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+			self.avatar.spriteFrame = frame;
+		});
 		cc.game.on(cc.game.EVENT_HIDE, self.backGame, self);
 		if (!cc.sys.isMobile) {
 			this.center.scale = 0.8;
