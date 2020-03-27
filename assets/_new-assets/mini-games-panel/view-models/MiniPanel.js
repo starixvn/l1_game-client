@@ -94,6 +94,10 @@ cc.Class({
   onDestroy: function () {
     clearInterval(this.TaiXiu.TX_Main.timeInterval);
     clearInterval(this.BauCua.timeInterval);
+
+    this.TaiXiu.node.destroy();
+    this.BauCua.node.destroy();
+    this.MiniPoker.node.destroy();
   },
   playClick: function () {
     cc.RedT.audio.playClick();
