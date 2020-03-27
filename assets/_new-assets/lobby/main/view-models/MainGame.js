@@ -1,4 +1,4 @@
-let authManager = require('AuthManager');
+let authManager = require('./../../../common/auth/AuthManager');
 var helper = require("Helper");
 const logger = require('./../../../common/logger')();
 
@@ -197,6 +197,17 @@ cc.Class({
         text: data.apiError.message
       });
     }
+
+    if (!!data.removeIsLoading) {
+      this.loading.active = false;
+    }
+
+    if (!!data.kickedOut) {
+      this.notice.show({
+        title: "THÔNG BÁO",
+        text: data.kickedOut.message
+      });
+    }
   },
   captcha: function (data) {
     switch (data.name) {
@@ -299,6 +310,7 @@ cc.Class({
     cc.RedT.IS_LOGIN = false;
     this.AllReset();
     cc.sys.localStorage.removeItem("infoRed8");
+    authManager.signOut();
   },
   signIn: function () {
     cc.RedT.IS_LOGIN = true;
