@@ -20,9 +20,7 @@ cc.Class({
     _storagePath: ""
   },
   onLoad: function () {
-    cc.view.enableRetina(cc.sys.os === cc.sys.OS_IOS ? true : false);
-    cc.view.resizeWithBrowserSize(true);
-    cc.view.enableAutoFullScreen(true);
+    //cc.view.enableAutoFullScreen(true);
     this.initGameAnalytics();
 
     this.isLoadScene = !1;

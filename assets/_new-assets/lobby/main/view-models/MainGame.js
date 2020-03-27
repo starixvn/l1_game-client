@@ -94,9 +94,8 @@ cc.Class({
     if (menuCenterWidth < this.center.width) {
       this.menuCenter.parent.getComponent(cc.ScrollView).enabled = false;
       this.menuCenter.position = cc.v2(- menuCenterWidth / 2, this.menuCenter.position.y);
-    }
-    else {
-      this.menuCenter.position = cc.v2(- this.center.width / 2, this.menuCenter.position.y);
+    } else {
+      this.menuCenter.parent.getComponent(cc.ScrollView).enabled = true;
     }
   },
   auth: function (obj) {

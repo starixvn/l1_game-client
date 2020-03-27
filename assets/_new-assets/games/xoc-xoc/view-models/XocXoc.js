@@ -1,6 +1,7 @@
 
 let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
+const logger = require('../../../common/logger');
 
 cc.Class({
 	extends: cc.Component,
@@ -495,14 +496,18 @@ cc.Class({
 			centerMid = this.box_le.children[4].convertToNodeSpaceAR(position);
 			Promise.all(this.box_le.children[4].children.map(function (chip) {
 				chip.runAction(cc.moveTo(0.4, centerMid));
-			}));
+			})).catch(error => {
+				logger.logError(error);
+			});
 		} else {
 			node1 = this.box_le.children[4];
 			audioLost += this.box_chan.children[4].children.length;
 			centerMid = this.box_chan.children[4].convertToNodeSpaceAR(position);
 			Promise.all(this.box_chan.children[4].children.map(function (chip) {
 				chip.runAction(cc.moveTo(0.4, centerMid));
-			}));
+			})).catch(error => {
+				logger.logError(error);
+			});
 		}
 
 		let red3 = this.box_red3.children[4].convertToNodeSpaceAR(position);
@@ -516,13 +521,19 @@ cc.Class({
 				audioLost += this.box_red3.children[4].children.length + this.box_red4.children[4].children.length + this.box_white3.children[4].children.length;
 				Promise.all(this.box_red3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				Promise.all(this.box_red4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				Promise.all(this.box_white3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				break;
 
 			case 1:
@@ -530,29 +541,43 @@ cc.Class({
 				audioLost += this.box_red3.children[4].children.length + this.box_red4.children[4].children.length + this.box_white4.children[4].children.length;
 				Promise.all(this.box_red3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				Promise.all(this.box_red4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				Promise.all(this.box_white4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				break;
 
 			case 2:
 				audioLost += this.box_red3.children[4].children.length + this.box_red4.children[4].children.length + this.box_white3.children[4].children.length + this.box_white4.children[4].children.length;
 				Promise.all(this.box_red3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				Promise.all(this.box_red4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				Promise.all(this.box_white3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				Promise.all(this.box_white4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				break;
 
 			case 3:
@@ -560,13 +585,19 @@ cc.Class({
 				audioLost += this.box_white3.children[4].children.length + this.box_red4.children[4].children.length + this.box_white4.children[4].children.length;
 				Promise.all(this.box_white3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				Promise.all(this.box_red4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				Promise.all(this.box_white4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});
 				break;
 
 			case 4:
@@ -574,13 +605,19 @@ cc.Class({
 				audioLost += this.box_white3.children[4].children.length + this.box_red3.children[4].children.length + this.box_white4.children[4].children.length;
 				Promise.all(this.box_white3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});;
 				Promise.all(this.box_red3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});;
 				Promise.all(this.box_white4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});;
 				break;
 		}
 
@@ -624,7 +661,9 @@ cc.Class({
 					} else {
 						self.audioMultiChip.play();
 					}
-				}));
+				})).catch(error => {
+					logger.logError(error);
+				});;
 			}
 			setTimeout(function () {
 				let mainIndex = 0;
@@ -680,7 +719,6 @@ cc.Class({
 					}
 					self.status = {};
 				}
-
 
 				let winnerIds = Object.keys(self.winners);
 				winnerIds.forEach(function (id) {

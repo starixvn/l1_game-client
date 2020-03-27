@@ -161,7 +161,7 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+    // this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
   },
@@ -171,7 +171,7 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+    // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
     //this.onCloseGame();
   },
   regEvent: function (bool) {
@@ -248,7 +248,7 @@ cc.Class({
     guide.select("BauCua");
   },
   setTop: function () {
-    // this.node.parent.insertChild(this.node);
+    this.node.parent.insertChild(this.node);
   },
   changerCoint: function () {
     this.red = !this.red;
@@ -335,11 +335,9 @@ cc.Class({
   },
   setDice: function (dices) {
     var self = this;
-    Promise.all(
-      dices.map(function (dice, index) {
-        self.dices[index].spriteFrame = self.iconLV[dice];
-      })
-    );
+    dices.forEach(function (dice, index) {
+      self.dices[index].spriteFrame = self.iconLV[dice];
+    });
   },
   addLogs: function () {
     var self = this;
@@ -359,11 +357,9 @@ cc.Class({
       LinhVat[log[2]] += 1;
       var node = cc.instantiate(self.prefabLogs);
       var nodeComponent = node.getComponent("BauCua_logMini");
-      Promise.all(
-        nodeComponent.icon.map(function (sp, i) {
-          sp.spriteFrame = self.iconMini[log[i]];
-        })
-      );
+      nodeComponent.icon.forEach(function (sp, i) {
+        sp.spriteFrame = self.iconMini[log[i]];
+      });
       if (index == 0) {
         node.children[3].active = true;
       }
@@ -665,21 +661,16 @@ cc.Class({
     }
   },
   unSelect: function () {
-    Promise.all(
-      this.linhVat.map(function (linhVat) {
-        linhVat.unSelect();
-      })
-    );
+    this.linhVat.forEach(function (linhVat) {
+      linhVat.unSelect();
+    })
   },
   resetGame: function () {
     var data = Object.keys(cc.RedT.setting.baucua.data);
-    Promise.all(
-      data.map(function (key) {
-        return (cc.RedT.setting.baucua.data[key] = 0);
-      })
-    ).then(result => {
-      this.DataHandling(cc.RedT.setting.baucua.data);
+    data.forEach(function (key) {
+      return (cc.RedT.setting.baucua.data[key] = 0);
     });
+    this.DataHandling(cc.RedT.setting.baucua.data);
 
     this.unSelect();
 
