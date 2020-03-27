@@ -33,7 +33,7 @@ cc.Class({
     this.regEvent(false);
   },
   setTop: function () {
-    // this.node.parent.insertChild(this.node);
+    this.node.parent.insertChild(this.node);
   },
   regEvent: function (bool) {
     cc.RedT.send({

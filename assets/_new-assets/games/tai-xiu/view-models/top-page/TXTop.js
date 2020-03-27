@@ -51,7 +51,7 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+    // this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
     this.get_data();
   },
   onDisable: function () {
@@ -59,7 +59,7 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+    // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
   },
   eventStart: function (e) {
     this.setTop();
