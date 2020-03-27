@@ -1,7 +1,6 @@
 let authManager = require('./../../../common/auth/AuthManager');
 var helper = require("Helper");
 const logger = require('./../../../common/logger')();
-var configs = require("Configs")
 
 var baseControll = require("BaseController");
 
@@ -245,12 +244,7 @@ cc.Class({
     }
 
     if (void 0 !== window.openGameId) {
-      if (window.openGameId == configs.gameIds.XocXoc) {
-        let menu = this.center.getComponent("Menu");
-        menu.regGame("XocXoc");
-      } else {
-        cc.RedT.MiniPanel.openGame(window.openGameId);
-      }
+      cc.RedT.MiniPanel.openGame(window.openGameId);
       window.openGameId = null;
     }
 
