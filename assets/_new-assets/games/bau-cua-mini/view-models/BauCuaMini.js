@@ -161,7 +161,7 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+    // this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
   },
@@ -171,7 +171,7 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+    // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
     //this.onCloseGame();
   },
   regEvent: function (bool) {
@@ -248,7 +248,7 @@ cc.Class({
     guide.select("BauCua");
   },
   setTop: function () {
-    // this.node.parent.insertChild(this.node);
+    this.node.parent.insertChild(this.node);
   },
   changerCoint: function () {
     this.red = !this.red;
