@@ -1,6 +1,7 @@
 stages:
   - build
-  - deploy
+  - deploy-local
+  - deploy-sit
 
 build:
   stage: build
@@ -11,28 +12,8 @@ build:
   only:
     - master
 
-deploy-web-mobile:
-  stage: deploy
-  before_script:
-    - echo "====== Build Cocos Web Mobile ======"
-    - eval $(ssh-agent -s)
-    - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
-    - mkdir -p ~/.ssh
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
-  script:
-    - echo "====== Deploying to server ======"
-    - tar czf - ./build/web-mobile/* | ssh root@124.158.13.228 "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
-  tags:
-    - deploy-cocos-web-mobile
-  environment:
-    name: web
-  only:
-   - /^deploy-web-\d{8}-\d+.*$/
-   - /^deploy-\d{8}-\d+.*$/
-
 deploy-ios-testflight:
-  stage: deploy
+  stage: deploy-local
   script:
     - echo "====== Build Cocos Web Mobile ======"
     - eval $(ssh-agent -s)
@@ -47,7 +28,55 @@ deploy-ios-testflight:
   tags:
     - deploy-cocos-ios-tf
   environment:
-    name: ios-testflight
+    name: iOS-TF
   only:
     - /^deploy-ios-\d{8}-\d+.*$/
     - /^deploy-\d{8}-\d+.*$/
+    
+deploy-web-mobile_LOCAL:
+  stage: deploy-local
+  before_script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - eval $(ssh-agent -s)
+    - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
+  script:
+    - echo "====== Deploying to server ======"
+    - tar czf - ./build/web-mobile/* | ssh root@124.158.13.228 "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
+  tags:
+    - deploy-cocos-web-mobile
+  environment:
+    name: LOCAL-WEB
+  only:
+   - /^deploy-web-\d{8}-\d+.*$/
+   - /^deploy-\d{8}-\d+.*$/
+   
+deploy-web-mobile_SIT:
+  stage: deploy-sit
+  before_script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - eval $(ssh-agent -s)
+    - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+    - cp ./assets/_new-assets/Configs.SIT.js ./assets/_new-assets/Configs.js
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
+  script:
+    - echo "====== Push to git compiled ======"
+    - git clone git@gitlab.com:l1-compiled/game-client-compiled.git ./publish
+    - cp -R ./build/web-mobile/* ./publish
+    - cd ./publish
+    - git add .
+    - if [ -z "$(git status --porcelain)" ]; then echo "Nothing change"; else git commit -m "$COMMIT_MESSAGE"; fi
+    - git push -u origin master
+  tags:
+    - deploy-cocos-web-mobile
+  environment:
+    name: SIT-WEB
+#  only:
+#   - /^deploy-web-\d{8}-\d+.*$/
+#   - /^deploy-\d{8}-\d+.*$/
+

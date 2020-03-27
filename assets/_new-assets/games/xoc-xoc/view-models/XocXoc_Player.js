@@ -16,7 +16,7 @@ cc.Class({
     setInfo: function (data) {
         if (!!data) {
             this.node.active = true;
-            !!data.red && (this.balance.string = helper.formatMoneyNumber(data.red));
+            !!data.red && (this.balance.string = helper.numberWithCommas(data.red));
             !!data.name && (this.nickname.string = data.name.length > 8 ? data.name.substring(0, 7) + "..." : data.name);
         } else {
             this.node.active = false;
