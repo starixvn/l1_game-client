@@ -166,6 +166,7 @@ cc.Class({
 	},
 	onDestroy() {
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
+		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 	},
 	onLoad() {
 		cc.RedT.inGame = this;
