@@ -1,7 +1,10 @@
-UPSTREAM=${1:-'@{u}'}
-LOCAL=$(git rev-parse @)
-BASE=$(git merge-base @ "$UPSTREAM")
+git fetch
 
-if [ $LOCAL = $BASE ]; then
-  git pull
+HEADHASH=$(git rev-parse HEAD)
+UPSTREAMHASH=$(git rev-parse master@{upstream})
+if [ "$HEADHASH" != "$UPSTREAMHASH" ]; then
+  echo "Pull Git"
+  git pull;
+else
+    echo "Up-to-date";
 fi
