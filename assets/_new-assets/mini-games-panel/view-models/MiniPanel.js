@@ -117,8 +117,9 @@ cc.Class({
     }
   },
   openTaiXiu: function () {
-    this.TaiXiu.openGame();
     this.minigame.insertChild(this.TaiXiu.node);
+    this.TaiXiu.node.active = false;
+    this.TaiXiu.openGame();
   },
   openBauCua: function () {
     this.minigame.insertChild(this.BauCua.node);
@@ -126,7 +127,8 @@ cc.Class({
     this.BauCua.openGame();
   },
   openMiniPoker: function () {
-    this.MiniPoker.openGame();
     this.minigame.insertChild(this.MiniPoker.node);
+    this.MiniPoker.node.active = false;
+    this.MiniPoker.openGame();
   },
 });
