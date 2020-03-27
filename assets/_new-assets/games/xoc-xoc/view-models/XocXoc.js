@@ -225,11 +225,13 @@ cc.Class({
 			this.loading.active = true;
 		}
 		void 0 !== this.timeOut && clearTimeout(this.timeOut);
+		let self = this;
 		cc.game.off(cc.game.EVENT_HIDE, self.backGame);
 		cc.director.loadScene('MainGame');
 	},
 	signOut: function () {
 		clearInterval(this.timeInterval);
+		let self = this;
 		cc.game.off(cc.game.EVENT_HIDE, self.backGame);
 		cc.director.loadScene('MainGame', function () {
 			cc.RedT.inGame.signOut();

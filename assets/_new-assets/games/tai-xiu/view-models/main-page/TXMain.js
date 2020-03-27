@@ -137,6 +137,14 @@ cc.Class({
     efXiu: TaiXiu_efScale,
     efChan: TaiXiu_efScale,
     efLe: TaiXiu_efScale,
+    winningTai: {
+      default: null,
+      type: cc.Animation
+    },
+    winningXiu: {
+      default: null,
+      type: cc.Animation
+    },
     frameNan: {
       default: [],
       type: cc.SpriteFrame
@@ -646,6 +654,11 @@ cc.Class({
   efStop: function () {
     this.efTai.stop();
     this.efXiu.stop();
+
+    this.winningTai.node.active = false;
+    this.winningTai.stop();
+    this.winningXiu.node.active = false;
+    this.winningXiu.stop();
     // this.efLe.stop();
     // this.efChan.stop();
   },
@@ -1078,8 +1091,12 @@ cc.Class({
     this.nodeKetQua.active = true;
     if (this.diemSo > 10) {
       this.efTai.play();
+      this.winningTai.node.active = true;
+      this.winningTai.play();
     } else {
       this.efXiu.play();
+      this.winningXiu.node.active = true;
+      this.winningXiu.play();
     }
     // if (this.diemSo % 2) {
     //   this.efLe.play();
