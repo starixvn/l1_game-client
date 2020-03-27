@@ -129,24 +129,29 @@ cc.Class({
     this.localPhien = "";
 
     var self = this;
-    cc.game.on(cc.game.EVENT_HIDE, function () {
-      self.Animation.off("finished", self.AnimationFinish, self);
-      self.resetGame();
-      clearInterval(self.timeInterval);
-    });
+    cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
+    cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
+  },
+  onGameShow() {
+    this.Animation.on("finished", this.AnimationFinish, this);
 
-    cc.game.on(cc.game.EVENT_SHOW, function () {
-      self.Animation.on("finished", self.AnimationFinish, self);
-
-      var data = {
-        g: {
-          baucua: {
-            regOpen: true
-          }
+    var data = {
+      g: {
+        baucua: {
+          regOpen: true
         }
-      };
-      cc.RedT.send(data);
-    });
+      }
+    };
+    cc.RedT.send(data);
+  },
+  onGameHide() {
+    this.Animation.off("finished", this.AnimationFinish, this);
+    this.resetGame();
+    clearInterval(self.timeInterval);
+  },
+  onDestroy() {
+    cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+    cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
   },
   onLoad() {
     this.ttOffset = null;
