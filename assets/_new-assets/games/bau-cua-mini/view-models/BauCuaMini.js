@@ -129,8 +129,8 @@ cc.Class({
     this.localPhien = "";
 
     var self = this;
-    cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
-    cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
+    cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
+    cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
   },
   onGameShow() {
     this.Animation.on("finished", this.AnimationFinish, this);
