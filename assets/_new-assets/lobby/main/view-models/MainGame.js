@@ -43,6 +43,9 @@ cc.Class({
     url: cc.String,
     appApk: cc.String
   },
+  onDestroy() {
+    cc.RedT.MiniPanel.node.destroy();
+  },
   onLoad: function () {
     document.cookie = "redT=1702;path=/";
     if (void 0 === cc.RedT) {
