@@ -133,7 +133,7 @@ function triggerSignIn(mainGame) {
 
 function checkAndUpdateRecheckIn() {
     let session = getSession();
-    const isSessionExpired = true;
+    let isSessionExpired = true;
 
     try {
 
