@@ -649,8 +649,6 @@ cc.Class({
         Constants.betTime + Constants.waitTime;
       this.playTime();
     }
-
-
   },
   efStop: function () {
     this.efTai.stop();
@@ -683,7 +681,6 @@ cc.Class({
             }
           }
         } else {
-
           if (!!this.dice[0].node.active) {
             this.setDice(false, false);
             this.reset();
@@ -1075,6 +1072,9 @@ cc.Class({
     this.TX_Chat.reset();
   },
   status: function (data) {
+    if (!cc.RedT.GAME_IS_SHOWED) {
+      return;
+    }
     setTimeout(
       function () {
         if (!this.isNan) {
@@ -1087,18 +1087,15 @@ cc.Class({
   },
   showResult: function () {
     this.nodeKetQua.active = true;
+    this.efStop();
     if (this.diemSo > 10) {
       this.efTai.play();
-      if (cc.RedT.GAME_IS_SHOWED) {
-        this.winningTai.node.active = true;
-        this.winningTai.play();
-      }
+      this.winningTai.node.active = true;
+      this.winningTai.play();
     } else {
       this.efXiu.play();
-      if (cc.RedT.GAME_IS_SHOWED) {
-        this.winningXiu.node.active = true;
-        this.winningXiu.play();
-      }
+      this.winningXiu.node.active = true;
+      this.winningXiu.play();
     }
     // if (this.diemSo % 2) {
     //   this.efLe.play();
