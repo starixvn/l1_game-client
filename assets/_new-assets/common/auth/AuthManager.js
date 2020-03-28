@@ -1,4 +1,5 @@
 const httpHelper = require('httpHelper');
+const axios = require('./axios');
 const configs = require('Configs');
 const logger = require('./../logger')();
 const sessionIdStorageName = 'scss';
@@ -13,10 +14,12 @@ function preChecking(cb, labelMessage) {
         return;
     }
 
-    httpHelper.get(settingUrl, function (settingResponse) {
+    axios.get(settingUrl).then(function (responseData) {
         // redirectDomain: 'http://demo.com',
         //     disabledDirectLogin: appConfigs.disabledDirectLogin,
         //     um: redT.isUM
+
+        let settingResponse = responseData.data;
         try {
             if (settingResponse.um) {
                 cc.director.loadScene("um");
@@ -42,7 +45,9 @@ function preChecking(cb, labelMessage) {
 
 
         cb();
-    }, true);
+    });
+
+    //httpHelper.get(settingUrl, , true);
 }
 
 function checkSSO(labelMessage, cb) {
@@ -54,7 +59,11 @@ function checkSSO(labelMessage, cb) {
         const url = `${configs.gameServerUrl}authenticate?token=${urlParams.get("token")}`;
 
         try {
-            httpHelper.get(url, function (response) {
+            // httpHelper.get(url, function (response) {
+
+            // });
+            axios.get(url, function (responseData) {
+                let response = responseData.data;
                 if (response.isAuthenticated) {
                     window.authData = response;
                     window.authData.time = new Date();
