@@ -147,7 +147,7 @@ cc.Class({
   onGameHide() {
     this.Animation.off("finished", this.AnimationFinish, this);
     this.resetGame();
-    clearInterval(self.timeInterval);
+    clearInterval(this.timeInterval);
   },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
