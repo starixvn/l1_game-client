@@ -1092,7 +1092,6 @@ cc.Class({
       this.efTai.play();
       this.winningTai.node.active = true;
       this.winningTai.play();
-
     } else {
       this.efXiu.play();
       this.winningXiu.node.active = true;
