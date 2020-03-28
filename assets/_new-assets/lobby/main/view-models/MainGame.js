@@ -205,10 +205,15 @@ cc.Class({
     }
 
     if (!!data.kickedOut) {
-      this.notice.show({
-        title: "THÔNG BÁO",
-        text: data.kickedOut.message
-      });
+      if (data.kickedOut.isUM) {
+        cc.director.loadScene("um");
+      }
+      else {
+        this.notice.show({
+          title: "THÔNG BÁO",
+          text: data.kickedOut.message
+        });
+      }
     }
   },
   captcha: function (data) {
