@@ -312,11 +312,6 @@ cc.Class({
 		if (!!data.time) {
 			this.time_remain = data.time;
 			this.playTime();
-			if (this.time_remain > 31 && data.logs.length) {
-				this.nodeBat.position = cc.v2(0, 150);
-				let dots = data.logs[0].dots;
-				this.setDot([dots[0], dots[1], dots[2], dots[3]]);
-			}
 		}
 		if (!!data.data) {
 			this.updateData(data.data);
@@ -325,6 +320,13 @@ cc.Class({
 			this.logs = data.logs;
 			this.setLogs();
 			this.setGameRound();
+
+			if (this.time_remain > 31 && data.logs.length) {
+				this.nodeBat.position = cc.v2(0, 150);
+				let dots = data.logs[0].dots;
+				this.setDot([dots[0], dots[1], dots[2], dots[3]]);
+				this.showKQ();
+			}
 		}
 		if (!!data.me) {
 			this.updateMe(data.me);
