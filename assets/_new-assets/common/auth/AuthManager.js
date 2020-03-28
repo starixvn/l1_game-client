@@ -1,5 +1,6 @@
 const httpHelper = require('httpHelper');
 const configs = require('Configs');
+const logger = require('./../logger')();
 const sessionIdStorageName = 'scss';
 const sessionExpiredTimeoutMunutes = 4.8;
 
@@ -68,7 +69,7 @@ function checkSSO(labelMessage, cb) {
         }
         catch (error) {
             labelMessage.string = "Đăng nhập lỗi.";
-            console.log(error);
+            logger.logError(error);
         }
 
         isSuccess = true;
@@ -131,23 +132,29 @@ function triggerSignIn(mainGame) {
 }
 
 function checkAndUpdateRecheckIn() {
-    const session = getSession();
+    let session = getSession();
     const isSessionExpired = true;
 
-    if (session && session.time) {
-        const now = new Date();
-        const lastRecheckIn = new Date(session.time);
-        const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
-        console.log(`differenceInMinutes: ${differenceInMinutes}`)
+    try {
 
-        if (differenceInMinutes > sessionExpiredTimeoutMunutes) {
-            signOut();
+        if (session && session.time) {
+            const now = new Date();
+            const lastRecheckIn = new Date(session.time);
+            const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
+            console.log(`differenceInMinutes: ${differenceInMinutes}`)
+
+            if (differenceInMinutes > sessionExpiredTimeoutMunutes) {
+                signOut();
+            }
+            else {
+                session.time = new Date();
+                isSessionExpired = false;
+                storeSessionData(session);
+            }
         }
-        else {
-            session.time = new Date();
-            isSessionExpired = false;
-            storeSessionData(session);
-        }
+    }
+    catch (ex) {
+        logger.logError(ex);
     }
 
     return isSessionExpired;
