@@ -17,22 +17,26 @@ function preChecking(cb, labelMessage) {
         // redirectDomain: 'http://demo.com',
         //     disabledDirectLogin: appConfigs.disabledDirectLogin,
         //     um: redT.isUM
-        if (settingResponse.um) {
-            cc.director.loadScene("um");
+        try {
+            if (settingResponse.um) {
+                cc.director.loadScene("um");
 
-            return settingResponse;
-        }
+                return settingResponse;
+            }
 
-        let isSessionExpired = checkAndUpdateRecheckIn();
-        if (isSessionExpired && !urlParams.has("token") && settingResponse.disabledDirectLogin) {
-            //labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
-            abelMessage.string = "Phiên làm việc của bạn đã hết hạn, chúng tôi sẽ đưa bạn trở về trang chủ sau 10s";
+            let isSessionExpired = checkAndUpdateRecheckIn();
+            if (isSessionExpired && !urlParams.has("token") && settingResponse.disabledDirectLogin) {
+                //labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
+                labelMessage.string = "Phiên làm việc của bạn đã hết hạn, chúng tôi sẽ đưa bạn trở về trang chủ sau 10s";
 
-            setTimeout(() => {
-                window.location.href = settingResponse.redirectDomain;
-            }, 10 * 1000);
+                setTimeout(() => {
+                    window.location.href = settingResponse.redirectDomain;
+                }, 10 * 1000);
 
-            return settingResponse;
+                return settingResponse;
+            }
+        } catch (ex) {
+            logger.logError(ex);
         }
 
 
