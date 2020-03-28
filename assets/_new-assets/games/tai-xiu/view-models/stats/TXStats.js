@@ -105,7 +105,7 @@ cc.Class({
 		},
 	},
 	init(obj) {
-		this.RedT = obj;
+		this.TXRoot = obj;
 
 		if (void 0 !== cc.RedT.setting.taixiu.tk_position) {
 			this.node.position = cc.RedT.setting.taixiu.tk_position;
@@ -116,15 +116,12 @@ cc.Class({
 		}
 
 		//KetQuaDot
-		Promise.all(this.KetQuaDot.children.map(function (obj) {
+		this.KetQuaDot = this.KetQuaDot.children.map(function (obj) {
 			return obj.getComponent(cc.Sprite);
-		}))
-			.then(result => {
-				this.KetQuaDot = result;
-			});
+		});
 
 		//DiemSoCel
-		Promise.all(this.DiemSoCel.children.map(function (cel) {
+		var DiemSoCel = Promise.all(this.DiemSoCel.children.map(function (cel) {
 			cel.RedT = Promise.all(cel.children.map(function (obj) {
 				obj.text = obj.children[0].getComponent(cc.Label);
 				return obj;
@@ -139,7 +136,7 @@ cc.Class({
 			});
 
 		//dice1_dot
-		Promise.all(this.dice1_dot.children.map(function (dot) {
+		var dice1 = Promise.all(this.dice1_dot.children.map(function (dot) {
 			dot.text = dot.children[0].getComponent(cc.Label);
 			return dot;
 		}))
@@ -148,7 +145,7 @@ cc.Class({
 			});
 
 		//dice2_dot
-		Promise.all(this.dice2_dot.children.map(function (dot) {
+		var dice2 = Promise.all(this.dice2_dot.children.map(function (dot) {
 			dot.text = dot.children[0].getComponent(cc.Label);
 			return dot;
 		}))
@@ -157,7 +154,7 @@ cc.Class({
 			});
 
 		//dice3_dot
-		Promise.all(this.dice3_dot.children.map(function (dot) {
+		var dice3 = Promise.all(this.dice3_dot.children.map(function (dot) {
 			dot.text = dot.children[0].getComponent(cc.Label);
 			return dot;
 		}))
@@ -166,13 +163,22 @@ cc.Class({
 			});
 
 		//tong_dot
-		Promise.all(this.tong_dot.children.map(function (dot) {
+		var tong_dot = Promise.all(this.tong_dot.children.map(function (dot) {
 			dot.text = dot.children[0].getComponent(cc.Label);
 			return dot;
 		}))
 			.then(result => {
 				this.tong_dots = result;
 			});
+
+		var self = this;
+		Promise.all([DiemSoCel, dice1, dice2, dice3, tong_dot])
+			.then(() => {
+				self.TXRoot.TX_Main.updateTXStats();
+			});
+	},
+	onDestroy() {
+		this.TXRoot.TXStats = null;
 	},
 	onLoad() {
 		this.ttOffset = null;
@@ -186,16 +192,16 @@ cc.Class({
 	},
 	onEnable: function () {
 		this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
-		this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-		this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-		this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+		// this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+		// this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+		// this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
 		// this.background.on(cc.Node.EventType.MOUSE_ENTER,  this.setTop,     this);
 	},
 	onDisable: function () {
 		this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
-		this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-		this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-		this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+		// this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+		// this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+		// this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
 		// this.background.off(cc.Node.EventType.MOUSE_ENTER,  this.setTop,     this);
 	},
 	onChangerGame: function () {
@@ -214,7 +220,7 @@ cc.Class({
 	},
 	setTop: function () {
 		this.node.parent.insertChild(this.node);
-		this.RedT.setTop();
+		this.TXRoot.setTop();
 	},
 	onSelectHeader: function (event, name) {
 		Promise.all(this.header.map(function (header) {
@@ -232,10 +238,9 @@ cc.Class({
 			}
 		}));
 	},
-	onToggleClick: function () {
+	closeDialog: function () {
 		cc.RedT.audio.playClick();
-		this.setTop();
-		this.node.active = cc.RedT.setting.taixiu.tk_active = !this.node.active;
+		this.node.destroy();
 	},
 	onChangerClick: function () {
 		this.node1.active = !this.node1.active;
@@ -260,9 +265,9 @@ cc.Class({
 				line = this.tong_dots[n];
 			0 === n ? obj.moveTo(temp.x, temp.y) : (obj.lineTo(temp.x, temp.y));
 			line.text.string = temp.tong;
-			line.text.node.color = this.RedT.TX_Main.taixiu ? (temp.tong > 10 ? cc.Color.WHITE : cc.Color.BLACK) : (temp.tong % 2 ? cc.Color.WHITE : cc.Color.BLACK);
+			line.text.node.color = this.TXRoot.TX_Main.taixiu ? (temp.tong > 10 ? cc.Color.WHITE : cc.Color.BLACK) : (temp.tong % 2 ? cc.Color.WHITE : cc.Color.BLACK);
 			line.position = cc.v2(line.position.x, temp.y);
-			line.color = this.RedT.TX_Main.taixiu ? (temp.tong > 10 ? cc.Color.BLACK : cc.Color.WHITE) : (temp.tong % 2 ? cc.Color.BLACK : cc.Color.YELLOW);
+			line.color = this.TXRoot.TX_Main.taixiu ? (temp.tong > 10 ? cc.Color.BLACK : cc.Color.WHITE) : (temp.tong % 2 ? cc.Color.BLACK : cc.Color.YELLOW);
 		}
 		obj.stroke();
 	},
