@@ -1,14 +1,12 @@
-var TX_Main = require("TXMain"),
-  TX_ThongKe = require("TXStats"),
-  TX_Top = require("TXTop");
+var TX_Main = require("TXMain");
 
 cc.Class({
   extends: cc.Component,
   properties: {
     TX_Main: TX_Main,
-    TX_ThongKe: TX_ThongKe,
-    TX_Top: TX_Top,
     board: true,
+    TX_StatsPrefab: cc.Prefab,
+    TX_TopPrefab: cc.Prefab,
     TX_HistoryPrefab: cc.Prefab,
     TX_HistoryBetPrefab: cc.Prefab,
     GuidePrefab: cc.Prefab,
@@ -18,8 +16,6 @@ cc.Class({
     this.miniPanel = obj;
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
     this.TX_Main.init(this);
-    this.TX_ThongKe.init(this);
-    this.TX_Top.init(this);
     var check = localStorage.getItem("taixiu");
 
     if (check == "true") {
@@ -53,7 +49,7 @@ cc.Class({
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
-    this.node.active = this.TX_Top.node.active = this.TX_ThongKe.node.active = this.TX_Main.TX_Board.node.active = !1;
+    this.node.destroy();
     localStorage.setItem("taixiu", false);
   },
   newGame: function () {
@@ -63,16 +59,28 @@ cc.Class({
   signIn: function () {
     !this.node.active && (this.TX_Main.nodeTimePopup.active = true);
   },
+  showTop: function () {
+    var dialog = cc.instantiate(this.TX_TopPrefab);
+    this.miniPanel.Dialog.insertChild(dialog);
+    this.TXTop = dialog.getComponent("TXTop");
+    this.TXTop.init(this);
+  },
+  showStats: function () {
+    var dialog = cc.instantiate(this.TX_StatsPrefab);
+    this.miniPanel.Dialog.insertChild(dialog);
+    this.TXStats = dialog.getComponent("TXStats");
+    this.TXStats.init(this);
+  },
   showHistory: function () {
-    var taiXiuHistoryPrefab = cc.instantiate(this.TX_HistoryPrefab);
-    this.miniPanel.Dialog.insertChild(taiXiuHistoryPrefab);
-    this.TXHistory = taiXiuHistoryPrefab.getComponent("TXHistory");
+    var dialog = cc.instantiate(this.TX_HistoryPrefab);
+    this.miniPanel.Dialog.insertChild(dialog);
+    this.TXHistory = dialog.getComponent("TXHistory");
     this.TXHistory.init(this);
   },
   showBetHistory: function (event) {
-    var taiXiuBetHistoryPrefab = cc.instantiate(this.TX_HistoryBetPrefab);
-    this.miniPanel.Dialog.insertChild(taiXiuBetHistoryPrefab);
-    this.TXBetHistory = taiXiuBetHistoryPrefab.getComponent("TXBetHistory");
+    var dialog = cc.instantiate(this.TX_HistoryBetPrefab);
+    this.miniPanel.Dialog.insertChild(dialog);
+    this.TXBetHistory = dialog.getComponent("TXBetHistory");
     this.TXBetHistory.init(this);
     this.TXBetHistory.getPhien(event.target.phien)
   },

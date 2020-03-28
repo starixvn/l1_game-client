@@ -48,17 +48,17 @@ cc.Class({
   },
   onEnable: function () {
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
-    this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-    this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-    this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+    // this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+    // this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+    // this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     // this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
     this.get_data();
   },
   onDisable: function () {
     this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
-    this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-    this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-    this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+    // this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+    // this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+    // this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
   },
   eventStart: function (e) {
@@ -81,10 +81,9 @@ cc.Class({
     this.node.parent.insertChild(this.node);
     this.RedT.setTop();
   },
-  toggle: function () {
-    this.setTop();
+  closeDialog: function () {
     cc.RedT.audio.playClick();
-    this.node.active = cc.RedT.setting.taixiu.top_active = !this.node.active;
+    this.node.destroy();
   },
   onChangerGame: function () {
     this.taixiu = !this.taixiu;

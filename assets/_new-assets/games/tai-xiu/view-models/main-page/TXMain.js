@@ -220,7 +220,7 @@ cc.Class({
     },
   },
   init: function (obj) {
-    this.RedT = obj;
+    this.TXRoot = obj;
     cc.RedT.setting.taixiu.data = cc.RedT.setting.taixiu.data || {
       taixiu: {},
       chanle: {},
@@ -335,7 +335,7 @@ cc.Class({
         });
       }
     };
-    if (this.RedT.board) {
+    if (this.TXRoot.board) {
       this.inputL.active = this.inputR.active = false;
       this.inputLeft.node.active = this.inputRight.node.active = true;
     }
@@ -346,9 +346,9 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     // this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
-    this.RedT.board && cc.sys.isBrowser && this.addEvent();
+    this.TXRoot.board && cc.sys.isBrowser && this.addEvent();
 
-    if (this.RedT.board) {
+    if (this.TXRoot.board) {
       BrowserUtil.inputAddEvent(this.inputLeft, "input", this.updateValue);
       BrowserUtil.inputAddEvent(this.inputRight, "input", this.updateValue);
     }
@@ -360,10 +360,10 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
-    this.RedT.board && cc.sys.isBrowser && this.removeEvent();
+    this.TXRoot.board && cc.sys.isBrowser && this.removeEvent();
     this.clean();
 
-    if (this.RedT.board) {
+    if (this.TXRoot.board) {
       BrowserUtil.inputRemoveEvent(this.inputLeft, "input", this.updateValue);
       BrowserUtil.inputRemoveEvent(this.inputRight, "input", this.updateValue);
     }
@@ -419,8 +419,8 @@ cc.Class({
     this.nodeChanLe.active = !this.taixiu;
     if (cc.RedT.setting.taixiu.getLogs) {
       this.dataLogs();
-      this.RedT.TX_ThongKe.onChangerGame();
-      this.RedT.TX_LichSuPhien.onChangerGame();
+      self.TXRoot.TXStats.onChangerGame();
+      this.TXRoot.TX_LichSuPhien.onChangerGame();
       this.taixiu && this.onDataTaiXiu(cc.RedT.setting.taixiu.data.taixiu);
       !this.taixiu && this.onDataChanLe(cc.RedT.setting.taixiu.data.chanle);
       this.onDuDay(cc.RedT.setting.taixiu.data.du_day);
@@ -466,7 +466,8 @@ cc.Class({
     this.totalLeft.node.color = this.totalRight.node.color = this.red
       ? this.totalRight.node.color.fromHEX("#FFEB0A")
       : this.totalRight.node.color.fromHEX("#FFFFFF");
-    this.RedT.TX_LichSuPhien.onChangerCoint();
+    //FIX ME: TX_LichSuPhien NOT FOUND
+    this.TXRoot.TX_LichSuPhien.onChangerCoint();
     this.taixiu && this.onDataTaiXiu(cc.RedT.setting.taixiu.data.taixiu);
     !this.taixiu && this.onDataChanLe(cc.RedT.setting.taixiu.data.chanle);
     this.onDuDay(cc.RedT.setting.taixiu.data.du_day);
@@ -489,7 +490,7 @@ cc.Class({
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
-    this.RedT.setTop();
+    this.TXRoot.setTop();
   },
   setBetButtonClicked(isClick, select) {
     if (isClick) {
@@ -515,11 +516,11 @@ cc.Class({
     this.inputOld = select;
     switch (select) {
       case "right":
-        this.input = this.RedT.board ? this.inputRight : this.inputRTxt;
+        this.input = this.TXRoot.board ? this.inputRight : this.inputRTxt;
         break;
 
       case "left":
-        this.input = this.RedT.board ? this.inputLeft : this.inputLTxt;
+        this.input = this.TXRoot.board ? this.inputLeft : this.inputLTxt;
         break;
     }
   },
@@ -564,7 +565,7 @@ cc.Class({
     }
 
     if (void 0 !== data.get_phien) {
-      this.RedT.TXBetHistory.onData(data.get_phien);
+      this.TXRoot.TXBetHistory.onData(data.get_phien);
     }
     if (void 0 !== data.err) {
       NoticeUtil.showNoticeMessage(this, data.err);
@@ -582,7 +583,7 @@ cc.Class({
       !this.taixiu && this.onDataChanLe(data.chanle);
     }
     if (void 0 !== data.get_top) {
-      this.RedT.TX_Top.onData(data.get_top);
+      this.TXRoot.TXTop.onData(data.get_top);
     }
     if (void 0 !== data.chat) {
       this.TX_Chat.onData(data.chat);
@@ -591,7 +592,7 @@ cc.Class({
       this.status(data.status);
     }
     if (void 0 !== data.get_log) {
-      this.RedT.TXHistory.onData(data.get_log);
+      this.TXRoot.TXHistory.onData(data.get_log);
     }
     if (void 0 !== data.logs) {
       cc.RedT.setting.taixiu.logs = data.logs;
@@ -903,168 +904,165 @@ cc.Class({
           }
         })
       );
-      //this.dotLogs
 
-      var line_dice1 = [];
-      var line_dice2 = [];
-      var line_dice3 = [];
-      var line_tong = [];
+      if (self.TXRoot.TXStats) {
+        this.updateTXStats();
+      }
+    }
+  },
+  updateTXStats() {
+    var self = this;
+    var line_dice1 = [];
+    var line_dice2 = [];
+    var line_dice3 = [];
+    var line_tong = [];
 
-      var tmp_DS = -1;
-      var tmp_arrA = [];
-      var tmp_arrB = [];
-      var c_tai = 0;
-      var c_xiu = 0;
+    var tmp_DS = -1;
+    var tmp_arrA = [];
+    var tmp_arrB = [];
+    var c_tai = 0;
+    var c_xiu = 0;
 
-      var sliced = cc.RedT.setting.taixiu.logs.slice(0, 19);
-      sliced.reverse();
-      // Line paint
-      var Paint = new Promise(function (resolve, reject) {
-        for (var i = 0; i < sliced.length; i++) {
-          var data = sliced[i];
-          if (void 0 !== data) {
-            self.RedT.TX_ThongKe.lineAc(i, true);
-            var dice1 = sliced[i].dice[0];
-            var dice2 = sliced[i].dice[1];
-            var dice3 = sliced[i].dice[2];
-            var tong = dice1 + dice2 + dice3;
+    var sliced = cc.RedT.setting.taixiu.logs.slice(0, 19);
+    sliced.reverse();
+    // Line paint
+    var Paint = new Promise(function (resolve, reject) {
+      for (var i = 0; i < sliced.length; i++) {
+        var data = sliced[i];
+        if (void 0 !== data) {
+          self.TXRoot.TXStats.lineAc(i, true);
+          var dice1 = sliced[i].dice[0];
+          var dice2 = sliced[i].dice[1];
+          var dice3 = sliced[i].dice[2];
+          var tong = dice1 + dice2 + dice3;
 
-            line_dice1[i] = { x: i * 28, y: dice1 * 28 - 28, dice: dice1 };
-            line_dice2[i] = { x: i * 28, y: dice2 * 28 - 28, dice: dice2 };
-            line_dice3[i] = { x: i * 28, y: dice3 * 28 - 28, dice: dice3 };
-            line_tong[i] = { x: i * 27.7, y: tong * 9.233 - 27.7, tong: tong };
-          } else {
-            self.RedT.TX_ThongKe.lineAc(i, false);
-          }
+          line_dice1[i] = { x: i * 28, y: dice1 * 28 - 28, dice: dice1 };
+          line_dice2[i] = { x: i * 28, y: dice2 * 28 - 28, dice: dice2 };
+          line_dice3[i] = { x: i * 28, y: dice3 * 28 - 28, dice: dice3 };
+          line_tong[i] = { x: i * 27.7, y: tong * 9.233 - 27.7, tong: tong };
+        } else {
+          self.TXRoot.TXStats.lineAc(i, false);
         }
-        self.RedT.TX_ThongKe.draw(
-          self.RedT.TX_ThongKe.dice1_line,
-          self.RedT.TX_ThongKe.dice1_dots,
-          line_dice1
-        );
-        self.RedT.TX_ThongKe.draw(
-          self.RedT.TX_ThongKe.dice2_line,
-          self.RedT.TX_ThongKe.dice2_dots,
-          line_dice2
-        );
-        self.RedT.TX_ThongKe.draw(
-          self.RedT.TX_ThongKe.dice3_line,
-          self.RedT.TX_ThongKe.dice3_dots,
-          line_dice3
-        );
-        self.RedT.TX_ThongKe.draw_Tong(
-          self.RedT.TX_ThongKe.tong_line,
-          line_tong
-        );
-      });
-
-      // Ket Qua
-      var KetQua = Promise.all(
-        this.RedT.TX_ThongKe.KetQuaDot.map(function (dot, index) {
-          var data = cc.RedT.setting.taixiu.logs[index];
-          if (void 0 !== data) {
-            dot.node.active = true;
-            var point = data.dice[0] + data.dice[1] + data.dice[2];
-            dot.spriteFrame = self.taixiu
-              ? point < 11
-                ? self.dot_white
-                : self.dot_black
-              : point % 2
-                ? self.dot_black
-                : self.dot_yellow;
-            return self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
-          } else {
-            dot.node.active = false;
-            return -1;
-          }
-        })
+      }
+      self.TXRoot.TXStats.draw(
+        self.TXRoot.TXStats.dice1_line,
+        self.TXRoot.TXStats.dice1_dots,
+        line_dice1
       );
+      self.TXRoot.TXStats.draw(
+        self.TXRoot.TXStats.dice2_line,
+        self.TXRoot.TXStats.dice2_dots,
+        line_dice2
+      );
+      self.TXRoot.TXStats.draw(
+        self.TXRoot.TXStats.dice3_line,
+        self.TXRoot.TXStats.dice3_dots,
+        line_dice3
+      );
+      self.TXRoot.TXStats.draw_Tong(
+        self.TXRoot.TXStats.tong_line,
+        line_tong
+      );
+    });
 
-      // Diem So
-      var diemSo = new Promise((resolve, reject) => {
-        var newArr = cc.RedT.setting.taixiu.logs.slice();
-        newArr.reverse();
-        for (var newDS of newArr) {
-          var point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
-          var type = self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
-          if (tmp_DS === -1) {
-            tmp_DS = type;
-          }
-          if (type != tmp_DS || tmp_arrB.length > 4) {
-            tmp_DS = type;
-            tmp_arrA.push(tmp_arrB);
-            tmp_arrB = [];
-          }
-          if (type == tmp_DS) {
-            tmp_arrB.push(point);
-          }
-        }
+    // Ket Qua
+    var ketqua = self.TXRoot.TXStats.KetQuaDot.map(function (dot, index) {
+      var data = cc.RedT.setting.taixiu.logs[index];
+      if (void 0 !== data) {
+        dot.node.active = true;
+        var point = data.dice[0] + data.dice[1] + data.dice[2];
+        dot.spriteFrame = self.taixiu
+          ? point < 11
+            ? self.dot_white
+            : self.dot_black
+          : point % 2
+            ? self.dot_black
+            : self.dot_yellow;
+        return self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+      } else {
+        dot.node.active = false;
+        return -1;
+      }
+    });
+
+    // Diem So
+    var newArr = cc.RedT.setting.taixiu.logs.slice();
+    newArr.reverse();
+    for (var newDS of newArr) {
+      var point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
+      var type = self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+      if (tmp_DS === -1) {
+        tmp_DS = type;
+      }
+      if (type != tmp_DS || tmp_arrB.length > 4) {
+        tmp_DS = type;
         tmp_arrA.push(tmp_arrB);
-        resolve(tmp_arrA);
-      });
+        tmp_arrB = [];
+      }
+      if (type == tmp_DS) {
+        tmp_arrB.push(point);
+      }
+    }
+    tmp_arrA.push(tmp_arrB);
 
-      Promise.all([KetQua, diemSo]).then(values => {
-        var newData = values[1];
-        newData.reverse();
-        newData = newData.slice(0, 20);
-        newData.reverse();
-        self.RedT.TX_ThongKe.KetQuaLeft.string = values[0].filter(
-          i => i == 1
-        ).length;
-        self.RedT.TX_ThongKe.KetQuaRight.string = values[0].filter(
-          i => i == 0
-        ).length;
-        Promise.all(
-          self.RedT.TX_ThongKe.DiemSoCel.map(function (obj, i) {
-            var data = newData[i];
-            if (void 0 !== data) {
-              obj.active = true;
-              return Promise.all(
-                obj.RedT.map(function (current, index) {
-                  var data_Cel = data[index];
-                  if (void 0 !== data_Cel) {
-                    var type = self.taixiu
-                      ? data_Cel > 10
-                        ? true
-                        : false
-                      : data_Cel % 2
-                        ? false
-                        : true;
-                    c_tai = type ? c_tai + 1 : c_tai;
-                    c_xiu = !type ? c_xiu + 1 : c_xiu;
-                    current.active = true;
-                    current.color = self.taixiu
-                      ? type
-                        ? cc.Color.BLACK
-                        : cc.Color.WHITE
-                      : type
-                        ? cc.Color.YELLOW
-                        : cc.Color.BLACK;
-                    current.text.string = data_Cel;
-                    current.text.node.color = self.taixiu
-                      ? type
-                        ? cc.Color.WHITE
-                        : cc.Color.BLACK
-                      : type
-                        ? cc.Color.BLACK
-                        : cc.Color.WHITE;
-                  } else {
-                    current.active = false;
-                  }
-                  return void 0;
-                })
-              );
+    var newData = tmp_arrA;
+    newData.reverse();
+    newData = newData.slice(0, 20);
+    newData.reverse();
+    self.TXRoot.TXStats.KetQuaLeft.string = ketqua.filter(
+      i => i == 1
+    ).length;
+    self.TXRoot.TXStats.KetQuaRight.string = ketqua.filter(
+      i => i == 0
+    ).length;
+
+    self.TXRoot.TXStats.DiemSoCel.forEach(function (obj, i) {
+      var data = newData[i];
+      if (void 0 !== data) {
+        obj.active = true;
+        return Promise.all(
+          obj.RedT.map(function (current, index) {
+            var data_Cel = data[index];
+            if (void 0 !== data_Cel) {
+              var type = self.taixiu
+                ? data_Cel > 10
+                  ? true
+                  : false
+                : data_Cel % 2
+                  ? false
+                  : true;
+              c_tai = type ? c_tai + 1 : c_tai;
+              c_xiu = !type ? c_xiu + 1 : c_xiu;
+              current.active = true;
+              current.color = self.taixiu
+                ? type
+                  ? cc.Color.BLACK
+                  : cc.Color.WHITE
+                : type
+                  ? cc.Color.YELLOW
+                  : cc.Color.BLACK;
+              current.text.string = data_Cel;
+              current.text.node.color = self.taixiu
+                ? type
+                  ? cc.Color.WHITE
+                  : cc.Color.BLACK
+                : type
+                  ? cc.Color.BLACK
+                  : cc.Color.WHITE;
             } else {
-              obj.active = false;
+              current.active = false;
             }
             return void 0;
           })
-        ).then(varT => {
-          self.RedT.TX_ThongKe.DiemSoLeft.string = c_tai;
-          self.RedT.TX_ThongKe.DiemSoRight.string = c_xiu;
-        });
-      });
-    }
+        );
+      } else {
+        obj.active = false;
+      }
+      return void 0;
+    })
+
+    self.TXRoot.TXStats.DiemSoLeft.string = c_tai;
+    self.TXRoot.TXStats.DiemSoRight.string = c_xiu;
   },
   reset: function () {
     this.setPhien();
