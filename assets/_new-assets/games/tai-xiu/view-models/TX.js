@@ -49,7 +49,7 @@ cc.Class({
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
-    this.node.destroy();
+    this.node.active = !1;
     localStorage.setItem("taixiu", false);
   },
   newGame: function () {

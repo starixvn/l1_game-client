@@ -1089,12 +1089,16 @@ cc.Class({
     this.nodeKetQua.active = true;
     if (this.diemSo > 10) {
       this.efTai.play();
-      this.winningTai.node.active = true;
-      this.winningTai.play();
+      if (cc.RedT.GAME_IS_SHOWED) {
+        this.winningTai.node.active = true;
+        this.winningTai.play();
+      }
     } else {
       this.efXiu.play();
-      this.winningXiu.node.active = true;
-      this.winningXiu.play();
+      if (cc.RedT.GAME_IS_SHOWED) {
+        this.winningXiu.node.active = true;
+        this.winningXiu.play();
+      }
     }
     // if (this.diemSo % 2) {
     //   this.efLe.play();
@@ -1103,6 +1107,9 @@ cc.Class({
     // }
   },
   showBetWinLoss: function (data) {
+    if (!cc.RedT.GAME_IS_SHOWED) {
+      return;
+    }
     var temp = new cc.Node();
     temp.addComponent(cc.Label);
     temp = temp.getComponent(cc.Label);
