@@ -66,15 +66,17 @@ cc.Class({
     this.updateProgress(0);
     this.messageLabel.string = "Đang lấy dữ liệu game ...";
     if (cc.sys.isBrowser && authManager) {
-      authManager.checkAndUpdateRecheckIn();
-      if (authManager.checkSSO(this.messageLabel, function () {
-        this.loadScene()
-      }.bind(this))) {
-        return;
-      }
-      else {
-        this.loadScene();
-      }
+      let self = this;
+      authManager.preChecking(() => {
+        if (!authManager.checkSSO(
+          self.messageLabel,
+          function () { self.loadScene(); })) {
+          self.loadScene();
+        }
+
+        // const isSessionExpired = authManager.checkAndUpdateRecheckIn();
+        // if()
+      }, self.messageLabel);
     }
     else {
       this.loadScene();

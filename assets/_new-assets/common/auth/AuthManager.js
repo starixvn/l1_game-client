@@ -1,11 +1,55 @@
 const httpHelper = require('httpHelper');
 const configs = require('Configs');
+const logger = require('./../logger')();
 const sessionIdStorageName = 'scss';
+const sessionExpiredTimeoutMunutes = 4.8;
+
+function preChecking(cb, labelMessage) {
+    const settingUrl = `${configs.gameServerUrl}api/settings`;
+    let urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("isUM") && urlParams.get("isUM") == 'true') {
+
+        cc.director.loadScene("um");
+        return;
+    }
+
+    httpHelper.get(settingUrl, function (settingResponse) {
+        // redirectDomain: 'http://demo.com',
+        //     disabledDirectLogin: appConfigs.disabledDirectLogin,
+        //     um: redT.isUM
+        try {
+            if (settingResponse.um) {
+                cc.director.loadScene("um");
+
+                return settingResponse;
+            }
+
+            let isSessionExpired = checkAndUpdateRecheckIn();
+            if (isSessionExpired && !urlParams.has("token") && settingResponse.disabledDirectLogin) {
+                //labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
+                labelMessage.string = "Phiên làm việc của bạn đã hết hạn, chúng tôi sẽ đưa bạn trở về trang chủ sau 10s";
+
+                setTimeout(() => {
+                    window.location.href = settingResponse.redirectDomain;
+                }, 10 * 1000);
+
+                return settingResponse;
+            }
+        } catch (ex) {
+            logger.logError(ex);
+        }
+
+
+
+        cb();
+    }, true);
+}
 
 function checkSSO(labelMessage, cb) {
     let isSuccess = false;
     let urlParams = new URLSearchParams(window.location.search);
     let authData = getSession();
+
     if (urlParams.has("token")) {
         const url = `${configs.gameServerUrl}authenticate?token=${urlParams.get("token")}`;
 
@@ -29,7 +73,7 @@ function checkSSO(labelMessage, cb) {
         }
         catch (error) {
             labelMessage.string = "Đăng nhập lỗi.";
-            console.log(error);
+            logger.logError(error);
         }
 
         isSuccess = true;
@@ -92,23 +136,34 @@ function triggerSignIn(mainGame) {
 }
 
 function checkAndUpdateRecheckIn() {
-    const session = getSession();
+    let session = getSession();
+    let isSessionExpired = true;
 
-    if (session && session.time) {
-        const now = new Date();
-        const lastRecheckIn = new Date(session.time);
-        const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
-        console.log(`differenceInMinutes: ${differenceInMinutes}`)
+    try {
 
-        if (differenceInMinutes > 4.8) {
-            signOut();
-        }
-        else {
-            session.time = new Date();
-            storeSessionData(session);
+        if (session && session.time) {
+            const now = new Date();
+            const lastRecheckIn = new Date(session.time);
+            const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
+            console.log(`differenceInMinutes: ${differenceInMinutes}`)
+
+            if (differenceInMinutes > sessionExpiredTimeoutMunutes) {
+                //signOut();
+            }
+            else {
+                session.time = new Date();
+                isSessionExpired = false;
+                storeSessionData(session);
+            }
         }
     }
+    catch (ex) {
+        logger.logError(ex);
+    }
+
+    return isSessionExpired;
 }
+
 
 module.exports = {
     checkSSO,
@@ -116,5 +171,6 @@ module.exports = {
     storeSessionData,
     triggerSignIn,
     checkAndUpdateRecheckIn,
-    isSSO
+    isSSO,
+    preChecking
 }

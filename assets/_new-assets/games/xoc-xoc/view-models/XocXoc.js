@@ -348,7 +348,6 @@ cc.Class({
 		for (let i = 0; i < length; i++) {
 			let player = players[i];
 			this.players[i].setInfo(player);
-			this.players[i].setAvatar();
 			this.Positions[i + 1].data = player;
 			delete data[player.id];
 		}
@@ -367,7 +366,6 @@ cc.Class({
 				var selectedPos = emptySlots[0];
 				this.Positions[selectedPos.id].data = player;
 				this.players[selectedPos.id - 1].setInfo(player);
-				this.players[selectedPos.id - 1].setAvatar();
 			} else {
 				this.otherPlayers[player.id] = player;
 			}

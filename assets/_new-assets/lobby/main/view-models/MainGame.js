@@ -84,6 +84,7 @@ cc.Class({
       this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
+      this.header.setAvatar(cc.RedT.user.avatarId);
     }
 
     this.center.on("size-changed", this.repositionMenu, this);
@@ -205,10 +206,15 @@ cc.Class({
     }
 
     if (!!data.kickedOut) {
-      this.notice.show({
-        title: "THÔNG BÁO",
-        text: data.kickedOut.message
-      });
+      if (data.kickedOut.isUM) {
+        cc.director.loadScene("um");
+      }
+      else {
+        this.notice.show({
+          title: "THÔNG BÁO",
+          text: data.kickedOut.message
+        });
+      }
     }
   },
   captcha: function (data) {
