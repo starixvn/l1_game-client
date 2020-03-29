@@ -98,7 +98,7 @@ cc.Class({
       red: true,
       bet: "1"
     };
-
+    cc.RedT.setting.baucua.regOpen = false;
     this.disabled = false;
 
     var check = localStorage.getItem("bauCua");
@@ -692,6 +692,9 @@ cc.Class({
   //   void 0 !== this.timeInterval && clearInterval(this.timeInterval);
   // },
   status: function (data) {
+    if (!cc.RedT.GAME_IS_SHOWED) {
+      return;
+    }
     setTimeout(
       function () {
         var temp = new cc.Node();
