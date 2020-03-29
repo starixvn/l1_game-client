@@ -146,9 +146,9 @@ cc.Class({
     cc.RedT.send(data);
   },
   onGameHide() {
+    clearInterval(this.timeInterval);
     this.Animation.off("finished", this.AnimationFinish, this);
     this.resetGame();
-    clearInterval(this.timeInterval);
   },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
@@ -533,6 +533,7 @@ cc.Class({
           // this.Animation.node.active = false;
           // }
         } else {
+          this.waitedTime.node.parent.active = false;
           this.Animation.node.active = false;
           this.setPhien(this.localPhien);
 
