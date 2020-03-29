@@ -10,14 +10,14 @@ cc.Class({
 			type: cc.EditBox,
 		},
 	},
-	onLoad () {
+	onLoad() {
 		var self = this;
-		this.keyHandle = function(t) {
+		this.keyHandle = function (t) {
 			return t.keyCode === cc.macro.KEY.tab ? (self.changeNextFocusEditBox(),
 				t.preventDefault && t.preventDefault(),
 				!1) : t.keyCode === cc.macro.KEY.enter ? (BrowserUtil.focusGame(), self.onSignNameClick(),
-				t.preventDefault && t.preventDefault(),
-				!1) : void 0
+					t.preventDefault && t.preventDefault(),
+					!1) : void 0
 		}
 	},
 	onEnable: function () {
@@ -29,16 +29,16 @@ cc.Class({
 		this.clean();
 		cc.RedT.inGame.dialog.resetSizeDialog(this.node);
 	},
-	addEvent: function() {
+	addEvent: function () {
 		cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
 		BrowserUtil.getHTMLElementByEditBox(this.username).addEventListener("keydown", this.keyHandle, !1)
 	},
-	removeEvent: function() {
+	removeEvent: function () {
 		BrowserUtil.getHTMLElementByEditBox(this.username).removeEventListener("keydown", this.keyHandle, !1)
 		cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
 	},
 	onKeyDown: function (event) {
-		switch(event.keyCode) {
+		switch (event.keyCode) {
 			case cc.macro.KEY.tab:
 				this.isTop() && this.changeNextFocusEditBox();
 				break;
@@ -46,21 +46,21 @@ cc.Class({
 				this.isTop() && this.onSignNameClick();
 		}
 	},
-	changeNextFocusEditBox: function() {
+	changeNextFocusEditBox: function () {
 		BrowserUtil.focusEditBox(this.username)
 	},
-	isTop: function() {
+	isTop: function () {
 		return !cc.RedT.inGame.notice.node.active && !cc.RedT.inGame.loading.active;
 	},
-	clean: function(){
+	clean: function () {
 		this.username.string = '';
 	},
-	onSignNameClick: function() {
-		if (this.username.string.length > 14 || this.username.string.length < 3 || this.username.string.match(new RegExp("^[a-zA-Z0-9]+$")) === null){
-			cc.RedT.inGame.notice.show({title:"TÊN NHÂN VẬT", text:'Tên Nhân vật từ 3 đến 14 ký tự và không chứa ký tự đặc biệt!!'});
-		}else{
+	onSignNameClick: function () {
+		if (this.username.string.length > 14 || this.username.string.length < 3 || this.username.string.match(new RegExp("^[a-zA-Z0-9]+$")) === null) {
+			cc.RedT.inGame.notice.show({ title: "TÊN NHÂN VẬT", text: 'Tên Nhân vật từ 3 đến 14 ký tự và không chứa ký tự đặc biệt' });
+		} else {
 			//Ricky: Client SignName
-			cc.RedT.send({signName: this.username.string});
+			cc.RedT.send({ signName: this.username.string });
 		}
 
 	},
