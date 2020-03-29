@@ -98,7 +98,8 @@ cc.Class({
       red: true,
       bet: "1"
     };
-    cc.RedT.setting.baucua.regOpen = false;
+
+    cc.RedT.setting.baucua.regOpen = false; // force get new data when back from other scene
     this.disabled = false;
 
     var check = localStorage.getItem("bauCua");
