@@ -99,6 +99,7 @@ cc.Class({
       bet: "1"
     };
 
+    cc.RedT.setting.baucua.regOpen = false; // force get new data when back from other scene
     this.disabled = false;
 
     var check = localStorage.getItem("bauCua");
@@ -145,9 +146,9 @@ cc.Class({
     cc.RedT.send(data);
   },
   onGameHide() {
+    clearInterval(this.timeInterval);
     this.Animation.off("finished", this.AnimationFinish, this);
     this.resetGame();
-    clearInterval(this.timeInterval);
   },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
@@ -532,6 +533,7 @@ cc.Class({
           // this.Animation.node.active = false;
           // }
         } else {
+          this.waitedTime.node.parent.active = false;
           this.Animation.node.active = false;
           this.setPhien(this.localPhien);
 
@@ -692,6 +694,9 @@ cc.Class({
   //   void 0 !== this.timeInterval && clearInterval(this.timeInterval);
   // },
   status: function (data) {
+    if (!cc.RedT.GAME_IS_SHOWED) {
+      return;
+    }
     setTimeout(
       function () {
         var temp = new cc.Node();

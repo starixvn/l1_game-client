@@ -1,6 +1,17 @@
+variables:
+  GIT_COMPILED_REPO: git@gitlab.com:l1-compiled/game-client-compiled.git
 stages:
   - build
   - deploy
+
+before_script:
+  - echo "====== Build Cocos Web Mobile ======"
+  - eval $(ssh-agent -s)
+  - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 
 build:
   stage: build
@@ -11,15 +22,11 @@ build:
   only:
     - master
 
-deploy-ios-testflight:
+mobile_deploy_ios_testflight:
   stage: deploy
   script:
     - echo "====== Build Cocos Web Mobile ======"
-    - eval $(ssh-agent -s)
-    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-    - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
     - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=ios;optimizeHotUpdate=true"
     - cp -R ./build-files/ios/ ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
     - cd ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
@@ -32,16 +39,11 @@ deploy-ios-testflight:
     - /^deploy-ios-\d{8}-\d+.*$/
     - /^deploy-\d{8}-\d+.*$/
     
-deploy-web-mobile_LOCAL:
+local_deploy_web:
   stage: deploy
-  before_script:
-    - echo "====== Build Cocos Web Mobile ======"
-    - eval $(ssh-agent -s)
-    - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
-    - mkdir -p ~/.ssh
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
   script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
     - echo "====== Deploying to server ======"
     - tar czf - ./build/web-mobile/* | ssh root@124.158.13.228 "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
   tags:
@@ -53,26 +55,20 @@ deploy-web-mobile_LOCAL:
    - /^deploy-web-\d{8}-\d+.*$/
    - /^deploy-\d{8}-\d+.*$/
    
-deploy-web-mobile_SIT:
+sit_deploy_web:
   stage: deploy
-  before_script:
+  script:
     - echo "====== Build Cocos Web Mobile ======"
-    - eval $(ssh-agent -s)
-    - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
-    - mkdir -p ~/.ssh
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
     - cp ./assets/_new-assets/Configs.SIT.js ./assets/_new-assets/Configs.js
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
-  script:
     - echo "====== Push to git compiled ======"
-    - git clone git@gitlab.com:l1-compiled/game-client-compiled.git ./publish
+    - git clone --branch SIT $GIT_COMPILED_REPO ./publish
     - cp -R ./build/web-mobile/* ./publish
-    - cp ./gitlab-ci-after-script.sh ./publish
+    - cp ./gitlab-ci-after-script-SIT.sh ./publish
     - cd ./publish
     - git add .
     - if [ -z "$(git status --porcelain)" ]; then echo "Nothing change"; else git commit -m "$COMMIT_MESSAGE"; fi
-    - git push -u origin master
+    - git push -u origin SIT
     - echo "====== Waiting for after script execution ======"
     - sleep 60
   tags:
@@ -83,4 +79,29 @@ deploy-web-mobile_SIT:
    - /^deploy-sit-web-\d{8}-\d+.*$/
    - /^deploy-web-\d{8}-\d+.*$/
    - /^deploy-\d{8}-\d+.*$/
+
+uat_deploy_web:
+  stage: deploy
+  script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - cp ./assets/_new-assets/Configs.UAT.js ./assets/_new-assets/Configs.js
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
+    - echo "====== Push to git compiled ======"
+    - git clone --branch UAT $GIT_COMPILED_REPO ./publish
+    - cp -R ./build/web-mobile/* ./publish
+    - cp ./gitlab-ci-after-script-UAT.sh ./publish
+    - cd ./publish
+    - git add .
+    - if [ -z "$(git status --porcelain)" ]; then echo "Nothing change"; else git commit -m "$COMMIT_MESSAGE"; fi
+    - git push -u origin UAT
+    - echo "====== Waiting for after script execution ======"
+    - sleep 60
+  tags:
+    - deploy-cocos-web-mobile
+  environment:
+    name: UAT
+  # only:
+  #  - /^deploy-uat-web-\d{8}-\d+.*$/
+  #  - /^deploy-web-\d{8}-\d+.*$/
+  #  - /^deploy-\d{8}-\d+.*$/
 

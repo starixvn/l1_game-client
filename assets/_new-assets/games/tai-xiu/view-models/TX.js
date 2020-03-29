@@ -21,6 +21,22 @@ cc.Class({
     if (check == "true") {
       this.node.active = true;
     }
+    var self = this;
+    cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
+    cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
+  },
+  onGameShow() {
+    cc.RedT.send({
+      taixiu: { get_time: true, getLogs: true }
+    });
+  },
+  onGameHide() {
+    clearInterval(this.TX_Main.timeInterval);
+    this.TX_Main.reset();
+  },
+  onDestroy() {
+    cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+    cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
   },
   onEnable: function () {
     this.regEvent(true);
