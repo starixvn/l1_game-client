@@ -9,6 +9,10 @@ cc.Class({
 			default: null,
 			type: cc.EditBox,
 		},
+		errorMessage: {
+			default: null,
+			type: cc.Label,
+		},
 	},
 	onLoad() {
 		var self = this;
@@ -18,7 +22,8 @@ cc.Class({
 				!1) : t.keyCode === cc.macro.KEY.enter ? (BrowserUtil.focusGame(), self.onSignNameClick(),
 					t.preventDefault && t.preventDefault(),
 					!1) : void 0
-		}
+		};
+		
 	},
 	onEnable: function () {
 		cc.sys.isBrowser && this.addEvent();
@@ -31,11 +36,13 @@ cc.Class({
 	},
 	addEvent: function () {
 		cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-		BrowserUtil.getHTMLElementByEditBox(this.username).addEventListener("keydown", this.keyHandle, !1)
+		BrowserUtil.getHTMLElementByEditBox(this.username).addEventListener("keydown", this.keyHandle, !1);
+		this.username.node.on('text-changed', this.usernameTextChanged, this);
 	},
 	removeEvent: function () {
 		BrowserUtil.getHTMLElementByEditBox(this.username).removeEventListener("keydown", this.keyHandle, !1)
 		cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+		this.username.node.off('text-changed', this.usernameTextChanged, this);
 	},
 	onKeyDown: function (event) {
 		switch (event.keyCode) {
@@ -56,12 +63,26 @@ cc.Class({
 		this.username.string = '';
 	},
 	onSignNameClick: function () {
-		if (this.username.string.length > 14 || this.username.string.length < 3 || this.username.string.match(new RegExp("^[a-zA-Z0-9]+$")) === null) {
-			cc.RedT.inGame.notice.show({ title: "TÊN NHÂN VẬT", text: 'Tên Nhân vật từ 3 đến 14 ký tự và không chứa ký tự đặc biệt' });
+		if (this.validateUsername(this.username.string)) {
+			this.errorMessage.string = "Tên Nhân vật từ 3 đến 14 ký tự và không chứa ký tự đặc biệt";
 		} else {
 			//Ricky: Client SignName
 			cc.RedT.send({ signName: this.username.string });
 		}
 
 	},
+
+	usernameTextChanged: function(text, sender) {		
+		if (this.validateUsername(this.username.string)) {			
+			this.errorMessage.string = "Tên Nhân vật từ 3 đến 14 ký tự và không chứa ký tự đặc biệt";
+		} else{
+			this.errorMessage.string = "";
+		}
+	},
+
+	validateUsername: function(username)
+	{
+		return (username.length > 14 || username.length < 3 || username.match(new RegExp("^[a-zA-Z0-9]+$")) === null);
+	}
+	
 });
