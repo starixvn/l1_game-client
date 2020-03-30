@@ -64,7 +64,7 @@ cc.Class({
 	},
 	onSignNameClick: function () {
 		if (this.validateUsername(this.username.string)) {
-			this.errorMessage.string = "Tên Nhân vật từ 3 đến 14 ký tự và không chứa ký tự đặc biệt";
+			this.errorMessage.string = "Tên nhân vật không hợp lệ.";
 		} else {
 			//Ricky: Client SignName
 			cc.RedT.send({ signName: this.username.string });
@@ -74,7 +74,7 @@ cc.Class({
 
 	usernameTextChanged: function(text, sender) {		
 		if (this.validateUsername(this.username.string)) {			
-			this.errorMessage.string = "Tên Nhân vật từ 3 đến 14 ký tự và không chứa ký tự đặc biệt";
+			this.errorMessage.string = "Tên nhân vật không hợp lệ.";
 		} else{
 			this.errorMessage.string = "";
 		}
