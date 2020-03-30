@@ -15,9 +15,10 @@ function preChecking(cb, labelMessage) {
 
     httpHelper.get(settingUrl, function (settingResponse) {
         // redirectDomain: 'http://demo.com',
-        //     disabledDirectLogin: appConfigs.disabledDirectLogin,
-        //     um: redT.isUM
+        // disabledDirectLogin: appConfigs.disabledDirectLogin,
+        // um: redT.isUM
         try {
+            window.siteSettings = settingResponse;
             if (settingResponse.um) {
                 cc.director.loadScene("um");
 
@@ -25,21 +26,28 @@ function preChecking(cb, labelMessage) {
             }
 
             let isSessionExpired = checkAndUpdateRecheckIn();
-            if (isSessionExpired && !urlParams.has("token") && settingResponse.disabledDirectLogin) {
-                //labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
-                labelMessage.string = "Phiên làm việc của bạn đã hết hạn, chúng tôi sẽ đưa bạn trở về trang chủ sau 10s";
+            if (isSessionExpired
+                && !urlParams.has("token")
+                && settingResponse.disabledDirectLogin) {
+                let redirectMessage = "Phiên làm việc của bạn đã hết hạn, chúng tôi sẽ đưa bạn trở về trang chủ sau ## giây...";
+                let countDown = 10;
+                labelMessage.string = redirectMessage.replace('##', countDown);
 
-                setTimeout(() => {
-                    window.location.href = settingResponse.redirectDomain;
-                }, 10 * 1000);
+                setInterval(() => {
+                    countDown--;
+                    if (countDown == 0) {
+                        window.location.href = settingResponse.redirectDomain;
+                    }
+                    else {
+                        labelMessage.string = redirectMessage.replace('##', countDown);
+                    }
+                }, 1000);
 
                 return settingResponse;
             }
         } catch (ex) {
             logger.logError(ex);
         }
-
-
 
         cb();
     }, true);
@@ -105,6 +113,9 @@ function getSessionKey() {
 }
 
 function signOut() {
+    if (window.siteSettings && window.siteSettings.disabledDirectLogin) {
+        window.location.href = window.siteSettings.redirectDomain;
+    }
     cc.sys.localStorage.removeItem(getSessionKey());
 }
 
