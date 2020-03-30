@@ -1,0 +1,29 @@
+uat_deploy_web:
+  stage: deploy
+  script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - cp ./assets/_new-assets/Configs.UAT.js ./assets/_new-assets/Configs.js
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
+    - echo "====== Push to git compiled ======"
+    - git clone --branch UAT $GIT_COMPILED_REPO ./publish
+    - cp -R ./build/web-mobile/* ./publish
+    - cp ./gitlab-ci-after-script-UAT.sh ./publish
+    - cd ./publish
+    - git add .
+    - if [ -z "$(git status --porcelain)" ]; 
+      then 
+        echo "Nothing change"; 
+      else 
+       git commit -m "$COMMIT_MESSAGE"; git push -u origin UAT;
+       echo "==============Waiting for after script execution==============";
+       sleep 60; 
+      fi
+  tags:
+    - deploy-cocos-web-mobile
+  environment:
+    name: UAT
+    url: http://uat.saba.vin/
+  only:
+    - /^deploy-uat-web-\d{8}-\d+.*$/
+    - /^deploy-web-\d{8}-\d+.*$/
+    - /^deploy-\d{8}-\d+.*$/

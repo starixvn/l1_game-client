@@ -1,0 +1,17 @@
+mobile_deploy_ios_testflight:
+  stage: deploy
+  script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - mkdir -p ~/.ssh
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=ios;optimizeHotUpdate=true"
+    - cp -R ./build-files/ios/ ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
+    - cd ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
+    - fastlane beta
+  tags:
+    - deploy-cocos-ios-tf
+  environment:
+    name: iOS-TF
+  only:
+    - /^deploy-ios-\d{8}-\d+.*$/
+    - /^deploy-\d{8}-\d+.*$/
+
