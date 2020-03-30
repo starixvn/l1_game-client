@@ -67,10 +67,14 @@ sit_deploy_web:
     - cp ./gitlab-ci-after-script-SIT.sh ./publish
     - cd ./publish
     - git add .
-    - if [ -z "$(git status --porcelain)" ]; then echo "Nothing change"; else git commit -m "$COMMIT_MESSAGE"; fi
-    - git push -u origin SIT
-    - echo "====== Waiting for after script execution ======"
-    - sleep 60
+    - if [ -z "$(git status --porcelain)" ]; 
+      then 
+        echo "Nothing change"; 
+      else 
+       git commit -m "$COMMIT_MESSAGE"; git push -u origin SIT;
+       echo "==============Waiting for after script execution==============";
+       sleep 60; 
+      fi
   tags:
     - deploy-cocos-web-mobile
   environment:
@@ -92,16 +96,20 @@ uat_deploy_web:
     - cp ./gitlab-ci-after-script-UAT.sh ./publish
     - cd ./publish
     - git add .
-    - if [ -z "$(git status --porcelain)" ]; then echo "Nothing change"; else git commit -m "$COMMIT_MESSAGE"; fi
-    - git push -u origin UAT
-    - echo "====== Waiting for after script execution ======"
-    - sleep 60
+    - if [ -z "$(git status --porcelain)" ]; 
+      then 
+        echo "Nothing change"; 
+      else 
+       git commit -m "$COMMIT_MESSAGE"; git push -u origin UAT;
+       echo "==============Waiting for after script execution==============";
+       sleep 60; 
+      fi
   tags:
     - deploy-cocos-web-mobile
   environment:
     name: UAT
-  # only:
-  #  - /^deploy-uat-web-\d{8}-\d+.*$/
-  #  - /^deploy-web-\d{8}-\d+.*$/
-  #  - /^deploy-\d{8}-\d+.*$/
+  only:
+    - /^deploy-uat-web-\d{8}-\d+.*$/
+    - /^deploy-web-\d{8}-\d+.*$/
+    - /^deploy-\d{8}-\d+.*$/
 
