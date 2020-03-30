@@ -530,13 +530,19 @@ cc.Class({
     );
     this.input.string = value == "0" ? "" : value;
   },
+  setPhienLabel: function (phien) {
+    if (phien === "") {
+      this.labelPhien.string = "";
+      return;
+    }
+    this.labelPhien.string = "#" + phien;
+  },
   setPhien: function () {
-    try {
-      var phien = cc.RedT.setting.taixiu.logs[0].phien + 1;
-      this.labelPhien.string = "#" + phien;
-    }
-    catch (ex) {
-    }
+    // if (cc.RedT.setting.taixiu.logs === undefined) {
+    //   return;
+    // }
+    // var phien = cc.RedT.setting.taixiu.logs[0].phien + 1;
+    // this.labelPhien.string = "#" + phien;
   },
   setDice: function (bool = false, sprite = true) {
     var self = this;
@@ -684,7 +690,14 @@ cc.Class({
               this.diaNan.active = false;
             }
           }
+
+          if (cc.RedT.setting.taixiu.logs) {
+            this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien);
+          }
         } else {
+          if (cc.RedT.setting.taixiu.logs) {
+            this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien + 1);
+          }
           if (!!this.dice[0].node.active) {
             this.setDice(false, false);
             this.reset();
