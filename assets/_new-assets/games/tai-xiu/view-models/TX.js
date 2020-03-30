@@ -15,6 +15,7 @@ cc.Class({
   init(obj) {
     this.miniPanel = obj;
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
+    cc.RedT.setting.taixiu.getLogs = false;
     this.TX_Main.init(this);
     var check = localStorage.getItem("taixiu");
 
