@@ -24,6 +24,7 @@ build:
     - master
 
 include:
+  - local: .gitlab-ci-push-git-compiled-web.yml
   - local: .gitlab-ci-local.yml
   - local: .gitlab-ci-sit.yml
   - local: .gitlab-ci-uat.yml
