@@ -530,9 +530,19 @@ cc.Class({
     );
     this.input.string = value == "0" ? "" : value;
   },
-  setPhien: function () {
-    var phien = cc.RedT.setting.taixiu.logs[0].phien + 1;
+  setPhienLabel: function (phien) {
+    if (phien === "") {
+      this.labelPhien.string = "";
+      return;
+    }
     this.labelPhien.string = "#" + phien;
+  },
+  setPhien: function () {
+    // if (cc.RedT.setting.taixiu.logs === undefined) {
+    //   return;
+    // }
+    // var phien = cc.RedT.setting.taixiu.logs[0].phien + 1;
+    // this.labelPhien.string = "#" + phien;
   },
   setDice: function (bool = false, sprite = true) {
     var self = this;
@@ -680,7 +690,14 @@ cc.Class({
               this.diaNan.active = false;
             }
           }
+
+          if (cc.RedT.setting.taixiu.logs) {
+            this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien);
+          }
         } else {
+          if (cc.RedT.setting.taixiu.logs) {
+            this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien + 1);
+          }
           if (!!this.dice[0].node.active) {
             this.setDice(false, false);
             this.reset();
@@ -1061,7 +1078,14 @@ cc.Class({
     self.TXRoot.TXStats.DiemSoLeft.string = c_tai;
     self.TXRoot.TXStats.DiemSoRight.string = c_xiu;
   },
+  resetUI() {
+    this.efStop();
+    this.AnimatedTime.node.active = false;
+    this.diceAnimation.node.active = false;
+    this.setDice(false, false);
+  },
   reset: function () {
+    this.resetUI();
     this.setPhien();
     this.isNan && this.dataLogs();
     cc.RedT.setting.taixiu.data.chanle.red_chan = cc.RedT.setting.taixiu.data.chanle.red_le = cc.RedT.setting.taixiu.data.chanle.red_me_chan = cc.RedT.setting.taixiu.data.chanle.red_me_le = cc.RedT.setting.taixiu.data.chanle.red_player_chan = cc.RedT.setting.taixiu.data.chanle.red_player_le = cc.RedT.setting.taixiu.data.chanle.xu_chan = cc.RedT.setting.taixiu.data.chanle.xu_le = cc.RedT.setting.taixiu.data.chanle.xu_me_chan = cc.RedT.setting.taixiu.data.chanle.xu_me_le = cc.RedT.setting.taixiu.data.chanle.xu_player_chan = cc.RedT.setting.taixiu.data.chanle.xu_player_le = cc.RedT.setting.taixiu.data.taixiu.red_me_tai = cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu.data.taixiu.red_player_tai = cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu.data.taixiu.red_tai = cc.RedT.setting.taixiu.data.taixiu.red_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_tai = cc.RedT.setting.taixiu.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = 0;
