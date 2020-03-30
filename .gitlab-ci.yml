@@ -1,5 +1,6 @@
 variables:
   GIT_COMPILED_REPO: git@gitlab.com:l1-compiled/game-client-compiled.git
+  LOCAL_SERVER: 124.158.13.228
 stages:
   - build
   - deploy
@@ -38,14 +39,29 @@ mobile_deploy_ios_testflight:
   only:
     - /^deploy-ios-\d{8}-\d+.*$/
     - /^deploy-\d{8}-\d+.*$/
-    
+
+dev_deploy_web:
+  stage: deploy
+  script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
+    - echo "====== Deploying to server ======"
+    - tar czf - ./build/web-mobile/* | ssh root@$LOCAL_SERVER "cd /var/www/l1-dev/game-client/web-mobile && tar xvzf -"
+  tags:
+    - deploy-cocos-web-mobile
+  environment:
+    name: DEV
+  only:
+   - /^deploy-dev-web-\d{8}-\d+.*$/
+   
+
 local_deploy_web:
   stage: deploy
   script:
     - echo "====== Build Cocos Web Mobile ======"
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
     - echo "====== Deploying to server ======"
-    - tar czf - ./build/web-mobile/* | ssh root@124.158.13.228 "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
+    - tar czf - ./build/web-mobile/* | ssh root@$LOCAL_SERVER "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
   tags:
     - deploy-cocos-web-mobile
   environment:
@@ -108,8 +124,41 @@ uat_deploy_web:
     - deploy-cocos-web-mobile
   environment:
     name: UAT
+    url: http://uat.saba.vin/
   only:
     - /^deploy-uat-web-\d{8}-\d+.*$/
     - /^deploy-web-\d{8}-\d+.*$/
     - /^deploy-\d{8}-\d+.*$/
+
+prod_deploy_web:
+  stage: deploy
+  script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - cp ./assets/_new-assets/Configs.PRO.js ./assets/_new-assets/Configs.js
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
+    - echo "====== Push to git compiled ======"
+    - git clone $GIT_COMPILED_REPO ./publish
+    - cp -R ./build/web-mobile/* ./publish
+    - cp ./gitlab-ci-after-script-PRO.sh ./publish
+    - cd ./publish
+    - git add .
+    - if [ -z "$(git status --porcelain)" ]; 
+      then 
+        echo "Nothing change!!!"; 
+      else 
+       git commit -m "$COMMIT_MESSAGE"; git push -u origin master;
+       echo "==============Waiting for after script execution==============";
+       sleep 60; 
+      fi
+  tags:
+    - deploy-cocos-web-mobile
+  environment:
+    name: PRO
+    url: http://www.saba.club/
+  when: manual
+  only:
+    - master
+    # - /^deploy-pro-web-\d{8}-\d+.*$/
+    # - /^deploy-web-\d{8}-\d+.*$/
+    # - /^deploy-\d{8}-\d+.*$/
 
