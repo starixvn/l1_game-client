@@ -144,7 +144,7 @@ prod_deploy_web:
     - git add .
     - if [ -z "$(git status --porcelain)" ]; 
       then 
-        echo "Nothing change"; 
+        echo "Nothing change!!!"; 
       else 
        git commit -m "$COMMIT_MESSAGE"; git push -u origin master;
        echo "==============Waiting for after script execution==============";
