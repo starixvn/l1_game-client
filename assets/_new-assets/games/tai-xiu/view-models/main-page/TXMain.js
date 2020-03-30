@@ -531,8 +531,12 @@ cc.Class({
     this.input.string = value == "0" ? "" : value;
   },
   setPhien: function () {
-    var phien = cc.RedT.setting.taixiu.logs[0].phien + 1;
-    this.labelPhien.string = "#" + phien;
+    try {
+      var phien = cc.RedT.setting.taixiu.logs[0].phien + 1;
+      this.labelPhien.string = "#" + phien;
+    }
+    catch (ex) {
+    }
   },
   setDice: function (bool = false, sprite = true) {
     var self = this;
