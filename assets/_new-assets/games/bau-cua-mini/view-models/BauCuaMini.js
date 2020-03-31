@@ -56,7 +56,7 @@ cc.Class({
 
     notice: cc.Node,
     umWarning: cc.Node,
-    slowBetWarning: cc.Node,
+    processWarningPrefab: cc.Prefab,
     prefabNotice: cc.Prefab,
 
     cuoc: "",
@@ -103,6 +103,7 @@ cc.Class({
     cc.RedT.setting.baucua.regOpen = false; // force get new data when back from other scene
     this.disabled = false;
     this.waitingCuoc = false;
+    this.processingWarning = null;
 
     var check = localStorage.getItem("bauCua");
     if (check == "true") {
@@ -323,7 +324,16 @@ cc.Class({
     }
   },
   showWarningSlowBet(show) {
-    this.slowBetWarning.active = show;
+    if (show) {
+      if (this.processingWarning !== null) { return; }
+      var node = cc.instantiate(this.processWarningPrefab);
+      this.node.addChild(node);
+      this.processingWarning = node.getComponent("ProcessingWarning");
+    } else {
+      if (this.processingWarning === null) { return; }
+      this.processingWarning.close();
+      this.processingWarning = null;
+    }
   },
   datCuoc: function (e, linhVat) {
     if (this.waitingCuoc) {
