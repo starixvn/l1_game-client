@@ -58,6 +58,7 @@ cc.Class({
     umWarning: cc.Node,
     processWarningPrefab: cc.Prefab,
     prefabNotice: cc.Prefab,
+    center: cc.Node,
 
     cuoc: "",
     red: true,
@@ -327,6 +328,7 @@ cc.Class({
     if (show) {
       if (this.processingWarning !== null) { return; }
       var node = cc.instantiate(this.processWarningPrefab);
+      node.position = this.center.position;
       this.node.addChild(node);
       this.processingWarning = node.getComponent("ProcessingWarning");
     } else {
