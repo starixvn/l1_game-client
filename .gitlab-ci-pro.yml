@@ -15,6 +15,7 @@ sentry_release:
   before_script:
     - export SENTRY_AUTH_TOKEN=5d2c2892725311eaa9794201c0a8d039
     - export SENTRY_ORG=luminet
+    - export SENTRY_PROJECT=l1-game-client-pro
     - export VERSION=${CI_COMMIT_REF_NAME:1}
   script:
     - sentry-cli releases new $VERSION
