@@ -218,6 +218,10 @@ cc.Class({
       default: null,
       type: cc.Node
     },
+    ProcessingWarning: {
+      default: null,
+      type: cc.Prefab
+    },
   },
   init: function (obj) {
     this.TXRoot = obj;
@@ -323,6 +327,13 @@ cc.Class({
           "Tiền cược tối đa là " + Constants.maxBet
         );
       } else {
+        if (this.waitingBetResponse) {
+          var processingWarning = cc.instantiate(this.ProcessingWarning);
+          this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
+          this.notice.addChild(processingWarning);
+          return;
+        }
+
         cc.RedT.send({
           taixiu: {
             cuoc: {
@@ -333,6 +344,8 @@ cc.Class({
             }
           }
         });
+
+        this.waitingBetResponse = true;
       }
     };
     if (this.TXRoot.board) {
@@ -604,6 +617,26 @@ cc.Class({
     if (void 0 !== data.get_log) {
       this.TXRoot.TXHistory.onData(data.get_log);
     }
+
+    this.onDataLogs(data);
+
+    if (void 0 !== data.time_remain) {
+      cc.RedT.setting.taixiu.time_remain = data.time_remain;
+      this.playTime();
+    }
+
+    this.onDataFinishPhien(data);
+
+  },
+  efStop: function () {
+    this.efTai.stop();
+    this.efXiu.stop();
+    this.winningTai.node.active = false;
+    this.winningTai.stop();
+    this.winningXiu.node.active = false;
+    this.winningXiu.stop();
+  },
+  onDataLogs: function (data) {
     if (void 0 !== data.logs) {
       cc.RedT.setting.taixiu.logs = data.logs;
       this.dataLogs();
@@ -612,14 +645,11 @@ cc.Class({
         this.setDice(!0);
         this.nodeTimeWait.active = true;
         this.AnimatedTime.node.active = false;
-        //this.betTime.active = false;
       }
       cc.RedT.setting.taixiu.getLogs = true;
     }
-    if (void 0 !== data.time_remain) {
-      cc.RedT.setting.taixiu.time_remain = data.time_remain;
-      this.playTime();
-    }
+  },
+  onDataFinishPhien: function (data) {
     if (void 0 !== data.finish) {
       if (cc.RedT.setting.taixiu.getLogs) {
         // Huỷ đếm
@@ -659,17 +689,6 @@ cc.Class({
         Constants.betTime + Constants.waitTime;
       this.playTime();
     }
-  },
-  efStop: function () {
-    this.efTai.stop();
-    this.efXiu.stop();
-
-    this.winningTai.node.active = false;
-    this.winningTai.stop();
-    this.winningXiu.node.active = false;
-    this.winningXiu.stop();
-    // this.efLe.stop();
-    // this.efChan.stop();
   },
   playTime: function () {
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
@@ -821,6 +840,12 @@ cc.Class({
     }
   },
   onDataTaiXiu: function (data) {
+    this.waitingBetResponse = false;
+
+    if (this.processingWarningPopup !== undefined) {
+      this.processingWarningPopup.stop();
+    }
+
     if (void 0 !== cc.RedT.inGame.onGetTaiXiu) {
       cc.RedT.inGame.onGetTaiXiu(data.red_tai, data.red_xiu);
     }
