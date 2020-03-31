@@ -6,7 +6,7 @@ prod_deploy_web:
     url: http://www.saba.club/
   when: manual
   only:
-    - master
+ #   - master
     - /^deploy-web-\d{8}-\d+.*$/
 
 sentry_release:
@@ -16,7 +16,7 @@ sentry_release:
     - export SENTRY_AUTH_TOKEN=5d2c2892725311eaa9794201c0a8d039
     - export VERSION=${CI_COMMIT_REF_NAME:1}
   script:
-    - sentry-cli releases new -p pattle $VERSION
+    - sentry-cli releases new $VERSION
     - sentry-cli releases set-commits --auto $VERSION
     - sentry-cli releases finalize $VERSION
     - echo "Finalized release for $VERSION"

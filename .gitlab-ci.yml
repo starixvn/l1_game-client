@@ -15,14 +15,14 @@ before_script:
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 
-build:
-  stage: build
-  script:
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
-  tags:
-    - deploy-cocos-web-mobile
-  only:
-    - master
+# build:
+#   stage: build
+#   script:
+#     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
+#   tags:
+#     - deploy-cocos-web-mobile
+#   only:
+#     - master
 
 include:
   - local: .gitlab-ci-push-git-compiled-web.yml
