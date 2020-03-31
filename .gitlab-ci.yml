@@ -4,6 +4,7 @@ variables:
 stages:
   - build
   - deploy
+  - post-deploy
 
 before_script:
   - echo "====== Build Cocos Web Mobile ======"

@@ -21,7 +21,8 @@ sentry_release:
     - echo "Finalized release for $VERSION"
   tags:
     - docker
-  dependencies: prod_deploy_web
+  dependencies: 
+    - prod_deploy_web
   only:
     - master
     - /^deploy-web-\d{8}-\d+.*$/
