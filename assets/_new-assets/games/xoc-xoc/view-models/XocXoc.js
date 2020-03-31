@@ -159,6 +159,7 @@ cc.Class({
 		this.numberOfSlots = 8;
 		this.winners = {};
 		this.status = {};
+		this.isWaitingBetResult = false;
 	},
 	onDestroy() {
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
@@ -285,6 +286,7 @@ cc.Class({
 			this.clientsChip(data.chip);
 		}
 		if (!!data.mechip) {
+			this.isWaitingBetResult = false;
 			this.meChip(data.mechip);
 		}
 		if (!!data.client) {
@@ -294,12 +296,12 @@ cc.Class({
 			this.updateMe(data.me);
 		}
 		if (void 0 !== data.notice) {
+			this.isWaitingBetResult = false;
 			this.addNotice(data.notice);
 		}
 		if (void 0 !== data.um) {
 			this.showUMMessage();
 		}
-
 	},
 	showUMMessage: function () {
 		clearInterval(this.timeInterval);
@@ -706,7 +708,7 @@ cc.Class({
 						cc.RedT.send({ user: { updateCoint: true } });
 					}
 
-					if (status.bet) {
+					if (status.bet && status.win) {
 						var temp = self.createWinResultNode(status.bet, status.win);
 						temp.node.position = cc.v2(0, 90);
 						this.miniNotice.addChild(temp.node);
@@ -1059,7 +1061,13 @@ cc.Class({
 		this.updateMeCoint();
 	},
 	onCuoc: function (event, box) {
-		cc.RedT.send({ g: { xocxoc: { cuoc: { red: this.red, cuoc: this.cuoc, box: box } } } });
+		if (this.isWaitingBetResult) {
+			this.addNotice("Cược đang xử lý. Vui lòng đợi.")
+		} else {
+			this.isWaitingBetResult = true;
+			cc.RedT.send({ g: { xocxoc: { cuoc: { red: this.red, cuoc: this.cuoc, box: box } } } });
+		}
+
 	},
 	addNotice: function (text) {
 		var notice = cc.instantiate(this.prefabNotice)
@@ -1202,6 +1210,16 @@ cc.Class({
 					cc.moveTo(0.1, cc.v2(x, y))
 				)
 			));
+
+		var temp = this.createWinResultNode(data.cuoc, false);
+		temp.node.position = cc.v2(0, 90);
+		this.miniNotice.addChild(temp.node);
+		temp.node.runAction(
+			cc.sequence(
+				cc.moveTo(4, cc.v2(0, 200)),
+				cc.callFunc(function () { this.node.destroy() }, temp)
+			)
+		);
 	},
 	updateMe: function (data) {
 		if (data.red) {
