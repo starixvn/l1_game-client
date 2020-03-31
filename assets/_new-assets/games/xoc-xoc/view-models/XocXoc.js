@@ -94,8 +94,6 @@ cc.Class({
 
 		MiniPanel: cc.Prefab,
 		loading: cc.Node,
-		notice: cc.Node,
-
 		red: true,
 
 		players: {
@@ -105,7 +103,8 @@ cc.Class({
 		gameRound: cc.Label,
 		avatar: cc.Sprite,
 		center: cc.Node,
-		winnerPrefab: cc.Prefab
+		winnerPrefab: cc.Prefab,
+		NoticePrefab: cc.Prefab
 	},
 	ctor: function () {
 		this.logs = [];
@@ -317,7 +316,10 @@ cc.Class({
 	},
 	showUMMessage: function () {
 		clearInterval(this.timeInterval);
-		this.notice.active = true;
+		var noticePrefab = cc.instantiate(this.NoticePrefab);
+		var notice = noticePrefab.getComponent("Notice");
+		notice.init({ text: "Hệ thống đang bảo trì. Vui lòng quay lại sau...!!!", button: { text: "Ok" } });
+		this.node.addChild(noticePrefab)
 	},
 	xocxocIngame: function (data) {
 		if (!!data.chip) {
@@ -1160,7 +1162,7 @@ cc.Class({
 
 		newN.node.runAction(
 			cc.sequence(
-				cc.moveTo(0.4, cc.v2(x, y)),
+				cc.moveTo(0.4, cc.v2(x, y)).easing(cc.easeOut(3)),
 				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy)
 			));
 	},
@@ -1219,7 +1221,7 @@ cc.Class({
 		copy = copy.getComponent(cc.AudioSource);
 		newN.node.runAction(
 			cc.sequence(
-				cc.moveTo(0.3, cc.v2(x, y)),
+				cc.moveTo(0.3, cc.v2(x, y)).easing(cc.easeOut(3)),
 				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy),
 				cc.sequence(
 					cc.moveTo(0.1, cc.v2(x, y + 6)),

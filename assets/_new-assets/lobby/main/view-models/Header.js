@@ -35,7 +35,8 @@ cc.Class({
     signOutbtn: {
       default: null,
       type: cc.Node
-    }
+    },
+    NoticePrefab: cc.Prefab
   },
   onLoad() {
     if (cc.RedT.IS_LOGIN) {
@@ -67,12 +68,24 @@ cc.Class({
     this.updateEXP(cc.RedT.user.vipHT, cc.RedT.user.vipNext);
   },
   signOut: function () {
-    cc.RedT.inGame.notice.show({
+    var noticePrefab = cc.instantiate(this.NoticePrefab);
+    var notice = noticePrefab.getComponent("Notice");
+    notice.handleClickButton = function () {
+      cc.RedT._socket.close();
+
+      if (authManager) {
+        authManager.signOut();
+      }
+      this.node.active = false;
+    }
+    notice.init({
       title: "ĐĂNG XUẤT",
       text:
         "Bạn có muốn đăng xuất không?",
       button: { type: "sign_out", text: "ĐỒNG Ý" }
     });
+
+    this.node.parent.addChild(noticePrefab);
   },
   setAvatar: function (avatarId) {
     let self = this;

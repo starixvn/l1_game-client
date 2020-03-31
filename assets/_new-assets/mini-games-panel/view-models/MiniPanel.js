@@ -32,7 +32,7 @@ cc.Class({
     PrefabBauCua: cc.Prefab,
     PrefabMiniPoker: cc.Prefab,
     light: true,
-    PrefabNotice: cc.Prefab,
+    NoticePrefab: cc.Prefab,
   },
   onLoad() {
     if (void 0 === cc.RedT.setting.light) {
@@ -145,15 +145,15 @@ cc.Class({
     this.MiniPoker.openGame();
   },
   showErrorNotice: function (error) {
-    var noticePrefab = cc.instantiate(this.PrefabNotice);
-    var notice = noticePrefab.getComponent("NoticeNew");
+    var noticePrefab = cc.instantiate(this.NoticePrefab);
+    var notice = noticePrefab.getComponent("Notice");
     var message = `Game ${configs.gameNames[error.gameTypeId]}. ${error.message}.`;
 
     if (error.isPlaceBetFailed) {
       message += " Đặt cược thất bại!"
     }
 
-    notice.setMessage(message);
-    this.node.insertChild(noticePrefab);
+    notice.init({ message: message });
+    this.node.addChild(noticePrefab);
   }
 });

@@ -9,9 +9,7 @@ var header = require("Header"),
   ThongBaoNoHu = require("PushNohu"),
   newsContents = require("NewsContents"),
   bgLoading = require("bgLoading"),
-  MenuRoom = require("MenuRoom"),
-  notice = require("Notice"),
-  Menu = require("Menu");
+  MenuRoom = require("MenuRoom");
 
 cc.Class({
   extends: cc.Component,
@@ -35,13 +33,11 @@ cc.Class({
     redhat: cc.Node,
     dialog: dialog,
     loading: cc.Node,
-    notice: notice,
     ThongBaoNoHu: ThongBaoNoHu,
-
     audioBG: cc.AudioSource,
-
     url: cc.String,
-    appApk: cc.String
+    appApk: cc.String,
+    NoticePrefab: cc.Prefab
   },
   onDestroy() {
     cc.RedT.MiniPanel.node.destroy();
@@ -117,14 +113,13 @@ cc.Class({
   unAuthorized: function (data) {
     this.loading.active = false;
     if (void 0 !== data["message"]) {
-      this.notice.show({
-        title: "THÔNG BÁO",
+      this.showNotice({
         text: data.isSessionExpired || data.noPassword
           ? "Phiên làm việc đã hết hạn, bạn hãy đăng nhập lại..."
           : "Có lỗi xảy ra, xin vui lòng thử lại..."
-      });
+      })
     } else {
-      this.notice.show(data);
+      this.showNotice(data);
     }
   },
   Authorized: function (Authorized) {
@@ -160,7 +155,7 @@ cc.Class({
       cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
     }
     if (void 0 !== data.notice) {
-      this.notice.show(data.notice);
+      this.showNotice(data.notice);
     }
     if (void 0 !== data.news) {
       this.newsContents.onData(data.news);
@@ -183,31 +178,21 @@ cc.Class({
     if (!!data.message) {
       this.dialog.iMessage.onData(data.message);
     }
-
-    // if (!!data.apiError) {
-    //   this.notice.show({
-    //     title: "LỖI",
-    //     text: data.apiError.message
-    //   });
-    // }
-
     if (!!data.removeIsLoading) {
       this.loading.active = false;
     }
-
-    if (!!data.kickedOut) {
+    if (data.kickedOut) {
       if (data.kickedOut.isUM) {
         cc.director.loadScene("um");
       }
       else {
-        this.notice.show({
-          title: "THÔNG BÁO",
+        this.showNotice({
           text: data.kickedOut.message
         });
       }
     }
 
-    if (void 0 !== data.apiError) {
+    if (data.apiError) {
       cc.RedT.MiniPanel.onDataError(data);
     }
   },
@@ -241,6 +226,33 @@ cc.Class({
 
     return `${helper.numberWithCommas(red)} ${userCurrency}`;
   },
+  showNotice: function (noticeData) {
+    var noticePrefab = cc.instantiate(this.NoticePrefab);
+    var notice = noticePrefab.getComponent("Notice");
+    noticeData.button = { text: 'Ok' };
+    notice.init(noticeData);
+    this.node.addChild(noticePrefab)
+  },
+  clickNoticeButton: function () {
+    switch (this.type) {
+      case 'sign_out':
+        cc.RedT._socket.close();
+        if (authManager) {
+          authManager.signOut();
+        }
+        this.node.active = false;
+        break;
+      // case 'reg_otp':
+      //   this.node.active = false;
+      //   if (cc.RedT.inGame.dialog.objShow != null) {
+      //     cc.RedT.inGame.dialog.profile.node.previous = cc.RedT.inGame.dialog.objShow;
+      //     cc.RedT.inGame.dialog.objShow.active = false;
+      //   }
+      //   cc.RedT.inGame.dialog.showProfile(null, 'BaoMat');
+      //   cc.RedT.inGame.dialog.profile.BaoMat.onSelectHead(null, 'DangKyOTP');
+      //   break;
+    }
+  },
   dataUser: function (data) {
     if (void 0 !== data.red) {
       this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
@@ -262,50 +274,6 @@ cc.Class({
     if (void 0 !== data.name) {
       this.header.userName.string = data.name;
     }
-
-    // if (void 0 !== data.xu) {
-    //   this.header.userXu.string = helper.numberWithCommas(data.xu);
-    // }
-    // if (void 0 !== data.ketSat) {
-    //   this.dialog.profile.KetSat.redKet.string = helper.numberWithCommas(
-    //     data.ketSat
-    //   );
-    // }
-    // if (void 0 !== data.UID) {
-    //   this.dialog.profile.CaNhan.UID.string = data.UID;
-    // }
-    // if (void 0 !== data.phone) {
-    //   this.dialog.profile.CaNhan.phone.string = data.phone;
-    //   this.dialog.profile.BaoMat.DangKyOTP.statusOTP(
-    //     !helper.isEmpty(data.phone)
-    //   );
-    //   if (!helper.isEmpty(data.phone)) {
-    //     this.dialog.profile.BaoMat.DangKyOTP.labelPhone.string = data.phone;
-    //     cc.sys.localStorage.setItem("infoRed8", JSON.stringify(data));
-    //   }
-    // }
-    // if (void 0 !== data.email) {
-    //   this.dialog.profile.CaNhan.email.string = data.email;
-    //   if (!helper.isEmpty(data.email)) {
-    //     this.dialog.profile.BaoMat.DangKyOTP.labelEmail.string = data.email;
-    //   }
-    // }
-    // if (void 0 !== data.cmt) {
-    //   this.dialog.profile.CaNhan.cmt.string = data.cmt;
-    //   if (!helper.isEmpty(data.cmt)) {
-    //     this.dialog.profile.BaoMat.DangKyOTP.labelCMT.string = data.cmt;
-    //   }
-    // }
-    // if (void 0 !== data.joinedOn) {
-    //   this.dialog.profile.CaNhan.joinedOn.string = helper.getStringDateByTime(
-    //     data.joinedOn
-    //   );
-    // }
-    // if (void 0 !== data.level) {
-    //   this.header.level(data.level);
-    //   this.header.updateEXP(data.vipHT, data.vipNext);
-    // }
-
   },
   signOut: function () {
     cc.RedT.user = {};
@@ -329,108 +297,7 @@ cc.Class({
     cc.RedT.MiniPanel.newGame();
     this.dialog.iMessage.reset();
   },
-  onGetHu: function () {
-    if (void 0 !== cc.RedT.setting.topHu.data) {
-      var self = this;
-      // Vương Quốc Red
-      // Promise.all(cc.RedT.setting.topHu.data['vq_red'].filter(function(temp){
-      // 	return temp.red == true;
-      // }))
-      // .then(result => {
-      // 	let h100 = result.filter(function(temp){return temp.type == 100});
-      // 	let h1k  = result.filter(function(temp){return temp.type == 1000});
-      // 	let h10k = result.filter(function(temp){return temp.type == 10000});
 
-      // 	let r100 = helper.getOnlyNumberInString(this.iconVQRed.hu100.string);
-      // 	let r1k  = helper.getOnlyNumberInString(this.iconVQRed.hu1k.string);
-      // 	let r10k = helper.getOnlyNumberInString(this.iconVQRed.hu10k.string);
-
-      // 	if (r100-h100[0].bet != 0) {
-      // 		helper.numberTo(this.iconVQRed.hu100, helper.getOnlyNumberInString(this.iconVQRed.hu100.string), h100[0].bet, 4900, true);
-      // 	}
-      // 	if (r1k-h1k[0].bet != 0) {
-      // 		helper.numberTo(this.iconVQRed.hu1k, helper.getOnlyNumberInString(this.iconVQRed.hu1k.string), h1k[0].bet, 4900, true);
-      // 	}
-      // 	if (r10k-h10k[0].bet != 0) {
-      // 		helper.numberTo(this.iconVQRed.hu10k, helper.getOnlyNumberInString(this.iconVQRed.hu10k.string), h10k[0].bet, 4900, true);
-      // 	}
-      // });
-
-      // // Candy
-      // Promise.all(cc.RedT.setting.topHu.data['candy'].filter(function(temp){
-      // 	return temp.red == true;
-      // }))
-      // .then(result => {
-      // 	let h100 = result.filter(function(temp){return temp.type == 100});
-      // 	let h1k  = result.filter(function(temp){return temp.type == 1000});
-      // 	let h10k = result.filter(function(temp){return temp.type == 10000});
-
-      // 	let r100 = helper.getOnlyNumberInString(this.iconCandy.hu100.string);
-      // 	let r1k  = helper.getOnlyNumberInString(this.iconCandy.hu1k.string);
-      // 	let r10k = helper.getOnlyNumberInString(this.iconCandy.hu10k.string);
-
-      // 	if (r100-h100[0].bet != 0) {
-      // 		helper.numberTo(this.iconCandy.hu100, helper.getOnlyNumberInString(this.iconCandy.hu100.string), h100[0].bet, 4900, true);
-      // 	}
-      // 	if (r1k-h1k[0].bet != 0) {
-      // 		helper.numberTo(this.iconCandy.hu1k, helper.getOnlyNumberInString(this.iconCandy.hu1k.string), h1k[0].bet, 4900, true);
-      // 	}
-      // 	if (r10k-h10k[0].bet != 0) {
-      // 		helper.numberTo(this.iconCandy.hu10k, helper.getOnlyNumberInString(this.iconCandy.hu10k.string), h10k[0].bet, 4900, true);
-      // 	}
-      // });
-
-      // // Long Lan
-      // Promise.all(cc.RedT.setting.topHu.data['long'].filter(function(temp){
-      // 	return temp.red == true;
-      // }))
-      // .then(result => {
-      // 	let h100 = result.filter(function(temp){return temp.type == 100});
-      // 	let h1k  = result.filter(function(temp){return temp.type == 1000});
-      // 	let h10k = result.filter(function(temp){return temp.type == 10000});
-
-      // 	let r100 = helper.getOnlyNumberInString(this.iconLongLan.hu100.string);
-      // 	let r1k  = helper.getOnlyNumberInString(this.iconLongLan.hu1k.string);
-      // 	let r10k = helper.getOnlyNumberInString(this.iconLongLan.hu10k.string);
-
-      // 	if (r100-h100[0].bet != 0) {
-      // 		helper.numberTo(this.iconLongLan.hu100, helper.getOnlyNumberInString(this.iconLongLan.hu100.string), h100[0].bet, 4900, true);
-      // 	}
-      // 	if (r1k-h1k[0].bet != 0) {
-      // 		helper.numberTo(this.iconLongLan.hu1k, helper.getOnlyNumberInString(this.iconLongLan.hu1k.string), h1k[0].bet, 4900, true);
-      // 	}
-      // 	if (r10k-h10k[0].bet != 0) {
-      // 		helper.numberTo(this.iconLongLan.hu10k, helper.getOnlyNumberInString(this.iconLongLan.hu10k.string), h10k[0].bet, 4900, true);
-      // 	}
-      // });
-
-      /*
-      // MegaJacpot
-      Promise.all(cc.RedT.setting.topHu.data['megaj'].filter(function(temp){
-        return temp.red == true;
-      }))
-      .then(result => {
-        let h100 = result.filter(function(temp){return temp.type == 100});
-        let h1k  = result.filter(function(temp){return temp.type == 1000});
-        let h10k = result.filter(function(temp){return temp.type == 10000});
-   
-        let r100 = helper.getOnlyNumberInString(this.iconMegaJ.hu100.string);
-        let r1k  = helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string);
-        let r10k = helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string);
-   
-        if (r100-h100[0].bet != 0) {
-          helper.numberTo(this.iconMegaJ.hu100, helper.getOnlyNumberInString(this.iconMegaJ.hu100.string), h100[0].bet, 4900, true);
-        }
-        if (r1k-h1k[0].bet != 0) {
-          helper.numberTo(this.iconMegaJ.hu1k, helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string), h1k[0].bet, 4900, true);
-        }
-        if (r10k-h10k[0].bet != 0) {
-          helper.numberTo(this.iconMegaJ.hu10k, helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string), h10k[0].bet, 4900, true);
-        }
-      });
-      */
-    }
-  },
   playMusic: function () {
     this.audioBG.play();
   },
@@ -457,8 +324,109 @@ cc.Class({
   },
   telegram: function () {
     cc.sys.openURL(this.url + "/telegram/");
-  }
+  },
+  onGetHu: function () {
+    // if (void 0 !== cc.RedT.setting.topHu.data) {
+    //   var self = this;
+    // Vương Quốc Red
+    // Promise.all(cc.RedT.setting.topHu.data['vq_red'].filter(function(temp){
+    // 	return temp.red == true;
+    // }))
+    // .then(result => {
+    // 	let h100 = result.filter(function(temp){return temp.type == 100});
+    // 	let h1k  = result.filter(function(temp){return temp.type == 1000});
+    // 	let h10k = result.filter(function(temp){return temp.type == 10000});
 
+    // 	let r100 = helper.getOnlyNumberInString(this.iconVQRed.hu100.string);
+    // 	let r1k  = helper.getOnlyNumberInString(this.iconVQRed.hu1k.string);
+    // 	let r10k = helper.getOnlyNumberInString(this.iconVQRed.hu10k.string);
+
+    // 	if (r100-h100[0].bet != 0) {
+    // 		helper.numberTo(this.iconVQRed.hu100, helper.getOnlyNumberInString(this.iconVQRed.hu100.string), h100[0].bet, 4900, true);
+    // 	}
+    // 	if (r1k-h1k[0].bet != 0) {
+    // 		helper.numberTo(this.iconVQRed.hu1k, helper.getOnlyNumberInString(this.iconVQRed.hu1k.string), h1k[0].bet, 4900, true);
+    // 	}
+    // 	if (r10k-h10k[0].bet != 0) {
+    // 		helper.numberTo(this.iconVQRed.hu10k, helper.getOnlyNumberInString(this.iconVQRed.hu10k.string), h10k[0].bet, 4900, true);
+    // 	}
+    // });
+
+    // // Candy
+    // Promise.all(cc.RedT.setting.topHu.data['candy'].filter(function(temp){
+    // 	return temp.red == true;
+    // }))
+    // .then(result => {
+    // 	let h100 = result.filter(function(temp){return temp.type == 100});
+    // 	let h1k  = result.filter(function(temp){return temp.type == 1000});
+    // 	let h10k = result.filter(function(temp){return temp.type == 10000});
+
+    // 	let r100 = helper.getOnlyNumberInString(this.iconCandy.hu100.string);
+    // 	let r1k  = helper.getOnlyNumberInString(this.iconCandy.hu1k.string);
+    // 	let r10k = helper.getOnlyNumberInString(this.iconCandy.hu10k.string);
+
+    // 	if (r100-h100[0].bet != 0) {
+    // 		helper.numberTo(this.iconCandy.hu100, helper.getOnlyNumberInString(this.iconCandy.hu100.string), h100[0].bet, 4900, true);
+    // 	}
+    // 	if (r1k-h1k[0].bet != 0) {
+    // 		helper.numberTo(this.iconCandy.hu1k, helper.getOnlyNumberInString(this.iconCandy.hu1k.string), h1k[0].bet, 4900, true);
+    // 	}
+    // 	if (r10k-h10k[0].bet != 0) {
+    // 		helper.numberTo(this.iconCandy.hu10k, helper.getOnlyNumberInString(this.iconCandy.hu10k.string), h10k[0].bet, 4900, true);
+    // 	}
+    // });
+
+    // // Long Lan
+    // Promise.all(cc.RedT.setting.topHu.data['long'].filter(function(temp){
+    // 	return temp.red == true;
+    // }))
+    // .then(result => {
+    // 	let h100 = result.filter(function(temp){return temp.type == 100});
+    // 	let h1k  = result.filter(function(temp){return temp.type == 1000});
+    // 	let h10k = result.filter(function(temp){return temp.type == 10000});
+
+    // 	let r100 = helper.getOnlyNumberInString(this.iconLongLan.hu100.string);
+    // 	let r1k  = helper.getOnlyNumberInString(this.iconLongLan.hu1k.string);
+    // 	let r10k = helper.getOnlyNumberInString(this.iconLongLan.hu10k.string);
+
+    // 	if (r100-h100[0].bet != 0) {
+    // 		helper.numberTo(this.iconLongLan.hu100, helper.getOnlyNumberInString(this.iconLongLan.hu100.string), h100[0].bet, 4900, true);
+    // 	}
+    // 	if (r1k-h1k[0].bet != 0) {
+    // 		helper.numberTo(this.iconLongLan.hu1k, helper.getOnlyNumberInString(this.iconLongLan.hu1k.string), h1k[0].bet, 4900, true);
+    // 	}
+    // 	if (r10k-h10k[0].bet != 0) {
+    // 		helper.numberTo(this.iconLongLan.hu10k, helper.getOnlyNumberInString(this.iconLongLan.hu10k.string), h10k[0].bet, 4900, true);
+    // 	}
+    // });
+
+    /*
+    // MegaJacpot
+    Promise.all(cc.RedT.setting.topHu.data['megaj'].filter(function(temp){
+      return temp.red == true;
+    }))
+    .then(result => {
+      let h100 = result.filter(function(temp){return temp.type == 100});
+      let h1k  = result.filter(function(temp){return temp.type == 1000});
+      let h10k = result.filter(function(temp){return temp.type == 10000});
+ 
+      let r100 = helper.getOnlyNumberInString(this.iconMegaJ.hu100.string);
+      let r1k  = helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string);
+      let r10k = helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string);
+ 
+      if (r100-h100[0].bet != 0) {
+        helper.numberTo(this.iconMegaJ.hu100, helper.getOnlyNumberInString(this.iconMegaJ.hu100.string), h100[0].bet, 4900, true);
+      }
+      if (r1k-h1k[0].bet != 0) {
+        helper.numberTo(this.iconMegaJ.hu1k, helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string), h1k[0].bet, 4900, true);
+      }
+      if (r10k-h10k[0].bet != 0) {
+        helper.numberTo(this.iconMegaJ.hu10k, helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string), h10k[0].bet, 4900, true);
+      }
+    });
+    */
+    //   }
+  },
   /**
 	
     checkLoginFacebook: function() {
