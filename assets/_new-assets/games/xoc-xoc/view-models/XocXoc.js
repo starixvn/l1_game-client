@@ -292,7 +292,6 @@ cc.Class({
 		if (!!data.mechip) {
 			this.isWaitingBetResult = false;
 			if (this.processingWarningPopup !== undefined) {
-				console.log(this.processingWarningPopup);
 				this.processingWarningPopup.close();
 			}
 			this.meChip(data.mechip);
@@ -306,7 +305,6 @@ cc.Class({
 		if (void 0 !== data.notice) {
 			this.isWaitingBetResult = false;
 			if (this.processingWarningPopup !== undefined) {
-				console.log(this.processingWarningPopup);
 				this.processingWarningPopup.close();
 			}
 			this.addNotice(data.notice);
