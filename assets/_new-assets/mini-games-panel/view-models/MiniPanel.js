@@ -4,7 +4,7 @@ var BigBabol = require("BigBabol"),
   AngryBirds = require("AngryBirds"),
   TopHu = require("popupTopHu"),
   MegaJackpot = require("MegaJackpot");
-var configs = require("Configs")
+var configs = require("Configs");
 
 cc.Class({
   extends: cc.Component,
@@ -31,7 +31,8 @@ cc.Class({
     PrefabTaiXiu: cc.Prefab,
     PrefabBauCua: cc.Prefab,
     PrefabMiniPoker: cc.Prefab,
-    light: true
+    light: true,
+    PrefabNotice: cc.Prefab,
   },
   onLoad() {
     if (void 0 === cc.RedT.setting.light) {
@@ -91,6 +92,18 @@ cc.Class({
       this.TaiXiu.TX_Main.onData(taiXiuData);
     }
   },
+  onDataError: function (apiErrorData) {
+    var error = apiErrorData.apiError;
+    this.showErrorNotice(error);
+
+    if (error.gameTypeId == configs.gameIds.TaiXiu) {
+      this.TaiXiu.TX_Main.onData(apiErrorData);
+    }
+
+    if (error.gameTypeId == configs.gameIds.BauCua) {
+      this.BauCua.onData(apiErrorData);
+    }
+  },
   onDestroy: function () {
     clearInterval(this.TaiXiu.TX_Main.timeInterval);
     clearInterval(this.BauCua.timeInterval);
@@ -131,4 +144,16 @@ cc.Class({
     this.MiniPoker.node.active = false;
     this.MiniPoker.openGame();
   },
+  showErrorNotice: function (error) {
+    var noticePrefab = cc.instantiate(this.PrefabNotice);
+    var notice = noticePrefab.getComponent("NoticeNew");
+    var message = `Game ${configs.gameNames[error.gameTypeId]}. ${error.message}.`;
+
+    if (error.isPlaceBetFailed) {
+      message += " Đặt cược thất bại!"
+    }
+
+    notice.setMessage(message);
+    this.node.insertChild(noticePrefab);
+  }
 });

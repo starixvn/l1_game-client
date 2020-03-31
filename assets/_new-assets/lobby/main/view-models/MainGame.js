@@ -156,19 +156,9 @@ cc.Class({
     if (void 0 !== data.mini) {
       cc.RedT.MiniPanel.onData(data.mini);
     }
-    // if (void 0 !== data.TopHu) {
-    //   cc.RedT.MiniPanel.TopHu.onData(data.TopHu);
-    //   this.dialog.DEvent.onHU(data.TopHu);
-    // }
     if (void 0 !== data.taixiu) {
       cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
     }
-    // if (void 0 !== data.shop) {
-    //   this.dialog.shop.onData(data.shop);
-    // }
-    // if (void 0 !== data.profile) {
-    //   this.dialog.profile.onData(data.profile);
-    // }
     if (void 0 !== data.notice) {
       this.notice.show(data.notice);
     }
@@ -194,12 +184,12 @@ cc.Class({
       this.dialog.iMessage.onData(data.message);
     }
 
-    if (!!data.apiError) {
-      this.notice.show({
-        title: "LỖI",
-        text: data.apiError.message
-      });
-    }
+    // if (!!data.apiError) {
+    //   this.notice.show({
+    //     title: "LỖI",
+    //     text: data.apiError.message
+    //   });
+    // }
 
     if (!!data.removeIsLoading) {
       this.loading.active = false;
@@ -215,6 +205,10 @@ cc.Class({
           text: data.kickedOut.message
         });
       }
+    }
+
+    if (void 0 !== data.apiError) {
+      cc.RedT.MiniPanel.onDataError(data);
     }
   },
   captcha: function (data) {

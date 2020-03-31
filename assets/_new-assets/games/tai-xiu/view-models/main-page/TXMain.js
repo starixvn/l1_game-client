@@ -283,6 +283,7 @@ cc.Class({
     }
   },
   onLoad() {
+    this.waitingBetResponse = false;
     var self = this;
     this.ttOffset = null;
     this.editboxs = [this.inputLeft, this.inputRight];
@@ -334,6 +335,8 @@ cc.Class({
           return;
         }
 
+        this.waitingBetResponse = true;
+
         cc.RedT.send({
           taixiu: {
             cuoc: {
@@ -344,8 +347,6 @@ cc.Class({
             }
           }
         });
-
-        this.waitingBetResponse = true;
       }
     };
     if (this.TXRoot.board) {
@@ -590,7 +591,11 @@ cc.Class({
     if (void 0 !== data.get_phien) {
       this.TXRoot.TXBetHistory.onData(data.get_phien);
     }
+    if (void 0 !== data.apiError) {
+      this.waitingBetResponse = false;
+    }
     if (void 0 !== data.err) {
+      this.waitingBetResponse = false;
       NoticeUtil.showNoticeMessage(this, data.err);
     }
     if (void 0 !== data.du_day) {
@@ -840,17 +845,19 @@ cc.Class({
     }
   },
   onDataTaiXiu: function (data) {
-    this.waitingBetResponse = false;
-
-    if (this.processingWarningPopup !== undefined) {
-      this.processingWarningPopup.close();
-    }
-
     if (void 0 !== cc.RedT.inGame.onGetTaiXiu) {
       cc.RedT.inGame.onGetTaiXiu(data.red_tai, data.red_xiu);
     }
 
     if (this.red) {
+      if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
+        this.waitingBetResponse = false;
+
+        if (this.processingWarningPopup !== undefined) {
+          this.processingWarningPopup.close();
+        }
+      }
+
       if (void 0 !== data.red_tai) {
         var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
 
