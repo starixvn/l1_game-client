@@ -14,9 +14,10 @@ sentry_release:
   stage: post-deploy
   before_script:
     - export SENTRY_AUTH_TOKEN=5d2c2892725311eaa9794201c0a8d039
+    - export SENTRY_ORG=luminet
     - export VERSION=${CI_COMMIT_REF_NAME:1}
   script:
-    - sentry-cli releases -org Luminet new $VERSION --project GameClient
+    - sentry-cli releases new $VERSION
     - sentry-cli releases set-commits --auto $VERSION
     - sentry-cli releases finalize $VERSION
     - echo "Finalized release for $VERSION"
