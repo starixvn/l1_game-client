@@ -305,7 +305,7 @@ cc.Class({
 		}
 		if (void 0 !== data.notice) {
 			this.isWaitingBetResult = false;
-			if (this.processingWarningPopup !== undefined) {
+			if (this.processingWarningPopup) {
 				this.processingWarningPopup.close();
 				this.processingWarningPopup = null;
 			}
