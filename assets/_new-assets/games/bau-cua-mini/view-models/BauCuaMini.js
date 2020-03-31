@@ -56,6 +56,7 @@ cc.Class({
 
     notice: cc.Node,
     umWarning: cc.Node,
+    slowBetWarning: cc.Node,
     prefabNotice: cc.Prefab,
 
     cuoc: "",
@@ -101,6 +102,7 @@ cc.Class({
 
     cc.RedT.setting.baucua.regOpen = false; // force get new data when back from other scene
     this.disabled = false;
+    this.waitingCuoc = false;
 
     var check = localStorage.getItem("bauCua");
     if (check == "true") {
@@ -320,7 +322,16 @@ cc.Class({
       }
     }
   },
+  showWarningSlowBet(show) {
+    this.slowBetWarning.active = show;
+  },
   datCuoc: function (e, linhVat) {
+    if (this.waitingCuoc) {
+      this.showWarningSlowBet(true);
+      return;
+    }
+
+    this.waitingCuoc = true;
     cc.RedT.send({
       g: {
         baucua: {
@@ -434,6 +445,11 @@ cc.Class({
     // if (void 0 !== data.chipCuoc) {
     //   this.addChipThrowAnimation(data.chipCuoc);
     // }
+
+    if (void 0 !== data.endCuoc) {
+      this.waitingCuoc = false;
+      this.showWarningSlowBet(false);
+    }
 
     if (void 0 !== data.data) {
       var a = Object.assign(cc.RedT.setting.baucua.data, data.data);
@@ -700,29 +716,31 @@ cc.Class({
     }
     setTimeout(
       function () {
-        var temp = new cc.Node();
-        temp.addComponent(cc.Label);
-        temp = temp.getComponent(cc.Label);
-        temp.string =
-          (data.win ? "+" : "-") + helper.numberWithCommas(data.bet);
-        temp.font = data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
-        temp.lineHeight = 130;
-        temp.fontSize = 30;
-        temp.node.position = cc.v2(0, 90);
-        this.notice.addChild(temp.node);
-        temp.node.runAction(
-          cc.sequence(
-            cc.moveTo(3.5, cc.v2(0, 200)),
-            cc.callFunc(function () {
-              this.node.destroy();
-            }, temp)
-          )
-        );
-        data.win && cc.RedT.send({
-          user: {
-            updateCoint: true
-          }
-        });
+        if (data.win) {
+          var temp = new cc.Node();
+          temp.addComponent(cc.Label);
+          temp = temp.getComponent(cc.Label);
+          temp.string = "+" + helper.numberWithCommas(data.bet);
+          temp.font = cc.RedT.util.fontCong;// data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
+          temp.lineHeight = 130;
+          temp.fontSize = 30;
+          temp.node.position = cc.v2(0, 90);
+          this.notice.addChild(temp.node);
+          temp.node.runAction(
+            cc.sequence(
+              cc.moveTo(3.5, cc.v2(0, 200)),
+              cc.callFunc(function () {
+                this.node.destroy();
+              }, temp)
+            )
+          );
+          cc.RedT.send({
+            user: {
+              updateCoint: true
+            }
+          });
+        }
+
         if (void 0 !== data.thuong && data.thuong > 0) {
           var thuong = new cc.Node();
           thuong.addComponent(cc.Label);
