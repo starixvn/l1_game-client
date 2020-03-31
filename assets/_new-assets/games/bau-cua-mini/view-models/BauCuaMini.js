@@ -558,7 +558,7 @@ cc.Class({
           // show countdown           
           // this.Animation.node.active = false;
           // }
-          this.setPhien(this.localPhien - 1);
+          this.localPhien !== "" && this.setPhien(this.localPhien - 1);
         } else {
           this.waitedTime.node.parent.active = false;
           this.Animation.node.active = false;
