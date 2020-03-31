@@ -1,6 +1,6 @@
 .publish_release_sentry:
   script: >-
-    - curl https://sentry.io/api/hooks/release/builtin/5176898/563e0cdf27a8743e6385886461efee9076c07b42d0da9e94d303d0d704aa0c1b/ 
+      curl https://sentry.io/api/hooks/release/builtin/5176898/563e0cdf27a8743e6385886461efee9076c07b42d0da9e94d303d0d704aa0c1b/ 
       -X POST -H 'Content-Type: application/json' 
       -d '{\"version\": \"$CI_BUILD_REF\"}'
 
