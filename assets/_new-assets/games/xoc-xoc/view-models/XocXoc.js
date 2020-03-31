@@ -83,6 +83,10 @@ cc.Class({
 		prefabNotice: cc.Prefab,
 		prefabGuide: cc.Prefab,
 		prefabHistory: cc.Prefab,
+		ProcessingWarning: {
+			default: null,
+			type: cc.Prefab
+		},
 
 		bet: cc.Node,
 		nodeRed: cc.Node,
@@ -287,6 +291,10 @@ cc.Class({
 		}
 		if (!!data.mechip) {
 			this.isWaitingBetResult = false;
+			if (this.processingWarningPopup !== undefined) {
+				console.log(this.processingWarningPopup);
+				this.processingWarningPopup.close();
+			}
 			this.meChip(data.mechip);
 		}
 		if (!!data.client) {
@@ -297,6 +305,10 @@ cc.Class({
 		}
 		if (void 0 !== data.notice) {
 			this.isWaitingBetResult = false;
+			if (this.processingWarningPopup !== undefined) {
+				console.log(this.processingWarningPopup);
+				this.processingWarningPopup.close();
+			}
 			this.addNotice(data.notice);
 		}
 		if (void 0 !== data.um) {
@@ -1062,7 +1074,10 @@ cc.Class({
 	},
 	onCuoc: function (event, box) {
 		if (this.isWaitingBetResult) {
-			this.addNotice("Cược đang xử lý. Vui lòng đợi.")
+			var processingWarning = cc.instantiate(this.ProcessingWarning);
+			this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
+			this.miniNotice.addChild(processingWarning);
+			return;
 		} else {
 			this.isWaitingBetResult = true;
 			cc.RedT.send({ g: { xocxoc: { cuoc: { red: this.red, cuoc: this.cuoc, box: box } } } });
