@@ -35,7 +35,7 @@ cc.Class({
     },
     clearCuoc: function () {
         this.lastTotalCuoc = 0;
-        this.totall.string = 0;
+        this.totall.string = '';
         this.me.string = '';
     },
     updateState: function (show) {
