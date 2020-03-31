@@ -12,9 +12,10 @@ prod_deploy_web:
 sentry_release:
   image: getsentry/sentry-cli
   stage: post-deploy
-  script:
+  before_script:
     - export SENTRY_AUTH_TOKEN=5d2c2892725311eaa9794201c0a8d039
     - export VERSION=${CI_COMMIT_REF_NAME:1}
+  script:
     - sentry-cli releases new -p pattle $VERSION
     - sentry-cli releases set-commits --auto $VERSION
     - sentry-cli releases finalize $VERSION
