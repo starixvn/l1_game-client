@@ -843,7 +843,7 @@ cc.Class({
     this.waitingBetResponse = false;
 
     if (this.processingWarningPopup !== undefined) {
-      this.processingWarningPopup.stop();
+      this.processingWarningPopup.close();
     }
 
     if (void 0 !== cc.RedT.inGame.onGetTaiXiu) {
