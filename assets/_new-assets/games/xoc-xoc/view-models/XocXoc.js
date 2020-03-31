@@ -291,8 +291,9 @@ cc.Class({
 		}
 		if (!!data.mechip) {
 			this.isWaitingBetResult = false;
-			if (this.processingWarningPopup !== undefined) {
+			if (this.processingWarningPopup) {
 				this.processingWarningPopup.close();
+				this.processingWarningPopup = null;
 			}
 			this.meChip(data.mechip);
 		}
@@ -306,6 +307,7 @@ cc.Class({
 			this.isWaitingBetResult = false;
 			if (this.processingWarningPopup !== undefined) {
 				this.processingWarningPopup.close();
+				this.processingWarningPopup = null;
 			}
 			this.addNotice(data.notice);
 		}
@@ -1072,10 +1074,11 @@ cc.Class({
 	},
 	onCuoc: function (event, box) {
 		if (this.isWaitingBetResult) {
-			var processingWarning = cc.instantiate(this.ProcessingWarning);
-			this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
-			this.miniNotice.addChild(processingWarning);
-			return;
+			if (!this.processingWarningPopup) {
+				var processingWarning = cc.instantiate(this.ProcessingWarning);
+				this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
+				this.miniNotice.addChild(processingWarning);
+			}
 		} else {
 			this.isWaitingBetResult = true;
 			cc.RedT.send({ g: { xocxoc: { cuoc: { red: this.red, cuoc: this.cuoc, box: box } } } });

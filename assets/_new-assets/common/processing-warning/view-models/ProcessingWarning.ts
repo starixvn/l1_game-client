@@ -11,6 +11,7 @@ export default class ProcessingWarning extends cc.Component {
 
     private waitTime: number = 5;
     private title: string = "Cược đang được xử lí, vui lòng đợi trong giây lát!";
+    private countDownId: number;
 
     onEnable() {
         var self = this;
@@ -18,11 +19,11 @@ export default class ProcessingWarning extends cc.Component {
         this.timeLabel.string = this.waitTime.toString();
         var waitTime = this.waitTime;
 
-        var countDownId = setInterval(function () {
+        this.countDownId = setInterval(function () {
             waitTime--;
 
             if (waitTime == 0) {
-                clearInterval(countDownId);
+                clearInterval(this.countDownId);
             }
             self.timeLabel.string = waitTime.toString();
         }, 1000);
@@ -46,6 +47,7 @@ export default class ProcessingWarning extends cc.Component {
     public close() {
         this.node.stopAllActions();
         this.node.runAction(cc.sequence(this.hideWarning, this.destroyNode));
+        clearInterval(this.countDownId);
     }
 
     private showWarning: cc.ActionInstant = cc.spawn(
