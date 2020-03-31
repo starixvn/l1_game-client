@@ -461,6 +461,10 @@ cc.Class({
     if (void 0 !== data.endCuoc) {
       this.waitingCuoc = false;
       this.showWarningSlowBet(false);
+
+      if (data.endCuoc !== -1) {
+        this.addFlyingText(false, data.endCuoc);
+      }
     }
 
     if (void 0 !== data.data) {
@@ -722,6 +726,25 @@ cc.Class({
   //   cc.RedT.setting.baucua.regOpen = false;
   //   void 0 !== this.timeInterval && clearInterval(this.timeInterval);
   // },
+  addFlyingText(win, value) {
+    var temp = new cc.Node();
+    temp.addComponent(cc.Label);
+    temp = temp.getComponent(cc.Label);
+    temp.string = (win ? "+" : "-") + helper.numberWithCommas(value);
+    temp.font = win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
+    temp.lineHeight = 130;
+    temp.fontSize = 30;
+    temp.node.position = cc.v2(0, 90);
+    this.notice.addChild(temp.node);
+    temp.node.runAction(
+      cc.sequence(
+        cc.moveTo(3.5, cc.v2(0, 200)),
+        cc.callFunc(function () {
+          this.node.destroy();
+        }, temp)
+      )
+    );
+  },
   status: function (data) {
     if (!cc.RedT.GAME_IS_SHOWED) {
       return;
@@ -729,23 +752,7 @@ cc.Class({
     setTimeout(
       function () {
         if (data.win) {
-          var temp = new cc.Node();
-          temp.addComponent(cc.Label);
-          temp = temp.getComponent(cc.Label);
-          temp.string = "+" + helper.numberWithCommas(data.bet);
-          temp.font = cc.RedT.util.fontCong;// data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
-          temp.lineHeight = 130;
-          temp.fontSize = 30;
-          temp.node.position = cc.v2(0, 90);
-          this.notice.addChild(temp.node);
-          temp.node.runAction(
-            cc.sequence(
-              cc.moveTo(3.5, cc.v2(0, 200)),
-              cc.callFunc(function () {
-                this.node.destroy();
-              }, temp)
-            )
-          );
+          this.addFlyingText(data.win, data.bet);
           cc.RedT.send({
             user: {
               updateCoint: true
