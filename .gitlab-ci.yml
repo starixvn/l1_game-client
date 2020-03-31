@@ -4,6 +4,7 @@ variables:
 stages:
   - build
   - deploy
+  - post-deploy
 
 before_script:
   - echo "====== Build Cocos Web Mobile ======"
@@ -14,151 +15,19 @@ before_script:
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 
-build:
-  stage: build
-  script:
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
-  tags:
-    - deploy-cocos-web-mobile
-  only:
-    - master
+# build:
+#   stage: build
+#   script:
+#     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
+#   tags:
+#     - deploy-cocos-web-mobile
+#   only:
+#     - master
 
-mobile_deploy_ios_testflight:
-  stage: deploy
-  script:
-    - echo "====== Build Cocos Web Mobile ======"
-    - mkdir -p ~/.ssh
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=ios;optimizeHotUpdate=true"
-    - cp -R ./build-files/ios/ ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
-    - cd ./build/jsb-link/frameworks/runtime-src/proj.ios_mac/
-    - fastlane beta
-  tags:
-    - deploy-cocos-ios-tf
-  environment:
-    name: iOS-TF
-  only:
-    - /^deploy-ios-\d{8}-\d+.*$/
-    - /^deploy-\d{8}-\d+.*$/
-
-dev_deploy_web:
-  stage: deploy
-  script:
-    - echo "====== Build Cocos Web Mobile ======"
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
-    - echo "====== Deploying to server ======"
-    - tar czf - ./build/web-mobile/* | ssh root@$LOCAL_SERVER "cd /var/www/l1-dev/game-client/web-mobile && tar xvzf -"
-  tags:
-    - deploy-cocos-web-mobile
-  environment:
-    name: DEV
-  only:
-   - /^deploy-dev-web-\d{8}-\d+.*$/
-   
-
-local_deploy_web:
-  stage: deploy
-  script:
-    - echo "====== Build Cocos Web Mobile ======"
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
-    - echo "====== Deploying to server ======"
-    - tar czf - ./build/web-mobile/* | ssh root@$LOCAL_SERVER "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
-  tags:
-    - deploy-cocos-web-mobile
-  environment:
-    name: LOCAL
-  only:
-   - /^deploy-local-web-\d{8}-\d+.*$/
-   - /^deploy-web-\d{8}-\d+.*$/
-   - /^deploy-\d{8}-\d+.*$/
-   
-sit_deploy_web:
-  stage: deploy
-  script:
-    - echo "====== Build Cocos Web Mobile ======"
-    - cp ./assets/_new-assets/Configs.SIT.js ./assets/_new-assets/Configs.js
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
-    - echo "====== Push to git compiled ======"
-    - git clone --branch SIT $GIT_COMPILED_REPO ./publish
-    - cp -R ./build/web-mobile/* ./publish
-    - cp ./gitlab-ci-after-script-SIT.sh ./publish
-    - cd ./publish
-    - git add .
-    - if [ -z "$(git status --porcelain)" ]; 
-      then 
-        echo "Nothing change"; 
-      else 
-       git commit -m "$COMMIT_MESSAGE"; git push -u origin SIT;
-       echo "==============Waiting for after script execution==============";
-       sleep 60; 
-      fi
-  tags:
-    - deploy-cocos-web-mobile
-  environment:
-    name: SIT
-  only:
-   - /^deploy-sit-web-\d{8}-\d+.*$/
-   - /^deploy-web-\d{8}-\d+.*$/
-   - /^deploy-\d{8}-\d+.*$/
-
-uat_deploy_web:
-  stage: deploy
-  script:
-    - echo "====== Build Cocos Web Mobile ======"
-    - cp ./assets/_new-assets/Configs.UAT.js ./assets/_new-assets/Configs.js
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
-    - echo "====== Push to git compiled ======"
-    - git clone --branch UAT $GIT_COMPILED_REPO ./publish
-    - cp -R ./build/web-mobile/* ./publish
-    - cp ./gitlab-ci-after-script-UAT.sh ./publish
-    - cd ./publish
-    - git add .
-    - if [ -z "$(git status --porcelain)" ]; 
-      then 
-        echo "Nothing change"; 
-      else 
-       git commit -m "$COMMIT_MESSAGE"; git push -u origin UAT;
-       echo "==============Waiting for after script execution==============";
-       sleep 60; 
-      fi
-  tags:
-    - deploy-cocos-web-mobile
-  environment:
-    name: UAT
-    url: http://uat.saba.vin/
-  only:
-    - /^deploy-uat-web-\d{8}-\d+.*$/
-    - /^deploy-web-\d{8}-\d+.*$/
-    - /^deploy-\d{8}-\d+.*$/
-
-prod_deploy_web:
-  stage: deploy
-  script:
-    - echo "====== Build Cocos Web Mobile ======"
-    - cp ./assets/_new-assets/Configs.PRO.js ./assets/_new-assets/Configs.js
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
-    - echo "====== Push to git compiled ======"
-    - git clone $GIT_COMPILED_REPO ./publish
-    - cp -R ./build/web-mobile/* ./publish
-    - cp ./gitlab-ci-after-script-PRO.sh ./publish
-    - cd ./publish
-    - git add .
-    - if [ -z "$(git status --porcelain)" ]; 
-      then 
-        echo "Nothing change!!!"; 
-      else 
-       git commit -m "$COMMIT_MESSAGE"; git push -u origin master;
-       echo "==============Waiting for after script execution==============";
-       sleep 60; 
-      fi
-  tags:
-    - deploy-cocos-web-mobile
-  environment:
-    name: PRO
-    url: http://www.saba.club/
-  when: manual
-  only:
-    - master
-    # - /^deploy-pro-web-\d{8}-\d+.*$/
-    # - /^deploy-web-\d{8}-\d+.*$/
-    # - /^deploy-\d{8}-\d+.*$/
-
+include:
+  - local: .gitlab-ci-push-git-compiled-web.yml
+  - local: .gitlab-ci-local.yml
+  - local: .gitlab-ci-sit.yml
+  - local: .gitlab-ci-uat.yml
+  - local: .gitlab-ci-pro.yml
+  - local: .gitlab-ci-ios.yml

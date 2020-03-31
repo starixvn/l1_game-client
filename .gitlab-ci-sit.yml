@@ -1,0 +1,9 @@
+sit_deploy_web:
+  extends: .push-git-compiled-web
+  environment:
+    name: SIT
+    url: http://sit.saba.vin/
+  only:
+   - /^deploy-sit-web-\d{8}-\d+.*$/
+   - /^deploy-web-\d{8}-\d+.*$/
+   - /^deploy-\d{8}-\d+.*$/

@@ -1,0 +1,32 @@
+prod_deploy_web:
+  extends: 
+    - .push-git-compiled-web
+  environment:
+    name: PRO
+    url: http://www.saba.club/
+  when: manual
+  only:
+ #   - master
+    - /^deploy-web-\d{8}-\d+.*$/
+
+sentry_release:
+  image: getsentry/sentry-cli
+  stage: post-deploy
+  before_script:
+    - export SENTRY_AUTH_TOKEN=cb34911ca66a426985c7263c988341260a22080669814f4d857452b13c61d224
+    - export SENTRY_ORG=luminet
+    - export SENTRY_PROJECT=l1-game-client-pro
+    - export VERSION=${CI_COMMIT_REF_NAME:1}
+  script:
+    - sentry-cli releases new $VERSION
+    - sentry-cli releases set-commits --auto $VERSION
+    - sentry-cli releases finalize $VERSION
+    - echo "Finalized release for $VERSION"
+  tags:
+    - docker
+ # needs: ["prod_deploy_web"]
+  only:
+    - master
+    - /^deploy-web-\d{8}-\d+.*$/
+
+  
