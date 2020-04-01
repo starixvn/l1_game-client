@@ -1116,7 +1116,7 @@ cc.Class({
       return;
     }
 
-    if (data.bet > 0 && data.win) {
+    if (data.bet > 0 || data.win) {
       this.showBetMoney(data.bet, data.win, data.select)
     }
 
