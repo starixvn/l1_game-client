@@ -223,6 +223,9 @@ cc.Class({
 		if (void 0 !== data.taixiu) {
 			cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
 		}
+		if (data.apiError) {
+			cc.RedT.MiniPanel.onDataError(data);
+		}
 	},
 	backGame: function () {
 		clearInterval(this.timeInterval);
