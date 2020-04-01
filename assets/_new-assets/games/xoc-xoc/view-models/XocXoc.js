@@ -163,6 +163,7 @@ cc.Class({
 		this.winners = {};
 		this.status = {};
 		this.isWaitingBetResult = false;
+		this.processingWarningPopup = null;
 	},
 	onDestroy() {
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
@@ -1095,7 +1096,6 @@ cc.Class({
 			this.isWaitingBetResult = true;
 			cc.RedT.send({ g: { xocxoc: { cuoc: { red: this.red, cuoc: this.cuoc, box: box } } } });
 		}
-
 	},
 	addNotice: function (text) {
 		var notice = cc.instantiate(this.prefabNotice)
