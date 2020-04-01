@@ -457,7 +457,7 @@ cc.Class({
       this.showWarningSlowBet(false);
 
       if (data.endCuoc !== -1) {
-        this.addFlyingText(false, data.endCuoc);
+        this.addFlyingText(false, data.endCuoc, 1);
       }
     }
 
@@ -732,7 +732,7 @@ cc.Class({
   //   cc.RedT.setting.baucua.regOpen = false;
   //   void 0 !== this.timeInterval && clearInterval(this.timeInterval);
   // },
-  addFlyingText(win, value) {
+  addFlyingText(win, value, duration) {
     var temp = new cc.Node();
     temp.addComponent(cc.Label);
     temp = temp.getComponent(cc.Label);
@@ -744,7 +744,7 @@ cc.Class({
     this.notice.addChild(temp.node);
     temp.node.runAction(
       cc.sequence(
-        cc.moveTo(3.5, cc.v2(0, 200)),
+        cc.moveTo(duration, cc.v2(0, 200)),
         cc.callFunc(function () {
           this.node.destroy();
         }, temp)
@@ -758,7 +758,7 @@ cc.Class({
     setTimeout(
       function () {
         if (data.win) {
-          this.addFlyingText(data.win, data.bet);
+          this.addFlyingText(data.win, data.bet, 4);
           cc.RedT.send({
             user: {
               updateCoint: true
