@@ -2,8 +2,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Notice extends cc.Component {
-    @property(cc.Node)
-    popupNode: cc.Node = null;
+    @property(cc.Sprite)
+    popupNode: cc.Sprite = null;
 
     @property(cc.Label)
     title: cc.Label = null;
@@ -17,12 +17,18 @@ export default class Notice extends cc.Component {
     @property(cc.Label)
     buttonLabel: cc.Label = null;
 
+    @property(cc.SpriteFrame)
+    errorBackground: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    infoBackground: cc.SpriteFrame = null;
+
     public handleClickButton: () => void;
 
     onEnable() {
-        this.popupNode.opacity = 0;
-        this.popupNode.scale = 0;
-        this.popupNode.runAction(cc.spawn(cc.scaleTo(0.5, 1).easing(cc.easeBackOut()), cc.fadeTo(0.5, 255)));
+        this.popupNode.node.opacity = 0;
+        this.popupNode.node.scale = 0;
+        this.popupNode.node.runAction(cc.spawn(cc.scaleTo(0.5, 1).easing(cc.easeBackOut()), cc.fadeTo(0.5, 255)));
     }
 
     onDisable() {
@@ -38,6 +44,7 @@ export default class Notice extends cc.Component {
         this.setTitle(data.title);
         this.setMessage(data.text);
         this.setButton(data.button);
+        this.setBackground(data.isInfo);
     }
 
     public onClickButton() {
@@ -46,11 +53,21 @@ export default class Notice extends cc.Component {
         if (this.handleClickButton) {
             this.handleClickButton();
         }
+
         this.close();
     }
 
     public close() {
         this.node.active = false;
+    }
+
+    public setBackground(isInfo: boolean) {
+        if (isInfo) {
+            this.popupNode.spriteFrame = this.infoBackground;
+        }
+        else {
+            this.popupNode.spriteFrame = this.errorBackground;
+        }
     }
 
     public setTitle(title: string) {

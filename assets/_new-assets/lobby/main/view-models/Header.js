@@ -80,6 +80,7 @@ cc.Class({
     }
     notice.init({
       title: "ĐĂNG XUẤT",
+      isInfo: true,
       text:
         "Bạn có muốn đăng xuất không?",
       button: { type: "sign_out", text: "ĐỒNG Ý" }

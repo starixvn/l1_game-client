@@ -592,10 +592,10 @@ cc.Class({
       this.TXRoot.TXBetHistory.onData(data.get_phien);
     }
     if (void 0 !== data.apiError) {
-      this.closeProcessingWarningPopu();
+      this.closeProcessingWarningPopup();
     }
     if (void 0 !== data.err) {
-      this.closeProcessingWarningPopu();
+      this.closeProcessingWarningPopup();
       NoticeUtil.showNoticeMessage(this, data.err);
     }
     if (void 0 !== data.du_day) {
@@ -803,7 +803,7 @@ cc.Class({
 
     if (this.red) {
       if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
-        this.closeProcessingWarningPopu();
+        this.closeProcessingWarningPopup();
       }
 
       if (void 0 !== data.red_tai) {
