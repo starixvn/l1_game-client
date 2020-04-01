@@ -13,6 +13,12 @@ function preChecking(cb, labelMessage) {
         return;
     }
 
+    if (urlParams.has("isTimeout") && urlParams.get("isTimeout") == 'true') {
+
+        cc.director.loadScene("sessiontimeout");
+        return;
+    }
+
     httpHelper.get(settingUrl, function (settingResponse) {
         // redirectDomain: 'http://demo.com',
         // disabledDirectLogin: appConfigs.disabledDirectLogin,
@@ -29,19 +35,8 @@ function preChecking(cb, labelMessage) {
             if (isSessionExpired
                 && !urlParams.has("token")
                 && settingResponse.disabledDirectLogin) {
-                let redirectMessage = "Phiên làm việc của bạn đã hết hạn, chúng tôi sẽ đưa bạn trở về trang chủ sau ## giây...";
-                let countDown = 10;
-                labelMessage.string = redirectMessage.replace('##', countDown);
 
-                setInterval(() => {
-                    countDown--;
-                    if (countDown == 0) {
-                        window.location.href = settingResponse.redirectDomain;
-                    }
-                    else {
-                        labelMessage.string = redirectMessage.replace('##', countDown);
-                    }
-                }, 1000);
+                cc.director.loadScene("sessiontimeout");
 
                 return settingResponse;
             }
