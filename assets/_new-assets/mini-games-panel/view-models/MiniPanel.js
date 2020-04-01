@@ -147,13 +147,13 @@ cc.Class({
   showErrorNotice: function (error) {
     var noticePrefab = cc.instantiate(this.NoticePrefab);
     var notice = noticePrefab.getComponent("Notice");
-    var message = `Game ${configs.gameNames[error.gameTypeId]}. ${error.message}.`;
+    var message = `Game ${configs.gameNames[error.gameTypeId]} (#${error.gameRoundId})\r\n ${error.message}.`;
 
     if (error.isPlaceBetFailed) {
       message += " Đặt cược thất bại!"
     }
 
-    notice.init({ message: message });
+    notice.init({ text: message });
     this.node.addChild(noticePrefab);
   }
 });
