@@ -129,17 +129,16 @@ cc.Class({
       }
     }
 
-    this.Animation.on("finished", this.AnimationFinish, this);
+    this.Animation.on("finished", this.addLogs, this);
     this.betChipList = [];
     this.localPhien = "";
+    this.localResultDices = [];
 
     var self = this;
     cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
     cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
   },
   onGameShow() {
-    this.Animation.on("finished", this.AnimationFinish, this);
-
     var data = {
       g: {
         baucua: {
@@ -150,9 +149,6 @@ cc.Class({
     cc.RedT.send(data);
   },
   onGameHide() {
-    clearInterval(this.timeInterval);
-    this.Animation.off("finished", this.AnimationFinish, this);
-    this.resetGame();
   },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
@@ -305,13 +301,11 @@ cc.Class({
     cc.RedT.setting.baucua.bet = target.name;
     //this.onGetHu();
   },
-  AnimationFinish: function () {
-    this.addLogs();
-    var dice = cc.RedT.setting.baucua.logs[0];
-    this.showWinSlot(dice);
+  showResulSlots: function (dices) {
+    this.showWinSlot(dices);
     var heSo = {};
     for (var i = 0; i < 3; i++) {
-      var dataT = dice[i];
+      var dataT = dices[i];
       if (void 0 === heSo[dataT]) {
         heSo[dataT] = 1;
       } else {
@@ -481,6 +475,7 @@ cc.Class({
     if (void 0 !== data.logs) {
       cc.RedT.setting.baucua.logs = data.logs;
       this.addLogs();
+      this.localResultDices = [...data.logs[0]];
     }
 
     if (void 0 !== data.regOpen) {
@@ -504,10 +499,18 @@ cc.Class({
         ]);
         cc.RedT.setting.baucua.logs.length > BCConstants.limitLog &&
           cc.RedT.setting.baucua.logs.pop();
-        this.setDice(data.finish.dices);
+
+        this.localResultDices = [...data.finish.dices];
+
         // Play
         this.Animation.node.active = true;
-        this.Animation.play();
+        if (cc.RedT.GAME_IS_SHOWED) {
+          this.Animation.play();
+        } else {
+          //force play the end
+          var duration = this.Animation.defaultClip.duration;
+          this.Animation.play("BauCua_plate", duration - 1);
+        }
       }
 
       cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
@@ -560,12 +563,15 @@ cc.Class({
           this.waitedTime.node.parent.active = true && time != "00";
 
           this.titleTime.string = "Xem phiên";
-          // if (cc.RedT.setting.baucua.time_remain < (BCConstants.betTime + 6)) {
-          // show countdown           
-          // this.Animation.node.active = false;
-          // }
           this.localPhien !== "" && this.setPhien(this.localPhien - 1);
+
+          if (this.localResultDices.length > 0) {
+            var dices = this.localResultDices;
+            this.setDice(dices);
+            this.showResulSlots(dices);
+          }
         } else {
+          this.localResultDices = [];
           this.waitedTime.node.parent.active = false;
           this.Animation.node.active = false;
           this.setPhien(this.localPhien);
