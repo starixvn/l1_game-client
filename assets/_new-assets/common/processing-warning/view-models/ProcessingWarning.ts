@@ -30,7 +30,7 @@ export default class ProcessingWarning extends cc.Component {
 
         this.node.runAction(cc.sequence(
             this.showWarning,
-            cc.delayTime(this.waitTime + 1),
+            cc.delayTime(this.waitTime),
             this.hideWarning,
             this.destroyNode
         ));
