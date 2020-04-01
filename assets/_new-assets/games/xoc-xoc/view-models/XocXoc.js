@@ -203,7 +203,7 @@ cc.Class({
 			self.avatar.spriteFrame = frame;
 		});
 		cc.game.on(cc.game.EVENT_HIDE, self.backGame, self);
-		if (!cc.sys.isMobile || cc.sys.platform === cc.sys.IPAD) {
+		if (!cc.sys.isMobile) {
 			this.center.scale = 0.8;
 		}
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
