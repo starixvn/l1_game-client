@@ -7,6 +7,11 @@ const configs = {
         BauCua: 3,
         MiniPoker: 4
     },
+    gameNames: {
+        1: "Tài Xỉu",
+        2: "Xóc Dĩa",
+        3: "Bầu Cua"
+    },
     sentryUrl: 'https://66ed134df6bc4d6da328e1ba214a50f3@sentry.io/5176897',
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",

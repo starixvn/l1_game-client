@@ -10,7 +10,7 @@ export default class ProcessingWarning extends cc.Component {
     timeLabel: cc.Label = null;
 
     private waitTime: number = 5;
-    private title: string = "Cược đang được xử lí, vui lòng đợi trong giây lát!";
+    private title: string = "Cược đang được xử lí, vui lòng đợi trong giây lát.";
     private countDownId: number;
 
     onEnable() {

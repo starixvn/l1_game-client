@@ -733,11 +733,11 @@ cc.Class({
 
 					if (status.bet && status.win) {
 						var temp = self.createWinResultNode(status.bet, status.win);
-						temp.node.position = cc.v2(0, 0);
+						temp.node.position = cc.v2(70, 0);
 						self.me.addChild(temp.node);
 						temp.node.runAction(
 							cc.sequence(
-								cc.moveTo(4, cc.v2(0, 50)),
+								cc.moveTo(4, cc.v2(70, 50)),
 								cc.callFunc(function () { this.node.destroy() }, temp)
 							)
 						);
@@ -1245,11 +1245,11 @@ cc.Class({
 			));
 
 		var temp = this.createWinResultNode(data.cuoc, false);
-		temp.node.position = cc.v2(0, 0);
+		temp.node.position = cc.v2(70, 0);
 		this.me.addChild(temp.node);
 		temp.node.runAction(
 			cc.sequence(
-				cc.moveTo(2, cc.v2(0, 50)),
+				cc.moveTo(0.5, cc.v2(70, 50)),
 				cc.callFunc(function () { this.node.destroy() }, temp)
 			)
 		);
