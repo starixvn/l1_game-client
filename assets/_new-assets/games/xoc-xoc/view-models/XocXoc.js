@@ -314,14 +314,17 @@ cc.Class({
 			this.addNotice(data.notice);
 		}
 		if (void 0 !== data.um) {
-			this.showUMMessage();
+			if (!this.UMNotice) {
+				this.showUMMessage();
+			}
 		}
 	},
 	showUMMessage: function () {
 		clearInterval(this.timeInterval);
 		var noticePrefab = cc.instantiate(this.NoticePrefab);
-		var notice = noticePrefab.getComponent("Notice");
-		notice.init({ text: "Hệ thống đang bảo trì. Vui lòng quay lại sau...!!!", button: { text: "Ok" } });
+		this.UMNotice = noticePrefab.getComponent("Notice");
+		this.UMNotice.init({ text: "Hệ thống đang bảo trì. Vui lòng quay lại sau...!!!", button: { text: "Ok" } });
+		this.UMNotice.handleClickButton = this.backGame;
 		this.node.addChild(noticePrefab)
 	},
 	xocxocIngame: function (data) {
@@ -739,59 +742,61 @@ cc.Class({
 					self.status = {};
 				}
 
-				let winnerIds = Object.keys(self.winners);
-				winnerIds.forEach(function (id) {
-					let winnerData = self.winners[id];
-					let slot = self.getPlayerSlot(id);
-					if (slot) {
-						let slotIndex = slot.id - 1;
-						let player = self.players[slotIndex];
-						let slotPosition = player.node.parent.convertToWorldSpaceAR(player.node.position);
+				if (self.winners) {
+					let winnerIds = Object.keys(self.winners);
+					winnerIds.forEach(function (id) {
+						let winnerData = self.winners[id];
+						let slot = self.getPlayerSlot(id);
+						if (slot) {
+							let slotIndex = slot.id - 1;
+							let player = self.players[slotIndex];
+							let slotPosition = player.node.parent.convertToWorldSpaceAR(player.node.position);
 
-						if (winnerData.boxs.main) {
-							let random = Math.floor(Math.random() * 3) + 1;
-							let position = node1.convertToNodeSpaceAR(slotPosition);
-							for (let i = 0; i < random; i++) {
-								let child = node1.children[mainIndex + i];
-								child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+							if (winnerData.boxs.main) {
+								let random = Math.floor(Math.random() * 3) + 1;
+								let position = node1.convertToNodeSpaceAR(slotPosition);
+								for (let i = 0; i < random; i++) {
+									let child = node1.children[mainIndex + i];
+									child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+								}
+								mainIndex += random;
 							}
-							mainIndex += random;
-						}
 
-						if (node2 && winnerData.boxs.sub) {
-							let random = Math.floor(Math.random() * 3) + 1;
-							let position = node2.convertToNodeSpaceAR(slotPosition);
-							for (let i = 0; i < random; i++) {
-								let child = node2.children[subIndex + i];
-								child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+							if (node2 && winnerData.boxs.sub) {
+								let random = Math.floor(Math.random() * 3) + 1;
+								let position = node2.convertToNodeSpaceAR(slotPosition);
+								for (let i = 0; i < random; i++) {
+									let child = node2.children[subIndex + i];
+									child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position)));
+								}
+								subIndex += random;
 							}
-							subIndex += random;
+
+							let resultLabel = self.createWinResultNode(winnerData.bet)
+							player.node.addChild(resultLabel.node);
+							resultLabel.node.position = cc.v2(0, 0);
+							resultLabel.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 20)), cc.callFunc(function () { this.node.destroy() }, resultLabel)));
+
+							slot.data.red = parseFloat(slot.data.red) + winnerData.bet;
+							player.setInfo(slot.data);
+
+							let winnerPrefab = cc.instantiate(self.winnerPrefab);
+							player.node.addChild(winnerPrefab);
+							let animation = winnerPrefab.getComponent(cc.Animation);
+							winnerPrefab.runAction(
+								cc.sequence(
+									cc.callFunc(function () { animation.play(); }),
+									cc.delayTime(self.time_remain - 33),
+									cc.callFunc(function () { this.destroy() }, winnerPrefab)
+								)
+							);
 						}
-
-						let resultLabel = self.createWinResultNode(winnerData.bet)
-						player.node.addChild(resultLabel.node);
-						resultLabel.node.position = cc.v2(0, 0);
-						resultLabel.node.runAction(cc.sequence(cc.moveTo(4, cc.v2(0, 20)), cc.callFunc(function () { this.node.destroy() }, resultLabel)));
-
-						slot.data.red = parseFloat(slot.data.red) + winnerData.bet;
-						player.setInfo(slot.data);
-
-						let winnerPrefab = cc.instantiate(self.winnerPrefab);
-						player.node.addChild(winnerPrefab);
-						let animation = winnerPrefab.getComponent(cc.Animation);
-						winnerPrefab.runAction(
-							cc.sequence(
-								cc.callFunc(function () { animation.play(); }),
-								cc.delayTime(self.time_remain - 33),
-								cc.callFunc(function () { this.destroy() }, winnerPrefab)
-							)
-						);
-					}
-					else if (self.otherPlayers[id]) {
-						let red = parseFloat(self.otherPlayers[id].red);
-						self.otherPlayers[id].red = red ? (red + winnerData.bet) : winnerData.bet;
-					}
-				});
+						else if (self.otherPlayers[id]) {
+							let red = parseFloat(self.otherPlayers[id].red);
+							self.otherPlayers[id].red = red ? (red + winnerData.bet) : winnerData.bet;
+						}
+					});
+				}
 
 				let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
 				let position1_1 = node1.convertToNodeSpaceAR(otherUsersPosition);
@@ -803,7 +808,8 @@ cc.Class({
 				if (node2) {
 					let position1_3 = node2.convertToNodeSpaceAR(otherUsersPosition);
 					for (let i = subIndex; i < node2.children.length; i++) {
-						node2.children[i].runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_3)));
+						let child = node2.children[i];
+						child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_3)));
 					}
 				}
 			}.bind(this), 3000);
