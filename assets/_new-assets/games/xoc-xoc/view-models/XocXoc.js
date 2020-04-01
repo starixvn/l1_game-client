@@ -166,6 +166,7 @@ cc.Class({
 		this.processingWarningPopup = null;
 	},
 	onDestroy() {
+		this.node.stopAllActions();
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 	},
@@ -225,7 +226,7 @@ cc.Class({
 			cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
 		}
 		if (data.apiError) {
-			this.isWaitingBetResult = false;
+			this.closeProcessingWarningPopup();
 			cc.RedT.MiniPanel.onDataError(data);
 		}
 	},
@@ -270,6 +271,14 @@ cc.Class({
 		}
 	},
 
+	closeProcessingWarningPopup: function () {
+		this.isWaitingBetResult = false;
+		if (this.processingWarningPopup != null) {
+			this.processingWarningPopup.close();
+			this.processingWarningPopup = null;
+		}
+	},
+
 	xocxoc: function (data) {
 		if (!!data.ingame) {
 			this.xocxocIngame(data.ingame);
@@ -294,11 +303,7 @@ cc.Class({
 			this.clientsChip(data.chip);
 		}
 		if (!!data.mechip) {
-			this.isWaitingBetResult = false;
-			if (this.processingWarningPopup) {
-				this.processingWarningPopup.close();
-				this.processingWarningPopup = null;
-			}
+			this.closeProcessingWarningPopup();
 			this.meChip(data.mechip);
 		}
 		if (!!data.client) {
@@ -308,11 +313,7 @@ cc.Class({
 			this.updateMe(data.me);
 		}
 		if (void 0 !== data.notice) {
-			this.isWaitingBetResult = false;
-			if (this.processingWarningPopup) {
-				this.processingWarningPopup.close();
-				this.processingWarningPopup = null;
-			}
+			this.closeProcessingWarningPopup();
 			this.addNotice(data.notice);
 		}
 		if (void 0 !== data.um) {
