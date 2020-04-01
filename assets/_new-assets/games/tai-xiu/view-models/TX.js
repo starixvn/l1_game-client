@@ -32,7 +32,7 @@ cc.Class({
     });
   },
   onGameHide() {
-    clearInterval(this.TX_Main.timeInterval);
+    //clearInterval(this.TX_Main.timeInterval);
     this.TX_Main.reset();
   },
   onDestroy() {

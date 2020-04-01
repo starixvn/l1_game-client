@@ -1064,7 +1064,7 @@ cc.Class({
   },
   resetUI() {
     this.efStop();
-    this.AnimatedTime.node.active = false;
+    // this.AnimatedTime.node.active = false;
     this.diceAnimation.node.active = false;
     this.setDice(false, false);
   },
