@@ -806,8 +806,13 @@ cc.Class({
     }
 
     if (this.red) {
-      if (this.waitingBetResponse && (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu)) {
-        this.handleSuccessBet(void 0 !== data.red_me_tai);
+      if (data.red_me_tai || data.red_me_xiu) {
+        var isTai = void 0 !== data.red_me_tai;
+        this.totalBet = isTai ? data.red_me_tai : data.red_me_xiu;
+
+        if (this.waitingBetResponse) {
+          this.handleSuccessBet(isTai);
+        }
       }
 
       if (void 0 !== data.red_tai) {
@@ -1116,8 +1121,14 @@ cc.Class({
       return;
     }
 
-    if (data.bet > 0 || data.win) {
-      this.showBetMoney(data.bet, data.win, data.select)
+    if (data.bet > 0) {
+      var bet = data.bet;
+
+      if (!data.win) {
+        bet = this.totalBet - data.bet;
+      }
+
+      this.showBetMoney(bet, true, data.select)
     }
 
     if (void 0 !== data.thuong && data.thuong > 0) {
