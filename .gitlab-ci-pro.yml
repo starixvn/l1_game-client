@@ -21,7 +21,7 @@ sentry_release:
     - sentry-cli releases new $VERSION
     - sentry-cli releases set-commits --auto $VERSION
     - sentry-cli releases finalize $VERSION
-    - sentry-cli releases deploys $VERSION new -e PRODUCTION
+    - sentry-cli releases deploys $VERSION new -e PROD
     - echo "Finalized release for $VERSION"
   tags:
     - docker
