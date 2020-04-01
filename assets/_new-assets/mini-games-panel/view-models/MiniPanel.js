@@ -52,9 +52,9 @@ cc.Class({
     this.BauCua = bauCuaPrefab.getComponent("BauCuaMini");
     this.BauCua.init(this);
 
-    var miniPoker = cc.instantiate(this.PrefabMiniPoker);
-    this.MiniPoker = miniPoker.getComponent("MiniPoker");
-    this.MiniPoker.init(this);
+    // var miniPoker = cc.instantiate(this.PrefabMiniPoker);
+    // this.MiniPoker = miniPoker.getComponent("MiniPoker");
+    // this.MiniPoker.init(this);
 
     if (cc.RedT.IS_LOGIN) {
       this.signIn();
@@ -80,9 +80,9 @@ cc.Class({
     this.minigame.active = false;
   },
   onData: function (data) {
-    if (void 0 !== data.poker) {
-      this.MiniPoker.onData(data.poker);
-    }
+    // if (void 0 !== data.poker) {
+    //   this.MiniPoker.onData(data.poker);
+    // }
     if (void 0 !== data.baucua) {
       this.BauCua.onData(data.baucua);
     }
@@ -110,7 +110,7 @@ cc.Class({
 
     this.TaiXiu.node.destroy();
     this.BauCua.node.destroy();
-    this.MiniPoker.node.destroy();
+    //this.MiniPoker.node.destroy();
   },
   playClick: function () {
     cc.RedT.audio.playClick();
@@ -140,9 +140,9 @@ cc.Class({
     this.BauCua.openGame();
   },
   openMiniPoker: function () {
-    this.minigame.insertChild(this.MiniPoker.node);
-    this.MiniPoker.node.active = false;
-    this.MiniPoker.openGame();
+    // this.minigame.insertChild(this.MiniPoker.node);
+    // this.MiniPoker.node.active = false;
+    // this.MiniPoker.openGame();
   },
   showErrorNotice: function (error) {
     var noticePrefab = cc.instantiate(this.NoticePrefab);

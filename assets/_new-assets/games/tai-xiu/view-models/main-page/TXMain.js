@@ -336,6 +336,7 @@ cc.Class({
         }
 
         this.waitingBetResponse = true;
+        this.betMoney = bet;
 
         cc.RedT.send({
           taixiu: {
@@ -755,11 +756,9 @@ cc.Class({
       this.showWaitTime(time);
     } else {
       this.nodeTimeWait.active = false;
-      // this.betTime.active = true;
       this.AnimatedTime.node.active = true;
       if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
         var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - 1, 2);
-        // this.showBetTime(time);
         this.AnimatedTime.setTime(time);
       }
     }
@@ -769,49 +768,6 @@ cc.Class({
     //   (this.timePopup.string = time) &&
     //   (this.timePopup.node.color = cc.color(255, 0, 0, 255)); TODO
     this.timeWait.string = "00:" + helper.numberPad(time, 2);
-  },
-  showBetTime: function (time) {
-    var firstTimeChar = time.substr(0, 1);
-    var secondTimeChar = time.substr(1, 1);
-
-    if (!this.firstBetTime.spriteFrame.name.includes(firstTimeChar)) {
-      this.handleBetTimeAnimation(this.firstBetTime);
-    }
-    this.handleBetTimeAnimation(this.secondBetTime);
-
-    var self = this;
-    cc.loader.loadRes("/Game/TaiXiu/bettime", cc.SpriteAtlas, function (
-      err,
-      atlas
-    ) {
-      var firstFrame = atlas.getSpriteFrame(
-        firstTimeChar + (time <= Constants.redTime ? "red" : "")
-      );
-      self.firstBetTime.spriteFrame = firstFrame;
-      var secondFrame = atlas.getSpriteFrame(
-        secondTimeChar + (time <= Constants.redTime ? "red" : "")
-      );
-      self.secondBetTime.spriteFrame = secondFrame;
-    });
-  },
-  handleBetTimeAnimation(betTimeControl) {
-    cc.tween(betTimeControl.node)
-      .to(0, {
-        position: cc.v2(0, 60),
-        opacity: 0
-      })
-      .to(0.2, {
-        position: cc.v2(0, 0),
-        opacity: 255
-      })
-      .to(0.1, {
-        position: cc.v2(0, -10)
-      })
-      .to(0.1, {
-        position: cc.v2(0, 0),
-        opacity: 255
-      })
-      .start();
   },
   onDataChanLe: function (data) {
     if (this.red) {
@@ -850,12 +806,8 @@ cc.Class({
     }
 
     if (this.red) {
-      if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
-        this.waitingBetResponse = false;
-
-        if (this.processingWarningPopup !== undefined) {
-          this.processingWarningPopup.close();
-        }
+      if (this.waitingBetResponse && (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu)) {
+        this.handleSuccessBet(void 0 !== data.red_me_tai);
       }
 
       if (void 0 !== data.red_tai) {
@@ -1163,23 +1115,11 @@ cc.Class({
     if (!cc.RedT.GAME_IS_SHOWED) {
       return;
     }
-    var temp = new cc.Node();
-    temp.addComponent(cc.Label);
-    temp = temp.getComponent(cc.Label);
-    temp.string = (data.win ? "+" : "-") + helper.numberWithCommas(data.bet);
-    temp.font = data.win ? this.fontCong : this.fontTru;
-    temp.lineHeight = 130;
-    temp.fontSize = 22;
-    temp.node.position = cc.v2(data.select ? -252 : 252, -50);
-    this.notice.addChild(temp.node);
-    temp.node.runAction(
-      cc.sequence(
-        cc.moveTo(3, cc.v2(data.select ? -252 : 252, 130)),
-        cc.callFunc(function () {
-          this.node.destroy();
-        }, temp)
-      )
-    );
+
+    if (data.bet > 0 && data.win) {
+      this.showBetMoney(data.bet, data.win, data.select)
+    }
+
     if (void 0 !== data.thuong && data.thuong > 0) {
       var thuong = new cc.Node();
       thuong.addComponent(cc.Label);
@@ -1198,6 +1138,36 @@ cc.Class({
           }, thuong)
         )
       );
+    }
+  },
+  showBetMoney: function (money, isWin, isTai) {
+    if (!cc.RedT.GAME_IS_SHOWED) {
+      return;
+    }
+
+    var betMoneyLabel = new cc.Node();
+    betMoneyLabel.addComponent(cc.Label);
+    betMoneyLabel = betMoneyLabel.getComponent(cc.Label);
+    betMoneyLabel.string = (isWin ? "+" : "-") + helper.numberWithCommas(money);
+    betMoneyLabel.font = isWin ? this.fontCong : this.fontTru;
+    betMoneyLabel.lineHeight = 130;
+    betMoneyLabel.fontSize = 22;
+    betMoneyLabel.node.position = cc.v2(isTai ? -252 : 252, -50);
+    this.notice.addChild(betMoneyLabel.node);
+    betMoneyLabel.node.runAction(
+      cc.sequence(
+        cc.moveTo(3, cc.v2(isTai ? -252 : 252, 130)),
+        cc.callFunc(function () {
+          this.node.destroy();
+        }, betMoneyLabel)
+      )
+    );
+  },
+  handleSuccessBet: function (isTai) {
+    this.waitingBetResponse = false;
+    this.showBetMoney(this.betMoney, false, isTai);
+    if (this.processingWarningPopup !== undefined) {
+      this.processingWarningPopup.close();
     }
   }
 });
