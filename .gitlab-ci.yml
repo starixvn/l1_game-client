@@ -2,8 +2,8 @@ variables:
   GIT_COMPILED_REPO: git@gitlab.com:l1-compiled/game-client-compiled.git
   LOCAL_SERVER: 124.158.13.228
 stages:
-  # - build
-  # - deploy
+  - build
+  - deploy
   - post-deploy
 
 before_script:
@@ -15,14 +15,14 @@ before_script:
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 
-build:
-  stage: build
-  script:
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
-  tags:
-    - deploy-cocos-web-mobile
-  only:
-    - master
+# build:
+#   stage: build
+#   script:
+#     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
+#   tags:
+#     - deploy-cocos-web-mobile
+#   only:
+#     - master
 
 include:
   - local: .gitlab-ci-push-git-compiled-web.yml

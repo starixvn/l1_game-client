@@ -1,13 +1,13 @@
-prod_deploy_web:
-  extends: 
-    - .push-git-compiled-web
-  environment:
-    name: PRO
-    url: http://www.saba.club/
-  when: manual
-  only:
-    - master
-    - /^deploy-web-\d{8}-\d+.*$/
+# prod_deploy_web:
+#   extends: 
+#     - .push-git-compiled-web
+#   environment:
+#     name: PRO
+#     url: http://www.saba.club/
+#   when: manual
+#   only:
+#     - master
+#     - /^deploy-web-\d{8}-\d+.*$/
 
 sentry_release:
   image: getsentry/sentry-cli
@@ -25,9 +25,10 @@ sentry_release:
     - echo "Finalized release for $VERSION"
   tags:
     - docker
-  needs: ["prod_deploy_web"]
+  # needs: ["prod_deploy_web"]
   only:
-    - master
-    - /^deploy-web-\d{8}-\d+.*$/
+    - sentry
+    # - master
+    # - /^deploy-web-\d{8}-\d+.*$/
 
   
