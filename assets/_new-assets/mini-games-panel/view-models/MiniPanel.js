@@ -83,12 +83,12 @@ cc.Class({
     // if (void 0 !== data.poker) {
     //   this.MiniPoker.onData(data.poker);
     // }
-    if (void 0 !== data.baucua) {
+    if (void 0 !== data.baucua && this.BauCua) {
       this.BauCua.onData(data.baucua);
     }
   },
   onDataTaiXiu: function (taiXiuData) {
-    if (void 0 !== taiXiuData) {
+    if (void 0 !== taiXiuData && this.TaiXiu.TX_Main) {
       this.TaiXiu.TX_Main.onData(taiXiuData);
     }
   },
@@ -96,11 +96,11 @@ cc.Class({
     var error = apiErrorData.apiError;
     this.showErrorNotice(error);
 
-    if (error.gameTypeId == configs.gameIds.TaiXiu) {
+    if (error.gameTypeId == configs.gameIds.TaiXiu && this.TaiXiu.TX_Main) {
       this.TaiXiu.TX_Main.onData(apiErrorData);
     }
 
-    if (error.gameTypeId == configs.gameIds.BauCua) {
+    if (error.gameTypeId == configs.gameIds.BauCua && this.BauCua) {
       this.BauCua.onData(apiErrorData);
     }
   },

@@ -55,7 +55,7 @@ module.exports = {
       this._socket.send(this._encodeMessage(message));
     } catch (err) {
       this.inGame.loading.active = false;
-      this.inGame.notice.show({
+      this.inGame.showNotice({
         title: "THÔNG BÁO",
         text: "KHÔNG thể kết nối tới máy chủ..."
       });
