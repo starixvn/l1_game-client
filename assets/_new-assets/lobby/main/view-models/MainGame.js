@@ -157,7 +157,7 @@ cc.Class({
     if (void 0 !== data.notice) {
       this.showNotice(data.notice);
     }
-    if (void 0 !== data.news) {
+    if (void 0 !== data.news && this.newsContents) {
       this.newsContents.onData(data.news);
     }
     if (void 0 !== data.captcha) {
@@ -178,7 +178,7 @@ cc.Class({
     if (!!data.message) {
       this.dialog.iMessage.onData(data.message);
     }
-    if (!!data.removeIsLoading) {
+    if (!!data.removeIsLoading && this.loading) {
       this.loading.active = false;
     }
     if (data.kickedOut) {
