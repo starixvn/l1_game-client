@@ -224,6 +224,7 @@ cc.Class({
 			cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
 		}
 		if (data.apiError) {
+			this.isWaitingBetResult = false;
 			cc.RedT.MiniPanel.onDataError(data);
 		}
 	},
