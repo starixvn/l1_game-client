@@ -733,11 +733,11 @@ cc.Class({
 
 					if (status.bet && status.win) {
 						var temp = self.createWinResultNode(status.bet, status.win);
-						temp.node.position = cc.v2(0, 90);
-						this.miniNotice.addChild(temp.node);
+						temp.node.position = cc.v2(0, 0);
+						self.me.addChild(temp.node);
 						temp.node.runAction(
 							cc.sequence(
-								cc.moveTo(4, cc.v2(0, 200)),
+								cc.moveTo(4, cc.v2(0, 50)),
 								cc.callFunc(function () { this.node.destroy() }, temp)
 							)
 						);
@@ -803,16 +803,20 @@ cc.Class({
 
 				let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
 				let position1_1 = node1.convertToNodeSpaceAR(otherUsersPosition);
-				for (let i = mainIndex; i < node1.children.length; i++) {
-					let child = node1.children[i];
-					child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_1)));
+				if (node1.children) {
+					for (let i = mainIndex; i < node1.children.length; i++) {
+						let child = node1.children[i];
+						child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_1)));
+					}
 				}
 
 				if (node2) {
 					let position1_3 = node2.convertToNodeSpaceAR(otherUsersPosition);
-					for (let i = subIndex; i < node2.children.length; i++) {
-						let child = node2.children[i];
-						child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_3)));
+					if (node2.children) {
+						for (let i = subIndex; i < node2.children.length; i++) {
+							let child = node2.children[i];
+							child && child.runAction(cc.spawn(cc.fadeTo(1, 0), cc.moveTo(0.4, position1_3)));
+						}
 					}
 				}
 			}.bind(this), 3000);
@@ -1241,11 +1245,11 @@ cc.Class({
 			));
 
 		var temp = this.createWinResultNode(data.cuoc, false);
-		temp.node.position = cc.v2(0, 90);
-		this.miniNotice.addChild(temp.node);
+		temp.node.position = cc.v2(0, 0);
+		this.me.addChild(temp.node);
 		temp.node.runAction(
 			cc.sequence(
-				cc.moveTo(4, cc.v2(0, 200)),
+				cc.moveTo(2, cc.v2(0, 50)),
 				cc.callFunc(function () { this.node.destroy() }, temp)
 			)
 		);
