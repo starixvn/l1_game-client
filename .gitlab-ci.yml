@@ -2,8 +2,8 @@ variables:
   GIT_COMPILED_REPO: git@gitlab.com:l1-compiled/game-client-compiled.git
   LOCAL_SERVER: 124.158.13.228
 stages:
-  - build
-  - deploy
+  # - build
+  # - deploy
   - post-deploy
 
 before_script:
