@@ -49,7 +49,9 @@ export default class ProcessingWarning extends cc.Component {
     }
 
     public close() {
-        this.node.runAction(cc.sequence(this.hideWarning, this.destroyNode));
+        if (this.node) {
+            this.node.runAction(cc.sequence(this.hideWarning, this.destroyNode));
+        }
     }
 
     private showWarning: cc.ActionInstant = cc.spawn(
