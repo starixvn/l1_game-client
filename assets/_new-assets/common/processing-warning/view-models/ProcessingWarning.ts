@@ -49,7 +49,7 @@ export default class ProcessingWarning extends cc.Component {
     }
 
     public close() {
-        if (this.node) {
+        if (this.node !== null) {
             this.node.runAction(cc.sequence(this.hideWarning, this.destroyNode));
         }
     }
