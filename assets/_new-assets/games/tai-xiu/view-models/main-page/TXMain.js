@@ -592,10 +592,10 @@ cc.Class({
       this.TXRoot.TXBetHistory.onData(data.get_phien);
     }
     if (void 0 !== data.apiError) {
-      this.waitingBetResponse = false;
+      this.closeProcessingWarningPopu();
     }
     if (void 0 !== data.err) {
-      this.waitingBetResponse = false;
+      this.closeProcessingWarningPopu();
       NoticeUtil.showNoticeMessage(this, data.err);
     }
     if (void 0 !== data.du_day) {
@@ -803,11 +803,7 @@ cc.Class({
 
     if (this.red) {
       if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
-        this.waitingBetResponse = false;
-
-        if (this.processingWarningPopup !== undefined) {
-          this.processingWarningPopup.close();
-        }
+        this.closeProcessingWarningPopu();
       }
 
       if (void 0 !== data.red_tai) {
@@ -1150,6 +1146,13 @@ cc.Class({
           }, thuong)
         )
       );
+    }
+  },
+  closeProcessingWarningPopup: function () {
+    this.waitingBetResponse = false;
+
+    if (this.processingWarningPopup !== undefined) {
+      this.processingWarningPopup.close();
     }
   }
 });
