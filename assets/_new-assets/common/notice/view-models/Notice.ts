@@ -25,6 +25,8 @@ export default class Notice extends cc.Component {
 
     public handleClickButton: () => void;
 
+    public handleClose: () => void;
+
     onEnable() {
         this.popupNode.node.opacity = 0;
         this.popupNode.node.scale = 0;
@@ -58,6 +60,10 @@ export default class Notice extends cc.Component {
     }
 
     public close() {
+        if (this.handleClose) {
+            this.handleClose();
+        }
+
         this.node.active = false;
     }
 

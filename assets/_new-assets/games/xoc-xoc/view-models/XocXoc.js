@@ -328,7 +328,8 @@ cc.Class({
 		this.UMNotice = noticePrefab.getComponent("Notice");
 		this.UMNotice.init({ text: "Hệ thống đang bảo trì. Vui lòng quay lại sau...!!!", button: { text: "Ok" } });
 		this.UMNotice.handleClickButton = this.backGame;
-		this.node.addChild(noticePrefab)
+		this.UMNotice.handleClose = this.backGame;
+		this.node.addChild(noticePrefab);
 	},
 	xocxocIngame: function (data) {
 		if (!!data.chip) {
