@@ -109,7 +109,7 @@ function getSessionKey() {
 
 function signOut() {
     if (window.siteSettings && window.siteSettings.disabledDirectLogin) {
-        window.location.href = window.siteSettings.redirectDomain;
+        cc.director.loadScene("sessiontimeout");
     }
     cc.sys.localStorage.removeItem(getSessionKey());
 }
