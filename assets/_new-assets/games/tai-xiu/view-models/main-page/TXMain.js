@@ -272,7 +272,6 @@ cc.Class({
       }
       if (void 0 !== cc.RedT.setting.taixiu.time_remain) {
         cc.RedT.setting.taixiu.time_remain++;
-        this.nextRealTime();
       }
       this.reLoadGame();
     }
@@ -634,11 +633,6 @@ cc.Class({
       this.localResultDices = [...data.logs[0].dice];
 
       this.dataLogs();
-      if (cc.RedT.setting.taixiu.time_remain >= Constants.betTime) {
-        this.setDice(!0);
-        this.nodeTimeWait.active = true;
-        this.AnimatedTime.node.active = false;
-      }
       cc.RedT.setting.taixiu.getLogs = true;
     }
   },
@@ -718,6 +712,7 @@ cc.Class({
             this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien);
           }
         } else {
+          this.resetUI();
           this.localResultDices = [];
           if (cc.RedT.setting.taixiu.logs) {
             this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien + 1);
@@ -740,26 +735,6 @@ cc.Class({
       }.bind(this),
       1000
     );
-  },
-  nextRealTime: function () {
-    if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
-      this.setDice(true);
-      this.nodeTimeWait.active = true;
-      this.AnimatedTime.node.active = false;
-
-      var time = helper.numberPad(
-        cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1,
-        2
-      );
-      this.showWaitTime(time);
-    } else {
-      this.nodeTimeWait.active = false;
-      this.AnimatedTime.node.active = true;
-      if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
-        var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - 1, 2);
-        this.AnimatedTime.setTime(time);
-      }
-    }
   },
   showWaitTime: function (time) {
     this.timeWait.string = "00:" + helper.numberPad(time, 2);
