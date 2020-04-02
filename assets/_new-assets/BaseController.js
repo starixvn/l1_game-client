@@ -40,8 +40,8 @@ module.exports = {
       if (self.isConnected) {
         if (self.IS_LOGIN) {
           authManager.checkAndUpdateRecheckIn();
+          self.send({ reCheckin: true, user: { updateCoint: true } });
         }
-        self.send({ reCheckin: true });
       }
     } catch (ex) { console.log(JSON.stringify(ex)) }
   },
