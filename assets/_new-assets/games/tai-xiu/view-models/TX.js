@@ -75,24 +75,32 @@ cc.Class({
     !this.node.active && (this.TX_Main.nodeTimePopup.active = true);
   },
   showTop: function () {
+    cc.RedT.audio.playClick();
+
     var dialog = cc.instantiate(this.TX_TopPrefab);
     this.miniPanel.Dialog.insertChild(dialog);
     this.TXTop = dialog.getComponent("TXTop");
     this.TXTop.init(this);
   },
   showStats: function () {
+    cc.RedT.audio.playClick();
+
     var dialog = cc.instantiate(this.TX_StatsPrefab);
     this.miniPanel.Dialog.insertChild(dialog);
     this.TXStats = dialog.getComponent("TXStats");
     this.TXStats.init(this);
   },
   showHistory: function () {
+    cc.RedT.audio.playClick();
+
     var dialog = cc.instantiate(this.TX_HistoryPrefab);
     this.miniPanel.Dialog.insertChild(dialog);
     this.TXHistory = dialog.getComponent("TXHistory");
     this.TXHistory.init(this);
   },
   showBetHistory: function (event) {
+    cc.RedT.audio.playClick();
+
     var dialog = cc.instantiate(this.TX_HistoryBetPrefab);
     this.miniPanel.Dialog.insertChild(dialog);
     this.TXBetHistory = dialog.getComponent("TXBetHistory");
@@ -100,6 +108,8 @@ cc.Class({
     this.TXBetHistory.getPhien(event.target.phien)
   },
   showGuide: function () {
+    cc.RedT.audio.playClick();
+
     var dialog = cc.instantiate(this.GuidePrefab);
     this.miniPanel.Dialog.insertChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");

@@ -236,18 +236,24 @@ cc.Class({
     localStorage.setItem("bauCua", false);
   },
   pressedTopDialog() {
+    cc.RedT.audio.playClick();
+
     var dialog = cc.instantiate(this.topDialog);
     this.miniPanel.Dialog.insertChild(dialog);
     this.Top = dialog.getComponent("BauCuaTop");
     this.Top.init(this);
   },
   pressedHistoryDialog() {
+    cc.RedT.audio.playClick();
+
     var dialog = cc.instantiate(this.historyDialog);
     this.miniPanel.Dialog.insertChild(dialog);
     this.LichSu = dialog.getComponent("BauCuaHistory");
     this.LichSu.init(this);
   },
   pressedShowGuide() {
+    cc.RedT.audio.playClick();
+
     var dialog = cc.instantiate(this.guidePrefab);
     this.miniPanel.Dialog.insertChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");

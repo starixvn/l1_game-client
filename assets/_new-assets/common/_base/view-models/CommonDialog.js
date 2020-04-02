@@ -5,6 +5,7 @@ cc.Class({
 	},
 
 	closeDialog: function () {
+		cc.RedT.audio.playUnClick();
 		this.node.destroy();
 	},
 });
