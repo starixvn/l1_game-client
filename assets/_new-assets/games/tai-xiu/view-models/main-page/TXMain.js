@@ -673,7 +673,9 @@ cc.Class({
       }
       cc.RedT.setting.taixiu.time_remain =
         Constants.betTime + Constants.waitTime;
-      this.playTime();
+      if (cc.RedT.GAME_IS_SHOWED) {
+        this.playTime();
+      }
     }
   },
   updateShowResult: function () {
@@ -1122,5 +1124,10 @@ cc.Class({
     if (this.processingWarningPopup !== undefined) {
       this.processingWarningPopup.close();
     }
-  }
+  },
+  onGameHide() {
+    this.timeInterval && clearInterval(this.timeInterval);
+    this.nodeTimeWait.active = false;
+    this.AnimatedTime.node.active = false;
+  },
 });

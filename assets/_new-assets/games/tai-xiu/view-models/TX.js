@@ -32,6 +32,7 @@ cc.Class({
     });
   },
   onGameHide() {
+    this.TX_Main.onGameHide();
   },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
