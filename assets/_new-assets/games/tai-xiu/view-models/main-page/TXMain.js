@@ -823,29 +823,31 @@ cc.Class({
     }
   },
   onDuDay: function (data) {
-    if (this.taixiu) {
-      if (this.red) {
-        this.WIN_HT.string = data.tLineWinRedH;
-        this.WIN_DN.string = data.tLineWinRed;
-        this.LOST_HT.string = data.tLineLostRedH;
-        this.LOST_DN.string = data.tLineLostRed;
+    if (data) {
+      if (this.taixiu) {
+        if (this.red) {
+          this.WIN_HT.string = data.tLineWinRedH;
+          this.WIN_DN.string = data.tLineWinRed;
+          this.LOST_HT.string = data.tLineLostRedH;
+          this.LOST_DN.string = data.tLineLostRed;
+        } else {
+          this.WIN_HT.string = data.tLineWinXuH;
+          this.WIN_DN.string = data.tLineWinXu;
+          this.LOST_HT.string = data.tLineLostXuH;
+          this.LOST_DN.string = data.tLineLostXu;
+        }
       } else {
-        this.WIN_HT.string = data.tLineWinXuH;
-        this.WIN_DN.string = data.tLineWinXu;
-        this.LOST_HT.string = data.tLineLostXuH;
-        this.LOST_DN.string = data.tLineLostXu;
-      }
-    } else {
-      if (this.red) {
-        this.WIN_HT.string = data.cLineWinRedH;
-        this.WIN_DN.string = data.cLineWinRed;
-        this.LOST_HT.string = data.cLineLostRedH;
-        this.LOST_DN.string = data.cLineLostRed;
-      } else {
-        this.WIN_HT.string = data.cLineWinXuH;
-        this.WIN_DN.string = data.cLineWinXu;
-        this.LOST_HT.string = data.cLineLostXuH;
-        this.LOST_DN.string = data.cLineLostXu;
+        if (this.red) {
+          this.WIN_HT.string = data.cLineWinRedH;
+          this.WIN_DN.string = data.cLineWinRed;
+          this.LOST_HT.string = data.cLineLostRedH;
+          this.LOST_DN.string = data.cLineLostRed;
+        } else {
+          this.WIN_HT.string = data.cLineWinXuH;
+          this.WIN_DN.string = data.cLineWinXu;
+          this.LOST_HT.string = data.cLineLostXuH;
+          this.LOST_DN.string = data.cLineLostXu;
+        }
       }
     }
   },
