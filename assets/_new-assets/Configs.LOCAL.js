@@ -9,7 +9,7 @@ const configs = {
     },
     gameNames: {
         1: "Tài Xỉu",
-        2: "Xóc Dĩa",
+        2: "Xóc Đĩa",
         3: "Bầu Cua"
     },
     sentryUrl: 'https://6d451e2a7a454bc48ba1ca24f69bd9c9@sentry.io/5175285',
