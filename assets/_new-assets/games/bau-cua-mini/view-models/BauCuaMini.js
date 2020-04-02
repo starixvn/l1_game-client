@@ -149,6 +149,9 @@ cc.Class({
     cc.RedT.send(data);
   },
   onGameHide() {
+    this.timeInterval && clearInterval(this.timeInterval);
+    this.animatedTime.node.active = false;
+    this.waitedTime.node.parent.active = false;
   },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
@@ -507,7 +510,7 @@ cc.Class({
           cc.RedT.setting.baucua.logs.pop();
 
         this.localResultDices = [...data.finish.dices];
-
+        this.setDice(this.localResultDices);
         // Play
         this.Animation.node.active = true;
         if (cc.RedT.GAME_IS_SHOWED) {
@@ -520,7 +523,9 @@ cc.Class({
       }
 
       cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
-      this.playTime();
+      if (cc.RedT.GAME_IS_SHOWED) {
+        this.playTime();
+      }
       this.localPhien = data.finish.phien + 1;
     }
     if (void 0 !== data.notice) {
