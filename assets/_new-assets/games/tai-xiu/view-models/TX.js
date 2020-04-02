@@ -32,8 +32,6 @@ cc.Class({
     });
   },
   onGameHide() {
-    //clearInterval(this.TX_Main.timeInterval);
-    this.TX_Main.reset();
   },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);

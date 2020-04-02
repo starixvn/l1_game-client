@@ -232,6 +232,7 @@ cc.Class({
     };
 
     this.isNan = false;
+    this.localResultDices = [];
 
     if (void 0 === cc.RedT.util.fontCong) {
       cc.RedT.util.fontCong = this.fontCong;
@@ -262,12 +263,6 @@ cc.Class({
     });
 
     this.onDiceAnimationFinish = function (event) {
-      this.setDice(true);
-      if (this.isNan) {
-      } else {
-        this.dataLogs();
-        this.showResult();
-      }
       this.diceAnimation.node.active = false;
     };
 
@@ -471,7 +466,6 @@ cc.Class({
       }.bind(this),
       50
     );
-    this.setPhien();
   },
   onChangerRED: function () {
     cc.RedT.setting.taixiu.red = this.red = !this.red;
@@ -550,13 +544,6 @@ cc.Class({
       return;
     }
     this.labelPhien.string = "#" + phien;
-  },
-  setPhien: function () {
-    // if (cc.RedT.setting.taixiu.logs === undefined) {
-    //   return;
-    // }
-    // var phien = cc.RedT.setting.taixiu.logs[0].phien + 1;
-    // this.labelPhien.string = "#" + phien;
   },
   setDice: function (bool = false, sprite = true) {
     var self = this;
@@ -644,8 +631,9 @@ cc.Class({
   onDataLogs: function (data) {
     if (void 0 !== data.logs) {
       cc.RedT.setting.taixiu.logs = data.logs;
+      this.localResultDices = [...data.logs[0].dice];
+
       this.dataLogs();
-      this.setPhien();
       if (cc.RedT.setting.taixiu.time_remain >= Constants.betTime) {
         this.setDice(!0);
         this.nodeTimeWait.active = true;
@@ -670,10 +658,9 @@ cc.Class({
         });
         cc.RedT.setting.taixiu.logs.length > 120 &&
           cc.RedT.setting.taixiu.logs.pop();
-        // Đặt dữ liệu
-        this.diemSo =
-          data.finish.dices[0] + data.finish.dices[1] + data.finish.dices[2];
-        this.labelKetQua.string = this.diemSo;
+        this.dataLogs();
+        this.localResultDices = [...data.finish.dices];
+
         if (this.isNan) {
           this.diaNan.active = true;
           this.diaNan.position = cc.v2(0, -11.5);
@@ -695,6 +682,14 @@ cc.Class({
       this.playTime();
     }
   },
+  updateShowResult: function () {
+    this.labelKetQua.string = this.diemSo;
+
+    this.setDice(true);
+    if (!this.isNan) {
+      this.showResult();
+    }
+  },
   playTime: function () {
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
     var self = this;
@@ -702,31 +697,35 @@ cc.Class({
     this.timeInterval = setInterval(
       function () {
         if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
+          // time count down to next phien
           var time = helper.numberPad(
             cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1,
             2
           );
           this.showWaitTime(time);
 
-          if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
-            if (this.isNan) {
-              this.showResult();
-              this.diaNan.active = false;
+          if (this.localResultDices.length > 0) {
+            this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+            this.updateShowResult();
+            if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
+              if (this.isNan) {
+                this.showResult();
+                this.diaNan.active = false;
+              }
             }
           }
-
           if (cc.RedT.setting.taixiu.logs) {
             this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien);
           }
         } else {
+          this.localResultDices = [];
           if (cc.RedT.setting.taixiu.logs) {
             this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien + 1);
           }
-          if (!!this.dice[0].node.active) {
+          if (cc.RedT.setting.taixiu.time_remain === Constants.betTime) {
             this.setDice(false, false);
             this.reset();
           }
-          this.efStop();
           this.nodeTimeWait.active = this.nodeKetQua.active = this.diaNan.active = false;
           if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
             var time = helper.numberPad(
@@ -1066,7 +1065,6 @@ cc.Class({
   },
   reset: function () {
     this.resetUI();
-    this.setPhien();
     this.isNan && this.dataLogs();
     cc.RedT.setting.taixiu.data.chanle.red_chan = cc.RedT.setting.taixiu.data.chanle.red_le = cc.RedT.setting.taixiu.data.chanle.red_me_chan = cc.RedT.setting.taixiu.data.chanle.red_me_le = cc.RedT.setting.taixiu.data.chanle.red_player_chan = cc.RedT.setting.taixiu.data.chanle.red_player_le = cc.RedT.setting.taixiu.data.chanle.xu_chan = cc.RedT.setting.taixiu.data.chanle.xu_le = cc.RedT.setting.taixiu.data.chanle.xu_me_chan = cc.RedT.setting.taixiu.data.chanle.xu_me_le = cc.RedT.setting.taixiu.data.chanle.xu_player_chan = cc.RedT.setting.taixiu.data.chanle.xu_player_le = cc.RedT.setting.taixiu.data.taixiu.red_me_tai = cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu.data.taixiu.red_player_tai = cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu.data.taixiu.red_tai = cc.RedT.setting.taixiu.data.taixiu.red_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_tai = cc.RedT.setting.taixiu.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = 0;
   },
@@ -1101,11 +1099,6 @@ cc.Class({
       this.winningXiu.node.active = true;
       this.winningXiu.play();
     }
-    // if (this.diemSo % 2) {
-    //   this.efLe.play();
-    // } else {
-    //   this.efChan.play();
-    // }
   },
   showBetWinLoss: function (data) {
     if (!cc.RedT.GAME_IS_SHOWED) {
