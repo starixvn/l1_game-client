@@ -57,7 +57,7 @@ module.exports = {
       this.inGame.loading.active = false;
       this.inGame.showNotice({
         title: "THÔNG BÁO",
-        text: "KHÔNG thể kết nối tới máy chủ..."
+        text: "Không thể kết nối tới máy chủ."
       });
     }
   },
