@@ -341,6 +341,9 @@ cc.Class({
     }
   },
   datCuoc: function (e, linhVat) {
+    if (this.disabled) {
+      return;
+    }
     if (this.waitingCuoc) {
       this.showWarningSlowBet(true);
       return;
