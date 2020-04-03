@@ -166,6 +166,7 @@ cc.Class({
 		this.processingWarningPopup = null;
 	},
 	onDestroy() {
+		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
