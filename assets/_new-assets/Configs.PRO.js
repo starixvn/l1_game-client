@@ -1,5 +1,5 @@
 const configs = {
-    gameServerUrl: 'http://gsr.saba.club/',
+    gameServerUrl: 'https://gsr.saba.club/',
     webSocketEndpoint: 'gsr.saba.club',
     gameIds: {
         TaiXiu: 1,
