@@ -13,19 +13,20 @@ cc.Class({
             default: null,
             type: cc.EditBox,
         },
+        NoticePrefab: cc.Prefab
     },
-    onLoad () {
+    onLoad() {
         var self = this;
         this.editboxs = [this.username, this.password];
         this.editboxs_i = 0;
-        this.keyHandle = function(t) {
+        this.keyHandle = function (t) {
             return t.keyCode === cc.macro.KEY.tab ? (self.changeNextFocusEditBox(),
                 t.preventDefault && t.preventDefault(),
                 !1) : t.keyCode === cc.macro.KEY.enter ? (BrowserUtil.focusGame(), self.onLoginClick(),
-                t.preventDefault && t.preventDefault(),
-                !1) : t.keyCode === cc.macro.KEY.escape ? (cc.RedT.inGame.dialog.onClickBack(),
-                t.preventDefault && t.preventDefault(),
-                !1) : void 0
+                    t.preventDefault && t.preventDefault(),
+                    !1) : t.keyCode === cc.macro.KEY.escape ? (cc.RedT.inGame.dialog.onClickBack(),
+                        t.preventDefault && t.preventDefault(),
+                        !1) : void 0
         }
     },
     onEnable: function () {
@@ -37,20 +38,20 @@ cc.Class({
         this.clean();
         cc.RedT.inGame.dialog.resetSizeDialog(this.node);
     },
-    addEvent: function() {
+    addEvent: function () {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         for (var t in this.editboxs) {
             BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).addEventListener("keydown", this.keyHandle, !1)
         }
     },
-    removeEvent: function() {
+    removeEvent: function () {
         for (var t in this.editboxs) {
             BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).removeEventListener("keydown", this.keyHandle, !1)
         }
         cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
     },
     onKeyDown: function (event) {
-        switch(event.keyCode) {
+        switch (event.keyCode) {
             case cc.macro.KEY.escape:
                 this.isTop() && cc.RedT.inGame.dialog.onClickBack();
                 break;
@@ -61,8 +62,8 @@ cc.Class({
                 this.isTop() && this.onLoginClick();
         }
     },
-    changeNextFocusEditBox: function() {
-        for (var t = !1, e = 0, i = this.editboxs.length; e < i; e++){
+    changeNextFocusEditBox: function () {
+        for (var t = !1, e = 0, i = this.editboxs.length; e < i; e++) {
             if (BrowserUtil.checkEditBoxFocus(this.editboxs[e])) {
                 BrowserUtil.focusEditBox(this.editboxs[e]);
                 t = !0;
@@ -71,13 +72,13 @@ cc.Class({
         }
         !t && 0 < this.editboxs.length && BrowserUtil.focusEditBox(this.editboxs[0]);
     },
-    isTop: function() {
+    isTop: function () {
         return !cc.RedT.inGame.notice.node.active && !cc.RedT.inGame.loading.active;
     },
-    clean: function(){
+    clean: function () {
         this.username.string = this.password.string = '';
     },
-    onLoginClick: function() {
+    onLoginClick: function () {
         var error = null;
 
         if (this.username.string.length > 32 || this.username.string.length < 3 || this.username.string.match(new RegExp("^[a-zA-Z0-9_]+$")) === null)
@@ -86,9 +87,14 @@ cc.Class({
             error = 'Mật khẩu không đúng!!';
 
         if (error) {
-            cc.RedT.inGame.notice.show({title:"ĐĂNG NHẬP", text:error});
+            var noticePrefab = cc.instantiate(this.NoticePrefab);
+            var notice = noticePrefab.getComponent("Notice");
+            notice.init({
+                title: "ĐĂNG NHẬP", text: error
+            });
+            this.node.parent.addChild(noticePrefab);
             return;
         };
-        cc.RedT.inGame.auth({authentication:{username: this.username.string, password: this.password.string}});
+        cc.RedT.inGame.auth({ authentication: { username: this.username.string, password: this.password.string } });
     },
 });
