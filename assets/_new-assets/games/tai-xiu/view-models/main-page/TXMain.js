@@ -673,9 +673,7 @@ cc.Class({
       }
       cc.RedT.setting.taixiu.time_remain =
         Constants.betTime + Constants.waitTime;
-      if (cc.RedT.GAME_IS_SHOWED) {
-        this.playTime();
-      }
+      this.playTime();
     }
   },
   updateShowResult: function () {
@@ -687,6 +685,9 @@ cc.Class({
     }
   },
   playTime: function () {
+    if (!cc.RedT.GAME_IS_SHOWED) {
+      return;
+    }
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
     var self = this;
 
@@ -1067,6 +1068,9 @@ cc.Class({
     );
   },
   showResult: function () {
+    if (!cc.RedT.GAME_IS_SHOWED) {
+      return;
+    }
     this.nodeKetQua.active = true;
     this.efStop();
     if (this.diemSo > 10) {
