@@ -115,7 +115,7 @@ cc.Class({
     if (void 0 !== data["message"]) {
       this.showNotice({
         text: data.isSessionExpired || data.noPassword
-          ? "Phiên đăng nhập của bạn đã hết hạn, vui lòng đăng nhập lại."
+          ? "Phiên đăng nhập đã hết hạn, bạn vui lòng đăng nhập lại."
           : "Có lỗi xảy ra, vui lòng kiểm tra lại."
       })
     } else {
