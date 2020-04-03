@@ -88,7 +88,7 @@ module.exports = {
 
   },
   reconnect: function () {
-    this.connect(configs.webSocketEndpoint, "/websocket");
+    this.connect(configs.webSocketEndpoint, "/websocket", false, configs.ssl);
   },
   init: function () {
     this.initPrototype();

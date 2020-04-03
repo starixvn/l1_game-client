@@ -1,4 +1,5 @@
 const configs = {
+    ssl: true,
     gameServerUrl: 'https://gsr.saba.club/',
     webSocketEndpoint: 'gsr.saba.club',
     gameIds: {

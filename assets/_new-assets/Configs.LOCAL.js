@@ -1,4 +1,5 @@
 const configs = {
+    ssl: false,
     gameServerUrl: 'http://124.158.13.228:8080/',
     webSocketEndpoint: '124.158.13.228:8080',
     gameIds: {
