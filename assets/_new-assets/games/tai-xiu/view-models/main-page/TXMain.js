@@ -701,13 +701,15 @@ cc.Class({
           );
           this.showWaitTime(time);
 
-          if (this.localResultDices.length > 0) {
-            this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
-            this.updateShowResult();
-            if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
-              if (this.isNan) {
-                this.showResult();
-                this.diaNan.active = false;
+          if (cc.RedT.setting.taixiu.time_remain <= Constants.betTime + Constants.waitTime) {
+            if (this.localResultDices.length > 0) {
+              this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+              this.updateShowResult();
+              if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
+                if (this.isNan) {
+                  this.showResult();
+                  this.diaNan.active = false;
+                }
               }
             }
           }
