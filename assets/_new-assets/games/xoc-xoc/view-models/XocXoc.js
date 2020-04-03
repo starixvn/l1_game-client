@@ -966,23 +966,25 @@ cc.Class({
 	setLogs: function () {
 		let self = this;
 		this.logMain.forEach(function (obj, index) {
-			let data = self.logs[index].dots;
-			if (data) {
-				obj.node.active = true;
-				data = Object.values(data);
-				let gameChan = 0;     // Là chẵn
-				data.forEach(function (kqH) {
-					if (kqH) {
-						gameChan++;
+			if (self.logs[index]) {
+				let data = self.logs[index].dots;
+				if (data) {
+					obj.node.active = true;
+					data = Object.values(data);
+					let gameChan = 0;     // Là chẵn
+					data.forEach(function (kqH) {
+						if (kqH) {
+							gameChan++;
+						}
+					});
+					if (!(gameChan % 2)) {
+						obj.spriteFrame = self.dot_white;
+					} else {
+						obj.spriteFrame = self.dot_red;
 					}
-				});
-				if (!(gameChan % 2)) {
-					obj.spriteFrame = self.dot_white;
 				} else {
-					obj.spriteFrame = self.dot_red;
+					obj.node.active = false;
 				}
-			} else {
-				obj.node.active = false;
 			}
 		});
 
