@@ -155,7 +155,7 @@ function checkAndUpdateRecheckIn() {
             console.log(`differenceInMinutes: ${differenceInMinutes}`)
 
             if (differenceInMinutes > sessionExpiredTimeoutMunutes) {
-                //signOut();
+                signOut();
             }
             else {
                 session.time = new Date();
