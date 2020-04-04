@@ -1,6 +1,6 @@
 const configs = require('Configs');
 const authManager = require('./common/auth/AuthManager');
-const logger = require('./common/logger');
+const logger = require('./common/logger')();
 
 module.exports = {
   IS_LOGIN: false,
