@@ -1,5 +1,6 @@
 const configs = {
     ssl: false,
+    disabledDirectLogin: true,
     gameServerUrl: 'http://uat-gsr.saba.vin/',
     webSocketEndpoint: 'uat-gsr.saba.vin',
     gameIds: {

@@ -108,9 +108,10 @@ function getSessionKey() {
 }
 
 function signOut() {
-    if (window.siteSettings && window.siteSettings.disabledDirectLogin) {
+    if (configs.disabledDirectLogin) {
         cc.director.loadScene("sessiontimeout");
     }
+
     cc.sys.localStorage.removeItem(getSessionKey());
 }
 

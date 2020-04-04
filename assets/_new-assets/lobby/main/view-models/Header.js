@@ -1,3 +1,4 @@
+const configs = require('Configs');
 const authManager = require('./../../../common/auth/AuthManager');
 
 cc.Class({
@@ -55,7 +56,7 @@ cc.Class({
   isSignOut: function () {
     this.userName.string = this.userRed.string = "";
     this.nodeUsers.active = false;
-    this.nodeGuest.active = true;
+    this.nodeGuest.active = !configs.disabledDirectLogin;
   },
   level: function (level) {
     this.vip.string = "VIP" + level;

@@ -1,5 +1,6 @@
 const configs = {
     ssl: true,
+    disabledDirectLogin: true,
     gameServerUrl: 'https://gsr.saba.club/',
     webSocketEndpoint: 'gsr.saba.club',
     gameIds: {

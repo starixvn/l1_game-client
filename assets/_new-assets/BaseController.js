@@ -1,7 +1,5 @@
 const configs = require('Configs');
-const ga = require("GameAnalytics");
 const authManager = require('./common/auth/AuthManager');
-const logger = require
 
 module.exports = {
   IS_LOGIN: false,
