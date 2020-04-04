@@ -14,7 +14,7 @@ const configs = {
         2: "Xóc Đĩa",
         3: "Bầu Cua"
     },
-    sentryUrl: 'https://66ed134df6bc4d6da328e1ba214a50f3@sentry.io/5176897',
+    sentryUrl: 'https://e2d54dceaaab4ccc8e3b3b20d806d6ac@sentry.saba.vin/30',
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
