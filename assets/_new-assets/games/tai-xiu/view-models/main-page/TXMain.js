@@ -1044,6 +1044,8 @@ cc.Class({
     this.AnimatedTime.node.active = false;
     this.diceAnimation.node.active = false;
     this.setDice(false, false);
+
+    this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = '';
   },
   reset: function () {
     this.resetUI();
@@ -1135,7 +1137,6 @@ cc.Class({
   },
   onGameHide() {
     this.timeInterval && clearInterval(this.timeInterval);
-    this.nodeTimeWait.active = false;
-    this.AnimatedTime.node.active = false;
+    this.resetUI();
   },
 });
