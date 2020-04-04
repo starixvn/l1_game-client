@@ -634,6 +634,8 @@ cc.Class({
       cc.RedT.setting.taixiu.logs = data.logs;
       this.localResultDices = [...data.logs[0].dice];
       if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
+        this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+        this.labelKetQua.string = this.diemSo;
         // if (!this.isNan) {
         this.setDice(true);
         this.showResult();
@@ -661,6 +663,8 @@ cc.Class({
           cc.RedT.setting.taixiu.logs.pop();
         this.dataLogs();
         this.localResultDices = [...data.finish.dices];
+        this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+        this.labelKetQua.string = this.diemSo;
 
         if (this.isNan) {
           this.diaNan.active = true;
@@ -684,7 +688,6 @@ cc.Class({
     }
   },
   updateShowResult: function () {
-    this.labelKetQua.string = this.diemSo;
     if (this.isNan) {
       if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
         this.setDice(true);
@@ -712,6 +715,7 @@ cc.Class({
 
           if (this.localResultDices.length > 0) {
             this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+            this.labelKetQua.string = this.diemSo;
             this.updateShowResult();
           }
           if (cc.RedT.setting.taixiu.logs) {
