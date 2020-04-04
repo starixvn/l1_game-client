@@ -264,6 +264,7 @@ cc.Class({
 
     this.onDiceAnimationFinish = function (event) {
       this.setDice(true);
+      this.showResult();
       this.diceAnimation.node.active = false;
     };
 
@@ -633,7 +634,10 @@ cc.Class({
       cc.RedT.setting.taixiu.logs = data.logs;
       this.localResultDices = [...data.logs[0].dice];
       if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
+        // if (!this.isNan) {
         this.setDice(true);
+        this.showResult();
+        // }
       }
       this.dataLogs();
       cc.RedT.setting.taixiu.getLogs = true;
@@ -681,8 +685,12 @@ cc.Class({
   },
   updateShowResult: function () {
     this.labelKetQua.string = this.diemSo;
-    if (!this.isNan) {
-      this.showResult();
+    if (this.isNan) {
+      if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
+        this.setDice(true);
+        this.showResult();
+        this.diaNan.active = false;
+      }
     }
   },
   playTime: function () {
@@ -705,12 +713,6 @@ cc.Class({
           if (this.localResultDices.length > 0) {
             this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
             this.updateShowResult();
-            if (cc.RedT.setting.taixiu.time_remain < Constants.nanTime) {
-              if (this.isNan) {
-                this.showResult();
-                this.diaNan.active = false;
-              }
-            }
           }
           if (cc.RedT.setting.taixiu.logs) {
             this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien);
