@@ -1,5 +1,6 @@
 const configs = require('Configs');
 const authManager = require('./common/auth/AuthManager');
+const logger = require('./common/logger');
 
 module.exports = {
   IS_LOGIN: false,
@@ -52,6 +53,7 @@ module.exports = {
       //this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message))
       this._socket.send(this._encodeMessage(message));
     } catch (err) {
+      logger.logError(err);
       this.inGame.loading.active = false;
       this.inGame.showNotice({
         title: "THÔNG BÁO",
