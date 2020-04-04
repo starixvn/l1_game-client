@@ -1,3 +1,4 @@
+const configs = require('Configs');
 
 var signIn = require('SignIn'),
 	signUp = require('SignUp'),
@@ -74,8 +75,12 @@ cc.Class({
 	 * Function Show Dialog
 	*/
 	showSignIn: function () {
-		this.node.active = this.signIn.node.active = true;
-		this.objShow = this.signIn.node;
+		if (configs.disabledDirectLogin) {
+			cc.director.loadScene("sessiontimeout");
+		} else {
+			this.node.active = this.signIn.node.active = true;
+			this.objShow = this.signIn.node;
+		}
 	},
 	showSignUp: function () {
 		this.node.active = this.signUp.node.active = true;
