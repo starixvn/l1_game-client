@@ -1,7 +1,7 @@
 const configs = {
-    ssl: false,
+    ssl: true,
     disabledDirectLogin: true,
-    gameServerUrl: 'http://uat-gsr.saba.vin/',
+    gameServerUrl: 'https://uat-gsr.saba.vin/',
     webSocketEndpoint: 'uat-gsr.saba.vin',
     gameIds: {
         TaiXiu: 1,
