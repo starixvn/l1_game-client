@@ -1106,6 +1106,13 @@ cc.Class({
 			cc.RedT.send({ g: { xocxoc: { cuoc: { red: this.red, cuoc: this.cuoc, box: box } } } });
 		}
 	},
+	showNotice: function (noticeData) {
+		var noticePrefab = cc.instantiate(this.NoticePrefab);
+		var notice = noticePrefab.getComponent("Notice");
+		noticeData.button = { text: 'Ok' };
+		notice.init(noticeData);
+		this.node.addChild(noticePrefab)
+	},
 	addNotice: function (text) {
 		var notice = cc.instantiate(this.prefabNotice)
 		var noticeComponent = notice.getComponent('mini_warning')
