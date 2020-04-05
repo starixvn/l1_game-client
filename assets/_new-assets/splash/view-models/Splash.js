@@ -84,7 +84,7 @@ cc.Class({
 
   },
   loadScene: function () {
-    setTimeout(
+    this.loadSceneTimeout = setTimeout(
       function () {
         cc.director.preloadScene(
           "MainGame",
@@ -290,9 +290,12 @@ cc.Class({
     return o.length > i.length ? -1 : 0;
   },
   updateProgress: function (progress) {
-    if (this.updateProgressBar) {
+    if (this && this.updateProgressBar) {
       this.updateProgressBar.width = progress;
     }
-    this.star.position = cc.v2(progress, 0);
+
+    if (this && this.star) {
+      this.star.position = cc.v2(progress, 0);
+    }
   }
 });
