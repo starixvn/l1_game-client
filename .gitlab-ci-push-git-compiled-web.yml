@@ -1,28 +1,9 @@
-.transform-config:
-  stage: deploy
-  script: 
-    - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
-  tags:
-    - deploy-cocos-web-mobile
-
-.build-cocos-web:
-  stage: deploy
-  script: 
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true;sourceMaps=true;debug=true;embedWebDebugger=true"
-  tags:
-    - deploy-cocos-web-mobile
-    
-.build-cocos-web-pro:
-  stage: deploy
-  script: 
-    - echo "====== Build Cocos Web Mobile ======"
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
-  tags:
-    - deploy-cocos-web-mobile
-
 .push-git-compiled-web:
   stage: deploy
   script: 
+    - echo "====== Build Cocos Web Mobile ======"
+    - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true;sourceMaps=true;debug=true;embedWebDebugger=true"
     - echo "====== Push to git compiled ======"
     - git clone --branch $GIT_BRANCH $GIT_COMPILED_REPO ./publish
     - cp -R ./build/web-mobile/* ./publish
@@ -37,14 +18,5 @@
        echo "==============Waiting for after script execution==============";
        sleep 60; 
       fi
-  tags:
-    - deploy-cocos-web-mobile
-
-.deploy:
-  stage: deploy
-  extends: 
-    - .transform-config
-    - .build-cocos-web
-    - .push-git-compiled-web
   tags:
     - deploy-cocos-web-mobile
