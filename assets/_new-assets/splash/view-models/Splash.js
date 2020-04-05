@@ -290,7 +290,9 @@ cc.Class({
     return o.length > i.length ? -1 : 0;
   },
   updateProgress: function (progress) {
-    this.updateProgressBar.width = progress;
+    if (this.updateProgressBar) {
+      this.updateProgressBar.width = progress;
+    }
     this.star.position = cc.v2(progress, 0);
   }
 });
