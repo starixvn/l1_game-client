@@ -1,5 +1,5 @@
 uat_deploy_web:
-  extends: .push-git-compiled-web
+  extends: .deploy
   environment:
     name: UAT
     url: http://uat.saba.vin/
