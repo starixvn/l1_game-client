@@ -14,6 +14,15 @@ before_script:
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+  - git config --global user.email "luminet.minigame.app@gmail.com"
+  - git config --global user.name "Luminet"
+  - if [ "$CI_ENVIRONMENT_NAME" == "PRO" ]; 
+    then
+      export GIT_BRANCH=master;
+    else
+      export GIT_BRANCH=$CI_ENVIRONMENT_NAME;
+    fi
+  - echo $GIT_BRANCH
 
 # build:
 #   stage: build

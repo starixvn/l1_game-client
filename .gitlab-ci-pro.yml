@@ -1,6 +1,30 @@
+.push-git-compiled-web-pro:
+  stage: deploy
+  script: 
+    - echo "====== Build Cocos Web Mobile ======"
+    - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
+    - echo "====== Push to git compiled ======"
+    - git clone --branch $GIT_BRANCH $GIT_COMPILED_REPO ./publish
+    - cp -R ./build/web-mobile/* ./publish
+    - cp ./gitlab-ci-after-script-${CI_ENVIRONMENT_NAME}.sh ./publish
+    - cd ./publish
+    - git add .
+    - if [ -z "$(git status --porcelain)" ]; 
+      then 
+        echo "Nothing change!!!"; 
+      else 
+       git commit -m "$COMMIT_MESSAGE"; git push -u origin $GIT_BRANCH;
+       echo "==============Waiting for after script execution==============";
+       sleep 60; 
+      fi
+  tags:
+    - deploy-cocos-web-mobile
+
+
 prod_deploy_web:
   extends: 
-    - .push-git-compiled-web
+    - .push-git-compiled-web-pro
   environment:
     name: PRO
     url: http://www.saba.club/

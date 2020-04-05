@@ -1,15 +1,6 @@
 .push-git-compiled-web:
   stage: deploy
   script: 
-    - git config --global user.email "luminet.minigame.app@gmail.com"
-    - git config --global user.name "Luminet"
-    - if [ "$CI_ENVIRONMENT_NAME" == "PRO" ]; 
-      then
-        export GIT_BRANCH=master;
-      else
-        export GIT_BRANCH=$CI_ENVIRONMENT_NAME;
-      fi
-    - echo $GIT_BRANCH
     - echo "====== Build Cocos Web Mobile ======"
     - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true;sourceMaps=true;debug=true;embedWebDebugger=true"
