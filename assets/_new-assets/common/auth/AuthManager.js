@@ -25,7 +25,7 @@ function preChecking(cb, labelMessage) {
         // um: redT.isUM
         try {
             window.siteSettings = settingResponse;
-            if (settingResponse.um) {
+            if (settingResponse && settingResponse.um) {
                 cc.director.loadScene("um");
 
                 return settingResponse;
