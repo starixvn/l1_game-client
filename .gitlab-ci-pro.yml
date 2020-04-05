@@ -3,7 +3,8 @@
   script: 
     - echo "====== Build Cocos Web Mobile ======"
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
-
+  tags:
+    - deploy-cocos-web-mobile
 prod_deploy_web:
   extends: 
     - .transform-config
