@@ -1,7 +1,6 @@
 let authManager = require('./../../common/auth/AuthManager');
 const logger = require('./../../common/logger')();
 const configs = require('Configs');
-const ga = require("GameAnalytics");
 
 cc.Class({
   extends: cc.Component,
@@ -20,9 +19,6 @@ cc.Class({
     _storagePath: ""
   },
   onLoad: function () {
-    //cc.view.enableAutoFullScreen(true);
-    this.initGameAnalytics();
-
     this.isLoadScene = !1;
     this.isLoadConfig = !1;
     this.initOneSign();
@@ -43,19 +39,6 @@ cc.Class({
           onNotification: function (t, e, i) { }
         }));
   },
-  initGameAnalytics: function () {
-    ga.GameAnalytics.setEnabledInfoLog(true);
-    ga.GameAnalytics.initialize(configs.gameAnalytics.clientId, configs.gameAnalytics.secretKey);
-    ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "World01", "Level01", "Section01");
-
-    cc.game.on(cc.game.EVENT_HIDE, function () {
-      ga.GameAnalytics.endSession(); // End session
-    }.bind(this));
-
-    cc.game.on(cc.game.EVENT_SHOW, function () {
-      ga.GameAnalytics.startSession(); // Start session
-    }.bind(this))
-  },
   checkPlugin: function () {
     return "undefined" == typeof sdkbox
       ? (console.log("sdkbox is undefined"), !1)
@@ -73,9 +56,6 @@ cc.Class({
           function () { self.loadScene(); })) {
           self.loadScene();
         }
-
-        // const isSessionExpired = authManager.checkAndUpdateRecheckIn();
-        // if()
       }, self.messageLabel);
     }
     else {
