@@ -74,7 +74,7 @@ module.exports = {
     cc.RedT.isConnected = false;
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.inGame.signOut();
-    } else {
+    } else if (cc.RedT.inGame.dialog) {
       cc.RedT.inGame.dialog.onCloseDialog();
     }
     cc.RedT.reconnect();
