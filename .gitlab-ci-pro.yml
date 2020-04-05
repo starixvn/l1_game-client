@@ -28,6 +28,7 @@ sentry_release:
   needs: ["prod_deploy_web"]
   only:
     - master
+    - /^deploy-pro-web-\d{8}-\d+.*$/
     - /^deploy-web-\d{8}-\d+.*$/
 
   
