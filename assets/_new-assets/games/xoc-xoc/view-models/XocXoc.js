@@ -170,6 +170,8 @@ cc.Class({
 		this.node.stopAllActions();
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
+		void 0 !== this.showKQ2Timeout && clearTimeout(this.showKQ2Timeout);
+		void 0 !== this.traThuongTimeout && clearTimeout(this.traThuongTimeout);
 	},
 	onLoad() {
 		cc.RedT.inGame = this;
@@ -652,7 +654,7 @@ cc.Class({
 			!!audioLost && this.audioMultiChip.play();
 		}
 
-		setTimeout(function () {
+		this.showKQ2Timeout = setTimeout(function () {
 			let self = this;
 			audioWin += node1.children.length;
 			let node1red = node1.convertToNodeSpaceAR(position);
@@ -692,7 +694,7 @@ cc.Class({
 					logger.logError(error);
 				});;
 			}
-			setTimeout(function () {
+			self.traThuongTimeout = setTimeout(function () {
 				let mainIndex = 0;
 				let subIndex = 0;
 				let status = self.status;
