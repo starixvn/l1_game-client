@@ -11,6 +11,14 @@
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true;sourceMaps=true;debug=true;embedWebDebugger=true"
   tags:
     - deploy-cocos-web-mobile
+    
+.build-cocos-web-pro:
+  stage: deploy
+  script: 
+    - echo "====== Build Cocos Web Mobile ======"
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
+  tags:
+    - deploy-cocos-web-mobile
 
 .push-git-compiled-web:
   stage: deploy
