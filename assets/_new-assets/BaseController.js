@@ -54,7 +54,7 @@ module.exports = {
       this._socket.send(this._encodeMessage(message));
     } catch (err) {
       logger.logError(err);
-      if (this.inGame) {
+      if (this.inGame && this.inGame.loading) {
         this.inGame.loading.active = false;
         this.inGame.showNotice({
           title: "THÔNG BÁO",
