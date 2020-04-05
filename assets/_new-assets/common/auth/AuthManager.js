@@ -62,7 +62,7 @@ function checkSSO(labelMessage, cb) {
                     window.authData = response;
                     window.authData.time = new Date();
                     response.isSSO = true;
-                    console.log(urlParams.get("gameId"));
+                    //console.log(urlParams.get("gameId"));
                     window.openGameId = urlParams.get("gameId");
                     storeSessionData(response);
                     clearTokenOnUrl();
@@ -71,7 +71,7 @@ function checkSSO(labelMessage, cb) {
                 else {
                     labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
                 }
-                console.log(response);
+                //console.log(response);
             });
         }
         catch (error) {
