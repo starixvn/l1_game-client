@@ -156,6 +156,8 @@ cc.Class({
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
+
+    this.statusTimeout && clearTimeout(this.statusTimeout);
   },
   onLoad() {
     this.ttOffset = null;
@@ -769,7 +771,7 @@ cc.Class({
     if (!cc.RedT.GAME_IS_SHOWED) {
       return;
     }
-    setTimeout(
+    this.statusTimeout = setTimeout(
       function () {
         if (data.win) {
           this.addFlyingText(data.win, data.bet, 4);
