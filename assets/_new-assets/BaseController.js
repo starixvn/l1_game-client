@@ -31,7 +31,7 @@ module.exports = {
       this.recheckInId = setInterval(() => {
         self.recheckIn(self);
       }, 60 * 1000);
-      this.isConnected = !0;
+      // this.isConnected = !0;
     }
   },
   recheckIn: function (self) {
@@ -51,7 +51,7 @@ module.exports = {
   send: function (message) {
     try {
       //this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message))
-      this._socket.send(this._encodeMessage(message));
+      this.isConnected && this._socket.send(this._encodeMessage(message));
     } catch (err) {
       logger.logError(err);
       if (this.inGame && this.inGame.loading) {
