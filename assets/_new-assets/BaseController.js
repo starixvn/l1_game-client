@@ -54,11 +54,13 @@ module.exports = {
       this._socket.send(this._encodeMessage(message));
     } catch (err) {
       logger.logError(err);
-      this.inGame.loading.active = false;
-      this.inGame.showNotice({
-        title: "THÔNG BÁO",
-        text: "Không thể kết nối tới máy chủ."
-      });
+      if (this.inGame) {
+        this.inGame.loading.active = false;
+        this.inGame.showNotice({
+          title: "THÔNG BÁO",
+          text: "Không thể kết nối tới máy chủ."
+        });
+      }
     }
   },
   _decodeMessage: function (message) {
