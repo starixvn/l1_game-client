@@ -168,6 +168,7 @@ cc.Class({
 	onDestroy() {
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
+		cc.RedT.MiniPanel.node.destroy();
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		void 0 !== this.showKQ2Timeout && clearTimeout(this.showKQ2Timeout);
