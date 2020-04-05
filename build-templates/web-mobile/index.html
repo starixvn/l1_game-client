@@ -70,7 +70,6 @@
     handleFullScreen = function () {
       var userAgent = window.navigator.userAgent;
       if (userAgent.match(/iPhone/i)) {
-        //hướng dẫn full màn hình trên IOS
         var instruction = document.getElementById("myInstruction");
 
         function myFunction(x) {
@@ -105,7 +104,6 @@
       }
     };
     (function () {
-      // open web debugger console
       if (typeof VConsole !== 'undefined') {
         window.vConsole = new VConsole();
       }
@@ -125,22 +123,7 @@
       cocos2d.addEventListener('load', engineLoaded, false);
       document.body.appendChild(cocos2d);
       handleFullScreen();
-
-      //   var sessionImage1 = document.getElementById('sessionImage1');
-      //   sessionImage1.src = "http://m.playthefun.com:6014/OnlineUser" + new Date().getTime();
-
-      //   var sessionImage2 = document.getElementById('sessionImage2');
-      //   sessionImage2.src = "http://oq36ksfe.playthefun.com/SLB/Common/ExtendSession" + new Date().getTime();
-      // }, 1000)
     })();
-  </script>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161943539-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'UA-161943539-1');
   </script>
 </body>
 
