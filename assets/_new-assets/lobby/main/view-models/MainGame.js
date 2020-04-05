@@ -254,7 +254,7 @@ cc.Class({
     }
   },
   dataUser: function (data) {
-    if (void 0 !== data.red) {
+    if (void 0 !== data.red && this.header.userRed) {
       this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
     }
 
