@@ -117,6 +117,12 @@ module.exports = {
   },
   isSoundGame: function () {
     var check = cc.sys.localStorage.getItem("SOUND_GAME");
+
+    if (check == null || check == undefined) {
+      this.setSoundGame(true);
+      return true;;
+    }
+
     return check == "true";
   },
   setSoundBackground: function (bool) {
@@ -124,6 +130,12 @@ module.exports = {
   },
   isSoundBackground: function () {
     var check = cc.sys.localStorage.getItem("SOUND_BACKGROUND");
+
+    if (check == null || check == undefined) {
+      this.setSoundBackground(true);
+      return true;;
+    }
+
     return check == "true";
   },
   userData: function (data) {
