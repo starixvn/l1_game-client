@@ -88,7 +88,7 @@ cc.Class({
     }
   },
   onDataTaiXiu: function (taiXiuData) {
-    if (void 0 !== taiXiuData && this.TaiXiu.TX_Main) {
+    if (void 0 !== taiXiuData && this.TaiXiu && this.TaiXiu.TX_Main) {
       this.TaiXiu.TX_Main.onData(taiXiuData);
     }
   },
@@ -96,7 +96,7 @@ cc.Class({
     var error = apiErrorData.apiError;
     this.showErrorNotice(error);
 
-    if (error.gameTypeId == configs.gameIds.TaiXiu && this.TaiXiu.TX_Main) {
+    if (error.gameTypeId == configs.gameIds.TaiXiu && this.TaiXiu && this.TaiXiu.TX_Main) {
       this.TaiXiu.TX_Main.onData(apiErrorData);
     }
 
@@ -110,6 +110,8 @@ cc.Class({
 
     this.TaiXiu.node.destroy();
     this.BauCua.node.destroy();
+
+    this.BauCua = this.TaiXiu = null;
     //this.MiniPoker.node.destroy();
   },
   playClick: function () {
