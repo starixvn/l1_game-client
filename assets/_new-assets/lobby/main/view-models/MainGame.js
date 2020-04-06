@@ -40,6 +40,7 @@ cc.Class({
     NoticePrefab: cc.Prefab
   },
   onDestroy() {
+    cc.RedT.inGame = null;
     cc.RedT.MiniPanel.node.destroy();
   },
   onLoad: function () {

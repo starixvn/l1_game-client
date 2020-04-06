@@ -74,17 +74,19 @@ module.exports = {
   },
   _onSocketDisconnect: function () {
     cc.RedT.isConnected = false;
-    if (cc.RedT.IS_LOGIN) {
-      cc.RedT.inGame.signOut();
-    } else if (cc.RedT.inGame.dialog) {
-      cc.RedT.inGame.dialog.onCloseDialog();
+    if (cc.RedT.inGame) {
+      if (cc.RedT.IS_LOGIN) {
+        cc.RedT.inGame.signOut();
+      } else if (cc.RedT.inGame.dialog) {
+        cc.RedT.inGame.dialog.onCloseDialog();
+      }
     }
     cc.RedT.reconnect();
   },
   _onSocketData: function (message) {
     var data = message.data;
     data = cc.RedT._decodeMessage(data);
-    cc.RedT.inGame.onData(data);
+    cc.RedT.inGame && cc.RedT.inGame.onData(data);
   },
   _onSocketError: function (message) {
 
