@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="format-detection" content="telephone=no">
-
+  <meta name="mobile-web-app-capable" content="yes">
   <!-- force webkit on 360 -->
   <meta name="renderer" content="webkit" />
   <meta name="force-rendering" content="webkit" />
@@ -97,10 +97,7 @@
         x.addListener(myFunction)
 
       } else if (userAgent.match(/Android/i)) {
-        var goFS = document.getElementById("GameCanvas");
-        goFS.addEventListener("touchstart", function () {
-          document.body.requestFullscreen();
-        }, false);
+        window.scrollTo(0, 1);
       }
     };
     (function () {

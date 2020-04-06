@@ -127,17 +127,16 @@ cc.Class({
 		this.isPhien = data.phien;
 		var total = data.dice[0] + data.dice[1] + data.dice[2];
 		var phienT = cc.RedT.setting.taixiu.logs[0].phien - data.phien;
-
-		if (phienT > 17) {
-			this.nodePrevious.active = false;
-		} else {
-			this.nodePrevious.active = true;
-		}
-		if (phienT < 1) {
-			this.nodeNext.active = false;
-		} else {
-			this.nodeNext.active = true;
-		}
+		// if (phienT > 17) {
+		// 	this.nodePrevious.active = false;
+		// } else {
+		// 	this.nodePrevious.active = true;
+		// }
+		// if (phienT < 1) {
+		// 	this.nodeNext.active = false;
+		// } else {
+		// 	this.nodeNext.active = true;
+		// }
 
 		Promise.all(this.dice.map(function (dice, index) {
 			var point = data.dice[index];
