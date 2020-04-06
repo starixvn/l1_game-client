@@ -2,7 +2,7 @@ const httpHelper = require('httpHelper');
 const configs = require('Configs');
 const logger = require('./../logger')();
 const sessionIdStorageName = 'scss';
-const sessionExpiredTimeoutMunutes = 4.8;
+const sessionExpiredTimeoutMunutes = 19.8;
 
 function preChecking(cb, labelMessage) {
     const settingUrl = `${configs.gameServerUrl}api/settings`;
