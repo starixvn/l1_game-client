@@ -4,15 +4,7 @@ cc.Class({
   extends: cc.Component,
 
   properties: {
-    textType: {
-      default: null,
-      type: cc.Label
-    },
     nodeChonTien: {
-      default: null,
-      type: cc.Node
-    },
-    nodeChonSo: {
       default: null,
       type: cc.Node
     }
