@@ -132,11 +132,11 @@ cc.Class({
 		// } else {
 		// 	this.nodePrevious.active = true;
 		// }
-		// if (phienT < 1) {
-		// 	this.nodeNext.active = false;
-		// } else {
-		// 	this.nodeNext.active = true;
-		// }
+		if (phienT < 1) {
+			this.nodeNext.active = false;
+		} else {
+			this.nodeNext.active = true;
+		}
 
 		Promise.all(this.dice.map(function (dice, index) {
 			var point = data.dice[index];
