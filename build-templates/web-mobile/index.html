@@ -98,12 +98,10 @@
 
       } else if (userAgent.match(/Android/i)) {
         var goFS = document.getElementById("GameCanvas");
-        var elem = document.body;
+        var elem = document.documentElement;
 
         goFS.addEventListener("touchstart", function () {
-          if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-          } else if (elem.mozRequestFullScreen) { /* Firefox */
+          if (elem.mozRequestFullScreen) { /* Firefox */
             elem.mozRequestFullScreen();
           } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
             elem.webkitRequestFullscreen();
