@@ -15,9 +15,8 @@ cc.Class({
 
     setInfo: function (data) {
         if (!!data) {
-            console.log(data);
             this.node.active = true;
-            !!data.red && (this.balance.string = helper.numberWithCommas(data.red));
+            this.balance.string = !!data.red ? helper.numberWithCommas(data.red) : 0;
             !!data.name && (this.nickname.string = data.name.length > 8 ? data.name.substring(0, 7) + "..." : data.name);
             !!data.avatarId && this.setAvatar(data.avatarId);
         } else {
