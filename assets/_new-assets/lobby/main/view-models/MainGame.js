@@ -91,7 +91,7 @@ cc.Class({
   },
   repositionMenu() {
     var menuCenterWidth = this.menuCenter.width;
-    if (menuCenterWidth < this.center.width) {
+    if (menuCenterWidth < this.center.node.width) {
       this.menuCenter.parent.getComponent(cc.ScrollView).enabled = false;
       this.menuCenter.position = cc.v2(- menuCenterWidth / 2, this.menuCenter.position.y);
     } else {
