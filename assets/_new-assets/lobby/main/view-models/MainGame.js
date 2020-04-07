@@ -282,6 +282,10 @@ cc.Class({
     cc.sys.localStorage.removeItem("infoRed8");
     authManager.signOut();
   },
+  onDisconnected: function () {
+    this.AllReset();
+    cc.sys.localStorage.removeItem("infoRed8");
+  },
   signIn: function () {
     cc.RedT.IS_LOGIN = true;
     this.header.isSignIn();

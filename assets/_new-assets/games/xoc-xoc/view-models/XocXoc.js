@@ -250,6 +250,12 @@ cc.Class({
 			cc.RedT.inGame.signOut();
 		});
 	},
+	onDisconnected: function () {
+		clearInterval(this.timeInterval);
+		cc.director.loadScene('MainGame', function () {
+			cc.RedT.inGame.onDisconnected();
+		});
+	},
 	userData: function (data) {
 		this.me_balans.string = helper.numberWithCommas(data.red);
 	},
