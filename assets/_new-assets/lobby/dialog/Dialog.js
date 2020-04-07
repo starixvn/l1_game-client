@@ -88,7 +88,7 @@ cc.Class({
 	},
 	showSignName: function () {
 		this.node.active = this.signName.node.active = true;
-		this.signUp.node.active = this.signIn.node.active = false;
+		this.signIn.node.active = false;
 		this.objShow = this.signName.node;
 	},
 	showiMessage: function (obj) {
