@@ -2,6 +2,7 @@ local_deploy_web:
   extends: .push-git-compiled-web
   script:
     - echo "====== Build Cocos Web Mobile ======"
+    - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=landscape;md5Cache=true"
     - echo "====== Deploying to server ======"
     - tar czf - ./build/web-mobile/* | ssh root@$LOCAL_SERVER "cd /var/www/l1/game-client/web-mobile && tar xvzf -"
