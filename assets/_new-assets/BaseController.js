@@ -40,7 +40,7 @@ module.exports = {
   },
   forceKickedOut: function () {
     this.isForceKickedOut = true;
-    this._socket = null;
+    this._socket.close();
   },
   recheckIn: function (self) {
     try {

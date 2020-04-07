@@ -188,6 +188,7 @@ cc.Class({
         cc.director.loadScene("um");
       }
       else {
+        authManager.signOut();
         this.showNotice({
           text: data.kickedOut.message
         });
