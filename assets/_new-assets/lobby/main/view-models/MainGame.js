@@ -5,6 +5,7 @@ const logger = require('./../../../common/logger')();
 var baseControll = require("BaseController");
 
 var header = require("Header"),
+  center = require("Menu"),
   dialog = require("Dialog"),
   ThongBaoNoHu = require("PushNohu"),
   newsContents = require("NewsContents"),
@@ -18,7 +19,7 @@ cc.Class({
       type: cc.Prefab
     },
     header: header,
-    center: cc.Node,
+    center: center,
     menuCenter: cc.Node,
     news: cc.Node,
     newsContents: newsContents,
@@ -82,9 +83,9 @@ cc.Class({
       this.header.setAvatar(cc.RedT.user.avatarId);
     }
 
-    this.center.on("size-changed", this.repositionMenu, this);
+    this.center.node.on("size-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
-      this.center.scale = 0.8;
+      this.center.node.scale = 0.8;
     }
     this.repositionMenu();
   },
@@ -171,9 +172,9 @@ cc.Class({
     if (void 0 !== data.event) {
       this.dialog.DEvent.onData(data.event);
     }
-    // if (!!data.toGame) {
-    //   this.MenuRoom.onData(data.toGame);
-    // }
+    if (!!data.toGame) {
+      this.center.loadGameRoom(data.toGame);
+    }
     if (!!data.message) {
       this.dialog.iMessage.onData(data.message);
     }
@@ -292,7 +293,6 @@ cc.Class({
     this.newsContents.reset();
     this.header.isSignOut();
     this.dialog.onCloseDialog();
-    this.MenuRoom.onBack();
     cc.RedT.MiniPanel.newGame();
     this.dialog.iMessage.reset();
   },
