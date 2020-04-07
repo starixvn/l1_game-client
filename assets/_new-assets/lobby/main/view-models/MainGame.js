@@ -183,6 +183,7 @@ cc.Class({
     }
     if (data.kickedOut) {
       authManager.removeSession();
+      cc.RedT.forceKickedOut();
       if (data.kickedOut.isUM) {
         cc.director.loadScene("um");
       }

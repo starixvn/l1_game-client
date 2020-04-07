@@ -10,14 +10,14 @@ module.exports = {
   recheckIn: null,
   _socket: null,
   loading: null,
-
+  isForceKickedOut: false,
   user: {},
   prefab: {},
   setting: {},
   util: {},
 
   connect: function (url, path = "/", port = false, ss = false) {
-    if (!this.isConnected) {
+    if (!this.isConnected && !this.isForceKickedOut) {
       this._socket = new WebSocket(
         "ws" + (ss ? "s" : "") + "://" + url + (!!port ? ":" + port : "") + path
       );
@@ -37,6 +37,10 @@ module.exports = {
         this.loading.active = false;
       }
     }
+  },
+  forceKickedOut: function () {
+    this.isForceKickedOut = true;
+    this._socket = null;
   },
   recheckIn: function (self) {
     try {
