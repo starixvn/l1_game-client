@@ -1396,7 +1396,7 @@ cc.Class({
 	},
 
 	setGameRound: function () {
-		let round = this.logs[0].round + 1
+		let round = this.time_remain <= 33 ? this.logs[0].round + 1 : this.logs[0].round;
 		this.gameRound.string = "#" + round;
 	},
 });
