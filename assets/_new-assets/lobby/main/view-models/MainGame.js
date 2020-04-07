@@ -182,6 +182,7 @@ cc.Class({
       this.loading.active = false;
     }
     if (data.kickedOut) {
+      authManager.removeSession();
       if (data.kickedOut.isUM) {
         cc.director.loadScene("um");
       }

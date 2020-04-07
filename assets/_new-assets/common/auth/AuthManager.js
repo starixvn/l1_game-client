@@ -115,6 +115,10 @@ function signOut() {
     cc.sys.localStorage.removeItem(getSessionKey());
 }
 
+function removeSession() {
+    cc.sys.localStorage.removeItem(getSessionKey());
+}
+
 function getSession() {
     return JSON.parse(cc.sys.localStorage.getItem(getSessionKey()));
 }
@@ -189,5 +193,6 @@ module.exports = {
     triggerSignIn,
     checkAndUpdateRecheckIn,
     isSSO,
-    preChecking
+    preChecking,
+    removeSession
 }
