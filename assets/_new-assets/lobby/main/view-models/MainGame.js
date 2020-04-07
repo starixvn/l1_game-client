@@ -8,13 +8,11 @@ var header = require("Header"),
   dialog = require("Dialog"),
   ThongBaoNoHu = require("PushNohu"),
   newsContents = require("NewsContents"),
-  bgLoading = require("bgLoading"),
-  MenuRoom = require("MenuRoom");
+  bgLoading = require("bgLoading");
 
 cc.Class({
   extends: cc.Component,
   properties: {
-    MenuRoom: MenuRoom,
     PrefabT: {
       default: [],
       type: cc.Prefab
@@ -173,9 +171,9 @@ cc.Class({
     if (void 0 !== data.event) {
       this.dialog.DEvent.onData(data.event);
     }
-    if (!!data.toGame) {
-      this.MenuRoom.onData(data.toGame);
-    }
+    // if (!!data.toGame) {
+    //   this.MenuRoom.onData(data.toGame);
+    // }
     if (!!data.message) {
       this.dialog.iMessage.onData(data.message);
     }

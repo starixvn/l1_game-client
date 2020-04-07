@@ -58,15 +58,7 @@ cc.Class({
     this.nodeUsers.active = false;
     this.nodeGuest.active = !configs.disabledDirectLogin;
   },
-  level: function (level) {
-    this.vip.string = "VIP" + level;
-  },
-  updateEXP: function (ht, next) {
-    this.exp.width = (ht / next) * this.maskFull;
-  },
   reset: function () {
-    this.level(cc.RedT.user.level);
-    this.updateEXP(cc.RedT.user.vipHT, cc.RedT.user.vipNext);
   },
   signOut: function () {
     var noticePrefab = cc.instantiate(this.NoticePrefab);
