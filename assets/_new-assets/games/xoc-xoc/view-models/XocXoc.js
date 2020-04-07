@@ -470,7 +470,6 @@ cc.Class({
 			)
 		);
 		this.setLogs();
-		this.setGameRound();
 	},
 	showKQ: function () {
 		let data = Object.values(this.logs[0].dots);
@@ -894,7 +893,10 @@ cc.Class({
 				this.nodeWait.active = true;
 			} else if (this.time_remain > 31) {
 				this.nodeWait.active = false;
-				this.time_remain === 33 && this.nodeBat.runAction(this.actionBatClose);
+				if (this.time_remain === 33) {
+					this.nodeBat.runAction(this.actionBatClose);
+					this.setGameRound();
+				}
 			} else {
 				if (this.time_remain > 0) {
 					var time = helper.numberPad(this.time_remain - 1, 2);
