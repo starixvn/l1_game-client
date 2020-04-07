@@ -9,6 +9,7 @@ module.exports = {
   GAME_IS_SHOWED: true,
   recheckIn: null,
   _socket: null,
+  loading: null,
 
   user: {},
   prefab: {},
@@ -32,7 +33,9 @@ module.exports = {
         self.recheckIn(self);
       }, 60 * 1000);
       this.isConnected = !0;
-
+      if (this.loading) {
+        this.loading.active = false;
+      }
     }
   },
   recheckIn: function (self) {
@@ -95,8 +98,9 @@ module.exports = {
   reconnect: function () {
     this.connect(configs.webSocketEndpoint, "/websocket", false, configs.ssl);
   },
-  init: function () {
+  init: function (loading) {
     this.initPrototype();
+    this.loading = loading;
   },
   initPrototype: function () {
     String.format ||

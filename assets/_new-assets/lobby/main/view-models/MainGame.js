@@ -46,7 +46,7 @@ cc.Class({
     document.cookie = "redT=1702;path=/";
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;
-      cc.RedT.init();
+      cc.RedT.init(this.loading);
     }
 
     cc.game.on(cc.game.EVENT_HIDE, function () {
@@ -72,7 +72,7 @@ cc.Class({
     this.redhat.insertChild(MiniPanel);
 
     if (authManager && !cc.RedT.IS_LOGIN) {
-      authManager.triggerSignIn(cc.RedT.inGame);
+      authManager.triggerSignIn(cc.RedT.inGame, this.loading);
     }
 
     if (cc.RedT.IS_LOGIN) {

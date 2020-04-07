@@ -130,9 +130,9 @@ function storeSessionData(data) {
 
 let autoTriggerSignInTimeout = null;
 
-function triggerSignIn(mainGame) {
+function triggerSignIn(mainGame, loading) {
     if (!!window.authData) {
-        if (autoTriggerSignIn) {
+        if (autoTriggerSignInTimeout) {
             clearTimeout(autoTriggerSignInTimeout);
         }
 
@@ -144,6 +144,10 @@ function triggerSignIn(mainGame) {
                     data: window.authData
                 }
             });
+
+            if (loading) {
+                loading.active = false;
+            }
         }, 500);
     }
 }
