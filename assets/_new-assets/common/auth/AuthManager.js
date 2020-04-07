@@ -128,9 +128,15 @@ function storeSessionData(data) {
     cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
 }
 
+let autoTriggerSignInTimeout = null;
+
 function triggerSignIn(mainGame) {
     if (!!window.authData) {
-        setTimeout(() => {
+        if (autoTriggerSignIn) {
+            clearTimeout(autoTriggerSignInTimeout);
+        }
+
+        autoTriggerSignInTimeout = setTimeout(() => {
             mainGame.auth({
                 authentication:
                 {
