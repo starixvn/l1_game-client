@@ -1,4 +1,5 @@
 const configs = require('./../Configs');
+const sentryConfig = require('../sentryConfig.json')
 
 const sentryLogger = {
     sentryUrl: null,
@@ -10,7 +11,8 @@ const sentryLogger = {
         if (window.Sentry && !sentryLogger.loaded) {
             window.Sentry.init({
                 dsn: configs.sentryUrl,
-                maxValueLength: 5000
+                maxValueLength: 5000,
+                release: sentryConfig.release ? 'game-client@' + sentryConfig.release : ''
             });
             sentryLogger.loaded = true;
         }
