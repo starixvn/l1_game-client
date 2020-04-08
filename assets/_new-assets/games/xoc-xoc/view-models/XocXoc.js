@@ -2,6 +2,7 @@
 let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
 const logger = require('../../../common/logger');
+const authManager = require('../../../common/auth/AuthManager');
 
 cc.Class({
 	extends: cc.Component,
@@ -330,6 +331,17 @@ cc.Class({
 		if (void 0 !== data.um) {
 			if (!this.UMNotice) {
 				this.showUMMessage();
+			}
+		}
+
+		if (data.kickedOut) {
+			authManager.removeSession();
+			cc.RedT.forceKickedOut();
+			if (data.kickedOut.isUM) {
+				cc.director.loadScene("um");
+			}
+			else {
+				authManager.signOut();
 			}
 		}
 	},
