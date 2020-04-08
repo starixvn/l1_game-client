@@ -235,6 +235,16 @@ cc.Class({
 			this.closeProcessingWarningPopup();
 			cc.RedT.MiniPanel.onDataError(data);
 		}
+		if (data.kickedOut) {
+			authManager.removeSession();
+			cc.RedT.forceKickedOut();
+			if (data.kickedOut.isUM) {
+				cc.director.loadScene("um");
+			}
+			else {
+				authManager.signOut();
+			}
+		}
 	},
 	backGame: function () {
 		clearInterval(this.timeInterval);
@@ -331,17 +341,6 @@ cc.Class({
 		if (void 0 !== data.um) {
 			if (!this.UMNotice) {
 				this.showUMMessage();
-			}
-		}
-
-		if (data.kickedOut) {
-			authManager.removeSession();
-			cc.RedT.forceKickedOut();
-			if (data.kickedOut.isUM) {
-				cc.director.loadScene("um");
-			}
-			else {
-				authManager.signOut();
 			}
 		}
 	},
