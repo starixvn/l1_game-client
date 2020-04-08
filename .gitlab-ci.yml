@@ -27,11 +27,13 @@ before_script:
 build:
   stage: build
   script:
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto;sourceMaps=true"
   tags:
     - deploy-cocos-web-mobile
   only:
-    - master
+    - sentry
+  path:
+    - /build/web-mobile
 
 include:
   - local: .gitlab-ci-push-git-compiled-web.yml

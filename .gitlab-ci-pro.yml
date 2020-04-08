@@ -47,11 +47,15 @@ sentry_release:
     - sentry-cli releases new $VERSION
     - sentry-cli releases set-commits --auto $VERSION
     - sentry-cli releases finalize $VERSION
+    - sentry-cli releases files $VERSION upload-sourcemaps --ext ts --ext map /build/web-mobile/src/project.js.map
+    - sentry-cli releases files $VERSION upload-sourcemaps --ext ts --ext map /build/web-mobile/cocos2d-js-min.js.80167.map
     - sentry-cli releases deploys $VERSION new -e PROD
     - echo "Finalized release for $VERSION"
   tags:
     - docker
   #needs: ["prod_deploy_web"]
+  dependencies: 
+    - build
   only:
     - sentry
     # - master
