@@ -27,14 +27,14 @@ before_script:
 build:
   stage: build
   script:
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto;sourceMaps=true"
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true;sourceMaps=true"
   tags:
     - deploy-cocos-web-mobile
   only:
     - sentry
   artifacts:
     paths:
-      - /build/web-mobile/
+      - ./build/web-mobile/
     expire_in: 1 day
 
 include:
