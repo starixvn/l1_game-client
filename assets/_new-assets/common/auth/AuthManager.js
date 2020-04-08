@@ -31,7 +31,7 @@ function preChecking(cb, labelMessage) {
                 return settingResponse;
             }
 
-            let isSessionExpired = checkAndUpdateRecheckIn(true);
+            let isSessionExpired = checkAndUpdateRecheckIn(urlParams.has("token"));
             if (isSessionExpired
                 && !urlParams.has("token")
                 && settingResponse.disabledDirectLogin) {
