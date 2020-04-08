@@ -151,9 +151,12 @@ cc.Class({
     this.animatedTime.node.active = false;
     this.waitedTime.node.parent.active = false;
     this.phienLabel.string = "";
+    this.hideAllDices();
     this.unSelect();
     this.resetStateAllSlot();
     this.clearCuocAllSlot();
+    this.statusTimeout && clearTimeout(this.statusTimeout);
+    this.notice.children.forEach(child => child.active = false); //hide all notice
   },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
@@ -372,10 +375,16 @@ cc.Class({
     noticeComponent.text.string = text;
     this.notice.addChild(notice);
   },
+  hideAllDices: function () {
+    this.dices.forEach(dice => {
+      dice.node.active = false;
+    });
+  },
   setDice: function (dices) {
     var self = this;
     dices.forEach(function (dice, index) {
       self.dices[index].spriteFrame = self.iconLV[dice];
+      self.dices[index].node.active = true;
     });
   },
   addLogs: function () {
@@ -595,6 +604,7 @@ cc.Class({
           this.Animation.node.active = false;
           this.setPhien(this.localPhien);
           this.resetStateAllSlot();
+          this.hideAllDices();
 
           if (
             cc.RedT.setting.baucua.regOpen &&
