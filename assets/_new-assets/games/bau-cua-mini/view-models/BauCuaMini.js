@@ -542,13 +542,15 @@ cc.Class({
       this.phienLabel.string = "#" + phien;
     }
   },
-  resetAllSlot: function () {
+  clearCuocAllSlot: function () {
     for (var i = 0; i < this.linhVat.length; ++i) {
-      this.linhVat[i].resetState();
       this.linhVat[i].clearCuoc();
     }
-    this.betChipList.forEach(chip => chip.destroy());
-    this.betChipList = [];
+  },
+  resetStateAllSlot: function () {
+    for (var i = 0; i < this.linhVat.length; ++i) {
+      this.linhVat[i].resetState();
+    }
   },
   showWinSlot: function (dices) {
     for (var i = 0; i < this.linhVat.length; ++i) {
@@ -588,6 +590,7 @@ cc.Class({
           this.waitedTime.node.parent.active = false;
           this.Animation.node.active = false;
           this.setPhien(this.localPhien);
+          this.resetStateAllSlot();
 
           if (
             cc.RedT.setting.baucua.regOpen &&
@@ -730,7 +733,8 @@ cc.Class({
 
     this.unSelect();
 
-    this.resetAllSlot();
+    this.resetStateAllSlot();
+    this.clearCuocAllSlot();
 
     this.animatedTime.node.active = false;
     this.waitedTime.node.parent.active = false;
