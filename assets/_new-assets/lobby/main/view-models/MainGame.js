@@ -109,6 +109,12 @@ cc.Class({
     } else {
       cc.RedT.send(obj);
     }
+
+    setTimeout(function () {
+      if (self && self.loading) {
+        self.loading.active = false;
+      }
+    }, 5000);
   },
   unAuthorized: function (data) {
     this.loading.active = false;
