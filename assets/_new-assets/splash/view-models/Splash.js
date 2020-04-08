@@ -47,7 +47,7 @@ cc.Class({
   },
   loadAssets: function () {
     this.updateProgress(0);
-    this.messageLabel.string = "Đang lấy dữ liệu game ...";
+    this.messageLabel.string = "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất ...";
     if (cc.sys.isBrowser && authManager) {
       let self = this;
       authManager.preChecking(() => {

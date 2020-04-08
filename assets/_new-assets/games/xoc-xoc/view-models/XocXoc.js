@@ -2,6 +2,7 @@
 let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
 const logger = require('../../../common/logger');
+const authManager = require('../../../common/auth/AuthManager');
 
 cc.Class({
 	extends: cc.Component,
@@ -209,7 +210,7 @@ cc.Class({
 		});
 		cc.game.on(cc.game.EVENT_HIDE, self.backGame, self);
 		if (!cc.sys.isMobile) {
-			this.center.scale = 0.8;
+			this.redH.scale = 0.8;
 		}
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
@@ -234,6 +235,16 @@ cc.Class({
 			this.closeProcessingWarningPopup();
 			cc.RedT.MiniPanel.onDataError(data);
 		}
+		if (data.kickedOut) {
+			authManager.removeSession();
+			cc.RedT.forceKickedOut();
+			if (data.kickedOut.isUM) {
+				cc.director.loadScene("um");
+			}
+			else {
+				authManager.signOut();
+			}
+		}
 	},
 	backGame: function () {
 		clearInterval(this.timeInterval);
@@ -248,6 +259,12 @@ cc.Class({
 		clearInterval(this.timeInterval);
 		cc.director.loadScene('MainGame', function () {
 			cc.RedT.inGame.signOut();
+		});
+	},
+	onDisconnected: function () {
+		clearInterval(this.timeInterval);
+		cc.director.loadScene('MainGame', function () {
+			cc.RedT.inGame.onDisconnected();
 		});
 	},
 	userData: function (data) {
@@ -331,7 +348,7 @@ cc.Class({
 		clearInterval(this.timeInterval);
 		var noticePrefab = cc.instantiate(this.NoticePrefab);
 		this.UMNotice = noticePrefab.getComponent("Notice");
-		this.UMNotice.init({ text: "Game đang bảo trì. Vui lòng quay lại sau ...", button: { text: "Ok" } });
+		this.UMNotice.init({ text: "Game đang được bảo trì, vui lòng quay lại sau 10 phút", button: { text: "Ok" } });
 		this.UMNotice.handleClickButton = this.backGame;
 		this.UMNotice.handleClose = this.backGame;
 		this.node.addChild(noticePrefab);

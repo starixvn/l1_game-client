@@ -46,7 +46,7 @@ cc.Class({
     document.cookie = "redT=1702;path=/";
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;
-      cc.RedT.init();
+      cc.RedT.init(this.loading);
     }
 
     cc.game.on(cc.game.EVENT_HIDE, function () {
@@ -55,7 +55,7 @@ cc.Class({
 
     cc.game.on(cc.game.EVENT_SHOW, function () {
       cc.RedT.GAME_IS_SHOWED = true;
-      cc.RedT.send({ user: { updateCoint: true } });
+      cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoint: true } });
     });
 
     cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
@@ -72,7 +72,7 @@ cc.Class({
     this.redhat.insertChild(MiniPanel);
 
     if (authManager && !cc.RedT.IS_LOGIN) {
-      authManager.triggerSignIn(cc.RedT.inGame);
+      authManager.triggerSignIn(cc.RedT.inGame, this.loading);
     }
 
     if (cc.RedT.IS_LOGIN) {
@@ -109,6 +109,12 @@ cc.Class({
     } else {
       cc.RedT.send(obj);
     }
+
+    setTimeout(function () {
+      if (self && self.loading) {
+        self.loading.active = false;
+      }
+    }, 5000);
   },
   unAuthorized: function (data) {
     this.loading.active = false;
@@ -182,10 +188,13 @@ cc.Class({
       this.loading.active = false;
     }
     if (data.kickedOut) {
+      authManager.removeSession();
+      cc.RedT.forceKickedOut();
       if (data.kickedOut.isUM) {
         cc.director.loadScene("um");
       }
       else {
+        authManager.signOut();
         this.showNotice({
           text: data.kickedOut.message
         });
@@ -281,6 +290,10 @@ cc.Class({
     this.AllReset();
     cc.sys.localStorage.removeItem("infoRed8");
     authManager.signOut();
+  },
+  onDisconnected: function () {
+    this.AllReset();
+    cc.sys.localStorage.removeItem("infoRed8");
   },
   signIn: function () {
     cc.RedT.IS_LOGIN = true;

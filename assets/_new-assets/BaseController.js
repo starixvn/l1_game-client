@@ -9,14 +9,15 @@ module.exports = {
   GAME_IS_SHOWED: true,
   recheckIn: null,
   _socket: null,
-
+  loading: null,
+  isForceKickedOut: false,
   user: {},
   prefab: {},
   setting: {},
   util: {},
 
   connect: function (url, path = "/", port = false, ss = false) {
-    if (!this.isConnected) {
+    if (!this.isConnected && !this.isForceKickedOut) {
       this._socket = new WebSocket(
         "ws" + (ss ? "s" : "") + "://" + url + (!!port ? ":" + port : "") + path
       );
@@ -31,8 +32,15 @@ module.exports = {
       this.recheckInId = setInterval(() => {
         self.recheckIn(self);
       }, 60 * 1000);
-      // this.isConnected = !0;
+      this.isConnected = !0;
+      if (this.loading) {
+        this.loading.active = false;
+      }
     }
+  },
+  forceKickedOut: function () {
+    this.isForceKickedOut = true;
+    this._socket.close();
   },
   recheckIn: function (self) {
     try {
@@ -51,7 +59,7 @@ module.exports = {
   send: function (message) {
     try {
       //this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message))
-      this.isConnected && this._socket.send(this._encodeMessage(message));
+      this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message));
     } catch (err) {
       logger.logError(err);
       if (this.inGame && this.inGame.loading) {
@@ -70,13 +78,13 @@ module.exports = {
     return JSON.stringify(message);
   },
   _onSocketConnect: function () {
-    cc.RedT.isConnected = true;
+    cc.RedT.inGame && authManager.triggerSignIn(cc.RedT.inGame);
   },
   _onSocketDisconnect: function () {
     cc.RedT.isConnected = false;
     if (cc.RedT.inGame) {
       if (cc.RedT.IS_LOGIN) {
-        cc.RedT.inGame.signOut();
+        cc.RedT.inGame.onDisconnected();
       } else if (cc.RedT.inGame.dialog) {
         cc.RedT.inGame.dialog.onCloseDialog();
       }
@@ -94,8 +102,9 @@ module.exports = {
   reconnect: function () {
     this.connect(configs.webSocketEndpoint, "/websocket", false, configs.ssl);
   },
-  init: function () {
+  init: function (loading) {
     this.initPrototype();
+    this.loading = loading;
   },
   initPrototype: function () {
     String.format ||

@@ -31,9 +31,10 @@ function preChecking(cb, labelMessage) {
                 return settingResponse;
             }
 
-            let isSessionExpired = checkAndUpdateRecheckIn();
+            let isSessionExpired = checkAndUpdateRecheckIn(urlParams.has("token"));
             if (isSessionExpired
                 && !urlParams.has("token")
+                && settingResponse
                 && settingResponse.disabledDirectLogin) {
 
                 cc.director.loadScene("sessiontimeout");
@@ -115,6 +116,10 @@ function signOut() {
     cc.sys.localStorage.removeItem(getSessionKey());
 }
 
+function removeSession() {
+    cc.sys.localStorage.removeItem(getSessionKey());
+}
+
 function getSession() {
     return JSON.parse(cc.sys.localStorage.getItem(getSessionKey()));
 }
@@ -128,9 +133,15 @@ function storeSessionData(data) {
     cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
 }
 
-function triggerSignIn(mainGame) {
+let autoTriggerSignInTimeout = null;
+
+function triggerSignIn(mainGame, loading) {
     if (!!window.authData) {
-        setTimeout(() => {
+        if (autoTriggerSignInTimeout) {
+            clearTimeout(autoTriggerSignInTimeout);
+        }
+
+        autoTriggerSignInTimeout = setTimeout(() => {
             mainGame.auth({
                 authentication:
                 {
@@ -138,11 +149,15 @@ function triggerSignIn(mainGame) {
                     data: window.authData
                 }
             });
+
+            if (loading) {
+                loading.active = false;
+            }
         }, 500);
     }
 }
 
-function checkAndUpdateRecheckIn() {
+function checkAndUpdateRecheckIn(dontClearSession) {
     let session = getSession();
     let isSessionExpired = true;
 
@@ -154,7 +169,7 @@ function checkAndUpdateRecheckIn() {
             const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
             console.log(`differenceInMinutes: ${differenceInMinutes}`)
 
-            if (differenceInMinutes > sessionExpiredTimeoutMunutes) {
+            if (differenceInMinutes > sessionExpiredTimeoutMunutes && !dontClearSession) {
                 signOut();
             }
             else {
@@ -179,5 +194,6 @@ module.exports = {
     triggerSignIn,
     checkAndUpdateRecheckIn,
     isSSO,
-    preChecking
+    preChecking,
+    removeSession
 }
