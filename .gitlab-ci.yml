@@ -24,14 +24,14 @@ before_script:
     fi
   - echo $GIT_BRANCH
 
-# build:
-#   stage: build
-#   script:
-#     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
-#   tags:
-#     - deploy-cocos-web-mobile
-#   only:
-#     - master
+build:
+  stage: build
+  script:
+    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;mergeStartScene=true;webOrientation=auto"
+  tags:
+    - deploy-cocos-web-mobile
+  only:
+    - master
 
 include:
   - local: .gitlab-ci-push-git-compiled-web.yml

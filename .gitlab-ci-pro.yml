@@ -29,32 +29,33 @@ prod_deploy_web:
   environment:
     name: PRO
     url: http://www.saba.club/
+  needs: ["build"]
   when: manual
   only:
     - master
-    - /^deploy-pro-web-\d{8}-\d+.*$/
-    - /^deploy-web-\d{8}-\d+.*$/
 
-# sentry_release:
-#   image: getsentry/sentry-cli
-#   stage: post-deploy
-#   before_script:
-#     - export SENTRY_AUTH_TOKEN=cb34911ca66a426985c7263c988341260a22080669814f4d857452b13c61d224
-#     - export SENTRY_ORG=luminet
-#     - export SENTRY_PROJECT=l1-game-client-pro
-#     - export VERSION=${CI_COMMIT_SHA:1}
-#   script:
-#     - sentry-cli releases new $VERSION
-#     - sentry-cli releases set-commits --auto $VERSION
-#     - sentry-cli releases finalize $VERSION
-#     - sentry-cli releases deploys $VERSION new -e PROD
-#     - echo "Finalized release for $VERSION"
-#   tags:
-#     - docker
-#   needs: ["prod_deploy_web"]
-#   only:
-#     - master
-#     - /^deploy-pro-web-\d{8}-\d+.*$/
-#     - /^deploy-web-\d{8}-\d+.*$/
+sentry_release:
+  image: getsentry/sentry-cli
+  stage: post-deploy
+  before_script:
+    - export SENTRY_URL=https://sentry.saba.vin/
+    - export SENTRY_AUTH_TOKEN=896707cb8ea745c6af2973c80f1d8a5674d13c81670c493f851dfb11cabe6c3d
+    - export SENTRY_ORG=luminet
+    - export SENTRY_PROJECT=l1-game-client-pro
+    - export VERSION=${CI_COMMIT_SHA:1}
+  script:
+    - sentry-cli releases new $VERSION
+    - sentry-cli releases set-commits --auto $VERSION
+    - sentry-cli releases finalize $VERSION
+    - sentry-cli releases deploys $VERSION new -e PROD
+    - echo "Finalized release for $VERSION"
+  tags:
+    - docker
+  #needs: ["prod_deploy_web"]
+  only:
+    - sentry
+    # - master
+    # - /^deploy-pro-web-\d{8}-\d+.*$/
+    # - /^deploy-web-\d{8}-\d+.*$/
 
   
