@@ -150,6 +150,10 @@ cc.Class({
     this.timeInterval && clearInterval(this.timeInterval);
     this.animatedTime.node.active = false;
     this.waitedTime.node.parent.active = false;
+    this.phienLabel.string = "";
+    this.unSelect();
+    this.resetStateAllSlot();
+    this.clearCuocAllSlot();
   },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
