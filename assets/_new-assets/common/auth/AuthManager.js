@@ -34,6 +34,7 @@ function preChecking(cb, labelMessage) {
             let isSessionExpired = checkAndUpdateRecheckIn(urlParams.has("token"));
             if (isSessionExpired
                 && !urlParams.has("token")
+                && settingResponse
                 && settingResponse.disabledDirectLogin) {
 
                 cc.director.loadScene("sessiontimeout");
