@@ -1,8 +1,9 @@
 const configs = {
     ssl: true,
     disabledDirectLogin: true,
-    gameServerUrl: 'https://uat-gsr.saba.vin/',
-    webSocketEndpoint: 'uat-gsr.saba.vin',
+    serverEndpoints: {
+        "uat.saba.vin": 'uat-gsr.saba.vin',
+    },
     gameIds: {
         TaiXiu: 1,
         XocXoc: 2,

@@ -1,8 +1,9 @@
 
 let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
-const logger = require('../../../common/logger');
-const authManager = require('../../../common/auth/AuthManager');
+import * as authManager from '../../../common/auth/AuthManager';
+import logger from '../../../common/logger';
+const sentryLogger = logger();
 
 cc.Class({
 	extends: cc.Component,
@@ -544,7 +545,7 @@ cc.Class({
 			Promise.all(this.box_le.children[4].children.map(function (chip) {
 				chip.runAction(cc.moveTo(0.4, centerMid));
 			})).catch(error => {
-				logger.logError(error);
+				sentryLogger.logError(error);
 			});
 		} else {
 			node1 = this.box_le.children[4];
@@ -553,7 +554,7 @@ cc.Class({
 			Promise.all(this.box_chan.children[4].children.map(function (chip) {
 				chip.runAction(cc.moveTo(0.4, centerMid));
 			})).catch(error => {
-				logger.logError(error);
+				sentryLogger.logError(error);
 			});
 		}
 
@@ -569,17 +570,17 @@ cc.Class({
 				Promise.all(this.box_red3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				Promise.all(this.box_red4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				Promise.all(this.box_white3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				break;
 
@@ -589,17 +590,17 @@ cc.Class({
 				Promise.all(this.box_red3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				Promise.all(this.box_red4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				Promise.all(this.box_white4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				break;
 
@@ -608,22 +609,22 @@ cc.Class({
 				Promise.all(this.box_red3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				Promise.all(this.box_red4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				Promise.all(this.box_white3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				Promise.all(this.box_white4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				break;
 
@@ -633,17 +634,17 @@ cc.Class({
 				Promise.all(this.box_white3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				Promise.all(this.box_red4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				Promise.all(this.box_white4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});
 				break;
 
@@ -653,17 +654,17 @@ cc.Class({
 				Promise.all(this.box_white3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});;
 				Promise.all(this.box_red3.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});;
 				Promise.all(this.box_white4.children[4].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});;
 				break;
 		}
@@ -709,7 +710,7 @@ cc.Class({
 						self.audioMultiChip.play();
 					}
 				})).catch(error => {
-					logger.logError(error);
+					sentryLogger.logError(error);
 				});;
 			}
 			self.traThuongTimeout = setTimeout(function () {

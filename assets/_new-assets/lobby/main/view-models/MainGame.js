@@ -1,8 +1,9 @@
-let authManager = require('./../../../common/auth/AuthManager');
-var helper = require("Helper");
-const logger = require('./../../../common/logger')();
+import * as authManager from './../../../common/auth/AuthManager';
+import baseControll from "../../../BaseController";
+import helper from "../../../common/helpers/Helper";
+import logger from '../../../common/logger';
+const sentryLogger = logger();
 
-var baseControll = require("BaseController");
 
 var header = require("Header"),
   center = require("Menu"),
@@ -150,7 +151,7 @@ cc.Class({
       try {
         if (data.user.name) {
           const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
-          logger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
+          sentryLogger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
         }
       } catch (ex) { console.log(ex) }
     }

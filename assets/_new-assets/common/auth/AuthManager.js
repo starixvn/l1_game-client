@@ -1,11 +1,15 @@
-const httpHelper = require('httpHelper');
-const configs = require('Configs');
-const logger = require('./../logger')();
+import httpHelper from '../helpers/httpHelper';
+import logger from '../logger';
+const sentryLogger = logger();
+import * as configs from '../../Configs';
+import { buildServerUrl } from '../helpers/UrlHelper';
+
 const sessionIdStorageName = 'scss';
 const sessionExpiredTimeoutMunutes = 19.8;
 
-function preChecking(cb, labelMessage) {
-    const settingUrl = `${configs.gameServerUrl}api/settings`;
+export function preChecking(cb, labelMessage) {
+    const settingUrl = buildServerUrl(configs.ssl, "http", "/api/settings");
+
     let urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("isUM") && urlParams.get("isUM") == 'true') {
 
@@ -20,9 +24,6 @@ function preChecking(cb, labelMessage) {
     }
 
     httpHelper.get(settingUrl, function (settingResponse) {
-        // redirectDomain: 'http://demo.com',
-        // disabledDirectLogin: appConfigs.disabledDirectLogin,
-        // um: redT.isUM
         try {
             window.siteSettings = settingResponse;
             if (settingResponse && settingResponse.um) {
@@ -42,20 +43,20 @@ function preChecking(cb, labelMessage) {
                 return settingResponse;
             }
         } catch (ex) {
-            logger.logError(ex);
+            sentryLogger.logError(ex);
         }
 
         cb();
     }, true);
 }
 
-function checkSSO(labelMessage, cb) {
+export function checkSSO(labelMessage, cb) {
     let isSuccess = false;
     let urlParams = new URLSearchParams(window.location.search);
     let authData = getSession();
 
     if (urlParams.has("token")) {
-        const url = `${configs.gameServerUrl}authenticate?token=${urlParams.get("token")}`;
+        const url = buildServerUrl(configs.ssl, "http", `/authenticate?token=${urlParams.get("token")}`);
 
         try {
             httpHelper.get(url, function (response) {
@@ -72,12 +73,11 @@ function checkSSO(labelMessage, cb) {
                 else {
                     labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
                 }
-                //console.log(response);
             });
         }
         catch (error) {
             labelMessage.string = "Đăng nhập lỗi.";
-            logger.logError(error);
+            sentryLogger.logError(error);
         }
 
         isSuccess = true;
@@ -91,7 +91,7 @@ function checkSSO(labelMessage, cb) {
     return isSuccess;
 }
 
-function clearTokenOnUrl() {
+export function clearTokenOnUrl() {
     try {
         history.pushState(null, "", location.href.split("?")[0]);
     }
@@ -100,7 +100,7 @@ function clearTokenOnUrl() {
     }
 }
 
-function getSessionKey() {
+export function getSessionKey() {
     if (window.location && window.location.hostname) {
         return `${window.location.hostname}.${sessionIdStorageName}`;
     }
@@ -108,7 +108,7 @@ function getSessionKey() {
     return sessionIdStorageName;
 }
 
-function signOut() {
+export function signOut() {
     if (configs.disabledDirectLogin) {
         cc.director.loadScene("sessiontimeout");
     }
@@ -116,26 +116,26 @@ function signOut() {
     cc.sys.localStorage.removeItem(getSessionKey());
 }
 
-function removeSession() {
+export function removeSession() {
     cc.sys.localStorage.removeItem(getSessionKey());
 }
 
-function getSession() {
+export function getSession() {
     return JSON.parse(cc.sys.localStorage.getItem(getSessionKey()));
 }
 
-function isSSO() {
+export function isSSO() {
     const session = getSession();
     return session && session.isSSO;
 }
 
-function storeSessionData(data) {
+export function storeSessionData(data) {
     cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
 }
 
 let autoTriggerSignInTimeout = null;
 
-function triggerSignIn(mainGame, loading) {
+export function triggerSignIn(mainGame, loading) {
     if (!!window.authData) {
         if (autoTriggerSignInTimeout) {
             clearTimeout(autoTriggerSignInTimeout);
@@ -157,7 +157,7 @@ function triggerSignIn(mainGame, loading) {
     }
 }
 
-function checkAndUpdateRecheckIn(dontClearSession) {
+export function checkAndUpdateRecheckIn(dontClearSession) {
     let session = getSession();
     let isSessionExpired = true;
 
@@ -180,20 +180,8 @@ function checkAndUpdateRecheckIn(dontClearSession) {
         }
     }
     catch (ex) {
-        logger.logError(ex);
+        sentryLogger.logError(ex);
     }
 
     return isSessionExpired;
-}
-
-
-module.exports = {
-    checkSSO,
-    signOut,
-    storeSessionData,
-    triggerSignIn,
-    checkAndUpdateRecheckIn,
-    isSSO,
-    preChecking,
-    removeSession
 }

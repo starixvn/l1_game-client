@@ -1,6 +1,6 @@
-let authManager = require('./../../common/auth/AuthManager');
-const logger = require('./../../common/logger')();
-const configs = require('Configs');
+import * as authManager from './../../common/auth/AuthManager';
+import logger from '../../common/logger';
+const sentryLogger = logger();
 
 cc.Class({
   extends: cc.Component,
@@ -22,7 +22,7 @@ cc.Class({
     this.isLoadScene = !1;
     this.isLoadConfig = !1;
     this.initOneSign();
-    logger.start();
+    sentryLogger.start();
     this.loadAssets();
     // cc.sys.isBrowser
     //   ? this.loadAssets()

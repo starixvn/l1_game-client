@@ -1,5 +1,5 @@
-const configs = require('Configs');
-const authManager = require('./../../../common/auth/AuthManager');
+import configs from '../../../Configs';
+import * as authManager from './../../../common/auth/AuthManager';
 
 cc.Class({
   extends: cc.Component,

@@ -1,8 +1,9 @@
 const configs = {
     ssl: false,
     disabledDirectLogin: false,
-    gameServerUrl: 'http://124.158.13.228:8080/',
-    webSocketEndpoint: '124.158.13.228:8080',
+    serverEndpoints: {
+        "localhost": '124.158.13.228:8080',
+    },
     gameIds: {
         TaiXiu: 1,
         XocXoc: 2,

@@ -1,8 +1,14 @@
 const configs = {
     ssl: true,
     disabledDirectLogin: true,
-    gameServerUrl: 'https://gsr.sabagame.com/',
-    webSocketEndpoint: 'gsr.sabagame.com',
+    serverEndpoints: {
+        "www.sabagame.com": 'gsr.sabagame.com',
+        "sabagame.com": 'gsr.sabagame.com',
+        "www.gamesaba.com": 'gsr.gamesaba.com',
+        "gamesaba.com": 'gsr.gamesaba.com',
+        "www.saba.win": 'gsr.saba.win',
+        "saba.win": 'gsr.saba.win'
+    },
     gameIds: {
         TaiXiu: 1,
         XocXoc: 2,

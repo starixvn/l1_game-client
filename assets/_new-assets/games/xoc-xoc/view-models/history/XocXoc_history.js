@@ -1,6 +1,7 @@
 
 let Helper = require('Helper');
-const logger = require('../../../../common/logger');
+import logger from '../../../../common/logger';
+const sentryLogger = logger();
 
 cc.Class({
     extends: cc.Component,
@@ -29,7 +30,7 @@ cc.Class({
         })).then(tab => {
             this.content = tab;
         }).catch(error => {
-            logger.logError(error);
+            sentryLogger.logError(error);
         });
 
         this.page.init(this);
@@ -116,7 +117,7 @@ cc.Class({
                 obj.node.active = false;
             }
         })).catch(error => {
-            logger.logError(error);
+            sentryLogger.logError(error);
         });
     },
 

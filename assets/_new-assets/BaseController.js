@@ -1,6 +1,8 @@
-const configs = require('Configs');
-const authManager = require('./common/auth/AuthManager');
-const logger = require('./common/logger')();
+import configs from './Configs';
+import * as authManager from './common/auth/AuthManager';
+import { buildServerUrl } from './common/helpers/UrlHelper';
+import logger from './common/logger';
+const sentryLogger = logger();
 
 module.exports = {
   IS_LOGIN: false,
@@ -16,11 +18,9 @@ module.exports = {
   setting: {},
   util: {},
 
-  connect: function (url, path = "/", port = false, ss = false) {
+  connect: function (ssl) {
     if (!this.isConnected && !this.isForceKickedOut) {
-      this._socket = new WebSocket(
-        "ws" + (ss ? "s" : "") + "://" + url + (!!port ? ":" + port : "") + path
-      );
+      this._socket = new WebSocket(buildServerUrl(ssl, "ws", "/websocket"));
       this._socket.onopen = this._onSocketConnect;
       this._socket.onclose = this._onSocketDisconnect;
       this._socket.onmessage = this._onSocketData;
@@ -61,7 +61,7 @@ module.exports = {
       //this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message))
       this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message));
     } catch (err) {
-      logger.logError(err);
+      sentryLogger.logError(err);
       if (this.inGame && this.inGame.loading) {
         this.inGame.loading.active = false;
         this.inGame.showNotice({
@@ -100,7 +100,7 @@ module.exports = {
 
   },
   reconnect: function () {
-    this.connect(configs.webSocketEndpoint, "/websocket", false, configs.ssl);
+    this.connect(configs.ssl);
   },
   init: function (loading) {
     this.initPrototype();

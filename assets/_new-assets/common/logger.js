@@ -1,5 +1,5 @@
-const configs = require('./../Configs');
-const sentryConfig = require('../sentryConfig.json')
+import configs from './../Configs';
+import sentryConfig from '../sentryConfig.json';
 
 const sentryLogger = {
     sentryUrl: null,
@@ -9,6 +9,7 @@ const sentryLogger = {
     },
     loadScript: () => {
         if (window.Sentry && !sentryLogger.loaded) {
+            console.log(sentryConfig);
             window.Sentry.init({
                 dsn: configs.sentryUrl,
                 maxValueLength: 5000,
@@ -54,7 +55,6 @@ const sentryLogger = {
     }
 };
 
-module.exports = () => {
-    // Use function to support multiple loggers
+export default function () {
     return sentryLogger;
 }
