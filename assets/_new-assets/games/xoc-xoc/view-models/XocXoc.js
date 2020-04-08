@@ -209,7 +209,7 @@ cc.Class({
 		});
 		cc.game.on(cc.game.EVENT_HIDE, self.backGame, self);
 		if (!cc.sys.isMobile) {
-			this.center.scale = 0.8;
+			this.redH.scale = 0.8;
 		}
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
