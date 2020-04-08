@@ -31,7 +31,7 @@ function preChecking(cb, labelMessage) {
                 return settingResponse;
             }
 
-            let isSessionExpired = checkAndUpdateRecheckIn();
+            let isSessionExpired = checkAndUpdateRecheckIn(true);
             if (isSessionExpired
                 && !urlParams.has("token")
                 && settingResponse.disabledDirectLogin) {
@@ -156,7 +156,7 @@ function triggerSignIn(mainGame, loading) {
     }
 }
 
-function checkAndUpdateRecheckIn() {
+function checkAndUpdateRecheckIn(dontClearSession) {
     let session = getSession();
     let isSessionExpired = true;
 
@@ -168,7 +168,7 @@ function checkAndUpdateRecheckIn() {
             const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
             console.log(`differenceInMinutes: ${differenceInMinutes}`)
 
-            if (differenceInMinutes > sessionExpiredTimeoutMunutes) {
+            if (differenceInMinutes > sessionExpiredTimeoutMunutes && !dontClearSession) {
                 signOut();
             }
             else {
