@@ -55,12 +55,12 @@ export default class Footer extends cc.Component {
   private setMusicOff() {
     this.music.spriteFrame = this.musicOff;
     cc.RedT.setSoundBackground(false);
-    this.audio.pause();
+    //this.audio.pause();
   }
 
   private setMusicOn() {
     this.music.spriteFrame = this.musicOn;
     cc.RedT.setSoundBackground(true);
-    this.audio.play();
+    //this.audio.play();
   }
 }
