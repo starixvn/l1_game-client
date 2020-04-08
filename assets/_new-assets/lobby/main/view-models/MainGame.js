@@ -55,7 +55,7 @@ cc.Class({
 
     cc.game.on(cc.game.EVENT_SHOW, function () {
       cc.RedT.GAME_IS_SHOWED = true;
-      //cc.RedT.send({ user: { updateCoint: true } });
+      cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoint: true } });
     });
 
     cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
