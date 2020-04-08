@@ -31,7 +31,7 @@ build:
   tags:
     - deploy-cocos-web-mobile
   only:
-    - sentry
+    - master
   artifacts:
     paths:
       - ./build/web-mobile/

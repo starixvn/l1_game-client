@@ -41,24 +41,20 @@ sentry_release:
     - export SENTRY_URL=https://sentry.saba.vin/
     - export SENTRY_AUTH_TOKEN=896707cb8ea745c6af2973c80f1d8a5674d13c81670c493f851dfb11cabe6c3d
     - export SENTRY_ORG=luminet
-    - export SENTRY_PROJECT=l1-game-client-local
+    - export SENTRY_PROJECT=l1-game-client-pro
     - export VERSION=game-client@${CI_COMMIT_SHA:1}
   script:
     - sentry-cli releases new $VERSION
     - sentry-cli releases set-commits --auto $VERSION
     - sentry-cli releases files $VERSION upload-sourcemaps ./build/web-mobile/
     - sentry-cli releases finalize $VERSION
-    - sentry-cli releases deploys $VERSION new -e PROD
+    - sentry-cli releases deploys $VERSION new -e PRO
     - echo "Finalized release for $VERSION"
   tags:
     - docker
-  #needs: ["prod_deploy_web"]
+  needs: ["prod_deploy_web", "build"]
   dependencies: 
     - build
   only:
-    - sentry
-    # - master
-    # - /^deploy-pro-web-\d{8}-\d+.*$/
-    # - /^deploy-web-\d{8}-\d+.*$/
-
+    - master
   
