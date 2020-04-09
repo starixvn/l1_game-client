@@ -121,7 +121,10 @@ cc.Class({
     }, 5000);
   },
   unAuthorized: function (data) {
-    this.loading.active = false;
+    if (this.loading) {
+      this.loading.active = false;
+    }
+
     if (void 0 !== data["message"]) {
       this.showNotice({
         text: data.isSessionExpired || data.noPassword

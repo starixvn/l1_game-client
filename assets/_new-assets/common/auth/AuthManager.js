@@ -167,7 +167,7 @@ export function checkAndUpdateRecheckIn(dontClearSession) {
             const now = new Date();
             const lastRecheckIn = new Date(session.time);
             const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
-            console.log(`differenceInMinutes: ${differenceInMinutes}`)
+            //console.log(`differenceInMinutes: ${differenceInMinutes}`)
 
             if (differenceInMinutes > sessionExpiredTimeoutMunutes && !dontClearSession) {
                 signOut();
