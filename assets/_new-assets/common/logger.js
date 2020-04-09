@@ -1,5 +1,6 @@
+import sentryConfig from './../SentryConfig';
 import configs from './../Configs';
-import sentryConfig from '../sentryConfig.json';
+
 
 const sentryLogger = {
     sentryUrl: null,
@@ -13,7 +14,7 @@ const sentryLogger = {
             window.Sentry.init({
                 dsn: configs.sentryUrl,
                 maxValueLength: 5000,
-                release: sentryConfig.release ? 'game-client@' + sentryConfig.release : ''
+                release: sentryConfig.Release ? 'game-client@' + sentryConfig.Release : ''
             });
             sentryLogger.loaded = true;
         }
