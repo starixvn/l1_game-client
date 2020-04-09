@@ -1063,6 +1063,7 @@ cc.Class({
     if (!cc.RedT.GAME_IS_SHOWED) {
       return;
     }
+
     setTimeout(
       function () {
         if (!this.isNan) {
@@ -1090,9 +1091,10 @@ cc.Class({
     }
   },
   showBetWinLoss: function (data) {
-    if (!cc.RedT.GAME_IS_SHOWED) {
+    if (!cc.RedT.GAME_IS_SHOWED || !this.notice) {
       return;
     }
+
     var temp = new cc.Node();
     temp.addComponent(cc.Label);
     temp = temp.getComponent(cc.Label);
