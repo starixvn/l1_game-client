@@ -101,7 +101,10 @@ cc.Class({
   },
   auth: function (obj) {
     var self = this;
-    this.loading.active = true;
+
+    if (this.loading) {
+      this.loading.active = true;
+    }
 
     if (cc.RedT._socket == null || cc.RedT._socket.readyState != 1) {
       setTimeout(function () {
