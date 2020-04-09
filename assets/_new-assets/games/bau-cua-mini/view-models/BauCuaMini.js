@@ -224,6 +224,7 @@ cc.Class({
     if (cc.RedT.IS_LOGIN) {
       this.node.active = !0;
       if (this.timeInterval === undefined) {
+        this.clearCuocAllSlot();
         this.showUMWarning(this.disabled);
       }
       localStorage.setItem("bauCua", true);
@@ -462,11 +463,14 @@ cc.Class({
     }
 
     if (void 0 !== data.um) {
-      this.disabled = data.um;
+      this.disabled = true;
+      if (!this.timeInterval || cc.RedT.setting.baucua.time_remain == BCConstants.betTime) {
+        this.timeInterval && clearInterval(this.timeInterval);
+        this.clearCuocAllSlot();
+        this.showUMWarning(this.disabled);
+      }
       return;
     }
-    this.disabled = false;
-    this.showUMWarning(false);
 
     // if (void 0 !== data.userCount) {
     //   this.userCountLabel.node.parent.active = true;
@@ -509,6 +513,8 @@ cc.Class({
     }
     if (void 0 !== data.time_remain) {
       cc.RedT.setting.baucua.time_remain = data.time_remain;
+      this.disabled = false;
+      this.showUMWarning(false);
       this.playTime();
     }
     if (void 0 !== data.finish) {
@@ -537,7 +543,6 @@ cc.Class({
           this.Animation.play("BauCua_plate", duration - 1);
         }
       }
-
       cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
       if (cc.RedT.GAME_IS_SHOWED) {
         this.playTime();

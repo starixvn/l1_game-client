@@ -101,7 +101,10 @@ cc.Class({
   },
   auth: function (obj) {
     var self = this;
-    this.loading.active = true;
+
+    if (this.loading) {
+      this.loading.active = true;
+    }
 
     if (cc.RedT._socket == null || cc.RedT._socket.readyState != 1) {
       setTimeout(function () {
@@ -118,7 +121,10 @@ cc.Class({
     }, 5000);
   },
   unAuthorized: function (data) {
-    this.loading.active = false;
+    if (this.loading) {
+      this.loading.active = false;
+    }
+
     if (void 0 !== data["message"]) {
       this.showNotice({
         text: data.isSessionExpired || data.noPassword
