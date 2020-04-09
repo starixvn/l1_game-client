@@ -195,7 +195,8 @@ cc.Class({
     if (data.kickedOut) {
       authManager.removeSession();
       cc.RedT.forceKickedOut();
-      if (data.kickedOut.isUM) {
+      if (data.kickedOut.umInfo) {
+        window.umInfo = data.kickedOut.umInfo;
         cc.director.loadScene("um");
       }
       else {
