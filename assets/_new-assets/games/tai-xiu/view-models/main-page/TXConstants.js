@@ -7,6 +7,6 @@ cc.Class({
     redTime: 5,
     minBetTime: 1,
     minBet: 1,
-    maxBet: 200
+    maxBet: 500
   }
 });
