@@ -224,6 +224,7 @@ cc.Class({
     if (cc.RedT.IS_LOGIN) {
       this.node.active = !0;
       if (this.timeInterval === undefined) {
+        this.clearCuocAllSlot();
         this.showUMWarning(this.disabled);
       }
       localStorage.setItem("bauCua", true);
@@ -463,7 +464,9 @@ cc.Class({
 
     if (void 0 !== data.um) {
       this.disabled = true;
-      if (!this.timeInterval) {
+      if (!this.timeInterval || cc.RedT.setting.baucua.time_remain == BCConstants.betTime) {
+        this.timeInterval && clearInterval(this.timeInterval);
+        this.clearCuocAllSlot();
         this.showUMWarning(this.disabled);
       }
       return;
@@ -539,13 +542,12 @@ cc.Class({
           var duration = this.Animation.defaultClip.duration;
           this.Animation.play("BauCua_plate", duration - 1);
         }
-
-        cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
-        if (cc.RedT.GAME_IS_SHOWED) {
-          this.playTime();
-        }
-        this.localPhien = data.finish.phien + 1;
       }
+      cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
+      if (cc.RedT.GAME_IS_SHOWED) {
+        this.playTime();
+      }
+      this.localPhien = data.finish.phien + 1;
     }
     if (void 0 !== data.notice) {
       this.addNotice(data.notice);
