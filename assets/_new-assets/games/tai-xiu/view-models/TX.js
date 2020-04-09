@@ -17,7 +17,7 @@ cc.Class({
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
     cc.RedT.setting.taixiu.getLogs = false;
     this.TX_Main.init(this);
-    var check = localStorage.getItem("taixiu");
+    var check = cc.sys.localStorage.getItem("taixiu");
 
     if (check == "true") {
       this.node.active = true;
@@ -60,13 +60,13 @@ cc.Class({
     if (cc.RedT.IS_LOGIN) {
       this.TX_Main.initGame(taixiu == "1");
       this.node.active = 1;
-      localStorage.setItem("taixiu", true);
+      cc.sys.localStorage.setItem("taixiu", true);
     } else cc.RedT.inGame.dialog.showSignIn();
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
     this.node.active = !1;
-    localStorage.setItem("taixiu", false);
+    cc.sys.localStorage.setItem("taixiu", false);
   },
   newGame: function () {
     this.TX_ThongKe.node.active = this.TX_Main.TX_Board.node.active = false;
