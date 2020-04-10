@@ -50,7 +50,7 @@ cc.Class({
   regEvent: function (bool) {
     cc.RedT.send({
       taixiu: !cc.RedT.setting.taixiu.getLogs
-        ? { view: bool, getLogs: true }
+        ? { view: bool, getLogs: true, get_time: true }
         : { view: bool }
     });
   },

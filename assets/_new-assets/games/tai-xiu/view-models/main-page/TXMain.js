@@ -559,21 +559,14 @@ cc.Class({
   },
   onData: function (data) {
     if (void 0 !== data.um) {
-      if (!this.isUM) {
+      if (!this.timeInterval || cc.RedT.setting.taixiu.time_remain == Constants.betTime) {
         this.isUM = true;
         this.UMWarning.active = true;
         this.centerRoundLight.node.stopAllActions();
+        this.onGameHide();
+
+        return;
       }
-
-      return;
-    }
-
-    if (this.isUM) {
-      this.isUM = false;
-      this.centerRoundLight.node.runAction(
-        cc.repeatForever(cc.rotateBy(1.1, 360))
-      );
-      this.UMWarning.active = false;
     }
 
     if (void 0 !== data.get_phien) {
@@ -614,12 +607,16 @@ cc.Class({
     this.onDataLogs(data);
 
     if (void 0 !== data.time_remain) {
+      this.isUM = false;
+      this.centerRoundLight.node.runAction(
+        cc.repeatForever(cc.rotateBy(1.1, 360))
+      );
+      this.UMWarning.active = false;
       cc.RedT.setting.taixiu.time_remain = data.time_remain;
       this.playTime();
     }
 
     this.onDataFinishPhien(data);
-
   },
   efStop: function () {
     this.efTai.stop();
@@ -746,6 +743,7 @@ cc.Class({
     );
   },
   showWaitTime: function (time) {
+    this.nodeTimeWait.active = true;
     this.timeWait.string = "00:" + helper.numberPad(time, 2);
   },
   onDataChanLe: function (data) {
