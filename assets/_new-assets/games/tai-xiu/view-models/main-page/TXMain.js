@@ -558,7 +558,7 @@ cc.Class({
     );
   },
   onData: function (data) {
-    if (void 0 !== data.um) {
+    if (data.um) {
       if (!this.timeInterval || cc.RedT.setting.taixiu.time_remain == Constants.betTime) {
         this.isUM = true;
         this.UMWarning.active = true;
