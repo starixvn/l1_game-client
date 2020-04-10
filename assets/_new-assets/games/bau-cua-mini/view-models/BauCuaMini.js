@@ -104,7 +104,7 @@ cc.Class({
     this.waitingCuoc = false;
     this.processingWarning = null;
 
-    var check = localStorage.getItem("bauCua");
+    var check = cc.sys.localStorage.getItem("bauCua");
     if (check == "true") {
       this.node.active = true;
     }
@@ -227,7 +227,7 @@ cc.Class({
         this.clearCuocAllSlot();
         this.showUMWarning(this.disabled);
       }
-      localStorage.setItem("bauCua", true);
+      cc.sys.localStorage.setItem("bauCua", true);
       // this.setTop();
     } else {
       cc.RedT.inGame.dialog.showSignIn();
@@ -244,7 +244,7 @@ cc.Class({
   closeGame: function () {
     cc.RedT.audio.playUnClick();
     this.node.active = !1;
-    localStorage.setItem("bauCua", false);
+    cc.sys.localStorage.setItem("bauCua", false);
   },
   pressedTopDialog() {
     cc.RedT.audio.playClick();
