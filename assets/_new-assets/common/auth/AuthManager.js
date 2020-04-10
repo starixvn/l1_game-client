@@ -13,7 +13,9 @@ export function preChecking(cb, labelMessage) {
     let urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("isUM") && urlParams.get("isUM") == 'true') {
         window.umInfo = {
-            isUM: true
+            isUM: true,
+            startTime: new Date(),
+            endTime: new Date()
         };
         cc.director.loadScene("um");
         return;
@@ -28,8 +30,11 @@ export function preChecking(cb, labelMessage) {
     httpHelper.get(settingUrl, function (settingResponse) {
         try {
             window.siteSettings = settingResponse;
-            if (settingResponse && settingResponse.umInfo && settingResponse.umInfo.isUM) {
-                window.umInfo = umInfo;
+            if (settingResponse
+                && settingResponse.umInfo
+                && settingResponse.umInfo.isUM) {
+
+                window.umInfo = settingResponse.umInfo;
                 cc.director.loadScene("um");
 
                 return settingResponse;
