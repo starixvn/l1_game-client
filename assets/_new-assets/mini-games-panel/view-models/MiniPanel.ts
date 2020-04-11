@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import configs from '../../Configs.js';
+import configs from '../../Configs';
 import * as authManager from './../../common/auth/AuthManager';
 
 @ccclass
