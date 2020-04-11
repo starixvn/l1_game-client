@@ -83,7 +83,7 @@ export default class MiniPanel extends cc.Component {
 
   onDataKickedOut(data: any) {
     authManager.removeSession();
-    //cc.RedT.forceKickedOut();
+    cc.RedT.forceKickedOut();
     if (data.umInfo) {
       window.umInfo = data.umInfo;
       cc.director.loadScene("um");
