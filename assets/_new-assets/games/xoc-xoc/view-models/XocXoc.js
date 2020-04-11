@@ -239,11 +239,24 @@ cc.Class({
 		if (data.kickedOut) {
 			authManager.removeSession();
 			cc.RedT.forceKickedOut();
-			if (data.kickedOut.isUM) {
+			if (data.kickedOut.umInfo) {
+				window.umInfo = data.kickedOut.umInfo;
 				cc.director.loadScene("um");
 			}
 			else {
-				authManager.signOut();
+				if (data.kickedOut.isDisbledAccount) {
+					setTimeout(function () {
+						if (authManager) {
+							authManager.signOut();
+						}
+					}, 10000);
+				}
+				else {
+					authManager.signOut();
+				}
+				this.showNotice({
+					text: data.kickedOut.message
+				});
 			}
 		}
 	},
