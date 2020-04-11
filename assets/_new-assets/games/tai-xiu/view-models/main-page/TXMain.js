@@ -559,7 +559,7 @@ cc.Class({
   },
   onData: function (data) {
     if (data.um) {
-      if (!this.timeInterval || cc.RedT.setting.taixiu.time_remain == Constants.betTime || data.time_remain == Constants.fullTime) {
+      if (cc.RedT.setting.taixiu.time_remain == Constants.betTime || data.time_remain == Constants.fullTime) {
         this.isUM = true;
         this.UMWarning.active = true;
         this.centerRoundLight.node.stopAllActions();

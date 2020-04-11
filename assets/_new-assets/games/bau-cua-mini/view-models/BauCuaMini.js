@@ -224,17 +224,12 @@ cc.Class({
   },
   openGame: function () {
     cc.RedT.audio.playClick();
-    if (cc.RedT.IS_LOGIN) {
-      this.node.active = !0;
-      if (this.timeInterval === undefined) {
-        this.clearCuocAllSlot();
-        this.showUMWarning(this.disabled);
-      }
-      cc.sys.localStorage.setItem("bauCua", true);
-      // this.setTop();
-    } else {
-      cc.RedT.inGame.dialog.showSignIn();
+    this.node.active = !0;
+    if (this.timeInterval === undefined) {
+      this.clearCuocAllSlot();
+      this.showUMWarning(this.disabled);
     }
+    cc.sys.localStorage.setItem("bauCua", true);
   },
   showUMWarning(show) {
     // this.node.active = false;

@@ -135,19 +135,28 @@ export default class MiniPanel extends cc.Component {
     }
   }
   openTaiXiu() {
-    var taiXiuPrefab = cc.instantiate(this.taiXiuPrefab);
-    this.taiXiu = taiXiuPrefab.getComponent("TX");
-    this.taiXiu.init(this);
-    this.node.addChild(this.taiXiu.node);
-    this.taiXiu.openGame();
+    if (cc.RedT.IS_LOGIN) {
+      var taiXiuPrefab = cc.instantiate(this.taiXiuPrefab);
+      this.taiXiu = taiXiuPrefab.getComponent("TX");
+      this.taiXiu.init(this);
+      this.node.addChild(this.taiXiu.node);
+      this.taiXiu.openGame();
+    }
+    else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
   }
 
   openBauCua() {
-    var bauCuaPrefab = cc.instantiate(this.bauCuaPrefab);
-    this.bauCua = bauCuaPrefab.getComponent("BauCuaMini");
-    this.bauCua.init(this);
-    this.node.addChild(this.bauCua.node);
-    this.bauCua.openGame();
+    if (cc.RedT.IS_LOGIN) {
+      var bauCuaPrefab = cc.instantiate(this.bauCuaPrefab);
+      this.bauCua = bauCuaPrefab.getComponent("BauCuaMini");
+      this.bauCua.init(this);
+      this.node.addChild(this.bauCua.node);
+      this.bauCua.openGame();
+    } else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
   }
 
   openMiniPoker() {

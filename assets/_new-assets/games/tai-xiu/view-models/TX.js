@@ -59,12 +59,9 @@ cc.Class({
   },
   openGame: function (e, taixiu = "1") {
     cc.RedT.audio.playClick();
-
-    if (cc.RedT.IS_LOGIN) {
-      this.TX_Main.initGame(taixiu == "1");
-      this.node.active = 1;
-      cc.sys.localStorage.setItem("taixiu", true);
-    } else cc.RedT.inGame.dialog.showSignIn();
+    this.TX_Main.initGame(taixiu == "1");
+    this.node.active = 1;
+    cc.sys.localStorage.setItem("taixiu", true);
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
