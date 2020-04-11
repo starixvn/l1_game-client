@@ -563,6 +563,7 @@ cc.Class({
         this.isUM = true;
         this.UMWarning.active = true;
         this.centerRoundLight.node.stopAllActions();
+        this.totalLeft.node.active = this.totalRight.node.active = false;
         this.onGameHide();
 
         return;
@@ -612,6 +613,7 @@ cc.Class({
         cc.repeatForever(cc.rotateBy(1.1, 360))
       );
       this.UMWarning.active = false;
+      this.totalLeft.node.active = this.totalRight.node.active = true;
       cc.RedT.setting.taixiu.time_remain = data.time_remain;
       this.playTime();
     }
