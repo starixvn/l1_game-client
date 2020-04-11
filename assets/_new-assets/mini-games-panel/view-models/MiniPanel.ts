@@ -40,20 +40,6 @@ export default class MiniPanel extends cc.Component {
   private bauCua: any;
 
   onLoad() {
-    var self = this;
-    this.node._onPreDestroy = function () {
-      self.onDestroy();
-    };
-
-  }
-
-  onDestroy() {
-    // clearInterval(this.taiXiu.TX_Main.timeInterval);
-    // clearInterval(this.bauCua.timeInterval);
-    // this.taiXiu.node.destroy();
-    // this.bauCua.node.destroy();
-
-    // this.bauCua = this.taiXiu = null;
   }
 
   onData(data: any) {

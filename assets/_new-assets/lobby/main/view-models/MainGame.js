@@ -39,7 +39,6 @@ cc.Class({
   },
   onDestroy() {
     cc.RedT.inGame = null;
-    cc.RedT.MiniPanel.node.destroy();
   },
   onLoad: function () {
     document.cookie = "redT=1702;path=/";
