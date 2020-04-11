@@ -58,13 +58,13 @@ export default class MiniPanel extends cc.Component {
 
   onData(data: any) {
     console.log(this.bauCua)
-    if (data.baucua && this.bauCua && this.bauCua.enabled) {
+    if (data.baucua && this.bauCua && this.bauCua.node) {
       this.bauCua.onData(data.baucua);
     }
   }
 
   onDataTaiXiu(taiXiuData: any) {
-    if (taiXiuData && this.taiXiu && this.taiXiu.enabled && this.taiXiu.TX_Main) {
+    if (taiXiuData && this.taiXiu && this.taiXiu.node && this.taiXiu.TX_Main) {
       this.taiXiu.TX_Main.onData(taiXiuData);
     }
   }
@@ -136,11 +136,13 @@ export default class MiniPanel extends cc.Component {
   }
   openTaiXiu() {
     if (cc.RedT.IS_LOGIN) {
-      var taiXiuPrefab = cc.instantiate(this.taiXiuPrefab);
-      this.taiXiu = taiXiuPrefab.getComponent("TX");
-      this.taiXiu.init(this);
-      this.node.addChild(this.taiXiu.node);
-      this.taiXiu.openGame();
+      if (!this.taiXiu || !this.taiXiu.node) {
+        var taiXiuPrefab = cc.instantiate(this.taiXiuPrefab);
+        this.taiXiu = taiXiuPrefab.getComponent("TX");
+        this.taiXiu.init(this);
+        this.node.addChild(this.taiXiu.node);
+        this.taiXiu.openGame();
+      }
     }
     else {
       cc.RedT.inGame.dialog.showSignIn();
@@ -149,11 +151,13 @@ export default class MiniPanel extends cc.Component {
 
   openBauCua() {
     if (cc.RedT.IS_LOGIN) {
-      var bauCuaPrefab = cc.instantiate(this.bauCuaPrefab);
-      this.bauCua = bauCuaPrefab.getComponent("BauCuaMini");
-      this.bauCua.init(this);
-      this.node.addChild(this.bauCua.node);
-      this.bauCua.openGame();
+      if (!this.bauCua || !this.bauCua.node) {
+        var bauCuaPrefab = cc.instantiate(this.bauCuaPrefab);
+        this.bauCua = bauCuaPrefab.getComponent("BauCuaMini");
+        this.bauCua.init(this);
+        this.node.addChild(this.bauCua.node);
+        this.bauCua.openGame();
+      }
     } else {
       cc.RedT.inGame.dialog.showSignIn();
     }

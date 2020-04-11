@@ -232,12 +232,9 @@ cc.Class({
     cc.sys.localStorage.setItem("bauCua", true);
   },
   showUMWarning(show) {
-    // this.node.active = false;
-    // this.miniPanel.mainGame.notice.show({
-    //   title: "THÔNG BÁO",
-    //   text: "Hệ thống đang bảo trì. Vui lòng quay lại sau..."
-    // });
-    this.umWarning.active = show;
+    if (this.umWarning) {
+      this.umWarning.active = show;
+    }
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
@@ -658,7 +655,7 @@ cc.Class({
     this.logTom.string = helper.numberWithCommas(data[5]);
   },
   DataHandling: function (data) {
-    if (this.red) {
+    if (this.red && this.linhVat) {
       if (void 0 !== data.redHuou) {
         this.linhVat[0].totallCuoc(data.redHuou);
       }
@@ -695,44 +692,6 @@ cc.Class({
       }
       if (void 0 !== data.meRedTom) {
         this.linhVat[5].meCuoc(data.meRedTom);
-      }
-    } else {
-      if (void 0 !== data.xuHuou) {
-        this.linhVat[0].totallCuoc(data.xuHuou);
-      }
-      if (void 0 !== data.xuBau) {
-        this.linhVat[1].totallCuoc(data.xuBau);
-      }
-      if (void 0 !== data.xuGa) {
-        this.linhVat[2].totallCuoc(data.xuGa);
-      }
-      if (void 0 !== data.xuCa) {
-        this.linhVat[3].totallCuoc(data.xuCa);
-      }
-      if (void 0 !== data.xuCua) {
-        this.linhVat[4].totallCuoc(data.xuCua);
-      }
-      if (void 0 !== data.xuTom) {
-        this.linhVat[5].totallCuoc(data.xuTom);
-      }
-
-      if (void 0 !== data.meXuHuou) {
-        this.linhVat[0].meCuoc(data.meXuHuou);
-      }
-      if (void 0 !== data.meXuBau) {
-        this.linhVat[1].meCuoc(data.meXuBau);
-      }
-      if (void 0 !== data.meXuGa) {
-        this.linhVat[2].meCuoc(data.meXuGa);
-      }
-      if (void 0 !== data.meXuCa) {
-        this.linhVat[3].meCuoc(data.meXuCa);
-      }
-      if (void 0 !== data.meXuCua) {
-        this.linhVat[4].meCuoc(data.meXuCua);
-      }
-      if (void 0 !== data.meXuTom) {
-        this.linhVat[5].meCuoc(data.meXuTom);
       }
     }
   },
