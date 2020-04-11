@@ -232,32 +232,12 @@ cc.Class({
 		if (void 0 !== data.taixiu) {
 			cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
 		}
-		if (data.apiError) {
-			this.closeProcessingWarningPopup();
-			cc.RedT.MiniPanel.onDataError(data);
-		}
 		if (data.kickedOut) {
-			authManager.removeSession();
-			cc.RedT.forceKickedOut();
-			if (data.kickedOut.umInfo) {
-				window.umInfo = data.kickedOut.umInfo;
-				cc.director.loadScene("um");
-			}
-			else {
-				if (data.kickedOut.isDisbledAccount) {
-					setTimeout(function () {
-						if (authManager) {
-							authManager.signOut();
-						}
-					}, 10000);
-				}
-				else {
-					authManager.signOut();
-				}
-				this.showNotice({
-					text: data.kickedOut.message
-				});
-			}
+			this.closeProcessingWarningPopup();
+			cc.RedT.MiniPanel.onDataKickedOut(data.kickedOut);
+		}
+		if (data.apiError) {
+			cc.RedT.MiniPanel.onDataError(data);
 		}
 	},
 	backGame: function () {

@@ -84,13 +84,13 @@ export default class MiniPanel extends cc.Component {
 
   onDataKickedOut(data: any) {
     authManager.removeSession();
-    cc.RedT.forceKickedOut();
-    if (data.kickedOut.umInfo) {
-      window.umInfo = data.kickedOut.umInfo;
+    //cc.RedT.forceKickedOut();
+    if (data.umInfo) {
+      window.umInfo = data.umInfo;
       cc.director.loadScene("um");
     }
     else {
-      if (data.kickedOut.isDisbledAccount) {
+      if (data.isDisabledAccount) {
         setTimeout(function () {
           if (authManager) {
             authManager.signOut();
@@ -101,7 +101,7 @@ export default class MiniPanel extends cc.Component {
         authManager.signOut();
       }
       this.showNotice({
-        text: data.kickedOut.message
+        text: data.message
       });
     }
   }
