@@ -57,7 +57,6 @@ export default class MiniPanel extends cc.Component {
   }
 
   onData(data: any) {
-    console.log(this.bauCua)
     if (data.baucua && this.bauCua && this.bauCua.node) {
       this.bauCua.onData(data.baucua);
     }
