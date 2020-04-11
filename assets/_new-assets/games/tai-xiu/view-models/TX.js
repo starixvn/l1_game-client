@@ -43,6 +43,9 @@ cc.Class({
   },
   onDisable: function () {
     this.regEvent(false);
+    this.TX_Main.onGameHide();
+    this.node.destroyAllChildren();
+    this.node.destroy();
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
@@ -79,7 +82,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.TX_TopPrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.TXTop = dialog.getComponent("TXTop");
     this.TXTop.init(this);
   },
@@ -87,7 +90,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.TX_StatsPrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.TXStats = dialog.getComponent("TXStats");
     this.TXStats.init(this);
   },
@@ -95,7 +98,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.TX_HistoryPrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.TXHistory = dialog.getComponent("TXHistory");
     this.TXHistory.init(this);
   },
@@ -103,7 +106,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.TX_HistoryBetPrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.TXBetHistory = dialog.getComponent("TXBetHistory");
     this.TXBetHistory.init(this);
     this.TXBetHistory.getPhien(event.target.phien)
@@ -112,7 +115,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.GuidePrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");
     guide.select("TaiXiu");
   },

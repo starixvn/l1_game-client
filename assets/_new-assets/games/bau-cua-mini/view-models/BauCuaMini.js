@@ -187,6 +187,9 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+    this.onGameHide();
+    this.node.destroyAllChildren();
+    this.node.destroy();
     // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
     //this.onCloseGame();
   },
@@ -250,7 +253,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.topDialog);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.Top = dialog.getComponent("BauCuaTop");
     this.Top.init(this);
   },
@@ -258,7 +261,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.historyDialog);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.LichSu = dialog.getComponent("BauCuaHistory");
     this.LichSu.init(this);
   },
@@ -266,7 +269,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.guidePrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");
     guide.select("BauCua");
   },
