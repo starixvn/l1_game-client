@@ -150,13 +150,15 @@ export function triggerSignIn(mainGame, loading) {
         }
 
         autoTriggerSignInTimeout = setTimeout(() => {
-            mainGame.auth({
-                authentication:
-                {
-                    username: window.authData.username,
-                    data: window.authData
-                }
-            });
+            if (mainGame) {
+                mainGame.auth({
+                    authentication:
+                    {
+                        username: window.authData.username,
+                        data: window.authData
+                    }
+                });
+            }
 
             if (loading) {
                 loading.active = false;
