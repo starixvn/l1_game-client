@@ -13,7 +13,7 @@ cc.Class({
                 const startTime = this.formatDate(new Date(umInfo.startTime), template);
                 const endTime = this.formatDate(new Date(umInfo.endTime), template);
 
-                this.message.string = `Hệ thống đang được bảo trì.\nThời gian từ ${startTime} đến ${endTime}.\nVui lòng quay lại sau, cảm ơn Bạn.`;
+                this.message.string = `Thời gian bảo trì từ ${startTime} đến ${endTime}.`;
             }
         }
     },
