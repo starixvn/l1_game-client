@@ -8,7 +8,8 @@ const configs = {
         TaiXiu: 1,
         XocXoc: 2,
         BauCua: 3,
-        MiniPoker: 4
+        MiniPoker: 4,
+        TaiXiuTurbo: 5,
     },
     gameNames: {
         1: "Tài Xỉu",
