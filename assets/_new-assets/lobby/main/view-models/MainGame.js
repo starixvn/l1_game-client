@@ -9,8 +9,7 @@ var header = require("Header"),
   center = require("Menu"),
   dialog = require("Dialog"),
   ThongBaoNoHu = require("PushNohu"),
-  newsContents = require("NewsContents"),
-  bgLoading = require("bgLoading");
+  newsContents = require("NewsContents");
 
 cc.Class({
   extends: cc.Component,
@@ -24,7 +23,6 @@ cc.Class({
     menuCenter: cc.Node,
     news: cc.Node,
     newsContents: newsContents,
-    bgLoading: bgLoading,
     iconVQRed: cc.Node,
     iconCandy: cc.Node,
     iconLongLan: cc.Node,
@@ -180,7 +178,7 @@ cc.Class({
       // this.ThongBaoNoHu.onData(data.pushnohu);
     }
     if (void 0 !== data.loading) {
-      this.bgLoading.onData(data.loading);
+      this.loading.onData(data.loading);
     }
     if (void 0 !== data.event) {
       this.dialog.DEvent.onData(data.event);
