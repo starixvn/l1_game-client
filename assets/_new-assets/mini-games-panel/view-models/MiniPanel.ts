@@ -32,6 +32,9 @@ export default class MiniPanel extends cc.Component {
   bauCuaPrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
+  chanLePrefab: cc.Prefab = null;
+
+  @property(cc.Prefab)
   turboTaiXiuPrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
@@ -42,6 +45,7 @@ export default class MiniPanel extends cc.Component {
   private taiXiu: any;
   private bauCua: any;
   private taiXiuTurbo: any;
+  private chanLe: any;
 
   onLoad() {
   }
@@ -61,8 +65,12 @@ export default class MiniPanel extends cc.Component {
   onDataTaiXiuTurbo(data: any) {
     if (data && this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.TX_Main) {
       this.taiXiuTurbo.TX_Main.onData(data);
-    }
   }
+
+  onDataChanLe(chanLeData: any) {
+    if (chanLeData && this.chanLe && this.chanLe.node) {
+      this.chanLe.onData(chanLeData);
+   }
 
   onDataError(apiErrorData: any) {
     var error = apiErrorData.apiError;
@@ -188,6 +196,21 @@ export default class MiniPanel extends cc.Component {
         this.bauCua.openGame();
       }
     } else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+  }
+
+  openChanLe() {
+    if (cc.RedT.IS_LOGIN) {
+      if (!this.chanLe || !this.chanLe.node) {
+        var chanLePrefab = cc.instantiate(this.chanLePrefab);
+        this.chanLe = chanLePrefab.getComponent("ChanLe");
+        this.chanLe.init(this);
+        this.miniGames.addChild(this.chanLe.node);
+        this.chanLe.openGame();
+      }
+    }
+    else {
       cc.RedT.inGame.dialog.showSignIn();
     }
   }

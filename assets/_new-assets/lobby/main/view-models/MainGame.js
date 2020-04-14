@@ -163,6 +163,9 @@ cc.Class({
     if (void 0 !== data.taixiu) {
       cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
     }
+    if (data.chanle) {
+      cc.RedT.MiniPanel.onDataChanLe(data.chanle);
+    }
 
     if (void 0 !== data.taixiu_turbo) {
       cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);

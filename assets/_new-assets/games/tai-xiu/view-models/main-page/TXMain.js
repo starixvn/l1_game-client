@@ -69,18 +69,6 @@ cc.Class({
       default: null,
       type: cc.Label
     },
-    betTime: {
-      default: null,
-      type: cc.Node
-    },
-    firstBetTime: {
-      default: null,
-      type: cc.Sprite
-    },
-    secondBetTime: {
-      default: null,
-      type: cc.Sprite
-    },
     timePopup: {
       default: null,
       type: cc.Label
@@ -113,21 +101,9 @@ cc.Class({
       default: [],
       type: cc.SpriteFrame
     },
-    cointRED: {
-      default: null,
-      type: cc.Node
-    },
-    cointXU: {
-      default: null,
-      type: cc.Node
-    },
     dotLogs: {
       default: null,
       type: cc.Node
-    },
-    gameCover: {
-      default: null,
-      type: cc.Label
     },
     diceAnimation: {
       default: null,
@@ -299,6 +275,7 @@ cc.Class({
     );
 
     this.keyHandle = function (t) {
+      console.log(t);
       return t.keyCode === cc.macro.KEY.tab
         ? (self.changeNextFocusEditBox(),
           t.preventDefault && t.preventDefault(),
@@ -440,7 +417,6 @@ cc.Class({
   },
   onChangerGame: function () {
     cc.RedT.setting.taixiu.taixiu = this.taixiu = !this.taixiu;
-    this.gameCover.string = this.taixiu ? "Chẵn Lẻ" : "Tài Xỉu";
     this.nodeTaiXiu.active = this.taixiu;
     this.nodeChanLe.active = !this.taixiu;
     if (cc.RedT.setting.taixiu.getLogs) {
@@ -486,8 +462,6 @@ cc.Class({
   },
   onChangerRED: function () {
     cc.RedT.setting.taixiu.red = this.red = !this.red;
-    this.cointRED.active = !this.cointRED.active;
-    this.cointXU.active = !this.cointXU.active;
     this.totalLeft.node.color = this.totalRight.node.color = this.red
       ? this.totalRight.node.color.fromHEX("#FFEB0A")
       : this.totalRight.node.color.fromHEX("#FFFFFF");

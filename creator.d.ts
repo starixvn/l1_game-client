@@ -3016,6 +3016,8 @@ declare namespace cc {
 	Cocos Creator 场景中的所有节点类。<br/>
 	支持的节点事件，请参阅 {{#crossLink "Node.EventType"}}{{/crossLink}}。 */
 	export class Node extends _BaseNode {
+		map(arg0: (dot: any, index: any) => void): readonly [unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown] {
+		}
 		/** !#en
 		Group index of node.<br/>
 		Which Group this node belongs to will resolve that this node's collision components can collide with which other collision componentns.<br/>
@@ -8220,6 +8222,7 @@ declare namespace cc {
 		/** !#en specify the size tracing mode.
 		!#zh 精灵尺寸调整模式 */
 		sizeMode: Sprite.SizeMode;
+		component: any;
 		/**
 		Change the state of sprite.
 		@param state NORMAL or GRAY State. 
