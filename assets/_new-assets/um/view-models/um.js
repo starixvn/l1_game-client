@@ -8,7 +8,6 @@ cc.Class({
     onLoad() {
         if (window.umInfo) {
             if (this) {
-                this.message.node.color = cc.Color.BLACK;
                 const template = 'hh:mm dd/MM/yyyy';
                 const startTime = this.formatDate(new Date(umInfo.startTime), template);
                 const endTime = this.formatDate(new Date(umInfo.endTime), template);
