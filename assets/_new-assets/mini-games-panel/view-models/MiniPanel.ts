@@ -69,9 +69,8 @@ export default class MiniPanel extends cc.Component {
 
   onDataKickedOut(data: any) {
     authManager.removeSession();
-
+    cc.RedT.forceKickedOut();
     if (data.umInfo) {
-      cc.RedT.forceKickedOut();
       window.umInfo = data.umInfo;
       cc.director.loadScene("um");
     }
@@ -79,16 +78,13 @@ export default class MiniPanel extends cc.Component {
       if (data.isDisabledAccount) {
         setTimeout(function () {
           if (authManager) {
-            cc.RedT.forceKickedOut();
             authManager.signOut();
           }
         }, 10000);
       }
       else {
-        cc.RedT.forceKickedOut();
         authManager.signOut();
       }
-      console.log(data.message);
       this.showNotice({
         text: data.message
       });
@@ -129,7 +125,7 @@ export default class MiniPanel extends cc.Component {
         var taiXiuPrefab = cc.instantiate(this.taiXiuPrefab);
         this.taiXiu = taiXiuPrefab.getComponent("TX");
         this.taiXiu.init(this);
-        this.node.addChild(this.taiXiu.node);
+        this.miniGames.addChild(this.taiXiu.node);
         this.taiXiu.openGame();
       }
     }
@@ -144,7 +140,7 @@ export default class MiniPanel extends cc.Component {
         var bauCuaPrefab = cc.instantiate(this.bauCuaPrefab);
         this.bauCua = bauCuaPrefab.getComponent("BauCuaMini");
         this.bauCua.init(this);
-        this.node.addChild(this.bauCua.node);
+        this.miniGames.addChild(this.bauCua.node);
         this.bauCua.openGame();
       }
     } else {
