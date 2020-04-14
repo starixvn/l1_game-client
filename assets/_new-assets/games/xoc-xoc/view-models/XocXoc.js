@@ -236,6 +236,7 @@ cc.Class({
 			cc.RedT.MiniPanel.onDataKickedOut(data.kickedOut);
 		}
 		if (data.apiError) {
+			this.closeProcessingWarningPopup();
 			cc.RedT.MiniPanel.onDataError(data);
 		}
 	},

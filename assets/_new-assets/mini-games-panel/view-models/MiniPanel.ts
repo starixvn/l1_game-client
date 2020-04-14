@@ -69,26 +69,29 @@ export default class MiniPanel extends cc.Component {
 
   onDataKickedOut(data: any) {
     authManager.removeSession();
-    cc.RedT.forceKickedOut();
     if (data.umInfo) {
+      cc.RedT.forceKickedOut();
       window.umInfo = data.umInfo;
       cc.director.loadScene("um");
     }
     else {
       if (data.isDisabledAccount) {
-        setTimeout(function () {
+        setTimeout(() => {
           if (authManager) {
-            authManager.signOut();
+            this.forceKickedOut();
           }
         }, 10000);
       }
       else {
-        authManager.signOut();
+        this.forceKickedOut();
       }
-      this.showNotice({
-        text: data.message
-      });
+      this.showNotice({ text: data.message }, this.forceKickedOut, this.forceKickedOut);
     }
+  }
+
+  forceKickedOut() {
+    cc.RedT.forceKickedOut();
+    authManager.signOut();
   }
 
   changeLight() {
@@ -170,12 +173,21 @@ export default class MiniPanel extends cc.Component {
     this.node.addChild(noticePrefab);
   }
 
-  showNotice(noticeData: any) {
+  showNotice(noticeData: any, handleClickButton = null, handleClose = null) {
     var noticePrefab = cc.instantiate(this.noticePrefab);
     var notice = noticePrefab.getComponent("Notice");
 
     noticeData.button = { text: 'Ok' };
     notice.init(noticeData);
+
+    if (handleClickButton) {
+      notice.handleClickButton = handleClickButton;
+    }
+
+    if (handleClose) {
+      notice.handleClose = handleClose;
+    }
+
     this.node.addChild(noticePrefab)
   }
 }
