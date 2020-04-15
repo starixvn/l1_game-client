@@ -1090,8 +1090,8 @@ cc.Class({
 				obj.children[1].active = true;
 				obj.zIndex = 2;
 				cc.tween(obj)
-					.to(0.2, {
-						scale: 1.05,
+					.to(0.15, {
+						scale: 1.10,
 						position: cc.v2(obj.position.x, 12)
 					})
 					.start();
@@ -1100,7 +1100,7 @@ cc.Class({
 				obj.children[1].active = false;
 				obj.zIndex = 1;
 				cc.tween(obj)
-					.to(0.2, {
+					.to(0.15, {
 						scale: 1,
 						position: cc.v2(obj.position.x, 0)
 					})
