@@ -3,7 +3,6 @@ import ChanLe from './../ChanLe';
 import BetBoard from './../bet-board/ChanLeBetBoard';
 import * as DiaNan from './../../../tai-xiu/view-models/main-page/TXDiaNan';
 import { getOnlyNumberInString, numberWithCommas, numberPad } from '../../../../common/helpers/Helper';
-import * as Constants from './../../../tai-xiu/view-models/main-page/TXConstants';
 import ProcessingWarning from './../../../../common/processing-warning/view-models/ProcessingWarning';
 import * as ScaleEffect from './../../../tai-xiu/view-models/main-page/TXScale';
 import * as DotLogs from './../../../tai-xiu/view-models/main-page/TXLogTips';
@@ -11,6 +10,7 @@ import AnimatedTime from './../../../../common/animated-time/view-models/Animate
 
 @ccclass
 export default class ChanLeMain extends cc.Component {
+    //#region Properties
     @property({ type: cc.Node, override: true })
     public background: cc.Node = null;
 
@@ -81,7 +81,7 @@ export default class ChanLeMain extends cc.Component {
     public phienLabel: cc.Label = null;
 
     @property({ type: [cc.Sprite] })
-    public dice: cc.Sprite[] = [];
+    public dices: cc.Sprite[] = [];
 
     @property({ type: [cc.SpriteFrame] })
     public diceFrames: cc.SpriteFrame[] = [];
@@ -131,6 +131,8 @@ export default class ChanLeMain extends cc.Component {
     @property({ type: AnimatedTime })
     public animatedTime: AnimatedTime = null;
 
+    //#endregion
+
     private betChoice = {
         left: "left",
         right: "right"
@@ -139,13 +141,11 @@ export default class ChanLeMain extends cc.Component {
     private root: ChanLe;
     private isNan = false;
     private waitingBetResponse = false;
-    private touchOffset: cc.Vec2 = null;
     private processingWarning: ProcessingWarning;
-
     private currentInputBet: cc.Label;
     private currentInputSide: string;
     private currentTimeRemain: number;
-    private currentResultData: any;
+    private currentDataLogs: any;
     private currentResultDices: number[];
     private currentPlayTimeInteval: number;
     private currentDotLogs: DotLogs[] = [];
@@ -153,142 +153,135 @@ export default class ChanLeMain extends cc.Component {
 
     init(root: ChanLe) {
         this.root = root;
-
-        Promise.all(
-            this.dotLogs.children.map(function (dot) {
-                return dot.getComponent("TXLogTips");
-            })
-        ).then(result => {
-            this.currentDotLogs = result;
-        });
     }
 
     onLoad() {
         this.betBoard.init(this);
         this.diaNan.init(this);
         this.diceAnimation.on("finished", this.onDiceAnimationFinished, this);
-        this.centerRoundLight.runAction(
-            cc.repeatForever(cc.rotateBy(1.1, 360))
-        );
+        this.playCenterLight();
+        this.initDotLogs();
     }
 
-    onEnable() {
-        this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
-        this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-        this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-        this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+    onGameHide() {
+        this.currentPlayTimeInteval && clearInterval(this.currentPlayTimeInteval);
+        this.resetUI();
+        this.resetData();
+        this.centerRoundLight.stopAllActions();
     }
 
     onData(data: any) {
-        if (data.um) {
-            if (this.currentTimeRemain == Constants.betTime || data.time_remain == Constants.fullTime) {
-                this.isUM = true;
-                this.noticeUM.active = true;
-                this.onGameHide();
+        var isUM = this.handleDataUM(data);
 
-                return;
-            }
+        if (isUM) {
+            return;
+        };
+
+        this.handleDataError(data);
+        this.handleDataGame(data);
+        this.handleDataLogs(data);
+        this.handleDataStatus(data);
+        this.handleDataTime(data);
+        this.handleDataFinishTurn(data);
+
+    }
+
+    handleDataUM(data: any): boolean {
+        if (!data.um) {
+            return false;
         }
 
+        if (this.currentTimeRemain == this.root.gameConfigs.betTime
+            || data.time_remain == this.root.gameConfigs.fullTime) {
+            this.isUM = true;
+            this.noticeUM.active = true;
+            this.onGameHide();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    handleDataError(data: any) {
         if (data.apiError) {
-            this.closeProcessingWarningPopup();
+            this.closeProcessWarning();
         }
 
         if (data.err) {
-            this.closeProcessingWarningPopup();
-            this.showMiniWarningMessage(data.err);
+            this.closeProcessWarning();
+            this.showMiniWarning(data.err);
+        }
+    }
+
+    handleDataGame(data: any) {
+        if (!data.chanle || this.isUM) {
+            return;
         }
 
-        if (data.chanle && !this.isUM) {
-            this.onDataChanLe(data.chanle);
+        var chanleData = data.chanle;
+
+        if (chanleData.red_me_chan || chanleData.red_me_le) {
+            this.closeProcessWarning();
+            this.userBetLeft.string = data.red_me_chan;
         }
 
-        if (data.logs && !this.isUM) {
-            this.onDataLogs(data);
+        chanleData.red_chan && (this.totalBetLeft.string = numberWithCommas(chanleData.red_chan));
+        chanleData.red_le && (this.totalBetRight.string = numberWithCommas(chanleData.red_le));
+        chanleData.red_me_chan && (this.userBetLeft.string = numberWithCommas(chanleData.red_me_chan));
+        chanleData.red_me_le && (this.userBetRight.string = numberWithCommas(chanleData.red_me_le));
+        chanleData.red_player_chan && (this.playersLeft.string = numberWithCommas(chanleData.red_player_chan));
+        chanleData.red_player_le && (this.playersRight.string = numberWithCommas(chanleData.red_player_le));
+    }
+
+    handleDataLogs(data) {
+        if (!data.logs || this.isUM) {
+            return;
         }
 
-        if (data.status) {
-            this.onDataStatus(data.status);
+        this.currentDataLogs = data.logs;
+        this.currentResultDices = [...data.logs[0].dice];
+
+        if (this.currentTimeRemain > this.root.gameConfigs.betTime) {
+            this.showDices(true);
+            this.showBetResult();
         }
 
+        this.buildDotLogs(this.currentDataLogs);
+    }
+
+    handleDataTime(data: any) {
         if (data.time_remain) {
             this.isUM = false;
-            this.centerRoundLight.runAction(
-                cc.repeatForever(cc.rotateBy(1.1, 360))
-            );
+            this.playCenterLight();
             this.noticeUM.active = false;
             this.currentTimeRemain = data.time_remain;
             this.playTime();
         }
-
-        if (data.finish) {
-            this.onDataFinishPhien(data);
-        }
     }
 
-    onDataChanLe(data) {
-        void 0 !== data.red_chan && (this.totalBetLeft.string = numberWithCommas(data.red_chan));
-        void 0 !== data.red_le && (this.totalBetRight.string = numberWithCommas(data.red_le));
-        void 0 !== data.red_me_chan && (this.userBetLeft.string = numberWithCommas(data.red_me_chan));
-        void 0 !== data.red_me_le && (this.userBetRight.string = numberWithCommas(data.red_me_le));
-        void 0 !== data.red_player_chan && (this.playersLeft.string = numberWithCommas(data.red_player_chan));
-        void 0 !== data.red_player_le && (this.playersRight.string = numberWithCommas(data.red_player_le));
-    }
-
-    onDataLogs(data) {
-        this.currentResultData = data.logs;
-        this.currentResultDices = [...data.logs[0].dice];
-
-        if (this.currentTimeRemain > Constants.betTime) {
-            this.setDice(true);
-            this.showResult();
+    handleDataStatus(data) {
+        if (!data.status) {
+            return;
         }
 
-        this.dataLogs(this.currentResultData);
-    }
-
-    dataLogs(resultData: any) {
         var self = this;
 
-        if (resultData && resultData.length) {
-            Promise.all(
-                self.currentDotLogs.map(function (dot, index) {
-                    var data = resultData[index];
+        setTimeout(() => {
+            if (!self.isNan) {
+                self.showUserWinLossAnimation(data);
+            }
+            self.root.sendData({ get_new: true });
+        }, 2e3);
+    }
 
-                    if (data) {
-                        var point = data.dice[0] + data.dice[1] + data.dice[2];
-                        dot.node.active = true;
-                        dot.text.string =
-                            data.dice[0] + "-" + data.dice[1] + "-" + data.dice[2];
-                        dot.sprite.spriteFrame = point % 2
-                            ? self.dotBlack
-                            : self.dotYellow;
-                    } else {
-                        dot.node.active = false;
-                    }
-                })
-            );
+    handleDataFinishTurn(data) {
+        if (!data.finish) {
+            return;
         }
-    }
 
-    onDataStatus(data) {
-        var self = this;
-
-        setTimeout(
-            function () {
-                if (!self.isNan) {
-                    self.showBetWinLoss(data);
-                }
-                self.root.sendData({ get_new: true });
-            }.bind(this),
-            2e3
-        );
-    }
-
-    onDataFinishPhien(data) {
-        void 0 !== this.currentPlayTimeInteval && clearInterval(this.currentPlayTimeInteval);
-
-        this.currentResultData.unshift({
+        this.currentPlayTimeInteval && clearInterval(this.currentPlayTimeInteval);
+        this.currentDataLogs.unshift({
             dice: [
                 data.finish.dices[0],
                 data.finish.dices[1],
@@ -297,10 +290,10 @@ export default class ChanLeMain extends cc.Component {
             phien: data.finish.phien
         });
 
-        this.currentResultData.length > 120 && this.currentResultData.pop();
-        this.dataLogs(this.currentResultData);
+        this.currentDataLogs.length > 120 && this.currentDataLogs.pop();
+        this.buildDotLogs(this.currentDataLogs);
         this.currentResultDices = [...data.finish.dices];
-        this.setResultNumber();
+        this.showResultPoint();
 
         if (this.isNan) {
             this.diaNan.active = true;
@@ -309,7 +302,7 @@ export default class ChanLeMain extends cc.Component {
             this.onDiceAnimationFinished();
         } else {
             this.diceAnimation.node.active = true;
-            if (this.node.activeInHierarchy && cc.RedT.GAME_IS_SHOWED) {
+            if (this.node.activeInHierarchy) {
                 this.diceAnimation.play();
             } else {
                 this.onDiceAnimationFinished();
@@ -318,30 +311,8 @@ export default class ChanLeMain extends cc.Component {
 
         this.timeWaitNode.active = true;
         this.animatedTime.node.active = false;
-        this.currentTimeRemain = Constants.betTime + Constants.waitTime;
+        this.currentTimeRemain = this.root.gameConfigs.betTime + this.root.gameConfigs.waitTime;
         this.playTime();
-    }
-
-    eventStart(event) {
-        this.touchOffset = cc.v2(
-            event.touch.getLocationX() - this.node.position.x,
-            event.touch.getLocationY() - this.node.position.y
-        );
-    }
-    eventMove(event) {
-        this.node.position = cc.v2(
-            event.touch.getLocationX() - this.touchOffset.x,
-            event.touch.getLocationY() - this.touchOffset.y
-        );
-    }
-    eventEnd() {
-        //cc.RedT.setting.taixiu.position = this.node.position;
-    }
-
-    onGameHide() {
-        this.currentPlayTimeInteval && clearInterval(this.currentPlayTimeInteval);
-        this.resetUI();
-        this.centerRoundLight.stopAllActions();
     }
 
     onBetClick() {
@@ -351,19 +322,17 @@ export default class ChanLeMain extends cc.Component {
         this.betBoard.node.active = false;
         this.setBetButtonClicked(false);
 
-        if (isNaN(bet) || bet < Constants.minBet) {
-            this.showMiniWarningMessage(
-                "Tiền cược tối thiểu là " + Constants.minBet
+        if (isNaN(bet) || bet < this.root.gameConfigs.minBet) {
+            this.showMiniWarning(
+                "Tiền cược tối thiểu là " + this.root.gameConfigs.minBet
             );
-        } else if (bet > Constants.maxBet) {
-            this.showMiniWarningMessage(
-                "Tiền cược tối đa là " + Constants.maxBet
+        } else if (bet > this.root.gameConfigs.maxBet) {
+            this.showMiniWarning(
+                "Tiền cược tối đa là " + this.root.gameConfigs.maxBet
             );
         } else {
             if (this.waitingBetResponse) {
-                var processingWarningNode = cc.instantiate(this.processingWarningPrefab);
-                this.processingWarning = processingWarningNode.getComponent("ProcessingWarning");
-                this.notice.addChild(processingWarningNode);
+                this.showBetProcessWarning();
                 return;
             }
 
@@ -380,10 +349,11 @@ export default class ChanLeMain extends cc.Component {
 
     onDiaNanClick() {
         this.isNan = !this.isNan;
-        this.diaNanSprite.spriteFrame = this.isNan ? this.diaNanSpriteFrames[1] : this.diaNanSpriteFrames[0];
+        this.diaNanSprite.spriteFrame
+            = this.isNan ? this.diaNanSpriteFrames[1] : this.diaNanSpriteFrames[0];
     }
 
-    onSelectBetInput(event, select) {
+    onSelectBetInput(event, select: string) {
         if (this.betBoard.node.active) {
             return;
         }
@@ -402,153 +372,127 @@ export default class ChanLeMain extends cc.Component {
                 break;
 
         }
-
-        console.log(this.currentInputBet);
     }
 
-    onChangeBetInput() {
-        var value = numberWithCommas(
-            getOnlyNumberInString(this.currentInputBet.string)
-        );
-
-        this.currentInputBet.string = value == "0" ? "" : value;
-    }
-
-    setPhienLabel(turnId) {
-        if (turnId) {
-            this.phienLabel.string = "";
-            return;
-        }
-
-        this.phienLabel.string = "#" + turnId;
-    }
-
-    setDice(bool = false, sprite = true) {
-        var self = this;
-        Promise.all(
-            this.dice.map(function (dice, index) {
-                sprite && (dice.spriteFrame = self.diceFrames[self.currentResultDices[index] - 1]);
-                dice.node.active = bool;
-            })
-        );
-    }
-
-    setCurrentBetInput(value) {
+    setCurrentBetInput(value: number): void {
         var betValue = getOnlyNumberInString(this.currentInputBet.string) * 1 + value * 1;
 
         this.currentInputBet.string = numberWithCommas(betValue);
         this.currentInputBet.node.active = true;
     }
 
-    playTime() {
-        if (!cc.RedT.GAME_IS_SHOWED) {
+    private initDotLogs() {
+        Promise.all(this.dotLogs.children.map((dot) => {
+            return dot.getComponent("TXLogTips");
+        })).then(result => {
+            this.currentDotLogs = result;
+        });
+    }
+
+    private buildDotLogs(dataLogs: any) {
+        if (!dataLogs || !dataLogs.length) {
             return;
         }
-        void 0 !== this.currentPlayTimeInteval && clearInterval(this.currentPlayTimeInteval);
+
+        var self = this;
+        Promise.all(self.currentDotLogs.map(function (dotLog, index) {
+            var data = dataLogs[index];
+
+            if (data) {
+                var point = data.dice[0] + data.dice[1] + data.dice[2];
+                dotLog.node.active = true;
+                dotLog.text.string =
+                    data.dice[0] + "-" + data.dice[1] + "-" + data.dice[2];
+                dotLog.sprite.spriteFrame = point % 2
+                    ? self.dotBlack
+                    : self.dotYellow;
+            } else {
+                dotLog.node.active = false;
+            }
+        }));
+    }
+
+    private playTime() {
+        this.currentPlayTimeInteval && clearInterval(this.currentPlayTimeInteval);
         var self = this;
 
-        this.currentPlayTimeInteval = setInterval(
-            function () {
-                if (self.currentTimeRemain > Constants.betTime) {
-                    var time = numberPad(
-                        self.currentTimeRemain - Constants.betTime - 1,
-                        2
-                    );
+        this.currentPlayTimeInteval = setInterval(() => {
+            const isInWaitTime = self.currentTimeRemain > this.root.gameConfigs.betTime;
 
-                    self.showWaitTime(time);
+            if (isInWaitTime) {
+                var time = numberPad(self.currentTimeRemain - this.root.gameConfigs.betTime - 1, 2);
+                self.showWaitTime(time);
 
-                    if (self.currentResultDices.length > 0) {
-                        self.setResultNumber();
+                if (self.currentResultDices.length > 0) {
+                    self.showResultPoint();
 
-                        if (self.isNan) {
-                            if (self.currentTimeRemain < Constants.nanTime) {
-                                self.setDice(true);
-                                self.showResult();
-                                self.diaNan.active = false;
-                            }
+                    if (self.isNan) {
+                        if (self.currentTimeRemain < this.root.gameConfigs.nanTime) {
+                            self.showDices(true);
+                            self.showBetResult();
+                            self.diaNan.active = false;
                         }
                     }
-                    if (self.currentResultData) {
-                        self.setPhienLabel(self.currentResultData[0].phien);
-                    }
-                } else {
-                    self.resetUI();
-                    self.currentResultDices = [];
+                }
+                if (self.currentDataLogs) {
+                    self.setTurnLabel(self.currentDataLogs[0].phien);
+                }
+            } else {
+                self.resetUI();
+                self.currentResultDices = [];
+                const isStartingNewTurn = self.currentTimeRemain == this.root.gameConfigs.betTime;
+                const isInTurnTime = self.currentTimeRemain > this.root.gameConfigs.minBetTime;
 
-                    if (self.currentResultData) {
-                        self.setPhienLabel(self.currentResultData[0].phien + 1);
-                    }
-
-                    if (self.currentTimeRemain === Constants.betTime) {
-                        self.resetData();
-                    }
-
-                    if (self.currentTimeRemain > Constants.minBetTime) {
-                        var time = numberPad(
-                            self.currentTimeRemain - 1,
-                            2
-                        );
-                        self.animatedTime.setTime(time);
-                        self.diaNanSprite.node.active = self.animatedTime.node.active = !self.isUM;
-                    } else clearInterval(self.currentPlayTimeInteval);
+                if (self.currentDataLogs) {
+                    self.setTurnLabel(self.currentDataLogs[0].phien + 1);
                 }
 
-                self.currentTimeRemain--;
-            }.bind(this),
-            1000
-        );
+                if (isStartingNewTurn) {
+                    self.resetData();
+                }
+
+                if (isInTurnTime) {
+                    var time = numberPad(self.currentTimeRemain - 1, 2);
+                    self.animatedTime.setTime(time);
+                    self.diaNanSprite.node.active = self.animatedTime.node.active = true;
+                } else {
+                    clearInterval(self.currentPlayTimeInteval);
+                }
+            }
+            self.currentTimeRemain--;
+        }, 1000);
     }
 
-    private setResultNumber() {
-        var diemSo = this.currentResultDices[0] + this.currentResultDices[1] + this.currentResultDices[2];
-        this.resultLabel.string = diemSo.toString();
-    }
-
-    showWaitTime(time) {
+    private showWaitTime(time) {
         this.timeWaitNode.active = true;
         this.timeWaitLabel.string = "00:" + numberPad(time, 2);
     }
 
-    resetUI() {
-        this.stopWinningAnims();
-        this.animatedTime.node.active = false;
-        this.diceAnimation.node.active = false;
-        this.timeWaitNode.active = this.resultNode.active = this.diaNan.active = false;
-        this.setDice(false, false);
-    }
-    resetData() {
-        this.isNan && this.dataLogs(this.currentResultData);
-        this.totalBetLeft.string
-            = this.totalBetLeft.string
-            = this.userBetLeft.string
-            = this.userBetRight.string
-            = this.playersLeft.string
-            = this.playersRight.string = '0';
-    }
-
-    private closeProcessingWarningPopup() {
-        this.waitingBetResponse = false;
-
-        if (this.processingWarning) {
-            this.processingWarning.close();
+    private setTurnLabel(turnId) {
+        if (turnId) {
+            this.phienLabel.string = "#" + turnId;
         }
     }
 
     private onDiceAnimationFinished() {
-        console.log("here")
-        this.setDice(true);
-        this.showResult();
+        this.showDices(true);
+        this.showBetResult();
         this.diceAnimation.node.active = false;
     }
 
+    private showDices(showDice = false, showDiceSprite = true) {
+        var self = this;
+        Promise.all(this.dices.map((dice, index) => {
+            showDiceSprite && (dice.spriteFrame = self.diceFrames[self.currentResultDices[index] - 1]);
+            dice.node.active = showDice;
+        }));
+    }
 
-    showResult() {
-        var resultNumber = this.currentResultDices[0] + this.currentResultDices[1] + this.currentResultDices[2];
-        this.resultLabel.string = resultNumber.toString();
-        this.resultNode.active = true;
+    private showBetResult() {
+        var point = this.showResultPoint();
         this.stopWinningAnims();
 
-        if (resultNumber % 2) {
+        if (point % 2) {
             this.rightWinningEffect.play();
             this.rightWinningAnimation.node.active = true;
             this.rightWinningAnimation.play();
@@ -557,6 +501,14 @@ export default class ChanLeMain extends cc.Component {
             this.leftWinningAnimation.node.active = true;
             this.leftWinningAnimation.play();
         }
+    }
+
+    private showResultPoint(): number {
+        var point = this.currentResultDices[0] + this.currentResultDices[1] + this.currentResultDices[2];
+        this.resultLabel.string = point.toString();
+        this.resultNode.active = true;
+
+        return point;
     }
 
     private stopWinningAnims() {
@@ -568,47 +520,28 @@ export default class ChanLeMain extends cc.Component {
         this.rightWinningAnimation.stop();
     }
 
-    private showBetWinLoss(data) {
-        if (!cc.RedT.GAME_IS_SHOWED || !this.notice) {
+    private showUserWinLossAnimation(data) {
+        if (!this.notice) {
             return;
         }
 
-        var temp = new cc.Label();
-        temp.addComponent(cc.Label);
-        temp = temp.getComponent(cc.Label);
-        temp.string = (data.win ? "+" : "-") + numberWithCommas(data.bet);
-        temp.font = data.win ? this.fontPlus : this.fontMinus;
-        temp.lineHeight = 130;
-        temp.fontSize = 22;
-        temp.node.position = cc.v2(data.select ? -252 : 252, -50);
-        this.notice.addChild(temp.node);
-        temp.node.runAction(
+        var resultNode = new cc.Node();
+        resultNode.addComponent(cc.Label);
+        var resultLabel = resultNode.getComponent(cc.Label);
+        resultLabel.string = (data.win ? "+" : "-") + numberWithCommas(data.bet);
+        resultLabel.font = data.win ? this.fontPlus : this.fontMinus;
+        resultLabel.lineHeight = 130;
+        resultLabel.fontSize = 22;
+        resultLabel.node.position = cc.v2(data.select ? -252 : 252, -50);
+        this.notice.addChild(resultLabel.node);
+        resultLabel.node.runAction(
             cc.sequence(
                 cc.moveTo(3, cc.v2(data.select ? -252 : 252, 130)),
                 cc.callFunc(function () {
                     this.node.destroy();
-                }, temp)
+                }, resultLabel)
             )
         );
-        // if (void 0 !== data.thuong && data.thuong > 0) {
-        //     var thuong = new cc.Node();
-        //     thuong.addComponent(cc.Label);
-        //     thuong = thuong.getComponent(cc.Label);
-        //     thuong.string =
-        //         (data.win ? "+" : "-") + helper.numberWithCommas(data.thuong);
-        //     thuong.font = cc.RedT.util.fontEffect;
-        //     thuong.lineHeight = 90;
-        //     thuong.fontSize = 14;
-        //     this.notice.addChild(thuong.node);
-        //     thuong.node.runAction(
-        //         cc.sequence(
-        //             cc.moveTo(3, cc.v2(0, 100)),
-        //             cc.callFunc(function () {
-        //                 this.node.destroy();
-        //             }, thuong)
-        //         )
-        //     );
-        // }
     }
 
     private setBetButtonClicked(isClick, select = '') {
@@ -626,10 +559,45 @@ export default class ChanLeMain extends cc.Component {
         }
     }
 
-    private showMiniWarningMessage(message) {
+    private showMiniWarning(message) {
         var miniWarningPrefab = cc.instantiate(this.miniWarningPrefab);
         var miniWarning = miniWarningPrefab.getComponent("mini_warning");
         miniWarning.text.string = message;
         this.notice.addChild(miniWarningPrefab);
+    }
+
+    private showBetProcessWarning() {
+        var processingWarningNode = cc.instantiate(this.processingWarningPrefab);
+        this.processingWarning = processingWarningNode.getComponent("ProcessingWarning");
+        this.notice.addChild(processingWarningNode);
+    }
+
+    private closeProcessWarning() {
+        this.waitingBetResponse = false;
+
+        if (this.processingWarning) {
+            this.processingWarning.close();
+        }
+    }
+
+    private playCenterLight() {
+        this.centerRoundLight.runAction(cc.repeatForever(cc.rotateBy(1.1, 360)));
+    }
+
+    private resetUI() {
+        this.stopWinningAnims();
+        this.animatedTime.node.active = false;
+        this.diceAnimation.node.active = false;
+        this.timeWaitNode.active = this.resultNode.active = this.diaNan.active = false;
+        this.showDices(false, false);
+    }
+
+    private resetData() {
+        this.totalBetLeft.string
+            = this.totalBetLeft.string
+            = this.userBetLeft.string
+            = this.userBetRight.string
+            = this.playersLeft.string
+            = this.playersRight.string = '0';
     }
 }

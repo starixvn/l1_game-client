@@ -1,6 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import ChanLeMain from './main/ChanLeMain';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
+import ChanLeConfigs from './ChanLeConfigs';
 
 @ccclass
 export default class ChanLe extends cc.Component {
@@ -22,41 +23,46 @@ export default class ChanLe extends cc.Component {
     @property(cc.Prefab)
     public guide: cc.Prefab = null;
 
+    public gameType: string = "5";
+    public gameName: string = "chanle";
+    public gameConfigs: ChanLeConfigs;
+
     private miniPanel: MiniPanel;
-    protected gameType: string = "5";
-    protected gameName: string = "chanle";
+    private touchOffset: cc.Vec2 = null;
+    private isGameHide = false;
     board: any;
 
     init(miniPanel: MiniPanel, gameType: string) {
         this.miniPanel = miniPanel;
         this.gameType = gameType;
-
         this.main.init(this);
+        this.initConfigs();
     }
 
-
-    onload() {
-        cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, self);
-        cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, self);
+    initConfigs() {
+        this.gameConfigs = new ChanLeConfigs();
     }
 
     onEnable() {
         this.onGameShow();
+        cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
+        cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
+        this.main.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
+        this.main.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     }
 
     onDisable() {
         this.onGameHide();
+        cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+        cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
+        this.main.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
+        this.main.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
         this.node.destroyAllChildren();
         this.node.destroy();
     }
 
-    onDestroy() {
-        cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-        cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
-    }
-
     onData(data: any) {
-        this.main.onData(data);
+        !this.isGameHide && this.main.onData(data);
     }
 
     openGame() {
@@ -119,11 +125,30 @@ export default class ChanLe extends cc.Component {
         });
     }
 
+    eventStart(event) {
+        this.touchOffset = cc.v2(
+            event.touch.getLocationX() - this.node.position.x,
+            event.touch.getLocationY() - this.node.position.y
+        );
+
+        this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+    }
+
+    eventMove(event) {
+        this.node.position = cc.v2(
+            event.touch.getLocationX() - this.touchOffset.x,
+            event.touch.getLocationY() - this.touchOffset.y
+        );
+    }
+
+
     private onGameShow() {
+        this.isGameHide = false;
         this.sendData({ view: true, get_time: true, getLogs: true });
     }
 
     private onGameHide() {
+        this.isGameHide = true;
         this.main.onGameHide();
         this.sendData({ view: false });
     }

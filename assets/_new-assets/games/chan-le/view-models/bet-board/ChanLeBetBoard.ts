@@ -19,6 +19,4 @@ export default class ChanLeBetBoard extends cc.Component {
         // this.RedT.input.string = "ĐẶT CƯỢC";
         // this.RedT.setBetButtonClicked(false);
     }
-    onOkClick() {
-    }
 }
