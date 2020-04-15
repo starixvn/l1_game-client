@@ -381,7 +381,8 @@ cc.Class({
               2
             );
             this.AnimatedTime.setTime(time);
-            this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
+            // this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
+            this.AnimatedTime.node.active = !self.isUM;
           } else clearInterval(this.timeInterval);
         }
         cc.RedT.setting.taixiu_turbo.time_remain--;
