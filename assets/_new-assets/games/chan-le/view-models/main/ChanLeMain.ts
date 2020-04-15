@@ -133,6 +133,8 @@ export default class ChanLeMain extends cc.Component {
 
     //#endregion
 
+    private static readonly DAT_CUOC = "ĐẶT CƯỢC";
+
     private betChoice = {
         left: "left",
         right: "right"
@@ -183,7 +185,6 @@ export default class ChanLeMain extends cc.Component {
         this.handleDataStatus(data);
         this.handleDataTime(data);
         this.handleDataFinishTurn(data);
-
     }
 
     handleDataUM(data: any): boolean {
@@ -293,7 +294,6 @@ export default class ChanLeMain extends cc.Component {
         this.currentDataLogs.length > 120 && this.currentDataLogs.pop();
         this.buildDotLogs(this.currentDataLogs);
         this.currentResultDices = [...data.finish.dices];
-        this.showResultPoint();
 
         if (this.isNan) {
             this.diaNan.active = true;
@@ -302,11 +302,7 @@ export default class ChanLeMain extends cc.Component {
             this.onDiceAnimationFinished();
         } else {
             this.diceAnimation.node.active = true;
-            if (this.node.activeInHierarchy) {
-                this.diceAnimation.play();
-            } else {
-                this.onDiceAnimationFinished();
-            }
+            this.diceAnimation.play();
         }
 
         this.timeWaitNode.active = true;
@@ -318,9 +314,9 @@ export default class ChanLeMain extends cc.Component {
     onBetClick() {
         var bet = getOnlyNumberInString(this.currentInputBet.string);
         bet = parseInt(bet);
-        this.currentInputBet.string = "ĐẶT CƯỢC";
+        this.resetCurrentBetInput();
         this.betBoard.node.active = false;
-        this.setBetButtonClicked(false);
+        this.setBetButtonFrame(false);
 
         if (isNaN(bet) || bet < this.root.gameConfigs.minBet) {
             this.showMiniWarning(
@@ -358,7 +354,7 @@ export default class ChanLeMain extends cc.Component {
             return;
         }
 
-        this.setBetButtonClicked(true, select);
+        this.setBetButtonFrame(true, select);
         this.betBoard.node.active = true;
         this.currentInputSide = select;
 
@@ -379,6 +375,26 @@ export default class ChanLeMain extends cc.Component {
 
         this.currentInputBet.string = numberWithCommas(betValue);
         this.currentInputBet.node.active = true;
+    }
+
+    resetCurrentBetInput(): void {
+        this.currentInputBet.string = ChanLeMain.DAT_CUOC;
+        this.currentInputBet.node.active = true;
+    }
+
+    setBetButtonFrame(isClick: boolean, select = '') {
+        if (isClick) {
+            if (select == this.betChoice.right) {
+                this.betButtonSpriteRight.spriteFrame = this.betButtonClickedImage;
+            }
+            else {
+                this.betButtonSpriteLeft.spriteFrame = this.betButtonClickedImage;
+            }
+        }
+        else {
+            this.betButtonSpriteRight.spriteFrame = this.betButtonUnClickedImage;
+            this.betButtonSpriteLeft.spriteFrame = this.betButtonUnClickedImage;
+        }
     }
 
     private initDotLogs() {
@@ -542,21 +558,6 @@ export default class ChanLeMain extends cc.Component {
                 }, resultLabel)
             )
         );
-    }
-
-    private setBetButtonClicked(isClick, select = '') {
-        if (isClick) {
-            if (select == this.betChoice.right) {
-                this.betButtonSpriteRight.spriteFrame = this.betButtonClickedImage;
-            }
-            else {
-                this.betButtonSpriteLeft.spriteFrame = this.betButtonClickedImage;
-            }
-        }
-        else {
-            this.betButtonSpriteRight.spriteFrame = this.betButtonUnClickedImage;
-            this.betButtonSpriteLeft.spriteFrame = this.betButtonUnClickedImage;
-        }
     }
 
     private showMiniWarning(message) {

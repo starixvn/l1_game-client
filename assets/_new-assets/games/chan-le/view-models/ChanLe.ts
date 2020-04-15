@@ -114,7 +114,7 @@ export default class ChanLe extends cc.Component {
         var dialog = cc.instantiate(this.guide);
         this.miniPanel.dialog.insertChild(dialog, 0);
         var guide = dialog.getComponent("dialogHuongDan");
-        guide.select("ChanLe");
+        guide.select("TaiXiu");
     }
 
     sendData(payload: any) {
@@ -125,7 +125,7 @@ export default class ChanLe extends cc.Component {
         });
     }
 
-    eventStart(event) {
+    private eventStart(event) {
         this.touchOffset = cc.v2(
             event.touch.getLocationX() - this.node.position.x,
             event.touch.getLocationY() - this.node.position.y
@@ -134,13 +134,12 @@ export default class ChanLe extends cc.Component {
         this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
     }
 
-    eventMove(event) {
+    private eventMove(event) {
         this.node.position = cc.v2(
             event.touch.getLocationX() - this.touchOffset.x,
             event.touch.getLocationY() - this.touchOffset.y
         );
     }
-
 
     private onGameShow() {
         this.isGameHide = false;
