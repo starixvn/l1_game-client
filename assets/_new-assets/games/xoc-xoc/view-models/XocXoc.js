@@ -1091,7 +1091,7 @@ cc.Class({
 				obj.zIndex = 2;
 				cc.tween(obj)
 					.to(0.2, {
-						scale: 1.15,
+						scale: 1.05,
 						position: cc.v2(obj.position.x, 12)
 					})
 					.start();
