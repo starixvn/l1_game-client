@@ -165,7 +165,7 @@ cc.Class({
     }
 
     if (void 0 !== data.taixiu_turbo) {
-      cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu);
+      cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);
     }
 
     if (void 0 !== data.notice) {
