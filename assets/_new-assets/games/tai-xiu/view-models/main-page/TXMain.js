@@ -604,9 +604,7 @@ cc.Class({
       this.TXRoot.TXHistory.onData(data.get_log);
     }
 
-    if (!this.isUM) {
-      this.onDataLogs(data);
-    }
+    this.onDataLogs(data);
 
     if (data.time_remain) {
       this.isUM = false;
