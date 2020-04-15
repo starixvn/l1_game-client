@@ -604,8 +604,6 @@ cc.Class({
       this.TXRoot.TXHistory.onData(data.get_log);
     }
 
-    this.onDataLogs(data);
-
     if (data.time_remain) {
       this.isUM = false;
       this.centerRoundLight.node.runAction(
@@ -614,6 +612,10 @@ cc.Class({
       this.UMWarning.active = false;
       cc.RedT.setting.taixiu.time_remain = data.time_remain;
       this.playTime();
+    }
+
+    if (!this.isUM) {
+      this.onDataLogs(data);
     }
 
     this.onDataFinishPhien(data);
