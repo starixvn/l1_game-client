@@ -604,6 +604,8 @@ cc.Class({
       this.TXRoot.TXHistory.onData(data.get_log);
     }
 
+    this.onDataLogs(data);
+
     if (data.time_remain) {
       this.isUM = false;
       this.centerRoundLight.node.runAction(
@@ -614,9 +616,6 @@ cc.Class({
       this.playTime();
     }
 
-    if (!this.isUM) {
-      this.onDataLogs(data);
-    }
 
     this.onDataFinishPhien(data);
   },
@@ -1075,7 +1074,7 @@ cc.Class({
     );
   },
   showResult: function () {
-    if (!cc.RedT.GAME_IS_SHOWED) {
+    if (!cc.RedT.GAME_IS_SHOWED || this.isUM) {
       return;
     }
     this.nodeKetQua.active = true;
