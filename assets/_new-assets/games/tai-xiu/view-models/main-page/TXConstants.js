@@ -1,6 +1,7 @@
 cc.Class({
   extends: cc.Component,
   statics: {
+    fullTime: 66,
     betTime: 51,
     waitTime: 15,
     nanTime: 55,

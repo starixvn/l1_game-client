@@ -43,6 +43,9 @@ cc.Class({
   },
   onDisable: function () {
     this.regEvent(false);
+    this.TX_Main.onGameHide();
+    this.node.destroyAllChildren();
+    this.node.destroy();
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
@@ -50,18 +53,15 @@ cc.Class({
   regEvent: function (bool) {
     cc.RedT.send({
       taixiu: !cc.RedT.setting.taixiu.getLogs
-        ? { view: bool, getLogs: true }
+        ? { view: bool, getLogs: true, get_time: true }
         : { view: bool }
     });
   },
   openGame: function (e, taixiu = "1") {
     cc.RedT.audio.playClick();
-
-    if (cc.RedT.IS_LOGIN) {
-      this.TX_Main.initGame(taixiu == "1");
-      this.node.active = 1;
-      cc.sys.localStorage.setItem("taixiu", true);
-    } else cc.RedT.inGame.dialog.showSignIn();
+    this.TX_Main.initGame(taixiu == "1");
+    this.node.active = 1;
+    cc.sys.localStorage.setItem("taixiu", true);
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
@@ -79,7 +79,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.TX_TopPrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.TXTop = dialog.getComponent("TXTop");
     this.TXTop.init(this);
   },
@@ -87,7 +87,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.TX_StatsPrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.TXStats = dialog.getComponent("TXStats");
     this.TXStats.init(this);
   },
@@ -95,7 +95,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.TX_HistoryPrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.TXHistory = dialog.getComponent("TXHistory");
     this.TXHistory.init(this);
   },
@@ -103,7 +103,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.TX_HistoryBetPrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.TXBetHistory = dialog.getComponent("TXBetHistory");
     this.TXBetHistory.init(this);
     this.TXBetHistory.getPhien(event.target.phien)
@@ -112,7 +112,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.GuidePrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");
     guide.select("TaiXiu");
   },

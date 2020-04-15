@@ -39,7 +39,6 @@ cc.Class({
   },
   onDestroy() {
     cc.RedT.inGame = null;
-    cc.RedT.MiniPanel.node.destroy();
   },
   onLoad: function () {
     document.cookie = "redT=1702;path=/";
@@ -67,7 +66,6 @@ cc.Class({
 
     var MiniPanel = cc.instantiate(this.PrefabT[1]);
     cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
-    cc.RedT.MiniPanel.mainGame = this;
     this.redhat.insertChild(MiniPanel);
 
     if (authManager && !cc.RedT.IS_LOGIN) {
@@ -193,21 +191,15 @@ cc.Class({
       this.loading.active = false;
     }
     if (data.kickedOut) {
-      authManager.removeSession();
-      cc.RedT.forceKickedOut();
-      if (data.kickedOut.isUM) {
-        cc.director.loadScene("um");
-      }
-      else {
-        authManager.signOut();
-        this.showNotice({
-          text: data.kickedOut.message
-        });
-      }
+      cc.RedT.MiniPanel.onDataKickedOut(data.kickedOut);
     }
 
     if (data.apiError) {
       cc.RedT.MiniPanel.onDataError(data);
+    }
+
+    if (data.reload) {
+      cc.RedT.MiniPanel.onForceReload();
     }
   },
   captcha: function (data) {
@@ -304,14 +296,12 @@ cc.Class({
     cc.RedT.IS_LOGIN = true;
     this.header.isSignIn();
     this.dialog.onBack();
-    cc.RedT.MiniPanel.signIn();
   },
   AllReset: function () {
     this.loading.active = false;
     this.newsContents.reset();
     this.header.isSignOut();
     this.dialog.onCloseDialog();
-    cc.RedT.MiniPanel.newGame();
     this.dialog.iMessage.reset();
   },
 

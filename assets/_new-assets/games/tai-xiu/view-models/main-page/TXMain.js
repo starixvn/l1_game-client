@@ -558,68 +558,66 @@ cc.Class({
     );
   },
   onData: function (data) {
-    if (void 0 !== data.um) {
-      if (!this.isUM) {
+    if (data.um) {
+      if (cc.RedT.setting.taixiu.time_remain == Constants.betTime || data.time_remain == Constants.fullTime) {
         this.isUM = true;
         this.UMWarning.active = true;
         this.centerRoundLight.node.stopAllActions();
+        this.onGameHide();
+
+        return;
       }
-
-      return;
     }
 
-    if (this.isUM) {
-      this.isUM = false;
-      this.centerRoundLight.node.runAction(
-        cc.repeatForever(cc.rotateBy(1.1, 360))
-      );
-      this.UMWarning.active = false;
-    }
-
-    if (void 0 !== data.get_phien) {
+    if (data.get_phien) {
       this.TXRoot.TXBetHistory.onData(data.get_phien);
     }
-    if (void 0 !== data.apiError) {
+    if (data.apiError) {
       this.closeProcessingWarningPopup();
     }
-    if (void 0 !== data.err) {
+    if (data.err) {
       this.closeProcessingWarningPopup();
       NoticeUtil.showNoticeMessage(this, data.err);
     }
-    if (void 0 !== data.du_day) {
+    if (data.du_day) {
       Object.assign(cc.RedT.setting.taixiu.data.du_day, data.du_day);
       this.onDuDay(data.du_day);
     }
-    if (void 0 !== data.taixiu) {
+    if (data.taixiu && !this.isUM) {
       Object.assign(cc.RedT.setting.taixiu.data.taixiu, data.taixiu);
       this.taixiu && this.onDataTaiXiu(data.taixiu);
     }
-    if (void 0 !== data.chanle) {
+    if (data.chanle) {
       Object.assign(cc.RedT.setting.taixiu.data.chanle, data.chanle);
       !this.taixiu && this.onDataChanLe(data.chanle);
     }
-    if (void 0 !== data.get_top) {
+    if (data.get_top) {
       this.TXRoot.TXTop.onData(data.get_top);
     }
-    if (void 0 !== data.chat) {
+    if (data.chat) {
       this.TX_Chat.onData(data.chat);
     }
-    if (void 0 !== data.status) {
+    if (data.status) {
       this.status(data.status);
     }
-    if (void 0 !== data.get_log) {
+    if (data.get_log) {
       this.TXRoot.TXHistory.onData(data.get_log);
     }
 
     this.onDataLogs(data);
 
-    if (void 0 !== data.time_remain) {
+    if (data.time_remain) {
+      this.isUM = false;
+      this.centerRoundLight.node.runAction(
+        cc.repeatForever(cc.rotateBy(1.1, 360))
+      );
+      this.UMWarning.active = false;
       cc.RedT.setting.taixiu.time_remain = data.time_remain;
       this.playTime();
     }
 
-    this.onDataFinishPhien(data);
 
+    this.onDataFinishPhien(data);
   },
   efStop: function () {
     this.efTai.stop();
@@ -746,6 +744,7 @@ cc.Class({
     );
   },
   showWaitTime: function (time) {
+    this.nodeTimeWait.active = true;
     this.timeWait.string = "00:" + helper.numberPad(time, 2);
   },
   onDataChanLe: function (data) {
@@ -1075,7 +1074,7 @@ cc.Class({
     );
   },
   showResult: function () {
-    if (!cc.RedT.GAME_IS_SHOWED) {
+    if (!cc.RedT.GAME_IS_SHOWED || this.isUM) {
       return;
     }
     this.nodeKetQua.active = true;

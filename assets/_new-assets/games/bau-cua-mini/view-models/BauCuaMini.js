@@ -104,7 +104,7 @@ cc.Class({
     this.waitingCuoc = false;
     this.processingWarning = null;
 
-    var check = localStorage.getItem("bauCua");
+    var check = cc.sys.localStorage.getItem("bauCua");
     if (check == "true") {
       this.node.active = true;
     }
@@ -187,6 +187,9 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+    this.onGameHide();
+    this.node.destroyAllChildren();
+    this.node.destroy();
     // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
     //this.onCloseGame();
   },
@@ -221,36 +224,28 @@ cc.Class({
   },
   openGame: function () {
     cc.RedT.audio.playClick();
-    if (cc.RedT.IS_LOGIN) {
-      this.node.active = !0;
-      if (this.timeInterval === undefined) {
-        this.clearCuocAllSlot();
-        this.showUMWarning(this.disabled);
-      }
-      localStorage.setItem("bauCua", true);
-      // this.setTop();
-    } else {
-      cc.RedT.inGame.dialog.showSignIn();
+    this.node.active = !0;
+    if (this.timeInterval === undefined) {
+      this.clearCuocAllSlot();
+      this.showUMWarning(this.disabled);
     }
+    cc.sys.localStorage.setItem("bauCua", true);
   },
   showUMWarning(show) {
-    // this.node.active = false;
-    // this.miniPanel.mainGame.notice.show({
-    //   title: "THÔNG BÁO",
-    //   text: "Hệ thống đang bảo trì. Vui lòng quay lại sau..."
-    // });
-    this.umWarning.active = show;
+    if (this.umWarning) {
+      this.umWarning.active = show;
+    }
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
     this.node.active = !1;
-    localStorage.setItem("bauCua", false);
+    cc.sys.localStorage.setItem("bauCua", false);
   },
   pressedTopDialog() {
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.topDialog);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.Top = dialog.getComponent("BauCuaTop");
     this.Top.init(this);
   },
@@ -258,7 +253,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.historyDialog);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     this.LichSu = dialog.getComponent("BauCuaHistory");
     this.LichSu.init(this);
   },
@@ -266,7 +261,7 @@ cc.Class({
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.guidePrefab);
-    this.miniPanel.Dialog.insertChild(dialog);
+    this.miniPanel.dialog.insertChild(dialog);
     var guide = dialog.getComponent("dialogHuongDan");
     guide.select("BauCua");
   },
@@ -660,7 +655,7 @@ cc.Class({
     this.logTom.string = helper.numberWithCommas(data[5]);
   },
   DataHandling: function (data) {
-    if (this.red) {
+    if (this.red && this.linhVat) {
       if (void 0 !== data.redHuou) {
         this.linhVat[0].totallCuoc(data.redHuou);
       }
@@ -697,44 +692,6 @@ cc.Class({
       }
       if (void 0 !== data.meRedTom) {
         this.linhVat[5].meCuoc(data.meRedTom);
-      }
-    } else {
-      if (void 0 !== data.xuHuou) {
-        this.linhVat[0].totallCuoc(data.xuHuou);
-      }
-      if (void 0 !== data.xuBau) {
-        this.linhVat[1].totallCuoc(data.xuBau);
-      }
-      if (void 0 !== data.xuGa) {
-        this.linhVat[2].totallCuoc(data.xuGa);
-      }
-      if (void 0 !== data.xuCa) {
-        this.linhVat[3].totallCuoc(data.xuCa);
-      }
-      if (void 0 !== data.xuCua) {
-        this.linhVat[4].totallCuoc(data.xuCua);
-      }
-      if (void 0 !== data.xuTom) {
-        this.linhVat[5].totallCuoc(data.xuTom);
-      }
-
-      if (void 0 !== data.meXuHuou) {
-        this.linhVat[0].meCuoc(data.meXuHuou);
-      }
-      if (void 0 !== data.meXuBau) {
-        this.linhVat[1].meCuoc(data.meXuBau);
-      }
-      if (void 0 !== data.meXuGa) {
-        this.linhVat[2].meCuoc(data.meXuGa);
-      }
-      if (void 0 !== data.meXuCa) {
-        this.linhVat[3].meCuoc(data.meXuCa);
-      }
-      if (void 0 !== data.meXuCua) {
-        this.linhVat[4].meCuoc(data.meXuCua);
-      }
-      if (void 0 !== data.meXuTom) {
-        this.linhVat[5].meCuoc(data.meXuTom);
       }
     }
   },

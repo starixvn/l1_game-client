@@ -61,6 +61,7 @@ cc.Class({
 		chip_50: cc.SpriteFrame,
 		chip_100: cc.SpriteFrame,
 		chip_200: cc.SpriteFrame,
+		chip_500: cc.SpriteFrame,
 
 		dot_red: cc.SpriteFrame,
 		dot_white: cc.SpriteFrame,
@@ -171,7 +172,6 @@ cc.Class({
 		cc.RedT.inGame = null;
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
-		cc.RedT.MiniPanel.node.destroy();
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		void 0 !== this.showKQ2Timeout && clearTimeout(this.showKQ2Timeout);
@@ -232,19 +232,16 @@ cc.Class({
 		if (void 0 !== data.taixiu) {
 			cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
 		}
+		if (data.kickedOut) {
+			this.closeProcessingWarningPopup();
+			cc.RedT.MiniPanel.onDataKickedOut(data.kickedOut);
+		}
 		if (data.apiError) {
 			this.closeProcessingWarningPopup();
 			cc.RedT.MiniPanel.onDataError(data);
 		}
-		if (data.kickedOut) {
-			authManager.removeSession();
-			cc.RedT.forceKickedOut();
-			if (data.kickedOut.isUM) {
-				cc.director.loadScene("um");
-			}
-			else {
-				authManager.signOut();
-			}
+		if (data.reload) {
+			cc.RedT.MiniPanel.onForceReload();
 		}
 	},
 	backGame: function () {
@@ -1093,8 +1090,8 @@ cc.Class({
 				obj.children[1].active = true;
 				obj.zIndex = 2;
 				cc.tween(obj)
-					.to(0.2, {
-						scale: 1.15,
+					.to(0.15, {
+						scale: 1.10,
 						position: cc.v2(obj.position.x, 12)
 					})
 					.start();
@@ -1103,7 +1100,7 @@ cc.Class({
 				obj.children[1].active = false;
 				obj.zIndex = 1;
 				cc.tween(obj)
-					.to(0.2, {
+					.to(0.15, {
 						scale: 1,
 						position: cc.v2(obj.position.x, 0)
 					})

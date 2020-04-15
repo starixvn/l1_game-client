@@ -513,7 +513,7 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "ccccah+dOlLRKuFndZetoIH",
+    "_componentId": "b59d1ZUwFBL1ppz0y5pVzTX",
     "handler": "changeLight",
     "customEventData": ""
   },
@@ -7915,7 +7915,7 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "ccccah+dOlLRKuFndZetoIH",
+    "_componentId": "b59d1ZUwFBL1ppz0y5pVzTX",
     "handler": "openTaiXiu",
     "customEventData": "1"
   },
@@ -7944,7 +7944,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "icon_baucua",
+    "_name": "iconBauCua",
     "_objFlags": 0,
     "_parent": {
       "__id__": 205
@@ -7987,8 +7987,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -121,
-        -7,
+        -127.29,
+        -4.676,
         0,
         0,
         0,
@@ -8124,9 +8124,9 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "ccccah+dOlLRKuFndZetoIH",
+    "_componentId": "b59d1ZUwFBL1ppz0y5pVzTX",
     "handler": "openBauCua",
-    "customEventData": "3"
+    "customEventData": "1"
   },
   {
     "__type__": "d8e56/FW3FDTab9UduKTQcx",
@@ -8148,7 +8148,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "f0vd7mC6VNSZduIGVCT1sV",
+    "fileId": "870bnRE7lAuqU7EmVTSwfi",
     "sync": false
   },
   {
@@ -8442,9 +8442,7 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 1
-    },
+    "target": null,
     "component": "",
     "_componentId": "ccccah+dOlLRKuFndZetoIH",
     "handler": "openMiniPoker",
@@ -9939,57 +9937,41 @@
     "_id": ""
   },
   {
-    "__type__": "ccccah+dOlLRKuFndZetoIH",
+    "__type__": "b59d1ZUwFBL1ppz0y5pVzTX",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "minigame": {
+    "miniGames": {
       "__id__": 14
     },
-    "Dialog": {
+    "dialog": {
       "__id__": 267
     },
-    "BigBabol": null,
-    "BaCay": null,
-    "CaoThap": null,
-    "AngryBirds": null,
-    "MegaJackpot": null,
-    "TopHu": {
-      "__id__": 200
-    },
-    "bgLight": {
+    "lightBackground": {
       "__id__": 2
     },
-    "spriteLight": {
+    "lightSprite": {
       "__id__": 8
     },
-    "onLight": {
+    "lightOnSpriteFrame": {
       "__uuid__": "5fe0ec7f-8f25-4f29-aebc-7b6b67a7d6d2"
     },
-    "offLight": {
+    "lightOffSpriteFrame": {
       "__uuid__": "27639d87-6b5b-4dbe-8d5c-0b8d02332245"
     },
-    "nodeEfect": {
+    "effectNode": {
       "__id__": 264
     },
-    "PrefabNoHu": null,
-    "prefabBigWin": {
-      "__uuid__": "2e994e5d-2730-433c-b0d9-30fc32027166"
-    },
-    "PrefabTaiXiu": {
+    "taiXiuPrefab": {
       "__uuid__": "822df7ef-13a5-482e-8504-0a81f3049c13"
     },
-    "PrefabBauCua": {
+    "bauCuaPrefab": {
       "__uuid__": "a5993edd-44bf-44a6-8229-0189504a9c16"
     },
-    "PrefabMiniPoker": {
-      "__uuid__": "2e8f5727-6703-4c64-91c5-a4f0bbf2b277"
-    },
-    "light": true,
-    "NoticePrefab": {
+    "noticePrefab": {
       "__uuid__": "783d3aa3-f636-4101-9128-02611882f625"
     },
     "_id": ""
