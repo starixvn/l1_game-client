@@ -1,5 +1,6 @@
 
 var TXBetHistory = require("TXBetHistory");
+var helper = require('Helper');
 
 cc.Class({
 	extends: TXBetHistory,
@@ -22,7 +23,7 @@ cc.Class({
 		this.phien.string = data.phien + '  -  ' + helper.getStringDateByTime(data.time);
 		this.isPhien = data.phien;
 		var total = data.dice[0] + data.dice[1] + data.dice[2];
-		var phienT = cc.RedT.setting.taixiu.logs[0].phien - data.phien;
+		var phienT = cc.RedT.setting.taixiu_turbo.logs[0].phien - data.phien;
 		// if (phienT > 17) {
 		// 	this.nodePrevious.active = false;
 		// } else {
