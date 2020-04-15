@@ -89,6 +89,10 @@ export default class MiniPanel extends cc.Component {
     }
   }
 
+  onForceReload() {
+    window.location.href = window.location.href;
+  }
+
   forceKickedOut() {
     cc.RedT.forceKickedOut();
     authManager.signOut();

@@ -197,6 +197,10 @@ cc.Class({
     if (data.apiError) {
       cc.RedT.MiniPanel.onDataError(data);
     }
+
+    if (data.reload) {
+      cc.RedT.MiniPanel.onForceReload();
+    }
   },
   captcha: function (data) {
     switch (data.name) {

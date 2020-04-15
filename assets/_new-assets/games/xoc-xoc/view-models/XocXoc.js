@@ -239,6 +239,9 @@ cc.Class({
 			this.closeProcessingWarningPopup();
 			cc.RedT.MiniPanel.onDataError(data);
 		}
+		if (data.reload) {
+			cc.RedT.MiniPanel.onForceReload();
+		}
 	},
 	backGame: function () {
 		clearInterval(this.timeInterval);
