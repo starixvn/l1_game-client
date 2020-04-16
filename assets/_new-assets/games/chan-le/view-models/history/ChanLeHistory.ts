@@ -21,9 +21,12 @@ export default class NewClass extends cc.Component {
         this.root = root;
     }
 
-    onEnable() {
+    onLoad() {
         this.pages.init(this);
-        this.getHistoryData();
+    }
+
+    onEnable() {
+        this.get_data();
     }
 
     onDisable() {
@@ -45,7 +48,7 @@ export default class NewClass extends cc.Component {
                 var point = historyItemData.dice1 + historyItemData.dice2 + historyItemData.dice3;
                 historyItem.time.string = getStringDateByTime(historyItemData.time);
                 historyItem.turnId.string = historyItemData.phien;
-                historyItem.betChoice.string = this.buildBetChoce(historyItemData.select);
+                historyItem.betChoice.string = this.buildBetChoice(historyItemData.select);
                 historyItem.result.string = historyItemData.dice1 + "-" + historyItemData.dice2 + "-" + historyItemData.dice3 + "  " + point;
                 historyItem.betMoney.string = numberWithCommas(historyItemData.bet);
                 historyItem.refund.string = numberWithCommas(historyItemData.tralai);
@@ -68,11 +71,11 @@ export default class NewClass extends cc.Component {
         }
     }
 
-    getHistoryData(page = 1) {
+    get_data(page = 1) {
         this.root.sendData({ get_log: { page: page } });
     }
 
-    buildBetChoce(select: boolean): string {
+    buildBetChoice(select: boolean): string {
         return select ? "Chẵn" : "Lẻ";
     }
 }
