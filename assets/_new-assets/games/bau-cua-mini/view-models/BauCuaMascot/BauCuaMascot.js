@@ -3,9 +3,11 @@ var helper = require('Helper');
 cc.Class({
     extends: cc.Component,
     properties: {
-        xLabel: cc.Label,
+        xSprite: cc.Sprite,
         totall: cc.Label,
         me: cc.Label,
+        x2Sprite: cc.SpriteFrame,
+        x3Sprite: cc.SpriteFrame,
     },
 
     onLoad() {
@@ -27,11 +29,11 @@ cc.Class({
         }
     },
     Select: function (x) {
-        this.xLabel.node.active = x != 1;
-        this.xLabel.string = 'x' + x;
+        this.xSprite.node.active = x != 1;
+        this.xSprite.spriteName = x == 2 ? this.x2Sprite : this.x3Sprite;
     },
     unSelect: function () {
-        this.xLabel.node.active = false;
+        this.xSprite.node.active = false;
     },
     clearCuoc: function () {
         this.lastTotalCuoc = 0;
