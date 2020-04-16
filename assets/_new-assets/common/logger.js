@@ -10,7 +10,6 @@ const sentryLogger = {
     },
     loadScript: () => {
         if (window.Sentry && !sentryLogger.loaded) {
-            console.log(sentryConfig);
             window.Sentry.init({
                 dsn: configs.sentryUrl,
                 maxValueLength: 5000,

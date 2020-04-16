@@ -275,7 +275,6 @@ cc.Class({
     );
 
     this.keyHandle = function (t) {
-      console.log(t);
       return t.keyCode === cc.macro.KEY.tab
         ? (self.changeNextFocusEditBox(),
           t.preventDefault && t.preventDefault(),
