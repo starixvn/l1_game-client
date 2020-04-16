@@ -89,6 +89,10 @@ export default class MiniPanel extends cc.Component {
     if (error.gameTypeId == configs.gameIds.BauCua && this.bauCua) {
       this.bauCua.onData(apiErrorData);
     }
+
+    if (error.gameTypeId == configs.gameIds.ChanLe && this.chanLe) {
+      this.chanLe.onData(apiErrorData);
+    }
   }
 
   onDataKickedOut(data: any) {
