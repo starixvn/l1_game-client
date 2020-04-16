@@ -5,6 +5,7 @@ import ChanLeHistory from './history/ChanLeHistory';
 import ChanLeTurnHistory from './turn-history/ChanLeTurnHistory';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import ChanLeConfigs from './ChanLeConfigs';
+import ChanLeLogTips from './main/ChanLeLogTips';
 
 @ccclass
 export default class ChanLe extends cc.Component {
@@ -113,7 +114,10 @@ export default class ChanLe extends cc.Component {
 
         var dialog = cc.instantiate(this.turnHistoryPrefab);
         this.turnHistory = dialog.getComponent("ChanLeTurnHistory");
-        this.turnHistory.init(this, event.target.phien);
+        var dotLog = event.target.getComponent("ChanLeLogTips") as ChanLeLogTips;
+        console.log(dotLog);
+
+        this.turnHistory.init(this, dotLog.turnId);
         this.miniPanel.dialog.insertChild(dialog, 0);
     }
 

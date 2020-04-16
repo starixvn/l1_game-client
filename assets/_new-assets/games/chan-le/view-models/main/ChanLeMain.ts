@@ -7,6 +7,7 @@ import ProcessingWarning from './../../../../common/processing-warning/view-mode
 import * as ScaleEffect from './../../../tai-xiu/view-models/main-page/TXScale';
 import * as DotLogs from './../../../tai-xiu/view-models/main-page/TXLogTips';
 import AnimatedTime from './../../../../common/animated-time/view-models/AnimatedTime';
+import ChanLeLogTips from './ChanLeLogTips';
 
 @ccclass
 export default class ChanLeMain extends cc.Component {
@@ -150,7 +151,7 @@ export default class ChanLeMain extends cc.Component {
     private currentDataLogs: any;
     private currentResultDices: number[];
     private currentPlayTimeInteval: number;
-    private currentDotLogs: DotLogs[] = [];
+    private currentDotLogs: ChanLeLogTips[] = [];
     private isUM = false;
 
     init(root: ChanLe) {
@@ -391,7 +392,7 @@ export default class ChanLeMain extends cc.Component {
 
     private initDotLogs() {
         Promise.all(this.dotLogs.children.map((dot) => {
-            return dot.getComponent("TXLogTips");
+            return dot.getComponent("ChanLeLogTips") as ChanLeLogTips;
         })).then(result => {
             this.currentDotLogs = result;
         });
@@ -411,6 +412,7 @@ export default class ChanLeMain extends cc.Component {
                 dotLog.node.active = true;
                 dotLog.text.string =
                     data.dice[0] + "-" + data.dice[1] + "-" + data.dice[2];
+                dotLog.turnId = data.phien;
                 dotLog.sprite.spriteFrame = point % 2
                     ? self.dotBlack
                     : self.dotYellow;

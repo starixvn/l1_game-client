@@ -93,14 +93,14 @@ export default class ChanLeTurnHistory extends cc.Component {
         this.turnInfo.string = data.phien + '  -  ' + getStringDateByTime(data.time);
         this.currentTurnId = data.phien;
         var lastTurnId = this.root.main.getCurrentDataLogs()[0].phien;
-        this.nextButton.active = (lastTurnId - data.phien) < 1;
+        this.nextButton.active = (lastTurnId - data.phien) > 0;
     }
 
     private buildDices(data: any) {
         var self = this;
         Promise.all(this.dices.map(function (dice, index) {
             var point = data.dice[index];
-            dice.spriteFrame = self.root.main.diceAnimation[point - 1];
+            dice.spriteFrame = self.root.main.diceFrames[point - 1];
         }));
     }
 
