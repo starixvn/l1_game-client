@@ -35,11 +35,6 @@ export default class ChanLeTopUsers extends cc.Component {
         this.node.destroy();
     }
 
-    close() {
-        cc.RedT.audio.playClick();
-        this.node.active = false;
-    }
-
     onData(data) {
         this.scrollView.content.destroyAllChildren();
         var self = this;

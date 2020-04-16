@@ -1,6 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import ChanLeMain from './main/ChanLeMain';
 import ChanLeTopUsers from './top-users/ChanLeTopUsers';
+import ChanLeHistory from './history/ChanLeHistory';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import ChanLeConfigs from './ChanLeConfigs';
 
@@ -29,6 +30,7 @@ export default class ChanLe extends cc.Component {
     public gameConfigs: ChanLeConfigs;
     private miniPanel: MiniPanel;
     private topUsers: ChanLeTopUsers;
+    private history: ChanLeHistory;
     private touchOffset: cc.Vec2 = null;
     private isGameHide = false;
 
@@ -75,11 +77,18 @@ export default class ChanLe extends cc.Component {
         !this.isGameHide && this.main.onData(data);
 
         this.handleDataTopUsers(data);
+        this.handleDataHistory(data);
     }
 
     handleDataTopUsers(data: any) {
         if (data.get_top) {
             this.topUsers.onData(data.get_top);
+        }
+    }
+
+    handleDataHistory(data: any) {
+        if (data.get_log) {
+            this.history.onData(data.get_log);
         }
     }
 
@@ -103,10 +112,11 @@ export default class ChanLe extends cc.Component {
         cc.RedT.audio.playClick();
 
         var dialog = cc.instantiate(this.historyPrefab);
-        this.miniPanel.dialog.insertChild(dialog, 0);
-        var history = dialog.getComponent("ChanLeHistory");
-        history.init(this);
+        this.history = dialog.getComponent("ChanLeHistory");
+        this.history.init(this);
+        this.miniPanel.dialog.addChild(dialog);
     }
+
     showTurnHistory(event) {
         cc.RedT.audio.playClick();
 
@@ -116,6 +126,7 @@ export default class ChanLe extends cc.Component {
         history.init(this);
         history.getPhien(event.target.phien);
     }
+
     showGuide() {
         cc.RedT.audio.playClick();
 
