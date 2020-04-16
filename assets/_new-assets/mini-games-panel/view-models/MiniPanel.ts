@@ -138,7 +138,7 @@ export default class MiniPanel extends cc.Component {
       case configs.gameIds.TaiXiu:
         this.openTaiXiu();
         break;
-      case configs.gameIds.TaiXiu:
+      case configs.gameIds.BauCua:
         this.openBauCua();
         break;
       case configs.gameIds.TaiXiuTurbo:
