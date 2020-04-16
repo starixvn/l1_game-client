@@ -240,6 +240,10 @@ export default class ChanLeMain extends cc.Component {
         }
 
         this.buildDotLogs(this.currentDataLogs);
+
+        if (this.root.statistics) {
+            this.root.statistics.drawStatistics();
+        }
     }
 
     handleDataTime(data: any) {

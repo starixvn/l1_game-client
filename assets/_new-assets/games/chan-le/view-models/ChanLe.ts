@@ -6,6 +6,7 @@ import ChanLeTurnHistory from './turn-history/ChanLeTurnHistory';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import ChanLeConfigs from './ChanLeConfigs';
 import ChanLeLogTips from './main/ChanLeLogTips';
+import ChanLeStats from './statistics/ChanLeStats';
 
 @ccclass
 export default class ChanLe extends cc.Component {
@@ -30,6 +31,7 @@ export default class ChanLe extends cc.Component {
     public gameType: string = "5";
     public gameName: string = "chanle";
     public gameConfigs: ChanLeConfigs;
+    public statistics: ChanLeStats;
     private miniPanel: MiniPanel;
     private topUsers: ChanLeTopUsers;
     private history: ChanLeHistory;
@@ -96,9 +98,9 @@ export default class ChanLe extends cc.Component {
         cc.RedT.audio.playClick();
 
         var dialog = cc.instantiate(this.statsPrefab);
-        this.miniPanel.dialog.insertChild(dialog, 0);
-        var stats = dialog.getComponent("ChanLeStats");
-        stats.init(this);
+        this.statistics = dialog.getComponent("ChanLeStats");
+        this.statistics.init(this);
+        this.miniPanel.dialog.addChild(dialog);
     }
     showHistory() {
         cc.RedT.audio.playClick();
