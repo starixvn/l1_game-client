@@ -387,6 +387,8 @@ export default class ChanLeMain extends cc.Component {
         }
     }
 
+    getCurrentDataLogs = () => this.currentDataLogs;
+
     private initDotLogs() {
         Promise.all(this.dotLogs.children.map((dot) => {
             return dot.getComponent("TXLogTips");
@@ -537,12 +539,12 @@ export default class ChanLeMain extends cc.Component {
         resultLabel.string = (data.win ? "+" : "-") + numberWithCommas(data.bet);
         resultLabel.font = data.win ? this.fontPlus : this.fontMinus;
         resultLabel.lineHeight = 130;
-        resultLabel.fontSize = 22;
-        resultLabel.node.position = cc.v2(data.select ? -252 : 252, -50);
+        resultLabel.fontSize = 25;
+        resultLabel.node.position = cc.v2(data.select ? -245 : 245, -50);
         this.notice.addChild(resultLabel.node);
         resultLabel.node.runAction(
             cc.sequence(
-                cc.moveTo(3, cc.v2(data.select ? -252 : 252, 130)),
+                cc.moveTo(3, cc.v2(data.select ? -245 : 245, 130)),
                 cc.callFunc(function () {
                     this.node.destroy();
                 }, resultLabel)

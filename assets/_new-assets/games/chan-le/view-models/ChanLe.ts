@@ -2,6 +2,7 @@ const { ccclass, property } = cc._decorator;
 import ChanLeMain from './main/ChanLeMain';
 import ChanLeTopUsers from './top-users/ChanLeTopUsers';
 import ChanLeHistory from './history/ChanLeHistory';
+import ChanLeTurnHistory from './turn-history/ChanLeTurnHistory';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import ChanLeConfigs from './ChanLeConfigs';
 
@@ -31,6 +32,7 @@ export default class ChanLe extends cc.Component {
     private miniPanel: MiniPanel;
     private topUsers: ChanLeTopUsers;
     private history: ChanLeHistory;
+    private turnHistory: ChanLeTurnHistory;
     private touchOffset: cc.Vec2 = null;
     private isGameHide = false;
 
@@ -78,18 +80,7 @@ export default class ChanLe extends cc.Component {
 
         this.handleDataTopUsers(data);
         this.handleDataHistory(data);
-    }
-
-    handleDataTopUsers(data: any) {
-        if (data.get_top) {
-            this.topUsers.onData(data.get_top);
-        }
-    }
-
-    handleDataHistory(data: any) {
-        if (data.get_log) {
-            this.history.onData(data.get_log);
-        }
+        this.handleDataTurnHistory(data);
     }
 
     showTop() {
@@ -121,10 +112,9 @@ export default class ChanLe extends cc.Component {
         cc.RedT.audio.playClick();
 
         var dialog = cc.instantiate(this.turnHistoryPrefab);
+        this.turnHistory = dialog.getComponent("ChanLeTurnHistory");
+        this.turnHistory.init(this, event.target.phien);
         this.miniPanel.dialog.insertChild(dialog, 0);
-        var history = dialog.getComponent("ChanLeTurnHistory");
-        history.init(this);
-        history.getPhien(event.target.phien);
     }
 
     showGuide() {
@@ -142,6 +132,24 @@ export default class ChanLe extends cc.Component {
                 chanle: payload
             }
         });
+    }
+
+    private handleDataTopUsers(data: any) {
+        if (data.get_top) {
+            this.topUsers.onData(data.get_top);
+        }
+    }
+
+    private handleDataHistory(data: any) {
+        if (data.get_log) {
+            this.history.onData(data.get_log);
+        }
+    }
+
+    private handleDataTurnHistory(data: any) {
+        if (data.get_phien) {
+            this.turnHistory.onData(data.get_phien);
+        }
     }
 
     private eventStart(event) {
