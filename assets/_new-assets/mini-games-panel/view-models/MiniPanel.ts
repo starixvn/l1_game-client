@@ -132,7 +132,7 @@ export default class MiniPanel extends cc.Component {
     cc.RedT.audio.playUnClick();
   }
 
-  openGame(id) {
+  openGame(id: number) {
     switch (id) {
       case configs.gameIds.TaiXiu:
         this.openTaiXiu();
