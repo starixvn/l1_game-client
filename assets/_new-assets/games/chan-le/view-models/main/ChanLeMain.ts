@@ -215,7 +215,6 @@ export default class ChanLeMain extends cc.Component {
 
         if (chanleData.red_me_chan || chanleData.red_me_le) {
             this.closeProcessWarning();
-            this.userBetLeft.string = data.red_me_chan;
         }
 
         chanleData.red_chan && (this.totalBetLeft.string = numberWithCommas(chanleData.red_chan));
@@ -261,7 +260,7 @@ export default class ChanLeMain extends cc.Component {
 
         setTimeout(() => {
             if (!self.isNan) {
-                self.showUserWinLossAnimation(data);
+                self.showUserWinLossAnimation(data.status);
             }
             self.root.sendData({ get_new: true });
         }, 2e3);
@@ -586,7 +585,7 @@ export default class ChanLeMain extends cc.Component {
 
     private resetData() {
         this.totalBetLeft.string
-            = this.totalBetLeft.string
+            = this.totalBetRight.string
             = this.userBetLeft.string
             = this.userBetRight.string
             = this.playersLeft.string
