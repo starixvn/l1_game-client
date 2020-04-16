@@ -9,6 +9,7 @@ const configs = {
         XocXoc: 2,
         BauCua: 3,
         TaiXiuTurbo: 4,
+        ChanLe: 5,
     },
     gameNames: {
         1: "Tài Xỉu",

@@ -79,9 +79,9 @@ export default class ChanLe extends cc.Component {
         cc.RedT.audio.playClick();
 
         var dialog = cc.instantiate(this.topUsers);
-        this.miniPanel.dialog.insertChild(dialog, 0);
         var topUsers = dialog.getComponent("ChanLeTopUsers");
         topUsers.init(this);
+        this.miniPanel.dialog.addChild(dialog);
     }
     showStats() {
         cc.RedT.audio.playClick();

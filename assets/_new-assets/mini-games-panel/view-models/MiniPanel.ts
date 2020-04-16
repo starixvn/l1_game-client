@@ -65,12 +65,14 @@ export default class MiniPanel extends cc.Component {
   onDataTaiXiuTurbo(data: any) {
     if (data && this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.TX_Main) {
       this.taiXiuTurbo.TX_Main.onData(data);
+    }
   }
 
   onDataChanLe(chanLeData: any) {
     if (chanLeData && this.chanLe && this.chanLe.node) {
       this.chanLe.onData(chanLeData);
-   }
+    }
+  }
 
   onDataError(apiErrorData: any) {
     var error = apiErrorData.apiError;

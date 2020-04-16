@@ -70,4 +70,7 @@ cc.Class({
   openTaiXiuTurbo: function () {
     cc.RedT.MiniPanel.openTaiXiuTurbo();
   },
+  openChanLe: function () {
+    cc.RedT.MiniPanel.openChanLe();
+  },
 });

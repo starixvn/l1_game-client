@@ -173,23 +173,18 @@ export default class ChanLeMain extends cc.Component {
     }
 
     onData(data: any) {
-        var isUM = this.handleDataUM(data);
-
-        if (isUM) {
-            return;
-        };
-
+        this.handleDataUM(data);
         this.handleDataError(data);
         this.handleDataGame(data);
         this.handleDataLogs(data);
-        this.handleDataStatus(data);
+        this.handleDataBetStatus(data);
         this.handleDataTime(data);
         this.handleDataFinishTurn(data);
     }
 
     handleDataUM(data: any): boolean {
         if (!data.um) {
-            return false;
+            return;
         }
 
         if (this.currentTimeRemain == this.root.gameConfigs.betTime
@@ -197,11 +192,7 @@ export default class ChanLeMain extends cc.Component {
             this.isUM = true;
             this.noticeUM.active = true;
             this.onGameHide();
-
-            return true;
         }
-
-        return false;
     }
 
     handleDataError(data: any) {
@@ -236,14 +227,14 @@ export default class ChanLeMain extends cc.Component {
     }
 
     handleDataLogs(data) {
-        if (!data.logs || this.isUM) {
+        if (!data.logs) {
             return;
         }
 
         this.currentDataLogs = data.logs;
         this.currentResultDices = [...data.logs[0].dice];
 
-        if (this.currentTimeRemain > this.root.gameConfigs.betTime) {
+        if (this.currentTimeRemain > this.root.gameConfigs.betTime && !this.isUM) {
             this.showDices(true);
             this.showBetResult();
         }
@@ -261,7 +252,7 @@ export default class ChanLeMain extends cc.Component {
         }
     }
 
-    handleDataStatus(data) {
+    handleDataBetStatus(data) {
         if (!data.status) {
             return;
         }
