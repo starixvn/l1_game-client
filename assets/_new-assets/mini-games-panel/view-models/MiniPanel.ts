@@ -72,6 +72,10 @@ export default class MiniPanel extends cc.Component {
       this.taiXiu.TX_Main.onData(apiErrorData);
     }
 
+    if (error.gameTypeId == configs.gameIds.TaiXiuTurbo && this.taiXiuTurbo && this.taiXiuTurbo.TX_Main) {
+      this.taiXiuTurbo.TX_Main.onData(apiErrorData);
+    }
+
     if (error.gameTypeId == configs.gameIds.BauCua && this.bauCua) {
       this.bauCua.onData(apiErrorData);
     }
