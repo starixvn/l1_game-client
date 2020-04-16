@@ -134,7 +134,78 @@ cc.Class({
       this.inputLeft.node.active = this.inputRight.node.active = true;
     }
   },
+  onEnable: function () {
+    this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
+    this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+    this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+    this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+    // this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+    this.TXRoot.board && cc.sys.isBrowser && this.addEvent();
 
+    if (this.TXRoot.board) {
+      BrowserUtil.inputAddEvent(this.inputLeft, "input", this.updateValue);
+      BrowserUtil.inputAddEvent(this.inputRight, "input", this.updateValue);
+    }
+  },
+  onDisable: function () {
+    this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
+    this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+    this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+    this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+    // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+
+    this.TXRoot.board && cc.sys.isBrowser && this.removeEvent();
+    this.clean();
+
+    if (this.TXRoot.board) {
+      BrowserUtil.inputRemoveEvent(this.inputLeft, "input", this.updateValue);
+      BrowserUtil.inputRemoveEvent(this.inputRight, "input", this.updateValue);
+    }
+  },
+  updateValue: function (e) {
+    let value = helper.numberWithCommas(
+      helper.getOnlyNumberInString(this.value)
+    );
+    this.value = value == "0" ? "" : value;
+  },
+  addEvent: function () {
+    for (let t in this.editboxs) {
+      BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).addEventListener(
+        "keydown",
+        this.keyHandle,
+        !1
+      );
+    }
+  },
+  removeEvent: function () {
+    for (let t in this.editboxs) {
+      BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).removeEventListener(
+        "keydown",
+        this.keyHandle,
+        !1
+      );
+    }
+  },
+  changeNextFocusEditBox: function () {
+    for (var t = !1, e = 0, i = this.editboxs.length; e < i; e++) {
+      if (BrowserUtil.checkEditBoxFocus(this.editboxs[e])) {
+        BrowserUtil.focusEditBox(this.editboxs[e]);
+        t = !0;
+        break;
+      }
+    }
+    !t &&
+      0 < this.editboxs.length &&
+      BrowserUtil.focusEditBox(this.editboxs[1]);
+  },
+  clean: function () {
+    this.inputLeft.string = this.inputRight.string = "";
+  },
+  initGame: function (taixiu) {
+    if (taixiu != this.taixiu) {
+      this.onChangerGame();
+    }
+  },
   onChangerGame: function () {
     cc.RedT.setting.taixiu_turbo.taixiu = this.taixiu = !this.taixiu;
     this.gameCover.string = this.taixiu ? "Chẵn Lẻ" : "Tài Xỉu";
@@ -194,11 +265,71 @@ cc.Class({
     !this.taixiu && this.onDataChanLe(cc.RedT.setting.taixiu_turbo.data.chanle);
     this.onDuDay(cc.RedT.setting.taixiu_turbo.data.du_day);
   },
-
+  eventStart: function (e) {
+    this.setTop();
+    this.ttOffset = cc.v2(
+      e.touch.getLocationX() - this.node.position.x,
+      e.touch.getLocationY() - this.node.position.y
+    );
+  },
+  eventMove: function (e) {
+    this.node.position = cc.v2(
+      e.touch.getLocationX() - this.ttOffset.x,
+      e.touch.getLocationY() - this.ttOffset.y
+    );
+  },
   eventEnd: function () {
     cc.RedT.setting.taixiu_turbo.position = this.node.position;
   },
+  setTop: function () {
+    this.node.parent.insertChild(this.node);
+    this.TXRoot.setTop();
+  },
+  setBetButtonClicked(isClick, select) {
+    if (isClick) {
+      if (select == "right") {
+        this.inputR.spriteFrame = this.BetButtonClickedFrame;
+      }
+      else {
+        this.inputL.spriteFrame = this.BetButtonClickedFrame;
+      }
+    }
+    else {
+      this.inputL.spriteFrame = this.BetButtonUnClickedFrame;
+      this.inputR.spriteFrame = this.BetButtonUnClickedFrame;
+    }
+  },
+  onSelectInput: function (event, select) {
+    if (this.TX_Board.node.active) {
+      return;
+    }
 
+    this.setBetButtonClicked(true, select);
+    this.TX_Board.node.active = true;
+    this.inputOld = select;
+    switch (select) {
+      case "right":
+        this.input = this.TXRoot.board ? this.inputRight : this.inputRTxt;
+        break;
+
+      case "left":
+        this.input = this.TXRoot.board ? this.inputLeft : this.inputLTxt;
+        break;
+    }
+  },
+  onChangerInput: function () {
+    var value = helper.numberWithCommas(
+      helper.getOnlyNumberInString(this.input.string)
+    );
+    this.input.string = value == "0" ? "" : value;
+  },
+  setPhienLabel: function (phien) {
+    if (phien === "") {
+      this.labelPhien.string = "";
+      return;
+    }
+    this.labelPhien.string = "#" + phien;
+  },
   setDice: function (bool = false, sprite = true) {
     var self = this;
     Promise.all(
@@ -257,9 +388,7 @@ cc.Class({
       this.TXRoot.TXHistory.onData(data.get_log);
     }
 
-    if (!this.isUM) {
-      this.onDataLogs(data);
-    }
+    this.onDataLogs(data);
 
     if (data.time_remain) {
       this.isUM = false;
@@ -271,7 +400,16 @@ cc.Class({
       this.playTime();
     }
 
+
     this.onDataFinishPhien(data);
+  },
+  efStop: function () {
+    this.efTai.stop();
+    this.efXiu.stop();
+    this.winningTai.node.active = false;
+    this.winningTai.stop();
+    this.winningXiu.node.active = false;
+    this.winningXiu.stop();
   },
   onDataLogs: function (data) {
     if (void 0 !== data.logs) {
@@ -390,7 +528,10 @@ cc.Class({
       1000
     );
   },
-
+  showWaitTime: function (time) {
+    this.nodeTimeWait.active = true;
+    this.timeWait.string = "00:" + helper.numberPad(time, 2);
+  },
   onDataChanLe: function (data) {
     if (this.red) {
       void 0 !== data.red_chan &&
@@ -420,6 +561,85 @@ cc.Class({
         (this.playerLeft.string = helper.numberWithCommas(data.xu_player_chan));
       void 0 !== data.xu_player_le &&
         (this.playerRight.string = helper.numberWithCommas(data.xu_player_le));
+    }
+  },
+  onDataTaiXiu: function (data) {
+    if (void 0 !== cc.RedT.inGame.onGetTaiXiu) {
+      cc.RedT.inGame.onGetTaiXiu(data.red_tai, data.red_xiu);
+    }
+
+    if (this.red) {
+      if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
+        this.closeProcessingWarningPopup();
+      }
+
+      if (void 0 !== data.red_tai) {
+        var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
+
+        if (sTai - data.red_tai != 0) {
+          helper.numberTo(this.totalLeft, sTai, data.red_tai, 500, true);
+        }
+      }
+      if (void 0 !== data.red_xiu) {
+        var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
+
+        if (sXiu - data.red_xiu != 0) {
+          helper.numberTo(this.totalRight, sXiu, data.red_xiu, 500, true);
+        }
+      }
+
+      void 0 !== data.red_me_tai &&
+        (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
+      void 0 !== data.red_me_xiu &&
+        (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
+      void 0 !== data.red_player_tai &&
+        (this.playerLeft.string = helper.numberWithCommas(data.red_player_tai));
+      void 0 !== data.red_player_xiu &&
+        (this.playerRight.string = helper.numberWithCommas(
+          data.red_player_xiu
+        ));
+    } else {
+      void 0 !== data.xu_tai &&
+        (this.totalLeft.string = helper.numberWithCommas(data.xu_tai));
+      void 0 !== data.xu_xiu &&
+        (this.totalRight.string = helper.numberWithCommas(data.xu_xiu));
+      void 0 !== data.xu_me_tai &&
+        (this.myLeft.string = helper.numberWithCommas(data.xu_me_tai));
+      void 0 !== data.xu_me_xiu &&
+        (this.myRight.string = helper.numberWithCommas(data.xu_me_xiu));
+      void 0 !== data.xu_player_tai &&
+        (this.playerLeft.string = helper.numberWithCommas(data.xu_player_tai));
+      void 0 !== data.xu_player_xiu &&
+        (this.playerRight.string = helper.numberWithCommas(data.xu_player_xiu));
+    }
+  },
+  onDuDay: function (data) {
+    if (data) {
+      if (this.taixiu) {
+        if (this.red) {
+          this.WIN_HT.string = data.tLineWinRedH;
+          this.WIN_DN.string = data.tLineWinRed;
+          this.LOST_HT.string = data.tLineLostRedH;
+          this.LOST_DN.string = data.tLineLostRed;
+        } else {
+          this.WIN_HT.string = data.tLineWinXuH;
+          this.WIN_DN.string = data.tLineWinXu;
+          this.LOST_HT.string = data.tLineLostXuH;
+          this.LOST_DN.string = data.tLineLostXu;
+        }
+      } else {
+        if (this.red) {
+          this.WIN_HT.string = data.cLineWinRedH;
+          this.WIN_DN.string = data.cLineWinRed;
+          this.LOST_HT.string = data.cLineLostRedH;
+          this.LOST_DN.string = data.cLineLostRed;
+        } else {
+          this.WIN_HT.string = data.cLineWinXuH;
+          this.WIN_DN.string = data.cLineWinXu;
+          this.LOST_HT.string = data.cLineLostXuH;
+          this.LOST_DN.string = data.cLineLostXu;
+        }
+      }
     }
   },
   dataLogs: function () {
@@ -607,9 +827,21 @@ cc.Class({
     self.TXRoot.TXStats.DiemSoLeft.string = c_tai;
     self.TXRoot.TXStats.DiemSoRight.string = c_xiu;
   },
+  resetUI: function () {
+    this.efStop();
+    this.AnimatedTime.node.active = false;
+    this.diceAnimation.node.active = false;
+    this.nodeTimeWait.active = this.nodeKetQua.active = this.diaNan.active = false;
+    this.setDice(false, false);
+  },
   reset: function () {
     this.isNan && this.dataLogs();
     cc.RedT.setting.taixiu_turbo.data.chanle.red_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_le = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_le = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_le = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.red_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = 0;
+  },
+  setDefautl: function () {
+    // TODO: cc.RedT.setting.taixiu_turbo.getLogs = this.nodeTimePopup.active = false;
+    void 0 !== this.timeInterval && clearInterval(this.timeInterval);
+    this.TX_Chat.reset();
   },
   status: function (data) {
     if (!cc.RedT.GAME_IS_SHOWED) {
@@ -625,5 +857,75 @@ cc.Class({
       }.bind(this),
       2e3
     );
+  },
+  showResult: function () {
+    if (!cc.RedT.GAME_IS_SHOWED || this.isUM) {
+      return;
+    }
+    this.nodeKetQua.active = true;
+    this.efStop();
+    if (this.diemSo > 10) {
+      this.efTai.play();
+      this.winningTai.node.active = true;
+      this.winningTai.play();
+    } else {
+      this.efXiu.play();
+      this.winningXiu.node.active = true;
+      this.winningXiu.play();
+    }
+  },
+  showBetWinLoss: function (data) {
+    if (!cc.RedT.GAME_IS_SHOWED || !this.notice) {
+      return;
+    }
+
+    var temp = new cc.Node();
+    temp.addComponent(cc.Label);
+    temp = temp.getComponent(cc.Label);
+    temp.string = (data.win ? "+" : "-") + helper.numberWithCommas(data.bet);
+    temp.font = data.win ? this.fontCong : this.fontTru;
+    temp.lineHeight = 130;
+    temp.fontSize = 22;
+    temp.node.position = cc.v2(data.select ? -252 : 252, -50);
+    this.notice.addChild(temp.node);
+    temp.node.runAction(
+      cc.sequence(
+        cc.moveTo(3, cc.v2(data.select ? -252 : 252, 130)),
+        cc.callFunc(function () {
+          this.node.destroy();
+        }, temp)
+      )
+    );
+    if (void 0 !== data.thuong && data.thuong > 0) {
+      var thuong = new cc.Node();
+      thuong.addComponent(cc.Label);
+      thuong = thuong.getComponent(cc.Label);
+      thuong.string =
+        (data.win ? "+" : "-") + helper.numberWithCommas(data.thuong);
+      thuong.font = cc.RedT.util.fontEffect;
+      thuong.lineHeight = 90;
+      thuong.fontSize = 14;
+      this.notice.addChild(thuong.node);
+      thuong.node.runAction(
+        cc.sequence(
+          cc.moveTo(3, cc.v2(0, 100)),
+          cc.callFunc(function () {
+            this.node.destroy();
+          }, thuong)
+        )
+      );
+    }
+  },
+  closeProcessingWarningPopup: function () {
+    this.waitingBetResponse = false;
+
+    if (this.processingWarningPopup !== undefined) {
+      this.processingWarningPopup.close();
+    }
+  },
+  onGameHide() {
+    this.timeInterval && clearInterval(this.timeInterval);
+    this.resetUI();
+    this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = '';
   },
 });
