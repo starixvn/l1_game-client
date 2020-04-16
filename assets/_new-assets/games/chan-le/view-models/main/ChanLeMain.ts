@@ -1,11 +1,10 @@
 const { ccclass, property } = cc._decorator;
 import ChanLe from './../ChanLe';
 import BetBoard from './../bet-board/ChanLeBetBoard';
-import * as DiaNan from './../../../tai-xiu/view-models/main-page/TXDiaNan';
+import DiaNan from './ChanLeDiaNan';
 import { getOnlyNumberInString, numberWithCommas, numberPad } from '../../../../common/helpers/Helper';
 import ProcessingWarning from './../../../../common/processing-warning/view-models/ProcessingWarning';
 import * as ScaleEffect from './../../../tai-xiu/view-models/main-page/TXScale';
-import * as DotLogs from './../../../tai-xiu/view-models/main-page/TXLogTips';
 import AnimatedTime from './../../../../common/animated-time/view-models/AnimatedTime';
 import ChanLeLogTips from './ChanLeLogTips';
 
@@ -133,6 +132,7 @@ export default class ChanLeMain extends cc.Component {
     public animatedTime: AnimatedTime = null;
 
     //#endregion
+    public isNan = false;
 
     private static readonly DAT_CUOC = "ĐẶT CƯỢC";
 
@@ -142,7 +142,6 @@ export default class ChanLeMain extends cc.Component {
     }
 
     private root: ChanLe;
-    private isNan = false;
     private waitingBetResponse = false;
     private processingWarning: ProcessingWarning;
     private currentInputBet: cc.Label;
@@ -156,11 +155,11 @@ export default class ChanLeMain extends cc.Component {
 
     init(root: ChanLe) {
         this.root = root;
+        this.betBoard.init(this);
+        this.diaNan.init(this);
     }
 
     onLoad() {
-        this.betBoard.init(this);
-        this.diaNan.init(this);
         this.diceAnimation.on("finished", this.onDiceAnimationFinished, this);
         this.playCenterLight();
         this.initDotLogs();
@@ -291,8 +290,8 @@ export default class ChanLeMain extends cc.Component {
         this.currentResultDices = [...data.finish.dices];
 
         if (this.isNan) {
-            this.diaNan.active = true;
-            this.diaNan.position = cc.v2(0, -11.5);
+            this.diaNan.node.active = true;
+            this.diaNan.node.position = cc.v2(0, -11.5);
             this.diaNanSprite.node.active = false;
             this.onDiceAnimationFinished();
         } else {
@@ -437,17 +436,14 @@ export default class ChanLeMain extends cc.Component {
                 var time = numberPad(self.currentTimeRemain - this.root.gameConfigs.betTime - 1, 2);
                 self.showWaitTime(time);
 
-                if (self.currentResultDices.length > 0) {
-                    self.showResultPoint();
-
-                    if (self.isNan) {
-                        if (self.currentTimeRemain < this.root.gameConfigs.nanTime) {
-                            self.showDices(true);
-                            self.showBetResult();
-                            self.diaNan.active = false;
-                        }
+                if (self.isNan) {
+                    if (self.currentTimeRemain < this.root.gameConfigs.nanTime) {
+                        self.showDices(true);
+                        self.showBetResult();
+                        self.diaNan.node.active = false;
                     }
                 }
+
                 if (self.currentDataLogs) {
                     self.setTurnLabel(self.currentDataLogs[0].phien);
                 }
@@ -490,7 +486,7 @@ export default class ChanLeMain extends cc.Component {
 
     private onDiceAnimationFinished() {
         this.showDices(true);
-        this.showBetResult();
+        !this.isNan && this.showBetResult();
         this.diceAnimation.node.active = false;
     }
 
@@ -587,7 +583,7 @@ export default class ChanLeMain extends cc.Component {
         this.stopWinningAnims();
         this.animatedTime.node.active = false;
         this.diceAnimation.node.active = false;
-        this.timeWaitNode.active = this.resultNode.active = this.diaNan.active = false;
+        this.timeWaitNode.active = this.resultNode.active = this.diaNan.node.active = false;
         this.showDices(false, false);
     }
 
