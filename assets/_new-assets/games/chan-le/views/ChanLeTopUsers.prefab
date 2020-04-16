@@ -52,13 +52,10 @@
       },
       {
         "__id__": 79
-      },
-      {
-        "__id__": 80
       }
     ],
     "_prefab": {
-      "__id__": 81
+      "__id__": 80
     },
     "_opacity": 255,
     "_color": {
@@ -109,7 +106,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "backCloseButton",
+    "_name": "Overlay",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -473,7 +470,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "line",
+    "_name": "Line",
     "_objFlags": 0,
     "_parent": {
       "__id__": 10
@@ -697,7 +694,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "head",
+    "_name": "Header",
     "_objFlags": 0,
     "_parent": {
       "__id__": 16
@@ -1142,7 +1139,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "body",
+    "_name": "Body",
     "_objFlags": 0,
     "_parent": {
       "__id__": 16
@@ -1587,7 +1584,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "end",
+    "_name": "Footer",
     "_objFlags": 0,
     "_parent": {
       "__id__": 16
@@ -2465,7 +2462,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "view",
+    "_name": "View",
     "_objFlags": 0,
     "_parent": {
       "__id__": 64
@@ -2533,7 +2530,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "content",
+    "_name": "Content",
     "_objFlags": 0,
     "_parent": {
       "__id__": 65
@@ -2886,8 +2883,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "63926wN0xBO54QwU6O8rHT1",
-    "handler": "closeDialog",
+    "_componentId": "dea2fOcaXBOo7c40Nmrzog4",
+    "handler": "close",
     "customEventData": ""
   },
   {
@@ -2900,31 +2897,6 @@
     },
     "fileId": "45tXRtFuJFibgbp5LFSDsi",
     "sync": false
-  },
-  {
-    "__type__": "63926wN0xBO54QwU6O8rHT1",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "background": {
-      "__id__": 7
-    },
-    "scrollview": {
-      "__id__": 71
-    },
-    "item": {
-      "__uuid__": "83572294-d1f4-432b-baf2-87749d05c8d9"
-    },
-    "title": {
-      "__id__": 14
-    },
-    "game": null,
-    "cRed": null,
-    "cXu": null,
-    "_id": ""
   },
   {
     "__type__": "cc.Widget",
@@ -2961,10 +2933,18 @@
       "__id__": 1
     },
     "_enabled": true,
-    "background": null,
-    "scrollView": null,
-    "item": null,
-    "title": null,
+    "background": {
+      "__id__": 7
+    },
+    "scrollView": {
+      "__id__": 71
+    },
+    "item": {
+      "__uuid__": "83572294-d1f4-432b-baf2-87749d05c8d9"
+    },
+    "title": {
+      "__id__": 14
+    },
     "_id": ""
   },
   {

@@ -1,5 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import ChanLe from './../ChanLe';
+import ChanLeTopUsersItem from './ChanLeTopUsersItem';
+import { numberWithCommas } from './../../../../common/helpers/Helper';
 
 @ccclass
 export default class ChanLeTopUsers extends cc.Component {
@@ -16,10 +18,12 @@ export default class ChanLeTopUsers extends cc.Component {
     @property(cc.Label)
     title: cc.Label = null;
 
+    private static readonly TOP_CHAN_LE = "TOP CHẴN LẺ"
     private root: ChanLe;
 
     init(root: ChanLe) {
         this.root = root;
+        this.title.string = ChanLeTopUsers.TOP_CHAN_LE;
     }
 
     onEnable() {
@@ -32,7 +36,20 @@ export default class ChanLeTopUsers extends cc.Component {
     }
 
     onData(data) {
+        this.scrollView.content.destroyAllChildren();
+        var self = this;
 
+        Promise.all(
+            data.map(function (user, index) {
+                var userItem = cc.instantiate(self.item);
+                var itemComponent = userItem.getComponent("ChanLeTopUsersItem") as ChanLeTopUsersItem;
+                itemComponent.rank.string = index + 1;
+                itemComponent.userName.string = user.name;
+                itemComponent.winMoney.string = numberWithCommas(user.bet);
+                itemComponent.node.children[0].active = index % 2 ? true : false;
+                self.scrollView.content.addChild(userItem);
+            })
+        );
     }
 
     close() {

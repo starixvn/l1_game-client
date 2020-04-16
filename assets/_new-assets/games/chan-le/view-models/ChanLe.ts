@@ -1,5 +1,6 @@
 const { ccclass, property } = cc._decorator;
 import ChanLeMain from './main/ChanLeMain';
+import ChanLeTopUsers from './top-users/ChanLeTopUsers';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import ChanLeConfigs from './ChanLeConfigs';
 
@@ -9,28 +10,27 @@ export default class ChanLe extends cc.Component {
     public main: ChanLeMain = null;
 
     @property(cc.Prefab)
-    public topUsers: cc.Prefab = null;
+    public topUsersPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    public history: cc.Prefab = null;
+    public historyPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    public turnHistory: cc.Prefab = null;
+    public turnHistoryPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    public stats: cc.Prefab = null;
+    public statsPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    public guide: cc.Prefab = null;
+    public guidePrefab: cc.Prefab = null;
 
     public gameType: string = "5";
     public gameName: string = "chanle";
     public gameConfigs: ChanLeConfigs;
-
     private miniPanel: MiniPanel;
+    private topUsers: ChanLeTopUsers;
     private touchOffset: cc.Vec2 = null;
     private isGameHide = false;
-    board: any;
 
     init(miniPanel: MiniPanel, gameType: string) {
         this.miniPanel = miniPanel;
@@ -61,10 +61,6 @@ export default class ChanLe extends cc.Component {
         this.node.destroy();
     }
 
-    onData(data: any) {
-        !this.isGameHide && this.main.onData(data);
-    }
-
     openGame() {
         cc.RedT.audio.playClick();
         this.node.active = true;
@@ -75,18 +71,30 @@ export default class ChanLe extends cc.Component {
         this.node.active = false;
     }
 
+    onData(data: any) {
+        !this.isGameHide && this.main.onData(data);
+
+        this.handleDataTopUsers(data);
+    }
+
+    handleDataTopUsers(data: any) {
+        if (data.get_top) {
+            this.topUsers.onData(data.get_top);
+        }
+    }
+
     showTop() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.topUsers);
-        var topUsers = dialog.getComponent("ChanLeTopUsers");
-        topUsers.init(this);
+        var dialog = cc.instantiate(this.topUsersPrefab);
+        this.topUsers = dialog.getComponent("ChanLeTopUsers");
+        this.topUsers.init(this);
         this.miniPanel.dialog.addChild(dialog);
     }
     showStats() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.stats);
+        var dialog = cc.instantiate(this.statsPrefab);
         this.miniPanel.dialog.insertChild(dialog, 0);
         var stats = dialog.getComponent("ChanLeStats");
         stats.init(this);
@@ -94,7 +102,7 @@ export default class ChanLe extends cc.Component {
     showHistory() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.history);
+        var dialog = cc.instantiate(this.historyPrefab);
         this.miniPanel.dialog.insertChild(dialog, 0);
         var history = dialog.getComponent("ChanLeHistory");
         history.init(this);
@@ -102,7 +110,7 @@ export default class ChanLe extends cc.Component {
     showTurnHistory(event) {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.turnHistory);
+        var dialog = cc.instantiate(this.turnHistoryPrefab);
         this.miniPanel.dialog.insertChild(dialog, 0);
         var history = dialog.getComponent("ChanLeTurnHistory");
         history.init(this);
@@ -111,7 +119,7 @@ export default class ChanLe extends cc.Component {
     showGuide() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.guide);
+        var dialog = cc.instantiate(this.guidePrefab);
         this.miniPanel.dialog.insertChild(dialog, 0);
         var guide = dialog.getComponent("dialogHuongDan");
         guide.select("TaiXiu");
