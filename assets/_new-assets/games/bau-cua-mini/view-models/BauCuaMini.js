@@ -63,6 +63,10 @@ cc.Class({
     topDialog: cc.Prefab,
     historyDialog: cc.Prefab,
     guidePrefab: cc.Prefab,
+
+    oddOne: cc.Label,
+    oddTwo: cc.Label,
+    oddThree: cc.Label,
   },
   init(obj) {
     this.miniPanel = obj; // MiniPanel
@@ -198,7 +202,8 @@ cc.Class({
       g: {
         baucua: !cc.RedT.setting.baucua.regOpen ? {
           view: bool,
-          regOpen: true
+          regOpen: true,
+          get_odd: true
         } : {
             view: bool
           }
@@ -476,6 +481,11 @@ cc.Class({
     //   this.addChipThrowAnimation(data.chipCuoc);
     // }
 
+    if (void 0 !== data.odds) {
+      cc.RedT.setting.baucua.odds = data.odds;
+      this.updateOddLabels();
+    }
+
     if (void 0 !== data.endCuoc) {
       this.waitingCuoc = false;
       this.showWarningSlowBet(false);
@@ -543,10 +553,27 @@ cc.Class({
         this.playTime();
       }
       this.localPhien = data.finish.phien + 1;
+
+      this.getNewOdds();
     }
     if (void 0 !== data.notice) {
       this.addNotice(data.notice);
     }
+  },
+  getNewOdds: function () {
+    cc.RedT.send({
+      g: {
+        baucua: {
+          get_odd: true
+        }
+      }
+    });
+  },
+  updateOddLabels: function () {
+    var odds = cc.RedT.setting.baucua.odds;
+    this.oddOne.string = `1:${odds[0]}`;
+    this.oddTwo.string = `1:${odds[1]}`;
+    this.oddThree.string = `1:${odds[2]}`;
   },
   setPhien(phien) {
     if (phien == "") {
