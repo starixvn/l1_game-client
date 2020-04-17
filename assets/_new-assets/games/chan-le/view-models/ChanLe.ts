@@ -4,7 +4,7 @@ import ChanLeTopUsers from './top-users/ChanLeTopUsers';
 import ChanLeHistory from './history/ChanLeHistory';
 import ChanLeTurnHistory from './turn-history/ChanLeTurnHistory';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import ChanLeConfigs from './ChanLeConfigs';
+import { GameConfigs } from './ChanLeConfigs';
 import ChanLeLogTips from './main/ChanLeLogTips';
 import ChanLeStats from './statistics/ChanLeStats';
 
@@ -28,9 +28,8 @@ export default class ChanLe extends cc.Component {
     @property(cc.Prefab)
     public guidePrefab: cc.Prefab = null;
 
-    public gameType: string = "5";
-    public gameName: string = "chanle";
-    public gameConfigs: ChanLeConfigs;
+    public gameName: string;
+    public gameConfigs: GameConfigs;
     public statistics: ChanLeStats;
     private miniPanel: MiniPanel;
     private topUsers: ChanLeTopUsers;
@@ -39,15 +38,11 @@ export default class ChanLe extends cc.Component {
     private touchOffset: cc.Vec2 = null;
     private isGameHide = false;
 
-    init(miniPanel: MiniPanel, gameType: string) {
+    init(miniPanel: MiniPanel, gameName: string, config: GameConfigs) {
         this.miniPanel = miniPanel;
-        this.gameType = gameType;
+        this.gameName = gameName;
         this.main.init(this);
-        this.initConfigs();
-    }
-
-    initConfigs() {
-        this.gameConfigs = new ChanLeConfigs();
+        this.gameConfigs = config;
     }
 
     onEnable() {
@@ -135,7 +130,7 @@ export default class ChanLe extends cc.Component {
     sendData(payload: any) {
         cc.RedT.send({
             g: {
-                chanle: payload
+                [this.gameName]: payload
             }
         });
     }

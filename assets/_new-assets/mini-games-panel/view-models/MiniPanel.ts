@@ -1,6 +1,9 @@
 const { ccclass, property } = cc._decorator;
 import * as configs from './../../Configs';
 import * as authManager from './../../common/auth/AuthManager';
+import ChanLe from '../../games/chan-le/view-models/ChanLe';
+import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
+import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
 
 @ccclass
 export default class MiniPanel extends cc.Component {
@@ -38,6 +41,10 @@ export default class MiniPanel extends cc.Component {
   turboTaiXiuPrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
+  chanLeTurboPrefab: cc.Prefab = null;
+
+
+  @property(cc.Prefab)
   noticePrefab: cc.Prefab = null;
 
   private isLightOn: boolean;
@@ -45,7 +52,8 @@ export default class MiniPanel extends cc.Component {
   private taiXiu: any;
   private bauCua: any;
   private taiXiuTurbo: any;
-  private chanLe: any;
+  private chanLe: ChanLe;
+  private chanLeTurbo: ChanLe;
 
   onLoad() {
   }
@@ -71,6 +79,12 @@ export default class MiniPanel extends cc.Component {
   onDataChanLe(chanLeData: any) {
     if (chanLeData && this.chanLe && this.chanLe.node) {
       this.chanLe.onData(chanLeData);
+    }
+  }
+
+  onDataChanLeTurbo(chanLeTurboData: any) {
+    if (chanLeTurboData && this.chanLeTurbo && this.chanLeTurbo.node) {
+      this.chanLeTurbo.onData(chanLeTurboData);
     }
   }
 
@@ -210,10 +224,25 @@ export default class MiniPanel extends cc.Component {
     if (cc.RedT.IS_LOGIN) {
       if (!this.chanLe || !this.chanLe.node) {
         var chanLePrefab = cc.instantiate(this.chanLePrefab);
-        this.chanLe = chanLePrefab.getComponent("ChanLe");
-        this.chanLe.init(this);
+        this.chanLe = chanLePrefab.getComponent("ChanLe") as ChanLe;
+        this.chanLe.init(this, "chanle", new ChanLeConfigs());
         this.miniGames.addChild(this.chanLe.node);
         this.chanLe.openGame();
+      }
+    }
+    else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+  }
+
+  openChanLeTurbo() {
+    if (cc.RedT.IS_LOGIN) {
+      if (!this.chanLeTurbo || !this.chanLeTurbo.node) {
+        var chanLePrefab = cc.instantiate(this.chanLePrefab);
+        this.chanLeTurbo = chanLePrefab.getComponent("ChanLe") as ChanLe;
+        this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs());
+        this.miniGames.addChild(this.chanLeTurbo.node);
+        this.chanLeTurbo.openGame();
       }
     }
     else {

@@ -1,4 +1,4 @@
-export default class ChanLeConfigs {
+export interface GameConfigs {
     readonly fullTime: number;
     readonly betTime: number;
     readonly waitTime: number;
@@ -7,15 +7,15 @@ export default class ChanLeConfigs {
     readonly minBetTime: number;
     readonly minBet: number;
     readonly maxBet: number;
+}
 
-    constructor() {
-        this.fullTime = 66;
-        this.betTime = 51;
-        this.waitTime = 15;
-        this.nanTime = 55;
-        this.redTime = 5;
-        this.minBetTime = 1;
-        this.minBet = 1;
-        this.maxBet = 500;
-    }
+export class ChanLeConfigs implements GameConfigs {
+    fullTime: number = 66;
+    betTime: number = 51;
+    waitTime: number = 15;
+    nanTime: number = 55;
+    redTime: number = 5;
+    minBetTime: number = 1;
+    minBet: number = 1;
+    maxBet: number = 500;
 }

@@ -171,6 +171,10 @@ cc.Class({
       cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);
     }
 
+    if (data.clturbo) {
+      cc.RedT.MiniPanel.onDataChanLeTurbo(data.clturbo);
+    }
+
     if (void 0 !== data.notice) {
       this.showNotice(data.notice);
     }

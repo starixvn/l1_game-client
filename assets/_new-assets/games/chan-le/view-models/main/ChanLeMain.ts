@@ -207,11 +207,11 @@ export default class ChanLeMain extends cc.Component {
     }
 
     handleDataGame(data: any) {
-        if (!data.chanle || this.isUM) {
+        if (!data[this.root.gameName] || this.isUM) {
             return;
         }
 
-        var chanleData = data.chanle;
+        var chanleData = data[this.root.gameName];
 
         if (chanleData.red_me_chan || chanleData.red_me_le) {
             this.closeProcessWarning();
