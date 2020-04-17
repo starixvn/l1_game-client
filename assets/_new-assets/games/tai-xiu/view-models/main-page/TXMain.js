@@ -277,6 +277,8 @@ cc.Class({
       }
       this.reLoadGame();
     }
+
+    this.resetBetButtonText();
   },
   onLoad() {
     this.waitingBetResponse = false;
@@ -310,7 +312,7 @@ cc.Class({
     this.onCuocClick = function () {
       var bet = helper.getOnlyNumberInString(self.input.string);
       bet = parseInt(bet);
-      self.input.string = "ĐẶT CƯỢC";
+      self.resetBetButtonText()
       self.TX_Board.node.active = false;
       this.setBetButtonClicked(false);
       if (isNaN(bet) || bet < Constants.minBet) {
@@ -344,6 +346,7 @@ cc.Class({
           }
         });
       }
+
     };
     if (this.TXRoot.board) {
       this.inputL.active = this.inputR.active = false;
@@ -504,9 +507,11 @@ cc.Class({
   setBetButtonClicked(isClick, select) {
     if (isClick) {
       if (select == "right") {
+        this.inputRTxt.string = '';
         this.inputR.spriteFrame = this.BetButtonClickedFrame;
       }
       else {
+        this.inputLTxt.string = '';
         this.inputL.spriteFrame = this.BetButtonClickedFrame;
       }
     }
@@ -1143,4 +1148,8 @@ cc.Class({
     this.resetUI();
     this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = '';
   },
+  resetBetButtonText() {
+    this.inputLTxt.string = "Đặt Cửa"
+    this.inputRTxt.string = "Đặt Cửa"
+  }
 });

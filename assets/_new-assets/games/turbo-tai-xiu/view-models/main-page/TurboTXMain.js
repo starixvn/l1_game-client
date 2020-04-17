@@ -133,6 +133,8 @@ cc.Class({
       this.inputL.active = this.inputR.active = false;
       this.inputLeft.node.active = this.inputRight.node.active = true;
     }
+
+    this.resetBetButtonText();
   },
   onEnable: function () {
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
