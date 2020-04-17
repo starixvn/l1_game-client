@@ -796,15 +796,19 @@ cc.Class({
       if (void 0 !== data.red_tai) {
         var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
 
-        if (sTai - data.red_tai != 0) {
+        if (sTai < data.red_tai) {
           helper.numberTo(this.totalLeft, sTai, data.red_tai, 500, true);
+        } else {
+          this.totalLeft.string = helper.numberWithCommas(data.red_tai);
         }
       }
       if (void 0 !== data.red_xiu) {
         var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
 
-        if (sXiu - data.red_xiu != 0) {
+        if (sXiu < data.red_xiu) {
           helper.numberTo(this.totalRight, sXiu, data.red_xiu, 500, true);
+        } else {
+          this.totalRight.string = helper.numberWithCommas(data.red_xiu);
         }
       }
 
