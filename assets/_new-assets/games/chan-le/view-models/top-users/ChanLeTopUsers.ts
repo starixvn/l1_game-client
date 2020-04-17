@@ -31,6 +31,7 @@ export default class ChanLeTopUsers extends cc.Component {
     }
 
     onDisable() {
+        this.root.hideTop();
         this.node.destroyAllChildren();
         this.node.destroy();
     }

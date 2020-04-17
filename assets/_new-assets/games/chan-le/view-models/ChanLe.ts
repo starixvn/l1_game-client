@@ -89,6 +89,10 @@ export default class ChanLe extends cc.Component {
         this.topUsers.init(this);
         this.miniPanel.dialog.addChild(dialog);
     }
+    hideTop() {
+        this.topUsers = null;
+    }
+
     showStats() {
         cc.RedT.audio.playClick();
 
@@ -97,6 +101,11 @@ export default class ChanLe extends cc.Component {
         this.statistics.init(this);
         this.miniPanel.dialog.addChild(dialog);
     }
+
+    hideStats() {
+        this.statistics = null;
+    }
+
     showHistory() {
         cc.RedT.audio.playClick();
 
@@ -104,6 +113,10 @@ export default class ChanLe extends cc.Component {
         this.history = dialog.getComponent("ChanLeHistory");
         this.history.init(this);
         this.miniPanel.dialog.addChild(dialog);
+    }
+
+    hideHistory() {
+        this.history = null;
     }
 
     showTurnHistory(event) {
@@ -116,6 +129,10 @@ export default class ChanLe extends cc.Component {
 
         this.turnHistory.init(this, dotLog.turnId);
         this.miniPanel.dialog.insertChild(dialog, 0);
+    }
+
+    hideTurnHistory() {
+        this.turnHistory = null;
     }
 
     showGuide() {
