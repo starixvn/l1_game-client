@@ -251,7 +251,7 @@ export default class ChanLeStats extends cc.Component {
             if (log) {
                 dot.node.active = true;
                 var point = log.dice[0] + log.dice[1] + log.dice[2];
-                dot.spriteFrame = point % 2 ? self.dotRight : self.dotLeft;
+                dot.spriteFrame = point % 2 ? self.dotLeft : self.dotRight;
                 return point % 2 ? 0 : 1;
             }
             else {
@@ -305,7 +305,7 @@ export default class ChanLeStats extends cc.Component {
                         var type = pointsData % 2 ? false : true;
                         totalLeft = type ? totalLeft + 1 : totalLeft;
                         totalRight = !type ? totalRight + 1 : totalRight;
-                        dot.color = type ? cc.Color.YELLOW : cc.Color.BLACK;
+                        dot.color = type ? cc.Color.WHITE : cc.Color.BLACK;
                         dot.dotText.node.color = type ? cc.Color.BLACK : cc.Color.WHITE;
                     }
                     else {
@@ -347,7 +347,7 @@ export default class ChanLeStats extends cc.Component {
             dot.position = cc.v2(dot.position.x, dotData.y);
 
             dot.dotText.node.color = (dotData.tong % 2 ? cc.Color.WHITE : cc.Color.BLACK);
-            dot.color = dotData.tong % 2 ? cc.Color.BLACK : cc.Color.YELLOW;
+            dot.color = dotData.tong % 2 ? cc.Color.BLACK : cc.Color.WHITE;
         }
 
         line.stroke();

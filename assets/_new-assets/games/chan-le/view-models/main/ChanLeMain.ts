@@ -102,7 +102,7 @@ export default class ChanLeMain extends cc.Component {
     public dotBlack: cc.SpriteFrame = null;
 
     @property({ type: cc.SpriteFrame })
-    public dotYellow: cc.SpriteFrame = null;
+    public dotWhite: cc.SpriteFrame = null;
 
     @property({ type: cc.BitmapFont })
     public fontPlus: cc.BitmapFont = null;
@@ -418,7 +418,7 @@ export default class ChanLeMain extends cc.Component {
                 dotLog.turnId = data.phien;
                 dotLog.sprite.spriteFrame = point % 2
                     ? self.dotBlack
-                    : self.dotYellow;
+                    : self.dotWhite;
             } else {
                 dotLog.node.active = false;
             }
