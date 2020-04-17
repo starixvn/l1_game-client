@@ -1149,7 +1149,7 @@ cc.Class({
     this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = '';
   },
   resetBetButtonText() {
-    this.inputLTxt.string = "Đặt Cửa"
-    this.inputRTxt.string = "Đặt Cửa"
+    this.inputLTxt.string = "ĐẶT CỬA"
+    this.inputRTxt.string = "ĐẶT CỬA"
   }
 });
