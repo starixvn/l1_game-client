@@ -222,6 +222,10 @@ cc.Class({
       default: null,
       type: cc.Prefab
     },
+    extendTouchPart: {
+      default: null,
+      type: cc.Component
+    },
   },
   init: function (obj) {
     this.TXRoot = obj;
@@ -351,6 +355,15 @@ cc.Class({
     if (this.TXRoot.board) {
       this.inputL.active = this.inputR.active = false;
       this.inputLeft.node.active = this.inputRight.node.active = true;
+    }
+
+    var extendTouchPartComponent = this.extendTouchPart.getComponent("ExtendTouchPart");
+    if (extendTouchPartComponent) {
+      extendTouchPartComponent.listener = {
+        eventStart: (e) => this.eventStart(e),
+        eventMove: (e) => this.eventMove(e),
+        eventEnd: () => this.eventEnd(),
+      }
     }
   },
   onEnable: function () {
