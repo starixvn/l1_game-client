@@ -6,9 +6,25 @@ cc.Class({
         game: cc.Node,
         content: cc.Node,
         title: cc.Label,
+
+        bauCuaOddOne: cc.Label,
+        bauCuaOddTwo: cc.Label,
+        bauCuaOddThree: cc.Label,
+    },
+    onLoad() {
+        cc.RedT.send({
+            g: {
+                baucua: {
+                    get_odd: true
+                }
+            }
+        });
+    },
+    update() {
+        this.updateBauCuaOddLabels();
     },
     selectGame: function (event, game) {
-        this.select(game)
+        this.select(game);
     },
     select: function (game) {
         cc.RedT.audio.playClick();
@@ -38,5 +54,17 @@ cc.Class({
     closeDialog: function () {
         var dialog = this.node.getComponent("CommonDialog");
         dialog && dialog.closeDialog();
-    }
+    },
+    updateBauCuaOddLabels: function () {
+        if (!cc.RedT.setting.baucua.odds || cc.RedT.setting.baucua.odds.length < 3) {
+            this.bauCuaOddOne.string = ``;
+            this.bauCuaOddTwo.string = ``;
+            this.bauCuaOddThree.string = ``;
+            return;
+        }
+        var odds = cc.RedT.setting.baucua.odds;
+        this.bauCuaOddOne.string = odds[0];
+        this.bauCuaOddTwo.string = odds[1];
+        this.bauCuaOddThree.string = odds[2];
+    },
 });
