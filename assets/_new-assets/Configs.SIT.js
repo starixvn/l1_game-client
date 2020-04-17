@@ -13,7 +13,8 @@ const configs = {
     gameNames: {
         1: "Tài Xỉu",
         2: "Xóc Đĩa",
-        3: "Bầu Cua"
+        3: "Bầu Cua",
+        4: "Tài Xỉu Siêu Tốc",
     },
     sentryUrl: 'https://08d902b128ea45b6a11639833224f481@sentry.saba.vin/25',
     gameAnalytics: {
