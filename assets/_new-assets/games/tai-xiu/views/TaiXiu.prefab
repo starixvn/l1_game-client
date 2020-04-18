@@ -24,11 +24,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 651
+        "__id__": 653
       }
     ],
     "_prefab": {
-      "__id__": 652
+      "__id__": 654
     },
     "_opacity": 255,
     "_color": {
@@ -146,11 +146,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 649
+        "__id__": 651
       }
     ],
     "_prefab": {
-      "__id__": 650
+      "__id__": 652
     },
     "_opacity": 255,
     "_color": {
@@ -23385,19 +23385,19 @@
     "_children": [
       {
         "__id__": 643
+      },
+      {
+        "__id__": 646
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 646
-      },
-      {
-        "__id__": 647
+        "__id__": 649
       }
     ],
     "_prefab": {
-      "__id__": 648
+      "__id__": 650
     },
     "_opacity": 255,
     "_color": {
@@ -23410,7 +23410,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 600,
-      "height": 100
+      "height": 120
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -23448,7 +23448,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Text",
+    "_name": "frame",
     "_objFlags": 0,
     "_parent": {
       "__id__": 642
@@ -23462,6 +23462,113 @@
     ],
     "_prefab": {
       "__id__": 645
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 600,
+      "height": 100
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 643
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "4b084913-7160-4ac3-9922-ef16a48b8064"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "822df7ef-13a5-482e-8504-0a81f3049c13"
+    },
+    "fileId": "23iSggykNIr4rtKSzrosxf",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Text",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 642
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 647
+      }
+    ],
+    "_prefab": {
+      "__id__": 648
     },
     "_opacity": 255,
     "_color": {
@@ -23515,7 +23622,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 643
+      "__id__": 646
     },
     "_enabled": true,
     "_materials": [
@@ -23552,38 +23659,6 @@
     },
     "fileId": "ff8FD9TTtABpJdeMEmLkKB",
     "sync": false
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 642
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "4b084913-7160-4ac3-9922-ef16a48b8064"
-    },
-    "_type": 0,
-    "_sizeMode": 0,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
-    "_id": ""
   },
   {
     "__type__": "cc.Button",
@@ -23898,7 +23973,7 @@
     },
     "_enabled": true,
     "TX_Main": {
-      "__id__": 649
+      "__id__": 651
     },
     "board": false,
     "TX_StatsPrefab": {
