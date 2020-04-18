@@ -152,8 +152,8 @@ cc.Class({
 
       try {
         if (data.user.name) {
-          const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
-          sentryLogger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
+          // const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
+          // sentryLogger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
         }
       } catch (ex) { console.log(ex) }
     }
@@ -163,6 +163,11 @@ cc.Class({
     if (void 0 !== data.taixiu) {
       cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
     }
+
+    if (void 0 !== data.taixiu_turbo) {
+      cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);
+    }
+
     if (void 0 !== data.notice) {
       this.showNotice(data.notice);
     }

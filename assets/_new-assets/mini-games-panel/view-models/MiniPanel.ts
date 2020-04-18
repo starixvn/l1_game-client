@@ -32,12 +32,16 @@ export default class MiniPanel extends cc.Component {
   bauCuaPrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
+  turboTaiXiuPrefab: cc.Prefab = null;
+
+  @property(cc.Prefab)
   noticePrefab: cc.Prefab = null;
 
   private isLightOn: boolean;
 
   private taiXiu: any;
   private bauCua: any;
+  private taiXiuTurbo: any;
 
   onLoad() {
   }
@@ -54,12 +58,22 @@ export default class MiniPanel extends cc.Component {
     }
   }
 
+  onDataTaiXiuTurbo(data: any) {
+    if (data && this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.TX_Main) {
+      this.taiXiuTurbo.TX_Main.onData(data);
+    }
+  }
+
   onDataError(apiErrorData: any) {
     var error = apiErrorData.apiError;
     this.showErrorNotice(error);
 
     if (error.gameTypeId == configs.gameIds.TaiXiu && this.taiXiu && this.taiXiu.TX_Main) {
       this.taiXiu.TX_Main.onData(apiErrorData);
+    }
+
+    if (error.gameTypeId == configs.gameIds.TaiXiuTurbo && this.taiXiuTurbo && this.taiXiuTurbo.TX_Main) {
+      this.taiXiuTurbo.TX_Main.onData(apiErrorData);
     }
 
     if (error.gameTypeId == configs.gameIds.BauCua && this.bauCua) {
@@ -119,11 +133,19 @@ export default class MiniPanel extends cc.Component {
   }
 
   openGame(id) {
-    if (id == configs.gameIds.TaiXiu) {
-      this.openTaiXiu();
-    }
-    else if (id == configs.gameIds.BauCua) {
-      this.openBauCua();
+    id = parseInt(id);
+    switch (id) {
+      case configs.gameIds.TaiXiu:
+        this.openTaiXiu();
+        break;
+      case configs.gameIds.BauCua:
+        this.openBauCua();
+        break;
+      case configs.gameIds.TaiXiuTurbo:
+        this.openTaiXiuTurbo();
+        break;
+      default:
+        break;
     }
   }
   openTaiXiu() {
@@ -134,6 +156,21 @@ export default class MiniPanel extends cc.Component {
         this.taiXiu.init(this);
         this.miniGames.addChild(this.taiXiu.node);
         this.taiXiu.openGame();
+      }
+    }
+    else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+  }
+
+  openTaiXiuTurbo() {
+    if (cc.RedT.IS_LOGIN) {
+      if (!this.taiXiuTurbo || !this.taiXiuTurbo.node) {
+        var node = cc.instantiate(this.turboTaiXiuPrefab);
+        this.taiXiuTurbo = node.getComponent("TurboTX");
+        this.taiXiuTurbo.init(this);
+        this.miniGames.addChild(this.taiXiuTurbo.node);
+        this.taiXiuTurbo.openGame();
       }
     }
     else {

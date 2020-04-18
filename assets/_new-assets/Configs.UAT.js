@@ -8,12 +8,13 @@ const configs = {
         TaiXiu: 1,
         XocXoc: 2,
         BauCua: 3,
-        MiniPoker: 4
+        TaiXiuTurbo: 4,
     },
     gameNames: {
         1: "Tài Xỉu",
         2: "Xóc Đĩa",
-        3: "Bầu Cua"
+        3: "Bầu Cua",
+        4: "Tài Xỉu Siêu Tốc",
     },
     sentryUrl: 'https://e2d54dceaaab4ccc8e3b3b20d806d6ac@sentry.saba.vin/30',
     gameAnalytics: {

@@ -34,12 +34,12 @@ cc.Class({
   },
   onCloseClick: function () {
     this.node.active = false;
-    this.RedT.input.string = "ĐẶT CƯỢC";
+    this.RedT.resetBetButtonText();
     this.RedT.setBetButtonClicked(false);
   },
   onOkClick: function () {
     this.node.active = false;
-    this.RedT.input.string = "ĐẶT CƯỢC";
+    this.RedT.resetBetButtonText();
     this.RedT.setBetButtonClicked(false);
   }
 });

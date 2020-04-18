@@ -67,4 +67,7 @@ cc.Class({
   openMiniPoker: function () {
     cc.RedT.MiniPanel.openMiniPoker();
   },
+  openTaiXiuTurbo: function () {
+    cc.RedT.MiniPanel.openTaiXiuTurbo();
+  },
 });

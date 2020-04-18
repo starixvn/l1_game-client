@@ -222,6 +222,10 @@ cc.Class({
       default: null,
       type: cc.Prefab
     },
+    extendTouchPart: {
+      default: null,
+      type: cc.Component
+    },
   },
   init: function (obj) {
     this.TXRoot = obj;
@@ -277,6 +281,8 @@ cc.Class({
       }
       this.reLoadGame();
     }
+
+    this.resetBetButtonText();
   },
   onLoad() {
     this.waitingBetResponse = false;
@@ -310,7 +316,7 @@ cc.Class({
     this.onCuocClick = function () {
       var bet = helper.getOnlyNumberInString(self.input.string);
       bet = parseInt(bet);
-      self.input.string = "ĐẶT CƯỢC";
+      self.resetBetButtonText()
       self.TX_Board.node.active = false;
       this.setBetButtonClicked(false);
       if (isNaN(bet) || bet < Constants.minBet) {
@@ -344,10 +350,20 @@ cc.Class({
           }
         });
       }
+
     };
     if (this.TXRoot.board) {
       this.inputL.active = this.inputR.active = false;
       this.inputLeft.node.active = this.inputRight.node.active = true;
+    }
+
+    var extendTouchPartComponent = this.extendTouchPart.getComponent("ExtendTouchPart");
+    if (extendTouchPartComponent) {
+      extendTouchPartComponent.listener = {
+        eventStart: (e) => this.eventStart(e),
+        eventMove: (e) => this.eventMove(e),
+        eventEnd: () => this.eventEnd(),
+      }
     }
   },
   onEnable: function () {
@@ -504,9 +520,11 @@ cc.Class({
   setBetButtonClicked(isClick, select) {
     if (isClick) {
       if (select == "right") {
+        this.inputRTxt.string = '';
         this.inputR.spriteFrame = this.BetButtonClickedFrame;
       }
       else {
+        this.inputLTxt.string = '';
         this.inputL.spriteFrame = this.BetButtonClickedFrame;
       }
     }
@@ -791,15 +809,19 @@ cc.Class({
       if (void 0 !== data.red_tai) {
         var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
 
-        if (sTai - data.red_tai != 0) {
+        if (sTai < data.red_tai) {
           helper.numberTo(this.totalLeft, sTai, data.red_tai, 500, true);
+        } else {
+          this.totalLeft.string = helper.numberWithCommas(data.red_tai);
         }
       }
       if (void 0 !== data.red_xiu) {
         var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
 
-        if (sXiu - data.red_xiu != 0) {
+        if (sXiu < data.red_xiu) {
           helper.numberTo(this.totalRight, sXiu, data.red_xiu, 500, true);
+        } else {
+          this.totalRight.string = helper.numberWithCommas(data.red_xiu);
         }
       }
 
@@ -1143,4 +1165,8 @@ cc.Class({
     this.resetUI();
     this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = '';
   },
+  resetBetButtonText() {
+    this.inputLTxt.string = "ĐẶT CỬA"
+    this.inputRTxt.string = "ĐẶT CỬA"
+  }
 });

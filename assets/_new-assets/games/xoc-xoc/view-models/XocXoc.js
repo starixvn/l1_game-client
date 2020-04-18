@@ -232,6 +232,11 @@ cc.Class({
 		if (void 0 !== data.taixiu) {
 			cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
 		}
+
+		if (void 0 !== data.taixiu_turbo) {
+			cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);
+		}
+
 		if (data.kickedOut) {
 			this.closeProcessingWarningPopup();
 			cc.RedT.MiniPanel.onDataKickedOut(data.kickedOut);
