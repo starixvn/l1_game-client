@@ -346,8 +346,8 @@ export default class ChanLeStats extends cc.Component {
             dot.dotText.string = dotData.tong;
             dot.position = cc.v2(dot.position.x, dotData.y);
 
-            dot.dotText.node.color = (dotData.tong % 2 ? cc.Color.WHITE : cc.Color.BLACK);
-            dot.color = dotData.tong % 2 ? cc.Color.BLACK : cc.Color.WHITE;
+            dot.dotText.node.color = (dotData.tong % 2 ? cc.Color.BLACK : cc.Color.WHITE);
+            dot.color = dotData.tong % 2 ? cc.Color.WHITE : cc.Color.BLACK;
         }
 
         line.stroke();
