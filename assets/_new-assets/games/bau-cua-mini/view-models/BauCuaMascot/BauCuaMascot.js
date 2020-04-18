@@ -30,7 +30,7 @@ cc.Class({
     },
     Select: function (x) {
         this.xSprite.node.active = x != 1;
-        this.xSprite.spriteName = x == 2 ? this.x2Sprite : this.x3Sprite;
+        this.xSprite.spriteFrame = x == 2 ? this.x2Sprite : this.x3Sprite;
     },
     unSelect: function () {
         this.xSprite.node.active = false;
