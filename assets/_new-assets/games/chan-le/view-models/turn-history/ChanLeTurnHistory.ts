@@ -93,7 +93,7 @@ export default class ChanLeTurnHistory extends cc.Component {
         this.totalRefundRight.string = numberWithCommas(data.tong_tralai_R);
         this.turnInfo.string = data.phien + '  -  ' + getStringDateByTime(data.time);
         this.currentTurnId = data.phien;
-        var lastTurnId = this.root.main.getCurrentDataLogs()[0].phien;
+        var lastTurnId = this.root.main.dataLogs[0].phien;
         this.nextButton.active = (lastTurnId - data.phien) > 0;
     }
 

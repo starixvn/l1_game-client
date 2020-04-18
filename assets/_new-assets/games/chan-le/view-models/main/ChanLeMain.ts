@@ -2,11 +2,18 @@ const { ccclass, property } = cc._decorator;
 import ChanLe from './../ChanLe';
 import BetBoard from './../bet-board/ChanLeBetBoard';
 import DiaNan from './ChanLeDiaNan';
-import { getOnlyNumberInString, numberWithCommas, numberPad } from '../../../../common/helpers/Helper';
+import { getOnlyNumberInString, numberWithCommas } from '../../../../common/helpers/Helper';
 import ProcessingWarning from './../../../../common/processing-warning/view-models/ProcessingWarning';
 import * as ScaleEffect from './../../../tai-xiu/view-models/main-page/TXScale';
 import AnimatedTime from './../../../../common/animated-time/view-models/AnimatedTime';
-import ChanLeLogTips from './ChanLeLogTips';
+import UMDataHandler from "./data-handlers/UMDataHandler";
+import DataHandler from '../../../../common/_base/view-models/DataHandler';
+import ErrorDataHandler from './data-handlers/ErrorDataHandler';
+import GameDataHandler from './data-handlers/GameDataHandler';
+import LogsDataHandler, { ILogsDataHandler } from './data-handlers/LogsDataHandler';
+import BetStatusDataHandler from './data-handlers/BetStatusDataHandler';
+import TimeDataHandler, { ITimeDataHandler } from './data-handlers/TimeDataHandler';
+import FinishTurnDataHandler from './data-handlers/FinishTurnDataHandler';
 
 @ccclass
 export default class ChanLeMain extends cc.Component {
@@ -132,26 +139,45 @@ export default class ChanLeMain extends cc.Component {
     public animatedTime: AnimatedTime = null;
 
     //#endregion
-    public isNan = false;
+    isNan = false;
+    root: ChanLe;
+    isDisabled = false;
+    currentResultDices: number[];
+    currentTimeRemaining: number;
 
     private static readonly DAT_CUOC = "ĐẶT CƯỢC";
+    private readonly umDataHandler: DataHandler;
+    private readonly errorDataHandler: DataHandler;
+    private readonly gameDataHandler: DataHandler;
+    private readonly logsDataHandler: ILogsDataHandler;
+    private readonly betStatusDataHandler: DataHandler;
+    private readonly timeDataHandler: ITimeDataHandler;
+    private readonly finishTurnDataHandler: DataHandler;
 
     private betChoice = {
         left: "left",
         right: "right"
     }
-
-    private root: ChanLe;
     private waitingBetResponse = false;
     private processingWarning: ProcessingWarning;
     private currentInputBet: cc.Label;
     private currentInputSide: string;
-    private currentTimeRemain: number;
-    private currentDataLogs: any;
-    private currentResultDices: number[];
-    private currentPlayTimeInteval: number;
-    private currentDotLogs: ChanLeLogTips[] = [];
-    private isUM = false;
+
+    get dataLogs() {
+        return this.logsDataHandler.dataLogs;
+    }
+
+    constructor() {
+        super();
+
+        this.umDataHandler = new UMDataHandler(this);
+        this.errorDataHandler = new ErrorDataHandler(this);
+        this.gameDataHandler = new GameDataHandler(this);
+        this.logsDataHandler = new LogsDataHandler(this);
+        this.betStatusDataHandler = new BetStatusDataHandler(this);
+        this.timeDataHandler = new TimeDataHandler(this, this.logsDataHandler);
+        this.finishTurnDataHandler = new FinishTurnDataHandler(this, this.timeDataHandler, this.logsDataHandler);
+    }
 
     init(root: ChanLe) {
         this.root = root;
@@ -162,147 +188,24 @@ export default class ChanLeMain extends cc.Component {
     onLoad() {
         this.diceAnimation.on("finished", this.onDiceAnimationFinished, this);
         this.playCenterLight();
-        this.initDotLogs();
-    }
-
-    onGameHide() {
-        this.currentPlayTimeInteval && clearInterval(this.currentPlayTimeInteval);
-        this.resetUI();
-        this.resetData();
-        this.centerRoundLight.stopAllActions();
+        this.logsDataHandler.initDotLogs();
     }
 
     onData(data: any) {
-        this.handleDataUM(data);
-        this.handleDataError(data);
-        this.handleDataGame(data);
-        this.handleDataLogs(data);
-        this.handleDataBetStatus(data);
-        this.handleDataTime(data);
-        this.handleDataFinishTurn(data);
+        this.umDataHandler.handle(data);
+        this.errorDataHandler.handle(data);
+        this.gameDataHandler.handle(data);
+        this.logsDataHandler.handle(data);
+        this.betStatusDataHandler.handle(data);
+        this.timeDataHandler.handle(data);
+        this.finishTurnDataHandler.handle(data);
     }
 
-    handleDataUM(data: any): boolean {
-        if (!data.um) {
-            return;
-        }
-
-        if (this.currentTimeRemain == this.root.gameConfigs.betTime
-            || data.time_remain == this.root.gameConfigs.fullTime) {
-            this.isUM = true;
-            this.noticeUM.active = true;
-            this.onGameHide();
-        }
-    }
-
-    handleDataError(data: any) {
-        if (data.apiError) {
-            this.closeProcessWarning();
-        }
-
-        if (data.err) {
-            this.closeProcessWarning();
-            this.showMiniWarning(data.err);
-        }
-    }
-
-    handleDataGame(data: any) {
-        if (!data[this.root.gameName] || this.isUM) {
-            return;
-        }
-
-        var chanleData = data[this.root.gameName];
-
-        if (chanleData.red_me_chan || chanleData.red_me_le) {
-            this.closeProcessWarning();
-        }
-
-        chanleData.red_chan && (this.totalBetLeft.string = numberWithCommas(chanleData.red_chan));
-        chanleData.red_le && (this.totalBetRight.string = numberWithCommas(chanleData.red_le));
-        chanleData.red_me_chan && (this.userBetLeft.string = numberWithCommas(chanleData.red_me_chan));
-        chanleData.red_me_le && (this.userBetRight.string = numberWithCommas(chanleData.red_me_le));
-        chanleData.red_player_chan && (this.playersLeft.string = numberWithCommas(chanleData.red_player_chan));
-        chanleData.red_player_le && (this.playersRight.string = numberWithCommas(chanleData.red_player_le));
-    }
-
-    handleDataLogs(data) {
-        if (!data.logs) {
-            return;
-        }
-
-        this.currentDataLogs = data.logs;
-        this.currentResultDices = [...data.logs[0].dice];
-
-        if (this.currentTimeRemain > this.root.gameConfigs.betTime && !this.isUM) {
-            this.showDices(true);
-            this.showBetResult();
-        }
-
-        this.buildDotLogs(this.currentDataLogs);
-
-        if (this.root.statistics) {
-            this.root.statistics.drawStatistics();
-        }
-    }
-
-    handleDataTime(data: any) {
-        if (data.time_remain) {
-            this.isUM = false;
-            this.playCenterLight();
-            this.noticeUM.active = false;
-            this.currentTimeRemain = data.time_remain;
-            this.playTime();
-        }
-    }
-
-    handleDataBetStatus(data) {
-        if (!data.status) {
-            return;
-        }
-
-        var self = this;
-
-        setTimeout(() => {
-            if (!self.isNan) {
-                self.showUserWinLossAnimation(data.status);
-            }
-            self.root.sendData({ get_new: true });
-        }, 2e3);
-    }
-
-    handleDataFinishTurn(data) {
-        if (!data.finish) {
-            return;
-        }
-
-        this.currentPlayTimeInteval && clearInterval(this.currentPlayTimeInteval);
-        this.currentDataLogs.unshift({
-            dice: [
-                data.finish.dices[0],
-                data.finish.dices[1],
-                data.finish.dices[2]
-            ],
-            phien: data.finish.phien
-        });
-
-        this.currentDataLogs.length > 120 && this.currentDataLogs.pop();
-        this.buildDotLogs(this.currentDataLogs);
-        this.currentResultDices = [...data.finish.dices];
-
-        if (this.isNan) {
-            this.diaNan.node.active = true;
-            this.diaNan.node.position = cc.v2(0, -11.5);
-            this.diaNanSprite.node.active = false;
-            this.onDiceAnimationFinished();
-        } else {
-            this.diceAnimation.node.active = true;
-            this.diceAnimation.play();
-        }
-
-        this.timeWaitNode.active = true;
-        this.animatedTime.node.active = false;
-        this.currentTimeRemain = this.root.gameConfigs.betTime + this.root.gameConfigs.waitTime;
-        this.playTime();
+    onGameHide() {
+        this.timeDataHandler.stopPlayTime();
+        this.resetUI();
+        this.resetData();
+        this.centerRoundLight.stopAllActions();
     }
 
     onBetClick() {
@@ -391,106 +294,19 @@ export default class ChanLeMain extends cc.Component {
         }
     }
 
-    getCurrentDataLogs = () => this.currentDataLogs;
-
-    private initDotLogs() {
-        Promise.all(this.dotLogs.children.map((dot) => {
-            return dot.getComponent("ChanLeLogTips") as ChanLeLogTips;
-        })).then(result => {
-            this.currentDotLogs = result;
-        });
-    }
-
-    private buildDotLogs(dataLogs: any) {
-        if (!dataLogs || !dataLogs.length) {
-            return;
-        }
-
-        var self = this;
-        Promise.all(self.currentDotLogs.map(function (dotLog, index) {
-            var data = dataLogs[index];
-
-            if (data) {
-                var point = data.dice[0] + data.dice[1] + data.dice[2];
-                dotLog.node.active = true;
-                dotLog.text.string =
-                    data.dice[0] + "-" + data.dice[1] + "-" + data.dice[2];
-                dotLog.turnId = data.phien;
-                dotLog.sprite.spriteFrame = point % 2
-                    ? self.dotBlack
-                    : self.dotWhite;
-            } else {
-                dotLog.node.active = false;
-            }
-        }));
-    }
-
-    private playTime() {
-        this.currentPlayTimeInteval && clearInterval(this.currentPlayTimeInteval);
-        var self = this;
-
-        this.currentPlayTimeInteval = setInterval(() => {
-            const isInWaitTime = self.currentTimeRemain > this.root.gameConfigs.betTime;
-
-            if (isInWaitTime) {
-                var time = numberPad(self.currentTimeRemain - this.root.gameConfigs.betTime - 1, 2);
-                self.showWaitTime(time);
-
-                if (self.isNan) {
-                    if (self.currentTimeRemain < this.root.gameConfigs.nanTime) {
-                        self.showDices(true);
-                        self.showBetResult();
-                        self.diaNan.node.active = false;
-                    }
-                }
-
-                if (self.currentDataLogs) {
-                    self.setTurnLabel(self.currentDataLogs[0].phien);
-                }
-            } else {
-                self.resetUI();
-                self.currentResultDices = [];
-                const isStartingNewTurn = self.currentTimeRemain == this.root.gameConfigs.betTime;
-                const isInTurnTime = self.currentTimeRemain > this.root.gameConfigs.minBetTime;
-
-                if (self.currentDataLogs) {
-                    self.setTurnLabel(self.currentDataLogs[0].phien + 1);
-                }
-
-                if (isStartingNewTurn) {
-                    self.resetData();
-                }
-
-                if (isInTurnTime) {
-                    var time = numberPad(self.currentTimeRemain - 1, 2);
-                    self.animatedTime.setTime(time);
-                    self.diaNanSprite.node.active = self.animatedTime.node.active = true;
-                } else {
-                    clearInterval(self.currentPlayTimeInteval);
-                }
-            }
-            self.currentTimeRemain--;
-        }, 1000);
-    }
-
-    private showWaitTime(time) {
-        this.timeWaitNode.active = true;
-        this.timeWaitLabel.string = "00:" + numberPad(time, 2);
-    }
-
-    private setTurnLabel(turnId) {
+    setTurnLabel(turnId) {
         if (turnId) {
             this.phienLabel.string = "#" + turnId;
         }
     }
 
-    private onDiceAnimationFinished() {
+    onDiceAnimationFinished() {
         this.showDices(true);
         !this.isNan && this.showBetResult();
         this.diceAnimation.node.active = false;
     }
 
-    private showDices(showDice = false, showDiceSprite = true) {
+    showDices(showDice = false, showDiceSprite = true) {
         var self = this;
         Promise.all(this.dices.map((dice, index) => {
             showDiceSprite && (dice.spriteFrame = self.diceFrames[self.currentResultDices[index] - 1]);
@@ -498,7 +314,7 @@ export default class ChanLeMain extends cc.Component {
         }));
     }
 
-    private showBetResult() {
+    showBetResult() {
         var point = this.showResultPoint();
         this.stopWinningAnims();
 
@@ -513,7 +329,7 @@ export default class ChanLeMain extends cc.Component {
         }
     }
 
-    private showResultPoint(): number {
+    showResultPoint(): number {
         var point = this.currentResultDices[0] + this.currentResultDices[1] + this.currentResultDices[2];
         this.resultLabel.string = point.toString();
         this.resultNode.active = true;
@@ -521,7 +337,7 @@ export default class ChanLeMain extends cc.Component {
         return point;
     }
 
-    private stopWinningAnims() {
+    stopWinningAnims() {
         this.leftWinningEffect.stop();
         this.rightWinningEffect.stop();
         this.leftWinningAnimation.node.active = false;
@@ -530,44 +346,20 @@ export default class ChanLeMain extends cc.Component {
         this.rightWinningAnimation.stop();
     }
 
-    private showUserWinLossAnimation(data) {
-        if (!this.notice) {
-            return;
-        }
-
-        var resultNode = new cc.Node();
-        resultNode.addComponent(cc.Label);
-        var resultLabel = resultNode.getComponent(cc.Label);
-        resultLabel.string = (data.win ? "+" : "-") + numberWithCommas(data.bet);
-        resultLabel.font = data.win ? this.fontPlus : this.fontMinus;
-        resultLabel.lineHeight = 130;
-        resultLabel.fontSize = 25;
-        resultLabel.node.position = cc.v2(data.select ? -245 : 245, -50);
-        this.notice.addChild(resultLabel.node);
-        resultLabel.node.runAction(
-            cc.sequence(
-                cc.moveTo(3, cc.v2(data.select ? -245 : 245, 130)),
-                cc.callFunc(function () {
-                    this.node.destroy();
-                }, resultLabel)
-            )
-        );
-    }
-
-    private showMiniWarning(message) {
+    showMiniWarning(message) {
         var miniWarningPrefab = cc.instantiate(this.miniWarningPrefab);
         var miniWarning = miniWarningPrefab.getComponent("mini_warning");
         miniWarning.text.string = message;
         this.notice.addChild(miniWarningPrefab);
     }
 
-    private showBetProcessWarning() {
+    showBetProcessWarning() {
         var processingWarningNode = cc.instantiate(this.processingWarningPrefab);
         this.processingWarning = processingWarningNode.getComponent("ProcessingWarning");
         this.notice.addChild(processingWarningNode);
     }
 
-    private closeProcessWarning() {
+    closeProcessWarning() {
         this.waitingBetResponse = false;
 
         if (this.processingWarning) {
@@ -575,11 +367,11 @@ export default class ChanLeMain extends cc.Component {
         }
     }
 
-    private playCenterLight() {
-        this.centerRoundLight.runAction(cc.repeatForever(cc.rotateBy(1.1, 360)));
+    playCenterLight() {
+        this.centerRoundLight.runAction(cc.repeatForever(cc.rotateBy(this.root.gameConfigs.fullTime / 60, 360)));
     }
 
-    private resetUI() {
+    resetUI() {
         this.stopWinningAnims();
         this.animatedTime.node.active = false;
         this.diceAnimation.node.active = false;
@@ -587,7 +379,7 @@ export default class ChanLeMain extends cc.Component {
         this.showDices(false, false);
     }
 
-    private resetData() {
+    resetData() {
         this.totalBetLeft.string
             = this.totalBetRight.string
             = this.userBetLeft.string

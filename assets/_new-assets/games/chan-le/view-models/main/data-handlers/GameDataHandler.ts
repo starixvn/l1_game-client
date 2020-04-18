@@ -1,0 +1,30 @@
+import DataHandler from "../../../../../common/_base/view-models/DataHandler";
+import BaseDataHandler from "./BaseDataHandler";
+import ChanLeMain from "../ChanLeMain";
+import { numberWithCommas } from '../../../../../common/helpers/Helper';
+
+export default class GameDataHandler extends BaseDataHandler implements DataHandler {
+    constructor(main: ChanLeMain) {
+        super(main);
+    }
+
+    handle(data: any) {
+        if (!data[this.main.root.gameName] || this.main.isDisabled) {
+            return;
+        }
+
+        var chanleData = data[this.main.root.gameName];
+
+        if (chanleData.red_me_chan || chanleData.red_me_le) {
+            this.main.closeProcessWarning();
+        }
+
+        chanleData.red_chan && (this.main.totalBetLeft.string = numberWithCommas(chanleData.red_chan));
+        chanleData.red_le && (this.main.totalBetRight.string = numberWithCommas(chanleData.red_le));
+        chanleData.red_me_chan && (this.main.userBetLeft.string = numberWithCommas(chanleData.red_me_chan));
+        chanleData.red_me_le && (this.main.userBetRight.string = numberWithCommas(chanleData.red_me_le));
+        chanleData.red_player_chan && (this.main.playersLeft.string = numberWithCommas(chanleData.red_player_chan));
+        chanleData.red_player_le && (this.main.playersRight.string = numberWithCommas(chanleData.red_player_le));
+    }
+
+}

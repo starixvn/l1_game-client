@@ -159,7 +159,7 @@ export default class ChanLeStats extends cc.Component {
     }
 
     drawStatistics() {
-        var logs = this.root.main.getCurrentDataLogs();
+        var logs = this.root.main.dataLogs;
         this.drawDiceCharts(logs);
         this.drawResult(logs);
         this.drawPoints(logs);
