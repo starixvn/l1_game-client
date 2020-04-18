@@ -8,9 +8,9 @@ export default class BetStatusDataHandler extends BaseDataHandler implements Dat
         super(main)
     }
 
-    handle(data: any) {
+    handle(data: any): boolean {
         if (!data.status) {
-            return;
+            return false;
         }
 
         var self = this;
@@ -21,6 +21,8 @@ export default class BetStatusDataHandler extends BaseDataHandler implements Dat
             }
             self.main.root.sendData({ get_new: true });
         }, 2e3);
+
+        return true;
     }
 
     private showUserWinLossAnimation(data) {

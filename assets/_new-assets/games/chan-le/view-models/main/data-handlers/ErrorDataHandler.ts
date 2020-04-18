@@ -7,15 +7,19 @@ export default class ErrorDataHandler extends BaseDataHandler implements DataHan
         super(main);
     }
 
-    handle(data: any) {
+    handle(data: any): boolean {
         if (data.apiError) {
             this.main.closeProcessWarning();
+            return true;
         }
 
         if (data.err) {
             this.main.closeProcessWarning();
             this.main.showMiniWarning(data.err);
+            return true;
         }
+
+        return false;
     }
 
 }

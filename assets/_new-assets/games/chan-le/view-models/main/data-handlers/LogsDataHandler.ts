@@ -19,9 +19,9 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
         super(main);
     }
 
-    handle(data: any) {
+    handle(data: any): boolean {
         if (!data.logs) {
-            return;
+            return false;
         }
 
         this.dataLogs = data.logs;
@@ -37,6 +37,8 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
         if (this.main.root.statistics) {
             this.main.root.statistics.drawStatistics();
         }
+
+        return true;
     }
 
     updateDataLogs(data: any) {

@@ -192,7 +192,10 @@ export default class ChanLeMain extends cc.Component {
     }
 
     onData(data: any) {
-        this.umDataHandler.handle(data);
+        if (this.umDataHandler.handle(data)) {
+            return;
+        }
+
         this.errorDataHandler.handle(data);
         this.gameDataHandler.handle(data);
         this.logsDataHandler.handle(data);

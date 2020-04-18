@@ -7,15 +7,18 @@ export default class UMDataHandler extends BaseDataHandler implements DataHandle
         super(main);
     }
 
-    handle(data: any) {
+    handle(data: any): boolean {
         if (!data.um) {
-            return;
+            return false;
         }
+
         if (this.main.currentTimeRemaining == this.main.root.gameConfigs.betTime
             || data.time_remain == this.main.root.gameConfigs.fullTime) {
             this.main.isDisabled = true;
             this.main.noticeUM.active = true;
             this.main.onGameHide();
+
+            return true;
         }
     }
 }

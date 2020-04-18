@@ -2,7 +2,7 @@ const configs = {
     ssl: false,
     disabledDirectLogin: false,
     serverEndpoints: {
-        "localhost": 'localhost:8080',
+        "localhost": '124.158.13.228:8080',
     },
     gameIds: {
         TaiXiu: 1,

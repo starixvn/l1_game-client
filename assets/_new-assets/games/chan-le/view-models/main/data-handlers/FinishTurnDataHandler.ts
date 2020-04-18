@@ -14,9 +14,9 @@ export default class FinishTurnDataHandler extends BaseDataHandler implements Da
         this.logsDataHandler = logsDataHandler;
     }
 
-    handle(data: any) {
+    handle(data: any): boolean {
         if (!data.finish) {
-            return;
+            return false;
         }
 
         this.timeDataHandler.stopPlayTime();
@@ -37,6 +37,8 @@ export default class FinishTurnDataHandler extends BaseDataHandler implements Da
         this.main.animatedTime.node.active = false;
         this.main.currentTimeRemaining = this.main.root.gameConfigs.betTime + this.main.root.gameConfigs.waitTime;
         this.timeDataHandler.playTime();
+
+        return true;
     }
 
 }

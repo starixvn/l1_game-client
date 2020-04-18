@@ -8,9 +8,9 @@ export default class GameDataHandler extends BaseDataHandler implements DataHand
         super(main);
     }
 
-    handle(data: any) {
+    handle(data: any): boolean {
         if (!data[this.main.root.gameName] || this.main.isDisabled) {
-            return;
+            return false;
         }
 
         var chanleData = data[this.main.root.gameName];
@@ -25,6 +25,8 @@ export default class GameDataHandler extends BaseDataHandler implements DataHand
         chanleData.red_me_le && (this.main.userBetRight.string = numberWithCommas(chanleData.red_me_le));
         chanleData.red_player_chan && (this.main.playersLeft.string = numberWithCommas(chanleData.red_player_chan));
         chanleData.red_player_le && (this.main.playersRight.string = numberWithCommas(chanleData.red_player_le));
+
+        return true;
     }
 
 }
