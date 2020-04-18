@@ -407,7 +407,7 @@ cc.Class({
     if (data.time_remain) {
       this.isUM = false;
       this.centerRoundLight.node.runAction(
-        cc.repeatForever(cc.rotateBy(1.1, 360))
+        cc.repeatForever(cc.rotateBy(0.6, 360))
       );
       this.UMWarning.active = false;
       cc.RedT.setting.taixiu_turbo.time_remain = data.time_remain;
