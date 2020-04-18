@@ -4,6 +4,12 @@ import * as authManager from './../../common/auth/AuthManager';
 
 @ccclass
 export default class MiniPanel extends cc.Component {
+  @property(cc.BitmapFont)
+  fontCong: cc.BitmapFont = null;
+
+  @property(cc.BitmapFont)
+  fontTru: cc.BitmapFont = null;
+
   @property(cc.Node)
   miniGames: cc.Node = null;
 
@@ -45,6 +51,11 @@ export default class MiniPanel extends cc.Component {
 
   onLoad() {
     this.initBauCua();
+
+    if (void 0 === cc.RedT.util.fontCong) {
+      cc.RedT.util.fontCong = this.fontCong;
+      cc.RedT.util.fontTru = this.fontTru;
+    }
   }
 
   initBauCua() {

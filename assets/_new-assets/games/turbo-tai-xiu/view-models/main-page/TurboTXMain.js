@@ -18,11 +18,6 @@ cc.Class({
     this.isNan = false;
     this.localResultDices = [];
 
-    if (void 0 === cc.RedT.util.fontCong) {
-      cc.RedT.util.fontCong = this.fontCong;
-      cc.RedT.util.fontTru = this.fontTru;
-    }
-
     if (void 0 === cc.RedT.setting.taixiu_turbo.red) {
       cc.RedT.setting.taixiu_turbo.red = this.red;
     }
@@ -901,7 +896,7 @@ cc.Class({
     temp.addComponent(cc.Label);
     temp = temp.getComponent(cc.Label);
     temp.string = (data.win ? "+" : "-") + helper.numberWithCommas(data.bet);
-    temp.font = data.win ? this.fontCong : this.fontTru;
+    temp.font = data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
     temp.lineHeight = 130;
     temp.fontSize = 22;
     temp.node.position = cc.v2(data.select ? -252 : 252, -50);
