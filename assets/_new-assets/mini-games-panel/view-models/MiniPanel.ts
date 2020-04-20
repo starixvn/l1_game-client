@@ -225,7 +225,7 @@ export default class MiniPanel extends cc.Component {
       if (!this.chanLe || !this.chanLe.node) {
         var chanLePrefab = cc.instantiate(this.chanLePrefab);
         this.chanLe = chanLePrefab.getComponent("ChanLe") as ChanLe;
-        this.chanLe.init(this, "chanle", new ChanLeConfigs());
+        this.chanLe.init(this, "chanle", new ChanLeConfigs(), "Chẵn Lẻ");
         this.miniGames.addChild(this.chanLe.node);
         this.chanLe.openGame();
       }
@@ -238,9 +238,9 @@ export default class MiniPanel extends cc.Component {
   openChanLeTurbo() {
     if (cc.RedT.IS_LOGIN) {
       if (!this.chanLeTurbo || !this.chanLeTurbo.node) {
-        var chanLePrefab = cc.instantiate(this.chanLePrefab);
+        var chanLePrefab = cc.instantiate(this.chanLeTurboPrefab);
         this.chanLeTurbo = chanLePrefab.getComponent("ChanLe") as ChanLe;
-        this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs());
+        this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs(), "Chẵn lẻ siêu tốc", true);
         this.miniGames.addChild(this.chanLeTurbo.node);
         this.chanLeTurbo.openGame();
       }

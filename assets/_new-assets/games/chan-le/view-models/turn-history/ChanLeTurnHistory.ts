@@ -8,6 +8,9 @@ export default class ChanLeTurnHistory extends cc.Component {
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
 
+    @property(cc.Label)
+    title: cc.Label = null;
+
     @property([cc.Sprite])
     dices: cc.Sprite[] = [];
 
@@ -44,12 +47,14 @@ export default class ChanLeTurnHistory extends cc.Component {
     @property(cc.Node)
     previousButton: cc.Node = null;
 
+    private static readonly LICH_SU_PHIEN = "Lịch sử phiên";
     private root: ChanLe;
     private currentTurnId: number;
 
     init(root: ChanLe, turnId: number) {
         this.root = root;
         this.currentTurnId = turnId;
+        this.title.string = `${ChanLeTurnHistory.LICH_SU_PHIEN} ${this.root.gameTitle}`.toUpperCase();
     }
 
     onEnable() {

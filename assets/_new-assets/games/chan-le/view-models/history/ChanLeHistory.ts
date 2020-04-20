@@ -5,7 +5,10 @@ import ChanLe from '../ChanLe';
 import ChanLeHistoryItem from './ChanLeHistoryItem';
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class ChanLeHistory extends cc.Component {
+    @property(cc.Label)
+    title: cc.Label = null;
+
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -15,6 +18,7 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
 
+    private static readonly LICH_SU = "Lịch sử";
     private root: ChanLe;
 
     init(root: ChanLe) {
@@ -23,6 +27,7 @@ export default class NewClass extends cc.Component {
 
     onLoad() {
         this.pages.init(this);
+        this.title.string = `${ChanLeHistory.LICH_SU} ${this.root.gameTitle}`.toUpperCase();
     }
 
     onEnable() {

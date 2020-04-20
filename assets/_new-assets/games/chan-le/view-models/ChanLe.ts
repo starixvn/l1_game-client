@@ -30,6 +30,7 @@ export default class ChanLe extends cc.Component {
 
     public gameName: string;
     public gameConfigs: GameConfigs;
+    public gameTitle: string;
     public statistics: ChanLeStats;
     private miniPanel: MiniPanel;
     private topUsers: ChanLeTopUsers;
@@ -38,11 +39,13 @@ export default class ChanLe extends cc.Component {
     private touchOffset: cc.Vec2 = null;
     private isGameHide = false;
 
-    init(miniPanel: MiniPanel, gameName: string, config: GameConfigs) {
+    init(miniPanel: MiniPanel, gameName: string, config: GameConfigs, gameTitle: string, hideDiaNan = false) {
         this.miniPanel = miniPanel;
         this.gameName = gameName;
+        this.gameTitle = gameTitle;
         this.main.init(this);
         this.gameConfigs = config;
+        this.main.diaNanSprite.node.active = !hideDiaNan;
     }
 
     onEnable() {

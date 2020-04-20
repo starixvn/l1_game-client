@@ -5,9 +5,11 @@ import { numberWithCommas } from './../../../../common/helpers/Helper';
 
 @ccclass
 export default class ChanLeTopUsers extends cc.Component {
-
     @property(cc.Node)
     background: cc.Node = null;
+
+    @property(cc.Label)
+    title: cc.Label = null;
 
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;
@@ -15,15 +17,12 @@ export default class ChanLeTopUsers extends cc.Component {
     @property(cc.Prefab)
     item: cc.Prefab = null;
 
-    @property(cc.Label)
-    title: cc.Label = null;
-
-    private static readonly TOP_CHAN_LE = "TOP CHẴN LẺ"
+    private static readonly TOP_CHAN_LE = "Top"
     private root: ChanLe;
 
     init(root: ChanLe) {
         this.root = root;
-        this.title.string = ChanLeTopUsers.TOP_CHAN_LE;
+        this.title.string = `${ChanLeTopUsers.TOP_CHAN_LE} ${this.root.gameTitle}`.toUpperCase();
     }
 
     onEnable() {

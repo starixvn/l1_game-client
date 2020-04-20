@@ -268,6 +268,8 @@ export default class ChanLeMain extends cc.Component {
                 break;
 
         }
+
+        this.currentInputBet.string = '';
     }
 
     setCurrentBetInput(value: number): void {

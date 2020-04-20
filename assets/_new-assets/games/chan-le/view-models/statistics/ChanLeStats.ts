@@ -7,6 +7,9 @@ export default class ChanLeStats extends cc.Component {
     @property(cc.Node)
     background: cc.Node = null;
 
+    @property(cc.Label)
+    title: cc.Label = null;
+
     @property(cc.Node)
     header: cc.Node = null;
 
@@ -91,6 +94,7 @@ export default class ChanLeStats extends cc.Component {
     init(root: ChanLe) {
         this.root = root;
         this.initStats();
+        this.title.string = this.root.gameTitle.toUpperCase();
     }
 
     onLoad() {
