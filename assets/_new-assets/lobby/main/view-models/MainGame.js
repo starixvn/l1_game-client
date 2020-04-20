@@ -171,8 +171,8 @@ cc.Class({
     if (void 0 !== data.notice) {
       this.showNotice(data.notice);
     }
-    if (void 0 !== data.news && this.newsContents) {
-      this.newsContents.onData(data.news);
+    if (void 0 !== data.marqueeMsg && this.newsContents) {
+      this.newsContents.onData(data.marqueeMsg);
     }
     if (void 0 !== data.captcha) {
       this.captcha(data.captcha);
