@@ -143,7 +143,7 @@ export default class ChanLe extends cc.Component {
 
         var dialog = cc.instantiate(this.guidePrefab);
         var guide = dialog.getComponent("dialogHuongDan");
-        guide.select("TaiXiu");
+        guide.select("ChanLe");
         this.miniPanel.dialog.addChild(dialog);
     }
 
