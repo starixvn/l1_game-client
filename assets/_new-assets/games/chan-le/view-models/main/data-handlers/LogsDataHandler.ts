@@ -79,8 +79,8 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
                     data.dice[0] + "-" + data.dice[1] + "-" + data.dice[2];
                 dotLog.turnId = data.phien;
                 dotLog.sprite.spriteFrame = point % 2
-                    ? self.main.dotBlack
-                    : self.main.dotWhite;
+                    ? self.main.dotWhite
+                    : self.main.dotBlack;
             } else {
                 dotLog.node.active = false;
             }
