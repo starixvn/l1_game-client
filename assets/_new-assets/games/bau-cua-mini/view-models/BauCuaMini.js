@@ -129,6 +129,15 @@ cc.Class({
     this.statusTimeout && clearTimeout(this.statusTimeout);
     this.notice.children.forEach(child => child.active = false); //hide all notice
   },
+  onSignIn() {
+    if (!this.node.active) {
+      return;
+    }
+
+    //force refresh
+    cc.RedT.setting.baucua.regOpen = false;
+    this.regEvent(true);
+  },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
