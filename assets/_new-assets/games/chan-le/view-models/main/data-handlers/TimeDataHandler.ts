@@ -72,7 +72,8 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
                 if (isInTurnTime) {
                     var time = numberPad(self.main.currentTimeRemaining - 1, 2);
                     self.main.animatedTime.setTime(time);
-                    self.main.diaNanSprite.node.active = self.main.animatedTime.node.active = true;
+                    self.main.diaNanSprite.node.active = !this.main.hideDiaNan;
+                    self.main.animatedTime.node.active = true;
                 } else {
                     clearInterval(self.playTimeInterval);
                 }

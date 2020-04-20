@@ -144,6 +144,7 @@ export default class ChanLeMain extends cc.Component {
     isDisabled = false;
     currentResultDices: number[];
     currentTimeRemaining: number;
+    hideDiaNan: boolean;
 
     private static readonly DAT_CUOC = "ĐẶT CỬA";
     private readonly umDataHandler: DataHandler;
@@ -179,8 +180,9 @@ export default class ChanLeMain extends cc.Component {
         this.finishTurnDataHandler = new FinishTurnDataHandler(this, this.timeDataHandler, this.logsDataHandler);
     }
 
-    init(root: ChanLe) {
+    init(root: ChanLe, hideDiaNan: boolean) {
         this.root = root;
+        this.hideDiaNan = hideDiaNan;
         this.betBoard.init(this);
         this.diaNan.init(this);
     }

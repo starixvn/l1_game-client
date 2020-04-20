@@ -43,9 +43,8 @@ export default class ChanLe extends cc.Component {
         this.miniPanel = miniPanel;
         this.gameName = gameName;
         this.gameTitle = gameTitle;
-        this.main.init(this);
+        this.main.init(this, hideDiaNan);
         this.gameConfigs = config;
-        this.main.diaNanSprite.node.active = !hideDiaNan;
     }
 
     onEnable() {
