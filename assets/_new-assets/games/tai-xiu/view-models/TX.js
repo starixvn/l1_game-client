@@ -113,7 +113,7 @@ cc.Class({
 
     var dialog = cc.instantiate(this.GuidePrefab);
     this.miniPanel.dialog.insertChild(dialog);
-    var guide = dialog.getComponent("dialogHuongDan");
+    var guide = dialog.getComponent("GameGuide");
     guide.select("TaiXiu");
   },
 });

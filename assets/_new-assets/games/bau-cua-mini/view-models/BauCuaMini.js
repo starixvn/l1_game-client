@@ -262,7 +262,7 @@ cc.Class({
 
     var dialog = cc.instantiate(this.guidePrefab);
     this.miniPanel.dialog.insertChild(dialog);
-    var guide = dialog.getComponent("dialogHuongDan");
+    var guide = dialog.getComponent("GameGuide");
     guide.select("BauCua");
   },
   setTop: function () {

@@ -142,7 +142,7 @@ export default class ChanLe extends cc.Component {
         cc.RedT.audio.playClick();
 
         var dialog = cc.instantiate(this.guidePrefab);
-        var guide = dialog.getComponent("dialogHuongDan");
+        var guide = dialog.getComponent("GameGuide");
         guide.select("ChanLe");
         this.miniPanel.dialog.addChild(dialog);
     }
