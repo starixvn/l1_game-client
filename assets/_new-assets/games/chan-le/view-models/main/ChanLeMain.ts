@@ -145,7 +145,7 @@ export default class ChanLeMain extends cc.Component {
     currentResultDices: number[];
     currentTimeRemaining: number;
 
-    private static readonly DAT_CUOC = "ĐẶT CƯỢC";
+    private static readonly DAT_CUOC = "ĐẶT CỬA";
     private readonly umDataHandler: DataHandler;
     private readonly errorDataHandler: DataHandler;
     private readonly gameDataHandler: DataHandler;
