@@ -9,12 +9,16 @@ const configs = {
         XocXoc: 2,
         BauCua: 3,
         TaiXiuTurbo: 4,
+        ChanLe: 5,
+        ChanLeTurbo: 6
     },
     gameNames: {
         1: "Tài Xỉu",
         2: "Xóc Đĩa",
         3: "Bầu Cua",
         4: "Tài Xỉu Siêu Tốc",
+        5: "Chẵn Lẻ",
+        6: "Chẳn Lẻ Siêu Tốc",
     },
     sentryUrl: 'https://08d902b128ea45b6a11639833224f481@sentry.saba.vin/25',
     gameAnalytics: {
