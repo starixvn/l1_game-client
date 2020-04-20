@@ -152,8 +152,8 @@ cc.Class({
 
       try {
         if (data.user.name) {
-          // const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
-          // sentryLogger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
+          const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
+          sentryLogger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
         }
       } catch (ex) { console.log(ex) }
     }
@@ -291,6 +291,7 @@ cc.Class({
 
     if (void 0 !== data.name) {
       this.header.userName.string = data.name;
+      sentryLogger.setCharacterName(data.name);
     }
   },
   signOut: function () {
