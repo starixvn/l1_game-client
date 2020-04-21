@@ -722,7 +722,7 @@ cc.Class({
     );
   },
   showWaitTime: function (time) {
-    this.nodeTimeWait.active = true;
+    this.nodeTimeWait && (this.nodeTimeWait.active = true);
     this.timeWait.string = "00:" + helper.numberPad(time, 2);
   },
   onDataChanLe: function (data) {
