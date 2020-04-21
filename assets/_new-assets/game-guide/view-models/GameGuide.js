@@ -20,9 +20,6 @@ cc.Class({
             }
         });
     },
-    update() {
-        this.updateBauCuaOddLabels();
-    },
     selectGame: function (event, game) {
         this.select(game);
     },
@@ -52,17 +49,21 @@ cc.Class({
         }))
     },
     closeDialog: function () {
-        var dialog = this.node.getComponent("CommonDialog");
-        dialog && dialog.closeDialog();
+        this.node.active = false;
     },
-    updateBauCuaOddLabels: function () {
+    onData(data) {
+        if (void 0 !== data.baucua.odds) {
+            var odds = data.baucua.odds;
+            this.updateBauCuaOddLabels(odds)
+        }
+    },
+    updateBauCuaOddLabels: function (odds) {
         if (!cc.RedT.setting.baucua.odds || cc.RedT.setting.baucua.odds.length < 3) {
             this.bauCuaOddOne.string = ``;
             this.bauCuaOddTwo.string = ``;
             this.bauCuaOddThree.string = ``;
             return;
         }
-        var odds = cc.RedT.setting.baucua.odds;
         this.bauCuaOddOne.string = odds[0];
         this.bauCuaOddTwo.string = odds[1];
         this.bauCuaOddThree.string = odds[2];

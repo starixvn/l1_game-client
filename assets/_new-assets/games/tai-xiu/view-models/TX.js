@@ -9,7 +9,6 @@ cc.Class({
     TX_TopPrefab: cc.Prefab,
     TX_HistoryPrefab: cc.Prefab,
     TX_HistoryBetPrefab: cc.Prefab,
-    GuidePrefab: cc.Prefab,
   },
 
   init(obj) {
@@ -119,10 +118,6 @@ cc.Class({
   },
   showGuide: function () {
     cc.RedT.audio.playClick();
-
-    var dialog = cc.instantiate(this.GuidePrefab);
-    this.miniPanel.dialog.insertChild(dialog);
-    var guide = dialog.getComponent("GameGuide");
-    guide.select("TaiXiu");
+    this.miniPanel.openGuide("TaiXiu");
   },
 });
