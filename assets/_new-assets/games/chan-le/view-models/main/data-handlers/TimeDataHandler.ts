@@ -87,7 +87,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
     }
 
     private showWaitTime(time: number) {
-        this.main.timeWaitNode.active = true;
+        this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
         this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
     }
 }

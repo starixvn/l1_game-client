@@ -35,6 +35,7 @@ export default class ChanLeHistory extends cc.Component {
     }
 
     onDisable() {
+        this.root.hideHistory();
         this.node.destroyAllChildren();
         this.node.destroy();
     }
