@@ -205,7 +205,7 @@ export default class MiniPanel extends cc.Component {
         this.openTaiXiuTurbo();
         break;
       case configs.gameIds.ChanLeTurbo:
-        this.openChanLeTurbo();
+        !configs.disableChanLeTurbo && this.openChanLeTurbo();
         break;
       default:
         break;
@@ -272,7 +272,7 @@ export default class MiniPanel extends cc.Component {
 
   openChanLeTurbo() {
     if (cc.RedT.IS_LOGIN) {
-      if (!this.chanLeTurbo || !this.chanLeTurbo.node) {
+      if ((!this.chanLeTurbo || !this.chanLeTurbo.node) && !configs.disableChanLeTurbo) {
         var chanLePrefab = cc.instantiate(this.chanLeTurboPrefab);
         this.chanLeTurbo = chanLePrefab.getComponent("ChanLe") as ChanLe;
         this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs(), "Chẵn lẻ siêu tốc", true);
