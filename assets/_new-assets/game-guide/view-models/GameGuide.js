@@ -58,7 +58,7 @@ cc.Class({
         }
     },
     updateBauCuaOddLabels: function (odds) {
-        if (!cc.RedT.setting.baucua.odds || cc.RedT.setting.baucua.odds.length < 3) {
+        if (odds.length < 3) {
             this.bauCuaOddOne.string = ``;
             this.bauCuaOddTwo.string = ``;
             this.bauCuaOddThree.string = ``;

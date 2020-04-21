@@ -46,6 +46,7 @@ cc.Class({
       cc.RedT = baseControll;
       cc.RedT.init(this.loading);
     }
+    cc.RedT.inGame = this;
 
     cc.game.on(cc.game.EVENT_HIDE, function () {
       cc.RedT.GAME_IS_SHOWED = false;
@@ -62,7 +63,6 @@ cc.Class({
 
     this.dialog.init();
     this.newsContents.init(this);
-    cc.RedT.inGame = this;
 
     var MiniPanel = cc.instantiate(this.PrefabT[1]);
     cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
