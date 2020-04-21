@@ -101,7 +101,9 @@
         var elem = document.documentElement;
 
         goFS.addEventListener("touchstart", function () {
-          if (elem.mozRequestFullScreen) { /* Firefox */
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.mozRequestFullScreen) { /* Firefox */
             elem.mozRequestFullScreen();
           } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
             elem.webkitRequestFullscreen();
@@ -109,6 +111,25 @@
             elem.msRequestFullscreen();
           }
         }, false);
+
+        if (document.addEventListener) {
+          document.addEventListener('fullscreenchange', exitHandler, false);
+          document.addEventListener('mozfullscreenchange', exitHandler, false);
+          document.addEventListener('MSFullscreenChange', exitHandler, false);
+          document.addEventListener('webkitfullscreenchange', exitHandler, false);
+        }
+
+        function exitHandler() {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+        }
       }
     };
     (function () {
