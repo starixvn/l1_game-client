@@ -69,7 +69,7 @@ cc.Class({
     this.redhat.insertChild(MiniPanel);
 
     if (authManager && !cc.RedT.IS_LOGIN) {
-      authManager.triggerSignIn(cc.RedT.inGame, this.loading);
+      authManager.triggerSignIn(this, this.loading);
     }
 
     if (cc.RedT.IS_LOGIN) {
@@ -296,6 +296,9 @@ cc.Class({
   onDisconnected: function () {
     this.AllReset();
     cc.sys.localStorage.removeItem("infoRed8");
+  },
+  onConnected() {
+    authManager && authManager.triggerSignIn(this, this.loading);
   },
   signIn: function () {
     cc.RedT.IS_LOGIN = true;
