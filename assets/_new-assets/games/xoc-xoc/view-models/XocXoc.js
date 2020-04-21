@@ -237,6 +237,14 @@ cc.Class({
 			cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);
 		}
 
+		if (data.chanle) {
+			cc.RedT.MiniPanel.onDataChanLe(data.chanle);
+		}
+
+		if (data.clturbo) {
+			cc.RedT.MiniPanel.onDataChanLeTurbo(data.clturbo);
+		}
+
 		if (data.kickedOut) {
 			this.closeProcessingWarningPopup();
 			cc.RedT.MiniPanel.onDataKickedOut(data.kickedOut);
