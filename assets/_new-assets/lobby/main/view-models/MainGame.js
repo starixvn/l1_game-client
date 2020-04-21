@@ -309,6 +309,7 @@ cc.Class({
     cc.RedT.IS_LOGIN = true;
     this.header.isSignIn();
     this.dialog.onBack();
+    cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
   },
   AllReset: function () {
     this.loading.active = false;

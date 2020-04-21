@@ -34,6 +34,15 @@ cc.Class({
   onGameHide() {
     this.TX_Main.onGameHide();
   },
+  onSignIn() {
+    if (!this.node.active) {
+      return;
+    }
+
+    //force refresh
+    cc.RedT.setting.taixiu.getLogs = false;
+    this.regEvent(true);
+  },
   onDestroy() {
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);

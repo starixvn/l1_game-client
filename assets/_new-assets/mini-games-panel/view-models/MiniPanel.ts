@@ -7,6 +7,12 @@ import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurb
 
 @ccclass
 export default class MiniPanel extends cc.Component {
+  @property(cc.BitmapFont)
+  fontCong: cc.BitmapFont = null;
+
+  @property(cc.BitmapFont)
+  fontTru: cc.BitmapFont = null;
+
   @property(cc.Node)
   miniGames: cc.Node = null;
 
@@ -56,11 +62,58 @@ export default class MiniPanel extends cc.Component {
   private chanLeTurbo: ChanLe;
 
   onLoad() {
+    this.initBauCua();
+
+    if (void 0 === cc.RedT.util.fontCong) {
+      cc.RedT.util.fontCong = this.fontCong;
+      cc.RedT.util.fontTru = this.fontTru;
+    }
+  }
+
+  initBauCua() {
+    cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
+      regOpen: false,
+      data: {
+        meXuBau: 0,
+        meXuCa: 0,
+        meXuCua: 0,
+        meXuGa: 0,
+        meXuHuou: 0,
+        meXuTom: 0,
+        meRedBau: 0,
+        meRedCa: 0,
+        meRedCua: 0,
+        meRedGa: 0,
+        meRedHuou: 0,
+        meRedTom: 0,
+        redBau: 0,
+        redCa: 0,
+        redCua: 0,
+        redGa: 0,
+        redHuou: 0,
+        redTom: 0,
+        xuBau: 0,
+        xuCa: 0,
+        xuCua: 0,
+        xuGa: 0,
+        xuHuou: 0,
+        xuTom: 0
+      },
+      logLV: {},
+      red: true,
+      bet: "1"
+    };
   }
 
   onData(data: any) {
-    if (data.baucua && this.bauCua && this.bauCua.node) {
-      this.bauCua.onData(data.baucua);
+    if (data.baucua) {
+      if (this.bauCua && this.bauCua.node) {
+        this.bauCua.onData(data.baucua);
+      }
+
+      if (void 0 !== data.baucua.odds) {
+        cc.RedT.setting.baucua.odds = data.baucua.odds;
+      }
     }
   }
 
@@ -129,6 +182,12 @@ export default class MiniPanel extends cc.Component {
       }
       this.showNotice({ text: data.message }, this.forceKickedOut, this.forceKickedOut);
     }
+  }
+
+  onSignIn() {
+    this.bauCua && this.bauCua.node && this.bauCua.onSignIn();
+    this.taiXiu && this.taiXiu.node && this.taiXiu.onSignIn();
+    this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.onSignIn();
   }
 
   onForceReload() {
