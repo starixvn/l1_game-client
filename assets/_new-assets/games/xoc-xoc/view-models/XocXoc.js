@@ -272,11 +272,12 @@ cc.Class({
 			cc.RedT.inGame.signOut();
 		});
 	},
+	onConnected() {
+		//dont do anything, go to MainGame if socket is disconnected.
+	},
 	onDisconnected: function () {
 		clearInterval(this.timeInterval);
-		cc.director.loadScene('MainGame', function () {
-			cc.RedT.inGame.onDisconnected();
-		});
+		cc.director.loadScene('MainGame');
 	},
 	userData: function (data) {
 		this.me_balans.string = helper.numberWithCommas(data.red);
