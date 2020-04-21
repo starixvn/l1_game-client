@@ -127,6 +127,10 @@ export default class MiniPanel extends cc.Component {
     if (error.gameTypeId == configs.gameIds.ChanLe && this.chanLe) {
       this.chanLe.onData(apiErrorData);
     }
+
+    if (error.gameTypeId == configs.gameIds.ChanLeTurbo && this.chanLeTurbo) {
+      this.chanLeTurbo.onData(apiErrorData);
+    }
   }
 
   onDataKickedOut(data: any) {
