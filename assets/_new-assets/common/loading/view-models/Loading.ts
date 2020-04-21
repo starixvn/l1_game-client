@@ -11,7 +11,7 @@ export default class Loading extends cc.Component {
         self.percent.node.active = true;
         cc.loader.onProgress = function (completedCount, totalCount, item) {
             var percent = 100 * completedCount / totalCount;
-            if (self.percent) {
+            if (self.percent && percent) {
                 self.percent.string = percent.toFixed(0) + "%";
             }
         };
