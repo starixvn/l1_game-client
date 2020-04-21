@@ -154,19 +154,19 @@ export default class ChanLe extends cc.Component {
     }
 
     private handleDataTopUsers(data: any) {
-        if (data.get_top) {
+        if (data.get_top && this.topUsers) {
             this.topUsers.onData(data.get_top);
         }
     }
 
     private handleDataHistory(data: any) {
-        if (data.get_log) {
+        if (data.get_log && this.history) {
             this.history.onData(data.get_log);
         }
     }
 
     private handleDataTurnHistory(data: any) {
-        if (data.get_phien) {
+        if (data.get_phien && this.turnHistory) {
             this.turnHistory.onData(data.get_phien);
         }
     }
