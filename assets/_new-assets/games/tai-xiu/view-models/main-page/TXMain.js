@@ -257,9 +257,7 @@ cc.Class({
 
     this.diaNan.getComponent("TXDiaNan").init(this);
 
-    this.centerRoundLight.node.runAction(
-      cc.repeatForever(cc.rotateBy(1.1, 360))
-    );
+    this.playCenterRoundLight();
 
     this.keyHandle = function (t) {
       return t.keyCode === cc.macro.KEY.tab
@@ -586,9 +584,7 @@ cc.Class({
 
     if (data.time_remain) {
       this.isUM = false;
-      this.centerRoundLight.node.runAction(
-        cc.repeatForever(cc.rotateBy(1.1, 360))
-      );
+      this.playCenterRoundLight();
       this.UMWarning.active = false;
       cc.RedT.setting.taixiu.time_remain = data.time_remain;
       this.playTime();
@@ -1128,5 +1124,8 @@ cc.Class({
   resetBetButtonText() {
     this.inputLTxt.string = "ĐẶT CỬA"
     this.inputRTxt.string = "ĐẶT CỬA"
+  },
+  playCenterRoundLight() {
+    this.centerRoundLight.node.runAction(cc.repeatForever(cc.rotateBy(1, 360)));
   }
 });

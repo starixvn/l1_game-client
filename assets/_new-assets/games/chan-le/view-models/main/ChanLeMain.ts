@@ -375,7 +375,7 @@ export default class ChanLeMain extends cc.Component {
     }
 
     playCenterLight() {
-        this.centerRoundLight.runAction(cc.repeatForever(cc.rotateBy(this.root.gameConfigs.fullTime / 60, 360)));
+        this.centerRoundLight.runAction(cc.repeatForever(cc.rotateBy(1, 360)));
     }
 
     resetUI() {

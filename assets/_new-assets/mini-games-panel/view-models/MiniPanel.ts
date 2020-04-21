@@ -188,6 +188,8 @@ export default class MiniPanel extends cc.Component {
     this.bauCua && this.bauCua.node && this.bauCua.onSignIn();
     this.taiXiu && this.taiXiu.node && this.taiXiu.onSignIn();
     this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.onSignIn();
+    this.chanLe && this.chanLe.node && this.chanLe.onSignIn();
+    this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.onSignIn();
   }
 
   onForceReload() {

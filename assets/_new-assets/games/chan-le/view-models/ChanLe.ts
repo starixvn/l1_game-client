@@ -83,6 +83,12 @@ export default class ChanLe extends cc.Component {
         this.handleDataTurnHistory(data);
     }
 
+    onSignIn() {
+        if (this.node && this.node.active) {
+            this.onGameShow();
+        }
+    }
+
     showTop() {
         cc.RedT.audio.playClick();
 
