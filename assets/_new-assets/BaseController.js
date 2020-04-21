@@ -78,7 +78,7 @@ module.exports = {
     return JSON.stringify(message);
   },
   _onSocketConnect: function () {
-    cc.RedT.inGame && authManager.triggerSignIn(cc.RedT.inGame);
+    cc.RedT.inGame && cc.RedT.inGame.onConnected();
   },
   _onSocketDisconnect: function () {
     cc.RedT.isConnected = false;

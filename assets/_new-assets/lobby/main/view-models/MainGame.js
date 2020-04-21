@@ -69,7 +69,7 @@ cc.Class({
     this.redhat.insertChild(MiniPanel);
 
     if (authManager && !cc.RedT.IS_LOGIN) {
-      authManager.triggerSignIn(cc.RedT.inGame, this.loading);
+      authManager.triggerSignIn(this, this.loading);
     }
 
     if (cc.RedT.IS_LOGIN) {
@@ -171,8 +171,8 @@ cc.Class({
     if (void 0 !== data.notice) {
       this.showNotice(data.notice);
     }
-    if (void 0 !== data.news && this.newsContents) {
-      this.newsContents.onData(data.news);
+    if (void 0 !== data.marqueeMsg && this.newsContents) {
+      this.newsContents.onData(data.marqueeMsg);
     }
     if (void 0 !== data.captcha) {
       this.captcha(data.captcha);
@@ -296,6 +296,9 @@ cc.Class({
   onDisconnected: function () {
     this.AllReset();
     cc.sys.localStorage.removeItem("infoRed8");
+  },
+  onConnected() {
+    authManager && authManager.triggerSignIn(this, this.loading);
   },
   signIn: function () {
     cc.RedT.IS_LOGIN = true;
