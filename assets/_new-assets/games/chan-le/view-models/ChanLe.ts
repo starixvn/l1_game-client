@@ -58,7 +58,6 @@ export default class ChanLe extends cc.Component {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         this.main.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.main.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-        this.node.destroyAllChildren();
         this.node.destroy();
     }
 

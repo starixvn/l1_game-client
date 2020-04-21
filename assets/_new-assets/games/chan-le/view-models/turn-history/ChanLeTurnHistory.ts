@@ -63,7 +63,6 @@ export default class ChanLeTurnHistory extends cc.Component {
 
     onDisable() {
         this.root.hideTurnHistory();
-        this.node.destroyAllChildren();
         this.node.destroy();
     }
 

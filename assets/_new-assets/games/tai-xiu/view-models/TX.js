@@ -52,7 +52,6 @@ cc.Class({
   onDisable: function () {
     this.regEvent(false);
     this.TX_Main.onGameHide();
-    this.node.destroyAllChildren();
     this.node.destroy();
   },
   setTop: function () {

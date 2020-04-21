@@ -107,7 +107,6 @@ export default class ChanLeStats extends cc.Component {
 
     onDisable() {
         this.root.hideStats();
-        this.node.destroyAllChildren();
         this.node.destroy();
     }
 

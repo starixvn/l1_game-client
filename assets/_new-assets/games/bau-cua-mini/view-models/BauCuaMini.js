@@ -204,7 +204,6 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     this.onGameHide();
-    this.node.destroyAllChildren();
     this.node.destroy();
     // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
     //this.onCloseGame();
