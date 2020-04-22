@@ -6,9 +6,9 @@
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true"
     - echo "====== Push to git compiled ======"
     - git clone --branch $GIT_BRANCH $GIT_COMPILED_REPO ./publish
-    - mv ./publish/.git ~/temp
+    - mv ./publish/.git ./temp
     - rm -rfv ./publish/
-    - cp -r ~/temp/ ./publish
+    - cp -r ./temp/ ./publish
     - cp -R ./build/web-mobile/* ./publish
     - cp ./gitlab-ci-after-script-${CI_ENVIRONMENT_NAME}.sh ./publish
     - cd ./publish
