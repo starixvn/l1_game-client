@@ -187,13 +187,11 @@ cc.Class({
     this.initChangerBet();
   },
   onEnable: function () {
-    //this.onGetHu();
     this.regEvent(true);
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    // this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
   },
@@ -204,23 +202,26 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     this.onGameHide();
-    this.node.destroy();
-    // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
-    //this.onCloseGame();
   },
-  regEvent: function (bool) {
-    var data = {
-      g: {
-        baucua: !cc.RedT.setting.baucua.regOpen ? {
-          view: bool,
-          regOpen: true,
-          get_odd: true
-        } : {
-            view: bool
+  regEvent: function (show) {
+    if (show) {
+      cc.RedT.send({
+        g: {
+          baucua: {
+            view: true, regOpen: true, get_odd: true
           }
-      }
-    };
-    cc.RedT.send(data);
+        }
+      });
+    }
+    else {
+      cc.RedT.send({
+        g: {
+          baucua: {
+            view: false
+          }
+        }
+      });
+    }
   },
   eventStart: function (e) {
     this.setTop();

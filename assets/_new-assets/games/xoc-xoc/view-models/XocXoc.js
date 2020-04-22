@@ -169,6 +169,7 @@ cc.Class({
 		this.processingWarningPopup = null;
 	},
 	onDestroy() {
+		cc.RedT.MiniPanel.destroy();
 		cc.RedT.inGame = null;
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();

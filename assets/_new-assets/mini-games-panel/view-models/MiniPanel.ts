@@ -71,39 +71,53 @@ export default class MiniPanel extends cc.Component {
     }
   }
 
+  onDestroy() {
+    this.guide && this.guide.destroy();
+    this.guide = null;
+    this.taiXiu && this.taiXiu.destroy();
+    this.taiXiu = null;
+    this.taiXiuTurbo && this.taiXiuTurbo.destroy();
+    this.taiXiuTurbo = null;
+    this.chanLe && this.chanLe.destroy();
+    this.chanLe = null;
+    this.chanLeTurbo && this.chanLeTurbo.destroy();
+    this.chanLeTurbo = null;
+    this.bauCua && this.bauCua.destroy();
+    this.bauCua = null;
+  }
 
   onData(data: any) {
     if (data.baucua) {
-      if (this.bauCua && this.bauCua.node) {
+      if (this.bauCua && this.bauCua.node && this.bauCua.node.active) {
         this.bauCua.onData(data.baucua);
       }
 
-      if (void 0 !== data.baucua.odds) {
-        this.guide && this.guide.node && this.guide.onData(data);
+      if (data.baucua.odds && this.guide && this.guide.node) {
+        this.guide.onData(data);
       }
     }
   }
 
   onDataTaiXiu(taiXiuData: any) {
-    if (taiXiuData && this.taiXiu && this.taiXiu.node && this.taiXiu.TX_Main) {
+    if (taiXiuData && this.taiXiu && this.taiXiu.node && this.taiXiu.TX_Main && this.taiXiu.node.active) {
       this.taiXiu.TX_Main.onData(taiXiuData);
     }
   }
 
   onDataTaiXiuTurbo(data: any) {
-    if (data && this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.TX_Main) {
+    if (data && this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.TX_Main && this.taiXiuTurbo.node.active) {
       this.taiXiuTurbo.TX_Main.onData(data);
     }
   }
 
   onDataChanLe(chanLeData: any) {
-    if (chanLeData && this.chanLe && this.chanLe.node) {
+    if (chanLeData && this.chanLe && this.chanLe.node && this.chanLe.node.active) {
       this.chanLe.onData(chanLeData);
     }
   }
 
   onDataChanLeTurbo(chanLeTurboData: any) {
-    if (chanLeTurboData && this.chanLeTurbo && this.chanLeTurbo.node) {
+    if (chanLeTurboData && this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.node.active) {
       this.chanLeTurbo.onData(chanLeTurboData);
     }
   }
@@ -220,6 +234,8 @@ export default class MiniPanel extends cc.Component {
         this.miniGames.addChild(this.taiXiu.node);
         this.taiXiu.openGame();
       }
+
+      this.taiXiu.node.active = true;
     }
     else {
       cc.RedT.inGame.dialog.showSignIn();
@@ -235,6 +251,8 @@ export default class MiniPanel extends cc.Component {
         this.miniGames.addChild(this.taiXiuTurbo.node);
         this.taiXiuTurbo.openGame();
       }
+
+      this.taiXiuTurbo.node.active = true;
     }
     else {
       cc.RedT.inGame.dialog.showSignIn();
@@ -248,8 +266,9 @@ export default class MiniPanel extends cc.Component {
         this.bauCua = bauCuaPrefab.getComponent("BauCuaMini");
         this.bauCua.init(this);
         this.miniGames.addChild(this.bauCua.node);
-        this.bauCua.openGame();
       }
+
+      this.bauCua.openGame();
     } else {
       cc.RedT.inGame.dialog.showSignIn();
     }
@@ -262,8 +281,9 @@ export default class MiniPanel extends cc.Component {
         this.chanLe = chanLePrefab.getComponent("ChanLe") as ChanLe;
         this.chanLe.init(this, "chanle", new ChanLeConfigs(), "Chẵn Lẻ");
         this.miniGames.addChild(this.chanLe.node);
-        this.chanLe.openGame();
       }
+
+      this.chanLe.openGame();
     }
     else {
       cc.RedT.inGame.dialog.showSignIn();
@@ -277,8 +297,9 @@ export default class MiniPanel extends cc.Component {
         this.chanLeTurbo = chanLePrefab.getComponent("ChanLe") as ChanLe;
         this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs(), "Chẵn lẻ siêu tốc", true);
         this.miniGames.addChild(this.chanLeTurbo.node);
-        this.chanLeTurbo.openGame();
       }
+
+      this.chanLeTurbo.openGame();
     }
     else {
       cc.RedT.inGame.dialog.showSignIn();

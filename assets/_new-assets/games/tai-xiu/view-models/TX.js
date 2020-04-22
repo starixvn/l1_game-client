@@ -16,11 +16,6 @@ cc.Class({
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
     cc.RedT.setting.taixiu.getLogs = false;
     this.TX_Main.init(this);
-    var check = cc.sys.localStorage.getItem("taixiu");
-
-    if (check == "true") {
-      this.node.active = true;
-    }
     var self = this;
     cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
     cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
@@ -37,8 +32,6 @@ cc.Class({
     if (!this.node.active) {
       return;
     }
-
-    //force refresh
     cc.RedT.setting.taixiu.getLogs = false;
     this.regEvent(true);
   },
@@ -52,28 +45,30 @@ cc.Class({
   onDisable: function () {
     this.regEvent(false);
     this.TX_Main.onGameHide();
-    this.node.destroy();
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
   },
-  regEvent: function (bool) {
-    cc.RedT.send({
-      taixiu: !cc.RedT.setting.taixiu.getLogs
-        ? { view: bool, getLogs: true, get_time: true }
-        : { view: bool }
-    });
+  regEvent: function (show) {
+    if (show) {
+      cc.RedT.send({
+        taixiu: { view: true, getLogs: true, get_time: true }
+      });
+    }
+    else {
+      cc.RedT.send({
+        taixiu: { view: false }
+      });
+    }
   },
   openGame: function (e, taixiu = "1") {
     cc.RedT.audio.playClick();
     this.TX_Main.initGame(taixiu == "1");
     this.node.active = 1;
-    cc.sys.localStorage.setItem("taixiu", true);
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
     this.node.active = !1;
-    cc.sys.localStorage.setItem("taixiu", false);
   },
   newGame: function () {
     this.TX_ThongKe.node.active = this.TX_Main.TX_Board.node.active = false;

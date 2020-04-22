@@ -8,11 +8,6 @@ cc.Class({
     cc.RedT.setting.taixiu_turbo = cc.RedT.setting.taixiu_turbo || { getLogs: false };
     cc.RedT.setting.taixiu_turbo.getLogs = false;
     this.TX_Main.init(this);
-    var check = cc.sys.localStorage.getItem("taixiu_turbo");
-
-    if (check == "true") {
-      this.node.active = true;
-    }
     var self = this;
     cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
     cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
@@ -22,19 +17,23 @@ cc.Class({
       taixiu_turbo: { get_time: true, getLogs: true }
     });
   },
-  regEvent: function (bool) {
-    cc.RedT.send({
-      taixiu_turbo: !cc.RedT.setting.taixiu_turbo.getLogs
-        ? { view: bool, getLogs: true, get_time: true }
-        : { view: bool }
-    });
+  regEvent: function (show) {
+    if (show) {
+      cc.RedT.send({
+        taixiu_turbo: { view: true, getLogs: true, get_time: true }
+      });
+    }
+    else {
+      cc.RedT.send({
+        taixiu_turbo: { view: false }
+      });
+    }
   },
   onSignIn() {
     if (!this.node.active) {
       return;
     }
 
-    //force refresh
     cc.RedT.setting.taixiu_turbo.getLogs = false;
     this.regEvent(true);
   },
@@ -42,11 +41,9 @@ cc.Class({
     cc.RedT.audio.playClick();
     this.TX_Main.initGame(taixiu == "1");
     this.node.active = 1;
-    cc.sys.localStorage.setItem("taixiu_turbo", true);
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
     this.node.active = !1;
-    cc.sys.localStorage.setItem("taixiu_turbo", false);
   },
 });
