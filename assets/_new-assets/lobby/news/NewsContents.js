@@ -5,6 +5,7 @@ cc.Class({
 	extends: cc.Component,
 	properties: {
 		prefabItem: cc.Prefab,
+		marqueeFont: cc.BitmapFont
 	},
 	init: function (obj) {
 		this.RedT = obj;
@@ -35,50 +36,19 @@ cc.Class({
 			return;
 		}
 
-		if (void 0 !== data.a) {
-			this.NewsAddArray(data.a)
-		}
-
-		if (void 0 !== data.t) {
-			this.NewsAddText(data.t)
+		if (void 0 !== data) {
+			this.addMarqueeMessage(data)
 		}
 	},
-	NewsAddArray: function (arr) {
-		var self = this;
-		Promise.all(arr.map(function (text) {
-			var item = cc.instantiate(self.prefabItem);
-			item = item.getComponent('NewsItem');
-
-			item.users.string = text.users;
-			item.bet.string = helper.numberWithCommas(text.bet);
-			item.game.string = text.game;
-
-			self.AddNewsNode(item.node);
-			return item;
-		})).then(result => {
-			if (!this.node.active) {
-				this.setNews()
-			}
-		})
-	},
-	NewsAddText: function (text) {
-		var item = cc.instantiate(this.prefabItem);
-		item = item.getComponent('NewsItem');
-
-		if (!!text.status) {
-			item.status.node.active = true;
-			if (text.status == 1) {
-				item.status.string = "(Nổ Hũ)";
-				item.win.string = "nổ hũ";
-			} else {
-				item.status.string = "(Thắng Lớn)";
-			}
-		}
-		item.users.string = text.users;
-		item.bet.string = helper.numberWithCommas(text.bet);
-		item.game.string = text.game;
-
-		this.AddNewsNode(item.node);
+	addMarqueeMessage: function (message) {
+		let node = new cc.Node;
+		node.addComponent(cc.Label);
+		let label = node.getComponent(cc.Label);
+		label.font = this.marqueeFont;
+		label.string = message;
+		label.lineHeight = 47;
+		label.fontSize = 20;
+		this.AddNewsNode(node);
 
 		if (!this.node.active) {
 			this.setNews()
@@ -91,7 +61,7 @@ cc.Class({
 
 		if (count > 0) {
 			var lastNode = this.node.children[count - 1];
-			lastItemX = Math.max(lastNode.position.x + 450, lastItemX);
+			lastItemX = Math.max(lastNode.position.x + 900, lastItemX);
 		}
 		node.position = cc.v2(lastItemX, 0);
 		this.node.addChild(node);
