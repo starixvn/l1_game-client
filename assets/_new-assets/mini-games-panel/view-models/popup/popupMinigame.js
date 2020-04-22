@@ -22,8 +22,8 @@ cc.Class({
 	},
 	onLoad() {
 		cc.RedT.setting.popupMini = cc.RedT.setting.popupMini || {};
-		this.ttOffset = null;
-		this.ttOffset2 = null;
+		this.ttOffset = cc.v2(0, 0);
+		this.ttOffset2 = cc.v2(0, 0);
 		this.toggleRuning = false;
 		if (void 0 !== cc.RedT.setting.popupMini.position) {
 			this.node.position = cc.RedT.setting.popupMini.position;
