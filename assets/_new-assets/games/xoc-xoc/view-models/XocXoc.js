@@ -354,15 +354,16 @@ cc.Class({
 		}
 		if (void 0 !== data.um) {
 			if (!this.UMNotice) {
-				this.showUMMessage();
+				this.showUMMessage(data.um_message);
 			}
 		}
 	},
-	showUMMessage: function () {
+	showUMMessage: function (message) {
 		clearInterval(this.timeInterval);
 		var noticePrefab = cc.instantiate(this.NoticePrefab);
 		this.UMNotice = noticePrefab.getComponent("Notice");
-		this.UMNotice.init({ text: "Game đang được bảo trì, vui lòng quay lại sau 10 phút", button: { text: "Ok" } });
+		let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút";
+		this.UMNotice.init({ text: text, button: { text: "Ok" } });
 		this.UMNotice.handleClickButton = this.backGame;
 		this.UMNotice.handleClose = this.backGame;
 		this.node.addChild(noticePrefab);
