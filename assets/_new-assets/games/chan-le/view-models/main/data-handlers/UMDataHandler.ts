@@ -15,6 +15,13 @@ export default class UMDataHandler extends BaseDataHandler implements DataHandle
         if (this.main.currentTimeRemaining == this.main.root.gameConfigs.betTime
             || data.time_remain == this.main.root.gameConfigs.fullTime) {
             this.main.isDisabled = true;
+            if (data.um_message) {
+                let text = this.main.noticeUM.children[0];
+                if (text) {
+                    let label = text.getComponent(cc.Label);
+                    label.string = data.um_message;
+                }
+            }
             this.main.noticeUM.active = true;
             this.main.onGameHide();
 
