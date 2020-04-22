@@ -54,6 +54,7 @@ cc.Class({
 
     notice: cc.Node,
     umWarning: cc.Node,
+    umWarningMessage: cc.Label,
     processWarningPrefab: cc.Prefab,
     prefabNotice: cc.Prefab,
     center: cc.Node,
@@ -470,6 +471,9 @@ cc.Class({
     }
 
     if (void 0 !== data.um) {
+      if (data && data.um_message) {
+        this.umWarningMessage.string = data.um_message;
+      }
       this.disabled = true;
       if (!this.timeInterval || cc.RedT.setting.baucua.time_remain == BCConstants.betTime) {
         this.timeInterval && clearInterval(this.timeInterval);
