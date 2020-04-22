@@ -457,13 +457,13 @@ cc.Class({
   },
   onData: function (data) {
     if (void 0 !== data.tops) {
-      this.Top && this.Top.onData(data.tops);
+      this.Top && this.Top.node && this.Top.onData(data.tops);
       if (this.disabled) {
         return;
       }
     }
     if (void 0 !== data.viewlogs) {
-      this.LichSu && this.LichSu.onData(data.viewlogs);
+      this.LichSu && this.LichSu.node && this.LichSu.onData(data.viewlogs);
       if (this.disabled) {
         return;
       }
