@@ -103,9 +103,7 @@ cc.Class({
     this.localPhien = "";
     this.localResultDices = [];
 
-    var self = this;
-    cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
-    cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
+
   },
   initSettingBauCua() {
     cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
@@ -175,9 +173,6 @@ cc.Class({
     this.regEvent(true);
   },
   onDestroy() {
-    cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-    cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
-
     this.statusTimeout && clearTimeout(this.statusTimeout);
   },
   onLoad() {
@@ -192,16 +187,20 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-
+    cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
+    cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
   },
   onDisable: function () {
+    this.onGameHide();
+
     this.regEvent(false);
     this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    this.onGameHide();
+    cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+    cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
   },
   regEvent: function (show) {
     if (show) {

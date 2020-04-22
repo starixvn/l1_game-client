@@ -16,9 +16,7 @@ cc.Class({
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
     cc.RedT.setting.taixiu.getLogs = false;
     this.TX_Main.init(this);
-    var self = this;
-    cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
-    cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
+
   },
   onGameShow() {
     cc.RedT.send({
@@ -35,16 +33,17 @@ cc.Class({
     cc.RedT.setting.taixiu.getLogs = false;
     this.regEvent(true);
   },
-  onDestroy() {
-    cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-    cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
-  },
   onEnable: function () {
     this.regEvent(true);
+    var self = this;
+    cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
+    cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
   },
   onDisable: function () {
     this.regEvent(false);
     this.TX_Main.onGameHide();
+    cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+    cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
