@@ -14,6 +14,7 @@ import LogsDataHandler, { ILogsDataHandler } from './data-handlers/LogsDataHandl
 import BetStatusDataHandler from './data-handlers/BetStatusDataHandler';
 import TimeDataHandler, { ITimeDataHandler } from './data-handlers/TimeDataHandler';
 import FinishTurnDataHandler from './data-handlers/FinishTurnDataHandler';
+import UmWarning from '../../../../common/um-warning/UmWarning';
 
 @ccclass
 export default class ChanLeMain extends cc.Component {
@@ -99,8 +100,8 @@ export default class ChanLeMain extends cc.Component {
     @property({ type: cc.Prefab })
     public miniWarningPrefab: cc.Prefab = null;
 
-    @property({ type: cc.Node })
-    public noticeUM: cc.Node = null;
+    @property({ type: UmWarning })
+    public noticeUM: UmWarning = null;
 
     @property({ type: cc.Node })
     public dotLogs: cc.Node = null;

@@ -23,7 +23,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
         if (data.time_remain) {
             this.main.isDisabled = false;
             this.main.playCenterLight();
-            this.main.noticeUM.active = false;
+            this.main.noticeUM.node.active = false;
             this.main.currentTimeRemaining = data.time_remain;
             this.playTime();
 

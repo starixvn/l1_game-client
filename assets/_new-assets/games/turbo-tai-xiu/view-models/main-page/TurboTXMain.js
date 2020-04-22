@@ -352,14 +352,7 @@ cc.Class({
     if (data.um) {
       if (cc.RedT.setting.taixiu_turbo.time_remain == Constants.betTime || data.time_remain == Constants.fullTime) {
         this.isUM = true;
-        if (data.um_message) {
-          let text = this.UMWarning.children[1];
-          if (text) {
-            let label = text.getComponent(cc.Label);
-            label.string = data.um_message;
-          }
-        }
-        this.UMWarning.active = true;
+        this.UMWarning.show(data);
         this.centerRoundLight.node.stopAllActions();
         this.onGameHide();
 
@@ -407,7 +400,7 @@ cc.Class({
     if (data.time_remain) {
       this.isUM = false;
       this.playCenterRoundLight();
-      this.UMWarning.active = false;
+      this.UMWarning.node.active = false;
       cc.RedT.setting.taixiu_turbo.time_remain = data.time_remain;
       this.playTime();
     }
