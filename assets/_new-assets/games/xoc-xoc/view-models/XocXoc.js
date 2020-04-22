@@ -205,9 +205,11 @@ cc.Class({
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 		let self = this;
 		cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
-			let avatarId = cc.RedT.user.avatarId;
-			let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
-			self.avatar.spriteFrame = frame;
+			if (self && self.avatar) {
+				let avatarId = cc.RedT.user.avatarId;
+				let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+				self.avatar.spriteFrame = frame;
+			}
 		});
 		cc.game.on(cc.game.EVENT_HIDE, self.backGame, self);
 		if (!cc.sys.isMobile) {
