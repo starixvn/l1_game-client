@@ -837,7 +837,7 @@ cc.Class({
 					});
 				}
 
-				let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
+				let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(self.users_bg.position);
 				let position1_1 = node1.convertToNodeSpaceAR(otherUsersPosition);
 				if (node1.children) {
 					for (let i = mainIndex; i < node1.children.length; i++) {
