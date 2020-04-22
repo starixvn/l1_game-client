@@ -7,7 +7,7 @@
     - echo "====== Push to git compiled ======"
     - git clone --branch $GIT_BRANCH $GIT_COMPILED_REPO ./publish
     - rm -rf ~/temp
-    - mdkir ~/temp
+    - mkdir ~/temp
     - mv ./publish/.git ~/temp
     - rm -rfv ./publish/
     - cp -r ~/temp ./publish
