@@ -7,6 +7,7 @@ import UmWarning from "../../../common/um-warning/UmWarning";
 import UMDataHandler from "../view-models/handlers/UMDataHandler";
 import GameTimeHandler from "../view-models/handlers/GameTimeHandler";
 import BetDataHandler from "../view-models/handlers/BetDataHandler";
+import FinishDataHandler from "./handlers/FinishDataHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -176,6 +177,7 @@ export default class RongHo extends cc.Component {
             new UMDataHandler(this),
             new GameTimeHandler(this),
             new BetDataHandler(this),
+            new FinishDataHandler(this),
         ];
         this.dataHandlers.push(...handlers);
     }
