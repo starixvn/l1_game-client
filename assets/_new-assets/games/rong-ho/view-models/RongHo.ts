@@ -4,9 +4,9 @@ import * as helper from '../../../common/helpers/Helper';
 import DataHandler from "../../../common/_base/view-models/DataHandler";
 import { GameConfigs } from "./RongHoConfigs";
 import UmWarning from "../../../common/um-warning/UmWarning";
-import UMDataHandler from "./handlers/UMDataHandler";
-import GameTimeHandler from "./handlers/GameTimeHandler";
-import BetDataHandler from "./handlers/BetDataHandler";
+import UMDataHandler from "../view-models/handlers/UMDataHandler";
+import GameTimeHandler from "../view-models/handlers/GameTimeHandler";
+import BetDataHandler from "../view-models/handlers/BetDataHandler";
 
 const { ccclass, property } = cc._decorator;
 

@@ -6,14 +6,14 @@ import { getOnlyNumberInString, numberWithCommas } from '../../../../common/help
 import ProcessingWarning from './../../../../common/processing-warning/view-models/ProcessingWarning';
 import * as ScaleEffect from './../../../tai-xiu/view-models/main-page/TXScale';
 import AnimatedTime from './../../../../common/animated-time/view-models/AnimatedTime';
-import UMDataHandler from "./data-handlers/UMDataHandler";
+import UMDataHandler from "../main/data-handlers/UMDataHandler";
 import DataHandler from '../../../../common/_base/view-models/DataHandler';
-import ErrorDataHandler from './data-handlers/ErrorDataHandler';
-import GameDataHandler from './data-handlers/GameDataHandler';
+import ErrorDataHandler from '../main/data-handlers/ErrorDataHandler';
+import GameDataHandler from '../main/data-handlers/GameDataHandler';
 import LogsDataHandler, { ILogsDataHandler } from './data-handlers/LogsDataHandler';
-import BetStatusDataHandler from './data-handlers/BetStatusDataHandler';
-import TimeDataHandler, { ITimeDataHandler } from './data-handlers/TimeDataHandler';
-import FinishTurnDataHandler from './data-handlers/FinishTurnDataHandler';
+import BetStatusDataHandler from '../main/data-handlers/BetStatusDataHandler';
+import TimeDataHandler, { ITimeDataHandler } from '../main/data-handlers/TimeDataHandler';
+import FinishTurnDataHandler from '../main/data-handlers/FinishTurnDataHandler';
 import UmWarning from '../../../../common/um-warning/UmWarning';
 
 @ccclass
