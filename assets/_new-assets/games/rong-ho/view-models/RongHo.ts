@@ -8,6 +8,8 @@ import UMDataHandler from "./handlers/UMDataHandler";
 import GameTimeHandler from "./handlers/GameTimeHandler";
 import BetDataHandler from "./handlers/BetDataHandler";
 import FinishDataHandler from "./handlers/FinishDataHandler";
+import RongHoBetItem from "./RongHoBetItem";
+import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,6 +25,15 @@ export default class RongHo extends cc.Component {
     @property(cc.Node)
     notice: cc.Node = null;
 
+    @property(AnimatedTime)
+    animatedTime: AnimatedTime = null;
+
+    @property(cc.Label)
+    waitTime: cc.Label = null;
+
+    @property({ type: RongHoBetItem })
+    betItems: RongHoBetItem[] = [];
+
     @property(UmWarning)
     umNotice: UmWarning = null;
 
@@ -35,13 +46,13 @@ export default class RongHo extends cc.Component {
     public config: GameConfigs
     public currentTimeRemaining: number;
     public disabledGame = false;
+    public waitingCuoc = false;
 
     private dataHandlers: DataHandler[] = []
     private gameName: string;
     private miniPanel: MiniPanel;
     private processingWarning: ProcessingWarning;
     private touchOffset = cc.v2(0, 0);
-    private waitingCuoc = false;
     private timeInterval: number
     private statusTimeout: number;
     private cuoc: any;
@@ -297,31 +308,46 @@ export default class RongHo extends cc.Component {
         this.dataHandlers.forEach(handler => handler.handle(data));
     }
 
+    private showTime() {
+        const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
+        const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 1;
+
+        let time: any;
+        if (isInWaitTime) {
+            time = helper.numberPad(this.currentTimeRemaining - (this.config.betTime + 1), 2);
+        } else {
+            if (isInTurnTime) {
+                time = helper.numberPad(this.currentTimeRemaining - 1, 2);
+            } else {
+                time = 0;
+            }
+        }
+
+        this.waitTime.string = time == "00" ? '' : "00:" + time;
+        this.waitTime.node.parent.active = isInWaitTime && time != "00";
+
+        this.animatedTime.setTime(time);
+        this.animatedTime.node.active = isInTurnTime;
+    }
+
     public playTime() {
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(function () {
+            this.showTime();
             const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
             if (isInWaitTime) {
-                let time = helper.numberPad(this.currentTimeRemaining - (this.config.betTime + 1), 2);
-
+                //show result
             } else {
                 //clear effect for result
 
                 const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
                 if (isStartingNewTurn) {
                     //reset for new turn
-
+                    this.betItems.forEach(item => item.clear());
                 }
 
                 const isInTurnTime = this.currentTimeRemaining > 1;
-                if (isInTurnTime) {
-                    let time = helper.numberPad(
-                        this.currentTimeRemaining - 1,
-                        2
-                    );
-
-
-                } else {
+                if (!isInTurnTime) {
                     clearInterval(this.timeInterval);
                 }
             }

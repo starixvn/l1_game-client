@@ -8,14 +8,13 @@ export default class BetDataHandler implements DataHandler {
     }
 
     handle(data: any): boolean {
-        if (data.data) {
-            console.log(`data rongho :  ${data.data}`);
+        if (data.data || data.me) {
+            this.main.betItems.forEach(item => item.setData(data));
         }
 
-        if (data.me) {
-            console.log(`data rongho own user:  ${data.me}`);
+        if (data.endCuoc) {
+            this.main.waitingCuoc = false;
         }
-
         return true;
     }
 }
