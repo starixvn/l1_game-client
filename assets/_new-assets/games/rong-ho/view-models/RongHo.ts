@@ -300,26 +300,23 @@ export default class RongHo extends cc.Component {
     public playTime() {
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(function () {
-            const isInWaitTime = cc.RedT.setting[this.gameName].time_remain > this.config.betTime;
+            const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
             if (isInWaitTime) {
-                let time = helper.numberPad(
-                    cc.RedT.setting[this.gameName].time_remain - (this.config.betTime + 1),
-                    2
-                );
+                let time = helper.numberPad(this.currentTimeRemaining - (this.config.betTime + 1), 2);
 
             } else {
                 //clear effect for result
 
-                const isStartingNewTurn = cc.RedT.setting[this.gameName].time_remain == this.config.betTime;
+                const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
                 if (isStartingNewTurn) {
                     //reset for new turn
 
                 }
 
-                const isInTurnTime = cc.RedT.setting[this.gameName].time_remain > 1;
+                const isInTurnTime = this.currentTimeRemaining > 1;
                 if (isInTurnTime) {
                     let time = helper.numberPad(
-                        cc.RedT.setting[this.gameName].time_remain - 1,
+                        this.currentTimeRemaining - 1,
                         2
                     );
 
@@ -328,7 +325,7 @@ export default class RongHo extends cc.Component {
                     clearInterval(this.timeInterval);
                 }
             }
-            cc.RedT.setting[this.gameName].time_remain--;
+            this.currentTimeRemaining--;
         }.bind(this),
             1000
         );

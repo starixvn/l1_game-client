@@ -7,8 +7,8 @@ export default class GameTimeHandler implements DataHandler {
     }
 
     handle(data: any): boolean {
-        if (data.time_remain) {
-            this.main.currentTimeRemaining = data.time_remain;
+        if (data.time) {
+            this.main.currentTimeRemaining = data.time;
             this.main.umNotice.node.active = false;
             this.main.playTime();
             return true;
