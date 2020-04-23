@@ -86,7 +86,7 @@ export default class RongHo extends cc.Component {
         this.waitingCuoc = true;
         //send cuoc
         var data = {
-            cuoc: { cuoc: this.cuoc, box: e.name }
+            cuoc: { cuoc: this.cuoc, box: e.target.name }
         }
         this.sendData(data);
     }
