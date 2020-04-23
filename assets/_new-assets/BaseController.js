@@ -18,7 +18,7 @@ module.exports = {
   setting: {},
   util: {},
 
-  dataObservers = {},
+  dataObservers: {},
 
   connect: function (ssl) {
     if (!this.isConnected && !this.isForceKickedOut) {
