@@ -98,8 +98,8 @@ module.exports = {
     data = cc.RedT._decodeMessage(data);
     cc.RedT.inGame && cc.RedT.inGame.onData(data);
 
-    Object.keys(this.dataObservers).forEach(key => {
-      var observer = this.dataObservers[key];
+    Object.keys(cc.RedT.dataObservers).forEach(key => {
+      var observer = cc.RedT.dataObservers[key];
       observer && observer(data);
     });
   },
@@ -118,6 +118,7 @@ module.exports = {
   init: function (loading) {
     this.initPrototype();
     this.loading = loading;
+    this.dataObservers = {};
   },
   initPrototype: function () {
     String.format ||

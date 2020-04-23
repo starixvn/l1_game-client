@@ -144,7 +144,7 @@ export default class RongHo extends cc.Component {
     }
 
     onLoad() {
-        cc.RedT.addDataObserver(this.gameName, this.receivedData);
+        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
     onEnable() {
@@ -286,7 +286,7 @@ export default class RongHo extends cc.Component {
 
     //#region Game Methods
     receivedData(data) {
-        if (data.mini[this.gameName]) {
+        if (data.mini && data.mini[this.gameName]) {
             this.onData(data.mini[this.gameName]);
         }
     }
