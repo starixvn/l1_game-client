@@ -1,6 +1,6 @@
 import ChanLeMain from "../ChanLeMain";
 import DataHandler from "../../../../../common/_base/view-models/DataHandler";
-import BaseDataHandler from "../data-handlers/BaseDataHandler";
+import BaseDataHandler from "./BaseDataHandler";
 export default class UMDataHandler extends BaseDataHandler implements DataHandler {
 
     constructor(main: ChanLeMain) {
