@@ -5,6 +5,8 @@ import DataHandler from "../../../common/_base/view-models/DataHandler";
 import { GameConfigs } from "./RongHoConfigs";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import UMDataHandler from "./handlers/UMDataHandler";
+import GameTimeHandler from "./handlers/GameTimeHandler";
+import BetDataHandler from "./handlers/BetDataHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -71,7 +73,7 @@ export default class RongHo extends cc.Component {
         this.initDataHanders();
     }
 
-    public onCuocClick(e, choice) {
+    public onCuocClick(e) {
         if (this.disabledGame) {
             return;
         }
@@ -82,6 +84,10 @@ export default class RongHo extends cc.Component {
 
         this.waitingCuoc = true;
         //send cuoc
+        var data = {
+            cuoc: { cuoc: this.cuoc, box: e.name }
+        }
+        this.sendData(data);
     }
 
     public showUMWarning(data: any) {
@@ -134,10 +140,11 @@ export default class RongHo extends cc.Component {
 
     //#region Component Methods
     onDestroy() {
+        cc.RedT.removeDataObserver(this.gameName);
     }
 
     onLoad() {
-
+        cc.RedT.addDataObserver(this.gameName, this.receivedData);
     }
 
     onEnable() {
@@ -165,7 +172,12 @@ export default class RongHo extends cc.Component {
 
     //#region Private Methods
     initDataHanders() {
-        this.dataHandlers.push(new UMDataHandler(this));
+        var handlers = [
+            new UMDataHandler(this),
+            new GameTimeHandler(this),
+            new BetDataHandler(this),
+        ];
+        this.dataHandlers.push(...handlers);
     }
 
     onGameShow() {
@@ -187,7 +199,11 @@ export default class RongHo extends cc.Component {
     }
 
     regEvent(show: boolean) {
-        //start getting data
+        var data = {
+            view: true,
+            getLogs: true
+        }
+        this.sendData(data);
     }
 
     eventStart(e) {
@@ -269,11 +285,17 @@ export default class RongHo extends cc.Component {
     //#endregion Private Methods
 
     //#region Game Methods
+    receivedData(data) {
+        if (data.mini[this.gameName]) {
+            this.onData(data.mini[this.gameName]);
+        }
+    }
+
     onData(data: any) {
         this.dataHandlers.forEach(handler => handler.handle(data));
     }
 
-    private playTime() {
+    public playTime() {
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(function () {
             const isInWaitTime = cc.RedT.setting[this.gameName].time_remain > this.config.betTime;

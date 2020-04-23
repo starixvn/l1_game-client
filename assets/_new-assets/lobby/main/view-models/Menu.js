@@ -62,7 +62,8 @@ cc.Class({
     cc.RedT.MiniPanel.openTaiXiu();
   },
   openBauCua: function () {
-    cc.RedT.MiniPanel.openBauCua();
+    // cc.RedT.MiniPanel.openBauCua();
+    cc.RedT.MiniPanel.openRongHo();
   },
   openMiniPoker: function () {
     cc.RedT.MiniPanel.openMiniPoker();

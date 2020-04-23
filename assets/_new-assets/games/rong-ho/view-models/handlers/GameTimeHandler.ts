@@ -7,12 +7,10 @@ export default class GameTimeHandler implements DataHandler {
     }
 
     handle(data: any): boolean {
-        if (!data.um) {
-            return false;
-        }
-
-        if (this.main.currentTimeRemaining == this.main.config.betTime) {
-            this.main.showUMWarning(data);
+        if (data.time_remain) {
+            this.main.currentTimeRemaining = data.time_remain;
+            this.main.umNotice.node.active = false;
+            this.main.playTime();
             return true;
         }
     }

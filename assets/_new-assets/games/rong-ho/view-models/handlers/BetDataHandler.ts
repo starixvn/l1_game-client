@@ -2,19 +2,20 @@ import RongHo from "../RongHo";
 import DataHandler from "../../../../common/_base/view-models/DataHandler";
 
 
-export default class UMDataHandler implements DataHandler {
+export default class BetDataHandler implements DataHandler {
 
     constructor(private readonly main: RongHo) {
     }
 
     handle(data: any): boolean {
-        if (!data.um) {
-            return false;
+        if (data.data) {
+            console.log(`data rongho :  ${data.data}`);
         }
 
-        if (this.main.currentTimeRemaining == this.main.config.betTime) {
-            this.main.showUMWarning(data);
-            return true;
+        if (data.me) {
+            console.log(`data rongho own user:  ${data.me}`);
         }
+
+        return true;
     }
 }
