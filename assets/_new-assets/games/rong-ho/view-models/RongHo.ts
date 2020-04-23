@@ -308,16 +308,13 @@ export default class RongHo extends cc.Component {
         this.dataHandlers.forEach(handler => handler.handle(data));
     }
 
-    private showTime() {
-        const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
-        const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 1;
-
+    private showTime(isInWaitTime, isInTurnTime) {
         let time: any;
         if (isInWaitTime) {
-            time = helper.numberPad(this.currentTimeRemaining - (this.config.betTime + 1), 2);
+            time = helper.numberPad(this.currentTimeRemaining - this.config.betTime, 2);
         } else {
             if (isInTurnTime) {
-                time = helper.numberPad(this.currentTimeRemaining - 1, 2);
+                time = helper.numberPad(this.currentTimeRemaining, 2);
             } else {
                 time = 0;
             }
@@ -333,8 +330,10 @@ export default class RongHo extends cc.Component {
     public playTime() {
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(function () {
-            this.showTime();
             const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
+            const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 0;
+            this.showTime(isInWaitTime, isInTurnTime);
+
             if (isInWaitTime) {
                 //show result
             } else {
@@ -346,7 +345,6 @@ export default class RongHo extends cc.Component {
                     this.betItems.forEach(item => item.clear());
                 }
 
-                const isInTurnTime = this.currentTimeRemaining > 1;
                 if (!isInTurnTime) {
                     clearInterval(this.timeInterval);
                 }

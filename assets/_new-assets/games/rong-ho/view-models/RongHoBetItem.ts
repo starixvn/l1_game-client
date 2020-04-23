@@ -13,13 +13,12 @@ export default class RongHoBetItem extends cc.Component {
 
     public setData(data: any) {
         if (data.data) {
-            console.log(`data rongho :  ${data.data}`);
+            this.setTotalBet(data.data[this.node.name]);
         }
 
         if (data.me) {
-            console.log(`data rongho own user:  ${data.me}`);
+            this.setOwnBet(data.data[this.node.name]);
         }
-
     }
 
     public clear() {

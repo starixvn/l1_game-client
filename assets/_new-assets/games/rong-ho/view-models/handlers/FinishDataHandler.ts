@@ -9,7 +9,7 @@ export default class FinishDataHandler implements DataHandler {
 
     handle(data: any): boolean {
         if (data.finish) {
-            this.main.currentTimeRemaining = this.main.config.betTime + this.main.config.waitTime + 2;
+            this.main.currentTimeRemaining = this.main.config.betTime + this.main.config.waitTime;
             if (cc.RedT.GAME_IS_SHOWED) {
                 this.main.playTime();
             }
