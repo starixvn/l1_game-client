@@ -40,9 +40,9 @@ sentry_release:
   stage: post-deploy
   before_script:
     - export SENTRY_URL=https://sentry.saba.vin/
-    - export SENTRY_AUTH_TOKEN=896707cb8ea745c6af2973c80f1d8a5674d13c81670c493f851dfb11cabe6c3d
+    - export SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
     - export SENTRY_ORG=luminet
-    - export SENTRY_PROJECT=l1-game-client-pro
+    - export SENTRY_PROJECT=$SENTRY_PROJECT
     - export VERSION=game-client@${CI_COMMIT_SHA:1}
   script:
     - sentry-cli releases new $VERSION
