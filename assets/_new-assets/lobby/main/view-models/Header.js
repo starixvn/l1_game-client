@@ -84,8 +84,10 @@ cc.Class({
   setAvatar: function (avatarId) {
     let self = this;
     cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
-      let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
-      self.avatar.spriteFrame = frame;
+      if (self && self.avatar) {
+        let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+        self.avatar.spriteFrame = frame;
+      }
     });
   }
 });

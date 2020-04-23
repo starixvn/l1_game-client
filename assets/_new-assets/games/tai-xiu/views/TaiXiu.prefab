@@ -24,11 +24,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 653
+        "__id__": 654
       }
     ],
     "_prefab": {
-      "__id__": 654
+      "__id__": 655
     },
     "_opacity": 255,
     "_color": {
@@ -146,11 +146,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 651
+        "__id__": 652
       }
     ],
     "_prefab": {
-      "__id__": 652
+      "__id__": 653
     },
     "_opacity": 255,
     "_color": {
@@ -22368,8 +22368,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
-      "height": 82
+      "width": 72,
+      "height": 74
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -22424,7 +22424,7 @@
       "__uuid__": "51f4aaa4-d719-48c8-b5fa-9acafc540a56"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -23394,10 +23394,13 @@
     "_components": [
       {
         "__id__": 649
+      },
+      {
+        "__id__": 650
       }
     ],
     "_prefab": {
-      "__id__": 650
+      "__id__": 651
     },
     "_opacity": 255,
     "_color": {
@@ -23729,6 +23732,19 @@
     "_id": ""
   },
   {
+    "__type__": "c2591/m2H5EfrMqc3DCFkDh",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 642
+    },
+    "_enabled": true,
+    "message": {
+      "__id__": 647
+    },
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -23801,9 +23817,6 @@
     "timeCuoc": {
       "__id__": 619
     },
-    "betTime": null,
-    "firstBetTime": null,
-    "secondBetTime": null,
     "timePopup": null,
     "nodeChanLe": {
       "__id__": 79
@@ -23849,17 +23862,8 @@
         "__uuid__": "2367067e-0ede-43c0-a458-d5ef38f133e9"
       }
     ],
-    "cointRED": {
-      "__id__": 453
-    },
-    "cointXU": {
-      "__id__": 456
-    },
     "dotLogs": {
       "__id__": 89
-    },
-    "gameCover": {
-      "__id__": 470
     },
     "diceAnimation": {
       "__id__": 528
@@ -23904,12 +23908,6 @@
     "mini_warning": {
       "__uuid__": "33b0ebea-3392-4bf8-aa8c-7ea614252597"
     },
-    "fontCong": {
-      "__uuid__": "eff28ea4-eb6d-415d-90fc-08b536f02c19"
-    },
-    "fontTru": {
-      "__uuid__": "fa93c114-9566-481b-89f4-a7bfd8a59662"
-    },
     "WIN_HT": {
       "__id__": 301
     },
@@ -23943,7 +23941,7 @@
       "__uuid__": "d5bb4175-7010-4c83-8d91-2c507acfff3e"
     },
     "UMWarning": {
-      "__id__": 642
+      "__id__": 650
     },
     "ProcessingWarning": {
       "__uuid__": "fd5fde1e-3092-4df5-b560-35786915c6e2"
@@ -23973,7 +23971,7 @@
     },
     "_enabled": true,
     "TX_Main": {
-      "__id__": 651
+      "__id__": 652
     },
     "board": false,
     "TX_StatsPrefab": {
@@ -23987,9 +23985,6 @@
     },
     "TX_HistoryBetPrefab": {
       "__uuid__": "d71fc6c0-61bf-4918-b151-c103c327135b"
-    },
-    "GuidePrefab": {
-      "__uuid__": "ece45f91-5f20-4b2d-9b02-fe0f3f8ae5f4"
     },
     "_id": ""
   },

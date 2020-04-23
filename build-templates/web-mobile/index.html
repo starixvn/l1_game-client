@@ -109,6 +109,15 @@
             elem.msRequestFullscreen();
           }
         }, false);
+
+        if (document.addEventListener) {
+          document.addEventListener('mozfullscreenchange', exitHandler, false);
+          document.addEventListener('MSFullscreenChange', exitHandler, false);
+          document.addEventListener('webkitfullscreenchange', exitHandler, false);
+        }
+
+        function exitHandler() {
+        }
       }
     };
     (function () {

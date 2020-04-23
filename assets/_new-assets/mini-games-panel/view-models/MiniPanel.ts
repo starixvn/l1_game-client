@@ -1,6 +1,9 @@
 const { ccclass, property } = cc._decorator;
 import * as configs from './../../Configs';
 import * as authManager from './../../common/auth/AuthManager';
+import ChanLe from '../../games/chan-le/view-models/ChanLe';
+import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
+import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
 
 @ccclass
 export default class MiniPanel extends cc.Component {
@@ -38,7 +41,16 @@ export default class MiniPanel extends cc.Component {
   bauCuaPrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
+  chanLePrefab: cc.Prefab = null;
+
+  @property(cc.Prefab)
   turboTaiXiuPrefab: cc.Prefab = null;
+
+  @property(cc.Prefab)
+  chanLeTurboPrefab: cc.Prefab = null;
+
+  @property(cc.Prefab)
+  guidePrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
   noticePrefab: cc.Prefab = null;
@@ -48,72 +60,65 @@ export default class MiniPanel extends cc.Component {
   private taiXiu: any;
   private bauCua: any;
   private taiXiuTurbo: any;
+  private chanLe: ChanLe;
+  private chanLeTurbo: ChanLe;
+  private guide: any;
 
   onLoad() {
-    this.initBauCua();
-
     if (void 0 === cc.RedT.util.fontCong) {
       cc.RedT.util.fontCong = this.fontCong;
       cc.RedT.util.fontTru = this.fontTru;
     }
   }
 
-  initBauCua() {
-    cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
-      regOpen: false,
-      data: {
-        meXuBau: 0,
-        meXuCa: 0,
-        meXuCua: 0,
-        meXuGa: 0,
-        meXuHuou: 0,
-        meXuTom: 0,
-        meRedBau: 0,
-        meRedCa: 0,
-        meRedCua: 0,
-        meRedGa: 0,
-        meRedHuou: 0,
-        meRedTom: 0,
-        redBau: 0,
-        redCa: 0,
-        redCua: 0,
-        redGa: 0,
-        redHuou: 0,
-        redTom: 0,
-        xuBau: 0,
-        xuCa: 0,
-        xuCua: 0,
-        xuGa: 0,
-        xuHuou: 0,
-        xuTom: 0
-      },
-      logLV: {},
-      red: true,
-      bet: "1"
-    };
+  onDestroy() {
+    this.guide && this.guide.destroy();
+    this.guide = null;
+    this.taiXiu && this.taiXiu.destroy();
+    this.taiXiu = null;
+    this.taiXiuTurbo && this.taiXiuTurbo.destroy();
+    this.taiXiuTurbo = null;
+    this.chanLe && this.chanLe.destroy();
+    this.chanLe = null;
+    this.chanLeTurbo && this.chanLeTurbo.destroy();
+    this.chanLeTurbo = null;
+    this.bauCua && this.bauCua.destroy();
+    this.bauCua = null;
   }
 
   onData(data: any) {
     if (data.baucua) {
-      if (this.bauCua && this.bauCua.node) {
+      if (this.bauCua && this.bauCua.node && this.bauCua.node.active) {
         this.bauCua.onData(data.baucua);
       }
 
-      if (void 0 !== data.baucua.odds) {
-        cc.RedT.setting.baucua.odds = data.baucua.odds;
+      if (data.baucua.odds && this.guide && this.guide.node) {
+        this.guide.onData(data);
       }
     }
   }
 
   onDataTaiXiu(taiXiuData: any) {
-    if (taiXiuData && this.taiXiu && this.taiXiu.node && this.taiXiu.TX_Main) {
+    if (taiXiuData && this.taiXiu && this.taiXiu.node && this.taiXiu.TX_Main && this.taiXiu.node.active) {
       this.taiXiu.TX_Main.onData(taiXiuData);
     }
   }
 
   onDataTaiXiuTurbo(data: any) {
-    if (data && this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.TX_Main) {
+    if (data && this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.TX_Main && this.taiXiuTurbo.node.active) {
       this.taiXiuTurbo.TX_Main.onData(data);
+    }
+  }
+
+  onDataChanLe(chanLeData: any) {
+    if (chanLeData && this.chanLe && this.chanLe.node && this.chanLe.node.active) {
+      this.chanLe.onData(chanLeData);
+    }
+  }
+
+  onDataChanLeTurbo(chanLeTurboData: any) {
+    if (chanLeTurboData && this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.node.active) {
+      this.chanLeTurbo.onData(chanLeTurboData);
     }
   }
 
@@ -131,6 +136,14 @@ export default class MiniPanel extends cc.Component {
 
     if (error.gameTypeId == configs.gameIds.BauCua && this.bauCua) {
       this.bauCua.onData(apiErrorData);
+    }
+
+    if (error.gameTypeId == configs.gameIds.ChanLe && this.chanLe) {
+      this.chanLe.onData(apiErrorData);
+    }
+
+    if (error.gameTypeId == configs.gameIds.ChanLeTurbo && this.chanLeTurbo) {
+      this.chanLeTurbo.onData(apiErrorData);
     }
   }
 
@@ -160,6 +173,8 @@ export default class MiniPanel extends cc.Component {
     this.bauCua && this.bauCua.node && this.bauCua.onSignIn();
     this.taiXiu && this.taiXiu.node && this.taiXiu.onSignIn();
     this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.onSignIn();
+    this.chanLe && this.chanLe.node && this.chanLe.onSignIn();
+    this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.onSignIn();
   }
 
   onForceReload() {
@@ -203,6 +218,9 @@ export default class MiniPanel extends cc.Component {
       case configs.gameIds.TaiXiuTurbo:
         this.openTaiXiuTurbo();
         break;
+      case configs.gameIds.ChanLeTurbo:
+        !configs.disableChanLeTurbo && this.openChanLeTurbo();
+        break;
       default:
         break;
     }
@@ -216,6 +234,8 @@ export default class MiniPanel extends cc.Component {
         this.miniGames.addChild(this.taiXiu.node);
         this.taiXiu.openGame();
       }
+
+      this.taiXiu.node.active = true;
     }
     else {
       cc.RedT.inGame.dialog.showSignIn();
@@ -231,6 +251,8 @@ export default class MiniPanel extends cc.Component {
         this.miniGames.addChild(this.taiXiuTurbo.node);
         this.taiXiuTurbo.openGame();
       }
+
+      this.taiXiuTurbo.node.active = true;
     }
     else {
       cc.RedT.inGame.dialog.showSignIn();
@@ -244,14 +266,57 @@ export default class MiniPanel extends cc.Component {
         this.bauCua = bauCuaPrefab.getComponent("BauCuaMini");
         this.bauCua.init(this);
         this.miniGames.addChild(this.bauCua.node);
-        this.bauCua.openGame();
       }
+
+      this.bauCua.openGame();
     } else {
       cc.RedT.inGame.dialog.showSignIn();
     }
   }
 
+  openChanLe() {
+    if (cc.RedT.IS_LOGIN) {
+      if (!this.chanLe || !this.chanLe.node) {
+        var chanLePrefab = cc.instantiate(this.chanLePrefab);
+        this.chanLe = chanLePrefab.getComponent("ChanLe") as ChanLe;
+        this.chanLe.init(this, "chanle", new ChanLeConfigs(), "Chẵn Lẻ");
+        this.miniGames.addChild(this.chanLe.node);
+      }
+
+      this.chanLe.openGame();
+    }
+    else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+  }
+
+  openChanLeTurbo() {
+    if (cc.RedT.IS_LOGIN) {
+      if ((!this.chanLeTurbo || !this.chanLeTurbo.node) && !configs.disableChanLeTurbo) {
+        var chanLePrefab = cc.instantiate(this.chanLeTurboPrefab);
+        this.chanLeTurbo = chanLePrefab.getComponent("ChanLe") as ChanLe;
+        this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs(), "Chẵn lẻ siêu tốc", true);
+        this.miniGames.addChild(this.chanLeTurbo.node);
+      }
+
+      this.chanLeTurbo.openGame();
+    }
+    else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+  }
+
   openMiniPoker() {
+  }
+
+  openGuide(gameName: string) {
+    if (!this.guide) {
+      var dialog = cc.instantiate(this.guidePrefab);
+      this.dialog.addChild(dialog);
+      this.guide = dialog.getComponent("GameGuide");
+    }
+    this.guide.node.active = true;
+    this.guide.select(gameName);
   }
 
   showErrorNotice(error) {

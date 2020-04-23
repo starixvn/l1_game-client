@@ -5,6 +5,7 @@ var TX_Board = require("TXBoard"),
   TaiXiu_efScale = require("TXScale"),
   Constants = require("TXConstants"),
   NoticeUtil = require("NoticeUtil");
+import UmWarning from '../../../../common/um-warning/UmWarning';
 
 cc.Class({
   extends: cc.Component,
@@ -69,18 +70,6 @@ cc.Class({
       default: null,
       type: cc.Label
     },
-    betTime: {
-      default: null,
-      type: cc.Node
-    },
-    firstBetTime: {
-      default: null,
-      type: cc.Sprite
-    },
-    secondBetTime: {
-      default: null,
-      type: cc.Sprite
-    },
     timePopup: {
       default: null,
       type: cc.Label
@@ -113,21 +102,9 @@ cc.Class({
       default: [],
       type: cc.SpriteFrame
     },
-    cointRED: {
-      default: null,
-      type: cc.Node
-    },
-    cointXU: {
-      default: null,
-      type: cc.Node
-    },
     dotLogs: {
       default: null,
       type: cc.Node
-    },
-    gameCover: {
-      default: null,
-      type: cc.Label
     },
     diceAnimation: {
       default: null,
@@ -206,10 +183,7 @@ cc.Class({
       default: null,
       type: cc.SpriteFrame
     },
-    UMWarning: {
-      default: null,
-      type: cc.Node
-    },
+    UMWarning: UmWarning,
     ProcessingWarning: {
       default: null,
       type: cc.Prefab
@@ -281,9 +255,7 @@ cc.Class({
 
     this.diaNan.getComponent("TXDiaNan").init(this);
 
-    this.centerRoundLight.node.runAction(
-      cc.repeatForever(cc.rotateBy(1.1, 360))
-    );
+    this.playCenterRoundLight();
 
     this.keyHandle = function (t) {
       return t.keyCode === cc.macro.KEY.tab
@@ -427,7 +399,6 @@ cc.Class({
   },
   onChangerGame: function () {
     cc.RedT.setting.taixiu.taixiu = this.taixiu = !this.taixiu;
-    this.gameCover.string = this.taixiu ? "Chẵn Lẻ" : "Tài Xỉu";
     this.nodeTaiXiu.active = this.taixiu;
     this.nodeChanLe.active = !this.taixiu;
     if (cc.RedT.setting.taixiu.getLogs) {
@@ -473,8 +444,6 @@ cc.Class({
   },
   onChangerRED: function () {
     cc.RedT.setting.taixiu.red = this.red = !this.red;
-    this.cointRED.active = !this.cointRED.active;
-    this.cointXU.active = !this.cointXU.active;
     this.totalLeft.node.color = this.totalRight.node.color = this.red
       ? this.totalRight.node.color.fromHEX("#FFEB0A")
       : this.totalRight.node.color.fromHEX("#FFFFFF");
@@ -566,7 +535,7 @@ cc.Class({
     if (data.um) {
       if (cc.RedT.setting.taixiu.time_remain == Constants.betTime || data.time_remain == Constants.fullTime) {
         this.isUM = true;
-        this.UMWarning.active = true;
+        this.UMWarning.show(data);
         this.centerRoundLight.node.stopAllActions();
         this.onGameHide();
 
@@ -613,10 +582,8 @@ cc.Class({
 
     if (data.time_remain) {
       this.isUM = false;
-      this.centerRoundLight.node.runAction(
-        cc.repeatForever(cc.rotateBy(1.1, 360))
-      );
-      this.UMWarning.active = false;
+      this.playCenterRoundLight();
+      this.UMWarning.node.active = false;
       cc.RedT.setting.taixiu.time_remain = data.time_remain;
       this.playTime();
     }
@@ -749,7 +716,7 @@ cc.Class({
     );
   },
   showWaitTime: function (time) {
-    this.nodeTimeWait.active = true;
+    this.nodeTimeWait && (this.nodeTimeWait.active = true);
     this.timeWait.string = "00:" + helper.numberPad(time, 2);
   },
   onDataChanLe: function (data) {
@@ -1155,5 +1122,8 @@ cc.Class({
   resetBetButtonText() {
     this.inputLTxt.string = "ĐẶT CỬA"
     this.inputRTxt.string = "ĐẶT CỬA"
+  },
+  playCenterRoundLight() {
+    this.centerRoundLight.node.runAction(cc.repeatForever(cc.rotateBy(1, 360)));
   }
 });

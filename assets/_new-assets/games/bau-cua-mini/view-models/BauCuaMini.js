@@ -54,6 +54,7 @@ cc.Class({
 
     notice: cc.Node,
     umWarning: cc.Node,
+    umWarningMessage: cc.Label,
     processWarningPrefab: cc.Prefab,
     prefabNotice: cc.Prefab,
     center: cc.Node,
@@ -62,7 +63,6 @@ cc.Class({
     red: true,
     topDialog: cc.Prefab,
     historyDialog: cc.Prefab,
-    guidePrefab: cc.Prefab,
 
     oddOne: cc.Label,
     oddTwo: cc.Label,
@@ -70,6 +70,7 @@ cc.Class({
   },
   init(obj) {
     this.miniPanel = obj; // MiniPanel
+    this.initSettingBauCua();
     cc.RedT.setting.baucua.regOpen = false; // force get new data when back from other scene
     this.disabled = false;
     this.waitingCuoc = false;
@@ -103,9 +104,43 @@ cc.Class({
     this.localPhien = "";
     this.localResultDices = [];
 
-    var self = this;
-    cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
-    cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
+
+  },
+  initSettingBauCua() {
+    cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
+      regOpen: false,
+      data: {
+        meRedBau: 0,
+        meRedCa: 0,
+        meRedCua: 0,
+        meRedGa: 0,
+        meRedHuou: 0,
+        meRedTom: 0,
+        redBau: 0,
+        redCa: 0,
+        redCua: 0,
+        redGa: 0,
+        redHuou: 0,
+        redTom: 0,
+        /*
+        meXuBau: 0,
+        meXuCa: 0,
+        meXuCua: 0,
+        meXuGa: 0,
+        meXuHuou: 0,
+        meXuTom: 0,
+        xuBau: 0,
+        xuCa: 0,
+        xuCua: 0,
+        xuGa: 0,
+        xuHuou: 0,
+        xuTom: 0
+        */
+      },
+      logLV: {},
+      red: true,
+      bet: "1"
+    };
   },
   onGameShow() {
     var data = {
@@ -139,9 +174,6 @@ cc.Class({
     this.regEvent(true);
   },
   onDestroy() {
-    cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-    cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
-
     this.statusTimeout && clearTimeout(this.statusTimeout);
   },
   onLoad() {
@@ -151,41 +183,45 @@ cc.Class({
     this.initChangerBet();
   },
   onEnable: function () {
-    //this.onGetHu();
     this.regEvent(true);
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    // this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
-
+    cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
+    cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
   },
   onDisable: function () {
+    this.onGameHide();
+
     this.regEvent(false);
     this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
     this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-    this.onGameHide();
-    this.node.destroyAllChildren();
-    this.node.destroy();
-    // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
-    //this.onCloseGame();
+    cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+    cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
   },
-  regEvent: function (bool) {
-    var data = {
-      g: {
-        baucua: !cc.RedT.setting.baucua.regOpen ? {
-          view: bool,
-          regOpen: true,
-          get_odd: true
-        } : {
-            view: bool
+  regEvent: function (show) {
+    if (show) {
+      cc.RedT.send({
+        g: {
+          baucua: {
+            view: true, regOpen: true, get_odd: true
           }
-      }
-    };
-    cc.RedT.send(data);
+        }
+      });
+    }
+    else {
+      cc.RedT.send({
+        g: {
+          baucua: {
+            view: false
+          }
+        }
+      });
+    }
   },
   eventStart: function (e) {
     this.setTop();
@@ -240,11 +276,7 @@ cc.Class({
   },
   pressedShowGuide() {
     cc.RedT.audio.playClick();
-
-    var dialog = cc.instantiate(this.guidePrefab);
-    this.miniPanel.dialog.insertChild(dialog);
-    var guide = dialog.getComponent("dialogHuongDan");
-    guide.select("BauCua");
+    this.miniPanel.openGuide("BauCua");
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
@@ -426,19 +458,22 @@ cc.Class({
   },
   onData: function (data) {
     if (void 0 !== data.tops) {
-      this.Top && this.Top.onData(data.tops);
+      this.Top && this.Top.node && this.Top.onData(data.tops);
       if (this.disabled) {
         return;
       }
     }
     if (void 0 !== data.viewlogs) {
-      this.LichSu && this.LichSu.onData(data.viewlogs);
+      this.LichSu && this.LichSu.node && this.LichSu.onData(data.viewlogs);
       if (this.disabled) {
         return;
       }
     }
 
     if (void 0 !== data.um) {
+      if (data && data.um_message) {
+        this.umWarningMessage.string = data.um_message;
+      }
       this.disabled = true;
       if (!this.timeInterval || cc.RedT.setting.baucua.time_remain == BCConstants.betTime) {
         this.timeInterval && clearInterval(this.timeInterval);

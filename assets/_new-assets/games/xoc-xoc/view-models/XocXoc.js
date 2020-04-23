@@ -169,6 +169,7 @@ cc.Class({
 		this.processingWarningPopup = null;
 	},
 	onDestroy() {
+		cc.RedT.MiniPanel.destroy();
 		cc.RedT.inGame = null;
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
@@ -205,9 +206,11 @@ cc.Class({
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 		let self = this;
 		cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
-			let avatarId = cc.RedT.user.avatarId;
-			let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
-			self.avatar.spriteFrame = frame;
+			if (self && self.avatar) {
+				let avatarId = cc.RedT.user.avatarId;
+				let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+				self.avatar.spriteFrame = frame;
+			}
 		});
 		cc.game.on(cc.game.EVENT_HIDE, self.backGame, self);
 		if (!cc.sys.isMobile) {
@@ -235,6 +238,14 @@ cc.Class({
 
 		if (void 0 !== data.taixiu_turbo) {
 			cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);
+		}
+
+		if (data.chanle) {
+			cc.RedT.MiniPanel.onDataChanLe(data.chanle);
+		}
+
+		if (data.clturbo) {
+			cc.RedT.MiniPanel.onDataChanLeTurbo(data.clturbo);
 		}
 
 		if (data.kickedOut) {
@@ -316,7 +327,7 @@ cc.Class({
 			this.xocxocFinish(data.finish);
 		}
 		if (!!data.history) {
-			this.history && this.history.onData(data.history);
+			this.history && this.history.node && this.history.onData(data.history);
 		}
 		if (!!data.top) {
 			//top win
@@ -344,15 +355,16 @@ cc.Class({
 		}
 		if (void 0 !== data.um) {
 			if (!this.UMNotice) {
-				this.showUMMessage();
+				this.showUMMessage(data.um_message);
 			}
 		}
 	},
-	showUMMessage: function () {
+	showUMMessage: function (message) {
 		clearInterval(this.timeInterval);
 		var noticePrefab = cc.instantiate(this.NoticePrefab);
 		this.UMNotice = noticePrefab.getComponent("Notice");
-		this.UMNotice.init({ text: "Game đang được bảo trì, vui lòng quay lại sau 10 phút", button: { text: "Ok" } });
+		let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
+		this.UMNotice.init({ text: text, button: { text: "Ok" } });
 		this.UMNotice.handleClickButton = this.backGame;
 		this.UMNotice.handleClose = this.backGame;
 		this.node.addChild(noticePrefab);
@@ -827,7 +839,7 @@ cc.Class({
 					});
 				}
 
-				let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
+				let otherUsersPosition = self.users_bg.parent.convertToWorldSpaceAR(self.users_bg.position);
 				let position1_1 = node1.convertToNodeSpaceAR(otherUsersPosition);
 				if (node1.children) {
 					for (let i = mainIndex; i < node1.children.length; i++) {

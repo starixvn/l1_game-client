@@ -47,7 +47,7 @@ cc.Class({
 		label.font = this.marqueeFont;
 		label.string = message;
 		label.lineHeight = 47;
-		label.fontSize = 20;
+		label.fontSize = 16;
 		this.AddNewsNode(node);
 
 		if (!this.node.active) {

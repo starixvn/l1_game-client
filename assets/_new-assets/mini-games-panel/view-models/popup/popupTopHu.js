@@ -50,8 +50,8 @@ cc.Class({
 		}
 	},
 	onLoad() {
-		this.ttOffset = null;
-		this.ttOffset2 = null;
+		this.ttOffset = cc.v2(0, 0);
+		this.ttOffset2 = cc.v2(0, 0);
 		this.toggleRuning = false;
 		Promise.all(this.content.children.map(function (obj) {
 			obj.hu = obj.children[3].getComponent(cc.Label);

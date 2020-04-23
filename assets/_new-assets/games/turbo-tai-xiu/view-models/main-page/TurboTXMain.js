@@ -69,9 +69,7 @@ cc.Class({
 
     this.diaNan.getComponent("TXDiaNan").init(this);
 
-    this.centerRoundLight.node.runAction(
-      cc.repeatForever(cc.rotateBy(1.1, 360))
-    );
+    this.playCenterRoundLight();
 
     this.keyHandle = function (t) {
       return t.keyCode === cc.macro.KEY.tab
@@ -354,7 +352,7 @@ cc.Class({
     if (data.um) {
       if (cc.RedT.setting.taixiu_turbo.time_remain == Constants.betTime || data.time_remain == Constants.fullTime) {
         this.isUM = true;
-        this.UMWarning.active = true;
+        this.UMWarning.show(data);
         this.centerRoundLight.node.stopAllActions();
         this.onGameHide();
 
@@ -401,10 +399,8 @@ cc.Class({
 
     if (data.time_remain) {
       this.isUM = false;
-      this.centerRoundLight.node.runAction(
-        cc.repeatForever(cc.rotateBy(0.6, 360))
-      );
-      this.UMWarning.active = false;
+      this.playCenterRoundLight();
+      this.UMWarning.node.active = false;
       cc.RedT.setting.taixiu_turbo.time_remain = data.time_remain;
       this.playTime();
     }
@@ -538,7 +534,7 @@ cc.Class({
     );
   },
   showWaitTime: function (time) {
-    this.nodeTimeWait.active = true;
+    this.nodeTimeWait && (this.nodeTimeWait.active = true);
     this.timeWait.string = "00:" + helper.numberPad(time, 2);
   },
   onDataChanLe: function (data) {
@@ -940,9 +936,5 @@ cc.Class({
     this.timeInterval && clearInterval(this.timeInterval);
     this.resetUI();
     this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = '';
-  },
-  resetBetButtonText() {
-    this.inputLTxt.string = "ĐẶT CỬA"
-    this.inputRTxt.string = "ĐẶT CỬA"
   }
 });

@@ -38,6 +38,7 @@ cc.Class({
     NoticePrefab: cc.Prefab
   },
   onDestroy() {
+    cc.RedT.MiniPanel.destroy();
     cc.RedT.inGame = null;
   },
   onLoad: function () {
@@ -46,6 +47,7 @@ cc.Class({
       cc.RedT = baseControll;
       cc.RedT.init(this.loading);
     }
+    cc.RedT.inGame = this;
 
     cc.game.on(cc.game.EVENT_HIDE, function () {
       cc.RedT.GAME_IS_SHOWED = false;
@@ -62,7 +64,6 @@ cc.Class({
 
     this.dialog.init();
     this.newsContents.init(this);
-    cc.RedT.inGame = this;
 
     var MiniPanel = cc.instantiate(this.PrefabT[1]);
     cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
@@ -152,8 +153,8 @@ cc.Class({
 
       try {
         if (data.user.name) {
-          // const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
-          // sentryLogger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
+          const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
+          sentryLogger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
         }
       } catch (ex) { console.log(ex) }
     }
@@ -163,9 +164,16 @@ cc.Class({
     if (void 0 !== data.taixiu) {
       cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
     }
+    if (data.chanle) {
+      cc.RedT.MiniPanel.onDataChanLe(data.chanle);
+    }
 
     if (void 0 !== data.taixiu_turbo) {
       cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);
+    }
+
+    if (data.clturbo) {
+      cc.RedT.MiniPanel.onDataChanLeTurbo(data.clturbo);
     }
 
     if (void 0 !== data.notice) {
@@ -284,6 +292,7 @@ cc.Class({
 
     if (void 0 !== data.name) {
       this.header.userName.string = data.name;
+      sentryLogger.setCharacterName(data.name);
     }
   },
   signOut: function () {

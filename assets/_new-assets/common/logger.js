@@ -1,7 +1,6 @@
 import sentryConfig from './../SentryConfig';
 import configs from './../Configs';
 
-
 const sentryLogger = {
     sentryUrl: null,
     loaded: false,
@@ -10,7 +9,6 @@ const sentryLogger = {
     },
     loadScript: () => {
         if (window.Sentry && !sentryLogger.loaded) {
-            console.log(sentryConfig);
             window.Sentry.init({
                 dsn: configs.sentryUrl,
                 maxValueLength: 5000,
@@ -53,6 +51,38 @@ const sentryLogger = {
             sentryLogger.loadScript();
             window.Sentry && window.Sentry.captureException(exception);
         }
+    },
+
+    setUser: (user) => {
+        if (sentryLogger.isEnabled() && user) {
+            setTimeout(function () {
+                try {
+                    window.Sentry && window.Sentry.configureScope(function (scope) {
+                        scope.setUser(user);
+                    });
+                }
+                catch (ex) {
+                    console.log(ex);
+                }
+            }, 5000);
+        }
+    },
+
+    setTag: (tag) => {
+        if (sentryLogger.isEnabled() && tag) {
+            try {
+                window.Sentry && window.Sentry.configureScope(function (scope) {
+                    scope.setTag(tag.id, tag.value);
+                });
+            }
+            catch (ex) {
+                console.log(ex);
+            }
+        }
+    },
+
+    setCharacterName: (name) => {
+        sentryLogger.setTag({ id: "character-name", value: name });
     }
 };
 

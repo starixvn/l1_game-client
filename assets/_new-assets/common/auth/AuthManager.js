@@ -70,9 +70,9 @@ export function checkSSO(labelMessage, cb) {
             httpHelper.get(url, function (response) {
                 if (response.isAuthenticated) {
                     window.authData = response;
+                    sentryLogger.setUser(response);
                     window.authData.time = new Date();
                     response.isSSO = true;
-                    //console.log(urlParams.get("gameId"));
                     window.openGameId = urlParams.get("gameId");
                     storeSessionData(response);
                     clearTokenOnUrl();
@@ -93,6 +93,7 @@ export function checkSSO(labelMessage, cb) {
     else if (authData && authData.isAuthenticated && authData.ss) {
         isSuccess = true;
         window.authData = authData;
+        sentryLogger.setUser(authData);
         cb();
     }
 
