@@ -363,7 +363,7 @@ cc.Class({
 		clearInterval(this.timeInterval);
 		var noticePrefab = cc.instantiate(this.NoticePrefab);
 		this.UMNotice = noticePrefab.getComponent("Notice");
-		let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút";
+		let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
 		this.UMNotice.init({ text: text, button: { text: "Ok" } });
 		this.UMNotice.handleClickButton = this.backGame;
 		this.UMNotice.handleClose = this.backGame;
