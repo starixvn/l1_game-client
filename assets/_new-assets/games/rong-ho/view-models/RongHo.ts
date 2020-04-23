@@ -259,7 +259,7 @@ export default class RongHo extends cc.Component {
     sendData(payload: any) {
         cc.RedT.send({
             g: {
-                [this.gameName]: payload
+                [`mini_{this.gameName}`]: payload
             }
         });
     }

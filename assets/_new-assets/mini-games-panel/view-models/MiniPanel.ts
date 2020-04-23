@@ -102,10 +102,6 @@ export default class MiniPanel extends cc.Component {
         this.guide.onData(data);
       }
     }
-
-    if (data.dragon_tiger) {
-      this.rongHo.onData(data.dragon_tiger);
-    }
   }
 
   onDataTaiXiu(taiXiuData: any) {
@@ -289,7 +285,7 @@ export default class MiniPanel extends cc.Component {
       if (!this.rongHo || !this.rongHo.node) {
         var rongHoPrefab = cc.instantiate(this.rongHoPrefab);
         this.rongHo = rongHoPrefab.getComponent("RongHo") as RongHo;
-        this.rongHo.init(this, "mini_dragon_tiger", new RongHoConfigs());
+        this.rongHo.init(this, "dragon_tiger", new RongHoConfigs());
         this.miniGames.addChild(this.rongHo.node);
       }
 
