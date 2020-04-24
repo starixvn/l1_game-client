@@ -239,7 +239,7 @@ export default class RongHo extends cc.Component {
     setOddLabels() {
         this.dragonOdd.string = "1:2";
         this.tigerOdd.string = "1:2";
-        this.dragonOdd.string = "1:11";
+        this.drawOdd.string = "1:11";
     }
 
     initDataHanders() {
