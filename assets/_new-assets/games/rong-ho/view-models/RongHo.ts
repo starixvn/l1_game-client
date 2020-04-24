@@ -187,7 +187,7 @@ export default class RongHo extends cc.Component {
 
     public pressedShowGuide() {
         cc.RedT.audio.playClick();
-        this.miniPanel.openGuide("BauCua");
+        this.miniPanel.openGuide("RongHo");
     }
     //#endregion
 
