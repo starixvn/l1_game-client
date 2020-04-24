@@ -197,7 +197,6 @@ export default class RongHo extends cc.Component {
     }
 
     onLoad() {
-        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
         var logNodes = this.logsContainer.children.map((child, index) => {
             var sprites = child.children.map(item => {
                 item.active = false;
@@ -209,6 +208,7 @@ export default class RongHo extends cc.Component {
             return sprites;
         });
         this.dots = [].concat.apply([], logNodes);
+        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
     onEnable() {
@@ -446,22 +446,23 @@ export default class RongHo extends cc.Component {
 
         //update display logs
         var dragonCount = 0, tigerCount = 0, drawCount = 0;
+        var self = this;
         this.logs.forEach((log, index) => {
             var cards = log.result;
-            var winItem = this.getWinItem(cards);
-            this.dots[index].node.active = true;
+            var winItem = self.getWinItem(cards);
+            self.dots[index].node.active = true;
             switch (winItem) {
                 case "dragon":
                     dragonCount++;
-                    this.dots[index].spriteFrame = this.dotSprites[0];
+                    self.dots[index].spriteFrame = self.dotSprites[0];
                     break;
                 case "draw":
                     drawCount++;
-                    this.dots[index].spriteFrame = this.dotSprites[2];
+                    self.dots[index].spriteFrame = self.dotSprites[2];
                     break;
                 case "tiger":
                     tigerCount++;
-                    this.dots[index].spriteFrame = this.dotSprites[1];
+                    self.dots[index].spriteFrame = self.dotSprites[1];
                     break;
             }
         });

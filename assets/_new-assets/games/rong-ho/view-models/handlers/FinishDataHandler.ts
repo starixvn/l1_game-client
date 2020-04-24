@@ -11,6 +11,7 @@ export default class FinishDataHandler implements DataHandler {
         if (data.finish) {
             this.main.phienId = data.finish.round;
             this.main.logs.unshift(data.finish);
+            this.main.logs.length > 100 && this.main.logs.pop();
             this.main.updateLogs();
             this.main.resultCards = data.finish.result;
             this.main.currentTimeRemaining = this.main.config.betTime + this.main.config.waitTime;
