@@ -14,9 +14,7 @@ export default class ProcessingWarning extends cc.Component {
     private countDownId: number;
 
     onEnable() {
-        var self = this;
         this.titleLabel.string = this.title;
-        this.timeLabel.string = this.waitTime.toString();
         var waitTime = this.waitTime;
 
         this.countDownId = setInterval(function () {
@@ -25,7 +23,6 @@ export default class ProcessingWarning extends cc.Component {
             if (waitTime == 0) {
                 clearInterval(this.countDownId);
             }
-            self.timeLabel.string = waitTime.toString();
         }, 1000);
 
         this.node.runAction(cc.sequence(
