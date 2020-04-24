@@ -56,6 +56,12 @@ export default class RongHo extends cc.Component {
     @property(cc.Label)
     drawStats: cc.Label = null;
 
+    @property(cc.Node)
+    logsContainer: cc.Node = null;
+
+    @property({ type: cc.SpriteFrame })
+    dotSprites: cc.SpriteFrame[] = [];
+
     @property({ type: RongHoBetItem })
     betItems: RongHoBetItem[] = [];
 
@@ -82,6 +88,7 @@ export default class RongHo extends cc.Component {
     public resultCards = [];
     public logs = [];
 
+    private dots: cc.Sprite[];
     private dataHandlers: DataHandler[] = []
     private gameName: string;
     private miniPanel: MiniPanel;
@@ -191,6 +198,17 @@ export default class RongHo extends cc.Component {
 
     onLoad() {
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
+        var logNodes = this.logsContainer.children.map((child, index) => {
+            var sprites = child.children.map(item => {
+                item.active = false;
+                return item.getComponent(cc.Sprite);
+            });
+            if (index % 2 === 1) {
+                sprites.reverse();
+            }
+            return sprites;
+        });
+        this.dots = [].concat.apply([], logNodes);
     }
 
     onEnable() {
@@ -428,18 +446,22 @@ export default class RongHo extends cc.Component {
 
         //update display logs
         var dragonCount = 0, tigerCount = 0, drawCount = 0;
-        this.logs.forEach(log => {
+        this.logs.forEach((log, index) => {
             var cards = log.result;
             var winItem = this.getWinItem(cards);
+            this.dots[index].node.active = true;
             switch (winItem) {
                 case "dragon":
                     dragonCount++;
+                    this.dots[index].spriteFrame = this.dotSprites[0];
                     break;
                 case "draw":
                     drawCount++;
+                    this.dots[index].spriteFrame = this.dotSprites[2];
                     break;
                 case "tiger":
                     tigerCount++;
+                    this.dots[index].spriteFrame = this.dotSprites[1];
                     break;
             }
         });
