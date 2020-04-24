@@ -56,7 +56,7 @@ export default class RongHo extends cc.Component {
     public currentTimeRemaining: number;
     public disabledGame = false;
     public waitingCuoc = false;
-    public phienId = 0;
+    public phienId = -1;
     public resultCards = [];
 
     private dataHandlers: DataHandler[] = []
@@ -320,7 +320,7 @@ export default class RongHo extends cc.Component {
     }
 
     private setPhienLabel(phien) {
-        this.phienLabel.string = phien === 0 ? "" : `#${phien}`;
+        this.phienLabel.string = phien < 0 ? "" : `#${phien}`;
     }
 
     private showResultCards(show: boolean) {
@@ -328,7 +328,13 @@ export default class RongHo extends cc.Component {
             return;
         }
 
-
+        if (show) {
+            this.resultCards.forEach((data, index) => {
+                this.cards[index].spriteFrame = cc.RedT.util.card.getCard(data.card, data.type);
+            });
+        } else {
+            this.cards.forEach(card => card.spriteFrame = cc.RedT.util.card.cardB2);
+        }
     }
 
     private showTime(isInWaitTime, isInTurnTime) {

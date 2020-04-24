@@ -16,6 +16,10 @@ export default class FinishDataHandler implements DataHandler {
                 this.main.playTime();
             }
         }
+
+        if (data.phien) {
+            this.main.phienId = data.phien;
+        }
         return true;
     }
 }
