@@ -11,6 +11,8 @@ import FinishDataHandler from "./handlers/FinishDataHandler";
 import RongHoBetItem from "./RongHoBetItem";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import NoticeHandler from "./handlers/NoticeHandler";
+import BetStatusDataHandler from "./handlers/BetStatusDataHandler";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -200,6 +202,7 @@ export default class RongHo extends cc.Component {
             new UMDataHandler(this),
             new GameTimeHandler(this),
             new BetDataHandler(this),
+            new BetStatusDataHandler(this),
             new FinishDataHandler(this),
             new NoticeHandler(this),
         ];
@@ -400,7 +403,7 @@ export default class RongHo extends cc.Component {
         this.statusTimeout = setTimeout(
             function () {
                 if (win) {
-                    this.addFlyingText(win, bet, 4);
+                    GameUtils.addFlyingText(this.notice, win, bet, 4);
                     cc.RedT.send({
                         user: {
                             updateCoint: true
