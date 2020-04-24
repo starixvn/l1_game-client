@@ -4,16 +4,16 @@ import * as helper from '../../../common/helpers/Helper';
 import DataHandler from "../../../common/_base/view-models/DataHandler";
 import { GameConfigs } from "./RongHoConfigs";
 import UmWarning from "../../../common/um-warning/UmWarning";
-import UMDataHandler from "./handlers/UMDataHandler";
-import GameTimeHandler from "./handlers/GameTimeHandler";
-import BetDataHandler from "./handlers/BetDataHandler";
-import FinishDataHandler from "./handlers/FinishDataHandler";
+import RHUMDataHandler from "./handlers/RHUMDataHandler";
+import RHGameTimeHandler from "./handlers/RHGameTimeHandler";
+import RHBetDataHandler from "./handlers/RHBetDataHandler";
+import RHFinishDataHandler from "./handlers/RHFinishDataHandler";
 import RongHoBetItem from "./RongHoBetItem";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
-import NoticeHandler from "./handlers/NoticeHandler";
-import BetStatusDataHandler from "./handlers/BetStatusDataHandler";
+import RHNoticeHandler from "./handlers/RHNoticeHandler";
+import RHBetStatusDataHandler from "./handlers/RHBetStatusDataHandler";
 import GameUtils from "../../../common/GameUtils";
-import LogsDataHandler from "./handlers/LogsDataHandler";
+import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -243,13 +243,13 @@ export default class RongHo extends cc.Component {
 
     initDataHanders() {
         var handlers = [
-            new UMDataHandler(this),
-            new GameTimeHandler(this),
-            new BetDataHandler(this),
-            new BetStatusDataHandler(this),
-            new LogsDataHandler(this),
-            new FinishDataHandler(this),
-            new NoticeHandler(this),
+            new RHUMDataHandler(this),
+            new RHGameTimeHandler(this),
+            new RHBetDataHandler(this),
+            new RHBetStatusDataHandler(this),
+            new RHLogsDataHandler(this),
+            new RHFinishDataHandler(this),
+            new RHNoticeHandler(this),
         ];
         this.dataHandlers.push(...handlers);
     }

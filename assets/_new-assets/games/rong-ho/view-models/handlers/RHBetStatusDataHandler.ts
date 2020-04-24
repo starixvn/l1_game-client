@@ -2,7 +2,7 @@ import RongHo from "../RongHo";
 import DataHandler from "../../../../common/_base/view-models/DataHandler";
 
 
-export default class BetStatusDataHandler implements DataHandler {
+export default class RHBetStatusDataHandler implements DataHandler {
 
     constructor(private readonly main: RongHo) {
     }

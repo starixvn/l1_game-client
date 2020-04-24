@@ -1,19 +1,16 @@
 import RongHo from "../RongHo";
 import DataHandler from "../../../../common/_base/view-models/DataHandler";
 
-
-export default class UMDataHandler implements DataHandler {
+export default class RHGameTimeHandler implements DataHandler {
 
     constructor(private readonly main: RongHo) {
     }
 
     handle(data: any): boolean {
-        if (!data.um) {
-            return false;
-        }
-
-        if (this.main.currentTimeRemaining == this.main.config.betTime) {
-            this.main.showUMWarning(data);
+        if (data.time) {
+            this.main.currentTimeRemaining = data.time;
+            this.main.umNotice.node.active = false;
+            this.main.playTime();
             return true;
         }
     }
