@@ -13,6 +13,7 @@ import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime
 import NoticeHandler from "./handlers/NoticeHandler";
 import BetStatusDataHandler from "./handlers/BetStatusDataHandler";
 import GameUtils from "../../../common/GameUtils";
+import LogsDataHandler from "./handlers/LogsDataHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -203,6 +204,7 @@ export default class RongHo extends cc.Component {
             new GameTimeHandler(this),
             new BetDataHandler(this),
             new BetStatusDataHandler(this),
+            new LogsDataHandler(this),
             new FinishDataHandler(this),
             new NoticeHandler(this),
         ];
