@@ -8,7 +8,8 @@ export default class LogsDataHandler implements DataHandler {
 
     handle(data: any): boolean {
         if (data.logs) {
-            console.log("rong ho handle logs here");
+            this.main.logs = data.logs;
+            this.main.updateLogs();
         }
         return true;
     }

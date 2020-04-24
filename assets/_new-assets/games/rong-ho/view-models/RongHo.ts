@@ -62,6 +62,7 @@ export default class RongHo extends cc.Component {
     public waitingCuoc = false;
     public phienId = -1;
     public resultCards = [];
+    public logs = [];
 
     private dataHandlers: DataHandler[] = []
     private gameName: string;
@@ -365,9 +366,11 @@ export default class RongHo extends cc.Component {
     private highlightWonItem(highlight: boolean) {
         if (highlight) {
             var winItem = this.getWinItem();
-            this.betItems.forEach(item => {
-                item.setHighlight(item.node.name == winItem);
-            });
+            if (winItem != "") {
+                this.betItems.forEach(item => {
+                    item.setHighlight(item.node.name == winItem);
+                });
+            }
         } else {
             this.betItems.forEach(item => item.resetHighlight());
         }
@@ -390,6 +393,16 @@ export default class RongHo extends cc.Component {
 
         this.animatedTime.setTime(time);
         this.animatedTime.node.active = isInTurnTime;
+    }
+
+    public updateLogs() {
+        if (this.logs.length == 0) {
+            this.phienId = 1;
+        } else {
+            this.phienId = this.logs[0].round;
+        }
+
+        //update display logs
     }
 
     public playTime() {
