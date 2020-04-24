@@ -31,6 +31,9 @@ export default class RongHo extends cc.Component {
     @property(cc.Label)
     waitTime: cc.Label = null;
 
+    @property(cc.Label)
+    phienLabel: cc.Label = null;
+
     @property({ type: RongHoBetItem })
     betItems: RongHoBetItem[] = [];
 
@@ -53,6 +56,8 @@ export default class RongHo extends cc.Component {
     public currentTimeRemaining: number;
     public disabledGame = false;
     public waitingCuoc = false;
+    public phienId = 0;
+    public resultCards = [];
 
     private dataHandlers: DataHandler[] = []
     private gameName: string;
@@ -314,6 +319,18 @@ export default class RongHo extends cc.Component {
         this.dataHandlers.forEach(handler => handler.handle(data));
     }
 
+    private setPhienLabel(phien) {
+        this.phienLabel.string = phien === 0 ? "" : `#${phien}`;
+    }
+
+    private showResultCards(show: boolean) {
+        if (this.resultCards.length != 2 && show) {
+            return;
+        }
+
+
+    }
+
     private showTime(isInWaitTime, isInTurnTime) {
         let time: any;
         if (isInWaitTime) {
@@ -342,8 +359,13 @@ export default class RongHo extends cc.Component {
 
             if (isInWaitTime) {
                 //show result
+                this.setPhienLabel(this.phienId);
+                this.showResultCards(true);
             } else {
                 //clear effect for result
+                this.setPhienLabel(this.phienId + 1);
+                this.showResultCards(false);
+
 
                 const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
                 if (isStartingNewTurn) {
