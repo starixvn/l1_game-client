@@ -17,7 +17,7 @@ export default class RongHoBetItem extends cc.Component {
         }
 
         if (data.me) {
-            this.setOwnBet(data.data[this.node.name]);
+            this.setOwnBet(data.me[this.node.name]);
         }
     }
 
