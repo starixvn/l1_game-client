@@ -15,6 +15,7 @@ import RHBetStatusDataHandler from "./handlers/RHBetStatusDataHandler";
 import GameUtils from "../../../common/GameUtils";
 import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
+import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -91,6 +92,7 @@ export default class RongHo extends cc.Component {
     public phienId = -1;
     public resultCards = [];
     public logs = [];
+    public history: RongHoHistory;
 
     private dots: cc.Sprite[];
     private dataHandlers: DataHandler[] = []
@@ -101,7 +103,7 @@ export default class RongHo extends cc.Component {
     private timeInterval: number
     private statusTimeout: number;
     private cuoc: any;
-    private history: RongHoHistory;
+
 
     //#region Public Methods
     public init(miniPanel: MiniPanel, name: string, config: GameConfigs) {
@@ -128,7 +130,7 @@ export default class RongHo extends cc.Component {
         }
 
         this.initChangerBet();
-        this.initDataHanders();
+        this.initDataHandlers();
     }
 
     public onCuocClick(e) {
@@ -172,15 +174,6 @@ export default class RongHo extends cc.Component {
         cc.sys.localStorage.setItem(this.gameName, false);
     }
 
-    public pressedTopDialog() {
-        cc.RedT.audio.playClick();
-
-        // var dialog = cc.instantiate(this.topDialog);
-        // this.miniPanel.dialog.insertChild(dialog);
-        // this.Top = dialog.getComponent("BauCuaTop");
-        // this.Top.init(this);
-    }
-
     public pressedHistoryDialog() {
         cc.RedT.audio.playClick();
 
@@ -188,6 +181,10 @@ export default class RongHo extends cc.Component {
         this.history = dialog.getComponent("RongHoHistory");
         this.history.init(this);
         this.miniPanel.dialog.insertChild(dialog, 0);
+    }
+
+    public hideHistory() {
+        this.history = null;
     }
 
     public pressedShowGuide() {
@@ -247,7 +244,7 @@ export default class RongHo extends cc.Component {
         this.drawOdd.string = "1:11";
     }
 
-    initDataHanders() {
+    initDataHandlers() {
         var handlers = [
             new RHUMDataHandler(this),
             new RHGameTimeHandler(this),
@@ -256,6 +253,7 @@ export default class RongHo extends cc.Component {
             new RHLogsDataHandler(this),
             new RHFinishDataHandler(this),
             new RHNoticeHandler(this),
+            new RHHistoryDataHandler(this)
         ];
         this.dataHandlers.push(...handlers);
     }

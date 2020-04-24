@@ -34,16 +34,15 @@ export default class RongHoHistory extends cc.Component {
     }
 
     onDisable() {
-        //this.root.hideHistory();
+        this.root.hideHistory();
         this.node.destroy();
     }
 
     onData(data: any) {
         this.pages.onSet(data.page, data.kmess, data.total);
-        this.content.removeAllChildren(true);
 
         this.items.forEach((obj, i) => {
-            var dataT = data.data[i]
+            var dataT = data.data[i];
             if (void 0 !== dataT) {
                 obj.node.active = true
                 obj.time.string = getStringDateByTime(dataT.time);
