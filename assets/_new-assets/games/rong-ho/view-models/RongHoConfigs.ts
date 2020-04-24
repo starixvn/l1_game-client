@@ -7,5 +7,5 @@ export interface GameConfigs {
 export class RongHoConfigs implements GameConfigs {
     betTime = 30;
     stopBetTime = 5;
-    waitTime = 10;
+    waitTime = 5;
 }
