@@ -34,6 +34,12 @@ export default class RongHo extends cc.Component {
     @property({ type: RongHoBetItem })
     betItems: RongHoBetItem[] = [];
 
+    @property({ type: cc.Sprite })
+    cards: cc.Sprite[] = [];
+
+    @property(cc.SpriteAtlas)
+    cardAtlas: cc.SpriteAtlas = null;
+
     @property(UmWarning)
     umNotice: UmWarning = null;
 
@@ -355,36 +361,19 @@ export default class RongHo extends cc.Component {
         );
     }
 
-    private status(data: any) {
+    public status(win, bet) {
         if (!cc.RedT.GAME_IS_SHOWED) {
             return;
         }
         this.statusTimeout = setTimeout(
             function () {
-                if (data.win) {
-                    this.addFlyingText(data.win, data.bet, 4);
+                if (win) {
+                    this.addFlyingText(win, bet, 4);
                     cc.RedT.send({
                         user: {
                             updateCoint: true
                         }
                     });
-                }
-
-                if (void 0 !== data.thuong && data.thuong > 0) {
-                    var thuong = new cc.Node().addComponent(cc.Label);
-                    thuong.string = "+" + helper.numberWithCommas(data.thuong);
-                    thuong.font = cc.RedT.util.fontEffect;
-                    thuong.lineHeight = 90;
-                    thuong.fontSize = 14;
-                    this.notice.addChild(thuong.node);
-                    thuong.node.runAction(
-                        cc.sequence(
-                            cc.moveTo(3, cc.v2(0, 100)),
-                            cc.callFunc(function () {
-                                this.node.destroy();
-                            }, thuong)
-                        )
-                    );
                 }
             }.bind(this),
             2e3

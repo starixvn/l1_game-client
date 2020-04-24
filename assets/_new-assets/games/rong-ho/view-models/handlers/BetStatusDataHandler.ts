@@ -8,6 +8,9 @@ export default class BetStatusDataHandler implements DataHandler {
     }
 
     handle(data: any): boolean {
+        if (data.status && data.bet) {
+            this.main.status(data.status, data.bet);
+        }
         return true;
     }
 }
