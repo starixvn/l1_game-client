@@ -9,11 +9,17 @@ export default class RongHoHistoryItem extends cc.Component {
     @property(cc.Label)
     round: cc.Label = null;
 
-    @property([cc.Sprite])
-    result: Array<cc.Sprite> = [];
+    @property([cc.Node])
+    result: Array<cc.Node> = [];
 
-    @property([cc.Label])
-    bet: Array<cc.Label> = [];
+    @property(cc.Label)
+    betDragon: cc.Label = null;
+
+    @property(cc.Label)
+    betTiger: cc.Label = null;
+
+    @property(cc.Label)
+    betDraw: cc.Label = null;
 
     @property(cc.Label)
     win: cc.Label = null;

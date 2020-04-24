@@ -1,7 +1,7 @@
 import * as Pagination from '../../../../common/helpers/Pagination/Pagination'
 import RongHo from '../RongHo';
 import RongHoHistoryItem from './RongHoHistoryItem';
-import { numberWithCommas, getStringDateByTime } from '../../../../common/helpers/Helper';
+import { numberWithCommas, getStringDateByTime, nFormatter } from '../../../../common/helpers/Helper';
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,6 +13,9 @@ export default class RongHoHistory extends cc.Component {
 
     @property(Pagination)
     pages: Pagination = null;
+
+    @property([cc.SpriteFrame])
+    cardTypes: Array<cc.SpriteFrame> = [];
 
     private root: RongHo;
     private items: RongHoHistoryItem[];
@@ -49,18 +52,17 @@ export default class RongHoHistory extends cc.Component {
                 obj.round.string = dataT.phien;
                 obj.win.string = numberWithCommas(dataT.betwin);
                 obj.win.node.color = dataT.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-                obj.result.forEach(function (kq, j) {
-                    //kq.spriteFrame = self.RedT.iconMini[dataT.kq[j]];
+                obj.result.forEach((kq, j) => {
+                    let cardType = kq.getComponent(cc.Sprite);
+                    cardType.spriteFrame = this.cardTypes[dataT.kq[j].type];
+
+                    let card = kq.children[0].getComponent(cc.Label);
+                    card.string = dataT.kq[j].card;
                 });
 
-                obj.bet.forEach(function (cuoc, k) {
-                    // if (dataT[k] > 0) {
-                    //     cuoc.node.parent.active = true;
-                    //     cuoc.string = helper.nFormatter(dataT[k], 1);
-                    // } else {
-                    //     cuoc.node.parent.active = false;
-                    // }
-                })
+                obj.betDragon.string = nFormatter(dataT.dragon, 1);
+                obj.betTiger.string = nFormatter(dataT.tiger, 1);
+                obj.betDraw.string = nFormatter(dataT.draw, 1);
             } else {
                 obj.node.active = false
             }
