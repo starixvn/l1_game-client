@@ -14,6 +14,7 @@ import RHNoticeHandler from "./handlers/RHNoticeHandler";
 import RHBetStatusDataHandler from "./handlers/RHBetStatusDataHandler";
 import GameUtils from "../../../common/GameUtils";
 import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
+import RongHoHistory from "./history/RongHoHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -80,6 +81,9 @@ export default class RongHo extends cc.Component {
     @property(cc.Prefab)
     prefabNotice: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    prefabHistory: cc.Prefab = null;
+
     public config: GameConfigs
     public currentTimeRemaining: number;
     public disabledGame = false;
@@ -97,6 +101,7 @@ export default class RongHo extends cc.Component {
     private timeInterval: number
     private statusTimeout: number;
     private cuoc: any;
+    private history: RongHoHistory;
 
     //#region Public Methods
     public init(miniPanel: MiniPanel, name: string, config: GameConfigs) {
@@ -179,10 +184,10 @@ export default class RongHo extends cc.Component {
     public pressedHistoryDialog() {
         cc.RedT.audio.playClick();
 
-        // var dialog = cc.instantiate(this.historyDialog);
-        // this.miniPanel.dialog.insertChild(dialog);
-        // this.LichSu = dialog.getComponent("BauCuaHistory");
-        // this.LichSu.init(this);
+        var dialog = cc.instantiate(this.prefabHistory);
+        this.history = dialog.getComponent("RongHoHistory");
+        this.history.init(this);
+        this.miniPanel.dialog.insertChild(dialog, 0);
     }
 
     public pressedShowGuide() {
