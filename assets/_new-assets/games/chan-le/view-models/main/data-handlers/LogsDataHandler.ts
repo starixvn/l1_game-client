@@ -1,7 +1,7 @@
 import BaseDataHandler from "./BaseDataHandler";
 import DataHandler from "../../../../../common/_base/view-models/DataHandler";
-import ChanLeMain from "../ChanLeMain";
 import ChanLeLogTips from "../ChanLeLogTips";
+import ChanLeMain from "../ChanLeMain";
 
 export interface ILogsDataHandler extends DataHandler {
     dataLogs: any;
