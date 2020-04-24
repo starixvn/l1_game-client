@@ -208,6 +208,7 @@ export default class RongHo extends cc.Component {
             return sprites;
         });
         this.dots = [].concat.apply([], logNodes);
+        this.setOddLabels();
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
