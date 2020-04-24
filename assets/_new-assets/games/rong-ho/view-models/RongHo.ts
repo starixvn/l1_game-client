@@ -346,6 +346,33 @@ export default class RongHo extends cc.Component {
         }
     }
 
+    private getWinItem(): string {
+        if (this.resultCards.length != 2) {
+            return "";
+        }
+
+        var card1 = this.resultCards[0];
+        var card2 = this.resultCards[1];
+        if (card1.card > card2.card) {
+            return "dragon";
+        } else if (card1.card < card2.card) {
+            return "tiger";
+        } else {
+            return "draw";
+        }
+    }
+
+    private highlightWonItem(highlight: boolean) {
+        if (highlight) {
+            var winItem = this.getWinItem();
+            this.betItems.forEach(item => {
+                item.setHighlight(item.node.name == winItem);
+            });
+        } else {
+            this.betItems.forEach(item => item.resetHighlight());
+        }
+    }
+
     private showTime(isInWaitTime, isInTurnTime) {
         let time: any;
         if (isInWaitTime) {
@@ -376,11 +403,12 @@ export default class RongHo extends cc.Component {
                 //show result
                 this.setPhienLabel(this.phienId);
                 this.showResultCards(true);
+                this.highlightWonItem(true);
             } else {
                 //clear effect for result
                 this.setPhienLabel(this.phienId + 1);
                 this.showResultCards(false);
-
+                this.highlightWonItem(false);
 
                 const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
                 if (isStartingNewTurn) {

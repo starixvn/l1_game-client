@@ -5,6 +5,12 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class RongHoBetItem extends cc.Component {
 
+    @property(cc.Node)
+    inActive: cc.Node = null;
+
+    @property(cc.Node)
+    highlight: cc.Node = null;
+
     @property(cc.Label)
     totalBet: cc.Label = null;
 
@@ -31,5 +37,15 @@ export default class RongHoBetItem extends cc.Component {
 
     public setTotalBet(bet: number) {
         this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+    }
+
+    public setHighlight(highlight: boolean) {
+        this.inActive.active = !highlight;
+        this.highlight.active = highlight;
+    }
+
+    public resetHighlight() {
+        this.inActive.active = false;
+        this.highlight.active = false;
     }
 }
