@@ -10,6 +10,7 @@ import BetDataHandler from "./handlers/BetDataHandler";
 import FinishDataHandler from "./handlers/FinishDataHandler";
 import RongHoBetItem from "./RongHoBetItem";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
+import NoticeHandler from "./handlers/NoticeHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -200,6 +201,7 @@ export default class RongHo extends cc.Component {
             new GameTimeHandler(this),
             new BetDataHandler(this),
             new FinishDataHandler(this),
+            new NoticeHandler(this),
         ];
         this.dataHandlers.push(...handlers);
     }
@@ -224,8 +226,10 @@ export default class RongHo extends cc.Component {
 
     regEvent(show: boolean) {
         var data = {
-            view: true,
-            getLogs: true
+            view: show,
+        }
+        if (show) {
+            data["getLogs"] = true;
         }
         this.sendData(data);
     }
