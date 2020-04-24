@@ -38,6 +38,24 @@ export default class RongHo extends cc.Component {
     @property(cc.Label)
     phienLabel: cc.Label = null;
 
+    @property(cc.Label)
+    dragonOdd: cc.Label = null;
+
+    @property(cc.Label)
+    tigerOdd: cc.Label = null;
+
+    @property(cc.Label)
+    drawOdd: cc.Label = null;
+
+    @property(cc.Label)
+    dragonStats: cc.Label = null;
+
+    @property(cc.Label)
+    tigerStats: cc.Label = null;
+
+    @property(cc.Label)
+    drawStats: cc.Label = null;
+
     @property({ type: RongHoBetItem })
     betItems: RongHoBetItem[] = [];
 
@@ -199,6 +217,12 @@ export default class RongHo extends cc.Component {
     //#endregion
 
     //#region Private Methods
+    setOddLabels() {
+        this.dragonOdd.string = "1:2";
+        this.tigerOdd.string = "1:2";
+        this.dragonOdd.string = "1:11";
+    }
+
     initDataHanders() {
         var handlers = [
             new UMDataHandler(this),
@@ -347,13 +371,13 @@ export default class RongHo extends cc.Component {
         }
     }
 
-    private getWinItem(): string {
-        if (this.resultCards.length != 2) {
+    private getWinItem(cards): string {
+        if (cards.length != 2) {
             return "";
         }
 
-        var card1 = this.resultCards[0];
-        var card2 = this.resultCards[1];
+        var card1 = cards[0];
+        var card2 = cards[1];
         if (card1.card > card2.card) {
             return "dragon";
         } else if (card1.card < card2.card) {
@@ -365,7 +389,7 @@ export default class RongHo extends cc.Component {
 
     private highlightWonItem(highlight: boolean) {
         if (highlight) {
-            var winItem = this.getWinItem();
+            var winItem = this.getWinItem(this.resultCards);
             if (winItem != "") {
                 this.betItems.forEach(item => {
                     item.setHighlight(item.node.name == winItem);
@@ -392,7 +416,7 @@ export default class RongHo extends cc.Component {
         this.waitTime.node.parent.active = isInWaitTime && time != "00";
 
         this.animatedTime.setTime(time);
-        this.animatedTime.node.active = isInTurnTime;
+        this.animatedTime.node.parent.active = isInTurnTime;
     }
 
     public updateLogs() {
@@ -403,6 +427,30 @@ export default class RongHo extends cc.Component {
         }
 
         //update display logs
+        var dragonCount = 0, tigerCount = 0, drawCount = 0;
+        this.logs.forEach(log => {
+            var cards = log.result;
+            var winItem = this.getWinItem(cards);
+            switch (winItem) {
+                case "dragon":
+                    dragonCount++;
+                    break;
+                case "draw":
+                    drawCount++;
+                    break;
+                case "tiger":
+                    tigerCount++;
+                    break;
+            }
+        });
+
+        var dragonStats = Math.floor(dragonCount * 100 / this.logs.length);
+        var tigerStats = Math.floor(tigerCount * 100 / this.logs.length);
+        var drawStats = 100 - (dragonStats + tigerStats);
+
+        this.dragonStats.string = `${dragonStats}%`;
+        this.tigerStats.string = `${tigerStats}%`;
+        this.drawStats.string = `${drawStats}%`;
     }
 
     public playTime() {
