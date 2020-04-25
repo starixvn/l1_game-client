@@ -480,6 +480,18 @@ export default class RongHo extends cc.Component {
         this.drawStats.string = `${drawStats}%`;
     }
 
+    public showResult(show: boolean) {
+        if (show) {
+            this.setPhienLabel(this.phienId);
+            this.showResultCards(true);
+            this.highlightWonItem(true);
+        } else {
+            this.setPhienLabel(this.phienId + 1);
+            this.showResultCards(false);
+            this.highlightWonItem(false);
+        }
+    }
+
     public playTime() {
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(function () {
@@ -489,14 +501,10 @@ export default class RongHo extends cc.Component {
 
             if (isInWaitTime) {
                 //show result
-                this.setPhienLabel(this.phienId);
-                this.showResultCards(true);
-                this.highlightWonItem(true);
+                this.showResult(true);
             } else {
                 //clear effect for result
-                this.setPhienLabel(this.phienId + 1);
-                this.showResultCards(false);
-                this.highlightWonItem(false);
+                this.showResult(false);
 
                 const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
                 if (isStartingNewTurn) {

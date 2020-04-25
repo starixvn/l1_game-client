@@ -15,6 +15,7 @@ export default class RHFinishDataHandler implements DataHandler {
             this.main.updateLogs();
             this.main.resultCards = data.finish.result;
             this.main.currentTimeRemaining = this.main.config.betTime + this.main.config.waitTime;
+            this.main.showResult(true);
             if (cc.RedT.GAME_IS_SHOWED) {
                 this.main.playTime();
             }
