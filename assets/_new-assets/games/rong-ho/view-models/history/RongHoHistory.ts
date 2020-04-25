@@ -64,7 +64,7 @@ export default class RongHoHistory extends cc.Component {
 
                 item.betDragon.string = nFormatter(dataT.dragon, 1);
                 item.betTiger.string = nFormatter(dataT.tiger, 1);
-                item.betDraw.string = nFormatter(dataT.draw, 1);
+                item.betDraw.string = nFormatter(dataT.tie, 1);
 
                 this.content.addChild(historyItemPrefab);
             }
