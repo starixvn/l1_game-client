@@ -59,7 +59,7 @@ export default class RongHoHistory extends cc.Component {
                     cardType.spriteFrame = this.cardTypes[dataT.kq[j].type];
 
                     let card = kq.children[0].getComponent(cc.Label);
-                    card.string = dataT.kq[j].card;
+                    card.string = dataT.kq[j].card + 1;
                 });
 
                 item.betDragon.string = nFormatter(dataT.dragon, 1);
