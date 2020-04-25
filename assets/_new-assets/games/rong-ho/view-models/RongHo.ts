@@ -43,6 +43,9 @@ export default class RongHo extends cc.Component {
     @property(cc.Label)
     waitTime: cc.Label = null;
 
+    @property(cc.Node)
+    resultFrame: cc.Node = null;
+
     @property(cc.Label)
     phienLabel: cc.Label = null;
 
@@ -445,9 +448,8 @@ export default class RongHo extends cc.Component {
         }
     }
 
-    private highlightWonItem(highlight: boolean) {
+    private highlightWonItem(highlight: boolean, winItem: string = "") {
         if (highlight) {
-            var winItem = this.getWinItem(this.resultCards);
             if (winItem != "") {
                 this.betItems.forEach(item => {
                     item.setHighlight(item.node.name == winItem);
@@ -470,8 +472,8 @@ export default class RongHo extends cc.Component {
             }
         }
 
-        this.waitTime.string = time == "00" ? '' : "00:" + time;
-        this.waitTime.node.parent.active = isInWaitTime && time != "00";
+        // this.waitTime.string = time == "00" ? '' : "00:" + time;
+        // this.waitTime.node.parent.active = isInWaitTime && time != "00";
 
         this.animatedTime.setTime(time);
         this.animatedTime.node.parent.active = isInTurnTime;
@@ -521,11 +523,16 @@ export default class RongHo extends cc.Component {
             this.updateLogs();
             this.setPhienLabel(this.phienId);
             this.showResultCards(true);
-            this.highlightWonItem(true);
+
+            var winItem = this.getWinItem(this.resultCards);
+            this.resultFrame.active = true;
+            this.resultFrame.children.forEach(child => child.active = child.name == winItem);
+            this.highlightWonItem(true, winItem);
         } else {
             this.setPhienLabel(this.phienId + 1);
             this.showResultCards(false);
             this.highlightWonItem(false);
+            this.resultFrame.active = false;
         }
     }
 
