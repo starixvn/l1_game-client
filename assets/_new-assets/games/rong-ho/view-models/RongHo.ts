@@ -34,6 +34,9 @@ export default class RongHo extends cc.Component {
     @property(cc.Animation)
     resultAnimation: cc.Animation = null;
 
+    @property(cc.Animation)
+    drawAnimation: cc.Animation = null;
+
     @property(AnimatedTime)
     animatedTime: AnimatedTime = null;
 
@@ -544,6 +547,10 @@ export default class RongHo extends cc.Component {
             if (isInWaitTime) {
                 if (!this.resultAnimating) {
                     this.showResult(true);
+                }
+                if (this.currentTimeRemaining == this.config.betTime + 1) {
+                    this.showResult(false);
+                    this.drawAnimation.play();
                 }
             } else {
                 //clear effect for result
