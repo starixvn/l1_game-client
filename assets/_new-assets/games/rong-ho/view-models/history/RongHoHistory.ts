@@ -17,6 +17,9 @@ export default class RongHoHistory extends cc.Component {
     @property([cc.SpriteFrame])
     cardTypes: Array<cc.SpriteFrame> = [];
 
+    @property(cc.Prefab)
+    prefabItem: cc.Prefab = null;
+
     private root: RongHo;
     private items: RongHoHistoryItem[];
 
@@ -26,10 +29,6 @@ export default class RongHoHistory extends cc.Component {
 
     onLoad() {
         this.pages.init(this);
-
-        this.items = this.content.children.map(function (obj) {
-            return obj.getComponent('RongHoHistoryItem');
-        })
     }
 
     onEnable() {
@@ -43,16 +42,19 @@ export default class RongHoHistory extends cc.Component {
 
     onData(data: any) {
         this.pages.onSet(data.page, data.kmess, data.total);
+        this.content.removeAllChildren(true);
 
-        this.items.forEach((obj, i) => {
+        for (let i = 0; i < data.data.length; i++) {
             var dataT = data.data[i];
             if (void 0 !== dataT) {
-                obj.node.active = true
-                obj.time.string = getStringDateByTime(dataT.time);
-                obj.round.string = dataT.phien;
-                obj.win.string = numberWithCommas(dataT.betwin);
-                obj.win.node.color = dataT.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-                obj.result.forEach((kq, j) => {
+                let historyItemPrefab = cc.instantiate(this.prefabItem);
+                let item = historyItemPrefab.getComponent("RongHoHistoryItem") as RongHoHistoryItem;
+                item.node.active = true
+                item.time.string = getStringDateByTime(dataT.time);
+                item.round.string = dataT.phien;
+                item.win.string = numberWithCommas(dataT.betwin);
+                item.win.node.color = dataT.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+                item.result.forEach((kq, j) => {
                     let cardType = kq.getComponent(cc.Sprite);
                     cardType.spriteFrame = this.cardTypes[dataT.kq[j].type];
 
@@ -60,13 +62,13 @@ export default class RongHoHistory extends cc.Component {
                     card.string = dataT.kq[j].card;
                 });
 
-                obj.betDragon.string = nFormatter(dataT.dragon, 1);
-                obj.betTiger.string = nFormatter(dataT.tiger, 1);
-                obj.betDraw.string = nFormatter(dataT.draw, 1);
-            } else {
-                obj.node.active = false
+                item.betDragon.string = nFormatter(dataT.dragon, 1);
+                item.betTiger.string = nFormatter(dataT.tiger, 1);
+                item.betDraw.string = nFormatter(dataT.draw, 1);
+
+                this.content.addChild(historyItemPrefab);
             }
-        })
+        }
     }
 
     get_data(page = 1) {
