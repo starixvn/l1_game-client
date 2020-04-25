@@ -31,6 +31,9 @@ export default class RongHo extends cc.Component {
     @property(cc.Node)
     notice: cc.Node = null;
 
+    @property(cc.Animation)
+    resultAnimation: cc.Animation = null;
+
     @property(AnimatedTime)
     animatedTime: AnimatedTime = null;
 
@@ -103,6 +106,7 @@ export default class RongHo extends cc.Component {
     private timeInterval: number
     private statusTimeout: number;
     private cuoc: any;
+    private resultAnimating = false;
 
 
     //#region Public Methods
@@ -400,14 +404,26 @@ export default class RongHo extends cc.Component {
             this.resultCards.forEach((data, index) => {
                 var card = this.cards[index];
                 card.node.active = true;
+                card.node.scaleX = 1;
                 card.spriteFrame = cc.RedT.util.card.getCard(data.card, data.type);
             });
         } else {
-            this.cards.forEach(card => {
-                card.node.active = true;
+            this.cards.forEach((card, index) => {
+                card.node.scaleX = 0;
                 card.spriteFrame = cc.RedT.util.card.cardB2;
             });
         }
+    }
+
+    private updateResultCards() {
+        if (this.resultCards.length != 2) {
+            return;
+        }
+
+        this.resultCards.forEach((data, index) => {
+            var card = this.cards[index];
+            card.spriteFrame = cc.RedT.util.card.getCard(data.card, data.type);
+        });
     }
 
     private getWinItem(cards): string {
@@ -499,6 +515,7 @@ export default class RongHo extends cc.Component {
 
     public showResult(show: boolean) {
         if (show) {
+            this.updateLogs();
             this.setPhienLabel(this.phienId);
             this.showResultCards(true);
             this.highlightWonItem(true);
@@ -509,18 +526,30 @@ export default class RongHo extends cc.Component {
         }
     }
 
+    public playAnimationResult() {
+        console.log("animating result");
+        this.updateResultCards();
+        this.resultAnimation.play();
+        this.resultAnimating = true;
+    }
+
     public playTime() {
+        this.resultAnimation.on("finished", () => {
+            this.showResult(true);
+        }, this);
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(function () {
             const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
             const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 0;
             this.showTime(isInWaitTime, isInTurnTime);
-
+            console.log("rongho time ", this.currentTimeRemaining);
             if (isInWaitTime) {
-                //show result
-                this.showResult(true);
+                if (!this.resultAnimating) {
+                    this.showResult(true);
+                }
             } else {
                 //clear effect for result
+                this.resultAnimating = false;
                 this.showResult(false);
 
                 const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
