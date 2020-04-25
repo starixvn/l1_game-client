@@ -405,7 +405,7 @@ export default class RongHo extends cc.Component {
         } else if (card1.card < card2.card) {
             return "tiger";
         } else {
-            return "draw";
+            return "tie";
         }
     }
 
@@ -460,7 +460,7 @@ export default class RongHo extends cc.Component {
                     dragonCount++;
                     self.dots[index].spriteFrame = self.dotSprites[0];
                     break;
-                case "draw":
+                case "tie":
                     drawCount++;
                     self.dots[index].spriteFrame = self.dotSprites[2];
                     break;
