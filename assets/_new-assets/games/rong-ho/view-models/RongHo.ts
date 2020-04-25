@@ -281,6 +281,7 @@ export default class RongHo extends cc.Component {
     }
 
     defaultUIState() {
+        this.resultFrame.active = false;
         this.waitTime.node.parent.active = false;
         this.animatedTime.node.parent.active = false;
         this.betItems.forEach(item => {
