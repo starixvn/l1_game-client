@@ -21,7 +21,7 @@ export default class RongHoHistory extends cc.Component {
     prefabItem: cc.Prefab = null;
 
     private root: RongHo;
-    private items: RongHoHistoryItem[];
+    private cards = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 
     init(root: RongHo) {
         this.root = root;
@@ -59,7 +59,7 @@ export default class RongHoHistory extends cc.Component {
                     cardType.spriteFrame = this.cardTypes[dataT.kq[j].type];
 
                     let card = kq.children[0].getComponent(cc.Label);
-                    card.string = dataT.kq[j].card + 1;
+                    card.string = this.cards[dataT.kq[j].card];
                 });
 
                 item.betDragon.string = nFormatter(dataT.dragon, 1);
