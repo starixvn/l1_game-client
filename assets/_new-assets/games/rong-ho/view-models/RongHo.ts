@@ -211,6 +211,7 @@ export default class RongHo extends cc.Component {
         });
         this.dots = [].concat.apply([], logNodes);
         this.setOddLabels();
+        this.setPhienLabel(0);
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
@@ -376,7 +377,7 @@ export default class RongHo extends cc.Component {
     }
 
     private setPhienLabel(phien) {
-        this.phienLabel.string = phien < 0 ? "" : `#${phien}`;
+        this.phienLabel.string = phien < 1 ? "" : `#${phien}`;
     }
 
     private showResultCards(show: boolean) {
