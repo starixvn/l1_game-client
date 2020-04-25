@@ -532,5 +532,9 @@ export default class RongHo extends cc.Component {
             2e3
         );
     }
+
+    public showAcceptedBet(bet: number) {
+        GameUtils.addFlyingText(this.notice, false, bet, 1);
+    }
     //#endregion
 }
