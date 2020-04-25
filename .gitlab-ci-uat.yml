@@ -4,6 +4,6 @@ uat_deploy_web:
     name: UAT
     url: http://uat.saba.vin/
   only:
-    - /^deploy-uat-web-\d{8}-\d+.*$/
-    - /^deploy-web-\d{8}-\d+.*$/
-    - /^deploy-\d{8}-\d+.*$/
+    - /^l1-deploy-uat-web-\d{8}-\d+.*$/
+    - /^l1-deploy-web-\d{8}-\d+.*$/
+    - /^l1-deploy-\d{8}-\d+.*$/

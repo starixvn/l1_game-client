@@ -12,6 +12,6 @@ mobile_deploy_ios_testflight:
   environment:
     name: iOS-TF
   only:
-    - /^deploy-ios-\d{8}-\d+.*$/
-    - /^deploy-\d{8}-\d+.*$/
+    - /^l1-deploy-ios-\d{8}-\d+.*$/
+    - /^l1-deploy-\d{8}-\d+.*$/
 

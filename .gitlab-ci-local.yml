@@ -3,7 +3,7 @@ local_deploy_web:
   environment:
     name: LOCAL
   only:
-    - /^deploy-local-web-\d{8}-\d+.*$/
-    - /^deploy-web-\d{8}-\d+.*$/
-    - /^deploy-\d{8}-\d+.*$/
+    - /^l1-deploy-local-web-\d{8}-\d+.*$/
+    - /^l1-deploy-web-\d{8}-\d+.*$/
+    - /^l1-deploy-\d{8}-\d+.*$/
 
