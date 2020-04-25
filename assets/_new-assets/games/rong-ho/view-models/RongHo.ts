@@ -16,6 +16,7 @@ import GameUtils from "../../../common/GameUtils";
 import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
 import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
+import UMDataHandler from "../../chan-le/view-models/main/data-handlers/UMDataHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -302,10 +303,9 @@ export default class RongHo extends cc.Component {
     regEvent(show: boolean) {
         var data = {
             view: show,
-        }
-        if (show) {
-            data["getLogs"] = true;
-        }
+            get_time: show,
+            getLogs: show
+        };
         this.sendData(data);
     }
 
@@ -395,7 +395,15 @@ export default class RongHo extends cc.Component {
     }
 
     onData(data: any) {
-        this.dataHandlers.forEach(handler => handler.handle(data));
+        //this.dataHandlers.forEach(handler => handler.handle(data));
+        for (let index = 0; index < this.dataHandlers.length; index++) {
+            let handler = this.dataHandlers[index];
+            if (index == 0 && handler.handle(data)) {
+                break;
+            } else {
+                handler.handle(data);
+            }
+        }
     }
 
     private setPhienLabel(phien) {

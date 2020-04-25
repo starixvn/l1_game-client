@@ -12,7 +12,8 @@ export default class RHUMDataHandler implements DataHandler {
             return false;
         }
 
-        if (this.main.currentTimeRemaining == this.main.config.betTime) {
+        if (this.main.currentTimeRemaining == this.main.config.betTime
+            || data.time_remain == this.main.config.fullTime) {
             this.main.disabledGame = true;
             this.main.showUMWarning(data);
             return true;
