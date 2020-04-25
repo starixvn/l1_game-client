@@ -267,6 +267,17 @@ export default class RongHo extends cc.Component {
         //clearInterval, reset state UI to default
         this.timeInterval && clearInterval(this.timeInterval);
         this.statusTimeout && clearTimeout(this.statusTimeout);
+        this.defaultUIState();
+    }
+
+    defaultUIState() {
+        this.waitTime.node.parent.active = false;
+        this.animatedTime.node.parent.active = false;
+        this.betItems.forEach(item => {
+            item.clear();
+            item.resetHighlight();
+        });
+        this.cards.forEach(card => card.node.active = false);
     }
 
     onSignIn() {
@@ -387,10 +398,15 @@ export default class RongHo extends cc.Component {
 
         if (show) {
             this.resultCards.forEach((data, index) => {
-                this.cards[index].spriteFrame = cc.RedT.util.card.getCard(data.card, data.type);
+                var card = this.cards[index];
+                card.node.active = true;
+                card.spriteFrame = cc.RedT.util.card.getCard(data.card, data.type);
             });
         } else {
-            this.cards.forEach(card => card.spriteFrame = cc.RedT.util.card.cardB2);
+            this.cards.forEach(card => {
+                card.node.active = true;
+                card.spriteFrame = cc.RedT.util.card.cardB2;
+            });
         }
     }
 
