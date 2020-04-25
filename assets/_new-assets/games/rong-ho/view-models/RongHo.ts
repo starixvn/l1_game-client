@@ -472,8 +472,8 @@ export default class RongHo extends cc.Component {
         });
 
         var dragonStats = Math.floor(dragonCount * 100 / this.logs.length);
-        var tigerStats = Math.floor(tigerCount * 100 / this.logs.length);
-        var drawStats = 100 - (dragonStats + tigerStats);
+        var drawStats = Math.floor(drawCount * 100 / this.logs.length);
+        var tigerStats = 100 - (dragonStats + drawStats);
 
         this.dragonStats.string = `${dragonStats}%`;
         this.tigerStats.string = `${tigerStats}%`;
