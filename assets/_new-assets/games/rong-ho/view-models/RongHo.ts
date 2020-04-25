@@ -527,7 +527,6 @@ export default class RongHo extends cc.Component {
     }
 
     public playAnimationResult() {
-        console.log("animating result");
         this.updateResultCards();
         this.resultAnimation.play();
         this.resultAnimating = true;
@@ -542,7 +541,6 @@ export default class RongHo extends cc.Component {
             const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
             const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 0;
             this.showTime(isInWaitTime, isInTurnTime);
-            console.log("rongho time ", this.currentTimeRemaining);
             if (isInWaitTime) {
                 if (!this.resultAnimating) {
                     this.showResult(true);
