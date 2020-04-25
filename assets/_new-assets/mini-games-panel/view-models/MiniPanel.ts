@@ -151,6 +151,10 @@ export default class MiniPanel extends cc.Component {
     if (error.gameTypeId == configs.gameIds.ChanLeTurbo && this.chanLeTurbo) {
       this.chanLeTurbo.onData(apiErrorData);
     }
+
+    if (error.gameTypeId == configs.gameIds.RongHo && this.rongHo) {
+      this.rongHo.onData(apiErrorData);
+    }
   }
 
   onDataKickedOut(data: any) {
@@ -226,6 +230,9 @@ export default class MiniPanel extends cc.Component {
         break;
       case configs.gameIds.ChanLeTurbo:
         !configs.disableChanLeTurbo && this.openChanLeTurbo();
+        break;
+      case configs.gameIds.RongHo:
+        this.openRongHo();
         break;
       default:
         break;
