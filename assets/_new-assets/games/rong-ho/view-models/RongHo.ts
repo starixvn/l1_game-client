@@ -474,7 +474,7 @@ export default class RongHo extends cc.Component {
             time = helper.numberPad(this.currentTimeRemaining - this.config.betTime, 2);
         } else {
             if (isInTurnTime) {
-                time = helper.numberPad(this.currentTimeRemaining, 2);
+                time = helper.numberPad(this.currentTimeRemaining + 1, 2);
             } else {
                 time = 0;
             }
@@ -547,6 +547,7 @@ export default class RongHo extends cc.Component {
     }
 
     public playAnimationResult() {
+        this.animatedTime.node.parent.active = false;
         this.updateResultCards();
         this.resultAnimation.play();
         this.resultAnimating = true;
@@ -558,14 +559,15 @@ export default class RongHo extends cc.Component {
         }, this);
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(() => {
-            const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
-            const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 0;
+            console.log("RH Time ", this.currentTimeRemaining);
+            const isInWaitTime = this.currentTimeRemaining >= this.config.betTime;
+            const isInTurnTime = !isInWaitTime && this.currentTimeRemaining >= 0;
             this.showTime(isInWaitTime, isInTurnTime);
             if (isInWaitTime) {
                 if (!this.resultAnimating) {
                     this.showResult(true);
                 }
-                if (this.currentTimeRemaining == this.config.betTime + 1) {
+                if (this.currentTimeRemaining == this.config.betTime) {
                     // this.resultAnimating = false; //comment for dont show result again after enable game.
                     this.showResult(false);
                     this.drawAnimation.play();
