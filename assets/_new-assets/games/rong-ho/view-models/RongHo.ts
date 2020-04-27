@@ -474,7 +474,7 @@ export default class RongHo extends cc.Component {
             time = helper.numberPad(this.currentTimeRemaining - this.config.betTime, 2);
         } else {
             if (isInTurnTime) {
-                time = helper.numberPad(this.currentTimeRemaining + 1, 2);
+                time = helper.numberPad(this.currentTimeRemaining, 2);
             } else {
                 time = 0;
             }
@@ -484,7 +484,7 @@ export default class RongHo extends cc.Component {
         // this.waitTime.node.parent.active = isInWaitTime && time != "00";
 
         this.animatedTime.setTime(time);
-        this.animatedTime.node.parent.active = isInTurnTime;
+        this.animatedTime.node.parent.active = isInTurnTime && time != "00";
     }
 
     public updateLogs() {
@@ -559,14 +559,14 @@ export default class RongHo extends cc.Component {
         }, this);
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(() => {
-            const isInWaitTime = this.currentTimeRemaining >= this.config.betTime;
-            const isInTurnTime = !isInWaitTime && this.currentTimeRemaining >= 0;
+            const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
+            const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 0;
             this.showTime(isInWaitTime, isInTurnTime);
             if (isInWaitTime) {
                 if (!this.resultAnimating) {
                     this.showResult(true);
                 }
-                if (this.currentTimeRemaining == this.config.betTime) {
+                if (this.currentTimeRemaining == this.config.betTime + 1) {
                     // this.resultAnimating = false; //comment for dont show result again after enable game.
                     this.showResult(false);
                     this.drawAnimation.play();
@@ -576,7 +576,7 @@ export default class RongHo extends cc.Component {
                 this.resultAnimating = false;
                 this.showResult(false);
 
-                const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
+                const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime - 1;
                 if (isStartingNewTurn) {
                     //reset for new turn
                     this.betItems.forEach(item => item.clear());
