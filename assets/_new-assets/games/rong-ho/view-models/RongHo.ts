@@ -16,7 +16,6 @@ import GameUtils from "../../../common/GameUtils";
 import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
 import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
-import UMDataHandler from "../../chan-le/view-models/main/data-handlers/UMDataHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -206,7 +205,6 @@ export default class RongHo extends cc.Component {
 
     //#region Component Methods
     onDestroy() {
-        cc.RedT.removeDataObserver(this.gameName);
     }
 
     onLoad() {
@@ -223,10 +221,10 @@ export default class RongHo extends cc.Component {
         this.dots = [].concat.apply([], logNodes);
         this.setOddLabels();
         this.setPhienLabel(0);
-        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
     onEnable() {
+        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
         this.regEvent(true);
         this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
@@ -237,6 +235,7 @@ export default class RongHo extends cc.Component {
     }
 
     onDisable() {
+        cc.RedT.removeDataObserver(this.gameName);
         this.onGameHide();
 
         this.regEvent(false);
