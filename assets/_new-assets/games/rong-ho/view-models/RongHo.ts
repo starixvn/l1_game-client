@@ -575,11 +575,12 @@ export default class RongHo extends cc.Component {
                 //clear effect for result
                 this.resultAnimating = false;
                 this.showResult(false);
+                const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
 
-                const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime - 1;
                 if (isStartingNewTurn) {
                     //reset for new turn
                     this.betItems.forEach(item => item.clear());
+                    this.notice.removeAllChildren();
                 }
 
                 if (!isInTurnTime) {
