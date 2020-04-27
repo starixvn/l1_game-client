@@ -37,12 +37,13 @@ export default class RongHoHistory extends cc.Component {
 
     onDisable() {
         this.root.hideHistory();
+        this.content.children.forEach(child => child.destroy());
         this.node.destroy();
     }
 
     onData(data: any) {
         this.pages.onSet(data.page, data.kmess, data.total);
-        this.content.removeAllChildren(true);
+        this.content.children.forEach(child => child.destroy());
 
         for (let i = 0; i < data.data.length; i++) {
             var dataT = data.data[i];
@@ -65,6 +66,16 @@ export default class RongHoHistory extends cc.Component {
                 item.betDragon.string = nFormatter(dataT.dragon, 1);
                 item.betTiger.string = nFormatter(dataT.tiger, 1);
                 item.betDraw.string = nFormatter(dataT.tie, 1);
+
+                var card1 = dataT.kq[0];
+                var card2 = dataT.kq[1];
+                if (card1.card > card2.card) {
+                    item.betDragon.node.color = cc.Color.YELLOW;
+                } else if (card1.card < card2.card) {
+                    item.betTiger.node.color = cc.Color.YELLOW;
+                } else {
+                    item.betDraw.node.color = cc.Color.YELLOW;
+                }
 
                 this.content.addChild(historyItemPrefab);
             }
