@@ -559,7 +559,6 @@ export default class RongHo extends cc.Component {
         }, this);
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(() => {
-            console.log("RH Time ", this.currentTimeRemaining);
             const isInWaitTime = this.currentTimeRemaining >= this.config.betTime;
             const isInTurnTime = !isInWaitTime && this.currentTimeRemaining >= 0;
             this.showTime(isInWaitTime, isInTurnTime);
