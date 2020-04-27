@@ -556,7 +556,7 @@ export default class RongHo extends cc.Component {
             this.showResult(true);
         }, this);
         this.timeInterval && clearInterval(this.timeInterval);
-        this.timeInterval = setInterval(function () {
+        this.timeInterval = setInterval(() => {
             const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
             const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 0;
             this.showTime(isInWaitTime, isInTurnTime);
@@ -584,9 +584,7 @@ export default class RongHo extends cc.Component {
                 }
             }
             this.currentTimeRemaining--;
-        }.bind(this),
-            1000
-        );
+        }, 1000);
     }
 
     public status(win, bet) {
