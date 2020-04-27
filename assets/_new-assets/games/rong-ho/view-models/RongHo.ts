@@ -533,9 +533,11 @@ export default class RongHo extends cc.Component {
             this.showResultCards(true);
 
             var winItem = this.getWinItem(this.resultCards);
-            this.resultFrame.active = true;
-            this.resultFrame.children.forEach(child => child.active = child.name == winItem);
-            this.highlightWonItem(true, winItem);
+            if (winItem != "") {
+                this.resultFrame.active = true;
+                this.resultFrame.children.forEach(child => child.active = child.name == winItem);
+                this.highlightWonItem(true, winItem);
+            }
         } else {
             this.setPhienLabel(this.phienId + 1);
             this.showResultCards(false);
@@ -564,6 +566,7 @@ export default class RongHo extends cc.Component {
                     this.showResult(true);
                 }
                 if (this.currentTimeRemaining == this.config.betTime + 1) {
+                    // this.resultAnimating = false; //comment for dont show result again after enable game.
                     this.showResult(false);
                     this.drawAnimation.play();
                 }
