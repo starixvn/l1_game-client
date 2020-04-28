@@ -67,7 +67,6 @@ export default class MiniPanel extends cc.Component {
   private taiXiuTurbo: any;
   private chanLe: ChanLe;
   private chanLeTurbo: ChanLe;
-  private rongHo: RongHo;
   private guide: any;
 
   onLoad() {
@@ -150,10 +149,6 @@ export default class MiniPanel extends cc.Component {
 
     if (error.gameTypeId == configs.gameIds.ChanLeTurbo && this.chanLeTurbo) {
       this.chanLeTurbo.onData(apiErrorData);
-    }
-
-    if (error.gameTypeId == configs.gameIds.RongHo && this.rongHo) {
-      this.rongHo.onData(apiErrorData);
     }
   }
 
@@ -289,14 +284,12 @@ export default class MiniPanel extends cc.Component {
 
   openRongHo() {
     if (cc.RedT.IS_LOGIN) {
-      if (!this.rongHo || !this.rongHo.node) {
-        var rongHoPrefab = cc.instantiate(this.rongHoPrefab);
-        this.rongHo = rongHoPrefab.getComponent("RongHo") as RongHo;
-        this.rongHo.init(this, "dragon_tiger", new RongHoConfigs());
-        this.miniGames.addChild(this.rongHo.node);
-      }
+      var rongHoNode = cc.instantiate(this.rongHoPrefab);
+      var rongHo = rongHoNode.getComponent("RongHo") as RongHo;
+      rongHo.init(this, "dragon_tiger", new RongHoConfigs());
+      this.miniGames.addChild(rongHoNode);
 
-      this.rongHo.openGame();
+      rongHo.openGame();
     } else {
       cc.RedT.inGame.dialog.showSignIn();
     }
