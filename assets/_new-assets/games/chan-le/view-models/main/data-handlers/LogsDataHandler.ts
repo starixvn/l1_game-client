@@ -42,6 +42,9 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
     }
 
     updateDataLogs(data: any) {
+        if (!this.dataLogs) {
+            return;
+        }
         this.dataLogs.unshift({
             dice: [
                 data.finish.dices[0],
