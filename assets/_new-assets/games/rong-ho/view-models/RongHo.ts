@@ -224,6 +224,9 @@ export default class RongHo extends cc.Component {
     }
 
     onEnable() {
+        this.resultAnimation.on("finished", () => {
+            this.showResult(true);
+        }, this);
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
         this.regEvent(true);
         this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -235,6 +238,7 @@ export default class RongHo extends cc.Component {
     }
 
     onDisable() {
+        this.resultAnimation.off("finished");
         cc.RedT.removeDataObserver(this.gameName);
         this.onGameHide();
 
@@ -554,9 +558,6 @@ export default class RongHo extends cc.Component {
     }
 
     public playTime() {
-        this.resultAnimation.on("finished", () => {
-            this.showResult(true);
-        }, this);
         this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(() => {
             const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
