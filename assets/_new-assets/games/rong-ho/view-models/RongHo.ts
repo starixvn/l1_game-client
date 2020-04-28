@@ -1,5 +1,4 @@
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import ProcessingWarning from "../../../common/processing-warning/view-models/ProcessingWarning";
 import * as helper from '../../../common/helpers/Helper';
 import DataHandler from "../../../common/_base/view-models/DataHandler";
 import { GameConfigs } from "./RongHoConfigs";
@@ -107,7 +106,7 @@ export default class RongHo extends cc.Component {
     private dataHandlers: DataHandler[] = []
     private gameName: string;
     private miniPanel: MiniPanel;
-    private processingWarning: ProcessingWarning;
+    private processingWarning: cc.Node = null;
     private touchOffset = cc.v2(0, 0);
     private timeInterval: number
     private statusTimeout: number;
@@ -370,13 +369,13 @@ export default class RongHo extends cc.Component {
 
     showWarningSlowBet(show) {
         if (show) {
-            if (this.processingWarning !== null) { return; }
+            if (this.processingWarning && this.processingWarning.isValid) { return; }
             var node = cc.instantiate(this.processWarningPrefab);
             this.node.addChild(node);
-            this.processingWarning = node.getComponent("ProcessingWarning");
+            this.processingWarning = node;
         } else {
             if (this.processingWarning === null) { return; }
-            this.processingWarning.close();
+            this.processingWarning.getComponent("ProcessingWarning").close();
             this.processingWarning = null;
         }
     }

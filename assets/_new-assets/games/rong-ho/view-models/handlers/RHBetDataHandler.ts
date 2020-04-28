@@ -15,6 +15,7 @@ export default class RHBetDataHandler implements DataHandler {
         if (data.endCuoc) {
             this.main.waitingCuoc = false;
             data.endCuoc != -1 && this.main.showAcceptedBet(data.endCuoc); //endCuoc -1 is error
+            this.main.showWarningSlowBet(false);
         }
         return true;
     }

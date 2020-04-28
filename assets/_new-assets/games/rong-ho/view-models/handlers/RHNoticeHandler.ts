@@ -11,6 +11,7 @@ export default class RHNoticeHandler implements DataHandler {
         if (data.notice) {
             this.main.addNotice(data.notice);
             this.main.waitingCuoc = false;
+            this.main.showWarningSlowBet(false);
         }
         return true;
     }
