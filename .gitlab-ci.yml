@@ -4,6 +4,16 @@ stages:
   - post-deploy
 
 before_script:
+  - echo $CURRENT_TAG
+  - if echo "$CI_COMMIT_TAG" | grep -q "$CURRENT_TAG";
+    then
+      echo "Continue deploying";
+    elif [ "$CI_ENVIRONMENT_NAME" == "PRO" ]; then
+      echo "Continue deploying";
+    else
+      echo "This job has tag is not used for current repository";
+      exit 1;
+    fi
   - echo "====== Build Cocos Web Mobile ======"
   - eval $(ssh-agent -s)
   - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
