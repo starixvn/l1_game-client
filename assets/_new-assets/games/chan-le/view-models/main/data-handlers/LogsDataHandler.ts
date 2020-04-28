@@ -1,7 +1,7 @@
 import BaseDataHandler from "./BaseDataHandler";
 import DataHandler from "../../../../../common/_base/view-models/DataHandler";
-import ChanLeMain from "../ChanLeMain";
 import ChanLeLogTips from "../ChanLeLogTips";
+import ChanLeMain from "../ChanLeMain";
 
 export interface ILogsDataHandler extends DataHandler {
     dataLogs: any;
@@ -42,6 +42,9 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
     }
 
     updateDataLogs(data: any) {
+        if (!this.dataLogs) {
+            return;
+        }
         this.dataLogs.unshift({
             dice: [
                 data.finish.dices[0],

@@ -9,6 +9,7 @@ cc.Class({
 	},
 	init: function (obj) {
 		this.RedT = obj;
+		this.colors = ['#F24647', '#33D3E9', '#F8E49D'];
 	},
 	update: function (t) {
 		if (this.node.childrenCount === 0) {
@@ -42,6 +43,7 @@ cc.Class({
 	},
 	addMarqueeMessage: function (message) {
 		let node = new cc.Node;
+		node.color = node.color.fromHEX(this.colors[Math.floor(Math.random() * 3)]);
 		node.addComponent(cc.Label);
 		let label = node.getComponent(cc.Label);
 		label.font = this.marqueeFont;

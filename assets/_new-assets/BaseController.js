@@ -18,6 +18,8 @@ module.exports = {
   setting: {},
   util: {},
 
+  dataObservers: {},
+
   connect: function (ssl) {
     if (!this.isConnected && !this.isForceKickedOut) {
       this._socket = new WebSocket(buildServerUrl(ssl, "ws", "/websocket"));
@@ -95,6 +97,17 @@ module.exports = {
     var data = message.data;
     data = cc.RedT._decodeMessage(data);
     cc.RedT.inGame && cc.RedT.inGame.onData(data);
+
+    Object.keys(cc.RedT.dataObservers).forEach(key => {
+      var observer = cc.RedT.dataObservers[key];
+      observer && observer(data);
+    });
+  },
+  addDataObserver(key, observer) {
+    this.dataObservers[key] = observer;
+  },
+  removeDataObserver(key) {
+    delete this.dataObservers[key];
   },
   _onSocketError: function (message) {
 
@@ -105,6 +118,7 @@ module.exports = {
   init: function (loading) {
     this.initPrototype();
     this.loading = loading;
+    this.dataObservers = {};
   },
   initPrototype: function () {
     String.format ||

@@ -4,6 +4,8 @@ import * as authManager from './../../common/auth/AuthManager';
 import ChanLe from '../../games/chan-le/view-models/ChanLe';
 import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
 import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
+import RongHo from '../../games/rong-ho/view-models/RongHo';
+import { RongHoConfigs } from '../../games/rong-ho/view-models/RongHoConfigs';
 
 @ccclass
 export default class MiniPanel extends cc.Component {
@@ -50,6 +52,9 @@ export default class MiniPanel extends cc.Component {
   chanLeTurboPrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
+  rongHoPrefab: cc.Prefab = null;
+
+  @property(cc.Prefab)
   guidePrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
@@ -62,6 +67,7 @@ export default class MiniPanel extends cc.Component {
   private taiXiuTurbo: any;
   private chanLe: ChanLe;
   private chanLeTurbo: ChanLe;
+  private rongHo: RongHo;
   private guide: any;
 
   onLoad() {
@@ -175,6 +181,7 @@ export default class MiniPanel extends cc.Component {
     this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.onSignIn();
     this.chanLe && this.chanLe.node && this.chanLe.onSignIn();
     this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.onSignIn();
+    this.rongHo && this.rongHo.node && this.rongHo.onSignIn();
   }
 
   onForceReload() {
@@ -220,6 +227,9 @@ export default class MiniPanel extends cc.Component {
         break;
       case configs.gameIds.ChanLeTurbo:
         !configs.disableChanLeTurbo && this.openChanLeTurbo();
+        break;
+      case configs.gameIds.RongHo:
+        this.openRongHo();
         break;
       default:
         break;
@@ -269,6 +279,19 @@ export default class MiniPanel extends cc.Component {
       }
 
       this.bauCua.openGame();
+    } else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+  }
+
+  openRongHo() {
+    if (cc.RedT.IS_LOGIN) {
+      var rongHoNode = cc.instantiate(this.rongHoPrefab);
+      this.rongHo = rongHoNode.getComponent("RongHo") as RongHo;
+      this.rongHo.init(this, "dragon_tiger", new RongHoConfigs());
+      this.miniGames.addChild(rongHoNode);
+
+      this.rongHo.openGame();
     } else {
       cc.RedT.inGame.dialog.showSignIn();
     }

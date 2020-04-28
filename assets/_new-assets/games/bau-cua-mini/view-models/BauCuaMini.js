@@ -99,7 +99,7 @@ cc.Class({
       }
     }
 
-    this.Animation.on("finished", this.addLogs, this);
+
     this.betChipList = [];
     this.localPhien = "";
     this.localResultDices = [];
@@ -183,6 +183,7 @@ cc.Class({
     this.initChangerBet();
   },
   onEnable: function () {
+    this.Animation.on("finished", this.addLogs, this);
     this.regEvent(true);
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
@@ -193,6 +194,7 @@ cc.Class({
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
   },
   onDisable: function () {
+    this.Animation.off("finished");
     this.onGameHide();
 
     this.regEvent(false);
