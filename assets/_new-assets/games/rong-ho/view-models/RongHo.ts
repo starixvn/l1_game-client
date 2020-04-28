@@ -106,7 +106,7 @@ export default class RongHo extends cc.Component {
     private dataHandlers: DataHandler[] = []
     private gameName: string;
     private miniPanel: MiniPanel;
-    private processingWarning: cc.Node = null;
+    private processingWarning: cc.Node;
     private touchOffset = cc.v2(0, 0);
     private timeInterval: number
     private statusTimeout: number;
@@ -374,7 +374,7 @@ export default class RongHo extends cc.Component {
             this.node.addChild(node);
             this.processingWarning = node;
         } else {
-            if (this.processingWarning === null) { return; }
+            if (!this.processingWarning) { return; }
             this.processingWarning.getComponent("ProcessingWarning").close();
             this.processingWarning = null;
         }
