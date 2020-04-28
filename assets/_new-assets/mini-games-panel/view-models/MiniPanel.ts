@@ -286,10 +286,12 @@ export default class MiniPanel extends cc.Component {
 
   openRongHo() {
     if (cc.RedT.IS_LOGIN) {
-      var rongHoNode = cc.instantiate(this.rongHoPrefab);
-      this.rongHo = rongHoNode.getComponent("RongHo") as RongHo;
-      this.rongHo.init(this, "dragon_tiger", new RongHoConfigs());
-      this.miniGames.addChild(rongHoNode);
+      if (!this.rongHo || !this.rongHo.node) {
+        var rongHoNode = cc.instantiate(this.rongHoPrefab);
+        this.rongHo = rongHoNode.getComponent("RongHo") as RongHo;
+        this.rongHo.init(this, "dragon_tiger", new RongHoConfigs());
+        this.miniGames.addChild(rongHoNode);
+      }
 
       this.rongHo.openGame();
     } else {
