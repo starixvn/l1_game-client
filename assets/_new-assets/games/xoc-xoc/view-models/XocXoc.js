@@ -51,7 +51,6 @@ cc.Class({
 		box_chip: cc.Node,
 
 		users_bg: cc.Node,
-		users_count: cc.Label,
 
 		nodeBat: cc.Node,
 
@@ -303,8 +302,6 @@ cc.Class({
 			} else {
 				delete this.otherPlayers[data.playerId];
 			}
-
-			this.countClient()
 		}
 	},
 
@@ -403,8 +400,6 @@ cc.Class({
 		if (!!data.players) {
 			this.addPlayers(data.players);
 		}
-
-		this.countClient()
 	},
 
 	addPlayers: function (data) {
@@ -946,9 +941,6 @@ cc.Class({
 			}
 			this.time_remain--;
 		}.bind(this), 1000);
-	},
-	countClient: function () {
-		this.users_count.string = Object.keys(this.otherPlayers).length;
 	},
 	updateData: function (data) {
 		if (this.red) {
