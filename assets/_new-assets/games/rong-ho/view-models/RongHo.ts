@@ -374,7 +374,7 @@ export default class RongHo extends cc.Component {
             this.node.addChild(node);
             this.processingWarning = node;
         } else {
-            if (!this.processingWarning) { return; }
+            if (!this.processingWarning || !this.processingWarning.isValid) { return; }
             this.processingWarning.getComponent("ProcessingWarning").close();
             this.processingWarning = null;
         }
