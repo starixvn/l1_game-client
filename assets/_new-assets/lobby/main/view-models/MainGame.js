@@ -3,6 +3,7 @@ import baseControll from "../../../BaseController";
 import helper from "../../../common/helpers/Helper";
 import logger from '../../../common/logger';
 const sentryLogger = logger();
+import { gameIds } from './../../../Configs';
 
 
 var header = require("Header"),
@@ -278,8 +279,12 @@ cc.Class({
     }
 
     if (void 0 !== window.openGameId) {
-      cc.RedT.MiniPanel.openGame(window.openGameId);
-      window.openGameId = null;
+      if (window.openGameId == gameIds.XocXoc) {
+        this.center.openGame(null, "XocXoc");
+      } else {
+        cc.RedT.MiniPanel.openGame(window.openGameId);
+        window.openGameId = null;
+      }
     }
 
     if (void 0 !== data.avatarId) {
