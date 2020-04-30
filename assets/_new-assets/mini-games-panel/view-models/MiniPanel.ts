@@ -225,6 +225,9 @@ export default class MiniPanel extends cc.Component {
       case configs.gameIds.TaiXiuTurbo:
         this.openTaiXiuTurbo();
         break;
+      case configs.gameIds.ChanLe:
+        this.openChanLe();
+        break;
       case configs.gameIds.ChanLeTurbo:
         !configs.disableChanLeTurbo && this.openChanLeTurbo();
         break;
