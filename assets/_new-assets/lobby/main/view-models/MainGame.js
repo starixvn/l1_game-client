@@ -159,23 +159,8 @@ cc.Class({
         }
       } catch (ex) { console.log(ex) }
     }
-    if (void 0 !== data.mini) {
-      cc.RedT.MiniPanel.onData(data.mini);
-    }
-    if (void 0 !== data.taixiu) {
-      cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
-    }
-    if (data.chanle) {
-      cc.RedT.MiniPanel.onDataChanLe(data.chanle);
-    }
 
-    if (void 0 !== data.taixiu_turbo) {
-      cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);
-    }
-
-    if (data.clturbo) {
-      cc.RedT.MiniPanel.onDataChanLeTurbo(data.clturbo);
-    }
+    cc.RedT.MiniPanel.onGeneralData(data);
 
     if (void 0 !== data.notice) {
       this.showNotice(data.notice);
@@ -203,17 +188,6 @@ cc.Class({
     }
     if (!!data.removeIsLoading && this.loading) {
       this.loading.active = false;
-    }
-    if (data.kickedOut) {
-      cc.RedT.MiniPanel.onDataKickedOut(data.kickedOut);
-    }
-
-    if (data.apiError) {
-      cc.RedT.MiniPanel.onDataError(data);
-    }
-
-    if (data.reload) {
-      cc.RedT.MiniPanel.onForceReload();
     }
   },
   captcha: function (data) {

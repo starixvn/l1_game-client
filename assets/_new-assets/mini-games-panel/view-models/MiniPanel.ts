@@ -92,6 +92,38 @@ export default class MiniPanel extends cc.Component {
     this.bauCua = null;
   }
 
+  onGeneralData(data: any) {
+    if (void 0 !== data.mini) {
+      this.onData(data.mini);
+    }
+    if (void 0 !== data.taixiu) {
+      this.onDataTaiXiu(data.taixiu);
+    }
+    if (data.chanle) {
+      this.onDataChanLe(data.chanle);
+    }
+
+    if (void 0 !== data.taixiu_turbo) {
+      this.onDataTaiXiuTurbo(data.taixiu_turbo);
+    }
+
+    if (data.clturbo) {
+      this.onDataChanLeTurbo(data.clturbo);
+    }
+
+    if (data.kickedOut) {
+      this.onDataKickedOut(data.kickedOut);
+    }
+
+    if (data.apiError) {
+      this.onDataError(data);
+    }
+
+    if (data.reload) {
+      this.onForceReload();
+    }
+  }
+
   onData(data: any) {
     if (data.baucua) {
       if (this.bauCua && this.bauCua.node && this.bauCua.node.active) {
