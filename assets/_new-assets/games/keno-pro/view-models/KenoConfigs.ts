@@ -1,11 +1,6 @@
-export interface GameConfigs {
-    readonly fullTime: number;
-    readonly betTime: number;
-    readonly waitTime: number;
-    readonly stopBetTime: number;
-}
+import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
 
-export class KenoConfigs implements GameConfigs {
+export class KenoConfigs implements GameBaseConfigs {
     fullTime = 36;
     betTime = 30;
     stopBetTime = 5;

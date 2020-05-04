@@ -103,12 +103,12 @@ export default class RongHo extends cc.Component {
     public history: RongHoHistory;
 
     private dots: cc.Sprite[];
-    private dataHandlers: DataHandler[] = []
+    private dataHandlers: DataHandler[] = [];
     private gameName: string;
     private miniPanel: MiniPanel;
     private processingWarning: cc.Node;
     private touchOffset = cc.v2(0, 0);
-    private timeInterval: number
+    private timeInterval: number;
     private statusTimeout: number;
     private cuoc: any;
     private resultAnimating = false;

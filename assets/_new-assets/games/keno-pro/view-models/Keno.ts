@@ -5,19 +5,14 @@ import UmWarning from "../../../common/um-warning/UmWarning";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import GameUtils from "../../../common/GameUtils";
 import KenoBetItem from "./KenoBetItem";
-import { GameConfigs } from "./KenoConfigs";
 import BetControl from "../../../common/bet-control/view-models/BetControl";
+import GameRoomBase from "../../../common/game/GameRoomBase";
+import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Keno extends cc.Component {
-
-    @property(cc.Node)
-    background: cc.Node = null;
-
-    @property(cc.Node)
-    notice: cc.Node = null;
+export default class Keno extends GameRoomBase {
 
     @property(AnimatedTime)
     animatedTime: AnimatedTime = null;
@@ -41,33 +36,22 @@ export default class Keno extends cc.Component {
     umNotice: UmWarning = null;
 
     @property(cc.Prefab)
-    processWarningPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    prefabNotice: cc.Prefab = null;
-
-    @property(cc.Prefab)
     prefabHistory: cc.Prefab = null;
 
-    public config: GameConfigs;
+    public config: GameBaseConfigs;
     public currentTimeRemaining: number;
     public disabledGame = false;
-    public waitingCuoc = false;
     public phienId = -1;
     public logs = [];
 
-    private dataHandlers: DataHandler[] = []
     private gameName: string;
-    private miniPanel: MiniPanel;
-    private processingWarning: cc.Node;
     private timeInterval: number
     private statusTimeout: number;
     private cuoc: any;
     private resultAnimating = false;
 
     //#region Public Methods
-    public init(miniPanel: MiniPanel, name: string, config: GameConfigs) {
-        this.miniPanel = miniPanel; // MiniPanel
+    public init(name: string, config: GameBaseConfigs) {
         this.gameName = name;
         this.config = config;
 
@@ -97,13 +81,12 @@ export default class Keno extends cc.Component {
         if (this.disabledGame) {
             return;
         }
-        if (this.waitingCuoc) {
-            this.showWarningSlowBet(true);
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
             return;
         }
 
-        this.waitingCuoc = true;
-        //send cuoc
+        this.waitingProcessing = true;
         var data = {
             cuoc: { cuoc: this.cuoc, box: e.target.name }
         }
@@ -148,34 +131,30 @@ export default class Keno extends cc.Component {
 
     //#region Component Methods
     onDestroy() {
+        super.onDestroy();
+        cc.RedT.removeDataObserver(this.gameName);
     }
 
     onLoad() {
+        super.onLoad()
         this.setPhienLabel(0);
+        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
     onEnable() {
-        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
         this.regEvent(true);
-        cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
-        cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
     onDisable() {
-        cc.RedT.removeDataObserver(this.gameName);
         this.onGameHide();
-
         this.regEvent(false);
-        cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-        cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
     }
     //#endregion
 
     //#region Private Methods
 
     initDataHandlers() {
-        var handlers = [];
-        this.dataHandlers.push(...handlers);
+        super.initHandlers();
     }
 
     onGameShow() {
@@ -233,25 +212,6 @@ export default class Keno extends cc.Component {
         });
     }
 
-    showWarningSlowBet(show) {
-        if (show) {
-            if (this.processingWarning && this.processingWarning.isValid) { return; }
-            var node = cc.instantiate(this.processWarningPrefab);
-            this.node.addChild(node);
-            this.processingWarning = node;
-        } else {
-            if (!this.processingWarning) { return; }
-            this.processingWarning.getComponent("ProcessingWarning").close();
-            this.processingWarning = null;
-        }
-    }
-
-    addNotice(text) {
-        var notice = cc.instantiate(this.prefabNotice);
-        var noticeComponent = notice.getComponent("mini_warning");
-        noticeComponent.text.string = text;
-        this.notice.addChild(notice);
-    }
     //#endregion Private Methods
 
     //#region Game Methods
@@ -262,14 +222,12 @@ export default class Keno extends cc.Component {
     }
 
     onData(data: any) {
-        for (let index = 0; index < this.dataHandlers.length; index++) {
-            let handler = this.dataHandlers[index];
-            if (index == 0 && handler.handle(data)) {
-                break;
-            } else {
-                handler.handle(data);
-            }
-        }
+        super.onData(data);
+    }
+
+    backGame() {
+
+        super.backGame();
     }
 
     private setPhienLabel(phien) {
