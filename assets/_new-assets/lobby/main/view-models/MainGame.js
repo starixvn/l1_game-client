@@ -283,8 +283,8 @@ cc.Class({
         this.center.openGame(null, "XocXoc");
       } else {
         cc.RedT.MiniPanel.openGame(window.openGameId);
-        window.openGameId = null;
       }
+      window.openGameId = null;
     }
 
     if (void 0 !== data.avatarId) {
