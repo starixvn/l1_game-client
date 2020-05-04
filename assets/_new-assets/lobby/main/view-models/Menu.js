@@ -49,6 +49,9 @@ cc.Class({
   loadGameRoom: function (name) {
     cc.director.loadScene(name);
   },
+  loadGame: function (e, name) {
+    cc.director.loadScene(name);
+  },
   openGame: function (e, name) {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
