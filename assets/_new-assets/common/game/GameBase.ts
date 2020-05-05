@@ -9,6 +9,7 @@ import AnimatedTime from "../animated-time/view-models/AnimatedTime";
 import BetItem from "./BetItem";
 import GameUtils from "../GameUtils";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
+import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -110,6 +111,10 @@ export default class GameBase extends cc.Component {
 
     protected createGameTimeHandler(): DataHandler {
         return new GameBaseTimeHandler(this);
+    }
+
+    protected createErrorHandler(): DataHandler {
+        return new GameBaseErrorHandler(this);
     }
 
     private initHandlers() {
