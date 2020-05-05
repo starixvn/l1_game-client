@@ -45,12 +45,12 @@ export default class GameBase extends cc.Component {
     public config: GameBaseConfigs;
     public gameName: string;
 
-    protected readonly umHandler: DataHandler;
-    protected readonly noticeHandler: DataHandler;
-    protected readonly statusHandler: DataHandler;
-    protected readonly betHandler: DataHandler;
-    protected readonly timeHandler: IGameBaseTimeHandler;
-    protected readonly errorHandler: DataHandler;
+    protected umHandler: DataHandler;
+    protected noticeHandler: DataHandler;
+    protected statusHandler: DataHandler;
+    protected betHandler: DataHandler;
+    protected timeHandler: IGameBaseTimeHandler;
+    protected errorHandler: DataHandler;
 
     private dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;

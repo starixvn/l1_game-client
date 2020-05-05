@@ -3,7 +3,7 @@ import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
 
 export default class GameBaseNoticeHandler implements DataHandler {
-    constructor(private readonly main: GameBase) {
+    constructor(protected readonly main: GameBase) {
     }
 
     handle(data: any): boolean {

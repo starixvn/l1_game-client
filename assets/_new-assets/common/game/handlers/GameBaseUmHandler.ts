@@ -3,7 +3,7 @@ import DataHandler from "./DataHandler";
 import GameBase from "../GameBase";
 
 export default class GameBaseUmDataHandler implements DataHandler {
-    constructor(private readonly main: GameBase) {
+    constructor(protected readonly main: GameBase) {
     }
 
     handle(data: any): boolean {

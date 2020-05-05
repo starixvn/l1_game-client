@@ -4,7 +4,7 @@ import DataHandler from "./DataHandler";
 import GameUtils from "../../GameUtils";
 
 export default class GameBaseStatusHandler implements DataHandler {
-    constructor(private readonly main: GameBase) {
+    constructor(protected readonly main: GameBase) {
     }
 
     private timeout: number;
