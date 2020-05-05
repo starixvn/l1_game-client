@@ -86,6 +86,7 @@ export default class GameBase extends cc.Component {
     onDestroy() {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+        this.timeHandler.stopPlayTime();
     }
 
     onEnable() {
@@ -115,6 +116,26 @@ export default class GameBase extends cc.Component {
         }
     }
 
+    bet(betData) {
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+        }
+        else {
+            this.waitingProcessing = true;
+            this.sendData(betData);
+        }
+    }
+
+    openGame() {
+        cc.RedT.audio.playClick();
+        this.node.active = true;
+    }
+
+    closeGame() {
+        cc.RedT.audio.playUnClick();
+        this.node.active = false;
+    }
+
     sendData(payload: any) {
         cc.RedT.send({
             g: {
@@ -130,6 +151,7 @@ export default class GameBase extends cc.Component {
             this.node.addChild(node);
             this.processingWarning = node;
         } else {
+            this.waitingProcessing = false;
             if (!this.processingWarning || !this.processingWarning.isValid) { return; }
             this.processingWarning.getComponent("ProcessingWarning").close();
             this.processingWarning = null;
