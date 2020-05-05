@@ -32,8 +32,6 @@ export default class Keno extends GameRoomBase {
     @property(BetControl)
     betControl: BetControl = null;
 
-    @property(UmWarning)
-    umNotice: UmWarning = null;
 
     @property(cc.Prefab)
     prefabHistory: cc.Prefab = null;

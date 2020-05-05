@@ -2,6 +2,8 @@ import DataHandler from "../_base/view-models/DataHandler";
 import UmWarning from "../um-warning/UmWarning";
 import { GameBaseConfigs } from "./GameBaseConfig";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
+import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
+import GameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -57,7 +59,12 @@ export default class GameBase extends cc.Component {
     }
 
     protected initHandlers() {
-        this.dataHandlers.push(new GameBaseUmDataHandler(this));
+        var handlers = [
+            new GameBaseUmDataHandler(this),
+            new GameBaseNoticeHandler(this),
+            new GameBaseStatusHandler(this),
+        ];
+        this.dataHandlers.push(...handlers);
     }
 
     protected onData(data: any) {
@@ -69,6 +76,11 @@ export default class GameBase extends cc.Component {
                 handler.handle(data);
             }
         }
+    }
+
+    /** Handle status data */
+    public status(win, bet) {
+
     }
 
     public showProcessingWarning(show) {
@@ -85,7 +97,7 @@ export default class GameBase extends cc.Component {
     }
 
     public showUMWarning(data: any) {
-        this.onGameHide();
+        this.stopGame();
         this.umNotice.show(data);
     }
 
