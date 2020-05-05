@@ -163,10 +163,4 @@ export default class GameBase extends cc.Component {
     protected addHandlers(...handlers: DataHandler[]): void {
         this.dataHandlers.push(...handlers);
     }
-
-    /** Handle status data */
-    public status(win, bet) {
-
-    }
-
 }

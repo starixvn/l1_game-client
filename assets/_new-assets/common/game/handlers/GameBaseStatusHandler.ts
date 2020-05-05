@@ -26,7 +26,7 @@ export default class GameBaseStatusHandler implements DataHandler {
         }
         this.timeout = setTimeout(() => {
             if (win) {
-                GameUtils.addFlyingText(this.main.notice, win, bet, 4);
+                GameUtils.addFlyingText(this.main.noticeNode, win, bet, 4);
                 cc.RedT.send({
                     user: {
                         updateCoint: true
