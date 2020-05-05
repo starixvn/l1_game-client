@@ -1,6 +1,4 @@
 import * as helper from '../../../common/helpers/Helper';
-import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
-import GameUtils from "../../../common/GameUtils";
 import BetControl from "../../../common/bet-control/view-models/BetControl";
 import GameRoomBase from "../../../common/game/GameRoomBase";
 import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
@@ -73,11 +71,6 @@ export default class Keno extends GameRoomBase {
         this.sendData(data);
     }
 
-    public showUMWarning(data: any) {
-        this.onGameHide();
-        this.umNotice.show(data);
-    }
-
     public openGame() {
         cc.RedT.audio.playClick();
         this.node.active = !0;
@@ -99,10 +92,6 @@ export default class Keno extends GameRoomBase {
         // this.miniPanel.dialog.insertChild(dialog, 0);
     }
 
-    public hideHistory() {
-        // this.history = null;
-    }
-
     public pressedShowGuide() {
         cc.RedT.audio.playClick();
         // this.miniPanel.openGuide("RongHo");
@@ -122,8 +111,7 @@ export default class Keno extends GameRoomBase {
 
     //#region Private Methods
     stopGame() {
-        this.timeInterval && clearInterval(this.timeInterval);
-        this.statusTimeout && clearTimeout(this.statusTimeout);
+        super.stopGame();
         this.defaultUIState();
     }
 
@@ -162,14 +150,6 @@ export default class Keno extends GameRoomBase {
             cc.RedT.setting[this.gameName].bet = bet;
         };
     }
-
-    sendData(payload: any) {
-        cc.RedT.send({
-            g: {
-                [`mini_${this.gameName}`]: payload
-            }
-        });
-    }
     //#endregion Private Methods
 
     //#region Game Methods
@@ -179,16 +159,8 @@ export default class Keno extends GameRoomBase {
     //     }
     // }
 
-    onData(data: any) {
-        super.onData(data);
-    }
-
     private setPhienLabel(phien) {
         this.phienLabel.string = phien < 1 ? "" : `#${phien}`;
-    }
-
-    private showResultCards(show: boolean) {
-
     }
 
     private highlightWonItem(highlight: boolean, winItem: string = "") {
@@ -203,30 +175,10 @@ export default class Keno extends GameRoomBase {
         }
     }
 
-    private showTime(isInWaitTime, isInTurnTime) {
-        let time: any;
-        if (isInWaitTime) {
-            time = helper.numberPad(this.currentTimeRemaining - this.config.betTime, 2);
-        } else {
-            if (isInTurnTime) {
-                time = helper.numberPad(this.currentTimeRemaining, 2);
-            } else {
-                time = 0;
-            }
-        }
-
-        // this.waitTime.string = time == "00" ? '' : "00:" + time;
-        // this.waitTime.node.parent.active = isInWaitTime && time != "00";
-
-        this.animatedTime.setTime(time);
-        this.animatedTime.node.parent.active = isInTurnTime && time != "00";
-    }
-
     public showResult(show: boolean) {
         if (show) {
             // this.updateLogs();
             this.setPhienLabel(this.phienId);
-            this.showResultCards(true);
 
             // var winItem = this.getWinItem(this.resultCards);
             // if (winItem != "") {
@@ -236,66 +188,9 @@ export default class Keno extends GameRoomBase {
             // }
         } else {
             this.setPhienLabel(this.phienId + 1);
-            this.showResultCards(false);
             this.highlightWonItem(false);
             this.resultFrame.active = false;
         }
     }
-
-    public playTime() {
-        this.timeInterval && clearInterval(this.timeInterval);
-        this.timeInterval = setInterval(() => {
-            const isInWaitTime = this.currentTimeRemaining > this.config.betTime;
-            const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 0;
-            this.showTime(isInWaitTime, isInTurnTime);
-            if (isInWaitTime) {
-                if (!this.resultAnimating) {
-                    this.showResult(true);
-                }
-                if (this.currentTimeRemaining == this.config.betTime + 1) {
-                    // this.resultAnimating = false; //comment for dont show result again after enable game.
-                    this.showResult(false);
-                    // this.drawAnimation.play();
-                }
-            } else {
-                //clear effect for result
-                this.resultAnimating = false;
-                this.showResult(false);
-                const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
-
-                if (isStartingNewTurn) {
-                    //reset for new turn
-                    this.betItems.forEach(item => item.clearBet());
-                    this.notice.removeAllChildren();
-                }
-
-                if (!isInTurnTime) {
-                    clearInterval(this.timeInterval);
-                }
-            }
-            this.currentTimeRemaining--;
-        }, 1000);
-    }
-
-    public status(win, bet) {
-        if (!cc.RedT.GAME_IS_SHOWED) {
-            return;
-        }
-        this.statusTimeout = setTimeout(
-            function () {
-                if (win) {
-                    GameUtils.addFlyingText(this.notice, win, bet, 4);
-                    cc.RedT.send({
-                        user: {
-                            updateCoint: true
-                        }
-                    });
-                }
-            }.bind(this),
-            2e3
-        );
-    }
-
-
     //#endregion
 }

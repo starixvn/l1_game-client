@@ -67,6 +67,14 @@ export default class GameRoomBase extends GameBase {
         this.goToLobby();
     }
 
+    onConnected() {
+        //dont do anything, go to MainGame if socket is disconnected.
+    }
+
+    onDisconnected() {
+        this.goToLobby();
+    }
+
     onData(data: any) {
         this.currentMiniPanel.onGeneralData(data);
         this.onGeneralData(data);
@@ -144,7 +152,7 @@ export default class GameRoomBase extends GameBase {
     }
 
     goToLobby() {
-        this.onGameHide();
+        this.stopGame();
         cc.director.loadScene('MainGame');
     }
 
