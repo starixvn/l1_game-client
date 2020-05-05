@@ -1,8 +1,8 @@
 import GameBase from "./GameBase";
 import RoomPlayer from "./RoomPlayer";
-import Notice from "../notice/view-models/Notice";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from '../../common/helpers/Helper';
+import Notice from "../notice/view-models/Notice";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,7 +33,7 @@ export default class GameRoomBase extends GameBase {
     userAvatar: cc.Sprite = null;
 
     private otherPlayers = {};
-    private Positions = {
+    private readonly positions = {
         1: { id: 1, data: null },
         2: { id: 2, data: null },
         3: { id: 3, data: null },
@@ -43,7 +43,6 @@ export default class GameRoomBase extends GameBase {
         7: { id: 7, data: null },
         8: { id: 8, data: null },
     };
-    private UMNotice: Notice = null;
     private currentMiniPanel: MiniPanel;
 
     onDestroy() {
@@ -69,23 +68,30 @@ export default class GameRoomBase extends GameBase {
     }
 
     onData(data: any) {
-        super.onData(data);
         this.currentMiniPanel.onGeneralData(data);
+        this.onGeneralData(data);
 
+        if (!data[this.gameName]) {
+            return;
+        }
+
+        var gameData = data[this.gameName];
+        super.onData(gameData);
+        this.onDataGameRoom(gameData);
+    }
+
+    onGeneralData(data: any) {
         if (data.user) {
             this.userBalance.string = numberWithCommas(data.red);
             cc.RedT.userData(data.user);
         }
-
         if (data.kickedOut || data.apiError) {
             this.waitingProcessing = false;
             this.showProcessingWarning(false);
         }
+    }
 
-        if (!!data.outgame) {
-            this.removePlayer(data.outgame);
-        }
-
+    onDataGameRoom(data: any) {
         if (data.player) {
             this.addPlayer(data.player);
         }
@@ -94,9 +100,13 @@ export default class GameRoomBase extends GameBase {
             this.addPlayers(data.players);
         }
 
+        if (data.outgame) {
+            this.removePlayer(data.outgame);
+        }
+
         if (data.um) {
-            if (!this.UMNotice) {
-                this.showUMMessage(data.um_message);
+            if (!this.noticeNode) {
+                this.showUmMessage(data.um_message);
             }
         }
     }
@@ -121,14 +131,15 @@ export default class GameRoomBase extends GameBase {
         });
     }
 
-    showUMMessage(message) {
+    showUmMessage(message) {
         this.stopGame();
         var noticePrefab = cc.instantiate(this.noticePrefab);
-        this.UMNotice = noticePrefab.getComponent("Notice");
+        var notice = noticePrefab.getComponent("Notice") as Notice;
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
-        this.UMNotice.init({ text: text, button: { text: "Ok" } });
-        this.UMNotice.handleClickButton = this.goToLobby;
-        this.UMNotice.handleClose = this.goToLobby;
+        notice.init({ text: text, button: { text: "Ok" } });
+        notice.handleClickButton = this.goToLobby;
+        notice.handleClose = this.goToLobby;
+
         this.node.addChild(noticePrefab);
     }
 
@@ -142,7 +153,7 @@ export default class GameRoomBase extends GameBase {
             let slot = this.getPlayerSlot(data.playerId);
 
             if (slot) {
-                this.Positions[slot.id].data = null;
+                this.positions[slot.id].data = null;
                 this.players[slot.id - 1].setInfo(null);
                 let keys = Object.keys(this.otherPlayers);
                 if (keys.length > 0) {
@@ -158,13 +169,13 @@ export default class GameRoomBase extends GameBase {
 
     addPlayers(data) {
         let players = Object.keys(data).map(key => data[key]);
-        var positionsSize = Object.keys(this.Positions).length;
+        var positionsSize = Object.keys(this.positions).length;
 
         let length = players.length < positionsSize ? players.length : positionsSize;
         for (let i = 0; i < length; i++) {
             let player = players[i];
             this.players[i].setInfo(player);
-            this.Positions[i + 1].data = player;
+            this.positions[i + 1].data = player;
             delete data[player.id];
         }
 
@@ -180,7 +191,7 @@ export default class GameRoomBase extends GameBase {
 
             if (emptySlots.length > 0) {
                 var selectedPos = emptySlots[0];
-                this.Positions[selectedPos.id].data = player;
+                this.positions[selectedPos.id].data = player;
                 this.players[selectedPos.id - 1].setInfo(player);
             } else {
                 this.otherPlayers[player.id] = player;
@@ -189,8 +200,8 @@ export default class GameRoomBase extends GameBase {
     }
 
     getPlayerSlot(playerId) {
-        for (const key in Object.keys(this.Positions)) {
-            const t = this.Positions[key];
+        for (const key in Object.keys(this.positions)) {
+            const t = this.positions[key];
             if (t.data && t.data.id == playerId) {
                 return t;
             }
@@ -200,7 +211,7 @@ export default class GameRoomBase extends GameBase {
     }
 
     getEmptySlots() {
-        let slots = Object.keys(this.Positions).map(key => this.Positions[key]);
+        let slots = Object.keys(this.positions).map(key => this.positions[key]);
         let emptySlots = slots.filter(function (t) { return t.data == null });
 
         return emptySlots;

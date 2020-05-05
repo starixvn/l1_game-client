@@ -25,7 +25,7 @@ export default class GameBase extends cc.Component {
     miniNoticePrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    notice: cc.Node = null;
+    noticeNode: cc.Node = null;
 
     @property(UmWarning)
     umNotice: UmWarning = null;
@@ -138,18 +138,18 @@ export default class GameBase extends cc.Component {
 
     showUMWarning(data: any) {
         this.stopGame();
-        this.umNotice.show(data);
+        this.umNotice && this.umNotice.show(data);
     }
 
     addNotice(text) {
         var notice = cc.instantiate(this.miniNoticePrefab);
         var noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = text;
-        this.notice.addChild(notice);
+        this.noticeNode.addChild(notice);
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.notice, false, bet, 1);
+        GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
     }
 
     /** Clear all intervals and timeouts in game */
