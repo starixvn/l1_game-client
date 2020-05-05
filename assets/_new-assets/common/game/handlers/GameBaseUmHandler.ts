@@ -1,5 +1,5 @@
 
-import DataHandler from "../../_base/view-models/DataHandler";
+import DataHandler from "./DataHandler";
 import GameBase from "../GameBase";
 
 export default class GameBaseUmDataHandler implements DataHandler {

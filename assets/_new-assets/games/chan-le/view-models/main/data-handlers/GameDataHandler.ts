@@ -1,4 +1,4 @@
-import DataHandler from "../../../../../common/_base/view-models/DataHandler";
+import DataHandler from "../../../../../common/game/handlers/DataHandler";
 import BaseDataHandler from "./BaseDataHandler";
 import ChanLeMain from "../ChanLeMain";
 import { numberWithCommas } from '../../../../../common/helpers/Helper';

@@ -1,6 +1,6 @@
 
-import DataHandler from "../../_base/view-models/DataHandler";
 import GameBase from "../GameBase";
+import DataHandler from "./DataHandler";
 
 export default class GameBaseStatusHandler implements DataHandler {
     constructor(private readonly main: GameBase) {

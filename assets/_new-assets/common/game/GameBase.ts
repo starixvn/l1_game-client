@@ -1,9 +1,10 @@
-import DataHandler from "../_base/view-models/DataHandler";
+import DataHandler from "./handlers/DataHandler";
 import UmWarning from "../um-warning/UmWarning";
 import { GameBaseConfigs } from "./GameBaseConfig";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
 import GameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
+import AnimatedTime from "../animated-time/view-models/AnimatedTime";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,6 +21,15 @@ export default class GameBase extends cc.Component {
 
     @property(UmWarning)
     umNotice: UmWarning = null;
+
+    @property(cc.Node)
+    timeWaitNode: cc.Node = null;
+
+    @property(cc.Label)
+    timeWaitLabel: cc.Label = null;
+
+    @property({ type: AnimatedTime })
+    animatedTime: AnimatedTime = null;
 
     private dataHandlers: DataHandler[] = [];
 

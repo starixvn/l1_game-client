@@ -1,6 +1,6 @@
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import * as helper from '../../../common/helpers/Helper';
-import DataHandler from "../../../common/_base/view-models/DataHandler";
+import DataHandler from "../../../common/game/handlers/DataHandler";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import RHUMDataHandler from "./handlers/RHUMDataHandler";
 import RHGameTimeHandler from "./handlers/RHGameTimeHandler";

@@ -1,5 +1,5 @@
 import RongHo from "../RongHo";
-import DataHandler from "../../../../common/_base/view-models/DataHandler";
+import DataHandler from "../../../../common/game/handlers/DataHandler";
 
 export default class RHGameTimeHandler implements DataHandler {
 
