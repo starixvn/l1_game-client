@@ -1,7 +1,6 @@
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import * as helper from '../../../common/helpers/Helper';
 import DataHandler from "../../../common/_base/view-models/DataHandler";
-import { GameConfigs } from "./RongHoConfigs";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import RHUMDataHandler from "./handlers/RHUMDataHandler";
 import RHGameTimeHandler from "./handlers/RHGameTimeHandler";
@@ -15,6 +14,7 @@ import GameUtils from "../../../common/GameUtils";
 import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
 import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
+import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -93,7 +93,7 @@ export default class RongHo extends cc.Component {
     @property(cc.Prefab)
     prefabHistory: cc.Prefab = null;
 
-    public config: GameConfigs
+    public config: GameBaseConfigs
     public currentTimeRemaining: number;
     public disabledGame = false;
     public waitingCuoc = false;
@@ -115,7 +115,7 @@ export default class RongHo extends cc.Component {
 
 
     //#region Public Methods
-    public init(miniPanel: MiniPanel, name: string, config: GameConfigs) {
+    public init(miniPanel: MiniPanel, name: string, config: GameBaseConfigs) {
         this.miniPanel = miniPanel; // MiniPanel
         this.gameName = name;
         this.config = config;

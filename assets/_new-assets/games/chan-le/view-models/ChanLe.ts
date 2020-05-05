@@ -4,9 +4,9 @@ import ChanLeTopUsers from './top-users/ChanLeTopUsers';
 import ChanLeHistory from './history/ChanLeHistory';
 import ChanLeTurnHistory from './turn-history/ChanLeTurnHistory';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import { GameConfigs } from './ChanLeConfigs';
 import ChanLeLogTips from './main/ChanLeLogTips';
 import ChanLeStats from './statistics/ChanLeStats';
+import { CLGameConfigs } from './ChanLeConfigs';
 
 @ccclass
 export default class ChanLe extends cc.Component {
@@ -26,7 +26,7 @@ export default class ChanLe extends cc.Component {
     public statsPrefab: cc.Prefab = null;
 
     public gameName: string;
-    public gameConfigs: GameConfigs;
+    public gameConfigs: CLGameConfigs;
     public gameTitle: string;
     public statistics: ChanLeStats;
     private miniPanel: MiniPanel;
@@ -36,7 +36,7 @@ export default class ChanLe extends cc.Component {
     private touchOffset: cc.Vec2 = null;
     private isGameHide = false;
 
-    init(miniPanel: MiniPanel, gameName: string, config: GameConfigs, gameTitle: string, hideDiaNan = false) {
+    init(miniPanel: MiniPanel, gameName: string, config: CLGameConfigs, gameTitle: string, hideDiaNan = false) {
         this.miniPanel = miniPanel;
         this.gameName = gameName;
         this.gameTitle = gameTitle;

@@ -1,11 +1,9 @@
-export interface GameConfigs {
-    readonly fullTime: number;
-    readonly betTime: number;
-    readonly waitTime: number;
-    readonly stopBetTime: number;
-}
+import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
 
-export class RongHoConfigs implements GameConfigs {
+export class RongHoConfigs implements GameBaseConfigs {
+    minBetTime: number;
+    minBet: number;
+    maxBet: number;
     fullTime = 36;
     betTime = 30;
     stopBetTime = 5;
