@@ -225,9 +225,8 @@ export default class Keno extends GameRoomBase {
         super.onData(data);
     }
 
-    backGame() {
-
-        super.backGame();
+    goToLobby() {
+        super.goToLobby();
     }
 
     private setPhienLabel(phien) {

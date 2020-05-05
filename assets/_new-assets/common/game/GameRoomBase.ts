@@ -15,6 +15,9 @@ export default class GameRoomBase extends GameBase {
     @property(cc.Node)
     miniPanelContainer: cc.Node = null;
 
+    @property(cc.Prefab)
+    NoticePrefab: cc.Prefab = null;
+
     @property(cc.Node)
     loading: cc.Node = null;
 
@@ -45,6 +48,11 @@ export default class GameRoomBase extends GameBase {
         this.miniPanelContainer.addChild(node);
     }
 
+    protected onGameHide() {
+        super.onGameHide();
+        this.goToLobby();
+    }
+
     protected onData(data: any) {
         super.onData(data);
         cc.RedT.MiniPanel.onGeneralData(data);
@@ -55,6 +63,10 @@ export default class GameRoomBase extends GameBase {
         if (data.kickedOut || data.apiError) {
             this.waitingProcessing = false;
             this.showProcessingWarning(false);
+        }
+
+        if (!!data.outgame) {
+            this.removePlayer(data.outgame);
         }
 
         if (data.player) {
@@ -73,19 +85,38 @@ export default class GameRoomBase extends GameBase {
     }
 
     showUMMessage(message) {
-        // clearInterval(this.timeInterval);
+        this.stopGame();
         var noticePrefab = cc.instantiate(this.NoticePrefab);
         this.UMNotice = noticePrefab.getComponent("Notice");
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
         this.UMNotice.init({ text: text, button: { text: "Ok" } });
-        this.UMNotice.handleClickButton = this.backGame;
-        this.UMNotice.handleClose = this.backGame;
+        this.UMNotice.handleClickButton = this.goToLobby;
+        this.UMNotice.handleClose = this.goToLobby;
         this.node.addChild(noticePrefab);
     }
 
-    backGame() {
+    goToLobby() {
         this.onGameHide();
         cc.director.loadScene('MainGame');
+    }
+
+    removePlayer(data: any) {
+        if (!!data.playerId) {
+            let slot = this.getPlayerSlot(data.playerId);
+
+            if (slot) {
+                this.Positions[slot.id].data = null;
+                this.players[slot.id - 1].setInfo(null);
+                let keys = Object.keys(this.otherPlayers);
+                if (keys.length > 0) {
+                    let newPlayer = this.otherPlayers[keys[0]];
+                    this.addPlayer(newPlayer);
+                    delete this.otherPlayers[newPlayer.id];
+                }
+            } else {
+                delete this.otherPlayers[data.playerId];
+            }
+        }
     }
 
     addPlayers(data) {

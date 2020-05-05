@@ -39,10 +39,20 @@ export default class GameBase extends cc.Component {
     }
 
     protected onGameHide() {
-
+        this.stopGame();
     }
 
     protected onGameShow() {
+        this.regEvent(true);
+    }
+
+    /** Clear all intervals and timeouts in game */
+    protected stopGame() {
+
+    }
+
+    /** Register with game on server */
+    protected regEvent(reg: boolean) {
 
     }
 
