@@ -4,12 +4,18 @@ import { GameBaseConfigs } from "./GameBaseConfig";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
 import GameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
+import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
 import AnimatedTime from "../animated-time/view-models/AnimatedTime";
+import BetItem from "./BetItem";
+import GameUtils from "../GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameBase extends cc.Component {
+    @property({ type: BetItem })
+    betItems: BetItem[] = [];
+
     @property(cc.Prefab)
     processWarningPrefab: cc.Prefab = null;
 
@@ -73,6 +79,7 @@ export default class GameBase extends cc.Component {
             new GameBaseUmDataHandler(this),
             new GameBaseNoticeHandler(this),
             new GameBaseStatusHandler(this),
+            new GameBaseBetHandler(this),
         ];
         this.dataHandlers.push(...handlers);
     }
@@ -116,5 +123,9 @@ export default class GameBase extends cc.Component {
         var noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = text;
         this.notice.addChild(notice);
+    }
+
+    public showAcceptedBet(bet: number) {
+        GameUtils.addFlyingText(this.notice, false, bet, 1);
     }
 }

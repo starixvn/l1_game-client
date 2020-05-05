@@ -1,9 +1,10 @@
 import * as helper from '../../../common/helpers/Helper';
+import BetItem from '../../../common/game/BetItem';
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class KenoBetItem extends cc.Component {
+export default class KenoBetItem extends BetItem {
 
     @property(cc.Node)
     inActive: cc.Node = null;
@@ -17,25 +18,15 @@ export default class KenoBetItem extends cc.Component {
     @property(cc.Label)
     ownBet: cc.Label = null;
 
-    public setData(data: any) {
-        if (data.data) {
-            this.setTotalBet(data.data[this.node.name]);
-        }
-
-        if (data.me) {
-            this.setOwnBet(data.me[this.node.name]);
-        }
-    }
-
-    public clear() {
+    public clearBet() {
         this.ownBet.string = this.totalBet.string = "";
     }
 
-    public setOwnBet(bet: number) {
+    protected setOwnBet(bet: number) {
         this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
 
-    public setTotalBet(bet: number) {
+    protected setTotalBet(bet: number) {
         this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
 

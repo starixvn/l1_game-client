@@ -1,10 +1,6 @@
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import * as helper from '../../../common/helpers/Helper';
-import DataHandler from "../../../common/game/handlers/DataHandler";
-import UmWarning from "../../../common/um-warning/UmWarning";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import GameUtils from "../../../common/GameUtils";
-import KenoBetItem from "./KenoBetItem";
 import BetControl from "../../../common/bet-control/view-models/BetControl";
 import GameRoomBase from "../../../common/game/GameRoomBase";
 import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
@@ -25,9 +21,6 @@ export default class Keno extends GameRoomBase {
 
     @property(cc.Label)
     phienLabel: cc.Label = null;
-
-    @property({ type: KenoBetItem })
-    betItems: KenoBetItem[] = [];
 
     @property(BetControl)
     betControl: BetControl = null;
@@ -171,7 +164,7 @@ export default class Keno extends GameRoomBase {
         this.waitTime.node.parent.active = false;
         this.animatedTime.node.parent.active = false;
         this.betItems.forEach(item => {
-            item.clear();
+            item.clearBet();
             item.resetHighlight();
         });
     }
@@ -309,7 +302,7 @@ export default class Keno extends GameRoomBase {
 
                 if (isStartingNewTurn) {
                     //reset for new turn
-                    this.betItems.forEach(item => item.clear());
+                    this.betItems.forEach(item => item.clearBet());
                     this.notice.removeAllChildren();
                 }
 
@@ -340,8 +333,6 @@ export default class Keno extends GameRoomBase {
         );
     }
 
-    public showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.notice, false, bet, 1);
-    }
+
     //#endregion
 }

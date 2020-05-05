@@ -31,11 +31,11 @@ export default class RongHoBetItem extends cc.Component {
         this.ownBet.string = this.totalBet.string = "";
     }
 
-    public setOwnBet(bet: number) {
+    protected setOwnBet(bet: number) {
         this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
 
-    public setTotalBet(bet: number) {
+    protected setTotalBet(bet: number) {
         this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
 
