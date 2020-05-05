@@ -128,7 +128,6 @@ export default class ChanLe extends cc.Component {
         var dialog = cc.instantiate(this.turnHistoryPrefab);
         this.turnHistory = dialog.getComponent("ChanLeTurnHistory");
         var dotLog = event.target.getComponent("ChanLeLogTips") as ChanLeLogTips;
-        console.log(dotLog);
 
         this.turnHistory.init(this, dotLog.turnId);
         this.miniPanel.dialog.insertChild(dialog, 0);

@@ -30,14 +30,14 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             const isInWaitTime = self.main.currentTimeRemaining > this.main.config.betTime;
 
             if (isInWaitTime) {
-                self.showWaitTime();
+                self.handleWaitTime();
             } else {
                 const isInTurnTime = self.main.currentTimeRemaining > this.main.config.minBetTime;
 
                 self.setGameRound();
 
                 if (isInTurnTime) {
-                    self.showTime();
+                    self.handleInTurnTime();
                 } else {
                     clearInterval(self.playTimeInterval);
                 }
@@ -50,18 +50,19 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
     }
 
-    showTime() {
+    setGameRound() {
+    }
+
+    handleWaitTime() {
+        var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - 1, 2);
+        this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
+        this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
+    }
+
+    handleInTurnTime() {
         var time = numberPad(this.main.currentTimeRemaining - 1, 2);
         this.main.animatedTime.setTime(time);
         this.main.animatedTime.node.active = true;
     }
 
-    setGameRound() {
-    }
-
-    private showWaitTime() {
-        var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - 1, 2);
-        this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
-        this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
-    }
 }

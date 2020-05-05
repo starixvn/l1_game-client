@@ -46,32 +46,41 @@ export default class GameBase extends cc.Component {
     public config: GameBaseConfigs;
 
 
-    protected onLoad() {
+    onLoad() {
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
-    protected onDestroy() {
+    onDestroy() {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
-    protected onGameHide() {
+    onGameHide() {
         this.stopGame();
     }
 
-    protected onGameShow() {
-        this.regEvent(true);
+    onGameShow() {
+        this.startGame();
+    }
+
+    onData(data: any) {
+        for (let index = 0; index < this.dataHandlers.length; index++) {
+            let handler = this.dataHandlers[index];
+            if (index == 0 && handler.handle(data)) { //um handler
+                break;
+            } else {
+                handler.handle(data);
+            }
+        }
     }
 
     /** Clear all intervals and timeouts in game */
     protected stopGame() {
-
     }
 
     /** Register with game on server */
-    protected regEvent(reg: boolean) {
-
+    protected startGame() {
     }
 
     protected initHandlers() {
@@ -82,17 +91,6 @@ export default class GameBase extends cc.Component {
             new GameBaseBetHandler(this),
         ];
         this.dataHandlers.push(...handlers);
-    }
-
-    protected onData(data: any) {
-        for (let index = 0; index < this.dataHandlers.length; index++) {
-            let handler = this.dataHandlers[index];
-            if (index == 0 && handler.handle(data)) { //um handler
-                break;
-            } else {
-                handler.handle(data);
-            }
-        }
     }
 
     /** Handle status data */
