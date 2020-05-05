@@ -34,13 +34,13 @@ export default class GameRoomBase extends GameBase {
     };
     private UMNotice: Notice = null;
 
-    protected onDestroy() {
+    onDestroy() {
         super.onDestroy();
         cc.RedT.MiniPanel.destroy();
         cc.RedT.inGame = null;
     }
 
-    protected onLoad() {
+    onLoad() {
         super.onLoad();
         cc.RedT.inGame = this;
         var node = cc.instantiate(this.miniPanelPrefab);
@@ -48,15 +48,16 @@ export default class GameRoomBase extends GameBase {
         this.miniPanelContainer.addChild(node);
     }
 
-    protected onGameHide() {
+    onGameHide() {
         super.onGameHide();
         this.goToLobby();
     }
 
-    protected onData(data: any) {
+    onData(data: any) {
         super.onData(data);
         cc.RedT.MiniPanel.onGeneralData(data);
-        if (void 0 !== data.user) {
+
+        if (data.user) {
             cc.RedT.userData(data.user);
         }
 
