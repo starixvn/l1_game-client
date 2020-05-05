@@ -63,7 +63,9 @@ export default class GameBase extends cc.Component {
         this.betHandler = new GameBaseBetHandler(this);
         this.timeHandler = new GameBaseTimeHandler(this);
         this.errorHandler = new GameBaseErrorHandler(this);
+    }
 
+    onLoad() {
         this.addHandlers(
             this.umHandler,
             this.noticeHandler,
@@ -71,9 +73,7 @@ export default class GameBase extends cc.Component {
             this.betHandler,
             this.timeHandler,
             this.errorHandler);
-    }
 
-    onLoad() {
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
