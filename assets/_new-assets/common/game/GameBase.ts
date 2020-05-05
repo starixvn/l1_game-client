@@ -8,7 +8,7 @@ import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
 import AnimatedTime from "../animated-time/view-models/AnimatedTime";
 import BetItem from "./BetItem";
 import GameUtils from "../GameUtils";
-import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
+import GameBaseTimeHandler, { IGameBaseTimeHandler } from "./handlers/GameBaseTimeHandler";
 import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
 
 const { ccclass, property } = cc._decorator;
@@ -39,16 +39,41 @@ export default class GameBase extends cc.Component {
     @property({ type: AnimatedTime })
     animatedTime: AnimatedTime = null;
 
-    private dataHandlers: DataHandler[] = [];
-
-    private processingWarning: cc.Node;
     public waitingProcessing = false;
     public disabledGame = false;
     public currentTimeRemaining: number;
     public config: GameBaseConfigs;
 
+    protected readonly umHandler: DataHandler;
+    protected readonly noticeHandler: DataHandler;
+    protected readonly statusHandler: DataHandler;
+    protected readonly betHandler: DataHandler;
+    protected readonly timeHandler: IGameBaseTimeHandler;
+    protected readonly errorHandler: DataHandler;
+
+    private dataHandlers: DataHandler[] = [];
+    private processingWarning: cc.Node;
+
+    constructor() {
+        super();
+
+        this.umHandler = new GameBaseUmDataHandler(this);
+        this.noticeHandler = new GameBaseNoticeHandler(this);
+        this.statusHandler = new GameBaseStatusHandler(this);
+        this.betHandler = new GameBaseBetHandler(this);
+        this.timeHandler = new GameBaseTimeHandler(this);
+        this.errorHandler = new GameBaseErrorHandler(this);
+
+        this.addHandlers(
+            this.umHandler,
+            this.noticeHandler,
+            this.statusHandler,
+            this.betHandler,
+            this.timeHandler,
+            this.errorHandler);
+    }
+
     onLoad() {
-        this.initHandlers();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
@@ -58,11 +83,11 @@ export default class GameBase extends cc.Component {
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
-    protected onEnable() {
+    onEnable() {
         this.startGame();
     }
 
-    protected onDisable() {
+    onDisable() {
         this.stopGame();
     }
 
@@ -93,38 +118,11 @@ export default class GameBase extends cc.Component {
     protected startGame() {
     }
 
-    protected createUmHandler(): DataHandler {
-        return new GameBaseUmDataHandler(this);
-    }
-
-    protected createNoticeHandler(): DataHandler {
-        return new GameBaseNoticeHandler(this);
-    }
-
-    protected createStatusHandler(): DataHandler {
-        return new GameBaseStatusHandler(this);
-    }
-
-    protected createBetHandler(): DataHandler {
-        return new GameBaseBetHandler(this);
-    }
-
-    protected createGameTimeHandler(): DataHandler {
-        return new GameBaseTimeHandler(this);
-    }
-
     protected createErrorHandler(): DataHandler {
         return new GameBaseErrorHandler(this);
     }
 
-    private initHandlers() {
-        var handlers = [
-            this.createUmHandler(),
-            this.createNoticeHandler(),
-            this.createStatusHandler(),
-            this.createBetHandler(),
-            this.createGameTimeHandler(),
-        ];
+    private addHandlers(...handlers: DataHandler[]): void {
         this.dataHandlers.push(...handlers);
     }
 
