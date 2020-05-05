@@ -1,6 +1,8 @@
 import GameBase from "./GameBase";
 import RoomPlayer from "./RoomPlayer";
 import Notice from "../notice/view-models/Notice";
+import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import { numberWithCommas } from '../../common/helpers/Helper';
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,10 +18,19 @@ export default class GameRoomBase extends GameBase {
     miniPanelContainer: cc.Node = null;
 
     @property(cc.Prefab)
-    NoticePrefab: cc.Prefab = null;
+    noticePrefab: cc.Prefab = null;
 
     @property(cc.Node)
     loading: cc.Node = null;
+
+    @property(cc.Label)
+    userName: cc.Label = null;
+
+    @property(cc.Label)
+    userBalance: cc.Label = null;
+
+    @property(cc.Sprite)
+    userAvatar: cc.Sprite = null;
 
     private otherPlayers = {};
     private Positions = {
@@ -33,6 +44,7 @@ export default class GameRoomBase extends GameBase {
         8: { id: 8, data: null },
     };
     private UMNotice: Notice = null;
+    private currentMiniPanel: MiniPanel;
 
     onDestroy() {
         super.onDestroy();
@@ -43,9 +55,12 @@ export default class GameRoomBase extends GameBase {
     onLoad() {
         super.onLoad();
         cc.RedT.inGame = this;
-        var node = cc.instantiate(this.miniPanelPrefab);
-        cc.RedT.MiniPanel = node.getComponent('MiniPanel');
-        this.miniPanelContainer.addChild(node);
+        this.loadMiniPanel();
+        this.loadUserData();
+    }
+
+    start() {
+        cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
     }
 
     onGameHide() {
@@ -55,9 +70,10 @@ export default class GameRoomBase extends GameBase {
 
     onData(data: any) {
         super.onData(data);
-        cc.RedT.MiniPanel.onGeneralData(data);
+        this.currentMiniPanel.onGeneralData(data);
 
         if (data.user) {
+            this.userBalance.string = numberWithCommas(data.red);
             cc.RedT.userData(data.user);
         }
 
@@ -85,9 +101,29 @@ export default class GameRoomBase extends GameBase {
         }
     }
 
+    loadMiniPanel() {
+        var miniPanel = cc.instantiate(this.miniPanelPrefab);
+        this.currentMiniPanel = miniPanel.getComponent('MiniPanel');
+        this.miniPanelContainer.addChild(miniPanel);
+    }
+
+    loadUserData() {
+        this.userName.string = cc.RedT.user.name;
+        this.userBalance.string = numberWithCommas(cc.RedT.user.red);
+        var self = this;
+
+        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
+            if (self && self.userAvatar) {
+                let avatarId = cc.RedT.user.avatarId;
+                let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+                self.userAvatar.spriteFrame = frame;
+            }
+        });
+    }
+
     showUMMessage(message) {
         this.stopGame();
-        var noticePrefab = cc.instantiate(this.NoticePrefab);
+        var noticePrefab = cc.instantiate(this.noticePrefab);
         this.UMNotice = noticePrefab.getComponent("Notice");
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
         this.UMNotice.init({ text: text, button: { text: "Ok" } });

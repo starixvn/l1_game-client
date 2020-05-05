@@ -43,6 +43,7 @@ export default class GameBase extends cc.Component {
     public disabledGame = false;
     public currentTimeRemaining: number;
     public config: GameBaseConfigs;
+    public gameName: string;
 
     protected readonly umHandler: DataHandler;
     protected readonly noticeHandler: DataHandler;
@@ -63,6 +64,10 @@ export default class GameBase extends cc.Component {
         this.betHandler = new GameBaseBetHandler(this);
         this.timeHandler = new GameBaseTimeHandler(this);
         this.errorHandler = new GameBaseErrorHandler(this);
+    }
+
+    init(gameName: string) {
+        this.gameName = gameName;
     }
 
     onLoad() {
@@ -110,28 +115,15 @@ export default class GameBase extends cc.Component {
         }
     }
 
-    /** Clear all intervals and timeouts in game */
-    protected stopGame() {
+    sendData(payload: any) {
+        cc.RedT.send({
+            g: {
+                [this.gameName]: payload
+            }
+        });
     }
 
-    /** Register with game on server */
-    protected startGame() {
-    }
-
-    protected createErrorHandler(): DataHandler {
-        return new GameBaseErrorHandler(this);
-    }
-
-    private addHandlers(...handlers: DataHandler[]): void {
-        this.dataHandlers.push(...handlers);
-    }
-
-    /** Handle status data */
-    public status(win, bet) {
-
-    }
-
-    public showProcessingWarning(show) {
+    showProcessingWarning(show) {
         if (show) {
             if (this.processingWarning && this.processingWarning.isValid) { return; }
             var node = cc.instantiate(this.processWarningPrefab);
@@ -144,19 +136,37 @@ export default class GameBase extends cc.Component {
         }
     }
 
-    public showUMWarning(data: any) {
+    showUMWarning(data: any) {
         this.stopGame();
         this.umNotice.show(data);
     }
 
-    public addNotice(text) {
+    addNotice(text) {
         var notice = cc.instantiate(this.miniNoticePrefab);
         var noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = text;
         this.notice.addChild(notice);
     }
 
-    public showAcceptedBet(bet: number) {
+    showAcceptedBet(bet: number) {
         GameUtils.addFlyingText(this.notice, false, bet, 1);
     }
+
+    /** Clear all intervals and timeouts in game */
+    protected stopGame() {
+    }
+
+    /** Register with game on server */
+    protected startGame() {
+    }
+
+    protected addHandlers(...handlers: DataHandler[]): void {
+        this.dataHandlers.push(...handlers);
+    }
+
+    /** Handle status data */
+    public status(win, bet) {
+
+    }
+
 }
