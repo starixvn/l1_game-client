@@ -14,8 +14,10 @@ export default class RHFinishDataHandler implements DataHandler {
             this.main.logs.length > 100 && this.main.logs.pop();
             this.main.resultCards = data.finish.result;
             this.main.currentTimeRemaining = this.main.config.betTime + this.main.config.waitTime;
-            this.main.playAnimationResult();
-            this.main.playTime();
+            if (cc.RedT.GAME_IS_SHOWED) {
+                this.main.playAnimationResult();
+                this.main.playTime();
+            }
         }
         return true;
     }

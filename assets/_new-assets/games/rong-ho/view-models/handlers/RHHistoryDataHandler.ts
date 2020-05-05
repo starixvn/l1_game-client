@@ -9,7 +9,7 @@ export default class RHHistoryDataHandler implements DataHandler {
 
     handle(data: any): boolean {
         if (data.viewlogs) {
-            this.main.history.onData(data.viewlogs);
+            this.main.history && this.main.history.onData(data.viewlogs);
         }
 
         return true;

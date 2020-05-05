@@ -544,7 +544,7 @@ cc.Class({
     }
 
     if (data.get_phien) {
-      this.TXRoot.TXBetHistory.onData(data.get_phien);
+      this.TXRoot.TXBetHistory.node && this.TXRoot.TXBetHistory.onData(data.get_phien);
     }
     if (data.apiError) {
       this.closeProcessingWarningPopup();
@@ -566,7 +566,7 @@ cc.Class({
       !this.taixiu && this.onDataChanLe(data.chanle);
     }
     if (data.get_top) {
-      this.TXRoot.TXTop.onData(data.get_top);
+      this.TXRoot.TXTop.node && this.TXRoot.TXTop.onData(data.get_top);
     }
     if (data.chat) {
       this.TX_Chat.onData(data.chat);
@@ -575,7 +575,7 @@ cc.Class({
       this.status(data.status);
     }
     if (data.get_log) {
-      this.TXRoot.TXHistory.onData(data.get_log);
+      this.TXRoot.TXHistory.node && this.TXRoot.TXHistory.onData(data.get_log);
     }
 
     this.onDataLogs(data);

@@ -292,6 +292,7 @@ export default class RongHo extends cc.Component {
             item.resetHighlight();
         });
         this.cards.forEach(card => card.node.active = false);
+        this.notice.children.forEach(child => child.destroy());
     }
 
     onSignIn() {
@@ -374,7 +375,7 @@ export default class RongHo extends cc.Component {
             this.node.addChild(node);
             this.processingWarning = node;
         } else {
-            if (!this.processingWarning) { return; }
+            if (!this.processingWarning || !this.processingWarning.isValid) { return; }
             this.processingWarning.getComponent("ProcessingWarning").close();
             this.processingWarning = null;
         }
@@ -580,7 +581,7 @@ export default class RongHo extends cc.Component {
                 if (isStartingNewTurn) {
                     //reset for new turn
                     this.betItems.forEach(item => item.clear());
-                    this.notice.removeAllChildren();
+                    this.notice.children.forEach(child => child.destroy());
                 }
 
                 if (!isInTurnTime) {
