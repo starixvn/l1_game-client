@@ -3,7 +3,7 @@ const { ccclass, property } = cc._decorator;
 type OnChangedBet = (bet: string) => void;
 
 @ccclass
-export default class BetControl extends cc.Component {
+export default class BetChips extends cc.Component {
     public onChanged: OnChangedBet = (bet) => { };
 
     public onClickBet(event) {
