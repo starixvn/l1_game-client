@@ -8,6 +8,7 @@ import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
 import AnimatedTime from "../animated-time/view-models/AnimatedTime";
 import BetItem from "./BetItem";
 import GameUtils from "../GameUtils";
+import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -45,8 +46,8 @@ export default class GameBase extends cc.Component {
     public currentTimeRemaining: number;
     public config: GameBaseConfigs;
 
-
     onLoad() {
+        this.initHandlers();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
@@ -54,6 +55,14 @@ export default class GameBase extends cc.Component {
     onDestroy() {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+    }
+
+    protected onEnable() {
+        this.startGame();
+    }
+
+    protected onDisable() {
+        this.stopGame();
     }
 
     onGameHide() {
@@ -83,12 +92,33 @@ export default class GameBase extends cc.Component {
     protected startGame() {
     }
 
-    protected initHandlers() {
+    protected createUmHandler(): DataHandler {
+        return new GameBaseUmDataHandler(this);
+    }
+
+    protected createNoticeHandler(): DataHandler {
+        return new GameBaseNoticeHandler(this);
+    }
+
+    protected createStatusHandler(): DataHandler {
+        return new GameBaseStatusHandler(this);
+    }
+
+    protected createBetHandler(): DataHandler {
+        return new GameBaseBetHandler(this);
+    }
+
+    protected createGameTimeHandler(): DataHandler {
+        return new GameBaseTimeHandler(this);
+    }
+
+    private initHandlers() {
         var handlers = [
-            new GameBaseUmDataHandler(this),
-            new GameBaseNoticeHandler(this),
-            new GameBaseStatusHandler(this),
-            new GameBaseBetHandler(this),
+            this.createUmHandler(),
+            this.createNoticeHandler(),
+            this.createStatusHandler(),
+            this.createBetHandler(),
+            this.createGameTimeHandler(),
         ];
         this.dataHandlers.push(...handlers);
     }

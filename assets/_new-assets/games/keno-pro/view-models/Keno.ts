@@ -10,12 +10,6 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Keno extends GameRoomBase {
 
-    @property(AnimatedTime)
-    animatedTime: AnimatedTime = null;
-
-    @property(cc.Label)
-    waitTime: cc.Label = null;
-
     @property(cc.Node)
     resultFrame: cc.Node = null;
 
@@ -25,13 +19,9 @@ export default class Keno extends GameRoomBase {
     @property(BetControl)
     betControl: BetControl = null;
 
-
     @property(cc.Prefab)
     prefabHistory: cc.Prefab = null;
 
-    public config: GameBaseConfigs;
-    public currentTimeRemaining: number;
-    public disabledGame = false;
     public phienId = -1;
     public logs = [];
 
@@ -65,7 +55,6 @@ export default class Keno extends GameRoomBase {
         }
 
         this.initBetControl();
-        this.initDataHandlers();
     }
 
     public onCuocClick(e) {
@@ -123,37 +112,16 @@ export default class Keno extends GameRoomBase {
     //#region Component Methods
     onDestroy() {
         super.onDestroy();
-        cc.RedT.removeDataObserver(this.gameName);
     }
 
     onLoad() {
         super.onLoad()
         this.setPhienLabel(0);
-        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
-    }
-
-    onEnable() {
-        this.regEvent(true);
-    }
-
-    onDisable() {
-        this.onGameHide();
-        this.regEvent(false);
     }
     //#endregion
 
     //#region Private Methods
-
-    initDataHandlers() {
-        super.initHandlers();
-    }
-
-    onGameShow() {
-        this.regEvent(true);
-    }
-
-    onGameHide() {
-        //clearInterval, reset state UI to default
+    stopGame() {
         this.timeInterval && clearInterval(this.timeInterval);
         this.statusTimeout && clearTimeout(this.statusTimeout);
         this.defaultUIState();
@@ -161,7 +129,7 @@ export default class Keno extends GameRoomBase {
 
     defaultUIState() {
         this.resultFrame.active = false;
-        this.waitTime.node.parent.active = false;
+        this.timeWaitLabel.node.parent.active = false;
         this.animatedTime.node.parent.active = false;
         this.betItems.forEach(item => {
             item.clearBet();
@@ -202,22 +170,17 @@ export default class Keno extends GameRoomBase {
             }
         });
     }
-
     //#endregion Private Methods
 
     //#region Game Methods
-    receivedData(data) {
-        if (data.mini && data.mini[this.gameName]) {
-            this.onData(data.mini[this.gameName]);
-        }
-    }
+    // receivedData(data) {
+    //     if (data.mini && data.mini[this.gameName]) {
+    //         this.onData(data.mini[this.gameName]);
+    //     }
+    // }
 
     onData(data: any) {
         super.onData(data);
-    }
-
-    goToLobby() {
-        super.goToLobby();
     }
 
     private setPhienLabel(phien) {
