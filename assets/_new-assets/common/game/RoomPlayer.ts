@@ -10,7 +10,7 @@ export default class RoomPlayer extends cc.Component {
     @property(cc.Label)
     balance: cc.Label = null;
 
-    @property(cc.Label)
+    @property(cc.Sprite)
     avatar: cc.Sprite = null;
 
     setInfo(data) {
