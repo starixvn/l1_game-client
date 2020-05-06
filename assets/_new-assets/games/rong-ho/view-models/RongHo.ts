@@ -66,12 +66,6 @@ export default class RongHo extends cc.Component {
     @property(cc.Label)
     drawStats: cc.Label = null;
 
-    @property(cc.Label)
-    dragonMaxBet: cc.Label = null;
-
-    @property(cc.Label)
-    tieMaxBet: cc.Label = null;
-
     @property(cc.Node)
     logsContainer: cc.Node = null;
 
@@ -404,12 +398,7 @@ export default class RongHo extends cc.Component {
     }
 
     onData(data: any) {
-        if (data.maxBetOnChoice) {
-            let maxBet = data.maxBetOnChoice;
-            this.dragonMaxBet.string = maxBet.dragon;
-            this.tieMaxBet.string = maxBet.tie;
-        }
-
+        //this.dataHandlers.forEach(handler => handler.handle(data));
         for (let index = 0; index < this.dataHandlers.length; index++) {
             let handler = this.dataHandlers[index];
             if (index == 0 && handler.handle(data)) {
