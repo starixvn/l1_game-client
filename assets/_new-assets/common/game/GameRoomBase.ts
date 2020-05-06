@@ -55,13 +55,13 @@ export default class GameRoomBase extends GameBase {
         this.loadUserData();
     }
 
+    start() {
+        cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
+    }
+
     onGameHide() {
         super.onGameHide();
         this.goToLobby();
-    }
-
-    start() {
-        cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
     }
 
     closeGame() {

@@ -10,6 +10,7 @@ import BetItem from "./BetItem";
 import GameUtils from "../GameUtils";
 import GameBaseTimeHandler, { IGameBaseTimeHandler } from "./handlers/GameBaseTimeHandler";
 import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
+import BetChips from "../bet-chips/view-models/BetChips";
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,6 +40,18 @@ export default class GameBase extends cc.Component {
     @property({ type: AnimatedTime })
     animatedTime: AnimatedTime = null;
 
+    @property(cc.Label)
+    gameRound: cc.Label = null;
+
+    @property
+    enableChips: boolean = false;
+
+    @property({ type: cc.Node, visible: function (this: GameBase) { return this.enableChips; } })
+    betChipsContainer: cc.Node = null;
+
+    @property({ type: cc.Prefab, visible: function (this: GameBase) { return this.enableChips; } })
+    betChipsPrefab: cc.Prefab = null;
+
     public waitingProcessing = false;
     public disabledGame = false;
     public currentTimeRemaining: number;
@@ -51,6 +64,8 @@ export default class GameBase extends cc.Component {
     protected betHandler: DataHandler;
     protected timeHandler: IGameBaseTimeHandler;
     protected errorHandler: DataHandler;
+    protected betChips: BetChips;
+    protected currentBet: string;
 
     private dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
@@ -79,10 +94,11 @@ export default class GameBase extends cc.Component {
             this.betHandler,
             this.timeHandler,
             this.errorHandler);
-
+        this.initBetChips();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
+
 
     onDestroy() {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
@@ -145,6 +161,19 @@ export default class GameBase extends cc.Component {
         });
     }
 
+    initBetChips() {
+        if (this.enableChips) {
+            var betChipsNode = cc.instantiate(this.betChipsPrefab);
+            this.betChips = betChipsNode.getComponent("BetChips") as BetChips;
+            this.betChipsContainer.addChild(betChipsNode);
+
+            var self = this;
+            this.betChips.onChanged = ((bet) => {
+                self.currentBet = bet;
+            });
+        }
+    }
+
     showProcessingWarning(show) {
         if (show) {
             if (this.processingWarning && this.processingWarning.isValid) { return; }
@@ -173,6 +202,12 @@ export default class GameBase extends cc.Component {
 
     showAcceptedBet(bet: number) {
         GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
+    }
+
+    setGameRound(gameRound) {
+        if (gameRound) {
+            this.gameRound.string = "#" + gameRound;
+        }
     }
 
     /** Clear all intervals and timeouts in game */
