@@ -14,27 +14,6 @@ export default class Baccarat extends GameRoomBase {
     @property(cc.Label)
     gameRound: cc.Label = null;
 
-    @property(cc.Label)
-    totalBetPlayerHasPair: cc.Label = null;
-
-    @property(cc.Label)
-    totalBetBankerHasPair: cc.Label = null;
-
-    @property(cc.Label)
-    totalBetBig: cc.Label = null;
-
-    @property(cc.Label)
-    totalBetSmall: cc.Label = null;
-
-    @property(cc.Label)
-    totalBetTie: cc.Label = null;
-
-    @property(cc.Label)
-    totalBetPlayer: cc.Label = null;
-
-    @property(cc.Label)
-    totalBetBanker: cc.Label = null;
-
     @property(BetChips)
     betChips: BetChips = null;
 
@@ -70,6 +49,7 @@ export default class Baccarat extends GameRoomBase {
     }
 
     onBet(event, box) {
+        this.betChips.throwChip(this.currentBet, this.betItems[0].chipNode, new cc.Vec2(80, 40))
         this.bet({ cuoc: { red: true, cuoc: this.currentBet, box: box } });
     }
 }
