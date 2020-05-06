@@ -10,9 +10,6 @@ export default class Keno extends GameRoomBase {
     @property(cc.Node)
     resultFrame: cc.Node = null;
 
-    @property(cc.Label)
-    phienLabel: cc.Label = null;
-
     @property(BetChips)
     betChips: BetChips = null;
 
