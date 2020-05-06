@@ -477,7 +477,7 @@ cc.Class({
 		this.logs.length > 48 && this.logs.pop();
 		this.setDot(dice.dots);
 		this.labelTime.node.active = false;
-		this.time_remain = 44;
+		this.time_remain = 39;
 		this.playTime();
 
 		if (!this.nan) {
@@ -852,8 +852,8 @@ cc.Class({
 						}
 					}
 				}
-			}.bind(this), 3000);
-		}.bind(this), 1500);
+			}.bind(this), 500);
+		}.bind(this), 500);
 	},
 
 	createWinResultNode: function (winResult, isWin = true) {
