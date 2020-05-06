@@ -1,7 +1,6 @@
 import * as helper from '../../../common/helpers/Helper';
-import BetControl from "../../../common/bet-control/view-models/BetControl";
+import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameRoomBase from "../../../common/game/GameRoomBase";
-import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,8 +13,8 @@ export default class Keno extends GameRoomBase {
     @property(cc.Label)
     phienLabel: cc.Label = null;
 
-    @property(BetControl)
-    betControl: BetControl = null;
+    @property(BetChips)
+    betChips: BetChips = null;
 
     @property(cc.Prefab)
     prefabHistory: cc.Prefab = null;
@@ -23,38 +22,10 @@ export default class Keno extends GameRoomBase {
     public phienId = -1;
     public logs = [];
 
-    private gameName: string;
-    private timeInterval: number
-    private statusTimeout: number;
     private cuoc: any;
     private resultAnimating = false;
 
     //#region Public Methods
-    public init(name: string, config: GameBaseConfigs) {
-        this.gameName = name;
-        this.config = config;
-
-        var check = cc.sys.localStorage.getItem(this.gameName);
-        if (check == "true") {
-            this.node.active = true;
-        }
-
-        cc.RedT.setting[this.gameName] = cc.RedT.setting[this.gameName] || {
-            regOpen: false,
-            data: {
-                //data cuoc
-            },
-            red: true,
-            bet: "1"
-        };
-
-        if (void 0 !== cc.RedT.setting[this.gameName].position) {
-            this.node.position = cc.RedT.setting[this.gameName].position;
-        }
-
-        this.initBetControl();
-    }
-
     public onCuocClick(e) {
         if (this.disabledGame) {
             return;
@@ -104,7 +75,26 @@ export default class Keno extends GameRoomBase {
     }
 
     onLoad() {
-        super.onLoad()
+        super.onLoad();
+        var check = cc.sys.localStorage.getItem(this.gameName);
+        if (check == "true") {
+            this.node.active = true;
+        }
+
+        cc.RedT.setting[this.gameName] = cc.RedT.setting[this.gameName] || {
+            regOpen: false,
+            data: {
+                //data cuoc
+            },
+            red: true,
+            bet: "1"
+        };
+
+        if (void 0 !== cc.RedT.setting[this.gameName].position) {
+            this.node.position = cc.RedT.setting[this.gameName].position;
+        }
+
+        this.initBetControl();
         this.setPhienLabel(0);
     }
     //#endregion
@@ -125,14 +115,6 @@ export default class Keno extends GameRoomBase {
         });
     }
 
-    onSignIn() {
-        if (!this.node.active) {
-            return;
-        }
-
-        this.regEvent(true);
-    }
-
     regEvent(show: boolean) {
         var data = {
             view: show,
@@ -144,8 +126,8 @@ export default class Keno extends GameRoomBase {
 
     initBetControl() {
         this.cuoc = cc.RedT.setting[this.gameName].bet;
-        this.betControl.setCurrentBet(this.cuoc);
-        this.betControl.onChanged = (bet) => {
+        this.betChips.setCurrentBet(this.cuoc);
+        this.betChips.onChanged = (bet) => {
             this.cuoc = bet;
             cc.RedT.setting[this.gameName].bet = bet;
         };

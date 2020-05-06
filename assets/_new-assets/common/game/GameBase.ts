@@ -66,8 +66,9 @@ export default class GameBase extends cc.Component {
         this.errorHandler = new GameBaseErrorHandler(this);
     }
 
-    init(gameName: string) {
+    init(gameName: string, config: GameBaseConfigs) {
         this.gameName = gameName;
+        this.config = config;
     }
 
     onLoad() {
