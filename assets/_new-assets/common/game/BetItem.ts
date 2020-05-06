@@ -2,9 +2,25 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BetItem extends cc.Component {
-    protected setOwnBet(bet: number) { }
+    @property(cc.Label)
+    totalBet: cc.Label = null;
 
-    protected setTotalBet(bet: number) { }
+    @property(cc.Label)
+    ownBet: cc.Label = null;
+
+    @property(cc.Label)
+    odds: cc.Label = null;
+
+    @property(cc.Node)
+    chipNode: cc.Node = null;
+
+    protected setOwnBet(bet: number) {
+        this.ownBet.string = bet.toString();
+    }
+
+    protected setTotalBet(bet: number) {
+        this.totalBet.string = bet.toString();
+    }
 
     public setData(data: any) {
         if (data.data) {
