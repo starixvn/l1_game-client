@@ -5,11 +5,15 @@ import { numberWithCommas } from '../../common/helpers/Helper';
 import Notice from "../notice/view-models/Notice";
 import GameBasePlayerHanlder from "./handlers/GameBasePlayerHandler";
 import DataHandler from "./handlers/DataHandler";
+import Dialog from "../../lobby/dialog/Dialog";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameRoomBase extends GameBase {
+    @property(Dialog)
+    dialog: Dialog = null;
+
     @property({ type: RoomPlayer })
     players: RoomPlayer[] = [];
 
@@ -138,14 +142,22 @@ export default class GameRoomBase extends GameBase {
 
     showUmMessage(message) {
         this.stopGame();
-        var noticePrefab = cc.instantiate(this.noticePrefab);
-        var notice = noticePrefab.getComponent("Notice") as Notice;
+
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
-        notice.init({ text: text, button: { text: "Ok" } });
+        var noticeData = { text: text, button: { text: "Ok" } };
+        var notice = this.showNotice(noticeData)
         notice.handleClickButton = this.goToLobby;
         notice.handleClose = this.goToLobby;
+    }
 
-        this.node.addChild(noticePrefab);
+    showNotice(noticeData): Notice {
+        var noticePrefab = cc.instantiate(this.noticePrefab);
+        var notice = noticePrefab.getComponent("Notice") as Notice;
+        noticeData.button = { text: 'Ok' };
+        notice.init(noticeData);
+        this.node.addChild(noticePrefab)
+
+        return notice;
     }
 
     goToLobby() {
