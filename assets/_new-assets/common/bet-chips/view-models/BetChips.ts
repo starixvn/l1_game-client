@@ -1,10 +1,12 @@
 const { ccclass, property } = cc._decorator;
 import * as _ from 'lodash';
-
 type OnChangedBet = (bet: string) => void;
 
 @ccclass
 export default class BetChips extends cc.Component {
+    @property(cc.Node)
+    chips: cc.Node = null;
+
     @property(cc.AudioSource)
     singleChipAudio: cc.AudioSource = null;
 
@@ -45,7 +47,7 @@ export default class BetChips extends cc.Component {
     }
 
     public throwChip(bet, destNode: cc.Node, range: cc.Vec2) {
-        var chip = this.node.children.filter(child => child.name === bet)[0];
+        var chip = this.chips.children.filter(child => child.name === bet)[0];
         var chipPosition = chip.parent.convertToWorldSpaceAR(chip.position);
         chipPosition = destNode.convertToNodeSpaceAR(chipPosition);
         var chipNode = this.createChip(chipPosition, bet);
@@ -75,23 +77,24 @@ export default class BetChips extends cc.Component {
     }
 
     private updateSelectedBet(targetName: string) {
-        this.node.children.map(function (obj) {
-            if (obj.name == targetName) {
-                obj.children[0].active = true;
-                obj.zIndex = 2;
-                cc.tween(obj)
+        this.chips.children.map((chip) => {
+            if (chip.name == targetName) {
+                console.log(chip);
+                chip.children[0].active = true;
+                chip.zIndex = 2;
+                cc.tween(chip)
                     .to(0.2, {
                         scale: 1.15,
-                        position: cc.v2(obj.position.x, 12)
+                        position: cc.v2(chip.position.x, 12)
                     })
                     .start();
             } else {
-                obj.children[0].active = false;
-                obj.zIndex = 1;
-                cc.tween(obj)
+                chip.children[0].active = false;
+                chip.zIndex = 1;
+                cc.tween(chip)
                     .to(0.2, {
                         scale: 1,
-                        position: cc.v2(obj.position.x, 0)
+                        position: cc.v2(chip.position.x, 0)
                     })
                     .start();
             }

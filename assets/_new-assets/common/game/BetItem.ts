@@ -24,11 +24,11 @@ export default class BetItem extends cc.Component {
 
     public setData(data: any) {
         if (data.data) {
-            this.setTotalBet(data.data[this.node.name]);
+            this.setTotalBet(data.data[this.node.name.toLowerCase()]);
         }
 
         if (data.me) {
-            this.setOwnBet(data.me[this.node.name]);
+            this.setOwnBet(data.me[this.node.name.toLowerCase()]);
         }
     }
 
