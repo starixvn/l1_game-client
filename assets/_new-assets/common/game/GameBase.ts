@@ -114,14 +114,6 @@ export default class GameBase extends cc.Component {
         this.stopGame();
     }
 
-    onGameHide() {
-        this.stopGame();
-    }
-
-    onGameShow() {
-        this.startGame();
-    }
-
     onData(data: any) {
         for (let index = 0; index < this.dataHandlers.length; index++) {
             let handler = this.dataHandlers[index];
@@ -130,16 +122,6 @@ export default class GameBase extends cc.Component {
             } else {
                 handler.handle(data);
             }
-        }
-    }
-
-    bet(betData) {
-        if (this.waitingProcessing) {
-            this.showProcessingWarning(true);
-        }
-        else {
-            this.waitingProcessing = true;
-            this.sendData(betData);
         }
     }
 
@@ -153,28 +135,17 @@ export default class GameBase extends cc.Component {
         this.node.active = false;
     }
 
-    sendData(payload: any) {
-        cc.RedT.send({
-            g: {
-                [this.gameName]: payload
-            }
-        });
+    showAcceptedBet(bet: number) {
+        GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
     }
 
-    initBetChips() {
-        if (this.enableChips) {
-            var betChipsNode = cc.instantiate(this.betChipsPrefab);
-            this.betChips = betChipsNode.getComponent("BetChips") as BetChips;
-            this.betChipsContainer.addChild(betChipsNode);
-
-            var self = this;
-            this.betChips.onChanged = ((bet) => {
-                self.currentBet = bet;
-            });
+    setGameRound(gameRound) {
+        if (gameRound) {
+            this.gameRound.string = "#" + gameRound;
         }
     }
 
-    showProcessingWarning(show) {
+    showProcessingWarning(show: boolean) {
         if (show) {
             if (this.processingWarning && this.processingWarning.isValid) { return; }
             var node = cc.instantiate(this.processWarningPrefab);
@@ -188,27 +159,57 @@ export default class GameBase extends cc.Component {
         }
     }
 
-    showUMWarning(data: any) {
+    showUmMessage(data: any) {
         this.stopGame();
         this.umNotice && this.umNotice.show(data);
     }
 
-    addNotice(text) {
+    showNotice(data) {
         var notice = cc.instantiate(this.miniNoticePrefab);
         var noticeComponent = notice.getComponent("mini_warning");
-        noticeComponent.text.string = text;
+        noticeComponent.text.string = data;
         this.noticeNode.addChild(notice);
     }
 
-    showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
+    protected onGameHide() {
+        this.stopGame();
     }
 
-    setGameRound(gameRound) {
-        if (gameRound) {
-            this.gameRound.string = "#" + gameRound;
+    protected onGameShow() {
+        this.startGame();
+    }
+
+    protected bet(betData) {
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+        }
+        else {
+            this.waitingProcessing = true;
+            this.sendData(betData);
         }
     }
+
+    protected sendData(payload: any) {
+        cc.RedT.send({
+            g: {
+                [this.gameName]: payload
+            }
+        });
+    }
+
+    protected initBetChips() {
+        if (this.enableChips) {
+            var betChipsNode = cc.instantiate(this.betChipsPrefab);
+            this.betChips = betChipsNode.getComponent("BetChips") as BetChips;
+            this.betChipsContainer.addChild(betChipsNode);
+
+            var self = this;
+            this.betChips.onChanged = ((bet) => {
+                self.currentBet = bet;
+            });
+        }
+    }
+
 
     /** Clear all intervals and timeouts in game */
     protected stopGame() {

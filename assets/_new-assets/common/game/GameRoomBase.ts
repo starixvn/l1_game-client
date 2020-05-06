@@ -40,12 +40,6 @@ export default class GameRoomBase extends GameBase {
     constructor() {
         super();
         this.playerHandler = new GameBasePlayerHanlder(this);
-
-    }
-    onDestroy() {
-        super.onDestroy();
-        cc.RedT.MiniPanel.destroy();
-        cc.RedT.inGame = null;
     }
 
     onLoad() {
@@ -55,23 +49,15 @@ export default class GameRoomBase extends GameBase {
         this.loadUserData();
     }
 
+    onDestroy() {
+        super.onDestroy();
+        cc.RedT.MiniPanel.destroy();
+        cc.RedT.inGame = null;
+    }
+
+
     start() {
         cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
-    }
-
-    onGameHide() {
-        super.onGameHide();
-        this.goToLobby();
-    }
-
-    closeGame() {
-        this.sendData({ outgame: true });
-
-        if (this.loading) {
-            this.loading.active = true;
-        }
-
-        this.goToLobby();
     }
 
     onConnected() {
@@ -84,7 +70,7 @@ export default class GameRoomBase extends GameBase {
 
     onData(data: any) {
         this.currentMiniPanel.onGeneralData(data);
-        this.onGeneralData(data);
+        this.onDataGameRoomGeneral(data);
 
         var gameData = data[this.gameName];
 
@@ -94,7 +80,42 @@ export default class GameRoomBase extends GameBase {
         }
     }
 
-    onGeneralData(data: any) {
+    closeGame() {
+        this.sendData({ outgame: true });
+
+        if (this.loading) {
+            this.loading.active = true;
+        }
+
+        this.goToLobby();
+    }
+
+    showUmMessage(data: any) {
+        this.stopGame();
+        const message = data.um_message;
+        let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
+        var noticeData = { text: text, button: { text: "Ok" } };
+        var notice = this.showNotice(noticeData)
+        notice.handleClickButton = this.goToLobby;
+        notice.handleClose = this.goToLobby;
+    }
+
+    showNotice(data): Notice {
+        var noticePrefab = cc.instantiate(this.noticePrefab);
+        var notice = noticePrefab.getComponent("Notice") as Notice;
+        data.button = { text: 'Ok' };
+        notice.init(data);
+        this.node.addChild(noticePrefab)
+
+        return notice;
+    }
+
+    protected onGameHide() {
+        super.onGameHide();
+        this.goToLobby();
+    }
+
+    protected onDataGameRoomGeneral(data: any) {
         if (data.user) {
             this.userBalance.string = numberWithCommas(data.red);
             cc.RedT.userData(data.user);
@@ -106,23 +127,23 @@ export default class GameRoomBase extends GameBase {
         }
     }
 
-    onDataGameRoom(data: any) {
+    protected onDataGameRoom(data: any) {
         this.playerHandler.handle(data);
 
         if (data.um) {
             if (!this.noticeNode) {
-                this.showUmMessage(data.um_message);
+                this.showUmMessage(data);
             }
         }
     }
 
-    loadMiniPanel() {
+    protected loadMiniPanel() {
         var miniPanel = cc.instantiate(this.miniPanelPrefab);
         this.currentMiniPanel = miniPanel.getComponent('MiniPanel');
         this.miniPanelContainer.addChild(miniPanel);
     }
 
-    loadUserData() {
+    protected loadUserData() {
         this.userName.string = cc.RedT.user.name;
         this.userBalance.string = numberWithCommas(cc.RedT.user.red);
         var self = this;
@@ -136,27 +157,7 @@ export default class GameRoomBase extends GameBase {
         });
     }
 
-    showUmMessage(message) {
-        this.stopGame();
-
-        let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
-        var noticeData = { text: text, button: { text: "Ok" } };
-        var notice = this.showNotice(noticeData)
-        notice.handleClickButton = this.goToLobby;
-        notice.handleClose = this.goToLobby;
-    }
-
-    showNotice(noticeData): Notice {
-        var noticePrefab = cc.instantiate(this.noticePrefab);
-        var notice = noticePrefab.getComponent("Notice") as Notice;
-        noticeData.button = { text: 'Ok' };
-        notice.init(noticeData);
-        this.node.addChild(noticePrefab)
-
-        return notice;
-    }
-
-    goToLobby() {
+    protected goToLobby() {
         this.stopGame();
         cc.director.loadScene('MainGame');
     }
