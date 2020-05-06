@@ -5,15 +5,11 @@ import { numberWithCommas } from '../../common/helpers/Helper';
 import Notice from "../notice/view-models/Notice";
 import GameBasePlayerHanlder from "./handlers/GameBasePlayerHandler";
 import DataHandler from "./handlers/DataHandler";
-import Dialog from "../../lobby/dialog/Dialog";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameRoomBase extends GameBase {
-    @property(Dialog)
-    dialog: Dialog = null;
-
     @property({ type: RoomPlayer })
     players: RoomPlayer[] = [];
 
