@@ -1,37 +1,42 @@
 const { ccclass, property } = cc._decorator;
-import { numberWithCommas } from "../../../common/helpers/Helper";
-import { GameConfigs } from "../../_base/view-models/GameConfigs";
-import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import GameRoomBase from "../../../common/game/GameRoomBase";
 import BaccaratTimeHandler from "./data-handlers/BaccaratTimeDataHandler";
-import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import { BaccaratConfigs } from "./BaccaratConfigs";
+import BaccaratCards from "./BaccaratCards";
+import BaccaratFinishHandler from "./data-handlers/BaccaratFInishHandler";
 
 @ccclass
 export default class Baccarat extends GameRoomBase {
-    @property(cc.Node)
-    centerNode: cc.Node = null;
+    @property(cc.Prefab)
+    cardsPrefab: cc.Prefab = null;
 
-    @property(cc.Label)
-    gameRound: cc.Label = null;
+    @property(BaccaratCards)
+    playerCards: BaccaratCards = null;
 
-    @property(BetChips)
-    betChips: BetChips = null;
+    @property(BaccaratCards)
+    bankerCards: BaccaratCards = null;
 
-    currentDataLogs = [];
-    private currentBet: string;
+    cardsResource: any = null;
+
+    private readonly betOptionMapper = {
+        "big": 0,
+        "small": 1,
+        "tie": 2,
+        "banker": 3,
+        "player": 4
+    }
 
     constructor() {
         super();
 
         this.timeHandler = new BaccaratTimeHandler(this);
+        this.finishHandler = new BaccaratFinishHandler(this);
     }
-    onLoad() {
-        var self = this;
-        this.betChips.onChanged = ((bet) => {
-            self.currentBet = bet;
-        });
 
+    onLoad() {
+        this.init("baccarat", new BaccaratConfigs())
         super.onLoad();
+        this.initCards();
     }
 
     onData(data) {
@@ -42,14 +47,17 @@ export default class Baccarat extends GameRoomBase {
         super.onDataGameRoom(data);
     }
 
-    setGameRound(gameRound) {
-        if (gameRound) {
-            this.gameRound.string = "#" + gameRound;
-        }
+    onBet(event, box) {
+        const index = this.betOptionMapper[box];
+        this.betChips.throwChip(this.currentBet, this.betItems[index].chipNode, new cc.Vec2(80, 40))
+        this.bet({ cuoc: { red: true, cuoc: this.currentBet, box: box } });
     }
 
-    onBet(event, box) {
-        this.betChips.throwChip(this.currentBet, this.betItems[0].chipNode, new cc.Vec2(80, 40))
-        this.bet({ cuoc: { red: true, cuoc: this.currentBet, box: box } });
+    private initCards() {
+        var cardsNode = cc.instantiate(this.cardsPrefab);
+        this.cardsResource = cardsNode.getComponent("Card");
+        this.cardsResource.init();
+        this.bankerCards.init(this.cardsResource);
+        this.playerCards.init(this.cardsResource);
     }
 }
