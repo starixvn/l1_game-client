@@ -6,6 +6,7 @@ export interface IGameBaseTimeHandler extends DataHandler {
     playTimeInterval: number;
     playTime(): void;
     stopPlayTime(): void;
+    resetTime(): void;
 }
 
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
@@ -16,10 +17,16 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     handle(data: any): boolean {
         if (data.time) {
+            console.log(data.time);
             this.main.currentTimeRemaining = data.time - 1;
             this.playTime();
             return true;
         }
+    }
+
+    resetTime(): void {
+        this.main.currentTimeRemaining = this.main.config.fullTime;
+        this.playTime();
     }
 
     playTime(): void {
@@ -55,6 +62,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handleInTurnTime() {
+        this.main.timeWaitNode.active = false;
         var time = numberPad(this.main.currentTimeRemaining - 1, 2);
         this.main.animatedTime.setTime(time);
         this.main.animatedTime.node.active = true;

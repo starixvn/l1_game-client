@@ -11,6 +11,8 @@ import GameUtils from "../GameUtils";
 import GameBaseTimeHandler, { IGameBaseTimeHandler } from "./handlers/GameBaseTimeHandler";
 import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
 import BetChips from "../bet-chips/view-models/BetChips";
+import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
+import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -57,13 +59,17 @@ export default class GameBase extends cc.Component {
     public currentTimeRemaining: number;
     public config: GameBaseConfigs;
     public gameName: string;
+    public currentDataLogs = [];
 
-    protected umHandler: DataHandler;
-    protected noticeHandler: DataHandler;
-    protected statusHandler: DataHandler;
-    protected betHandler: DataHandler;
-    protected timeHandler: IGameBaseTimeHandler;
-    protected errorHandler: DataHandler;
+    public umHandler: DataHandler;
+    public noticeHandler: DataHandler;
+    public statusHandler: DataHandler;
+    public betHandler: DataHandler;
+    public timeHandler: IGameBaseTimeHandler;
+    public errorHandler: DataHandler;
+    public logsHandler: DataHandler;
+    public finishHandler: DataHandler;
+
     protected betChips: BetChips;
     protected currentBet: string;
 
@@ -79,6 +85,8 @@ export default class GameBase extends cc.Component {
         this.betHandler = new GameBaseBetHandler(this);
         this.timeHandler = new GameBaseTimeHandler(this);
         this.errorHandler = new GameBaseErrorHandler(this);
+        this.logsHandler = new GameBaseLogsHandler(this);
+        this.finishHandler = new GameBaseFinishHandler(this);
     }
 
     init(gameName: string, config: GameBaseConfigs) {
@@ -93,7 +101,9 @@ export default class GameBase extends cc.Component {
             this.statusHandler,
             this.betHandler,
             this.timeHandler,
-            this.errorHandler);
+            this.errorHandler,
+            this.logsHandler,
+            this.finishHandler);
         this.initBetChips();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
