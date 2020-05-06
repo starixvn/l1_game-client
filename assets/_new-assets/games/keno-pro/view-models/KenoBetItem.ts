@@ -12,12 +12,6 @@ export default class KenoBetItem extends BetItem {
     @property(cc.Node)
     highlight: cc.Node = null;
 
-    @property(cc.Label)
-    totalBet: cc.Label = null;
-
-    @property(cc.Label)
-    ownBet: cc.Label = null;
-
     public clearBet() {
         this.ownBet.string = this.totalBet.string = "";
     }
