@@ -109,6 +109,9 @@ export default class Keno extends GameRoomBase {
     //         this.onData(data.mini[this.gameName]);
     //     }
     // }
+    public playResultAnimation() {
+        this.resultAnimating = true;
+    }
 
     public handleWaitTime() {
         if (!this.resultAnimating) {
