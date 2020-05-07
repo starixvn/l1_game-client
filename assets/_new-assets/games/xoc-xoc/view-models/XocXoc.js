@@ -926,7 +926,7 @@ cc.Class({
 					this.setGameRound();
 				}
 			} else {
-				if (this.time_remain > 0) {
+				if (this.time_remain > 1) {
 					var time = helper.numberPad(this.time_remain - 1, 2);
 					this.labelTime.node.active = true;
 					this.nodeWait.active = false;
