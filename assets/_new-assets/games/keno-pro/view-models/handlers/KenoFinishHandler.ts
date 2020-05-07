@@ -15,7 +15,6 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
 
         if (cc.RedT.GAME_IS_SHOWED) {
             this.main.playResultAnimation();
-            this.main.timeHandler.playTime();
         }
     }
 }
