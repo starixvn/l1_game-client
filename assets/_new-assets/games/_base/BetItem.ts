@@ -14,6 +14,9 @@ export default class BetItem extends cc.Component {
     @property(cc.Node)
     chipNode: cc.Node = null;
 
+    @property(cc.Vec2)
+    chipRange: cc.Vec2 = new cc.Vec2(80, 40);
+
     protected setOwnBet(bet: number) {
         this.ownBet.string = bet.toString();
     }
@@ -23,12 +26,12 @@ export default class BetItem extends cc.Component {
     }
 
     public setData(data: any) {
-        if (data.data) {
-            this.setTotalBet(data.data[this.node.name.toLowerCase()]);
+        if (data.totalBets) {
+            this.setTotalBet(data.totalBets[this.node.name.toLowerCase()]);
         }
 
-        if (data.me) {
-            this.setOwnBet(data.me[this.node.name.toLowerCase()]);
+        if (data.ownBet) {
+            this.setOwnBet(data.ownBet[this.node.name.toLowerCase()]);
         }
     }
 

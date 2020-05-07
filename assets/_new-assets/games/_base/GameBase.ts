@@ -71,8 +71,8 @@ export default class GameBase extends cc.Component {
     public logsHandler: DataHandler;
     public finishHandler: DataHandler;
 
-    protected betChips: BetChips;
-    protected currentBet: string;
+    public betChips: BetChips;
+    public currentBet: number;
 
     private dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
@@ -214,7 +214,7 @@ export default class GameBase extends cc.Component {
             this.betChips = betChipsNode.getComponent("BetChips") as BetChips;
             var self = this;
             this.betChips.init((bet) => {
-                self.currentBet = bet;
+                self.currentBet = parseInt(bet);
             });
             this.betChipsContainer.addChild(betChipsNode);
 
