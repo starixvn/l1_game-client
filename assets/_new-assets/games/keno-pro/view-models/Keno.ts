@@ -217,6 +217,13 @@ export default class Keno extends GameRoomBase {
             var results = this.getResults();
             if (results.length > 0) {
                 this.resultFrame.active = true;
+                var resultNumbers = this.currentDataLogs[0].result;
+                var total = this.getTempTotal(resultNumbers, resultNumbers.length - 1);
+                this.totalResult.string = total.toString();
+                this.kenoNumbers.forEach((keno, index) => {
+                    keno.setNumber(resultNumbers[index]);
+                })
+
                 this.highlightWonItem(true, results);
             }
         } else {
