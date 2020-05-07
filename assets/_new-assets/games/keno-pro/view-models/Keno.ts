@@ -2,6 +2,7 @@ import * as helper from '../../../common/helpers/Helper';
 import GameRoomBase from "../../../common/game/GameRoomBase";
 import KenoTimeHandler from './handlers/KenoTimeHandler';
 import KenoFinishHandler from './handlers/KenoFinishHandler';
+import { KenoConfigs } from './KenoConfigs';
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,6 +27,8 @@ export default class Keno extends GameRoomBase {
         super();
         this.finishHandler = new KenoFinishHandler(this);
         this.timeHandler = new KenoTimeHandler(this);
+
+        this.init("KenoProMax", new KenoConfigs());
     }
 
     //#region Public Methods
