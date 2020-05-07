@@ -174,7 +174,7 @@ export default class GameBase extends cc.Component {
         this.umNotice && this.umNotice.show(data);
     }
 
-    showNotice(data) {
+    showMiniWarning(data) {
         var notice = cc.instantiate(this.miniNoticePrefab);
         var noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = data;

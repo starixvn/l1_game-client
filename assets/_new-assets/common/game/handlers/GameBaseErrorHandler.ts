@@ -12,7 +12,7 @@ export default class GameBaseErrorHandler implements DataHandler {
         }
 
         if (data.err) {
-            this.main.showNotice(data.err);
+            this.main.showMiniWarning(data.err);
             return true;
         }
 
