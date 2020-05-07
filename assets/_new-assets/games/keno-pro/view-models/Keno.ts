@@ -183,6 +183,8 @@ export default class Keno extends GameRoomBase {
     public handleWaitTime() {
         if (!this.resultAnimating) {
             this.showResult(true);
+        } else {
+            this.timeWaitNode.active = false;
         }
     }
 

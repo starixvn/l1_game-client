@@ -43,6 +43,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
                 if (isInTurnTime) {
                     self.handleInTurnTime();
                 } else {
+                    this.main.animatedTime.node.active = false;
                     clearInterval(self.playTimeInterval);
                 }
             }
