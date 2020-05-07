@@ -1,7 +1,7 @@
 import * as helper from '../../../common/helpers/Helper';
-import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameRoomBase from "../../../common/game/GameRoomBase";
 import KenoTimeHandler from './handlers/KenoTimeHandler';
+import KenoFinishHandler from './handlers/KenoFinishHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,12 +20,11 @@ export default class Keno extends GameRoomBase {
     @property(cc.Prefab)
     prefabHistory: cc.Prefab = null;
 
-
-    private cuoc: any;
     private resultAnimating = false;
 
     constructor() {
         super();
+        this.finishHandler = new KenoFinishHandler(this);
         this.timeHandler = new KenoTimeHandler(this);
     }
 
@@ -41,7 +40,7 @@ export default class Keno extends GameRoomBase {
 
         this.waitingProcessing = true;
         var data = {
-            cuoc: { cuoc: this.cuoc, box: e.target.name }
+            cuoc: { cuoc: this.currentBet, box: e.target.name }
         }
         this.sendData(data);
     }
@@ -73,21 +72,7 @@ export default class Keno extends GameRoomBase {
             this.node.active = true;
         }
 
-        cc.RedT.setting[this.gameName] = cc.RedT.setting[this.gameName] || {
-            regOpen: false,
-            data: {
-                //data cuoc
-            },
-            red: true,
-            bet: "1"
-        };
-
-        if (void 0 !== cc.RedT.setting[this.gameName].position) {
-            this.node.position = cc.RedT.setting[this.gameName].position;
-        }
-
-        this.initBetControl();
-        this.setPhienLabel(0);
+        this.setGameRound(0);
     }
     //#endregion
 
@@ -116,14 +101,6 @@ export default class Keno extends GameRoomBase {
         this.sendData(data);
     }
 
-    initBetControl() {
-        this.cuoc = cc.RedT.setting[this.gameName].bet;
-        this.betChips.setCurrentBet(this.cuoc);
-        this.betChips.onChanged = (bet) => {
-            this.cuoc = bet;
-            cc.RedT.setting[this.gameName].bet = bet;
-        };
-    }
     //#endregion Private Methods
 
     //#region Game Methods
@@ -132,6 +109,22 @@ export default class Keno extends GameRoomBase {
     //         this.onData(data.mini[this.gameName]);
     //     }
     // }
+
+    public handleWaitTime() {
+        if (!this.resultAnimating) {
+            this.showResult(true);
+        }
+    }
+
+    public handleInTurnTime() {
+        this.resultAnimating = false;
+        this.showResult(false);
+        const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
+
+        if (isStartingNewTurn) {
+            this.betItems.forEach(item => item.clearBet());
+        }
+    }
 
     private highlightWonItem(highlight: boolean, winItem: string = "") {
         if (highlight) {
