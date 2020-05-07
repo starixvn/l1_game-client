@@ -59,9 +59,17 @@ export default class BetChips extends cc.Component {
         this.onChanged(bet);
     }
 
-    public throwChip(bet: number, destNode: cc.Node, range: cc.Vec2) {
-        var chip = this.chips.children.filter(child => child.name === bet.toString())[0];
-        var chipPosition = chip.parent.convertToWorldSpaceAR(chip.position);
+    public throwChip(bet: number, destNode: cc.Node, range: cc.Vec2, startNode: cc.Node = null) {
+        var chipPosition: cc.Vec2;
+
+        if (startNode) {
+            chipPosition = startNode.convertToWorldSpaceAR(startNode.position);
+        }
+        else {
+            var chip = this.chips.children.filter(child => child.name === bet.toString())[0];
+            chipPosition = chip.parent.convertToWorldSpaceAR(chip.position);
+        }
+
         chipPosition = destNode.convertToNodeSpaceAR(chipPosition);
         var chipNode = this.createChip(chipPosition, bet);
 

@@ -3,8 +3,8 @@ import RoomPlayer from "./RoomPlayer";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from '../../common/helpers/Helper';
 import Notice from "../../common/notice/view-models/Notice";
-import GameBasePlayerHanlder from "./handlers/GameBasePlayerHandler";
-import DataHandler from "./handlers/DataHandler";
+import GameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
+import IGameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,6 +12,9 @@ const { ccclass, property } = cc._decorator;
 export default class GameRoomBase extends GameBase {
     @property({ type: RoomPlayer })
     players: RoomPlayer[] = [];
+
+    @property({ type: cc.Node })
+    otherPlayers: cc.Node = null;
 
     @property(cc.Prefab)
     miniPanelPrefab: cc.Prefab = null;
@@ -35,11 +38,11 @@ export default class GameRoomBase extends GameBase {
     userAvatar: cc.Sprite = null;
 
     currentMiniPanel: MiniPanel;
-    protected playerHandler: DataHandler;
+    playerHandler: IGameBasePlayerHandler;
 
     constructor() {
         super();
-        this.playerHandler = new GameBasePlayerHanlder(this);
+        this.playerHandler = new GameBasePlayerHandler(this);
     }
 
     onLoad() {

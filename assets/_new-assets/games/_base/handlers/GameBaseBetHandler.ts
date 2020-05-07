@@ -2,6 +2,7 @@
 import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
 import * as _ from "lodash";
+import GameRoomBase from "../GameRoomBase";
 
 export default class GameBaseBetHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {
@@ -22,6 +23,10 @@ export default class GameBaseBetHandler implements DataHandler {
             this.throwOwnChip(data.ownChip);
         }
 
+        if (data.chip && this.main.enableChips) {
+            this.throwPlayerChip(data.chip);
+        }
+
         if (data.chips && this.main.enableChips) {
             this.throwChips(data.chips);
         }
@@ -31,7 +36,6 @@ export default class GameBaseBetHandler implements DataHandler {
 
 
     throwOwnChip(data) {
-        console.log(data);
         var betOption = data.box;
         var bet = data.bet;
         var betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
@@ -40,6 +44,29 @@ export default class GameBaseBetHandler implements DataHandler {
             bet,
             betItem.chipNode,
             betItem.chipRange);
+    }
+
+    throwPlayerChip(data) {
+        var gameRoomMain = this.main as GameRoomBase;
+
+        if (gameRoomMain) {
+            var betOption = data.box;
+            var bet = data.bet;
+            var startNode: cc.Node;
+            var playerSlot = gameRoomMain.playerHandler.getPlayerSlot(data.playerId);
+            var betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
+
+            if (playerSlot) {
+                playerSlot.data.red = data.red;
+                startNode = playerSlot.avatar.node;
+            }
+            else {
+                startNode = gameRoomMain.otherPlayers;
+                gameRoomMain.playerHandler.otherPlayers[data.playerId].red = data.red;
+            }
+
+            this.main.betChips.throwChip(bet, betItem.chipNode, betItem.chipRange, startNode);
+        }
     }
 
     throwChips(data) {
