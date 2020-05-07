@@ -7,7 +7,7 @@ import ProcessingWarning from './../../../../common/processing-warning/view-mode
 import * as ScaleEffect from './../../../tai-xiu/view-models/main-page/TXScale';
 import AnimatedTime from './../../../../common/animated-time/view-models/AnimatedTime';
 import UMDataHandler from "./data-handlers/UMDataHandler";
-import DataHandler from '../../../../common/game/handlers/DataHandler';
+import DataHandler from '../../../_base/handlers/DataHandler';
 import ErrorDataHandler from './data-handlers/ErrorDataHandler';
 import GameDataHandler from './data-handlers/GameDataHandler';
 import LogsDataHandler, { ILogsDataHandler } from './data-handlers/LogsDataHandler';

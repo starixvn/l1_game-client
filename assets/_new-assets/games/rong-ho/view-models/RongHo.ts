@@ -1,6 +1,6 @@
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import * as helper from '../../../common/helpers/Helper';
-import DataHandler from "../../../common/game/handlers/DataHandler";
+import DataHandler from "../../_base/handlers/DataHandler";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import RHUMDataHandler from "./handlers/RHUMDataHandler";
 import RHGameTimeHandler from "./handlers/RHGameTimeHandler";
@@ -14,7 +14,7 @@ import GameUtils from "../../../common/GameUtils";
 import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
 import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
-import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
+import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 
 const { ccclass, property } = cc._decorator;
 

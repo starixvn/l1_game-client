@@ -1,7 +1,7 @@
 
 import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
-import GameUtils from "../../GameUtils";
+import GameUtils from "../../../common/GameUtils";
 
 export default class GameBaseStatusHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {

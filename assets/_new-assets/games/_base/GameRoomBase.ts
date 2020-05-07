@@ -2,7 +2,7 @@ import GameBase from "./GameBase";
 import RoomPlayer from "./RoomPlayer";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from '../../common/helpers/Helper';
-import Notice from "../notice/view-models/Notice";
+import Notice from "../../common/notice/view-models/Notice";
 import GameBasePlayerHanlder from "./handlers/GameBasePlayerHandler";
 import DataHandler from "./handlers/DataHandler";
 

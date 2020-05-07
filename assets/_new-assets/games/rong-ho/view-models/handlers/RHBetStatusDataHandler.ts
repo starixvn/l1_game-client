@@ -1,5 +1,5 @@
 import RongHo from "../RongHo";
-import DataHandler from "../../../../common/game/handlers/DataHandler";
+import DataHandler from "../../../_base/handlers/DataHandler";
 
 
 export default class RHBetStatusDataHandler implements DataHandler {

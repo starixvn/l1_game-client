@@ -1,5 +1,5 @@
 import BaseDataHandler from "./BaseDataHandler";
-import DataHandler from "../../../../../common/game/handlers/DataHandler";
+import DataHandler from "../../../../_base/handlers/DataHandler";
 import ChanLeLogTips from "../ChanLeLogTips";
 import ChanLeMain from "../ChanLeMain";
 

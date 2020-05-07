@@ -1,4 +1,4 @@
-import GameBaseFinishHandler from "../../../../common/game/handlers/GameBaseFinishHandler";
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 
 export default class KenoFinishHandler extends GameBaseFinishHandler {
 

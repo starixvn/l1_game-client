@@ -1,4 +1,4 @@
-import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
+import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 
 export interface CLGameConfigs extends GameBaseConfigs {
     readonly nanTime: number;

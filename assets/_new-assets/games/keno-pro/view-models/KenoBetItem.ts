@@ -1,5 +1,5 @@
 import * as helper from '../../../common/helpers/Helper';
-import BetItem from '../../../common/game/BetItem';
+import BetItem from '../../_base/BetItem';
 
 const { ccclass, property } = cc._decorator;
 

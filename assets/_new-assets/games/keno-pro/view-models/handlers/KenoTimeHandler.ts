@@ -1,4 +1,4 @@
-import GameBaseTimeHandler from "../../../../common/game/handlers/GameBaseTimeHandler";
+import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import Keno from "../Keno";
 
 export default class KenoTimeHandler extends GameBaseTimeHandler {

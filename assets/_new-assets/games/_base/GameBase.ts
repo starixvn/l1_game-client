@@ -1,16 +1,16 @@
 import DataHandler from "./handlers/DataHandler";
-import UmWarning from "../um-warning/UmWarning";
+import UmWarning from "../../common/um-warning/UmWarning";
 import { GameBaseConfigs } from "./GameBaseConfig";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
 import GameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
-import AnimatedTime from "../animated-time/view-models/AnimatedTime";
+import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import BetItem from "./BetItem";
-import GameUtils from "../GameUtils";
+import GameUtils from "../../common/GameUtils";
 import GameBaseTimeHandler, { IGameBaseTimeHandler } from "./handlers/GameBaseTimeHandler";
 import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
-import BetChips from "../bet-chips/view-models/BetChips";
+import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 

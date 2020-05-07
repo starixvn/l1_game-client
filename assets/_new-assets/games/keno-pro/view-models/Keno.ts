@@ -1,5 +1,5 @@
 import * as helper from '../../../common/helpers/Helper';
-import GameRoomBase from "../../../common/game/GameRoomBase";
+import GameRoomBase from "../../_base/GameRoomBase";
 import KenoTimeHandler from './handlers/KenoTimeHandler';
 import KenoFinishHandler from './handlers/KenoFinishHandler';
 import { KenoConfigs } from './KenoConfigs';

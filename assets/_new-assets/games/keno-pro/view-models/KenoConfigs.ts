@@ -1,4 +1,4 @@
-import { GameBaseConfigs } from "../../../common/game/GameBaseConfig";
+import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 
 export class KenoConfigs implements GameBaseConfigs {
     minBetTime = 5;
