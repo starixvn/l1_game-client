@@ -3,6 +3,7 @@ import GameRoomBase from "../../../common/game/GameRoomBase";
 import KenoTimeHandler from './handlers/KenoTimeHandler';
 import KenoFinishHandler from './handlers/KenoFinishHandler';
 import { KenoConfigs } from './KenoConfigs';
+import KenoNumber from './KenoNumber';
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,6 +23,7 @@ export default class Keno extends GameRoomBase {
     prefabHistory: cc.Prefab = null;
 
     private resultAnimating = false;
+    private kenoNumbers: KenoNumber[] = [];
 
     constructor() {
         super();
@@ -75,6 +77,7 @@ export default class Keno extends GameRoomBase {
             this.node.active = true;
         }
 
+        this.kenoNumbers = this.resultNumberNode.children.map(child => child.getComponent(KenoNumber));
         this.setGameRound(0);
     }
     //#endregion
@@ -114,6 +117,27 @@ export default class Keno extends GameRoomBase {
     // }
     public playResultAnimation() {
         this.resultAnimating = true;
+
+        var numbers: number[];
+        var i = 0;
+        var sequence = cc.sequence(
+            cc.callFunc(() => {
+                this.kenoNumbers[i].setNumber(numbers[i]);
+                this.totalResult.string = this.getTempTotal(numbers, i).toString();
+                i++;
+            }),
+            cc.delayTime(0.1)
+        );
+
+        this.resultNumberNode.runAction(cc.repeat(sequence, 20));
+    }
+
+    private getTempTotal(numberArray: number[], index: number): number {
+        var total = 0;
+        for (var i = 0; i <= index; i++) {
+            total += numberArray[i];
+        }
+        return total;
     }
 
     public handleWaitTime() {
