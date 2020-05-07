@@ -91,8 +91,8 @@ export default class Keno extends GameRoomBase {
 
     defaultUIState() {
         this.resultFrame.active = false;
-        this.timeWaitLabel.node.parent.active = false;
-        this.animatedTime.node.parent.active = false;
+        this.timeWaitNode.active = false;
+        this.animatedTime.node.active = false;
         this.betItems.forEach(item => {
             item.clearBet();
             item.resetHighlight();
@@ -119,6 +119,8 @@ export default class Keno extends GameRoomBase {
     public playResultAnimation() {
         var resultNumbers = this.currentDataLogs[0];
         this.resultAnimating = true;
+        this.resultFrame.active = true;
+        this.totalResult.string = "0";
         this.kenoNumbers.forEach(keno => keno.show(false));
         var i = 0;
         var sequence = cc.sequence(
