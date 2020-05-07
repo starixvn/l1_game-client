@@ -6,6 +6,8 @@ import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
 import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
 import RongHo from '../../games/rong-ho/view-models/RongHo';
 import { RongHoConfigs } from '../../games/rong-ho/view-models/RongHoConfigs';
+import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
+import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
 
 @ccclass
 export default class MiniPanel extends cc.Component {
@@ -55,6 +57,9 @@ export default class MiniPanel extends cc.Component {
   rongHoPrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
+  miniSediePrefab: cc.Prefab = null;
+
+  @property(cc.Prefab)
   guidePrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
@@ -69,6 +74,7 @@ export default class MiniPanel extends cc.Component {
   private chanLeTurbo: ChanLe;
   private rongHo: RongHo;
   private guide: any;
+  private miniSedie: MiniSedie;
 
   onLoad() {
     if (void 0 === cc.RedT.util.fontCong) {
@@ -90,6 +96,8 @@ export default class MiniPanel extends cc.Component {
     this.chanLeTurbo = null;
     this.bauCua && this.bauCua.destroy();
     this.bauCua = null;
+    this.miniSedie && this.miniSedie.destroy();
+    this.miniSedie = null;
   }
 
   onGeneralData(data: any) {
@@ -329,6 +337,21 @@ export default class MiniPanel extends cc.Component {
       }
 
       this.rongHo.openGame();
+    } else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+  }
+
+  openMiniSedie() {
+    if (cc.RedT.IS_LOGIN) {
+      if (!this.miniSedie || !this.miniSedie.node) {
+        var miniSedieNode = cc.instantiate(this.miniSediePrefab);
+        this.miniSedie = miniSedieNode.getComponent("MiniSedie") as MiniSedie;
+        this.miniSedie.init("miniSedie", new MiniSedieConfigs(), this);
+        this.miniGames.addChild(miniSedieNode);
+      }
+
+      this.miniSedie.openGame();
     } else {
       cc.RedT.inGame.dialog.showSignIn();
     }

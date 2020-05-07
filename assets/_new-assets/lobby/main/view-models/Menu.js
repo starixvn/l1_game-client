@@ -79,4 +79,7 @@ cc.Class({
   openChanLeTurbo: function () {
     cc.RedT.MiniPanel.openChanLeTurbo();
   },
+  openMiniSedie: function () {
+    cc.RedT.MiniPanel.openMiniSedie();
+  },
 });

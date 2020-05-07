@@ -140,6 +140,7 @@ export default class GameBase extends cc.Component {
     }
 
     onData(data: any) {
+        console.log(data);
         for (let index = 0; index < this.dataHandlers.length; index++) {
             let handler = this.dataHandlers[index];
             if (index == 0 && handler.handle(data)) { //um handler
@@ -173,6 +174,7 @@ export default class GameBase extends cc.Component {
 
     /** Register with game on server */
     protected registerViewGame() {
+        this.sendData({ view: true, get_time: true, getLogs: true });
     }
 
     sendData(payload: any) {
