@@ -1,6 +1,7 @@
 import * as helper from '../../../common/helpers/Helper';
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameRoomBase from "../../../common/game/GameRoomBase";
+import KenoTimeHandler from './handlers/KenoTimeHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,6 +19,11 @@ export default class Keno extends GameRoomBase {
 
     private cuoc: any;
     private resultAnimating = false;
+
+    constructor() {
+        super();
+        this.timeHandler = new KenoTimeHandler(this);
+    }
 
     //#region Public Methods
     public onCuocClick(e) {
