@@ -11,11 +11,15 @@ export default class Keno extends GameRoomBase {
     @property(cc.Node)
     resultFrame: cc.Node = null;
 
+    @property(cc.Label)
+    totalResult: cc.Label = null;
+
+    @property(cc.Node)
+    resultNumberNode: cc.Node = null;
+
     @property(cc.Prefab)
     prefabHistory: cc.Prefab = null;
 
-    public phienId = -1;
-    public logs = [];
 
     private cuoc: any;
     private resultAnimating = false;
@@ -40,18 +44,6 @@ export default class Keno extends GameRoomBase {
             cuoc: { cuoc: this.cuoc, box: e.target.name }
         }
         this.sendData(data);
-    }
-
-    public openGame() {
-        cc.RedT.audio.playClick();
-        this.node.active = !0;
-        cc.sys.localStorage.setItem(this.gameName, true);
-    }
-
-    public closeGame() {
-        cc.RedT.audio.playUnClick();
-        this.node.active = !1;
-        cc.sys.localStorage.setItem(this.gameName, false);
     }
 
     public pressedHistoryDialog() {
@@ -141,10 +133,6 @@ export default class Keno extends GameRoomBase {
     //     }
     // }
 
-    private setPhienLabel(phien) {
-        this.phienLabel.string = phien < 1 ? "" : `#${phien}`;
-    }
-
     private highlightWonItem(highlight: boolean, winItem: string = "") {
         if (highlight) {
             if (winItem != "") {
@@ -160,7 +148,7 @@ export default class Keno extends GameRoomBase {
     public showResult(show: boolean) {
         if (show) {
             // this.updateLogs();
-            this.setPhienLabel(this.phienId);
+            this.setGameRound(this.roundId);
 
             // var winItem = this.getWinItem(this.resultCards);
             // if (winItem != "") {
@@ -169,7 +157,7 @@ export default class Keno extends GameRoomBase {
             //     this.highlightWonItem(true, winItem);
             // }
         } else {
-            this.setPhienLabel(this.phienId + 1);
+            this.setGameRound(this.roundId + 1);
             this.highlightWonItem(false);
             this.resultFrame.active = false;
         }

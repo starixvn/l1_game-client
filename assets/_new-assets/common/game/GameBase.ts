@@ -60,6 +60,7 @@ export default class GameBase extends cc.Component {
     public config: GameBaseConfigs;
     public gameName: string;
     public currentDataLogs = [];
+    public roundId = -1;
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
