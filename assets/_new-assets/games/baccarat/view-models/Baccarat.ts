@@ -48,8 +48,6 @@ export default class Baccarat extends GameRoomBase {
     }
 
     onBet(event, box) {
-        const index = this.betOptionMapper[box];
-        this.betChips.throwChip(this.currentBet, this.betItems[index].chipNode, new cc.Vec2(80, 40))
         this.bet({ cuoc: { red: true, cuoc: this.currentBet, box: box } });
     }
 
