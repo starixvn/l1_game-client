@@ -117,7 +117,7 @@ export default class Keno extends GameRoomBase {
     //     }
     // }
     public playResultAnimation() {
-        var resultNumbers = this.currentDataLogs[0];
+        var resultNumbers = this.currentDataLogs[0].result;
         this.resultAnimating = true;
         this.resultFrame.active = true;
         this.totalResult.string = "0";
@@ -139,7 +139,7 @@ export default class Keno extends GameRoomBase {
 
     private getResults(): string[] {
         var results = [];
-        var resultNumbers = this.currentDataLogs[0];
+        var resultNumbers = this.currentDataLogs[0].result;
         if (resultNumbers.length <= 0) {
             return results;
         }

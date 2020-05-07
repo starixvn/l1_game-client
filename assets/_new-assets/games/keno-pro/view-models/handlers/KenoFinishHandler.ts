@@ -9,7 +9,7 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
 
     handleFinishData(dataFinish) {
         super.handleFinishData(dataFinish);
-        this.main.currentDataLogs.unshift(dataFinish.result);
+        this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.roundId = dataFinish.roundId;
 

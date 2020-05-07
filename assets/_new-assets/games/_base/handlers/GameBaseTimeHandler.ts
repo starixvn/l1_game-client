@@ -58,6 +58,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - 1, 2);
         this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
         this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
+        this.main.animatedTime.node.active = false;
     }
 
     handleInTurnTime() {

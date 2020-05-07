@@ -13,7 +13,8 @@ export default class KenoBetItem extends BetItem {
     highlight: cc.Node = null;
 
     public clearBet() {
-        this.ownBet.string = this.totalBet.string = "";
+        this.setOwnBet(0);
+        this.setTotalBet(0);
     }
 
     protected setOwnBet(bet: number) {
@@ -22,6 +23,7 @@ export default class KenoBetItem extends BetItem {
 
     protected setTotalBet(bet: number) {
         this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+        this.totalBet.node.parent.active = bet > 0;
     }
 
     public setHighlight(highlight: boolean) {
