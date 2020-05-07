@@ -34,7 +34,14 @@ export default class BetChips extends cc.Component {
     @property(cc.SpriteFrame)
     chip500: cc.SpriteFrame = null;
 
+    @property()
+    defaultChip = "1";
+
     public onChanged: OnChangedBet = (bet) => { };
+
+    onLoad() {
+        this.setCurrentBet(this.defaultChip);
+    }
 
     public onClickBet(event) {
         var bet = event.target.name;
