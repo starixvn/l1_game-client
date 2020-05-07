@@ -17,8 +17,6 @@ export default class GameBaseFinishHandler implements DataHandler {
         return true;
     }
 
-
-
     handleFinishData(dataFinish) {
     }
 }

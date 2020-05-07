@@ -7,7 +7,7 @@ export default class GameBaseBetHandler implements DataHandler {
     }
 
     handle(data: any): boolean {
-        if (data.data || data.me) {
+        if (data.totalBets || data.ownBets) {
             this.main.showProcessingWarning(false);
             this.main.betItems.forEach(item => item.setData(data));
         }
