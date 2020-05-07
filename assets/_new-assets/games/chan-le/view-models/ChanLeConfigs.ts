@@ -5,8 +5,6 @@ export interface GameConfigs {
     readonly nanTime: number;
     readonly redTime: number;
     readonly minBetTime: number;
-    readonly minBet: number;
-    readonly maxBet: number;
 }
 
 export class ChanLeConfigs implements GameConfigs {
@@ -16,6 +14,4 @@ export class ChanLeConfigs implements GameConfigs {
     nanTime: number = 55;
     redTime: number = 5;
     minBetTime: number = 1;
-    minBet: number = 1;
-    maxBet: number = 500;
 }

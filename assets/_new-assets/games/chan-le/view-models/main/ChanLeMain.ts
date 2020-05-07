@@ -221,29 +221,19 @@ export default class ChanLeMain extends cc.Component {
         this.betBoard.node.active = false;
         this.setBetButtonFrame(false);
 
-        if (isNaN(bet) || bet < this.root.gameConfigs.minBet) {
-            this.showMiniWarning(
-                "Tiền cược tối thiểu là " + this.root.gameConfigs.minBet
-            );
-        } else if (bet > this.root.gameConfigs.maxBet) {
-            this.showMiniWarning(
-                "Tiền cược tối đa là " + this.root.gameConfigs.maxBet
-            );
-        } else {
-            if (this.waitingBetResponse) {
-                this.showBetProcessWarning();
-                return;
-            }
-
-            this.waitingBetResponse = true;
-            this.root.sendData({
-                cuoc: {
-                    red: true,
-                    select: this.currentInputSide == this.betChoice.left,
-                    bet: bet
-                }
-            })
+        if (this.waitingBetResponse) {
+            this.showBetProcessWarning();
+            return;
         }
+
+        this.waitingBetResponse = true;
+        this.root.sendData({
+            cuoc: {
+                red: true,
+                select: this.currentInputSide == this.betChoice.left,
+                bet: bet
+            }
+        })
     }
 
     onDiaNanClick() {

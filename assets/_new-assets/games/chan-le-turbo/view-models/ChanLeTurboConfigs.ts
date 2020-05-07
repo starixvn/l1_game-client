@@ -7,6 +7,4 @@ export default class ChanLeTurboConfigs implements GameConfigs {
     nanTime: number = 32;
     redTime: number = 5;
     minBetTime: number = 1;
-    minBet: number = 1;
-    maxBet: number = 500;
 }

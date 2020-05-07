@@ -278,38 +278,26 @@ cc.Class({
       self.resetBetButtonText()
       self.TX_Board.node.active = false;
       this.setBetButtonClicked(false);
-      if (isNaN(bet) || bet < Constants.minBet) {
-        NoticeUtil.showNoticeMessage(
-          this,
-          "Tiền cược tối thiểu là " + Constants.minBet
-        );
-      } else if (bet > Constants.maxBet) {
-        NoticeUtil.showNoticeMessage(
-          this,
-          "Tiền cược tối đa là " + Constants.maxBet
-        );
-      } else {
-        if (this.waitingBetResponse) {
-          var processingWarning = cc.instantiate(this.ProcessingWarning);
-          this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
-          this.notice.addChild(processingWarning);
-          return;
-        }
 
-        this.waitingBetResponse = true;
-
-        cc.RedT.send({
-          taixiu: {
-            cuoc: {
-              red: self.red,
-              taixiu: self.taixiu,
-              select: self.inputOld == "left",
-              bet: bet
-            }
-          }
-        });
+      if (this.waitingBetResponse) {
+        var processingWarning = cc.instantiate(this.ProcessingWarning);
+        this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
+        this.notice.addChild(processingWarning);
+        return;
       }
 
+      this.waitingBetResponse = true;
+
+      cc.RedT.send({
+        taixiu: {
+          cuoc: {
+            red: self.red,
+            taixiu: self.taixiu,
+            select: self.inputOld == "left",
+            bet: bet
+          }
+        }
+      });
     };
     if (this.TXRoot.board) {
       this.inputL.active = this.inputR.active = false;
