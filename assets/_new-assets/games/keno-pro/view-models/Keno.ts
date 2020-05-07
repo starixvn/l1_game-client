@@ -30,7 +30,7 @@ export default class Keno extends GameRoomBase {
         this.finishHandler = new KenoFinishHandler(this);
         this.timeHandler = new KenoTimeHandler(this);
 
-        this.init("KenoProMax", new KenoConfigs());
+        this.init("kenoProMax", new KenoConfigs());
     }
 
     //#region Public Methods
@@ -79,6 +79,7 @@ export default class Keno extends GameRoomBase {
 
         this.kenoNumbers = this.resultNumberNode.children.map(child => child.getComponent(KenoNumber));
         this.setGameRound(0);
+        this.defaultUIState();
     }
     //#endregion
 
@@ -116,20 +117,57 @@ export default class Keno extends GameRoomBase {
     //     }
     // }
     public playResultAnimation() {
+        var resultNumbers = this.currentDataLogs[0];
         this.resultAnimating = true;
-
-        var numbers: number[];
+        this.kenoNumbers.forEach(keno => keno.show(false));
         var i = 0;
         var sequence = cc.sequence(
             cc.callFunc(() => {
-                this.kenoNumbers[i].setNumber(numbers[i]);
-                this.totalResult.string = this.getTempTotal(numbers, i).toString();
+                this.kenoNumbers[i].setNumber(resultNumbers[i]);
+                this.totalResult.string = this.getTempTotal(resultNumbers, i).toString();
                 i++;
             }),
             cc.delayTime(0.1)
         );
 
-        this.resultNumberNode.runAction(cc.repeat(sequence, 20));
+        this.resultNumberNode.runAction(cc.sequence(
+            cc.repeat(sequence, 20),
+            cc.callFunc(() => this.resultAnimating = false)));
+    }
+
+    private getResults(): string[] {
+        var results = [];
+        var resultNumbers = this.currentDataLogs[0];
+        if (resultNumbers.length <= 0) {
+            return results;
+        }
+
+        var total = this.getTempTotal(resultNumbers, resultNumbers.length - 1);
+
+        if (total > 810) {
+            results.push("big");
+        } else {
+            results.push("small");
+        }
+
+        if (total % 2 === 1) {
+            results.push("odd");
+        } else {
+            results.push("even");
+        }
+
+        if (total < 696) {
+            results.push("metal");
+        } else if (total < 764) {
+            results.push("wood");
+        } else if (total < 856) {
+            results.push("water");
+        } else if (total < 1411) {
+            results.push("fire");
+        } else {
+            results.push("earth");
+        }
+        return results;
     }
 
     private getTempTotal(numberArray: number[], index: number): number {
@@ -156,13 +194,12 @@ export default class Keno extends GameRoomBase {
         }
     }
 
-    private highlightWonItem(highlight: boolean, winItem: string = "") {
+    private highlightWonItem(highlight: boolean, results: string[] = []) {
         if (highlight) {
-            if (winItem != "") {
-                this.betItems.forEach(item => {
-                    item.setHighlight(item.node.name == winItem);
-                });
-            }
+            this.betItems.forEach(item => {
+                var exist = results.indexOf(item.node.name);
+                item.setHighlight(exist > -1);
+            });
         } else {
             this.betItems.forEach(item => item.resetHighlight());
         }
@@ -173,12 +210,11 @@ export default class Keno extends GameRoomBase {
             // this.updateLogs();
             this.setGameRound(this.roundId);
 
-            // var winItem = this.getWinItem(this.resultCards);
-            // if (winItem != "") {
-            //     this.resultFrame.active = true;
-            //     this.resultFrame.children.forEach(child => child.active = child.name == winItem);
-            //     this.highlightWonItem(true, winItem);
-            // }
+            var results = this.getResults();
+            if (results.length > 0) {
+                this.resultFrame.active = true;
+                this.highlightWonItem(true, results);
+            }
         } else {
             this.setGameRound(this.roundId + 1);
             this.highlightWonItem(false);
