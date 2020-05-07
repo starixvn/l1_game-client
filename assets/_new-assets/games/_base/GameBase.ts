@@ -212,12 +212,12 @@ export default class GameBase extends cc.Component {
         if (this.enableChips) {
             var betChipsNode = cc.instantiate(this.betChipsPrefab);
             this.betChips = betChipsNode.getComponent("BetChips") as BetChips;
-            this.betChipsContainer.addChild(betChipsNode);
-
             var self = this;
-            this.betChips.onChanged = ((bet) => {
+            this.betChips.init((bet) => {
                 self.currentBet = bet;
             });
+            this.betChipsContainer.addChild(betChipsNode);
+
         }
     }
 

@@ -43,6 +43,11 @@ export default class BetChips extends cc.Component {
         this.setCurrentBet(this.defaultChip);
     }
 
+    public init(onChanged: OnChangedBet) {
+        this.onChanged = onChanged;
+        this.setCurrentBet(this.defaultChip);
+    }
+
     public onClickBet(event) {
         var bet = event.target.name;
         this.updateSelectedBet(bet);
@@ -51,6 +56,7 @@ export default class BetChips extends cc.Component {
 
     public setCurrentBet(bet: string) {
         this.updateSelectedBet(bet);
+        this.onChanged(bet);
     }
 
     public throwChip(bet, destNode: cc.Node, range: cc.Vec2) {
