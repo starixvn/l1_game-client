@@ -1,5 +1,5 @@
 import Baccarat from "../Baccarat";
-import GameBaseTimeHandler from "../../../../common/game/handlers/GameBaseTimeHandler";
+import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 
 export default class BaccaratTimeHandler extends GameBaseTimeHandler {
     handleInTurnTime() {

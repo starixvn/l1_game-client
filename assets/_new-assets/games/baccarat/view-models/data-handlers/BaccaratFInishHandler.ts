@@ -1,5 +1,5 @@
 import Baccarat from "../Baccarat";
-import GameBaseFinishHandler from "../../../../common/game/handlers/GameBaseFinishHandler";
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 
 export default class BaccaratFinishHandler extends GameBaseFinishHandler {
     handleFinishData(dataFinish: any) {

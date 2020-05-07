@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import GameRoomBase from "../../../common/game/GameRoomBase";
+import GameRoomBase from "../../_base/GameRoomBase";
 import BaccaratTimeHandler from "./data-handlers/BaccaratTimeDataHandler";
 import { BaccaratConfigs } from "./BaccaratConfigs";
 import BaccaratCards from "./BaccaratCards";
