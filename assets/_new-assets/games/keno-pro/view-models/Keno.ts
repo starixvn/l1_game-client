@@ -22,8 +22,8 @@ export default class Keno extends GameRoomBase {
     @property(cc.Prefab)
     prefabHistory: cc.Prefab = null;
 
-    private resultAnimating = false;
-    private kenoNumbers: KenoNumber[] = [];
+    public resultAnimating = false;
+    public kenoNumbers: KenoNumber[] = [];
 
     constructor() {
         super();
@@ -117,30 +117,17 @@ export default class Keno extends GameRoomBase {
     //         this.onData(data.mini[this.gameName]);
     //     }
     // }
-    public playResultAnimation() {
-        var resultNumbers = this.currentDataLogs[0].result;
-        this.resultAnimating = true;
-        this.resultFrame.active = true;
-        this.totalResult.string = "0";
-        this.kenoNumbers.forEach(keno => keno.show(false));
-        var i = 0;
-        var sequence = cc.sequence(
-            cc.callFunc(() => {
-                this.kenoNumbers[i].setNumber(resultNumbers[i]);
-                this.totalResult.string = this.getTempTotal(resultNumbers, i).toString();
-                i++;
-            }),
-            cc.delayTime(0.1)
-        );
 
-        this.resultNumberNode.runAction(cc.sequence(
-            cc.repeat(sequence, 20),
-            cc.callFunc(() => this.resultAnimating = false)));
+    public getTempTotal(numberArray: number[], index: number): number {
+        var total = 0;
+        for (var i = 0; i <= index; i++) {
+            total += numberArray[i];
+        }
+        return total;
     }
 
-    private getResults(): string[] {
+    public getResults(resultNumbers: number[]): string[] {
         var results = [];
-        var resultNumbers = this.currentDataLogs[0].result;
         if (resultNumbers.length <= 0) {
             return results;
         }
@@ -171,67 +158,6 @@ export default class Keno extends GameRoomBase {
             results.push("earth");
         }
         return results;
-    }
-
-    private getTempTotal(numberArray: number[], index: number): number {
-        var total = 0;
-        for (var i = 0; i <= index; i++) {
-            total += numberArray[i];
-        }
-        return total;
-    }
-
-    public handleWaitTime() {
-        if (!this.resultAnimating) {
-            this.showResult(true);
-        } else {
-            this.timeWaitNode.active = false;
-        }
-    }
-
-    public handleInTurnTime() {
-        this.resultAnimating = false;
-        this.showResult(false);
-        const isStartingNewTurn = this.currentTimeRemaining == this.config.betTime;
-
-        if (isStartingNewTurn) {
-            this.betItems.forEach(item => item.clearBet());
-        }
-    }
-
-    private highlightWonItem(highlight: boolean, results: string[] = []) {
-        if (highlight) {
-            this.betItems.forEach(item => {
-                var exist = results.indexOf(item.node.name);
-                item.setHighlight(exist > -1);
-            });
-        } else {
-            this.betItems.forEach(item => item.resetHighlight());
-        }
-    }
-
-    public showResult(show: boolean) {
-        if (show) {
-            // this.updateLogs();
-            this.setGameRound(this.roundId);
-
-            var results = this.getResults();
-            if (results.length > 0) {
-                this.resultFrame.active = true;
-                var resultNumbers = this.currentDataLogs[0].result;
-                var total = this.getTempTotal(resultNumbers, resultNumbers.length - 1);
-                this.totalResult.string = total.toString();
-                this.kenoNumbers.forEach((keno, index) => {
-                    keno.setNumber(resultNumbers[index]);
-                })
-
-                this.highlightWonItem(true, results);
-            }
-        } else {
-            this.setGameRound(this.roundId + 1);
-            this.highlightWonItem(false);
-            this.resultFrame.active = false;
-        }
     }
     //#endregion
 }
