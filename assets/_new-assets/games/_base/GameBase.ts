@@ -54,6 +54,9 @@ export default class GameBase extends cc.Component {
     @property({ type: cc.Prefab, visible: function (this: GameBase) { return this.enableChips; } })
     betChipsPrefab: cc.Prefab = null;
 
+    @property({ type: cc.Node, visible: function (this: GameBase) { return this.enableChips; } })
+    dealerChipBox: cc.Node = null;
+
     public waitingProcessing = false;
     public disabledGame = false;
     public currentTimeRemaining: number;

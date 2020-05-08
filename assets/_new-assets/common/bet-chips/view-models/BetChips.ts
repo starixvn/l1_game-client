@@ -59,7 +59,32 @@ export default class BetChips extends cc.Component {
         this.onChanged(bet);
     }
 
-    public throwChip(bet: number, destNode: cc.Node, range: cc.Vec2, startNode: cc.Node = null) {
+    public moveChipsToDealer(chipsBox: cc.Node, dealerBox: cc.Node) {
+        var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
+        var dealerBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(dealerBoxPosition);
+
+        _.forEach(chipsBox.children, chip => {
+            chip.runAction(cc.moveTo(0.5, dealerBoxInChipBoxSpacePosition));
+        });
+    }
+
+    public payoutChips(chipBox: cc.Node, dealerBox: cc.Node, chipRange: cc.Vec2) {
+        var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
+        var dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
+        cc.RedT.isSoundGame() && this.multiChipAudio.play();
+
+        _.forEach(chipBox.children, chip => {
+            var cloneChip = cc.instantiate(chip);
+            cloneChip.position = dealerBoxInChipBoxSpacePosition;
+            const xDest = _.random(0, chipRange.x + 1);
+            const yDest = _.random(0, chipRange.y + 1);
+            chipBox.addChild(cloneChip);
+
+            cloneChip.runAction(cc.moveTo(0.5, cc.v2(xDest, yDest)))
+        });
+    }
+
+    public placeChipBet(bet: number, destNode: cc.Node, range: cc.Vec2, startNode: cc.Node = null) {
         var chipPosition: cc.Vec2;
 
         if (startNode) {
