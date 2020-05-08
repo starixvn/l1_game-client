@@ -1,5 +1,5 @@
-import LogsControl from "./LogsControl";
 import Keno from "./Keno";
+import LogsControl from "./LogsControl";
 
 const { ccclass, property } = cc._decorator;
 
@@ -58,7 +58,7 @@ export default class RoundHistory extends cc.Component {
 
         var taixiuData = [];
 
-        results.forEach(result => {
+        results.reverse().forEach(result => {
             taixiuData.push(result.indexOf("big") > -1 ? 0 : 1);
         });
 
