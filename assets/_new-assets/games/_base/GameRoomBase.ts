@@ -103,6 +103,16 @@ export default class GameRoomBase extends GameBase {
         return notice;
     }
 
+    closeGame() {
+        if (this.loading) {
+            this.loading.active = true;
+        }
+
+        this.stopGame();
+        this.sendData({ outgame: true });
+        cc.director.loadScene('MainGame');
+    }
+
     protected onGameHide() {
         super.onGameHide();
         this.closeGame();
@@ -150,13 +160,5 @@ export default class GameRoomBase extends GameBase {
         });
     }
 
-    protected closeGame() {
-        if (this.loading) {
-            this.loading.active = true;
-        }
 
-        this.stopGame();
-        this.sendData({ outgame: true });
-        cc.director.loadScene('MainGame');
-    }
 }
