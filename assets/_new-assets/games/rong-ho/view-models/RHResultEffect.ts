@@ -6,4 +6,8 @@ export default class RHResultEffect extends cc.Component {
         this.node.scale = 2;
         this.node.runAction(cc.scaleTo(.3, 1));
     }
+
+    onDisable() {
+        this.node.stopAllActions();
+    }
 }

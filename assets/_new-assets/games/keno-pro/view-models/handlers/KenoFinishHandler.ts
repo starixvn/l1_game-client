@@ -31,7 +31,7 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
                 this.main.totalResult.string = this.main.getTempTotal(resultNumbers, i).toString();
                 i++;
             }),
-            cc.delayTime(0.1)
+            cc.delayTime(0.05)
         );
 
         this.main.resultNumberNode.runAction(cc.sequence(

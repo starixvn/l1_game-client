@@ -14,4 +14,13 @@ export default class KenoNumber extends cc.Component {
     show(show: boolean) {
         this.node.active = show;
     }
+
+    onEnable() {
+        this.node.scale = 2;
+        this.node.runAction(cc.scaleTo(.3, 1).easing(cc.easeBounceOut()));
+    }
+
+    onDisable() {
+        this.node.stopAllActions();
+    }
 }
