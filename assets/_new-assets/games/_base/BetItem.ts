@@ -36,6 +36,8 @@ export default class BetItem extends cc.Component {
     }
 
     public clearBet() {
+        this.setOwnBet(0);
+        this.setTotalBet(0);
     }
 
     public setHighlight(highlight: boolean) {
