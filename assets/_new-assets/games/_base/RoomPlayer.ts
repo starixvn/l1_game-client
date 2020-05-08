@@ -30,6 +30,7 @@ export default class RoomPlayer extends cc.Component {
             data.name && (this.nickname.string = data.name.length > 8 ? data.name.substring(0, 7) + "..." : data.name);
             this.setAvatar(data.avatarId);
         } else {
+            this.data = null;
             this.node.active = false;
         }
     }
