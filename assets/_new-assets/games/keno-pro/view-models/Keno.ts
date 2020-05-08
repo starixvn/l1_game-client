@@ -20,7 +20,11 @@ export default class Keno extends GameRoomBase {
     resultNumberNode: cc.Node = null;
 
     @property(cc.Prefab)
-    prefabHistory: cc.Prefab = null;
+    historyPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    guidePrefab: cc.Prefab = null;
+
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
@@ -61,7 +65,8 @@ export default class Keno extends GameRoomBase {
 
     public pressedShowGuide() {
         cc.RedT.audio.playClick();
-        // this.miniPanel.openGuide("RongHo");
+        let dialog = cc.instantiate(this.guidePrefab);
+        this.node.addChild(dialog);
     }
     //#endregion
 
