@@ -68,7 +68,7 @@ export default class GameRoomBase extends GameBase {
     }
 
     onDisconnected() {
-        this.goToLobby();
+        this.closeGame();
     }
 
     onData(data: any) {
@@ -83,24 +83,14 @@ export default class GameRoomBase extends GameBase {
         }
     }
 
-    closeGame() {
-        this.sendData({ outgame: true });
-
-        if (this.loading) {
-            this.loading.active = true;
-        }
-
-        this.goToLobby();
-    }
-
     showUmMessage(data: any) {
         this.stopGame();
         const message = data.um_message;
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
         var noticeData = { text: text, button: { text: "Ok" } };
         var notice = this.showNotice(noticeData)
-        notice.handleClickButton = this.goToLobby;
-        notice.handleClose = this.goToLobby;
+        notice.handleClickButton = this.closeGame;
+        notice.handleClose = this.closeGame;
     }
 
     showNotice(data): Notice {
@@ -115,7 +105,7 @@ export default class GameRoomBase extends GameBase {
 
     protected onGameHide() {
         super.onGameHide();
-        this.goToLobby();
+        this.closeGame();
     }
 
     protected onDataGameRoomGeneral(data: any) {
@@ -160,8 +150,13 @@ export default class GameRoomBase extends GameBase {
         });
     }
 
-    protected goToLobby() {
+    protected closeGame() {
+        if (this.loading) {
+            this.loading.active = true;
+        }
+
         this.stopGame();
+        this.sendData({ outgame: true });
         cc.director.loadScene('MainGame');
     }
 }
