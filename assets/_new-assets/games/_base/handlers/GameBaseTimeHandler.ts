@@ -1,6 +1,7 @@
 import DataHandler from "./DataHandler";
 import GameBase from "../GameBase";
 import { numberPad } from "../../../common/helpers/Helper";
+import * as _ from "lodash";
 
 export interface IGameBaseTimeHandler extends DataHandler {
     playTimeInterval: number;
@@ -34,14 +35,17 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
         this.playTimeInterval = setInterval(() => {
             const isInWaitTime = self.main.currentTimeRemaining > this.main.config.betTime;
+            const isStartingNewGameRound = self.main.currentTimeRemaining == this.main.config.betTime;
 
             if (isInWaitTime) {
                 self.handleWaitTime();
+            } else if (isStartingNewGameRound) {
+                self.handleStartingNewGameRound();
             } else {
-                const isInTurnTime = self.main.currentTimeRemaining > this.main.config.minBetTime;
+                const isInRoundTime = self.main.currentTimeRemaining > this.main.config.minBetTime;
 
-                if (isInTurnTime) {
-                    self.handleInTurnTime();
+                if (isInRoundTime) {
+                    self.handleInRoundTime();
                 } else {
                     this.main.animatedTime.node.active = false;
                     clearInterval(self.playTimeInterval);
@@ -62,7 +66,14 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.animatedTime.node.active = false;
     }
 
-    handleInTurnTime() {
+    handleStartingNewGameRound() {
+        _.forEach(this.main.betItems, item => {
+            item.clearBet();
+            item.resetHighlight();
+        })
+    }
+
+    handleInRoundTime() {
         this.main.timeWaitNode.active = false;
         var time = numberPad(this.main.currentTimeRemaining - 1, 2);
         this.main.animatedTime.setTime(time);

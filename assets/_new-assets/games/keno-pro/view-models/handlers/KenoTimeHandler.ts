@@ -12,8 +12,8 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
         this.main.handleWaitTime();
     }
 
-    handleInTurnTime() {
-        super.handleInTurnTime();
+    handleInRoundTime() {
+        super.handleInRoundTime();
         this.main.handleInTurnTime();
     }
 }

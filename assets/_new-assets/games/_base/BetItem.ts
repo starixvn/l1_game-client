@@ -44,8 +44,10 @@ export default class BetItem extends cc.Component {
     }
 
     public setHighlight(highlight: boolean) {
+        this.highlight.active = highlight;
     }
 
     public resetHighlight() {
+        this.highlight.active = false;
     }
 }
