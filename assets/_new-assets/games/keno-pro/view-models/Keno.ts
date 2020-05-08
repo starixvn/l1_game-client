@@ -33,7 +33,7 @@ export default class Keno extends GameRoomBase {
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
-    public history: RongHoUserHistory;
+    public history: KenoUserHistory;
 
     constructor() {
         super();
