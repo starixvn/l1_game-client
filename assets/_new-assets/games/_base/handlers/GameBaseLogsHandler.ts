@@ -7,8 +7,8 @@ export default class GameBaseLogsHandler implements DataHandler {
     }
 
     handle(data: any): boolean {
-        if (data.rounds) {
-            this.main.currentDataLogs = data.rounds;
+        if (data.roundHistory) {
+            this.main.currentDataLogs = data.roundHistory;
             this.buildLogs(data.rounds);
         }
 
