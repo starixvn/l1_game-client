@@ -200,7 +200,7 @@ export default class GameBase extends cc.Component {
         }
     }
 
-    protected sendData(payload: any) {
+    public sendData(payload: any) {
         cc.RedT.send({
             g: {
                 [this.gameName]: payload

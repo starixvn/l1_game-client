@@ -4,6 +4,7 @@ import KenoTimeHandler from './handlers/KenoTimeHandler';
 import KenoFinishHandler from './handlers/KenoFinishHandler';
 import { KenoConfigs } from './KenoConfigs';
 import KenoNumber from './KenoNumber';
+import KenoUserHistory from './history/KenoUserHistory';
 import RoundHistory from './RoundHistory';
 import KenoLogsHandler from './handlers/KenoLogsHandler';
 
@@ -32,6 +33,7 @@ export default class Keno extends GameRoomBase {
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
+    public history: RongHoUserHistory;
 
     constructor() {
         super();
@@ -62,10 +64,14 @@ export default class Keno extends GameRoomBase {
     public pressedHistoryDialog() {
         cc.RedT.audio.playClick();
 
-        // var dialog = cc.instantiate(this.prefabHistory);
-        // this.history = dialog.getComponent("RongHoHistory");
-        // this.history.init(this);
-        // this.miniPanel.dialog.insertChild(dialog, 0);
+        var dialog = cc.instantiate(this.historyPrefab);
+        this.history = dialog.getComponent("KenoUserHistory");
+        this.history.init(this);
+        this.node.addChild(dialog);
+    }
+
+    public hideHistoryDialog() {
+        this.history = null;
     }
 
     public pressedShowGuide() {
