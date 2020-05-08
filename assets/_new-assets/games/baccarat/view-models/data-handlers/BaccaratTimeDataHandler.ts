@@ -9,7 +9,7 @@ export default class BaccaratTimeHandler extends GameBaseTimeHandler {
         baccarat.playerCards.resetCards();
 
         if (baccarat.currentDataLogs) {
-            baccarat.setGameRound(baccarat.currentDataLogs[0].phien + 1);
+            baccarat.setGameRound(baccarat.currentDataLogs[0].roundId + 1);
         }
     }
 }
