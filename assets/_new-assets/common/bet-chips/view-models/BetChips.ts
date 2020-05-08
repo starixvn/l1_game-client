@@ -63,7 +63,7 @@ export default class BetChips extends cc.Component {
         var chipPosition: cc.Vec2;
 
         if (startNode) {
-            chipPosition = startNode.convertToWorldSpaceAR(startNode.position);
+            chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
         }
         else {
             var chip = this.chips.children.filter(child => child.name === bet.toString())[0];
@@ -81,7 +81,7 @@ export default class BetChips extends cc.Component {
         cc.RedT.isSoundGame() && this.singleChipAudio.play();
         chipNode.node.runAction(
             cc.sequence(
-                cc.moveTo(0.3, cc.v2(xDest, yDest)).easing(cc.easeOut(3)),
+                cc.moveTo(0.5, cc.v2(xDest, yDest)).easing(cc.easeSineOut()),
                 cc.sequence(
                     cc.moveTo(0.1, cc.v2(xDest, yDest + 6)),
                     cc.moveTo(0.1, cc.v2(xDest, yDest))
