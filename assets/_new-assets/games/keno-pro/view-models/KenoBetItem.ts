@@ -9,9 +9,6 @@ export default class KenoBetItem extends BetItem {
     @property(cc.Node)
     inActive: cc.Node = null;
 
-    @property(cc.Node)
-    highlight: cc.Node = null;
-
     protected setOwnBet(bet: number) {
         this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
