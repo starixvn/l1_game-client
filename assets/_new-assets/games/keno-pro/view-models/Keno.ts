@@ -77,6 +77,7 @@ export default class Keno extends GameRoomBase {
             this.node.active = true;
         }
 
+        this.players.forEach(player => player.node.active = false);
         this.kenoNumbers = this.resultNumberNode.children.map(child => child.getComponent(KenoNumber));
         this.setGameRound(0);
         this.defaultUIState();
