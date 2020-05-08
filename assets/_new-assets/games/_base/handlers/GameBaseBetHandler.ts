@@ -15,7 +15,7 @@ export default class GameBaseBetHandler implements DataHandler {
         }
 
         if (data.endBet) {
-            data.endCuoc != -1 && this.main.showAcceptedBet(data.endBet); //endCuoc -1 is error
+            data.endBet != -1 && this.main.showAcceptedBet(data.endBet); //endCuoc -1 is error
             this.main.showProcessingWarning(false);
         }
 
