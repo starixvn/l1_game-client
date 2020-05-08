@@ -62,7 +62,11 @@ export default class GameBaseBetHandler implements DataHandler {
             }
             else {
                 startNode = gameRoomMain.otherPlayers;
-                gameRoomMain.playerHandler.otherPlayers[data.playerId].red = data.red;
+                var player = gameRoomMain.playerHandler.otherPlayers[data.playerId];
+
+                if (player) {
+                    player.red = data.red;
+                }
             }
 
             this.main.betChips.placeChipBet(bet, betItem.chipNode, betItem.chipRange, startNode);

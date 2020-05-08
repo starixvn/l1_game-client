@@ -3,6 +3,7 @@ import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
 import GameBaseTimeHandler from "./GameBaseTimeHandler";
 import * as _ from "lodash";
+import GameRoomBase from "../GameRoomBase";
 
 export default class GameBaseFinishHandler implements DataHandler {
     constructor(
@@ -13,6 +14,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         if (data.finish) {
             this.main.timeHandler.resetTime();
             this.handleFinishData(data.finish);
+            this.payChips(data.finish);
         }
 
         return true;
@@ -21,7 +23,15 @@ export default class GameBaseFinishHandler implements DataHandler {
     handleFinishData(dataFinish) {
     }
 
-    payChips(resultData) {
+    payChips(dataFinish) {
+        var gameRoomBase = this.main as GameRoomBase;
+
+        if (!gameRoomBase) {
+            return;
+        }
+
+        var resultData = dataFinish.result;
+
         var lostBetItems = _.filter(this.main.betItems, item => !resultData[item.node.name.toLowerCase()]);
         var winBetItems = _.filter(this.main.betItems, item => !!resultData[item.node.name.toLowerCase()]);
 
@@ -34,5 +44,17 @@ export default class GameBaseFinishHandler implements DataHandler {
                 this.main.betChips.payoutChips(item.chipNode, this.main.dealerChipBox, item.chipRange);
             })
         }, 800);
+
+        var winningPlayers = dataFinish.winningPlayers;
+        var winningPlayerIds = Object.keys(winningPlayers);
+        _.forEach(winningPlayerIds, playerId => {
+            var winningPlayerData = winningPlayers[playerId];
+            var playerSlot = gameRoomBase.playerHandler.getPlayerSlot(playerId);
+
+            if (playerSlot) {
+                var playerPosition = playerSlot.node.parent.convertToWorldSpaceAR(playerSlot.node.position);
+            }
+
+        });
     }
 }
