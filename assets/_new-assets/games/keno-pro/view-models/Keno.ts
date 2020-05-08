@@ -4,6 +4,8 @@ import KenoTimeHandler from './handlers/KenoTimeHandler';
 import KenoFinishHandler from './handlers/KenoFinishHandler';
 import { KenoConfigs } from './KenoConfigs';
 import KenoNumber from './KenoNumber';
+import RoundHistory from './RoundHistory';
+import KenoLogsHandler from './handlers/KenoLogsHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,12 +21,14 @@ export default class Keno extends GameRoomBase {
     @property(cc.Node)
     resultNumberNode: cc.Node = null;
 
+    @property(RoundHistory)
+    roundHistory: RoundHistory = null;
+
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
-
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
@@ -33,6 +37,7 @@ export default class Keno extends GameRoomBase {
         super();
         this.finishHandler = new KenoFinishHandler(this);
         this.timeHandler = new KenoTimeHandler(this);
+        this.logsHandler = new KenoLogsHandler(this);
 
         this.init("kenoProMax", new KenoConfigs());
     }
@@ -82,6 +87,7 @@ export default class Keno extends GameRoomBase {
             this.node.active = true;
         }
 
+        this.roundHistory.init(this);
         this.players.forEach(player => player.node.active = false);
         this.kenoNumbers = this.resultNumberNode.children.map(child => child.getComponent(KenoNumber));
         this.setGameRound(0);
@@ -122,6 +128,10 @@ export default class Keno extends GameRoomBase {
     //         this.onData(data.mini[this.gameName]);
     //     }
     // }
+
+    public updateRoundHistory() {
+        this.roundHistory.setData(this.currentDataLogs);
+    }
 
     public getTempTotal(numberArray: number[], index: number): number {
         var total = 0;

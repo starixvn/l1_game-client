@@ -24,7 +24,7 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
 
     showResult(show: boolean) {
         if (show) {
-            // this.updateLogs();
+            this.main.updateRoundHistory();
             this.main.setGameRound(this.main.roundId);
 
             if (this.main.currentDataLogs.length > 0) {

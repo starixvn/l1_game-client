@@ -1,3 +1,6 @@
+import LogsControl from "./LogsControl";
+import Keno from "./Keno";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -7,12 +10,25 @@ export default class RoundHistory extends cc.Component {
     options: cc.Node = null;
 
     @property(cc.Node)
-    header: cc.Node = null;
+    headers: cc.Node = null;
 
     @property(cc.Node)
-    logs: cc.Node = null;
+    content: cc.Node = null;
 
-    public onClick(event: cc.Component.EventHandler, game) {
+    @property(LogsControl)
+    taixiuLogs: LogsControl = null;
+
+    private main: Keno;
+
+    onLoad() {
+        this.node.active = false;
+    }
+
+    public init(main: Keno) {
+        this.main = main;
+    }
+
+    public onOptionClick(event: cc.Component.EventHandler, game) {
         var index = 0;
         switch (event.target.name) {
             case "tai-xiu":
@@ -23,12 +39,29 @@ export default class RoundHistory extends cc.Component {
                 index = 2;
         }
 
-        event.target.children[0].active = false;
         this.showHeader(index, true);
     }
 
-
     private showHeader(index: number, show: boolean) {
-        this.header.children[index].active = show;
+        this.headers.children.forEach((child, i) => {
+            child.active = i == index ? show : false;
+        });
+    }
+
+    public setData(data: any) {
+        this.node.active = true;
+
+        var results: string[][] = data.map(d => {
+            var numbers = d.result;
+            return this.main.getResults(numbers);
+        });
+
+        var taixiuData = [];
+
+        results.forEach(result => {
+            taixiuData.push(result.indexOf("big") > -1 ? 0 : 1);
+        });
+
+        this.taixiuLogs.setData(taixiuData);
     }
 }
