@@ -4,8 +4,8 @@ export class BaccaratConfigs implements GameConfigs {
     minBetTime: number = 0;
     minBet: number;
     maxBet: number;
-    fullTime = 40;
+    fullTime = 35;
     betTime = 30;
     stopBetTime = 5;
-    waitTime = 10;
+    waitTime = 5;
 }

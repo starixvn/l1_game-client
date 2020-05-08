@@ -48,7 +48,7 @@ export default class Baccarat extends GameRoomBase {
     }
 
     onBet(event, box) {
-        this.bet({ cuoc: { red: true, cuoc: this.currentBet, box: box } });
+        this.bet({ bet: { red: true, bet: this.currentBet, box: box } });
     }
 
     private initCards() {
