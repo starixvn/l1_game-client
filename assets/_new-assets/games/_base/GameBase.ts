@@ -13,6 +13,7 @@ import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
+import IGameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -67,7 +68,7 @@ export default class GameBase extends cc.Component {
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
-    public statusHandler: DataHandler;
+    public statusHandler: IGameBaseStatusHandler;
     public betHandler: DataHandler;
     public timeHandler: IGameBaseTimeHandler;
     public errorHandler: DataHandler;

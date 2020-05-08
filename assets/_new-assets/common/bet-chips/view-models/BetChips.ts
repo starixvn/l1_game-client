@@ -59,13 +59,30 @@ export default class BetChips extends cc.Component {
         this.onChanged(bet);
     }
 
-    public moveChipsToDealer(chipsBox: cc.Node, dealerBox: cc.Node) {
-        var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
-        var dealerBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(dealerBoxPosition);
+    public moveChips(chipsBox: cc.Node, destBox: cc.Node, enableRandomChipsCount: boolean = false) {
+        var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
+        var destBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(destBoxPosition);
 
         _.forEach(chipsBox.children, chip => {
-            chip.runAction(cc.moveTo(0.5, dealerBoxInChipBoxSpacePosition));
+            chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition))
         });
+    }
+
+    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node) {
+        var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
+        var destBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(destBoxPosition);
+        var chipsCount = _.round(_.random(1, 4));
+
+        for (var i = 0; i < chipsCount; i++) {
+            var chip = chipsBox.children[i];
+
+            if (chip) {
+                chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition));
+                setTimeout(() => {
+                    chip.destroy();
+                }, 800);
+            }
+        }
     }
 
     public payoutChips(chipBox: cc.Node, dealerBox: cc.Node, chipRange: cc.Vec2) {
@@ -80,7 +97,7 @@ export default class BetChips extends cc.Component {
             const yDest = _.random(0, chipRange.y + 1);
             chipBox.addChild(cloneChip);
 
-            cloneChip.runAction(cc.moveTo(0.5, cc.v2(xDest, yDest)))
+            cloneChip.runAction(this.moveChipTo(cc.v2(xDest, yDest)));
         });
     }
 
@@ -106,12 +123,16 @@ export default class BetChips extends cc.Component {
         cc.RedT.isSoundGame() && this.singleChipAudio.play();
         chipNode.node.runAction(
             cc.sequence(
-                cc.moveTo(0.5, cc.v2(xDest, yDest)).easing(cc.easeSineOut()),
+                this.moveChipTo(cc.v2(xDest, yDest)),
                 cc.sequence(
                     cc.moveTo(0.1, cc.v2(xDest, yDest + 6)),
                     cc.moveTo(0.1, cc.v2(xDest, yDest))
                 )
             ));
+    }
+
+    private moveChipTo(position: cc.Vec2): cc.ActionInterval {
+        return cc.moveTo(0.5, position).easing(cc.easeSineOut());
     }
 
     private createChip(position: cc.Vec2, bet): cc.Sprite {
