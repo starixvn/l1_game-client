@@ -1195,7 +1195,7 @@ cc.Class({
 
 		newN.node.runAction(
 			cc.sequence(
-				cc.moveTo(0.4, cc.v2(x, y)).easing(cc.easeOut(3)),
+				cc.moveTo(0.4, cc.v2(x, y)).easing(cc.easeSineOut()),
 				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy)
 			));
 	},
