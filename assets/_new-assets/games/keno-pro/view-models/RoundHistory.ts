@@ -1,5 +1,6 @@
 import Keno from "./Keno";
 import LogsControl from "./LogsControl";
+import StatisticProgress from "../../../common/statistic-progress/StatisticProgress";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,6 +18,9 @@ export default class RoundHistory extends cc.Component {
 
     @property(LogsControl)
     taixiuLogs: LogsControl = null;
+
+    @property(StatisticProgress)
+    taixiuProgress: StatisticProgress = null;
 
     private main: Keno;
 
@@ -58,10 +62,22 @@ export default class RoundHistory extends cc.Component {
 
         var taixiuData = [];
 
+        var countBig = 0;
         results.reverse().forEach(result => {
-            taixiuData.push(result.indexOf("big") > -1 ? 0 : 1);
+            var big = result.indexOf("big") > -1;
+            if (big) {
+                taixiuData.push(0);
+                countBig++;
+            } else {
+                taixiuData.push(1);
+            }
         });
 
+        if (taixiuData.length > 0) {
+            this.taixiuProgress.setProgress(countBig / taixiuData.length);
+        } else {
+            this.taixiuProgress.clear();
+        }
         this.taixiuLogs.setData(taixiuData);
     }
 }
