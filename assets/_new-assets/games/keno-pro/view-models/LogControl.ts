@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class LogsControl extends cc.Component {
+export default class LogControl extends cc.Component {
 
     @property({ type: cc.Node })
     items: cc.Node[] = [];
