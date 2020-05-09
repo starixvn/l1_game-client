@@ -36,7 +36,13 @@ export default class RongHoBetItem extends cc.Component {
     }
 
     protected setTotalBet(bet: number) {
-        this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+        //this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+
+        if (bet > 0) {
+            helper.numberTo(this.totalBet, 0, bet, 1000, true);
+        } else {
+            this.totalBet.string = ""
+        }
     }
 
     public setHighlight(highlight: boolean) {
