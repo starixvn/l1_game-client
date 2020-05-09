@@ -38,6 +38,7 @@ export default class BetChips extends cc.Component {
     defaultChip = "1";
 
     public onChanged: OnChangedBet = (bet) => { };
+    public chipFlyingTime: number = 0.5;
 
     onLoad() {
         this.setCurrentBet(this.defaultChip);
@@ -59,33 +60,30 @@ export default class BetChips extends cc.Component {
         this.onChanged(bet);
     }
 
-    public moveChips(chipsBox: cc.Node, destBox: cc.Node, enableRandomChipsCount: boolean = false) {
+    public moveChips(chipsBox: cc.Node, destBox: cc.Node, hideOnDestBox: boolean = true) {
         var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
         var destBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(destBoxPosition);
 
         _.forEach(chipsBox.children, chip => {
-            chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition))
+            this.startMoveChip(chip, destBoxInChipBoxSpacePosition, hideOnDestBox);
         });
     }
 
-    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node) {
+    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, maxChips: number = 3, hideOnDestBox: boolean = true) {
         var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
         var destBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(destBoxPosition);
-        var chipsCount = _.round(_.random(1, 4));
+        var chipsCount = _.round(_.random(1, maxChips));
 
         for (var i = 0; i < chipsCount; i++) {
             var chip = chipsBox.children[i];
 
             if (chip) {
-                chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition));
-                setTimeout(() => {
-                    chip.destroy();
-                }, 800);
+                this.startMoveChip(chip, destBoxInChipBoxSpacePosition, hideOnDestBox);
             }
         }
     }
 
-    public payoutChips(chipBox: cc.Node, dealerBox: cc.Node, chipRange: cc.Vec2) {
+    public payChipsToBetItem(chipBox: cc.Node, dealerBox: cc.Node, chipRange: cc.Vec2) {
         var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
         var dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
         cc.RedT.isSoundGame() && this.multiChipAudio.play();
@@ -131,8 +129,20 @@ export default class BetChips extends cc.Component {
             ));
     }
 
+    private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, hideOnDestBox: boolean) {
+        if (hideOnDestBox) {
+            chip.runAction(cc.spawn(
+                this.moveChipTo(destBoxInChipBoxSpacePosition),
+                cc.fadeTo(this.chipFlyingTime * 1.5, 0)));
+            this.destroyChip(chip);
+        }
+        else {
+            chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition));
+        }
+    }
+
     private moveChipTo(position: cc.Vec2): cc.ActionInterval {
-        return cc.moveTo(0.5, position).easing(cc.easeSineOut());
+        return cc.moveTo(this.chipFlyingTime, position).easing(cc.easeSineOut());
     }
 
     private createChip(position: cc.Vec2, bet): cc.Sprite {
@@ -141,6 +151,12 @@ export default class BetChips extends cc.Component {
         chipSprite.spriteFrame = this['chip' + bet];
         chipSprite.node.position = position;
         return chipSprite;
+    }
+
+    private destroyChip(chip: cc.Node) {
+        setTimeout(() => {
+            chip.destroy();
+        }, this.chipFlyingTime * 1000);
     }
 
     private updateSelectedBet(targetName: string) {

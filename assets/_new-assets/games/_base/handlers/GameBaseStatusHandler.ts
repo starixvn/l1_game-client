@@ -32,9 +32,10 @@ export default class GameBaseStatusHandler implements IGameBaseStatusHandler {
         if (!cc.RedT.GAME_IS_SHOWED) {
             return;
         }
+
         this.timeout = setTimeout(() => {
             if (win) {
-                GameUtils.addFlyingText(this.main.noticeNode, win, bet, 4);
+                GameUtils.addFlyingText(this.main.noticeNode, win, bet, 3);
                 cc.RedT.send({
                     user: {
                         updateCoint: true

@@ -37,6 +37,9 @@ export default class GameRoomBase extends GameBase {
     @property(cc.Sprite)
     userAvatar: cc.Sprite = null;
 
+    @property(cc.Prefab)
+    winningPlayerEffectPrefab: cc.Prefab = null;
+
     currentMiniPanel: MiniPanel;
     playerHandler: IGameBasePlayerHandler;
 

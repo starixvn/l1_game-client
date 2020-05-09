@@ -5,6 +5,8 @@ import GameBaseTimeHandler from "./GameBaseTimeHandler";
 import * as _ from "lodash";
 import GameRoomBase from "../GameRoomBase";
 import BetItem from "../BetItem";
+import GameUtils from "../../../common/GameUtils";
+import RoomPlayer from "../RoomPlayer";
 
 export default class GameBaseFinishHandler implements DataHandler {
     constructor(
@@ -15,7 +17,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         if (data.finish) {
             this.main.timeHandler.resetTime();
             this.handleFinishData(data.finish);
-            this.payChips(data.finish);
+            this.payChips(data.finish.result, data.finish.winningPlayers);
         }
 
         return true;
@@ -25,70 +27,99 @@ export default class GameBaseFinishHandler implements DataHandler {
     }
 
 
-    payChips(dataFinish) {
-        var gameRoomBase = this.main as GameRoomBase;
+    payChips(settlementResult: any, winningPlayers: any) {
+        var mainRoomGame = this.main as GameRoomBase;
 
-        if (!gameRoomBase) {
+        if (!mainRoomGame || !settlementResult) {
             return;
         }
 
-        var resultData = dataFinish.result;
-        var lostBetItems = _.filter(this.main.betItems, item => !resultData[item.node.name.toLowerCase()]);
-        var winBetItems = _.filter(this.main.betItems, item => !!resultData[item.node.name.toLowerCase()]);
+        var lostBetItems = _.filter(this.main.betItems, item => !settlementResult[item.node.name.toLowerCase()]);
+        var winBetItems = _.filter(this.main.betItems, item => !!settlementResult[item.node.name.toLowerCase()]);
+        var delayChipsFlyingTime = this.main.betChips.chipFlyingTime * 1.5;
 
         this.main.node.runAction(
             cc.sequence(
-                cc.callFunc(() => this.dealerGetChips(resultData, lostBetItems)),
-                cc.delayTime(0.8),
-                cc.callFunc(() => this.dealerPayChips(resultData, winBetItems)),
-                cc.delayTime(0.8),
-                cc.callFunc(() => this.payCurrentUserChips(this.main.statusHandler.statusData, winBetItems)),
-                // cc.callFunc(() => this.payOtherPlayers(dataFinish, gameRoomBase, winBetItems))
+                cc.callFunc(() => this.dealerGetChips(lostBetItems)),
+                cc.delayTime(delayChipsFlyingTime),
+                cc.callFunc(() => this.dealerPayChips(winBetItems)),
+                cc.delayTime(delayChipsFlyingTime),
+                cc.callFunc(() => this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.statusData, winBetItems)),
+                cc.delayTime(delayChipsFlyingTime),
+                cc.callFunc(() => this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems)),
+                cc.delayTime(delayChipsFlyingTime),
+                cc.callFunc(() => this.payChipsToOtherPlayers(mainRoomGame, winBetItems))
             )
         )
     }
 
-    private payOtherPlayers(dataFinish: any, roomGame: GameRoomBase, winBetItems: BetItem[]) {
-        // var winningPlayers = dataFinish.winningPlayers;
-        // var winningPlayerIds = Object.keys(winningPlayers);
-        // _.forEach(winningPlayerIds, playerId => {
-        //     var winningPlayerData = winningPlayers[playerId];
-        //     var playerSlot = gameRoomBase.playerHandler.getPlayerSlot(playerId);
-        //     if (playerSlot) {
-        //         var playerPosition = playerSlot.node.parent.convertToWorldSpaceAR(playerSlot.node.position);
-        //     }
-        // });
-
-        _.forEach(winBetItems, item => {
-            this.main.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
-        })
-    }
-
-    dealerGetChips(resultData: any, lostBetItems: BetItem[]) {
+    dealerGetChips(lostBetItems: BetItem[]) {
         _.forEach(lostBetItems, item => {
             this.main.betChips.moveChips(item.chipNode, this.main.dealerChipBox);
         });
     }
 
-    dealerPayChips(resultData: any, winBetItems: BetItem[]) {
+    dealerPayChips(winBetItems: BetItem[]) {
         _.forEach(winBetItems, item => {
-            this.main.betChips.payoutChips(item.chipNode, this.main.dealerChipBox, item.chipRange);
+            this.main.betChips.payChipsToBetItem(item.chipNode, this.main.dealerChipBox, item.chipRange);
         });
     }
 
-    payCurrentUserChips(statusData, winBetItems: BetItem[]) {
-        var roomGame = this.main as GameRoomBase;
-        console.log(statusData)
+    payChipsToLoginPlayer(mainRoomGame: GameRoomBase, statusData, winBetItems: BetItem[]) {
+
         if (!statusData || !statusData.win) {
             return;
         }
 
-        var userBetData = statusData.boxes;
+        var betItems = statusData.boxes;
 
         _.forEach(winBetItems, item => {
-            if (userBetData[item.node.name.toLowerCase()]) {
-                this.main.betChips.moveChipsWithRandomAmount(item.chipNode, roomGame.userAvatar.node);
+            if (betItems[item.node.name.toLowerCase()]) {
+                this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node);
             }
         })
+    }
+
+    payChipsToInGamePlayers(winningPlayers: any, mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {
+        if (!winningPlayers) {
+            return;
+        }
+
+        var winningPlayerIds = Object.keys(winningPlayers);
+
+        _.forEach(winningPlayerIds, playerId => {
+            var winningPlayerData = winningPlayers[playerId];
+            var playerSlot = mainRoomGame.playerHandler.getPlayerSlot(playerId);
+            var playerBetItems = winningPlayerData.boxes;
+            var bet = winningPlayerData.bet;
+
+            if (playerSlot) {
+                _.forEach(winBetItems, item => {
+                    if (playerBetItems[item.node.name.toLowerCase()]) {
+                        this.main.betChips.moveChipsWithRandomAmount(item.chipNode, playerSlot.avatar.node);
+                    }
+                });
+
+                GameUtils.addFlyingText(playerSlot.node, true, bet, 3, 10);
+                this.playWinningEffect(mainRoomGame, playerSlot);
+            }
+        });
+    }
+
+    payChipsToOtherPlayers(roomGame: GameRoomBase, winBetItems: BetItem[]) {
+        _.forEach(winBetItems, item => {
+            this.main.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
+        })
+    }
+
+    playWinningEffect(mainRoomGame: GameRoomBase, playerSlot: RoomPlayer) {
+        var winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
+        playerSlot.node.addChild(winningEffect);
+        var animation = winningEffect.getComponent(cc.Animation);
+
+        winningEffect.runAction(cc.sequence(
+            cc.callFunc(() => { animation.play(); }),
+            cc.delayTime(3),
+            cc.callFunc(() => { winningEffect.destroy(); })));
     }
 }
