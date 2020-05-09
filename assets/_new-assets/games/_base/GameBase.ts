@@ -14,6 +14,7 @@ import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 import IGameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
+import GameBaseHistoryHandler from "./handlers/GameBaseHistoryHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -74,6 +75,7 @@ export default class GameBase extends cc.Component {
     public errorHandler: DataHandler;
     public logsHandler: DataHandler;
     public finishHandler: DataHandler;
+    public historyHandler: DataHandler;
 
     public betChips: BetChips;
     public currentBet: number;
@@ -92,6 +94,7 @@ export default class GameBase extends cc.Component {
         this.errorHandler = new GameBaseErrorHandler(this);
         this.logsHandler = new GameBaseLogsHandler(this);
         this.finishHandler = new GameBaseFinishHandler(this);
+        this.historyHandler = new GameBaseHistoryHandler(this);
     }
 
     init(gameName: string, config: GameBaseConfigs) {
@@ -108,7 +111,8 @@ export default class GameBase extends cc.Component {
             this.timeHandler,
             this.errorHandler,
             this.logsHandler,
-            this.finishHandler);
+            this.finishHandler,
+            this.historyHandler);
         this.initBetChips();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);

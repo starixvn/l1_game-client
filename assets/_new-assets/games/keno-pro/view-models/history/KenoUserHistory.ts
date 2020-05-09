@@ -42,7 +42,7 @@ export default class KenoUserHistory extends cc.Component {
         this.content.children.forEach(child => child.destroy());
 
         for (let i = 0; i < data.betLogs.length; i++) {
-            var dataT = data.data[i];
+            var dataT = data.betLogs[i];
             if (void 0 !== dataT) {
                 let historyItemPrefab = cc.instantiate(this.prefabItem);
                 let item = historyItemPrefab.getComponent("KenoUserHistoryItem") as KenoUserHistoryItem;

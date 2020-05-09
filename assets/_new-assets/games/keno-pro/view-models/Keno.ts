@@ -7,6 +7,7 @@ import KenoNumber from './KenoNumber';
 import KenoUserHistory from './history/KenoUserHistory';
 import RoundHistory from './RoundHistory';
 import KenoLogsHandler from './handlers/KenoLogsHandler';
+import KenoUserHistoryHandler from './handlers/KenoUserHistoryHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -40,6 +41,7 @@ export default class Keno extends GameRoomBase {
         this.finishHandler = new KenoFinishHandler(this);
         this.timeHandler = new KenoTimeHandler(this);
         this.logsHandler = new KenoLogsHandler(this);
+        this.historyHandler = new KenoUserHistoryHandler(this);
 
         this.init("kenoProMax", new KenoConfigs());
     }
