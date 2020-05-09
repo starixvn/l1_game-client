@@ -42,6 +42,29 @@ export default class RoundHistory extends cc.Component {
     private statisticData: StatisticData[] = [];
     private currentOption = 0;
 
+    private readonly indexDictionary = {
+        big: 0,
+        small: 1,
+        even: 0,
+        odd: 1,
+        gold: 0,
+        wood: 1,
+        water: 2,
+        fire: 3,
+        earth: 4
+    };
+
+    private readonly dataIndexDictionary = {
+        big: 0,
+        small: 0,
+        even: 1,
+        odd: 1,
+        gold: 2,
+        wood: 2,
+        water: 2,
+        fire: 2,
+        earth: 2
+    }
 
     onLoad() {
         this.node.active = false;
@@ -66,7 +89,6 @@ export default class RoundHistory extends cc.Component {
         }
 
         this.currentOption = index;
-        console.log("option click ", this.currentOption);
         this.updateDisplay();
     }
 
@@ -83,6 +105,10 @@ export default class RoundHistory extends cc.Component {
                 break;
         }
         this.showHeader(this.currentOption, true);
+
+        this.options.children.forEach((child, i) => {
+            child.children[0].active = i != this.currentOption;
+        });
     }
 
     private showHeader(index: number, show: boolean) {
@@ -119,28 +145,12 @@ export default class RoundHistory extends cc.Component {
             data: [],
             statistic: [0, 0, 0, 0, 0],
         }];
+
         results.reverse().forEach(result => {
             result.forEach(e => {
-                var bigSmall = this.statisticData[HistoryOption.BigSmall];
-                var evenOdd = this.statisticData[HistoryOption.EvenOdd];
-                switch (e) {
-                    case "big":
-                        bigSmall.data.push(0);
-                        bigSmall.statistic[0]++;
-                        break;
-                    case "small":
-                        bigSmall.data.push(1);
-                        bigSmall.statistic[1]++;
-                        break;
-                    case "even":
-                        evenOdd.data.push(0);
-                        evenOdd.statistic[0]++;
-                        break;
-                    case "odd":
-                        evenOdd.data.push(1);
-                        evenOdd.statistic[1]++;
-                        break;
-                }
+                var statistic = this.statisticData[this.dataIndexDictionary[e]];
+                statistic.data.push(this.indexDictionary[e]);
+                statistic.statistic[this.indexDictionary[e]]++;
             })
         });
 
@@ -180,18 +190,18 @@ export default class RoundHistory extends cc.Component {
     }
 
     private showFiveElements() {
-        // this.logControl.items = this.evenOddItem;
-        // this.statisticProgesses.left = "CHẴN";
-        // this.statisticProgesses.right = "LẺ";
+        this.logControl.items = this.fiveElementsItem;
+        this.statisticProgesses.left = "CHẴN";
+        this.statisticProgesses.right = "LẺ";
 
-        // var statisticData = this.statisticData[HistoryOption.EvenOdd];
-        // var data = statisticData.data;
+        var statisticData = this.statisticData[HistoryOption.FiveElements];
+        var data = statisticData.data;
         // var count = statisticData.statistic[0];
         // if (data.length > 0) {
         //     this.statisticProgesses.setProgress(count / data.length);
         // } else {
         //     this.statisticProgesses.clear();
         // }
-        // this.logControl.setData(data);
+        this.logControl.setData(data);
     }
 }
