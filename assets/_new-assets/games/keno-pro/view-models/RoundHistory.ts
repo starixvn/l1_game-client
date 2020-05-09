@@ -20,14 +20,14 @@ export default class RoundHistory extends cc.Component {
     @property(cc.Node)
     options: cc.Node = null;
 
-    @property(cc.Node)
-    headers: cc.Node = null;
-
     @property(LogControl)
     logControl: LogControl = null;
 
     @property(StatisticProgress)
     statisticProgesses: StatisticProgress = null;
+
+    @property(StatisticProgress)
+    statisticProgesses2: StatisticProgress = null;
 
     @property({ type: cc.Node })
     bigSmallItem: cc.Node[] = [];
@@ -104,17 +104,10 @@ export default class RoundHistory extends cc.Component {
                 this.showFiveElements();
                 break;
         }
-        this.showHeader(this.currentOption, true);
 
         this.options.children.forEach((child, i) => {
             child.children[0].active = i != this.currentOption;
         });
-    }
-
-    private showHeader(index: number, show: boolean) {
-        // this.headers.children.forEach((child, i) => {
-        //     child.active = i == index ? show : false;
-        // });
     }
 
     public setData(data: any) {
@@ -159,49 +152,42 @@ export default class RoundHistory extends cc.Component {
 
     private showBigSmall() {
         this.logControl.items = this.bigSmallItem;
-        this.statisticProgesses.left = "TÀI";
-        this.statisticProgesses.right = "XỈU";
-
+        this.statisticProgesses.prefixes = ["TÀI", "XỈU"];
         var statisticData = this.statisticData[HistoryOption.BigSmall];
-        var data = statisticData.data;
-        var count = statisticData.statistic[0];
-        if (data.length > 0) {
-            this.statisticProgesses.setProgress(count / data.length);
-        } else {
-            this.statisticProgesses.clear();
-        }
-        this.logControl.setData(data);
+        this.updataStatistic(this.statisticProgesses, statisticData);
+
+        this.statisticProgesses.node.active = true;
+        this.statisticProgesses2.node.active = false;
     }
 
     private showEvenOdd() {
         this.logControl.items = this.evenOddItem;
-        this.statisticProgesses.left = "CHẴN";
-        this.statisticProgesses.right = "LẺ";
-
+        this.statisticProgesses.prefixes = ["CHẴN", "LẺ"];
         var statisticData = this.statisticData[HistoryOption.EvenOdd];
-        var data = statisticData.data;
-        var count = statisticData.statistic[0];
-        if (data.length > 0) {
-            this.statisticProgesses.setProgress(count / data.length);
-        } else {
-            this.statisticProgesses.clear();
-        }
-        this.logControl.setData(data);
+        this.updataStatistic(this.statisticProgesses, statisticData);
+
+        this.statisticProgesses.node.active = true;
+        this.statisticProgesses2.node.active = false;
     }
 
     private showFiveElements() {
         this.logControl.items = this.fiveElementsItem;
-        this.statisticProgesses.left = "CHẴN";
-        this.statisticProgesses.right = "LẺ";
-
+        this.statisticProgesses2.prefixes = ["KIM", "MỘC", "THUỶ", "HOẢ", "THỔ"];
         var statisticData = this.statisticData[HistoryOption.FiveElements];
+        this.updataStatistic(this.statisticProgesses2, statisticData);
+
+        this.statisticProgesses.node.active = false;
+        this.statisticProgesses2.node.active = true;
+    }
+
+    private updataStatistic(progress: StatisticProgress, statisticData: any) {
         var data = statisticData.data;
-        // var count = statisticData.statistic[0];
-        // if (data.length > 0) {
-        //     this.statisticProgesses.setProgress(count / data.length);
-        // } else {
-        //     this.statisticProgesses.clear();
-        // }
+
+        if (data.length > 0) {
+            progress.setProgress(statisticData.statistic, data.length);
+        } else {
+            progress.clear();
+        }
         this.logControl.setData(data);
     }
 }
