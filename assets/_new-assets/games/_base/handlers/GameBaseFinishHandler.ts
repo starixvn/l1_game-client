@@ -17,7 +17,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         if (data.finish) {
             this.main.timeHandler.resetTime();
             this.handleFinishData(data.finish);
-            this.payChips(data.finish.result, data.finish.winningPlayers);
+            this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
         }
 
         return true;
@@ -90,12 +90,12 @@ export default class GameBaseFinishHandler implements DataHandler {
         _.forEach(winningPlayerIds, playerId => {
             var winningPlayerData = winningPlayers[playerId];
             var playerSlot = mainRoomGame.playerHandler.getPlayerSlot(playerId);
-            var playerBetItems = winningPlayerData.boxes;
+            var playerBetItems = winningPlayerData.winningByChoices;
             var bet = winningPlayerData.bet;
 
             if (playerSlot) {
                 _.forEach(winBetItems, item => {
-                    if (playerBetItems[item.node.name.toLowerCase()]) {
+                    if (playerBetItems && playerBetItems[item.node.name.toLowerCase()] > 0) {
                         this.main.betChips.moveChipsWithRandomAmount(item.chipNode, playerSlot.avatar.node);
                     }
                 });
