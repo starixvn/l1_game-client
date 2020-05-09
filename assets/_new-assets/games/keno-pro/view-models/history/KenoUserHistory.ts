@@ -52,6 +52,13 @@ export default class KenoUserHistory extends cc.Component {
                 item.win.string = numberWithCommas(dataT.betwin);
                 item.win.node.color = dataT.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
+                let total = 0;
+                const result = dataT.result;
+                for (let i = 0; i < result.length; i++) {
+                    total += result[i];
+                };
+                item.total.string = numberWithCommas(total);
+
                 this.content.addChild(historyItemPrefab);
             }
         }
