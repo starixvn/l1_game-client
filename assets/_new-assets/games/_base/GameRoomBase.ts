@@ -123,7 +123,7 @@ export default class GameRoomBase extends GameBase {
 
     protected onDataGameRoomGeneral(data: any) {
         if (data.user) {
-            this.userBalance.string = numberWithCommas(data.red);
+            this.userBalance.string = numberWithCommas(data.user.red);
             cc.RedT.userData(data.user);
         }
 
