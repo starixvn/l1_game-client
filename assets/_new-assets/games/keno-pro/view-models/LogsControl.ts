@@ -26,7 +26,7 @@ export default class LogsControl extends cc.Component {
 
         var start = cc.v2(-this.itemSize.width / 2 + this.padding.width / 2, - this.itemSize.height / 2 - this.padding.height);
         results.forEach((result, i) => {
-            if (previousResult && result == previousResult) {
+            if (result == previousResult) {
                 row++;
             }
 
@@ -44,7 +44,7 @@ export default class LogsControl extends cc.Component {
             this.content.addChild(dot);
         });
 
-        this.content.width = Math.max(col * this.itemSize.width, 462) + this.padding.width;
+        this.content.width = Math.max(col * this.itemSize.width, this.node.width) + this.padding.width;
         this.content.height = this.RowMax * this.itemSize.height + this.padding.height;
 
         this.content.position = cc.v2(-this.content.width, this.content.position.y);
