@@ -23,8 +23,8 @@ export default class GameBaseBetHandler implements DataHandler {
             this.placeOwnChip(data.ownChip);
         }
 
-        if (data.playerChip && this.main.enableChips) {
-            this.placePlayerChip(data.playerChip);
+        if (data.chip && this.main.enableChips) {
+            this.placePlayerChip(data.chip);
         }
 
         if (data.chips && this.main.enableChips) {
