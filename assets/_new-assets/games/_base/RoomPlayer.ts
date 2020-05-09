@@ -35,6 +35,18 @@ export default class RoomPlayer extends cc.Component {
         }
     }
 
+    setBalance(balance: number) {
+        this.data.red = balance ? balance : 0;
+        this.balance.string = helper.numberWithCommas(this.data.red);
+    }
+
+    increaseBalance(money: number) {
+        if (money) {
+            this.data.red += money;
+            this.balance.string = helper.numberWithCommas(this.data.red);
+        }
+    }
+
     setAvatar(avatarId) {
         let self = this;
 

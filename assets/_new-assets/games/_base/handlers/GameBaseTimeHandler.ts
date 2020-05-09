@@ -25,6 +25,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     resetTime(): void {
+        this.main.animatedTime.node.active = false;
         this.main.currentTimeRemaining = this.main.config.fullTime;
         this.main.animatedTime.node.active = false;
         this.playTime();

@@ -133,7 +133,7 @@ export default class BetChips extends cc.Component {
         if (hideOnDestBox) {
             chip.runAction(cc.spawn(
                 this.moveChipTo(destBoxInChipBoxSpacePosition),
-                cc.fadeTo(this.chipFlyingTime * 1.5, 0)));
+                cc.fadeTo(this.chipFlyingTime * 2, 0)));
             this.destroyChip(chip);
         }
         else {

@@ -57,7 +57,7 @@ export default class GameBaseBetHandler implements DataHandler {
             var betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
 
             if (playerSlot) {
-                playerSlot.data.red = data.red;
+                playerSlot.setBalance(data.red);
                 startNode = playerSlot.avatar.node;
             }
             else {

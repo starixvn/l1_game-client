@@ -36,7 +36,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         var lostBetItems = _.filter(this.main.betItems, item => !settlementResult[item.node.name.toLowerCase()]);
         var winBetItems = _.filter(this.main.betItems, item => !!settlementResult[item.node.name.toLowerCase()]);
-        var delayChipsFlyingTime = this.main.betChips.chipFlyingTime * 1.5;
+        var delayChipsFlyingTime = this.main.betChips.chipFlyingTime * 2;
 
         this.main.node.runAction(
             cc.sequence(
@@ -100,6 +100,7 @@ export default class GameBaseFinishHandler implements DataHandler {
                     }
                 });
 
+                playerSlot.increaseBalance(winningPlayerData.bet);
                 GameUtils.addFlyingText(playerSlot.node, true, bet, 3, 10);
                 this.playWinningEffect(mainRoomGame, playerSlot);
             }
