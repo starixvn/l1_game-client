@@ -11,7 +11,8 @@ const configs = {
         TaiXiuTurbo: 4,
         ChanLe: 5,
         ChanLeTurbo: 6,
-        RongHo: 7
+        RongHo: 7,
+        KenoProMax: 8
     },
     gameNames: {
         1: "Tài Xỉu",

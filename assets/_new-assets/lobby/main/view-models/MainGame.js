@@ -255,6 +255,8 @@ cc.Class({
     if (void 0 !== window.openGameId) {
       if (window.openGameId == gameIds.XocXoc) {
         this.center.openGame(null, "XocXoc");
+      } else if (window.openGameId == gameIds.KenoProMax) {
+        this.center.openGame(null, "KenoProMax");
       } else {
         cc.RedT.MiniPanel.openGame(window.openGameId);
       }
