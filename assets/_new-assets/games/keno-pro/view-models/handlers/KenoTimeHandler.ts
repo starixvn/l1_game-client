@@ -11,8 +11,6 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
         super.handleWaitTime();
         if (!this.main.resultAnimating) {
             this.showResult(true);
-        } else {
-            this.main.timeWaitNode.active = false;
         }
     }
 
