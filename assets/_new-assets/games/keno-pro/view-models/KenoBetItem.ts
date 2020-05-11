@@ -17,7 +17,7 @@ export default class KenoBetItem extends BetItem {
         //this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
 
         if (bet > 0) {
-            helper.numberTo(this.totalBet, 0, bet, 1000, true);
+            helper.numberTo(this.totalBet, 0, bet, 500, true);
         } else {
             this.totalBet.string = ""
         }
