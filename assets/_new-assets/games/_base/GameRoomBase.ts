@@ -5,6 +5,7 @@ import { numberWithCommas } from '../../common/helpers/Helper';
 import Notice from "../../common/notice/view-models/Notice";
 import GameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
 import IGameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
+import GameUtils from "../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,6 +40,12 @@ export default class GameRoomBase extends GameBase {
 
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
+
+    @property
+    enablePlaceChips: boolean = false;
+
+    @property({ type: cc.Node, visible: function (this: GameRoomBase) { return this.enablePlaceChips; } })
+    dealerChipBox: cc.Node = null;
 
     currentMiniPanel: MiniPanel;
     playerHandler: IGameBasePlayerHandler;
@@ -114,6 +121,10 @@ export default class GameRoomBase extends GameBase {
         this.stopGame();
         this.sendData({ outgame: true });
         cc.director.loadScene('MainGame');
+    }
+
+    showAcceptedBet(bet: number) {
+        GameUtils.addFlyingText(this.userAvatar.node, false, bet, 1);
     }
 
     protected onGameHide() {

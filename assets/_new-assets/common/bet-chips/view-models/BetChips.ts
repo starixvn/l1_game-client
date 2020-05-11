@@ -93,7 +93,7 @@ export default class BetChips extends cc.Component {
         setTimeout(() => cloneChipsBox.destroy(), this.chipFlyingTime * 3000)
     }
 
-    public payChipsToBetItem(chipBox: cc.Node, dealerBox: cc.Node, chipRange: cc.Vec2) {
+    public payChipsToWinningBetItem(chipBox: cc.Node, dealerBox: cc.Node, chipRange: cc.Vec2) {
         var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
         var dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
         // cc.RedT.isSoundGame() && this.multiChipAudio.play();
@@ -131,15 +131,16 @@ export default class BetChips extends cc.Component {
         chipNode.node.runAction(this.moveChipTo(cc.v2(xDest, yDest)));
     }
 
-    public setChips(chipsData: any, chipsBox: cc.Node, range: cc.Vec2) {
-        var chipItemKeys = Object.keys(chipsData);
+    public initChips(chipsData: any, chipsBox: cc.Node, range: cc.Vec2) {
+        var chipBets = Object.keys(chipsData);
 
-        _.forEach(chipItemKeys, (chipItemKey) => {
+        _.forEach(chipBets, (chipBet) => {
             const xDest = _.random(0, range.x + 1);
             const yDest = _.random(0, range.y + 1);
+            var chipCountOfBet = chipsData[chipBet];
 
-            for (var i = 0; i < chipsData[chipItemKey]; i++) {
-                var chip = this.createChip(new cc.Vec2(xDest, yDest), chipItemKey);
+            for (var i = 0; i < chipCountOfBet; i++) {
+                var chip = this.createChip(new cc.Vec2(xDest, yDest), chipBet);
                 chipsBox.addChild(chip.node);
             }
         })

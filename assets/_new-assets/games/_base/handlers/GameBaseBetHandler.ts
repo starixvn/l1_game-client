@@ -19,16 +19,20 @@ export default class GameBaseBetHandler implements DataHandler {
             this.main.showProcessingWarning(false);
         }
 
-        if (data.ownChip && this.main.enableChips) {
-            this.placeOwnChip(data.ownChip);
-        }
+        var mainRoomGame = this.main as GameRoomBase;
 
-        if (data.chip && this.main.enableChips) {
-            this.placePlayerChip(data.chip);
-        }
+        if (mainRoomGame && mainRoomGame.enablePlaceChips) {
+            if (data.ownChip) {
+                this.placeOwnChip(data.ownChip);
+            }
 
-        if (data.chips && this.main.enableChips) {
-            this.placeChips(data.chips);
+            if (data.playerChip) {
+                this.placePlayerChip(data.playerChip);
+            }
+
+            if (data.chips) {
+                this.placeTotalChips(data.chips);
+            }
         }
 
         return true;
@@ -73,14 +77,14 @@ export default class GameBaseBetHandler implements DataHandler {
         }
     }
 
-    placeChips(chips) {
+    placeTotalChips(chips) {
         if (!chips) {
             return;
         }
 
         _.forEach(this.main.betItems, item => {
             var betItemData = chips[item.node.name.toLowerCase()];
-            this.main.betChips.setChips(betItemData, item.chipNode, item.chipRange);
+            this.main.betChips.initChips(betItemData, item.chipNode, item.chipRange);
         });
     }
 }

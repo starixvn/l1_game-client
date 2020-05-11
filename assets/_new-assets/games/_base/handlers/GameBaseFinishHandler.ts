@@ -30,7 +30,7 @@ export default class GameBaseFinishHandler implements DataHandler {
     payChips(settlementResult: any, winningPlayers: any) {
         var mainRoomGame = this.main as GameRoomBase;
 
-        if (!mainRoomGame || !settlementResult) {
+        if (!mainRoomGame || !settlementResult || !mainRoomGame.enablePlaceChips) {
             return;
         }
 
@@ -39,9 +39,9 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         this.main.node.runAction(
             cc.sequence(
-                cc.callFunc(() => this.dealerGetChips(lostBetItems)),
+                cc.callFunc(() => this.dealerGetChips(mainRoomGame, lostBetItems)),
                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                cc.callFunc(() => this.dealerPayChips(winBetItems)),
+                cc.callFunc(() => this.dealerPayChips(mainRoomGame, winBetItems)),
                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems)),
                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
@@ -52,15 +52,15 @@ export default class GameBaseFinishHandler implements DataHandler {
         )
     }
 
-    dealerGetChips(lostBetItems: BetItem[]) {
+    dealerGetChips(mainRoomGame: GameRoomBase, lostBetItems: BetItem[]) {
         _.forEach(lostBetItems, item => {
-            this.main.betChips.moveChips(item.chipNode, this.main.dealerChipBox);
+            this.main.betChips.moveChips(item.chipNode, mainRoomGame.dealerChipBox);
         });
     }
 
-    dealerPayChips(winBetItems: BetItem[]) {
+    dealerPayChips(mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {
         _.forEach(winBetItems, item => {
-            this.main.betChips.payChipsToBetItem(item.chipNode, this.main.dealerChipBox, item.chipRange);
+            this.main.betChips.payChipsToWinningBetItem(item.chipNode, mainRoomGame.dealerChipBox, item.chipRange);
         });
     }
 
