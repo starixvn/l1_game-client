@@ -4,7 +4,7 @@ import Keno from "../Keno";
 export default class KenoFinishHandler extends GameBaseFinishHandler {
 
     constructor(protected readonly main: Keno) {
-        super(main);
+        super(main, 1);
     }
 
     handleFinishData(dataFinish) {

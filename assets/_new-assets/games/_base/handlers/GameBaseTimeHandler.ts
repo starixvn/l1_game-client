@@ -68,10 +68,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handleStartingNewGameRound() {
-        _.forEach(this.main.betItems, item => {
-            item.clearBet();
-            item.resetHighlight();
-        })
+        this.main.resetDataAndUI();
     }
 
     handleInRoundTime() {

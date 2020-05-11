@@ -4,11 +4,11 @@ import DataHandler from "./DataHandler";
 import GameUtils from "../../../common/GameUtils";
 import GameRoomBase from "../GameRoomBase";
 export default interface IGameBaseStatusHandler extends DataHandler {
-    statusData: any;
+    currentStatusData: any;
 }
 
 export default class GameBaseStatusHandler implements IGameBaseStatusHandler {
-    public statusData: any;
+    public currentStatusData: any;
 
     constructor(protected readonly main: GameBase) {
     }
@@ -17,8 +17,8 @@ export default class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
     handle(data: any): boolean {
         if (data.status) {
-            this.statusData = data.status;
-            this.status(this.statusData, this.statusData.bet);
+            this.currentStatusData = data.status;
+            this.status(this.currentStatusData, this.currentStatusData.bet);
         }
 
         return true;

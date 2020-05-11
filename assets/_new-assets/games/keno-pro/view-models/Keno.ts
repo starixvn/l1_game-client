@@ -99,7 +99,7 @@ export default class Keno extends GameRoomBase {
         this.players.forEach(player => player.node.active = false);
         this.kenoNumbers = this.resultNumberNode.children.map(child => child.getComponent(KenoNumber));
         this.setGameRound(0);
-        this.defaultUIState();
+        this.resetDataAndUI();
         this.setOdds();
     }
     //#endregion
@@ -107,17 +107,15 @@ export default class Keno extends GameRoomBase {
     //#region Private Methods
     stopGame() {
         super.stopGame();
-        this.defaultUIState();
+        this.resetDataAndUI();
     }
 
-    defaultUIState() {
+    resetDataAndUI() {
+        super.resetDataAndUI();
+
         this.resultFrame.active = false;
         this.timeWaitNode.active = false;
         this.animatedTime.node.active = false;
-        this.betItems.forEach(item => {
-            item.clearBet();
-            item.resetHighlight();
-        });
     }
 
     regEvent(show: boolean) {

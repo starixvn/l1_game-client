@@ -1,7 +1,6 @@
 
 import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
-import GameBaseTimeHandler from "./GameBaseTimeHandler";
 import * as _ from "lodash";
 import GameRoomBase from "../GameRoomBase";
 import BetItem from "../BetItem";
@@ -10,14 +9,15 @@ import RoomPlayer from "../RoomPlayer";
 
 export default class GameBaseFinishHandler implements DataHandler {
     constructor(
-        protected readonly main: GameBase) {
+        protected readonly main: GameBase, private readonly playResultAnimationTime: number = 0) {
     }
 
     handle(data: any): boolean {
         if (data.finish) {
             this.main.timeHandler.resetTime();
             this.handleFinishData(data.finish);
-            this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
+
+            setTimeout(() => this.payChips(data.finish.settlementResult, data.finish.winningPlayers), this.playResultAnimationTime * 1000);
         }
 
         return true;
@@ -44,7 +44,7 @@ export default class GameBaseFinishHandler implements DataHandler {
                 cc.delayTime(delayChipsFlyingTime),
                 cc.callFunc(() => this.dealerPayChips(winBetItems)),
                 cc.delayTime(delayChipsFlyingTime),
-                cc.callFunc(() => this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.statusData, winBetItems)),
+                cc.callFunc(() => this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems)),
                 cc.delayTime(delayChipsFlyingTime),
                 cc.callFunc(() => this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems)),
                 cc.delayTime(delayChipsFlyingTime),
@@ -66,7 +66,6 @@ export default class GameBaseFinishHandler implements DataHandler {
     }
 
     payChipsToLoginPlayer(mainRoomGame: GameRoomBase, statusData, winBetItems: BetItem[]) {
-
         if (!statusData || !statusData.win) {
             return;
         }
@@ -77,7 +76,7 @@ export default class GameBaseFinishHandler implements DataHandler {
             if (betItems[item.node.name.toLowerCase()]) {
                 this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node);
             }
-        })
+        });
     }
 
     payChipsToInGamePlayers(winningPlayers: any, mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {

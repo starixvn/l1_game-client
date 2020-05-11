@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import DataHandler from "./handlers/DataHandler";
 import UmWarning from "../../common/um-warning/UmWarning";
 import { GameBaseConfigs } from "./GameBaseConfig";
@@ -236,6 +237,15 @@ export default class GameBase extends cc.Component {
 
     /** Register with game on server */
     protected startGame() {
+    }
+
+    public resetDataAndUI() {
+        _.forEach(this.betItems, item => {
+            item.clearBet();
+            item.resetHighlight();
+        });
+
+        this.statusHandler.currentStatusData = null;
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {
