@@ -22,17 +22,23 @@ export default class LogControl extends cc.Component {
         this.content.children.forEach(child => child.destroy());
 
         var col = 0, row = 0;
+        var nextCol = 1;
         var previousResult = undefined;
-
+        var rowMax = {};
         var start = cc.v2(-this.itemSize.width / 2 + this.padding.width / 2, - this.itemSize.height / 2 - this.padding.height);
         results.forEach((result, i) => {
             if (result == previousResult) {
-                row++;
-            }
-
-            if (row == this.RowMax || result != previousResult) {
+                var max = rowMax[col] || this.RowMax;
+                if (row < max - 1) {
+                    row++;
+                } else {
+                    col++;
+                    rowMax[col] = row + 1;
+                }
+            } else {
                 row = 0;
-                col++;
+                col = nextCol;
+                nextCol++;
             }
 
             previousResult = result;
