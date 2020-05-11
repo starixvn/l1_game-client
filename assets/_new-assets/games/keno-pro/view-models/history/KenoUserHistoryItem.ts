@@ -1,3 +1,5 @@
+import KenoUserHistory from "./KenoUserHistory";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -42,10 +44,21 @@ export default class KenoUserHistoryItem extends cc.Component {
     @property(cc.Label)
     earth: cc.Label = null;
 
+    public roundId: number;
     public totalResult: number;
     public result: number[];
+    private main: KenoUserHistory;
+
+    public init(main: KenoUserHistory): void {
+        this.main = main;
+    }
 
     public showResult(): void {
+        this.main.showRoundResult(this.roundId, this.totalResult, this.result);
+    }
 
-    };
+    onDisable() {
+        this.main.hideRoundResult();
+        this.node.destroy();
+    }
 }
