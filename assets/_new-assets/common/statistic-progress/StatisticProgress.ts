@@ -15,13 +15,21 @@ export default class StatisticProgress extends cc.Component {
     @property
     suffix: string = '%';
 
+    @property
+    dynamic: boolean = true;
+
+    @property
+    showPrefix: boolean = false;
+
     public setProgress(values: number[], total: number) {
-        for (var i = 0; i < this.labels.length; i++) {
+        var count = this.frames.length;
+        for (var i = 0; i < count; i++) {
             var value = Math.round(values[i] * 100 / total);
-            this.labels[i].string = `${this.prefixes[i]} ${value}${this.suffix}`;
+            var prefix = this.showPrefix ? `${this.prefixes[i]} ` : ``;
+            this.labels[i].string = `${prefix}${value}${this.suffix}`;
             this.labels[i].node.active = true;
 
-            this.frames[i].width = values[i] / total * this.node.width;
+            this.frames[i].width = this.dynamic ? values[i] / total * this.node.width : this.node.width / count;
         }
     }
 
