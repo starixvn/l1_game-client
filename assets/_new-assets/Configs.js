@@ -2,7 +2,7 @@ const configs = {
     ssl: false,
     disabledDirectLogin: false,
     serverEndpoints: {
-        "localhost": 'localhost:8080',
+        "localhost": '124.158.13.228:8080',
     },
     gameIds: {
         TaiXiu: 1,
@@ -21,7 +21,8 @@ const configs = {
         4: "Tài Xỉu Siêu Tốc",
         5: "Chẵn Lẻ",
         6: "Chẳn Lẻ Siêu Tốc",
-        7: "Rồng Hổ"
+        7: "Rồng Hổ",
+        8: "Keno Pro Max"
     },
     sentryUrl: '',
     gameAnalytics: {
