@@ -68,6 +68,9 @@ export default class KenoUserHistory extends cc.Component {
                 item.fire.string = numberWithCommas(dataT.fire);
                 item.earth.string = numberWithCommas(dataT.earth);
 
+                item.totalResult = total;
+                item.result = result;
+
                 this.content.addChild(historyItemPrefab);
             }
         }

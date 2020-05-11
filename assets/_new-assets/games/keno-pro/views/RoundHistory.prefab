@@ -8167,11 +8167,16 @@
     "content": {
       "__id__": 199
     },
-    "max": 6,
+    "RowMax": 6,
     "itemSize": {
       "__type__": "cc.Size",
       "width": 22,
       "height": 22
+    },
+    "padding": {
+      "__type__": "cc.Size",
+      "width": 2,
+      "height": 2
     },
     "_id": ""
   },
@@ -8231,11 +8236,12 @@
     "options": {
       "__id__": 2
     },
-    "headers": null,
-    "content": null,
-    "taixiuLogs": {
-      "__id__": 222
-    },
+    "logControl": null,
+    "statisticProgesses": null,
+    "statisticProgesses2": null,
+    "bigSmallItem": [],
+    "evenOddItem": [],
+    "fiveElementsItem": [],
     "_id": ""
   },
   {

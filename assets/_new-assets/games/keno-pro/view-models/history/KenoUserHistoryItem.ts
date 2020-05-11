@@ -41,4 +41,11 @@ export default class KenoUserHistoryItem extends cc.Component {
 
     @property(cc.Label)
     earth: cc.Label = null;
+
+    public totalResult: number;
+    public result: number[];
+
+    public showResult(): void {
+
+    };
 }
