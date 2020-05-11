@@ -64,6 +64,15 @@ export default class KenoUserHistory extends cc.Component {
                 for (let i = 0; i < result.length; i++) {
                     total += result[i];
                 };
+
+                let settlementResult = dataT.settlementResult;
+                item.settlementResult = settlementResult;
+                Object.keys(settlementResult).forEach(key => {
+                    if (settlementResult[key]) {
+                        item[key].node.color = cc.Color.YELLOW;
+                    }
+                });
+
                 item.total.string = numberWithCommas(total);
                 item.big.string = numberWithCommas(dataT.big);
                 item.small.string = numberWithCommas(dataT.small);
@@ -87,11 +96,13 @@ export default class KenoUserHistory extends cc.Component {
         this.root.sendData({ viewlogs: { page: page } });
     }
 
-    public showRoundResult(round: number, total: number, result: number[]) {
+    public showRoundResult(round, total: number, result: number[], settlementResult: any) {
         let dialog = cc.instantiate(this.prefabRoundResult);
         this.roundResult = dialog.getComponent("KenoRoundResult");
+        this.roundResult.round.string = round;
         this.roundResult.total.string = numberWithCommas(total);
         this.roundResult.result = result;
+        this.roundResult.settlementResult = settlementResult;
         this.node.addChild(dialog);
     }
 

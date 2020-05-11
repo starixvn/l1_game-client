@@ -47,6 +47,7 @@ export default class KenoUserHistoryItem extends cc.Component {
     public roundId: number;
     public totalResult: number;
     public result: number[];
+    public settlementResult: any;
     private main: KenoUserHistory;
 
     public init(main: KenoUserHistory): void {
@@ -54,7 +55,7 @@ export default class KenoUserHistoryItem extends cc.Component {
     }
 
     public showResult(): void {
-        this.main.showRoundResult(this.roundId, this.totalResult, this.result);
+        this.main.showRoundResult(this.roundId, this.totalResult, this.result, this.settlementResult);
     }
 
     onDisable() {
