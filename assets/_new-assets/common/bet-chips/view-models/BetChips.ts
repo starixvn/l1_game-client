@@ -70,7 +70,7 @@ export default class BetChips extends cc.Component {
         });
     }
 
-    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, maxChips: number = 2, hideOnDestBox: boolean = true) {
+    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, maxChips: number = 3, hideOnDestBox: boolean = true) {
         var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
         var cloneChipsBox = cc.instantiate(chipsBox);
         cloneChipsBox.destroyAllChildren();
@@ -129,6 +129,20 @@ export default class BetChips extends cc.Component {
         destNode.addChild(chipNode.node);
 
         chipNode.node.runAction(this.moveChipTo(cc.v2(xDest, yDest)));
+    }
+
+    public setChips(chipsData: any, chipsBox: cc.Node, range: cc.Vec2) {
+        var chipItemKeys = Object.keys(chipsData);
+
+        _.forEach(chipItemKeys, (chipItemKey) => {
+            const xDest = _.random(0, range.x + 1);
+            const yDest = _.random(0, range.y + 1);
+
+            for (var i = 0; i < chipsData[chipItemKey]; i++) {
+                var chip = this.createChip(new cc.Vec2(xDest, yDest), chipItemKey);
+                chipsBox.addChild(chip.node);
+            }
+        })
     }
 
     private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, hideOnDestBox: boolean) {

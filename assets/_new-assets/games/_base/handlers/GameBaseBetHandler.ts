@@ -73,7 +73,14 @@ export default class GameBaseBetHandler implements DataHandler {
         }
     }
 
-    placeChips(data) {
+    placeChips(chips) {
+        if (!chips) {
+            return;
+        }
 
+        _.forEach(this.main.betItems, item => {
+            var betItemData = chips[item.node.name.toLowerCase()];
+            this.main.betChips.setChips(betItemData, item.chipNode, item.chipRange);
+        });
     }
 }

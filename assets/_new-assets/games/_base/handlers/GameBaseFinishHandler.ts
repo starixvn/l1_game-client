@@ -76,6 +76,8 @@ export default class GameBaseFinishHandler implements DataHandler {
                 this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node);
             }
         });
+
+        this.playWinningEffect(mainRoomGame, mainRoomGame.userAvatar.node);
     }
 
     payChipsToInGamePlayers(winningPlayers: any, mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {
@@ -100,7 +102,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
                 playerSlot.increaseBalance(winningPlayerData.bet);
                 GameUtils.addFlyingText(playerSlot.node, true, bet, 3, 10);
-                this.playWinningEffect(mainRoomGame, playerSlot);
+                this.playWinningEffect(mainRoomGame, playerSlot.node);
             }
         });
     }
@@ -111,9 +113,9 @@ export default class GameBaseFinishHandler implements DataHandler {
         })
     }
 
-    playWinningEffect(mainRoomGame: GameRoomBase, playerSlot: RoomPlayer) {
+    playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node) {
         var winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
-        playerSlot.node.addChild(winningEffect);
+        playerNode.addChild(winningEffect);
         var animation = winningEffect.getComponent(cc.Animation);
 
         winningEffect.runAction(cc.sequence(
