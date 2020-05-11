@@ -149,37 +149,13 @@ export default class Keno extends GameRoomBase {
         return total;
     }
 
-    public getResults(resultNumbers: number[]): string[] {
+    public getResults(settlementResult: any): string[] {
         var results = [];
-        if (resultNumbers.length <= 0) {
-            return results;
-        }
-
-        var total = this.getTempTotal(resultNumbers, resultNumbers.length - 1);
-
-        if (total > 810) {
-            results.push("big");
-        } else {
-            results.push("small");
-        }
-
-        if (total % 2 === 1) {
-            results.push("odd");
-        } else {
-            results.push("even");
-        }
-
-        if (total < 696) {
-            results.push("metal");
-        } else if (total < 764) {
-            results.push("wood");
-        } else if (total < 856) {
-            results.push("water");
-        } else if (total < 1411) {
-            results.push("fire");
-        } else {
-            results.push("earth");
-        }
+        Object.keys(settlementResult).forEach(key => {
+            if (settlementResult[key]) {
+                results.push(key);
+            }
+        })
         return results;
     }
     //#endregion

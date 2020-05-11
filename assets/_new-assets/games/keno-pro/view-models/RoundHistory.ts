@@ -115,15 +115,7 @@ export default class RoundHistory extends cc.Component {
 
         var results: string[][] = data.map(d => {
             var settlementResult = d.settlementResult;
-
-            var result = [];
-            Object.keys(settlementResult).forEach(key => {
-                if (settlementResult[key]) {
-                    result.push(key);
-                }
-            })
-
-            return result;
+            return this.main.getResults(settlementResult);
         });
 
         this.statisticData = [{

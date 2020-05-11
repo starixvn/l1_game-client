@@ -28,7 +28,7 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
             this.main.setGameRound(this.main.roundId);
 
             if (this.main.currentDataLogs.length > 0) {
-                var results = this.main.getResults(this.main.currentDataLogs[0].result);
+                var results = this.main.getResults(this.main.currentDataLogs[0].settlementResult);
                 this.main.resultFrame.active = true;
                 var resultNumbers = this.main.currentDataLogs[0].result;
                 var total = this.main.getTempTotal(resultNumbers, resultNumbers.length - 1);
