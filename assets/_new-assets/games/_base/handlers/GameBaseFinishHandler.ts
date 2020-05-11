@@ -71,7 +71,7 @@ export default class GameBaseFinishHandler implements DataHandler {
             return;
         }
 
-        var betItems = statusData.boxes;
+        var betItems = statusData.winningByChoices;
 
         _.forEach(winBetItems, item => {
             if (betItems[item.node.name.toLowerCase()]) {
