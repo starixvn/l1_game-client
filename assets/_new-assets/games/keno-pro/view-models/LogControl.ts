@@ -25,6 +25,7 @@ export default class LogControl extends cc.Component {
         var nextCol = 1;
         var previousResult = undefined;
         var rowMax = {};
+        var colMax = 0;
         var start = cc.v2(-this.itemSize.width / 2 + this.padding.width, - this.itemSize.height / 2 - this.padding.height);
         results.forEach((result, i) => {
             if (result == previousResult) {
@@ -44,6 +45,10 @@ export default class LogControl extends cc.Component {
                 nextCol++;
             }
 
+            if (col > colMax) {
+                colMax = col;
+            }
+
             previousResult = result;
 
             var dot = cc.instantiate(this.items[result]);
@@ -53,7 +58,7 @@ export default class LogControl extends cc.Component {
             this.content.addChild(dot);
         });
 
-        this.content.width = Math.max(col * this.itemSize.width, this.node.width) + 2 * this.padding.width;
+        this.content.width = Math.max(colMax * this.itemSize.width, this.node.width) + 2 * this.padding.width;
         // this.content.height = this.RowMax * this.itemSize.height + 2 * this.padding.height;
 
         this.content.position = cc.v2(-this.content.width, this.content.position.y);
