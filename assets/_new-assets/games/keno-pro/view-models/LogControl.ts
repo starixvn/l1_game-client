@@ -33,7 +33,7 @@ export default class LogControl extends cc.Component {
                     row++;
                 } else {
                     col++;
-                    rowMax[col] = row + 1;
+                    rowMax[col] = row;
                 }
             } else {
                 row = 0;
