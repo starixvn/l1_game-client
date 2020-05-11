@@ -38,6 +38,10 @@ export default class BetItem extends cc.Component {
         }
     }
 
+    public setOdd(value: string) {
+        this.odds.string = value;
+    }
+
     public clearBet() {
         this.setOwnBet(0);
         this.setTotalBet(0);

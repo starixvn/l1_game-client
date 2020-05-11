@@ -100,6 +100,7 @@ export default class Keno extends GameRoomBase {
         this.kenoNumbers = this.resultNumberNode.children.map(child => child.getComponent(KenoNumber));
         this.setGameRound(0);
         this.defaultUIState();
+        this.setOdds();
     }
     //#endregion
 
@@ -131,11 +132,20 @@ export default class Keno extends GameRoomBase {
     //#endregion Private Methods
 
     //#region Game Methods
-    // receivedData(data) {
-    //     if (data.mini && data.mini[this.gameName]) {
-    //         this.onData(data.mini[this.gameName]);
-    //     }
-    // }
+    private setOdds() {
+        var oddData = {
+            big: 1.97,
+            small: 1.97,
+            even: 1.97,
+            odd: 1.97,
+            gold: 9.2,
+            wood: 4.6,
+            water: 2.4,
+            fire: 4.6,
+            earth: 9.2
+        };
+        this.betItems.forEach(item => item.setOdd(oddData[item.node.name]));
+    }
 
     public updateRoundHistory() {
         this.roundHistory.setData(this.currentDataLogs);
