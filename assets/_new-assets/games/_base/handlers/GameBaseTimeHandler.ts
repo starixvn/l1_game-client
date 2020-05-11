@@ -18,7 +18,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     handle(data: any): boolean {
         if (data.remainingTime) {
-            this.main.currentTimeRemaining = data.remainingTime;
+            this.main.currentTimeRemaining = data.remainingTime - 1;
             this.playTime();
             return true;
         }
@@ -26,6 +26,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     resetTime(): void {
         this.main.currentTimeRemaining = this.main.config.fullTime;
+        this.main.animatedTime.node.active = false;
         this.playTime();
     }
 
