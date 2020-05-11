@@ -58,6 +58,15 @@ export default class KenoUserHistory extends cc.Component {
                     total += result[i];
                 };
                 item.total.string = numberWithCommas(total);
+                item.big.string = numberWithCommas(dataT.big);
+                item.small.string = numberWithCommas(dataT.small);
+                item.odd.string = numberWithCommas(dataT.odd);
+                item.even.string = numberWithCommas(dataT.even);
+                item.gold.string = numberWithCommas(dataT.gold);
+                item.wood.string = numberWithCommas(dataT.wood);
+                item.water.string = numberWithCommas(dataT.water);
+                item.fire.string = numberWithCommas(dataT.fire);
+                item.earth.string = numberWithCommas(dataT.earth);
 
                 this.content.addChild(historyItemPrefab);
             }
