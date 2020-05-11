@@ -38,8 +38,9 @@ export default class BetChips extends cc.Component {
     defaultChip = "1";
 
     public onChanged: OnChangedBet = (bet) => { };
-    public chipFlyingTime: number = 1;
-    public chipDelayFlyingTime: number = 0.5;
+    public readonly chipFlyingTime: number = 0.8;
+    public readonly loginUserChipFlyingTime: number = 0.5;
+    public readonly chipDelayFlyingTime: number = 0.5;
 
     onLoad() {
         this.setCurrentBet(this.defaultChip);
@@ -111,6 +112,7 @@ export default class BetChips extends cc.Component {
 
     public placeChipBet(bet: number, destNode: cc.Node, range: cc.Vec2, startNode: cc.Node = null) {
         var chipPosition: cc.Vec2;
+        var isLoginUserPlaceBet = startNode == null;
 
         if (startNode) {
             chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
@@ -128,7 +130,9 @@ export default class BetChips extends cc.Component {
 
         destNode.addChild(chipNode.node);
 
-        chipNode.node.runAction(this.moveChipTo(cc.v2(xDest, yDest)));
+        chipNode.node.runAction(this.moveChipTo(
+            cc.v2(xDest, yDest),
+            isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
     }
 
     public initChips(chipsData: any, chipsBox: cc.Node, range: cc.Vec2) {
@@ -161,8 +165,8 @@ export default class BetChips extends cc.Component {
         setTimeout(() => this.destroyChip(chip), this.chipFlyingTime);
     }
 
-    private moveChipTo(position: cc.Vec2): cc.ActionInterval {
-        return cc.moveTo(this.chipFlyingTime, position).easing(cc.easeSineOut());
+    private moveChipTo(position: cc.Vec2, time: number = this.chipFlyingTime): cc.ActionInterval {
+        return cc.moveTo(time, position).easing(cc.easeSineOut());
     }
 
     private createChip(position: cc.Vec2, bet): cc.Sprite {
