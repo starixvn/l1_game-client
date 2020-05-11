@@ -30,7 +30,7 @@ export default class GameBaseBetHandler implements DataHandler {
                 this.placePlayerChip(data.playerChip);
             }
 
-            if (data.chips) {
+            if (data.chips && data.remainingTime < mainRoomGame.config.betTime) {
                 this.placeTotalChips(data.chips);
             }
         }
