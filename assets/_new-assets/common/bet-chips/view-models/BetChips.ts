@@ -38,7 +38,8 @@ export default class BetChips extends cc.Component {
     defaultChip = "1";
 
     public onChanged: OnChangedBet = (bet) => { };
-    public chipFlyingTime: number = 0.5;
+    public chipFlyingTime: number = 1;
+    public chipDelayFlyingTime: number = 0.5;
 
     onLoad() {
         this.setCurrentBet(this.defaultChip);
@@ -69,24 +70,33 @@ export default class BetChips extends cc.Component {
         });
     }
 
-    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, maxChips: number = 3, hideOnDestBox: boolean = true) {
+    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, maxChips: number = 2, hideOnDestBox: boolean = true) {
         var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
-        var destBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(destBoxPosition);
+        var cloneChipsBox = cc.instantiate(chipsBox);
+        cloneChipsBox.destroyAllChildren();
+        chipsBox.parent.addChild(cloneChipsBox);
+
+        var destBoxInChipBoxSpacePosition = cloneChipsBox.convertToNodeSpaceAR(destBoxPosition);
         var chipsCount = _.round(_.random(1, maxChips));
 
         for (var i = 0; i < chipsCount; i++) {
             var chip = chipsBox.children[i];
 
             if (chip) {
-                this.startMoveChip(chip, destBoxInChipBoxSpacePosition, hideOnDestBox);
+                var cloneChip = cc.instantiate(chip);
+                cloneChipsBox.addChild(cloneChip);
+                chipsBox.removeChild(chip);
+                this.startMoveChip(cloneChip, destBoxInChipBoxSpacePosition, hideOnDestBox);
             }
         }
+
+        setTimeout(() => cloneChipsBox.destroy(), this.chipFlyingTime * 3000)
     }
 
     public payChipsToBetItem(chipBox: cc.Node, dealerBox: cc.Node, chipRange: cc.Vec2) {
         var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
         var dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
-        cc.RedT.isSoundGame() && this.multiChipAudio.play();
+        // cc.RedT.isSoundGame() && this.multiChipAudio.play();
 
         _.forEach(chipBox.children, chip => {
             var cloneChip = cc.instantiate(chip);
@@ -118,27 +128,22 @@ export default class BetChips extends cc.Component {
 
         destNode.addChild(chipNode.node);
 
-        cc.RedT.isSoundGame() && this.singleChipAudio.play();
-        chipNode.node.runAction(
-            cc.sequence(
-                this.moveChipTo(cc.v2(xDest, yDest)),
-                cc.sequence(
-                    cc.moveTo(0.1, cc.v2(xDest, yDest + 6)),
-                    cc.moveTo(0.1, cc.v2(xDest, yDest))
-                )
-            ));
+        chipNode.node.runAction(this.moveChipTo(cc.v2(xDest, yDest)));
     }
 
     private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, hideOnDestBox: boolean) {
+        // cc.RedT.isSoundGame() && this.singleChipAudio.play();
+
         if (hideOnDestBox) {
             chip.runAction(cc.spawn(
                 this.moveChipTo(destBoxInChipBoxSpacePosition),
-                cc.fadeTo(this.chipFlyingTime * 2, 0)));
-            this.destroyChip(chip);
+                cc.fadeTo(this.chipFlyingTime * 3, 0)));
         }
         else {
             chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition));
         }
+
+        setTimeout(() => this.destroyChip(chip), this.chipFlyingTime);
     }
 
     private moveChipTo(position: cc.Vec2): cc.ActionInterval {
@@ -162,7 +167,6 @@ export default class BetChips extends cc.Component {
     private updateSelectedBet(targetName: string) {
         this.chips.children.map((chip) => {
             if (chip.name == targetName) {
-                console.log(chip);
                 chip.children[0].active = true;
                 chip.zIndex = 2;
                 cc.tween(chip)

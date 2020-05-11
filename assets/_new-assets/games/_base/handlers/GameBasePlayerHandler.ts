@@ -81,7 +81,7 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
     }
 
     getPlayerSlot(playerId: string): RoomPlayer {
-        return _.find(this.main.players, (player) => player.data && player.data.id === playerId)
+        return _.find(this.main.players, (player) => player.data && player.data.id === playerId);
     }
 
     getEmptySlots() {

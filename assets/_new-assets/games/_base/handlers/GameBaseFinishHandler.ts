@@ -36,18 +36,17 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         var lostBetItems = _.filter(this.main.betItems, item => !settlementResult[item.node.name.toLowerCase()]);
         var winBetItems = _.filter(this.main.betItems, item => !!settlementResult[item.node.name.toLowerCase()]);
-        var delayChipsFlyingTime = this.main.betChips.chipFlyingTime * 2;
 
         this.main.node.runAction(
             cc.sequence(
                 cc.callFunc(() => this.dealerGetChips(lostBetItems)),
-                cc.delayTime(delayChipsFlyingTime),
+                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => this.dealerPayChips(winBetItems)),
-                cc.delayTime(delayChipsFlyingTime),
+                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems)),
-                cc.delayTime(delayChipsFlyingTime),
+                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems)),
-                cc.delayTime(delayChipsFlyingTime),
+                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => this.payChipsToOtherPlayers(mainRoomGame, winBetItems))
             )
         )
@@ -86,7 +85,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         var winningPlayerIds = Object.keys(winningPlayers);
 
-        _.forEach(winningPlayerIds, playerId => {
+        _.forEach(winningPlayerIds, (playerId) => {
             var winningPlayerData = winningPlayers[playerId];
             var playerSlot = mainRoomGame.playerHandler.getPlayerSlot(playerId);
             var playerBetItems = winningPlayerData.winningByChoices;
