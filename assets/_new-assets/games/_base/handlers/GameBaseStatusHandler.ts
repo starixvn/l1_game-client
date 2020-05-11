@@ -18,7 +18,7 @@ export default class GameBaseStatusHandler implements IGameBaseStatusHandler {
     handle(data: any): boolean {
         if (data.status) {
             this.currentStatusData = data.status;
-            this.status(this.currentStatusData, this.currentStatusData.bet);
+            this.status(this.currentStatusData.win, this.currentStatusData.bet);
         }
 
         return true;
