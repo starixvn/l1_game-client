@@ -4,7 +4,7 @@ import Keno from "../Keno";
 export default class KenoFinishHandler extends GameBaseFinishHandler {
 
     constructor(protected readonly main: Keno) {
-        super(main, 1);
+        super(main, 2);
     }
 
     handleFinishData(dataFinish) {
@@ -31,7 +31,7 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
                 this.main.totalResult.string = this.main.getTempTotal(resultNumbers, i).toString();
                 i++;
             }),
-            cc.delayTime(0.05)
+            cc.delayTime(this.playResultAnimationTime / 20)
         );
 
         this.main.resultNumberNode.runAction(cc.sequence(

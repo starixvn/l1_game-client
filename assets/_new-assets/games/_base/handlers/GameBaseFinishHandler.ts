@@ -9,7 +9,7 @@ import RoomPlayer from "../RoomPlayer";
 
 export default class GameBaseFinishHandler implements DataHandler {
     constructor(
-        protected readonly main: GameBase, private readonly playResultAnimationTime: number = 0) {
+        protected readonly main: GameBase, protected readonly playResultAnimationTime: number = 0) {
     }
 
     handle(data: any): boolean {
