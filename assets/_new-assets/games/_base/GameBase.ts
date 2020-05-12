@@ -118,6 +118,7 @@ export default class GameBase extends cc.Component {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
         this.timeHandler.stopPlayTime();
+        this.statusHandler.clearTimeout();
     }
 
     onEnable() {
