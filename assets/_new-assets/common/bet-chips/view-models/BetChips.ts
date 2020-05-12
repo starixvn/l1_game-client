@@ -13,6 +13,9 @@ export default class BetChips extends cc.Component {
     @property(cc.AudioSource)
     multiChipAudio: cc.AudioSource = null;
 
+    @property(cc.AudioSource)
+    betChipClickAudio: cc.AudioSource = null;
+
     @property(cc.SpriteFrame)
     chip1: cc.SpriteFrame = null;
 
@@ -54,6 +57,7 @@ export default class BetChips extends cc.Component {
     public onClickBet(event) {
         var bet = event.target.name;
         this.updateSelectedBet(bet);
+        this.betChipClickAudio.play();
         this.onChanged(bet);
     }
 
@@ -97,7 +101,7 @@ export default class BetChips extends cc.Component {
     public payChipsToWinningBetItem(chipBox: cc.Node, dealerBox: cc.Node) {
         var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
         var dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
-        cc.RedT.isSoundGame() && this.multiChipAudio.play();
+        this.playMultiChipsSound();
 
         _.forEach(chipBox.children, chip => {
             var cloneChip = cc.instantiate(chip);
@@ -130,9 +134,10 @@ export default class BetChips extends cc.Component {
 
         destNode.addChild(chipNode.node);
 
-        chipNode.node.runAction(this.moveChipTo(
-            cc.v2(xDest, yDest),
-            isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
+
+        chipNode.node.runAction(cc.sequence(
+            this.moveChipTo(cc.v2(xDest, yDest), isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
+            cc.callFunc(() => isLoginUserPlaceBet && this.playSingleChipsSound())));
     }
 
     public initChips(chipsData: any, chipsBox: cc.Node) {
@@ -149,9 +154,15 @@ export default class BetChips extends cc.Component {
         })
     }
 
-    private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, hideOnDestBox: boolean) {
-        // cc.RedT.isSoundGame() && this.singleChipAudio.play();
+    public playMultiChipsSound() {
+        cc.RedT.isSoundGame() && this.multiChipAudio.play();
+    }
 
+    public playSingleChipsSound() {
+        cc.RedT.isSoundGame() && this.singleChipAudio.play();
+    }
+
+    private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, hideOnDestBox: boolean) {
         if (hideOnDestBox) {
             chip.runAction(cc.spawn(
                 this.moveChipTo(destBoxInChipBoxSpacePosition),

@@ -14,6 +14,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     handle(data: any): boolean {
         if (data.finish) {
+            this.main.gameAudios.playEndGameAudio();
             this.main.timeHandler.resetTime();
             this.handleFinishData(data.finish);
 
@@ -37,7 +38,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         var lostBetItems = _.filter(this.main.betItems, item => !settlementResult[item.node.name.toLowerCase()]);
         var winBetItems = _.filter(this.main.betItems, item => !!settlementResult[item.node.name.toLowerCase()]);
 
-        this.main.node.runAction(
+        this.main.node && this.main.node.runAction(
             cc.sequence(
                 cc.callFunc(() => this.dealerGetChips(mainRoomGame, lostBetItems)),
                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
@@ -108,6 +109,8 @@ export default class GameBaseFinishHandler implements DataHandler {
     }
 
     payChipsToOtherPlayers(roomGame: GameRoomBase, winBetItems: BetItem[]) {
+        this.main.betChips.playMultiChipsSound();
+
         _.forEach(winBetItems, item => {
             this.main.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
         })
