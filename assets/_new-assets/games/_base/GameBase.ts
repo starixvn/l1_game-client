@@ -66,10 +66,9 @@ export default class GameBase extends cc.Component {
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
-
     public gameState = GameState.None;
+    public get isStopGame() { return this.gameState === GameState.Stopped; }
     public waitingProcessing = false;
-    public disabledGame = false;
     public currentTimeRemaining: number;
     public config: GameBaseConfigs;
     public gameName: string;
@@ -194,8 +193,7 @@ export default class GameBase extends cc.Component {
     }
 
     hideUmMessage() {
-        this.umNotice.hide();
-        this.disabledGame = false;
+        this.umNotice && this.umNotice.hide();
     }
 
     showMiniWarning(data) {

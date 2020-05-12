@@ -161,10 +161,6 @@ export default class GameRoomBase extends GameBase {
 
     protected onDataGameRoom(data: any) {
         this.playerHandler.handle(data);
-
-        if (data.um) {
-            this.showUmMessage(data);
-        }
     }
 
     protected loadMiniPanel() {

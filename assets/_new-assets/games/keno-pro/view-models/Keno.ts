@@ -46,9 +46,10 @@ export default class Keno extends GameRoomBase {
 
     //#region Public Methods
     public onCuocClick(e) {
-        if (this.disabledGame) {
+        if (this.isStopGame) {
             return;
         }
+
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
             return;

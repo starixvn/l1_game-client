@@ -9,7 +9,7 @@ export default class GameBaseBetHandler implements DataHandler {
     }
 
     handle(data: any): boolean {
-        if (this.main.disabledGame) {
+        if (this.main.isStopGame) {
             return true;
         }
 

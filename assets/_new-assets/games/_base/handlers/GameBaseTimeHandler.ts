@@ -21,7 +21,6 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         if (data.remainingTime) {
             this.main.currentTimeRemaining = data.remainingTime - 1;
             this.playTime();
-            this.main.disabledGame = false;
             this.main.hideUmMessage();
             this.main.startGame();
             return true;
