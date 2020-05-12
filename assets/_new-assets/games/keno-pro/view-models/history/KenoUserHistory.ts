@@ -23,22 +23,26 @@ export default class KenoUserHistory extends cc.Component {
 
     private root: Keno;
     private roundResult: KenoRoundResult = null;
-
-    public init(root: Keno) {
-        this.root = root;
-    }
+    private dataObserverKey = "KenoUserHistory";
 
     onLoad() {
         this.pages.init(this);
     }
 
     onEnable() {
+        cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
         this.get_data();
     }
 
+    receivedData(data) {
+        if (data.kenoProMax && data.kenoProMax.history) {
+            this.onData(data.kenoProMax.history);
+        }
+    }
+
     onDisable() {
-        this.root.hideHistoryDialog();
         this.content.children.forEach(child => child.destroy());
+        cc.RedT.removeDataObserver(this.dataObserverKey);
         this.node.destroy();
     }
 
@@ -93,7 +97,7 @@ export default class KenoUserHistory extends cc.Component {
     }
 
     get_data(page = 1) {
-        this.root.sendData({ viewlogs: { page: page } });
+        cc.RedT.send({ g: { kenoProMax: { viewlogs: { page: page } } } });
     }
 
     public showRoundResult(round, total: number, result: number[], settlementResult: any) {

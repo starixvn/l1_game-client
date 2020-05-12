@@ -1,13 +1,10 @@
-import * as helper from '../../../common/helpers/Helper';
 import GameRoomBase from "../../_base/GameRoomBase";
 import KenoTimeHandler from './handlers/KenoTimeHandler';
 import KenoFinishHandler from './handlers/KenoFinishHandler';
 import { KenoConfigs } from './KenoConfigs';
 import KenoNumber from './KenoNumber';
-import KenoUserHistory from './history/KenoUserHistory';
 import RoundHistory from './RoundHistory';
 import KenoLogsHandler from './handlers/KenoLogsHandler';
-import KenoUserHistoryHandler from './handlers/KenoUserHistoryHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,14 +31,12 @@ export default class Keno extends GameRoomBase {
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
-    public history: KenoUserHistory;
 
     constructor() {
         super();
         this.finishHandler = new KenoFinishHandler(this);
         this.timeHandler = new KenoTimeHandler(this);
         this.logsHandler = new KenoLogsHandler(this);
-        this.historyHandler = new KenoUserHistoryHandler(this);
 
         this.init("kenoProMax", new KenoConfigs());
     }
@@ -67,13 +62,7 @@ export default class Keno extends GameRoomBase {
         cc.RedT.audio.playClick();
 
         var dialog = cc.instantiate(this.historyPrefab);
-        this.history = dialog.getComponent("KenoUserHistory");
-        this.history.init(this);
         this.node.addChild(dialog);
-    }
-
-    public hideHistoryDialog() {
-        this.history = null;
     }
 
     public pressedShowGuide() {
