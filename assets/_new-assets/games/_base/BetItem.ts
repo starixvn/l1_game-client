@@ -14,9 +14,6 @@ export default class BetItem extends cc.Component {
     @property(cc.Node)
     chipNode: cc.Node = null;
 
-    @property(cc.Vec2)
-    chipRange: cc.Vec2 = new cc.Vec2(80, 40);
-
     @property(cc.Node)
     highlight: cc.Node = null;
 

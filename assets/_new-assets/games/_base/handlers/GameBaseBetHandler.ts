@@ -46,8 +46,7 @@ export default class GameBaseBetHandler implements DataHandler {
 
         this.main.betChips.placeChipBet(
             bet,
-            betItem.chipNode,
-            betItem.chipRange);
+            betItem.chipNode);
     }
 
     placePlayerChip(data) {
@@ -73,7 +72,7 @@ export default class GameBaseBetHandler implements DataHandler {
                 }
             }
 
-            this.main.betChips.placeChipBet(bet, betItem.chipNode, betItem.chipRange, startNode);
+            this.main.betChips.placeChipBet(bet, betItem.chipNode, startNode);
         }
     }
 
@@ -84,7 +83,7 @@ export default class GameBaseBetHandler implements DataHandler {
 
         _.forEach(this.main.betItems, item => {
             var betItemData = chips[item.node.name.toLowerCase()];
-            this.main.betChips.initChips(betItemData, item.chipNode, item.chipRange);
+            this.main.betChips.initChips(betItemData, item.chipNode);
         });
     }
 }
