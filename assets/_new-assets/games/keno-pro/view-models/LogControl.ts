@@ -1,3 +1,5 @@
+import BlinkNode from "../../../common/BlinkNode";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -8,6 +10,9 @@ export default class LogControl extends cc.Component {
 
     @property(cc.Node)
     content: cc.Node = null;
+
+    @property(cc.Node)
+    itemNext: cc.Node = null;
 
     @property({ type: cc.Integer })
     RowMax = 6;
@@ -57,6 +62,21 @@ export default class LogControl extends cc.Component {
             dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
             this.content.addChild(dot);
         });
+
+        if (row < this.RowMax - 1) {
+            row++;
+        } else {
+            row = 0;
+            col = nextCol;
+            if (col > colMax) {
+                colMax = col;
+            }
+        }
+        var dot = cc.instantiate(this.itemNext);
+        dot.active = true;
+        dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
+        dot.addComponent(BlinkNode).interval = 0.5;
+        this.content.addChild(dot);
 
         this.content.width = Math.max(colMax * this.itemSize.width, this.node.width) + 2 * this.padding.width;
         // this.content.height = this.RowMax * this.itemSize.height + 2 * this.padding.height;
