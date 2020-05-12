@@ -158,6 +158,9 @@ export default class GameRoomBase extends GameBase {
         var miniPanel = cc.instantiate(this.miniPanelPrefab);
         this.currentMiniPanel = miniPanel.getComponent('MiniPanel');
         this.miniPanelContainer.addChild(miniPanel);
+        if (!cc.sys.isMobile) {
+            miniPanel.scale = 0.8;
+        }
     }
 
     protected loadUserData() {
@@ -173,6 +176,4 @@ export default class GameRoomBase extends GameBase {
             }
         });
     }
-
-
 }

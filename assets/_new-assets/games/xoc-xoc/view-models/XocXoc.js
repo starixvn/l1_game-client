@@ -1386,7 +1386,7 @@ cc.Class({
 
 	openGuide: function () {
 		let dialog = cc.instantiate(this.prefabGuide);
-		this.center.addChild(dialog);
+		this.redH.addChild(dialog);
 	},
 
 	openHistory: function () {

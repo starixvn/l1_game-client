@@ -79,7 +79,7 @@ export default class Keno extends GameRoomBase {
     public pressedShowGuide() {
         cc.RedT.audio.playClick();
         let dialog = cc.instantiate(this.guidePrefab);
-        this.node.addChild(dialog);
+        this.currentMiniPanel.node.addChild(dialog);
     }
     //#endregion
 
