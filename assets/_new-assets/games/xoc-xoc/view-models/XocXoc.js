@@ -1,7 +1,6 @@
 
 let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
-import * as authManager from '../../../common/auth/AuthManager';
 import logger from '../../../common/logger';
 const sentryLogger = logger();
 
@@ -10,7 +9,6 @@ cc.Class({
 
 	properties: {
 		audioMoBat: cc.AudioSource,
-		audioSingleChip: cc.AudioSource,
 		audioMultiChip: cc.AudioSource,
 		audioXocDia: cc.AudioSource,
 
@@ -1189,15 +1187,7 @@ cc.Class({
 
 		nodeBox.children[4].addChild(newN.node);
 
-		let copy = cc.instantiate(this.audioSingleChip.node);
-		newN.node.addChild(copy);
-		copy = copy.getComponent(cc.AudioSource);
-
-		newN.node.runAction(
-			cc.sequence(
-				cc.moveTo(0.4, cc.v2(x, y)).easing(cc.easeSineOut()),
-				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy)
-			));
+		newN.node.runAction(cc.moveTo(0.4, cc.v2(x, y)).easing(cc.easeSineOut()));
 	},
 	meChip: function (data) {
 		let nodeBet = null;
@@ -1246,16 +1236,10 @@ cc.Class({
 		let x = (Math.random() * (max.x + 1)) >> 0;
 		let y = (Math.random() * (max.y + 1)) >> 0;
 
-		// this.audioSingleChip.node
 		nodeBox.children[4].addChild(newN.node);
-
-		let copy = cc.instantiate(this.audioSingleChip.node);
-		newN.node.addChild(copy);
-		copy = copy.getComponent(cc.AudioSource);
 		newN.node.runAction(
 			cc.sequence(
 				cc.moveTo(0.3, cc.v2(x, y)).easing(cc.easeSineOut()),
-				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy),
 				cc.sequence(
 					cc.moveTo(0.1, cc.v2(x, y + 6)),
 					cc.moveTo(0.1, cc.v2(x, y))
