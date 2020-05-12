@@ -106,7 +106,9 @@ export default class RoundHistory extends cc.Component {
         }
 
         this.options.children.forEach((child, i) => {
-            child.children[0].active = i != this.currentOption;
+            var selected = i == this.currentOption;
+            child.children[0].active = !selected;
+            child.children[1].color = selected ? cc.color(165, 137, 35) : cc.color(178, 178, 178);
         });
     }
 
