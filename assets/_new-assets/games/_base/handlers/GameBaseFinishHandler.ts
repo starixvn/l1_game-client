@@ -60,7 +60,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     dealerPayChips(mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {
         _.forEach(winBetItems, item => {
-            this.main.betChips.payChipsToWinningBetItem(item.chipNode, mainRoomGame.dealerChipBox, item.chipRange);
+            this.main.betChips.payChipsToWinningBetItem(item.chipNode, mainRoomGame.dealerChipBox);
         });
     }
 
