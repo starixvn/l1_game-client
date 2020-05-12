@@ -26,7 +26,7 @@ export default class LogControl extends cc.Component {
         var previousResult = undefined;
         var rowMax = {};
         var colMax = 0;
-        var start = cc.v2(-this.itemSize.width / 2 + this.padding.width, - this.itemSize.height / 2 - this.padding.height);
+        var start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
         results.forEach((result, i) => {
             if (result == previousResult) {
                 var max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
