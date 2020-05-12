@@ -45,6 +45,8 @@ export default class BetChips extends cc.Component {
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 0.5;
 
+    private playerChips = [];
+
     onLoad() {
         this.setCurrentBet(this.defaultChip);
     }
@@ -133,7 +135,14 @@ export default class BetChips extends cc.Component {
         const yDest = _.random(0, destNode.height + 1);
 
         destNode.addChild(chipNode.node);
-        isLoginUserPlaceBet && this.playSingleChipsSound();
+
+        if (isLoginUserPlaceBet) {
+            this.playSingleChipsSound();
+        }
+        else {
+            !this.singleChipAudio.isPlaying && this.playSingleChipsSound();
+        }
+
         chipNode.node.runAction(
             this.moveChipTo(cc.v2(xDest, yDest), isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
     }
