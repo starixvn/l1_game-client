@@ -35,7 +35,7 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
         var sequence = cc.sequence(
             cc.callFunc(() => {
                 var index = shuffle[i];
-                this.main.kenoNumbers[index].setNumber(resultNumbers[index]);
+                this.main.kenoNumbers[index].setNumber(resultNumbers[index], true);
                 var total = 0;
                 for (var j = 0; j <= i; j++) {
                     total += resultNumbers[shuffle[j]];

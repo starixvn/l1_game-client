@@ -39,7 +39,7 @@ export default class KenoRoundResult extends cc.Component {
         this.resultLabels = this.settleResult.children.map(child => child.getComponent(cc.Label));
 
         for (let i = 0; i < this.result.length; i++) {
-            this.kenoNumbers[i].setNumber(this.result[i]);
+            this.kenoNumbers[i].setNumber(this.result[i], false);
             this.kenoNumbers[i].show(true);
         }
 

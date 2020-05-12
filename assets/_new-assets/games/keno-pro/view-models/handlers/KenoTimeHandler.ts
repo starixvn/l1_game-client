@@ -35,7 +35,7 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
                 var total = this.main.getTempTotal(resultNumbers, resultNumbers.length - 1);
                 this.main.totalResult.string = total.toString();
                 this.main.kenoNumbers.forEach((keno, index) => {
-                    keno.setNumber(resultNumbers[index]);
+                    keno.setNumber(resultNumbers[index], false);
                 })
 
                 this.highlightWonItem(true, results);
