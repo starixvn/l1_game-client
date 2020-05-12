@@ -18,6 +18,12 @@ import IGameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
 
 const { ccclass, property } = cc._decorator;
 
+export enum GameState {
+    None = 0,
+    Started,
+    Stopped,
+}
+
 @ccclass
 export default class GameBase extends cc.Component {
     @property({ type: BetItem })
@@ -57,6 +63,8 @@ export default class GameBase extends cc.Component {
     betChipsPrefab: cc.Prefab = null;
 
 
+
+    public state = GameState.None;
     public waitingProcessing = false;
     public disabledGame = false;
     public currentTimeRemaining: number;
@@ -228,10 +236,12 @@ export default class GameBase extends cc.Component {
 
     /** Clear all intervals and timeouts in game */
     protected stopGame() {
+        this.state = GameState.Stopped;
     }
 
     /** Register with game on server */
     protected startGame() {
+        this.state = GameState.Started;
     }
 
     public resetDataAndUI() {

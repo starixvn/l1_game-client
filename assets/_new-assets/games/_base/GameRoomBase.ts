@@ -1,4 +1,4 @@
-import GameBase from "./GameBase";
+import GameBase, { GameState } from "./GameBase";
 import RoomPlayer from "./RoomPlayer";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from '../../common/helpers/Helper';
@@ -101,6 +101,9 @@ export default class GameRoomBase extends GameBase {
     }
 
     showUmMessage(data: any) {
+        if (this.state == GameState.Stopped) {
+            return;
+        }
         this.stopGame();
         const message = data.um_message;
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
@@ -155,9 +158,7 @@ export default class GameRoomBase extends GameBase {
         this.playerHandler.handle(data);
 
         if (data.um) {
-            if (!this.noticeNode) {
-                this.showUmMessage(data);
-            }
+            this.showUmMessage(data);
         }
     }
 
