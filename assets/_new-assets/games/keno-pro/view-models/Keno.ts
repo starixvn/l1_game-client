@@ -23,6 +23,9 @@ export default class Keno extends GameRoomBase {
     @property(RoundHistory)
     roundHistory: RoundHistory = null;
 
+    @property(cc.Node)
+    tableNode: cc.Node = null;
+
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
@@ -62,7 +65,7 @@ export default class Keno extends GameRoomBase {
         cc.RedT.audio.playClick();
 
         var dialog = cc.instantiate(this.historyPrefab);
-        this.node.addChild(dialog);
+        this.tableNode.addChild(dialog);
     }
 
     public pressedShowGuide() {
