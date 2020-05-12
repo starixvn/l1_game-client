@@ -1,7 +1,7 @@
 
 import DataHandler from "./DataHandler";
 import GameRoomBase from "../GameRoomBase";
-import RoomPlayer from "../RoomPlayer";
+import RoomPlayer, { PlayerData } from "../RoomPlayer";
 import * as _ from "lodash";
 
 export default interface IGameBasePlayerHandler extends DataHandler {
@@ -29,9 +29,9 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
         return true;
     }
 
-    removePlayer(data: any) {
-        if (data.playerId) {
-            var slot = this.getPlayerSlot(data.playerId);
+    removePlayer(playerData: any) {
+        if (playerData.playerId) {
+            var slot = this.getPlayerSlot(playerData.playerId);
 
             if (slot) {
                 slot.setInfo(null);
@@ -44,28 +44,26 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
                     delete this.otherPlayers[newPlayer.id];
                 }
             } else {
-                delete this.otherPlayers[data.playerId];
+                delete this.otherPlayers[playerData.playerId];
             }
         }
     }
 
-    addPlayers(data) {
-        var players = Object.keys(data).map(key => data[key]);
-        var playerCount = this.main.players.length;
-        var length = players.length < playerCount ? players.length : playerCount;
+    addPlayers(playersData) {
+        var players: PlayerData[] = _.values(playersData);
+        var realPlayers = _.filter(players, player => !player.type);
+        var botPlayers = _.filter(players, player => player.type);
 
-        for (let i = 0; i < length; i++) {
-            let player = players[i];
-            this.main.players[i].setInfo(player);
-            delete data[player.id];
-        }
+        _.forEach(realPlayers, (player) => {
+            this.addPlayer(player);
+        })
 
-        if (players.length > playerCount) {
-            this.otherPlayers = data;
-        }
+        _.forEach(botPlayers, (player) => {
+            this.addPlayer(player);
+        })
     }
 
-    addPlayer(player) {
+    addPlayer(player: PlayerData) {
         var playerSlot = this.getPlayerSlot(player.id);
 
         if (!playerSlot) {
@@ -78,6 +76,24 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
                 this.otherPlayers[player.id] = player;
             }
         }
+
+    }
+
+    updateTablePlayers() {
+        var otherPlayers: any[] = _.values(this.otherPlayers);
+        var botsInTable = _.filter(this.main.players, player => player.data.type);
+        var realPlayers: PlayerData[] = _.filter(otherPlayers, player => !player.type);
+
+        _.forEach(botsInTable, (bot, index) => {
+            if (index <= realPlayers.length - 1) {
+                var realPlayer = realPlayers[index];
+                var botData = bot.data;
+                this.otherPlayers[botData.id] = botData;
+
+                bot.setInfo(realPlayer);
+                delete this.otherPlayers[realPlayer.id];
+            }
+        })
     }
 
     getPlayerSlot(playerId: string): RoomPlayer {

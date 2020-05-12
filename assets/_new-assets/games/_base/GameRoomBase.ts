@@ -6,6 +6,7 @@ import Notice from "../../common/notice/view-models/Notice";
 import GameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
 import IGameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
 import GameUtils from "../../common/GameUtils";
+import { GameBaseConfigs } from "./GameBaseConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -49,6 +50,7 @@ export default class GameRoomBase extends GameBase {
 
     currentMiniPanel: MiniPanel;
     playerHandler: IGameBasePlayerHandler;
+    private miniPanelScale: number;
 
     constructor() {
         super();
@@ -66,6 +68,11 @@ export default class GameRoomBase extends GameBase {
         super.onDestroy();
         cc.RedT.MiniPanel.destroy();
         cc.RedT.inGame = null;
+    }
+
+    init(gameName: string, gameConfigs: GameBaseConfigs, miniPanelScale: number = 0.8) {
+        super.init(gameName, gameConfigs);
+        this.miniPanelScale = miniPanelScale;
     }
 
 
@@ -124,7 +131,7 @@ export default class GameRoomBase extends GameBase {
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.userAvatar.node, false, bet, 1);
+        GameUtils.addFlyingText(this.userAvatar.node, false, bet, 1, 60);
     }
 
     protected onGameHide() {
@@ -158,8 +165,9 @@ export default class GameRoomBase extends GameBase {
         var miniPanel = cc.instantiate(this.miniPanelPrefab);
         this.currentMiniPanel = miniPanel.getComponent('MiniPanel');
         this.miniPanelContainer.addChild(miniPanel);
+
         if (!cc.sys.isMobile) {
-            miniPanel.scale = 0.8;
+            miniPanel.scale = this.miniPanelScale;
         }
     }
 

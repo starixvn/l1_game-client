@@ -2,6 +2,7 @@ import DataHandler from "./DataHandler";
 import GameBase from "../GameBase";
 import { numberPad } from "../../../common/helpers/Helper";
 import * as _ from "lodash";
+import GameRoomBase from "../GameRoomBase";
 
 export interface IGameBaseTimeHandler extends DataHandler {
     playTimeInterval: number;
@@ -69,6 +70,11 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         this.main.resetDataAndUI();
+        var mainRoomGame = this.main as GameRoomBase;
+
+        if (mainRoomGame) {
+            mainRoomGame.playerHandler.updateTablePlayers();
+        }
     }
 
     handleInRoundTime() {

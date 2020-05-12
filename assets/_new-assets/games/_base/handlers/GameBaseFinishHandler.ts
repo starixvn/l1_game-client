@@ -101,7 +101,7 @@ export default class GameBaseFinishHandler implements DataHandler {
                 });
 
                 playerSlot.increaseBalance(winningPlayerData.bet);
-                GameUtils.addFlyingText(playerSlot.node, true, bet, 3, 10);
+                GameUtils.addFlyingText(playerSlot.node, true, bet, 3, 0, 10);
                 this.playWinningEffect(mainRoomGame, playerSlot.node);
             }
         });

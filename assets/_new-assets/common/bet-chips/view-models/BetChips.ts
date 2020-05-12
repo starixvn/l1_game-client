@@ -38,7 +38,7 @@ export default class BetChips extends cc.Component {
     defaultChip = "1";
 
     public onChanged: OnChangedBet = (bet) => { };
-    public readonly chipFlyingTime: number = 0.8;
+    public readonly chipFlyingTime: number = 0.7;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 0.5;
 
@@ -97,7 +97,7 @@ export default class BetChips extends cc.Component {
     public payChipsToWinningBetItem(chipBox: cc.Node, dealerBox: cc.Node) {
         var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
         var dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
-        // cc.RedT.isSoundGame() && this.multiChipAudio.play();
+        cc.RedT.isSoundGame() && this.multiChipAudio.play();
 
         _.forEach(chipBox.children, chip => {
             var cloneChip = cc.instantiate(chip);
