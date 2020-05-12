@@ -134,10 +134,9 @@ export default class BetChips extends cc.Component {
 
         destNode.addChild(chipNode.node);
 
-
-        chipNode.node.runAction(cc.sequence(
-            this.moveChipTo(cc.v2(xDest, yDest), isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
-            cc.callFunc(() => isLoginUserPlaceBet && this.playSingleChipsSound())));
+        isLoginUserPlaceBet && this.playSingleChipsSound();
+        chipNode.node.runAction(
+            this.moveChipTo(cc.v2(xDest, yDest), isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
     }
 
     public initChips(chipsData: any, chipsBox: cc.Node) {
