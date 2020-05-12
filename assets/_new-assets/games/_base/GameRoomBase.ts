@@ -115,7 +115,7 @@ export default class GameRoomBase extends GameBase {
         var notice = noticePrefab.getComponent("Notice") as Notice;
         data.button = { text: 'Ok' };
         notice.init(data);
-        this.node.addChild(noticePrefab)
+        this.node.addChild(noticePrefab);
 
         return notice;
     }
