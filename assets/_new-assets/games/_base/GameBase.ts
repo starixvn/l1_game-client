@@ -15,6 +15,7 @@ import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 import IGameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
+import GameAudios from './GameAudios';
 
 const { ccclass, property } = cc._decorator;
 
@@ -62,6 +63,8 @@ export default class GameBase extends cc.Component {
     @property({ type: cc.Prefab, visible: function (this: GameBase) { return this.enableChips; } })
     betChipsPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    gameAudiosPrefab: cc.Prefab = null;
 
 
     public state = GameState.None;
@@ -84,7 +87,7 @@ export default class GameBase extends cc.Component {
 
     public betChips: BetChips;
     public currentBet: number;
-
+    public gameAudios: GameAudios;
     private dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
 
@@ -117,10 +120,10 @@ export default class GameBase extends cc.Component {
             this.logsHandler,
             this.finishHandler);
         this.initBetChips();
+        this.initGameAudios();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
-
 
     onDestroy() {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
@@ -233,6 +236,10 @@ export default class GameBase extends cc.Component {
         }
     }
 
+    protected initGameAudios() {
+        var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+        this.gameAudios = gameAudiosNode.getComponent("GameAudios") as GameAudios;
+    }
 
     /** Clear all intervals and timeouts in game */
     protected stopGame() {

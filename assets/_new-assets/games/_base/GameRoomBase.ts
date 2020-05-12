@@ -51,6 +51,7 @@ export default class GameRoomBase extends GameBase {
     currentMiniPanel: MiniPanel;
     playerHandler: IGameBasePlayerHandler;
     private miniPanelScale: number;
+    private currentNotice: Notice;
 
     constructor() {
         super();
@@ -74,7 +75,6 @@ export default class GameRoomBase extends GameBase {
         super.init(gameName, gameConfigs);
         this.miniPanelScale = miniPanelScale;
     }
-
 
     start() {
         cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
@@ -109,18 +109,28 @@ export default class GameRoomBase extends GameBase {
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
         var noticeData = { text: text, button: { text: "Ok" } };
         var notice = this.showNotice(noticeData)
-        notice.handleClickButton = this.closeGame;
-        notice.handleClose = this.closeGame;
+
+        var self = this;
+        notice.handleClickButton = () => {
+            self.closeGame();
+        }
+        notice.handleClose = () => {
+            self.closeGame();
+        }
     }
 
     showNotice(data): Notice {
+        if (this.currentNotice && this.currentNotice.node) {
+            return this.currentNotice;
+        }
+
         var noticePrefab = cc.instantiate(this.noticePrefab);
-        var notice = noticePrefab.getComponent("Notice") as Notice;
+        this.currentNotice = noticePrefab.getComponent("Notice") as Notice;
         data.button = { text: 'Ok' };
-        notice.init(data);
+        this.currentNotice.init(data);
         this.node.addChild(noticePrefab);
 
-        return notice;
+        return this.currentNotice;
     }
 
     closeGame() {
