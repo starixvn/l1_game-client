@@ -77,7 +77,7 @@ export default class KenoUserHistory extends cc.Component {
                     }
                 });
 
-                item.total.string = numberWithCommas(total);
+                item.total.string = total.toString();
                 item.big.string = numberWithCommas(dataT.big);
                 item.small.string = numberWithCommas(dataT.small);
                 item.odd.string = numberWithCommas(dataT.odd);
