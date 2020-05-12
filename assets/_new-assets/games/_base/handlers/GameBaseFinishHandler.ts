@@ -14,8 +14,8 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     handle(data: any): boolean {
         if (data.finish) {
-            this.main.gameAudios.playEndGameAudio();
             this.main.timeHandler.resetTime();
+            this.main.gameAudios.playEndGameAudio();
             this.handleFinishData(data.finish);
 
             setTimeout(() => this.payChips(data.finish.settlementResult, data.finish.winningPlayers), this.playResultAnimationTime * 1000);

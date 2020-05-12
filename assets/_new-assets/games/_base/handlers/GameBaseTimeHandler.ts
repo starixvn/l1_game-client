@@ -84,7 +84,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.animatedTime.setTime(time);
         this.main.animatedTime.node.active = true;
 
-        if (time <= this.main.config.stopBetTime) {
+        if (time > 0 && time <= this.main.config.stopBetTime) {
             this.main.gameAudios.playClockTickAudio();
         }
     }

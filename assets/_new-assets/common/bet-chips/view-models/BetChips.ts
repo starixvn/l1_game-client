@@ -133,7 +133,6 @@ export default class BetChips extends cc.Component {
         const yDest = _.random(0, destNode.height + 1);
 
         destNode.addChild(chipNode.node);
-
         isLoginUserPlaceBet && this.playSingleChipsSound();
         chipNode.node.runAction(
             this.moveChipTo(cc.v2(xDest, yDest), isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
