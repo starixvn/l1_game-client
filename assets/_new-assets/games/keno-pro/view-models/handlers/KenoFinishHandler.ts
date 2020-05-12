@@ -1,5 +1,6 @@
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import Keno from "../Keno";
+import * as _ from "lodash";
 
 export default class KenoFinishHandler extends GameBaseFinishHandler {
 
@@ -24,11 +25,22 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
         this.main.resultFrame.active = true;
         this.main.totalResult.string = "0";
         this.main.kenoNumbers.forEach(keno => keno.show(false));
+        var shuffle = [];
+        for (var i = 0; i < 20; i++) {
+            shuffle.push(i);
+        }
+        shuffle = _.shuffle(shuffle);
+
         var i = 0;
         var sequence = cc.sequence(
             cc.callFunc(() => {
-                this.main.kenoNumbers[i].setNumber(resultNumbers[i]);
-                this.main.totalResult.string = this.main.getTempTotal(resultNumbers, i).toString();
+                var index = shuffle[i];
+                this.main.kenoNumbers[index].setNumber(resultNumbers[index]);
+                var total = 0;
+                for (var j = 0; j <= i; j++) {
+                    total += resultNumbers[shuffle[j]];
+                }
+                this.main.totalResult.string = total.toString();
                 i++;
             }),
             cc.delayTime(this.playResultAnimationTime / 20)
