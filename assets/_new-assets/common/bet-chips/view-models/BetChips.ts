@@ -139,11 +139,10 @@ export default class BetChips extends cc.Component {
         var chipBets = Object.keys(chipsData);
 
         _.forEach(chipBets, (chipBet) => {
-            const xDest = _.random(0, range.x + 1);
-            const yDest = _.random(0, range.y + 1);
             var chipCountOfBet = chipsData[chipBet];
-
             for (var i = 0; i < chipCountOfBet; i++) {
+                const xDest = _.random(0, range.x + 1);
+                const yDest = _.random(0, range.y + 1);
                 var chip = this.createChip(new cc.Vec2(xDest, yDest), chipBet);
                 chipsBox.addChild(chip.node);
             }
