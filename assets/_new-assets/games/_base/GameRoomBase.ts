@@ -51,7 +51,6 @@ export default class GameRoomBase extends GameBase {
     currentMiniPanel: MiniPanel;
     playerHandler: IGameBasePlayerHandler;
     private miniPanelScale: number;
-    private currentNotice: Notice;
 
     constructor() {
         super();
@@ -101,10 +100,10 @@ export default class GameRoomBase extends GameBase {
     }
 
     showUmMessage(data: any) {
-        if (this.state == GameState.Stopped) {
+        if (this.gameState == GameState.Stopped) {
             return;
         }
-        this.stopGame();
+
         const message = data.um_message;
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
         var noticeData = { text: text, button: { text: "Ok" } };
@@ -120,17 +119,13 @@ export default class GameRoomBase extends GameBase {
     }
 
     showNotice(data): Notice {
-        if (this.currentNotice && this.currentNotice.node) {
-            return this.currentNotice;
-        }
-
         var noticePrefab = cc.instantiate(this.noticePrefab);
-        this.currentNotice = noticePrefab.getComponent("Notice") as Notice;
+        var notice = noticePrefab.getComponent("Notice") as Notice;
         data.button = { text: 'Ok' };
-        this.currentNotice.init(data);
+        notice.init(data);
         this.node.addChild(noticePrefab);
 
-        return this.currentNotice;
+        return notice;
     }
 
     closeGame() {

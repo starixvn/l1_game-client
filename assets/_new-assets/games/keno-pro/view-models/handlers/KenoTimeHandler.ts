@@ -9,9 +9,11 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
+
         if (!this.main.resultAnimating) {
             this.showResult(true);
         }
+
         if (this.main.currentTimeRemaining > this.main.config.betTime + 6) {
             this.main.timeWaitNode.active = false;
         }
@@ -19,6 +21,7 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
 
     handleInRoundTime() {
         super.handleInRoundTime();
+
         this.main.resultAnimating = false;
         this.showResult(false);
     }

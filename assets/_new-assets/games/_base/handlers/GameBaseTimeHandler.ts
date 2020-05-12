@@ -21,6 +21,9 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         if (data.remainingTime) {
             this.main.currentTimeRemaining = data.remainingTime - 1;
             this.playTime();
+            this.main.disabledGame = false;
+            this.main.hideUmMessage();
+            this.main.startGame();
             return true;
         }
     }
@@ -36,10 +39,11 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
         this.playTimeInterval = setInterval(() => {
             const isInWaitTime = this.main.currentTimeRemaining > this.main.config.betTime;
-            const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime + 1;
 
             if (isInWaitTime) {
                 this.handleWaitTime();
+                const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime + 1;
+
                 if (isStartingNewGameRound) {
                     this.handleStartingNewGameRound();
                 }

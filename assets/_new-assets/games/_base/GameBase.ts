@@ -67,7 +67,7 @@ export default class GameBase extends cc.Component {
     gameAudiosPrefab: cc.Prefab = null;
 
 
-    public state = GameState.None;
+    public gameState = GameState.None;
     public waitingProcessing = false;
     public disabledGame = false;
     public currentTimeRemaining: number;
@@ -186,8 +186,16 @@ export default class GameBase extends cc.Component {
     }
 
     showUmMessage(data: any) {
-        this.stopGame();
+        if (this.gameState == GameState.Stopped) {
+            return;
+        }
+
         this.umNotice && this.umNotice.show(data);
+    }
+
+    hideUmMessage() {
+        this.umNotice.hide();
+        this.disabledGame = false;
     }
 
     showMiniWarning(data) {
@@ -195,6 +203,27 @@ export default class GameBase extends cc.Component {
         var noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = data;
         this.noticeNode.addChild(notice);
+    }
+
+    /** Clear all intervals and timeouts in game */
+    stopGame() {
+        this.gameState = GameState.Stopped;
+        this.timeHandler.stopPlayTime();
+        this.resetDataAndUI();
+    }
+
+    /** Register with game on server */
+    startGame() {
+        this.gameState = GameState.Started; // TODO: Same disable game?
+    }
+
+    resetDataAndUI() {
+        _.forEach(this.betItems, item => {
+            item.clearBet();
+            item.resetHighlight();
+        });
+
+        this.statusHandler.currentStatusData = null;
     }
 
     protected onGameHide() {
@@ -239,25 +268,6 @@ export default class GameBase extends cc.Component {
     protected initGameAudios() {
         var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
         this.gameAudios = gameAudiosNode.getComponent("GameAudios") as GameAudios;
-    }
-
-    /** Clear all intervals and timeouts in game */
-    protected stopGame() {
-        this.state = GameState.Stopped;
-    }
-
-    /** Register with game on server */
-    protected startGame() {
-        this.state = GameState.Started;
-    }
-
-    public resetDataAndUI() {
-        _.forEach(this.betItems, item => {
-            item.clearBet();
-            item.resetHighlight();
-        });
-
-        this.statusHandler.currentStatusData = null;
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {

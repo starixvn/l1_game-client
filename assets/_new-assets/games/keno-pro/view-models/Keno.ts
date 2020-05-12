@@ -97,11 +97,6 @@ export default class Keno extends GameRoomBase {
     //#endregion
 
     //#region Private Methods
-    stopGame() {
-        super.stopGame();
-        this.resetDataAndUI();
-    }
-
     resetDataAndUI() {
         super.resetDataAndUI();
 
