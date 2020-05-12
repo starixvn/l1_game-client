@@ -120,7 +120,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         winningEffect.runAction(cc.sequence(
             cc.callFunc(() => { animation.play(); }),
-            cc.delayTime(3),
+            cc.delayTime(4),
             cc.callFunc(() => { winningEffect.destroy(); })));
     }
 }
