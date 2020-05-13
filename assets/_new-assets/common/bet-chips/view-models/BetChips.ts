@@ -139,9 +139,6 @@ export default class BetChips extends cc.Component {
         if (isLoginUserPlaceBet) {
             this.playSingleChipsSound();
         }
-        else {
-            !this.singleChipAudio.isPlaying && this.playSingleChipsSound();
-        }
 
         chipNode.node.runAction(
             this.moveChipTo(cc.v2(xDest, yDest), isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
