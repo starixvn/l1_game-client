@@ -1,5 +1,6 @@
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import Keno from "../Keno";
+import KenoTimeHandler from "./KenoTimeHandler";
 
 export default class KenoFinishHandler extends GameBaseFinishHandler {
 
@@ -24,6 +25,8 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
         this.main.roundResult.setData(resultNumbers, this.main.currentDataLogs[0].settlementResult);
         this.main.roundResult.show(true, this.playResultAnimationTime, () => {
             this.main.resultAnimating = false;
+            var handler = this.main.timeHandler as KenoTimeHandler;
+            handler.showResult(true);
         });
     }
 }

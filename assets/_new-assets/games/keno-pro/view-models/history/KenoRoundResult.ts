@@ -76,8 +76,10 @@ export default class KenoRoundResult extends cc.Component {
 
             this.node.runAction(cc.sequence(
                 cc.repeat(sequence, 20),
-                cc.callFunc(() => this.showSettleResult(this.settlementResult)),
-                cc.callFunc(() => onComplete())));
+                cc.callFunc(() => {
+                    this.showSettleResult(this.settlementResult);
+                    onComplete();
+                })));
         } else {
             var total = 0;
             for (let i = 0; i < this.result.length; i++) {
