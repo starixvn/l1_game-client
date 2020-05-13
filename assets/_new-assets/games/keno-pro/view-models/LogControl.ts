@@ -91,7 +91,7 @@ export default class LogControl extends cc.Component {
             }
         }
         var dot = cc.instantiate(this.itemNext);
-        dot.active = true;
+        dot.active = false;
         dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
         dot.addComponent(BlinkNode).interval = 0.5;
         this.content.addChild(dot);
@@ -101,7 +101,9 @@ export default class LogControl extends cc.Component {
     update() {
         if (this.main) {
             if (this.nextMark && this.nextMark.isValid) {
-                this.nextMark.active = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
+                if (this.main.currentTimeRemaining == this.main.config.stopBetTime - 1) {
+                    this.nextMark.active = true;
+                }
             }
         }
     }
