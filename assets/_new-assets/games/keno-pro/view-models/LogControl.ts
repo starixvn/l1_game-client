@@ -37,7 +37,7 @@ export default class LogControl extends cc.Component {
                 var max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
                 if (row < max - 1) {
                     row++;
-                } else if (max == 1) {
+                } else if (row == 0 && max == 1) {
                     col = nextCol;
                     nextCol++;
                 } else {
