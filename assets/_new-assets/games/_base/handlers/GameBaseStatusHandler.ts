@@ -35,9 +35,7 @@ export default class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
         this.timeout = setTimeout(() => {
             if (win) {
-                var mainGameRoom = this.main as GameRoomBase;
-                var noticeNode = mainGameRoom ? mainGameRoom.userAvatar.node : mainGameRoom.noticeNode;
-                GameUtils.addFlyingText(noticeNode, win, bet, 3, 0, 10);
+                this.main.showWinningBet(bet);;
 
                 cc.RedT.send({
                     user: {

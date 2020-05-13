@@ -81,8 +81,8 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
     updateTablePlayers() {
         var otherPlayers: any[] = _.values(this.otherPlayers);
-        var botsInTable = _.filter(this.main.players, player => player.data.type);
-        var realPlayers: PlayerData[] = _.filter(otherPlayers, player => !player.type);
+        var botsInTable = _.filter(this.main.players, player => player.data && player.data.type);
+        var realPlayers: PlayerData[] = _.filter(otherPlayers, player => player.data && !player.type);
 
         _.forEach(botsInTable, (bot, index) => {
             if (index <= realPlayers.length - 1) {

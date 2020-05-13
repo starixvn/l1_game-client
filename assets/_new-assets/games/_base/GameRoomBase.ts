@@ -139,7 +139,11 @@ export default class GameRoomBase extends GameBase {
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.userAvatar.node, false, bet, 1, 60);
+        GameUtils.addFlyingText(this.userAvatar.node.parent, false, bet, 1, 80);
+    }
+
+    showWinningBet(bet: number) {
+        GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, 3, 80, 10);
     }
 
     protected onGameHide() {
