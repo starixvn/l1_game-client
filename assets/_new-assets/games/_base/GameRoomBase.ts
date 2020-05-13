@@ -7,11 +7,15 @@ import GameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
 import IGameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
 import GameUtils from "../../common/GameUtils";
 import { GameBaseConfigs } from "./GameBaseConfig";
+import UmWarning from "../../common/um-warning/UmWarning";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameRoomBase extends GameBase {
+    @property({ type: UmWarning, visible: false, override: true })
+    umNotice: UmWarning = null;
+
     @property({ type: RoomPlayer })
     players: RoomPlayer[] = [];
 
@@ -164,7 +168,9 @@ export default class GameRoomBase extends GameBase {
     }
 
     protected onDataGameRoom(data: any) {
-        this.playerHandler.handle(data);
+        if (this.players && this.players.length > 0) {
+            this.playerHandler.handle(data);
+        }
     }
 
     protected loadMiniPanel() {
