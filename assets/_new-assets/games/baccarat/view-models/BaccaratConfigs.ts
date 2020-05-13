@@ -1,9 +1,7 @@
-import { GameConfigs } from "../../_base/view-models/GameConfigs";
+import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 
-export class BaccaratConfigs implements GameConfigs {
-    minBetTime: number = 0;
-    minBet: number;
-    maxBet: number;
+export class BaccaratConfigs implements GameBaseConfigs {
+    minBetTime = 1;
     fullTime = 45;
     betTime = 30;
     stopBetTime = 5;

@@ -18,14 +18,6 @@ export default class Baccarat extends GameRoomBase {
 
     cardsResource: any = null;
 
-    private readonly betOptionMapper = {
-        "big": 0,
-        "small": 1,
-        "tie": 2,
-        "banker": 3,
-        "player": 4
-    }
-
     constructor() {
         super();
 
