@@ -63,7 +63,17 @@ export default class LogControl extends cc.Component {
             this.content.addChild(dot);
         });
 
-        if (row < this.RowMax - 1) {
+        this.addNextMark(rowMax, row, col, colMax, nextCol, start);
+
+        this.content.width = Math.max(colMax * this.itemSize.width, this.node.width) + 2 * this.padding.width;
+        // this.content.height = this.RowMax * this.itemSize.height + 2 * this.padding.height;
+
+        this.content.position = cc.v2(-this.content.width, this.content.position.y);
+    }
+
+    private addNextMark(rowMax, row, col, colMax, nextCol, start) {
+        var max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
+        if (row < max - 1) {
             row++;
         } else {
             row = 0;
@@ -77,10 +87,5 @@ export default class LogControl extends cc.Component {
         dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
         dot.addComponent(BlinkNode).interval = 0.5;
         this.content.addChild(dot);
-
-        this.content.width = Math.max(colMax * this.itemSize.width, this.node.width) + 2 * this.padding.width;
-        // this.content.height = this.RowMax * this.itemSize.height + 2 * this.padding.height;
-
-        this.content.position = cc.v2(-this.content.width, this.content.position.y);
     }
 }
