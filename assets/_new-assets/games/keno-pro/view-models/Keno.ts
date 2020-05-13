@@ -5,20 +5,15 @@ import { KenoConfigs } from './KenoConfigs';
 import KenoNumber from './KenoNumber';
 import RoundHistory from './RoundHistory';
 import KenoLogsHandler from './handlers/KenoLogsHandler';
+import KenoRoundResult from "./history/KenoRoundResult";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Keno extends GameRoomBase {
 
-    @property(cc.Node)
-    resultFrame: cc.Node = null;
-
-    @property(cc.Label)
-    totalResult: cc.Label = null;
-
-    @property(cc.Node)
-    resultNumberNode: cc.Node = null;
+    @property(KenoRoundResult)
+    roundResult: KenoRoundResult = null;
 
     @property(RoundHistory)
     roundHistory: RoundHistory = null;
@@ -90,7 +85,6 @@ export default class Keno extends GameRoomBase {
 
         this.roundHistory.init(this);
         this.players.forEach(player => player.node.active = false);
-        this.kenoNumbers = this.resultNumberNode.children.map(child => child.getComponent(KenoNumber));
         this.setGameRound(0);
         this.resetDataAndUI();
         this.setOdds();
@@ -101,7 +95,7 @@ export default class Keno extends GameRoomBase {
     resetDataAndUI() {
         super.resetDataAndUI();
 
-        this.resultFrame.active = false;
+        this.roundResult.node.active = false;
         this.timeWaitNode.active = false;
         this.animatedTime.node.active = false;
     }

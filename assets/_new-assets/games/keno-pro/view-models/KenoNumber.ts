@@ -20,7 +20,7 @@ export default class KenoNumber extends cc.Component {
 
     onEnable() {
         if (this.animated) {
-            this.node.scale = 2;
+            this.node.scale = 1.5;
             this.node.runAction(cc.scaleTo(.3, 1).easing(cc.easeBounceOut()));
         }
     }

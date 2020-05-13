@@ -104,10 +104,9 @@ export default class KenoUserHistory extends cc.Component {
         let dialog = cc.instantiate(this.prefabRoundResult);
         this.roundResult = dialog.getComponent("KenoRoundResult");
         this.roundResult.round.string = round;
-        this.roundResult.total.string = total.toString();
-        this.roundResult.result = result;
-        this.roundResult.settlementResult = settlementResult;
         this.node.addChild(dialog);
+        this.roundResult.setData(result, settlementResult);
+        this.roundResult.show();
     }
 
     public hideRoundResult() {
