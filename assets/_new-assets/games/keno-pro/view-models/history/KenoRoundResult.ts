@@ -24,15 +24,15 @@ export default class KenoRoundResult extends cc.Component {
     private kenoNumbers: KenoNumber[] = [];
 
     private readonly choiceMapper = {
-        big: "Tài",
-        small: "Xỉu",
-        odd: "Lẻ",
-        even: "Chẵn",
-        gold: "Kim",
-        wood: "Mộc",
-        water: "Thủy",
-        fire: "Hỏa",
-        earth: "Thổ",
+        big: "TÀI",
+        small: "XỈU",
+        odd: "LẺ",
+        even: "CHẴN",
+        gold: "KIM",
+        wood: "MỘC",
+        water: "THỦY",
+        fire: "HỎA",
+        earth: "THỔ",
     };
 
     onLoad() {
