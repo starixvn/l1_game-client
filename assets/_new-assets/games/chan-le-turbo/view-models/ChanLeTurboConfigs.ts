@@ -1,6 +1,6 @@
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import { CLGameConfigs } from "../../chan-le/view-models/ChanLeConfigs";
 
-export default class ChanLeTurboConfigs implements GameBaseConfigs {
+export default class ChanLeTurboConfigs implements CLGameConfigs {
     stopBetTime: number = 5;
     fullTime: number = 36;
     betTime: number = 31;
