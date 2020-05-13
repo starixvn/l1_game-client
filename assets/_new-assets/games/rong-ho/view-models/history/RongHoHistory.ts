@@ -63,9 +63,9 @@ export default class RongHoHistory extends cc.Component {
                     card.string = this.cards[dataT.kq[j].card];
                 });
 
-                item.betDragon.string = nFormatter(dataT.dragon, 1);
-                item.betTiger.string = nFormatter(dataT.tiger, 1);
-                item.betDraw.string = nFormatter(dataT.tie, 1);
+                item.betDragon.string = numberWithCommas(dataT.dragon);
+                item.betTiger.string = numberWithCommas(dataT.tiger);
+                item.betDraw.string = numberWithCommas(dataT.tie);
 
                 var card1 = dataT.kq[0];
                 var card2 = dataT.kq[1];
