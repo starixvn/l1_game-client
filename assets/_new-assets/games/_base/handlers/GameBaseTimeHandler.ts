@@ -41,12 +41,14 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
             if (isInWaitTime) {
                 this.handleWaitTime();
-                const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime + 1;
+
+            } else {
+                const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime;
 
                 if (isStartingNewGameRound) {
                     this.handleStartingNewGameRound();
                 }
-            } else {
+
                 const isInRoundTime = this.main.currentTimeRemaining >= this.main.config.minBetTime;
 
                 if (isInRoundTime) {
@@ -85,7 +87,6 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.timeWaitNode.active = false;
         var time = numberPad(this.main.currentTimeRemaining, 2);
         this.main.animatedTime.setTime(time);
-        this.main.animatedTime.node.active = true;
 
         if (time > 0 && time <= this.main.config.stopBetTime) {
             this.main.gameAudios.playClockTickAudio();
