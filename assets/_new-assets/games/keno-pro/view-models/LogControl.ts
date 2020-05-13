@@ -35,6 +35,7 @@ export default class LogControl extends cc.Component {
         this.content.children.forEach(child => child.destroy());
 
         var col = 0, row = 0;
+        var maxX = 0;
         var nextCol = 1;
         var previousResult = undefined;
         var rowMax = {};
@@ -68,13 +69,15 @@ export default class LogControl extends cc.Component {
             dot.active = true;
 
             dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
+
+            maxX = Math.max(maxX, dot.position.x);
             this.content.addChild(dot);
         });
 
         this.addNextMark(rowMax, row, col, colMax, nextCol, start);
 
-        this.content.width = Math.max(colMax * this.itemSize.width, this.node.width) + 2 * this.padding.width;
-        // this.content.height = this.RowMax * this.itemSize.height + 2 * this.padding.height;
+        maxX = Math.max(maxX, this.nextMark.position.x);
+        this.content.width = Math.max(maxX + this.itemSize.width / 2, this.node.width) + 2 * this.padding.width;
 
         this.content.position = cc.v2(-this.content.width, this.content.position.y);
     }
