@@ -5,7 +5,6 @@ import * as _ from "lodash";
 import GameRoomBase from "../GameRoomBase";
 import BetItem from "../BetItem";
 import GameUtils from "../../../common/GameUtils";
-import RoomPlayer from "../RoomPlayer";
 
 export default class GameBaseFinishHandler implements DataHandler {
     constructor(
@@ -27,7 +26,6 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     handleFinishData(dataFinish) {
     }
-
 
     payChips(settlementResult: any, winningPlayers: any) {
         var mainRoomGame = this.main as GameRoomBase;

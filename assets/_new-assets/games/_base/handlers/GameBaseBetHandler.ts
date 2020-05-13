@@ -1,4 +1,3 @@
-
 import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
 import * as _ from "lodash";

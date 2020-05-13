@@ -1,8 +1,7 @@
 
 import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
-import GameUtils from "../../../common/GameUtils";
-import GameRoomBase from "../GameRoomBase";
+
 export default interface IGameBaseStatusHandler extends DataHandler {
     currentStatusData: any;
 }

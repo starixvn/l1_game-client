@@ -1,4 +1,3 @@
-
 import DataHandler from "./DataHandler";
 import GameBase from "../GameBase";
 
