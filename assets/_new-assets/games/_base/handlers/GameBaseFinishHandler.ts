@@ -79,7 +79,7 @@ export default class GameBaseFinishHandler implements DataHandler {
             }
         });
 
-        this.playWinningEffect(mainRoomGame, mainRoomGame.userAvatar.node);
+        this.playWinningEffect(mainRoomGame, mainRoomGame.userAvatar.node.parent);
     }
 
     payChipsToInGamePlayers(winningPlayers: any, mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {
