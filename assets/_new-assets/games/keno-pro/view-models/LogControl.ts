@@ -26,7 +26,6 @@ export default class LogControl extends cc.Component {
 
     private main: GameBase = null;
     private nextMark: cc.Node = null;
-    private colMax = 0;
 
     init(main: GameBase) {
         this.main = main;
@@ -39,6 +38,7 @@ export default class LogControl extends cc.Component {
         var nextCol = 1;
         var previousResult = undefined;
         var rowMax = {};
+        var colMax = 0;
         var start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
         results.forEach((result, i) => {
             if (result == previousResult) {
@@ -58,8 +58,8 @@ export default class LogControl extends cc.Component {
                 nextCol++;
             }
 
-            if (col > this.colMax) {
-                this.colMax = col;
+            if (col > colMax) {
+                colMax = col;
             }
 
             previousResult = result;
@@ -71,21 +71,23 @@ export default class LogControl extends cc.Component {
             this.content.addChild(dot);
         });
 
-        this.addNextMark(rowMax, row, col, nextCol, start);
+        this.addNextMark(rowMax, row, col, colMax, nextCol, start);
 
-        this.content.width = Math.max(this.colMax * this.itemSize.width, this.node.width) + 2 * this.padding.width;
+        this.content.width = Math.max(colMax * this.itemSize.width, this.node.width) + 2 * this.padding.width;
+        // this.content.height = this.RowMax * this.itemSize.height + 2 * this.padding.height;
+
         this.content.position = cc.v2(-this.content.width, this.content.position.y);
     }
 
-    private addNextMark(rowMax, row, col, nextCol, start) {
-        var max = rowMax.hasOwnProperty(col) ? rowMax[col] : rowMax;
+    private addNextMark(rowMax, row, col, colMax, nextCol, start) {
+        var max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
         if (row < max - 1) {
             row++;
         } else {
             row = 0;
             col = nextCol;
-            if (col > this.colMax) {
-                this.colMax = col;
+            if (col > colMax) {
+                colMax = col;
             }
         }
         var dot = cc.instantiate(this.itemNext);
