@@ -72,6 +72,7 @@ export default class RoundHistory extends cc.Component {
 
     public init(main: Keno) {
         this.main = main;
+        this.logControl.init(main);
     }
 
     public onOptionClick(event: cc.Component.EventHandler, game) {

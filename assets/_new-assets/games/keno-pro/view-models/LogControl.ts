@@ -1,4 +1,5 @@
 import BlinkNode from "../../../common/BlinkNode";
+import GameBase from "../../_base/GameBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,6 +23,13 @@ export default class LogControl extends cc.Component {
 
     @property(cc.Size)
     padding: cc.Size = new cc.Size(2, 2);
+
+    private main: GameBase = null;
+    private nextMark: cc.Node = null;
+
+    init(main: GameBase) {
+        this.main = main;
+    }
 
     public setData(results: number[]) {
         this.content.children.forEach(child => child.destroy());
@@ -87,5 +95,14 @@ export default class LogControl extends cc.Component {
         dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
         dot.addComponent(BlinkNode).interval = 0.5;
         this.content.addChild(dot);
+        this.nextMark = dot;
+    }
+
+    update() {
+        if (this.main) {
+            if (this.nextMark && this.nextMark.isValid) {
+                this.nextMark.active = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
+            }
+        }
     }
 }
