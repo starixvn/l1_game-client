@@ -41,11 +41,9 @@ export default class BetChips extends cc.Component {
     defaultChip = "1";
 
     public onChanged: OnChangedBet = (bet) => { };
-    public readonly chipFlyingTime: number = 0.7;
+    public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
-
-    private playerChips = [];
 
     onLoad() {
         this.setCurrentBet(this.defaultChip);
@@ -77,7 +75,7 @@ export default class BetChips extends cc.Component {
         });
     }
 
-    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, maxChips: number = 3, hideOnDestBox: boolean = true) {
+    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, maxChips: number = 3, hideOnDestBox: boolean = false) {
         var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
         var cloneChipsBox = cc.instantiate(chipsBox);
         cloneChipsBox.destroyAllChildren();
@@ -98,7 +96,7 @@ export default class BetChips extends cc.Component {
         }
 
         this.node.runAction(cc.sequence(
-            cc.delayTime(this.chipFlyingTime),
+            cc.delayTime(this.chipFlyingTime * 1.5),
             cc.callFunc(() => cloneChipsBox.destroy())
         ));
     }
@@ -199,7 +197,7 @@ export default class BetChips extends cc.Component {
 
     private destroyChip(chip: cc.Node) {
         this.node.runAction(cc.sequence(
-            cc.delayTime(this.chipFlyingTime),
+            cc.delayTime(this.chipFlyingTime * 1.5),
             cc.callFunc(() => chip.destroy())
         ));
     }
