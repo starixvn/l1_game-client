@@ -97,7 +97,10 @@ export default class BetChips extends cc.Component {
             }
         }
 
-        setTimeout(() => cloneChipsBox.destroy(), this.chipFlyingTime * 3000)
+        this.node.runAction(cc.sequence(
+            cc.delayTime(this.chipFlyingTime),
+            cc.callFunc(() => cloneChipsBox.destroy())
+        ));
     }
 
     private getRandomPositionChip(chip: cc.Node, box: cc.Node): cc.Vec2 {
@@ -179,7 +182,7 @@ export default class BetChips extends cc.Component {
             chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition));
         }
 
-        setTimeout(() => this.destroyChip(chip), this.chipFlyingTime);
+        this.destroyChip(chip);
     }
 
     private moveChipTo(position: cc.Vec2, time: number = this.chipFlyingTime): cc.ActionInterval {
@@ -195,9 +198,10 @@ export default class BetChips extends cc.Component {
     }
 
     private destroyChip(chip: cc.Node) {
-        setTimeout(() => {
-            chip.destroy();
-        }, this.chipFlyingTime * 1000);
+        this.node.runAction(cc.sequence(
+            cc.delayTime(this.chipFlyingTime),
+            cc.callFunc(() => chip.destroy())
+        ));
     }
 
     private updateSelectedBet(targetName: string) {
