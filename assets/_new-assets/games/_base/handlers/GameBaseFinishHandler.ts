@@ -7,6 +7,8 @@ import BetItem from "../BetItem";
 import GameUtils from "../../../common/GameUtils";
 
 export default class GameBaseFinishHandler implements DataHandler {
+    private readonly payChipFlyTime = 1.2;
+
     constructor(
         protected readonly main: GameBase, protected readonly playResultAnimationTime: number = 0) {
     }
@@ -78,7 +80,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         _.forEach(winBetItems, item => {
             if (betItems[item.node.name.toLowerCase()]) {
-                this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node);
+                this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node, this.payChipFlyTime);
             }
         });
 
@@ -109,7 +111,7 @@ export default class GameBaseFinishHandler implements DataHandler {
             if (playerSlot) {
                 _.forEach(winBetItems, item => {
                     if (playerBetItems && playerBetItems[item.node.name.toLowerCase()] > 0) {
-                        this.main.betChips.moveChipsWithRandomAmount(item.chipNode, playerSlot.avatar.node);
+                        this.main.betChips.moveChipsWithRandomAmount(item.chipNode, playerSlot.avatar.node, this.payChipFlyTime);
                     }
                 });
 

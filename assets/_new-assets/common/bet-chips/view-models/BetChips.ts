@@ -71,18 +71,22 @@ export default class BetChips extends cc.Component {
         var destBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(destBoxPosition);
 
         _.forEach(chipsBox.children, chip => {
-            this.startMoveChip(chip, destBoxInChipBoxSpacePosition, hideOnDestBox);
+            this.startMoveChip(chip, destBoxInChipBoxSpacePosition);
         });
     }
 
-    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, maxChips: number = 3, hideOnDestBox: boolean = false) {
+    public moveChipsWithRandomAmount(
+        chipsBox: cc.Node,
+        destBox: cc.Node,
+        flyTime: number = this.chipFlyingTime,
+        randomAmount: number = 3) {
         var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
         var cloneChipsBox = cc.instantiate(chipsBox);
         cloneChipsBox.destroyAllChildren();
         chipsBox.parent.addChild(cloneChipsBox);
 
         var destBoxInChipBoxSpacePosition = cloneChipsBox.convertToNodeSpaceAR(destBoxPosition);
-        var chipsCount = _.round(_.random(1, maxChips));
+        var chipsCount = _.round(_.random(1, randomAmount));
 
         for (var i = 0; i < chipsCount; i++) {
             var chip = chipsBox.children[i];
@@ -91,20 +95,14 @@ export default class BetChips extends cc.Component {
                 var cloneChip = cc.instantiate(chip);
                 cloneChipsBox.addChild(cloneChip);
                 chipsBox.removeChild(chip);
-                this.startMoveChip(cloneChip, destBoxInChipBoxSpacePosition, hideOnDestBox);
+                this.startMoveChip(cloneChip, destBoxInChipBoxSpacePosition, flyTime);
             }
         }
 
         this.node.runAction(cc.sequence(
-            cc.delayTime(this.chipFlyingTime * 1.5),
+            cc.delayTime(flyTime * 1.5),
             cc.callFunc(() => cloneChipsBox.destroy())
         ));
-    }
-
-    private getRandomPositionChip(chip: cc.Node, box: cc.Node): cc.Vec2 {
-        const xDest = _.random(Math.floor(chip.width / 4), Math.floor(box.width - chip.width / 2) + 1);
-        const yDest = _.random(Math.floor(chip.height / 4), Math.floor(box.height - chip.height / 2) + 1);
-        return cc.v2(xDest, yDest);
     }
 
     public payChipsToWinningBetItem(chipBox: cc.Node, dealerBox: cc.Node) {
@@ -170,21 +168,19 @@ export default class BetChips extends cc.Component {
         cc.RedT.isSoundGame() && this.singleChipAudio.play();
     }
 
-    private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, hideOnDestBox: boolean) {
-        if (hideOnDestBox) {
-            chip.runAction(cc.spawn(
-                this.moveChipTo(destBoxInChipBoxSpacePosition),
-                cc.fadeTo(this.chipFlyingTime * 3, 0)));
-        }
-        else {
-            chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition));
-        }
-
-        this.destroyChip(chip);
+    private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, flyTime: number = this.chipFlyingTime) {
+        chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition, flyTime));
+        this.destroyChip(chip, flyTime);
     }
 
     private moveChipTo(position: cc.Vec2, time: number = this.chipFlyingTime): cc.ActionInterval {
         return cc.moveTo(time, position).easing(cc.easeSineOut());
+    }
+
+    private getRandomPositionChip(chip: cc.Node, box: cc.Node): cc.Vec2 {
+        const xDest = _.random(Math.floor(chip.width / 4), Math.floor(box.width - chip.width / 2) + 1);
+        const yDest = _.random(Math.floor(chip.height / 4), Math.floor(box.height - chip.height / 2) + 1);
+        return cc.v2(xDest, yDest);
     }
 
     private createChip(position: cc.Vec2, bet): cc.Sprite {
@@ -195,9 +191,9 @@ export default class BetChips extends cc.Component {
         return chipSprite;
     }
 
-    private destroyChip(chip: cc.Node) {
+    private destroyChip(chip: cc.Node, delayTime: number) {
         this.node.runAction(cc.sequence(
-            cc.delayTime(this.chipFlyingTime * 1.5),
+            cc.delayTime(delayTime * 1.5),
             cc.callFunc(() => chip.destroy())
         ));
     }
