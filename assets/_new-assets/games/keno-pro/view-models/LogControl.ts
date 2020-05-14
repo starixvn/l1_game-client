@@ -1,5 +1,6 @@
 import BlinkNode from "../../../common/BlinkNode";
 import GameBase from "../../_base/GameBase";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,9 +27,11 @@ export default class LogControl extends cc.Component {
 
     private main: GameBase = null;
     private nextMark: cc.Node = null;
+    private finishHandler: GameBaseFinishHandler;
 
     init(main: GameBase) {
         this.main = main;
+        this.finishHandler = this.main.finishHandler as GameBaseFinishHandler;
     }
 
     public setData(results: number[]) {
@@ -104,7 +107,8 @@ export default class LogControl extends cc.Component {
     update() {
         if (this.main) {
             if (this.nextMark && this.nextMark.isValid) {
-                if (this.main.currentTimeRemaining == this.main.config.stopBetTime - 1) {
+                if (this.main.currentTimeRemaining < this.main.config.stopBetTime ||
+                    this.main.currentTimeRemaining > this.main.config.fullTime - this.finishHandler.getResultAnimationTime()) {
                     this.nextMark.active = true;
                 }
             }

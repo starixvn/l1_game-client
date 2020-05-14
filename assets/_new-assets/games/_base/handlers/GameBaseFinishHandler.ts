@@ -24,6 +24,10 @@ export default class GameBaseFinishHandler implements DataHandler {
         return true;
     }
 
+    public getResultAnimationTime() {
+        return this.playResultAnimationTime;
+    }
+
     handleFinishData(dataFinish) {
     }
 
