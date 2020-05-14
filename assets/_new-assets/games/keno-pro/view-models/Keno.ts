@@ -41,20 +41,9 @@ export default class Keno extends GameRoomBase {
 
     //#region Public Methods
     public onCuocClick(e) {
-        if (this.isStopGame) {
-            return;
-        }
-
-        if (this.waitingProcessing) {
-            this.showProcessingWarning(true);
-            return;
-        }
-
-        this.waitingProcessing = true;
-        var data = {
+        this.bet({
             bet: { amount: this.currentBet, box: e.target.name }
-        }
-        this.sendData(data);
+        });
     }
 
     public pressedHistoryDialog() {

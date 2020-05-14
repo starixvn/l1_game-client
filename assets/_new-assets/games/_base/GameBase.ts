@@ -237,6 +237,10 @@ export default class GameBase extends cc.Component {
     }
 
     protected bet(betData) {
+        if (this.isStopGame) {
+            return;
+        }
+
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
         }

@@ -41,7 +41,6 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
             if (isInWaitTime) {
                 this.handleWaitTime();
-
             } else {
                 const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime;
 
