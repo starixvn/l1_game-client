@@ -10,7 +10,6 @@ export default class GameBaseNoticeHandler implements DataHandler {
             return false;
         }
 
-        this.main.showProcessingWarning(false);
         this.main.showMiniWarning(data.notice);
         return true;
     }

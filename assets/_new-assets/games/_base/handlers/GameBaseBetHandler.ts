@@ -13,7 +13,6 @@ export default class GameBaseBetHandler implements DataHandler {
         }
 
         if (data.totalBets || data.ownBets) {
-            this.main.showProcessingWarning(false);
             this.main.betItems.forEach(item => item.setData(data));
         }
 
