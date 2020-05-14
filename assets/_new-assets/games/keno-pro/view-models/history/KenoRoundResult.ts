@@ -77,6 +77,16 @@ export default class KenoRoundResult extends cc.Component {
             this.node.runAction(cc.sequence(
                 cc.repeat(sequence, 20),
                 cc.callFunc(() => {
+                    this.total.node.runAction(cc.sequence(
+                        cc.scaleTo(.1, 1.2),
+                        cc.scaleTo(.1, 1)
+                    ));
+                    this.resultLabels.forEach(label => {
+                        label.node.runAction(cc.sequence(
+                            cc.scaleTo(.1, 1.2),
+                            cc.scaleTo(.1, 1)
+                        ));
+                    });
                     this.showSettleResult(this.settlementResult);
                     onComplete();
                 })));
@@ -124,8 +134,9 @@ export default class KenoRoundResult extends cc.Component {
         let index = 0;
         Object.keys(settlementResult).forEach(key => {
             if (settlementResult[key]) {
-                this.resultLabels[index].node.active = true;
-                this.resultLabels[index].string = this.choiceMapper[key];
+                var label = this.resultLabels[index];
+                label.node.active = true;
+                label.string = this.choiceMapper[key];
                 index++;
             }
         });
