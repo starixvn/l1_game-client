@@ -52,7 +52,7 @@ export default class Keno extends GameRoomBase {
 
         this.waitingProcessing = true;
         var data = {
-            cuoc: { cuoc: this.currentBet, box: e.target.name }
+            bet: { amount: this.currentBet, box: e.target.name }
         }
         this.sendData(data);
     }
