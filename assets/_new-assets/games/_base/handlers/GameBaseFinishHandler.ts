@@ -82,7 +82,15 @@ export default class GameBaseFinishHandler implements DataHandler {
             }
         });
 
-        this.playWinningEffect(mainRoomGame, mainRoomGame.userAvatar.node.parent);
+        var playerNode = mainRoomGame.userAvatar.node.parent;
+        GameUtils.addFlyingText(playerNode, true, statusData.bet, 3, 0, 10);
+        this.playWinningEffect(mainRoomGame, playerNode);
+
+        cc.RedT.send({
+            user: {
+                updateCoint: true
+            }
+        });
     }
 
     payChipsToInGamePlayers(winningPlayers: any, mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {
@@ -125,9 +133,10 @@ export default class GameBaseFinishHandler implements DataHandler {
         playerNode.addChild(winningEffect);
         var animation = winningEffect.getComponent(cc.Animation);
 
+        // console.log("duration anim ", animation.defaultClip.duration);
         winningEffect.runAction(cc.sequence(
             cc.callFunc(() => { animation.play(); }),
-            cc.delayTime(4),
+            cc.delayTime(3.6), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
             cc.callFunc(() => { winningEffect.destroy(); })));
     }
 }

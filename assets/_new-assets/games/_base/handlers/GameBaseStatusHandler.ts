@@ -1,6 +1,7 @@
 
 import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
+import GameRoomBase from "../GameRoomBase";
 
 export default interface IGameBaseStatusHandler extends DataHandler {
     currentStatusData: any;
@@ -28,6 +29,11 @@ export default class GameBaseStatusHandler implements IGameBaseStatusHandler {
     }
 
     status(win: boolean, bet: number): void {
+        var mainRoomGame = this.main as GameRoomBase;
+        if (mainRoomGame && mainRoomGame.enablePlaceChips) {
+            return;
+        }
+
         if (!cc.RedT.GAME_IS_SHOWED) {
             return;
         }
