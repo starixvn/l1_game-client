@@ -43,7 +43,7 @@ export default class BetChips extends cc.Component {
     public onChanged: OnChangedBet = (bet) => { };
     public readonly chipFlyingTime: number = 0.7;
     public readonly loginUserChipFlyingTime: number = 0.5;
-    public readonly chipDelayFlyingTime: number = 0.5;
+    public readonly chipDelayFlyingTime: number = 1.25;
 
     private playerChips = [];
 

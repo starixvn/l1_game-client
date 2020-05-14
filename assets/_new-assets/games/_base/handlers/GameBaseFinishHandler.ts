@@ -43,6 +43,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         this.main.node && this.main.node.runAction(
             cc.sequence(
+                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => this.dealerGetChips(mainRoomGame, lostBetItems)),
                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => this.dealerPayChips(mainRoomGame, winBetItems)),
