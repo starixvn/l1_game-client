@@ -83,7 +83,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         });
 
         var playerNode = mainRoomGame.userAvatar.node.parent;
-        GameUtils.addFlyingText(playerNode, true, statusData.bet, 3, 0, 10);
+        this.main.showWinningBet(statusData.bet);
         this.playWinningEffect(mainRoomGame, playerNode);
 
         cc.RedT.send({
