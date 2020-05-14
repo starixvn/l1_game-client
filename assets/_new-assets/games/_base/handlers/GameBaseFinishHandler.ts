@@ -48,11 +48,11 @@ export default class GameBaseFinishHandler implements DataHandler {
                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => this.dealerPayChips(mainRoomGame, winBetItems)),
                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                cc.callFunc(() => this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems)),
-                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                cc.callFunc(() => this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems)),
-                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                cc.callFunc(() => this.payChipsToOtherPlayers(mainRoomGame, winBetItems))
+                cc.callFunc(() => {
+                    this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems);
+                    this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
+                    this.payChipsToOtherPlayers(mainRoomGame, winBetItems);
+                }),
             )
         )
     }
@@ -136,7 +136,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         // console.log("duration anim ", animation.defaultClip.duration);
         winningEffect.runAction(cc.sequence(
             cc.callFunc(() => { animation.play(); }),
-            cc.delayTime(3.6), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
+            cc.delayTime(5.4), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
             cc.callFunc(() => { winningEffect.destroy(); })));
     }
 }
