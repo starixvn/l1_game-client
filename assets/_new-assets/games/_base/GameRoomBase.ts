@@ -46,20 +46,8 @@ export default class GameRoomBase extends GameBase {
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
 
-    @property
-    enablePlaceChips: boolean = false;
-
-    @property({ type: cc.Node, visible: function (this: GameRoomBase) { return this.enablePlaceChips; } })
-    dealerChipBox: cc.Node = null;
-
-    currentMiniPanel: MiniPanel;
     playerHandler: IGameBasePlayerHandler;
     private miniPanelScale: number;
-
-    constructor() {
-        super();
-        this.playerHandler = new GameBasePlayerHandler(this);
-    }
 
     onLoad() {
         super.onLoad();
@@ -74,12 +62,22 @@ export default class GameRoomBase extends GameBase {
         cc.RedT.inGame = null;
     }
 
-    init(gameName: string, gameConfigs: GameBaseConfigs, miniPanelScale: number = 0.8) {
-        super.init(gameName, gameConfigs);
+    init(gameName: string,
+        gameConfigs: GameBaseConfigs,
+        miniPanel: MiniPanel = null,
+        miniPanelScale: number = 0.8) {
+
+        super.init(gameName, gameConfigs, miniPanel);
         this.miniPanelScale = miniPanelScale;
     }
 
-    protected startGame() {
+    initHandlers() {
+        super.initHandlers();
+
+        this.playerHandler = new GameBasePlayerHandler(this);
+    }
+
+    start() {
         cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
     }
 

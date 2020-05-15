@@ -32,11 +32,17 @@ export default class Keno extends GameRoomBase {
 
     constructor() {
         super();
+
+
+        this.init("kenoProMax", new KenoConfigs());
+    }
+
+    initHandlers() {
+        super.initHandlers();
+
         this.finishHandler = new KenoFinishHandler(this);
         this.timeHandler = new KenoTimeHandler(this);
         this.logsHandler = new KenoLogsHandler(this);
-
-        this.init("kenoProMax", new KenoConfigs());
     }
 
     //#region Public Methods

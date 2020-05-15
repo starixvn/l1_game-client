@@ -16,6 +16,7 @@ import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 import IGameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
 import GameAudios from './GameAudios';
+import MiniPanel from '../../mini-games-panel/view-models/MiniPanel';
 
 const { ccclass, property } = cc._decorator;
 
@@ -63,6 +64,12 @@ export default class GameBase extends cc.Component {
     @property({ type: cc.Prefab, visible: function (this: GameBase) { return this.enableChips; } })
     betChipsPrefab: cc.Prefab = null;
 
+    @property({ visible: function (this: GameBase) { return this.enableChips; } })
+    enablePlaceChips: boolean = false;
+
+    @property({ type: cc.Node, visible: function (this: GameBase) { return this.enablePlaceChips; } })
+    dealerChipBox: cc.Node = null;
+
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
@@ -74,6 +81,7 @@ export default class GameBase extends cc.Component {
     public gameName: string;
     public currentDataLogs = [];
     public roundId = -1;
+    public currentMiniPanel: MiniPanel;
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
@@ -90,25 +98,14 @@ export default class GameBase extends cc.Component {
     private dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
 
-    constructor() {
-        super();
-
-        this.umHandler = new GameBaseUmDataHandler(this);
-        this.noticeHandler = new GameBaseNoticeHandler(this);
-        this.statusHandler = new GameBaseStatusHandler(this);
-        this.betHandler = new GameBaseBetHandler(this);
-        this.timeHandler = new GameBaseTimeHandler(this);
-        this.errorHandler = new GameBaseErrorHandler(this);
-        this.logsHandler = new GameBaseLogsHandler(this);
-        this.finishHandler = new GameBaseFinishHandler(this);
-    }
-
-    init(gameName: string, config: GameBaseConfigs) {
+    init(gameName: string, config: GameBaseConfigs, miniPanel: MiniPanel) {
         this.gameName = gameName;
         this.config = config;
+        this.currentMiniPanel = miniPanel;
     }
 
     onLoad() {
+        this.initHandlers();
         this.addHandlers(
             this.umHandler,
             this.noticeHandler,
@@ -127,8 +124,7 @@ export default class GameBase extends cc.Component {
     onDestroy() {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-        this.timeHandler.stopPlayTime();
-        this.statusHandler.clearTimeout();
+
     }
 
     onEnable() {
@@ -158,6 +154,26 @@ export default class GameBase extends cc.Component {
     closeGame() {
         cc.RedT.audio.playUnClick();
         this.node.active = false;
+    }
+
+    /** Clear all intervals and timeouts in game */
+    stopGame() {
+        this.gameState = GameState.Stopped;
+        this.clearIntervalAndTimeout();
+        this.resetDataAndUI();
+    }
+
+    /** Register with game on server */
+    protected startGame() {
+        this.gameState = GameState.Started;
+    }
+
+    sendData(payload: any) {
+        cc.RedT.send({
+            g: {
+                [this.gameName]: payload
+            }
+        });
     }
 
     showAcceptedBet(bet: number) {
@@ -207,16 +223,6 @@ export default class GameBase extends cc.Component {
         this.noticeNode.addChild(notice);
     }
 
-    /** Clear all intervals and timeouts in game */
-    stopGame() {
-        this.gameState = GameState.Stopped;
-        this.timeHandler.stopPlayTime();
-        this.resetDataAndUI();
-    }
-
-    /** Register with game on server */
-    protected startGame() {
-    }
 
     resetDataAndUI() {
         _.forEach(this.betItems, item => {
@@ -249,14 +255,6 @@ export default class GameBase extends cc.Component {
         }
     }
 
-    public sendData(payload: any) {
-        cc.RedT.send({
-            g: {
-                [this.gameName]: payload
-            }
-        });
-    }
-
     protected initBetChips() {
         if (this.enableChips) {
             var betChipsNode = cc.instantiate(this.betChipsPrefab);
@@ -275,7 +273,23 @@ export default class GameBase extends cc.Component {
         this.gameAudios = gameAudiosNode.getComponent("GameAudios") as GameAudios;
     }
 
+    protected initHandlers() {
+        this.umHandler = new GameBaseUmDataHandler(this);
+        this.noticeHandler = new GameBaseNoticeHandler(this);
+        this.statusHandler = new GameBaseStatusHandler(this);
+        this.betHandler = new GameBaseBetHandler(this);
+        this.timeHandler = new GameBaseTimeHandler(this);
+        this.errorHandler = new GameBaseErrorHandler(this);
+        this.logsHandler = new GameBaseLogsHandler(this);
+        this.finishHandler = new GameBaseFinishHandler(this);
+    }
+
     protected addHandlers(...handlers: DataHandler[]): void {
         this.dataHandlers.push(...handlers);
+    }
+
+    protected clearIntervalAndTimeout() {
+        this.timeHandler.stopPlayTime();
+        this.statusHandler.clearTimeout();
     }
 }
