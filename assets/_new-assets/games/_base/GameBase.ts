@@ -215,8 +215,7 @@ export default class GameBase extends cc.Component {
     }
 
     /** Register with game on server */
-    startGame() {
-        this.gameState = GameState.Started; // TODO: Same disable game?
+    protected startGame() {
     }
 
     resetDataAndUI() {

@@ -1,5 +1,5 @@
 import DataHandler from "./DataHandler";
-import GameBase from "../GameBase";
+import GameBase, { GameState } from "../GameBase";
 import { numberPad } from "../../../common/helpers/Helper";
 import * as _ from "lodash";
 import GameRoomBase from "../GameRoomBase";
@@ -22,7 +22,6 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             this.main.currentTimeRemaining = data.remainingTime - 1;
             this.playTime();
             this.main.hideUmMessage();
-            this.main.startGame();
             return true;
         }
     }
@@ -34,6 +33,8 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     playTime(): void {
+        this.main.gameState = GameState.Started;
+
         this.playTimeInterval && clearInterval(this.playTimeInterval);
 
         this.playTimeInterval = setInterval(() => {

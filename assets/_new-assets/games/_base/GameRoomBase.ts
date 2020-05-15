@@ -79,7 +79,7 @@ export default class GameRoomBase extends GameBase {
         this.miniPanelScale = miniPanelScale;
     }
 
-    start() {
+    protected startGame() {
         cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
     }
 
