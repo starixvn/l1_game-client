@@ -1,5 +1,5 @@
 import BaseDataHandler from "./BaseDataHandler";
-import DataHandler from "../../../../../common/_base/view-models/DataHandler";
+import DataHandler from "../../../../_base/handlers/DataHandler";
 import ChanLeMain from "../ChanLeMain";
 import { ITimeDataHandler } from "./TimeDataHandler";
 import { ILogsDataHandler } from "./LogsDataHandler";

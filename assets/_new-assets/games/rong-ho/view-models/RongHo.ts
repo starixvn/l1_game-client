@@ -1,7 +1,6 @@
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import * as helper from '../../../common/helpers/Helper';
-import DataHandler from "../../../common/_base/view-models/DataHandler";
-import { GameConfigs } from "./RongHoConfigs";
+import DataHandler from "../../_base/handlers/DataHandler";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import RHUMDataHandler from "./handlers/RHUMDataHandler";
 import RHGameTimeHandler from "./handlers/RHGameTimeHandler";
@@ -15,6 +14,7 @@ import GameUtils from "../../../common/GameUtils";
 import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
 import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
+import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -88,12 +88,15 @@ export default class RongHo extends cc.Component {
     processWarningPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    prefabNotice: cc.Prefab = null;
+    noticePrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    prefabHistory: cc.Prefab = null;
+    historyPrefab: cc.Prefab = null;
 
-    public config: GameConfigs
+    @property(cc.Prefab)
+    cardsPrefab: cc.Prefab = null;
+
+    public config: GameBaseConfigs
     public currentTimeRemaining: number;
     public disabledGame = false;
     public waitingCuoc = false;
@@ -103,19 +106,19 @@ export default class RongHo extends cc.Component {
     public history: RongHoHistory;
 
     private dots: cc.Sprite[];
-    private dataHandlers: DataHandler[] = []
+    private dataHandlers: DataHandler[] = [];
     private gameName: string;
     private miniPanel: MiniPanel;
     private processingWarning: cc.Node;
     private touchOffset = cc.v2(0, 0);
-    private timeInterval: number
+    private timeInterval: number;
     private statusTimeout: number;
     private cuoc: any;
     private resultAnimating = false;
-
+    private cardsUtil: any;
 
     //#region Public Methods
-    public init(miniPanel: MiniPanel, name: string, config: GameConfigs) {
+    public init(miniPanel: MiniPanel, name: string, config: GameBaseConfigs) {
         this.miniPanel = miniPanel; // MiniPanel
         this.gameName = name;
         this.config = config;
@@ -186,7 +189,7 @@ export default class RongHo extends cc.Component {
     public pressedHistoryDialog() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.prefabHistory);
+        var dialog = cc.instantiate(this.historyPrefab);
         this.history = dialog.getComponent("RongHoHistory");
         this.history.init(this);
         this.miniPanel.dialog.insertChild(dialog, 0);
@@ -220,6 +223,14 @@ export default class RongHo extends cc.Component {
         this.dots = [].concat.apply([], logNodes);
         this.setOddLabels();
         this.setPhienLabel(0);
+        this.initCards();
+        this.animatedTime.node.active = false;
+    }
+
+    private initCards() {
+        var cardsNode = cc.instantiate(this.cardsPrefab);
+        this.cardsUtil = cardsNode.getComponent("Card");
+        this.cardsUtil.init();
     }
 
     onEnable() {
@@ -382,7 +393,7 @@ export default class RongHo extends cc.Component {
     }
 
     addNotice(text) {
-        var notice = cc.instantiate(this.prefabNotice);
+        var notice = cc.instantiate(this.noticePrefab);
         var noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = text;
         this.notice.addChild(notice);
@@ -423,12 +434,12 @@ export default class RongHo extends cc.Component {
                 var card = this.cards[index];
                 card.node.active = true;
                 card.node.scaleX = 1;
-                card.spriteFrame = cc.RedT.util.card.getCard(data.card, data.type);
+                card.spriteFrame = this.cardsUtil.getCard(data.card, data.type);
             });
         } else {
             this.cards.forEach((card, index) => {
                 card.node.scaleX = 0;
-                card.spriteFrame = cc.RedT.util.card.cardB2;
+                card.spriteFrame = this.cardsUtil.cardB2;
             });
         }
     }
@@ -440,7 +451,7 @@ export default class RongHo extends cc.Component {
 
         this.resultCards.forEach((data, index) => {
             var card = this.cards[index];
-            card.spriteFrame = cc.RedT.util.card.getCard(data.card, data.type);
+            card.spriteFrame = this.cardsUtil.getCard(data.card, data.type);
         });
     }
 

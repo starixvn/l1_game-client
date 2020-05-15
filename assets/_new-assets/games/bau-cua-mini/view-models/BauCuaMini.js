@@ -178,6 +178,7 @@ cc.Class({
   },
   onLoad() {
     this.ttOffset = null;
+    this.animatedTime.node.active = false;
     this.animatedTime.setRedTime(BCConstants.stopBetTime);
     this.logNode.active = false;
     this.initChangerBet();

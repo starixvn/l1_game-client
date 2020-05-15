@@ -7,7 +7,7 @@ import ProcessingWarning from './../../../../common/processing-warning/view-mode
 import * as ScaleEffect from './../../../tai-xiu/view-models/main-page/TXScale';
 import AnimatedTime from './../../../../common/animated-time/view-models/AnimatedTime';
 import UMDataHandler from "./data-handlers/UMDataHandler";
-import DataHandler from '../../../../common/_base/view-models/DataHandler';
+import DataHandler from '../../../_base/handlers/DataHandler';
 import ErrorDataHandler from './data-handlers/ErrorDataHandler';
 import GameDataHandler from './data-handlers/GameDataHandler';
 import LogsDataHandler, { ILogsDataHandler } from './data-handlers/LogsDataHandler';
@@ -189,6 +189,7 @@ export default class ChanLeMain extends cc.Component {
     }
 
     onLoad() {
+        this.animatedTime.node.active = false;
         this.diceAnimation.on("finished", this.onDiceAnimationFinished, this);
         this.playCenterLight();
         this.logsDataHandler.initDotLogs();

@@ -11,9 +11,6 @@ export default class AnimatedTime extends cc.Component {
 
     private timeToChangeColor: number = 5;
     private changedColor: cc.Color = cc.Color.RED;
-    public onLoad() {
-        this.node.active = false;
-    }
 
     setRedTime(time: number) {
         this.timeToChangeColor = time;

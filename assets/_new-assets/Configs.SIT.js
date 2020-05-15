@@ -11,7 +11,8 @@ const configs = {
         TaiXiuTurbo: 4,
         ChanLe: 5,
         ChanLeTurbo: 6,
-        RongHo: 7
+        RongHo: 7,
+        KenoProMax: 8
     },
     gameNames: {
         1: "Tài Xỉu",
@@ -20,7 +21,8 @@ const configs = {
         4: "Tài Xỉu Siêu Tốc",
         5: "Chẵn Lẻ",
         6: "Chẳn Lẻ Siêu Tốc",
-        7: "Rồng Hổ"
+        7: "Rồng Hổ",
+        8: "Keno Pro Max"
     },
     sentryUrl: 'https://08d902b128ea45b6a11639833224f481@sentry.saba.vin/25',
     gameAnalytics: {

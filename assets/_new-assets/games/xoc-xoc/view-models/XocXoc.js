@@ -1,7 +1,6 @@
 
 let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
-import * as authManager from '../../../common/auth/AuthManager';
 import logger from '../../../common/logger';
 const sentryLogger = logger();
 
@@ -10,7 +9,6 @@ cc.Class({
 
 	properties: {
 		audioMoBat: cc.AudioSource,
-		audioSingleChip: cc.AudioSource,
 		audioMultiChip: cc.AudioSource,
 		audioXocDia: cc.AudioSource,
 
@@ -225,38 +223,14 @@ cc.Class({
 		if (void 0 !== data.xocxoc) {
 			this.xocxoc(data.xocxoc);
 		}
-		if (void 0 !== data.mini) {
-			cc.RedT.MiniPanel.onData(data.mini);
-		}
-		if (void 0 !== data.TopHu) {
-			cc.RedT.MiniPanel.TopHu.onData(data.TopHu);
-		}
-		if (void 0 !== data.taixiu) {
-			cc.RedT.MiniPanel.onDataTaiXiu(data.taixiu);
-		}
 
-		if (void 0 !== data.taixiu_turbo) {
-			cc.RedT.MiniPanel.onDataTaiXiuTurbo(data.taixiu_turbo);
-		}
-
-		if (data.chanle) {
-			cc.RedT.MiniPanel.onDataChanLe(data.chanle);
-		}
-
-		if (data.clturbo) {
-			cc.RedT.MiniPanel.onDataChanLeTurbo(data.clturbo);
-		}
+		cc.RedT.MiniPanel.onGeneralData(data);
 
 		if (data.kickedOut) {
 			this.closeProcessingWarningPopup();
-			cc.RedT.MiniPanel.onDataKickedOut(data.kickedOut);
 		}
 		if (data.apiError) {
 			this.closeProcessingWarningPopup();
-			cc.RedT.MiniPanel.onDataError(data);
-		}
-		if (data.reload) {
-			cc.RedT.MiniPanel.onForceReload();
 		}
 	},
 	backGame: function () {
@@ -1213,15 +1187,7 @@ cc.Class({
 
 		nodeBox.children[4].addChild(newN.node);
 
-		let copy = cc.instantiate(this.audioSingleChip.node);
-		newN.node.addChild(copy);
-		copy = copy.getComponent(cc.AudioSource);
-
-		newN.node.runAction(
-			cc.sequence(
-				cc.moveTo(0.4, cc.v2(x, y)).easing(cc.easeOut(3)),
-				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy)
-			));
+		newN.node.runAction(cc.moveTo(0.4, cc.v2(x, y)).easing(cc.easeSineOut()));
 	},
 	meChip: function (data) {
 		let nodeBet = null;
@@ -1270,16 +1236,10 @@ cc.Class({
 		let x = (Math.random() * (max.x + 1)) >> 0;
 		let y = (Math.random() * (max.y + 1)) >> 0;
 
-		// this.audioSingleChip.node
 		nodeBox.children[4].addChild(newN.node);
-
-		let copy = cc.instantiate(this.audioSingleChip.node);
-		newN.node.addChild(copy);
-		copy = copy.getComponent(cc.AudioSource);
 		newN.node.runAction(
 			cc.sequence(
-				cc.moveTo(0.3, cc.v2(x, y)).easing(cc.easeOut(3)),
-				cc.callFunc(function () { cc.RedT.isSoundGame() && this.play() }, copy),
+				cc.moveTo(0.3, cc.v2(x, y)).easing(cc.easeSineOut()),
 				cc.sequence(
 					cc.moveTo(0.1, cc.v2(x, y + 6)),
 					cc.moveTo(0.1, cc.v2(x, y))
@@ -1410,7 +1370,7 @@ cc.Class({
 
 	openGuide: function () {
 		let dialog = cc.instantiate(this.prefabGuide);
-		this.center.addChild(dialog);
+		this.redH.addChild(dialog);
 	},
 
 	openHistory: function () {

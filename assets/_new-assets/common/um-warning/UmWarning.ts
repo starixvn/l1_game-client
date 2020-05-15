@@ -12,4 +12,8 @@ export default class UmWarning extends cc.Component {
 
         this.node.active = true;
     }
+
+    hide() {
+        this.node.active = false;
+    }
 }
