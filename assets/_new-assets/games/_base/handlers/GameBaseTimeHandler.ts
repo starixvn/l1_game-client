@@ -70,6 +70,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
         this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
         this.main.animatedTime.node.active = false;
+        this.main.showProcessingWarning(false);
     }
 
     handleStartingNewGameRound() {
