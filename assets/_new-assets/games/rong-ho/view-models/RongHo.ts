@@ -224,7 +224,7 @@ export default class RongHo extends cc.Component {
         this.setOddLabels();
         this.setPhienLabel(0);
         this.initCards();
-
+        this.animatedTime.node.active = false;
     }
 
     private initCards() {

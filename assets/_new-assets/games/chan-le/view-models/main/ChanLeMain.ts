@@ -189,6 +189,7 @@ export default class ChanLeMain extends cc.Component {
     }
 
     onLoad() {
+        this.animatedTime.node.active = false;
         this.diceAnimation.on("finished", this.onDiceAnimationFinished, this);
         this.playCenterLight();
         this.logsDataHandler.initDotLogs();

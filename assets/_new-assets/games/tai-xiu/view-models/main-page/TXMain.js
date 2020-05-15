@@ -246,6 +246,7 @@ cc.Class({
     this.resetBetButtonText();
   },
   onLoad() {
+    this.AnimatedTime.node.active = false;
     this.waitingBetResponse = false;
     var self = this;
     this.ttOffset = null;
