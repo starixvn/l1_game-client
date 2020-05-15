@@ -129,6 +129,7 @@ export default class GameBase extends cc.Component {
 
     onEnable() {
         this.startGame();
+        this.registerViewGame();
     }
 
     onDisable() {
@@ -163,9 +164,12 @@ export default class GameBase extends cc.Component {
         this.resetDataAndUI();
     }
 
-    /** Register with game on server */
     protected startGame() {
         this.gameState = GameState.Started;
+    }
+
+    /** Register with game on server */
+    protected registerViewGame() {
     }
 
     sendData(payload: any) {
@@ -239,6 +243,7 @@ export default class GameBase extends cc.Component {
 
     protected onGameShow() {
         this.startGame();
+        this.registerViewGame();
     }
 
     protected bet(betData) {
