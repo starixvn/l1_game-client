@@ -2,6 +2,7 @@
 let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
 import logger from '../../../common/logger';
+// import BetChips from '../../../common/bet-chips/view-models/BetChips';
 const sentryLogger = logger();
 
 cc.Class({
@@ -88,7 +89,6 @@ cc.Class({
 			type: cc.Prefab
 		},
 
-		bet: cc.Node,
 		nodeRed: cc.Node,
 		nodeXu: cc.Node,
 
@@ -104,7 +104,8 @@ cc.Class({
 		avatar: cc.Sprite,
 		center: cc.Node,
 		winnerPrefab: cc.Prefab,
-		NoticePrefab: cc.Prefab
+		NoticePrefab: cc.Prefab,
+		betChips: cc.Node
 	},
 	ctor: function () {
 		this.logs = [];
@@ -180,6 +181,12 @@ cc.Class({
 		var MiniPanel = cc.instantiate(this.MiniPanel);
 		cc.RedT.MiniPanel = MiniPanel.getComponent('MiniPanel');
 		this.redH.insertChild(MiniPanel);
+
+		this.betChips = this.betChips.getComponent("BetChips");
+		this.betChips.init((bet) => {
+			this.cuoc = bet;
+		});
+		this.bet = this.betChips.chips;
 
 		this.logMain = this.logMain.children.map(function (obj) {
 			return obj.children[0].getComponent(cc.Sprite);
