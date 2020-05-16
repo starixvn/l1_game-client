@@ -40,18 +40,76 @@ export default class BetChips extends cc.Component {
     @property()
     defaultChip = "1";
 
+    @property(cc.Node)
+    leftButton: cc.Node = null;
+
+    @property(cc.Node)
+    rightButton: cc.Node = null;
+
+    @property
+    displaySize = 6;
+
     public onChanged: OnChangedBet = (bet) => { };
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
+    private startChipIndex = 0;
+    private chipList: cc.Node[] = [];
+    private positions: cc.Vec2[] = [];
 
     onLoad() {
+        this.leftButton.active = false;
         this.setCurrentBet(this.defaultChip);
+        this.chipList = this.chips.children;
+
+        this.positions = this.chips.children.map(chip => {
+            if (chip.active) {
+                return chip.position;
+            }
+        });
     }
 
     public init(onChanged: OnChangedBet) {
         this.onChanged = onChanged;
         this.setCurrentBet(this.defaultChip);
+    }
+
+    public onPrevious() {
+        this.rightButton.active = true;
+
+        this.startChipIndex -= this.displaySize;
+        if (this.startChipIndex < 0) {
+            this.startChipIndex = 0;
+            this.leftButton.active = false;
+        }
+        this.updateDisplay();
+
+        var item = this.chipList[this.startChipIndex + this.displaySize - 1].name;
+        this.setCurrentBet(item);
+    }
+
+    public onNext() {
+        this.leftButton.active = true;
+
+        this.startChipIndex += this.displaySize;
+        if (this.startChipIndex > this.chipList.length - this.displaySize) {
+            this.startChipIndex = this.chipList.length - this.displaySize;
+            this.rightButton.active = false;
+        }
+        this.updateDisplay();
+
+        var item = this.chipList[this.startChipIndex].name;
+        this.setCurrentBet(item);
+    }
+
+    updateDisplay() {
+        this.chipList.forEach((chip, index) => {
+            var active = index >= this.startChipIndex && index < this.startChipIndex + this.displaySize;
+            chip.active = active;
+            if (active) {
+                chip.position = this.positions[index - this.startChipIndex];
+            }
+        });
     }
 
     public onClickBet(event) {
@@ -202,7 +260,7 @@ export default class BetChips extends cc.Component {
         this.chips.children.map((chip) => {
             if (chip.name == targetName) {
                 chip.children[0].active = true;
-                chip.zIndex = 2;
+                // chip.zIndex = 2;
                 cc.tween(chip)
                     .to(0.2, {
                         scale: 1.15,
@@ -211,7 +269,7 @@ export default class BetChips extends cc.Component {
                     .start();
             } else {
                 chip.children[0].active = false;
-                chip.zIndex = 1;
+                // chip.zIndex = 1;
                 cc.tween(chip)
                     .to(0.2, {
                         scale: 1,
