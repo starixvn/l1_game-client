@@ -1,5 +1,6 @@
 const { ccclass, property } = cc._decorator;
 import * as _ from 'lodash';
+import SnappedScrollView from './SnappedScrollView';
 type OnChangedBet = (bet: string) => void;
 
 @ccclass
@@ -40,6 +41,9 @@ export default class BetChips extends cc.Component {
     @property()
     defaultChip = "1";
 
+    @property(SnappedScrollView)
+    snappedScrollView: SnappedScrollView = null;
+
     @property(cc.Node)
     leftButton: cc.Node = null;
 
@@ -55,18 +59,11 @@ export default class BetChips extends cc.Component {
     public readonly chipDelayFlyingTime: number = 1.25;
     private startChipIndex = 0;
     private chipList: cc.Node[] = [];
-    private positions: cc.Vec2[] = [];
 
     onLoad() {
         this.leftButton.active = false;
         this.setCurrentBet(this.defaultChip);
         this.chipList = this.chips.children;
-
-        this.positions = this.chips.children.map(chip => {
-            if (chip.active) {
-                return chip.position;
-            }
-        });
     }
 
     public init(onChanged: OnChangedBet) {
@@ -82,7 +79,8 @@ export default class BetChips extends cc.Component {
             this.startChipIndex = 0;
             this.leftButton.active = false;
         }
-        this.updateDisplay();
+        this.snappedScrollView.scrollTo(this.startChipIndex);
+
 
         var item = this.chipList[this.startChipIndex + this.displaySize - 1].name;
         this.setCurrentBet(item);
@@ -96,20 +94,21 @@ export default class BetChips extends cc.Component {
             this.startChipIndex = this.chipList.length - this.displaySize;
             this.rightButton.active = false;
         }
-        this.updateDisplay();
+        this.snappedScrollView.scrollTo(this.startChipIndex);
 
         var item = this.chipList[this.startChipIndex].name;
         this.setCurrentBet(item);
     }
 
     updateDisplay() {
-        this.chipList.forEach((chip, index) => {
-            var active = index >= this.startChipIndex && index < this.startChipIndex + this.displaySize;
-            chip.active = active;
-            if (active) {
-                chip.position = this.positions[index - this.startChipIndex];
-            }
-        });
+        var percent = this.snappedScrollView.getPercent();
+        this.leftButton.active = percent > 0;
+        this.rightButton.active = percent < 1;
+    }
+
+    update() {
+        this.startChipIndex = this.snappedScrollView.getMinDisplayIndex();
+        this.updateDisplay();
     }
 
     public onClickBet(event) {
