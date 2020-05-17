@@ -19,4 +19,10 @@ export default class MiniSedie extends GameBase {
         super.onDisable();
         cc.RedT.removeDataObserver(this.gameName);
     }
+
+    public onBetItemClick(e) {
+        this.bet({
+            bet: { amount: this.currentBet, box: e.target.name }
+        });
+    }
 }

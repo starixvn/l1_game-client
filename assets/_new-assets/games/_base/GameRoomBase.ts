@@ -49,6 +49,11 @@ export default class GameRoomBase extends GameBase {
     playerHandler: IGameBasePlayerHandler;
     private miniPanelScale: number;
 
+    constructor() {
+        super();
+        this.isRoomGame = true;
+    }
+
     onLoad() {
         super.onLoad();
         cc.RedT.inGame = this;

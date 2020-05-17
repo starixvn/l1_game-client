@@ -74,6 +74,7 @@ export default class GameBase extends cc.Component {
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
+
     public gameState = GameState.None;
     public get isStopGame() { return this.gameState === GameState.Stopped; }
     public waitingProcessing = false;
@@ -99,6 +100,7 @@ export default class GameBase extends cc.Component {
     public gameAudios: GameAudios;
     private dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
+    public isRoomGame: boolean = false;
 
     init(gameName: string, config: GameBaseConfigs, miniPanel: MiniPanel) {
         this.gameName = gameName;
