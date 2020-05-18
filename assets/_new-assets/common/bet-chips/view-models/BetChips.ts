@@ -17,26 +17,8 @@ export default class BetChips extends cc.Component {
     @property(cc.AudioSource)
     betChipClickAudio: cc.AudioSource = null;
 
-    @property(cc.SpriteFrame)
-    chip1: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip5: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip10: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip50: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip100: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip200: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip500: cc.SpriteFrame = null;
+    @property(cc.SpriteAtlas)
+    chipAltas: cc.SpriteAtlas = null;
 
     @property()
     defaultChip = "1";
@@ -60,13 +42,13 @@ export default class BetChips extends cc.Component {
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
-    private minDisplayIndex = 0;
+    private selectedIndex = 0;
     private chipList: cc.Node[] = [];
 
     onLoad() {
         this.leftButton.active = false;
+        this.chipList = [...this.chips.children];
         this.setCurrentBet(this.defaultChip);
-        this.chipList = this.chips.children;
     }
 
     public init(onChanged: OnChangedBet) {
@@ -75,52 +57,46 @@ export default class BetChips extends cc.Component {
     }
 
     public onPrevious() {
-        this.rightButton.active = true;
-        this.minDisplayIndex = this.snappedScrollView.getMinDisplayIndex();
-
-        this.minDisplayIndex -= this.movingStep;
-        if (this.minDisplayIndex < 0) {
-            this.minDisplayIndex = 0;
-            this.leftButton.active = false;
-        }
-        this.snappedScrollView.scrollTo(this.minDisplayIndex);
-
-
-        var item = this.chipList[this.minDisplayIndex + this.displaySize - 1].name;
-        this.setCurrentBet(item);
+        this.selectedIndex -= this.movingStep;
+        this.scrollToSelectedIndex();
     }
 
     public onNext() {
-        this.leftButton.active = true;
-        this.minDisplayIndex = this.snappedScrollView.getMinDisplayIndex();
+        this.selectedIndex += this.movingStep;
+        this.scrollToSelectedIndex();
+    }
 
-        this.minDisplayIndex += this.movingStep;
-        if (this.minDisplayIndex > this.chipList.length - this.displaySize) {
-            this.minDisplayIndex = this.chipList.length - this.displaySize;
+    private scrollToSelectedIndex() {
+        this.leftButton.active = true;
+        this.rightButton.active = true;
+
+        if (this.selectedIndex <= 0) {
+            this.selectedIndex = 0;
+            this.leftButton.active = false;
+        } else if (this.selectedIndex >= this.chipList.length - 1) {
+            this.selectedIndex = this.chipList.length - 1;
             this.rightButton.active = false;
         }
-        this.snappedScrollView.scrollTo(this.minDisplayIndex);
 
-        var item = this.chipList[this.minDisplayIndex].name;
+        var min = this.snappedScrollView.getMinDisplayIndex();
+        if (this.selectedIndex < min || this.selectedIndex > min + this.displaySize - 2) {
+            this.snappedScrollView.scrollTo(this.selectedIndex);
+        }
+        var item = this.chipList[this.selectedIndex].name;
         this.setCurrentBet(item);
-    }
-
-    updateDisplay() {
-        var percent = this.snappedScrollView.getPercent();
-        this.leftButton.active = percent > 0;
-        this.rightButton.active = percent < 1;
-    }
-
-    update() {
-        this.minDisplayIndex = this.snappedScrollView.getMinDisplayIndex();
-        this.updateDisplay();
     }
 
     public onClickBet(event) {
         var bet = event.target.name;
-        this.updateSelectedBet(bet);
         this.betChipClickAudio.play();
-        this.onChanged(bet);
+        var i = 0;
+        for (; i < this.chipList.length; i++) {
+            if (this.chipList[i].name == bet) {
+                break;
+            }
+        }
+        this.selectedIndex = i;
+        this.scrollToSelectedIndex();
     }
 
     public setCurrentBet(bet: string) {
@@ -248,7 +224,8 @@ export default class BetChips extends cc.Component {
     private createChip(position: cc.Vec2, bet): cc.Sprite {
         var chip = new cc.Node();
         var chipSprite = chip.addComponent(cc.Sprite);
-        chipSprite.spriteFrame = this['chip' + bet];
+        var name = `chip${bet}_small`;
+        chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
         chipSprite.node.position = position;
         return chipSprite;
     }
@@ -264,7 +241,7 @@ export default class BetChips extends cc.Component {
         this.chips.children.map((chip) => {
             if (chip.name == targetName) {
                 chip.children[0].active = true;
-                // chip.zIndex = 2;
+                chip.zIndex = 2;
                 cc.tween(chip)
                     .to(0.2, {
                         scale: 1.15,
@@ -273,7 +250,7 @@ export default class BetChips extends cc.Component {
                     .start();
             } else {
                 chip.children[0].active = false;
-                // chip.zIndex = 1;
+                chip.zIndex = 1;
                 cc.tween(chip)
                     .to(0.2, {
                         scale: 1,

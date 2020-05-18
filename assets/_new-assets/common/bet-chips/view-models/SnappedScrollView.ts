@@ -3,7 +3,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SnappedScrollView extends cc.Component {
     @property
-    itemSize: number = 10;
+    itemSize: number = 85;
 
     @property
     spacing: number = 8;
