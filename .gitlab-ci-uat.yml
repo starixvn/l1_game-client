@@ -3,7 +3,11 @@ uat_deploy_web:
   environment:
     name: UAT
     url: http://uat.saba.vin/
-  only:
-    - /^l1-deploy-uat-web-\d{8}-\d+.*$/
-    - /^l1-deploy-web-\d{8}-\d+.*$/
-    - /^l1-deploy-\d{8}-\d+.*$/
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^l1-deploy-uat-web-\d{8}-\d+.*$/
+      when: always
+    - if: $CI_COMMIT_TAG =~ /^l1-deploy-web-\d{8}-\d+.*$/
+      when: always
+    - if: $CI_COMMIT_TAG =~ /^l1-deploy-\d{8}-\d+.*$/
+      when: always
+    - when: never

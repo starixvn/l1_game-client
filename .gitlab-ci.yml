@@ -37,12 +37,9 @@ build:
     - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true;sourceMaps=true"
   tags:
     - deploy-cocos-web-mobile
-  only:
-    - master
-  artifacts:
-    paths:
-      - ./build/web-mobile/
-    expire_in: 1 day
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: manual
 
 include:
   - local: .gitlab-ci-push-git-compiled-web.yml

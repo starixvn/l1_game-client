@@ -36,9 +36,9 @@ prod_deploy_web:
     name: PRO
     url: http://www.saba.club/
   needs: ["build"]
-  when: manual
-  only:
-    - master
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: manual
 
 sentry_release:
   image: getsentry/sentry-cli
@@ -61,6 +61,6 @@ sentry_release:
   needs: ["prod_deploy_web", "build"]
   dependencies: 
     - build
-  only:
-    - master
-  
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: manual
