@@ -150,6 +150,10 @@ export function triggerSignIn(mainGame, loading) {
             clearTimeout(autoTriggerSignInTimeout);
         }
 
+        if (loading) {
+            loading.active = true;
+        }
+
         autoTriggerSignInTimeout = setTimeout(() => {
             if (mainGame) {
                 mainGame.auth({
@@ -159,10 +163,6 @@ export function triggerSignIn(mainGame, loading) {
                         data: window.authData
                     }
                 });
-            }
-
-            if (loading) {
-                loading.active = false;
             }
         }, 500);
     }

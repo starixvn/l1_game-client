@@ -156,6 +156,9 @@ cc.Class({
         if (data.user.name) {
           const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
           sentryLogger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
+          if (this.loading) {
+            this.loading.active = false;
+          }
         }
       } catch (ex) { console.log(ex) }
     }
