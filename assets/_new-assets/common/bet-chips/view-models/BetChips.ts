@@ -53,11 +53,14 @@ export default class BetChips extends cc.Component {
     @property
     displaySize = 6;
 
+    @property
+    movingStep = 1;
+
     public onChanged: OnChangedBet = (bet) => { };
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
-    private startChipIndex = 0;
+    private minDisplayIndex = 0;
     private chipList: cc.Node[] = [];
 
     onLoad() {
@@ -73,30 +76,32 @@ export default class BetChips extends cc.Component {
 
     public onPrevious() {
         this.rightButton.active = true;
+        this.minDisplayIndex = this.snappedScrollView.getMinDisplayIndex();
 
-        this.startChipIndex -= this.displaySize;
-        if (this.startChipIndex < 0) {
-            this.startChipIndex = 0;
+        this.minDisplayIndex -= this.movingStep;
+        if (this.minDisplayIndex < 0) {
+            this.minDisplayIndex = 0;
             this.leftButton.active = false;
         }
-        this.snappedScrollView.scrollTo(this.startChipIndex);
+        this.snappedScrollView.scrollTo(this.minDisplayIndex);
 
 
-        var item = this.chipList[this.startChipIndex + this.displaySize - 1].name;
+        var item = this.chipList[this.minDisplayIndex + this.displaySize - 1].name;
         this.setCurrentBet(item);
     }
 
     public onNext() {
         this.leftButton.active = true;
+        this.minDisplayIndex = this.snappedScrollView.getMinDisplayIndex();
 
-        this.startChipIndex += this.displaySize;
-        if (this.startChipIndex > this.chipList.length - this.displaySize) {
-            this.startChipIndex = this.chipList.length - this.displaySize;
+        this.minDisplayIndex += this.movingStep;
+        if (this.minDisplayIndex > this.chipList.length - this.displaySize) {
+            this.minDisplayIndex = this.chipList.length - this.displaySize;
             this.rightButton.active = false;
         }
-        this.snappedScrollView.scrollTo(this.startChipIndex);
+        this.snappedScrollView.scrollTo(this.minDisplayIndex);
 
-        var item = this.chipList[this.startChipIndex].name;
+        var item = this.chipList[this.minDisplayIndex].name;
         this.setCurrentBet(item);
     }
 
@@ -107,7 +112,7 @@ export default class BetChips extends cc.Component {
     }
 
     update() {
-        this.startChipIndex = this.snappedScrollView.getMinDisplayIndex();
+        this.minDisplayIndex = this.snappedScrollView.getMinDisplayIndex();
         this.updateDisplay();
     }
 
