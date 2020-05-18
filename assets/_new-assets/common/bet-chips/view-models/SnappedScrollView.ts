@@ -28,7 +28,7 @@ export default class SnappedScrollView extends cc.Component {
     }
 
     onScroll(scroll: cc.ScrollView, eventType) {
-        if (eventType == 9) {
+        if (eventType == cc.ScrollView.EventType.TOUCH_UP) {
             var percent = this.getPercent();
             for (var i = 0; i < this.calculatedPercent.length; i++) {
                 var delta = percent - this.calculatedPercent[i];
@@ -45,13 +45,9 @@ export default class SnappedScrollView extends cc.Component {
         }
     }
 
-    stopScroll() {
-        this.scroll.stopAutoScroll();
-    }
-
     scrollTo(index: number) {
         this.minDisplayIndex = index;
-        this.scroll.scrollToPercentHorizontal(this.calculatedPercent[index], 0);
+        this.scroll.scrollToPercentHorizontal(this.calculatedPercent[index], 0.3);
     }
 
     getPercent(): number {
