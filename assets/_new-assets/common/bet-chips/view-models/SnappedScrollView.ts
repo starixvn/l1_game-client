@@ -38,16 +38,7 @@ export default class SnappedScrollView extends cc.Component {
             }
             this.scrollBegan = false;
             var percent = this.getPercent();
-            for (var i = 0; i < this.calculatedPercent.length; i++) {
-                var delta = percent - this.calculatedPercent[i];
-                if (delta < 0) {
-                    break;
-                }
-                if (this.calculatedPercent[i] == 1) {
-                    break;
-                }
-                this.minDisplayIndex = i;
-            }
+            this.calculateMinDisplayIndex(percent);
 
             this.scrollTo(this.minDisplayIndex);
             this.onScrollEnded();
@@ -57,8 +48,21 @@ export default class SnappedScrollView extends cc.Component {
         }
     }
 
+    calculateMinDisplayIndex(percent: number) {
+        for (var i = 0; i < this.calculatedPercent.length; i++) {
+            var delta = percent - this.calculatedPercent[i];
+            if (delta < 0) {
+                break;
+            }
+            if (this.calculatedPercent[i] == 1) {
+                break;
+            }
+            this.minDisplayIndex = i;
+        }
+    }
+
     scrollTo(index: number) {
-        this.minDisplayIndex = index;
+        this.calculateMinDisplayIndex(this.calculatedPercent[index]);
         this.scroll.scrollToPercentHorizontal(this.calculatedPercent[index], 0.3);
     }
 
