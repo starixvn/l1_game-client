@@ -56,6 +56,8 @@ export default class BetChips extends cc.Component {
             } else if (this.selectedIndex > min + this.displaySize - 1) {
                 this.selectedIndex = min + this.displaySize - 1;
             }
+            this.updateArrowVisibility();
+
             var item = this.chipList[this.selectedIndex].name;
             this.setCurrentBet(item);
         };
@@ -76,10 +78,9 @@ export default class BetChips extends cc.Component {
         this.scrollToSelectedIndex();
     }
 
-    private scrollToSelectedIndex() {
+    private updateArrowVisibility() {
         this.leftButton.active = true;
         this.rightButton.active = true;
-
         if (this.selectedIndex <= 0) {
             this.selectedIndex = 0;
             this.leftButton.active = false;
@@ -87,6 +88,10 @@ export default class BetChips extends cc.Component {
             this.selectedIndex = this.chipList.length - 1;
             this.rightButton.active = false;
         }
+    }
+
+    private scrollToSelectedIndex() {
+        this.updateArrowVisibility();
 
         var min = this.snappedScrollView.getMinDisplayIndex();
         if (this.selectedIndex <= min && min > 0) {
