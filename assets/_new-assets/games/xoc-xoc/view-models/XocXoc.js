@@ -2,7 +2,6 @@
 let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
 import logger from '../../../common/logger';
-// import BetChips from '../../../common/bet-chips/view-models/BetChips';
 const sentryLogger = logger();
 
 cc.Class({
@@ -1140,17 +1139,14 @@ cc.Class({
 	},
 	clientsChip: function (data) {
 		let nodeBox = null;
-		let max = this.maxBox1_3;
 
 		switch (data.box) {
 			case 'chan':
 				nodeBox = this.box_chan;
-				max = this.maxBox1_1;
 				break;
 
 			case 'le':
 				nodeBox = this.box_le;
-				max = this.maxBox1_1;
 				break;
 
 			case 'red3':
@@ -1170,52 +1166,32 @@ cc.Class({
 				break;
 		}
 
+		let startNode;
 		let playerSlot = this.getPlayerSlot(data.playerId);
-		let position = null;
 		if (playerSlot) {
 			playerSlot.data.red = data.red;
 			let slotIndex = playerSlot.id - 1;
-			position = this.players[slotIndex].node.convertToWorldSpaceAR(this.players[slotIndex].node.children[0].position);
+			startNode = this.players[slotIndex].node.children[0];
 			this.players[slotIndex].setInfo(playerSlot.data);
 		} else {
-			position = this.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
-
+			startNode = this.users_bg;
 			if (this.otherPlayers[data.playerId]) {
 				this.otherPlayers[data.playerId].red = data.red;
 			}
 		}
 
-		position = nodeBox.children[4].convertToNodeSpaceAR(position);
-
-		let newN = this.createChipNode(position, data.cuoc);
-
-		let x = (Math.random() * (max.x + 1)) >> 0;
-		let y = (Math.random() * (max.y + 1)) >> 0;
-
-		nodeBox.children[4].addChild(newN.node);
-
-		newN.node.runAction(cc.moveTo(0.4, cc.v2(x, y)).easing(cc.easeSineOut()));
+		nodeBox = nodeBox.children[2];
+		this.betChips.placeChipBet(data.cuoc, nodeBox, startNode);
 	},
 	meChip: function (data) {
-		let nodeBet = null;
 		let nodeBox = null;
-		let max = this.maxBox1_3;
-
-		this.bet.children.forEach(function (bet) {
-			if (bet.name == data.cuoc) {
-				nodeBet = bet;
-			}
-		});
-
 		switch (data.box) {
 			case 'chan':
 				nodeBox = this.box_chan;
-				max = this.maxBox1_1;
 				break;
 
 			case 'le':
 				nodeBox = this.box_le;
-				max = this.maxBox1_1;
 				break;
 
 			case 'red3':
@@ -1235,24 +1211,8 @@ cc.Class({
 				break;
 		}
 
-		let position = nodeBet.parent.convertToWorldSpaceAR(nodeBet.position);
-		position = nodeBox.children[4].convertToNodeSpaceAR(position);
-
-		let newN = this.createChipNode(position, data.cuoc);
-
-		let x = (Math.random() * (max.x + 1)) >> 0;
-		let y = (Math.random() * (max.y + 1)) >> 0;
-
-		nodeBox.children[4].addChild(newN.node);
-		newN.node.runAction(
-			cc.sequence(
-				cc.moveTo(0.3, cc.v2(x, y)).easing(cc.easeSineOut()),
-				cc.sequence(
-					cc.moveTo(0.1, cc.v2(x, y + 6)),
-					cc.moveTo(0.1, cc.v2(x, y))
-				)
-			));
-
+		nodeBox = nodeBox.children[2];
+		this.betChips.placeChipBet(data.cuoc, nodeBox);
 		var temp = this.createWinResultNode(data.cuoc, false);
 		temp.node.position = cc.v2(50, 0);
 		this.me.addChild(temp.node);
