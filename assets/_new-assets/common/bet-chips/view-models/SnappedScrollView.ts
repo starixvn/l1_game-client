@@ -8,10 +8,14 @@ export default class SnappedScrollView extends cc.Component {
     @property
     spacing: number = 8;
 
+    public onScrollEnded = () => { };
+
     private calculatedPercent: number[] = [];
     private minDisplayIndex = 0;
 
     private scroll: cc.ScrollView;
+    private scrollBegan = false;
+
     onLoad() {
         this.scroll = this.getComponent(cc.ScrollView);
         var count = this.scroll.content.childrenCount;
@@ -28,20 +32,28 @@ export default class SnappedScrollView extends cc.Component {
     }
 
     onScroll(scroll: cc.ScrollView, eventType) {
-        if (eventType == cc.ScrollView.EventType.TOUCH_UP) {
+        if (eventType == cc.ScrollView.EventType.SCROLL_ENDED) {
+            if (!this.scrollBegan) {
+                return;
+            }
+            this.scrollBegan = false;
             var percent = this.getPercent();
             for (var i = 0; i < this.calculatedPercent.length; i++) {
                 var delta = percent - this.calculatedPercent[i];
                 if (delta < 0) {
                     break;
                 }
-                this.minDisplayIndex = i;
                 if (this.calculatedPercent[i] == 1) {
                     break;
                 }
+                this.minDisplayIndex = i;
             }
 
             this.scrollTo(this.minDisplayIndex);
+            this.onScrollEnded();
+        }
+        if (eventType == cc.ScrollView.EventType.SCROLL_BEGAN) {
+            this.scrollBegan = true;
         }
     }
 
