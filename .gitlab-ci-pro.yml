@@ -63,4 +63,4 @@ sentry_release:
     - build
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
-      when: manual
+      when: always
