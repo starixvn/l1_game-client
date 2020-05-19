@@ -69,11 +69,13 @@ export default class BetChips extends cc.Component {
     }
 
     public onPrevious() {
+        cc.RedT.audio.playClick();
         this.selectedIndex -= this.movingStep;
         this.scrollToSelectedIndex();
     }
 
     public onNext() {
+        cc.RedT.audio.playClick();
         this.selectedIndex += this.movingStep;
         this.scrollToSelectedIndex();
     }
