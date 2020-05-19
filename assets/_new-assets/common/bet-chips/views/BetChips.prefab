@@ -389,7 +389,7 @@
         "__id__": 92
       },
       {
-        "__id__": 94
+        "__id__": 93
       }
     ],
     "_prefab": {
@@ -580,7 +580,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -295.395,
+        -302,
         1,
         0,
         0,
@@ -3322,7 +3322,19 @@
     "sync": false
   },
   {
-    "__type__": "cc.ScrollView",
+    "__type__": "2733fiyFFFFC5C1k+cesHPI",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 11
+    },
+    "_enabled": true,
+    "itemSize": 84,
+    "spacing": 9,
+    "_id": ""
+  },
+  {
+    "__type__": "730b1zyuUNH6pDTjr4OSOwf",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -3332,12 +3344,12 @@
     "horizontal": true,
     "vertical": false,
     "inertia": true,
-    "brake": 0,
-    "elastic": false,
-    "bounceDuration": 0.23,
+    "brake": 0.8,
+    "elastic": true,
+    "bounceDuration": 0.1,
     "scrollEvents": [
       {
-        "__id__": 93
+        "__id__": 94
       }
     ],
     "cancelInnerEvents": true,
@@ -3347,8 +3359,6 @@
     "content": {
       "__id__": 13
     },
-    "_N$horizontalScrollBar": null,
-    "_N$verticalScrollBar": null,
     "_id": ""
   },
   {
@@ -3360,18 +3370,6 @@
     "_componentId": "2733fiyFFFFC5C1k+cesHPI",
     "handler": "onScroll",
     "customEventData": ""
-  },
-  {
-    "__type__": "2733fiyFFFFC5C1k+cesHPI",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 11
-    },
-    "_enabled": true,
-    "itemSize": 84,
-    "spacing": 9,
-    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4207,7 +4205,7 @@
     },
     "defaultChip": "1",
     "snappedScrollView": {
-      "__id__": 94
+      "__id__": 92
     },
     "leftButton": {
       "__id__": 107

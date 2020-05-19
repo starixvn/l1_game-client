@@ -65,7 +65,10 @@ export default class SnappedScrollView extends cc.Component {
     }
 
     getPercent(): number {
-        var offset = Math.abs(this.scroll.getScrollOffset().x);
+        var offset = -this.scroll.getScrollOffset().x;
+        if (offset < 0) {
+            return 0;
+        }
         var percent = offset / this.scroll.getMaxScrollOffset().x;
         return percent;
     }
