@@ -9,9 +9,16 @@ cc.Class({
         this.node.destroy();
     },
 
+    init: function (configs) {
+        this.configs = configs;
+    },
+
     onLoad: function () {
-        const urlParams = `?mo=${1.97}&4o=${14.4}&3o=${3.6}&minb=${1}&maxMainb=${1000}&max4b=${100}&max3b=${500}`;
-        
+        var odd = this.configs.odd;
+        var choices_maxbet = this.configs.choices_maxbet;
+
+        const urlParams = `?mo=${odd.even}&4o=${odd.red4}&3o=${odd.red3}&minb=${this.configs.minbet}&maxMainb=${choices_maxbet.even}&max4b=${choices_maxbet.red4}&max3b=${choices_maxbet[choices_maxbet.red3]}`;
+
         this.gameGuideWebView.url = `${window.location.href}/instructions/vi/xocxoc.html${urlParams}`;
     }
 });

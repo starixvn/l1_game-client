@@ -381,8 +381,9 @@ cc.Class({
 		if (!!data.players) {
 			this.addPlayers(data.players);
 		}
-		if (!!data.odd) {
-			var odd = data.odd;
+		if (!!data.configs) {
+			this.configs = data.configs;
+			var odd = data.configs.odd;
 			var format = '1:';
 			var oddIndex = 2;
 			this.box_chan.children[oddIndex].getComponent(cc.Label).string = `${format}${odd.even}`;
@@ -1349,6 +1350,8 @@ cc.Class({
 
 	openGuide: function () {
 		let dialog = cc.instantiate(this.prefabGuide);
+		var guide = dialog.getComponent("XocXoc_guide");
+		guide.init(this.configs);
 		this.redH.addChild(dialog);
 	},
 
