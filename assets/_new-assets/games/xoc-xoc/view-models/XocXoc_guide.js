@@ -1,8 +1,13 @@
+import helpers from './../../../common/helpers/Helper.js';
+
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        gameGuideWebView: cc.WebView
+        replaceNodes: {
+            default: [],
+            type: cc.Label
+        }
     },
 
     closeGuide: function () {
@@ -14,11 +19,23 @@ cc.Class({
     },
 
     onLoad: function () {
-        var odds = this.configs.odds;
-        var choices_maxbet = this.configs.choices_maxbet;
+        const odds = this.configs.odds;
+        const choiceMaxBet = this.configs.choices_maxbet;
+        const replaceData = {
+            "_oddsMain": odds.even,
+            "_oddsRed4": odds.red4,
+            "_oddsRed3": odds.red3,
+            "_minBet": helpers.numberWithCommas(this.configs.minbet),
+            "_maxBetMain": helpers.numberWithCommas(choiceMaxBet.even),
+            "_maxBetRed4": helpers.numberWithCommas(choiceMaxBet.red4),
+            "_maxBetRed3": helpers.numberWithCommas(choiceMaxBet.red3),
+            "_maxBetRound": helpers.numberWithCommas(this.configs.maxbet)
+        }
 
-        const urlParams = `?mo=${odds.even}&4o=${odds.red4}&3o=${odds.red3}&minb=${this.configs.minbet}&maxMainb=${choices_maxbet.even}&max4b=${choices_maxbet.red4}&max3b=${choices_maxbet.red3}`;
-
-        this.gameGuideWebView.url = `${window.location.href}/instructions/vi/xocxoc.html${urlParams}`;
+        this.replaceNodes.forEach(label => {
+            Object.keys(replaceData).forEach(key => {
+                label.string = label.string.replace(key, replaceData[key]);
+            });
+        });
     }
 });

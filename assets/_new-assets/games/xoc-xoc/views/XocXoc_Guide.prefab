@@ -31,22 +31,19 @@
       },
       {
         "__id__": 288
-      },
-      {
-        "__id__": 294
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 297
+        "__id__": 294
       },
       {
-        "__id__": 298
+        "__id__": 295
       }
     ],
     "_prefab": {
-      "__id__": 299
+      "__id__": 296
     },
     "_opacity": 255,
     "_color": {
@@ -474,7 +471,7 @@
         "__id__": 12
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 281
@@ -1484,8 +1481,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
-    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -2974,8 +2971,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 1,000$",
-    "_N$string": "1$ - 1,000$",
+    "_string": "_minBet$ - _maxBetMain$",
+    "_N$string": "_minBet$ - _maxBetMain$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4330,8 +4327,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 100$",
-    "_N$string": "1$ - 100$",
+    "_string": "_minBet$ - _maxBetRed4$",
+    "_N$string": "_minBet$ - _maxBetRed4$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4437,8 +4434,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 500$",
-    "_N$string": "1$ - 500$",
+    "_string": "_minBet$ - _maxBetRed3$",
+    "_N$string": "_minBet$ - _maxBetRed3$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -5432,7 +5429,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 352.35,
+      "width": 405.45,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -5483,8 +5480,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Cược vào cửa Lẻ, tỷ lệ trả thưởng 1 ăn 1.97",
-    "_N$string": "- Cược vào cửa Lẻ, tỷ lệ trả thưởng 1 ăn 1.97",
+    "_string": "- Cược vào cửa Lẻ, tỷ lệ trả thưởng 1 ăn _oddsMain",
+    "_N$string": "- Cược vào cửa Lẻ, tỷ lệ trả thưởng 1 ăn _oddsMain",
     "_fontSize": 18,
     "_lineHeight": 70,
     "_enableWrapText": true,
@@ -6231,7 +6228,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 374.4,
+      "width": 427.5,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -6282,8 +6279,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Cược vào cửa Chẵn, tỷ lệ trả thưởng 1 ăn 1.97",
-    "_N$string": "- Cược vào cửa Chẵn, tỷ lệ trả thưởng 1 ăn 1.97",
+    "_string": "- Cược vào cửa Chẵn, tỷ lệ trả thưởng 1 ăn _oddsMain",
+    "_N$string": "- Cược vào cửa Chẵn, tỷ lệ trả thưởng 1 ăn _oddsMain",
     "_fontSize": 18,
     "_lineHeight": 70,
     "_enableWrapText": true,
@@ -7669,8 +7666,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Cửa 4 xu cùng đỏ, tỷ lệ trả thưởng 1 ăn 14.4",
-    "_N$string": "Cửa 4 xu cùng đỏ, tỷ lệ trả thưởng 1 ăn 14.4",
+    "_string": "Cửa 4 xu cùng đỏ, tỷ lệ trả thưởng 1 ăn _oddsRed4",
+    "_N$string": "Cửa 4 xu cùng đỏ, tỷ lệ trả thưởng 1 ăn _oddsRed4",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -7950,7 +7947,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 405,
-      "height": 25.2
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8000,8 +7997,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Cửa 4 xu cùng trắng, tỷ lệ trả thưởng 1 ăn 14.4 ",
-    "_N$string": "Cửa 4 xu cùng trắng, tỷ lệ trả thưởng 1 ăn 14.4 ",
+    "_string": "Cửa 4 xu cùng trắng, tỷ lệ trả thưởng 1 ăn _oddsRed4 ",
+    "_N$string": "Cửa 4 xu cùng trắng, tỷ lệ trả thưởng 1 ăn _oddsRed4 ",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -8280,8 +8277,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 405,
-      "height": 25.2
+      "width": 410,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8331,8 +8328,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Cửa 1 xu đỏ và 3 xu trắng, tỷ lệ trả thưởng 1 ăn 3.6",
-    "_N$string": "Cửa 1 xu đỏ và 3 xu trắng, tỷ lệ trả thưởng 1 ăn 3.6",
+    "_string": "Cửa 1 xu đỏ và 3 xu trắng, tỷ lệ trả thưởng 1 ăn _oddsRed3",
+    "_N$string": "Cửa 1 xu đỏ và 3 xu trắng, tỷ lệ trả thưởng 1 ăn _oddsRed3",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -8612,7 +8609,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 405,
-      "height": 25.2
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8662,8 +8659,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Cửa 1 xu trắng và 3 xu đỏ, tỷ lệ trả thưởng 1 ăn 3.6",
-    "_N$string": "Cửa 1 xu trắng và 3 xu đỏ, tỷ lệ trả thưởng 1 ăn 3.6",
+    "_string": "Cửa 1 xu trắng và 3 xu đỏ, tỷ lệ trả thưởng 1 ăn _oddsRed3",
+    "_N$string": "Cửa 1 xu trắng và 3 xu đỏ, tỷ lệ trả thưởng 1 ăn _oddsRed3",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -10755,94 +10752,6 @@
     "sync": false
   },
   {
-    "__type__": "cc.Node",
-    "_name": "GuideWebView",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 295
-      }
-    ],
-    "_prefab": {
-      "__id__": 296
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 977,
-      "height": 569
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -36,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.WebView",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 294
-    },
-    "_enabled": true,
-    "_useOriginalSize": false,
-    "_url": "",
-    "webviewEvents": [],
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "0d5b0aaa-c1c2-4541-982e-40c58989f7ee"
-    },
-    "fileId": "69OKKzjU1FubvY3AJOs6OS",
-    "sync": false
-  },
-  {
     "__type__": "491eat/s0BLDKhLG+bafBPR",
     "_name": "",
     "_objFlags": 0,
@@ -10850,9 +10759,38 @@
       "__id__": 1
     },
     "_enabled": true,
-    "gameGuideWebView": {
-      "__id__": 295
-    },
+    "replaceNodes": [
+      {
+        "__id__": 73
+      },
+      {
+        "__id__": 109
+      },
+      {
+        "__id__": 112
+      },
+      {
+        "__id__": 34
+      },
+      {
+        "__id__": 143
+      },
+      {
+        "__id__": 165
+      },
+      {
+        "__id__": 202
+      },
+      {
+        "__id__": 211
+      },
+      {
+        "__id__": 220
+      },
+      {
+        "__id__": 229
+      }
+    ],
     "_id": ""
   },
   {
