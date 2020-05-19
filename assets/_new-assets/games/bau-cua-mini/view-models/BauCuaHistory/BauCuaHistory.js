@@ -57,7 +57,7 @@ cc.Class({
 				obj.datLabel.forEach(function (cuoc, k) {
 					if (dataT[k] > 0) {
 						cuoc.node.parent.active = true;
-						cuoc.string = helper.nFormatter(dataT[k], 1);
+						cuoc.string = helper.numberWithCommas(dataT[k]);
 					} else {
 						cuoc.node.parent.active = false;
 					}
