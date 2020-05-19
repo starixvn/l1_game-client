@@ -164,7 +164,7 @@ cc.Class({
 		this.status = {};
 		this.isWaitingBetResult = false;
 		this.processingWarningPopup = null;
-		this.indexBox = 2;
+		this.indexBox = 3;
 	},
 	onDestroy() {
 		cc.RedT.MiniPanel.destroy();
@@ -380,6 +380,17 @@ cc.Class({
 		}
 		if (!!data.players) {
 			this.addPlayers(data.players);
+		}
+		if (!!data.odd) {
+			var odd = data.odd;
+			var format = '1:';
+			var oddIndex = 2;
+			this.box_chan.children[oddIndex].getComponent(cc.Label).string = `${format}${odd.even}`;
+			this.box_le.children[oddIndex].getComponent(cc.Label).string = `${format}${odd.odd}`;
+			this.box_red3.children[oddIndex].getComponent(cc.Label).string = `${format}${odd.red3}`;
+			this.box_red4.children[oddIndex].getComponent(cc.Label).string = `${format}${odd.red4}`;
+			this.box_white3.children[oddIndex].getComponent(cc.Label).string = `${format}${odd.white3}`;
+			this.box_white4.children[oddIndex].getComponent(cc.Label).string = `${format}${odd.white4}`;
 		}
 	},
 
