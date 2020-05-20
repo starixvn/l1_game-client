@@ -23,4 +23,11 @@ cc.Class({
 			type: cc.Node
 		},
 	},
+	setHighlightText(highlight) {
+		var color = highlight ? cc.Color.YELLOW : cc.Color.WHITE;
+		this.time.node.color = color;
+		this.user.node.color = color;
+		this.cuoc.node.color = color;
+		this.tralai.node.color = color;
+	},
 });
