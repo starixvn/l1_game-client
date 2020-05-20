@@ -1,5 +1,6 @@
 const { ccclass, property } = cc._decorator;
 import * as _ from 'lodash';
+import SnappedScrollView from './SnappedScrollView';
 type OnChangedBet = (bet: string) => void;
 
 @ccclass
@@ -16,37 +17,50 @@ export default class BetChips extends cc.Component {
     @property(cc.AudioSource)
     betChipClickAudio: cc.AudioSource = null;
 
-    @property(cc.SpriteFrame)
-    chip1: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip5: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip10: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip50: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip100: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip200: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    chip500: cc.SpriteFrame = null;
+    @property(cc.SpriteAtlas)
+    chipAltas: cc.SpriteAtlas = null;
 
     @property()
     defaultChip = "1";
+
+    @property(SnappedScrollView)
+    snappedScrollView: SnappedScrollView = null;
+
+    @property(cc.Node)
+    leftButton: cc.Node = null;
+
+    @property(cc.Node)
+    rightButton: cc.Node = null;
+
+    @property
+    displaySize = 6;
+
+    @property
+    movingStep = 1;
 
     public onChanged: OnChangedBet = (bet) => { };
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
+    private selectedIndex = 0;
+    private chipList: cc.Node[] = [];
 
     onLoad() {
+        this.leftButton.active = false;
+        this.chipList = [...this.chips.children];
         this.setCurrentBet(this.defaultChip);
+        this.snappedScrollView.onScrollEnded = () => {
+            var min = this.snappedScrollView.getMinDisplayIndex();
+            if (this.selectedIndex < min) {
+                this.selectedIndex = min;
+            } else if (this.selectedIndex > min + this.displaySize - 1) {
+                this.selectedIndex = min + this.displaySize - 1;
+            }
+            this.updateArrowVisibility();
+
+            var item = this.chipList[this.selectedIndex].name;
+            this.setCurrentBet(item);
+        };
     }
 
     public init(onChanged: OnChangedBet) {
@@ -54,11 +68,55 @@ export default class BetChips extends cc.Component {
         this.setCurrentBet(this.defaultChip);
     }
 
+    public onPrevious() {
+        cc.RedT.audio.playClick();
+        this.selectedIndex -= this.movingStep;
+        this.scrollToSelectedIndex();
+    }
+
+    public onNext() {
+        cc.RedT.audio.playClick();
+        this.selectedIndex += this.movingStep;
+        this.scrollToSelectedIndex();
+    }
+
+    private updateArrowVisibility() {
+        this.leftButton.active = true;
+        this.rightButton.active = true;
+        if (this.selectedIndex <= 0) {
+            this.selectedIndex = 0;
+            this.leftButton.active = false;
+        } else if (this.selectedIndex >= this.chipList.length - 1) {
+            this.selectedIndex = this.chipList.length - 1;
+            this.rightButton.active = false;
+        }
+    }
+
+    private scrollToSelectedIndex() {
+        this.updateArrowVisibility();
+
+        var min = this.snappedScrollView.getMinDisplayIndex();
+        if (this.selectedIndex <= min && min > 0) {
+            this.snappedScrollView.scrollTo(min - 1);
+        }
+        if (this.selectedIndex >= min + this.displaySize - 1) {
+            this.snappedScrollView.scrollTo(min + 1);
+        }
+        var item = this.chipList[this.selectedIndex].name;
+        this.setCurrentBet(item);
+    }
+
     public onClickBet(event) {
         var bet = event.target.name;
-        this.updateSelectedBet(bet);
         this.betChipClickAudio.play();
-        this.onChanged(bet);
+        var i = 0;
+        for (; i < this.chipList.length; i++) {
+            if (this.chipList[i].name == bet) {
+                break;
+            }
+        }
+        this.selectedIndex = i;
+        this.scrollToSelectedIndex();
     }
 
     public setCurrentBet(bet: string) {
@@ -186,7 +244,8 @@ export default class BetChips extends cc.Component {
     private createChip(position: cc.Vec2, bet): cc.Sprite {
         var chip = new cc.Node();
         var chipSprite = chip.addComponent(cc.Sprite);
-        chipSprite.spriteFrame = this['chip' + bet];
+        var name = `chip${bet}_small`;
+        chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
         chipSprite.node.position = position;
         return chipSprite;
     }

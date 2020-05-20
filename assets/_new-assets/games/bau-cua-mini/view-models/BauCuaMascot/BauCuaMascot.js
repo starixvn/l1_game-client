@@ -16,7 +16,7 @@ cc.Class({
 
     meCuoc: function (cuoc) {
         if (!!cuoc) {
-            this.me.string = helper.nFormatter(cuoc, 1);
+            this.me.string = helper.numberWithCommas(cuoc);
         }
     },
     totallCuoc: function (cuoc) {

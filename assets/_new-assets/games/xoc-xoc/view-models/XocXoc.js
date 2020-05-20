@@ -88,7 +88,6 @@ cc.Class({
 			type: cc.Prefab
 		},
 
-		bet: cc.Node,
 		nodeRed: cc.Node,
 		nodeXu: cc.Node,
 
@@ -104,7 +103,8 @@ cc.Class({
 		avatar: cc.Sprite,
 		center: cc.Node,
 		winnerPrefab: cc.Prefab,
-		NoticePrefab: cc.Prefab
+		NoticePrefab: cc.Prefab,
+		betChips: cc.Node
 	},
 	ctor: function () {
 		this.logs = [];
@@ -164,6 +164,7 @@ cc.Class({
 		this.status = {};
 		this.isWaitingBetResult = false;
 		this.processingWarningPopup = null;
+		this.indexBox = 3;
 	},
 	onDestroy() {
 		cc.RedT.MiniPanel.destroy();
@@ -180,6 +181,12 @@ cc.Class({
 		var MiniPanel = cc.instantiate(this.MiniPanel);
 		cc.RedT.MiniPanel = MiniPanel.getComponent('MiniPanel');
 		this.redH.insertChild(MiniPanel);
+
+		this.betChips = this.betChips.getComponent("BetChips");
+		this.betChips.init((bet) => {
+			this.cuoc = bet;
+		});
+		this.bet = this.betChips.chips;
 
 		this.logMain = this.logMain.children.map(function (obj) {
 			return obj.children[0].getComponent(cc.Sprite);
@@ -374,6 +381,18 @@ cc.Class({
 		if (!!data.players) {
 			this.addPlayers(data.players);
 		}
+		if (!!data.configs) {
+			this.configs = data.configs;
+			var odds = data.configs.odds;
+			var format = '1:';
+			var oddIndex = 2;
+			this.box_chan.children[oddIndex].getComponent(cc.Label).string = `${format}${odds.even}`;
+			this.box_le.children[oddIndex].getComponent(cc.Label).string = `${format}${odds.odd}`;
+			this.box_red3.children[oddIndex].getComponent(cc.Label).string = `${format}${odds.red3}`;
+			this.box_red4.children[oddIndex].getComponent(cc.Label).string = `${format}${odds.red4}`;
+			this.box_white3.children[oddIndex].getComponent(cc.Label).string = `${format}${odds.white3}`;
+			this.box_white4.children[oddIndex].getComponent(cc.Label).string = `${format}${odds.white4}`;
+		}
 	},
 
 	addPlayers: function (data) {
@@ -523,45 +542,45 @@ cc.Class({
 		let centerMid = null;
 
 		if (!(numb % 2)) {
-			node1 = this.box_chan.children[4];
-			audioLost += this.box_le.children[4].children.length;
-			centerMid = this.box_le.children[4].convertToNodeSpaceAR(position);
-			Promise.all(this.box_le.children[4].children.map(function (chip) {
+			node1 = this.box_chan.children[this.indexBox];
+			audioLost += this.box_le.children[this.indexBox].children.length;
+			centerMid = this.box_le.children[this.indexBox].convertToNodeSpaceAR(position);
+			Promise.all(this.box_le.children[this.indexBox].children.map(function (chip) {
 				chip.runAction(cc.moveTo(0.4, centerMid));
 			})).catch(error => {
 				sentryLogger.logError(error);
 			});
 		} else {
-			node1 = this.box_le.children[4];
-			audioLost += this.box_chan.children[4].children.length;
-			centerMid = this.box_chan.children[4].convertToNodeSpaceAR(position);
-			Promise.all(this.box_chan.children[4].children.map(function (chip) {
+			node1 = this.box_le.children[this.indexBox];
+			audioLost += this.box_chan.children[this.indexBox].children.length;
+			centerMid = this.box_chan.children[this.indexBox].convertToNodeSpaceAR(position);
+			Promise.all(this.box_chan.children[this.indexBox].children.map(function (chip) {
 				chip.runAction(cc.moveTo(0.4, centerMid));
 			})).catch(error => {
 				sentryLogger.logError(error);
 			});
 		}
 
-		let red3 = this.box_red3.children[4].convertToNodeSpaceAR(position);
-		let red4 = this.box_red4.children[4].convertToNodeSpaceAR(position);
-		let white3 = this.box_white3.children[4].convertToNodeSpaceAR(position);
-		let white4 = this.box_white4.children[4].convertToNodeSpaceAR(position);
+		let red3 = this.box_red3.children[this.indexBox].convertToNodeSpaceAR(position);
+		let red4 = this.box_red4.children[this.indexBox].convertToNodeSpaceAR(position);
+		let white3 = this.box_white3.children[this.indexBox].convertToNodeSpaceAR(position);
+		let white4 = this.box_white4.children[this.indexBox].convertToNodeSpaceAR(position);
 
 		switch (numb) {
 			case 0:
-				node2 = this.box_white4.children[4];
-				audioLost += this.box_red3.children[4].children.length + this.box_red4.children[4].children.length + this.box_white3.children[4].children.length;
-				Promise.all(this.box_red3.children[4].children.map(function (chip) {
+				node2 = this.box_white4.children[this.indexBox];
+				audioLost += this.box_red3.children[this.indexBox].children.length + this.box_red4.children[this.indexBox].children.length + this.box_white3.children[this.indexBox].children.length;
+				Promise.all(this.box_red3.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});
-				Promise.all(this.box_red4.children[4].children.map(function (chip) {
+				Promise.all(this.box_red4.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});
-				Promise.all(this.box_white3.children[4].children.map(function (chip) {
+				Promise.all(this.box_white3.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
 				})).catch(error => {
 					sentryLogger.logError(error);
@@ -569,19 +588,19 @@ cc.Class({
 				break;
 
 			case 1:
-				node2 = this.box_white3.children[4];
-				audioLost += this.box_red3.children[4].children.length + this.box_red4.children[4].children.length + this.box_white4.children[4].children.length;
-				Promise.all(this.box_red3.children[4].children.map(function (chip) {
+				node2 = this.box_white3.children[this.indexBox];
+				audioLost += this.box_red3.children[this.indexBox].children.length + this.box_red4.children[this.indexBox].children.length + this.box_white4.children[this.indexBox].children.length;
+				Promise.all(this.box_red3.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});
-				Promise.all(this.box_red4.children[4].children.map(function (chip) {
+				Promise.all(this.box_red4.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});
-				Promise.all(this.box_white4.children[4].children.map(function (chip) {
+				Promise.all(this.box_white4.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
 				})).catch(error => {
 					sentryLogger.logError(error);
@@ -589,23 +608,23 @@ cc.Class({
 				break;
 
 			case 2:
-				audioLost += this.box_red3.children[4].children.length + this.box_red4.children[4].children.length + this.box_white3.children[4].children.length + this.box_white4.children[4].children.length;
-				Promise.all(this.box_red3.children[4].children.map(function (chip) {
+				audioLost += this.box_red3.children[this.indexBox].children.length + this.box_red4.children[this.indexBox].children.length + this.box_white3.children[this.indexBox].children.length + this.box_white4.children[this.indexBox].children.length;
+				Promise.all(this.box_red3.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});
-				Promise.all(this.box_red4.children[4].children.map(function (chip) {
+				Promise.all(this.box_red4.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});
-				Promise.all(this.box_white3.children[4].children.map(function (chip) {
+				Promise.all(this.box_white3.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});
-				Promise.all(this.box_white4.children[4].children.map(function (chip) {
+				Promise.all(this.box_white4.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
 				})).catch(error => {
 					sentryLogger.logError(error);
@@ -613,19 +632,19 @@ cc.Class({
 				break;
 
 			case 3:
-				node2 = this.box_red3.children[4];
-				audioLost += this.box_white3.children[4].children.length + this.box_red4.children[4].children.length + this.box_white4.children[4].children.length;
-				Promise.all(this.box_white3.children[4].children.map(function (chip) {
+				node2 = this.box_red3.children[this.indexBox];
+				audioLost += this.box_white3.children[this.indexBox].children.length + this.box_red4.children[this.indexBox].children.length + this.box_white4.children[this.indexBox].children.length;
+				Promise.all(this.box_white3.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});
-				Promise.all(this.box_red4.children[4].children.map(function (chip) {
+				Promise.all(this.box_red4.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red4));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});
-				Promise.all(this.box_white4.children[4].children.map(function (chip) {
+				Promise.all(this.box_white4.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
 				})).catch(error => {
 					sentryLogger.logError(error);
@@ -633,19 +652,19 @@ cc.Class({
 				break;
 
 			case 4:
-				node2 = this.box_red4.children[4];
-				audioLost += this.box_white3.children[4].children.length + this.box_red3.children[4].children.length + this.box_white4.children[4].children.length;
-				Promise.all(this.box_white3.children[4].children.map(function (chip) {
+				node2 = this.box_red4.children[this.indexBox];
+				audioLost += this.box_white3.children[this.indexBox].children.length + this.box_red3.children[this.indexBox].children.length + this.box_white4.children[this.indexBox].children.length;
+				Promise.all(this.box_white3.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white3));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});;
-				Promise.all(this.box_red3.children[4].children.map(function (chip) {
+				Promise.all(this.box_red3.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, red3));
 				})).catch(error => {
 					sentryLogger.logError(error);
 				});;
-				Promise.all(this.box_white4.children[4].children.map(function (chip) {
+				Promise.all(this.box_white4.children[this.indexBox].children.map(function (chip) {
 					chip.runAction(cc.moveTo(0.4, white4));
 				})).catch(error => {
 					sentryLogger.logError(error);
@@ -927,12 +946,12 @@ cc.Class({
 		}
 	},
 	resetData: function () {
-		this.box_chan.children[4].removeAllChildren();
-		this.box_le.children[4].removeAllChildren();
-		this.box_white4.children[4].removeAllChildren();
-		this.box_white3.children[4].removeAllChildren();
-		this.box_red3.children[4].removeAllChildren();
-		this.box_red4.children[4].removeAllChildren();
+		this.box_chan.children[this.indexBox].removeAllChildren();
+		this.box_le.children[this.indexBox].removeAllChildren();
+		this.box_white4.children[this.indexBox].removeAllChildren();
+		this.box_white3.children[this.indexBox].removeAllChildren();
+		this.box_red3.children[this.indexBox].removeAllChildren();
+		this.box_red4.children[this.indexBox].removeAllChildren();
 
 		this.box_chan.children[0].active = false;
 		this.box_le.children[0].active = false;
@@ -1104,7 +1123,7 @@ cc.Class({
 			if (!this.processingWarningPopup) {
 				var processingWarning = cc.instantiate(this.ProcessingWarning);
 				this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
-				this.miniNotice.addChild(processingWarning);
+				this.node.addChild(processingWarning);
 			}
 		} else {
 			this.isWaitingBetResult = true;
@@ -1133,17 +1152,14 @@ cc.Class({
 	},
 	clientsChip: function (data) {
 		let nodeBox = null;
-		let max = this.maxBox1_3;
 
 		switch (data.box) {
 			case 'chan':
 				nodeBox = this.box_chan;
-				max = this.maxBox1_1;
 				break;
 
 			case 'le':
 				nodeBox = this.box_le;
-				max = this.maxBox1_1;
 				break;
 
 			case 'red3':
@@ -1163,52 +1179,32 @@ cc.Class({
 				break;
 		}
 
+		let startNode;
 		let playerSlot = this.getPlayerSlot(data.playerId);
-		let position = null;
 		if (playerSlot) {
 			playerSlot.data.red = data.red;
 			let slotIndex = playerSlot.id - 1;
-			position = this.players[slotIndex].node.convertToWorldSpaceAR(this.players[slotIndex].node.children[0].position);
+			startNode = this.players[slotIndex].node.children[0];
 			this.players[slotIndex].setInfo(playerSlot.data);
 		} else {
-			position = this.users_bg.parent.convertToWorldSpaceAR(this.users_bg.position);
-
+			startNode = this.users_bg;
 			if (this.otherPlayers[data.playerId]) {
 				this.otherPlayers[data.playerId].red = data.red;
 			}
 		}
 
-		position = nodeBox.children[4].convertToNodeSpaceAR(position);
-
-		let newN = this.createChipNode(position, data.cuoc);
-
-		let x = (Math.random() * (max.x + 1)) >> 0;
-		let y = (Math.random() * (max.y + 1)) >> 0;
-
-		nodeBox.children[4].addChild(newN.node);
-
-		newN.node.runAction(cc.moveTo(0.4, cc.v2(x, y)).easing(cc.easeSineOut()));
+		nodeBox = nodeBox.children[this.indexBox];
+		this.betChips.placeChipBet(data.cuoc, nodeBox, startNode);
 	},
 	meChip: function (data) {
-		let nodeBet = null;
 		let nodeBox = null;
-		let max = this.maxBox1_3;
-
-		this.bet.children.forEach(function (bet) {
-			if (bet.name == data.cuoc) {
-				nodeBet = bet;
-			}
-		});
-
 		switch (data.box) {
 			case 'chan':
 				nodeBox = this.box_chan;
-				max = this.maxBox1_1;
 				break;
 
 			case 'le':
 				nodeBox = this.box_le;
-				max = this.maxBox1_1;
 				break;
 
 			case 'red3':
@@ -1228,24 +1224,8 @@ cc.Class({
 				break;
 		}
 
-		let position = nodeBet.parent.convertToWorldSpaceAR(nodeBet.position);
-		position = nodeBox.children[4].convertToNodeSpaceAR(position);
-
-		let newN = this.createChipNode(position, data.cuoc);
-
-		let x = (Math.random() * (max.x + 1)) >> 0;
-		let y = (Math.random() * (max.y + 1)) >> 0;
-
-		nodeBox.children[4].addChild(newN.node);
-		newN.node.runAction(
-			cc.sequence(
-				cc.moveTo(0.3, cc.v2(x, y)).easing(cc.easeSineOut()),
-				cc.sequence(
-					cc.moveTo(0.1, cc.v2(x, y + 6)),
-					cc.moveTo(0.1, cc.v2(x, y))
-				)
-			));
-
+		nodeBox = nodeBox.children[this.indexBox];
+		this.betChips.placeChipBet(data.cuoc, nodeBox);
 		var temp = this.createWinResultNode(data.cuoc, false);
 		temp.node.position = cc.v2(50, 0);
 		this.me.addChild(temp.node);
@@ -1370,6 +1350,8 @@ cc.Class({
 
 	openGuide: function () {
 		let dialog = cc.instantiate(this.prefabGuide);
+		var guide = dialog.getComponent("XocXoc_guide");
+		guide.init(this.configs);
 		this.redH.addChild(dialog);
 	},
 

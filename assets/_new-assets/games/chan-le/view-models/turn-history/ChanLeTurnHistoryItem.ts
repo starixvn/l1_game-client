@@ -13,4 +13,15 @@ export default class ChanLeTurnHistoryItem extends cc.Component {
 
     @property(cc.Label)
     refund: cc.Label = null;
+
+    @property(cc.Node)
+    highlight: cc.Node = null;
+
+    setHighlightText(highlight) {
+        var color = highlight ? cc.Color.YELLOW : cc.Color.WHITE;
+        this.time.node.color = color;
+        this.userName.node.color = color;
+        this.bet.node.color = color;
+        this.refund.node.color = color;
+    }
 }

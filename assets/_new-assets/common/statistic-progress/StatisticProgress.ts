@@ -31,6 +31,33 @@ export default class StatisticProgress extends cc.Component {
 
             this.frames[i].width = this.dynamic ? values[i] / total * this.node.width : this.node.width / count;
         }
+        this.updateFakeProgress();
+    }
+
+    public updateFakeProgress() {
+        var count = this.frames.length;
+        var limit = 18;
+        var delta = 0;
+        var j = 0;
+        for (var i = 0; i < count; i++) {
+            var width = this.frames[i].width;
+            if (width < limit) {
+                delta += limit - width;
+                j++;
+            }
+        }
+        if (j == 0) {
+            return;
+        }
+        var offset = delta / j;
+        for (var i = 0; i < count; i++) {
+            var width = this.frames[i].width;
+            if (width < limit) {
+                this.frames[i].width = limit;
+            } else {
+                this.frames[i].width -= offset;
+            }
+        }
     }
 
     public clear() {

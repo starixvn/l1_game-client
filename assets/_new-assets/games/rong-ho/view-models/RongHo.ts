@@ -15,6 +15,7 @@ import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
 import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
 import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import BetChips from "../../../common/bet-chips/view-models/BetChips";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,7 +26,10 @@ export default class RongHo extends cc.Component {
     background: cc.Node = null;
 
     @property(cc.Node)
-    bet: cc.Node = null;
+    betChipsContainer: cc.Node = null;
+
+    @property(cc.Prefab)
+    betChipsPrefab: cc.Prefab = null;
 
     @property(cc.Node)
     notice: cc.Node = null;
@@ -116,6 +120,7 @@ export default class RongHo extends cc.Component {
     private cuoc: any;
     private resultAnimating = false;
     private cardsUtil: any;
+    private betChips: BetChips = null;
 
     //#region Public Methods
     public init(miniPanel: MiniPanel, name: string, config: GameBaseConfigs) {
@@ -167,11 +172,9 @@ export default class RongHo extends cc.Component {
         this.umNotice.show(data);
     }
 
-    public changerBet(event, bet) {
+    public changerBet(bet) {
         this.cuoc = bet;
-        var target = event.target;
-        this.updateSelectedBet(target.name);
-        cc.RedT.setting[this.gameName].bet = target.name;
+        cc.RedT.setting[this.gameName].bet = bet;
     }
 
     public openGame() {
@@ -343,32 +346,10 @@ export default class RongHo extends cc.Component {
     }
 
     initChangerBet() {
+        this.betChips = cc.instantiate(this.betChipsPrefab).getComponent(BetChips);
+        this.betChipsContainer.addChild(this.betChips.node);
+        this.betChips.init((bet) => this.changerBet(bet));
         this.cuoc = cc.RedT.setting[this.gameName].bet;
-        this.updateSelectedBet(cc.RedT.setting[this.gameName].bet);
-    }
-
-    updateSelectedBet(targetName) {
-        this.bet.children.map(function (obj) {
-            if (obj.name == targetName) {
-                obj.children[0].active = true;
-                obj.zIndex = 2;
-                cc.tween(obj)
-                    .to(0.2, {
-                        scale: 1.15,
-                        position: cc.v2(obj.position.x, 12)
-                    })
-                    .start();
-            } else {
-                obj.children[0].active = false;
-                obj.zIndex = 1;
-                cc.tween(obj)
-                    .to(0.2, {
-                        scale: 1,
-                        position: cc.v2(obj.position.x, 0)
-                    })
-                    .start();
-            }
-        })
     }
 
     sendData(payload: any) {

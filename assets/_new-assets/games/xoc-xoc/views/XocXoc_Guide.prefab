@@ -1481,8 +1481,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
-    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -2971,8 +2971,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 1,000$",
-    "_N$string": "1$ - 1,000$",
+    "_string": "_minBet$ - _maxBetMain$",
+    "_N$string": "_minBet$ - _maxBetMain$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4327,8 +4327,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 100$",
-    "_N$string": "1$ - 100$",
+    "_string": "_minBet$ - _maxBetRed4$",
+    "_N$string": "_minBet$ - _maxBetRed4$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4434,8 +4434,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 500$",
-    "_N$string": "1$ - 500$",
+    "_string": "_minBet$ - _maxBetRed3$",
+    "_N$string": "_minBet$ - _maxBetRed3$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -5429,7 +5429,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 351.9,
+      "width": 405.45,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -5480,8 +5480,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Cược vào cửa Lẻ, tỷ lệ trả thưởng 1 ăn 1.98",
-    "_N$string": "- Cược vào cửa Lẻ, tỷ lệ trả thưởng 1 ăn 1.98",
+    "_string": "- Cược vào cửa Lẻ, tỷ lệ trả thưởng 1 ăn _oddsMain",
+    "_N$string": "- Cược vào cửa Lẻ, tỷ lệ trả thưởng 1 ăn _oddsMain",
     "_fontSize": 18,
     "_lineHeight": 70,
     "_enableWrapText": true,
@@ -6228,7 +6228,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 373.95,
+      "width": 427.5,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -6279,8 +6279,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Cược vào cửa Chẵn, tỷ lệ trả thưởng 1 ăn 1.98",
-    "_N$string": "- Cược vào cửa Chẵn, tỷ lệ trả thưởng 1 ăn 1.98",
+    "_string": "- Cược vào cửa Chẵn, tỷ lệ trả thưởng 1 ăn _oddsMain",
+    "_N$string": "- Cược vào cửa Chẵn, tỷ lệ trả thưởng 1 ăn _oddsMain",
     "_fontSize": 18,
     "_lineHeight": 70,
     "_enableWrapText": true,
@@ -7666,8 +7666,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Cửa 4 xu cùng đỏ, tỷ lệ trả thưởng 1 ăn 14.4",
-    "_N$string": "Cửa 4 xu cùng đỏ, tỷ lệ trả thưởng 1 ăn 14.4",
+    "_string": "Cửa 4 xu cùng đỏ, tỷ lệ trả thưởng 1 ăn _oddsRed4",
+    "_N$string": "Cửa 4 xu cùng đỏ, tỷ lệ trả thưởng 1 ăn _oddsRed4",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -7947,7 +7947,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 405,
-      "height": 25.2
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7997,8 +7997,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Cửa 4 xu cùng trắng, tỷ lệ trả thưởng 1 ăn 14.4 ",
-    "_N$string": "Cửa 4 xu cùng trắng, tỷ lệ trả thưởng 1 ăn 14.4 ",
+    "_string": "Cửa 4 xu cùng trắng, tỷ lệ trả thưởng 1 ăn _oddsRed4 ",
+    "_N$string": "Cửa 4 xu cùng trắng, tỷ lệ trả thưởng 1 ăn _oddsRed4 ",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -8277,8 +8277,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 405,
-      "height": 25.2
+      "width": 410,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8328,8 +8328,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Cửa 1 xu đỏ và 3 xu trắng, tỷ lệ trả thưởng 1 ăn 3.6",
-    "_N$string": "Cửa 1 xu đỏ và 3 xu trắng, tỷ lệ trả thưởng 1 ăn 3.6",
+    "_string": "Cửa 1 xu đỏ và 3 xu trắng, tỷ lệ trả thưởng 1 ăn _oddsRed3",
+    "_N$string": "Cửa 1 xu đỏ và 3 xu trắng, tỷ lệ trả thưởng 1 ăn _oddsRed3",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -8609,7 +8609,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 405,
-      "height": 25.2
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8659,8 +8659,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Cửa 1 xu trắng và 3 xu đỏ, tỷ lệ trả thưởng 1 ăn 3.6",
-    "_N$string": "Cửa 1 xu trắng và 3 xu đỏ, tỷ lệ trả thưởng 1 ăn 3.6",
+    "_string": "Cửa 1 xu trắng và 3 xu đỏ, tỷ lệ trả thưởng 1 ăn _oddsRed3",
+    "_N$string": "Cửa 1 xu trắng và 3 xu đỏ, tỷ lệ trả thưởng 1 ăn _oddsRed3",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -10759,6 +10759,38 @@
       "__id__": 1
     },
     "_enabled": true,
+    "replaceNodes": [
+      {
+        "__id__": 73
+      },
+      {
+        "__id__": 109
+      },
+      {
+        "__id__": 112
+      },
+      {
+        "__id__": 34
+      },
+      {
+        "__id__": 143
+      },
+      {
+        "__id__": 165
+      },
+      {
+        "__id__": 202
+      },
+      {
+        "__id__": 211
+      },
+      {
+        "__id__": 220
+      },
+      {
+        "__id__": 229
+      }
+    ],
     "_id": ""
   },
   {
