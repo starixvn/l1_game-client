@@ -6,6 +6,7 @@ import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
 import GameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
+import GameBaseOddsHandler from './handlers/GameBaseOddsHandler';
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import BetItem from "./BetItem";
 import GameUtils from "../../common/GameUtils";
@@ -91,6 +92,7 @@ export default class GameBase extends cc.Component {
     public errorHandler: DataHandler;
     public logsHandler: DataHandler;
     public finishHandler: DataHandler;
+    public oddsHandler: DataHandler;
 
     public betChips: BetChips;
     public currentBet: number;
@@ -114,6 +116,7 @@ export default class GameBase extends cc.Component {
             this.timeHandler,
             this.errorHandler,
             this.logsHandler,
+            this.oddsHandler,
             this.finishHandler);
         this.initBetChips();
         this.initGameAudios();
@@ -287,6 +290,7 @@ export default class GameBase extends cc.Component {
         this.errorHandler = new GameBaseErrorHandler(this);
         this.logsHandler = new GameBaseLogsHandler(this);
         this.finishHandler = new GameBaseFinishHandler(this);
+        this.oddsHandler = new GameBaseOddsHandler(this);
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {
