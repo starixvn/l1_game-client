@@ -13,4 +13,7 @@ export default class ChanLeTurnHistoryItem extends cc.Component {
 
     @property(cc.Label)
     refund: cc.Label = null;
+
+    @property(cc.Node)
+    highlight: cc.Node = null;
 }

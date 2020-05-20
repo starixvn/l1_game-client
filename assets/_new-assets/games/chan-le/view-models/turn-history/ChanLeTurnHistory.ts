@@ -122,24 +122,26 @@ export default class ChanLeTurnHistory extends cc.Component {
         var self = this;
 
         Promise.all(data.dataL.map(function (turnData) {
-            var item = cc.instantiate(self.itemPrefab);
-            var itemComponent = item.getComponent('ChanLeTurnHistoryItem') as ChanLeTurnHistoryItem;
-            itemComponent.time.string = getStringHourByTime(turnData.time);
-            itemComponent.userName.string = shortenName(turnData.name);
-            itemComponent.bet.string = numberWithCommas(turnData.bet);
-            itemComponent.refund.string = numberWithCommas(turnData.tralai);
+            var item = self.addItem(turnData);
             self.scrollViewLeft.content.addChild(item);
         }));
 
         Promise.all(data.dataR.map(function (turnData) {
-            var item = cc.instantiate(self.itemPrefab);
-            var itemComponent = item.getComponent('ChanLeTurnHistoryItem') as ChanLeTurnHistoryItem;
-            itemComponent.time.string = getStringHourByTime(turnData.time);
-            itemComponent.userName.string = shortenName(turnData.name);
-            itemComponent.bet.string = numberWithCommas(turnData.bet);
-            itemComponent.refund.string = numberWithCommas(turnData.tralai);
+            var item = self.addItem(turnData);
             self.scrollViewRight.content.addChild(item);
         }));
+    }
+
+    private addItem(turnData: any): cc.Node {
+        var item = cc.instantiate(this.itemPrefab);
+        var itemComponent = item.getComponent('ChanLeTurnHistoryItem') as ChanLeTurnHistoryItem;
+        itemComponent.time.string = getStringHourByTime(turnData.time);
+        var isLoginUser = turnData.name == cc.RedT.user.name;
+        itemComponent.highlight.active = isLoginUser;
+        itemComponent.userName.string = isLoginUser ? turnData.name : shortenName(turnData.name);
+        itemComponent.bet.string = numberWithCommas(turnData.bet);
+        itemComponent.refund.string = numberWithCommas(turnData.tralai);
+        return item;
     }
 
     private clearData() {
