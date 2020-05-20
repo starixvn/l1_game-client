@@ -1123,7 +1123,7 @@ cc.Class({
 			if (!this.processingWarningPopup) {
 				var processingWarning = cc.instantiate(this.ProcessingWarning);
 				this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
-				this.miniNotice.addChild(processingWarning);
+				this.node.addChild(processingWarning);
 			}
 		} else {
 			this.isWaitingBetResult = true;
