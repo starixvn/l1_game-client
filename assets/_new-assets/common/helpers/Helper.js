@@ -200,7 +200,15 @@ export function formatMoneyNumber(money) {
   return value + format;
 }
 
+export function shortenName(name) {
+  name = name.toLowerCase();
+  var prefix = name.slice(0, 1);
+  var suffix = name.slice(-3);
+  return `${prefix}***${suffix}`;
+}
+
 module.exports = {
+  shortenName: shortenName,
   checkPhoneValid: checkPhoneValid,
   nFormatter: nFormatter,
   numberWithCommas: numberWithCommas,

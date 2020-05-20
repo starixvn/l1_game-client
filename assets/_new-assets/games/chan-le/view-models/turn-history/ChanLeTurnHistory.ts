@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import ChanLe from "../ChanLe";
 import ChanLeTurnHistoryItem from "./ChanLeTurnHistoryItem";
-import { numberWithCommas, getStringDateByTime, getStringHourByTime } from '../../../../common/helpers/Helper'
+import { numberWithCommas, getStringDateByTime, getStringHourByTime, shortenName } from '../../../../common/helpers/Helper'
 
 @ccclass
 export default class ChanLeTurnHistory extends cc.Component {
@@ -125,7 +125,7 @@ export default class ChanLeTurnHistory extends cc.Component {
             var item = cc.instantiate(self.itemPrefab);
             var itemComponent = item.getComponent('ChanLeTurnHistoryItem') as ChanLeTurnHistoryItem;
             itemComponent.time.string = getStringHourByTime(turnData.time);
-            itemComponent.userName.string = turnData.name;
+            itemComponent.userName.string = shortenName(turnData.name);
             itemComponent.bet.string = numberWithCommas(turnData.bet);
             itemComponent.refund.string = numberWithCommas(turnData.tralai);
             self.scrollViewLeft.content.addChild(item);
@@ -135,7 +135,7 @@ export default class ChanLeTurnHistory extends cc.Component {
             var item = cc.instantiate(self.itemPrefab);
             var itemComponent = item.getComponent('ChanLeTurnHistoryItem') as ChanLeTurnHistoryItem;
             itemComponent.time.string = getStringHourByTime(turnData.time);
-            itemComponent.userName.string = turnData.name;
+            itemComponent.userName.string = shortenName(turnData.name);
             itemComponent.bet.string = numberWithCommas(turnData.bet);
             itemComponent.refund.string = numberWithCommas(turnData.tralai);
             self.scrollViewRight.content.addChild(item);

@@ -154,22 +154,22 @@ cc.Class({
 			this.nodeLe.opacity = total % 2 ? 255 : 100;
 		}
 		Promise.all(data.dataL.map(function (obj) {
-			var item = cc.instantiate(self.itemPrefab)
-			var itemComponent = item.getComponent('TXBetHistoryItem')
-			itemComponent.time.string = helper.getStringHourByTime(obj.time)
-			itemComponent.user.string = obj.name
-			itemComponent.cuoc.string = helper.numberWithCommas(obj.bet)
-			itemComponent.tralai.string = helper.numberWithCommas(obj.tralai)
+			var item = cc.instantiate(self.itemPrefab);
+			var itemComponent = item.getComponent('TXBetHistoryItem');
+			itemComponent.time.string = helper.getStringHourByTime(obj.time);
+			itemComponent.user.string = helper.shortenName(obj.name);
+			itemComponent.cuoc.string = helper.numberWithCommas(obj.bet);
+			itemComponent.tralai.string = helper.numberWithCommas(obj.tralai);
 			self.scrollViewLeft.content.addChild(item)
 		}))
 		Promise.all(data.dataR.map(function (obj) {
 			var item = cc.instantiate(self.itemPrefab)
-			var itemComponent = item.getComponent('TXBetHistoryItem')
-			itemComponent.time.string = helper.getStringHourByTime(obj.time)
-			itemComponent.user.string = obj.name
-			itemComponent.cuoc.string = helper.numberWithCommas(obj.bet)
-			itemComponent.tralai.string = helper.numberWithCommas(obj.tralai)
-			self.scrollViewRight.content.addChild(item)
+			var itemComponent = item.getComponent('TXBetHistoryItem');
+			itemComponent.time.string = helper.getStringHourByTime(obj.time);
+			itemComponent.user.string = helper.shortenName(obj.name);
+			itemComponent.cuoc.string = helper.numberWithCommas(obj.bet);
+			itemComponent.tralai.string = helper.numberWithCommas(obj.tralai);
+			self.scrollViewRight.content.addChild(item);
 		}))
 	},
 	setNew: function () {
