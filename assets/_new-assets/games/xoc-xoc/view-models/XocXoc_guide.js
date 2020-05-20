@@ -16,9 +16,7 @@ cc.Class({
 
     init: function (configs) {
         this.configs = configs;
-    },
 
-    onLoad: function () {
         const odds = this.configs.odds;
         const choiceMaxBet = this.configs.choices_maxbet;
         const replaceData = {
