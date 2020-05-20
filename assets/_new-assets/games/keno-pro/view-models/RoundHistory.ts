@@ -76,8 +76,13 @@ export default class RoundHistory extends cc.Component {
     }
 
     public onOptionClick(event: cc.Component.EventHandler, game) {
+        this.currentOption = this.getIndexOption(event.target.name);
+        this.updateDisplay();
+    }
+
+    private getIndexOption(name: string): number {
         var index = 0;
-        switch (event.target.name) {
+        switch (name) {
             case "tai-xiu":
                 index = HistoryOption.BigSmall;
                 break;
@@ -88,9 +93,7 @@ export default class RoundHistory extends cc.Component {
                 index = HistoryOption.FiveElements;
                 break;
         }
-
-        this.currentOption = index;
-        this.updateDisplay();
+        return index;
     }
 
     private updateDisplay() {
@@ -107,7 +110,7 @@ export default class RoundHistory extends cc.Component {
         }
 
         this.options.children.forEach((child, i) => {
-            var selected = i == this.currentOption;
+            var selected = this.getIndexOption(child.name) == this.currentOption;
             child.children[0].active = !selected;
             child.children[1].color = selected ? cc.color(165, 137, 35) : cc.color(178, 178, 178);
         });
