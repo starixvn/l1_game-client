@@ -137,8 +137,7 @@ export default class ChanLeTurnHistory extends cc.Component {
         var itemComponent = item.getComponent('ChanLeTurnHistoryItem') as ChanLeTurnHistoryItem;
         itemComponent.time.string = getStringHourByTime(turnData.time);
         var isLoginUser = turnData.name == cc.RedT.user.name;
-        // itemComponent.highlight.active = isLoginUser;
-        itemComponent.setHighlightText(isLoginUser);
+        itemComponent.highlight.active = isLoginUser;
         itemComponent.userName.string = isLoginUser ? turnData.name : shortenName(turnData.name);
         itemComponent.bet.string = numberWithCommas(turnData.bet);
         itemComponent.refund.string = numberWithCommas(turnData.tralai);

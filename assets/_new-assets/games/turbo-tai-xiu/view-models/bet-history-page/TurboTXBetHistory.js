@@ -65,7 +65,6 @@ cc.Class({
 		itemComponent.time.string = helper.getStringHourByTime(obj.time);
 		var isLoginUser = obj.name == cc.RedT.user.name;
 		itemComponent.highlight.active = isLoginUser;
-		// itemComponent.setHighlightText(isLoginUser);
 		itemComponent.user.string = isLoginUser ? obj.name : helper.shortenName(obj.name);
 		itemComponent.cuoc.string = helper.numberWithCommas(obj.bet);
 		itemComponent.tralai.string = helper.numberWithCommas(obj.tralai);
