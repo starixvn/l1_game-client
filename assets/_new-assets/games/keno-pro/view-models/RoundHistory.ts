@@ -172,6 +172,10 @@ export default class RoundHistory extends cc.Component {
         this.logControl.items = this.fiveElementsItem;
         this.statisticProgesses2.prefixes = ["KIM", "MỘC", "THUỶ", "HOẢ", "THỔ"];
         var statisticData = this.statisticData[HistoryOption.FiveElements];
+
+        // data test
+        // statisticData.statistic = [1, 10, 78, 10, 1];
+        // statisticData.data = statisticData.data.slice(0, 100);
         this.updataStatistic(this.statisticProgesses2, statisticData);
 
         this.statisticProgesses.node.active = false;
