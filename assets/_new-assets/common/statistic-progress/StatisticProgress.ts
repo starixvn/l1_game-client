@@ -43,6 +43,7 @@ export default class StatisticProgress extends cc.Component {
             var width = this.frames[i].width;
             if (width < limit) {
                 delta += limit - width;
+            } else {
                 j++;
             }
         }
