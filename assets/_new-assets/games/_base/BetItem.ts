@@ -31,7 +31,8 @@ export default class BetItem extends cc.Component {
         }
 
         if (data.ownBets) {
-            this.setOwnBet(data.ownBets[this.node.name.toLowerCase()]);
+            let ownBet = data.ownBets[this.node.name.toLowerCase()];
+            ownBet && this.setOwnBet(ownBet);
         }
     }
 

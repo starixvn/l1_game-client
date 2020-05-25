@@ -4,6 +4,10 @@ import MiniSedie from "../MiniSedie";
 export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: MiniSedie) {
         super(main, 3);
+        this.main.animation.on("finished", () => {
+            this.main.showResult();
+            this.main.timeHandler.resetTime();
+        });
     }
 
     handleFinishData(dataFinish) {
@@ -18,6 +22,9 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
     }
 
     playResultAnimation() {
-        this.main.setDots(this.main.currentDataLogs[0].result);
+        if (cc.RedT.GAME_IS_SHOWED) {
+            this.main.animation.node.active = true;
+            this.main.animation.play();
+        }
     }
 }

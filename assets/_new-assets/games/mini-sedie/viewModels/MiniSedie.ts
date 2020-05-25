@@ -2,6 +2,7 @@ import GameBase from "../../_base/GameBase";
 import SedieRoundResult from "./SedieRoundResult";
 import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
 import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
+import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -14,6 +15,9 @@ export default class MiniSedie extends GameBase {
 
     @property(cc.SpriteFrame)
     dotWhite: cc.SpriteFrame = null;
+
+    @property(cc.Animation)
+    animation: cc.Animation = null;
 
     @property(cc.Prefab)
     roundResultPrefab: cc.Prefab = null;
@@ -44,6 +48,7 @@ export default class MiniSedie extends GameBase {
     initHandlers() {
         super.initHandlers();
         this.finishHandler = new MiniSedieFinishHandler(this);
+        this.timeHandler = new MiniSedieTimeHandler(this);
         this.logsHandler = new MiniSedieLogsHandler(this);
     }
 
@@ -64,9 +69,25 @@ export default class MiniSedie extends GameBase {
         });
     }
 
-    public setDots(result) {
+    public showResult() {
+        if (this.currentDataLogs.length) {
+            const dataLog = this.currentDataLogs[0];
+            this.setDots(dataLog.result);
+            this.highlightWonItems(dataLog.settlementResult);
+        }
+    }
+
+    private setDots(result) {
         Object.keys(result).forEach((key, index) => {
             this.dices[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
+        });
+    }
+
+    private highlightWonItems(settlementResult) {
+        this.betItems.forEach(betItem => {
+            if (!settlementResult[betItem.node.name]) {
+                betItem.setHighlight(false);
+            }
         });
     }
 
