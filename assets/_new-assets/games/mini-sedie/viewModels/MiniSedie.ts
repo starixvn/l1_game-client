@@ -4,6 +4,14 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniSedie extends GameBase {
+    @property({ type: cc.Sprite })
+    dices: cc.Sprite[] = [];
+
+    @property(cc.SpriteFrame)
+    dotRed: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    dotWhite: cc.SpriteFrame = null;
 
     @property(cc.Prefab)
     roundResultPrefab: cc.Prefab = null;
@@ -45,6 +53,12 @@ export default class MiniSedie extends GameBase {
     public onBetItemClick(e) {
         this.bet({
             bet: { amount: this.currentBet, betChoice: e.target.name }
+        });
+    }
+
+    public setDots(result) {
+        Object.keys(result).forEach((key, index) => {
+            this.dices[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
         });
     }
 
