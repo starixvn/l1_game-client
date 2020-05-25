@@ -22,7 +22,7 @@ export default class MiniSedie extends GameBase {
 
     public onBetItemClick(e) {
         this.bet({
-            bet: { amount: this.currentBet, box: e.target.name }
+            bet: { amount: this.currentBet, betChoice: e.target.name }
         });
     }
 }

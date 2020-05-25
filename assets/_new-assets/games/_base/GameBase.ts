@@ -142,7 +142,6 @@ export default class GameBase extends cc.Component {
     }
 
     onData(data: any) {
-        console.log(data);
         for (let index = 0; index < this.dataHandlers.length; index++) {
             let handler = this.dataHandlers[index];
             if (index == 0 && handler.handle(data)) { //um handler
