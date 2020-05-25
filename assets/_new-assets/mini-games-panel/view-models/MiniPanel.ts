@@ -8,6 +8,7 @@ import RongHo from '../../games/rong-ho/view-models/RongHo';
 import { RongHoConfigs } from '../../games/rong-ho/view-models/RongHoConfigs';
 import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
 import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
+import Loading from '../../common/loading/view-models/Loading';
 
 @ccclass
 export default class MiniPanel extends cc.Component {
@@ -39,34 +40,16 @@ export default class MiniPanel extends cc.Component {
   effectNode: cc.Node = null;
 
   @property(cc.Prefab)
-  taiXiuPrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
-  bauCuaPrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
-  chanLePrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
-  turboTaiXiuPrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
-  chanLeTurboPrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
-  rongHoPrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
-  miniSediePrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
   guidePrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
   noticePrefab: cc.Prefab = null;
 
-  private isLightOn: boolean;
+  @property(cc.Prefab)
+  loadingPrefab: cc.Prefab = null;
 
+  private isLightOn: boolean;
+  private loading: Loading;
   private taiXiu: any;
   private bauCua: any;
   private taiXiuTurbo: any;
@@ -81,6 +64,11 @@ export default class MiniPanel extends cc.Component {
       cc.RedT.util.fontCong = this.fontCong;
       cc.RedT.util.fontTru = this.fontTru;
     }
+
+    var loadingNode = cc.instantiate(this.loadingPrefab);
+    this.loading = loadingNode.getComponent("Loading") as Loading;
+    loadingNode.active = false;
+    this.node.addChild(loadingNode);
   }
 
   onDestroy() {
@@ -101,22 +89,8 @@ export default class MiniPanel extends cc.Component {
   }
 
   onGeneralData(data: any) {
-    if (void 0 !== data.mini) {
+    if (data.mini) {
       this.onData(data.mini);
-    }
-    if (void 0 !== data.taixiu) {
-      this.onDataTaiXiu(data.taixiu);
-    }
-    if (data.chanle) {
-      this.onDataChanLe(data.chanle);
-    }
-
-    if (void 0 !== data.taixiu_turbo) {
-      this.onDataTaiXiuTurbo(data.taixiu_turbo);
-    }
-
-    if (data.clturbo) {
-      this.onDataChanLeTurbo(data.clturbo);
     }
 
     if (data.kickedOut) {
@@ -134,37 +108,9 @@ export default class MiniPanel extends cc.Component {
 
   onData(data: any) {
     if (data.baucua) {
-      if (this.bauCua && this.bauCua.node && this.bauCua.node.active) {
-        this.bauCua.onData(data.baucua);
-      }
-
       if (data.baucua.odds && this.guide && this.guide.node) {
         this.guide.onData(data);
       }
-    }
-  }
-
-  onDataTaiXiu(taiXiuData: any) {
-    if (taiXiuData && this.taiXiu && this.taiXiu.node && this.taiXiu.TX_Main && this.taiXiu.node.active) {
-      this.taiXiu.TX_Main.onData(taiXiuData);
-    }
-  }
-
-  onDataTaiXiuTurbo(data: any) {
-    if (data && this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.TX_Main && this.taiXiuTurbo.node.active) {
-      this.taiXiuTurbo.TX_Main.onData(data);
-    }
-  }
-
-  onDataChanLe(chanLeData: any) {
-    if (chanLeData && this.chanLe && this.chanLe.node && this.chanLe.node.active) {
-      this.chanLe.onData(chanLeData);
-    }
-  }
-
-  onDataChanLeTurbo(chanLeTurboData: any) {
-    if (chanLeTurboData && this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.node.active) {
-      this.chanLeTurbo.onData(chanLeTurboData);
     }
   }
 
@@ -269,7 +215,7 @@ export default class MiniPanel extends cc.Component {
         this.openChanLe();
         break;
       case configs.gameIds.ChanLeTurbo:
-        !configs.disableChanLeTurbo && this.openChanLeTurbo();
+        this.openChanLeTurbo();
         break;
       case configs.gameIds.RongHo:
         this.openRongHo();
@@ -278,118 +224,106 @@ export default class MiniPanel extends cc.Component {
         break;
     }
   }
-  openTaiXiu() {
-    if (cc.RedT.IS_LOGIN) {
-      if (!this.taiXiu || !this.taiXiu.node) {
-        var taiXiuPrefab = cc.instantiate(this.taiXiuPrefab);
-        this.taiXiu = taiXiuPrefab.getComponent("TX");
-        this.taiXiu.init(this);
-        this.miniGames.addChild(this.taiXiu.node);
-        this.taiXiu.openGame();
-      }
 
-      this.taiXiu.node.active = true;
+  openMiniGame(prefabPath: string, componentName: string, isAlreadyOpened: boolean, initFunc: (gameComponent) => void, showGameFunc: () => void) {
+    if (cc.RedT.IS_LOGIN) {
+      let gameComponent: any;
+
+      if (!isAlreadyOpened) {
+        this.loading.node.active = true;
+        cc.loader.loadRes(prefabPath, function (err, prefab) {
+          if (prefab === null) {
+            return;
+          }
+
+          let node = cc.instantiate(prefab);
+          gameComponent = node.getComponent(componentName);
+          initFunc ? initFunc(gameComponent) : gameComponent.init(this);
+          this.miniGames.addChild(gameComponent.node);
+          gameComponent.openGame();
+          this.loading.node.active = false;
+        }.bind(this));
+      }
+      else {
+        showGameFunc();
+      }
     }
     else {
       cc.RedT.inGame.dialog.showSignIn();
     }
+  }
+
+  openTaiXiu() {
+    this.openMiniGame("games/tai-xiu/views/TaiXiu", "TX", this.taiXiu && this.taiXiu.node,
+      (gameComponent) => {
+        this.taiXiu = gameComponent;
+        this.taiXiu.init("taixiu", this);
+      },
+      () => {
+        this.taiXiu.node.active = true;
+      });
   }
 
   openTaiXiuTurbo() {
-    if (cc.RedT.IS_LOGIN) {
-      if (!this.taiXiuTurbo || !this.taiXiuTurbo.node) {
-        var node = cc.instantiate(this.turboTaiXiuPrefab);
-        this.taiXiuTurbo = node.getComponent("TurboTX");
-        this.taiXiuTurbo.init(this);
-        this.miniGames.addChild(this.taiXiuTurbo.node);
-        this.taiXiuTurbo.openGame();
-      }
-
-      this.taiXiuTurbo.node.active = true;
-    }
-    else {
-      cc.RedT.inGame.dialog.showSignIn();
-    }
+    this.openMiniGame("games/tai-xiu-turbo/views/TurboTaiXiu", "TurboTX", this.taiXiuTurbo && this.taiXiuTurbo.node,
+      (gameComponent) => {
+        this.taiXiuTurbo = gameComponent;
+        this.taiXiuTurbo.init("taixiu_turbo", this);
+      },
+      () => {
+        this.taiXiuTurbo.node.active = true;
+      });
   }
 
   openBauCua() {
-    if (cc.RedT.IS_LOGIN) {
-      if (!this.bauCua || !this.bauCua.node) {
-        var bauCuaPrefab = cc.instantiate(this.bauCuaPrefab);
-        this.bauCua = bauCuaPrefab.getComponent("BauCuaMini");
-        this.bauCua.init(this);
-        this.miniGames.addChild(this.bauCua.node);
-      }
-
-      this.bauCua.openGame();
-    } else {
-      cc.RedT.inGame.dialog.showSignIn();
-    }
+    this.openMiniGame("games/bau-cua/views/BauCua", "BauCuaMini", this.bauCua && this.bauCua.node,
+      (gameComponent) => {
+        this.bauCua = gameComponent;
+        this.bauCua.init("baucua", this);
+      }, () => {
+        this.bauCua.node.active = true;
+      });
   }
 
   openRongHo() {
-    if (cc.RedT.IS_LOGIN) {
-      if (!this.rongHo || !this.rongHo.node) {
-        var rongHoNode = cc.instantiate(this.rongHoPrefab);
-        this.rongHo = rongHoNode.getComponent("RongHo") as RongHo;
+    this.openMiniGame("games/rong-ho/views/RongHo", "RongHo", (this.rongHo != null && this.rongHo.node != null),
+      (gameComponent) => {
+        this.rongHo = gameComponent;
         this.rongHo.init(this, "dragon_tiger", new RongHoConfigs());
-        this.miniGames.addChild(rongHoNode);
-      }
-
-      this.rongHo.openGame();
-    } else {
-      cc.RedT.inGame.dialog.showSignIn();
-    }
+      },
+      () => {
+        this.rongHo.node.active = true;
+      });
   }
 
   openMiniSedie() {
-    if (cc.RedT.IS_LOGIN) {
-      if (!this.miniSedie || !this.miniSedie.node) {
-        var miniSedieNode = cc.instantiate(this.miniSediePrefab);
-        this.miniSedie = miniSedieNode.getComponent("MiniSedie") as MiniSedie;
+    this.openMiniGame("games/mini-sedie/views/MiniSedie", "MiniSedie", this.miniSedie != null,
+      (gameComponent) => {
+        this.miniSedie = gameComponent;
         this.miniSedie.init("miniSedie", new MiniSedieConfigs(), this);
-        this.miniGames.addChild(miniSedieNode);
-      }
-
-      this.miniSedie.openGame();
-    } else {
-      cc.RedT.inGame.dialog.showSignIn();
-    }
+      }, () => {
+        this.miniSedie.node.active = true
+      });
   }
 
   openChanLe() {
-    if (cc.RedT.IS_LOGIN) {
-      if (!this.chanLe || !this.chanLe.node) {
-        var chanLePrefab = cc.instantiate(this.chanLePrefab);
-        this.chanLe = chanLePrefab.getComponent("ChanLe") as ChanLe;
+    this.openMiniGame("games/chan-le/views/ChanLe", "ChanLe", this.chanLe != null,
+      (gameComponent) => {
+        this.chanLe = gameComponent;
         this.chanLe.init(this, "chanle", new ChanLeConfigs(), "Chẵn Lẻ");
-        this.miniGames.addChild(this.chanLe.node);
-      }
-
-      this.chanLe.openGame();
-    }
-    else {
-      cc.RedT.inGame.dialog.showSignIn();
-    }
+      }, () => {
+        this.chanLe.node.active = true;
+      });
   }
 
   openChanLeTurbo() {
-    if (cc.RedT.IS_LOGIN) {
-      if ((!this.chanLeTurbo || !this.chanLeTurbo.node) && !configs.disableChanLeTurbo) {
-        var chanLePrefab = cc.instantiate(this.chanLeTurboPrefab);
-        this.chanLeTurbo = chanLePrefab.getComponent("ChanLe") as ChanLe;
+    this.openMiniGame("games/chan-le-turbo/views/ChanLeTurbo", "ChanLe", this.chanLeTurbo != null,
+      (gameComponent) => {
+        this.chanLeTurbo = gameComponent;
         this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs(), "Chẵn lẻ siêu tốc", true);
-        this.miniGames.addChild(this.chanLeTurbo.node);
-      }
-
-      this.chanLeTurbo.openGame();
-    }
-    else {
-      cc.RedT.inGame.dialog.showSignIn();
-    }
-  }
-
-  openMiniPoker() {
+      }, () => {
+        this.chanLeTurbo.node.active = true;
+      });
   }
 
   openGuide(gameName: string) {

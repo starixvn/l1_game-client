@@ -68,7 +68,8 @@ cc.Class({
     oddTwo: cc.Label,
     oddThree: cc.Label,
   },
-  init(obj) {
+  init(gameName, obj) {
+    this.gameName = gameName;
     this.miniPanel = obj; // MiniPanel
     this.initSettingBauCua();
     cc.RedT.setting.baucua.regOpen = false; // force get new data when back from other scene
@@ -193,11 +194,11 @@ cc.Class({
     cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
     cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
+    this.observeData();
   },
   onDisable: function () {
     this.Animation.off("finished");
     this.onGameHide();
-
     this.regEvent(false);
     this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
@@ -205,6 +206,29 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
+    this.removeDataObserver();
+  },
+
+  observeData() {
+    cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
+  },
+
+  removeDataObserver() {
+    cc.RedT.removeDataObserver(this.gameName);
+  },
+
+  receivedData(data) {
+    const dataMini = data.mini;
+
+    if (!dataMini) {
+      return;
+    }
+
+    const gameData = data.mini[this.gameName];
+
+    if (gameData) {
+      this.onData(gameData);
+    }
   },
   regEvent: function (show) {
     if (show) {
