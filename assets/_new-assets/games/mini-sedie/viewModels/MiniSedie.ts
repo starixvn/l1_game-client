@@ -1,5 +1,7 @@
 import GameBase from "../../_base/GameBase";
 import SedieRoundResult from "./SedieRoundResult";
+import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
+import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -37,6 +39,12 @@ export default class MiniSedie extends GameBase {
     onEnable() {
         super.onEnable()
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
+    }
+
+    initHandlers() {
+        super.initHandlers();
+        this.finishHandler = new MiniSedieFinishHandler(this);
+        this.logsHandler = new MiniSedieLogsHandler(this);
     }
 
     receivedData(data) {
