@@ -35,7 +35,8 @@ export default class LogControl extends cc.Component {
     }
 
     public setData(results: number[]) {
-        this.content.children.forEach(child => child.destroy());
+        this.content.destroyAllChildren();
+        this.content.removeAllChildren();
 
         var col = 0, row = 0;
         var maxX = 0;
