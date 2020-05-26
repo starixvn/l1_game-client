@@ -25,7 +25,7 @@ export default class SedieMiniRoundHistory extends cc.Component {
     private listener = {
         onEnter: (node: cc.Node) => {
             let red = node.getComponent(SedieRoundHistoryItem).red;
-            this.tip.node.position.x = node.x;
+            this.tip.node.position = cc.v2(node.x, this.tip.node.y);
             this.tip.setData(red);
         },
         onLeave: (node: cc.Node) => {

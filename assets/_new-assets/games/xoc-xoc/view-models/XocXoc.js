@@ -374,7 +374,7 @@ cc.Class({
 		if (!!data.logs) {
 			this.logs = data.logs;
 			this.updateRoundHistory();
-			this.setLogs();
+			// this.setLogs();
 			this.setGameRound();
 
 			if (this.time_remain > 33 && data.logs.length) {
@@ -505,7 +505,7 @@ cc.Class({
 			)
 		);
 		this.updateRoundHistory();
-		this.setLogs();
+		// this.setLogs();
 	},
 	showKQ: function () {
 		let data = Object.values(this.logs[0].dots);
@@ -1014,7 +1014,7 @@ cc.Class({
 			return count;
 		});
 		this.roundHistory.setData(redData);
-		this.main.miniRoundHistory.setData(redData);
+		this.miniRoundHistory.setData(redData);
 	},
 	setLogs: function () {
 		let self = this;
