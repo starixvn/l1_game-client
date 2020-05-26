@@ -49,9 +49,10 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
     }
 
     addPlayers(playersData) {
-        var players: PlayerData[] = _.values(playersData);
-        var realPlayers = _.filter(players, player => !player.type);
-        var botPlayers = _.filter(players, player => player.type);
+        const players: PlayerData[] = _.values(playersData);
+        console.log(players)
+        const realPlayers = _.filter(players, player => !player.type);
+        const botPlayers = _.filter(players, player => player.type);
 
         _.forEach(realPlayers, (player) => {
             this.addPlayer(player);
@@ -63,29 +64,44 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
     }
 
     addPlayer(player: PlayerData) {
-        var playerSlot = this.getPlayerSlot(player.id);
+        const playerSlot = this.getPlayerSlot(player.id);
 
         if (!playerSlot) {
-            let emptySlots = this.getEmptySlots();
+            const emptySlot = this.getEmptySlot();
 
-            if (emptySlots.length > 0) {
-                var emptySlot = emptySlots[0];
+            if (emptySlot) {
                 emptySlot.setInfo(player);
-            } else {
-                this.otherPlayers[player.id] = player;
+
+                return;
             }
+
+            if (!player.type) {
+                console.log(player)
+
+                const botSlot = this.getBotSlot();
+
+                if (botSlot) {
+                    var botPlayerData = botSlot.data;
+                    botSlot.setInfo(player);
+                    botPlayerData && (this.otherPlayers[botPlayerData.id] = botPlayerData);
+
+                    return;
+                }
+            }
+
+            this.otherPlayers[player.id] = player;
         }
 
     }
 
     updateTablePlayers() {
-        var otherPlayers: any[] = _.values(this.otherPlayers);
-        var botsInTable = _.filter(this.main.players, player => player.data && player.data.type);
-        var realPlayers: PlayerData[] = _.filter(otherPlayers, player => player.data && !player.type);
+        let otherPlayers: any[] = _.values(this.otherPlayers);
+        const botsInTable = _.filter(this.main.players, player => player.data && player.data.type);
+        const realPlayers: PlayerData[] = _.filter(otherPlayers, player => player && !player.type);
 
         _.forEach(botsInTable, (bot, index) => {
             if (index <= realPlayers.length - 1) {
-                var realPlayer = realPlayers[index];
+                var realPlayer = realPlayers[0];
                 var botData = bot.data;
                 this.otherPlayers[botData.id] = botData;
 
@@ -99,7 +115,11 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
         return _.find(this.main.players, (player) => player.data && player.data.id === playerId);
     }
 
-    getEmptySlots() {
-        return _.filter(this.main.players, (player) => !player.data);
+    getEmptySlot(): RoomPlayer {
+        return _.find(this.main.players, (player) => !player.data);
+    }
+
+    getBotSlot(): RoomPlayer {
+        return _.find(this.main.players, (player) => player.data && player.data.type);
     }
 }
