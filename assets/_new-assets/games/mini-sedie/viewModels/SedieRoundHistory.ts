@@ -1,10 +1,10 @@
 import LogControl from "../../keno-pro/view-models/LogControl";
-import SedieRoundResultItem from "./SedieRoundResultItem";
+import SedieRoundHistoryItem from "./SedieRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SedieRoundResult extends cc.Component {
+export default class SedieRoundHistory extends cc.Component {
 
     @property(LogControl)
     logControl: LogControl = null;
@@ -42,7 +42,7 @@ export default class SedieRoundResult extends cc.Component {
         this.updateStatistic(redData);
         let logData = data.map(d => d.settlementResult.even ? 0 : 1);
         this.logControl.setData(logData);
-        var items = this.logControl.content.getComponentsInChildren(SedieRoundResultItem);
+        var items = this.logControl.content.getComponentsInChildren(SedieRoundHistoryItem);
         items.forEach((item, i) => item.setValue(redData[i]));
     }
 

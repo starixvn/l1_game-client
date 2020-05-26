@@ -1,5 +1,5 @@
 import GameBase from "../../_base/GameBase";
-import SedieRoundResult from "./SedieRoundResult";
+import SedieRoundHistory from "./SedieRoundHistory";
 import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
 import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
 import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
@@ -20,24 +20,24 @@ export default class MiniSedie extends GameBase {
     animation: cc.Animation = null;
 
     @property(cc.Prefab)
-    roundResultPrefab: cc.Prefab = null;
+    roundHistoryPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    roundResultContainer: cc.Node = null;
+    roundHistoryContainer: cc.Node = null;
 
-    public roundResult: SedieRoundResult = null;
+    public roundHistory: SedieRoundHistory = null;
     private showLogs = true;
 
     onLoad() {
         super.onLoad();
-        var node = cc.instantiate(this.roundResultPrefab);
-        this.roundResult = node.getComponent(SedieRoundResult);
-        this.roundResultContainer.addChild(node);
+        var node = cc.instantiate(this.roundHistoryPrefab);
+        this.roundHistory = node.getComponent(SedieRoundHistory);
+        this.roundHistoryContainer.addChild(node);
     }
 
     onDestroy() {
         super.onDestroy();
-        this.roundResultContainer.destroyAllChildren();
+        this.roundHistoryContainer.destroyAllChildren();
     }
 
     onEnable() {
@@ -97,6 +97,6 @@ export default class MiniSedie extends GameBase {
     }
 
     private ShowRoundResult(show: boolean) {
-        this.roundResultContainer.active = show;
+        this.roundHistoryContainer.active = show;
     }
 }
