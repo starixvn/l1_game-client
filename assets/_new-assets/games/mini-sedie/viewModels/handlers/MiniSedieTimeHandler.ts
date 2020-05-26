@@ -17,7 +17,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         super.handleInRoundTime();
 
         this.main.setGameRound(this.main.roundId + 1);
-        this.main.betItems.forEach(item => item.setHighlight(true));
+        this.main.betItems.forEach(item => item.resetHighlight());
         this.main.dishNode.active = true;
     }
 }

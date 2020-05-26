@@ -93,9 +93,7 @@ export default class MiniSedie extends GameBase {
 
     private highlightWonItems(settlementResult) {
         this.betItems.forEach((betItem) => {
-            if (!settlementResult[betItem.node.name]) {
-                betItem.setHighlight(false);
-            }
+            betItem.setHighlight(settlementResult[betItem.node.name]);
         });
     }
 
