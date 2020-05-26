@@ -366,7 +366,7 @@ cc.Class({
 		if (!!data.logs) {
 			this.logs = data.logs;
 			this.updateRoundHistory();
-			// this.setLogs();
+			this.setLogs();
 			this.setGameRound();
 
 			if (this.time_remain > 33 && data.logs.length) {
@@ -497,7 +497,7 @@ cc.Class({
 			)
 		);
 		this.updateRoundHistory();
-		// this.setLogs();
+		this.setLogs();
 	},
 	showKQ: function () {
 		let data = Object.values(this.logs[0].dots);
@@ -1023,6 +1023,7 @@ cc.Class({
 			}
 		});
 
+		/* // remove log_top
 		let tmp_DS = -1;
 		let tmp_arrA = [];
 		let tmp_arrB = [];
@@ -1094,6 +1095,7 @@ cc.Class({
 
 		this.log_chan.string = c_chan;
 		this.log_le.string = c_le;
+		*/
 	},
 	changerBet: function (event, bet) {
 		let target = event.target;
