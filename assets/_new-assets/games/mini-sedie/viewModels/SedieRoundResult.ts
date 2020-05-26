@@ -32,7 +32,7 @@ export default class SedieRoundResult extends cc.Component {
             let count = 0;
             let list = ["red1", "red2", "red3", "red4"];
             list.forEach(i => {
-                if (d[list[i]]) {
+                if (d.result[i]) {
                     count++;
                 }
             });
