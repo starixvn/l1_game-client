@@ -8,7 +8,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniSedie extends GameBase {
     @property({ type: cc.Sprite })
-    dices: cc.Sprite[] = [];
+    dots: cc.Sprite[] = [];
 
     @property(cc.SpriteFrame)
     dotRed: cc.SpriteFrame = null;
@@ -25,11 +25,8 @@ export default class MiniSedie extends GameBase {
     @property(cc.Node)
     roundHistoryContainer: cc.Node = null;
 
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
+    @property(cc.Node)
+    dishNode: cc.Node = null;
 
     public roundHistory: SedieRoundHistory = null;
     private showLogs = true;
@@ -78,12 +75,13 @@ export default class MiniSedie extends GameBase {
             const dataLog = this.currentDataLogs[0];
             this.setDots(dataLog.result);
             this.highlightWonItems(dataLog.settlementResult);
+            this.dishNode.active = false;
         }
     }
 
     private setDots(result) {
         Object.keys(result).forEach((key, index) => {
-            this.dices[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
+            this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
         });
     }
 

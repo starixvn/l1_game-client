@@ -23,7 +23,6 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
 
     playResultAnimation() {
         if (cc.RedT.GAME_IS_SHOWED) {
-            this.main.animation.node.active = true;
             this.main.animation.play();
         }
     }
