@@ -2,7 +2,7 @@ const configs = {
     ssl: false,
     disabledDirectLogin: true,
     serverEndpoints: {
-        "games.lumigame.com": '124.158.13.228:8080',
+        "games.lumigame.com": '192.168.100.21:8080',
     },
     gameIds: {
         TaiXiu: 1,
