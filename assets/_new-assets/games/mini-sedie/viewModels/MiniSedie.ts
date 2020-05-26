@@ -36,6 +36,7 @@ export default class MiniSedie extends GameBase {
 
     public roundHistory: SedieRoundHistory = null;
     private showLogs = true;
+    private configs: any;
 
     onLoad() {
         super.onLoad();
@@ -63,6 +64,9 @@ export default class MiniSedie extends GameBase {
 
     receivedData(data) {
         if (data.miniSedie) {
+            if (data.miniSedie.configs) {
+                this.configs = data.miniSedie.configs;
+            }
             this.onData(data.miniSedie);
         }
     }
@@ -108,6 +112,13 @@ export default class MiniSedie extends GameBase {
 
     public openHistory() {
         let dialog = cc.instantiate(this.historyPrefab);
+        this.currentMiniPanel.node.addChild(dialog);
+    }
+
+    public openGuide() {
+        let dialog = cc.instantiate(this.guidePrefab);
+        var guide = dialog.getComponent("XocXoc_guide");
+        guide.init(this.configs);
         this.currentMiniPanel.node.addChild(dialog);
     }
 }

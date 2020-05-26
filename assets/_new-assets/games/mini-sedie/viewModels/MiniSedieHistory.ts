@@ -43,7 +43,6 @@ export default class MiniSedieHistory extends cc.Component {
     }
 
     public onData(data: any) {
-        console.log(data);
         this.pagination.onSet(data.page, data.pageSize, data.total);
         this.content.children.map((item, index) => {
             let historyItem = item.getComponent("XocXoc_history_item");
