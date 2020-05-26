@@ -3,6 +3,7 @@ import SedieRoundHistory from "./SedieRoundHistory";
 import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
 import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
 import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
+import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -26,6 +27,12 @@ export default class MiniSedie extends GameBase {
     roundHistoryContainer: cc.Node = null;
 
     @property(cc.Prefab)
+    miniRoundHistoryPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    miniRoundHistoryContainer: cc.Node = null;
+
+    @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
@@ -35,6 +42,7 @@ export default class MiniSedie extends GameBase {
     dishNode: cc.Node = null;
 
     public roundHistory: SedieRoundHistory = null;
+    public miniRoundHistory: SedieMiniRoundHistory = null;
     private showLogs = true;
     private configs: any;
 
@@ -43,11 +51,16 @@ export default class MiniSedie extends GameBase {
         var node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(SedieRoundHistory);
         this.roundHistoryContainer.addChild(node);
+
+        var mini = cc.instantiate(this.miniRoundHistoryPrefab);
+        this.miniRoundHistory = mini.getComponent(SedieMiniRoundHistory);
+        this.miniRoundHistoryContainer.addChild(mini);
     }
 
     onDestroy() {
         super.onDestroy();
         this.roundHistoryContainer.destroyAllChildren();
+        this.miniRoundHistoryContainer.destroyAllChildren();
     }
 
     onEnable() {

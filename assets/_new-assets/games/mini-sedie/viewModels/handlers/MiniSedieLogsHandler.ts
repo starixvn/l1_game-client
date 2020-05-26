@@ -8,6 +8,17 @@ export default class MiniSedieLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
-        this.main.roundHistory.setData(dataLogs);
+        const redData = dataLogs.map(d => {
+            let count = 0;
+            const list = ["red1", "red2", "red3", "red4"];
+            list.forEach(i => {
+                if (d.result[i]) {
+                    count++;
+                }
+            });
+            return count;
+        });
+        this.main.roundHistory.setData(redData);
+        this.main.miniRoundHistory.setData(redData);
     }
 }

@@ -107,6 +107,8 @@ cc.Class({
 		betChips: cc.Node,
 		roundHistoryPrefab: cc.Prefab,
 		roundHistoryContainer: cc.Node,
+		miniRoundHistoryPrefab: cc.Prefab,
+		miniRoundHistoryContainer: cc.Node,
 	},
 	ctor: function () {
 		this.logs = [];
@@ -171,6 +173,8 @@ cc.Class({
 	onDestroy() {
 		cc.RedT.MiniPanel.destroy();
 		cc.RedT.inGame = null;
+		this.roundHistoryContainer.destroyAllChildren();
+		this.miniRoundHistoryContainer.destroyAllChildren();
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
@@ -225,6 +229,10 @@ cc.Class({
 		var node = cc.instantiate(this.roundHistoryPrefab);
 		this.roundHistory = node.getComponent("SedieRoundHistory");
 		this.roundHistoryContainer.addChild(node);
+
+		var mini = cc.instantiate(this.miniRoundHistoryPrefab);
+		this.miniRoundHistory = mini.getComponent("SedieMiniRoundHistory");
+		this.miniRoundHistoryContainer.addChild(mini);
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
 	onData: function (data) {
@@ -996,7 +1004,17 @@ cc.Class({
 		this.clients.red.white4 = 0;
 	},
 	updateRoundHistory: function () {
-		this.roundHistory.setDataOldStyle(this.logs);
+		const redData = this.logs.map(d => {
+			let count = 0;
+			for (let i = 0; i < 4; i++) {
+				if (d.dots[i]) {
+					count++;
+				}
+			}
+			return count;
+		});
+		this.roundHistory.setData(redData);
+		this.main.miniRoundHistory.setData(redData);
 	},
 	setLogs: function () {
 		let self = this;

@@ -29,45 +29,20 @@ export default class SedieRoundHistory extends cc.Component {
 
     private suffix: string = "%";
 
-    public setData(data: any) {
-        var redData = data.map(d => {
-            let count = 0;
-            let list = ["red1", "red2", "red3", "red4"];
-            list.forEach(i => {
-                if (d.result[i]) {
-                    count++;
-                }
-            });
-            return count;
-        });
-
-        this.updateStatistic(redData);
-        let logData = data.map(d => d.settlementResult.even ? 0 : 1);
-        this.logControl.setData(logData);
-        var items = this.logControl.content.getComponentsInChildren(SedieRoundHistoryItem);
-        items.forEach((item, i) => item.setValue(redData[i]));
+    public setData(redData: any) {
+        this.updateHistory(redData);
     }
 
-    public setDataOldStyle(data: any) {
-        var redData = data.map(d => {
-            let count = 0;
-            for (let i = 0; i < 4; i++) {
-                if (d.dots[i]) {
-                    count++;
-                }
-            }
-            return count;
-        });
+    private updateHistory(redData: any) {
         this.updateStatistic(redData);
-
-        let logData = redData.map(d => d % 2 === 0 ? 0 : 1);
+        const logData = redData.map(d => d % 2 === 0 ? 0 : 1);
         this.logControl.setData(logData);
-        var items = this.logControl.content.getComponentsInChildren(SedieRoundHistoryItem);
+        const items = this.logControl.content.getComponentsInChildren(SedieRoundHistoryItem);
         items.forEach((item, i) => item.setValue(redData[i]));
     }
 
     private updateStatistic(redData: number[]) {
-        let total = redData.length;
+        const total = redData.length;
 
         let oddCount = 0, red3Count = 0, red4Count = 0, white3Count = 0, white4Count = 0;
         redData.forEach(i => {
@@ -89,10 +64,10 @@ export default class SedieRoundHistory extends cc.Component {
             }
         });
 
-        let oddValue = Math.round(oddCount * 100 / total);
+        const oddValue = Math.round(oddCount * 100 / total);
         this.odd.string = `${oddValue}${this.suffix}`;
         this.even.string = `${100 - oddValue}${this.suffix}`;
-        let red3Value = Math.round(red3Count * 100 / total);
+        const red3Value = Math.round(red3Count * 100 / total);
         this.red3.string = `${red3Value}${this.suffix}`;
         this.red4.string = `${Math.round(red4Count * 100 / total)}${this.suffix}`;
         this.white3.string = `${oddValue - red3Value}${this.suffix}`;
