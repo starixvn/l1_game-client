@@ -122,6 +122,8 @@ export default class GameBase extends cc.Component {
             this.finishHandler);
         this.initBetChips();
         this.initGameAudios();
+        this.setGameRound(0);
+        this.resetDataAndUI();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
@@ -239,7 +241,8 @@ export default class GameBase extends cc.Component {
             item.clearBet();
             item.resetHighlight();
         });
-
+        this.animatedTime.node.active = false;
+        this.timeWaitNode.active = false;
         this.statusHandler.currentStatusData = null;
     }
 

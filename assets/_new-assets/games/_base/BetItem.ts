@@ -1,3 +1,5 @@
+import * as helper from '../../../_new-assets/common/helpers/Helper';
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -18,11 +20,11 @@ export default class BetItem extends cc.Component {
     highlight: cc.Node = null;
 
     protected setOwnBet(bet: number) {
-        this.ownBet.string = bet.toString();
+        this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
 
     protected setTotalBet(bet: number) {
-        this.totalBet.string = bet.toString();
+        this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
 
     public setData(data: any) {

@@ -84,8 +84,6 @@ export default class Keno extends GameRoomBase {
         }
         this.roundHistory.init(this);
         this.players.forEach(player => player.node.active = false);
-        this.setGameRound(0);
-        this.resetDataAndUI();
     }
     //#endregion
 

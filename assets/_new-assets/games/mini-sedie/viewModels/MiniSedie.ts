@@ -25,6 +25,12 @@ export default class MiniSedie extends GameBase {
     @property(cc.Node)
     roundHistoryContainer: cc.Node = null;
 
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    guidePrefab: cc.Prefab = null;
+
     @property(cc.Node)
     dishNode: cc.Node = null;
 
