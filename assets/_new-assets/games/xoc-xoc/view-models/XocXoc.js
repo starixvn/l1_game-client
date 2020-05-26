@@ -173,8 +173,6 @@ cc.Class({
 	onDestroy() {
 		cc.RedT.MiniPanel.destroy();
 		cc.RedT.inGame = null;
-		this.roundHistoryContainer.destroyAllChildren();
-		this.miniRoundHistoryContainer.destroyAllChildren();
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
