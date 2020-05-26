@@ -70,10 +70,10 @@ cc.Class({
 			type: cc.Sprite,
 		},
 
-		log_chan: cc.Label,
-		log_le: cc.Label,
-		log_top: cc.Node,
-		logMain: cc.Node,
+		// log_chan: cc.Label,
+		// log_le: cc.Label,
+		// log_top: cc.Node,
+		// logMain: cc.Node,
 
 		redH: cc.Node,
 		miniNotice: cc.Node,
@@ -191,7 +191,7 @@ cc.Class({
 			this.cuoc = bet;
 		});
 		this.bet = this.betChips.chips;
-
+		/*
 		this.logMain = this.logMain.children.map(function (obj) {
 			return obj.children[0].getComponent(cc.Sprite);
 		});
@@ -209,6 +209,7 @@ cc.Class({
 		});
 
 		this.log_top.reverse();
+		*/
 
 		this.me_name.string = cc.RedT.user.name;
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
@@ -1015,6 +1016,7 @@ cc.Class({
 		this.miniRoundHistory.setData(redData);
 	},
 	setLogs: function () {
+		/*
 		let self = this;
 		this.logMain.forEach(function (obj, index) {
 			if (self.logs[index]) {
@@ -1038,6 +1040,7 @@ cc.Class({
 				}
 			}
 		});
+		*/
 
 		/* // remove log_top
 		let tmp_DS = -1;
