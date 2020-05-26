@@ -104,7 +104,9 @@ cc.Class({
 		center: cc.Node,
 		winnerPrefab: cc.Prefab,
 		NoticePrefab: cc.Prefab,
-		betChips: cc.Node
+		betChips: cc.Node,
+		roundHistoryPrefab: cc.Prefab,
+		roundHistoryContainer: cc.Node,
 	},
 	ctor: function () {
 		this.logs = [];
@@ -220,6 +222,9 @@ cc.Class({
 		if (!cc.sys.isMobile) {
 			this.redH.scale = 0.8;
 		}
+		var node = cc.instantiate(this.roundHistoryPrefab);
+		this.roundHistory = node.getComponent("SedieRoundHistory");
+		this.roundHistoryContainer.addChild(node);
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
 	onData: function (data) {
@@ -360,7 +365,8 @@ cc.Class({
 		}
 		if (!!data.logs) {
 			this.logs = data.logs;
-			this.setLogs();
+			this.updateRoundHistory();
+			// this.setLogs();
 			this.setGameRound();
 
 			if (this.time_remain > 33 && data.logs.length) {
@@ -490,7 +496,8 @@ cc.Class({
 				cc.callFunc(this.showKQ2, this),
 			)
 		);
-		this.setLogs();
+		this.updateRoundHistory();
+		// this.setLogs();
 	},
 	showKQ: function () {
 		let data = Object.values(this.logs[0].dots);
@@ -987,6 +994,9 @@ cc.Class({
 		this.clients.red.red4 = 0;
 		this.clients.red.white3 = 0;
 		this.clients.red.white4 = 0;
+	},
+	updateRoundHistory: function () {
+		this.roundHistory.setDataOldStyle(this.logs);
 	},
 	setLogs: function () {
 		let self = this;

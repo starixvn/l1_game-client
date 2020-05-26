@@ -48,6 +48,24 @@ export default class SedieRoundHistory extends cc.Component {
         items.forEach((item, i) => item.setValue(redData[i]));
     }
 
+    public setDataOldStyle(data: any) {
+        var redData = data.map(d => {
+            let count = 0;
+            for (let i = 0; i < 4; i++) {
+                if (d.dots[i]) {
+                    count++;
+                }
+            }
+            return count;
+        });
+        this.updateStatistic(redData);
+
+        let logData = redData.map(d => d % 2 === 0 ? 0 : 1);
+        this.logControl.setData(logData);
+        var items = this.logControl.content.getComponentsInChildren(SedieRoundHistoryItem);
+        items.forEach((item, i) => item.setValue(redData[i]));
+    }
+
     private updateStatistic(redData: number[]) {
         let total = redData.length;
 
@@ -74,9 +92,10 @@ export default class SedieRoundHistory extends cc.Component {
         let oddValue = Math.round(oddCount * 100 / total);
         this.odd.string = `${oddValue}${this.suffix}`;
         this.even.string = `${100 - oddValue}${this.suffix}`;
-        this.red3.string = `${Math.round(red3Count * 100 / total)}${this.suffix}`;
+        let red3Value = Math.round(red3Count * 100 / total);
+        this.red3.string = `${red3Value}${this.suffix}`;
         this.red4.string = `${Math.round(red4Count * 100 / total)}${this.suffix}`;
-        this.white3.string = `${Math.round(white3Count * 100 / total)}${this.suffix}`;
+        this.white3.string = `${oddValue - red3Value}${this.suffix}`;
         this.white4.string = `${Math.round(white4Count * 100 / total)}${this.suffix}`;
     }
 }
