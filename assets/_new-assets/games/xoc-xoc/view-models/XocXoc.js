@@ -309,9 +309,6 @@ cc.Class({
 		if (!!data.finish) {
 			this.xocxocFinish(data.finish);
 		}
-		if (!!data.history) {
-			this.history && this.history.node && this.history.onData(data.history);
-		}
 		if (!!data.top) {
 			//top win
 		}
@@ -1371,7 +1368,6 @@ cc.Class({
 		let dialog = cc.instantiate(this.prefabHistory);
 		this.center.addChild(dialog);
 		this.history = dialog.getComponent("XocXoc_history");
-		this.history.init(this);
 	},
 
 	setGameRound: function () {

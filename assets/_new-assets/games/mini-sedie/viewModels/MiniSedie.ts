@@ -25,6 +25,12 @@ export default class MiniSedie extends GameBase {
     @property(cc.Node)
     roundHistoryContainer: cc.Node = null;
 
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    guidePrefab: cc.Prefab = null;
+
     public roundHistory: SedieRoundHistory = null;
     private showLogs = true;
 
@@ -41,7 +47,7 @@ export default class MiniSedie extends GameBase {
     }
 
     onEnable() {
-        super.onEnable()
+        super.onEnable();
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
@@ -64,9 +70,7 @@ export default class MiniSedie extends GameBase {
     }
 
     public onBetItemClick(e) {
-        this.bet({
-            bet: { amount: this.currentBet, betChoice: e.target.name }
-        });
+        this.bet({ bet: { amount: this.currentBet, betChoice: e.target.name } });
     }
 
     public showResult() {
@@ -84,7 +88,7 @@ export default class MiniSedie extends GameBase {
     }
 
     private highlightWonItems(settlementResult) {
-        this.betItems.forEach(betItem => {
+        this.betItems.forEach((betItem) => {
             if (!settlementResult[betItem.node.name]) {
                 betItem.setHighlight(false);
             }
@@ -98,5 +102,12 @@ export default class MiniSedie extends GameBase {
 
     private ShowRoundResult(show: boolean) {
         this.roundHistoryContainer.active = show;
+    }
+
+    public openHistory() {
+        let dialog = cc.instantiate(this.historyPrefab);
+        let history = dialog.getComponent("XocXoc_History");
+        history.isMiniSedie = true;
+        this.currentMiniPanel.node.addChild(dialog);
     }
 }
