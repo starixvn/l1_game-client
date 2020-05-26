@@ -753,7 +753,7 @@ cc.Class({
         var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
 
         if (sTai < data.red_tai) {
-          helper.numberTo(this.totalLeft, sTai, data.red_tai, 500, true);
+          helper.numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
         } else {
           this.totalLeft.string = helper.numberWithCommas(data.red_tai);
         }
@@ -762,7 +762,7 @@ cc.Class({
         var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
 
         if (sXiu < data.red_xiu) {
-          helper.numberTo(this.totalRight, sXiu, data.red_xiu, 500, true);
+          helper.numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
         } else {
           this.totalRight.string = helper.numberWithCommas(data.red_xiu);
         }
