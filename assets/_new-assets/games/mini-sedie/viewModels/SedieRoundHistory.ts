@@ -27,6 +27,8 @@ export default class SedieRoundHistory extends cc.Component {
     @property(cc.Label)
     white4: cc.Label = null;
 
+    private suffix: string = "%";
+
     public setData(data: any) {
         var redData = data.map(d => {
             let count = 0;
@@ -70,11 +72,11 @@ export default class SedieRoundHistory extends cc.Component {
         });
 
         let oddValue = Math.round(oddCount * 100 / total);
-        this.odd.string = oddValue.toString();
-        this.even.string = (100 - oddValue).toString();
-        this.red3.string = Math.round(red3Count * 100 / total).toString();
-        this.red4.string = Math.round(red4Count * 100 / total).toString();
-        this.white3.string = Math.round(white3Count * 100 / total).toString();
-        this.white4.string = Math.round(white4Count * 100 / total).toString();
+        this.odd.string = `${oddValue}${this.suffix}`;
+        this.even.string = `${100 - oddValue}${this.suffix}`;
+        this.red3.string = `${Math.round(red3Count * 100 / total)}${this.suffix}`;
+        this.red4.string = `${Math.round(red4Count * 100 / total)}${this.suffix}`;
+        this.white3.string = `${Math.round(white3Count * 100 / total)}${this.suffix}`;
+        this.white4.string = `${Math.round(white4Count * 100 / total)}${this.suffix}`;
     }
 }
