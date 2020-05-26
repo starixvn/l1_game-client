@@ -108,8 +108,6 @@ export default class MiniSedie extends GameBase {
 
     public openHistory() {
         let dialog = cc.instantiate(this.historyPrefab);
-        let history = dialog.getComponent("XocXoc_History");
-        history.isMiniSedie = true;
         this.currentMiniPanel.node.addChild(dialog);
     }
 }

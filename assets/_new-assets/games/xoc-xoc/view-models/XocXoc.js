@@ -309,6 +309,9 @@ cc.Class({
 		if (!!data.finish) {
 			this.xocxocFinish(data.finish);
 		}
+		if (!!data.history) {
+			this.history && this.history.node && this.history.onData(data.history);
+		}
 		if (!!data.top) {
 			//top win
 		}
