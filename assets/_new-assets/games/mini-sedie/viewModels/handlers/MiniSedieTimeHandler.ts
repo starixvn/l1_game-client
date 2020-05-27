@@ -12,7 +12,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         this.main.showProcessingWarning(false);
 
         let shakingDuration = 2;
-        let shakeTimePoint = this.main.config.betTime + shakingDuration;
+        let shakeTimePoint = this.main.config.betTime + shakingDuration + 1;
         if (this.main.currentTimeRemaining > shakeTimePoint) {
             if (!this.main.resultAnimating) {
                 this.main.showResult();
