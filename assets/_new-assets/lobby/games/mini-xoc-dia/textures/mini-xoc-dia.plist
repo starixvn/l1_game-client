@@ -19,67 +19,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>mini.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{105,34}</string>
-                <key>spriteSourceSize</key>
-                <string>{105,34}</string>
-                <key>textureRect</key>
-                <string>{{219,126},{105,34}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
-            <key>xocdia.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{177,45}</string>
-                <key>spriteSourceSize</key>
-                <string>{177,45}</string>
-                <key>textureRect</key>
-                <string>{{209,344},{177,45}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
-            <key>xocdiamini Gold 1.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{239,123}</string>
-                <key>spriteSourceSize</key>
-                <string>{239,123}</string>
-                <key>textureRect</key>
-                <string>{{1,1},{239,123}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>xocdiamini Gold 3.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{83,69}</string>
-                <key>spriteSourceSize</key>
-                <string>{83,69}</string>
-                <key>textureRect</key>
-                <string>{{168,551},{83,69}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>xocdiamini background.png</key>
+            <key>backgroundxocdiamini.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -94,6 +34,66 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>dia.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{194,192}</string>
+                <key>spriteSourceSize</key>
+                <string>{194,192}</string>
+                <key>textureRect</key>
+                <string>{{1,551},{194,192}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>goldtop.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{239,123}</string>
+                <key>spriteSourceSize</key>
+                <string>{239,123}</string>
+                <key>textureRect</key>
+                <string>{{1,1},{239,123}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>mini.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{77,26}</string>
+                <key>spriteSourceSize</key>
+                <string>{77,26}</string>
+                <key>textureRect</key>
+                <string>{{209,344},{77,26}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>xocdia.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{170,44}</string>
+                <key>spriteSourceSize</key>
+                <string>{170,44}</string>
+                <key>textureRect</key>
+                <string>{{197,551},{170,44}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
             <key>xocdiamini chip do.png</key>
             <dict>
                 <key>aliases</key>
@@ -101,13 +101,13 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{64,63}</string>
+                <string>{52,51}</string>
                 <key>spriteSourceSize</key>
-                <string>{64,63}</string>
+                <string>{52,51}</string>
                 <key>textureRect</key>
-                <string>{{73,694},{64,63}}</string>
+                <string>{{125,745},{52,51}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>xocdiamini chip do2.png</key>
             <dict>
@@ -116,11 +116,11 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{70,69}</string>
+                <string>{56,56}</string>
                 <key>spriteSourceSize</key>
-                <string>{70,69}</string>
+                <string>{56,56}</string>
                 <key>textureRect</key>
-                <string>{{1,694},{70,69}}</string>
+                <string>{{67,745},{56,56}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -131,11 +131,11 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{79,79}</string>
+                <string>{64,64}</string>
                 <key>spriteSourceSize</key>
-                <string>{79,79}</string>
+                <string>{64,64}</string>
                 <key>textureRect</key>
-                <string>{{168,622},{79,79}}</string>
+                <string>{{1,745},{64,64}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -146,26 +146,11 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{60,56}</string>
+                <string>{49,45}</string>
                 <key>spriteSourceSize</key>
-                <string>{60,56}</string>
+                <string>{49,45}</string>
                 <key>textureRect</key>
-                <string>{{139,703},{60,56}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>xocdiamini dia.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{165,141}</string>
-                <key>spriteSourceSize</key>
-                <string>{165,141}</string>
-                <key>textureRect</key>
-                <string>{{1,551},{165,141}}</string>
+                <string>{{178,745},{49,45}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -181,9 +166,9 @@
             <key>realTextureFileName</key>
             <string>mini-xoc-dia.png</string>
             <key>size</key>
-            <string>{255,764}</string>
+            <string>{242,810}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:c34cc205cabfbdf90238adc84932504d:469542716367acaf4a4a11ab8a2d0835:eef9652766bfb4798f74f0ef966c6a95$</string>
+            <string>$TexturePacker:SmartUpdate:b01bfa2b78da7147f072ce6a1a3125d0:4b8b81556d3121504301e58504673fd7:eef9652766bfb4798f74f0ef966c6a95$</string>
             <key>textureFileName</key>
             <string>mini-xoc-dia.png</string>
         </dict>
