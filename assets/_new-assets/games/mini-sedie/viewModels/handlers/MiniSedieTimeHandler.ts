@@ -9,24 +9,28 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
 
-        if (this.main.currentTimeRemaining == this.main.config.betTime + 3) {
-            this.main.dishNode.runAction(cc.sequence(
-                cc.moveTo(0.3, cc.v2(0, 0)),
-                cc.callFunc(() => {
-                    this.main.animation.play();
-                })
-            ));
-        } else {
+        let shakeTimePoint = this.main.config.betTime + 3;
+        if (this.main.currentTimeRemaining > shakeTimePoint) {
             if (!this.main.resultAnimating) {
                 this.main.setGameRound(this.main.roundId);
                 this.main.showResult();
+            }
+        }
+        else {
+            if (this.main.currentTimeRemaining == shakeTimePoint) {
+                this.main.dishNode.runAction(cc.sequence(
+                    cc.moveTo(0.3, cc.v2(0, 0)),
+                    cc.callFunc(() => {
+                        this.main.animation.play();
+                    })
+                ));
             }
         }
     }
 
     handleInRoundTime() {
         super.handleInRoundTime();
-
+        this.main.animation.stop();
         this.main.setGameRound(this.main.roundId + 1);
         this.main.betItems.forEach(item => item.resetHighlight());
         this.main.dishNode.position = cc.v2(0, 0);
