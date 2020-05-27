@@ -27,6 +27,7 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
                 cc.moveBy(0.3, cc.v2(0, 150)),
                 cc.callFunc(() => {
                     this.main.resultAnimating = false;
+                    this.main.updateRoundHistory();
                     this.main.showResult();
                 })
             ));

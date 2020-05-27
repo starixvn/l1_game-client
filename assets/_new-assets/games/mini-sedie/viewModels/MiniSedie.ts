@@ -115,6 +115,21 @@ export default class MiniSedie extends GameBase {
         });
     }
 
+    public updateRoundHistory() {
+        const redData = this.currentDataLogs.map(d => {
+            let count = 0;
+            const list = ["red1", "red2", "red3", "red4"];
+            list.forEach(i => {
+                if (d.result[i]) {
+                    count++;
+                }
+            });
+            return count;
+        });
+        this.roundHistory.setData(redData);
+        this.miniRoundHistory.setData(redData);
+    }
+
     public onToggleShowRoundResult() {
         this.showLogs = !this.showLogs;
         this.ShowRoundResult(this.showLogs);
