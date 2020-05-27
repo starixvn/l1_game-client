@@ -13,8 +13,6 @@ export default class GameMiniBase extends GameBase {
         super.onEnable();
         this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-        this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-        this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     }
 
     onDisable() {
@@ -22,8 +20,6 @@ export default class GameMiniBase extends GameBase {
 
         this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-        this.background.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-        this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     }
 
     eventStart(e) {
@@ -39,9 +35,5 @@ export default class GameMiniBase extends GameBase {
             e.touch.getLocationX() - this.touchOffset.x,
             e.touch.getLocationY() - this.touchOffset.y
         );
-    }
-
-    eventEnd() {
-        cc.RedT.setting[this.gameName].position = this.node.position;
     }
 }
