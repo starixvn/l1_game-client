@@ -80,7 +80,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
         var mainRoomGame = this.main as GameRoomBase;
 
-        if (mainRoomGame && mainRoomGame.isRoomGame) {
+        if (mainRoomGame && mainRoomGame.playerHandler) {
             mainRoomGame.playerHandler.updateTablePlayers();
         }
     }

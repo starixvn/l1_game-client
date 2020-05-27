@@ -100,7 +100,6 @@ export default class GameBase extends cc.Component {
     public gameAudios: GameAudios;
     private dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
-    public isRoomGame: boolean = false;
 
     init(gameName: string, config: GameBaseConfigs, miniPanel: MiniPanel) {
         this.gameName = gameName;
