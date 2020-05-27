@@ -31,7 +31,7 @@ export default class RoomPlayer extends cc.Component {
             this.data = data;
             this.node.runAction(cc.fadeTo(1, 255));
             this.balance.string = data.red ? helper.numberWithCommas(data.red) : 0;
-            data.name && (this.nickname.string = data.type ? "bot" : data.name);
+            data.name && (this.nickname.string = data.name.length > 8 ? data.name.substring(0, 7) + "..." : data.name);
             this.setAvatar(data.avatarId);
         } else {
             this.data = null;
