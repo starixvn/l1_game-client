@@ -168,6 +168,7 @@ export default class MiniPanel extends cc.Component {
     this.chanLe && this.chanLe.node && this.chanLe.onSignIn();
     this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.onSignIn();
     this.rongHo && this.rongHo.node && this.rongHo.onSignIn();
+    this.miniSedie && this.miniSedie.node && this.miniSedie.onSignIn();
   }
 
   onForceReload() {

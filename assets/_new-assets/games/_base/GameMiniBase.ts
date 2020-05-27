@@ -36,4 +36,12 @@ export default class GameMiniBase extends GameBase {
             e.touch.getLocationY() - this.touchOffset.y
         );
     }
+
+    onSignIn() {
+        if (!this.node.active) {
+            return;
+        }
+
+        this.registerViewGame();
+    }
 }
