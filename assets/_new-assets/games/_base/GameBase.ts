@@ -196,9 +196,7 @@ export default class GameBase extends cc.Component {
     }
 
     setGameRound(gameRound) {
-        if (gameRound) {
-            this.gameRound.string = "#" + gameRound;
-        }
+        this.gameRound.string = gameRound ? "#" + gameRound : "";
     }
 
     showProcessingWarning(show: boolean) {

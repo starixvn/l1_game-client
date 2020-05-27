@@ -100,6 +100,7 @@ export default class MiniSedie extends GameMiniBase {
             this.setDots(dataLog.result);
             this.highlightWonItems(dataLog.settlementResult);
             this.dishNode.position = cc.v2(0, 150);
+            this.dishNode.active = false;
         }
     }
 

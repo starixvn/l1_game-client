@@ -14,6 +14,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         let shakingDuration = 2;
         let shakeTimePoint = this.main.config.betTime + shakingDuration + 1;
         if (this.main.currentTimeRemaining > shakeTimePoint) {
+            this.main.setGameRound(this.main.roundId);
             if (!this.main.resultAnimating) {
                 this.main.showResult();
             }
@@ -26,6 +27,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
             this.main.setGameRound(this.main.roundId + 1);
 
             if (this.main.currentTimeRemaining == shakeTimePoint) {
+                this.main.dishNode.active = true;
                 this.main.dishNode.runAction(cc.sequence(
                     cc.moveTo(0.3, cc.v2(0, 0)),
                     cc.callFunc(() => {
@@ -41,5 +43,6 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         this.main.animation.stop();
         this.main.betItems.forEach(item => item.resetHighlight());
         this.main.dishNode.position = cc.v2(0, 0);
+        this.main.dishNode.active = true;
     }
 }
