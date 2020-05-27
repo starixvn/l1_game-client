@@ -39,11 +39,13 @@ export default class SedieRoundHistory extends cc.Component {
     }
 
     private updateHistory(redData: any) {
-        this.updateStatistic(redData);
-        const logData = redData.map(d => d % 2 === 0 ? 0 : 1);
+        let data = [...redData];
+        this.updateStatistic(data);
+        data.reverse();
+        const logData = data.map(d => d % 2 === 0 ? 0 : 1);
         this.logControl.setData(logData);
         const items = this.logControl.content.getComponentsInChildren(SedieRoundHistoryItem);
-        items.forEach((item, i) => item.setValue(redData[i]));
+        items.forEach((item, i) => item.setValue(data[i]));
     }
 
     private updateStatistic(redData: number[]) {
