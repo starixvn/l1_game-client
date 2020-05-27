@@ -50,7 +50,6 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
     addPlayers(playersData) {
         const players: PlayerData[] = _.values(playersData);
-        console.log(players)
         const realPlayers = _.filter(players, player => !player.type);
         const botPlayers = _.filter(players, player => player.type);
 
@@ -76,8 +75,6 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
             }
 
             if (!player.type) {
-                console.log(player)
-
                 const botSlot = this.getBotSlot();
 
                 if (botSlot) {
