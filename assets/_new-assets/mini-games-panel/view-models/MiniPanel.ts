@@ -221,6 +221,9 @@ export default class MiniPanel extends cc.Component {
       case configs.gameIds.RongHo:
         this.openRongHo();
         break;
+      case configs.gameIds.MiniSedie:
+        this.openMiniSedie();
+        break;
       default:
         break;
     }
