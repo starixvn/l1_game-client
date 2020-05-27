@@ -26,12 +26,21 @@ export default class LogControl extends cc.Component {
     padding: cc.Size = new cc.Size(2, 2);
 
     private main: GameBase = null;
+    private oldGameMain: any = null;
+    private stopTime = 0;
+    private resultTime = 0;
     private nextMark: cc.Node = null;
     private finishHandler: GameBaseFinishHandler;
 
     init(main: GameBase) {
         this.main = main;
         this.finishHandler = this.main.finishHandler as GameBaseFinishHandler;
+    }
+
+    initOldGame(main: any, stopTime: number, resultTime: number) {
+        this.oldGameMain = main;
+        this.stopTime = stopTime;
+        this.resultTime = resultTime;
     }
 
     public setData(results: number[]) {
@@ -106,10 +115,14 @@ export default class LogControl extends cc.Component {
     }
 
     update() {
-        if (this.main) {
-            if (this.nextMark && this.nextMark.isValid) {
+        if (this.nextMark && this.nextMark.isValid) {
+            if (this.main) {
                 if (this.main.currentTimeRemaining < this.main.config.stopBetTime ||
                     this.main.currentTimeRemaining > this.main.config.fullTime - this.finishHandler.getResultAnimationTime()) {
+                    this.nextMark.active = true;
+                }
+            } else if (this.oldGameMain) {
+                if (this.oldGameMain.time_remain < this.stopTime || this.oldGameMain.time_remain > this.resultTime) {
                     this.nextMark.active = true;
                 }
             }

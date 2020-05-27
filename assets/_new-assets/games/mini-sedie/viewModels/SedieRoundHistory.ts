@@ -1,5 +1,6 @@
 import LogControl from "../../keno-pro/view-models/LogControl";
 import SedieRoundHistoryItem from "./SedieRoundHistoryItem";
+import GameBase from "../../_base/GameBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -31,6 +32,10 @@ export default class SedieRoundHistory extends cc.Component {
 
     public setData(redData: any) {
         this.updateHistory(redData);
+    }
+
+    public init(main: GameBase) {
+        this.logControl.init(main);
     }
 
     private updateHistory(redData: any) {

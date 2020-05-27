@@ -51,6 +51,7 @@ export default class MiniSedie extends GameMiniBase {
         super.onLoad();
         var node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(SedieRoundHistory);
+        this.roundHistory.init(this);
         this.roundHistoryContainer.addChild(node);
 
         var mini = cc.instantiate(this.miniRoundHistoryPrefab);

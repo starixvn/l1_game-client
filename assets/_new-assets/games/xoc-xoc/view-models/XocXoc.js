@@ -229,6 +229,7 @@ cc.Class({
 		}
 		var node = cc.instantiate(this.roundHistoryPrefab);
 		this.roundHistory = node.getComponent("SedieRoundHistory");
+		this.roundHistory.logControl.initOldGame(this, 5, 39);
 		this.roundHistoryContainer.addChild(node);
 
 		var mini = cc.instantiate(this.miniRoundHistoryPrefab);
