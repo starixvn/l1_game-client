@@ -3,11 +3,7 @@ import MiniSedie from "../MiniSedie";
 
 export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: MiniSedie) {
-        super(main, 3);
-        this.main.animation.on("finished", () => {
-            this.main.showResult();
-            this.main.timeHandler.resetTime();
-        });
+        super(main, 0);
     }
 
     handleFinishData(dataFinish) {
@@ -15,6 +11,7 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.roundId = dataFinish.roundId;
+        this.main.timeHandler.resetTime();
 
         if (cc.RedT.GAME_IS_SHOWED) {
             this.playResultAnimation();
@@ -23,7 +20,16 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
 
     playResultAnimation() {
         if (cc.RedT.GAME_IS_SHOWED) {
-            this.main.animation.play();
+            const dataLog = this.main.currentDataLogs[0];
+            this.main.setDots(dataLog.result);
+            this.main.resultAnimating = true;
+            this.main.dishNode.runAction(cc.sequence(
+                cc.moveBy(0.3, cc.v2(0, 150)),
+                cc.callFunc(() => {
+                    this.main.resultAnimating = false;
+                    this.main.showResult();
+                })
+            ));
         }
     }
 }

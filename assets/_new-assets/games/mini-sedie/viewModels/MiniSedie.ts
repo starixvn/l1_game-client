@@ -45,6 +45,7 @@ export default class MiniSedie extends GameBase {
     public miniRoundHistory: SedieMiniRoundHistory = null;
     private showLogs = true;
     private configs: any;
+    public resultAnimating = false;
 
     onLoad() {
         super.onLoad();
@@ -98,11 +99,11 @@ export default class MiniSedie extends GameBase {
             const dataLog = this.currentDataLogs[0];
             this.setDots(dataLog.result);
             this.highlightWonItems(dataLog.settlementResult);
-            this.dishNode.active = false;
+            this.dishNode.position = cc.v2(0, 150);
         }
     }
 
-    private setDots(result) {
+    public setDots(result) {
         Object.keys(result).forEach((key, index) => {
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
         });
