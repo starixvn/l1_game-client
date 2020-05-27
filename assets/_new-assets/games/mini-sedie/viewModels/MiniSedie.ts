@@ -1,13 +1,13 @@
-import GameBase from "../../_base/GameBase";
 import SedieRoundHistory from "./SedieRoundHistory";
 import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
 import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
 import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
 import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
+import GameMiniBase from "../../_base/GameMiniBase";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniSedie extends GameBase {
+export default class MiniSedie extends GameMiniBase {
     @property({ type: cc.Sprite })
     dots: cc.Sprite[] = [];
 
