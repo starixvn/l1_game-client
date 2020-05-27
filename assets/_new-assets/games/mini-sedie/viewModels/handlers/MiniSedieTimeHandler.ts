@@ -12,7 +12,6 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         let shakeTimePoint = this.main.config.betTime + 3;
         if (this.main.currentTimeRemaining > shakeTimePoint) {
             if (!this.main.resultAnimating) {
-                this.main.setGameRound(this.main.roundId);
                 this.main.showResult();
             }
         }
@@ -31,7 +30,6 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     handleInRoundTime() {
         super.handleInRoundTime();
         this.main.animation.stop();
-        this.main.setGameRound(this.main.roundId + 1);
         this.main.betItems.forEach(item => item.resetHighlight());
         this.main.dishNode.position = cc.v2(0, 0);
     }
