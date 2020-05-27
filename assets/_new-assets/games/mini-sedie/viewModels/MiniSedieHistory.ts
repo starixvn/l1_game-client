@@ -79,6 +79,9 @@ export default class MiniSedieHistory extends cc.Component {
                 historyItem.white3.string = numberWithCommas(dataT.white3);
                 historyItem.white4.string = numberWithCommas(dataT.white4);
                 historyItem.win.string = numberWithCommas(dataT.betwin);
+                historyItem.win.node.color = dataT.betwin > 0
+                    ? cc.Color.YELLOW
+                    : historyItem.win.node.color.fromHEX("#E2E2E2");
 
                 if (!(numb % 2)) {
                     historyItem.chan.node.color = cc.Color.YELLOW;
