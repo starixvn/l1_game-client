@@ -175,6 +175,8 @@ cc.Class({
 		cc.RedT.inGame = null;
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
+		this.roundHistoryContainer.isValid && this.roundHistoryContainer.destroyAllChildren();
+		this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		void 0 !== this.showKQ2Timeout && clearTimeout(this.showKQ2Timeout);

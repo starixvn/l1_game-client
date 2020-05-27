@@ -60,8 +60,8 @@ export default class MiniSedie extends GameMiniBase {
 
     onDestroy() {
         super.onDestroy();
-        this.roundHistoryContainer.destroyAllChildren();
-        this.miniRoundHistoryContainer.destroyAllChildren();
+        this.roundHistoryContainer.isValid && this.roundHistoryContainer.destroyAllChildren();
+        this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
     }
 
     onEnable() {
