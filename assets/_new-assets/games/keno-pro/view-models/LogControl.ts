@@ -31,6 +31,7 @@ export default class LogControl extends cc.Component {
     private resultTime = 0;
     private nextMark: cc.Node = null;
     private finishHandler: GameBaseFinishHandler;
+    private dots: cc.Node[] = [];
 
     init(main: GameBase) {
         this.main = main;
@@ -44,8 +45,7 @@ export default class LogControl extends cc.Component {
     }
 
     public setData(results: number[]) {
-        this.content.destroyAllChildren();
-        this.content.removeAllChildren();
+        this.dots.forEach(dot => dot.destroy());
 
         var col = 0, row = 0;
         var maxX = 0;
@@ -85,6 +85,7 @@ export default class LogControl extends cc.Component {
 
             maxX = Math.max(maxX, dot.position.x);
             this.content.addChild(dot);
+            this.dots.push(dot);
         });
 
         this.addNextMark(rowMax, row, col, colMax, nextCol, start);
@@ -112,6 +113,7 @@ export default class LogControl extends cc.Component {
         dot.addComponent(BlinkNode).interval = 0.5;
         this.content.addChild(dot);
         this.nextMark = dot;
+        this.dots.push(dot);
     }
 
     update() {
