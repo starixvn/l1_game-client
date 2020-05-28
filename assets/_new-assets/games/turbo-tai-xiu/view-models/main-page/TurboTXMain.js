@@ -17,6 +17,7 @@ cc.Class({
 
     this.isNan = false;
     this.localResultDices = [];
+    this.gameAudios = null;
 
     if (void 0 === cc.RedT.setting.taixiu_turbo.red) {
       cc.RedT.setting.taixiu_turbo.red = this.red;
@@ -128,6 +129,11 @@ cc.Class({
         eventEnd: () => this.eventEnd(),
       }
     }
+    this.initGameAudios();
+  },
+  initGameAudios: function () {
+    var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+    this.gameAudios = gameAudiosNode.getComponent("GameAudios");
   },
   onEnable: function () {
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -836,6 +842,7 @@ cc.Class({
   reset: function () {
     this.isNan && this.dataLogs();
     cc.RedT.setting.taixiu_turbo.data.chanle.red_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_le = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_le = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_le = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.red_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = 0;
+    this.gameAudios && this.gameAudios.playStartGameAudio();
   },
   setDefautl: function () {
     // TODO: cc.RedT.setting.taixiu_turbo.getLogs = this.nodeTimePopup.active = false;

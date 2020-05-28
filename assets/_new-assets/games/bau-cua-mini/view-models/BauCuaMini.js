@@ -67,6 +67,10 @@ cc.Class({
     oddOne: cc.Label,
     oddTwo: cc.Label,
     oddThree: cc.Label,
+    gameAudiosPrefab: {
+      default: null,
+      type: cc.Prefab
+    }
   },
   init(gameName, obj) {
     this.gameName = gameName;
@@ -76,6 +80,7 @@ cc.Class({
     this.disabled = false;
     this.waitingCuoc = false;
     this.processingWarning = null;
+    this.gameAudios = null;
 
     var check = cc.sys.localStorage.getItem("bauCua");
     if (check == "true") {
@@ -183,6 +188,11 @@ cc.Class({
     this.animatedTime.setRedTime(BCConstants.stopBetTime);
     this.logNode.active = false;
     this.initChangerBet();
+    this.initGameAudios();
+  },
+  initGameAudios: function () {
+    var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+    this.gameAudios = gameAudiosNode.getComponent("GameAudios");
   },
   onEnable: function () {
     this.Animation.on("finished", this.addLogs, this);
@@ -788,6 +798,7 @@ cc.Class({
     this.Animation.stop();
     this.Animation.node.active = false;
     this.notice.removeAllChildren();
+    this.gameAudios && this.gameAudios.playStartGameAudio();
   },
   // newGame: function () {
   //   cc.RedT.setting.baucua.regOpen = false;

@@ -15,6 +15,7 @@ import BetStatusDataHandler from './data-handlers/BetStatusDataHandler';
 import TimeDataHandler, { ITimeDataHandler } from './data-handlers/TimeDataHandler';
 import FinishTurnDataHandler from './data-handlers/FinishTurnDataHandler';
 import UmWarning from '../../../../common/um-warning/UmWarning';
+import GameAudios from '../../../_base/GameAudios';
 
 @ccclass
 export default class ChanLeMain extends cc.Component {
@@ -139,6 +140,9 @@ export default class ChanLeMain extends cc.Component {
     @property({ type: AnimatedTime })
     public animatedTime: AnimatedTime = null;
 
+    @property(cc.Prefab)
+    gameAudiosPrefab: cc.Prefab = null;
+
     //#endregion
     isNan = false;
     root: ChanLe;
@@ -146,6 +150,7 @@ export default class ChanLeMain extends cc.Component {
     currentResultDices: number[];
     currentTimeRemaining: number;
     hideDiaNan: boolean;
+    gameAudios: GameAudios;
 
     private static readonly DAT_CUOC = "ĐẶT CỬA";
     private readonly umDataHandler: DataHandler;
@@ -193,6 +198,12 @@ export default class ChanLeMain extends cc.Component {
         this.diceAnimation.on("finished", this.onDiceAnimationFinished, this);
         this.playCenterLight();
         this.logsDataHandler.initDotLogs();
+        this.initGameAudios();
+    }
+
+    protected initGameAudios() {
+        var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+        this.gameAudios = gameAudiosNode.getComponent("GameAudios") as GameAudios;
     }
 
     onData(data: any) {

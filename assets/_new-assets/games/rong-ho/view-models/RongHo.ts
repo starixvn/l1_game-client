@@ -16,6 +16,7 @@ import RongHoHistory from "./history/RongHoHistory";
 import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
 import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import GameAudios from "../../_base/GameAudios";
 
 const { ccclass, property } = cc._decorator;
 
@@ -100,6 +101,9 @@ export default class RongHo extends cc.Component {
     @property(cc.Prefab)
     cardsPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    gameAudiosPrefab: cc.Prefab = null;
+
     public config: GameBaseConfigs
     public currentTimeRemaining: number;
     public disabledGame = false;
@@ -121,6 +125,7 @@ export default class RongHo extends cc.Component {
     private resultAnimating = false;
     private cardsUtil: any;
     private betChips: BetChips = null;
+    private gameAudios: GameAudios;
 
     //#region Public Methods
     public init(miniPanel: MiniPanel, name: string, config: GameBaseConfigs) {
@@ -228,6 +233,12 @@ export default class RongHo extends cc.Component {
         this.setPhienLabel(0);
         this.initCards();
         this.animatedTime.node.active = false;
+        this.initGameAudios();
+    }
+
+    private initGameAudios() {
+        var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+        this.gameAudios = gameAudiosNode.getComponent("GameAudios") as GameAudios;
     }
 
     private initCards() {
@@ -574,6 +585,7 @@ export default class RongHo extends cc.Component {
                     //reset for new turn
                     this.betItems.forEach(item => item.clear());
                     this.notice.children.forEach(child => child.destroy());
+                    this.gameAudios.playStartGameAudio();
                 }
 
                 if (!isInTurnTime) {
