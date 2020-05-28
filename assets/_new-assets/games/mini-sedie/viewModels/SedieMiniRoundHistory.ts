@@ -35,15 +35,18 @@ export default class SedieMiniRoundHistory extends cc.Component {
 
     onLoad() {
         this.items = this.content.getComponentsInChildren(SedieRoundHistoryItem);
-        this.items.forEach(item => item.listener = this.listener);
+        this.items.forEach(item => {
+            item.node.active = false;
+            item.listener = this.listener;
+        });
     }
 
     public setData(redData: number[]) {
         this.items.forEach((item, index) => {
             let value = redData[index];
             item.setValue(value);
-
             item.getComponent(cc.Sprite).spriteFrame = value % 2 === 0 ? this.dotWhite : this.dotRed;
+            item.node.active = true;
         });
     }
 }
