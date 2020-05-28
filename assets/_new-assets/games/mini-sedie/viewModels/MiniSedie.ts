@@ -57,6 +57,7 @@ export default class MiniSedie extends GameMiniBase {
         var mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(SedieMiniRoundHistory);
         this.miniRoundHistoryContainer.addChild(mini);
+        this.animatedTime.setAnimatedY(30, -5);
     }
 
     onDestroy() {
