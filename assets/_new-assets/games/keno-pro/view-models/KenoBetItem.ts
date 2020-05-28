@@ -21,8 +21,6 @@ export default class KenoBetItem extends BetItem {
         } else {
             this.totalBet.string = ""
         }
-
-        this.totalBet.node.parent.active = bet > 0;
     }
 
     public setHighlight(highlight: boolean) {
