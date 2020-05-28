@@ -48,7 +48,6 @@ export default class BetChips extends cc.Component {
     onLoad() {
         this.leftButton.active = false;
         this.chipList = [...this.chips.children];
-        this.setCurrentBet(this.defaultChip);
         this.snappedScrollView.onScrollEnded = () => {
             var min = this.snappedScrollView.getMinDisplayIndex();
             if (this.selectedIndex < min) {
@@ -61,6 +60,10 @@ export default class BetChips extends cc.Component {
             var item = this.chipList[this.selectedIndex].name;
             this.setCurrentBet(item);
         };
+    }
+
+    onEnable() {
+        this.setCurrentBet(this.defaultChip);
     }
 
     public init(onChanged: OnChangedBet) {

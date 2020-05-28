@@ -275,7 +275,6 @@ export default class GameBase extends cc.Component {
                 self.currentBet = parseInt(bet);
             });
             this.betChipsContainer.addChild(betChipsNode);
-
         }
     }
 
