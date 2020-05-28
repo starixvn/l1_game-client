@@ -6,6 +6,9 @@ import { GameState } from "../../../_base/GameBase";
 export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     constructor(protected readonly main: MiniSedie) {
         super(main);
+        main.animation.on("finished", () => {
+            this.main.gameAudios && this.main.gameAudios.stopAllAudio();
+        });
     }
 
     playTime(): void {
@@ -53,7 +56,6 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         else {
             this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
             this.main.setGameRound(this.main.roundId + 1);
-            this.handleStartingNewGameRound();
 
             if (this.main.currentTimeRemaining == shakeTimePoint) {
                 this.main.dishNode.active = true;
@@ -61,6 +63,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
                     cc.moveTo(0.3, cc.v2(0, 0)),
                     cc.callFunc(() => {
                         this.main.animation.play();
+                        this.handleStartingNewGameRound();
                     })
                 ));
             }
@@ -69,7 +72,6 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
 
     handleInRoundTime() {
         super.handleInRoundTime();
-        this.main.gameAudios && this.main.gameAudios.stopAllAudio();
         this.main.animation.stop();
         this.main.betItems.forEach(item => item.resetHighlight());
         this.main.dishNode.position = cc.v2(0, 0);
