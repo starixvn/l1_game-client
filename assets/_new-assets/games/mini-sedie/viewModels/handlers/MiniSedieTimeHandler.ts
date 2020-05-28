@@ -25,7 +25,10 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         else {
             this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
             this.main.setGameRound(this.main.roundId + 1);
-            this.main.betItems.forEach(item => item.resetHighlight());
+            this.main.betItems.forEach(item => {
+                item.clearBet();
+                item.resetHighlight();
+            });
 
             if (this.main.currentTimeRemaining == shakeTimePoint) {
                 this.main.dishNode.active = true;
