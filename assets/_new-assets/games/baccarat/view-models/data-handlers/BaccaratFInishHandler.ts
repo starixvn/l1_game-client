@@ -10,15 +10,15 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             return;
         }
 
-        var dataResult = dataFinish.result;
-        this.showCards(dataResult, baccaratMain);
-        this.showResult(dataResult);
+        this.showCards(dataFinish.result, baccaratMain);
+        this.showResult(dataFinish.settlementResult);
 
     }
 
     private showCards(dataResult: any, baccaratMain: Baccarat) {
         var playerCards = dataResult.playerCards;
         var bankerCards = dataResult.bankerCards;
+        debugger;
         baccaratMain.bankerCards.showCards(bankerCards);
         baccaratMain.playerCards.showCards(playerCards);
     }

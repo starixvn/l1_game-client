@@ -18,13 +18,6 @@ export default class Baccarat extends GameRoomBase {
 
     cardsResource: any = null;
 
-    constructor() {
-        super();
-
-        this.timeHandler = new BaccaratTimeHandler(this);
-        this.finishHandler = new BaccaratFinishHandler(this);
-    }
-
     onLoad() {
         this.init("baccarat", new BaccaratConfigs())
         super.onLoad();
@@ -41,6 +34,13 @@ export default class Baccarat extends GameRoomBase {
 
     onBet(event, box) {
         this.bet({ bet: { red: true, bet: this.currentBet, box: box } });
+    }
+
+    initHandlers() {
+        super.initHandlers();
+
+        this.timeHandler = new BaccaratTimeHandler(this);
+        this.finishHandler = new BaccaratFinishHandler(this);
     }
 
     private initCards() {

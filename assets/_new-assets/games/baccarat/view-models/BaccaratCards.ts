@@ -22,6 +22,7 @@ export default class BaccaratCards extends cc.Component {
             if (card) {
                 var currentCard = this["card" + (index + 1)] as cc.Sprite;
                 currentCard.spriteFrame = this.cardsResource.getCard(card.card, card.type);
+                console.log(currentCard)
             }
         })
     }
