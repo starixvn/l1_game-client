@@ -1,10 +1,38 @@
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import MiniSedie from "../MiniSedie";
 import { numberPad } from "../../../../common/helpers/Helper";
+import { GameState } from "../../../_base/GameBase";
 
 export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     constructor(protected readonly main: MiniSedie) {
         super(main);
+    }
+
+    playTime(): void {
+        this.main.gameState = GameState.Started;
+        this.playTimeInterval && clearInterval(this.playTimeInterval);
+
+        this.playTimeInterval = setInterval(() => {
+            const isInWaitTime = this.main.currentTimeRemaining > this.main.config.betTime;
+
+            if (isInWaitTime) {
+                this.handleWaitTime();
+            } else {
+                // const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime;
+                // if (isStartingNewGameRound) {
+                //     this.handleStartingNewGameRound();
+                // }
+
+                const isInRoundTime = this.main.currentTimeRemaining >= this.main.config.minBetTime;
+                if (isInRoundTime) {
+                    this.handleInRoundTime();
+                } else {
+                    this.main.animatedTime.node.active = false;
+                    clearInterval(this.playTimeInterval);
+                }
+            }
+            this.main.currentTimeRemaining--;
+        }, 1000);
     }
 
     handleWaitTime() {
@@ -25,10 +53,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         else {
             this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
             this.main.setGameRound(this.main.roundId + 1);
-            this.main.betItems.forEach(item => {
-                item.clearBet();
-                item.resetHighlight();
-            });
+            this.handleStartingNewGameRound();
 
             if (this.main.currentTimeRemaining == shakeTimePoint) {
                 this.main.dishNode.active = true;
@@ -44,6 +69,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
 
     handleInRoundTime() {
         super.handleInRoundTime();
+        this.main.gameAudios && this.main.gameAudios.stopAllAudio();
         this.main.animation.stop();
         this.main.betItems.forEach(item => item.resetHighlight());
         this.main.dishNode.position = cc.v2(0, 0);

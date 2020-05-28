@@ -23,4 +23,10 @@ export default class GameAudios extends cc.Component {
     playClockTickAudio() {
         cc.RedT.isSoundGame() && this.clockTick.play();
     }
+
+    stopAllAudio() {
+        this.startGame.stop();
+        this.endGame.stop();
+        this.clockTick.stop();
+    }
 }
