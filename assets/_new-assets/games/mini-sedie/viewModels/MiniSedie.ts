@@ -93,6 +93,7 @@ export default class MiniSedie extends GameMiniBase {
     }
 
     public onBetItemClick(e) {
+        cc.RedT.audio.playClick();
         this.bet({ bet: { amount: this.currentBet, betChoice: e.target.name } });
     }
 
