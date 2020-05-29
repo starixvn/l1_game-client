@@ -187,7 +187,6 @@ cc.Class({
     this.animatedTime.node.active = false;
     this.animatedTime.setRedTime(BCConstants.stopBetTime);
     this.logNode.active = false;
-    this.initChangerBet();
     this.initGameAudios();
   },
   initGameAudios: function () {
@@ -195,6 +194,7 @@ cc.Class({
     this.gameAudios = gameAudiosNode.getComponent("GameAudios");
   },
   onEnable: function () {
+    this.initChangerBet();
     this.Animation.on("finished", this.addLogs, this);
     this.regEvent(true);
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -328,8 +328,8 @@ cc.Class({
     //this.onGetHu();
   },
   initChangerBet: function () {
-    this.cuoc = cc.RedT.setting.baucua.bet;
-    this.updateSelectedBet(cc.RedT.setting.baucua.bet);
+    this.cuoc = 1;
+    this.updateSelectedBet(this.cuoc);
   },
   updateSelectedBet: function (targetName) {
     this.bet.children.map(function (obj) {
@@ -356,12 +356,10 @@ cc.Class({
       }
     })
   },
-  changerBet: function (event, bet) {
-    this.cuoc = bet;
+  changerBet: function (event) {
     var target = event.target;
-    this.updateSelectedBet(target.name);
-    cc.RedT.setting.baucua.bet = target.name;
-    //this.onGetHu();
+    this.cuoc = target.name;
+    this.updateSelectedBet(this.cuoc);
   },
   showResulSlots: function (dices) {
     this.showWinSlot(dices);

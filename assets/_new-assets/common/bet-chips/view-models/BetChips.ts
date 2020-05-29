@@ -64,6 +64,7 @@ export default class BetChips extends cc.Component {
 
     onEnable() {
         this.setCurrentBet(this.defaultChip);
+        this.snappedScrollView.scrollTo(0);
     }
 
     public init(onChanged: OnChangedBet) {
