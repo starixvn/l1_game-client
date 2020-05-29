@@ -156,6 +156,7 @@ export default class RongHo extends cc.Component {
     }
 
     public onCuocClick(e) {
+        cc.RedT.audio.playClick();
         if (this.disabledGame) {
             return;
         }

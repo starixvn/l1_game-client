@@ -392,6 +392,7 @@ cc.Class({
     }
   },
   datCuoc: function (e, linhVat) {
+    cc.RedT.audio.playClick();
     if (this.disabled) {
       return;
     }
