@@ -50,6 +50,7 @@ export default class ChanLe extends cc.Component {
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
         this.main.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.main.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+        this.observeData();
     }
 
     onDisable() {
@@ -58,6 +59,7 @@ export default class ChanLe extends cc.Component {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         this.main.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.main.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+        this.removeDataObserver();
     }
 
     openGame() {
@@ -68,6 +70,20 @@ export default class ChanLe extends cc.Component {
     closeGame() {
         cc.RedT.audio.playUnClick();
         this.node.active = false;
+    }
+
+    observeData() {
+        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
+    }
+
+    removeDataObserver() {
+        cc.RedT.removeDataObserver(this.gameName);
+    }
+
+    receivedData(data) {
+        if (data[this.gameName]) {
+            this.onData(data[this.gameName]);
+        }
     }
 
     onData(data: any) {

@@ -67,14 +67,20 @@ cc.Class({
     oddOne: cc.Label,
     oddTwo: cc.Label,
     oddThree: cc.Label,
+    gameAudiosPrefab: {
+      default: null,
+      type: cc.Prefab
+    }
   },
-  init(obj) {
+  init(gameName, obj) {
+    this.gameName = gameName;
     this.miniPanel = obj; // MiniPanel
     this.initSettingBauCua();
     cc.RedT.setting.baucua.regOpen = false; // force get new data when back from other scene
     this.disabled = false;
     this.waitingCuoc = false;
     this.processingWarning = null;
+    this.gameAudios = null;
 
     var check = cc.sys.localStorage.getItem("bauCua");
     if (check == "true") {
@@ -181,9 +187,14 @@ cc.Class({
     this.animatedTime.node.active = false;
     this.animatedTime.setRedTime(BCConstants.stopBetTime);
     this.logNode.active = false;
-    this.initChangerBet();
+    this.initGameAudios();
+  },
+  initGameAudios: function () {
+    var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+    this.gameAudios = gameAudiosNode.getComponent("GameAudios");
   },
   onEnable: function () {
+    this.initChangerBet();
     this.Animation.on("finished", this.addLogs, this);
     this.regEvent(true);
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -193,11 +204,11 @@ cc.Class({
     cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
     cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
+    this.observeData();
   },
   onDisable: function () {
     this.Animation.off("finished");
     this.onGameHide();
-
     this.regEvent(false);
     this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
@@ -205,6 +216,29 @@ cc.Class({
     this.background.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
+    this.removeDataObserver();
+  },
+
+  observeData() {
+    cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
+  },
+
+  removeDataObserver() {
+    cc.RedT.removeDataObserver(this.gameName);
+  },
+
+  receivedData(data) {
+    const dataMini = data.mini;
+
+    if (!dataMini) {
+      return;
+    }
+
+    const gameData = data.mini[this.gameName];
+
+    if (gameData) {
+      this.onData(gameData);
+    }
   },
   regEvent: function (show) {
     if (show) {
@@ -294,8 +328,8 @@ cc.Class({
     //this.onGetHu();
   },
   initChangerBet: function () {
-    this.cuoc = cc.RedT.setting.baucua.bet;
-    this.updateSelectedBet(cc.RedT.setting.baucua.bet);
+    this.cuoc = 1;
+    this.updateSelectedBet(this.cuoc);
   },
   updateSelectedBet: function (targetName) {
     this.bet.children.map(function (obj) {
@@ -322,12 +356,10 @@ cc.Class({
       }
     })
   },
-  changerBet: function (event, bet) {
-    this.cuoc = bet;
+  changerBet: function (event) {
     var target = event.target;
-    this.updateSelectedBet(target.name);
-    cc.RedT.setting.baucua.bet = target.name;
-    //this.onGetHu();
+    this.cuoc = target.name;
+    this.updateSelectedBet(this.cuoc);
   },
   showResulSlots: function (dices) {
     this.showWinSlot(dices);
@@ -360,6 +392,7 @@ cc.Class({
     }
   },
   datCuoc: function (e, linhVat) {
+    cc.RedT.audio.playClick();
     if (this.disabled) {
       return;
     }
@@ -764,6 +797,7 @@ cc.Class({
     this.Animation.stop();
     this.Animation.node.active = false;
     this.notice.removeAllChildren();
+    this.gameAudios && this.gameAudios.playStartGameAudio();
   },
   // newGame: function () {
   //   cc.RedT.setting.baucua.regOpen = false;

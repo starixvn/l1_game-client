@@ -3,7 +3,8 @@ var TX = require("TX");
 cc.Class({
   extends: TX,
 
-  init(obj) {
+  init(gameName, obj) {
+    this.gameName = gameName;
     this.miniPanel = obj;
     cc.RedT.setting.taixiu_turbo = cc.RedT.setting.taixiu_turbo || { getLogs: false };
     cc.RedT.setting.taixiu_turbo.getLogs = false;

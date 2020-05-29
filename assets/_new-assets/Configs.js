@@ -2,7 +2,7 @@ const configs = {
     ssl: false,
     disabledDirectLogin: false,
     serverEndpoints: {
-        "localhost": '192.168.100.21:8080',
+        localhost: "lumigame.com:8080",
     },
     gameIds: {
         TaiXiu: 1,
@@ -12,7 +12,8 @@ const configs = {
         ChanLe: 5,
         ChanLeTurbo: 6,
         RongHo: 7,
-        KenoProMax: 8
+        KenoProMax: 8,
+        MiniSedie: 9,
     },
     gameNames: {
         1: "Tài Xỉu",
@@ -22,13 +23,14 @@ const configs = {
         5: "Chẵn Lẻ",
         6: "Chẳn Lẻ Siêu Tốc",
         7: "Rồng Hổ",
-        8: "Keno Pro Max"
+        8: "Keno Pro Max",
+        9: "Xóc Đĩa Mini",
     },
-    sentryUrl: '',
+    sentryUrl: "",
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
-        secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
-    }
-}
+        secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c",
+    },
+};
 
 module.exports = configs;

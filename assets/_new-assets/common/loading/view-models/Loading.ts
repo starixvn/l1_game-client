@@ -9,6 +9,7 @@ export default class Loading extends cc.Component {
     onEnable() {
         var self = this;
         self.percent.node.active = true;
+
         cc.loader.onProgress = function (completedCount, totalCount, item) {
             var percent = 100 * completedCount / totalCount;
             if (self.percent && percent) {

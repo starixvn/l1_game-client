@@ -74,6 +74,7 @@ export default class GameBase extends cc.Component {
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
+
     public gameState = GameState.None;
     public get isStopGame() { return this.gameState === GameState.Stopped; }
     public waitingProcessing = false;
@@ -120,6 +121,8 @@ export default class GameBase extends cc.Component {
             this.finishHandler);
         this.initBetChips();
         this.initGameAudios();
+        this.setGameRound(0);
+        this.resetDataAndUI();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
@@ -173,6 +176,7 @@ export default class GameBase extends cc.Component {
 
     /** Register with game on server */
     protected registerViewGame() {
+        this.sendData({ view: true, get_time: true, getLogs: true });
     }
 
     sendData(payload: any) {
@@ -188,13 +192,11 @@ export default class GameBase extends cc.Component {
     }
 
     showWinningBet(bet: number) {
-        GameUtils.addFlyingText(this.noticeNode, true, bet, 1);
+        GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
     }
 
     setGameRound(gameRound) {
-        if (gameRound) {
-            this.gameRound.string = "#" + gameRound;
-        }
+        this.gameRound.string = gameRound ? "#" + gameRound : "";
     }
 
     showProcessingWarning(show: boolean) {
@@ -236,7 +238,8 @@ export default class GameBase extends cc.Component {
             item.clearBet();
             item.resetHighlight();
         });
-
+        this.animatedTime.node.active = false;
+        this.timeWaitNode.active = false;
         this.statusHandler.currentStatusData = null;
     }
 
@@ -272,7 +275,6 @@ export default class GameBase extends cc.Component {
                 self.currentBet = parseInt(bet);
             });
             this.betChipsContainer.addChild(betChipsNode);
-
         }
     }
 

@@ -84,8 +84,6 @@ export default class Keno extends GameRoomBase {
         }
         this.roundHistory.init(this);
         this.players.forEach(player => player.node.active = false);
-        this.setGameRound(0);
-        this.resetDataAndUI();
     }
     //#endregion
 
@@ -124,7 +122,7 @@ export default class Keno extends GameRoomBase {
 
     public getResults(settlementResult: any): string[] {
         var results = [];
-        Object.keys(settlementResult).forEach(key => {
+        Object.keys(settlementResult).forEach((key, index) => {
             if (settlementResult[key]) {
                 results.push(key);
             }

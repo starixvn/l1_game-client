@@ -39,7 +39,7 @@ export default class RongHoBetItem extends cc.Component {
         //this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
 
         if (bet > 0) {
-            helper.numberTo(this.totalBet, 0, bet, 300, true);
+            helper.numberTo(this.totalBet, 0, bet, 0, true);
         } else {
             this.totalBet.string = ""
         }

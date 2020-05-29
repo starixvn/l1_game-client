@@ -70,10 +70,10 @@ cc.Class({
 			type: cc.Sprite,
 		},
 
-		log_chan: cc.Label,
-		log_le: cc.Label,
-		log_top: cc.Node,
-		logMain: cc.Node,
+		// log_chan: cc.Label,
+		// log_le: cc.Label,
+		// log_top: cc.Node,
+		// logMain: cc.Node,
 
 		redH: cc.Node,
 		miniNotice: cc.Node,
@@ -104,7 +104,11 @@ cc.Class({
 		center: cc.Node,
 		winnerPrefab: cc.Prefab,
 		NoticePrefab: cc.Prefab,
-		betChips: cc.Node
+		betChips: cc.Node,
+		roundHistoryPrefab: cc.Prefab,
+		roundHistoryContainer: cc.Node,
+		miniRoundHistoryPrefab: cc.Prefab,
+		miniRoundHistoryContainer: cc.Node,
 	},
 	ctor: function () {
 		this.logs = [];
@@ -171,6 +175,8 @@ cc.Class({
 		cc.RedT.inGame = null;
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
+		this.roundHistoryContainer.isValid && this.roundHistoryContainer.destroyAllChildren();
+		this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
 		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		void 0 !== this.showKQ2Timeout && clearTimeout(this.showKQ2Timeout);
@@ -187,7 +193,7 @@ cc.Class({
 			this.cuoc = bet;
 		});
 		this.bet = this.betChips.chips;
-
+		/*
 		this.logMain = this.logMain.children.map(function (obj) {
 			return obj.children[0].getComponent(cc.Sprite);
 		});
@@ -205,6 +211,7 @@ cc.Class({
 		});
 
 		this.log_top.reverse();
+		*/
 
 		this.me_name.string = cc.RedT.user.name;
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
@@ -220,6 +227,14 @@ cc.Class({
 		if (!cc.sys.isMobile) {
 			this.redH.scale = 0.8;
 		}
+		var node = cc.instantiate(this.roundHistoryPrefab);
+		this.roundHistory = node.getComponent("SedieRoundHistory");
+		this.roundHistory.logControl.initOldGame(this, 5, 39);
+		this.roundHistoryContainer.addChild(node);
+
+		var mini = cc.instantiate(this.miniRoundHistoryPrefab);
+		this.miniRoundHistory = mini.getComponent("SedieMiniRoundHistory");
+		this.miniRoundHistoryContainer.addChild(mini);
 		cc.RedT.send({ scene: "xocxoc", g: { xocxoc: { ingame: true } } });
 	},
 	onData: function (data) {
@@ -360,7 +375,8 @@ cc.Class({
 		}
 		if (!!data.logs) {
 			this.logs = data.logs;
-			this.setLogs();
+			this.updateRoundHistory();
+			// this.setLogs();
 			this.setGameRound();
 
 			if (this.time_remain > 33 && data.logs.length) {
@@ -490,7 +506,8 @@ cc.Class({
 				cc.callFunc(this.showKQ2, this),
 			)
 		);
-		this.setLogs();
+		this.updateRoundHistory();
+		// this.setLogs();
 	},
 	showKQ: function () {
 		let data = Object.values(this.logs[0].dots);
@@ -988,7 +1005,21 @@ cc.Class({
 		this.clients.red.white3 = 0;
 		this.clients.red.white4 = 0;
 	},
+	updateRoundHistory: function () {
+		const redData = this.logs.map(d => {
+			let count = 0;
+			for (let i = 0; i < 4; i++) {
+				if (d.dots[i]) {
+					count++;
+				}
+			}
+			return count;
+		});
+		this.roundHistory.setData(redData);
+		this.miniRoundHistory.setData(redData);
+	},
 	setLogs: function () {
+		/*
 		let self = this;
 		this.logMain.forEach(function (obj, index) {
 			if (self.logs[index]) {
@@ -1012,7 +1043,9 @@ cc.Class({
 				}
 			}
 		});
+		*/
 
+		/* // remove log_top
 		let tmp_DS = -1;
 		let tmp_arrA = [];
 		let tmp_arrB = [];
@@ -1084,6 +1117,7 @@ cc.Class({
 
 		this.log_chan.string = c_chan;
 		this.log_le.string = c_le;
+		*/
 	},
 	changerBet: function (event, bet) {
 		let target = event.target;
@@ -1359,7 +1393,6 @@ cc.Class({
 		let dialog = cc.instantiate(this.prefabHistory);
 		this.center.addChild(dialog);
 		this.history = dialog.getComponent("XocXoc_history");
-		this.history.init(this);
 	},
 
 	setGameRound: function () {

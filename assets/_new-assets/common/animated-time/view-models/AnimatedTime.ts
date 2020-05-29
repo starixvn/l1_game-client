@@ -11,6 +11,8 @@ export default class AnimatedTime extends cc.Component {
 
     private timeToChangeColor: number = 5;
     private changedColor: cc.Color = cc.Color.RED;
+    private animatedYTop: number = 60;
+    private animatedYBottom: number = -10;
 
     setRedTime(time: number) {
         this.timeToChangeColor = time;
@@ -18,6 +20,11 @@ export default class AnimatedTime extends cc.Component {
 
     setChangedColor(color: cc.Color) {
         this.changedColor = color;
+    }
+
+    setAnimatedY(yTop: number, yBottom: number) {
+        this.animatedYTop = yTop;
+        this.animatedYBottom = yBottom;
     }
 
     public setTime(time: number, forceChangeColor = false) {
@@ -41,7 +48,7 @@ export default class AnimatedTime extends cc.Component {
     private handleBetTimeAnimation(node: cc.Node) {
         cc.tween(node)
             .to(0, {
-                position: cc.v2(node.position.x, 60),
+                position: cc.v2(node.position.x, this.animatedYTop),
                 opacity: 0
             })
             .to(0.2, {
@@ -49,7 +56,7 @@ export default class AnimatedTime extends cc.Component {
                 opacity: 255
             })
             .to(0.1, {
-                position: cc.v2(node.position.x, - 10)
+                position: cc.v2(node.position.x, this.animatedYBottom)
             })
             .to(0.1, {
                 position: cc.v2(node.position.x, 0),

@@ -192,6 +192,10 @@ cc.Class({
       default: null,
       type: cc.Component
     },
+    gameAudiosPrefab: {
+      default: null,
+      type: cc.Prefab
+    }
   },
   init: function (obj) {
     this.TXRoot = obj;
@@ -203,6 +207,7 @@ cc.Class({
 
     this.isNan = false;
     this.localResultDices = [];
+    this.gameAudios = null;
 
     if (void 0 === cc.RedT.setting.taixiu.red) {
       cc.RedT.setting.taixiu.red = this.red;
@@ -245,6 +250,7 @@ cc.Class({
 
     this.resetBetButtonText();
   },
+
   onLoad() {
     this.AnimatedTime.node.active = false;
     this.waitingBetResponse = false;
@@ -313,6 +319,12 @@ cc.Class({
         eventEnd: () => this.eventEnd(),
       }
     }
+
+    this.initGameAudios();
+  },
+  initGameAudios: function () {
+    var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+    this.gameAudios = gameAudiosNode.getComponent("GameAudios");
   },
   onEnable: function () {
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -753,7 +765,7 @@ cc.Class({
         var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
 
         if (sTai < data.red_tai) {
-          helper.numberTo(this.totalLeft, sTai, data.red_tai, 500, true);
+          helper.numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
         } else {
           this.totalLeft.string = helper.numberWithCommas(data.red_tai);
         }
@@ -762,7 +774,7 @@ cc.Class({
         var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
 
         if (sXiu < data.red_xiu) {
-          helper.numberTo(this.totalRight, sXiu, data.red_xiu, 500, true);
+          helper.numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
         } else {
           this.totalRight.string = helper.numberWithCommas(data.red_xiu);
         }
@@ -1017,6 +1029,7 @@ cc.Class({
   reset: function () {
     this.isNan && this.dataLogs();
     cc.RedT.setting.taixiu.data.chanle.red_chan = cc.RedT.setting.taixiu.data.chanle.red_le = cc.RedT.setting.taixiu.data.chanle.red_me_chan = cc.RedT.setting.taixiu.data.chanle.red_me_le = cc.RedT.setting.taixiu.data.chanle.red_player_chan = cc.RedT.setting.taixiu.data.chanle.red_player_le = cc.RedT.setting.taixiu.data.chanle.xu_chan = cc.RedT.setting.taixiu.data.chanle.xu_le = cc.RedT.setting.taixiu.data.chanle.xu_me_chan = cc.RedT.setting.taixiu.data.chanle.xu_me_le = cc.RedT.setting.taixiu.data.chanle.xu_player_chan = cc.RedT.setting.taixiu.data.chanle.xu_player_le = cc.RedT.setting.taixiu.data.taixiu.red_me_tai = cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu.data.taixiu.red_player_tai = cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu.data.taixiu.red_tai = cc.RedT.setting.taixiu.data.taixiu.red_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_tai = cc.RedT.setting.taixiu.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = 0;
+    this.gameAudios && this.gameAudios.playStartGameAudio();
   },
   setDefautl: function () {
     // TODO: cc.RedT.setting.taixiu.getLogs = this.nodeTimePopup.active = false;

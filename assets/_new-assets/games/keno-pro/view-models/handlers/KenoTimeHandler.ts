@@ -29,7 +29,6 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
     public showResult(show: boolean) {
         if (show) {
             this.main.updateRoundHistory();
-            this.main.setGameRound(this.main.roundId);
 
             if (this.main.currentDataLogs.length > 0) {
                 this.main.roundResult.setData(this.main.currentDataLogs[0].result, this.main.currentDataLogs[0].settlementResult);
@@ -39,7 +38,6 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
                 this.highlightWonItem(true, results);
             }
         } else {
-            this.main.setGameRound(this.main.roundId + 1);
             this.highlightWonItem(false);
             this.main.roundResult.node.active = false;
         }

@@ -21,7 +21,7 @@ cc.Class({
     },
     totallCuoc: function (cuoc) {
         if (!!cuoc && cuoc != "0") {
-            helper.numberTo(this.totall, this.lastTotalCuoc, cuoc, 300, true);
+            helper.numberTo(this.totall, this.lastTotalCuoc, cuoc, 0, true);
             //this.totall.string = helper.numberWithCommas(cuoc);
             //helper.nFormatter(cuoc, 1);
             this.lastTotalCuoc = cuoc;

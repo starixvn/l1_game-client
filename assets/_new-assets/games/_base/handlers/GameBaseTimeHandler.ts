@@ -71,15 +71,17 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
         this.main.animatedTime.node.active = false;
         this.main.showProcessingWarning(false);
+        this.main.setGameRound(this.main.roundId);
     }
 
     handleStartingNewGameRound() {
         this.main.noticeNode.destroyAllChildren();
         this.main.gameAudios && this.main.gameAudios.playStartGameAudio();
         this.main.resetDataAndUI();
+
         var mainRoomGame = this.main as GameRoomBase;
 
-        if (mainRoomGame) {
+        if (mainRoomGame && mainRoomGame.playerHandler) {
             mainRoomGame.playerHandler.updateTablePlayers();
         }
     }
@@ -88,5 +90,6 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.timeWaitNode.active = false;
         var time = numberPad(this.main.currentTimeRemaining, 2);
         this.main.animatedTime.setTime(time);
+        this.main.setGameRound(this.main.roundId + 1);
     }
 }

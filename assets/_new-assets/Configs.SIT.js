@@ -12,7 +12,8 @@ const configs = {
         ChanLe: 5,
         ChanLeTurbo: 6,
         RongHo: 7,
-        KenoProMax: 8
+        KenoProMax: 8,
+        MiniSedie: 9,
     },
     gameNames: {
         1: "Tài Xỉu",
@@ -22,7 +23,8 @@ const configs = {
         5: "Chẵn Lẻ",
         6: "Chẳn Lẻ Siêu Tốc",
         7: "Rồng Hổ",
-        8: "Keno Pro Max"
+        8: "Keno Pro Max",
+        9: "Xóc Đĩa Mini",
     },
     sentryUrl: 'https://08d902b128ea45b6a11639833224f481@sentry.saba.vin/25',
     gameAnalytics: {

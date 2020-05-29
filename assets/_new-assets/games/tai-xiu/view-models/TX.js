@@ -11,7 +11,8 @@ cc.Class({
     TX_HistoryBetPrefab: cc.Prefab,
   },
 
-  init(obj) {
+  init(gameName, obj) {
+    this.gameName = gameName;
     this.miniPanel = obj;
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
     cc.RedT.setting.taixiu.getLogs = false;
@@ -23,6 +24,7 @@ cc.Class({
       taixiu: { get_time: true, getLogs: true }
     });
   },
+
   onGameHide() {
     this.TX_Main.onGameHide();
   },
@@ -33,17 +35,21 @@ cc.Class({
     cc.RedT.setting.taixiu.getLogs = false;
     this.regEvent(true);
   },
+
   onEnable: function () {
     this.regEvent(true);
     var self = this;
     cc.game.on(cc.game.EVENT_HIDE, self.onGameHide, self);
     cc.game.on(cc.game.EVENT_SHOW, self.onGameShow, self);
+    this.observeData();
   },
+
   onDisable: function () {
     this.regEvent(false);
     this.TX_Main.onGameHide();
     cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
+    this.removeDataObserver();
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
@@ -60,6 +66,21 @@ cc.Class({
       });
     }
   },
+
+  observeData() {
+    cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
+  },
+
+  removeDataObserver() {
+    cc.RedT.removeDataObserver(this.gameName);
+  },
+
+  receivedData(data) {
+    if (data[this.gameName]) {
+      this.TX_Main.onData(data[this.gameName]);
+    }
+  },
+
   openGame: function (e, taixiu = "1") {
     cc.RedT.audio.playClick();
     this.TX_Main.initGame(taixiu == "1");

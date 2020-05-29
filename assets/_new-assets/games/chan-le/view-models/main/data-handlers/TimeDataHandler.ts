@@ -66,6 +66,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
                 }
 
                 if (isStartingNewTurn) {
+                    this.main.gameAudios.playStartGameAudio();
                     self.main.resetData();
                 }
 
