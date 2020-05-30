@@ -16,6 +16,9 @@ export default class Baccarat extends GameRoomBase {
     @property(BaccaratCards)
     bankerCards: BaccaratCards = null;
 
+    @property(cc.Node)
+    timerCircleLight: cc.Node = null;
+
     cardsResource: any = null;
 
     onLoad() {

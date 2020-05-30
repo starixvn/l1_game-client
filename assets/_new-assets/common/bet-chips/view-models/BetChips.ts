@@ -209,6 +209,10 @@ export default class BetChips extends cc.Component {
     }
 
     public initChips(chipsData: any, chipsBox: cc.Node) {
+        if (!chipsData) {
+            return;
+        }
+
         var chipBets = Object.keys(chipsData);
 
         _.forEach(chipBets, (chipBet) => {

@@ -17,10 +17,12 @@ export default class GameBaseFinishHandler implements DataHandler {
         if (data.finish) {
             this.main.timeHandler.resetTime();
             this.main.gameAudios.playEndGameAudio();
-            this.handleFinishData(data.finish);
+            this.handleFinishData(
+                data.finish,
+                () => this.payChips(data.finish.settlementResult, data.finish.winningPlayers));
 
-            this.main.node.runAction(cc.sequence(cc.delayTime(this.playResultAnimationTime),
-                cc.callFunc(() => this.payChips(data.finish.settlementResult, data.finish.winningPlayers))));
+            // this.main.node.runAction(cc.sequence(cc.delayTime(this.playResultAnimationTime),
+            //     cc.callFunc(() => this.payChips(data.finish.settlementResult, data.finish.winningPlayers))));
         }
 
         return true;
@@ -30,7 +32,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         return this.playResultAnimationTime;
     }
 
-    handleFinishData(dataFinish) {
+    handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
     }
 
     payChips(settlementResult: any, winningPlayers: any) {

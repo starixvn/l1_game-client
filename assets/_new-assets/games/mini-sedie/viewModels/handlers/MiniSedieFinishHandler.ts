@@ -6,8 +6,8 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
         super(main, 0);
     }
 
-    handleFinishData(dataFinish) {
-        super.handleFinishData(dataFinish);
+    handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
+        super.handleFinishData(dataFinish, onFinishHanlingData);
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.roundId = dataFinish.roundId;

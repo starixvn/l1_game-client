@@ -8,14 +8,18 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
         super(main, 2);
     }
 
-    handleFinishData(dataFinish) {
-        super.handleFinishData(dataFinish);
+    handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
+        super.handleFinishData(dataFinish, onFinishHanlingData);
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.roundId = dataFinish.roundId;
 
         if (cc.RedT.GAME_IS_SHOWED) {
-            this.playResultAnimation();
+            this.main.node.runAction(cc.sequence(
+                cc.callFunc(() => this.playResultAnimation()),
+                cc.delayTime(this.playResultAnimationTime),
+                cc.callFunc(() => onFinishHanlingData())
+            ));
         }
     }
 
