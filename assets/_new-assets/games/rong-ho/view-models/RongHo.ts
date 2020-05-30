@@ -74,9 +74,6 @@ export default class RongHo extends cc.Component {
     @property(cc.Label)
     drawStats: cc.Label = null;
 
-    @property(cc.Node)
-    logsContainer: cc.Node = null;
-
     @property({ type: RongHoBetItem })
     betItems: RongHoBetItem[] = [];
 
@@ -109,6 +106,9 @@ export default class RongHo extends cc.Component {
 
     @property(MiniRoundHistory)
     miniRoundHistory: MiniRoundHistory = null;
+
+    @property(cc.Node)
+    scoreBoard: cc.Node = null;
 
     public config: GameBaseConfigs
     public currentTimeRemaining: number;
@@ -217,6 +217,11 @@ export default class RongHo extends cc.Component {
         cc.RedT.audio.playClick();
         this.miniPanel.openGuide("RongHo");
     }
+
+    public pressedShowScoreBoard() {
+        cc.RedT.audio.playClick();
+        this.scoreBoard.active = !this.scoreBoard.active;
+    }
     //#endregion
 
     //#region Component Methods
@@ -224,17 +229,6 @@ export default class RongHo extends cc.Component {
     }
 
     onLoad() {
-        var logNodes = this.logsContainer.children.map((child, index) => {
-            var sprites = child.children.map(item => {
-                item.active = false;
-                return item.getComponent(cc.Sprite);
-            });
-            if (index % 2 === 1) {
-                sprites.reverse();
-            }
-            return sprites;
-        });
-        this.dots = [].concat.apply([], logNodes);
         this.setOddLabels();
         this.setPhienLabel(0);
         this.initCards();
