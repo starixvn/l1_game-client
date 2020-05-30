@@ -17,6 +17,9 @@ import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
 import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameAudios from "../../_base/GameAudios";
+import LogControl from "../../keno-pro/view-models/LogControl";
+import RHRoundResultItem from "./RHRoundResultItem";
+import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -74,9 +77,6 @@ export default class RongHo extends cc.Component {
     @property(cc.Node)
     logsContainer: cc.Node = null;
 
-    @property({ type: cc.SpriteFrame })
-    dotSprites: cc.SpriteFrame[] = [];
-
     @property({ type: RongHoBetItem })
     betItems: RongHoBetItem[] = [];
 
@@ -104,6 +104,12 @@ export default class RongHo extends cc.Component {
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
+    @property(LogControl)
+    logControl: LogControl = null;
+
+    @property(MiniRoundHistory)
+    miniRoundHistory: MiniRoundHistory = null;
+
     public config: GameBaseConfigs
     public currentTimeRemaining: number;
     public disabledGame = false;
@@ -113,7 +119,6 @@ export default class RongHo extends cc.Component {
     public logs = [];
     public history: RongHoHistory;
 
-    private dots: cc.Sprite[];
     private dataHandlers: DataHandler[] = [];
     private gameName: string;
     private miniPanel: MiniPanel;
@@ -503,27 +508,49 @@ export default class RongHo extends cc.Component {
         }
 
         //update display logs
-        var dragonCount = 0, tigerCount = 0, drawCount = 0;
-        var self = this;
+        let dragonCount = 0, tigerCount = 0, drawCount = 0;
+
+        const logControlData = [];
+        const result = [];
         this.logs.forEach((log, index) => {
-            var cards = log.result;
-            var winItem = self.getWinItem(cards);
-            self.dots[index].node.active = true;
+            let cards = log.result;
+            let winItem = this.getWinItem(cards);
             switch (winItem) {
                 case "dragon":
                     dragonCount++;
-                    self.dots[index].spriteFrame = self.dotSprites[0];
+                    result.push(0);
                     break;
                 case "tie":
                     drawCount++;
-                    self.dots[index].spriteFrame = self.dotSprites[2];
+                    result.push(2);
                     break;
                 case "tiger":
                     tigerCount++;
-                    self.dots[index].spriteFrame = self.dotSprites[1];
+                    result.push(1);
                     break;
             }
         });
+
+        let count = 0;
+        for (let i = 0; i < result.length;) {
+            if (result[i] == 2)//draw
+            {
+                count++;
+            } else {
+                logControlData.push({
+                    item: result[i],
+                    draw: count
+                })
+                count = 0;
+            }
+            i++;
+        }
+        this.miniRoundHistory.setData(result);
+
+        logControlData.reverse();
+        this.logControl.setData(logControlData.map(d => d.item));
+        const items = this.logControl.content.getComponentsInChildren(RHRoundResultItem);
+        items.forEach((item, index) => item.setValue(logControlData[index].draw));
 
         var dragonStats = Math.floor(dragonCount * 100 / this.logs.length);
         var drawStats = Math.floor(drawCount * 100 / this.logs.length);

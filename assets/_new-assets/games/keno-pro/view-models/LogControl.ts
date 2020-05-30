@@ -50,16 +50,16 @@ export default class LogControl extends cc.Component {
             dot.destroy();
         });
 
-        var col = 0, row = 0;
-        var maxX = 0;
-        var nextCol = 1;
-        var previousResult = undefined;
-        var rowMax = {};
-        var colMax = 0;
-        var start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
+        let col = 0, row = 0;
+        let maxX = 0;
+        let nextCol = 1;
+        let previousResult = undefined;
+        let rowMax = {};
+        let colMax = 0;
+        let start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
         results.forEach((result, i) => {
             if (result == previousResult) {
-                var max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
+                let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
                 if (row < max - 1) {
                     row++;
                 } else if (row == 0 && max == 1) {
@@ -81,7 +81,7 @@ export default class LogControl extends cc.Component {
 
             previousResult = result;
 
-            var dot = cc.instantiate(this.items[result]);
+            let dot = cc.instantiate(this.items[result]);
             dot.active = true;
 
             dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
@@ -100,7 +100,7 @@ export default class LogControl extends cc.Component {
     }
 
     private addNextMark(rowMax, row, col, colMax, nextCol, start) {
-        var max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
+        let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
         if (row < max - 1) {
             row++;
         } else {
@@ -110,7 +110,7 @@ export default class LogControl extends cc.Component {
                 colMax = col;
             }
         }
-        var dot = cc.instantiate(this.itemNext);
+        let dot = cc.instantiate(this.itemNext);
         dot.active = false;
         dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
         dot.addComponent(BlinkNode).interval = 0.5;
