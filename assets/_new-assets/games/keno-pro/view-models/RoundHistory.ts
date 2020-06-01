@@ -21,13 +21,19 @@ export default class RoundHistory extends cc.Component {
     options: cc.Node = null;
 
     @property(LogControl)
-    logControl: LogControl = null;
+    bigSmallLog: LogControl = null;
 
     @property(StatisticProgress)
-    statisticProgesses: StatisticProgress = null;
+    bigSmallProgress: StatisticProgress = null;
 
     @property(StatisticProgress)
-    statisticProgesses2: StatisticProgress = null;
+    evenOddProgress: StatisticProgress = null;
+
+    @property(StatisticProgress)
+    fiveElementProgress: StatisticProgress = null;
+
+    @property(LogControl)
+    sharedLog: LogControl = null;
 
     @property({ type: cc.Node })
     bigSmallItem: cc.Node[] = [];
@@ -72,7 +78,8 @@ export default class RoundHistory extends cc.Component {
 
     public init(main: Keno) {
         this.main = main;
-        this.logControl.init(main);
+        this.bigSmallLog.init(main);
+        this.sharedLog.init(main);
     }
 
     public onOptionClick(event: cc.Component.EventHandler, game) {
@@ -81,30 +88,17 @@ export default class RoundHistory extends cc.Component {
     }
 
     private getIndexOption(name: string): number {
-        var index = 0;
-        switch (name) {
-            case "tai-xiu":
-                index = HistoryOption.BigSmall;
-                break;
-            case "chan-le":
-                index = HistoryOption.EvenOdd;
-                break;
-            case "ngu-hanh":
-                index = HistoryOption.FiveElements;
-                break;
-        }
-        return index;
+        return name === "chan-le" ? 0 : 1;
     }
 
     private updateDisplay() {
+        this.showBigSmall();
+
         switch (this.currentOption) {
             case 0:
-                this.showBigSmall();
-                break;
-            case 1:
                 this.showEvenOdd();
                 break;
-            case 2:
+            case 1:
                 this.showFiveElements();
                 break;
         }
@@ -149,40 +143,37 @@ export default class RoundHistory extends cc.Component {
     }
 
     private showBigSmall() {
-        this.logControl.items = this.bigSmallItem;
-        this.statisticProgesses.prefixes = ["TÀI", "XỈU"];
+        this.bigSmallLog.items = this.bigSmallItem;
+        this.bigSmallProgress.prefixes = ["TÀI", "XỈU"];
         var statisticData = this.statisticData[HistoryOption.BigSmall];
-        this.updataStatistic(this.statisticProgesses, statisticData);
-
-        this.statisticProgesses.node.active = true;
-        this.statisticProgesses2.node.active = false;
+        this.updataStatistic(this.bigSmallProgress, statisticData, this.bigSmallLog);
     }
 
     private showEvenOdd() {
-        this.logControl.items = this.evenOddItem;
-        this.statisticProgesses.prefixes = ["CHẴN", "LẺ"];
+        this.sharedLog.items = this.evenOddItem;
+        this.evenOddProgress.prefixes = ["CHẴN", "LẺ"];
         var statisticData = this.statisticData[HistoryOption.EvenOdd];
-        this.updataStatistic(this.statisticProgesses, statisticData);
+        this.updataStatistic(this.evenOddProgress, statisticData, this.sharedLog);
 
-        this.statisticProgesses.node.active = true;
-        this.statisticProgesses2.node.active = false;
+        this.evenOddProgress.node.active = true;
+        this.fiveElementProgress.node.active = false;
     }
 
     private showFiveElements() {
-        this.logControl.items = this.fiveElementsItem;
-        this.statisticProgesses2.prefixes = ["KIM", "MỘC", "THUỶ", "HOẢ", "THỔ"];
+        this.sharedLog.items = this.fiveElementsItem;
+        this.fiveElementProgress.prefixes = ["KIM", "MỘC", "THUỶ", "HOẢ", "THỔ"];
         var statisticData = this.statisticData[HistoryOption.FiveElements];
 
         // data test
         // statisticData.statistic = [1, 10, 78, 10, 1];
         // statisticData.data = statisticData.data.slice(0, 100);
-        this.updataStatistic(this.statisticProgesses2, statisticData);
+        this.updataStatistic(this.fiveElementProgress, statisticData, this.sharedLog);
 
-        this.statisticProgesses.node.active = false;
-        this.statisticProgesses2.node.active = true;
+        this.evenOddProgress.node.active = false;
+        this.fiveElementProgress.node.active = true;
     }
 
-    private updataStatistic(progress: StatisticProgress, statisticData: any) {
+    private updataStatistic(progress: StatisticProgress, statisticData: any, logControl: LogControl) {
         var data = statisticData.data;
 
         if (data.length > 0) {
@@ -190,6 +181,6 @@ export default class RoundHistory extends cc.Component {
         } else {
             progress.clear();
         }
-        this.logControl.setData(data);
+        logControl.setData(data);
     }
 }
