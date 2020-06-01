@@ -530,6 +530,9 @@ export default class RongHo extends cc.Component {
             if (result[i] == 2)//draw
             {
                 count++;
+                if (i == result.length - 1) { // show special last item
+                    logControlData.push({ item: 2, draw: count });
+                }
             } else {
                 logControlData.push({
                     item: result[i],
