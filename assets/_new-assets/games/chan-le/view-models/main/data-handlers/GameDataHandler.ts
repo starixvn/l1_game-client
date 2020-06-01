@@ -19,8 +19,15 @@ export default class GameDataHandler extends BaseDataHandler implements DataHand
             this.main.closeProcessWarning();
         }
 
-        chanleData.red_chan && (this.main.totalBetLeft.string = numberWithCommas(chanleData.red_chan));
-        chanleData.red_le && (this.main.totalBetRight.string = numberWithCommas(chanleData.red_le));
+        this.main.redChan = chanleData.red_chan;
+        this.main.redLe = chanleData.red_le;
+
+        if (this.main.currentTimeRemaining > this.main.root.gameConfigs.betTime || this.main.currentTimeRemaining < this.main.root.gameConfigs.balanceBetTime) {
+            this.main.balanceBet();
+        } else {
+            chanleData.red_chan && (this.main.totalBetLeft.string = numberWithCommas(chanleData.red_chan));
+            chanleData.red_le && (this.main.totalBetRight.string = numberWithCommas(chanleData.red_le));
+        }
         chanleData.red_me_chan && (this.main.userBetLeft.string = numberWithCommas(chanleData.red_me_chan));
         chanleData.red_me_le && (this.main.userBetRight.string = numberWithCommas(chanleData.red_me_le));
         chanleData.red_player_chan && (this.main.playersLeft.string = numberWithCommas(chanleData.red_player_chan));
@@ -28,5 +35,4 @@ export default class GameDataHandler extends BaseDataHandler implements DataHand
 
         return true;
     }
-
 }

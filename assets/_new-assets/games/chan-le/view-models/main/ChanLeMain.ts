@@ -2,7 +2,7 @@ const { ccclass, property } = cc._decorator;
 import ChanLe from './../ChanLe';
 import BetBoard from './../bet-board/ChanLeBetBoard';
 import DiaNan from './ChanLeDiaNan';
-import { getOnlyNumberInString, numberWithCommas } from '../../../../common/helpers/Helper';
+import { getOnlyNumberInString, numberWithCommas, numberTo, inputNumber } from '../../../../common/helpers/Helper';
 import ProcessingWarning from './../../../../common/processing-warning/view-models/ProcessingWarning';
 import * as ScaleEffect from './../../../tai-xiu/view-models/main-page/TXScale';
 import AnimatedTime from './../../../../common/animated-time/view-models/AnimatedTime';
@@ -143,6 +143,9 @@ export default class ChanLeMain extends cc.Component {
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    balanceBetNoticePrefab: cc.Prefab = null;
+
     //#endregion
     isNan = false;
     root: ChanLe;
@@ -151,6 +154,8 @@ export default class ChanLeMain extends cc.Component {
     currentTimeRemaining: number;
     hideDiaNan: boolean;
     gameAudios: GameAudios;
+    redChan: number;
+    redLe: number;
 
     private static readonly DAT_CUOC = "ĐẶT CỬA";
     private readonly umDataHandler: DataHandler;
@@ -396,5 +401,29 @@ export default class ChanLeMain extends cc.Component {
             = this.userBetRight.string
             = this.playersLeft.string
             = this.playersRight.string = '0';
+    }
+
+    balanceBet(hasAnimation = false) {
+        if (hasAnimation) {
+            let notice = cc.instantiate(this.balanceBetNoticePrefab);
+            this.notice.addChild(notice);
+        }
+
+        const isLechChan = this.redChan > this.redLe;
+        if (isLechChan) {
+            if (hasAnimation) {
+                numberTo(this.totalBetLeft, 0, this.redLe, 300, true);
+            } else {
+                this.totalBetLeft.string = numberWithCommas(this.redLe);
+            }
+            this.totalBetRight.string = numberWithCommas(this.redLe);
+        } else {
+            if (hasAnimation) {
+                numberTo(this.totalBetRight, 0, this.redChan, 300, true)
+            } else {
+                this.totalBetRight.string = numberWithCommas(this.redChan);
+            }
+            this.totalBetLeft.string = numberWithCommas(this.redChan);
+        }
     }
 }
