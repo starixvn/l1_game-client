@@ -27,6 +27,6 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
             }
         })
 
-        // this.main.historyBoard.setData(historyData);
+        this.main.historyBoard.setData(historyData);
     }
 }

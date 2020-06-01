@@ -24,7 +24,7 @@ export default class BaccaratCards extends cc.Component {
     point: cc.Label = null;
 
     private cardsResource: any = null;
-    private readonly flyCardSecond = 1;
+    private readonly flyCardSecond = 0.8;
     private readonly openCardSecond = 0.3;
 
     init(cardsResource) {
@@ -55,11 +55,12 @@ export default class BaccaratCards extends cc.Component {
 
     }
 
-    flyCards() {
-        this.node.runAction(cc.sequence(
-            cc.callFunc(() => this.flyCard(this.card1.node)),
-            cc.delayTime(0.4),
-            cc.callFunc(() => this.flyCard(this.card2.node))));
+    flyFirstCard() {
+        this.flyCard(this.card1.node);
+    }
+
+    flySecondCard() {
+        this.flyCard(this.card2.node);
     }
 
     resetCards() {
@@ -112,9 +113,9 @@ export default class BaccaratCards extends cc.Component {
         card.opacity = 255;
 
         card.runAction(cc.spawn(
-            cc.rotateTo(this.flyCardSecond, angle).easing(cc.easeInOut(3)),
-            cc.scaleTo(this.flyCardSecond, 1).easing(cc.easeInOut(3)),
-            cc.moveTo(this.flyCardSecond, cardPosition).easing(cc.easeInOut(3))));
+            cc.rotateTo(this.flyCardSecond, angle).easing(cc.easeInOut(2)),
+            cc.scaleTo(this.flyCardSecond, 1).easing(cc.easeInOut(2)),
+            cc.moveTo(this.flyCardSecond, cardPosition).easing(cc.easeInOut(2))));
     }
 
     private resetCard(card: cc.Sprite) {

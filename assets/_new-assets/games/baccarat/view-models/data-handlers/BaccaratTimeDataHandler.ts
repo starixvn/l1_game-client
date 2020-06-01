@@ -14,9 +14,14 @@ export default class BaccaratTimeHandler extends GameBaseTimeHandler {
         baccarat.playerCards.resetCards();
 
         this.main.node.runAction(cc.sequence(
-            cc.callFunc(() => baccarat.playerCards.flyCards()),
-            cc.delayTime(0.8),
-            cc.callFunc(() => baccarat.bankerCards.flyCards())))
+            cc.callFunc(() => baccarat.playerCards.flyFirstCard()),
+            cc.delayTime(0.3),
+            cc.callFunc(() => baccarat.bankerCards.flyFirstCard()),
+            cc.delayTime(0.3),
+            cc.callFunc(() => baccarat.playerCards.flySecondCard()),
+            cc.delayTime(0.3),
+            cc.callFunc(() => baccarat.bankerCards.flySecondCard()),
+        ))
     }
 
     handleInRoundTime() {
