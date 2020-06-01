@@ -32,8 +32,8 @@ export default class BaccaratHistory extends cc.Component {
     padding: cc.Size = new cc.Size(2, 2);
 
     private main: GameBase = null;
-    private nextMark: cc.Node = null;
     private dots: cc.Node[] = [];
+    private nextMark: cc.Node = null;
 
     init(main: GameBase) {
         this.main = main;
@@ -45,32 +45,36 @@ export default class BaccaratHistory extends cc.Component {
             dot.destroy();
         });
 
-        historyData.forEach((history, i) => {
+        historyData.forEach((history) => {
             const historyItem = _.find(this.items, item => item.name.toLowerCase() === history.name);
             var historyDot = cc.instantiate(historyItem);
             historyDot.active = true;
             this.content.addChild(historyDot);
             this.dots.push(historyDot);
         });
+
+        this.addNextMark();
     }
 
-    private addNextMark(rowMax, row, col, colMax, nextCol, start) {
-        var dot = cc.instantiate(this.itemNext);
-        dot.active = false;
-        dot.addComponent(BlinkNode).interval = 0.5;
-        this.content.addChild(dot);
-        this.nextMark = dot;
-        this.dots.push(dot);
-    }
+
 
     update() {
         if (this.nextMark && this.nextMark.isValid) {
             if (this.main) {
-                if (this.main.currentTimeRemaining < this.main.config.stopBetTime ||
-                    this.main.currentTimeRemaining > this.main.config.fullTime - this.main.finishHandler.getResultAnimationTime()) {
+                if (this.main.currentTimeRemaining < this.main.config.stopBetTime) {
                     this.nextMark.active = true;
+                }
+                else {
+                    this.nextMark.active = false;
                 }
             }
         }
+    }
+
+    private addNextMark() {
+        this.nextMark = cc.instantiate(this.itemNext);
+        this.nextMark.active = true;
+        this.nextMark.addComponent(BlinkNode).interval = 0.5;
+        this.content.addChild(this.nextMark);
     }
 }

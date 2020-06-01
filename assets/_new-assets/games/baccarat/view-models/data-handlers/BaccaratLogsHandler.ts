@@ -10,7 +10,6 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
-        console.log(dataLogs);
         const historyData = _.map(dataLogs, (log) => {
             const result = log.result;
 
@@ -27,6 +26,6 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
             }
         })
 
-        this.main.historyBoard.setData(historyData);
+        this.main.historyBoard.setData(historyData.reverse());
     }
 }

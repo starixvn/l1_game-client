@@ -1,6 +1,7 @@
 import Baccarat from "../Baccarat";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import * as _ from "lodash";
+import BaccaratLogsHandler from "./BaccaratLogsHandler";
 
 export default class BaccaratFinishHandler extends GameBaseFinishHandler {
     handleFinishData(dataFinish: any, onFinishHanlingData: () => void = null) {
@@ -13,6 +14,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         }
 
         this.showCards(dataFinish, baccaratMain, onFinishHanlingData);
+
     }
 
     private showCards(dataFinish: any, baccaratMain: Baccarat, onFinishHanlingData: () => void) {
@@ -23,6 +25,9 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         const showResultFunc = () => {
             this.showResult(settlementResult);
             onFinishHanlingData && onFinishHanlingData();
+            baccaratMain.currentDataLogs.unshift({ result: dataFinish.settlementResult });
+            baccaratMain.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
+            (baccaratMain.logsHandler as BaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
         }
         baccaratMain.playerCards.showCards(playerCards, bankerCards.length == 3 ? null : showResultFunc);
         baccaratMain.bankerCards.showCards(bankerCards, bankerCards.length == 3 ? showResultFunc : null);

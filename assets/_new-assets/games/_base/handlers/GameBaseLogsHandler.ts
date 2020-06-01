@@ -9,6 +9,7 @@ export default class GameBaseLogsHandler implements DataHandler {
         if (data.roundHistory) {
             this.main.currentDataLogs = data.roundHistory;
             this.main.roundId = data.roundHistory[0].id;
+            console.log(this.main.roundId);
             this.buildLogs(data.roundHistory);
         }
 
