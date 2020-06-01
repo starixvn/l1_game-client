@@ -139,6 +139,21 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
+            <key>check_hoa.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{4,4}</string>
+                <key>spriteSize</key>
+                <string>{11,11}</string>
+                <key>spriteSourceSize</key>
+                <string>{19,19}</string>
+                <key>textureRect</key>
+                <string>{{206,244},{11,11}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
             <key>circle background.png</key>
             <dict>
                 <key>aliases</key>
@@ -184,7 +199,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dot_hoa.png</key>
+            <key>dot_ho_border.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -199,7 +214,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>dot_rong.png</key>
+            <key>dot_hoa.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -211,6 +226,36 @@
                 <string>{19,19}</string>
                 <key>textureRect</key>
                 <string>{{220,223},{19,19}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>dot_rong.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{19,19}</string>
+                <key>spriteSourceSize</key>
+                <string>{19,19}</string>
+                <key>textureRect</key>
+                <string>{{1057,188},{19,19}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>dot_rong_border.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{19,19}</string>
+                <key>spriteSourceSize</key>
+                <string>{19,19}</string>
+                <key>textureRect</key>
+                <string>{{1057,209},{19,19}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -393,7 +438,7 @@
             <key>size</key>
             <string>{1434,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:d32ac8c46f691f9367490bc62d89df5e:494cb254d2eb912484654f2deb4042a8:4641f319c4adfdd951ad56c42e1d5476$</string>
+            <string>$TexturePacker:SmartUpdate:38ffc9a2bcba2abf1f31cf773b773251:7aae2d3a6b621f9a16a6d4205e566408:4641f319c4adfdd951ad56c42e1d5476$</string>
             <key>textureFileName</key>
             <string>rong-ho.png</string>
         </dict>
