@@ -1,8 +1,14 @@
 import BlinkNode from "../../../common/BlinkNode";
 import GameBase from "../../_base/GameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import * as _ from "lodash";
 
 const { ccclass, property } = cc._decorator;
+
+export class NormalHistoryData {
+    constructor(public name: string, public value: string) {
+    }
+}
 
 @ccclass
 export default class BaccaratHistory extends cc.Component {
@@ -26,7 +32,6 @@ export default class BaccaratHistory extends cc.Component {
     padding: cc.Size = new cc.Size(2, 2);
 
     private main: GameBase = null;
-    private oldGameMain: any = null;
     private stopTime = 0;
     private resultTime = 0;
     private nextMark: cc.Node = null;
@@ -36,48 +41,43 @@ export default class BaccaratHistory extends cc.Component {
         this.main = main;
     }
 
-    initOldGame(main: any, stopTime: number, resultTime: number) {
-        this.oldGameMain = main;
-        this.stopTime = stopTime;
-        this.resultTime = resultTime;
-    }
-
-    public setData(results: number[]) {
+    public setData(historyData: NormalHistoryData[]) {
         this.dots.forEach(dot => {
             dot.removeFromParent();
             dot.destroy();
         });
 
-        var col = 0, row = 0;
-        var maxX = 0;
-        var nextCol = 1;
-        var previousResult = undefined;
-        var rowMax = {};
-        var colMax = 0;
-        var start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
+        let col = 0, row = 0;
+        let maxX = 0;
+        let nextCol = 1;
+        let previousResult = undefined;
+        let rowMax = {};
+        let colMax = 0;
+        let start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
 
-        results.forEach((result, i) => {
-            row = 0;
-            col = nextCol;
-            nextCol++;
+        historyData.forEach((history, i) => {
+            row++;
+
+            if (row > this.RowMax) {
+                row = 0;
+                col++;
+            }
 
             if (col > colMax) {
                 colMax = col;
             }
 
-            previousResult = result;
+            const historyItem = _.find(this.items, item => item.name.toLowerCase() === history.name);
+            var historyDot = cc.instantiate(historyItem);
+            historyDot.active = true;
+            historyDot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
 
-            var dot = cc.instantiate(this.items[result]);
-            dot.active = true;
-
-            dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
-
-            maxX = Math.max(maxX, dot.position.x);
-            this.content.addChild(dot);
-            this.dots.push(dot);
+            maxX = Math.max(maxX, historyDot.position.x);
+            this.content.addChild(historyDot);
+            this.dots.push(historyDot);
         });
 
-        this.addNextMark(rowMax, row, col, colMax, nextCol, start);
+        // this.addNextMark(rowMax, row, col, colMax, nextCol, start);
 
         maxX = Math.max(maxX, this.nextMark.position.x);
         this.content.width = Math.max(maxX + this.itemSize.width / 2, this.node.width) + 2 * this.padding.width;

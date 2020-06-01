@@ -4,6 +4,8 @@ import BaccaratTimeHandler from "./data-handlers/BaccaratTimeDataHandler";
 import { BaccaratConfigs } from "./BaccaratConfigs";
 import BaccaratCards from "./BaccaratCards";
 import BaccaratFinishHandler from "./data-handlers/BaccaratFInishHandler";
+import BaccaratHistory from "./BaccaratHistory";
+import BaccaratLogsHandler from "./data-handlers/BaccaratLogsHandler";
 
 @ccclass
 export default class Baccarat extends GameRoomBase {
@@ -17,14 +19,24 @@ export default class Baccarat extends GameRoomBase {
     bankerCards: BaccaratCards = null;
 
     @property(cc.Node)
-    timerCircleLight: cc.Node = null;
+    historyBoardNode: cc.Node = null;
+
+    @property(cc.Prefab)
+    historyBoardPrefab: cc.Prefab = null;
 
     cardsResource: any = null;
+
+    public historyBoard: BaccaratHistory;
 
     onLoad() {
         this.init("baccarat", new BaccaratConfigs())
         super.onLoad();
         this.initCards();
+
+        const historyBoardNode = cc.instantiate(this.historyBoardPrefab);
+        this.historyBoard = historyBoardNode.getComponent("BaccaratHistory");
+        this.historyBoard.init(this);
+        this.historyBoardNode.addChild(historyBoardNode);
     }
 
     onData(data) {
@@ -44,6 +56,7 @@ export default class Baccarat extends GameRoomBase {
 
         this.timeHandler = new BaccaratTimeHandler(this);
         this.finishHandler = new BaccaratFinishHandler(this);
+        this.logsHandler = new BaccaratLogsHandler(this);
     }
 
     private initCards() {

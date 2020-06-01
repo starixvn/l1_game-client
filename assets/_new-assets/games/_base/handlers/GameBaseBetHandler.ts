@@ -42,11 +42,10 @@ export default class GameBaseBetHandler implements DataHandler {
 
 
     placeOwnChip(data) {
-        var betOption = data.box.toLowerCase();
-        console.log(betOption);
-        var bet = data.bet;
-        console.log(this.main.betItems)
-        var betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
+        const betOption = data.box.toLowerCase();
+        const bet = data.bet;
+        const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
+        console.log(betItem)
 
         this.main.betChips.placeChipBet(
             bet,
