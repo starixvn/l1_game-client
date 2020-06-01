@@ -195,6 +195,10 @@ cc.Class({
     gameAudiosPrefab: {
       default: null,
       type: cc.Prefab
+    },
+    balanceBetNoticePrefab: {
+      default: null,
+      type: cc.Prefab
     }
   },
   init: function (obj) {
@@ -208,6 +212,8 @@ cc.Class({
     this.isNan = false;
     this.localResultDices = [];
     this.gameAudios = null;
+    this.redTai = 0;
+    this.redXiu = 0;
 
     if (void 0 === cc.RedT.setting.taixiu.red) {
       cc.RedT.setting.taixiu.red = this.red;
@@ -709,6 +715,10 @@ cc.Class({
             );
             this.AnimatedTime.setTime(time);
             this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
+
+            if (cc.RedT.setting.taixiu.time_remain <= Constants.balanceBetTime) {
+              this.balanceBet(cc.RedT.setting.taixiu.time_remain == Constants.balanceBetTime);
+            }
           } else clearInterval(this.timeInterval);
         }
         cc.RedT.setting.taixiu.time_remain--;
@@ -756,11 +766,15 @@ cc.Class({
       cc.RedT.inGame.onGetTaiXiu(data.red_tai, data.red_xiu);
     }
 
-    if (this.red) {
-      if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
-        this.closeProcessingWarningPopup();
-      }
+    this.redTai = data.red_tai;
+    this.redXiu = data.red_xiu;
+    if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
+      this.closeProcessingWarningPopup();
+    }
 
+    if (cc.RedT.setting.taixiu.time_remain > Constants.betTime || cc.RedT.setting.taixiu.time_remain < Constants.balanceBetTime) {
+      this.balanceBet();
+    } else {
       if (void 0 !== data.red_tai) {
         var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
 
@@ -779,31 +793,12 @@ cc.Class({
           this.totalRight.string = helper.numberWithCommas(data.red_xiu);
         }
       }
-
-      void 0 !== data.red_me_tai &&
-        (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
-      void 0 !== data.red_me_xiu &&
-        (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
-      void 0 !== data.red_player_tai &&
-        (this.playerLeft.string = helper.numberWithCommas(data.red_player_tai));
-      void 0 !== data.red_player_xiu &&
-        (this.playerRight.string = helper.numberWithCommas(
-          data.red_player_xiu
-        ));
-    } else {
-      void 0 !== data.xu_tai &&
-        (this.totalLeft.string = helper.numberWithCommas(data.xu_tai));
-      void 0 !== data.xu_xiu &&
-        (this.totalRight.string = helper.numberWithCommas(data.xu_xiu));
-      void 0 !== data.xu_me_tai &&
-        (this.myLeft.string = helper.numberWithCommas(data.xu_me_tai));
-      void 0 !== data.xu_me_xiu &&
-        (this.myRight.string = helper.numberWithCommas(data.xu_me_xiu));
-      void 0 !== data.xu_player_tai &&
-        (this.playerLeft.string = helper.numberWithCommas(data.xu_player_tai));
-      void 0 !== data.xu_player_xiu &&
-        (this.playerRight.string = helper.numberWithCommas(data.xu_player_xiu));
     }
+
+    void 0 !== data.red_me_tai && (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
+    void 0 !== data.red_me_xiu && (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
+    void 0 !== data.red_player_tai && (this.playerLeft.string = helper.numberWithCommas(data.red_player_tai));
+    void 0 !== data.red_player_xiu && (this.playerRight.string = helper.numberWithCommas(data.red_player_xiu));
   },
   onDuDay: function (data) {
     if (data) {
@@ -1127,5 +1122,30 @@ cc.Class({
   },
   playCenterRoundLight() {
     this.centerRoundLight.node.runAction(cc.repeatForever(cc.rotateBy(1, 360)));
+  },
+
+  showBalanceBetNotice() {
+    let notice = cc.instantiate(this.balanceBetNoticePrefab);
+    this.notice.addChild(notice);
+  },
+
+  balanceBet(hasAnimation = false) {
+    const isLechTai = this.redTai > this.redXiu;
+    hasAnimation && this.showBalanceBetNotice();
+    if (isLechTai) {
+      if (hasAnimation) {
+        helper.numberTo(this.totalLeft, 0, this.redXiu, 300, true);
+      } else {
+        this.totalLeft.string = helper.numberWithCommas(this.redXiu);
+      }
+      this.totalRight.string = helper.numberWithCommas(this.redXiu);
+    } else {
+      if (hasAnimation) {
+        helper.numberTo(this.totalRight, 0, this.redTai, 300, true)
+      } else {
+        this.totalRight.string = helper.numberWithCommas(this.redTai);
+      }
+      this.totalLeft.string = helper.numberWithCommas(this.redTai);
+    }
   }
 });

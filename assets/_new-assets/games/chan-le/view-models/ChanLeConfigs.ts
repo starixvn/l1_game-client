@@ -2,6 +2,7 @@ import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 
 export interface CLGameConfigs extends GameBaseConfigs {
     readonly nanTime: number;
+    readonly balanceBetTime: number;
 }
 
 export class ChanLeConfigs implements CLGameConfigs {
@@ -11,4 +12,5 @@ export class ChanLeConfigs implements CLGameConfigs {
     nanTime: number = 55;
     stopBetTime: number = 5;
     minBetTime: number = 1;
+    balanceBetTime: number = 3;
 }

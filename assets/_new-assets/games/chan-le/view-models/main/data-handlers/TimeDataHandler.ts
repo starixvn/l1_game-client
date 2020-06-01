@@ -75,6 +75,10 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
                     self.main.animatedTime.setTime(time);
                     self.main.diaNanSprite.node.active = !this.main.hideDiaNan;
                     self.main.animatedTime.node.active = true;
+
+                    if (self.main.currentTimeRemaining <= this.main.root.gameConfigs.balanceBetTime) {
+                        self.main.balanceBet(self.main.currentTimeRemaining == this.main.root.gameConfigs.balanceBetTime);
+                    }
                 } else {
                     clearInterval(self.playTimeInterval);
                 }

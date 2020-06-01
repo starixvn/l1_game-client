@@ -18,6 +18,8 @@ cc.Class({
     this.isNan = false;
     this.localResultDices = [];
     this.gameAudios = null;
+    this.redTai = 0;
+    this.redXiu = 0;
 
     if (void 0 === cc.RedT.setting.taixiu_turbo.red) {
       cc.RedT.setting.taixiu_turbo.red = this.red;
@@ -522,6 +524,9 @@ cc.Class({
             this.AnimatedTime.setTime(time);
             // this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
             this.AnimatedTime.node.active = !self.isUM;
+            if (cc.RedT.setting.taixiu_turbo.time_remain <= Constants.balanceBetTime) {
+              this.balanceBet(cc.RedT.setting.taixiu_turbo.time_remain == Constants.balanceBetTime);
+            }
           } else clearInterval(this.timeInterval);
         }
         cc.RedT.setting.taixiu_turbo.time_remain--;
@@ -569,11 +574,15 @@ cc.Class({
       cc.RedT.inGame.onGetTaiXiu(data.red_tai, data.red_xiu);
     }
 
-    if (this.red) {
-      if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
-        this.closeProcessingWarningPopup();
-      }
+    this.redTai = data.red_tai;
+    this.redXiu = data.red_xiu;
+    if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
+      this.closeProcessingWarningPopup();
+    }
 
+    if (cc.RedT.setting.taixiu_turbo.time_remain > Constants.betTime || cc.RedT.setting.taixiu_turbo.time_remain < Constants.balanceBetTime) {
+      this.balanceBet();
+    } else {
       if (void 0 !== data.red_tai) {
         var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
 
@@ -592,31 +601,12 @@ cc.Class({
           this.totalRight.string = helper.numberWithCommas(data.red_xiu);
         }
       }
-
-      void 0 !== data.red_me_tai &&
-        (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
-      void 0 !== data.red_me_xiu &&
-        (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
-      void 0 !== data.red_player_tai &&
-        (this.playerLeft.string = helper.numberWithCommas(data.red_player_tai));
-      void 0 !== data.red_player_xiu &&
-        (this.playerRight.string = helper.numberWithCommas(
-          data.red_player_xiu
-        ));
-    } else {
-      void 0 !== data.xu_tai &&
-        (this.totalLeft.string = helper.numberWithCommas(data.xu_tai));
-      void 0 !== data.xu_xiu &&
-        (this.totalRight.string = helper.numberWithCommas(data.xu_xiu));
-      void 0 !== data.xu_me_tai &&
-        (this.myLeft.string = helper.numberWithCommas(data.xu_me_tai));
-      void 0 !== data.xu_me_xiu &&
-        (this.myRight.string = helper.numberWithCommas(data.xu_me_xiu));
-      void 0 !== data.xu_player_tai &&
-        (this.playerLeft.string = helper.numberWithCommas(data.xu_player_tai));
-      void 0 !== data.xu_player_xiu &&
-        (this.playerRight.string = helper.numberWithCommas(data.xu_player_xiu));
     }
+
+    void 0 !== data.red_me_tai && (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
+    void 0 !== data.red_me_xiu && (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
+    void 0 !== data.red_player_tai && (this.playerLeft.string = helper.numberWithCommas(data.red_player_tai));
+    void 0 !== data.red_player_xiu && (this.playerRight.string = helper.numberWithCommas(data.red_player_xiu));
   },
   onDuDay: function (data) {
     if (data) {
@@ -933,5 +923,5 @@ cc.Class({
     this.timeInterval && clearInterval(this.timeInterval);
     this.resetUI();
     this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = '';
-  }
+  },
 });
