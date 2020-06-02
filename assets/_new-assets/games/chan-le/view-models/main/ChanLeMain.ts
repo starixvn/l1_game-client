@@ -450,10 +450,10 @@ export default class ChanLeMain extends cc.Component {
         }
     }
 
-    showUserWinLoss() {
+    showUserWinLoss(data) {
         setTimeout(() => {
             if (!this.isNan) {
-                this.showUserWinLossAnimation(this.currentStatus);
+                this.showUserWinLossAnimation(data);
             }
             this.root.sendData({ get_new: true });
         }, 1000);

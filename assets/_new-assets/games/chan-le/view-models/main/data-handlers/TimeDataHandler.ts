@@ -48,7 +48,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
                     self.main.hideBetBalanceNotice();
                     if (self.main.currentTimeRemaining == this.main.root.gameConfigs.displayResultTime) {
                         this.main.showResult();
-                        this.main.showUserWinLoss();
+                        this.main.currentStatus && this.main.showUserWinLoss(this.main.currentStatus);
                     }
 
                     var time = numberPad(self.main.currentTimeRemaining - this.main.root.gameConfigs.betTime - 1, 2);

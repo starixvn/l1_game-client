@@ -17,13 +17,6 @@ export default class BetStatusDataHandler extends BaseDataHandler implements Dat
 
         this.main.currentStatus = data.status;
 
-        // setTimeout(() => {
-        //     if (!self.main.isNan) {
-        //         self.showUserWinLossAnimation(data.status);
-        //     }
-        //     self.main.root.sendData({ get_new: true });
-        // }, 2e3);
-
         return true;
     }
 
