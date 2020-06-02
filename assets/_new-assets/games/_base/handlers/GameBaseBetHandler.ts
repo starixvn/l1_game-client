@@ -2,6 +2,7 @@ import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
 import * as _ from "lodash";
 import GameRoomBase from "../GameRoomBase";
+import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
 
 export default class GameBaseBetHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {
@@ -84,8 +85,12 @@ export default class GameBaseBetHandler implements DataHandler {
             return;
         }
 
+        console.log(chips);
+
+        const chipsKeys = getLowercaseObjectKeys(chips);
+
         _.forEach(this.main.betItems, item => {
-            var betItemData = chips[item.node.name.toLowerCase()];
+            const betItemData = chips[chipsKeys[item.node.name.toLowerCase()]];
             this.main.betChips.initChips(betItemData, item.chipNode);
         });
     }

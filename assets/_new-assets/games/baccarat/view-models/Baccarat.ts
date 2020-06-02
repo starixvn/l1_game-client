@@ -4,8 +4,9 @@ import BaccaratTimeHandler from "./data-handlers/BaccaratTimeDataHandler";
 import { BaccaratConfigs } from "./BaccaratConfigs";
 import BaccaratCards from "./BaccaratCards";
 import BaccaratFinishHandler from "./data-handlers/BaccaratFInishHandler";
-import BaccaratHistory from "./BaccaratHistory";
 import BaccaratLogsHandler from "./data-handlers/BaccaratLogsHandler";
+import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
+import TotalHistoryBoard from "./TotalHistoryBoard";
 
 @ccclass
 export default class Baccarat extends GameRoomBase {
@@ -19,24 +20,33 @@ export default class Baccarat extends GameRoomBase {
     bankerCards: BaccaratCards = null;
 
     @property(cc.Node)
-    historyBoardNode: cc.Node = null;
+    basicHistoryBoardNode: cc.Node = null;
 
     @property(cc.Prefab)
-    historyBoardPrefab: cc.Prefab = null;
+    basicHistoryBoardPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    detailHistoryBoardNode: cc.Node = null;
+
+    @property(cc.Prefab)
+    detailHistoryBoardPrefab: cc.Prefab = null;
+
+    @property(TotalHistoryBoard)
+    totalHistoryBoard: TotalHistoryBoard = null;
 
     cardsResource: any = null;
 
-    public historyBoard: BaccaratHistory;
+    public basicHistoryBoard: BasicHistoryBoard;
 
     onLoad() {
         this.init("baccarat", new BaccaratConfigs())
         super.onLoad();
         this.initCards();
 
-        const historyBoardNode = cc.instantiate(this.historyBoardPrefab);
-        this.historyBoard = historyBoardNode.getComponent("BaccaratHistory");
-        this.historyBoard.init(this);
-        this.historyBoardNode.addChild(historyBoardNode);
+        const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
+        this.basicHistoryBoard = historyBoardNode.getComponent("BasicHistoryBoard");
+        this.basicHistoryBoard.init(this);
+        this.basicHistoryBoardNode.addChild(historyBoardNode);
     }
 
     onData(data) {

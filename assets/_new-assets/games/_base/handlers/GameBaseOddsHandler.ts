@@ -15,7 +15,6 @@ export default class GameBaseOddsHandler implements DataHandler {
     }
 
     private setOdds(oddData: any) {
-        console.log(oddData);
         this.main.betItems.forEach(item => item.setOdd(oddData[item.node.name]));
     }
 }

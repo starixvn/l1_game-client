@@ -5,16 +5,15 @@ import * as _ from "lodash";
 
 const { ccclass, property } = cc._decorator;
 
-export class NormalHistoryData {
+export class BasicHistoryData {
     constructor(public name: string, public value: string) {
     }
 }
 
 @ccclass
-export default class BaccaratHistory extends cc.Component {
-
-    @property({ type: cc.Node })
-    items: cc.Node[] = [];
+export default class BasicHistoryBoard extends cc.Component {
+    @property({ type: cc.Prefab })
+    itemsPrefab: cc.Prefab = null;
 
     @property(cc.Node)
     content: cc.Node = null;
@@ -31,15 +30,21 @@ export default class BaccaratHistory extends cc.Component {
     @property(cc.Size)
     padding: cc.Size = new cc.Size(2, 2);
 
+    private items: cc.Node[];
     private main: GameBase = null;
     private dots: cc.Node[] = [];
     private nextMark: cc.Node = null;
+
+    onLoad() {
+        const itemsNode = cc.instantiate(this.itemsPrefab);
+        this.items = itemsNode.children;
+    }
 
     init(main: GameBase) {
         this.main = main;
     }
 
-    public setData(historyData: NormalHistoryData[]) {
+    public setData(historyData: BasicHistoryData[]) {
         this.dots.forEach(dot => {
             dot.removeFromParent();
             dot.destroy();
