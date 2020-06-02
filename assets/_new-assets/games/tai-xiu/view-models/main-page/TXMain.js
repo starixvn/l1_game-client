@@ -1124,7 +1124,6 @@ cc.Class({
 
   showBalanceBetNotice() {
     this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
-    console.log(this.balanceBetNotice);
     this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
   },
 
