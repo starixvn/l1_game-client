@@ -9,6 +9,7 @@ export function validateEmail(t) {
 export function checkPhoneValid(phone) {
   return /^[\+]?(?:[(][0-9]{1,3}[)]|(?:84|0))[0-9]{7,10}$/im.test(phone);
 }
+
 export function nFormatter(t, e) {
   for (
     var i = [
@@ -46,6 +47,7 @@ export function nFormatter(t, e) {
       return (t / i[n].value).toFixed(e).replace(o, "$1") + i[n].symbol;
   return t.toFixed(e).replace(o, "$1");
 }
+
 export function numberWithCommas(number) {
   if (number) {
     var result = (number = parseFloat(number)).toFixed(2).toString().split(".");
@@ -55,6 +57,7 @@ export function numberWithCommas(number) {
   }
   return "0";
 }
+
 export function getOnlyNumberInString(t) {
   var e = t.match(/\d+/g);
   return e ? e.join("") : "";
@@ -127,6 +130,7 @@ export function numberTo(obj, start, end, duration, currency = false) {
     } else clearInterval(obj.timer);
   }, stepTime);
 }
+
 export function getStringDateByTime(t) {
   var e = new Date(t),
     i = e.getHours(),
@@ -207,6 +211,13 @@ export function shortenName(name) {
   return `${prefix}***${suffix}`;
 }
 
+export function getLowercaseObjectKeys(data) {
+  return Object.keys(data).reduce((keys, key) => {
+    keys[key.toLowerCase()] = key;
+    return keys;
+  }, {});
+}
+
 module.exports = {
   shortenName: shortenName,
   checkPhoneValid: checkPhoneValid,
@@ -223,5 +234,6 @@ module.exports = {
   numberToTime: numberToTime,
   validateEmail: validateEmail,
   addZero10: addZero10,
-  formatMoneyNumber: formatMoneyNumber
+  formatMoneyNumber: formatMoneyNumber,
+  getLowercaseObjectKeys: getLowercaseObjectKeys
 };

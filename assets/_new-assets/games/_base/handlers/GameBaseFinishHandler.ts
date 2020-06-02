@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import GameRoomBase from "../GameRoomBase";
 import BetItem from "../BetItem";
 import GameUtils from "../../../common/GameUtils";
+import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
 
 export default class GameBaseFinishHandler implements DataHandler {
     private readonly payChipFlyTime = 1.2;
@@ -36,14 +37,14 @@ export default class GameBaseFinishHandler implements DataHandler {
     }
 
     payChips(settlementResult: any, winningPlayers: any) {
-        var mainRoomGame = this.main as GameRoomBase;
+        const mainRoomGame = this.main as GameRoomBase;
 
         if (!mainRoomGame || !settlementResult || !mainRoomGame.enablePlaceChips) {
             return;
         }
-
-        var lostBetItems = _.filter(this.main.betItems, item => !settlementResult[item.node.name.toLowerCase()]);
-        var winBetItems = _.filter(this.main.betItems, item => !!settlementResult[item.node.name.toLowerCase()]);
+        const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
+        const lostBetItems = _.filter(this.main.betItems, item => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
+        const winBetItems = _.filter(this.main.betItems, item => !!settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
 
         this.main.node && this.main.node.runAction(
             cc.sequence(

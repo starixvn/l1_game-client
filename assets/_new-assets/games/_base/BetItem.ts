@@ -1,4 +1,5 @@
 import * as helper from '../../../_new-assets/common/helpers/Helper';
+import { getLowercaseObjectKeys } from '../../common/helpers/Helper.js';
 
 const { ccclass, property } = cc._decorator;
 
@@ -29,12 +30,12 @@ export default class BetItem extends cc.Component {
 
     public setData(data: any) {
         if (data.totalBets) {
-            const totalBetsKeys = this.getObjectKeysIgnoreCase(data.totalBets);
+            const totalBetsKeys = getLowercaseObjectKeys(data.totalBets);
             this.setTotalBet(data.totalBets[totalBetsKeys[this.node.name.toLowerCase()]]);
         }
 
         if (data.ownBets) {
-            const ownBetsKeys = this.getObjectKeysIgnoreCase(data.ownBets);
+            const ownBetsKeys = getLowercaseObjectKeys(data.ownBets);
             let ownBet = data.ownBets[ownBetsKeys[this.node.name.toLowerCase()]];
             ownBet && this.setOwnBet(ownBet);
         }
@@ -55,12 +56,5 @@ export default class BetItem extends cc.Component {
 
     public resetHighlight() {
         this.highlight.active = false;
-    }
-
-    private getObjectKeysIgnoreCase(data: any) {
-        return Object.keys(data).reduce((keys, key) => {
-            keys[key.toLowerCase()] = key;
-            return keys;
-        }, {});
     }
 }
