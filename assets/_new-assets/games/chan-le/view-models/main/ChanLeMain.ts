@@ -155,6 +155,7 @@ export default class ChanLeMain extends cc.Component {
     isDisabled = false;
     currentResultDices: number[];
     currentTimeRemaining: number;
+    currentStatus: any;
     hideDiaNan: boolean;
     gameAudios: GameAudios;
     redChan: number;
@@ -417,14 +418,14 @@ export default class ChanLeMain extends cc.Component {
         const isLechChan = this.redChan > this.redLe;
         if (isLechChan) {
             if (hasAnimation) {
-                numberTo(this.totalBetLeft, 0, this.redLe, 2000, true);
+                numberTo(this.totalBetLeft, 0, this.redLe, 1000, true);
             } else {
                 this.totalBetLeft.string = numberWithCommas(this.redLe);
             }
             this.totalBetRight.string = numberWithCommas(this.redLe);
         } else {
             if (hasAnimation) {
-                numberTo(this.totalBetRight, 0, this.redChan, 2000, true)
+                numberTo(this.totalBetRight, 0, this.redChan, 1000, true)
             } else {
                 this.totalBetRight.string = numberWithCommas(this.redChan);
             }
@@ -447,5 +448,38 @@ export default class ChanLeMain extends cc.Component {
             this.diceAnimation.node.active = true;
             this.diceAnimation.play();
         }
+    }
+
+    showUserWinLoss() {
+        setTimeout(() => {
+            if (!this.isNan) {
+                this.showUserWinLossAnimation(this.currentStatus);
+            }
+            this.root.sendData({ get_new: true });
+        }, 1000);
+    }
+
+    private showUserWinLossAnimation(data) {
+        if (!this.notice) {
+            return;
+        }
+
+        var resultNode = new cc.Node();
+        resultNode.addComponent(cc.Label);
+        var resultLabel = resultNode.getComponent(cc.Label);
+        resultLabel.string = (data.win ? "+" : "-") + numberWithCommas(data.bet);
+        resultLabel.font = data.win ? this.fontPlus : this.fontMinus;
+        resultLabel.lineHeight = 130;
+        resultLabel.fontSize = 25;
+        resultLabel.node.position = cc.v2(data.select ? -245 : 245, -50);
+        this.notice.addChild(resultLabel.node);
+        resultLabel.node.runAction(
+            cc.sequence(
+                cc.moveTo(2, cc.v2(data.select ? -245 : 245, 130)),
+                cc.callFunc(function () {
+                    this.node.destroy();
+                }, resultLabel)
+            )
+        );
     }
 }

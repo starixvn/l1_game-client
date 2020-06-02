@@ -212,6 +212,7 @@ cc.Class({
     this.redTai = 0;
     this.redXiu = 0;
     this.balanceBetNotice = null;
+    this.currentStatus = null;
 
     if (void 0 === cc.RedT.setting.taixiu.red) {
       cc.RedT.setting.taixiu.red = this.red;
@@ -684,7 +685,10 @@ cc.Class({
             this.balanceBet(cc.RedT.setting.taixiu.time_remain == Constants.fullTime);
           } else {
             this.hideBalanceBetNotice();
-            cc.RedT.setting.taixiu.time_remain == Constants.displayResultTime && this.displayDiceResult();
+            if (cc.RedT.setting.taixiu.time_remain == Constants.displayResultTime) {
+              this.displayDiceResult();
+              this.showBetWinLoss()
+            }
             // time count down to next phien
             var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
             this.showWaitTime(time);
@@ -701,6 +705,7 @@ cc.Class({
         } else {
           this.resetUI();
           this.localResultDices = [];
+          this.currentStatus = null;
           if (cc.RedT.setting.taixiu.logs) {
             this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien + 1);
           }
@@ -1028,15 +1033,7 @@ cc.Class({
       return;
     }
 
-    setTimeout(
-      function () {
-        if (!this.isNan) {
-          this.showBetWinLoss(data);
-        }
-        cc.RedT.send({ taixiu: { get_new: true } });
-      }.bind(this),
-      2e3
-    );
+    this.currentStatus = data;
   },
   showResult: function () {
     if (!cc.RedT.GAME_IS_SHOWED || this.isUM) {
@@ -1054,7 +1051,16 @@ cc.Class({
       this.winningXiu.play();
     }
   },
-  showBetWinLoss: function (data) {
+  showBetWinLoss: function () {
+    setTimeout(
+      function () {
+        if (!this.isNan) {
+          this.showBetWinLossAnimation(this.currentStatus);
+        }
+        cc.RedT.send({ taixiu: { get_new: true } });
+      }.bind(this), 1000);
+  },
+  showBetWinLossAnimation: function (data) {
     if (!cc.RedT.GAME_IS_SHOWED || !this.notice) {
       return;
     }
@@ -1070,7 +1076,7 @@ cc.Class({
     this.notice.addChild(temp.node);
     temp.node.runAction(
       cc.sequence(
-        cc.moveTo(3, cc.v2(data.select ? -252 : 252, 130)),
+        cc.moveTo(2, cc.v2(data.select ? -252 : 252, 130)),
         cc.callFunc(function () {
           this.node.destroy();
         }, temp)
@@ -1128,14 +1134,14 @@ cc.Class({
     hasAnimation && this.showBalanceBetNotice();
     if (isLechTai) {
       if (hasAnimation) {
-        helper.numberTo(this.totalLeft, 0, this.redXiu, 300, true);
+        helper.numberTo(this.totalLeft, 0, this.redXiu, 1000, true);
       } else {
         this.totalLeft.string = helper.numberWithCommas(this.redXiu);
       }
       this.totalRight.string = helper.numberWithCommas(this.redXiu);
     } else {
       if (hasAnimation) {
-        helper.numberTo(this.totalRight, 0, this.redTai, 300, true)
+        helper.numberTo(this.totalRight, 0, this.redTai, 1000, true)
       } else {
         this.totalRight.string = helper.numberWithCommas(this.redTai);
       }

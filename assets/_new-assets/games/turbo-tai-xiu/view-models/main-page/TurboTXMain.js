@@ -21,6 +21,7 @@ cc.Class({
     this.redTai = 0;
     this.redXiu = 0;
     this.balanceBetNotice = null;
+    this.currentStatus = null;
 
     if (void 0 === cc.RedT.setting.taixiu_turbo.red) {
       cc.RedT.setting.taixiu_turbo.red = this.red;
@@ -498,7 +499,10 @@ cc.Class({
             this.balanceBet(cc.RedT.setting.taixiu_turbo.time_remain == Constants.fullTime);
           } else {
             this.hideBalanceBetNotice();
-            cc.RedT.setting.taixiu_turbo.time_remain == Constants.displayResultTime && this.displayDiceResult();
+            if (cc.RedT.setting.taixiu_turbo.time_remain == Constants.displayResultTime) {
+              this.displayDiceResult();
+              this.showBetWinLoss();
+            }
             // time count down to next phien
             var time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - Constants.betTime - 1, 2);
             this.showWaitTime(time);
@@ -515,6 +519,7 @@ cc.Class({
         } else {
           this.resetUI();
           this.localResultDices = [];
+          this.currentStatus = null;
           if (cc.RedT.setting.taixiu_turbo.logs) {
             this.setPhienLabel(cc.RedT.setting.taixiu_turbo.logs[0].phien + 1);
           }
@@ -840,15 +845,7 @@ cc.Class({
       return;
     }
 
-    setTimeout(
-      function () {
-        if (!this.isNan) {
-          this.showBetWinLoss(data);
-        }
-        cc.RedT.send({ taixiu_turbo: { get_new: true } });
-      }.bind(this),
-      2e3
-    );
+    this.currentStatus = data;
   },
   showResult: function () {
     if (!cc.RedT.GAME_IS_SHOWED || this.isUM) {
@@ -866,7 +863,16 @@ cc.Class({
       this.winningXiu.play();
     }
   },
-  showBetWinLoss: function (data) {
+  showBetWinLoss: function () {
+    setTimeout(
+      function () {
+        if (!this.isNan) {
+          this.showBetWinLossAnimation(this.currentStatus);
+        }
+        cc.RedT.send({ taixiu_turbo: { get_new: true } });
+      }.bind(this), 1000);
+  },
+  showBetWinLossAnimation: function (data) {
     if (!cc.RedT.GAME_IS_SHOWED || !this.notice) {
       return;
     }
@@ -882,7 +888,7 @@ cc.Class({
     this.notice.addChild(temp.node);
     temp.node.runAction(
       cc.sequence(
-        cc.moveTo(3, cc.v2(data.select ? -252 : 252, 130)),
+        cc.moveTo(2, cc.v2(data.select ? -252 : 252, 130)),
         cc.callFunc(function () {
           this.node.destroy();
         }, temp)

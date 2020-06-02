@@ -7,7 +7,6 @@ cc.Class({
     nanTime: 32, //55,
     redTime: 5,
     minBetTime: 1,
-    balanceBetTime: 3,
     displayResultTime: 34
   }
 });

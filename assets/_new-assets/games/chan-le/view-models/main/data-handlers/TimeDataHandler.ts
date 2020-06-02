@@ -46,7 +46,11 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
                     self.main.balanceBet(self.main.currentTimeRemaining == this.main.root.gameConfigs.fullTime);
                 } else {
                     self.main.hideBetBalanceNotice();
-                    self.main.currentTimeRemaining == this.main.root.gameConfigs.displayResultTime && this.main.showResult();
+                    if (self.main.currentTimeRemaining == this.main.root.gameConfigs.displayResultTime) {
+                        this.main.showResult();
+                        this.main.showUserWinLoss();
+                    }
+
                     var time = numberPad(self.main.currentTimeRemaining - this.main.root.gameConfigs.betTime - 1, 2);
                     self.showWaitTime(time);
 
@@ -65,6 +69,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
             } else {
                 self.main.resetUI();
                 self.main.currentResultDices = [];
+                self.main.currentStatus = null;
                 const isStartingNewTurn = self.main.currentTimeRemaining == this.main.root.gameConfigs.betTime;
                 const isInTurnTime = self.main.currentTimeRemaining > this.main.root.gameConfigs.minBetTime;
 
