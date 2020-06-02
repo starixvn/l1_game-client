@@ -1,6 +1,5 @@
 import Keno from "./Keno";
 import LogControl from "./LogControl";
-import StatisticProgress from "../../../common/statistic-progress/StatisticProgress";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 
 const { ccclass, property } = cc._decorator;
@@ -17,24 +16,11 @@ enum HistoryOption {
 
 @ccclass
 export default class RoundHistory extends cc.Component {
-
-    @property(cc.Node)
-    options: cc.Node = null;
-
-    @property(LogControl)
-    bigSmallLog: LogControl = null;
-
-    @property(StatisticProgress)
-    bigSmallProgress: StatisticProgress = null;
-
-    @property(StatisticProgress)
-    evenOddProgress: StatisticProgress = null;
-
-    @property(StatisticProgress)
-    fiveElementProgress: StatisticProgress = null;
+    @property({ type: cc.Label })
+    statisticLabels: cc.Label[] = [];
 
     @property(LogControl)
-    sharedLog: LogControl = null;
+    sharedLogControl: LogControl = null;
 
     @property({ type: cc.Node })
     bigSmallItem: cc.Node[] = [];
@@ -83,43 +69,43 @@ export default class RoundHistory extends cc.Component {
             const finishHandler = main.finishHandler as GameBaseFinishHandler;
             return main.currentTimeRemaining < main.config.stopBetTime || main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime();
         }
-        this.bigSmallLog.init(condition);
-        this.sharedLog.init(condition);
+        this.sharedLogControl.init(condition);
     }
 
-    public onOptionClick(event: cc.Component.EventHandler, game) {
-        this.currentOption = this.getIndexOption(event.target.name);
+    public onPressPrevious() {
+        this.currentOption--;
+        if (this.currentOption < 0) {
+            this.currentOption = 2;
+        }
+    }
+
+    public onPressNext() {
+        this.currentOption++;
+        if (this.currentOption > 2) {
+            this.currentOption = 0;
+        }
         this.updateDisplay();
     }
 
-    private getIndexOption(name: string): number {
-        return name === "chan-le" ? 0 : 1;
-    }
-
     private updateDisplay() {
-        this.showBigSmall();
-
         switch (this.currentOption) {
             case 0:
+                this.showBigSmall();
+                break
+            case 1:
                 this.showEvenOdd();
                 break;
-            case 1:
+            case 2:
                 this.showFiveElements();
                 break;
         }
-
-        this.options.children.forEach((child, i) => {
-            var selected = this.getIndexOption(child.name) == this.currentOption;
-            child.children[0].active = !selected;
-            child.children[1].color = selected ? cc.color(165, 137, 35) : cc.color(178, 178, 178);
-        });
     }
 
     public setData(data: any) {
         this.node.active = true;
 
-        var results: string[][] = data.map(d => {
-            var settlementResult = d.settlementResult;
+        const results: string[][] = data.map(d => {
+            const settlementResult = d.settlementResult;
             return this.main.getResults(settlementResult);
         });
 
@@ -138,54 +124,71 @@ export default class RoundHistory extends cc.Component {
 
         results.reverse().forEach(result => {
             result.forEach(e => {
-                var statistic = this.statisticData[this.dataIndexDictionary[e]];
+                const statistic = this.statisticData[this.dataIndexDictionary[e]];
                 statistic.data.push(this.indexDictionary[e]);
                 statistic.statistic[this.indexDictionary[e]]++;
             })
         });
 
+        this.updateStatistics();
         this.updateDisplay();
     }
 
     private showBigSmall() {
-        this.bigSmallLog.items = this.bigSmallItem;
-        this.bigSmallProgress.prefixes = ["TÀI", "XỈU"];
-        var statisticData = this.statisticData[HistoryOption.BigSmall];
-        this.updataStatistic(this.bigSmallProgress, statisticData, this.bigSmallLog);
+        this.sharedLogControl.items = this.bigSmallItem;
+        const statisticData = this.statisticData[HistoryOption.BigSmall];
+        this.updataLogControl(statisticData);
     }
 
     private showEvenOdd() {
-        this.sharedLog.items = this.evenOddItem;
-        this.evenOddProgress.prefixes = ["CHẴN", "LẺ"];
-        var statisticData = this.statisticData[HistoryOption.EvenOdd];
-        this.updataStatistic(this.evenOddProgress, statisticData, this.sharedLog);
-
-        this.evenOddProgress.node.active = true;
-        this.fiveElementProgress.node.active = false;
+        this.sharedLogControl.items = this.evenOddItem;
+        const statisticData = this.statisticData[HistoryOption.EvenOdd];
+        this.updataLogControl(statisticData);
     }
 
     private showFiveElements() {
-        this.sharedLog.items = this.fiveElementsItem;
-        this.fiveElementProgress.prefixes = ["KIM", "MỘC", "THUỶ", "HOẢ", "THỔ"];
-        var statisticData = this.statisticData[HistoryOption.FiveElements];
-
-        // data test
-        // statisticData.statistic = [1, 10, 78, 10, 1];
-        // statisticData.data = statisticData.data.slice(0, 100);
-        this.updataStatistic(this.fiveElementProgress, statisticData, this.sharedLog);
-
-        this.evenOddProgress.node.active = false;
-        this.fiveElementProgress.node.active = true;
+        this.sharedLogControl.items = this.fiveElementsItem;
+        const statisticData = this.statisticData[HistoryOption.FiveElements];
+        this.updataLogControl(statisticData);
     }
 
-    private updataStatistic(progress: StatisticProgress, statisticData: any, logControl: LogControl) {
-        var data = statisticData.data;
+    private updataLogControl(statisticData: any) {
+        const data = statisticData.data;
+        this.sharedLogControl.setData(data);
+    }
 
-        if (data.length > 0) {
-            progress.setProgress(statisticData.statistic, data.length);
-        } else {
-            progress.clear();
-        }
-        logControl.setData(data);
+    private updateStatistics() {
+        const statisticBigSmall = this.statisticData[HistoryOption.BigSmall];
+        const big = statisticBigSmall.statistic[0];
+        const small = statisticBigSmall.statistic[1];
+        const bigValue = big * 100 / (big + small);
+        this.statisticLabels[0].string = `${bigValue}%`;
+        this.statisticLabels[1].string = `${100 - bigValue}%`;
+
+        const statisticEvenOdd = this.statisticData[HistoryOption.EvenOdd];
+        const even = statisticEvenOdd.statistic[0];
+        const odd = statisticEvenOdd.statistic[1];
+        const evenValue = big * 100 / (even + odd);
+        this.statisticLabels[2].string = `${evenValue}%`;
+        this.statisticLabels[3].string = `${100 - evenValue}%`;
+
+        const statisticFiveElements = this.statisticData[HistoryOption.FiveElements];
+        const gold = statisticFiveElements.statistic[0];
+        const wood = statisticFiveElements.statistic[1];
+        const water = statisticFiveElements.statistic[2];
+        const fire = statisticFiveElements.statistic[3];
+        const earth = statisticFiveElements.statistic[4];
+        const total = gold + wood + water + fire + earth;
+
+        const goldValue = gold * 100 / total;
+        const woodValue = wood * 100 / total;
+        const earthValue = earth * 100 / total;
+        const fireValue = fire * 100 / total;
+        const waterValue = 100 - (goldValue + woodValue + earthValue + fireValue);
+        this.statisticLabels[4].string = `${goldValue}%`;
+        this.statisticLabels[5].string = `${woodValue}%`;
+        this.statisticLabels[6].string = `${waterValue}%`;
+        this.statisticLabels[7].string = `${fireValue}%`;
+        this.statisticLabels[8].string = `${earthValue}%`;
     }
 }

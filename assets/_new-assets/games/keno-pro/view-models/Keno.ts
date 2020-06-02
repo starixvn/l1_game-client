@@ -32,8 +32,6 @@ export default class Keno extends GameRoomBase {
 
     constructor() {
         super();
-
-
         this.init("kenoProMax", new KenoConfigs());
     }
 
