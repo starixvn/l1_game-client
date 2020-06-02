@@ -27,9 +27,10 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             this.showResult(settlementResult);
             onFinishHanlingData && onFinishHanlingData();
             baccaratMain.currentDataLogs.unshift({ result: dataFinish.settlementResult });
-            baccaratMain.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
+            baccaratMain.currentDataLogs.length > 120 && this.main.currentDataLogs.pop();
             (baccaratMain.logsHandler as BaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
         }
+
         baccaratMain.playerCards.showCards(playerCards, bankerCards.length == 3 ? null : showResultFunc);
         baccaratMain.bankerCards.showCards(bankerCards, bankerCards.length == 3 ? showResultFunc : null);
     }
