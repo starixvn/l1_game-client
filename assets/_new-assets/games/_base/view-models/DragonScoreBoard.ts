@@ -1,14 +1,20 @@
 import BlinkNode from "../../../common/BlinkNode";
-import GameBase from "../../_base/GameBase";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import GameBase from "../GameBase";
+import GameBaseFinishHandler from "../handlers/GameBaseFinishHandler";
+import DragonScoreBoardItem from "./DragonScoreBoardItem";
 
 const { ccclass, property } = cc._decorator;
 
-@ccclass
-export default class DetailHistoryBoard extends cc.Component {
+export class DragonScoreBoardItemData {
+    constructor(public key: number, public isTie: boolean = false, public tieCount: number = 0) {
+    }
+}
 
-    @property({ type: cc.Node })
-    items: cc.Node[] = [];
+@ccclass
+export default class DragonScoreBoard extends cc.Component {
+
+    @property({ type: DragonScoreBoardItem })
+    items: DragonScoreBoardItem[] = [];
 
     @property(cc.Node)
     content: cc.Node = null;
@@ -44,7 +50,7 @@ export default class DetailHistoryBoard extends cc.Component {
         this.resultTime = resultTime;
     }
 
-    public setData(results: number[]) {
+    public setData(results: DragonScoreBoardItemData[]) {
         this.dots.forEach(dot => {
             dot.removeFromParent();
             dot.destroy();
@@ -53,7 +59,7 @@ export default class DetailHistoryBoard extends cc.Component {
         let col = 0, row = 0;
         let maxX = 0;
         let nextCol = 1;
-        let previousResult = undefined;
+        let previousResult: DragonScoreBoardItemData = undefined;
         let rowMax = {};
         let colMax = 0;
         let start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
@@ -83,10 +89,9 @@ export default class DetailHistoryBoard extends cc.Component {
 
             previousResult = result;
 
-            console.log(result);
-            var dot = cc.instantiate(this.items[result]);
+            const item = this.buildItem(result);
+            var dot = cc.instantiate(item.node);
             dot.active = true;
-
             dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
 
             maxX = Math.max(maxX, dot.position.x);
@@ -102,8 +107,17 @@ export default class DetailHistoryBoard extends cc.Component {
         this.content.position = cc.v2(-this.content.width, this.content.position.y);
     }
 
-    protected compareResult(result: number, previousResult: any) {
-        return result == previousResult;
+    protected buildItem(result: DragonScoreBoardItemData) {
+        const item = this.items[result.key];
+        item.tie.active = result.isTie;
+        item.tieCount.node.active = result.isTie;
+        item.tieCount.string = (result.tieCount < 2) ? '' : result.tieCount.toString();
+
+        return item;
+    }
+
+    protected compareResult(result: DragonScoreBoardItemData, previousResult: DragonScoreBoardItemData) {
+        return previousResult && result.key === previousResult.key;
     }
 
     private addNextMark(rowMax, row, col, colMax, nextCol, start) {
