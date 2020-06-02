@@ -2,8 +2,8 @@ import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 
 export class BaccaratConfigs implements GameBaseConfigs {
     minBetTime = 1;
-    fullTime = 38;
+    fullTime = 40;
     betTime = 30;
     stopBetTime = 5;
-    waitTime = 8;
+    waitTime = 10;
 }
