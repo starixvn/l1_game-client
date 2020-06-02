@@ -113,22 +113,6 @@ export default class MiniPanel extends cc.Component {
       }
     }
 
-    if (data.taixiu) {
-      this.onDataTaiXiu(data.taixiu);
-    }
-
-    if (data.taixiu_turbo) {
-      this.onDataTaiXiuTurbo(data.taixiu_turbo);
-    }
-
-    if (data.chanle) {
-      this.onDataChanLe(data.chanle);
-    }
-
-    if (data.clturbo) {
-      this.onDataChanLeTurbo(data.clturbo);
-    }
-
     if (data.kickedOut) {
       this.onDataKickedOut(data.kickedOut);
     }

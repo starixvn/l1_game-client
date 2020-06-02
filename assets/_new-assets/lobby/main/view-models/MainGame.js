@@ -260,6 +260,8 @@ cc.Class({
         this.center.openGame(null, "XocXoc");
       } else if (window.openGameId == gameIds.KenoProMax) {
         this.center.openGame(null, "KenoProMax");
+      } else if (window.openGameId == gameIds.Baccarat) {
+        this.center.openGame(null, "Baccarat");
       } else {
         cc.RedT.MiniPanel.openGame(window.openGameId);
       }

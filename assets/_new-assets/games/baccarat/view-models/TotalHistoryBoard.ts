@@ -20,7 +20,6 @@ export default class TotalHistoryBoard extends cc.Component {
     }
 
     setData(data: TotalHistoryData[]) {
-        console.log(data);
         data.forEach(itemData => {
             const historyItem = _.find(this.totalHistoryItems, item => item.node.name.toLowerCase() === itemData.name.toLowerCase() + "total");
 
