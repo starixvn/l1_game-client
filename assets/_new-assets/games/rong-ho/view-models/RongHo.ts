@@ -234,6 +234,10 @@ export default class RongHo extends cc.Component {
         this.initCards();
         this.animatedTime.node.active = false;
         this.initGameAudios();
+        const condition = () => {
+            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - this.resultAnimation.defaultClip.duration;
+        };
+        this.logControl.init(condition);
     }
 
     private initGameAudios() {

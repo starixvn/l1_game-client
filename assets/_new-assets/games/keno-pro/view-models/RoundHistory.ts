@@ -1,6 +1,7 @@
 import Keno from "./Keno";
 import LogControl from "./LogControl";
 import StatisticProgress from "../../../common/statistic-progress/StatisticProgress";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 
 const { ccclass, property } = cc._decorator;
 interface StatisticData {
@@ -78,8 +79,12 @@ export default class RoundHistory extends cc.Component {
 
     public init(main: Keno) {
         this.main = main;
-        this.bigSmallLog.init(main);
-        this.sharedLog.init(main);
+        const condition = () => {
+            const finishHandler = main.finishHandler as GameBaseFinishHandler;
+            return main.currentTimeRemaining < main.config.stopBetTime || main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime();
+        }
+        this.bigSmallLog.init(condition);
+        this.sharedLog.init(condition);
     }
 
     public onOptionClick(event: cc.Component.EventHandler, game) {

@@ -229,7 +229,10 @@ cc.Class({
 		}
 		var node = cc.instantiate(this.roundHistoryPrefab);
 		this.roundHistory = node.getComponent("SedieRoundHistory");
-		this.roundHistory.logControl.initOldGame(this, 5, 39);
+		const condition = () => {
+			return this.time_remain < 5 || this.time_remain > 39;
+		};
+		this.roundHistory.logControl.init(condition);
 		this.roundHistoryContainer.addChild(node);
 
 		var mini = cc.instantiate(this.miniRoundHistoryPrefab);
