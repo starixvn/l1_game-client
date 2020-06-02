@@ -14,6 +14,40 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     buildLogs(dataLogs) {
         this.buildBasicHistoryBoard(dataLogs);
         this.buildTotalHistoryBoard(dataLogs);
+
+        const detailHistoryData = _.map(dataLogs, (log, index) => {
+            const result = log.result;
+            const previousLog = dataLogs[parseInt(index) - 1];
+
+            if (result.banker) {
+                return 0;
+            }
+
+            if (result.player) {
+                return 1;
+            }
+
+            if (result.tie) {
+                if (!previousLog) {
+                    return 2;
+                }
+
+                if (previousLog.result.banker) {
+                    return 2;
+                }
+
+                if (previousLog.result.player) {
+                    return 3;
+                }
+                else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        })
+        console.log(detailHistoryData)
+        this.main.detailHistoryBoard.setData(detailHistoryData.reverse());
     }
 
     private buildBasicHistoryBoard(dataLogs: any) {

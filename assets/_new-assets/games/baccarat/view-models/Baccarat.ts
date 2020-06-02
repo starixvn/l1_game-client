@@ -7,6 +7,7 @@ import BaccaratFinishHandler from "./data-handlers/BaccaratFInishHandler";
 import BaccaratLogsHandler from "./data-handlers/BaccaratLogsHandler";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import TotalHistoryBoard from "./TotalHistoryBoard";
+import DetailHistoryBoard from "../../_base/view-models/DetailHistoryBoard";
 
 @ccclass
 export default class Baccarat extends GameRoomBase {
@@ -35,8 +36,8 @@ export default class Baccarat extends GameRoomBase {
     totalHistoryBoard: TotalHistoryBoard = null;
 
     cardsResource: any = null;
-
-    public basicHistoryBoard: BasicHistoryBoard;
+    basicHistoryBoard: BasicHistoryBoard;
+    detailHistoryBoard: DetailHistoryBoard;
 
     onLoad() {
         this.init("baccarat", new BaccaratConfigs())
@@ -47,6 +48,11 @@ export default class Baccarat extends GameRoomBase {
         this.basicHistoryBoard = historyBoardNode.getComponent("BasicHistoryBoard");
         this.basicHistoryBoard.init(this);
         this.basicHistoryBoardNode.addChild(historyBoardNode);
+
+        const detailHistoryBoardNode = cc.instantiate(this.detailHistoryBoardPrefab);
+        this.detailHistoryBoard = detailHistoryBoardNode.getComponent("BaccaratDetailHistoryBoard");
+        this.detailHistoryBoard.init(this);
+        this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
     }
 
     onData(data) {

@@ -30,10 +30,10 @@ export default class BasicHistoryBoard extends cc.Component {
     @property(cc.Size)
     padding: cc.Size = new cc.Size(2, 2);
 
-    private items: cc.Node[];
-    private main: GameBase = null;
-    private dots: cc.Node[] = [];
-    private nextMark: cc.Node = null;
+    items: cc.Node[];
+    main: GameBase = null;
+    dots: cc.Node[] = [];
+    nextMark: cc.Node = null;
 
     onLoad() {
         const itemsNode = cc.instantiate(this.itemsPrefab);
