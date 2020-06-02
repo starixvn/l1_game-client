@@ -110,6 +110,9 @@ export default class RongHo extends cc.Component {
     @property(cc.Node)
     scoreBoard: cc.Node = null;
 
+    @property(cc.AudioSource)
+    audioDrawCard: cc.AudioSource = null;
+
     public config: GameBaseConfigs
     public currentTimeRemaining: number;
     public disabledGame = false;
@@ -604,6 +607,20 @@ export default class RongHo extends cc.Component {
                     // this.resultAnimating = false; //comment for dont show result again after enable game.
                     this.showResult(false);
                     this.drawAnimation.play();
+                    this.audioDrawCard.setCurrentTime(.2);
+                    this.audioDrawCard.play();
+                    cc.tween(this)
+                        .delay(0.2)
+                        .call(() => {
+                            this.audioDrawCard.stop();
+                            this.audioDrawCard.setCurrentTime(.2);
+                            this.audioDrawCard.play();
+                        })
+                        .delay(.2)
+                        .call(() => {
+                            this.audioDrawCard.stop();
+                        })
+                        .start();
                 }
             } else {
                 //clear effect for result
