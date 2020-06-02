@@ -2,7 +2,7 @@ const configs = {
     ssl: false,
     disabledDirectLogin: false,
     serverEndpoints: {
-        localhost: "lumigame.com:8080",
+        localhost: "localhost:8080",
     },
     gameIds: {
         TaiXiu: 1,

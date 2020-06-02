@@ -24,11 +24,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 676
+        "__id__": 678
       }
     ],
     "_prefab": {
-      "__id__": 677
+      "__id__": 679
     },
     "_opacity": 255,
     "_color": {
@@ -141,16 +141,19 @@
       },
       {
         "__id__": 664
+      },
+      {
+        "__id__": 674
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 674
+        "__id__": 676
       }
     ],
     "_prefab": {
-      "__id__": 675
+      "__id__": 677
     },
     "_opacity": 255,
     "_color": {
@@ -24567,6 +24570,77 @@
     "sync": false
   },
   {
+    "__type__": "cc.Node",
+    "_name": "center",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": {
+      "__id__": 675
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "822df7ef-13a5-482e-8504-0a81f3049c13"
+    },
+    "fileId": "94fZDJNPNFMqscyzkGGYn1",
+    "sync": false
+  },
+  {
     "__type__": "797abkN6VdA0pFrWxn/3JYc",
     "_name": "",
     "_objFlags": 0,
@@ -24766,6 +24840,9 @@
     "balanceBetNoticePrefab": {
       "__uuid__": "fb04dec8-c5af-4436-b026-be8aee5e718c"
     },
+    "balanceBetNoticeContainer": {
+      "__id__": 674
+    },
     "_id": ""
   },
   {
@@ -24788,7 +24865,7 @@
     },
     "_enabled": true,
     "TX_Main": {
-      "__id__": 674
+      "__id__": 676
     },
     "board": false,
     "TX_StatsPrefab": {

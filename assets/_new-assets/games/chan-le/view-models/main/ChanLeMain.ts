@@ -146,6 +146,9 @@ export default class ChanLeMain extends cc.Component {
     @property(cc.Prefab)
     balanceBetNoticePrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    balanceBetNoticeContainer: cc.Node = null;
+
     //#endregion
     isNan = false;
     root: ChanLe;
@@ -174,6 +177,7 @@ export default class ChanLeMain extends cc.Component {
     private processingWarning: ProcessingWarning;
     private currentInputBet: cc.Label;
     private currentInputSide: string;
+    private balanceBetNotice: cc.Node = null;
 
     get dataLogs() {
         return this.logsDataHandler.dataLogs;
@@ -403,27 +407,45 @@ export default class ChanLeMain extends cc.Component {
             = this.playersRight.string = '0';
     }
 
-    balanceBet(hasAnimation = false) {
+    balanceBet(showNotice = false) {
+        const hasAnimation = showNotice && !this.balanceBetNotice;
         if (hasAnimation) {
-            let notice = cc.instantiate(this.balanceBetNoticePrefab);
-            this.notice.addChild(notice);
+            this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
+            this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
         }
 
         const isLechChan = this.redChan > this.redLe;
         if (isLechChan) {
             if (hasAnimation) {
-                numberTo(this.totalBetLeft, 0, this.redLe, 300, true);
+                numberTo(this.totalBetLeft, 0, this.redLe, 2000, true);
             } else {
                 this.totalBetLeft.string = numberWithCommas(this.redLe);
             }
             this.totalBetRight.string = numberWithCommas(this.redLe);
         } else {
             if (hasAnimation) {
-                numberTo(this.totalBetRight, 0, this.redChan, 300, true)
+                numberTo(this.totalBetRight, 0, this.redChan, 2000, true)
             } else {
                 this.totalBetRight.string = numberWithCommas(this.redChan);
             }
             this.totalBetLeft.string = numberWithCommas(this.redChan);
+        }
+    }
+
+    hideBetBalanceNotice() {
+        this.balanceBetNoticeContainer.destroyAllChildren();
+        this.balanceBetNotice = null;
+    }
+
+    showResult() {
+        if (this.isNan) {
+            this.diaNan.node.active = true;
+            this.diaNan.node.position = cc.v2(0, -11.5);
+            this.diaNanSprite.node.active = false;
+            this.onDiceAnimationFinished();
+        } else {
+            this.diceAnimation.node.active = true;
+            this.diceAnimation.play();
         }
     }
 }

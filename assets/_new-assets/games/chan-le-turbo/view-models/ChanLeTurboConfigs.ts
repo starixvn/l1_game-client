@@ -8,4 +8,5 @@ export default class ChanLeTurboConfigs implements CLGameConfigs {
     nanTime: number = 32;
     minBetTime: number = 1;
     balanceBetTime: number = 3;
+    displayResultTime: number = 34;
 }

@@ -20,6 +20,7 @@ cc.Class({
     this.gameAudios = null;
     this.redTai = 0;
     this.redXiu = 0;
+    this.balanceBetNotice = null;
 
     if (void 0 === cc.RedT.setting.taixiu_turbo.red) {
       cc.RedT.setting.taixiu_turbo.red = this.red;
@@ -448,28 +449,29 @@ cc.Class({
           cc.RedT.setting.taixiu_turbo.logs.pop();
         this.dataLogs();
         this.localResultDices = [...data.finish.dices];
-        this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
-        this.labelKetQua.string = this.diemSo;
-
-        if (this.isNan) {
-          this.diaNan.active = true;
-          this.diaNan.position = cc.v2(0, -11.5);
-          this.spriteNan.node.active = false;
-          this.onDiceAnimationFinish();
-        } else {
-          this.diceAnimation.node.active = true;
-          if (this.node.activeInHierarchy && cc.RedT.GAME_IS_SHOWED) {
-            this.diceAnimation.play();
-          } else {
-            this.onDiceAnimationFinish();
-          }
-        }
-        this.nodeTimeWait.active = true;
         this.AnimatedTime.node.active = false;
       }
       cc.RedT.setting.taixiu_turbo.time_remain =
         Constants.betTime + Constants.waitTime;
       this.playTime();
+    }
+  },
+  displayDiceResult: function () {
+    this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+    this.labelKetQua.string = this.diemSo;
+
+    if (this.isNan) {
+      this.diaNan.active = true;
+      this.diaNan.position = cc.v2(0, -11.5);
+      this.spriteNan.node.active = false;
+      this.onDiceAnimationFinish();
+    } else {
+      this.diceAnimation.node.active = true;
+      if (this.node.activeInHierarchy && cc.RedT.GAME_IS_SHOWED) {
+        this.diceAnimation.play();
+      } else {
+        this.onDiceAnimationFinish();
+      }
     }
   },
   updateShowResult: function () {
@@ -491,20 +493,24 @@ cc.Class({
     this.timeInterval = setInterval(
       function () {
         if (cc.RedT.setting.taixiu_turbo.time_remain > Constants.betTime) {
-          // time count down to next phien
-          var time = helper.numberPad(
-            cc.RedT.setting.taixiu_turbo.time_remain - Constants.betTime - 1,
-            2
-          );
-          this.showWaitTime(time);
+          const isBalanceBetTime = cc.RedT.setting.taixiu_turbo.time_remain > Constants.displayResultTime;
+          if (isBalanceBetTime) {
+            this.balanceBet(cc.RedT.setting.taixiu_turbo.time_remain == Constants.fullTime);
+          } else {
+            this.hideBalanceBetNotice();
+            cc.RedT.setting.taixiu_turbo.time_remain == Constants.displayResultTime && this.displayDiceResult();
+            // time count down to next phien
+            var time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - Constants.betTime - 1, 2);
+            this.showWaitTime(time);
 
-          if (this.localResultDices.length > 0) {
-            this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
-            this.labelKetQua.string = this.diemSo;
-            this.updateShowResult();
-          }
-          if (cc.RedT.setting.taixiu_turbo.logs) {
-            this.setPhienLabel(cc.RedT.setting.taixiu_turbo.logs[0].phien);
+            if (this.localResultDices.length > 0) {
+              this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+              this.labelKetQua.string = this.diemSo;
+              this.updateShowResult();
+            }
+            if (cc.RedT.setting.taixiu_turbo.logs) {
+              this.setPhienLabel(cc.RedT.setting.taixiu_turbo.logs[0].phien);
+            }
           }
         } else {
           this.resetUI();
@@ -517,16 +523,10 @@ cc.Class({
           }
 
           if (cc.RedT.setting.taixiu_turbo.time_remain > Constants.minBetTime) {
-            var time = helper.numberPad(
-              cc.RedT.setting.taixiu_turbo.time_remain - 1,
-              2
-            );
+            var time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - 1, 2);
             this.AnimatedTime.setTime(time);
             // this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
             this.AnimatedTime.node.active = !self.isUM;
-            if (cc.RedT.setting.taixiu_turbo.time_remain <= Constants.balanceBetTime) {
-              this.balanceBet(cc.RedT.setting.taixiu_turbo.time_remain == Constants.balanceBetTime);
-            }
           } else clearInterval(this.timeInterval);
         }
         cc.RedT.setting.taixiu_turbo.time_remain--;
@@ -580,26 +580,22 @@ cc.Class({
       this.closeProcessingWarningPopup();
     }
 
-    if (cc.RedT.setting.taixiu_turbo.time_remain > Constants.betTime || cc.RedT.setting.taixiu_turbo.time_remain < Constants.balanceBetTime) {
-      this.balanceBet();
-    } else {
-      if (void 0 !== data.red_tai) {
-        var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
+    if (void 0 !== data.red_tai) {
+      var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
 
-        if (sTai < data.red_tai) {
-          helper.numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
-        } else {
-          this.totalLeft.string = helper.numberWithCommas(data.red_tai);
-        }
+      if (sTai < data.red_tai) {
+        helper.numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
+      } else {
+        this.totalLeft.string = helper.numberWithCommas(data.red_tai);
       }
-      if (void 0 !== data.red_xiu) {
-        var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
+    }
+    if (void 0 !== data.red_xiu) {
+      var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
 
-        if (sXiu < data.red_xiu) {
-          helper.numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
-        } else {
-          this.totalRight.string = helper.numberWithCommas(data.red_xiu);
-        }
+      if (sXiu < data.red_xiu) {
+        helper.numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
+      } else {
+        this.totalRight.string = helper.numberWithCommas(data.red_xiu);
       }
     }
 
