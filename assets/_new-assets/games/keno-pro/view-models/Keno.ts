@@ -76,10 +76,6 @@ export default class Keno extends GameRoomBase {
             this.node.active = true;
         }
 
-        if (!cc.sys.isMobile) {
-            var originPos = this.roundHistory.node.position;
-            this.roundHistory.node.position = cc.v2(originPos.x, originPos.y + 40);
-        }
         this.roundHistory.init(this);
         this.players.forEach(player => player.node.active = false);
     }

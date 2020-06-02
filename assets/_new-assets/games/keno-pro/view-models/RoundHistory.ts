@@ -77,6 +77,7 @@ export default class RoundHistory extends cc.Component {
         if (this.currentOption < 0) {
             this.currentOption = 2;
         }
+        this.updateDisplay();
     }
 
     public onPressNext() {
