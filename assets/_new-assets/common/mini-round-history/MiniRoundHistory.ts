@@ -1,3 +1,6 @@
+import MiniRoundHistoryItem from "./MiniRoundHistoryItem";
+import MiniRoundHistoryTip from "./MiniRoundHistoryTip";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -6,20 +9,37 @@ export default class MiniRoundHistory extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property({ type: cc.SpriteFrame })
-    itemSprites: cc.SpriteFrame[] = [];
+    @property(MiniRoundHistoryTip)
+    tip: MiniRoundHistoryTip = null;
 
-    private items: cc.Sprite[] = [];
-
-    onLoad() {
-        this.items = this.content.children.map(child => child.getComponent(cc.Sprite));
-        this.items.forEach(item => item.node.active = false);
+    private items: MiniRoundHistoryItem[] = [];
+    private listener = {
+        onEnter: (node: cc.Node) => {
+            this.tip.node.position = cc.v2(node.x, this.tip.node.y);
+            let data = node.getComponent(MiniRoundHistoryItem).data;
+            this.tip.setData(data);
+            this.tip.show();
+        },
+        onLeave: (node: cc.Node) => {
+            this.tip.show(false);
+        },
     }
 
-    public setData(redData: number[]) {
+    onLoad() {
+        this.items = this.content.children.map(child => child.getComponent(MiniRoundHistoryItem));
+        this.items.forEach(item => {
+            item.node.active = false;
+            item.listener = this.listener;
+        });
+    }
+
+    public setData(datas: any[]) {
         this.items.forEach((item, index) => {
-            let value = redData[index];
-            item.spriteFrame = this.itemSprites[value];
+            if (index >= datas.length) {
+                return;
+            }
+            let value = datas[index];
+            item.setData(value);
             item.node.active = true;
         });
     }

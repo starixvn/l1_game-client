@@ -41,9 +41,12 @@ export default class SedieMiniRoundHistory extends cc.Component {
         });
     }
 
-    public setData(redData: number[]) {
+    public setData(datas: number[]) {
         this.items.forEach((item, index) => {
-            let value = redData[index];
+            if (index >= datas.length) {
+                return;
+            }
+            let value = datas[index];
             item.setValue(value);
             item.getComponent(cc.Sprite).spriteFrame = value % 2 === 0 ? this.dotWhite : this.dotRed;
             item.node.active = true;

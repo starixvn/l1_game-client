@@ -447,19 +447,19 @@ export default class RongHo extends cc.Component {
         });
     }
 
-    private getWinItem(cards): string {
+    public static getWinItem(cards: { card: number, type: number }[]): number {
         if (cards.length != 2) {
-            return "";
+            return -1;
         }
 
         var card1 = cards[0];
         var card2 = cards[1];
         if (card1.card > card2.card) {
-            return "dragon";
+            return 0;
         } else if (card1.card < card2.card) {
-            return "tiger";
+            return 1;
         } else {
-            return "tie";
+            return 2;
         }
     }
 
@@ -508,19 +508,18 @@ export default class RongHo extends cc.Component {
         const result = [];
         this.logs.forEach((log, index) => {
             let cards = log.result;
-            let winItem = this.getWinItem(cards);
+            let winItem = RongHo.getWinItem(cards);
+            result.push(winItem);
+
             switch (winItem) {
-                case "dragon":
+                case 0:
                     dragonCount++;
-                    result.push(0);
                     break;
-                case "tie":
-                    drawCount++;
-                    result.push(2);
-                    break;
-                case "tiger":
+                case 1:
                     tigerCount++;
-                    result.push(1);
+                    break;
+                case 2:
+                    drawCount++;
                     break;
             }
         });
@@ -542,7 +541,7 @@ export default class RongHo extends cc.Component {
             }
             i++;
         }
-        this.miniRoundHistory.setData(result);
+        this.miniRoundHistory.setData(this.logs.map(log => log.result));
 
         logControlData.reverse();
         this.logControl.setData(logControlData.map(d => d.item));
@@ -564,7 +563,9 @@ export default class RongHo extends cc.Component {
             this.setPhienLabel(this.phienId);
             this.showResultCards(true);
 
-            var winItem = this.getWinItem(this.resultCards);
+            const betChoice = ["dragon", "tiger", "tie"];
+            const choiceWin = RongHo.getWinItem(this.resultCards);
+            var winItem = betChoice[choiceWin];
             if (winItem != "") {
                 this.resultFrame.active = true;
                 this.resultFrame.children.forEach(child => child.active = child.name == winItem);
