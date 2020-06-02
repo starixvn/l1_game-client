@@ -867,7 +867,7 @@ cc.Class({
     setTimeout(
       function () {
         if (!this.isNan) {
-          this.showBetWinLossAnimation(this.currentStatus);
+          this.currentStatus && this.showBetWinLossAnimation(this.currentStatus);
         }
         cc.RedT.send({ taixiu_turbo: { get_new: true } });
       }.bind(this), 1000);
