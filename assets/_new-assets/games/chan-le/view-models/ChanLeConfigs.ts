@@ -6,11 +6,11 @@ export interface CLGameConfigs extends GameBaseConfigs {
 }
 
 export class ChanLeConfigs implements CLGameConfigs {
-    fullTime: number = 56;
+    fullTime: number = 61;
     betTime: number = 51;
     waitTime: number = 15;
     nanTime: number = 55;
     stopBetTime: number = 5;
     minBetTime: number = 1;
-    displayResultTime: number = 54;
+    displayResultTime: number = 58;
 }
