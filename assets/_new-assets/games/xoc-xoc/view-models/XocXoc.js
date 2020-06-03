@@ -171,7 +171,6 @@ cc.Class({
 		this.indexBox = 3;
 	},
 	onDestroy() {
-		cc.RedT.MiniPanel.destroy();
 		cc.RedT.inGame = null;
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
