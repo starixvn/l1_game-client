@@ -235,8 +235,8 @@ export default class MiniPanel extends cc.Component {
 
       if (!isAlreadyOpened) {
         this.loading.node.active = true;
-        cc.loader.loadRes(prefabPath, function (err, prefab) {
-          if (prefab === null) {
+        cc.loader.loadRes(prefabPath, (err: Error, prefab: any) => {
+          if (prefab === null || !this.node.isValid) {
             return;
           }
 
@@ -246,7 +246,7 @@ export default class MiniPanel extends cc.Component {
           this.miniGames.addChild(gameComponent.node);
           gameComponent.openGame();
           this.loading.node.active = false;
-        }.bind(this));
+        });
       }
       else {
         showGameFunc();
