@@ -28,8 +28,8 @@ export default class RHMiniRoundHistoryTip extends MiniRoundHistoryTip {
         const winChoice = RongHo.getWinItem(data);
         const choiceNames = ["RỒNG", "HỔ", "HÒA"];
         const choiceColors = [
-            new cc.Color(255, 224, 58),
-            new cc.Color(255, 125, 124),
+            new cc.Color(219, 185, 0), // cc.Color.YELLOW, // new cc.Color(255, 224, 58), 
+            cc.Color.RED, // new cc.Color(255, 125, 124),
             new cc.Color(63, 111, 123)
         ];
 
