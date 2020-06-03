@@ -218,7 +218,13 @@ export function getLowercaseObjectKeys(data) {
   }, {});
 }
 
+export function getNameCard(index) {
+  const list = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+  return list[index];
+}
+
 module.exports = {
+  getNameCard: getNameCard,
   shortenName: shortenName,
   checkPhoneValid: checkPhoneValid,
   nFormatter: nFormatter,

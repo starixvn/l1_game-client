@@ -1,5 +1,6 @@
 import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
 import RongHo from "./RongHo";
+import { getNameCard } from "../../../common/helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,9 +37,9 @@ export default class RHMiniRoundHistoryTip extends MiniRoundHistoryTip {
         this.result.string = choiceNames[winChoice];
         this.result.node.color = choiceColors[winChoice];
 
-        this.dragon.string = data[0].card.toString();
+        this.dragon.string = getNameCard(data[0].card);
         this.dragonType.spriteFrame = this.cardTypeSprite[data[0].type];
-        this.tiger.string = data[1].card.toString();
+        this.tiger.string = getNameCard(data[1].card);
         this.tigerType.spriteFrame = this.cardTypeSprite[data[1].type];
     }
 }
