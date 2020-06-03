@@ -31,6 +31,9 @@ export default class RoundHistory extends cc.Component {
     @property({ type: cc.Node })
     fiveElementsItem: cc.Node[] = [];
 
+    @property({ type: cc.Node })
+    waterMarks: cc.Node[] = [];
+
     private main: Keno;
     private statisticData: StatisticData[] = [];
     private currentOption = 0;
@@ -89,6 +92,9 @@ export default class RoundHistory extends cc.Component {
     }
 
     private updateDisplay() {
+        this.waterMarks.forEach((waterMark, index) => {
+            waterMark.active = index === this.currentOption;
+        })
         switch (this.currentOption) {
             case 0:
                 this.showBigSmall();
