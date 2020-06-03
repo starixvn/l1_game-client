@@ -9,6 +9,7 @@ import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import TotalHistoryBoard from "./TotalHistoryBoard";
 import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
 import BaccaratHistory from "./BaccaratHistory";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 
 @ccclass
 export default class Baccarat extends GameRoomBase {
@@ -102,9 +103,11 @@ export default class Baccarat extends GameRoomBase {
 
         const detailHistoryBoardNode = cc.instantiate(this.detailHistoryBoardPrefab);
         this.detailHistoryBoard = detailHistoryBoardNode.getComponent("BaccaratDragonScoreBoard");
-        this.detailHistoryBoard.init(this);
+        const condition = () => {
+            const finishHandler = this.finishHandler as GameBaseFinishHandler;
+            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - finishHandler.getResultAnimationTime();
+        }
+        this.detailHistoryBoard.init(condition);
         this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
     }
-
-
 }
