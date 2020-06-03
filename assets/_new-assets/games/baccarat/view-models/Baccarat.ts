@@ -50,17 +50,9 @@ export default class Baccarat extends GameRoomBase {
         this.init("baccarat", new BaccaratConfigs())
         super.onLoad();
         this.initCards();
-
-        const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
-        this.basicHistoryBoard = historyBoardNode.getComponent("BasicHistoryBoard");
-        this.basicHistoryBoard.init(this);
-        this.basicHistoryBoardNode.addChild(historyBoardNode);
-
-        const detailHistoryBoardNode = cc.instantiate(this.detailHistoryBoardPrefab);
-        this.detailHistoryBoard = detailHistoryBoardNode.getComponent("BaccaratDragonScoreBoard");
-        this.detailHistoryBoard.init(this);
-        this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
+        this.initScoreBoards();
     }
+
 
     onData(data) {
         super.onData(data);
@@ -72,6 +64,18 @@ export default class Baccarat extends GameRoomBase {
 
     onBet(event, box) {
         this.bet({ bet: { red: true, bet: this.currentBet, box: box } });
+    }
+
+    openHistory() {
+        const historyNode = cc.instantiate(this.historyPrefab);
+        const history = historyNode.getComponent("BaccaratHistory") as BaccaratHistory;
+        history.init(this);
+        this.currentMiniPanel.node.addChild(historyNode);
+    }
+
+    openGuide() {
+        const guideNode = cc.instantiate(this.guidePrefab);
+        this.currentMiniPanel.node.addChild(guideNode);
     }
 
     initHandlers() {
@@ -90,15 +94,17 @@ export default class Baccarat extends GameRoomBase {
         this.playerCards.init(this.cardsResource);
     }
 
-    openHistory() {
-        const historyNode = cc.instantiate(this.historyPrefab);
-        const history = historyNode.getComponent("BaccaratHistory") as BaccaratHistory;
-        history.init(this);
-        this.currentMiniPanel.node.addChild(historyNode);
+    private initScoreBoards() {
+        const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
+        this.basicHistoryBoard = historyBoardNode.getComponent("BasicHistoryBoard");
+        this.basicHistoryBoard.init(this);
+        this.basicHistoryBoardNode.addChild(historyBoardNode);
+
+        const detailHistoryBoardNode = cc.instantiate(this.detailHistoryBoardPrefab);
+        this.detailHistoryBoard = detailHistoryBoardNode.getComponent("BaccaratDragonScoreBoard");
+        this.detailHistoryBoard.init(this);
+        this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
     }
 
-    openGuide() {
-        const guideNode = cc.instantiate(this.guidePrefab);
-        this.currentMiniPanel.node.addChild(guideNode);
-    }
+
 }
