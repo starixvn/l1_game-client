@@ -134,6 +134,11 @@ export default class BaccaratCards extends cc.Component {
     private openCard(index: number, cards: any[], isAnimated = true) {
         if (index < cards.length) {
             var cardData = cards[index];
+
+            if (!cardData) {
+                return;
+            }
+
             var currentCard = this["card" + (index + 1)] as cc.Sprite;
             currentCard.spriteFrame = this.cardsResource.getCard(cardData.card, cardData.type);
 
@@ -142,8 +147,10 @@ export default class BaccaratCards extends cc.Component {
                 currentCard.node.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
             }
 
-            const point: number = cardData.card + 1;
-            this.setPoint(point >= 10 ? 0 : point);
+            if (this.point) {
+                const point: number = cardData.card + 1;
+                this.setPoint(point >= 10 ? 0 : point);
+            }
         }
     }
 }

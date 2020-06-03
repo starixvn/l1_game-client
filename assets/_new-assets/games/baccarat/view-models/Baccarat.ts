@@ -8,6 +8,7 @@ import BaccaratLogsHandler from "./data-handlers/BaccaratLogsHandler";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import TotalHistoryBoard from "./TotalHistoryBoard";
 import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
+import BaccaratHistory from "./BaccaratHistory";
 
 @ccclass
 export default class Baccarat extends GameRoomBase {
@@ -87,7 +88,9 @@ export default class Baccarat extends GameRoomBase {
     }
 
     openHistory() {
-        const history = cc.instantiate(this.historyPrefab);
-        this.currentMiniPanel.node.addChild(history);
+        const historyNode = cc.instantiate(this.historyPrefab);
+        const history = historyNode.getComponent("BaccaratHistory") as BaccaratHistory;
+        history.init(this);
+        this.currentMiniPanel.node.addChild(historyNode);
     }
 }

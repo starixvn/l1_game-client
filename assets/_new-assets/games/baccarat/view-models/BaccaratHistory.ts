@@ -3,6 +3,7 @@ import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
 import { numberWithCommas, getStringDateByTime, nFormatter } from "../../../common/helpers/Helper";
 import Baccarat from "./Baccarat.js";
 import BaccaratHistoryItem from "./BaccaratHistoryItem";
+import * as _ from "lodash";
 
 @ccclass
 export default class BaccaratHistory extends cc.Component {
@@ -57,25 +58,33 @@ export default class BaccaratHistory extends cc.Component {
         this.content.children.forEach(child => child.destroy());
 
         for (let i = 0; i < data.betLogs.length; i++) {
-            const dataT = data.betLogs[i];
+            const historyItemData = data.betLogs[i];
 
-            if (dataT) {
+            if (historyItemData) {
                 let historyItemPrefab = cc.instantiate(this.prefabItem);
                 let item = historyItemPrefab.getComponent("BaccaratHistoryItem") as BaccaratHistoryItem;
                 item.node.active = true
 
-                if (dataT.bet) {
-                    item.time.string = getStringDateByTime(dataT.bet.time);
-                    item.round.string = dataT.bet.phien;
-                    item.win.string = numberWithCommas(dataT.bet.betwin);
-                    item.win.node.color = dataT.bet.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-                    item.player.string = numberWithCommas(dataT.bet.player);
-                    item.banker.string = numberWithCommas(dataT.bet.banker);
-                    item.tie.string = numberWithCommas(dataT.bet.tie);
-                    item.playerPair.string = numberWithCommas(dataT.bet.playerPair);
-                    item.bankerPair.string = numberWithCommas(dataT.bet.bankerPair);
-                    item.big.string = numberWithCommas(dataT.bet.big);
-                    item.small.string = numberWithCommas(dataT.bet.small);
+                if (historyItemData.bet) {
+                    item.time.string = getStringDateByTime(historyItemData.bet.time);
+                    item.round.string = historyItemData.bet.phien;
+                    item.win.string = numberWithCommas(historyItemData.bet.betwin);
+                    item.win.node.color = historyItemData.bet.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+                    item.player.string = numberWithCommas(historyItemData.bet.player);
+                    item.banker.string = numberWithCommas(historyItemData.bet.banker);
+                    item.tie.string = numberWithCommas(historyItemData.bet.tie);
+                    item.playerPair.string = numberWithCommas(historyItemData.bet.playerPair);
+                    item.bankerPair.string = numberWithCommas(historyItemData.bet.bankerPair);
+                    item.big.string = numberWithCommas(historyItemData.bet.big);
+                    item.small.string = numberWithCommas(historyItemData.bet.small);
+
+                    const playerCards = _.values(historyItemData.round.player);
+                    const bankerCards = _.values(historyItemData.round.banker);
+                    console.log(playerCards);
+                    item.playerCards.init(this.root.cardsResource);
+                    item.bankerCards.init(this.root.cardsResource);
+                    item.playerCards.showCardsWithoutAnimation(playerCards);
+                    item.bankerCards.showCardsWithoutAnimation(bankerCards);
                 }
 
                 this.content.addChild(historyItemPrefab);

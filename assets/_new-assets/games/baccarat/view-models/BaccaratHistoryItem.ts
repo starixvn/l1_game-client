@@ -1,3 +1,5 @@
+import BaccaratCards from "./BaccaratCards";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -9,11 +11,11 @@ export default class BaccaratHistoryItem extends cc.Component {
     @property(cc.Label)
     round: cc.Label = null;
 
-    @property([cc.Node])
-    playerResult: Array<cc.Node> = [];
+    @property(BaccaratCards)
+    playerCards: BaccaratCards = null;
 
-    @property([cc.Node])
-    bankerResult: Array<cc.Node> = [];
+    @property(BaccaratCards)
+    bankerCards: BaccaratCards = null;
 
     @property(cc.Label)
     player: cc.Label = null;
