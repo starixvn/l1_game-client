@@ -39,6 +39,9 @@ export default class Baccarat extends GameRoomBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    guidePrefab: cc.Prefab = null;
+
     cardsResource: any = null;
     basicHistoryBoard: BasicHistoryBoard;
     detailHistoryBoard: DragonScoreBoard;
@@ -92,5 +95,10 @@ export default class Baccarat extends GameRoomBase {
         const history = historyNode.getComponent("BaccaratHistory") as BaccaratHistory;
         history.init(this);
         this.currentMiniPanel.node.addChild(historyNode);
+    }
+
+    openGuide() {
+        const guideNode = cc.instantiate(this.guidePrefab);
+        this.currentMiniPanel.node.addChild(guideNode);
     }
 }
