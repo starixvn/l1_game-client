@@ -57,11 +57,13 @@ export default class BaccaratHistory extends cc.Component {
         this.content.children.forEach(child => child.destroy());
 
         for (let i = 0; i < data.betLogs.length; i++) {
-            var dataT = data.betLogs[i];
-            if (void 0 !== dataT) {
+            const dataT = data.betLogs[i];
+
+            if (dataT) {
                 let historyItemPrefab = cc.instantiate(this.prefabItem);
                 let item = historyItemPrefab.getComponent("BaccaratHistoryItem") as BaccaratHistoryItem;
                 item.node.active = true
+
                 if (dataT.bet) {
                     item.time.string = getStringDateByTime(dataT.bet.time);
                     item.round.string = dataT.bet.phien;
