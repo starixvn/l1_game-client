@@ -175,7 +175,7 @@ export default class RoundHistory extends cc.Component {
         const statisticEvenOdd = this.statisticData[HistoryOption.EvenOdd];
         const even = statisticEvenOdd.statistic[0];
         const odd = statisticEvenOdd.statistic[1];
-        const evenValue = big * 100 / (even + odd);
+        const evenValue = even * 100 / (even + odd);
         this.statisticLabels[2].string = `${evenValue}%`;
         this.statisticLabels[3].string = `${100 - evenValue}%`;
 
