@@ -23,14 +23,4 @@ export default class BaccaratTimeHandler extends GameBaseTimeHandler {
             cc.callFunc(() => baccarat.bankerCards.flySecondCard()),
         ))
     }
-
-    handleInRoundTime() {
-        super.handleInRoundTime();
-        var baccarat = this.main as Baccarat;
-
-        if (baccarat.currentDataLogs) {
-            baccarat.setGameRound(baccarat.currentDataLogs[0].roundId + 1);
-        }
-    }
-
 }

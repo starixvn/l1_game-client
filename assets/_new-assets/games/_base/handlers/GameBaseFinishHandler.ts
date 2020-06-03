@@ -18,6 +18,8 @@ export default class GameBaseFinishHandler implements DataHandler {
         if (data.finish) {
             this.main.timeHandler.resetTime();
             this.main.gameAudios.playEndGameAudio();
+            this.main.roundId = data.finish.roundId;
+
             this.handleFinishData(
                 data.finish,
                 () => this.payChips(data.finish.settlementResult, data.finish.winningPlayers));

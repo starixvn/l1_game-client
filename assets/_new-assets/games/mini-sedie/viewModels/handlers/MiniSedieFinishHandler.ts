@@ -10,7 +10,6 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
         super.handleFinishData(dataFinish, onFinishHanlingData);
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
-        this.main.roundId = dataFinish.roundId;
         this.main.timeHandler.resetTime();
 
         if (cc.RedT.GAME_IS_SHOWED) {
