@@ -80,7 +80,6 @@ export default class BaccaratHistory extends cc.Component {
 
                     const playerCards = _.values(historyItemData.round.player);
                     const bankerCards = _.values(historyItemData.round.banker);
-                    console.log(playerCards);
                     item.playerCards.init(this.root.cardsResource);
                     item.bankerCards.init(this.root.cardsResource);
                     item.playerCards.showCardsWithoutAnimation(playerCards);

@@ -46,7 +46,6 @@ export default class GameBaseBetHandler implements DataHandler {
         const betOption = data.box.toLowerCase();
         const bet = data.bet;
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
-        console.log(betItem)
 
         this.main.betChips.placeChipBet(
             bet,
@@ -84,8 +83,6 @@ export default class GameBaseBetHandler implements DataHandler {
         if (!chips) {
             return;
         }
-
-        console.log(chips);
 
         const chipsKeys = getLowercaseObjectKeys(chips);
 
