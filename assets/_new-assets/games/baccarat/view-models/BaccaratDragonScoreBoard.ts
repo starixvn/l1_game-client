@@ -8,6 +8,7 @@ export class BaccaratDragonScoreBoardItemData extends DragonScoreBoardItemData {
         public key: number,
         public isPlayerPair: boolean = false,
         public isBankerPair: boolean = false,
+        public isNaturalWin: boolean = false,
         public isTie: boolean = false,
         public tieCount: number = 0, ) {
         super(key, isTie, tieCount);
@@ -22,6 +23,7 @@ export default class BaccaratDragonScoreBoard extends DragonScoreBoard {
         const item = super.buildItem(result) as BaccaratDragonScoreBoardItem;
         item.playerPair.active = result.isPlayerPair;
         item.bankerPair.active = result.isBankerPair;
+        item.natural.active = result.isNaturalWin;
 
         return item;
     }

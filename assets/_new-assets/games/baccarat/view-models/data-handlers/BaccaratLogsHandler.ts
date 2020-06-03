@@ -65,11 +65,23 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
             const result = log.result;
 
             if (result.banker) {
-                return new BaccaratDragonScoreBoardItemData(BaccaratDragonScoreBoard.BANKER, result.playerPair, result.bankerPair, result.isTie, result.tieCount);
+                return new BaccaratDragonScoreBoardItemData(
+                    BaccaratDragonScoreBoard.BANKER,
+                    result.playerPair,
+                    result.bankerPair,
+                    result.natural,
+                    result.isTie,
+                    result.tieCount);
             }
 
             if (result.player) {
-                return new BaccaratDragonScoreBoardItemData(BaccaratDragonScoreBoard.PLAYER, result.playerPair, result.bankerPair, result.isTie, result.tieCount);
+                return new BaccaratDragonScoreBoardItemData(
+                    BaccaratDragonScoreBoard.PLAYER,
+                    result.playerPair,
+                    result.bankerPair,
+                    result.natural,
+                    result.isTie,
+                    result.tieCount);
             }
         });
         this.main.detailHistoryBoard.setData(detailHistoreBoardData.reverse());
@@ -88,5 +100,4 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
             log.result.tieCount = log.result.tieCount + 1;
         }
     }
-
 }
