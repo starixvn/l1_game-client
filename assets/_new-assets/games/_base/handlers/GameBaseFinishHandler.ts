@@ -143,7 +143,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         // console.log("duration anim ", animation.defaultClip.duration);
         winningEffect.runAction(cc.sequence(
             cc.callFunc(() => { animation.play(); }),
-            cc.delayTime(5.4), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
+            cc.delayTime(3), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
             cc.callFunc(() => { winningEffect.destroy(); })));
     }
 }
