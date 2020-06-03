@@ -70,13 +70,6 @@ export default class BaccaratHistory extends cc.Component {
                     item.round.string = historyItemData.bet.phien;
                     item.win.string = numberWithCommas(historyItemData.bet.betwin);
                     item.win.node.color = historyItemData.bet.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-                    item.player.string = numberWithCommas(historyItemData.bet.player);
-                    item.banker.string = numberWithCommas(historyItemData.bet.banker);
-                    item.tie.string = numberWithCommas(historyItemData.bet.tie);
-                    item.playerPair.string = numberWithCommas(historyItemData.bet.playerPair);
-                    item.bankerPair.string = numberWithCommas(historyItemData.bet.bankerPair);
-                    item.big.string = numberWithCommas(historyItemData.bet.big);
-                    item.small.string = numberWithCommas(historyItemData.bet.small);
 
                     const playerCards = _.values(historyItemData.round.player);
                     const bankerCards = _.values(historyItemData.round.banker);
@@ -84,6 +77,20 @@ export default class BaccaratHistory extends cc.Component {
                     item.bankerCards.init(this.root.cardsResource, false);
                     item.playerCards.showCardsWithoutAnimation(playerCards);
                     item.bankerCards.showCardsWithoutAnimation(bankerCards);
+
+                    const result = historyItemData.round.result;
+                    const resultKeys = _.keys(result);
+
+                    _.forEach(resultKeys, (key) => {
+                        const bet = historyItemData.bet[key];
+                        const currentItem = item[key];
+                        const isWin = result[key];
+
+                        if (currentItem) {
+                            currentItem.node.color = (isWin && bet > 0) ? cc.Color.YELLOW : cc.Color.WHITE;
+                            currentItem.string = numberWithCommas(bet);
+                        }
+                    })
                 }
 
                 this.content.addChild(historyItemPrefab);
