@@ -76,6 +76,8 @@ export default class Baccarat extends GameRoomBase {
 
     openGuide() {
         const guideNode = cc.instantiate(this.guidePrefab);
+        var guide = guideNode.getComponent("BaccaratGuide");
+        guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(guideNode);
     }
 

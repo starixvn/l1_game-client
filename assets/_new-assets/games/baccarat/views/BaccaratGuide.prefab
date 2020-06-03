@@ -40,10 +40,13 @@
       },
       {
         "__id__": 810
+      },
+      {
+        "__id__": 811
       }
     ],
     "_prefab": {
-      "__id__": 811
+      "__id__": 812
     },
     "_opacity": 255,
     "_color": {
@@ -2047,8 +2050,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
-    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -11918,8 +11921,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Tổng điểm số các lá bài sẽ được tính dựa trên con số ở hàng đơn vị",
-    "_N$string": "- Tổng điểm số các lá bài sẽ được tính dựa trên con số ở hàng đơn vị",
+    "_string": "- Tổng điểm các lá bài sẽ được tính dựa trên con số ở hàng đơn vị",
+    "_N$string": "- Tổng điểm các lá bài sẽ được tính dựa trên con số ở hàng đơn vị",
     "_fontSize": 18,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -16884,8 +16887,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Nếu Nhà Con hoặc Nhà Cái giành chiến thắng với tổng điểm 2 lá bài đầu là 8 hoặc 9 điểm, khi đó sẽ được gọi là “Thắng tự nhiên”.",
-    "_N$string": "- Nếu Nhà Con hoặc Nhà Cái giành chiến thắng với tổng điểm 2 lá bài đầu là 8 hoặc 9 điểm, khi đó sẽ được gọi là “Thắng tự nhiên”.",
+    "_string": "- Nếu Nhà Con hoặc Nhà Cái giành chiến thắng với tổng điểm 2 lá bài đầu là 8 hoặc 9 điểm, khi đó sẽ được gọi là \"Thắng tự nhiên\".",
+    "_N$string": "- Nếu Nhà Con hoặc Nhà Cái giành chiến thắng với tổng điểm 2 lá bài đầu là 8 hoặc 9 điểm, khi đó sẽ được gọi là \"Thắng tự nhiên\".",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -23375,7 +23378,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 158.86,
+      "width": 125.14,
       "height": 28.57
     },
     "_anchorPoint": {
@@ -23426,8 +23429,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "4. Quy tắc rút bài",
-    "_N$string": "4. Quy tắc rút bài",
+    "_string": "5. Trả thưởng",
+    "_N$string": "5. Trả thưởng",
     "_fontSize": 20,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -24637,8 +24640,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1:2",
-    "_N$string": "1:2",
+    "_string": "1:_oddPlayer",
+    "_N$string": "1:_oddPlayer",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -24744,8 +24747,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 1000$",
-    "_N$string": "1$ - 1000$",
+    "_string": "_minBet$ - _maxBetMainChoice$",
+    "_N$string": "_minBet$ - _maxBetMainChoice$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -25185,8 +25188,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1:1.95",
-    "_N$string": "1:1.95",
+    "_string": "1:_oddBanker",
+    "_N$string": "1:_oddBanker",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -25626,8 +25629,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1:1.54",
-    "_N$string": "1:1.54",
+    "_string": "1:_oddBig",
+    "_N$string": "1:_oddBig",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -26067,8 +26070,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1:2.5",
-    "_N$string": "1:2.5",
+    "_string": "1:_oddSmall",
+    "_N$string": "1:_oddSmall",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -26508,8 +26511,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1:9",
-    "_N$string": "1:9",
+    "_string": "1:_oddTie",
+    "_N$string": "1:_oddTie",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -26952,8 +26955,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1:12",
-    "_N$string": "1:12",
+    "_string": "1:_oddPair",
+    "_N$string": "1:_oddPair",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -27059,8 +27062,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 100$",
-    "_N$string": "1$ - 100$",
+    "_string": "_minBet$ - _maxBetSubChoice$",
+    "_N$string": "_minBet$ - _maxBetSubChoice$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -29581,6 +29584,45 @@
       "__id__": 1
     },
     "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "e385fH8UiFFc5ct1paW4mM0",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "replaceNodes": [
+      {
+        "__id__": 50
+      },
+      {
+        "__id__": 666
+      },
+      {
+        "__id__": 681
+      },
+      {
+        "__id__": 693
+      },
+      {
+        "__id__": 705
+      },
+      {
+        "__id__": 717
+      },
+      {
+        "__id__": 729
+      },
+      {
+        "__id__": 669
+      },
+      {
+        "__id__": 732
+      }
+    ],
     "_id": ""
   },
   {
