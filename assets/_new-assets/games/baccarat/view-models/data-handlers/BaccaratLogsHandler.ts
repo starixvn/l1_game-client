@@ -52,6 +52,11 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
             if (previousLog) {
                 log.previousLog = previousLog;
             }
+            else {
+                if (log.result.tie) {
+
+                }
+            }
 
             return log;
         })
@@ -84,6 +89,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
                     result.tieCount);
             }
         });
+
         this.main.detailHistoryBoard.setData(detailHistoreBoardData.reverse());
     }
 

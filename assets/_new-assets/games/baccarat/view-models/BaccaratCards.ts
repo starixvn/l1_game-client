@@ -27,9 +27,9 @@ export default class BaccaratCards extends cc.Component {
     private readonly flyCardSecond = 0.8;
     private readonly openCardSecond = 0.3;
 
-    init(cardsResource) {
+    init(cardsResource, resetCard3 = true) {
         this.cardsResource = cardsResource;
-        this.resetCard(this.card3);
+        resetCard3 && this.resetCard(this.card3);
     }
 
     showCardsWithoutAnimation(cards: any[]) {
@@ -133,13 +133,15 @@ export default class BaccaratCards extends cc.Component {
 
     private openCard(index: number, cards: any[], isAnimated = true) {
         if (index < cards.length) {
-            var cardData = cards[index];
+            const cardData = cards[index];
+            const currentCard = this["card" + (index + 1)] as cc.Sprite;
 
             if (!cardData) {
+                currentCard.node.active = false;
                 return;
             }
 
-            var currentCard = this["card" + (index + 1)] as cc.Sprite;
+            currentCard.node.active = true;
             currentCard.spriteFrame = this.cardsResource.getCard(cardData.card, cardData.type);
 
             if (isAnimated) {
