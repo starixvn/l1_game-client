@@ -55,6 +55,7 @@ export default class DragonScoreBoard extends cc.Component {
             dot.removeFromParent();
             dot.destroy();
         });
+        this.dots = [];
 
         let col = 0, row = 0;
         let maxX = 0;
