@@ -58,7 +58,6 @@ export default class GameRoomBase extends GameBase {
 
     onDestroy() {
         super.onDestroy();
-        cc.RedT.MiniPanel.destroy();
         cc.RedT.inGame = null;
     }
 
