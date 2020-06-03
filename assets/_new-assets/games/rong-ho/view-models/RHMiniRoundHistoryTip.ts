@@ -27,8 +27,14 @@ export default class RHMiniRoundHistoryTip extends MiniRoundHistoryTip {
     public setData(data: { card: number, type: number }[]) {
         const winChoice = RongHo.getWinItem(data);
         const choiceNames = ["RỒNG", "HỔ", "HÒA"];
+        const choiceColors = [
+            new cc.Color(255, 224, 58),
+            new cc.Color(255, 125, 124),
+            new cc.Color(63, 111, 123)
+        ];
 
         this.result.string = choiceNames[winChoice];
+        this.result.node.color = choiceColors[winChoice];
 
         this.dragon.string = data[0].card.toString();
         this.dragonType.spriteFrame = this.cardTypeSprite[data[0].type];
