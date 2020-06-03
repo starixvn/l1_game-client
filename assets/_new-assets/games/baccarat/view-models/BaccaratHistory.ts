@@ -67,29 +67,14 @@ export default class BaccaratHistory extends cc.Component {
                     item.round.string = dataT.bet.phien;
                     item.win.string = numberWithCommas(dataT.bet.betwin);
                     item.win.node.color = dataT.bet.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+                    item.player.string = numberWithCommas(dataT.bet.player);
+                    item.banker.string = numberWithCommas(dataT.bet.banker);
+                    item.tie.string = numberWithCommas(dataT.bet.tie);
+                    item.playerPair.string = numberWithCommas(dataT.bet.playerPair);
+                    item.bankerPair.string = numberWithCommas(dataT.bet.bankerPair);
+                    item.big.string = numberWithCommas(dataT.bet.big);
+                    item.small.string = numberWithCommas(dataT.bet.small);
                 }
-
-                // item.result.forEach((kq, j) => {
-                //     let cardType = kq.getComponent(cc.Sprite);
-                //     cardType.spriteFrame = this.cardTypes[dataT.kq[j].type];
-
-                //     let card = kq.children[0].getComponent(cc.Label);
-                //     card.string = this.cards[dataT.kq[j].card];
-                // });
-
-                // item.betDragon.string = numberWithCommas(dataT.dragon);
-                // item.betTiger.string = numberWithCommas(dataT.tiger);
-                // item.betDraw.string = numberWithCommas(dataT.tie);
-
-                // var card1 = dataT.kq[0];
-                // var card2 = dataT.kq[1];
-                // if (card1.card > card2.card) {
-                //     item.betDragon.node.color = cc.Color.YELLOW;
-                // } else if (card1.card < card2.card) {
-                //     item.betTiger.node.color = cc.Color.YELLOW;
-                // } else {
-                //     item.betDraw.node.color = cc.Color.YELLOW;
-                // }
 
                 this.content.addChild(historyItemPrefab);
             }
