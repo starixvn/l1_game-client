@@ -1,16 +1,18 @@
 import DataHandler from "./DataHandler";
 import GameBase from "../GameBase";
 
-export default class GameBaseOddsHandler implements DataHandler {
+export default class GameBaseConfigsHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {
     }
 
     handle(data: any): boolean {
-        if (!data.odds) {
+        if (!data.gameConfigs) {
             return false;
         }
 
-        this.setOdds(data.odds);
+        this.main.gameConfigs = data.gameConfigs;
+        data.gameConfigs.odds && this.setOdds(data.gameConfigs.odds);
+
         return true;
     }
 
