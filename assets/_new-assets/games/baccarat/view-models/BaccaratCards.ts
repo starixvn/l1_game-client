@@ -32,6 +32,12 @@ export default class BaccaratCards extends cc.Component {
         this.resetCard(this.card3);
     }
 
+    showCardsWithoutAnimation(cards: any[]) {
+        this.openCard(0, cards, false);
+        this.openCard(1, cards, false);
+        this.openCard(2, cards, false);
+    }
+
     showCards(cards: any[], onFinishShowCards: () => void) {
         this.node.runAction(cc.sequence(
             cc.callFunc(() => { this.openCard(0, cards); }),
@@ -125,14 +131,17 @@ export default class BaccaratCards extends cc.Component {
         card.node.angle = -135;
     }
 
-    private openCard(index: number, cards: any[]) {
+    private openCard(index: number, cards: any[], isAnimated = true) {
         if (index < cards.length) {
             var cardData = cards[index];
             var currentCard = this["card" + (index + 1)] as cc.Sprite;
             currentCard.spriteFrame = this.cardsResource.getCard(cardData.card, cardData.type);
 
-            currentCard.node.scaleX = 0;
-            currentCard.node.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
+            if (isAnimated) {
+                currentCard.node.scaleX = 0;
+                currentCard.node.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
+            }
+
             const point: number = cardData.card + 1;
             this.setPoint(point >= 10 ? 0 : point);
         }
