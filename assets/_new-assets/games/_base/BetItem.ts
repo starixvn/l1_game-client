@@ -21,6 +21,15 @@ export default class BetItem extends cc.Component {
     @property(cc.Node)
     highlight: cc.Node = null;
 
+    @property(cc.Node)
+    highlightBackground: cc.Node = null;
+
+    @property(cc.Node)
+    highlightBorder: cc.Node = null;
+
+    @property(cc.Node)
+    normalBorder: cc.Node = null;
+
     protected setOwnBet(bet: number) {
         this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
@@ -52,19 +61,15 @@ export default class BetItem extends cc.Component {
     }
 
     public setHighlight(highlight: boolean, isAnimated = true) {
-        this.highlight.active = highlight;
-        this.blinkNode && this.blinkNode.playAnimation();
-        console.log(isAnimated)
+        this.setHighlightItems(highlight);
+
         if (!isAnimated) {
-            this.blinkNode && this.stopAnimation();
-        }
-        else {
-            this.blinkNode && this.blinkNode.playAnimation();
+            this.highlight.active = false;
         }
     }
 
     public resetHighlight() {
-        this.highlight.active = false;
+        this.setHighlightItems(false);
     }
 
     public stopAnimation() {
@@ -74,5 +79,15 @@ export default class BetItem extends cc.Component {
 
     protected get blinkNode() {
         return this.highlight.getComponent("BlinkNode") as BlinkNode;
+    }
+
+    protected setHighlightItems(highlight: boolean) {
+        this.highlight.active = highlight;
+
+        if (this.highlightBackground) {
+            this.highlightBackground.active = highlight;
+            this.highlightBorder.active = highlight;
+            this.normalBorder.active = !highlight;
+        }
     }
 }

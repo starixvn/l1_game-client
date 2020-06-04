@@ -23,6 +23,6 @@ export default class BaccaratTimeHandler extends GameBaseTimeHandler {
     handleInLockBetTime() {
         super.handleInLockBetTime();
 
-        this.main.betItems.forEach(item => item.highlight.active = false);
+        this.main.betItems.forEach(item => item.setHighlight(false));
     }
 }
