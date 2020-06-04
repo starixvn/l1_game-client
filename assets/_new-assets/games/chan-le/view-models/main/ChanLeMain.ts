@@ -411,6 +411,7 @@ export default class ChanLeMain extends cc.Component {
             = this.userBetLeft.string
             = this.userBetRight.string = '0';
         this.playersLeft.string = this.playersRight.string = "0%"
+        this.userBetLeftPercent.fillRange = this.userBetRightPercent.fillRange = 0;
     }
 
     balanceBet(showNotice = false) {
