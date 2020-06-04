@@ -200,7 +200,15 @@ cc.Class({
       default: null,
       type: cc.Prefab
     },
-    balanceBetNoticeContainer: cc.Node
+    balanceBetNoticeContainer: cc.Node,
+    userBetBigPercent: {
+      default: null,
+      type: cc.Sprite
+    },
+    userBetSmallPercent: {
+      default: null,
+      type: cc.Sprite
+    }
   },
   init: function (obj) {
     this.TXRoot = obj;
@@ -794,8 +802,16 @@ cc.Class({
 
     void 0 !== data.red_me_tai && (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
     void 0 !== data.red_me_xiu && (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
-    void 0 !== data.red_player_tai && (this.playerLeft.string = helper.numberWithCommas(data.red_player_tai));
-    void 0 !== data.red_player_xiu && (this.playerRight.string = helper.numberWithCommas(data.red_player_xiu));
+    if (void 0 !== data.red_player_tai) {
+      const betTaiPercent = parseInt(data.red_player_tai);
+      this.playerLeft.string = betTaiPercent + "%";
+      this.userBetBigPercent.fillRange = (betTaiPercent / 100);
+    }
+    if (void 0 !== data.red_player_xiu) {
+      const betXiuPercent = parseInt(data.red_player_xiu);
+      this.playerRight.string = betXiuPercent + "%";
+      this.userBetSmallPercent.fillRange = -(betXiuPercent / 100);
+    }
   },
   onDuDay: function (data) {
     if (data) {
@@ -1020,7 +1036,8 @@ cc.Class({
   },
   reset: function () {
     this.isNan && this.dataLogs();
-    cc.RedT.setting.taixiu.data.chanle.red_chan = cc.RedT.setting.taixiu.data.chanle.red_le = cc.RedT.setting.taixiu.data.chanle.red_me_chan = cc.RedT.setting.taixiu.data.chanle.red_me_le = cc.RedT.setting.taixiu.data.chanle.red_player_chan = cc.RedT.setting.taixiu.data.chanle.red_player_le = cc.RedT.setting.taixiu.data.chanle.xu_chan = cc.RedT.setting.taixiu.data.chanle.xu_le = cc.RedT.setting.taixiu.data.chanle.xu_me_chan = cc.RedT.setting.taixiu.data.chanle.xu_me_le = cc.RedT.setting.taixiu.data.chanle.xu_player_chan = cc.RedT.setting.taixiu.data.chanle.xu_player_le = cc.RedT.setting.taixiu.data.taixiu.red_me_tai = cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu.data.taixiu.red_player_tai = cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu.data.taixiu.red_tai = cc.RedT.setting.taixiu.data.taixiu.red_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_tai = cc.RedT.setting.taixiu.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = 0;
+    cc.RedT.setting.taixiu.data.chanle.red_chan = cc.RedT.setting.taixiu.data.chanle.red_le = cc.RedT.setting.taixiu.data.chanle.red_me_chan = cc.RedT.setting.taixiu.data.chanle.red_me_le = cc.RedT.setting.taixiu.data.chanle.red_player_chan = cc.RedT.setting.taixiu.data.chanle.red_player_le = cc.RedT.setting.taixiu.data.chanle.xu_chan = cc.RedT.setting.taixiu.data.chanle.xu_le = cc.RedT.setting.taixiu.data.chanle.xu_me_chan = cc.RedT.setting.taixiu.data.chanle.xu_me_le = cc.RedT.setting.taixiu.data.chanle.xu_player_chan = cc.RedT.setting.taixiu.data.chanle.xu_player_le = cc.RedT.setting.taixiu.data.taixiu.red_me_tai = cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu.data.taixiu.red_player_tai = cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu.data.taixiu.red_tai = cc.RedT.setting.taixiu.data.taixiu.red_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_tai = cc.RedT.setting.taixiu.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = 0;
+    this.playerLeft.string = this.playerRight.string = "0%";
     this.gameAudios && this.gameAudios.playStartGameAudio();
   },
   setDefautl: function () {

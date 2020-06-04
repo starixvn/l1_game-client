@@ -149,6 +149,12 @@ export default class ChanLeMain extends cc.Component {
     @property(cc.Node)
     balanceBetNoticeContainer: cc.Node = null;
 
+    @property(cc.Sprite)
+    userBetLeftPercent: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    userBetRightPercent: cc.Sprite = null;
+
     //#endregion
     isNan = false;
     root: ChanLe;
@@ -403,9 +409,8 @@ export default class ChanLeMain extends cc.Component {
         this.totalBetLeft.string
             = this.totalBetRight.string
             = this.userBetLeft.string
-            = this.userBetRight.string
-            = this.playersLeft.string
-            = this.playersRight.string = '0';
+            = this.userBetRight.string = '0';
+        this.playersLeft.string = this.playersRight.string = "0%"
     }
 
     balanceBet(showNotice = false) {
