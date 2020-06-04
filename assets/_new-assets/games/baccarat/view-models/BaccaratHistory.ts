@@ -87,7 +87,7 @@ export default class BaccaratHistory extends cc.Component {
                         const isWin = result[key];
 
                         if (currentItem) {
-                            currentItem.node.color = (isWin && bet > 0) ? cc.Color.YELLOW : cc.Color.WHITE;
+                            currentItem.node.color = isWin ? cc.Color.YELLOW : cc.Color.WHITE;
                             currentItem.string = numberWithCommas(bet);
                         }
                     })
