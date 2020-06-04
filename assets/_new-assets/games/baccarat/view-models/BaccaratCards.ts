@@ -11,6 +11,9 @@ export default class BaccaratCards extends cc.Component {
     @property(cc.Sprite)
     card3: cc.Sprite = null;
 
+    @property(cc.Node)
+    otherCard: cc.Node = null;
+
     @property
     flyX: number = 0;
 
@@ -35,7 +38,8 @@ export default class BaccaratCards extends cc.Component {
     showCardsWithoutAnimation(cards: any[]) {
         this.openCard(0, cards, false);
         this.openCard(1, cards, false);
-        this.openCard(2, cards, false);
+        const hasCard3 = this.openCard(2, cards, false);
+        this.otherCard && (this.otherCard.active = hasCard3);
     }
 
     showCards(cards: any[], onFinishShowCards: () => void) {
@@ -138,7 +142,7 @@ export default class BaccaratCards extends cc.Component {
 
             if (!cardData) {
                 currentCard.node.active = false;
-                return;
+                return false;
             }
 
             currentCard.node.active = true;
@@ -153,6 +157,10 @@ export default class BaccaratCards extends cc.Component {
                 const point: number = cardData.card + 1;
                 this.setPoint(point >= 10 ? 0 : point);
             }
+
+            return true;
         }
+
+        return false;
     }
 }
