@@ -57,6 +57,12 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
                 if (isInRoundTime) {
                     this.handleInRoundTime();
+
+                    const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
+
+                    if (isInLockBetTime) {
+                        this.handleInLockBetTime();
+                    }
                 } else {
                     this.main.animatedTime.node.active = false;
                     clearInterval(this.playTimeInterval);
@@ -96,5 +102,8 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         var time = numberPad(this.main.currentTimeRemaining, 2);
         this.main.animatedTime.setTime(time);
         this.main.setGameRound(this.main.roundId + 1);
+    }
+
+    handleInLockBetTime() {
     }
 }

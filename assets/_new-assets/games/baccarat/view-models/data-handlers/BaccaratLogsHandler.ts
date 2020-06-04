@@ -14,17 +14,18 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
+        const lastLog = dataLogs[0];
+
         if (this.main.timeHandler.isInWaitTime) {
-            const lastLog = dataLogs[0];
             const playerCards = _.values(lastLog.player);
             const bankerCards = _.values(lastLog.banker);
 
             this.main.playerCards.showCardsWithoutAnimation(playerCards);
             this.main.bankerCards.showCardsWithoutAnimation(bankerCards);
-
-            const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
-            finishHandler.showResult(lastLog.result);
         }
+
+        // const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
+        // finishHandler.showResult(lastLog.result, false);
 
         this.buildBasicScoreBoard(dataLogs);
         this.buildTotalScoreBoard(dataLogs);

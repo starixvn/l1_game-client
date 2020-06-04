@@ -19,4 +19,10 @@ export default class BaccaratTimeHandler extends GameBaseTimeHandler {
             cc.callFunc(() => baccarat.bankerCards.flySecondCard()),
         ))
     }
+
+    handleInLockBetTime() {
+        super.handleInLockBetTime();
+
+        this.main.betItems.forEach(item => item.highlight.active = false);
+    }
 }

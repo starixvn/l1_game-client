@@ -1,5 +1,6 @@
 import * as helper from '../../../_new-assets/common/helpers/Helper';
 import { getLowercaseObjectKeys } from '../../common/helpers/Helper.js';
+import BlinkNode from '../../common/BlinkNode';
 
 const { ccclass, property } = cc._decorator;
 
@@ -50,11 +51,28 @@ export default class BetItem extends cc.Component {
         this.setTotalBet(0);
     }
 
-    public setHighlight(highlight: boolean) {
+    public setHighlight(highlight: boolean, isAnimated = true) {
         this.highlight.active = highlight;
+        this.blinkNode && this.blinkNode.playAnimation();
+        console.log(isAnimated)
+        if (!isAnimated) {
+            this.blinkNode && this.stopAnimation();
+        }
+        else {
+            this.blinkNode && this.blinkNode.playAnimation();
+        }
     }
 
     public resetHighlight() {
         this.highlight.active = false;
+    }
+
+    public stopAnimation() {
+        this.blinkNode.node.stopAllActions();
+        this.blinkNode.node.opacity = 255;
+    }
+
+    protected get blinkNode() {
+        return this.highlight.getComponent("BlinkNode") as BlinkNode;
     }
 }
