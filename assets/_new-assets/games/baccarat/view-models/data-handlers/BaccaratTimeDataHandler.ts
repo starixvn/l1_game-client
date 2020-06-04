@@ -4,8 +4,9 @@ import BaccaratLogsHandler from "./BaccaratLogsHandler";
 
 export default class BaccaratTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
-        super.handleStartingNewGameRound();
+        const baccaratMain = this.main as Baccarat;
 
+        super.handleStartingNewGameRound();
         const baccarat = this.main as Baccarat;
         baccarat.bankerCards.resetCards();
         baccarat.playerCards.resetCards();
@@ -27,6 +28,8 @@ export default class BaccaratTimeHandler extends GameBaseTimeHandler {
         this.main.betItems.forEach(item => item.setHighlight(false));
 
         if (this.main.currentTimeRemaining == this.main.config.stopBetTime) {
+            this.main.currentDataLogs.pop();
+            (this.main.logsHandler as BaccaratLogsHandler).buildLogs(this.main.currentDataLogs)
             console.log("here")
         }
     }

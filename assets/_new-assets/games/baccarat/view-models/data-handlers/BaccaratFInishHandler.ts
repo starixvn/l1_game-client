@@ -15,15 +15,16 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         }
 
         this.showCards(dataFinish, baccaratMain, onFinishHanlingData);
-
     }
 
     private showCards(dataFinish: any, baccaratMain: Baccarat, onFinishHanlingData: () => void) {
+        baccaratMain.showScoreBoardNextDot = true;
         const result = dataFinish.result;
         const settlementResult = dataFinish.settlementResult;
         const playerCards = result.playerCards;
         const bankerCards = result.bankerCards;
         const showResultFunc = () => {
+            baccaratMain.showScoreBoardNextDot = false;
             this.showResult(settlementResult);
             onFinishHanlingData && onFinishHanlingData();
             baccaratMain.currentDataLogs.unshift({ result: dataFinish.settlementResult });

@@ -35,7 +35,6 @@ export default class BasicHistoryBoard extends cc.Component {
     dots: cc.Node[] = [];
     nextMark: cc.Node = null;
     private checkShowNext = () => false;
-    private historyData: BasicHistoryData[];
 
     onLoad() {
         const itemsNode = cc.instantiate(this.itemsPrefab);
@@ -47,11 +46,12 @@ export default class BasicHistoryBoard extends cc.Component {
     }
 
     public setData(historyData: BasicHistoryData[]) {
-        this.historyData = historyData;
         this.dots.forEach(dot => {
             dot.removeFromParent();
             dot.destroy();
         });
+
+        this.nextMark = null;
 
         historyData.forEach((history) => {
             const historyItem = _.find(this.items, item => item.name.toLowerCase() === history.name);
@@ -73,9 +73,11 @@ export default class BasicHistoryBoard extends cc.Component {
     }
 
     private addNextMark() {
-        this.nextMark = cc.instantiate(this.itemNext);
-        this.nextMark.active = true;
-        this.nextMark.addComponent(BlinkNode).interval = 0.5;
-        this.content.addChild(this.nextMark);
+        const dot = cc.instantiate(this.itemNext);
+        dot.active = false;
+        dot.addComponent(BlinkNode).interval = 0.5;
+        this.content.addChild(dot);
+        this.nextMark = dot;
+        this.dots.push(dot);
     }
 }

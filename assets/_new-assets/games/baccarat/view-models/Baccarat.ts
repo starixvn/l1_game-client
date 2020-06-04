@@ -46,6 +46,7 @@ export default class Baccarat extends GameRoomBase {
     cardsResource: any = null;
     basicHistoryBoard: BasicHistoryBoard;
     detailHistoryBoard: DragonScoreBoard;
+    showScoreBoardNextDot = false;
 
     onLoad() {
         this.init("baccarat", new BaccaratConfigs())
@@ -101,9 +102,9 @@ export default class Baccarat extends GameRoomBase {
         const condition = () => {
             const finishHandler = this.finishHandler as GameBaseFinishHandler;
             const result = this.currentTimeRemaining < this.config.stopBetTime
-                || this.currentTimeRemaining > this.config.fullTime - finishHandler.getResultAnimationTime();
+                || this.showScoreBoardNextDot;
 
-            return result
+            return result;
         }
 
         const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
