@@ -5,6 +5,7 @@ import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
 import { getLowercaseObjectKeys } from '../../../../common/helpers/Helper.js';
 import { TotalHistoryData } from "../TotalHistoryBoard";
 import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from "../BaccaratDragonScoreBoard";
+import BaccaratFinishHandler from "./BaccaratFInishHandler";
 
 export default class BaccaratLogsHandler extends GameBaseLogsHandler {
 
@@ -13,6 +14,18 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
+        if (this.main.timeHandler.isInWaitTime) {
+            const lastLog = dataLogs[0];
+            const playerCards = _.values(lastLog.player);
+            const bankerCards = _.values(lastLog.banker);
+
+            this.main.playerCards.showCardsWithoutAnimation(playerCards);
+            this.main.bankerCards.showCardsWithoutAnimation(bankerCards);
+
+            const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
+            finishHandler.showResult(lastLog.result);
+        }
+
         this.buildBasicScoreBoard(dataLogs);
         this.buildTotalScoreBoard(dataLogs);
         this.buildDragonScoreBoard(dataLogs);
@@ -41,6 +54,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
             const total = _.filter(dataLogs, log => log.result[resultKeys[item.node.name.toLowerCase()]]).length;
             return new TotalHistoryData(item.node.name, total.toString());
         });
+
         this.main.totalHistoryBoard.setData(totalHistoryData);
     }
 

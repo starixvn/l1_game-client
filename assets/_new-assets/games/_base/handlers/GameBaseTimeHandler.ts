@@ -9,12 +9,17 @@ export interface IGameBaseTimeHandler extends DataHandler {
     playTime(): void;
     stopPlayTime(): void;
     resetTime(): void;
+    isInWaitTime: boolean;
 }
 
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     playTimeInterval: number;
 
     constructor(protected readonly main: GameBase) {
+    }
+
+    get isInWaitTime() {
+        return this.main.currentTimeRemaining > this.main.config.betTime;
     }
 
     handle(data: any): boolean {
@@ -37,7 +42,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
 
         this.playTimeInterval = setInterval(() => {
-            const isInWaitTime = this.main.currentTimeRemaining > this.main.config.betTime;
+            const isInWaitTime = this.isInWaitTime;
 
             if (isInWaitTime) {
                 this.handleWaitTime();

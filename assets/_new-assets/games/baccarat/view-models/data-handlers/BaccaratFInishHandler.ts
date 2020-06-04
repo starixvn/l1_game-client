@@ -35,7 +35,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         baccaratMain.bankerCards.showCards(bankerCards, bankerCards.length == 3 ? showResultFunc : null);
     }
 
-    private showResult(resultData) {
+    public showResult(resultData) {
         const keys = getLowercaseObjectKeys(resultData);
 
         _.forEach(this.main.betItems, item => item.setHighlight(resultData[keys[item.node.name.toLowerCase()]]));
