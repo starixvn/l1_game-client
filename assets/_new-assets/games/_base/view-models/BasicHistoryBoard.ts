@@ -34,17 +34,20 @@ export default class BasicHistoryBoard extends cc.Component {
     main: GameBase = null;
     dots: cc.Node[] = [];
     nextMark: cc.Node = null;
+    private checkShowNext = () => false;
+    private historyData: BasicHistoryData[];
 
     onLoad() {
         const itemsNode = cc.instantiate(this.itemsPrefab);
         this.items = itemsNode.children;
     }
 
-    init(main: GameBase) {
-        this.main = main;
+    init(condition: () => boolean) {
+        this.checkShowNext = condition;
     }
 
     public setData(historyData: BasicHistoryData[]) {
+        this.historyData = historyData;
         this.dots.forEach(dot => {
             dot.removeFromParent();
             dot.destroy();
@@ -65,14 +68,7 @@ export default class BasicHistoryBoard extends cc.Component {
 
     update() {
         if (this.nextMark && this.nextMark.isValid) {
-            if (this.main) {
-                if (this.main.currentTimeRemaining < this.main.config.stopBetTime) {
-                    this.nextMark.active = true;
-                }
-                else {
-                    this.nextMark.active = false;
-                }
-            }
+            this.nextMark.active = this.checkShowNext();
         }
     }
 

@@ -27,7 +27,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             this.showResult(settlementResult);
             onFinishHanlingData && onFinishHanlingData();
             baccaratMain.currentDataLogs.unshift({ result: dataFinish.settlementResult });
-            baccaratMain.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
+            baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
             (baccaratMain.logsHandler as BaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
         }
 

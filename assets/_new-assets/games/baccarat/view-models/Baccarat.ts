@@ -98,17 +98,21 @@ export default class Baccarat extends GameRoomBase {
     }
 
     private initScoreBoards() {
+        const condition = () => {
+            const finishHandler = this.finishHandler as GameBaseFinishHandler;
+            const result = this.currentTimeRemaining < this.config.stopBetTime
+                || this.currentTimeRemaining > this.config.fullTime - finishHandler.getResultAnimationTime();
+
+            return result
+        }
+
         const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
         this.basicHistoryBoard = historyBoardNode.getComponent("BasicHistoryBoard");
-        this.basicHistoryBoard.init(this);
+        this.basicHistoryBoard.init(condition);
         this.basicHistoryBoardNode.addChild(historyBoardNode);
 
         const detailHistoryBoardNode = cc.instantiate(this.detailHistoryBoardPrefab);
         this.detailHistoryBoard = detailHistoryBoardNode.getComponent("BaccaratDragonScoreBoard");
-        const condition = () => {
-            const finishHandler = this.finishHandler as GameBaseFinishHandler;
-            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - finishHandler.getResultAnimationTime();
-        }
         this.detailHistoryBoard.init(condition);
         this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
     }

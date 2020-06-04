@@ -1,5 +1,6 @@
 import Baccarat from "../Baccarat";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
+import BaccaratLogsHandler from "./BaccaratLogsHandler";
 
 export default class BaccaratTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
@@ -24,5 +25,9 @@ export default class BaccaratTimeHandler extends GameBaseTimeHandler {
         super.handleInLockBetTime();
 
         this.main.betItems.forEach(item => item.setHighlight(false));
+
+        if (this.main.currentTimeRemaining == this.main.config.stopBetTime) {
+            console.log("here")
+        }
     }
 }
