@@ -78,7 +78,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
             }
             else {
                 if (log.result.tie) {
-
+                    log.result.firstTie = true;
                 }
             }
 
@@ -89,7 +89,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
             log.result.tie && this.setTieLog(log, log.previousLog);
         });
 
-        const noTieDataLogs = _.filter(dataLogs, (log) => !log.result.tie);
+        const noTieDataLogs = _.filter(dataLogs, (log) => !log.result.tie || log.result.firstTie);
         const detailHistoreBoardData = _.map(noTieDataLogs, (log, index) => {
             const result = log.result;
 
@@ -101,9 +101,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
                     result.natural,
                     result.isTie,
                     result.tieCount);
-            }
-
-            if (result.player) {
+            } else if (result.player) {
                 return new BaccaratDragonScoreBoardItemData(
                     BaccaratDragonScoreBoard.PLAYER,
                     result.playerPair,
@@ -111,6 +109,16 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
                     result.natural,
                     result.isTie,
                     result.tieCount);
+            }
+            else {
+                return new BaccaratDragonScoreBoardItemData(
+                    BaccaratDragonScoreBoard.BANKER,
+                    result.playerPair,
+                    result.bankerPair,
+                    result.natural,
+                    result.isTie,
+                    result.tieCount,
+                    result.isFirstTie);
             }
         });
 

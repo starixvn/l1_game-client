@@ -6,7 +6,7 @@ import DragonScoreBoardItem from "./DragonScoreBoardItem";
 const { ccclass, property } = cc._decorator;
 
 export class DragonScoreBoardItemData {
-    constructor(public key: number, public isTie: boolean = false, public tieCount: number = 0) {
+    constructor(public key: number, public isTie: boolean = false, public tieCount: number = 0, public isFirstTie = false) {
     }
 }
 
@@ -102,6 +102,7 @@ export default class DragonScoreBoard extends cc.Component {
         item.tie.active = result.isTie;
         item.tieCount.node.active = result.isTie;
         item.tieCount.string = (result.tieCount < 2) ? '' : result.tieCount.toString();
+        item.main.active = !result.isFirstTie;
 
         return item;
     }

@@ -10,8 +10,9 @@ export class BaccaratDragonScoreBoardItemData extends DragonScoreBoardItemData {
         public isBankerPair: boolean = false,
         public isNaturalWin: boolean = false,
         public isTie: boolean = false,
-        public tieCount: number = 0, ) {
-        super(key, isTie, tieCount);
+        public tieCount: number = 0,
+        public isFirstTie = false) {
+        super(key, isTie, tieCount, isFirstTie);
     }
 }
 @ccclass
