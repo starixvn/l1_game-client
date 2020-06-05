@@ -11,10 +11,10 @@ export default class RHMiniRoundHistoryItem extends MiniRoundHistoryItem {
     @property({ type: cc.SpriteFrame })
     itemSprites: cc.SpriteFrame[] = [];
 
-    public setData(data: { card: number, type: number }[]) {
+    public setData(data: any) {
         this.data = data;
 
-        const winChoice = RongHo.getWinItem(data);
+        const winChoice = RongHo.getWinItem(data.result);
         this.icon.spriteFrame = this.itemSprites[winChoice];
     }
 }

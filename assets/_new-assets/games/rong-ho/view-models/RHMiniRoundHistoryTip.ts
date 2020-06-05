@@ -11,6 +11,9 @@ export default class RHMiniRoundHistoryTip extends MiniRoundHistoryTip {
     result: cc.Label = null;
 
     @property(cc.Label)
+    roundId: cc.Label = null;
+
+    @property(cc.Label)
     dragon: cc.Label = null;
 
     @property(cc.Sprite)
@@ -25,8 +28,9 @@ export default class RHMiniRoundHistoryTip extends MiniRoundHistoryTip {
     @property({ type: cc.SpriteFrame })
     cardTypeSprite: cc.SpriteFrame[] = [];
 
-    public setData(data: { card: number, type: number }[]) {
-        const winChoice = RongHo.getWinItem(data);
+    public setData(data: any) {
+        const cards = data.result;
+        const winChoice = RongHo.getWinItem(cards);
         const choiceNames = ["RỒNG", "HỔ", "HÒA"];
         const choiceColors = [
             new cc.Color(219, 185, 0), // cc.Color.YELLOW, // new cc.Color(255, 224, 58), 
@@ -34,12 +38,13 @@ export default class RHMiniRoundHistoryTip extends MiniRoundHistoryTip {
             new cc.Color(63, 111, 123)
         ];
 
+        this.roundId.string = `#${data.round}`;
         this.result.string = choiceNames[winChoice];
         this.result.node.color = choiceColors[winChoice];
 
-        this.dragon.string = getNameCard(data[0].card);
-        this.dragonType.spriteFrame = this.cardTypeSprite[data[0].type];
-        this.tiger.string = getNameCard(data[1].card);
-        this.tigerType.spriteFrame = this.cardTypeSprite[data[1].type];
+        this.dragon.string = getNameCard(cards[0].card);
+        this.dragonType.spriteFrame = this.cardTypeSprite[cards[0].type];
+        this.tiger.string = getNameCard(cards[1].card);
+        this.tigerType.spriteFrame = this.cardTypeSprite[cards[1].type];
     }
 }

@@ -554,7 +554,7 @@ export default class RongHo extends cc.Component {
             }
             i++;
         }
-        this.miniRoundHistory.setData(this.logs.map(log => log.result));
+        this.miniRoundHistory.setData(this.logs);
 
         logControlData.reverse();
         this.logControl.setData(logControlData.map(d => d.item));
