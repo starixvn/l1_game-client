@@ -116,9 +116,9 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
                     result.playerPair,
                     result.bankerPair,
                     result.natural,
-                    result.isTie,
+                    result.isTie || result.tie,
                     result.tieCount,
-                    result.isFirstTie);
+                    result.firstTie);
             }
         });
 

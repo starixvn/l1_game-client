@@ -12,7 +12,6 @@ export class DragonScoreBoardItemData {
 
 @ccclass
 export default class DragonScoreBoard extends cc.Component {
-
     @property({ type: DragonScoreBoardItem })
     items: DragonScoreBoardItem[] = [];
 
@@ -103,7 +102,6 @@ export default class DragonScoreBoard extends cc.Component {
         item.tieCount.node.active = result.isTie;
         item.tieCount.string = (result.tieCount < 2) ? '' : result.tieCount.toString();
         item.main.active = !result.isFirstTie;
-
         return item;
     }
 
