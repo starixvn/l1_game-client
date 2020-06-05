@@ -59,8 +59,15 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     }
 
     private buildTotalScoreBoard(dataLogs: any) {
+        const firstLog = dataLogs[0];
+
+        if (!firstLog) {
+            return;
+        }
+
+        const resultKeys = getLowercaseObjectKeys(firstLog.result);
+
         const totalHistoryData = _.map(this.main.betItems, item => {
-            const resultKeys = getLowercaseObjectKeys(dataLogs[0].result);
             const total = _.filter(dataLogs, log => log.result[resultKeys[item.node.name.toLowerCase()]]).length;
             return new TotalHistoryData(item.node.name, total.toString());
         });
