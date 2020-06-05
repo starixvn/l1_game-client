@@ -574,6 +574,7 @@ export default class RongHo extends cc.Component {
             const choiceWin = RongHo.getWinItem(this.resultCards);
             var winItem = betChoice[choiceWin];
             if (winItem != "") {
+                this.gameAudios.playShowResultAudio();
                 this.resultFrame.active = true;
                 this.resultFrame.children.forEach(child => child.active = child.name == winItem);
                 this.highlightWonItem(true, winItem);
