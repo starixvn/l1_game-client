@@ -36,14 +36,14 @@ export default class GameBaseBetHandler implements DataHandler {
                 let delayTime = 0;
 
                 if (this.main.currentTimeRemaining >= this.main.config.stopBetTime + 2) {
-                    delayTime = (this.playerChips.length / 2) * 0.07;
+                    delayTime = this.playerChips.length * 0.07;
                 }
                 else {
                     delayTime = this.playerChips.length * 0.01;
                 }
 
                 this.main.node.runAction(cc.sequence(
-                    cc.delayTime(delayTime > 1 ? 1 : delayTime),
+                    cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
                     cc.callFunc(() => this.placePlayerChip(data.playerChip))
                 ));
             }
