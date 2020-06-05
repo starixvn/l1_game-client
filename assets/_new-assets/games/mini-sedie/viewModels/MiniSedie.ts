@@ -116,7 +116,7 @@ export default class MiniSedie extends GameMiniBase {
     }
 
     public updateRoundHistory() {
-        const redData = this.currentDataLogs.map(d => {
+        const miniHistoryData = this.currentDataLogs.map(d => {
             let count = 0;
             const list = ["red1", "red2", "red3", "red4"];
             list.forEach(i => {
@@ -124,10 +124,13 @@ export default class MiniSedie extends GameMiniBase {
                     count++;
                 }
             });
-            return count;
+            return {
+                roundId: d.roundId || d.id,
+                red: count
+            };
         });
-        this.roundHistory.setData(redData);
-        this.miniRoundHistory.setData(redData);
+        this.roundHistory.setData(miniHistoryData.map(d => d.red));
+        this.miniRoundHistory.setData(miniHistoryData);
     }
 
     public onToggleShowRoundResult() {

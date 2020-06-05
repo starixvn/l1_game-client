@@ -1008,17 +1008,20 @@ cc.Class({
 		this.clients.red.white4 = 0;
 	},
 	updateRoundHistory: function () {
-		const redData = this.logs.map(d => {
+		const miniHistoryData = this.logs.map(d => {
 			let count = 0;
 			for (let i = 0; i < 4; i++) {
 				if (d.dots[i]) {
 					count++;
 				}
 			}
-			return count;
+			return {
+				roundId: d.roundId || d.id || d.round,
+				red: count
+			};
 		});
-		this.roundHistory.setData(redData);
-		this.miniRoundHistory.setData(redData);
+		this.roundHistory.setData(miniHistoryData.map(d => d.red));
+		this.miniRoundHistory.setData(miniHistoryData);
 	},
 	setLogs: function () {
 		/*

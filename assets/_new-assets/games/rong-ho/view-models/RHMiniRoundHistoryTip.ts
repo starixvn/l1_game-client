@@ -8,12 +8,6 @@ const { ccclass, property } = cc._decorator;
 export default class RHMiniRoundHistoryTip extends MiniRoundHistoryTip {
 
     @property(cc.Label)
-    result: cc.Label = null;
-
-    @property(cc.Label)
-    roundId: cc.Label = null;
-
-    @property(cc.Label)
     dragon: cc.Label = null;
 
     @property(cc.Sprite)

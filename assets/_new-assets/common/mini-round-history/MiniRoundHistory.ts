@@ -12,7 +12,7 @@ export default class MiniRoundHistory extends cc.Component {
     @property(MiniRoundHistoryTip)
     tip: MiniRoundHistoryTip = null;
 
-    private items: MiniRoundHistoryItem[] = [];
+    protected items: MiniRoundHistoryItem[] = [];
     private listener = {
         onEnter: (node: cc.Node) => {
             this.tip.node.position = cc.v2(node.x, this.tip.node.y);
