@@ -48,6 +48,7 @@ cc.Class({
 
     this.onDiceAnimationFinish = function (event) {
       this.setDice(true);
+      this.dataLogs();
       this.showResult();
       this.diceAnimation.node.active = false;
     };
@@ -448,7 +449,7 @@ cc.Class({
         });
         cc.RedT.setting.taixiu_turbo.logs.length > 120 &&
           cc.RedT.setting.taixiu_turbo.logs.pop();
-        this.dataLogs();
+        //this.dataLogs();
         this.localResultDices = [...data.finish.dices];
         this.AnimatedTime.node.active = false;
       }

@@ -57,7 +57,6 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
         });
 
         this.dataLogs.length > 120 && this.dataLogs.pop();
-        this.buildDotLogs(this.dataLogs);
     }
 
     initDotLogs() {
@@ -80,7 +79,7 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
             if (data) {
                 var point = data.dice[0] + data.dice[1] + data.dice[2];
                 dotLog.node.active = true;
-                dotLog.text.string = `${point % 2 ? "LẼ" : "CHẴN"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
+                dotLog.text.string = `${point % 2 ? "LẺ" : "CHẴN"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
                 dotLog.turnId = data.phien;
                 dotLog.round.string = `#${data.phien}`;
 

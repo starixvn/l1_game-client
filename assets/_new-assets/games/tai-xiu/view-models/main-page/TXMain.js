@@ -245,6 +245,7 @@ cc.Class({
 
     this.onDiceAnimationFinish = function (event) {
       this.setDice(true);
+      this.dataLogs();
       !this.isNan && this.showResult();
       this.diceAnimation.node.active = false;
     };
@@ -642,7 +643,7 @@ cc.Class({
           phien: data.finish.phien
         });
         cc.RedT.setting.taixiu.logs.length > 120 && cc.RedT.setting.taixiu.logs.pop();
-        this.dataLogs();
+        //this.dataLogs();
         this.localResultDices = [...data.finish.dices];
 
         this.AnimatedTime.node.active = false;

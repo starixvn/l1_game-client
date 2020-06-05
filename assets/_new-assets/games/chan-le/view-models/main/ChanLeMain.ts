@@ -328,6 +328,7 @@ export default class ChanLeMain extends cc.Component {
 
     onDiceAnimationFinished() {
         this.showDices(true);
+        this.logsDataHandler.buildDotLogs(this.logsDataHandler.dataLogs);
         !this.isNan && this.showBetResult();
         this.diceAnimation.node.active = false;
     }
