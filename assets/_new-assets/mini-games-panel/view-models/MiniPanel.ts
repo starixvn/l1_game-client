@@ -255,7 +255,7 @@ export default class MiniPanel extends cc.Component {
           let node = cc.instantiate(prefab);
           gameComponent = node.getComponent(componentName);
           initFunc ? initFunc(gameComponent) : gameComponent.init(this);
-          this.miniGames.addChild(gameComponent.node);
+          this.miniGames && this.miniGames.addChild(gameComponent.node);
           gameComponent.openGame();
           this.loading.node.active = false;
         });
