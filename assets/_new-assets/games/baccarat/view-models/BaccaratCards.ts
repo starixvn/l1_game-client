@@ -121,6 +121,7 @@ export default class BaccaratCards extends cc.Component {
         const cardPosition = card.position;
         card.position = this.cardsBox.position;
         card.opacity = 255;
+        this.cardsResource.playGetCardAudio();
 
         card.runAction(cc.spawn(
             cc.rotateTo(this.flyCardSecond, angle).easing(cc.easeInOut(2)),

@@ -108,7 +108,6 @@ export default class Baccarat extends GameRoomBase {
 
     private initScoreBoards() {
         const condition = () => {
-            const finishHandler = this.finishHandler as GameBaseFinishHandler;
             const result = this.currentTimeRemaining < this.config.stopBetTime
                 || this.showScoreBoardNextDot;
 

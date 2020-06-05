@@ -30,7 +30,6 @@ export default class BaccaratTimeHandler extends GameBaseTimeHandler {
         if (this.main.currentTimeRemaining == this.main.config.stopBetTime) {
             this.main.currentDataLogs.pop();
             (this.main.logsHandler as BaccaratLogsHandler).buildLogs(this.main.currentDataLogs)
-            console.log("here")
         }
     }
 }
