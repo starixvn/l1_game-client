@@ -18,6 +18,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
 
         if (data.roundHistory) {
             const lastLog = data.roundHistory[0];
+            const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
 
             if (this.main.timeHandler.isInWaitTime) {
                 const playerCards = _.values(lastLog.player);
@@ -25,9 +26,9 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
 
                 this.main.playerCards.showCardsWithoutAnimation(playerCards);
                 this.main.bankerCards.showCardsWithoutAnimation(bankerCards);
+                finishHandler.showWinNotice(lastLog.result);
             }
 
-            const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
             finishHandler.showResult(lastLog.result, false);
         }
 

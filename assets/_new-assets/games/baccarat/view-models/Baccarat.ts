@@ -43,6 +43,9 @@ export default class Baccarat extends GameRoomBase {
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
+    @property(cc.Label)
+    winNoticeText: cc.Label = null;
+
     cardsResource: any = null;
     basicHistoryBoard: BasicHistoryBoard;
     detailHistoryBoard: DragonScoreBoard;
@@ -54,7 +57,6 @@ export default class Baccarat extends GameRoomBase {
         this.initCards();
         this.initScoreBoards();
     }
-
 
     onData(data) {
         super.onData(data);
@@ -88,6 +90,12 @@ export default class Baccarat extends GameRoomBase {
         this.timeHandler = new BaccaratTimeHandler(this);
         this.finishHandler = new BaccaratFinishHandler(this);
         this.logsHandler = new BaccaratLogsHandler(this);
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+
+        this.winNoticeText.node.parent.active = false;
     }
 
     private initCards() {

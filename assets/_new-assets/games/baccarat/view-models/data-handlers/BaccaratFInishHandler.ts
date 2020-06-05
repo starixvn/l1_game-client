@@ -26,6 +26,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         const showResultFunc = () => {
             baccaratMain.showScoreBoardNextDot = false;
             this.showResult(settlementResult);
+            this.showWinNotice(settlementResult);
             onFinishHanlingData && onFinishHanlingData();
             baccaratMain.currentDataLogs.unshift({ result: dataFinish.settlementResult });
             baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
@@ -40,5 +41,24 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         const keys = getLowercaseObjectKeys(resultData);
 
         _.forEach(this.main.betItems, item => item.setHighlight(resultData[keys[item.node.name.toLowerCase()]], isAnimated));
+    }
+
+    public showWinNotice(result) {
+        const baccaratMain = this.main as Baccarat;
+        const winNoticeNode = baccaratMain.winNoticeText.node.parent;
+        let noticeText: string;
+
+        if (result.banker) {
+            noticeText = "NHÀ CÁI THẮNG!"
+        }
+        else if (result.player) {
+            noticeText = "NHÀ CON THẮNG!"
+        }
+        else {
+            noticeText = "HOÀ!"
+        }
+
+        baccaratMain.winNoticeText.string = noticeText;
+        winNoticeNode.active = true;
     }
 }
