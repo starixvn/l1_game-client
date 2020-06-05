@@ -1,0 +1,26 @@
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class LoopBouncingEffect extends cc.Component {
+    @property
+    height: number = 2;
+
+    @property
+    duration: number = 0.3;
+
+    private tag = 100;
+    onEnable() {
+        const action = cc.repeatForever(
+            cc.sequence(
+                cc.jumpBy(this.duration, cc.v2(0, this.height), this.height, 1),
+                cc.jumpBy(this.duration, cc.v2(0, -this.height), 0, 1),
+            )
+        );
+        action.setTag(this.tag);
+        this.node.runAction(action);
+    }
+
+    onDisable() {
+        this.node.stopActionByTag(this.tag);
+    }
+}
