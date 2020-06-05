@@ -13,6 +13,13 @@ export default class GameMiniBase extends GameBase {
         super.onEnable();
         this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
+    }
+
+    receivedData(data) {
+        if (data[this.gameName]) {
+            this.onData(data[this.gameName]);
+        }
     }
 
     onDisable() {
@@ -20,6 +27,7 @@ export default class GameMiniBase extends GameBase {
 
         this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.background.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+        cc.RedT.removeDataObserver(this.gameName);
     }
 
     eventStart(e) {

@@ -69,7 +69,6 @@ export default class MiniSedie extends GameMiniBase {
         super.onEnable();
         this.showLogs = this.currentDataLogs.length > 0;
         this.showRoundHistory(this.showLogs);
-        cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
     initHandlers() {
@@ -77,17 +76,6 @@ export default class MiniSedie extends GameMiniBase {
         this.finishHandler = new MiniSedieFinishHandler(this);
         this.timeHandler = new MiniSedieTimeHandler(this);
         this.logsHandler = new MiniSedieLogsHandler(this);
-    }
-
-    receivedData(data) {
-        if (data.miniSedie) {
-            this.onData(data.miniSedie);
-        }
-    }
-
-    onDisable() {
-        super.onDisable();
-        cc.RedT.removeDataObserver(this.gameName);
     }
 
     public onBetItemClick(e) {
