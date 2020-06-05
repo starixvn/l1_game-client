@@ -80,6 +80,9 @@ export default class RongHo extends cc.Component {
     @property({ type: cc.Sprite })
     cards: cc.Sprite[] = [];
 
+    @property({ type: cc.Sprite })
+    cardBacks: cc.Sprite[] = [];
+
     @property(cc.SpriteAtlas)
     cardAtlas: cc.SpriteAtlas = null;
 
@@ -258,6 +261,7 @@ export default class RongHo extends cc.Component {
         this.resultAnimation.on("finished", () => {
             this.showResult(true);
         }, this);
+        this.cardBacks.forEach(back => back.node.scale = 1);
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
         this.regEvent(true);
         this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -269,6 +273,8 @@ export default class RongHo extends cc.Component {
     }
 
     onDisable() {
+        this.resultAnimation.stop();
+        this.drawAnimation.stop();
         this.resultAnimation.off("finished");
         cc.RedT.removeDataObserver(this.gameName);
         this.onGameHide();
