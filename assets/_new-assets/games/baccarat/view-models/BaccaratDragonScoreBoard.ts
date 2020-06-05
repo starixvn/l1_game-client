@@ -24,7 +24,7 @@ export default class BaccaratDragonScoreBoard extends DragonScoreBoard {
         const item = super.buildItem(result) as BaccaratDragonScoreBoardItem;
         item.playerPair.active = result.isPlayerPair;
         item.bankerPair.active = result.isBankerPair;
-        item.natural.active = result.isNaturalWin;
+        item.natural.active = result.isNaturalWin && !result.isFirstTie;
 
         return item;
     }
