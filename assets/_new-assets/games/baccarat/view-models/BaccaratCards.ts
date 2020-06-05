@@ -121,12 +121,14 @@ export default class BaccaratCards extends cc.Component {
         const cardPosition = card.position;
         card.position = this.cardsBox.position;
         card.opacity = 255;
-        this.cardsResource.playGetCardAudio();
 
         card.runAction(cc.spawn(
             cc.rotateTo(this.flyCardSecond, angle).easing(cc.easeInOut(2)),
             cc.scaleTo(this.flyCardSecond, 1).easing(cc.easeInOut(2)),
-            cc.moveTo(this.flyCardSecond, cardPosition).easing(cc.easeInOut(2))));
+            cc.moveTo(this.flyCardSecond, cardPosition).easing(cc.easeInOut(2)),
+        ));
+
+        card.runAction(cc.sequence(cc.delayTime(0.2), cc.callFunc(() => this.cardsResource.playGetCardAudio())));
     }
 
     private resetCard(card: cc.Sprite) {
