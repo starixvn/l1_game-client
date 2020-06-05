@@ -33,9 +33,9 @@ export default class GameAudios extends cc.Component {
     }
 
     stopAllAudio() {
-        this.startGame.stop();
-        this.endGame.stop();
-        this.clockTick.stop();
-        this.showResult.stop();
+        this.startGame && this.startGame.stop();
+        this.endGame && this.endGame.stop();
+        this.clockTick && this.clockTick.stop();
+        this.showResult && this.showResult.stop();
     }
 }
