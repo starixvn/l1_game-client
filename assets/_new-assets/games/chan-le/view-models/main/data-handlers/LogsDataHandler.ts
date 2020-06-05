@@ -74,7 +74,6 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
         }
 
         var self = this;
-        console.log(dataLogs);
         Promise.all(self.dotLogs.map(function (dotLog, index) {
             var data = dataLogs[index];
 
@@ -82,6 +81,7 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
                 var point = data.dice[0] + data.dice[1] + data.dice[2];
                 dotLog.node.active = true;
                 dotLog.text.string = `${point % 2 ? "LẼ" : "CHẴN"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
+                dotLog.turnId = data.phien;
                 if (dotLog.round) {
                     dotLog.round.string = `#${data.phien}`;
                 }

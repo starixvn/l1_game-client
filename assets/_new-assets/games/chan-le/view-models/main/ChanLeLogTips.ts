@@ -13,6 +13,7 @@ export default class ChanLeLogTips extends cc.Component {
     tips: cc.Node = null;
 
     sprite: cc.Sprite = null;
+    turnId: number;
 
     onLoad() {
         this.sprite = this.getComponent(cc.Sprite);
