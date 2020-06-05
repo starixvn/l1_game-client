@@ -245,7 +245,7 @@ cc.Class({
 
     this.onDiceAnimationFinish = function (event) {
       this.setDice(true);
-      this.showResult();
+      !this.isNan && this.showResult();
       this.diceAnimation.node.active = false;
     };
 

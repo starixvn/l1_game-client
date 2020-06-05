@@ -82,9 +82,7 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
                 dotLog.node.active = true;
                 dotLog.text.string = `${point % 2 ? "LẼ" : "CHẴN"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
                 dotLog.turnId = data.phien;
-                if (dotLog.round) {
-                    dotLog.round.string = `#${data.phien}`;
-                }
+                dotLog.round.string = `#${data.phien}`;
 
                 dotLog.sprite.spriteFrame = point % 2
                     ? self.main.dotWhite
