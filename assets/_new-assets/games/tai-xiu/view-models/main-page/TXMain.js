@@ -852,9 +852,8 @@ cc.Class({
           if (void 0 !== data) {
             var point = data.dice[0] + data.dice[1] + data.dice[2];
             dot.node.active = true;
-            dot.node.phien = data.phien;
-            dot.mod.text.string =
-              data.dice[0] + "-" + data.dice[1] + "-" + data.dice[2];
+            dot.mod.round.string = `#${data.phien}`;
+            dot.mod.text.string = `${point < 11 ? "XỈU" : "TÀI"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
             dot.spriteFrame = self.taixiu
               ? point < 11
                 ? self.dot_white

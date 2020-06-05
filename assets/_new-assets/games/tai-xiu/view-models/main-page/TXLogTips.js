@@ -3,30 +3,34 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        round: {
+            default: null,
+            type: cc.Label
+        },
         text: {
             default: null,
-            type:    cc.Label
+            type: cc.Label
         },
         tips: {
             default: null,
-            type:    cc.Node
+            type: cc.Node
         },
     },
-    onLoad () {
+    onLoad() {
         this.sprite = this.getComponent(cc.Sprite);
     },
-    onEnable: function() {
+    onEnable: function () {
         this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnENTER, this);
         this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLEAVE, this);
     },
-    onDisable: function() {
+    onDisable: function () {
         this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnENTER, this);
         this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLEAVE, this);
     },
-    eventOnENTER: function(){
+    eventOnENTER: function () {
         this.tips.active = !0;
     },
-    eventOnLEAVE: function(){
+    eventOnLEAVE: function () {
         this.tips.active = !1;
     },
 });
