@@ -14,5 +14,6 @@ export default class SedieMiniRoundHistory extends MiniRoundHistory {
             item.setData(value);
             item.node.active = true;
         });
+        this.selectedNode && this.onUpdate(this.selectedNode);
     }
 }

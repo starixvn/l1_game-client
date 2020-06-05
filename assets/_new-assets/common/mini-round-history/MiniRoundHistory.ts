@@ -13,14 +13,17 @@ export default class MiniRoundHistory extends cc.Component {
     tip: MiniRoundHistoryTip = null;
 
     protected items: MiniRoundHistoryItem[] = [];
+    protected selectedNode: cc.Node = null;
     private listener = {
         onEnter: (node: cc.Node) => {
+            this.selectedNode = node;
             this.tip.node.position = cc.v2(node.x, this.tip.node.y);
             let data = node.getComponent(MiniRoundHistoryItem).data;
             this.tip.setData(data);
             this.tip.show();
         },
         onLeave: (node: cc.Node) => {
+            this.selectedNode = null;
             this.tip.show(false);
         },
     }
@@ -33,6 +36,11 @@ export default class MiniRoundHistory extends cc.Component {
         });
     }
 
+    protected onUpdate(node: cc.Node) {
+        const data = node.getComponent(MiniRoundHistoryItem).data;
+        this.tip.node.active && this.tip.setData(data);
+    }
+
     public setData(datas: any[]) {
         this.items.forEach((item, index) => {
             if (index >= datas.length) {
@@ -42,5 +50,6 @@ export default class MiniRoundHistory extends cc.Component {
             item.setData(value);
             item.node.active = true;
         });
+        this.selectedNode && this.onUpdate(this.selectedNode);
     }
 }
