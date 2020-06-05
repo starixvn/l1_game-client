@@ -2,8 +2,10 @@ import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
 import * as _ from "lodash";
 import GameRoomBase from "../GameRoomBase";
+import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
 
 export default class GameBaseBetHandler implements DataHandler {
+    private playerChips = [];
     constructor(protected readonly main: GameBase) {
     }
 
@@ -29,7 +31,21 @@ export default class GameBaseBetHandler implements DataHandler {
             }
 
             if (data.playerChip) {
-                this.placePlayerChip(data.playerChip);
+                this.playerChips.push(data.playerChip);
+
+                let delayTime = 0;
+
+                if (this.main.currentTimeRemaining >= this.main.config.stopBetTime + 2) {
+                    delayTime = this.playerChips.length * 0.07;
+                }
+                else {
+                    delayTime = this.playerChips.length * 0.01;
+                }
+
+                this.main.node.runAction(cc.sequence(
+                    cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
+                    cc.callFunc(() => this.placePlayerChip(data.playerChip))
+                ));
             }
 
             if (data.chips && data.remainingTime < mainRoomGame.config.betTime) {
@@ -42,9 +58,9 @@ export default class GameBaseBetHandler implements DataHandler {
 
 
     placeOwnChip(data) {
-        var betOption = data.box;
-        var bet = data.bet;
-        var betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
+        const betOption = data.box.toLowerCase();
+        const bet = data.bet;
+        const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
 
         this.main.betChips.placeChipBet(
             bet,
@@ -55,7 +71,7 @@ export default class GameBaseBetHandler implements DataHandler {
         var gameRoomMain = this.main as GameRoomBase;
 
         if (gameRoomMain) {
-            var betOption = data.box;
+            var betOption = data.box.toLowerCase();
             var bet = data.bet;
             var startNode: cc.Node;
             var playerSlot = gameRoomMain.playerHandler.getPlayerSlot(data.playerId);
@@ -73,8 +89,8 @@ export default class GameBaseBetHandler implements DataHandler {
                     player.red = data.red;
                 }
             }
-
             this.main.betChips.placeChipBet(bet, betItem.chipNode, startNode);
+            this.playerChips.pop();
         }
     }
 
@@ -83,8 +99,10 @@ export default class GameBaseBetHandler implements DataHandler {
             return;
         }
 
+        const chipsKeys = getLowercaseObjectKeys(chips);
+
         _.forEach(this.main.betItems, item => {
-            var betItemData = chips[item.node.name.toLowerCase()];
+            const betItemData = chips[chipsKeys[item.node.name.toLowerCase()]];
             this.main.betChips.initChips(betItemData, item.chipNode);
         });
     }

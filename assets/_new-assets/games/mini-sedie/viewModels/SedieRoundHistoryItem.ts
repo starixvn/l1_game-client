@@ -9,14 +9,7 @@ export default class SedieRoundHistoryItem extends cc.Component {
     @property(cc.SpriteAtlas)
     atlas: cc.SpriteAtlas = null;
 
-    @property
-    tip = false;
-
-    public red: number = 0;
-
     public setValue(value: number) {
-        this.red = value;
-
         if (!this.sprite || !this.atlas) {
             return;
         }
@@ -34,32 +27,5 @@ export default class SedieRoundHistoryItem extends cc.Component {
                 break;
         }
         this.sprite.spriteFrame = this.atlas.getSpriteFrame(spriteName);
-    }
-
-    public listener = {
-        onEnter: (node: cc.Node) => { },
-        onLeave: (node: cc.Node) => { },
-    }
-
-    onEnable() {
-        if (this.tip) {
-            this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
-            this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLeave, this);
-        }
-    }
-
-    onDisable() {
-        if (this.tip) {
-            this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
-            this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLeave, this);
-        }
-    }
-
-    eventOnEnter() {
-        this.listener.onEnter(this.node);
-    }
-
-    eventOnLeave() {
-        this.listener.onLeave(this.node);
     }
 }

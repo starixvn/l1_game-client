@@ -1,6 +1,7 @@
 import LogControl from "../../keno-pro/view-models/LogControl";
 import SedieRoundHistoryItem from "./SedieRoundHistoryItem";
 import GameBase from "../../_base/GameBase";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,7 +36,11 @@ export default class SedieRoundHistory extends cc.Component {
     }
 
     public init(main: GameBase) {
-        this.logControl.init(main);
+        const condition = () => {
+            const finishHandler = main.finishHandler as GameBaseFinishHandler;
+            return main.currentTimeRemaining < main.config.stopBetTime || main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime();
+        }
+        this.logControl.init(condition);
     }
 
     private updateHistory(redData: any) {

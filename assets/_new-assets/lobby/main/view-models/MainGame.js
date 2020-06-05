@@ -254,12 +254,13 @@ cc.Class({
     if (void 0 !== data.red && this.header && this.header.userRed) {
       this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
     }
-
     if (void 0 !== window.openGameId) {
       if (window.openGameId == gameIds.XocXoc) {
         this.center.openGame(null, "XocXoc");
       } else if (window.openGameId == gameIds.KenoProMax) {
         this.center.openGame(null, "KenoProMax");
+      } else if (window.openGameId == gameIds.Baccarat) {
+        this.center.openGame(null, "baccarat");
       } else {
         cc.RedT.MiniPanel.openGame(window.openGameId);
       }

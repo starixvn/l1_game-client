@@ -17,6 +17,9 @@ import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
 import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameAudios from "../../_base/GameAudios";
+import LogControl from "../../keno-pro/view-models/LogControl";
+import RHRoundResultItem from "./RHRoundResultItem";
+import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -71,17 +74,14 @@ export default class RongHo extends cc.Component {
     @property(cc.Label)
     drawStats: cc.Label = null;
 
-    @property(cc.Node)
-    logsContainer: cc.Node = null;
-
-    @property({ type: cc.SpriteFrame })
-    dotSprites: cc.SpriteFrame[] = [];
-
     @property({ type: RongHoBetItem })
     betItems: RongHoBetItem[] = [];
 
     @property({ type: cc.Sprite })
     cards: cc.Sprite[] = [];
+
+    @property({ type: cc.Sprite })
+    cardBacks: cc.Sprite[] = [];
 
     @property(cc.SpriteAtlas)
     cardAtlas: cc.SpriteAtlas = null;
@@ -104,6 +104,18 @@ export default class RongHo extends cc.Component {
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
+    @property(LogControl)
+    logControl: LogControl = null;
+
+    @property(MiniRoundHistory)
+    miniRoundHistory: MiniRoundHistory = null;
+
+    @property(cc.Node)
+    scoreBoard: cc.Node = null;
+
+    @property(cc.AudioSource)
+    audioDrawCard: cc.AudioSource = null;
+
     public config: GameBaseConfigs
     public currentTimeRemaining: number;
     public disabledGame = false;
@@ -113,7 +125,6 @@ export default class RongHo extends cc.Component {
     public logs = [];
     public history: RongHoHistory;
 
-    private dots: cc.Sprite[];
     private dataHandlers: DataHandler[] = [];
     private gameName: string;
     private miniPanel: MiniPanel;
@@ -212,6 +223,11 @@ export default class RongHo extends cc.Component {
         cc.RedT.audio.playClick();
         this.miniPanel.openGuide("RongHo");
     }
+
+    public pressedShowScoreBoard() {
+        cc.RedT.audio.playClick();
+        this.scoreBoard.active = !this.scoreBoard.active;
+    }
     //#endregion
 
     //#region Component Methods
@@ -219,22 +235,15 @@ export default class RongHo extends cc.Component {
     }
 
     onLoad() {
-        var logNodes = this.logsContainer.children.map((child, index) => {
-            var sprites = child.children.map(item => {
-                item.active = false;
-                return item.getComponent(cc.Sprite);
-            });
-            if (index % 2 === 1) {
-                sprites.reverse();
-            }
-            return sprites;
-        });
-        this.dots = [].concat.apply([], logNodes);
         this.setOddLabels();
         this.setPhienLabel(0);
         this.initCards();
         this.animatedTime.node.active = false;
         this.initGameAudios();
+        const condition = () => {
+            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - this.resultAnimation.defaultClip.duration;
+        };
+        this.logControl.init(condition);
     }
 
     private initGameAudios() {
@@ -252,6 +261,7 @@ export default class RongHo extends cc.Component {
         this.resultAnimation.on("finished", () => {
             this.showResult(true);
         }, this);
+        this.cardBacks.forEach(back => back.node.scale = 1);
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
         this.regEvent(true);
         this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -263,6 +273,8 @@ export default class RongHo extends cc.Component {
     }
 
     onDisable() {
+        this.resultAnimation.stop();
+        this.drawAnimation.stop();
         this.resultAnimation.off("finished");
         cc.RedT.removeDataObserver(this.gameName);
         this.onGameHide();
@@ -318,6 +330,7 @@ export default class RongHo extends cc.Component {
             item.resetHighlight();
         });
         this.cards.forEach(card => card.node.active = false);
+        this.cardBacks.forEach(back => back.node.scale = 1);
         this.notice.children.forEach(child => child.destroy());
     }
 
@@ -448,19 +461,19 @@ export default class RongHo extends cc.Component {
         });
     }
 
-    private getWinItem(cards): string {
+    public static getWinItem(cards: { card: number, type: number }[]): number {
         if (cards.length != 2) {
-            return "";
+            return -1;
         }
 
         var card1 = cards[0];
         var card2 = cards[1];
         if (card1.card > card2.card) {
-            return "dragon";
+            return 0;
         } else if (card1.card < card2.card) {
-            return "tiger";
+            return 1;
         } else {
-            return "tie";
+            return 2;
         }
     }
 
@@ -503,27 +516,51 @@ export default class RongHo extends cc.Component {
         }
 
         //update display logs
-        var dragonCount = 0, tigerCount = 0, drawCount = 0;
-        var self = this;
+        let dragonCount = 0, tigerCount = 0, drawCount = 0;
+
+        const logControlData = [];
+        const result = [];
         this.logs.forEach((log, index) => {
-            var cards = log.result;
-            var winItem = self.getWinItem(cards);
-            self.dots[index].node.active = true;
+            let cards = log.result;
+            let winItem = RongHo.getWinItem(cards);
+            result.push(winItem);
+
             switch (winItem) {
-                case "dragon":
+                case 0:
                     dragonCount++;
-                    self.dots[index].spriteFrame = self.dotSprites[0];
                     break;
-                case "tie":
-                    drawCount++;
-                    self.dots[index].spriteFrame = self.dotSprites[2];
-                    break;
-                case "tiger":
+                case 1:
                     tigerCount++;
-                    self.dots[index].spriteFrame = self.dotSprites[1];
+                    break;
+                case 2:
+                    drawCount++;
                     break;
             }
         });
+
+        let count = 0;
+        for (let i = 0; i < result.length;) {
+            if (result[i] == 2)//draw
+            {
+                count++;
+                if (i == result.length - 1) { // show special last item
+                    logControlData.push({ item: 2, draw: count });
+                }
+            } else {
+                logControlData.push({
+                    item: result[i],
+                    draw: count
+                })
+                count = 0;
+            }
+            i++;
+        }
+        this.miniRoundHistory.setData(this.logs);
+
+        logControlData.reverse();
+        this.logControl.setData(logControlData.map(d => d.item));
+        const items = this.logControl.content.getComponentsInChildren(RHRoundResultItem);
+        items.forEach((item, index) => item.setValue(logControlData[index].draw));
 
         var dragonStats = Math.floor(dragonCount * 100 / this.logs.length);
         var drawStats = Math.floor(drawCount * 100 / this.logs.length);
@@ -540,8 +577,11 @@ export default class RongHo extends cc.Component {
             this.setPhienLabel(this.phienId);
             this.showResultCards(true);
 
-            var winItem = this.getWinItem(this.resultCards);
+            const betChoice = ["dragon", "tiger", "tie"];
+            const choiceWin = RongHo.getWinItem(this.resultCards);
+            var winItem = betChoice[choiceWin];
             if (winItem != "") {
+                this.gameAudios.playShowResultAudio();
                 this.resultFrame.active = true;
                 this.resultFrame.children.forEach(child => child.active = child.name == winItem);
                 this.highlightWonItem(true, winItem);
@@ -575,6 +615,20 @@ export default class RongHo extends cc.Component {
                     // this.resultAnimating = false; //comment for dont show result again after enable game.
                     this.showResult(false);
                     this.drawAnimation.play();
+                    this.audioDrawCard.setCurrentTime(.2);
+                    this.audioDrawCard.play();
+                    cc.tween(this)
+                        .delay(0.2)
+                        .call(() => {
+                            this.audioDrawCard.stop();
+                            this.audioDrawCard.setCurrentTime(.2);
+                            this.audioDrawCard.play();
+                        })
+                        .delay(.2)
+                        .call(() => {
+                            this.audioDrawCard.stop();
+                        })
+                        .start();
                 }
             } else {
                 //clear effect for result

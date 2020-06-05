@@ -195,19 +195,32 @@ cc.Class({
     gameAudiosPrefab: {
       default: null,
       type: cc.Prefab
+    },
+    balanceBetNoticePrefab: {
+      default: null,
+      type: cc.Prefab
+    },
+    balanceBetNoticeContainer: cc.Node,
+    userBetBigPercent: {
+      default: null,
+      type: cc.Sprite
+    },
+    userBetSmallPercent: {
+      default: null,
+      type: cc.Sprite
     }
   },
   init: function (obj) {
     this.TXRoot = obj;
-    cc.RedT.setting.taixiu.data = cc.RedT.setting.taixiu.data || {
-      taixiu: {},
-      chanle: {},
-      du_day: {}
-    };
+    cc.RedT.setting.taixiu.data = cc.RedT.setting.taixiu.data || { taixiu: {}, chanle: {}, du_day: {} };
 
     this.isNan = false;
     this.localResultDices = [];
     this.gameAudios = null;
+    this.redTai = 0;
+    this.redXiu = 0;
+    this.balanceBetNotice = null;
+    this.currentStatus = null;
 
     if (void 0 === cc.RedT.setting.taixiu.red) {
       cc.RedT.setting.taixiu.red = this.red;
@@ -228,13 +241,12 @@ cc.Class({
         temp.mod = dot.getComponent("TXLogTips");
         return temp;
       })
-    ).then(resulf => {
-      this.dotLogs = resulf;
-    });
+    ).then(resulf => { this.dotLogs = resulf; });
 
     this.onDiceAnimationFinish = function (event) {
       this.setDice(true);
-      this.showResult();
+      this.dataLogs();
+      !this.isNan && this.showResult();
       this.diceAnimation.node.active = false;
     };
 
@@ -604,7 +616,7 @@ cc.Class({
     if (void 0 !== data.logs) {
       cc.RedT.setting.taixiu.logs = data.logs;
       this.localResultDices = [...data.logs[0].dice];
-      if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
+      if (cc.RedT.setting.taixiu.time_remain > Constants.betTime && cc.RedT.setting.taixiu.time_remain < Constants.displayResultTime) {
         this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
         this.labelKetQua.string = this.diemSo;
         // if (!this.isNan) {
@@ -630,32 +642,32 @@ cc.Class({
           ],
           phien: data.finish.phien
         });
-        cc.RedT.setting.taixiu.logs.length > 120 &&
-          cc.RedT.setting.taixiu.logs.pop();
-        this.dataLogs();
+        cc.RedT.setting.taixiu.logs.length > 120 && cc.RedT.setting.taixiu.logs.pop();
+        //this.dataLogs();
         this.localResultDices = [...data.finish.dices];
-        this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
-        this.labelKetQua.string = this.diemSo;
 
-        if (this.isNan) {
-          this.diaNan.active = true;
-          this.diaNan.position = cc.v2(0, -11.5);
-          this.spriteNan.node.active = false;
-          this.onDiceAnimationFinish();
-        } else {
-          this.diceAnimation.node.active = true;
-          if (this.node.activeInHierarchy && cc.RedT.GAME_IS_SHOWED) {
-            this.diceAnimation.play();
-          } else {
-            this.onDiceAnimationFinish();
-          }
-        }
-        this.nodeTimeWait.active = true;
         this.AnimatedTime.node.active = false;
       }
-      cc.RedT.setting.taixiu.time_remain =
-        Constants.betTime + Constants.waitTime;
+      cc.RedT.setting.taixiu.time_remain = Constants.betTime + Constants.waitTime;
       this.playTime();
+    }
+  },
+  displayDiceResult: function () {
+    this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+    this.labelKetQua.string = this.diemSo;
+
+    if (this.isNan) {
+      this.diaNan.active = true;
+      this.diaNan.position = cc.v2(0, -11.5);
+      this.spriteNan.node.active = false;
+      this.onDiceAnimationFinish();
+    } else {
+      this.diceAnimation.node.active = true;
+      if (this.node.activeInHierarchy && cc.RedT.GAME_IS_SHOWED) {
+        this.diceAnimation.play();
+      } else {
+        this.onDiceAnimationFinish();
+      }
     }
   },
   updateShowResult: function () {
@@ -677,24 +689,32 @@ cc.Class({
     this.timeInterval = setInterval(
       function () {
         if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
-          // time count down to next phien
-          var time = helper.numberPad(
-            cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1,
-            2
-          );
-          this.showWaitTime(time);
+          const isBalanceBetTime = cc.RedT.setting.taixiu.time_remain > Constants.displayResultTime;
+          if (isBalanceBetTime) {
+            this.balanceBet(cc.RedT.setting.taixiu.time_remain == Constants.fullTime);
+          } else {
+            this.hideBalanceBetNotice();
+            if (cc.RedT.setting.taixiu.time_remain == Constants.displayResultTime) {
+              this.displayDiceResult();
+              this.showBetWinLoss()
+            }
+            // time count down to next phien
+            var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
+            this.showWaitTime(time);
 
-          if (this.localResultDices.length > 0) {
-            this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
-            this.labelKetQua.string = this.diemSo;
-            this.updateShowResult();
-          }
-          if (cc.RedT.setting.taixiu.logs) {
-            this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien);
+            if (this.localResultDices.length > 0) {
+              this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+              this.labelKetQua.string = this.diemSo;
+              this.updateShowResult();
+            }
+            if (cc.RedT.setting.taixiu.logs) {
+              this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien);
+            }
           }
         } else {
           this.resetUI();
           this.localResultDices = [];
+          this.currentStatus = null;
           if (cc.RedT.setting.taixiu.logs) {
             this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien + 1);
           }
@@ -756,53 +776,42 @@ cc.Class({
       cc.RedT.inGame.onGetTaiXiu(data.red_tai, data.red_xiu);
     }
 
-    if (this.red) {
-      if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
-        this.closeProcessingWarningPopup();
+    this.redTai = data.red_tai;
+    this.redXiu = data.red_xiu;
+    if (void 0 !== data.red_me_tai || void 0 !== data.red_me_xiu) {
+      this.closeProcessingWarningPopup();
+    }
+
+    if (void 0 !== data.red_tai) {
+      var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
+
+      if (sTai < data.red_tai) {
+        helper.numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
+      } else {
+        this.totalLeft.string = helper.numberWithCommas(data.red_tai);
       }
+    }
+    if (void 0 !== data.red_xiu) {
+      var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
 
-      if (void 0 !== data.red_tai) {
-        var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
-
-        if (sTai < data.red_tai) {
-          helper.numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
-        } else {
-          this.totalLeft.string = helper.numberWithCommas(data.red_tai);
-        }
+      if (sXiu < data.red_xiu) {
+        helper.numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
+      } else {
+        this.totalRight.string = helper.numberWithCommas(data.red_xiu);
       }
-      if (void 0 !== data.red_xiu) {
-        var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
+    }
 
-        if (sXiu < data.red_xiu) {
-          helper.numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
-        } else {
-          this.totalRight.string = helper.numberWithCommas(data.red_xiu);
-        }
-      }
-
-      void 0 !== data.red_me_tai &&
-        (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
-      void 0 !== data.red_me_xiu &&
-        (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
-      void 0 !== data.red_player_tai &&
-        (this.playerLeft.string = helper.numberWithCommas(data.red_player_tai));
-      void 0 !== data.red_player_xiu &&
-        (this.playerRight.string = helper.numberWithCommas(
-          data.red_player_xiu
-        ));
-    } else {
-      void 0 !== data.xu_tai &&
-        (this.totalLeft.string = helper.numberWithCommas(data.xu_tai));
-      void 0 !== data.xu_xiu &&
-        (this.totalRight.string = helper.numberWithCommas(data.xu_xiu));
-      void 0 !== data.xu_me_tai &&
-        (this.myLeft.string = helper.numberWithCommas(data.xu_me_tai));
-      void 0 !== data.xu_me_xiu &&
-        (this.myRight.string = helper.numberWithCommas(data.xu_me_xiu));
-      void 0 !== data.xu_player_tai &&
-        (this.playerLeft.string = helper.numberWithCommas(data.xu_player_tai));
-      void 0 !== data.xu_player_xiu &&
-        (this.playerRight.string = helper.numberWithCommas(data.xu_player_xiu));
+    void 0 !== data.red_me_tai && (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
+    void 0 !== data.red_me_xiu && (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
+    if (void 0 !== data.red_player_tai) {
+      const betTaiPercent = parseInt(data.red_player_tai) >> 0;
+      this.playerLeft.string = betTaiPercent + "%";
+      this.userBetBigPercent.fillRange = (betTaiPercent / 100);
+    }
+    if (void 0 !== data.red_player_xiu) {
+      const betXiuPercent = parseInt(data.red_player_xiu) >> 0;
+      this.playerRight.string = betXiuPercent + "%";
+      this.userBetSmallPercent.fillRange = -(betXiuPercent / 100);
     }
   },
   onDuDay: function (data) {
@@ -845,8 +854,8 @@ cc.Class({
             var point = data.dice[0] + data.dice[1] + data.dice[2];
             dot.node.active = true;
             dot.node.phien = data.phien;
-            dot.mod.text.string =
-              data.dice[0] + "-" + data.dice[1] + "-" + data.dice[2];
+            dot.mod.round.string = `#${data.phien}`;
+            dot.mod.text.string = `${point < 11 ? "XỈU" : "TÀI"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
             dot.spriteFrame = self.taixiu
               ? point < 11
                 ? self.dot_white
@@ -1028,7 +1037,9 @@ cc.Class({
   },
   reset: function () {
     this.isNan && this.dataLogs();
-    cc.RedT.setting.taixiu.data.chanle.red_chan = cc.RedT.setting.taixiu.data.chanle.red_le = cc.RedT.setting.taixiu.data.chanle.red_me_chan = cc.RedT.setting.taixiu.data.chanle.red_me_le = cc.RedT.setting.taixiu.data.chanle.red_player_chan = cc.RedT.setting.taixiu.data.chanle.red_player_le = cc.RedT.setting.taixiu.data.chanle.xu_chan = cc.RedT.setting.taixiu.data.chanle.xu_le = cc.RedT.setting.taixiu.data.chanle.xu_me_chan = cc.RedT.setting.taixiu.data.chanle.xu_me_le = cc.RedT.setting.taixiu.data.chanle.xu_player_chan = cc.RedT.setting.taixiu.data.chanle.xu_player_le = cc.RedT.setting.taixiu.data.taixiu.red_me_tai = cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu.data.taixiu.red_player_tai = cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu.data.taixiu.red_tai = cc.RedT.setting.taixiu.data.taixiu.red_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_tai = cc.RedT.setting.taixiu.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = 0;
+    cc.RedT.setting.taixiu.data.chanle.red_chan = cc.RedT.setting.taixiu.data.chanle.red_le = cc.RedT.setting.taixiu.data.chanle.red_me_chan = cc.RedT.setting.taixiu.data.chanle.red_me_le = cc.RedT.setting.taixiu.data.chanle.red_player_chan = cc.RedT.setting.taixiu.data.chanle.red_player_le = cc.RedT.setting.taixiu.data.chanle.xu_chan = cc.RedT.setting.taixiu.data.chanle.xu_le = cc.RedT.setting.taixiu.data.chanle.xu_me_chan = cc.RedT.setting.taixiu.data.chanle.xu_me_le = cc.RedT.setting.taixiu.data.chanle.xu_player_chan = cc.RedT.setting.taixiu.data.chanle.xu_player_le = cc.RedT.setting.taixiu.data.taixiu.red_me_tai = cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu.data.taixiu.red_player_tai = cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu.data.taixiu.red_tai = cc.RedT.setting.taixiu.data.taixiu.red_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_tai = cc.RedT.setting.taixiu.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = 0;
+    this.playerLeft.string = this.playerRight.string = "0%";
+    this.userBetBigPercent.fillRange = this.userBetSmallPercent.fillRange = 0;
     this.gameAudios && this.gameAudios.playStartGameAudio();
   },
   setDefautl: function () {
@@ -1041,15 +1052,7 @@ cc.Class({
       return;
     }
 
-    setTimeout(
-      function () {
-        if (!this.isNan) {
-          this.showBetWinLoss(data);
-        }
-        cc.RedT.send({ taixiu: { get_new: true } });
-      }.bind(this),
-      2e3
-    );
+    this.currentStatus = data;
   },
   showResult: function () {
     if (!cc.RedT.GAME_IS_SHOWED || this.isUM) {
@@ -1067,7 +1070,16 @@ cc.Class({
       this.winningXiu.play();
     }
   },
-  showBetWinLoss: function (data) {
+  showBetWinLoss: function () {
+    setTimeout(
+      function () {
+        if (!this.isNan) {
+          this.currentStatus && this.showBetWinLossAnimation(this.currentStatus);
+        }
+        cc.RedT.send({ taixiu: { get_new: true } });
+      }.bind(this), 1000);
+  },
+  showBetWinLossAnimation: function (data) {
     if (!cc.RedT.GAME_IS_SHOWED || !this.notice) {
       return;
     }
@@ -1083,7 +1095,7 @@ cc.Class({
     this.notice.addChild(temp.node);
     temp.node.runAction(
       cc.sequence(
-        cc.moveTo(3, cc.v2(data.select ? -252 : 252, 130)),
+        cc.moveTo(2, cc.v2(data.select ? -252 : 252, 130)),
         cc.callFunc(function () {
           this.node.destroy();
         }, temp)
@@ -1119,7 +1131,8 @@ cc.Class({
   onGameHide() {
     this.timeInterval && clearInterval(this.timeInterval);
     this.resetUI();
-    this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = this.playerLeft.string = this.playerRight.string = '';
+    this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = '';
+    this.playerLeft.string = this.playerRight.string = "0%";
   },
   resetBetButtonText() {
     this.inputLTxt.string = "ĐẶT CỬA"
@@ -1127,5 +1140,36 @@ cc.Class({
   },
   playCenterRoundLight() {
     this.centerRoundLight.node.runAction(cc.repeatForever(cc.rotateBy(1, 360)));
-  }
+  },
+
+  showBalanceBetNotice() {
+    this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
+    this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
+  },
+
+  balanceBet(showNotice = false) {
+    const isLechTai = this.redTai > this.redXiu;
+    const hasAnimation = showNotice && !this.balanceBetNotice;
+    hasAnimation && this.showBalanceBetNotice();
+    if (isLechTai) {
+      if (hasAnimation) {
+        helper.numberTo(this.totalLeft, 0, this.redXiu, 1000, true);
+      } else {
+        this.totalLeft.string = helper.numberWithCommas(this.redXiu);
+      }
+      this.totalRight.string = helper.numberWithCommas(this.redXiu);
+    } else {
+      if (hasAnimation) {
+        helper.numberTo(this.totalRight, 0, this.redTai, 1000, true)
+      } else {
+        this.totalRight.string = helper.numberWithCommas(this.redTai);
+      }
+      this.totalLeft.string = helper.numberWithCommas(this.redTai);
+    }
+  },
+
+  hideBalanceBetNotice() {
+    this.balanceBetNoticeContainer.destroyAllChildren();
+    this.balanceBetNotice = null;
+  },
 });

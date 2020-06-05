@@ -9,12 +9,17 @@ export interface IGameBaseTimeHandler extends DataHandler {
     playTime(): void;
     stopPlayTime(): void;
     resetTime(): void;
+    isInWaitTime: boolean;
 }
 
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     playTimeInterval: number;
 
     constructor(protected readonly main: GameBase) {
+    }
+
+    get isInWaitTime() {
+        return this.main.currentTimeRemaining > this.main.config.betTime;
     }
 
     handle(data: any): boolean {
@@ -37,7 +42,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
 
         this.playTimeInterval = setInterval(() => {
-            const isInWaitTime = this.main.currentTimeRemaining > this.main.config.betTime;
+            const isInWaitTime = this.isInWaitTime;
 
             if (isInWaitTime) {
                 this.handleWaitTime();
@@ -52,6 +57,12 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
                 if (isInRoundTime) {
                     this.handleInRoundTime();
+
+                    const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
+
+                    if (isInLockBetTime) {
+                        this.handleInLockBetTime();
+                    }
                 } else {
                     this.main.animatedTime.node.active = false;
                     clearInterval(this.playTimeInterval);
@@ -68,7 +79,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     handleWaitTime() {
         var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - 1, 2);
         this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
-        this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
+        this.main.timeWaitLabel.string = numberPad(time, 2);
         this.main.animatedTime.node.active = false;
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId);
@@ -91,5 +102,8 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         var time = numberPad(this.main.currentTimeRemaining, 2);
         this.main.animatedTime.setTime(time);
         this.main.setGameRound(this.main.roundId + 1);
+    }
+
+    handleInLockBetTime() {
     }
 }

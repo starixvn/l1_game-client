@@ -41,23 +41,35 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
             const isInWaitTime = self.main.currentTimeRemaining > this.main.root.gameConfigs.betTime;
 
             if (isInWaitTime) {
-                var time = numberPad(self.main.currentTimeRemaining - this.main.root.gameConfigs.betTime - 1, 2);
-                self.showWaitTime(time);
-
-                if (self.main.isNan) {
-                    if (self.main.currentTimeRemaining < this.main.root.gameConfigs.nanTime) {
-                        self.main.showDices(true);
-                        self.main.showBetResult();
-                        self.main.diaNan.node.active = false;
+                const isBalanceBetTime = self.main.currentTimeRemaining > this.main.root.gameConfigs.displayResultTime;
+                if (isBalanceBetTime) {
+                    self.main.balanceBet(self.main.currentTimeRemaining == this.main.root.gameConfigs.fullTime);
+                } else {
+                    self.main.hideBetBalanceNotice();
+                    if (self.main.currentTimeRemaining == this.main.root.gameConfigs.displayResultTime) {
+                        this.main.showResult();
+                        this.main.currentStatus && this.main.showUserWinLoss(this.main.currentStatus);
                     }
-                }
 
-                if (self.logsDataHandler.dataLogs) {
-                    self.main.setTurnLabel(self.logsDataHandler.dataLogs[0].phien);
+                    var time = numberPad(self.main.currentTimeRemaining - this.main.root.gameConfigs.betTime - 1, 2);
+                    self.showWaitTime(time);
+
+                    if (self.main.isNan) {
+                        if (self.main.currentTimeRemaining < this.main.root.gameConfigs.nanTime) {
+                            self.main.showDices(true);
+                            self.main.showBetResult();
+                            self.main.diaNan.node.active = false;
+                        }
+                    }
+
+                    if (self.logsDataHandler.dataLogs) {
+                        self.main.setTurnLabel(self.logsDataHandler.dataLogs[0].phien);
+                    }
                 }
             } else {
                 self.main.resetUI();
                 self.main.currentResultDices = [];
+                self.main.currentStatus = null;
                 const isStartingNewTurn = self.main.currentTimeRemaining == this.main.root.gameConfigs.betTime;
                 const isInTurnTime = self.main.currentTimeRemaining > this.main.root.gameConfigs.minBetTime;
 
@@ -74,7 +86,6 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
                     var time = numberPad(self.main.currentTimeRemaining - 1, 2);
                     self.main.animatedTime.setTime(time);
                     self.main.diaNanSprite.node.active = !this.main.hideDiaNan;
-                    self.main.animatedTime.node.active = true;
                 } else {
                     clearInterval(self.playTimeInterval);
                 }
@@ -88,7 +99,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
     }
 
     private showWaitTime(time: number) {
-        this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
+        this.main.timeWaitNode.active = true;
         this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
     }
 }

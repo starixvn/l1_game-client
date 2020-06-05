@@ -27,7 +27,7 @@ export default class AnimatedTime extends cc.Component {
         this.animatedYBottom = yBottom;
     }
 
-    public setTime(time: number, forceChangeColor = false) {
+    public setTime(time: string, forceChangeColor = false) {
         this.node.active = true;
         var firstTimeChar = time.toString().substr(0, 1);
         var secondTimeChar = time.toString().substr(1, 1);
@@ -40,7 +40,7 @@ export default class AnimatedTime extends cc.Component {
         this.firstChar.string = firstTimeChar;
         this.secondChar.string = secondTimeChar;
 
-        var colorChange = (forceChangeColor || (this.timeToChangeColor != undefined && time <= this.timeToChangeColor));
+        var colorChange = (forceChangeColor || (this.timeToChangeColor != undefined && parseInt(time) <= this.timeToChangeColor));
         this.firstChar.node.color = colorChange ? this.changedColor : cc.Color.WHITE;
         this.secondChar.node.color = this.firstChar.node.color;
     }

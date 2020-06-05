@@ -171,7 +171,6 @@ cc.Class({
 		this.indexBox = 3;
 	},
 	onDestroy() {
-		cc.RedT.MiniPanel.destroy();
 		cc.RedT.inGame = null;
 		this.nodeBat.stopAllActions();
 		this.node.stopAllActions();
@@ -229,7 +228,10 @@ cc.Class({
 		}
 		var node = cc.instantiate(this.roundHistoryPrefab);
 		this.roundHistory = node.getComponent("SedieRoundHistory");
-		this.roundHistory.logControl.initOldGame(this, 5, 39);
+		const condition = () => {
+			return this.time_remain < 5 || this.time_remain > 39;
+		};
+		this.roundHistory.logControl.init(condition);
 		this.roundHistoryContainer.addChild(node);
 
 		var mini = cc.instantiate(this.miniRoundHistoryPrefab);
@@ -1006,17 +1008,20 @@ cc.Class({
 		this.clients.red.white4 = 0;
 	},
 	updateRoundHistory: function () {
-		const redData = this.logs.map(d => {
+		const miniHistoryData = this.logs.map(d => {
 			let count = 0;
 			for (let i = 0; i < 4; i++) {
 				if (d.dots[i]) {
 					count++;
 				}
 			}
-			return count;
+			return {
+				roundId: d.roundId || d.id || d.round,
+				red: count
+			};
 		});
-		this.roundHistory.setData(redData);
-		this.miniRoundHistory.setData(redData);
+		this.roundHistory.setData(miniHistoryData.map(d => d.red));
+		this.miniRoundHistory.setData(miniHistoryData);
 	},
 	setLogs: function () {
 		/*

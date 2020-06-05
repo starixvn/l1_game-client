@@ -3,6 +3,7 @@ cc.Class({
 	extends: cc.Component,
 
 	properties: {
+		getCardAudio: cc.AudioSource,
 		card1: {
 			default: [],
 			type: cc.SpriteFrame,
@@ -118,5 +119,8 @@ cc.Class({
 	},
 	random: function (number = 13) {
 		return this.card[~~(Math.random() * number)][~~(Math.random() * 4)];
+	},
+	playGetCardAudio: function () {
+		this.getCardAudio && this.getCardAudio.play();
 	}
 });

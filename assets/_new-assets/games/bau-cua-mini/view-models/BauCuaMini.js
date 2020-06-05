@@ -303,6 +303,10 @@ cc.Class({
     this.Top = dialog.getComponent("BauCuaTop");
     this.Top.init(this);
   },
+  pressedShowScoreBoard() {
+    cc.RedT.audio.playClick();
+    this.logNode.active = !this.logNode.active;
+  },
   pressedHistoryDialog() {
     cc.RedT.audio.playClick();
 

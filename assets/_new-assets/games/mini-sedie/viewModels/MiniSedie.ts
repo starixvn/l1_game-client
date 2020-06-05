@@ -44,7 +44,6 @@ export default class MiniSedie extends GameMiniBase {
     public roundHistory: SedieRoundHistory = null;
     public miniRoundHistory: SedieMiniRoundHistory = null;
     private showLogs = true;
-    private configs: any;
     public resultAnimating = false;
 
     onLoad() {
@@ -80,9 +79,6 @@ export default class MiniSedie extends GameMiniBase {
 
     receivedData(data) {
         if (data.miniSedie) {
-            if (data.miniSedie.configs) {
-                this.configs = data.miniSedie.configs;
-            }
             this.onData(data.miniSedie);
         }
     }
@@ -120,7 +116,7 @@ export default class MiniSedie extends GameMiniBase {
     }
 
     public updateRoundHistory() {
-        const redData = this.currentDataLogs.map(d => {
+        const miniHistoryData = this.currentDataLogs.map(d => {
             let count = 0;
             const list = ["red1", "red2", "red3", "red4"];
             list.forEach(i => {
@@ -128,10 +124,13 @@ export default class MiniSedie extends GameMiniBase {
                     count++;
                 }
             });
-            return count;
+            return {
+                roundId: d.roundId || d.id,
+                red: count
+            };
         });
-        this.roundHistory.setData(redData);
-        this.miniRoundHistory.setData(redData);
+        this.roundHistory.setData(miniHistoryData.map(d => d.red));
+        this.miniRoundHistory.setData(miniHistoryData);
     }
 
     public onToggleShowRoundResult() {
@@ -151,7 +150,7 @@ export default class MiniSedie extends GameMiniBase {
     public openGuide() {
         let dialog = cc.instantiate(this.guidePrefab);
         var guide = dialog.getComponent("XocXoc_guide");
-        guide.init(this.configs);
+        guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }
 }

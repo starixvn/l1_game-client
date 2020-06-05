@@ -1,6 +1,6 @@
 import Keno from "./Keno";
 import LogControl from "./LogControl";
-import StatisticProgress from "../../../common/statistic-progress/StatisticProgress";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 
 const { ccclass, property } = cc._decorator;
 interface StatisticData {
@@ -16,18 +16,11 @@ enum HistoryOption {
 
 @ccclass
 export default class RoundHistory extends cc.Component {
-
-    @property(cc.Node)
-    options: cc.Node = null;
+    @property({ type: cc.Label })
+    statisticLabels: cc.Label[] = [];
 
     @property(LogControl)
-    logControl: LogControl = null;
-
-    @property(StatisticProgress)
-    statisticProgesses: StatisticProgress = null;
-
-    @property(StatisticProgress)
-    statisticProgesses2: StatisticProgress = null;
+    sharedLogControl: LogControl = null;
 
     @property({ type: cc.Node })
     bigSmallItem: cc.Node[] = [];
@@ -37,6 +30,9 @@ export default class RoundHistory extends cc.Component {
 
     @property({ type: cc.Node })
     fiveElementsItem: cc.Node[] = [];
+
+    @property({ type: cc.Node })
+    waterMarks: cc.Node[] = [];
 
     private main: Keno;
     private statisticData: StatisticData[] = [];
@@ -72,35 +68,37 @@ export default class RoundHistory extends cc.Component {
 
     public init(main: Keno) {
         this.main = main;
-        this.logControl.init(main);
+        const condition = () => {
+            const finishHandler = main.finishHandler as GameBaseFinishHandler;
+            return main.currentTimeRemaining < main.config.stopBetTime || main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime();
+        }
+        this.sharedLogControl.init(condition);
     }
 
-    public onOptionClick(event: cc.Component.EventHandler, game) {
-        this.currentOption = this.getIndexOption(event.target.name);
+    public onPressPrevious() {
+        this.currentOption--;
+        if (this.currentOption < 0) {
+            this.currentOption = 2;
+        }
         this.updateDisplay();
     }
 
-    private getIndexOption(name: string): number {
-        var index = 0;
-        switch (name) {
-            case "tai-xiu":
-                index = HistoryOption.BigSmall;
-                break;
-            case "chan-le":
-                index = HistoryOption.EvenOdd;
-                break;
-            case "ngu-hanh":
-                index = HistoryOption.FiveElements;
-                break;
+    public onPressNext() {
+        this.currentOption++;
+        if (this.currentOption > 2) {
+            this.currentOption = 0;
         }
-        return index;
+        this.updateDisplay();
     }
 
     private updateDisplay() {
+        this.waterMarks.forEach((waterMark, index) => {
+            waterMark.active = index === this.currentOption;
+        })
         switch (this.currentOption) {
             case 0:
                 this.showBigSmall();
-                break;
+                break
             case 1:
                 this.showEvenOdd();
                 break;
@@ -108,19 +106,13 @@ export default class RoundHistory extends cc.Component {
                 this.showFiveElements();
                 break;
         }
-
-        this.options.children.forEach((child, i) => {
-            var selected = this.getIndexOption(child.name) == this.currentOption;
-            child.children[0].active = !selected;
-            child.children[1].color = selected ? cc.color(165, 137, 35) : cc.color(178, 178, 178);
-        });
     }
 
     public setData(data: any) {
         this.node.active = true;
 
-        var results: string[][] = data.map(d => {
-            var settlementResult = d.settlementResult;
+        const results: string[][] = data.map(d => {
+            const settlementResult = d.settlementResult;
             return this.main.getResults(settlementResult);
         });
 
@@ -139,57 +131,71 @@ export default class RoundHistory extends cc.Component {
 
         results.reverse().forEach(result => {
             result.forEach(e => {
-                var statistic = this.statisticData[this.dataIndexDictionary[e]];
+                const statistic = this.statisticData[this.dataIndexDictionary[e]];
                 statistic.data.push(this.indexDictionary[e]);
                 statistic.statistic[this.indexDictionary[e]]++;
             })
         });
 
+        this.updateStatistics();
         this.updateDisplay();
     }
 
     private showBigSmall() {
-        this.logControl.items = this.bigSmallItem;
-        this.statisticProgesses.prefixes = ["TÀI", "XỈU"];
-        var statisticData = this.statisticData[HistoryOption.BigSmall];
-        this.updataStatistic(this.statisticProgesses, statisticData);
-
-        this.statisticProgesses.node.active = true;
-        this.statisticProgesses2.node.active = false;
+        this.sharedLogControl.items = this.bigSmallItem;
+        const statisticData = this.statisticData[HistoryOption.BigSmall];
+        this.updataLogControl(statisticData);
     }
 
     private showEvenOdd() {
-        this.logControl.items = this.evenOddItem;
-        this.statisticProgesses.prefixes = ["CHẴN", "LẺ"];
-        var statisticData = this.statisticData[HistoryOption.EvenOdd];
-        this.updataStatistic(this.statisticProgesses, statisticData);
-
-        this.statisticProgesses.node.active = true;
-        this.statisticProgesses2.node.active = false;
+        this.sharedLogControl.items = this.evenOddItem;
+        const statisticData = this.statisticData[HistoryOption.EvenOdd];
+        this.updataLogControl(statisticData);
     }
 
     private showFiveElements() {
-        this.logControl.items = this.fiveElementsItem;
-        this.statisticProgesses2.prefixes = ["KIM", "MỘC", "THUỶ", "HOẢ", "THỔ"];
-        var statisticData = this.statisticData[HistoryOption.FiveElements];
-
-        // data test
-        // statisticData.statistic = [1, 10, 78, 10, 1];
-        // statisticData.data = statisticData.data.slice(0, 100);
-        this.updataStatistic(this.statisticProgesses2, statisticData);
-
-        this.statisticProgesses.node.active = false;
-        this.statisticProgesses2.node.active = true;
+        this.sharedLogControl.items = this.fiveElementsItem;
+        const statisticData = this.statisticData[HistoryOption.FiveElements];
+        this.updataLogControl(statisticData);
     }
 
-    private updataStatistic(progress: StatisticProgress, statisticData: any) {
-        var data = statisticData.data;
+    private updataLogControl(statisticData: any) {
+        const data = statisticData.data;
+        this.sharedLogControl.setData(data);
+    }
 
-        if (data.length > 0) {
-            progress.setProgress(statisticData.statistic, data.length);
-        } else {
-            progress.clear();
-        }
-        this.logControl.setData(data);
+    private updateStatistics() {
+        const statisticBigSmall = this.statisticData[HistoryOption.BigSmall];
+        const big = statisticBigSmall.statistic[0];
+        const small = statisticBigSmall.statistic[1];
+        const bigValue = Math.round(big * 100 / (big + small));
+        this.statisticLabels[0].string = `${bigValue}%`;
+        this.statisticLabels[1].string = `${100 - bigValue}%`;
+
+        const statisticEvenOdd = this.statisticData[HistoryOption.EvenOdd];
+        const even = statisticEvenOdd.statistic[0];
+        const odd = statisticEvenOdd.statistic[1];
+        const evenValue = Math.round(even * 100 / (even + odd));
+        this.statisticLabels[2].string = `${evenValue}%`;
+        this.statisticLabels[3].string = `${100 - evenValue}%`;
+
+        const statisticFiveElements = this.statisticData[HistoryOption.FiveElements];
+        const gold = statisticFiveElements.statistic[0];
+        const wood = statisticFiveElements.statistic[1];
+        const water = statisticFiveElements.statistic[2];
+        const fire = statisticFiveElements.statistic[3];
+        const earth = statisticFiveElements.statistic[4];
+        const total = gold + wood + water + fire + earth;
+
+        const goldValue = Math.round(gold * 100 / total);
+        const woodValue = Math.round(wood * 100 / total);
+        const earthValue = Math.round(earth * 100 / total);
+        const fireValue = Math.round(fire * 100 / total);
+        const waterValue = 100 - (goldValue + woodValue + earthValue + fireValue);
+        this.statisticLabels[4].string = `${goldValue}%`;
+        this.statisticLabels[5].string = `${woodValue}%`;
+        this.statisticLabels[6].string = `${waterValue}%`;
+        this.statisticLabels[7].string = `${fireValue}%`;
+        this.statisticLabels[8].string = `${earthValue}%`;
     }
 }

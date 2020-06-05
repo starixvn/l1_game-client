@@ -112,6 +112,18 @@ export default class MiniPanel extends cc.Component {
         this.guide.onData(data);
       }
     }
+
+    if (data.kickedOut) {
+      this.onDataKickedOut(data.kickedOut);
+    }
+
+    if (data.apiError) {
+      this.onDataError(data);
+    }
+
+    if (data.reload) {
+      this.onForceReload();
+    }
   }
 
   onDataError(apiErrorData: any) {
@@ -235,18 +247,18 @@ export default class MiniPanel extends cc.Component {
 
       if (!isAlreadyOpened) {
         this.loading.node.active = true;
-        cc.loader.loadRes(prefabPath, function (err, prefab) {
-          if (prefab === null) {
+        cc.loader.loadRes(prefabPath, (err: Error, prefab: any) => {
+          if (prefab === null || !this.node.isValid) {
             return;
           }
 
           let node = cc.instantiate(prefab);
           gameComponent = node.getComponent(componentName);
           initFunc ? initFunc(gameComponent) : gameComponent.init(this);
-          this.miniGames.addChild(gameComponent.node);
+          this.miniGames && this.miniGames.addChild(gameComponent.node);
           gameComponent.openGame();
           this.loading.node.active = false;
-        }.bind(this));
+        });
       }
       else {
         showGameFunc();

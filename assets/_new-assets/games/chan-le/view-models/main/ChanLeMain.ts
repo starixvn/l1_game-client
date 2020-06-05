@@ -2,7 +2,7 @@ const { ccclass, property } = cc._decorator;
 import ChanLe from './../ChanLe';
 import BetBoard from './../bet-board/ChanLeBetBoard';
 import DiaNan from './ChanLeDiaNan';
-import { getOnlyNumberInString, numberWithCommas } from '../../../../common/helpers/Helper';
+import { getOnlyNumberInString, numberWithCommas, numberTo, inputNumber } from '../../../../common/helpers/Helper';
 import ProcessingWarning from './../../../../common/processing-warning/view-models/ProcessingWarning';
 import * as ScaleEffect from './../../../tai-xiu/view-models/main-page/TXScale';
 import AnimatedTime from './../../../../common/animated-time/view-models/AnimatedTime';
@@ -143,14 +143,29 @@ export default class ChanLeMain extends cc.Component {
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    balanceBetNoticePrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    balanceBetNoticeContainer: cc.Node = null;
+
+    @property(cc.Sprite)
+    userBetLeftPercent: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    userBetRightPercent: cc.Sprite = null;
+
     //#endregion
     isNan = false;
     root: ChanLe;
     isDisabled = false;
     currentResultDices: number[];
     currentTimeRemaining: number;
+    currentStatus: any;
     hideDiaNan: boolean;
     gameAudios: GameAudios;
+    redChan: number;
+    redLe: number;
 
     private static readonly DAT_CUOC = "ĐẶT CỬA";
     private readonly umDataHandler: DataHandler;
@@ -169,6 +184,7 @@ export default class ChanLeMain extends cc.Component {
     private processingWarning: ProcessingWarning;
     private currentInputBet: cc.Label;
     private currentInputSide: string;
+    private balanceBetNotice: cc.Node = null;
 
     get dataLogs() {
         return this.logsDataHandler.dataLogs;
@@ -312,6 +328,7 @@ export default class ChanLeMain extends cc.Component {
 
     onDiceAnimationFinished() {
         this.showDices(true);
+        this.logsDataHandler.buildDotLogs(this.logsDataHandler.dataLogs);
         !this.isNan && this.showBetResult();
         this.diceAnimation.node.active = false;
     }
@@ -393,8 +410,83 @@ export default class ChanLeMain extends cc.Component {
         this.totalBetLeft.string
             = this.totalBetRight.string
             = this.userBetLeft.string
-            = this.userBetRight.string
-            = this.playersLeft.string
-            = this.playersRight.string = '0';
+            = this.userBetRight.string = '0';
+        this.playersLeft.string = this.playersRight.string = "0%"
+        this.userBetLeftPercent.fillRange = this.userBetRightPercent.fillRange = 0;
+    }
+
+    balanceBet(showNotice = false) {
+        const hasAnimation = showNotice && !this.balanceBetNotice;
+        if (hasAnimation) {
+            this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
+            this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
+        }
+
+        const isLechChan = this.redChan > this.redLe;
+        if (isLechChan) {
+            if (hasAnimation) {
+                numberTo(this.totalBetLeft, 0, this.redLe, 1000, true);
+            } else {
+                this.totalBetLeft.string = numberWithCommas(this.redLe);
+            }
+            this.totalBetRight.string = numberWithCommas(this.redLe);
+        } else {
+            if (hasAnimation) {
+                numberTo(this.totalBetRight, 0, this.redChan, 1000, true)
+            } else {
+                this.totalBetRight.string = numberWithCommas(this.redChan);
+            }
+            this.totalBetLeft.string = numberWithCommas(this.redChan);
+        }
+    }
+
+    hideBetBalanceNotice() {
+        this.balanceBetNoticeContainer.destroyAllChildren();
+        this.balanceBetNotice = null;
+    }
+
+    showResult() {
+        if (this.isNan) {
+            this.diaNan.node.active = true;
+            this.diaNan.node.position = cc.v2(0, -11.5);
+            this.diaNanSprite.node.active = false;
+            this.onDiceAnimationFinished();
+        } else {
+            this.diceAnimation.node.active = true;
+            this.diceAnimation.play();
+        }
+    }
+
+    showUserWinLoss(data) {
+        setTimeout(() => {
+            if (!this.isNan) {
+                this.showUserWinLossAnimation(data);
+            }
+            this.root.sendData({ get_new: true });
+        }, 1000);
+    }
+
+    private showUserWinLossAnimation(data) {
+        if (!this.notice) {
+            return;
+        }
+
+        var resultNode = new cc.Node();
+        resultNode.addComponent(cc.Label);
+        var resultLabel = resultNode.getComponent(cc.Label);
+        resultLabel.string = (data.win ? "+" : "-") + numberWithCommas(data.bet);
+        resultLabel.font = data.win ? this.fontPlus : this.fontMinus;
+        resultLabel.lineHeight = 130;
+        resultLabel.fontSize = 25;
+        resultLabel.node.position = cc.v2(data.select ? -245 : 245, -50);
+        this.notice.addChild(resultLabel.node);
+        resultLabel.node.runAction(
+            cc.sequence(
+                cc.moveTo(2, cc.v2(data.select ? -245 : 245, 130)),
+                cc.callFunc(function () {
+                    this.node.destroy();
+                }, resultLabel)
+            )
+        );
     }
 }

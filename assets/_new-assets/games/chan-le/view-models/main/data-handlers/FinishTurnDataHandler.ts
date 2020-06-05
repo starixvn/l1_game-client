@@ -23,17 +23,6 @@ export default class FinishTurnDataHandler extends BaseDataHandler implements Da
         this.logsDataHandler.updateDataLogs(data);
         this.main.currentResultDices = [...data.finish.dices];
 
-        if (this.main.isNan) {
-            this.main.diaNan.node.active = true;
-            this.main.diaNan.node.position = cc.v2(0, -11.5);
-            this.main.diaNanSprite.node.active = false;
-            this.main.onDiceAnimationFinished();
-        } else {
-            this.main.diceAnimation.node.active = true;
-            this.main.diceAnimation.play();
-        }
-
-        this.main.timeWaitNode.active = true;
         this.main.animatedTime.node.active = false;
         this.main.currentTimeRemaining = this.main.root.gameConfigs.betTime + this.main.root.gameConfigs.waitTime;
         this.timeDataHandler.playTime();

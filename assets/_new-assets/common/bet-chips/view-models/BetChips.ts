@@ -157,7 +157,7 @@ export default class BetChips extends cc.Component {
             if (chip) {
                 var cloneChip = cc.instantiate(chip);
                 cloneChipsBox.addChild(cloneChip);
-                chip.destroy();
+                // chip.destroy();
                 this.startMoveChip(cloneChip, destBoxInChipBoxSpacePosition, flyTime);
             }
         }
@@ -209,6 +209,10 @@ export default class BetChips extends cc.Component {
     }
 
     public initChips(chipsData: any, chipsBox: cc.Node) {
+        if (!chipsData) {
+            return;
+        }
+
         var chipBets = Object.keys(chipsData);
 
         _.forEach(chipBets, (chipBet) => {

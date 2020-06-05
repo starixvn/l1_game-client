@@ -14,6 +14,7 @@ const configs = {
         RongHo: 7,
         KenoProMax: 8,
         MiniSedie: 9,
+        Baccarat: 10
     },
     gameNames: {
         1: "Tài Xỉu",
@@ -25,6 +26,7 @@ const configs = {
         7: "Rồng Hổ",
         8: "Keno Pro Max",
         9: "Xóc Đĩa Mini",
+        10: "Baccarat",
     },
     sentryUrl: 'https://e2d54dceaaab4ccc8e3b3b20d806d6ac@sentry.saba.vin/30',
     gameAnalytics: {

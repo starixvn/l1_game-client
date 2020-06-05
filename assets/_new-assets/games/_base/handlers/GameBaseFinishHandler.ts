@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import GameRoomBase from "../GameRoomBase";
 import BetItem from "../BetItem";
 import GameUtils from "../../../common/GameUtils";
+import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
 
 export default class GameBaseFinishHandler implements DataHandler {
     private readonly payChipFlyTime = 1.2;
@@ -17,10 +18,11 @@ export default class GameBaseFinishHandler implements DataHandler {
         if (data.finish) {
             this.main.timeHandler.resetTime();
             this.main.gameAudios.playEndGameAudio();
-            this.handleFinishData(data.finish);
+            this.main.roundId = data.finish.roundId;
 
-            this.main.node.runAction(cc.sequence(cc.delayTime(this.playResultAnimationTime),
-                cc.callFunc(() => this.payChips(data.finish.settlementResult, data.finish.winningPlayers))));
+            this.handleFinishData(
+                data.finish,
+                () => this.payChips(data.finish.settlementResult, data.finish.winningPlayers));
         }
 
         return true;
@@ -30,18 +32,18 @@ export default class GameBaseFinishHandler implements DataHandler {
         return this.playResultAnimationTime;
     }
 
-    handleFinishData(dataFinish) {
+    handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
     }
 
     payChips(settlementResult: any, winningPlayers: any) {
-        var mainRoomGame = this.main as GameRoomBase;
+        const mainRoomGame = this.main as GameRoomBase;
 
         if (!mainRoomGame || !settlementResult || !mainRoomGame.enablePlaceChips) {
             return;
         }
-
-        var lostBetItems = _.filter(this.main.betItems, item => !settlementResult[item.node.name.toLowerCase()]);
-        var winBetItems = _.filter(this.main.betItems, item => !!settlementResult[item.node.name.toLowerCase()]);
+        const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
+        const lostBetItems = _.filter(this.main.betItems, item => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
+        const winBetItems = _.filter(this.main.betItems, item => !!settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
 
         this.main.node && this.main.node.runAction(
             cc.sequence(
@@ -138,7 +140,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         // console.log("duration anim ", animation.defaultClip.duration);
         winningEffect.runAction(cc.sequence(
             cc.callFunc(() => { animation.play(); }),
-            cc.delayTime(5.4), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
+            cc.delayTime(3), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
             cc.callFunc(() => { winningEffect.destroy(); })));
     }
 }

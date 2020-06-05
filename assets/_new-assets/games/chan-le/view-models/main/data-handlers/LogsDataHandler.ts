@@ -27,7 +27,9 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
         this.dataLogs = data.logs;
         this.main.currentResultDices = [...data.logs[0].dice];
 
-        if (this.main.currentTimeRemaining > this.main.root.gameConfigs.betTime && !this.main.isDisabled) {
+        if (this.main.currentTimeRemaining > this.main.root.gameConfigs.betTime
+            && this.main.currentTimeRemaining < this.main.root.gameConfigs.displayResultTime
+            && !this.main.isDisabled) {
             this.main.showDices(true);
             this.main.showBetResult();
         }
@@ -55,7 +57,6 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
         });
 
         this.dataLogs.length > 120 && this.dataLogs.pop();
-        this.buildDotLogs(this.dataLogs);
     }
 
     initDotLogs() {
@@ -78,9 +79,10 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
             if (data) {
                 var point = data.dice[0] + data.dice[1] + data.dice[2];
                 dotLog.node.active = true;
-                dotLog.text.string =
-                    data.dice[0] + "-" + data.dice[1] + "-" + data.dice[2];
+                dotLog.text.string = `${point % 2 ? "LẺ" : "CHẴN"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
                 dotLog.turnId = data.phien;
+                dotLog.round.string = `#${data.phien}`;
+
                 dotLog.sprite.spriteFrame = point % 2
                     ? self.main.dotWhite
                     : self.main.dotBlack;

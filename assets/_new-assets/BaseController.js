@@ -173,37 +173,14 @@ module.exports = {
     if (void 0 !== data.red) {
       this.user.red = data.red;
     }
-    if (void 0 !== data.xu) {
-      this.user.xu = data.xu;
-    }
-    if (void 0 !== data.ketSat) {
-      this.user.ketSat = data.ketSat;
-    }
     if (void 0 !== data.UID) {
       this.user.UID = data.UID;
-    }
-    if (void 0 !== data.phone) {
-      this.user.phone = data.phone;
-    }
-    if (void 0 !== data.email) {
-      this.user.email = data.email;
     }
     if (void 0 !== data.joinedOn) {
       this.user.joinedOn = data.joinedOn;
     }
     if (void 0 !== data.security) {
       this.user.security = data.security;
-    }
-
-    // Level
-    if (void 0 !== data.level) {
-      this.user.level = data.level;
-    }
-    if (void 0 !== data.vipHT) {
-      this.user.vipHT = data.vipHT;
-    }
-    if (void 0 !== data.vipNext) {
-      this.user.vipNext = data.vipNext;
     }
     if (void 0 !== data.currency) {
       this.user.currency = data.currency;

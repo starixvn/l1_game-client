@@ -1,4 +1,6 @@
 import * as helper from '../../../_new-assets/common/helpers/Helper';
+import { getLowercaseObjectKeys } from '../../common/helpers/Helper.js';
+import BlinkNode from '../../common/BlinkNode';
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,6 +21,15 @@ export default class BetItem extends cc.Component {
     @property(cc.Node)
     highlight: cc.Node = null;
 
+    @property(cc.Node)
+    highlightBackground: cc.Node = null;
+
+    @property(cc.Node)
+    highlightBorder: cc.Node = null;
+
+    @property(cc.Node)
+    normalBorder: cc.Node = null;
+
     protected setOwnBet(bet: number) {
         this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
@@ -29,11 +40,13 @@ export default class BetItem extends cc.Component {
 
     public setData(data: any) {
         if (data.totalBets) {
-            this.setTotalBet(data.totalBets[this.node.name.toLowerCase()]);
+            const totalBetsKeys = getLowercaseObjectKeys(data.totalBets);
+            this.setTotalBet(data.totalBets[totalBetsKeys[this.node.name.toLowerCase()]]);
         }
 
         if (data.ownBets) {
-            let ownBet = data.ownBets[this.node.name.toLowerCase()];
+            const ownBetsKeys = getLowercaseObjectKeys(data.ownBets);
+            let ownBet = data.ownBets[ownBetsKeys[this.node.name.toLowerCase()]];
             ownBet && this.setOwnBet(ownBet);
         }
     }
@@ -47,11 +60,34 @@ export default class BetItem extends cc.Component {
         this.setTotalBet(0);
     }
 
-    public setHighlight(highlight: boolean) {
-        this.highlight.active = highlight;
+    public setHighlight(highlight: boolean, isAnimated = true) {
+        this.setHighlightItems(highlight);
+
+        if (!isAnimated) {
+            this.highlight.active = false;
+        }
     }
 
     public resetHighlight() {
-        this.highlight.active = false;
+        this.setHighlightItems(false);
+    }
+
+    public stopAnimation() {
+        this.blinkNode.node.stopAllActions();
+        this.blinkNode.node.opacity = 255;
+    }
+
+    protected get blinkNode() {
+        return this.highlight.getComponent("BlinkNode") as BlinkNode;
+    }
+
+    protected setHighlightItems(highlight: boolean) {
+        this.highlight.active = highlight;
+
+        if (this.highlightBackground) {
+            this.highlightBackground.active = highlight;
+            this.highlightBorder.active = highlight;
+            this.normalBorder.active = !highlight;
+        }
     }
 }

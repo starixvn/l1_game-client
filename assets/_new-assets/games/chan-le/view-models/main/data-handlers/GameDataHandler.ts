@@ -19,14 +19,24 @@ export default class GameDataHandler extends BaseDataHandler implements DataHand
             this.main.closeProcessWarning();
         }
 
+        this.main.redChan = chanleData.red_chan;
+        this.main.redLe = chanleData.red_le;
+
         chanleData.red_chan && (this.main.totalBetLeft.string = numberWithCommas(chanleData.red_chan));
         chanleData.red_le && (this.main.totalBetRight.string = numberWithCommas(chanleData.red_le));
         chanleData.red_me_chan && (this.main.userBetLeft.string = numberWithCommas(chanleData.red_me_chan));
         chanleData.red_me_le && (this.main.userBetRight.string = numberWithCommas(chanleData.red_me_le));
-        chanleData.red_player_chan && (this.main.playersLeft.string = numberWithCommas(chanleData.red_player_chan));
-        chanleData.red_player_le && (this.main.playersRight.string = numberWithCommas(chanleData.red_player_le));
+        if (chanleData.red_player_chan) {
+            const userBetChanPercent = parseInt(chanleData.red_player_chan) >> 0;
+            this.main.playersLeft.string = userBetChanPercent + "%";
+            this.main.userBetLeftPercent.fillRange = userBetChanPercent / 100;
+        }
+        if (chanleData.red_player_le) {
+            const userBetLePercent = parseInt(chanleData.red_player_le) >> 0;
+            this.main.playersRight.string = userBetLePercent + "%";
+            this.main.userBetRightPercent.fillRange = userBetLePercent / 100;
+        }
 
         return true;
     }
-
 }

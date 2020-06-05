@@ -6,7 +6,6 @@ import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
 import GameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
-import GameBaseOddsHandler from './handlers/GameBaseOddsHandler';
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import BetItem from "./BetItem";
 import GameUtils from "../../common/GameUtils";
@@ -18,6 +17,7 @@ import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 import IGameBaseStatusHandler from "./handlers/GameBaseStatusHandler";
 import GameAudios from './GameAudios';
 import MiniPanel from '../../mini-games-panel/view-models/MiniPanel';
+import GameBaseConfigsHandler from './handlers/GameBaseConfigsHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -84,6 +84,7 @@ export default class GameBase extends cc.Component {
     public currentDataLogs = [];
     public roundId = -1;
     public currentMiniPanel: MiniPanel;
+    public gameConfigs: any;
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
@@ -93,7 +94,7 @@ export default class GameBase extends cc.Component {
     public errorHandler: DataHandler;
     public logsHandler: DataHandler;
     public finishHandler: DataHandler;
-    public oddsHandler: DataHandler;
+    public configsHandler: DataHandler;
 
     public betChips: BetChips;
     public currentBet: number;
@@ -117,7 +118,7 @@ export default class GameBase extends cc.Component {
             this.timeHandler,
             this.errorHandler,
             this.logsHandler,
-            this.oddsHandler,
+            this.configsHandler,
             this.finishHandler);
         this.initBetChips();
         this.initGameAudios();
@@ -292,7 +293,7 @@ export default class GameBase extends cc.Component {
         this.errorHandler = new GameBaseErrorHandler(this);
         this.logsHandler = new GameBaseLogsHandler(this);
         this.finishHandler = new GameBaseFinishHandler(this);
-        this.oddsHandler = new GameBaseOddsHandler(this);
+        this.configsHandler = new GameBaseConfigsHandler(this);
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {

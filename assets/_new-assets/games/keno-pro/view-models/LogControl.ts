@@ -25,23 +25,12 @@ export default class LogControl extends cc.Component {
     @property(cc.Size)
     padding: cc.Size = new cc.Size(2, 2);
 
-    private main: GameBase = null;
-    private oldGameMain: any = null;
-    private stopTime = 0;
-    private resultTime = 0;
     private nextMark: cc.Node = null;
-    private finishHandler: GameBaseFinishHandler;
     private dots: cc.Node[] = [];
+    private checkShowNext = () => false;
 
-    init(main: GameBase) {
-        this.main = main;
-        this.finishHandler = this.main.finishHandler as GameBaseFinishHandler;
-    }
-
-    initOldGame(main: any, stopTime: number, resultTime: number) {
-        this.oldGameMain = main;
-        this.stopTime = stopTime;
-        this.resultTime = resultTime;
+    init(condition: () => boolean) {
+        this.checkShowNext = condition;
     }
 
     public setData(results: number[]) {
@@ -49,17 +38,18 @@ export default class LogControl extends cc.Component {
             dot.removeFromParent();
             dot.destroy();
         });
+        this.dots = [];
 
-        var col = 0, row = 0;
-        var maxX = 0;
-        var nextCol = 1;
-        var previousResult = undefined;
-        var rowMax = {};
-        var colMax = 0;
-        var start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
+        let col = 0, row = 0;
+        let maxX = 0;
+        let nextCol = 1;
+        let previousResult = undefined;
+        let rowMax = {};
+        let colMax = 0;
+        let start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
         results.forEach((result, i) => {
             if (result == previousResult) {
-                var max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
+                let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
                 if (row < max - 1) {
                     row++;
                 } else if (row == 0 && max == 1) {
@@ -81,7 +71,7 @@ export default class LogControl extends cc.Component {
 
             previousResult = result;
 
-            var dot = cc.instantiate(this.items[result]);
+            let dot = cc.instantiate(this.items[result]);
             dot.active = true;
 
             dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
@@ -100,7 +90,7 @@ export default class LogControl extends cc.Component {
     }
 
     private addNextMark(rowMax, row, col, colMax, nextCol, start) {
-        var max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
+        let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
         if (row < max - 1) {
             row++;
         } else {
@@ -110,7 +100,7 @@ export default class LogControl extends cc.Component {
                 colMax = col;
             }
         }
-        var dot = cc.instantiate(this.itemNext);
+        let dot = cc.instantiate(this.itemNext);
         dot.active = false;
         dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
         dot.addComponent(BlinkNode).interval = 0.5;
@@ -121,16 +111,7 @@ export default class LogControl extends cc.Component {
 
     update() {
         if (this.nextMark && this.nextMark.isValid) {
-            if (this.main) {
-                if (this.main.currentTimeRemaining < this.main.config.stopBetTime ||
-                    this.main.currentTimeRemaining > this.main.config.fullTime - this.finishHandler.getResultAnimationTime()) {
-                    this.nextMark.active = true;
-                }
-            } else if (this.oldGameMain) {
-                if (this.oldGameMain.time_remain < this.stopTime || this.oldGameMain.time_remain > this.resultTime) {
-                    this.nextMark.active = true;
-                }
-            }
+            this.nextMark.active = this.checkShowNext();
         }
     }
 }

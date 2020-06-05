@@ -4,6 +4,9 @@ const { ccclass, property } = cc._decorator;
 export default class ChanLeLogTips extends cc.Component {
 
     @property(cc.Label)
+    round: cc.Label = null;
+
+    @property(cc.Label)
     text: cc.Label = null;
 
     @property(cc.Node)
