@@ -330,6 +330,7 @@ export default class RongHo extends cc.Component {
             item.resetHighlight();
         });
         this.cards.forEach(card => card.node.active = false);
+        this.cardBacks.forEach(back => back.node.scale = 1);
         this.notice.children.forEach(child => child.destroy());
     }
 
