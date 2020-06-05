@@ -168,14 +168,14 @@ export default class RoundHistory extends cc.Component {
         const statisticBigSmall = this.statisticData[HistoryOption.BigSmall];
         const big = statisticBigSmall.statistic[0];
         const small = statisticBigSmall.statistic[1];
-        const bigValue = big * 100 / (big + small);
+        const bigValue = Math.round(big * 100 / (big + small));
         this.statisticLabels[0].string = `${bigValue}%`;
         this.statisticLabels[1].string = `${100 - bigValue}%`;
 
         const statisticEvenOdd = this.statisticData[HistoryOption.EvenOdd];
         const even = statisticEvenOdd.statistic[0];
         const odd = statisticEvenOdd.statistic[1];
-        const evenValue = even * 100 / (even + odd);
+        const evenValue = Math.round(even * 100 / (even + odd));
         this.statisticLabels[2].string = `${evenValue}%`;
         this.statisticLabels[3].string = `${100 - evenValue}%`;
 
@@ -187,10 +187,10 @@ export default class RoundHistory extends cc.Component {
         const earth = statisticFiveElements.statistic[4];
         const total = gold + wood + water + fire + earth;
 
-        const goldValue = gold * 100 / total;
-        const woodValue = wood * 100 / total;
-        const earthValue = earth * 100 / total;
-        const fireValue = fire * 100 / total;
+        const goldValue = Math.round(gold * 100 / total);
+        const woodValue = Math.round(wood * 100 / total);
+        const earthValue = Math.round(earth * 100 / total);
+        const fireValue = Math.round(fire * 100 / total);
         const waterValue = 100 - (goldValue + woodValue + earthValue + fireValue);
         this.statisticLabels[4].string = `${goldValue}%`;
         this.statisticLabels[5].string = `${woodValue}%`;
