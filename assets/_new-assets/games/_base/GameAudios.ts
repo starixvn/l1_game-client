@@ -12,6 +12,10 @@ export default class GameAudios extends cc.Component {
     @property(cc.AudioSource)
     clockTick: cc.AudioSource = null;
 
+    @property(cc.AudioSource)
+    showResult: cc.AudioSource = null;
+
+
     playStartGameAudio() {
         cc.RedT.isSoundGame() && this.startGame.play();
     }
@@ -24,9 +28,14 @@ export default class GameAudios extends cc.Component {
         cc.RedT.isSoundGame() && this.clockTick.play();
     }
 
+    playShowResultAudio() {
+        cc.RedT.isSoundGame() && this.showResult.play();
+    }
+
     stopAllAudio() {
         this.startGame.stop();
         this.endGame.stop();
         this.clockTick.stop();
+        this.showResult.stop();
     }
 }

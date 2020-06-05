@@ -23,9 +23,6 @@ export default class GameBaseFinishHandler implements DataHandler {
             this.handleFinishData(
                 data.finish,
                 () => this.payChips(data.finish.settlementResult, data.finish.winningPlayers));
-
-            // this.main.node.runAction(cc.sequence(cc.delayTime(this.playResultAnimationTime),
-            //     cc.callFunc(() => this.payChips(data.finish.settlementResult, data.finish.winningPlayers))));
         }
 
         return true;

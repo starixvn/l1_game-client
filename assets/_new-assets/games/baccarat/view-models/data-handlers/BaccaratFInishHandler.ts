@@ -55,10 +55,11 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             noticeText = "NHÀ CON THẮNG!"
         }
         else {
-            noticeText = "HOÀ!"
+            noticeText = "HÒA!"
         }
 
         baccaratMain.winNoticeText.string = noticeText;
         winNoticeNode.active = true;
+        this.main.gameAudios.playShowResultAudio();
     }
 }
