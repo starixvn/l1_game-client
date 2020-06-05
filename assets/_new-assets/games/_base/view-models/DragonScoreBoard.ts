@@ -82,7 +82,6 @@ export default class DragonScoreBoard extends cc.Component {
             var dot = cc.instantiate(item.node);
             dot.active = true;
             dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
-
             maxX = Math.max(maxX, dot.position.x);
             this.content.addChild(dot);
             this.dots.push(dot);
@@ -110,6 +109,7 @@ export default class DragonScoreBoard extends cc.Component {
     }
 
     private addNextMark(rowMax, row, col, colMax, nextCol, start) {
+
         let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
 
         if (row < max - 1) {
@@ -124,10 +124,17 @@ export default class DragonScoreBoard extends cc.Component {
 
         let dot = cc.instantiate(this.itemNext);
         dot.active = false;
+
+        if (row == 1 && col == 0) { // First dot
+            col = 1;
+            row = 0;
+        }
+
         dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
+
         dot.addComponent(BlinkNode).interval = 0.5;
-        this.content.addChild(dot);
         this.nextMark = dot;
+        this.content.addChild(dot);
         this.dots.push(dot);
     }
 
