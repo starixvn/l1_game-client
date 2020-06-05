@@ -16,7 +16,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     handle(data: any): boolean {
         super.handle(data);
 
-        if (data.roundHistory) {
+        if (data.roundHistory && data.roundHistory[0]) {
             const lastLog = data.roundHistory[0];
             const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
 
