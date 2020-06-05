@@ -27,7 +27,9 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
         this.dataLogs = data.logs;
         this.main.currentResultDices = [...data.logs[0].dice];
 
-        if (this.main.currentTimeRemaining > this.main.root.gameConfigs.betTime && !this.main.isDisabled) {
+        if (this.main.currentTimeRemaining > this.main.root.gameConfigs.betTime
+            && this.main.currentTimeRemaining < this.main.root.gameConfigs.displayResultTime
+            && !this.main.isDisabled) {
             this.main.showDices(true);
             this.main.showBetResult();
         }

@@ -615,7 +615,7 @@ cc.Class({
     if (void 0 !== data.logs) {
       cc.RedT.setting.taixiu.logs = data.logs;
       this.localResultDices = [...data.logs[0].dice];
-      if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
+      if (cc.RedT.setting.taixiu.time_remain > Constants.betTime && cc.RedT.setting.taixiu.time_remain < Constants.displayResultTime) {
         this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
         this.labelKetQua.string = this.diemSo;
         // if (!this.isNan) {
