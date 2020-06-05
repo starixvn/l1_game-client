@@ -5,6 +5,7 @@ import GameRoomBase from "../GameRoomBase";
 import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
 
 export default class GameBaseBetHandler implements DataHandler {
+    private playerChips = [];
     constructor(protected readonly main: GameBase) {
     }
 
@@ -30,7 +31,21 @@ export default class GameBaseBetHandler implements DataHandler {
             }
 
             if (data.playerChip) {
-                this.placePlayerChip(data.playerChip);
+                this.playerChips.push(data.playerChip);
+
+                let delayTime = 0;
+
+                if (this.main.currentTimeRemaining >= this.main.config.stopBetTime + 2) {
+                    delayTime = (this.playerChips.length / 2) * 0.07;
+                }
+                else {
+                    delayTime = this.playerChips.length * 0.01;
+                }
+
+                this.main.node.runAction(cc.sequence(
+                    cc.delayTime(delayTime > 1 ? 1 : delayTime),
+                    cc.callFunc(() => this.placePlayerChip(data.playerChip))
+                ));
             }
 
             if (data.chips && data.remainingTime < mainRoomGame.config.betTime) {
@@ -74,8 +89,8 @@ export default class GameBaseBetHandler implements DataHandler {
                     player.red = data.red;
                 }
             }
-
             this.main.betChips.placeChipBet(bet, betItem.chipNode, startNode);
+            this.playerChips.pop();
         }
     }
 
