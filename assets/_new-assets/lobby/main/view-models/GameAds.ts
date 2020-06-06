@@ -26,9 +26,11 @@ export default class GameAds extends cc.Component {
             }
         });
 
-        const random = _.random(0, temp.length - 1, false);
-        this.currentIndex = temp[random];
-        this.node.children.forEach(node => node.active = false);
-        this.node.children[this.currentIndex].active = true
+        if (temp.length) {
+            const random = _.random(0, temp.length - 1, false);
+            this.currentIndex = temp[random];
+            this.node.children.forEach(node => node.active = false);
+            this.node.children[this.currentIndex].active = true;
+        }
     }
 }
