@@ -40,10 +40,13 @@
       },
       {
         "__id__": 516
+      },
+      {
+        "__id__": 517
       }
     ],
     "_prefab": {
-      "__id__": 517
+      "__id__": 518
     },
     "_opacity": 255,
     "_color": {
@@ -1475,8 +1478,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
-    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
     "_fontSize": 18,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -13943,8 +13946,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 1,000$",
-    "_N$string": "1$ - 1,000$",
+    "_string": "_minBet$ - _maxBetBig$",
+    "_N$string": "_minBet$ - _maxBetBig$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -14050,8 +14053,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": " 1:1.97",
-    "_N$string": " 1:1.97",
+    "_string": " 1:_oddBig",
+    "_N$string": " 1:_oddBig",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -14494,8 +14497,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 100$",
-    "_N$string": "1$ - 100$",
+    "_string": "_minBet$ - _maxBetGold$",
+    "_N$string": "_minBet$ - _maxBetGold$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -14601,8 +14604,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": " 1:9.2",
-    "_N$string": " 1:9.2",
+    "_string": " 1:_oddGold",
+    "_N$string": " 1:_oddGold",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -15045,8 +15048,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 200$",
-    "_N$string": "1$ - 200$",
+    "_string": "_minBet$ - _maxBetWood$",
+    "_N$string": "_minBet$ - _maxBetWood$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -15152,8 +15155,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": " 1:4.6",
-    "_N$string": " 1:4.6",
+    "_string": " 1:_oddWood",
+    "_N$string": " 1:_oddWood",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -15596,8 +15599,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 1,000$",
-    "_N$string": "1$ - 1,000$",
+    "_string": "_minBet$ - _maxBetWater$",
+    "_N$string": "_minBet$ - _maxBetWater$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -15703,8 +15706,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": " 1:2.4",
-    "_N$string": " 1:2.4",
+    "_string": " 1:_oddWater",
+    "_N$string": " 1:_oddWater",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -16147,8 +16150,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 200$",
-    "_N$string": "1$ - 200$",
+    "_string": "_minBet$ - _maxBetFire$",
+    "_N$string": "_minBet$ - _maxBetFire$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -16254,8 +16257,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": " 1:4.6",
-    "_N$string": " 1:4.6",
+    "_string": " 1:_oddFire",
+    "_N$string": " 1:_oddFire",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -16695,8 +16698,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1$ - 100$",
-    "_N$string": "1$ - 100$",
+    "_string": "_minBet$ - _maxBetEarth$",
+    "_N$string": "_minBet$ - _maxBetEarth$",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -16802,8 +16805,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": " 1:9.2",
-    "_N$string": " 1:9.2",
+    "_string": " 1:_oddEarth",
+    "_N$string": " 1:_oddEarth",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -18722,6 +18725,57 @@
       "__id__": 1
     },
     "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "a4604QR2K1Lc4/LcY1Okcrs",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "replaceNodes": [
+      {
+        "__id__": 34
+      },
+      {
+        "__id__": 380
+      },
+      {
+        "__id__": 377
+      },
+      {
+        "__id__": 392
+      },
+      {
+        "__id__": 407
+      },
+      {
+        "__id__": 410
+      },
+      {
+        "__id__": 422
+      },
+      {
+        "__id__": 425
+      },
+      {
+        "__id__": 437
+      },
+      {
+        "__id__": 440
+      },
+      {
+        "__id__": 452
+      },
+      {
+        "__id__": 455
+      },
+      {
+        "__id__": 395
+      }
+    ],
     "_id": ""
   },
   {
