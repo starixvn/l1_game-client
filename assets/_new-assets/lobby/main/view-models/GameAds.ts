@@ -34,7 +34,6 @@ export default class GameAds extends cc.Component {
 
         const random = _.random(0, temp.length - 1, false);
         this.currentIndex = temp[random];
-        console.log("randomm ", this.currentIndex);
         this.banner.spriteFrame = this.images[this.currentIndex];
     }
 }
