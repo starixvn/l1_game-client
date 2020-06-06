@@ -5,12 +5,6 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class GameAds extends cc.Component {
 
-    @property(cc.Sprite)
-    banner: cc.Sprite = null;
-
-    @property({ type: cc.SpriteFrame })
-    images: cc.SpriteFrame[] = [];
-
     @property
     intervalChangeImage = 2;
 
@@ -26,7 +20,7 @@ export default class GameAds extends cc.Component {
 
     changeImage() {
         const temp = [];
-        this.images.forEach((image, index) => {
+        this.node.children.forEach((image, index) => {
             if (index != this.currentIndex) {
                 temp.push(index);
             }
@@ -34,6 +28,7 @@ export default class GameAds extends cc.Component {
 
         const random = _.random(0, temp.length - 1, false);
         this.currentIndex = temp[random];
-        this.banner.spriteFrame = this.images[this.currentIndex];
+        this.node.children.forEach(node => node.active = false);
+        this.node.children[this.currentIndex].active = true
     }
 }
