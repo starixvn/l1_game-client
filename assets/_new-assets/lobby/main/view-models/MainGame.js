@@ -82,11 +82,11 @@ cc.Class({
       this.header.setAvatar(cc.RedT.user.avatarId);
     }
 
-    this.center.node.on("size-changed", this.repositionMenu, this);
+    //this.center.node.on("size-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
       this.center.node.scale = 0.8;
     }
-    this.repositionMenu();
+    //this.repositionMenu();
   },
   repositionMenu() {
     var menuCenterWidth = this.menuCenter.width;
