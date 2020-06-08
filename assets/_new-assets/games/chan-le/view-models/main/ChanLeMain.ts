@@ -155,6 +155,9 @@ export default class ChanLeMain extends cc.Component {
     @property(cc.Sprite)
     userBetRightPercent: cc.Sprite = null;
 
+    @property(cc.Node)
+    historyButton: cc.Node = null;
+
     //#endregion
     isNan = false;
     root: ChanLe;
@@ -418,6 +421,9 @@ export default class ChanLeMain extends cc.Component {
     balanceBet(showNotice = false) {
         const hasAnimation = showNotice && !this.balanceBetNotice;
         if (hasAnimation) {
+            this.historyButton.opacity = 130;
+            const button = this.historyButton.getComponent(cc.Button);
+            button.interactable = false;
             this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
             this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
         }
@@ -441,6 +447,9 @@ export default class ChanLeMain extends cc.Component {
     }
 
     hideBetBalanceNotice() {
+        this.historyButton.opacity = 255;
+        const button = this.historyButton.getComponent(cc.Button);
+        button.interactable = true;
         this.balanceBetNoticeContainer.destroyAllChildren();
         this.balanceBetNotice = null;
     }

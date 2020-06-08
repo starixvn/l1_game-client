@@ -208,6 +208,10 @@ cc.Class({
     userBetSmallPercent: {
       default: null,
       type: cc.Sprite
+    },
+    historyButton: {
+      default: null,
+      type: cc.Node
     }
   },
   init: function (obj) {
@@ -1143,6 +1147,9 @@ cc.Class({
   },
 
   showBalanceBetNotice() {
+    this.historyButton.opacity = 130;
+    const button = this.historyButton.getComponent(cc.Button);
+    button.interactable = false;
     this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
     this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
   },
@@ -1169,6 +1176,9 @@ cc.Class({
   },
 
   hideBalanceBetNotice() {
+    this.historyButton.opacity = 255;
+    const button = this.historyButton.getComponent(cc.Button);
+    button.interactable = true;
     this.balanceBetNoticeContainer.destroyAllChildren();
     this.balanceBetNotice = null;
   },
