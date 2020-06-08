@@ -212,6 +212,10 @@ cc.Class({
     historyButton: {
       default: null,
       type: cc.Node
+    },
+    okButton: {
+      default: null,
+      type: cc.Node
     }
   },
   init: function (obj) {
@@ -482,6 +486,8 @@ cc.Class({
       e.touch.getLocationX() - this.ttOffset.x,
       e.touch.getLocationY() - this.ttOffset.y
     );
+
+
   },
   eventEnd: function () {
     cc.RedT.setting.taixiu.position = this.node.position;

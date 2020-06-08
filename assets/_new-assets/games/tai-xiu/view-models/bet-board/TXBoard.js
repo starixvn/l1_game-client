@@ -7,10 +7,26 @@ cc.Class({
     nodeChonTien: {
       default: null,
       type: cc.Node
+    },
+    okButton: {
+      default: null,
+      type: cc.Node
     }
   },
   init(obj) {
     this.RedT = obj;
+  },
+  onEnable() {
+    const okButtonPositionY = this.okButton.parent.convertToWorldSpaceAR(this.okButton.position).y;
+    const expectPositionY = this.okButton.height;
+    const paddingBottom = 20;
+
+    if (okButtonPositionY < expectPositionY) {
+      const distance = expectPositionY - okButtonPositionY + paddingBottom;
+
+      this.RedT.node.runAction(
+        cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut()));
+    }
   },
   ChonTienClick: function (event, value) {
     this.RedT.input.string = helper.numberWithCommas(
