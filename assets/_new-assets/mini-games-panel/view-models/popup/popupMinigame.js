@@ -52,6 +52,8 @@ cc.Class({
 		this.list.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
 		this.list.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
 		this.list.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+
+		this.moveToEdge();
 	},
 	onDisable: function () {
 		this.panel.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -74,10 +76,34 @@ cc.Class({
 	eventMove: function (e) {
 		this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y)
 	},
+	moveToEdge: function () {
+		const width = this.node.parent.width;
+		const height = this.node.parent.height;
+		const maxX = width / 2 - this.node.width / 2;
+		const maxY = height / 2 - this.node.height / 2;
+		const deltaWidth = maxX - Math.abs(this.node.x);
+		const deltaHeight = maxY - Math.abs(this.node.y);
+
+		let posX, posY;
+		if (deltaWidth < deltaHeight) {
+			posY = this.node.y;
+			posY = Math.min(maxY, posY);
+			posY = Math.max(-maxY, posY);
+			posX = this.node.x < 0 ? -maxX : maxX;
+		} else {
+			posX = this.node.x;
+			posX = Math.min(maxX, posX);
+			posX = Math.max(-maxX, posX);
+			posY = this.node.y < 0 ? -maxY : maxY;
+		}
+
+		this.node.runAction(cc.moveTo(0.3, posX, posY).easing(cc.easeSineOut()));
+		cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
+	},
 	eventEnd: function (e) {
-		cc.RedT.setting.popupMini.position = this.node.position;
-		this.xChanger = this.ttOffset2.x - (e.touch.getLocationX() - this.ttOffset.x)
-		this.yChanger = this.ttOffset2.y - (e.touch.getLocationY() - this.ttOffset.y)
+		this.moveToEdge();
+		const xChanger = this.ttOffset2.x - (e.touch.getLocationX() - this.ttOffset.x)
+		const yChanger = this.ttOffset2.y - (e.touch.getLocationY() - this.ttOffset.y)
 		if (this.xChanger < 5 &&
 			this.xChanger > -5 &&
 			this.yChanger < 5 &&
