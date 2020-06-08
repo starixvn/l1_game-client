@@ -36,7 +36,7 @@ export default class GameAds extends cc.Component {
 
         const currentNode = this.node.children[this.currentIndex];
         currentNode.active = true;
-        const direction = _.random(0, 1) > 0 ? 1 : -1;
+        const direction = 1;//_.random(0, 1) > 0 ? 1 : -1;
         const distance = this.node.width;
         currentNode.position = cc.v2(direction * distance, currentNode.position.y);
         const move = cc.moveTo(0.6, cc.v2(0, 0));
