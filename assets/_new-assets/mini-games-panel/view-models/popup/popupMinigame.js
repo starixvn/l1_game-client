@@ -25,9 +25,7 @@ cc.Class({
 		this.ttOffset = cc.v2(0, 0);
 		this.ttOffset2 = cc.v2(0, 0);
 		this.toggleRuning = false;
-		if (void 0 !== cc.RedT.setting.popupMini.position) {
-			this.node.position = cc.RedT.setting.popupMini.position;
-		}
+
 		if (void 0 !== cc.RedT.setting.popupMini.open) {
 			if (cc.RedT.setting.popupMini.open) {
 				this.list.active = true;
@@ -39,6 +37,15 @@ cc.Class({
 				this.list.active = false
 			}
 		}
+
+		if (void 0 !== cc.RedT.setting.popupMini.position) {
+			this.node.position = cc.RedT.setting.popupMini.position;
+		}
+
+		this.schedule(this.moveToEdge, 1, cc.macro.REPEAT_FOREVER);
+	},
+	onDestroy: function () {
+		this.unschedule(this.moveToEdge);
 	},
 	onEnable: function () {
 		this.panel.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -53,7 +60,7 @@ cc.Class({
 		this.list.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
 		this.list.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
-		this.moveToEdge();
+
 	},
 	onDisable: function () {
 		this.panel.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
