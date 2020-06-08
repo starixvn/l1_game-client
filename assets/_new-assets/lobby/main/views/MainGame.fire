@@ -273,7 +273,7 @@
       "array": [
         0,
         0,
-        562.2071446223381,
+        291.8505610753558,
         0,
         0,
         0,
@@ -13891,9 +13891,6 @@
         "__id__": 307
       },
       {
-        "__id__": 324
-      },
-      {
         "__id__": 327
       }
     ],
@@ -13936,8 +13933,8 @@
         0,
         0,
         1,
-        0.7,
-        0.7,
+        1,
+        1,
         1
       ]
     },
@@ -13982,12 +13979,15 @@
       },
       {
         "__id__": 321
+      },
+      {
+        "__id__": 323
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 323
+        "__id__": 326
       }
     ],
     "_prefab": null,
@@ -14020,8 +14020,8 @@
         0,
         0,
         1,
-        1,
-        1,
+        0.7,
+        0.7,
         1
       ]
     },
@@ -14330,9 +14330,7 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "a9397ccb-00a2-449a-8f30-37c286bf531c"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -14732,39 +14730,20 @@
     "_id": "45MvErvMZLSaU22ec5RnrG"
   },
   {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 307
-    },
-    "_enabled": true,
-    "_defaultClip": {
-      "__uuid__": "c1726436-16df-4406-ba77-ec8110ab9c1a"
-    },
-    "_clips": [
-      {
-        "__uuid__": "c1726436-16df-4406-ba77-ec8110ab9c1a"
-      }
-    ],
-    "playOnLoad": true,
-    "_id": "53CVBCYR5ACZlwq9M6kBW7"
-  },
-  {
     "__type__": "cc.Node",
     "_name": "chu xoc dia",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 306
+      "__id__": 307
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 325
+        "__id__": 324
       },
       {
-        "__id__": 326
+        "__id__": 325
       }
     ],
     "_prefab": null,
@@ -14791,15 +14770,15 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -90.993,
+        -87.552,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
-        1
+        1.42857,
+        1.42857,
+        1.42857
       ]
     },
     "_eulerAngles": {
@@ -14820,7 +14799,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 324
+      "__id__": 323
     },
     "_enabled": true,
     "_materials": [
@@ -14854,7 +14833,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 324
+      "__id__": 323
     },
     "_enabled": true,
     "_defaultClip": {
@@ -14867,6 +14846,25 @@
     ],
     "playOnLoad": true,
     "_id": "12NqQfcLZAkJBTfKd2oOK3"
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 307
+    },
+    "_enabled": true,
+    "_defaultClip": {
+      "__uuid__": "c1726436-16df-4406-ba77-ec8110ab9c1a"
+    },
+    "_clips": [
+      {
+        "__uuid__": "c1726436-16df-4406-ba77-ec8110ab9c1a"
+      }
+    ],
+    "playOnLoad": true,
+    "_id": "53CVBCYR5ACZlwq9M6kBW7"
   },
   {
     "__type__": "cc.Node",
@@ -14893,8 +14891,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 470,
-      "height": 313
+      "width": 326,
+      "height": 217
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -14949,7 +14947,7 @@
       "__uuid__": "644b79cf-baf8-428d-852c-a5cf916cc24d"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 2,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
