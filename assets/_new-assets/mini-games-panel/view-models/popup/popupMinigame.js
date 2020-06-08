@@ -41,8 +41,7 @@ cc.Class({
 		if (void 0 !== cc.RedT.setting.popupMini.position) {
 			this.node.position = cc.RedT.setting.popupMini.position;
 		}
-
-		this.schedule(this.moveToEdge, 1, cc.macro.REPEAT_FOREVER);
+		this.schedule(this.moveToEdge, 0.5, cc.macro.REPEAT_FOREVER);
 	},
 	onDestroy: function () {
 		this.unschedule(this.moveToEdge);
@@ -59,8 +58,6 @@ cc.Class({
 		this.list.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
 		this.list.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
 		this.list.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
-
-
 	},
 	onDisable: function () {
 		this.panel.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -104,6 +101,7 @@ cc.Class({
 			posY = this.node.y < 0 ? -maxY : maxY;
 		}
 
+		this.node.stopAllActions();
 		this.node.runAction(cc.moveTo(0.3, posX, posY).easing(cc.easeSineOut()));
 		cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
 	},
@@ -111,10 +109,10 @@ cc.Class({
 		this.moveToEdge();
 		const xChanger = this.ttOffset2.x - (e.touch.getLocationX() - this.ttOffset.x)
 		const yChanger = this.ttOffset2.y - (e.touch.getLocationY() - this.ttOffset.y)
-		if (this.xChanger < 5 &&
-			this.xChanger > -5 &&
-			this.yChanger < 5 &&
-			this.yChanger > -5) {
+		if (xChanger < 5 &&
+			xChanger > -5 &&
+			yChanger < 5 &&
+			yChanger > -5) {
 			this.toggle()
 		}
 	},
