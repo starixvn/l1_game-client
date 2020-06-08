@@ -26,11 +26,21 @@ export default class GameAds extends cc.Component {
             }
         });
 
-        if (temp.length) {
-            const random = _.random(0, temp.length - 1, false);
-            this.currentIndex = temp[random];
-            this.node.children.forEach(node => node.active = false);
-            this.node.children[this.currentIndex].active = true;
+        if (temp.length == 0) {
+            return;
         }
+
+        const random = _.random(0, temp.length - 1, false);
+        this.currentIndex = temp[random];
+        this.node.children.forEach(node => node.active = false);
+
+        const currentNode = this.node.children[this.currentIndex];
+        currentNode.active = true;
+        const direction = _.random(0, 1) > 0 ? 1 : -1;
+        const distance = this.node.width;
+        currentNode.position = cc.v2(direction * distance, currentNode.position.y);
+        const move = cc.moveTo(0.6, cc.v2(0, 0));
+        move.easing = cc.easeCubicActionInOut();
+        currentNode.runAction(move);
     }
 }
