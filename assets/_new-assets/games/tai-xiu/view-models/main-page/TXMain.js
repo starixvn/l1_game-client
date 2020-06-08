@@ -698,6 +698,7 @@ cc.Class({
             this.balanceBet(cc.RedT.setting.taixiu.time_remain == Constants.fullTime);
           } else {
             this.hideBalanceBetNotice();
+            this.enableHistoryButton();
             if (cc.RedT.setting.taixiu.time_remain == Constants.displayResultTime) {
               this.displayDiceResult();
               this.showBetWinLoss()
@@ -733,7 +734,10 @@ cc.Class({
             );
             this.AnimatedTime.setTime(time);
             this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
-          } else clearInterval(this.timeInterval);
+          } else {
+            this.disableHistoryButton();
+            clearInterval(this.timeInterval);
+          }
         }
         cc.RedT.setting.taixiu.time_remain--;
       }.bind(this),
@@ -1147,9 +1151,7 @@ cc.Class({
   },
 
   showBalanceBetNotice() {
-    this.historyButton.opacity = 130;
-    const button = this.historyButton.getComponent(cc.Button);
-    button.interactable = false;
+
     this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
     this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
   },
@@ -1176,10 +1178,19 @@ cc.Class({
   },
 
   hideBalanceBetNotice() {
-    this.historyButton.opacity = 255;
-    const button = this.historyButton.getComponent(cc.Button);
-    button.interactable = true;
     this.balanceBetNoticeContainer.destroyAllChildren();
     this.balanceBetNotice = null;
   },
+
+  disableHistoryButton() {
+    this.historyButton.opacity = 130;
+    const button = this.historyButton.getComponent(cc.Button);
+    button.interactable = false;
+  },
+
+  enableHistoryButton() {
+    this.historyButton.opacity = 255;
+    const button = this.historyButton.getComponent(cc.Button);
+    button.interactable = true;
+  }
 });

@@ -421,9 +421,6 @@ export default class ChanLeMain extends cc.Component {
     balanceBet(showNotice = false) {
         const hasAnimation = showNotice && !this.balanceBetNotice;
         if (hasAnimation) {
-            this.historyButton.opacity = 130;
-            const button = this.historyButton.getComponent(cc.Button);
-            button.interactable = false;
             this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
             this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
         }
@@ -447,11 +444,20 @@ export default class ChanLeMain extends cc.Component {
     }
 
     hideBetBalanceNotice() {
+        this.balanceBetNoticeContainer.destroyAllChildren();
+        this.balanceBetNotice = null;
+    }
+
+    disableHistoryButton() {
+        this.historyButton.opacity = 130;
+        const button = this.historyButton.getComponent(cc.Button);
+        button.interactable = false;
+    }
+
+    enableHistoryButton() {
         this.historyButton.opacity = 255;
         const button = this.historyButton.getComponent(cc.Button);
         button.interactable = true;
-        this.balanceBetNoticeContainer.destroyAllChildren();
-        this.balanceBetNotice = null;
     }
 
     showResult() {
