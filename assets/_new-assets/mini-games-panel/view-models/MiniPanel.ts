@@ -248,7 +248,7 @@ export default class MiniPanel extends cc.Component {
       if (!isAlreadyOpened) {
         this.loading.node.active = true;
         cc.loader.loadRes(prefabPath, (err: Error, prefab: any) => {
-          if (prefab === null || !this.node.isValid) {
+          if (prefab === null || !this.node || !this.node.isValid) {
             return;
           }
 

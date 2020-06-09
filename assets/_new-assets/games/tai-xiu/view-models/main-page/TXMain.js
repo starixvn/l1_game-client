@@ -208,6 +208,14 @@ cc.Class({
     userBetSmallPercent: {
       default: null,
       type: cc.Sprite
+    },
+    historyButton: {
+      default: null,
+      type: cc.Node
+    },
+    okButton: {
+      default: null,
+      type: cc.Node
     }
   },
   init: function (obj) {
@@ -478,6 +486,8 @@ cc.Class({
       e.touch.getLocationX() - this.ttOffset.x,
       e.touch.getLocationY() - this.ttOffset.y
     );
+
+
   },
   eventEnd: function () {
     cc.RedT.setting.taixiu.position = this.node.position;
@@ -693,7 +703,8 @@ cc.Class({
           if (isBalanceBetTime) {
             this.balanceBet(cc.RedT.setting.taixiu.time_remain == Constants.fullTime);
           } else {
-            this.hideBalanceBetNotice();
+            this.hideBetBalanceNotice();
+            this.enableHistoryButton();
             if (cc.RedT.setting.taixiu.time_remain == Constants.displayResultTime) {
               this.displayDiceResult();
               this.showBetWinLoss()
@@ -729,7 +740,10 @@ cc.Class({
             );
             this.AnimatedTime.setTime(time);
             this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
-          } else clearInterval(this.timeInterval);
+          } else {
+            this.disableHistoryButton();
+            clearInterval(this.timeInterval);
+          }
         }
         cc.RedT.setting.taixiu.time_remain--;
       }.bind(this),
@@ -1034,6 +1048,7 @@ cc.Class({
     this.diceAnimation.node.active = false;
     this.nodeTimeWait.active = this.nodeKetQua.active = this.diaNan.active = false;
     this.setDice(false, false);
+    this.hideBetBalanceNotice();
   },
   reset: function () {
     this.isNan && this.dataLogs();
@@ -1143,6 +1158,7 @@ cc.Class({
   },
 
   showBalanceBetNotice() {
+
     this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
     this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
   },
@@ -1168,8 +1184,20 @@ cc.Class({
     }
   },
 
-  hideBalanceBetNotice() {
+  hideBetBalanceNotice() {
     this.balanceBetNoticeContainer.destroyAllChildren();
     this.balanceBetNotice = null;
   },
+
+  disableHistoryButton() {
+    this.historyButton.opacity = 130;
+    const button = this.historyButton.getComponent(cc.Button);
+    button.interactable = false;
+  },
+
+  enableHistoryButton() {
+    this.historyButton.opacity = 255;
+    const button = this.historyButton.getComponent(cc.Button);
+    button.interactable = true;
+  }
 });

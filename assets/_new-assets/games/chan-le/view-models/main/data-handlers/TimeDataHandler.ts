@@ -46,6 +46,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
                     self.main.balanceBet(self.main.currentTimeRemaining == this.main.root.gameConfigs.fullTime);
                 } else {
                     self.main.hideBetBalanceNotice();
+                    self.main.enableHistoryButton();
                     if (self.main.currentTimeRemaining == this.main.root.gameConfigs.displayResultTime) {
                         this.main.showResult();
                         this.main.currentStatus && this.main.showUserWinLoss(this.main.currentStatus);
@@ -87,6 +88,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
                     self.main.animatedTime.setTime(time);
                     self.main.diaNanSprite.node.active = !this.main.hideDiaNan;
                 } else {
+                    this.main.disableHistoryButton();
                     clearInterval(self.playTimeInterval);
                 }
             }

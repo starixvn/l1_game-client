@@ -155,6 +155,9 @@ export default class ChanLeMain extends cc.Component {
     @property(cc.Sprite)
     userBetRightPercent: cc.Sprite = null;
 
+    @property(cc.Node)
+    historyButton: cc.Node = null;
+
     //#endregion
     isNan = false;
     root: ChanLe;
@@ -400,6 +403,7 @@ export default class ChanLeMain extends cc.Component {
 
     resetUI() {
         this.stopWinningAnims();
+        this.hideBetBalanceNotice();
         this.animatedTime.node.active = false;
         this.diceAnimation.node.active = false;
         this.timeWaitNode.active = this.resultNode.active = this.diaNan.node.active = false;
@@ -443,6 +447,18 @@ export default class ChanLeMain extends cc.Component {
     hideBetBalanceNotice() {
         this.balanceBetNoticeContainer.destroyAllChildren();
         this.balanceBetNotice = null;
+    }
+
+    disableHistoryButton() {
+        this.historyButton.opacity = 130;
+        const button = this.historyButton.getComponent(cc.Button);
+        button.interactable = false;
+    }
+
+    enableHistoryButton() {
+        this.historyButton.opacity = 255;
+        const button = this.historyButton.getComponent(cc.Button);
+        button.interactable = true;
     }
 
     showResult() {

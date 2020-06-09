@@ -25,9 +25,7 @@ cc.Class({
 		this.ttOffset = cc.v2(0, 0);
 		this.ttOffset2 = cc.v2(0, 0);
 		this.toggleRuning = false;
-		if (void 0 !== cc.RedT.setting.popupMini.position) {
-			this.node.position = cc.RedT.setting.popupMini.position;
-		}
+
 		if (void 0 !== cc.RedT.setting.popupMini.open) {
 			if (cc.RedT.setting.popupMini.open) {
 				this.list.active = true;
@@ -39,6 +37,14 @@ cc.Class({
 				this.list.active = false
 			}
 		}
+
+		if (void 0 !== cc.RedT.setting.popupMini.position) {
+			this.node.position = cc.RedT.setting.popupMini.position;
+		}
+		this.schedule(this.moveToEdge, 0.2, cc.macro.REPEAT_FOREVER);
+	},
+	onDestroy: function () {
+		this.unschedule(this.moveToEdge);
 	},
 	onEnable: function () {
 		this.panel.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -74,14 +80,42 @@ cc.Class({
 	eventMove: function (e) {
 		this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y)
 	},
+	moveToEdge: function () {
+		const width = this.node.parent.width;
+		const height = this.node.parent.height;
+		const fixTopPadding = 100;
+		const maxX = width / 2 - Math.max(this.node.width, this.list.getBoundingBox().width) / 2;
+		const maxY = height / 2 - Math.max(this.node.height, this.list.getBoundingBox().height) / 2;
+		const deltaWidth = maxX - Math.abs(this.node.x);
+		const deltaHeight = maxY - Math.abs(this.node.y);
+
+		let posX, posY;
+		if (deltaWidth < deltaHeight) {
+			posY = this.node.y;
+			posY = Math.min(maxY, posY);
+			posY = Math.max(-maxY, posY);
+			posX = this.node.x < 0 ? -maxX : maxX;
+		} else {
+			posX = this.node.x;
+			posX = Math.min(maxX, posX);
+			posX = Math.max(-maxX, posX);
+			posY = this.node.y < 0 ? -maxY : maxY;
+		}
+
+		posY = Math.min(maxY - fixTopPadding, posY);
+
+		// this.node.stopAllActions();
+		this.node.runAction(cc.moveTo(0.3, posX, posY).easing(cc.easeSineOut()));
+		cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
+	},
 	eventEnd: function (e) {
-		cc.RedT.setting.popupMini.position = this.node.position;
-		this.xChanger = this.ttOffset2.x - (e.touch.getLocationX() - this.ttOffset.x)
-		this.yChanger = this.ttOffset2.y - (e.touch.getLocationY() - this.ttOffset.y)
-		if (this.xChanger < 5 &&
-			this.xChanger > -5 &&
-			this.yChanger < 5 &&
-			this.yChanger > -5) {
+		this.moveToEdge();
+		const xChanger = this.ttOffset2.x - (e.touch.getLocationX() - this.ttOffset.x)
+		const yChanger = this.ttOffset2.y - (e.touch.getLocationY() - this.ttOffset.y)
+		if (xChanger < 5 &&
+			xChanger > -5 &&
+			yChanger < 5 &&
+			yChanger > -5) {
 			this.toggle()
 		}
 	},
@@ -97,7 +131,7 @@ cc.Class({
 				} else {
 					this.nodeTime.position = cc.v2(25, 43);
 				}
-				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 0.2).easing(cc.easeBackIn(3.0)), cc.rotateTo(0.3, -720)), cc.callFunc(function () {
+				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 0.2), cc.rotateTo(0.3, -720)), cc.callFunc(function () {
 					this.toggleRuning = this.list.active = false
 				}, this)))
 			} else {
@@ -107,7 +141,7 @@ cc.Class({
 				} else {
 					this.nodeTime.position = cc.v2(-155.7, -5.6);
 				}
-				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 1).easing(cc.easeBackOut(3.0)), cc.rotateTo(0.3, 720)), cc.callFunc(function () {
+				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 1), cc.rotateTo(0.3, 720)), cc.callFunc(function () {
 					this.toggleRuning = false
 				}, this)))
 			}

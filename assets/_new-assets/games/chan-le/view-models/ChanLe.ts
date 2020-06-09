@@ -189,7 +189,6 @@ export default class ChanLe extends cc.Component {
             event.touch.getLocationX() - this.node.position.x,
             event.touch.getLocationY() - this.node.position.y
         );
-
         this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
     }
 

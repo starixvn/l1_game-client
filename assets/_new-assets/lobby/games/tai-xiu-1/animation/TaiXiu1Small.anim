@@ -119,7 +119,7 @@
               "value": {
                 "__type__": "cc.Vec2",
                 "x": 1,
-                "y": 1
+                "y": 0.97
               }
             },
             {
@@ -269,153 +269,110 @@
           ]
         }
       },
-      "MaskChuXiu/TextLight": {
+      "ChuTaiXiu/ChuTai Animation": {
         "props": {
-          "x": [
-            {
-              "frame": 0.75,
-              "value": -59.975
-            },
-            {
-              "frame": 1.5,
-              "value": 43.577
-            }
-          ],
-          "opacity": [
-            {
-              "frame": 0.75,
-              "value": 255
-            },
-            {
-              "frame": 1.3333333333333333,
-              "value": 255
-            },
-            {
-              "frame": 1.5,
-              "value": 0
-            }
-          ]
-        }
-      },
-      "MaskVien/FrameLightLeft": {
-        "props": {
-          "y": [
-            {
-              "frame": 0.5,
-              "value": -108.16
-            },
-            {
-              "frame": 1,
-              "value": 114.759
-            }
-          ]
-        }
-      },
-      "MaskVien/FrameLightRight": {
-        "props": {
-          "y": [
-            {
-              "frame": 0.5,
-              "value": 101.089
-            },
-            {
-              "frame": 1,
-              "value": -113.419
-            }
-          ]
-        }
-      },
-      "MaskVien/FrameLightTop": {
-        "comps": {},
-        "props": {
-          "opacity": [],
-          "x": [
+          "scale": [
             {
               "frame": 0,
-              "value": -104.368
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
             },
             {
-              "frame": 0.5,
-              "value": 133.272
+              "frame": 0.2,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.2,
+                "y": 1.2
+              }
+            },
+            {
+              "frame": 0.4166666666666667,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 1.2333333333333334,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 1.4333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.2,
+                "y": 1.2
+              }
+            },
+            {
+              "frame": 1.65,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
             }
           ]
         }
       },
-      "MaskVien/FrameLightBottom": {
-        "comps": {},
+      "ChuTaiXiu/ChuXiu Animation": {
         "props": {
-          "x": [
+          "scale": [
             {
-              "frame": 0,
-              "value": 111.191
+              "frame": 0.2,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.05,
+                "y": 1.05
+              }
             },
             {
-              "frame": 0.5,
-              "value": -119.09
-            }
-          ]
-        }
-      },
-      "Group Chu Tai": {
-        "props": {
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -4.469,
-                0.638,
-                0
-              ]
+              "frame": 0.4166666666666667,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.2,
+                "y": 1.2
+              }
             },
             {
-              "frame": 0.5,
-              "value": [
-                3.83,
-                0.638,
-                0
-              ]
+              "frame": 0.6333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.05,
+                "y": 1.05
+              }
             },
             {
-              "frame": 0.9833333333333333,
-              "value": [
-                12.767,
-                0.638,
-                0
-              ]
+              "frame": 1.4333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.05,
+                "y": 1.05
+              }
             },
             {
-              "frame": 1,
-              "value": [
-                0.638,
-                -1.916,
-                0
-              ]
+              "frame": 1.65,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.2,
+                "y": 1.2
+              }
             },
             {
-              "frame": 1.5,
-              "value": [
-                -0.639,
-                1.276,
-                0
-              ]
-            },
-            {
-              "frame": 2,
-              "value": [
-                -2.554,
-                4.468,
-                0
-              ]
-            }
-          ],
-          "x": [
-            {
-              "frame": 0,
-              "value": -4.469
-            },
-            {
-              "frame": 0.9833333333333333,
-              "value": 12.767
+              "frame": 1.8666666666666667,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.05,
+                "y": 1.05
+              }
             }
           ]
         }
