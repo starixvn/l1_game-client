@@ -703,7 +703,7 @@ cc.Class({
           if (isBalanceBetTime) {
             this.balanceBet(cc.RedT.setting.taixiu.time_remain == Constants.fullTime);
           } else {
-            this.hideBalanceBetNotice();
+            this.hideBetBalanceNotice();
             this.enableHistoryButton();
             if (cc.RedT.setting.taixiu.time_remain == Constants.displayResultTime) {
               this.displayDiceResult();
@@ -1048,6 +1048,7 @@ cc.Class({
     this.diceAnimation.node.active = false;
     this.nodeTimeWait.active = this.nodeKetQua.active = this.diaNan.active = false;
     this.setDice(false, false);
+    this.hideBetBalanceNotice();
   },
   reset: function () {
     this.isNan && this.dataLogs();
@@ -1183,7 +1184,7 @@ cc.Class({
     }
   },
 
-  hideBalanceBetNotice() {
+  hideBetBalanceNotice() {
     this.balanceBetNoticeContainer.destroyAllChildren();
     this.balanceBetNotice = null;
   },

@@ -403,6 +403,7 @@ export default class ChanLeMain extends cc.Component {
 
     resetUI() {
         this.stopWinningAnims();
+        this.hideBetBalanceNotice();
         this.animatedTime.node.active = false;
         this.diceAnimation.node.active = false;
         this.timeWaitNode.active = this.resultNode.active = this.diaNan.node.active = false;
