@@ -83,6 +83,7 @@ cc.Class({
 	moveToEdge: function () {
 		const width = this.node.parent.width;
 		const height = this.node.parent.height;
+		const fixTopPadding = 100;
 		const maxX = width / 2 - Math.max(this.node.width, this.list.getBoundingBox().width) / 2;
 		const maxY = height / 2 - Math.max(this.node.height, this.list.getBoundingBox().height) / 2;
 		const deltaWidth = maxX - Math.abs(this.node.x);
@@ -100,6 +101,8 @@ cc.Class({
 			posX = Math.max(-maxX, posX);
 			posY = this.node.y < 0 ? -maxY : maxY;
 		}
+
+		posY = Math.min(maxY - fixTopPadding, posY);
 
 		// this.node.stopAllActions();
 		this.node.runAction(cc.moveTo(0.3, posX, posY).easing(cc.easeSineOut()));
