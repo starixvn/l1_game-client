@@ -6,7 +6,7 @@ export default class JumpInEffect extends cc.Component {
 
     onEnable() {
         this.node.scale = 2;
-        this.node.runAction(cc.scaleTo(.3, 1));
+        this.node.runAction(cc.scaleTo(.3, 1).easing(cc.easeSineOut()));
     }
 
     onDisable() {

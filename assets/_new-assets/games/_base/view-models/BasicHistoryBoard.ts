@@ -51,6 +51,8 @@ export default class BasicHistoryBoard extends cc.Component {
             dot.destroy();
         });
 
+        this.dots = [];
+
         this.nextMark = null;
 
         historyData.forEach((history) => {
@@ -63,8 +65,6 @@ export default class BasicHistoryBoard extends cc.Component {
 
         this.addNextMark();
     }
-
-
 
     update() {
         if (this.nextMark && this.nextMark.isValid) {
