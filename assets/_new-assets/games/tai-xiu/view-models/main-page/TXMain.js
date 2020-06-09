@@ -1049,6 +1049,7 @@ cc.Class({
     this.nodeTimeWait.active = this.nodeKetQua.active = this.diaNan.active = false;
     this.setDice(false, false);
     this.hideBetBalanceNotice();
+    this.enableHistoryButton();
   },
   reset: function () {
     this.isNan && this.dataLogs();
