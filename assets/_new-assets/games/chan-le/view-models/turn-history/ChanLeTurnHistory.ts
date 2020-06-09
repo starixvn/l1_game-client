@@ -51,8 +51,11 @@ export default class ChanLeTurnHistory extends cc.Component {
     private root: ChanLe;
     private currentTurnId: number;
 
-    init(root: ChanLe, turnId: number) {
+    init(root: ChanLe) {
         this.root = root;
+    }
+
+    setTurnId(turnId: number) {
         this.currentTurnId = turnId;
         this.title.string = `${ChanLeTurnHistory.LICH_SU_PHIEN} ${this.root.gameTitle}`.toUpperCase();
     }

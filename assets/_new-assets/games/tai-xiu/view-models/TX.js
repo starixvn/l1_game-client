@@ -123,12 +123,14 @@ cc.Class({
   },
   showBetHistory: function (event) {
     cc.RedT.audio.playClick();
-
+    this.showBetHistoryAtRound(event.target.phien);
+  },
+  showBetHistoryAtRound: function (phien) {
     var dialog = cc.instantiate(this.TX_HistoryBetPrefab);
     this.miniPanel.dialog.insertChild(dialog);
     this.TXBetHistory = dialog.getComponent("TXBetHistory");
     this.TXBetHistory.init(this);
-    this.TXBetHistory.getPhien(event.target.phien)
+    this.TXBetHistory.getPhien(phien);
   },
   showGuide: function () {
     cc.RedT.audio.playClick();

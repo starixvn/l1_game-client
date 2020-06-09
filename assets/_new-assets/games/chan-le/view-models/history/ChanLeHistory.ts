@@ -53,6 +53,10 @@ export default class ChanLeHistory extends cc.Component {
                 var point = historyItemData.dice1 + historyItemData.dice2 + historyItemData.dice3;
                 historyItem.time.string = getStringDateByTime(historyItemData.time);
                 historyItem.turnId.string = historyItemData.phien;
+                const roundId = historyItemData.phien;
+                historyItem.roundIdClick = () => {
+                    this.root.showBetHistoryAtRound(roundId);
+                };
                 historyItem.betChoice.string = this.buildBetChoice(historyItemData.select);
                 historyItem.result.string = historyItemData.dice1 + "-" + historyItemData.dice2 + "-" + historyItemData.dice3 + "  " + point;
                 historyItem.betMoney.string = numberWithCommas(historyItemData.bet);

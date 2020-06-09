@@ -141,12 +141,17 @@ export default class ChanLe extends cc.Component {
     showTurnHistory(event) {
         cc.RedT.audio.playClick();
 
+        var dotLog = event.target.getComponent("ChanLeLogTips") as ChanLeLogTips;
+        this.showBetHistoryAtRound(dotLog.turnId);
+    }
+
+    showBetHistoryAtRound(turnId: number) {
         var dialog = cc.instantiate(this.turnHistoryPrefab);
         this.turnHistory = dialog.getComponent("ChanLeTurnHistory");
-        var dotLog = event.target.getComponent("ChanLeLogTips") as ChanLeLogTips;
 
-        this.turnHistory.init(this, dotLog.turnId);
-        this.miniPanel.dialog.insertChild(dialog, 0);
+        this.turnHistory.init(this);
+        this.turnHistory.setTurnId(turnId);
+        this.miniPanel.dialog.addChild(dialog);
     }
 
     hideTurnHistory() {
