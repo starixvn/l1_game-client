@@ -41,7 +41,7 @@ cc.Class({
 		if (void 0 !== cc.RedT.setting.popupMini.position) {
 			this.node.position = cc.RedT.setting.popupMini.position;
 		}
-		this.schedule(this.moveToEdge, 0.5, cc.macro.REPEAT_FOREVER);
+		this.schedule(this.moveToEdge, 0.2, cc.macro.REPEAT_FOREVER);
 	},
 	onDestroy: function () {
 		this.unschedule(this.moveToEdge);
@@ -83,8 +83,8 @@ cc.Class({
 	moveToEdge: function () {
 		const width = this.node.parent.width;
 		const height = this.node.parent.height;
-		const maxX = width / 2 - this.node.width / 2;
-		const maxY = height / 2 - this.node.height / 2;
+		const maxX = width / 2 - Math.max(this.node.width, this.list.getBoundingBox().width) / 2;
+		const maxY = height / 2 - Math.max(this.node.height, this.list.getBoundingBox().height) / 2;
 		const deltaWidth = maxX - Math.abs(this.node.x);
 		const deltaHeight = maxY - Math.abs(this.node.y);
 
@@ -101,7 +101,7 @@ cc.Class({
 			posY = this.node.y < 0 ? -maxY : maxY;
 		}
 
-		this.node.stopAllActions();
+		// this.node.stopAllActions();
 		this.node.runAction(cc.moveTo(0.3, posX, posY).easing(cc.easeSineOut()));
 		cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
 	},
@@ -128,7 +128,7 @@ cc.Class({
 				} else {
 					this.nodeTime.position = cc.v2(25, 43);
 				}
-				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 0.2).easing(cc.easeBackIn(3.0)), cc.rotateTo(0.3, -720)), cc.callFunc(function () {
+				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 0.2), cc.rotateTo(0.3, -720)), cc.callFunc(function () {
 					this.toggleRuning = this.list.active = false
 				}, this)))
 			} else {
@@ -138,7 +138,7 @@ cc.Class({
 				} else {
 					this.nodeTime.position = cc.v2(-155.7, -5.6);
 				}
-				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 1).easing(cc.easeBackOut(3.0)), cc.rotateTo(0.3, 720)), cc.callFunc(function () {
+				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 1), cc.rotateTo(0.3, 720)), cc.callFunc(function () {
 					this.toggleRuning = false
 				}, this)))
 			}
