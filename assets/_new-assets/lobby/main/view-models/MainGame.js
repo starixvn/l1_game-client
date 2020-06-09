@@ -21,7 +21,9 @@ cc.Class({
     },
     header: header,
     center: center,
-    menuCenter: cc.Node,
+    mainScroll: cc.Node,
+    gameAds: cc.Node,
+    scrollContent: cc.Node,
     news: cc.Node,
     newsContents: newsContents,
     iconVQRed: cc.Node,
@@ -82,19 +84,26 @@ cc.Class({
       this.header.setAvatar(cc.RedT.user.avatarId);
     }
 
-    //this.center.node.on("size-changed", this.repositionMenu, this);
+    this.center.node.on("size-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
       this.center.node.scale = 0.8;
     }
-    //this.repositionMenu();
+    this.repositionMenu();
   },
   repositionMenu() {
-    var menuCenterWidth = this.menuCenter.width;
-    if (menuCenterWidth < this.center.node.width) {
-      this.menuCenter.parent.getComponent(cc.ScrollView).enabled = false;
-      this.menuCenter.position = cc.v2(- menuCenterWidth / 2, this.menuCenter.position.y);
+    const adsWidth = this.gameAds.width;
+    const scrollContentWidth = this.scrollContent.width + adsWidth;
+    const scrollView = this.scrollContent.parent.getComponent(cc.ScrollView);
+    const adsWidget = this.gameAds.getComponent(cc.Widget);
+    if (scrollContentWidth < this.center.node.width) {
+      scrollView.enabled = false;
+      this.scrollContent.position = cc.v2(- scrollContentWidth / 2 + adsWidth / 2, this.scrollContent.position.y);
+      adsWidget.enabled = false;
+      this.gameAds.position = cc.v2(- scrollContentWidth / 2 + adsWidth / 2, this.gameAds.position.y);
     } else {
-      this.menuCenter.parent.getComponent(cc.ScrollView).enabled = true;
+      scrollView.enabled = true;
+      this.scrollContent.position = cc.v2(- scrollView.node.width / 2, this.scrollContent.position.y);
+      adsWidget.enabled = true;
     }
   },
   auth: function (obj) {
@@ -419,11 +428,11 @@ cc.Class({
       let h100 = result.filter(function(temp){return temp.type == 100});
       let h1k  = result.filter(function(temp){return temp.type == 1000});
       let h10k = result.filter(function(temp){return temp.type == 10000});
- 
+   
       let r100 = helper.getOnlyNumberInString(this.iconMegaJ.hu100.string);
       let r1k  = helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string);
       let r10k = helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string);
- 
+   
       if (r100-h100[0].bet != 0) {
         helper.numberTo(this.iconMegaJ.hu100, helper.getOnlyNumberInString(this.iconMegaJ.hu100.string), h100[0].bet, 4900, true);
       }
