@@ -135,10 +135,10 @@ export default class MiniSedie extends GameMiniBase {
 
     public onToggleShowRoundResult() {
         this.showLogs = !this.showLogs;
-        this.ShowRoundResult(this.showLogs);
+        this.showRoundHistory(this.showLogs);
     }
 
-    private ShowRoundResult(show: boolean) {
+    public showRoundHistory(show: boolean) {
         this.roundHistoryContainer.active = show;
     }
 
