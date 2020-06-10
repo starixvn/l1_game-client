@@ -31,4 +31,8 @@ cc.Class({
             type: cc.Label
         },
     },
+    onRoundIdClick: function () {
+        cc.RedT.audio.playClick();
+        this.roundIdClick();
+    }
 });

@@ -10,6 +10,7 @@ export default class RHLogsDataHandler implements DataHandler {
         if (data.logs) {
             this.main.logs = data.logs;
             this.main.updateLogs();
+            this.main.scoreBoard.active = true;
         }
         return true;
     }

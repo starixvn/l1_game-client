@@ -67,6 +67,8 @@ export default class MiniSedie extends GameMiniBase {
 
     onEnable() {
         super.onEnable();
+        this.showLogs = this.currentDataLogs.length > 0;
+        this.showRoundHistory(this.showLogs);
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
@@ -135,10 +137,10 @@ export default class MiniSedie extends GameMiniBase {
 
     public onToggleShowRoundResult() {
         this.showLogs = !this.showLogs;
-        this.ShowRoundResult(this.showLogs);
+        this.showRoundHistory(this.showLogs);
     }
 
-    private ShowRoundResult(show: boolean) {
+    public showRoundHistory(show: boolean) {
         this.roundHistoryContainer.active = show;
     }
 

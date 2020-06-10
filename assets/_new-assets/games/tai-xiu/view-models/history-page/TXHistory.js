@@ -37,6 +37,10 @@ cc.Class({
         var tong = dataT.dice1 + dataT.dice2 + dataT.dice3;
         item.time.string = Helper.getStringDateByTime(dataT.time);
         item.phien.string = dataT.phien;
+        const roundId = dataT.phien;
+        item.roundIdClick = () => {
+          this.RedT.showBetHistoryAtRound(roundId);
+        };
         item.dat.string = dataT.taixiu
           ? dataT.select
             ? "Tài"

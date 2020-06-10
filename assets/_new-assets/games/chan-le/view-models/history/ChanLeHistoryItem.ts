@@ -23,4 +23,11 @@ export default class ChanLeHistoryItem extends cc.Component {
 
     @property(cc.Label)
     winMoney: cc.Label = null;
+
+    public roundIdClick = () => { }
+
+    onRoundIdClick() {
+        cc.RedT.audio.playClick();
+        this.roundIdClick();
+    }
 }
