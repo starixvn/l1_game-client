@@ -268,6 +268,7 @@ export default class RongHo extends cc.Component {
         this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
         this.background.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
         this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+        this.scoreBoard.active = this.logs.length > 0;
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }

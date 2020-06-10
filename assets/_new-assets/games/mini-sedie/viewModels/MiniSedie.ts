@@ -67,6 +67,8 @@ export default class MiniSedie extends GameMiniBase {
 
     onEnable() {
         super.onEnable();
+        this.showLogs = this.currentDataLogs.length > 0;
+        this.showRoundHistory(this.showLogs);
         cc.RedT.addDataObserver(this.gameName, this.receivedData.bind(this));
     }
 
