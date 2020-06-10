@@ -12,43 +12,34 @@ export default class GameAds extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(cc.Node)
-    touch: cc.Node = null;
-
     @property
     intervalChangeImage = 4;
 
     private dragThreshold = 0.5;
-    private dragTimeout = 1;
     private currentIndex = 0;
     private touchOffset = cc.v2(0, 0);
     private started = false;
-    private touchTime = 0;
 
     onLoad() {
         this.scheduleOnce(this.autoChange, 1);
-        this.touch.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
-        this.touch.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-        this.touch.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+        this.content.on(cc.Node.EventType.TOUCH_START, this.eventStart, this, true);
+        this.content.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this, true);
+        this.content.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
+        this.content.on(cc.Node.EventType.TOUCH_CANCEL, this.handleReleaseTouch, this, true);
     }
 
     onDestroy() {
         this.unschedule(this.autoChange);
-        this.touch.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
-        this.touch.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-        this.touch.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-    }
-
-    update(dt: number) {
-        if (this.started) {
-            this.touchTime += dt;
-            if (dt > this.dragTimeout) {
-                this.handleReleaseTouch();
-            }
-        }
+        this.content.off(cc.Node.EventType.TOUCH_START, this.eventStart, this, true);
+        this.content.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this, true);
+        this.content.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
+        this.content.off(cc.Node.EventType.TOUCH_CANCEL, this.handleReleaseTouch, this, true);
     }
 
     handleReleaseTouch() {
+        if (!this.started) {
+            return;
+        }
         this.started = false;
         const node = this.getCurrentPage();
         const delta = node.x - this.touchOffset.x;
@@ -64,10 +55,11 @@ export default class GameAds extends cc.Component {
     }
 
     eventEnd(e) {
-        if (!this.started) {
-            return;
-        }
         this.handleReleaseTouch();
+        const delta = e.touch.getLocationX() - this.touchOffset.x;
+        if (Math.abs(delta) > 10) {
+            e.stopPropagation();
+        }
     }
 
     eventMove(e) {
@@ -92,7 +84,6 @@ export default class GameAds extends cc.Component {
 
     eventStart(e) {
         this.started = true;
-        this.touchTime = 0;
         const node = this.getCurrentPage();
         this.touchOffset = cc.v2(
             e.touch.getLocationX() - node.position.x,
@@ -133,7 +124,7 @@ export default class GameAds extends cc.Component {
         this.started = false;
 
         const direction = pageDirection == PageDirection.Right ? 1 : -1;
-        const distance = this.node.width;
+        const distance = this.node.width * 1.3;
 
         oldNode.runAction(cc.sequence(
             cc.moveBy(0.3, cc.v2(-direction * distance, 0)),
