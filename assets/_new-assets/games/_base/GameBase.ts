@@ -85,6 +85,7 @@ export default class GameBase extends cc.Component {
     public roundId = -1;
     public currentMiniPanel: MiniPanel;
     public gameConfigs: any;
+    public finishShowResult = false;
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
@@ -242,6 +243,7 @@ export default class GameBase extends cc.Component {
         this.animatedTime.node.active = false;
         this.timeWaitNode.active = false;
         this.statusHandler.currentStatusData = null;
+        this.finishShowResult = false;
     }
 
     protected onGameHide() {

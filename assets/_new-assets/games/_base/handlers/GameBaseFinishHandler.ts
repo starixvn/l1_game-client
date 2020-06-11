@@ -22,7 +22,10 @@ export default class GameBaseFinishHandler implements DataHandler {
 
             this.handleFinishData(
                 data.finish,
-                () => this.payChips(data.finish.settlementResult, data.finish.winningPlayers));
+                () => {
+                    this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
+                    this.main.finishShowResult = true;
+                })
         }
 
         return true;

@@ -34,7 +34,7 @@ export default class BaccaratCards extends cc.Component {
     private cardsResource: any = null;
     private readonly flyCardSecond = 0.8;
     private readonly openCardSecond = 0.3;
-    private readonly openSecondCardSecond = 1.2;
+    private readonly openSecondCardSecond = 1.6;
     private readonly setPointSecond = 0.2;
 
     init(cardsResource, resetCard3 = true) {
@@ -202,13 +202,10 @@ export default class BaccaratCards extends cc.Component {
                     this.cardBack.node.position = position;
 
                     this.cardBack.node.runAction(cc.sequence(
-                        // cc.rotateTo(0.4, 10).easing(cc.easeSineOut()),
-                        // cc.rotateTo(0.4, 0).easing(cc.easeSineOut()),
-                        cc.delayTime(0.4),
-                        cc.moveBy(0.4, cc.v2(5, -5)).easing(cc.easeSineOut()),
+                        cc.moveBy(0.8, cc.v2(10, -10)).easing(cc.easeSineOut()),
                         cc.spawn(
-                            cc.moveBy(0.4, cc.v2(200, -200)).easing(cc.easeExponentialInOut()),
-                            cc.fadeOut(0.4).easing(cc.easeExponentialInOut())
+                            cc.moveBy(0.8, cc.v2(150, -150)).easing(cc.easeExponentialInOut()),
+                            cc.fadeOut(0.8).easing(cc.easeExponentialInOut())
                         ),
                         cc.callFunc(() => {
                             this.cardBack.node.active = false;
