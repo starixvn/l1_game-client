@@ -64,6 +64,15 @@ cc.Class({
         }
       });
   },
+  openKenoProViet(){
+    cc.RedT.audio.playClick();
+    if (cc.RedT.IS_LOGIN) {
+      cc.RedT.inGame.loading.active = true;
+		  cc.director.loadScene('KenoProViet');
+    } else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+  },
   openGame: function (e, name) {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {

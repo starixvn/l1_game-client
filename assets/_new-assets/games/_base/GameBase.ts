@@ -132,7 +132,6 @@ export default class GameBase extends cc.Component {
     onDestroy() {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-
     }
 
     onEnable() {
