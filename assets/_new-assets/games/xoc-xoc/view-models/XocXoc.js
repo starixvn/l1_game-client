@@ -892,17 +892,27 @@ cc.Class({
 	},
 	playTime: function () {
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
+		const randomTime = Math.floor(Math.random() * (Constants.fullTime - Constants.betTime)) + Constants.betTime;
+		console.log(randomTime);
 		this.timeInterval = setInterval(function () {
-			if (this.time_remain > Constants.shakeThePlateTime) {
-				var time = helper.numberPad(this.time_remain - Constants.shakeThePlateTime - 1, 2);
-				this.timeWait.string = time;
-				this.labelTime.node.active = false;
-				this.nodeWait.active = true;
-			} else if (this.time_remain > Constants.betTime) {
-				this.nodeWait.active = false;
-				if (this.time_remain === Constants.shakeThePlateTime) {
-					this.nodeBat.runAction(this.actionBatClose);
-					this.setGameRound();
+			if (this.time_remain > Constants.betTime) {
+				if (this.time_remain == randomTime) {
+					console.log("replace");
+					this.replaceInactivePlayerOnTable();
+				}
+
+				if (this.time_remain > Constants.shakeThePlateTime) {
+					var time = helper.numberPad(this.time_remain - Constants.shakeThePlateTime - 1, 2);
+					this.timeWait.string = time;
+					this.labelTime.node.active = false;
+					this.nodeWait.active = true;
+				} else {
+					this.nodeWait.active = false;
+					if (this.time_remain === Constants.shakeThePlateTime) {
+						this.nodeBat.runAction(this.actionBatClose);
+						this.setGameRound();
+						this.updateTablePlayers();
+					}
 				}
 			} else {
 				if (this.time_remain > Constants.minBetTime) {
@@ -917,14 +927,13 @@ cc.Class({
 						this.labelTime.node.color = cc.Color.WHITE
 					}
 				} else {
-					this.rearrangePlayersOnTable();
 					clearInterval(this.timeInterval);
 				}
 			}
 			this.time_remain--;
 		}.bind(this), 1000);
 	},
-	rearrangePlayersOnTable: function () {
+	replaceInactivePlayerOnTable: function () {
 		let emptySlots = this.getEmptySlots();
 		Object.values(this.Positions).forEach((position) => {
 			if (position.data) {
@@ -935,7 +944,7 @@ cc.Class({
 		if (!emptySlots || emptySlots.length < 1) {
 			const replacePositions = Object.values(this.Positions)
 				.filter(function (t) {
-					return t.data && (t.data.red < self.configs.minbet || t.data.missBetCount > 3);
+					return t.data && t.data.missBetCount > 1;
 				});
 
 			replacePositions.forEach((position) => {
@@ -945,6 +954,23 @@ cc.Class({
 				this.moveOtherPlayerToTable();
 			});
 		}
+	},
+
+	updateTablePlayers() {
+		const realPlayers = Object.values(this.otherPlayers).filter(player => !player.type);
+		console.log(realPlayers);
+		const botPositionsInTable = Object.values(this.Positions).filter(position => position.data && position.data.type);
+
+		botPositionsInTable.forEach((position, index) => {
+			if (index <= realPlayers.length - 1) {
+				var realPlayer = realPlayers[index];
+				var botData = position.data;
+				this.otherPlayers[botData.id] = botData;
+
+				this.players[position.id - 1].setInfo(realPlayer);
+				delete this.otherPlayers[realPlayer.id];
+			}
+		});
 	},
 	removePlayerOutTable: function (position) {
 		this.Positions[position.id].data = null;

@@ -98,7 +98,7 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
         _.forEach(botsInTable, (bot, index) => {
             if (index <= realPlayers.length - 1) {
-                var realPlayer = realPlayers[0];
+                var realPlayer = realPlayers[index];
                 var botData = bot.data;
                 this.otherPlayers[botData.id] = botData;
 
