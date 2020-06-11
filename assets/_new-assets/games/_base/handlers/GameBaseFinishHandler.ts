@@ -128,11 +128,16 @@ export default class GameBaseFinishHandler implements DataHandler {
     }
 
     payChipsToOtherPlayers(roomGame: GameRoomBase, winBetItems: BetItem[]) {
+        let hasChip = false;
+
         _.forEach(winBetItems, item => {
+            if (!hasChip) {
+                hasChip = item.chipNode.children.length > 0;
+            }
             this.main.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
         })
 
-        this.main.betChips.playMultiChipsSound();
+        hasChip && this.main.betChips.playMultiChipsSound();
     }
 
     playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node) {

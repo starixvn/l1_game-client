@@ -74,18 +74,6 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
                 return;
             }
 
-            if (!player.type) {
-                const botSlot = this.getBotSlot();
-
-                if (botSlot) {
-                    var botPlayerData = botSlot.data;
-                    botSlot.setInfo(player);
-                    botPlayerData && (this.otherPlayers[botPlayerData.id] = botPlayerData);
-
-                    return;
-                }
-            }
-
             this.otherPlayers[player.id] = player;
         }
 
