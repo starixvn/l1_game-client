@@ -941,9 +941,10 @@ cc.Class({
 		});
 		if (!emptySlots || emptySlots.length < 1) {
 			const replacePositions = Object.values(this.Positions).filter(position => position.data && (position.data.missBetCount >= Constants.maxRoundUserMissingBet || position.data.type));
-			let replacePlayers = Object.values(this.otherPlayers).filter(player => !player.type);
+			let replacePlayers = [];
+			replacePlayers = Object.values(this.otherPlayers).filter(player => !player.type);
 			if (!replacePlayers || !replacePlayers.length) {
-				replacePlayers = Object.values(this.otherPlayers);
+				replacePlayers.push(Object.values(this.otherPlayers)[0]);
 			}
 
 			if (replacePlayers && replacePlayers.length) {
