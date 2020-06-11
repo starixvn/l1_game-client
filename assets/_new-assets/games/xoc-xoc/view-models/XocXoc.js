@@ -3,6 +3,7 @@ let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
 import logger from '../../../common/logger';
 const sentryLogger = logger();
+const Constants = require('./XocXocConstants');
 
 cc.Class({
 	extends: cc.Component,
@@ -70,11 +71,6 @@ cc.Class({
 			type: cc.Sprite,
 		},
 
-		// log_chan: cc.Label,
-		// log_le: cc.Label,
-		// log_top: cc.Node,
-		// logMain: cc.Node,
-
 		redH: cc.Node,
 		miniNotice: cc.Node,
 
@@ -120,7 +116,6 @@ cc.Class({
 				this.resetData();
 			}, this),
 			cc.moveTo(0.5, cc.v2(0, 0)),
-			//cc.delayTime(0.5),
 			cc.callFunc(function () {
 				cc.RedT.isSoundGame() && this.audioXocDia.play();
 				this.Animation.play();
@@ -192,26 +187,6 @@ cc.Class({
 			this.cuoc = bet;
 		});
 		this.bet = this.betChips.chips;
-		/*
-		this.logMain = this.logMain.children.map(function (obj) {
-			return obj.children[0].getComponent(cc.Sprite);
-		});
-
-		this.logMain.reverse();
-
-		this.log_top = this.log_top.children.map(function (obj) {
-			let data = { 'cell': obj };
-			let cell = obj.children.map(function (obj) {
-				return { c: obj.children[0].getComponent(cc.Sprite), t: obj.children[1].getComponent(cc.Label) };
-			});
-			cell.reverse();
-			data.data = cell;
-			return data;
-		});
-
-		this.log_top.reverse();
-		*/
-
 		this.me_name.string = cc.RedT.user.name;
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 		let self = this;
@@ -229,7 +204,7 @@ cc.Class({
 		var node = cc.instantiate(this.roundHistoryPrefab);
 		this.roundHistory = node.getComponent("SedieRoundHistory");
 		const condition = () => {
-			return this.time_remain < 5 || this.time_remain > 39;
+			return this.time_remain < Constants.lockingBetTime || this.time_remain > Constants.fullTime;
 		};
 		this.roundHistory.logControl.init(condition);
 		this.roundHistoryContainer.addChild(node);
@@ -289,14 +264,8 @@ cc.Class({
 			let position = positions.find(function (t) { return t.data != null && t.data.id == data.playerId; });
 
 			if (position) {
-				this.Positions[position.id].data = null;
-				this.players[position.id - 1].setInfo(null);
-				let keys = Object.keys(this.otherPlayers);
-				if (keys.length > 0) {
-					let newPlayer = this.otherPlayers[keys[0]];
-					this.addPlayer(newPlayer);
-					delete this.otherPlayers[newPlayer.id];
-				}
+				this.removePlayerOutTable(position);
+				this.moveOtherPlayerToTable();
 			} else {
 				delete this.otherPlayers[data.playerId];
 			}
@@ -378,10 +347,9 @@ cc.Class({
 		if (!!data.logs) {
 			this.logs = data.logs;
 			this.updateRoundHistory();
-			// this.setLogs();
 			this.setGameRound();
 
-			if (this.time_remain > 33 && data.logs.length) {
+			if (this.time_remain > Constants.shakeThePlateTime && data.logs.length) {
 				this.nodeBat.position = cc.v2(0, 150);
 				let dots = data.logs[0].dots;
 				this.setDot([dots[0], dots[1], dots[2], dots[3]]);
@@ -485,10 +453,10 @@ cc.Class({
 		this.winners = data.winClients;
 		let dice = { dots: data.dots, round: data.round };
 		this.logs.unshift(dice);
-		this.logs.length > 48 && this.logs.pop();
+		this.logs.length > Constants.maxLogs && this.logs.pop();
 		this.setDot(dice.dots);
 		this.labelTime.node.active = false;
-		this.time_remain = 39;
+		this.time_remain = Constants.fullTime;
 		this.playTime();
 
 		if (!this.nan) {
@@ -509,7 +477,6 @@ cc.Class({
 			)
 		);
 		this.updateRoundHistory();
-		// this.setLogs();
 	},
 	showKQ: function () {
 		let data = Object.values(this.logs[0].dots);
@@ -768,7 +735,7 @@ cc.Class({
 						winnerPrefab.runAction(
 							cc.sequence(
 								cc.callFunc(function () { animation.play(); }),
-								cc.delayTime(self.time_remain - 33),
+								cc.delayTime(self.time_remain - Constants.shakeThePlateTime),
 								cc.callFunc(function () { this.destroy() }, winnerPrefab)
 							)
 						);
@@ -834,7 +801,7 @@ cc.Class({
 							winnerPrefab.runAction(
 								cc.sequence(
 									cc.callFunc(function () { animation.play(); }),
-									cc.delayTime(self.time_remain - 33),
+									cc.delayTime(self.time_remain - Constants.shakeThePlateTime),
 									cc.callFunc(function () { this.destroy() }, winnerPrefab)
 								)
 							);
@@ -926,33 +893,70 @@ cc.Class({
 	playTime: function () {
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		this.timeInterval = setInterval(function () {
-			if (this.time_remain > 33) {
-				var time = helper.numberPad(this.time_remain - 34, 2);
+			if (this.time_remain > Constants.shakeThePlateTime) {
+				var time = helper.numberPad(this.time_remain - Constants.shakeThePlateTime - 1, 2);
 				this.timeWait.string = time;
 				this.labelTime.node.active = false;
 				this.nodeWait.active = true;
-			} else if (this.time_remain > 31) {
+			} else if (this.time_remain > Constants.betTime) {
 				this.nodeWait.active = false;
-				if (this.time_remain === 33) {
+				if (this.time_remain === Constants.shakeThePlateTime) {
 					this.nodeBat.runAction(this.actionBatClose);
 					this.setGameRound();
 				}
 			} else {
-				if (this.time_remain > 1) {
+				if (this.time_remain > Constants.minBetTime) {
 					var time = helper.numberPad(this.time_remain - 1, 2);
 					this.labelTime.node.active = true;
 					this.nodeWait.active = false;
 					this.labelTime.string = time;
 
-					if (time <= 5) {
+					if (time <= Constants.lockingBetTime) {
 						this.labelTime.node.color = cc.Color.RED;
 					} else {
 						this.labelTime.node.color = cc.Color.WHITE
 					}
-				} else clearInterval(this.timeInterval);
+				} else {
+					this.rearrangePlayersOnTable();
+					clearInterval(this.timeInterval);
+				}
 			}
 			this.time_remain--;
 		}.bind(this), 1000);
+	},
+	rearrangePlayersOnTable: function () {
+		let emptySlots = this.getEmptySlots();
+		Object.values(this.Positions).forEach((position) => {
+			if (position.data) {
+				position.data.missBetCount = (position.data.missBetCount >> 0) + 1;
+			}
+		});
+		const self = this;
+		if (!emptySlots || emptySlots.length < 1) {
+			const replacePositions = Object.values(this.Positions)
+				.filter(function (t) {
+					return t.data && (t.data.red < self.configs.minbet || t.data.missBetCount > 3);
+				});
+
+			replacePositions.forEach((position) => {
+				const player = position.data;
+				this.otherPlayers[player.id] = player;
+				this.removePlayerOutTable(position);
+				this.moveOtherPlayerToTable();
+			});
+		}
+	},
+	removePlayerOutTable: function (position) {
+		this.Positions[position.id].data = null;
+		this.players[position.id - 1].setInfo(null);
+	},
+	moveOtherPlayerToTable: function () {
+		let keys = Object.keys(this.otherPlayers);
+		if (keys.length > 0) {
+			let newPlayer = this.otherPlayers[keys[0]];
+			this.addPlayer(newPlayer);
+			delete this.otherPlayers[newPlayer.id];
+		}
 	},
 	updateData: function (data) {
 		if (this.red) {
@@ -1023,107 +1027,7 @@ cc.Class({
 		this.roundHistory.setData(miniHistoryData.map(d => d.red));
 		this.miniRoundHistory.setData(miniHistoryData);
 	},
-	setLogs: function () {
-		/*
-		let self = this;
-		this.logMain.forEach(function (obj, index) {
-			if (self.logs[index]) {
-				let data = self.logs[index].dots;
-				if (data) {
-					obj.node.active = true;
-					data = Object.values(data);
-					let gameChan = 0;     // Là chẵn
-					data.forEach(function (kqH) {
-						if (kqH) {
-							gameChan++;
-						}
-					});
-					if (!(gameChan % 2)) {
-						obj.spriteFrame = self.dot_white;
-					} else {
-						obj.spriteFrame = self.dot_red;
-					}
-				} else {
-					obj.node.active = false;
-				}
-			}
-		});
-		*/
 
-		/* // remove log_top
-		let tmp_DS = -1;
-		let tmp_arrA = [];
-		let tmp_arrB = [];
-		let c_chan = 0;
-		let c_le = 0;
-
-		let newArr = self.logs.slice();
-		newArr.reverse();
-		newArr.forEach(function (newDS) {
-			let data = Object.values(newDS.dots);
-			let gameChan = 0;
-			data.forEach(function (kqH) {
-				if (kqH) {
-					gameChan++;
-				}
-			});
-
-			let type = !(gameChan % 2);
-			if (tmp_DS === -1) {
-				tmp_DS = type;
-			}
-			if (type !== tmp_DS || tmp_arrB.length > 3) {
-				tmp_DS = type;
-				//tmp_arrB.reverse();
-				tmp_arrA.push(tmp_arrB);
-				tmp_arrB = [];
-			}
-			if (type === tmp_DS) {
-				tmp_arrB.push(gameChan)
-			}
-		});
-
-		//tmp_arrB.reverse();
-		tmp_arrA.push(tmp_arrB);
-		tmp_arrA.reverse();
-		tmp_arrA = tmp_arrA.slice(0, 12);
-
-		this.log_top.forEach(function (obj, index) {
-			let data = tmp_arrA[index];
-			if (data) {
-				obj.cell.active = true;
-
-				obj.data.forEach(function (cell, j) {
-					let jD = data[j];
-					if (void 0 !== jD) {
-						cell.c.node.parent.active = true;
-						if (!(jD % 2)) {
-							cell.c.spriteFrame = self.dot_white;
-							cell.t.node.color = cc.Color.BLACK;
-						} else {
-							cell.c.spriteFrame = self.dot_red;
-							cell.t.node.color = cc.Color.WHITE;
-						}
-						cell.t.string = jD === 0 ? 4 : jD;
-
-						if (!(jD % 2)) {
-							c_chan++;
-						} else {
-							c_le++;
-						}
-					} else {
-						cell.c.node.parent.active = false;
-					}
-				});
-			} else {
-				obj.cell.active = false;
-			}
-		});
-
-		this.log_chan.string = c_chan;
-		this.log_le.string = c_le;
-		*/
-	},
 	changerBet: function (event, bet) {
 		let target = event.target;
 		this.cuoc = target.name;
@@ -1150,12 +1054,6 @@ cc.Class({
 				obj.resumeSystemEvents();
 			}
 		})
-	},
-	changerCoint: function () {
-		this.red = !this.red;
-		this.nodeRed.active = !this.nodeRed.active;
-		this.nodeXu.active = !this.nodeXu.active;
-		this.updateMeCoint();
 	},
 	onCuoc: function (event, box) {
 		if (this.isWaitingBetResult) {
@@ -1222,6 +1120,7 @@ cc.Class({
 		let playerSlot = this.getPlayerSlot(data.playerId);
 		if (playerSlot) {
 			playerSlot.data.red = data.red;
+			playerSlot.data.missBetCount = 0;
 			let slotIndex = playerSlot.id - 1;
 			startNode = this.players[slotIndex].node.children[0];
 			this.players[slotIndex].setInfo(playerSlot.data);
@@ -1401,7 +1300,7 @@ cc.Class({
 	},
 
 	setGameRound: function () {
-		let round = this.time_remain <= 33 ? this.logs[0].round + 1 : this.logs[0].round;
+		let round = this.time_remain <= Constants.shakeThePlateTime ? this.logs[0].round + 1 : this.logs[0].round;
 		this.gameRound.string = "#" + round;
 	},
 });
