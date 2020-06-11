@@ -50,9 +50,11 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
 
         if (result.banker) {
             winningNotices.find(item => item.name.toLowerCase() === "banker").active = true;
+            baccaratMain.bankerCards.showHighlightCards();
         }
         else if (result.player) {
             winningNotices.find(item => item.name.toLowerCase() === "player").active = true;
+            baccaratMain.playerCards.showHighlightCards();
         }
         else {
             winningNotices.find(item => item.name.toLowerCase() === "tie").active = true;

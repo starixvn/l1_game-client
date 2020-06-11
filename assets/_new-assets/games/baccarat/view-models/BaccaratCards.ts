@@ -1,3 +1,5 @@
+import BaccaratCard from "./BaccaratCard";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -47,6 +49,15 @@ export default class BaccaratCards extends cc.Component {
         this.resetCard(this.card2);
         this.resetCard(this.card3);
         this.card3.node.active = false;
+        this.showHighlightCards(false);
+    }
+
+    showHighlightCards(highlight: boolean = true) {
+        for (let i = 1; i <= 3; i++) {
+            const card = this["card" + i];
+            const baccaratCard = card.getComponent("BaccaratCard") as BaccaratCard;
+            highlight ? baccaratCard.setHighlight() : baccaratCard.resetHighlight();
+        }
     }
 
     showCardsWithoutAnimation(cards: any[]) {
