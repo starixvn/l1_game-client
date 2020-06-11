@@ -85,7 +85,7 @@ export default class GameBase extends cc.Component {
     public roundId = -1;
     public currentMiniPanel: MiniPanel;
     public gameConfigs: any;
-    public finishShowResult = false;
+    public finishShowResult = true;
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;

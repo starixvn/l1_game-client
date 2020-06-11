@@ -16,6 +16,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     handle(data: any): boolean {
         if (data.finish) {
+            this.main.finishShowResult = false;
             this.main.timeHandler.resetTime();
             this.main.gameAudios.playEndGameAudio();
             this.main.roundId = data.finish.roundId;
