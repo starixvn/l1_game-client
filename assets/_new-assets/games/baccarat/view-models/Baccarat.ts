@@ -43,8 +43,8 @@ export default class Baccarat extends GameRoomBase {
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    winNotices: cc.Node = null;
+    @property(cc.Label)
+    winNoticeLabel: cc.Label = null;
 
     cardsResource: any = null;
     basicHistoryBoard: BasicHistoryBoard;
@@ -95,7 +95,7 @@ export default class Baccarat extends GameRoomBase {
     resetDataAndUI() {
         super.resetDataAndUI();
 
-        this.winNotices.children.forEach(child => child.active = false);
+        this.winNoticeLabel.node.parent.active = false;
     }
 
     private initCards() {

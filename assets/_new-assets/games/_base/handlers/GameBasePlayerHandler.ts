@@ -83,7 +83,7 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
     updateTablePlayers() {
         let otherPlayers: any[] = _.values(this.otherPlayers);
 
-        _.forEach(this.main.players, (player, index) => {
+        _.forEach(this.main.players, (player) => {
             player.data.idleCount++
 
             if (player.isIdle) {

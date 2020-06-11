@@ -45,21 +45,24 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
 
     public showWinNotice(result) {
         const baccaratMain = this.main as Baccarat;
-        baccaratMain.winNotices.active = true;
-        const winningNotices = baccaratMain.winNotices.children;
+        const winNoticeNode = baccaratMain.winNoticeLabel.node.parent;
+        let noticeText: string;
 
         if (result.banker) {
-            winningNotices.find(item => item.name.toLowerCase() === "banker").active = true;
+            noticeText = "NHÀ CÁI THẮNG!"
             baccaratMain.bankerCards.showHighlightCards();
+
         }
         else if (result.player) {
-            winningNotices.find(item => item.name.toLowerCase() === "player").active = true;
+            noticeText = "NHÀ CON THẮNG!"
             baccaratMain.playerCards.showHighlightCards();
         }
         else {
-            winningNotices.find(item => item.name.toLowerCase() === "tie").active = true;
+            noticeText = "HOÀ!"
         }
 
+        baccaratMain.winNoticeLabel.string = noticeText;
+        winNoticeNode.active = true;
         this.main.gameAudios.playShowResultAudio();
     }
 }
