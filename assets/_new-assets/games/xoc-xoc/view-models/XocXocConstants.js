@@ -6,6 +6,7 @@ cc.Class({
         betTime: 31,
         lockingBetTime: 5,
         minBetTime: 1,
-        maxLogs: 100
+        maxLogs: 100,
+        maxRoundUserMissingBet: 3,
     }
 });

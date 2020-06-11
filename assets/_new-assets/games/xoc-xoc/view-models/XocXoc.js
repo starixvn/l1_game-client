@@ -264,8 +264,15 @@ cc.Class({
 			let position = positions.find(function (t) { return t.data != null && t.data.id == data.playerId; });
 
 			if (position) {
-				this.removePlayerOutTable(position);
-				this.moveOtherPlayerToTable();
+				this.Positions[position.id].data = null;
+				this.players[position.id - 1].setInfo(null);
+				let keys = Object.keys(this.otherPlayers);
+				if (keys.length > 0) {
+					let newPlayer = this.otherPlayers[keys[0]];
+					this.addPlayer(newPlayer);
+					delete this.otherPlayers[newPlayer.id];
+				}
+
 			} else {
 				delete this.otherPlayers[data.playerId];
 			}
@@ -893,26 +900,18 @@ cc.Class({
 	playTime: function () {
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		const randomTime = Math.floor(Math.random() * (Constants.fullTime - Constants.betTime)) + Constants.betTime;
-		console.log(randomTime);
 		this.timeInterval = setInterval(function () {
-			if (this.time_remain > Constants.betTime) {
-				if (this.time_remain == randomTime) {
-					console.log("replace");
-					this.replaceInactivePlayerOnTable();
-				}
-
-				if (this.time_remain > Constants.shakeThePlateTime) {
-					var time = helper.numberPad(this.time_remain - Constants.shakeThePlateTime - 1, 2);
-					this.timeWait.string = time;
-					this.labelTime.node.active = false;
-					this.nodeWait.active = true;
-				} else {
-					this.nodeWait.active = false;
-					if (this.time_remain === Constants.shakeThePlateTime) {
-						this.nodeBat.runAction(this.actionBatClose);
-						this.setGameRound();
-						this.updateTablePlayers();
-					}
+			if (this.time_remain > Constants.shakeThePlateTime) {
+				var time = helper.numberPad(this.time_remain - Constants.shakeThePlateTime - 1, 2);
+				this.timeWait.string = time;
+				this.labelTime.node.active = false;
+				this.nodeWait.active = true;
+				this.updatePlayersOnTable();
+			} else if (this.time_remain > Constants.betTime) {
+				this.nodeWait.active = false;
+				if (this.time_remain === Constants.shakeThePlateTime) {
+					this.nodeBat.runAction(this.actionBatClose);
+					this.setGameRound();
 				}
 			} else {
 				if (this.time_remain > Constants.minBetTime) {
@@ -933,57 +932,36 @@ cc.Class({
 			this.time_remain--;
 		}.bind(this), 1000);
 	},
-	replaceInactivePlayerOnTable: function () {
+	updatePlayersOnTable: function () {
 		let emptySlots = this.getEmptySlots();
 		Object.values(this.Positions).forEach((position) => {
 			if (position.data) {
 				position.data.missBetCount = (position.data.missBetCount >> 0) + 1;
 			}
 		});
-		const self = this;
 		if (!emptySlots || emptySlots.length < 1) {
-			const replacePositions = Object.values(this.Positions)
-				.filter(function (t) {
-					return t.data && t.data.missBetCount > 1;
-				});
-
-			replacePositions.forEach((position) => {
-				const player = position.data;
-				this.otherPlayers[player.id] = player;
-				this.removePlayerOutTable(position);
-				this.moveOtherPlayerToTable();
-			});
-		}
-	},
-
-	updateTablePlayers() {
-		const realPlayers = Object.values(this.otherPlayers).filter(player => !player.type);
-		console.log(realPlayers);
-		const botPositionsInTable = Object.values(this.Positions).filter(position => position.data && position.data.type);
-
-		botPositionsInTable.forEach((position, index) => {
-			if (index <= realPlayers.length - 1) {
-				var realPlayer = realPlayers[index];
-				var botData = position.data;
-				this.otherPlayers[botData.id] = botData;
-
-				this.players[position.id - 1].setInfo(realPlayer);
-				delete this.otherPlayers[realPlayer.id];
+			const replacePositions = Object.values(this.Positions).filter(position => position.data && (position.data.missBetCount >= Constants.maxRoundUserMissingBet || position.data.type));
+			let replacePlayers = Object.values(this.otherPlayers).filter(player => !player.type);
+			if (!replacePlayers || !replacePlayers.length) {
+				replacePlayers = Object.values(this.otherPlayers);
 			}
-		});
-	},
-	removePlayerOutTable: function (position) {
-		this.Positions[position.id].data = null;
-		this.players[position.id - 1].setInfo(null);
-	},
-	moveOtherPlayerToTable: function () {
-		let keys = Object.keys(this.otherPlayers);
-		if (keys.length > 0) {
-			let newPlayer = this.otherPlayers[keys[0]];
-			this.addPlayer(newPlayer);
-			delete this.otherPlayers[newPlayer.id];
+
+			if (replacePlayers && replacePlayers.length) {
+				replacePositions.forEach((position, index) => {
+					if (index <= replacePlayers.length - 1) {
+						var replacePlayer = replacePlayers[index];
+						var playerData = position.data;
+						playerData.missBetCount = 0;
+						this.otherPlayers[playerData.id] = playerData;
+
+						this.players[position.id - 1].setInfo(replacePlayer);
+						delete this.otherPlayers[replacePlayer.id];
+					}
+				});
+			}
 		}
 	},
+
 	updateData: function (data) {
 		if (this.red) {
 			this.total_chan.string = data.red.chan > 0 ? helper.numberWithCommas(data.red.chan) : '';
