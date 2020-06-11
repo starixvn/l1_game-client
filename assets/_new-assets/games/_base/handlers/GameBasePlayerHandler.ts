@@ -63,6 +63,7 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
     }
 
     addPlayer(player: PlayerData) {
+        player.idleCount = 0;
         const playerSlot = this.getPlayerSlot(player.id);
 
         if (!playerSlot) {
@@ -81,17 +82,37 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
     updateTablePlayers() {
         let otherPlayers: any[] = _.values(this.otherPlayers);
+
+        _.forEach(this.main.players, (player, index) => {
+            player.data.idleCount++
+
+            if (player.isIdle) {
+                const oldPlayerData = player.data;
+
+                const newPlayer = _.find(otherPlayers, player => player.idleCount <= 3);
+
+                if (newPlayer) {
+                    player.setInfo(newPlayer);
+                    delete this.otherPlayers[newPlayer.id];
+                    this.otherPlayers[oldPlayerData.id] = oldPlayerData;
+                }
+            }
+        });
+
         const botsInTable = _.filter(this.main.players, player => player.data && player.data.type);
         const realPlayers: PlayerData[] = _.filter(otherPlayers, player => player && !player.type);
 
         _.forEach(botsInTable, (bot, index) => {
             if (index <= realPlayers.length - 1) {
-                var realPlayer = realPlayers[index];
-                var botData = bot.data;
-                this.otherPlayers[botData.id] = botData;
+                const botData = bot.data;
 
-                bot.setInfo(realPlayer);
-                delete this.otherPlayers[realPlayer.id];
+                const realPlayer = _.find(realPlayers, player => player.idleCount <= 3);
+
+                if (realPlayer) {
+                    this.otherPlayers[botData.id] = botData;
+                    bot.setInfo(realPlayer);
+                    delete this.otherPlayers[realPlayer.id];
+                }
             }
         })
     }

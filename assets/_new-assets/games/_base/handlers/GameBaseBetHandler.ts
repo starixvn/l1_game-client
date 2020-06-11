@@ -86,6 +86,7 @@ export default class GameBaseBetHandler implements DataHandler {
                 var player = gameRoomMain.playerHandler.otherPlayers[data.playerId];
 
                 if (player) {
+                    player.idleCount = 0;
                     player.red = data.red;
                 }
             }
