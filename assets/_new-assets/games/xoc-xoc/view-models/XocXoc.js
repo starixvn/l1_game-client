@@ -4,6 +4,7 @@ let module_Player = require('XocXoc_Player');
 import logger from '../../../common/logger';
 const sentryLogger = logger();
 const Constants = require('./XocXocConstants');
+import * as _ from "lodash";
 
 cc.Class({
 	extends: cc.Component,
@@ -259,7 +260,7 @@ cc.Class({
 
 	xocxocOutgame: function (data) {
 		if (!!data.playerId) {
-			let positions = Object.values(this.Positions);
+			let positions = _.values(this.Positions);
 			let position = positions.find(function (t) { return t.data != null && t.data.id == data.playerId; });
 
 			if (position) {
@@ -388,7 +389,7 @@ cc.Class({
 	},
 
 	addPlayers: function (data) {
-		let players = Object.values(data);
+		let players = _.values(data);
 
 		for (let i = 0; i < players.length; i++) {
 			let player = players[i];
@@ -413,7 +414,7 @@ cc.Class({
 	},
 
 	getEmptySlots: function () {
-		let slots = Object.values(this.Positions);
+		let slots = _.values(this.Positions);
 		let emptySlots = slots.filter(function (t) { return t.data == null });
 
 		return emptySlots;
@@ -479,7 +480,7 @@ cc.Class({
 		this.updateRoundHistory();
 	},
 	showKQ: function () {
-		let data = Object.values(this.logs[0].dots);
+		let data = _.values(this.logs[0].dots);
 		let numb = 0;
 		data.forEach(function (dot) {
 			if (dot) {
@@ -516,7 +517,7 @@ cc.Class({
 		let audioWin = 0;
 		let node1 = null;
 		let node2 = null;
-		let data = Object.values(this.logs[0].dots);
+		let data = _.values(this.logs[0].dots);
 		let numb = 0;
 		data.forEach(function (dot) {
 			if (dot) {
@@ -944,8 +945,10 @@ cc.Class({
 		let emptySlots = this.getEmptySlots();
 
 		if (!emptySlots || emptySlots.length < 1) {
-			const idlePositions = Object.values(this.Positions).filter(position => position.data && !position.data.type && position.data.missBetCount > Constants.maxRoundUserMissingBet);
-			const realPlayers = Object.values(this.otherPlayers).filter(player => !player.type && player.missBetCount <= Constants.maxRoundUserMissingBet);
+			const positions = _.values(this.Positions);
+			const idlePositions = _.filter(positions, position => position.data && !position.data.type && position.data.missBetCount > Constants.maxRoundUserMissingBet);
+			const otherPlayers = _.values(this.otherPlayers);
+			const realPlayers = _.filter(otherPlayers, player => !player.type && player.missBetCount <= Constants.maxRoundUserMissingBet);
 
 			if (realPlayers && realPlayers.length) {
 				idlePositions.forEach((position, index) => {
@@ -961,7 +964,7 @@ cc.Class({
 					}
 				});
 
-				const botPositions = Object.values(this.Positions).filter(position => position.data && position.data.type);
+				const botPositions = _.filter(positions, position => position.data && position.data.type);
 
 				if (botPositions && botPositions.length) {
 					realPlayers.forEach((realPlayer, index) => {
@@ -977,9 +980,9 @@ cc.Class({
 					});
 				}
 			} else {
-				const otherPlayers = Object.values(this.otherPlayers).filter(player => player.type);
+				const botPlayers = _.filter(otherPlayers, player => player.type);
 				idlePositions.forEach((position, index) => {
-					const player = otherPlayers[index];
+					const player = botPlayers[index];
 					var playerData = position.data;
 					this.otherPlayers[playerData.id] = playerData;
 
@@ -1317,7 +1320,7 @@ cc.Class({
 	},
 
 	getPlayerSlot: function (playerId) {
-		let slots = Object.values(this.Positions);
+		let slots = _.values(this.Positions);
 		return slots.find(function (t) { return t.data && t.data.id == playerId; });
 	},
 
