@@ -63,8 +63,14 @@ export default class BaccaratCards extends cc.Component {
     showCardsWithoutAnimation(cards: any[]) {
         this.openCard(0, cards, false);
         this.openCard(1, cards, false);
-        // const hasCard3 = this.openCard(2, cards, false);
-        // this.otherCard && (this.otherCard.active = hasCard3);
+
+        if (cards.length >= 3 && cards[2]) {
+            this.openCard(2, cards, false);
+            this.otherCard && (this.otherCard.active = true);
+        }
+        else {
+            this.otherCard && (this.otherCard.active = false);
+        }
     }
 
     showCards(cards: any[], onFinishShowCards: () => void, playerHasCard3: boolean = false): void {

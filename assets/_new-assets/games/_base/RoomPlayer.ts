@@ -26,7 +26,7 @@ export default class RoomPlayer extends cc.Component {
 
 
     get isIdle() {
-        return this.data.idleCount > 3;
+        return this.data.idleCount > 2;
     }
 
     setInfo(data) {

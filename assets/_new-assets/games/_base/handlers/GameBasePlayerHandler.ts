@@ -89,7 +89,7 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
             if (player.isIdle) {
                 const oldPlayerData = player.data;
 
-                const newPlayer = _.find(otherPlayers, player => player.idleCount <= 3);
+                const newPlayer = _.find(otherPlayers, player => player.idleCount <= 2);
 
                 if (newPlayer) {
                     player.setInfo(newPlayer);
@@ -106,7 +106,7 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
         _.forEach(botsInTable, (bot, index) => {
             if (index <= realPlayers.length - 1) {
                 const botData = bot.data;
-                const realPlayer = _.find(realPlayers, player => player.idleCount <= 3);
+                const realPlayer = _.find(realPlayers, player => player.idleCount <= 2);
 
                 if (realPlayer) {
                     this.otherPlayers[botData.id] = botData;
