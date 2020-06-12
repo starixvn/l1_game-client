@@ -23,4 +23,7 @@ export default class KenoProViet extends GameRoomBase {
         }
         cc.director.loadScene('MainGame');
     }
+
+    onData(data: any) {
+    }
 }
