@@ -158,7 +158,6 @@ cc.Class({
 			7: { id: 7, data: null },
 			8: { id: 8, data: null },
 		};
-		this.numberOfSlots = 8;
 		this.winners = {};
 		this.status = {};
 		this.isWaitingBetResult = false;
@@ -391,20 +390,14 @@ cc.Class({
 	addPlayers: function (data) {
 		let players = Object.values(data);
 
-		let length = players.length < this.numberOfSlots ? players.length : this.numberOfSlots;
-		for (let i = 0; i < length; i++) {
+		for (let i = 0; i < players.length; i++) {
 			let player = players[i];
-			this.players[i].setInfo(player);
-			this.Positions[i + 1].data = player;
-			delete data[player.id];
-		}
-
-		if (players.length > this.numberOfSlots) {
-			this.otherPlayers = data;
+			this.addPlayer(player);
 		}
 	},
 
 	addPlayer: function (player) {
+		player.missBetCount = 0;
 		var playerSlot = this.getPlayerSlot(player.id);
 		if (!playerSlot) {
 			let emptySlots = this.getEmptySlots();
@@ -937,13 +930,13 @@ cc.Class({
 		Object.keys(this.Positions).forEach((key) => {
 			let position = this.Positions[key];
 			if (position && position.data) {
-				position.data.missBetCount = (position.data.missBetCount >> 0) + 1;
+				position.data.missBetCount++;
 			}
 		});
 		Object.keys(this.otherPlayers).forEach((key) => {
 			let otherPlayer = this.otherPlayers[key];
 			if (otherPlayer) {
-				otherPlayer.missBetCount = (otherPlayer.missBetCount >> 0) + 1;
+				otherPlayer.missBetCount++;
 			}
 		});
 	},
