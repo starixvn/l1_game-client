@@ -95,6 +95,7 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
                     player.setInfo(newPlayer);
                     delete this.otherPlayers[newPlayer.id];
                     this.otherPlayers[oldPlayerData.id] = oldPlayerData;
+                    _.remove(otherPlayers, newPlayer)
                 }
             }
         });
@@ -105,13 +106,13 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
         _.forEach(botsInTable, (bot, index) => {
             if (index <= realPlayers.length - 1) {
                 const botData = bot.data;
-
                 const realPlayer = _.find(realPlayers, player => player.idleCount <= 3);
 
                 if (realPlayer) {
                     this.otherPlayers[botData.id] = botData;
                     bot.setInfo(realPlayer);
                     delete this.otherPlayers[realPlayer.id];
+                    _.remove(realPlayers, realPlayer);
                 }
             }
         })
