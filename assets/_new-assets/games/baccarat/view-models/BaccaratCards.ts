@@ -166,7 +166,7 @@ export default class BaccaratCards extends cc.Component {
             cc.moveTo(this.flyCardSecond, cardPosition).easing(cc.easeInOut(2)),
         ));
 
-        card.runAction(cc.sequence(cc.delayTime(0.2), cc.callFunc(() => this.cardsResource.playGetCardAudio())));
+        cc.RedT.isSoundGame() && card.runAction(cc.sequence(cc.delayTime(0.2), cc.callFunc(() => this.cardsResource.playGetCardAudio())));
     }
 
     private resetCard(card: cc.Sprite) {
