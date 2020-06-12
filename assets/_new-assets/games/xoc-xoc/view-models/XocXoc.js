@@ -899,19 +899,19 @@ cc.Class({
 	},
 	playTime: function () {
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
-		const randomTime = Math.floor(Math.random() * (Constants.fullTime - Constants.betTime)) + Constants.betTime;
 		this.timeInterval = setInterval(function () {
 			if (this.time_remain > Constants.shakeThePlateTime) {
 				var time = helper.numberPad(this.time_remain - Constants.shakeThePlateTime - 1, 2);
 				this.timeWait.string = time;
 				this.labelTime.node.active = false;
 				this.nodeWait.active = true;
-				this.updatePlayersOnTable();
+
 			} else if (this.time_remain > Constants.betTime) {
 				this.nodeWait.active = false;
 				if (this.time_remain === Constants.shakeThePlateTime) {
 					this.nodeBat.runAction(this.actionBatClose);
 					this.setGameRound();
+					this.updatePlayersOnTable();
 				}
 			} else {
 				if (this.time_remain > Constants.minBetTime) {
@@ -926,38 +926,73 @@ cc.Class({
 						this.labelTime.node.color = cc.Color.WHITE
 					}
 				} else {
+					this.increaseMissBetCount();
 					clearInterval(this.timeInterval);
 				}
 			}
 			this.time_remain--;
 		}.bind(this), 1000);
 	},
-	updatePlayersOnTable: function () {
-		let emptySlots = this.getEmptySlots();
-		Object.values(this.Positions).forEach((position) => {
-			if (position.data) {
+	increaseMissBetCount: function () {
+		Object.keys(this.Positions).forEach((key) => {
+			let position = this.Positions[key];
+			if (position && position.data) {
 				position.data.missBetCount = (position.data.missBetCount >> 0) + 1;
 			}
 		});
-		if (!emptySlots || emptySlots.length < 1) {
-			const replacePositions = Object.values(this.Positions).filter(position => position.data && (position.data.missBetCount >= Constants.maxRoundUserMissingBet || position.data.type));
-			let replacePlayers = [];
-			replacePlayers = Object.values(this.otherPlayers).filter(player => !player.type);
-			if (!replacePlayers || !replacePlayers.length) {
-				replacePlayers.push(Object.values(this.otherPlayers)[0]);
+		Object.keys(this.otherPlayers).forEach((key) => {
+			let otherPlayer = this.otherPlayers[key];
+			if (otherPlayer) {
+				otherPlayer.missBetCount = (otherPlayer.missBetCount >> 0) + 1;
 			}
+		});
+	},
+	updatePlayersOnTable: function () {
+		let emptySlots = this.getEmptySlots();
 
-			if (replacePlayers && replacePlayers.length) {
-				replacePositions.forEach((position, index) => {
-					if (index <= replacePlayers.length - 1) {
-						var replacePlayer = replacePlayers[index];
+		if (!emptySlots || emptySlots.length < 1) {
+			const idlePositions = Object.values(this.Positions).filter(position => position.data && !position.data.type && position.data.missBetCount >= Constants.maxRoundUserMissingBet);
+			const realPlayers = Object.values(this.otherPlayers).filter(player => !player.type && player.missBetCount < Constants.maxRoundUserMissingBet);
+
+			if (realPlayers && realPlayers.length) {
+				idlePositions.forEach((position, index) => {
+					if (index < realPlayers.length) {
+						const realPlayer = realPlayers[index];
 						var playerData = position.data;
-						playerData.missBetCount = 0;
 						this.otherPlayers[playerData.id] = playerData;
 
-						this.players[position.id - 1].setInfo(replacePlayer);
-						delete this.otherPlayers[replacePlayer.id];
+						this.Positions[position.id].data = realPlayer;
+						this.players[position.id - 1].setInfo(realPlayer);
+						delete this.otherPlayers[realPlayer.id];
+						realPlayers.splice(index, 1);
 					}
+				});
+
+				const botPositions = Object.values(this.Positions).filter(position => position.data && position.data.type);
+
+				if (botPositions && botPositions.length) {
+					realPlayers.forEach((realPlayer, index) => {
+						if (index < botPositions.length) {
+							let botPosition = botPositions[index];
+							const botData = botPosition.data;
+							this.otherPlayers[botData.id] = botData;
+
+							this.Positions[botPosition.id].data = realPlayer;
+							this.players[botPosition.id - 1].setInfo(realPlayer);
+							delete this.otherPlayers[realPlayer.id];
+						}
+					});
+				}
+			} else {
+				const otherPlayers = Object.values(this.otherPlayers).filter(player => player.type);
+				idlePositions.forEach((position, index) => {
+					const player = otherPlayers[index];
+					var playerData = position.data;
+					this.otherPlayers[playerData.id] = playerData;
+
+					this.Positions[position.id].data = player;
+					this.players[position.id - 1].setInfo(player);
+					delete this.otherPlayers[player.id];
 				});
 			}
 		}
@@ -1131,8 +1166,10 @@ cc.Class({
 			this.players[slotIndex].setInfo(playerSlot.data);
 		} else {
 			startNode = this.users_bg;
-			if (this.otherPlayers[data.playerId]) {
-				this.otherPlayers[data.playerId].red = data.red;
+			let otherPlayer = this.otherPlayers[data.playerId];
+			if (otherPlayer) {
+				otherPlayer.red = data.red;
+				otherPlayer.missBetCount = 0;
 			}
 		}
 
