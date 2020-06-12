@@ -903,6 +903,7 @@ cc.Class({
 			} else if (this.time_remain > Constants.betTime) {
 				this.nodeWait.active = false;
 				if (this.time_remain === Constants.shakeThePlateTime) {
+					this.increaseMissBetCount();
 					this.nodeBat.runAction(this.actionBatClose);
 					this.setGameRound();
 					this.updatePlayersOnTable();
@@ -920,7 +921,6 @@ cc.Class({
 						this.labelTime.node.color = cc.Color.WHITE
 					}
 				} else {
-					this.increaseMissBetCount();
 					clearInterval(this.timeInterval);
 				}
 			}
@@ -928,13 +928,17 @@ cc.Class({
 		}.bind(this), 1000);
 	},
 	increaseMissBetCount: function () {
-		Object.keys(this.Positions).forEach((key) => {
+		const positionKeys = _.keys(this.Positions);
+
+		positionKeys.forEach((key) => {
 			let position = this.Positions[key];
 			if (position && position.data) {
 				position.data.missBetCount++;
 			}
 		});
-		Object.keys(this.otherPlayers).forEach((key) => {
+
+		const othersKeys = _.keys(this.otherPlayers);
+		othersKeys.forEach((key) => {
 			let otherPlayer = this.otherPlayers[key];
 			if (otherPlayer) {
 				otherPlayer.missBetCount++;
