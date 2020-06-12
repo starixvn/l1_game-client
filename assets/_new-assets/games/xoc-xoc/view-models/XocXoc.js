@@ -951,8 +951,8 @@ cc.Class({
 		let emptySlots = this.getEmptySlots();
 
 		if (!emptySlots || emptySlots.length < 1) {
-			const idlePositions = Object.values(this.Positions).filter(position => position.data && !position.data.type && position.data.missBetCount >= Constants.maxRoundUserMissingBet);
-			const realPlayers = Object.values(this.otherPlayers).filter(player => !player.type && player.missBetCount < Constants.maxRoundUserMissingBet);
+			const idlePositions = Object.values(this.Positions).filter(position => position.data && !position.data.type && position.data.missBetCount > Constants.maxRoundUserMissingBet);
+			const realPlayers = Object.values(this.otherPlayers).filter(player => !player.type && player.missBetCount <= Constants.maxRoundUserMissingBet);
 
 			if (realPlayers && realPlayers.length) {
 				idlePositions.forEach((position, index) => {
