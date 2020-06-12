@@ -40,7 +40,7 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
                 this.main.roundResult.setData(this.main.currentDataLogs[0].result, this.main.currentDataLogs[0].settlementResult);
                 this.main.roundResult.show(false);
 
-                var results = this.main.getResults(this.main.currentDataLogs[0].settlementResult);
+                var results = Keno.getResults(this.main.currentDataLogs[0].settlementResult);
                 this.highlightWonItem(true, results, !showForPreviousResult);
                 this.main.roundResult.node.active = !showForPreviousResult;
             }

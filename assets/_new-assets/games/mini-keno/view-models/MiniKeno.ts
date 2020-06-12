@@ -1,6 +1,13 @@
 import GameMiniBase from "../../_base/GameMiniBase";
 import MiniKenoConfig from "./MiniKenoConfig";
 import BetPopup from "./BetPopup";
+import KenoFinishHandler from "../../keno-pro/view-models/handlers/KenoFinishHandler";
+import MiniKenoFinishHandler from "./handlers/MiniKenoFinishHandler";
+import KenoRoundResult from "../../keno-pro/view-models/history/KenoRoundResult";
+import KenoNumber from "../../keno-pro/view-models/KenoNumber";
+import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
+import MiniKenoLogsHandler from "./handlers/MiniKenoLogsHandler";
+import RoundHistory from "../../keno-pro/view-models/RoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,9 +32,27 @@ export default class MiniKeno extends GameMiniBase {
     @property(BetPopup)
     betPopup: BetPopup = null;
 
+    @property(KenoRoundResult)
+    roundResult: KenoRoundResult = null;
+
+    @property(RoundHistory)
+    roundHistory: RoundHistory = null;
+
+    public resultAnimating = false;
+    public kenoNumbers: KenoNumber[] = [];
+
     onLoad() {
         super.onLoad();
         this.init();
+        this.roundHistory.init(this);
+    }
+
+    initHandlers() {
+        super.initHandlers();
+
+        this.finishHandler = new MiniKenoFinishHandler(this);
+        this.timeHandler = new MiniKenoTimeHandler(this);
+        this.logsHandler = new MiniKenoLogsHandler(this);
     }
 
     init() {
@@ -47,5 +72,9 @@ export default class MiniKeno extends GameMiniBase {
         }, (betAmount) => {
             this.bet({ bet: { amount: betAmount, betChoice: betChoice } });
         });
+    }
+
+    updateRoundHistory() {
+        this.roundHistory.setData(this.currentDataLogs);
     }
 }

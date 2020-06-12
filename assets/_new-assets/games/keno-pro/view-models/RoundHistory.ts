@@ -1,6 +1,7 @@
 import Keno from "./Keno";
 import LogControl from "./LogControl";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import GameBase from "../../_base/GameBase";
 
 const { ccclass, property } = cc._decorator;
 interface StatisticData {
@@ -34,7 +35,7 @@ export default class RoundHistory extends cc.Component {
     @property({ type: cc.Node })
     waterMarks: cc.Node[] = [];
 
-    private main: Keno;
+    private main: GameBase;
     private statisticData: StatisticData[] = [];
     private currentOption = 0;
 
@@ -66,7 +67,7 @@ export default class RoundHistory extends cc.Component {
         this.node.active = false;
     }
 
-    public init(main: Keno) {
+    public init(main: GameBase) {
         this.main = main;
         const condition = () => {
             const finishHandler = main.finishHandler as GameBaseFinishHandler;
@@ -113,7 +114,7 @@ export default class RoundHistory extends cc.Component {
 
         const results: string[][] = data.map(d => {
             const settlementResult = d.settlementResult;
-            return this.main.getResults(settlementResult);
+            return Keno.getResults(settlementResult);
         });
 
         this.statisticData = [{

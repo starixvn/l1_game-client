@@ -116,7 +116,7 @@ export default class Keno extends GameRoomBase {
         return total;
     }
 
-    public getResults(settlementResult: any): string[] {
+    public static getResults(settlementResult: any): string[] {
         var results = [];
         Object.keys(settlementResult).forEach((key, index) => {
             if (settlementResult[key]) {
