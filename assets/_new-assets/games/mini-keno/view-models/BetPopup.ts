@@ -20,8 +20,8 @@ export default class BetPopup extends cc.Component {
     @property(cc.Label)
     limitBet: cc.Label = null;
 
-    @property(cc.EditBox)
-    inputBet: cc.EditBox = null;
+    @property(cc.Label)
+    betValue: cc.Label = null;
 
     private betAmount = 0;
     private callback = (betAmount: number) => { };
@@ -47,6 +47,9 @@ export default class BetPopup extends cc.Component {
         this.info = info;
         this.node.active = true;
 
+        this.betAmount = 0;
+        this.updateBetAmount();
+
         this.title.string = this.info.title;
         this.choice.string = `${this.info.choice}-${this.info.odd}`;
         this.limitBet.string = `${this.info.minBet}-${this.info.maxBet}`;
@@ -71,11 +74,8 @@ export default class BetPopup extends cc.Component {
         this.updateBetAmount();
     }
 
-    public validInput() {
-    }
-
     private updateBetAmount() {
-        this.inputBet.string = this.betAmount > 0 ? `${this.betAmount}` : "";
+        this.betValue.string = this.betAmount > 0 ? `${this.betAmount}` : "";
     }
 
     private isValidBet(betAmount: number): boolean {

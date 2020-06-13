@@ -70,7 +70,9 @@ export default class MiniKeno extends GameMiniBase {
             minBet: this.gameConfigs.minbet,
             maxBet: this.gameConfigs.maxbet
         }, (betAmount) => {
-            this.bet({ bet: { amount: betAmount, betChoice: betChoice } });
+            if (betAmount > 0) {
+                this.bet({ bet: { amount: betAmount, betChoice: betChoice } });
+            }
         });
     }
 
