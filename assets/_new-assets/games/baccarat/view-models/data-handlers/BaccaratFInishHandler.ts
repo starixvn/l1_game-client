@@ -58,7 +58,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             baccaratMain.playerCards.showHighlightCards();
         }
         else {
-            noticeText = "HOÀ!"
+            noticeText = "HÒA!"
         }
 
         baccaratMain.winNoticeLabel.string = noticeText;
