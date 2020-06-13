@@ -3,6 +3,8 @@ let helper = require('Helper');
 let module_Player = require('XocXoc_Player');
 import logger from '../../../common/logger';
 const sentryLogger = logger();
+const Constants = require('./XocXocConstants');
+import * as _ from "lodash";
 
 cc.Class({
 	extends: cc.Component,
@@ -70,11 +72,6 @@ cc.Class({
 			type: cc.Sprite,
 		},
 
-		// log_chan: cc.Label,
-		// log_le: cc.Label,
-		// log_top: cc.Node,
-		// logMain: cc.Node,
-
 		redH: cc.Node,
 		miniNotice: cc.Node,
 
@@ -120,7 +117,6 @@ cc.Class({
 				this.resetData();
 			}, this),
 			cc.moveTo(0.5, cc.v2(0, 0)),
-			//cc.delayTime(0.5),
 			cc.callFunc(function () {
 				cc.RedT.isSoundGame() && this.audioXocDia.play();
 				this.Animation.play();
@@ -163,7 +159,6 @@ cc.Class({
 			7: { id: 7, data: null },
 			8: { id: 8, data: null },
 		};
-		this.numberOfSlots = 8;
 		this.winners = {};
 		this.status = {};
 		this.isWaitingBetResult = false;
@@ -192,26 +187,6 @@ cc.Class({
 			this.cuoc = bet;
 		});
 		this.bet = this.betChips.chips;
-		/*
-		this.logMain = this.logMain.children.map(function (obj) {
-			return obj.children[0].getComponent(cc.Sprite);
-		});
-
-		this.logMain.reverse();
-
-		this.log_top = this.log_top.children.map(function (obj) {
-			let data = { 'cell': obj };
-			let cell = obj.children.map(function (obj) {
-				return { c: obj.children[0].getComponent(cc.Sprite), t: obj.children[1].getComponent(cc.Label) };
-			});
-			cell.reverse();
-			data.data = cell;
-			return data;
-		});
-
-		this.log_top.reverse();
-		*/
-
 		this.me_name.string = cc.RedT.user.name;
 		this.me_balans.string = helper.numberWithCommas(cc.RedT.user.red);
 		let self = this;
@@ -229,7 +204,7 @@ cc.Class({
 		var node = cc.instantiate(this.roundHistoryPrefab);
 		this.roundHistory = node.getComponent("SedieRoundHistory");
 		const condition = () => {
-			return this.time_remain < 5 || this.time_remain > 39;
+			return this.time_remain < Constants.lockingBetTime || this.time_remain > Constants.fullTime;
 		};
 		this.roundHistory.logControl.init(condition);
 		this.roundHistoryContainer.addChild(node);
@@ -285,7 +260,7 @@ cc.Class({
 
 	xocxocOutgame: function (data) {
 		if (!!data.playerId) {
-			let positions = Object.values(this.Positions);
+			let positions = _.values(this.Positions);
 			let position = positions.find(function (t) { return t.data != null && t.data.id == data.playerId; });
 
 			if (position) {
@@ -297,6 +272,7 @@ cc.Class({
 					this.addPlayer(newPlayer);
 					delete this.otherPlayers[newPlayer.id];
 				}
+
 			} else {
 				delete this.otherPlayers[data.playerId];
 			}
@@ -378,10 +354,9 @@ cc.Class({
 		if (!!data.logs) {
 			this.logs = data.logs;
 			this.updateRoundHistory();
-			// this.setLogs();
 			this.setGameRound();
 
-			if (this.time_remain > 33 && data.logs.length) {
+			if (this.time_remain > Constants.shakeThePlateTime && data.logs.length) {
 				this.nodeBat.position = cc.v2(0, 150);
 				let dots = data.logs[0].dots;
 				this.setDot([dots[0], dots[1], dots[2], dots[3]]);
@@ -414,22 +389,16 @@ cc.Class({
 	},
 
 	addPlayers: function (data) {
-		let players = Object.values(data);
+		let players = _.values(data);
 
-		let length = players.length < this.numberOfSlots ? players.length : this.numberOfSlots;
-		for (let i = 0; i < length; i++) {
+		for (let i = 0; i < players.length; i++) {
 			let player = players[i];
-			this.players[i].setInfo(player);
-			this.Positions[i + 1].data = player;
-			delete data[player.id];
-		}
-
-		if (players.length > this.numberOfSlots) {
-			this.otherPlayers = data;
+			this.addPlayer(player);
 		}
 	},
 
 	addPlayer: function (player) {
+		player.missBetCount = 0;
 		var playerSlot = this.getPlayerSlot(player.id);
 		if (!playerSlot) {
 			let emptySlots = this.getEmptySlots();
@@ -445,7 +414,7 @@ cc.Class({
 	},
 
 	getEmptySlots: function () {
-		let slots = Object.values(this.Positions);
+		let slots = _.values(this.Positions);
 		let emptySlots = slots.filter(function (t) { return t.data == null });
 
 		return emptySlots;
@@ -485,10 +454,10 @@ cc.Class({
 		this.winners = data.winClients;
 		let dice = { dots: data.dots, round: data.round };
 		this.logs.unshift(dice);
-		this.logs.length > 48 && this.logs.pop();
+		this.logs.length > Constants.maxLogs && this.logs.pop();
 		this.setDot(dice.dots);
 		this.labelTime.node.active = false;
-		this.time_remain = 39;
+		this.time_remain = Constants.fullTime;
 		this.playTime();
 
 		if (!this.nan) {
@@ -509,10 +478,9 @@ cc.Class({
 			)
 		);
 		this.updateRoundHistory();
-		// this.setLogs();
 	},
 	showKQ: function () {
-		let data = Object.values(this.logs[0].dots);
+		let data = _.values(this.logs[0].dots);
 		let numb = 0;
 		data.forEach(function (dot) {
 			if (dot) {
@@ -549,7 +517,7 @@ cc.Class({
 		let audioWin = 0;
 		let node1 = null;
 		let node2 = null;
-		let data = Object.values(this.logs[0].dots);
+		let data = _.values(this.logs[0].dots);
 		let numb = 0;
 		data.forEach(function (dot) {
 			if (dot) {
@@ -768,7 +736,7 @@ cc.Class({
 						winnerPrefab.runAction(
 							cc.sequence(
 								cc.callFunc(function () { animation.play(); }),
-								cc.delayTime(self.time_remain - 33),
+								cc.delayTime(self.time_remain - Constants.shakeThePlateTime),
 								cc.callFunc(function () { this.destroy() }, winnerPrefab)
 							)
 						);
@@ -834,7 +802,7 @@ cc.Class({
 							winnerPrefab.runAction(
 								cc.sequence(
 									cc.callFunc(function () { animation.play(); }),
-									cc.delayTime(self.time_remain - 33),
+									cc.delayTime(self.time_remain - Constants.shakeThePlateTime),
 									cc.callFunc(function () { this.destroy() }, winnerPrefab)
 								)
 							);
@@ -926,34 +894,110 @@ cc.Class({
 	playTime: function () {
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		this.timeInterval = setInterval(function () {
-			if (this.time_remain > 33) {
-				var time = helper.numberPad(this.time_remain - 34, 2);
+			if (this.time_remain > Constants.shakeThePlateTime) {
+				var time = helper.numberPad(this.time_remain - Constants.shakeThePlateTime - 1, 2);
 				this.timeWait.string = time;
 				this.labelTime.node.active = false;
 				this.nodeWait.active = true;
-			} else if (this.time_remain > 31) {
+
+			} else if (this.time_remain > Constants.betTime) {
 				this.nodeWait.active = false;
-				if (this.time_remain === 33) {
+				if (this.time_remain === Constants.shakeThePlateTime) {
+					this.increaseMissBetCount();
 					this.nodeBat.runAction(this.actionBatClose);
 					this.setGameRound();
+					this.updatePlayersOnTable();
 				}
 			} else {
-				if (this.time_remain > 1) {
+				if (this.time_remain > Constants.minBetTime) {
 					var time = helper.numberPad(this.time_remain - 1, 2);
 					this.labelTime.node.active = true;
 					this.nodeWait.active = false;
 					this.labelTime.string = time;
 
-					if (time <= 5) {
+					if (time <= Constants.lockingBetTime) {
 						this.labelTime.node.color = cc.Color.RED;
 					} else {
 						this.labelTime.node.color = cc.Color.WHITE
 					}
-				} else clearInterval(this.timeInterval);
+				} else {
+					clearInterval(this.timeInterval);
+				}
 			}
 			this.time_remain--;
 		}.bind(this), 1000);
 	},
+	increaseMissBetCount: function () {
+		const positionKeys = _.keys(this.Positions);
+
+		positionKeys.forEach((key) => {
+			let position = this.Positions[key];
+			if (position && position.data) {
+				position.data.missBetCount++;
+			}
+		});
+
+		const othersKeys = _.keys(this.otherPlayers);
+		othersKeys.forEach((key) => {
+			let otherPlayer = this.otherPlayers[key];
+			if (otherPlayer) {
+				otherPlayer.missBetCount++;
+			}
+		});
+	},
+	updatePlayersOnTable: function () {
+		let emptySlots = this.getEmptySlots();
+
+		if (!emptySlots || emptySlots.length < 1) {
+			const positions = _.values(this.Positions);
+			const idlePositions = _.filter(positions, position => position.data && !position.data.type && position.data.missBetCount > Constants.maxRoundUserMissingBet);
+			const otherPlayers = _.values(this.otherPlayers);
+			const realPlayers = _.filter(otherPlayers, player => !player.type && player.missBetCount <= Constants.maxRoundUserMissingBet);
+
+			if (realPlayers && realPlayers.length) {
+				idlePositions.forEach((position, index) => {
+					if (index < realPlayers.length) {
+						const realPlayer = realPlayers[index];
+						var playerData = position.data;
+						this.otherPlayers[playerData.id] = playerData;
+
+						this.Positions[position.id].data = realPlayer;
+						this.players[position.id - 1].setInfo(realPlayer);
+						delete this.otherPlayers[realPlayer.id];
+						realPlayers.splice(index, 1);
+					}
+				});
+
+				const botPositions = _.filter(positions, position => position.data && position.data.type);
+
+				if (botPositions && botPositions.length) {
+					realPlayers.forEach((realPlayer, index) => {
+						if (index < botPositions.length) {
+							let botPosition = botPositions[index];
+							const botData = botPosition.data;
+							this.otherPlayers[botData.id] = botData;
+
+							this.Positions[botPosition.id].data = realPlayer;
+							this.players[botPosition.id - 1].setInfo(realPlayer);
+							delete this.otherPlayers[realPlayer.id];
+						}
+					});
+				}
+			} else {
+				const botPlayers = _.filter(otherPlayers, player => player.type);
+				idlePositions.forEach((position, index) => {
+					const player = botPlayers[index];
+					var playerData = position.data;
+					this.otherPlayers[playerData.id] = playerData;
+
+					this.Positions[position.id].data = player;
+					this.players[position.id - 1].setInfo(player);
+					delete this.otherPlayers[player.id];
+				});
+			}
+		}
+	},
+
 	updateData: function (data) {
 		if (this.red) {
 			this.total_chan.string = data.red.chan > 0 ? helper.numberWithCommas(data.red.chan) : '';
@@ -1023,107 +1067,7 @@ cc.Class({
 		this.roundHistory.setData(miniHistoryData.map(d => d.red));
 		this.miniRoundHistory.setData(miniHistoryData);
 	},
-	setLogs: function () {
-		/*
-		let self = this;
-		this.logMain.forEach(function (obj, index) {
-			if (self.logs[index]) {
-				let data = self.logs[index].dots;
-				if (data) {
-					obj.node.active = true;
-					data = Object.values(data);
-					let gameChan = 0;     // Là chẵn
-					data.forEach(function (kqH) {
-						if (kqH) {
-							gameChan++;
-						}
-					});
-					if (!(gameChan % 2)) {
-						obj.spriteFrame = self.dot_white;
-					} else {
-						obj.spriteFrame = self.dot_red;
-					}
-				} else {
-					obj.node.active = false;
-				}
-			}
-		});
-		*/
 
-		/* // remove log_top
-		let tmp_DS = -1;
-		let tmp_arrA = [];
-		let tmp_arrB = [];
-		let c_chan = 0;
-		let c_le = 0;
-
-		let newArr = self.logs.slice();
-		newArr.reverse();
-		newArr.forEach(function (newDS) {
-			let data = Object.values(newDS.dots);
-			let gameChan = 0;
-			data.forEach(function (kqH) {
-				if (kqH) {
-					gameChan++;
-				}
-			});
-
-			let type = !(gameChan % 2);
-			if (tmp_DS === -1) {
-				tmp_DS = type;
-			}
-			if (type !== tmp_DS || tmp_arrB.length > 3) {
-				tmp_DS = type;
-				//tmp_arrB.reverse();
-				tmp_arrA.push(tmp_arrB);
-				tmp_arrB = [];
-			}
-			if (type === tmp_DS) {
-				tmp_arrB.push(gameChan)
-			}
-		});
-
-		//tmp_arrB.reverse();
-		tmp_arrA.push(tmp_arrB);
-		tmp_arrA.reverse();
-		tmp_arrA = tmp_arrA.slice(0, 12);
-
-		this.log_top.forEach(function (obj, index) {
-			let data = tmp_arrA[index];
-			if (data) {
-				obj.cell.active = true;
-
-				obj.data.forEach(function (cell, j) {
-					let jD = data[j];
-					if (void 0 !== jD) {
-						cell.c.node.parent.active = true;
-						if (!(jD % 2)) {
-							cell.c.spriteFrame = self.dot_white;
-							cell.t.node.color = cc.Color.BLACK;
-						} else {
-							cell.c.spriteFrame = self.dot_red;
-							cell.t.node.color = cc.Color.WHITE;
-						}
-						cell.t.string = jD === 0 ? 4 : jD;
-
-						if (!(jD % 2)) {
-							c_chan++;
-						} else {
-							c_le++;
-						}
-					} else {
-						cell.c.node.parent.active = false;
-					}
-				});
-			} else {
-				obj.cell.active = false;
-			}
-		});
-
-		this.log_chan.string = c_chan;
-		this.log_le.string = c_le;
-		*/
-	},
 	changerBet: function (event, bet) {
 		let target = event.target;
 		this.cuoc = target.name;
@@ -1150,12 +1094,6 @@ cc.Class({
 				obj.resumeSystemEvents();
 			}
 		})
-	},
-	changerCoint: function () {
-		this.red = !this.red;
-		this.nodeRed.active = !this.nodeRed.active;
-		this.nodeXu.active = !this.nodeXu.active;
-		this.updateMeCoint();
 	},
 	onCuoc: function (event, box) {
 		if (this.isWaitingBetResult) {
@@ -1222,13 +1160,16 @@ cc.Class({
 		let playerSlot = this.getPlayerSlot(data.playerId);
 		if (playerSlot) {
 			playerSlot.data.red = data.red;
+			playerSlot.data.missBetCount = 0;
 			let slotIndex = playerSlot.id - 1;
 			startNode = this.players[slotIndex].node.children[0];
 			this.players[slotIndex].setInfo(playerSlot.data);
 		} else {
 			startNode = this.users_bg;
-			if (this.otherPlayers[data.playerId]) {
-				this.otherPlayers[data.playerId].red = data.red;
+			let otherPlayer = this.otherPlayers[data.playerId];
+			if (otherPlayer) {
+				otherPlayer.red = data.red;
+				otherPlayer.missBetCount = 0;
 			}
 		}
 
@@ -1383,7 +1324,7 @@ cc.Class({
 	},
 
 	getPlayerSlot: function (playerId) {
-		let slots = Object.values(this.Positions);
+		let slots = _.values(this.Positions);
 		return slots.find(function (t) { return t.data && t.data.id == playerId; });
 	},
 
@@ -1401,7 +1342,7 @@ cc.Class({
 	},
 
 	setGameRound: function () {
-		let round = this.time_remain <= 33 ? this.logs[0].round + 1 : this.logs[0].round;
+		let round = this.time_remain <= Constants.shakeThePlateTime ? this.logs[0].round + 1 : this.logs[0].round;
 		this.gameRound.string = "#" + round;
 	},
 });

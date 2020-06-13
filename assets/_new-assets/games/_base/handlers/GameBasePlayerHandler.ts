@@ -63,6 +63,7 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
     }
 
     addPlayer(player: PlayerData) {
+        player.idleCount = 0;
         const playerSlot = this.getPlayerSlot(player.id);
 
         if (!playerSlot) {
@@ -74,18 +75,6 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
                 return;
             }
 
-            if (!player.type) {
-                const botSlot = this.getBotSlot();
-
-                if (botSlot) {
-                    var botPlayerData = botSlot.data;
-                    botSlot.setInfo(player);
-                    botPlayerData && (this.otherPlayers[botPlayerData.id] = botPlayerData);
-
-                    return;
-                }
-            }
-
             this.otherPlayers[player.id] = player;
         }
 
@@ -93,17 +82,42 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
     updateTablePlayers() {
         let otherPlayers: any[] = _.values(this.otherPlayers);
+
+        _.forEach(this.main.players, (player) => {
+            if (!player.data) {
+                return;
+            }
+
+            player.data.idleCount++
+
+            if (player.isIdle) {
+                const oldPlayerData = player.data;
+
+                const newPlayer = _.find(otherPlayers, player => player.idleCount <= RoomPlayer.MAX_IDLE_COUNT);
+
+                if (newPlayer) {
+                    player.setInfo(newPlayer);
+                    delete this.otherPlayers[newPlayer.id];
+                    this.otherPlayers[oldPlayerData.id] = oldPlayerData;
+                    _.remove(otherPlayers, newPlayer)
+                }
+            }
+        });
+
         const botsInTable = _.filter(this.main.players, player => player.data && player.data.type);
         const realPlayers: PlayerData[] = _.filter(otherPlayers, player => player && !player.type);
 
         _.forEach(botsInTable, (bot, index) => {
             if (index <= realPlayers.length - 1) {
-                var realPlayer = realPlayers[0];
-                var botData = bot.data;
-                this.otherPlayers[botData.id] = botData;
+                const botData = bot.data;
+                const realPlayer = _.find(realPlayers, player => player.idleCount <= RoomPlayer.MAX_IDLE_COUNT);
 
-                bot.setInfo(realPlayer);
-                delete this.otherPlayers[realPlayer.id];
+                if (realPlayer) {
+                    this.otherPlayers[botData.id] = botData;
+                    bot.setInfo(realPlayer);
+                    delete this.otherPlayers[realPlayer.id];
+                    _.remove(realPlayers, realPlayer);
+                }
             }
         })
     }

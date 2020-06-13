@@ -16,13 +16,17 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     handle(data: any): boolean {
         if (data.finish) {
+            this.main.finishShowResult = false;
             this.main.timeHandler.resetTime();
             this.main.gameAudios.playEndGameAudio();
             this.main.roundId = data.finish.roundId;
 
             this.handleFinishData(
                 data.finish,
-                () => this.payChips(data.finish.settlementResult, data.finish.winningPlayers));
+                () => {
+                    this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
+                    this.main.finishShowResult = true;
+                })
         }
 
         return true;
@@ -125,11 +129,16 @@ export default class GameBaseFinishHandler implements DataHandler {
     }
 
     payChipsToOtherPlayers(roomGame: GameRoomBase, winBetItems: BetItem[]) {
+        let hasChip = false;
+
         _.forEach(winBetItems, item => {
+            if (!hasChip) {
+                hasChip = item.chipNode.children.length > 0;
+            }
             this.main.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
         })
 
-        this.main.betChips.playMultiChipsSound();
+        hasChip && this.main.betChips.playMultiChipsSound();
     }
 
     playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node) {

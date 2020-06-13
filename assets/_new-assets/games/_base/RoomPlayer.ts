@@ -7,6 +7,7 @@ export interface PlayerData {
     name: string;
     avatarId: string;
     type: boolean;
+    idleCount: number;
 }
 
 @ccclass
@@ -23,6 +24,12 @@ export default class RoomPlayer extends cc.Component {
 
     data: PlayerData;
 
+    static readonly MAX_IDLE_COUNT: number = 2;
+
+    get isIdle() {
+        return this.data.idleCount > RoomPlayer.MAX_IDLE_COUNT;
+    }
+
     setInfo(data) {
         this.node.active = true;
         this.node.opacity = 0;
@@ -30,7 +37,7 @@ export default class RoomPlayer extends cc.Component {
         if (data) {
             this.data = data;
             this.node.runAction(cc.fadeTo(1, 255));
-            this.balance.string = data.red ? helper.numberWithCommas(data.red) : 0;
+            this.balance.string = (data.red ? helper.numberWithCommas(data.red) : 0).toString();
             data.name && (this.nickname.string = data.name.length > 8 ? data.name.substring(0, 7) + "..." : data.name);
             this.setAvatar(data.avatarId);
         } else {
@@ -40,6 +47,7 @@ export default class RoomPlayer extends cc.Component {
     }
 
     setBalance(balance: number) {
+        this.data.idleCount = 0;
         this.data.red = balance ? balance : 0;
         this.balance.string = helper.numberWithCommas(this.data.red);
     }

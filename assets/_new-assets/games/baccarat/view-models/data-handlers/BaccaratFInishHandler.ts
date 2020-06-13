@@ -34,7 +34,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         }
 
         baccaratMain.playerCards.showCards(playerCards, bankerCards.length == 3 ? null : showResultFunc);
-        baccaratMain.bankerCards.showCards(bankerCards, bankerCards.length == 3 ? showResultFunc : null);
+        baccaratMain.bankerCards.showCards(bankerCards, bankerCards.length == 3 ? showResultFunc : null, playerCards.length == 3)
     }
 
     public showResult(resultData, isAnimated = true): void {
@@ -45,20 +45,23 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
 
     public showWinNotice(result) {
         const baccaratMain = this.main as Baccarat;
-        const winNoticeNode = baccaratMain.winNoticeText.node.parent;
+        const winNoticeNode = baccaratMain.winNoticeLabel.node.parent;
         let noticeText: string;
 
         if (result.banker) {
             noticeText = "NHÀ CÁI THẮNG!"
+            baccaratMain.bankerCards.showHighlightCards();
+
         }
         else if (result.player) {
             noticeText = "NHÀ CON THẮNG!"
+            baccaratMain.playerCards.showHighlightCards();
         }
         else {
             noticeText = "HÒA!"
         }
 
-        baccaratMain.winNoticeText.string = noticeText;
+        baccaratMain.winNoticeLabel.string = noticeText;
         winNoticeNode.active = true;
         this.main.gameAudios.playShowResultAudio();
     }

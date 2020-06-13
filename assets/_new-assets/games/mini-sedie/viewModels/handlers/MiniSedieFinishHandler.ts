@@ -13,11 +13,11 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
         this.main.timeHandler.resetTime();
 
         if (cc.RedT.GAME_IS_SHOWED) {
-            this.playResultAnimation();
+            this.playResultAnimation(onFinishHanlingData);
         }
     }
 
-    playResultAnimation() {
+    playResultAnimation(onFinishHanlingData: () => void) {
         if (cc.RedT.GAME_IS_SHOWED) {
             const dataLog = this.main.currentDataLogs[0];
             this.main.setDots(dataLog.result);
@@ -29,6 +29,7 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
                     this.main.resultAnimating = false;
                     this.main.updateRoundHistory();
                     this.main.showResult();
+                    onFinishHanlingData();
                 })
             ));
         }

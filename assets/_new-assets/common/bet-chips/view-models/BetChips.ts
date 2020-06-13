@@ -171,7 +171,7 @@ export default class BetChips extends cc.Component {
     public payChipsToWinningBetItem(chipBox: cc.Node, dealerBox: cc.Node) {
         var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
         var dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
-        this.playMultiChipsSound();
+        chipBox.children.length > 0 && this.playMultiChipsSound();
 
         _.forEach(chipBox.children, chip => {
             var cloneChip = cc.instantiate(chip);
