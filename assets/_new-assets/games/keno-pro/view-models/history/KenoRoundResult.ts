@@ -71,11 +71,11 @@ export default class KenoRoundResult extends cc.Component {
                     this.total.string = total.toString();
                     i++;
                 }),
-                cc.delayTime(duration / 20)
+                cc.delayTime(duration / this.result.length)
             );
 
             this.node.runAction(cc.sequence(
-                cc.repeat(sequence, 20),
+                cc.repeat(sequence, this.result.length),
                 cc.callFunc(() => {
                     this.total.node.runAction(cc.sequence(
                         cc.scaleTo(.1, 1.2),

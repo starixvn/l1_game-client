@@ -30,6 +30,12 @@ export default class MiniKeno extends GameMiniBase {
     @property({ type: cc.Enum(KenoType) })
     kenoType: KenoType = KenoType.Max;
 
+    @property(cc.Label)
+    kenoName: cc.Label = null;
+
+    @property(cc.Toggle)
+    favourite: cc.Toggle = null;
+
     @property(BetPopup)
     betPopup: BetPopup = null;
 
@@ -59,13 +65,28 @@ export default class MiniKeno extends GameMiniBase {
     init() {
         this.gameName = `keno${KenoType[this.kenoType]}`;
         this.config = new MiniKenoConfig(this.kenoType);
+        this.kenoName.string = this.getKenoName();
+    }
+
+    private getKenoName(): string {
+        const dict = {
+            Max: "Keno Max",
+            Max2: "Keno Max 2",
+            Mini: "Keno Mini",
+            Mini2: "Keno Mini 2",
+            East: "Keno Đông",
+            West: "Keno Tây",
+            South: "Keno Nam",
+            North: "Keno Bắc",
+        }
+        return dict[KenoType[this.kenoType]];
     }
 
     public onBetItemClick(e) {
         cc.RedT.audio.playClick();
         const betChoice = e.target.name;
         this.betPopup.show({
-            title: `#${this.roundId}`,
+            title: `#${this.getKenoName()} - ${this.roundId}`,
             odd: this.gameConfigs.odds[betChoice],
             choice: GameUtils.getBetChoiceString(betChoice),
             minBet: this.gameConfigs.minbet,
@@ -75,6 +96,10 @@ export default class MiniKeno extends GameMiniBase {
                 this.bet({ bet: { amount: betAmount, betChoice: betChoice } });
             }
         });
+    }
+
+    public toggleFavorite() {
+        cc.RedT.audio.playClick();
     }
 
     updateRoundHistory() {
