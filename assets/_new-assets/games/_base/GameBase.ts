@@ -243,7 +243,6 @@ export default class GameBase extends cc.Component {
         this.animatedTime.node.active = false;
         this.timeWaitNode.active = false;
         this.statusHandler.currentStatusData = null;
-        this.finishShowResult = false;
     }
 
     protected onGameHide() {
