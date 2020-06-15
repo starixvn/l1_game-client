@@ -10,6 +10,7 @@ import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
 import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
 import Loading from '../../common/loading/view-models/Loading';
 import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
+import KenoProViet from '../../games/keno-pro-viet/view-models/KenoProViet';
 
 @ccclass
 export default class MiniPanel extends cc.Component {
@@ -59,6 +60,7 @@ export default class MiniPanel extends cc.Component {
   private rongHo: RongHo;
   private guide: any;
   private miniSedie: MiniSedie;
+  private kenoProViet: KenoProViet;
 
   onLoad() {
     if (void 0 === cc.RedT.util.fontCong) {
@@ -87,6 +89,8 @@ export default class MiniPanel extends cc.Component {
     this.bauCua = null;
     this.miniSedie && this.miniSedie.destroy();
     this.miniSedie = null;
+    this.kenoProViet && this.kenoProViet.destroy();
+    this.kenoProViet = null;
   }
 
   onGeneralData(data: any) {
@@ -183,6 +187,7 @@ export default class MiniPanel extends cc.Component {
     this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.onSignIn();
     this.rongHo && this.rongHo.node && this.rongHo.onSignIn();
     this.miniSedie && this.miniSedie.node && this.miniSedie.onSignIn();
+    this.kenoProViet && this.kenoProViet.node && this.kenoProViet.onSignIn();
   }
 
   onForceReload(showNotice = true) {
@@ -306,6 +311,16 @@ export default class MiniPanel extends cc.Component {
       },
       () => {
         this.taiXiuTurbo.node.active = true;
+      });
+  }
+
+  openKenoProViet() {
+    this.openMiniGame("games/keno-pro-viet/views/KenoProViet", "KenoProViet", this.kenoProViet != null && this.kenoProViet.node != null,
+      (gameComponent) => {
+        this.kenoProViet = gameComponent;
+      },
+      () => {
+        this.kenoProViet.node.active = true;
       });
   }
 

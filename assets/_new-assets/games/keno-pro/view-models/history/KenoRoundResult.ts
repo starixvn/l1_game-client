@@ -53,7 +53,7 @@ export default class KenoRoundResult extends cc.Component {
             this.total.string = "0";
             this.kenoNumbers.forEach(keno => keno.show(false));
             var shuffle = [];
-            for (var i = 0; i < 20; i++) {
+            for (var i = 0; i < this.result.length; i++) {
                 shuffle.push(i);
             }
             shuffle = _.shuffle(shuffle);

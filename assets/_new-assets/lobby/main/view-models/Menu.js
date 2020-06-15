@@ -64,14 +64,15 @@ cc.Class({
         }
       });
   },
-  openKenoProViet(){
+  openKenoProViet() {
     cc.RedT.audio.playClick();
-    if (cc.RedT.IS_LOGIN) {
-      cc.RedT.inGame.loading.active = true;
-		  cc.director.loadScene('KenoProViet');
-    } else {
-      cc.RedT.inGame.dialog.showSignIn();
-    }
+    // if (cc.RedT.IS_LOGIN) {
+    //   cc.RedT.inGame.loading.active = true;
+    //   cc.director.loadScene('KenoProViet');
+    // } else {
+    //   cc.RedT.inGame.dialog.showSignIn();
+    // }
+    cc.RedT.MiniPanel.openKenoProViet();
   },
   openGame: function (e, name) {
     cc.RedT.audio.playClick();

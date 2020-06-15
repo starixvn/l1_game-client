@@ -47,6 +47,7 @@ export default class MiniKeno extends GameMiniBase {
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
+    public onFavoriteChanged = (favourite: boolean) => { };
 
     onLoad() {
         super.onLoad();
@@ -100,6 +101,7 @@ export default class MiniKeno extends GameMiniBase {
 
     public toggleFavorite() {
         cc.RedT.audio.playClick();
+        this.onFavoriteChanged(this.favourite.isChecked);
     }
 
     updateRoundHistory() {
