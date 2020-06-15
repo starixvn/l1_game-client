@@ -86,10 +86,7 @@ export default class Keno extends GameRoomBase {
     //#region Private Methods
     resetDataAndUI() {
         super.resetDataAndUI();
-
         this.roundResult.node.active = false;
-        this.timeWaitNode.active = false;
-        this.animatedTime.node.active = false;
     }
 
     regEvent(show: boolean) {

@@ -64,6 +64,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
                         this.handleInLockBetTime();
                     }
                 } else {
+                    this.main.timeWaitNode.active = false;
                     this.main.animatedTime.node.active = false;
                     clearInterval(this.playTimeInterval);
                 }

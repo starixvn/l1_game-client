@@ -22,6 +22,9 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     }
 
     playResultAnimation() {
+        this.main.timeWaitNode.active = true;
+        this.main.timeWaitLabel.string = `Công bố kết quả`;
+        this.main.timeWaitLabel.node.color = cc.Color.WHITE;
         var resultNumbers = this.main.currentDataLogs[0].result;
         this.main.resultAnimating = true;
         this.main.roundResult.setData(resultNumbers, this.main.currentDataLogs[0].settlementResult);
