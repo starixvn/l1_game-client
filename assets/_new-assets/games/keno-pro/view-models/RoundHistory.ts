@@ -35,6 +35,12 @@ export default class RoundHistory extends cc.Component {
     @property({ type: cc.Node })
     waterMarks: cc.Node[] = [];
 
+    @property
+    toggleStatistics = false;
+
+    @property({ type: cc.Node, visible: function (this: RoundHistory) { return this.toggleStatistics } })
+    statisticsNodes: cc.Node[] = [];
+
     private main: GameBase;
     private statisticData: StatisticData[] = [];
     private currentOption = 0;
@@ -107,6 +113,17 @@ export default class RoundHistory extends cc.Component {
                 this.showFiveElements();
                 break;
         }
+        this.updateStatisticsToggle();
+    }
+
+    private updateStatisticsToggle() {
+        if (!this.toggleStatistics) {
+            return;
+        }
+
+        this.statisticsNodes.forEach((child, index) => {
+            this.statisticsNodes[index].active = index === this.currentOption;
+        })
     }
 
     public setData(data: any) {
