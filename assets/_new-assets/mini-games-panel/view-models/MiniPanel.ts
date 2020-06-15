@@ -185,12 +185,18 @@ export default class MiniPanel extends cc.Component {
     this.miniSedie && this.miniSedie.node && this.miniSedie.onSignIn();
   }
 
-  onForceReload() {
+  onForceReload(showNotice = true) {
     const forceReload = () => {
       window.location.reload(true);
     }
-    const noticeData = <NoticeData>{ text: "Vui lòng tải lại trang để cập nhật phiên bản mới.", isInfo: true }
-    this.showNotice(noticeData, forceReload, forceReload);
+
+    if (showNotice) {
+      const noticeData = <NoticeData>{ text: "Vui lòng tải lại trang để cập nhật phiên bản mới.", isInfo: true }
+      this.showNotice(noticeData, forceReload, forceReload);
+    }
+    else {
+      forceReload();
+    }
   }
 
   forceKickedOut() {
