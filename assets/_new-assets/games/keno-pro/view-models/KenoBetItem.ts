@@ -26,6 +26,7 @@ export default class KenoBetItem extends BetItem {
     public setHighlight(highlight: boolean) {
         this.inActive.active = !highlight;
         this.highlight.active = highlight;
+        this.highlightBorder.active = highlight;
     }
 
     public resetHighlight() {

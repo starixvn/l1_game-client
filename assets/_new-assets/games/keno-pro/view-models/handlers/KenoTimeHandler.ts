@@ -26,6 +26,12 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
         this.showResult(false);
     }
 
+    handleInLockBetTime() {
+        super.handleInLockBetTime();
+
+        this.main.betItems.forEach(item => item.setHighlight(false));
+    }
+
     public showResult(show: boolean) {
         if (show) {
             this.main.updateRoundHistory();

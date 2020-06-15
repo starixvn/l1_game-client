@@ -84,10 +84,8 @@ export default class BetItem extends cc.Component {
     protected setHighlightItems(highlight: boolean) {
         this.highlight.active = highlight;
 
-        if (this.highlightBackground) {
-            this.highlightBackground.active = highlight;
-            this.highlightBorder.active = highlight;
-            this.normalBorder.active = !highlight;
-        }
+        this.highlightBackground && (this.highlightBackground.active = highlight);
+        this.highlightBorder && (this.highlightBorder.active = highlight);
+        this.normalBorder && (this.normalBorder.active = !highlight);
     }
 }
