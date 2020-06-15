@@ -47,7 +47,6 @@ export default class RoomPlayer extends cc.Component {
     }
 
     setBalance(balance: number) {
-        this.data.idleCount = 0;
         this.data.red = balance ? balance : 0;
         this.balance.string = helper.numberWithCommas(this.data.red);
     }
@@ -69,5 +68,30 @@ export default class RoomPlayer extends cc.Component {
                 self.avatar.spriteFrame = frame;
             }
         });
+    }
+
+    static storePlayerToCache(playerData: PlayerData, gameName: string) {
+        if (playerData.type) {
+            return;
+        }
+
+        let players = JSON.parse(cc.sys.localStorage.getItem(this.playersCacheKey(gameName)));
+
+        if (!players) {
+            players = {};
+        }
+
+        players[playerData.id] = playerData;
+        cc.sys.localStorage.setItem(this.playersCacheKey(gameName), JSON.stringify(players));
+    }
+
+    static getPlayerFromCache(playerId: string, gameName: string) {
+        const players = JSON.parse(cc.sys.localStorage.getItem(this.playersCacheKey(gameName)));
+
+        return players ? players[playerId] : null;
+    }
+
+    private static playersCacheKey(gameName: string) {
+        return "PLAYERS_" + gameName;
     }
 }

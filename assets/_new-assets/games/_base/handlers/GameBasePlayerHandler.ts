@@ -63,13 +63,15 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
     }
 
     addPlayer(player: PlayerData) {
-        player.idleCount = 0;
         const playerSlot = this.getPlayerSlot(player.id);
+        const playerFromCache = RoomPlayer.getPlayerFromCache(player.id, this.main.gameName);
+        console.log(playerFromCache)
+        player.idleCount = playerFromCache ? playerFromCache.idleCount : 0;
 
         if (!playerSlot) {
             const emptySlot = this.getEmptySlot();
 
-            if (emptySlot) {
+            if (emptySlot && player.idleCount <= RoomPlayer.MAX_IDLE_COUNT) {
                 emptySlot.setInfo(player);
 
                 return;
@@ -89,6 +91,7 @@ export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
             }
 
             player.data.idleCount++
+            RoomPlayer.storePlayerToCache(player.data, this.main.gameName);
 
             if (player.isIdle) {
                 const oldPlayerData = player.data;
