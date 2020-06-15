@@ -8,18 +8,19 @@ import KenoNumber from "../../keno-pro/view-models/KenoNumber";
 import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
 import MiniKenoLogsHandler from "./handlers/MiniKenoLogsHandler";
 import RoundHistory from "../../keno-pro/view-models/RoundHistory";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
-enum KenoType {
+export enum KenoType {
     Max,
     Max2,
     Mini,
     Mini2,
-    Spring,
-    Summer,
-    Autumn,
-    Winter,
+    East,
+    West,
+    South,
+    North,
 }
 
 type KenoTypeString = keyof typeof KenoType;
@@ -57,7 +58,7 @@ export default class MiniKeno extends GameMiniBase {
 
     init() {
         this.gameName = `keno${KenoType[this.kenoType]}`;
-        this.config = new MiniKenoConfig();
+        this.config = new MiniKenoConfig(this.kenoType);
     }
 
     public onBetItemClick(e) {
@@ -66,7 +67,7 @@ export default class MiniKeno extends GameMiniBase {
         this.betPopup.show({
             title: `#${this.roundId}`,
             odd: this.gameConfigs.odds[betChoice],
-            choice: betChoice,
+            choice: GameUtils.getBetChoiceString(betChoice),
             minBet: this.gameConfigs.minbet,
             maxBet: this.gameConfigs.maxbet
         }, (betAmount) => {

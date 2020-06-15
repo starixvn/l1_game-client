@@ -18,4 +18,25 @@ export default class GameUtils {
             )
         );
     }
+
+    public static getBetChoiceString(choice: string): string {
+        const dict = {
+            even: "CHẴN",
+            odd: "LẺ",
+            big: "TÀI",
+            small: "XỈU",
+
+            gold: "KIM",
+            wood: "MỘC",
+            water: "THỦY",
+            fire: "HỎA",
+            earth: "THỔ",
+
+            dragon: "RỒNG",
+            tiger: "HỔ",
+            tie: "HÒA"
+        };
+
+        return dict[choice];
+    }
 }

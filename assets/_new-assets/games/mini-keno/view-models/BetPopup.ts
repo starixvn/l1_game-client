@@ -51,8 +51,8 @@ export default class BetPopup extends cc.Component {
         this.updateBetAmount();
 
         this.title.string = this.info.title;
-        this.choice.string = `${this.info.choice}-${this.info.odd}`;
-        this.limitBet.string = `${this.info.minBet}-${this.info.maxBet}`;
+        this.choice.string = `${this.info.choice} - 1:${this.info.odd}`;
+        this.limitBet.string = `${this.info.minBet} - ${this.info.maxBet}`;
         this.callback = callback;
     }
 
