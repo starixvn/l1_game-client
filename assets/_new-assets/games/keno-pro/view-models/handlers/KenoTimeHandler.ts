@@ -23,7 +23,7 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
         super.handleInRoundTime();
 
         this.main.resultAnimating = false;
-        this.showResult(false);
+        this.showResult(true, true);
     }
 
     handleInLockBetTime() {
@@ -32,7 +32,7 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
         this.main.betItems.forEach(item => item.setHighlight(false));
     }
 
-    public showResult(show: boolean) {
+    public showResult(show: boolean, showForPreviousResult = false) {
         if (show) {
             this.main.updateRoundHistory();
 
@@ -41,7 +41,8 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
                 this.main.roundResult.show(false);
 
                 var results = this.main.getResults(this.main.currentDataLogs[0].settlementResult);
-                this.highlightWonItem(true, results);
+                this.highlightWonItem(true, results, !showForPreviousResult);
+                this.main.roundResult.node.active = !showForPreviousResult;
             }
         } else {
             this.highlightWonItem(false);
@@ -49,11 +50,11 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
         }
     }
 
-    highlightWonItem(highlight: boolean, results: string[] = []) {
+    highlightWonItem(highlight: boolean, results: string[] = [], isAnimated = true) {
         if (highlight) {
             this.main.betItems.forEach(item => {
                 var exist = results.indexOf(item.node.name);
-                item.setHighlight(exist > -1);
+                item.setHighlight(exist > -1, isAnimated);
             });
         } else {
             this.main.betItems.forEach(item => item.resetHighlight());

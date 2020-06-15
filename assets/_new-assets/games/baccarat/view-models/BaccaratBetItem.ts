@@ -7,5 +7,6 @@ const { ccclass, property } = cc._decorator;
 export default class BaccaratBetItem extends BetItem {
     public resetHighlight() {
         this.highlight.active = false;
+        this.highlightBackground && (this.highlightBackground.active = false);
     }
 }

@@ -61,11 +61,7 @@ export default class BetItem extends cc.Component {
     }
 
     public setHighlight(highlight: boolean, isAnimated = true) {
-        this.setHighlightItems(highlight);
-
-        if (!isAnimated) {
-            this.highlight.active = false;
-        }
+        this.setHighlightItems(highlight, isAnimated);
     }
 
     public resetHighlight() {
@@ -81,10 +77,10 @@ export default class BetItem extends cc.Component {
         return this.highlight.getComponent("BlinkNode") as BlinkNode;
     }
 
-    protected setHighlightItems(highlight: boolean) {
-        this.highlight.active = highlight;
+    protected setHighlightItems(highlight: boolean, isAnimated = true) {
+        this.highlight.active = highlight && isAnimated;
 
-        this.highlightBackground && (this.highlightBackground.active = highlight);
+        this.highlightBackground && (this.highlightBackground.active = highlight && isAnimated);
         this.highlightBorder && (this.highlightBorder.active = highlight);
         this.normalBorder && (this.normalBorder.active = !highlight);
     }
