@@ -82,8 +82,8 @@ export default class KenoProViet extends cc.Component {
         if (this.selectedIndex <= 0) {
             this.selectedIndex = 0;
             this.leftButton.active = false;
-        } else if (this.selectedIndex >= this.childList.length - 1) {
-            this.selectedIndex = this.childList.length - 1;
+        } else if (this.selectedIndex >= this.childList.length - this.displaySize - 1) {
+            this.selectedIndex = this.childList.length - this.displaySize - 1;
             this.rightButton.active = false;
         }
     }
@@ -102,14 +102,14 @@ export default class KenoProViet extends cc.Component {
 
     private scrollToSelectedIndex() {
         this.updateArrowVisibility();
-
-        var min = this.snappedScrollView.getMinDisplayIndex();
-        if (this.selectedIndex <= min && min > 0) {
-            this.snappedScrollView.scrollTo(min - 1);
-        }
-        if (this.selectedIndex >= min + this.displaySize - 1) {
-            this.snappedScrollView.scrollTo(min + 1);
-        }
+        this.snappedScrollView.scrollTo(this.selectedIndex);
+        // var min = this.snappedScrollView.getMinDisplayIndex();
+        // if (this.selectedIndex <= min && min > 0) {
+        //     this.snappedScrollView.scrollTo(min - 1);
+        // }
+        // if (this.selectedIndex >= min + this.displaySize - 1) {
+        //     this.snappedScrollView.scrollTo(min + 1);
+        // }
     }
 
     openGame() {
@@ -121,7 +121,6 @@ export default class KenoProViet extends cc.Component {
     }
 
     openHistory() {
-       
         let node = cc.instantiate(this.historyPrefab);
         this.node.addChild(node);
     };

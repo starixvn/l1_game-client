@@ -18,15 +18,16 @@ export default class SnappedScrollView extends cc.Component {
 
     onLoad() {
         this.scroll = this.getComponent(cc.ScrollView);
-        var count = this.scroll.content.childrenCount;
-        var maxOffset = this.scroll.getMaxScrollOffset().x;
+        const count = this.scroll.content.childrenCount;
+        const contentWidth = count * this.itemSize + (count + 1) * this.spacing;
+        const maxOffset = contentWidth - this.scroll.node.width;// this.scroll.getMaxScrollOffset().x;
         for (var i = 0; i < count; i++) {
-            var offset = (this.itemSize + this.spacing) * i;
+            let offset = (this.itemSize + this.spacing) * i;
             if (offset > maxOffset) {
                 offset = maxOffset;
             }
 
-            var percent = offset / maxOffset;
+            const percent = offset / maxOffset;
             this.calculatedPercent.push(percent);
         }
     }
