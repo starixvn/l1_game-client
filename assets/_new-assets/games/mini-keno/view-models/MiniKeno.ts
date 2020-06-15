@@ -45,6 +45,9 @@ export default class MiniKeno extends GameMiniBase {
     @property(RoundHistory)
     roundHistory: RoundHistory = null;
 
+    @property(cc.Button)
+    rebet: cc.Button = null;
+
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
     public onFavoriteChanged = (favourite: boolean) => { };
@@ -83,6 +86,11 @@ export default class MiniKeno extends GameMiniBase {
         return dict[KenoType[this.kenoType]];
     }
 
+    public onReBetClick() {
+        cc.RedT.audio.playClick();
+        this.betPopup.rebet(`#${this.getKenoName()} - ${this.roundId}`);
+    }
+
     public onBetItemClick(e) {
         cc.RedT.audio.playClick();
         const betChoice = e.target.name;
@@ -94,6 +102,7 @@ export default class MiniKeno extends GameMiniBase {
             maxBet: this.gameConfigs.maxbet
         }, (betAmount) => {
             if (betAmount > 0) {
+                this.rebet.interactable = true;
                 this.bet({ bet: { amount: betAmount, betChoice: betChoice } });
             }
         });
