@@ -14,22 +14,28 @@ export default class DropDownList extends cc.Component {
     @property(cc.Node)
     optionContainer: cc.Node = null;
 
-    private options: DropDownOption[] = [
-        new DropDownOption("kenoProViet", "Keno Pro Việt"),
-        new DropDownOption("kenoMax", "Keno Max"),
-        new DropDownOption("kenoMax2", "Keno Max 2"),
-        new DropDownOption("kenoMini", "Keno Mini"),
-        new DropDownOption("kenoMini2", "Keno Mini 2"),
-        new DropDownOption("kenoEast", "Keno Đông"),
-        new DropDownOption("kenoWest", "Keno Tây"),
-        new DropDownOption("kenoSouth", "Keno Nam"),
-        new DropDownOption("kenoNorth", "Keno Bắc"),
-    ];
+    @property(cc.Label)
+    captionLabel: cc.Label = null;
+
+    private options: DropDownOption[] = [];
 
     public selectedItem: DropDownOption = null;
 
+    init(options: DropDownOption[]) {
+        this.options = options;
+    }
+
     onLoad() {
-        this.options.forEach(option => this.addItem(option));
+        this.selectedItem = this.options[0];
+        this.optionContainer.active = false;
+    }
+
+    onCaptionClick() {
+        if (!this.optionContainer.active) {
+            this.openDropDown();
+        } else {
+            this.closeDropDown();
+        }
     }
 
     addItem(option: DropDownOption) {
@@ -45,16 +51,21 @@ export default class DropDownList extends cc.Component {
         const component: DropDownItem = button.node.getComponent("DropDownItem");
         if (component) {
             this.selectedItem = new DropDownOption(component.value, component.label.string);
+            this.captionLabel.string = this.selectedItem.text;
         }
 
-        this.close();
+        this.closeDropDown();
     }
 
-    open() {
+    openDropDown() {
+        this.options.forEach(option => {
+            option.value != this.selectedItem.value && this.addItem(option);
+        });
         this.optionContainer.active = true;
     }
 
-    close() {
+    closeDropDown() {
         this.optionContainer.active = false;
+        this.items.destroyAllChildren();
     }
 }
