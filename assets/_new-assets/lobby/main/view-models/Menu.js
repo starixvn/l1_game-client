@@ -47,10 +47,15 @@ cc.Class({
     );
   },
   loadGameRoom: function (name) {
-    cc.director.loadScene(name);
-  },
-  loadGame: function (e, name) {
-    cc.director.loadScene(name);
+    cc.director.preloadScene(name, null, (error, assets) => {
+      if (error) {
+        cc.RedT.inGame.loading.active = false;
+        cc.RedT.MiniPanel.onForceReload();
+      }
+      else {
+        cc.director.loadScene(name);
+      }
+    });
   },
   openGame: function (e, name) {
     cc.RedT.audio.playClick();
