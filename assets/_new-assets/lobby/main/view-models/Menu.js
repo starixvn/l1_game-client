@@ -47,15 +47,22 @@ cc.Class({
     );
   },
   loadGameRoom: function (name) {
-    cc.director.preloadScene(name, null, (error, assets) => {
-      if (error) {
-        cc.RedT.inGame.loading.active = false;
-        cc.RedT.MiniPanel.onForceReload();
-      }
-      else {
-        cc.director.loadScene(name);
-      }
-    });
+    const loading = cc.RedT.inGame.loading.getComponent("Loading");
+    loading.setDefaultPercent();
+
+    cc.director.preloadScene(name,
+      (completedCount, total, item) => {
+        loading.onProgress(completedCount, total, item);
+      },
+      (error, assets) => {
+        if (error) {
+          cc.RedT.inGame.loading.active = false;
+          cc.RedT.MiniPanel.onForceReload();
+        }
+        else {
+          cc.director.loadScene(name);
+        }
+      });
   },
   openGame: function (e, name) {
     cc.RedT.audio.playClick();
