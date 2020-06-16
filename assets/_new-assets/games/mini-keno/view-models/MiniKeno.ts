@@ -1,7 +1,6 @@
 import GameMiniBase from "../../_base/GameMiniBase";
 import MiniKenoConfig from "./MiniKenoConfig";
 import BetPopup from "./BetPopup";
-import KenoFinishHandler from "../../keno-pro/view-models/handlers/KenoFinishHandler";
 import MiniKenoFinishHandler from "./handlers/MiniKenoFinishHandler";
 import KenoRoundResult from "../../keno-pro/view-models/history/KenoRoundResult";
 import KenoNumber from "../../keno-pro/view-models/KenoNumber";
@@ -22,8 +21,6 @@ export enum KenoType {
     South,
     North,
 }
-
-type KenoTypeString = keyof typeof KenoType;
 
 @ccclass
 export default class MiniKeno extends GameMiniBase {

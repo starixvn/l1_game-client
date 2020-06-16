@@ -31,6 +31,9 @@ export default class KenoProViet extends cc.Component {
     @property
     movingStep = 1;
 
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
     private selectedIndex = 0;
     private childList: cc.Node[] = [];
     private gameIndexes = [];
@@ -56,6 +59,10 @@ export default class KenoProViet extends cc.Component {
     }
 
     onLoad() {
+        if (!cc.sys.isMobile) {
+            this.node.scale = 1.25;
+        }
+
         this.initAllKeno();
         this.leftButton.active = false;
         this.childList = [...this.content.children];
