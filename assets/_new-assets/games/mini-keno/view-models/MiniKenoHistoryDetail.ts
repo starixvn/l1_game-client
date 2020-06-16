@@ -1,6 +1,7 @@
 import KenoNumber from "../../keno-pro/view-models/KenoNumber";
 import * as _ from "lodash";
 import MiniKenoHistoryDetailItem from "./MiniKenoHistoryDetailItem";
+import { numberWithCommas, getStringDateByTime } from '../../../common/helpers/Helper';
 
 const { ccclass, property } = cc._decorator;
 
@@ -54,9 +55,9 @@ export default class MiniKenoHistoryDetail extends cc.Component {
         betLogDetails.forEach(item => {
             let node = cc.instantiate(this.prefabDetail);
             let detailItem: MiniKenoHistoryDetailItem = node.getComponent("MiniKenoHistoryDetailItem");
-            detailItem.time.string = item.time;
+            detailItem.time.string = getStringDateByTime(item.time);
             detailItem.choice.string = this.choiceMapper[item.choice];
-            detailItem.amount.string = item.amount;
+            detailItem.amount.string = numberWithCommas(item.amount);
             this.betDetails.addChild(node);
         });
     }
