@@ -1,3 +1,5 @@
+import MiniKenoHistory from "./MiniKenoHistory";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -10,7 +12,7 @@ export default class MiniKenoHistoryItem extends cc.Component {
     roundId: cc.Label = null;
 
     @property(cc.Label)
-    result: cc.Label = null;
+    total: cc.Label = null;
 
     @property(cc.Label)
     big: cc.Label = null;
@@ -41,4 +43,18 @@ export default class MiniKenoHistoryItem extends cc.Component {
 
     @property(cc.Label)
     win: cc.Label = null;
+
+    public result: number[];
+    public settlementResult: any;
+    public betLogDetails: any[];
+
+    private main: MiniKenoHistory
+
+    init(main: MiniKenoHistory) {
+        this.main = main;
+    }
+
+    onTotalClick() {
+        this.main.showHistoryDetail(this.result, this.settlementResult, this.betLogDetails);
+    }
 }

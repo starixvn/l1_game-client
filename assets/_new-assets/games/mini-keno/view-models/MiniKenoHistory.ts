@@ -49,7 +49,6 @@ export default class MiniKenoHistory extends GameHistoryBase {
     }
 
     onData(data) {
-        console.log(data);
         this.pages.onSet(data.page, data.pageSize, data.total);
         this.content.destroyAllChildren();
 
@@ -66,10 +65,10 @@ export default class MiniKenoHistory extends GameHistoryBase {
                 item.win.node.color = betLog.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
                 let total = 0;
-                for (index = 0; index < result.length; index++) {
-                    total += result[index];
+                for (let i = 0; i < result.length; i++) {
+                    total += result[i];
                 }
-                item.result.string = total.toString();
+                item.total.string = total.toString();
 
                 Object.keys(settlementResult).forEach(key => {
                     item[key].string = numberWithCommas(betLog[key]);
@@ -81,5 +80,9 @@ export default class MiniKenoHistory extends GameHistoryBase {
                 this.content.addChild(node);
             }
         }
+    }
+
+    showHistoryDetail(result, settlementResult, betLogDetails) {
+
     }
 }
