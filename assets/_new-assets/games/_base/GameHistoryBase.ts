@@ -11,12 +11,10 @@ export default class GameHistoryBase extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    private gameName: string;
-    private dataObserverKey: string;
+    protected gameName: string;
 
     init(gameName) {
         this.gameName = gameName;
-        this.dataObserverKey = `${gameName}History`;
     };
 
     onLoad() {
@@ -24,19 +22,27 @@ export default class GameHistoryBase extends cc.Component {
     }
 
     onEnable() {
-        cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
+        this.addDataObserver(this.gameName);
         this.getData();
     }
 
+    addDataObserver(gameName: string) {
+        cc.RedT.addDataObserver(`${gameName}History`, this.receivedData.bind(this));
+    }
+
     onDisable() {
-        cc.RedT.removeDataObserver(this.dataObserverKey);
-        this.content.children.forEach(child => child.destroy());
+        this.removeDataObserver(this.gameName);
+        this.content.destroyAllChildren();
         this.node.destroy();
     }
 
+    removeDataObserver(gameName: string) {
+        cc.RedT.removeDataObserver(`${gameName}History`);
+    }
+
     receivedData(data) {
-        if (data.baccarat && data.baccarat.history) {
-            this.onData(data.baccarat.history);
+        if (data[this.gameName] && data[this.gameName].history) {
+            this.onData(data[this.gameName].history);
         }
     }
 

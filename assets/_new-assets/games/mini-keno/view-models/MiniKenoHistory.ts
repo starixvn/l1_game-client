@@ -42,7 +42,9 @@ export default class MiniKenoHistory extends GameHistoryBase {
     }
 
     onGameChanged() {
-        this.init(this.kenoGameDropDownList.selectedItem.value);
+        this.removeDataObserver(this.gameName)
+        this.gameName = this.kenoGameDropDownList.selectedItem.value;
+        this.addDataObserver(this.gameName);
         this.getData();
     }
 
@@ -51,16 +53,33 @@ export default class MiniKenoHistory extends GameHistoryBase {
         this.pages.onSet(data.page, data.pageSize, data.total);
         this.content.destroyAllChildren();
 
-        if (data.betLogs) {
-            data.betLogs.foreach((betLog) => {
+        if (data.betLogs && data.betLogs.length) {
+            for (let index = 0; index < data.betLogs.length; index++) {
+                const betLog = data.betLogs[index];
+                const { result, settlementResult } = betLog;
                 const node = cc.instantiate(this.prefabItem);
                 let item: MiniKenoHistoryItem = node.getComponent("MiniKenoHistoryItem");
                 item.node.active = true
                 item.time.string = getStringDateByTime(betLog.time);
-                item.roundId = betLog.phien;
+                item.roundId.string = betLog.phien;
                 item.win.string = numberWithCommas(betLog.betwin);
                 item.win.node.color = betLog.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-            });
+
+                let total = 0;
+                for (index = 0; index < result.length; index++) {
+                    total += result[index];
+                }
+                item.result.string = total.toString();
+
+                Object.keys(settlementResult).forEach(key => {
+                    item[key].string = numberWithCommas(betLog[key]);
+                    if (settlementResult[key]) {
+                        item[key].node.color = cc.Color.YELLOW;
+                    }
+                });
+
+                this.content.addChild(node);
+            }
         }
     }
 }
