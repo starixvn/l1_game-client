@@ -91,6 +91,7 @@ export default class GameBaseBetHandler implements DataHandler {
                 if (player) {
                     player.idleCount = 0;
                     player.red = data.red;
+                    gameRoomMain.playerHandler.otherPlayers[data.playerId] = player;
                     RoomPlayer.storePlayerToCache(player, this.main.gameName);
                 }
             }
