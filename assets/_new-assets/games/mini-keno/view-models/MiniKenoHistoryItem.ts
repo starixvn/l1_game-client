@@ -55,6 +55,6 @@ export default class MiniKenoHistoryItem extends cc.Component {
     }
 
     onTotalClick() {
-        this.main.showHistoryDetail(this.result, this.settlementResult, this.betLogDetails);
+        this.main.showHistoryDetail(this.roundId.string, this.result, this.settlementResult, this.betLogDetails);
     }
 }

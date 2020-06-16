@@ -5,6 +5,7 @@ import DropDownOption from "../../../common/drop-down-list/view-models/DropDownO
 import DropDownList from "../../../common/drop-down-list/view-models/DropDownList";
 import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
 import { numberWithCommas, getStringDateByTime } from '../../../common/helpers/Helper';
+import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
 
 @ccclass
 export default class MiniKenoHistory extends GameHistoryBase {
@@ -15,6 +16,10 @@ export default class MiniKenoHistory extends GameHistoryBase {
     @property(cc.Node)
     dropDownList: cc.Node = null;
 
+    @property(cc.Prefab)
+    prefabRoundResult: cc.Prefab = null;
+
+    private historyDetail: MiniKenoHistoryDetail = null;
     private kenoGameDropDownList: DropDownList;
 
     private options: DropDownOption[] = [
@@ -58,7 +63,11 @@ export default class MiniKenoHistory extends GameHistoryBase {
                 const { result, settlementResult } = betLog;
                 const node = cc.instantiate(this.prefabItem);
                 let item: MiniKenoHistoryItem = node.getComponent("MiniKenoHistoryItem");
-                item.node.active = true
+                item.init(this);
+                item.node.active = true;
+                item.result = result;
+                item.settlementResult = settlementResult;
+                item.betLogDetails = betLog.betLogDetails;
                 item.time.string = getStringDateByTime(betLog.time);
                 item.roundId.string = betLog.phien;
                 item.win.string = numberWithCommas(betLog.betwin);
@@ -82,7 +91,16 @@ export default class MiniKenoHistory extends GameHistoryBase {
         }
     }
 
-    showHistoryDetail(result, settlementResult, betLogDetails) {
+    showHistoryDetail(round, result, settlementResult, betLogDetails) {
+        let dialog = cc.instantiate(this.prefabRoundResult);
+        this.historyDetail = dialog.getComponent("MiniKenoHistoryDetail");
+        this.historyDetail.round.string = round;
+        this.node.addChild(dialog);
+        this.historyDetail.setData(result, settlementResult, betLogDetails);
+        this.historyDetail.show();
+    }
 
+    public hideRoundResult() {
+        this.historyDetail = null;
     }
 }
