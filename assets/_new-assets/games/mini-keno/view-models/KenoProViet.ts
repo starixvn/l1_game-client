@@ -2,6 +2,7 @@ import GameRoomBase from "../../_base/GameRoomBase";
 import { GameState } from "../../_base/GameBase";
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import MiniKeno, { KenoType } from "../../mini-keno/view-models/MiniKeno";
+import MiniKenoProViet from "../../mini-keno-pro-viet/view-models/MiniKenoProViet";
 
 const { ccclass, property } = cc._decorator;
 
@@ -9,6 +10,9 @@ const { ccclass, property } = cc._decorator;
 export default class KenoProViet extends cc.Component {
     @property(cc.Prefab)
     kenoPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    kenoProVietPrefab: cc.Prefab = null;
 
     @property(cc.Node)
     content: cc.Node = null;
@@ -36,24 +40,27 @@ export default class KenoProViet extends cc.Component {
     private gameIndexes = [];
 
     private initAllKeno() {
-        this.gameIndexes = [0, 1, 2, 3, 4, 5, 6, 7];
-        // this.gameIndexes = [0, 1, 2];
+        const kenoProVietNode = cc.instantiate(this.kenoProVietPrefab);
+        const kenoProViet = kenoProVietNode.getComponent(MiniKenoProViet);
+        kenoProViet.onFavoriteChanged = this.onFavoriteChanged;
+        this.content.addChild(kenoProVietNode);
 
-        this.gameIndexes.forEach(index => {
+        this.gameIndexes = [1, 2, 3, 4, 5, 6, 7, 8];
+        this.gameIndexes.forEach((item, index) => {
             const node = cc.instantiate(this.kenoPrefab);
             const keno = node.getComponent(MiniKeno);
             keno.kenoType = this.gameIndexes[index];
-            keno.onFavoriteChanged = (favourite: boolean) => {
-                if (favourite) {
-
-                }
-            };
+            keno.onFavoriteChanged = this.onFavoriteChanged;
             this.content.addChild(node);
         });
 
         const layout = this.content.getComponent(cc.Layout);
         layout.updateLayout();
         layout.enabled = false;
+    }
+
+    private onFavoriteChanged(favourite: boolean) {
+
     }
 
     private updateFavourite() {

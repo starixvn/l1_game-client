@@ -13,6 +13,7 @@ import MiniKenoBetBoard from "./MiniKenoBetBoard";
 const { ccclass, property } = cc._decorator;
 
 export enum KenoType {
+    ProViet,
     Max,
     Max2,
     Mini,
@@ -69,6 +70,12 @@ export default class MiniKeno extends GameMiniBase {
         super.onLoad();
     }
 
+    onDestroy() {
+        this.betBoard.destroy();
+        this.roundHistory.destroy();
+        this.roundResult.destroy();
+    }
+
     initHandlers() {
         super.initHandlers();
 
@@ -100,7 +107,7 @@ export default class MiniKeno extends GameMiniBase {
         }, (betAmount) => {
             if (betAmount > 0) {
                 this.rebet.interactable = true;
-                this.bet({ bet: { amount: betAmount, betChoice: betChoice } });
+                this.sendBet(betAmount, betChoice);
             }
         });
     }
@@ -112,6 +119,10 @@ export default class MiniKeno extends GameMiniBase {
 
     updateRoundHistory() {
         this.roundHistory.setData(this.currentDataLogs);
+    }
+
+    protected sendBet(betAmount, betChoice) {
+        this.bet({ bet: { amount: betAmount, betChoice: betChoice } });
     }
 
     protected initComponents() {
@@ -138,6 +149,7 @@ export default class MiniKeno extends GameMiniBase {
 
     private getKenoName(): string {
         const dict = {
+            ProViet: "Keno Pro Viet",
             Max: "Keno Max",
             Max2: "Keno Max 2",
             Mini: "Keno Mini",
@@ -147,6 +159,7 @@ export default class MiniKeno extends GameMiniBase {
             South: "Keno Nam",
             North: "Keno Bắc",
         }
+
         return dict[KenoType[this.kenoType]];
     }
 }
