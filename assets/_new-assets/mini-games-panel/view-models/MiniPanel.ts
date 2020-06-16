@@ -9,6 +9,7 @@ import { RongHoConfigs } from '../../games/rong-ho/view-models/RongHoConfigs';
 import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
 import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
 import Loading from '../../common/loading/view-models/Loading';
+import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
 
 @ccclass
 export default class MiniPanel extends cc.Component {
@@ -169,7 +170,8 @@ export default class MiniPanel extends cc.Component {
       else {
         this.forceKickedOut();
       }
-      this.showNotice({ text: data.message }, this.forceKickedOut, this.forceKickedOut);
+      const noticeData = <NoticeData>{ text: data.message }
+      this.showNotice(noticeData, this.forceKickedOut, this.forceKickedOut);
     }
   }
 
@@ -183,8 +185,18 @@ export default class MiniPanel extends cc.Component {
     this.miniSedie && this.miniSedie.node && this.miniSedie.onSignIn();
   }
 
-  onForceReload() {
-    window.location.reload(true);
+  onForceReload(showNotice = true) {
+    const forceReload = () => {
+      window.location.reload(true);
+    }
+
+    if (showNotice) {
+      const noticeData = <NoticeData>{ text: "Vui lòng tải lại trang để cập nhật phiên bản mới.", isInfo: true }
+      this.showNotice(noticeData, forceReload, forceReload);
+    }
+    else {
+      forceReload();
+    }
   }
 
   forceKickedOut() {
@@ -247,8 +259,14 @@ export default class MiniPanel extends cc.Component {
 
       if (!isAlreadyOpened) {
         this.loading.node.active = true;
-        cc.loader.loadRes(prefabPath, (err: Error, prefab: any) => {
-          if (prefab === null || !this.node || !this.node.isValid) {
+        this.loading.setDefaultPercent();
+
+        cc.loader.loadRes(prefabPath, (completedCount, total, item) => {
+          this.loading.onProgress(completedCount, total, item);
+        }, (err: Error, prefab: any) => {
+          if (err || prefab === null || !this.node || !this.node.isValid) {
+            this.loading.node.active = false;
+            this.onForceReload();
             return;
           }
 
@@ -371,9 +389,9 @@ export default class MiniPanel extends cc.Component {
     this.node.addChild(noticePrefab);
   }
 
-  showNotice(noticeData: any, handleClickButton = null, handleClose = null) {
+  showNotice(noticeData: NoticeData, handleClickButton = null, handleClose = null) {
     var noticePrefab = cc.instantiate(this.noticePrefab);
-    var notice = noticePrefab.getComponent("Notice");
+    var notice = noticePrefab.getComponent("Notice") as Notice;
 
     noticeData.button = { text: 'Ok' };
     notice.init(noticeData);

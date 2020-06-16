@@ -3,6 +3,7 @@ import DataHandler from "./DataHandler";
 import * as _ from "lodash";
 import GameRoomBase from "../GameRoomBase";
 import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
+import RoomPlayer from "../RoomPlayer";
 
 export default class GameBaseBetHandler implements DataHandler {
     private playerChips = [];
@@ -79,6 +80,8 @@ export default class GameBaseBetHandler implements DataHandler {
 
             if (playerSlot) {
                 playerSlot.setBalance(data.red);
+                playerSlot.data.idleCount = 0;
+                RoomPlayer.storePlayerToCache(playerSlot.data, this.main.gameName);
                 startNode = playerSlot.avatar.node;
             }
             else {
@@ -88,6 +91,8 @@ export default class GameBaseBetHandler implements DataHandler {
                 if (player) {
                     player.idleCount = 0;
                     player.red = data.red;
+                    gameRoomMain.playerHandler.otherPlayers[data.playerId] = player;
+                    RoomPlayer.storePlayerToCache(player, this.main.gameName);
                 }
             }
             this.main.betChips.placeChipBet(bet, betItem.chipNode, startNode);

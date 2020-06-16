@@ -1,5 +1,16 @@
 const { ccclass, property } = cc._decorator;
 
+export interface NoticeData {
+    title: string;
+    text: string;
+    button: NoticeButton;
+    isInfo: boolean;
+}
+
+export interface NoticeButton {
+    text: string;
+}
+
 @ccclass
 export default class Notice extends cc.Component {
     @property(cc.Sprite)
@@ -38,7 +49,7 @@ export default class Notice extends cc.Component {
         this.node.destroy();
     }
 
-    public init(data: any) {
+    public init(data: NoticeData) {
         this.node.active = true;
 
         cc.RedT.inGame.loading.active = false;

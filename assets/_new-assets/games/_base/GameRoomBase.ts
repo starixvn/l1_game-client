@@ -2,7 +2,7 @@ import GameBase, { GameState } from "./GameBase";
 import RoomPlayer from "./RoomPlayer";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from '../../common/helpers/Helper';
-import Notice from "../../common/notice/view-models/Notice";
+import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import GameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
 import IGameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
 import GameUtils from "../../common/GameUtils";
@@ -107,7 +107,7 @@ export default class GameRoomBase extends GameBase {
 
         const message = data.um_message;
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
-        var noticeData = { text: text, button: { text: "Ok" } };
+        var noticeData = <NoticeData>{ text: text, button: { text: "Ok" } };
         var notice = this.showNotice(noticeData)
 
         var self = this;
@@ -119,7 +119,7 @@ export default class GameRoomBase extends GameBase {
         }
     }
 
-    showNotice(data): Notice {
+    showNotice(data: NoticeData): Notice {
         var noticePrefab = cc.instantiate(this.noticePrefab);
         var notice = noticePrefab.getComponent("Notice") as Notice;
         data.button = { text: 'Ok' };

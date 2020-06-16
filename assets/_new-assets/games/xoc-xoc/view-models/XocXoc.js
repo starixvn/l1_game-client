@@ -5,6 +5,7 @@ import logger from '../../../common/logger';
 const sentryLogger = logger();
 const Constants = require('./XocXocConstants');
 import * as _ from "lodash";
+import RoomPlayer from "../../_base/RoomPlayer";
 
 cc.Class({
 	extends: cc.Component,
@@ -108,6 +109,7 @@ cc.Class({
 		miniRoundHistoryContainer: cc.Node,
 	},
 	ctor: function () {
+		this.gameName = "XocXoc";
 		this.logs = [];
 		this.nan = false;
 		this.cuoc = '1';
@@ -398,12 +400,14 @@ cc.Class({
 	},
 
 	addPlayer: function (player) {
-		player.missBetCount = 0;
 		var playerSlot = this.getPlayerSlot(player.id);
+		const playerFromCache = RoomPlayer.getPlayerFromCache(player.id, this.gameName);
+		player.idleCount = playerFromCache ? playerFromCache.idleCount : 0;
+
 		if (!playerSlot) {
 			let emptySlots = this.getEmptySlots();
 
-			if (emptySlots.length > 0) {
+			if (emptySlots.length > 0 && player.idleCount <= RoomPlayer.MAX_IDLE_COUNT) {
 				var selectedPos = emptySlots[0];
 				this.Positions[selectedPos.id].data = player;
 				this.players[selectedPos.id - 1].setInfo(player);
@@ -903,7 +907,7 @@ cc.Class({
 			} else if (this.time_remain > Constants.betTime) {
 				this.nodeWait.active = false;
 				if (this.time_remain === Constants.shakeThePlateTime) {
-					this.increaseMissBetCount();
+					this.increaseIdleCount();
 					this.nodeBat.runAction(this.actionBatClose);
 					this.setGameRound();
 					this.updatePlayersOnTable();
@@ -927,13 +931,14 @@ cc.Class({
 			this.time_remain--;
 		}.bind(this), 1000);
 	},
-	increaseMissBetCount: function () {
+	increaseIdleCount: function () {
 		const positionKeys = _.keys(this.Positions);
 
 		positionKeys.forEach((key) => {
 			let position = this.Positions[key];
 			if (position && position.data) {
-				position.data.missBetCount++;
+				position.data.idleCount++;
+				RoomPlayer.storePlayerToCache(position.data, this.gameName);
 			}
 		});
 
@@ -941,7 +946,7 @@ cc.Class({
 		othersKeys.forEach((key) => {
 			let otherPlayer = this.otherPlayers[key];
 			if (otherPlayer) {
-				otherPlayer.missBetCount++;
+				otherPlayer.idleCount++;
 			}
 		});
 	},
@@ -950,9 +955,9 @@ cc.Class({
 
 		if (!emptySlots || emptySlots.length < 1) {
 			const positions = _.values(this.Positions);
-			const idlePositions = _.filter(positions, position => position.data && !position.data.type && position.data.missBetCount > Constants.maxRoundUserMissingBet);
+			const idlePositions = _.filter(positions, position => position.data && !position.data.type && position.data.idleCount > RoomPlayer.MAX_IDLE_COUNT);
 			const otherPlayers = _.values(this.otherPlayers);
-			const realPlayers = _.filter(otherPlayers, player => !player.type && player.missBetCount <= Constants.maxRoundUserMissingBet);
+			const realPlayers = _.filter(otherPlayers, player => !player.type && player.idleCount <= RoomPlayer.MAX_IDLE_COUNT);
 
 			if (realPlayers && realPlayers.length) {
 				idlePositions.forEach((position, index) => {
@@ -1160,7 +1165,8 @@ cc.Class({
 		let playerSlot = this.getPlayerSlot(data.playerId);
 		if (playerSlot) {
 			playerSlot.data.red = data.red;
-			playerSlot.data.missBetCount = 0;
+			playerSlot.data.idleCount = 0;
+			RoomPlayer.storePlayerToCache(playerSlot.data, this.gameName);
 			let slotIndex = playerSlot.id - 1;
 			startNode = this.players[slotIndex].node.children[0];
 			this.players[slotIndex].setInfo(playerSlot.data);
@@ -1169,7 +1175,8 @@ cc.Class({
 			let otherPlayer = this.otherPlayers[data.playerId];
 			if (otherPlayer) {
 				otherPlayer.red = data.red;
-				otherPlayer.missBetCount = 0;
+				otherPlayer.idleCount = 0;
+				RoomPlayer.storePlayerToCache(otherPlayer, this.gameName);
 			}
 		}
 

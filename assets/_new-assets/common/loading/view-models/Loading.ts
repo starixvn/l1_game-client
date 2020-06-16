@@ -7,26 +7,32 @@ export default class Loading extends cc.Component {
     percent: cc.Label = null;
 
     onEnable() {
-        var self = this;
-        self.percent.node.active = true;
-
-        cc.loader.onProgress = function (completedCount, totalCount, item) {
-            var percent = 100 * completedCount / totalCount;
-            if (self.percent && percent) {
-                self.percent.string = percent.toFixed(0) + "%";
-            }
-        };
+        this.percent.node.active = true;
     }
     onDisable() {
         this.percent.string = '';
     }
 
+    setDefaultPercent() {
+        this.percent.string = '0%';
+    }
+
     onData(data: any) {
-        if (void 0 !== data.active) {
+        if (data.active) {
             this.node.active = data.active;
         }
-        if (void 0 !== data.text) {
+        if (data.text) {
             this.percent.string = data.text;
         }
     }
+
+    onProgress(completedCount, totalCount, item) {
+        const percent = 100 * completedCount / totalCount;
+        this.node && (this.node.active = true);
+
+        if (this.percent && percent) {
+            this.percent.node.active = true
+            this.percent.string = percent.toFixed(0) + "%";
+        }
+    };
 }

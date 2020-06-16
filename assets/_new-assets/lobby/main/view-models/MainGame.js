@@ -54,12 +54,21 @@ cc.Class({
 
     cc.game.on(cc.game.EVENT_HIDE, function () {
       cc.RedT.GAME_IS_SHOWED = false;
-    });
+      this.sleepTime = new Date();
+    }.bind(this));
 
     cc.game.on(cc.game.EVENT_SHOW, function () {
       cc.RedT.GAME_IS_SHOWED = true;
       cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoint: true } });
-    });
+
+      if (cc.sys.isMobile) {
+        const sleepSecond = (new Date() - this.sleepTime) / 1000;
+
+        if (sleepSecond > 3) {
+          cc.RedT.MiniPanel.onForceReload(false);
+        }
+      }
+    }.bind(this));
 
     cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
     // Connect Server
