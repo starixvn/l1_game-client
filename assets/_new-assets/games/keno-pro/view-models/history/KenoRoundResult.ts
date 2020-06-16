@@ -45,6 +45,24 @@ export default class KenoRoundResult extends cc.Component {
     public setData(result: number[], settlementResult: any) {
         this.result = result;
         this.settlementResult = settlementResult;
+        this.updateLayout();
+    }
+
+    private updateLayout() {
+        const layout = this.resultNumbers.getComponent(cc.Layout);
+        if (!layout) {
+            return;
+        }
+        layout.enabled = true;
+        for (let i = 0; i < this.result.length; i++) {
+            this.resultNumbers.children[i].active = true;
+        }
+        layout.updateLayout();
+
+        layout.enabled = false;
+        for (let i = 0; i < this.result.length; i++) {
+            this.resultNumbers.children[i].active = false;
+        }
     }
 
     public show(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
@@ -52,19 +70,19 @@ export default class KenoRoundResult extends cc.Component {
         if (animated) {
             this.total.string = "0";
             this.kenoNumbers.forEach(keno => keno.show(false));
-            var shuffle = [];
-            for (var i = 0; i < this.result.length; i++) {
+            let shuffle = [];
+            for (let i = 0; i < this.result.length; i++) {
                 shuffle.push(i);
             }
             shuffle = _.shuffle(shuffle);
 
-            var i = 0;
-            var sequence = cc.sequence(
+            let i = 0;
+            const sequence = cc.sequence(
                 cc.callFunc(() => {
-                    var index = shuffle[i];
+                    const index = shuffle[i];
                     this.kenoNumbers[index].setNumber(this.result[index], true);
-                    var total = 0;
-                    for (var j = 0; j <= i; j++) {
+                    let total = 0;
+                    for (let j = 0; j <= i; j++) {
                         total += this.result[shuffle[j]];
                     }
                     this.showSettleResult(this.getSettleResult(total));
@@ -91,7 +109,7 @@ export default class KenoRoundResult extends cc.Component {
                     onComplete();
                 })));
         } else {
-            var total = 0;
+            let total = 0;
             for (let i = 0; i < this.result.length; i++) {
                 total += this.result[i];
                 this.kenoNumbers[i].setNumber(this.result[i], false);
@@ -103,7 +121,7 @@ export default class KenoRoundResult extends cc.Component {
     }
 
     private getSettleResult(total: number) {
-        var settle: any = {};
+        const settle: any = {};
         if (total > 810) {
             settle.big = true;
         } else {
@@ -134,7 +152,7 @@ export default class KenoRoundResult extends cc.Component {
         let index = 0;
         Object.keys(settlementResult).forEach(key => {
             if (settlementResult[key]) {
-                var betChoice = this.betChoices[index];
+                const betChoice = this.betChoices[index];
                 betChoice.setValue(this.choiceMapper[key]);
                 index++;
             }
