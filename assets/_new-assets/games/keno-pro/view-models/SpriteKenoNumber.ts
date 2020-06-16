@@ -5,7 +5,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SpriteKenoNumber extends KenoNumber {
 
-    @property({ type: cc.Label, visible: false })
+    @property({ type: cc.Label, visible: false, override: true })
     numberLabel: cc.Label = null;
 
     @property(cc.Sprite)
