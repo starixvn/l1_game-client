@@ -11,7 +11,6 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
 
-        this.main.animatedTime.node.active = false;
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId);
 
@@ -22,7 +21,6 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleInRoundTime() {
         this.main.timeWaitNode.active = true;
-        this.main.animatedTime.node.active = false;
         var time = numberPad(this.main.currentTimeRemaining, 2);
         const isStopSoon = this.main.currentTimeRemaining < this.main.config.stopBetTime + 1;
         const prefix = isStopSoon ? "Dừng cược trong:" : "Thời gian cược:";

@@ -9,7 +9,7 @@ export interface BetInfo {
 }
 
 @ccclass
-export default class BetPopup extends cc.Component {
+export default class MiniKenoBetBoard extends cc.Component {
 
     @property(cc.Label)
     title: cc.Label = null;

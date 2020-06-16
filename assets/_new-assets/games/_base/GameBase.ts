@@ -239,7 +239,7 @@ export default class GameBase extends cc.Component {
             item.clearBet();
             item.resetHighlight();
         });
-        this.animatedTime.node.active = false;
+        this.animatedTime && (this.animatedTime.node.active = false);
         this.timeWaitNode.active = false;
         this.statusHandler.currentStatusData = null;
     }
