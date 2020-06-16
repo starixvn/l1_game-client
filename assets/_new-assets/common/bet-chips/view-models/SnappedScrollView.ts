@@ -53,7 +53,9 @@ export default class SnappedScrollView extends cc.Component {
         var i = 0;
         for (; i < this.calculatedPercent.length; i++) {
             if (this.calculatedPercent[i] <= percent && percent <= this.calculatedPercent[i + 1]) {
-                this.minDisplayIndex = i;
+                const delta1 = percent - this.calculatedPercent[i];
+                const delta2 = this.calculatedPercent[i + 1] - percent;
+                this.minDisplayIndex = delta1 < delta2 ? i : i + 1;
             }
             if (this.calculatedPercent[i] >= 1) {
                 break;

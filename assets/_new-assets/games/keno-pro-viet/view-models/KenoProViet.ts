@@ -31,9 +31,6 @@ export default class KenoProViet extends cc.Component {
     @property
     movingStep = 1;
 
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
     private selectedIndex = 0;
     private childList: cc.Node[] = [];
     private gameIndexes = [];
@@ -70,8 +67,8 @@ export default class KenoProViet extends cc.Component {
             var min = this.snappedScrollView.getMinDisplayIndex();
             if (this.selectedIndex < min) {
                 this.selectedIndex = min;
-            } else if (this.selectedIndex > min + this.displaySize - 1) {
-                this.selectedIndex = min + this.displaySize - 1;
+            } else if (this.selectedIndex > min + this.displaySize) {
+                this.selectedIndex = min + this.displaySize;
             }
             this.updateArrowVisibility();
         };
@@ -89,8 +86,8 @@ export default class KenoProViet extends cc.Component {
         if (this.selectedIndex <= 0) {
             this.selectedIndex = 0;
             this.leftButton.active = false;
-        } else if (this.selectedIndex >= this.childList.length - this.displaySize - 1) {
-            this.selectedIndex = this.childList.length - this.displaySize - 1;
+        } else if (this.selectedIndex >= this.childList.length - this.displaySize) {
+            this.selectedIndex = this.childList.length - this.displaySize;
             this.rightButton.active = false;
         }
     }
@@ -108,27 +105,29 @@ export default class KenoProViet extends cc.Component {
     }
 
     private scrollToSelectedIndex() {
-        this.updateArrowVisibility();
         this.snappedScrollView.scrollTo(this.selectedIndex);
-        // var min = this.snappedScrollView.getMinDisplayIndex();
-        // if (this.selectedIndex <= min && min > 0) {
-        //     this.snappedScrollView.scrollTo(min - 1);
-        // }
-        // if (this.selectedIndex >= min + this.displaySize - 1) {
-        //     this.snappedScrollView.scrollTo(min + 1);
-        // }
+        this.updateArrowVisibility();
     }
 
     openGame() {
         // this.node.active = true;
     }
 
+    closeGame() {
+        cc.RedT.audio.playClick();
+        this.node.active = false;
+    }
+
     onSignIn() {
 
     }
 
-    openHistory() {
+    openGuide() {
+        cc.RedT.audio.playClick();
+    }
 
+    openHistory() {
+        cc.RedT.audio.playClick();
         let node = cc.instantiate(this.historyPrefab);
         this.node.addChild(node);
     };
