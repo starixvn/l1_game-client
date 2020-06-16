@@ -37,6 +37,9 @@ export default class MiniKeno extends GameMiniBase {
     @property(cc.Node)
     body: cc.Node = null;
 
+    @property(cc.Node)
+    center: cc.Node = null;
+
     @property(cc.Prefab)
     betItemsPrefab: cc.Prefab = null;
 
@@ -124,12 +127,12 @@ export default class MiniKeno extends GameMiniBase {
         const roundResultNode = cc.instantiate(this.roundResultPrefab);
         this.roundResult = roundResultNode.getComponent(KenoRoundResult);
         this.roundResult.node.active = false;
-        this.noticeNode.addChild(roundResultNode);
+        this.center.addChild(roundResultNode);
 
         const betBoardNode = cc.instantiate(this.betBoardPrefab);
         this.betBoard = betBoardNode.getComponent(MiniKenoBetBoard);
         this.betBoard.node.active = false;
-        this.noticeNode.addChild(betBoardNode);
+        this.center.addChild(betBoardNode);
     }
 
     private getKenoName(): string {
