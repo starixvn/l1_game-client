@@ -22,6 +22,9 @@ export default class KenoProViet extends cc.Component {
     @property(cc.Node)
     rightButton: cc.Node = null;
 
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
     @property
     displaySize = 3;
 
@@ -51,9 +54,6 @@ export default class KenoProViet extends cc.Component {
     private updateFavourite() {
 
     }
-
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
 
     onLoad() {
         this.initAllKeno();
@@ -121,6 +121,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     openHistory() {
+
         let node = cc.instantiate(this.historyPrefab);
         this.node.addChild(node);
     };

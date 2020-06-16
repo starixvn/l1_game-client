@@ -3,6 +3,8 @@ const { ccclass, property } = cc._decorator;
 import GameHistoryBase from "../../_base/GameHistoryBase";
 import DropDownOption from "../../../common/drop-down-list/view-models/DropDownOption";
 import DropDownList from "../../../common/drop-down-list/view-models/DropDownList";
+import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
+import { numberWithCommas, getStringDateByTime } from '../../../common/helpers/Helper';
 
 @ccclass
 export default class MiniKenoHistory extends GameHistoryBase {
@@ -12,6 +14,8 @@ export default class MiniKenoHistory extends GameHistoryBase {
 
     @property(cc.Node)
     dropDownList: cc.Node = null;
+
+    private kenoGameDropDownList: DropDownList;
 
     private options: DropDownOption[] = [
         new DropDownOption("kenoProViet", "Keno Pro Việt"),
@@ -26,15 +30,37 @@ export default class MiniKenoHistory extends GameHistoryBase {
     ];
 
     onLoad() {
+        super.onLoad();
+
         this.initDropDown();
+        this.init(this.kenoGameDropDownList.selectedItem.value);
     }
 
     initDropDown() {
-        const dropDown: DropDownList = this.dropDownList.getComponent("DropDownList");
-        dropDown.init(this.options);
+        this.kenoGameDropDownList = this.dropDownList.getComponent("DropDownList");
+        this.kenoGameDropDownList.init(this.options, this.onGameChanged.bind(this));
+    }
+
+    onGameChanged() {
+        this.init(this.kenoGameDropDownList.selectedItem.value);
+        this.getData();
     }
 
     onData(data) {
+        console.log(data);
+        this.pages.onSet(data.page, data.pageSize, data.total);
+        this.content.destroyAllChildren();
 
+        if (data.betLogs) {
+            data.betLogs.foreach((betLog) => {
+                const node = cc.instantiate(this.prefabItem);
+                let item: MiniKenoHistoryItem = node.getComponent("MiniKenoHistoryItem");
+                item.node.active = true
+                item.time.string = getStringDateByTime(betLog.time);
+                item.roundId = betLog.phien;
+                item.win.string = numberWithCommas(betLog.betwin);
+                item.win.node.color = betLog.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+            });
+        }
     }
 }

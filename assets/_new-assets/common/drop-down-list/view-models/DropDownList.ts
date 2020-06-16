@@ -21,12 +21,15 @@ export default class DropDownList extends cc.Component {
 
     public selectedItem: DropDownOption = null;
 
-    init(options: DropDownOption[]) {
+    public onSelectedItemChanged: () => void;
+
+    init(options: DropDownOption[], onSelectedItemChanged: () => void) {
         this.options = options;
+        this.selectedItem = this.options[0];
+        this.onSelectedItemChanged = onSelectedItemChanged;
     }
 
     onLoad() {
-        this.selectedItem = this.options[0];
         this.optionContainer.active = false;
     }
 
@@ -52,6 +55,7 @@ export default class DropDownList extends cc.Component {
         if (component) {
             this.selectedItem = new DropDownOption(component.value, component.label.string);
             this.captionLabel.string = this.selectedItem.text;
+            this.onSelectedItemChanged();
         }
 
         this.closeDropDown();
