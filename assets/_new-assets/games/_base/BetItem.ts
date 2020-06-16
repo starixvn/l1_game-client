@@ -30,12 +30,19 @@ export default class BetItem extends cc.Component {
     @property(cc.Node)
     normalBorder: cc.Node = null;
 
+    public betCallback = (e) => { };
+
     protected setOwnBet(bet: number) {
         this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
     }
 
     protected setTotalBet(bet: number) {
         this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+    }
+
+    public onBetClick(e) {
+        cc.RedT.audio.playClick();
+        this.betCallback(e);
     }
 
     public setData(data: any) {

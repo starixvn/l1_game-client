@@ -119,6 +119,7 @@ export default class MiniKeno extends GameMiniBase {
         const betItems = betItemsNode.getComponent(MiniKenoBetItems);
         this.betItems = betItems.betItems;
         this.body.addChild(betItemsNode);
+        this.betItems.forEach(item => { item.betCallback = (e) => { this.onBetItemClick(e); } });
 
         const roundHistoryNode = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = roundHistoryNode.getComponent(RoundHistory);
