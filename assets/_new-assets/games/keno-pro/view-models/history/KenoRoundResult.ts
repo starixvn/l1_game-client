@@ -1,5 +1,6 @@
 import KenoNumber from "../KenoNumber";
 import * as _ from "lodash";
+import BetChoice from "../BetChoice";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,7 +21,7 @@ export default class KenoRoundResult extends cc.Component {
 
     private result: number[] = [];
     private settlementResult: any;
-    private resultLabels: cc.Label[] = [];
+    private betChoices: BetChoice[] = [];
     private kenoNumbers: KenoNumber[] = [];
 
     private readonly choiceMapper = {
@@ -38,7 +39,7 @@ export default class KenoRoundResult extends cc.Component {
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map(child => child.getComponent(KenoNumber));
         this.kenoNumbers.forEach(keno => keno.show(false));
-        this.resultLabels = this.settleResult.children.map(child => child.getComponent(cc.Label));
+        this.betChoices = this.settleResult.children.map(child => child.getComponent(BetChoice));
     }
 
     public setData(result: number[], settlementResult: any) {
@@ -48,7 +49,6 @@ export default class KenoRoundResult extends cc.Component {
 
     public show(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
         this.node.active = true;
-        this.resultLabels.forEach(label => label.node.active = false);
         if (animated) {
             this.total.string = "0";
             this.kenoNumbers.forEach(keno => keno.show(false));
@@ -81,7 +81,7 @@ export default class KenoRoundResult extends cc.Component {
                         cc.scaleTo(.1, 1.2),
                         cc.scaleTo(.1, 1)
                     ));
-                    this.resultLabels.forEach(label => {
+                    this.betChoices.forEach(label => {
                         label.node.runAction(cc.sequence(
                             cc.scaleTo(.1, 1.2),
                             cc.scaleTo(.1, 1)
@@ -134,9 +134,8 @@ export default class KenoRoundResult extends cc.Component {
         let index = 0;
         Object.keys(settlementResult).forEach(key => {
             if (settlementResult[key]) {
-                var label = this.resultLabels[index];
-                label.node.active = true;
-                label.string = this.choiceMapper[key];
+                var betChoice = this.betChoices[index];
+                betChoice.setValue(this.choiceMapper[key]);
                 index++;
             }
         });
