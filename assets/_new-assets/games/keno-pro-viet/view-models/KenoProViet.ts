@@ -37,6 +37,7 @@ export default class KenoProViet extends cc.Component {
 
     private initAllKeno() {
         this.gameIndexes = [0, 1, 2, 3, 4, 5, 6, 7];
+        // this.gameIndexes = [0, 1, 2];
 
         this.gameIndexes.forEach(index => {
             const node = cc.instantiate(this.kenoPrefab);
@@ -49,6 +50,10 @@ export default class KenoProViet extends cc.Component {
             };
             this.content.addChild(node);
         });
+
+        const layout = this.content.getComponent(cc.Layout);
+        layout.updateLayout();
+        layout.enabled = false;
     }
 
     private updateFavourite() {
