@@ -6,7 +6,7 @@ export default class KenoNumber extends cc.Component {
     @property(cc.Label)
     numberLabel: cc.Label = null;
 
-    private animated = false;
+    protected animated = false;
 
     setNumber(value: number, animated: boolean) {
         this.animated = animated;
