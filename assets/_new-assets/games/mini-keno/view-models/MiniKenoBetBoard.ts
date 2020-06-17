@@ -31,6 +31,9 @@ export default class MiniKenoBetBoard extends cc.Component {
     @property(cc.Label)
     betValue: cc.Label = null;
 
+    @property(cc.Button)
+    betButton: cc.Button = null;
+
     private betAmount = 0;
     private callback = (betAmount: number) => { };
     private info: BetInfo;
@@ -91,6 +94,10 @@ export default class MiniKenoBetBoard extends cc.Component {
         this.betValue.string = this.betAmount > 0 ? helper.numberWithCommas(this.betAmount) : "";
         const winAmount = (this.betAmount * this.info.odd);
         this.winBet.string = winAmount > 0 ? helper.numberWithCommas(winAmount) : "";
+
+        const canBet = this.betAmount > this.info.minBet;
+        this.betButton.interactable = canBet;
+        this.betButton.node.opacity = canBet ? 255 : 102;
     }
 
     private isValidBet(betAmount: number): boolean {
