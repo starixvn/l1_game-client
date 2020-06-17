@@ -81,7 +81,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.timeWaitLabel.string = numberPad(time, 2);
         this.main.animatedTime && (this.main.animatedTime.node.active = false);
         this.main.showProcessingWarning(false);
-        this.main.setGameRound(this.main.roundId);
+        this.main.setGameRound(this.main.roundId - 1);
     }
 
     handleStartingNewGameRound() {
@@ -100,7 +100,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.timeWaitNode.active = false;
         var time = numberPad(this.main.currentTimeRemaining, 2);
         this.main.animatedTime && (this.main.animatedTime.setTime(time));
-        this.main.setGameRound(this.main.roundId + 1);
+        this.main.setGameRound(this.main.roundId);
     }
 
     handleInLockBetTime() {

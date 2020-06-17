@@ -141,7 +141,7 @@ export default class MiniKeno extends GameMiniBase {
         if (this.isStopBetTime()) {
             return;
         }
-        this.betBoard.rebet(`#${this.getKenoName()} - ${this.roundId + 1}`);
+        this.betBoard.rebet(`#${this.getKenoName()} - ${this.roundId}`);
     }
 
     private isStopBetTime(): boolean {
@@ -155,7 +155,7 @@ export default class MiniKeno extends GameMiniBase {
         }
         const betChoice = e.target.name;
         this.betBoard.show({
-            title: `${this.getKenoName()} - #${this.roundId + 1}`,
+            title: `${this.getKenoName()} - #${this.roundId}`,
             odd: this.gameConfigs.odds[betChoice],
             choice: GameUtils.getBetChoiceString(betChoice),
             minBet: this.gameConfigs.minbet,

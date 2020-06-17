@@ -315,7 +315,7 @@ export default class MiniPanel extends cc.Component {
   }
 
   openKenoProViet() {
-    this.openMiniGame("games/keno-pro-viet/views/KenoProViet", "KenoProViet", this.kenoProViet != null && this.kenoProViet.node != null,
+    this.openMiniGame("games/keno-pro-viet/views/KenoProViet", "KenoProViet", this.kenoProViet && this.kenoProViet.node,
       (gameComponent) => {
         this.kenoProViet = gameComponent;
       },

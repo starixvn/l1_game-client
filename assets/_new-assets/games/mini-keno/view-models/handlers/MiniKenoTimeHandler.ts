@@ -10,9 +10,8 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     }
 
     handleWaitTime() {
+        super.handleWaitTime();
         this.main.stopBetWarning.active = false;
-        this.main.showProcessingWarning(false);
-        this.main.setGameRound(this.main.roundId);
 
         if (!this.main.resultAnimating) {
             this.showResult(true);
@@ -20,12 +19,13 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     }
 
     handleInRoundTime() {
+        super.handleInRoundTime();
+
         this.main.timeWaitNode.active = true;
         var time = numberPad(this.main.currentTimeRemaining, 2);
         const isStopSoon = this.main.currentTimeRemaining < this.main.config.stopBetTime + 1;
         const prefix = isStopSoon ? "Dừng cược trong:" : "Thời gian cược:";
         this.main.timeWaitLabel.string = `${prefix} ${time}`;
-        this.main.setGameRound(this.main.roundId + 1);
         this.main.resultAnimating = false;
         this.showResult(false);
     }
@@ -67,6 +67,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
+
         this.main.stopBetWarning.active = true;
         this.main.betBoard.onClose();
     }

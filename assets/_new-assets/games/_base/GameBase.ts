@@ -196,8 +196,8 @@ export default class GameBase extends cc.Component {
         GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
     }
 
-    setGameRound(gameRound) {
-        this.gameRound.string = gameRound ? "#" + gameRound : "";
+    setGameRound(gameRoundId) {
+        this.gameRound.string = gameRoundId ? "#" + gameRoundId : "";
     }
 
     showProcessingWarning(show: boolean) {
