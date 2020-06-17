@@ -29,6 +29,9 @@ export default class KenoProViet extends cc.Component {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    guidePrefab: cc.Prefab = null;
+
     @property
     displaySize = 3;
 
@@ -136,6 +139,8 @@ export default class KenoProViet extends cc.Component {
 
     openGuide() {
         cc.RedT.audio.playClick();
+        let node = cc.instantiate(this.guidePrefab);
+        this.node.addChild(node);
     }
 
     openHistory() {
