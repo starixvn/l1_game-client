@@ -45,24 +45,6 @@ export default class KenoRoundResult extends cc.Component {
     public setData(result: number[], settlementResult: any) {
         this.result = result;
         this.settlementResult = settlementResult;
-        this.updateLayout();
-    }
-
-    private updateLayout() {
-        const layout = this.resultNumbers.getComponent(cc.Layout);
-        if (!layout) {
-            return;
-        }
-        layout.enabled = true;
-        for (let i = 0; i < this.result.length; i++) {
-            this.resultNumbers.children[i].active = true;
-        }
-        layout.updateLayout();
-
-        layout.enabled = false;
-        for (let i = 0; i < this.result.length; i++) {
-            this.resultNumbers.children[i].active = false;
-        }
     }
 
     public show(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
