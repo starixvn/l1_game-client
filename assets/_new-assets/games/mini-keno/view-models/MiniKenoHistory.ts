@@ -13,11 +13,14 @@ export default class MiniKenoHistory extends GameHistoryBase {
     @property(cc.Prefab)
     prefabItem: cc.Prefab = null;
 
-    @property(cc.Node)
-    dropDownList: cc.Node = null;
+    @property(cc.Prefab)
+    dropDownList: cc.Prefab = null;
 
     @property(cc.Prefab)
     prefabRoundResult: cc.Prefab = null;
+
+    @property(cc.Node)
+    gameDropDownContainer: cc.Node = null;
 
     private historyDetail: MiniKenoHistoryDetail = null;
     private kenoGameDropDownList: DropDownList;
@@ -42,8 +45,10 @@ export default class MiniKenoHistory extends GameHistoryBase {
     }
 
     initDropDown() {
-        this.kenoGameDropDownList = this.dropDownList.getComponent("DropDownList");
+        const dropdownNode = cc.instantiate(this.dropDownList);
+        this.kenoGameDropDownList = dropdownNode.getComponent("DropDownList");
         this.kenoGameDropDownList.init(this.options, this.onGameChanged.bind(this));
+        this.gameDropDownContainer.addChild(dropdownNode);
     }
 
     onGameChanged() {
