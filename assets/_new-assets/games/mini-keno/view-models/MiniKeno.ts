@@ -37,6 +37,15 @@ export default class MiniKeno extends GameMiniBase {
     @property(cc.Toggle)
     favourite: cc.Toggle = null;
 
+    @property({ type: cc.SpriteFrame })
+    headerFrames: cc.SpriteFrame[] = [];
+
+    @property(cc.Sprite)
+    headerBg: cc.Sprite = null;
+
+    @property(cc.Node)
+    bodyBg: cc.Node = null;
+
     @property(cc.Node)
     body: cc.Node = null;
 
@@ -71,8 +80,36 @@ export default class MiniKeno extends GameMiniBase {
     onLoad() {
         this.init();
         this.initComponents();
+        this.initHeaderBackground();
 
         super.onLoad();
+    }
+
+    initHeaderBackground() {
+        if (!this.headerBg) {
+            return;
+        }
+
+        const dict = {
+            ProViet: 0,
+            Max: 0,
+            Max2: 0,
+            Mini: 1,
+            Mini2: 1,
+            East: 2,
+            West: 2,
+            South: 2,
+            North: 2,
+        };
+        const colors = [
+            new cc.Color(72, 109, 216),
+            new cc.Color(137, 95, 50),
+            new cc.Color(66, 130, 44),
+        ];
+
+        const bgIndex = dict[KenoType[this.kenoType]];
+        this.headerBg.spriteFrame = this.headerFrames[bgIndex];
+        this.bodyBg.color = colors[bgIndex];
     }
 
     onDestroy() {
