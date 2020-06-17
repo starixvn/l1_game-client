@@ -177,6 +177,7 @@ export default class MiniKeno extends GameMiniBase {
         const roundHistoryNode = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = roundHistoryNode.getComponent(RoundHistory);
         this.body.addChild(roundHistoryNode);
+        this.roundHistory.node.active = true;
 
         const miniType = this.kenoType == KenoType.Mini || this.kenoType == KenoType.Mini2;
         this.betItems.forEach(item => {
