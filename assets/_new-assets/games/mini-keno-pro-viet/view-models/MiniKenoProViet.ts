@@ -1,4 +1,3 @@
-import MiniKenoProVietLogsHandler from "./handlers/MiniKenoProVietLogsHandler";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
 import MiniKenoProVietRoundsSelection from "./components/MiniKenoProVietRoundsSelection";
@@ -10,7 +9,10 @@ const { ccclass, property } = cc._decorator;
 export default class MiniKenoProViet extends MiniKeno {
     @property(cc.Prefab)
     roundsSelectionPrefab: cc.Prefab
+
     roundsHandler: MiniKenoProVietRoundsHandler;
+
+    private roundsSelection: MiniKenoProVietRoundsSelection;
 
     onLoad() {
         super.onLoad();
@@ -40,16 +42,21 @@ export default class MiniKenoProViet extends MiniKeno {
 
     changeRound(roundId: string) {
         this.sendData({ getPlayerBets: true, roundId: roundId });
-        this.setGameRound(roundId);
+        this.roundId = parseInt(roundId) - 1;
     }
 
     initRoundSelectionPopup(): MiniKenoProVietRoundsSelection {
-        const roundsSelectionNode = cc.instantiate(this.roundsSelectionPrefab);
-        const roundsSelection = roundsSelectionNode.getComponent(MiniKenoProVietRoundsSelection);
-        roundsSelection.node.active = false;
-        this.center.addChild(roundsSelectionNode);
+        if (this.roundsSelection && this.roundsSelection.node) {
+            return this.roundsSelection;
+        }
 
-        return roundsSelection;
+        const roundsSelectionNode = cc.instantiate(this.roundsSelectionPrefab);
+        this.roundsSelection = roundsSelectionNode.getComponent(MiniKenoProVietRoundsSelection);
+        this.roundsSelection.node.active = false;
+        this.center.addChild(this.roundsSelection.node);
+        this.roundsSelection.init(this);
+
+        return this.roundsSelection;
     }
 
 }

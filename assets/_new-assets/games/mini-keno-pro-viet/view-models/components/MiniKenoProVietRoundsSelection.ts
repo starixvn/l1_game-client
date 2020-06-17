@@ -26,7 +26,7 @@ export default class MiniKenoProVietRoundsSelection extends cc.Component {
     selectRound(e) {
         const roundItemNode = e.target as cc.Node;
         const roundItem = roundItemNode.getComponent(MiniKenoProVietRoundItem);
-        this.main.changeRound(roundItem.roundId.string)
+        this.main.changeRound(roundItem.id)
         const dialog = this.node.getComponent("CommonDialog");
         dialog.closeDialog();
     }
@@ -43,11 +43,7 @@ export default class MiniKenoProVietRoundsSelection extends cc.Component {
             const roundItemNode = cc.instantiate(this.roundItem);
             const roundItem = roundItemNode.getComponent(MiniKenoProVietRoundItem);
             roundItemNode.active = true;
-            roundItem.roundId.string = "#" + round.id;
-            const dateTime = new Date(round.time);
-
-            roundItem.roundTime.string = dateTime.getHours() + ":" + dateTime.getMinutes();
-            roundItem.roundDate.string = dateTime.getDay() + "/" + dateTime.getMonth();
+            roundItem.setData(round);
 
             this.layout.addChild(roundItemNode);
         })
