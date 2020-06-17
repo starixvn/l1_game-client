@@ -1,6 +1,8 @@
 import KenoNumber from "../KenoNumber";
 import * as _ from "lodash";
 import BetChoice from "../BetChoice";
+import KenoUtils from "../../../mini-keno/view-models/KenoUtils";
+import GameUtils from "../../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,18 +25,6 @@ export default class KenoRoundResult extends cc.Component {
     private settlementResult: any;
     private betChoices: BetChoice[] = [];
     private kenoNumbers: KenoNumber[] = [];
-
-    private readonly choiceMapper = {
-        big: "TÀI",
-        small: "XỈU",
-        odd: "LẺ",
-        even: "CHẴN",
-        gold: "KIM",
-        wood: "MỘC",
-        water: "THỦY",
-        fire: "HỎA",
-        earth: "THỔ",
-    };
 
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map(child => child.getComponent(KenoNumber));
@@ -59,6 +49,7 @@ export default class KenoRoundResult extends cc.Component {
             shuffle = _.shuffle(shuffle);
 
             let i = 0;
+            const miniType = this.result.length < 20;
             const sequence = cc.sequence(
                 cc.callFunc(() => {
                     const index = shuffle[i];
@@ -67,7 +58,7 @@ export default class KenoRoundResult extends cc.Component {
                     for (let j = 0; j <= i; j++) {
                         total += this.result[shuffle[j]];
                     }
-                    this.showSettleResult(this.getSettleResult(total));
+                    this.showSettleResult(KenoUtils.getSettleResult(total, miniType));
                     this.total.string = total.toString();
                     i++;
                 }),
@@ -102,40 +93,12 @@ export default class KenoRoundResult extends cc.Component {
         }
     }
 
-    private getSettleResult(total: number) {
-        const settle: any = {};
-        if (total > 810) {
-            settle.big = true;
-        } else {
-            settle.small = true;
-        }
-
-        if (total % 2 === 1) {
-            settle.odd = true;
-        } else {
-            settle.even = true;
-        }
-
-        if (total < 696) {
-            settle.gold = true;
-        } else if (total < 764) {
-            settle.wood = true;
-        } else if (total < 856) {
-            settle.water = true;
-        } else if (total < 1411) {
-            settle.fire = true;
-        } else {
-            settle.earth = true;
-        }
-        return settle;
-    }
-
     private showSettleResult(settlementResult: any) {
         let index = 0;
         Object.keys(settlementResult).forEach(key => {
             if (settlementResult[key]) {
                 const betChoice = this.betChoices[index];
-                betChoice.setValue(this.choiceMapper[key]);
+                betChoice.setValue(GameUtils.getBetChoiceString(key));
                 index++;
             }
         });

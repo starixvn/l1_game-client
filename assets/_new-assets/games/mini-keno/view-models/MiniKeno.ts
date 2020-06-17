@@ -10,6 +10,7 @@ import GameUtils from "../../../common/GameUtils";
 import MiniKenoBetItems from "./MiniKenoBetItems";
 import MiniKenoBetBoard from "./MiniKenoBetBoard";
 import MiniKenoBetItem from "./MiniKenoBetItem";
+import KenoUtils from "./KenoUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -141,31 +142,9 @@ export default class MiniKeno extends GameMiniBase {
         this.body.addChild(roundHistoryNode);
 
         const miniType = this.kenoType == KenoType.Mini || this.kenoType == KenoType.Mini2;
-        const rules = {
-            big: "[811-1410]",
-            small: "[210-810]",
-            odd: "",
-            even: "",
-            gold: "[210-695]",
-            wood: "[696-763]",
-            water: "[764-855]",
-            fire: "[856-923]",
-            earth: "[924-1410]",
-        };
-        const rules2 = {
-            big: "[206-355]",
-            small: "[55-205]",
-            odd: "",
-            even: "",
-            gold: "[55-163]",
-            wood: "[164-187]",
-            water: "[188-222]",
-            fire: "[223-246]",
-            earth: "[247-355]",
-        };
         this.betItems.forEach(item => {
             const miniKenoBetItem = item as MiniKenoBetItem;
-            const rule = miniType ? rules2[item.node.name] : rules[item.node.name];
+            const rule = KenoUtils.getKenoRuleChoice(item.node.name, miniType);
             miniKenoBetItem.setRule(rule);
         })
         const roundResultNode = cc.instantiate(miniType ? this.roundResult10NumberPrefab : this.roundResultPrefab);

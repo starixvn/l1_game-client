@@ -2,6 +2,7 @@ import KenoNumber from "../../keno-pro/view-models/KenoNumber";
 import * as _ from "lodash";
 import MiniKenoHistoryDetailItem from "./MiniKenoHistoryDetailItem";
 import { numberWithCommas, getStringDateByTime } from '../../../common/helpers/Helper';
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -31,18 +32,6 @@ export default class MiniKenoHistoryDetail extends cc.Component {
     private resultLabels: cc.Label[] = [];
     private kenoNumbers: KenoNumber[] = [];
 
-    private readonly choiceMapper = {
-        big: "TÀI",
-        small: "XỈU",
-        odd: "LẺ",
-        even: "CHẴN",
-        gold: "KIM",
-        wood: "MỘC",
-        water: "THỦY",
-        fire: "HỎA",
-        earth: "THỔ",
-    };
-
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map(child => child.getComponent(KenoNumber));
         this.kenoNumbers.forEach(keno => keno.show(false));
@@ -56,7 +45,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
             let node = cc.instantiate(this.prefabDetail);
             let detailItem: MiniKenoHistoryDetailItem = node.getComponent("MiniKenoHistoryDetailItem");
             detailItem.time.string = getStringDateByTime(item.time);
-            detailItem.choice.string = this.choiceMapper[item.choice];
+            detailItem.choice.string = GameUtils.getBetChoiceString(item.choice);
             detailItem.amount.string = numberWithCommas(item.amount);
             this.betDetails.addChild(node);
         });
@@ -152,7 +141,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
             if (settlementResult[key]) {
                 var label = this.resultLabels[index];
                 label.node.active = true;
-                label.string = this.choiceMapper[key];
+                label.string = GameUtils.getBetChoiceString(key);
                 index++;
             }
         });
