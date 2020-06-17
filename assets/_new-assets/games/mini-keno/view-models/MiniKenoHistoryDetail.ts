@@ -10,7 +10,10 @@ const { ccclass, property } = cc._decorator;
 export default class MiniKenoHistoryDetail extends cc.Component {
 
     @property(cc.Label)
-    round: cc.Label = null;
+    roundId: cc.Label = null;
+
+    @property(cc.Label)
+    roundLabel: cc.Label = null;
 
     @property(cc.Label)
     total: cc.Label = null;

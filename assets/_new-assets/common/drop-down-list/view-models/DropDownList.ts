@@ -46,12 +46,12 @@ export default class DropDownList extends cc.Component {
         let itemComponent: DropDownItem = itemNode.getComponent("DropDownItem");
         itemComponent.label.string = option.text;
         itemComponent.value = option.value;
-        itemNode.on("click", this.onSelectItem, this);
+        itemNode.on(cc.Node.EventType.MOUSE_DOWN, this.onSelectItem, this);
         this.items.addChild(itemNode);
     }
 
-    onSelectItem(button: cc.Button) {
-        const component: DropDownItem = button.node.getComponent("DropDownItem");
+    onSelectItem(event: cc.Event.EventMouse) {
+        const component: DropDownItem = event.currentTarget.getComponent("DropDownItem");
         if (component) {
             this.selectedItem = new DropDownOption(component.value, component.label.string);
             this.captionLabel.string = this.selectedItem.text;

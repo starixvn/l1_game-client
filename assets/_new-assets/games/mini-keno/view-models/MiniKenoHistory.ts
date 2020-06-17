@@ -42,10 +42,10 @@ export default class MiniKenoHistory extends GameHistoryBase {
 
     private betChoices = ["even", "odd", "big", "small", "gold", "wood", "water", "fire", "earth"];
 
-    isKenoProViet = () => this.gameName == "kenoProViet";
+    isKenoProViet() { return this.gameName == "kenoProViet"; }
 
     updateRoundLabel() {
-        this.roundLabel.string = this.isKenoProViet ? "Kỳ Vé" : "Phiên";
+        this.roundLabel.string = this.isKenoProViet() ? "Kỳ Vé" : "Phiên";
     }
 
     onLoad() {
@@ -78,38 +78,36 @@ export default class MiniKenoHistory extends GameHistoryBase {
         if (data.betLogs && data.betLogs.length) {
             for (let index = 0; index < data.betLogs.length; index++) {
                 const betLog = data.betLogs[index];
-                const { result, settlementResult } = betLog;
+                const { phien, betLogDetails, betwin, result, settlementResult } = betLog;
                 const node = cc.instantiate(this.prefabItem);
                 let item: MiniKenoHistoryItem = node.getComponent("MiniKenoHistoryItem");
                 item.init(this);
                 item.node.active = true;
                 item.result = result;
                 item.settlementResult = settlementResult;
-                item.betLogDetails = betLog.betLogDetails;
+                item.betLogDetails = betLogDetails;
                 item.time.string = getStringDateByTime(betLog.time);
-                item.roundId.string = betLog.phien;
+                item.roundId.string = phien;
 
                 this.betChoices.forEach(choice => {
                     item[choice].string = numberWithCommas(betLog[choice]);
                 });
 
                 if (result && result.length && settlementResult) {
-                    let total = 0;
-                    for (let i = 0; i < result.length; i++) {
-                        total += result[i];
-                    }
-                    item.total.string = total.toString();
-                    Object.keys(settlementResult).forEach(key => {
+                    const total = result.reduce((total: number, number: number) => total += number, 0);
+                    item.total.string = total;
 
+                    Object.keys(settlementResult).forEach(key => {
                         if (settlementResult[key]) {
                             item[key].node.color = cc.Color.YELLOW;
                         }
                     });
-                    item.win.string = numberWithCommas(betLog.betwin);
-                    item.win.node.color = betLog.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+                    item.win.string = numberWithCommas(betwin);
+                    item.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
                 } else {
                     item.total.string = "..."
-                    item.total.node.getComponent(cc.Button).clickEvents = [];
+                    item.total.node.color = cc.Color.WHITE;
+                    item.total.node.getComponent(cc.Button).interactable = false;
                     item.win.string = "Đang chờ";
                 }
 
@@ -121,7 +119,8 @@ export default class MiniKenoHistory extends GameHistoryBase {
     showHistoryDetail(round, result, settlementResult, betLogDetails) {
         let dialog = cc.instantiate(this.prefabRoundResult);
         this.historyDetail = dialog.getComponent("MiniKenoHistoryDetail");
-        this.historyDetail.round.string = round;
+        this.historyDetail.roundId.string = round;
+        this.historyDetail.roundLabel.string = this.isKenoProViet() ? "Kỳ vé:" : "Phiên:";
         this.node.addChild(dialog);
         this.historyDetail.setData(result, settlementResult, betLogDetails);
         this.historyDetail.show();
