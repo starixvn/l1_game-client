@@ -11,6 +11,7 @@ import MiniKenoBetItems from "./MiniKenoBetItems";
 import MiniKenoBetBoard from "./MiniKenoBetBoard";
 import MiniKenoBetItem from "./MiniKenoBetItem";
 import KenoUtils from "./KenoUtils";
+import { GameState } from "../../_base/GameBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -138,21 +139,25 @@ export default class MiniKeno extends GameMiniBase {
 
     public onReBetClick() {
         cc.RedT.audio.playClick();
-        if (this.isStopBetTime()) {
+        if (this.isDisabledBet()) {
             return;
         }
         this.betBoard.rebet(`#${this.getKenoName()} - ${this.roundId}`);
     }
 
-    private isStopBetTime(): boolean {
-        return this.currentTimeRemaining <= this.config.stopBetTime || this.currentTimeRemaining >= this.config.betTime;
+    protected isDisabledBet(): boolean {
+        return this.currentTimeRemaining <= this.config.stopBetTime
+            || this.currentTimeRemaining >= this.config.betTime
+            || this.gameState == GameState.Stopped;
     }
 
     public onBetItemClick(e) {
         cc.RedT.audio.playClick();
-        if (this.isStopBetTime()) {
+
+        if (this.isDisabledBet()) {
             return;
         }
+
         const betChoice = e.target.name;
         this.betBoard.show({
             title: `${this.getKenoName()} - #${this.roundId}`,
