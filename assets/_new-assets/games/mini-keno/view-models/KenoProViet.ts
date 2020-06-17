@@ -3,7 +3,7 @@ import { GameState } from "../../_base/GameBase";
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import MiniKeno, { KenoType } from "../../mini-keno/view-models/MiniKeno";
 import MiniKenoProViet from "../../mini-keno-pro-viet/view-models/MiniKenoProViet";
-
+import * as _ from "lodash";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -40,20 +40,19 @@ export default class KenoProViet extends cc.Component {
 
     private selectedIndex = 0;
     private childList: cc.Node[] = [];
-    private gameIndexes = [];
+    private allGames = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    private favouriteGames = [];
 
     private initAllKeno() {
-        const kenoProVietNode = cc.instantiate(this.kenoProVietPrefab);
-        const kenoProViet = kenoProVietNode.getComponent(MiniKenoProViet);
-        kenoProViet.onFavoriteChanged = this.onFavoriteChanged;
-        this.content.addChild(kenoProVietNode);
-
-        this.gameIndexes = [1, 2, 3, 4, 5, 6, 7, 8];
-        this.gameIndexes.forEach((item, index) => {
-            const node = cc.instantiate(this.kenoPrefab);
+        const content = cc.sys.localStorage.getItem('keno_favourites') || "[]";
+        this.favouriteGames = JSON.parse(content);
+        const otherGames = _.difference(this.allGames, this.favouriteGames);
+        const sortedGames = [...this.favouriteGames, ...otherGames];
+        sortedGames.forEach(type => {
+            const node = cc.instantiate(type === 0 ? this.kenoProVietPrefab : this.kenoPrefab);
             const keno = node.getComponent(MiniKeno);
-            keno.kenoType = this.gameIndexes[index];
-            keno.onFavoriteChanged = this.onFavoriteChanged;
+            keno.kenoType = type;
+            keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
             this.content.addChild(node);
         });
 
@@ -62,8 +61,18 @@ export default class KenoProViet extends cc.Component {
         layout.enabled = false;
     }
 
-    private onFavoriteChanged(favourite: boolean) {
+    private saveFavourites() {
+        cc.sys.localStorage.setItem('keno_favourites', JSON.stringify(this.favouriteGames));
+    }
 
+    private onFavoriteChanged(favourite: boolean, type: number) {
+        if (favourite) {
+            this.favouriteGames.push(type);
+        } else {
+            _.remove(this.favouriteGames, (game) => game === type);
+        }
+        this.saveFavourites();
+        console.log(`favourite list ${this.favouriteGames}`);
     }
 
     private updateFavourite() {

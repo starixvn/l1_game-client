@@ -76,7 +76,7 @@ export default class MiniKeno extends GameMiniBase {
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
-    public onFavoriteChanged = (favourite: boolean) => { };
+    public onFavoriteChanged = (favourite: boolean, type: number) => { };
     public roundHistory: RoundHistory;
     public roundResult: KenoRoundResult;
     public betBoard: MiniKenoBetBoard;
@@ -180,7 +180,7 @@ export default class MiniKeno extends GameMiniBase {
 
     public toggleFavorite() {
         cc.RedT.audio.playClick();
-        this.onFavoriteChanged(this.favourite.isChecked);
+        this.onFavoriteChanged(this.favourite.isChecked, this.kenoType);
     }
 
     updateRoundHistory() {
