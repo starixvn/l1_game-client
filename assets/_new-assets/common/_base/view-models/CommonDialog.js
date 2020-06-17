@@ -18,7 +18,10 @@ cc.Class({
 			cc.scaleTo(this.time, 0).easing(cc.easeBackOut()),
 			cc.fadeTo(this.time / 2, 0)));
 
+		this.node.runAction(cc.delayTime(this.time), cc.callFunc(() => {
+			this.node.destroy();
+		}));
+
 		cc.RedT.audio.playUnClick();
-		// this.node.destroy();
 	},
 });

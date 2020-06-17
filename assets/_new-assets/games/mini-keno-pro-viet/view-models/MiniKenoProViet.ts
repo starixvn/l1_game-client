@@ -38,6 +38,11 @@ export default class MiniKenoProViet extends MiniKeno {
         this.sendData({ "getRounds": true });
     }
 
+    changeRound(roundId: string) {
+        this.sendData({ getPlayerBets: true, roundId: roundId });
+        this.setGameRound(roundId);
+    }
+
     initRoundSelectionPopup(): MiniKenoProVietRoundsSelection {
         const roundsSelectionNode = cc.instantiate(this.roundsSelectionPrefab);
         const roundsSelection = roundsSelectionNode.getComponent(MiniKenoProVietRoundsSelection);

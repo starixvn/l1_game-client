@@ -27,6 +27,9 @@
     "_active": true,
     "_components": [
       {
+        "__id__": 415
+      },
+      {
         "__id__": 416
       },
       {
@@ -34,13 +37,10 @@
       },
       {
         "__id__": 418
-      },
-      {
-        "__id__": 419
       }
     ],
     "_prefab": {
-      "__id__": 420
+      "__id__": 419
     },
     "_opacity": 255,
     "_color": {
@@ -14389,7 +14389,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 415
+      "__id__": 414
     },
     "_opacity": 255,
     "_color": {
@@ -14827,9 +14827,6 @@
     "clickEvents": [
       {
         "__id__": 413
-      },
-      {
-        "__id__": 414
       }
     ],
     "_N$interactable": true,
@@ -14889,18 +14886,12 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 1
+    },
     "component": "",
-    "_componentId": "",
-    "handler": "",
-    "customEventData": ""
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": null,
-    "component": "",
-    "_componentId": "",
-    "handler": "",
+    "_componentId": "8a5699+GHtMA5MJFjikd0M+",
+    "handler": "selectRound",
     "customEventData": ""
   },
   {
