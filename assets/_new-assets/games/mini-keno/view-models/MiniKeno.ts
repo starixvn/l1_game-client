@@ -52,6 +52,9 @@ export default class MiniKeno extends GameMiniBase {
     @property(cc.Node)
     center: cc.Node = null;
 
+    @property(cc.Node)
+    stopBetWarning: cc.Node = null;
+
     @property(cc.Prefab)
     betItemsPrefab: cc.Prefab = null;
 

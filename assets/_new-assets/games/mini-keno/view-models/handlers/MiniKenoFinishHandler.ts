@@ -19,6 +19,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
                 cc.callFunc(() => onFinishHanlingData())
             ));
         }
+        this.main.stopBetWarning.active = false;
     }
 
     playResultAnimation() {

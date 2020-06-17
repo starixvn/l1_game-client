@@ -10,7 +10,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     }
 
     handleWaitTime() {
-
+        this.main.stopBetWarning.active = false;
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId);
 
@@ -63,5 +63,11 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         } else {
             this.main.betItems.forEach(item => item.resetHighlight());
         }
+    }
+
+    handleInLockBetTime() {
+        super.handleInLockBetTime();
+        this.main.stopBetWarning.active = true;
+        this.main.betBoard.onClose();
     }
 }
