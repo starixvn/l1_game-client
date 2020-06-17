@@ -141,7 +141,7 @@ export default class MiniKeno extends GameMiniBase {
         cc.RedT.audio.playClick();
         const betChoice = e.target.name;
         this.betBoard.show({
-            title: `#${this.getKenoName()} - ${this.roundId}`,
+            title: `${this.getKenoName()} - #${this.roundId}`,
             odd: this.gameConfigs.odds[betChoice],
             choice: GameUtils.getBetChoiceString(betChoice),
             minBet: this.gameConfigs.minbet,

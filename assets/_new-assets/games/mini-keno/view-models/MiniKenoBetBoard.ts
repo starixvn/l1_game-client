@@ -58,7 +58,7 @@ export default class MiniKenoBetBoard extends cc.Component {
         this.betAmount = 0;
         this.updateBetAmount();
         this.title.string = this.info.title;
-        this.choice.string = `${this.info.choice} - 1:${this.info.odd}`;
+        this.choice.string = `${this.info.choice} @${this.info.odd}`;
         this.minBet.string = helper.numberWithCommas(this.info.minBet);
         this.maxBet.string = helper.numberWithCommas(this.info.maxBet);
         this.callback = callback;
