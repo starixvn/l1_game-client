@@ -42,9 +42,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
 
         this.playTimeInterval = setInterval(() => {
-            const isInWaitTime = this.isInWaitTime;
-
-            if (isInWaitTime) {
+            if (this.isInWaitTime) {
                 this.handleWaitTime();
             } else {
                 const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime;

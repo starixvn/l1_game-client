@@ -1,5 +1,5 @@
 import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
-import MiniKeno from "../MiniKeno";
+import MiniKeno from "../../../mini-keno/view-models/MiniKeno";
 
 export default class MiniKenoProVietLogsHandler extends GameBaseLogsHandler {
     constructor(protected readonly main: MiniKeno) {
