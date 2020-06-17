@@ -28,8 +28,6 @@ export default class MiniKenoProViet extends MiniKeno {
         super.initHandlers();
 
         this.roundsHandler = new MiniKenoProVietRoundsHandler(this);
-        this.logsHandler = new MiniKenoProVietLogsHandler(this);
-
     }
 
     protected sendBet(betAmount, betChoice) {
