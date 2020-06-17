@@ -1,6 +1,6 @@
 const { ccclass, property } = cc._decorator;
 
-import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
+import * as Pagination from "./../../common/helpers/Pagination/Pagination";
 
 @ccclass
 export default class GameHistoryBase extends cc.Component {
