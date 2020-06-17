@@ -3870,7 +3870,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "value copy",
+    "_name": "winBet",
     "_objFlags": 0,
     "_parent": {
       "__id__": 96
@@ -3888,9 +3888,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 4,
-      "g": 4,
-      "b": 4,
+      "r": 0,
+      "g": 20,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -3989,8 +3989,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Giới hạn cược:",
-    "_N$string": "Giới hạn cược:",
+    "_string": "Thanh toán:",
+    "_N$string": "Thanh toán:",
     "_fontSize": 16,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -4088,7 +4088,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "value copy",
+    "_name": "minBet",
     "_objFlags": 0,
     "_parent": {
       "__id__": 102
@@ -4306,7 +4306,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "value copy",
+    "_name": "maxBet",
     "_objFlags": 0,
     "_parent": {
       "__id__": 108
@@ -4730,8 +4730,14 @@
     "choice": {
       "__id__": 17
     },
-    "limitBet": {
+    "winBet": {
       "__id__": 98
+    },
+    "minBet": {
+      "__id__": 104
+    },
+    "maxBet": {
+      "__id__": 110
     },
     "betValue": {
       "__id__": 30

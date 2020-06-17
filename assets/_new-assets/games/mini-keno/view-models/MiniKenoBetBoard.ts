@@ -1,8 +1,10 @@
+import * as helper from '../../../../_new-assets/common/helpers/Helper';
+
 const { ccclass, property } = cc._decorator;
 
 export interface BetInfo {
     title: string;
-    odd: string;
+    odd: number;
     choice: string;
     minBet: number;
     maxBet: number;
@@ -18,7 +20,13 @@ export default class MiniKenoBetBoard extends cc.Component {
     choice: cc.Label = null;
 
     @property(cc.Label)
-    limitBet: cc.Label = null;
+    winBet: cc.Label = null;
+
+    @property(cc.Label)
+    minBet: cc.Label = null;
+
+    @property(cc.Label)
+    maxBet: cc.Label = null;
 
     @property(cc.Label)
     betValue: cc.Label = null;
@@ -51,7 +59,8 @@ export default class MiniKenoBetBoard extends cc.Component {
         this.updateBetAmount();
         this.title.string = this.info.title;
         this.choice.string = `${this.info.choice} - 1:${this.info.odd}`;
-        this.limitBet.string = `${this.info.minBet} - ${this.info.maxBet}`;
+        this.minBet.string = helper.numberWithCommas(this.info.minBet);
+        this.maxBet.string = helper.numberWithCommas(this.info.maxBet);
         this.callback = callback;
     }
 
@@ -79,7 +88,9 @@ export default class MiniKenoBetBoard extends cc.Component {
     }
 
     private updateBetAmount() {
-        this.betValue.string = this.betAmount > 0 ? `${this.betAmount}` : "";
+        this.betValue.string = this.betAmount > 0 ? helper.numberWithCommas(this.betAmount) : "";
+        const winAmount = (this.betAmount * this.info.odd);
+        this.winBet.string = winAmount > 0 ? helper.numberWithCommas(winAmount) : "";
     }
 
     private isValidBet(betAmount: number): boolean {

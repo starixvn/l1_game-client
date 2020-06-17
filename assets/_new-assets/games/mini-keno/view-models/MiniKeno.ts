@@ -108,7 +108,7 @@ export default class MiniKeno extends GameMiniBase {
             odd: this.gameConfigs.odds[betChoice],
             choice: GameUtils.getBetChoiceString(betChoice),
             minBet: this.gameConfigs.minbet,
-            maxBet: this.gameConfigs.maxbet
+            maxBet: this.gameConfigs.choices_maxbet[betChoice]
         }, (betAmount) => {
             if (betAmount > 0) {
                 this.rebet.interactable = true;
