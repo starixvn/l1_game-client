@@ -84,6 +84,7 @@ export default class MiniKeno extends GameMiniBase {
         this.init();
         this.initComponents();
         this.initHeaderBackground();
+        this.enableRebetButton(false);
 
         super.onLoad();
     }
@@ -137,24 +138,39 @@ export default class MiniKeno extends GameMiniBase {
 
     public onReBetClick() {
         cc.RedT.audio.playClick();
-        this.betBoard.rebet(`#${this.getKenoName()} - ${this.roundId}`);
+        if (this.isStopBetTime()) {
+            return;
+        }
+        this.betBoard.rebet(`#${this.getKenoName()} - ${this.roundId + 1}`);
+    }
+
+    private isStopBetTime(): boolean {
+        return this.currentTimeRemaining <= this.config.stopBetTime || this.currentTimeRemaining >= this.config.betTime;
     }
 
     public onBetItemClick(e) {
         cc.RedT.audio.playClick();
+        if (this.isStopBetTime()) {
+            return;
+        }
         const betChoice = e.target.name;
         this.betBoard.show({
-            title: `${this.getKenoName()} - #${this.roundId}`,
+            title: `${this.getKenoName()} - #${this.roundId + 1}`,
             odd: this.gameConfigs.odds[betChoice],
             choice: GameUtils.getBetChoiceString(betChoice),
             minBet: this.gameConfigs.minbet,
             maxBet: this.gameConfigs.choices_maxbet[betChoice]
         }, (betAmount) => {
             if (betAmount > 0) {
-                this.rebet.interactable = true;
+                this.enableRebetButton(true);
                 this.sendBet(betAmount, betChoice);
             }
         });
+    }
+
+    private enableRebetButton(enabled: boolean) {
+        this.rebet.interactable = enabled;
+        this.rebet.node.opacity = enabled ? 255 : 102;
     }
 
     public toggleFavorite() {
