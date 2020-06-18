@@ -23,17 +23,14 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
         this.main.timeWaitNode.active = true;
         var time = numberPad(this.main.currentTimeRemaining, 2);
-        const isStopSoon = this.main.currentTimeRemaining < this.main.config.stopBetTime + 1;
-        const prefix = isStopSoon ? "Dừng cược trong:" : "Thời gian cược:";
-        this.main.timeWaitLabel.string = `${prefix} ${time}`;
+        this.main.timeWaitLabel.string = `${time}`;
         this.main.resultAnimating = false;
         this.showResult(false);
     }
 
     public showResult(show: boolean) {
         if (show) {
-            this.main.timeWaitNode.active = true;
-            this.main.timeWaitLabel.string = `Công bố kết quả`;
+            this.main.timeWaitNode.active = false;
 
             this.main.updateRoundHistory();
 
