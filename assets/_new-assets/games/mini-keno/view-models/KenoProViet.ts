@@ -5,6 +5,7 @@ import MiniKeno, { KenoType } from "../../mini-keno/view-models/MiniKeno";
 import MiniKenoProViet from "../../mini-keno-pro-viet/view-models/MiniKenoProViet";
 import * as _ from "lodash";
 import MiniKenoPresetBet from "./MiniKenoPresetBet";
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -138,6 +139,10 @@ export default class KenoProViet extends cc.Component {
             this.updateArrowVisibility();
         };
         this.initPresetBetBoard();
+        const dragableItem = this.getComponent(DraggableItem);
+        dragableItem.touchCallback.start = (node) => {
+            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+        }
     }
 
     onEnable() {

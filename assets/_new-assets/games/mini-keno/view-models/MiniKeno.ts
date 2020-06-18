@@ -176,7 +176,8 @@ export default class MiniKeno extends GameMiniBase {
             odd: this.gameConfigs.odds[betChoice],
             choice: betChoice,
             minBet: this.gameConfigs.minbet,
-            maxBet: this.gameConfigs.choices_maxbet[betChoice]
+            maxBet: this.gameConfigs.choices_maxbet[betChoice],
+            bet: 0
         };
         this.betBoard.show(betInfo);
     }
