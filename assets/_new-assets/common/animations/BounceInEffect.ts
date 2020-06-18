@@ -14,11 +14,6 @@ export default class BounceInEffect extends cc.Component {
     }
 
     onDisable() {
-        // this.node.stopAllActions();
-        console.log("disable")
-
-        this.node.runAction(cc.spawn(
-            cc.scaleTo(this.time, 0).easing(cc.easeBackOut()),
-            cc.fadeTo(this.time / 2, 0)));
+        this.node.stopAllActions();
     }
 }
