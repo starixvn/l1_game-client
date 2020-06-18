@@ -7,7 +7,6 @@ export default class MiniKenoProVietRoundsHandler implements DataHandler {
 
     handle(data: any): boolean {
         if (data.rounds) {
-            console.log(data.rounds)
             const roundsSelection = this.main.initRoundSelectionPopup();
             roundsSelection.setData(data.rounds);
         }

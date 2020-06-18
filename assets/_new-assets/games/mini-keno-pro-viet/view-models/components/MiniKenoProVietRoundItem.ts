@@ -1,4 +1,6 @@
 import { MiniKenoProVietRound } from "./MiniKenoProVietRoundsSelection";
+import * as moment from 'moment';
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,14 +15,15 @@ export default class MiniKenoProVietRoundItem extends cc.Component {
     @property(cc.Label)
     roundDate: cc.Label = null;
 
-    public id: string;
+    public round: MiniKenoProVietRound;
+    public fullDate: string;
 
     setData(round: MiniKenoProVietRound) {
-        this.id = round.id;
+        this.round = round;
         this.roundId.string = "#" + round.id;
-        const dateTime = new Date(round.time);
-
-        this.roundTime.string = dateTime.getHours() + ":" + dateTime.getMinutes();
-        this.roundDate.string = dateTime.getDay() + "/" + dateTime.getMonth();
+        const timeMoment = moment(round.time);
+        this.roundTime.string = timeMoment.format('HH:mm');
+        this.roundDate.string = timeMoment.format('DD/MM');
+        this.fullDate = timeMoment.format('DD/MM/YYYY');
     }
 }
