@@ -44,6 +44,7 @@ export default class MiniKenoProViet extends MiniKeno {
     }
 
     showGameRoundsDialog() {
+        cc.RedT.audio.playClick();
         this.initRoundSelectionPopup();
         this.getGameRounds();
 

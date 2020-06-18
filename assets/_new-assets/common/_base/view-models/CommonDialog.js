@@ -1,17 +1,7 @@
+import BounceInEffect from '../../animations/BounceInEffect';
+
 cc.Class({
-	extends: cc.Component,
-
-	properties: {
-		time: 0.5
-	},
-
-	onEnable() {
-		this.node.opacity = 0;
-		this.node.scale = 0;
-		this.node.runAction(cc.spawn(
-			cc.scaleTo(this.time, 1).easing(cc.easeBackOut()),
-			cc.fadeTo(this.time / 2, 255)));
-	},
+	extends: BounceInEffect,
 
 	onDisable() {
 		this.node.destroy();

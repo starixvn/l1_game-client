@@ -2,9 +2,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BounceInEffect extends cc.Component {
-
     @property
-    time: number = 1;
+    time: number = 0.5;
 
     onEnable() {
         this.node.opacity = 0;
@@ -15,6 +14,11 @@ export default class BounceInEffect extends cc.Component {
     }
 
     onDisable() {
-        this.node.stopAllActions();
+        // this.node.stopAllActions();
+        console.log("disable")
+
+        this.node.runAction(cc.spawn(
+            cc.scaleTo(this.time, 0).easing(cc.easeBackOut()),
+            cc.fadeTo(this.time / 2, 0)));
     }
 }
