@@ -267,7 +267,7 @@ export default class MiniPanel extends cc.Component {
         this.loading.setDefaultPercent();
 
         cc.loader.loadRes(prefabPath, (completedCount, total, item) => {
-          this.loading.onProgress(completedCount, total, item);
+          this.loading && this.loading.onProgress(completedCount, total, item);
         }, (err: Error, prefab: any) => {
           if (err || prefab === null || !this.node || !this.node.isValid) {
             this.loading.node.active = false;

@@ -52,7 +52,7 @@ cc.Class({
 
     cc.director.preloadScene(name,
       (completedCount, total, item) => {
-        loading.onProgress(completedCount, total, item);
+        loading && loading.onProgress(completedCount, total, item);
       },
       (error, assets) => {
         if (error) {
