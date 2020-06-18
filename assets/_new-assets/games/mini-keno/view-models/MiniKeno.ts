@@ -84,6 +84,7 @@ export default class MiniKeno extends GameMiniBase {
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
     public onFavoriteChanged = (favourite: boolean, type: number) => { };
+    public getPreset = () => { return 0 };
     public roundHistory: RoundHistory;
     public roundResult: KenoRoundResult;
     public betBoard: MiniKenoBetBoard;
@@ -223,6 +224,7 @@ export default class MiniKeno extends GameMiniBase {
 
         const betBoardNode = cc.instantiate(this.betBoardPrefab);
         this.betBoard = betBoardNode.getComponent(MiniKenoBetBoard);
+        this.betBoard.getPreset = () => { return this.getPreset(); };
         this.betBoard.node.active = false;
         this.center.addChild(betBoardNode);
 

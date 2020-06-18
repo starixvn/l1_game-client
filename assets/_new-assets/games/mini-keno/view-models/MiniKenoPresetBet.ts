@@ -12,7 +12,7 @@ export default class MiniKenoPresetBet extends cc.Component {
     betButton: cc.Button = null;
 
     private betAmount = 0;
-    private callback = (betAmount: number) => { };
+    public onChangedBet = (betAmount: number) => { };
 
     public clearBet() {
         this.betAmount = 0;
@@ -26,27 +26,31 @@ export default class MiniKenoPresetBet extends cc.Component {
 
     public close() {
         this.node.active = false;
-        this.callback(0);
+    }
+
+    public onResetBet() {
+        this.node.active = false;
+        this.clearBet();
+        this.onChangedBet(this.betAmount);
     }
 
     public onAcceptBet() {
         this.node.active = false;
-        this.callback(this.betAmount);
+        this.onChangedBet(this.betAmount);
     }
 
     public onItemBetClicked(e, index) {
-        const amounts = [1, 10, 50, 100, 500];
+        const amounts = [1, 10, 50, 100, 500, 1000];
         const amount = amounts[index];
-
         this.betAmount = this.betAmount + amount;
         this.updateBetAmount();
     }
 
-    private updateBetAmount() {
-        this.betValue.string = this.betAmount > 0 ? helper.numberWithCommas(this.betAmount) : "";
+    public show(show: boolean = true) {
+        this.node.active = show;
+    }
 
-        const canBet = this.betAmount >= 1;
-        this.betButton.interactable = canBet;
-        this.betButton.node.opacity = canBet ? 255 : 102;
+    private updateBetAmount() {
+        this.betValue.string = helper.numberWithCommas(this.betAmount);
     }
 }

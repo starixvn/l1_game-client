@@ -31,22 +31,22 @@
       },
       {
         "__id__": 55
+      },
+      {
+        "__id__": 73
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 73
-      },
-      {
-        "__id__": 74
-      },
-      {
         "__id__": 75
+      },
+      {
+        "__id__": 76
       }
     ],
     "_prefab": {
-      "__id__": 76
+      "__id__": 77
     },
     "_opacity": 255,
     "_color": {
@@ -2228,7 +2228,7 @@
     },
     "component": "",
     "_componentId": "bc0e1m7nR1JkrY67bx4O5G+",
-    "handler": "closeGame",
+    "handler": "openPresetBetDialog",
     "customEventData": ""
   },
   {
@@ -2250,7 +2250,7 @@
       "__id__": 55
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 62
@@ -2483,7 +2483,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -155,
+        -57,
         0,
         0,
         0,
@@ -2683,34 +2683,75 @@
     "sync": false
   },
   {
-    "__type__": "cc.Sprite",
-    "_name": "",
+    "__type__": "cc.Node",
+    "_name": "presetNode",
     "_objFlags": 0,
-    "node": {
+    "_parent": {
       "__id__": 1
     },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": null,
-    "_type": 0,
-    "_sizeMode": 0,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": {
+      "__id__": 74
     },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 860,
+      "height": 601
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
     "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "8d154a46-ff12-401d-a9d3-aa7b6bdc838e"
+    },
+    "fileId": "43WbjUY+ZDYLBYIDFIWzt5",
+    "sync": false
   },
   {
     "__type__": "bc0e1m7nR1JkrY67bx4O5G+",
@@ -2737,6 +2778,12 @@
     },
     "rightButton": {
       "__id__": 32
+    },
+    "presetNode": {
+      "__id__": 73
+    },
+    "presetBetPrefab": {
+      "__uuid__": "af2cba8d-0337-435d-bc6f-805f5e2c919d"
     },
     "historyPrefab": {
       "__uuid__": "709b9fec-7e9e-4c99-b750-8a621bc17933"

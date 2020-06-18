@@ -4,6 +4,7 @@ import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScro
 import MiniKeno, { KenoType } from "../../mini-keno/view-models/MiniKeno";
 import MiniKenoProViet from "../../mini-keno-pro-viet/view-models/MiniKenoProViet";
 import * as _ from "lodash";
+import MiniKenoPresetBet from "./MiniKenoPresetBet";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -26,6 +27,12 @@ export default class KenoProViet extends cc.Component {
     @property(cc.Node)
     rightButton: cc.Node = null;
 
+    @property(cc.Node)
+    presetNode: cc.Node = null;
+
+    @property(cc.Prefab)
+    presetBetPrefab: cc.Prefab = null;
+
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
@@ -45,6 +52,8 @@ export default class KenoProViet extends cc.Component {
     private sortedGames = [];
     private miniKenos: MiniKeno[] = [];
     private contentLayout: cc.Layout;
+    private presetBet: MiniKenoPresetBet;
+    private presetBetValue = 0;
 
     private initAllKeno() {
         const content = cc.sys.localStorage.getItem('keno_favourites') || "[]";
@@ -57,6 +66,7 @@ export default class KenoProViet extends cc.Component {
             keno.kenoType = type;
             keno.favourite.isChecked = index < this.favouriteGames.length;
             keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
+            keno.getPreset = () => this.presetBetValue;
             this.content.addChild(node);
             this.miniKenos.push(keno);
         });
@@ -95,6 +105,21 @@ export default class KenoProViet extends cc.Component {
         this.scrollToSelectedIndex();
     }
 
+    private initPresetBetBoard() {
+        const node = cc.instantiate(this.presetBetPrefab);
+        this.presetBet = node.getComponent(MiniKenoPresetBet);
+        this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
+        this.presetBet.show(false);
+        this.presetNode.addChild(node);
+
+        this.presetBetValue = cc.sys.localStorage.getItem("keno_preset_bet") || 0;
+    }
+
+    private changedPresetBet(value: number) {
+        this.presetBetValue = value;
+        cc.sys.localStorage.getItem("keno_preset_bet", this.presetBetValue);
+    }
+
     onLoad() {
         this.initAllKeno();
         this.leftButton.active = false;
@@ -108,6 +133,7 @@ export default class KenoProViet extends cc.Component {
             }
             this.updateArrowVisibility();
         };
+        this.initPresetBetBoard();
     }
 
     onEnable() {
@@ -169,4 +195,9 @@ export default class KenoProViet extends cc.Component {
         let node = cc.instantiate(this.historyPrefab);
         this.node.addChild(node);
     };
+
+    openPresetBetDialog() {
+        cc.RedT.audio.playClick();
+        this.presetBet.show();
+    }
 }

@@ -36,10 +36,11 @@ export default class MiniKenoBetBoard extends cc.Component {
 
     private betAmount = 0;
     private callback = (betAmount: number) => { };
+    public getPreset = () => { return 0; };
     private info: BetInfo;
 
     public clearBet() {
-        this.betAmount = 0;
+        this.betAmount = this.getPreset();
         this.updateBetAmount();
     }
 
@@ -62,7 +63,7 @@ export default class MiniKenoBetBoard extends cc.Component {
         this.info = info;
         this.node.active = true;
 
-        this.betAmount = 0;
+        this.betAmount = this.getPreset();
         this.updateBetAmount();
         this.title.string = this.info.title;
         this.choice.string = `${this.info.choice} @${this.info.odd}`;
