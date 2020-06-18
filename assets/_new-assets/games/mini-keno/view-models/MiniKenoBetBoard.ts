@@ -95,7 +95,7 @@ export default class MiniKenoBetBoard extends cc.Component {
         const winAmount = (this.betAmount * this.info.odd);
         this.winBet.string = winAmount > 0 ? helper.numberWithCommas(winAmount) : "";
 
-        const canBet = this.betAmount > this.info.minBet;
+        const canBet = this.betAmount >= this.info.minBet;
         this.betButton.interactable = canBet;
         this.betButton.node.opacity = canBet ? 255 : 102;
     }
