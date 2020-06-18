@@ -36,17 +36,12 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         if (this.main.currentDataLogs.length > 0) {
             this.main.roundResult.setData(this.main.currentDataLogs[0].result, this.main.currentDataLogs[0].settlementResult);
             this.main.roundResult.show(false);
-            this.highlightWonItem(true, this.main.currentDataLogs[0].settlementResult);
+            this.highlightWonItem(this.main.currentDataLogs[0].settlementResult);
         }
     }
 
-    highlightWonItem(highlight: boolean, results: any = null, isAnimated = true) {
-        if (highlight) {
-            const keys = getLowercaseObjectKeys(results);
-            this.main.betItems.forEach(item => item.setHighlight(results[keys[item.node.name.toLowerCase()]], isAnimated));
-
-        } else {
-            this.main.betItems.forEach(item => item.resetHighlight());
-        }
+    highlightWonItem(results: any = null, isAnimated = true) {
+        const keys = getLowercaseObjectKeys(results);
+        this.main.betItems.forEach(item => item.setHighlight(results[keys[item.node.name.toLowerCase()]], isAnimated));
     }
 }
