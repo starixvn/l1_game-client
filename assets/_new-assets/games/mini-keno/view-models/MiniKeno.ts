@@ -142,7 +142,7 @@ export default class MiniKeno extends GameMiniBase {
         if (this.isDisabledBet()) {
             return;
         }
-        this.betBoard.rebet(`#${this.getKenoName()} - ${this.roundId}`);
+        this.betBoard.rebet(`${this.getKenoName()} - #${this.roundId}`);
     }
 
     protected isDisabledBet(): boolean {
