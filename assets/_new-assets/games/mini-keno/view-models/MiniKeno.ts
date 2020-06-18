@@ -7,11 +7,11 @@ import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
 import MiniKenoLogsHandler from "./handlers/MiniKenoLogsHandler";
 import RoundHistory from "../../keno-pro/view-models/RoundHistory";
 import GameUtils from "../../../common/GameUtils";
-import MiniKenoBetItems from "./MiniKenoBetItems";
-import MiniKenoBetBoard from "./MiniKenoBetBoard";
-import MiniKenoBetItem from "./MiniKenoBetItem";
 import KenoUtils from "./KenoUtils";
 import { GameState } from "../../_base/GameBase";
+import MiniKenoBetBoard from "./components/MiniKenoBetBoard";
+import MiniKenoBetItem from "./components/MiniKenoBetItem";
+import MiniKenoBetItems from "./components/MiniKenoBetItems";
 
 const { ccclass, property } = cc._decorator;
 

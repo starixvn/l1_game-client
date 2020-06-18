@@ -1,5 +1,3 @@
-import MiniKenoHistory from "./MiniKenoHistory";
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass

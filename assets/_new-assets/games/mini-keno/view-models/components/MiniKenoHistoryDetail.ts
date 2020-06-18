@@ -1,8 +1,8 @@
-import KenoNumber from "../../keno-pro/view-models/KenoNumber";
 import * as _ from "lodash";
 import MiniKenoHistoryDetailItem from "./MiniKenoHistoryDetailItem";
-import { numberWithCommas, formatDateTime } from '../../../common/helpers/Helper';
-import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas, formatDateTime } from '../../../../common/helpers/Helper';
+import KenoNumber from "../../../keno-pro/view-models/KenoNumber";
+import GameUtils from "../../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 

@@ -1,4 +1,4 @@
-import * as helper from '../../../../_new-assets/common/helpers/Helper';
+import * as helper from '../../../../../_new-assets/common/helpers/Helper';
 
 const { ccclass, property } = cc._decorator;
 

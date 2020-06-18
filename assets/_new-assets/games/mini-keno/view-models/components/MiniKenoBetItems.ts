@@ -1,6 +1,6 @@
-import BetItem from "../../_base/BetItem";
 import MiniKenoBetBoard from "./MiniKenoBetBoard";
-import MiniKeno from "./MiniKeno";
+import MiniKeno from "../MiniKeno";
+import BetItem from "../../../_base/BetItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass

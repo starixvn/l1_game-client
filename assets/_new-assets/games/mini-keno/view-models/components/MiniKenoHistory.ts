@@ -1,11 +1,11 @@
 const { ccclass, property } = cc._decorator;
 
-import GameHistoryBase from "../../_base/GameHistoryBase";
-import DropDownOption from "../../../common/drop-down-list/view-models/DropDownOption";
-import DropDownList from "../../../common/drop-down-list/view-models/DropDownList";
 import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
-import { numberWithCommas, getStringDateByTime } from '../../../common/helpers/Helper';
+import { numberWithCommas, getStringDateByTime } from '../../../../common/helpers/Helper';
 import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
+import GameHistoryBase from "../../../_base/GameHistoryBase";
+import DropDownList from "../../../../common/drop-down-list/view-models/DropDownList";
+import DropDownOption from "../../../../common/drop-down-list/view-models/DropDownOption";
 
 @ccclass
 export default class MiniKenoHistory extends GameHistoryBase {
