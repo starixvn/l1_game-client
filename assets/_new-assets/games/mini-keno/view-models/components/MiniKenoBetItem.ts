@@ -10,14 +10,29 @@ export default class MiniKenoBetItem extends BetItem {
     @property(cc.Label)
     rule: cc.Label = null;
 
+    private readonly highlightColor = new cc.Color(249, 191, 4);
+
+    private readonly normalColor = new cc.Color(0, 40, 107);
+
     protected setOwnBet(bet: number) {
         super.setOwnBet(bet);
         this.ownBet.node.parent.active = bet > 0;
     }
 
-    public setHighlight(highlight: boolean, isAnimated = true) {
-        super.setHighlight(highlight, isAnimated);
-        this.choice.color = highlight ? new cc.Color(249, 191, 4) : new cc.Color(0, 40, 107);
+    protected setHighlightItems(highlight: boolean, isAnimated = true, keepChoiceColor = false) {
+        super.setHighlightItems(highlight, isAnimated);
+
+        if (!keepChoiceColor) {
+            this.choice.color = highlight ? this.highlightColor : this.normalColor;
+        }
+    }
+
+    public resetHighlight() {
+        this.setHighlightItems(false, false, true);
+    }
+
+    public clearChoiceColor() {
+        this.choice.color = this.normalColor;
     }
 
     public setRule(value: string) {

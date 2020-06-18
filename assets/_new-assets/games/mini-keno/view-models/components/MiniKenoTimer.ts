@@ -12,7 +12,6 @@ export default class MiniKenoTimer extends AnimatedTime {
     secondMinuteChar: cc.Label = null;
 
     setTime(time: string, forceChangeColor = false) {
-        console.log(time);
         this.node.active = true;
         const timeText = moment.utc(parseInt(time) * 1000).format("mm:ss");
         const timeChars = Array.from(timeText);

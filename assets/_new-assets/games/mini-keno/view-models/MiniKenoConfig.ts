@@ -3,7 +3,7 @@ import { KenoType } from "./MiniKeno";
 
 export default class MiniKenoConfig implements GameBaseConfigs {
     minBetTime = 1;
-    fullTime = 61;
+    fullTime = 59;
     betTime = 50;
     stopBetTime = 5;
     waitTime = 10;

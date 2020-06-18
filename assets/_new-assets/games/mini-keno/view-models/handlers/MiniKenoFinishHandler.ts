@@ -1,6 +1,6 @@
 import MiniKeno from "../MiniKeno";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
-import MiniKenoTimeHandler from "./MiniKenoTimeHandler";
+import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper";
 
 export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: MiniKeno) {
@@ -22,15 +22,31 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         this.main.stopBetWarning.active = false;
     }
 
-    playResultAnimation() {
-        this.main.animatedTime.node.active = false;
+    private playResultAnimation() {
         var resultNumbers = this.main.currentDataLogs[0].result;
-        this.main.resultAnimating = true;
         this.main.roundResult.setData(resultNumbers, this.main.currentDataLogs[0].settlementResult);
         this.main.roundResult.show(true, this.playResultAnimationTime, () => {
-            this.main.resultAnimating = false;
-            var handler = this.main.timeHandler as MiniKenoTimeHandler;
-            handler.showResult(true);
+            this.showResult();
         });
+    }
+
+    showResult() {
+        this.main.updateRoundHistory();
+
+        if (this.main.currentDataLogs.length > 0) {
+            this.main.roundResult.setData(this.main.currentDataLogs[0].result, this.main.currentDataLogs[0].settlementResult);
+            this.main.roundResult.show(false);
+            this.highlightWonItem(true, this.main.currentDataLogs[0].settlementResult);
+        }
+    }
+
+    highlightWonItem(highlight: boolean, results: any = null, isAnimated = true) {
+        if (highlight) {
+            const keys = getLowercaseObjectKeys(results);
+            this.main.betItems.forEach(item => item.setHighlight(results[keys[item.node.name.toLowerCase()]], isAnimated));
+
+        } else {
+            this.main.betItems.forEach(item => item.resetHighlight());
+        }
     }
 }

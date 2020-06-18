@@ -81,7 +81,6 @@ export default class MiniKeno extends GameMiniBase {
     @property(cc.Button)
     rebet: cc.Button = null;
 
-    public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
     public onFavoriteChanged = (favourite: boolean, type: number) => { };
     public getPreset = () => { return 0 };
@@ -146,6 +145,13 @@ export default class MiniKeno extends GameMiniBase {
         this.kenoName.string = this.getKenoName();
     }
 
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+
+        this.roundResult.node.active = false;
+    }
+
     public onReBetClick() {
         cc.RedT.audio.playClick();
         if (this.isDisabledBet()) {
@@ -162,6 +168,7 @@ export default class MiniKeno extends GameMiniBase {
             || this.currentTimeRemaining >= this.config.betTime
             || this.gameState == GameState.Stopped;
     }
+
 
     public onBetItemClick(e) {
         cc.RedT.audio.playClick();

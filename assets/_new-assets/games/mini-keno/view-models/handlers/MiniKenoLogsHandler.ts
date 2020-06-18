@@ -1,5 +1,6 @@
 import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
 import MiniKeno from "../MiniKeno";
+import MiniKenoFinishHandler from "./MiniKenoFinishHandler";
 
 export default class MiniKenoLogsHandler extends GameBaseLogsHandler {
     constructor(protected readonly main: MiniKeno) {
@@ -8,5 +9,14 @@ export default class MiniKenoLogsHandler extends GameBaseLogsHandler {
 
     buildLogs(dataLogs) {
         this.main.updateRoundHistory();
+
+        const finishHandler = this.main.finishHandler as MiniKenoFinishHandler;
+
+        if (this.main.timeHandler.isInWaitTime) {
+            finishHandler.showResult();
+        }
+
+        const lastLog = dataLogs[0];
+        finishHandler.highlightWonItem(true, lastLog.settlementResult, false);
     }
 }
