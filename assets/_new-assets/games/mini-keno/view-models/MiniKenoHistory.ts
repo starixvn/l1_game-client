@@ -68,7 +68,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
         this.gameName = this.kenoGameDropDownList.selectedItem.value;
         this.addDataObserver(this.gameName);
         this.updateRoundLabel();
-        this.getData();
+        this.get_data();
     }
 
     onData(data) {
