@@ -3,11 +3,6 @@ import BounceInEffect from '../../animations/BounceInEffect';
 cc.Class({
 	extends: BounceInEffect,
 
-	onDisable() {
-		this.node.destroy();
-		this.node.destroyAllChildren();
-	},
-
 	closeDialog: function () {
 		this.node.runAction(cc.spawn(
 			cc.scaleTo(this.time, 0).easing(cc.easeBackOut()),
