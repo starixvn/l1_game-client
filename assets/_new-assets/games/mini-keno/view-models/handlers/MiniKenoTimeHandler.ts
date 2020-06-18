@@ -24,6 +24,9 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
         this.main.resultAnimating = false;
         this.showResult(false);
+        if (this.main.lastBetInfo) {
+            this.main.enableRebetButton(true);
+        }
     }
 
     public showResult(show: boolean) {
@@ -64,6 +67,8 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         super.handleInLockBetTime();
 
         this.main.stopBetWarning.active = true;
+        this.main.betItems.forEach(item => item.setHighlight(false));
         this.main.betBoard.close();
+        this.main.enableRebetButton(false);
     }
 }

@@ -110,6 +110,7 @@ export default class KenoProViet extends cc.Component {
         this.presetBet = node.getComponent(MiniKenoPresetBet);
         this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
         this.presetBet.show(false);
+        this.presetBet.getPreset = () => this.presetBetValue;
         this.presetNode.addChild(node);
 
         this.presetBetValue = cc.sys.localStorage.getItem("keno_preset_bet") || 0;
@@ -117,10 +118,13 @@ export default class KenoProViet extends cc.Component {
 
     private changedPresetBet(value: number) {
         this.presetBetValue = value;
-        cc.sys.localStorage.getItem("keno_preset_bet", this.presetBetValue);
+        cc.sys.localStorage.setItem("keno_preset_bet", this.presetBetValue);
     }
 
     onLoad() {
+        if (cc.sys.isMobile) {
+            this.node.scale = 1.2;
+        }
         this.initAllKeno();
         this.leftButton.active = false;
         this.childList = [...this.content.children];

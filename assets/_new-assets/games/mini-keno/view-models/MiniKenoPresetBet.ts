@@ -13,6 +13,12 @@ export default class MiniKenoPresetBet extends cc.Component {
 
     private betAmount = 0;
     public onChangedBet = (betAmount: number) => { };
+    public getPreset = () => { return 0 };
+
+    onEnable() {
+        this.betAmount = this.getPreset();
+        this.updateBetAmount();
+    }
 
     public clearBet() {
         this.betAmount = 0;

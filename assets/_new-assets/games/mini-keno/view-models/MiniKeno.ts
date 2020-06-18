@@ -9,7 +9,7 @@ import RoundHistory from "../../keno-pro/view-models/RoundHistory";
 import GameUtils from "../../../common/GameUtils";
 import KenoUtils from "./KenoUtils";
 import { GameState } from "../../_base/GameBase";
-import MiniKenoBetBoard from "./components/MiniKenoBetBoard";
+import MiniKenoBetBoard, { BetInfo } from "./components/MiniKenoBetBoard";
 import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
 import MiniKenoTimer from "./components/MiniKenoTimer";
@@ -88,6 +88,7 @@ export default class MiniKeno extends GameMiniBase {
     public roundHistory: RoundHistory;
     public roundResult: KenoRoundResult;
     public betBoard: MiniKenoBetBoard;
+    public lastBetInfo: BetInfo = null;
 
     onLoad() {
         this.init();
@@ -150,7 +151,10 @@ export default class MiniKeno extends GameMiniBase {
         if (this.isDisabledBet()) {
             return;
         }
-        this.betBoard.rebet(`${this.getKenoName()} - #${this.roundId}`);
+
+        const betInfo = { ...this.lastBetInfo };
+        betInfo.title = `${this.getKenoName()} - #${this.roundId}`;
+        this.betBoard.show(betInfo);
     }
 
     protected isDisabledBet(): boolean {
@@ -167,21 +171,17 @@ export default class MiniKeno extends GameMiniBase {
         }
 
         const betChoice = e.target.name;
-        this.betBoard.show({
+        const betInfo = {
             title: `${this.getKenoName()} - #${this.roundId}`,
             odd: this.gameConfigs.odds[betChoice],
-            choice: GameUtils.getBetChoiceString(betChoice),
+            choice: betChoice,
             minBet: this.gameConfigs.minbet,
             maxBet: this.gameConfigs.choices_maxbet[betChoice]
-        }, (betAmount) => {
-            if (betAmount > 0) {
-                this.enableRebetButton(true);
-                this.sendBet(betAmount, betChoice);
-            }
-        });
+        };
+        this.betBoard.show(betInfo);
     }
 
-    private enableRebetButton(enabled: boolean) {
+    public enableRebetButton(enabled: boolean) {
         this.rebet.interactable = enabled;
         this.rebet.node.opacity = enabled ? 255 : 102;
     }
@@ -225,6 +225,14 @@ export default class MiniKeno extends GameMiniBase {
         const betBoardNode = cc.instantiate(this.betBoardPrefab);
         this.betBoard = betBoardNode.getComponent(MiniKenoBetBoard);
         this.betBoard.getPreset = () => { return this.getPreset(); };
+        this.betBoard.betCallback = (betAmount, info) => {
+            if (betAmount > 0) {
+                this.enableRebetButton(true);
+                this.sendBet(betAmount, info.choice);
+
+                this.lastBetInfo = info;
+            }
+        };
         this.betBoard.node.active = false;
         this.center.addChild(betBoardNode);
 

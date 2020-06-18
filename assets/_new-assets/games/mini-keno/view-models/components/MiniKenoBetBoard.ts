@@ -1,4 +1,5 @@
 import * as helper from '../../../../../_new-assets/common/helpers/Helper';
+import GameUtils from '../../../../common/GameUtils';
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,7 +36,7 @@ export default class MiniKenoBetBoard extends cc.Component {
     betButton: cc.Button = null;
 
     private betAmount = 0;
-    private callback = (betAmount: number) => { };
+    public betCallback = (betAmount: number, info: BetInfo) => { };
     public getPreset = () => { return 0; };
     private info: BetInfo;
 
@@ -51,30 +52,27 @@ export default class MiniKenoBetBoard extends cc.Component {
 
     public close() {
         this.node.active = false;
-        this.callback(0);
+        this.betCallback(0, this.info);
     }
 
     public onAcceptBet() {
         this.node.active = false;
-        this.callback(this.betAmount);
+        this.betCallback(this.betAmount, this.info);
     }
 
-    public show(info: BetInfo, callback: (betAmount: number) => void) {
+    public show(info: BetInfo) {
         this.info = info;
+        this.updateInfo();
         this.node.active = true;
+    }
 
+    private updateInfo() {
         this.betAmount = this.getPreset();
         this.updateBetAmount();
         this.title.string = this.info.title;
-        this.choice.string = `${this.info.choice} @${this.info.odd}`;
+        this.choice.string = `${GameUtils.getBetChoiceString(this.info.choice)} @${this.info.odd}`;
         this.minBet.string = helper.numberWithCommas(this.info.minBet);
         this.maxBet.string = helper.numberWithCommas(this.info.maxBet);
-        this.callback = callback;
-    }
-
-    public rebet(title: string) {
-        this.title.string = title;
-        this.node.active = true;
     }
 
     public onItemBetClicked(e, index) {
