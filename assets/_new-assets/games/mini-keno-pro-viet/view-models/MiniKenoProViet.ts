@@ -1,9 +1,10 @@
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
-import MiniKenoProVietRoundsSelection from "./components/MiniKenoProVietRoundsSelection";
+import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
 import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandler";
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietRoundItem from "./components/MiniKenoProVietRoundItem";
+import * as moment from 'moment';
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,13 +13,17 @@ export default class MiniKenoProViet extends MiniKeno {
     @property(cc.Prefab)
     roundsSelectionPrefab: cc.Prefab = null;
 
+    static readonly TIME_FORMAT = "HH:mm";
+    static readonly DATE_FORMAT = "DD/MM";
+    static readonly FULL_DATE_FORMAT = "DD/MM/YYYY";
+
     roundsHandler: MiniKenoProVietRoundsHandler;
+    rounds: MiniKenoProVietRound[];
+    roundsSelection: MiniKenoProVietRoundsSelection;
 
     get isIncomingGameRound(): boolean {
         return !this.currentDataLogs || !this.currentDataLogs[0] || (this.roundId === this.currentDataLogs[0].roundId + 1);
     }
-
-    private roundsSelection: MiniKenoProVietRoundsSelection;
 
     onLoad() {
         super.onLoad();
@@ -38,6 +43,13 @@ export default class MiniKenoProViet extends MiniKeno {
         this.timeHandler = new MiniKenoProVietTimeHandler(this)
     }
 
+    showGameRoundsDialog() {
+        this.initRoundSelectionPopup();
+        this.getGameRounds();
+
+        this.roundsSelection.node.active = true;
+    }
+
     getGameRounds() {
         this.sendData({ "getRounds": true });
     }
@@ -45,11 +57,6 @@ export default class MiniKenoProViet extends MiniKeno {
     resetDataAndUI() {
         super.resetDataAndUI();
         this.stopBetWarning.active = false;
-    }
-
-
-    setGameRound(gameRoundId) {
-        this.gameRound.string = gameRoundId ? "#" + gameRoundId : "";
     }
 
     changeRound(roundItem: MiniKenoProVietRoundItem) {
@@ -77,11 +84,6 @@ export default class MiniKenoProViet extends MiniKeno {
         this.roundsSelection.init(this);
 
         return this.roundsSelection;
-    }
-
-    protected registerViewGame() {
-        super.registerViewGame();
-        this.getGameRounds();
     }
 
     protected sendBet(betAmount, betChoice) {

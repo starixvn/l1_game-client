@@ -47,7 +47,5 @@ export default class MiniKenoProVietRoundsSelection extends cc.Component {
 
             this.layout.addChild(roundItemNode);
         })
-
-        this.node.active = true;
     }
 }

@@ -76,9 +76,8 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handleWaitTime() {
-        var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - 1, 2);
         this.main.timeWaitNode && this.main.finishShowResult && (this.main.timeWaitNode.active = true);
-        this.main.timeWaitLabel.string = numberPad(time, 2);
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
         this.main.animatedTime && (this.main.animatedTime.node.active = false);
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId - 1);
@@ -98,9 +97,13 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     handleInRoundTime() {
         this.main.timeWaitNode.active = false;
-        var time = numberPad(this.main.currentTimeRemaining, 2);
+        const time = this.formatTime(this.main.currentTimeRemaining);
         this.main.animatedTime && (this.main.animatedTime.setTime(time));
         this.main.setGameRound(this.main.roundId);
+    }
+
+    protected formatTime(time: number): string {
+        return numberPad(time, 2);
     }
 
     handleInLockBetTime() {

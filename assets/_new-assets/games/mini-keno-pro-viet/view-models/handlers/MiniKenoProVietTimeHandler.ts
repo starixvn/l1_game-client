@@ -1,5 +1,6 @@
 import MiniKenoProViet from "../MiniKenoProViet";
 import MiniKenoTimeHandler from "../../../mini-keno/view-models/handlers/MiniKenoTimeHandler";
+import * as moment from "moment";
 
 export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
 
@@ -11,5 +12,10 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         if (this.main.isIncomingGameRound) {
             super.playTime();
         }
+    }
+
+    protected formatTime(time: number): string {
+        const timeText = moment.utc(time * 1000).format("mm:ss");
+        return timeText;
     }
 }

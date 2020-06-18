@@ -22,7 +22,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         super.handleInRoundTime();
 
         this.main.timeWaitNode.active = true;
-        var time = numberPad(this.main.currentTimeRemaining, 2);
+        const time = this.formatTime(this.main.currentTimeRemaining)
         this.main.timeWaitLabel.string = `${time}`;
         this.main.resultAnimating = false;
         this.showResult(false);
