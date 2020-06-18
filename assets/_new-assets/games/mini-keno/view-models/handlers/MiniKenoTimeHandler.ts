@@ -23,9 +23,5 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         this.main.stopBetWarning.active = true;
         this.main.betItems.forEach(item => item.setHighlight(false));
         this.main.betBoard.close();
-        this.main.betItems.forEach(item => {
-            const miniKenoItem = item as MiniKenoBetItem;
-            miniKenoItem.clearChoiceColor();
-        })
     }
 }

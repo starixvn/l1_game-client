@@ -13,6 +13,9 @@ export default class MiniKenoProViet extends MiniKeno {
     @property(cc.Prefab)
     roundsSelectionPrefab: cc.Prefab = null;
 
+    @property(cc.Label)
+    roundInfo: cc.Label = null;
+
     static readonly TIME_FORMAT = "HH:mm";
     static readonly DATE_FORMAT = "DD/MM";
     static readonly FULL_DATE_FORMAT = "DD/MM/YYYY";
@@ -68,14 +71,22 @@ export default class MiniKenoProViet extends MiniKeno {
     changeRound(roundItem: MiniKenoProVietRoundItem) {
         this.resetDataAndUI();
         this.timeHandler.stopPlayTime();
-        this.sendData({ getPlayerBets: true, roundId: roundItem.round.id, get_time: true });
+        this.getPlayerBets(roundItem.round.id);
         this.roundId = parseInt(roundItem.round.id);
         this.setGameRound(this.roundId);
 
         if (!this.isIncomingGameRound) {
-            this.timeWaitNode.active = true;
-            this.timeWaitLabel.string = roundItem.fullDate + " " + roundItem.roundTime.string;
+            this.animatedTime.node.active = false;
+            this.roundInfo.node.active = true;
+            this.roundInfo.string = roundItem.fullDate + " " + roundItem.roundTime.string;
         }
+        else {
+            this.roundInfo.node.active = false;
+        }
+    }
+
+    getPlayerBets(roundId: string) {
+        this.sendData({ getPlayerBets: true, roundId: roundId, get_time: true });
     }
 
     initRoundSelectionPopup(): MiniKenoProVietRoundsSelection {
