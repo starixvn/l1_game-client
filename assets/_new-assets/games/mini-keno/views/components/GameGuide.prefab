@@ -5861,7 +5861,7 @@
         "__id__": 159
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 671
@@ -7079,8 +7079,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 kỳ vé là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
-    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 kỳ vé là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 kỳ vé là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 kỳ vé là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
     "_fontSize": 18,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -25647,8 +25647,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
-    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
     "_fontSize": 18,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -51297,8 +51297,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
-    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 1,000$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound$. Lưu ý, không thể hủy cược sau khi đặt.",
     "_fontSize": 18,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -64445,7 +64445,7 @@
         "__id__": 1785
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 1825
@@ -66208,6 +66208,129 @@
     "title": {
       "__id__": 22
     },
+    "kenoProVietReplaceNodes": [
+      {
+        "__id__": 187
+      },
+      {
+        "__id__": 545
+      },
+      {
+        "__id__": 542
+      },
+      {
+        "__id__": 557
+      },
+      {
+        "__id__": 560
+      },
+      {
+        "__id__": 572
+      },
+      {
+        "__id__": 575
+      },
+      {
+        "__id__": 587
+      },
+      {
+        "__id__": 590
+      },
+      {
+        "__id__": 602
+      },
+      {
+        "__id__": 605
+      },
+      {
+        "__id__": 617
+      },
+      {
+        "__id__": 620
+      }
+    ],
+    "kenoMaxReplaceNodes": [
+      {
+        "__id__": 702
+      },
+      {
+        "__id__": 1041
+      },
+      {
+        "__id__": 1044
+      },
+      {
+        "__id__": 1056
+      },
+      {
+        "__id__": 1059
+      },
+      {
+        "__id__": 1071
+      },
+      {
+        "__id__": 1074
+      },
+      {
+        "__id__": 1086
+      },
+      {
+        "__id__": 1089
+      },
+      {
+        "__id__": 1101
+      },
+      {
+        "__id__": 1104
+      },
+      {
+        "__id__": 1116
+      },
+      {
+        "__id__": 1119
+      }
+    ],
+    "kenoMiniReplaceNodes": [
+      {
+        "__id__": 1416
+      },
+      {
+        "__id__": 1653
+      },
+      {
+        "__id__": 1656
+      },
+      {
+        "__id__": 1668
+      },
+      {
+        "__id__": 1671
+      },
+      {
+        "__id__": 1683
+      },
+      {
+        "__id__": 1686
+      },
+      {
+        "__id__": 1698
+      },
+      {
+        "__id__": 1701
+      },
+      {
+        "__id__": 1713
+      },
+      {
+        "__id__": 1716
+      },
+      {
+        "__id__": 1728
+      },
+      {
+        "__id__": 1731
+      }
+    ],
     "_id": ""
   },
   {
