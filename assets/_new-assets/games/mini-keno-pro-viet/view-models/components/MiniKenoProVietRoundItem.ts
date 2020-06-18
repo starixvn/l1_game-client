@@ -16,6 +16,9 @@ export default class MiniKenoProVietRoundItem extends cc.Component {
     @property(cc.Label)
     roundDate: cc.Label = null;
 
+    @property(cc.Node)
+    hasBet: cc.Node = null;
+
     public round: MiniKenoProVietRound;
     public fullDate: string;
 
@@ -26,5 +29,6 @@ export default class MiniKenoProVietRoundItem extends cc.Component {
         this.roundTime.string = timeMoment.format(MiniKenoProViet.TIME_FORMAT);
         this.roundDate.string = timeMoment.format(MiniKenoProViet.DATE_FORMAT);
         this.fullDate = timeMoment.format(MiniKenoProViet.FULL_DATE_FORMAT);
+        this.hasBet.active = round.hasBet;
     }
 }
