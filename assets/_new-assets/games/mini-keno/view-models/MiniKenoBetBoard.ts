@@ -45,6 +45,10 @@ export default class MiniKenoBetBoard extends cc.Component {
 
     public onClose() {
         cc.RedT.audio.playClick();
+        this.close();
+    }
+
+    public close() {
         this.node.active = false;
         this.callback(0);
     }
