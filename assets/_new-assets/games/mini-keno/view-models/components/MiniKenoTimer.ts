@@ -1,31 +1,25 @@
-// Learn TypeScript:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/typescript.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
+import * as moment from "moment";
+import AnimatedTime from "../../../../common/animated-time/view-models/AnimatedTime";
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class MiniKenoTimer extends AnimatedTime {
 
     @property(cc.Label)
-    label: cc.Label = null;
+    firstMinuteChar: cc.Label = null;
 
-    @property
-    text: string = 'hello';
+    @property(cc.Label)
+    secondMinuteChar: cc.Label = null;
 
-    // LIFE-CYCLE CALLBACKS:
+    setTime(time: string, forceChangeColor = false) {
+        console.log(time);
+        this.node.active = true;
+        const timeText = moment.utc(parseInt(time) * 1000).format("mm:ss");
+        const timeChars = Array.from(timeText);
 
-    // onLoad () {}
-
-    start () {
-
+        this.firstMinuteChar.string = timeChars[0];
+        this.secondMinuteChar.string = timeChars[1];
+        this.firstChar.string = timeChars[3];
+        this.secondChar.string = timeChars[4];
     }
-
-    // update (dt) {}
 }

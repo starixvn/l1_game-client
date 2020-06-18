@@ -45,7 +45,7 @@ export default class AnimatedTime extends cc.Component {
         this.secondChar.node.color = this.firstChar.node.color;
     }
 
-    private handleBetTimeAnimation(node: cc.Node) {
+    protected handleBetTimeAnimation(node: cc.Node) {
         cc.tween(node)
             .to(0, {
                 position: cc.v2(node.position.x, this.animatedYTop),

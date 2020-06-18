@@ -23,7 +23,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     }
 
     playResultAnimation() {
-        this.main.timeWaitNode.active = false;
+        this.main.animatedTime.node.active = false;
         var resultNumbers = this.main.currentDataLogs[0].result;
         this.main.resultAnimating = true;
         this.main.roundResult.setData(resultNumbers, this.main.currentDataLogs[0].settlementResult);

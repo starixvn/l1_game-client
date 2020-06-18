@@ -12,6 +12,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
         this.main.stopBetWarning.active = false;
+        this.main.animatedTime.setTime(this.main.currentTimeRemaining.toString());
 
         if (!this.main.resultAnimating) {
             this.showResult(true);
@@ -21,16 +22,13 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     handleInRoundTime() {
         super.handleInRoundTime();
 
-        this.main.timeWaitNode.active = true;
-        const time = this.formatTime(this.main.currentTimeRemaining)
-        this.main.timeWaitLabel.string = `${time}`;
         this.main.resultAnimating = false;
         this.showResult(false);
     }
 
     public showResult(show: boolean) {
         if (show) {
-            this.main.timeWaitNode.active = false;
+            this.main.animatedTime.node.active = false;
 
             this.main.updateRoundHistory();
 

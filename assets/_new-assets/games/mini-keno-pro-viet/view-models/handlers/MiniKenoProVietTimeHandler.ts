@@ -13,9 +13,4 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
             super.playTime();
         }
     }
-
-    protected formatTime(time: number): string {
-        const timeText = moment.utc(time * 1000).format("mm:ss");
-        return timeText;
-    }
 }

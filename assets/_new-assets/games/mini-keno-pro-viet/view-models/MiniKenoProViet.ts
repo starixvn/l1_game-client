@@ -4,6 +4,7 @@ import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./componen
 import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandler";
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietRoundItem from "./components/MiniKenoProVietRoundItem";
+import { GameState } from "../../_base/GameBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -44,6 +45,11 @@ export default class MiniKenoProViet extends MiniKeno {
 
     showGameRoundsDialog() {
         cc.RedT.audio.playClick();
+
+        if (this.gameState == GameState.Stopped) {
+            return;
+        }
+
         this.initRoundSelectionPopup();
         this.getGameRounds();
 

@@ -12,6 +12,7 @@ import { GameState } from "../../_base/GameBase";
 import MiniKenoBetBoard from "./components/MiniKenoBetBoard";
 import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
+import MiniKenoTimer from "./components/MiniKenoTimer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -52,6 +53,12 @@ export default class MiniKeno extends GameMiniBase {
 
     @property(cc.Node)
     center: cc.Node = null;
+
+    @property(cc.Node)
+    timer: cc.Node = null;
+
+    @property(cc.Prefab)
+    timerPrefab: cc.Prefab = null;
 
     @property(cc.Node)
     stopBetWarning: cc.Node = null;
@@ -218,6 +225,11 @@ export default class MiniKeno extends GameMiniBase {
         this.betBoard = betBoardNode.getComponent(MiniKenoBetBoard);
         this.betBoard.node.active = false;
         this.center.addChild(betBoardNode);
+
+        const timerNode = cc.instantiate(this.timerPrefab);
+        const timer = timerNode.getComponent(MiniKenoTimer);
+        this.animatedTime = timer;
+        this.timer.addChild(timer.node);
     }
 
     private getKenoName(): string {
