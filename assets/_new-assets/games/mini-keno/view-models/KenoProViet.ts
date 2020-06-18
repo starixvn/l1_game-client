@@ -42,23 +42,28 @@ export default class KenoProViet extends cc.Component {
     private childList: cc.Node[] = [];
     private allGames = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     private favouriteGames = [];
+    private sortedGames = [];
+    private miniKenos: MiniKeno[] = [];
+    private contentLayout: cc.Layout;
 
     private initAllKeno() {
         const content = cc.sys.localStorage.getItem('keno_favourites') || "[]";
         this.favouriteGames = JSON.parse(content);
         const otherGames = _.difference(this.allGames, this.favouriteGames);
-        const sortedGames = [...this.favouriteGames, ...otherGames];
-        sortedGames.forEach(type => {
+        this.sortedGames = [...this.favouriteGames, ...otherGames];
+        this.sortedGames.forEach((type, index) => {
             const node = cc.instantiate(type === 0 ? this.kenoProVietPrefab : this.kenoPrefab);
             const keno = node.getComponent(MiniKeno);
             keno.kenoType = type;
+            keno.favourite.isChecked = index < this.favouriteGames.length;
             keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
             this.content.addChild(node);
+            this.miniKenos.push(keno);
         });
 
-        const layout = this.content.getComponent(cc.Layout);
-        layout.updateLayout();
-        layout.enabled = false;
+        this.contentLayout = this.content.getComponent(cc.Layout);
+        this.contentLayout.updateLayout();
+        this.contentLayout.enabled = false;
     }
 
     private saveFavourites() {
@@ -72,11 +77,22 @@ export default class KenoProViet extends cc.Component {
             _.remove(this.favouriteGames, (game) => game === type);
         }
         this.saveFavourites();
-        console.log(`favourite list ${this.favouriteGames}`);
+        this.updateGameLayout(type);
     }
 
-    private updateFavourite() {
+    private updateGameLayout(updatedType: number) {
+        const left = this.contentLayout.paddingLeft;
+        const spacing = this.contentLayout.spacingX;
+        const otherGames = _.difference(this.allGames, this.favouriteGames);
+        this.sortedGames = [...this.favouriteGames, ...otherGames];
+        this.sortedGames.forEach((type, index) => {
+            const keno = this.miniKenos.find(game => game.kenoType === type);
+            keno.node.position = cc.v2(left + keno.node.width / 2 + index * (keno.node.width + spacing), 0);
+            keno.favourite.isChecked = index < this.favouriteGames.length;
+        });
 
+        this.selectedIndex = this.sortedGames.indexOf(updatedType);
+        this.scrollToSelectedIndex();
     }
 
     onLoad() {
