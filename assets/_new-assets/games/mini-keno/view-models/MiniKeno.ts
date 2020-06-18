@@ -231,6 +231,7 @@ export default class MiniKeno extends GameMiniBase {
                 this.sendBet(betAmount, info.choice);
 
                 this.lastBetInfo = info;
+                this.lastBetInfo.bet = betAmount;
             }
         };
         this.betBoard.node.active = false;

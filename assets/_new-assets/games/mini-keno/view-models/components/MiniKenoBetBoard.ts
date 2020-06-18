@@ -9,6 +9,7 @@ export interface BetInfo {
     choice: string;
     minBet: number;
     maxBet: number;
+    bet: number;
 }
 
 @ccclass
@@ -41,7 +42,7 @@ export default class MiniKenoBetBoard extends cc.Component {
     private info: BetInfo;
 
     public clearBet() {
-        this.betAmount = this.getPreset();
+        this.betAmount = 0;
         this.updateBetAmount();
     }
 
@@ -67,7 +68,7 @@ export default class MiniKenoBetBoard extends cc.Component {
     }
 
     private updateInfo() {
-        this.betAmount = this.getPreset();
+        this.betAmount = this.info.bet || this.getPreset();
         this.updateBetAmount();
         this.title.string = this.info.title;
         this.choice.string = `${GameUtils.getBetChoiceString(this.info.choice)} @${this.info.odd}`;

@@ -98,7 +98,8 @@ export default class KenoRoundResult extends cc.Component {
         Object.keys(settlementResult).forEach(key => {
             if (settlementResult[key]) {
                 const betChoice = this.betChoices[index];
-                betChoice.setValue(GameUtils.getBetChoiceString(key));
+                const choice = GameUtils.getBetChoiceString(key);
+                betChoice.setValue(GameUtils.capitalizeWords(choice));
                 index++;
             }
         });
