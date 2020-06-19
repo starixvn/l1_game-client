@@ -68,14 +68,14 @@ export default class MiniKenoTimer extends AnimatedTime {
             cc.sequence(
                 cc.moveBy(0, cc.v2(0, 27)),
                 cc.spawn(
-                    cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeBackOut()),
+                    cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeCircleActionOut()),
                     cc.fadeIn(this.numberMoveTime / 2)
                 )
             )
         )
 
         tempCharNode.runAction(cc.sequence(
-            cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeBackOut()),
+            cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeCircleActionOut()),
             cc.delayTime(this.numberMoveTime),
             cc.callFunc(() => {
                 tempCharNode.destroy();
