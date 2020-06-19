@@ -36,7 +36,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     protected setCurrentTimeRemaining(data: any) {
         if (this.main.roundEndTime && !this.main.isIncomingGameRound) {
             const remainingTime = (this.main.roundEndTime.getTime() - new Date().getTime()) / 1000;
-            this.main.currentTimeRemaining = data.remainingTime + remainingTime - 1;
+            this.main.currentTimeRemaining = remainingTime;
         }
         else {
             super.setCurrentTimeRemaining(data);
