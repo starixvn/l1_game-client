@@ -129,4 +129,8 @@ export default class MiniKenoHistory extends GameHistoryBase {
     public hideRoundResult() {
         this.historyDetail = null;
     }
+
+    closeDropDown() {
+        this.kenoGameDropDownList && this.kenoGameDropDownList.closeDropDown();
+    }
 }
