@@ -43,6 +43,7 @@ export default class MiniKenoGuide extends cc.Component {
         const { minbet, maxbet, odds, choices_maxbet } = data;
         const replaceData = {
             "_oddBig": odds.big,
+            "_oddEven": odds.even,
             "_oddEarth": odds.earth,
             "_oddFire": odds.fire,
             "_oddWater": odds.water,
