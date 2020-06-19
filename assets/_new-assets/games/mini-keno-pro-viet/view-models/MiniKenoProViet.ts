@@ -5,6 +5,7 @@ import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandle
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietRoundItem from "./components/MiniKenoProVietRoundItem";
 import { GameState } from "../../_base/GameBase";
+import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,6 +33,7 @@ export default class MiniKenoProViet extends MiniKeno {
         super.onLoad();
 
         this.addHandlers(this.roundsHandler)
+        this.kenoTimer.init(true);
     }
 
     init() {
