@@ -66,6 +66,9 @@ cc.Class({
     this.resetBetButtonText();
   },
   onLoad() {
+    if (!cc.sys.isMobile) {
+      this.node.scale = 0.8;
+    }
     this.AnimatedTime.node.active = false;
     this.waitingBetResponse = false;
     var self = this;
@@ -79,16 +82,16 @@ cc.Class({
     this.playCenterRoundLight();
 
     this.keyHandle = function (t) {
-      return t.keyCode === cc.macro.KEY.tab
-        ? (self.changeNextFocusEditBox(),
+      return t.keyCode === cc.macro.KEY.tab ?
+        (self.changeNextFocusEditBox(),
           t.preventDefault && t.preventDefault(),
-          !1)
-        : t.keyCode === cc.macro.KEY.enter
-          ? (BrowserUtil.focusGame(),
-            self.onCuocClick(),
-            t.preventDefault && t.preventDefault(),
-            !1)
-          : void 0;
+          !1) :
+        t.keyCode === cc.macro.KEY.enter ?
+        (BrowserUtil.focusGame(),
+          self.onCuocClick(),
+          t.preventDefault && t.preventDefault(),
+          !1) :
+        void 0;
     };
 
     this.diceAnimation.on("finished", this.onDiceAnimationFinish, this);
@@ -199,8 +202,7 @@ cc.Class({
         t = !0;
         break;
       }
-    }
-    !t &&
+    }!t &&
       0 < this.editboxs.length &&
       BrowserUtil.focusEditBox(this.editboxs[1]);
   },
@@ -228,9 +230,9 @@ cc.Class({
   },
   onChangerNan: function () {
     cc.RedT.setting.taixiu_turbo.isNan = this.isNan = !this.isNan;
-    this.spriteNan.spriteFrame = this.isNan
-      ? this.frameNan[1]
-      : this.frameNan[0];
+    this.spriteNan.spriteFrame = this.isNan ?
+      this.frameNan[1] :
+      this.frameNan[0];
   },
   reLoadGame: function () {
     setTimeout(
@@ -262,9 +264,9 @@ cc.Class({
     cc.RedT.setting.taixiu_turbo.red = this.red = !this.red;
     this.cointRED.active = !this.cointRED.active;
     this.cointXU.active = !this.cointXU.active;
-    this.totalLeft.node.color = this.totalRight.node.color = this.red
-      ? this.totalRight.node.color.fromHEX("#FFEB0A")
-      : this.totalRight.node.color.fromHEX("#FFFFFF");
+    this.totalLeft.node.color = this.totalRight.node.color = this.red ?
+      this.totalRight.node.color.fromHEX("#FFEB0A") :
+      this.totalRight.node.color.fromHEX("#FFFFFF");
     //FIX ME: TX_LichSuPhien NOT FOUND
     this.TXRoot.TX_LichSuPhien.onChangerCoint();
     this.taixiu && this.onDataTaiXiu(cc.RedT.setting.taixiu_turbo.data.taixiu);
@@ -296,13 +298,11 @@ cc.Class({
       if (select == "right") {
         this.inputRTxt.string = '';
         this.inputR.spriteFrame = this.BetButtonClickedFrame;
-      }
-      else {
+      } else {
         this.inputLTxt.string = '';
         this.inputL.spriteFrame = this.BetButtonClickedFrame;
       }
-    }
-    else {
+    } else {
       this.inputL.spriteFrame = this.BetButtonUnClickedFrame;
       this.inputR.spriteFrame = this.BetButtonUnClickedFrame;
     }
@@ -664,13 +664,13 @@ cc.Class({
             dot.node.phien = data.phien;
             dot.mod.round.string = `#${data.phien}`;
             dot.mod.text.string = `${point < 11 ? "XỈU" : "TÀI"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
-            dot.spriteFrame = self.taixiu
-              ? point < 11
-                ? self.dot_white
-                : self.dot_black
-              : point % 2
-                ? self.dot_black
-                : self.dot_yellow;
+            dot.spriteFrame = self.taixiu ?
+              point < 11 ?
+              self.dot_white :
+              self.dot_black :
+              point % 2 ?
+              self.dot_black :
+              self.dot_yellow;
           } else {
             dot.node.active = false;
           }
@@ -708,10 +708,26 @@ cc.Class({
           var dice3 = sliced[i].dice[2];
           var tong = dice1 + dice2 + dice3;
 
-          line_dice1[i] = { x: i * 28, y: dice1 * 28 - 28, dice: dice1 };
-          line_dice2[i] = { x: i * 28, y: dice2 * 28 - 28, dice: dice2 };
-          line_dice3[i] = { x: i * 28, y: dice3 * 28 - 28, dice: dice3 };
-          line_tong[i] = { x: i * 27.7, y: tong * 9.233 - 27.7, tong: tong };
+          line_dice1[i] = {
+            x: i * 28,
+            y: dice1 * 28 - 28,
+            dice: dice1
+          };
+          line_dice2[i] = {
+            x: i * 28,
+            y: dice2 * 28 - 28,
+            dice: dice2
+          };
+          line_dice3[i] = {
+            x: i * 28,
+            y: dice3 * 28 - 28,
+            dice: dice3
+          };
+          line_tong[i] = {
+            x: i * 27.7,
+            y: tong * 9.233 - 27.7,
+            tong: tong
+          };
         } else {
           self.TXRoot.TXStats.lineAc(i, false);
         }
@@ -743,13 +759,13 @@ cc.Class({
       if (void 0 !== data) {
         dot.node.active = true;
         var point = data.dice[0] + data.dice[1] + data.dice[2];
-        dot.spriteFrame = self.taixiu
-          ? point < 11
-            ? self.dot_white
-            : self.dot_black
-          : point % 2
-            ? self.dot_black
-            : self.dot_yellow;
+        dot.spriteFrame = self.taixiu ?
+          point < 11 ?
+          self.dot_white :
+          self.dot_black :
+          point % 2 ?
+          self.dot_black :
+          self.dot_yellow;
         return self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
       } else {
         dot.node.active = false;
@@ -796,31 +812,31 @@ cc.Class({
           obj.RedT.map(function (current, index) {
             var data_Cel = data[index];
             if (void 0 !== data_Cel) {
-              var type = self.taixiu
-                ? data_Cel > 10
-                  ? true
-                  : false
-                : data_Cel % 2
-                  ? false
-                  : true;
+              var type = self.taixiu ?
+                data_Cel > 10 ?
+                true :
+                false :
+                data_Cel % 2 ?
+                false :
+                true;
               c_tai = type ? c_tai + 1 : c_tai;
               c_xiu = !type ? c_xiu + 1 : c_xiu;
               current.active = true;
-              current.color = self.taixiu
-                ? type
-                  ? cc.Color.BLACK
-                  : cc.Color.WHITE
-                : type
-                  ? cc.Color.YELLOW
-                  : cc.Color.BLACK;
+              current.color = self.taixiu ?
+                type ?
+                cc.Color.BLACK :
+                cc.Color.WHITE :
+                type ?
+                cc.Color.YELLOW :
+                cc.Color.BLACK;
               current.text.string = data_Cel;
-              current.text.node.color = self.taixiu
-                ? type
-                  ? cc.Color.WHITE
-                  : cc.Color.BLACK
-                : type
-                  ? cc.Color.BLACK
-                  : cc.Color.WHITE;
+              current.text.node.color = self.taixiu ?
+                type ?
+                cc.Color.WHITE :
+                cc.Color.BLACK :
+                type ?
+                cc.Color.BLACK :
+                cc.Color.WHITE;
             } else {
               current.active = false;
             }
@@ -877,7 +893,11 @@ cc.Class({
         if (!this.isNan) {
           this.currentStatus && this.showBetWinLossAnimation(this.currentStatus);
         }
-        cc.RedT.send({ taixiu_turbo: { get_new: true } });
+        cc.RedT.send({
+          taixiu_turbo: {
+            get_new: true
+          }
+        });
       }.bind(this), 1000);
   },
   showBetWinLossAnimation: function (data) {
