@@ -253,6 +253,9 @@ export default class MiniPanel extends cc.Component {
       case configs.gameIds.MiniSedie:
         this.openMiniSedie();
         break;
+      case configs.gameIds.KenoProViet:
+        this.openKenoProViet();
+        break;
       default:
         break;
     }

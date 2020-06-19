@@ -26,7 +26,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
     roundLabel: cc.Label = null;
 
     private historyDetail: MiniKenoHistoryDetail = null;
-    private kenoGameDropDownList: DropDownList;
+    public kenoGameDropDownList: DropDownList;
 
     private options: DropDownOption[] = [
         new DropDownOption("kenoProViet", "Keno Pro Việt"),
