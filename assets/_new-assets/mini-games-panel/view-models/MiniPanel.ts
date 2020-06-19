@@ -321,6 +321,7 @@ export default class MiniPanel extends cc.Component {
     this.openMiniGame("games/keno-pro-viet/views/KenoProViet", "KenoProViet", this.kenoProViet != null && this.kenoProViet.node != null,
       (gameComponent) => {
         this.kenoProViet = gameComponent;
+        this.kenoProViet.init(this);
       },
       () => {
         this.kenoProViet.node.active = true;

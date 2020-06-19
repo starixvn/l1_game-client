@@ -6,6 +6,7 @@ import MiniKenoProViet from "../../mini-keno-pro-viet/view-models/MiniKenoProVie
 import * as _ from "lodash";
 import MiniKenoPresetBet from "./MiniKenoPresetBet";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -62,6 +63,11 @@ export default class KenoProViet extends cc.Component {
     private presetBet: MiniKenoPresetBet;
     private presetBetValue = 0;
     private pageIndicatorDots: cc.Sprite[] = [];
+    private miniPanel: MiniPanel;
+
+    init(miniPanel: MiniPanel) {
+        this.miniPanel = miniPanel;
+    }
 
     private initAllKeno() {
         const content = cc.sys.localStorage.getItem('keno_favourites') || "[]";
@@ -226,13 +232,13 @@ export default class KenoProViet extends cc.Component {
     openGuide() {
         cc.RedT.audio.playClick();
         let node = cc.instantiate(this.guidePrefab);
-        this.node.addChild(node);
+        this.miniPanel.node.addChild(node);
     }
 
     openHistory() {
         cc.RedT.audio.playClick();
         let node = cc.instantiate(this.historyPrefab);
-        this.node.addChild(node);
+        this.miniPanel.node.addChild(node);
     };
 
     openPresetBetDialog() {
