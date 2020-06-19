@@ -28,7 +28,7 @@ export default class KenoRoundResult extends cc.Component {
 
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map(child => child.getComponent(KenoNumber));
-        this.kenoNumbers.forEach(keno => keno.show(false));
+        // this.kenoNumbers.forEach(keno => keno.show(false));
         this.betChoices = this.settleResult.children.map(child => child.getComponent(BetChoice));
     }
 
@@ -39,9 +39,10 @@ export default class KenoRoundResult extends cc.Component {
 
     public show(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
         this.node.active = true;
+
         if (animated) {
             this.total.string = "0";
-            this.kenoNumbers.forEach(keno => keno.show(false));
+            // this.kenoNumbers.forEach(keno => keno.show(false));
             let shuffle = [];
             for (let i = 0; i < this.result.length; i++) {
                 shuffle.push(i);

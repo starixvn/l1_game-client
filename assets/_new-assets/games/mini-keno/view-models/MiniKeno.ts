@@ -69,6 +69,9 @@ export default class MiniKeno extends GameMiniBase {
     @property(cc.Prefab)
     betBoardPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    roundResultContainer: cc.Node = null;
+
     @property(cc.Prefab)
     roundResultPrefab: cc.Prefab = null;
 
@@ -146,7 +149,7 @@ export default class MiniKeno extends GameMiniBase {
     resetDataAndUI() {
         super.resetDataAndUI();
 
-        this.roundResult.node.active = false;
+        // this.roundResult.node.active = false;
     }
 
     public onReBetClick() {
@@ -234,10 +237,9 @@ export default class MiniKeno extends GameMiniBase {
             miniKenoBetItem.setRule(rule);
         });
 
-        const roundResultNode = cc.instantiate(miniType ? this.roundResult10NumberPrefab : this.roundResultPrefab);
+        const roundResultNode = cc.instantiate(this.roundResultPrefab);
         this.roundResult = roundResultNode.getComponent(KenoRoundResult);
-        this.roundResult.node.active = false;
-        this.center.addChild(roundResultNode);
+        this.roundResultContainer.addChild(roundResultNode);
     }
 
     protected initBetBoard() {
@@ -266,15 +268,15 @@ export default class MiniKeno extends GameMiniBase {
 
     private getKenoName(): string {
         const dict = {
-            ProViet: "Keno Pro Viet",
-            Max: "Keno Max",
-            Max2: "Keno Max 2",
-            Mini: "Keno Mini",
-            Mini2: "Keno Mini 2",
-            East: "Keno Đông",
-            West: "Keno Tây",
-            South: "Keno Nam",
-            North: "Keno Bắc",
+            ProViet: "Pro Viet",
+            Max: "Max",
+            Max2: "Max 2",
+            Mini: "Mini",
+            Mini2: "Mini 2",
+            East: "Đông",
+            West: "Tây",
+            South: "Nam",
+            North: "Bắc",
         }
 
         return dict[KenoType[this.kenoType]];

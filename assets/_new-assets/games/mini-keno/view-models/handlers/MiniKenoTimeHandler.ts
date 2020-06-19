@@ -18,7 +18,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         this.main.stopBetWarning.active = false;
 
         if (this.main.currentTimeRemaining < this.main.config.betTime + 2) {
-            this.main.roundResult.node.active = false;
+            // this.main.roundResult.node.active = false;
         }
     }
 
