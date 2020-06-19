@@ -166,7 +166,6 @@ export default class MiniKeno extends GameMiniBase {
             || this.gameState == GameState.Stopped;
     }
 
-
     public onBetItemClick(e) {
         cc.RedT.audio.playClick();
 

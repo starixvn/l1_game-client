@@ -20,6 +20,7 @@ export default class MiniKenoProViet extends MiniKeno {
     static readonly TIME_FORMAT = "HH:mm";
     static readonly DATE_FORMAT = "DD/MM";
     static readonly FULL_DATE_FORMAT = "DD/MM/YYYY";
+    static readonly DATETIME_FORMAT = "DD/MM HH:mm";
 
     roundsHandler: MiniKenoProVietRoundsHandler;
     rounds: MiniKenoProVietRound[];
@@ -100,7 +101,7 @@ export default class MiniKenoProViet extends MiniKeno {
             const currentRound = this.rounds.find(round => round.id === gameRoundId);
 
             if (currentRound) {
-                this.gameRound.string = `#${gameRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.DATE_FORMAT)}`;
+                this.gameRound.string = `#${gameRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.DATETIME_FORMAT)}`;
             }
         }
     }
