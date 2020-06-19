@@ -209,6 +209,20 @@ export default class KenoProViet extends cc.Component {
         });
     }
 
+    onPageIndicatorClick(e) {
+        const clickIndex = this.pageIndicatorDots.findIndex(dot => dot.node === e.target);
+        console.log(`click inde ${clickIndex}, selected ${this.selectedIndex}`);
+        if (this.selectedIndex == clickIndex || this.selectedIndex + 1 == clickIndex) {
+            return;
+        }
+        if (clickIndex === this.selectedIndex + this.displaySize) {
+            this.selectedIndex = clickIndex - 1;
+        } else {
+            this.selectedIndex = clickIndex;
+        }
+        this.scrollToSelectedIndex();
+    }
+
     openGuide() {
         cc.RedT.audio.playClick();
         let node = cc.instantiate(this.guidePrefab);
