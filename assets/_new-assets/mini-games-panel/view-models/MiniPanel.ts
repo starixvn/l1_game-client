@@ -10,7 +10,7 @@ import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
 import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
 import Loading from '../../common/loading/view-models/Loading';
 import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
-import KenoProViet from '../../games/keno-pro-viet/view-models/KenoProViet';
+import KenoProViet from '../../games/mini-keno/view-models/KenoProViet';
 
 @ccclass
 export default class MiniPanel extends cc.Component {

@@ -202,7 +202,11 @@ export default class KenoProViet extends cc.Component {
     }
 
     onSignIn() {
-
+        this.miniKenos.forEach(keno => {
+            if (keno.node.active) {
+                keno.onSignIn();
+            }
+        });
     }
 
     openGuide() {
