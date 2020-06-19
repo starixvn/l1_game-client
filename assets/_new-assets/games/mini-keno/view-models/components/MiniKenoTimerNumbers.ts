@@ -8,14 +8,4 @@ export default class MiniKenoTimerNumbers extends cc.Component {
 
     @property(cc.Label)
     secondNumber: cc.Label = null;
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start() {
-
-    }
-
-    // update (dt) {}
 }

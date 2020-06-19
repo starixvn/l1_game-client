@@ -63,14 +63,14 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
                         this.handleInLockBetTime();
                     }
                 } else {
-                    this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
-                    this.main.animatedTime && (this.main.animatedTime.node.active = false);
-                    clearInterval(this.playTimeInterval);
+                    this.handleInEndTime();
                 }
             }
             this.main.currentTimeRemaining--;
         }, 1000);
     }
+
+
 
     stopPlayTime(): void {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
@@ -107,6 +107,12 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handleInLockBetTime() {
+    }
+
+    handleInEndTime() {
+        this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
+        this.main.animatedTime && (this.main.animatedTime.node.active = false);
+        clearInterval(this.playTimeInterval);
     }
 
     protected formatTime(time: number): string {
