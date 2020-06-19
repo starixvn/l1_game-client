@@ -18,7 +18,10 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     protected handleResult(onFinishHanlingData: () => void) {
         if (cc.RedT.GAME_IS_SHOWED) {
             this.main.node.runAction(cc.sequence(
-                cc.callFunc(() => this.playResultAnimation()),
+                cc.callFunc(() => {
+                    this.main.stopBetWarning.active = false;
+                    this.playResultAnimation();
+                }),
                 cc.delayTime(this.playResultAnimationTime),
                 cc.callFunc(() => onFinishHanlingData())
             ));
