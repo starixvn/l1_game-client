@@ -30,5 +30,6 @@ export default class MiniKenoProVietRoundItem extends cc.Component {
         this.roundDate.string = timeMoment.format(MiniKenoProViet.DATE_FORMAT);
         this.fullDate = timeMoment.format(MiniKenoProViet.FULL_DATE_FORMAT);
         this.hasBet.active = round.hasBet;
+        this.roundTime.node.color = this.roundDate.node.color = this.roundId.node.color = round.hasBet ? cc.Color.WHITE : cc.Color.BLACK;
     }
 }
