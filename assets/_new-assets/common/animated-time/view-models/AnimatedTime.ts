@@ -27,6 +27,9 @@ export default class AnimatedTime extends cc.Component {
         this.animatedYBottom = yBottom;
     }
 
+    resetTime() {
+    }
+
     public setTime(time: string, forceChangeColor = false) {
         this.node.active = true;
         var firstTimeChar = time.toString().substr(0, 1);

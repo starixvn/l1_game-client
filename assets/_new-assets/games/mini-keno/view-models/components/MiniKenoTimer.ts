@@ -36,14 +36,20 @@ export default class MiniKenoTimer extends AnimatedTime {
         const timeText = moment.utc(parseInt(time) * 1000).format("HH:mm:ss");
         const timeChars = Array.from(timeText);
 
-        if (this.enableHour) {
-            this.firstHourChar.string = timeChars[0];
-            this.secondHourChar.string = timeChars[1];
-        }
-
+        this.firstHourChar.string = timeChars[0];
+        this.secondHourChar.string = timeChars[1];
         this.firstMinuteChar.string = timeChars[3];
         this.secondMinuteChar.string = timeChars[4];
         this.firstChar.string = timeChars[6];
         this.secondChar.string = timeChars[7];
+    }
+
+    resetTime() {
+        this.firstHourChar.string = ""
+        this.secondHourChar.string = ""
+        this.firstMinuteChar.string = ""
+        this.secondMinuteChar.string = ""
+        this.firstChar.string = ""
+        this.secondChar.string = ""
     }
 }

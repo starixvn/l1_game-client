@@ -91,7 +91,10 @@ export default class MiniKeno extends GameMiniBase {
     public lastBetInfo: BetInfo = null;
 
     onLoad() {
-        this.init();
+        this.gameName = `keno${KenoType[this.kenoType]}`;
+        this.config = new MiniKenoConfig(this.kenoType);
+        this.kenoName.string = this.getKenoName();
+
         this.initComponents();
         this.initHeaderBackground();
         this.enableRebetButton(false);
@@ -139,13 +142,6 @@ export default class MiniKeno extends GameMiniBase {
         this.timeHandler = new MiniKenoTimeHandler(this);
         this.logsHandler = new MiniKenoLogsHandler(this);
     }
-
-    init() {
-        this.gameName = `keno${KenoType[this.kenoType]}`;
-        this.config = new MiniKenoConfig(this.kenoType);
-        this.kenoName.string = this.getKenoName();
-    }
-
 
     resetDataAndUI() {
         super.resetDataAndUI();

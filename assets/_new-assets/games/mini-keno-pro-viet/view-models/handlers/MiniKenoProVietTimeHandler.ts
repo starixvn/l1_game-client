@@ -12,11 +12,29 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         if (this.main.isIncomingGameRound) {
             super.playTime();
         }
+        else {
+            this.playTimeInterval && clearInterval(this.playTimeInterval);
+
+            this.playTimeInterval = setInterval(() => {
+                this.handleInRoundTime();
+                this.main.currentTimeRemaining--;
+            }, 1000);
+        }
     }
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
 
         this.main.getPlayerBets(this.main.roundId.toString());
+    }
+
+    protected setCurrentTimeRemaining(data: any) {
+        if (this.main.roundEndTime && !this.main.isIncomingGameRound) {
+            const remainingTime = (this.main.roundEndTime.getTime() - new Date().getTime()) / 1000;
+            this.main.currentTimeRemaining = data.remainingTime + remainingTime - 1;
+        }
+        else {
+            super.setCurrentTimeRemaining(data);
+        }
     }
 }

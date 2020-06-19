@@ -24,12 +24,13 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     handle(data: any): boolean {
         if (data.remainingTime) {
-            this.main.currentTimeRemaining = data.remainingTime - 1;
+            this.setCurrentTimeRemaining(data);
             this.playTime();
             this.main.hideUmMessage();
             return true;
         }
     }
+
 
     resetTime(): void {
         this.main.animatedTime && (this.main.animatedTime.node.active = false);
@@ -38,13 +39,10 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     playTime(): void {
-
         this.main.gameState = GameState.Started;
         this.playTimeInterval && clearInterval(this.playTimeInterval);
 
         this.playTimeInterval = setInterval(() => {
-            console.log(this.main.gameName + " " + this.main.currentTimeRemaining);
-
             if (this.isInWaitTime) {
                 this.handleWaitTime();
             } else {
@@ -108,10 +106,14 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.setGameRound(this.main.roundId);
     }
 
+    handleInLockBetTime() {
+    }
+
     protected formatTime(time: number): string {
         return numberPad(time, 2);
     }
 
-    handleInLockBetTime() {
+    protected setCurrentTimeRemaining(data: any) {
+        this.main.currentTimeRemaining = data.remainingTime - 1;
     }
 }
