@@ -23,6 +23,12 @@ export default class KenoProViet extends cc.Component {
     snappedScrollView: SnappedScrollView = null;
 
     @property(cc.Node)
+    pageIndicator: cc.Node = null;
+
+    @property({ type: cc.SpriteFrame })
+    dotFrames: cc.SpriteFrame[] = [];
+
+    @property(cc.Node)
     leftButton: cc.Node = null;
 
     @property(cc.Node)
@@ -55,6 +61,7 @@ export default class KenoProViet extends cc.Component {
     private contentLayout: cc.Layout;
     private presetBet: MiniKenoPresetBet;
     private presetBetValue = 0;
+    private pageIndicatorDots: cc.Sprite[] = [];
 
     private initAllKeno() {
         const content = cc.sys.localStorage.getItem('keno_favourites') || "[]";
@@ -131,18 +138,15 @@ export default class KenoProViet extends cc.Component {
         this.childList = [...this.content.children];
         this.snappedScrollView.onScrollEnded = () => {
             var min = this.snappedScrollView.getMinDisplayIndex();
-            if (this.selectedIndex < min) {
-                this.selectedIndex = min;
-            } else if (this.selectedIndex > min + this.displaySize) {
-                this.selectedIndex = min + this.displaySize;
-            }
-            this.updateArrowVisibility();
+            this.selectedIndex = min;
+            this.scrollToSelectedIndex();
         };
         this.initPresetBetBoard();
         const dragableItem = this.getComponent(DraggableItem);
         dragableItem.touchCallback.start = (node) => {
             this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
         }
+        this.pageIndicatorDots = this.pageIndicator.children.map(child => child.getComponent(cc.Sprite));
     }
 
     onEnable() {
@@ -178,6 +182,14 @@ export default class KenoProViet extends cc.Component {
     private scrollToSelectedIndex() {
         this.snappedScrollView.scrollTo(this.selectedIndex);
         this.updateArrowVisibility();
+        this.updatePageIndicator();
+    }
+
+    private updatePageIndicator() {
+        this.pageIndicatorDots.forEach((dot, index) => {
+            const highlight = index == this.selectedIndex || index == this.selectedIndex + 1;
+            dot.spriteFrame = highlight ? this.dotFrames[0] : this.dotFrames[1];
+        });
     }
 
     openGame() {
