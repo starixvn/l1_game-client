@@ -24,6 +24,9 @@ export default class MiniPanel extends cc.Component {
   miniGames: cc.Node = null;
 
   @property(cc.Node)
+  miniMenu: cc.Node = null;
+
+  @property(cc.Node)
   dialog: cc.Node = null;
 
   @property(cc.Node)
@@ -61,6 +64,7 @@ export default class MiniPanel extends cc.Component {
   private guide: any;
   private miniSedie: MiniSedie;
   private kenoProViet: KenoProViet;
+  private popupMiniGame: any;
 
   onLoad() {
     if (void 0 === cc.RedT.util.fontCong) {
@@ -72,6 +76,8 @@ export default class MiniPanel extends cc.Component {
     this.loading = loadingNode.getComponent("Loading") as Loading;
     loadingNode.active = false;
     this.node.addChild(loadingNode);
+
+    this.popupMiniGame = this.miniMenu.getComponent("popupMinigame");
   }
 
   onDestroy() {
@@ -108,6 +114,10 @@ export default class MiniPanel extends cc.Component {
 
     if (data.reload) {
       this.onForceReload();
+    }
+
+    if (data.toGame) {
+      this.loadGameRoom(data.toGame);
     }
   }
 
@@ -261,7 +271,38 @@ export default class MiniPanel extends cc.Component {
     }
   }
 
+  public openGameRoom(e, name) {
+    cc.RedT.audio.playClick();
+    if (cc.RedT.IS_LOGIN) {
+      cc.RedT.inGame.loading.active = true;
+      cc.RedT.send({ g: { reg: name } });
+    } else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+    this.popupMiniGame.hideListGame();
+  }
+
+  loadGameRoom(name) {
+    const loading = cc.RedT.inGame.loading.getComponent("Loading");
+    loading.setDefaultPercent();
+
+    cc.director.preloadScene(name,
+      (completedCount, total, item) => {
+        loading && loading.onProgress(completedCount, total, item);
+      },
+      (error, assets) => {
+        if (error) {
+          cc.RedT.inGame.loading.active = false;
+          cc.RedT.MiniPanel.onForceReload();
+        }
+        else {
+          cc.director.loadScene(name);
+        }
+      });
+  }
+
   openMiniGame(prefabPath: string, componentName: string, isAlreadyOpened: boolean, initFunc: (gameComponent) => void, showGameFunc: () => void) {
+    this.popupMiniGame.hideListGame();
     if (cc.RedT.IS_LOGIN) {
       let gameComponent: any;
 

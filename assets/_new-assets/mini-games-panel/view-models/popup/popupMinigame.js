@@ -19,6 +19,10 @@ cc.Class({
 			default: null,
 			type: cc.Node
 		},
+		background: {
+			default: null,
+			type: cc.Node
+		},
 	},
 	onLoad() {
 		cc.RedT.setting.popupMini = cc.RedT.setting.popupMini || {};
@@ -28,13 +32,9 @@ cc.Class({
 
 		if (void 0 !== cc.RedT.setting.popupMini.open) {
 			if (cc.RedT.setting.popupMini.open) {
-				this.list.active = true;
 				this.nodeTime.position = cc.v2(-155.7, -5.6);
-				this.list.scale = 1;
 			} else {
 				this.nodeTime.position = cc.v2(25, 43);
-				this.list.scale = 0.2;
-				this.list.active = false
 			}
 		}
 
@@ -53,11 +53,11 @@ cc.Class({
 		this.panel.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
 		this.panel.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
-		this.list.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
-		this.list.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-		this.list.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-		this.list.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-		this.list.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+		// this.list.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
+		// this.list.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+		// this.list.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+		// this.list.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+		// this.list.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 	},
 	onDisable: function () {
 		this.panel.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -66,11 +66,11 @@ cc.Class({
 		this.panel.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
 		this.panel.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
-		this.list.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
-		this.list.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
-		this.list.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
-		this.list.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-		this.list.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
+		// this.list.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
+		// this.list.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
+		// this.list.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
+		// this.list.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
+		// this.list.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 	},
 	eventStart: function (e) {
 		this.setTop();
@@ -84,8 +84,8 @@ cc.Class({
 		const width = this.node.parent.width;
 		const height = this.node.parent.height;
 		const fixTopPadding = 100;
-		const maxX = width / 2 - Math.max(this.node.width, this.list.getBoundingBox().width) / 2;
-		const maxY = height / 2 - Math.max(this.node.height, this.list.getBoundingBox().height) / 2;
+		const maxX = width / 2 - this.node.width / 2;
+		const maxY = height / 2 - this.node.height / 2;
 		const deltaWidth = maxX - Math.abs(this.node.x);
 		const deltaHeight = maxY - Math.abs(this.node.y);
 
@@ -116,36 +116,40 @@ cc.Class({
 			xChanger > -5 &&
 			yChanger < 5 &&
 			yChanger > -5) {
-			this.toggle()
+			this.toggle();
 		}
 	},
 	toggle: function () {
 		cc.RedT.audio.playClick();
 		if (!this.toggleRuning) {
 			this.toggleRuning = true
-			this.list.stopAllActions()
 			if (this.list.active) {
-				cc.RedT.setting.popupMini.open = false;
-				if (this.nodeTime.active) {
-					this.nodeTime.runAction(cc.moveTo(0.3, cc.v2(25, 43)));
-				} else {
-					this.nodeTime.position = cc.v2(25, 43);
-				}
-				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 0.2), cc.rotateTo(0.3, -720)), cc.callFunc(function () {
-					this.toggleRuning = this.list.active = false
-				}, this)))
+				this.hideListGame();
 			} else {
-				this.list.active = cc.RedT.setting.popupMini.open = true
-				if (this.nodeTime.active) {
-					this.nodeTime.runAction(cc.moveTo(0.3, cc.v2(-155.7, -5.6)))
-				} else {
-					this.nodeTime.position = cc.v2(-155.7, -5.6);
-				}
-				this.list.runAction(cc.sequence(cc.spawn(cc.scaleTo(0.3, 1), cc.rotateTo(0.3, 720)), cc.callFunc(function () {
-					this.toggleRuning = false
-				}, this)))
+				this.showListGame();
 			}
 		}
+	},
+	showListGame() {
+		this.background.active = true;
+		this.background.runAction(cc.fadeTo(0.1, 204));
+		this.list.active = cc.RedT.setting.popupMini.open = true;
+		this.list.runAction(cc.sequence(
+			cc.scaleTo(0.3, 1).easing(cc.easeSineInOut()),
+			cc.callFunc(function () {
+				this.toggleRuning = false
+			}, this)));
+	},
+	hideListGame() {
+		cc.RedT.setting.popupMini.open = false;
+		this.list.runAction(cc.sequence(
+			cc.scaleTo(0.3, 0).easing(cc.easeSineInOut()),
+			cc.callFunc(function () {
+				this.toggleRuning = this.list.active = false;
+				this.background.runAction(cc.sequence(cc.fadeOut(0.1),
+					cc.callFunc(() => this.background.active = false))
+				);
+			}, this)));
 	},
 	setTop: function () {
 		this.node.parent.insertChild(this.node);
