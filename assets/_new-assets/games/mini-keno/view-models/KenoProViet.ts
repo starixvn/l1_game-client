@@ -64,6 +64,14 @@ export default class KenoProViet extends cc.Component {
         this.miniPanel = miniPanel;
     }
 
+    onDestroy() {
+        this.miniKenos.forEach(keno => {
+            if (keno.node != null && keno.node.isValid) {
+                keno.node.destroy();
+            }
+        });
+    }
+
     private initAllKeno() {
         const content = cc.sys.localStorage.getItem('keno_favourites') || "[]";
         this.favouriteGames = JSON.parse(content);

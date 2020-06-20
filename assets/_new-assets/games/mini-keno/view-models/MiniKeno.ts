@@ -138,11 +138,12 @@ export default class MiniKeno extends GameMiniBase {
     }
 
     onDestroy() {
+        this.clearIntervalAndTimeout();
         this.betBoard.destroy();
         this.roundHistory.destroy();
         this.roundResult.destroy();
-
         cc.RedT.removeDataObserver(this.gameName);
+        super.onDestroy();
     }
 
     initHandlers() {
