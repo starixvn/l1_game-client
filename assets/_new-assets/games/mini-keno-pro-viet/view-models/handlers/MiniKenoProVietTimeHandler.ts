@@ -1,6 +1,5 @@
 import MiniKenoProViet from "../MiniKenoProViet";
 import MiniKenoTimeHandler from "../../../mini-keno/view-models/handlers/MiniKenoTimeHandler";
-import * as moment from "moment";
 
 export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
 
@@ -16,8 +15,13 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
             this.playTimeInterval && clearInterval(this.playTimeInterval);
 
             this.playTimeInterval = setInterval(() => {
-                this.handleInRoundTime();
-                this.main.currentTimeRemaining--;
+                if (this.main.currentTimeRemaining > 0) {
+                    this.handleInRoundTime();
+                    this.main.currentTimeRemaining--;
+                }
+                else {
+                    clearInterval(this.playTimeInterval);
+                }
             }, 1000);
         }
     }
