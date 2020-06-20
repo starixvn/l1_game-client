@@ -105,6 +105,10 @@ export default class MiniKeno extends GameMiniBase {
         super.onLoad();
     }
 
+    onDisable() {
+        this.stopGame();
+    }
+
     initHeaderBackground() {
         if (!this.headerBg) {
             return;
@@ -136,6 +140,8 @@ export default class MiniKeno extends GameMiniBase {
         this.betBoard.destroy();
         this.roundHistory.destroy();
         this.roundResult.destroy();
+
+        cc.RedT.removeDataObserver(this.gameName);
     }
 
     initHandlers() {

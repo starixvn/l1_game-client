@@ -1,12 +1,10 @@
-import GameRoomBase from "../../_base/GameRoomBase";
-import { GameState } from "../../_base/GameBase";
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
-import MiniKeno, { KenoType } from "../../mini-keno/view-models/MiniKeno";
-import MiniKenoProViet from "../../mini-keno-pro-viet/view-models/MiniKenoProViet";
+import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import * as _ from "lodash";
 import MiniKenoPresetBet from "./MiniKenoPresetBet";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import KenoPageIndicatorItem from "./KenoPageIndicatorItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -25,9 +23,6 @@ export default class KenoProViet extends cc.Component {
 
     @property(cc.Node)
     pageIndicator: cc.Node = null;
-
-    @property({ type: cc.SpriteFrame })
-    dotFrames: cc.SpriteFrame[] = [];
 
     @property(cc.Node)
     leftButton: cc.Node = null;
@@ -62,7 +57,7 @@ export default class KenoProViet extends cc.Component {
     private contentLayout: cc.Layout;
     private presetBet: MiniKenoPresetBet;
     private presetBetValue = 0;
-    private pageIndicatorDots: cc.Sprite[] = [];
+    private pageIndicatorDots: KenoPageIndicatorItem[] = [];
     private miniPanel: MiniPanel;
 
     init(miniPanel: MiniPanel) {
@@ -152,7 +147,10 @@ export default class KenoProViet extends cc.Component {
         dragableItem.touchCallback.start = (node) => {
             this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
         }
-        this.pageIndicatorDots = this.pageIndicator.children.map(child => child.getComponent(cc.Sprite));
+        this.pageIndicatorDots = this.pageIndicator.children.map(child => child.getComponent(KenoPageIndicatorItem));
+        this.pageIndicatorDots.forEach((dot, index) => {
+            dot.init(this.miniKenos[index]);
+        })
     }
 
     onEnable() {
@@ -194,7 +192,7 @@ export default class KenoProViet extends cc.Component {
     private updatePageIndicator() {
         this.pageIndicatorDots.forEach((dot, index) => {
             const highlight = index == this.selectedIndex || index == this.selectedIndex + 1;
-            dot.spriteFrame = highlight ? this.dotFrames[0] : this.dotFrames[1];
+            dot.setHighlight(highlight);
         });
     }
 
