@@ -37,7 +37,6 @@ export default class MiniKenoHistoryDetail extends cc.Component {
 
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map(child => child.getComponent(KenoNumber));
-        this.kenoNumbers.forEach(keno => keno.show(false));
         this.resultLabels = this.settleResult.children.map(child => child.getComponent(cc.Label));
     }
 
