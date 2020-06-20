@@ -36,6 +36,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
         if (this.miniKeno.currentTimeRemaining <= config.stopBetTime) {
             this.dot.spriteFrame = this.dotFrames[0];
             this.dot.node.color = cc.Color.RED;
+            this.playEffect();
             return;
         }
         if (this.miniKeno.currentTimeRemaining > config.betTime && this.miniKeno.currentTimeRemaining <= config.fullTime) {
@@ -56,6 +57,8 @@ export default class KenoPageIndicatorItem extends cc.Component {
             return;
         }
         const child = children[0];
+        child.color = this.dot.node.color;
+
         if (child.getActionByTag(this.actionTag)) {
             return;
         }
@@ -66,7 +69,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
         child.scale = 0.5;
         child.opacity = 255;
         child.stopAllActions();
-        child.color = cc.Color.YELLOW;
         const action = cc.repeatForever(sequence);
         action.setTag(this.actionTag);
         child.runAction(action);
