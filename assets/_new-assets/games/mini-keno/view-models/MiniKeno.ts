@@ -276,7 +276,7 @@ export default class MiniKeno extends GameMiniBase {
 
     private getKenoName(): string {
         const dict = {
-            ProViet: "Keno Pro Viet",
+            ProViet: "Pro Viet",
             Max: "Keno Max",
             Max2: "Keno Max 2",
             Mini: "Keno Mini",
