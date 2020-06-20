@@ -13,6 +13,7 @@ import MiniKenoBetBoard, { BetInfo } from "./components/MiniKenoBetBoard";
 import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
 import MiniKenoTimer from "./components/MiniKenoTimer";
+import MiniKenoRoundResult from "./components/MiniKenoRoundResult";
 
 const { ccclass, property } = cc._decorator;
 
@@ -88,7 +89,7 @@ export default class MiniKeno extends GameMiniBase {
     public onFavoriteChanged = (favourite: boolean, type: number) => { };
     public getPreset = () => { return 0 };
     public roundHistory: RoundHistory;
-    public roundResult: KenoRoundResult;
+    public roundResult: MiniKenoRoundResult;
     public betBoard: MiniKenoBetBoard;
     public kenoTimer: MiniKenoTimer;
     public lastBetInfo: BetInfo = null;
@@ -236,15 +237,15 @@ export default class MiniKeno extends GameMiniBase {
     }
 
     protected initRoundResult() {
-        const miniType = this.kenoType == KenoType.Mini || this.kenoType == KenoType.Mini2;
+        const isMini = this.kenoType == KenoType.Mini || this.kenoType == KenoType.Mini2;
         this.betItems.forEach(item => {
             const miniKenoBetItem = item as MiniKenoBetItem;
-            const rule = KenoUtils.getKenoRuleChoice(item.node.name, miniType);
+            const rule = KenoUtils.getKenoRuleChoice(item.node.name, isMini);
             miniKenoBetItem.setRule(rule);
         });
 
         const roundResultNode = cc.instantiate(this.roundResultPrefab);
-        this.roundResult = roundResultNode.getComponent(KenoRoundResult);
+        this.roundResult = roundResultNode.getComponent(MiniKenoRoundResult);
         this.roundResultContainer.addChild(roundResultNode);
     }
 

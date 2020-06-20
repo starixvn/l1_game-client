@@ -8,7 +8,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoRoundResult extends cc.Component {
-
     @property(cc.Label)
     round: cc.Label = null;
 
@@ -21,14 +20,14 @@ export default class KenoRoundResult extends cc.Component {
     @property(cc.Node)
     resultNumbers: cc.Node = null;
 
-    private result: number[] = [];
-    private settlementResult: any;
-    private betChoices: BetChoice[] = [];
-    private kenoNumbers: KenoNumber[] = [];
+    protected result: number[] = [];
+    protected settlementResult: any;
+    protected betChoices: BetChoice[] = [];
+    protected kenoNumbers: KenoNumber[] = [];
 
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map(child => child.getComponent(KenoNumber));
-        // this.kenoNumbers.forEach(keno => keno.show(false));
+        this.kenoNumbers.forEach(keno => keno.hide());
         this.betChoices = this.settleResult.children.map(child => child.getComponent(BetChoice));
     }
 
@@ -42,11 +41,13 @@ export default class KenoRoundResult extends cc.Component {
 
         if (animated) {
             this.total.string = "0";
-            // this.kenoNumbers.forEach(keno => keno.show(false));
+            this.kenoNumbers.forEach(keno => keno.hide());
             let shuffle = [];
+
             for (let i = 0; i < this.result.length; i++) {
                 shuffle.push(i);
             }
+
             shuffle = _.shuffle(shuffle);
 
             let i = 0;
@@ -87,20 +88,19 @@ export default class KenoRoundResult extends cc.Component {
             for (let i = 0; i < this.result.length; i++) {
                 total += this.result[i];
                 this.kenoNumbers[i].setNumber(this.result[i], false);
-                this.kenoNumbers[i].show(true);
             }
             this.total.string = total.toString();
             this.showSettleResult(this.settlementResult);
         }
     }
 
-    private showSettleResult(settlementResult: any) {
+    protected showSettleResult(settlementResult: any) {
         let index = 0;
         Object.keys(settlementResult).forEach(key => {
             if (settlementResult[key]) {
                 const betChoice = this.betChoices[index];
                 const choice = GameUtils.getBetChoiceString(key);
-                betChoice.setValue(GameUtils.capitalizeWords(choice));
+                betChoice.setValue(choice.toUpperCase());
                 index++;
             }
         });

@@ -2,27 +2,32 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoNumber extends cc.Component {
-
     @property(cc.Label)
     numberLabel: cc.Label = null;
 
-    protected animated = false;
 
-    setNumber(value: number, animated: boolean) {
-        this.animated = animated;
+    setNumber(value: number, isAnimated: boolean) {
         this.numberLabel.string = value.toString();
-        this.show(true);
+        this.show(isAnimated);
     }
 
-    show(show: boolean) {
-        this.node.active = show;
-    }
+    showWaiting() { }
 
-    onEnable() {
-        if (this.animated) {
-            this.node.scale = 0;
-            this.node.runAction(cc.scaleTo(.3, 1).easing(cc.easeBounceOut()));
+    show(isAnimated = false) {
+        this.node.active = true;
+
+        if (isAnimated) {
+            this.runNumberAnimation();
         }
+    }
+
+    hide() {
+        this.node.active = false;
+    }
+
+    runNumberAnimation() {
+        this.node.scale = 0;
+        this.node.runAction(cc.scaleTo(0.3, 1).easing(cc.easeBounceOut()));
     }
 
     onDisable() {

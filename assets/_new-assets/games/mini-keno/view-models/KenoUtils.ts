@@ -1,6 +1,6 @@
 export default class KenoUtils {
 
-    public static getKenoRuleChoice(choice: string, miniType: boolean = false) {
+    public static getKenoRuleChoice(choice: string, isMini: boolean = false) {
         const rules = {
             big: "[811-1410]",
             small: "[210-810]",
@@ -23,7 +23,7 @@ export default class KenoUtils {
             fire: "[223-246]",
             earth: "[247-355]",
         };
-        return miniType ? rules2[choice] : rules[choice];
+        return isMini ? rules2[choice] : rules[choice];
     }
 
     public static getSettleResult(total: number, miniType: boolean = false) {
