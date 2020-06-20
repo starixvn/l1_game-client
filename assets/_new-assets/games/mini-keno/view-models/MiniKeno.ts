@@ -276,15 +276,15 @@ export default class MiniKeno extends GameMiniBase {
 
     private getKenoName(): string {
         const dict = {
-            ProViet: "Pro Viet",
-            Max: "Max",
-            Max2: "Max 2",
-            Mini: "Mini",
-            Mini2: "Mini 2",
-            East: "Đông",
-            West: "Tây",
-            South: "Nam",
-            North: "Bắc",
+            ProViet: "Keno Pro Viet",
+            Max: "Keno Max",
+            Max2: "Keno Max 2",
+            Mini: "Keno Mini",
+            Mini2: "Keno Mini 2",
+            East: "Keno Đông",
+            West: "Keno Tây",
+            South: "Keno Nam",
+            North: "Keno Bắc",
         }
 
         return dict[KenoType[this.kenoType]];
