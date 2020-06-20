@@ -201,9 +201,6 @@ cc.Class({
     if (void 0 !== data.event) {
       this.dialog.DEvent.onData(data.event);
     }
-    if (!!data.toGame) {
-      this.center.loadGameRoom(data.toGame);
-    }
     if (!!data.message) {
       this.dialog.iMessage.onData(data.message);
     }
