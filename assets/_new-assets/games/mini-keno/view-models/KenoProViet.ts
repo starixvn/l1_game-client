@@ -83,6 +83,11 @@ export default class KenoProViet extends cc.Component {
         this.contentLayout = this.content.getComponent(cc.Layout);
         this.contentLayout.updateLayout();
         this.contentLayout.enabled = false;
+
+        this.pageIndicatorDots = this.pageIndicator.children.map(child => child.getComponent(KenoPageIndicatorItem));
+        this.pageIndicatorDots.forEach((dot, index) => {
+            dot.init(this.miniKenos[index]);
+        });
     }
 
     private saveFavourites() {
@@ -108,6 +113,8 @@ export default class KenoProViet extends cc.Component {
             const keno = this.miniKenos.find(game => game.kenoType === type);
             keno.node.position = cc.v2(left + keno.node.width / 2 + index * (keno.node.width + spacing), 0);
             keno.favourite.isChecked = index < this.favouriteGames.length;
+
+            this.pageIndicatorDots[index].init(keno);
         });
 
         this.selectedIndex = this.sortedGames.indexOf(updatedType);
@@ -147,10 +154,6 @@ export default class KenoProViet extends cc.Component {
         dragableItem.touchCallback.start = (node) => {
             this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
         }
-        this.pageIndicatorDots = this.pageIndicator.children.map(child => child.getComponent(KenoPageIndicatorItem));
-        this.pageIndicatorDots.forEach((dot, index) => {
-            dot.init(this.miniKenos[index]);
-        })
     }
 
     onEnable() {

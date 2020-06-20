@@ -18,6 +18,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
+        this.updateImage();
     }
 
     onLoad() {
