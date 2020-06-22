@@ -200,9 +200,6 @@ cc.Class({
 			}
 		});
 		cc.game.on(cc.game.EVENT_HIDE, self.backGame, self);
-		if (!cc.sys.isMobile) {
-			this.redH.scale = 0.8;
-		}
 		var node = cc.instantiate(this.roundHistoryPrefab);
 		this.roundHistory = node.getComponent("SedieRoundHistory");
 		const condition = () => {

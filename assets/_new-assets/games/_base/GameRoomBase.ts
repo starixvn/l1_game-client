@@ -64,7 +64,7 @@ export default class GameRoomBase extends GameBase {
     init(gameName: string,
         gameConfigs: GameBaseConfigs,
         miniPanel: MiniPanel = null,
-        miniPanelScale: number = 0.8) {
+        miniPanelScale: number = 1) {
 
         super.init(gameName, gameConfigs, miniPanel);
         this.miniPanelScale = miniPanelScale;
