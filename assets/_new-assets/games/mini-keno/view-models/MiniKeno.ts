@@ -76,6 +76,7 @@ export default class MiniKeno extends GameMiniBase {
     public betBoard: MiniKenoBetBoard;
     public kenoTimer: MiniKenoTimer;
     public lastBetInfo: BetInfo = null;
+    public statusCallback = (gameName: number, winAmount: number) => { }
 
     onLoad() {
         this.gameName = `keno${KenoType[this.kenoType]}`;
@@ -119,6 +120,14 @@ export default class MiniKeno extends GameMiniBase {
         this.headerBg.spriteFrame = this.headerFrames[bgIndex];
         this.bodyBg.color = colors[bgIndex];
         this.betBoard.background.color = colors[bgIndex];
+    }
+
+    onData(data: any) {
+        super.onData(data);
+
+        if (data.status) {
+            this.statusCallback(this.kenoType, data.status.bet);
+        }
     }
 
     onDestroy() {

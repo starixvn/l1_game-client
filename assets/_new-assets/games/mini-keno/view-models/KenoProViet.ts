@@ -5,6 +5,8 @@ import MiniKenoPresetBet from "./MiniKenoPresetBet";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import KenoPageIndicatorItem from "./KenoPageIndicatorItem";
+import KenoStatusBanner from "./KenoStatusBanner";
+import KenoUtils from "./KenoUtils";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -33,6 +35,9 @@ export default class KenoProViet extends cc.Component {
     @property(cc.Node)
     presetNode: cc.Node = null;
 
+    @property(KenoStatusBanner)
+    statusBanner: KenoStatusBanner = null;
+
     @property(cc.Prefab)
     presetBetPrefab: cc.Prefab = null;
 
@@ -59,6 +64,8 @@ export default class KenoProViet extends cc.Component {
     private presetBetValue = 0;
     private pageIndicatorDots: KenoPageIndicatorItem[] = [];
     private miniPanel: MiniPanel;
+    private statusQueue: any[] = [];
+    private showingStatus: boolean = false;
 
     init(miniPanel: MiniPanel) {
         this.miniPanel = miniPanel;
@@ -84,6 +91,7 @@ export default class KenoProViet extends cc.Component {
             keno.favourite.isChecked = index < this.favouriteGames.length;
             keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
             keno.getPreset = () => this.presetBetValue;
+            keno.statusCallback = (a, b) => { this.statusQueue.unshift({ type: a, win: b }) };
             this.content.addChild(node);
             this.miniKenos.push(keno);
         });
@@ -96,6 +104,30 @@ export default class KenoProViet extends cc.Component {
         this.pageIndicatorDots.forEach((dot, index) => {
             dot.init(this.miniKenos[index]);
         });
+    }
+
+    update(dt) {
+        this.updateStatusBanner();
+    }
+
+    updateStatusBanner() {
+        if (this.showingStatus || this.statusQueue.length === 0) {
+            return;
+        }
+
+        this.showingStatus = true;
+        const status = this.statusQueue.pop();
+        this.statusBanner.node.position = cc.v2(0, 0);
+        this.statusBanner.node.opacity = 255;
+        this.statusBanner.node.active = true;
+        this.statusBanner.gameName.string = KenoUtils.getKenoName(status.type);
+        this.statusBanner.winAmount.string = status.win;
+        this.statusBanner.node.runAction(cc.sequence(
+            cc.moveBy(1.5, cc.v2(0, 50)),
+            cc.delayTime(1),
+            cc.fadeOut(0.3),
+            cc.callFunc(() => this.showingStatus = false),
+        ))
     }
 
     private saveFavourites() {
@@ -146,9 +178,9 @@ export default class KenoProViet extends cc.Component {
     }
 
     onLoad() {
-        // if (cc.sys.isMobile) {
-        //     this.node.scale = 1.2;
-        // }
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.85;
+        }
         this.initAllKeno();
         this.leftButton.active = false;
         this.childList = [...this.content.children];
