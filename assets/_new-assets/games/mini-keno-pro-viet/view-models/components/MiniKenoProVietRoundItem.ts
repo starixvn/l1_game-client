@@ -1,6 +1,7 @@
 import { MiniKenoProVietRound } from "./MiniKenoProVietRoundsSelection";
 import * as moment from 'moment';
 import MiniKenoProViet from "../MiniKenoProViet";
+import { zeroPad } from '../../../../common/helpers/Helper.js';
 
 
 const { ccclass, property } = cc._decorator;
@@ -24,7 +25,7 @@ export default class MiniKenoProVietRoundItem extends cc.Component {
 
     setData(round: MiniKenoProVietRound) {
         this.round = round;
-        this.roundId.string = "#" + round.id;
+        this.roundId.string = "#" + zeroPad(round.id, 7);
         const timeMoment = moment(round.time);
         this.roundTime.string = timeMoment.format(MiniKenoProViet.TIME_FORMAT);
         this.roundDate.string = timeMoment.format(MiniKenoProViet.DATE_FORMAT);

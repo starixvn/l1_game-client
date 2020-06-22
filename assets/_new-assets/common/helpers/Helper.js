@@ -240,6 +240,11 @@ export function getNameCard(index) {
   return list[index];
 }
 
+export function zeroPad(num, places) {
+  var zero = places - num.toString().length + 1;
+  return Array(+(zero > 0 && zero)).join("0") + num;
+}
+
 module.exports = {
   getNameCard: getNameCard,
   shortenName: shortenName,
@@ -259,5 +264,6 @@ module.exports = {
   validateEmail: validateEmail,
   addZero10: addZero10,
   formatMoneyNumber: formatMoneyNumber,
-  getLowercaseObjectKeys: getLowercaseObjectKeys
+  getLowercaseObjectKeys: getLowercaseObjectKeys,
+  zeroPad: zeroPad
 };

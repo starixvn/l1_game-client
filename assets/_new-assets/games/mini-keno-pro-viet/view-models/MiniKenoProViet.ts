@@ -6,8 +6,15 @@ import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietRoundItem from "./components/MiniKenoProVietRoundItem";
 import { GameState } from "../../_base/GameBase";
 import * as moment from "moment";
+import { zeroPad } from '../../../common/helpers/Helper.js';
 
 const { ccclass, property } = cc._decorator;
+
+Number.prototype.pad = function (size) {
+    var s = String(this);
+    while (s.length < (size || 2)) { s = "0" + s; }
+    return s;
+}
 
 @ccclass
 export default class MiniKenoProViet extends MiniKeno {
@@ -96,12 +103,14 @@ export default class MiniKenoProViet extends MiniKeno {
         return this.roundsSelection;
     }
 
+
+
     setGameRound(gameRoundId) {
         if (gameRoundId && this.rounds) {
             const currentRound = this.rounds.find(round => round.id === gameRoundId);
 
             if (currentRound) {
-                this.gameRound.string = `#${gameRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.DATETIME_FORMAT)}`;
+                this.gameRound.string = `#${zeroPad(gameRoundId, 7)} - ${moment(currentRound.time).format(MiniKenoProViet.DATETIME_FORMAT)}`;
             }
         }
     }
