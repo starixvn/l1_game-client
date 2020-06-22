@@ -266,6 +266,7 @@ export default class MiniKeno extends GameMiniBase {
         const roundResultNode = cc.instantiate(this.roundResultPrefab);
         this.roundResult = roundResultNode.getComponent(MiniKenoRoundResult);
         this.roundResultContainer.addChild(roundResultNode);
+        this.roundResult.init(isMini);
     }
 
     protected initBetBoard() {

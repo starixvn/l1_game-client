@@ -12,8 +12,18 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
     @property(cc.Node)
     waitingResultNode: cc.Node;
 
+    private isMini = false;
+
+    init(isMini: boolean) {
+        this.isMini = isMini;
+    }
+
     clear() {
-        this.kenoNumbers.forEach(number => {
+        this.kenoNumbers.forEach((number, index) => {
+            if (this.isMini && index >= 10) {
+                return;
+            }
+
             number.showWaiting();
         });
         this.betChoices.forEach(choice => choice.setValue(""))

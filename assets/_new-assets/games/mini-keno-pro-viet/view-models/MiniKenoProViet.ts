@@ -75,7 +75,6 @@ export default class MiniKenoProViet extends MiniKeno {
         this.animatedTime.node.active = true;
         this.animatedTime.resetTime();
         this.roundEndTime = null;
-        this.roundId = null;
     }
 
     changeRound(roundItem: MiniKenoProVietRoundItem) {
