@@ -179,7 +179,7 @@ export default class KenoProViet extends cc.Component {
 
     onLoad() {
         if (!cc.sys.isMobile) {
-            this.node.scale = 0.85;
+            this.node.scale = 0.7;
         }
         this.initAllKeno();
         this.leftButton.active = false;
