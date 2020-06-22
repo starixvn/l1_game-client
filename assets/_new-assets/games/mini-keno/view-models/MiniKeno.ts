@@ -118,6 +118,7 @@ export default class MiniKeno extends GameMiniBase {
         const bgIndex = dict[KenoType[this.kenoType]];
         this.headerBg.spriteFrame = this.headerFrames[bgIndex];
         this.bodyBg.color = colors[bgIndex];
+        this.betBoard.background.color = colors[bgIndex];
     }
 
     onDestroy() {

@@ -36,6 +36,9 @@ export default class MiniKenoBetBoard extends cc.Component {
     @property(cc.Button)
     betButton: cc.Button = null;
 
+    @property(cc.Node)
+    background: cc.Node = null;
+
     private betAmount = 0;
     public betCallback = (betAmount: number, info: BetInfo) => { };
     public getPreset = () => { return 0; };
