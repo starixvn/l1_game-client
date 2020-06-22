@@ -190,7 +190,38 @@ export default class MiniKeno extends GameMiniBase {
         this.onFavoriteChanged(this.favourite.isChecked, this.kenoType);
     }
 
-    updateRoundHistory() {
+    public playGameRoundTransition(initNewGameRoundFunc: () => void = null) {
+        const tempGameNode = cc.instantiate(this.node);
+        tempGameNode.removeComponent(MiniKeno);
+
+        if (initNewGameRoundFunc) {
+            initNewGameRoundFunc();
+        }
+
+        const transitionTime = 0.6;
+        this.node.parent.addChild(tempGameNode);
+        this.node.opacity = 0;
+        this.node.scale = 2;
+
+        this.node.runAction(
+            cc.spawn(
+                cc.fadeIn(transitionTime).easing(cc.easeSineInOut()),
+                cc.scaleTo(transitionTime, 1).easing(cc.easeSineInOut())
+            )
+        );
+
+        tempGameNode.runAction(cc.sequence(
+            cc.spawn(
+                cc.fadeOut(transitionTime).easing(cc.easeSineInOut()),
+                cc.scaleTo(transitionTime, 0.5).easing(cc.easeSineInOut())),
+            cc.delayTime(transitionTime * 1.5),
+            cc.callFunc(() => {
+                tempGameNode.destroy();
+            })
+        ));
+    }
+
+    public updateRoundHistory() {
         this.roundHistory.setData(this.currentDataLogs);
     }
 
@@ -257,4 +288,6 @@ export default class MiniKeno extends GameMiniBase {
         this.animatedTime = this.kenoTimer;
         this.timer.addChild(this.kenoTimer.node);
     }
+
+
 }

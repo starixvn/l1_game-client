@@ -92,34 +92,6 @@ export default class MiniKenoProViet extends MiniKeno {
         ))
     }
 
-    private playGameRoundTransition(initNewGameRoundFunc: () => void) {
-        const tempGameNode = cc.instantiate(this.node);
-        tempGameNode.removeComponent(MiniKenoProViet);
-        initNewGameRoundFunc();
-
-        const transitionTime = 0.6;
-        this.node.parent.addChild(tempGameNode);
-        this.node.opacity = 0;
-        this.node.scale = 2;
-
-        this.node.runAction(
-            cc.spawn(
-                cc.fadeIn(transitionTime).easing(cc.easeSineInOut()),
-                cc.scaleTo(transitionTime, 1).easing(cc.easeSineInOut())
-            )
-        );
-
-        tempGameNode.runAction(cc.sequence(
-            cc.spawn(
-                cc.fadeOut(transitionTime).easing(cc.easeSineInOut()),
-                cc.scaleTo(transitionTime, 0.5).easing(cc.easeSineInOut())),
-            cc.delayTime(transitionTime * 1.5),
-            cc.callFunc(() => {
-                tempGameNode.destroy();
-            })
-        ));
-    }
-
     getPlayerBets(roundId: string) {
         this.sendData({ getPlayerBets: true, roundId: roundId, get_time: true });
     }

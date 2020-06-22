@@ -75,8 +75,6 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         }, 1000);
     }
 
-
-
     stopPlayTime(): void {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
     }
