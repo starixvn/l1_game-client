@@ -1,5 +1,6 @@
 import { GameBaseConfigs } from "../../../../_new-assets/games/_base/GameBaseConfig";
 import MiniKeno from "../../../../_new-assets/games/mini-keno/view-models/MiniKeno";
+import KenoUtils from "./KenoUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,18 +13,38 @@ export default class KenoPageIndicatorItem extends cc.Component {
     @property({ type: cc.SpriteFrame })
     dotFrames: cc.SpriteFrame[] = [];
 
+    @property(cc.Label)
+    gameName: cc.Label = null;
+
     private highlighted = false;
     private miniKeno: MiniKeno;
     private actionTag = 10000;
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
+        this.gameName.string = KenoUtils.getKenoName(this.miniKeno.kenoType);
+        this.gameName.node.active = false;
         this.updateImage();
     }
 
     onLoad() {
         this.updateImage();
         this.schedule(this.updateImage, 1);
+        this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
+        this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLeave, this);
+    }
+
+    onDestroy() {
+        this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
+        this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLeave, this);
+    }
+
+    eventOnEnter() {
+        this.gameName.node.active = true;
+    }
+
+    eventOnLeave() {
+        this.gameName.node.active = false;
     }
 
     public setHighlight(highlight: boolean) {

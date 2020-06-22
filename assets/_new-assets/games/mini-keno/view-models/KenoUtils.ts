@@ -1,5 +1,17 @@
-export default class KenoUtils {
 
+export enum KenoType {
+    ProViet,
+    Max,
+    Max2,
+    Mini,
+    Mini2,
+    East,
+    West,
+    South,
+    North,
+}
+
+export default class KenoUtils {
     public static getKenoRuleChoice(choice: string, isMini: boolean = false) {
         const rules = {
             big: "[811-1410]",
@@ -70,5 +82,21 @@ export default class KenoUtils {
             settle.earth = true;
         }
         return settle;
+    }
+
+    public static getKenoName(kenoType: KenoType): string {
+        const dict = {
+            ProViet: "Pro Viet",
+            Max: "Keno Max",
+            Max2: "Keno Max 2",
+            Mini: "Keno Mini",
+            Mini2: "Keno Mini 2",
+            East: "Keno Đông",
+            West: "Keno Tây",
+            South: "Keno Nam",
+            North: "Keno Bắc",
+        }
+
+        return dict[KenoType[kenoType]];
     }
 }
