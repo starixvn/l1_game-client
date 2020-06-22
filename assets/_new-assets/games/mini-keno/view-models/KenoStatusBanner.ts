@@ -7,5 +7,8 @@ export default class KenoStatusBanner extends cc.Component {
     gameName: cc.Label = null;
 
     @property(cc.Label)
+    roundId: cc.Label = null;
+
+    @property(cc.Label)
     winAmount: cc.Label = null;
 }

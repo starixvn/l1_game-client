@@ -91,7 +91,7 @@ export default class KenoProViet extends cc.Component {
             keno.favourite.isChecked = index < this.favouriteGames.length;
             keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
             keno.getPreset = () => this.presetBetValue;
-            keno.statusCallback = (a, b) => { this.statusQueue.unshift({ type: a, win: b }) };
+            keno.statusCallback = (a, b, c) => { this.statusQueue.unshift({ type: a, round: b, win: c }) };
             this.content.addChild(node);
             this.miniKenos.push(keno);
         });
@@ -121,7 +121,8 @@ export default class KenoProViet extends cc.Component {
         this.statusBanner.node.opacity = 255;
         this.statusBanner.node.active = true;
         this.statusBanner.gameName.string = KenoUtils.getKenoName(status.type);
-        this.statusBanner.winAmount.string = status.win;
+        this.statusBanner.roundId.string = `#${status.round}:`
+        this.statusBanner.winAmount.string = `+${status.win}`;
         this.statusBanner.node.runAction(cc.sequence(
             cc.moveBy(1.5, cc.v2(0, 50)),
             cc.delayTime(1),
