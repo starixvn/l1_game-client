@@ -7,14 +7,10 @@ import MiniKenoProVietRoundItem from "./components/MiniKenoProVietRoundItem";
 import { GameState } from "../../_base/GameBase";
 import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
+import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
+import MiniKenoProVietLogsHandler from "./handlers/MiniKenoProVietLogsHandler";
 
 const { ccclass, property } = cc._decorator;
-
-Number.prototype.pad = function (size) {
-    var s = String(this);
-    while (s.length < (size || 2)) { s = "0" + s; }
-    return s;
-}
 
 @ccclass
 export default class MiniKenoProViet extends MiniKeno {
@@ -34,9 +30,7 @@ export default class MiniKenoProViet extends MiniKeno {
     roundsSelection: MiniKenoProVietRoundsSelection;
     roundEndTime: Date;
 
-    get isIncomingGameRound(): boolean {
-        return !this.currentDataLogs || !this.currentDataLogs[0] || (this.roundId === this.currentDataLogs[0].roundId + 1);
-    }
+    isIncomingGameRound: boolean = true;
 
     onLoad() {
         super.onLoad();
@@ -48,6 +42,8 @@ export default class MiniKenoProViet extends MiniKeno {
     initHandlers() {
         super.initHandlers();
 
+        this.finishHandler = new MiniKenoProVietFinishHandler(this);
+        this.logsHandler = new MiniKenoProVietLogsHandler(this);
         this.roundsHandler = new MiniKenoProVietRoundsHandler(this);
         this.timeHandler = new MiniKenoProVietTimeHandler(this)
     }
@@ -88,6 +84,7 @@ export default class MiniKenoProViet extends MiniKeno {
                     this.roundEndTime = new Date(roundItem.round.time);
                     this.setGameRound(this.roundId);
                     this.getPlayerBets(roundItem.round.id);
+                    this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1
                 });
             })
         ))
@@ -110,8 +107,6 @@ export default class MiniKenoProViet extends MiniKeno {
 
         return this.roundsSelection;
     }
-
-
 
     setGameRound(gameRoundId) {
         if (gameRoundId && this.rounds) {
