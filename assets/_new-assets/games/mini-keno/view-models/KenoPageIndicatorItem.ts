@@ -33,17 +33,19 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     public updateImage() {
         const config = this.miniKeno.config;
-        if (this.miniKeno.currentTimeRemaining <= config.stopBetTime) {
-            this.dot.spriteFrame = this.dotFrames[0];
-            this.dot.node.color = cc.Color.RED;
-            this.playEffect();
-            return;
-        }
-        if (this.miniKeno.currentTimeRemaining > config.betTime && this.miniKeno.currentTimeRemaining <= config.fullTime) {
-            this.dot.spriteFrame = this.dotFrames[0];
-            this.dot.node.color = cc.Color.YELLOW;
-            this.playEffect();
-            return;
+        if (!this.highlighted) {
+            if (this.miniKeno.currentTimeRemaining <= config.stopBetTime) {
+                this.dot.spriteFrame = this.dotFrames[0];
+                this.dot.node.color = cc.Color.RED;
+                this.playEffect();
+                return;
+            }
+            if (this.miniKeno.currentTimeRemaining > config.betTime && this.miniKeno.currentTimeRemaining <= config.fullTime) {
+                this.dot.spriteFrame = this.dotFrames[0];
+                this.dot.node.color = cc.Color.YELLOW;
+                this.playEffect();
+                return;
+            }
         }
 
         this.stopEffect();

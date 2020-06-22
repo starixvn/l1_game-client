@@ -226,7 +226,6 @@ export default class KenoProViet extends cc.Component {
 
     onPageIndicatorClick(e) {
         const clickIndex = this.pageIndicatorDots.findIndex(dot => dot.node === e.target);
-        console.log(`click inde ${clickIndex}, selected ${this.selectedIndex}`);
         if (this.selectedIndex == clickIndex || this.selectedIndex + 1 == clickIndex) {
             return;
         }
