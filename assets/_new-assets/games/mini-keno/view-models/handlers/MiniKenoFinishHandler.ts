@@ -4,7 +4,7 @@ import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper";
 
 export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: MiniKeno) {
-        super(main, 2);
+        super(main, 5);
     }
 
     handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {

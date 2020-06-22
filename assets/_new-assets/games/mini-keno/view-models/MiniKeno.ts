@@ -90,7 +90,7 @@ export default class MiniKeno extends GameMiniBase {
     }
 
     onDisable() {
-        // this.stopGame();
+        this.resetDataAndUI();
     }
 
     initHeaderBackground() {
@@ -136,12 +136,6 @@ export default class MiniKeno extends GameMiniBase {
         this.finishHandler = new MiniKenoFinishHandler(this);
         this.timeHandler = new MiniKenoTimeHandler(this);
         this.logsHandler = new MiniKenoLogsHandler(this);
-    }
-
-    resetDataAndUI() {
-        super.resetDataAndUI();
-
-        // this.roundResult.node.active = false;
     }
 
     public onReBetClick() {
