@@ -13,7 +13,9 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
     waitingResultNode: cc.Node;
 
     clear() {
-        this.kenoNumbers.forEach(number => number.showWaiting());
+        this.kenoNumbers.forEach(number => {
+            number.showWaiting();
+        });
         this.betChoices.forEach(choice => choice.setValue(""))
         this.total.string = "";
     }

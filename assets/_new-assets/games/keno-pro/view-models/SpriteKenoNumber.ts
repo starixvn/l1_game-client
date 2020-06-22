@@ -1,5 +1,4 @@
 import KenoNumber from "./KenoNumber";
-import { Action, easeBackInOut } from '../../../../../creator';
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,6 +25,7 @@ export default class SpriteKenoNumber extends KenoNumber {
     }
 
     showWaiting() {
+        this.node.active = true;
         this.numberSprite.spriteFrame = this.waitingSpriteFrame;
         this.node.runAction(cc.repeatForever(cc.rotateBy(1, 360)));
     }

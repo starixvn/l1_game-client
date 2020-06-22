@@ -77,12 +77,47 @@ export default class MiniKenoProViet extends MiniKeno {
     }
 
     changeRound(roundItem: MiniKenoProVietRoundItem) {
-        this.resetDataAndUI();
-        this.timeHandler.stopPlayTime();
-        this.getPlayerBets(roundItem.round.id);
-        this.roundId = parseInt(roundItem.round.id);
-        this.roundEndTime = new Date(roundItem.round.time);
-        this.setGameRound(this.roundId);
+        this.node.parent.runAction(cc.sequence(
+            cc.delayTime(0.51),
+            cc.callFunc(() => {
+                this.playGameRoundTransition(() => {
+                    this.resetDataAndUI();
+                    this.timeHandler.stopPlayTime();
+                    this.roundId = parseInt(roundItem.round.id);
+                    this.roundEndTime = new Date(roundItem.round.time);
+                    this.setGameRound(this.roundId);
+                    this.getPlayerBets(roundItem.round.id);
+                });
+            })
+        ))
+    }
+
+    private playGameRoundTransition(initNewGameRoundFunc: () => void) {
+        const tempGameNode = cc.instantiate(this.node);
+        tempGameNode.removeComponent(MiniKenoProViet);
+        initNewGameRoundFunc();
+
+        const transitionTime = 0.6;
+        this.node.parent.addChild(tempGameNode);
+        this.node.opacity = 0;
+        this.node.scale = 2;
+
+        this.node.runAction(
+            cc.spawn(
+                cc.fadeIn(transitionTime).easing(cc.easeSineInOut()),
+                cc.scaleTo(transitionTime, 1).easing(cc.easeSineInOut())
+            )
+        );
+
+        tempGameNode.runAction(cc.sequence(
+            cc.spawn(
+                cc.fadeOut(transitionTime).easing(cc.easeSineInOut()),
+                cc.scaleTo(transitionTime, 0.5).easing(cc.easeSineInOut())),
+            cc.delayTime(transitionTime * 1.5),
+            cc.callFunc(() => {
+                tempGameNode.destroy();
+            })
+        ));
     }
 
     getPlayerBets(roundId: string) {
