@@ -18,6 +18,8 @@ export default class KenoNumber extends cc.Component {
 
         if (isAnimated) {
             this.runNumberAnimation();
+        } else {
+            this.clearNumberAnimation();
         }
     }
 
@@ -28,6 +30,11 @@ export default class KenoNumber extends cc.Component {
     runNumberAnimation() {
         this.node.scale = 0;
         this.node.runAction(cc.scaleTo(0.3, 1).easing(cc.easeBounceOut()));
+    }
+
+    clearNumberAnimation() {
+        this.node.stopAllActions();
+        this.node.scale = 1;
     }
 
     onDisable() {

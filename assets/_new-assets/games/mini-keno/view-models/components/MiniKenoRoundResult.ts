@@ -69,6 +69,10 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
                     onComplete();
                 })));
         } else {
+            this.node.stopAllActions();
+            this.total.node.scale = 1;
+            this.betChoices.forEach(label => label.node.scale = 1);
+
             let total = 0;
 
             for (let i = 0; i < this.result.length; i++) {
