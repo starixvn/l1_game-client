@@ -32,7 +32,6 @@ export default class MiniKenoProViet extends MiniKeno {
 
     onLoad() {
         super.onLoad();
-        this.stopGameOnUM = false;
         this.config = new MiniKenoProVietConfig();
         this.addHandlers(this.roundsHandler)
         this.kenoTimer.init(true);
