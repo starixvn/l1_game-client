@@ -26,6 +26,7 @@ export default class DropDownList extends cc.Component {
     init(options: DropDownOption[], onSelectedItemChanged: () => void) {
         this.options = options;
         this.selectedItem = this.options[0];
+        this.captionLabel.string = this.selectedItem.text;
         this.onSelectedItemChanged = onSelectedItemChanged;
     }
 
