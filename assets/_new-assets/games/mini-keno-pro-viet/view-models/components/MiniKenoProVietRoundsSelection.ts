@@ -26,12 +26,13 @@ export default class MiniKenoProVietRoundsSelection extends cc.Component {
     selectRound(e) {
         const roundItemNode = e.target as cc.Node;
         const roundItem = roundItemNode.getComponent(MiniKenoProVietRoundItem);
+        roundItem.setHighlight();
         this.main.changeRound(roundItem)
         const dialog = this.node.getComponent("CommonDialog");
         dialog.closeDialog();
     }
 
-    setData(rounds: MiniKenoProVietRound[]) {
+    setData(currentRoundId: number, rounds: MiniKenoProVietRound[]) {
         this.layout.destroyAllChildren();
 
         if (!rounds) {
@@ -43,6 +44,9 @@ export default class MiniKenoProVietRoundsSelection extends cc.Component {
             const roundItemNode = cc.instantiate(this.roundItem);
             const roundItem = roundItemNode.getComponent(MiniKenoProVietRoundItem);
             roundItemNode.active = true;
+
+            roundItem.setHighlight(parseInt(round.id) === currentRoundId);
+
             roundItem.setData(round);
 
             this.layout.addChild(roundItemNode);

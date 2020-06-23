@@ -20,6 +20,9 @@ export default class MiniKenoProVietRoundItem extends cc.Component {
     @property(cc.Node)
     hasBet: cc.Node = null;
 
+    @property(cc.Node)
+    highlight: cc.Node = null;
+
     public round: MiniKenoProVietRound;
     public fullDate: string;
 
@@ -32,5 +35,9 @@ export default class MiniKenoProVietRoundItem extends cc.Component {
         this.fullDate = timeMoment.format(MiniKenoProViet.FULL_DATE_FORMAT);
         this.hasBet.active = round.hasBet;
         this.roundTime.node.color = this.roundDate.node.color = this.roundId.node.color = round.hasBet ? cc.Color.WHITE : cc.Color.BLACK;
+    }
+
+    setHighlight(isActive) {
+        this.highlight.active = isActive;
     }
 }
