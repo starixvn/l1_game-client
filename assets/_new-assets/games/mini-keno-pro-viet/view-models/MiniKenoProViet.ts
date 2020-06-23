@@ -16,14 +16,13 @@ export default class MiniKenoProViet extends MiniKeno {
     @property(cc.Prefab)
     roundsSelectionPrefab: cc.Prefab = null;
 
-    @property(cc.Label)
-    stopBetMessage: cc.Label = null;
+    @property(cc.RichText)
+    stopBetMessage: cc.RichText = null;
 
     static readonly TIME_FORMAT = "HH:mm";
     static readonly DATE_FORMAT = "DD/MM";
     static readonly FULL_DATE_FORMAT = "DD/MM/YYYY";
     static readonly DATETIME_FORMAT = "DD/MM HH:mm";
-    static readonly STOPBET_MESSAGE: string = "Kỳ vé #$ROUND đã ngưng nhận cược.";
 
     roundsHandler: MiniKenoProVietRoundsHandler;
     rounds: MiniKenoProVietRound[];
@@ -125,12 +124,12 @@ export default class MiniKenoProViet extends MiniKeno {
 
     setGameRound(gameRoundId) {
         if (gameRoundId && this.rounds) {
-            const formatedRoundId = zeroPad(gameRoundId, 7);
-            this.stopBetMessage.string = MiniKenoProViet.STOPBET_MESSAGE.replace("$ROUND", formatedRoundId);
+            const formatedRoundId = `#${zeroPad(gameRoundId, 7)}`;
+            this.stopBetMessage.string = this.stopBetMessage.string.replace("$ROUND", formatedRoundId);
             const currentRound = this.rounds.find(round => round.id === gameRoundId);
 
             if (currentRound) {
-                this.gameRound.string = `#${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.DATETIME_FORMAT)}`;
+                this.gameRound.string = `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.DATETIME_FORMAT)}`;
             }
         }
     }
