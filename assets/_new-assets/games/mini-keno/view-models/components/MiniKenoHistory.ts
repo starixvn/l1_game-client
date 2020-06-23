@@ -29,7 +29,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
     public kenoGameDropDownList: DropDownList;
 
     private options: DropDownOption[] = [
-        new DropDownOption("kenoProViet", "Keno Pro Việt"),
+        new DropDownOption("kenoProViet", "Keno Pro Viet"),
         new DropDownOption("kenoMax", "Keno Max"),
         new DropDownOption("kenoMax2", "Keno Max 2"),
         new DropDownOption("kenoMini", "Keno Mini"),
