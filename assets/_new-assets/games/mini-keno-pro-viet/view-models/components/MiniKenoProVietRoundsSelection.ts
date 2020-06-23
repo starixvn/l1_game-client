@@ -26,7 +26,6 @@ export default class MiniKenoProVietRoundsSelection extends cc.Component {
     selectRound(e) {
         const roundItemNode = e.target as cc.Node;
         const roundItem = roundItemNode.getComponent(MiniKenoProVietRoundItem);
-        roundItem.setHighlight();
         this.main.changeRound(roundItem)
         const dialog = this.node.getComponent("CommonDialog");
         dialog.closeDialog();
