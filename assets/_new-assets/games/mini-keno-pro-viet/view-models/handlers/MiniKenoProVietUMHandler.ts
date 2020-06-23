@@ -9,13 +9,12 @@ export default class MiniKenoProVietUMHandler extends GameBaseUmDataHandler {
     handle(data: any): boolean {
         if (data.um) {
             this.main.showUmMessage(data);
-            return true;
         }
 
         if (data.um == false) {
             this.main.hideUmMessage();
-            return false;
         }
 
+        return false; // Return false to not break receiving data
     }
 }
