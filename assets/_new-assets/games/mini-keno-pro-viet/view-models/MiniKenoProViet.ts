@@ -8,7 +8,6 @@ import { GameState } from "../../_base/GameBase";
 import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
 import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
-import MiniKenoProVietLogsHandler from "./handlers/MiniKenoProVietLogsHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -29,7 +28,6 @@ export default class MiniKenoProViet extends MiniKeno {
     rounds: MiniKenoProVietRound[];
     roundsSelection: MiniKenoProVietRoundsSelection;
     roundEndTime: Date;
-
     isIncomingGameRound: boolean = true;
 
     onLoad() {
@@ -39,11 +37,19 @@ export default class MiniKenoProViet extends MiniKeno {
         this.kenoTimer.init(true);
     }
 
+    startGame() {
+        super.startGame();
+
+        // Reset game round
+        this.roundEndTime = null;
+        this.currentTimeRemaining = this.config.betTime;
+        this.isIncomingGameRound = true;
+    }
+
     initHandlers() {
         super.initHandlers();
 
         this.finishHandler = new MiniKenoProVietFinishHandler(this);
-        this.logsHandler = new MiniKenoProVietLogsHandler(this);
         this.roundsHandler = new MiniKenoProVietRoundsHandler(this);
         this.timeHandler = new MiniKenoProVietTimeHandler(this)
     }
@@ -77,7 +83,6 @@ export default class MiniKenoProViet extends MiniKeno {
         this.stopBetWarning.active = false;
         this.animatedTime.node.active = true;
         this.animatedTime.resetTime();
-        this.roundEndTime = null;
         this.betBoard.node.active = false;
         this.roundsSelection && (this.roundsSelection.node.active = false);
     }
@@ -96,20 +101,23 @@ export default class MiniKenoProViet extends MiniKeno {
             cc.callFunc(() => {
                 this.slideTransition(this.node, direction, 0.4, (tempNode) => {
                     tempNode.removeComponent(MiniKenoProViet);
-
-                    this.resetDataAndUI();
-                    this.timeHandler.stopPlayTime();
-                    this.roundId = newRoundId;
-                    this.roundEndTime = new Date(roundItem.round.time);
-                    this.setGameRound(this.roundId);
-                    this.getPlayerBets(roundItem.round.id);
-                    this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1
+                    this.initGameRound(newRoundId, new Date(roundItem.round.time));
                 });
             })
         ))
     }
 
-    getPlayerBets(roundId: string) {
+    private initGameRound(roundId: number, roundTime: Date) {
+        this.resetDataAndUI();
+        this.timeHandler.stopPlayTime();
+        this.roundId = roundId;
+        this.roundEndTime = roundTime;
+        this.setGameRound(this.roundId);
+        this.getPlayerBetsAndTimeOfRound(roundId.toString());
+        this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1;
+    }
+
+    getPlayerBetsAndTimeOfRound(roundId: string) {
         this.sendData({ getPlayerBets: true, roundId: roundId, get_time: true });
     }
 

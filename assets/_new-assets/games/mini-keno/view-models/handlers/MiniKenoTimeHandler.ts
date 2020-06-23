@@ -17,6 +17,12 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         this.main.stopBetWarning.active = false;
     }
 
+    handleStartingNewGameRound() {
+        super.handleStartingNewGameRound();
+
+        // this.main.slideTransition(this.main.node, "right", 0.7)
+    }
+
     handleInLockBetTime() {
         super.handleInLockBetTime();
         this.main.stopBetWarning.active = true;

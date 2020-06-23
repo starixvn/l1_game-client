@@ -50,6 +50,6 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        this.main.getPlayerBets(this.main.roundId.toString());
+        this.main.getPlayerBetsAndTimeOfRound(this.main.roundId.toString());
     }
 }
