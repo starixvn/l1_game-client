@@ -10,8 +10,8 @@ export default class MiniKenoConfig implements GameBaseConfigs {
 
     constructor(type: KenoType) {
         if (type === KenoType.East || type === KenoType.West || type === KenoType.North || type === KenoType.South) {
-            this.fullTime = 46;
-            this.betTime = 35;
+            this.fullTime = 39;
+            this.betTime = 30;
         }
     }
 }
