@@ -17,7 +17,7 @@ export default class GameBaseFinishHandler implements DataHandler {
     handle(data: any): boolean {
         if (data.finish) {
             this.main.finishShowResult = false;
-            this.main.gameAudios.playEndGameAudio();
+            this.main.node.active && this.main.gameAudios.playEndGameAudio();
 
             this.setNewGameRound(data);
 
