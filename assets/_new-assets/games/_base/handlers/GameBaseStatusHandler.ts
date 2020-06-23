@@ -39,15 +39,22 @@ export default class GameBaseStatusHandler implements IGameBaseStatusHandler {
         }
 
         this.timeout = setTimeout(() => {
-            if (win) {
-                this.main.showWinningBet(bet);;
-
-                cc.RedT.send({
-                    user: {
-                        updateCoint: true
-                    }
-                });
-            }
+            this.showStatus(win, bet);
         }, 2e3);
+    }
+
+    showStatus(win: boolean, bet: number) {
+        if (!cc.RedT.GAME_IS_SHOWED) {
+            return;
+        }
+        if (win) {
+            this.main.showWinningBet(bet);;
+
+            cc.RedT.send({
+                user: {
+                    updateCoint: true
+                }
+            });
+        }
     }
 }

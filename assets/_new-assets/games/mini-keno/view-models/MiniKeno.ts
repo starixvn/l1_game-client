@@ -12,6 +12,7 @@ import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
 import MiniKenoTimer from "./components/MiniKenoTimer";
 import MiniKenoRoundResult from "./components/MiniKenoRoundResult";
+import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -122,14 +123,6 @@ export default class MiniKeno extends GameMiniBase {
         this.betBoard.background.color = colors[bgIndex];
     }
 
-    onData(data: any) {
-        super.onData(data);
-
-        if (data.status) {
-            this.statusCallback(this.kenoType, this.roundId - 1, data.status.bet);
-        }
-    }
-
     onDestroy() {
         this.clearIntervalAndTimeout();
         this.betBoard.destroy();
@@ -145,6 +138,7 @@ export default class MiniKeno extends GameMiniBase {
         this.finishHandler = new MiniKenoFinishHandler(this);
         this.timeHandler = new MiniKenoTimeHandler(this);
         this.logsHandler = new MiniKenoLogsHandler(this);
+        this.statusHandler = new MiniKenoStatusHandler(this);
     }
 
     public onReBetClick() {

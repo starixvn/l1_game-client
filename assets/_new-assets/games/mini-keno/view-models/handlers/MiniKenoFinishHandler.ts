@@ -1,6 +1,7 @@
 import MiniKeno from "../MiniKeno";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper";
+import MiniKenoStatusHandler from "./MiniKenoStatusHandler";
 
 export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: MiniKeno) {
@@ -38,6 +39,13 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
 
     showResult() {
         this.main.updateRoundHistory();
+
+        const statusData = this.main.statusHandler.currentStatusData;
+        if (statusData) {
+            const miniStatuHander = this.main.statusHandler as MiniKenoStatusHandler;
+            miniStatuHander.showStatus(statusData.win, statusData.bet);
+            this.main.statusCallback(this.main.kenoType, this.main.roundId, statusData.bet);
+        }
 
         if (this.main.currentDataLogs.length > 0) {
             this.main.roundResult.setData(this.main.currentDataLogs[0].result, this.main.currentDataLogs[0].settlementResult);
