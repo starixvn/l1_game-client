@@ -7,6 +7,8 @@ import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import KenoPageIndicatorItem from "./KenoPageIndicatorItem";
 import KenoStatusBanner from "./KenoStatusBanner";
 import KenoUtils from "./KenoUtils";
+import * as helper from "../../../common/helpers/Helper";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -122,7 +124,7 @@ export default class KenoProViet extends cc.Component {
         this.statusBanner.node.active = true;
         this.statusBanner.gameName.string = KenoUtils.getKenoName(status.type);
         this.statusBanner.roundId.string = `#${status.round}:`
-        this.statusBanner.winAmount.string = `+${status.win}`;
+        this.statusBanner.winAmount.string = `+${helper.numberWithCommas(status.win)}`;
         this.statusBanner.node.runAction(cc.sequence(
             cc.moveBy(1.5, cc.v2(0, 50)),
             cc.delayTime(1),
