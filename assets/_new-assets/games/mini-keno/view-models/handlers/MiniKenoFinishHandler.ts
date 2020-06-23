@@ -44,7 +44,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         if (statusData) {
             const miniStatuHander = this.main.statusHandler as MiniKenoStatusHandler;
             miniStatuHander.showStatus(statusData.win, statusData.bet);
-            this.main.statusCallback(this.main.kenoType, this.main.roundId, statusData.bet);
+            this.main.statusCallback(this.main.kenoType, this.main.roundId - 1, statusData.bet);
         }
 
         if (this.main.currentDataLogs.length > 0) {

@@ -22,8 +22,9 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
-        this.gameName.string = KenoUtils.getKenoName(this.miniKeno.kenoType);
-        // this.gameName.node.active = false;
+        const name = KenoUtils.getKenoName(this.miniKeno.kenoType);
+        this.gameName.string = name.replace("Keno ", "");
+        // this.gameName.node.active = false;, 
         this.updateImage();
     }
 
@@ -87,7 +88,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
     }
 
     private setItemColor(color: cc.Color) {
-        this.gameName.node.color = color;
+        // this.gameName.node.color = color;
         this.proressBar.node.color = color;
         this.proressBar.barSprite.node.color = color;
         this.effect.color = color;
