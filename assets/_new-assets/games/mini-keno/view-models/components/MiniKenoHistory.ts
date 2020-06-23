@@ -27,6 +27,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
 
     private historyDetail: MiniKenoHistoryDetail = null;
     public kenoGameDropDownList: DropDownList;
+    private kenoProVietGameName = "kenoProViet";
 
     private options: DropDownOption[] = [
         new DropDownOption("kenoProViet", "Keno Pro Viet"),
@@ -93,7 +94,12 @@ export default class MiniKenoHistory extends GameHistoryBase {
                     item[choice].string = numberWithCommas(betLog[choice]);
                 });
 
-                if (result && result.length && settlementResult) {
+                if (this.gameName == this.kenoProVietGameName && !betLog.thanhtoan) {
+                    item.total.string = "..."
+                    item.total.node.color = cc.Color.WHITE;
+                    item.total.node.getComponent(cc.Button).interactable = false;
+                    item.win.string = "Đang chờ";
+                } else {
                     const total = result.reduce((total: number, number: number) => total += number, 0);
                     item.total.string = total;
 
@@ -104,11 +110,6 @@ export default class MiniKenoHistory extends GameHistoryBase {
                     });
                     item.win.string = numberWithCommas(betwin);
                     item.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-                } else {
-                    item.total.string = "..."
-                    item.total.node.color = cc.Color.WHITE;
-                    item.total.node.getComponent(cc.Button).interactable = false;
-                    item.win.string = "Đang chờ";
                 }
 
                 this.content.addChild(node);
