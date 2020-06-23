@@ -20,18 +20,20 @@ export default class KenoPageIndicatorItem extends cc.Component {
     private miniKeno: MiniKeno;
     private actionTag = 10000;
     private currentTimeRemaining: number;
+    private dataKey: string;
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
         const name = KenoUtils.getKenoName(this.miniKeno.kenoType);
         this.gameName.string = name.replace("Keno ", "");
+        this.dataKey = `indicator_${this.miniKeno.gameName}`;
         // this.gameName.node.active = false;, 
         this.updateImage();
     }
 
     onLoad() {
         this.node.active = false;
-        cc.RedT.addDataObserver(`indicator_${this.miniKeno.gameName}`, (data) => this.receivedData(data));
+        cc.RedT.addDataObserver(this.dataKey, (data) => this.receivedData(data));
         // this.schedule(this.playtime, 1);
 
         // this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
@@ -62,7 +64,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
     }
 
     onDestroy() {
-        cc.RedT.removeDataObserver(`indicator_${this.miniKeno.gameName}`);
+        cc.RedT.removeDataObserver(this.dataKey);
         // this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
         // this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLeave, this);
     }
