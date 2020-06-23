@@ -196,7 +196,6 @@ export default class MiniKeno extends GameMiniBase {
 
         const nodeIndex = node.parent.children.indexOf(node);
         node.parent.insertChild(tempNode, nodeIndex + 1);
-        console.log(node.parent.children)
         node.opacity = 0;
         const xPosition = direction == "right" ? node.width : -node.width;
 
