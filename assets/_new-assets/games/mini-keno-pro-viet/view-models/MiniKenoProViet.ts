@@ -67,21 +67,33 @@ export default class MiniKenoProViet extends MiniKeno {
 
     resetDataAndUI() {
         super.resetDataAndUI();
+
         this.stopBetWarning.active = false;
         this.animatedTime.node.active = true;
         this.animatedTime.resetTime();
         this.roundEndTime = null;
         this.betBoard.node.active = false;
+        this.roundsSelection && (this.roundsSelection.node.active = false);
     }
 
     changeRound(roundItem: MiniKenoProVietRoundItem) {
+        const newRoundId = parseInt(roundItem.round.id);
+
+        if (newRoundId == this.roundId) {
+            return;
+        }
+
+        const direction = this.roundId < newRoundId ? "right" : "left";
+
         this.node.parent.runAction(cc.sequence(
             cc.delayTime(0.51),
             cc.callFunc(() => {
-                this.playGameRoundTransition(() => {
+                this.slideTransition(this.node, direction, 0.4, (tempNode) => {
+                    tempNode.removeComponent(MiniKenoProViet);
+
                     this.resetDataAndUI();
                     this.timeHandler.stopPlayTime();
-                    this.roundId = parseInt(roundItem.round.id);
+                    this.roundId = newRoundId;
                     this.roundEndTime = new Date(roundItem.round.time);
                     this.setGameRound(this.roundId);
                     this.getPlayerBets(roundItem.round.id);
