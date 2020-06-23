@@ -83,9 +83,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
     }
 
     public updateImage() {
-        if (!this.currentTimeRemaining) {
-            return;
-        }
         this.node.active = true;
 
         const config = this.miniKeno.config;
