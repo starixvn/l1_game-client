@@ -132,7 +132,7 @@ cc.Class({
 	},
 	showListGame() {
 		this.background.active = true;
-		this.background.runAction(cc.fadeTo(0.1, 204));
+		this.background.runAction(cc.fadeTo(0.1, 224));
 		this.list.active = cc.RedT.setting.popupMini.open = true;
 		this.list.runAction(cc.sequence(
 			cc.scaleTo(0.3, 1).easing(cc.easeSineInOut()),
