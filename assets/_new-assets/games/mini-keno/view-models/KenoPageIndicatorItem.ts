@@ -1,20 +1,29 @@
 import { GameBaseConfigs } from "../../../../_new-assets/games/_base/GameBaseConfig";
 import MiniKeno from "../../../../_new-assets/games/mini-keno/view-models/MiniKeno";
-import KenoUtils from "./KenoUtils";
+import KenoUtils, { KenoType } from "./KenoUtils";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoPageIndicatorItem extends cc.Component {
 
-    @property(cc.Label)
-    gameName: cc.Label = null;
+    @property(cc.Node)
+    highlight: cc.Node = null;
+
+    @property(cc.Sprite)
+    gameName: cc.Sprite = null;
 
     @property(cc.ProgressBar)
     proressBar: cc.ProgressBar = null;
 
-    @property(cc.Node)
-    effect: cc.Node = null;
+    @property({ type: cc.SpriteFrame })
+    backgroundFrames: cc.SpriteFrame[] = [];
+
+    @property({ type: cc.SpriteFrame })
+    nameFrames: cc.SpriteFrame[] = [];
+
+    // @property(cc.Node)
+    // effect: cc.Node = null;
 
     private highlighted = false;
     private miniKeno: MiniKeno;
@@ -24,10 +33,23 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
-        const name = KenoUtils.getKenoName(this.miniKeno.kenoType);
-        this.gameName.string = name.replace("Keno ", "");
+        this.gameName.spriteFrame = this.nameFrames[this.miniKeno.kenoType];
+        const dict = {
+            ProViet: 0,
+            Max: 1,
+            Max2: 1,
+            Mini: 2,
+            Mini2: 2,
+            East: 3,
+            West: 3,
+            South: 3,
+            North: 3,
+        }
+        const backSprite = this.backgroundFrames[dict[KenoType[this.miniKeno.kenoType]]];
+        this.proressBar.barSprite.spriteFrame = backSprite;
+        this.proressBar.getComponent(cc.Sprite).spriteFrame = backSprite;
+
         this.dataKey = `indicator_${this.miniKeno.gameName}`;
-        // this.gameName.node.active = false;, 
         this.updateImage();
     }
 
@@ -90,53 +112,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
         // progress = Math.max(progress, 0);
         progress = Math.min(progress, 1);
         this.proressBar.progress = progress < 0 ? 1 : progress;
-
-        this.node.opacity = 255;
-        if (!this.highlighted) {
-            if (this.miniKeno.currentTimeRemaining <= config.stopBetTime) {
-                this.setItemColor(cc.Color.RED);
-                this.playEffect();
-                return;
-            }
-            if (this.miniKeno.currentTimeRemaining > config.betTime && this.miniKeno.currentTimeRemaining <= config.fullTime) {
-                this.setItemColor(cc.Color.YELLOW);
-                this.playEffect();
-                return;
-            }
-        }
-
-        this.stopEffect();
-        this.node.opacity = this.highlighted ? 255 : 102;
-    }
-
-    private setItemColor(color: cc.Color) {
-        // this.gameName.node.color = color;
-        this.proressBar.node.color = color;
-        this.proressBar.barSprite.node.color = color;
-        this.effect.color = color;
-    }
-
-    playEffect() {
-        const effect = this.effect;
-        if (effect.getActionByTag(this.actionTag)) {
-            return;
-        }
-
-        const spawn = cc.spawn(cc.scaleTo(1, 1.1, 2), cc.fadeOut(1));
-        const reset = cc.spawn(cc.scaleTo(0, 1), cc.fadeIn(0));
-        const sequence = cc.sequence(spawn, cc.delayTime(0.1), reset);
-        effect.scale = 1;
-        effect.opacity = 255;
-        effect.stopAllActions();
-        const action = cc.repeatForever(sequence);
-        action.setTag(this.actionTag);
-        effect.runAction(action);
-    }
-
-    stopEffect() {
-        this.effect.stopActionByTag(this.actionTag);
-        this.effect.scale = 1;
-        this.effect.opacity = 0;
-        this.setItemColor(cc.Color.WHITE);
+        this.highlight.active = this.highlighted;
     }
 }
