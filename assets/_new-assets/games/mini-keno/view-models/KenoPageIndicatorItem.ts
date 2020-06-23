@@ -19,6 +19,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
     private highlighted = false;
     private miniKeno: MiniKeno;
     private actionTag = 10000;
+    private currentTimeRemaining: number;
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
@@ -30,16 +31,38 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     onLoad() {
         this.node.active = false;
-        this.schedule(this.updateImage, 1);
+        cc.RedT.addDataObserver(`indicator_${this.miniKeno.gameName}`, (data) => this.receivedData(data));
+        // this.schedule(this.playtime, 1);
+
         // this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
         // this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLeave, this);
     }
 
-    start() {
+    receivedData(data) {
+        const dataGame = data[this.miniKeno.gameName];
+        if (dataGame) {
+            if (dataGame.um || dataGame.remainingTime) {
+                this.currentTimeRemaining = dataGame.remainingTime || 0;
+                this.playTime();
+            }
+        }
+    }
+
+    playTime() {
+        this.updateTime();
+        this.schedule(this.updateTime, 1);
+    }
+
+    updateTime() {
+        this.currentTimeRemaining--;
         this.updateImage();
+        if (this.currentTimeRemaining < 0) {
+            this.unschedule(this.updateTime);
+        }
     }
 
     onDestroy() {
+        cc.RedT.removeDataObserver(`indicator_${this.miniKeno.gameName}`);
         // this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
         // this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLeave, this);
     }
@@ -58,13 +81,13 @@ export default class KenoPageIndicatorItem extends cc.Component {
     }
 
     public updateImage() {
-        if (!this.miniKeno.currentTimeRemaining) {
+        if (!this.currentTimeRemaining) {
             return;
         }
         this.node.active = true;
 
         const config = this.miniKeno.config;
-        let progress = (config.betTime - this.miniKeno.currentTimeRemaining) / config.betTime;
+        let progress = (config.betTime - this.currentTimeRemaining) / config.betTime;
         // progress = Math.max(progress, 0);
         progress = Math.min(progress, 1);
         this.proressBar.progress = progress < 0 ? 1 : progress;
