@@ -51,6 +51,12 @@ export default class MiniKenoProViet extends MiniKeno {
     showGameRoundsDialog() {
         cc.RedT.audio.playClick();
 
+        if (this.roundsSelection && this.roundsSelection.node.active) {
+            const dialog = this.roundsSelection.getComponent("CommonDialog");
+            dialog.closeDialog();
+            return;
+        }
+
         if (this.gameState == GameState.Stopped) {
             return;
         }
