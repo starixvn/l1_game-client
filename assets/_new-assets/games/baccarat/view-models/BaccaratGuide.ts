@@ -30,4 +30,10 @@ export default class BaccaratGuide extends cc.Component {
             });
         });
     }
+
+    onLoad() {
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
+    }
 }

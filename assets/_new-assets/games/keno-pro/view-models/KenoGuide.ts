@@ -34,4 +34,10 @@ export default class KenoGuide extends cc.Component {
             });
         });
     }
+
+    onLoad() {
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
+    }
 }

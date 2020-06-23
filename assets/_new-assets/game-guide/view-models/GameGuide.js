@@ -19,6 +19,10 @@ cc.Class({
                 }
             }
         });
+
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
     },
     selectGame: function (event, game) {
         this.select(game);
