@@ -167,12 +167,13 @@ export default class MiniKeno extends GameMiniBase {
 
         const betChoice = e.target.name;
         const betInfo = {
-            title: `${KenoUtils.getKenoName(this.kenoType)} - #${this.roundId}`,
+            title: `${KenoUtils.getKenoName(this.kenoType)}`,
+            roundId: `#${this.roundId}`,
             odd: this.gameConfigs.odds[betChoice],
             choice: betChoice,
             minBet: this.gameConfigs.minbet,
             maxBet: this.gameConfigs.choices_maxbet[betChoice],
-            bet: 0
+            bet: 0,
         };
         this.betBoard.show(betInfo);
     }
