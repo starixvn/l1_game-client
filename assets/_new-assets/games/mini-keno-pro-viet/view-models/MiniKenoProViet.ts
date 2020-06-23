@@ -23,6 +23,7 @@ export default class MiniKenoProViet extends MiniKeno {
     static readonly DATE_FORMAT = "DD/MM";
     static readonly FULL_DATE_FORMAT = "DD/MM/YYYY";
     static readonly DATETIME_FORMAT = "DD/MM HH:mm";
+    static readonly STOP_BET_MESSAGE = "Kỳ vé <color=#ffc342>$ROUND</color> đã ngưng nhận cược. \nVui lòng chọn kỳ vé khác."
 
     roundsHandler: MiniKenoProVietRoundsHandler;
     rounds: MiniKenoProVietRound[];
@@ -125,7 +126,7 @@ export default class MiniKenoProViet extends MiniKeno {
     setGameRound(gameRoundId) {
         if (gameRoundId && this.rounds) {
             const formatedRoundId = `#${zeroPad(gameRoundId, 7)}`;
-            this.stopBetMessage.string = this.stopBetMessage.string.replace("$ROUND", formatedRoundId);
+            this.stopBetMessage.string = MiniKenoProViet.STOP_BET_MESSAGE.replace("$ROUND", formatedRoundId);
             const currentRound = this.rounds.find(round => round.id === gameRoundId);
 
             if (currentRound) {

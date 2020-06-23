@@ -41,8 +41,6 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
                 return;
             }
 
-            console.log(this.receiveTimeRemaining)
-
             this.playTimeInterval && clearInterval(this.playTimeInterval);
 
             this.playTimeInterval = setInterval(() => {
