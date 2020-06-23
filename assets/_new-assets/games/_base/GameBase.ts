@@ -100,6 +100,7 @@ export default class GameBase extends cc.Component {
     public betChips: BetChips;
     public currentBet: number;
     public gameAudios: GameAudios;
+    public stopGameOnUM: boolean = true;
     private dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
 
@@ -146,7 +147,7 @@ export default class GameBase extends cc.Component {
     onData(data: any) {
         for (let index = 0; index < this.dataHandlers.length; index++) {
             let handler = this.dataHandlers[index];
-            if (index == 0 && handler.handle(data)) { //um handler
+            if (index == 0 && handler.handle(data) && this.stopGameOnUM) { //um handler
                 break;
             } else {
                 handler.handle(data);

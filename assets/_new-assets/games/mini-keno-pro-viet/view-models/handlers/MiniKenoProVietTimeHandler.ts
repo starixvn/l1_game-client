@@ -8,9 +8,16 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         super(main);
     }
 
-    protected setCurrentTimeRemaining(data: any) {
-        this.receiveTimeRemaining = data.timeRemaining;
+    handle(data: any): boolean {
+        if (data.remainingTime || data.remainingTime >= 0) {
+            this.receiveTimeRemaining = data.timeRemaining;
+            this.setCurrentTimeRemaining(data);
+            this.playTime();
+            return true;
+        }
+    }
 
+    protected setCurrentTimeRemaining(data: any) {
         if (this.main.roundEndTime && !this.main.isIncomingGameRound) {
             if (data.remainingTime <= this.main.config.stopBetTime) {
                 this.main.roundResult.clear();
@@ -51,5 +58,10 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.getPlayerBetsAndTimeOfRound(this.main.roundId.toString());
+    }
+
+    handleInLockBetTime() {
+        super.handleInLockBetTime();
+        this.main.stopBetWarning.active = !this.main.umNotice.node.active;
     }
 }

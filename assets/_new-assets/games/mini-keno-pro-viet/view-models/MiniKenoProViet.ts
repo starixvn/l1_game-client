@@ -4,10 +4,10 @@ import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./componen
 import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandler";
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietRoundItem from "./components/MiniKenoProVietRoundItem";
-import { GameState } from "../../_base/GameBase";
 import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
 import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
+import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,6 +32,7 @@ export default class MiniKenoProViet extends MiniKeno {
 
     onLoad() {
         super.onLoad();
+        this.stopGameOnUM = false;
         this.config = new MiniKenoProVietConfig();
         this.addHandlers(this.roundsHandler)
         this.kenoTimer.init(true);
@@ -49,9 +50,10 @@ export default class MiniKenoProViet extends MiniKeno {
     initHandlers() {
         super.initHandlers();
 
+        this.umHandler = new MiniKenoProVietUMHandler(this)
         this.finishHandler = new MiniKenoProVietFinishHandler(this);
         this.roundsHandler = new MiniKenoProVietRoundsHandler(this);
-        this.timeHandler = new MiniKenoProVietTimeHandler(this)
+        this.timeHandler = new MiniKenoProVietTimeHandler(this);
     }
 
     showGameRoundsDialog() {
@@ -60,10 +62,6 @@ export default class MiniKenoProViet extends MiniKeno {
         if (this.roundsSelection && this.roundsSelection.node.active) {
             const dialog = this.roundsSelection.getComponent("CommonDialog");
             dialog.closeDialog();
-            return;
-        }
-
-        if (this.gameState == GameState.Stopped) {
             return;
         }
 
