@@ -17,12 +17,13 @@ export default class MiniKenoProViet extends MiniKeno {
     roundsSelectionPrefab: cc.Prefab = null;
 
     @property(cc.Label)
-    roundInfo: cc.Label = null;
+    stopBetMessage: cc.Label = null;
 
     static readonly TIME_FORMAT = "HH:mm";
     static readonly DATE_FORMAT = "DD/MM";
     static readonly FULL_DATE_FORMAT = "DD/MM/YYYY";
     static readonly DATETIME_FORMAT = "DD/MM HH:mm";
+    static readonly STOPBET_MESSAGE: string = "Kỳ vé #$ROUND đã ngưng nhận cược.";
 
     roundsHandler: MiniKenoProVietRoundsHandler;
     rounds: MiniKenoProVietRound[];
@@ -104,16 +105,6 @@ export default class MiniKenoProViet extends MiniKeno {
         ))
     }
 
-    private initGameRound(roundId: number, roundTime: Date) {
-        this.resetDataAndUI();
-        this.timeHandler.stopPlayTime();
-        this.roundId = roundId;
-        this.roundEndTime = roundTime;
-        this.setGameRound(this.roundId);
-        this.getPlayerBetsAndTimeOfRound(roundId.toString());
-        this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1;
-    }
-
     getPlayerBetsAndTimeOfRound(roundId: string) {
         this.sendData({ getPlayerBets: true, roundId: roundId, get_time: true });
     }
@@ -134,10 +125,12 @@ export default class MiniKenoProViet extends MiniKeno {
 
     setGameRound(gameRoundId) {
         if (gameRoundId && this.rounds) {
+            const formatedRoundId = zeroPad(gameRoundId, 7);
+            this.stopBetMessage.string = MiniKenoProViet.STOPBET_MESSAGE.replace("$ROUND", formatedRoundId);
             const currentRound = this.rounds.find(round => round.id === gameRoundId);
 
             if (currentRound) {
-                this.gameRound.string = `#${zeroPad(gameRoundId, 7)} - ${moment(currentRound.time).format(MiniKenoProViet.DATETIME_FORMAT)}`;
+                this.gameRound.string = `#${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.DATETIME_FORMAT)}`;
             }
         }
     }
@@ -153,5 +146,15 @@ export default class MiniKenoProViet extends MiniKeno {
 
     protected isDisabledBet(): boolean {
         return super.isDisabledBet() && this.isIncomingGameRound;
+    }
+
+    private initGameRound(roundId: number, roundTime: Date) {
+        this.resetDataAndUI();
+        this.timeHandler.stopPlayTime();
+        this.roundId = roundId;
+        this.roundEndTime = roundTime;
+        this.setGameRound(this.roundId);
+        this.getPlayerBetsAndTimeOfRound(roundId.toString());
+        this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1;
     }
 }

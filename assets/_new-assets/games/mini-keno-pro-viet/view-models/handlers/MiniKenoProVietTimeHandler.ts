@@ -10,7 +10,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
 
     handle(data: any): boolean {
         if (data.remainingTime || data.remainingTime >= 0) {
-            this.receiveTimeRemaining = data.timeRemaining;
+            this.receiveTimeRemaining = data.remainingTime;
             this.setCurrentTimeRemaining(data);
             this.playTime();
             return true;
@@ -40,6 +40,8 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
             if (this.receiveTimeRemaining == 0 && this.playTimeInterval) {
                 return;
             }
+
+            console.log(this.receiveTimeRemaining)
 
             this.playTimeInterval && clearInterval(this.playTimeInterval);
 
