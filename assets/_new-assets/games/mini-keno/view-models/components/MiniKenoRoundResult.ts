@@ -1,17 +1,11 @@
 import * as _ from "lodash";
 import KenoUtils from "../KenoUtils";
-import GameUtils from "../../../../common/GameUtils";
-import KenoNumber from "../../../keno-pro/view-models/KenoNumber";
-import BetChoice from "../../../keno-pro/view-models/BetChoice";
 import KenoRoundResult from "../../../keno-pro/view-models/history/KenoRoundResult";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniKenoRoundResult extends KenoRoundResult {
-    @property(cc.Node)
-    waitingResultNode: cc.Node;
-
     private isMini = false;
 
     init(isMini: boolean) {

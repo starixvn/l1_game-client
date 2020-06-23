@@ -53,6 +53,15 @@ export default class MiniPanel extends cc.Component {
   @property(cc.Prefab)
   loadingPrefab: cc.Prefab = null;
 
+  @property(cc.Sprite)
+  sound: cc.Sprite = null;
+
+  @property(cc.SpriteFrame)
+  soundOn: cc.SpriteFrame = null;
+
+  @property(cc.SpriteFrame)
+  soundOff: cc.SpriteFrame = null;
+
   private isLightOn: boolean;
   private loading: Loading;
   private taiXiu: any;
@@ -78,6 +87,7 @@ export default class MiniPanel extends cc.Component {
     this.node.addChild(loadingNode);
 
     this.popupMiniGame = this.miniMenu.getComponent("popupMinigame");
+    this.initSound();
   }
 
   onDestroy() {
@@ -465,5 +475,24 @@ export default class MiniPanel extends cc.Component {
     }
 
     this.node.addChild(noticePrefab)
+  }
+
+  onClickSoundGame() {
+    cc.RedT.audio.playClick();
+    cc.RedT.isSoundGame() ? this.setSoundGameOff() : this.setSoundGameOn();
+  }
+
+  private initSound() {
+    cc.RedT.isSoundGame() ? this.setSoundGameOn() : this.setSoundGameOff();
+  }
+
+  private setSoundGameOn() {
+    this.sound.spriteFrame = this.soundOn;
+    cc.RedT.setSoundGame(true);
+  }
+
+  private setSoundGameOff() {
+    this.sound.spriteFrame = this.soundOff;
+    cc.RedT.setSoundGame(false);
   }
 }
