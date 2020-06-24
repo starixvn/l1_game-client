@@ -4,6 +4,7 @@ import KenoRoundResult from "../../../keno-pro/view-models/history/KenoRoundResu
 import MiniKeno from "../MiniKeno";
 import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
 import * as moment from "moment";
+import { zeroPad } from "../../../../common/helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,7 +26,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
 
         if (roundId && roundTime) {
             this.roundInfo.active = true;
-            this.roundId.string = "Kỳ vé: " + roundId
+            this.roundId.string = `Kỳ vé: #${zeroPad(roundId, 7)}`;
             this.roundTime.string = "Thời gian: " + moment(roundTime).format(MiniKenoProViet.DATETIME_FORMAT)
         }
         else {
