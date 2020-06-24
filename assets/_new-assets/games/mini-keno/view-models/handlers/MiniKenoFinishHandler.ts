@@ -5,7 +5,7 @@ import MiniKenoStatusHandler from "./MiniKenoStatusHandler";
 
 export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: MiniKeno) {
-        super(main, 5);
+        super(main, main.isMiniKeno ? 2 : 4);
     }
 
     handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {

@@ -78,11 +78,13 @@ export default class MiniKeno extends GameMiniBase {
     public kenoTimer: MiniKenoTimer;
     public lastBetInfo: BetInfo = null;
     public statusCallback = (gameName: number, roundId: number, winAmount: number) => { }
+    public isMiniKeno: boolean;
 
     onLoad() {
         this.gameName = `keno${KenoType[this.kenoType]}`;
         this.config = new MiniKenoConfig(this.kenoType);
         this.kenoName.string = KenoUtils.getKenoName(this.kenoType);
+        this.isMiniKeno = this.kenoType == KenoType.Mini || this.kenoType == KenoType.Mini2;
 
         this.initComponents();
         this.initHeaderBackground();
@@ -249,17 +251,16 @@ export default class MiniKeno extends GameMiniBase {
     }
 
     protected initRoundResult() {
-        const isMini = this.kenoType == KenoType.Mini || this.kenoType == KenoType.Mini2;
         this.betItems.forEach(item => {
             const miniKenoBetItem = item as MiniKenoBetItem;
-            const rule = KenoUtils.getKenoRuleChoice(item.node.name, isMini);
+            const rule = KenoUtils.getKenoRuleChoice(item.node.name, this.isMiniKeno);
             miniKenoBetItem.setRule(rule);
         });
 
         const roundResultNode = cc.instantiate(this.roundResultPrefab);
         this.roundResult = roundResultNode.getComponent(MiniKenoRoundResult);
         this.roundResultContainer.addChild(roundResultNode);
-        this.roundResult.init(isMini);
+        this.roundResult.init(this.isMiniKeno);
     }
 
     protected initBetBoard() {
