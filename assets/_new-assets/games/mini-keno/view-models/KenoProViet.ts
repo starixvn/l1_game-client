@@ -67,7 +67,6 @@ export default class KenoProViet extends cc.Component {
     private pageIndicatorDots: KenoPageIndicatorItem[] = [];
     private miniPanel: MiniPanel;
     private statusQueue: any[] = [];
-    private showingStatus: boolean = false;
 
     init(miniPanel: MiniPanel) {
         this.miniPanel = miniPanel;
@@ -93,7 +92,11 @@ export default class KenoProViet extends cc.Component {
             keno.favourite.isChecked = index < this.favouriteGames.length;
             keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
             keno.getPreset = () => this.presetBetValue;
-            keno.statusCallback = (a, b, c) => { this.statusQueue.unshift({ type: a, round: b, win: c }) };
+            keno.statusCallback = (a, b, c) => {
+                if (a !== this.sortedGames[this.selectedIndex] && a !== this.sortedGames[this.selectedIndex + 1]) {
+                    this.statusQueue.unshift({ type: a, round: b, win: c })
+                }
+            };
             this.content.addChild(node);
             this.miniKenos.push(keno);
         });
@@ -116,21 +119,6 @@ export default class KenoProViet extends cc.Component {
         if (this.statusBanner.isShowing || this.statusQueue.length === 0) {
             return;
         }
-
-        // this.showingStatus = true;
-        // const status = this.statusQueue.pop();
-        // this.statusBanner.node.position = cc.v2(0, 0);
-        // this.statusBanner.node.opacity = 255;
-        // this.statusBanner.node.active = true;
-        // this.statusBanner.gameName.string = KenoUtils.getKenoName(status.type);
-        // this.statusBanner.roundId.string = `#${status.round}:`
-        // this.statusBanner.winAmount.string = `+${helper.numberWithCommas(status.win)}`;
-        // this.statusBanner.node.runAction(cc.sequence(
-        //     cc.moveBy(1.5, cc.v2(0, 50)),
-        //     cc.delayTime(1),
-        //     cc.fadeOut(0.3),
-        //     cc.callFunc(() => this.showingStatus = false),
-        // ))
 
         const status = this.statusQueue.pop();
         const { type, round, win } = status;
