@@ -2,6 +2,7 @@ import MiniKeno from "../MiniKeno";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper";
 import MiniKenoStatusHandler from "./MiniKenoStatusHandler";
+import TypingEffectLabel from "../../../../common/TypingEffectLabel";
 
 export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: MiniKeno) {
@@ -13,14 +14,12 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.handleResult(onFinishHanlingData);
-        this.main.stopBetWarning.active = false;
     }
 
     protected handleResult(onFinishHanlingData: () => void) {
         if (cc.RedT.GAME_IS_SHOWED) {
             this.main.node.runAction(cc.sequence(
                 cc.callFunc(() => {
-                    this.main.stopBetWarning.active = false;
                     this.playResultAnimation();
                 }),
                 cc.delayTime(this.playResultAnimationTime),
@@ -30,6 +29,10 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     }
 
     private playResultAnimation() {
+        const typingEffect = this.main.stopBetWarning.children[0].getComponent(TypingEffectLabel);
+        if (typingEffect) {
+            typingEffect.setAnimationText("Đang xổ kết quả ...");
+        }
         var resultNumbers = this.main.currentDataLogs[0].result;
         this.main.roundResult.setData(resultNumbers, this.main.currentDataLogs[0].settlementResult);
         this.main.roundResult.show(true, this.playResultAnimationTime, () => {
@@ -39,6 +42,11 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
 
     showResult() {
         this.main.updateRoundHistory();
+        this.main.stopBetWarning.active = false;
+        const typingEffect = this.main.stopBetWarning.children[0].getComponent(TypingEffectLabel);
+        if (typingEffect) {
+            typingEffect.setText("Dừng nhận cược");
+        }
 
         const statusData = this.main.statusHandler.currentStatusData;
         if (statusData) {

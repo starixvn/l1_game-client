@@ -14,7 +14,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-        this.main.stopBetWarning.active = false;
+        // this.main.stopBetWarning.active = false;
     }
 
     handleStartingNewGameRound() {
