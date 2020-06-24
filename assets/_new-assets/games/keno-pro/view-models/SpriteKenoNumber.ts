@@ -32,10 +32,8 @@ export default class SpriteKenoNumber extends KenoNumber {
 
     runNumberAnimation() {
         this.node.scale = 0.5;
-        this.node.opacity = 0;
-        this.node.runAction(cc.spawn(
+        this.node.runAction(
             cc.scaleTo(0.2, 1).easing(cc.easeBackOut()),
-            cc.fadeIn(0.2)
-        ));
+        );
     }
 }

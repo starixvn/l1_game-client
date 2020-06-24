@@ -14,13 +14,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-        // this.main.stopBetWarning.active = false;
-    }
-
-    handleStartingNewGameRound() {
-        super.handleStartingNewGameRound();
-
-        // this.main.slideTransition(this.main.node, "right", 0.7)
+        this.resetAnimatedTime();
     }
 
     handleInLockBetTime() {
@@ -29,5 +23,15 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         this.main.roundResult.clear();
         this.main.betItems.forEach(item => item.setHighlight(false));
         this.main.betBoard.close();
+    }
+
+    resetTime(): void {
+        super.resetTime();
+        this.resetAnimatedTime();
+    }
+
+    private resetAnimatedTime() {
+        this.main.animatedTime && (this.main.animatedTime.node.active = true);
+        this.main.animatedTime.resetTime();
     }
 }
