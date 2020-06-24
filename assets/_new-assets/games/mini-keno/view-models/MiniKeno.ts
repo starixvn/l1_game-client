@@ -93,6 +93,11 @@ export default class MiniKeno extends GameMiniBase {
         super.onLoad();
     }
 
+    onDisable() {
+        // do not stop game when disable
+        this.resetDataAndUI();
+    }
+
     initHeaderBackground() {
         if (!this.headerBg) {
             return;

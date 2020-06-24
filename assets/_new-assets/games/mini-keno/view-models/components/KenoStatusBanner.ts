@@ -22,11 +22,15 @@ export default class KenoStatusBanner extends cc.Component {
     }
 
     onLoad() {
-        this.animation.on("finished", () => { this.isShowing = false; }, this);
+        this.animation.on("finished", () => {
+            this.isShowing = false;
+            this.node.active = false;
+        }, this);
     }
 
     show() {
         this.isShowing = true;
+        this.node.active = true;
         this.animation.play();
     }
 }
