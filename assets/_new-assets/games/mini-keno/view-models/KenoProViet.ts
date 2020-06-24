@@ -5,7 +5,7 @@ import MiniKenoPresetBet from "./MiniKenoPresetBet";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import KenoPageIndicatorItem from "./KenoPageIndicatorItem";
-import KenoStatusBanner from "./KenoStatusBanner";
+import KenoStatusBanner from "./components/KenoStatusBanner";
 import KenoUtils from "./KenoUtils";
 import * as helper from "../../../common/helpers/Helper";
 
@@ -113,24 +113,29 @@ export default class KenoProViet extends cc.Component {
     }
 
     updateStatusBanner() {
-        if (this.showingStatus || this.statusQueue.length === 0) {
+        if (this.statusBanner.isShowing || this.statusQueue.length === 0) {
             return;
         }
 
-        this.showingStatus = true;
+        // this.showingStatus = true;
+        // const status = this.statusQueue.pop();
+        // this.statusBanner.node.position = cc.v2(0, 0);
+        // this.statusBanner.node.opacity = 255;
+        // this.statusBanner.node.active = true;
+        // this.statusBanner.gameName.string = KenoUtils.getKenoName(status.type);
+        // this.statusBanner.roundId.string = `#${status.round}:`
+        // this.statusBanner.winAmount.string = `+${helper.numberWithCommas(status.win)}`;
+        // this.statusBanner.node.runAction(cc.sequence(
+        //     cc.moveBy(1.5, cc.v2(0, 50)),
+        //     cc.delayTime(1),
+        //     cc.fadeOut(0.3),
+        //     cc.callFunc(() => this.showingStatus = false),
+        // ))
+
         const status = this.statusQueue.pop();
-        this.statusBanner.node.position = cc.v2(0, 0);
-        this.statusBanner.node.opacity = 255;
-        this.statusBanner.node.active = true;
-        this.statusBanner.gameName.string = KenoUtils.getKenoName(status.type);
-        this.statusBanner.roundId.string = `#${status.round}:`
-        this.statusBanner.winAmount.string = `+${helper.numberWithCommas(status.win)}`;
-        this.statusBanner.node.runAction(cc.sequence(
-            cc.moveBy(1.5, cc.v2(0, 50)),
-            cc.delayTime(1),
-            cc.fadeOut(0.3),
-            cc.callFunc(() => this.showingStatus = false),
-        ))
+        const { type, round, win } = status;
+        this.statusBanner.init(KenoUtils.getKenoName(type), round, win);
+        this.statusBanner.show();
     }
 
     private saveFavourites() {
