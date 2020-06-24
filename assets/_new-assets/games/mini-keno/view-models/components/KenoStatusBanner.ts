@@ -16,6 +16,9 @@ export default class KenoStatusBanner extends cc.Component {
     @property(cc.Animation)
     animation: cc.Animation = null;
 
+    @property(cc.AudioSource)
+    animationSound: cc.AudioSource = null;
+
     public isShowing = false;
 
     init(gameName, roundId, winAmount) {
@@ -35,6 +38,7 @@ export default class KenoStatusBanner extends cc.Component {
     show() {
         this.isShowing = true;
         this.node.active = true;
+        cc.RedT.isSoundGame() && this.animationSound.play();
         this.animation.play();
     }
 }
