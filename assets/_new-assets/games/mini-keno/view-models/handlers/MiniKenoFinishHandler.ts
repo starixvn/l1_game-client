@@ -1,6 +1,5 @@
 import MiniKeno from "../MiniKeno";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
-import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper";
 import MiniKenoStatusHandler from "./MiniKenoStatusHandler";
 import TypingEffectLabel from "../../../../common/TypingEffectLabel";
 
@@ -31,8 +30,13 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     private playResultAnimation() {
         const typingEffect = this.main.stopBetWarning.children[0].getComponent(TypingEffectLabel);
         if (typingEffect) {
-            typingEffect.setAnimationText("Đang xổ kết quả ...");
+            typingEffect.setText("Đang xổ kết quả ...");
         }
+        cc.tween({})
+            .delay(1)
+            .call(() => { this.main.stopBetWarning.active = false; })
+            .start();
+
         var resultNumbers = this.main.currentDataLogs[0].result;
         this.main.roundResult.setData(resultNumbers, this.main.currentDataLogs[0].settlementResult);
         this.main.roundResult.show(true, this.playResultAnimationTime, () => {
@@ -61,12 +65,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         if (this.main.currentDataLogs.length > 0) {
             this.main.roundResult.setData(this.main.currentDataLogs[0].result, this.main.currentDataLogs[0].settlementResult);
             this.main.roundResult.show(false);
-            this.highlightWonItem(this.main.currentDataLogs[0].settlementResult);
+            this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false);
         }
-    }
-
-    highlightWonItem(results: any = null, isAnimated = true) {
-        const keys = getLowercaseObjectKeys(results);
-        this.main.betItems.forEach(item => item.setHighlight(results[keys[item.node.name.toLowerCase()]], isAnimated));
     }
 }

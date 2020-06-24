@@ -13,6 +13,7 @@ import MiniKenoBetItems from "./components/MiniKenoBetItems";
 import MiniKenoTimer from "./components/MiniKenoTimer";
 import MiniKenoRoundResult from "./components/MiniKenoRoundResult";
 import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
+import { getLowercaseObjectKeys } from "../../../common/helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -265,7 +266,7 @@ export default class MiniKeno extends GameMiniBase {
         const roundResultNode = cc.instantiate(this.roundResultPrefab);
         this.roundResult = roundResultNode.getComponent(MiniKenoRoundResult);
         this.roundResultContainer.addChild(roundResultNode);
-        this.roundResult.init(this.isMiniKeno);
+        this.roundResult.init(this);
     }
 
     protected initBetBoard() {
@@ -292,5 +293,11 @@ export default class MiniKeno extends GameMiniBase {
         this.timer.addChild(this.kenoTimer.node);
     }
 
-
+    public highlightWonItem(results: any = null, isAnimated = true) {
+        const keys = getLowercaseObjectKeys(results);
+        this.betItems.forEach(item => {
+            const miniKenoBetItem = item as MiniKenoBetItem;
+            miniKenoBetItem.setHighlight(results[keys[item.node.name.toLowerCase()]], isAnimated);
+        });
+    }
 }

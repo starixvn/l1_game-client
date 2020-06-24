@@ -21,7 +21,7 @@ export default class MiniKenoBetItem extends BetItem {
 
     public setHighlight(highlight: boolean, isAnimated = true) {
         super.setHighlight(highlight, isAnimated);
-        this.choice.color = highlight ? this.highlightColor : this.normalColor;
+        this.choice.color = highlight && !isAnimated ? this.highlightColor : this.normalColor;
     }
 
     public setRule(value: string) {

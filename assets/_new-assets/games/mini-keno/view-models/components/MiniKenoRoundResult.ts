@@ -1,20 +1,21 @@
 import * as _ from "lodash";
 import KenoUtils from "../KenoUtils";
 import KenoRoundResult from "../../../keno-pro/view-models/history/KenoRoundResult";
+import MiniKeno from "../MiniKeno";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniKenoRoundResult extends KenoRoundResult {
-    private isMini = false;
+    private miniKeno: MiniKeno;
 
-    init(isMini: boolean) {
-        this.isMini = isMini;
+    init(miniKeno: MiniKeno) {
+        this.miniKeno = miniKeno;;
     }
 
     clear() {
         this.kenoNumbers.forEach((number, index) => {
-            if (this.isMini && index >= 10) {
+            if (this.miniKeno.isMiniKeno && index >= 10) {
                 return;
             }
 
@@ -77,5 +78,10 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
             this.total.string = total.toString();
             this.showSettleResult(this.settlementResult);
         }
+    }
+
+    protected showSettleResult(settlementResult: any) {
+        super.showSettleResult(settlementResult);
+        this.miniKeno.highlightWonItem(settlementResult, true);
     }
 }

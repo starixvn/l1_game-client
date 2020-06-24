@@ -22,7 +22,7 @@ export default class MiniKenoLogsHandler extends GameBaseLogsHandler {
         }
         else {
             const lastLog = dataLogs[0];
-            finishHandler.highlightWonItem(lastLog.settlementResult, false);
+            this.main.highlightWonItem(lastLog.settlementResult, false);
             this.main.roundResult.setData(lastLog.result, lastLog.settlementResult);
             this.main.roundResult.show(false);
         }
