@@ -1582,7 +1582,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 160,
+      "width": 152.3,
       "height": 25
     },
     "_anchorPoint": {
@@ -1594,7 +1594,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -96.583,
+        -96.6,
         0,
         0,
         0,
@@ -1662,7 +1662,7 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 8,
-    "_left": 8.417000000000002,
+    "_left": 8.400000000000006,
     "_right": 101.58299999999997,
     "_top": 0,
     "_bottom": 0,
@@ -4411,8 +4411,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 114.23,
-      "height": 28
+      "width": 80.93,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4423,7 +4423,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        267.56,
+        266.052,
         0,
         0,
         0,
@@ -4450,7 +4450,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "maxBet",
+    "_name": "minBet",
     "_objFlags": 0,
     "_parent": {
       "__id__": 112
@@ -4475,19 +4475,19 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 59.6,
-      "height": 25
+      "width": 8.8,
+      "height": 22
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": 1,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -59.6,
+        -72.13000000000001,
         0,
         0,
         0,
@@ -4526,8 +4526,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "1,000",
-    "_N$string": "1,000",
+    "_string": "1",
+    "_N$string": "1",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -4540,7 +4540,7 @@
     "_N$horizontalAlign": 2,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -4552,7 +4552,7 @@
     "asset": {
       "__uuid__": "3c05c79b-4ab9-494e-bbf1-69aef374d486"
     },
-    "fileId": "ac4Ge8NOtMl5blWqy4m96R",
+    "fileId": "b9KjGm16RI/KK7fQaZ7hp7",
     "sync": false
   },
   {
@@ -4594,7 +4594,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -63.265,
+        -62.465,
         0,
         0,
         0,
@@ -4662,7 +4662,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "minBet",
+    "_name": "maxBet",
     "_objFlags": 0,
     "_parent": {
       "__id__": 112
@@ -4687,8 +4687,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 47.3,
-      "height": 25
+      "width": 52.8,
+      "height": 22
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4699,7 +4699,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -114.23,
+        -52.800000000000004,
         0,
         0,
         0,
@@ -4738,8 +4738,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "10",
-    "_N$string": "10",
+    "_string": "1,000",
+    "_N$string": "1,000",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -4749,10 +4749,10 @@
     "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
-    "_N$horizontalAlign": 1,
+    "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -4764,7 +4764,7 @@
     "asset": {
       "__uuid__": "3c05c79b-4ab9-494e-bbf1-69aef374d486"
     },
-    "fileId": "b9KjGm16RI/KK7fQaZ7hp7",
+    "fileId": "ac4Ge8NOtMl5blWqy4m96R",
     "sync": false
   },
   {
@@ -4777,8 +4777,8 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 114.23,
-      "height": 28
+      "width": 80.93,
+      "height": 50.4
     },
     "_resize": 1,
     "_N$layoutType": 1,
@@ -4793,10 +4793,10 @@
     "_N$paddingRight": 0,
     "_N$paddingTop": 0,
     "_N$paddingBottom": 0,
-    "_N$spacingX": 0,
+    "_N$spacingX": 6,
     "_N$spacingY": 0,
     "_N$verticalDirection": 1,
-    "_N$horizontalDirection": 1,
+    "_N$horizontalDirection": 0,
     "_N$affectedByScale": false,
     "_id": ""
   },
@@ -5209,10 +5209,10 @@
       "__id__": 105
     },
     "minBet": {
-      "__id__": 120
+      "__id__": 114
     },
     "maxBet": {
-      "__id__": 114
+      "__id__": 120
     },
     "betValue": {
       "__id__": 38
