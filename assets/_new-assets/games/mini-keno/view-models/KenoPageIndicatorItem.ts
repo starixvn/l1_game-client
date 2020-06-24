@@ -65,9 +65,12 @@ export default class KenoPageIndicatorItem extends cc.Component {
     receivedData(data) {
         const dataGame = data[this.miniKeno.gameName];
         if (dataGame) {
-            if (dataGame.um || dataGame.remainingTime) {
-                this.currentTimeRemaining = dataGame.remainingTime || 0;
+            if (dataGame.remainingTime) {
+                this.currentTimeRemaining = dataGame.remainingTime;
                 this.playTime();
+            } else if (dataGame.um && this.miniKeno.kenoType !== KenoType.ProViet) {
+                this.currentTimeRemaining = this.miniKeno.config.betTime;
+                this.updateImage();
             }
         }
     }
