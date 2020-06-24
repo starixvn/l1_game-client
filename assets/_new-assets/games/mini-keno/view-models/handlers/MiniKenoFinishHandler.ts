@@ -18,13 +18,13 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
 
     protected handleResult(onFinishHanlingData: () => void) {
         if (cc.RedT.GAME_IS_SHOWED) {
-            this.main.node.runAction(cc.sequence(
-                cc.callFunc(() => {
+            cc.tween({})
+                .call(() => {
                     this.playResultAnimation();
-                }),
-                cc.delayTime(this.playResultAnimationTime),
-                cc.callFunc(() => onFinishHanlingData())
-            ));
+                })
+                .delay(this.playResultAnimationTime)
+                .call(() => onFinishHanlingData())
+                .start();
         }
     }
 
@@ -53,7 +53,9 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         if (statusData) {
             const miniStatuHander = this.main.statusHandler as MiniKenoStatusHandler;
             miniStatuHander.showStatus(statusData.win, statusData.bet);
-            this.main.statusCallback(this.main.kenoType, this.main.roundId - 1, statusData.bet);
+            if (statusData.win) {
+                this.main.statusCallback(this.main.kenoType, this.main.roundId - 1, statusData.bet);
+            }
         }
 
         if (this.main.currentDataLogs.length > 0) {
