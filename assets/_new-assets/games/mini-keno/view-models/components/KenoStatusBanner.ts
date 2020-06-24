@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import * as helper from "../../../common/helpers/Helper";
+import * as helper from "../../../../common/helpers/Helper.js";
 
 @ccclass
 export default class KenoStatusBanner extends cc.Component {
