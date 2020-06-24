@@ -25,6 +25,11 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         this.main.betBoard.close();
     }
 
+    handleInEndTime() {
+        super.handleInEndTime();
+        this.resetAnimatedTime();
+    }
+
     resetTime(): void {
         super.resetTime();
         this.resetAnimatedTime();

@@ -8,6 +8,7 @@ import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
 import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
 import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
+import * as config from '../../../Configs.js';
 
 const { ccclass, property } = cc._decorator;
 
@@ -54,6 +55,11 @@ export default class MiniKenoProViet extends MiniKeno {
         this.finishHandler = new MiniKenoProVietFinishHandler(this);
         this.roundsHandler = new MiniKenoProVietRoundsHandler(this);
         this.timeHandler = new MiniKenoProVietTimeHandler(this);
+    }
+
+    onClickTitle() {
+        window.open(config.kenoVietLotUrl, '_blank');
+        window.focus();
     }
 
     showGameRoundsDialog() {
