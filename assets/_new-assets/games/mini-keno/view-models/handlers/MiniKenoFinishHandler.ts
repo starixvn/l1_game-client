@@ -65,7 +65,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         if (this.main.currentDataLogs.length > 0) {
             this.main.roundResult.setData(this.main.currentDataLogs[0].result, this.main.currentDataLogs[0].settlementResult);
             this.main.roundResult.show(false);
-            this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false);
+            this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
         }
     }
 }
