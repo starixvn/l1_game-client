@@ -8,6 +8,9 @@ export default class KenoStatusBanner extends cc.Component {
     gameName: cc.Label = null;
 
     @property(cc.Label)
+    roundId: cc.Label = null;
+
+    @property(cc.Label)
     winAmount: cc.Label = null;
 
     @property(cc.Animation)
@@ -16,7 +19,8 @@ export default class KenoStatusBanner extends cc.Component {
     public isShowing = false;
 
     init(gameName, roundId, winAmount) {
-        this.gameName.string = `${gameName} (#${roundId})`;
+        this.gameName.string = `${gameName}`;
+        this.roundId.string = `#${roundId}`;
         this.winAmount.string = `+${helper.numberWithCommas(winAmount)}`;
 
     }
