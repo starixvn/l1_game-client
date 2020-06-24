@@ -16,8 +16,6 @@ export default class GameBaseStatusHandler implements IGameBaseStatusHandler {
     private timeout: number;
 
     handle(data: any): boolean {
-        console.log(this.main.gameName);
-
         if (data.status) {
             this.currentStatusData = data.status;
             this.status(this.currentStatusData.win, this.currentStatusData.bet);

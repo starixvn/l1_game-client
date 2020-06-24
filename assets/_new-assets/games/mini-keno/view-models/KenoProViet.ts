@@ -93,7 +93,6 @@ export default class KenoProViet extends cc.Component {
             keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
             keno.getPreset = () => this.presetBetValue;
             keno.statusCallback = (a, b, c) => {
-                console.log(a);
                 this.statusQueue.unshift({ type: a, round: b, win: c })
             };
             this.content.addChild(node);

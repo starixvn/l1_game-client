@@ -17,7 +17,6 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     }
 
     protected handleResult(onFinishHanlingData: () => void) {
-        console.log(this.main.gameName);
         if (cc.RedT.GAME_IS_SHOWED) {
             this.main.node.runAction(cc.sequence(
                 cc.callFunc(() => {
@@ -42,7 +41,6 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         this.main.updateRoundHistory();
 
         const statusData = this.main.statusHandler.currentStatusData;
-        console.log(statusData);
         if (statusData) {
             const miniStatuHander = this.main.statusHandler as MiniKenoStatusHandler;
             miniStatuHander.showStatus(statusData.win, statusData.bet);
