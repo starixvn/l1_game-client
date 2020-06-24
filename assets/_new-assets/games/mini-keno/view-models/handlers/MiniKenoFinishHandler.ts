@@ -37,14 +37,25 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
             .call(() => { this.main.stopBetWarning.active = false; })
             .start();
 
-        var resultNumbers = this.main.currentDataLogs[0].result;
-        this.main.roundResult.setData(resultNumbers, this.main.currentDataLogs[0].settlementResult);
+        const lastLog = this.main.currentDataLogs[0];
+        this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
         this.main.roundResult.show(true, this.playResultAnimationTime, () => {
-            this.showResult();
+            this.updateRoundHistoryAndShowBetStatus();
         });
     }
 
     showResult() {
+        this.updateRoundHistoryAndShowBetStatus();
+
+        if (this.main.currentDataLogs.length > 0) {
+            const lastLog = this.main.currentDataLogs[0];
+            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
+            this.main.roundResult.show(false);
+            this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
+        }
+    }
+
+    private updateRoundHistoryAndShowBetStatus() {
         this.main.updateRoundHistory();
         this.main.stopBetWarning.active = false;
         const typingEffect = this.main.stopBetWarning.children[0].getComponent(TypingEffectLabel);
@@ -60,12 +71,6 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
             if (statusData.win) {
                 this.main.statusCallback(this.main.kenoType, this.main.roundId - 1, statusData.bet);
             }
-        }
-
-        if (this.main.currentDataLogs.length > 0) {
-            this.main.roundResult.setData(this.main.currentDataLogs[0].result, this.main.currentDataLogs[0].settlementResult);
-            this.main.roundResult.show(false);
-            this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
         }
     }
 }

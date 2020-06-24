@@ -2,12 +2,36 @@ import * as _ from "lodash";
 import KenoUtils from "../KenoUtils";
 import KenoRoundResult from "../../../keno-pro/view-models/history/KenoRoundResult";
 import MiniKeno from "../MiniKeno";
+import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
+import * as moment from "moment";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniKenoRoundResult extends KenoRoundResult {
+    @property(cc.Node)
+    roundInfo: cc.Node = null;
+
+    @property(cc.Label)
+    roundId: cc.Label = null;
+
+    @property(cc.Label)
+    roundTime: cc.Label = null;
+
     private miniKeno: MiniKeno;
+
+    public setData(result: number[], settlementResult: any, roundId: number = 0, roundTime: string = null) {
+        super.setData(result, settlementResult);
+
+        if (roundId && roundTime) {
+            this.roundInfo.active = true;
+            this.roundId.string = "Kỳ vé: " + roundId
+            this.roundTime.string = "Thời gian: " + moment(roundTime).format(MiniKenoProViet.DATETIME_FORMAT)
+        }
+        else {
+            this.roundInfo.active = false;
+        }
+    }
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;;
@@ -23,6 +47,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
         });
         this.betChoices.forEach(choice => choice.setValue(""))
         this.total.string = "";
+        this.roundInfo && (this.roundInfo.active = false);
     }
 
     public show(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
