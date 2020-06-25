@@ -1,24 +1,21 @@
-import BounceInEffect from '../../animations/BounceInEffect';
+import BounceInEffect from "../../animations/BounceInEffect";
 
-cc.Class({
-	extends: BounceInEffect,
+const { ccclass, property } = cc._decorator;
 
-	properties: {
-		time: {
-			default: 0.4,
-			override: true
-		}
-	},
+@ccclass
+export default class CommonDialog extends BounceInEffect {
+	@property({ override: true })
+	time = 0.4;
 
-	closeDialog: function () {
+	closeDialog() {
 		this.node.runAction(cc.spawn(
-			cc.scaleTo(this.time, 0).easing(cc.easeBackOut()),
-			cc.fadeTo(this.time / 2, 0)));
+			cc.scaleTo(this.time, 0).easing(cc.easeBackIn()),
+			cc.fadeTo(this.time, 0)));
 
 		this.node.runAction(cc.sequence(cc.delayTime(this.time), cc.callFunc(() => {
 			this.node.active = false;
 		})));
 
 		cc.RedT.audio.playUnClick();
-	},
-});
+	}
+}

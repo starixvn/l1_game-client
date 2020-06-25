@@ -129,8 +129,4 @@ export default class MiniKenoGuide extends cc.Component {
             return void 0;
         }));
     }
-
-    closeDialog() {
-        this.node.active = false;
-    }
 }
