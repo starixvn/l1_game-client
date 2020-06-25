@@ -38,14 +38,11 @@ export default class MiniKenoProVietRoundsSelection extends cc.Component {
             return;
         }
 
-
         rounds.forEach(round => {
             const roundItemNode = cc.instantiate(this.roundItem);
             const roundItem = roundItemNode.getComponent(MiniKenoProVietRoundItem);
             roundItemNode.active = true;
-
             roundItem.setHighlight(round.id === currentRoundId);
-
             roundItem.setData(round);
 
             this.layout.addChild(roundItemNode);

@@ -152,7 +152,7 @@ export default class MiniKeno extends GameMiniBase {
         }
 
         const betInfo = { ...this.lastBetInfo };
-        betInfo.title = `${KenoUtils.getKenoName(this.kenoType)} - #${this.roundId}`;
+        betInfo.title = `${KenoUtils.getKenoName(this.kenoType)} - ${this.formatGameRound(this.roundId)}`;
         this.betBoard.show(betInfo);
     }
 
@@ -172,7 +172,7 @@ export default class MiniKeno extends GameMiniBase {
         const betChoice = e.target.name;
         const betInfo = {
             title: `${KenoUtils.getKenoName(this.kenoType)}`,
-            roundId: `#${this.roundId}`,
+            roundId: this.formatGameRound(this.roundId),
             odd: this.gameConfigs.odds[betChoice],
             choice: betChoice,
             minBet: this.gameConfigs.minbet,
@@ -227,6 +227,10 @@ export default class MiniKeno extends GameMiniBase {
 
     public updateRoundHistory() {
         this.roundHistory.setData(this.currentDataLogs);
+    }
+
+    protected formatGameRound(roundId: number) {
+        return `#${roundId}`
     }
 
     protected sendBet(betAmount, betChoice) {

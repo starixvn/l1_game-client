@@ -141,7 +141,7 @@ export default class MiniKenoProViet extends MiniKeno {
 
     public setGameRound(gameRoundId) {
         if (gameRoundId && this.rounds) {
-            const formatedRoundId = MiniKenoProViet.formatGameRound(gameRoundId);
+            const formatedRoundId = this.formatGameRound(gameRoundId);
             this.stopBetMessage.string = MiniKenoProViet.STOP_BET_MESSAGE.replace("$ROUND", formatedRoundId);
             const currentRound = this.rounds.find(round => round.id === gameRoundId);
 
@@ -151,8 +151,16 @@ export default class MiniKenoProViet extends MiniKeno {
         }
     }
 
-    public static formatGameRound(gameRoundId: any) {
-        return `#${zeroPad(gameRoundId, 7)}`;
+    public highlightWonItem(results: any = null, isAnimated = true) {
+        super.highlightWonItem(results, isAnimated && this.isIncomingGameRound);
+    }
+
+    public static formatGameRound(roundId: number) {
+        return `${zeroPad(roundId, 7)}`;
+    }
+
+    protected formatGameRound(roundId: number) {
+        return `#${MiniKenoProViet.formatGameRound(roundId)}`;
     }
 
     protected registerViewGame() {
@@ -168,9 +176,6 @@ export default class MiniKenoProViet extends MiniKeno {
         return super.isDisabledBet() && this.isIncomingGameRound;
     }
 
-    public highlightWonItem(results: any = null, isAnimated = true) {
-        super.highlightWonItem(results, isAnimated && this.isIncomingGameRound);
-    }
 
     private initGameRound(roundId: number, roundTime: Date) {
         this.resetDataAndUI();

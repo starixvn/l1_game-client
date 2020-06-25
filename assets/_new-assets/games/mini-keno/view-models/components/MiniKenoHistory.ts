@@ -6,6 +6,7 @@ import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
 import GameHistoryBase from "../../../_base/GameHistoryBase";
 import DropDownList from "../../../../common/drop-down-list/view-models/DropDownList";
 import DropDownOption from "../../../../common/drop-down-list/view-models/DropDownOption";
+import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
 
 @ccclass
 export default class MiniKenoHistory extends GameHistoryBase {
@@ -88,7 +89,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
                 item.settlementResult = settlementResult;
                 item.betLogDetails = betLogDetails;
                 item.time.string = getStringDateByTime(betLog.time);
-                item.roundId.string = phien;
+                item.roundId.string = this.gameName == this.kenoProVietGameName ? MiniKenoProViet.formatGameRound(phien) : phien;
 
                 this.betChoices.forEach(choice => {
                     item[choice].string = numberWithCommas(betLog[choice]);
