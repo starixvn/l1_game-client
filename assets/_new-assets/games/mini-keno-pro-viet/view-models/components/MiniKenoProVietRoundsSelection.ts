@@ -4,7 +4,7 @@ import MiniKenoProViet from "../MiniKenoProViet";
 const { ccclass, property } = cc._decorator;
 
 export interface MiniKenoProVietRound {
-    id: string;
+    id: number;
     time: string;
     hasBet: boolean;
 }
@@ -26,7 +26,7 @@ export default class MiniKenoProVietRoundsSelection extends cc.Component {
     selectRound(e) {
         const roundItemNode = e.target as cc.Node;
         const roundItem = roundItemNode.getComponent(MiniKenoProVietRoundItem);
-        this.main.changeRound(roundItem)
+        this.main.changeRound(roundItem.round);
         const dialog = this.node.getComponent("CommonDialog");
         dialog.closeDialog();
     }
@@ -44,7 +44,7 @@ export default class MiniKenoProVietRoundsSelection extends cc.Component {
             const roundItem = roundItemNode.getComponent(MiniKenoProVietRoundItem);
             roundItemNode.active = true;
 
-            roundItem.setHighlight(parseInt(round.id) === currentRoundId);
+            roundItem.setHighlight(round.id === currentRoundId);
 
             roundItem.setData(round);
 

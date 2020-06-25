@@ -81,6 +81,13 @@ export default class MiniKenoProViet extends MiniKeno {
         this.roundsSelection.node.active = true;
     }
 
+    selectNextRound() {
+        cc.RedT.audio.playClick();
+        const nextRoundId = this.roundId + 1;
+        const round = this.rounds.find(r => r.id === nextRoundId);
+        this.changeRound(round, 0);
+    }
+
     getGameRounds() {
         this.sendData({ "getRounds": true });
     }
@@ -95,8 +102,8 @@ export default class MiniKenoProViet extends MiniKeno {
         this.roundsSelection && (this.roundsSelection.node.active = false);
     }
 
-    changeRound(roundItem: MiniKenoProVietRoundItem) {
-        const newRoundId = parseInt(roundItem.round.id);
+    changeRound(round: MiniKenoProVietRound, delayTime: number = 0.51) {
+        const newRoundId = round.id;
 
         if (newRoundId == this.roundId) {
             return;
@@ -105,11 +112,11 @@ export default class MiniKenoProViet extends MiniKeno {
         const direction = this.roundId < newRoundId ? "right" : "left";
 
         this.node.parent.runAction(cc.sequence(
-            cc.delayTime(0.51),
+            cc.delayTime(delayTime),
             cc.callFunc(() => {
                 this.slideTransition(this.node, direction, 0.4, (tempNode) => {
                     tempNode.removeComponent(MiniKenoProViet);
-                    this.initGameRound(newRoundId, new Date(roundItem.round.time));
+                    this.initGameRound(newRoundId, new Date(round.time));
                 });
             })
         ))
@@ -166,5 +173,9 @@ export default class MiniKenoProViet extends MiniKeno {
         this.setGameRound(this.roundId);
         this.getPlayerBetsAndTimeOfRound(roundId.toString());
         this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1;
+    }
+
+    highlightWonItem(results: any = null, isAnimated = true) {
+        super.highlightWonItem(results, isAnimated && this.isIncomingGameRound);
     }
 }
