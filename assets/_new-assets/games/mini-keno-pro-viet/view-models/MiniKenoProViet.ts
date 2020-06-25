@@ -3,7 +3,6 @@ import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
 import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
 import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandler";
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
-import MiniKenoProVietRoundItem from "./components/MiniKenoProVietRoundItem";
 import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
 import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
@@ -32,14 +31,14 @@ export default class MiniKenoProViet extends MiniKeno {
     roundEndTime: Date;
     isIncomingGameRound: boolean = true;
 
-    onLoad() {
+    public onLoad() {
         super.onLoad();
         this.config = new MiniKenoProVietConfig();
         this.addHandlers(this.roundsHandler)
         this.kenoTimer.init(true);
     }
 
-    startGame() {
+    public startGame() {
         super.startGame();
 
         // Reset game round
@@ -48,7 +47,7 @@ export default class MiniKenoProViet extends MiniKeno {
         this.isIncomingGameRound = true;
     }
 
-    initHandlers() {
+    public initHandlers() {
         super.initHandlers();
 
         this.umHandler = new MiniKenoProVietUMHandler(this)
@@ -57,16 +56,16 @@ export default class MiniKenoProViet extends MiniKeno {
         this.timeHandler = new MiniKenoProVietTimeHandler(this);
     }
 
-    onClickTitle() {
+    public onClickTitle() {
         MiniKenoProViet.openVietlottUrl();
     }
 
-    static openVietlottUrl() {
+    public static openVietlottUrl() {
         window.open(config.kenoVietLotUrl, '_blank');
         window.focus();
     }
 
-    showGameRoundsDialog() {
+    public showGameRoundsDialog() {
         cc.RedT.audio.playClick();
 
         if (this.roundsSelection && this.roundsSelection.node.active) {
@@ -81,18 +80,18 @@ export default class MiniKenoProViet extends MiniKeno {
         this.roundsSelection.node.active = true;
     }
 
-    selectNextRound() {
+    public selectNextRound() {
         cc.RedT.audio.playClick();
         const nextRoundId = this.roundId + 1;
         const round = this.rounds.find(r => r.id === nextRoundId);
         this.changeRound(round, 0);
     }
 
-    getGameRounds() {
+    public getGameRounds() {
         this.sendData({ "getRounds": true });
     }
 
-    resetDataAndUI() {
+    public resetDataAndUI() {
         super.resetDataAndUI();
 
         this.stopBetWarning.active = false;
@@ -102,7 +101,7 @@ export default class MiniKenoProViet extends MiniKeno {
         this.roundsSelection && (this.roundsSelection.node.active = false);
     }
 
-    changeRound(round: MiniKenoProVietRound, delayTime: number = 0.51) {
+    public changeRound(round: MiniKenoProVietRound, delayTime: number = 0.51) {
         const newRoundId = round.id;
 
         if (newRoundId == this.roundId) {
@@ -122,11 +121,11 @@ export default class MiniKenoProViet extends MiniKeno {
         ))
     }
 
-    getPlayerBetsAndTimeOfRound(roundId: string) {
+    public getPlayerBetsAndTimeOfRound(roundId: string) {
         this.sendData({ getPlayerBets: true, roundId: roundId, get_time: true });
     }
 
-    initRoundSelectionPopup(): MiniKenoProVietRoundsSelection {
+    public initRoundSelectionPopup(): MiniKenoProVietRoundsSelection {
         if (this.roundsSelection && this.roundsSelection.node) {
             return this.roundsSelection;
         }
@@ -140,16 +139,20 @@ export default class MiniKenoProViet extends MiniKeno {
         return this.roundsSelection;
     }
 
-    setGameRound(gameRoundId) {
+    public setGameRound(gameRoundId) {
         if (gameRoundId && this.rounds) {
-            const formatedRoundId = `#${zeroPad(gameRoundId, 7)}`;
+            const formatedRoundId = MiniKenoProViet.formatGameRound(gameRoundId);
             this.stopBetMessage.string = MiniKenoProViet.STOP_BET_MESSAGE.replace("$ROUND", formatedRoundId);
             const currentRound = this.rounds.find(round => round.id === gameRoundId);
 
             if (currentRound) {
-                this.gameRound.string = `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.DATETIME_FORMAT)}`;
+                this.gameRound.string = `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)}`;
             }
         }
+    }
+
+    public static formatGameRound(gameRoundId: any) {
+        return `#${zeroPad(gameRoundId, 7)}`;
     }
 
     protected registerViewGame() {
@@ -165,6 +168,10 @@ export default class MiniKenoProViet extends MiniKeno {
         return super.isDisabledBet() && this.isIncomingGameRound;
     }
 
+    public highlightWonItem(results: any = null, isAnimated = true) {
+        super.highlightWonItem(results, isAnimated && this.isIncomingGameRound);
+    }
+
     private initGameRound(roundId: number, roundTime: Date) {
         this.resetDataAndUI();
         this.timeHandler.stopPlayTime();
@@ -173,9 +180,5 @@ export default class MiniKenoProViet extends MiniKeno {
         this.setGameRound(this.roundId);
         this.getPlayerBetsAndTimeOfRound(roundId.toString());
         this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1;
-    }
-
-    highlightWonItem(results: any = null, isAnimated = true) {
-        super.highlightWonItem(results, isAnimated && this.isIncomingGameRound);
     }
 }
