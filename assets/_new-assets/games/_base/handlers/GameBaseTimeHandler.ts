@@ -10,6 +10,7 @@ export interface IGameBaseTimeHandler extends DataHandler {
     stopPlayTime(): void;
     resetTime(): void;
     isInWaitTime: boolean;
+    isInLockBetTime: boolean;
 }
 
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
@@ -18,21 +19,26 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     constructor(protected readonly main: GameBase) {
     }
 
+    get isInLockBetTime() {
+        return this.main.currentTimeRemaining <= this.main.config.stopBetTime;
+    }
+
     get isInWaitTime() {
         return this.main.currentTimeRemaining > this.main.config.betTime;
     }
 
     handle(data: any): boolean {
-        if (data.remainingTime) {
-            this.main.currentTimeRemaining = data.remainingTime - 1;
+        if (data.remainingTime || data.remainingTime >= 0) {
+            this.setCurrentTimeRemaining(data);
             this.playTime();
             this.main.hideUmMessage();
             return true;
         }
     }
 
+
     resetTime(): void {
-        this.main.animatedTime.node.active = false;
+        this.main.animatedTime && (this.main.animatedTime.node.active = false);
         this.main.currentTimeRemaining = this.main.config.fullTime;
         this.playTime();
     }
@@ -42,9 +48,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
 
         this.playTimeInterval = setInterval(() => {
-            const isInWaitTime = this.isInWaitTime;
-
-            if (isInWaitTime) {
+            if (this.isInWaitTime) {
                 this.handleWaitTime();
             } else {
                 const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime;
@@ -64,8 +68,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
                         this.handleInLockBetTime();
                     }
                 } else {
-                    this.main.animatedTime.node.active = false;
-                    clearInterval(this.playTimeInterval);
+                    this.handleInEndTime();
                 }
             }
             this.main.currentTimeRemaining--;
@@ -77,17 +80,19 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handleWaitTime() {
-        var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - 1, 2);
-        this.main.timeWaitNode && this.main.finishShowResult && (this.main.timeWaitNode.active = true);
-        this.main.timeWaitLabel.string = numberPad(time, 2);
-        this.main.animatedTime.node.active = false;
+        if (this.main.timeWaitNode) {
+            this.main.finishShowResult && (this.main.timeWaitNode.active = true);
+            this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
+        }
+
+        this.main.animatedTime && (this.main.animatedTime.node.active = false);
         this.main.showProcessingWarning(false);
-        this.main.setGameRound(this.main.roundId);
+        this.main.setGameRound(this.main.roundId - 1);
     }
 
     handleStartingNewGameRound() {
         this.main.noticeNode.destroyAllChildren();
-        this.main.gameAudios && this.main.gameAudios.playStartGameAudio();
+        this.main.node.activeInHierarchy && this.main.gameAudios && this.main.gameAudios.playStartGameAudio();
         this.main.resetDataAndUI();
 
         var mainRoomGame = this.main as GameRoomBase;
@@ -98,12 +103,27 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handleInRoundTime() {
-        this.main.timeWaitNode.active = false;
-        var time = numberPad(this.main.currentTimeRemaining, 2);
-        this.main.animatedTime.setTime(time);
-        this.main.setGameRound(this.main.roundId + 1);
+        this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
+        const time = this.formatTime(this.main.currentTimeRemaining);
+        this.main.animatedTime && (this.main.animatedTime.setTime(time));
+        this.main.setGameRound(this.main.roundId);
     }
 
     handleInLockBetTime() {
+    }
+
+    handleInEndTime() {
+        this.main.setGameRound(this.main.roundId);
+        this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
+        this.main.animatedTime && (this.main.animatedTime.node.active = false);
+        clearInterval(this.playTimeInterval);
+    }
+
+    protected formatTime(time: number): string {
+        return numberPad(time, 2);
+    }
+
+    protected setCurrentTimeRemaining(data: any) {
+        this.main.currentTimeRemaining = data.remainingTime - 1;
     }
 }

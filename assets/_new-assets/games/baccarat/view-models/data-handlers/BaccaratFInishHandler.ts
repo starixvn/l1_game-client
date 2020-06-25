@@ -63,6 +63,5 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
 
         baccaratMain.winNoticeLabel.string = noticeText;
         winNoticeNode.active = true;
-        this.main.gameAudios.playShowResultAudio();
     }
 }

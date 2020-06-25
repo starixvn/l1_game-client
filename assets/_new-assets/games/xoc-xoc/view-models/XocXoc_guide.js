@@ -35,5 +35,11 @@ cc.Class({
                 label.string = label.string.replace(key, replaceData[key]);
             });
         });
+    },
+
+    onLoad() {
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
     }
 });

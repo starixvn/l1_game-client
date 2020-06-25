@@ -18,4 +18,29 @@ export default class GameUtils {
             )
         );
     }
+
+    public static getBetChoiceString(choice: string): string {
+        const dict = {
+            even: "CHẴN",
+            odd: "LẺ",
+            big: "TÀI",
+            small: "XỈU",
+
+            gold: "KIM",
+            wood: "MỘC",
+            water: "THỦY",
+            fire: "HỎA",
+            earth: "THỔ",
+
+            dragon: "RỒNG",
+            tiger: "HỔ",
+            tie: "HÒA"
+        };
+
+        return dict[choice];
+    }
+
+    public static capitalizeWords(str: string) {
+        return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+    }
 }

@@ -20,14 +20,7 @@ cc.Class({
         }
     },
     totallCuoc: function (cuoc) {
-        if (!!cuoc && cuoc != "0") {
-            helper.numberTo(this.totall, this.lastTotalCuoc, cuoc, 0, true);
-            //this.totall.string = helper.numberWithCommas(cuoc);
-            //helper.nFormatter(cuoc, 1);
-            this.lastTotalCuoc = cuoc;
-        } else {
-            this.totall.string = '';
-        }
+        this.totall.string = cuoc > 0 ? helper.numberWithCommas(cuoc) : '';
     },
     Select: function (x) {
         this.xSprite.node.active = x != 1;

@@ -18,15 +18,16 @@ export default class SnappedScrollView extends cc.Component {
 
     onLoad() {
         this.scroll = this.getComponent(cc.ScrollView);
-        var count = this.scroll.content.childrenCount;
-        var maxOffset = this.scroll.getMaxScrollOffset().x;
+        const count = this.scroll.content.childrenCount;
+        const contentWidth = count * this.itemSize + (count + 1) * this.spacing;
+        const maxOffset = contentWidth - this.scroll.node.width;// this.scroll.getMaxScrollOffset().x;
         for (var i = 0; i < count; i++) {
-            var offset = (this.itemSize + this.spacing) * i;
+            let offset = (this.itemSize + this.spacing) * i;
             if (offset > maxOffset) {
                 offset = maxOffset;
             }
 
-            var percent = offset / maxOffset;
+            const percent = offset / maxOffset;
             this.calculatedPercent.push(percent);
         }
     }
@@ -52,7 +53,9 @@ export default class SnappedScrollView extends cc.Component {
         var i = 0;
         for (; i < this.calculatedPercent.length; i++) {
             if (this.calculatedPercent[i] <= percent && percent <= this.calculatedPercent[i + 1]) {
-                this.minDisplayIndex = i;
+                const delta1 = percent - this.calculatedPercent[i];
+                const delta2 = this.calculatedPercent[i + 1] - percent;
+                this.minDisplayIndex = delta1 < delta2 ? i : i + 1;
             }
             if (this.calculatedPercent[i] >= 1) {
                 break;

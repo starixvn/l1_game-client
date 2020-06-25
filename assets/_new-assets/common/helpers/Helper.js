@@ -146,6 +146,23 @@ export function getStringDateByTime(t) {
   );
 }
 
+export function formatDateTime(t) {
+  var e = new Date(t),
+    i = e.getHours(),
+    o = e.getMinutes(),
+    sc = e.getSeconds(),
+    n = e.getDate(),
+    s = e.getMonth() + 1;
+  return (
+    i < 10 && (i = "0" + i),
+    o < 10 && (o = "0" + o),
+    sc < 10 && (sc = "0" + sc),
+    n < 10 && (n = "0" + n),
+    s < 10 && (s = "0" + s),
+    i + ":" + o + ":" + sc + " " + n + "/" + s + "/" + e.getFullYear()
+  );
+}
+
 export function getDateByTime(t) {
   var e = new Date(t);
   return e.getDate() + "/" + (e.getMonth() + 1) + "/" + e.getFullYear();
@@ -223,6 +240,11 @@ export function getNameCard(index) {
   return list[index];
 }
 
+export function zeroPad(num, places) {
+  var zero = places - num.toString().length + 1;
+  return Array(+(zero > 0 && zero)).join("0") + num;
+}
+
 module.exports = {
   getNameCard: getNameCard,
   shortenName: shortenName,
@@ -237,9 +259,11 @@ module.exports = {
   numberTo: numberTo,
   getStringDateByTime: getStringDateByTime,
   getStringHourByTime: getStringHourByTime,
+  formatDateTime: formatDateTime,
   numberToTime: numberToTime,
   validateEmail: validateEmail,
   addZero10: addZero10,
   formatMoneyNumber: formatMoneyNumber,
-  getLowercaseObjectKeys: getLowercaseObjectKeys
+  getLowercaseObjectKeys: getLowercaseObjectKeys,
+  zeroPad: zeroPad
 };

@@ -45,17 +45,19 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         let shakingDuration = 2;
         let shakeTimePoint = this.main.config.betTime + shakingDuration + 1;
         if (this.main.currentTimeRemaining > shakeTimePoint) {
-            this.main.setGameRound(this.main.roundId);
+            this.main.setGameRound(this.main.roundId - 1);
+
             if (!this.main.resultAnimating) {
                 this.main.showResult();
             }
+
             var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - shakingDuration - 1, 2);
             this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
             this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
         }
         else {
             this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
-            this.main.setGameRound(this.main.roundId + 1);
+            this.main.setGameRound(this.main.roundId);
 
             if (this.main.currentTimeRemaining == shakeTimePoint) {
                 this.main.dishNode.active = true;

@@ -20,7 +20,6 @@ export default class BaccaratHistory extends cc.Component {
     prefabItem: cc.Prefab = null;
 
     private root: Baccarat;
-    private cards = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 
     init(root: Baccarat) {
         this.root = root;

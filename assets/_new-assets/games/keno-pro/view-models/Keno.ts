@@ -86,10 +86,7 @@ export default class Keno extends GameRoomBase {
     //#region Private Methods
     resetDataAndUI() {
         super.resetDataAndUI();
-
         this.roundResult.node.active = false;
-        this.timeWaitNode.active = false;
-        this.animatedTime.node.active = false;
     }
 
     regEvent(show: boolean) {
@@ -116,13 +113,19 @@ export default class Keno extends GameRoomBase {
         return total;
     }
 
-    public getResults(settlementResult: any): string[] {
+    public static getResults(settlementResult: any): string[] {
         var results = [];
+
+        if (!settlementResult) {
+            return results;
+        }
+
         Object.keys(settlementResult).forEach((key, index) => {
             if (settlementResult[key]) {
                 results.push(key);
             }
         })
+
         return results;
     }
     //#endregion

@@ -14,13 +14,7 @@ export default class KenoBetItem extends BetItem {
     }
 
     protected setTotalBet(bet: number) {
-        //this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
-
-        if (bet > 0) {
-            helper.numberTo(this.totalBet, 0, bet, 0, true);
-        } else {
-            this.totalBet.string = ""
-        }
+        this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : '';
     }
 
     public setHighlight(highlight: boolean, isAnimated = true) {

@@ -132,7 +132,6 @@ export default class GameBase extends cc.Component {
     onDestroy() {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-
     }
 
     onEnable() {
@@ -197,8 +196,8 @@ export default class GameBase extends cc.Component {
         GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
     }
 
-    setGameRound(gameRound) {
-        this.gameRound.string = gameRound ? "#" + gameRound : "";
+    setGameRound(gameRoundId) {
+        this.gameRound.string = gameRoundId ? "#" + gameRoundId : "";
     }
 
     showProcessingWarning(show: boolean) {
@@ -240,8 +239,8 @@ export default class GameBase extends cc.Component {
             item.clearBet();
             item.resetHighlight();
         });
-        this.animatedTime.node.active = false;
-        this.timeWaitNode.active = false;
+        this.animatedTime && (this.animatedTime.node.active = false);
+        this.timeWaitNode && (this.timeWaitNode.active = false);
         this.statusHandler.currentStatusData = null;
     }
 

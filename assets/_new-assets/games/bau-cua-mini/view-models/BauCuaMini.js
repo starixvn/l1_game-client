@@ -183,6 +183,9 @@ cc.Class({
     this.statusTimeout && clearTimeout(this.statusTimeout);
   },
   onLoad() {
+    if (!cc.sys.isMobile) {
+      this.node.scale = 0.8;
+    }
     this.ttOffset = null;
     this.animatedTime.node.active = false;
     this.animatedTime.setRedTime(BCConstants.stopBetTime);
@@ -245,12 +248,13 @@ cc.Class({
       cc.RedT.send({
         g: {
           baucua: {
-            view: true, regOpen: true, get_odd: true
+            view: true,
+            regOpen: true,
+            get_odd: true
           }
         }
       });
-    }
-    else {
+    } else {
       cc.RedT.send({
         g: {
           baucua: {
@@ -384,13 +388,17 @@ cc.Class({
   },
   showWarningSlowBet(show) {
     if (show) {
-      if (this.processingWarning !== null) { return; }
+      if (this.processingWarning !== null) {
+        return;
+      }
       var node = cc.instantiate(this.processWarningPrefab);
       node.position = this.center.position;
       this.node.addChild(node);
       this.processingWarning = node.getComponent("ProcessingWarning");
     } else {
-      if (this.processingWarning === null) { return; }
+      if (this.processingWarning === null) {
+        return;
+      }
       this.processingWarning.close();
       this.processingWarning = null;
     }
@@ -489,7 +497,7 @@ cc.Class({
     var randomX = padding + Math.random() * (1 - 2 * padding);
     var randomY = padding + Math.random() * (1 - 2 * padding);
     var linhvatPos = this.node.convertToNodeSpaceAR(linhvatNode.parent.convertToWorldSpaceAR(linhvatNode.position));
-    linhvatPos = linhvatPos.add(cc.v2(linhvatNode.width * (- 0.5 + padding + randomX), linhvatNode.height * (-0.5 + padding + randomY)));
+    linhvatPos = linhvatPos.add(cc.v2(linhvatNode.width * (-0.5 + padding + randomX), linhvatNode.height * (-0.5 + padding + randomY)));
     cc.tween(node)
       .to(0.2, {
         position: cc.v2(linhvatPos.x, linhvatPos.y)

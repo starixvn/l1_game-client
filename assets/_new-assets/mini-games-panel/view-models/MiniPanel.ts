@@ -10,6 +10,7 @@ import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
 import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
 import Loading from '../../common/loading/view-models/Loading';
 import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
+import KenoProViet from '../../games/mini-keno/view-models/KenoProViet';
 
 @ccclass
 export default class MiniPanel extends cc.Component {
@@ -21,6 +22,9 @@ export default class MiniPanel extends cc.Component {
 
   @property(cc.Node)
   miniGames: cc.Node = null;
+
+  @property(cc.Node)
+  miniMenu: cc.Node = null;
 
   @property(cc.Node)
   dialog: cc.Node = null;
@@ -49,6 +53,15 @@ export default class MiniPanel extends cc.Component {
   @property(cc.Prefab)
   loadingPrefab: cc.Prefab = null;
 
+  @property(cc.Sprite)
+  sound: cc.Sprite = null;
+
+  @property(cc.SpriteFrame)
+  soundOn: cc.SpriteFrame = null;
+
+  @property(cc.SpriteFrame)
+  soundOff: cc.SpriteFrame = null;
+
   private isLightOn: boolean;
   private loading: Loading;
   private taiXiu: any;
@@ -59,6 +72,8 @@ export default class MiniPanel extends cc.Component {
   private rongHo: RongHo;
   private guide: any;
   private miniSedie: MiniSedie;
+  private kenoProViet: KenoProViet;
+  private popupMiniGame: any;
 
   onLoad() {
     if (void 0 === cc.RedT.util.fontCong) {
@@ -70,6 +85,9 @@ export default class MiniPanel extends cc.Component {
     this.loading = loadingNode.getComponent("Loading") as Loading;
     loadingNode.active = false;
     this.node.addChild(loadingNode);
+
+    this.popupMiniGame = this.miniMenu.getComponent("popupMinigame");
+    this.initSound();
   }
 
   onDestroy() {
@@ -87,6 +105,8 @@ export default class MiniPanel extends cc.Component {
     this.bauCua = null;
     this.miniSedie && this.miniSedie.destroy();
     this.miniSedie = null;
+    this.kenoProViet && this.kenoProViet.destroy();
+    this.kenoProViet = null;
   }
 
   onGeneralData(data: any) {
@@ -104,6 +124,10 @@ export default class MiniPanel extends cc.Component {
 
     if (data.reload) {
       this.onForceReload();
+    }
+
+    if (data.toGame) {
+      this.loadGameRoom(data.toGame);
     }
   }
 
@@ -183,6 +207,7 @@ export default class MiniPanel extends cc.Component {
     this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.onSignIn();
     this.rongHo && this.rongHo.node && this.rongHo.onSignIn();
     this.miniSedie && this.miniSedie.node && this.miniSedie.onSignIn();
+    this.kenoProViet && this.kenoProViet.node && this.kenoProViet.onSignIn();
   }
 
   onForceReload(showNotice = true) {
@@ -248,12 +273,46 @@ export default class MiniPanel extends cc.Component {
       case configs.gameIds.MiniSedie:
         this.openMiniSedie();
         break;
+      case configs.gameIds.KenoProViet:
+        this.openKenoProViet();
+        break;
       default:
         break;
     }
   }
 
+  public openGameRoom(e, name) {
+    cc.RedT.audio.playClick();
+    if (cc.RedT.IS_LOGIN) {
+      cc.RedT.inGame.loading.active = true;
+      cc.RedT.send({ g: { reg: name } });
+    } else {
+      cc.RedT.inGame.dialog.showSignIn();
+    }
+    this.popupMiniGame.hideListGame();
+  }
+
+  loadGameRoom(name) {
+    const loading = cc.RedT.inGame.loading.getComponent("Loading");
+    loading.setDefaultPercent();
+
+    cc.director.preloadScene(name,
+      (completedCount, total, item) => {
+        loading && loading.onProgress(completedCount, total, item);
+      },
+      (error, assets) => {
+        if (error) {
+          cc.RedT.inGame.loading.active = false;
+          cc.RedT.MiniPanel.onForceReload();
+        }
+        else {
+          cc.director.loadScene(name);
+        }
+      });
+  }
+
   openMiniGame(prefabPath: string, componentName: string, isAlreadyOpened: boolean, initFunc: (gameComponent) => void, showGameFunc: () => void) {
+    this.popupMiniGame.hideListGame();
     if (cc.RedT.IS_LOGIN) {
       let gameComponent: any;
 
@@ -262,7 +321,7 @@ export default class MiniPanel extends cc.Component {
         this.loading.setDefaultPercent();
 
         cc.loader.loadRes(prefabPath, (completedCount, total, item) => {
-          this.loading.onProgress(completedCount, total, item);
+          this.loading && this.loading.onProgress(completedCount, total, item);
         }, (err: Error, prefab: any) => {
           if (err || prefab === null || !this.node || !this.node.isValid) {
             this.loading.node.active = false;
@@ -292,10 +351,14 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.taiXiu = gameComponent;
         this.taiXiu.init("taixiu", this);
-      },
-      () => {
-        this.taiXiu.node.active = true;
-      });
+      }, () => this.showGame(this.taiXiu));
+  }
+
+  showGame(gameComponent) {
+    if (gameComponent) {
+      gameComponent.node.active = true;
+      this.miniGames && this.miniGames.insertChild(gameComponent.node, this.miniGames.children.length - 1)
+    }
   }
 
   openTaiXiuTurbo() {
@@ -303,10 +366,15 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.taiXiuTurbo = gameComponent;
         this.taiXiuTurbo.init("taixiu_turbo", this);
-      },
-      () => {
-        this.taiXiuTurbo.node.active = true;
-      });
+      }, () => this.showGame(this.taiXiuTurbo));
+  }
+
+  openKenoProViet() {
+    this.openMiniGame("games/keno-pro-viet/views/KenoProViet", "KenoProViet", this.kenoProViet != null && this.kenoProViet.node != null,
+      (gameComponent) => {
+        this.kenoProViet = gameComponent;
+        this.kenoProViet.init(this);
+      }, () => this.showGame(this.kenoProViet));
   }
 
   openBauCua() {
@@ -314,9 +382,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.bauCua = gameComponent;
         this.bauCua.init("baucua", this);
-      }, () => {
-        this.bauCua.node.active = true;
-      });
+      }, () => this.showGame(this.bauCua));
   }
 
   openRongHo() {
@@ -324,10 +390,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.rongHo = gameComponent;
         this.rongHo.init(this, "dragon_tiger", new RongHoConfigs());
-      },
-      () => {
-        this.rongHo.node.active = true;
-      });
+      }, () => this.showGame(this.rongHo));
   }
 
   openMiniSedie() {
@@ -335,9 +398,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.miniSedie = gameComponent;
         this.miniSedie.init("miniSedie", new MiniSedieConfigs(), this);
-      }, () => {
-        this.miniSedie.node.active = true
-      });
+      }, () => this.showGame(this.miniSedie));
   }
 
   openChanLe() {
@@ -345,9 +406,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.chanLe = gameComponent;
         this.chanLe.init(this, "chanle", new ChanLeConfigs(), "Chẵn Lẻ");
-      }, () => {
-        this.chanLe.node.active = true;
-      });
+      }, () => this.showGame(this.chanLe));
   }
 
   openChanLeTurbo() {
@@ -355,9 +414,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.chanLeTurbo = gameComponent;
         this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs(), "Chẵn lẻ siêu tốc", true);
-      }, () => {
-        this.chanLeTurbo.node.active = true;
-      });
+      }, () => this.showGame(this.chanLeTurbo));
   }
 
   openGuide(gameName: string) {
@@ -405,5 +462,24 @@ export default class MiniPanel extends cc.Component {
     }
 
     this.node.addChild(noticePrefab)
+  }
+
+  onClickSoundGame() {
+    cc.RedT.audio.playClick();
+    cc.RedT.isSoundGame() ? this.setSoundGameOff() : this.setSoundGameOn();
+  }
+
+  private initSound() {
+    cc.RedT.isSoundGame() ? this.setSoundGameOn() : this.setSoundGameOff();
+  }
+
+  private setSoundGameOn() {
+    this.sound.spriteFrame = this.soundOn;
+    cc.RedT.setSoundGame(true);
+  }
+
+  private setSoundGameOff() {
+    this.sound.spriteFrame = this.soundOff;
+    cc.RedT.setSoundGame(false);
   }
 }

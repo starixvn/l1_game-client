@@ -27,6 +27,9 @@ export default class AnimatedTime extends cc.Component {
         this.animatedYBottom = yBottom;
     }
 
+    resetTime() {
+    }
+
     public setTime(time: string, forceChangeColor = false) {
         this.node.active = true;
         var firstTimeChar = time.toString().substr(0, 1);
@@ -45,7 +48,7 @@ export default class AnimatedTime extends cc.Component {
         this.secondChar.node.color = this.firstChar.node.color;
     }
 
-    private handleBetTimeAnimation(node: cc.Node) {
+    protected handleBetTimeAnimation(node: cc.Node) {
         cc.tween(node)
             .to(0, {
                 position: cc.v2(node.position.x, this.animatedYTop),

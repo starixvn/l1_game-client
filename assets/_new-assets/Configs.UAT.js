@@ -14,7 +14,16 @@ const configs = {
         RongHo: 7,
         KenoProMax: 8,
         MiniSedie: 9,
-        Baccarat: 10
+        Baccarat: 10,
+        KenoProViet: 11,
+        KenoMax: 12,
+        KenoMax2: 13,
+        KenoMini: 14,
+        KenoMini2: 15,
+        KenoEast: 16,
+        KenoWest: 17,
+        KenoSouth: 18,
+        KenoNorth: 19,
     },
     gameNames: {
         1: "Tài Xỉu",
@@ -27,12 +36,22 @@ const configs = {
         8: "Keno Pro Max",
         9: "Xóc Đĩa Mini",
         10: "Baccarat",
+        11: "Keno Pro Viet",
+        12: "Keno Max",
+        13: "Keno Max 2",
+        14: "Keno Mini",
+        15: "Keno Mini 2",
+        16: "Keno Đông",
+        17: "Keno Tây",
+        18: "Keno Nam",
+        19: "Keno Bắc",
     },
     sentryUrl: 'https://e2d54dceaaab4ccc8e3b3b20d806d6ac@sentry.saba.vin/30',
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
-    }
+    },
+    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno"
 }
 
 module.exports = configs;

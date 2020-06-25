@@ -17,9 +17,8 @@ export default class GameBaseFinishHandler implements DataHandler {
     handle(data: any): boolean {
         if (data.finish) {
             this.main.finishShowResult = false;
-            this.main.timeHandler.resetTime();
-            this.main.gameAudios.playEndGameAudio();
-            this.main.roundId = data.finish.roundId;
+            this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
+            this.setNewGameRound(data);
 
             this.handleFinishData(
                 data.finish,
@@ -30,6 +29,11 @@ export default class GameBaseFinishHandler implements DataHandler {
         }
 
         return true;
+    }
+
+    protected setNewGameRound(data: any) {
+        this.main.timeHandler.resetTime();
+        this.main.roundId = data.finish.roundId + 1;
     }
 
     public getResultAnimationTime() {
