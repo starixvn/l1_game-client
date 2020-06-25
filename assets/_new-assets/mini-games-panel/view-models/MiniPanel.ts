@@ -351,10 +351,14 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.taiXiu = gameComponent;
         this.taiXiu.init("taixiu", this);
-      },
-      () => {
-        this.taiXiu.node.active = true;
-      });
+      }, () => this.showGame(this.taiXiu));
+  }
+
+  showGame(gameComponent) {
+    if (gameComponent) {
+      gameComponent.node.active = true;
+      this.miniGames && this.miniGames.insertChild(gameComponent.node, this.miniGames.children.length - 1)
+    }
   }
 
   openTaiXiuTurbo() {
@@ -362,10 +366,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.taiXiuTurbo = gameComponent;
         this.taiXiuTurbo.init("taixiu_turbo", this);
-      },
-      () => {
-        this.taiXiuTurbo.node.active = true;
-      });
+      }, () => this.showGame(this.taiXiuTurbo));
   }
 
   openKenoProViet() {
@@ -373,10 +374,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.kenoProViet = gameComponent;
         this.kenoProViet.init(this);
-      },
-      () => {
-        this.kenoProViet.node.active = true;
-      });
+      }, () => this.showGame(this.kenoProViet));
   }
 
   openBauCua() {
@@ -384,9 +382,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.bauCua = gameComponent;
         this.bauCua.init("baucua", this);
-      }, () => {
-        this.bauCua.node.active = true;
-      });
+      }, () => this.showGame(this.bauCua));
   }
 
   openRongHo() {
@@ -394,10 +390,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.rongHo = gameComponent;
         this.rongHo.init(this, "dragon_tiger", new RongHoConfigs());
-      },
-      () => {
-        this.rongHo.node.active = true;
-      });
+      }, () => this.showGame(this.rongHo));
   }
 
   openMiniSedie() {
@@ -405,9 +398,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.miniSedie = gameComponent;
         this.miniSedie.init("miniSedie", new MiniSedieConfigs(), this);
-      }, () => {
-        this.miniSedie.node.active = true
-      });
+      }, () => this.showGame(this.miniSedie));
   }
 
   openChanLe() {
@@ -415,9 +406,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.chanLe = gameComponent;
         this.chanLe.init(this, "chanle", new ChanLeConfigs(), "Chẵn Lẻ");
-      }, () => {
-        this.chanLe.node.active = true;
-      });
+      }, () => this.showGame(this.chanLe));
   }
 
   openChanLeTurbo() {
@@ -425,9 +414,7 @@ export default class MiniPanel extends cc.Component {
       (gameComponent) => {
         this.chanLeTurbo = gameComponent;
         this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs(), "Chẵn lẻ siêu tốc", true);
-      }, () => {
-        this.chanLeTurbo.node.active = true;
-      });
+      }, () => this.showGame(this.chanLeTurbo));
   }
 
   openGuide(gameName: string) {
