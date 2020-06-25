@@ -60,7 +60,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         this.main.stopBetWarning.active = false;
         const typingEffect = this.main.stopBetWarning.children[0].getComponent(TypingEffectLabel);
         if (typingEffect) {
-            typingEffect.setText("Dừng nhận cược");
+            typingEffect.setText("Dừng nhận cược.");
         }
 
         this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, true, true);

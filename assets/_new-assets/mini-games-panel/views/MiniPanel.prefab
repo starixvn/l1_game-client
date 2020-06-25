@@ -7853,7 +7853,7 @@
       "ctor": "Float64Array",
       "array": [
         -2,
-        20.607,
+        42,
         0,
         0,
         0,
@@ -7924,7 +7924,7 @@
     "_alignFlags": 33,
     "_left": 0,
     "_right": 45,
-    "_top": 66.393,
+    "_top": 45,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -9025,7 +9025,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1082,
+      "width": 758,
       "height": 407
     },
     "_anchorPoint": {
@@ -9545,7 +9545,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -455,
+        -293,
         111,
         0,
         0,
@@ -10407,7 +10407,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -273,
+        -101,
         111,
         0,
         0,
@@ -10838,7 +10838,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -91,
+        91,
         111,
         0,
         0,
@@ -11269,7 +11269,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        91,
+        283,
         111,
         0,
         0,
@@ -11650,7 +11650,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "chanLeTurbo",
+    "_name": "taiXiuTurbo",
     "_objFlags": 0,
     "_parent": {
       "__id__": 240
@@ -11700,8 +11700,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        273,
-        111,
+        91,
+        -84,
         0,
         0,
         0,
@@ -11727,7 +11727,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "icon_cl_turbo",
+    "_name": "icon_tx_turbo",
     "_objFlags": 0,
     "_parent": {
       "__id__": 313
@@ -11805,7 +11805,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "15aec116-2fa9-4209-b078-ca60e08ae84c"
+      "__uuid__": "3c4aceff-33f5-47d0-8399-0d244ea4f1ae"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -11831,7 +11831,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "92y1IeLNRMZ5zBAkOZ2nWk",
+    "fileId": "9bq3+FDoVN7bQza8dH8hmK",
     "sync": false
   },
   {
@@ -11861,7 +11861,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 128,
+      "width": 128.57,
       "height": 22.86
     },
     "_anchorPoint": {
@@ -11912,8 +11912,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "C/L SIÊU TỐC",
-    "_N$string": "C/L SIÊU TỐC",
+    "_string": "T/X SIÊU TỐC",
+    "_N$string": "T/X SIÊU TỐC",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -11938,7 +11938,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "0ag7FNcolJLbmgHiPRtLhw",
+    "fileId": "885QfwG2pE0bbqHKkRjnC+",
     "sync": false
   },
   {
@@ -12020,7 +12020,7 @@
     },
     "component": "",
     "_componentId": "b59d1ZUwFBL1ppz0y5pVzTX",
-    "handler": "openChanLeTurbo",
+    "handler": "openTaiXiuTurbo",
     "customEventData": "1"
   },
   {
@@ -12076,12 +12076,12 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "b6IbS4fulDt5ll0vh7h7uK",
+    "fileId": "6dtyk22oVD545wbK54e/xJ",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "chanle",
+    "_name": "taiXiu",
     "_objFlags": 0,
     "_parent": {
       "__id__": 240
@@ -12131,8 +12131,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        455,
-        111,
+        283,
+        -84,
         0,
         0,
         0,
@@ -12158,7 +12158,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "icon_chanle",
+    "_name": "icon_taixiu",
     "_objFlags": 0,
     "_parent": {
       "__id__": 325
@@ -12236,7 +12236,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "d0ef32f5-d4d2-40c8-82c5-900da45d9e3f"
+      "__uuid__": "0c59c251-82fc-435d-8dc7-ff0ed5fbdbae"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -12248,7 +12248,7 @@
     },
     "_fillStart": 0,
     "_fillRange": 0,
-    "_isTrimmedMode": true,
+    "_isTrimmedMode": false,
     "_atlas": {
       "__uuid__": "14420fd9-d0bd-448b-b0db-761037c17603"
     },
@@ -12262,7 +12262,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "80vrW8Y+lPwKhzLxzx99PJ",
+    "fileId": "25XHBMC3hItq3Otcw/gwfP",
     "sync": false
   },
   {
@@ -12292,7 +12292,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 83.43,
+      "width": 70.29,
       "height": 22.86
     },
     "_anchorPoint": {
@@ -12343,8 +12343,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "CHẴN LẺ",
-    "_N$string": "CHẴN LẺ",
+    "_string": "TÀI XỈU",
+    "_N$string": "TÀI XỈU",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -12369,7 +12369,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "afUlzgMi9AWKYNoUlKsJhH",
+    "fileId": "82z5wh04lKVrqLk6tdfMej",
     "sync": false
   },
   {
@@ -12451,7 +12451,7 @@
     },
     "component": "",
     "_componentId": "b59d1ZUwFBL1ppz0y5pVzTX",
-    "handler": "openChanLe",
+    "handler": "openTaiXiu",
     "customEventData": "1"
   },
   {
@@ -12507,12 +12507,12 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "46pvHz1v9I6qlQGJg0hKpV",
+    "fileId": "022evzJfhAl4Qq6nxX7QxX",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "baccarat",
+    "_name": "chanLeTurbo",
     "_objFlags": 0,
     "_parent": {
       "__id__": 240
@@ -12525,7 +12525,7 @@
         "__id__": 341
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 344
@@ -12562,7 +12562,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -273,
+        -293,
         -84,
         0,
         0,
@@ -12589,7 +12589,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "icon_baccarat",
+    "_name": "icon_cl_turbo",
     "_objFlags": 0,
     "_parent": {
       "__id__": 337
@@ -12667,7 +12667,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "0b459584-b780-4af1-bd44-46a567072210"
+      "__uuid__": "15aec116-2fa9-4209-b078-ca60e08ae84c"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -12693,7 +12693,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "fa1O+nOAxNqKOAy4mj6vR4",
+    "fileId": "92y1IeLNRMZ5zBAkOZ2nWk",
     "sync": false
   },
   {
@@ -12723,7 +12723,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150.86,
+      "width": 128,
       "height": 22.86
     },
     "_anchorPoint": {
@@ -12774,8 +12774,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "CÀO BACCARAT",
-    "_N$string": "CÀO BACCARAT",
+    "_string": "C/L SIÊU TỐC",
+    "_N$string": "C/L SIÊU TỐC",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -12800,7 +12800,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "89pLUJcDxA1aS1sIyQer1V",
+    "fileId": "0ag7FNcolJLbmgHiPRtLhw",
     "sync": false
   },
   {
@@ -12882,8 +12882,8 @@
     },
     "component": "",
     "_componentId": "b59d1ZUwFBL1ppz0y5pVzTX",
-    "handler": "openGameRoom",
-    "customEventData": "baccarat"
+    "handler": "openChanLeTurbo",
+    "customEventData": "1"
   },
   {
     "__type__": "d8e56/FW3FDTab9UduKTQcx",
@@ -12938,12 +12938,12 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "84hZHSyfxAYZ//cFY0/IxS",
+    "fileId": "b6IbS4fulDt5ll0vh7h7uK",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "taiXiuTurbo",
+    "_name": "chanle",
     "_objFlags": 0,
     "_parent": {
       "__id__": 240
@@ -12993,7 +12993,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -455,
+        -101,
         -84,
         0,
         0,
@@ -13020,7 +13020,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "icon_tx_turbo",
+    "_name": "icon_chanle",
     "_objFlags": 0,
     "_parent": {
       "__id__": 349
@@ -13098,7 +13098,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "3c4aceff-33f5-47d0-8399-0d244ea4f1ae"
+      "__uuid__": "d0ef32f5-d4d2-40c8-82c5-900da45d9e3f"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -13124,7 +13124,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "9bq3+FDoVN7bQza8dH8hmK",
+    "fileId": "80vrW8Y+lPwKhzLxzx99PJ",
     "sync": false
   },
   {
@@ -13154,7 +13154,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 128.57,
+      "width": 83.43,
       "height": 22.86
     },
     "_anchorPoint": {
@@ -13205,8 +13205,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "T/X SIÊU TỐC",
-    "_N$string": "T/X SIÊU TỐC",
+    "_string": "CHẴN LẺ",
+    "_N$string": "CHẴN LẺ",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -13231,7 +13231,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "885QfwG2pE0bbqHKkRjnC+",
+    "fileId": "afUlzgMi9AWKYNoUlKsJhH",
     "sync": false
   },
   {
@@ -13313,7 +13313,7 @@
     },
     "component": "",
     "_componentId": "b59d1ZUwFBL1ppz0y5pVzTX",
-    "handler": "openTaiXiuTurbo",
+    "handler": "openChanLe",
     "customEventData": "1"
   },
   {
@@ -13369,12 +13369,12 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "6dtyk22oVD545wbK54e/xJ",
+    "fileId": "46pvHz1v9I6qlQGJg0hKpV",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "taiXiu",
+    "_name": "baccarat",
     "_objFlags": 0,
     "_parent": {
       "__id__": 240
@@ -13387,7 +13387,7 @@
         "__id__": 365
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 368
@@ -13451,7 +13451,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "icon_taixiu",
+    "_name": "icon_baccarat",
     "_objFlags": 0,
     "_parent": {
       "__id__": 361
@@ -13529,7 +13529,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "0c59c251-82fc-435d-8dc7-ff0ed5fbdbae"
+      "__uuid__": "0b459584-b780-4af1-bd44-46a567072210"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -13541,7 +13541,7 @@
     },
     "_fillStart": 0,
     "_fillRange": 0,
-    "_isTrimmedMode": false,
+    "_isTrimmedMode": true,
     "_atlas": {
       "__uuid__": "14420fd9-d0bd-448b-b0db-761037c17603"
     },
@@ -13555,7 +13555,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "25XHBMC3hItq3Otcw/gwfP",
+    "fileId": "fa1O+nOAxNqKOAy4mj6vR4",
     "sync": false
   },
   {
@@ -13585,7 +13585,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70.29,
+      "width": 150.86,
       "height": 22.86
     },
     "_anchorPoint": {
@@ -13636,8 +13636,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "TÀI XỈU",
-    "_N$string": "TÀI XỈU",
+    "_string": "CÀO BACCARAT",
+    "_N$string": "CÀO BACCARAT",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -13662,7 +13662,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "82z5wh04lKVrqLk6tdfMej",
+    "fileId": "89pLUJcDxA1aS1sIyQer1V",
     "sync": false
   },
   {
@@ -13744,8 +13744,8 @@
     },
     "component": "",
     "_componentId": "b59d1ZUwFBL1ppz0y5pVzTX",
-    "handler": "openTaiXiu",
-    "customEventData": "1"
+    "handler": "openGameRoom",
+    "customEventData": "baccarat"
   },
   {
     "__type__": "d8e56/FW3FDTab9UduKTQcx",
@@ -13800,7 +13800,7 @@
     "asset": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
-    "fileId": "022evzJfhAl4Qq6nxX7QxX",
+    "fileId": "84hZHSyfxAYZ//cFY0/IxS",
     "sync": false
   },
   {
@@ -13813,7 +13813,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 1082,
+      "width": 758,
       "height": 407
     },
     "_resize": 2,
@@ -13829,7 +13829,7 @@
     "_N$paddingRight": 10,
     "_N$paddingTop": 10,
     "_N$paddingBottom": 10,
-    "_N$spacingX": 30,
+    "_N$spacingX": 40,
     "_N$spacingY": 30,
     "_N$verticalDirection": 1,
     "_N$horizontalDirection": 0,
@@ -13847,8 +13847,8 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 40,
-    "_left": 0,
-    "_right": 0,
+    "_left": 162,
+    "_right": 162,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -14434,7 +14434,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        82,
+        231.935,
         0,
         0,
         0,
