@@ -96,6 +96,7 @@ export default class MiniKenoBetBoard extends cc.Component {
   }
 
   public onItemBetClicked(e, index) {
+    cc.RedT.audio.playClick();
     const amounts = [1, 10, 50, 100, 500, this.info.maxBet];
     const amount = amounts[index];
     if (amount == this.info.maxBet) {

@@ -52,6 +52,7 @@ export default class MiniKenoPresetBet extends cc.Component {
     }
 
     public onItemBetClicked(e, index) {
+        cc.RedT.audio.playClick();
         const amounts = [1, 10, 50, 100, 500, 1000];
         const amount = amounts[index];
         this.betAmount = this.betAmount + amount;
