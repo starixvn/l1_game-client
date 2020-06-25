@@ -17,7 +17,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
 
     protected handleResult(onFinishHanlingData: () => void) {
         if (cc.RedT.GAME_IS_SHOWED) {
-            cc.tween(this)
+            cc.tween(this.main.node)
                 .call(() => {
                     this.playResultAnimation();
                 })
@@ -32,7 +32,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         if (typingEffect) {
             typingEffect.setText("Đang xổ kết quả ...");
         }
-        cc.tween(this)
+        cc.tween(this.main.node)
             .delay(1)
             .call(() => { this.main.stopBetWarning.active = false; })
             .start();
