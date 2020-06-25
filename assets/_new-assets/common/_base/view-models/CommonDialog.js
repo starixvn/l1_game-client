@@ -7,7 +7,7 @@ export default class CommonDialog extends BounceInEffect {
 	@property({ override: true })
 	time = 0.4;
 
-	closeDialog() {
+	closeDialog(enableSound = true) {
 		this.node.runAction(cc.spawn(
 			cc.scaleTo(this.time, 0).easing(cc.easeBackIn()),
 			cc.fadeTo(this.time, 0)));
@@ -16,6 +16,6 @@ export default class CommonDialog extends BounceInEffect {
 			this.node.active = false;
 		})));
 
-		cc.RedT.audio.playUnClick();
+		enableSound && cc.RedT.audio.playUnClick();
 	}
 }

@@ -1,6 +1,6 @@
-import { GameBaseConfigs } from "../../../../_new-assets/games/_base/GameBaseConfig";
-import MiniKeno from "../../../../_new-assets/games/mini-keno/view-models/MiniKeno";
-import KenoUtils, { KenoType } from "./KenoUtils";
+import { GameBaseConfigs } from "../../../../../_new-assets/games/_base/GameBaseConfig";
+import MiniKeno from "../../../../../_new-assets/games/mini-keno/view-models/MiniKeno";
+import KenoUtils, { KenoType } from "../KenoUtils";
 
 const { ccclass, property } = cc._decorator;
 

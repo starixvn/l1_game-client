@@ -1,5 +1,6 @@
 import * as helper from "../../../../../_new-assets/common/helpers/Helper";
 import GameUtils from "../../../../common/GameUtils";
+import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,7 +44,7 @@ export default class MiniKenoBetBoard extends cc.Component {
   background: cc.Node = null;
 
   private betAmount = 0;
-  public betCallback = (betAmount: number, info: BetInfo) => {};
+  public betCallback = (betAmount: number, info: BetInfo) => { };
   public getPreset = () => {
     return 0;
   };
@@ -59,13 +60,19 @@ export default class MiniKenoBetBoard extends cc.Component {
     this.close();
   }
 
-  public close() {
-    this.node.active = false;
+  public close(enableSound = true) {
+    const commonDialog = this.node.children[0].getComponent("CommonDialog");
+    commonDialog.closeDialog(enableSound);
+
+    this.node.runAction(cc.sequence(cc.delayTime(commonDialog.time), cc.callFunc(() => {
+      this.node.active = false;
+    })));
+
     this.betCallback(0, this.info);
   }
 
   public onAcceptBet() {
-    this.node.active = false;
+    this.close();
     this.betCallback(this.betAmount, this.info);
   }
 
@@ -73,6 +80,7 @@ export default class MiniKenoBetBoard extends cc.Component {
     this.info = info;
     this.updateInfo();
     this.node.active = true;
+    this.node.children[0].active = true;
   }
 
   private updateInfo() {
@@ -82,7 +90,7 @@ export default class MiniKenoBetBoard extends cc.Component {
     this.roundId.string = this.info.roundId;
     this.choice.string = `${GameUtils.getBetChoiceString(this.info.choice)} @${
       this.info.odd
-    }`;
+      }`;
     this.minBet.string = helper.numberWithCommas(this.info.minBet);
     this.maxBet.string = helper.numberWithCommas(this.info.maxBet);
   }

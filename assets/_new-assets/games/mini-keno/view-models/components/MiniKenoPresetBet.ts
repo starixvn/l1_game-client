@@ -1,4 +1,4 @@
-import * as helper from '../../../../_new-assets/common/helpers/Helper';
+import * as helper from '../../../../../_new-assets/common/helpers/Helper';
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,21 +27,27 @@ export default class MiniKenoPresetBet extends cc.Component {
 
     public onClose() {
         cc.RedT.audio.playClick();
+
         this.close();
     }
 
     public close() {
-        this.node.active = false;
+        const commonDialog = this.node.children[0].getComponent("CommonDialog");
+        commonDialog.closeDialog();
+
+        this.node.runAction(cc.sequence(cc.delayTime(commonDialog.time), cc.callFunc(() => {
+            this.node.active = false;
+        })));
     }
 
     public onResetBet() {
-        this.node.active = false;
+        this.close();
         this.clearBet();
         this.onChangedBet(this.betAmount);
     }
 
     public onAcceptBet() {
-        this.node.active = false;
+        this.close();
         this.onChangedBet(this.betAmount);
     }
 
@@ -54,6 +60,7 @@ export default class MiniKenoPresetBet extends cc.Component {
 
     public show(show: boolean = true) {
         this.node.active = show;
+        this.node.children[0].active = show;
     }
 
     private updateBetAmount() {

@@ -1,13 +1,13 @@
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import * as _ from "lodash";
-import MiniKenoPresetBet from "./MiniKenoPresetBet";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import KenoPageIndicatorItem from "./KenoPageIndicatorItem";
 import KenoStatusBanner from "./components/KenoStatusBanner";
 import KenoUtils from "./KenoUtils";
 import * as helper from "../../../common/helpers/Helper";
+import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
+import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
 
 const { ccclass, property } = cc._decorator;
 
