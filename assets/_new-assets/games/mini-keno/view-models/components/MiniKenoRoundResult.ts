@@ -66,7 +66,9 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
                     const number = this.result[index];
                     this.kenoNumbers[index].setNumber(number, true);
                     total += number;
-                    this.showSettleResult(KenoUtils.getSettleResult(total, miniType));
+                    const settlementResult = KenoUtils.getSettleResult(total, miniType);
+                    this.showSettleResult(settlementResult);
+                    this.miniKeno.highlightWonItem(settlementResult, true);
                     this.total.string = total.toString();
                     index++;
                 }),
@@ -87,6 +89,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
                         ));
                     });
                     this.showSettleResult(this.settlementResult);
+                    this.miniKeno.highlightWonItem(this.settlementResult, false);
                     onComplete();
                 })));
         } else {
@@ -103,11 +106,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
 
             this.total.string = total.toString();
             this.showSettleResult(this.settlementResult);
+            this.miniKeno.highlightWonItem(this.settlementResult, false);
         }
-    }
-
-    protected showSettleResult(settlementResult: any) {
-        super.showSettleResult(settlementResult);
-        this.miniKeno.highlightWonItem(settlementResult, true);
     }
 }

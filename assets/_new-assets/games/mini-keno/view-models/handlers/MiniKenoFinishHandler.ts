@@ -51,7 +51,6 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
             const lastLog = this.main.currentDataLogs[0];
             this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
             this.main.roundResult.show(false);
-            this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
         }
     }
 
@@ -72,5 +71,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
                 this.main.statusCallback(this.main.kenoType, this.main.roundId - 1, statusData.bet);
             }
         }
+
+        this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
     }
 }
