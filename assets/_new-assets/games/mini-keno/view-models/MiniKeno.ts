@@ -145,6 +145,10 @@ export default class MiniKeno extends GameMiniBase {
         this.statusHandler = new MiniKenoStatusHandler(this);
     }
 
+    public static getTextChangeEffect(): cc.Action {
+        return cc.sequence(cc.scaleTo(0.1, 1.1).easing(cc.easeBackOut()), cc.scaleTo(0.1, 1));
+    }
+
     public onReBetClick() {
         cc.RedT.audio.playClick();
         if (this.isDisabledBet()) {

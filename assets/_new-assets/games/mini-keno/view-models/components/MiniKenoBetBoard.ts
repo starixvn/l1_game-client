@@ -1,6 +1,7 @@
 import * as helper from "../../../../../_new-assets/common/helpers/Helper";
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
+import MiniKeno from "../MiniKeno";
 
 const { ccclass, property } = cc._decorator;
 
@@ -61,13 +62,7 @@ export default class MiniKenoBetBoard extends cc.Component {
   }
 
   public close(enableSound = true) {
-    const commonDialog = this.node.children[0].getComponent("CommonDialog");
-    commonDialog.closeDialog(enableSound);
-
-    this.node.runAction(cc.sequence(cc.delayTime(commonDialog.time), cc.callFunc(() => {
-      this.node.active = false;
-    })));
-
+    this.node.active = false;
     this.betCallback(0, this.info);
   }
 
@@ -80,7 +75,6 @@ export default class MiniKenoBetBoard extends cc.Component {
     this.info = info;
     this.updateInfo();
     this.node.active = true;
-    this.node.children[0].active = true;
   }
 
   private updateInfo() {
@@ -117,9 +111,11 @@ export default class MiniKenoBetBoard extends cc.Component {
   private updateBetAmount() {
     this.betValue.string =
       this.betAmount > 0 ? helper.numberWithCommas(this.betAmount) : "";
+    this.betValue.node.runAction(MiniKeno.getTextChangeEffect());
     const winAmount = this.betAmount * this.info.odd;
     this.winBet.string =
       winAmount > 0 ? helper.numberWithCommas(winAmount) : "";
+    this.winBet.node.runAction(MiniKeno.getTextChangeEffect());
 
     const canBet = this.betAmount >= this.info.minBet;
     this.betButton.interactable = canBet;
