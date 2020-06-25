@@ -3,6 +3,10 @@ import BounceInEffect from '../../animations/BounceInEffect';
 cc.Class({
 	extends: BounceInEffect,
 
+	onLoad() {
+		this.time = 0.4;
+	},
+
 	closeDialog: function () {
 		this.node.runAction(cc.spawn(
 			cc.scaleTo(this.time, 0).easing(cc.easeBackOut()),

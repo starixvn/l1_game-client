@@ -13,7 +13,7 @@ export default class BounceInEffect extends cc.Component {
         this.node.scale = 0;
         this.node.runAction(cc.spawn(
             cc.scaleTo(this.time, this.originScale).easing(cc.easeBackOut()),
-            cc.fadeTo(this.time / 2, 255)));
+            cc.fadeTo(this.time, 255)));
     }
 
     onDisable() {
