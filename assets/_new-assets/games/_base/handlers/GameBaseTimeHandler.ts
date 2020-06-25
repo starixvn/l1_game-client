@@ -92,7 +92,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         this.main.noticeNode.destroyAllChildren();
-        this.main.node.active && this.main.gameAudios && this.main.gameAudios.playStartGameAudio();
+        this.main.node.activeInHierarchy && this.main.gameAudios && this.main.gameAudios.playStartGameAudio();
         this.main.resetDataAndUI();
 
         var mainRoomGame = this.main as GameRoomBase;
