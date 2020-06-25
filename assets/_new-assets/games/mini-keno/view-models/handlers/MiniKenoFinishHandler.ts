@@ -63,7 +63,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
             typingEffect.setText("Dừng nhận cược");
         }
 
-        this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
+        this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, true, true);
     }
 
     private showBetStatus() {
