@@ -2,7 +2,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BounceInEffect extends cc.Component {
-    @property
+    @property({ override: true })
     time: number = 0.5;
 
     private originScale: number;

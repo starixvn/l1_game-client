@@ -3,8 +3,11 @@ import BounceInEffect from '../../animations/BounceInEffect';
 cc.Class({
 	extends: BounceInEffect,
 
-	onLoad() {
-		this.time = 0.4;
+	properties: {
+		time: {
+			default: 0.4,
+			override: true
+		}
 	},
 
 	closeDialog: function () {
