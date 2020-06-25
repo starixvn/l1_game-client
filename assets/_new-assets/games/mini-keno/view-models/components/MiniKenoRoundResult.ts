@@ -13,8 +13,8 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
     @property(cc.Node)
     roundInfo: cc.Node = null;
 
-    @property(cc.Label)
-    roundId: cc.Label = null;
+    @property(cc.RichText)
+    roundId: cc.RichText = null;
 
     @property(cc.Label)
     roundTime: cc.Label = null;
@@ -26,8 +26,9 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
 
         if (roundId && roundTime) {
             this.roundInfo.active = true;
-            this.roundId.string = `Kỳ vé: #${zeroPad(roundId, 7)}`;
-            this.roundTime.string = "Thời gian: " + moment(roundTime).format(MiniKenoProViet.DATETIME_FORMAT)
+
+            this.roundId.string = `Kỳ xổ: <color=#ffe79e>#${zeroPad(roundId, 7)}</color> `;
+            this.roundTime.string = moment(roundTime).format(MiniKenoProViet.DATETIME_FORMAT)
         }
         else {
             this.roundInfo.active = false;
@@ -38,6 +39,10 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
         this.miniKeno = miniKeno;;
     }
 
+    onClickRound() {
+        MiniKenoProViet.openVietlottUrl();
+    }
+
     clear() {
         this.kenoNumbers.forEach((number, index) => {
             if (this.miniKeno.isMiniKeno && index >= 10) {
@@ -46,6 +51,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
 
             number.showWaiting();
         });
+
         this.betChoices.forEach(choice => choice.setValue(""))
         this.total.string = "";
         this.roundInfo && (this.roundInfo.active = false);

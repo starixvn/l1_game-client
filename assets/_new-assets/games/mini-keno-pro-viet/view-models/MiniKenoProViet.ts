@@ -58,6 +58,10 @@ export default class MiniKenoProViet extends MiniKeno {
     }
 
     onClickTitle() {
+        MiniKenoProViet.openVietlottUrl();
+    }
+
+    static openVietlottUrl() {
         window.open(config.kenoVietLotUrl, '_blank');
         window.focus();
     }
