@@ -37,7 +37,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
             gameRound = roundId.toString();
             this.roundInfo.removeComponent("hoverScale");
             this.roundInfo.removeComponent(cc.Button);
-            this.roundId.string = `Phiên xổ\n#${roundId} `;
+            this.roundId.string = ` Phiên xổ \n #${roundId} `;
         }
     }
 
