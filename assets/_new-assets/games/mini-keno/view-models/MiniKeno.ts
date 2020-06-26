@@ -301,14 +301,16 @@ export default class MiniKeno extends GameMiniBase {
         this.timer.addChild(this.kenoTimer.node);
     }
 
-    public highlightWonItem(results: any = null, isAnimated = true, winning = false) {
+    public highlightWonItem(results: any, isAnimated = true, winning = false) {
         const keys = getLowercaseObjectKeys(results);
         this.betItems.forEach(item => {
             const miniKenoBetItem = item as MiniKenoBetItem;
             const highlight = results[keys[item.node.name.toLowerCase()]];
             miniKenoBetItem.setHighlight(highlight, isAnimated);
+
             if (highlight && winning) {
-                miniKenoBetItem.showWinningEffect();
+                miniKenoBetItem.showWinningText();
+                // miniKenoBetItem.showWinningEffect();
             }
         });
     }
