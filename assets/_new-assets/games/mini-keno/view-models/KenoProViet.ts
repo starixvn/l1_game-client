@@ -257,7 +257,7 @@ export default class KenoProViet extends cc.Component {
         if (this.selectedIndex == clickIndex || this.selectedIndex + 1 == clickIndex) {
             return;
         }
-        if (clickIndex > this.selectedIndex) {
+        if (clickIndex === this.pageIndicatorDots.length - 1) {
             this.selectedIndex = clickIndex - 1;
         } else {
             this.selectedIndex = clickIndex;
