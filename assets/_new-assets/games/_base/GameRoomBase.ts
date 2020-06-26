@@ -133,10 +133,21 @@ export default class GameRoomBase extends GameBase {
         if (this.loading) {
             this.loading.active = true;
         }
+        this.outRoomGame().then(() => {
+            cc.director.loadScene('MainGame');
+        });
+    }
 
-        this.stopGame();
-        this.sendData({ outgame: true });
-        cc.director.loadScene('MainGame');
+    public outRoomGame() {
+        return new Promise((resolve, reject) => {
+            this.stopGame();
+            this.sendData({ outgame: true });
+            this.node.runAction(cc.sequence(
+                cc.delayTime(1),
+                cc.callFunc(() => {
+                    resolve();
+                })));
+        });
     }
 
     showAcceptedBet(bet: number) {

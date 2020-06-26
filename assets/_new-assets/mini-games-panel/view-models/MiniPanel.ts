@@ -289,7 +289,9 @@ export default class MiniPanel extends cc.Component {
     cc.RedT.audio.playClick();
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.inGame.loading.active = true;
-      cc.RedT.send({ g: { reg: name } });
+      cc.RedT.inGame.outRoomGame().then(() => {
+        cc.RedT.send({ g: { reg: name } });
+      });
     } else {
       cc.RedT.inGame.dialog.showSignIn();
     }

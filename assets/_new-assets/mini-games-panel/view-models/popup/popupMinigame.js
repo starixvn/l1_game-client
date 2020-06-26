@@ -26,6 +26,11 @@ cc.Class({
 	},
 	onLoad() {
 		cc.RedT.setting.popupMini = cc.RedT.setting.popupMini || {};
+		this.background.active = false;
+		this.background.opacity = 0;
+		this.list.active = false;
+		this.list.scale = 0;
+
 		this.ttOffset = cc.v2(0, 0);
 		this.ttOffset2 = cc.v2(0, 0);
 		this.toggleRuning = false;
