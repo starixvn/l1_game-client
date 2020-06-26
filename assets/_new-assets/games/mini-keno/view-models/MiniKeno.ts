@@ -8,12 +8,12 @@ import RoundHistory from "../../keno-pro/view-models/RoundHistory";
 import KenoUtils, { KenoType } from "./KenoUtils";
 import { GameState } from "../../_base/GameBase";
 import MiniKenoBetBoard, { BetInfo } from "./components/MiniKenoBetBoard";
-import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
 import MiniKenoTimer from "./components/MiniKenoTimer";
 import MiniKenoRoundResult from "./components/MiniKenoRoundResult";
 import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
 import { getLowercaseObjectKeys } from "../../../common/helpers/Helper";
+import MiniKenoBetItem from "./components/MiniKenoBetItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -307,10 +307,13 @@ export default class MiniKeno extends GameMiniBase {
             const miniKenoBetItem = item as MiniKenoBetItem;
             const highlight = results[keys[item.node.name.toLowerCase()]];
             miniKenoBetItem.setHighlight(highlight, isAnimated);
+            miniKenoBetItem.hideWinningText();
 
             if (highlight && winning) {
                 miniKenoBetItem.showWinningText();
-                // miniKenoBetItem.showWinningEffect();
+            }
+            else {
+                miniKenoBetItem.hideWinningText();
             }
         });
     }
