@@ -30,9 +30,12 @@ export default class MiniKenoBetItem extends BetItem {
         this.ownBet.node.parent.active = bet > 0;
     }
 
-    public setHighlight(highlight: boolean, isAnimated = true) {
-        super.setHighlight(highlight, isAnimated);
-        this.choice.color = highlight && !isAnimated ? this.highlightColor : this.normalColor;
+    public showWinningText() {
+        this.choice.color = this.highlightColor;
+    }
+
+    public hideWinningText() {
+        this.choice.color = this.normalColor;
     }
 
     public resetHighlight() {

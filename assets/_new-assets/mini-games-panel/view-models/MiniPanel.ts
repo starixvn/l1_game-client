@@ -76,6 +76,10 @@ export default class MiniPanel extends cc.Component {
   private popupMiniGame: any;
 
   onLoad() {
+    if (!cc.sys.isMobile) {
+      this.miniMenu.scale = 0.67;
+    }
+
     if (void 0 === cc.RedT.util.fontCong) {
       cc.RedT.util.fontCong = this.fontCong;
       cc.RedT.util.fontTru = this.fontTru;

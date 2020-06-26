@@ -151,8 +151,8 @@ export default class MiniKenoProViet extends MiniKeno {
         }
     }
 
-    public highlightWonItem(results: any = null, isAnimated = true) {
-        super.highlightWonItem(results, isAnimated && this.isIncomingGameRound);
+    public highlightWonItem(results: any = null, isAnimated = true, winning: boolean = false) {
+        super.highlightWonItem(results, isAnimated && this.isIncomingGameRound, winning);
     }
 
     public static formatGameRound(roundId: number) {
