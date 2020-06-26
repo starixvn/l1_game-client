@@ -30,7 +30,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
         if (this.miniKeno.kenoType == KenoType.ProViet) {
             this.roundTime.node.active = true;
             this.roundTime.string = moment(roundTime).format(MiniKenoProViet.DATETIME_FORMAT);
-            this.roundId.string = `Kỳ xổ: <color=#ffe79e>#${zeroPad(roundId, 7)}</color>`;
+            this.roundId.string = `Kỳ xổ: <color=#ffe79e>#${zeroPad(roundId, 7)} </color>`;
         }
         else {
             this.roundTime.node.active = false;
