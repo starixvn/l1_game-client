@@ -232,13 +232,25 @@ cc.Class({
 		}
 	},
 	backGame: function () {
-		clearInterval(this.timeInterval);
-		cc.RedT.send({ g: { xocxoc: { outgame: true } } });
 		if (this.loading) {
 			this.loading.active = true;
 		}
-		void 0 !== this.timeOut && clearTimeout(this.timeOut);
-		cc.director.loadScene('MainGame');
+		this.outRoomGame().then(() => {
+			cc.director.loadScene('MainGame');
+		});
+	},
+	outRoomGame: function () {
+		return new Promise((resolve, reject) => {
+			clearInterval(this.timeInterval);
+			void 0 !== this.timeOut && clearTimeout(this.timeOut);
+			cc.RedT.send({ g: { xocxoc: { outgame: true } } });
+
+			this.node.runAction(cc.sequence(
+				cc.delayTime(1),
+				cc.callFunc(() => {
+					resolve();
+				})));
+		});
 	},
 	signOut: function () {
 		clearInterval(this.timeInterval);

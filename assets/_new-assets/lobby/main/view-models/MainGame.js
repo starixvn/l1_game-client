@@ -115,6 +115,10 @@ cc.Class({
       adsWidget.enabled = true;
     }
   },
+  outRoomGame: function () {
+    //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
+    return Promise.resolve();
+  },
   auth: function (obj) {
     var self = this;
 
