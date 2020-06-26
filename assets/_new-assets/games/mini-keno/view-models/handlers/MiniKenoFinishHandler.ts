@@ -61,8 +61,6 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         if (typingEffect) {
             typingEffect.setText(MiniKenoFinishHandler.STOP_PLACE_BET_MESSAGE);
         }
-
-        this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, true, true);
     }
 
     private showBetStatus() {

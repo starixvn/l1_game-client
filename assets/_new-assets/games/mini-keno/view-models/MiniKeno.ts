@@ -311,6 +311,7 @@ export default class MiniKeno extends GameMiniBase {
 
             if (highlight && winning) {
                 miniKenoBetItem.showWinningText();
+                isAnimated && miniKenoBetItem.showWinningEffect();
             }
             else {
                 miniKenoBetItem.hideWinningText();
