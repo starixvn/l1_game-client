@@ -11,7 +11,6 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     handleInRoundTime() {
         super.handleInRoundTime();
         this.main.stopBetWarning.active = false;
-        this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
     }
 
     handleWaitTime() {
