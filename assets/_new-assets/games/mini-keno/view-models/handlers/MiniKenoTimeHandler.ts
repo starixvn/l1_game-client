@@ -18,10 +18,9 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
         this.resetAnimatedTime();
-
         const lastWaitTime = this.main.currentTimeRemaining == this.main.config.betTime + 1;
 
-        if (lastWaitTime && this.main.node.activeInHierarchy && this.main.gameState !== GameState.Stopped) {
+        if (lastWaitTime && this.main.node.activeInHierarchy && this.main.gameState == GameState.Started) {
             this.main.node.runAction(cc.sequence(
                 cc.delayTime(0.5),
                 cc.scaleTo(0.45, 0, 1).easing(cc.easeCubicActionIn()),

@@ -32,14 +32,13 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handle(data: any): boolean {
-        if (data.remainingTime || data.remainingTime >= 0) {
+        if ((data.remainingTime || data.remainingTime >= 0) && this.main.gameState === GameState.Started) {
             this.setCurrentTimeRemaining(data);
             this.playTime();
             this.main.hideUmMessage();
             return true;
         }
     }
-
 
     resetTime(): void {
         this.main.animatedTime && (this.main.animatedTime.node.active = false);
@@ -54,6 +53,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.playTimeInterval = setInterval(() => {
             if (this.isInWaitTime) {
                 this.handleWaitTime();
+
             } else {
                 if (this.isStartingNewGameRound) {
                     this.handleStartingNewGameRound();
