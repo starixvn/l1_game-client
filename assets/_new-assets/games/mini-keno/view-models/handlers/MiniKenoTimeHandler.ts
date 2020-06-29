@@ -1,3 +1,4 @@
+import { GameState } from "../../../_base/GameBase";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import MiniKenoBetItem from "../components/MiniKenoBetItem";
 import MiniKeno from "../MiniKeno";
@@ -20,7 +21,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
         const lastWaitTime = this.main.currentTimeRemaining == this.main.config.betTime + 1;
 
-        if (lastWaitTime && this.main.node.activeInHierarchy) {
+        if (lastWaitTime && this.main.node.activeInHierarchy && this.main.gameState !== GameState.Stopped) {
             this.main.node.runAction(cc.sequence(
                 cc.delayTime(0.5),
                 cc.scaleTo(0.45, 0, 1).easing(cc.easeCubicActionIn()),
