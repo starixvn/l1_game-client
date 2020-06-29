@@ -82,7 +82,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
                     total += number;
                     const settlementResult = KenoUtils.getSettleResult(total, miniType);
                     this.showSettleResult(settlementResult);
-                    this.miniKeno.highlightWonItem(settlementResult, true);
+                    // this.miniKeno.highlightWonItem(settlementResult, true);
                     this.total.string = total.toString();
                     index++;
                 }),
