@@ -6,13 +6,11 @@ export default class TypingLabel extends cc.Component {
     label: cc.Label = null;
 
     playTypingEffect(duration: number = 0.5) {
-        const labelWidth = this.label.node.width;
-
         if (!this.node.activeInHierarchy) {
-            this.node.width = labelWidth;
             return;
         }
 
+        const labelWidth = this.label.node.width;
         const changeWitdhAction = cc.sequence(
             cc.callFunc(() => {
                 this.node.width += 1;
