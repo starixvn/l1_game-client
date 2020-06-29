@@ -260,6 +260,7 @@ export default class MiniKeno extends GameMiniBase {
     protected initRoundHistory() {
         const roundHistoryNode = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = roundHistoryNode.getComponent(RoundHistory);
+        this.roundHistory.init(this);
         this.body.addChild(roundHistoryNode);
         this.roundHistory.node.active = true;
     }
