@@ -256,6 +256,7 @@ export default class MiniKeno extends GameMiniBase {
     protected initRoundHistory() {
         const roundHistoryNode = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = roundHistoryNode.getComponent(RoundHistory);
+        this.roundHistory.init(this);
         this.body.addChild(roundHistoryNode);
         this.roundHistory.node.active = true;
     }
@@ -307,6 +308,7 @@ export default class MiniKeno extends GameMiniBase {
 
             if (highlight && winning) {
                 miniKenoBetItem.showWinningText();
+                isAnimated && miniKenoBetItem.showWinningEffect();
             }
             else {
                 miniKenoBetItem.hideWinningText();

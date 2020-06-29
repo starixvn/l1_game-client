@@ -37,14 +37,10 @@ export default class TimeRemainingListener extends cc.Component {
                 this.currentTimeRemaining = this.callback.getBetTime();
                 this.unschedule(this.updateTime);
                 this.callback.update(this.currentTimeRemaining);
-
-                console.log(`${this.gameName} um  time ${this.currentTimeRemaining}`);
             } else if (dataGame.remainingTime || dataGame.time_remain) {
                 this.currentTimeRemaining = dataGame.remainingTime || dataGame.time_remain;
                 this.unschedule(this.updateTime);
                 this.playTime();
-
-                console.log(`${this.gameName}  time ${this.currentTimeRemaining}`);
             }
         }
     }

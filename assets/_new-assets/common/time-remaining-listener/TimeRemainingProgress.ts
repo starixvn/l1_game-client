@@ -24,7 +24,7 @@ export default class TimeRemainingProgress extends cc.Component {
         }
     }
 
-    onLoad() {
+    start() {
         this.label.node.parent.active = false;
         this.listener.init(this.gameName);
         this.listener.callback = this.callback;
