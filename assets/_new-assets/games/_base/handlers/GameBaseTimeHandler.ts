@@ -1,8 +1,7 @@
-import DataHandler from "./DataHandler";
-import GameBase, { GameState } from "../GameBase";
 import { numberPad } from "../../../common/helpers/Helper";
-import * as _ from "lodash";
+import GameBase, { GameState } from "../GameBase";
 import GameRoomBase from "../GameRoomBase";
+import DataHandler from "./DataHandler";
 
 export interface IGameBaseTimeHandler extends DataHandler {
     playTimeInterval: number;
@@ -11,6 +10,7 @@ export interface IGameBaseTimeHandler extends DataHandler {
     resetTime(): void;
     isInWaitTime: boolean;
     isInLockBetTime: boolean;
+    isStartingNewGameRound: boolean;
 }
 
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
@@ -25,6 +25,10 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     get isInWaitTime() {
         return this.main.currentTimeRemaining > this.main.config.betTime;
+    }
+
+    get isStartingNewGameRound() {
+        return this.main.currentTimeRemaining == this.main.config.betTime;
     }
 
     handle(data: any): boolean {
@@ -51,9 +55,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             if (this.isInWaitTime) {
                 this.handleWaitTime();
             } else {
-                const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime;
-
-                if (isStartingNewGameRound) {
+                if (this.isStartingNewGameRound) {
                     this.handleStartingNewGameRound();
                 }
 

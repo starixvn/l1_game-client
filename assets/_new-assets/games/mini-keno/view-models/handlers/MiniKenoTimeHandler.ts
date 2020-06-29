@@ -1,6 +1,6 @@
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
-import MiniKeno from "../MiniKeno";
 import MiniKenoBetItem from "../components/MiniKenoBetItem";
+import MiniKeno from "../MiniKeno";
 
 export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 

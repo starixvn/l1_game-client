@@ -1,19 +1,19 @@
-import GameMiniBase from "../../_base/GameMiniBase";
-import MiniKenoConfig from "./MiniKenoConfig";
-import MiniKenoFinishHandler from "./handlers/MiniKenoFinishHandler";
-import KenoNumber from "../../keno-pro/view-models/KenoNumber";
-import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
-import MiniKenoLogsHandler from "./handlers/MiniKenoLogsHandler";
-import RoundHistory from "../../keno-pro/view-models/RoundHistory";
-import KenoUtils, { KenoType } from "./KenoUtils";
-import { GameState } from "../../_base/GameBase";
-import MiniKenoBetBoard, { BetInfo } from "./components/MiniKenoBetBoard";
-import MiniKenoBetItems from "./components/MiniKenoBetItems";
-import MiniKenoTimer from "./components/MiniKenoTimer";
-import MiniKenoRoundResult from "./components/MiniKenoRoundResult";
-import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
 import { getLowercaseObjectKeys } from "../../../common/helpers/Helper";
+import KenoNumber from "../../keno-pro/view-models/KenoNumber";
+import RoundHistory from "../../keno-pro/view-models/RoundHistory";
+import { GameState } from "../../_base/GameBase";
+import GameMiniBase from "../../_base/GameMiniBase";
+import MiniKenoBetBoard, { BetInfo } from "./components/MiniKenoBetBoard";
 import MiniKenoBetItem from "./components/MiniKenoBetItem";
+import MiniKenoBetItems from "./components/MiniKenoBetItems";
+import MiniKenoRoundResult from "./components/MiniKenoRoundResult";
+import MiniKenoTimer from "./components/MiniKenoTimer";
+import MiniKenoFinishHandler from "./handlers/MiniKenoFinishHandler";
+import MiniKenoLogsHandler from "./handlers/MiniKenoLogsHandler";
+import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
+import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
+import KenoUtils, { KenoType } from "./KenoUtils";
+import MiniKenoConfig from "./MiniKenoConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -233,10 +233,6 @@ export default class MiniKeno extends GameMiniBase {
         this.roundHistory.setData(this.currentDataLogs);
     }
 
-    protected formatGameRound(roundId: number) {
-        return `#${roundId}`
-    }
-
     protected sendBet(betAmount, betChoice) {
         this.bet({ bet: { amount: betAmount, betChoice: betChoice } });
     }
@@ -260,7 +256,6 @@ export default class MiniKeno extends GameMiniBase {
     protected initRoundHistory() {
         const roundHistoryNode = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = roundHistoryNode.getComponent(RoundHistory);
-        this.roundHistory.init(this);
         this.body.addChild(roundHistoryNode);
         this.roundHistory.node.active = true;
     }
@@ -312,7 +307,6 @@ export default class MiniKeno extends GameMiniBase {
 
             if (highlight && winning) {
                 miniKenoBetItem.showWinningText();
-                isAnimated && miniKenoBetItem.showWinningEffect();
             }
             else {
                 miniKenoBetItem.hideWinningText();

@@ -1,13 +1,13 @@
-import MiniKeno from "../../mini-keno/view-models/MiniKeno";
-import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
-import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
-import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandler";
-import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
-import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
-import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
 import * as config from '../../../Configs.js';
+import MiniKeno from "../../mini-keno/view-models/MiniKeno";
+import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
+import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
+import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandler";
+import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
+import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
+import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -139,28 +139,26 @@ export default class MiniKenoProViet extends MiniKeno {
         return this.roundsSelection;
     }
 
-    public setGameRound(gameRoundId) {
-        if (gameRoundId && this.rounds) {
-            const formatedRoundId = this.formatGameRound(gameRoundId);
-            this.stopBetMessage.string = MiniKenoProViet.STOP_BET_MESSAGE.replace("$ROUND", formatedRoundId);
-            const currentRound = this.rounds.find(round => round.id === gameRoundId);
-
-            if (currentRound) {
-                this.gameRound.string = `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)}`;
-            }
-        }
-    }
-
     public highlightWonItem(results: any = null, isAnimated = true, winning: boolean = false) {
         super.highlightWonItem(results, isAnimated && this.isIncomingGameRound, winning);
     }
 
-    public static formatGameRound(roundId: number) {
+    public static formatProVGameRound(roundId: number) {
         return `${zeroPad(roundId, 7)}`;
     }
 
     protected formatGameRound(roundId: number) {
-        return `#${MiniKenoProViet.formatGameRound(roundId)}`;
+        if (roundId && this.rounds) {
+            const formatedRoundId = `#${MiniKenoProViet.formatProVGameRound(roundId)}`;
+            this.stopBetMessage.string = MiniKenoProViet.STOP_BET_MESSAGE.replace("$ROUND", formatedRoundId);
+            const currentRound = this.rounds.find(round => round.id === roundId);
+
+            if (currentRound) {
+                return `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)}`;
+            }
+        }
+
+        return "";
     }
 
     protected registerViewGame() {
