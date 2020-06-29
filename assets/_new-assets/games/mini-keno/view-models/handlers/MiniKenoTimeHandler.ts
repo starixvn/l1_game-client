@@ -17,6 +17,16 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
         this.resetAnimatedTime();
+
+        const lastWaitTime = this.main.currentTimeRemaining == this.main.config.betTime + 1;
+
+        if (lastWaitTime && this.main.node.activeInHierarchy) {
+            this.main.node.runAction(cc.sequence(
+                cc.delayTime(0.2),
+                cc.scaleTo(0.5, 0, 1).easing(cc.easeCubicActionIn()),
+                cc.scaleTo(0.5, 1, 1).easing(cc.easeCubicActionOut())
+            ));
+        }
     }
 
     handleInLockBetTime() {

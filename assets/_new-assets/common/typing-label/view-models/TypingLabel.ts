@@ -8,6 +8,11 @@ export default class TypingLabel extends cc.Component {
     playTypingEffect(duration: number = 0.5) {
         const labelWidth = this.label.node.width;
 
+        if (!this.node.activeInHierarchy) {
+            this.node.width = labelWidth;
+            return;
+        }
+
         const changeWitdhAction = cc.sequence(
             cc.callFunc(() => {
                 this.node.width += 1;
@@ -19,14 +24,7 @@ export default class TypingLabel extends cc.Component {
             cc.callFunc(() => {
                 this.node.width = 0;
             }),
-            cc.repeat(changeWitdhAction, labelWidth),
-            cc.delayTime(0.1),
-            cc.callFunc(() => {
-                this.label.node.runAction(cc.sequence(
-                    cc.scaleTo(.1, 1.05),
-                    cc.scaleTo(.1, 1)
-                ));
-            })
+            cc.repeat(changeWitdhAction, labelWidth)
         ));
     }
 }
