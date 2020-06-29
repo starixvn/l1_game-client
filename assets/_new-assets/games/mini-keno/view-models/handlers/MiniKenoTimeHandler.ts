@@ -22,9 +22,9 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
         if (lastWaitTime && this.main.node.activeInHierarchy) {
             this.main.node.runAction(cc.sequence(
-                cc.delayTime(0.2),
-                cc.scaleTo(0.5, 0, 1).easing(cc.easeCubicActionIn()),
-                cc.scaleTo(0.5, 1, 1).easing(cc.easeCubicActionOut())
+                cc.delayTime(0.5),
+                cc.scaleTo(0.45, 0, 1).easing(cc.easeCubicActionIn()),
+                cc.scaleTo(0.45, 1, 1).easing(cc.easeCubicActionOut())
             ));
         }
     }
