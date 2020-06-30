@@ -1,5 +1,5 @@
-import MiniKenoProViet from "../MiniKenoProViet";
 import MiniKenoTimeHandler from "../../../mini-keno/view-models/handlers/MiniKenoTimeHandler";
+import MiniKenoProViet from "../MiniKenoProViet";
 
 export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     private receiveTimeRemaining: number;
@@ -58,6 +58,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.getPlayerBetsAndTimeOfRound(this.main.roundId.toString());
+        this.main.getGameRounds();
     }
 
     handleInLockBetTime() {
