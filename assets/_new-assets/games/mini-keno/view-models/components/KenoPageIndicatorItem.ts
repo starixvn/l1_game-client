@@ -70,7 +70,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
                 this.unschedule(this.updateTime);
                 this.updateImage();
             } else if (dataGame.remainingTime) {
-                this.currentTimeRemaining = dataGame.remainingTime;
+                this.currentTimeRemaining = dataGame.remainingTime - 1;
                 this.unschedule(this.updateTime);
                 this.playTime();
             }

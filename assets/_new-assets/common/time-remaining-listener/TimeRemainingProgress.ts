@@ -19,7 +19,7 @@ export default class TimeRemainingProgress extends cc.Component {
     private callback = {
         getBetTime: () => this.betTime,
         update: (timeRemaining: number) => {
-            this.label.node.parent.active = timeRemaining > 0;
+            this.label.node.parent.active = timeRemaining > 0 && timeRemaining <= this.betTime;
             this.label.string = timeRemaining.toString();
         }
     }

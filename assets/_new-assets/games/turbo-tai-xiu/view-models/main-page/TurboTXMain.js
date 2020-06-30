@@ -87,11 +87,11 @@ cc.Class({
           t.preventDefault && t.preventDefault(),
           !1) :
         t.keyCode === cc.macro.KEY.enter ?
-        (BrowserUtil.focusGame(),
-          self.onCuocClick(),
-          t.preventDefault && t.preventDefault(),
-          !1) :
-        void 0;
+          (BrowserUtil.focusGame(),
+            self.onCuocClick(),
+            t.preventDefault && t.preventDefault(),
+            !1) :
+          void 0;
     };
 
     this.diceAnimation.on("finished", this.onDiceAnimationFinish, this);
@@ -202,7 +202,7 @@ cc.Class({
         t = !0;
         break;
       }
-    }!t &&
+    } !t &&
       0 < this.editboxs.length &&
       BrowserUtil.focusEditBox(this.editboxs[1]);
   },
@@ -402,7 +402,7 @@ cc.Class({
       this.isUM = false;
       this.playCenterRoundLight();
       this.UMWarning.node.active = false;
-      cc.RedT.setting.taixiu_turbo.time_remain = data.time_remain;
+      cc.RedT.setting.taixiu_turbo.time_remain = data.time_remain - 1;
       this.playTime();
     }
 
@@ -666,11 +666,11 @@ cc.Class({
             dot.mod.text.string = `${point < 11 ? "XỈU" : "TÀI"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
             dot.spriteFrame = self.taixiu ?
               point < 11 ?
-              self.dot_white :
-              self.dot_black :
+                self.dot_white :
+                self.dot_black :
               point % 2 ?
-              self.dot_black :
-              self.dot_yellow;
+                self.dot_black :
+                self.dot_yellow;
           } else {
             dot.node.active = false;
           }
@@ -761,11 +761,11 @@ cc.Class({
         var point = data.dice[0] + data.dice[1] + data.dice[2];
         dot.spriteFrame = self.taixiu ?
           point < 11 ?
-          self.dot_white :
-          self.dot_black :
+            self.dot_white :
+            self.dot_black :
           point % 2 ?
-          self.dot_black :
-          self.dot_yellow;
+            self.dot_black :
+            self.dot_yellow;
         return self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
       } else {
         dot.node.active = false;
@@ -814,29 +814,29 @@ cc.Class({
             if (void 0 !== data_Cel) {
               var type = self.taixiu ?
                 data_Cel > 10 ?
-                true :
-                false :
+                  true :
+                  false :
                 data_Cel % 2 ?
-                false :
-                true;
+                  false :
+                  true;
               c_tai = type ? c_tai + 1 : c_tai;
               c_xiu = !type ? c_xiu + 1 : c_xiu;
               current.active = true;
               current.color = self.taixiu ?
                 type ?
-                cc.Color.BLACK :
-                cc.Color.WHITE :
+                  cc.Color.BLACK :
+                  cc.Color.WHITE :
                 type ?
-                cc.Color.YELLOW :
-                cc.Color.BLACK;
+                  cc.Color.YELLOW :
+                  cc.Color.BLACK;
               current.text.string = data_Cel;
               current.text.node.color = self.taixiu ?
                 type ?
-                cc.Color.WHITE :
-                cc.Color.BLACK :
+                  cc.Color.WHITE :
+                  cc.Color.BLACK :
                 type ?
-                cc.Color.BLACK :
-                cc.Color.WHITE;
+                  cc.Color.BLACK :
+                  cc.Color.WHITE;
             } else {
               current.active = false;
             }
