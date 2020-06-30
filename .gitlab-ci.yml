@@ -1,7 +1,7 @@
 stages:
   - build
   - deploy
-  - post-deploy
+  # - post-deploy
 
 before_script:
   - echo $CURRENT_TAG
