@@ -125,6 +125,7 @@ export default class GameBase extends cc.Component {
         this.initGameAudios();
         this.setGameRound(0);
         this.resetDataAndUI();
+        this.gameRound.string = '';
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
@@ -197,12 +198,23 @@ export default class GameBase extends cc.Component {
     }
 
     setGameRound(gameRoundId) {
-        this.gameRound.string = this.formatGameRound(gameRoundId);
+        const gameRound = this.formatGameRound(gameRoundId);
 
-        if (this.timeHandler.isStartingNewGameRound) {
-            const typingLabel = this.gameRound.node.parent.getComponent(TypingLabel);
-            typingLabel && typingLabel.playTypingEffect();
+        if (gameRound) {
+            this.gameRound.string = gameRound;
         }
+
+        const typingLabel = this.gameRound.node.parent.getComponent(TypingLabel);
+
+        if (typingLabel) {
+            if (this.timeHandler.isStartingNewGameRound) {
+                typingLabel.playTypingEffect();
+            }
+            else {
+                typingLabel.adjustWidth();
+            }
+        }
+
     }
 
     showProcessingWarning(show: boolean) {
