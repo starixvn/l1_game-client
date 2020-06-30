@@ -1,9 +1,9 @@
-import * as authManager from './../../../common/auth/AuthManager';
 import baseControll from "../../../BaseController";
 import helper from "../../../common/helpers/Helper";
 import logger from '../../../common/logger';
-const sentryLogger = logger();
+import * as authManager from './../../../common/auth/AuthManager';
 import { gameIds } from './../../../Configs';
+const sentryLogger = logger();
 
 
 var header = require("Header"),
@@ -176,13 +176,16 @@ cc.Class({
 
       try {
         if (data.user.name) {
-          const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
-          sentryLogger.log(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}`);
+
           if (this.loading) {
             this.loading.active = false;
           }
         }
-      } catch (ex) { console.log(ex) }
+      } catch (ex) {
+        console.log(ex);
+        const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
+        sentryLogger.logError(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}\nError:${ex}`);
+      }
     }
 
     cc.RedT.MiniPanel.onGeneralData(data);
