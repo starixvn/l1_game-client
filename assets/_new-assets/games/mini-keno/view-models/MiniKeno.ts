@@ -315,4 +315,11 @@ export default class MiniKeno extends GameMiniBase {
             }
         });
     }
+
+    public resetHighlightBetItems() {
+        this.betItems.forEach((item: MiniKenoBetItem) => {
+            item.hideWinningText();
+            item.resetHighlight();
+        });
+    }
 }
