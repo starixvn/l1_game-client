@@ -2,13 +2,13 @@ import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
 import * as config from '../../../Configs.js';
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
 import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
 import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandler";
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
 import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -178,13 +178,24 @@ export default class MiniKenoProViet extends MiniKeno {
     protected initRoundHistory() {
         super.initRoundHistory();
         const condition = () => {
+            if (!this.currentDataLogs || !this.currentDataLogs[0] || !this.rounds) {
+                return false;
+            }
+
             const finishHandler = this.finishHandler as GameBaseFinishHandler;
             const currentRoundId = this.currentDataLogs[0].roundId + 1;
             const currentRound = this.rounds.find(round => round.id === currentRoundId);
+
+            if (!currentRound) {
+                return false;
+            }
+
             const remainingTime = (new Date(currentRound.time).getTime() - new Date().getTime()) / 1000;
+
             return remainingTime < this.config.stopBetTime
                 || remainingTime > this.config.fullTime - finishHandler.getResultAnimationTime();
         }
+
         this.roundHistory.sharedLogControl.init(condition)
     }
 
