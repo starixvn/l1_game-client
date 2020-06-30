@@ -8,6 +8,7 @@ import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandle
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
 import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -174,6 +175,18 @@ export default class MiniKenoProViet extends MiniKeno {
         return super.isDisabledBet() && this.isIncomingGameRound;
     }
 
+    protected initRoundHistory() {
+        super.initRoundHistory();
+        const condition = () => {
+            const finishHandler = this.finishHandler as GameBaseFinishHandler;
+            const currentRoundId = this.currentDataLogs[0].roundId + 1;
+            const currentRound = this.rounds.find(round => round.id === currentRoundId);
+            const remainingTime = (new Date(currentRound.time).getTime() - new Date().getTime()) / 1000;
+            return remainingTime < this.config.stopBetTime
+                || remainingTime > this.config.fullTime - finishHandler.getResultAnimationTime();
+        }
+        this.roundHistory.sharedLogControl.init(condition)
+    }
 
     private initGameRound(roundId: number, roundTime: Date) {
         this.resetDataAndUI();
