@@ -38,13 +38,12 @@ export default class MiniKenoBetItem extends BetItem {
         this.choice.color = this.normalColor;
     }
 
-    public resetHighlight() {
-        super.resetHighlight();
-        this.winningEffectNode.active = false;
-    }
-
     public showWinningEffect() {
         this.winningEffectNode.active = true;
+    }
+
+    public hideWinningEffect() {
+        this.winningEffectNode.active = false;
     }
 
     public setRule(value: string) {

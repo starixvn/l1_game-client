@@ -2,6 +2,7 @@ import { GameState } from "../../../_base/GameBase";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import MiniKenoBetItem from "../components/MiniKenoBetItem";
 import MiniKeno from "../MiniKeno";
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 
 export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
@@ -18,8 +19,14 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
         this.resetAnimatedTime();
-        const lastWaitTime = this.main.currentTimeRemaining == this.main.config.betTime + 1;
 
+        const resultAnimationTime = (this.main.finishHandler as GameBaseFinishHandler).getResultAnimationTime();
+        const resultAnimationPlayed = this.main.currentTimeRemaining < this.main.config.fullTime - resultAnimationTime;
+        if (resultAnimationPlayed) {
+            this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, true, true);
+        }
+
+        const lastWaitTime = this.main.currentTimeRemaining == this.main.config.betTime + 1;
         if (lastWaitTime && this.main.node.activeInHierarchy && this.main.gameState == GameState.Started) {
             this.main.node.runAction(cc.sequence(
                 cc.delayTime(0.5),
@@ -34,16 +41,14 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         this.main.stopBetWarning.active = true;
         this.main.roundResult.clear();
         this.main.betBoard.close(false);
-        this.main.resetHighlightBetItems();
+        this.main.resetWinningBetItems();
     }
 
     handleInEndTime() {
         super.handleInEndTime();
         this.resetAnimatedTime();
-        this.main.resetHighlightBetItems();
+        this.main.resetWinningBetItems();
     }
-
-
 
     resetTime(): void {
         super.resetTime();

@@ -305,21 +305,19 @@ export default class MiniKeno extends GameMiniBase {
             const highlight = results[keys[item.node.name.toLowerCase()]];
             miniKenoBetItem.setHighlight(highlight, isAnimated);
             miniKenoBetItem.hideWinningText();
+            miniKenoBetItem.hideWinningEffect();
 
             if (highlight && winning) {
                 miniKenoBetItem.showWinningText();
                 isAnimated && miniKenoBetItem.showWinningEffect();
             }
-            else {
-                miniKenoBetItem.hideWinningText();
-            }
         });
     }
 
-    public resetHighlightBetItems() {
+    public resetWinningBetItems() {
         this.betItems.forEach((item: MiniKenoBetItem) => {
             item.hideWinningText();
-            item.resetHighlight();
+            item.hideWinningEffect();
         });
     }
 }

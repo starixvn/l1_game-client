@@ -39,10 +39,9 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
                 typingEffect.setText(MiniKenoFinishHandler.GETTING_RESULT_MESSAGE);
             }
 
-
             const lastLog = this.main.currentDataLogs[0];
             this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
-            this.main.resetHighlightBetItems();
+            this.main.resetWinningBetItems();
             this.main.roundResult.show(true, this.playResultAnimationTime, () => {
                 this.main.highlightWonItem(lastLog.settlementResult, true, true);
                 this.main.updateRoundHistory();
