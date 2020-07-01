@@ -1,6 +1,8 @@
+import { GameState } from "../../../_base/GameBase";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
-import MiniKeno from "../MiniKeno";
 import MiniKenoBetItem from "../components/MiniKenoBetItem";
+import MiniKeno from "../MiniKeno";
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 
 export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
@@ -11,25 +13,41 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     handleInRoundTime() {
         super.handleInRoundTime();
         this.main.stopBetWarning.active = false;
-        // this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
+        this.main.currentDataLogs && this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
     }
 
     handleWaitTime() {
         super.handleWaitTime();
         this.resetAnimatedTime();
+
+        const resultAnimationTime = (this.main.finishHandler as GameBaseFinishHandler).getResultAnimationTime();
+        const resultAnimationPlayed = this.main.currentTimeRemaining < this.main.config.fullTime - resultAnimationTime;
+        if (resultAnimationPlayed) {
+            this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, true, true);
+        }
+
+        const lastWaitTime = this.main.currentTimeRemaining == this.main.config.betTime + 1;
+        if (lastWaitTime && this.main.node.activeInHierarchy && this.main.gameState == GameState.Started) {
+            this.main.node.runAction(cc.sequence(
+                cc.delayTime(0.5),
+                cc.scaleTo(0.45, 0, 1).easing(cc.easeCubicActionIn()),
+                cc.scaleTo(0.45, 1, 1).easing(cc.easeCubicActionOut())
+            ));
+        }
     }
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
         this.main.stopBetWarning.active = true;
         this.main.roundResult.clear();
-        this.main.betItems.forEach((item: MiniKenoBetItem) => item.hideWinningText());
         this.main.betBoard.close(false);
+        this.main.resetWinningBetItems();
     }
 
     handleInEndTime() {
         super.handleInEndTime();
         this.resetAnimatedTime();
+        this.main.resetWinningBetItems();
     }
 
     resetTime(): void {

@@ -1,8 +1,7 @@
-import DataHandler from "./DataHandler";
-import GameBase, { GameState } from "../GameBase";
 import { numberPad } from "../../../common/helpers/Helper";
-import * as _ from "lodash";
+import GameBase, { GameState } from "../GameBase";
 import GameRoomBase from "../GameRoomBase";
+import DataHandler from "./DataHandler";
 
 export interface IGameBaseTimeHandler extends DataHandler {
     playTimeInterval: number;
@@ -11,6 +10,7 @@ export interface IGameBaseTimeHandler extends DataHandler {
     resetTime(): void;
     isInWaitTime: boolean;
     isInLockBetTime: boolean;
+    isStartingNewGameRound: boolean;
 }
 
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
@@ -27,15 +27,19 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         return this.main.currentTimeRemaining > this.main.config.betTime;
     }
 
+    get isStartingNewGameRound() {
+        return this.main.currentTimeRemaining == this.main.config.betTime;
+    }
+
     handle(data: any): boolean {
-        if (data.remainingTime || data.remainingTime >= 0) {
+        if ((data.remainingTime || data.remainingTime >= 0) && this.main.gameState === GameState.Started) {
             this.setCurrentTimeRemaining(data);
             this.playTime();
             this.main.hideUmMessage();
+
             return true;
         }
     }
-
 
     resetTime(): void {
         this.main.animatedTime && (this.main.animatedTime.node.active = false);
@@ -44,16 +48,13 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     playTime(): void {
-        this.main.gameState = GameState.Started;
         this.playTimeInterval && clearInterval(this.playTimeInterval);
 
         this.playTimeInterval = setInterval(() => {
             if (this.isInWaitTime) {
                 this.handleWaitTime();
             } else {
-                const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime;
-
-                if (isStartingNewGameRound) {
+                if (this.isStartingNewGameRound) {
                     this.handleStartingNewGameRound();
                 }
 

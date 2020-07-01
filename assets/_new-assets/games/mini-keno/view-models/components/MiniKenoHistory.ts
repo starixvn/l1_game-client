@@ -1,12 +1,12 @@
 const { ccclass, property } = cc._decorator;
 
-import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
-import { numberWithCommas, getStringDateByTime } from '../../../../common/helpers/Helper';
-import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
-import GameHistoryBase from "../../../_base/GameHistoryBase";
 import DropDownList from "../../../../common/drop-down-list/view-models/DropDownList";
 import DropDownOption from "../../../../common/drop-down-list/view-models/DropDownOption";
+import { getStringDateByTime, numberWithCommas } from '../../../../common/helpers/Helper';
 import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
+import GameHistoryBase from "../../../_base/GameHistoryBase";
+import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
+import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
 
 @ccclass
 export default class MiniKenoHistory extends GameHistoryBase {
@@ -89,7 +89,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
                 item.settlementResult = settlementResult;
                 item.betLogDetails = betLogDetails;
                 item.time.string = getStringDateByTime(betLog.time);
-                item.roundId.string = this.gameName == this.kenoProVietGameName ? MiniKenoProViet.formatGameRound(phien) : phien;
+                item.roundId.string = this.gameName == this.kenoProVietGameName ? MiniKenoProViet.formatProVGameRound(phien) : phien;
 
                 this.betChoices.forEach(choice => {
                     item[choice].string = numberWithCommas(betLog[choice]);

@@ -40,27 +40,27 @@ prod_deploy_web:
     - if: '$CI_COMMIT_BRANCH == "master"'
       when: manual
 
-sentry_release:
-  image: getsentry/sentry-cli
-  stage: post-deploy
-  before_script:
-    - export SENTRY_URL=https://sentry.saba.vin/
-    - export SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
-    - export SENTRY_ORG=luminet
-    - export SENTRY_PROJECT=$SENTRY_PROJECT
-    - export VERSION=game-client@${CI_COMMIT_SHA:1}
-  script:
-    - sentry-cli releases new $VERSION
-    - sentry-cli releases set-commits --auto $VERSION
-    - sentry-cli releases files $VERSION upload-sourcemaps ./build/web-mobile/
-    - sentry-cli releases finalize $VERSION
-    - sentry-cli releases deploys $VERSION new -e PRO
-    - echo "Finalized release for $VERSION"
-  tags:
-    - docker
-  needs: ["prod_deploy_web", "build"]
-  dependencies: 
-    - build
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      when: always
+# sentry_release:
+#   image: getsentry/sentry-cli
+#   stage: post-deploy
+#   before_script:
+#     - export SENTRY_URL=https://sentry.saba.vin/
+#     - export SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
+#     - export SENTRY_ORG=luminet
+#     - export SENTRY_PROJECT=$SENTRY_PROJECT
+#     - export VERSION=game-client@${CI_COMMIT_SHA:1}
+#   script:
+#     - sentry-cli releases new $VERSION
+#     - sentry-cli releases set-commits --auto $VERSION
+#     - sentry-cli releases files $VERSION upload-sourcemaps ./build/web-mobile/
+#     - sentry-cli releases finalize $VERSION
+#     - sentry-cli releases deploys $VERSION new -e PRO
+#     - echo "Finalized release for $VERSION"
+#   tags:
+#     - docker
+#   needs: ["prod_deploy_web", "build"]
+#   dependencies: 
+#     - build
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == "master"'
+#       when: always

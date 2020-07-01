@@ -1,13 +1,14 @@
-import MiniKeno from "../../mini-keno/view-models/MiniKeno";
-import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
-import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
-import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandler";
-import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
-import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
-import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
 import * as config from '../../../Configs.js';
+import MiniKeno from "../../mini-keno/view-models/MiniKeno";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
+import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
+import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandler";
+import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
+import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
+import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -139,28 +140,26 @@ export default class MiniKenoProViet extends MiniKeno {
         return this.roundsSelection;
     }
 
-    public setGameRound(gameRoundId) {
-        if (gameRoundId && this.rounds) {
-            const formatedRoundId = this.formatGameRound(gameRoundId);
-            this.stopBetMessage.string = MiniKenoProViet.STOP_BET_MESSAGE.replace("$ROUND", formatedRoundId);
-            const currentRound = this.rounds.find(round => round.id === gameRoundId);
-
-            if (currentRound) {
-                this.gameRound.string = `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)}`;
-            }
-        }
-    }
-
     public highlightWonItem(results: any = null, isAnimated = true, winning: boolean = false) {
         super.highlightWonItem(results, isAnimated && this.isIncomingGameRound, winning);
     }
 
-    public static formatGameRound(roundId: number) {
+    public static formatProVGameRound(roundId: number) {
         return `${zeroPad(roundId, 7)}`;
     }
 
     protected formatGameRound(roundId: number) {
-        return `#${MiniKenoProViet.formatGameRound(roundId)}`;
+        if (roundId && this.rounds) {
+            const formatedRoundId = `#${MiniKenoProViet.formatProVGameRound(roundId)}`;
+            this.stopBetMessage.string = MiniKenoProViet.STOP_BET_MESSAGE.replace("$ROUND", formatedRoundId);
+            const currentRound = this.rounds.find(round => round.id === roundId);
+
+            if (currentRound) {
+                return `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)}`;
+            }
+        }
+
+        return "";
     }
 
     protected registerViewGame() {
@@ -176,6 +175,29 @@ export default class MiniKenoProViet extends MiniKeno {
         return super.isDisabledBet() && this.isIncomingGameRound;
     }
 
+    protected initRoundHistory() {
+        super.initRoundHistory();
+        const condition = () => {
+            if (!this.currentDataLogs || !this.currentDataLogs[0] || !this.rounds) {
+                return false;
+            }
+
+            const finishHandler = this.finishHandler as GameBaseFinishHandler;
+            const currentRoundId = this.currentDataLogs[0].roundId + 1;
+            const currentRound = this.rounds.find(round => round.id === currentRoundId);
+
+            if (!currentRound) {
+                return false;
+            }
+
+            const remainingTime = (new Date(currentRound.time).getTime() - new Date().getTime()) / 1000;
+
+            return remainingTime < this.config.stopBetTime
+                || remainingTime > this.config.fullTime - finishHandler.getResultAnimationTime();
+        }
+
+        this.roundHistory.sharedLogControl.init(condition)
+    }
 
     private initGameRound(roundId: number, roundTime: Date) {
         this.resetDataAndUI();

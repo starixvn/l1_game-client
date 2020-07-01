@@ -9,7 +9,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     private static readonly STOP_PLACE_BET_MESSAGE = "Dừng nhận cược.";
 
     constructor(protected readonly main: MiniKeno) {
-        super(main, main.isMiniKeno ? 2 : 4);
+        super(main, main.isMiniKeno ? 1.5 : 3);
     }
 
     public handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
@@ -39,16 +39,16 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
                 typingEffect.setText(MiniKenoFinishHandler.GETTING_RESULT_MESSAGE);
             }
 
-            this.main.stopBetWarning.active = false;
-
             const lastLog = this.main.currentDataLogs[0];
             this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
+            this.main.resetWinningBetItems();
             this.main.roundResult.show(true, this.playResultAnimationTime, () => {
                 this.main.highlightWonItem(lastLog.settlementResult, true, true);
                 this.main.updateRoundHistory();
                 this.showBetStatus();
 
                 onFinishHanlingData();
+                this.main.stopBetWarning.active = false;
             });
         }
     }
@@ -61,8 +61,6 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         if (typingEffect) {
             typingEffect.setText(MiniKenoFinishHandler.STOP_PLACE_BET_MESSAGE);
         }
-
-        this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, true, true);
     }
 
     private showBetStatus() {

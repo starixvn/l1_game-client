@@ -329,7 +329,10 @@ export default class MiniPanel extends cc.Component {
         cc.loader.loadRes(prefabPath, (completedCount, total, item) => {
           this.loading && this.loading.onProgress(completedCount, total, item);
         }, (err: Error, prefab: any) => {
-          if (err || prefab === null || !this.node || !this.node.isValid) {
+          if (!this.node || !this.node.isValid) {
+            return;
+          }
+          if (err || prefab === null) {
             this.loading.node.active = false;
             this.onForceReload();
             return;
