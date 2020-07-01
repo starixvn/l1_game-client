@@ -25,6 +25,9 @@ export default class MiniKeno extends GameMiniBase {
     @property(cc.Sprite)
     kenoName: cc.Sprite = null;
 
+    @property({ type: cc.SpriteFrame })
+    nameFrames: cc.SpriteFrame[] = [];
+
     @property(cc.Toggle)
     favourite: cc.Toggle = null;
 
@@ -51,6 +54,9 @@ export default class MiniKeno extends GameMiniBase {
 
     @property(cc.Prefab)
     betItemsPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    betBoardContainer: cc.Node = null;
 
     @property(cc.Prefab)
     betBoardPrefab: cc.Prefab = null;
@@ -128,6 +134,7 @@ export default class MiniKeno extends GameMiniBase {
 
         const bgIndex = dict[KenoType[this.kenoType]];
         this.headerBg.spriteFrame = this.headerFrames[bgIndex];
+        this.kenoName.spriteFrame = this.nameFrames[this.kenoType];
     }
 
     onDestroy() {
@@ -292,7 +299,7 @@ export default class MiniKeno extends GameMiniBase {
             cancel: (info: BetInfo) => { info.betItem.getComponent(MiniKenoBetItem).clearInputBet(); },
         };
         this.betBoard.node.active = false;
-        this.roundResultContainer.addChild(betBoardNode);
+        this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
     }
 
     protected initTimer() {
