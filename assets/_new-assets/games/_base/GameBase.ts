@@ -25,6 +25,7 @@ export enum GameState {
     None = 0,
     Started,
     Stopped,
+    Disabled
 }
 
 @ccclass
@@ -77,6 +78,7 @@ export default class GameBase extends cc.Component {
 
     public gameState = GameState.None;
     public get isStopGame() { return this.gameState === GameState.Stopped; }
+    public get isDisableGame() { return this.gameState === GameState.Disabled; }
     public waitingProcessing = false;
     public currentTimeRemaining: number;
     public config: GameBaseConfigs;
@@ -168,6 +170,12 @@ export default class GameBase extends cc.Component {
     /** Clear all intervals and timeouts in game */
     stopGame() {
         this.gameState = GameState.Stopped;
+        this.clearIntervalAndTimeout();
+        this.resetDataAndUI();
+    }
+
+    disableGame() {
+        this.gameState = GameState.Disabled;
         this.clearIntervalAndTimeout();
         this.resetDataAndUI();
     }
@@ -275,7 +283,7 @@ export default class GameBase extends cc.Component {
     }
 
     protected bet(betData) {
-        if (this.isStopGame) {
+        if (this.isDisableGame) {
             return;
         }
 
