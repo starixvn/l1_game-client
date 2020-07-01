@@ -115,6 +115,9 @@
       },
       {
         "__id__": 418
+      },
+      {
+        "__id__": 419
       }
     ],
     "_prefab": null,
@@ -844,7 +847,7 @@
       "array": [
         0,
         0,
-        363.73066958946424,
+        541.2658773652742,
         0,
         0,
         0,
@@ -19644,5 +19647,29 @@
       "__id__": 171
     },
     "_id": "f0eqLCpf1GgpWyOKgPla1u"
+  },
+  {
+    "__type__": "a81c82nqD9Il5cACWn04kfy",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "maxIdleTime": 5,
+    "closeGameEvent": {
+      "__id__": 420
+    },
+    "_id": "a73ufOclhL5rMV0hroVN9I"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "24723lmj75OaaA5CAEsELDw",
+    "handler": "backGame",
+    "customEventData": ""
   }
 ]
