@@ -1,128 +1,58 @@
-import * as helper from "../../../../../_new-assets/common/helpers/Helper";
-import GameUtils from "../../../../common/GameUtils";
-import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
-import MiniKeno from "../MiniKeno";
 
 const { ccclass, property } = cc._decorator;
 
 export interface BetInfo {
-  title: string;
-  roundId: string;
-  odd: number;
   choice: string;
-  minBet: number;
-  maxBet: number;
   bet: number;
+  betItem: cc.Node;
 }
 
 @ccclass
 export default class MiniKenoBetBoard extends cc.Component {
-  @property(cc.Label)
-  title: cc.Label = null;
-
-  @property(cc.Label)
-  roundId: cc.Label = null;
-
-  @property(cc.Label)
-  choice: cc.Label = null;
-
-  @property(cc.Label)
-  winBet: cc.Label = null;
-
-  @property(cc.Label)
-  minBet: cc.Label = null;
-
-  @property(cc.Label)
-  maxBet: cc.Label = null;
-
-  @property(cc.Label)
-  betValue: cc.Label = null;
-
-  @property(cc.Button)
-  betButton: cc.Button = null;
-
-  @property(cc.Node)
-  background: cc.Node = null;
-
   private betAmount = 0;
-  public betCallback = (betAmount: number, info: BetInfo) => { };
-  public getPreset = () => {
-    return 0;
-  };
-  private info: BetInfo;
+  private betChoice = "";
+  private currentItem: cc.Node = null;
 
-  public clearBet() {
-    this.betAmount = 0;
-    this.updateBetAmount();
-  }
-
-  public onClose() {
-    cc.RedT.audio.playClick();
-    this.close();
-  }
-
-  public close(enableSound = true) {
-    this.node.active = false;
-    this.betCallback(0, this.info);
+  public callback = {
+    acceptedBet: (betAmount: number, choice: string, betItem: cc.Node) => { },
+    changedBet: (betAmount: number, betItem: cc.Node) => { },
+    cancel: (betItem: cc.Node) => { },
+    getPreset: () => 0,
   }
 
   public onAcceptBet() {
     this.close();
-    this.betCallback(this.betAmount, this.info);
+    this.callback.acceptedBet(this.betAmount, this.betChoice, this.currentItem);
+  }
+
+  public onCloseClick() {
+    cc.RedT.audio.playClick();
+    this.close();
+  }
+
+  public close() {
+    this.node.active = false;
+    this.callback.cancel(this.currentItem);
   }
 
   public show(info: BetInfo) {
-    this.info = info;
-    this.updateInfo();
+    this.currentItem && this.callback.cancel(this.currentItem)
+
+    this.currentItem = info.betItem;
+    this.betChoice = info.choice;
+    this.betAmount = info.bet || this.callback.getPreset();
     this.node.active = true;
+    this.betChanged();
   }
 
-  private updateInfo() {
-    this.betAmount = this.info.bet || this.getPreset();
-    this.updateBetAmount();
-    this.title.string = this.info.title;
-    this.roundId.string = this.info.roundId;
-    this.choice.string = `${GameUtils.getBetChoiceString(this.info.choice)} @${
-      this.info.odd
-      }`;
-    this.minBet.string = helper.numberWithCommas(this.info.minBet);
-    this.maxBet.string = helper.numberWithCommas(this.info.maxBet);
-  }
-
-  public onItemBetClicked(e, index) {
+  public onItemBetClicked(e) {
     cc.RedT.audio.playClick();
-    const amounts = [1, 10, 50, 100, 500, this.info.maxBet];
-    const amount = amounts[index];
-    if (amount == this.info.maxBet) {
-      this.betAmount = amount;
-      this.updateBetAmount();
-      return;
-    }
-
-    if (!this.isValidBet(this.betAmount + amount)) {
-      //show warning
-      return;
-    }
-
-    this.betAmount = this.betAmount + amount;
-    this.updateBetAmount();
+    const amount = +e.target.name;
+    this.betAmount += amount;
+    this.betChanged();
   }
 
-  private updateBetAmount() {
-    this.betValue.string =
-      this.betAmount > 0 ? helper.numberWithCommas(this.betAmount) : "";
-    this.betValue.node.runAction(MiniKeno.getTextChangeEffect());
-    const winAmount = this.betAmount * this.info.odd;
-    this.winBet.string =
-      winAmount > 0 ? helper.numberWithCommas(winAmount) : "";
-    this.winBet.node.runAction(MiniKeno.getTextChangeEffect());
-
-    const canBet = this.betAmount >= this.info.minBet;
-    this.betButton.interactable = canBet;
-    this.betButton.node.opacity = canBet ? 255 : 102;
-  }
-
-  private isValidBet(betAmount: number): boolean {
-    return betAmount <= this.info.maxBet && betAmount >= this.info.minBet;
+  private betChanged() {
+    this.callback.changedBet(this.betAmount, this.currentItem);
   }
 }

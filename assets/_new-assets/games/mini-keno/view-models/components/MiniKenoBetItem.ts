@@ -49,4 +49,12 @@ export default class MiniKenoBetItem extends BetItem {
     public setRule(value: string) {
         this.rule.string = value;
     }
+
+    public inputBetChanged(bet: number) {
+
+    }
+
+    public clearInputBet() {
+
+    }
 }

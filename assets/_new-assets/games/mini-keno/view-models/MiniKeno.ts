@@ -124,7 +124,6 @@ export default class MiniKeno extends GameMiniBase {
         const bgIndex = dict[KenoType[this.kenoType]];
         this.headerBg.spriteFrame = this.headerFrames[bgIndex];
         this.bodyBg.color = colors[bgIndex];
-        this.betBoard.background.color = colors[bgIndex];
     }
 
     onDestroy() {
@@ -156,7 +155,6 @@ export default class MiniKeno extends GameMiniBase {
         }
 
         const betInfo = { ...this.lastBetInfo };
-        betInfo.title = `${KenoUtils.getKenoName(this.kenoType)} - ${this.formatGameRound(this.roundId)}`;
         this.betBoard.show(betInfo);
     }
 
@@ -174,16 +172,12 @@ export default class MiniKeno extends GameMiniBase {
         }
 
         const betChoice = e.target.name;
-        const betInfo = {
-            title: `${KenoUtils.getKenoName(this.kenoType)}`,
-            roundId: this.formatGameRound(this.roundId),
-            odd: this.gameConfigs.odds[betChoice],
+        const info = {
             choice: betChoice,
-            minBet: this.gameConfigs.minbet,
-            maxBet: this.gameConfigs.choices_maxbet[betChoice],
             bet: 0,
-        };
-        this.betBoard.show(betInfo);
+            betItem: e.target
+        }
+        this.betBoard.show(info);
     }
 
     public enableRebetButton(enabled: boolean) {
@@ -277,15 +271,22 @@ export default class MiniKeno extends GameMiniBase {
     protected initBetBoard() {
         const betBoardNode = cc.instantiate(this.betBoardPrefab);
         this.betBoard = betBoardNode.getComponent(MiniKenoBetBoard);
-        this.betBoard.getPreset = () => { return this.getPreset(); };
-        this.betBoard.betCallback = (betAmount, info) => {
-            if (betAmount > 0) {
-                this.enableRebetButton(true);
-                this.sendBet(betAmount, info.choice);
+        this.betBoard.callback = {
+            getPreset: () => { return this.getPreset(); },
+            acceptedBet: (betAmount, choice, betItem) => {
+                if (betAmount > 0) {
+                    this.enableRebetButton(true);
+                    this.sendBet(betAmount, choice);
 
-                this.lastBetInfo = info;
-                this.lastBetInfo.bet = betAmount;
-            }
+                    this.lastBetInfo = {
+                        choice: choice,
+                        bet: betAmount,
+                        betItem: betItem
+                    };
+                }
+            },
+            changedBet: (betAmount: number, betItem: cc.Node) => { betItem.getComponent(MiniKenoBetItem).inputBetChanged(betAmount); },
+            cancel: (betItem: cc.Node) => { betItem.getComponent(MiniKenoBetItem).clearInputBet(); },
         };
         this.betBoard.node.active = false;
         this.center.addChild(betBoardNode);
