@@ -11,7 +11,7 @@ export default class AnimatedTime extends cc.Component {
 
     private timeToChangeColor: number = 5;
     private changedColor: cc.Color = cc.Color.RED;
-    private animatedYTop: number = 60;
+    private animatedYTop: number = 70;
     private animatedYBottom: number = -10;
 
     setRedTime(time: number) {
@@ -49,10 +49,11 @@ export default class AnimatedTime extends cc.Component {
     }
 
     protected handleBetTimeAnimation(node: cc.Node) {
+        node.opacity = 0;
+
         cc.tween(node)
             .to(0, {
                 position: cc.v2(node.position.x, this.animatedYTop),
-                opacity: 0
             })
             .to(0.2, {
                 position: cc.v2(node.position.x, 0),
@@ -63,7 +64,6 @@ export default class AnimatedTime extends cc.Component {
             })
             .to(0.1, {
                 position: cc.v2(node.position.x, 0),
-                opacity: 255
             })
             .start();
     }
