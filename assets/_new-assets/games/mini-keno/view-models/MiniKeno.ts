@@ -281,12 +281,13 @@ export default class MiniKeno extends GameMiniBase {
 
                     this.lastBetInfo = this.betBoard.info;
                 }
+                info.betItem.getComponent(MiniKenoBetItem).clearInputBet();
             },
             changedBet: (info: BetInfo) => { info.betItem.getComponent(MiniKenoBetItem).inputBetChanged(info.bet); },
             cancel: (info: BetInfo) => { info.betItem.getComponent(MiniKenoBetItem).clearInputBet(); },
         };
         this.betBoard.node.active = false;
-        this.center.addChild(betBoardNode);
+        this.roundResultContainer.addChild(betBoardNode);
     }
 
     protected initTimer() {

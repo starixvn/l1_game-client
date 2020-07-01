@@ -1,14 +1,13 @@
 import BetItem from "../../../_base/BetItem";
+import * as helper from "../../../../common/helpers/Helper.js";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniKenoBetItem extends BetItem {
-    @property(cc.Node)
-    choice: cc.Node = null;
 
     @property(cc.Label)
-    rule: cc.Label = null;
+    inputBet: cc.Label = null;
 
     @property(cc.Prefab)
     winningPrefab: cc.Prefab = null;
@@ -23,11 +22,14 @@ export default class MiniKenoBetItem extends BetItem {
     onLoad() {
         this.winningEffectNode.addChild(cc.instantiate(this.winningPrefab));
         this.winningEffectNode.active = false;
+
+        this.inputBet.string = "";
+        this.inputBet.node.parent.active = false;
     }
 
     protected setOwnBet(bet: number) {
         super.setOwnBet(bet);
-        this.ownBet.node.parent.active = bet > 0;
+        this.ownBet.node.active = bet > 0;
     }
 
     public showWinningText() {
@@ -39,22 +41,19 @@ export default class MiniKenoBetItem extends BetItem {
     }
 
     public showWinningEffect() {
-        this.winningEffectNode.active = true;
+        // this.winningEffectNode.active = true;
     }
 
     public hideWinningEffect() {
         this.winningEffectNode.active = false;
     }
 
-    public setRule(value: string) {
-        this.rule.string = value;
-    }
-
     public inputBetChanged(bet: number) {
-
+        this.inputBet.string = helper.numberWithCommas(bet);
+        this.inputBet.node.parent.active = true;
     }
 
     public clearInputBet() {
-
+        this.inputBet.node.parent.active = false;
     }
 }
