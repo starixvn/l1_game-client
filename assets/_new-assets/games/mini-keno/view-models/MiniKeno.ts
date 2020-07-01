@@ -175,7 +175,8 @@ export default class MiniKeno extends GameMiniBase {
         const info = {
             choice: betChoice,
             bet: 0,
-            betItem: e.target
+            betItem: e.target,
+            maxBet: this.gameConfigs.choices_maxbet[betChoice]
         }
         this.betBoard.show(info);
     }
@@ -273,20 +274,16 @@ export default class MiniKeno extends GameMiniBase {
         this.betBoard = betBoardNode.getComponent(MiniKenoBetBoard);
         this.betBoard.callback = {
             getPreset: () => { return this.getPreset(); },
-            acceptedBet: (betAmount, choice, betItem) => {
-                if (betAmount > 0) {
+            acceptedBet: (info: BetInfo) => {
+                if (info.bet > 0) {
                     this.enableRebetButton(true);
-                    this.sendBet(betAmount, choice);
+                    this.sendBet(info.bet, info.choice);
 
-                    this.lastBetInfo = {
-                        choice: choice,
-                        bet: betAmount,
-                        betItem: betItem
-                    };
+                    this.lastBetInfo = this.betBoard.info;
                 }
             },
-            changedBet: (betAmount: number, betItem: cc.Node) => { betItem.getComponent(MiniKenoBetItem).inputBetChanged(betAmount); },
-            cancel: (betItem: cc.Node) => { betItem.getComponent(MiniKenoBetItem).clearInputBet(); },
+            changedBet: (info: BetInfo) => { info.betItem.getComponent(MiniKenoBetItem).inputBetChanged(info.bet); },
+            cancel: (info: BetInfo) => { info.betItem.getComponent(MiniKenoBetItem).clearInputBet(); },
         };
         this.betBoard.node.active = false;
         this.center.addChild(betBoardNode);

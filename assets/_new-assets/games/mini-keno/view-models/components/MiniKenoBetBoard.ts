@@ -5,24 +5,23 @@ export interface BetInfo {
   choice: string;
   bet: number;
   betItem: cc.Node;
+  maxBet: number;
 }
 
 @ccclass
 export default class MiniKenoBetBoard extends cc.Component {
-  private betAmount = 0;
-  private betChoice = "";
-  private currentItem: cc.Node = null;
+  public info: BetInfo = null;
 
   public callback = {
-    acceptedBet: (betAmount: number, choice: string, betItem: cc.Node) => { },
-    changedBet: (betAmount: number, betItem: cc.Node) => { },
-    cancel: (betItem: cc.Node) => { },
+    acceptedBet: (info: BetInfo) => { },
+    changedBet: (info: BetInfo) => { },
+    cancel: (info: BetInfo) => { },
     getPreset: () => 0,
   }
 
   public onAcceptBet() {
     this.close();
-    this.callback.acceptedBet(this.betAmount, this.betChoice, this.currentItem);
+    this.callback.acceptedBet(this.info);
   }
 
   public onCloseClick() {
@@ -32,27 +31,26 @@ export default class MiniKenoBetBoard extends cc.Component {
 
   public close() {
     this.node.active = false;
-    this.callback.cancel(this.currentItem);
+    this.info && this.callback.cancel(this.info);
   }
 
   public show(info: BetInfo) {
-    this.currentItem && this.callback.cancel(this.currentItem)
+    this.info && this.callback.cancel(this.info);
 
-    this.currentItem = info.betItem;
-    this.betChoice = info.choice;
-    this.betAmount = info.bet || this.callback.getPreset();
+    this.info = info;
+    this.info.bet = info.bet || this.callback.getPreset();
     this.node.active = true;
     this.betChanged();
   }
 
   public onItemBetClicked(e) {
     cc.RedT.audio.playClick();
-    const amount = +e.target.name;
-    this.betAmount += amount;
+    const amount = parseInt(e.target.name) || this.info.maxBet;
+    this.info.bet += amount;
     this.betChanged();
   }
 
   private betChanged() {
-    this.callback.changedBet(this.betAmount, this.currentItem);
+    this.callback.changedBet(this.info);
   }
 }
