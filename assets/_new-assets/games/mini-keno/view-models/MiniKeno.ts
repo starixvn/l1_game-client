@@ -171,6 +171,7 @@ export default class MiniKeno extends GameMiniBase {
 
     protected isDisabledBet(): boolean {
         return this.currentTimeRemaining >= this.config.betTime
+            || this.currentTimeRemaining <= this.config.stopBetTime
             || this.gameState == GameState.Stopped;
     }
 
@@ -178,7 +179,7 @@ export default class MiniKeno extends GameMiniBase {
         cc.RedT.audio.playClick();
 
         if (this.isDisabledBet()) {
-            this.showMiniWarning("Vui lòng đặt cược ở phiên sau");
+            this.showMiniWarning("Vui lòng đặt cược ở phiên sau.");
             return;
         }
 

@@ -25,6 +25,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         const resultAnimationPlayed = this.main.currentTimeRemaining < this.main.config.fullTime - resultAnimationTime;
         if (resultAnimationPlayed) {
             this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, true, true);
+            this.main.roundResult.show(false);
         }
 
         const lastWaitTime = this.main.currentTimeRemaining == this.main.config.betTime + 1;
@@ -39,7 +40,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        this.main.stopBetWarning.active = true;
+        // this.main.stopBetWarning.active = true;
         this.main.roundResult.clear();
         this.main.betBoard.close();
         this.main.resetWinningBetItems();
