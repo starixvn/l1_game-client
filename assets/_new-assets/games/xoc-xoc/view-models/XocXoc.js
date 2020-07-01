@@ -173,6 +173,7 @@ cc.Class({
 		this.node.stopAllActions();
 		this.roundHistoryContainer.isValid && this.roundHistoryContainer.destroyAllChildren();
 		this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
+		cc.game.off(cc.game.EVENT_HIDE, this.backGame, this);
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		void 0 !== this.showKQ2Timeout && clearTimeout(this.showKQ2Timeout);
 		void 0 !== this.traThuongTimeout && clearTimeout(this.traThuongTimeout);
@@ -198,6 +199,7 @@ cc.Class({
 				self.avatar.spriteFrame = frame;
 			}
 		});
+		cc.game.on(cc.game.EVENT_HIDE, self.backGame, self);
 		var node = cc.instantiate(this.roundHistoryPrefab);
 		this.roundHistory = node.getComponent("SedieRoundHistory");
 		const condition = () => {

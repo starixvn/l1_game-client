@@ -159,7 +159,8 @@ export default class GameRoomBase extends GameBase {
     }
 
     protected onGameHide() {
-
+        super.onGameHide();
+        this.closeGame();
     }
 
     protected onDataGameRoomGeneral(data: any) {
