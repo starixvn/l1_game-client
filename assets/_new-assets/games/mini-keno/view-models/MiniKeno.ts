@@ -22,8 +22,8 @@ export default class MiniKeno extends GameMiniBase {
     @property({ type: cc.Enum(KenoType) })
     kenoType: KenoType = KenoType.Max;
 
-    @property(cc.Label)
-    kenoName: cc.Label = null;
+    @property(cc.Sprite)
+    kenoName: cc.Sprite = null;
 
     @property(cc.Toggle)
     favourite: cc.Toggle = null;
@@ -33,9 +33,6 @@ export default class MiniKeno extends GameMiniBase {
 
     @property(cc.Sprite)
     headerBg: cc.Sprite = null;
-
-    @property(cc.Node)
-    bodyBg: cc.Node = null;
 
     @property(cc.Node)
     body: cc.Node = null;
@@ -84,7 +81,6 @@ export default class MiniKeno extends GameMiniBase {
     onLoad() {
         this.gameName = `keno${KenoType[this.kenoType]}`;
         this.config = new MiniKenoConfig(this.kenoType);
-        this.kenoName.string = KenoUtils.getKenoName(this.kenoType);
         this.isMiniKeno = this.kenoType == KenoType.Mini || this.kenoType == KenoType.Mini2;
 
         this.initComponents();
@@ -123,7 +119,6 @@ export default class MiniKeno extends GameMiniBase {
 
         const bgIndex = dict[KenoType[this.kenoType]];
         this.headerBg.spriteFrame = this.headerFrames[bgIndex];
-        this.bodyBg.color = colors[bgIndex];
     }
 
     onDestroy() {
@@ -291,10 +286,7 @@ export default class MiniKeno extends GameMiniBase {
     }
 
     protected initTimer() {
-        const timerNode = cc.instantiate(this.timerPrefab);
-        this.kenoTimer = timerNode.getComponent(MiniKenoTimer);
-        this.animatedTime = this.kenoTimer;
-        this.timer.addChild(this.kenoTimer.node);
+
     }
 
     public highlightWonItem(results: any, isAnimated = true, winning = false) {

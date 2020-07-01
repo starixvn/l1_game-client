@@ -40,7 +40,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         super.handleInLockBetTime();
         this.main.stopBetWarning.active = true;
         this.main.roundResult.clear();
-        this.main.betBoard.close(false);
+        this.main.betBoard.close();
         this.main.resetWinningBetItems();
     }
 
