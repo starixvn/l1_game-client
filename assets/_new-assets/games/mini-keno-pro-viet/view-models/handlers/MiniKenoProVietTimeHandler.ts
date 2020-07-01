@@ -65,4 +65,9 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         super.handleInLockBetTime();
         this.main.stopBetWarning.active = !this.main.umNotice.node.active;
     }
+
+    protected resetAnimatedTime() {
+        this.main.animatedTime && (this.main.animatedTime.node.active = true);
+        this.main.animatedTime.resetTime();
+    }
 }

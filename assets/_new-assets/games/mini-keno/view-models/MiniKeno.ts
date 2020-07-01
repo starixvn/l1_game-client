@@ -95,6 +95,15 @@ export default class MiniKeno extends GameMiniBase {
         this.resetDataAndUI();
     }
 
+    public resetDataAndUI() {
+        super.resetDataAndUI();
+        this.roundResult.node.active = false;
+        this.stopBetWarning.active = false;
+        this.animatedTime.node.active = false;
+        this.animatedTime.resetTime();
+        this.betBoard.node.active = false;
+    }
+
     initHeaderBackground() {
         if (!this.headerBg) {
             return;
@@ -262,6 +271,7 @@ export default class MiniKeno extends GameMiniBase {
         this.roundResult = roundResultNode.getComponent(MiniKenoRoundResult);
         this.roundResultContainer.addChild(roundResultNode);
         this.roundResult.init(this);
+        this.roundResult.node.active = false;
     }
 
     protected initBetBoard() {

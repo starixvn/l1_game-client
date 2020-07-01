@@ -13,6 +13,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
     handleInRoundTime() {
         super.handleInRoundTime();
         this.main.stopBetWarning.active = false;
+        this.main.roundResult.node.active = false;
         this.main.currentDataLogs && this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
     }
 
@@ -55,8 +56,8 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         this.resetAnimatedTime();
     }
 
-    private resetAnimatedTime() {
-        this.main.animatedTime && (this.main.animatedTime.node.active = true);
+    protected resetAnimatedTime() {
+        this.main.animatedTime && (this.main.animatedTime.node.active = false);
         this.main.animatedTime.resetTime();
     }
 }

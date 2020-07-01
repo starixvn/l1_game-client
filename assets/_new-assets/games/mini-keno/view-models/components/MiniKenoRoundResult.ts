@@ -24,21 +24,21 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
     public setData(result: number[], settlementResult: any, roundId: number = 0, roundTime: string = null) {
         super.setData(result, settlementResult);
 
-        this.roundInfo.active = true;
-        let gameRound: string;
+        // this.roundInfo.active = true;
+        // let gameRound: string;
 
-        if (this.miniKeno.kenoType == KenoType.ProViet) {
-            this.roundTime.node.active = true;
-            this.roundTime.string = moment(roundTime).format(MiniKenoProViet.DATETIME_FORMAT);
-            this.roundId.string = `Kỳ xổ: <color=#ffe79e>#${zeroPad(roundId, 7)} </color>`;
-        }
-        else {
-            this.roundTime.node.active = false;
-            gameRound = roundId.toString();
-            this.roundInfo.removeComponent("hoverScale");
-            this.roundInfo.removeComponent(cc.Button);
-            this.roundId.string = ` Phiên xổ \n #${roundId} `;
-        }
+        // if (this.miniKeno.kenoType == KenoType.ProViet) {
+        //     this.roundTime.node.active = true;
+        //     this.roundTime.string = moment(roundTime).format(MiniKenoProViet.DATETIME_FORMAT);
+        //     this.roundId.string = `Kỳ xổ: <color=#ffe79e>#${zeroPad(roundId, 7)} </color>`;
+        // }
+        // else {
+        //     this.roundTime.node.active = false;
+        //     gameRound = roundId.toString();
+        //     this.roundInfo.removeComponent("hoverScale");
+        //     this.roundInfo.removeComponent(cc.Button);
+        //     this.roundId.string = ` Phiên xổ \n #${roundId} `;
+        // }
     }
 
     init(miniKeno: MiniKeno) {
@@ -62,7 +62,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
 
         this.betChoices.forEach(choice => choice.setValue(""))
         this.total.string = "";
-        this.roundInfo && (this.roundInfo.active = false);
+        // this.roundInfo && (this.roundInfo.active = false);
     }
 
     public show(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {

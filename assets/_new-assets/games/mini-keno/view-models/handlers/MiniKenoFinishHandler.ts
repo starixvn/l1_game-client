@@ -26,7 +26,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
             const lastLog = this.main.currentDataLogs[0];
             this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId,
                 this.main.kenoType == KenoType.ProViet ? lastLog.time : null);
-            this.main.roundResult.show(false);
+            // this.main.roundResult.show(false);
             this.main.highlightWonItem(lastLog.settlementResult, false, true);
         }
     }
