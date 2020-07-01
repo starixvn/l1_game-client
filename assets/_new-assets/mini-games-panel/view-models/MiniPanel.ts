@@ -491,4 +491,9 @@ export default class MiniPanel extends cc.Component {
     this.sound.spriteFrame = this.soundOff;
     cc.RedT.setSoundGame(false);
   }
+
+  public openResultPage() {
+    window.open(configs.resultPageUrl, '_blank', "rel=noopener noreferrer");
+    window.focus();
+  }
 }
