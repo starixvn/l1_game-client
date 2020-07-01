@@ -158,14 +158,14 @@ export default class KenoProViet extends cc.Component {
     }
 
     private initPresetBetBoard() {
-        const node = cc.instantiate(this.presetBetPrefab);
-        this.presetBet = node.getComponent(MiniKenoPresetBet);
-        this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
-        this.presetBet.show(false);
-        this.presetBet.getPreset = () => this.presetBetValue;
-        this.presetNode.addChild(node);
+        // const node = cc.instantiate(this.presetBetPrefab);
+        // this.presetBet = node.getComponent(MiniKenoPresetBet);
+        // this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
+        // this.presetBet.show(false);
+        // this.presetBet.getPreset = () => this.presetBetValue;
+        // this.presetNode.addChild(node);
 
-        this.presetBetValue = parseFloat(cc.sys.localStorage.getItem("keno_preset_bet")) || 0;
+        // this.presetBetValue = parseFloat(cc.sys.localStorage.getItem("keno_preset_bet")) || 0;
     }
 
     private changedPresetBet(value: number) {

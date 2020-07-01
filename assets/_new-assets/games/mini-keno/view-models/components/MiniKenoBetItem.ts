@@ -31,11 +31,11 @@ export default class MiniKenoBetItem extends BetItem {
     }
 
     public showWinningText() {
-        this.choice.color = this.highlightColor;
+        // this.choice.color = this.highlightColor;
     }
 
     public hideWinningText() {
-        this.choice.color = this.normalColor;
+        // this.choice.color = this.normalColor;
     }
 
     public showWinningEffect() {

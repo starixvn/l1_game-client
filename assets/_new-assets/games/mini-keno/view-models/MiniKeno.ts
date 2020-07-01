@@ -257,11 +257,11 @@ export default class MiniKeno extends GameMiniBase {
     }
 
     protected initRoundResult() {
-        this.betItems.forEach(item => {
-            const miniKenoBetItem = item as MiniKenoBetItem;
-            const rule = KenoUtils.getKenoRuleChoice(item.node.name, this.isMiniKeno);
-            miniKenoBetItem.setRule(rule);
-        });
+        // this.betItems.forEach(item => {
+        // const miniKenoBetItem = item as MiniKenoBetItem;
+        // const rule = KenoUtils.getKenoRuleChoice(item.node.name, this.isMiniKeno);
+        // miniKenoBetItem.setRule(rule);
+        // });
 
         const roundResultNode = cc.instantiate(this.roundResultPrefab);
         this.roundResult = roundResultNode.getComponent(MiniKenoRoundResult);
