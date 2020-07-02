@@ -49,6 +49,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     playTime(): void {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
+        this.main.gameState = GameState.Started;
 
         this.playTimeInterval = setInterval(() => {
             if (this.isInWaitTime) {

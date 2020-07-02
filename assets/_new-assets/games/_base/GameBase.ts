@@ -240,7 +240,7 @@ export default class GameBase extends cc.Component {
     }
 
     showUmMessage(data: any) {
-        if (this.gameState == GameState.Stopped) {
+        if (this.isDisableGame) {
             return;
         }
 
