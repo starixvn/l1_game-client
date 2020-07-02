@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
 import * as config from '../../../Configs.js';
+import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
@@ -9,7 +10,6 @@ import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandle
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
 import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
-import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -37,14 +37,11 @@ export default class MiniKenoProViet extends MiniKeno {
         super.onLoad();
         this.config = new MiniKenoProVietConfig();
         this.addHandlers(this.roundsHandler)
-        this.kenoTimer.init(true);
     }
 
-    protected initTimer() {
-        const timerNode = cc.instantiate(this.timerPrefab);
-        this.kenoTimer = timerNode.getComponent(MiniKenoTimer);
-        this.animatedTime = this.kenoTimer;
-        this.timer.addChild(this.kenoTimer.node);
+    protected initComponents() {
+        super.initComponents();
+        this.initTimer();
     }
 
     public startGame() {
@@ -215,5 +212,13 @@ export default class MiniKenoProViet extends MiniKeno {
         this.setGameRound(this.roundId);
         this.getPlayerBetsAndTimeOfRound(roundId.toString());
         this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1;
+    }
+
+    private initTimer() {
+        const timerNode = cc.instantiate(this.timerPrefab);
+        this.kenoTimer = timerNode.getComponent(MiniKenoTimer);
+        this.animatedTime = this.kenoTimer;
+        this.timer.addChild(this.kenoTimer.node);
+        this.kenoTimer.init(true, 12, -3);
     }
 }

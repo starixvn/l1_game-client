@@ -12,7 +12,7 @@ import MiniKenoFinishHandler from "./handlers/MiniKenoFinishHandler";
 import MiniKenoLogsHandler from "./handlers/MiniKenoLogsHandler";
 import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
 import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
-import KenoUtils, { KenoType } from "./KenoUtils";
+import { KenoType } from "./KenoUtils";
 import MiniKenoConfig from "./MiniKenoConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -252,7 +252,6 @@ export default class MiniKeno extends GameMiniBase {
         this.initRoundHistory();
         this.initRoundResult();
         this.initBetBoard();
-        this.initTimer();
     }
 
     protected initBetItems() {
@@ -304,10 +303,6 @@ export default class MiniKeno extends GameMiniBase {
         };
         this.betBoard.node.active = false;
         this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
-    }
-
-    protected initTimer() {
-
     }
 
     public highlightWonItem(results: any, isAnimated = true, winning = false) {
