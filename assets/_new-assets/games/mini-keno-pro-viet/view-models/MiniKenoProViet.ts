@@ -9,7 +9,7 @@ import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandle
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
 import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
-import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer.js";
+import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer";
 
 const { ccclass, property } = cc._decorator;
 
