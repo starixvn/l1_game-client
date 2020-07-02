@@ -109,7 +109,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
 
                         onComplete();
 
-                        this.hide();
+                        // this.hide();
                     }),
                 )
             );
