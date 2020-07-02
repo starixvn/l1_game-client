@@ -153,6 +153,10 @@ export default class MiniKenoProViet extends MiniKeno {
         return `${zeroPad(roundId, 7)}`;
     }
 
+    public isInLastRoundOfDay(remainingTime: number) {
+        return remainingTime > this.config.fullTime && this.isIncomingGameRound;
+    }
+
     protected formatGameRound(roundId: number) {
         if (roundId && this.rounds) {
             const formatedRoundId = `#${MiniKenoProViet.formatProVGameRound(roundId)}`;
@@ -177,7 +181,7 @@ export default class MiniKenoProViet extends MiniKeno {
     }
 
     protected isDisabledBet(): boolean {
-        return super.isDisabledBet() && this.isIncomingGameRound;
+        return super.isDisabledBet() && this.isIncomingGameRound && !this.isInLastRoundOfDay;
     }
 
     protected initRoundHistory() {
@@ -198,7 +202,8 @@ export default class MiniKenoProViet extends MiniKeno {
             const remainingTime = (new Date(currentRound.time).getTime() - new Date().getTime()) / 1000;
 
             return remainingTime < this.config.stopBetTime
-                || remainingTime > this.config.fullTime - finishHandler.getResultAnimationTime();
+                || (remainingTime > this.config.fullTime - finishHandler.getResultAnimationTime()
+                    && !this.isInLastRoundOfDay(remainingTime));
         }
 
         this.roundHistory.sharedLogControl.init(condition)

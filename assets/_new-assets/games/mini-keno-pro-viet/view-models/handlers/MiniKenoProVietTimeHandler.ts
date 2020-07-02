@@ -20,14 +20,14 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     protected setCurrentTimeRemaining(data: any) {
         const isInFutureRound = this.main.roundEndTime && !this.main.isIncomingGameRound;
 
-        if (isInFutureRound || this.isInLastRoundOfDay(data.remainingTime)) {
+        if (isInFutureRound || this.main.isInLastRoundOfDay(data.remainingTime)) {
             if (data.remainingTime <= this.main.config.stopBetTime) {
                 this.main.roundResult.clear();
                 this.main.betItems.forEach(item => item.setHighlight(false));
             }
 
             if (this.main.roundEndTime) {
-                const remainingTime = (this.main.roundEndTime.getTime() - new Date("2020-07-01T15:38:01.474+00:00").getTime()) / 1000;
+                const remainingTime = (this.main.roundEndTime.getTime() - new Date().getTime()) / 1000;
                 this.main.currentTimeRemaining = remainingTime;
             }
             else {
@@ -42,7 +42,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
 
 
     playTime() {
-        if (this.main.isIncomingGameRound && !this.isInLastRoundOfDay(this.main.currentTimeRemaining)) {
+        if (this.main.isIncomingGameRound && !this.main.isInLastRoundOfDay(this.main.currentTimeRemaining)) {
             super.playTime();
         }
         else {
@@ -78,9 +78,5 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     protected resetAnimatedTime() {
         this.main.animatedTime && (this.main.animatedTime.node.active = true);
         this.main.animatedTime.resetTime();
-    }
-
-    private isInLastRoundOfDay(remainingTime: number) {
-        return remainingTime > this.main.config.fullTime;
     }
 }
