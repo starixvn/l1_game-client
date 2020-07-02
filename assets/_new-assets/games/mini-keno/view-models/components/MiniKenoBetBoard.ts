@@ -50,6 +50,7 @@ export default class MiniKenoBetBoard extends cc.Component {
     cc.RedT.audio.playClick();
     const amount = parseInt(e.target.name) || this.info.maxBet;
     this.info.bet += amount;
+    this.info.bet = Math.min(this.info.bet, this.info.maxBet);
     this.betChanged();
   }
 

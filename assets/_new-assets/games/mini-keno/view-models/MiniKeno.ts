@@ -110,7 +110,7 @@ export default class MiniKeno extends GameMiniBase {
         this.stopBetWarning.active = false;
         this.animatedTime.node.active = false;
         this.animatedTime.resetTime();
-        this.betBoard.node.active = false;
+        this.betBoard.close();
     }
 
     initHeaderBackground() {
