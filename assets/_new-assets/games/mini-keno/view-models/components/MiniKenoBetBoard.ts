@@ -38,7 +38,12 @@ export default class MiniKenoBetBoard extends cc.Component {
   }
 
   public show(info: BetInfo) {
-    this.info && this.callback.cancel(this.info);
+    if (this.info) {
+      if (info.choice === this.info.choice) {
+        return;
+      }
+      this.callback.cancel(this.info);
+    }
 
     this.info = info;
     this.info.bet = info.bet || this.callback.getPreset();
