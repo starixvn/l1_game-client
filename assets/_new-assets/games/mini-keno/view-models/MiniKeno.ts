@@ -68,6 +68,9 @@ export default class MiniKeno extends GameMiniBase {
     roundResultPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
+    roundResultMiniPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
     roundHistoryPrefab: cc.Prefab = null;
 
     @property(cc.Button)
@@ -275,7 +278,7 @@ export default class MiniKeno extends GameMiniBase {
         // miniKenoBetItem.setRule(rule);
         // });
 
-        const roundResultNode = cc.instantiate(this.roundResultPrefab);
+        const roundResultNode = cc.instantiate(this.isMiniKeno ? this.roundResultMiniPrefab : this.roundResultPrefab);
         this.roundResult = roundResultNode.getComponent(MiniKenoRoundResult);
         this.roundResultContainer.addChild(roundResultNode);
         this.roundResult.init(this);
