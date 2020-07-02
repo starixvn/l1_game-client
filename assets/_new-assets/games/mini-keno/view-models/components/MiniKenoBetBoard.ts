@@ -10,6 +10,9 @@ export interface BetInfo {
 
 @ccclass
 export default class MiniKenoBetBoard extends cc.Component {
+  @property(cc.Button)
+  okButton: cc.Button = null;
+
   public info: BetInfo = null;
 
   public callback = {
@@ -52,5 +55,6 @@ export default class MiniKenoBetBoard extends cc.Component {
 
   private betChanged() {
     this.callback.changedBet(this.info);
+    this.okButton.interactable = this.info.bet > 0;
   }
 }

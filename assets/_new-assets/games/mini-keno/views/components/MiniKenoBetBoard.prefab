@@ -3142,7 +3142,9 @@
       "__id__": 78
     },
     "_enabled": true,
-    "_normalMaterial": null,
+    "_normalMaterial": {
+      "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+    },
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.1,
@@ -3152,7 +3154,7 @@
       }
     ],
     "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
+    "_N$enableAutoGrayEffect": true,
     "_N$transition": 3,
     "transition": 3,
     "_N$normalColor": {
@@ -3710,6 +3712,9 @@
       "__id__": 1
     },
     "_enabled": true,
+    "okButton": {
+      "__id__": 83
+    },
     "_id": ""
   },
   {
