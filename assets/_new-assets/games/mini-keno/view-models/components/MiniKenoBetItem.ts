@@ -41,7 +41,7 @@ export default class MiniKenoBetItem extends BetItem {
     }
 
     public showWinningEffect() {
-        // this.winningEffectNode.active = true;
+        this.winningEffectNode.active = true;
     }
 
     public hideWinningEffect() {

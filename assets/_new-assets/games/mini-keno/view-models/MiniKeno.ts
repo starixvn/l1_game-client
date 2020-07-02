@@ -325,6 +325,7 @@ export default class MiniKeno extends GameMiniBase {
         this.betItems.forEach((item: MiniKenoBetItem) => {
             item.hideWinningText();
             item.hideWinningEffect();
+            item.resetHighlight();
         });
     }
 }
