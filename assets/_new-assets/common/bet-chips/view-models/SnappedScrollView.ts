@@ -21,8 +21,9 @@ export default class SnappedScrollView extends cc.Component {
         const count = this.scroll.content.childrenCount;
         const contentWidth = count * this.itemSize + (count + 1) * this.spacing;
         const maxOffset = contentWidth - this.scroll.node.width;// this.scroll.getMaxScrollOffset().x;
+        const haftSpacing = this.spacing / 2;
         for (var i = 0; i < count; i++) {
-            let offset = (this.itemSize + this.spacing) * i;
+            let offset = (this.itemSize + this.spacing) * i + haftSpacing;
             if (offset > maxOffset) {
                 offset = maxOffset;
             }
