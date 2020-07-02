@@ -63,7 +63,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
         }
     }
 
-    private showBetStatus() {
+    protected showBetStatus() {
         const statusData = this.main.statusHandler.currentStatusData;
 
         if (statusData) {
