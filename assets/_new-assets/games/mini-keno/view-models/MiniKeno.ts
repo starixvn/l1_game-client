@@ -104,6 +104,11 @@ export default class MiniKeno extends GameMiniBase {
         this.resetDataAndUI();
     }
 
+    disableGame() {
+        super.disableGame();
+        this.node.stopAllActions();
+    }
+
     public resetDataAndUI() {
         super.resetDataAndUI();
         this.roundResult.node.active = false;

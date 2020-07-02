@@ -1,10 +1,7 @@
-import * as _ from "lodash";
-import KenoUtils, { KenoType } from "../KenoUtils";
 import KenoRoundResult from "../../../keno-pro/view-models/history/KenoRoundResult";
-import MiniKeno from "../MiniKeno";
 import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
-import * as moment from "moment";
-import { zeroPad } from "../../../../common/helpers/Helper";
+import KenoUtils, { KenoType } from "../KenoUtils";
+import MiniKeno from "../MiniKeno";
 
 const { ccclass, property } = cc._decorator;
 
@@ -67,8 +64,20 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
         // this.roundInfo && (this.roundInfo.active = false);
     }
 
-    public show(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
+    public show() {
+        if (this.node.active) {
+            return;
+        }
+
         this.node.active = true;
+        this.node.scale = 0;
+
+        this.node.runAction(cc.scaleTo(.3, 1, 1));
+    }
+
+    public showResult(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
+        this.show();
+
         if (animated) {
             this.total.string = "0";
             const miniType = this.result.length < 20;
@@ -89,32 +98,28 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
                 cc.delayTime(duration / this.result.length)
             );
 
-            this.node.scale = 0;
-            const spawn = cc.spawn(
-                cc.scaleTo(.3, 1, 1),
-                cc.sequence(
-                    cc.repeat(showNumberAction, this.result.length),
-                    cc.callFunc(() => {
-                        this.total.node.runAction(cc.sequence(
+
+            const action = cc.sequence(
+                cc.repeat(showNumberAction, this.result.length),
+                cc.callFunc(() => {
+                    this.total.node.runAction(cc.sequence(
+                        cc.scaleTo(.1, 1.2),
+                        cc.scaleTo(.1, 1)
+                    ));
+                    this.betChoices.forEach(label => {
+                        label.node.runAction(cc.sequence(
                             cc.scaleTo(.1, 1.2),
                             cc.scaleTo(.1, 1)
                         ));
-                        this.betChoices.forEach(label => {
-                            label.node.runAction(cc.sequence(
-                                cc.scaleTo(.1, 1.2),
-                                cc.scaleTo(.1, 1)
-                            ));
-                        });
-                        this.showSettleResult(this.settlementResult);
+                    });
+                    this.showSettleResult(this.settlementResult);
 
-                        onComplete();
-
-                        // this.hide();
-                    }),
-                )
+                    onComplete();
+                }),
             );
-            spawn.setTag(this.showActionTag);
-            this.node.runAction(spawn);
+
+            action.setTag(this.showActionTag);
+            this.node.runAction(action);
         } else {
             this.node.stopActionByTag(this.showActionTag);
             this.total.node.scale = 1;

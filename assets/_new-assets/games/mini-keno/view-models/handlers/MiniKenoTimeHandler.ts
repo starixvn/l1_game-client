@@ -1,8 +1,6 @@
-import { GameState } from "../../../_base/GameBase";
-import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
-import MiniKenoBetItem from "../components/MiniKenoBetItem";
-import MiniKeno from "../MiniKeno";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
+import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
+import MiniKeno from "../MiniKeno";
 
 export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
@@ -12,8 +10,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleInRoundTime() {
         super.handleInRoundTime();
-        this.main.stopBetWarning.active = false;
-        this.main.roundResult.node.active = false;
+
         this.main.currentDataLogs && this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
     }
 
@@ -23,15 +20,17 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
         const resultAnimationTime = (this.main.finishHandler as GameBaseFinishHandler).getResultAnimationTime();
         const resultAnimationPlayed = this.main.currentTimeRemaining < this.main.config.fullTime - resultAnimationTime;
+
         if (resultAnimationPlayed) {
             const lastLog = this.main.currentDataLogs[0];
             this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
             this.main.highlightWonItem(lastLog.settlementResult, true, true);
             this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
-            this.main.roundResult.show(false);
+            this.main.roundResult.showResult(false);
         }
 
         const lastWaitTime = this.main.currentTimeRemaining == this.main.config.betTime + 1;
+
         if (lastWaitTime && this.main.node.activeInHierarchy && !this.main.isStopGame) {
             this.main.node.runAction(cc.sequence(
                 cc.delayTime(0.5),
@@ -43,7 +42,7 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        // this.main.stopBetWarning.active = true;
+
         this.main.roundResult.clear();
         this.main.betBoard.close();
         this.main.resetWinningBetItems();

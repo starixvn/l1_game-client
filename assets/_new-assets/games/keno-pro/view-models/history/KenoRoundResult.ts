@@ -1,8 +1,8 @@
-import KenoNumber from "../KenoNumber";
 import * as _ from "lodash";
-import BetChoice from "../BetChoice";
-import KenoUtils from "../../../mini-keno/view-models/KenoUtils";
 import GameUtils from "../../../../common/GameUtils";
+import KenoUtils from "../../../mini-keno/view-models/KenoUtils";
+import BetChoice from "../BetChoice";
+import KenoNumber from "../KenoNumber";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,7 +36,7 @@ export default class KenoRoundResult extends cc.Component {
         this.settlementResult = settlementResult;
     }
 
-    public show(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
+    public showResult(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
         this.node.active = true;
 
         if (animated) {
@@ -96,6 +96,11 @@ export default class KenoRoundResult extends cc.Component {
 
     protected showSettleResult(settlementResult: any) {
         let index = 0;
+
+        if (!settlementResult) {
+            return;
+        }
+
         Object.keys(settlementResult).forEach(key => {
             if (settlementResult[key]) {
                 const betChoice = this.betChoices[index];

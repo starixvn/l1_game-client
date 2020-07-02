@@ -1,8 +1,8 @@
-import MiniKeno from "../MiniKeno";
-import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
-import MiniKenoStatusHandler from "./MiniKenoStatusHandler";
 import TypingEffectLabel from "../../../../common/TypingEffectLabel";
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import { KenoType } from "../KenoUtils";
+import MiniKeno from "../MiniKeno";
+import MiniKenoStatusHandler from "./MiniKenoStatusHandler";
 
 export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     private static readonly GETTING_RESULT_MESSAGE = "Đang xổ kết quả ...";
@@ -42,7 +42,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
             const lastLog = this.main.currentDataLogs[0];
             this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
             this.main.resetWinningBetItems();
-            this.main.roundResult.show(true, this.playResultAnimationTime, () => {
+            this.main.roundResult.showResult(true, this.playResultAnimationTime, () => {
                 this.main.highlightWonItem(lastLog.settlementResult, true, true);
                 this.main.updateRoundHistory();
                 this.showBetStatus();

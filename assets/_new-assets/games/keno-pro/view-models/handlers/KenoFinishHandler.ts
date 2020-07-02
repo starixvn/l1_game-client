@@ -26,7 +26,7 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
         var resultNumbers = this.main.currentDataLogs[0].result;
         this.main.resultAnimating = true;
         this.main.roundResult.setData(resultNumbers, this.main.currentDataLogs[0].settlementResult);
-        this.main.roundResult.show(true, this.playResultAnimationTime, () => {
+        this.main.roundResult.showResult(true, this.playResultAnimationTime, () => {
             this.main.resultAnimating = false;
             var handler = this.main.timeHandler as KenoTimeHandler;
             handler.showResult(true);
