@@ -102,6 +102,7 @@ export default class MiniKenoProViet extends MiniKeno {
 
         this.stopBetWarning.active = false;
         this.animatedTime.node.active = true;
+        this.timer.active = true;
         this.animatedTime.resetTime();
         this.betBoard.node.active = false;
         this.roundsSelection && (this.roundsSelection.node.active = false);
@@ -181,7 +182,7 @@ export default class MiniKenoProViet extends MiniKeno {
     }
 
     protected isDisabledBet(): boolean {
-        return super.isDisabledBet() && this.isIncomingGameRound && !this.isInLastRoundOfDay;
+        return super.isDisabledBet() && this.isIncomingGameRound && !this.isInLastRoundOfDay(this.currentTimeRemaining);
     }
 
     protected initRoundHistory() {

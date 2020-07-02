@@ -39,8 +39,6 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         }
     }
 
-
-
     playTime() {
         if (this.main.isIncomingGameRound && !this.main.isInLastRoundOfDay(this.main.currentTimeRemaining)) {
             super.playTime();
@@ -68,21 +66,12 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         super.handleStartingNewGameRound();
         this.main.getPlayerBetsAndTimeOfRound(this.main.roundId.toString());
         this.main.getGameRounds();
+        this.main.timer.active = true;
     }
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
         this.main.roundResult.show();
-        // this.main.stopBetWarning.active = !this.main.umNotice.node.active;
-    }
-
-    handleInEndTime() {
-        super.handleInEndTime();
-        // this.main.stopBetWarning.active = false;
-    }
-
-    protected resetAnimatedTime() {
-        this.main.animatedTime && (this.main.animatedTime.node.active = true);
-        this.main.animatedTime.resetTime();
+        this.main.timer.active = false;
     }
 }

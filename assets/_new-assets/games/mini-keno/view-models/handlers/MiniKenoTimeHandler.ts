@@ -16,8 +16,6 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-        this.resetAnimatedTime();
-
         const resultAnimationTime = (this.main.finishHandler as GameBaseFinishHandler).getResultAnimationTime();
         const resultAnimationPlayed = this.main.currentTimeRemaining < this.main.config.fullTime - resultAnimationTime;
 
@@ -48,19 +46,12 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         this.main.resetWinningBetItems();
     }
 
-    handleInEndTime() {
-        super.handleInEndTime();
-        this.resetAnimatedTime();
-        this.main.resetWinningBetItems();
-    }
-
     resetTime(): void {
         super.resetTime();
         this.resetAnimatedTime();
     }
 
     protected resetAnimatedTime() {
-        this.main.animatedTime && (this.main.animatedTime.node.active = false);
         this.main.animatedTime.resetTime();
     }
 }
