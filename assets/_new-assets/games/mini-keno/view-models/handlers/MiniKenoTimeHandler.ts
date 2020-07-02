@@ -24,7 +24,10 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         const resultAnimationTime = (this.main.finishHandler as GameBaseFinishHandler).getResultAnimationTime();
         const resultAnimationPlayed = this.main.currentTimeRemaining < this.main.config.fullTime - resultAnimationTime;
         if (resultAnimationPlayed) {
-            this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, true, true);
+            const lastLog = this.main.currentDataLogs[0];
+            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
+            this.main.highlightWonItem(lastLog.settlementResult, true, true);
+            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
             this.main.roundResult.show(false);
         }
 
