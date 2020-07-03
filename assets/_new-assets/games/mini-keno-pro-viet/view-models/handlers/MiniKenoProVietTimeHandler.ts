@@ -93,7 +93,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     handleInEndTime() {
         super.handleInEndTime();
 
-        this.main.animatedTime.setTime("0");
+        this.main.roundResult.setTimer("0");
         this.main.roundResult.node.scaleX = 1;
         this.main.stopBetWarning.active = false;
     }
