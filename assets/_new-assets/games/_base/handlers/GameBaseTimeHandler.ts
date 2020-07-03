@@ -36,6 +36,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             this.setCurrentTimeRemaining(data);
             this.playTime();
             this.main.hideUmMessage();
+            this.main.gameState = GameState.Started;
 
             return true;
         }
@@ -49,7 +50,6 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     playTime(): void {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
-        this.main.gameState = GameState.Started;
 
         this.playTimeInterval = setInterval(() => {
             if (this.isInWaitTime) {
