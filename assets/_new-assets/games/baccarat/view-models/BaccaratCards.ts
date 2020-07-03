@@ -36,10 +36,12 @@ export default class BaccaratCards extends cc.Component {
     private readonly openCardSecond = 0.3;
     private readonly openSecondCardSecond = 1.6;
     private readonly setPointSecond = 0.2;
+    private isMainPage = false;
 
-    init(cardsResource, resetCard3 = true) {
+    init(cardsResource, isMainPage = true) {
         this.cardsResource = cardsResource;
-        resetCard3 && this.resetCard(this.card3);
+        isMainPage && this.resetCard(this.card3);
+        this.isMainPage = isMainPage;
     }
 
     resetCards() {
@@ -64,7 +66,7 @@ export default class BaccaratCards extends cc.Component {
         this.openCard(0, cards, false);
         this.openCard(1, cards, false);
 
-        if (cards.length >= 3 && cards[2]) {
+        if (cards.length > 2 && cards[2]) {
             this.openCard(2, cards, false);
             this.otherCard && (this.otherCard.active = true);
         }
@@ -188,11 +190,13 @@ export default class BaccaratCards extends cc.Component {
             const cardData = cards[index];
             const currentCard = this["card" + (index + 1)] as cc.Sprite;
 
-            if (!cardData) {
+            if (cardData) {
+                currentCard.node.active = true;
+            }
+            else {
                 currentCard.node.active = false;
             }
 
-            currentCard.node.active = true;
             currentCard.spriteFrame = this.cardsResource.getCard(cardData.card, cardData.type);
 
             if (isAnimated) {
@@ -229,6 +233,13 @@ export default class BaccaratCards extends cc.Component {
                             cc.rotateBy(0.5, this.isBanker ? 270 : -270).easing(cc.easeSineOut())
                         )
                     )
+                }
+            }
+            else {
+                if (this.isMainPage && index == 2) {
+                    currentCard.node.opacity = 255;
+                    currentCard.node.scale = 1;
+                    currentCard.node.angle = this.isBanker ? 90 : -90;
                 }
             }
 
