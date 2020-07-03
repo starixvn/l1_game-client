@@ -25,7 +25,7 @@ export default class MiniKenoProViet extends MiniKeno {
     static readonly DATE_FORMAT = "DD/MM";
     static readonly FULL_DATE_FORMAT = "DD/MM/YYYY";
     static readonly DATETIME_FORMAT = "DD/MM HH:mm";
-    static readonly STOP_BET_MESSAGE = "Kỳ vé $ROUND đã dừng nhận cược. \nVui lòng chọn kỳ vé khác."
+    static readonly STOP_BET_MESSAGE = "Kỳ vé $ROUND \nđã dừng nhận cược. \nVui lòng chọn kỳ vé khác."
 
     roundsHandler: MiniKenoProVietRoundsHandler;
     rounds: MiniKenoProVietRound[];
@@ -100,7 +100,6 @@ export default class MiniKenoProViet extends MiniKeno {
     public resetDataAndUI() {
         super.resetDataAndUI();
 
-        this.stopBetWarning.active = false;
         this.animatedTime.node.active = true;
         this.timer.active = true;
         this.animatedTime.resetTime();

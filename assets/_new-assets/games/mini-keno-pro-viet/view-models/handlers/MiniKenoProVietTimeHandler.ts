@@ -74,5 +74,33 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         this.main.roundResult.show();
         this.main.roundResult.setTimer(this.main.currentTimeRemaining.toString());
         this.main.timer.active = false;
+
+        if (this.main.currentTimeRemaining % 10 == 0
+            && this.main.currentTimeRemaining >= 20
+            && !this.main.isStopGame) {
+            this.main.stopBetWarning.active = true;
+
+            if (this.main.roundResult.node.scaleX == 0) {
+                this.rotateNode(this.main.stopBetWarning, this.main.roundResult.node);
+            }
+            else {
+                this.rotateNode(this.main.roundResult.node, this.main.stopBetWarning);
+            }
+        }
+    }
+
+    private rotateNode(oldNode: cc.Node, newNode: cc.Node, animationTime = 0.45) {
+        if (newNode.scaleX == 1) {
+            newNode.scaleX = 0;
+        }
+
+        cc.tween(oldNode)
+            .to(animationTime, { scaleX: 0 }, { easing: "cubicIn" })
+            .call(() => {
+                cc.tween(newNode)
+                    .to(animationTime, { scaleX: 1 }, { easing: "cubicOut" })
+                    .start();
+            })
+            .start();
     }
 }
