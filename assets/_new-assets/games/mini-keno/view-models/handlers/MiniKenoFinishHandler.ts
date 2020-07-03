@@ -21,12 +21,10 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
     public showResultWithoutAnimation() {
         this.updateRoundHistory();
 
-        if (this.main.currentDataLogs.length > 0) {
-            const lastLog = this.main.currentDataLogs[0];
-            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult);
-            // this.main.roundResult.show(false);
-            this.main.highlightWonItem(lastLog.settlementResult, false, true);
-        }
+        const lastLog = this.main.currentDataLogs[0];
+        this.main.roundResult.setData(lastLog.result, lastLog.settlementResult);
+        this.main.highlightWonItem(lastLog.settlementResult, true, true);
+        this.main.roundResult.showResult(false);
     }
 
     protected handleResult(onFinishHanlingData: () => void) {
@@ -44,7 +42,6 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
                 this.main.highlightWonItem(lastLog.settlementResult, true, true);
                 this.main.updateRoundHistory();
                 this.showBetStatus();
-
                 onFinishHanlingData();
                 this.main.stopBetWarning.active = false;
             });

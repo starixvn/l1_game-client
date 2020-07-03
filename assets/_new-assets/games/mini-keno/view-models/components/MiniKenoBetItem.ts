@@ -1,5 +1,5 @@
-import BetItem from "../../../_base/BetItem";
 import * as helper from "../../../../common/helpers/Helper.js";
+import BetItem from "../../../_base/BetItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,14 +32,6 @@ export default class MiniKenoBetItem extends BetItem {
         this.ownBet.node.active = bet > 0;
     }
 
-    public showWinningText() {
-        // this.choice.color = this.highlightColor;
-    }
-
-    public hideWinningText() {
-        // this.choice.color = this.normalColor;
-    }
-
     public showWinningEffect() {
         this.winningEffectNode.active = true;
     }
@@ -60,5 +52,11 @@ export default class MiniKenoBetItem extends BetItem {
 
     public clearInputBet() {
         this.inputBet.node.parent.active = false;
+    }
+
+    public resetHighlight() {
+        super.resetHighlight();
+
+        this.hideWinningEffect();
     }
 }

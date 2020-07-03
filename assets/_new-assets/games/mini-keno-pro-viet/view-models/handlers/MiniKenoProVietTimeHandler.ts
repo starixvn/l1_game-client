@@ -23,7 +23,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         if (isInFutureRound || this.main.isInLastRoundOfDay(data.remainingTime)) {
             if (data.remainingTime <= this.main.config.stopBetTime) {
                 this.main.roundResult.clear();
-                this.main.betItems.forEach(item => item.setHighlight(false));
+                this.main.resetWinningBetItems();
             }
 
             if (this.main.roundEndTime) {

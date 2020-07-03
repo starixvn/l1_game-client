@@ -305,17 +305,15 @@ export default class MiniKeno extends GameMiniBase {
         this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
     }
 
-    public highlightWonItem(results: any, isAnimated = true, winning = false) {
+    public highlightWonItem(results: any, isAnimated = true, showWinningEffect = false) {
         const keys = getLowercaseObjectKeys(results);
         this.betItems.forEach(item => {
             const miniKenoBetItem = item as MiniKenoBetItem;
             const highlight = results[keys[item.node.name.toLowerCase()]];
             miniKenoBetItem.setHighlight(highlight, isAnimated);
-            miniKenoBetItem.hideWinningText();
             miniKenoBetItem.hideWinningEffect();
 
-            if (highlight && winning) {
-                miniKenoBetItem.showWinningText();
+            if (highlight && showWinningEffect) {
                 isAnimated && miniKenoBetItem.showWinningEffect();
             }
         });
@@ -323,8 +321,6 @@ export default class MiniKeno extends GameMiniBase {
 
     public resetWinningBetItems() {
         this.betItems.forEach((item: MiniKenoBetItem) => {
-            item.hideWinningText();
-            item.hideWinningEffect();
             item.resetHighlight();
         });
     }

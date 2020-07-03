@@ -1,4 +1,3 @@
-import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import MiniKeno from "../MiniKeno";
 
@@ -8,24 +7,14 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
         super(main);
     }
 
-    handleInRoundTime() {
-        super.handleInRoundTime();
+    handleStartingNewGameRound() {
+        super.handleStartingNewGameRound();
 
         this.main.currentDataLogs && this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
     }
 
     handleWaitTime() {
         super.handleWaitTime();
-        const resultAnimationTime = (this.main.finishHandler as GameBaseFinishHandler).getResultAnimationTime();
-        const resultAnimationPlayed = this.main.currentTimeRemaining < this.main.config.fullTime - resultAnimationTime;
-
-        if (resultAnimationPlayed) {
-            const lastLog = this.main.currentDataLogs[0];
-            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult);
-            this.main.highlightWonItem(lastLog.settlementResult, true, true);
-            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult);
-            this.main.roundResult.showResult(false);
-        }
 
         const lastWaitTime = this.main.currentTimeRemaining == this.main.config.betTime + 1;
 

@@ -17,14 +17,10 @@ export default class MiniKenoLogsHandler extends GameBaseLogsHandler {
 
         if (this.main.timeHandler.isInWaitTime) {
             finishHandler.showResultWithoutAnimation();
-        } else if (this.main.timeHandler.isInLockBetTime) {
-            this.main.roundResult.clear();
         }
         else {
             const lastLog = dataLogs[0];
             this.main.highlightWonItem(lastLog.settlementResult, false, true);
-            // this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
-            // this.main.roundResult.show(false);
         }
     }
 }
