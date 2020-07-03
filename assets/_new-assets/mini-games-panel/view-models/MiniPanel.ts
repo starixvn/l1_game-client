@@ -493,7 +493,11 @@ export default class MiniPanel extends cc.Component {
   }
 
   public openResultPage() {
-    window.open(configs.resultPageUrl, '_blank', "rel=noopener noreferrer");
-    window.focus();
+    cc.RedT.resultPage = window.open(configs.resultPageUrl, "", "width=700,height=500");
+    cc.RedT.resultPage.focus();
+
+    window.onbeforeunload = function () {
+      cc.RedT.resultPage.close();
+    };
   }
 }
