@@ -76,7 +76,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         this.main.timer.active = false;
 
         if (this.main.currentTimeRemaining % 10 == 0
-            && this.main.currentTimeRemaining >= 20
+            && this.main.currentTimeRemaining >= 30
             && !this.main.isStopGame) {
 
             if (this.main.roundResult.node.scaleX == 0) {
@@ -86,6 +86,13 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
                 this.rotateNode(this.main.roundResult.node, this.main.stopBetWarning);
             }
         }
+    }
+
+    handleInEndTime() {
+        super.handleInEndTime();
+
+        this.main.roundResult.node.scaleX = 1;
+        this.main.stopBetWarning.active = false;
     }
 
     private rotateNode(oldNode: cc.Node, newNode: cc.Node, animationTime = 0.45) {
