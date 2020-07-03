@@ -6,6 +6,11 @@ export default class MiniKenoProVietFinishHandler extends MiniKenoFinishHandler 
         super(main);
     }
 
+    protected setNewGameRound(data: any) {
+        if (this.main.isIncomingGameRound) {
+            super.setNewGameRound(data);
+        }
+    }
 
     protected handleResult(onFinishHanlingData: () => void) {
         if (this.main.isIncomingGameRound) {
