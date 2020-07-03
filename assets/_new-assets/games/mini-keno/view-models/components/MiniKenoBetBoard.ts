@@ -56,6 +56,7 @@ export default class MiniKenoBetBoard extends cc.Component {
 
     this.info = info;
     this.info.bet = info.bet || this.callback.getPreset();
+    this.info.bet = Math.min(this.info.bet, this.info.maxBet);
     this.node.active = true;
     this.betChanged();
   }
