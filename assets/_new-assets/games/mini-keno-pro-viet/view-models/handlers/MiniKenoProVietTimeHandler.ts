@@ -72,6 +72,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     handleInLockBetTime() {
         super.handleInLockBetTime();
         this.main.roundResult.show();
+        this.main.roundResult.setTimer(this.main.currentTimeRemaining.toString());
         this.main.timer.active = false;
     }
 }

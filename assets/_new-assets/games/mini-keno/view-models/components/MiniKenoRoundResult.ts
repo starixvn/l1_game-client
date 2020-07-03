@@ -2,46 +2,28 @@ import KenoRoundResult from "../../../keno-pro/view-models/history/KenoRoundResu
 import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
 import KenoUtils, { KenoType } from "../KenoUtils";
 import MiniKeno from "../MiniKeno";
+import MiniKenoTimer from "./MiniKenoTimer";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniKenoRoundResult extends KenoRoundResult {
-    @property(cc.Node)
-    roundInfo: cc.Node = null;
-
-    @property(cc.RichText)
-    roundId: cc.RichText = null;
-
-    @property(cc.Label)
-    roundTime: cc.Label = null;
+    @property(MiniKenoTimer)
+    timer: MiniKenoTimer = null;
 
     private miniKeno: MiniKeno;
     private showActionTag = 100;
     private hideActionTag = 101;
 
-    public setData(result: number[], settlementResult: any, roundId: number = 0, roundTime: string = null) {
-        super.setData(result, settlementResult);
-
-        // this.roundInfo.active = true;
-        // let gameRound: string;
-
-        // if (this.miniKeno.kenoType == KenoType.ProViet) {
-        //     this.roundTime.node.active = true;
-        //     this.roundTime.string = moment(roundTime).format(MiniKenoProViet.DATETIME_FORMAT);
-        //     this.roundId.string = `Kỳ xổ: <color=#ffe79e>#${zeroPad(roundId, 7)} </color>`;
-        // }
-        // else {
-        //     this.roundTime.node.active = false;
-        //     gameRound = roundId.toString();
-        //     this.roundInfo.removeComponent("hoverScale");
-        //     this.roundInfo.removeComponent(cc.Button);
-        //     this.roundId.string = ` Phiên xổ \n #${roundId} `;
-        // }
+    init(miniKeno: MiniKeno) {
+        this.miniKeno = miniKeno;
+        this.timer && this.timer.init(false, 5, -2);
     }
 
-    init(miniKeno: MiniKeno) {
-        this.miniKeno = miniKeno;;
+    setTimer(time: string) {
+        this.timer.node.parent.active = true;
+
+        this.timer.setTime(time);
     }
 
     onClickRound() {
@@ -61,7 +43,6 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
 
         this.betChoices.forEach(choice => choice.setValue(""))
         this.total.string = "";
-        // this.roundInfo && (this.roundInfo.active = false);
     }
 
     public show() {
@@ -77,6 +58,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
 
     public showResult(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
         this.show();
+        this.timer && (this.timer.node.parent.active = false);
 
         if (animated) {
             this.total.string = "0";
@@ -91,7 +73,6 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
                     total += number;
                     const settlementResult = KenoUtils.getSettleResult(total, miniType);
                     this.showSettleResult(settlementResult);
-                    // this.miniKeno.highlightWonItem(settlementResult, true);
                     this.total.string = total.toString();
                     index++;
                 }),

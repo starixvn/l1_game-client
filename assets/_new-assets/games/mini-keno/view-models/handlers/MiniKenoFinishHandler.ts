@@ -1,6 +1,5 @@
 import TypingEffectLabel from "../../../../common/TypingEffectLabel";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
-import { KenoType } from "../KenoUtils";
 import MiniKeno from "../MiniKeno";
 import MiniKenoStatusHandler from "./MiniKenoStatusHandler";
 
@@ -24,8 +23,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
 
         if (this.main.currentDataLogs.length > 0) {
             const lastLog = this.main.currentDataLogs[0];
-            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId,
-                this.main.kenoType == KenoType.ProViet ? lastLog.time : null);
+            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult);
             // this.main.roundResult.show(false);
             this.main.highlightWonItem(lastLog.settlementResult, false, true);
         }
@@ -40,7 +38,7 @@ export default class MiniKenoFinishHandler extends GameBaseFinishHandler {
             }
 
             const lastLog = this.main.currentDataLogs[0];
-            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
+            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult);
             this.main.resetWinningBetItems();
             this.main.roundResult.showResult(true, this.playResultAnimationTime, () => {
                 this.main.highlightWonItem(lastLog.settlementResult, true, true);
