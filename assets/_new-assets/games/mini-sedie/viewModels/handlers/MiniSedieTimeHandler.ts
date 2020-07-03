@@ -21,11 +21,6 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
             if (isInWaitTime) {
                 this.handleWaitTime();
             } else {
-                // const isStartingNewGameRound = this.main.currentTimeRemaining == this.main.config.betTime;
-                // if (isStartingNewGameRound) {
-                //     this.handleStartingNewGameRound();
-                // }
-
                 const isInRoundTime = this.main.currentTimeRemaining >= this.main.config.minBetTime;
                 if (isInRoundTime) {
                     this.handleInRoundTime();

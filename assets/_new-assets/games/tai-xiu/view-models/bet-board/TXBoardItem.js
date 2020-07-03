@@ -23,10 +23,18 @@ cc.Class({
     onEnable: function () {
         this.node.on(cc.Node.EventType.TOUCH_START, this.eventOnENTER, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.eventOnLEAVE, this);
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.eventOnLEAVE, this);
+
+        this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnENTER, this);
+        this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLEAVE, this);
     },
     onDisable: function () {
         this.node.off(cc.Node.EventType.TOUCH_START, this.eventOnENTER, this);
         this.node.off(cc.Node.EventType.TOUCH_END, this.eventOnLEAVE, this);
+        this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.eventOnLEAVE, this);
+
+        this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnENTER, this);
+        this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLEAVE, this);
     },
     eventOnENTER: function () {
         this.text.color = this.text.color.fromHEX(this.colorOn);

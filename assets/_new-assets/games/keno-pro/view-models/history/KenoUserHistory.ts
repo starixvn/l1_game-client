@@ -106,7 +106,7 @@ export default class KenoUserHistory extends cc.Component {
         this.roundResult.round.string = round;
         this.node.addChild(dialog);
         this.roundResult.setData(result, settlementResult);
-        this.roundResult.show();
+        this.roundResult.showResult();
     }
 
     public hideRoundResult() {

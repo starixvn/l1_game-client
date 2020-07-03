@@ -1,128 +1,76 @@
-import * as helper from "../../../../../_new-assets/common/helpers/Helper";
-import GameUtils from "../../../../common/GameUtils";
-import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
-import MiniKeno from "../MiniKeno";
 
 const { ccclass, property } = cc._decorator;
 
 export interface BetInfo {
-  title: string;
-  roundId: string;
-  odd: number;
   choice: string;
-  minBet: number;
-  maxBet: number;
   bet: number;
+  betItem: cc.Node;
+  maxBet: number;
 }
 
 @ccclass
 export default class MiniKenoBetBoard extends cc.Component {
-  @property(cc.Label)
-  title: cc.Label = null;
-
-  @property(cc.Label)
-  roundId: cc.Label = null;
-
-  @property(cc.Label)
-  choice: cc.Label = null;
-
-  @property(cc.Label)
-  winBet: cc.Label = null;
-
-  @property(cc.Label)
-  minBet: cc.Label = null;
-
-  @property(cc.Label)
-  maxBet: cc.Label = null;
-
-  @property(cc.Label)
-  betValue: cc.Label = null;
-
   @property(cc.Button)
-  betButton: cc.Button = null;
+  okButton: cc.Button = null;
 
-  @property(cc.Node)
-  background: cc.Node = null;
+  public info: BetInfo = null;
 
-  private betAmount = 0;
-  public betCallback = (betAmount: number, info: BetInfo) => { };
-  public getPreset = () => {
-    return 0;
-  };
-  private info: BetInfo;
-
-  public clearBet() {
-    this.betAmount = 0;
-    this.updateBetAmount();
-  }
-
-  public onClose() {
-    cc.RedT.audio.playClick();
-    this.close();
-  }
-
-  public close(enableSound = true) {
-    this.node.active = false;
-    this.betCallback(0, this.info);
+  public callback = {
+    acceptedBet: (info: BetInfo) => { },
+    changedBet: (info: BetInfo) => { },
+    cancel: (info: BetInfo) => { },
+    getPreset: () => 0,
   }
 
   public onAcceptBet() {
+    cc.RedT.audio.playClick();
+    this.callback.acceptedBet(this.info);
+    this.node.active = false;
+    this.info = null;
+  }
+
+  public onCloseClick() {
+    cc.RedT.audio.playClick();
     this.close();
-    this.betCallback(this.betAmount, this.info);
+  }
+
+  public onClearClick() {
+    cc.RedT.audio.playClick();
+    this.info.bet = 0;
+    this.betChanged();
+  }
+
+  public close() {
+    this.node.active = false;
+    this.info && this.callback.cancel(this.info);
+    this.info = null;
   }
 
   public show(info: BetInfo) {
+    if (this.info) {
+      if (info.choice === this.info.choice) {
+        return;
+      }
+      this.callback.cancel(this.info);
+    }
+
     this.info = info;
-    this.updateInfo();
+    this.info.bet = info.bet || this.callback.getPreset();
+    this.info.bet = Math.min(this.info.bet, this.info.maxBet);
     this.node.active = true;
+    this.betChanged();
   }
 
-  private updateInfo() {
-    this.betAmount = this.info.bet || this.getPreset();
-    this.updateBetAmount();
-    this.title.string = this.info.title;
-    this.roundId.string = this.info.roundId;
-    this.choice.string = `${GameUtils.getBetChoiceString(this.info.choice)} @${
-      this.info.odd
-      }`;
-    this.minBet.string = helper.numberWithCommas(this.info.minBet);
-    this.maxBet.string = helper.numberWithCommas(this.info.maxBet);
-  }
-
-  public onItemBetClicked(e, index) {
+  public onItemBetClicked(e) {
     cc.RedT.audio.playClick();
-    const amounts = [1, 10, 50, 100, 500, this.info.maxBet];
-    const amount = amounts[index];
-    if (amount == this.info.maxBet) {
-      this.betAmount = amount;
-      this.updateBetAmount();
-      return;
-    }
-
-    if (!this.isValidBet(this.betAmount + amount)) {
-      //show warning
-      return;
-    }
-
-    this.betAmount = this.betAmount + amount;
-    this.updateBetAmount();
+    const amount = parseInt(e.target.name) || this.info.maxBet;
+    this.info.bet += amount;
+    this.info.bet = Math.min(this.info.bet, this.info.maxBet);
+    this.betChanged();
   }
 
-  private updateBetAmount() {
-    this.betValue.string =
-      this.betAmount > 0 ? helper.numberWithCommas(this.betAmount) : "";
-    this.betValue.node.runAction(MiniKeno.getTextChangeEffect());
-    const winAmount = this.betAmount * this.info.odd;
-    this.winBet.string =
-      winAmount > 0 ? helper.numberWithCommas(winAmount) : "";
-    this.winBet.node.runAction(MiniKeno.getTextChangeEffect());
-
-    const canBet = this.betAmount >= this.info.minBet;
-    this.betButton.interactable = canBet;
-    this.betButton.node.opacity = canBet ? 255 : 102;
-  }
-
-  private isValidBet(betAmount: number): boolean {
-    return betAmount <= this.info.maxBet && betAmount >= this.info.minBet;
+  private betChanged() {
+    this.callback.changedBet(this.info);
+    this.okButton.interactable = this.info.bet > 0;
   }
 }

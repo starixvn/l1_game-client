@@ -22,7 +22,7 @@ export default class MiniKenoTimer extends AnimatedTime {
     private enableHour: boolean = false;
     private readonly numberMoveTime = 0.4;
 
-    init(enableHour: boolean) {
+    init(enableHour: boolean, animatedYTop: number = 60, animatedYBottom: number = -10) {
         this.enableHour = enableHour;
 
         if (enableHour) {
@@ -30,6 +30,8 @@ export default class MiniKenoTimer extends AnimatedTime {
             this.secondHourChar.node.parent.parent.active = true;
             this.hourColon.active = true;
         }
+
+        this.setAnimatedY(animatedYTop, animatedYBottom);
     }
 
     setTime(time: string, forceChangeColor = false) {
@@ -37,12 +39,12 @@ export default class MiniKenoTimer extends AnimatedTime {
         const timeText = moment.utc(parseInt(time) * 1000).format("HH:mm:ss");
         const timeChars = Array.from(timeText);
 
-        this.showTimeNumber(this.firstHourChar, timeChars[0]);
-        this.showTimeNumber(this.secondHourChar, timeChars[1]);
-        this.showTimeNumber(this.firstMinuteChar, timeChars[3]);
-        this.showTimeNumber(this.secondMinuteChar, timeChars[4]);
-        this.showTimeNumber(this.firstChar, timeChars[6]);
-        this.showTimeNumber(this.secondChar, timeChars[7]);
+        this.firstHourChar && this.showTimeNumber(this.firstHourChar, timeChars[0]);
+        this.secondHourChar && this.showTimeNumber(this.secondHourChar, timeChars[1]);
+        this.firstMinuteChar && this.showTimeNumber(this.firstMinuteChar, timeChars[3]);
+        this.secondMinuteChar && this.showTimeNumber(this.secondMinuteChar, timeChars[4]);
+        this.firstChar && this.showTimeNumber(this.firstChar, timeChars[6]);
+        this.secondChar && this.showTimeNumber(this.secondChar, timeChars[7]);
     }
 
     resetTime() {
@@ -59,27 +61,30 @@ export default class MiniKenoTimer extends AnimatedTime {
             return;
         }
 
-        const tempCharNode = cc.instantiate(timeLabel.node);
-        timeLabel.node.parent.addChild(tempCharNode);
         timeLabel.string = time;
-        timeLabel.node.opacity = 0;
-
-        timeLabel.node.runAction(
-            cc.sequence(
-                cc.moveBy(0, cc.v2(0, 27)),
-                cc.spawn(
-                    cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeCircleActionOut()),
-                    cc.fadeIn(this.numberMoveTime / 2)
-                )
-            )
-        )
-
-        tempCharNode.runAction(cc.sequence(
-            cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeCircleActionOut()),
-            cc.delayTime(this.numberMoveTime),
-            cc.callFunc(() => {
-                tempCharNode.destroy();
-            })
-        ))
+        this.handleBetTimeAnimation(timeLabel.node);
     }
 }
+
+    // const tempCharNode = cc.instantiate(timeLabel.node);
+        // timeLabel.node.parent.addChild(tempCharNode);
+        // timeLabel.string = time;
+        // timeLabel.node.opacity = 0;
+
+        // timeLabel.node.runAction(
+        //     cc.sequence(
+        //         cc.moveBy(0, cc.v2(0, 27)),
+        //         cc.spawn(
+        //             cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeCircleActionOut()),
+        //             cc.fadeIn(this.numberMoveTime / 2)
+        //         )
+        //     )
+        // )
+
+        // tempCharNode.runAction(cc.sequence(
+        //     cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeCircleActionOut()),
+        //     cc.delayTime(this.numberMoveTime),
+        //     cc.callFunc(() => {
+        //         tempCharNode.destroy();
+        //     })
+        // ))

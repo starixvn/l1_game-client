@@ -13,18 +13,18 @@ export default class MiniKenoLogsHandler extends GameBaseLogsHandler {
         }
 
         this.main.updateRoundHistory();
-        const finishHandler = this.main.finishHandler as MiniKenoFinishHandler;
 
         if (this.main.timeHandler.isInWaitTime) {
-            finishHandler.showResultWithoutAnimation();
-        } else if (this.main.timeHandler.isInLockBetTime) {
-            this.main.roundResult.clear();
+            this.handleInWaitingTime();
         }
         else {
             const lastLog = dataLogs[0];
-            this.main.highlightWonItem(lastLog.settlementResult, false, true);
-            this.main.roundResult.setData(lastLog.result, lastLog.settlementResult, lastLog.roundId, lastLog.time);
-            this.main.roundResult.show(false);
+            this.main.highlightWonItem(lastLog.settlementResult, { isAnimated: false, showWinningEffect: true });
         }
+    }
+
+    protected handleInWaitingTime() {
+        const finishHandler = this.main.finishHandler as MiniKenoFinishHandler;
+        finishHandler.showResultWithoutAnimation();
     }
 }

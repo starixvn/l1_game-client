@@ -101,7 +101,7 @@ export default class GameRoomBase extends GameBase {
     }
 
     showUmMessage(data: any) {
-        if (this.gameState == GameState.Stopped) {
+        if (this.isDisableGame) {
             return;
         }
 

@@ -1,14 +1,13 @@
+import * as helper from "../../../../common/helpers/Helper.js";
 import BetItem from "../../../_base/BetItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniKenoBetItem extends BetItem {
-    @property(cc.Node)
-    choice: cc.Node = null;
 
     @property(cc.Label)
-    rule: cc.Label = null;
+    inputBet: cc.Label = null;
 
     @property(cc.Prefab)
     winningPrefab: cc.Prefab = null;
@@ -23,19 +22,14 @@ export default class MiniKenoBetItem extends BetItem {
     onLoad() {
         this.winningEffectNode.addChild(cc.instantiate(this.winningPrefab));
         this.winningEffectNode.active = false;
+
+        this.inputBet.string = "";
+        this.inputBet.node.parent.active = false;
     }
 
     protected setOwnBet(bet: number) {
         super.setOwnBet(bet);
-        this.ownBet.node.parent.active = bet > 0;
-    }
-
-    public showWinningText() {
-        this.choice.color = this.highlightColor;
-    }
-
-    public hideWinningText() {
-        this.choice.color = this.normalColor;
+        this.ownBet.node.active = bet > 0;
     }
 
     public showWinningEffect() {
@@ -46,7 +40,23 @@ export default class MiniKenoBetItem extends BetItem {
         this.winningEffectNode.active = false;
     }
 
-    public setRule(value: string) {
-        this.rule.string = value;
+    public inputBetChanged(bet: number) {
+        this.inputBet.string = helper.numberWithCommas(bet);
+        this.inputBet.node.parent.active = true;
+        this.inputBet.node.stopAllActions();
+        this.inputBet.node.runAction(cc.sequence(
+            cc.scaleTo(0.1, 1.5),
+            cc.scaleTo(0.2, 1).easing(cc.easeBackOut())
+        ));
+    }
+
+    public clearInputBet() {
+        this.inputBet.node.parent.active = false;
+    }
+
+    public resetHighlight() {
+        super.resetHighlight();
+
+        this.hideWinningEffect();
     }
 }

@@ -51,7 +51,8 @@ const configs = {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
-    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno"
+    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
+    resultPageUrl: "https://uat-result.sabagame.com/vi-VN/auth?key=58148de3-b895-4f6b-82de-a35eed1b4b28"
 }
 
 module.exports = configs;

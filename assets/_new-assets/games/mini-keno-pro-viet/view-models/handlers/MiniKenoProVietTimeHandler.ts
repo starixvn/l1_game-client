@@ -18,14 +18,21 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     }
 
     protected setCurrentTimeRemaining(data: any) {
-        if (this.main.roundEndTime && !this.main.isIncomingGameRound) {
+        const isInFutureRound = this.main.roundEndTime && !this.main.isIncomingGameRound;
+
+        if (isInFutureRound || this.main.isInLastRoundOfDay(data.remainingTime)) {
             if (data.remainingTime <= this.main.config.stopBetTime) {
                 this.main.roundResult.clear();
-                this.main.betItems.forEach(item => item.setHighlight(false));
+                this.main.resetWinningBetItems();
             }
 
-            const remainingTime = (this.main.roundEndTime.getTime() - new Date().getTime()) / 1000;
-            this.main.currentTimeRemaining = remainingTime;
+            if (this.main.roundEndTime) {
+                const remainingTime = (this.main.roundEndTime.getTime() - new Date().getTime()) / 1000;
+                this.main.currentTimeRemaining = remainingTime;
+            }
+            else {
+                this.main.currentTimeRemaining = data.remainingTime;
+            }
         }
         else {
             super.setCurrentTimeRemaining(data);
@@ -33,7 +40,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     }
 
     playTime() {
-        if (this.main.isIncomingGameRound) {
+        if (this.main.isIncomingGameRound && !this.main.isInLastRoundOfDay(this.main.currentTimeRemaining)) {
             super.playTime();
         }
         else {
@@ -59,10 +66,52 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         super.handleStartingNewGameRound();
         this.main.getPlayerBetsAndTimeOfRound(this.main.roundId.toString());
         this.main.getGameRounds();
+        this.main.timer.active = true;
     }
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        this.main.stopBetWarning.active = !this.main.umNotice.node.active;
+        this.main.roundResult.show();
+        this.main.roundResult.setTimer(this.main.currentTimeRemaining.toString());
+        this.main.timer.active = false;
+
+        if (this.main.currentTimeRemaining % 10 == 0
+            && this.main.currentTimeRemaining < this.main.config.stopBetTime
+            && this.main.currentTimeRemaining >= 20
+            && !this.main.isStopGame) {
+
+            if (this.main.roundResult.node.scaleX == 0) {
+                this.rotateNode(this.main.stopBetWarning, this.main.roundResult.node);
+            }
+            else {
+                this.main.currentTimeRemaining > 20
+                    && this.rotateNode(this.main.roundResult.node, this.main.stopBetWarning);
+            }
+        }
+    }
+
+    handleInEndTime() {
+        super.handleInEndTime();
+
+        this.main.roundResult.setTimer("0");
+        this.main.roundResult.node.scaleX = 1;
+        this.main.stopBetWarning.active = false;
+    }
+
+    private rotateNode(oldNode: cc.Node, newNode: cc.Node, animationTime = 0.45) {
+        newNode.active = true;
+
+        if (newNode.scaleX == 1) {
+            newNode.scaleX = 0;
+        }
+
+        cc.tween(oldNode)
+            .to(animationTime, { scaleX: 0 }, { easing: "cubicIn" })
+            .call(() => {
+                cc.tween(newNode)
+                    .to(animationTime, { scaleX: 1 }, { easing: "cubicOut" })
+                    .start();
+            })
+            .start();
     }
 }

@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import { zeroPad } from '../../../common/helpers/Helper.js';
 import * as config from '../../../Configs.js';
+import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
@@ -9,6 +10,7 @@ import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandle
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
 import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
+import MiniKenoProVietLogsHandler from "./handlers/MiniKenoProVietLogsHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,7 +26,7 @@ export default class MiniKenoProViet extends MiniKeno {
     static readonly DATE_FORMAT = "DD/MM";
     static readonly FULL_DATE_FORMAT = "DD/MM/YYYY";
     static readonly DATETIME_FORMAT = "DD/MM HH:mm";
-    static readonly STOP_BET_MESSAGE = "Kỳ vé $ROUND đã dừng nhận cược. \nVui lòng chọn kỳ vé khác."
+    static readonly STOP_BET_MESSAGE = "Kỳ vé $ROUND \nđã dừng nhận cược. \nVui lòng chọn kỳ vé khác."
 
     roundsHandler: MiniKenoProVietRoundsHandler;
     rounds: MiniKenoProVietRound[];
@@ -36,7 +38,11 @@ export default class MiniKenoProViet extends MiniKeno {
         super.onLoad();
         this.config = new MiniKenoProVietConfig();
         this.addHandlers(this.roundsHandler)
-        this.kenoTimer.init(true);
+    }
+
+    protected initComponents() {
+        super.initComponents();
+        this.initTimer();
     }
 
     public startGame() {
@@ -55,6 +61,7 @@ export default class MiniKenoProViet extends MiniKeno {
         this.finishHandler = new MiniKenoProVietFinishHandler(this);
         this.roundsHandler = new MiniKenoProVietRoundsHandler(this);
         this.timeHandler = new MiniKenoProVietTimeHandler(this);
+        this.logsHandler = new MiniKenoProVietLogsHandler(this);
     }
 
     public onClickTitle() {
@@ -95,8 +102,8 @@ export default class MiniKenoProViet extends MiniKeno {
     public resetDataAndUI() {
         super.resetDataAndUI();
 
-        this.stopBetWarning.active = false;
         this.animatedTime.node.active = true;
+        this.timer.active = true;
         this.animatedTime.resetTime();
         this.betBoard.node.active = false;
         this.roundsSelection && (this.roundsSelection.node.active = false);
@@ -140,12 +147,17 @@ export default class MiniKenoProViet extends MiniKeno {
         return this.roundsSelection;
     }
 
-    public highlightWonItem(results: any = null, isAnimated = true, winning: boolean = false) {
-        super.highlightWonItem(results, isAnimated && this.isIncomingGameRound, winning);
+    public highlightWonItem(results: any = null, { isAnimated = true, showWinningEffect = false }) {
+        isAnimated = isAnimated && this.isIncomingGameRound;
+        super.highlightWonItem(results, { isAnimated, showWinningEffect });
     }
 
     public static formatProVGameRound(roundId: number) {
         return `${zeroPad(roundId, 7)}`;
+    }
+
+    public isInLastRoundOfDay(remainingTime: number) {
+        return remainingTime > this.config.fullTime && this.isIncomingGameRound;
     }
 
     protected formatGameRound(roundId: number) {
@@ -155,7 +167,7 @@ export default class MiniKenoProViet extends MiniKeno {
             const currentRound = this.rounds.find(round => round.id === roundId);
 
             if (currentRound) {
-                return `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)}`;
+                return `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)} `;
             }
         }
 
@@ -172,7 +184,7 @@ export default class MiniKenoProViet extends MiniKeno {
     }
 
     protected isDisabledBet(): boolean {
-        return super.isDisabledBet() && this.isIncomingGameRound;
+        return super.isDisabledBet() && this.isIncomingGameRound && !this.isInLastRoundOfDay(this.currentTimeRemaining);
     }
 
     protected initRoundHistory() {
@@ -193,7 +205,8 @@ export default class MiniKenoProViet extends MiniKeno {
             const remainingTime = (new Date(currentRound.time).getTime() - new Date().getTime()) / 1000;
 
             return remainingTime < this.config.stopBetTime
-                || remainingTime > this.config.fullTime - finishHandler.getResultAnimationTime();
+                || (remainingTime > this.config.fullTime - finishHandler.getResultAnimationTime()
+                    && !this.isInLastRoundOfDay(remainingTime));
         }
 
         this.roundHistory.sharedLogControl.init(condition)
@@ -206,6 +219,16 @@ export default class MiniKenoProViet extends MiniKeno {
         this.roundEndTime = roundTime;
         this.setGameRound(this.roundId);
         this.getPlayerBetsAndTimeOfRound(roundId.toString());
-        this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1;
+        const lastLog = this.currentDataLogs[0];
+        this.isIncomingGameRound = this.roundId === lastLog.roundId + 1;
+        this.highlightWonItem(lastLog.settlementResult, { isAnimated: false, showWinningEffect: false });
+    }
+
+    private initTimer() {
+        const timerNode = cc.instantiate(this.timerPrefab);
+        this.kenoTimer = timerNode.getComponent(MiniKenoTimer);
+        this.animatedTime = this.kenoTimer;
+        this.timer.addChild(this.kenoTimer.node);
+        this.kenoTimer.init(true, 12, -3);
     }
 }

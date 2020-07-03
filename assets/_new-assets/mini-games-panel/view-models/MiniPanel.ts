@@ -491,4 +491,13 @@ export default class MiniPanel extends cc.Component {
     this.sound.spriteFrame = this.soundOff;
     cc.RedT.setSoundGame(false);
   }
+
+  public openResultPage() {
+    cc.RedT.resultPage = window.open(configs.resultPageUrl, "", "width=700,height=500");
+    cc.RedT.resultPage.focus();
+
+    window.onbeforeunload = function () {
+      cc.RedT.resultPage.close();
+    };
+  }
 }

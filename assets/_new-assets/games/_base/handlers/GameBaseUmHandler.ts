@@ -1,5 +1,5 @@
-import DataHandler from "./DataHandler";
 import GameBase from "../GameBase";
+import DataHandler from "./DataHandler";
 
 export default class GameBaseUmDataHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {
@@ -10,9 +10,11 @@ export default class GameBaseUmDataHandler implements DataHandler {
             return false;
         }
 
+        this.main.isGoingToDisabled = true;
+
         if (this.main.currentTimeRemaining <= this.main.config.betTime || data.remainingTime == this.main.config.fullTime) {
             this.main.showUmMessage(data);
-            this.main.stopGame();
+            this.main.disableGame();
 
             return true;
         }
