@@ -10,8 +10,10 @@ export default class MiniKenoProVietFinishHandler extends MiniKenoFinishHandler 
     protected handleResult(onFinishHanlingData: () => void) {
         if (this.main.isIncomingGameRound) {
             super.handleResult(onFinishHanlingData);
-        }else {
+        } else {
+            const lastLog = this.main.currentDataLogs[0];
             this.showBetStatus();
+            this.main.highlightWonItem(lastLog.settlementResult, { isAnimated: false, showWinningEffect: false });
         }
     }
 }

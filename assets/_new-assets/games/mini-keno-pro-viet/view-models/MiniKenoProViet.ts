@@ -218,7 +218,9 @@ export default class MiniKenoProViet extends MiniKeno {
         this.roundEndTime = roundTime;
         this.setGameRound(this.roundId);
         this.getPlayerBetsAndTimeOfRound(roundId.toString());
-        this.isIncomingGameRound = this.roundId === this.currentDataLogs[0].roundId + 1;
+        const lastLog = this.currentDataLogs[0];
+        this.isIncomingGameRound = this.roundId === lastLog.roundId + 1;
+        this.highlightWonItem(lastLog.settlementResult, { isAnimated: false, showWinningEffect: false });
     }
 
     private initTimer() {
