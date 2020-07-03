@@ -88,6 +88,7 @@ export default class GameBase extends cc.Component {
     public currentMiniPanel: MiniPanel;
     public gameConfigs: any;
     public finishShowResult = true;
+    public isGoingToDisabled = false;
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
