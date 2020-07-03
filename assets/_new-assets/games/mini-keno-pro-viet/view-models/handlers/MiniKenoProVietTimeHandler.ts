@@ -80,7 +80,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
             && !this.main.isStopGame) {
             this.main.stopBetWarning.active = true;
 
-            if (this.main.roundResult.node.scaleX == 0) {
+            if (this.main.roundResult.node.scaleX == 0 && this.main.stopBetWarning.active) {
                 this.rotateNode(this.main.stopBetWarning, this.main.roundResult.node);
             }
             else {
