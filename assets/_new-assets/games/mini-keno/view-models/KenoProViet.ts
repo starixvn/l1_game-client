@@ -91,7 +91,7 @@ export default class KenoProViet extends cc.Component {
             keno.kenoType = type;
             keno.favourite.isChecked = index < this.favouriteGames.length;
             keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
-            // keno.getPreset = () => this.presetBetValue;
+            keno.getPreset = () => this.presetBetValue;
             keno.statusCallback = (a, b, c) => {
                 if (a !== this.sortedGames[this.selectedIndex] && a !== this.sortedGames[this.selectedIndex + 1]) {
                     this.statusQueue.unshift({ type: a, round: b, win: c });
@@ -158,14 +158,14 @@ export default class KenoProViet extends cc.Component {
     }
 
     private initPresetBetBoard() {
-        // const node = cc.instantiate(this.presetBetPrefab);
-        // this.presetBet = node.getComponent(MiniKenoPresetBet);
-        // this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
-        // this.presetBet.show(false);
-        // this.presetBet.getPreset = () => this.presetBetValue;
-        // this.presetNode.addChild(node);
+        const node = cc.instantiate(this.presetBetPrefab);
+        this.presetBet = node.getComponent(MiniKenoPresetBet);
+        this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
+        this.presetBet.getPreset = () => this.presetBetValue;
+        this.presetNode.addChild(node);
+        this.presetBet.close();
 
-        // this.presetBetValue = parseFloat(cc.sys.localStorage.getItem("keno_preset_bet")) || 0;
+        this.presetBetValue = parseFloat(cc.sys.localStorage.getItem("keno_preset_bet")) || 0;
     }
 
     private changedPresetBet(value: number) {
