@@ -165,7 +165,7 @@ export default class MiniKenoProViet extends MiniKeno {
             const currentRound = this.rounds.find(round => round.id === roundId);
 
             if (currentRound) {
-                return `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)}`;
+                return `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)} `;
             }
         }
 
