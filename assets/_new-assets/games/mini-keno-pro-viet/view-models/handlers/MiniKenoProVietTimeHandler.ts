@@ -91,8 +91,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     handleInEndTime() {
         super.handleInEndTime();
 
-        this.main.roundResult.node.scaleX = 1;
-        this.main.stopBetWarning.active = false;
+        this.rotateNode(this.main.stopBetWarning, this.main.roundResult.node);
     }
 
     private rotateNode(oldNode: cc.Node, newNode: cc.Node, animationTime = 0.45) {
