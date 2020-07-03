@@ -10,6 +10,7 @@ import MiniKenoProVietRoundsHandler from "./handlers/MiniKenoProVietRoundsHandle
 import MiniKenoProVietTimeHandler from "./handlers/MiniKenoProVietTimeHandler";
 import MiniKenoProVietUMHandler from "./handlers/MiniKenoProVietUMHandler";
 import MiniKenoProVietConfig from "./MiniKenoProVietConfig";
+import MiniKenoProVietLogsHandler from "./handlers/MiniKenoProVietLogsHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -60,6 +61,7 @@ export default class MiniKenoProViet extends MiniKeno {
         this.finishHandler = new MiniKenoProVietFinishHandler(this);
         this.roundsHandler = new MiniKenoProVietRoundsHandler(this);
         this.timeHandler = new MiniKenoProVietTimeHandler(this);
+        this.logsHandler = new MiniKenoProVietLogsHandler(this);
     }
 
     public onClickTitle() {
