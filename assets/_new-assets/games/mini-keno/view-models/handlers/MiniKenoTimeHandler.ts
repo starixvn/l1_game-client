@@ -9,7 +9,10 @@ export default class MiniKenoTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        this.main.currentDataLogs && this.main.highlightWonItem(this.main.currentDataLogs[0].settlementResult, false, true);
+
+        this.main.currentDataLogs && this.main.highlightWonItem(
+            this.main.currentDataLogs[0].settlementResult,
+            { isAnimated: false, showWinningEffect: true });
     }
 
     handleWaitTime() {

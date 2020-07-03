@@ -305,7 +305,7 @@ export default class MiniKeno extends GameMiniBase {
         this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
     }
 
-    public highlightWonItem(results: any, isAnimated = true, showWinningEffect = false) {
+    public highlightWonItem(results: any, { isAnimated = true, showWinningEffect = false }) {
         const keys = getLowercaseObjectKeys(results);
         this.betItems.forEach(item => {
             const miniKenoBetItem = item as MiniKenoBetItem;
