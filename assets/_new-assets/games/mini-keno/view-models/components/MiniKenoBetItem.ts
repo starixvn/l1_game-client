@@ -51,6 +51,11 @@ export default class MiniKenoBetItem extends BetItem {
     public inputBetChanged(bet: number) {
         this.inputBet.string = helper.numberWithCommas(bet);
         this.inputBet.node.parent.active = true;
+        this.inputBet.node.stopAllActions();
+        this.inputBet.node.runAction(cc.sequence(
+            cc.scaleTo(0.1, 1.5),
+            cc.scaleTo(0.2, 1).easing(cc.easeBackOut())
+        ));
     }
 
     public clearInputBet() {
