@@ -325,6 +325,10 @@ export default class ChanLeMain extends cc.Component {
     this.currentInputBet.node.active = true;
   }
 
+  clearCurrentBetInput(): void {
+    this.currentInputBet.string = "";
+  }
+
   setBetButtonFrame(isClick: boolean, select = "") {
     if (isClick) {
       if (select == this.betChoice.right) {

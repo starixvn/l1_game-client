@@ -34,4 +34,8 @@ export default class ChanLeBetBoard extends cc.Component {
         this.main.resetCurrentBetInput();
         this.main.setBetButtonFrame(false);
     }
+
+    onClearBetMoney() {
+        this.main.clearCurrentBetInput(0);
+    }
 }
