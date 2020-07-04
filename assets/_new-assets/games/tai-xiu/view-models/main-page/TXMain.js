@@ -525,6 +525,7 @@ cc.Class({
 
     this.setBetButtonClicked(true, select);
     this.TX_Board.node.active = true;
+    this.TX_Board.okButton.getComponent(cc.Button).interactable = false;
     this.inputOld = select;
     switch (select) {
       case "right":

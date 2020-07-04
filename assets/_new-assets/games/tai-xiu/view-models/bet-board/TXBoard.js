@@ -16,6 +16,7 @@ cc.Class({
   init(obj) {
     this.RedT = obj;
     this.MAX_BET = 1000;
+    this.okButtonComponent = this.okButton.getComponent(cc.Button);
   },
   onEnable() {
     const okButtonPositionY = this.okButton.parent.convertToWorldSpaceAR(this.okButton.position).y;
@@ -31,6 +32,7 @@ cc.Class({
   },
   ChonTienClick: function (event, value) {
     let betValue = helper.getOnlyNumberInString(this.RedT.input.string) * 1 + value * 1;
+    this.okButtonComponent.interactable = true;
     this.RedT.input.string = helper.numberWithCommas(betValue > this.MAX_BET ? this.MAX_BET : betValue);
   },
   onBackClick: function () {
@@ -41,6 +43,7 @@ cc.Class({
   },
   onCleanClick: function () {
     this.RedT.input.string = "";
+    this.okButtonComponent.interactable = false;
   },
   onAllClick: function () {
     this.RedT.input.string = helper.numberWithCommas(

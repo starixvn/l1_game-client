@@ -7,9 +7,11 @@ export default class ChanLeBetBoard extends cc.Component {
     okButton: cc.Node = null;
 
     private main: ChanLeMain;
+    private okButtonComponent: cc.Button;
 
     init(main: ChanLeMain) {
         this.main = main;
+        this.okButtonComponent = this.okButton.getComponent(cc.Button);
     }
 
     onEnable() {
@@ -20,13 +22,13 @@ export default class ChanLeBetBoard extends cc.Component {
         if (okButtonPositionY < expectPositionY) {
             const distance = expectPositionY - okButtonPositionY + paddingBottom;
 
-            this.main.node.runAction(
-                cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut()));
+            this.main.node.runAction(cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut()));
         }
     }
 
     onSelectBetMoney(event, value) {
         this.main.setCurrentBetInput(value);
+        this.okButtonComponent.interactable = true;
     }
 
     onCloseClick() {
@@ -36,6 +38,7 @@ export default class ChanLeBetBoard extends cc.Component {
     }
 
     onClearBetMoney() {
-        this.main.clearCurrentBetInput(0);
+        this.main.clearCurrentBetInput();
+        this.okButtonComponent.interactable = false;
     }
 }

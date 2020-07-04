@@ -298,6 +298,7 @@ export default class ChanLeMain extends cc.Component {
 
     this.setBetButtonFrame(true, select);
     this.betBoard.node.active = true;
+    this.betBoard.okButton.getComponent(cc.Button).interactable = false;
     this.currentInputSide = select;
 
     switch (select) {
