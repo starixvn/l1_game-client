@@ -179,6 +179,7 @@ export default class ChanLeMain extends cc.Component {
   redChan: number;
   redLe: number;
 
+  private static readonly MAX_BET = 1000;
   private static readonly DAT_CUOC = "ĐẶT CỬA";
   private readonly umDataHandler: DataHandler;
   private readonly errorDataHandler: DataHandler;
@@ -313,10 +314,9 @@ export default class ChanLeMain extends cc.Component {
   }
 
   setCurrentBetInput(value: number): void {
-    var betValue =
-      getOnlyNumberInString(this.currentInputBet.string) * 1 + value * 1;
+    var betValue = getOnlyNumberInString(this.currentInputBet.string) * 1 + value * 1;
 
-    this.currentInputBet.string = numberWithCommas(betValue);
+    this.currentInputBet.string = numberWithCommas(betValue > ChanLeMain.MAX_BET ? ChanLeMain.MAX_BET : betValue);
     this.currentInputBet.node.active = true;
   }
 

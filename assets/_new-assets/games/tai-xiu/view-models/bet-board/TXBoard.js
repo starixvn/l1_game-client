@@ -15,6 +15,7 @@ cc.Class({
   },
   init(obj) {
     this.RedT = obj;
+    this.MAX_BET = 1000;
   },
   onEnable() {
     const okButtonPositionY = this.okButton.parent.convertToWorldSpaceAR(this.okButton.position).y;
@@ -29,9 +30,8 @@ cc.Class({
     }
   },
   ChonTienClick: function (event, value) {
-    this.RedT.input.string = helper.numberWithCommas(
-      helper.getOnlyNumberInString(this.RedT.input.string) * 1 + value * 1
-    );
+    let betValue = helper.getOnlyNumberInString(this.RedT.input.string) * 1 + value * 1;
+    this.RedT.input.string = helper.numberWithCommas(betValue > this.MAX_BET ? this.MAX_BET : betValue);
   },
   onBackClick: function () {
     var number = helper.getOnlyNumberInString(this.RedT.input.string);
