@@ -279,6 +279,6 @@ export default class KenoProViet extends cc.Component {
 
     openPresetBetDialog() {
         cc.RedT.audio.playClick();
-        this.presetBet.show();
+        this.presetBet.toggle();
     }
 }
