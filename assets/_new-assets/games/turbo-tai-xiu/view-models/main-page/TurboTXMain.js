@@ -295,13 +295,15 @@ cc.Class({
   },
   setBetButtonClicked(isClick, select) {
     if (isClick) {
+      const defaultValue = this.presetBetValue ? this.presetBetValue > this.MAX_BET ? this.MAX_BET : this.presetBetValue : 0;
       if (select == "right") {
-        this.inputRTxt.string = '';
+        this.inputRTxt.string = defaultValue ? helper.numberWithCommas(defaultValue) : '';
         this.inputR.spriteFrame = this.BetButtonClickedFrame;
       } else {
-        this.inputLTxt.string = '';
+        this.inputLTxt.string = defaultValue ? helper.numberWithCommas(defaultValue) : '';
         this.inputL.spriteFrame = this.BetButtonClickedFrame;
       }
+      this.TX_Board.okButton.getComponent(cc.Button).interactable = defaultValue > 0;
     } else {
       this.inputL.spriteFrame = this.BetButtonUnClickedFrame;
       this.inputR.spriteFrame = this.BetButtonUnClickedFrame;
@@ -312,9 +314,8 @@ cc.Class({
       return;
     }
 
-    this.setBetButtonClicked(true, select);
     this.TX_Board.node.active = true;
-    this.TX_Board.okButton.getComponent(cc.Button).interactable = false;
+    this.setBetButtonClicked(true, select);
     this.inputOld = select;
     switch (select) {
       case "right":

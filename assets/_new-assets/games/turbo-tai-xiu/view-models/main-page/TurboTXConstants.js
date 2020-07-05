@@ -7,6 +7,7 @@ cc.Class({
     nanTime: 32, //55,
     redTime: 5,
     minBetTime: 1,
-    displayResultTime: 34
+    displayResultTime: 34,
+    presetBetSettingKey: "turbo_big_small_preset_bet"
   }
 });

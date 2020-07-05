@@ -25,6 +25,7 @@ import TimeDataHandler, {
 import FinishTurnDataHandler from "./data-handlers/FinishTurnDataHandler";
 import UmWarning from "../../../../common/um-warning/UmWarning";
 import GameAudios from "../../../_base/GameAudios";
+import { flatMap } from "lodash";
 
 @ccclass
 export default class ChanLeMain extends cc.Component {
@@ -179,6 +180,8 @@ export default class ChanLeMain extends cc.Component {
   redChan: number;
   redLe: number;
 
+  public presetBetValue = 0;
+
   private static readonly MAX_BET = 1000;
   private static readonly DAT_CUOC = "ĐẶT CỬA";
   private readonly umDataHandler: DataHandler;
@@ -311,7 +314,8 @@ export default class ChanLeMain extends cc.Component {
         break;
     }
 
-    this.currentInputBet.string = "";
+    this.currentInputBet.string = this.presetBetValue ? numberWithCommas(this.presetBetValue > ChanLeMain.MAX_BET ? ChanLeMain.MAX_BET : this.presetBetValue) : "";
+    this.betBoard.okButton.getComponent(cc.Button).interactable = this.presetBetValue > 0;
   }
 
   setCurrentBetInput(value: number): void {

@@ -7,6 +7,7 @@ import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import ChanLeLogTips from './main/ChanLeLogTips';
 import ChanLeStats from './statistics/ChanLeStats';
 import { CLGameConfigs } from './ChanLeConfigs';
+import MiniKenoPresetBet from '../../mini-keno/view-models/components/MiniKenoPresetBet';
 
 @ccclass
 export default class ChanLe extends cc.Component {
@@ -25,6 +26,9 @@ export default class ChanLe extends cc.Component {
     @property(cc.Prefab)
     public statsPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    public presetBetPrefab: cc.Prefab = null;
+
     public gameName: string;
     public gameConfigs: CLGameConfigs;
     public gameTitle: string;
@@ -36,12 +40,18 @@ export default class ChanLe extends cc.Component {
     private touchOffset: cc.Vec2 = null;
     private isGameHide = false;
 
+    private presetBet: MiniKenoPresetBet;
+
     init(miniPanel: MiniPanel, gameName: string, config: CLGameConfigs, gameTitle: string, hideDiaNan = false) {
         this.miniPanel = miniPanel;
         this.gameName = gameName;
         this.gameTitle = gameTitle;
         this.main.init(this, hideDiaNan);
         this.gameConfigs = config;
+    }
+
+    onLoad() {
+        this.initPresetBetBoard();
     }
 
     onEnable() {
@@ -213,5 +223,26 @@ export default class ChanLe extends cc.Component {
         this.isGameHide = true;
         this.main.onGameHide();
         this.sendData({ view: false });
+    }
+
+    private initPresetBetBoard() {
+        const node = cc.instantiate(this.presetBetPrefab);
+        this.presetBet = node.getComponent(MiniKenoPresetBet);
+        this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
+        this.presetBet.getPreset = () => this.main.presetBetValue;
+        this.miniPanel.node.addChild(node);
+        this.presetBet.close();
+
+        this.main.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.gameConfigs.presetBetSettingKey)) || 0;
+    }
+
+    private changedPresetBet(value: number) {
+        this.main.presetBetValue = value;
+        cc.sys.localStorage.setItem(this.gameConfigs.presetBetSettingKey, this.main.presetBetValue);
+    }
+
+    openPresetBetDialog() {
+        cc.RedT.audio.playClick();
+        this.presetBet.toggle();
     }
 }

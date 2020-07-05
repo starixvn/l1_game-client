@@ -1,4 +1,6 @@
 var TX_Main = require("TXMain");
+var Constants = require("./main-page/TXConstants");
+const { constant } = require("lodash");
 
 cc.Class({
   extends: cc.Component,
@@ -9,16 +11,26 @@ cc.Class({
     TX_TopPrefab: cc.Prefab,
     TX_HistoryPrefab: cc.Prefab,
     TX_HistoryBetPrefab: cc.Prefab,
+    presetBetPrefab: cc.Prefab
   },
+
 
   init(gameName, obj) {
     this.gameName = gameName;
     this.miniPanel = obj;
+    this.presetBet = null;
+    this.presetBetSettingKey = Constants.presetBetSettingKey;
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
     cc.RedT.setting.taixiu.getLogs = false;
+
     this.TX_Main.init(this);
 
   },
+
+  onLoad() {
+    this.initPresetBetBoard();
+  },
+
   onGameShow() {
     cc.RedT.send({
       taixiu: { get_time: true, getLogs: true }
@@ -136,4 +148,25 @@ cc.Class({
     cc.RedT.audio.playClick();
     this.miniPanel.openGuide("TaiXiu");
   },
+
+  initPresetBetBoard() {
+    const node = cc.instantiate(this.presetBetPrefab);
+    this.presetBet = node.getComponent("MiniKenoPresetBet");
+    this.presetBet.onChangedBet = (betAmount) => { this.changedPresetBet(betAmount); }
+    this.presetBet.getPreset = () => this.TX_Main.presetBetValue;
+    this.miniPanel.node.addChild(node);
+    this.presetBet.close();
+
+    this.TX_Main.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
+  },
+
+  changedPresetBet(value) {
+    this.TX_Main.presetBetValue = value;
+    cc.sys.localStorage.setItem(this.presetBetSettingKey, this.TX_Main.presetBetValue);
+  },
+
+  openPresetBetDialog() {
+    cc.RedT.audio.playClick();
+    this.presetBet.toggle();
+  }
 });

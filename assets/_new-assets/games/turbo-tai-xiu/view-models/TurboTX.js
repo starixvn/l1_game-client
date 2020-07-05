@@ -1,4 +1,5 @@
 var TX = require("TX");
+var Constants = require("./main-page/TurboTXConstants");
 
 cc.Class({
   extends: TX,
@@ -6,6 +7,7 @@ cc.Class({
   init(gameName, obj) {
     this.gameName = gameName;
     this.miniPanel = obj;
+    this.presetBetSettingKey = Constants.presetBetSettingKey;
     cc.RedT.setting.taixiu_turbo = cc.RedT.setting.taixiu_turbo || { getLogs: false };
     cc.RedT.setting.taixiu_turbo.getLogs = false;
     this.TX_Main.init(this);

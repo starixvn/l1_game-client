@@ -233,6 +233,8 @@ cc.Class({
     this.redXiu = 0;
     this.balanceBetNotice = null;
     this.currentStatus = null;
+    this.presetBetValue = 0;
+    this.MAX_BET = 1000;
 
     if (void 0 === cc.RedT.setting.taixiu.red) {
       cc.RedT.setting.taixiu.red = this.red;
@@ -384,9 +386,7 @@ cc.Class({
     }
   },
   updateValue: function (e) {
-    let value = helper.numberWithCommas(
-      helper.getOnlyNumberInString(this.value)
-    );
+    let value = helper.numberWithCommas(helper.getOnlyNumberInString(this.value));
     this.value = value == "0" ? "" : value;
   },
   addEvent: function () {
@@ -506,13 +506,17 @@ cc.Class({
   },
   setBetButtonClicked(isClick, select) {
     if (isClick) {
+      const defaultValue = this.presetBetValue ? this.presetBetValue > this.MAX_BET ? this.MAX_BET : this.presetBetValue : 0;
       if (select == "right") {
-        this.inputRTxt.string = '';
+        this.inputRTxt.string = defaultValue ? helper.numberWithCommas(defaultValue) : '';
+        this.TX_Board.okButton.getComponent(cc.Button).interactable = false;
         this.inputR.spriteFrame = this.BetButtonClickedFrame;
       } else {
-        this.inputLTxt.string = '';
+        this.inputLTxt.string = defaultValue ? helper.numberWithCommas(defaultValue) : '';
         this.inputL.spriteFrame = this.BetButtonClickedFrame;
       }
+      this.TX_Board.okButton.getComponent(cc.Button).interactable = defaultValue > 0;
+
     } else {
       this.inputL.spriteFrame = this.BetButtonUnClickedFrame;
       this.inputR.spriteFrame = this.BetButtonUnClickedFrame;
@@ -523,9 +527,8 @@ cc.Class({
       return;
     }
 
-    this.setBetButtonClicked(true, select);
     this.TX_Board.node.active = true;
-    this.TX_Board.okButton.getComponent(cc.Button).interactable = false;
+    this.setBetButtonClicked(true, select);
     this.inputOld = select;
     switch (select) {
       case "right":
@@ -538,9 +541,7 @@ cc.Class({
     }
   },
   onChangerInput: function () {
-    var value = helper.numberWithCommas(
-      helper.getOnlyNumberInString(this.input.string)
-    );
+    var value = helper.numberWithCommas(helper.getOnlyNumberInString(this.input.string));
     this.input.string = value == "0" ? "" : value;
   },
   setPhienLabel: function (phien) {
