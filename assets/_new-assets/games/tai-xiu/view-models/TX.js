@@ -151,10 +151,10 @@ cc.Class({
 
   initPresetBetBoard() {
     const node = cc.instantiate(this.presetBetPrefab);
-    this.presetBet = node.getComponent("MiniKenoPresetBet");
+    this.presetBet = node.getComponent("PresetBet");
     this.presetBet.onChangedBet = (betAmount) => { this.changedPresetBet(betAmount); }
     this.presetBet.getPreset = () => this.TX_Main.presetBetValue;
-    this.miniPanel.node.addChild(node);
+    this.TX_Main.node.addChild(node);
     this.presetBet.close();
 
     this.TX_Main.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;

@@ -24,7 +24,6 @@ import TimeDataHandler, {
 import FinishTurnDataHandler from "./data-handlers/FinishTurnDataHandler";
 import UmWarning from "../../../../common/um-warning/UmWarning";
 import GameAudios from "../../../_base/GameAudios";
-import { flatMap } from "lodash";
 
 @ccclass
 export default class ChanLeMain extends cc.Component {
