@@ -1,5 +1,4 @@
-var TX_Board = require("TXBoard"),
-  TX_Chat = require("TXChat"),
+var TX_Chat = require("TXChat"),
   BrowserUtil = require("BrowserUtil"),
   helper = require("Helper"),
   TaiXiu_efScale = require("TXScale"),
@@ -167,7 +166,6 @@ cc.Class({
       type: cc.Label
     },
     TX_Chat: TX_Chat,
-    TX_Board: TX_Board,
     red: true,
     taixiu: true,
     centerRoundLight: {
@@ -213,9 +211,13 @@ cc.Class({
       default: null,
       type: cc.Node
     },
-    okButton: {
+    betBoardContainer: {
       default: null,
       type: cc.Node
+    },
+    betBoardPrefab: {
+      default: null,
+      type: cc.Prefab
     }
   },
   init: function (obj) {
@@ -235,6 +237,7 @@ cc.Class({
     this.currentStatus = null;
     this.presetBetValue = 0;
     this.MAX_BET = 1000;
+    this.betBoard = null;
 
     if (void 0 === cc.RedT.setting.taixiu.red) {
       cc.RedT.setting.taixiu.red = this.red;
@@ -288,7 +291,7 @@ cc.Class({
     var self = this;
     this.ttOffset = null;
     this.editboxs = [this.inputLeft, this.inputRight];
-    this.TX_Board.init(this);
+    this.initBetBoard();
     this.TX_Chat.init(this);
 
     this.diaNan.getComponent("TXDiaNan").init(this);
@@ -310,33 +313,6 @@ cc.Class({
 
     this.diceAnimation.on("finished", this.onDiceAnimationFinish, this);
 
-    this.onCuocClick = function () {
-      var bet = helper.getOnlyNumberInString(self.input.string);
-      bet = parseInt(bet);
-      self.resetBetButtonText()
-      self.TX_Board.node.active = false;
-      this.setBetButtonClicked(false);
-
-      if (this.waitingBetResponse) {
-        var processingWarning = cc.instantiate(this.ProcessingWarning);
-        this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
-        this.notice.addChild(processingWarning);
-        return;
-      }
-
-      this.waitingBetResponse = true;
-
-      cc.RedT.send({
-        taixiu: {
-          cuoc: {
-            red: self.red,
-            taixiu: self.taixiu,
-            select: self.inputOld == "left",
-            bet: bet
-          }
-        }
-      });
-    };
     if (this.TXRoot.board) {
       this.inputL.active = this.inputR.active = false;
       this.inputLeft.node.active = this.inputRight.node.active = true;
@@ -506,28 +482,21 @@ cc.Class({
   },
   setBetButtonClicked(isClick, select) {
     if (isClick) {
-      const defaultValue = this.presetBetValue ? this.presetBetValue > this.MAX_BET ? this.MAX_BET : this.presetBetValue : 0;
       if (select == "right") {
-        this.inputRTxt.string = defaultValue ? helper.numberWithCommas(defaultValue) : '';
-        this.TX_Board.okButton.getComponent(cc.Button).interactable = false;
         this.inputR.spriteFrame = this.BetButtonClickedFrame;
       } else {
-        this.inputLTxt.string = defaultValue ? helper.numberWithCommas(defaultValue) : '';
         this.inputL.spriteFrame = this.BetButtonClickedFrame;
       }
-      this.TX_Board.okButton.getComponent(cc.Button).interactable = defaultValue > 0;
-
     } else {
       this.inputL.spriteFrame = this.BetButtonUnClickedFrame;
       this.inputR.spriteFrame = this.BetButtonUnClickedFrame;
     }
   },
   onSelectInput: function (event, select) {
-    if (this.TX_Board.node.active) {
+    if (this.betBoard.node.active) {
       return;
     }
 
-    this.TX_Board.node.active = true;
     this.setBetButtonClicked(true, select);
     this.inputOld = select;
     switch (select) {
@@ -539,6 +508,14 @@ cc.Class({
         this.input = this.TXRoot.board ? this.inputLeft : this.inputLTxt;
         break;
     }
+
+    const info = {
+      choice: null,
+      bet: 0,
+      betItem: null,
+      maxBet: this.MAX_BET
+    }
+    this.betBoard.show(info)
   },
   onChangerInput: function () {
     var value = helper.numberWithCommas(helper.getOnlyNumberInString(this.input.string));
@@ -618,7 +595,6 @@ cc.Class({
       cc.RedT.setting.taixiu.time_remain = +data.time_remain - 1;
       this.playTime();
     }
-
 
     this.onDataFinishPhien(data);
   },
@@ -1187,7 +1163,6 @@ cc.Class({
   },
 
   showBalanceBetNotice() {
-
     this.balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
     this.balanceBetNoticeContainer.addChild(this.balanceBetNotice);
   },
@@ -1228,5 +1203,56 @@ cc.Class({
     this.historyButton.opacity = 255;
     const button = this.historyButton.getComponent(cc.Button);
     button.interactable = true;
+  },
+
+  initBetBoard() {
+    const betBoardNode = cc.instantiate(this.betBoardPrefab);
+    this.betBoard = betBoardNode.getComponent("BetBoard");
+    this.betBoard.callback = {
+      getPreset: () => { return this.presetBetValue; },
+      acceptedBet: (info) => { this.onCuocClick(); },
+      changedBet: (info) => { this.setCurrentBetInput(info.bet); },
+      cancel: (info) => {
+        this.resetBetButtonText();
+        this.setBetButtonClicked(false);
+      },
+    };
+    this.betBoard.node.active = false;
+    this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
+  },
+
+  setCurrentBetInput(value) {
+    this.input.string = helper.numberWithCommas(value > this.MAX_BET ? this.MAX_BET : value);
+    this.input.node.active = true;
+  },
+
+  onCuocClick() {
+    var bet = helper.getOnlyNumberInString(this.input.string);
+    bet = parseInt(bet);
+    this.resetBetButtonText()
+    this.betBoard.node.active = false;
+    this.setBetButtonClicked(false);
+
+    if (this.waitingBetResponse) {
+      var processingWarning = cc.instantiate(this.ProcessingWarning);
+      this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
+      this.notice.addChild(processingWarning);
+      return;
+    }
+
+    this.waitingBetResponse = true;
+    this.sendBetData(bet);
+  },
+  sendBetData(bet) {
+    cc.RedT.send({
+      taixiu: {
+        cuoc: {
+          red: this.red,
+          taixiu: this.taixiu,
+          select: this.inputOld == "left",
+          bet: bet
+        }
+      }
+    });
   }
 });

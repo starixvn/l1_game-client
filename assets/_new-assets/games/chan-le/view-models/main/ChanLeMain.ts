@@ -1,12 +1,11 @@
 const { ccclass, property } = cc._decorator;
 import ChanLe from "./../ChanLe";
-import BetBoard from "./../bet-board/ChanLeBetBoard";
+import BetBoard, { BetInfo } from "./../../../../common/bet-board/view-models/BetBoard";
 import DiaNan from "./ChanLeDiaNan";
 import {
   getOnlyNumberInString,
   numberWithCommas,
   numberTo,
-  inputNumber,
 } from "../../../../common/helpers/Helper";
 import ProcessingWarning from "./../../../../common/processing-warning/view-models/ProcessingWarning";
 import * as ScaleEffect from "./../../../tai-xiu/view-models/main-page/TXScale";
@@ -77,9 +76,6 @@ export default class ChanLeMain extends cc.Component {
 
   @property(cc.SpriteFrame)
   public betButtonUnClickedImage: cc.SpriteFrame = null;
-
-  @property(BetBoard)
-  public betBoard: BetBoard = null;
 
   @property({ type: DiaNan })
   public diaNan: DiaNan = null;
@@ -168,6 +164,12 @@ export default class ChanLeMain extends cc.Component {
   @property(cc.Node)
   historyButton: cc.Node = null;
 
+  @property(cc.Node)
+  betBoardContainer: cc.Node = null;
+
+  @property(cc.Prefab)
+  betBoardPrefab: cc.Prefab = null;
+
   //#endregion
   isNan = false;
   root: ChanLe;
@@ -180,6 +182,7 @@ export default class ChanLeMain extends cc.Component {
   redChan: number;
   redLe: number;
 
+  private betBoard: BetBoard;
   public presetBetValue = 0;
 
   private static readonly MAX_BET = 1000;
@@ -225,7 +228,7 @@ export default class ChanLeMain extends cc.Component {
   init(root: ChanLe, hideDiaNan: boolean) {
     this.root = root;
     this.hideDiaNan = hideDiaNan;
-    this.betBoard.init(this);
+    //this.betBoard.init(this);
     this.diaNan.init(this);
   }
 
@@ -238,6 +241,7 @@ export default class ChanLeMain extends cc.Component {
     this.playCenterLight();
     this.logsDataHandler.initDotLogs();
     this.initGameAudios();
+    this.initBetBoard();
   }
 
   protected initGameAudios() {
@@ -300,8 +304,6 @@ export default class ChanLeMain extends cc.Component {
     }
 
     this.setBetButtonFrame(true, select);
-    this.betBoard.node.active = true;
-    this.betBoard.okButton.getComponent(cc.Button).interactable = false;
     this.currentInputSide = select;
 
     switch (select) {
@@ -313,15 +315,17 @@ export default class ChanLeMain extends cc.Component {
         this.currentInputBet = this.betInputLeft;
         break;
     }
-
-    this.currentInputBet.string = this.presetBetValue ? numberWithCommas(this.presetBetValue > ChanLeMain.MAX_BET ? ChanLeMain.MAX_BET : this.presetBetValue) : "";
-    this.betBoard.okButton.getComponent(cc.Button).interactable = this.presetBetValue > 0;
+    const info = {
+      choice: null,
+      bet: 0,
+      betItem: null,
+      maxBet: ChanLeMain.MAX_BET
+    }
+    this.betBoard.show(info);
   }
 
   setCurrentBetInput(value: number): void {
-    var betValue = getOnlyNumberInString(this.currentInputBet.string) * 1 + value * 1;
-
-    this.currentInputBet.string = numberWithCommas(betValue > ChanLeMain.MAX_BET ? ChanLeMain.MAX_BET : betValue);
+    this.currentInputBet.string = numberWithCommas(value > ChanLeMain.MAX_BET ? ChanLeMain.MAX_BET : value);
     this.currentInputBet.node.active = true;
   }
 
@@ -536,5 +540,21 @@ export default class ChanLeMain extends cc.Component {
         }, resultLabel)
       )
     );
+  }
+
+  protected initBetBoard() {
+    const betBoardNode = cc.instantiate(this.betBoardPrefab);
+    this.betBoard = betBoardNode.getComponent(BetBoard);
+    this.betBoard.callback = {
+      getPreset: () => { return this.presetBetValue; },
+      acceptedBet: (info: BetInfo) => { this.onBetClick(); },
+      changedBet: (info: BetInfo) => { this.setCurrentBetInput(info.bet); },
+      cancel: (info: BetInfo) => {
+        this.resetCurrentBetInput();
+        this.setBetButtonFrame(false);
+      },
+    };
+    this.betBoard.node.active = false;
+    this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
   }
 }

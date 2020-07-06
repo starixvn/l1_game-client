@@ -22,6 +22,9 @@ cc.Class({
     this.redXiu = 0;
     this.balanceBetNotice = null;
     this.currentStatus = null;
+    this.presetBetValue = 0;
+    this.MAX_BET = 1000;
+    this.betBoard = null;
 
     if (void 0 === cc.RedT.setting.taixiu_turbo.red) {
       cc.RedT.setting.taixiu_turbo.red = this.red;
@@ -74,7 +77,7 @@ cc.Class({
     var self = this;
     this.ttOffset = null;
     this.editboxs = [this.inputLeft, this.inputRight];
-    this.TX_Board.init(this);
+    this.initBetBoard();
     this.TX_Chat.init(this);
 
     this.diaNan.getComponent("TXDiaNan").init(this);
@@ -96,34 +99,6 @@ cc.Class({
 
     this.diceAnimation.on("finished", this.onDiceAnimationFinish, this);
 
-    this.onCuocClick = function () {
-      var bet = helper.getOnlyNumberInString(self.input.string);
-      bet = parseInt(bet);
-      self.resetBetButtonText()
-      self.TX_Board.node.active = false;
-      this.setBetButtonClicked(false);
-
-      if (this.waitingBetResponse) {
-        var processingWarning = cc.instantiate(this.ProcessingWarning);
-        this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
-        this.notice.addChild(processingWarning);
-        return;
-      }
-
-      this.waitingBetResponse = true;
-
-      cc.RedT.send({
-        taixiu_turbo: {
-          cuoc: {
-            red: self.red,
-            taixiu: self.taixiu,
-            select: self.inputOld == "left",
-            bet: bet
-          }
-        }
-      });
-
-    };
     if (this.TXRoot.board) {
       this.inputL.active = this.inputR.active = false;
       this.inputLeft.node.active = this.inputRight.node.active = true;
@@ -292,40 +267,6 @@ cc.Class({
   setTop: function () {
     this.node.parent.insertChild(this.node);
     this.TXRoot.setTop();
-  },
-  setBetButtonClicked(isClick, select) {
-    if (isClick) {
-      const defaultValue = this.presetBetValue ? this.presetBetValue > this.MAX_BET ? this.MAX_BET : this.presetBetValue : 0;
-      if (select == "right") {
-        this.inputRTxt.string = defaultValue ? helper.numberWithCommas(defaultValue) : '';
-        this.inputR.spriteFrame = this.BetButtonClickedFrame;
-      } else {
-        this.inputLTxt.string = defaultValue ? helper.numberWithCommas(defaultValue) : '';
-        this.inputL.spriteFrame = this.BetButtonClickedFrame;
-      }
-      this.TX_Board.okButton.getComponent(cc.Button).interactable = defaultValue > 0;
-    } else {
-      this.inputL.spriteFrame = this.BetButtonUnClickedFrame;
-      this.inputR.spriteFrame = this.BetButtonUnClickedFrame;
-    }
-  },
-  onSelectInput: function (event, select) {
-    if (this.TX_Board.node.active) {
-      return;
-    }
-
-    this.TX_Board.node.active = true;
-    this.setBetButtonClicked(true, select);
-    this.inputOld = select;
-    switch (select) {
-      case "right":
-        this.input = this.TXRoot.board ? this.inputRight : this.inputRTxt;
-        break;
-
-      case "left":
-        this.input = this.TXRoot.board ? this.inputLeft : this.inputLTxt;
-        break;
-    }
   },
   onChangerInput: function () {
     var value = helper.numberWithCommas(
@@ -957,4 +898,17 @@ cc.Class({
     this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = '';
     this.playerLeft.string = this.playerRight.string = "0%"
   },
+
+  sendBetData(bet) {
+    cc.RedT.send({
+      taixiu_turbo: {
+        cuoc: {
+          red: this.red,
+          taixiu: this.taixiu,
+          select: this.inputOld == "left",
+          bet: bet
+        }
+      }
+    });
+  }
 });
