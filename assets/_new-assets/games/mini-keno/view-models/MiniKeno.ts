@@ -3,7 +3,7 @@ import KenoNumber from "../../keno-pro/view-models/KenoNumber";
 import RoundHistory from "../../keno-pro/view-models/RoundHistory";
 import { GameState } from "../../_base/GameBase";
 import GameMiniBase from "../../_base/GameMiniBase";
-import MiniKenoBetBoard, { BetInfo } from "./components/MiniKenoBetBoard";
+import BetBoard, { BetInfo } from "./../../../common/bet-board/view-models/BetBoard";
 import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
 import MiniKenoRoundResult from "./components/MiniKenoRoundResult";
@@ -81,7 +81,7 @@ export default class MiniKeno extends GameMiniBase {
     public getPreset = () => { return 0 };
     public roundHistory: RoundHistory;
     public roundResult: MiniKenoRoundResult;
-    public betBoard: MiniKenoBetBoard;
+    public betBoard: BetBoard;
     public kenoTimer: MiniKenoTimer;
     public lastBetInfo: BetInfo = null;
     public statusCallback = (gameName: number, roundId: number, winAmount: number) => { }
@@ -286,7 +286,7 @@ export default class MiniKeno extends GameMiniBase {
 
     protected initBetBoard() {
         const betBoardNode = cc.instantiate(this.betBoardPrefab);
-        this.betBoard = betBoardNode.getComponent(MiniKenoBetBoard);
+        this.betBoard = betBoardNode.getComponent(BetBoard);
         this.betBoard.callback = {
             getPreset: () => { return this.getPreset(); },
             acceptedBet: (info: BetInfo) => {

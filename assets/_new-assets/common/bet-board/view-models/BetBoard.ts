@@ -9,7 +9,7 @@ export interface BetInfo {
 }
 
 @ccclass
-export default class MiniKenoBetBoard extends cc.Component {
+export default class BetBoard extends cc.Component {
   @property(cc.Button)
   okButton: cc.Button = null;
 

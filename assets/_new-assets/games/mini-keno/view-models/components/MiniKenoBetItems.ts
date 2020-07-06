@@ -1,4 +1,3 @@
-import MiniKenoBetBoard from "./MiniKenoBetBoard";
 import MiniKeno from "../MiniKeno";
 import BetItem from "../../../_base/BetItem";
 const { ccclass, property } = cc._decorator;
