@@ -516,7 +516,9 @@ cc.Class({
       maxBet: this.MAX_BET
     }
     this.betBoard.show(info);
-    this.adjustPosition();
+    this.betBoard.node.runAction(cc.sequence(cc.delayTime(0.05), cc.callFunc(() => {
+      this.adjustPosition();
+    })));
   },
   onChangerInput: function () {
     var value = helper.numberWithCommas(helper.getOnlyNumberInString(this.input.string));
@@ -1260,7 +1262,7 @@ cc.Class({
   adjustPosition() {
     const okButtonPositionY = this.betBoard.okButton.node.parent.convertToWorldSpaceAR(this.betBoard.okButton.node.position).y;
     const expectPositionY = this.betBoard.okButton.node.height;
-    const paddingBottom = 100;
+    const paddingBottom = 20;
 
     if (okButtonPositionY < expectPositionY) {
       const distance = expectPositionY - okButtonPositionY + paddingBottom;

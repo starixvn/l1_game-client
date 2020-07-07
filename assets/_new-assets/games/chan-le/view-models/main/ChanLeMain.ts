@@ -321,7 +321,9 @@ export default class ChanLeMain extends cc.Component {
       maxBet: ChanLeMain.MAX_BET
     }
     this.betBoard.show(info);
-    this.adjustPosition();
+    this.betBoard.node.runAction(cc.sequence(cc.delayTime(0.05), cc.callFunc(() => {
+      this.adjustPosition();
+    })));
   }
 
   setCurrentBetInput(value: number): void {
@@ -554,14 +556,17 @@ export default class ChanLeMain extends cc.Component {
         this.setBetButtonFrame(false);
       },
     };
-    this.betBoard.node.active = false;
+
     this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
+    this.betBoard.node.active = false;
   }
 
   protected adjustPosition() {
     const okButtonPositionY = this.betBoard.okButton.node.parent.convertToWorldSpaceAR(this.betBoard.okButton.node.position).y;
     const expectPositionY = this.betBoard.okButton.node.height;
-    const paddingBottom = 100;
+    console.log(okButtonPositionY);
+    console.log(this.betBoard.node.parent.convertToWorldSpace(this.betBoard.node.position).y);
+    const paddingBottom = 20;
 
     if (okButtonPositionY < expectPositionY) {
       const distance = expectPositionY - okButtonPositionY + paddingBottom;
