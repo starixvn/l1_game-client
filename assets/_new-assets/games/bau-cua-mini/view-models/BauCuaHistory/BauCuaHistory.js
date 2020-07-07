@@ -15,7 +15,7 @@ cc.Class({
 	},
 	onLoad() {
 		this.page = cc.instantiate(this.page);
-		this.page.y = -317;
+		this.page.y = -340;
 		this.node.addChild(this.page);
 		this.page = this.page.getComponent('Pagination');
 
