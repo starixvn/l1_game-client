@@ -101,6 +101,7 @@ cc.Class({
   closeGame: function () {
     cc.RedT.audio.playUnClick();
     this.TX_Main.betBoard.close();
+    this.presetBet.forceClose();
     this.node.active = !1;
   },
   newGame: function () {

@@ -49,6 +49,11 @@ export default class MiniKenoPresetBet extends cc.Component {
         this.commonDialog.closeDialog();
     }
 
+    public forceClose() {
+        this.isOpened = false;
+        this.node.active = false;
+    }
+
     public onResetBet() {
         this.close();
         this.clearBet();

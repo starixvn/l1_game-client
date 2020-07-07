@@ -1260,7 +1260,7 @@ cc.Class({
   adjustPosition() {
     const okButtonPositionY = this.betBoard.okButton.node.parent.convertToWorldSpaceAR(this.betBoard.okButton.node.position).y;
     const expectPositionY = this.betBoard.okButton.node.height;
-    const paddingBottom = 20;
+    const paddingBottom = 70;
 
     if (okButtonPositionY < expectPositionY) {
       const distance = expectPositionY - okButtonPositionY + paddingBottom;

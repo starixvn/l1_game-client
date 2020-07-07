@@ -17,9 +17,12 @@ export default class PresetBet extends cc.Component {
     private commonDialog: any;
     private isOpened = false;
 
+    onLoad() {
+        this.commonDialog = this.node.getComponent("CommonDialog");
+    }
+
     onEnable() {
         this.betAmount = this.getPreset();
-        this.commonDialog = this.node.getComponent("CommonDialog");
         this.updateBetAmount();
     }
 
@@ -37,6 +40,11 @@ export default class PresetBet extends cc.Component {
     public close() {
         this.isOpened = false;
         this.commonDialog.closeDialog();
+    }
+
+    public forceClose() {
+        this.isOpened = false;
+        this.node.active = false;
     }
 
     public onResetBet() {

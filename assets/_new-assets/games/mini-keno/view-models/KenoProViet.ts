@@ -241,6 +241,7 @@ export default class KenoProViet extends cc.Component {
 
     closeGame() {
         cc.RedT.audio.playClick();
+        this.presetBet.forceClose();
         this.node.active = false;
     }
 
