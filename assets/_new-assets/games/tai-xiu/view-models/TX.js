@@ -100,6 +100,7 @@ cc.Class({
   },
   closeGame: function () {
     cc.RedT.audio.playUnClick();
+    this.TX_Main.betBoard.close();
     this.node.active = !1;
   },
   newGame: function () {

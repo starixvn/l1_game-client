@@ -74,11 +74,13 @@ export default class ChanLe extends cc.Component {
 
     openGame() {
         cc.RedT.audio.playClick();
+
         this.node.active = true;
     }
 
     closeGame() {
         cc.RedT.audio.playUnClick();
+        this.main.betBoard.close();
         this.node.active = false;
     }
 

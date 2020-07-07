@@ -515,7 +515,8 @@ cc.Class({
       betItem: null,
       maxBet: this.MAX_BET
     }
-    this.betBoard.show(info)
+    this.betBoard.show(info);
+    this.adjustPosition();
   },
   onChangerInput: function () {
     var value = helper.numberWithCommas(helper.getOnlyNumberInString(this.input.string));
@@ -1254,5 +1255,17 @@ cc.Class({
         }
       }
     });
+  },
+
+  adjustPosition() {
+    const okButtonPositionY = this.betBoard.okButton.node.parent.convertToWorldSpaceAR(this.betBoard.okButton.node.position).y;
+    const expectPositionY = this.betBoard.okButton.node.height;
+    const paddingBottom = 20;
+
+    if (okButtonPositionY < expectPositionY) {
+      const distance = expectPositionY - okButtonPositionY + paddingBottom;
+
+      this.node.runAction(cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut()));
+    }
   }
 });
