@@ -47,7 +47,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
     isKenoProViet() { return this.gameName == "kenoProViet"; }
 
     updateRoundLabel() {
-        this.roundLabel.string = this.isKenoProViet() ? "Kỳ Vé" : "Phiên";
+        this.roundLabel.string = this.isKenoProViet() ? "KỲ VÉ" : "PHIÊN";
     }
 
     onLoad() {
