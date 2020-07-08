@@ -29,6 +29,9 @@ export default class ChanLe extends cc.Component {
     @property(cc.Prefab)
     public presetBetPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    public guidePrefab: cc.Prefab = null;
+
     public gameName: string;
     public gameConfigs: CLGameConfigs;
     public gameTitle: string;
@@ -172,7 +175,8 @@ export default class ChanLe extends cc.Component {
 
     showGuide() {
         cc.RedT.audio.playClick();
-        this.miniPanel.openGuide("ChanLe");
+        var dialog = cc.instantiate(this.guidePrefab);
+        this.miniPanel.dialog.addChild(dialog);
     }
 
     sendData(payload: any) {

@@ -11,6 +11,7 @@ cc.Class({
     TX_TopPrefab: cc.Prefab,
     TX_HistoryPrefab: cc.Prefab,
     TX_HistoryBetPrefab: cc.Prefab,
+    guidePrefab: cc.Prefab,
     presetBetPrefab: cc.Prefab
   },
 
@@ -148,7 +149,8 @@ cc.Class({
   },
   showGuide: function () {
     cc.RedT.audio.playClick();
-    this.miniPanel.openGuide("TaiXiu");
+    var dialog = cc.instantiate(this.guidePrefab);
+    this.miniPanel.dialog.addChild(dialog);
   },
 
   initPresetBetBoard() {

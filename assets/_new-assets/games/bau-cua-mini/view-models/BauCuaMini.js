@@ -70,7 +70,9 @@ cc.Class({
     gameAudiosPrefab: {
       default: null,
       type: cc.Prefab
-    }
+    },
+    guidePrefab: cc.Prefab,
+
   },
   init(gameName, obj) {
     this.gameName = gameName;
@@ -321,7 +323,8 @@ cc.Class({
   },
   pressedShowGuide() {
     cc.RedT.audio.playClick();
-    this.miniPanel.openGuide("BauCua");
+    var dialog = cc.instantiate(this.guidePrefab);
+    this.miniPanel.dialog.insertChild(dialog);
   },
   setTop: function () {
     this.node.parent.insertChild(this.node);
