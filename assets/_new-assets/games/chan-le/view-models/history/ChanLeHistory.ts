@@ -26,6 +26,9 @@ export default class ChanLeHistory extends cc.Component {
     }
 
     onLoad() {
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
         this.pages.init(this);
         this.title.string = `${ChanLeHistory.LICH_SU} ${this.root.gameTitle}`.toUpperCase();
     }

@@ -51,6 +51,12 @@ export default class ChanLeTurnHistory extends cc.Component {
     private root: ChanLe;
     private currentTurnId: number;
 
+    onLoad() {
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
+    }
+
     init(root: ChanLe) {
         this.root = root;
     }

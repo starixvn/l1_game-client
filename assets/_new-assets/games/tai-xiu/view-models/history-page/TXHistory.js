@@ -12,6 +12,9 @@ cc.Class({
     this.RedT = obj;
   },
   onLoad() {
+    if (!cc.sys.isMobile) {
+      this.node.scale = 0.8;
+    }
     this.page.init(this);
   },
   onEnable: function () {

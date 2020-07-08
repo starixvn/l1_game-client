@@ -181,6 +181,10 @@ cc.Class({
 		this.TXRoot.TXStats = null;
 	},
 	onLoad() {
+		if (!cc.sys.isMobile) {
+			this.node.scale = 0.8;
+		}
+
 		this.ttOffset = null;
 
 		Promise.all(this.header.children.map(function (obj) {

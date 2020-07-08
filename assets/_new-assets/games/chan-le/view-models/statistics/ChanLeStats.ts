@@ -98,6 +98,9 @@ export default class ChanLeStats extends cc.Component {
     }
 
     onLoad() {
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
         Promise.all(this.header.children.map((obj) => {
             return obj.getComponent('TabMenu') as TabMenu;
         })).then(tabs => {
