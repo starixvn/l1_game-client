@@ -110,11 +110,11 @@ export default class MiniKenoGuide extends cc.Component {
         var self = this;
         Promise.all(this.sideBar.children.map(function (obj) {
             if (obj.name == game) {
-                obj.children[0].active = true;
+                obj.children[0].color = new cc.Color(244, 223, 109, 255);
                 obj.pauseSystemEvents(true);
-                self.title.string = obj.children[1].getComponent(cc.Label).string;
+                self.title.string = obj.children[0].getComponent(cc.Label).string;
             } else {
-                obj.children[0].active = false;
+                obj.children[0].color = new cc.Color(255, 255, 255, 255);
                 obj.resumeSystemEvents(true);
             }
             return void 0;
