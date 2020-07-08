@@ -25,7 +25,7 @@ export default class GameBaseGuide extends cc.Component {
     }
 
     receivedData(data) {
-        const dataGame = data[this.gameName] || data.mini[this.gameName];
+        const dataGame = data[this.gameName] || (data.mini && data.mini[this.gameName]);
         if (dataGame) {
             this.onData(dataGame);
         }
@@ -43,5 +43,10 @@ export default class GameBaseGuide extends cc.Component {
 
     clearAllOddLabels() {
         this.oddLabels.forEach(label => label.string = '')
+    }
+
+    closeGuide() {
+        this.node.active = false;
+        this.node.destroy();
     }
 }
