@@ -2,7 +2,7 @@ const configs = {
     ssl: true,
     disabledDirectLogin: true,
     serverEndpoints: {
-        "sit.saba.vin": 'sit-gsr.saba.vin',
+        "sit.sabagame.com": 'sit-gsr.sabagame.com',
     },
     gameIds: {
         TaiXiu: 1,
