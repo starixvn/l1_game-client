@@ -2,14 +2,14 @@ window.boot = function () {
     var settings = window._CCSettings;
     window._CCSettings = undefined;
     var onProgress = null;
-
+    
     let { RESOURCES, INTERNAL, MAIN, START_SCENE } = cc.AssetManager.BuiltinBundleName;
-    function setLoadingDisplay() {
+    function setLoadingDisplay () {
         // Loading splash scene
         var splash = document.getElementById('splash');
         var progressBar = splash.querySelector('.progress-bar span');
         var loadingBar = new ldBar(".ldBar");
-        cc.loader.onProgress = function (completedCount, totalCount, item) {
+        onProgress = function (completedCount, totalCount, item) {
             var percent = 100 * completedCount / totalCount;
             loadingBar.set(percent);
             // if (progressBar) {
@@ -61,7 +61,7 @@ window.boot = function () {
         var bundle = cc.assetManager.bundles.find(function (b) {
             return b.getSceneInfo(launchScene);
         });
-
+        
         bundle.loadScene(launchScene, null, onProgress,
             function (err, scene) {
                 if (!err) {
@@ -91,18 +91,18 @@ window.boot = function () {
         collisionMatrix: settings.collisionMatrix,
     };
 
-    cc.assetManager.init({
+    cc.assetManager.init({ 
         bundleVers: settings.bundleVers,
         remoteBundles: settings.remoteBundles,
         server: settings.server
     });
-
+    
     let bundleRoot = [INTERNAL, MAIN];
     settings.hasStartSceneBundle && bundleRoot.push(START_SCENE);
     settings.hasResourcesBundle && bundleRoot.push(RESOURCES);
 
     var count = 0;
-    function cb(err) {
+    function cb (err) {
         if (err) return console.error(err.message, err.stack);
         count++;
         if (count === bundleRoot.length + 1) {
@@ -110,7 +110,7 @@ window.boot = function () {
         }
     }
 
-    cc.assetManager.loadScript(settings.jsList.map(function (x) { return 'src/' + x; }), cb);
+    cc.assetManager.loadScript(settings.jsList.map(function (x) { return 'src/' + x;}), cb);
 
     for (let i = 0; i < bundleRoot.length; i++) {
         cc.assetManager.loadBundle(bundleRoot[i], cb);
