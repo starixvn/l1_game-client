@@ -3,7 +3,7 @@
   script: 
     - echo "====== Build Cocos Web Mobile ======"
     - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true"
+    - /Applications/CocosCreator/Creator/2.4.0/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true"
     - echo "====== Push to git compiled ======"
     - git clone --branch $GIT_BRANCH $GIT_COMPILED_REPO ./publish
     - rm -rf ~/temp
