@@ -40,7 +40,7 @@ cc.Class({
         },
     },
     _playSFX: function (clip) {
-        if (cc.RedT.IS_SOUND) {
+        if (cc.RedT.isSoundGame()) {
             cc.audioEngine.playEffect(clip, false);
         }
     },

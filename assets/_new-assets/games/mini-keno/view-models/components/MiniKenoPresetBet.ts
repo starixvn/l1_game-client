@@ -20,6 +20,7 @@ export default class MiniKenoPresetBet extends cc.Component {
     public onChangedBet = (betAmount: number) => { };
     public getPreset = () => { return 0 };
     private commonDialog: any;
+    private isOpened = false;
 
     onLoad() {
         this.commonDialog = this.main.getComponent("CommonDialog");
@@ -44,7 +45,13 @@ export default class MiniKenoPresetBet extends cc.Component {
     }
 
     public close() {
+        this.isOpened = false;
         this.commonDialog.closeDialog();
+    }
+
+    public forceClose() {
+        this.isOpened = false;
+        this.node.active = false;
     }
 
     public onResetBet() {
@@ -66,7 +73,16 @@ export default class MiniKenoPresetBet extends cc.Component {
     }
 
     public show() {
+        this.isOpened = true;
         this.commonDialog.showDialog();
+    }
+
+    public toggle() {
+        if (this.isOpened) {
+            this.close();
+        } else {
+            this.show();
+        }
     }
 
     private updateBetAmount() {

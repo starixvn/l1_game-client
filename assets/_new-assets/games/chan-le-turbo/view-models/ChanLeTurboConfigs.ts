@@ -8,4 +8,5 @@ export default class ChanLeTurboConfigs implements CLGameConfigs {
     nanTime: number = 32;
     minBetTime: number = 1;
     displayResultTime: number = 34;
+    presetBetSettingKey: string = "turbo_odd_even_preset_bet";
 }

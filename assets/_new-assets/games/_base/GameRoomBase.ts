@@ -107,7 +107,7 @@ export default class GameRoomBase extends GameBase {
 
         const message = data.um_message;
         let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
-        var noticeData = <NoticeData>{ text: text, button: { text: "Ok" } };
+        var noticeData = <NoticeData>{ text: text, button: { text: "OK" } };
         var notice = this.showNotice(noticeData)
 
         var self = this;

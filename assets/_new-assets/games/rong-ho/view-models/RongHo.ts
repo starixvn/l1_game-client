@@ -115,6 +115,9 @@ export default class RongHo extends cc.Component {
   @property(cc.AudioSource)
   audioDrawCard: cc.AudioSource = null;
 
+  @property(cc.Prefab)
+  guidePrefab: cc.Prefab = null;
+
   public config: GameBaseConfigs;
   public currentTimeRemaining: number;
   public disabledGame = false;
@@ -220,7 +223,8 @@ export default class RongHo extends cc.Component {
 
   public pressedShowGuide() {
     cc.RedT.audio.playClick();
-    this.miniPanel.openGuide("RongHo");
+    var dialog = cc.instantiate(this.guidePrefab);
+    this.miniPanel.dialog.addChild(dialog);
   }
 
   public pressedShowScoreBoard() {
@@ -230,7 +234,7 @@ export default class RongHo extends cc.Component {
   //#endregion
 
   //#region Component Methods
-  onDestroy() {}
+  onDestroy() { }
 
   onLoad() {
     if (!cc.sys.isMobile) {
@@ -245,7 +249,7 @@ export default class RongHo extends cc.Component {
       return (
         this.currentTimeRemaining < this.config.stopBetTime ||
         this.currentTimeRemaining >
-          this.config.fullTime - this.resultAnimation.defaultClip.duration
+        this.config.fullTime - this.resultAnimation.defaultClip.duration
       );
     };
     this.logControl.init(condition);
@@ -558,7 +562,7 @@ export default class RongHo extends cc.Component {
     });
 
     let count = 0;
-    for (let i = 0; i < result.length; ) {
+    for (let i = 0; i < result.length;) {
       if (result[i] == 2) {
         //draw
         count++;

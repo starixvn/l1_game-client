@@ -21,7 +21,7 @@ export default class MiniSedieHistory extends cc.Component {
 
     onLoad() {
         let page = cc.instantiate(this.page);
-        page.y = -263;
+        page.y = -295;
         this.node.addChild(page);
         this.pagination = page.getComponent("Pagination");
         this.pagination.init(this);

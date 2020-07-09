@@ -3,6 +3,7 @@ import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 export interface CLGameConfigs extends GameBaseConfigs {
     readonly nanTime: number;
     readonly displayResultTime: number;
+    readonly presetBetSettingKey: string;
 }
 
 export class ChanLeConfigs implements CLGameConfigs {
@@ -13,4 +14,5 @@ export class ChanLeConfigs implements CLGameConfigs {
     stopBetTime: number = 5;
     minBetTime: number = 1;
     displayResultTime: number = 58;
+    presetBetSettingKey: string = "odd_even_preset_bet";
 }

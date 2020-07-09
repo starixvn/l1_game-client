@@ -89,10 +89,10 @@ export default class Notice extends cc.Component {
 
     public setTitle(title: string) {
         if (title) {
-            this.title.string = title;
+            this.title.string = title.toUpperCase();
         }
         else {
-            this.title.string = "Thông Báo"
+            this.title.string = "THÔNG BÁO";
         }
     }
 

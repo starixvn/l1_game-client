@@ -2,7 +2,7 @@ const configs = {
     ssl: true,
     disabledDirectLogin: true,
     serverEndpoints: {
-        "uat.saba.vin": 'uat-gsr.saba.vin',
+        "uat.sabagame.com": 'uat-gsr.sabagame.com',
     },
     gameIds: {
         TaiXiu: 1,
@@ -46,7 +46,7 @@ const configs = {
         18: "Keno Nam",
         19: "Keno Bắc",
     },
-    sentryUrl: 'https://e2d54dceaaab4ccc8e3b3b20d806d6ac@sentry.saba.vin/30',
+    sentryUrl: 'https://e2d54dceaaab4ccc8e3b3b20d806d6ac@sentryuat.sabagame.com/30',
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"

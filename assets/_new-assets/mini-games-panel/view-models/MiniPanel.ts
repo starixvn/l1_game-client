@@ -45,9 +45,6 @@ export default class MiniPanel extends cc.Component {
   effectNode: cc.Node = null;
 
   @property(cc.Prefab)
-  guidePrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
   noticePrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
@@ -70,7 +67,6 @@ export default class MiniPanel extends cc.Component {
   private chanLe: ChanLe;
   private chanLeTurbo: ChanLe;
   private rongHo: RongHo;
-  private guide: any;
   private miniSedie: MiniSedie;
   private kenoProViet: KenoProViet;
   private popupMiniGame: any;
@@ -95,8 +91,6 @@ export default class MiniPanel extends cc.Component {
   }
 
   onDestroy() {
-    this.guide && this.guide.destroy();
-    this.guide = null;
     this.taiXiu && this.taiXiu.destroy();
     this.taiXiu = null;
     this.taiXiuTurbo && this.taiXiuTurbo.destroy();
@@ -136,12 +130,6 @@ export default class MiniPanel extends cc.Component {
   }
 
   onData(data: any) {
-    if (data.baucua) {
-      if (data.baucua.odds && this.guide && this.guide.node) {
-        this.guide.onData(data);
-      }
-    }
-
     if (data.kickedOut) {
       this.onDataKickedOut(data.kickedOut);
     }
@@ -424,16 +412,6 @@ export default class MiniPanel extends cc.Component {
         this.chanLeTurbo = gameComponent;
         this.chanLeTurbo.init(this, "clturbo", new ChanLeTurboConfigs(), "Chẵn lẻ siêu tốc", true);
       }, () => this.showGame(this.chanLeTurbo));
-  }
-
-  openGuide(gameName: string) {
-    if (!this.guide) {
-      var dialog = cc.instantiate(this.guidePrefab);
-      this.dialog.addChild(dialog);
-      this.guide = dialog.getComponent("GameGuide");
-    }
-    this.guide.node.active = true;
-    this.guide.select(gameName);
   }
 
   showErrorNotice(error) {

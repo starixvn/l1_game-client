@@ -1,12 +1,11 @@
 const { ccclass, property } = cc._decorator;
 import ChanLe from "./../ChanLe";
-import BetBoard from "./../bet-board/ChanLeBetBoard";
+import BetBoard, { BetInfo } from "./../../../../common/bet-board/view-models/BetBoard";
 import DiaNan from "./ChanLeDiaNan";
 import {
   getOnlyNumberInString,
   numberWithCommas,
   numberTo,
-  inputNumber,
 } from "../../../../common/helpers/Helper";
 import ProcessingWarning from "./../../../../common/processing-warning/view-models/ProcessingWarning";
 import * as ScaleEffect from "./../../../tai-xiu/view-models/main-page/TXScale";
@@ -76,9 +75,6 @@ export default class ChanLeMain extends cc.Component {
 
   @property(cc.SpriteFrame)
   public betButtonUnClickedImage: cc.SpriteFrame = null;
-
-  @property(BetBoard)
-  public betBoard: BetBoard = null;
 
   @property({ type: DiaNan })
   public diaNan: DiaNan = null;
@@ -167,6 +163,12 @@ export default class ChanLeMain extends cc.Component {
   @property(cc.Node)
   historyButton: cc.Node = null;
 
+  @property(cc.Node)
+  betBoardContainer: cc.Node = null;
+
+  @property(cc.Prefab)
+  betBoardPrefab: cc.Prefab = null;
+
   //#endregion
   isNan = false;
   root: ChanLe;
@@ -179,6 +181,10 @@ export default class ChanLeMain extends cc.Component {
   redChan: number;
   redLe: number;
 
+  public betBoard: BetBoard;
+  public presetBetValue = 0;
+
+  private static readonly MAX_BET = 1000;
   private static readonly DAT_CUOC = "ĐẶT CỬA";
   private readonly umDataHandler: DataHandler;
   private readonly errorDataHandler: DataHandler;
@@ -221,7 +227,7 @@ export default class ChanLeMain extends cc.Component {
   init(root: ChanLe, hideDiaNan: boolean) {
     this.root = root;
     this.hideDiaNan = hideDiaNan;
-    this.betBoard.init(this);
+    //this.betBoard.init(this);
     this.diaNan.init(this);
   }
 
@@ -234,6 +240,7 @@ export default class ChanLeMain extends cc.Component {
     this.playCenterLight();
     this.logsDataHandler.initDotLogs();
     this.initGameAudios();
+    this.initBetBoard();
   }
 
   protected initGameAudios() {
@@ -296,7 +303,6 @@ export default class ChanLeMain extends cc.Component {
     }
 
     this.setBetButtonFrame(true, select);
-    this.betBoard.node.active = true;
     this.currentInputSide = select;
 
     switch (select) {
@@ -308,21 +314,30 @@ export default class ChanLeMain extends cc.Component {
         this.currentInputBet = this.betInputLeft;
         break;
     }
-
-    this.currentInputBet.string = "";
+    const info = {
+      choice: null,
+      bet: 0,
+      betItem: null,
+      maxBet: ChanLeMain.MAX_BET
+    }
+    this.betBoard.show(info);
+    this.betBoard.node.runAction(cc.sequence(cc.delayTime(0.05), cc.callFunc(() => {
+      this.adjustPosition();
+    })));
   }
 
   setCurrentBetInput(value: number): void {
-    var betValue =
-      getOnlyNumberInString(this.currentInputBet.string) * 1 + value * 1;
-
-    this.currentInputBet.string = numberWithCommas(betValue);
+    this.currentInputBet.string = numberWithCommas(value > ChanLeMain.MAX_BET ? ChanLeMain.MAX_BET : value);
     this.currentInputBet.node.active = true;
   }
 
   resetCurrentBetInput(): void {
     this.currentInputBet.string = ChanLeMain.DAT_CUOC;
     this.currentInputBet.node.active = true;
+  }
+
+  clearCurrentBetInput(): void {
+    this.currentInputBet.string = "";
   }
 
   setBetButtonFrame(isClick: boolean, select = "") {
@@ -527,5 +542,36 @@ export default class ChanLeMain extends cc.Component {
         }, resultLabel)
       )
     );
+  }
+
+  protected initBetBoard() {
+    const betBoardNode = cc.instantiate(this.betBoardPrefab);
+    this.betBoard = betBoardNode.getComponent(BetBoard);
+    this.betBoard.callback = {
+      getPreset: () => { return this.presetBetValue; },
+      acceptedBet: (info: BetInfo) => { this.onBetClick(); },
+      changedBet: (info: BetInfo) => { this.setCurrentBetInput(info.bet); },
+      cancel: (info: BetInfo) => {
+        this.resetCurrentBetInput();
+        this.setBetButtonFrame(false);
+      },
+    };
+
+    this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
+    this.betBoard.node.active = false;
+  }
+
+  protected adjustPosition() {
+    const okButtonPositionY = this.betBoard.okButton.node.parent.convertToWorldSpaceAR(this.betBoard.okButton.node.position).y;
+    const expectPositionY = this.betBoard.okButton.node.height;
+    console.log(okButtonPositionY);
+    console.log(this.betBoard.node.parent.convertToWorldSpace(this.betBoard.node.position).y);
+    const paddingBottom = 20;
+
+    if (okButtonPositionY < expectPositionY) {
+      const distance = expectPositionY - okButtonPositionY + paddingBottom;
+
+      this.node.runAction(cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut()));
+    }
   }
 }

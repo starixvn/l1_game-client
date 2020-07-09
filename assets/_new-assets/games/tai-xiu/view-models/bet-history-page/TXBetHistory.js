@@ -78,6 +78,11 @@ cc.Class({
 			type: cc.Node
 		},
 	},
+	onLoad: function () {
+		if (!cc.sys.isMobile) {
+			this.node.scale = 0.8;
+		}
+	},
 	init(obj) {
 		this.RedT = obj;
 	},

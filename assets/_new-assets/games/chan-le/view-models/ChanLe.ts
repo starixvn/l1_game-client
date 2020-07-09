@@ -7,6 +7,7 @@ import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import ChanLeLogTips from './main/ChanLeLogTips';
 import ChanLeStats from './statistics/ChanLeStats';
 import { CLGameConfigs } from './ChanLeConfigs';
+import PresetBet from '../../../common/preset-bet/view-models/PresetBet';
 
 @ccclass
 export default class ChanLe extends cc.Component {
@@ -25,6 +26,12 @@ export default class ChanLe extends cc.Component {
     @property(cc.Prefab)
     public statsPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    public presetBetPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    public guidePrefab: cc.Prefab = null;
+
     public gameName: string;
     public gameConfigs: CLGameConfigs;
     public gameTitle: string;
@@ -36,12 +43,18 @@ export default class ChanLe extends cc.Component {
     private touchOffset: cc.Vec2 = null;
     private isGameHide = false;
 
+    private presetBet: PresetBet;
+
     init(miniPanel: MiniPanel, gameName: string, config: CLGameConfigs, gameTitle: string, hideDiaNan = false) {
         this.miniPanel = miniPanel;
         this.gameName = gameName;
         this.gameTitle = gameTitle;
         this.main.init(this, hideDiaNan);
         this.gameConfigs = config;
+    }
+
+    onLoad() {
+        this.initPresetBetBoard();
     }
 
     onEnable() {
@@ -69,6 +82,8 @@ export default class ChanLe extends cc.Component {
 
     closeGame() {
         cc.RedT.audio.playUnClick();
+        this.main.betBoard.close();
+        this.presetBet.forceClose();
         this.node.active = false;
     }
 
@@ -160,7 +175,8 @@ export default class ChanLe extends cc.Component {
 
     showGuide() {
         cc.RedT.audio.playClick();
-        this.miniPanel.openGuide("ChanLe");
+        var dialog = cc.instantiate(this.guidePrefab);
+        this.miniPanel.dialog.addChild(dialog);
     }
 
     sendData(payload: any) {
@@ -213,5 +229,26 @@ export default class ChanLe extends cc.Component {
         this.isGameHide = true;
         this.main.onGameHide();
         this.sendData({ view: false });
+    }
+
+    private initPresetBetBoard() {
+        const node = cc.instantiate(this.presetBetPrefab);
+        this.presetBet = node.getComponent(PresetBet);
+        this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
+        this.presetBet.getPreset = () => this.main.presetBetValue;
+        this.main.node.addChild(node);
+        this.presetBet.close();
+
+        this.main.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.gameConfigs.presetBetSettingKey)) || 0;
+    }
+
+    private changedPresetBet(value: number) {
+        this.main.presetBetValue = value;
+        cc.sys.localStorage.setItem(this.gameConfigs.presetBetSettingKey, this.main.presetBetValue);
+    }
+
+    openPresetBetDialog() {
+        cc.RedT.audio.playClick();
+        this.presetBet.toggle();
     }
 }
