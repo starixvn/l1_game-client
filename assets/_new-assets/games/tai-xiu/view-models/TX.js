@@ -20,7 +20,7 @@ cc.Class({
     this.gameName = gameName;
     this.miniPanel = obj;
     this.presetBet = null;
-    this.presetBetSettingKey = Constants.presetBetSettingKey;
+    this.presetBetSettingKey = `${Constants.presetBetSettingKey}_${cc.RedT.user.UID}`;
     cc.RedT.setting.taixiu = cc.RedT.setting.taixiu || { getLogs: false };
     cc.RedT.setting.taixiu.getLogs = false;
 

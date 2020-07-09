@@ -7,7 +7,7 @@ cc.Class({
   init(gameName, obj) {
     this.gameName = gameName;
     this.miniPanel = obj;
-    this.presetBetSettingKey = Constants.presetBetSettingKey;
+    this.presetBetSettingKey = `${Constants.presetBetSettingKey}_${cc.RedT.user.UID}`;
     cc.RedT.setting.taixiu_turbo = cc.RedT.setting.taixiu_turbo || { getLogs: false };
     cc.RedT.setting.taixiu_turbo.getLogs = false;
     this.TX_Main.init(this);
