@@ -346,7 +346,7 @@ cc.Class({
 		var noticePrefab = cc.instantiate(this.NoticePrefab);
 		this.UMNotice = noticePrefab.getComponent("Notice");
 		let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
-		this.UMNotice.init({ text: text, button: { text: "Ok" } });
+		this.UMNotice.init({ text: text, button: { text: "OK" } });
 		this.UMNotice.handleClickButton = () => { this.backGame() };
 		this.UMNotice.handleClose = () => { this.backGame() };
 		this.node.addChild(noticePrefab);
