@@ -4,16 +4,15 @@
 <head>
   <meta charset="utf-8">
   <title>Saba Club</title>
-
   <!--http://www.html5rocks.com/en/mobile/mobifying/-->
   <meta name="viewport"
     content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1" />
 
   <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="format-detection" content="telephone=no">
-  <meta name="mobile-web-app-capable" content="yes">
+
   <!-- force webkit on 360 -->
   <meta name="renderer" content="webkit" />
   <meta name="force-rendering" content="webkit" />
@@ -27,8 +26,8 @@
   <meta name="360-fullscreen" content="true" />
 
   <!-- force screen orientation on some browser -->
-  <meta name="screen-orientation" content="" />
-  <meta name="x5-orientation" content="">
+  <meta name="screen-orientation" content="landscape" />
+  <meta name="x5-orientation" content="landscape">
 
   <!--fix fireball/issues/3568 -->
   <!--<meta name="browsermode" content="application">-->
@@ -36,6 +35,7 @@
 
   <!--<link rel="apple-touch-icon" href=".png" />-->
   <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
+
   <link rel="stylesheet" type="text/css" href="style-mobile.css" />
   <link rel="icon" href="favicon.ico" />
   <link rel="stylesheet" type="text/css" href="./loading-bar/loading-bar.min.css" />
@@ -55,8 +55,6 @@
     </div>
     <div class="ldBar label-center" data-value="0" data-preset="circle" style="width:100%;"></div>
   </div>
-  <img id="sessionImage1" src="" style="display: none">
-  <img id="sessionImage2" src="" style="display: none">
   <script type="text/javascript" src="./loading-bar/loading-bar.min.js"></script>
   <script src="src/settings.js" charset="utf-8"></script>
   <script src="main.js" charset="utf-8"></script>
@@ -120,26 +118,38 @@
         }
       }
     };
+
     (function () {
+      // open web debugger console
       if (typeof VConsole !== 'undefined') {
         window.vConsole = new VConsole();
       }
 
+      var debug = window._CCSettings.debug;
       var splash = document.getElementById('splash');
       splash.style.display = 'block';
 
-      var cocos2d = document.createElement('script');
-      cocos2d.async = true;
-      cocos2d.src = window._CCSettings.debug ? 'cocos2d-js.js' : 'cocos2d-js-min.b8e8a.js';
+      function loadScript(moduleName, cb) {
+        function scriptLoaded() {
+          document.body.removeChild(domScript);
+          domScript.removeEventListener('load', scriptLoaded, false);
+          cb && cb();
+        };
+        var domScript = document.createElement('script');
+        domScript.async = true;
+        domScript.src = moduleName;
+        domScript.addEventListener('load', scriptLoaded, false);
+        document.body.appendChild(domScript);
+      }
 
-      var engineLoaded = function () {
-        document.body.removeChild(cocos2d);
-        cocos2d.removeEventListener('load', engineLoaded, false);
-        window.boot();
-      };
-      cocos2d.addEventListener('load', engineLoaded, false);
-      document.body.appendChild(cocos2d);
-      handleFullScreen();
+      loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.js', function () {
+        if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+          loadScript(debug ? 'physics.js' : 'physics-min.js', window.boot);
+        }
+        else {
+          window.boot();
+        }
+      });
     })();
   </script>
 </body>
