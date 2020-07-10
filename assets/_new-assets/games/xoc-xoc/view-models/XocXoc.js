@@ -1353,7 +1353,7 @@ cc.Class({
 
 	openHistory: function () {
 		let dialog = cc.instantiate(this.prefabHistory);
-		this.center.addChild(dialog);
+		this.redH.addChild(dialog);
 		this.history = dialog.getComponent("XocXoc_history");
 	},
 

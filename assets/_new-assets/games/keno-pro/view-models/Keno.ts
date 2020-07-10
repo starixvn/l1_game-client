@@ -54,7 +54,7 @@ export default class Keno extends GameRoomBase {
         cc.RedT.audio.playClick();
 
         var dialog = cc.instantiate(this.historyPrefab);
-        this.tableNode.addChild(dialog);
+        this.currentMiniPanel.node.addChild(dialog);
     }
 
     public pressedShowGuide() {
