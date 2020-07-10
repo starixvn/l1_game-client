@@ -24,6 +24,11 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
                 const isInRoundTime = this.main.currentTimeRemaining >= this.main.config.minBetTime;
                 if (isInRoundTime) {
                     this.handleInRoundTime();
+                    const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
+
+                    if (isInLockBetTime) {
+                        this.handleInLockBetTime();
+                    }
                 } else {
                     this.main.animatedTime.node.active = false;
                     clearInterval(this.playTimeInterval);
@@ -31,6 +36,11 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
             }
             this.main.currentTimeRemaining--;
         }, 1000);
+    }
+
+    handleInLockBetTime() {
+        super.handleInLockBetTime();
+        this.main.betItems.forEach(item => item.setHighlight(false));
     }
 
     handleWaitTime() {
@@ -65,6 +75,11 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
                 ));
             }
         }
+    }
+
+    handleStartingNewGameRound() {
+        super.handleStartingNewGameRound();
+        this.main.highlightLastResult();
     }
 
     handleInRoundTime() {
