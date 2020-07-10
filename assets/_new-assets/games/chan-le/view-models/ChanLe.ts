@@ -36,14 +36,15 @@ export default class ChanLe extends cc.Component {
     public gameConfigs: CLGameConfigs;
     public gameTitle: string;
     public statistics: ChanLeStats;
+
     private miniPanel: MiniPanel;
     private topUsers: ChanLeTopUsers;
     private history: ChanLeHistory;
     private turnHistory: ChanLeTurnHistory;
     private touchOffset: cc.Vec2 = null;
     private isGameHide = false;
-
     private presetBet: PresetBet;
+    private presetBetSettingKey: string;
 
     init(miniPanel: MiniPanel, gameName: string, config: CLGameConfigs, gameTitle: string, hideDiaNan = false) {
         this.miniPanel = miniPanel;
@@ -51,6 +52,7 @@ export default class ChanLe extends cc.Component {
         this.gameTitle = gameTitle;
         this.main.init(this, hideDiaNan);
         this.gameConfigs = config;
+        this.presetBetSettingKey = `${config.presetBetSettingKey}_${cc.RedT.user.UID}`;
     }
 
     onLoad() {
@@ -239,12 +241,12 @@ export default class ChanLe extends cc.Component {
         this.main.node.addChild(node);
         this.presetBet.close();
 
-        this.main.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.gameConfigs.presetBetSettingKey)) || 0;
+        this.main.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
     }
 
     private changedPresetBet(value: number) {
         this.main.presetBetValue = value;
-        cc.sys.localStorage.setItem(this.gameConfigs.presetBetSettingKey, this.main.presetBetValue);
+        cc.sys.localStorage.setItem(this.presetBetSettingKey, this.main.presetBetValue);
     }
 
     openPresetBetDialog() {

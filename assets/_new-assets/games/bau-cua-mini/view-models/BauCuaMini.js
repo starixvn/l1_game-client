@@ -45,9 +45,6 @@ cc.Class({
 
     Animation: cc.Animation,
 
-    bet: cc.Node,
-    nodeRed: cc.Node,
-    nodeXu: cc.Node,
     logNode: cc.Node,
     logs: cc.Node,
     prefabLogs: cc.Prefab,
@@ -72,7 +69,8 @@ cc.Class({
       type: cc.Prefab
     },
     guidePrefab: cc.Prefab,
-
+    betChipsContainer: cc.Node,
+    betChipsPrefab: cc.Prefab
   },
   init(gameName, obj) {
     this.gameName = gameName;
@@ -83,6 +81,7 @@ cc.Class({
     this.waitingCuoc = false;
     this.processingWarning = null;
     this.gameAudios = null;
+    this.betChips = null;
 
     var check = cc.sys.localStorage.getItem("bauCua");
     if (check == "true") {
@@ -130,20 +129,6 @@ cc.Class({
         redGa: 0,
         redHuou: 0,
         redTom: 0,
-        /*
-        meXuBau: 0,
-        meXuCa: 0,
-        meXuCua: 0,
-        meXuGa: 0,
-        meXuHuou: 0,
-        meXuTom: 0,
-        xuBau: 0,
-        xuCa: 0,
-        xuCua: 0,
-        xuGa: 0,
-        xuHuou: 0,
-        xuTom: 0
-        */
       },
       logLV: {},
       red: true,
@@ -193,13 +178,13 @@ cc.Class({
     this.animatedTime.setRedTime(BCConstants.stopBetTime);
     this.logNode.active = false;
     this.initGameAudios();
+    this.initBetChips();
   },
   initGameAudios: function () {
     var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
     this.gameAudios = gameAudiosNode.getComponent("GameAudios");
   },
   onEnable: function () {
-    this.initChangerBet();
     this.Animation.on("finished", this.addLogs, this);
     this.regEvent(true);
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -338,40 +323,7 @@ cc.Class({
     cc.RedT.setting.baucua.red = this.red;
     //this.onGetHu();
   },
-  initChangerBet: function () {
-    this.cuoc = 1;
-    this.updateSelectedBet(this.cuoc);
-  },
-  updateSelectedBet: function (targetName) {
-    this.bet.children.map(function (obj) {
-      if (obj.name == targetName) {
-        obj.children[0].active = true;
-        obj.zIndex = 2;
-        cc.tween(obj)
-          .to(0.2, {
-            scale: 1.15,
-            position: cc.v2(obj.position.x, 12)
-          })
-          .start();
-        obj.pauseSystemEvents();
-      } else {
-        obj.children[0].active = false;
-        obj.zIndex = 1;
-        cc.tween(obj)
-          .to(0.2, {
-            scale: 1,
-            position: cc.v2(obj.position.x, 0)
-          })
-          .start();
-        obj.resumeSystemEvents();
-      }
-    })
-  },
-  changerBet: function (event) {
-    var target = event.target;
-    this.cuoc = target.name;
-    this.updateSelectedBet(this.cuoc);
-  },
+
   showResulSlots: function (dices) {
     this.showWinSlot(dices);
     var heSo = {};
@@ -468,9 +420,7 @@ cc.Class({
       nodeComponent.icon.forEach(function (sp, i) {
         sp.spriteFrame = self.iconMini[log[i]];
       });
-      // if (index == 0) {
-      //   node.children[3].active = true;
-      // }
+
       self.logs.addChild(node);
     }
 
@@ -533,15 +483,6 @@ cc.Class({
       }
       return;
     }
-
-    // if (void 0 !== data.userCount) {
-    //   this.userCountLabel.node.parent.active = true;
-    //   this.userCountLabel.string = data.userCount;
-    // }
-
-    // if (void 0 !== data.chipCuoc) {
-    //   this.addChipThrowAnimation(data.chipCuoc);
-    // }
 
     if (void 0 !== data.odds) {
       cc.RedT.setting.baucua.odds = data.odds;
@@ -814,10 +755,7 @@ cc.Class({
     this.notice.removeAllChildren();
     this.gameAudios && this.gameAudios.playStartGameAudio();
   },
-  // newGame: function () {
-  //   cc.RedT.setting.baucua.regOpen = false;
-  //   void 0 !== this.timeInterval && clearInterval(this.timeInterval);
-  // },
+
   addFlyingText(win, value, duration) {
     var temp = new cc.Node();
     temp.addComponent(cc.Label);
@@ -873,5 +811,13 @@ cc.Class({
       }.bind(this),
       2e3
     );
+  },
+  initBetChips() {
+    var betChipsNode = cc.instantiate(this.betChipsPrefab);
+    this.betChips = betChipsNode.getComponent("BetChips");
+    this.betChips.init((bet) => {
+      this.cuoc = parseInt(bet);
+    });
+    this.betChipsContainer.addChild(betChipsNode);
   }
 });

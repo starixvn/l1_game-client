@@ -67,9 +67,11 @@ export default class KenoProViet extends cc.Component {
     private pageIndicatorDots: KenoPageIndicatorItem[] = [];
     private miniPanel: MiniPanel;
     private statusQueue: any[] = [];
+    private presetBetSettingKey: string;
 
     init(miniPanel: MiniPanel) {
         this.miniPanel = miniPanel;
+        this.presetBetSettingKey = `keno_preset_bet${cc.RedT.user.UID}`;
     }
 
     onDestroy() {
@@ -165,12 +167,12 @@ export default class KenoProViet extends cc.Component {
         this.presetNode.addChild(node);
         this.presetBet.close();
 
-        this.presetBetValue = parseFloat(cc.sys.localStorage.getItem("keno_preset_bet")) || 0;
+        this.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
     }
 
     private changedPresetBet(value: number) {
         this.presetBetValue = value;
-        cc.sys.localStorage.setItem("keno_preset_bet", this.presetBetValue);
+        cc.sys.localStorage.setItem(this.presetBetSettingKey, this.presetBetValue);
     }
 
     onLoad() {
@@ -255,9 +257,6 @@ export default class KenoProViet extends cc.Component {
 
     onPageIndicatorClick(e) {
         const clickIndex = this.pageIndicatorDots.findIndex(dot => dot.node === e.target);
-        // if (this.selectedIndex == clickIndex || this.selectedIndex + 1 == clickIndex) {
-        //     return;
-        // }
         if (clickIndex === this.pageIndicatorDots.length - 1) {
             this.selectedIndex = clickIndex - 1;
         } else {
