@@ -502,7 +502,7 @@ export default class ChanLeMain extends cc.Component {
   showResult() {
     if (this.isNan) {
       this.diaNan.node.active = true;
-      this.diaNan.node.position = cc.v2(0, -11.5);
+      this.diaNan.node.position = cc.v2(0, -39.5);
       this.diaNanSprite.node.active = false;
       this.onDiceAnimationFinished();
     } else {
