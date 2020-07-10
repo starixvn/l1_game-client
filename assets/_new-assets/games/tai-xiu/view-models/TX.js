@@ -159,7 +159,7 @@ cc.Class({
     this.presetBet.onChangedBet = (betAmount) => { this.changedPresetBet(betAmount); }
     this.presetBet.getPreset = () => this.TX_Main.presetBetValue;
     this.TX_Main.node.addChild(node);
-    this.presetBet.close();
+    node.active = false;
 
     this.TX_Main.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
   },

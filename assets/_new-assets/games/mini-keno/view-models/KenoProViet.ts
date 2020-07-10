@@ -165,7 +165,7 @@ export default class KenoProViet extends cc.Component {
         this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
         this.presetBet.getPreset = () => this.presetBetValue;
         this.presetNode.addChild(node);
-        this.presetBet.close();
+        node.active = false;
 
         this.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
     }

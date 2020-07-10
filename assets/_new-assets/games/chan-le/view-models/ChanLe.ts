@@ -239,7 +239,7 @@ export default class ChanLe extends cc.Component {
         this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
         this.presetBet.getPreset = () => this.main.presetBetValue;
         this.main.node.addChild(node);
-        this.presetBet.close();
+        node.active = false;
 
         this.main.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
     }
