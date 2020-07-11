@@ -92,10 +92,18 @@ export default class MiniSedie extends GameMiniBase {
     if (this.currentDataLogs.length) {
       const dataLog = this.currentDataLogs[0];
       this.setDots(dataLog.result);
-      this.highlightWonItems(dataLog.settlementResult);
+      this.highlightWonItems(dataLog.settlementResult, true);
       this.dishNode.position = cc.v2(0, 150);
       this.dishNode.active = false;
     }
+  }
+
+  public highlightLastResult() {
+    if (this.currentTimeRemaining <= this.config.stopBetTime) {
+      return;
+    }
+    const dataLog = this.currentDataLogs[0];
+    this.highlightWonItems(dataLog.settlementResult, false);
   }
 
   public setDots(result) {
@@ -104,9 +112,9 @@ export default class MiniSedie extends GameMiniBase {
     });
   }
 
-  private highlightWonItems(settlementResult) {
+  private highlightWonItems(settlementResult: any, isAnimated = true) {
     this.betItems.forEach((betItem) => {
-      betItem.setHighlight(settlementResult[betItem.node.name]);
+      betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
     });
   }
 

@@ -6,16 +6,13 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniSedieBetItem extends BetItem {
 
-    @property(cc.Node)
-    inActive: cc.Node = null;
+    public setHighlight(highlight: boolean, isAnimated = true) {
+        super.setHighlight(highlight, isAnimated);
 
-    public setHighlight(highlight: boolean) {
-        this.inActive.active = !highlight;
-        this.highlight.active = highlight;
+        this.highlightBorder && (this.highlightBorder.active = highlight && !isAnimated);
     }
 
     public resetHighlight() {
-        this.inActive.active = false;
         this.highlight.active = false;
     }
 }
