@@ -40,7 +40,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        this.main.betItems.forEach(item => item.setHighlight(false));
+        this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 
     handleWaitTime() {
@@ -48,7 +48,8 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         this.main.showProcessingWarning(false);
 
         let shakingDuration = 2;
-        let shakeTimePoint = this.main.config.betTime + shakingDuration + 1;
+        let shakeTimePoint = this.main.config.betTime + shakingDuration;
+
         if (this.main.currentTimeRemaining > shakeTimePoint) {
             this.main.setGameRound(this.main.roundId - 1);
 
@@ -59,20 +60,21 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
             var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - shakingDuration - 1, 2);
             this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
             this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
-        }
-        else {
+        } else {
             this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
             this.main.setGameRound(this.main.roundId);
 
             if (this.main.currentTimeRemaining == shakeTimePoint) {
                 this.main.dishNode.active = true;
-                this.main.dishNode.runAction(cc.sequence(
-                    cc.moveTo(0.3, cc.v2(0, 0)),
-                    cc.callFunc(() => {
-                        this.main.animation.play();
-                        this.handleStartingNewGameRound();
-                    })
-                ));
+                this.main.dishNode.runAction(
+                    cc.sequence(
+                        cc.moveTo(0.3, cc.v2(0, 0)),
+                        cc.callFunc(() => {
+                            this.main.animation.play();
+                            this.handleStartingNewGameRound();
+                        })
+                    )
+                );
             }
         }
     }
@@ -85,7 +87,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     handleInRoundTime() {
         super.handleInRoundTime();
         this.main.animation.stop();
-        this.main.betItems.forEach(item => item.resetHighlight());
+        this.main.betItems.forEach((item) => item.resetHighlight());
         this.main.dishNode.position = cc.v2(0, 0);
         this.main.dishNode.active = true;
     }
