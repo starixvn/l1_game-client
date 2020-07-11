@@ -9,9 +9,6 @@ export default class GameBaseGuide extends cc.Component {
     oddLabels: cc.Label[] = [];
 
     onLoad() {
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
         this.getOdds();
         this.gameName !== "" && cc.RedT.addDataObserver(`${this.gameName}_guide`, (data) => this.receivedData(data));
     }
