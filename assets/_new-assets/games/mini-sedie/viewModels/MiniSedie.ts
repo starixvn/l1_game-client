@@ -4,6 +4,7 @@ import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
 import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
 import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
 import GameMiniBase from "../../_base/GameMiniBase";
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -60,6 +61,11 @@ export default class MiniSedie extends GameMiniBase {
     this.miniRoundHistory = mini.getComponent(SedieMiniRoundHistory);
     this.miniRoundHistoryContainer.addChild(mini);
     this.animatedTime.setAnimatedY(30, -5);
+
+    const dragableItem = this.getComponent(DraggableItem);
+    dragableItem.touchCallback.start = (node) => {
+      this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+    }
   }
 
   onDestroy() {

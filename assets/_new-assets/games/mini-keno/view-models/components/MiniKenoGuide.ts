@@ -31,9 +31,6 @@ export default class MiniKenoGuide extends cc.Component {
 
     onLoad() {
         this.select(this.gameName);
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
     }
 
     receivedData(data) {
