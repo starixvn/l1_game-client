@@ -437,7 +437,7 @@ export default class MiniPanel extends cc.Component {
     var noticePrefab = cc.instantiate(this.noticePrefab);
     var notice = noticePrefab.getComponent("Notice") as Notice;
 
-    noticeData.button = { text: 'Ok' };
+    noticeData.button = { text: 'OK' };
     notice.init(noticeData);
 
     if (handleClickButton) {
