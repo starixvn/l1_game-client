@@ -19,11 +19,6 @@ export default class FixedShapeButton extends cc.Button {
             return;
         }
 
-        //super
-        if (!this.interactable || !this.enabledInHierarchy) return;
-
-        this._pressed = true;
-        this._updateState();
-        event.stopPropagation();
+        super._onTouchBegan(event);
     }
 }
