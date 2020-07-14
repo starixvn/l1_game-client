@@ -1,3 +1,5 @@
+import BaseSocketIOController from '../../BaseSocketIOController';
+
 cc.Class({
     extends: cc.Component,
 
@@ -15,6 +17,8 @@ cc.Class({
                 this.message.string = `Thời gian bảo trì từ ${startTime} đến ${endTime} (GMT+8).`;
             }
         }
+
+        BaseSocketIOController.getInstance().closeAllSocket();
     },
 
     convertToGMT8(date) {

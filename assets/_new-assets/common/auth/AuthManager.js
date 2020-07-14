@@ -1,8 +1,8 @@
+import * as configs from '../../Configs';
 import httpHelper from '../helpers/httpHelper';
+import { buildServerUrl } from '../helpers/UrlHelper';
 import logger from '../logger';
 const sentryLogger = logger();
-import * as configs from '../../Configs';
-import { buildServerUrl } from '../helpers/UrlHelper';
 
 const sessionIdStorageName = 'scss';
 const sessionExpiredTimeoutMunutes = 19.8;
@@ -58,7 +58,7 @@ export function preChecking(cb, labelMessage) {
     }, true);
 }
 
-export function checkSSO(labelMessage, cb) {
+export function checkSSO(labelMessage, onSuccessFunc) {
     let isSuccess = false;
     let urlParams = new URLSearchParams(window.location.search);
     let authData = getSession();
@@ -76,7 +76,7 @@ export function checkSSO(labelMessage, cb) {
                     window.openGameId = urlParams.get("gameId");
                     storeSessionData(response);
                     clearTokenOnUrl();
-                    cb();
+                    onSuccessFunc();
                 }
                 else {
                     labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
@@ -94,7 +94,7 @@ export function checkSSO(labelMessage, cb) {
         isSuccess = true;
         window.authData = authData;
         sentryLogger.setUser(authData);
-        cb();
+        onSuccessFunc();
     }
 
     return isSuccess;
@@ -142,6 +142,26 @@ export function storeSessionData(data) {
     cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
 }
 
+export function getInRoomGameIdKey() {
+    const session = getSession();
+
+    if (session) {
+        return `${session.ss}_inroomgame`;
+    }
+}
+
+export function storeInRoomGameId(gameId) {
+    cc.sys.localStorage.setItem(getInRoomGameIdKey(), gameId);
+}
+
+export function getInRoomGameId() {
+    return cc.sys.localStorage.getItem(getInRoomGameIdKey());
+}
+
+export function removeInRoomGameId() {
+    cc.sys.localStorage.removeItem(getInRoomGameIdKey());
+}
+
 let autoTriggerSignInTimeout = null;
 
 export function triggerSignIn(mainGame, loading) {
@@ -173,7 +193,6 @@ export function checkAndUpdateRecheckIn(dontClearSession) {
     let isSessionExpired = true;
 
     try {
-
         if (session && session.time) {
             const now = new Date();
             const lastRecheckIn = new Date(session.time);
@@ -188,6 +207,9 @@ export function checkAndUpdateRecheckIn(dontClearSession) {
                 isSessionExpired = false;
                 storeSessionData(session);
             }
+        }
+        else {
+            !dontClearSession && signOut();
         }
     }
     catch (ex) {

@@ -1,3 +1,4 @@
+
 cc.Class({
   extends: cc.Component,
 
@@ -5,14 +6,14 @@ cc.Class({
     header: cc.Node,
     games: cc.Node,
     adsContent: cc.PageView,
-    adsTimeNext: 0
+    adsTimeNext: 0,
   },
   onLoad() {
     Promise.all(
       this.games.children.map(function (obj) {
-        return obj.getComponent("iconGame");
+        return obj.getComponent('iconGame');
       })
-    ).then(result => {
+    ).then((result) => {
       this.games = result;
     });
     this.node._onPreDestroy = function () {
@@ -38,7 +39,7 @@ cc.Class({
     );
     Promise.all(
       this.games.map(function (game) {
-        if (e.target.name == "all" || game[e.target.name]) {
+        if (e.target.name == 'all' || game[e.target.name]) {
           game.node.active = true;
         } else {
           game.node.active = false;
@@ -46,65 +47,16 @@ cc.Class({
       })
     );
   },
-  loadGameRoom: function (name) {
-    const loading = cc.RedT.inGame.loading.getComponent("Loading");
-    loading.setDefaultPercent();
-
-    cc.director.preloadScene(name,
-      (completedCount, total, item) => {
-        loading && loading.onProgress(completedCount, total, item);
-      },
-      (error, assets) => {
-        if (error) {
-          cc.RedT.inGame.loading.active = false;
-          cc.RedT.MiniPanel.onForceReload();
-        }
-        else {
-          cc.director.loadScene(name);
-        }
-      });
-  },
-  openKenoProViet() {
+  openGameRoom: function (e, id) {
     cc.RedT.audio.playClick();
-    // if (cc.RedT.IS_LOGIN) {
-    //   cc.RedT.inGame.loading.active = true;
-    //   cc.director.loadScene('KenoProViet');
-    // } else {
-    //   cc.RedT.inGame.dialog.showSignIn();
-    // }
-    cc.RedT.MiniPanel.openKenoProViet();
+    cc.RedT.MiniPanel.openGameRoom(e, id);
   },
-  openGame: function (e, name) {
+  openGameMini: function (e, id) {
     cc.RedT.audio.playClick();
-    if (cc.RedT.IS_LOGIN) {
-      cc.RedT.inGame.loading.active = true;
-      cc.RedT.send({ g: { reg: name } });
-    } else {
-      cc.RedT.inGame.dialog.showSignIn();
-    }
+    cc.RedT.MiniPanel.openGame(e, id);
   },
-  openTaiXiu: function () {
-    cc.RedT.MiniPanel.openTaiXiu();
-  },
-  openBauCua: function () {
-    cc.RedT.MiniPanel.openBauCua();
-  },
-  openRongHo: function () {
-    cc.RedT.MiniPanel.openRongHo();
-  },
-  openMiniPoker: function () {
-    cc.RedT.MiniPanel.openMiniPoker();
-  },
-  openTaiXiuTurbo: function () {
-    cc.RedT.MiniPanel.openTaiXiuTurbo();
-  },
-  openChanLe: function () {
-    cc.RedT.MiniPanel.openChanLe();
-  },
-  openChanLeTurbo: function () {
-    cc.RedT.MiniPanel.openChanLeTurbo();
-  },
-  openMiniSedie: function () {
-    cc.RedT.MiniPanel.openMiniSedie();
-  },
+  openNewGameSocket: function (e, gameId) {
+    cc.RedT.audio.playClick();
+    cc.RedT.MiniPanel.openNewGameSocket(e, gameId);
+  }
 });

@@ -46,12 +46,21 @@ const configs = {
         18: "Keno Nam",
         19: "Keno Bắc",
     },
+    gameRoomRegNames: {
+        8: 'KenoProMax',
+        10: 'baccarat',
+    },
+    gameRoomIds: [8, 10],
+    gameRoomNewSocketIds: [2],
     sentryUrl: 'https://08d902b128ea45b6a11639833224f481@sentryuat.sabagame.com/25',
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
+    gameSocketUris: {
+        2: 'https://sitsed.sabagame.com/user/xocxoc',
+    },
 }
 
 module.exports = configs;

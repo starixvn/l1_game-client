@@ -1,7 +1,7 @@
-import configs from './Configs';
 import * as authManager from './common/auth/AuthManager';
 import { buildServerUrl } from './common/helpers/UrlHelper';
 import logger from './common/logger';
+import configs from './Configs';
 const sentryLogger = logger();
 
 module.exports = {
@@ -17,6 +17,7 @@ module.exports = {
   prefab: {},
   setting: {},
   util: {},
+  gameSockets: {},
 
   dataObservers: {},
 
@@ -34,7 +35,7 @@ module.exports = {
       this.recheckInId = setInterval(() => {
         self.recheckIn(self);
       }, 60 * 1000);
-      this.isConnected = !0;
+
       if (this.loading) {
         this.loading.active = false;
       }
@@ -80,6 +81,7 @@ module.exports = {
     return JSON.stringify(message);
   },
   _onSocketConnect: function () {
+    cc.RedT.isConnected = true;
     cc.RedT.inGame && cc.RedT.inGame.onConnected();
   },
   _onSocketDisconnect: function () {
@@ -92,6 +94,9 @@ module.exports = {
       }
     }
     cc.RedT.reconnect();
+  },
+  _onSocketError: function (message) {
+    cc.RedT.isConnected = false;
   },
   _onSocketData: function (message) {
     var data = message.data;
@@ -109,9 +114,7 @@ module.exports = {
   removeDataObserver(key) {
     delete this.dataObservers[key];
   },
-  _onSocketError: function (message) {
 
-  },
   reconnect: function () {
     this.connect(configs.ssl);
   },
