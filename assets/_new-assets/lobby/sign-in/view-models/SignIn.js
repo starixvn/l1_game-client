@@ -31,12 +31,10 @@ cc.Class({
     },
     onEnable: function () {
         cc.sys.isBrowser && this.addEvent();
-        this.node.runAction(cc.RedT.inGame.dialog.actionShow);
     },
     onDisable: function () {
         cc.sys.isBrowser && this.removeEvent();
         this.clean();
-        cc.RedT.inGame.dialog.resetSizeDialog(this.node);
     },
     addEvent: function () {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);

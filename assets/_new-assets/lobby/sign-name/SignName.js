@@ -23,16 +23,34 @@ cc.Class({
 					t.preventDefault && t.preventDefault(),
 					!1) : void 0
 		};
-		
+		cc.RedT.addDataObserver("generate_name", this.receivedData.bind(this));
+	},
+	onDestroy: function () {
+		cc.RedT.removeDataObserver("generate_name");
+	},
+	receivedData: function (data) {
+		if (data && data.user && data.user.generateName) {
+			this.username.string = data.user.generateName;
+		}
 	},
 	onEnable: function () {
 		cc.sys.isBrowser && this.addEvent();
-		this.node.runAction(cc.RedT.inGame.dialog.actionShow);
+		this.generateName();
 	},
 	onDisable: function () {
 		cc.sys.isBrowser && this.removeEvent();
 		this.clean();
-		cc.RedT.inGame.dialog.resetSizeDialog(this.node);
+	},
+	onEditClick: function () {
+		cc.RedT.audio.playClick();
+		this.username.focus();
+	},
+	onGenerateNameClick: function () {
+		cc.RedT.audio.playClick();
+		this.generateName();
+	},
+	generateName: function () {
+		cc.RedT.send({ user: { generateName: true } });
 	},
 	addEvent: function () {
 		cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -72,17 +90,16 @@ cc.Class({
 
 	},
 
-	usernameTextChanged: function(text, sender) {		
-		if (this.validateUsername(this.username.string)) {			
+	usernameTextChanged: function (text, sender) {
+		if (this.validateUsername(this.username.string)) {
 			this.errorMessage.string = "Tên nhân vật không hợp lệ.";
-		} else{
+		} else {
 			this.errorMessage.string = "";
 		}
 	},
 
-	validateUsername: function(username)
-	{
+	validateUsername: function (username) {
 		return (username.length > 14 || username.length < 3 || username.match(new RegExp("^[a-zA-Z0-9]+$")) === null);
 	}
-	
+
 });

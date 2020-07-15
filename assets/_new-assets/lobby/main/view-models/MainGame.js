@@ -32,7 +32,7 @@ cc.Class({
     iconTaiXiu: cc.Node,
     iconMegaJ: cc.Node,
     redhat: cc.Node,
-    dialog: dialog,
+    dialogNode: cc.Node,
     loading: cc.Node,
     ThongBaoNoHu: ThongBaoNoHu,
     audioBG: cc.AudioSource,
@@ -45,6 +45,7 @@ cc.Class({
     cc.RedT.inGame = null;
   },
   onLoad: function () {
+    this.dialog = this.dialogNode.getComponent("Dialog");
     document.cookie = "redT=1702;path=/";
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;

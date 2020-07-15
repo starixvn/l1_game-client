@@ -23,43 +23,41 @@ cc.Class({
 		},
 		capchaSprite: cc.Sprite,
 	},
-	onLoad () {
+	onLoad() {
 		var self = this;
 		this.editboxs = [this.username, this.password, this.repassword, this.captcha];
-		this.keyHandle = function(t) {
+		this.keyHandle = function (t) {
 			return t.keyCode === cc.macro.KEY.tab ? (self.changeNextFocusEditBox(),
 				t.preventDefault && t.preventDefault(),
 				!1) : t.keyCode === cc.macro.KEY.enter ? (BrowserUtil.focusGame(), self.onSignUpClick(),
-				t.preventDefault && t.preventDefault(),
-				!1) : t.keyCode === cc.macro.KEY.escape ? (cc.RedT.inGame.dialog.onClickBack(),
-				t.preventDefault && t.preventDefault(),
-				!1) : void 0
+					t.preventDefault && t.preventDefault(),
+					!1) : t.keyCode === cc.macro.KEY.escape ? (cc.RedT.inGame.dialog.onClickBack(),
+						t.preventDefault && t.preventDefault(),
+						!1) : void 0
 		}
 	},
 	onEnable: function () {
 		cc.sys.isBrowser && this.addEvent();
-		this.node.runAction(cc.RedT.inGame.dialog.actionShow);
 		this.reCaptcha();
 	},
 	onDisable: function () {
 		cc.sys.isBrowser && this.removeEvent();
 		this.clean();
-		cc.RedT.inGame.dialog.resetSizeDialog(this.node);
 	},
-	addEvent: function() {
+	addEvent: function () {
 		cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
 		for (var t in this.editboxs) {
 			BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).addEventListener("keydown", this.keyHandle, !1)
 		}
 	},
-	removeEvent: function() {
+	removeEvent: function () {
 		for (var t in this.editboxs) {
 			BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).removeEventListener("keydown", this.keyHandle, !1)
 		}
 		cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
 	},
 	onKeyDown: function (event) {
-		switch(event.keyCode) {
+		switch (event.keyCode) {
 			case cc.macro.KEY.escape:
 				this.isTop() && cc.RedT.inGame.dialog.onClickBack();
 				break;
@@ -70,23 +68,23 @@ cc.Class({
 				this.isTop() && this.onSignUpClick();
 		}
 	},
-	changeNextFocusEditBox: function() {
-		for (var t = !1, e = 0, i = this.editboxs.length; e < i; e++){
-            if (BrowserUtil.checkEditBoxFocus(this.editboxs[e])) {
-                BrowserUtil.focusEditBox(this.editboxs[e]);
-                t = !0;
-                break
-            }
-        }
-        !t && 0 < this.editboxs.length && BrowserUtil.focusEditBox(this.editboxs[0]);
+	changeNextFocusEditBox: function () {
+		for (var t = !1, e = 0, i = this.editboxs.length; e < i; e++) {
+			if (BrowserUtil.checkEditBoxFocus(this.editboxs[e])) {
+				BrowserUtil.focusEditBox(this.editboxs[e]);
+				t = !0;
+				break
+			}
+		}
+		!t && 0 < this.editboxs.length && BrowserUtil.focusEditBox(this.editboxs[0]);
 	},
-	isTop: function() {
+	isTop: function () {
 		return !cc.RedT.inGame.notice.node.active && !cc.RedT.inGame.loading.active;
 	},
-	clean: function(){
+	clean: function () {
 		this.username.string = this.password.string = this.repassword.string = this.captcha.string = '';
 	},
-	onSignUpClick: function() {
+	onSignUpClick: function () {
 		var error = null;
 
 		if (this.username.string.length > 32 || this.username.string.length < 3)
@@ -96,33 +94,33 @@ cc.Class({
 		else if (this.password.string !== this.repassword.string)
 			error = 'Xác nhận mật khẩu không khớp!';
 		else if (this.captcha.string.length < 4)
-		  error = 'Vui lòng nhập Captcha.';
+			error = 'Vui lòng nhập Captcha.';
 		else if (this.username.string == this.password.string)
 			error = 'Tài khoản không được trùng với mật khẩu!!';
 		else if (this.username.string.match(new RegExp("^[a-zA-Z0-9]+$")) === null)
 			error = 'Tên chỉ gồm Chữ và Số!';
 
 		if (error) {
-			cc.RedT.inGame.notice.show({title:"ĐĂNG KÝ", text:error});
+			cc.RedT.inGame.notice.show({ title: "ĐĂNG KÝ", text: error });
 			return;
 		};
-		cc.RedT.inGame.auth({authentication:{username: this.username.string, password: this.password.string, register: true, captcha: this.captcha.string}});
+		cc.RedT.inGame.auth({ authentication: { username: this.username.string, password: this.password.string, register: true, captcha: this.captcha.string } });
 	},
-	initCaptcha: function(t) {
+	initCaptcha: function (t) {
 		var i = this
-		  , o = new Image;
+			, o = new Image;
 		o.src = t,
-		o.width = 150,
-		o.height = 50,
-		setTimeout(function() {
-			var t = new cc.Texture2D;
-			t.initWithElement(o),
-			t.handleLoadedTexture();
-			var e = new cc.SpriteFrame(t);
-			i.capchaSprite.spriteFrame = e
-		}, 10)
+			o.width = 150,
+			o.height = 50,
+			setTimeout(function () {
+				var t = new cc.Texture2D;
+				t.initWithElement(o),
+					t.handleLoadedTexture();
+				var e = new cc.SpriteFrame(t);
+				i.capchaSprite.spriteFrame = e
+			}, 10)
 	},
-	reCaptcha: function(){
-		cc.RedT.send({captcha: 'signUp'});
+	reCaptcha: function () {
+		cc.RedT.send({ captcha: 'signUp' });
 	},
 });
