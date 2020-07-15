@@ -31,6 +31,7 @@ cc.Class({
 	receivedData: function (data) {
 		if (data && data.user && data.user.generateName) {
 			this.username.string = data.user.generateName;
+			this.usernameTextChanged();
 		}
 	},
 	onEnable: function () {
@@ -90,7 +91,7 @@ cc.Class({
 
 	},
 
-	usernameTextChanged: function (text, sender) {
+	usernameTextChanged: function () {
 		if (this.validateUsername(this.username.string)) {
 			this.errorMessage.string = "Tên nhân vật không hợp lệ.";
 		} else {
