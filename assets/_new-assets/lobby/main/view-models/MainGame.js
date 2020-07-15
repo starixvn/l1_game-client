@@ -277,18 +277,6 @@ cc.Class({
     if (void 0 !== data.red && this.header && this.header.userRed) {
       this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
     }
-    if (void 0 !== window.openGameId) {
-      if (window.openGameId == gameIds.XocXoc) {
-        this.center.openGame(null, "XocXoc");
-      } else if (window.openGameId == gameIds.KenoProMax) {
-        this.center.openGame(null, "KenoProMax");
-      } else if (window.openGameId == gameIds.Baccarat) {
-        this.center.openGame(null, "baccarat");
-      } else {
-        cc.RedT.MiniPanel.openGame(window.openGameId);
-      }
-      window.openGameId = null;
-    }
 
     if (void 0 !== data.avatarId) {
       this.header.setAvatar(data.avatarId);
@@ -322,6 +310,22 @@ cc.Class({
     this.header.isSignIn();
     this.dialog.onBack();
     cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
+
+    this.openGameSSO();
+  },
+  openGameSSO: function () {
+    if (void 0 !== window.openGameId) {
+      if (window.openGameId == gameIds.XocXoc) {
+        this.center.openGame(null, "XocXoc");
+      } else if (window.openGameId == gameIds.KenoProMax) {
+        this.center.openGame(null, "KenoProMax");
+      } else if (window.openGameId == gameIds.Baccarat) {
+        this.center.openGame(null, "baccarat");
+      } else {
+        cc.RedT.MiniPanel.openGame(window.openGameId);
+      }
+      window.openGameId = null;
+    }
   },
   AllReset: function () {
     this.loading.active = false;
