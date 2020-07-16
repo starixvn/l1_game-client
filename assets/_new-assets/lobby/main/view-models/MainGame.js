@@ -209,9 +209,9 @@ cc.Class({
     if (void 0 !== data.event) {
       this.dialog.DEvent.onData(data.event);
     }
-    if (!!data.message) {
-      this.dialog.iMessage.onData(data.message);
-    }
+    // if (!!data.message) {
+    //   this.dialog.iMessage.onData(data.message);
+    // }
     if (!!data.removeIsLoading && this.loading) {
       this.loading.active = false;
     }
@@ -332,7 +332,7 @@ cc.Class({
     this.newsContents.reset();
     this.header.isSignOut();
     this.dialog.onCloseDialog();
-    this.dialog.iMessage.reset();
+    // this.dialog.iMessage.reset();
   },
 
   playMusic: function () {
