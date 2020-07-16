@@ -21,7 +21,7 @@ export default class NameGenerator {
             length: 1
         });
 
-        const numberLength = 14 - shortName.length;
+        const numberLength = shortName.length < 10 ? 5 : 14 - shortName.length;
         let maxNumber = "";
         for (let i = 0; i < numberLength; i++) {
             maxNumber = "9" + maxNumber;
