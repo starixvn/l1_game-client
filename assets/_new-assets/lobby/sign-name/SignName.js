@@ -1,5 +1,6 @@
 
 var BrowserUtil = require('BrowserUtil');
+const NameGenerator = require('../../common/name-generator/NameGenerator');
 
 cc.Class({
 	extends: cc.Component,
@@ -23,16 +24,6 @@ cc.Class({
 					t.preventDefault && t.preventDefault(),
 					!1) : void 0
 		};
-		cc.RedT.addDataObserver("generate_name", this.receivedData.bind(this));
-	},
-	onDestroy: function () {
-		cc.RedT.removeDataObserver("generate_name");
-	},
-	receivedData: function (data) {
-		if (data && data.user && data.user.generateName) {
-			this.username.string = data.user.generateName;
-			this.usernameTextChanged();
-		}
 	},
 	onEnable: function () {
 		cc.sys.isBrowser && this.addEvent();
@@ -51,7 +42,8 @@ cc.Class({
 		this.generateName();
 	},
 	generateName: function () {
-		cc.RedT.send({ user: { generateName: true } });
+		this.username.string = NameGenerator.default.generateName();
+		this.usernameTextChanged();
 	},
 	addEvent: function () {
 		cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
