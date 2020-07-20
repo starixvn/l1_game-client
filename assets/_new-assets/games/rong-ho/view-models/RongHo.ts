@@ -346,6 +346,9 @@ export default class RongHo extends cc.Component {
     this.cards.forEach((card) => (card.node.active = false));
     this.cardBacks.forEach((back) => (back.node.scale = 1));
     this.notice.children.forEach((child) => child.destroy());
+    this.drawAnimation.stop();
+    this.resultAnimation.stop();
+    this.node.stopAllActions();
   }
 
   onSignIn() {
@@ -645,7 +648,7 @@ export default class RongHo extends cc.Component {
           this.drawAnimation.play();
           this.audioDrawCard.setCurrentTime(0.2);
           this.audioDrawCard.play();
-          cc.tween(this)
+          cc.tween(this.node)
             .delay(0.2)
             .call(() => {
               this.audioDrawCard.stop();
