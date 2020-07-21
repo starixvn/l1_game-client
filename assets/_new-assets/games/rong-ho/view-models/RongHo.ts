@@ -641,6 +641,7 @@ export default class RongHo extends cc.Component {
       if (isInWaitTime) {
         if (!this.resultAnimating) {
           this.showResult(true);
+          this.resultAnimating = true;
         }
         if (this.currentTimeRemaining == this.config.betTime + 1) {
           // this.resultAnimating = false; //comment for dont show result again after enable game.
