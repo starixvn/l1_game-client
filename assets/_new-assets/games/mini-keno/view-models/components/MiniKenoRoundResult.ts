@@ -46,6 +46,9 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
     }
 
     public show() {
+        if (!cc.RedT.GAME_IS_SHOWED || !this.miniKeno.node.activeInHierarchy) {
+            return;
+        }
         if (this.node.active) {
             return;
         }
@@ -57,6 +60,10 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
     }
 
     public showResult(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
+        if (!cc.RedT.GAME_IS_SHOWED || !this.miniKeno.node.activeInHierarchy) {
+            return;
+        }
+
         this.show();
         this.timer && (this.timer.node.parent.active = false);
 

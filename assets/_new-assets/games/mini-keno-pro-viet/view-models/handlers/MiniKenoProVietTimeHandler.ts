@@ -101,6 +101,12 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     private rotateNode(oldNode: cc.Node, newNode: cc.Node, animationTime = 0.45) {
         newNode.active = true;
 
+        if (!cc.RedT.GAME_IS_SHOWED) {
+            oldNode.scaleX = 0;
+            newNode.scaleX = 1;
+            return;
+        }
+
         if (newNode.scaleX == 1) {
             newNode.scaleX = 0;
         }
