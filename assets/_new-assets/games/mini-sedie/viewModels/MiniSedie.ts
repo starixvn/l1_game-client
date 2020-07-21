@@ -71,7 +71,6 @@ export default class MiniSedie extends GameMiniBase {
   resetDataAndUI() {
     super.resetDataAndUI();
     this.animation.node.active = false;
-    this.animation.stop();
   }
 
   onDestroy() {
