@@ -34,7 +34,7 @@ before_script:
 build:
   stage: build
   script:
-    - /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true;sourceMaps=true"
+    - /Applications/CocosCreator/Creator/2.4.0/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true"
   tags:
     - deploy-cocos-web-mobile
   rules:
