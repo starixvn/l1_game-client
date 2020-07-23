@@ -1,5 +1,6 @@
 
 var BrowserUtil = require('BrowserUtil');
+const NameGenerator = require('../../common/name-generator/NameGenerator');
 
 cc.Class({
 	extends: cc.Component,
@@ -23,16 +24,26 @@ cc.Class({
 					t.preventDefault && t.preventDefault(),
 					!1) : void 0
 		};
-		
 	},
 	onEnable: function () {
 		cc.sys.isBrowser && this.addEvent();
-		this.node.runAction(cc.RedT.inGame.dialog.actionShow);
+		this.generateName();
 	},
 	onDisable: function () {
 		cc.sys.isBrowser && this.removeEvent();
 		this.clean();
-		cc.RedT.inGame.dialog.resetSizeDialog(this.node);
+	},
+	onEditClick: function () {
+		cc.RedT.audio.playClick();
+		this.username.focus();
+	},
+	onGenerateNameClick: function () {
+		cc.RedT.audio.playClick();
+		this.generateName();
+	},
+	generateName: function () {
+		this.username.string = NameGenerator.default.generateName();
+		this.usernameTextChanged();
 	},
 	addEvent: function () {
 		cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -72,17 +83,16 @@ cc.Class({
 
 	},
 
-	usernameTextChanged: function(text, sender) {		
-		if (this.validateUsername(this.username.string)) {			
+	usernameTextChanged: function () {
+		if (this.validateUsername(this.username.string)) {
 			this.errorMessage.string = "Tên nhân vật không hợp lệ.";
-		} else{
+		} else {
 			this.errorMessage.string = "";
 		}
 	},
 
-	validateUsername: function(username)
-	{
+	validateUsername: function (username) {
 		return (username.length > 14 || username.length < 3 || username.match(new RegExp("^[a-zA-Z0-9]+$")) === null);
 	}
-	
+
 });

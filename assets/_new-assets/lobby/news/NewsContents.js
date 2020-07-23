@@ -49,6 +49,7 @@ cc.Class({
 		label.font = this.marqueeFont;
 		label.string = message;
 		label.lineHeight = 47;
+		label.verticalAlign = 'top';
 		label.fontSize = 16;
 		this.AddNewsNode(node);
 

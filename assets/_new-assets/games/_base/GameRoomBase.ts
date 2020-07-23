@@ -122,7 +122,7 @@ export default class GameRoomBase extends GameBase {
     showNotice(data: NoticeData): Notice {
         var noticePrefab = cc.instantiate(this.noticePrefab);
         var notice = noticePrefab.getComponent("Notice") as Notice;
-        data.button = { text: 'Ok' };
+        data.button = { text: 'OK' };
         notice.init(data);
         this.miniPanelContainer.addChild(noticePrefab);
 

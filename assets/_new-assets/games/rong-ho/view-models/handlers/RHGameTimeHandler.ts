@@ -11,7 +11,9 @@ export default class RHGameTimeHandler implements DataHandler {
             this.main.currentTimeRemaining = data.time_remain - 1;
             this.main.disabledGame = false;
             this.main.umNotice.node.active = false;
-            this.main.playTime();
+            if (cc.RedT.GAME_IS_SHOWED) {
+                this.main.playTime();
+            }
             return true;
         }
     }

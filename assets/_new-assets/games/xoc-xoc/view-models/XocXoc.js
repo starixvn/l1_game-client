@@ -1124,7 +1124,7 @@ cc.Class({
 	showNotice: function (noticeData) {
 		var noticePrefab = cc.instantiate(this.NoticePrefab);
 		var notice = noticePrefab.getComponent("Notice");
-		noticeData.button = { text: 'Ok' };
+		noticeData.button = { text: 'OK' };
 		notice.init(noticeData);
 		this.node.addChild(noticePrefab)
 	},
@@ -1353,7 +1353,7 @@ cc.Class({
 
 	openHistory: function () {
 		let dialog = cc.instantiate(this.prefabHistory);
-		this.center.addChild(dialog);
+		this.redH.addChild(dialog);
 		this.history = dialog.getComponent("XocXoc_history");
 	},
 

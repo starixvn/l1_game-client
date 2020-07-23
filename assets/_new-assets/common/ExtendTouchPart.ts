@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class ExtendtTouchPart extends cc.Component {
+export default class ExtendTouchPart extends cc.Component {
     public listener = {
         eventStart: (e) => { },
         eventMove: (e) => { },

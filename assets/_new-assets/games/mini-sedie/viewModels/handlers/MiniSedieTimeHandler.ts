@@ -12,6 +12,9 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     }
 
     playTime(): void {
+        if (!cc.RedT.GAME_IS_SHOWED) {
+            return;
+        }
         this.main.gameState = GameState.Started;
         this.playTimeInterval && clearInterval(this.playTimeInterval);
 
@@ -39,11 +42,13 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     }
 
     handleInLockBetTime() {
+        this.main.animation.node.active = true;
         super.handleInLockBetTime();
         this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 
     handleWaitTime() {
+        this.main.animation.node.active = true;
         this.main.animatedTime.node.active = false;
         this.main.showProcessingWarning(false);
 
@@ -82,11 +87,12 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.highlightLastResult();
+        this.main.animation.node.active = true;
     }
 
     handleInRoundTime() {
         super.handleInRoundTime();
-        this.main.animation.stop();
+        this.main.animation.node.active = true;
         this.main.betItems.forEach((item) => item.resetHighlight());
         this.main.dishNode.position = cc.v2(0, 0);
         this.main.dishNode.active = true;

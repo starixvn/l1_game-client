@@ -32,7 +32,7 @@ cc.Class({
     iconTaiXiu: cc.Node,
     iconMegaJ: cc.Node,
     redhat: cc.Node,
-    dialog: dialog,
+    dialogNode: cc.Node,
     loading: cc.Node,
     ThongBaoNoHu: ThongBaoNoHu,
     audioBG: cc.AudioSource,
@@ -45,6 +45,7 @@ cc.Class({
     cc.RedT.inGame = null;
   },
   onLoad: function () {
+    this.dialog = this.dialogNode.getComponent("Dialog");
     document.cookie = "redT=1702;path=/";
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;
@@ -208,9 +209,9 @@ cc.Class({
     if (void 0 !== data.event) {
       this.dialog.DEvent.onData(data.event);
     }
-    if (!!data.message) {
-      this.dialog.iMessage.onData(data.message);
-    }
+    // if (!!data.message) {
+    //   this.dialog.iMessage.onData(data.message);
+    // }
     if (!!data.removeIsLoading && this.loading) {
       this.loading.active = false;
     }
@@ -248,7 +249,7 @@ cc.Class({
   showNotice: function (noticeData) {
     var noticePrefab = cc.instantiate(this.NoticePrefab);
     var notice = noticePrefab.getComponent("Notice");
-    noticeData.button = { text: 'Ok' };
+    noticeData.button = { text: 'OK' };
     notice.init(noticeData);
     this.node.addChild(noticePrefab)
   },
@@ -275,18 +276,6 @@ cc.Class({
   dataUser: function (data) {
     if (void 0 !== data.red && this.header && this.header.userRed) {
       this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
-    }
-    if (void 0 !== window.openGameId) {
-      if (window.openGameId == gameIds.XocXoc) {
-        this.center.openGame(null, "XocXoc");
-      } else if (window.openGameId == gameIds.KenoProMax) {
-        this.center.openGame(null, "KenoProMax");
-      } else if (window.openGameId == gameIds.Baccarat) {
-        this.center.openGame(null, "baccarat");
-      } else {
-        cc.RedT.MiniPanel.openGame(window.openGameId);
-      }
-      window.openGameId = null;
     }
 
     if (void 0 !== data.avatarId) {
@@ -321,13 +310,29 @@ cc.Class({
     this.header.isSignIn();
     this.dialog.onBack();
     cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
+
+    this.openGameSSO();
+  },
+  openGameSSO: function () {
+    if (void 0 !== window.openGameId) {
+      if (window.openGameId == gameIds.XocXoc) {
+        this.center.openGame(null, "XocXoc");
+      } else if (window.openGameId == gameIds.KenoProMax) {
+        this.center.openGame(null, "KenoProMax");
+      } else if (window.openGameId == gameIds.Baccarat) {
+        this.center.openGame(null, "baccarat");
+      } else {
+        cc.RedT.MiniPanel.openGame(window.openGameId);
+      }
+      window.openGameId = null;
+    }
   },
   AllReset: function () {
     this.loading.active = false;
     this.newsContents.reset();
     this.header.isSignOut();
     this.dialog.onCloseDialog();
-    this.dialog.iMessage.reset();
+    // this.dialog.iMessage.reset();
   },
 
   playMusic: function () {
