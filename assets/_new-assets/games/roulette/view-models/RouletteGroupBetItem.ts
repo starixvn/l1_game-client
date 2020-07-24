@@ -1,7 +1,10 @@
+import CustomButton from "../../../common/custom-button/CustomButton";
+import CustomButton from "../../../common/custom-button/CustomButton";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class RouletteGroupBetItem extends cc.Component {
+export default class RouletteGroupBetItem extends CustomButton {
     @property
     betType: string = ""
 
@@ -10,7 +13,7 @@ export default class RouletteGroupBetItem extends cc.Component {
 
     private selectedNumbers: number[] = [];
 
-    public callback = {
+    public groupBetItemCallback = {
         highlight: (highlight: boolean, numbers: number[]) => { },
         selected: (betType: string, numbers: number[]) => { }
     }
@@ -20,41 +23,10 @@ export default class RouletteGroupBetItem extends cc.Component {
     }
 
     onLoad() {
+        super.onLoad();
+
         this.selectedNumbers = this.numbers.split(',').map(i => +i);
-        this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
-        this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-        this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-
-        this.node.on(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
-        this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
-    }
-
-    onDestroy() {
-        this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
-        this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-        this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
-        this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-
-        this.node.off(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
-        this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
-
-    }
-
-    onTouchStart(e) {
-        this.callback.highlight(true, this.selectedNumbers);
-    }
-
-    onTouchMove(e) {
-        this.callback.highlight(true, this.selectedNumbers);
-    }
-
-    onTouchEnd(e) {
-        this.callback.highlight(false, this.selectedNumbers);
-        this.callback.selected(this.betType, this.selectedNumbers);
-    }
-
-    onTouchCancel(e: cc.Event.EventTouch) {
-        this.callback.highlight(false, this.selectedNumbers);
+        this.callback.highlight = (highlight) => this.groupBetItemCallback.highlight(highlight, this.selectedNumbers);
+        this.callback.selected = () => this.groupBetItemCallback.selected(this.betType, this.selectedNumbers);
     }
 }

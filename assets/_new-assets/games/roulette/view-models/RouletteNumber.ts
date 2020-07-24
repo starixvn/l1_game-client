@@ -1,3 +1,4 @@
+import CustomButton from "../../../common/custom-button/CustomButton";
 
 const { ccclass, property } = cc._decorator;
 
@@ -9,22 +10,33 @@ export default class RouletteNumber extends cc.Component {
     @property(cc.Node)
     winning: cc.Node = null;
 
+    public callback = {
+        highlight: (highlight: boolean, number: number) => { },
+        selected: (number: number) => { }
+    }
+
+    public initCustomButton() {
+        const customButton = this.highlight.addComponent(CustomButton);
+        customButton.callback.highlight = (highlight) => this.callback.highlight(highlight, +this.node.name);
+        customButton.callback.selected = () => this.callback.selected(+this.node.name);
+    }
+
     onLoad() {
         this.clear();
     }
 
     public clear() {
-        this.highlight && (this.highlight.active = false);
-        this.winning && (this.winning.active = false);
+        this.highlight.runAction(cc.fadeOut(0.1));
+        // this.winning && (this.winning.active = false);
     }
 
     public showHighlight() {
-        this.highlight && (this.highlight.active = true);
-        this.winning && (this.winning.active = false);
+        this.highlight.runAction(cc.fadeIn(0.11));
+        // this.winning && (this.winning.active = false);
     }
 
     public showWinning() {
-        this.highlight && (this.highlight.active = false);
-        this.winning && (this.winning.active = true);
+        this.highlight.runAction(cc.fadeOut(0.1));
+        // this.winning && (this.winning.active = true);
     }
 }

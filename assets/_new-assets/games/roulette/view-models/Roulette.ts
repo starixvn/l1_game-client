@@ -1,3 +1,6 @@
+import GameRoomBase from "../../_base/GameRoomBase";
+import { property } from "lodash";
+
 const { ccclass, property } = cc._decorator;
 
 
@@ -24,5 +27,18 @@ export enum RouletteBetType {
 
 @ccclass
 export default class Roulette extends cc.Component {
+    @property(cc.Node)
+    mainContainer: cc.Node = null;
 
+    @property(cc.Prefab)
+    mainPrefab: cc.Prefab = null;
+
+    onLoad() {
+        this.initMain();
+    }
+
+    initMain() {
+        const node = cc.instantiate(this.mainPrefab);
+        this.mainContainer.addChild(node);
+    }
 }
