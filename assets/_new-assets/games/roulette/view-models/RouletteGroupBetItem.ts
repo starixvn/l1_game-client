@@ -25,6 +25,9 @@ export default class RouletteGroupBetItem extends cc.Component {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
+
+        this.node.on(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
+        this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
     }
 
     onDestroy() {
@@ -32,13 +35,17 @@ export default class RouletteGroupBetItem extends cc.Component {
         this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
+
+        this.node.off(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
+        this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
+
     }
 
-    onTouchStart(e: cc.Event.EventTouch) {
+    onTouchStart(e) {
         this.callback.highlight(true, this.selectedNumbers);
     }
 
-    onTouchMove(e: cc.Event.EventTouch) {
+    onTouchMove(e) {
         this.callback.highlight(true, this.selectedNumbers);
     }
 

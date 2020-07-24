@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { RouletteBetType, RouletteBetInfo } from './Roulette';
 import RouletteGroupBetItem from './RouletteGroupBetItem';
+import RouletteNumber from './RouletteNumber';
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -21,11 +22,15 @@ export default class RouletteBoard extends cc.Component {
     @property(cc.SpriteAtlas)
     chipAltas: cc.SpriteAtlas = null;
 
+    @property(cc.Node)
+    numberContainer: cc.Node = null;
+
     @property
     middleCellOffset = 20;
 
     private cellSize: cc.Size;
     groupItems: RouletteGroupBetItem[] = [];
+    rouletteNumbers: RouletteNumber[] = [];
 
     private ownBet = {};
     private totalBet = {};
@@ -33,44 +38,53 @@ export default class RouletteBoard extends cc.Component {
     onLoad() {
         this.cellSize = new cc.Size(this.gridStartNode.width, this.gridStartNode.height);
         this.initGroupBetItems();
+        this.rouletteNumbers = this.numberContainer.children.map(child => child.getComponent(RouletteNumber));
 
-        this.touchArea.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.touchArea.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.touchArea.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.touchArea.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
+
+        this.touchArea.on(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
+        this.touchArea.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
     }
 
     onDestroy() {
-        this.touchArea.off(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.touchArea.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.touchArea.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.touchArea.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
+
+        this.touchArea.off(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
+        this.touchArea.off(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
     }
 
-    onTouchStart(e: cc.Event.EventTouch) {
-        const localLocation = this.touchArea.convertToNodeSpaceAR(e.touch.getLocation());
+    onTouchMove(e) {
+        const localLocation = this.touchArea.convertToNodeSpaceAR(e.getLocation());
         const location = localLocation.sub(this.gridStartNode.position);
         if (location.x < -this.middleCellOffset && location.y < this.gridStartNode.y) {
             return;
         }
 
         const betInfo = this.getBetInfo(location);
-        this.addOwnBet(betInfo);
-    }
-
-    onTouchMove(e) {
+        this.highlightNumbers(betInfo.numbers);
     }
 
     onTouchEnd(e) {
     }
 
     onTouchCancel(e) {
+        this.clearHighlight();
     }
 
     initGroupBetItems() {
         this.groupItems = this.groupItemNode.children.map(child => child.getComponent(RouletteGroupBetItem));
         this.groupItems.forEach(item => {
-            item.callback.highlight = (highlight, numbers) => { };
+            item.callback.highlight = (highlight, numbers) => {
+                if (highlight) {
+                    this.highlightNumbers(numbers);
+                } else {
+                    this.clearHighlight();
+                }
+            };
             item.callback.selected = (betType, numbers) => {
                 console.log(`${betType} ---- ${numbers}`);
                 const betInfo: RouletteBetInfo = {
@@ -80,7 +94,7 @@ export default class RouletteBoard extends cc.Component {
                 }
                 this.addOwnBet(betInfo);
             };
-        })
+        });
     }
 
     getCurrentBet(): number {
@@ -295,6 +309,7 @@ export default class RouletteBoard extends cc.Component {
         });
         return node;
     }
+
     private createChip(bet: number): cc.Node {
         var chip = new cc.Node();
         var chipSprite = chip.addComponent(cc.Sprite);
@@ -303,8 +318,14 @@ export default class RouletteBoard extends cc.Component {
         return chip;
     }
 
-    private addChip(chipNode: cc.Node, location: cc.Vec2) {
-        this.chipContainer.addChild(chipNode);
-        chipNode.position = location;
+    highlightNumbers(numbers: number[]) {
+        this.clearHighlight();
+        numbers.forEach(i => {
+            this.rouletteNumbers[i].showHighlight();
+        });
+    }
+
+    clearHighlight() {
+        this.rouletteNumbers.forEach(number => { number.clear(); });
     }
 }
