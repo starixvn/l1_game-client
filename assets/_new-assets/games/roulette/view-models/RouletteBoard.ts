@@ -75,15 +75,19 @@ export default class RouletteBoard extends cc.Component {
         this.clearHighlight();
     }
 
+    internalHighlight(highlight, numbers) {
+        if (highlight) {
+            this.highlightNumbers(numbers);
+        } else {
+            this.clearHighlight();
+        }
+    }
+
     initGroupBetItems() {
         this.groupItems = this.groupItemNode.children.map(child => child.getComponent(RouletteGroupBetItem));
         this.groupItems.forEach(item => {
             item.groupBetItemCallback.highlight = (highlight, numbers) => {
-                if (highlight) {
-                    this.highlightNumbers(numbers);
-                } else {
-                    this.clearHighlight();
-                }
+                this.internalHighlight(highlight, numbers);
             };
             item.groupBetItemCallback.selected = (betType, numbers) => {
                 console.log(`${betType} ---- ${numbers}`);
