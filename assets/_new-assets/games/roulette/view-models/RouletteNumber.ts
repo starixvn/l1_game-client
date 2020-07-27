@@ -10,17 +10,6 @@ export default class RouletteNumber extends cc.Component {
     @property(cc.Node)
     winning: cc.Node = null;
 
-    public callback = {
-        highlight: (highlight: boolean, number: number) => { },
-        selected: (number: number) => { }
-    }
-
-    public initCustomButton() {
-        const customButton = this.highlight.addComponent(CustomButton);
-        customButton.callback.highlight = (highlight) => this.callback.highlight(highlight, +this.node.name);
-        customButton.callback.selected = () => this.callback.selected(+this.node.name);
-    }
-
     onLoad() {
         this.clear();
     }

@@ -9,26 +9,40 @@ export default class CustomButton extends cc.Component {
     @property({ type: cc.PolygonCollider, visible: function (this: CustomButton) { return this.fixedShape } })
     collider: cc.PolygonCollider = null;
 
+    @property
+    parentControl = false;
+
     public callback = {
         highlight: (highlight: boolean) => { },
         selected: () => { }
     }
 
-    _onTouchBegan(event) {
-        if (this.fixedShape && this.collider) {
-            let touch = event.touch;
-            let touchLoc = touch.getLocation();
+    checkCollider(event) {
+        if (this.collider) {
+            let touchLoc = event.getLocation();
             if (!cc.Intersection.pointInPolygon(touchLoc, this.collider.world.points)) {
-                return;
+                return false;
             }
         }
 
-        super._onTouchBegan(event);
+        return true;
     }
 
     onLoad() {
         cc.director.getCollisionManager().enabled = true;
 
+        if (!this.parentControl) {
+            this.registerEventListener();
+        }
+    }
+
+    onDestroy() {
+        if (!this.parentControl) {
+            this.clearEvenListener();
+        }
+    }
+
+    registerEventListener() {
         this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
@@ -38,7 +52,7 @@ export default class CustomButton extends cc.Component {
         this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
     }
 
-    onDestroy() {
+    clearEvenListener() {
         this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
@@ -49,15 +63,24 @@ export default class CustomButton extends cc.Component {
     }
 
     onTouchStart(e) {
+        if (!this.checkCollider(e)) {
+            return;
+        }
         this.callback.highlight(true);
     }
 
     onTouchMove(e) {
+        if (!this.checkCollider(e)) {
+            return;
+        }
         this.callback.highlight(true);
     }
 
     onTouchEnd(e) {
         this.callback.highlight(false);
+        if (!this.checkCollider(e)) {
+            return;
+        }
         this.callback.selected();
     }
 
