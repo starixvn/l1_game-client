@@ -127,6 +127,10 @@ export default class MiniPanel extends cc.Component {
     if (data.toGame) {
       this.loadGameRoom(data.toGame);
     }
+    if (data.gameResult) {
+      const { redirectUrl } = data.gameResult;
+      this.openResultPage(redirectUrl);
+    }
   }
 
   onData(data: any) {
@@ -141,6 +145,8 @@ export default class MiniPanel extends cc.Component {
     if (data.reload) {
       this.onForceReload();
     }
+
+
   }
 
   onDataError(apiErrorData: any) {
@@ -470,12 +476,16 @@ export default class MiniPanel extends cc.Component {
     cc.RedT.setSoundGame(false);
   }
 
-  public openResultPage() {
-    cc.RedT.resultPage = window.open(configs.resultPageUrl, "", "width=700,height=500");
+  private openResultPage(redirectUrl) {
+    cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
     cc.RedT.resultPage.focus();
 
     window.onbeforeunload = function () {
       cc.RedT.resultPage.close();
     };
+  }
+
+  public onGameResultClick() {
+    cc.RedT.send({ gameResult: { language: "vi-VN" } });
   }
 }
