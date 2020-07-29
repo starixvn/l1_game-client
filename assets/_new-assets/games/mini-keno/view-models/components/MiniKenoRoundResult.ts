@@ -61,6 +61,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
 
     public showResult(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
         if (!cc.RedT.GAME_IS_SHOWED || !this.miniKeno.node.activeInHierarchy) {
+            onComplete();
             return;
         }
 
