@@ -162,27 +162,27 @@ export default class RouletteStatistic extends cc.Component {
             }
         })
 
-        const exceptZeroCount = this.result.length - zeroCount;
-        const red = _.round((redCount / exceptZeroCount) * 100);
-        const black = 100 - red;
+        const zeroPercent = _.round((zeroCount / this.result.length) * 100);
+        this.zeroPercent.string = `${zeroPercent}%`;
+
+        const red = _.round((redCount / this.result.length) * 100);
+        const black = 100 - (red + zeroPercent);
         this.redPercent.string = `${red}%`;
         this.blackPercent.string = `${black}%`;
 
-        const odd = _.round((oddCount / exceptZeroCount) * 100);
-        const even = 100 - odd;
+        const odd = _.round((oddCount / this.result.length) * 100);
+        const even = 100 - (odd + zeroPercent);
         this.oddPercent.string = `${odd}%`;
         this.evenPercent.string = `${even}%`;
 
-        const big = _.round((bigCount / exceptZeroCount) * 100);
-        const small = 100 - big;
+        const big = _.round((bigCount / this.result.length) * 100);
+        const small = 100 - (big + zeroPercent);
         this.range1To18Percent.string = `${big}%`;
         this.range19To36Percent.string = `${small}%`;
 
-        const zeroPercent = _.round((zeroCount / this.result.length) * 100);
         const dozen1 = _.round((dozen1Count / this.result.length) * 100);
         const dozen2 = _.round((dozen2Count / this.result.length) * 100);
         const dozen3 = 100 - (zeroPercent + dozen1 + dozen2);
-        this.zeroPercent.string = `${zeroPercent}%`;
         this.dozen1Percent.string = `${dozen1}%`;
         this.dozen2Percent.string = `${dozen2}%`;
         this.dozen3Percent.string = `${dozen3}%`;
