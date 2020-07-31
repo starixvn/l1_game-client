@@ -129,7 +129,7 @@ export default class RouletteStatistic extends cc.Component {
 
     updateHotColdNumbers(numberNodes: cc.Node, list) {
         numberNodes.children.forEach((number, index) => {
-            number.getComponent(cc.Label).string = list[index].number;
+            number.getChildByName("number").getComponent(cc.Label).string = list[index].number;
             number.getChildByName("times").getComponent(cc.Label).string = list[index].times;
         })
     }
