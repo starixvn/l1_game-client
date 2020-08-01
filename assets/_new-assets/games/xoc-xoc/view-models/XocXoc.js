@@ -886,6 +886,13 @@ cc.Class({
 										}, temp)
 									)
 								);
+
+								// TODO: Temp update user balance if game server die
+								if (!cc.RedT.isConnected) {
+									debugger;
+									const userBalance = Number(self.me_balans.string.replace(/[^0-9.-]+/g, ""));
+									self.me_balans.string = helper.numberWithCommas(userBalance + status.bet);
+								}
 							}
 							self.status = {};
 						}
