@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import RouletteUtils from "./RouletteUtils";
+import RouletteStatisticItem from "./RouletteStatisticItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,23 +28,26 @@ export default class RouletteStatistic extends cc.Component {
     @property(cc.Node)
     coldNumberNodes: cc.Node = null;
 
-    @property(cc.Label)
-    redPercent: cc.Label = null;
+    @property(cc.Node)
+    statisticPercentNodes: cc.Node = null;
 
-    @property(cc.Label)
-    blackPercent: cc.Label = null;
+    // @property(cc.Label)
+    // redPercent: cc.Label = null;
 
-    @property(cc.Label)
-    evenPercent: cc.Label = null;
+    // @property(cc.Label)
+    // blackPercent: cc.Label = null;
 
-    @property(cc.Label)
-    oddPercent: cc.Label = null;
+    // @property(cc.Label)
+    // evenPercent: cc.Label = null;
 
-    @property(cc.Label)
-    range1To18Percent: cc.Label = null;
+    // @property(cc.Label)
+    // oddPercent: cc.Label = null;
 
-    @property(cc.Label)
-    range19To36Percent: cc.Label = null;
+    // @property(cc.Label)
+    // range1To18Percent: cc.Label = null;
+
+    // @property(cc.Label)
+    // range19To36Percent: cc.Label = null;
 
     @property(cc.Label)
     zeroPercent: cc.Label = null;
@@ -136,8 +140,11 @@ export default class RouletteStatistic extends cc.Component {
 
     calculatePercent() {
         let redCount = 0;
+        let blackCount = 0;
         let oddCount = 0;
+        let evenCount = 0;
         let bigCount = 0;
+        let smallCount = 0;
         let dozen1Count = 0;
         let dozen2Count = 0;
         let zeroCount = 0;
@@ -147,13 +154,22 @@ export default class RouletteStatistic extends cc.Component {
             } else {
                 if (RouletteUtils.isRed(number)) {
                     redCount += 1;
+                } else {
+                    blackCount += 1;
                 }
+
                 if (RouletteUtils.isOdd(number)) {
                     oddCount += 1;
+                } else {
+                    evenCount += 1;
                 }
+
                 if (RouletteUtils.isBig(number)) {
                     bigCount += 1;
+                } else {
+                    smallCount += 1;
                 }
+
                 if (number < 13) {
                     dozen1Count += 1;
                 } else if (number < 25) {
@@ -167,18 +183,34 @@ export default class RouletteStatistic extends cc.Component {
 
         const red = _.round((redCount / this.result.length) * 100);
         const black = 100 - (red + zeroPercent);
-        this.redPercent.string = `${red}%`;
-        this.blackPercent.string = `${black}%`;
 
         const odd = _.round((oddCount / this.result.length) * 100);
         const even = 100 - (odd + zeroPercent);
-        this.oddPercent.string = `${odd}%`;
-        this.evenPercent.string = `${even}%`;
 
         const big = _.round((bigCount / this.result.length) * 100);
         const small = 100 - (big + zeroPercent);
-        this.range1To18Percent.string = `${big}%`;
-        this.range19To36Percent.string = `${small}%`;
+
+        this.statisticPercentNodes.children.forEach((item, index) => {
+            const itemComponent = item.getComponent(RouletteStatisticItem);
+
+            if (index === 0) {
+                itemComponent.firstValue.string = `${red}%`;
+                itemComponent.secondValue.string = `${black}%`;
+                itemComponent.updateProgressBar(redCount, blackCount);
+            }
+
+            if (index === 1) {
+                itemComponent.firstValue.string = `${even}%`;
+                itemComponent.secondValue.string = `${odd}%`;
+                itemComponent.updateProgressBar(evenCount, oddCount);
+            }
+
+            if (index === 2) {
+                itemComponent.firstValue.string = `${small}%`;
+                itemComponent.secondValue.string = `${big}%`;
+                itemComponent.updateProgressBar(smallCount, bigCount);
+            }
+        })
 
         const dozen1 = _.round((dozen1Count / this.result.length) * 100);
         const dozen2 = _.round((dozen2Count / this.result.length) * 100);
