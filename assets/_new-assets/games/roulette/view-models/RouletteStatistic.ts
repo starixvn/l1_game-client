@@ -63,7 +63,7 @@ export default class RouletteStatistic extends cc.Component {
 
     wheelDegree = 360;
     numberAngle: number = this.wheelDegree / 37;
-    numbersOnWheel: number[] = [22, 9, 31, 14, 20, 1, 33, 16, 24, 5, 10, 23, 8, 30, 11, 36, 13, 27, 6, 34, 17, 25, 2, 21, 4, 19, 15, 32, 0, 26, 3, 35, 12, 28, 7, 29, 18];
+    numbersOnWheel: number[] = [26, 0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3];
 
     result = [30, 2, 4, 6, 30, 24, 8, 30, 10, 5, 24, 12, 36, 0, 4, 28, 29, 35, 19, 34, 20, 10, 6, 5, 31, 7, 8, 9]
 
@@ -83,7 +83,7 @@ export default class RouletteStatistic extends cc.Component {
             const spriteComponent = numberNode.getComponent(cc.Sprite);
 
             numberNode.active = true;
-            numberNode.angle = itemAngle;
+            numberNode.angle = -itemAngle;
             numberNode.name = number.toString();
 
             const foundNumber = _.find(this.resultStats, ["number", number]);
@@ -92,7 +92,7 @@ export default class RouletteStatistic extends cc.Component {
                 numberTimes = foundNumber.times;
             }
 
-            spriteComponent.fillStart = 1 - (numberTimes / largestNumber);
+            spriteComponent.fillStart = (numberTimes / largestNumber) - 1;
 
             if (number === 0) {
                 spriteComponent.spriteFrame = this.zeroNumberSprite;
