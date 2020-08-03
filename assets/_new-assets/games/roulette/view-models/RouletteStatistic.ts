@@ -77,6 +77,7 @@ export default class RouletteStatistic extends cc.Component {
 
     createWheel() {
         const largestNumber = _.maxBy(this.resultStats, 'times').times;
+        const offfetCenter = 0.2;
         this.numbersOnWheel.forEach((number, index) => {
             const itemAngle = index * this.numberAngle;
             const numberNode = cc.instantiate(this.numberStatistic);
@@ -92,7 +93,7 @@ export default class RouletteStatistic extends cc.Component {
                 numberTimes = foundNumber.times;
             }
 
-            spriteComponent.fillStart = (numberTimes / largestNumber) - 1;
+            spriteComponent.fillRange = offfetCenter + (numberTimes / largestNumber) * (1 - offfetCenter);
 
             if (number === 0) {
                 spriteComponent.spriteFrame = this.zeroNumberSprite;
