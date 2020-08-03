@@ -82,12 +82,11 @@ cc.Class({
 
     const inRoomGameId = authManager.getInRoomGameId();
 
-    if (authManager && !cc.RedT.IS_LOGIN) {
+    if (authManager && !cc.RedT.IS_LOGIN && !inRoomGameId) {
       authManager.triggerSignIn(this, this.loading);
+    } else {
+      this.openInRoomGame(inRoomGameId);
     }
-    // } else {
-    //   this.openInRoomGame(inRoomGameId);
-    // }
 
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.send({ scene: "home" });
