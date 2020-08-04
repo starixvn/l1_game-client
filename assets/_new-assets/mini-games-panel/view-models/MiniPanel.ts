@@ -118,12 +118,6 @@ export default class MiniPanel extends cc.Component {
         }
 
         this.dataHandlers.handleData(data);
-        if (data.gameResult) {
-            const { redirectUrl } = data.gameResult;
-            this.openResultPage(redirectUrl);
-        }
-
-
     }
 
     onSignIn() {
@@ -289,7 +283,7 @@ export default class MiniPanel extends cc.Component {
         cc.RedT.setSoundGame(false);
     }
 
-    private openResultPage(redirectUrl) {
+    public openResultPage(redirectUrl) {
         cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
         cc.RedT.resultPage.focus();
 

@@ -35,6 +35,16 @@ export default class MiniPanelDataHandlers {
         if (data.unauthorized) {
             cc.RedT.inGame.dialog.showSignIn();
         }
+
+        if (data.Authorized) {
+            cc.RedT.IS_LOGIN = true;
+            this.main.onSignIn();
+        }
+
+        if (data.gameResult) {
+            const { redirectUrl } = data.gameResult;
+            this.main.openResultPage(redirectUrl);
+        }
     }
 
     handleDataKickedOut(data: any) {
