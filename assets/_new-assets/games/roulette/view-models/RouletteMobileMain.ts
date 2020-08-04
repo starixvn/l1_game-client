@@ -28,7 +28,8 @@ export default class RouletteMobileMain extends RouletteMain {
         this.quickBetDialog = this.quickBet.getComponent("CommonDialog");
         this.quickBetDialog.onWillShow = () => this.backgroundQuickBet.active = true;
         this.quickBetDialog.onDidHide = () => this.backgroundQuickBet.active = false;
-        this.quickBetDialog.closeDialog(false);
+        this.quickBet.node.opacity = 0;
+        this.quickBet.node.active = false;
         this.backgroundWheel.active = false;
         this.wheel.node.y = this.wheelHidePositionY;
     }
@@ -49,14 +50,15 @@ export default class RouletteMobileMain extends RouletteMain {
         this.quickBetDialog.closeDialog(false);
     }
 
-    showRoulette() {
+    showRoulette(result: number, onComplete: () => void) {
+        super.showRoulette(result, onComplete);
         this.backgroundWheel.active = true;
-        this.wheel.node.runAction(cc.moveTo(1, cc.v2(0, 0)));
+        this.wheel.node.runAction(cc.moveTo(0.5, cc.v2(0, 0)));
     }
 
     hideRoulette() {
         this.wheel.node.runAction(cc.sequence(
-            cc.moveTo(1, cc.v2(0, this.wheelHidePositionY)),
+            cc.moveTo(0.5, cc.v2(0, this.wheelHidePositionY)),
             cc.callFunc(() => this.backgroundWheel.active = false)
         ));
     }

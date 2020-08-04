@@ -39,9 +39,6 @@ export default class RouletteWheel extends cc.Component {
     @property(sp.Skeleton)
     animation: sp.Skeleton = null;
 
-    @property(cc.Label)
-    result: cc.Label = null;
-
     @property({ type: cc.AudioSource })
     audios: cc.AudioSource[] = [];
 
@@ -77,9 +74,9 @@ export default class RouletteWheel extends cc.Component {
     }
 
     playSound(soundId: number, loop = false) {
-        // if (!cc.RedT.isSoundGame() || soundId > this.audios.length - 1 || soundId < 0) {
-        //     return;
-        // }
+        if (!cc.RedT.isSoundGame() || soundId > this.audios.length - 1 || soundId < 0) {
+            return;
+        }
         this.audios[soundId].loop = loop;
         this.audios[soundId].play();
     }
@@ -88,12 +85,23 @@ export default class RouletteWheel extends cc.Component {
         this.audios[soundId].stop();
     }
 
-    onGenerateClick() {
-        const t = {
-            resultNumber: _.random(1, 37)
-        };
-        this.result.string = (t.resultNumber - 1).toString();
-        this.onWheelUpdateResultNumber(t);
+    showResult(result: number, onComplete: () => void) {
+        this.prepareWheelSpinAnimation();
+        cc.tween(this.node)
+            // .delay(1)
+            .call(() => {
+                const t = { resultNumber: result + 1 };
+                this.onWheelUpdateResultNumber(t);
+            })
+            .delay(6)
+            .call(onComplete)
+            .start();
+    }
+
+    setResult(result: number) {
+        const lastResult = result;
+        this.numberRotationDegree = this.wheelNumbersRotations[lastResult];
+        this.startIdleAnimation();
     }
 
     onSkip() {
@@ -412,10 +420,6 @@ export default class RouletteWheel extends cc.Component {
         });
         this.sectorsNumber = this.fullRotationDegrees / this.WHEEL_DEGREE_STEP;
         this.initWheelSpineAnimation();
-
-        const lastResult = 23;
-        this.numberRotationDegree = this.wheelNumbersRotations[lastResult];
-        this.startIdleAnimation();
     }
 
     initWheelSpineAnimation() {

@@ -1,7 +1,7 @@
 import RouletteBoard from "./RouletteBoard";
-import Roulette from "./Roulette";
 import RouletteQuickBet from "./RouletteQuickBet";
 import RouletteWheel from "./RouletteWheel";
+import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,6 +15,15 @@ export default class RouletteMain extends cc.Component {
 
     @property(RouletteWheel)
     wheel: RouletteWheel = null;
+
+    @property(cc.Node)
+    timeWaitNode: cc.Node = null;
+
+    @property(cc.Label)
+    timeWaitLabel: cc.Label = null;
+
+    @property({ type: AnimatedTime })
+    animatedTime: AnimatedTime = null;
 
     onLoad() {
         this.quickBet.callback.highlight = (highlight, numbers) => {
@@ -30,8 +39,11 @@ export default class RouletteMain extends cc.Component {
 
     }
 
-    showRoulette() {
-
+    showRoulette(result: number, onComplete: () => void) {
+        this.wheel.showResult(result, () => {
+            this.hideRoulette();
+            onComplete();
+        });
     }
 
     hideRoulette() {

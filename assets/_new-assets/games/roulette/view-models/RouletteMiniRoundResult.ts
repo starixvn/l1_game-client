@@ -16,7 +16,7 @@ export default class RouletteMiniRoundResult extends cc.Component {
         this.resultNumbers = this.contentNode.children.map(child => child.getComponent(RouletteResultNumber))
     }
 
-    public setData(numbers: number[]) {
+    public setData(numbers: number[], animated: boolean = false) {
         this.resultNumbers.forEach((child, index) => {
             if (index > numbers.length - 1) {
                 child.hide();
@@ -26,5 +26,13 @@ export default class RouletteMiniRoundResult extends cc.Component {
         });
 
         this.highlight.active = numbers.length > 0;
+
+        if (animated) {
+            const sequence = cc.sequence(
+                cc.fadeOut(.2),
+                cc.fadeIn(.2),
+            );
+            this.highlight.runAction(cc.repeat(sequence, 4));
+        }
     }
 }

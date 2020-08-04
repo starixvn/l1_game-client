@@ -5,4 +5,10 @@ export default class RouletteLogsHandler extends GameBaseLogsHandler {
     constructor(protected readonly main: Roulette) {
         super(main);
     }
+
+    buildLogs(dataLogs) {
+        this.main.updateMiniRoundResult();
+        const lastResult = dataLogs[0].result;
+        this.main.rouletteMain.wheel.setResult(lastResult);
+    }
 }

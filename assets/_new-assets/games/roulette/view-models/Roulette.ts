@@ -1,5 +1,9 @@
 import GameRoomBase from "../../_base/GameRoomBase";
 import { RouletteConfigs } from "./RouletteConfigs";
+import RouletteMain from "./RouletteMain";
+import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
+import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
+import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,6 +37,11 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Prefab)
     mainPrefab: cc.Prefab = null;
 
+    @property(RouletteMiniRoundResult)
+    miniRoundResult: RouletteMiniRoundResult = null;
+
+    rouletteMain: RouletteMain;
+
     constructor() {
         super();
         this.init("roulette", new RouletteConfigs());
@@ -41,15 +50,14 @@ export default class Roulette extends GameRoomBase {
     initHandlers() {
         super.initHandlers();
 
-        // this.finishHandler = new KenoFinishHandler(this);
+        this.finishHandler = new RouletteFinishHandler(this);
+        this.logsHandler = new RouletteLogsHandler(this);
         // this.timeHandler = new KenoTimeHandler(this);
-        // this.logsHandler = new KenoLogsHandler(this);
     }
 
     onLoad() {
-        super.onLoad();
         this.initMain();
-
+        super.onLoad();
     }
 
     resetDataAndUI() {
@@ -60,6 +68,19 @@ export default class Roulette extends GameRoomBase {
     initMain() {
         const node = cc.instantiate(this.mainPrefab);
         this.mainContainer.addChild(node);
+        this.rouletteMain = node.getComponent(RouletteMain);
+        this.timeWaitLabel = this.rouletteMain.timeWaitLabel;
+        this.timeWaitNode = this.rouletteMain.timeWaitNode;
+        this.animatedTime = this.rouletteMain.animatedTime;
+    }
+
+    showWheelResult(result: number, onComplete: () => void) {
+        this.rouletteMain.showRoulette(result, onComplete);
+    }
+
+    updateMiniRoundResult(animated = false) {
+        const data = this.currentDataLogs.map(log => log.result);
+        this.miniRoundResult.setData(data, animated);
     }
 
     playClick() {
