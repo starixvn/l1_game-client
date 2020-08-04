@@ -15,8 +15,8 @@ export interface RouletteBetInfo {
 }
 
 export enum RouletteBetType {
-    Direct = "direct",
-    Separate = "separate",
+    StraightUp = "straightup",
+    Split = "split",
     Street = "street",
     Triangle = "triangle",
     Corner = "corner",

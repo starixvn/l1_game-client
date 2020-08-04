@@ -2,6 +2,7 @@ import RouletteBoard from "./RouletteBoard";
 import RouletteQuickBet from "./RouletteQuickBet";
 import RouletteWheel from "./RouletteWheel";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
+import { RouletteBetInfo } from "./Roulette";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,6 +25,9 @@ export default class RouletteMain extends cc.Component {
 
     @property({ type: AnimatedTime })
     animatedTime: AnimatedTime = null;
+
+    betList: RouletteBetInfo[] = [];
+
 
     onLoad() {
         this.quickBet.callback.highlight = (highlight, numbers) => {
@@ -48,5 +52,9 @@ export default class RouletteMain extends cc.Component {
 
     hideRoulette() {
 
+    }
+
+    highlightLastResult(result: number) {
+        this.board.highlightLastResult(result);
     }
 }

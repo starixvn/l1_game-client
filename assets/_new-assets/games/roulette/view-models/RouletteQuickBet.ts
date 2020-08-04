@@ -107,7 +107,7 @@ export default class RouletteQuickBet extends cc.Component {
             if (collider) {
                 if (this.checkCollider(location, collider)) {
                     const numbers = this.getNeighbours(+rouletteNumber.node.name);
-                    this.internalSelected(RouletteBetType.Direct, numbers);
+                    this.internalSelected(RouletteBetType.StraightUp, numbers);
                 }
             }
         });

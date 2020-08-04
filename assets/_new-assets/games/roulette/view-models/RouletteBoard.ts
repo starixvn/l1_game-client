@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { RouletteBetType, RouletteBetInfo } from './Roulette';
 import RouletteGroupBetItem from './RouletteGroupBetItem';
 import RouletteNumber from './RouletteNumber';
+import { result } from 'lodash';
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -81,6 +82,11 @@ export default class RouletteBoard extends cc.Component {
         } else {
             this.clearHighlight();
         }
+    }
+
+    highlightLastResult(result: number) {
+        const number = this.rouletteNumbers.find(n => result === +n.node.name);
+        number.showWinning();
     }
 
     initGroupBetItems() {
@@ -172,10 +178,10 @@ export default class RouletteBoard extends cc.Component {
                 type = isSpecial ? RouletteBetType.Street : RouletteBetType.Triangle;
                 break;
             case 2:
-                type = RouletteBetType.Separate;
+                type = RouletteBetType.Split;
                 break;
             default:
-                type = RouletteBetType.Direct;
+                type = RouletteBetType.StraightUp;
                 break;
         }
 
@@ -264,7 +270,7 @@ export default class RouletteBoard extends cc.Component {
             case RouletteBetType.Triangle:
                 location = this.getLocation(betInfo.numbers[2]);
                 break;
-            case RouletteBetType.Separate:
+            case RouletteBetType.Split:
                 if (betInfo.numbers[0] === 0) {
                     location = location = this.getLocation(betInfo.numbers[1]).add(cc.v2(0, offset.y));
                 } else {
@@ -273,7 +279,7 @@ export default class RouletteBoard extends cc.Component {
                     location = location.add(location2).mul(0.5);
                 }
                 break;
-            case RouletteBetType.Direct:
+            case RouletteBetType.StraightUp:
                 location = location.add(offset);
                 if (betInfo.numbers[0] === 0) {
                     location = location.add(cc.v2(0, this.cellSize.height * 2))

@@ -35,7 +35,7 @@ export default class RouletteMobileMain extends RouletteMain {
     }
 
     switchToQuickBet() {
-        // cc.RedT.audio.playClick();
+        cc.RedT.audio.playClick();
         this.quickBetButton.active = false;
         this.regularBetButton.active = true;
 
@@ -43,7 +43,7 @@ export default class RouletteMobileMain extends RouletteMain {
     }
 
     switchToRegularBet() {
-        // cc.RedT.audio.playClick();
+        cc.RedT.audio.playClick();
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
 
