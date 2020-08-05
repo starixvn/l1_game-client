@@ -11,11 +11,10 @@ const { ccclass, property } = cc._decorator;
 export interface RouletteBetInfo {
     type: string;
     numbers: number[];
-    bet: number;
 }
 
 export enum RouletteBetType {
-    StraightUp = "straightup",
+    StraightUp = "straightUp",
     Split = "split",
     Street = "street",
     Triangle = "triangle",
@@ -42,6 +41,8 @@ export default class Roulette extends GameRoomBase {
 
     rouletteMain: RouletteMain;
 
+    tempBetChoices: any = {};
+
     constructor() {
         super();
         this.init("roulette", new RouletteConfigs());
@@ -57,6 +58,7 @@ export default class Roulette extends GameRoomBase {
 
     onLoad() {
         this.initMain();
+        this.initBetBoard();
         super.onLoad();
     }
 
@@ -72,6 +74,25 @@ export default class Roulette extends GameRoomBase {
         this.timeWaitLabel = this.rouletteMain.timeWaitLabel;
         this.timeWaitNode = this.rouletteMain.timeWaitNode;
         this.animatedTime = this.rouletteMain.animatedTime;
+    }
+
+    initBetBoard() {
+        this.rouletteMain.board.callback.selected = (betInfo: RouletteBetInfo) => {
+            this.betChips.placeChipBetRoulette(this.currentBet, this.rouletteMain.board.getBetNode(betInfo), null, () => {
+                this.rouletteMain.board.addOwnBet(betInfo, this.currentBet);
+
+                this.addBetChoice(betInfo, this.currentBet);
+            });
+        }
+    }
+
+    addBetChoice(betInfo: RouletteBetInfo, bet: number) {
+        const keyNumber = betInfo.numbers.join('-');
+        if (!this.tempBetChoices[betInfo.type]) {
+            this.tempBetChoices[betInfo.type] = {};
+        }
+        const current = this.tempBetChoices[betInfo.type][keyNumber] || 0;
+        this.tempBetChoices[betInfo.type][keyNumber] = current + bet;
     }
 
     showWheelResult(result: number, onComplete: () => void) {
@@ -105,5 +126,14 @@ export default class Roulette extends GameRoomBase {
 
     onPressedConfirm() {
         this.playClick();
+
+        this.sendData({
+            bet: {
+                roundId: this.roundId,
+                betChoices: this.tempBetChoices
+            }
+        });
+
+        this.tempBetChoices = {};
     }
 }

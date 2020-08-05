@@ -208,6 +208,38 @@ export default class BetChips extends cc.Component {
             this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
     }
 
+    public placeChipBetRoulette(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete: () => void) {
+        var chipPosition: cc.Vec2;
+        var isLoginUserPlaceBet = startNode == null;
+
+        if (startNode) {
+            chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
+        }
+        else {
+            var chip = this.chips.children.filter(child => child.name === bet.toString())[0];
+            chipPosition = chip.parent.convertToWorldSpaceAR(chip.position);
+        }
+
+        chipPosition = destNode.convertToNodeSpaceAR(chipPosition);
+        var chipNode = this.createChip(chipPosition, bet);
+
+        destNode.addChild(chipNode.node);
+
+        if (isLoginUserPlaceBet) {
+            this.playSingleChipsSound();
+        }
+
+        chipNode.node.runAction(
+            cc.sequence(
+                this.moveChipTo(cc.v2(0, 0), isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
+                cc.callFunc(() => {
+                    chipNode.destroy();
+                    onComplete();
+                })
+            )
+        );
+    }
+
     public initChips(chipsData: any, chipsBox: cc.Node) {
         if (!chipsData) {
             return;

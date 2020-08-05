@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { RouletteBetType, RouletteBetInfo } from './Roulette';
+import { RouletteBetType, RouletteBetInfo, RouletteBetInfo } from './Roulette';
 import RouletteGroupBetItem from './RouletteGroupBetItem';
 import RouletteNumber from './RouletteNumber';
 import { result } from 'lodash';
@@ -34,7 +34,10 @@ export default class RouletteBoard extends cc.Component {
     rouletteNumbers: RouletteNumber[] = [];
 
     private ownBet = {};
-    private totalBet = {};
+
+    public callback = {
+        selected: (betInfo: RouletteBetInfo) => { }
+    }
 
     onLoad() {
         this.cellSize = new cc.Size(this.gridStartNode.width, this.gridStartNode.height);
@@ -70,6 +73,14 @@ export default class RouletteBoard extends cc.Component {
     }
 
     onTouchEnd(e) {
+        const localLocation = this.touchArea.convertToNodeSpaceAR(e.getLocation());
+        const location = localLocation.sub(this.gridStartNode.position);
+        if (location.x < -this.middleCellOffset && location.y < this.gridStartNode.y) {
+            return;
+        }
+
+        const betInfo = this.getBetInfo(location);
+        this.callback.selected(betInfo);
     }
 
     onTouchCancel(e) {
@@ -96,19 +107,13 @@ export default class RouletteBoard extends cc.Component {
                 this.internalHighlight(highlight, numbers);
             };
             item.groupBetItemCallback.selected = (betType, numbers) => {
-                console.log(`${betType} ---- ${numbers}`);
                 const betInfo: RouletteBetInfo = {
                     type: betType,
                     numbers,
-                    bet: this.getCurrentBet()
                 }
-                this.addOwnBet(betInfo);
+                this.callback.selected(betInfo);
             };
         });
-    }
-
-    getCurrentBet(): number {
-        return 1;
     }
 
     getNumber(col: number, row: number): number {
@@ -185,11 +190,9 @@ export default class RouletteBoard extends cc.Component {
                 break;
         }
 
-        console.log(`${type} ---- ${selectNumbers}`);
         const betInfo: RouletteBetInfo = {
             type: type,
             numbers: selectNumbers,
-            bet: this.getCurrentBet(),
         }
         return betInfo;
     }
@@ -201,15 +204,14 @@ export default class RouletteBoard extends cc.Component {
         return cc.v2(col * this.cellSize.width, row * this.cellSize.height);
     }
 
-    addOwnBet(betInfo: RouletteBetInfo) {
+    addOwnBet(betInfo: RouletteBetInfo, bet: number) {
         const betKey = this.getBetKey(betInfo);
         const current: number = this.ownBet[betKey] || 0;
-        this.ownBet[betKey] = current + betInfo.bet;
+        this.ownBet[betKey] = current + bet;
         this.placeChips({
             type: betInfo.type,
             numbers: betInfo.numbers,
-            bet: this.ownBet[betKey]
-        })
+        }, this.ownBet[betKey]);
     }
 
     clearOwnBet() {
@@ -220,34 +222,35 @@ export default class RouletteBoard extends cc.Component {
         return `${betInfo.type}_${betInfo.numbers.join("_")}`;
     }
 
-    placeChips(betInfo: RouletteBetInfo) {
+    getBetNode(betInfo: RouletteBetInfo): cc.Node {
         const childName = this.getBetKey(betInfo);
-        const childIndex = this.chipContainer.children.findIndex(child => child.name === childName);
-        let childNode: cc.Node;
-        if (childIndex != -1) {
-            childNode = this.chipContainer.children[childIndex];
-            childNode.destroyAllChildren();
-        } else {
+        let childNode = this.chipContainer.getChildByName(childName);
+        if (!childNode) {
             childNode = new cc.Node();
             childNode.name = childName;
             this.chipContainer.addChild(childNode);
+            switch (betInfo.type) {
+                case RouletteBetType.Column:
+                case RouletteBetType.Dozen:
+                case RouletteBetType.RedBlack:
+                case RouletteBetType.EvenOdd:
+                case RouletteBetType.BigSmall:
+                    const groupItem = this.groupItems.find(child => child.betType === betInfo.type && child.getNumbers() === betInfo.numbers);
+                    childNode.position = this.chipContainer.convertToNodeSpaceAR(groupItem.node.convertToWorldSpaceAR(cc.v2(0, 0)));
+                    break;
+                default:
+                    childNode.position = this.getOnBoardChipLocation(betInfo);
+                    break;
+            }
         }
 
-        const node = this.createChips(betInfo.bet);
-        switch (betInfo.type) {
-            case RouletteBetType.Column:
-            case RouletteBetType.Dozen:
-            case RouletteBetType.RedBlack:
-            case RouletteBetType.EvenOdd:
-            case RouletteBetType.BigSmall:
-                const groupItem = this.groupItems.find(child => child.betType === betInfo.type && child.getNumbers() === betInfo.numbers);
-                childNode.position = this.chipContainer.convertToNodeSpaceAR(groupItem.node.convertToWorldSpaceAR(cc.v2(0, 0)));
-                break;
-            default:
-                childNode.position = this.getOnBoardChipLocation(betInfo);
-                break;
-        }
+        return childNode;
+    }
 
+    placeChips(betInfo: RouletteBetInfo, bet: number) {
+        const childNode = this.getBetNode(betInfo);
+        childNode.destroyAllChildren();
+        const node = this.createChips(bet);
         childNode.addChild(node);
     }
 

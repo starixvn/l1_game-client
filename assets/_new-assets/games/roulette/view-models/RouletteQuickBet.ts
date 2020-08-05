@@ -138,7 +138,7 @@ export default class RouletteQuickBet extends cc.Component {
                 this.internalHighlight(highlight, numbers);
             };
             item.groupBetItemCallback.selected = (betType, numbers) => {
-                this.internalSelected(betType, numbers);
+                // this.internalSelected(betType, numbers);
             };
         });
     }
