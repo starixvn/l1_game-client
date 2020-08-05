@@ -4,6 +4,7 @@ import RouletteMain from "./RouletteMain";
 import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
 import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
 import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
+import RouletteUtils from "./RouletteUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -87,7 +88,28 @@ export default class Roulette extends GameRoomBase {
     }
 
     addBetChoice(betInfo: RouletteBetInfo, bet: number) {
-        const keyNumber = betInfo.numbers.join('-');
+        let keyNumber = betInfo.numbers.join('-');
+        switch (betInfo.type) {
+            case RouletteBetType.Column:
+                keyNumber = betInfo.numbers[0].toString();
+                break;
+            case RouletteBetType.Dozen:
+                keyNumber = (Math.floor(betInfo.numbers[11] / 10)).toString();
+                break;
+            case RouletteBetType.EvenOdd:
+                keyNumber = RouletteUtils.isOdd(betInfo.numbers[0]) ? "odd" : "even";
+                break;
+            case RouletteBetType.RedBlack:
+                keyNumber = RouletteUtils.isRed(betInfo.numbers[0]) ? "red" : "black";
+                break;
+            case RouletteBetType.BigSmall:
+                keyNumber = RouletteUtils.isBig(betInfo.numbers[0]) ? "big" : "small";
+                break;
+            default:
+                break;
+        }
+
+
         if (!this.tempBetChoices[betInfo.type]) {
             this.tempBetChoices[betInfo.type] = {};
         }
