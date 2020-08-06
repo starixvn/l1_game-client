@@ -22,6 +22,6 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
         let betItemComponent = betItem.getComponent(RouletteTicketDetailItem);
         this.betChoiceGroupNode.addChild(betItem);
         betItemComponent.updateContent();
-        this.node.height = this.betChoiceGroupNode.height;
+        this.node.height = betItemComponent.height;
     }
 }
