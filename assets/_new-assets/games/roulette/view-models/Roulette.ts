@@ -6,6 +6,7 @@ import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
 import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteUtils from "./RouletteUtils";
 import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
+import RouletteBetHandler from "./handlers/RouletteBetHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -44,6 +45,7 @@ export default class Roulette extends GameRoomBase {
     rouletteMain: RouletteMain;
 
     tempBetChoices: any = {};
+    currentBetChoices: any = {}
 
     constructor() {
         super();
@@ -56,6 +58,7 @@ export default class Roulette extends GameRoomBase {
         this.finishHandler = new RouletteFinishHandler(this);
         this.logsHandler = new RouletteLogsHandler(this);
         this.timeHandler = new RouletteTimeHandler(this);
+        this.betHandler = new RouletteBetHandler(this);
         // this.timeHandler = new KenoTimeHandler(this);
     }
 
@@ -91,6 +94,16 @@ export default class Roulette extends GameRoomBase {
         }
     }
 
+    clearTempBetChoices() {
+        this.tempBetChoices = {};
+        this.rouletteMain.board.showBetChoices(this.currentBetChoices);
+    }
+
+    clearCurrentBetChoices() {
+        this.currentBetChoices = {};
+        this.rouletteMain.board.showBetChoices(this.currentBetChoices);
+    }
+
     isDisablePlaceChip(): boolean {
         if (this.isDisableGame) {
             return true;
@@ -101,37 +114,21 @@ export default class Roulette extends GameRoomBase {
             return true;
         }
 
+        if (this.currentTimeRemaining <= this.config.stopBetTime || this.currentTimeRemaining > this.config.betTime) {
+            this.showMiniWarning("Vui lòng đặt cược ở phiên sau.");
+            return true;
+        }
+
         return false;
     }
 
     addBetChoice(betInfo: RouletteBetInfo, bet: number) {
-        let keyNumber = betInfo.numbers.join('-');
-        switch (betInfo.type) {
-            case RouletteBetType.Column:
-                keyNumber = betInfo.numbers[0].toString();
-                break;
-            case RouletteBetType.Dozen:
-                keyNumber = (Math.floor(betInfo.numbers[11] / 10)).toString();
-                break;
-            case RouletteBetType.EvenOdd:
-                keyNumber = RouletteUtils.isOdd(betInfo.numbers[0]) ? "odd" : "even";
-                break;
-            case RouletteBetType.RedBlack:
-                keyNumber = RouletteUtils.isRed(betInfo.numbers[0]) ? "red" : "black";
-                break;
-            case RouletteBetType.BigSmall:
-                keyNumber = RouletteUtils.isBig(betInfo.numbers[0]) ? "big" : "small";
-                break;
-            default:
-                break;
-        }
-
-
+        const key = RouletteUtils.getKey(betInfo);
         if (!this.tempBetChoices[betInfo.type]) {
             this.tempBetChoices[betInfo.type] = {};
         }
-        const current = this.tempBetChoices[betInfo.type][keyNumber] || 0;
-        this.tempBetChoices[betInfo.type][keyNumber] = current + bet;
+        const current = this.tempBetChoices[betInfo.type][key] || 0;
+        this.tempBetChoices[betInfo.type][key] = current + bet;
     }
 
     showWheelResult(result: number, onComplete: () => void) {
@@ -168,6 +165,9 @@ export default class Roulette extends GameRoomBase {
 
     onPressedConfirm() {
         this.playClick();
+        if (this.isEmptyBetChoices()) {
+            return;
+        }
 
         this.sendData({
             bet: {
@@ -176,6 +176,9 @@ export default class Roulette extends GameRoomBase {
             }
         });
 
-        this.tempBetChoices = {};
+    }
+
+    isEmptyBetChoices(): boolean {
+        return Object.keys(this.tempBetChoices).length > 0;
     }
 }

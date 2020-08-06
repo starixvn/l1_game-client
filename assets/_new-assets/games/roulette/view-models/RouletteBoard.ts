@@ -1,8 +1,9 @@
 import * as _ from 'lodash';
-import { RouletteBetType, RouletteBetInfo, RouletteBetInfo } from './Roulette';
+import { RouletteBetType, RouletteBetInfo } from './Roulette';
 import RouletteGroupBetItem from './RouletteGroupBetItem';
 import RouletteNumber from './RouletteNumber';
-import { result } from 'lodash';
+import RouletteUtils from './RouletteUtils';
+import RouletteUtils from './RouletteUtils';
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -33,7 +34,7 @@ export default class RouletteBoard extends cc.Component {
     groupItems: RouletteGroupBetItem[] = [];
     rouletteNumbers: RouletteNumber[] = [];
 
-    private ownBet = {};
+    private betChoices = {};
 
     public callback = {
         selected: (betInfo: RouletteBetInfo) => { }
@@ -219,25 +220,33 @@ export default class RouletteBoard extends cc.Component {
     }
 
     addOwnBet(betInfo: RouletteBetInfo, bet: number) {
-        const betKey = this.getBetKey(betInfo);
-        const current: number = this.ownBet[betKey] || 0;
-        this.ownBet[betKey] = current + bet;
+        const betKey = RouletteUtils.getKey(betInfo);
+
+        if (!this.betChoices[betInfo.type]) {
+            this.betChoices[betInfo.type] = {};
+        }
+        const current = this.betChoices[betInfo.type][betKey] || 0;
+        this.betChoices[betInfo.type][betKey] = current + bet;
         this.placeChips({
             type: betInfo.type,
             numbers: betInfo.numbers,
-        }, this.ownBet[betKey]);
+        }, this.betChoices[betInfo.type][betKey]);
     }
 
-    clearOwnBet() {
+    showBetChoices(betChoices: any) {
+        this.chipContainer.removeAllChildren();
+        this.betChoices = _.cloneDeep(betChoices);
 
-    }
-
-    getBetKey(betInfo: RouletteBetInfo): string {
-        return `${betInfo.type}_${betInfo.numbers.join("_")}`;
+        for (let type in this.betChoices) {
+            for (let key in this.betChoices[type]) {
+                const numbers = RouletteUtils.parseKeyToNumbers(key);
+                this.placeChips({ type: type, numbers: numbers }, this.betChoices[type][key]);
+            }
+        }
     }
 
     getBetNode(betInfo: RouletteBetInfo): cc.Node {
-        const childName = this.getBetKey(betInfo);
+        const childName = RouletteUtils.getKey(betInfo);
         let childNode = this.chipContainer.getChildByName(childName);
         if (!childNode) {
             childNode = new cc.Node();
@@ -249,7 +258,7 @@ export default class RouletteBoard extends cc.Component {
                 case RouletteBetType.RedBlack:
                 case RouletteBetType.EvenOdd:
                 case RouletteBetType.BigSmall:
-                    const groupItem = this.groupItems.find(child => child.betType === betInfo.type && child.getNumbers() === betInfo.numbers);
+                    const groupItem = this.groupItems.find(child => child.node.name === childName);
                     childNode.position = this.chipContainer.convertToNodeSpaceAR(groupItem.node.convertToWorldSpaceAR(cc.v2(0, 0)));
                     break;
                 default:
