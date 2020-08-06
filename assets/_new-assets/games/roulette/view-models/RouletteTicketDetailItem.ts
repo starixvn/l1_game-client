@@ -44,7 +44,7 @@ export default class RouletteTicketDetailItem extends cc.Component {
         "column3": "Cột 3",
     }
 
-    updateContent(type: string, choice: string, amount: number) {
+    updateContent(type: string, choice: string, amount: number, isWinning: boolean) {
         this.type.string = this.betTypes[type];
         switch (type) {
             case "bigSmall":
@@ -60,7 +60,9 @@ export default class RouletteTicketDetailItem extends cc.Component {
                 this.choice.string = choice;
         }
 
-        this.amount.string = amount.toString();;
+        this.choice.node.color = isWinning ? cc.Color.YELLOW : cc.Color.WHITE;
+        this.amount.string = amount.toString();
+        this.amount.node.color = isWinning ? cc.Color.YELLOW : cc.Color.WHITE;
         this.height = this.node.height;
     }
 }

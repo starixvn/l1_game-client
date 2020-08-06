@@ -21,6 +21,7 @@ export default class RouletteTicketDetail extends cc.Component {
     roundID: number = 2000;
     result: number = 20;
     betLogDetails = null;
+    settlementResult = null;
 
     betLogs = {
         "phien": 55,
@@ -35,7 +36,7 @@ export default class RouletteTicketDetail extends cc.Component {
             "fourNumbers": [],
             "line": ["25-26-27-28-29-30", "28-29-30-31-32-33"],
             "column": ["3"],
-            "dozen": ["1"],
+            "dozen": ["3"],
             "redBlack": ["red"],
             "oddEven": ["even"],
             "bigSmall": ["big"]
@@ -116,6 +117,7 @@ export default class RouletteTicketDetail extends cc.Component {
         this.roundLabel.string = this.betLogs.phien.toString();
         this.resultLabel.string = this.betLogs.result.toString();
         this.betLogDetails = this.betLogs.betLogDetails;
+        this.settlementResult = this.betLogs.settlementResult;
         this.content.children.forEach(child => child.destroy());
 
         this.getLogsDetail();
@@ -128,7 +130,7 @@ export default class RouletteTicketDetail extends cc.Component {
             let time = this.getTimeFromString(this.betLogDetails[index].time);
             groupComponent.timeLabel.string = time.toString();
             this.content.addChild(group);
-            groupComponent.createBetLogItem(this.betLogDetails[index]);
+            groupComponent.createBetLogItem(this.betLogDetails[index], this.settlementResult);
         })
     }
 
