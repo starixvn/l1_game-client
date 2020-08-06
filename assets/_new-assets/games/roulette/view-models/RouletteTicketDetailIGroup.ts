@@ -1,6 +1,7 @@
-const { ccclass, property } = cc._decorator;
-
+import * as _ from "lodash";
 import RouletteTicketDetailItem from "./RouletteTicketDetailItem";
+
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RouletteTicketDetailIGroup extends cc.Component {
@@ -17,11 +18,23 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
         this.betChoiceGroupNode.children.forEach(child => child.destroy());
     }
 
-    createBetLogItem() {
-        let betItem = cc.instantiate(this.betItemPrefab);
-        let betItemComponent = betItem.getComponent(RouletteTicketDetailItem);
-        this.betChoiceGroupNode.addChild(betItem);
-        betItemComponent.updateContent();
-        this.node.height = betItemComponent.height;
+    createBetLogItem(betLogs) {
+        let height = 0;
+        Object.keys(betLogs).forEach(keyGroup => {
+            if (keyGroup !== "time") {
+                let betList = betLogs[keyGroup]
+                if (_.size(betList) > 0) {
+                    Object.keys(betList).forEach(logKey => {
+                        let betItem = cc.instantiate(this.betItemPrefab);
+                        let betItemComponent = betItem.getComponent(RouletteTicketDetailItem);
+                        this.betChoiceGroupNode.addChild(betItem);
+                        betItemComponent.updateContent(keyGroup, logKey, betList[logKey]);
+                        height += betItemComponent.height;
+                    })
+                }
+            }
+        });
+
+        this.node.height = height;
     }
 }
