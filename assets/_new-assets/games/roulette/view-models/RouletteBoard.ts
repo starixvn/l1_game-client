@@ -100,7 +100,7 @@ export default class RouletteBoard extends cc.Component {
             if (result === +n.node.name) {
                 n.showWinning();
             } else {
-                n.clear();
+                n.clearHighlight();
             }
         });
 
@@ -109,7 +109,7 @@ export default class RouletteBoard extends cc.Component {
             if (index > -1) {
                 item.showWinning();
             } else {
-                item.clear();
+                item.clearHighlight();
             }
         });
     }
@@ -353,6 +353,6 @@ export default class RouletteBoard extends cc.Component {
     }
 
     clearHighlight() {
-        this.rouletteNumbers.forEach(number => { number.clear(); });
+        this.rouletteNumbers.forEach(number => { number.clearHighlight(); });
     }
 }

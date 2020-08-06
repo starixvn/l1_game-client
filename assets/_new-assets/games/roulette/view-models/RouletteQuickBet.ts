@@ -114,7 +114,7 @@ export default class RouletteQuickBet extends cc.Component {
     }
 
     onTouchCancel(e) {
-        this.rouletteNumbers.forEach(number => { number.clear(); });
+        this.rouletteNumbers.forEach(number => { number.clearHighlight(); });
     }
 
     internalHighlight(highlight, numbers) {
@@ -151,6 +151,6 @@ export default class RouletteQuickBet extends cc.Component {
     }
 
     clearHighlight() {
-        this.rouletteNumbers.forEach(number => { number.clear(); });
+        this.rouletteNumbers.forEach(number => { number.clearHighlight(); });
     }
 }

@@ -82,11 +82,26 @@ export default class Roulette extends GameRoomBase {
     initBetBoard() {
         this.rouletteMain.board.callback.selected = (betInfo: RouletteBetInfo) => {
             this.betChips.placeChipBetRoulette(this.currentBet, this.rouletteMain.board.getBetNode(betInfo), null, () => {
+                if (this.isDisablePlaceChip()) {
+                    return;
+                }
                 this.rouletteMain.board.addOwnBet(betInfo, this.currentBet);
-
                 this.addBetChoice(betInfo, this.currentBet);
             });
         }
+    }
+
+    isDisablePlaceChip(): boolean {
+        if (this.isDisableGame) {
+            return true;
+        }
+
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+            return true;
+        }
+
+        return false;
     }
 
     addBetChoice(betInfo: RouletteBetInfo, bet: number) {
