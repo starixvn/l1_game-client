@@ -12,6 +12,10 @@ cc.Class({
         iconWhite: cc.SpriteFrame,
     },
 
+    init(socket) {
+        this.socket = socket;
+    },
+
     onLoad() {
         let page = cc.instantiate(this.page);
         page.y = -263;
@@ -35,7 +39,7 @@ cc.Class({
         this.get_data();
     },
     get_data: function (page = 1) {
-        cc.RedT.send({ g: { xocxoc: { log: { red: true, page: page } } } });
+        this.socket.emit('getHistory', { page: page });
     },
     onData: function (data) {
         let self = this;

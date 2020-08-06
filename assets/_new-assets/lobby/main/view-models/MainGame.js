@@ -1,15 +1,14 @@
 import baseControll from "../../../BaseController";
 import helper from "../../../common/helpers/Helper";
 import logger from '../../../common/logger';
+import configs from '../../../Configs';
 import * as authManager from './../../../common/auth/AuthManager';
-import { gameIds } from './../../../Configs';
 const sentryLogger = logger();
 
 
 var header = require("Header"),
   center = require("Menu"),
   dialog = require("Dialog"),
-  ThongBaoNoHu = require("PushNohu"),
   newsContents = require("NewsContents");
 
 cc.Class({
@@ -34,7 +33,6 @@ cc.Class({
     redhat: cc.Node,
     dialogNode: cc.Node,
     loading: cc.Node,
-    ThongBaoNoHu: ThongBaoNoHu,
     audioBG: cc.AudioSource,
     url: cc.String,
     appApk: cc.String,
@@ -65,7 +63,7 @@ cc.Class({
       if (cc.sys.isMobile) {
         const sleepSecond = (new Date() - this.sleepTime) / 1000;
 
-        if (sleepSecond > 3) {
+        if (sleepSecond > 300) {
           cc.RedT.MiniPanel.onForceReload(false);
         }
       }
@@ -82,8 +80,12 @@ cc.Class({
     cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
     this.redhat.insertChild(MiniPanel);
 
-    if (authManager && !cc.RedT.IS_LOGIN) {
+    const inRoomGameId = authManager.getInRoomGameId();
+
+    if (authManager && !cc.RedT.IS_LOGIN && !inRoomGameId) {
       authManager.triggerSignIn(this, this.loading);
+    } else {
+      this.openInRoomGame(inRoomGameId);
     }
 
     if (cc.RedT.IS_LOGIN) {
@@ -200,18 +202,9 @@ cc.Class({
     if (void 0 !== data.captcha) {
       this.captcha(data.captcha);
     }
-    if (void 0 !== data.pushnohu) {
-      // this.ThongBaoNoHu.onData(data.pushnohu);
-    }
     if (void 0 !== data.loading) {
       this.loading.onData(data.loading);
     }
-    if (void 0 !== data.event) {
-      this.dialog.DEvent.onData(data.event);
-    }
-    // if (!!data.message) {
-    //   this.dialog.iMessage.onData(data.message);
-    // }
     if (!!data.removeIsLoading && this.loading) {
       this.loading.active = false;
     }
@@ -310,21 +303,25 @@ cc.Class({
     this.header.isSignIn();
     this.dialog.onBack();
     cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
-
     this.openGameSSO();
   },
   openGameSSO: function () {
-    if (void 0 !== window.openGameId) {
-      if (window.openGameId == gameIds.XocXoc) {
-        this.center.openGame(null, "XocXoc");
-      } else if (window.openGameId == gameIds.KenoProMax) {
-        this.center.openGame(null, "KenoProMax");
-      } else if (window.openGameId == gameIds.Baccarat) {
-        this.center.openGame(null, "baccarat");
+    if (window.openGameId) {
+      const gameId = parseInt(window.openGameId);
+      if (configs.gameRoomNewSocketIds.includes(gameId)) {
+        cc.RedT.MiniPanel.openNewGameSocket(null, gameId);
+      } else if (configs.gameRoomIds.includes(gameId)) {
+        cc.RedT.MiniPanel.openGameRoom(null, gameId);
       } else {
-        cc.RedT.MiniPanel.openGame(window.openGameId);
+        cc.RedT.MiniPanel.openGame(null, gameId);
       }
       window.openGameId = null;
+    }
+  },
+
+  openInRoomGame(gameId) {
+    if (configs.gameRoomNewSocketIds.includes(parseInt(gameId))) {
+      this.center.openNewGameSocket(null, gameId);
     }
   },
   AllReset: function () {

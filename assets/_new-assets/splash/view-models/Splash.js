@@ -1,5 +1,5 @@
-import * as authManager from './../../common/auth/AuthManager';
 import logger from '../../common/logger';
+import * as authManager from './../../common/auth/AuthManager';
 const sentryLogger = logger();
 
 cc.Class({
@@ -51,11 +51,9 @@ cc.Class({
     if (cc.sys.isBrowser && authManager) {
       let self = this;
       authManager.preChecking(() => {
-        if (!authManager.checkSSO(
-          self.messageLabel,
-          function () { self.loadScene(); })) {
+        authManager.checkSSO(self.messageLabel, () => {
           self.loadScene();
-        }
+        });
       }, self.messageLabel);
     }
     else {
