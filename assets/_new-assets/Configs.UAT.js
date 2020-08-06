@@ -59,7 +59,7 @@ const configs = {
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
     gameSocketUris: {
-        2: 'https://sed.sabagame.com/user/xocxoc',
+        2: 'https://uatsed.sabagame.com/user/xocxoc',
     },
 }
 
