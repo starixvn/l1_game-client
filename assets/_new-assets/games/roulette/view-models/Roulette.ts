@@ -5,6 +5,7 @@ import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
 import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
 import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteUtils from "./RouletteUtils";
+import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -54,6 +55,7 @@ export default class Roulette extends GameRoomBase {
 
         this.finishHandler = new RouletteFinishHandler(this);
         this.logsHandler = new RouletteLogsHandler(this);
+        this.timeHandler = new RouletteTimeHandler(this);
         // this.timeHandler = new KenoTimeHandler(this);
     }
 
@@ -124,6 +126,9 @@ export default class Roulette extends GameRoomBase {
     updateMiniRoundResult(animated = false) {
         const data = this.currentDataLogs.map(log => log.result);
         this.miniRoundResult.setData(data, animated);
+        if (this.currentTimeRemaining > this.config.stopBetTime) {
+            this.rouletteMain.highlightLastResult(data[0]);
+        }
     }
 
     playClick() {

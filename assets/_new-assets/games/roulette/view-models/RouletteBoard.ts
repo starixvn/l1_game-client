@@ -96,8 +96,22 @@ export default class RouletteBoard extends cc.Component {
     }
 
     highlightLastResult(result: number) {
-        const number = this.rouletteNumbers.find(n => result === +n.node.name);
-        number.showWinning();
+        this.rouletteNumbers.forEach(n => {
+            if (result === +n.node.name) {
+                n.showWinning();
+            } else {
+                n.clear();
+            }
+        });
+
+        this.groupItems.forEach(item => {
+            const index = item.getNumbers().findIndex(n => n === result);
+            if (index > -1) {
+                item.showWinning();
+            } else {
+                item.clear();
+            }
+        });
     }
 
     initGroupBetItems() {

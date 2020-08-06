@@ -16,18 +16,16 @@ export default class RouletteNumber extends cc.Component {
 
     public clear() {
         this.highlight.runAction(cc.fadeOut(0.1));
-        // this.winning && (this.winning.active = false);
+        this.winning.active = false;
     }
 
     public showHighlight() {
         this.highlight.runAction(cc.fadeIn(0.11));
-        // this.winning && (this.winning.active = false);
+        this.winning.active = false;
     }
 
     public showWinning() {
-        // this.highlight.runAction(cc.fadeOut(0.1));
-        // this.winning && (this.winning.active = true);
-
-        this.highlight.runAction(cc.fadeIn(0.11));
+        this.highlight.runAction(cc.fadeOut(0.1));
+        this.winning.active = true;
     }
 }

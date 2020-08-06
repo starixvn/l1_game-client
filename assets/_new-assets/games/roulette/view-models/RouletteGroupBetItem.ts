@@ -31,7 +31,27 @@ export default class RouletteGroupBetItem extends CustomButton {
         super.onLoad();
 
         this.selectedNumbers = this.numbers.split(',').map(i => +i);
-        this.callback.highlight = (highlight) => this.groupBetItemCallback.highlight(highlight, this.selectedNumbers);
+        this.callback.highlight = (highlight) => {
+            this.groupBetItemCallback.highlight(highlight, this.selectedNumbers);
+            highlight ? this.showHighlight() : this.clear();
+        };
         this.callback.selected = () => this.groupBetItemCallback.selected(this.betType, this.selectedNumbers);
+
+        this.clear();
+    }
+
+    public clear() {
+        this.highlight.runAction(cc.fadeOut(0.1));
+        this.winning.active = false;
+    }
+
+    public showHighlight() {
+        this.highlight.runAction(cc.fadeIn(0.11));
+        this.winning.active = false;
+    }
+
+    public showWinning() {
+        this.highlight.runAction(cc.fadeOut(0.1));
+        this.winning.active = true;
     }
 }

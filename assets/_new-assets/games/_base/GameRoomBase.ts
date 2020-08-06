@@ -54,6 +54,7 @@ export default class GameRoomBase extends GameBase {
         cc.RedT.inGame = this;
         this.loadMiniPanel();
         this.loadUserData();
+        this.players.forEach(player => player.node.active = false);
     }
 
     onDestroy() {

@@ -13,7 +13,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             this.main.currentDataLogs.unshift(dataFinish);
             this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
             this.main.updateMiniRoundResult(true);
-            this.main.rouletteMain.highlightLastResult(dataFinish.result);
+            this.main.finishShowResult = true;
         });
     }
 }
