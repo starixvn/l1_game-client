@@ -84,10 +84,10 @@ export default class Roulette extends GameRoomBase {
 
     initBetBoard() {
         this.rouletteMain.board.callback.selected = (betInfo: RouletteBetInfo) => {
+            if (this.isDisablePlaceChip()) {
+                return;
+            }
             this.betChips.placeChipBetRoulette(this.currentBet, this.rouletteMain.board.getBetNode(betInfo), null, () => {
-                if (this.isDisablePlaceChip()) {
-                    return;
-                }
                 this.rouletteMain.board.addOwnBet(betInfo, this.currentBet);
                 this.addBetChoice(betInfo, this.currentBet);
             });
@@ -179,6 +179,6 @@ export default class Roulette extends GameRoomBase {
     }
 
     isEmptyBetChoices(): boolean {
-        return Object.keys(this.tempBetChoices).length > 0;
+        return Object.keys(this.tempBetChoices).length === 0;
     }
 }

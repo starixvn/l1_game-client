@@ -258,7 +258,7 @@ export default class RouletteBoard extends cc.Component {
                 case RouletteBetType.RedBlack:
                 case RouletteBetType.EvenOdd:
                 case RouletteBetType.BigSmall:
-                    const groupItem = this.groupItems.find(child => child.node.name === childName);
+                    const groupItem = this.groupItems.find(child => child.betType === betInfo.type && child.node.name === childName);
                     childNode.position = this.chipContainer.convertToNodeSpaceAR(groupItem.node.convertToWorldSpaceAR(cc.v2(0, 0)));
                     break;
                 default:

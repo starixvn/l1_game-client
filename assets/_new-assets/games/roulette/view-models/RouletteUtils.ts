@@ -21,7 +21,8 @@ export default class RouletteUtils {
                 key = betInfo.numbers[0].toString();
                 break;
             case RouletteBetType.Dozen:
-                key = (Math.floor(betInfo.numbers[11] / 10)).toString();
+                const index = Math.floor(betInfo.numbers[11] / 10) || betInfo.numbers[0];
+                key = index.toString();
                 break;
             case RouletteBetType.EvenOdd:
                 key = RouletteUtils.isOdd(betInfo.numbers[0]) ? "odd" : "even";
