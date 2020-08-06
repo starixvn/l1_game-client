@@ -10,6 +10,12 @@ export default class RouletteGroupBetItem extends CustomButton {
     @property
     numbers: string = "";
 
+    @property(cc.Node)
+    highlight: cc.Node = null;
+
+    @property(cc.Node)
+    winning: cc.Node = null;
+
     private selectedNumbers: number[] = [];
 
     public groupBetItemCallback = {
