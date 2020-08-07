@@ -27,7 +27,7 @@ export enum RouletteBetType {
     Column = "column",
     Dozen = "dozen",
     RedBlack = "redblack",
-    EvenOdd = "evenodd",
+    OddEven = "oddeven",
     BigSmall = "bigsmall"
 }
 

@@ -24,7 +24,7 @@ export default class RouletteUtils {
                 const index = Math.floor(betInfo.numbers[11] / 10) || betInfo.numbers[0];
                 key = index.toString();
                 break;
-            case RouletteBetType.EvenOdd:
+            case RouletteBetType.OddEven:
                 key = RouletteUtils.isOdd(betInfo.numbers[0]) ? "odd" : "even";
                 break;
             case RouletteBetType.RedBlack:
