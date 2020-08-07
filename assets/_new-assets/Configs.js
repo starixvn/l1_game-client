@@ -58,10 +58,12 @@ const configs = {
     17: 'Keno Tây',
     18: 'Keno Nam',
     19: 'Keno Bắc',
+    21: "Roulette",
   },
   gameRoomRegNames: {
     8: 'KenoProMax',
     10: 'baccarat',
+    21: 'roulette',
   },
   gameRoomIds: [8, 10],
   gameRoomNewSocketIds: [2],
