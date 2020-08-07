@@ -192,7 +192,7 @@ export default class RouletteBoard extends cc.Component {
                 type = RouletteBetType.Line;
                 break;
             case 4:
-                type = isSpecial ? RouletteBetType.Four_Numbers : RouletteBetType.Corner;
+                type = isSpecial ? RouletteBetType.FourNumbers : RouletteBetType.Corner;
                 break;
             case 3:
                 type = isSpecial ? RouletteBetType.Street : RouletteBetType.Triangle;
@@ -284,7 +284,7 @@ export default class RouletteBoard extends cc.Component {
             case RouletteBetType.Line:
                 location = this.getLocation(betInfo.numbers[3]);
                 break;
-            case RouletteBetType.Four_Numbers:
+            case RouletteBetType.FourNumbers:
                 location = this.getLocation(betInfo.numbers[1]);
                 break;
             case RouletteBetType.Corner:

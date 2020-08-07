@@ -22,13 +22,13 @@ export enum RouletteBetType {
     Street = "street",
     Triangle = "triangle",
     Corner = "corner",
-    Four_Numbers = "four_numbers",
+    FourNumbers = "fourNumbers",
     Line = "line",
     Column = "column",
     Dozen = "dozen",
-    RedBlack = "redblack",
-    OddEven = "oddeven",
-    BigSmall = "bigsmall"
+    RedBlack = "redBlack",
+    OddEven = "oddEven",
+    BigSmall = "bigSmall"
 }
 
 @ccclass
@@ -120,7 +120,7 @@ export default class Roulette extends GameRoomBase {
             return true;
         }
 
-        if (this.currentTimeRemaining <= this.config.stopBetTime || this.currentTimeRemaining > this.config.betTime) {
+        if (this.currentTimeRemaining <= this.config.stopBetTime || this.currentTimeRemaining >= this.config.betTime) {
             this.showMiniWarning("Vui lòng đặt cược ở phiên sau.");
             return true;
         }
