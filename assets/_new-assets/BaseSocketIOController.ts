@@ -42,7 +42,7 @@ export default class BaseSocketIOController {
     return socket;
   };
 
-  closeSocket(gameId) {
+  async closeSocket(gameId) {
     const socket: SocketIOClient.Socket = this.gameSockets[gameId];
     socket && socket.disconnect();
     delete this.gameSockets[gameId];

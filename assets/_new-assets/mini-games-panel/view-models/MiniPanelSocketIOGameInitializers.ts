@@ -13,13 +13,19 @@ export default class MiniPanelSocketIOGameInitializers {
 
         cc.RedT.inGame.outRoomGame().then(() => {
             authManager.removeInRoomGameId();
-            const socketIoController = BaseSocketIOController.getInstance();
+            this.openNewSocket(gameId);
+        });
+
+        this.main.popupMiniGame.hideListGame();
+    }
+
+    private openNewSocket(gameId) {
+        const socketIoController = BaseSocketIOController.getInstance();
+        socketIoController.closeSocket(gameId).then(() => {
             const gameName = configs.gameNames[gameId];
             const socket = socketIoController.connectGameSocket(configs.gameSocketUris[gameId], gameName, this.main.onConnectSocketFailed.bind(this.main));
             socket.on('message', (data) => this.main.onGeneralData(data));
             socketIoController.gameSockets[gameId] = socket;
         });
-
-        this.main.popupMiniGame.hideListGame();
     }
 }
