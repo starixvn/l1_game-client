@@ -651,7 +651,8 @@ export default class RouletteWheel extends cc.Component {
         const tmpThis = this;
         trackEntry.listener = {
             complete: () => {
-                count++ > 0 && tmpThis.resultReceived && this.startBallTransitionAnimation();
+                // count++ > 0 && 
+                tmpThis.resultReceived && this.startBallTransitionAnimation();
             }
         }
     }
