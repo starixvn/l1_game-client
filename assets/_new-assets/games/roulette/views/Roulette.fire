@@ -183,7 +183,7 @@
       "array": [
         0,
         0,
-        396.63963493327293,
+        393.2639784657557,
         0,
         0,
         0,
@@ -4500,9 +4500,11 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "",
-    "_componentId": "5e248k2r+JGk41YGs95L5+n",
+    "_componentId": "79b963elJ5EKrudtS0np7OC",
     "handler": "closeGame",
     "customEventData": ""
   },
@@ -4679,9 +4681,11 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "",
-    "_componentId": "5e248k2r+JGk41YGs95L5+n",
+    "_componentId": "79b963elJ5EKrudtS0np7OC",
     "handler": "closeGame",
     "customEventData": ""
   },
@@ -5037,10 +5041,12 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "",
-    "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "closeGame",
+    "_componentId": "79b963elJ5EKrudtS0np7OC",
+    "handler": "pressedShowGuide",
     "customEventData": ""
   },
   {
@@ -11261,6 +11267,10 @@
     },
     "miniRoundResult": {
       "__id__": 91
+    },
+    "historyPrefab": null,
+    "guidePrefab": {
+      "__uuid__": "f3feacab-4b0c-4004-ba40-6b38a343ebd4"
     },
     "_id": "45FNfSRwtAZIy8p50FDPgC"
   }

@@ -42,6 +42,12 @@ export default class Roulette extends GameRoomBase {
     @property(RouletteMiniRoundResult)
     miniRoundResult: RouletteMiniRoundResult = null;
 
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    guidePrefab: cc.Prefab = null;
+
     rouletteMain: RouletteMain;
 
     tempBetChoices: any = {};
@@ -180,5 +186,13 @@ export default class Roulette extends GameRoomBase {
 
     isEmptyBetChoices(): boolean {
         return Object.keys(this.tempBetChoices).length === 0;
+    }
+
+    public pressedShowGuide() {
+        cc.RedT.audio.playClick();
+        let dialog = cc.instantiate(this.guidePrefab);
+        var rouletteGuide = dialog.getComponent("RouletteGuide");
+        rouletteGuide.init(this.gameConfigs);
+        this.currentMiniPanel.node.addChild(dialog);
     }
 }
