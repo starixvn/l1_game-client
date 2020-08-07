@@ -180,7 +180,7 @@ cc.Class({
 		void 0 !== this.timeInterval && clearInterval(this.timeInterval);
 		void 0 !== this.showKQ2Timeout && clearTimeout(this.showKQ2Timeout);
 		void 0 !== this.traThuongTimeout && clearTimeout(this.traThuongTimeout);
-
+		BaseSocketIOController.getInstance().closeSocket(gameIds.XocXoc);
 	},
 	onLoad() {
 		cc.RedT.inGame = this;
@@ -252,8 +252,7 @@ cc.Class({
 		return new Promise((resolve, reject) => {
 			clearInterval(this.timeInterval);
 			void 0 !== this.timeOut && clearTimeout(this.timeOut);
-			this.socket && this.socket.disconnect();
-			delete cc.RedT.gameSockets[gameIds.XocXoc];
+			BaseSocketIOController.getInstance().closeSocket(gameIds.XocXoc);
 
 			this.node && this.node.runAction(
 				cc.sequence(

@@ -1,12 +1,14 @@
 import * as socketIo from 'socket.io-client';
 import { getSession } from './common/auth/AuthManager';
-import logger from './common/logger';
+import { sentryLogger } from './common/logger.js';
+
 
 export default class BaseSocketIOController {
   private static instance: BaseSocketIOController;
   public gameSockets = {};
 
   public static getInstance(): BaseSocketIOController {
+
     if (!this.instance) {
       this.instance = new BaseSocketIOController();
     }
@@ -22,27 +24,33 @@ export default class BaseSocketIOController {
     });
 
     socket.on('connect_failed', () => {
-      logger().logError("Sedie connect failed");
+      sentryLogger.logError("Sedie connect failed");
       socket.disconnect();
       onConnectFailed(gameName);
     });
 
     socket.on('connect_error', (error) => {
-      logger().logError("Sedie connect error" + error);
+      sentryLogger.logError(error);
       socket.disconnect();
       onConnectFailed(gameName);
     });
 
     socket.on('disconnect', (reason) => {
-      logger().log(reason);
+      sentryLogger.log("Sedie disconnect\n" + reason);
     });
 
     return socket;
   };
 
+  closeSocket(gameId) {
+    const socket: SocketIOClient.Socket = this.gameSockets[gameId];
+    socket && socket.disconnect();
+    delete this.gameSockets[gameId];
+  }
+
   closeAllSocket() {
-    console.log('closeAllSocket');
     const keys = Object.keys(this.gameSockets);
+
     if (keys && keys.length) {
       keys.forEach((key) => {
         const socket: SocketIOClient.Socket = this.gameSockets[key];
