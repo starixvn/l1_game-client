@@ -87,12 +87,9 @@ export default class RouletteWheel extends cc.Component {
 
     showResult(result: number, onComplete: () => void) {
         this.prepareWheelSpinAnimation();
+        const t = { resultNumber: result + 1 };
+        this.onWheelUpdateResultNumber(t);
         cc.tween(this.node)
-            // .delay(1)
-            .call(() => {
-                const t = { resultNumber: result + 1 };
-                this.onWheelUpdateResultNumber(t);
-            })
             .delay(6)
             .call(onComplete)
             .start();
