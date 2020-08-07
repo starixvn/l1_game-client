@@ -208,7 +208,7 @@ export default class BetChips extends cc.Component {
             this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
     }
 
-    public placeChipBetRoulette(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete: () => void) {
+    public placeChipBetRoulette(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }) {
         var chipPosition: cc.Vec2;
         var isLoginUserPlaceBet = startNode == null;
 
