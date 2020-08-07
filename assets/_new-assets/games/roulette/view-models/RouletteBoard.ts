@@ -326,7 +326,7 @@ export default class RouletteBoard extends cc.Component {
     }
 
     private createChips(bet: number): cc.Node {
-        const values = [50, 10, 5, 1];
+        const values = [1000, 500, 200, 100, 50, 10, 5, 1];
         let total = bet;
         const counts = [];
         values.forEach(value => {

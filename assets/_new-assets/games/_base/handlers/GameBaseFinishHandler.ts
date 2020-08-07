@@ -8,7 +8,7 @@ import GameUtils from "../../../common/GameUtils";
 import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
 
 export default class GameBaseFinishHandler implements DataHandler {
-    private readonly payChipFlyTime = 1.2;
+    protected readonly payChipFlyTime = 1.2;
 
     constructor(
         protected readonly main: GameBase, protected readonly playResultAnimationTime: number = 0) {

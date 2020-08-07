@@ -97,7 +97,8 @@ export default class Roulette extends GameRoomBase {
                 return;
             }
 
-            this.betChips.placeChipBetRoulette(this.currentBet, this.rouletteMain.board.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo)), null, () => {
+            const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo));
+            this.betChips.placeChipBetRoulette(this.currentBet, destNode, null, () => {
                 this.rouletteMain.board.addOwnBet(betInfo, this.currentBet);
                 this.addBetChoice(betInfo, this.currentBet);
             });

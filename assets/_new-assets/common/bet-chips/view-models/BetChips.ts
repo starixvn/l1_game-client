@@ -208,7 +208,7 @@ export default class BetChips extends cc.Component {
             this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
     }
 
-    public placeChipBetRoulette(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }) {
+    public placeChipBetRoulette(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }, delayDestroy = 0, customDuration = 0) {
         var chipPosition: cc.Vec2;
         var isLoginUserPlaceBet = startNode == null;
 
@@ -229,9 +229,12 @@ export default class BetChips extends cc.Component {
             this.playSingleChipsSound();
         }
 
+        const duration = customDuration > 0 ? customDuration : (isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime);
+
         chipNode.node.runAction(
             cc.sequence(
-                this.moveChipTo(cc.v2(0, 0), isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
+                this.moveChipTo(cc.v2(0, 0),),
+                cc.delayTime(delayDestroy),
                 cc.callFunc(() => {
                     chipNode.destroy();
                     onComplete();
