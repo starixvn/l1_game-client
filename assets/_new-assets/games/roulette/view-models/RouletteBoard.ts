@@ -239,30 +239,29 @@ export default class RouletteBoard extends cc.Component {
 
         for (let type in this.betChoices) {
             for (let key in this.betChoices[type]) {
-                const numbers = RouletteUtils.parseKeyToNumbers(key);
-                this.placeChips({ type: type, numbers: numbers }, this.betChoices[type][key]);
+                this.placeChipsByKey(type, key, this.betChoices[type][key]);
             }
         }
     }
 
-    getBetNode(betInfo: RouletteBetInfo): cc.Node {
-        const childName = RouletteUtils.getKey(betInfo);
+    getBetNodeByKey(type: string, key: string): cc.Node {
+        const childName = `${type}_${key}`;
         let childNode = this.chipContainer.getChildByName(childName);
         if (!childNode) {
             childNode = new cc.Node();
             childNode.name = childName;
             this.chipContainer.addChild(childNode);
-            switch (betInfo.type) {
+            switch (type) {
                 case RouletteBetType.Column:
                 case RouletteBetType.Dozen:
                 case RouletteBetType.RedBlack:
                 case RouletteBetType.OddEven:
                 case RouletteBetType.BigSmall:
-                    const groupItem = this.groupItems.find(child => child.betType === betInfo.type && child.node.name === childName);
+                    const groupItem = this.groupItems.find(child => child.betType === type && child.node.name === key);
                     childNode.position = this.chipContainer.convertToNodeSpaceAR(groupItem.node.convertToWorldSpaceAR(cc.v2(0, 0)));
                     break;
                 default:
-                    childNode.position = this.getOnBoardChipLocation(betInfo);
+                    childNode.position = this.getOnBoardChipLocation(type, key);
                     break;
             }
         }
@@ -270,44 +269,52 @@ export default class RouletteBoard extends cc.Component {
         return childNode;
     }
 
-    placeChips(betInfo: RouletteBetInfo, bet: number) {
-        const childNode = this.getBetNode(betInfo);
+    placeChipsByKey(type: string, key: string, bet: number) {
+        const childNode = this.getBetNodeByKey(type, key);
         childNode.destroyAllChildren();
         const node = this.createChips(bet);
         childNode.addChild(node);
     }
 
-    getOnBoardChipLocation(betInfo: RouletteBetInfo) {
-        let location = this.getLocation(betInfo.numbers[0]);
+    placeChips(betInfo: RouletteBetInfo, bet: number) {
+        const childNode = this.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo));
+        childNode.destroyAllChildren();
+        const node = this.createChips(bet);
+        childNode.addChild(node);
+    }
+
+    getOnBoardChipLocation(type, key) {
+        const numbers = RouletteUtils.parseKeyToNumbers(key);
+        let location = this.getLocation(numbers[0]);
         const offset = cc.v2(this.cellSize.width / 2, this.cellSize.height / 2);
-        switch (betInfo.type) {
+        switch (type) {
             case RouletteBetType.Line:
-                location = this.getLocation(betInfo.numbers[3]);
+                location = this.getLocation(numbers[3]);
                 break;
             case RouletteBetType.FourNumbers:
-                location = this.getLocation(betInfo.numbers[1]);
+                location = this.getLocation(numbers[1]);
                 break;
             case RouletteBetType.Corner:
-                location = this.getLocation(betInfo.numbers[3]);
+                location = this.getLocation(numbers[3]);
                 break;
             case RouletteBetType.Street:
                 location = location.add(cc.v2(offset.x, 0));
                 break
             case RouletteBetType.Triangle:
-                location = this.getLocation(betInfo.numbers[2]);
+                location = this.getLocation(numbers[2]);
                 break;
             case RouletteBetType.Split:
-                if (betInfo.numbers[0] === 0) {
-                    location = location = this.getLocation(betInfo.numbers[1]).add(cc.v2(0, offset.y));
+                if (numbers[0] === 0) {
+                    location = location = this.getLocation(numbers[1]).add(cc.v2(0, offset.y));
                 } else {
-                    const location2 = this.getLocation(betInfo.numbers[1]).add(offset);
+                    const location2 = this.getLocation(numbers[1]).add(offset);
                     location = location.add(offset);
                     location = location.add(location2).mul(0.5);
                 }
                 break;
             case RouletteBetType.StraightUp:
                 location = location.add(offset);
-                if (betInfo.numbers[0] === 0) {
+                if (numbers[0] === 0) {
                     location = location.add(cc.v2(0, this.cellSize.height * 2))
                 }
                 break;

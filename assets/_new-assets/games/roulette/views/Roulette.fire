@@ -81,19 +81,22 @@
         "__id__": 234
       },
       {
-        "__id__": 236
+        "__id__": 235
+      },
+      {
+        "__id__": 237
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 238
-      },
-      {
         "__id__": 239
       },
       {
         "__id__": 240
+      },
+      {
+        "__id__": 241
       }
     ],
     "_prefab": null,
@@ -183,7 +186,7 @@
       "array": [
         0,
         0,
-        403.56783816354846,
+        342.04309280646294,
         0,
         0,
         0,
@@ -11006,6 +11009,64 @@
   },
   {
     "__type__": "cc.Node",
+    "_name": "dealerChipBox",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "963SgnFGlB26wnXS5ekFx5"
+  },
+  {
+    "__type__": "cc.Node",
     "_name": "minipanelContainer",
     "_objFlags": 0,
     "_parent": {
@@ -11015,7 +11076,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 235
+        "__id__": 236
       }
     ],
     "_prefab": null,
@@ -11071,7 +11132,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 234
+      "__id__": 235
     },
     "_enabled": true,
     "alignMode": 1,
@@ -11101,7 +11162,7 @@
     },
     "_id": "c68E7VLzRG+7hw+GTOUDAw",
     "_prefab": {
-      "__id__": 237
+      "__id__": 238
     },
     "_name": "Loading",
     "_active": false,
@@ -11131,7 +11192,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 236
+      "__id__": 237
     },
     "asset": {
       "__uuid__": "3b363726-d7d5-449d-a4c5-0c15f31ae04e"
@@ -11215,8 +11276,10 @@
     "betChipsPrefab": {
       "__uuid__": "e72cf7ee-1e70-426d-a509-59b031a6ab1c"
     },
-    "enablePlaceChips": false,
-    "dealerChipBox": null,
+    "enablePlaceChips": true,
+    "dealerChipBox": {
+      "__id__": 234
+    },
     "gameAudiosPrefab": {
       "__uuid__": "a959271b-169e-4a3e-8760-406c31cd985a"
     },
@@ -11241,13 +11304,13 @@
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
     "miniPanelContainer": {
-      "__id__": 234
+      "__id__": 235
     },
     "noticePrefab": {
       "__uuid__": "783d3aa3-f636-4101-9128-02611882f625"
     },
     "loading": {
-      "__id__": 236
+      "__id__": 237
     },
     "userName": {
       "__id__": 185
