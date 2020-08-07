@@ -211,12 +211,16 @@ export default class BetChips extends cc.Component {
     public placeChipBetRoulette(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }, delayDestroy = 0, customDuration = 0) {
         var chipPosition: cc.Vec2;
         var isLoginUserPlaceBet = startNode == null;
-
         if (startNode) {
             chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
         }
         else {
-            var chip = this.chips.children.filter(child => child.name === bet.toString())[0];
+            let chip = this.chips.children.filter(child => child.name === bet.toString())[0];
+            if (!chip) {
+                const chips = this.chips.children.filter(child => +child.name < bet).sort((b, a) => +a.name - +b.name);
+                chip = chips[0];
+                bet = +chip.name;
+            }
             chipPosition = chip.parent.convertToWorldSpaceAR(chip.position);
         }
 

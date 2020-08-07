@@ -42,18 +42,18 @@ export default class RouletteGroupBetItem extends CustomButton {
     }
 
     public clearHighlight() {
-        this.highlight.runAction(cc.fadeOut(0.1));
+        this.highlight && this.highlight.runAction(cc.fadeOut(0.1));
     }
 
     public showHighlight() {
-        this.highlight.runAction(cc.fadeIn(0.11));
+        this.highlight && this.highlight.runAction(cc.fadeIn(0.11));
     }
 
     public showWinning() {
-        this.winning.active = true;
+        this.winning && (this.winning.active = true);
     }
 
     public hideWinning() {
-        this.winning.active = false;
+        this.winning && (this.winning.active = false);
     }
 }

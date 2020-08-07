@@ -24,10 +24,10 @@ export default class RouletteNumber extends cc.Component {
     }
 
     public showWinning() {
-        this.winning.active = true;
+        this.winning && (this.winning.active = true);
     }
 
     public hideWinning() {
-        this.winning.active = false;
+        this.winning && (this.winning.active = false);
     }
 }

@@ -106,6 +106,25 @@ export default class Roulette extends GameRoomBase {
                 this.addBetChoice(betInfo, this.currentBet);
             });
         }
+
+        this.rouletteMain.quickBet.callback.selected = (betType: string, numbers: number[]) => {
+            if (this.isDisablePlaceChip()) {
+                return;
+            }
+
+            const betChoices = RouletteUtils.createQuickBetChoices(betType, this.currentBet);
+            for (let type in betChoices) {
+                for (let key in betChoices[type]) {
+                    const betInfo = { type: type, numbers: RouletteUtils.parseKeyToNumbers(key) };
+                    const bet = betChoices[type][key];
+                    const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, key);
+                    this.betChips.placeChipBetRoulette(bet, destNode, null, () => {
+                        this.rouletteMain.board.addOwnBet(betInfo, bet);
+                        this.addBetChoice(betInfo, bet);
+                    });
+                }
+            }
+        }
     }
 
     clearTempBetChoices() {

@@ -43,4 +43,56 @@ export default class RouletteUtils {
     public static parseKeyToNumbers(key: string): number[] {
         return key.split('-').map(i => +i);
     }
+
+    public static createQuickBetChoices(type: string, bet: number): any {
+        const options = {
+            zero: {
+                split: {
+                    "0-3": bet,
+                    "12-15": bet,
+                    "32-35": bet,
+                },
+                straightUp: {
+                    "26": bet,
+                }
+            },
+            voisins: {
+                split: {
+                    "18-21": bet,
+                    "12-15": bet,
+                    "32-35": bet,
+                    "19-22": bet,
+                    "4-7": bet,
+                },
+                triangle: {
+                    "0-2-3": bet * 2,
+                },
+                corner: {
+                    "25-26-28-29": bet * 2,
+                }
+            },
+            tiers: {
+                split: {
+                    "5-8": bet,
+                    "10-11": bet,
+                    "13-16": bet,
+                    "23-24": bet,
+                    "27-30": bet,
+                    "33-36": bet,
+                },
+            },
+            orphelins: {
+                split: {
+                    "6-9": bet,
+                    "14-17": bet,
+                    "17-20": bet,
+                    "31-34": bet,
+                },
+                straightUp: {
+                    "1": bet,
+                }
+            },
+        };
+        return options[type];
+    }
 }
