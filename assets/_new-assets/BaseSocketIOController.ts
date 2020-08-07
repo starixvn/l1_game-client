@@ -1,9 +1,9 @@
 import * as socketIo from 'socket.io-client';
 import { getSession } from './common/auth/AuthManager';
+import logger from './common/logger';
 
 export default class BaseSocketIOController {
   private static instance: BaseSocketIOController;
-
   public gameSockets = {};
 
   public static getInstance(): BaseSocketIOController {
@@ -18,20 +18,23 @@ export default class BaseSocketIOController {
     const socket = socketIo(socketUri);
 
     socket.on('connect', () => {
-      console.log('connected');
       socket.emit('signin', getSession());
     });
 
-    socket.on('connect_failed', function () {
-      console.log('Connection Failed');
+    socket.on('connect_failed', () => {
+      logger().logError("Sedie connect failed");
       socket.disconnect();
       onConnectFailed(gameName);
     });
 
-    socket.on('connect_error', function () {
-      console.log('Connection Failed');
+    socket.on('connect_error', (error) => {
+      logger().logError("Sedie connect error" + error);
       socket.disconnect();
       onConnectFailed(gameName);
+    });
+
+    socket.on('disconnect', (reason) => {
+      logger().log(reason);
     });
 
     return socket;
