@@ -1,4 +1,5 @@
 const { ccclass, property } = cc._decorator;
+import { numberWithCommas } from '../../../common/helpers/Helper';
 
 @ccclass
 export default class RouletteTicketDetailItem extends cc.Component {
@@ -61,7 +62,7 @@ export default class RouletteTicketDetailItem extends cc.Component {
         }
 
         this.choice.node.color = isWinning ? cc.Color.YELLOW : cc.Color.WHITE;
-        this.amount.string = amount.toString();
+        this.amount.string = numberWithCommas(amount);
         this.amount.node.color = isWinning ? cc.Color.YELLOW : cc.Color.WHITE;
         this.height = this.node.height;
     }

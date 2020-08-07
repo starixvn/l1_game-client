@@ -1,5 +1,7 @@
 import * as _ from "lodash";
 import RouletteTicketDetailIGroup from "./RouletteTicketDetailIGroup";
+import { getStringHourByTime } from '../../../common/helpers/Helper';
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -114,28 +116,30 @@ export default class RouletteTicketDetail extends cc.Component {
     }
 
     onLoad() {
-        this.roundLabel.string = this.betLogs.phien.toString();
-        this.resultLabel.string = this.betLogs.result.toString();
-        this.betLogDetails = this.betLogs.betLogDetails;
-        this.settlementResult = this.betLogs.settlementResult;
+        // this.roundLabel.string = this.betLogs.phien.toString();
+        // this.resultLabel.string = this.betLogs.result.toString();
+        // this.betLogDetails = this.betLogs.betLogDetails;
+        // this.settlementResult = this.betLogs.settlementResult;
         this.content.children.forEach(child => child.destroy());
 
-        this.getLogsDetail();
+        //this.showResult();
     }
 
-    getLogsDetail() {
+    public setData(betLogDetails: any, settlementResult: any) {
+        this.betLogDetails = betLogDetails;
+        this.settlementResult = settlementResult;
+    }
+
+    public showbetLogs() {
+
+        this.node.active = true;
         this.betLogDetails.forEach((log, index) => {
             let group = cc.instantiate(this.groupPrefab);
             let groupComponent = group.getComponent(RouletteTicketDetailIGroup);
-            let time = this.getTimeFromString(this.betLogDetails[index].time);
+            let time = getStringHourByTime(this.betLogDetails[index].time);
             groupComponent.timeLabel.string = time.toString();
             this.content.addChild(group);
             groupComponent.createBetLogItem(this.betLogDetails[index], this.settlementResult);
         })
-    }
-
-    getTimeFromString(time: string) {
-        const timeString = _.split(time, 'T')[1];
-        return _.split(timeString, '.')[0];
     }
 }

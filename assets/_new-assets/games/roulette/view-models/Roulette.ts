@@ -206,4 +206,10 @@ export default class Roulette extends GameRoomBase {
         let dialog = cc.instantiate(this.statisticPrefab);
         this.currentMiniPanel.node.addChild(dialog);
     }
+
+    public pressedShowHistory() {
+        cc.RedT.audio.playClick();
+        let dialog = cc.instantiate(this.historyPrefab);
+        this.currentMiniPanel.node.addChild(dialog);
+    }
 }
