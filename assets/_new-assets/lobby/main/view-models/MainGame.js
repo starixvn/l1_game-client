@@ -193,9 +193,6 @@ cc.Class({
 
     cc.RedT.MiniPanel.onGeneralData(data);
 
-    if (void 0 !== data.notice) {
-      this.showNotice(data.notice);
-    }
     if (void 0 !== data.marqueeMsg && this.newsContents) {
       this.newsContents.onData(data.marqueeMsg);
     }
