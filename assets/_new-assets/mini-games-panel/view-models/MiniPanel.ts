@@ -69,6 +69,7 @@ export default class MiniPanel extends cc.Component {
     public popupMiniGame: any;
     public loading: Loading;
     public dataHandlers: MiniPanelDataHandlers;
+    public currentGameRoomId: number;
     private isLightOn: boolean;
     private gameMiniInitializers: MiniPanelMiniGameInitializers;
     private socketIOGameInitializers: MiniPanelSocketIOGameInitializers;
@@ -179,6 +180,10 @@ export default class MiniPanel extends cc.Component {
     openGameRoom(e, id) {
         cc.RedT.audio.playClick();
         this.popupMiniGame.hideListGame();
+
+        if (this.currentGameRoomId == id) {
+            return;
+        }
 
         if (!cc.RedT.isConnected) {
             const gameName = configs.gameNames[id];

@@ -9,14 +9,17 @@ export default class MiniPanelSocketIOGameInitializers {
 
     public openGame(gameId) {
         cc.RedT.audio.playClick();
-        cc.RedT.inGame.loading.active = true;
+        this.main.popupMiniGame.hideListGame();
 
+        if (this.main.currentGameRoomId == gameId) {
+            return;
+        }
+
+        cc.RedT.inGame.loading.active = true;
         cc.RedT.inGame.outRoomGame().then(() => {
             authManager.removeInRoomGameId();
             this.openNewSocket(gameId);
         });
-
-        this.main.popupMiniGame.hideListGame();
     }
 
     private openNewSocket(gameId) {

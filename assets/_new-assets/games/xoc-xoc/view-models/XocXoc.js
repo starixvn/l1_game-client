@@ -186,6 +186,7 @@ cc.Class({
 		cc.RedT.inGame = this;
 		var MiniPanel = cc.instantiate(this.MiniPanel);
 		cc.RedT.MiniPanel = MiniPanel.getComponent('MiniPanel');
+		cc.RedT.MiniPanel.currentGameRoomId = gameIds.XocXoc;
 		this.redH.insertChild(MiniPanel);
 		this.socket = BaseSocketIOController.getInstance().gameSockets[gameIds.XocXoc];
 		this.socket.on('xocxoc', (data) => {
