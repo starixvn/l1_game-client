@@ -3,7 +3,6 @@ import { RouletteBetType, RouletteBetInfo } from './Roulette';
 import RouletteGroupBetItem from './RouletteGroupBetItem';
 import RouletteNumber from './RouletteNumber';
 import RouletteUtils from './RouletteUtils';
-import RouletteUtils from './RouletteUtils';
 const { ccclass, property } = cc._decorator;
 
 @ccclass

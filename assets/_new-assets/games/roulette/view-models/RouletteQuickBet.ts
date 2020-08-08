@@ -98,7 +98,9 @@ export default class RouletteQuickBet extends cc.Component {
             }
 
             if (this.checkCollider(location, groupItem.collider)) {
-                this.internalSelected(groupItem.betType, groupItem.getNumbers());
+                const numbers = groupItem.getNumbers();
+                this.internalHighlight(false, numbers);
+                this.internalSelected(groupItem.betType, numbers);
             }
         });
 
@@ -138,6 +140,7 @@ export default class RouletteQuickBet extends cc.Component {
                 this.internalHighlight(highlight, numbers);
             };
             item.groupBetItemCallback.selected = (betType, numbers) => {
+                this.internalHighlight(false, numbers);
                 this.internalSelected(betType, numbers);
             };
         });

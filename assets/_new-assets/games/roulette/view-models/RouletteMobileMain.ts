@@ -43,6 +43,8 @@ export default class RouletteMobileMain extends RouletteMain {
     }
 
     switchToRegularBet() {
+        this.board.clearHighlight();
+
         cc.RedT.audio.playClick();
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
