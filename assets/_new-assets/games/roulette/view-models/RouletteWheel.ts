@@ -90,7 +90,7 @@ export default class RouletteWheel extends cc.Component {
         const t = { resultNumber: result + 1 };
         this.onWheelUpdateResultNumber(t);
         cc.tween(this.node)
-            .delay(6)
+            .delay(9)
             .call(onComplete)
             .start();
     }

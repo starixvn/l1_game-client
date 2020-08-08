@@ -95,4 +95,40 @@ export default class RouletteUtils {
         };
         return options[type];
     }
+
+    public static createChip(bet: number, chipAltas: cc.SpriteAtlas): cc.Node {
+        const chip = new cc.Node();
+        const chipSprite = chip.addComponent(cc.Sprite);
+        const name = `chip${bet}_small`;
+        chipSprite.spriteFrame = chipAltas.getSpriteFrame(name);
+        return chip;
+    }
+
+    public static createChips(bet: number, chipAltas: cc.SpriteAtlas): cc.Node {
+        const values = [1000, 500, 200, 100, 50, 10, 5, 1];
+        let total = bet;
+        const counts = [];
+        values.forEach(value => {
+            counts.push(Math.floor(total / value));
+            total = total % value;
+        });
+
+        const node = new cc.Node();
+        const layoutNode = new cc.Node();
+        layoutNode.y = -13; //half size chip
+        node.addChild(layoutNode);
+        layoutNode.anchorY = 0;
+        const layout = layoutNode.addComponent(cc.Layout);
+        layout.type = cc.Layout.Type.VERTICAL;
+        layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
+        layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
+        layout.spacingY = -22;
+        counts.forEach((count, index) => {
+            for (let i = 0; i < count; i++) {
+                const chipNode = this.createChip(values[index], chipAltas);
+                layoutNode.addChild(chipNode);
+            }
+        });
+        return node;
+    }
 }

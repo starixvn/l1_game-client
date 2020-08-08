@@ -271,14 +271,14 @@ export default class RouletteBoard extends cc.Component {
     placeChipsByKey(type: string, key: string, bet: number) {
         const childNode = this.getBetNodeByKey(type, key);
         childNode.destroyAllChildren();
-        const node = this.createChips(bet);
+        const node = RouletteUtils.createChips(bet, this.chipAltas);
         childNode.addChild(node);
     }
 
     placeChips(betInfo: RouletteBetInfo, bet: number) {
         const childNode = this.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo));
         childNode.destroyAllChildren();
-        const node = this.createChips(bet);
+        const node = RouletteUtils.createChips(bet, this.chipAltas);
         childNode.addChild(node);
     }
 
@@ -322,42 +322,6 @@ export default class RouletteBoard extends cc.Component {
         }
 
         return location;
-    }
-
-    private createChips(bet: number): cc.Node {
-        const values = [1000, 500, 200, 100, 50, 10, 5, 1];
-        let total = bet;
-        const counts = [];
-        values.forEach(value => {
-            counts.push(Math.floor(total / value));
-            total = total % value;
-        });
-
-        const node = new cc.Node();
-        const layoutNode = new cc.Node();
-        layoutNode.y = -13; //half size chip
-        node.addChild(layoutNode);
-        layoutNode.anchorY = 0;
-        const layout = layoutNode.addComponent(cc.Layout);
-        layout.type = cc.Layout.Type.VERTICAL;
-        layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
-        layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
-        layout.spacingY = -22;
-        counts.forEach((count, index) => {
-            for (let i = 0; i < count; i++) {
-                const chipNode = this.createChip(values[index]);
-                layoutNode.addChild(chipNode);
-            }
-        });
-        return node;
-    }
-
-    private createChip(bet: number): cc.Node {
-        var chip = new cc.Node();
-        var chipSprite = chip.addComponent(cc.Sprite);
-        var name = `chip${bet}_small`;
-        chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
-        return chip;
     }
 
     highlightNumbers(numbers: number[]) {
