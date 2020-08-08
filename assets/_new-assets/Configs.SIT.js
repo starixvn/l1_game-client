@@ -7,12 +7,12 @@ const configs = {
     serverGameEndPoints: {
         0: { //Main Server
             subDomain: "sit-gsr",
-            port: 80,
+            port: "",
             path: ""
         },
         2: {
             subDomain: "sitsed",
-            port: 80,
+            port: "",
             path: "/user/xocxoc"
         }
     },

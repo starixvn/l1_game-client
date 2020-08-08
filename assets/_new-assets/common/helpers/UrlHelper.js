@@ -1,7 +1,7 @@
 import * as configs from '../../Configs';
 
 export function buildUrl(subDomain, hostName, ssl, protocol = "http", path = "/", port = 80) {
-    return `${protocol}${ssl ? "s" : ""}://${subDomain == "" ? "" : subDomain + "."}${hostName}:${port}${path}`
+    return `${protocol}${ssl ? "s" : ""}://${subDomain == "" ? "" : subDomain + "."}${hostName}${port == "" ? "" : ":" + port}${path}`
 }
 
 export function buildServerUrl(ssl, protocol = "http", path = "/", gameId = 0) {
