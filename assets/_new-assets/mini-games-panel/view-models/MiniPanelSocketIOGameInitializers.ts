@@ -2,6 +2,7 @@ import BaseSocketIOController from '../../BaseSocketIOController';
 import * as authManager from './../../common/auth/AuthManager';
 import * as configs from './../../Configs';
 import MiniPanel from './MiniPanel';
+import { buildServerUrl } from '../.././common/helpers/UrlHelper';
 
 export default class MiniPanelSocketIOGameInitializers {
     constructor(private main: MiniPanel) {
@@ -26,7 +27,9 @@ export default class MiniPanelSocketIOGameInitializers {
         const socketIoController = BaseSocketIOController.getInstance();
         socketIoController.closeSocket(gameId).then(() => {
             const gameName = configs.gameNames[gameId];
-            const socket = socketIoController.connectGameSocket(configs.gameSocketUris[gameId], gameName, this.main.onConnectSocketFailed.bind(this.main));
+            const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
+            console.log(gameServerUrl);
+            const socket = socketIoController.connectGameSocket(gameServerUrl, gameName, this.main.onConnectSocketFailed.bind(this.main));
             socket.on('message', (data) => {
                 if (data.um) {
                     socketIoController.closeSocket(gameId);

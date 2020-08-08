@@ -1,9 +1,21 @@
 const configs = {
   ssl: false,
   disabledDirectLogin: true,
-  serverEndpoints: {
-    localhost: 'lumigame.com:8080',
-    '10.5.10.14': 'lumigame.com:8080',
+  serverDomainMapper: {
+    localhost: 'lumigame.com',
+    '10.5.10.14': 'lumigame.com',
+  },
+  serverGameEndPoints: {
+    0: { //Main Server
+      subDomain: "",
+      port: 8080,
+      path: ""
+    },
+    2: {
+      subDomain: "",
+      port: 8082,
+      path: "/user/xocxoc"
+    }
   },
   gameIds: {
     TaiXiu: 1,
@@ -62,9 +74,7 @@ const configs = {
     'https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno',
   resultPageUrl:
     'http://result.lumigame.com/vi-VN/auth?key=58148de3-b895-4f6b-82de-a35eed1b4b28',
-  gameSocketUris: {
-    2: 'http://lumigame.com:8082/user/xocxoc',
-  },
+
 };
 
 module.exports = configs;
