@@ -24,7 +24,13 @@ export default class MiniPanelSocketIOGameInitializers {
         socketIoController.closeSocket(gameId).then(() => {
             const gameName = configs.gameNames[gameId];
             const socket = socketIoController.connectGameSocket(configs.gameSocketUris[gameId], gameName, this.main.onConnectSocketFailed.bind(this.main));
-            socket.on('message', (data) => this.main.onGeneralData(data));
+            socket.on('message', (data) => {
+                if (data.um) {
+                    socketIoController.closeSocket(gameId);
+                }
+
+                this.main.onGeneralData(data);
+            });
             socketIoController.gameSockets[gameId] = socket;
         });
     }
