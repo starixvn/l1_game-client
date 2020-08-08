@@ -31,24 +31,6 @@ export default class RouletteStatistic extends cc.Component {
     @property(cc.Node)
     statisticPercentNodes: cc.Node = null;
 
-    // @property(cc.Label)
-    // redPercent: cc.Label = null;
-
-    // @property(cc.Label)
-    // blackPercent: cc.Label = null;
-
-    // @property(cc.Label)
-    // evenPercent: cc.Label = null;
-
-    // @property(cc.Label)
-    // oddPercent: cc.Label = null;
-
-    // @property(cc.Label)
-    // range1To18Percent: cc.Label = null;
-
-    // @property(cc.Label)
-    // range19To36Percent: cc.Label = null;
-
     @property(cc.Label)
     zeroPercent: cc.Label = null;
 
@@ -64,15 +46,55 @@ export default class RouletteStatistic extends cc.Component {
     wheelDegree = 360;
     numberAngle: number = this.wheelDegree / 37;
     numbersOnWheel: number[] = [26, 0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3];
-
-    result = [30, 2, 4, 6, 30, 24, 8, 30, 10, 5, 24, 12, 36, 0, 4, 28, 29, 35, 19, 34, 20, 10, 6, 5, 31, 7, 8, 9]
-
+    result: any = null;
     resultStats = [];
+    private dataObserverKey = "RouletteStatistic";
 
     onLoad() {
+        this.get_data();
+        this.addDataObserver();
+    }
+
+    addDataObserver() {
+        cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
+    }
+
+    onDisable() {
+        this.removeDataObserver();
+        this.node.destroyAllChildren();
+    }
+
+    removeDataObserver() {
+        cc.RedT.removeDataObserver(this.dataObserverKey);
+    }
+
+    receivedData(data) {
+        if (data['roulette'] && data['roulette'].statistics) {
+            this.onData(data['roulette'].statistics.latestResults);
+        }
+    }
+
+    get_data() {
+        cc.RedT.send({ g: { ['roulette']: { getStatistics: true } } });
+    }
+
+    onData(data: any) {
+        this.result = data;
         this.createResultStatistic();
         this.createWheel();
         this.handleStatsPercent();
+    }
+
+    createResultStatistic() {
+        for (let i = 0; i < 37; i++) {
+            this.resultStats.push({
+                "number": i,
+                "times": 0
+            });
+        }
+        this.result.forEach(number => {
+            this.resultStats[number].times++;
+        });
     }
 
     createWheel() {
@@ -108,18 +130,6 @@ export default class RouletteStatistic extends cc.Component {
     handleStatsPercent() {
         this.findHotColdNumbers();
         this.calculatePercent();
-    }
-
-    createResultStatistic() {
-        for (let i = 0; i < 37; i++) {
-            this.resultStats.push({
-                "number": i,
-                "times": 0
-            });
-        }
-        this.result.forEach(number => {
-            this.resultStats[number].times++;
-        });
     }
 
     findHotColdNumbers() {
