@@ -85,7 +85,7 @@ cc.Class({
     if (authManager && !cc.RedT.IS_LOGIN && !inRoomGameId) {
       authManager.triggerSignIn(this, this.loading);
     } else {
-      this.openInRoomGame(inRoomGameId);
+      !window.openGameId && this.openInRoomGame(inRoomGameId);
     }
 
     if (cc.RedT.IS_LOGIN) {
