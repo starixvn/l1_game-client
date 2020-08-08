@@ -40,7 +40,6 @@ export default class RouletteMain extends cc.Component {
     }
 
     switchToRegularBet() {
-        this.board.clearHighlight();
     }
 
     showRoulette(result: number, onComplete: () => void) {
