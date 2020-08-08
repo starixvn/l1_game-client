@@ -28,7 +28,6 @@ export default class MiniPanelSocketIOGameInitializers {
         socketIoController.closeSocket(gameId).then(() => {
             const gameName = configs.gameNames[gameId];
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
-            console.log(gameServerUrl);
             const socket = socketIoController.connectGameSocket(gameServerUrl, gameName, this.main.onConnectSocketFailed.bind(this.main));
             socket.on('message', (data) => {
                 if (data.um) {
