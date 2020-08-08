@@ -19,82 +19,42 @@ export default class RouletteHistory extends cc.Component {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 
+    historyData: any = null;
     private ticketDetail: RouletteTicketDetail = null;
-
-    historyData = {
-        "betLogs": [
-            {
-                "phien": 777,
-                "betwin": 3,
-                "corner": {
-                    "28-29-31-32": 2
-                },
-                "dozen": {
-                    "2": 2,
-                    "3": 1
-                },
-                "name": "pikachu",
-                "split": {
-                    "29-32": 2
-                },
-                "straightUp": {
-                    "25": 1,
-                    "26": 1,
-                    "31": 1,
-                    "32": 1
-                },
-                "time": "2020-08-06T06:57:42.934Z",
-                "totalAmount": 11,
-                "result": 30,
-                "settlementResult": {
-                    "straightUp": ["30"],
-                    "split": ["27-30", "29-30", "30-33"],
-                    "street": ["28-29-30"],
-                    "triangle": [],
-                    "corner": ["26-27-29-30", "29-30-32-33"],
-                    "fourNumbers": [],
-                    "line": ["25-26-27-28-29-30", "28-29-30-31-32-33"],
-                    "column": ["3"],
-                    "dozen": ["3"],
-                    "redBlack": ["red"],
-                    "oddEven": ["even"],
-                    "bigSmall": ["big"]
-                },
-                "betLogDetails": [
-                    {
-                        "time": "2020-08-06T06:57:42.934Z",
-                        "straightUp": {
-                            "25": 1,
-                            "26": 1,
-                            "31": 1,
-                            "32": 1
-                        },
-                        "dozen": {
-                            "2": 2,
-                            "3": 1
-                        },
-                        "split": {
-                            "29-32": 2
-                        },
-                        "corner": {
-                            "28-29-31-32": 2
-                        },
-                        "__v": 0
-                    }
-                ]
-            }
-        ],
-        "page": 1,
-        "pageSize": 8,
-        "total": 1
-    }
+    private dataObserverKey = "RouletteHistory";
 
     onLoad() {
         this.pages.init(this);
-        this.onData(this.historyData.betLogs);
+        this.get_data();
+        this.addDataObserver();
     }
 
+    addDataObserver() {
+        cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
+    }
+
+    onDisable() {
+        this.removeDataObserver();
+        this.node.destroyAllChildren();
+    }
+
+    removeDataObserver() {
+        cc.RedT.removeDataObserver(this.dataObserverKey);
+    }
+
+    receivedData(data) {
+        if (data['roulette'] && data['roulette'].history) {
+            this.onData(data['roulette'].history.betLogs);
+        }
+    }
+
+    get_data(page = 1) {
+        cc.RedT.send({ g: { ['roulette']: { getHistory: { page: page } } } });
+    }
+
+
     onData(data: any) {
+        this.historyData = data;
         this.pages.onSet(data.page, data.pageSize, data.total);
         this.content.children.forEach(child => child.destroy());
 
