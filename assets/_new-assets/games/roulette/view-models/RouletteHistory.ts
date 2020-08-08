@@ -99,8 +99,8 @@ export default class RouletteHistory extends cc.Component {
         this.content.children.forEach(child => child.destroy());
 
         data.forEach(log => {
-            let historyItemPrefab = cc.instantiate(this.itemPrefab);
-            let item = historyItemPrefab.getComponent(RouletteHistoryItem);
+            const historyItemPrefab = cc.instantiate(this.itemPrefab);
+            const item = historyItemPrefab.getComponent(RouletteHistoryItem);
             this.content.addChild(historyItemPrefab);
 
             item.timeLabel.string = getStringDateByTime(log.time);
@@ -108,6 +108,7 @@ export default class RouletteHistory extends cc.Component {
             item.resultLabel.string = log.result.toString();
             item.amountLabel.string = numberWithCommas(log.totalAmount);
             item.winLabel.string = numberWithCommas(log.betwin);
+            item.winLabel.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
             item.time = '';
             item.round = log.phien;
@@ -122,7 +123,7 @@ export default class RouletteHistory extends cc.Component {
     }
 
     showTicketDetail(round: number, time: string, result: number, betLogDetails: any, settlementResult: any) {
-        let ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
+        const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
         this.ticketDetail = ticketDetailPrefab.getComponent(RouletteTicketDetail);
 
         this.node.addChild(ticketDetailPrefab);

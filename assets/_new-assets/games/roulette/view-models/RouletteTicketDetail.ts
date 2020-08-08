@@ -116,13 +116,7 @@ export default class RouletteTicketDetail extends cc.Component {
     }
 
     onLoad() {
-        // this.roundLabel.string = this.betLogs.phien.toString();
-        // this.resultLabel.string = this.betLogs.result.toString();
-        // this.betLogDetails = this.betLogs.betLogDetails;
-        // this.settlementResult = this.betLogs.settlementResult;
         this.content.children.forEach(child => child.destroy());
-
-        //this.showResult();
     }
 
     public setData(betLogDetails: any, settlementResult: any) {
@@ -131,13 +125,11 @@ export default class RouletteTicketDetail extends cc.Component {
     }
 
     public showbetLogs() {
-
         this.node.active = true;
         this.betLogDetails.forEach((log, index) => {
-            let group = cc.instantiate(this.groupPrefab);
-            let groupComponent = group.getComponent(RouletteTicketDetailIGroup);
-            let time = getStringHourByTime(this.betLogDetails[index].time);
-            groupComponent.timeLabel.string = time.toString();
+            const group = cc.instantiate(this.groupPrefab);
+            const groupComponent = group.getComponent(RouletteTicketDetailIGroup);
+            groupComponent.timeLabel.string = getStringHourByTime(this.betLogDetails[index].time);
             this.content.addChild(group);
             groupComponent.createBetLogItem(this.betLogDetails[index], this.settlementResult);
         })

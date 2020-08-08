@@ -23,7 +23,6 @@ export default class RouletteHistoryItem extends cc.Component {
     result: number = null;
     winning: number = null;
     amount: number = null;
-
     betLogDetails: any = null;
     settlementResult: any = null;
 

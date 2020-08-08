@@ -18,19 +18,19 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
         this.betChoiceGroupNode.children.forEach(child => child.destroy());
     }
 
-    createBetLogItem(betLogs, settlementResult) {
+    createBetLogItem(betLogs: any, settlementResult: any) {
         let height = 0;
         Object.keys(betLogs).forEach(keyGroup => {
             if (keyGroup !== "time") {
-                let betList = betLogs[keyGroup];
-                let result = _.hasIn(settlementResult, keyGroup) ? _.pick(settlementResult, keyGroup) : null;
+                const betList = betLogs[keyGroup];
+                const result = _.hasIn(settlementResult, keyGroup) ? _.pick(settlementResult, keyGroup) : null;
 
                 if (_.size(betList) > 0) {
                     Object.keys(betList).forEach(logKey => {
-                        let betItem = cc.instantiate(this.betItemPrefab);
-                        let betItemComponent = betItem.getComponent(RouletteTicketDetailItem);
+                        const betItem = cc.instantiate(this.betItemPrefab);
+                        const betItemComponent = betItem.getComponent(RouletteTicketDetailItem);
                         this.betChoiceGroupNode.addChild(betItem);
-                        let isWinning = result[keyGroup].indexOf(logKey) != -1;
+                        const isWinning = result[keyGroup].indexOf(logKey) != -1;
                         betItemComponent.updateContent(keyGroup, logKey, betList[logKey], isWinning);
                         height += betItemComponent.height;
                     })
