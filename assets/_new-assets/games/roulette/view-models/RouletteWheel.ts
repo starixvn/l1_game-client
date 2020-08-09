@@ -534,8 +534,6 @@ export default class RouletteWheel extends cc.Component {
 
     getWheelNumber(t) {
         var e = this.getNumberColorVO(t);
-        console.log("eeeee ", e);
-        console.log("tttt ", t);
         return Number(e.value)
     }
 

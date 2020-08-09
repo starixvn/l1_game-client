@@ -7,6 +7,7 @@ import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteUtils from "./RouletteUtils";
 import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
 import RouletteBetHandler from "./handlers/RouletteBetHandler";
+import * as _ from "lodash";
 
 const { ccclass, property } = cc._decorator;
 
@@ -60,7 +61,10 @@ export default class Roulette extends GameRoomBase {
     rouletteMain: RouletteMain;
 
     tempBetChoices: any = {};
-    currentBetChoices: any = {}
+    currentBetChoices: any = {};
+    previousRoundBetChoices: any = {};
+
+    betChoicesStack = [];
 
     constructor() {
         super();
@@ -105,8 +109,14 @@ export default class Roulette extends GameRoomBase {
 
             const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo));
             this.betChips.placeChipBetRoulette(this.currentBet, destNode, null, () => {
-                this.rouletteMain.board.addOwnBet(betInfo, this.currentBet);
+                this.rouletteMain.board.addBetChoice(betInfo, this.currentBet);
                 this.addBetChoice(betInfo, this.currentBet);
+
+                const key = RouletteUtils.getKey(betInfo);
+                const betChoices = {};
+                betChoices[betInfo.type] = {};
+                betChoices[betInfo.type][key] = this.currentBet;
+                this.addToBetChoicesStack(betChoices);
             });
         }
 
@@ -122,22 +132,24 @@ export default class Roulette extends GameRoomBase {
                     const bet = betChoices[type][key];
                     const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, key);
                     this.betChips.placeChipBetRoulette(bet, destNode, null, () => {
-                        this.rouletteMain.board.addOwnBet(betInfo, bet);
+                        this.rouletteMain.board.addBetChoice(betInfo, bet);
                         this.addBetChoice(betInfo, bet);
                     });
                 }
             }
+            this.addToBetChoicesStack(betChoices);
         }
     }
 
     clearTempBetChoices() {
         this.tempBetChoices = {};
-        this.rouletteMain.board.showBetChoices(this.currentBetChoices);
+        this.betChoicesStack = [];
+        this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
     }
 
     clearCurrentBetChoices() {
         this.currentBetChoices = {};
-        this.rouletteMain.board.showBetChoices(this.currentBetChoices);
+        this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
     }
 
     isDisablePlaceChip(): boolean {
@@ -180,19 +192,88 @@ export default class Roulette extends GameRoomBase {
     }
 
     playClick() {
+        cc.RedT.isSoundGame() && cc.RedT.audio.playClick();
+    }
 
+    addToBetChoicesStack(betChoices: any) {
+        this.betChoicesStack.push(betChoices);
     }
 
     onPressedDouble() {
         this.playClick();
+        if (this.isDisablePlaceChip()) {
+            return;
+        }
+
+        let temp = {};
+        temp = this.mergeBetChoices(temp, this.currentBetChoices);
+        temp = this.mergeBetChoices(temp, this.tempBetChoices);
+
+        this.addToBetChoicesStack(temp);
+        temp = this.mergeBetChoices(temp, this.tempBetChoices);
+
+        this.tempBetChoices = temp;
+        this.updateBetChoicesOnBoard();
+    }
+
+    mergeBetChoices(betChoices1: any, betChoices2: any): any {
+        const total = _.cloneDeep(betChoices1);
+        for (let type in betChoices2) {
+            for (let key in betChoices2[type]) {
+                if (total[type]) {
+                    if (total[type][key]) {
+                        total[type][key] += betChoices2[type][key];
+                    } else {
+                        total[type][key] = betChoices2[type][key];
+                    }
+                } else {
+                    total[type] = { ...betChoices2[type] };
+                }
+            }
+        }
+        return total;
+    }
+
+    subtractBetChoices(betChoices1: any, betChoices2: any): any {
+        const result = _.cloneDeep(betChoices1);
+        for (let type in betChoices2) {
+            for (let key in betChoices2[type]) {
+                if (result[type]) {
+                    if (result[type][key]) {
+                        result[type][key] -= betChoices2[type][key];
+                        if (result[type][key] === 0) {
+                            delete result[type][key];
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    updateBetChoicesOnBoard() {
+        let totalBetChoices = {};
+        totalBetChoices = this.mergeBetChoices(totalBetChoices, this.tempBetChoices);
+        totalBetChoices = this.mergeBetChoices(totalBetChoices, this.currentBetChoices);
+        this.rouletteMain.board.showBetChoices(totalBetChoices, this.currentBetChoices);
     }
 
     onPressedUndo() {
         this.playClick();
+
+        if (this.betChoicesStack.length === 0) {
+            return;
+        }
+
+        const lastBetChoices = this.betChoicesStack.pop();
+        this.tempBetChoices = this.subtractBetChoices(this.tempBetChoices, lastBetChoices);
+
+        this.updateBetChoicesOnBoard();
     }
 
     onPressedClear() {
         this.playClick();
+        this.clearTempBetChoices();
     }
 
     onPressedRebet() {
@@ -219,7 +300,7 @@ export default class Roulette extends GameRoomBase {
     }
 
     public pressedShowGuide() {
-        cc.RedT.audio.playClick();
+        this.playClick();
         let dialog = cc.instantiate(this.guidePrefab);
         var rouletteGuide = dialog.getComponent("RouletteGuide");
         rouletteGuide.init(this.gameConfigs);
@@ -227,13 +308,13 @@ export default class Roulette extends GameRoomBase {
     }
 
     public pressedShowStatistic() {
-        cc.RedT.audio.playClick();
+        this.playClick();
         let dialog = cc.instantiate(this.statisticPrefab);
         this.currentMiniPanel.node.addChild(dialog);
     }
 
     public pressedShowHistory() {
-        cc.RedT.audio.playClick();
+        this.playClick();
         let dialog = cc.instantiate(this.historyPrefab);
         this.currentMiniPanel.node.addChild(dialog);
     }

@@ -11,6 +11,9 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
     handle(data: any): boolean {
         if (data.finish) {
+            if (!cc.RedT.GAME_IS_SHOWED) {
+                return;
+            }
             this.main.finishShowResult = false;
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
             this.setNewGameRound(data);

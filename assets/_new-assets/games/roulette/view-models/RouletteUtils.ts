@@ -96,15 +96,21 @@ export default class RouletteUtils {
         return options[type];
     }
 
-    public static createChip(bet: number, chipAltas: cc.SpriteAtlas): cc.Node {
+    public static createChip(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
         const chip = new cc.Node();
         const chipSprite = chip.addComponent(cc.Sprite);
         const name = `chip${bet}_small`;
         chipSprite.spriteFrame = chipAltas.getSpriteFrame(name);
+
+        if (highlight) {
+            const highlightNode = new cc.Node();
+            highlightNode.addComponent(cc.Sprite).spriteFrame = chipAltas.getSpriteFrame("highlight_not_confirm"); //FIXME: change highlight frame
+            chip.addChild(highlightNode);
+        }
         return chip;
     }
 
-    public static createChips(bet: number, chipAltas: cc.SpriteAtlas): cc.Node {
+    public static createChips(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
         const values = [1000, 500, 200, 100, 50, 10, 5, 1];
         let total = bet;
         const counts = [];
@@ -125,7 +131,7 @@ export default class RouletteUtils {
         layout.spacingY = -22;
         counts.forEach((count, index) => {
             for (let i = 0; i < count; i++) {
-                const chipNode = this.createChip(values[index], chipAltas);
+                const chipNode = this.createChip(values[index], chipAltas, highlight);
                 layoutNode.addChild(chipNode);
             }
         });
