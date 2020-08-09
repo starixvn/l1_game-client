@@ -39,6 +39,9 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Prefab)
     mainPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    mobileMainPrefab: cc.Prefab = null;
+
     @property(RouletteMiniRoundResult)
     miniRoundResult: RouletteMiniRoundResult = null;
 
@@ -86,7 +89,7 @@ export default class Roulette extends GameRoomBase {
     }
 
     initMain() {
-        const node = cc.instantiate(this.mainPrefab);
+        const node = cc.instantiate(cc.sys.isMobile ? this.mobileMainPrefab : this.mainPrefab);
         this.mainContainer.addChild(node);
         this.rouletteMain = node.getComponent(RouletteMain);
         this.timeWaitLabel = this.rouletteMain.timeWaitLabel;
