@@ -149,7 +149,7 @@ export default class Roulette extends GameRoomBase {
             betChoices[betInfo.type][key] = this.currentBet;
 
             if (!this.checkAvailableBetChoices(betChoices)) {
-                this.showMiniWarning("Tiền cược tối đa của một trong các lựa chọn vượt mức quy định.");
+                this.showMiniWarning(`Tiền cược tối đa ở cửa này là ${this.gameConfigs.choices_maxbet[betInfo.type]}`);
                 this.isPlacingChip = false;
                 return;
             }
