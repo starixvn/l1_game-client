@@ -95,10 +95,10 @@ export default class RouletteBoard extends cc.Component {
         }
     }
 
-    highlightLastResult(result: number) {
+    highlightLastResult(result: number, animated: boolean) {
         this.rouletteNumbers.forEach(n => {
             if (result === +n.node.name) {
-                n.showWinning();
+                n.showWinning(animated);
             } else {
                 n.clearHighlight();
             }
@@ -107,7 +107,7 @@ export default class RouletteBoard extends cc.Component {
         this.groupItems.forEach(item => {
             const index = item.getNumbers().findIndex(n => n === result);
             if (index > -1) {
-                item.showWinning();
+                item.showWinning(animated);
             } else {
                 item.clearHighlight();
             }

@@ -53,7 +53,7 @@ export default class RouletteMain extends cc.Component {
 
     }
 
-    highlightLastResult(result: number) {
-        this.board.highlightLastResult(result);
+    highlightLastResult(result: number, animated: boolean) {
+        this.board.highlightLastResult(result, animated);
     }
 }

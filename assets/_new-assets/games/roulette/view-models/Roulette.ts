@@ -289,7 +289,7 @@ export default class Roulette extends GameRoomBase {
         const data = this.currentDataLogs.map(log => log.result);
         this.miniRoundResult.setData(data, animated);
         if (this.currentTimeRemaining > this.config.stopBetTime) {
-            this.rouletteMain.highlightLastResult(data[0]);
+            this.rouletteMain.highlightLastResult(data[0], animated);
         }
     }
 
