@@ -79,6 +79,8 @@ export default class RouletteHistory extends cc.Component {
             item.showTicketDetail = (round, time, result, betLogDetails, settlementResult) => {
                 this.showTicketDetail(round, time, result, betLogDetails, settlementResult)
             }
+
+            item.hideTicketDetail = () => { this.hideTicketDetail() }
         });
     }
 
