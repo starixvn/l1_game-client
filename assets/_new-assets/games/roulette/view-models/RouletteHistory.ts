@@ -46,7 +46,7 @@ export default class RouletteHistory extends cc.Component {
 
     receivedData(data) {
         if (data['roulette'] && data['roulette'].history) {
-            this.onData(data['roulette'].history.betLogs);
+            this.onData(data['roulette'].history);
         }
     }
 
@@ -54,13 +54,12 @@ export default class RouletteHistory extends cc.Component {
         cc.RedT.send({ g: { ['roulette']: { getHistory: { page: page } } } });
     }
 
-
     onData(data: any) {
-        this.historyData = data;
+        this.historyData = data.betLogs;
         this.pages.onSet(data.page, data.pageSize, data.total);
         this.content.children.forEach(child => child.destroy());
 
-        data.forEach(log => {
+        this.historyData.forEach(log => {
             const historyItemPrefab = cc.instantiate(this.itemPrefab);
             const item = historyItemPrefab.getComponent(RouletteHistoryItem);
             this.content.addChild(historyItemPrefab);
