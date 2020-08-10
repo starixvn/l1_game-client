@@ -311,12 +311,19 @@ export default class Roulette extends GameRoomBase {
         temp = this.mergeBetChoices(temp, this.currentBetChoices);
         temp = this.mergeBetChoices(temp, this.tempBetChoices);
 
-        if (!this.checkAvailableBalance)
+        const sum = this.sumValueBetChoices(temp);
+        if (!this.checkAvailableBalance(sum)) {
+            this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+            return;
+        }
 
-            this.addToBetChoicesStack(temp);
-        temp = this.mergeBetChoices(temp, this.tempBetChoices);
+        if (!this.checkAvailableBetChoices(temp)) {
+            this.showMiniWarning("Tiền cược tối đa của một trong các lựa chọn vượt mức quy định.");
+            return;
+        }
 
-        this.tempBetChoices = temp;
+        this.addToBetChoicesStack(temp);
+        this.tempBetChoices = this.mergeBetChoices(this.tempBetChoices, temp);
         this.updateBetChoicesOnBoard();
     }
 
@@ -331,7 +338,8 @@ export default class Roulette extends GameRoomBase {
                         total[type][key] = betChoices2[type][key];
                     }
                 } else {
-                    total[type] = { ...betChoices2[type] };
+                    total[type] = {};
+                    total[type][key] = betChoices2[type][key];
                 }
             }
         }
