@@ -33,7 +33,7 @@ export default class RouletteBoard extends cc.Component {
     groupItems: RouletteGroupBetItem[] = [];
     rouletteNumbers: RouletteNumber[] = [];
 
-    private betChoices = {};
+    public betChoices = {};
 
     public callback = {
         selected: (betInfo: RouletteBetInfo) => { }

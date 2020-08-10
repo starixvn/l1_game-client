@@ -58,6 +58,9 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Node)
     expandedMenuNode: cc.Node = null;
 
+    @property(cc.Label)
+    totalBetLabel: cc.Label = null;
+
     rouletteMain: RouletteMain;
 
     tempBetChoices: any = {};
@@ -85,6 +88,18 @@ export default class Roulette extends GameRoomBase {
         this.initMain();
         this.initBetBoard();
         super.onLoad();
+
+        this.schedule(this.updateTotalBet, 0.3, cc.macro.REPEAT_FOREVER, 1);
+    }
+
+    onDestroy() {
+        super.onDestroy();
+        this.unschedule(this.updateTotalBet);
+    }
+
+    updateTotalBet() {
+        const total = this.sumValueBetChoices(this.rouletteMain.board.betChoices);
+        this.totalBetLabel.string = total.toString();
     }
 
     resetDataAndUI() {
