@@ -59,9 +59,12 @@ export default class RouletteStatistic extends cc.Component {
         cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
     }
 
-    onDisable() {
+    onDestroy() {
         this.removeDataObserver();
-        this.node.destroyAllChildren();
+    }
+
+    onDisable() {
+        this.node.destroy();
     }
 
     removeDataObserver() {

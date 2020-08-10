@@ -20,7 +20,6 @@ export default class RouletteHistory extends cc.Component {
     ticketDetailPrefab: cc.Prefab = null;
 
     historyData: any = null;
-    private ticketDetail: RouletteTicketDetail = null;
     private dataObserverKey = "RouletteHistory";
 
     onLoad() {
@@ -33,9 +32,12 @@ export default class RouletteHistory extends cc.Component {
         cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
     }
 
-    onDisable() {
+    onDestroy() {
         this.removeDataObserver();
-        this.node.destroyAllChildren();
+    }
+
+    onDisable() {
+        this.node.destroy();
     }
 
     removeDataObserver() {
@@ -79,23 +81,17 @@ export default class RouletteHistory extends cc.Component {
             item.showTicketDetail = (round, time, result, betLogDetails, settlementResult) => {
                 this.showTicketDetail(round, time, result, betLogDetails, settlementResult)
             }
-
-            item.hideTicketDetail = () => { this.hideTicketDetail() }
         });
     }
 
     showTicketDetail(round: number, time: string, result: number, betLogDetails: any, settlementResult: any) {
         const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
-        this.ticketDetail = ticketDetailPrefab.getComponent(RouletteTicketDetail);
+        const ticketDetailComponent = ticketDetailPrefab.getComponent(RouletteTicketDetail);
 
         this.node.addChild(ticketDetailPrefab);
-        this.ticketDetail.roundLabel.string = round.toString();
-        this.ticketDetail.resultLabel.string = result.toString();
-        this.ticketDetail.setData(betLogDetails, settlementResult);
-        this.ticketDetail.showbetLogs();
-    }
-
-    public hideTicketDetail() {
-        this.ticketDetail = null;
+        ticketDetailComponent.roundLabel.string = round.toString();
+        ticketDetailComponent.resultLabel.string = result.toString();
+        ticketDetailComponent.setData(betLogDetails, settlementResult);
+        ticketDetailComponent.showbetLogs();
     }
 }

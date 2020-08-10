@@ -36,4 +36,8 @@ export default class RouletteGuide extends cc.Component {
             });
         });
     }
+
+    onDisable() {
+        this.node.destroy();
+    }
 }

@@ -44,4 +44,7 @@ export default class RouletteTicketDetail extends cc.Component {
             groupComponent.createBetLogItem(this.betLogDetails[index], this.settlementResult);
         })
     }
+    onDisable() {
+        this.node.destroy();
+    }
 }
