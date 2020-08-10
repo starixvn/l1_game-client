@@ -63,8 +63,8 @@ export default class Roulette extends GameRoomBase {
     tempBetChoices: any = {};
     currentBetChoices: any = {};
     previousRoundBetChoices: any = {};
-
     betChoicesStack = [];
+    isPlacingChip = false;
 
     constructor() {
         super();
@@ -104,6 +104,25 @@ export default class Roulette extends GameRoomBase {
     initBetBoard() {
         this.rouletteMain.board.callback.selected = (betInfo: RouletteBetInfo) => {
             if (this.isDisablePlaceChip()) {
+                this.isPlacingChip = false;
+                return;
+            }
+            this.isPlacingChip = true;
+
+            if (!this.checkAvailableBalance(this.currentBet)) {
+                this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+                this.isPlacingChip = false;
+                return;
+            }
+
+            const key = RouletteUtils.getKey(betInfo);
+            const betChoices = {};
+            betChoices[betInfo.type] = {};
+            betChoices[betInfo.type][key] = this.currentBet;
+
+            if (!this.checkAvailableBetChoices(betChoices)) {
+                this.showMiniWarning("Tiền cược tối đa của một trong các lựa chọn vượt mức quy định.");
+                this.isPlacingChip = false;
                 return;
             }
 
@@ -111,18 +130,31 @@ export default class Roulette extends GameRoomBase {
             this.betChips.placeChipBetRoulette(this.currentBet, destNode, null, () => {
                 this.rouletteMain.board.addBetChoice(betInfo, this.currentBet);
                 this.addBetChoice(betInfo, this.currentBet);
-
-                const key = RouletteUtils.getKey(betInfo);
-                const betChoices = {};
-                betChoices[betInfo.type] = {};
-                betChoices[betInfo.type][key] = this.currentBet;
                 this.addToBetChoicesStack(betChoices);
+
+                this.isPlacingChip = false;
             });
         }
 
         this.rouletteMain.quickBet.callback.getCurrentBet = () => this.currentBet;
         this.rouletteMain.quickBet.callback.selected = (betChoices: any) => {
             if (this.isDisablePlaceChip()) {
+                this.isPlacingChip = false;
+                return;
+            }
+            this.isPlacingChip = true;
+
+            const sum = this.sumValueBetChoices(betChoices);
+
+            if (!this.checkAvailableBalance(sum)) {
+                this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+                this.isPlacingChip = false;
+                return;
+            }
+
+            if (!this.checkAvailableBetChoices(betChoices)) {
+                this.showMiniWarning("Tiền cược tối đa của một trong các lựa chọn vượt mức quy định.");
+                this.isPlacingChip = false;
                 return;
             }
 
@@ -134,6 +166,7 @@ export default class Roulette extends GameRoomBase {
                     this.betChips.placeChipBetRoulette(bet, destNode, null, () => {
                         this.rouletteMain.board.addBetChoice(betInfo, bet);
                         this.addBetChoice(betInfo, bet);
+                        this.isPlacingChip = false;
                     });
                 }
             }
@@ -152,8 +185,49 @@ export default class Roulette extends GameRoomBase {
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
     }
 
+    checkAvailableBalance(bet: number): boolean {
+        let totalChoices = {};
+        totalChoices = this.mergeBetChoices(totalChoices, this.currentBetChoices);
+        totalChoices = this.mergeBetChoices(totalChoices, this.tempBetChoices);
+
+        const total = this.sumValueBetChoices(totalChoices);
+        return total + bet <= cc.RedT.user.red;
+    }
+
+    sumValueBetChoices(totalChoices: any) {
+        let total = 0;
+        for (let type in totalChoices) {
+            for (let key in totalChoices[type]) {
+                total += totalChoices[type][key];
+            }
+        }
+        return total;
+    }
+
+    checkAvailableBetChoices(betChoices): boolean {
+        let totalChoices = {};
+        totalChoices = this.mergeBetChoices(totalChoices, this.currentBetChoices);
+        totalChoices = this.mergeBetChoices(totalChoices, this.tempBetChoices);
+
+        for (let type in betChoices) {
+            for (let key in betChoices[type]) {
+                if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
+                    return false;
+                }
+                if (totalChoices[type] && totalChoices[type][key]) {
+                    const total = totalChoices[type][key] + betChoices[type][key];
+                    if (total > this.gameConfigs.choices_maxbet[type]) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     isDisablePlaceChip(): boolean {
-        if (this.isDisableGame) {
+        if (this.isDisableGame || this.isPlacingChip) {
             return true;
         }
 
@@ -209,7 +283,9 @@ export default class Roulette extends GameRoomBase {
         temp = this.mergeBetChoices(temp, this.currentBetChoices);
         temp = this.mergeBetChoices(temp, this.tempBetChoices);
 
-        this.addToBetChoicesStack(temp);
+        if (!this.checkAvailableBalance)
+
+            this.addToBetChoicesStack(temp);
         temp = this.mergeBetChoices(temp, this.tempBetChoices);
 
         this.tempBetChoices = temp;

@@ -232,14 +232,6 @@ export default class RouletteBoard extends cc.Component {
         }, this.betChoices[betInfo.type][key], true);
     }
 
-    updateBetChoice(betInfo: RouletteBetInfo, bet: number, highlight: boolean) {
-        const key = RouletteUtils.getKey(betInfo);
-        const type = betInfo.type;
-
-        this.betChoices[type][key] = bet;
-        this.placeChipsByKey(type, key, this.betChoices[type][key], highlight);
-    }
-
     showBetChoices(betChoices: any, currentBetChoices: any) {
         this.chipContainer.removeAllChildren();
         this.betChoices = _.cloneDeep(betChoices);
