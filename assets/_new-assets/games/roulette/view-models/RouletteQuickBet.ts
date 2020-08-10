@@ -2,6 +2,7 @@ import RouletteNumber from "./RouletteNumber";
 import RouletteGroupBetItem from "./RouletteGroupBetItem";
 import { RouletteBetInfo, RouletteBetType } from "./Roulette";
 import CustomButton from "../../../common/custom-button/CustomButton";
+import RouletteUtils from "./RouletteUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,8 +18,9 @@ export default class RouletteQuickBet extends cc.Component {
     groupItems: RouletteGroupBetItem[] = [];
 
     public callback = {
+        getCurrentBet: () => 1,
         highlight: (highlight: boolean, numbers: number[]) => { },
-        selected: (betType: string, numbers: number[]) => { }
+        selected: (betChoices: any) => { }
     }
 
     onLoad() {
@@ -100,7 +102,9 @@ export default class RouletteQuickBet extends cc.Component {
             if (this.checkCollider(location, groupItem.collider)) {
                 const numbers = groupItem.getNumbers();
                 this.internalHighlight(false, numbers);
-                this.internalSelected(groupItem.betType, numbers);
+
+                const betChoices = RouletteUtils.createQuickBetChoices(groupItem.betType, this.callback.getCurrentBet());
+                this.internalSelected(betChoices);
             }
         });
 
@@ -109,7 +113,13 @@ export default class RouletteQuickBet extends cc.Component {
             if (collider) {
                 if (this.checkCollider(location, collider)) {
                     const numbers = this.getNeighbours(+rouletteNumber.node.name);
-                    this.internalSelected(RouletteBetType.StraightUp, numbers);
+                    const betChoices = {
+                        "straightUp": {}
+                    }
+                    numbers.forEach(number => {
+                        betChoices["straightUp"][number] = this.callback.getCurrentBet();
+                    })
+                    this.internalSelected(betChoices);
                 }
             }
         });
@@ -129,8 +139,8 @@ export default class RouletteQuickBet extends cc.Component {
         this.callback.highlight(highlight, numbers);
     }
 
-    internalSelected(betType: string, numbers: number[]) {
-        this.callback.selected(betType, numbers);
+    internalSelected(betChoices: any) {
+        this.callback.selected(betChoices);
     }
 
     initGroupBetItems() {
@@ -141,7 +151,8 @@ export default class RouletteQuickBet extends cc.Component {
             };
             item.groupBetItemCallback.selected = (betType, numbers) => {
                 this.internalHighlight(false, numbers);
-                this.internalSelected(betType, numbers);
+                const betChoices = RouletteUtils.createQuickBetChoices(betType, this.callback.getCurrentBet());
+                this.internalSelected(betChoices);
             };
         });
     }
