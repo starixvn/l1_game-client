@@ -199,7 +199,7 @@ export default class MiniPanel extends cc.Component {
                 cc.RedT.send({ g: { reg: regName } });
             });
         } else {
-            cc.RedT.inGame.dialog.showSignIn();
+            this.forceKickedOut();
         }
 
     }

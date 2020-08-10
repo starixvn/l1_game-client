@@ -1,6 +1,5 @@
 const configs = {
   ssl: false,
-  disabledDirectLogin: true,
   serverDomainMapper: {
     localhost: 'localhost',
     '10.5.10.14': 'lumigame.com',

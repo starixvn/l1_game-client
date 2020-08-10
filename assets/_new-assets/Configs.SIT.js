@@ -1,6 +1,5 @@
 const configs = {
     ssl: true,
-    disabledDirectLogin: true,
     serverDomainMapper: {
         "sit.sabagame.com": 'sabagame.com',
     },

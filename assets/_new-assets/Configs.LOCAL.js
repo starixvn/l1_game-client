@@ -1,6 +1,5 @@
 const configs = {
     ssl: false,
-    disabledDirectLogin: true,
     serverDomainMapper: {
         "games.lumigame.com": 'lumigame.com',
     },

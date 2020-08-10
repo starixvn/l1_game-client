@@ -1,6 +1,6 @@
 
 var BrowserUtil = require('BrowserUtil');
-const NameGenerator = require('../../common/name-generator/NameGenerator');
+const NameGenerator = require('../../../common/name-generator/NameGenerator');
 
 cc.Class({
 	extends: cc.Component,

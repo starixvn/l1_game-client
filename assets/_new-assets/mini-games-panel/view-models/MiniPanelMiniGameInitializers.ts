@@ -58,7 +58,7 @@ export default class MiniPanelMiniGameInitializers {
                 showGameFunc();
             }
         } else {
-            cc.RedT.inGame.dialog.showSignIn();
+            this.main.forceKickedOut();
         }
     }
 

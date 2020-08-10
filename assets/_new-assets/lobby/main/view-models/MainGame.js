@@ -90,7 +90,7 @@ cc.Class({
 
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.send({ scene: "home" });
-      this.header.reset();
+      //this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
       this.header.setAvatar(cc.RedT.user.avatarId);
