@@ -1,13 +1,23 @@
 const configs = {
     ssl: true,
     disabledDirectLogin: true,
-    serverEndpoints: {
-        "www.sabagame.com": 'gsr.sabagame.com',
-        "sabagame.com": 'gsr.sabagame.com',
-        "www.gamesaba.com": 'gsr.gamesaba.com',
-        "gamesaba.com": 'gsr.gamesaba.com',
-        "www.saba.win": 'gsr.saba.win',
-        "saba.win": 'gsr.saba.win'
+    serverDomainMapper: {
+        "www.sabagame.com": 'sabagame.com',
+        "sabagame.com": 'sabagame.com',
+        "www.gamesaba.com": 'gamesaba.com',
+        "gamesaba.com": 'gamesaba.com'
+    },
+    serverGameEndPoints: {
+        0: { //Main Server
+            subDomain: "gsr",
+            port: "",
+            path: ""
+        },
+        2: {
+            subDomain: "sed",
+            port: "",
+            path: "/user/xocxoc"
+        }
     },
     gameIds: {
         TaiXiu: 1,

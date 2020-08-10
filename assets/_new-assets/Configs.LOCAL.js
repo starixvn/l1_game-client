@@ -1,8 +1,20 @@
 const configs = {
     ssl: false,
     disabledDirectLogin: true,
-    serverEndpoints: {
-        "games.lumigame.com": 'lumigame.com:8080',
+    serverDomainMapper: {
+        "games.lumigame.com": 'lumigame.com',
+    },
+    serverGameEndPoints: {
+        0: { //Main Server
+            subDomain: "",
+            port: 8080,
+            path: ""
+        },
+        2: {
+            subDomain: "",
+            port: 8082,
+            path: "/user/xocxoc"
+        }
     },
     gameIds: {
         TaiXiu: 1,

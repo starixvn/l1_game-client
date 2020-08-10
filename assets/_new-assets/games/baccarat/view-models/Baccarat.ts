@@ -9,7 +9,7 @@ import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import TotalHistoryBoard from "./TotalHistoryBoard";
 import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
 import BaccaratHistory from "./BaccaratHistory";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import { gameIds } from './../../../Configs';
 
 @ccclass
 export default class Baccarat extends GameRoomBase {
@@ -56,6 +56,7 @@ export default class Baccarat extends GameRoomBase {
         super.onLoad();
         this.initCards();
         this.initScoreBoards();
+        this.currentMiniPanel.currentGameRoomId = gameIds.Baccarat;
     }
 
     onData(data) {

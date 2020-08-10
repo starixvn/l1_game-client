@@ -6,6 +6,7 @@ import KenoNumber from './KenoNumber';
 import RoundHistory from './RoundHistory';
 import KenoLogsHandler from './handlers/KenoLogsHandler';
 import KenoRoundResult from "./history/KenoRoundResult";
+import { gameIds } from './../../../Configs';
 
 const { ccclass, property } = cc._decorator;
 
@@ -80,6 +81,7 @@ export default class Keno extends GameRoomBase {
 
         this.roundHistory.init(this);
         this.players.forEach(player => player.node.active = false);
+        this.currentMiniPanel.currentGameRoomId = gameIds.KenoProMax;
     }
     //#endregion
 

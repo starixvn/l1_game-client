@@ -1,8 +1,20 @@
 const configs = {
     ssl: true,
     disabledDirectLogin: true,
-    serverEndpoints: {
-        "uat.sabagame.com": 'uat-gsr.sabagame.com',
+    serverDomainMapper: {
+        "uat.sabagame.com": 'sabagame.com',
+    },
+    serverGameEndPoints: {
+        0: { //Main Server
+            subDomain: "uat-gsr",
+            port: "",
+            path: ""
+        },
+        2: {
+            subDomain: "uatsed",
+            port: "",
+            path: "/user/xocxoc"
+        }
     },
     gameIds: {
         TaiXiu: 1,
@@ -58,9 +70,6 @@ const configs = {
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    gameSocketUris: {
-        2: 'https://uatsed.sabagame.com/user/xocxoc',
-    },
 }
 
 module.exports = configs;

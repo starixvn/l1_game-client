@@ -1,7 +1,7 @@
 import sentryConfig from './../SentryConfig';
 import configs from './../Configs';
 
-const sentryLogger = {
+export const sentryLogger = {
     sentryUrl: null,
     loaded: false,
     isEnabled: () => {

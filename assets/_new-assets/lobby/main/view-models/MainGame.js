@@ -85,7 +85,7 @@ cc.Class({
     if (authManager && !cc.RedT.IS_LOGIN && !inRoomGameId) {
       authManager.triggerSignIn(this, this.loading);
     } else {
-      this.openInRoomGame(inRoomGameId);
+      !window.openGameId && this.openInRoomGame(inRoomGameId);
     }
 
     if (cc.RedT.IS_LOGIN) {
@@ -193,9 +193,6 @@ cc.Class({
 
     cc.RedT.MiniPanel.onGeneralData(data);
 
-    if (void 0 !== data.notice) {
-      this.showNotice(data.notice);
-    }
     if (void 0 !== data.marqueeMsg && this.newsContents) {
       this.newsContents.onData(data.marqueeMsg);
     }

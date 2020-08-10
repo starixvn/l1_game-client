@@ -1,8 +1,20 @@
 const configs = {
     ssl: true,
     disabledDirectLogin: true,
-    serverEndpoints: {
-        "sit.sabagame.com": 'sit-gsr.sabagame.com',
+    serverDomainMapper: {
+        "sit.sabagame.com": 'sabagame.com',
+    },
+    serverGameEndPoints: {
+        0: { //Main Server
+            subDomain: "sit-gsr",
+            port: "",
+            path: ""
+        },
+        2: {
+            subDomain: "sitsed",
+            port: "",
+            path: "/user/xocxoc"
+        }
     },
     gameIds: {
         TaiXiu: 1,
