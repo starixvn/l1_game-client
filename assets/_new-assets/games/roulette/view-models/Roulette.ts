@@ -61,6 +61,12 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
+    @property(cc.Node)
+    doubleButton: cc.Node = null;
+
+    @property(cc.Node)
+    rebetButton: cc.Node = null;
+
     rouletteMain: RouletteMain;
 
     tempBetChoices: any = {};
@@ -100,6 +106,13 @@ export default class Roulette extends GameRoomBase {
     updateTotalBet() {
         const total = this.sumValueBetChoices(this.rouletteMain.board.betChoices);
         this.totalBetLabel.string = total.toString();
+
+        const tempLength = Object.keys(this.tempBetChoices).length;
+        const currentLength = Object.keys(this.currentBetChoices).length;
+        const previosRoundLength = Object.keys(this.previousRoundBetChoices).length;
+
+        this.rebetButton.active = tempLength === 0 && currentLength === 0 && previosRoundLength > 0;
+        this.doubleButton.active = !this.rebetButton.active;
     }
 
     resetDataAndUI() {
@@ -369,6 +382,9 @@ export default class Roulette extends GameRoomBase {
 
     onPressedRebet() {
         this.playClick();
+
+        this.tempBetChoices = _.cloneDeep(this.previousRoundBetChoices);
+        this.updateBetChoicesOnBoard();
     }
 
     onPressedConfirm() {
@@ -383,7 +399,6 @@ export default class Roulette extends GameRoomBase {
                 betChoices: this.tempBetChoices
             }
         });
-
     }
 
     isEmptyBetChoices(): boolean {

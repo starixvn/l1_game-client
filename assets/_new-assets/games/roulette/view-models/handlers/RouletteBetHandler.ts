@@ -15,6 +15,8 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
 
         if (data.ownBets) {
             this.main.currentBetChoices = _.cloneDeep(data.ownBets);
+            this.main.previousRoundBetChoices = _.cloneDeep(this.main.currentBetChoices);
+
             this.main.tempBetChoices = {};
             this.main.rouletteMain.board.showBetChoices(this.main.currentBetChoices, this.main.currentBetChoices);
         }
