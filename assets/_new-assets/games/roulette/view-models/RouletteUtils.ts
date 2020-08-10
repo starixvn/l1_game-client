@@ -104,7 +104,8 @@ export default class RouletteUtils {
 
         if (highlight) {
             const highlightNode = new cc.Node();
-            highlightNode.addComponent(cc.Sprite).spriteFrame = chipAltas.getSpriteFrame("highlight_not_confirm"); //FIXME: change highlight frame
+            highlightNode.addComponent(cc.Sprite).spriteFrame = chipAltas.getSpriteFrame("highlight_not_confirm");
+            highlightNode.scale = 0.8;
             chip.addChild(highlightNode);
         }
         return chip;
