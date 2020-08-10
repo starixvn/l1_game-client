@@ -264,7 +264,7 @@ export default class Roulette extends GameRoomBase {
             return true;
         }
 
-        if (this.currentTimeRemaining <= this.config.stopBetTime || this.currentTimeRemaining >= this.config.betTime) {
+        if (this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.betTime - 1) {
             this.showMiniWarning("Vui lòng đặt cược ở phiên sau.");
             return true;
         }
@@ -390,6 +390,10 @@ export default class Roulette extends GameRoomBase {
 
     onPressedRebet() {
         this.playClick();
+
+        if (this.isDisablePlaceChip()) {
+            return;
+        }
 
         this.tempBetChoices = _.cloneDeep(this.previousRoundBetChoices);
         this.updateBetChoicesOnBoard();
