@@ -265,6 +265,8 @@ export default class RouletteBoard extends cc.Component {
                     childNode.position = this.getOnBoardChipLocation(type, key);
                     break;
             }
+
+            childNode.scale = 1 / this.node.scale;
         }
 
         return childNode;
