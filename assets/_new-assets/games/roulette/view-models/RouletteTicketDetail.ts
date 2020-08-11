@@ -36,6 +36,7 @@ export default class RouletteTicketDetail extends cc.Component {
 
     public showbetLogs() {
         this.node.active = true;
+        console.log(this.betLogDetails);
         this.betLogDetails.forEach((log, index) => {
             const group = cc.instantiate(this.groupPrefab);
             const groupComponent = group.getComponent(RouletteTicketDetailIGroup);

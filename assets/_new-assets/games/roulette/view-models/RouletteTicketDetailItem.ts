@@ -1,4 +1,5 @@
 const { ccclass, property } = cc._decorator;
+import * as _ from "lodash";
 import { numberWithCommas } from '../../../common/helpers/Helper';
 
 @ccclass
@@ -31,15 +32,15 @@ export default class RouletteTicketDetailItem extends cc.Component {
     };
 
     choiceNames = {
-        "big": "Tài",
-        "small": "Xỉu",
+        "small": "1-18",
+        "big": "19-36",
         "odd": "Lẻ",
         "even": "Chẵn",
         "red": "Đỏ",
         "black": "Đen",
-        "dozen1": "Tá 1",
-        "dozen2": "Tá 2",
-        "dozen3": "Tá 3",
+        "dozen1": "1-12",
+        "dozen2": "13-24",
+        "dozen3": "25-36",
         "column1": "Cột 1",
         "column2": "Cột 2",
         "column3": "Cột 3",
@@ -56,6 +57,16 @@ export default class RouletteTicketDetailItem extends cc.Component {
             case "dozen":
             case "column":
                 this.choice.string = this.choiceNames[type + choice];
+                break;
+            case "split":
+                this.choice.string = _.replace(choice, '-', ', ');
+                break;
+            case "line":
+                let array = _.split(choice, '-');
+                let firstArray = _.slice(array, 0, 3);
+                let secondArray = _.slice(array, 3, 6);
+                this.choice.string = _.join(firstArray, ', ') + "\n" + _.join(secondArray, ', ');
+                this.node.height = 48;
                 break;
             default:
                 this.choice.string = choice;
