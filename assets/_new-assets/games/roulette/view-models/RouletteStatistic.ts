@@ -43,14 +43,22 @@ export default class RouletteStatistic extends cc.Component {
     @property(cc.Label)
     dozen3Percent: cc.Label = null;
 
+    @property(cc.Node)
+    background: cc.Node = null;
+
+    @property(cc.Node)
+    content: cc.Node = null;
+
     wheelDegree = 360;
     numberAngle: number = this.wheelDegree / 37;
     numbersOnWheel: number[] = [26, 0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3];
     result: any = null;
     resultStats = [];
+    toggleRuning: boolean = null;
     private dataObserverKey = "RouletteStatistic";
 
     onLoad() {
+        this.toggleRuning = true;
         this.get_data();
         this.addDataObserver();
     }
@@ -61,10 +69,6 @@ export default class RouletteStatistic extends cc.Component {
 
     onDestroy() {
         this.removeDataObserver();
-    }
-
-    onDisable() {
-        this.node.destroy();
     }
 
     removeDataObserver() {
@@ -232,5 +236,16 @@ export default class RouletteStatistic extends cc.Component {
         this.dozen1Percent.string = `${dozen1}%`;
         this.dozen2Percent.string = `${dozen2}%`;
         this.dozen3Percent.string = `${dozen3}%`;
+    }
+
+    hideStatisticContent() {
+        cc.RedT.audio.playClick();
+
+        this.content.runAction(cc.sequence(
+            cc.scaleTo(0.3, 0).easing(cc.easeSineInOut()),
+            cc.callFunc(() => {
+                this.background.runAction(cc.fadeOut(0.1));
+                this.node.destroy();
+            })));
     }
 }
