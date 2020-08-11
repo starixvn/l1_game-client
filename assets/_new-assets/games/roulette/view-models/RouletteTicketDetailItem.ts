@@ -27,7 +27,7 @@ export default class RouletteTicketDetailItem extends cc.Component {
         "column": "Cược cột",
         "dozen": "Cược tá",
         "redBlack": "Đỏ/Đen",
-        "oddEven": "Lẻ/Chẵn",
+        "oddEven": "Chẵn/Lẻ",
         "bigSmall": "Tài/Xỉu"
     };
 
@@ -59,12 +59,17 @@ export default class RouletteTicketDetailItem extends cc.Component {
                 this.choice.string = this.choiceNames[type + choice];
                 break;
             case "split":
-                this.choice.string = _.replace(choice, '-', ', ');
+            case "street":
+            case "triangle":
+            case "corner":
+            case "fourNumbers":
+                const list = _.split(choice, '-');
+                this.choice.string = _.join(list, ', ');
                 break;
             case "line":
-                let array = _.split(choice, '-');
-                let firstArray = _.slice(array, 0, 3);
-                let secondArray = _.slice(array, 3, 6);
+                const array = _.split(choice, '-');
+                const firstArray = _.slice(array, 0, 3);
+                const secondArray = _.slice(array, 3, 6);
                 this.choice.string = _.join(firstArray, ', ') + "\n" + _.join(secondArray, ', ');
                 this.node.height = 48;
                 break;

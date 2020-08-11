@@ -49,6 +49,15 @@ export default class RouletteStatistic extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
+    @property(cc.SpriteFrame)
+    numberRedBg: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    numberBlackBg: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    numberZeroBg: cc.SpriteFrame = null;
+
     wheelDegree = 360;
     numberAngle: number = this.wheelDegree / 37;
     numbersOnWheel: number[] = [26, 0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3];
@@ -150,9 +159,17 @@ export default class RouletteStatistic extends cc.Component {
     }
 
     updateHotColdNumbers(numberNodes: cc.Node, list) {
-        numberNodes.children.forEach((number, index) => {
-            number.getChildByName("number").getComponent(cc.Label).string = list[index].number;
-            number.getChildByName("times").getComponent(cc.Label).string = list[index].times;
+        numberNodes.children.forEach((node, index) => {
+            const number = list[index].number;
+            node.getChildByName("number").getComponent(cc.Label).string = number;
+            node.getChildByName("times").getComponent(cc.Label).string = list[index].times;
+
+            const spriteComponent = node.getChildByName("bg_number").getComponent(cc.Sprite);
+            if (list[index].number === 0) {
+                spriteComponent.spriteFrame = this.numberZeroBg;
+            } else {
+                spriteComponent.spriteFrame = RouletteUtils.isRed(number) ? this.numberRedBg : this.numberBlackBg;
+            }
         })
     }
 
