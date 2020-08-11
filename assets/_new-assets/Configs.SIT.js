@@ -64,7 +64,7 @@ const configs = {
         10: 'baccarat',
         21: 'roulette',
     },
-    gameRoomIds: [8, 10],
+    gameRoomIds: [8, 10, 21],
     gameRoomNewSocketIds: [2],
     sentryUrl: 'https://08d902b128ea45b6a11639833224f481@sentryuat.sabagame.com/25',
     gameAnalytics: {
