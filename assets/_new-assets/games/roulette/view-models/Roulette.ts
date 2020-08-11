@@ -214,11 +214,7 @@ export default class Roulette extends GameRoomBase {
     }
 
     checkAvailableBalance(bet: number): boolean {
-        let totalChoices = {};
-        totalChoices = this.mergeBetChoices(totalChoices, this.currentBetChoices);
-        totalChoices = this.mergeBetChoices(totalChoices, this.tempBetChoices);
-
-        const total = this.sumValueBetChoices(totalChoices);
+        const total = this.sumValueBetChoices(this.tempBetChoices);
         return total + bet <= cc.RedT.user.red;
     }
 
