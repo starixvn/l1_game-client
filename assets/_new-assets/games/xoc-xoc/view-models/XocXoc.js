@@ -1261,17 +1261,16 @@ cc.Class({
 		});
 	},
 	onCuoc: function (event, box) {
-		if (this.isWaitingBetResult) {
-			if (!this.processingWarningPopup) {
-				var processingWarning = cc.instantiate(this.ProcessingWarning);
-				this.processingWarningPopup = processingWarning.getComponent('ProcessingWarning');
-				this.node.addChild(processingWarning);
-			}
-		} else {
-			this.isWaitingBetResult = true;
-			this.socket.emit('bet', { red: this.red, cuoc: this.cuoc, box: box });
-			// cc.RedT.send({ g: { xocxoc: { cuoc: { red: this.red, cuoc: this.cuoc, box: box } } } });
-		}
+		// if (this.isWaitingBetResult) {
+		// 	if (!this.processingWarningPopup) {
+		// 		var processingWarning = cc.instantiate(this.ProcessingWarning);
+		// 		this.processingWarningPopup = processingWarning.getComponent('ProcessingWarning');
+		// 		this.node.addChild(processingWarning);
+		// 	}
+		// } else {
+		this.isWaitingBetResult = true;
+		this.socket.emit('bet', { red: this.red, cuoc: this.cuoc, box: box });
+		// }
 	},
 	showNotice: function (noticeData) {
 		var noticePrefab = cc.instantiate(this.NoticePrefab);
