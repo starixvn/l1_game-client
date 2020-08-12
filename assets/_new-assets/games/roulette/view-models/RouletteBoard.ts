@@ -29,8 +29,7 @@ export default class RouletteBoard extends cc.Component {
     @property(cc.Node)
     numberContainer: cc.Node = null;
 
-    @property
-    middleCellOffset = 20;
+    middleCellOffset = 12;
 
     private cellSize: cc.Size;
     groupItems: RouletteGroupBetItem[] = [];
