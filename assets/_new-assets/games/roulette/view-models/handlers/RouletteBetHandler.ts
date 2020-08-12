@@ -48,7 +48,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
                     const chipNode = RouletteUtils.createChips(bet, this.main.betChips.chipAltas);
                     this.main.betChips.moveChipWithCallback(chipNode, bet, destNode, startNode, () => {
                         // this.main.rouletteMain.board.addBetChoiceByKey(type, key, bet, true);
-                    }, 1, 0.8);
+                    }, 4, 0.8);
                 }
             }
         }

@@ -17,6 +17,5 @@ export default class RouletteTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.clearCurrentBetChoices();
-        this.main.rouletteMain.board.clearOtherBetChoices();
     }
 }

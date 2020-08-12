@@ -2,6 +2,8 @@ import { RouletteBetInfo, RouletteBetType } from "./Roulette";
 
 export default class RouletteUtils {
     private static redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
+    private static options = [1000, 500, 200, 100, 50, 10, 5, 1];
+
     public static isRed(number): boolean {
         return this.redNumbers.indexOf(number) != -1;
     }
@@ -111,15 +113,19 @@ export default class RouletteUtils {
         return chip;
     }
 
-    public static createChips(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
-        const values = [1000, 500, 200, 100, 50, 10, 5, 1];
+    public static getChipValues(bet: number): any {
         let total = bet;
-        const counts = [];
-        values.forEach(value => {
-            counts.push(Math.floor(total / value));
+        const values = {};
+        this.options.forEach(value => {
+            const count = Math.floor(total / value);
+            values[value] = count;
             total = total % value;
         });
+        return values;
+    }
 
+    public static createChips(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
+        const values = this.getChipValues(bet);
         const node = new cc.Node();
         const layoutNode = new cc.Node();
         layoutNode.y = -13; //half size chip
@@ -130,12 +136,14 @@ export default class RouletteUtils {
         layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
         layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
         layout.spacingY = -22;
-        counts.forEach((count, index) => {
+        for (let chip in Object.keys(values)) {
+            const count = values[chip];
             for (let i = 0; i < count; i++) {
-                const chipNode = this.createChip(values[index], chipAltas, highlight);
+                const chipNode = this.createChip(+chip, chipAltas, highlight);
                 layoutNode.addChild(chipNode);
             }
-        });
+        }
+
         return node;
     }
 }
