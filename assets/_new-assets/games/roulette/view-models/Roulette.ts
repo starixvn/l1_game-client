@@ -155,13 +155,14 @@ export default class Roulette extends GameRoomBase {
             }
 
             const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo));
-            this.betChips.placeChipBetRoulette(this.currentBet, destNode, null, () => {
+            const chipNode = RouletteUtils.createChip(this.currentBet, this.betChips.chipAltas);
+            this.betChips.moveChipWithCallback(chipNode, this.currentBet, destNode, null, () => {
                 this.rouletteMain.board.addBetChoice(betInfo, this.currentBet);
                 this.addBetChoice(betInfo, this.currentBet);
                 this.addToBetChoicesStack(betChoices);
 
                 this.isPlacingChip = false;
-            });
+            }, 0, 0.8);
         }
 
         this.rouletteMain.quickBet.callback.getCurrentBet = () => this.currentBet;
@@ -191,11 +192,13 @@ export default class Roulette extends GameRoomBase {
                     const betInfo = { type: type, numbers: RouletteUtils.parseKeyToNumbers(key) };
                     const bet = betChoices[type][key];
                     const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, key);
-                    this.betChips.placeChipBetRoulette(bet, destNode, null, () => {
+                    const chipNode = RouletteUtils.createChips(bet, this.betChips.chipAltas);
+
+                    this.betChips.moveChipWithCallback(chipNode, bet, destNode, null, () => {
                         this.rouletteMain.board.addBetChoice(betInfo, bet);
                         this.addBetChoice(betInfo, bet);
                         this.isPlacingChip = false;
-                    });
+                    }, 0, 0.8);
                 }
             }
             this.addToBetChoicesStack(betChoices);

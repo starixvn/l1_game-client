@@ -208,13 +208,12 @@ export default class BetChips extends cc.Component {
             this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
     }
 
-    public placeChipBetRoulette(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }, delayDestroy = 0, customDuration = 0) {
-        var chipPosition: cc.Vec2;
-        var isLoginUserPlaceBet = startNode == null;
+    public moveChipWithCallback(chipNode: cc.Node, bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }, delayDestroy: number, duration: number) {
+        let chipPosition: cc.Vec2;
+        const isLoginUserPlaceBet = startNode == null;
         if (startNode) {
             chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
-        }
-        else {
+        } else {
             let chip = this.chips.children.filter(child => child.name === bet.toString())[0];
             if (!chip) {
                 const chips = this.chips.children.filter(child => +child.name < bet).sort((b, a) => +a.name - +b.name);
@@ -225,17 +224,14 @@ export default class BetChips extends cc.Component {
         }
 
         chipPosition = destNode.convertToNodeSpaceAR(chipPosition);
-        var chipNode = this.createChip(chipPosition, bet);
-
-        destNode.addChild(chipNode.node);
+        chipNode.position = chipPosition;
+        destNode.addChild(chipNode);
 
         if (isLoginUserPlaceBet) {
             this.playSingleChipsSound();
         }
 
-        const duration = customDuration > 0 ? customDuration : (isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime);
-
-        chipNode.node.runAction(
+        chipNode.runAction(
             cc.sequence(
                 this.moveChipTo(cc.v2(0, 0), duration),
                 cc.delayTime(delayDestroy),
@@ -290,9 +286,9 @@ export default class BetChips extends cc.Component {
     }
 
     private createChip(position: cc.Vec2, bet): cc.Sprite {
-        var chip = new cc.Node();
-        var chipSprite = chip.addComponent(cc.Sprite);
-        var name = `chip${bet}_small`;
+        const chip = new cc.Node();
+        const chipSprite = chip.addComponent(cc.Sprite);
+        const name = `chip${bet}_small`;
         chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
         chipSprite.node.position = position;
         return chipSprite;

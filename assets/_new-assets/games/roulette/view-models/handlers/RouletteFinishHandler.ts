@@ -51,7 +51,6 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
         }
 
         const playerNode = this.main.userAvatar.node;
-        this.main.clearCurrentBetChoices();
 
         for (let type in data.winningByChoices) {
             for (let key in data.winningByChoices[type]) {
@@ -108,6 +107,8 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             this.main.currentDataLogs.unshift(dataFinish);
             this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
             this.main.updateMiniRoundResult(true);
+            this.main.clearCurrentBetChoices();
+            this.main.rouletteMain.board.clearOtherBetChoices();
             onFinishHanlingData();
         });
     }

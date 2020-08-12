@@ -32,8 +32,10 @@ export default class RouletteBoard extends cc.Component {
     private cellSize: cc.Size;
     groupItems: RouletteGroupBetItem[] = [];
     rouletteNumbers: RouletteNumber[] = [];
+    otherChipContainer: cc.Node = null;
 
     public betChoices = {};
+    private otherBetChoices = {};
 
     public callback = {
         selected: (betInfo: RouletteBetInfo) => { }
@@ -50,6 +52,9 @@ export default class RouletteBoard extends cc.Component {
 
         this.touchArea.on(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
         this.touchArea.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
+
+        this.otherChipContainer = cc.instantiate(this.chipContainer);
+        this.node.addChild(this.otherChipContainer);
     }
 
     onDestroy() {
@@ -218,40 +223,67 @@ export default class RouletteBoard extends cc.Component {
         return cc.v2(col * this.cellSize.width, row * this.cellSize.height);
     }
 
-    addBetChoice(betInfo: RouletteBetInfo, bet: number) {
+    addBetChoice(betInfo: RouletteBetInfo, bet: number, other = false) {
         const key = RouletteUtils.getKey(betInfo);
+        this.addBetChoiceByKey(betInfo.type, key, bet, other);
 
-        if (!this.betChoices[betInfo.type]) {
-            this.betChoices[betInfo.type] = {};
-        }
-        const current = this.betChoices[betInfo.type][key] || 0;
-        this.betChoices[betInfo.type][key] = current + bet;
-        this.placeChips({
-            type: betInfo.type,
-            numbers: betInfo.numbers,
-        }, this.betChoices[betInfo.type][key], true);
+        // if (!this.betChoices[betInfo.type]) {
+        //     this.betChoices[betInfo.type] = {};
+        // }
+        // const current = this.betChoices[betInfo.type][key] || 0;
+        // this.betChoices[betInfo.type][key] = current + bet;
+
+        // this.placeChips({
+        //     type: betInfo.type,
+        //     numbers: betInfo.numbers,
+        // }, this.betChoices[betInfo.type][key], !other, other);
     }
 
-    showBetChoices(betChoices: any, currentBetChoices: any) {
-        this.chipContainer.removeAllChildren();
-        this.betChoices = _.cloneDeep(betChoices);
+    addBetChoiceByKey(type: string, key: string, bet: number, other = false) {
+        const betChoicesContent = other ? this.otherBetChoices : this.betChoices;
 
-        for (let type in this.betChoices) {
-            for (let key in this.betChoices[type]) {
-                const bet = this.betChoices[type][key];
+        if (!betChoicesContent[type]) {
+            betChoicesContent[type] = {};
+        }
+        const current = betChoicesContent[type][key] || 0;
+        betChoicesContent[type][key] = current + bet;
+
+        this.placeChipsByKey(type, key, bet, !other, other);
+    }
+
+    clearOtherBetChoices() {
+        this.otherBetChoices = {}
+        this.otherChipContainer.removeAllChildren();
+    }
+
+    showBetChoices(betChoices: any, currentBetChoices: any, other = false) {
+        if (other) {
+            this.otherChipContainer.removeAllChildren();
+            this.otherBetChoices = _.cloneDeep(betChoices);
+        } else {
+            this.chipContainer.removeAllChildren();
+            this.betChoices = _.cloneDeep(betChoices);
+        }
+
+        const betChoicesContent = other ? this.otherBetChoices : this.betChoices;
+        for (let type in betChoicesContent) {
+            for (let key in betChoicesContent[type]) {
+                const bet = betChoicesContent[type][key];
                 const highlight = !currentBetChoices[type] || !currentBetChoices[type][key] || currentBetChoices[type][key] != bet;
-                this.placeChipsByKey(type, key, bet, highlight);
+                this.placeChipsByKey(type, key, bet, highlight, other);
             }
         }
     }
 
-    getBetNodeByKey(type: string, key: string): cc.Node {
+    getBetNodeByKey(type: string, key: string, other = false): cc.Node {
         const childName = `${type}_${key}`;
-        let childNode = this.chipContainer.getChildByName(childName);
+
+        const parent = other ? this.otherChipContainer : this.chipContainer;
+        let childNode = parent.getChildByName(childName);
         if (!childNode) {
             childNode = new cc.Node();
             childNode.name = childName;
-            this.chipContainer.addChild(childNode);
+            parent.addChild(childNode);
             switch (type) {
                 case RouletteBetType.Column:
                 case RouletteBetType.Dozen:
@@ -259,7 +291,7 @@ export default class RouletteBoard extends cc.Component {
                 case RouletteBetType.OddEven:
                 case RouletteBetType.BigSmall:
                     const groupItem = this.groupItems.find(child => child.betType === type && child.node.name === key);
-                    childNode.position = this.chipContainer.convertToNodeSpaceAR(groupItem.node.convertToWorldSpaceAR(cc.v2(0, 0)));
+                    childNode.position = parent.convertToNodeSpaceAR(groupItem.node.convertToWorldSpaceAR(cc.v2(0, 0)));
                     break;
                 default:
                     childNode.position = this.getOnBoardChipLocation(type, key);
@@ -269,18 +301,19 @@ export default class RouletteBoard extends cc.Component {
             childNode.scale = 1 / this.node.scale;
         }
 
+
         return childNode;
     }
 
-    placeChipsByKey(type: string, key: string, bet: number, highlight = false) {
-        const childNode = this.getBetNodeByKey(type, key);
+    placeChipsByKey(type: string, key: string, bet: number, highlight = false, other = false) {
+        const childNode = this.getBetNodeByKey(type, key, other);
         childNode.destroyAllChildren();
         const node = RouletteUtils.createChips(bet, this.chipAltas, highlight);
         childNode.addChild(node);
     }
 
-    placeChips(betInfo: RouletteBetInfo, bet: number, highlight = false) {
-        const childNode = this.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo));
+    placeChips(betInfo: RouletteBetInfo, bet: number, highlight = false, other = false) {
+        const childNode = this.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo), other);
         childNode.destroyAllChildren();
         const node = RouletteUtils.createChips(bet, this.chipAltas, highlight);
         childNode.addChild(node);
