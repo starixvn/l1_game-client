@@ -253,16 +253,18 @@ export default class Roulette extends GameRoomBase {
             return false
         }
 
+        const isMultiChoices = Object.keys(betChoices).length > 1 || Object.keys(betChoices[Object.keys(betChoices)[0]]).length > 1;
+
         for (let type in betChoices) {
             for (let key in betChoices[type]) {
                 if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
-                    this.showMiniWarning(`Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`);
+                    this.showMiniWarning(isMultiChoices ? "Tiền cược của một trong các cửa vượt mức quy định." : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`);
                     return false;
                 }
                 if (totalChoices[type] && totalChoices[type][key]) {
                     const total = totalChoices[type][key] + betChoices[type][key];
                     if (total > this.gameConfigs.choices_maxbet[type]) {
-                        this.showMiniWarning(`Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`);
+                        this.showMiniWarning(isMultiChoices ? "Tiền cược của một trong các cửa vượt mức quy định." : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`);
                         return false;
                     }
                 }
