@@ -106,7 +106,7 @@ export default class Roulette extends GameRoomBase {
 
     updateTotalBet() {
         const total = this.sumValueBetChoices(this.rouletteMain.board.betChoices);
-        this.totalBetLabel.string = total.toString();
+        this.totalBetLabel.string = helper.numberWithCommas(total);
 
         const tempLength = Object.keys(this.tempBetChoices).length;
         const currentLength = Object.keys(this.currentBetChoices).length;
