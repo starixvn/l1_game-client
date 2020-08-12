@@ -2,7 +2,7 @@ const configs = {
   ssl: false,
   disabledDirectLogin: true,
   serverDomainMapper: {
-    localhost: 'lumigame.com',
+    localhost: 'localhost',
     '10.5.10.14': 'lumigame.com',
   },
   serverGameEndPoints: {
@@ -68,7 +68,7 @@ const configs = {
   },
   gameRoomIds: [8, 10, 21],
   gameRoomNewSocketIds: [2],
-  sentryUrl: '',
+  sentryUrl: 'https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20',
   gameAnalytics: {
     clientId: '093146669bf12df12eeedd2d57ddb469',
     secretKey: 'f41dc948ed66a029406413327a68b6ae27fe4e6c',

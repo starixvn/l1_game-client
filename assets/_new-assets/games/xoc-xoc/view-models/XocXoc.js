@@ -197,6 +197,7 @@ cc.Class({
 			this.backGame();
 		});
 
+		sentryLogger.setSocketIoId(this.socket.id);
 		authManager.storeInRoomGameId(gameIds.XocXoc);
 
 		this.betChips = this.betChips.getComponent('BetChips');
@@ -322,6 +323,7 @@ cc.Class({
 
 	closeProcessingWarningPopup: function () {
 		this.isWaitingBetResult = false;
+
 		if (this.processingWarningPopup != null) {
 			this.processingWarningPopup.close();
 			this.processingWarningPopup = null;
@@ -333,6 +335,7 @@ cc.Class({
 		if (data.user) {
 			this.userData(data.user);
 			cc.RedT.userData(data.user);
+			sentryLogger.setCharacterName(data.user.name);
 		}
 
 		if (data.endBet) {
@@ -386,6 +389,10 @@ cc.Class({
 			if (!this.UMNotice) {
 				this.showUMMessage(data.um_message);
 			}
+		}
+
+		if (data.userNotFound) {
+			sentryLogger.logError(new Error("User data not found in server storage"));
 		}
 
 		!data.notice && cc.RedT.MiniPanel.onGeneralData(data);
@@ -519,6 +526,7 @@ cc.Class({
 		}
 	},
 	xocxocFinish: function (data) {
+		this.closeProcessingWarningPopup();
 		this.winners = data.winClients;
 		let dice = { dots: data.dots, round: data.round };
 		this.logs.unshift(dice);

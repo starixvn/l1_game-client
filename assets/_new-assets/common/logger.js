@@ -1,5 +1,5 @@
-import sentryConfig from './../SentryConfig';
 import configs from './../Configs';
+import sentryConfig from './../SentryConfig';
 
 export const sentryLogger = {
     sentryUrl: null,
@@ -83,6 +83,10 @@ export const sentryLogger = {
 
     setCharacterName: (name) => {
         sentryLogger.setTag({ id: "character-name", value: name });
+    },
+
+    setSocketIoId: (socketId) => {
+        sentryLogger.setTag({ id: "socket-io-id", value: socketId });
     }
 };
 
