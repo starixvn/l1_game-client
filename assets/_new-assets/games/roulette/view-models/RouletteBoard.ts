@@ -226,29 +226,16 @@ export default class RouletteBoard extends cc.Component {
     addBetChoice(betInfo: RouletteBetInfo, bet: number, other = false) {
         const key = RouletteUtils.getKey(betInfo);
         this.addBetChoiceByKey(betInfo.type, key, bet, other);
-
-        // if (!this.betChoices[betInfo.type]) {
-        //     this.betChoices[betInfo.type] = {};
-        // }
-        // const current = this.betChoices[betInfo.type][key] || 0;
-        // this.betChoices[betInfo.type][key] = current + bet;
-
-        // this.placeChips({
-        //     type: betInfo.type,
-        //     numbers: betInfo.numbers,
-        // }, this.betChoices[betInfo.type][key], !other, other);
     }
 
     addBetChoiceByKey(type: string, key: string, bet: number, other = false) {
         const betChoicesContent = other ? this.otherBetChoices : this.betChoices;
-
         if (!betChoicesContent[type]) {
             betChoicesContent[type] = {};
         }
         const current = betChoicesContent[type][key] || 0;
         betChoicesContent[type][key] = current + bet;
-
-        this.placeChipsByKey(type, key, bet, !other, other);
+        this.placeChipsByKey(type, key, betChoicesContent[type][key], !other, other);
     }
 
     clearOtherBetChoices() {
@@ -301,6 +288,7 @@ export default class RouletteBoard extends cc.Component {
             childNode.scale = 1 / this.node.scale;
         }
 
+        childNode.zIndex = 10 - ((childNode.position.y * 2) / this.cellSize.height);
 
         return childNode;
     }
