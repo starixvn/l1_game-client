@@ -99,7 +99,7 @@ export default class RouletteUtils {
     public static createChip(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
         const chip = new cc.Node();
         const chipSprite = chip.addComponent(cc.Sprite);
-        const name = `chip${bet}_small`;
+        const name = `new_small_chip_${bet}`;
         chipSprite.spriteFrame = chipAltas.getSpriteFrame(name);
 
         if (highlight) {
@@ -122,14 +122,14 @@ export default class RouletteUtils {
 
         const node = new cc.Node();
         const layoutNode = new cc.Node();
-        layoutNode.y = -13; //half size chip
+        layoutNode.y = -9; //half size chip
         node.addChild(layoutNode);
         layoutNode.anchorY = 0;
         const layout = layoutNode.addComponent(cc.Layout);
         layout.type = cc.Layout.Type.VERTICAL;
         layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
         layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
-        layout.spacingY = -22;
+        layout.spacingY = -15;
         counts.forEach((count, index) => {
             for (let i = 0; i < count; i++) {
                 const chipNode = this.createChip(values[index], chipAltas, highlight);
