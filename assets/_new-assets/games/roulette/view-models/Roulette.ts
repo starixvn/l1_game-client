@@ -7,6 +7,7 @@ import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteUtils from "./RouletteUtils";
 import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
 import RouletteBetHandler from "./handlers/RouletteBetHandler";
+import * as helper from "../../../common/helpers/Helper";
 import * as _ from "lodash";
 
 const { ccclass, property } = cc._decorator;
@@ -138,7 +139,6 @@ export default class Roulette extends GameRoomBase {
             this.isPlacingChip = true;
 
             if (!this.checkAvailableBalance(this.currentBet)) {
-                this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
                 this.isPlacingChip = false;
                 return;
             }
@@ -149,7 +149,6 @@ export default class Roulette extends GameRoomBase {
             betChoices[betInfo.type][key] = this.currentBet;
 
             if (!this.checkAvailableBetChoices(betChoices)) {
-                this.showMiniWarning(`Tiền cược tối đa ở lựa chọn này là ${this.gameConfigs.choices_maxbet[betInfo.type]}`);
                 this.isPlacingChip = false;
                 return;
             }
@@ -173,16 +172,15 @@ export default class Roulette extends GameRoomBase {
             }
             this.isPlacingChip = true;
 
-            const sum = this.sumValueBetChoices(betChoices);
+            this.rouletteMain.switchToRegularBet();
 
+            const sum = this.sumValueBetChoices(betChoices);
             if (!this.checkAvailableBalance(sum)) {
-                this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
                 this.isPlacingChip = false;
                 return;
             }
 
             if (!this.checkAvailableBetChoices(betChoices)) {
-                this.showMiniWarning("Tiền cược tối đa của một trong các lựa chọn vượt mức quy định.");
                 this.isPlacingChip = false;
                 return;
             }
@@ -218,7 +216,10 @@ export default class Roulette extends GameRoomBase {
 
     checkAvailableBalance(bet: number): boolean {
         const total = this.sumValueBetChoices(this.tempBetChoices);
-        return total + bet <= cc.RedT.user.red;
+        const available = total + bet <= cc.RedT.user.red;
+
+        !available && this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+        return available;
     }
 
     sumValueBetChoices(totalChoices: any) {
@@ -236,6 +237,13 @@ export default class Roulette extends GameRoomBase {
         totalChoices = this.mergeBetChoices(totalChoices, this.currentBetChoices);
         totalChoices = this.mergeBetChoices(totalChoices, this.tempBetChoices);
 
+        const currentTotal = this.sumValueBetChoices(totalChoices);
+        const newTotal = this.sumValueBetChoices(betChoices);
+        if (currentTotal + newTotal > this.gameConfigs.maxbet) {
+            this.showMiniWarning(`Tổng tiền cược tối đa ở phiên này là ${helper.numberWithCommas(this.gameConfigs.maxbet)}`);
+            return false
+        }
+
         for (let type in betChoices) {
             for (let key in betChoices[type]) {
                 if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
@@ -244,6 +252,7 @@ export default class Roulette extends GameRoomBase {
                 if (totalChoices[type] && totalChoices[type][key]) {
                     const total = totalChoices[type][key] + betChoices[type][key];
                     if (total > this.gameConfigs.choices_maxbet[type]) {
+                        this.showMiniWarning(`Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`);
                         return false;
                     }
                 }
@@ -306,18 +315,13 @@ export default class Roulette extends GameRoomBase {
             return;
         }
 
-        let temp = {};
-        temp = this.mergeBetChoices(temp, this.currentBetChoices);
-        temp = this.mergeBetChoices(temp, this.tempBetChoices);
-
+        const temp = _.cloneDeep(this.tempBetChoices);
         const sum = this.sumValueBetChoices(temp);
         if (!this.checkAvailableBalance(sum)) {
-            this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
             return;
         }
 
         if (!this.checkAvailableBetChoices(temp)) {
-            this.showMiniWarning("Tiền cược tối đa của một trong các lựa chọn vượt mức quy định.");
             return;
         }
 
