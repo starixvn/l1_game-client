@@ -236,7 +236,7 @@ export default class BetChips extends cc.Component {
                 this.moveChipTo(cc.v2(0, 0), duration),
                 cc.delayTime(delayDestroy),
                 cc.callFunc(() => {
-                    chipNode.runAction(cc.sequence(cc.fadeOut(0.5), cc.removeSelf(true)));
+                    chipNode.runAction(cc.sequence(cc.fadeOut(2), cc.removeSelf(true)));
                     onComplete();
                 })
             )
