@@ -68,6 +68,15 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Node)
     rebetButton: cc.Node = null;
 
+    @property(cc.Node)
+    undoButton: cc.Node = null;
+
+    @property(cc.Node)
+    clearButton: cc.Node = null;
+
+    @property(cc.Node)
+    confirmButton: cc.Node = null;
+
     rouletteMain: RouletteMain;
 
     tempBetChoices: any = {};
