@@ -1,6 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import * as _ from "lodash";
 import { numberWithCommas } from '../../../common/helpers/Helper';
+import { RouletteBetType } from './Roulette';
 
 @ccclass
 export default class RouletteTicketDetailItem extends cc.Component {
@@ -49,24 +50,24 @@ export default class RouletteTicketDetailItem extends cc.Component {
     updateContent(type: string, choice: string, amount: number, isWinning: boolean) {
         this.type.string = this.betTypes[type];
         switch (type) {
-            case "bigSmall":
-            case "oddEven":
-            case "redBlack":
+            case RouletteBetType.BigSmall:
+            case RouletteBetType.OddEven:
+            case RouletteBetType.RedBlack:
                 this.choice.string = this.choiceNames[choice];
                 break;
-            case "dozen":
-            case "column":
+            case RouletteBetType.Dozen:
+            case RouletteBetType.Column:
                 this.choice.string = this.choiceNames[type + choice];
                 break;
-            case "split":
-            case "street":
-            case "triangle":
-            case "corner":
-            case "fourNumbers":
+            case RouletteBetType.Split:
+            case RouletteBetType.Street:
+            case RouletteBetType.Triangle:
+            case RouletteBetType.Corner:
+            case RouletteBetType.FourNumbers:
                 const list = _.split(choice, '-');
                 this.choice.string = _.join(list, ', ');
                 break;
-            case "line":
+            case RouletteBetType.Line:
                 const array = _.split(choice, '-');
                 const firstArray = _.slice(array, 0, 3);
                 const secondArray = _.slice(array, 3, 6);
