@@ -399,6 +399,7 @@ export default class Roulette extends GameRoomBase {
         }
 
         this.tempBetChoices = _.cloneDeep(this.previousRoundBetChoices);
+        this.addToBetChoicesStack(this.tempBetChoices);
         this.updateBetChoicesOnBoard();
     }
 
