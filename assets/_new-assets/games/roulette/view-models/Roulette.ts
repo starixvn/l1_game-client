@@ -246,13 +246,6 @@ export default class Roulette extends GameRoomBase {
         totalChoices = this.mergeBetChoices(totalChoices, this.currentBetChoices);
         totalChoices = this.mergeBetChoices(totalChoices, this.tempBetChoices);
 
-        const currentTotal = this.sumValueBetChoices(totalChoices);
-        const newTotal = this.sumValueBetChoices(betChoices);
-        if (currentTotal + newTotal > this.gameConfigs.maxbet) {
-            this.showMiniWarning(`Tổng tiền cược tối đa ở phiên này là ${helper.numberWithCommas(this.gameConfigs.maxbet)}`);
-            return false
-        }
-
         const isMultiChoices = Object.keys(betChoices).length > 1 || Object.keys(betChoices[Object.keys(betChoices)[0]]).length > 1;
 
         for (let type in betChoices) {
@@ -269,6 +262,13 @@ export default class Roulette extends GameRoomBase {
                     }
                 }
             }
+        }
+
+        const currentTotal = this.sumValueBetChoices(totalChoices);
+        const newTotal = this.sumValueBetChoices(betChoices);
+        if (currentTotal + newTotal > this.gameConfigs.maxbet) {
+            this.showMiniWarning(`Tổng tiền cược tối đa ở phiên này là ${helper.numberWithCommas(this.gameConfigs.maxbet)}`);
+            return false;
         }
 
         return true;
