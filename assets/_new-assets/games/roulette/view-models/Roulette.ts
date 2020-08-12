@@ -256,6 +256,7 @@ export default class Roulette extends GameRoomBase {
         for (let type in betChoices) {
             for (let key in betChoices[type]) {
                 if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
+                    this.showMiniWarning(`Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`);
                     return false;
                 }
                 if (totalChoices[type] && totalChoices[type][key]) {
