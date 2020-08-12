@@ -94,7 +94,6 @@ export default class GameRoomBase extends GameBase {
         var gameData = data[this.gameName];
 
         if (gameData) {
-            super.onData(gameData);
             this.onDataGameRoom(gameData);
         }
     }
@@ -175,6 +174,8 @@ export default class GameRoomBase extends GameBase {
     }
 
     protected onDataGameRoom(data: any) {
+        super.onData(data);
+
         if (this.players && this.players.length > 0) {
             this.playerHandler.handle(data);
         }

@@ -1,5 +1,6 @@
-let Helper = require("Helper");
 import logger from "../../../../common/logger";
+
+let Helper = require("Helper");
 const sentryLogger = logger();
 
 cc.Class({
@@ -43,7 +44,7 @@ cc.Class({
     },
     onData: function (data) {
         let self = this;
-        this.page.onSet(data.page, data.kmess, data.total);
+        this.page.onSet(data.page, data.pageSize, data.total);
 
         Promise.all(
             this.content.map(function (obj, i) {
