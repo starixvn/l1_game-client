@@ -20,6 +20,9 @@ export default class RouletteBoard extends cc.Component {
     @property(cc.Node)
     chipContainer: cc.Node = null;
 
+    @property(cc.Node)
+    otherChipContainer: cc.Node = null;
+
     @property(cc.SpriteAtlas)
     chipAltas: cc.SpriteAtlas = null;
 
@@ -32,7 +35,6 @@ export default class RouletteBoard extends cc.Component {
     private cellSize: cc.Size;
     groupItems: RouletteGroupBetItem[] = [];
     rouletteNumbers: RouletteNumber[] = [];
-    otherChipContainer: cc.Node = null;
 
     public betChoices = {};
     private otherBetChoices = {};
@@ -52,9 +54,6 @@ export default class RouletteBoard extends cc.Component {
 
         this.touchArea.on(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
         this.touchArea.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
-
-        this.otherChipContainer = cc.instantiate(this.chipContainer);
-        this.node.addChild(this.otherChipContainer);
     }
 
     onDestroy() {
