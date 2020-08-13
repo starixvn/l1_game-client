@@ -52,11 +52,10 @@ export default class Baccarat extends GameRoomBase {
     showScoreBoardNextDot = false;
 
     onLoad() {
-        this.init("baccarat", new BaccaratConfigs())
+        this.init("baccarat", new BaccaratConfigs(), null, 1, gameIds.Baccarat)
         super.onLoad();
         this.initCards();
         this.initScoreBoards();
-        this.currentMiniPanel.currentGameRoomId = gameIds.Baccarat;
     }
 
     onData(data) {

@@ -48,6 +48,7 @@ export default class GameRoomBase extends GameBase {
 
     playerHandler: IGameBasePlayerHandler;
     private miniPanelScale: number;
+    private gameId: number;
 
     onLoad() {
         super.onLoad();
@@ -65,10 +66,12 @@ export default class GameRoomBase extends GameBase {
     init(gameName: string,
         gameConfigs: GameBaseConfigs,
         miniPanel: MiniPanel = null,
-        miniPanelScale: number = 1) {
+        miniPanelScale: number = 1,
+        gameId: number = 0) {
 
         super.init(gameName, gameConfigs, miniPanel);
         this.miniPanelScale = miniPanelScale;
+        this.gameId = gameId;
     }
 
     initHandlers() {
@@ -185,6 +188,7 @@ export default class GameRoomBase extends GameBase {
     protected loadMiniPanel() {
         var miniPanel = cc.instantiate(this.miniPanelPrefab);
         this.currentMiniPanel = miniPanel.getComponent('MiniPanel');
+        this.currentMiniPanel.currentGameRoomId = this.gameId;
         this.miniPanelContainer.addChild(miniPanel);
 
         if (!cc.sys.isMobile) {

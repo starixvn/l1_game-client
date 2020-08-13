@@ -39,6 +39,7 @@ const configs = {
         KenoWest: 17,
         KenoSouth: 18,
         KenoNorth: 19,
+        Roulette: 21,
     },
     gameNames: {
         1: "Tài Xỉu",

@@ -9,6 +9,7 @@ import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
 import RouletteBetHandler from "./handlers/RouletteBetHandler";
 import * as helper from "../../../common/helpers/Helper";
 import * as _ from "lodash";
+import { gameIds } from "../../../Configs";
 
 const { ccclass, property } = cc._decorator;
 
@@ -87,7 +88,7 @@ export default class Roulette extends GameRoomBase {
 
     constructor() {
         super();
-        this.init("roulette", new RouletteConfigs());
+        this.init("roulette", new RouletteConfigs(), null, 1, gameIds.Roulette);
     }
 
     initHandlers() {
