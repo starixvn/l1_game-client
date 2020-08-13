@@ -54,18 +54,18 @@ export default class RouletteGroupBetItem extends CustomButton {
     }
 
     public showWinning(animated: boolean) {
-        this.winning && (this.winning.active = true);
+        this.winning && (this.winning.active = animated);
         const sprite = this.winning.getComponent(cc.Sprite);
         sprite.spriteFrame = this.originFrame;
         if (animated) {
-            sprite.spriteFrame = this.highlight.getComponent(cc.Sprite).spriteFrame;
-
+            // sprite.spriteFrame = this.highlight.getComponent(cc.Sprite).spriteFrame;
             const sequence = cc.sequence(
                 cc.fadeOut(.2),
                 cc.fadeIn(.2),
             );
             this.winning.runAction(cc.sequence(
                 cc.repeat(sequence, 10),
+                cc.fadeOut(.2),
                 cc.callFunc(() => {
                     sprite.spriteFrame = this.originFrame;
                 })
