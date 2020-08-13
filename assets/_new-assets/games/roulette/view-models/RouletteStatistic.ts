@@ -117,7 +117,7 @@ export default class RouletteStatistic extends cc.Component {
         const largestNumber = _.maxBy(this.resultStats, 'times').times;
         const offfetCenter = 0.2;
         this.numbersOnWheel.forEach((number, index) => {
-            const itemAngle = index == 0 ? -0.1 : index * this.numberAngle + (10.103 - this.wheelDegree / 37);
+            const itemAngle = index == 0 ? 0 : index * this.numberAngle + 0.1;
             const numberNode = cc.instantiate(this.numberStatistic);
             const spriteComponent = numberNode.getComponent(cc.Sprite);
 
