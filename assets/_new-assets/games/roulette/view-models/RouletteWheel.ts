@@ -1,4 +1,7 @@
 import * as _ from 'lodash';
+import RouletteResultNumber from './RouletteResultNumber';
+import RouletteResultNumber from './RouletteResultNumber';
+import { result } from 'lodash';
 
 const { ccclass, property } = cc._decorator;
 enum WheelAnimation {
@@ -42,6 +45,9 @@ export default class RouletteWheel extends cc.Component {
     @property({ type: cc.AudioSource })
     audios: cc.AudioSource[] = [];
 
+    @property(RouletteResultNumber)
+    resultNumber: RouletteResultNumber = null;
+
     wheelTrack = 0;
     ballTrack = 1;
     timeScale = 0;
@@ -71,6 +77,7 @@ export default class RouletteWheel extends cc.Component {
 
     onLoad() {
         this.initWheel();
+        this.resultNumber.hide();
     }
 
     playSound(soundId: number, loop = false) {
@@ -85,13 +92,36 @@ export default class RouletteWheel extends cc.Component {
         this.audios[soundId].stop();
     }
 
+    showResultNumber(result: number) {
+        this.resultNumber.setNumber(result);
+        this.resultNumber.show();
+
+        const node = this.resultNumber.node;
+        node.scale = 0;
+
+        cc.tween(node)
+            .to(0.5, { scale: 1 }, { easing: 'backOut' })
+            .start();
+    }
+
+    hideResultNumber() {
+        const node = this.resultNumber.node;
+        cc.tween(node)
+            .to(0.5, { scale: 0 }, { easing: 'backOut' })
+            .call(() => this.resultNumber.hide())
+            .start();
+    }
+
     showResult(result: number, onComplete: () => void) {
         this.prepareWheelSpinAnimation();
         const t = { resultNumber: result + 1 };
         this.onWheelUpdateResultNumber(t);
         cc.tween(this.node)
-            .delay(9)
+            .delay(7)
+            .call(() => this.showResultNumber(result))
+            .delay(2.5)
             .call(onComplete)
+            .call(() => this.hideResultNumber())
             .start();
     }
 
