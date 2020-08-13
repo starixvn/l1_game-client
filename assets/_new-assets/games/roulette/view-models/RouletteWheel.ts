@@ -107,7 +107,7 @@ export default class RouletteWheel extends cc.Component {
     hideResultNumber() {
         const node = this.resultNumber.node;
         cc.tween(node)
-            .to(0.5, { scale: 0 }, { easing: 'backOut' })
+            .to(0.5, { scale: 0 }, { easing: 'backIn' })
             .call(() => this.resultNumber.hide())
             .start();
     }
