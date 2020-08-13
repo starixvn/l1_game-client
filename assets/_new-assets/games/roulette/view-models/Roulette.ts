@@ -386,6 +386,10 @@ export default class Roulette extends GameRoomBase {
                     }
                 }
             }
+
+            if (Object.keys(result[type]).length === 0) {
+                delete result[type];
+            }
         }
         return result;
     }
