@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import RouletteResultNumber from './RouletteResultNumber';
-import RouletteResultNumber from './RouletteResultNumber';
 import { result } from 'lodash';
 
 const { ccclass, property } = cc._decorator;
