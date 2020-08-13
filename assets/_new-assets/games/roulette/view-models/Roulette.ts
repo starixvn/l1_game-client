@@ -62,20 +62,20 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
-    @property(cc.Node)
-    doubleButton: cc.Node = null;
+    @property(cc.Button)
+    doubleButton: cc.Button = null;
 
-    @property(cc.Node)
-    rebetButton: cc.Node = null;
+    @property(cc.Button)
+    rebetButton: cc.Button = null;
 
-    @property(cc.Node)
-    undoButton: cc.Node = null;
+    @property(cc.Button)
+    undoButton: cc.Button = null;
 
-    @property(cc.Node)
-    clearButton: cc.Node = null;
+    @property(cc.Button)
+    clearButton: cc.Button = null;
 
-    @property(cc.Node)
-    confirmButton: cc.Node = null;
+    @property(cc.Button)
+    confirmButton: cc.Button = null;
 
     rouletteMain: RouletteMain;
 
@@ -104,7 +104,7 @@ export default class Roulette extends GameRoomBase {
         this.initMain();
         this.initBetBoard();
         super.onLoad();
-
+        this.updateTotalBet();
         this.schedule(this.updateTotalBet, 0.3, cc.macro.REPEAT_FOREVER, 1);
     }
 
@@ -121,8 +121,20 @@ export default class Roulette extends GameRoomBase {
         const currentLength = Object.keys(this.currentBetChoices).length;
         const previosRoundLength = Object.keys(this.previousRoundBetChoices).length;
 
-        this.rebetButton.active = tempLength === 0 && currentLength === 0 && previosRoundLength > 0;
-        this.doubleButton.active = !this.rebetButton.active;
+        this.rebetButton.node.active = tempLength === 0 && currentLength === 0 && previosRoundLength > 0;
+        this.doubleButton.node.active = !this.rebetButton.node.active;
+
+        this.clearButton.interactable = tempLength > 0;
+        this.doubleButton.interactable = tempLength > 0;
+        this.confirmButton.interactable = tempLength > 0;
+        this.undoButton.interactable = tempLength > 0;
+
+        //update disable frame
+        this.clearButton.node.children[1].active = !this.clearButton.interactable;
+        this.doubleButton.node.children[1].active = !this.doubleButton.interactable;
+        this.confirmButton.node.children[1].active = !this.confirmButton.interactable;
+        this.undoButton.node.children[1].active = !this.undoButton.interactable;
+        this.rebetButton.node.children[1].active = !this.rebetButton.interactable;
     }
 
     resetDataAndUI() {
