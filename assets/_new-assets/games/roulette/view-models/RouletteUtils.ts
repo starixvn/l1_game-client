@@ -136,13 +136,13 @@ export default class RouletteUtils {
         layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
         layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
         layout.spacingY = -22;
-        for (let chip in Object.keys(values)) {
+        Object.keys(values).forEach(chip => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {
                 const chipNode = this.createChip(+chip, chipAltas, highlight);
                 layoutNode.addChild(chipNode);
             }
-        }
+        });
 
         return node;
     }
