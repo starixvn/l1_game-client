@@ -104,16 +104,20 @@ export default class Roulette extends GameRoomBase {
         this.initMain();
         this.initBetBoard();
         super.onLoad();
-        this.updateTotalBet();
-        this.schedule(this.updateTotalBet, 0.3, cc.macro.REPEAT_FOREVER, 1);
+        this.updateBetStatus(true);
+        this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
     }
 
     onDestroy() {
         super.onDestroy();
-        this.unschedule(this.updateTotalBet);
+        this.unschedule(this.updateBetStatus);
     }
 
-    updateTotalBet() {
+    updateBetStatus(forceUpdate = false) {
+        if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
+            return;
+        }
+
         const total = this.sumValueBetChoices(this.rouletteMain.board.betChoices);
         this.totalBetLabel.string = helper.numberWithCommas(total);
 
