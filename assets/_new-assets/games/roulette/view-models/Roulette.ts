@@ -436,7 +436,12 @@ export default class Roulette extends GameRoomBase {
         if (this.isEmptyBetChoices()) {
             return;
         }
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+            return;
+        }
 
+        this.waitingProcessing = true;
         this.sendData({
             bet: {
                 roundId: this.roundId,
