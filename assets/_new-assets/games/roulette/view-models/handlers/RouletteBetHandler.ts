@@ -9,8 +9,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
     }
 
     clearTempBetChoices() {
-        this.main.tempBetChoices = {};
-        this.main.rouletteMain.board.showBetChoices(this.main.currentBetChoices, this.main.currentBetChoices);
+        this.main.clearTempBetChoices();
     }
 
     handle(data: any): boolean {

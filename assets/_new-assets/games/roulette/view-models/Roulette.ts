@@ -161,7 +161,6 @@ export default class Roulette extends GameRoomBase {
     initBetBoard() {
         this.rouletteMain.board.callback.selected = (betInfo: RouletteBetInfo) => {
             if (this.isDisablePlaceChip()) {
-                this.isPlacingChip = false;
                 return;
             }
             this.isPlacingChip = true;
@@ -195,7 +194,6 @@ export default class Roulette extends GameRoomBase {
         this.rouletteMain.quickBet.callback.getCurrentBet = () => this.currentBet;
         this.rouletteMain.quickBet.callback.selected = (betChoices: any) => {
             if (this.isDisablePlaceChip()) {
-                this.isPlacingChip = false;
                 return;
             }
             this.isPlacingChip = true;
