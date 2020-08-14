@@ -494,4 +494,8 @@ export default class Roulette extends GameRoomBase {
                 ));
         }
     }
+
+    protected formatGameRound(gameRoundId: any) {
+        return gameRoundId ? gameRoundId : "";
+    }
 }
