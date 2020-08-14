@@ -119,6 +119,7 @@ export default class RouletteQuickBet extends cc.Component {
                     numbers.forEach(number => {
                         betChoices["straightUp"][number] = this.callback.getCurrentBet();
                     })
+                    this.internalHighlight(false, numbers);
                     this.internalSelected(betChoices);
                 }
             }
@@ -127,6 +128,7 @@ export default class RouletteQuickBet extends cc.Component {
 
     onTouchCancel(e) {
         this.rouletteNumbers.forEach(number => { number.clearHighlight(); });
+        this.internalHighlight(false, []);
     }
 
     internalHighlight(highlight, numbers) {
