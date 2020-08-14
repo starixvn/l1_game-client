@@ -21,10 +21,12 @@ export default class RouletteNumber extends cc.Component {
     }
 
     public clearHighlight() {
+        this.highlight.stopAllActions();
         this.highlight.runAction(cc.fadeOut(0.1));
     }
 
     public showHighlight() {
+        this.highlight.stopAllActions();
         this.highlight.runAction(cc.fadeIn(0.11));
     }
 
