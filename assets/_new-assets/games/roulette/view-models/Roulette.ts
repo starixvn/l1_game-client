@@ -127,6 +127,7 @@ export default class Roulette extends GameRoomBase {
         const previosRoundLength = Object.keys(this.previousRoundBetChoices).length;
 
         this.rebetButton.node.active = tempLength === 0 && currentLength === 0 && previosRoundLength > 0;
+        this.rebetButton.interactable = this.currentTimeRemaining > this.config.stopBetTime;
         this.doubleButton.node.active = !this.rebetButton.node.active;
 
         this.clearButton.interactable = tempLength > 0;
