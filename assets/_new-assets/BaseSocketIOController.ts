@@ -20,7 +20,12 @@ export default class BaseSocketIOController {
     const socket = socketIo(socketUri);
 
     socket.on('connect', () => {
+      console.log("connect");
       socket.emit('signin', getSession());
+    });
+
+    socket.on('reconnect', () => {
+      console.log("reconnect");
     });
 
     socket.on('connect_failed', () => {
