@@ -134,7 +134,7 @@ export default class RouletteUtils {
         const layout = layoutNode.addComponent(cc.Layout);
         layout.type = cc.Layout.Type.VERTICAL;
         layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
-        layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
+        layout.verticalDirection = cc.Layout.VerticalDirection.TOP_TO_BOTTOM;
         layout.spacingY = -22;
         Object.keys(values).forEach(chip => {
             const count = values[chip];

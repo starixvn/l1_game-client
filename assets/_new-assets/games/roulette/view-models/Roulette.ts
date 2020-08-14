@@ -159,6 +159,7 @@ export default class Roulette extends GameRoomBase {
     }
 
     initBetBoard() {
+        const chipFlyingDuration = 0.5;
         this.rouletteMain.board.callback.selected = (betInfo: RouletteBetInfo) => {
             if (this.isDisablePlaceChip()) {
                 return;
@@ -188,7 +189,7 @@ export default class Roulette extends GameRoomBase {
             this.betChips.moveChipWithCallback(chipNode, this.currentBet, destNode, null, () => {
                 this.rouletteMain.board.addBetChoice(betInfo, this.currentBet);
                 this.isPlacingChip = false;
-            }, 0, 0.8);
+            }, 0, chipFlyingDuration);
         }
 
         this.rouletteMain.quickBet.callback.getCurrentBet = () => this.currentBet;
@@ -222,7 +223,7 @@ export default class Roulette extends GameRoomBase {
                     this.betChips.moveChipWithCallback(chipNode, bet, destNode, null, () => {
                         this.rouletteMain.board.addBetChoice(betInfo, bet);
                         this.isPlacingChip = false;
-                    }, 0, 0.8);
+                    }, 0, chipFlyingDuration);
                 }
             }
             this.addToBetChoicesStack(betChoices);
@@ -232,6 +233,7 @@ export default class Roulette extends GameRoomBase {
     clearTempBetChoices() {
         this.tempBetChoices = {};
         this.betChoicesStack = [];
+        this.isPlacingChip = false;
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
     }
 
