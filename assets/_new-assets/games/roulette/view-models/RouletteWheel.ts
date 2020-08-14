@@ -116,11 +116,11 @@ export default class RouletteWheel extends cc.Component {
         const t = { resultNumber: result + 1 };
         this.onWheelUpdateResultNumber(t);
         cc.tween(this.node)
-            .delay(7)
-            .call(() => this.showResultNumber(result))
-            .delay(2.5)
-            .call(onComplete)
-            .call(() => this.hideResultNumber())
+            .delay(9)
+            .call(() => {
+                this.showResultNumber(result);
+                onComplete();
+            })
             .start();
     }
 

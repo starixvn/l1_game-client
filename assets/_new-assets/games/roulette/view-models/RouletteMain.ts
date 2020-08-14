@@ -44,13 +44,16 @@ export default class RouletteMain extends cc.Component {
 
     showRoulette(result: number, onComplete: () => void) {
         this.wheel.showResult(result, () => {
-            this.hideRoulette();
-            onComplete();
+            cc.tween(this.node)
+                .call(onComplete)
+                .delay(2)
+                .call(() => this.hideRoulette())
+                .start();
         });
     }
 
     hideRoulette() {
-
+        this.wheel.hideResultNumber();
     }
 
     highlightLastResult(result: number, animated: boolean) {

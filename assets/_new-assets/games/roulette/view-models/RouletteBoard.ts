@@ -283,7 +283,7 @@ export default class RouletteBoard extends cc.Component {
                     break;
             }
 
-            childNode.scale = 1 / this.node.scale;
+            childNode.scale = 1.35;
         }
 
         childNode.zIndex = 10 - ((childNode.position.y * 2) / this.cellSize.height);
