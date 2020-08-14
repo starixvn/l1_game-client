@@ -67,7 +67,8 @@ export default class RouletteBoard extends cc.Component {
     onTouchMove(e) {
         const localLocation = this.touchArea.convertToNodeSpaceAR(e.getLocation());
         const location = localLocation.sub(this.gridStartNode.position);
-        if (location.x < -this.middleCellOffset && location.y < this.gridStartNode.y) {
+        if (location.x < 0 && location.y < 0) {
+            this.clearHighlight();
             return;
         }
 
@@ -78,7 +79,8 @@ export default class RouletteBoard extends cc.Component {
     onTouchEnd(e) {
         const localLocation = this.touchArea.convertToNodeSpaceAR(e.getLocation());
         const location = localLocation.sub(this.gridStartNode.position);
-        if (location.x < -this.middleCellOffset && location.y < this.gridStartNode.y) {
+        if (location.x < 0 && location.y < 0) {
+            this.clearHighlight();
             return;
         }
 
