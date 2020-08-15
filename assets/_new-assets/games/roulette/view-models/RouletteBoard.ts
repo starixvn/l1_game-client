@@ -3,6 +3,7 @@ import { RouletteBetType, RouletteBetInfo } from './Roulette';
 import RouletteGroupBetItem from './RouletteGroupBetItem';
 import RouletteNumber from './RouletteNumber';
 import RouletteUtils from './RouletteUtils';
+import BetDetailTip from './BetDetailTip';
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -29,13 +30,17 @@ export default class RouletteBoard extends cc.Component {
     @property(cc.Node)
     numberContainer: cc.Node = null;
 
+    @property(cc.Prefab)
+    tipPrefab: cc.Prefab = null;
+
     middleCellOffset = 12;
 
     private cellSize: cc.Size;
     groupItems: RouletteGroupBetItem[] = [];
     rouletteNumbers: RouletteNumber[] = [];
+    detailTips: BetDetailTip[] = [];
 
-    public betChoices = {};
+    private betChoices = {};
     private otherBetChoices = {};
 
     public callback = {
@@ -73,7 +78,7 @@ export default class RouletteBoard extends cc.Component {
         }
 
         const betInfo = this.getBetInfo(location);
-        this.highlightNumbers(betInfo.numbers);
+        this.internalHighlight(true, betInfo.numbers);
     }
 
     onTouchEnd(e) {
@@ -92,9 +97,42 @@ export default class RouletteBoard extends cc.Component {
         this.clearHighlight();
     }
 
+    getBetDetail(index: number) {
+        if (index >= this.detailTips.length) {
+            const tip = cc.instantiate(this.tipPrefab);
+            tip.scale = 1 / this.node.scale;
+            this.node.addChild(tip);
+            const component = tip.getComponent(BetDetailTip);
+            this.detailTips.push(component);
+            return component;
+        }
+
+        return this.detailTips[index];
+    }
+
+    showBetDetailTips() {
+        let i = 0;
+        for (let type in this.betChoices) {
+            for (let key in this.betChoices[type]) {
+                const bet = this.betChoices[type][key];
+                const node = this.getBetNodeByKey(type, key);
+
+                const tip = this.getBetDetail(i);
+                tip.show(bet);
+                tip.node.position = this.node.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v2(0, 20)));
+                i++;
+            }
+        }
+    }
+
+    hideBetDetailTips() {
+        this.detailTips.forEach(tip => tip.hide());
+    }
+
     internalHighlight(highlight, numbers) {
         if (highlight) {
             this.highlightNumbers(numbers);
+            this.showBetDetailTips();
         } else {
             this.clearHighlight();
         }
@@ -358,5 +396,6 @@ export default class RouletteBoard extends cc.Component {
 
     clearHighlight() {
         this.rouletteNumbers.forEach(number => { number.clearHighlight(); });
+        this.hideBetDetailTips();
     }
 }

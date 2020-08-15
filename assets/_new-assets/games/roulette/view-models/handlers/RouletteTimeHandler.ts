@@ -10,6 +10,7 @@ export default class RouletteTimeHandler extends GameBaseTimeHandler {
     handleInLockBetTime() {
         super.handleInLockBetTime();
         this.main.clearTempBetChoices();
+        this.main.rouletteMain.board.hideBetDetailTips();
         this.main.rouletteMain.board.rouletteNumbers.forEach(n => n.hideWinning());
         this.main.rouletteMain.board.groupItems.forEach(n => n.hideWinning());
     }

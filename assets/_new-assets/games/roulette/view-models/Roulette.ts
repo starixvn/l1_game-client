@@ -119,8 +119,6 @@ export default class Roulette extends GameRoomBase {
             return;
         }
 
-
-
         const tempLength = Object.keys(this.tempBetChoices).length;
         const currentLength = Object.keys(this.currentBetChoices).length;
         const previosRoundLength = Object.keys(this.previousRoundBetChoices).length;
@@ -144,7 +142,6 @@ export default class Roulette extends GameRoomBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-
     }
 
     initMain() {
