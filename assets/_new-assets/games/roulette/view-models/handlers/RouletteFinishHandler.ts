@@ -50,7 +50,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             return;
         }
 
-        const playerNode = this.main.userAvatar.node;
+        const playerNode = this.main.userAvatar.node.parent;
 
         for (let type in data.winningByChoices) {
             for (let key in data.winningByChoices[type]) {
