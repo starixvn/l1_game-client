@@ -20,12 +20,13 @@ export default class BaseSocketIOController {
     const socket = socketIo(socketUri);
 
     socket.on('connect', () => {
-      console.log("connect");
+      console.log("connect sedie");
       socket.emit('signin', getSession());
     });
 
     socket.on('reconnect', () => {
-      console.log("reconnect");
+      console.log("reconnect sedie");
+      socket.emit('signin', getSession());
     });
 
     socket.on('connect_failed', () => {
@@ -63,5 +64,11 @@ export default class BaseSocketIOController {
         delete this.gameSockets[key];
       })
     }
+  }
+
+  recheckin() {
+    Object.values(this.gameSockets).forEach((socket: SocketIOClient.Socket) => {
+      socket.emit('recheckin', getSession());
+    })
   }
 }
