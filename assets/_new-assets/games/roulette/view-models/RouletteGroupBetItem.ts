@@ -70,7 +70,7 @@ export default class RouletteGroupBetItem extends CustomButton {
                 cc.fadeIn(.2),
             );
             this.winning.runAction(cc.sequence(
-                cc.repeat(sequence, 10),
+                cc.repeat(sequence, 14),
                 cc.fadeOut(.2),
                 cc.callFunc(() => {
                     sprite.spriteFrame = this.originFrame;
