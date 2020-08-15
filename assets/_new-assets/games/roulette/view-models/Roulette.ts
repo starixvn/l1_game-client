@@ -119,8 +119,7 @@ export default class Roulette extends GameRoomBase {
             return;
         }
 
-        const total = this.sumValueBetChoices(this.rouletteMain.board.betChoices);
-        this.totalBetLabel.string = helper.numberWithCommas(total);
+
 
         const tempLength = Object.keys(this.tempBetChoices).length;
         const currentLength = Object.keys(this.currentBetChoices).length;
@@ -235,6 +234,8 @@ export default class Roulette extends GameRoomBase {
         this.betChoicesStack = [];
         this.isPlacingChip = false;
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
+
+        this.updateTotalBetLabel();
     }
 
     clearCurrentBetChoices() {
@@ -318,6 +319,8 @@ export default class Roulette extends GameRoomBase {
         }
         const current = this.tempBetChoices[betInfo.type][key] || 0;
         this.tempBetChoices[betInfo.type][key] = current + bet;
+
+        this.updateTotalBetLabel();
     }
 
     showWheelResult(result: number, onComplete: () => void) {
@@ -401,11 +404,28 @@ export default class Roulette extends GameRoomBase {
         return result;
     }
 
-    updateBetChoicesOnBoard() {
+    getCurrentTotalBetChoices(): any {
         let totalBetChoices = {};
         totalBetChoices = this.mergeBetChoices(totalBetChoices, this.tempBetChoices);
         totalBetChoices = this.mergeBetChoices(totalBetChoices, this.currentBetChoices);
+        return totalBetChoices;
+    }
+
+    updateBetChoicesOnBoard() {
+        const totalBetChoices = this.getCurrentTotalBetChoices();
         this.rouletteMain.board.showBetChoices(totalBetChoices, this.currentBetChoices);
+        this.updateTotalBetLabel();
+    }
+
+    updateTotalBetLabel() {
+        const totalBetChoices = this.getCurrentTotalBetChoices();
+        const total = this.sumValueBetChoices(totalBetChoices);
+        this.totalBetLabel.string = helper.numberWithCommas(total);
+
+        this.totalBetLabel.node.runAction(cc.repeat(cc.sequence(
+            cc.scaleTo(0.15, 1.2),
+            cc.scaleTo(0.15, 1.0)
+        ), 2));
     }
 
     onPressedUndo() {

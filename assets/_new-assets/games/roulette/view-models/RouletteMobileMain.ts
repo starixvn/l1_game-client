@@ -32,6 +32,11 @@ export default class RouletteMobileMain extends RouletteMain {
         this.quickBet.node.active = false;
         this.backgroundWheel.active = false;
         this.wheel.node.y = this.wheelHidePositionY;
+        this.quickBetButton.parent.runAction(cc.repeatForever(
+            cc.sequence(
+                cc.scaleTo(0.8, 1.05).easing(cc.easeSineInOut()),
+                cc.scaleTo(0.8, 1.0).easing(cc.easeSineInOut()))
+        ));
     }
 
     switchToQuickBet() {
