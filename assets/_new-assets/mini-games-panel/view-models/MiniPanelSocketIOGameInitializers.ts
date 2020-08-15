@@ -1,8 +1,8 @@
+import { buildServerUrl } from '../.././common/helpers/UrlHelper';
 import BaseSocketIOController from '../../BaseSocketIOController';
 import * as authManager from './../../common/auth/AuthManager';
 import * as configs from './../../Configs';
 import MiniPanel from './MiniPanel';
-import { buildServerUrl } from '../.././common/helpers/UrlHelper';
 
 export default class MiniPanelSocketIOGameInitializers {
     constructor(private main: MiniPanel) {
@@ -36,6 +36,11 @@ export default class MiniPanelSocketIOGameInitializers {
 
                 this.main.onGeneralData(data);
             });
+
+            socket.on('forceDisconnect', () => {
+                socket.disconnect();
+            })
+
             socketIoController.gameSockets[gameId] = socket;
         });
     }
