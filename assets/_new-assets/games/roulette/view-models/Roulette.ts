@@ -159,7 +159,7 @@ export default class Roulette extends GameRoomBase {
     }
 
     initBetBoard() {
-        const chipFlyingDuration = 0.5;
+        const chipFlyingDuration = 0.3;
         this.rouletteMain.board.callback.selected = (betInfo: RouletteBetInfo) => {
             if (this.isDisablePlaceChip()) {
                 return;

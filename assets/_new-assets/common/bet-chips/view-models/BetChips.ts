@@ -49,15 +49,17 @@ export default class BetChips extends cc.Component {
         this.leftButton.active = false;
         this.chipList = [...this.chips.children];
         this.snappedScrollView.onScrollEnded = () => {
-            var min = this.snappedScrollView.getMinDisplayIndex();
+            const min = this.snappedScrollView.getMinDisplayIndex();
+
             if (this.selectedIndex < min) {
                 this.selectedIndex = min;
+                this.selectedIndex = Math.min(this.selectedIndex, this.chipList.length - this.displaySize);
             } else if (this.selectedIndex > min + this.displaySize - 1) {
                 this.selectedIndex = min + this.displaySize - 1;
             }
-            this.updateArrowVisibility();
 
-            var item = this.chipList[this.selectedIndex].name;
+            this.updateArrowVisibility();
+            const item = this.chipList[this.selectedIndex].name;
             this.setCurrentBet(item);
         };
     }
