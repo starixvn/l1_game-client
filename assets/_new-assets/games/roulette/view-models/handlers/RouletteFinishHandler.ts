@@ -51,11 +51,12 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
         }
 
         const playerNode = this.main.userAvatar.node.parent;
+        const duration = 0.7;
 
         for (let type in data.winningByChoices) {
             for (let key in data.winningByChoices[type]) {
                 const startNode = this.main.rouletteMain.board.getBetNodeByKey(type, key);
-                this.moveChip(data.winningByChoices[type][key], startNode, playerNode, this.payChipFlyTime);
+                this.moveChip(data.winningByChoices[type][key], startNode, playerNode, duration);
             }
         }
 
@@ -75,6 +76,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
     }
 
     payChipsFromBetChoices(winningPlayers: any) {
+        const duration = 0.7;
         for (let playerId in winningPlayers) {
             const data = winningPlayers[playerId];
             const playerSlot = this.main.playerHandler.getPlayerSlot(playerId);
@@ -82,7 +84,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             if (playerSlot) {
                 destNode = playerSlot.avatar.node;
                 cc.tween(this)
-                    .delay(this.payChipFlyTime)
+                    .delay(duration)
                     .call(() => {
                         playerSlot.increaseBalance(data.bet);
                         GameUtils.addFlyingText(playerSlot.node, true, data.bet, 3, 0, 10);
@@ -96,7 +98,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             for (let type in data.winningByChoices) {
                 for (let key in data.winningByChoices[type]) {
                     const startNode = this.main.rouletteMain.board.getBetNodeByKey(type, key);
-                    this.moveChip(data.winningByChoices[type][key], startNode, destNode, this.payChipFlyTime);
+                    this.moveChip(data.winningByChoices[type][key], startNode, destNode, duration);
                 }
             }
         }
