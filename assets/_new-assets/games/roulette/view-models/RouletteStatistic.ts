@@ -114,6 +114,9 @@ export default class RouletteStatistic extends cc.Component {
     }
 
     createWheel() {
+        if (this.result.length == 0) {
+            return;
+        }
         const largestTimes = _.maxBy(this.resultStats, 'times').times;
         const offfetCenter = 0.19;
         this.numbersOnWheel.forEach((number, index) => {
@@ -144,6 +147,9 @@ export default class RouletteStatistic extends cc.Component {
     }
 
     handleStatsPercent() {
+        if (this.result.length == 0) {
+            return;
+        }
         this.findHotColdNumbers();
         this.calculatePercent();
     }
