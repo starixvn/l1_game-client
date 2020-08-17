@@ -50,10 +50,10 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
                     // this.main.betChips.moveChipWithCallback(chipNode, bet, destNode, startNode, () => {
                     //     // this.main.rouletteMain.board.addBetChoiceByKey(type, key, bet, true);
                     // }, 4, 0.8);
-
                     const values = RouletteUtils.getChipValues(bet);
+
                     let count = 0;
-                    for (let chip in Object.keys(values)) {
+                    Object.keys(values).forEach(chip => {
                         if (values[chip] > 0) {
                             for (let i = 0; i < values[chip]; i++) {
                                 cc.tween(this.main)
@@ -66,7 +66,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
                                 count++;
                             }
                         }
-                    }
+                    });
                 }
             }
         }
