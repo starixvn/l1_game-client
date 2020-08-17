@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import * as Pagination from '../../../../common/helpers/Pagination/Pagination';
+import * as Pagination from '../../../common/helpers/Pagination/Pagination';
 import { numberWithCommas, getStringDateByTime, nFormatter } from '../../../common/helpers/Helper';
 import RouletteTicketDetail from './RouletteTicketDetail';
 import RouletteHistoryItem from './RouletteHistoryItem';
