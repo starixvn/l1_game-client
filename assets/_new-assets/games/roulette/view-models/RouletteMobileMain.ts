@@ -39,6 +39,10 @@ export default class RouletteMobileMain extends RouletteMain {
         ));
     }
 
+    enableQuickBet(enable: boolean) {
+        this.quickBetButton.getComponent(cc.Button).interactable = enable;
+    }
+
     switchToQuickBet() {
         cc.RedT.audio.playClick();
         this.quickBetButton.active = false;

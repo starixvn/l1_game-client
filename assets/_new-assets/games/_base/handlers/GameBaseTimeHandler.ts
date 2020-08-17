@@ -52,29 +52,40 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
 
         this.playTimeInterval = setInterval(() => {
-            if (this.isInWaitTime) {
-                this.handleWaitTime();
-            } else {
-                if (this.isStartingNewGameRound) {
-                    this.handleStartingNewGameRound();
-                }
-
-                const isInRoundTime = this.main.currentTimeRemaining >= this.main.config.minBetTime;
-
-                if (isInRoundTime) {
-                    this.handleInRoundTime();
-
-                    const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
-
-                    if (isInLockBetTime) {
-                        this.handleInLockBetTime();
-                    }
-                } else {
-                    this.handleInEndTime();
-                }
-            }
-            this.main.currentTimeRemaining--;
+            this.gameUpdate();
         }, 1000);
+    }
+
+    gameUpdate(): void {
+        if (this.isInWaitTime) {
+            this.handleWaitTime();
+        } else {
+            if (this.isStartingNewGameRound) {
+                this.handleStartingNewGameRound();
+            }
+
+            const isInRoundTime = this.main.currentTimeRemaining >= this.main.config.minBetTime;
+
+            if (isInRoundTime) {
+                this.handleInRoundTime();
+
+                const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
+
+                if (isInLockBetTime) {
+                    if (this.main.currentTimeRemaining == this.main.config.stopBetTime) {
+                        this.handleAtLockBetTime();
+                    }
+                    this.handleInLockBetTime();
+                }
+            } else {
+                this.handleInEndTime();
+            }
+        }
+        this.main.currentTimeRemaining--;
+    }
+
+    handleAtLockBetTime() {
+
     }
 
     stopPlayTime(): void {

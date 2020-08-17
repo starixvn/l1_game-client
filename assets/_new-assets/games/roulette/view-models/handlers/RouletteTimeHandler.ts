@@ -7,11 +7,16 @@ export default class RouletteTimeHandler extends GameBaseTimeHandler {
         super(main);
     }
 
-    handleInLockBetTime() {
-        super.handleInLockBetTime();
+    handleAtLockBetTime() {
+        super.handleAtLockBetTime();
         this.main.clearTempBetChoices();
         this.main.rouletteMain.switchToRegularBet();
-        this.main.rouletteMain.board.hideBetDetailTips();
+        this.main.rouletteMain.enableQuickBet(false);
+    }
+
+    handleInLockBetTime() {
+        super.handleInLockBetTime();
+
         this.main.rouletteMain.board.rouletteNumbers.forEach(n => n.hideWinning());
         this.main.rouletteMain.board.groupItems.forEach(n => n.hideWinning());
     }
@@ -19,6 +24,7 @@ export default class RouletteTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.clearCurrentBetChoices();
+        this.main.rouletteMain.enableQuickBet(true);
         this.main.rouletteMain.board.rouletteNumbers.forEach(n => n.hideWinning());
         this.main.rouletteMain.board.groupItems.forEach(n => n.hideWinning());
         this.main.gameRound.node.runAction(cc.repeat(cc.sequence(

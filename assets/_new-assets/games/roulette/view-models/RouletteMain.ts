@@ -35,6 +35,10 @@ export default class RouletteMain extends cc.Component {
         }
     }
 
+    enableQuickBet(enable: boolean) {
+
+    }
+
     switchToQuickBet() {
 
     }
