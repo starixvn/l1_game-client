@@ -32,12 +32,14 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
 
         if (data.othersBetChoices) {
             const other = data.othersBetChoices;
-            var playerSlot = this.main.playerHandler.getPlayerSlot(other.playerId);
+            const playerSlot = this.main.playerHandler.getPlayerSlot(other.playerId);
             let startNode: cc.Node;
             if (playerSlot) {
                 startNode = playerSlot.avatar.node;
+                this.updatePlayerSlotDataStorage(other, playerSlot);
             } else {
                 startNode = this.main.otherPlayers;
+                this.updateOtherDataStorage(other);
             }
 
             for (let type in other.betChoices) {

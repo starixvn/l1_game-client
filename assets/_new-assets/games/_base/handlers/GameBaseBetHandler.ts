@@ -24,7 +24,7 @@ export default class GameBaseBetHandler implements DataHandler {
             this.main.showProcessingWarning(false);
         }
 
-        var mainRoomGame = this.main as GameRoomBase;
+        const mainRoomGame = this.main as GameRoomBase;
 
         if (mainRoomGame && mainRoomGame.enablePlaceChips) {
             if (data.ownChip) {
@@ -69,34 +69,43 @@ export default class GameBaseBetHandler implements DataHandler {
     }
 
     placePlayerChip(data) {
-        var gameRoomMain = this.main as GameRoomBase;
+        const gameRoomMain = this.main as GameRoomBase;
 
         if (gameRoomMain) {
-            var betOption = data.box.toLowerCase();
-            var bet = data.bet;
-            var startNode: cc.Node;
-            var playerSlot = gameRoomMain.playerHandler.getPlayerSlot(data.playerId);
-            var betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
+            const betOption = data.box.toLowerCase();
+            const bet = data.bet;
+            let startNode: cc.Node;
+            const playerSlot = gameRoomMain.playerHandler.getPlayerSlot(data.playerId);
+            const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
 
             if (playerSlot) {
-                playerSlot.setBalance(data.red);
-                playerSlot.data.idleCount = 0;
-                RoomPlayer.storePlayerToCache(playerSlot.data, this.main.gameName);
+                this.updatePlayerSlotDataStorage(data, playerSlot);
                 startNode = playerSlot.avatar.node;
             }
             else {
                 startNode = gameRoomMain.otherPlayers;
-                var player = gameRoomMain.playerHandler.otherPlayers[data.playerId];
-
-                if (player) {
-                    player.idleCount = 0;
-                    player.red = data.red;
-                    gameRoomMain.playerHandler.otherPlayers[data.playerId] = player;
-                    RoomPlayer.storePlayerToCache(player, this.main.gameName);
-                }
+                this.updateOtherDataStorage(data);
             }
             this.main.betChips.placeChipBet(bet, betItem.chipNode, startNode);
             this.playerChips.pop();
+        }
+    }
+
+    updatePlayerSlotDataStorage(data, playerSlot) {
+        playerSlot.setBalance(data.red);
+        playerSlot.data.idleCount = 0;
+        RoomPlayer.storePlayerToCache(playerSlot.data, this.main.gameName);
+    }
+
+    updateOtherDataStorage(data) {
+        const gameRoomMain = this.main as GameRoomBase;
+        const player = gameRoomMain.playerHandler.otherPlayers[data.playerId];
+
+        if (player) {
+            player.idleCount = 0;
+            player.red = data.red;
+            gameRoomMain.playerHandler.otherPlayers[data.playerId] = player;
+            RoomPlayer.storePlayerToCache(player, this.main.gameName);
         }
     }
 
