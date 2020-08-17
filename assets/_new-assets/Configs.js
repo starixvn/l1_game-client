@@ -2,7 +2,7 @@ const configs = {
   ssl: false,
   disabledDirectLogin: true,
   serverDomainMapper: {
-    localhost: 'localhost',
+    localhost: 'lumigame.com',
     '10.5.10.14': 'lumigame.com',
   },
   serverGameEndPoints: {
