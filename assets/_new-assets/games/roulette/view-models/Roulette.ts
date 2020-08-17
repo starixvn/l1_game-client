@@ -234,6 +234,7 @@ export default class Roulette extends GameRoomBase {
 
         this.updateTotalBetLabel();
         this.rouletteMain.board.hideBetDetailTips();
+        this.rouletteMain.board.clearHighlight();
     }
 
     clearCurrentBetChoices() {
