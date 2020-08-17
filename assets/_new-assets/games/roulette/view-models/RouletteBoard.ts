@@ -52,19 +52,23 @@ export default class RouletteBoard extends cc.Component {
         this.initGroupBetItems();
         this.rouletteNumbers = this.numberContainer.children.map(child => child.getComponent(RouletteNumber));
 
+        this.touchArea.on(cc.Node.EventType.TOUCH_START, this.onTouchMove, this);
         this.touchArea.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.touchArea.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.touchArea.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
 
+        this.touchArea.on(cc.Node.EventType.MOUSE_ENTER, this.onTouchMove, this);
         this.touchArea.on(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
         this.touchArea.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
     }
 
     onDestroy() {
+        this.touchArea.off(cc.Node.EventType.TOUCH_START, this.onTouchMove, this);
         this.touchArea.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.touchArea.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.touchArea.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
 
+        this.touchArea.off(cc.Node.EventType.MOUSE_ENTER, this.onTouchMove, this);
         this.touchArea.off(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
         this.touchArea.off(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
     }
