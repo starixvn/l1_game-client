@@ -45,6 +45,8 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
                 this.updateOtherDataStorage(other);
             }
 
+            const duration = 0.8;
+            const remainingTimeToStopBet = this.main.currentTimeRemaining - this.main.config.stopBetTime;
             for (let type in other.betChoices) {
                 for (let key in other.betChoices[type]) {
                     const destNode = this.main.rouletteMain.board.getBetNodeByKey(type, key, true);
@@ -59,13 +61,16 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
                     Object.keys(values).forEach(chip => {
                         if (values[chip] > 0) {
                             for (let i = 0; i < values[chip]; i++) {
-                                cc.tween(this.main)
-                                    .delay(count * 0.5)
-                                    .call(() => {
-                                        const chipNode = RouletteUtils.createChip(+chip, this.main.betChips.chipAltas);
-                                        this.main.betChips.moveChipWithCallback(chipNode, bet, destNode, startNode, () => { }, 4, 0.8);
-                                    })
-                                    .start();
+                                const delayTime = count * 0.5;
+                                if (remainingTimeToStopBet > duration + delayTime) {
+                                    cc.tween(this.main)
+                                        .delay(delayTime)
+                                        .call(() => {
+                                            const chipNode = RouletteUtils.createChip(+chip, this.main.betChips.chipAltas);
+                                            this.main.betChips.moveChipWithCallback(chipNode, bet, destNode, startNode, () => { }, 4, duration);
+                                        })
+                                        .start();
+                                }
                                 count++;
                             }
                         }
