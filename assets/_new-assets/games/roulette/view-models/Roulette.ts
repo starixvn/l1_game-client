@@ -129,8 +129,23 @@ export default class Roulette extends GameRoomBase {
 
         this.clearButton.interactable = tempLength > 0;
         this.doubleButton.interactable = tempLength > 0;
-        this.confirmButton.interactable = tempLength > 0;
         this.undoButton.interactable = tempLength > 0;
+        if (this.confirmButton.interactable != tempLength > 0) {
+            this.confirmButton.node.stopAllActions();
+            this.confirmButton.node.scale = 1;
+            if (!this.confirmButton.interactable) {
+                cc.tween(this.confirmButton.node)
+                    .repeatForever(
+                        cc.tween()
+                            .to(0.15, { scale: 0.9 })
+                            .to(0.1, { scale: 1 })
+                            .to(0.1, { scale: 0.9 })
+                            .to(0.1, { scale: 1 })
+                            .delay(1))
+                    .start();
+            }
+        }
+        this.confirmButton.interactable = tempLength > 0;
 
         //update disable frame
         this.clearButton.node.children[1].active = !this.clearButton.interactable;
