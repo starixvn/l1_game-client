@@ -103,8 +103,8 @@ export default class BetChips extends cc.Component {
         this.updateArrowVisibility();
 
         var min = this.snappedScrollView.getMinDisplayIndex();
-        if (this.selectedIndex <= min && min > 0) {
-            this.snappedScrollView.scrollTo(min - 1);
+        if (this.selectedIndex <= min) {
+            this.snappedScrollView.scrollTo(min > 0 ? min - 1 : 0);
         }
         if (this.selectedIndex >= min + this.displaySize - 1) {
             this.snappedScrollView.scrollTo(min + 1);
@@ -304,14 +304,15 @@ export default class BetChips extends cc.Component {
     }
 
     private updateSelectedBet(targetName: string) {
-        this.chips.children.map((chip) => {
+        this.chips.children.forEach(chip => {
+            chip.stopAllActions();
             if (chip.name == targetName) {
                 chip.children[0].active = true;
                 chip.zIndex = 2;
                 cc.tween(chip)
                     .to(0.2, {
                         scale: 1.15,
-                        position: cc.v2(chip.position.x, 12)
+                        position: cc.v2(chip.position.x, 12),
                     })
                     .start();
             } else {
@@ -320,10 +321,10 @@ export default class BetChips extends cc.Component {
                 cc.tween(chip)
                     .to(0.2, {
                         scale: 1,
-                        position: cc.v2(chip.position.x, 0)
+                        position: cc.v2(chip.position.x, 0),
                     })
                     .start();
             }
-        })
+        });
     }
 }
