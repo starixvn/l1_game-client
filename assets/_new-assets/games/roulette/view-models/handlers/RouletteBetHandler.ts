@@ -18,10 +18,13 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
         }
 
         if (data.ownBets) {
-            this.main.currentBetChoices = _.cloneDeep(data.ownBets);
-            this.main.previousRoundBetChoices = _.cloneDeep(this.main.currentBetChoices);
+            this.main.currentTimeRemaining = data.remainingTime || this.main.currentTimeRemaining;
+            if (this.main.currentTimeRemaining <= this.main.config.betTime) {
+                this.main.currentBetChoices = _.cloneDeep(data.ownBets);
+                this.main.previousRoundBetChoices = _.cloneDeep(this.main.currentBetChoices);
 
-            this.clearTempBetChoices();
+                this.clearTempBetChoices();
+            }
         }
 
         if (data.endBet) {
