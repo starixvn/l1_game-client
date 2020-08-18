@@ -105,6 +105,7 @@ export default class Roulette extends GameRoomBase {
         this.initMain();
         this.initBetBoard();
         super.onLoad();
+        this.updateTotalBetLabel();
         this.updateBetStatus(true);
         this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
     }
