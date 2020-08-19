@@ -84,7 +84,7 @@ module.exports = {
     cc.RedT.isConnected = true;
     setTimeout(() => {
       cc.RedT.inGame && cc.RedT.inGame.onConnected();
-    }, 1000);
+    }, 2000);
   },
   _onSocketDisconnect: function () {
     cc.RedT.isConnected = false;
