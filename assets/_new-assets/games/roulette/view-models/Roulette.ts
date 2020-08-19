@@ -137,6 +137,8 @@ export default class Roulette extends GameRoomBase {
         if (this.confirmButton.interactable != tempLength > 0) {
             this.confirmButton.node.stopAllActions();
             this.confirmAnimation.stop("ConfirmAnimation");
+            const glow = this.confirmAnimation.node.getChildByName("glow");
+            glow && (glow.active = false);
             this.confirmButton.node.scale = 1;
             if (!this.confirmButton.interactable) {
                 cc.tween(this.confirmButton.node)
@@ -149,6 +151,7 @@ export default class Roulette extends GameRoomBase {
                             .delay(1))
                     .start();
 
+                glow && (glow.active = true);
                 this.confirmAnimation.play("ConfirmAnimation");
             }
 
