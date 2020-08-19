@@ -48,15 +48,17 @@ export default class LuckyMoneyWheel extends cc.Component {
 
     // _easeQuarticActionInOut = {
     //     easing: function (time) {
+    //         time = time * 2;
+    //         if (time <= 0.2)
+    //             return 0.25 * time * time * time * time;
 
-    //         console.log("first:" + time);
-    //         time = time * 3;
-    //         if (time < 0.7)
-    //             return 0.5 * time * time * time * time;
+    //         if (time > 0.2 && time <= 0.7)
+    //             return 0.35 * time * time;
 
-    //         console.log("second:" + time);
+    //         if (time > 0.7 && time < 1)
+    //             return 0.5 * time * time * time * time * time * time * time * time * time * time;
     //         time -= 2;
-    //         return -0.5 * (time * time * time - 3);
+    //         return -0.5 * (time * time * time * time - 2);
     //     },
     //     reverse: function () {
     //         return this._easeQuarticActionInOut;
