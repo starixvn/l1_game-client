@@ -19,6 +19,10 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
         this.betChoiceGroupNode.children.forEach(child => child.destroy());
     }
 
+    onDisable() {
+        this.betChoiceGroupNode.destroyAllChildren();
+    }
+
     createBetLogItem(betLogs: any, settlementResult: any) {
         let height = 0;
         const orderDictionary = [

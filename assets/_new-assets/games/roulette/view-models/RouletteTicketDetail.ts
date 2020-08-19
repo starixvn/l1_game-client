@@ -46,6 +46,7 @@ export default class RouletteTicketDetail extends cc.Component {
     }
 
     onDisable() {
+        this.content.destroyAllChildren();
         this.node.destroy();
     }
 }

@@ -37,6 +37,7 @@ export default class RouletteHistory extends cc.Component {
     }
 
     onDisable() {
+        this.content.destroyAllChildren();
         this.node.destroy();
     }
 
