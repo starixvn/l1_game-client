@@ -78,6 +78,9 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Button)
     confirmButton: cc.Button = null;
 
+    @property(cc.Animation)
+    confirmAnimation: cc.Animation = null;
+
     rouletteMain: RouletteMain;
 
     tempBetChoices: any = {};
@@ -133,6 +136,7 @@ export default class Roulette extends GameRoomBase {
         this.undoButton.interactable = tempLength > 0;
         if (this.confirmButton.interactable != tempLength > 0) {
             this.confirmButton.node.stopAllActions();
+            this.confirmAnimation.stop("ConfirmAnimation");
             this.confirmButton.node.scale = 1;
             if (!this.confirmButton.interactable) {
                 cc.tween(this.confirmButton.node)
@@ -144,7 +148,10 @@ export default class Roulette extends GameRoomBase {
                             .to(0.1, { scale: 1 })
                             .delay(1))
                     .start();
+
+                this.confirmAnimation.play("ConfirmAnimation");
             }
+
         }
         this.confirmButton.interactable = tempLength > 0;
 
@@ -154,6 +161,9 @@ export default class Roulette extends GameRoomBase {
         this.confirmButton.node.children[1].active = !this.confirmButton.interactable;
         this.undoButton.node.children[1].active = !this.undoButton.interactable;
         this.rebetButton.node.children[1].active = !this.rebetButton.interactable;
+
+
+
     }
 
     resetDataAndUI() {
