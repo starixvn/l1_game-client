@@ -21,32 +21,39 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
 
     createBetLogItem(betLogs: any, settlementResult: any) {
         let height = 0;
-        const straightUpArray = _.pick(betLogs, RouletteBetType.StraightUp);
-        const splitUpArray = _.pick(betLogs, RouletteBetType.Split);
-        const streetUpArray = _.pick(betLogs, RouletteBetType.Street);
-        const triangleUpArray = _.pick(betLogs, RouletteBetType.Triangle);
-        const cornerUpArray = _.pick(betLogs, RouletteBetType.Corner);
-        const fourNumberUpArray = _.pick(betLogs, RouletteBetType.FourNumbers);
-        const lineUpArray = _.pick(betLogs, RouletteBetType.Line);
-        const columnUpArray = _.pick(betLogs, RouletteBetType.Column);
-        const dozenUpArray = _.pick(betLogs, RouletteBetType.Dozen);
-        const redBlackArray = _.pick(betLogs, RouletteBetType.RedBlack);
-        const oddEvenArray = _.pick(betLogs, RouletteBetType.OddEven);
-        const bigSmallArray = _.pick(betLogs, RouletteBetType.BigSmall);
-        const orderResults = _.merge(straightUpArray, splitUpArray, streetUpArray, triangleUpArray, cornerUpArray,
-            fourNumberUpArray, lineUpArray, columnUpArray, dozenUpArray, redBlackArray, oddEvenArray, bigSmallArray);
+        const orderDictionary = [
+            RouletteBetType.StraightUp,
+            RouletteBetType.Split,
+            RouletteBetType.Street,
+            RouletteBetType.Triangle,
+            RouletteBetType.Corner,
+            RouletteBetType.FourNumbers,
+            RouletteBetType.Line,
+            RouletteBetType.Column,
+            RouletteBetType.Dozen,
+            RouletteBetType.RedBlack,
+            RouletteBetType.OddEven,
+            RouletteBetType.BigSmall
+        ];
 
-        Object.keys(orderResults).forEach(keyGroup => {
-            const betList = betLogs[keyGroup];
-            const result = _.hasIn(settlementResult, keyGroup) ? _.pick(settlementResult, keyGroup) : null;
+        const orderResults = {};
+        orderDictionary.forEach(key => {
+            if (betLogs[key]) {
+                orderResults[key] = betLogs[key];
+            }
+        });
+
+        Object.keys(orderResults).forEach(betType => {
+            const betList = orderResults[betType];
+            const result = settlementResult[betType];
 
             if (_.size(betList) > 0) {
-                Object.keys(betList).forEach(logKey => {
+                Object.keys(betList).forEach(betKey => {
                     const betItem = cc.instantiate(this.betItemPrefab);
                     const betItemComponent = betItem.getComponent(RouletteTicketDetailItem);
                     this.betChoiceGroupNode.addChild(betItem);
-                    const isWinning = result[keyGroup].indexOf(logKey) != -1;
-                    betItemComponent.updateContent(keyGroup, logKey, betList[logKey], isWinning);
+                    const isWinning = result && result.indexOf(betKey) != -1;
+                    betItemComponent.updateContent(betType, betKey, betList[betKey], isWinning);
                     height += betItemComponent.height;
                 })
             }

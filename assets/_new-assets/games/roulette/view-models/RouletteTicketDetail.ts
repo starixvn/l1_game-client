@@ -36,14 +36,15 @@ export default class RouletteTicketDetail extends cc.Component {
 
     public showbetLogs() {
         this.node.active = true;
-        this.betLogDetails.forEach((log, index) => {
+        this.betLogDetails.forEach(log => {
             const group = cc.instantiate(this.groupPrefab);
             const groupComponent = group.getComponent(RouletteTicketDetailIGroup);
-            groupComponent.timeLabel.string = getStringHourByTime(this.betLogDetails[index].time);
+            groupComponent.timeLabel.string = getStringHourByTime(log.time);
             this.content.addChild(group);
-            groupComponent.createBetLogItem(this.betLogDetails[index], this.settlementResult);
+            groupComponent.createBetLogItem(log, this.settlementResult);
         })
     }
+
     onDisable() {
         this.node.destroy();
     }
