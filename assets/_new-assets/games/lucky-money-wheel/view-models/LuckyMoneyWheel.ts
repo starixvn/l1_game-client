@@ -1,4 +1,4 @@
-import { easeCubicActionInOut, easing, easeOut, easeSineIn, easeCircleActionIn, easeCubicActionIn } from '../../../../../creator';
+import { easeCubicActionInOut, easing, easeOut, easeSineIn, easeCircleActionIn, easeCubicActionIn, bezierTo } from '../../../../../creator';
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -20,13 +20,18 @@ export default class LuckyMoneyWheel extends cc.Component {
     defaultAngle: number = 360 / this.scoinPresents.length;
     gameTime: number = 6;
     point: number = null;
+    currentRotation: number = null;
+    lastRotation: number = null;
 
-    // shakeIndicator() {
-    //     const action = cc.repeatForever(cc.sequence(cc.rotateTo(0.13, -10).easing(cc.easeOut(2)), cc.rotateBy(0.13, 3).easing(cc.easeOut(5))));
-    //     action.setTag(100);
-
-    //     this.indicator.getChildByName("indicator").runAction(action);
-    // }
+    shakeIndicator() {
+        if (!this.indicator.getActionByTag(100)) {
+            const action = cc.sequence(cc.rotateTo(0.13, -10).easing(cc.easeOut(2)), cc.rotateTo(0.13, 3).easing(cc.easeOut(5)));
+            action.setTag(100);
+            //this.indicator.stopActionByTag(100);
+            this.indicator.runAction(action);
+            console.log("action")
+        }
+    }
 
     spin() {
         this.button.interactable = false;
@@ -40,12 +45,28 @@ export default class LuckyMoneyWheel extends cc.Component {
         let offsetAngleResult = 360 - (this.wheel.angle % 360);
         const rotateResult = (result * this.defaultAngle) + (8 * 360) - offsetAngleResult - randomPosition;
 
-        let action = cc.sequence(
-            cc.rotateBy(this.gameTime, rotateResult).easing(cc.easeBezierAction(0, 0.9, 0.99999999, 1)),
-            cc.callFunc(() => {
+        cc.tween(this.wheel)
+            .by(this.gameTime, { angle: rotateResult }, {
+                progress: (start, end, current, ratio) => {
+                    this.currentRotation = this.wheel.angle;
+                    const tolerance = 5;//this.currentRotation - this.lastRotation;
+                    const temp = Math.round(this.currentRotation) % (360 / 30);
+                    console.log("temp: " + temp);
+                    if (temp <= tolerance) {
+                        this.shakeIndicator();
+                    }
+                    this.lastRotation = this.currentRotation;
+                    return start + (end - start) * ratio;
+                },
+                easing: t => {
+                    const a = 0, d = 1, b = 0.9, c = 0.99999999;
+
+                    return (Math.pow(1 - t, 3) * a + 3 * t * (Math.pow(1 - t, 2)) * b + 3 * Math.pow(t, 2) * (1 - t) * c + Math.pow(t, 3) * d);
+                },
+            })
+            .call(() => {
                 this.button.interactable = true;
-                this.button.node.opacity = 255;
-            }));
-        this.wheel.runAction(action);
+            })
+            .start();
     }
 }
