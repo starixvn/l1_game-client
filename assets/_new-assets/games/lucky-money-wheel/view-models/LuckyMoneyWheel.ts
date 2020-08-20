@@ -36,6 +36,7 @@ export default class LuckyMoneyWheel extends cc.Component {
         this.resultLabel.string = result.toString();
 
         let randomPosition = Math.random() * ((this.defaultAngle - 5) - 5) + 5;
+        console.log(randomPosition);
         let offsetAngleResult = 360 - (this.wheel.angle % 360);
         const rotateResult = (result * this.defaultAngle) + (8 * 360) - offsetAngleResult - randomPosition;
 
