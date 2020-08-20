@@ -204,7 +204,7 @@
       "array": [
         0,
         0,
-        376.80416865724476,
+        376.82683720570304,
         0,
         0,
         0,
@@ -3616,7 +3616,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "con-quay",
+    "_name": "indicator-dock",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -3685,7 +3685,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "luoi-con-quay",
+    "_name": "indicator",
     "_objFlags": 0,
     "_parent": {
       "__id__": 73
@@ -5240,6 +5240,9 @@
     "_enabled": true,
     "wheel": {
       "__id__": 10
+    },
+    "indicator": {
+      "__id__": 73
     },
     "button": {
       "__id__": 81

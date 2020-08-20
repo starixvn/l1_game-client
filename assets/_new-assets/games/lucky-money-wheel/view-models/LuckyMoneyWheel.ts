@@ -1,3 +1,4 @@
+import { easeCubicActionInOut, easing, easeOut, easeSineIn, easeCircleActionIn, easeCubicActionIn } from '../../../../../creator';
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -5,6 +6,9 @@ export default class LuckyMoneyWheel extends cc.Component {
 
     @property(cc.Node)
     wheel: cc.Node = null;
+
+    @property(cc.Node)
+    indicator: cc.Node = null;
 
     @property(cc.Button)
     button: cc.Button = null;
@@ -14,11 +18,14 @@ export default class LuckyMoneyWheel extends cc.Component {
 
     scoinPresents: any[] = [1, 10, 5, 2, 1, 10, 5, 0, 2, 1, 10, 5, 2, 1, 10, 5, 2, 1, 10, 5, 2, 1, 0, 10, 5, 2, 1, 10, 5, 2];
     defaultAngle: number = 360 / this.scoinPresents.length;
-    gameTime: number = 4;
+    gameTime: number = 6;
     point: number = null;
 
-    // onLoad() {
+    // shakeIndicator() {
+    //     const action = cc.repeatForever(cc.sequence(cc.rotateTo(0.13, -10).easing(cc.easeOut(2)), cc.rotateBy(0.13, 3).easing(cc.easeOut(5))));
+    //     action.setTag(100);
 
+    //     this.indicator.getChildByName("indicator").runAction(action);
     // }
 
     spin() {
@@ -28,44 +35,16 @@ export default class LuckyMoneyWheel extends cc.Component {
         this.point = this.scoinPresents[result - 1];
         this.resultLabel.string = result.toString();
 
-        let randomPosition = Math.random() * (20 - 6) + 6;
+        let randomPosition = Math.random() * ((this.defaultAngle - 5) - 5) + 5;
         let offsetAngleResult = 360 - (this.wheel.angle % 360);
-        let rotateResult = (result * this.defaultAngle) + 3600 - offsetAngleResult - randomPosition;
+        const rotateResult = (result * this.defaultAngle) + (8 * 360) - offsetAngleResult - randomPosition;
 
         let action = cc.sequence(
-            cc.rotateBy(this.gameTime, rotateResult).easing(cc.easeQuarticActionInOut()),
-            // cc.delayTime(1),
-            cc.callFunc(() => {
-                //this.showWinningEffect(true);
-            }),
-            // cc.delayTime(3),
+            cc.rotateBy(this.gameTime, rotateResult).easing(cc.easeBezierAction(0, 0.9, 0.99999999, 1)),
             cc.callFunc(() => {
                 this.button.interactable = true;
                 this.button.node.opacity = 255;
             }));
         this.wheel.runAction(action);
     }
-
-    // _easeQuarticActionInOut = {
-    //     easing: function (time) {
-    //         time = time * 2;
-    //         if (time <= 0.2)
-    //             return 0.25 * time * time * time * time;
-
-    //         if (time > 0.2 && time <= 0.7)
-    //             return 0.35 * time * time;
-
-    //         if (time > 0.7 && time < 1)
-    //             return 0.5 * time * time * time * time * time * time * time * time * time * time;
-    //         time -= 2;
-    //         return -0.5 * (time * time * time * time - 2);
-    //     },
-    //     reverse: function () {
-    //         return this._easeQuarticActionInOut;
-    //     }
-    // };
-
-    // easeQuarticActionInOut() {
-    //     return this._easeQuarticActionInOut;
-    // }
 }
