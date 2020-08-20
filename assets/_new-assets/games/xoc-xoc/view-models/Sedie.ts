@@ -133,7 +133,7 @@ export default class Sedie extends GameRoomBase {
         else {
             this.waitingProcessing = true;
             const betData = {
-                amount: this.currentBet, box: event.target.name
+                amount: this.currentBet, betChoice: event.target.name
             };
             this.socket && this.socket.emit("bet", betData);
         }

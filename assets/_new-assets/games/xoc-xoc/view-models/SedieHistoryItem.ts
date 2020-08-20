@@ -1,0 +1,40 @@
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class SedieHistoryItem {
+    @property(cc.Node)
+    bg: cc.Node = null;
+
+    @property(cc.Label)
+    time: cc.Label = null;
+
+    @property(cc.Label)
+    phien: cc.Label = null;
+
+    @property(cc.Sprite)
+    kqSprite: cc.Sprite = null;
+
+    @property(cc.Label)
+    kqLabel: cc.Label = null;
+
+    @property(cc.Label)
+    chan: cc.Label = null;
+
+    @property(cc.Label)
+    le: cc.Label = null;
+
+    @property(cc.Label)
+    red3: cc.Label = null;
+
+    @property(cc.Label)
+    red4: cc.Label = null;
+
+    @property(cc.Label)
+    white3: cc.Label = null;
+
+    @property(cc.Label)
+    white4: cc.Label = null;
+
+    @property(cc.Label)
+    win: cc.Label = null;
+}
