@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SedieHistoryItem {
+export default class SedieHistoryItem extends cc.Component {
     @property(cc.Node)
     bg: cc.Node = null;
 
@@ -18,10 +18,10 @@ export default class SedieHistoryItem {
     kqLabel: cc.Label = null;
 
     @property(cc.Label)
-    chan: cc.Label = null;
+    odd: cc.Label = null;
 
     @property(cc.Label)
-    le: cc.Label = null;
+    even: cc.Label = null;
 
     @property(cc.Label)
     red3: cc.Label = null;

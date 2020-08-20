@@ -1,13 +1,20 @@
+import { getStringDateByTime } from "./../../../common/helpers/Helper";
+import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
+import SedieHistoryItem from "./SedieHistoryItem";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SedieHistory extends cc.Component {
 
-    @property(cc.Prefab)
-    page: cc.Prefab = null;
+    @property(Pagination)
+    pagination: Pagination = null;
 
     @property(cc.Node)
     content: cc.Node = null;
+
+    @property(cc.Prefab)
+    itemPrefab: cc.Prefab = null;
 
     @property(cc.SpriteFrame)
     iconRed: cc.SpriteFrame = null;
@@ -21,11 +28,59 @@ export default class SedieHistory extends cc.Component {
         this.socket = socket;
     }
 
+    onLoad() {
+        this.pagination.init(this);
+    }
+
     onEnable() {
         this.get_data();
     }
 
     get_data(page = 1) {
         this.socket.emit('getHistory', { page: page });
+    }
+
+    onData(data) {
+        const { page, pageSize, total, betLogs } = data;
+        this.pagination.onSet(page, pageSize, total);
+        this.content.destroyAllChildren();
+
+        if (betLogs && betLogs.length) {
+            betLogs.map((betLog, index) => {
+                let itemNode = cc.instantiate(this.itemPrefab);
+                let item = itemNode.getComponent(SedieHistoryItem);
+                item.node.active = true;
+                item.bg.active = (index % 2) > 0;
+
+                const { time, phien, result, settlementResult } = betLog;
+
+                item.time.string = getStringDateByTime(time);
+                item.phien.string = phien;
+
+                let number = 0;
+                Object.keys(result).forEach(key => {
+                    if (result[key]) {
+                        number++;
+                    }
+                });
+
+                item.kqLabel.string = number.toString();
+                if (!(number % 2)) {
+                    item.kqSprite.spriteFrame = this.iconWhite;
+                    item.kqLabel.node.color == cc.Color.BLACK;
+                } else {
+                    item.kqSprite.spriteFrame = this.iconRed;
+                    item.kqLabel.node.color = cc.Color.WHITE;
+                }
+
+                Object.keys(settlementResult).forEach(choice => {
+                    if (settlementResult[choice]) {
+                        item[choice].node.color = cc.Color.YELLOW;
+                    } else {
+                        item[choice].node.color = cc.Color.WHITE;
+                    }
+                });
+            });
+        }
     }
 }

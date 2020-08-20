@@ -1,30 +1,22 @@
-const { ccclass, property } = cc._decorator;
-import ChanLe from "./../ChanLe";
-import BetBoard, { BetInfo } from "./../../../../common/bet-board/view-models/BetBoard";
-import DiaNan from "./ChanLeDiaNan";
-import {
-  getOnlyNumberInString,
-  numberWithCommas,
-  numberTo,
-} from "../../../../common/helpers/Helper";
-import ProcessingWarning from "./../../../../common/processing-warning/view-models/ProcessingWarning";
-import * as ScaleEffect from "./../../../tai-xiu/view-models/main-page/TXScale";
-import AnimatedTime from "./../../../../common/animated-time/view-models/AnimatedTime";
-import UMDataHandler from "./data-handlers/UMDataHandler";
-import DataHandler from "../../../_base/handlers/DataHandler";
-import ErrorDataHandler from "./data-handlers/ErrorDataHandler";
-import GameDataHandler from "./data-handlers/GameDataHandler";
-import LogsDataHandler, {
-  ILogsDataHandler,
-} from "./data-handlers/LogsDataHandler";
-import BetStatusDataHandler from "./data-handlers/BetStatusDataHandler";
-import TimeDataHandler, {
-  ITimeDataHandler,
-} from "./data-handlers/TimeDataHandler";
-import FinishTurnDataHandler from "./data-handlers/FinishTurnDataHandler";
+import { getOnlyNumberInString, numberTo, numberWithCommas } from "../../../../common/helpers/Helper";
 import UmWarning from "../../../../common/um-warning/UmWarning";
 import GameAudios from "../../../_base/GameAudios";
+import DataHandler from "../../../_base/handlers/DataHandler";
+import AnimatedTime from "./../../../../common/animated-time/view-models/AnimatedTime";
+import BetBoard, { BetInfo } from "./../../../../common/bet-board/view-models/BetBoard";
+import ProcessingWarning from "./../../../../common/processing-warning/view-models/ProcessingWarning";
+import * as ScaleEffect from "./../../../tai-xiu/view-models/main-page/TXScale";
+import ChanLe from "./../ChanLe";
+import DiaNan from "./ChanLeDiaNan";
+import BetStatusDataHandler from "./data-handlers/BetStatusDataHandler";
+import ErrorDataHandler from "./data-handlers/ErrorDataHandler";
+import FinishTurnDataHandler from "./data-handlers/FinishTurnDataHandler";
+import GameDataHandler from "./data-handlers/GameDataHandler";
+import LogsDataHandler, { ILogsDataHandler } from "./data-handlers/LogsDataHandler";
+import TimeDataHandler, { ITimeDataHandler } from "./data-handlers/TimeDataHandler";
+import UMDataHandler from "./data-handlers/UMDataHandler";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ChanLeMain extends cc.Component {
   //#region Properties
@@ -564,8 +556,6 @@ export default class ChanLeMain extends cc.Component {
   protected adjustPosition() {
     const okButtonPositionY = this.betBoard.okButton.node.parent.convertToWorldSpaceAR(this.betBoard.okButton.node.position).y;
     const expectPositionY = this.betBoard.okButton.node.height;
-    console.log(okButtonPositionY);
-    console.log(this.betBoard.node.parent.convertToWorldSpace(this.betBoard.node.position).y);
     const paddingBottom = 20;
 
     if (okButtonPositionY < expectPositionY) {

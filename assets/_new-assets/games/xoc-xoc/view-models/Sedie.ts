@@ -8,6 +8,7 @@ import SedieFinishHandler from "./handlers/SedieFinishHandler";
 import SedieLogsHandler from "./handlers/SedieLogsHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
+import SedieHistory from "./SedieHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -53,6 +54,7 @@ export default class Sedie extends GameRoomBase {
     private socket: SocketIOClient.Socket;
     private roundHistory: SedieRoundHistory;
     private miniRoundHistory: SedieMiniRoundHistory;
+    private historyComponent: SedieHistory;
 
     constructor() {
         super();
@@ -76,7 +78,9 @@ export default class Sedie extends GameRoomBase {
         this.initRoundHistory();
 
         this.socket = BaseSocketIOController.getInstance().gameSockets[gameIds.XocXoc];
-        this.socket.on(this.gameName, (data) => { this.onDataGameRoom(data); });
+        this.socket.on(this.gameName, (data) => {
+            this.onDataGameRoom(data);
+        });
         this.socket.on('disconnect', () => { this.closeGame(); });
     }
 
@@ -148,8 +152,8 @@ export default class Sedie extends GameRoomBase {
 
     openHistory() {
         let dialog = cc.instantiate(this.historyPrefab);
-        const history = dialog.getComponent('XocXoc_history');
-        history.init(this.socket);
+        this.historyComponent = dialog.getComponent(SedieHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
 
@@ -161,6 +165,14 @@ export default class Sedie extends GameRoomBase {
     onData(data) {
         this.currentMiniPanel.onGeneralData(data);
         this.onDataGameRoomGeneral(data);
+    }
+
+    onDataGameRoom(data) {
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
+
+        super.onDataGameRoom(data);
     }
 
     setDots(result) {
