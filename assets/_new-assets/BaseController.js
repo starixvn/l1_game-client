@@ -9,7 +9,6 @@ module.exports = {
   IS_SOUND: true,
   isConnected: false,
   GAME_IS_SHOWED: true,
-  recheckIn: null,
   _socket: null,
   loading: null,
   isForceKickedOut: false,
@@ -28,12 +27,13 @@ module.exports = {
       this._socket.onclose = this._onSocketDisconnect;
       this._socket.onmessage = this._onSocketData;
       this._socket.onerror = this._onSocketError;
-      let self = this;
+
       if (this.recheckInId) {
         clearInterval(this.recheckInId);
       }
+
       this.recheckInId = setInterval(() => {
-        self.recheckIn(self);
+        this.recheckIn();
       }, 60 * 1000);
 
       if (this.loading) {
@@ -45,15 +45,15 @@ module.exports = {
     this.isForceKickedOut = true;
     this._socket.close();
   },
-  recheckIn: function (self) {
+  recheckIn: function () {
     try {
-      if (self.isConnected) {
-        if (self.IS_LOGIN) {
-          authManager.checkAndUpdateRecheckIn();
-          self.send({ reCheckin: true, user: { updateCoint: true } });
-        }
+      if (this.isConnected) {
+        authManager.checkAndUpdateRecheckIn();
+        this.send({ reCheckin: true, user: { updateCoint: true } });
       }
-    } catch (ex) { console.log(JSON.stringify(ex)) }
+    } catch (ex) {
+      console.log(JSON.stringify(ex))
+    }
   },
   disconnect: function () {
     this.isConnected = !1;
