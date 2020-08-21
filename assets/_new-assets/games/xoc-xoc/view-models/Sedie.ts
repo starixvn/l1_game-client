@@ -4,6 +4,7 @@ import GameRoomBase from "../../_base/GameRoomBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import * as authManager from "./../../../common/auth/AuthManager";
+import SedieBetHandler from "./handlers/SedieBetHandler";
 import SedieFinishHandler from "./handlers/SedieFinishHandler";
 import SedieLogsHandler from "./handlers/SedieLogsHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
@@ -68,6 +69,7 @@ export default class Sedie extends GameRoomBase {
         this.logsHandler = new SedieLogsHandler(this);
         this.timeHandler = new SedieTimeHandler(this);
         this.finishHandler = new SedieFinishHandler(this);
+        this.betHandler = new SedieBetHandler(this);
     }
 
     onLoad() {
