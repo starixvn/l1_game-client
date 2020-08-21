@@ -18,7 +18,7 @@ export default class BaseSocketIOController {
   }
 
   connectGameSocket = (socketUri: string, gameName: string, onConnectFailed: (gameName) => void): SocketIOClient.Socket => {
-    const socket = socketIo(socketUri);
+    const socket = socketIo(socketUri, { transports: ["websocket"], upgrade: false });
 
     socket.on('connect', () => {
       socket.emit('signin', getSession());
