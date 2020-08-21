@@ -1,6 +1,7 @@
-import * as socketIo from 'socket.io-client';
-import { getSession } from './common/auth/AuthManager';
-import { sentryLogger } from './common/logger.js';
+import * as socketIo from "socket.io-client";
+
+import { getSession } from "./common/auth/AuthManager";
+import { sentryLogger } from "./common/logger.js";
 
 
 export default class BaseSocketIOController {
@@ -65,8 +66,8 @@ export default class BaseSocketIOController {
   }
 
   recheckin() {
-    Object.values(this.gameSockets).forEach((socket: SocketIOClient.Socket) => {
-      socket.emit('recheckin', getSession());
-    })
+    // Object.values(this.gameSockets).forEach((socket: SocketIOClient.Socket) => {
+    //   socket.emit('recheckin', getSession());
+    // })
   }
 }
