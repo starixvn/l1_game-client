@@ -6,6 +6,7 @@ import GameRoomBase from "../GameRoomBase";
 import BetItem from "../BetItem";
 import GameUtils from "../../../common/GameUtils";
 import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
+import RoomPlayer from "../RoomPlayer";
 
 export default class GameBaseFinishHandler implements DataHandler {
     protected readonly payChipFlyTime = 1.2;
@@ -24,6 +25,7 @@ export default class GameBaseFinishHandler implements DataHandler {
                 data.finish,
                 () => {
                     this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
+                    this.updateOtherPlayerBalance(data.finish.winningPlayers, this.main)
                     this.main.finishShowResult = true;
                 })
         }
@@ -101,6 +103,22 @@ export default class GameBaseFinishHandler implements DataHandler {
         cc.RedT.send({
             user: {
                 updateCoint: true
+            }
+        });
+    }
+
+    updateOtherPlayerBalance(winningPlayers: any, main: GameBase) {
+        const mainRoomGame = this.main as GameRoomBase;
+        if (!mainRoomGame) {
+            return;
+        }
+
+        Object.keys(winningPlayers).forEach(playerId => {
+            const otherPlayerData = mainRoomGame.playerHandler.otherPlayers[playerId];
+            if (otherPlayerData) {
+                const winningPlayerData = winningPlayers[playerId];
+                otherPlayerData.red += winningPlayerData.bet;
+                RoomPlayer.storePlayerToCache(otherPlayerData, this.main.gameName);
             }
         });
     }

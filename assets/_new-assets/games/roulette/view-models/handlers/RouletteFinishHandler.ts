@@ -23,6 +23,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
                 () => {
                     this.payChipToLoginUser();
                     this.payChipsFromBetChoices(data.finish.winningPlayers);
+                    this.updateOtherPlayerBalance(data.finish.winningPlayers, this.main)
                     this.main.finishShowResult = true;
                 })
         }
