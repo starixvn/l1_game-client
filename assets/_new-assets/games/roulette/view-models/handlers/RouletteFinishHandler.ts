@@ -61,7 +61,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             }
         }
 
-        cc.tween(this)
+        cc.tween(this.main)
             .delay(this.payChipFlyTime)
             .call(() => {
                 this.main.showWinningBet(data.bet);
@@ -84,7 +84,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             let destNode: cc.Node;
             if (playerSlot) {
                 destNode = playerSlot.avatar.node;
-                cc.tween(this)
+                cc.tween(this.main)
                     .delay(duration)
                     .call(() => {
                         playerSlot.increaseBalance(data.bet);
