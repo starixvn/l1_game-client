@@ -2,11 +2,11 @@
 import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
 import * as _ from "lodash";
-import GameRoomBase from "../GameRoomBase";
 import BetItem from "../BetItem";
 import GameUtils from "../../../common/GameUtils";
 import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
 import RoomPlayer from "../RoomPlayer";
+import GameRoomBase from "../GameRoomBase";
 
 export default class GameBaseFinishHandler implements DataHandler {
     protected readonly payChipFlyTime = 1.2;
@@ -25,7 +25,11 @@ export default class GameBaseFinishHandler implements DataHandler {
                 data.finish,
                 () => {
                     this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
-                    this.updateOtherPlayerBalance(data.finish.winningPlayers, this.main)
+
+                    const mainRoomGame = this.main as GameRoomBase;
+                    if (mainRoomGame && mainRoomGame.playerHandler) {
+                        this.updateOtherPlayerBalance(data.finish.winningPlayers, mainRoomGame);
+                    }
                     this.main.finishShowResult = true;
                 })
         }
@@ -107,18 +111,16 @@ export default class GameBaseFinishHandler implements DataHandler {
         });
     }
 
-    updateOtherPlayerBalance(winningPlayers: any, main: GameBase) {
-        const mainRoomGame = this.main as GameRoomBase;
-        if (!mainRoomGame) {
+    updateOtherPlayerBalance(winningPlayers: any, main: GameRoomBase) {
+        if (!winningPlayers) {
             return;
         }
-
         Object.keys(winningPlayers).forEach(playerId => {
-            const otherPlayerData = mainRoomGame.playerHandler.otherPlayers[playerId];
+            const otherPlayerData = main.playerHandler.otherPlayers[playerId];
             if (otherPlayerData) {
                 const winningPlayerData = winningPlayers[playerId];
                 otherPlayerData.red += winningPlayerData.bet;
-                RoomPlayer.storePlayerToCache(otherPlayerData, this.main.gameName);
+                RoomPlayer.storePlayerToCache(otherPlayerData, main.gameName);
             }
         });
     }
