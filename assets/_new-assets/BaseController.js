@@ -82,6 +82,9 @@ module.exports = {
   },
   _onSocketConnect: function () {
     cc.RedT.isConnected = true;
+    cc.RedT.inGame && cc.RedT.inGame.onConnected();
+
+    // Retry calling onConnected for making sure Main Game is loaded
     setTimeout(() => {
       cc.RedT.inGame && cc.RedT.inGame.onConnected();
     }, 2000);
