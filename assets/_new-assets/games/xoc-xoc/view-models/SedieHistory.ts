@@ -50,7 +50,7 @@ export default class SedieHistory extends cc.Component {
                 let itemNode = cc.instantiate(this.itemPrefab);
                 let item = itemNode.getComponent(SedieHistoryItem);
                 item.node.active = true;
-                item.bg.active = (index % 2) > 0;
+                //item.bg.active = (index % 2) > 0;
 
                 const { time, phien, result, settlementResult } = betLog;
 
@@ -65,21 +65,26 @@ export default class SedieHistory extends cc.Component {
                 });
 
                 item.kqLabel.string = number.toString();
-                if (!(number % 2)) {
-                    item.kqSprite.spriteFrame = this.iconWhite;
-                    item.kqLabel.node.color == cc.Color.BLACK;
-                } else {
+                if (number % 2) {
                     item.kqSprite.spriteFrame = this.iconRed;
                     item.kqLabel.node.color = cc.Color.WHITE;
+                } else {
+                    item.kqSprite.spriteFrame = this.iconWhite;
+                    item.kqLabel.node.color = cc.Color.BLACK;
                 }
 
                 Object.keys(settlementResult).forEach(choice => {
+                    item[choice].string = betLog[choice];
                     if (settlementResult[choice]) {
                         item[choice].node.color = cc.Color.YELLOW;
                     } else {
                         item[choice].node.color = cc.Color.WHITE;
                     }
                 });
+
+                item.win.string = betLog.betwin;
+
+                this.content.addChild(itemNode);
             });
         }
     }
