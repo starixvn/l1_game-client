@@ -36,7 +36,8 @@ cc.Class({
     audioBG: cc.AudioSource,
     url: cc.String,
     appApk: cc.String,
-    NoticePrefab: cc.Prefab
+    NoticePrefab: cc.Prefab,
+    LuckyWheelPrefab: cc.Prefab
   },
   onDestroy() {
     cc.RedT.MiniPanel.destroy();
@@ -185,6 +186,9 @@ cc.Class({
     if (!!data.removeIsLoading && this.loading) {
       this.loading.active = false;
     }
+
+    // Handle data wheel
+    this.handleLuckyWheelData(data['luckyWheel']);
   },
   captcha: function (data) {
     switch (data.name) {
@@ -278,6 +282,9 @@ cc.Class({
     this.dialog.onBack();
     cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
     this.openGameSSO();
+
+    // get data wheel
+    cc.RedT.send({ g: { ['luckyWheel']: { getLogs: true } } });
   },
   openGameSSO: function () {
     if (window.openGameId) {
@@ -435,6 +442,24 @@ cc.Class({
     */
     //   }
   },
+  handleLuckyWheelData(data) {
+    console.log(data);
+
+    if (data) {
+      if (data.availSpins > 0) {
+        if (data.choices) {
+          const luckyWheel = cc.instantiate(this.LuckyWheelPrefab);
+          const component = luckyWheel.getComponent("LuckyWheel");
+          component.initWheel(data.choices);
+          component.updateData(data.availSpins, data.totalCoins);
+          this.node.addChild(luckyWheel);
+        }
+
+      } else {
+        //disable wheel button
+      }
+    }
+  }
   /**
 	
     checkLoginFacebook: function() {
