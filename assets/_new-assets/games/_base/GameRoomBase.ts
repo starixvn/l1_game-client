@@ -1,13 +1,12 @@
-import GameBase, { GameState } from "./GameBase";
-import RoomPlayer from "./RoomPlayer";
-import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from '../../common/helpers/Helper';
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
-import GameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
-import IGameBasePlayerHandler from "./handlers/GameBasePlayerHandler";
-import GameUtils from "../../common/GameUtils";
-import { GameBaseConfigs } from "./GameBaseConfig";
 import UmWarning from "../../common/um-warning/UmWarning";
+import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import GameBase from "./GameBase";
+import { GameBaseConfigs } from "./GameBaseConfig";
+import { default as GameBasePlayerHandler, default as IGameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
+import RoomPlayer from "./RoomPlayer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -82,10 +81,6 @@ export default class GameRoomBase extends GameBase {
 
     start() {
         cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
-    }
-
-    onConnected() {
-        //dont do anything, go to MainGame if socket is disconnected.
     }
 
     onDisconnected() {

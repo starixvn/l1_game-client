@@ -165,28 +165,42 @@ export function removeInRoomGameId() {
 
 let autoTriggerSignInTimeout = null;
 
-export function triggerSignIn(mainGame, loading) {
+export function triggerSignIn() {
     if (!!window.authData) {
         if (autoTriggerSignInTimeout) {
             clearTimeout(autoTriggerSignInTimeout);
         }
 
-        if (loading) {
-            loading.active = true;
-        }
-
         autoTriggerSignInTimeout = setTimeout(() => {
-            if (mainGame) {
-                mainGame.auth({
-                    authentication:
-                    {
-                        username: window.authData.username,
-                        data: window.authData
-                    }
-                });
-            }
+            auth({
+                authentication:
+                {
+                    username: window.authData.username,
+                    data: window.authData
+                }
+            });
         }, 500);
     }
+}
+
+function auth(obj) {
+    if (cc.RedT.ingame && cc.RedT.ingame.loading) {
+        cc.RedT.ingame.loading.active = true;
+    }
+
+    if (cc.RedT._socket == null || cc.RedT._socket.readyState != 1) {
+        setTimeout(function () {
+            cc.RedT.send(obj);
+        }, 300);
+    } else {
+        cc.RedT.send(obj);
+    }
+
+    setTimeout(function () {
+        if (cc.RedT.ingame && cc.RedT.ingame.loading) {
+            cc.RedT.ingame.loading.active = false;
+        }
+    }, 5000);
 }
 
 export function checkAndUpdateRecheckIn(dontClearSession) {

@@ -122,27 +122,7 @@ cc.Class({
     //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
     return Promise.resolve();
   },
-  auth: function (obj) {
-    var self = this;
 
-    if (this.loading) {
-      this.loading.active = true;
-    }
-
-    if (cc.RedT._socket == null || cc.RedT._socket.readyState != 1) {
-      setTimeout(function () {
-        cc.RedT.send(obj);
-      }, 300);
-    } else {
-      cc.RedT.send(obj);
-    }
-
-    setTimeout(function () {
-      if (self && self.loading) {
-        self.loading.active = false;
-      }
-    }, 5000);
-  },
   unAuthorized: function (data) {
     if (this.loading) {
       this.loading.active = false;
@@ -291,9 +271,6 @@ cc.Class({
   onDisconnected: function () {
     this.AllReset();
     cc.sys.localStorage.removeItem("infoRed8");
-  },
-  onConnected() {
-    authManager && authManager.triggerSignIn(this, this.loading);
   },
   signIn: function () {
     cc.RedT.IS_LOGIN = true;

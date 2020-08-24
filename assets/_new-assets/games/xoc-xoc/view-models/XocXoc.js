@@ -272,13 +272,6 @@ cc.Class({
 			cc.RedT.inGame.signOut();
 		});
 	},
-	onConnected() {
-		//dont do anything, go to MainGame if socket is disconnected.
-	},
-	onDisconnected: function () {
-		// clearInterval(this.timeInterval);
-		// cc.director.loadScene('MainGame');
-	},
 	userData: function (data) {
 		if (void 0 !== data.name) {
 			this.me_name.string = data.name;
