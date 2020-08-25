@@ -37,7 +37,9 @@ cc.Class({
     url: cc.String,
     appApk: cc.String,
     NoticePrefab: cc.Prefab,
-    LuckyWheelPrefab: cc.Prefab
+    luckyWheelPrefab: cc.Prefab,
+    luckyWheelIconPrefab: cc.Prefab,
+    scoins: cc.Node,
   },
   onDestroy() {
     cc.RedT.MiniPanel.destroy();
@@ -443,21 +445,29 @@ cc.Class({
     //   }
   },
   handleLuckyWheelData(data) {
-    console.log(data);
-
     if (data) {
       if (data.availSpins > 0) {
         if (data.choices) {
-          const luckyWheel = cc.instantiate(this.LuckyWheelPrefab);
-          const component = luckyWheel.getComponent("LuckyWheel");
-          component.initWheel(data.choices);
-          component.updateData(data.availSpins, data.totalCoins);
-          this.node.addChild(luckyWheel);
+          const icon = cc.instantiate(this.luckyWheelIconPrefab);
+          this.node.addChild(icon);
+          this.luckyWheelIconComponent = icon.getComponent("LuckyWheelIcon");
+
+          const wheel = cc.instantiate(this.luckyWheelPrefab);
+          const wheelComponent = wheel.getComponent("LuckyWheel");
+          wheelComponent.initWheel(data.choices);
+          wheelComponent.updateData(data.availSpins, data.totalCoins);
+          this.node.addChild(wheel);
+          this.luckyWheelComponent = wheelComponent;
         }
 
+        this.luckyWheelIconComponent.handleOpenGame = () => { this.luckyWheelComponent.showLuckyWheel() };
       } else {
-        //disable wheel button
+        this.luckyWheelIconPrefab.active = false;
       }
+
+      // if (data.totalCoins && data.totalCoins > 0) {
+      //   this.scoins.active = true;
+      // }
     }
   }
   /**

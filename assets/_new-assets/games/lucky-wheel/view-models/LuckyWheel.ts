@@ -189,9 +189,9 @@ export default class LuckyWheel extends cc.Component {
                 this.totalScoin += coin;
                 this.availSpins -= 1;
                 this.updateData(this.availSpins, this.totalScoin);
-                if (this.availSpins == 0) {
-                    this.node.active = false;
-                }
+                // if (this.availSpins == 0) {
+                //     this.node.active = false;
+                // }
             })
             .start();
     }
@@ -210,7 +210,7 @@ export default class LuckyWheel extends cc.Component {
             pieceNode.angle = -angle;
 
             const color = _.get(this.colorDictionary, scoin);
-            let sprite = null;
+            let sprite: cc.SpriteFrame = null;
 
             switch (color) {
                 case LuckyWheelColor.Black:
@@ -241,5 +241,12 @@ export default class LuckyWheel extends cc.Component {
 
             this.wheelPieces.addChild(pieceNode);
         })
+    }
+
+    showLuckyWheel() {
+        cc.RedT.audio.playClick();
+
+        const dialog = this.node.getComponent("CommonDialog");
+        dialog.showDialog();
     }
 }
