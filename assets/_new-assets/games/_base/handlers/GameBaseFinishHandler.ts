@@ -20,16 +20,14 @@ export default class GameBaseFinishHandler implements DataHandler {
             this.main.finishShowResult = false;
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
             this.setNewGameRound(data);
-
+            const mainRoomGame = this.main as GameRoomBase;
+            if (mainRoomGame && mainRoomGame.playerHandler) {
+                this.updateOtherPlayerBalance(data.finish.winningPlayers, mainRoomGame);
+            }
             this.handleFinishData(
                 data.finish,
                 () => {
                     this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
-
-                    const mainRoomGame = this.main as GameRoomBase;
-                    if (mainRoomGame && mainRoomGame.playerHandler) {
-                        this.updateOtherPlayerBalance(data.finish.winningPlayers, mainRoomGame);
-                    }
                     this.main.finishShowResult = true;
                 })
         }
