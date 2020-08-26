@@ -272,6 +272,8 @@ cc.Class({
 			cc.RedT.inGame.signOut();
 		});
 	},
+	onDisconnected() {
+	},
 	userData: function (data) {
 		if (void 0 !== data.name) {
 			this.me_name.string = data.name;
