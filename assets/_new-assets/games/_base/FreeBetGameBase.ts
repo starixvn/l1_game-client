@@ -2,16 +2,17 @@ import BaseSocketIOController from "../../BaseSocketIOController";
 import * as authManager from "../../common/auth/AuthManager";
 import GameRoomBase from "./GameRoomBase";
 
+const { ccclass, property } = cc._decorator;
+
+@ccclass
 export default class FreeBetGameBase extends GameRoomBase {
-    private isFreeBet: boolean;
+    @property(cc.Label)
+    userSCoin: cc.Label = null;
+
+    private isFreeBet: boolean = false;
 
     protected socket: SocketIOClient.Socket;
 
-    constructor() {
-        super();
-
-        this.isFreeBet = false;
-    }
 
     onLoad() {
         super.onLoad();
@@ -24,6 +25,7 @@ export default class FreeBetGameBase extends GameRoomBase {
             this.onDataGameRoom(data);
         });
         this.socket.on('disconnect', () => { this.closeGame(); });
+        this.focusBalance(this.isFreeBet);
     }
 
     start() {
@@ -38,9 +40,21 @@ export default class FreeBetGameBase extends GameRoomBase {
 
     onChangeWalletClick() {
         this.isFreeBet = !this.isFreeBet;
+
+        this.focusBalance(this.isFreeBet);
     }
 
-    onBetItemClick(event: cc.Event) {
+    focusBalance(isFreeBet: boolean) {
+        if (isFreeBet) {
+            this.userSCoin.node.parent.scale = 1.25;
+            this.userBalance.node.parent.scale = 1;
+        } else {
+            this.userSCoin.node.parent.scale = 1;
+            this.userBalance.node.parent.scale = 1.25;
+        }
+    }
+
+    onBetItemClick(event) {
         if (this.isDisableGame) {
             return;
         }

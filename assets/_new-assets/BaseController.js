@@ -1,7 +1,8 @@
-import * as authManager from './common/auth/AuthManager';
-import { buildServerUrl } from './common/helpers/UrlHelper';
-import logger from './common/logger';
-import configs from './Configs';
+import * as authManager from "./common/auth/AuthManager";
+import { buildServerUrl } from "./common/helpers/UrlHelper";
+import logger from "./common/logger";
+import configs from "./Configs";
+
 const sentryLogger = logger();
 
 module.exports = {
@@ -188,6 +189,12 @@ module.exports = {
     }
     if (void 0 !== data.currency) {
       this.user.currency = data.currency;
+    }
+    if (void 0 !== data.availSpins) {
+      this.user.availSpins = data.availSpins;
+    }
+    if (void 0 !== data.scoins) {
+      this.user.scoins = data.scoins;
     }
   }
 };

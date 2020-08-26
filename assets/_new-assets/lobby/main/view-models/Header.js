@@ -1,6 +1,3 @@
-import configs from '../../../Configs';
-import * as authManager from './../../../common/auth/AuthManager';
-
 cc.Class({
   extends: cc.Component,
 
@@ -15,6 +12,14 @@ cc.Class({
       type: cc.Label
     },
     userRed: {
+      default: null,
+      type: cc.Label
+    },
+    scoinsNode: {
+      default: null,
+      type: cc.Node
+    },
+    scoinsValue: {
       default: null,
       type: cc.Label
     },
@@ -43,5 +48,9 @@ cc.Class({
         self.avatar.spriteFrame = frame;
       }
     });
+  },
+  showScoins(scoins = 0) {
+    this.scoinsNode.active = true;
+    this.scoinsValue.string = scoins;
   }
 });

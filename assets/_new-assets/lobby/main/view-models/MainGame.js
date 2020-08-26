@@ -1,8 +1,9 @@
 import baseControll from "../../../BaseController";
 import helper from "../../../common/helpers/Helper";
-import logger from '../../../common/logger';
-import configs from '../../../Configs';
-import * as authManager from './../../../common/auth/AuthManager';
+import logger from "../../../common/logger";
+import configs from "../../../Configs";
+import * as authManager from "./../../../common/auth/AuthManager";
+
 const sentryLogger = logger();
 
 
@@ -98,10 +99,10 @@ cc.Class({
 
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.send({ scene: "home" });
-      //this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
       this.header.setAvatar(cc.RedT.user.avatarId);
+      (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.scoins);
     }
 
     this.center.node.on("size-changed", this.repositionMenu, this);
