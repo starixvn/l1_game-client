@@ -1,11 +1,12 @@
 import GameUtils from "../../common/GameUtils";
-import { numberWithCommas } from '../../common/helpers/Helper';
+import GameBase, { GameState } from "./GameBase";
+import { numberWithCommas } from "../../common/helpers/Helper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import GameBase from "./GameBase";
 import { GameBaseConfigs } from "./GameBaseConfig";
-import { default as GameBasePlayerHandler, default as IGameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
+import { GameBasePlayerHandler, IGameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import RoomPlayer from "./RoomPlayer";
 
 const { ccclass, property } = cc._decorator;
@@ -47,7 +48,7 @@ export default class GameRoomBase extends GameBase {
 
     playerHandler: IGameBasePlayerHandler;
     private miniPanelScale: number;
-    private gameId: number;
+    protected gameId: number;
 
     onLoad() {
         super.onLoad();

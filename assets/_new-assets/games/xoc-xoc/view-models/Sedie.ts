@@ -1,6 +1,5 @@
-import BaseSocketIOController from "../../../BaseSocketIOController";
 import { gameIds } from "../../../Configs";
-import GameRoomBase from "../../_base/GameRoomBase";
+import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import * as authManager from "./../../../common/auth/AuthManager";
@@ -14,7 +13,7 @@ import SedieHistory from "./SedieHistory";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Sedie extends GameRoomBase {
+export default class Sedie extends FreeBetGameBase {
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
@@ -52,14 +51,13 @@ export default class Sedie extends GameRoomBase {
     @property(cc.SpriteFrame)
     dotWhite: cc.SpriteFrame = null;
 
-    private socket: SocketIOClient.Socket;
     private roundHistory: SedieRoundHistory;
     private miniRoundHistory: SedieMiniRoundHistory;
     private historyComponent: SedieHistory;
 
     constructor() {
         super();
-        this.init("XocXoc", new SedieConfigs());
+        this.init("XocXoc", new SedieConfigs(), null, 1, gameIds.XocXoc);
         this.finishShowResult = false;
     }
 
@@ -75,20 +73,7 @@ export default class Sedie extends GameRoomBase {
     onLoad() {
         super.onLoad();
 
-        authManager.storeInRoomGameId(gameIds.XocXoc);
-        this.currentMiniPanel.currentGameRoomId = gameIds.XocXoc;
         this.initRoundHistory();
-
-        this.socket = BaseSocketIOController.getInstance().gameSockets[gameIds.XocXoc];
-        this.socket.on(this.gameName, (data) => {
-            this.onDataGameRoom(data);
-        });
-        this.socket.on('disconnect', () => { this.closeGame(); });
-    }
-
-    onDestroy() {
-        super.destroy();
-        BaseSocketIOController.getInstance().closeSocket(gameIds.XocXoc);
     }
 
     initRoundHistory() {
@@ -123,27 +108,6 @@ export default class Sedie extends GameRoomBase {
         this.miniRoundHistory.setData(miniHistoryData);
     }
 
-    start() {
-        cc.RedT.send({ scene: 'xocxoc' });
-        this.socket.emit('inGame');
-    }
-
-    onBet(event) {
-        if (this.isDisableGame) {
-            return;
-        }
-
-        if (this.waitingProcessing) {
-            this.showProcessingWarning(true);
-        }
-        else {
-            this.waitingProcessing = true;
-            const betData = {
-                amount: this.currentBet, betChoice: event.target.name
-            };
-            this.socket && this.socket.emit("bet", betData);
-        }
-    }
 
     openGuide() {
         let dialog = cc.instantiate(this.guidePrefab);
