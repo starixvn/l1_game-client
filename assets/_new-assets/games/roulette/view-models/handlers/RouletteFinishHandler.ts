@@ -17,7 +17,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             this.main.finishShowResult = false;
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
             this.setNewGameRound(data);
-
+            this.updateOtherPlayerBalance(data.finish.winningPlayers, this.main);
             this.handleFinishData(
                 data.finish,
                 () => {
@@ -60,7 +60,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             }
         }
 
-        cc.tween(this)
+        cc.tween(this.main)
             .delay(this.payChipFlyTime)
             .call(() => {
                 this.main.showWinningBet(data.bet);
@@ -83,7 +83,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             let destNode: cc.Node;
             if (playerSlot) {
                 destNode = playerSlot.avatar.node;
-                cc.tween(this)
+                cc.tween(this.main)
                     .delay(duration)
                     .call(() => {
                         playerSlot.increaseBalance(data.bet);

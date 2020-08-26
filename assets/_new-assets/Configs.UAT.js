@@ -13,7 +13,7 @@ const configs = {
         2: {
             subDomain: "uatsed",
             port: "",
-            path: "/user/xocxoc"
+            path: "/xocxoc"
         }
     },
     gameIds: {
