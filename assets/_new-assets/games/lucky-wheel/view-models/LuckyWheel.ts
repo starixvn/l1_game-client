@@ -5,9 +5,10 @@ export enum LuckyWheelColor {
     Yelllow = "yellow",
     Green = "green",
     Red = "red",
-    Black = "black",
+    Purple = "purple",
     Orange = "orange",
-    Blue = "blue"
+    Blue = "blue",
+    Pink = "Pink"
 }
 
 @ccclass
@@ -38,7 +39,7 @@ export default class LuckyWheel extends cc.Component {
     piece: cc.Node = null;
 
     @property(cc.SpriteFrame)
-    blackPiece: cc.SpriteFrame = null;
+    pinkPiece: cc.SpriteFrame = null;
     @property(cc.SpriteFrame)
     yellowPiece: cc.SpriteFrame = null;
     @property(cc.SpriteFrame)
@@ -48,11 +49,22 @@ export default class LuckyWheel extends cc.Component {
     @property(cc.SpriteFrame)
     redPiece: cc.SpriteFrame = null;
     @property(cc.SpriteFrame)
-    bluePiece: cc.SpriteFrame = null;
+    purplePiece: cc.SpriteFrame = null;
     @property(cc.SpriteFrame)
     defaultPiece: cc.SpriteFrame = null;
 
-    //scoinPresents: any[] = [10, 1, 2, 5, 3, 20, 0, 10, 1, 2, 5, 3, 20, 0, 10, 1, 2, 5, 3, 20, 0, 10, 1, 2, 5, 3, 20, 0, 10, 1];
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    winningEffect: cc.Node = null;
+
+    @property(cc.Prefab)
+    winningPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    goodLuckPrefab: cc.Prefab = null;
+
     scoinPresents: number[] = [];
     defaultAngle: number = 12;
     gameTime: number = 6;
@@ -70,12 +82,12 @@ export default class LuckyWheel extends cc.Component {
     private dataObserverKey = "LuckyWheel";
 
     colorDictionary = {
-        0: LuckyWheelColor.Black,
-        1: LuckyWheelColor.Orange,
+        0: LuckyWheelColor.Purple,
         2: LuckyWheelColor.Yelllow,
-        5: LuckyWheelColor.Green,
-        10: LuckyWheelColor.Red,
-        20: LuckyWheelColor.Blue
+        5: LuckyWheelColor.Pink,
+        10: LuckyWheelColor.Green,
+        15: LuckyWheelColor.Orange,
+        20: LuckyWheelColor.Red
     }
 
     onLoad() {
@@ -147,15 +159,16 @@ export default class LuckyWheel extends cc.Component {
     }
 
     onPressedSpin() {
+        this.button.interactable = false;
         this.get_data();
     }
 
     spin(coin: number) {
-        this.button.interactable = false;
+
+        this.winningEffect.active = false;
 
         const indexList = [];
-        this.scoinPresents.forEach((value, index) => value === coin && indexList.push(index));// this.find(this.scoinPresents, coin);
-        console.log(indexList);
+        this.scoinPresents.forEach((value, index) => value === coin && indexList.push(index));
         const resultIndex = indexList[_.random(indexList.length - 1, 0)];
         this.resultLabel.string = coin.toString();
 
@@ -189,9 +202,7 @@ export default class LuckyWheel extends cc.Component {
                 this.totalScoin += coin;
                 this.availSpins -= 1;
                 this.updateData(this.availSpins, this.totalScoin);
-                // if (this.availSpins == 0) {
-                //     this.node.active = false;
-                // }
+                coin === 0 ? this.handleGoodLuck() : this.handleWinningEffect(coin);
             })
             .start();
     }
@@ -213,11 +224,11 @@ export default class LuckyWheel extends cc.Component {
             let sprite: cc.SpriteFrame = null;
 
             switch (color) {
-                case LuckyWheelColor.Black:
-                    sprite = this.blackPiece;
+                case LuckyWheelColor.Purple:
+                    sprite = this.purplePiece;
                     break;
-                case LuckyWheelColor.Blue:
-                    sprite = this.bluePiece;
+                case LuckyWheelColor.Pink:
+                    sprite = this.pinkPiece;
                     break;
                 case LuckyWheelColor.Yelllow:
                     sprite = this.yellowPiece;
@@ -237,7 +248,7 @@ export default class LuckyWheel extends cc.Component {
             }
             spriteComponent.spriteFrame = sprite;
 
-            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin == 0 ? "CHÚC MAY MẮN" : `${scoin}$`;
+            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin == 0 ? "CHÚC MAY MẮN" : `${scoin} Scoin`;
 
             this.wheelPieces.addChild(pieceNode);
         })
@@ -248,5 +259,27 @@ export default class LuckyWheel extends cc.Component {
 
         const dialog = this.node.getComponent("CommonDialog");
         dialog.showDialog();
+    }
+
+    onPressedHistory() {
+        const history = cc.instantiate(this.historyPrefab);
+        this.node.addChild(history);
+    }
+
+    handleWinningEffect(scoin: number) {
+        this.winningEffect.active = true;
+        this.winningEffect.destroyAllChildren();
+
+        const winning = cc.instantiate(this.winningPrefab);
+        const component = winning.getComponent("LuckyWheelWinning");
+        component.updateData(scoin);
+        this.winningEffect.addChild(winning);
+    }
+
+    handleGoodLuck() {
+        this.winningEffect.active = true;
+        this.winningEffect.destroyAllChildren();
+        const goodLuck = cc.instantiate(this.goodLuckPrefab);
+        this.winningEffect.addChild(goodLuck);
     }
 }

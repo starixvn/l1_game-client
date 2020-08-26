@@ -4,7 +4,6 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class LuckyWheelIcon extends cc.Component {
 
-    ttOffset2: cc.Vec2 = cc.v2(0, 0);
     isMove: boolean = false;
 
     public handleOpenGame = () => { };

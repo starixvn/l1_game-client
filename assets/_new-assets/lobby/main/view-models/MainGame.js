@@ -48,10 +48,15 @@ cc.Class({
   onLoad: function () {
     this.dialog = this.dialogNode.getComponent("Dialog");
     document.cookie = "redT=1702;path=/";
+    this.firstComeLobby = false;
+
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;
       cc.RedT.init(this.loading);
+      this.firstComeLobby = true;
     }
+    this.getLuckyWheelData();
+
     cc.RedT.inGame = this;
 
     cc.game.on(cc.game.EVENT_HIDE, function () {
@@ -104,6 +109,8 @@ cc.Class({
       this.center.node.scale = 0.8;
     }
     this.repositionMenu();
+
+
   },
   repositionMenu() {
     const adsWidth = this.gameAds.width;
@@ -284,8 +291,9 @@ cc.Class({
     this.dialog.onBack();
     cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
     this.openGameSSO();
-
-    // get data wheel
+    this.getLuckyWheelData();
+  },
+  getLuckyWheelData: function () {
     cc.RedT.send({ g: { ['luckyWheel']: { getLogs: true } } });
   },
   openGameSSO: function () {
@@ -446,28 +454,31 @@ cc.Class({
   },
   handleLuckyWheelData(data) {
     if (data) {
-      if (data.availSpins > 0) {
-        if (data.choices) {
-          const icon = cc.instantiate(this.luckyWheelIconPrefab);
-          this.node.addChild(icon);
-          this.luckyWheelIconComponent = icon.getComponent("LuckyWheelIcon");
+      // console.log("DATAAAAAAAAAAAAAAAAA");
 
-          const wheel = cc.instantiate(this.luckyWheelPrefab);
-          const wheelComponent = wheel.getComponent("LuckyWheel");
-          wheelComponent.initWheel(data.choices);
-          wheelComponent.updateData(data.availSpins, data.totalCoins);
-          this.node.addChild(wheel);
-          this.luckyWheelComponent = wheelComponent;
+      if (data.choices) {
+        console.log("CHOICESSSSS");
+
+        if (data.availSpins === 0 && this.firstComeLobby) {
+          console.log("ko tao icon ");
+
+          return;
         }
+        console.log("tao icon getlogs ");
 
-        this.luckyWheelIconComponent.handleOpenGame = () => { this.luckyWheelComponent.showLuckyWheel() };
-      } else {
-        this.luckyWheelIconPrefab.active = false;
+        const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
+        this.node.addChild(iconNode);
+        const luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
+        luckyWheelIcon.handleOpenGame = () => { this.luckyWheelComponent.showLuckyWheel() };
+
+        const luckyWheelNode = cc.instantiate(this.luckyWheelPrefab);
+        const wheelComponent = luckyWheelNode.getComponent("LuckyWheel");
+        wheelComponent.initWheel(data.choices);
+        this.node.addChild(luckyWheelNode);
+        this.luckyWheelComponent = wheelComponent;
+
+        this.luckyWheelComponent.updateData(data.availSpins, data.totalCoins);
       }
-
-      // if (data.totalCoins && data.totalCoins > 0) {
-      //   this.scoins.active = true;
-      // }
     }
   }
   /**
