@@ -1,5 +1,6 @@
 import { getStringDateByTime } from "./../../../common/helpers/Helper";
 import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
+import FreeBetDetail from "./FreeBetDetail";
 import SedieHistoryItem from "./SedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
@@ -21,6 +22,9 @@ export default class SedieHistory extends cc.Component {
 
     @property(cc.SpriteFrame)
     iconWhite: cc.SpriteFrame = null;
+
+    @property(cc.Prefab)
+    freeBetDetailPrefab: cc.Prefab = null;
 
     private socket: SocketIOClient.Socket;
 
@@ -50,9 +54,9 @@ export default class SedieHistory extends cc.Component {
                 let itemNode = cc.instantiate(this.itemPrefab);
                 let item = itemNode.getComponent(SedieHistoryItem);
                 item.node.active = true;
-                //item.bg.active = (index % 2) > 0;
+                item.bg.active = (index % 2) > 0;
 
-                const { freeBet, time, phien, result, settlementResult } = betLog;
+                const { freeBet, time, phien, result, settlementResult, betwin } = betLog;
 
                 item.time.string = getStringDateByTime(time);
                 item.phien.string = phien;
@@ -82,10 +86,21 @@ export default class SedieHistory extends cc.Component {
                     }
                 });
 
-                item.win.string = betLog.betwin;
+                item.win.string = betwin;
+
+                if (freeBet) {
+                    item.win.node.on(cc.Node.EventType.TOUCH_END, () => this.showFreeBetDetail(phien, number, betwin));
+                }
 
                 this.content.addChild(itemNode);
             });
         }
+    }
+
+    showFreeBetDetail(roundId, number, win) {
+        const freeBetDetailNode = cc.instantiate(this.freeBetDetailPrefab);
+        const freeBetDetail = freeBetDetailNode.getComponent(FreeBetDetail);
+        freeBetDetail.init(roundId, number, win);
+        this.node.addChild(freeBetDetailNode);
     }
 }

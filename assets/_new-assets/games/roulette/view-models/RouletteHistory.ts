@@ -1,8 +1,9 @@
-const { ccclass, property } = cc._decorator;
-import * as Pagination from '../../../common/helpers/Pagination/Pagination';
-import RouletteTicketDetail from './RouletteTicketDetail';
-import RouletteHistoryItem from './RouletteHistoryItem';
+import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import * as Pagination from "../../../common/helpers/Pagination/Pagination";
+import RouletteHistoryItem from "./RouletteHistoryItem";
+import RouletteTicketDetail from "./RouletteTicketDetail";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class RouletteHistory extends cc.Component {
 
