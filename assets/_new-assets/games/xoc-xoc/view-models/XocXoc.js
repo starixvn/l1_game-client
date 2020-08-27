@@ -1272,7 +1272,7 @@ cc.Class({
 			}
 		} else {
 			this.isWaitingBetResult = true;
-			this.socket.emit('bet', { red: this.red, cuoc: this.cuoc, box: box });
+			this.socket.emit('bet', { red: this.red, cuoc: this.cuoc, box: box, session: authManager.getSession() });
 			// cc.RedT.send({ g: { xocxoc: { cuoc: { red: this.red, cuoc: this.cuoc, box: box } } } });
 		}
 	},

@@ -82,7 +82,7 @@ module.exports = {
   },
   _onSocketConnect: function () {
     cc.RedT.isConnected = true;
-    cc.RedT.inGame.loading && (cc.RedT.inGame.loading.active = true);
+    cc.RedT.inGame && cc.RedT.inGame.loading && (cc.RedT.inGame.loading.active = true);
     authManager && authManager.triggerSignIn();
   },
   _onSocketDisconnect: function () {
