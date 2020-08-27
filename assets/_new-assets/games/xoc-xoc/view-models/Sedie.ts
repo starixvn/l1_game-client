@@ -9,6 +9,7 @@ import SedieLogsHandler from "./handlers/SedieLogsHandler";
 import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
+import SedieGuide from "./SedieGuide";
 import SedieHistory from "./SedieHistory";
 
 const { ccclass, property } = cc._decorator;
@@ -113,7 +114,7 @@ export default class Sedie extends FreeBetGameBase {
 
     openGuide() {
         let dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent('XocXoc_guide');
+        const guide = dialog.getComponent(SedieGuide);
         guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }

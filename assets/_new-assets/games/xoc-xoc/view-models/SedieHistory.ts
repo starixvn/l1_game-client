@@ -52,7 +52,7 @@ export default class SedieHistory extends cc.Component {
                 item.node.active = true;
                 //item.bg.active = (index % 2) > 0;
 
-                const { time, phien, result, settlementResult } = betLog;
+                const { freeBet, time, phien, result, settlementResult } = betLog;
 
                 item.time.string = getStringDateByTime(time);
                 item.phien.string = phien;
@@ -74,7 +74,7 @@ export default class SedieHistory extends cc.Component {
                 }
 
                 Object.keys(settlementResult).forEach(choice => {
-                    item[choice].string = betLog[choice];
+                    item[choice].string = freeBet ? 0 : betLog[choice];
                     if (settlementResult[choice]) {
                         item[choice].node.color = cc.Color.YELLOW;
                     } else {
