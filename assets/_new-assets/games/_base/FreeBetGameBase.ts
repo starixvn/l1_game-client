@@ -62,10 +62,14 @@ export default class FreeBetGameBase extends GameRoomBase {
 
     focusWallet(isFreeBet: boolean) {
         if (isFreeBet) {
+            this.userSCoin.node.parent.zIndex = 2;
             this.userSCoin.node.parent.scale = 1.25;
+            this.userBalance.node.parent.zIndex = 1;
             this.userBalance.node.parent.scale = 1;
         } else {
+            this.userSCoin.node.parent.zIndex = 1;
             this.userSCoin.node.parent.scale = 1;
+            this.userBalance.node.parent.zIndex = 2;
             this.userBalance.node.parent.scale = 1.25;
         }
     }
