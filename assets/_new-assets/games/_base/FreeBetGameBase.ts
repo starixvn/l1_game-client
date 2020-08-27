@@ -1,5 +1,6 @@
 import BaseSocketIOController from "../../BaseSocketIOController";
 import * as authManager from "../../common/auth/AuthManager";
+import { numberWithCommas } from "../../common/helpers/Helper";
 import GameRoomBase from "./GameRoomBase";
 
 const { ccclass, property } = cc._decorator;
@@ -25,7 +26,7 @@ export default class FreeBetGameBase extends GameRoomBase {
             this.onDataGameRoom(data);
         });
         this.socket.on('disconnect', () => { this.closeGame(); });
-        this.focusBalance(this.isFreeBet);
+        this.focusWallet(this.isFreeBet);
     }
 
     start() {
@@ -38,13 +39,28 @@ export default class FreeBetGameBase extends GameRoomBase {
         BaseSocketIOController.getInstance().closeSocket(this.gameId);
     }
 
+    onDataGameRoom(data) {
+        this.onDataGameRoomGeneral(data);
+
+        super.onDataGameRoom(data);
+    }
+
     onChangeWalletClick() {
         this.isFreeBet = !this.isFreeBet;
 
-        this.focusBalance(this.isFreeBet);
+        this.focusWallet(this.isFreeBet);
     }
 
-    focusBalance(isFreeBet: boolean) {
+    loadUserData(user) {
+        super.loadUserData(user);
+        if (void 0 !== user.scoins) {
+            this.isFreeBet = true;
+            this.userSCoin.string = numberWithCommas(user.scoins);
+            this.focusWallet(this.isFreeBet);
+        }
+    }
+
+    focusWallet(isFreeBet: boolean) {
         if (isFreeBet) {
             this.userSCoin.node.parent.scale = 1.25;
             this.userBalance.node.parent.scale = 1;

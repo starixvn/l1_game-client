@@ -102,7 +102,7 @@ cc.Class({
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
       this.header.setAvatar(cc.RedT.user.avatarId);
-      (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.scoins);
+      (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
     }
 
     this.center.node.on("size-changed", this.repositionMenu, this);

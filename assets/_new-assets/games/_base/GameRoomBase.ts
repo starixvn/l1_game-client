@@ -1,5 +1,4 @@
 import GameUtils from "../../common/GameUtils";
-import GameBase, { GameState } from "./GameBase";
 import { numberWithCommas } from "../../common/helpers/Helper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
@@ -54,7 +53,7 @@ export default class GameRoomBase extends GameBase {
         super.onLoad();
         cc.RedT.inGame = this;
         this.loadMiniPanel();
-        this.loadUserData();
+        this.loadUserData(cc.RedT.user);
         this.players.forEach(player => player.node.active = false);
     }
 
@@ -164,7 +163,7 @@ export default class GameRoomBase extends GameBase {
 
     protected onDataGameRoomGeneral(data: any) {
         if (data.user) {
-            this.userBalance.string = numberWithCommas(data.user.red);
+            this.loadUserData(data.user);
             cc.RedT.userData(data.user);
         }
 
@@ -173,6 +172,7 @@ export default class GameRoomBase extends GameBase {
             this.showProcessingWarning(false);
         }
     }
+
 
     protected onDataGameRoom(data: any) {
         super.onData(data);
@@ -193,17 +193,23 @@ export default class GameRoomBase extends GameBase {
         }
     }
 
-    protected loadUserData() {
-        this.userName.string = cc.RedT.user.name;
-        this.userBalance.string = numberWithCommas(cc.RedT.user.red);
-        var self = this;
+    protected loadUserData(user) {
+        if (void 0 !== user.name) {
+            this.userName.string = user.name;
+        }
 
-        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
-            if (self && self.userAvatar) {
-                let avatarId = cc.RedT.user.avatarId;
-                let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
-                self.userAvatar.spriteFrame = frame;
-            }
-        });
+        if (void 0 !== user.red) {
+            this.userBalance.string = numberWithCommas(user.red);
+        }
+
+        if (void 0 !== user.avatarId) {
+            cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+                if (this && this.userAvatar) {
+                    let avatarId = cc.RedT.user.avatarId;
+                    let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+                    this.userAvatar.spriteFrame = frame;
+                }
+            });
+        }
     }
 }
