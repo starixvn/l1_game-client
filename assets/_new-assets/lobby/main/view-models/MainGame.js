@@ -275,7 +275,7 @@ cc.Class({
       sentryLogger.setCharacterName(data.name);
     }
 
-    if (void 0 !== data.availSpins || void 0 !== data.scoins) {
+    if (data.availSpins || data.scoins) {
       this.header.showScoins(data.scoins);
     }
   },

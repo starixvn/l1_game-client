@@ -53,9 +53,11 @@ export default class FreeBetGameBase extends GameRoomBase {
 
     loadUserData(user) {
         super.loadUserData(user);
-        if (void 0 !== user.scoins) {
+        if (user.scoins) {
             this.isFreeBet = true;
             this.userSCoin.string = numberWithCommas(user.scoins);
+            this.userSCoin.node.parent.active = true;
+
             this.focusWallet(this.isFreeBet);
         }
     }
