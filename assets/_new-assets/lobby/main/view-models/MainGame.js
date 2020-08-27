@@ -56,6 +56,7 @@ cc.Class({
       cc.RedT.init(this.loading);
       this.firstComeLobby = true;
     }
+
     this.getLuckyWheelData();
 
     cc.RedT.inGame = this;
@@ -180,6 +181,10 @@ cc.Class({
         const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
         sentryLogger.logError(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}\nError:${ex}`);
       }
+
+      if (data.user.availSpins) {
+        this.getLuckyWheelData();
+      }
     }
 
     cc.RedT.MiniPanel.onGeneralData(data);
@@ -296,10 +301,6 @@ cc.Class({
     this.dialog.onBack();
     cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
     this.openGameSSO();
-    this.getLuckyWheelData();
-  },
-  getLuckyWheelData: function () {
-    cc.RedT.send({ g: { ['luckyWheel']: { getLogs: true } } });
   },
   openGameSSO: function () {
     if (window.openGameId) {
@@ -308,6 +309,7 @@ cc.Class({
         cc.RedT.MiniPanel.openNewGameSocket(null, gameId);
       } else if (configs.gameRoomIds.includes(gameId)) {
         cc.RedT.MiniPanel.openGameRoom(null, gameId);
+        this.isOpenGameRoom = true;
       } else {
         cc.RedT.MiniPanel.openGame(null, gameId);
       }
@@ -457,32 +459,39 @@ cc.Class({
     */
     //   }
   },
+  getLuckyWheelData: function () {
+    cc.RedT.send({ g: { ['luckyWheel']: { getLogs: true } } });
+  },
   handleLuckyWheelData(data) {
     if (data) {
-      // console.log("DATAAAAAAAAAAAAAAAAA");
-
       if (data.choices) {
-        console.log("CHOICESSSSS");
-
-        if (data.availSpins === 0 && this.firstComeLobby) {
-          console.log("ko tao icon ");
-
-          return;
+        if (!this.existedIcon) {
+          const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
+          this.node.addChild(iconNode);
+          const luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
+          this.existedIcon = iconNode;
+          this.luckyWheelIconComponent = luckyWheelIcon;
         }
-        console.log("tao icon getlogs ");
 
-        const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
-        this.node.addChild(iconNode);
-        const luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
-        luckyWheelIcon.handleOpenGame = () => { this.luckyWheelComponent.showLuckyWheel() };
+        this.luckyWheelIconComponent.handleOpenGame = () => {
+          this.getLuckyWheelData();
+          this.luckyWheelComponent.updateData(data.availSpins, data.totalCoins);
+          this.luckyWheelComponent.showLuckyWheel();
+        };
 
-        const luckyWheelNode = cc.instantiate(this.luckyWheelPrefab);
-        const wheelComponent = luckyWheelNode.getComponent("LuckyWheel");
-        wheelComponent.initWheel(data.choices);
-        this.node.addChild(luckyWheelNode);
-        this.luckyWheelComponent = wheelComponent;
+        if (!this.existedLuckyWheel) {
+          const luckyWheelNode = cc.instantiate(this.luckyWheelPrefab);
+          const wheelComponent = luckyWheelNode.getComponent("LuckyWheel");
+          wheelComponent.initWheel(data.choices);
+          this.node.addChild(luckyWheelNode);
+          this.luckyWheelComponent = wheelComponent;
+          this.existedLuckyWheel = luckyWheelNode;
+          this.luckyWheelComponent.setLuckyWheelData(data);
+        }
 
-        this.luckyWheelComponent.updateData(data.availSpins, data.totalCoins);
+        if (!this.firstComeLobby || this.isOpenGameRoom) {
+          this.luckyWheelComponent.node.active = false;
+        }
       }
     }
   }

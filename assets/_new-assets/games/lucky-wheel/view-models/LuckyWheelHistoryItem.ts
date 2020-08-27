@@ -15,9 +15,14 @@ export default class LuckyWheelHistoryItem extends cc.Component {
     result: cc.Label = null;
 
     updateData(data) {
-        this.id.string = '';
+        this.id.string = data.id;
         this.time.string = getStringDateByTime(data.time);
-        this.result.string = data.result.toString();
+
+        if (data.result == 0) {
+            this.result.string = `Chúc bạn may mắn!`;
+        } else {
+            this.result.string = `${data.result} Xu`;
+        }
     }
 
     onDestroy() {

@@ -1,4 +1,6 @@
 import * as _ from "lodash";
+import UmWarning from "../../../common/um-warning/UmWarning";
+
 const { ccclass, property } = cc._decorator;
 
 export enum LuckyWheelColor {
@@ -65,6 +67,15 @@ export default class LuckyWheel extends cc.Component {
     @property(cc.Prefab)
     goodLuckPrefab: cc.Prefab = null;
 
+    @property(UmWarning)
+    umNotice: UmWarning = null;
+
+    @property(cc.Node)
+    notice: cc.Node = null;
+
+    @property(cc.Prefab)
+    noticePrefab: cc.Prefab = null;
+
     scoinPresents: number[] = [];
     defaultAngle: number = 12;
     gameTime: number = 6;
@@ -74,10 +85,12 @@ export default class LuckyWheel extends cc.Component {
     ratioWheel: number = 0;
 
     availSpins: number = 0;
-    totalScoin: number = 0;
+    totalCoins: number = 0;
 
     timeTween: cc.Tween;
     indicatorTween: cc.Tween;
+
+    goodLuckMessage: string = "CHÚC MAY MẮN";
 
     private dataObserverKey = "LuckyWheel";
 
@@ -118,7 +131,11 @@ export default class LuckyWheel extends cc.Component {
 
     onData(data: any) {
         if (data.coins) {
-            this.spin(data.coins);
+            this.spin(data);
+        }
+
+        if (data.notice) {
+            this.showNotice(data.notice);
         }
     }
 
@@ -143,11 +160,17 @@ export default class LuckyWheel extends cc.Component {
             .start();
     }
 
-    updateData(availSpins, totalCoins) {
-        this.availSpins = availSpins;
-        this.totalScoin = totalCoins;
+    setLuckyWheelData(data: any) {
+        this.updateData(data.availSpins, data.totalCoins);
+
+        if (data.um) {
+            this.showUMWarning(data);
+        }
+    }
+
+    updateData(availSpins: number, totalScoins: number) {
         this.availSpinsLbl.string = availSpins.toString();
-        this.totalScoinLbl.string = `${totalCoins}$`;
+        this.totalScoinLbl.string = `${totalScoins}$`;
     }
 
     initWheel(choices) {
@@ -163,14 +186,14 @@ export default class LuckyWheel extends cc.Component {
         this.get_data();
     }
 
-    spin(coin: number) {
+    spin(data) {
 
         this.winningEffect.active = false;
 
         const indexList = [];
-        this.scoinPresents.forEach((value, index) => value === coin && indexList.push(index));
+        this.scoinPresents.forEach((value, index) => value === data.coins && indexList.push(index));
         const resultIndex = indexList[_.random(indexList.length - 1, 0)];
-        this.resultLabel.string = coin.toString();
+        this.resultLabel.string = data.coins.toString();
 
         let randomPosition = _.random(-3, 3);
         let offsetAngleResult = 360 - (this.wheel.angle % 360);
@@ -198,11 +221,8 @@ export default class LuckyWheel extends cc.Component {
             })
             .call(() => {
                 this.button.interactable = true;
-
-                this.totalScoin += coin;
-                this.availSpins -= 1;
-                this.updateData(this.availSpins, this.totalScoin);
-                coin === 0 ? this.handleGoodLuck() : this.handleWinningEffect(coin);
+                this.updateData(data.availSpins, data.totalCoins);
+                data.coins === 0 ? this.handleGoodLuckEffect() : this.handleWinningEffect(data.coins);
             })
             .start();
     }
@@ -248,7 +268,7 @@ export default class LuckyWheel extends cc.Component {
             }
             spriteComponent.spriteFrame = sprite;
 
-            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin == 0 ? "CHÚC MAY MẮN" : `${scoin} Scoin`;
+            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin == 0 ? this.goodLuckMessage : `${scoin} Scoin`;
 
             this.wheelPieces.addChild(pieceNode);
         })
@@ -276,10 +296,21 @@ export default class LuckyWheel extends cc.Component {
         this.winningEffect.addChild(winning);
     }
 
-    handleGoodLuck() {
+    handleGoodLuckEffect() {
         this.winningEffect.active = true;
         this.winningEffect.destroyAllChildren();
         const goodLuck = cc.instantiate(this.goodLuckPrefab);
         this.winningEffect.addChild(goodLuck);
+    }
+
+    showUMWarning(data) {
+        this.umNotice.show(data);
+    }
+
+    showNotice(message: string) {
+        const noticeNode = cc.instantiate(this.noticePrefab);
+        const notice = noticeNode.getComponent("mini_warning");
+        notice.text.string = message;
+        this.notice.addChild(noticeNode);
     }
 }
