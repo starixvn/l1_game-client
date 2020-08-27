@@ -1,19 +1,19 @@
-
 import GameBase from "../GameBase";
-import DataHandler from "./DataHandler";
 import GameRoomBase from "../GameRoomBase";
+import DataHandler from "./DataHandler";
 
-export default interface IGameBaseStatusHandler extends DataHandler {
+
+export interface IGameBaseStatusHandler extends DataHandler {
     currentStatusData: any;
 }
 
-export default class GameBaseStatusHandler implements IGameBaseStatusHandler {
+export class GameBaseStatusHandler implements IGameBaseStatusHandler {
     public currentStatusData: any;
 
     constructor(protected readonly main: GameBase) {
     }
 
-    private timeout: number;
+    private timeout: NodeJS.Timeout;
 
     handle(data: any): boolean {
         if (data.status) {

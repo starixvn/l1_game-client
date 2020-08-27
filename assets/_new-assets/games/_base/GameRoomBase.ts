@@ -5,7 +5,7 @@ import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import GameBase from "./GameBase";
 import { GameBaseConfigs } from "./GameBaseConfig";
-import { GameBasePlayerHandler, IGameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
+import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import RoomPlayer from "./RoomPlayer";
 
 const { ccclass, property } = cc._decorator;
@@ -45,7 +45,7 @@ export default class GameRoomBase extends GameBase {
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
 
-    playerHandler: IGameBasePlayerHandler;
+    playerHandler: GameBasePlayerHandler;
     private miniPanelScale: number;
     protected gameId: number;
 
