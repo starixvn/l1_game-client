@@ -274,6 +274,10 @@ cc.Class({
       this.header.userName.string = data.name;
       sentryLogger.setCharacterName(data.name);
     }
+
+    if (void 0 !== data.availSpins || void 0 !== data.scoins) {
+      this.header.showScoins(data.scoins);
+    }
   },
   signOut: function () {
     cc.RedT.user = {};
