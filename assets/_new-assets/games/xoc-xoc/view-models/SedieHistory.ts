@@ -89,7 +89,7 @@ export default class SedieHistory extends cc.Component {
                 item.win.string = betwin;
 
                 if (freeBet) {
-                    item.win.node.on(cc.Node.EventType.TOUCH_END, () => this.showFreeBetDetail(phien, number, betwin));
+                    item.win.node.on(cc.Node.EventType.TOUCH_END, () => this.showFreeBetDetail(betLog));
                 }
 
                 this.content.addChild(itemNode);
@@ -97,10 +97,10 @@ export default class SedieHistory extends cc.Component {
         }
     }
 
-    showFreeBetDetail(roundId, number, win) {
+    showFreeBetDetail(betLog) {
         const freeBetDetailNode = cc.instantiate(this.freeBetDetailPrefab);
         const freeBetDetail = freeBetDetailNode.getComponent(FreeBetDetail);
-        freeBetDetail.init(roundId, number, win);
+        freeBetDetail.init(betLog);
         this.node.addChild(freeBetDetailNode);
     }
 }

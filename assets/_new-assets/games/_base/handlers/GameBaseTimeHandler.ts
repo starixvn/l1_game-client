@@ -4,7 +4,7 @@ import GameRoomBase from "../GameRoomBase";
 import DataHandler from "./DataHandler";
 
 export interface IGameBaseTimeHandler extends DataHandler {
-    playTimeInterval: number;
+    playTimeInterval: NodeJS.Timeout;
     playTime(): void;
     stopPlayTime(): void;
     resetTime(): void;
@@ -14,7 +14,7 @@ export interface IGameBaseTimeHandler extends DataHandler {
 }
 
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
-    playTimeInterval: number;
+    playTimeInterval: NodeJS.Timeout;
 
     constructor(protected readonly main: GameBase) {
     }
