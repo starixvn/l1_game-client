@@ -152,13 +152,15 @@ export default class LuckyWheel extends cc.Component {
             this.showNotice(data.notice);
         }
 
-        if (void 0 !== data.availSpins) {
-            this.availSpinsLbl.string = data.availSpins.toString();
-        }
+        // if (void 0 !== data.availSpins) {
+        //     this.availSpinsLbl.string = data.availSpins.toString();
+        // }
 
-        if (void 0 !== data.totalCoins) {
-            this.totalScoinLbl.string = `${data.totalCoins}$`;
-        }
+        // if (void 0 !== data.totalCoins) {
+        //     this.totalScoinLbl.string = `${data.totalCoins}$`;
+        // }
+
+        this.updateData(data.availSpins, data.totalCoins);
 
         if (data.um) {
             this.showUMWarning(data);
