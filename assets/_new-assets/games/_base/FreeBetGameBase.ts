@@ -10,6 +10,21 @@ export default class FreeBetGameBase extends GameRoomBase {
     @property(cc.Label)
     userSCoin: cc.Label = null;
 
+    @property(cc.SpriteFrame)
+    dollarBackground: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    scoinBackground: cc.SpriteFrame = null;
+
+    @property(cc.Node)
+    walletNode: cc.Node = null;
+
+    @property(cc.Node)
+    dollarNode: cc.Node = null;
+
+    @property(cc.Node)
+    scoinNode: cc.Node = null;
+
     private isFreeBet: boolean = false;
 
     protected socket: SocketIOClient.Socket;
@@ -64,15 +79,19 @@ export default class FreeBetGameBase extends GameRoomBase {
 
     focusWallet(isFreeBet: boolean) {
         if (isFreeBet) {
-            this.userSCoin.node.parent.zIndex = 2;
-            this.userSCoin.node.parent.scale = 1.25;
-            this.userBalance.node.parent.zIndex = 1;
-            this.userBalance.node.parent.scale = 1;
+            this.scoinNode.getChildByName("overlay").active = false;
+            this.dollarNode.getChildByName("overlay").active = true;
+            // this.userSCoin.node.parent.zIndex = 2;
+            // this.userSCoin.node.parent.scale = 1.25;
+            // this.userBalance.node.parent.zIndex = 1;
+            // this.userBalance.node.parent.scale = 1;
         } else {
-            this.userSCoin.node.parent.zIndex = 1;
-            this.userSCoin.node.parent.scale = 1;
-            this.userBalance.node.parent.zIndex = 2;
-            this.userBalance.node.parent.scale = 1.25;
+            this.scoinNode.getChildByName("overlay").active = true;
+            this.dollarNode.getChildByName("overlay").active = false;
+            // this.userSCoin.node.parent.zIndex = 1;
+            // this.userSCoin.node.parent.scale = 1;
+            // this.userBalance.node.parent.zIndex = 2;
+            // this.userBalance.node.parent.scale = 1.25;
         }
     }
 
