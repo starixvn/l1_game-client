@@ -10,9 +10,6 @@ export default class LuckyWheelIcon extends cc.Component {
 
     private isMove: boolean = false;
     private luckyWheelComponent: LuckyWheel;
-
-    public handleOpenGame = () => { };
-
     private main: any;
 
     init(main) {

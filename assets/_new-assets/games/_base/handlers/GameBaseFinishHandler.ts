@@ -1,12 +1,13 @@
-
-import GameBase from "../GameBase";
-import DataHandler from "./DataHandler";
 import * as _ from "lodash";
-import BetItem from "../BetItem";
+
 import GameUtils from "../../../common/GameUtils";
-import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
-import RoomPlayer from "../RoomPlayer";
+import { getLowercaseObjectKeys } from "../../../common/helpers/Helper.js";
+import BetItem from "../BetItem";
+import GameBase from "../GameBase";
 import GameRoomBase from "../GameRoomBase";
+import RoomPlayer from "../RoomPlayer";
+import DataHandler from "./DataHandler";
+
 
 export default class GameBaseFinishHandler implements DataHandler {
     protected readonly payChipFlyTime = 1.2;

@@ -453,9 +453,6 @@ cc.Class({
     */
     //   }
   },
-  getLuckyWheelData: function () {
-    cc.RedT.send({ g: { ['luckyWheel']: { getLogs: true } } });
-  },
 
   renderLuckyWheelIcon() {
     const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
