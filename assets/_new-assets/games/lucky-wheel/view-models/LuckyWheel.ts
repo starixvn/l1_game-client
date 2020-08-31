@@ -60,6 +60,9 @@ export default class LuckyWheel extends cc.Component {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    gamGuidePrefab: cc.Prefab = null;
+
     @property(cc.Node)
     winningEffect: cc.Node = null;
 
@@ -306,6 +309,11 @@ export default class LuckyWheel extends cc.Component {
     onPressedHistory() {
         const history = cc.instantiate(this.historyPrefab);
         this.node.addChild(history);
+    }
+
+    onPressedGameGuide() {
+        const gameGuide = cc.instantiate(this.gamGuidePrefab);
+        this.node.addChild(gameGuide);
     }
 
     handleWinningEffect(scoin: number) {
