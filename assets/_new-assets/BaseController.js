@@ -84,7 +84,14 @@ module.exports = {
   _onSocketConnect: function () {
     cc.RedT.isConnected = true;
     cc.RedT.inGame && cc.RedT.inGame.loading && (cc.RedT.inGame.loading.active = true);
+
     authManager && authManager.triggerSignIn();
+
+    setTimeout(function () {
+      if (cc.RedT.inGame && cc.RedT.inGame.loading) {
+        cc.RedT.inGame.loading.active = false;
+      }
+    }, 3000);
   },
   _onSocketDisconnect: function () {
     cc.RedT.isConnected = false;

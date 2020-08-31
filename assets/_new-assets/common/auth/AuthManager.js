@@ -178,10 +178,6 @@ export function triggerSignIn() {
 }
 
 function auth(obj) {
-    if (cc.RedT.ingame && cc.RedT.ingame.loading) {
-        cc.RedT.ingame.loading.active = true;
-    }
-
     if (cc.RedT._socket == null || cc.RedT._socket.readyState != 1) {
         setTimeout(function () {
             cc.RedT.send(obj);
@@ -189,12 +185,6 @@ function auth(obj) {
     } else {
         cc.RedT.send(obj);
     }
-
-    setTimeout(function () {
-        if (cc.RedT.ingame && cc.RedT.ingame.loading) {
-            cc.RedT.ingame.loading.active = false;
-        }
-    }, 5000);
 }
 
 export function checkAndUpdateRecheckIn(dontClearSession) {
