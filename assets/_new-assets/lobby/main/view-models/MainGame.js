@@ -38,7 +38,6 @@ cc.Class({
     url: cc.String,
     appApk: cc.String,
     NoticePrefab: cc.Prefab,
-    luckyWheelPrefab: cc.Prefab,
     luckyWheelIconPrefab: cc.Prefab,
     scoins: cc.Node,
   },
@@ -56,8 +55,6 @@ cc.Class({
       cc.RedT.init(this.loading);
       this.firstComeLobby = true;
     }
-
-    this.getLuckyWheelData();
 
     cc.RedT.inGame = this;
 
@@ -104,6 +101,8 @@ cc.Class({
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
       this.header.setAvatar(cc.RedT.user.avatarId);
       (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
+
+      cc.RedT.user.availSpins && this.renderLuckyWheelIcon();
     }
 
     this.center.node.on("size-changed", this.repositionMenu, this);
@@ -111,8 +110,6 @@ cc.Class({
       this.center.node.scale = 0.8;
     }
     this.repositionMenu();
-
-
   },
   repositionMenu() {
     const adsWidth = this.gameAds.width;
@@ -181,10 +178,6 @@ cc.Class({
         const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
         sentryLogger.logError(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}\nError:${ex}`);
       }
-
-      if (data.user.availSpins) {
-        this.getLuckyWheelData();
-      }
     }
 
     cc.RedT.MiniPanel.onGeneralData(data);
@@ -201,9 +194,6 @@ cc.Class({
     if (!!data.removeIsLoading && this.loading) {
       this.loading.active = false;
     }
-
-    // Handle data wheel
-    this.handleLuckyWheelData(data['luckyWheel']);
   },
   captcha: function (data) {
     switch (data.name) {
@@ -278,6 +268,10 @@ cc.Class({
     if (void 0 !== data.name) {
       this.header.userName.string = data.name;
       sentryLogger.setCharacterName(data.name);
+    }
+
+    if (data.availSpins && !this.existedLuckyWheelIcon) {
+      this.renderLuckyWheelIcon();
     }
 
     if (data.availSpins || data.scoins) {
@@ -462,115 +456,15 @@ cc.Class({
   getLuckyWheelData: function () {
     cc.RedT.send({ g: { ['luckyWheel']: { getLogs: true } } });
   },
-  handleLuckyWheelData(data) {
-    if (data) {
-      if (data.choices) {
-        if (!this.existedIcon) {
-          const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
-          this.node.addChild(iconNode);
-          const luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
-          this.existedIcon = iconNode;
-          this.luckyWheelIconComponent = luckyWheelIcon;
-        }
 
-        this.luckyWheelIconComponent.handleOpenGame = () => {
-          this.getLuckyWheelData();
-          this.luckyWheelComponent.updateData(data.availSpins, data.totalCoins);
-          this.luckyWheelComponent.showLuckyWheel();
-        };
-
-        if (!this.existedLuckyWheel) {
-          const luckyWheelNode = cc.instantiate(this.luckyWheelPrefab);
-          const wheelComponent = luckyWheelNode.getComponent("LuckyWheel");
-          wheelComponent.initWheel(data.choices);
-          this.node.addChild(luckyWheelNode);
-          this.luckyWheelComponent = wheelComponent;
-          this.existedLuckyWheel = luckyWheelNode;
-          this.luckyWheelComponent.setLuckyWheelData(data);
-        }
-
-        if (!this.firstComeLobby || this.isOpenGameRoom) {
-          this.luckyWheelComponent.node.active = false;
-        }
-      }
+  renderLuckyWheelIcon() {
+    const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
+    this.node.addChild(iconNode);
+    const luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
+    luckyWheelIcon.init(this);
+    this.existedLuckyWheelIcon = true;
+    if (this.firstComeLobby && !this.isOpenGameRoom) {
+      luckyWheelIcon.openGame();
     }
-  }
-  /**
-	
-    checkLoginFacebook: function() {
-      if (cc.sys.isBrowser && FB) {
-        var self = this;
-        self.loading.active = true;
-        !isInitFB && FB && FB.init({
-          appId: "1979927462336372",
-          autoLogAppEvents: !0,
-          xfbml: !0,
-          cookie: !0,
-          version: "v3.1"
-        }),
-        FB.getLoginStatus(function(t) {
-          if ("connected" === t.status) {
-            var e = t.authResponse.userID
-              , i = s.LOGIN_FACEBOOK_TYPE
-              , o = t.authResponse.accessToken;
-            self.loginSocial(e, "", i, o)
-          } else
-            self.setAutoLogin(!1),
-          self.loading.active = false;
-        })
-      }
-    },
-    loginFacebook: function() {
-      if (cc.sys.isBrowser && FB) {
-        var self = this;
-        self.loading.active = true;
-        FB && (FB.init({
-          appId: "308158023154919",
-          autoLogAppEvents: !0,
-          xfbml: !0,
-          cookie: !0,
-          version: "v3.1"
-        }),
-        FB.login(function(t) {
-          console.log(t)
-          self.loading.active = false;
-          if (t.authResponse) {
-            var uid   = t.authResponse.userID
-              , type  = s.LOGIN_FACEBOOK_TYPE
-              , token = t.authResponse.accessToken;
-            self.loginSocial(uid, "", type, token)
-          } else
-            self.setAutoLogin(!1),
-        }))
-      }
-    },
-    loginSocial: function(e, i, o, n, t) {
-      var s = this
-        , a = {
-        social_id: e,
-        email: i,
-        social_type: o,
-        access_token: n,
-        register_code: this.getRegisterCode(),
-        mkt_code: this.getMarketingCode(),
-        device_id: this.getDeviceID(),
-        fid: this.getFID()
-      };
-      t && (a.otp = t);
-      this.api.registerSocial(a, function(t) {
-        0 === t.data.login_status ? (s.OTPLogin.setLoginFacebook(e, i, o, n),
-        s.OTPLogin.clear(),
-        s.hideProcessingNode(),
-        s.GameCenterUI.showOtpLoginFormNode()) : (s.setAutoLogin(!0),
-        s.setAccountType(!0),
-        s.initDataAndConnectSFS(t.data),
-        s.GameCenterUI.hideOtpLoginFormNode(),
-        t.data.user.is_new && c.addTrackCompleteRegistration())
-      }, function(t) {
-        s.setAutoLogin(!1),
-        s.deProcessingNode(),
-        s.showDialogMessage(r.LOGIN_TITLE, t.msg)
-      })
-    },
-    */
+  },
 });

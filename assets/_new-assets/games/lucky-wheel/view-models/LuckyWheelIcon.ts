@@ -1,30 +1,45 @@
-import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import LuckyWheel from "./LuckyWheel";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LuckyWheelIcon extends cc.Component {
+    @property(cc.Prefab)
+    luckyWheelPrefab: cc.Prefab = null;
 
-    isMove: boolean = false;
+    private isMove: boolean = false;
+    private luckyWheelComponent: LuckyWheel;
 
     public handleOpenGame = () => { };
 
-    onLoad() {
-        const dragableItem = this.getComponent(DraggableItem);
+    private main: any;
 
-        dragableItem.touchCallback.start = (node) => {
-            this.isMove = false;
-        }
-        dragableItem.touchCallback.move = (touchPosition) => {
-            this.isMove = true;
-        }
-        dragableItem.touchCallback.end = () => {
+    init(main) {
+        this.main = main;
+    }
+
+    onLoad() {
+        const draggableItem = this.node.getComponent(DraggableItem);
+
+        draggableItem.touchCallback.start = () => { this.isMove = false; }
+        draggableItem.touchCallback.move = () => { this.isMove = true; }
+        draggableItem.touchCallback.end = () => {
             if (!this.isMove) {
                 this.openGame();
             }
+
+            this.isMove = false;
         }
     }
 
     openGame() {
-        this.handleOpenGame();
+        if (!this.luckyWheelComponent) {
+            const luckyWheelNode = cc.instantiate(this.luckyWheelPrefab);
+            const luckyWheelComponent = luckyWheelNode.getComponent(LuckyWheel);
+            this.main.node.addChild(luckyWheelNode);
+            this.luckyWheelComponent = luckyWheelComponent;
+        }
+        this.luckyWheelComponent.showLuckyWheel();
     }
 }

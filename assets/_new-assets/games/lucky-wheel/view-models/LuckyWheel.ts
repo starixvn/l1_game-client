@@ -1,10 +1,12 @@
 import * as _ from "lodash";
+
 import UmWarning from "../../../common/um-warning/UmWarning";
+import LuckyWheelWinning from "./LuckyWheelWinning";
 
 const { ccclass, property } = cc._decorator;
 
 export enum LuckyWheelColor {
-    Yelllow = "yellow",
+    Yellow = "yellow",
     Green = "green",
     Red = "red",
     Purple = "purple",
@@ -96,7 +98,7 @@ export default class LuckyWheel extends cc.Component {
 
     colorDictionary = {
         0: LuckyWheelColor.Purple,
-        2: LuckyWheelColor.Yelllow,
+        2: LuckyWheelColor.Yellow,
         5: LuckyWheelColor.Pink,
         10: LuckyWheelColor.Green,
         15: LuckyWheelColor.Orange,
@@ -105,6 +107,10 @@ export default class LuckyWheel extends cc.Component {
 
     onLoad() {
         this.addDataObserver();
+    }
+
+    onEnable() {
+        this.getData();
     }
 
     addDataObserver() {
@@ -125,17 +131,37 @@ export default class LuckyWheel extends cc.Component {
         }
     }
 
-    get_data() {
+    playSpin() {
         cc.RedT.send({ g: { ['luckyWheel']: { playSpin: true } } });
     }
 
+    getData() {
+        cc.RedT.send({ g: { ['luckyWheel']: { getLogs: true } } });
+    }
+
     onData(data: any) {
+        if (data.choices) {
+            this.initWheel(data.choices);
+        }
+
         if (data.coins) {
             this.spin(data);
         }
 
         if (data.notice) {
             this.showNotice(data.notice);
+        }
+
+        if (void 0 !== data.availSpins) {
+            this.availSpinsLbl.string = data.availSpins.toString();
+        }
+
+        if (void 0 !== data.totalCoins) {
+            this.totalScoinLbl.string = `${data.totalCoins}$`;
+        }
+
+        if (data.um) {
+            this.showUMWarning(data);
         }
     }
 
@@ -160,17 +186,9 @@ export default class LuckyWheel extends cc.Component {
             .start();
     }
 
-    setLuckyWheelData(data: any) {
-        this.updateData(data.availSpins, data.totalCoins);
-
-        if (data.um) {
-            this.showUMWarning(data);
-        }
-    }
-
-    updateData(availSpins: number, totalScoins: number) {
+    updateData(availSpins: number, totalSCoins: number) {
         this.availSpinsLbl.string = availSpins.toString();
-        this.totalScoinLbl.string = `${totalScoins}$`;
+        this.totalScoinLbl.string = `${totalSCoins}$`;
     }
 
     initWheel(choices) {
@@ -183,11 +201,10 @@ export default class LuckyWheel extends cc.Component {
 
     onPressedSpin() {
         this.button.interactable = false;
-        this.get_data();
+        this.playSpin();
     }
 
     spin(data) {
-
         this.winningEffect.active = false;
 
         const indexList = [];
@@ -250,7 +267,7 @@ export default class LuckyWheel extends cc.Component {
                 case LuckyWheelColor.Pink:
                     sprite = this.pinkPiece;
                     break;
-                case LuckyWheelColor.Yelllow:
+                case LuckyWheelColor.Yellow:
                     sprite = this.yellowPiece;
                     break;
                 case LuckyWheelColor.Orange:
@@ -291,7 +308,7 @@ export default class LuckyWheel extends cc.Component {
         this.winningEffect.destroyAllChildren();
 
         const winning = cc.instantiate(this.winningPrefab);
-        const component = winning.getComponent("LuckyWheelWinning");
+        const component = winning.getComponent(LuckyWheelWinning);
         component.updateData(scoin);
         this.winningEffect.addChild(winning);
     }
