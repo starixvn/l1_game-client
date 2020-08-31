@@ -52,7 +52,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
             cc.RedT.send({
                 user: {
-                    updateCoint: true
+                    updateCoin: true
                 }
             });
         }

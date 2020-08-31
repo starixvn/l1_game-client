@@ -1,25 +1,25 @@
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import * as helper from "../../../common/helpers/Helper";
-import DataHandler from "../../_base/handlers/DataHandler";
-import UmWarning from "../../../common/um-warning/UmWarning";
-import RHUMDataHandler from "./handlers/RHUMDataHandler";
-import RHGameTimeHandler from "./handlers/RHGameTimeHandler";
-import RHBetDataHandler from "./handlers/RHBetDataHandler";
-import RHFinishDataHandler from "./handlers/RHFinishDataHandler";
-import RongHoBetItem from "./RongHoBetItem";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
-import RHNoticeHandler from "./handlers/RHNoticeHandler";
-import RHBetStatusDataHandler from "./handlers/RHBetStatusDataHandler";
-import GameUtils from "../../../common/GameUtils";
-import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
-import RongHoHistory from "./history/RongHoHistory";
-import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
-import GameAudios from "../../_base/GameAudios";
-import LogControl from "../../keno-pro/view-models/LogControl";
-import RHRoundResultItem from "./RHRoundResultItem";
+import GameUtils from "../../../common/GameUtils";
+import * as helper from "../../../common/helpers/Helper";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import UmWarning from "../../../common/um-warning/UmWarning";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import GameAudios from "../../_base/GameAudios";
+import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import DataHandler from "../../_base/handlers/DataHandler";
+import LogControl from "../../keno-pro/view-models/LogControl";
+import RHBetDataHandler from "./handlers/RHBetDataHandler";
+import RHBetStatusDataHandler from "./handlers/RHBetStatusDataHandler";
+import RHFinishDataHandler from "./handlers/RHFinishDataHandler";
+import RHGameTimeHandler from "./handlers/RHGameTimeHandler";
+import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
+import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
+import RHNoticeHandler from "./handlers/RHNoticeHandler";
+import RHUMDataHandler from "./handlers/RHUMDataHandler";
+import RongHoHistory from "./history/RongHoHistory";
+import RHRoundResultItem from "./RHRoundResultItem";
+import RongHoBetItem from "./RongHoBetItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -694,7 +694,7 @@ export default class RongHo extends cc.Component {
           GameUtils.addFlyingText(this.notice, win, bet, 4);
           cc.RedT.send({
             user: {
-              updateCoint: true,
+              updateCoin: true,
             },
           });
         }

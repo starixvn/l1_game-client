@@ -1,7 +1,7 @@
+import GameUtils from "../../../../common/GameUtils";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import Roulette from "../Roulette";
 import RouletteUtils from "../RouletteUtils";
-import GameUtils from "../../../../common/GameUtils";
 
 export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
@@ -68,7 +68,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
                 cc.RedT.send({
                     user: {
-                        updateCoint: true
+                        updateCoin: true
                     }
                 });
             })

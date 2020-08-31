@@ -105,7 +105,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         cc.RedT.send({
             user: {
-                updateCoint: true
+                updateCoin: true
             }
         });
     }

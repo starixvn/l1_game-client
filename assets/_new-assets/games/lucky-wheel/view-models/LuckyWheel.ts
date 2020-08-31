@@ -239,7 +239,12 @@ export default class LuckyWheel extends cc.Component {
             .call(() => {
                 this.button.interactable = true;
                 this.updateData(data.availSpins, data.totalCoins);
-                data.coins === 0 ? this.handleGoodLuckEffect() : this.handleWinningEffect(data.coins);
+                if (data.coins === 0) {
+                    this.handleGoodLuckEffect();
+                } else {
+                    this.handleWinningEffect(data.coins);
+                    cc.RedT.send({ user: { updateCoin: true } });
+                }
             })
             .start();
     }

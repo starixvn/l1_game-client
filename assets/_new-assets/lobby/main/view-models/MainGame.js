@@ -65,7 +65,7 @@ cc.Class({
 
     cc.game.on(cc.game.EVENT_SHOW, function () {
       cc.RedT.GAME_IS_SHOWED = true;
-      cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoint: true } });
+      cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoin: true } });
 
       if (cc.sys.isMobile) {
         const sleepSecond = (new Date() - this.sleepTime) / 1000;

@@ -50,7 +50,7 @@ module.exports = {
     try {
       if (this.isConnected) {
         authManager.checkAndUpdateRecheckIn();
-        this.send({ reCheckin: true, user: { updateCoint: true } });
+        this.send({ reCheckin: true, user: { updateCoin: true } });
       }
     } catch (ex) {
       console.log(JSON.stringify(ex))
