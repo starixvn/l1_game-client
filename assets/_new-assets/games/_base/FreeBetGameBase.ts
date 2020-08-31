@@ -61,8 +61,8 @@ export default class FreeBetGameBase extends GameRoomBase {
         super.onDataGameRoom(data);
     }
 
-    onChangeWalletClick() {
-        this.isFreeBet = !this.isFreeBet;
+    onChangeWalletClick(e, isFreeBet) {
+        this.isFreeBet = isFreeBet == "true";
 
         this.focusWallet(this.isFreeBet);
     }
