@@ -86,9 +86,6 @@ export default class LuckyWheel extends cc.Component {
     progress: number = 0;
     ratioWheel: number = 0;
 
-    availSpins: number = 0;
-    totalCoins: number = 0;
-
     timeTween: cc.Tween;
     indicatorTween: cc.Tween;
 
@@ -111,6 +108,7 @@ export default class LuckyWheel extends cc.Component {
 
     onEnable() {
         this.getData();
+        this.button.interactable = true;
     }
 
     addDataObserver() {
@@ -144,7 +142,7 @@ export default class LuckyWheel extends cc.Component {
             this.initWheel(data.choices);
         }
 
-        if (data.coins) {
+        if (void 0 != data.coins) {
             this.spin(data);
         }
 
@@ -152,15 +150,14 @@ export default class LuckyWheel extends cc.Component {
             this.showNotice(data.notice);
         }
 
-        // if (void 0 !== data.availSpins) {
-        //     this.availSpinsLbl.string = data.availSpins.toString();
-        // }
+        if (void 0 !== data.availSpins) {
+            this.availSpinsLbl.string = data.availSpins.toString();
+            this.winningEffect.active = false;
+        }
 
-        // if (void 0 !== data.totalCoins) {
-        //     this.totalScoinLbl.string = `${data.totalCoins}$`;
-        // }
-
-        this.updateData(data.availSpins, data.totalCoins);
+        if (void 0 !== data.totalCoins) {
+            this.totalScoinLbl.string = `${data.totalCoins}$`;
+        }
 
         if (data.um) {
             this.showUMWarning(data);
@@ -222,6 +219,7 @@ export default class LuckyWheel extends cc.Component {
         cc.tween(this.wheel)
             .by(this.gameTime, { angle: rotateResult }, {
                 progress: (start, end, current, ratio) => {
+                    this.button.interactable = false;
                     this.ratioWheel = ratio;
                     this.currentRotation = this.wheel.angle;
                     const tolerance = this.currentRotation - this.lastRotation;
