@@ -17,7 +17,6 @@ export default class LuckyWheelHistory extends cc.Component {
     private dataObserverKey = "LuckyWheelHistory";
 
     onLoad() {
-
         this.pages.init(this);
         this.addDataObserver();
         this.get_data();

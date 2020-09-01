@@ -64,7 +64,7 @@ export default class FreeBetDetail extends cc.Component {
             }
         });
 
-        this.totalBet.string = totalBet.toString();
+        this.totalBet.string = `${totalBet} (Scoin)`;
         this.win.string = betwin;
     }
 }

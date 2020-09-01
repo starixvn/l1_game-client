@@ -6,7 +6,7 @@ export default class LuckyWheelWinning extends cc.Component {
     @property(cc.Label)
     scoin: cc.Label = null;
 
-    updateData(scoin: number) {
+    updateScoin(scoin: number) {
         this.scoin.string = scoin.toString();
     }
 

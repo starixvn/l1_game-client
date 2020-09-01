@@ -184,11 +184,6 @@ export default class LuckyWheel extends cc.Component {
             .start();
     }
 
-    updateData(availSpins: number, totalSCoins: number) {
-        this.availSpinsLbl.string = availSpins.toString();
-        this.totalScoinLbl.string = `${totalSCoins}$`;
-    }
-
     initWheel(choices) {
         choices.forEach(coin => {
             this.scoinPresents.push(coin);
@@ -236,7 +231,8 @@ export default class LuckyWheel extends cc.Component {
             })
             .call(() => {
                 this.button.interactable = true;
-                this.updateData(data.availSpins, data.totalCoins);
+                this.availSpinsLbl.string = data.availSpins.toString();
+                this.totalScoinLbl.string = `${data.totalCoins}$`;
                 if (data.coins === 0) {
                     this.handleGoodLuckEffect();
                 } else {
@@ -325,7 +321,7 @@ export default class LuckyWheel extends cc.Component {
 
         const winning = cc.instantiate(this.winningPrefab);
         const component = winning.getComponent(LuckyWheelWinning);
-        component.updateData(scoin);
+        component.updateScoin(scoin);
         this.winningEffect.addChild(winning);
     }
 

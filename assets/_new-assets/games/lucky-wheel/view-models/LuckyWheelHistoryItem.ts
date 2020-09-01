@@ -21,7 +21,7 @@ export default class LuckyWheelHistoryItem extends cc.Component {
         if (data.result == 0) {
             this.result.string = `Chúc bạn may mắn!`;
         } else {
-            this.result.string = `${data.result} Xu`;
+            this.result.string = `${data.result} Scoin`;
         }
     }
 
