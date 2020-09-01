@@ -142,8 +142,8 @@ export default class LuckyWheel extends cc.Component {
             this.initWheel(data.choices);
         }
 
-        if (void 0 != data.coins) {
-            this.spin(data);
+        if (data.status) {
+            this.spin(data.status);
         }
 
         if (data.notice) {
