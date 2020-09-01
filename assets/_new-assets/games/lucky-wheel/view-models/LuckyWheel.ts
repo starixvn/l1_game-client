@@ -28,9 +28,6 @@ export default class LuckyWheel extends cc.Component {
     button: cc.Button = null;
 
     @property(cc.Label)
-    resultLabel: cc.Label = null;
-
-    @property(cc.Label)
     availSpinsLbl: cc.Label = null;
 
     @property(cc.Label)
@@ -155,7 +152,6 @@ export default class LuckyWheel extends cc.Component {
 
         if (void 0 !== data.availSpins) {
             this.availSpinsLbl.string = data.availSpins.toString();
-            this.winningEffect.active = false;
         }
 
         if (void 0 !== data.totalCoins) {
@@ -212,7 +208,6 @@ export default class LuckyWheel extends cc.Component {
         const indexList = [];
         this.scoinPresents.forEach((value, index) => value === data.coins && indexList.push(index));
         const resultIndex = indexList[_.random(indexList.length - 1, 0)];
-        this.resultLabel.string = data.coins.toString();
 
         let randomPosition = _.random(-3, 3);
         let offsetAngleResult = 360 - (this.wheel.angle % 360);
@@ -304,6 +299,14 @@ export default class LuckyWheel extends cc.Component {
 
         const dialog = this.node.getComponent("CommonDialog");
         dialog.showDialog();
+    }
+
+    closeLuckyWheel() {
+        cc.RedT.audio.playClick();
+
+        const dialog = this.node.getComponent("CommonDialog");
+        dialog.closeDialog();
+        this.winningEffect.active = false;
     }
 
     onPressedHistory() {
