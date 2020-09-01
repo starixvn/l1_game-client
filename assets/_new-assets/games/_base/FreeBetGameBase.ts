@@ -55,8 +55,13 @@ export default class FreeBetGameBase extends GameRoomBase {
         BaseSocketIOController.getInstance().closeSocket(this.gameId);
     }
 
-    onDataGameRoom(data) {
+    onData(data) {
+        this.currentMiniPanel.onGeneralData(data);
         this.onDataGameRoomGeneral(data);
+    }
+
+    onDataGameRoom(data) {
+        this.onData(data);
 
         super.onDataGameRoom(data);
     }

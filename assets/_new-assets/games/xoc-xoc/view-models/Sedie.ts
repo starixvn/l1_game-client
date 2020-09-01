@@ -131,11 +131,6 @@ export default class Sedie extends FreeBetGameBase {
         this.closeGame();
     }
 
-    onData(data) {
-        this.currentMiniPanel.onGeneralData(data);
-        this.onDataGameRoomGeneral(data);
-    }
-
     onDataGameRoom(data) {
         if (data.history) {
             this.historyComponent.onData(data.history);
