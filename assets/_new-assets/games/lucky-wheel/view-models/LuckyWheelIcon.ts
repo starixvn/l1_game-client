@@ -39,4 +39,8 @@ export default class LuckyWheelIcon extends cc.Component {
         }
         this.luckyWheelComponent.showLuckyWheel();
     }
+
+    onDestroy() {
+        this.node.destroy();
+    }
 }

@@ -69,6 +69,9 @@ export default class LuckyWheel extends cc.Component {
     @property(cc.Prefab)
     goodLuckPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    bannerPrefab: cc.Prefab = null;
+
     @property(UmWarning)
     umNotice: UmWarning = null;
 
@@ -88,6 +91,7 @@ export default class LuckyWheel extends cc.Component {
 
     timeTween: cc.Tween;
     indicatorTween: cc.Tween;
+    currentScoin: number = 0;
 
     goodLuckMessage: string = "CHÚC MAY MẮN";
 
@@ -303,6 +307,10 @@ export default class LuckyWheel extends cc.Component {
         const dialog = this.node.getComponent("CommonDialog");
         dialog.closeDialog();
         this.winningEffect.active = false;
+        if (cc.RedT.user.scoins) {
+            const bannerNode = cc.instantiate(this.bannerPrefab);
+            this.node.parent.addChild(bannerNode);
+        }
     }
 
     onPressedHistory() {
