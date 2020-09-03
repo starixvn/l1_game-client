@@ -48,12 +48,10 @@ cc.Class({
   onLoad: function () {
     this.dialog = this.dialogNode.getComponent("Dialog");
     document.cookie = "redT=1702;path=/";
-    this.firstComeLobby = false;
 
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;
       cc.RedT.init(this.loading);
-      this.firstComeLobby = true;
     }
 
     cc.RedT.inGame = this;
@@ -270,10 +268,6 @@ cc.Class({
       sentryLogger.setCharacterName(data.name);
     }
 
-    if (data.availSpins && !this.existedLuckyWheelIcon) {
-      this.renderLuckyWheelIcon();
-    }
-
     if (data.availSpins || data.scoins) {
       this.header.showScoins(data.scoins);
     }
@@ -303,11 +297,13 @@ cc.Class({
         cc.RedT.MiniPanel.openNewGameSocket(null, gameId);
       } else if (configs.gameRoomIds.includes(gameId)) {
         cc.RedT.MiniPanel.openGameRoom(null, gameId);
-        this.isOpenGameRoom = true;
       } else {
         cc.RedT.MiniPanel.openGame(null, gameId);
+        cc.RedT.user.availSpins && this.renderLuckyWheelIcon(true);
       }
       window.openGameId = null;
+    } else {
+      cc.RedT.user.availSpins && this.renderLuckyWheelIcon(true);
     }
   },
 
@@ -351,13 +347,13 @@ cc.Class({
   telegram: function () {
     cc.sys.openURL(this.url + "/telegram/");
   },
-  renderLuckyWheelIcon() {
+  renderLuckyWheelIcon(autoOpen = false) {
     const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
     this.node.addChild(iconNode);
     const luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
     luckyWheelIcon.init(this);
     this.existedLuckyWheelIcon = true;
-    if (this.firstComeLobby && !this.isOpenGameRoom) {
+    if (autoOpen) {
       luckyWheelIcon.openGame();
     }
   },
