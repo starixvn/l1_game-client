@@ -37,4 +37,7 @@ export default class SedieHistoryItem extends cc.Component {
 
     @property(cc.Label)
     win: cc.Label = null;
+
+    @property(cc.Node)
+    linkIcon: cc.Node = null;
 }
