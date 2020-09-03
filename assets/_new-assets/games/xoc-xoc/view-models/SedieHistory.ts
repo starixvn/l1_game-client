@@ -88,6 +88,7 @@ export default class SedieHistory extends cc.Component {
 
                 item.win.string = betwin;
                 if (freeBet) {
+                    item.scoinIcon.active = true;
                     item.linkIcon.active = true;
                     item.win.node.parent.on(cc.Node.EventType.TOUCH_END, () => this.showFreeBetDetail(betLog));
                 }
