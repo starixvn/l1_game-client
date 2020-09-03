@@ -13,7 +13,6 @@ import SedieGuide from "./SedieGuide";
 import SedieHistory from "./SedieHistory";
 
 const { ccclass, property } = cc._decorator;
-
 @ccclass
 export default class Sedie extends FreeBetGameBase {
 

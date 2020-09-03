@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import FreeBetDetailItem from "./FreeBetDetailItem";
 
 const { ccclass, property } = cc._decorator;
@@ -56,7 +57,7 @@ export default class FreeBetDetail extends cc.Component {
             if (betLog[key]) {
                 const node = cc.instantiate(this.itemPrefab);
                 const item = node.getComponent(FreeBetDetailItem);
-                item.label.string = key;
+                item.label.string = GameUtils.getBetChoiceString(key);
                 item.value.string = betLog[key];
                 totalBet += betLog[key];
 

@@ -1,4 +1,4 @@
-import * as helper from './helpers/Helper';
+import * as helper from "./helpers/Helper";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration: number = 1, startY: number = 0, destY: number = 100) {
@@ -34,7 +34,11 @@ export default class GameUtils {
 
             dragon: "RỒNG",
             tiger: "HỔ",
-            tie: "HÒA"
+            tie: "HÒA",
+            "3red": "3 ĐỎ",
+            "4red": "4 ĐỎ",
+            "3white": "1 ĐỎ",
+            "4white": "4 TRẮNG"
         };
 
         return dict[choice];
