@@ -157,9 +157,7 @@ cc.Class({
     if (void 0 !== data["unauth"]) {
       this.unAuthorized(data["unauth"]);
     }
-    if (void 0 !== data.Authorized) {
-      this.Authorized(data.Authorized);
-    }
+
     if (void 0 !== data.user) {
       this.dataUser(data.user);
       cc.RedT.userData(data.user);
@@ -176,6 +174,10 @@ cc.Class({
         const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
         sentryLogger.logError(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}\nError:${ex}`);
       }
+    }
+
+    if (void 0 !== data.Authorized) {
+      this.Authorized(data.Authorized);
     }
 
     cc.RedT.MiniPanel.onGeneralData(data);

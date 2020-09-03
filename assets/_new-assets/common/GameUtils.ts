@@ -35,10 +35,10 @@ export default class GameUtils {
             dragon: "RỒNG",
             tiger: "HỔ",
             tie: "HÒA",
-            "3red": "3 ĐỎ",
-            "4red": "4 ĐỎ",
-            "3white": "1 ĐỎ",
-            "4white": "4 TRẮNG"
+            red3: "3 ĐỎ",
+            red4: "4 ĐỎ",
+            white3: "1 ĐỎ",
+            white4: "4 TRẮNG"
         };
 
         return dict[choice];
