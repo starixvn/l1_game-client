@@ -92,27 +92,22 @@ export default class FreeBetGameBase extends GameRoomBase {
 
     focusWallet(isFreeBet: boolean) {
         const walletSprite = this.walletNode.getComponent(cc.Sprite);
+        const dollarActiveNode = this.dollarNode.getChildByName("active");
+
+        this.scoinNode.getChildByName("active").active = isFreeBet;
+        this.scoinNode.getChildByName("overlay").active = !isFreeBet;
+        this.dollarNode.getChildByName("overlay").active = isFreeBet;
+        dollarActiveNode.active = false;
+        walletSprite.spriteFrame = this.dollarBackground;
 
         if (isFreeBet) {
-            walletSprite.spriteFrame = this.dollarBackground;
-
             this.scoinNode.zIndex = 2;
-            this.scoinNode.getChildByName("active").active = true;
-            this.scoinNode.getChildByName("overlay").active = false;
-
             this.dollarNode.zIndex = 1;
-            this.dollarNode.getChildByName("active").active = false;
-            this.dollarNode.getChildByName("overlay").active = true;
         } else {
             walletSprite.spriteFrame = this.scoinNode.active ? this.scoinBackground : this.dollarBackground;
-
+            dollarActiveNode.active = this.scoinNode.active ? true : false;
             this.scoinNode.zIndex = 1;
-            this.scoinNode.getChildByName("active").active = false;
-            this.scoinNode.getChildByName("overlay").active = true;
-
             this.dollarNode.zIndex = 2;
-            this.dollarNode.getChildByName("overlay").active = false;
-            this.dollarNode.getChildByName("active").active = this.scoinNode.active ? true : false;
         }
     }
 
