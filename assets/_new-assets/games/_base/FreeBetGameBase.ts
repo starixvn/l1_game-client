@@ -30,7 +30,6 @@ export default class FreeBetGameBase extends GameRoomBase {
 
     protected socket: SocketIOClient.Socket;
 
-
     onLoad() {
         super.onLoad();
 
@@ -48,6 +47,9 @@ export default class FreeBetGameBase extends GameRoomBase {
     start() {
         cc.RedT.send({ scene: this.gameName });
         this.socket.emit('inGame');
+        const walletLayout = this.walletNode.getComponent(cc.Layout);
+        walletLayout.updateLayout();
+        walletLayout.enabled = false;
     }
 
     onDestroy() {
@@ -89,16 +91,28 @@ export default class FreeBetGameBase extends GameRoomBase {
     }
 
     focusWallet(isFreeBet: boolean) {
+        const walletSprite = this.walletNode.getComponent(cc.Sprite);
+
         if (isFreeBet) {
-            this.scoinNode.active = true;
+            walletSprite.spriteFrame = this.dollarBackground;
+
+            this.scoinNode.zIndex = 2;
+            this.scoinNode.getChildByName("active").active = true;
             this.scoinNode.getChildByName("overlay").active = false;
+
+            this.dollarNode.zIndex = 1;
+            this.dollarNode.getChildByName("active").active = false;
             this.dollarNode.getChildByName("overlay").active = true;
         } else {
+            walletSprite.spriteFrame = this.scoinNode.active ? this.scoinBackground : this.dollarBackground;
+
+            this.scoinNode.zIndex = 1;
+            this.scoinNode.getChildByName("active").active = false;
             this.scoinNode.getChildByName("overlay").active = true;
+
+            this.dollarNode.zIndex = 2;
             this.dollarNode.getChildByName("overlay").active = false;
-            if (this.scoin > 0) {
-                this.dollarNode.getChildByName("active").active = true;
-            }
+            this.dollarNode.getChildByName("active").active = this.scoinNode.active ? true : false;
         }
     }
 
