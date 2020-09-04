@@ -92,6 +92,7 @@ export default class LuckyWheel extends cc.Component {
     timeTween: cc.Tween;
     indicatorTween: cc.Tween;
     currentScoin: number = 0;
+    availSpins: number = 0;
 
     goodLuckMessage: string = "CHÚC MAY MẮN";
 
@@ -112,7 +113,6 @@ export default class LuckyWheel extends cc.Component {
 
     onEnable() {
         this.getData();
-        this.button.interactable = true;
     }
 
     addDataObserver() {
@@ -156,6 +156,7 @@ export default class LuckyWheel extends cc.Component {
 
         if (void 0 !== data.availSpins) {
             this.availSpinsLbl.string = data.availSpins.toString();
+            this.button.interactable = data.availSpins > 0 ? true : false;
         }
 
         if (void 0 !== data.totalCoins) {
@@ -203,6 +204,8 @@ export default class LuckyWheel extends cc.Component {
 
     spin(data) {
         this.winningEffect.active = false;
+        this.availSpinsLbl.string = data.availSpins.toString();
+        this.availSpins = data.availSpins;
 
         const indexList = [];
         this.scoinPresents.forEach((value, index) => value === data.coins && indexList.push(index));
@@ -234,8 +237,7 @@ export default class LuckyWheel extends cc.Component {
                 },
             })
             .call(() => {
-                this.button.interactable = true;
-                this.availSpinsLbl.string = data.availSpins.toString();
+                this.button.interactable = data.availSpins > 0 ? true : false;
                 this.totalScoinLbl.string = `${data.totalCoins}`;
                 if (data.coins === 0) {
                     this.handleGoodLuckEffect();
