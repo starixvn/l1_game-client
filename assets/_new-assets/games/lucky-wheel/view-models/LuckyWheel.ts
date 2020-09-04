@@ -92,7 +92,6 @@ export default class LuckyWheel extends cc.Component {
     timeTween: cc.Tween;
     indicatorTween: cc.Tween;
     currentScoin: number = 0;
-    availSpins: number = 0;
 
     goodLuckMessage: string = "CHÚC MAY MẮN";
 
@@ -205,7 +204,6 @@ export default class LuckyWheel extends cc.Component {
     spin(data) {
         this.winningEffect.active = false;
         this.availSpinsLbl.string = data.availSpins.toString();
-        this.availSpins = data.availSpins;
 
         const indexList = [];
         this.scoinPresents.forEach((value, index) => value === data.coins && indexList.push(index));
