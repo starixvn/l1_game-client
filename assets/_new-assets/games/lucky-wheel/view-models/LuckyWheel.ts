@@ -159,7 +159,7 @@ export default class LuckyWheel extends cc.Component {
         }
 
         if (void 0 !== data.totalCoins) {
-            this.totalScoinLbl.string = `${data.totalCoins}$`;
+            this.totalScoinLbl.string = `${data.totalCoins}`;
         }
 
         if (data.um) {
@@ -236,7 +236,7 @@ export default class LuckyWheel extends cc.Component {
             .call(() => {
                 this.button.interactable = true;
                 this.availSpinsLbl.string = data.availSpins.toString();
-                this.totalScoinLbl.string = `${data.totalCoins}$`;
+                this.totalScoinLbl.string = `${data.totalCoins}`;
                 if (data.coins === 0) {
                     this.handleGoodLuckEffect();
                 } else {
