@@ -30,7 +30,7 @@ cc.Class({
 			this.signName = node.getComponent("SignName");
 		}
 		this.node.active = this.signName.node.active = true;
-		this.currentDialog = this.signName.getComponent("CommonDialog");
+		this.currentDialog = this.signName.dialogNode.getComponent("CommonDialog");
 		this.currentDialog.onDidHide = () => this.node.active = false;
 	}
 });

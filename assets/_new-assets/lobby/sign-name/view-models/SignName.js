@@ -14,6 +14,7 @@ cc.Class({
 			default: null,
 			type: cc.Label,
 		},
+		dialogNode: cc.Node,
 	},
 	onLoad() {
 		var self = this;

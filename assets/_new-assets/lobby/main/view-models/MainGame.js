@@ -84,6 +84,8 @@ cc.Class({
     var MiniPanel = cc.instantiate(this.PrefabT[1]);
     cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
     this.redhat.insertChild(MiniPanel);
+    this.dialogNode.removeFromParent();
+    MiniPanel.addChild(this.dialogNode);
 
     const inRoomGameId = authManager.getInRoomGameId();
 
