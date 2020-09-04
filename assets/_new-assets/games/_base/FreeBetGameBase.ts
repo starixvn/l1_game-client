@@ -27,6 +27,7 @@ export default class FreeBetGameBase extends GameRoomBase {
 
     private isFreeBet: boolean = false;
     private scoin: number = 0;
+    private isFocusScoin: boolean = false;
 
     protected socket: SocketIOClient.Socket;
 
@@ -82,7 +83,8 @@ export default class FreeBetGameBase extends GameRoomBase {
         if (void 0 !== this.scoin) {
             this.userSCoin.string = numberWithCommas(user.scoins);
 
-            if (this.scoin > 0) {
+            if (!this.isFocusScoin && this.scoin > 0) {
+                this.isFocusScoin = true;
                 this.isFreeBet = true;
                 this.scoinNode.active = true;
                 this.focusWallet(this.isFreeBet);
