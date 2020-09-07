@@ -48,6 +48,9 @@ export default class FreeBetGameBase extends GameRoomBase {
     start() {
         cc.RedT.send({ scene: this.gameName });
         this.socket.emit('inGame');
+
+        this.updateWalletWidth();
+
         const walletLayout = this.walletNode.getComponent(cc.Layout);
         walletLayout.updateLayout();
         walletLayout.enabled = false;
@@ -130,5 +133,15 @@ export default class FreeBetGameBase extends GameRoomBase {
             };
             this.socket && this.socket.emit("bet", betData);
         }
+    }
+
+    updateWalletWidth() {
+        const activeDollarWidth = this.dollarNode.getChildByName("active").width;
+        const dollarLblWidth = this.userBalance.node.width;
+        const activeScoinWidth = this.scoinNode.getChildByName("active").width;
+        const scoinLblWidth = this.userSCoin.node.width;
+
+        this.dollarNode.width = dollarLblWidth > activeDollarWidth ? dollarLblWidth + 20 : activeDollarWidth;
+        this.scoinNode.width = scoinLblWidth > activeScoinWidth ? scoinLblWidth + 20 : activeScoinWidth;
     }
 }
