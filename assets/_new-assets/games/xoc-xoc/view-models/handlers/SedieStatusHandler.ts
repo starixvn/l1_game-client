@@ -9,7 +9,9 @@ export default class SedieStatusHandler extends GameBaseStatusHandler {
     handle(data: any): boolean {
         if (data.status) {
             if (this.currentStatusData && this.currentStatusData.win) {
-                this.currentStatusData.bet += data.status.bet;
+                if (data.status.win) {
+                    this.currentStatusData.bet += data.status.bet;
+                }
             } else {
                 this.currentStatusData = data.status;
             }
