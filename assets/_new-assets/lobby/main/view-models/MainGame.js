@@ -102,7 +102,7 @@ cc.Class({
       this.header.setAvatar(cc.RedT.user.avatarId);
       (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
 
-      this.renderLuckyWheelIcon();
+      cc.RedT.user.availSpins && this.renderLuckyWheelIcon();
     }
 
     this.center.node.on("size-changed", this.repositionMenu, this);

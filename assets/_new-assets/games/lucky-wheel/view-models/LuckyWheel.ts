@@ -88,10 +88,12 @@ export default class LuckyWheel extends cc.Component {
     lastRotation: number = 0;
     progress: number = 0;
     ratioWheel: number = 0;
+    resultAngle: number = 0;
 
     timeTween: cc.Tween;
     indicatorTween: cc.Tween;
     currentScoin: number = 0;
+    wheelTween: cc.Tween;
 
     goodLuckMessage: string = "CHÚC MAY MẮN";
 
@@ -213,8 +215,9 @@ export default class LuckyWheel extends cc.Component {
         let offsetAngleResult = 360 - (this.wheel.angle % 360);
         const rotateResult = (resultIndex * this.defaultAngle) + (4 * 360) + offsetAngleResult - randomPosition;
 
+        this.resultAngle = this.wheel.angle + rotateResult;
         this.shakeIndicator();
-        cc.tween(this.wheel)
+        this.wheelTween = cc.tween(this.wheel)
             .by(this.gameTime, { angle: rotateResult }, {
                 progress: (start, end, current, ratio) => {
                     this.button.interactable = false;
@@ -303,6 +306,8 @@ export default class LuckyWheel extends cc.Component {
 
     closeLuckyWheel() {
         cc.RedT.audio.playClick();
+        this.wheel.angle = this.resultAngle;
+        this.wheelTween?.stop();
 
         const dialog = this.node.getComponent("CommonDialog");
         dialog.closeDialog();
