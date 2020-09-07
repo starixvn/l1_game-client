@@ -40,13 +40,15 @@ export default class FreeBetGameBase extends GameRoomBase {
         this.socket.on(this.gameName, (data) => {
             this.onDataGameRoom(data);
         });
-        this.socket.on('disconnect', () => { this.closeGame(); });
+        this.socket.on("disconnect", () => {
+            this.closeGame();
+        });
         this.focusWallet(this.isFreeBet);
     }
 
     start() {
         cc.RedT.send({ scene: this.gameName });
-        this.socket.emit('inGame');
+        this.socket.emit("inGame");
 
         this.updateWalletWidth();
 
@@ -83,7 +85,7 @@ export default class FreeBetGameBase extends GameRoomBase {
     loadUserData(user) {
         super.loadUserData(user);
 
-        if (void 0 !== user.scoins && this.gameConfigs.enableFreeBet) {
+        if (void 0 !== user.scoins && this.gameConfigs && this.gameConfigs.enableFreeBet) {
             this.userSCoin.string = numberWithCommas(user.scoins);
 
             if (!this.isFocusScoin && user.scoins > 0) {
@@ -123,13 +125,12 @@ export default class FreeBetGameBase extends GameRoomBase {
 
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
-        }
-        else {
+        } else {
             this.waitingProcessing = true;
             const betData = {
                 amount: this.currentBet,
                 betChoice: event.target.name,
-                freeBet: this.isFreeBet
+                freeBet: this.isFreeBet,
             };
             this.socket && this.socket.emit("bet", betData);
         }
