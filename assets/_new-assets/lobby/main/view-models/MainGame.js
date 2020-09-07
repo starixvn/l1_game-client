@@ -87,12 +87,12 @@ cc.Class({
     this.dialogNode.removeFromParent();
     MiniPanel.addChild(this.dialogNode);
 
-    const inRoomGameId = authManager.getInRoomGameId();
+    this.inRoomGameId = authManager.getInRoomGameId();
 
-    if (authManager && !cc.RedT.IS_LOGIN && !inRoomGameId) {
+    if (authManager && !cc.RedT.IS_LOGIN && !this.inRoomGameId) {
       authManager.triggerSignIn(this, this.loading);
     } else {
-      !window.openGameId && this.openInRoomGame(inRoomGameId);
+      !window.openGameId && this.openInRoomGame(this.inRoomGameId);
     }
 
     if (cc.RedT.IS_LOGIN) {
@@ -311,7 +311,7 @@ cc.Class({
       }
       window.openGameId = null;
     } else {
-      this.openLuckyWheel();
+      !this.inRoomGameId && this.openLuckyWheel();
     }
   },
 
