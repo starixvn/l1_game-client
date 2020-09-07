@@ -94,6 +94,7 @@ export default class LuckyWheel extends cc.Component {
     indicatorTween: cc.Tween;
     currentScoin: number = 0;
     wheelTween: cc.Tween;
+    wheelInitialized = false;
 
     goodLuckMessage: string = "CHÚC MAY MẮN";
 
@@ -191,6 +192,12 @@ export default class LuckyWheel extends cc.Component {
     }
 
     initWheel(choices) {
+        if (this.wheelInitialized) {
+            return;
+        }
+
+        this.wheelInitialized = true;
+
         choices.forEach(coin => {
             this.scoinPresents.push(coin);
         })
