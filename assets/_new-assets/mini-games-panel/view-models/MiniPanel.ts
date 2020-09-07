@@ -84,7 +84,7 @@ export default class MiniPanel extends cc.Component {
             cc.RedT.util.fontTru = this.fontTru;
         }
 
-        var loadingNode = cc.instantiate(this.loadingPrefab);
+        const loadingNode = cc.instantiate(this.loadingPrefab);
         this.loading = loadingNode.getComponent('Loading') as Loading;
         loadingNode.active = false;
         this.node.addChild(loadingNode);
@@ -193,7 +193,7 @@ export default class MiniPanel extends cc.Component {
 
         if (cc.RedT.IS_LOGIN) {
             const regName = configs.gameRoomRegNames[id];
-            cc.RedT.inGame.loading.active = true;
+            this.loading.node.active = true;
             cc.RedT.inGame.outRoomGame().then(() => {
                 authManager.removeInRoomGameId();
                 cc.RedT.send({ g: { reg: regName } });
@@ -209,17 +209,16 @@ export default class MiniPanel extends cc.Component {
     }
 
     loadGameRoom(name) {
-        const loading = cc.RedT.inGame.loading.getComponent('Loading');
-        loading.setDefaultPercent();
+        this.loading.setDefaultPercent();
 
         cc.director.preloadScene(
             name,
             (completedCount, total, item) => {
-                loading && loading.onProgress(completedCount, total, item);
+                this.loading && this.loading.onProgress(completedCount, total, item);
             },
             (error, assets) => {
                 if (error) {
-                    cc.RedT.inGame.loading.active = false;
+                    this.loading.node.active = false;
                     cc.RedT.MiniPanel.onForceReload();
                 } else {
                     cc.director.loadScene(name);
