@@ -275,6 +275,10 @@ cc.Class({
     if (data.availSpins || data.scoins) {
       this.header.showScoins(data.scoins);
     }
+
+    if (data.availSpins) {
+      this.renderLuckyWheelIcon();
+    }
   },
   signOut: function () {
     cc.RedT.user = {};
@@ -303,11 +307,11 @@ cc.Class({
         cc.RedT.MiniPanel.openGameRoom(null, gameId);
       } else {
         cc.RedT.MiniPanel.openGame(null, gameId);
-        cc.RedT.user.availSpins && this.renderLuckyWheelIcon(true);
+        this.openLuckyWheel();
       }
       window.openGameId = null;
     } else {
-      cc.RedT.user.availSpins && this.renderLuckyWheelIcon(true);
+      this.openLuckyWheel();
     }
   },
 
@@ -351,14 +355,16 @@ cc.Class({
   telegram: function () {
     cc.sys.openURL(this.url + "/telegram/");
   },
-  renderLuckyWheelIcon(autoOpen = false) {
-    const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
-    this.node.addChild(iconNode);
-    const luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
-    luckyWheelIcon.init(this);
-    this.existedLuckyWheelIcon = true;
-    if (autoOpen) {
-      luckyWheelIcon.openGame();
+  renderLuckyWheelIcon() {
+    if (!this.luckyWheelIcon) {
+      const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
+      this.node.addChild(iconNode);
+      this.luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
+      this.luckyWheelIcon.init(this);
     }
   },
+
+  openLuckyWheel() {
+    this.luckyWheelIcon && this.luckyWheelIcon.openGame();
+  }
 });
