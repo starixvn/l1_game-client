@@ -211,7 +211,7 @@ export default class LuckyWheel extends cc.Component {
 
         let randomPosition = _.random(-3, 3);
         let offsetAngleResult = 360 - (this.wheel.angle % 360);
-        const rotateResult = (resultIndex * this.defaultAngle) + (8 * 360) + offsetAngleResult - randomPosition;
+        const rotateResult = (resultIndex * this.defaultAngle) + (4 * 360) + offsetAngleResult - randomPosition;
 
         this.shakeIndicator();
         cc.tween(this.wheel)

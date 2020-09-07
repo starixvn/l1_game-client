@@ -18,6 +18,10 @@ export default class LuckyWheelIcon extends cc.Component {
     }
 
     onLoad() {
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.75;
+        }
+
         const draggableItem = this.node.getComponent(DraggableItem);
 
         draggableItem.touchCallback.start = () => { this.isMove = false; }
