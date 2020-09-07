@@ -9,7 +9,7 @@ export default class LuckyWheelIcon extends cc.Component {
     @property(cc.Prefab)
     luckyWheelPrefab: cc.Prefab = null;
 
-    private isMove: boolean = false;
+    private startPos = cc.v2(0, 0);
     private luckyWheelComponent: LuckyWheel;
     private main: any;
 
@@ -24,15 +24,16 @@ export default class LuckyWheelIcon extends cc.Component {
 
         const draggableItem = this.node.getComponent(DraggableItem);
 
-        draggableItem.touchCallback.start = () => { this.isMove = false; }
-        draggableItem.touchCallback.move = () => { this.isMove = true; }
+        draggableItem.touchCallback.start = () => { this.startPos = this.node.position; }
         draggableItem.touchCallback.end = () => {
+            const changePosX = this.node.position.x - this.startPos.x;
+            const changePosY = this.node.position.y - this.startPos.y;
+
             this.moveToEdge();
-            if (!this.isMove) {
+
+            if (changePosX > -5 && changePosX < 5 && changePosY > -5 && changePosY < 5) {
                 this.openGame();
             }
-
-            this.isMove = false;
         }
     }
 
