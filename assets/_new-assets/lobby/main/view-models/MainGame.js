@@ -366,6 +366,8 @@ cc.Class({
   },
 
   openLuckyWheel() {
-    this.luckyWheelIcon && this.luckyWheelIcon.openGame();
+    if (cc.RedT.user && cc.RedT.user.name) {
+      this.luckyWheelIcon && this.luckyWheelIcon.openGame();
+    }
   }
 });
