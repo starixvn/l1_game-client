@@ -27,17 +27,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 112
+        "__id__": 116
       },
       {
-        "__id__": 113
+        "__id__": 117
       },
       {
-        "__id__": 114
+        "__id__": 118
       }
     ],
     "_prefab": {
-      "__id__": 115
+      "__id__": 119
     },
     "_opacity": 255,
     "_color": {
@@ -49,8 +49,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1398,
-      "height": 786
+      "width": 1920,
+      "height": 1080
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -61,8 +61,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        699,
-        393,
+        960,
+        540,
         0,
         0,
         0,
@@ -116,8 +116,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1398,
-      "height": 786
+      "width": 1920,
+      "height": 1080
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -137,7 +137,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -294,14 +294,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 109
+        "__id__": 113
       },
       {
-        "__id__": 110
+        "__id__": 114
       }
     ],
     "_prefab": {
-      "__id__": 111
+      "__id__": 115
     },
     "_opacity": 255,
     "_color": {
@@ -658,7 +658,7 @@
         1,
         0.8,
         0.8,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -843,14 +843,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 106
+        "__id__": 110
       },
       {
-        "__id__": 107
+        "__id__": 111
       }
     ],
     "_prefab": {
-      "__id__": 108
+      "__id__": 112
     },
     "_opacity": 255,
     "_color": {
@@ -914,14 +914,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 103
+        "__id__": 107
       },
       {
-        "__id__": 104
+        "__id__": 108
       }
     ],
     "_prefab": {
-      "__id__": 105
+      "__id__": 109
     },
     "_opacity": 255,
     "_color": {
@@ -997,14 +997,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 100
+        "__id__": 104
       },
       {
-        "__id__": 101
+        "__id__": 105
       }
     ],
     "_prefab": {
-      "__id__": 102
+      "__id__": 106
     },
     "_opacity": 255,
     "_color": {
@@ -1017,7 +1017,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 665
+      "height": 705
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3230,19 +3230,22 @@
       },
       {
         "__id__": 93
+      },
+      {
+        "__id__": 97
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 97
+        "__id__": 101
       },
       {
-        "__id__": 98
+        "__id__": 102
       }
     ],
     "_prefab": {
-      "__id__": 99
+      "__id__": 103
     },
     "_opacity": 255,
     "_color": {
@@ -3255,7 +3258,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 140
+      "height": 180
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3267,7 +3270,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -585,
+        -605,
         0,
         0,
         0,
@@ -3334,7 +3337,7 @@
       "ctor": "Float64Array",
       "array": [
         -500,
-        55,
+        75,
         0,
         0,
         0,
@@ -3434,7 +3437,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1",
+    "_name": "text",
     "_objFlags": 0,
     "_parent": {
       "__id__": 84
@@ -3475,7 +3478,7 @@
       "ctor": "Float64Array",
       "array": [
         -500,
-        30,
+        50,
         0,
         0,
         0,
@@ -3515,8 +3518,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Người chơi không được sử dụng phần mềm để gây rối, điều chỉnh kết quả của Vòng Quay May Mắn. Saba có quyền từ chối người chơi trúng thưởng nếu phát hiện có dấu hiệu gian lận.",
-    "_N$string": "- Người chơi không được sử dụng phần mềm để gây rối, điều chỉnh kết quả của Vòng Quay May Mắn. Saba có quyền từ chối người chơi trúng thưởng nếu phát hiện có dấu hiệu gian lận.",
+    "_string": "- Người chơi không được sử dụng phần mềm để gây rối, điều chỉnh kết quả của Vòng Quay May Mắn. Công ty có quyền từ chối người chơi trúng thưởng nếu phát hiện có dấu hiệu gian lận.",
+    "_N$string": "- Người chơi không được sử dụng phần mềm để gây rối, điều chỉnh kết quả của Vòng Quay May Mắn. Công ty có quyền từ chối người chơi trúng thưởng nếu phát hiện có dấu hiệu gian lận.",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3575,7 +3578,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "text",
     "_objFlags": 0,
     "_parent": {
       "__id__": 84
@@ -3616,7 +3619,7 @@
       "ctor": "Float64Array",
       "array": [
         -500,
-        -40,
+        -20,
         0,
         0,
         0,
@@ -3656,8 +3659,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Trong mọi trường hợp xảy ra tranh chấp, quyết định của Saba sẽ là quyết định cuối cùng.",
-    "_N$string": "- Trong mọi trường hợp xảy ra tranh chấp, quyết định của Saba sẽ là quyết định cuối cùng.",
+    "_string": "- Trong một số tình huống, thể lệ chương trình có thể thay đổi mà không cần thông báo trước.",
+    "_N$string": "- Trong một số tình huống, thể lệ chương trình có thể thay đổi mà không cần thông báo trước.",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3711,6 +3714,147 @@
     "asset": {
       "__uuid__": "592e98f1-9af4-462d-8fcb-8554f0328bcb"
     },
+    "fileId": "33HrtB3QdCgLnFAmiWBzsD",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "text",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 84
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 98
+      },
+      {
+        "__id__": 99
+      }
+    ],
+    "_prefab": {
+      "__id__": 100
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 1000,
+      "height": 30
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 1
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -500,
+        -60,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 97
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_useOriginalSize": false,
+    "_string": "- Trong mọi trường hợp xảy ra tranh chấp, quyết định của Công ty sẽ là quyết định cuối cùng.",
+    "_N$string": "- Trong mọi trường hợp xảy ra tranh chấp, quyết định của Công ty sẽ là quyết định cuối cùng.",
+    "_fontSize": 18,
+    "_lineHeight": 30,
+    "_enableWrapText": true,
+    "_N$file": {
+      "__uuid__": "3ffe3de6-d3a7-4148-aa63-92c401f9da18"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 0,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 3,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 97
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 40,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 775,
+    "_originalHeight": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "592e98f1-9af4-462d-8fcb-8554f0328bcb"
+    },
     "fileId": "2d58ycpzhCGJin2NueLncK",
     "sync": false
   },
@@ -3725,7 +3869,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 140
+      "height": 180
     },
     "_resize": 1,
     "_N$layoutType": 2,
@@ -3795,7 +3939,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 665
+      "height": 705
     },
     "_resize": 1,
     "_N$layoutType": 2,
