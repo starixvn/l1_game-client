@@ -43,8 +43,6 @@ export default class FreeBetGameBase extends GameRoomBase {
         this.socket.on("disconnect", () => {
             this.closeGame();
         });
-
-        this.dollarNode.width = 160;
     }
 
     start() {
