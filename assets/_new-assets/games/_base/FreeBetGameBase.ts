@@ -43,18 +43,11 @@ export default class FreeBetGameBase extends GameRoomBase {
         this.socket.on("disconnect", () => {
             this.closeGame();
         });
-        this.focusWallet(this.isFreeBet);
     }
 
     start() {
         cc.RedT.send({ scene: this.gameName });
         this.socket.emit("inGame");
-
-        this.updateWalletWidth();
-
-        const walletLayout = this.walletNode.getComponent(cc.Layout);
-        walletLayout.updateLayout();
-        walletLayout.enabled = false;
     }
 
     onDestroy() {
@@ -95,9 +88,14 @@ export default class FreeBetGameBase extends GameRoomBase {
                 this.focusWallet(this.isFreeBet);
             }
         }
+        this.updateWalletWidth();
+        const walletLayout = this.walletNode.getComponent(cc.Layout);
+        this.walletNode.getComponent(cc.Layout).enabled = true;
+        walletLayout.updateLayout();
     }
 
     focusWallet(isFreeBet: boolean) {
+        this.walletNode.getComponent(cc.Layout).enabled = false;
         const walletSprite = this.walletNode.getComponent(cc.Sprite);
         const dollarActiveNode = this.dollarNode.getChildByName("active");
 
