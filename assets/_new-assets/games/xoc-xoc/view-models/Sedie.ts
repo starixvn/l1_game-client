@@ -2,7 +2,6 @@ import { gameIds } from "../../../Configs";
 import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
-import * as authManager from "./../../../common/auth/AuthManager";
 import SedieBetHandler from "./handlers/SedieBetHandler";
 import SedieFinishHandler from "./handlers/SedieFinishHandler";
 import SedieLogsHandler from "./handlers/SedieLogsHandler";
@@ -122,11 +121,6 @@ export default class Sedie extends FreeBetGameBase {
         this.historyComponent = dialog.getComponent(SedieHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    onCloseGameClick() {
-        authManager.removeInRoomGameId();
-        this.closeGame();
     }
 
     onDataGameRoom(data) {

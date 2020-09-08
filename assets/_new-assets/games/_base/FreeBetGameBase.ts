@@ -146,4 +146,9 @@ export default class FreeBetGameBase extends GameRoomBase {
         this.dollarNode.width = dollarLblWidth > activeDollarWidth ? dollarLblWidth + 20 : activeDollarWidth;
         this.scoinNode.width = scoinLblWidth > activeScoinWidth ? scoinLblWidth + 20 : activeScoinWidth;
     }
+
+    onCloseGameClick() {
+        super.onCloseGameClick();
+        authManager.removeInRoomGameId();
+    }
 }

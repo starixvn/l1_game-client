@@ -108,13 +108,16 @@ export default class GameRoomBase extends GameBase {
         var noticeData = <NoticeData>{ text: text, button: { text: "OK" } };
         var notice = this.showNotice(noticeData)
 
-        var self = this;
         notice.handleClickButton = () => {
-            self.closeGame();
+            this.onCloseGameClick();
         }
         notice.handleClose = () => {
-            self.closeGame();
+            this.onCloseGameClick();
         }
+    }
+
+    onCloseGameClick() {
+        this.closeGame();
     }
 
     showNotice(data: NoticeData): Notice {
