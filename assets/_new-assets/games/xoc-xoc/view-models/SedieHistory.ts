@@ -1,4 +1,4 @@
-import { getStringDateByTime } from "./../../../common/helpers/Helper";
+import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
 import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
 import FreeBetDetail from "./FreeBetDetail";
 import SedieHistoryItem from "./SedieHistoryItem";
@@ -78,7 +78,7 @@ export default class SedieHistory extends cc.Component {
                 }
 
                 Object.keys(settlementResult).forEach(choice => {
-                    item[choice].string = freeBet ? 0 : betLog[choice];
+                    item[choice].string = freeBet ? 0 : numberWithCommas(betLog[choice]);
                     if (settlementResult[choice]) {
                         item[choice].node.color = cc.Color.YELLOW;
                     } else {
@@ -86,7 +86,7 @@ export default class SedieHistory extends cc.Component {
                     }
                 });
 
-                item.win.string = betwin;
+                item.win.string = numberWithCommas(betwin);
                 if (freeBet) {
                     item.scoinIcon.active = true;
                     item.linkIcon.active = true;
