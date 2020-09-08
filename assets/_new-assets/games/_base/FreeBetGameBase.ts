@@ -43,6 +43,8 @@ export default class FreeBetGameBase extends GameRoomBase {
         this.socket.on("disconnect", () => {
             this.closeGame();
         });
+
+        this.dollarNode.width = 160;
     }
 
     start() {
@@ -85,13 +87,14 @@ export default class FreeBetGameBase extends GameRoomBase {
                 this.isFocusScoin = true;
                 this.isFreeBet = true;
                 this.scoinNode.active = true;
+
+                this.updateWalletWidth();
+                const walletLayout = this.walletNode.getComponent(cc.Layout);
+                this.walletNode.getComponent(cc.Layout).enabled = true;
+                walletLayout.updateLayout();
                 this.focusWallet(this.isFreeBet);
             }
         }
-        this.updateWalletWidth();
-        const walletLayout = this.walletNode.getComponent(cc.Layout);
-        this.walletNode.getComponent(cc.Layout).enabled = true;
-        walletLayout.updateLayout();
     }
 
     focusWallet(isFreeBet: boolean) {
