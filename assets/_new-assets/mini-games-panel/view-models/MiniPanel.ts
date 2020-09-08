@@ -1,16 +1,16 @@
-const { ccclass, property } = cc._decorator;
-import Loading from '../../common/loading/view-models/Loading';
-import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
-import ChanLe from '../../games/chan-le/view-models/ChanLe';
-import KenoProViet from '../../games/mini-keno/view-models/KenoProViet';
-import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
-import RongHo from '../../games/rong-ho/view-models/RongHo';
-import * as authManager from './../../common/auth/AuthManager';
-import * as configs from './../../Configs';
-import MiniPanelDataHandlers from './MiniPanelDataHandlers';
-import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
-import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
+import Loading from "../../common/loading/view-models/Loading";
+import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import ChanLe from "../../games/chan-le/view-models/ChanLe";
+import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
+import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
+import RongHo from "../../games/rong-ho/view-models/RongHo";
+import * as authManager from "./../../common/auth/AuthManager";
+import * as configs from "./../../Configs";
+import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
+import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
+import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniPanel extends cc.Component {
     @property(cc.BitmapFont)
@@ -270,7 +270,8 @@ export default class MiniPanel extends cc.Component {
     }
 
     onConnectSocketFailed(gameName) {
-        this.showNotice(<NoticeData>{ text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.` })
+        this.showNotice(<NoticeData>{ text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.` });
+        this.loading.node.active = false;
     }
 
     private initSound() {

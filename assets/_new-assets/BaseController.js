@@ -62,7 +62,6 @@ module.exports = {
   },
   send: function (message) {
     try {
-      //this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message))
       this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message));
     } catch (err) {
       sentryLogger.logError(err);
@@ -157,7 +156,7 @@ module.exports = {
 
     if (check == null || check == undefined) {
       this.setSoundGame(true);
-      return true;;
+      return true;
     }
 
     return check == "true";
@@ -170,7 +169,7 @@ module.exports = {
 
     if (check == null || check == undefined) {
       this.setSoundBackground(true);
-      return true;;
+      return true;
     }
 
     return check == "true";
