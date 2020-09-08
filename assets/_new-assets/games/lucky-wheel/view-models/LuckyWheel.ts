@@ -165,9 +165,7 @@ export default class LuckyWheel extends cc.Component {
             this.totalScoinLbl.string = `${data.totalCoins}`;
         }
 
-        if (data.um) {
-            this.showUMWarning(data);
-        }
+        data.um ? this.umNotice.show(data) : this.umNotice.hide()
     }
 
     shakeIndicator() {
@@ -350,10 +348,6 @@ export default class LuckyWheel extends cc.Component {
         this.winningEffect.destroyAllChildren();
         const goodLuck = cc.instantiate(this.goodLuckPrefab);
         this.winningEffect.addChild(goodLuck);
-    }
-
-    showUMWarning(data) {
-        this.umNotice.show(data);
     }
 
     showNotice(message: string) {
