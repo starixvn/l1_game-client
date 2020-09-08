@@ -148,6 +148,7 @@ export default class LuckyWheel extends cc.Component {
 
     getData() {
         cc.RedT.send({ g: { ['luckyWheel']: { getLogs: true } } });
+        cc.RedT.send({ user: { updateCoin: true } });
     }
 
     onData(data: any) {
