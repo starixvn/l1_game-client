@@ -42,6 +42,7 @@ cc.Class({
     scoins: cc.Node,
   },
   onDestroy() {
+    this.dialogNode.destroy();
     cc.RedT.MiniPanel.destroy();
     cc.RedT.inGame = null;
   },
