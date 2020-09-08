@@ -110,7 +110,6 @@ export default class Sedie extends FreeBetGameBase {
         this.miniRoundHistory.setData(miniHistoryData);
     }
 
-
     openGuide() {
         let dialog = cc.instantiate(this.guidePrefab);
         const guide = dialog.getComponent(SedieGuide);

@@ -16,8 +16,8 @@ import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
-import { GameBaseStatusHandler, IGameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
-import GameBaseTimeHandler, { IGameBaseTimeHandler } from "./handlers/GameBaseTimeHandler";
+import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
+import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
 
 const { ccclass, property } = cc._decorator;
@@ -93,9 +93,9 @@ export default class GameBase extends cc.Component {
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
-    public statusHandler: IGameBaseStatusHandler;
+    public statusHandler: GameBaseStatusHandler;
     public betHandler: DataHandler;
-    public timeHandler: IGameBaseTimeHandler;
+    public timeHandler: GameBaseTimeHandler;
     public errorHandler: DataHandler;
     public logsHandler: DataHandler;
     public finishHandler: DataHandler;

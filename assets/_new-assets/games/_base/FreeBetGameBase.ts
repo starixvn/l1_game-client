@@ -68,15 +68,15 @@ export default class FreeBetGameBase extends GameRoomBase {
     }
 
     onDataGameRoom(data) {
+        super.onDataGameRoom(data);
+
         this.onDataGameRoomGeneral(data);
         !data.notice && cc.RedT.MiniPanel.onGeneralData(data);
-
-        super.onDataGameRoom(data);
     }
 
     onChangeWalletClick(e, isFreeBet) {
         if (this.gameConfigs.enableFreeBet) {
-            this.isFreeBet = isFreeBet == "true";
+            this.isFreeBet = isFreeBet === "true";
 
             this.focusWallet(this.isFreeBet);
         }

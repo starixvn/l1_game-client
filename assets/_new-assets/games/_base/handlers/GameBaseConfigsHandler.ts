@@ -1,5 +1,5 @@
-import DataHandler from "./DataHandler";
 import GameBase from "../GameBase";
+import DataHandler from "./DataHandler";
 
 export default class GameBaseConfigsHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {
