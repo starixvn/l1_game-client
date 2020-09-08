@@ -9,8 +9,4 @@ export default class LuckyWheelWinning extends cc.Component {
     updateScoin(scoin: number) {
         this.scoin.string = scoin.toString();
     }
-
-    onDestroy() {
-        this.node.destroy();
-    }
 }

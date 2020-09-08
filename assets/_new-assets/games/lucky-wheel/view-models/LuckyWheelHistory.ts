@@ -46,8 +46,6 @@ export default class LuckyWheelHistory extends cc.Component {
 
     onDestroy() {
         this.removeDataObserver();
-        this.node.destroyAllChildren();
-        this.node.destroy();
     }
 
     onData(data) {

@@ -360,7 +360,7 @@ cc.Class({
       const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
       this.node.addChild(iconNode);
       this.luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
-      this.luckyWheelIcon.init(this);
+      this.luckyWheelIcon.init(this.node);
     }
   },
 

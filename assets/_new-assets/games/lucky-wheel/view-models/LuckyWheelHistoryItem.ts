@@ -24,8 +24,4 @@ export default class LuckyWheelHistoryItem extends cc.Component {
             this.result.string = `${data.result} Scoin`;
         }
     }
-
-    onDestroy() {
-        this.node.destroy();
-    }
 }

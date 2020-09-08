@@ -11,10 +11,10 @@ export default class LuckyWheelIcon extends cc.Component {
 
     private startPos = cc.v2(0, 0);
     private luckyWheelComponent: LuckyWheel;
-    private main: any;
+    private mainNode: cc.Node;
 
-    init(main) {
-        this.main = main;
+    init(main: cc.Node) {
+        this.mainNode = main;
     }
 
     onLoad() {
@@ -68,13 +68,9 @@ export default class LuckyWheelIcon extends cc.Component {
         if (!this.luckyWheelComponent) {
             const luckyWheelNode = cc.instantiate(this.luckyWheelPrefab);
             const luckyWheelComponent = luckyWheelNode.getComponent(LuckyWheel);
-            this.main.node.addChild(luckyWheelNode);
+            this.mainNode.addChild(luckyWheelNode);
             this.luckyWheelComponent = luckyWheelComponent;
         }
         this.luckyWheelComponent.showLuckyWheel();
-    }
-
-    onDestroy() {
-        this.node.destroy();
     }
 }
