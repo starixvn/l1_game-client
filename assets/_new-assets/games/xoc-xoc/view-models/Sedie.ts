@@ -1,5 +1,5 @@
 import { gameIds } from "../../../Configs";
-import FreeBetGameBase from "../../_base/FreeBetGameBase";
+import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import SedieBetHandler from "./handlers/SedieBetHandler";
@@ -13,7 +13,7 @@ import SedieHistory from "./SedieHistory";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class Sedie extends FreeBetGameBase {
+export default class Sedie extends NewSocketGameBase {
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;

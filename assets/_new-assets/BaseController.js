@@ -199,8 +199,5 @@ module.exports = {
     if (void 0 !== data.availSpins) {
       this.user.availSpins = data.availSpins;
     }
-    if (void 0 !== data.scoins) {
-      this.user.scoins = data.scoins;
-    }
   }
 };
