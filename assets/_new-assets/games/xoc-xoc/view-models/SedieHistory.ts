@@ -1,6 +1,5 @@
 import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
 import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
-import FreeBetDetail from "./FreeBetDetail";
 import SedieHistoryItem from "./SedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
@@ -22,9 +21,6 @@ export default class SedieHistory extends cc.Component {
 
     @property(cc.SpriteFrame)
     iconWhite: cc.SpriteFrame = null;
-
-    @property(cc.Prefab)
-    freeBetDetailPrefab: cc.Prefab = null;
 
     private socket: SocketIOClient.Socket;
 
@@ -56,7 +52,7 @@ export default class SedieHistory extends cc.Component {
                 item.node.active = true;
                 item.bg.active = (index % 2) > 0;
 
-                const { freeBet, time, phien, result, settlementResult, betwin } = betLog;
+                const { time, phien, result, settlementResult, betwin } = betLog;
 
                 item.time.string = getStringDateByTime(time);
                 item.phien.string = phien;
@@ -78,7 +74,7 @@ export default class SedieHistory extends cc.Component {
                 }
 
                 Object.keys(settlementResult).forEach(choice => {
-                    item[choice].string = freeBet ? 0 : numberWithCommas(betLog[choice]);
+                    item[choice].string = numberWithCommas(betLog[choice]);
                     if (settlementResult[choice]) {
                         item[choice].node.color = cc.Color.YELLOW;
                     } else {
@@ -87,21 +83,10 @@ export default class SedieHistory extends cc.Component {
                 });
 
                 item.win.string = numberWithCommas(betwin);
-                if (freeBet) {
-                    item.scoinIcon.active = true;
-                    item.linkIcon.active = true;
-                    item.win.node.parent.on(cc.Node.EventType.TOUCH_END, () => this.showFreeBetDetail(betLog));
-                }
 
                 this.content.addChild(itemNode);
             });
         }
     }
 
-    showFreeBetDetail(betLog) {
-        const freeBetDetailNode = cc.instantiate(this.freeBetDetailPrefab);
-        const freeBetDetail = freeBetDetailNode.getComponent(FreeBetDetail);
-        freeBetDetail.init(betLog);
-        this.node.addChild(freeBetDetailNode);
-    }
 }
