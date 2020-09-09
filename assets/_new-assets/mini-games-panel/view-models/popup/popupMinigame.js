@@ -7,14 +7,6 @@ cc.Class({
 			default: null,
 			type: cc.Node
 		},
-		time: {
-			default: null,
-			type: cc.Label
-		},
-		nodeTime: {
-			default: null,
-			type: cc.Node
-		},
 		panel: {
 			default: null,
 			type: cc.Node
@@ -35,13 +27,13 @@ cc.Class({
 		this.ttOffset2 = cc.v2(0, 0);
 		this.toggleRuning = false;
 
-		if (void 0 !== cc.RedT.setting.popupMini.open) {
-			if (cc.RedT.setting.popupMini.open) {
-				this.nodeTime.position = cc.v2(-155.7, -5.6);
-			} else {
-				this.nodeTime.position = cc.v2(25, 43);
-			}
-		}
+		// if (void 0 !== cc.RedT.setting.popupMini.open) {
+		// 	if (cc.RedT.setting.popupMini.open) {
+		// 		this.nodeTime.position = cc.v2(-155.7, -5.6);
+		// 	} else {
+		// 		this.nodeTime.position = cc.v2(25, 43);
+		// 	}
+		// }
 
 		if (void 0 !== cc.RedT.setting.popupMini.position) {
 			this.node.position = cc.RedT.setting.popupMini.position;
