@@ -38,8 +38,6 @@ cc.Class({
     url: cc.String,
     appApk: cc.String,
     NoticePrefab: cc.Prefab,
-    luckyWheelIconPrefab: cc.Prefab,
-    scoins: cc.Node,
   },
   onDestroy() {
     this.dialogNode.destroy();
@@ -101,9 +99,6 @@ cc.Class({
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
       this.header.setAvatar(cc.RedT.user.avatarId);
-      (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
-
-      cc.RedT.user.availSpins && this.renderLuckyWheelIcon();
     }
 
     this.center.node.on("size-changed", this.repositionMenu, this);
@@ -272,14 +267,6 @@ cc.Class({
       this.header.userName.string = data.name;
       sentryLogger.setCharacterName(data.name);
     }
-
-    if (data.availSpins || data.scoins) {
-      this.header.showScoins(data.scoins);
-    }
-
-    if (data.availSpins) {
-      this.renderLuckyWheelIcon();
-    }
   },
   signOut: function () {
     cc.RedT.user = {};
@@ -308,11 +295,8 @@ cc.Class({
         cc.RedT.MiniPanel.openGameRoom(null, gameId);
       } else {
         cc.RedT.MiniPanel.openGame(null, gameId);
-        this.openLuckyWheel();
       }
       window.openGameId = null;
-    } else {
-      !this.inRoomGameId && this.openLuckyWheel();
     }
   },
 
@@ -355,19 +339,5 @@ cc.Class({
   },
   telegram: function () {
     cc.sys.openURL(this.url + "/telegram/");
-  },
-  renderLuckyWheelIcon() {
-    if (!this.luckyWheelIcon) {
-      const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
-      this.node.addChild(iconNode);
-      this.luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
-      this.luckyWheelIcon.init(this.node);
-    }
-  },
-
-  openLuckyWheel() {
-    if (cc.RedT.user && cc.RedT.user.name) {
-      this.luckyWheelIcon && this.luckyWheelIcon.openGame();
-    }
   }
 });
