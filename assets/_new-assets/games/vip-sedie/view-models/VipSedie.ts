@@ -8,7 +8,7 @@ const { ccclass, property } = cc._decorator;
 export default class VipSedie extends Sedie {
 
     protected internalInit() {
-        this.init("vipsedie", new SedieConfigs(), null, 1, gameIds.VipSedie);
+        this.init("VipSeDie", new SedieConfigs(), null, 1, gameIds.VipSedie);
         this.finishShowResult = false;
     }
 }
