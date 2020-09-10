@@ -203,8 +203,12 @@ export default class GameBase extends cc.Component {
         GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
     }
 
+    get winningBetDuration() {
+        return 4;
+    }
+
     showWinningBet(bet: number) {
-        GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
+        GameUtils.addFlyingText(this.noticeNode, true, bet, this.winningBetDuration);
     }
 
     setGameRound(gameRoundId) {

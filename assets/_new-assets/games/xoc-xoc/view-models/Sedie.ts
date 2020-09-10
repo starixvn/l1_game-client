@@ -59,6 +59,7 @@ export default class Sedie extends NewSocketGameBase {
         super();
         this.init("XocXoc", new SedieConfigs(), null, 1, gameIds.XocXoc);
         this.finishShowResult = false;
+
     }
 
     initHandlers() {
@@ -75,6 +76,7 @@ export default class Sedie extends NewSocketGameBase {
         super.onLoad();
 
         this.initRoundHistory();
+        this.animatedTime.setAnimatedY(30, -5);
     }
 
     initRoundHistory() {
@@ -144,5 +146,9 @@ export default class Sedie extends NewSocketGameBase {
             this.betItems.forEach(betItem => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
             this.updateRoundHistory();
         }
+    }
+
+    get winningBetDuration() {
+        return 2;
     }
 }
