@@ -57,6 +57,10 @@ export default class Sedie extends NewSocketGameBase {
 
     constructor() {
         super();
+        this.internalInit();
+    }
+
+    protected internalInit() {
         this.init("XocXoc", new SedieConfigs(), null, 1, gameIds.XocXoc);
         this.finishShowResult = false;
 

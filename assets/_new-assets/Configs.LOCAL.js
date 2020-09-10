@@ -13,6 +13,11 @@ const configs = {
             subDomain: "",
             port: 8082,
             path: "/user/xocxoc"
+        },
+        22: {
+            subDomain: "",
+            port: 8083,
+            path: "/user/vipsedie"
         }
     },
     gameIds: {
@@ -36,6 +41,7 @@ const configs = {
         KenoSouth: 18,
         KenoNorth: 19,
         Roulette: 21,
+        VipSedie: 22,
     },
     gameNames: {
         1: "Tài Xỉu",
@@ -58,6 +64,7 @@ const configs = {
         18: "Keno Nam",
         19: "Keno Bắc",
         21: "Roulette",
+        22: "Xóc Đĩa VIP",
     },
     gameRoomRegNames: {
         8: 'KenoProMax',
@@ -65,16 +72,13 @@ const configs = {
         21: 'roulette',
     },
     gameRoomIds: [8, 10, 21],
-    gameRoomNewSocketIds: [2],
+    gameRoomNewSocketIds: [2, 22],
     sentryUrl: 'https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20',
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    gameSocketUris: {
-        2: 'http://lumigame.com:8082/user/xocxoc',
-    },
 }
 
 module.exports = configs;
