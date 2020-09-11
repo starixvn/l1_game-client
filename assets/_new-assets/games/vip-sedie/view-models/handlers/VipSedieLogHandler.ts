@@ -5,6 +5,7 @@ export default class VipSedieLogHandler extends SedieLogsHandler {
     constructor(protected readonly main: VipSedie) {
         super(main);
     }
+    
     buildLogs(dataLogs) {
         super.buildLogs(dataLogs);
         this.main.highlightLastResult();
