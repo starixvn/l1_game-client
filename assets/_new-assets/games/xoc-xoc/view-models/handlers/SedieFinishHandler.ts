@@ -17,8 +17,4 @@ export default class SedieFinishHandler extends GameBaseFinishHandler {
             .call(() => onFinishHandlingData())
             .start();
     }
-
-    get winningEffectDuration() {
-        return 2;
-    }
 }

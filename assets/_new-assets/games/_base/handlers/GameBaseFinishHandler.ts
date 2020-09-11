@@ -145,7 +145,7 @@ export default class GameBaseFinishHandler implements DataHandler {
                 });
 
                 playerSlot.increaseBalance(winningPlayerData.bet);
-                GameUtils.addFlyingText(playerSlot.node, true, bet, this.winningEffectDuration, 0, 10);
+                GameUtils.addFlyingText(playerSlot.node, true, bet, 3, 0, 10);
                 this.playWinningEffect(mainRoomGame, playerSlot.node);
             }
         });
@@ -172,11 +172,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         // console.log("duration anim ", animation.defaultClip.duration);
         winningEffect.runAction(cc.sequence(
             cc.callFunc(() => { animation.play(); }),
-            cc.delayTime(this.winningEffectDuration), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
+            cc.delayTime(3), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
             cc.callFunc(() => { winningEffect.destroy(); })));
-    }
-
-    get winningEffectDuration() {
-        return 3;
     }
 }

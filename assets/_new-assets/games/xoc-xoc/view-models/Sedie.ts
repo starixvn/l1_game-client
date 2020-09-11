@@ -147,8 +147,4 @@ export default class Sedie extends NewSocketGameBase {
             this.updateRoundHistory();
         }
     }
-
-    get winningBetDuration() {
-        return 2;
-    }
 }
