@@ -33,6 +33,10 @@ export default class NewSocketGameBase extends GameRoomBase {
         BaseSocketIOController.getInstance().closeSocket(this.gameId);
     }
 
+    onDisconnected() {
+        // keep in room game when main socket was disconnected
+    }
+
     onData(data) {
         this.currentMiniPanel.onGeneralData(data);
         this.onDataGameRoomGeneral(data);
