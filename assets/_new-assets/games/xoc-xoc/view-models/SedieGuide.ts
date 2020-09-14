@@ -7,11 +7,20 @@ export default class SedieGuide extends cc.Component {
     @property({ type: cc.Label })
     replaceNodes: cc.Label[] = [];
 
-    private configs: any;
+    protected configs: any;
 
     init(configs) {
         this.configs = configs;
+        const replaceData = this.createReplaceData();
 
+        this.replaceNodes.forEach(label => {
+            Object.keys(replaceData).forEach(key => {
+                label.string = label.string.replace(key, replaceData[key]);
+            });
+        });
+    }
+
+    createReplaceData() {
         const odds = this.configs.odds;
         const choiceMaxBet = this.configs.choices_maxbet;
         const replaceData = {
@@ -25,10 +34,6 @@ export default class SedieGuide extends cc.Component {
             "_maxBetRound": numberWithCommas(this.configs.maxbet)
         }
 
-        this.replaceNodes.forEach(label => {
-            Object.keys(replaceData).forEach(key => {
-                label.string = label.string.replace(key, replaceData[key]);
-            });
-        });
+        return replaceData;
     }
 }
