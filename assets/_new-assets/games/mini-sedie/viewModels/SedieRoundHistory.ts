@@ -56,6 +56,11 @@ export default class SedieRoundHistory extends cc.Component {
     private updateStatistic(redData: number[]) {
         const total = redData.length;
 
+        if (total === 0) {
+            this.updateStatisticLabels({ oddValue: 0, evenValue: 0, red2Value: 0, red3Value: 0, red4Value: 0, white3Value: 0, white4Value: 0, total: 0 });
+            return;
+        }
+
         let oddCount = 0, red3Count = 0, red4Count = 0, white3Count = 0, white4Count = 0;
         redData.forEach(i => {
             switch (i) {
