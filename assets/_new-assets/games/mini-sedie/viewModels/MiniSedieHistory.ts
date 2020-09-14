@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
 import { numberWithCommas, getStringDateByTime, nFormatter } from "../../../common/helpers/Helper";
-import SedieHistoryItem from "../../xoc-xoc/view-models/SedieHistoryItem.js";
+import SedieHistoryItem from "../../xoc-xoc/view-models/SedieHistoryItem";
 
 @ccclass
 export default class MiniSedieHistory extends cc.Component {
