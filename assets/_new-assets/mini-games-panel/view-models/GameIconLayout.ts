@@ -23,14 +23,18 @@ export default class GameIconLayout extends cc.Component {
     public columnCount = 0;
     public initializedCallback = () => { };
 
-    async onLoad() {
-        await this.initPrefabs();
-        this.initColumns();
-        this.initItems();
+    onLoad() {
+        this.initPrefabs().then(() => {
+            if (this.node === null) {
+                return;
+            }
+            this.initColumns();
+            this.initItems();
 
-        const layout = this.content.getComponent(cc.Layout);
-        layout.updateLayout();
-        this.initializedCallback();
+            const layout = this.content.getComponent(cc.Layout);
+            layout.updateLayout();
+            this.initializedCallback();
+        });
     }
 
     constructor() {
@@ -68,10 +72,10 @@ export default class GameIconLayout extends cc.Component {
         nameDict[gameIds.Roulette] = "Roulette";
         nameDict[gameIds.ChanLe] = "ChanLe";
 
-        for (let i = 0; i < this.gameIds.length; i++) {
+        for (let i = 0; i < this.gameIds?.length; i++) {
             const path = `${this.path}/${nameDict[this.gameIds[i]]}`;
             const prefab = await GameUtils.loadResource(path);
-            this.itemPrefabs.push(prefab);
+            this.itemPrefabs?.push(prefab);
         }
     }
 

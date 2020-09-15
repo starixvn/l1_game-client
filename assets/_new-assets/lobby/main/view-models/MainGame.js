@@ -108,7 +108,12 @@ cc.Class({
 
     const gameIconLayout = this.mainScroll.getComponent("GameIconLayout");
     gameIconLayout.miniPanel = cc.RedT.MiniPanel;
-    gameIconLayout.initializedCallback = () => { this.repositionMenu(); }
+    gameIconLayout.initializedCallback = () => {
+      if (this.node === null) {
+        return;
+      }
+      this.repositionMenu();
+    }
   },
   repositionMenu() {
     const adsWidth = this.gameAds.width;
