@@ -289,8 +289,14 @@ export default class MiniPanel extends cc.Component {
     }
 
     onConnectSocketFailed(gameName) {
-        this.showNotice(<NoticeData>{ text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.` });
+        this.showNotice(<NoticeData>{ text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.` }, this.redirectToLobby, this.redirectToLobby);
         this.loading.node.active = false;
+    }
+
+    redirectToLobby() {
+        const currentSceneName = cc.director.getScene().name;
+
+        currentSceneName !== "MainGame" && cc.director.loadScene('MainGame');
     }
 
     private initSound() {
