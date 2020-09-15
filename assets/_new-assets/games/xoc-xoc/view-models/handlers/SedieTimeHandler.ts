@@ -35,7 +35,8 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
 
         if (this.main.currentTimeRemaining > this.shakeThePlateTime && !this.main.finishShowResult) {
             this.main.showResult();
-            this.main.thePlate.position = cc.v2(0, 150);
+            this.main.thePlate.position = cc.v2(50, 150);
+            this.main.thePlate.opacity = 0;
             this.main.finishShowResult = true;
         }
     }
@@ -47,6 +48,7 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
 
     shakeThePlate() {
         cc.tween(this.main.thePlate)
+            .to(0, { opacity: 255 })
             .to(0.5, { position: cc.v2(0, 0) })
             .call(() => {
                 cc.RedT.isSoundGame() && this.main.shakeThePlateAudio.play();
