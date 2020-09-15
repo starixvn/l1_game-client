@@ -87,7 +87,9 @@ cc.Class({
   },
   onLoaded: function (err, asset) {
     // Tải cảnh thành công
-    cc.director.loadScene("MainGame");
+    cc.loader.loadResDir("lobby/games", (error, resource, urls) => {
+      cc.director.loadScene("MainGame");
+    });
   },
   onFakeGameLoaded: function (err, asset) {
     cc.director.loadScene("FakeGame");

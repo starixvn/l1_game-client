@@ -12,17 +12,25 @@ export default class GameIconLayout extends cc.Component {
     @property(cc.Prefab)
     columnPrefab: cc.Prefab = null;
 
+    @property
+    path = "minipanel/games";
+
     itemPrefabs: cc.Prefab[] = [];
     gameIds: number[] = [];
 
     private colums: cc.Node[] = [];
     public miniPanel: MiniPanel = null;
     public columnCount = 0;
+    public initializedCallback = () => { };
 
     async onLoad() {
         await this.initPrefabs();
         this.initColumns();
         this.initItems();
+
+        const layout = this.content.getComponent(cc.Layout);
+        layout.updateLayout();
+        this.initializedCallback();
     }
 
     constructor() {
@@ -33,9 +41,9 @@ export default class GameIconLayout extends cc.Component {
             gameIds.VipSedie,
             gameIds.TaiXiu,
             gameIds.MiniSedie,
-            gameIds.KenoProViet,
-            gameIds.KenoProMax,
             gameIds.Baccarat,
+            gameIds.KenoProMax,
+            gameIds.KenoProViet,
             gameIds.RongHo,
             gameIds.ChanLeTurbo,
             gameIds.BauCua,
@@ -60,9 +68,8 @@ export default class GameIconLayout extends cc.Component {
         nameDict[gameIds.Roulette] = "Roulette";
         nameDict[gameIds.ChanLe] = "ChanLe";
 
-
         for (let i = 0; i < this.gameIds.length; i++) {
-            const path = `minipanel/games/${nameDict[this.gameIds[i]]}`;
+            const path = `${this.path}/${nameDict[this.gameIds[i]]}`;
             const prefab = await GameUtils.loadResource(path);
             this.itemPrefabs.push(prefab);
         }
@@ -85,6 +92,7 @@ export default class GameIconLayout extends cc.Component {
             const item = cc.instantiate(this.itemPrefabs[i]);
 
             column.addChild(item);
+            column.width = item.width;
             const gameId = this.gameIds[i];
             const clickEventHandler = new cc.Component.EventHandler();
             clickEventHandler.target = this.node;

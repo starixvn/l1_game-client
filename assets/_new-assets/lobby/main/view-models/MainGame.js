@@ -101,15 +101,20 @@ cc.Class({
       this.header.setAvatar(cc.RedT.user.avatarId);
     }
 
-    this.center.node.on("size-changed", this.repositionMenu, this);
+    // this.center.node.on("size-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
       this.center.node.scale = 0.8;
     }
-    this.repositionMenu();
+
+    console.log("maingame onload");
+    const gameIconLayout = this.mainScroll.getComponent("GameIconLayout");
+    gameIconLayout.miniPanel = cc.RedT.MiniPanel;
+    gameIconLayout.initializedCallback = () => { this.repositionMenu(); }
   },
   repositionMenu() {
     const adsWidth = this.gameAds.width;
     const scrollContentWidth = this.scrollContent.width + adsWidth;
+    console.log("scrollContentWidth ", scrollContentWidth);
     const scrollView = this.scrollContent.parent.getComponent(cc.ScrollView);
     const adsWidget = this.gameAds.getComponent(cc.Widget);
     if (scrollContentWidth < this.center.node.width) {
