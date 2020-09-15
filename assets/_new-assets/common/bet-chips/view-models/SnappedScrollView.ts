@@ -16,16 +16,19 @@ export default class SnappedScrollView extends cc.Component {
     private calculatedPercent: number[] = [];
     private minDisplayIndex = 0;
 
-    private scroll: cc.ScrollView;
+    public scroll: cc.ScrollView;
     private scrollBegan = false;
 
     onLoad() {
         this.scroll = this.getComponent(cc.ScrollView);
+    }
+
+    initCalculatedPercent() {
         const count = this.scroll.content.childrenCount;
         const contentWidth = count * this.itemSize + (count + 1) * this.spacing;
-        const maxOffset = contentWidth - this.scroll.node.width;// this.scroll.getMaxScrollOffset().x;
+        const maxOffset = contentWidth - this.scroll.node.width;
         const haftSpacing = this.spacing / 2;
-        for (var i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
             let offset = (this.itemSize + this.spacing) * i + (this.enableHalfSpacing ? haftSpacing : 0);
             if (offset > maxOffset) {
                 offset = maxOffset;
@@ -36,15 +39,18 @@ export default class SnappedScrollView extends cc.Component {
         }
     }
 
+    start() {
+        this.initCalculatedPercent();
+    }
+
     onScroll(scroll: cc.ScrollView, eventType) {
         if (eventType == cc.ScrollView.EventType.SCROLL_ENDED) {
             if (!this.scrollBegan) {
                 return;
             }
             this.scrollBegan = false;
-            var percent = this.getPercent();
+            const percent = this.getPercent();
             this.calculateMinDisplayIndex(percent);
-
             this.scrollTo(this.minDisplayIndex);
             this.onScrollEnded();
         }
@@ -62,7 +68,7 @@ export default class SnappedScrollView extends cc.Component {
                 break;
             }
 
-            if (percent < this.calculatedPercent[i]) {
+            if (percent <= this.calculatedPercent[i]) {
                 this.minDisplayIndex = i;
                 break;
             }
@@ -78,11 +84,11 @@ export default class SnappedScrollView extends cc.Component {
     }
 
     getPercent(): number {
-        var offset = -this.scroll.getScrollOffset().x;
+        const offset = -this.scroll.getScrollOffset().x;
         if (offset < 0) {
             return 0;
         }
-        var percent = offset / this.scroll.getMaxScrollOffset().x;
+        const percent = offset / this.scroll.getMaxScrollOffset().x;
         if (percent > 1) {
             return 1;
         }

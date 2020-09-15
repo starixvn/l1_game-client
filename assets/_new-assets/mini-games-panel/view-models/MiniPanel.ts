@@ -9,6 +9,8 @@ import * as configs from "./../../Configs";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
+import GameIconLayout from "./GameIconLayout";
+import SnappedScrollView from "../../common/bet-chips/view-models/SnappedScrollView";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -58,6 +60,18 @@ export default class MiniPanel extends cc.Component {
     @property(cc.SpriteFrame)
     soundOff: cc.SpriteFrame = null;
 
+    @property(GameIconLayout)
+    gameIconLayout: GameIconLayout = null;
+
+    @property(cc.Node)
+    leftButton: cc.Node = null;
+
+    @property(cc.Node)
+    rightButton: cc.Node = null;
+
+    @property(SnappedScrollView)
+    scrollView: SnappedScrollView = null;
+
     public taiXiu: any;
     public bauCua: any;
     public taiXiuTurbo: any;
@@ -94,6 +108,11 @@ export default class MiniPanel extends cc.Component {
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
+        this.gameIconLayout.miniPanel = this;
+        this.scrollView.onScrollEnded = () => {
+            const min = this.scrollView.getMinDisplayIndex();
+            this.updateArrowVisibility(min);
+        }
     }
 
     onDestroy() {
@@ -299,5 +318,24 @@ export default class MiniPanel extends cc.Component {
 
     public onGameResultClick() {
         cc.RedT.send({ gameResult: { language: "vi-VN" } });
+    }
+
+    public onPrevious() {
+        cc.RedT.audio.playClick();
+        const index = this.scrollView.getMinDisplayIndex() - 1;
+        this.scrollView.scrollTo(index < 0 ? 0 : index);
+        this.updateArrowVisibility(index);
+    }
+
+    public onNext() {
+        cc.RedT.audio.playClick();
+        const index = this.scrollView.getMinDisplayIndex() + 1;
+        this.scrollView.scrollTo(index);
+        this.updateArrowVisibility(index);
+    }
+
+    private updateArrowVisibility(index: number) {
+        this.leftButton.active = index > 0;
+        this.rightButton.active = index < this.gameIconLayout.columnCount - 6;
     }
 }

@@ -47,4 +47,12 @@ export default class GameUtils {
     public static capitalizeWords(str: string) {
         return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
     }
+
+    public static loadResource(path: string): Promise<cc.Prefab> {
+        return new Promise((resolve, reject) => {
+            cc.loader.loadRes(path, (err, prefab: cc.Prefab) => {
+                resolve(prefab);
+            });
+        })
+    }
 }
