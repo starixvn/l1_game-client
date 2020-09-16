@@ -1,3 +1,4 @@
+import SnappedScrollView from "../../common/bet-chips/view-models/SnappedScrollView";
 import Loading from "../../common/loading/view-models/Loading";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ChanLe from "../../games/chan-le/view-models/ChanLe";
@@ -6,11 +7,10 @@ import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
 import RongHo from "../../games/rong-ho/view-models/RongHo";
 import * as authManager from "./../../common/auth/AuthManager";
 import * as configs from "./../../Configs";
+import GameIconLayout from "./GameIconLayout";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
-import GameIconLayout from "./GameIconLayout";
-import SnappedScrollView from "../../common/bet-chips/view-models/SnappedScrollView";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -204,6 +204,8 @@ export default class MiniPanel extends cc.Component {
             return;
         }
 
+        authManager.removeInRoomGameId();
+
         if (!cc.RedT.isConnected) {
             const gameName = configs.gameNames[id];
             this.onConnectSocketFailed(gameName);
@@ -214,7 +216,6 @@ export default class MiniPanel extends cc.Component {
             const regName = configs.gameRoomRegNames[id];
             this.loading.node.active = true;
             cc.RedT.inGame.outRoomGame().then(() => {
-                authManager.removeInRoomGameId();
                 cc.RedT.send({ g: { reg: regName } });
             });
         } else {
