@@ -289,8 +289,10 @@ export default class MiniPanel extends cc.Component {
         cc.RedT.isSoundGame() ? this.setSoundGameOff() : this.setSoundGameOn();
     }
 
-    onConnectSocketFailed(gameName) {
-        this.showNotice(<NoticeData>{ text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.` }, this.redirectToLobby, this.redirectToLobby);
+    onConnectSocketFailed(gameName, isGameRoom = true) {
+        let handleCloseNotice = () => isGameRoom && this.redirectToLobby();
+
+        this.showNotice(<NoticeData>{ text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.` }, handleCloseNotice, handleCloseNotice);
         this.loading.node.active = false;
     }
 
