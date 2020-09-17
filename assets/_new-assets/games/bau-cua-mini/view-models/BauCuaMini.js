@@ -785,7 +785,7 @@ cc.Class({
           this.addFlyingText(data.win, data.bet, 4);
           cc.RedT.send({
             user: {
-              updateCoint: true
+              updateCoin: true
             }
           });
         }

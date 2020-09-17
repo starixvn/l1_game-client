@@ -1,12 +1,13 @@
-import GameBase from "../GameBase";
-import DataHandler from "./DataHandler";
 import * as _ from "lodash";
+
+import { getLowercaseObjectKeys } from "../../../common/helpers/Helper.js";
+import GameBase from "../GameBase";
 import GameRoomBase from "../GameRoomBase";
-import { getLowercaseObjectKeys } from '../../../common/helpers/Helper.js';
 import RoomPlayer from "../RoomPlayer";
+import DataHandler from "./DataHandler";
 
 export default class GameBaseBetHandler implements DataHandler {
-    private playerChips = [];
+    protected playerChips = [];
     constructor(protected readonly main: GameBase) {
     }
 

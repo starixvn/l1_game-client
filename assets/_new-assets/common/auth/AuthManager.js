@@ -8,7 +8,7 @@ const sentryLogger = logger();
 const sessionIdStorageName = 'scss';
 const sessionExpiredTimeoutMunutes = 19.8;
 
-export function preChecking(cb, labelMessage) {
+export function preChecking(cb) {
     const settingUrl = buildServerUrl(configs.ssl, "http", "/api/settings");
 
     let urlParams = new URLSearchParams(window.location.search);
@@ -42,10 +42,7 @@ export function preChecking(cb, labelMessage) {
             }
 
             let isSessionExpired = checkAndUpdateRecheckIn(urlParams.has("token"));
-            if (isSessionExpired
-                && !urlParams.has("token")
-                && settingResponse
-                && settingResponse.disabledDirectLogin) {
+            if (isSessionExpired && !urlParams.has("token")) {
 
                 cc.director.loadScene("sessiontimeout");
 
@@ -119,10 +116,7 @@ export function getSessionKey() {
 }
 
 export function signOut() {
-    if (configs.disabledDirectLogin) {
-        cc.director.loadScene("sessiontimeout");
-    }
-
+    cc.director.loadScene("sessiontimeout");
     cc.sys.localStorage.removeItem(getSessionKey());
 }
 
@@ -184,10 +178,6 @@ export function triggerSignIn() {
 }
 
 function auth(obj) {
-    if (cc.RedT.ingame && cc.RedT.ingame.loading) {
-        cc.RedT.ingame.loading.active = true;
-    }
-
     if (cc.RedT._socket == null || cc.RedT._socket.readyState != 1) {
         setTimeout(function () {
             cc.RedT.send(obj);
@@ -195,12 +185,6 @@ function auth(obj) {
     } else {
         cc.RedT.send(obj);
     }
-
-    setTimeout(function () {
-        if (cc.RedT.ingame && cc.RedT.ingame.loading) {
-            cc.RedT.ingame.loading.active = false;
-        }
-    }, 5000);
 }
 
 export function checkAndUpdateRecheckIn(dontClearSession) {

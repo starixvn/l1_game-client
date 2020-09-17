@@ -1,4 +1,4 @@
-import * as configs from '../../Configs';
+import * as configs from "../../Configs";
 import ChanLeTurboConfigs from "../../games/chan-le-turbo/view-models/ChanLeTurboConfigs";
 import { ChanLeConfigs } from "../../games/chan-le/view-models/ChanLeConfigs";
 import { MiniSedieConfigs } from "../../games/mini-sedie/viewModels/MiniSedieConfigs";
@@ -58,14 +58,14 @@ export default class MiniPanelMiniGameInitializers {
                 showGameFunc();
             }
         } else {
-            cc.RedT.inGame.dialog.showSignIn();
+            this.main.forceKickedOut();
         }
     }
 
     openGame(id) {
         if (!cc.RedT.isConnected) {
             const gameName = configs.gameNames[id];
-            this.main.onConnectSocketFailed(gameName);
+            this.main.onConnectSocketFailed(gameName, false);
             return;
         }
 

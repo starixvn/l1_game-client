@@ -1,7 +1,8 @@
-import * as authManager from './common/auth/AuthManager';
-import { buildServerUrl } from './common/helpers/UrlHelper';
-import logger from './common/logger';
-import configs from './Configs';
+import * as authManager from "./common/auth/AuthManager";
+import { buildServerUrl } from "./common/helpers/UrlHelper";
+import logger from "./common/logger";
+import configs from "./Configs";
+
 const sentryLogger = logger();
 
 module.exports = {
@@ -49,7 +50,7 @@ module.exports = {
     try {
       if (this.isConnected) {
         authManager.checkAndUpdateRecheckIn();
-        this.send({ reCheckin: true, user: { updateCoint: true } });
+        this.send({ reCheckin: true, user: { updateCoin: true } });
       }
     } catch (ex) {
       console.log(JSON.stringify(ex))
@@ -61,7 +62,6 @@ module.exports = {
   },
   send: function (message) {
     try {
-      //this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message))
       this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message));
     } catch (err) {
       sentryLogger.logError(err);
@@ -83,7 +83,14 @@ module.exports = {
   _onSocketConnect: function () {
     cc.RedT.isConnected = true;
     cc.RedT.inGame && cc.RedT.inGame.loading && (cc.RedT.inGame.loading.active = true);
+
     authManager && authManager.triggerSignIn();
+
+    setTimeout(function () {
+      if (cc.RedT.inGame && cc.RedT.inGame.loading) {
+        cc.RedT.inGame.loading.active = false;
+      }
+    }, 3000);
   },
   _onSocketDisconnect: function () {
     cc.RedT.isConnected = false;
@@ -149,7 +156,7 @@ module.exports = {
 
     if (check == null || check == undefined) {
       this.setSoundGame(true);
-      return true;;
+      return true;
     }
 
     return check == "true";
@@ -162,7 +169,7 @@ module.exports = {
 
     if (check == null || check == undefined) {
       this.setSoundBackground(true);
-      return true;;
+      return true;
     }
 
     return check == "true";
@@ -188,6 +195,9 @@ module.exports = {
     }
     if (void 0 !== data.currency) {
       this.user.currency = data.currency;
+    }
+    if (void 0 !== data.availSpins) {
+      this.user.availSpins = data.availSpins;
     }
   }
 };

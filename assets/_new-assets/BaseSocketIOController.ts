@@ -70,4 +70,4 @@ export default class BaseSocketIOController {
     //   socket.emit('recheckin', getSession());
     // })
   }
-}
+} 

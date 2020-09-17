@@ -21,11 +21,15 @@ export default class GameAds extends cc.Component {
     private started = false;
 
     onLoad() {
-        this.scheduleOnce(this.autoChange, 1);
         this.content.on(cc.Node.EventType.TOUCH_START, this.eventStart, this, true);
         this.content.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this, true);
         this.content.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
         this.content.on(cc.Node.EventType.TOUCH_CANCEL, this.handleReleaseTouch, this, true);
+        this.currentIndex = this.content.childrenCount - 1; //show first page
+    }
+
+    start(){
+        this.autoChange();
     }
 
     onDestroy() {

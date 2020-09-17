@@ -1,4 +1,4 @@
-import * as helper from './helpers/Helper';
+import * as helper from "./helpers/Helper";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration: number = 1, startY: number = 0, destY: number = 100) {
@@ -34,7 +34,11 @@ export default class GameUtils {
 
             dragon: "RỒNG",
             tiger: "HỔ",
-            tie: "HÒA"
+            tie: "HÒA",
+            red3: "3 ĐỎ",
+            red4: "4 ĐỎ",
+            white3: "1 ĐỎ",
+            white4: "4 TRẮNG"
         };
 
         return dict[choice];
@@ -42,5 +46,13 @@ export default class GameUtils {
 
     public static capitalizeWords(str: string) {
         return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+    }
+
+    public static loadResource(path: string): Promise<cc.Prefab> {
+        return new Promise((resolve, reject) => {
+            cc.loader.loadRes(path, (err, prefab: cc.Prefab) => {
+                resolve(prefab);
+            });
+        })
     }
 }

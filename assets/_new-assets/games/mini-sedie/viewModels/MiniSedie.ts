@@ -1,10 +1,12 @@
-import SedieRoundHistory from "./SedieRoundHistory";
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import GameMiniBase from "../../_base/GameMiniBase";
+import SedieGuide from "../../xoc-xoc/view-models/SedieGuide";
 import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
 import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
 import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
 import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
-import GameMiniBase from "../../_base/GameMiniBase";
-import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import SedieRoundHistory from "./SedieRoundHistory";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -163,7 +165,7 @@ export default class MiniSedie extends GameMiniBase {
 
   public openGuide() {
     let dialog = cc.instantiate(this.guidePrefab);
-    var guide = dialog.getComponent("XocXoc_guide");
+    var guide = dialog.getComponent(SedieGuide);
     guide.init(this.gameConfigs);
     this.currentMiniPanel.node.addChild(dialog);
   }

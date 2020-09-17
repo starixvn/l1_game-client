@@ -1,12 +1,13 @@
-import DataHandler from "./DataHandler";
-import GameRoomBase from "../GameRoomBase";
-import RoomPlayer, { PlayerData } from "../RoomPlayer";
 import * as _ from "lodash";
 
-export default interface IGameBasePlayerHandler extends DataHandler {
+import GameRoomBase from "../GameRoomBase";
+import RoomPlayer, { PlayerData } from "../RoomPlayer";
+import DataHandler from "./DataHandler";
+
+export interface IGameBasePlayerHandler extends DataHandler {
     getPlayerSlot(playerId: string): RoomPlayer;
 }
-export default class GameBasePlayerHandler implements IGameBasePlayerHandler {
+export class GameBasePlayerHandler implements IGameBasePlayerHandler {
     otherPlayers = {};
 
     constructor(protected readonly main: GameRoomBase) {

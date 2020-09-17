@@ -1,8 +1,9 @@
 import baseControll from "../../../BaseController";
 import helper from "../../../common/helpers/Helper";
-import logger from '../../../common/logger';
-import configs from '../../../Configs';
-import * as authManager from './../../../common/auth/AuthManager';
+import logger from "../../../common/logger";
+import configs from "../../../Configs";
+import * as authManager from "./../../../common/auth/AuthManager";
+
 const sentryLogger = logger();
 
 
@@ -36,19 +37,22 @@ cc.Class({
     audioBG: cc.AudioSource,
     url: cc.String,
     appApk: cc.String,
-    NoticePrefab: cc.Prefab
+    NoticePrefab: cc.Prefab,
   },
   onDestroy() {
+    this.dialogNode.destroy();
     cc.RedT.MiniPanel.destroy();
     cc.RedT.inGame = null;
   },
   onLoad: function () {
     this.dialog = this.dialogNode.getComponent("Dialog");
     document.cookie = "redT=1702;path=/";
+
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;
       cc.RedT.init(this.loading);
     }
+
     cc.RedT.inGame = this;
 
     cc.game.on(cc.game.EVENT_HIDE, function () {
@@ -58,7 +62,7 @@ cc.Class({
 
     cc.game.on(cc.game.EVENT_SHOW, function () {
       cc.RedT.GAME_IS_SHOWED = true;
-      cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoint: true } });
+      cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoin: true } });
 
       if (cc.sys.isMobile) {
         const sleepSecond = (new Date() - this.sleepTime) / 1000;
@@ -79,18 +83,19 @@ cc.Class({
     var MiniPanel = cc.instantiate(this.PrefabT[1]);
     cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
     this.redhat.insertChild(MiniPanel);
+    this.dialogNode.removeFromParent();
+    MiniPanel.addChild(this.dialogNode);
 
-    const inRoomGameId = authManager.getInRoomGameId();
+    this.inRoomGameId = authManager.getInRoomGameId();
 
-    if (authManager && !cc.RedT.IS_LOGIN && !inRoomGameId) {
+    if (authManager && !cc.RedT.IS_LOGIN && !this.inRoomGameId) {
       authManager.triggerSignIn(this, this.loading);
     } else {
-      !window.openGameId && this.openInRoomGame(inRoomGameId);
+      !window.openGameId && this.openInRoomGame(this.inRoomGameId);
     }
 
     if (cc.RedT.IS_LOGIN) {
       cc.RedT.send({ scene: "home" });
-      this.header.reset();
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
       this.header.setAvatar(cc.RedT.user.avatarId);
@@ -100,7 +105,15 @@ cc.Class({
     if (!cc.sys.isMobile) {
       this.center.node.scale = 0.8;
     }
-    this.repositionMenu();
+
+    const gameIconLayout = this.mainScroll.getComponent("GameIconLayout");
+    gameIconLayout.miniPanel = cc.RedT.MiniPanel;
+    gameIconLayout.initializedCallback = () => {
+      if (this.node === null) {
+        return;
+      }
+      this.repositionMenu();
+    }
   },
   repositionMenu() {
     const adsWidth = this.gameAds.width;
@@ -150,9 +163,7 @@ cc.Class({
     if (void 0 !== data["unauth"]) {
       this.unAuthorized(data["unauth"]);
     }
-    if (void 0 !== data.Authorized) {
-      this.Authorized(data.Authorized);
-    }
+
     if (void 0 !== data.user) {
       this.dataUser(data.user);
       cc.RedT.userData(data.user);
@@ -169,6 +180,10 @@ cc.Class({
         const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
         sentryLogger.logError(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}\nError:${ex}`);
       }
+    }
+
+    if (void 0 !== data.Authorized) {
+      this.Authorized(data.Authorized);
     }
 
     cc.RedT.MiniPanel.onGeneralData(data);
@@ -332,185 +347,5 @@ cc.Class({
   },
   telegram: function () {
     cc.sys.openURL(this.url + "/telegram/");
-  },
-  onGetHu: function () {
-    // if (void 0 !== cc.RedT.setting.topHu.data) {
-    //   var self = this;
-    // Vương Quốc Red
-    // Promise.all(cc.RedT.setting.topHu.data['vq_red'].filter(function(temp){
-    // 	return temp.red == true;
-    // }))
-    // .then(result => {
-    // 	let h100 = result.filter(function(temp){return temp.type == 100});
-    // 	let h1k  = result.filter(function(temp){return temp.type == 1000});
-    // 	let h10k = result.filter(function(temp){return temp.type == 10000});
-
-    // 	let r100 = helper.getOnlyNumberInString(this.iconVQRed.hu100.string);
-    // 	let r1k  = helper.getOnlyNumberInString(this.iconVQRed.hu1k.string);
-    // 	let r10k = helper.getOnlyNumberInString(this.iconVQRed.hu10k.string);
-
-    // 	if (r100-h100[0].bet != 0) {
-    // 		helper.numberTo(this.iconVQRed.hu100, helper.getOnlyNumberInString(this.iconVQRed.hu100.string), h100[0].bet, 4900, true);
-    // 	}
-    // 	if (r1k-h1k[0].bet != 0) {
-    // 		helper.numberTo(this.iconVQRed.hu1k, helper.getOnlyNumberInString(this.iconVQRed.hu1k.string), h1k[0].bet, 4900, true);
-    // 	}
-    // 	if (r10k-h10k[0].bet != 0) {
-    // 		helper.numberTo(this.iconVQRed.hu10k, helper.getOnlyNumberInString(this.iconVQRed.hu10k.string), h10k[0].bet, 4900, true);
-    // 	}
-    // });
-
-    // // Candy
-    // Promise.all(cc.RedT.setting.topHu.data['candy'].filter(function(temp){
-    // 	return temp.red == true;
-    // }))
-    // .then(result => {
-    // 	let h100 = result.filter(function(temp){return temp.type == 100});
-    // 	let h1k  = result.filter(function(temp){return temp.type == 1000});
-    // 	let h10k = result.filter(function(temp){return temp.type == 10000});
-
-    // 	let r100 = helper.getOnlyNumberInString(this.iconCandy.hu100.string);
-    // 	let r1k  = helper.getOnlyNumberInString(this.iconCandy.hu1k.string);
-    // 	let r10k = helper.getOnlyNumberInString(this.iconCandy.hu10k.string);
-
-    // 	if (r100-h100[0].bet != 0) {
-    // 		helper.numberTo(this.iconCandy.hu100, helper.getOnlyNumberInString(this.iconCandy.hu100.string), h100[0].bet, 4900, true);
-    // 	}
-    // 	if (r1k-h1k[0].bet != 0) {
-    // 		helper.numberTo(this.iconCandy.hu1k, helper.getOnlyNumberInString(this.iconCandy.hu1k.string), h1k[0].bet, 4900, true);
-    // 	}
-    // 	if (r10k-h10k[0].bet != 0) {
-    // 		helper.numberTo(this.iconCandy.hu10k, helper.getOnlyNumberInString(this.iconCandy.hu10k.string), h10k[0].bet, 4900, true);
-    // 	}
-    // });
-
-    // // Long Lan
-    // Promise.all(cc.RedT.setting.topHu.data['long'].filter(function(temp){
-    // 	return temp.red == true;
-    // }))
-    // .then(result => {
-    // 	let h100 = result.filter(function(temp){return temp.type == 100});
-    // 	let h1k  = result.filter(function(temp){return temp.type == 1000});
-    // 	let h10k = result.filter(function(temp){return temp.type == 10000});
-
-    // 	let r100 = helper.getOnlyNumberInString(this.iconLongLan.hu100.string);
-    // 	let r1k  = helper.getOnlyNumberInString(this.iconLongLan.hu1k.string);
-    // 	let r10k = helper.getOnlyNumberInString(this.iconLongLan.hu10k.string);
-
-    // 	if (r100-h100[0].bet != 0) {
-    // 		helper.numberTo(this.iconLongLan.hu100, helper.getOnlyNumberInString(this.iconLongLan.hu100.string), h100[0].bet, 4900, true);
-    // 	}
-    // 	if (r1k-h1k[0].bet != 0) {
-    // 		helper.numberTo(this.iconLongLan.hu1k, helper.getOnlyNumberInString(this.iconLongLan.hu1k.string), h1k[0].bet, 4900, true);
-    // 	}
-    // 	if (r10k-h10k[0].bet != 0) {
-    // 		helper.numberTo(this.iconLongLan.hu10k, helper.getOnlyNumberInString(this.iconLongLan.hu10k.string), h10k[0].bet, 4900, true);
-    // 	}
-    // });
-
-    /*
-    // MegaJacpot
-    Promise.all(cc.RedT.setting.topHu.data['megaj'].filter(function(temp){
-      return temp.red == true;
-    }))
-    .then(result => {
-      let h100 = result.filter(function(temp){return temp.type == 100});
-      let h1k  = result.filter(function(temp){return temp.type == 1000});
-      let h10k = result.filter(function(temp){return temp.type == 10000});
-   
-      let r100 = helper.getOnlyNumberInString(this.iconMegaJ.hu100.string);
-      let r1k  = helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string);
-      let r10k = helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string);
-   
-      if (r100-h100[0].bet != 0) {
-        helper.numberTo(this.iconMegaJ.hu100, helper.getOnlyNumberInString(this.iconMegaJ.hu100.string), h100[0].bet, 4900, true);
-      }
-      if (r1k-h1k[0].bet != 0) {
-        helper.numberTo(this.iconMegaJ.hu1k, helper.getOnlyNumberInString(this.iconMegaJ.hu1k.string), h1k[0].bet, 4900, true);
-      }
-      if (r10k-h10k[0].bet != 0) {
-        helper.numberTo(this.iconMegaJ.hu10k, helper.getOnlyNumberInString(this.iconMegaJ.hu10k.string), h10k[0].bet, 4900, true);
-      }
-    });
-    */
-    //   }
-  },
-  /**
-	
-    checkLoginFacebook: function() {
-      if (cc.sys.isBrowser && FB) {
-        var self = this;
-        self.loading.active = true;
-        !isInitFB && FB && FB.init({
-          appId: "1979927462336372",
-          autoLogAppEvents: !0,
-          xfbml: !0,
-          cookie: !0,
-          version: "v3.1"
-        }),
-        FB.getLoginStatus(function(t) {
-          if ("connected" === t.status) {
-            var e = t.authResponse.userID
-              , i = s.LOGIN_FACEBOOK_TYPE
-              , o = t.authResponse.accessToken;
-            self.loginSocial(e, "", i, o)
-          } else
-            self.setAutoLogin(!1),
-          self.loading.active = false;
-        })
-      }
-    },
-    loginFacebook: function() {
-      if (cc.sys.isBrowser && FB) {
-        var self = this;
-        self.loading.active = true;
-        FB && (FB.init({
-          appId: "308158023154919",
-          autoLogAppEvents: !0,
-          xfbml: !0,
-          cookie: !0,
-          version: "v3.1"
-        }),
-        FB.login(function(t) {
-          console.log(t)
-          self.loading.active = false;
-          if (t.authResponse) {
-            var uid   = t.authResponse.userID
-              , type  = s.LOGIN_FACEBOOK_TYPE
-              , token = t.authResponse.accessToken;
-            self.loginSocial(uid, "", type, token)
-          } else
-            self.setAutoLogin(!1),
-        }))
-      }
-    },
-    loginSocial: function(e, i, o, n, t) {
-      var s = this
-        , a = {
-        social_id: e,
-        email: i,
-        social_type: o,
-        access_token: n,
-        register_code: this.getRegisterCode(),
-        mkt_code: this.getMarketingCode(),
-        device_id: this.getDeviceID(),
-        fid: this.getFID()
-      };
-      t && (a.otp = t);
-      this.api.registerSocial(a, function(t) {
-        0 === t.data.login_status ? (s.OTPLogin.setLoginFacebook(e, i, o, n),
-        s.OTPLogin.clear(),
-        s.hideProcessingNode(),
-        s.GameCenterUI.showOtpLoginFormNode()) : (s.setAutoLogin(!0),
-        s.setAccountType(!0),
-        s.initDataAndConnectSFS(t.data),
-        s.GameCenterUI.hideOtpLoginFormNode(),
-        t.data.user.is_new && c.addTrackCompleteRegistration())
-      }, function(t) {
-        s.setAutoLogin(!1),
-        s.deProcessingNode(),
-        s.showDialogMessage(r.LOGIN_TITLE, t.msg)
-      })
-    },
-    */
+  }
 });

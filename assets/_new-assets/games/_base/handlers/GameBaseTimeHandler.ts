@@ -4,7 +4,7 @@ import GameRoomBase from "../GameRoomBase";
 import DataHandler from "./DataHandler";
 
 export interface IGameBaseTimeHandler extends DataHandler {
-    playTimeInterval: number;
+    playTimeInterval: NodeJS.Timeout;
     playTime(): void;
     stopPlayTime(): void;
     resetTime(): void;
@@ -14,7 +14,7 @@ export interface IGameBaseTimeHandler extends DataHandler {
 }
 
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
-    playTimeInterval: number;
+    playTimeInterval: NodeJS.Timeout;
 
     constructor(protected readonly main: GameBase) {
     }
@@ -94,13 +94,17 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     handleWaitTime() {
         if (this.main.timeWaitNode) {
-            this.main.finishShowResult && (this.main.timeWaitNode.active = true);
-            this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
+            this.main.finishShowResult && this.showWaitTime();
         }
 
         this.main.animatedTime && (this.main.animatedTime.node.active = false);
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId - 1);
+    }
+
+    showWaitTime() {
+        this.main.timeWaitNode.active = true;
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
     }
 
     handleStartingNewGameRound() {
@@ -116,10 +120,14 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handleInRoundTime() {
+        this.showRoundTime();
+        this.main.setGameRound(this.main.roundId);
+    }
+
+    showRoundTime() {
         this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
         const time = this.formatTime(this.main.currentTimeRemaining);
         this.main.animatedTime && (this.main.animatedTime.setTime(time));
-        this.main.setGameRound(this.main.roundId);
     }
 
     handleInLockBetTime() {
@@ -131,6 +139,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.animatedTime && (this.main.animatedTime.node.active = false);
         clearInterval(this.playTimeInterval);
     }
+
 
     protected formatTime(time: number): string {
         return numberPad(time, 2);

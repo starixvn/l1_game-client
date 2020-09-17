@@ -29,7 +29,7 @@ export default class SedieRoundHistory extends cc.Component {
     @property(cc.Label)
     white4: cc.Label = null;
 
-    private suffix: string = "%";
+    protected suffix: string = "%";
 
     public setData(redData: any) {
         this.updateHistory(redData);
@@ -56,6 +56,11 @@ export default class SedieRoundHistory extends cc.Component {
     private updateStatistic(redData: number[]) {
         const total = redData.length;
 
+        if (total === 0) {
+            this.updateStatisticLabels({ oddValue: 0, evenValue: 0, red2Value: 0, red3Value: 0, red4Value: 0, white3Value: 0, white4Value: 0, total: 0 });
+            return;
+        }
+
         let oddCount = 0, red3Count = 0, red4Count = 0, white3Count = 0, white4Count = 0;
         redData.forEach(i => {
             switch (i) {
@@ -77,12 +82,21 @@ export default class SedieRoundHistory extends cc.Component {
         });
 
         const oddValue = Math.round(oddCount * 100 / total);
-        this.odd.string = `${oddValue}${this.suffix}`;
-        this.even.string = `${100 - oddValue}${this.suffix}`;
+        const evenValue = 100 - oddValue;
         const red3Value = Math.round(red3Count * 100 / total);
+        const red4Value = Math.round(red4Count * 100 / total);
+        const white3Value = oddValue - red3Value;
+        const white4Value = Math.round(white4Count * 100 / total);
+        const red2Value = evenValue - red4Value - white4Value;
+        this.updateStatisticLabels({ oddValue, evenValue, red2Value, red3Value, red4Value, white3Value, white4Value, total });
+    }
+
+    protected updateStatisticLabels({ oddValue, evenValue, red2Value, red3Value, red4Value, white3Value, white4Value, total }) {
+        this.odd.string = `${oddValue}${this.suffix}`;
+        this.even.string = `${evenValue}${this.suffix}`;
         this.red3.string = `${red3Value}${this.suffix}`;
-        this.red4.string = `${Math.round(red4Count * 100 / total)}${this.suffix}`;
-        this.white3.string = `${oddValue - red3Value}${this.suffix}`;
-        this.white4.string = `${Math.round(white4Count * 100 / total)}${this.suffix}`;
+        this.red4.string = `${red4Value}${this.suffix}`;
+        this.white3.string = `${white3Value}${this.suffix}`;
+        this.white4.string = `${white4Value}${this.suffix}`;
     }
 }

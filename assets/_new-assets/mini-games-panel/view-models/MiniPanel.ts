@@ -1,16 +1,18 @@
-const { ccclass, property } = cc._decorator;
-import Loading from '../../common/loading/view-models/Loading';
-import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
-import ChanLe from '../../games/chan-le/view-models/ChanLe';
-import KenoProViet from '../../games/mini-keno/view-models/KenoProViet';
-import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
-import RongHo from '../../games/rong-ho/view-models/RongHo';
-import * as authManager from './../../common/auth/AuthManager';
-import * as configs from './../../Configs';
-import MiniPanelDataHandlers from './MiniPanelDataHandlers';
-import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
-import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
+import SnappedScrollView from "../../common/bet-chips/view-models/SnappedScrollView";
+import Loading from "../../common/loading/view-models/Loading";
+import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import ChanLe from "../../games/chan-le/view-models/ChanLe";
+import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
+import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
+import RongHo from "../../games/rong-ho/view-models/RongHo";
+import * as authManager from "./../../common/auth/AuthManager";
+import * as configs from "./../../Configs";
+import GameIconLayout from "./GameIconLayout";
+import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
+import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
+import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniPanel extends cc.Component {
     @property(cc.BitmapFont)
@@ -58,6 +60,18 @@ export default class MiniPanel extends cc.Component {
     @property(cc.SpriteFrame)
     soundOff: cc.SpriteFrame = null;
 
+    @property(GameIconLayout)
+    gameIconLayout: GameIconLayout = null;
+
+    @property(cc.Node)
+    leftButton: cc.Node = null;
+
+    @property(cc.Node)
+    rightButton: cc.Node = null;
+
+    @property(SnappedScrollView)
+    scrollView: SnappedScrollView = null;
+
     public taiXiu: any;
     public bauCua: any;
     public taiXiuTurbo: any;
@@ -84,7 +98,7 @@ export default class MiniPanel extends cc.Component {
             cc.RedT.util.fontTru = this.fontTru;
         }
 
-        var loadingNode = cc.instantiate(this.loadingPrefab);
+        const loadingNode = cc.instantiate(this.loadingPrefab);
         this.loading = loadingNode.getComponent('Loading') as Loading;
         loadingNode.active = false;
         this.node.addChild(loadingNode);
@@ -94,6 +108,11 @@ export default class MiniPanel extends cc.Component {
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
+        this.gameIconLayout.miniPanel = this;
+        this.scrollView.onScrollEnded = () => {
+            const min = this.scrollView.getMinDisplayIndex();
+            this.updateArrowVisibility(min);
+        }
     }
 
     onDestroy() {
@@ -185,6 +204,8 @@ export default class MiniPanel extends cc.Component {
             return;
         }
 
+        authManager.removeInRoomGameId();
+
         if (!cc.RedT.isConnected) {
             const gameName = configs.gameNames[id];
             this.onConnectSocketFailed(gameName);
@@ -193,13 +214,12 @@ export default class MiniPanel extends cc.Component {
 
         if (cc.RedT.IS_LOGIN) {
             const regName = configs.gameRoomRegNames[id];
-            cc.RedT.inGame.loading.active = true;
+            this.loading.node.active = true;
             cc.RedT.inGame.outRoomGame().then(() => {
-                authManager.removeInRoomGameId();
                 cc.RedT.send({ g: { reg: regName } });
             });
         } else {
-            cc.RedT.inGame.dialog.showSignIn();
+            this.forceKickedOut();
         }
 
     }
@@ -209,17 +229,16 @@ export default class MiniPanel extends cc.Component {
     }
 
     loadGameRoom(name) {
-        const loading = cc.RedT.inGame.loading.getComponent('Loading');
-        loading.setDefaultPercent();
+        this.loading.setDefaultPercent();
 
         cc.director.preloadScene(
             name,
             (completedCount, total, item) => {
-                loading && loading.onProgress(completedCount, total, item);
+                this.loading && this.loading.onProgress(completedCount, total, item);
             },
             (error, assets) => {
                 if (error) {
-                    cc.RedT.inGame.loading.active = false;
+                    this.loading.node.active = false;
                     cc.RedT.MiniPanel.onForceReload();
                 } else {
                     cc.director.loadScene(name);
@@ -270,8 +289,17 @@ export default class MiniPanel extends cc.Component {
         cc.RedT.isSoundGame() ? this.setSoundGameOff() : this.setSoundGameOn();
     }
 
-    onConnectSocketFailed(gameName) {
-        this.showNotice(<NoticeData>{ text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.` })
+    onConnectSocketFailed(gameName, isGameRoom = true) {
+        let handleCloseNotice = () => isGameRoom && this.redirectToLobby();
+
+        this.showNotice(<NoticeData>{ text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.` }, handleCloseNotice, handleCloseNotice);
+        this.loading.node.active = false;
+    }
+
+    redirectToLobby() {
+        const currentSceneName = cc.director.getScene().name;
+
+        currentSceneName !== "MainGame" && cc.director.loadScene('MainGame');
     }
 
     private initSound() {
@@ -299,5 +327,24 @@ export default class MiniPanel extends cc.Component {
 
     public onGameResultClick() {
         cc.RedT.send({ gameResult: { language: "vi-VN" } });
+    }
+
+    public onPrevious() {
+        cc.RedT.audio.playClick();
+        const index = this.scrollView.getMinDisplayIndex() - 1;
+        this.scrollView.scrollTo(index < 0 ? 0 : index);
+        this.updateArrowVisibility(index);
+    }
+
+    public onNext() {
+        cc.RedT.audio.playClick();
+        const index = this.scrollView.getMinDisplayIndex() + 1;
+        this.scrollView.scrollTo(index);
+        this.updateArrowVisibility(index);
+    }
+
+    private updateArrowVisibility(index: number) {
+        this.leftButton.active = index > 0;
+        this.rightButton.active = index < this.gameIconLayout.columnCount - 6;
     }
 }

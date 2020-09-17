@@ -1,5 +1,5 @@
+import { GameBaseStatusHandler } from "../../../_base/handlers/GameBaseStatusHandler";
 
-import GameBaseStatusHandler from "../../../_base/handlers/GameBaseStatusHandler";
 
 export default class MiniKenoStatusHandler extends GameBaseStatusHandler {
 

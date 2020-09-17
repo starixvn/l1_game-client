@@ -33,7 +33,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.unauthorized) {
-            cc.RedT.inGame.dialog.showSignIn();
+            this.main.forceKickedOut();
         }
 
         if (data.Authorized) {

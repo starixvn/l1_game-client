@@ -1,22 +1,23 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
+
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../common/GameUtils";
-import TypingLabel from '../../common/typing-label/view-models/TypingLabel';
+import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
-import MiniPanel from '../../mini-games-panel/view-models/MiniPanel';
+import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import BetItem from "./BetItem";
-import GameAudios from './GameAudios';
+import GameAudios from "./GameAudios";
 import { GameBaseConfigs } from "./GameBaseConfig";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
-import GameBaseConfigsHandler from './handlers/GameBaseConfigsHandler';
+import GameBaseConfigsHandler from "./handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
-import { default as GameBaseStatusHandler, default as IGameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
-import GameBaseTimeHandler, { IGameBaseTimeHandler } from "./handlers/GameBaseTimeHandler";
+import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
+import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
 
 const { ccclass, property } = cc._decorator;
@@ -92,9 +93,9 @@ export default class GameBase extends cc.Component {
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
-    public statusHandler: IGameBaseStatusHandler;
+    public statusHandler: GameBaseStatusHandler;
     public betHandler: DataHandler;
-    public timeHandler: IGameBaseTimeHandler;
+    public timeHandler: GameBaseTimeHandler;
     public errorHandler: DataHandler;
     public logsHandler: DataHandler;
     public finishHandler: DataHandler;

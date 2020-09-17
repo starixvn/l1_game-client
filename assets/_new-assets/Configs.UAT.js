@@ -1,6 +1,5 @@
 const configs = {
     ssl: true,
-    disabledDirectLogin: true,
     serverDomainMapper: {
         "uat.sabagame.com": 'sabagame.com',
     },
@@ -13,7 +12,12 @@ const configs = {
         2: {
             subDomain: "uatsed",
             port: "",
-            path: "/xocxoc"
+            path: "/user/xocxoc"
+        },
+        22: {
+            subDomain: "uatvipsedie",
+            port: "",
+            path: "/user/vipsedie"
         }
     },
     gameIds: {
@@ -37,6 +41,7 @@ const configs = {
         KenoSouth: 18,
         KenoNorth: 19,
         Roulette: 21,
+        VipSedie: 22,
     },
     gameNames: {
         1: "Tài Xỉu",
@@ -59,6 +64,7 @@ const configs = {
         18: "Keno Nam",
         19: "Keno Bắc",
         21: "Roulette",
+        22: "Xóc Đĩa VIP",
     },
     gameRoomRegNames: {
         8: 'KenoProMax',
@@ -66,7 +72,7 @@ const configs = {
         21: 'roulette',
     },
     gameRoomIds: [8, 10, 21],
-    gameRoomNewSocketIds: [2],
+    gameRoomNewSocketIds: [2, 22],
     sentryUrl: 'https://e2d54dceaaab4ccc8e3b3b20d806d6ac@sentryuat.sabagame.com/30',
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",

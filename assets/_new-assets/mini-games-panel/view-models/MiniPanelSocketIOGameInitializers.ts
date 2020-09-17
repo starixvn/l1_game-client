@@ -1,8 +1,8 @@
-import { buildServerUrl } from '../.././common/helpers/UrlHelper';
-import BaseSocketIOController from '../../BaseSocketIOController';
-import * as authManager from './../../common/auth/AuthManager';
-import * as configs from './../../Configs';
-import MiniPanel from './MiniPanel';
+import { buildServerUrl } from "../.././common/helpers/UrlHelper";
+import BaseSocketIOController from "../../BaseSocketIOController";
+import * as authManager from "./../../common/auth/AuthManager";
+import * as configs from "./../../Configs";
+import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelSocketIOGameInitializers {
     constructor(private main: MiniPanel) {
@@ -16,7 +16,7 @@ export default class MiniPanelSocketIOGameInitializers {
             return;
         }
 
-        cc.RedT.inGame.loading.active = true;
+        this.main.loading.node.active = true;
         cc.RedT.inGame.outRoomGame().then(() => {
             authManager.removeInRoomGameId();
             this.openNewSocket(gameId);
@@ -30,6 +30,7 @@ export default class MiniPanelSocketIOGameInitializers {
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
             const socket = socketIoController.connectGameSocket(gameServerUrl, gameName, this.main.onConnectSocketFailed.bind(this.main));
             socket.on('message', (data) => {
+                this.main.loading.node.active = false;
                 if (data.um) {
                     socketIoController.closeSocket(gameId);
                 }

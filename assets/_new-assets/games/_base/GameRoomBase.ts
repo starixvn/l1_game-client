@@ -1,11 +1,11 @@
 import GameUtils from "../../common/GameUtils";
-import { numberWithCommas } from '../../common/helpers/Helper';
+import { numberWithCommas } from "../../common/helpers/Helper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import GameBase from "./GameBase";
 import { GameBaseConfigs } from "./GameBaseConfig";
-import { default as GameBasePlayerHandler, default as IGameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
+import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import RoomPlayer from "./RoomPlayer";
 
 const { ccclass, property } = cc._decorator;
@@ -45,15 +45,15 @@ export default class GameRoomBase extends GameBase {
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
 
-    playerHandler: IGameBasePlayerHandler;
+    playerHandler: GameBasePlayerHandler;
     private miniPanelScale: number;
-    private gameId: number;
+    protected gameId: number;
 
     onLoad() {
         super.onLoad();
         cc.RedT.inGame = this;
         this.loadMiniPanel();
-        this.loadUserData();
+        this.loadUserData(cc.RedT.user);
         this.players.forEach(player => player.node.active = false);
     }
 
@@ -94,7 +94,6 @@ export default class GameRoomBase extends GameBase {
         var gameData = data[this.gameName];
 
         if (gameData) {
-            super.onData(gameData);
             this.onDataGameRoom(gameData);
         }
     }
@@ -109,13 +108,16 @@ export default class GameRoomBase extends GameBase {
         var noticeData = <NoticeData>{ text: text, button: { text: "OK" } };
         var notice = this.showNotice(noticeData)
 
-        var self = this;
         notice.handleClickButton = () => {
-            self.closeGame();
+            this.onCloseGameClick();
         }
         notice.handleClose = () => {
-            self.closeGame();
+            this.onCloseGameClick();
         }
+    }
+
+    onCloseGameClick() {
+        this.closeGame();
     }
 
     showNotice(data: NoticeData): Notice {
@@ -164,7 +166,7 @@ export default class GameRoomBase extends GameBase {
 
     protected onDataGameRoomGeneral(data: any) {
         if (data.user) {
-            this.userBalance.string = numberWithCommas(data.user.red);
+            this.loadUserData(data.user);
             cc.RedT.userData(data.user);
         }
 
@@ -174,7 +176,10 @@ export default class GameRoomBase extends GameBase {
         }
     }
 
+
     protected onDataGameRoom(data: any) {
+        super.onData(data);
+
         if (this.players && this.players.length > 0) {
             this.playerHandler.handle(data);
         }
@@ -191,17 +196,23 @@ export default class GameRoomBase extends GameBase {
         }
     }
 
-    protected loadUserData() {
-        this.userName.string = cc.RedT.user.name;
-        this.userBalance.string = numberWithCommas(cc.RedT.user.red);
-        var self = this;
+    protected loadUserData(user) {
+        if (void 0 !== user.name) {
+            this.userName.string = user.name;
+        }
 
-        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
-            if (self && self.userAvatar) {
-                let avatarId = cc.RedT.user.avatarId;
-                let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
-                self.userAvatar.spriteFrame = frame;
-            }
-        });
+        if (void 0 !== user.red) {
+            this.userBalance.string = numberWithCommas(user.red);
+        }
+
+        if (void 0 !== user.avatarId) {
+            cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+                if (this && this.userAvatar) {
+                    let avatarId = cc.RedT.user.avatarId;
+                    let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+                    this.userAvatar.spriteFrame = frame;
+                }
+            });
+        }
     }
 }
