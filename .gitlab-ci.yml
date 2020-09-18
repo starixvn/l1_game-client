@@ -1,50 +1,57 @@
 stages:
+  - build_game
   - build
+  - post-build
   - deploy
   # - post-deploy
 
-before_script:
-  - echo $CURRENT_TAG
-  - if echo "$CI_COMMIT_TAG" | grep -q "$CURRENT_TAG";
-    then
-      echo "Continue deploying";
-    elif [ "$CI_COMMIT_BRANCH" == "master" ]; then
-      echo "Continue deploying";
-    else
-      echo "This job has tag is not used for current repository";
-      exit 1;
-    fi
-  - echo "====== Build Cocos Web Mobile ======"
-  - eval $(ssh-agent -s)
-  - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
-  - mkdir -p ~/.ssh
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-  - git config --global user.email "luminet.minigame.app@gmail.com"
-  - git config --global user.name "Luminet"
-  - if [ "$CI_ENVIRONMENT_NAME" == "PRO" ]; 
-    then
-      export GIT_BRANCH=master;
-    else
-      export GIT_BRANCH=$CI_ENVIRONMENT_NAME;
-    fi
-  - echo $GIT_BRANCH
-
-build:
-  stage: build
+.build_cocos:
+  stage: build_game
   script:
+    - echo "====== Build Cocos Web Mobile ======"
+    - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
     - /Applications/CocosCreator/Creator/2.4.0/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true"
   tags:
-    - deploy-cocos-web-mobile
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      when: always
+    - cocos
+  artifacts:
+    paths:
+      - ./build/web-mobile
+    expire_in: 1 day
+
+# build_cocos_prod:
+#   extends: 
+#     - .build:image:rules
+#   stage: build_game
+#   script:
+#     - echo "====== Build Cocos Web Mobile ======"
+#     - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
+#     - cp ./build-files/web/index-${CI_ENVIRONMENT_NAME}.html ./build-templates/web-mobile/index.html
+#     - /Applications/CocosCreator/Creator/2.4.0/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true"
+#   tags:
+#     - cocos
+#   environment:
+#     name: PRO
 
 include:
-  - local: .gitlab-ci-push-git-compiled-web.yml
-  - local: .gitlab-ci-local.yml
-  - local: .gitlab-ci-sit.yml
-  - local: .gitlab-ci-uat.yml
-  - local: .gitlab-ci-pro.yml
-  - local: .gitlab-ci-ios.yml
+  # - project: 'lumi-ops/ci-scripts'
+  #   ref: master
+  #   file: 'sonarqube.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'before-script-docker.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'l1-rules.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'build-docker-image.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'post-build-docker-image.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'deploy-docker.gitlab-ci.yml'
+  - local: .gitlab-ci/deploy-local.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-sit.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-uat.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-pro.gitlab-ci.yml
