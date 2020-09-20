@@ -1,9 +1,16 @@
+image: docker:19.03.12
+
 stages:
   - build_game
   - build
   - post-build
   - deploy
   # - post-deploy
+  
+services:
+  - docker:19.03.12-dind
+
+
 
 .build_cocos:
   stage: build_game
