@@ -1,16 +1,34 @@
+build_cocos_uat:
+  extends:
+    - .build_cocos
+    - .deploy:uat:rules
+  environment:
+    name: UAT
+
+build_game_image_uat:
+  stage: build
+  extends:
+    - .build_image
+    - .deploy:uat:rules
+  needs: ['build_cocos_uat']
+  dependencies:
+    - build_cocos_uat
+  environment:
+    name: UAT
+
 post_build_uat:
   extends:
-      - .post_build
-      - .deploy:uat:rules
-  needs: ["build_image"]
+    - .post_build
+    - .deploy:uat:rules
+  needs: ['build_game_image_uat']
   environment:
-      name: UAT
+    name: UAT
 
 deploy_uat:
   extends:
     - .base_deploy_kbt
     - .deploy:uat:rules
-  needs: ["post_build_uat"]
+  needs: ['post_build_uat']
   variables:
     SERVER_IP: $SIT_IP
     SERVER_USER: $SIT_USER

@@ -1,47 +1,39 @@
-.push-git-compiled-web-pro:
-  stage: deploy
-  script: 
-    - 'echo "export default { Release: \"${CI_COMMIT_SHA:1}\"}" > ./assets/_new-assets/SentryConfig.js'
+build_cocos_prod:
+  extends:
+    - .build_cocos
+    - .deploy:prod:rules
+  script:
     - echo "====== Build Cocos Web Mobile ======"
     - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
     - cp ./build-files/web/index-${CI_ENVIRONMENT_NAME}.html ./build-templates/web-mobile/index.html
     - /Applications/CocosCreator/Creator/2.4.0/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true"
-    - echo "====== Push to git compiled ======"
-    - git clone --branch $GIT_BRANCH $GIT_COMPILED_REPO ./publish
-    - rm -rf ~/temp
-    - mkdir ~/temp
-    - mv ./publish/.git ~/temp
-    - rm -rfv ./publish/
-    - cp -r ~/temp ./publish
-    - cp -R ./build/web-mobile/* ./publish
-    - cp ./gitlab-ci-after-script-${CI_ENVIRONMENT_NAME}.sh ./publish
-    - cd ./publish
-    - git add .
-    - if [ -z "$(git status --porcelain)" ]; 
-      then 
-        echo "Nothing change!!!"; 
-      else 
-       git commit -m "$COMMIT_MESSAGE"; git push -u origin $GIT_BRANCH;
-       echo "==============Waiting for after script execution==============";
-       sleep 60; 
-      fi
-  tags:
-    - deploy-cocos-web-mobile
+  environment:
+    name: PRO
 
+build_game_image_prod:
+  stage: build
+  extends:
+    - .build_image
+    - .deploy:prod:rules
+  needs: ['build_cocos_prod']
+  dependencies:
+    - build_cocos_prod
+  environment:
+    name: SIT
 
 post_build_prod:
   extends:
     - .post_build
     - .deploy:prod:rules
-  needs: ["build_image"]
+  needs: ['build_game_image_prod']
   environment:
-      name: PROD
+    name: PROD
 
 deploy_prod:
   extends:
     - .base_deploy_kbt
     - .deploy:prod:rules
-  needs: ["post_build_prod"]
+  needs: ['post_build_prod']
   variables:
     SERVER_IP: $PROD_IP
     SERVER_USER: $PROD_USER
@@ -50,28 +42,3 @@ deploy_prod:
     DOCKER_PRIVATE_PORT: 80
   environment:
     name: PROD
-
-# sentry_release:
-#   image: getsentry/sentry-cli
-#   stage: post-deploy
-#   before_script:
-#     - export SENTRY_URL=https://sentry.saba.vin/
-#     - export SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
-#     - export SENTRY_ORG=luminet
-#     - export SENTRY_PROJECT=$SENTRY_PROJECT
-#     - export VERSION=game-client@${CI_COMMIT_SHA:1}
-#   script:
-#     - sentry-cli releases new $VERSION
-#     - sentry-cli releases set-commits --auto $VERSION
-#     - sentry-cli releases files $VERSION upload-sourcemaps ./build/web-mobile/
-#     - sentry-cli releases finalize $VERSION
-#     - sentry-cli releases deploys $VERSION new -e PRO
-#     - echo "Finalized release for $VERSION"
-#   tags:
-#     - docker
-#   needs: ["prod_deploy_web", "build"]
-#   dependencies: 
-#     - build
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == "master"'
-#       when: always
