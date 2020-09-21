@@ -18,11 +18,12 @@ export default class AutoInactiveButton extends cc.Component {
 
     buttonClick() {
         this.button.interactable = false;
-        cc.tween(this.node)
-            .delay(this.durationInactive)
-            .call(() => {
-                this.button.interactable = true;
-            })
-            .start();
+
+        setTimeout(() => {
+            if (this.node === null) {
+                return;
+            }
+            this.button.interactable = true;
+        }, this.durationInactive * 1000);
     }
 }
