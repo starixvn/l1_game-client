@@ -1,7 +1,7 @@
 build_cocos_prod:
   extends:
     - .build_cocos
-    - .deploy:prod:rules
+    - .deploy:prod-auto:rules
   script:
     - echo "====== Build Cocos Web Mobile ======"
     - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
@@ -14,7 +14,7 @@ build_game_image_prod:
   stage: build
   extends:
     - .build_image
-    - .deploy:prod:rules
+    - .deploy:prod-auto:rules
   needs: ['build_cocos_prod']
   dependencies:
     - build_cocos_prod
@@ -24,7 +24,7 @@ build_game_image_prod:
 post_build_prod:
   extends:
     - .post_build
-    - .deploy:prod:rules
+    - .deploy:prod-auto:rules
   needs: ['build_game_image_prod']
   environment:
     name: PROD
