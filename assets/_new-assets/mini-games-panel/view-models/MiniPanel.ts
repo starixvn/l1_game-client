@@ -193,11 +193,16 @@ export default class MiniPanel extends cc.Component {
     }
 
     openGame(e, id) {
+        if (!cc.RedT.user.name) {
+            return;
+        }
         this.gameMiniInitializers.openGame(id);
     }
 
     openGameRoom(e, id) {
-        cc.RedT.audio.playClick();
+        if (!cc.RedT.user.name) {
+            return;
+        }
         this.popupMiniGame.hideListGame();
 
         if (this.currentGameRoomId == id) {
@@ -225,6 +230,9 @@ export default class MiniPanel extends cc.Component {
     }
 
     openNewGameSocket(event, gameId) {
+        if (!cc.RedT.user.name) {
+            return;
+        }
         this.socketIOGameInitializers.openGame(gameId);
     }
 

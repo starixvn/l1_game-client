@@ -85,7 +85,7 @@ export default class MiniSedie extends GameMiniBase {
 
   onEnable() {
     super.onEnable();
-    this.showLogs = this.currentDataLogs.length > 0;
+    this.showLogs = true;
     this.showRoundHistory(this.showLogs);
   }
 

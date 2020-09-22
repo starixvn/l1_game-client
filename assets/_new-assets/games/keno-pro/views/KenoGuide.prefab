@@ -27,17 +27,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 518
+        "__id__": 534
       },
       {
-        "__id__": 519
+        "__id__": 535
       },
       {
-        "__id__": 520
+        "__id__": 536
       }
     ],
     "_prefab": {
-      "__id__": 521
+      "__id__": 537
     },
     "_opacity": 255,
     "_color": {
@@ -294,14 +294,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 515
+        "__id__": 531
       },
       {
-        "__id__": 516
+        "__id__": 532
       }
     ],
     "_prefab": {
-      "__id__": 517
+      "__id__": 533
     },
     "_opacity": 255,
     "_color": {
@@ -384,7 +384,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 646,
+      "width": 600,
       "height": 77
     },
     "_anchorPoint": {
@@ -397,14 +397,14 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        286,
+        293.28999999999996,
         0,
         0,
         0,
         0,
         1,
         1,
-        1,
+        0.8,
         1
       ]
     },
@@ -461,14 +461,14 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -3.538,
+        1.573,
         0,
         0,
         0,
         0,
         1,
         1,
-        1,
+        1.25,
         1
       ]
     },
@@ -548,7 +548,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "0803100c-6bf8-4212-a98a-32b813f96ba1"
+      "__uuid__": "c0238295-5d3f-4900-b340-8636b2a795c5"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -579,7 +579,7 @@
     "_alignFlags": 1,
     "_left": 0,
     "_right": 0,
-    "_top": 0.5,
+    "_top": 0.91,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -843,14 +843,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 512
+        "__id__": 528
       },
       {
-        "__id__": 513
+        "__id__": 529
       }
     ],
     "_prefab": {
-      "__id__": 514
+      "__id__": 530
     },
     "_opacity": 255,
     "_color": {
@@ -914,14 +914,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 509
+        "__id__": 525
       },
       {
-        "__id__": 510
+        "__id__": 526
       }
     ],
     "_prefab": {
-      "__id__": 511
+      "__id__": 527
     },
     "_opacity": 255,
     "_color": {
@@ -997,14 +997,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 506
+        "__id__": 522
       },
       {
-        "__id__": 507
+        "__id__": 523
       }
     ],
     "_prefab": {
-      "__id__": 508
+      "__id__": 524
     },
     "_opacity": 255,
     "_color": {
@@ -18086,26 +18086,26 @@
         "__id__": 487
       },
       {
-        "__id__": 491
-      },
-      {
         "__id__": 495
       },
       {
-        "__id__": 499
+        "__id__": 503
+      },
+      {
+        "__id__": 511
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 503
+        "__id__": 519
       },
       {
-        "__id__": 504
+        "__id__": 520
       }
     ],
     "_prefab": {
-      "__id__": 505
+      "__id__": 521
     },
     "_opacity": 255,
     "_color": {
@@ -18292,7 +18292,7 @@
     "asset": {
       "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
     },
-    "fileId": "dcC5sb0j5JL4izJKFZ45Eb",
+    "fileId": "d3Kv9cS4pBTrd1LE3LLNHb",
     "sync": false
   },
   {
@@ -18302,18 +18302,22 @@
     "_parent": {
       "__id__": 482
     },
-    "_children": [],
+    "_children": [
+      {
+        "__id__": 488
+      }
+    ],
     "_active": true,
     "_components": [
       {
-        "__id__": 488
+        "__id__": 492
       },
       {
-        "__id__": 489
+        "__id__": 493
       }
     ],
     "_prefab": {
-      "__id__": 490
+      "__id__": 494
     },
     "_opacity": 255,
     "_color": {
@@ -18325,7 +18329,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1000,
+      "width": 981.558,
       "height": 60
     },
     "_anchorPoint": {
@@ -18337,7 +18341,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -500,
+        -481.558,
         115,
         0,
         0,
@@ -18363,6 +18367,147 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Node",
+    "_name": "order",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 487
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 489
+      },
+      {
+        "__id__": 490
+      }
+    ],
+    "_prefab": {
+      "__id__": 491
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 27.26,
+      "height": 40
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -0.36,
+        -14.593,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 488
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_useOriginalSize": false,
+    "_string": "5.1 ",
+    "_N$string": "5.1 ",
+    "_fontSize": 18,
+    "_lineHeight": 40,
+    "_enableWrapText": true,
+    "_N$file": {
+      "__uuid__": "cafd24ce-1dec-430a-9047-0775cfb46eb6"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 488
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 40,
+    "_left": -0.36,
+    "_right": 954.658,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 775,
+    "_originalHeight": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
+    },
+    "fileId": "c6x0sFo3NL94krtGPlYkVY",
+    "sync": false
+  },
+  {
     "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
@@ -18378,8 +18523,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Công ty có quyền hủy hoặc làm mất hiệu lực đối với mọi lượt cược trong trường hợp hệ thống xảy ra bất kỳ lỗi kỹ thuật nào, bao gồm nhưng không hạn chế bởi các lỗi về phần mềm, phần cứng hoặc mạng kết nối.",
-    "_N$string": "- Công ty có quyền hủy hoặc làm mất hiệu lực đối với mọi lượt cược trong trường hợp hệ thống xảy ra bất kỳ lỗi kỹ thuật nào, bao gồm nhưng không hạn chế bởi các lỗi về phần mềm, phần cứng hoặc mạng kết nối.",
+    "_string": "        Công ty có quyền hủy hoặc làm mất hiệu lực đối với mọi lượt cược trong trường hợp hệ thống xảy ra bất kỳ lỗi kỹ thuật nào, bao gồm nhưng không hạn chế bởi các lỗi về phần mềm, phần cứng hoặc mạng kết nối.",
+    "_N$string": "        Công ty có quyền hủy hoặc làm mất hiệu lực đối với mọi lượt cược trong trường hợp hệ thống xảy ra bất kỳ lỗi kỹ thuật nào, bao gồm nhưng không hạn chế bởi các lỗi về phần mềm, phần cứng hoặc mạng kết nối.",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -18409,7 +18554,7 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 40,
-    "_left": 0,
+    "_left": 18.442000000000007,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -18433,7 +18578,7 @@
     "asset": {
       "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
     },
-    "fileId": "f34QJ66UNLZ7bje4wKaAov",
+    "fileId": "4cQqei7IRNHIphIVv2tDaJ",
     "sync": false
   },
   {
@@ -18443,18 +18588,22 @@
     "_parent": {
       "__id__": 482
     },
-    "_children": [],
+    "_children": [
+      {
+        "__id__": 496
+      }
+    ],
     "_active": true,
     "_components": [
       {
-        "__id__": 492
+        "__id__": 500
       },
       {
-        "__id__": 493
+        "__id__": 501
       }
     ],
     "_prefab": {
-      "__id__": 494
+      "__id__": 502
     },
     "_opacity": 255,
     "_color": {
@@ -18466,7 +18615,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1000,
+      "width": 981.558,
       "height": 60
     },
     "_anchorPoint": {
@@ -18478,7 +18627,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -500,
+        -481.558,
         45,
         0,
         0,
@@ -18504,11 +18653,78 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Node",
+    "_name": "order",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 495
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 497
+      },
+      {
+        "__id__": 498
+      }
+    ],
+    "_prefab": {
+      "__id__": 499
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 27.77,
+      "height": 40
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -0.36,
+        -14.593,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
     "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 491
+      "__id__": 496
     },
     "_enabled": true,
     "_materials": [
@@ -18519,8 +18735,82 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Công ty có quyền hủy hoặc làm mất hiệu lực đối với mọi lượt cược khi nghi ngờ rằng khách hàng đang tham gia lừa đảo, câu kết, rửa tiền hay các hoạt động bất hợp pháp khác.",
-    "_N$string": "- Công ty có quyền hủy hoặc làm mất hiệu lực đối với mọi lượt cược khi nghi ngờ rằng khách hàng đang tham gia lừa đảo, câu kết, rửa tiền hay các hoạt động bất hợp pháp khác.",
+    "_string": "5.2",
+    "_N$string": "5.2",
+    "_fontSize": 18,
+    "_lineHeight": 40,
+    "_enableWrapText": true,
+    "_N$file": {
+      "__uuid__": "cafd24ce-1dec-430a-9047-0775cfb46eb6"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 496
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 40,
+    "_left": -0.36,
+    "_right": 954.148,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 775,
+    "_originalHeight": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
+    },
+    "fileId": "93T3w8+/lJ5LRqfFd3RAP7",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 495
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_useOriginalSize": false,
+    "_string": "        Công ty có quyền hủy hoặc làm mất hiệu lực đối với mọi lượt cược khi nghi ngờ khách hàng có những hoạt động gian lận, tham gia lừa đảo, câu kết, rửa tiền hay các hoạt động bất hợp pháp khác.",
+    "_N$string": "        Công ty có quyền hủy hoặc làm mất hiệu lực đối với mọi lượt cược khi nghi ngờ khách hàng có những hoạt động gian lận, tham gia lừa đảo, câu kết, rửa tiền hay các hoạt động bất hợp pháp khác.",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -18544,13 +18834,13 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 491
+      "__id__": 495
     },
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 40,
-    "_left": 0,
+    "_left": 18.442000000000007,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -18574,7 +18864,7 @@
     "asset": {
       "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
     },
-    "fileId": "2d58ycpzhCGJin2NueLncK",
+    "fileId": "6frZCLcMpO4KeFwxe1jmB4",
     "sync": false
   },
   {
@@ -18584,18 +18874,22 @@
     "_parent": {
       "__id__": 482
     },
-    "_children": [],
+    "_children": [
+      {
+        "__id__": 504
+      }
+    ],
     "_active": true,
     "_components": [
       {
-        "__id__": 496
+        "__id__": 508
       },
       {
-        "__id__": 497
+        "__id__": 509
       }
     ],
     "_prefab": {
-      "__id__": 498
+      "__id__": 510
     },
     "_opacity": 255,
     "_color": {
@@ -18607,7 +18901,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1000,
+      "width": 981.558,
       "height": 60
     },
     "_anchorPoint": {
@@ -18619,7 +18913,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -500,
+        -481.558,
         -25,
         0,
         0,
@@ -18645,98 +18939,24 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 495
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "- Công ty có quyền hủy hoặc làm mất hiệu lực mọi lượt cược khi có lỗi (thuộc về con người hay yếu tố khác) hoặc sự cố hệ thống dẫn đến việc sử dụng sai tỷ lệ trả thưởng.",
-    "_N$string": "- Công ty có quyền hủy hoặc làm mất hiệu lực mọi lượt cược khi có lỗi (thuộc về con người hay yếu tố khác) hoặc sự cố hệ thống dẫn đến việc sử dụng sai tỷ lệ trả thưởng.",
-    "_fontSize": 18,
-    "_lineHeight": 30,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "3ffe3de6-d3a7-4148-aa63-92c401f9da18"
-    },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 0,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 3,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Widget",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 495
-    },
-    "_enabled": true,
-    "alignMode": 1,
-    "_target": null,
-    "_alignFlags": 40,
-    "_left": 0,
-    "_right": 0,
-    "_top": 0,
-    "_bottom": 0,
-    "_verticalCenter": 0,
-    "_horizontalCenter": 0,
-    "_isAbsLeft": true,
-    "_isAbsRight": true,
-    "_isAbsTop": true,
-    "_isAbsBottom": true,
-    "_isAbsHorizontalCenter": true,
-    "_isAbsVerticalCenter": true,
-    "_originalWidth": 775,
-    "_originalHeight": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
-    },
-    "fileId": "7eYNz1tBVN9YReONyV9AwK",
-    "sync": false
-  },
-  {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "order",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 482
+      "__id__": 503
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 500
+        "__id__": 505
       },
       {
-        "__id__": 501
+        "__id__": 506
       }
     ],
     "_prefab": {
-      "__id__": 502
+      "__id__": 507
     },
     "_opacity": 255,
     "_color": {
@@ -18748,20 +18968,20 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1000,
-      "height": 60
+      "width": 27.77,
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 1
+      "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -500,
-        -95,
+        -0.36,
+        -14.593,
         0,
         0,
         0,
@@ -18790,7 +19010,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 499
+      "__id__": 504
     },
     "_enabled": true,
     "_materials": [
@@ -18801,8 +19021,82 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Tất cả các lượt cược vào các phiên cược đã được chấp nhận vẫn sẽ có hiệu lực ngay cả khi sau đó thành viên đăng xuất hoặc bị ngắt kết nối khỏi trang web vì bất kỳ lý do gì.",
-    "_N$string": "- Tất cả các lượt cược vào các phiên cược đã được chấp nhận vẫn sẽ có hiệu lực ngay cả khi sau đó thành viên đăng xuất hoặc bị ngắt kết nối khỏi trang web vì bất kỳ lý do gì.",
+    "_string": "5.3",
+    "_N$string": "5.3",
+    "_fontSize": 18,
+    "_lineHeight": 40,
+    "_enableWrapText": true,
+    "_N$file": {
+      "__uuid__": "cafd24ce-1dec-430a-9047-0775cfb46eb6"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 504
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 40,
+    "_left": -0.36,
+    "_right": 954.148,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 775,
+    "_originalHeight": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
+    },
+    "fileId": "a5kONnWe9ISKF6P4e52mwn",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 503
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_useOriginalSize": false,
+    "_string": "        Công ty có quyền hủy hoặc làm mất hiệu lực mọi lượt cược khi có lỗi (thuộc về con người hay yếu tố khác) hoặc sự cố hệ thống dẫn đến việc sử dụng sai tỷ lệ trả thưởng.",
+    "_N$string": "        Công ty có quyền hủy hoặc làm mất hiệu lực mọi lượt cược khi có lỗi (thuộc về con người hay yếu tố khác) hoặc sự cố hệ thống dẫn đến việc sử dụng sai tỷ lệ trả thưởng.",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -18826,13 +19120,13 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 499
+      "__id__": 503
     },
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 40,
-    "_left": 0,
+    "_left": 18.442000000000007,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -18856,7 +19150,293 @@
     "asset": {
       "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
     },
-    "fileId": "7eDI6uiy1ASKgdOYmQUeRX",
+    "fileId": "aamckkIJpE1rolrYbbNARu",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "CL_c1 copy",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 482
+    },
+    "_children": [
+      {
+        "__id__": 512
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 516
+      },
+      {
+        "__id__": 517
+      }
+    ],
+    "_prefab": {
+      "__id__": 518
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 981.558,
+      "height": 60
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 1
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -481.558,
+        -95,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "order",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 511
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 513
+      },
+      {
+        "__id__": 514
+      }
+    ],
+    "_prefab": {
+      "__id__": 515
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 28.29,
+      "height": 40
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -0.36,
+        -14.593,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 512
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_useOriginalSize": false,
+    "_string": "5.4",
+    "_N$string": "5.4",
+    "_fontSize": 18,
+    "_lineHeight": 40,
+    "_enableWrapText": true,
+    "_N$file": {
+      "__uuid__": "cafd24ce-1dec-430a-9047-0775cfb46eb6"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 512
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 40,
+    "_left": -0.36,
+    "_right": 953.628,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 775,
+    "_originalHeight": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
+    },
+    "fileId": "8b+vOxNkpOkKn+KFSdSb0F",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 511
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_useOriginalSize": false,
+    "_string": "        Tất cả các lượt cược vào các phiên cược đã được chấp nhận vẫn sẽ có hiệu lực ngay cả khi sau đó thành viên đăng xuất hoặc bị ngắt kết nối khỏi hệ thống game vì bất kỳ lý do gì.",
+    "_N$string": "        Tất cả các lượt cược vào các phiên cược đã được chấp nhận vẫn sẽ có hiệu lực ngay cả khi sau đó thành viên đăng xuất hoặc bị ngắt kết nối khỏi hệ thống game vì bất kỳ lý do gì.",
+    "_fontSize": 18,
+    "_lineHeight": 30,
+    "_enableWrapText": true,
+    "_N$file": {
+      "__uuid__": "3ffe3de6-d3a7-4148-aa63-92c401f9da18"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 0,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 3,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 511
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 40,
+    "_left": 18.442000000000007,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 775,
+    "_originalHeight": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
+    },
+    "fileId": "aeCyZNmuZIea2mUabtYtRp",
     "sync": false
   },
   {
@@ -18926,7 +19506,7 @@
     "asset": {
       "__uuid__": "fbc2aed2-09ef-44ca-b5dc-3ae8379ac48a"
     },
-    "fileId": "cem0FWlslFQa0wwTc9sgi8",
+    "fileId": "74ZcgwmslAgIpIHd4CuMnU",
     "sync": false
   },
   {
@@ -19139,7 +19719,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "12e177b1-dd3e-47c5-a21e-e4e6b310a3f3"
+      "__uuid__": "63a52c22-d3d7-4d95-b526-d4ba1f7cdf62"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -19152,7 +19732,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "2876515c-7252-4bea-8826-98a1223f4ba8"
+    },
     "_id": ""
   },
   {

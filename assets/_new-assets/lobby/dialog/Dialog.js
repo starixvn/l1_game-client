@@ -14,6 +14,10 @@ cc.Class({
 		this.onCloseDialog();
 	},
 	onCloseDialog: function () {
+		if (!cc.RedT.user.name) {
+			return;
+		}
+
 		if (this.currentDialog != null) {
 			this.currentDialog.closeDialog();
 		} else {

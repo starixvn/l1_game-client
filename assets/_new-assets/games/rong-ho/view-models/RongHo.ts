@@ -197,7 +197,6 @@ export default class RongHo extends cc.Component {
   }
 
   public openGame() {
-    cc.RedT.audio.playClick();
     this.node.active = !0;
     cc.sys.localStorage.setItem(this.gameName, true);
   }

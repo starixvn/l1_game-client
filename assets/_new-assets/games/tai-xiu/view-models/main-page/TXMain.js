@@ -1,5 +1,4 @@
-var TX_Chat = require("TXChat"),
-  BrowserUtil = require("BrowserUtil"),
+var BrowserUtil = require("BrowserUtil"),
   helper = require("Helper"),
   TaiXiu_efScale = require("TXScale"),
   Constants = require("TXConstants"),
@@ -165,7 +164,6 @@ cc.Class({
       default: null,
       type: cc.Label
     },
-    TX_Chat: TX_Chat,
     red: true,
     taixiu: true,
     centerRoundLight: {
@@ -292,7 +290,6 @@ cc.Class({
     this.ttOffset = null;
     this.editboxs = [this.inputLeft, this.inputRight];
     this.initBetBoard();
-    this.TX_Chat.init(this);
 
     this.diaNan.getComponent("TXDiaNan").init(this);
 
@@ -578,9 +575,6 @@ cc.Class({
     }
     if (data.get_top) {
       this.TXRoot.TXTop.node && this.TXRoot.TXTop.onData(data.get_top);
-    }
-    if (data.chat) {
-      this.TX_Chat.onData(data.chat);
     }
     if (data.status) {
       this.status(data.status);
@@ -1064,7 +1058,6 @@ cc.Class({
   setDefautl: function () {
     // TODO: cc.RedT.setting.taixiu.getLogs = this.nodeTimePopup.active = false;
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
-    this.TX_Chat.reset();
   },
   status: function (data) {
     if (!cc.RedT.GAME_IS_SHOWED) {
