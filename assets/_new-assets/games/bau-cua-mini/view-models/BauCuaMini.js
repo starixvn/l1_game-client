@@ -268,7 +268,6 @@ cc.Class({
     cc.RedT.setting.baucua.position = this.node.position;
   },
   openGame: function () {
-    cc.RedT.audio.playClick();
     this.node.active = !0;
     if (this.timeInterval === undefined) {
       this.clearCuocAllSlot();

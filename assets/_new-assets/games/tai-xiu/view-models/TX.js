@@ -95,7 +95,6 @@ cc.Class({
   },
 
   openGame: function (e, taixiu = "1") {
-    cc.RedT.audio.playClick();
     this.TX_Main.initGame(taixiu == "1");
     this.node.active = 1;
   },

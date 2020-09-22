@@ -122,7 +122,6 @@ cc.Class({
 		cc.RedT.setting.minipoker.position = this.node.position;
 	},
 	openGame: function () {
-		cc.RedT.audio.playClick();
 		if (cc.RedT.IS_LOGIN) {
 			this.node.active = !0;
 			localStorage.setItem('minipoker', true);

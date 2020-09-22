@@ -160,7 +160,6 @@ export default class GameBase extends cc.Component {
     }
 
     openGame() {
-        cc.RedT.audio.playClick();
         this.node.active = true;
     }
 

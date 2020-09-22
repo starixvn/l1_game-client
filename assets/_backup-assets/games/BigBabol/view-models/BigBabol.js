@@ -121,7 +121,6 @@ cc.Class({
 		this.node.parent.insertChild(this.node);
 	},
 	openGame: function () {
-		cc.RedT.audio.playClick();
 		if (cc.RedT.IS_LOGIN) {
 			this.node.active = !0;
 			localStorage.setItem('big_babol', true);
