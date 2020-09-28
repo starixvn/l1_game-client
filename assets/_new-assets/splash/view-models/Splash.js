@@ -82,7 +82,7 @@ cc.Class({
   },
   onProgress: function (completedCount, totalCount) {
     // đang tải cảnh
-    var RedT = ((completedCount / totalCount) * 838) >> 0;
+    var RedT = ((completedCount / totalCount) * this.updateProgressBar.children[0].width) >> 0;
     this.updateProgress(RedT);
   },
   onLoaded: function (err, asset) {
