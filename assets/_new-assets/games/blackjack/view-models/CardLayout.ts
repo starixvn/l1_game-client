@@ -1,0 +1,94 @@
+
+const { ccclass, property, executeInEditMode } = cc._decorator;
+
+@ccclass
+@executeInEditMode
+export default class CardLayout extends cc.Component {
+    @property(cc.Node)
+    content: cc.Node = null;
+
+    @property(cc.Node)
+    shadow: cc.Node = null;
+
+    @property
+    scaleY = 0.8;
+
+    @property
+    _spacingX = 20;
+
+    @property
+    get spacingX() {
+        return this._spacingX;
+    }
+
+    set spacingX(value) {
+        this._spacingX = value;
+        this.updateLayout();
+    }
+
+    @property
+    _ratio = 0.9;
+
+    @property
+    get ratio() {
+        return this._ratio;
+    }
+
+    set ratio(value) {
+        this._ratio = value;
+        this.updateLayout();
+    }
+
+    onLoad() {
+        this.content.on(cc.Node.EventType.CHILD_ADDED, this.updateLayout, this);
+        this.content.on(cc.Node.EventType.CHILD_REMOVED, this.updateLayout, this);
+        this.content.on(cc.Node.EventType.CHILD_REORDER, this.updateLayout, this);
+        this.content.removeAllChildren();
+    }
+
+    updateLayout() {
+        const half = this.content.childrenCount / 2;
+
+        let width = 0;
+        const halfCardSize = 76 / 2;
+        this.content.children.forEach((child, index) => {
+            child.zIndex = index;
+            child.x = halfCardSize + this.ratio * index * this.spacingX;
+            // child.angle = (index - half) * 1;
+            // child.y = Math.abs(index - half) * 0.45;
+            width = child.x;
+        });
+
+        width += halfCardSize;// this.content.children[0].width;
+        this.content.width = width;
+        this.shadow.width = width;
+    }
+
+    changeCardView(selected: boolean) {
+        if (selected) {
+            this.content.children.forEach((child, index) => {
+                cc.tween(child)
+                    .delay(0.1 * (this.content.childrenCount - 1 - index))
+                    .parallel(
+                        cc.tween(child)
+                            .by(0.3, { position: cc.v2(0, 30) }),
+                        cc.tween(child)
+                            .to(0.3, { scaleY: 1 })
+                    )
+                    .start();
+            });
+        } else {
+            this.content.children.forEach((child, index) => {
+                cc.tween(child)
+                    .delay(0.1 * index)
+                    .parallel(
+                        cc.tween(child)
+                            .by(0.3, { position: cc.v2(0, -30) }),
+                        cc.tween(child)
+                            .to(0.3, { scaleY: this.scaleY })
+                    )
+                    .start();
+            });
+        }
+    }
+}

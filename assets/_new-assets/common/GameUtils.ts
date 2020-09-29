@@ -55,4 +55,15 @@ export default class GameUtils {
             });
         })
     }
+
+    public static getChipValues(bet: number, options: number[]): any {
+        let total = bet;
+        const values = {};
+        options.forEach(value => {
+            const count = Math.floor(total / value);
+            values[value] = count;
+            total = total % value;
+        });
+        return values;
+    }
 }

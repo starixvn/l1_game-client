@@ -1,5 +1,6 @@
 const { ccclass, property } = cc._decorator;
 import * as _ from 'lodash';
+import GameUtils from '../../GameUtils';
 import SnappedScrollView from './SnappedScrollView';
 type OnChangedBet = (bet: string) => void;
 
@@ -184,7 +185,7 @@ export default class BetChips extends cc.Component {
         });
     }
 
-    public placeChipBet(bet: number, destNode: cc.Node, startNode: cc.Node = null) {
+    public placeChipBet(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }) {
         var chipPosition: cc.Vec2;
         var isLoginUserPlaceBet = startNode == null;
 
@@ -197,8 +198,8 @@ export default class BetChips extends cc.Component {
         }
 
         chipPosition = destNode.convertToNodeSpaceAR(chipPosition);
-        var chipNode = this.createChip(chipPosition, bet);
-
+        var chipNode = this.createChip(bet);
+        chipNode.node.position = chipPosition;
         var randomPosition = this.getRandomPositionChip(chipNode.node, destNode);
         destNode.addChild(chipNode.node);
 
@@ -207,10 +208,15 @@ export default class BetChips extends cc.Component {
         }
 
         chipNode.node.runAction(
-            this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime));
+            cc.sequence(
+                this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
+                cc.callFunc(() => {
+                    onComplete();
+                })
+            ));
     }
 
-    public moveChipWithCallback(chipNode: cc.Node, bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }, delayDestroy: number, duration: number) {
+    public moveChipWithCallback(chipNode: cc.Node, bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }, delayDestroy: number, duration: number, fadeDuration = 1) {
         let chipPosition: cc.Vec2;
         const isLoginUserPlaceBet = startNode == null;
         if (startNode) {
@@ -238,7 +244,7 @@ export default class BetChips extends cc.Component {
                 this.moveChipTo(cc.v2(0, 0), duration),
                 cc.delayTime(delayDestroy),
                 cc.callFunc(() => {
-                    chipNode.runAction(cc.sequence(cc.fadeOut(1), cc.removeSelf(true)));
+                    chipNode.runAction(cc.sequence(cc.fadeOut(fadeDuration), cc.removeSelf(true)));
                     onComplete();
                 })
             )
@@ -256,7 +262,7 @@ export default class BetChips extends cc.Component {
             var chipCountOfBet = chipsData[chipBet];
             for (var i = 0; i < chipCountOfBet; i++) {
 
-                var chip = this.createChip(cc.v2(0, 0), chipBet);
+                var chip = this.createChip(+chipBet);
                 var randomPosition = this.getRandomPositionChip(chip.node, chipsBox);
                 chip.node.position = randomPosition;
                 chipsBox.addChild(chip.node);
@@ -265,11 +271,11 @@ export default class BetChips extends cc.Component {
     }
 
     public playMultiChipsSound() {
-        cc.RedT.isSoundGame() && this.multiChipAudio.play();
+        // cc.RedT.isSoundGame() && this.multiChipAudio.play();
     }
 
     public playSingleChipsSound() {
-        cc.RedT.isSoundGame() && this.singleChipAudio.play();
+        // cc.RedT.isSoundGame() && this.singleChipAudio.play();
     }
 
     private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, flyTime: number = this.chipFlyingTime) {
@@ -287,12 +293,35 @@ export default class BetChips extends cc.Component {
         return cc.v2(xDest, yDest);
     }
 
-    private createChip(position: cc.Vec2, bet): cc.Sprite {
+    public createChipStack(bet: number, options: number[]) {
+        const values = GameUtils.getChipValues(bet, options);
+        const node = new cc.Node();
+        const layoutNode = new cc.Node();
+        layoutNode.y = -13; //half size chip
+        node.addChild(layoutNode);
+        layoutNode.anchorY = 0;
+        const layout = layoutNode.addComponent(cc.Layout);
+        layout.type = cc.Layout.Type.VERTICAL;
+        layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
+        layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
+        layout.spacingY = -22;
+        const keys = Object.keys(values).sort((a, b) => +b - +a);
+        keys.forEach(chip => {
+            const count = values[chip];
+            for (let i = 0; i < count; i++) {
+                const chipNode = this.createChip(+chip).node;
+                layoutNode.addChild(chipNode);
+            }
+        });
+
+        return node;
+    }
+
+    public createChip(bet: number): cc.Sprite {
         const chip = new cc.Node();
         const chipSprite = chip.addComponent(cc.Sprite);
         const name = `chip${bet}_small`;
         chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
-        chipSprite.node.position = position;
         return chipSprite;
     }
 

@@ -23,339 +23,343 @@ import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
 const { ccclass, property } = cc._decorator;
 
 export enum GameState {
-  None = 0,
-  Started,
-  Stopped,
-  Disabled,
+    None = 0,
+    Started,
+    Stopped,
+    Disabled,
 }
 
 @ccclass
 export default class GameBase extends cc.Component {
-  @property({ type: BetItem })
-  betItems: BetItem[] = [];
+    @property({ type: BetItem })
+    betItems: BetItem[] = [];
 
-  @property(cc.Prefab)
-  processWarningPrefab: cc.Prefab = null;
+    @property(cc.Prefab)
+    processWarningPrefab: cc.Prefab = null;
 
-  @property(cc.Prefab)
-  miniNoticePrefab: cc.Prefab = null;
+    @property(cc.Prefab)
+    miniNoticePrefab: cc.Prefab = null;
 
-  @property(cc.Node)
-  noticeNode: cc.Node = null;
+    @property(cc.Node)
+    noticeNode: cc.Node = null;
 
-  @property(UmWarning)
-  umNotice: UmWarning = null;
+    @property(UmWarning)
+    umNotice: UmWarning = null;
 
-  @property(cc.Node)
-  timeWaitNode: cc.Node = null;
+    @property(cc.Node)
+    timeWaitNode: cc.Node = null;
 
-  @property(cc.Label)
-  timeWaitLabel: cc.Label = null;
+    @property(cc.Label)
+    timeWaitLabel: cc.Label = null;
 
-  @property({ type: AnimatedTime })
-  animatedTime: AnimatedTime = null;
+    @property({ type: AnimatedTime })
+    animatedTime: AnimatedTime = null;
 
-  @property(cc.Label)
-  gameRound: cc.Label = null;
+    @property(cc.Label)
+    gameRound: cc.Label = null;
 
-  @property
-  enableChips: boolean = false;
+    @property
+    enableChips: boolean = false;
 
-  @property({
-    type: cc.Node,
-    visible: function (this: GameBase) {
-      return this.enableChips;
-    },
-  })
-  betChipsContainer: cc.Node = null;
+    @property({
+        type: cc.Node,
+        visible: function (this: GameBase) {
+            return this.enableChips;
+        },
+    })
+    betChipsContainer: cc.Node = null;
 
-  @property({
-    type: cc.Prefab,
-    visible: function (this: GameBase) {
-      return this.enableChips;
-    },
-  })
-  betChipsPrefab: cc.Prefab = null;
+    @property({
+        type: cc.Prefab,
+        visible: function (this: GameBase) {
+            return this.enableChips;
+        },
+    })
+    betChipsPrefab: cc.Prefab = null;
 
-  @property({
-    visible: function (this: GameBase) {
-      return this.enableChips;
-    },
-  })
-  enablePlaceChips: boolean = false;
+    @property({
+        visible: function (this: GameBase) {
+            return this.enableChips;
+        },
+    })
+    enablePlaceChips: boolean = false;
 
-  @property({
-    type: cc.Node,
-    visible: function (this: GameBase) {
-      return this.enablePlaceChips;
-    },
-  })
-  dealerChipBox: cc.Node = null;
+    @property({
+        type: cc.Node,
+        visible: function (this: GameBase) {
+            return this.enablePlaceChips;
+        },
+    })
+    dealerChipBox: cc.Node = null;
 
-  @property(cc.Prefab)
-  gameAudiosPrefab: cc.Prefab = null;
+    @property(cc.Prefab)
+    gameAudiosPrefab: cc.Prefab = null;
 
-  public gameState = GameState.None;
-  public get isStopGame() {
-    return this.gameState === GameState.Stopped;
-  }
-  public get isDisableGame() {
-    return this.gameState === GameState.Disabled;
-  }
-  public waitingProcessing = false;
-  public currentTimeRemaining: number;
-  public config: GameBaseConfigs;
-  public gameName: string;
-  public currentDataLogs = [];
-  public roundId = -1;
-  public currentMiniPanel: MiniPanel;
-  public gameConfigs: any;
-  public finishShowResult = true;
-  public isGoingToDisabled = false;
-
-  public umHandler: DataHandler;
-  public noticeHandler: DataHandler;
-  public statusHandler: GameBaseStatusHandler;
-  public betHandler: DataHandler;
-  public timeHandler: GameBaseTimeHandler;
-  public errorHandler: DataHandler;
-  public logsHandler: DataHandler;
-  public finishHandler: DataHandler;
-  public configsHandler: DataHandler;
-
-  public betChips: BetChips;
-  public currentBet: number;
-  public gameAudios: GameAudios;
-  private dataHandlers: DataHandler[] = [];
-  private processingWarning: cc.Node;
-
-  init(gameName: string, config: GameBaseConfigs, miniPanel: MiniPanel) {
-    this.gameName = gameName;
-    this.config = config;
-    this.currentMiniPanel = miniPanel;
-  }
-
-  onLoad() {
-    this.initHandlers();
-    this.addHandlers(
-      this.umHandler,
-      this.noticeHandler,
-      this.statusHandler,
-      this.betHandler,
-      this.timeHandler,
-      this.errorHandler,
-      this.logsHandler,
-      this.configsHandler,
-      this.finishHandler
-    );
-    this.initBetChips();
-    this.initGameAudios();
-    this.setGameRound(0);
-    this.resetDataAndUI();
-    this.gameRound.string = '';
-    cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
-    cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
-  }
-
-  onDestroy() {
-    cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
-    cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-  }
-
-  onEnable() {
-    this.startGame();
-    this.registerViewGame();
-  }
-
-  onDisable() {
-    this.stopGame();
-  }
-
-  onData(data: any) {
-    for (let index = 0; index < this.dataHandlers.length; index++) {
-      let handler = this.dataHandlers[index];
-      if (index == 0 && handler.handle(data)) {
-        //um handler
-        break;
-      } else {
-        handler.handle(data);
-      }
+    public gameState = GameState.None;
+    public get isStopGame() {
+        return this.gameState === GameState.Stopped;
     }
-  }
+    public get isDisableGame() {
+        return this.gameState === GameState.Disabled;
+    }
+    public waitingProcessing = false;
+    public currentTimeRemaining: number;
+    public config: GameBaseConfigs;
+    public gameName: string;
+    public currentDataLogs = [];
+    public roundId = -1;
+    public currentMiniPanel: MiniPanel;
+    public gameConfigs: any;
+    public finishShowResult = true;
+    public isGoingToDisabled = false;
 
-  openGame() {
-    this.node.active = true;
-  }
+    public umHandler: DataHandler;
+    public noticeHandler: DataHandler;
+    public statusHandler: GameBaseStatusHandler;
+    public betHandler: DataHandler;
+    public timeHandler: GameBaseTimeHandler;
+    public errorHandler: DataHandler;
+    public logsHandler: DataHandler;
+    public finishHandler: DataHandler;
+    public configsHandler: DataHandler;
 
-  closeGame() {
-    cc.RedT.audio.playUnClick();
-    this.node.active = false;
-  }
+    public betChips: BetChips;
+    public currentBet: number;
+    public gameAudios: GameAudios;
+    private dataHandlers: DataHandler[] = [];
+    private processingWarning: cc.Node;
 
-  /** Clear all intervals and timeouts in game */
-  stopGame() {
-    this.gameState = GameState.Stopped;
-    this.clearIntervalAndTimeout();
-    this.resetDataAndUI();
-  }
-
-  disableGame() {
-    this.gameState = GameState.Disabled;
-    this.clearIntervalAndTimeout();
-    this.resetDataAndUI();
-  }
-
-  protected startGame() {
-    this.gameState = GameState.Started;
-  }
-
-  /** Register with game on server */
-  protected registerViewGame() {
-    this.sendData({ view: true, get_time: true, getLogs: true });
-  }
-
-  sendData(payload: any) {
-    cc.RedT.send({
-      g: {
-        [this.gameName]: payload,
-      },
-    });
-  }
-
-  showAcceptedBet(bet: number) {
-    GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
-  }
-
-  showWinningBet(bet: number) {
-    GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
-  }
-
-  setGameRound(gameRoundId) {
-    const gameRound = this.formatGameRound(gameRoundId);
-
-    if (gameRound) {
-      this.gameRound.string = gameRound;
+    init(gameName: string, config: GameBaseConfigs, miniPanel: MiniPanel) {
+        this.gameName = gameName;
+        this.config = config;
+        this.currentMiniPanel = miniPanel;
     }
 
-    const typingLabel = this.gameRound.node.parent.getComponent(TypingLabel);
-
-    if (typingLabel) {
-      if (this.timeHandler.isStartingNewGameRound) {
-        typingLabel.playTypingEffect();
-      } else {
-        typingLabel.adjustWidth();
-      }
-    }
-  }
-
-  showProcessingWarning(show: boolean) {
-    if (show) {
-      if (this.processingWarning && this.processingWarning.isValid) {
-        return;
-      }
-      var node = cc.instantiate(this.processWarningPrefab);
-      this.node.addChild(node);
-      this.processingWarning = node;
-    } else {
-      this.waitingProcessing = false;
-      if (!this.processingWarning || !this.processingWarning.isValid) {
-        return;
-      }
-      this.processingWarning.getComponent('ProcessingWarning').close();
-      this.processingWarning = null;
-    }
-  }
-
-  showUmMessage(data: any) {
-    if (this.isDisableGame) {
-      return;
+    onLoad() {
+        this.setUpHandlers();
+        this.initBetChips();
+        this.initGameAudios();
+        this.setGameRound(0);
+        this.resetDataAndUI();
+        this.gameRound.string = '';
+        cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
+        cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
-    this.umNotice && this.umNotice.show(data);
-  }
-
-  hideUmMessage() {
-    this.umNotice && this.umNotice.hide();
-  }
-
-  showMiniWarning(data) {
-    var notice = cc.instantiate(this.miniNoticePrefab);
-    var noticeComponent = notice.getComponent('mini_warning');
-    noticeComponent.text.string = data;
-    this.noticeNode.addChild(notice);
-  }
-
-  resetDataAndUI() {
-    _.forEach(this.betItems, (item) => {
-      item.clearBet();
-      item.resetHighlight();
-    });
-    this.animatedTime && (this.animatedTime.node.active = false);
-    this.timeWaitNode && (this.timeWaitNode.active = false);
-    this.statusHandler.currentStatusData = null;
-  }
-
-  protected formatGameRound(gameRoundId: any) {
-    return gameRoundId ? '#' + gameRoundId : '';
-  }
-
-  protected onGameHide() {
-    this.stopGame();
-  }
-
-  protected onGameShow() {
-    this.startGame();
-    this.registerViewGame();
-  }
-
-  protected bet(betData) {
-    if (this.isDisableGame) {
-      return;
+    setUpHandlers() {
+        this.initHandlers();
+        this.addHandlers(
+            this.umHandler,
+            this.noticeHandler,
+            this.statusHandler,
+            this.betHandler,
+            this.timeHandler,
+            this.errorHandler,
+            this.logsHandler,
+            this.configsHandler,
+            this.finishHandler
+        );
     }
 
-    if (this.waitingProcessing) {
-      this.showProcessingWarning(true);
-    } else {
-      this.waitingProcessing = true;
-      this.sendData(betData);
+    onDestroy() {
+        cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
+        cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
-  }
 
-  protected initBetChips() {
-    if (this.enableChips) {
-      var betChipsNode = cc.instantiate(this.betChipsPrefab);
-      this.betChips = betChipsNode.getComponent('BetChips') as BetChips;
-      var self = this;
-      this.betChips.init((bet) => {
-        self.currentBet = parseInt(bet);
-      });
-      this.betChipsContainer.addChild(betChipsNode);
+    onEnable() {
+        this.startGame();
+        this.registerViewGame();
     }
-  }
 
-  protected initGameAudios() {
-    var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
-    this.gameAudios = gameAudiosNode.getComponent('GameAudios') as GameAudios;
-  }
+    onDisable() {
+        this.stopGame();
+    }
 
-  protected initHandlers() {
-    this.umHandler = new GameBaseUmDataHandler(this);
-    this.noticeHandler = new GameBaseNoticeHandler(this);
-    this.statusHandler = new GameBaseStatusHandler(this);
-    this.betHandler = new GameBaseBetHandler(this);
-    this.timeHandler = new GameBaseTimeHandler(this);
-    this.errorHandler = new GameBaseErrorHandler(this);
-    this.logsHandler = new GameBaseLogsHandler(this);
-    this.finishHandler = new GameBaseFinishHandler(this);
-    this.configsHandler = new GameBaseConfigsHandler(this);
-  }
+    onData(data: any) {
+        for (let index = 0; index < this.dataHandlers.length; index++) {
+            let handler = this.dataHandlers[index];
+            if (index == 0 && handler.handle(data)) {
+                //um handler
+                break;
+            } else {
+                handler.handle(data);
+            }
+        }
+    }
 
-  protected addHandlers(...handlers: DataHandler[]): void {
-    this.dataHandlers.push(...handlers);
-  }
+    openGame() {
+        this.node.active = true;
+    }
 
-  protected clearIntervalAndTimeout() {
-    this.timeHandler.stopPlayTime();
-    this.statusHandler.clearTimeout();
-  }
+    closeGame() {
+        cc.RedT.audio.playUnClick();
+        this.node.active = false;
+    }
+
+    /** Clear all intervals and timeouts in game */
+    stopGame() {
+        this.gameState = GameState.Stopped;
+        this.clearIntervalAndTimeout();
+        this.resetDataAndUI();
+    }
+
+    disableGame() {
+        this.gameState = GameState.Disabled;
+        this.clearIntervalAndTimeout();
+        this.resetDataAndUI();
+    }
+
+    protected startGame() {
+        this.gameState = GameState.Started;
+    }
+
+    /** Register with game on server */
+    protected registerViewGame() {
+        this.sendData({ view: true, get_time: true, getLogs: true });
+    }
+
+    sendData(payload: any) {
+        cc.RedT.send({
+            g: {
+                [this.gameName]: payload,
+            },
+        });
+    }
+
+    showAcceptedBet(bet: number) {
+        GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
+    }
+
+    showWinningBet(bet: number) {
+        GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
+    }
+
+    setGameRound(gameRoundId) {
+        const gameRound = this.formatGameRound(gameRoundId);
+
+        if (gameRound) {
+            this.gameRound.string = gameRound;
+        }
+
+        const typingLabel = this.gameRound.node.parent.getComponent(TypingLabel);
+
+        if (typingLabel) {
+            if (this.timeHandler.isStartingNewGameRound) {
+                typingLabel.playTypingEffect();
+            } else {
+                typingLabel.adjustWidth();
+            }
+        }
+    }
+
+    showProcessingWarning(show: boolean) {
+        if (show) {
+            if (this.processingWarning && this.processingWarning.isValid) {
+                return;
+            }
+            var node = cc.instantiate(this.processWarningPrefab);
+            this.node.addChild(node);
+            this.processingWarning = node;
+        } else {
+            this.waitingProcessing = false;
+            if (!this.processingWarning || !this.processingWarning.isValid) {
+                return;
+            }
+            this.processingWarning.getComponent('ProcessingWarning').close();
+            this.processingWarning = null;
+        }
+    }
+
+    showUmMessage(data: any) {
+        if (this.isDisableGame) {
+            return;
+        }
+
+        this.umNotice && this.umNotice.show(data);
+    }
+
+    hideUmMessage() {
+        this.umNotice && this.umNotice.hide();
+    }
+
+    showMiniWarning(data) {
+        var notice = cc.instantiate(this.miniNoticePrefab);
+        var noticeComponent = notice.getComponent('mini_warning');
+        noticeComponent.text.string = data;
+        this.noticeNode.addChild(notice);
+    }
+
+    resetDataAndUI() {
+        _.forEach(this.betItems, (item) => {
+            item.clearBet();
+            item.resetHighlight();
+        });
+        this.animatedTime && (this.animatedTime.node.active = false);
+        this.timeWaitNode && (this.timeWaitNode.active = false);
+        this.statusHandler && (this.statusHandler.currentStatusData = null);
+    }
+
+    protected formatGameRound(gameRoundId: any) {
+        return gameRoundId ? '#' + gameRoundId : '';
+    }
+
+    protected onGameHide() {
+        this.stopGame();
+    }
+
+    protected onGameShow() {
+        this.startGame();
+        this.registerViewGame();
+    }
+
+    protected bet(betData) {
+        if (this.isDisableGame) {
+            return;
+        }
+
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+        } else {
+            this.waitingProcessing = true;
+            this.sendData(betData);
+        }
+    }
+
+    protected initBetChips() {
+        if (this.enableChips) {
+            var betChipsNode = cc.instantiate(this.betChipsPrefab);
+            this.betChips = betChipsNode.getComponent('BetChips') as BetChips;
+            var self = this;
+            this.betChips.init((bet) => {
+                self.currentBet = parseInt(bet);
+            });
+            this.betChipsContainer.addChild(betChipsNode);
+        }
+    }
+
+    protected initGameAudios() {
+        var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+        this.gameAudios = gameAudiosNode.getComponent('GameAudios') as GameAudios;
+    }
+
+    protected initHandlers() {
+        this.umHandler = new GameBaseUmDataHandler(this);
+        this.noticeHandler = new GameBaseNoticeHandler(this);
+        this.statusHandler = new GameBaseStatusHandler(this);
+        this.betHandler = new GameBaseBetHandler(this);
+        this.timeHandler = new GameBaseTimeHandler(this);
+        this.errorHandler = new GameBaseErrorHandler(this);
+        this.logsHandler = new GameBaseLogsHandler(this);
+        this.finishHandler = new GameBaseFinishHandler(this);
+        this.configsHandler = new GameBaseConfigsHandler(this);
+    }
+
+    protected addHandlers(...handlers: DataHandler[]): void {
+        this.dataHandlers.push(...handlers);
+    }
+
+    protected clearIntervalAndTimeout() {
+        this.timeHandler.stopPlayTime();
+        this.statusHandler.clearTimeout();
+    }
 }

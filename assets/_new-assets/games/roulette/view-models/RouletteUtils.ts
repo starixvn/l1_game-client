@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { RouletteBetInfo, RouletteBetType } from "./Roulette";
 
 export default class RouletteUtils {
@@ -114,14 +115,7 @@ export default class RouletteUtils {
     }
 
     public static getChipValues(bet: number): any {
-        let total = bet;
-        const values = {};
-        this.options.forEach(value => {
-            const count = Math.floor(total / value);
-            values[value] = count;
-            total = total % value;
-        });
-        return values;
+        return GameUtils.getChipValues(bet, this.options);
     }
 
     public static createChips(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
