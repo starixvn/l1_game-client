@@ -1,16 +1,16 @@
 import baseControll from "../../../BaseController";
 import BaseSocketIOController from "../../../BaseSocketIOController";
+import GameUtils from "../../../common/GameUtils";
 import helper from "../../../common/helpers/Helper";
 import logger from "../../../common/logger";
-import configs from "../../../Configs";
+import SabaConfigs from "../../../SabaConfigs";
 import * as authManager from "./../../../common/auth/AuthManager";
 
 const sentryLogger = logger();
 
-var header = require('Header'),
-  center = require('Menu'),
-  dialog = require('Dialog'),
-  newsContents = require('NewsContents');
+var header = require("Header"),
+  dialog = require("Dialog"),
+  newsContents = require("NewsContents");
 
 cc.Class({
   extends: cc.Component,
@@ -111,7 +111,7 @@ cc.Class({
       cc.RedT.needShowLuckyWheelIcon && this.renderLuckyWheelIcon();
     }
 
-    this.center.node.on('size-changed', this.repositionMenu, this);
+    this.center.on("size-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
       this.center.scale = 0.8;
     }
@@ -328,16 +328,7 @@ cc.Class({
   openGameSSO: function () {
     if (window.openGameId) {
       const gameId = parseInt(window.openGameId);
-      if (configs.gameRoomNewSocketIds.includes(gameId)) {
-        cc.RedT.MiniPanel.openNewGameSocket(null, gameId);
-      } else if (configs.gameMiniNewSocketIds.includes(gameId)) {
-        cc.RedT.MiniPanel.openNewSocketMiniGame(null, gameId);
-      } else if (configs.gameRoomIds.includes(gameId)) {
-        cc.RedT.MiniPanel.openGameRoom(null, gameId);
-      } else {
-        cc.RedT.MiniPanel.openGame(null, gameId);
-        this.openLuckyWheel();
-      }
+      GameUtils.openGame(gameId, cc.RedT.MiniPanel);
       window.openGameId = null;
     } else {
       !this.inRoomGameId && this.openLuckyWheel();
