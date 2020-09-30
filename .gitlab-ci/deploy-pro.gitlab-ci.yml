@@ -4,11 +4,11 @@ build_cocos_prod:
     - .deploy:prod:rules
   script:
     - echo "====== Build Cocos Web Mobile ======"
-    - cp ./assets/_new-assets/Configs.${CI_ENVIRONMENT_NAME}.js ./assets/_new-assets/Configs.js
-    - cp ./build-files/web/index-${CI_ENVIRONMENT_NAME}.html ./build-templates/web-mobile/index.html
+    - cp ./assets/_new-assets/Configs.${DEPLOY_ENV}.js ./assets/_new-assets/Configs.js
+    - cp ./build-files/web/index-${DEPLOY_ENV}.html ./build-templates/web-mobile/index.html
     - /Applications/CocosCreator/Creator/2.4.0/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true"
   environment:
-    name: PRO
+    name: PROD
 
 build_game_image_prod:
   stage: build
@@ -19,7 +19,7 @@ build_game_image_prod:
   dependencies:
     - build_cocos_prod
   environment:
-    name: PRO
+    name: PROD
 
 post_build_prod:
   extends:
@@ -27,7 +27,7 @@ post_build_prod:
     - .deploy:prod-auto:rules
   needs: ['build_game_image_prod']
   environment:
-    name: PRO
+    name: PROD
 
 deploy_prod:
   extends:
@@ -41,4 +41,4 @@ deploy_prod:
     DOCKER_PUBLIC_PORT: 8100
     DOCKER_PRIVATE_PORT: 80
   environment:
-    name: PRO
+    name: PROD
