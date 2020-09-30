@@ -1,4 +1,5 @@
 import * as helper from "./helpers/Helper";
+import * as SabaConfigs from "../../_new-assets/SabaConfigs"
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration: number = 1, startY: number = 0, destY: number = 100) {
@@ -65,5 +66,15 @@ export default class GameUtils {
             total = total % value;
         });
         return values;
+    }
+
+    public static openGame(gameId, miniPanel) {
+        if (SabaConfigs.gameRoomNewSocketIds.includes(gameId)) {
+            miniPanel.openNewGameSocket(null, gameId);
+        } else if (SabaConfigs.gameRoomIds.includes(gameId)) {
+            miniPanel.openGameRoom(null, gameId);
+        } else {
+            miniPanel.openGame(null, gameId);
+        }
     }
 }

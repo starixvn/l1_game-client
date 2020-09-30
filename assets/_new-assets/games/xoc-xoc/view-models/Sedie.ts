@@ -1,4 +1,4 @@
-import { gameIds } from "../../../Configs";
+import { games } from "../../../SabaConfigs";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
@@ -61,9 +61,8 @@ export default class Sedie extends NewSocketGameBase {
     }
 
     protected internalInit() {
-        this.init("XocXoc", new SedieConfigs(), null, 1, gameIds.XocXoc);
+        this.init("XocXoc", new SedieConfigs(), null, 1, games.XocXoc.id);
         this.finishShowResult = false;
-
     }
 
     initHandlers() {

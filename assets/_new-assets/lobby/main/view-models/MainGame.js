@@ -1,16 +1,16 @@
-import baseControll from '../../../BaseController';
-import BaseSocketIOController from '../../../BaseSocketIOController';
-import helper from '../../../common/helpers/Helper';
-import logger from '../../../common/logger';
-import configs from '../../../Configs';
-import * as authManager from './../../../common/auth/AuthManager';
+import baseControll from "../../../BaseController";
+import BaseSocketIOController from "../../../BaseSocketIOController";
+import GameUtils from "../../../common/GameUtils";
+import helper from "../../../common/helpers/Helper";
+import logger from "../../../common/logger";
+import SabaConfigs from "../../../SabaConfigs";
+import * as authManager from "./../../../common/auth/AuthManager";
 
 const sentryLogger = logger();
 
-var header = require('Header'),
-  center = require('Menu'),
-  dialog = require('Dialog'),
-  newsContents = require('NewsContents');
+var header = require("Header"),
+  dialog = require("Dialog"),
+  newsContents = require("NewsContents");
 
 cc.Class({
   extends: cc.Component,
@@ -20,7 +20,7 @@ cc.Class({
       type: cc.Prefab,
     },
     header: header,
-    center: center,
+    center: cc.Node,
     mainScroll: cc.Node,
     gameAds: cc.Node,
     scrollContent: cc.Node,
@@ -107,9 +107,9 @@ cc.Class({
       this.header.setAvatar(cc.RedT.user.avatarId);
     }
 
-    this.center.node.on('size-changed', this.repositionMenu, this);
+    this.center.on("size-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
-      this.center.node.scale = 0.8;
+      this.center.scale = 0.8;
     }
 
     const gameIconLayout = this.mainScroll.getComponent('GameIconLayout');
@@ -139,9 +139,9 @@ cc.Class({
   },
   outRoomGame: function () {
     //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
-    return new Promise((resolve)=>{
-        BaseSocketIOController.getInstance().closeMiniGameSockets();
-        resolve();
+    return new Promise((resolve) => {
+      BaseSocketIOController.getInstance().closeMiniGameSockets();
+      resolve();
     });
   },
 
@@ -306,23 +306,14 @@ cc.Class({
   openGameSSO: function () {
     if (window.openGameId) {
       const gameId = parseInt(window.openGameId);
-
-      if (configs.gameRoomNewSocketIds.includes(gameId)) {
-        cc.RedT.MiniPanel.openNewGameSocket(null, gameId);
-      } else if (configs.gameMiniNewSocketIds.includes(gameId)) {
-        cc.RedT.MiniPanel.openNewSocketMiniGame(null, gameId);
-      } else if (configs.gameRoomIds.includes(gameId)) {
-        cc.RedT.MiniPanel.openGameRoom(null, gameId);
-      } else {
-        cc.RedT.MiniPanel.openGame(null, gameId);
-      }
+      GameUtils.openGame(gameId, cc.RedT.MiniPanel);
       window.openGameId = null;
     }
   },
 
   openInRoomGame(gameId) {
-    if (configs.gameRoomNewSocketIds.includes(parseInt(gameId))) {
-      this.center.openNewGameSocket(null, gameId);
+    if (SabaConfigs.gameRoomNewSocketIds.includes(parseInt(gameId))) {
+      cc.RedT.MiniPanel.openNewGameSocket(null, gameId);
     }
   },
   AllReset: function () {

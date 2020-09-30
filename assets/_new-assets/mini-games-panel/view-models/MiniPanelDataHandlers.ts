@@ -1,10 +1,10 @@
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import * as authManager from "./../../common/auth/AuthManager";
-import * as configs from "./../../Configs";
+import * as SabaConfigs from "./../../SabaConfigs";
 import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelDataHandlers {
-  constructor(private main: MiniPanel) {}
+  constructor(private main: MiniPanel) { }
 
   handleData(data) {
     if (data.mini) {
@@ -72,23 +72,23 @@ export default class MiniPanelDataHandlers {
     var error = apiErrorData.apiError;
     this.main.showErrorNotice(error);
 
-    if (error.gameTypeId == configs.gameIds.TaiXiu && this.main.taiXiu && this.main.taiXiu.TX_Main) {
+    if (error.gameTypeId == SabaConfigs.games.TaiXiu.id && this.main.taiXiu && this.main.taiXiu.TX_Main) {
       this.main.taiXiu.TX_Main.onData(apiErrorData);
     }
 
-    if (error.gameTypeId == configs.gameIds.TaiXiuTurbo && this.main.taiXiuTurbo && this.main.taiXiuTurbo.TX_Main) {
+    if (error.gameTypeId == SabaConfigs.games.TaiXiuTurbo.id && this.main.taiXiuTurbo && this.main.taiXiuTurbo.TX_Main) {
       this.main.taiXiuTurbo.TX_Main.onData(apiErrorData);
     }
 
-    if (error.gameTypeId == configs.gameIds.BauCua && this.main.bauCua) {
+    if (error.gameTypeId == SabaConfigs.games.BauCua.id && this.main.bauCua) {
       this.main.bauCua.onData(apiErrorData);
     }
 
-    if (error.gameTypeId == configs.gameIds.ChanLe && this.main.chanLe) {
+    if (error.gameTypeId == SabaConfigs.games.ChanLe.id && this.main.chanLe) {
       this.main.chanLe.onData(apiErrorData);
     }
 
-    if (error.gameTypeId == configs.gameIds.ChanLeTurbo && this.main.chanLeTurbo) {
+    if (error.gameTypeId == SabaConfigs.games.ChanLeTurbo.id && this.main.chanLeTurbo) {
       this.main.chanLeTurbo.onData(apiErrorData);
     }
   }

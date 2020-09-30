@@ -6,8 +6,8 @@ import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
 import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
 import RongHo from "../../games/rong-ho/view-models/RongHo";
 import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
+import SabaConfigs from "../../SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
-import * as configs from "./../../Configs";
 import GameIconLayout from "./GameIconLayout";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
@@ -214,13 +214,14 @@ export default class MiniPanel extends cc.Component {
     authManager.removeInRoomGameId();
 
     if (!cc.RedT.isConnected) {
-      const gameName = configs.gameNames[id];
+      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === id);
+      const gameName = SabaConfigs.games[key].name;
       this.onConnectSocketFailed(gameName);
       return;
     }
 
     if (cc.RedT.IS_LOGIN) {
-      const regName = configs.gameRoomRegNames[id];
+      const regName = SabaConfigs.gameRoomRegNames[id];
       this.loading.node.active = true;
       cc.RedT.inGame.outRoomGame().then(() => {
         cc.RedT.send({ g: { reg: regName } });
@@ -259,9 +260,9 @@ export default class MiniPanel extends cc.Component {
     var message = '';
 
     if (error.gameTypeId) {
-      message += `Game ${configs.gameNames[error.gameTypeId]} (#${
-        error.gameRoundId
-      })\r\n`;
+      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === error.gameTypeId);
+      const gameName = SabaConfigs.games[key].name;
+      message += `Game ${gameName} (#${error.gameRoundId})\r\n`;
     }
 
     message += `${error.message}.`;

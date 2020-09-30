@@ -236,10 +236,7 @@ export default class GameBase extends cc.Component {
 
     setGameRound(gameRoundId) {
         const gameRound = this.formatGameRound(gameRoundId);
-
-        if (gameRound) {
-            this.gameRound.string = gameRound;
-        }
+        this.gameRound.string = gameRound;
 
         const typingLabel = this.gameRound.node.parent.getComponent(TypingLabel);
 
