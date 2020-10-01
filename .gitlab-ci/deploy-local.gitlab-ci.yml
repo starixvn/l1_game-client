@@ -1,0 +1,39 @@
+build_cocos_local:
+  extends:
+    - .build_cocos
+    - .deploy:local:rules
+  environment:
+    name: LOCAL
+
+build_game_image_local:
+  stage: build
+  extends:
+    - .build_image
+    - .deploy:local:rules
+  needs: ['build_cocos_local']
+  dependencies:
+    - build_cocos_local
+  environment:
+    name: LOCAL
+
+post_build_local:
+  extends:
+    - .post_build
+    - .deploy:local:rules
+  needs: ['build_game_image_local']
+  environment:
+    name: LOCAL
+
+deploy_local:
+  extends:
+    - .base_deploy_local
+    - .deploy:local:rules
+  needs: ['post_build_local']
+  variables:
+    SERVER_IP: $LOCAL_IP
+    SERVER_USER: $LOCAL_USER
+    SERVER_PORT: $LOCAL_SSH_PORT
+    DOCKER_PUBLIC_PORT: 8000
+    DOCKER_PRIVATE_PORT: 80
+  environment:
+    name: LOCAL
