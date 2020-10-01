@@ -1,50 +1,41 @@
+image: docker:19.03.12
+services:
+  - docker:19.03.12-dind
+
+variables:
+  WORKING_PATH: /var/www/l1/game-client/
+  DOCKER_SERVICE_NAME: l1-game-client
+  DOCKER_IMAGE_PATH: l1/game-client
+  PROJECT_NAME: l1-game-client
+
 stages:
+  - test
+  - build_game
   - build
+  - post-build
   - deploy
-  # - post-deploy
-
-before_script:
-  - echo $CURRENT_TAG
-  - if echo "$CI_COMMIT_TAG" | grep -q "$CURRENT_TAG";
-    then
-      echo "Continue deploying";
-    elif [ "$CI_COMMIT_BRANCH" == "master" ]; then
-      echo "Continue deploying";
-    else
-      echo "This job has tag is not used for current repository";
-      exit 1;
-    fi
-  - echo "====== Build Cocos Web Mobile ======"
-  - eval $(ssh-agent -s)
-  - echo "$TARGET_SERVER_SECRET_KEY_BASE64" | ssh-add -
-  - mkdir -p ~/.ssh
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-  - git config --global user.email "luminet.minigame.app@gmail.com"
-  - git config --global user.name "Luminet"
-  - if [ "$CI_ENVIRONMENT_NAME" == "PRO" ]; 
-    then
-      export GIT_BRANCH=master;
-    else
-      export GIT_BRANCH=$CI_ENVIRONMENT_NAME;
-    fi
-  - echo $GIT_BRANCH
-
-build:
-  stage: build
-  script:
-    - /Applications/CocosCreator/Creator/2.4.0/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true"
-  tags:
-    - deploy-cocos-web-mobile
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      when: always
 
 include:
-  - local: .gitlab-ci-push-git-compiled-web.yml
-  - local: .gitlab-ci-local.yml
-  - local: .gitlab-ci-sit.yml
-  - local: .gitlab-ci-uat.yml
-  - local: .gitlab-ci-pro.yml
-  - local: .gitlab-ci-ios.yml
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'sonarqube/sonarqube.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'docker/before-script-docker.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'rules/l1-rules.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'docker/build-docker-image-cocos.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'docker/post-build-docker-image.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'docker/deploy-docker-cocos.gitlab-ci.yml'
+  - local: .gitlab-ci/build-cocos.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-local.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-sit.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-uat.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-pro.gitlab-ci.yml
