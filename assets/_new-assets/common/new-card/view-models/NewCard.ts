@@ -6,6 +6,13 @@ export interface CardModel {
     suit: number;
 }
 
+export enum CardAnimation {
+    // DealerToHand = "dealer_to_player",
+    DealerToHand = "chia-bai",
+    DropCard = "thu-bai",
+    DealerCheckBlackJackFail = "dealer_check_blackjack_fail",
+}
+
 @ccclass
 export default class NewCard extends cc.Component {
     @property(cc.SpriteAtlas)
@@ -45,7 +52,20 @@ export default class NewCard extends cc.Component {
         }
     }
 
+    faceUp() {
+        this.setFaceUp(true);
+    }
+
+    faceDown() {
+        this.setFaceUp(false);
+    }
+
     private showCardBack() {
         this.image.spriteFrame = this.atlas.getSpriteFrame("BACK_1");
+    }
+
+    playAnimation(type: CardAnimation, duration: number) {
+        const state = this.animation.play(type);
+        state.speed = state.duration / duration;
     }
 }

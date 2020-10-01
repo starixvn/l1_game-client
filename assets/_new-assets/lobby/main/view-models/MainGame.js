@@ -126,7 +126,7 @@ cc.Class({
     const scrollContentWidth = this.scrollContent.width + adsWidth;
     const scrollView = this.scrollContent.parent.getComponent(cc.ScrollView);
     const adsWidget = this.gameAds.getComponent(cc.Widget);
-    if (scrollContentWidth < this.center.node.width) {
+    if (scrollContentWidth < this.center.width) {
       scrollView.enabled = false;
       this.scrollContent.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.scrollContent.position.y);
       adsWidget.enabled = false;

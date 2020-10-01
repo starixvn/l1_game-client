@@ -39,32 +39,48 @@ export default class CardLayout extends cc.Component {
         this.updateLayout();
     }
 
+    cardSizeWidth = 76;
+    selectedPositionY = 30;
+    _selected = false;
+
     onLoad() {
-        this.content.on(cc.Node.EventType.CHILD_ADDED, this.updateLayout, this);
-        this.content.on(cc.Node.EventType.CHILD_REMOVED, this.updateLayout, this);
-        this.content.on(cc.Node.EventType.CHILD_REORDER, this.updateLayout, this);
-        this.content.removeAllChildren();
+        if (CC_EDITOR) {
+            this.content.on(cc.Node.EventType.CHILD_ADDED, this.updateLayout, this);
+            this.content.on(cc.Node.EventType.CHILD_REMOVED, this.updateLayout, this);
+            this.content.on(cc.Node.EventType.CHILD_REORDER, this.updateLayout, this);
+        } else {
+            this.content.removeAllChildren();
+        }
     }
 
     updateLayout() {
         const half = this.content.childrenCount / 2;
 
         let width = 0;
-        const halfCardSize = 76 / 2;
+        const halfCardSize = this.cardSizeWidth / 2;
         this.content.children.forEach((child, index) => {
             child.zIndex = index;
             child.x = halfCardSize + this.ratio * index * this.spacingX;
             // child.angle = (index - half) * 1;
             // child.y = Math.abs(index - half) * 0.45;
+
+            child.angle = (index - half) * 1;
+            child.y = Math.abs(index - half) * 0.45;
             width = child.x;
+            child.scaleY = this._selected ? 1 : this.scaleY;
         });
 
-        width += halfCardSize;// this.content.children[0].width;
+        width += halfCardSize;
         this.content.width = width;
         this.shadow.width = width;
     }
 
+    getNextPosition(): cc.Vec2 {
+        return cc.v2(this.cardSizeWidth / 2 + this.ratio * (this.content.childrenCount - 1) * this.spacingX, this.content.childrenCount > 0 ? this.content.children[0].y : 0);
+    }
+
     changeCardView(selected: boolean) {
+        this._selected = selected;
         if (selected) {
             this.content.children.forEach((child, index) => {
                 cc.tween(child)

@@ -1,18 +1,35 @@
-import NewCard from "../../../common/new-card/view-models/NewCard";
+import * as helper from "../../../common/helpers/Helper";
 import CardLayout from "./CardLayout";
 
-const { ccclass, property } = cc._decorator;
+export interface HandModel {
+    id: string,
+    pos: number,
+    bet: number,
+    total: any,
+    isStand: boolean,
+    cards: any[],
+}
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class HandPlace extends cc.Component {
-    @property(cc.Node)
-    betPlace: cc.Node = null;
+    @property(cc.Button)
+    betPlace: cc.Button = null;
 
     @property(CardLayout)
     cardLayout: CardLayout = null;
 
     @property(cc.Node)
     clearBetButton: cc.Node = null;
+
+    @property(cc.Label)
+    betValue: cc.Label = null;
+
+    @property(cc.Label)
+    statusValue: cc.Label = null;
+
+    @property(cc.Label)
+    handId: cc.Label = null;
 
     @property
     _selected = false;
@@ -26,18 +43,43 @@ export default class HandPlace extends cc.Component {
         this._selected = value;
         this.updateDisplay();
     }
+
+    private data: HandModel = null;
+
+    get isStand() {
+        return this.data.isStand;
+    }
+
+    get isActive() {
+        return this.data != null;
+    }
+
     private _betAmount = 0;
     public betItemClickCallback = () => { }
     public clearBetClickCallback = () => { }
 
     onLoad() {
-        this.clearBetButton.on('click', this.onClearBetClick, this);
-        this.clearBetButton.active = false;
+        if (this.clearBetButton) {
+            this.clearBetButton.on('click', this.onClearBetClick, this);
+            this.clearBetButton.active = false;
+        }
+
+        this.betValue && this.showBetValue(false);
+        this.showStatus(false);
+        this.handId && this.showHandId(false);
     }
 
     updateDisplay() {
         this.cardLayout.shadow.active = this.selected;
         this.cardLayout.changeCardView(this.selected);
+    }
+
+    setData(data: HandModel) {
+        this.data = { ...data };
+    }
+
+    clearData() {
+        this.data = null;
     }
 
     onBetItemClick() {
@@ -62,6 +104,52 @@ export default class HandPlace extends cc.Component {
     }
 
     addCard(card: cc.Node) {
-        this.cardLayout.content.addChild(card);
+        this.cardLayout.content.addChild(card, 1000); //make sure higher zIndex
+    }
+
+    getCards(): cc.Node[] {
+        return this.cardLayout.content.children;
+    }
+
+    showBetValue(show: boolean) {
+        this.betValue.node.parent.active = show;
+    }
+
+    updateDisplayBetValue(bet: number) {
+        this.showBetValue(true);
+        this.betValue.string = helper.numberWithCommas(bet);
+    }
+
+    showStatus(show: boolean) {
+        this.statusValue.node.parent.active = show;
+    }
+
+    updateDisplayStatus(data: any) {
+        this.showStatus(true);
+        if (Array.isArray(data)) {
+            this.statusValue.string = `${data[0]} / ${data[1]}`;
+        } else {
+            this.statusValue.string = data;
+        }
+    }
+
+    showClearBetButton(show: boolean) {
+        this.clearBetButton.active = show;
+    }
+
+    enablePlaceChip(enable: boolean) {
+        this.betPlace.interactable = enable;
+    }
+
+    highlightPlace(highlight: boolean) {
+        this.betPlace.node.children[0].active = highlight;
+    }
+
+    showHandId(show: boolean) {
+        this.handId.node.active = show;
+    }
+
+    setHandId(id: string) {
+        this.handId.string = `#${id}`;
     }
 }
