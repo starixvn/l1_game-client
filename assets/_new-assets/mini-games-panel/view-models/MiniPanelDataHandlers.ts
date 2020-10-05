@@ -2,6 +2,7 @@ import { NoticeData } from '../../common/notice/view-models/Notice';
 import * as authManager from './../../common/auth/AuthManager';
 import * as configs from './../../Configs';
 import MiniPanel from './MiniPanel';
+import { Node } from '../../../../creator';
 
 export default class MiniPanelDataHandlers {
     constructor(private main: MiniPanel) {
@@ -100,6 +101,7 @@ export default class MiniPanelDataHandlers {
             isInfo: false,
         };
 
+        this.main.loading.node.active = false;
         this.main.showNotice(noticeData);
     }
 }
