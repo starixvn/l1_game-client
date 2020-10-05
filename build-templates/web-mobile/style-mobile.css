@@ -81,6 +81,20 @@ p.footer {
   font-size: x-small;
 }
 
+
+@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation:portrait){
+  .flash-container {
+    height: 100vw;
+    transform: rotate(90deg);
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation:landscape){
+  .flash-container {
+     transform: rotate(0deg);
+  }
+}
+
 .flash-container {
   position: absolute;
   top: 0;
@@ -97,6 +111,13 @@ p.footer {
   width: auto;
   height: 18.066vh;
 }
+
+@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation:portrait){ 
+  .splash {
+    background-size: auto 10vh;
+  }
+}
+
 
 .text {
   margin-bottom: 36px;
