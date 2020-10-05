@@ -136,7 +136,7 @@ export default class RongHo extends cc.Component {
   private statusTimeout: number;
   private cuoc: any;
   private resultAnimating = false;
-  private cardsUtil: any;
+  public cardsUtil: any;
   private betChips: BetChips = null;
   private gameAudios: GameAudios;
 
@@ -233,7 +233,9 @@ export default class RongHo extends cc.Component {
   //#endregion
 
   //#region Component Methods
-  onDestroy() { }
+  onDestroy() {
+    this.cardsUtil.node.destroy();
+  }
 
   onLoad() {
     if (!cc.sys.isMobile) {
