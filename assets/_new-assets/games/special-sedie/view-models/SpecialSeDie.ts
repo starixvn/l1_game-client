@@ -161,4 +161,9 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     historyComponent.init(this.socket);
     this.currentMiniPanel.node.addChild(dialog);
   }
+
+  openPresetBetDialog() {
+    cc.RedT.audio.playClick();
+    this.presetBet.toggle();
+  }
 }
