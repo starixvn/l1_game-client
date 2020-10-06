@@ -3,7 +3,7 @@ import { gameIds } from "../../Configs";
 import GameBase from "./GameBase";
 
 export default abstract class NewSocketMiniGameBase extends GameBase {
-  private socket: SocketIOClient.Socket;
+  protected socket: SocketIOClient.Socket;
   abstract get gameId(): number;
 
   startGame() {

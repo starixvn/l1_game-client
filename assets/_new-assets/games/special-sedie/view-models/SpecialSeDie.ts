@@ -41,6 +41,12 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   @property(cc.SpriteFrame)
   dotWhite: cc.SpriteFrame = null;
 
+  @property(cc.Prefab)
+  guidePrefab: cc.Prefab = null;
+
+  @property(cc.Prefab)
+  historyPrefab: cc.Prefab = null;
+
   private roundHistory: SedieRoundHistory;
   private miniRoundHistory: SedieMiniRoundHistory;
 
@@ -112,5 +118,19 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
       );
       this.updateRoundHistory();
     }
+  }
+
+  public openGuide() {
+    let guide = cc.instantiate(this.guidePrefab);
+    let specialSedieGuide = guide.getComponent("SpecialSeDieGuide");
+    specialSedieGuide.init(this.gameConfigs);
+    this.currentMiniPanel.node.addChild(guide);
+  }
+
+  public openHistory() {
+    let dialog = cc.instantiate(this.historyPrefab);
+    let historyComponent = dialog.getComponent("SpecialSeDieHistory");
+    historyComponent.init(this.socket);
+    this.currentMiniPanel.node.addChild(dialog);
   }
 }
