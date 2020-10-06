@@ -1,206 +1,276 @@
-import * as configs from "../../Configs";
-import ChanLeTurboConfigs from "../../games/chan-le-turbo/view-models/ChanLeTurboConfigs";
-import { ChanLeConfigs } from "../../games/chan-le/view-models/ChanLeConfigs";
-import { MiniSedieConfigs } from "../../games/mini-sedie/viewModels/MiniSedieConfigs";
-import { RongHoConfigs } from "../../games/rong-ho/view-models/RongHoConfigs";
-import MiniPanel from "./MiniPanel";
+import * as configs from '../../Configs';
+import { gameIds } from '../../Configs';
+import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
+import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
+import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
+import { RongHoConfigs } from '../../games/rong-ho/view-models/RongHoConfigs';
+import { SpecialSeDieConfigs } from '../../games/special-sedie/view-models/SpecialSeDieConfigs';
+import MiniPanel from './MiniPanel';
+import BaseSocketIOController from '../../BaseSocketIOController';
+import { buildServerUrl } from '../.././common/helpers/UrlHelper';
 
 export default class MiniPanelMiniGameInitializers {
-    constructor(private main: MiniPanel) {
+  constructor(private main: MiniPanel) {}
+
+  showGame(gameComponent) {
+    if (gameComponent) {
+      gameComponent.node.active = true;
+      this.main.miniGames &&
+        this.main.miniGames.insertChild(
+          gameComponent.node,
+          this.main.miniGames.children.length - 1
+        );
     }
+  }
 
-    showGame(gameComponent) {
-        if (gameComponent) {
-            gameComponent.node.active = true;
-            this.main.miniGames && this.main.miniGames.insertChild(gameComponent.node, this.main.miniGames.children.length - 1);
-        }
-    }
+  openMiniGame(
+    prefabPath: string,
+    componentName: string,
+    isAlreadyOpened: boolean,
+    initFunc: (gameComponent) => void,
+    showGameFunc: () => void
+  ) {
+    this.main.popupMiniGame.hideListGame();
+    if (cc.RedT.IS_LOGIN) {
+      let gameComponent: any;
 
-    openMiniGame(
-        prefabPath: string,
-        componentName: string,
-        isAlreadyOpened: boolean,
-        initFunc: (gameComponent) => void,
-        showGameFunc: () => void
-    ) {
-        this.main.popupMiniGame.hideListGame();
-        if (cc.RedT.IS_LOGIN) {
-            let gameComponent: any;
+      if (!isAlreadyOpened) {
+        this.main.loading.node.active = true;
+        this.main.loading.setDefaultPercent();
 
-            if (!isAlreadyOpened) {
-                this.main.loading.node.active = true;
-                this.main.loading.setDefaultPercent();
-
-                cc.loader.loadRes(
-                    prefabPath,
-                    (completedCount, total, item) => {
-                        this.main.loading && this.main.loading.onProgress(completedCount, total, item);
-                    },
-                    (err: Error, prefab: any) => {
-                        if (!this.main.node || !this.main.node.isValid) {
-                            return;
-                        }
-                        if (err || prefab === null) {
-                            this.main.loading.node.active = false;
-                            this.main.onForceReload();
-                            return;
-                        }
-
-                        let node = cc.instantiate(prefab);
-                        gameComponent = node.getComponent(componentName);
-                        initFunc ? initFunc(gameComponent) : gameComponent.init(this);
-                        this.main.miniGames && this.main.miniGames.addChild(gameComponent.node);
-                        gameComponent.openGame();
-                        this.main.loading.node.active = false;
-                    }
-                );
-            } else {
-                showGameFunc();
+        cc.loader.loadRes(
+          prefabPath,
+          (completedCount, total, item) => {
+            this.main.loading &&
+              this.main.loading.onProgress(completedCount, total, item);
+          },
+          (err: Error, prefab: any) => {
+            if (!this.main.node || !this.main.node.isValid) {
+              return;
             }
-        } else {
-            this.main.forceKickedOut();
+            if (err || prefab === null) {
+              this.main.loading.node.active = false;
+              this.main.onForceReload();
+              return;
+            }
+
+            let node = cc.instantiate(prefab);
+            gameComponent = node.getComponent(componentName);
+            initFunc ? initFunc(gameComponent) : gameComponent.init(this);
+            this.main.miniGames &&
+              this.main.miniGames.addChild(gameComponent.node);
+            gameComponent.openGame();
+            this.main.loading.node.active = false;
+          }
+        );
+      } else {
+        showGameFunc();
+      }
+    } else {
+      this.main.forceKickedOut();
+    }
+  }
+
+  openGame(id) {
+    if (!cc.RedT.isConnected) {
+      const gameName = configs.gameNames[id];
+      this.main.onConnectSocketFailed(gameName, false);
+      return;
+    }
+
+    id = parseInt(id);
+    switch (id) {
+      case configs.gameIds.TaiXiu:
+        this.openTaiXiu();
+        break;
+      case configs.gameIds.BauCua:
+        this.openBauCua();
+        break;
+      case configs.gameIds.TaiXiuTurbo:
+        this.openTaiXiuTurbo();
+        break;
+      case configs.gameIds.ChanLe:
+        this.openChanLe();
+        break;
+      case configs.gameIds.ChanLeTurbo:
+        this.openChanLeTurbo();
+        break;
+      case configs.gameIds.RongHo:
+        this.openRongHo();
+        break;
+      case configs.gameIds.MiniSedie:
+        this.openMiniSedie();
+        break;
+      case configs.gameIds.KenoProViet:
+        this.openKenoProViet();
+        break;
+      default:
+        break;
+    }
+  }
+
+  openTaiXiu() {
+    this.openMiniGame(
+      'games/tai-xiu/views/TaiXiu',
+      'TX',
+      this.main.taiXiu && this.main.taiXiu.node,
+      (gameComponent) => {
+        this.main.taiXiu = gameComponent;
+        this.main.taiXiu.init('taixiu', this.main);
+      },
+      () => this.showGame(this.main.taiXiu)
+    );
+  }
+
+  openTaiXiuTurbo() {
+    this.openMiniGame(
+      'games/tai-xiu-turbo/views/TurboTaiXiu',
+      'TurboTX',
+      this.main.taiXiuTurbo && this.main.taiXiuTurbo.node,
+      (gameComponent) => {
+        this.main.taiXiuTurbo = gameComponent;
+        this.main.taiXiuTurbo.init('taixiu_turbo', this.main);
+      },
+      () => this.showGame(this.main.taiXiuTurbo)
+    );
+  }
+
+  openKenoProViet() {
+    this.openMiniGame(
+      'games/keno-pro-viet/views/KenoProViet',
+      'KenoProViet',
+      this.main.kenoProViet != null && this.main.kenoProViet.node != null,
+      (gameComponent) => {
+        this.main.kenoProViet = gameComponent;
+        this.main.kenoProViet.init(this.main);
+      },
+      () => this.showGame(this.main.kenoProViet)
+    );
+  }
+
+  openBauCua() {
+    this.openMiniGame(
+      'games/bau-cua/views/BauCua',
+      'BauCuaMini',
+      this.main.bauCua && this.main.bauCua.node,
+      (gameComponent) => {
+        this.main.bauCua = gameComponent;
+        this.main.bauCua.init('baucua', this.main);
+      },
+      () => this.showGame(this.main.bauCua)
+    );
+  }
+
+  openRongHo() {
+    this.openMiniGame(
+      'games/rong-ho/views/RongHo',
+      'RongHo',
+      this.main.rongHo != null && this.main.rongHo.node != null,
+      (gameComponent) => {
+        this.main.rongHo = gameComponent;
+        this.main.rongHo.init(this.main, 'dragon_tiger', new RongHoConfigs());
+      },
+      () => this.showGame(this.main.rongHo)
+    );
+  }
+
+  openMiniSedie() {
+    this.openMiniGame(
+      'games/mini-sedie/views/MiniSedie',
+      'MiniSedie',
+      this.main.miniSedie != null,
+      (gameComponent) => {
+        this.main.miniSedie = gameComponent;
+        this.main.miniSedie.init(
+          'miniSedie',
+          new MiniSedieConfigs(),
+          this.main
+        );
+      },
+      () => this.showGame(this.main.miniSedie)
+    );
+  }
+
+  openChanLe() {
+    this.openMiniGame(
+      'games/chan-le/views/ChanLe',
+      'ChanLe',
+      this.main.chanLe != null,
+      (gameComponent) => {
+        this.main.chanLe = gameComponent;
+        this.main.chanLe.init(
+          this.main,
+          'chanle',
+          new ChanLeConfigs(),
+          'Chẵn Lẻ'
+        );
+      },
+      () => this.showGame(this.main.chanLe)
+    );
+  }
+
+  openChanLeTurbo() {
+    this.openMiniGame(
+      'games/chan-le-turbo/views/ChanLeTurbo',
+      'ChanLe',
+      this.main.chanLeTurbo != null,
+      (gameComponent) => {
+        this.main.chanLeTurbo = gameComponent;
+        this.main.chanLeTurbo.init(
+          this.main,
+          'clturbo',
+          new ChanLeTurboConfigs(),
+          'Chẵn lẻ siêu tốc',
+          true
+        );
+      },
+      () => this.showGame(this.main.chanLeTurbo)
+    );
+  }
+
+  openNewSocket(gameId) {
+    const socketIoController = BaseSocketIOController.getInstance();
+    socketIoController.closeSocket(gameId).then(() => {
+      const gameName = configs.gameNames[gameId];
+      const gameServerUrl = buildServerUrl(configs.ssl, 'http', '', gameId);
+      const socket = socketIoController.connectGameSocket(
+        gameServerUrl,
+        gameName,
+        this.main.onConnectSocketFailed.bind(this.main)
+      );
+
+      socket.on('signedIn', () => {
+        switch (parseInt(gameId)) {
+          case gameIds.SpecialSeDie:
+            this.openSpecialSeDie();
+            break;
+          default:
+            break;
         }
-    }
+      });
 
-    openGame(id) {
-        if (!cc.RedT.isConnected) {
-            const gameName = configs.gameNames[id];
-            this.main.onConnectSocketFailed(gameName, false);
-            return;
-        }
+      socket.on('forceDisconnect', () => {
+        socket.disconnect();
+      });
 
-        id = parseInt(id);
-        switch (id) {
-            case configs.gameIds.TaiXiu:
-                this.openTaiXiu();
-                break;
-            case configs.gameIds.BauCua:
-                this.openBauCua();
-                break;
-            case configs.gameIds.TaiXiuTurbo:
-                this.openTaiXiuTurbo();
-                break;
-            case configs.gameIds.ChanLe:
-                this.openChanLe();
-                break;
-            case configs.gameIds.ChanLeTurbo:
-                this.openChanLeTurbo();
-                break;
-            case configs.gameIds.RongHo:
-                this.openRongHo();
-                break;
-            case configs.gameIds.MiniSedie:
-                this.openMiniSedie();
-                break;
-            case configs.gameIds.KenoProViet:
-                this.openKenoProViet();
-                break;
-            default:
-                break;
-        }
-    }
+      socketIoController.gameSockets[gameId] = socket;
+    });
+  }
 
-    openTaiXiu() {
-        this.openMiniGame(
-            'games/tai-xiu/views/TaiXiu',
-            'TX',
-            this.main.taiXiu && this.main.taiXiu.node,
-            (gameComponent) => {
-                this.main.taiXiu = gameComponent;
-                this.main.taiXiu.init('taixiu', this.main);
-            },
-            () => this.showGame(this.main.taiXiu)
+  openSpecialSeDie() {
+    this.openMiniGame(
+      'games/special-sedie/views/SpecialSeDie',
+      'SpecialSeDie',
+      this.main.specialSeDie != null,
+      (gameComponent) => {
+        this.main.specialSeDie = gameComponent;
+        this.main.specialSeDie.init(
+          'SpecialSeDie',
+          new SpecialSeDieConfigs(),
+          this.main
         );
-    }
-
-    openTaiXiuTurbo() {
-        this.openMiniGame(
-            'games/tai-xiu-turbo/views/TurboTaiXiu',
-            'TurboTX',
-            this.main.taiXiuTurbo && this.main.taiXiuTurbo.node,
-            (gameComponent) => {
-                this.main.taiXiuTurbo = gameComponent;
-                this.main.taiXiuTurbo.init('taixiu_turbo', this.main);
-            },
-            () => this.showGame(this.main.taiXiuTurbo)
-        );
-    }
-
-    openKenoProViet() {
-        this.openMiniGame(
-            'games/keno-pro-viet/views/KenoProViet',
-            'KenoProViet',
-            this.main.kenoProViet != null && this.main.kenoProViet.node != null,
-            (gameComponent) => {
-                this.main.kenoProViet = gameComponent;
-                this.main.kenoProViet.init(this.main);
-            },
-            () => this.showGame(this.main.kenoProViet)
-        );
-    }
-
-    openBauCua() {
-        this.openMiniGame(
-            'games/bau-cua/views/BauCua',
-            'BauCuaMini',
-            this.main.bauCua && this.main.bauCua.node,
-            (gameComponent) => {
-                this.main.bauCua = gameComponent;
-                this.main.bauCua.init('baucua', this.main);
-            },
-            () => this.showGame(this.main.bauCua)
-        );
-    }
-
-    openRongHo() {
-        this.openMiniGame(
-            'games/rong-ho/views/RongHo',
-            'RongHo',
-            this.main.rongHo != null && this.main.rongHo.node != null,
-            (gameComponent) => {
-                this.main.rongHo = gameComponent;
-                this.main.rongHo.init(this.main, 'dragon_tiger', new RongHoConfigs());
-            },
-            () => this.showGame(this.main.rongHo)
-        );
-    }
-
-    openMiniSedie() {
-        this.openMiniGame(
-            'games/mini-sedie/views/MiniSedie',
-            'MiniSedie',
-            this.main.miniSedie != null,
-            (gameComponent) => {
-                this.main.miniSedie = gameComponent;
-                this.main.miniSedie.init('miniSedie', new MiniSedieConfigs(), this.main);
-            },
-            () => this.showGame(this.main.miniSedie)
-        );
-    }
-
-    openChanLe() {
-        this.openMiniGame(
-            'games/chan-le/views/ChanLe',
-            'ChanLe',
-            this.main.chanLe != null,
-            (gameComponent) => {
-                this.main.chanLe = gameComponent;
-                this.main.chanLe.init(this.main, 'chanle', new ChanLeConfigs(), 'Chẵn Lẻ');
-            },
-            () => this.showGame(this.main.chanLe)
-        );
-    }
-
-    openChanLeTurbo() {
-        this.openMiniGame(
-            'games/chan-le-turbo/views/ChanLeTurbo',
-            'ChanLe',
-            this.main.chanLeTurbo != null,
-            (gameComponent) => {
-                this.main.chanLeTurbo = gameComponent;
-                this.main.chanLeTurbo.init(this.main, 'clturbo', new ChanLeTurboConfigs(), 'Chẵn lẻ siêu tốc', true);
-            },
-            () => this.showGame(this.main.chanLeTurbo)
-        );
-    }
+      },
+      () => this.showGame(this.main.specialSeDie)
+    );
+  }
 }
