@@ -1,7 +1,8 @@
+import BetBoard from "../../../common/bet-board/view-models/BetBoard";
+import PresetBet from "../../../common/preset-bet/view-models/PresetBet";
 import { gameIds } from "../../../Configs";
 import NewSocketMiniGameBase from "../../_base/NewSocketMiniGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
-import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
 import SpecialSeDieTimeHandler from "./handlers/SpecialSeDieTimeHandler";
@@ -13,12 +14,6 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   get gameId() {
     return gameIds.SpecialSeDie;
   }
-
-  @property(cc.Prefab)
-  roundHistoryPrefab: cc.Prefab = null;
-
-  @property(cc.Node)
-  roundHistoryContainer: cc.Node = null;
 
   @property(cc.Prefab)
   miniRoundHistoryPrefab: cc.Prefab = null;
@@ -47,7 +42,16 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   @property(cc.Prefab)
   historyPrefab: cc.Prefab = null;
 
-  private roundHistory: SedieRoundHistory;
+  @property(cc.Prefab)
+  betBoardPrefab: cc.Prefab = null;
+
+  @property(cc.Prefab)
+  presetBetPrefab: cc.Prefab = null;
+
+  private presetBet: PresetBet;
+  private betBoard: BetBoard;
+  private presetBetValue = 0;
+  private presetBetSettingKey: string;
   private miniRoundHistory: SedieMiniRoundHistory;
 
   onLoad() {
@@ -55,6 +59,9 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
 
     this.initRoundHistory();
     this.animatedTime.setAnimatedY(30, -5);
+
+    this.initPresetBetBoard();
+    this.initBetBoard();
   }
 
   initHandlers() {
@@ -66,20 +73,42 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   }
 
   initRoundHistory() {
-    const node = cc.instantiate(this.roundHistoryPrefab);
-    this.roundHistory = node.getComponent(SedieRoundHistory);
-    const condition = () => {
-      return (
-        this.currentTimeRemaining < this.config.stopBetTime ||
-        this.currentTimeRemaining > this.config.fullTime
-      );
-    };
-    this.roundHistory.logControl.init(condition);
-    this.roundHistoryContainer.addChild(node);
-
     var mini = cc.instantiate(this.miniRoundHistoryPrefab);
     this.miniRoundHistory = mini.getComponent(SedieMiniRoundHistory);
     this.miniRoundHistoryContainer.addChild(mini);
+  }
+
+  private initPresetBetBoard() {
+    const node = cc.instantiate(this.presetBetPrefab);
+    this.presetBet = node.getComponent(PresetBet);
+    this.presetBet.onChangedBet = (betAmount: number) => {
+      this.changedPresetBet(betAmount);
+    };
+    this.presetBet.getPreset = () => this.presetBetValue;
+    this.node.addChild(node);
+    node.active = false;
+
+    this.presetBetValue =
+      parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
+  }
+
+  private changedPresetBet(value: number) {
+    this.presetBetValue = value;
+    cc.sys.localStorage.setItem(this.presetBetSettingKey, this.presetBetValue);
+  }
+
+  protected initBetBoard() {
+    const betBoardNode = cc.instantiate(this.betBoardPrefab);
+    this.betBoard = betBoardNode.getComponent(BetBoard);
+    // this.betBoard.callback = {
+    //   getPreset: () => { return this.presetBetValue; },
+    //   acceptedBet: (info: BetInfo) => { this.onBetClick(); },
+    //   changedBet: (info: BetInfo) => { this.setCurrentBetInput(info.bet); },
+    //   cancel: (info: BetInfo) => {
+    //     this.resetCurrentBetInput();
+    //     this.setBetButtonFrame(false);
+    //   },
+    // };
   }
 
   updateRoundHistory() {
@@ -96,7 +125,6 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
         red: count,
       };
     });
-    this.roundHistory.setData(miniHistoryData.map((d) => d.red));
     this.miniRoundHistory.setData(miniHistoryData);
   }
 
@@ -122,14 +150,14 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
 
   public openGuide() {
     let guide = cc.instantiate(this.guidePrefab);
-    let specialSedieGuide = guide.getComponent("SpecialSeDieGuide");
+    let specialSedieGuide = guide.getComponent('SpecialSeDieGuide');
     specialSedieGuide.init(this.gameConfigs);
     this.currentMiniPanel.node.addChild(guide);
   }
 
   public openHistory() {
     let dialog = cc.instantiate(this.historyPrefab);
-    let historyComponent = dialog.getComponent("SpecialSeDieHistory");
+    let historyComponent = dialog.getComponent('SpecialSeDieHistory');
     historyComponent.init(this.socket);
     this.currentMiniPanel.node.addChild(dialog);
   }
