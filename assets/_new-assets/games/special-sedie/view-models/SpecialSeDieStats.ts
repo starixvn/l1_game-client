@@ -58,4 +58,8 @@ export default class SpecialSeDieStats extends cc.Component {
             component.spriteFrame = this.dataLogs[index].settlementResult.even ? this.whiteIcon : this.redIcon
         })
     }
-}
+
+    onDisable() {
+        this.node.destroy();
+    }
+} 
