@@ -42,6 +42,9 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   @property(cc.Prefab)
   historyPrefab: cc.Prefab = null;
 
+  @property(cc.Prefab)
+  statisticPrefab: cc.Prefab = null;
+
   @property(cc.Node)
   betBoardContainer: cc.Node = null;
 
@@ -86,6 +89,10 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   private selectedBetAmountUnClickedImages = {};
 
   onLoad() {
+    if (!cc.sys.isMobile) {
+      this.node.scale = 0.8;
+    }
+
     super.onLoad();
     this.selectedBetAmountLabels = {
       ['even']: this.selectedBetAmountLabelLeft,
@@ -305,6 +312,13 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     let dialog = cc.instantiate(this.historyPrefab);
     let historyComponent = dialog.getComponent('SpecialSeDieHistory');
     historyComponent.init(this.socket);
+    this.currentMiniPanel.node.addChild(dialog);
+  }
+
+  public openStats() {
+    let dialog = cc.instantiate(this.statisticPrefab);
+    let statsComponent = dialog.getComponent('SpecialSeDieStats');
+    statsComponent.init(this.currentDataLogs);
     this.currentMiniPanel.node.addChild(dialog);
   }
 
