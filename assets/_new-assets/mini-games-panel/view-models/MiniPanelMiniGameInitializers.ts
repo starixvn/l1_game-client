@@ -232,10 +232,12 @@ export default class MiniPanelMiniGameInitializers {
     const socketIoController = BaseSocketIOController.getInstance();
     socketIoController.closeSocket(gameId).then(() => {
       const gameName = configs.gameNames[gameId];
+      const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
       const gameServerUrl = buildServerUrl(configs.ssl, 'http', '', gameId);
       const socket = socketIoController.connectGameSocket(
         gameServerUrl,
         gameName,
+        proxyRoute,
         this.main.onConnectSocketFailed.bind(this.main)
       );
 
