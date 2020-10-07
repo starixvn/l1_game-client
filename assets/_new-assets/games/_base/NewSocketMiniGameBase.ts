@@ -32,21 +32,4 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
 
     this.registerViewGame();
   }
-
-  onBetItemClick(event) {
-    if (this.isDisableGame) {
-      return;
-    }
-
-    if (this.waitingProcessing) {
-      this.showProcessingWarning(true);
-    } else {
-      this.waitingProcessing = true;
-      const betData = {
-        amount: this.currentBet,
-        betChoice: event.target.name,
-      };
-      this.socket && this.socket.emit('bet', betData);
-    }
-  }
 }

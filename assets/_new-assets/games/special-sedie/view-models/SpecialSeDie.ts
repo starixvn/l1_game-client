@@ -1,4 +1,4 @@
-import BetBoard from "../../../common/bet-board/view-models/BetBoard";
+import BetBoard, { BetInfo } from "../../../common/bet-board/view-models/BetBoard";
 import PresetBet from "../../../common/preset-bet/view-models/PresetBet";
 import { gameIds } from "../../../Configs";
 import NewSocketMiniGameBase from "../../_base/NewSocketMiniGameBase";
@@ -42,20 +42,70 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   @property(cc.Prefab)
   historyPrefab: cc.Prefab = null;
 
+  @property(cc.Node)
+  betBoardContainer: cc.Node = null;
+
   @property(cc.Prefab)
   betBoardPrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
   presetBetPrefab: cc.Prefab = null;
 
+  @property(cc.Label)
+  selectedBetAmountLabelLeft: cc.Label = null;
+
+  @property(cc.Label)
+  selectedBetAmountLabelRight: cc.Label = null;
+
+  @property(cc.Sprite)
+  selectedBetAmountSpriteLeft: cc.Sprite = null;
+
+  @property(cc.Sprite)
+  selectedBetAmountSpriteRight: cc.Sprite = null;
+
+  @property(cc.SpriteFrame)
+  selectedBetAmountClickedImageLeft: cc.SpriteFrame = null;
+
+  @property(cc.SpriteFrame)
+  selectedBetAmountUnClickedImageLeft: cc.SpriteFrame = null;
+
+  @property(cc.SpriteFrame)
+  selectedBetAmountClickedImageRight: cc.SpriteFrame = null;
+
+  @property(cc.SpriteFrame)
+  selectedBetAmountUnClickedImageRight: cc.SpriteFrame = null;
+
   private presetBet: PresetBet;
   private betBoard: BetBoard;
   private presetBetValue = 0;
   private presetBetSettingKey: string;
   private miniRoundHistory: SedieMiniRoundHistory;
+  private selectedBetAmountLabels = {};
+  private selectedBetAmountSprites = {};
+  private selectedBetAmountClickedImages = {};
+  private selectedBetAmountUnClickedImages = {};
 
   onLoad() {
     super.onLoad();
+    this.selectedBetAmountLabels = {
+      ['even']: this.selectedBetAmountLabelLeft,
+      ['odd']: this.selectedBetAmountLabelRight,
+    };
+
+    this.selectedBetAmountSprites = {
+      ['even']: this.selectedBetAmountSpriteLeft,
+      ['odd']: this.selectedBetAmountSpriteRight,
+    };
+
+    this.selectedBetAmountClickedImages = {
+      ['even']: this.selectedBetAmountClickedImageLeft,
+      ['odd']: this.selectedBetAmountClickedImageRight,
+    };
+
+    this.selectedBetAmountUnClickedImages = {
+      ['even']: this.selectedBetAmountUnClickedImageLeft,
+      ['odd']: this.selectedBetAmountUnClickedImageRight,
+    };
 
     this.initRoundHistory();
     this.animatedTime.setAnimatedY(30, -5);
@@ -78,13 +128,46 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     this.miniRoundHistoryContainer.addChild(mini);
   }
 
+  onSelectBetChoiceClick(event: cc.Event, choice: string) {
+    this.setSelectedBetAmountSpriteFrame(choice, true);
+    const betInfo = {
+      choice: choice,
+      bet: 0,
+      betItem: null,
+      maxBet: this.gameConfigs.choices_maxbet[choice],
+    };
+    this.betBoard.show(betInfo);
+    this.betBoard.node.runAction(
+      cc.sequence(
+        cc.delayTime(0.05),
+        cc.callFunc(() => {
+          this.adjustPosition();
+        })
+      )
+    );
+  }
+
+  protected adjustPosition() {
+    const okButtonPositionY = this.betBoard.okButton.node.parent.convertToWorldSpaceAR(
+      this.betBoard.okButton.node.position
+    ).y;
+    const expectPositionY = this.betBoard.okButton.node.height;
+    const paddingBottom = 20;
+
+    if (okButtonPositionY < expectPositionY) {
+      const distance = expectPositionY - okButtonPositionY + paddingBottom;
+
+      this.node.runAction(
+        cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut())
+      );
+    }
+  }
+
   private initPresetBetBoard() {
     const node = cc.instantiate(this.presetBetPrefab);
     this.presetBet = node.getComponent(PresetBet);
-    this.presetBet.onChangedBet = (betAmount: number) => {
-      this.changedPresetBet(betAmount);
-    };
-    this.presetBet.getPreset = () => this.presetBetValue;
+    this.presetBet.onChangedBet = this.changedPresetBet.bind(this);
+    this.presetBet.getPreset = this.getPresetBet.bind(this);
     this.node.addChild(node);
     node.active = false;
 
@@ -97,18 +180,81 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     cc.sys.localStorage.setItem(this.presetBetSettingKey, this.presetBetValue);
   }
 
+  private getPresetBet() {
+    return this.presetBetValue;
+  }
+
   protected initBetBoard() {
     const betBoardNode = cc.instantiate(this.betBoardPrefab);
     this.betBoard = betBoardNode.getComponent(BetBoard);
-    // this.betBoard.callback = {
-    //   getPreset: () => { return this.presetBetValue; },
-    //   acceptedBet: (info: BetInfo) => { this.onBetClick(); },
-    //   changedBet: (info: BetInfo) => { this.setCurrentBetInput(info.bet); },
-    //   cancel: (info: BetInfo) => {
-    //     this.resetCurrentBetInput();
-    //     this.setBetButtonFrame(false);
-    //   },
-    // };
+    this.betBoard.callback = {
+      getPreset: this.getPresetBet.bind(this),
+      acceptedBet: this.onAcceptedBet.bind(this),
+      changedBet: this.onChangedBet.bind(this),
+      cancel: this.onCancelBet.bind(this),
+    };
+
+    this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
+    this.betBoard.node.active = false;
+  }
+
+  onAcceptedBet(info: BetInfo) {
+    if (!this.validateBet()) {
+      return;
+    }
+
+    const { choice, bet } = info;
+    this.sendBetRequest(choice, bet);
+    this.resetSelectedBetAmountLabel(choice);
+    this.setSelectedBetAmountSpriteFrame(choice, false);
+  }
+
+  onChangedBet(info: BetInfo) {
+    const { bet, choice } = info;
+    const maxBet = this.gameConfigs.choices_maxbet[choice];
+    const betAmount = bet > maxBet ? maxBet : bet;
+    const selectedBetAmountLabel = this.selectedBetAmountLabels[choice];
+    selectedBetAmountLabel.string = betAmount;
+  }
+
+  onCancelBet(info: BetInfo) {
+    const { choice } = info;
+    this.resetSelectedBetAmountLabel(choice);
+    this.setSelectedBetAmountSpriteFrame(choice, false);
+  }
+
+  resetSelectedBetAmountLabel(choice: string) {
+    const selectedBetAmountLabel = this.selectedBetAmountLabels[choice];
+    selectedBetAmountLabel.string = 'ĐẶT CỬA';
+  }
+
+  setSelectedBetAmountSpriteFrame(choice: string, isClicked: boolean) {
+    const selectedBetAmountSprite = this.selectedBetAmountSprites[choice];
+    selectedBetAmountSprite.spriteFrame = isClicked
+      ? this.selectedBetAmountClickedImages[choice]
+      : this.selectedBetAmountUnClickedImages[choice];
+  }
+
+  validateBet() {
+    if (this.isDisableGame) {
+      return false;
+    }
+
+    if (this.waitingProcessing) {
+      this.showProcessingWarning(true);
+      return false;
+    } else {
+      this.waitingProcessing = true;
+      return true;
+    }
+  }
+
+  sendBetRequest(choice: string, amount: number) {
+    const betData = {
+      amount: amount,
+      betChoice: choice,
+    };
+    this.socket && this.socket.emit('bet', betData);
   }
 
   updateRoundHistory() {
