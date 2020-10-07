@@ -1,4 +1,5 @@
 import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
+import GameUtils from "./../../../common/GameUtils";
 import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
 import SpecialSeDieHistoryItem from "./SpecialSeDieHistoryItem";
 
@@ -72,7 +73,7 @@ export default class SpecialSeDieHistory extends cc.Component {
                     item.kqSprite.spriteFrame = this.iconWhite;
                     item.kqLabel.node.color = cc.Color.BLACK;
                 }
-                item.option.string = choice;
+                item.option.string = GameUtils.getBetChoiceString(choice);
                 item.bet.string = amount;
                 item.refund.string = refund;
 

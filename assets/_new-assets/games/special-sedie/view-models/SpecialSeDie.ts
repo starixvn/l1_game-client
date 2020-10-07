@@ -6,6 +6,7 @@ import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHis
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
 import SpecialSeDieTimeHandler from "./handlers/SpecialSeDieTimeHandler";
+import SpecialSeDieHistory from './SpecialSeDieHistory';
 
 const { ccclass, property } = cc._decorator;
 
@@ -87,6 +88,7 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   private selectedBetAmountSprites = {};
   private selectedBetAmountClickedImages = {};
   private selectedBetAmountUnClickedImages = {};
+  private historyComponent: SpecialSeDieHistory;
 
   onLoad() {
     if (!cc.sys.isMobile) {
@@ -119,6 +121,13 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
 
     this.initPresetBetBoard();
     this.initBetBoard();
+  }
+
+  onData(data: any) {
+    super.onData(data);
+    if (data.history) {
+      this.historyComponent.onData(data.history);
+    }
   }
 
   initHandlers() {
@@ -310,8 +319,8 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
 
   public openHistory() {
     let dialog = cc.instantiate(this.historyPrefab);
-    let historyComponent = dialog.getComponent('SpecialSeDieHistory');
-    historyComponent.init(this.socket);
+    this.historyComponent = dialog.getComponent('SpecialSeDieHistory');
+    this.historyComponent.init(this.socket);
     this.currentMiniPanel.node.addChild(dialog);
   }
 

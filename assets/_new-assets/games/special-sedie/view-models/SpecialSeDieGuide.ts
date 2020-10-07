@@ -22,7 +22,6 @@ export default class SpecialSeDieGuide extends cc.Component {
 
     createReplaceData() {
         const odds = this.configs.odds;
-        const choiceMaxBet = this.configs.choices_maxbet;
         const replaceData = {
             "_oddsMain": odds.even,
             "_maxBetRound": numberWithCommas(this.configs.maxbet)
