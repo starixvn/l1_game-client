@@ -1,5 +1,4 @@
 import * as socketIo from "socket.io-client";
-
 import { getSession } from "./common/auth/AuthManager";
 import { sentryLogger } from "./common/logger.js";
 
@@ -17,8 +16,8 @@ export default class BaseSocketIOController {
     return this.instance;
   }
 
-  connectGameSocket = (socketUri: string, gameName: string, onConnectFailed: (gameName) => void): SocketIOClient.Socket => {
-    const socket = socketIo(socketUri, { transports: ["websocket"], upgrade: false });
+  connectGameSocket = (socketUri: string, gameName: string, proxyRoute: string, onConnectFailed: (gameName) => void): SocketIOClient.Socket => {
+    const socket = socketIo(socketUri, { forceNew: true, transports: ["websocket"], upgrade: false, path: proxyRoute });
 
     socket.on('connect', () => {
       socket.emit('signin', getSession());

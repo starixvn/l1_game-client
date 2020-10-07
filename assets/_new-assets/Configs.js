@@ -5,21 +5,31 @@ const configs = {
     '10.5.10.14': 'lumigame.com',
   },
   serverGameEndPoints: {
-    0: { //Main Server
-      subDomain: "",
-      port: 8080,
-      path: ""
+    0: {
+      //Main Server
+      subDomain: 'haproxy',
+      port: 7000,
+      path: '',
+      proxyRoute: "/main"
     },
     2: {
-      subDomain: "",
-      port: 8082,
-      path: "/user/xocxoc"
+      subDomain: "haproxy",
+      port: "7000",
+      path: "/user/xocxoc",
+      proxyRoute: "/sedie"
     },
     22: {
-      subDomain: "",
-      port: 8083,
-      path: "/user/vipsedie"
-    }
+      subDomain: "haproxy",
+      port: "7000",
+      path: "/user/vipsedie",
+      proxyRoute: "/vipsedie"
+    },
+    24: {
+      subDomain: 'haproxy',
+      port: 7000,
+      path: '/user/specialsedie',
+      proxyRoute: "/specialsedie"
+    },
   },
   gameIds: {
     TaiXiu: 1,
