@@ -41,6 +41,7 @@ export default class CardLayout extends cc.Component {
 
     cardSizeWidth = 76;
     selectedPositionY = 30;
+    selectedScaleY = 1;
     _selected = false;
 
     onLoad() {
@@ -65,18 +66,23 @@ export default class CardLayout extends cc.Component {
             // child.y = Math.abs(index - half) * 0.45;
 
             child.angle = (index - half) * 1;
-            child.y = Math.abs(index - half) * 0.45;
+            // child.y = Math.abs(index - half) * 0.45;
             width = child.x;
-            child.scaleY = this._selected ? 1 : this.scaleY;
+            child.scaleY = this._selected ? this.selectedScaleY : this.scaleY;
         });
 
         width += halfCardSize;
         this.content.width = width;
         this.shadow.width = width;
+        this.shadow.scale = this.content.scale;
+    }
+
+    getScaleY(): number {
+        return this._selected ? this.selectedScaleY : this.scaleY;
     }
 
     getNextPosition(): cc.Vec2 {
-        return cc.v2(this.cardSizeWidth / 2 + this.ratio * (this.content.childrenCount - 1) * this.spacingX, this.content.childrenCount > 0 ? this.content.children[0].y : 0);
+        return cc.v2(this.cardSizeWidth / 2 + this.ratio * (this.content.childrenCount - 1) * this.spacingX, this._selected ? this.selectedPositionY : 0);
     }
 
     changeCardView(selected: boolean) {
@@ -87,9 +93,9 @@ export default class CardLayout extends cc.Component {
                     .delay(0.1 * (this.content.childrenCount - 1 - index))
                     .parallel(
                         cc.tween(child)
-                            .by(0.3, { position: cc.v2(0, 30) }),
+                            .by(0.3, { position: cc.v2(0, this.selectedPositionY) }),
                         cc.tween(child)
-                            .to(0.3, { scaleY: 1 })
+                            .to(0.3, { scaleY: this.selectedScaleY })
                     )
                     .start();
             });
@@ -99,7 +105,7 @@ export default class CardLayout extends cc.Component {
                     .delay(0.1 * index)
                     .parallel(
                         cc.tween(child)
-                            .by(0.3, { position: cc.v2(0, -30) }),
+                            .by(0.3, { position: cc.v2(0, -this.selectedPositionY) }),
                         cc.tween(child)
                             .to(0.3, { scaleY: this.scaleY })
                     )

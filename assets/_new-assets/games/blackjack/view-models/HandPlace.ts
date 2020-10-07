@@ -1,4 +1,5 @@
 import * as helper from "../../../common/helpers/Helper";
+import BlackJackUtils from "./BlackJackUtils";
 import CardLayout from "./CardLayout";
 
 export interface HandModel {
@@ -8,6 +9,7 @@ export interface HandModel {
     total: any,
     isStand: boolean,
     cards: any[],
+    splitFrom: boolean,
 }
 
 const { ccclass, property } = cc._decorator;
@@ -27,6 +29,9 @@ export default class HandPlace extends cc.Component {
 
     @property(cc.Label)
     statusValue: cc.Label = null;
+
+    @property(cc.Label)
+    resultValue: cc.Label = null;
 
     @property(cc.Label)
     handId: cc.Label = null;
@@ -50,8 +55,31 @@ export default class HandPlace extends cc.Component {
         return this.data.isStand;
     }
 
+    get canSplit() {
+        const cards = this.data.cards;
+        if (cards.length < 2) {
+            return false;
+        }
+
+        return BlackJackUtils.getValue(cards[0].rank) === BlackJackUtils.getValue(cards[1].rank) && !this.data.splitFrom;
+    }
+
+    get canDouble() {
+        const cards = this.data.cards;
+        if (cards.length < 2) {
+            return false;
+        }
+
+        const total = BlackJackUtils.getValue(cards[0].rank) + BlackJackUtils.getValue(cards[1].rank);
+        return total > 8 && total < 12 && !this.data.splitFrom;
+    }
+
     get isActive() {
         return this.data != null;
+    }
+
+    get idValue() {
+        return this.data.id;
     }
 
     private _betAmount = 0;
@@ -67,6 +95,7 @@ export default class HandPlace extends cc.Component {
         this.betValue && this.showBetValue(false);
         this.showStatus(false);
         this.handId && this.showHandId(false);
+        this.resultValue && this.showResult(false);
     }
 
     updateDisplay() {
@@ -151,5 +180,14 @@ export default class HandPlace extends cc.Component {
 
     setHandId(id: string) {
         this.handId.string = `#${id}`;
+    }
+
+    showResult(show: boolean) {
+        this.resultValue.node.parent.active = show;
+    }
+
+    setResult(result: string) {
+        this.resultValue.string = `+${helper.numberWithCommas(result)}`;
+        this.showResult(true);
     }
 }

@@ -58,6 +58,8 @@ export default class IngameActionHandler implements DataHandler {
     processStandAction(data: any) {
         const pos = data.pos - 1;
         this.main.handPlaces[pos].setData(data);
+        this.main.handPlaces[pos].selected = false;
+        this.main.switchToNextHand();
     }
 
     processDoubleAction(data: any) {

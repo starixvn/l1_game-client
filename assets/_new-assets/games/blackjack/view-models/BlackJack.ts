@@ -7,6 +7,7 @@ import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmHandler";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import RoomPlayer from "../../_base/RoomPlayer";
+import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
@@ -79,6 +80,8 @@ export default class BlackJack extends NewSocketGameBase {
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
     activeHand: HandPlace = null;
+    lastHandBets: any[] = [];
+
 
     onLoad() {
         super.onLoad();
@@ -115,6 +118,7 @@ export default class BlackJack extends NewSocketGameBase {
 
         this.dealHander = new DealHandler(this);
         this.ingameActionHander = new IngameActionHandler(this);
+        this.finishHandler = new BlackJackFinishHandler(this);
 
         this.addHandlers(
             this.umHandler,
@@ -122,7 +126,8 @@ export default class BlackJack extends NewSocketGameBase {
             this.errorHandler,
             this.configsHandler,
             this.dealHander,
-            this.ingameActionHander
+            this.ingameActionHander,
+            this.finishHandler,
         );
     }
 
@@ -131,7 +136,7 @@ export default class BlackJack extends NewSocketGameBase {
         const chipOption = [1000, 500, 200, 100, 50, 10, 5, 1];
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
-                // cc.RedT.audio.playClick();
+                cc.RedT.audio.playClick();
 
                 const chipNode = this.betChips.createChip(this.currentBet).node;
                 const destNode = this.chipContainers[index];
@@ -168,13 +173,18 @@ export default class BlackJack extends NewSocketGameBase {
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = handPlace.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = handPlace.cardLayout.getNextPosition();
+        const cardScaleY = this.dealerHand.cardLayout.getScaleY();
         cardNode.position = startLocalPos;
 
-        const duration = 0.45;
-        cardComponent.playAnimation(CardAnimation.DealerToHand, duration);
-
+        const pullDuration = 0.2;
+        const moveDuration = 0.45;
+        cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
         cc.tween(cardNode)
-            .to(duration, { position: nextPosition })
+            .delay(pullDuration)
+            .call(() => {
+                cardComponent.playAnimation(CardAnimation.DealerToHand, moveDuration);
+            })
+            .to(moveDuration, { position: nextPosition, scaleY: cardScaleY })
             .call(() => {
                 handPlace.cardLayout.updateLayout();
                 onComplete();
@@ -182,7 +192,7 @@ export default class BlackJack extends NewSocketGameBase {
             .start();
     }
 
-    drawingCardToDealer(card: CardModel, onComplete = () => { }) {
+    drawingCardToDealer(card: CardModel, faceDown: boolean, onComplete = () => { }) {
         const cardNode = this.createCard(card);
         this.dealerHand.addCard(cardNode);
 
@@ -190,13 +200,16 @@ export default class BlackJack extends NewSocketGameBase {
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = this.dealerHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = this.dealerHand.cardLayout.getNextPosition();
+        const cardScaleY = this.dealerHand.cardLayout.getScaleY();
         cardNode.position = startLocalPos;
 
-        const duration = 0.45;
-        cardComponent.playAnimation(CardAnimation.DealerToHand, duration);
-
+        const pullDuration = 0.2;
+        const moveDuration = 0.45;
+        cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
         cc.tween(cardNode)
-            .to(duration, { position: nextPosition })
+            .delay(pullDuration)
+            .call(() => cardComponent.playAnimation(faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand, moveDuration))
+            .to(moveDuration, { position: nextPosition, scaleY: cardScaleY })
             .call(() => {
                 this.dealerHand.cardLayout.updateLayout();
                 onComplete();
@@ -212,6 +225,8 @@ export default class BlackJack extends NewSocketGameBase {
         console.log("switchToNextHand ====================");
         const nextHand = this.handPlaces.find(hand => hand.isActive && !hand.isStand);
         if (nextHand) {
+            this.activeHand = nextHand;
+            this.updateAvailableActions();
             nextHand.selected = true;
         } else {
             this.switchToDealer();
@@ -222,26 +237,98 @@ export default class BlackJack extends NewSocketGameBase {
         console.log("switchToDealer ====================");
     }
 
+    canSendRequest(): boolean {
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+            return false;
+        } else {
+            this.waitingProcessing = true;
+            return true;
+        }
+    }
+
     onDealClick() {
         cc.RedT.audio.playClick();
+
+        if (!this.canSendRequest()) {
+            return;
+        }
+
+        const hands = [];
+        for (let i = 0; i < 3; i++) {
+            const betAmount = this.handPlaces[i].getBetAmount()
+            if (betAmount > 0) {
+                hands.push({ pos: i + 1, bet: betAmount })
+            }
+        }
+
+        this.lastHandBets = hands;
+        this.rebet();
+    }
+
+    rebet() {
+        const data = {
+            deal: {
+                hands: this.lastHandBets
+            }
+        };
+        this.sendData(data);
     }
 
     onSplitClick() {
         cc.RedT.audio.playClick();
+        if (!this.canSendRequest()) {
+            return;
+        }
 
+        const data = {
+            split: {
+                id: this.activeHand.idValue
+            }
+        }
+        this.sendData(data);
     }
 
     onDoubleClick() {
         cc.RedT.audio.playClick();
+        if (!this.canSendRequest()) {
+            return;
+        }
+
+        const data = {
+            double: {
+                id: this.activeHand.idValue
+            }
+        }
+        this.sendData(data);
     }
 
     onStandClick() {
         cc.RedT.audio.playClick();
+        if (!this.canSendRequest()) {
+            return;
+        }
+
+        const data = {
+            stand: {
+                id: this.activeHand.idValue
+            }
+        }
+        this.sendData(data);
     }
 
     onHitClick() {
         cc.RedT.audio.playClick();
+        if (!this.canSendRequest()) {
+            return;
+        }
 
+        const data = {
+            hit: {
+                id: this.activeHand.idValue
+            }
+        }
+        this.sendData(data);
     }
 
     onNewBetClick() {
@@ -250,14 +337,29 @@ export default class BlackJack extends NewSocketGameBase {
 
     onRebetClick() {
         cc.RedT.audio.playClick();
+        if (!this.canSendRequest()) {
+            return;
+        }
+
+        let total = 0;
+        this.lastHandBets.forEach(hand => total += hand.bet);
+        if (total > cc.RedT.user.red) {
+            this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+            return;
+        }
+
+        this.rebet();
     }
 
     onClearClick() {
         cc.RedT.audio.playClick();
+        this.handPlaces.forEach(place => place.onClearBetClick());
     }
 
     onLobbyClick() {
         cc.RedT.audio.playClick();
+
+        this.closeGame();
     }
 
     onHistoryClick() {
@@ -280,6 +382,15 @@ export default class BlackJack extends NewSocketGameBase {
         this.dealButton.active = false;
     }
 
+    updateAvailableActions() {
+        this.hideAllButtons();
+
+        this.hitButton.active = this.standButton.active = !this.activeHand.isStand;
+        this.doubleButton.active = this.activeHand.canDouble;
+        this.smallSplitButton.active = !this.activeHand.isStand && this.activeHand.canSplit && this.doubleButton.active;
+        this.bigSplitButton.active = !this.activeHand.isStand && this.activeHand.canSplit && !this.doubleButton.active;
+    }
+
     testDealer() {
         const data = {
             deal: {
@@ -300,15 +411,26 @@ export default class BlackJack extends NewSocketGameBase {
                         ],
                         total: 5,
                     },
-
                     {
-                        id: 1,
+                        id: 22,
                         pos: 2,
                         isStand: false,
                         bet: 1,
                         cards: [
                             { rank: "K", suit: 2 },
                             { rank: "A", suit: 3 }
+                        ],
+                        total: 5,
+                    }
+                    ,
+                    {
+                        id: 23,
+                        pos: 3,
+                        isStand: false,
+                        bet: 1,
+                        cards: [
+                            { rank: 8, suit: 2 },
+                            { rank: 5, suit: 3 }
                         ],
                         total: 5,
                     }
@@ -399,4 +521,28 @@ export default class BlackJack extends NewSocketGameBase {
         this.ingameActionHander.handle(data);
     }
 
+    testFinish() {
+        const data = {
+            finish:
+            {
+                results: [
+                    { rank: 10, suit: 1 },
+                    { rank: 3, suit: 1 },
+                    { rank: 5, suit: 1 }
+                ],
+                settlementResult: 18,
+                winningHands: [
+                    {
+                        id: 1,
+                        betwin: 10,
+                    },
+                    {
+                        id: 4,
+                        betwin: 10,
+                    }
+                ]
+            }
+        }
+        this.finishHandler.handle(data);
+    }
 }

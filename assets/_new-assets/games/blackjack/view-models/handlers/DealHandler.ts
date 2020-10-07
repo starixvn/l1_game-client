@@ -30,7 +30,7 @@ export default class DealHandler implements DataHandler {
         });
 
         const firstDealerCard = dealerCards[0];
-        actions.push(() => { this.main.drawingCardToDealer(firstDealerCard); });
+        actions.push(() => { this.main.drawingCardToDealer(firstDealerCard, false); });
         hands.forEach(hand => {
             const card = hand.cards[1];
             const pos = hand.pos - 1;
@@ -38,9 +38,9 @@ export default class DealHandler implements DataHandler {
         });
 
         if (dealerCards.length > 1) {
-            actions.push(() => { this.main.drawingCardToDealer(dealerCards[1]); });
+            actions.push(() => { this.main.drawingCardToDealer(dealerCards[1], true); });
         } else {
-            actions.push(() => { this.main.drawingCardToDealer(null); });
+            actions.push(() => { this.main.drawingCardToDealer(null, true); });
         }
 
         let count = 0;

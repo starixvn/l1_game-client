@@ -1,5 +1,5 @@
+import * as SabaConfigs from "../../_new-assets/SabaConfigs";
 import * as helper from "./helpers/Helper";
-import * as SabaConfigs from "../../_new-assets/SabaConfigs"
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration: number = 1, startY: number = 0, destY: number = 100) {
