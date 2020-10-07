@@ -30,6 +30,9 @@ export default class IngameActionHandler implements DataHandler {
         const firstHand = hands[0];
         const secondHand = hands[1];
 
+        this.main.handPlaces[firstHand.pos - 1].setData(firstHand);
+        this.main.handPlaces[firstHand.pos + 2].setData(secondHand);
+
         cc.tween(this.main)
             .call(() => this.moveCardForSplitting(firstHand.pos, 0.3))
             .delay(0.5)

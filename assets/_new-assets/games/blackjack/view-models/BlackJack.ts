@@ -217,6 +217,18 @@ export default class BlackJack extends NewSocketGameBase {
             .start();
     }
 
+    dealerOpenSecondCard(card: CardModel, duration: number) {
+        const cardNode = this.dealerHand.getCards()[1];
+        const cardComponent = cardNode.getComponent(NewCard);
+        cardComponent.setCard(card);
+        cardComponent.playAnimation(CardAnimation.DealerOpenCard, duration);
+    }
+
+    finishRound() {
+        const finishHandler = this.finishHandler as BlackJackFinishHandler;
+        finishHandler.processFinish();
+    }
+
     startRound() {
         this.switchToNextHand();
     }
@@ -235,6 +247,7 @@ export default class BlackJack extends NewSocketGameBase {
 
     switchToDealer() {
         console.log("switchToDealer ====================");
+        this.finishRound();
     }
 
     canSendRequest(): boolean {
@@ -411,33 +424,34 @@ export default class BlackJack extends NewSocketGameBase {
                         ],
                         total: 5,
                     },
-                    {
-                        id: 22,
-                        pos: 2,
-                        isStand: false,
-                        bet: 1,
-                        cards: [
-                            { rank: "K", suit: 2 },
-                            { rank: "A", suit: 3 }
-                        ],
-                        total: 5,
-                    }
-                    ,
-                    {
-                        id: 23,
-                        pos: 3,
-                        isStand: false,
-                        bet: 1,
-                        cards: [
-                            { rank: 8, suit: 2 },
-                            { rank: 5, suit: 3 }
-                        ],
-                        total: 5,
-                    }
+                    // {
+                    //     id: 22,
+                    //     pos: 2,
+                    //     isStand: false,
+                    //     bet: 1,
+                    //     cards: [
+                    //         { rank: "K", suit: 2 },
+                    //         { rank: "A", suit: 3 }
+                    //     ],
+                    //     total: 5,
+                    // }
+                    // ,
+                    // {
+                    //     id: 23,
+                    //     pos: 3,
+                    //     isStand: false,
+                    //     bet: 1,
+                    //     cards: [
+                    //         { rank: 8, suit: 2 },
+                    //         { rank: 5, suit: 3 }
+                    //     ],
+                    //     total: 5,
+                    // }
                 ]
             }
         };
         this.dealHander.handle(data);
+        this.testFinish();
     }
 
     testHit() {
@@ -528,7 +542,8 @@ export default class BlackJack extends NewSocketGameBase {
                 results: [
                     { rank: 10, suit: 1 },
                     { rank: 3, suit: 1 },
-                    { rank: 5, suit: 1 }
+                    { rank: 5, suit: 1 },
+                    { rank: 9, suit: 1 },
                 ],
                 settlementResult: 18,
                 winningHands: [
