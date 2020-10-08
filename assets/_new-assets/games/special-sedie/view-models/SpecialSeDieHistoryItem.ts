@@ -28,4 +28,13 @@ export default class SpecialSeDieHistoryItem extends cc.Component {
 
     @property(cc.Label)
     win: cc.Label = null;
+
+    roundId: number = 0;
+
+    public handleRoundIdClick = (roundId: number) => { }
+
+    openBetHistory() {
+        debugger;
+        this.handleRoundIdClick(this.roundId);
+    }
 }

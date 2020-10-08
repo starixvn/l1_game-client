@@ -2,11 +2,13 @@ import BetBoard, { BetInfo } from "../../../common/bet-board/view-models/BetBoar
 import PresetBet from "../../../common/preset-bet/view-models/PresetBet";
 import { gameIds } from "../../../Configs";
 import NewSocketMiniGameBase from "../../_base/NewSocketMiniGameBase";
-import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
 import SpecialSeDieTimeHandler from "./handlers/SpecialSeDieTimeHandler";
+import SpecialSeDieGuide from "./SpecialSeDieGuide";
 import SpecialSeDieHistory from './SpecialSeDieHistory';
+import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
+import SpecialSeDieStats from './SpecialSeDieStats';
 
 const { ccclass, property } = cc._decorator;
 
@@ -79,11 +81,14 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   @property(cc.SpriteFrame)
   selectedBetAmountUnClickedImageRight: cc.SpriteFrame = null;
 
+  @property(cc.Prefab)
+  betHistoryPrefab: cc.Prefab = null;
+
   private presetBet: PresetBet;
   private betBoard: BetBoard;
   private presetBetValue = 0;
   private presetBetSettingKey: string;
-  private miniRoundHistory: SedieMiniRoundHistory;
+  private miniRoundHistory: SpecialSedieRoundHistory;
   private selectedBetAmountLabels = {};
   private selectedBetAmountSprites = {};
   private selectedBetAmountClickedImages = {};
@@ -140,7 +145,10 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
 
   initRoundHistory() {
     var mini = cc.instantiate(this.miniRoundHistoryPrefab);
-    this.miniRoundHistory = mini.getComponent(SedieMiniRoundHistory);
+    this.miniRoundHistory = mini.getComponent(SpecialSedieRoundHistory);
+    this.miniRoundHistory.handleBetHistory = (roundId) => {
+      this.openBetHistory(roundId);
+    }
     this.miniRoundHistoryContainer.addChild(mini);
   }
 
@@ -312,21 +320,24 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
 
   public openGuide() {
     let guide = cc.instantiate(this.guidePrefab);
-    let specialSedieGuide = guide.getComponent('SpecialSeDieGuide');
+    let specialSedieGuide = guide.getComponent(SpecialSeDieGuide);
     specialSedieGuide.init(this.gameConfigs);
     this.currentMiniPanel.node.addChild(guide);
   }
 
   public openHistory() {
     let dialog = cc.instantiate(this.historyPrefab);
-    this.historyComponent = dialog.getComponent('SpecialSeDieHistory');
+    this.historyComponent = dialog.getComponent(SpecialSeDieHistory);
     this.historyComponent.init(this.socket);
+    this.historyComponent.handleBetHistory = (roundId) => {
+      this.openBetHistory(roundId);
+    }
     this.currentMiniPanel.node.addChild(dialog);
   }
 
   public openStats() {
     let dialog = cc.instantiate(this.statisticPrefab);
-    let statsComponent = dialog.getComponent('SpecialSeDieStats');
+    let statsComponent = dialog.getComponent(SpecialSeDieStats);
     statsComponent.init(this.currentDataLogs);
     this.currentMiniPanel.node.addChild(dialog);
   }
@@ -334,5 +345,10 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   openPresetBetDialog() {
     cc.RedT.audio.playClick();
     this.presetBet.toggle();
+  }
+
+  openBetHistory(roundId: number) {
+    let bethistory = cc.instantiate(this.betHistoryPrefab);
+    this.currentMiniPanel.node.addChild(bethistory);
   }
 }

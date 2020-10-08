@@ -1,5 +1,4 @@
 import BaseSocketIOController from "../../BaseSocketIOController";
-import { gameIds } from "../../Configs";
 import GameBase from "./GameBase";
 
 export default abstract class NewSocketMiniGameBase extends GameBase {
@@ -8,9 +7,7 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
 
   startGame() {
     super.startGame();
-    this.socket = BaseSocketIOController.getInstance().gameSockets[
-      gameIds.SpecialSeDie
-    ];
+    this.socket = BaseSocketIOController.getInstance().gameSockets[this.gameId];
 
     this.socket.on(this.gameName, this.onData.bind(this));
     this.socket.on('disconnect', this.closeGame.bind(this));
@@ -22,7 +19,7 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
 
   closeGame() {
     super.closeGame();
-    BaseSocketIOController.getInstance().closeSocket(gameIds.SpecialSeDie);
+    BaseSocketIOController.getInstance().closeSocket(this.gameId);
   }
 
   onSignIn() {

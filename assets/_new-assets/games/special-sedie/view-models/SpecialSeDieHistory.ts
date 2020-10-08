@@ -25,6 +25,8 @@ export default class SpecialSeDieHistory extends cc.Component {
 
     private socket: SocketIOClient.Socket;
 
+    public handleBetHistory = (roundId) => { }
+
     init(socket: SocketIOClient.Socket) {
         this.socket = socket;
     }
@@ -35,6 +37,10 @@ export default class SpecialSeDieHistory extends cc.Component {
 
     onEnable() {
         this.get_data();
+    }
+
+    onDisable() {
+        this.node.destroy();
     }
 
     get_data(page = 1) {
@@ -76,12 +82,18 @@ export default class SpecialSeDieHistory extends cc.Component {
                 item.option.string = GameUtils.getBetChoiceString(choice);
                 item.bet.string = amount;
                 item.refund.string = refund;
-
+                item.roundId = phien;
                 item.win.string = numberWithCommas(betwin);
+                item.handleRoundIdClick = (roundId) => {
+                    this.openBetHistory(roundId);
+                }
 
                 this.content.addChild(itemNode);
             });
         }
     }
 
+    openBetHistory(roundId: number) {
+        this.handleBetHistory(roundId);
+    }
 }
