@@ -87,6 +87,10 @@ export default class HandPlace extends cc.Component {
     public clearBetClickCallback = () => { }
 
     onLoad() {
+        this.resetView();
+    }
+
+    resetView() {
         if (this.clearBetButton) {
             this.clearBetButton.on('click', this.onClearBetClick, this);
             this.clearBetButton.active = false;
@@ -105,6 +109,7 @@ export default class HandPlace extends cc.Component {
 
     setData(data: HandModel) {
         this.data = { ...data };
+        this.setHandId(this.data.id);
     }
 
     clearData() {
@@ -117,7 +122,9 @@ export default class HandPlace extends cc.Component {
 
     onClearBetClick() {
         this.clearBetClickCallback();
-        this.clearBetButton.active = false;
+        this.resetView();
+        this.clearBetAmount();
+        this.clearData();
     }
 
     getBetAmount(): number {
@@ -126,6 +133,7 @@ export default class HandPlace extends cc.Component {
 
     addBetAmount(amount: number) {
         this._betAmount += amount;
+        this.updateDisplayBetValue(this._betAmount);
     }
 
     clearBetAmount() {
@@ -149,6 +157,11 @@ export default class HandPlace extends cc.Component {
         this.betValue.string = helper.numberWithCommas(bet);
     }
 
+    syncBetValue() {
+        this.updateDisplayBetValue(this.data.bet);
+        this._betAmount = this.data.bet;
+    }
+
     showStatus(show: boolean) {
         this.statusValue.node.parent.active = show;
     }
@@ -167,11 +180,11 @@ export default class HandPlace extends cc.Component {
     }
 
     enablePlaceChip(enable: boolean) {
-        this.betPlace.interactable = enable;
+        this.betPlace && (this.betPlace.interactable = enable);
     }
 
     highlightPlace(highlight: boolean) {
-        this.betPlace.node.children[0].active = highlight;
+        this.betPlace && (this.betPlace.node.children[0].active = highlight);
     }
 
     showHandId(show: boolean) {
@@ -180,6 +193,7 @@ export default class HandPlace extends cc.Component {
 
     setHandId(id: string) {
         this.handId.string = `#${id}`;
+        this.showHandId(true);
     }
 
     showResult(show: boolean) {

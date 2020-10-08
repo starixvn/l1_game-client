@@ -8,6 +8,7 @@ import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmHandler";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import RoomPlayer from "../../_base/RoomPlayer";
 import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
+import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
@@ -79,9 +80,11 @@ export default class BlackJack extends NewSocketGameBase {
 
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
+    ingameHander: DataHandler;
     activeHand: HandPlace = null;
     lastHandBets: any[] = [];
 
+    public chipOption = [1000, 500, 200, 100, 50, 10, 5, 1];
 
     onLoad() {
         super.onLoad();
@@ -119,39 +122,40 @@ export default class BlackJack extends NewSocketGameBase {
         this.dealHander = new DealHandler(this);
         this.ingameActionHander = new IngameActionHandler(this);
         this.finishHandler = new BlackJackFinishHandler(this);
+        this.ingameHander = new BlackJackIngameHandler(this);
 
         this.addHandlers(
             this.umHandler,
             this.noticeHandler,
             this.errorHandler,
             this.configsHandler,
+            this.finishHandler,
             this.dealHander,
             this.ingameActionHander,
-            this.finishHandler,
+            this.ingameHander,
         );
     }
 
     initHandPlaces() {
         const chipFlyingDuration = 0.5;
-        const chipOption = [1000, 500, 200, 100, 50, 10, 5, 1];
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 cc.RedT.audio.playClick();
 
+                this.handPlaces.forEach(place => place.highlightPlace(false));
+                handPlace.highlightPlace(true);
                 const chipNode = this.betChips.createChip(this.currentBet).node;
                 const destNode = this.chipContainers[index];
                 this.betChips.moveChipWithCallback(chipNode, this.currentBet, destNode, null, () => {
                     handPlace.addBetAmount(this.currentBet);
                     handPlace.clearBetButton.active = true;
-                    destNode.getChildByName("stack")?.destroy();
-                    const chipStack = this.betChips.createChipStack(handPlace.getBetAmount(), chipOption);
-                    chipStack.name = "stack";
+                    destNode.destroyAllChildren();
+                    const chipStack = this.betChips.createChipStack(handPlace.getBetAmount(), this.chipOption);
                     chipStack.zIndex = -1;
                     destNode.addChild(chipStack);
                 }, 0, chipFlyingDuration, 0);
             }
             handPlace.clearBetClickCallback = () => {
-                handPlace.clearBetAmount();
                 this.chipContainers[index].destroyAllChildren();
             }
         })
@@ -211,7 +215,7 @@ export default class BlackJack extends NewSocketGameBase {
             .call(() => cardComponent.playAnimation(faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand, moveDuration))
             .to(moveDuration, { position: nextPosition, scaleY: cardScaleY })
             .call(() => {
-                this.dealerHand.cardLayout.updateLayout();
+                // this.dealerHand.cardLayout.updateLayout();
                 onComplete();
             })
             .start();
@@ -346,6 +350,7 @@ export default class BlackJack extends NewSocketGameBase {
 
     onNewBetClick() {
         cc.RedT.audio.playClick();
+        this.newGame();
     }
 
     onRebetClick() {
@@ -393,6 +398,15 @@ export default class BlackJack extends NewSocketGameBase {
         this.rebetButton.active = false;
         this.clearButton.active = false;
         this.dealButton.active = false;
+    }
+
+    newGame() {
+        this.hideAllButtons();
+        this.handPlaces.forEach(place => {
+            place.onClearBetClick();
+            place.enablePlaceChip(true);
+        });
+        this.handPlaces[1].highlightPlace(true);
     }
 
     updateAvailableActions() {

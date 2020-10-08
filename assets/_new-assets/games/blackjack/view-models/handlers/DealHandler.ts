@@ -2,6 +2,7 @@ import a from "../../../../../libs/chance/chance";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
+import BlackJackFinishHandler from "./BlackJackFinishHandler";
 
 export default class DealHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {
@@ -27,6 +28,12 @@ export default class DealHandler implements DataHandler {
             actions.push(() => { this.main.drawingCardToPlayer(card, pos); });
 
             this.main.handPlaces[pos].setData(hand);
+            if (hand.bet != this.main.handPlaces[pos].getBetAmount()) {
+                this.main.handPlaces[pos].syncBetValue();
+                this.main.chipContainers[pos].destroyAllChildren();
+                const chipStack = this.main.betChips.createChipStack(hand.bet, this.main.chipOption);
+                this.main.chipContainers[pos].addChild(chipStack);
+            }
         });
 
         const firstDealerCard = dealerCards[0];
@@ -37,7 +44,8 @@ export default class DealHandler implements DataHandler {
             actions.push(() => { this.main.drawingCardToPlayer(card, pos); });
         });
 
-        if (dealerCards.length > 1) {
+        const isBlackJack = dealerCards.length > 1;
+        if (isBlackJack) {
             actions.push(() => { this.main.drawingCardToDealer(dealerCards[1], true); });
         } else {
             actions.push(() => { this.main.drawingCardToDealer(null, true); });
@@ -52,13 +60,17 @@ export default class DealHandler implements DataHandler {
                 })
                 .delay(this.drawingCardDelay)
             )
-            .call(() => { this.playAnimationDealerCheck(dealerCards); })
+            .call(() => { this.playAnimationDealerCheck(dealerCards[0], isBlackJack); })
             .start();
+
+        this.main.handPlaces.forEach(place => {
+            place.highlightPlace(false);
+            place.enablePlaceChip(false);
+        });
     }
 
-    playAnimationDealerCheck(dealerCards: CardModel[]) {
+    playAnimationDealerCheck(firstDealerCard: CardModel, isBlackJack: boolean) {
         console.log("dealer check cards");
-        const firstDealerCard = dealerCards[0];
         const checkList = ["A", "J", "Q", "K", "10"];
         let delaytime = 1;
         if (checkList.includes(firstDealerCard.rank)) {
@@ -68,13 +80,16 @@ export default class DealHandler implements DataHandler {
             delaytime += checkDuration;
         }
 
-        if (dealerCards.length < 2) {
-            cc.tween(this.main)
-                .delay(delaytime)
-                .call(() => { this.main.startRound(); })
-                .start();
-        } else {
-            console.log("Dealer got BlackJack ===> not implement");
-        }
+        cc.tween(this.main)
+            .delay(delaytime)
+            .call(() => {
+                if (isBlackJack) {
+                    const finishHandler = this.main.finishHandler as BlackJackFinishHandler;
+                    finishHandler.showWinningHands();
+                } else {
+                    this.main.startRound();
+                }
+            })
+            .start();
     }
 }

@@ -33,6 +33,7 @@ export default class IngameActionHandler implements DataHandler {
         this.main.handPlaces[firstHand.pos - 1].setData(firstHand);
         this.main.handPlaces[firstHand.pos + 2].setData(secondHand);
 
+        this.placeChipsForSplitHand(firstHand.pos + 2, split.endBet);
         cc.tween(this.main)
             .call(() => this.moveCardForSplitting(firstHand.pos, 0.3))
             .delay(0.5)
@@ -67,7 +68,7 @@ export default class IngameActionHandler implements DataHandler {
 
     processDoubleAction(data: any) {
         this.processHitAction(data);
-        //throw chip
+        this.placeChipsForDoubleHand(data.pos - 1, data.endBet);
     }
 
     processHitAction(data: any) {
@@ -80,5 +81,38 @@ export default class IngameActionHandler implements DataHandler {
             this.main.handPlaces[pos].selected = false;
             this.main.switchToNextHand();
         } : () => { });
+    }
+
+    placeChipsForSplitHand(index: number, amount: number) {
+        const destNode = this.main.chipContainers[index];
+        destNode.destroyAllChildren();
+        const chipStack = this.main.betChips.createChipStack(amount, this.main.chipOption);
+        chipStack.zIndex = -1;
+        destNode.addChild(chipStack);
+
+        const worldPositon = destNode.parent.convertToWorldSpaceAR(cc.v2(0, -300));
+        const localPosition = destNode.convertToNodeSpaceAR(worldPositon);
+        chipStack.position = localPosition;
+        chipStack.runAction(cc.jumpTo(0.5, 0, 0, 250, 1));
+    }
+
+    placeChipsForDoubleHand(index: number, amount: number) {
+        const destNode = this.main.chipContainers[index];
+        const chipStack = this.main.betChips.createChipStack(amount, this.main.chipOption);
+        chipStack.zIndex = -1;
+        destNode.addChild(chipStack);
+
+        const worldPositon = destNode.parent.convertToWorldSpaceAR(cc.v2(0, -300));
+        const localPosition = destNode.convertToNodeSpaceAR(worldPositon);
+        chipStack.position = localPosition;
+        chipStack.runAction(cc.sequence(
+            cc.jumpTo(0.5, 0, 0, 250, 1),
+            cc.callFunc(() => {
+                destNode.destroyAllChildren();
+                const chipStack = this.main.betChips.createChipStack(amount * 2, this.main.chipOption);
+                chipStack.zIndex = -1;
+                destNode.addChild(chipStack);
+            })
+        ));
     }
 }
