@@ -2,13 +2,14 @@ import BetBoard, { BetInfo } from "../../../common/bet-board/view-models/BetBoar
 import PresetBet from "../../../common/preset-bet/view-models/PresetBet";
 import { gameIds } from "../../../Configs";
 import NewSocketMiniGameBase from "../../_base/NewSocketMiniGameBase";
+import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
 import SpecialSeDieTimeHandler from "./handlers/SpecialSeDieTimeHandler";
 import SpecialSeDieGuide from "./SpecialSeDieGuide";
-import SpecialSeDieHistory from './SpecialSeDieHistory';
+import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
-import SpecialSeDieStats from './SpecialSeDieStats';
+import SpecialSeDieStats from "./SpecialSeDieStats";
 
 const { ccclass, property } = cc._decorator;
 
@@ -84,6 +85,12 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   @property(cc.Prefab)
   betHistoryPrefab: cc.Prefab = null;
 
+  @property(cc.Label)
+  betPercentageLeft: cc.Label = null;
+  
+  @property(cc.Label)
+  betPercentageRight: cc.Label = null;
+
   private presetBet: PresetBet;
   private betBoard: BetBoard;
   private presetBetValue = 0;
@@ -93,6 +100,7 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   private selectedBetAmountSprites = {};
   private selectedBetAmountClickedImages = {};
   private selectedBetAmountUnClickedImages = {};
+  private betPercentages: {[choice:string] : cc.Label};
   private historyComponent: SpecialSeDieHistory;
 
   onLoad() {
@@ -121,6 +129,11 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
       ['odd']: this.selectedBetAmountUnClickedImageRight,
     };
 
+    this.betPercentages = {
+      ['even']: this.betPercentageLeft,
+      ['odd']: this.betPercentageRight
+    };
+
     this.initRoundHistory();
     this.animatedTime.setAnimatedY(30, -5);
 
@@ -141,6 +154,7 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     this.timeHandler = new SpecialSeDieTimeHandler(this);
     this.logsHandler = new SpecialSeDieLogsHandler(this);
     this.finishHandler = new SpecialSeDieFinishHandler(this);
+    this.betHandler= new SpecialSeDieBetHandler(this);
   }
 
   initRoundHistory() {
@@ -350,5 +364,16 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   openBetHistory(roundId: number) {
     let bethistory = cc.instantiate(this.betHistoryPrefab);
     this.currentMiniPanel.node.addChild(bethistory);
+  }
+
+  showBetPercentage(choice: string, percent: number){
+    const label = this.betPercentages[choice];
+    label.string = `${percent} %`;
+  }
+
+  resetDataAndUI(){
+    super.resetDataAndUI();
+    this.betPercentageLeft.string = "0 %";
+    this.betPercentageRight.string = "0 %";
   }
 }
