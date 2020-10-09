@@ -21,7 +21,7 @@ export default class GameIconLayout extends cc.Component {
   private colums: cc.Node[] = [];
   public miniPanel: MiniPanel = null;
   public columnCount = 0;
-  public initializedCallback = () => {};
+  public initializedCallback = () => { };
 
   onLoad() {
     this.initPrefabs().then(() => {
@@ -41,19 +41,18 @@ export default class GameIconLayout extends cc.Component {
     super();
     this.gameIds = [
       gameIds.XocXoc,
-      gameIds.TaiXiuTurbo,
       gameIds.VipSedie,
-      gameIds.TaiXiu,
       gameIds.MiniSedie,
-      gameIds.Baccarat,
+      gameIds.SpecialSeDie,
+      gameIds.TaiXiuTurbo,
+      gameIds.TaiXiu,
       gameIds.KenoProMax,
       gameIds.KenoProViet,
+      gameIds.Baccarat,
+      gameIds.Roulette,
+      gameIds.BauCua,
       gameIds.RongHo,
       gameIds.ChanLeTurbo,
-      gameIds.BauCua,
-      gameIds.Roulette,
-      gameIds.ChanLe,
-      gameIds.SpecialSeDie,
     ];
   }
 
@@ -111,9 +110,9 @@ export default class GameIconLayout extends cc.Component {
   }
 
   itemPressed(event, gameId) {
-        if (!cc.RedT.user.name) {
-            return;
-        }
+    if (!cc.RedT.user.name) {
+      return;
+    }
     const id = +gameId;
     switch (id) {
       case gameIds.XocXoc:
