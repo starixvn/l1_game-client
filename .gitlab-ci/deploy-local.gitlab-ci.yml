@@ -26,14 +26,18 @@ post_build_local:
 
 deploy_local:
   extends:
-    - .base_deploy_local
+    - .base_deploy_swarm_service
     - .deploy:local:rules
   needs: ['post_build_local']
   variables:
     SERVER_IP: $LOCAL_IP
     SERVER_USER: $LOCAL_USER
     SERVER_PORT: $LOCAL_SSH_PORT
+    SWARM_NODES: $LOCAL_SWARM_CLUSTER
+    SWARM_REPLICAS: 1
+    NODE_LABEL: L1
     DOCKER_PUBLIC_PORT: 8000
     DOCKER_PRIVATE_PORT: 80
+    DOCKER_NETWORK_NAME: lumi-network
   environment:
     name: LOCAL
