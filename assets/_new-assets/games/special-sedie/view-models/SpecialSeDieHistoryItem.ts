@@ -34,7 +34,6 @@ export default class SpecialSeDieHistoryItem extends cc.Component {
     public handleRoundIdClick = (roundId: number) => { }
 
     openBetHistory() {
-        debugger;
         this.handleRoundIdClick(this.roundId);
     }
 }
