@@ -45,6 +45,7 @@ const configs = {
         KenoNorth: 19,
         Roulette: 21,
         VipSedie: 22,
+        SpecialSeDie: 24,
     },
     gameNames: {
         1: "Tài Xỉu",
@@ -68,6 +69,7 @@ const configs = {
         19: "Keno Bắc",
         21: "Roulette",
         22: "Xóc Đĩa VIP",
+        24: 'Xóc Đĩa Cân Cửa',
     },
     gameRoomRegNames: {
         8: 'KenoProMax',
