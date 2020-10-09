@@ -29,12 +29,10 @@ export default class GameDataHandler extends BaseDataHandler implements DataHand
         if (chanleData.red_player_chan) {
             const userBetChanPercent = parseInt(chanleData.red_player_chan) >> 0;
             this.main.playersLeft.string = userBetChanPercent + "%";
-            this.main.userBetLeftPercent.fillRange = userBetChanPercent / 100;
         }
         if (chanleData.red_player_le) {
             const userBetLePercent = parseInt(chanleData.red_player_le) >> 0;
             this.main.playersRight.string = userBetLePercent + "%";
-            this.main.userBetRightPercent.fillRange = userBetLePercent / 100;
         }
 
         return true;

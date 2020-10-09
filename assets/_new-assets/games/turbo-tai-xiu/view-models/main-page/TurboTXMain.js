@@ -553,12 +553,10 @@ cc.Class({
     if (void 0 !== data.red_player_tai) {
       const betTaiPercent = parseInt(data.red_player_tai) >> 0;
       this.playerLeft.string = betTaiPercent + "%";
-      this.userBetBigPercent.fillRange = (betTaiPercent / 100);
     }
     if (void 0 !== data.red_player_xiu) {
       const betXiuPercent = parseInt(data.red_player_xiu) >> 0;
       this.playerRight.string = betXiuPercent + "%";
-      this.userBetSmallPercent.fillRange = -(betXiuPercent / 100);
     }
   },
   onDuDay: function (data) {
@@ -795,7 +793,6 @@ cc.Class({
     this.isNan && this.dataLogs();
     cc.RedT.setting.taixiu_turbo.data.chanle.red_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_le = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_le = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_le = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.red_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = 0;
     this.playerLeft.string = this.playerRight.string = "0%";
-    this.userBetBigPercent.fillRange = this.userBetSmallPercent.fillRange = 0;
     this.gameAudios && this.gameAudios.playStartGameAudio();
   },
   setDefautl: function () {
