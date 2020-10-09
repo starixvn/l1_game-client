@@ -617,6 +617,7 @@ cc.Class({
     this.timeInterval = setInterval(
       function () {
         if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
+          this.waitingCuoc = false;
           //count down to next round
           let time = helper.numberPad(
             cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2),

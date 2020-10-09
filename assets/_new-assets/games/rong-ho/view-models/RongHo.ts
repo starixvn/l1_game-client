@@ -640,6 +640,7 @@ export default class RongHo extends cc.Component {
       const isInTurnTime = !isInWaitTime && this.currentTimeRemaining > 0;
       this.showTime(isInWaitTime, isInTurnTime);
       if (isInWaitTime) {
+        this.waitingCuoc = false;
         if (!this.resultAnimating) {
           this.showResult(true);
           this.resultAnimating = true;
