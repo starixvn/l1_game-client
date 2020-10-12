@@ -11,16 +11,16 @@ export default class NewSocketGameBase extends GameRoomBase {
     onLoad() {
         super.onLoad();
 
-        // authManager.storeInRoomGameId(this.gameId);
-        // this.currentMiniPanel.currentGameRoomId = this.gameId;
+        authManager.storeInRoomGameId(this.gameId);
+        this.currentMiniPanel.currentGameRoomId = this.gameId;
 
-        // this.socket = BaseSocketIOController.getInstance().gameSockets[this.gameId];
-        // this.socket.on(this.gameName, (data) => {
-        //     this.onDataGameRoom(data);
-        // });
-        // this.socket.on("disconnect", () => {
-        //     this.closeGame();
-        // });
+        this.socket = BaseSocketIOController.getInstance().gameSockets[this.gameId];
+        this.socket.on(this.gameName, (data) => {
+            this.onDataGameRoom(data);
+        });
+        this.socket.on("disconnect", () => {
+            this.closeGame();
+        });
     }
 
     start() {

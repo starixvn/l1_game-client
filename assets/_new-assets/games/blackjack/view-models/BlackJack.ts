@@ -1,5 +1,6 @@
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
+import { games } from "../../../SabaConfigs";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
@@ -86,6 +87,11 @@ export default class BlackJack extends NewSocketGameBase {
 
     public chipOption = [1000, 500, 200, 100, 50, 10, 5, 1];
 
+    constructor() {
+        super();
+        this.init("BlackJack", null, null, 1, games.BlackJack.id);
+    }
+
     onLoad() {
         super.onLoad();
         this.initHandPlaces();
@@ -101,8 +107,16 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     start() {
-        // cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
+        cc.RedT.send({ scene: this.gameName });
+        this.socket.emit("inGame");
     }
+
+    stopGame() {
+        // this.gameState = GameState.Stopped;
+        // this.clearIntervalAndTimeout();
+        // this.resetDataAndUI();
+    }
+
 
     protected onGameHide() {
     }
@@ -142,6 +156,9 @@ export default class BlackJack extends NewSocketGameBase {
             handPlace.betItemClickCallback = () => {
                 cc.RedT.audio.playClick();
 
+                this.dealButton.active = true;
+                this.clearButton.active = true;
+
                 this.handPlaces.forEach(place => place.highlightPlace(false));
                 handPlace.highlightPlace(true);
                 const chipNode = this.betChips.createChip(this.currentBet).node;
@@ -157,8 +174,16 @@ export default class BlackJack extends NewSocketGameBase {
             }
             handPlace.clearBetClickCallback = () => {
                 this.chipContainers[index].destroyAllChildren();
+
+                const existChip = this.checkExistChipOnTable()
+                this.dealButton.active = existChip;
+                this.clearButton.active = existChip;
             }
         })
+    }
+
+    checkExistChipOnTable(): boolean {
+        return this.handPlaces.find(place => place.getBetAmount() > 0) != undefined;
     }
 
     createCard(card: CardModel): cc.Node {
@@ -289,7 +314,8 @@ export default class BlackJack extends NewSocketGameBase {
                 hands: this.lastHandBets
             }
         };
-        this.sendData(data);
+        this.socket && this.socket.emit("bet", data);
+
     }
 
     onSplitClick() {
@@ -303,7 +329,7 @@ export default class BlackJack extends NewSocketGameBase {
                 id: this.activeHand.idValue
             }
         }
-        this.sendData(data);
+        this.socket && this.socket.emit("bet", data);
     }
 
     onDoubleClick() {
@@ -317,7 +343,7 @@ export default class BlackJack extends NewSocketGameBase {
                 id: this.activeHand.idValue
             }
         }
-        this.sendData(data);
+        this.socket && this.socket.emit("bet", data);
     }
 
     onStandClick() {
@@ -331,7 +357,7 @@ export default class BlackJack extends NewSocketGameBase {
                 id: this.activeHand.idValue
             }
         }
-        this.sendData(data);
+        this.socket && this.socket.emit("bet", data);
     }
 
     onHitClick() {
@@ -345,7 +371,7 @@ export default class BlackJack extends NewSocketGameBase {
                 id: this.activeHand.idValue
             }
         }
-        this.sendData(data);
+        this.socket && this.socket.emit("bet", data);
     }
 
     onNewBetClick() {

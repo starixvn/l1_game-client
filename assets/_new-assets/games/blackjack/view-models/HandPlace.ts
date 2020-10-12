@@ -36,6 +36,12 @@ export default class HandPlace extends cc.Component {
     @property(cc.Label)
     handId: cc.Label = null;
 
+    @property(cc.Node)
+    blackJackNode: cc.Node = null;
+
+    @property(cc.Node)
+    burstNode: cc.Node = null;
+
     @property
     _selected = false;
 
@@ -100,6 +106,8 @@ export default class HandPlace extends cc.Component {
         this.showStatus(false);
         this.handId && this.showHandId(false);
         this.resultValue && this.showResult(false);
+        this.blackJackNode.active = false;
+        this.burstNode.active = false;
     }
 
     updateDisplay() {
@@ -121,10 +129,10 @@ export default class HandPlace extends cc.Component {
     }
 
     onClearBetClick() {
-        this.clearBetClickCallback();
         this.resetView();
         this.clearBetAmount();
         this.clearData();
+        this.clearBetClickCallback();
     }
 
     getBetAmount(): number {

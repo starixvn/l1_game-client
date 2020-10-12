@@ -63,6 +63,7 @@ export default class DealHandler implements DataHandler {
             .call(() => { this.playAnimationDealerCheck(dealerCards[0], isBlackJack); })
             .start();
 
+        this.main.hideAllButtons();
         this.main.handPlaces.forEach(place => {
             place.highlightPlace(false);
             place.enablePlaceChip(false);

@@ -312,8 +312,8 @@ cc.Class({
   },
 
   openInRoomGame(gameId) {
-    if (SabaConfigs.gameRoomNewSocketIds.includes(parseInt(gameId))) {
-      cc.RedT.MiniPanel.openNewGameSocket(null, gameId);
+    if (SabaConfigs.gameRoomNewSocketIds.includes(+gameId)) {
+      cc.RedT.MiniPanel.openNewGameSocket(null, +gameId);
     }
   },
   AllReset: function () {

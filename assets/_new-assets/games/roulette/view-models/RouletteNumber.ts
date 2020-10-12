@@ -1,5 +1,3 @@
-import CustomButton from "../../../common/custom-button/CustomButton";
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
