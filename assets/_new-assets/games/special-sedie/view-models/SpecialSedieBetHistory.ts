@@ -40,35 +40,7 @@ export default class SpecialSedieBetHistory extends cc.Component {
 
     private socket: SocketIOClient.Socket;
     private roundId: number = 0;
-
-    data: any = {
-        even: {
-            bets: [{
-                bet: 55,
-                betwin: 52.80,
-                name: "DayConvey",
-                time: "2020-10-08T02:21:01.509Z",
-                refund: 0
-            }],
-            totalAmount: 55.00,
-            totalRefund: 0.00
-        },
-        odd: {
-            bets: [{
-                bet: 55,
-                betwin: 0,
-                name: "Farfothich",
-                time: "2020-10-08T02:21:01.506Z",
-                refund: 0
-            }],
-            totalAmount: 55.00,
-            totalRefund: 0.00
-        },
-        result: { red1: true, red2: false, red3: false, red4: true },
-        roundId: 370537,
-        time: "2020-10-08T02:21:31.512Z"
-    }
-
+    
     init(socket:SocketIOClient.Socket, roundId: number) {
         this.socket = socket;
         this.roundId = roundId;
@@ -84,7 +56,6 @@ export default class SpecialSedieBetHistory extends cc.Component {
         }
 
         this.getRound(this.roundId);
-        //this.onData(this.data);
     }
 
     onNextClick() {
