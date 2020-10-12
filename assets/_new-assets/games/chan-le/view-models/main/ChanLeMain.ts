@@ -284,10 +284,6 @@ export default class ChanLeMain extends cc.Component {
   }
 
   onSelectBetInput(event, select: string) {
-    if (this.betBoard.node.active) {
-      return;
-    }
-
     this.setBetButtonFrame(true, select);
     this.currentInputSide = select;
 
@@ -301,7 +297,7 @@ export default class ChanLeMain extends cc.Component {
         break;
     }
     const info = {
-      choice: null,
+      choice: select,
       bet: 0,
       betItem: null,
       maxBet: ChanLeMain.MAX_BET
@@ -317,9 +313,11 @@ export default class ChanLeMain extends cc.Component {
     this.currentInputBet.node.active = true;
   }
 
-  resetCurrentBetInput(): void {
-    this.currentInputBet.string = ChanLeMain.DAT_CUOC;
-    this.currentInputBet.node.active = true;
+  resetCurrentBetInput(select = ""): void {
+    // this.currentInputBet.string = ChanLeMain.DAT_CUOC;
+    // this.currentInputBet.node.active = true;
+    (!select || select == this.betChoice.left) && (this.betInputLeft.string = ChanLeMain.DAT_CUOC);
+    (!select || select == this.betChoice.right) && (this.betInputRight.string = ChanLeMain.DAT_CUOC);
   }
 
   clearCurrentBetInput(): void {
@@ -327,15 +325,17 @@ export default class ChanLeMain extends cc.Component {
   }
 
   setBetButtonFrame(isClick: boolean, select = "") {
-    if (isClick) {
-      if (select == this.betChoice.right) {
-        this.betButtonSpriteRight.spriteFrame = this.betButtonClickedImage;
-      } else {
-        this.betButtonSpriteLeft.spriteFrame = this.betButtonClickedImage;
-      }
+    if (!select) {
+      this.betButtonSpriteRight.spriteFrame = isClick ? this.betButtonClickedImage : this.betButtonUnClickedImage;
+      this.betButtonSpriteLeft.spriteFrame = isClick ? this.betButtonClickedImage : this.betButtonUnClickedImage;
     } else {
-      this.betButtonSpriteRight.spriteFrame = this.betButtonUnClickedImage;
-      this.betButtonSpriteLeft.spriteFrame = this.betButtonUnClickedImage;
+      if (isClick) {
+        select == this.betChoice.right && (this.betButtonSpriteRight.spriteFrame = this.betButtonClickedImage);
+        select == this.betChoice.left && (this.betButtonSpriteLeft.spriteFrame = this.betButtonClickedImage);
+      } else {
+        select == this.betChoice.right && (this.betButtonSpriteRight.spriteFrame = this.betButtonUnClickedImage);
+        select == this.betChoice.left && (this.betButtonSpriteLeft.spriteFrame = this.betButtonUnClickedImage);
+      }
     }
   }
 
@@ -537,8 +537,8 @@ export default class ChanLeMain extends cc.Component {
       acceptedBet: (info: BetInfo) => { this.onBetClick(); },
       changedBet: (info: BetInfo) => { this.setCurrentBetInput(info.bet); },
       cancel: (info: BetInfo) => {
-        this.resetCurrentBetInput();
-        this.setBetButtonFrame(false);
+        this.resetCurrentBetInput(info.choice);
+        this.setBetButtonFrame(false, info.choice);
       },
     };
 

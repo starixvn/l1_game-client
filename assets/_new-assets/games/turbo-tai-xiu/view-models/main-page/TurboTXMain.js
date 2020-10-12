@@ -76,7 +76,6 @@ cc.Class({
     this.waitingBetResponse = false;
     var self = this;
     this.ttOffset = null;
-    this.editboxs = [this.inputLeft, this.inputRight];
     this.initBetBoard();
 
     this.diaNan.getComponent("TXDiaNan").init(this);
@@ -100,7 +99,6 @@ cc.Class({
 
     if (this.TXRoot.board) {
       this.inputL.active = this.inputR.active = false;
-      this.inputLeft.node.active = this.inputRight.node.active = true;
     }
 
     var extendTouchPartComponent = this.extendTouchPart.getComponent("ExtendTouchPart");
@@ -124,11 +122,6 @@ cc.Class({
     this.background.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
     // this.background.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
     this.TXRoot.board && cc.sys.isBrowser && this.addEvent();
-
-    if (this.TXRoot.board) {
-      BrowserUtil.inputAddEvent(this.inputLeft, "input", this.updateValue);
-      BrowserUtil.inputAddEvent(this.inputRight, "input", this.updateValue);
-    }
   },
   onDisable: function () {
     this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -138,18 +131,6 @@ cc.Class({
     // this.background.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
 
     this.TXRoot.board && cc.sys.isBrowser && this.removeEvent();
-    this.clean();
-
-    if (this.TXRoot.board) {
-      BrowserUtil.inputRemoveEvent(this.inputLeft, "input", this.updateValue);
-      BrowserUtil.inputRemoveEvent(this.inputRight, "input", this.updateValue);
-    }
-  },
-  updateValue: function (e) {
-    let value = helper.numberWithCommas(
-      helper.getOnlyNumberInString(this.value)
-    );
-    this.value = value == "0" ? "" : value;
   },
   addEvent: function () {
     for (let t in this.editboxs) {
@@ -179,9 +160,6 @@ cc.Class({
     } !t &&
       0 < this.editboxs.length &&
       BrowserUtil.focusEditBox(this.editboxs[1]);
-  },
-  clean: function () {
-    this.inputLeft.string = this.inputRight.string = "";
   },
   initGame: function (taixiu) {
     if (taixiu != this.taixiu) {
@@ -271,7 +249,7 @@ cc.Class({
     var value = helper.numberWithCommas(
       helper.getOnlyNumberInString(this.input.string)
     );
-    this.input.string = value == "0" ? "" : value;
+    this.input.string = value;
   },
   setPhienLabel: function (phien) {
     if (phien === "") {
