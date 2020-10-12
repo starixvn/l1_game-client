@@ -9,8 +9,10 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
     super.startGame();
     this.socket = BaseSocketIOController.getInstance().gameSockets[this.gameId];
 
-    this.socket.on(this.gameName, this.onData.bind(this));
-    this.socket.on('disconnect', this.closeGame.bind(this));
+    if(this.socket){
+      this.socket.on(this.gameName, this.onData.bind(this));
+      this.socket.on('disconnect', this.closeGame.bind(this));
+    }    
   }
 
   protected registerViewGame() {

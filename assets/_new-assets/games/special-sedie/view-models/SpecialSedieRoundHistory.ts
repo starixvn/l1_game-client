@@ -4,7 +4,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SpecialSedieRoundHistory extends MiniRoundHistory {
-    public handleBetHistory = (roundId: number) => { }
+    public handleBetHistory = (roundId: number) => {}
 
     onLoad() {
         super.onLoad();

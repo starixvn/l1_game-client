@@ -1,7 +1,7 @@
-const { ccclass, property } = cc._decorator;
 import { getStringDateByTime, getStringHourByTime, numberWithCommas } from "./../../../common/helpers/Helper";
-import SpecialSedieBetHistoryItem from './SpecialSedieBetHistoryItem';
+import SpecialSedieBetHistoryItem from "./SpecialSedieBetHistoryItem";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SpecialSedieBetHistory extends cc.Component {
 
@@ -38,6 +38,7 @@ export default class SpecialSedieBetHistory extends cc.Component {
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
 
+    private socket: SocketIOClient.Socket;
     private roundId: number = 0;
 
     data: any = {
@@ -68,7 +69,8 @@ export default class SpecialSedieBetHistory extends cc.Component {
         time: "2020-10-08T02:21:31.512Z"
     }
 
-    init(roundId: number) {
+    init(socket:SocketIOClient.Socket, roundId: number) {
+        this.socket = socket;
         this.roundId = roundId;
     }
 
@@ -81,48 +83,53 @@ export default class SpecialSedieBetHistory extends cc.Component {
             this.node.scale = 0.8;
         }
 
-        this.onData(this.data);
+        this.getRound(this.roundId);
+        //this.onData(this.data);
     }
 
     onNextClick() {
-        this.getRoundId(this.roundId + 1);
+        this.getRound(this.roundId + 1);
     }
 
     onPreviousClick() {
-        this.getRoundId(this.roundId - 1);
+        this.getRound(this.roundId - 1);
     }
 
-    getRoundId(roundId: number) {
-
+    getRound(roundId: number) {
+        this.socket.emit("getRound",{roundId});
     }
 
     onData(data: any) {
         this.resetData();
-        this.roundId = data.roundId;
-        this.roundIdLabel.string = `${data.roundId} - ${getStringDateByTime(data.time)}`;
-        this.evenBetAmount.string = numberWithCommas(data.even.totalAmount);
-        this.evenRefundAmount.string = numberWithCommas(data.even.totalRefund);
-        this.oddBetAmount.string = numberWithCommas(data.odd.totalAmount);
-        this.oddRefundAmount.string = numberWithCommas(data.odd.totalRefund);
 
-        this.updateDotsResult(data.result);
+        const {id, time, total, result, even, odd} = data;
+        this.roundId = id;
+        this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
 
-        data.even.bets.forEach(user => {
+        this.evenBetAmount.string = numberWithCommas(total?.even?.betAmount ?? 0);
+        this.evenRefundAmount.string = numberWithCommas(total?.even?.refund ?? 0);
+        this.oddBetAmount.string = numberWithCommas(total?.odd?.betAmount ?? 0);
+        this.oddRefundAmount.string = numberWithCommas(total?.odd?.refund ?? 0);
+        
+
+        this.updateDotsResult(result);
+
+        even && even.forEach(user => {
             let item = this.addItem(user);
             this.evenContent.addChild(item);
-        })
+        });
 
-        data.odd.bets.forEach(user => {
+        odd && odd.forEach(user => {
             let item = this.addItem(user);
             this.oddContent.addChild(item);
-        })
+        });
     }
 
     updateDotsResult(result: any) {
-        this.dots.children.forEach((dot, index) => {
-            let spriteComponent = dot.getComponent(cc.Sprite);
-            spriteComponent.spriteFrame = result[index] ? this.redDot : this.whiteDot;
-        })
+        Object.keys(result).forEach((key, index)=>{
+            const dot = this.dots.children[index]?.getComponent(cc.Sprite);
+            dot.spriteFrame=result[key] ? this.redDot : this.whiteDot;
+        });
     }
 
     addItem(data: any) {
@@ -133,14 +140,14 @@ export default class SpecialSedieBetHistory extends cc.Component {
         itemComponent.highlight.active = isLoginUser;
         itemComponent.time.string = getStringHourByTime(data.time);
         itemComponent.username.string = data.name;
-        itemComponent.betAmount.string = numberWithCommas(data.bet);
+        itemComponent.betAmount.string = numberWithCommas(data.amount);
         itemComponent.refund.string = numberWithCommas(data.refund);
+        
         return item;
     }
 
     resetData() {
         this.evenContent.destroyAllChildren();
         this.oddContent.destroyAllChildren();
-    }
-
+    }    
 }

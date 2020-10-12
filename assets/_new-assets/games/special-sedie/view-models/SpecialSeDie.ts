@@ -6,6 +6,7 @@ import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
 import SpecialSeDieTimeHandler from "./handlers/SpecialSeDieTimeHandler";
+import SpecialSedieBetHistory from "./SpecialSedieBetHistory";
 import SpecialSeDieGuide from "./SpecialSeDieGuide";
 import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
@@ -102,6 +103,7 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   private selectedBetAmountUnClickedImages = {};
   private betPercentages: {[choice:string] : cc.Label};
   private historyComponent: SpecialSeDieHistory;
+  private betHistory: SpecialSedieBetHistory;
 
   onLoad() {
     if (!cc.sys.isMobile) {
@@ -145,6 +147,10 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     super.onData(data);
     if (data.history) {
       this.historyComponent.onData(data.history);
+    }
+
+    if(data.round){
+      this.betHistory && this.betHistory.onData(data.round);
     }
   }
 
@@ -296,19 +302,22 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   }
 
   updateRoundHistory() {
-    const miniHistoryData = this.currentDataLogs.map((d) => {
+    const miniHistoryData = this.currentDataLogs.map((log) => {
       let count = 0;
-      const list = ['red1', 'red2', 'red3', 'red4'];
-      list.forEach((i) => {
-        if (d.result[i]) {
+      const {result}=log;
+      
+      Object.keys(result).forEach((key)=>{
+        if(result[key]){
           count++;
         }
       });
+
       return {
-        roundId: d.roundId || d.id || d.round,
+        roundId: log.roundId || log.id || log.round,
         red: count,
       };
     });
+    
     this.miniRoundHistory.setData(miniHistoryData);
   }
 
@@ -362,8 +371,10 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   }
 
   openBetHistory(roundId: number) {
-    let bethistory = cc.instantiate(this.betHistoryPrefab);
-    this.currentMiniPanel.node.addChild(bethistory);
+    let node = cc.instantiate(this.betHistoryPrefab);
+    this.betHistory=node.getComponent(SpecialSedieBetHistory);
+    this.betHistory.init(this.socket, roundId);
+    this.currentMiniPanel.node.addChild(node);
   }
 
   showBetPercentage(choice: string, percent: number){

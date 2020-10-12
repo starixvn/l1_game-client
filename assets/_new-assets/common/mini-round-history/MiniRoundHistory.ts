@@ -41,12 +41,13 @@ export default class MiniRoundHistory extends cc.Component {
         this.tip.node.active && this.tip.setData(data);
     }
 
-    public setData(datas: any[]) {
+    public setData(data: any[]) {
+        console.log(data.length);
         this.items.forEach((item, index) => {
-            if (index >= datas.length) {
+            if (index >= data.length) {
                 return;
             }
-            let value = datas[index];
+            let value = data[index];
             item.setData(value);
             item.node.active = true;
         });
