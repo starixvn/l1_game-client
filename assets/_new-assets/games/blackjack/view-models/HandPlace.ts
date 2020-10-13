@@ -28,7 +28,7 @@ export default class HandPlace extends cc.Component {
     betValue: cc.Label = null;
 
     @property(cc.Label)
-    statusValue: cc.Label = null;
+    scoreValue: cc.Label = null;
 
     @property(cc.Label)
     resultValue: cc.Label = null;
@@ -67,7 +67,17 @@ export default class HandPlace extends cc.Component {
             return false;
         }
 
-        return BlackJackUtils.getValue(cards[0].rank) === BlackJackUtils.getValue(cards[1].rank) && !this.data.splitFrom;
+        const firstValues = BlackJackUtils.getValues(cards[0].rank);
+        const secondValues = BlackJackUtils.getValues(cards[1].rank);
+        let isEqual = false;
+        for (let value of firstValues) {
+            if (secondValues.includes(value)) {
+                isEqual = true;
+                break;
+            }
+        }
+
+        return isEqual && !this.data.splitFrom;
     }
 
     get canDouble() {
@@ -76,7 +86,7 @@ export default class HandPlace extends cc.Component {
             return false;
         }
 
-        const total = BlackJackUtils.getValue(cards[0].rank) + BlackJackUtils.getValue(cards[1].rank);
+        const total = this.data.total[0];
         return total > 8 && total < 12 && !this.data.splitFrom;
     }
 
@@ -103,7 +113,7 @@ export default class HandPlace extends cc.Component {
         }
 
         this.betValue && this.showBetValue(false);
-        this.showStatus(false);
+        this.showScore(false);
         this.handId && this.showHandId(false);
         this.resultValue && this.showResult(false);
         this.blackJackNode.active = false;
@@ -170,16 +180,23 @@ export default class HandPlace extends cc.Component {
         this._betAmount = this.data.bet;
     }
 
-    showStatus(show: boolean) {
-        this.statusValue.node.parent.active = show;
+    showScore(show: boolean) {
+        this.scoreValue.node.parent.active = show;
     }
 
-    updateDisplayStatus(data: any) {
-        this.showStatus(true);
-        if (Array.isArray(data)) {
-            this.statusValue.string = `${data[0]} / ${data[1]}`;
+    updateDisplayScore(fullScore: boolean) {
+        if (!this.data) {
+            this.scoreValue.string = "";
+            this.showScore(false);
+            return;
+        }
+        this.showScore(true);
+        if (fullScore) {
+            this.scoreValue.string = this.data.isStand ? this.data.total[this.data.total.length - 1] : this.data.total.join(' / ');
         } else {
-            this.statusValue.string = data;
+            const firstCard = this.data.cards[0];
+            const values = BlackJackUtils.getValues(firstCard.rank);
+            this.scoreValue.string = values.join(' / ');
         }
     }
 

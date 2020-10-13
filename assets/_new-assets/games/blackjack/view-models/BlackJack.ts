@@ -86,6 +86,7 @@ export default class BlackJack extends NewSocketGameBase {
     lastHandBets: any[] = [];
 
     public chipOption = [1000, 500, 200, 100, 50, 10, 5, 1];
+    private priorityHands = [];
 
     constructor() {
         super();
@@ -155,7 +156,9 @@ export default class BlackJack extends NewSocketGameBase {
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 cc.RedT.audio.playClick();
-
+                if (!this.priorityHands.includes(index)) {
+                    this.priorityHands.push(index);
+                }
                 this.dealButton.active = true;
                 this.clearButton.active = true;
 
@@ -174,6 +177,10 @@ export default class BlackJack extends NewSocketGameBase {
             }
             handPlace.clearBetClickCallback = () => {
                 this.chipContainers[index].destroyAllChildren();
+                const location = this.priorityHands.indexOf(index);
+                if (location > -1) {
+                    this.priorityHands.splice(location, 1);
+                }
 
                 const existChip = this.checkExistChipOnTable()
                 this.dealButton.active = existChip;
@@ -297,14 +304,16 @@ export default class BlackJack extends NewSocketGameBase {
         }
 
         const hands = [];
-        for (let i = 0; i < 3; i++) {
+
+        this.priorityHands.forEach(i => {
             const betAmount = this.handPlaces[i].getBetAmount()
             if (betAmount > 0) {
                 hands.push({ pos: i + 1, bet: betAmount })
             }
-        }
+        });
 
         this.lastHandBets = hands;
+        console.log("deal hands   ", hands);
         this.rebet();
     }
 
@@ -315,7 +324,6 @@ export default class BlackJack extends NewSocketGameBase {
             }
         };
         this.socket && this.socket.emit("bet", data);
-
     }
 
     onSplitClick() {

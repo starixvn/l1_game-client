@@ -53,7 +53,7 @@ export default class BlackJackIngameHandler implements DataHandler {
                 const chipStack = this.main.betChips.createChipStack(hand.bet, this.main.chipOption);
                 this.main.chipContainers[pos].addChild(chipStack);
                 place.updateDisplayBetValue(hand.bet);
-                place.updateDisplayStatus(hand.total);
+                place.updateDisplayScore(true);
             });
 
             this.main.switchToNextHand();

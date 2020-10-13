@@ -25,11 +25,14 @@ export default class DealHandler implements DataHandler {
         hands.forEach(hand => {
             const card = hand.cards[0];
             const pos = hand.pos - 1;
-            actions.push(() => { this.main.drawingCardToPlayer(card, pos); });
 
-            this.main.handPlaces[pos].setData(hand);
-            if (hand.bet != this.main.handPlaces[pos].getBetAmount()) {
-                this.main.handPlaces[pos].syncBetValue();
+            const place = this.main.handPlaces[pos];
+            place.setData(hand);
+
+            actions.push(() => this.main.drawingCardToPlayer(card, pos, () => place.updateDisplayScore(false)));
+
+            if (hand.bet != place.getBetAmount()) {
+                place.syncBetValue();
                 this.main.chipContainers[pos].destroyAllChildren();
                 const chipStack = this.main.betChips.createChipStack(hand.bet, this.main.chipOption);
                 this.main.chipContainers[pos].addChild(chipStack);
@@ -41,14 +44,15 @@ export default class DealHandler implements DataHandler {
         hands.forEach(hand => {
             const card = hand.cards[1];
             const pos = hand.pos - 1;
-            actions.push(() => { this.main.drawingCardToPlayer(card, pos); });
+            const place = this.main.handPlaces[pos];
+            actions.push(() => this.main.drawingCardToPlayer(card, pos, () => place.updateDisplayScore(true)));
         });
 
         const isBlackJack = dealerCards.length > 1;
         if (isBlackJack) {
-            actions.push(() => { this.main.drawingCardToDealer(dealerCards[1], true); });
+            actions.push(() => this.main.drawingCardToDealer(dealerCards[1], true));
         } else {
-            actions.push(() => { this.main.drawingCardToDealer(null, true); });
+            actions.push(() => this.main.drawingCardToDealer(null, true));
         }
 
         let count = 0;
@@ -67,6 +71,7 @@ export default class DealHandler implements DataHandler {
         this.main.handPlaces.forEach(place => {
             place.highlightPlace(false);
             place.enablePlaceChip(false);
+            place.showClearBetButton(false);
         });
     }
 

@@ -9,18 +9,22 @@ export default class IngameActionHandler implements DataHandler {
     handle(data: any): boolean {
         if (data.hit) {
             this.processHitAction(data.hit);
+            this.main.showProcessingWarning(false);
         }
 
         if (data.stand) {
             this.processStandAction(data.stand);
+            this.main.showProcessingWarning(false);
         }
 
         if (data.double) {
             this.processDoubleAction(data.double);
+            this.main.showProcessingWarning(false);
         }
 
         if (data.split) {
             this.processSplitAction(data.split);
+            this.main.showProcessingWarning(false);
         }
         return true;
     }
@@ -30,16 +34,26 @@ export default class IngameActionHandler implements DataHandler {
         const firstHand = hands[0];
         const secondHand = hands[1];
 
-        this.main.handPlaces[firstHand.pos - 1].setData(firstHand);
-        this.main.handPlaces[firstHand.pos + 2].setData(secondHand);
+        const firstPlace = this.main.handPlaces[firstHand.pos - 1];
+        const secondPlace = this.main.handPlaces[firstHand.pos + 2];
+        firstPlace.setData(firstHand);
+        secondPlace.setData(secondHand);
 
         this.placeChipsForSplitHand(firstHand.pos + 2, split.endBet);
         cc.tween(this.main)
-            .call(() => this.moveCardForSplitting(firstHand.pos, 0.3))
+            .call(() => {
+                this.moveCardForSplitting(firstHand.pos, 0.3);
+                firstPlace.updateDisplayScore(false);
+                secondPlace.updateDisplayScore(false);
+            })
             .delay(0.5)
-            .call(() => this.main.drawingCardToPlayer(firstHand.cards[1], firstHand.pos - 1))
+            .call(() => this.main.drawingCardToPlayer(firstHand.cards[1], firstHand.pos - 1, () => {
+                firstPlace.updateDisplayScore(true);
+            }))
             .delay(0.5)
-            .call(() => this.main.drawingCardToPlayer(secondHand.cards[1], secondHand.pos - 1))
+            .call(() => this.main.drawingCardToPlayer(secondHand.cards[1], secondHand.pos - 1, () => {
+                secondPlace.updateDisplayScore(true);
+            }))
             .start();
     }
 
@@ -61,8 +75,11 @@ export default class IngameActionHandler implements DataHandler {
 
     processStandAction(data: any) {
         const pos = data.pos - 1;
-        this.main.handPlaces[pos].setData(data);
-        this.main.handPlaces[pos].selected = false;
+        const place = this.main.handPlaces[pos];
+        place.setData(data);
+        place.selected = false;
+        place.updateDisplayScore(true);
+
         this.main.switchToNextHand();
     }
 
@@ -74,13 +91,17 @@ export default class IngameActionHandler implements DataHandler {
     processHitAction(data: any) {
         const card = data.newCard;
         const pos = data.pos - 1;
-        this.main.handPlaces[pos].setData(data);
+        const place = this.main.handPlaces[pos];
+        place.setData(data);
 
         const isStand = data.isStand;
         this.main.drawingCardToPlayer(card, pos, isStand ? () => {
-            this.main.handPlaces[pos].selected = false;
+            place.updateDisplayScore(true);
+            place.selected = false;
             this.main.switchToNextHand();
-        } : () => { });
+        } : () => {
+            place.updateDisplayScore(true);
+        });
     }
 
     placeChipsForSplitHand(index: number, amount: number) {
