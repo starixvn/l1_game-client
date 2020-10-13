@@ -1,7 +1,5 @@
-import BetBoard, { BetInfo } from "../../../common/bet-board/view-models/BetBoard";
-import PresetBet from "../../../common/preset-bet/view-models/PresetBet";
 import { gameIds } from "../../../Configs";
-import NewSocketMiniGameBase from "../../_base/NewSocketMiniGameBase";
+import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
@@ -15,7 +13,7 @@ import SpecialSeDieStats from "./SpecialSeDieStats";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SpecialSeDie extends NewSocketMiniGameBase {
+export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   get gameId() {
     return gameIds.SpecialSeDie;
   }
@@ -50,15 +48,6 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
   @property(cc.Prefab)
   statisticPrefab: cc.Prefab = null;
 
-  @property(cc.Node)
-  betBoardContainer: cc.Node = null;
-
-  @property(cc.Prefab)
-  betBoardPrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
-  presetBetPrefab: cc.Prefab = null;
-
   @property(cc.Label)
   selectedBetAmountLabelLeft: cc.Label = null;
 
@@ -88,59 +77,44 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
 
   @property(cc.Label)
   betPercentageLeft: cc.Label = null;
-  
+
   @property(cc.Label)
   betPercentageRight: cc.Label = null;
 
-  private presetBet: PresetBet;
-  private betBoard: BetBoard;
-  private presetBetValue = 0;
-  private presetBetSettingKey: string;
   private miniRoundHistory: SpecialSedieRoundHistory;
-  private selectedBetAmountLabels = {};
-  private selectedBetAmountSprites = {};
-  private selectedBetAmountClickedImages = {};
-  private selectedBetAmountUnClickedImages = {};
-  private betPercentages: {[choice:string] : cc.Label};
   private historyComponent: SpecialSeDieHistory;
   private betHistory: SpecialSedieBetHistory;
+  private choice = {
+    odd: 'odd',
+    even: 'even',
+  };
 
   onLoad() {
-    if (!cc.sys.isMobile) {
-      this.node.scale = 0.8;
-    }
-
     super.onLoad();
+
     this.selectedBetAmountLabels = {
-      ['even']: this.selectedBetAmountLabelLeft,
-      ['odd']: this.selectedBetAmountLabelRight,
+      [this.choice.even]: this.selectedBetAmountLabelLeft,
+      [this.choice.odd]: this.selectedBetAmountLabelRight,
     };
-
     this.selectedBetAmountSprites = {
-      ['even']: this.selectedBetAmountSpriteLeft,
-      ['odd']: this.selectedBetAmountSpriteRight,
+      [this.choice.even]: this.selectedBetAmountSpriteLeft,
+      [this.choice.odd]: this.selectedBetAmountSpriteRight,
     };
-
     this.selectedBetAmountClickedImages = {
-      ['even']: this.selectedBetAmountClickedImageLeft,
-      ['odd']: this.selectedBetAmountClickedImageRight,
+      [this.choice.even]: this.selectedBetAmountClickedImageLeft,
+      [this.choice.odd]: this.selectedBetAmountClickedImageRight,
     };
-
     this.selectedBetAmountUnClickedImages = {
-      ['even']: this.selectedBetAmountUnClickedImageLeft,
-      ['odd']: this.selectedBetAmountUnClickedImageRight,
+      [this.choice.even]: this.selectedBetAmountUnClickedImageLeft,
+      [this.choice.odd]: this.selectedBetAmountUnClickedImageRight,
     };
-
     this.betPercentages = {
-      ['even']: this.betPercentageLeft,
-      ['odd']: this.betPercentageRight
+      [this.choice.even]: this.betPercentageLeft,
+      [this.choice.odd]: this.betPercentageRight,
     };
 
     this.initRoundHistory();
     this.animatedTime.setAnimatedY(30, -5);
-
-    this.initPresetBetBoard();
-    this.initBetBoard();
   }
 
   onData(data: any) {
@@ -149,7 +123,7 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
       this.historyComponent.onData(data.history);
     }
 
-    if(data.round){
+    if (data.round) {
       this.betHistory && this.betHistory.onData(data.round);
     }
   }
@@ -160,7 +134,7 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     this.timeHandler = new SpecialSeDieTimeHandler(this);
     this.logsHandler = new SpecialSeDieLogsHandler(this);
     this.finishHandler = new SpecialSeDieFinishHandler(this);
-    this.betHandler= new SpecialSeDieBetHandler(this);
+    this.betHandler = new SpecialSeDieBetHandler(this);
   }
 
   initRoundHistory() {
@@ -168,146 +142,17 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     this.miniRoundHistory = mini.getComponent(SpecialSedieRoundHistory);
     this.miniRoundHistory.handleBetHistory = (roundId) => {
       this.openBetHistory(roundId);
-    }
+    };
     this.miniRoundHistoryContainer.addChild(mini);
-  }
-
-  onSelectBetChoiceClick(event: cc.Event, choice: string) {
-    this.setSelectedBetAmountSpriteFrame(choice, true);
-    const betInfo = {
-      choice: choice,
-      bet: 0,
-      betItem: null,
-      maxBet: this.gameConfigs.choices_maxbet[choice],
-    };
-    this.betBoard.show(betInfo);
-    this.betBoard.node.runAction(
-      cc.sequence(
-        cc.delayTime(0.05),
-        cc.callFunc(() => {
-          this.adjustPosition();
-        })
-      )
-    );
-  }
-
-  protected adjustPosition() {
-    const okButtonPositionY = this.betBoard.okButton.node.parent.convertToWorldSpaceAR(
-      this.betBoard.okButton.node.position
-    ).y;
-    const expectPositionY = this.betBoard.okButton.node.height;
-    const paddingBottom = 20;
-
-    if (okButtonPositionY < expectPositionY) {
-      const distance = expectPositionY - okButtonPositionY + paddingBottom;
-
-      this.node.runAction(
-        cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut())
-      );
-    }
-  }
-
-  private initPresetBetBoard() {
-    const node = cc.instantiate(this.presetBetPrefab);
-    this.presetBet = node.getComponent(PresetBet);
-    this.presetBet.onChangedBet = this.changedPresetBet.bind(this);
-    this.presetBet.getPreset = this.getPresetBet.bind(this);
-    this.node.addChild(node);
-    node.active = false;
-
-    this.presetBetValue =
-      parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
-  }
-
-  private changedPresetBet(value: number) {
-    this.presetBetValue = value;
-    cc.sys.localStorage.setItem(this.presetBetSettingKey, this.presetBetValue);
-  }
-
-  private getPresetBet() {
-    return this.presetBetValue;
-  }
-
-  protected initBetBoard() {
-    const betBoardNode = cc.instantiate(this.betBoardPrefab);
-    this.betBoard = betBoardNode.getComponent(BetBoard);
-    this.betBoard.callback = {
-      getPreset: this.getPresetBet.bind(this),
-      acceptedBet: this.onAcceptedBet.bind(this),
-      changedBet: this.onChangedBet.bind(this),
-      cancel: this.onCancelBet.bind(this),
-    };
-
-    this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
-    this.betBoard.node.active = false;
-  }
-
-  onAcceptedBet(info: BetInfo) {
-    if (!this.validateBet()) {
-      return;
-    }
-
-    const { choice, bet } = info;
-    this.sendBetRequest(choice, bet);
-    this.resetSelectedBetAmountLabel(choice);
-    this.setSelectedBetAmountSpriteFrame(choice, false);
-  }
-
-  onChangedBet(info: BetInfo) {
-    const { bet, choice } = info;
-    const maxBet = this.gameConfigs.choices_maxbet[choice];
-    const betAmount = bet > maxBet ? maxBet : bet;
-    const selectedBetAmountLabel = this.selectedBetAmountLabels[choice];
-    selectedBetAmountLabel.string = betAmount;
-  }
-
-  onCancelBet(info: BetInfo) {
-    const { choice } = info;
-    this.resetSelectedBetAmountLabel(choice);
-    this.setSelectedBetAmountSpriteFrame(choice, false);
-  }
-
-  resetSelectedBetAmountLabel(choice: string) {
-    const selectedBetAmountLabel = this.selectedBetAmountLabels[choice];
-    selectedBetAmountLabel.string = 'ĐẶT CỬA';
-  }
-
-  setSelectedBetAmountSpriteFrame(choice: string, isClicked: boolean) {
-    const selectedBetAmountSprite = this.selectedBetAmountSprites[choice];
-    selectedBetAmountSprite.spriteFrame = isClicked
-      ? this.selectedBetAmountClickedImages[choice]
-      : this.selectedBetAmountUnClickedImages[choice];
-  }
-
-  validateBet() {
-    if (this.isDisableGame) {
-      return false;
-    }
-
-    if (this.waitingProcessing) {
-      this.showProcessingWarning(true);
-      return false;
-    } else {
-      this.waitingProcessing = true;
-      return true;
-    }
-  }
-
-  sendBetRequest(choice: string, amount: number) {
-    const betData = {
-      amount: amount,
-      betChoice: choice,
-    };
-    this.socket && this.socket.emit('bet', betData);
   }
 
   updateRoundHistory() {
     const miniHistoryData = this.currentDataLogs.map((log) => {
       let count = 0;
-      const {result}=log;
-      
-      Object.keys(result).forEach((key)=>{
-        if(result[key]){
+      const { result } = log;
+
+      Object.keys(result).forEach((key) => {
+        if (result[key]) {
           count++;
         }
       });
@@ -317,7 +162,7 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
         red: count,
       };
     });
-    
+
     this.miniRoundHistory.setData(miniHistoryData);
   }
 
@@ -331,12 +176,7 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     if (this.currentDataLogs.length > 0) {
       const { result, settlementResult } = this.currentDataLogs[0];
       this.setDots(result);
-      this.betItems.forEach((betItem) =>
-        betItem.setHighlight(
-          settlementResult[betItem.node.name.toLowerCase()],
-          true
-        )
-      );
+      this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
       this.updateRoundHistory();
     }
   }
@@ -354,7 +194,7 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     this.historyComponent.init(this.socket);
     this.historyComponent.handleBetHistory = (roundId) => {
       this.openBetHistory(roundId);
-    }
+    };
     this.currentMiniPanel.node.addChild(dialog);
   }
 
@@ -365,26 +205,16 @@ export default class SpecialSeDie extends NewSocketMiniGameBase {
     this.currentMiniPanel.node.addChild(dialog);
   }
 
-  openPresetBetDialog() {
-    cc.RedT.audio.playClick();
-    this.presetBet.toggle();
-  }
-
   openBetHistory(roundId: number) {
     let node = cc.instantiate(this.betHistoryPrefab);
-    this.betHistory=node.getComponent(SpecialSedieBetHistory);
+    this.betHistory = node.getComponent(SpecialSedieBetHistory);
     this.betHistory.init(this.socket, roundId);
     this.currentMiniPanel.node.addChild(node);
   }
 
-  showBetPercentage(choice: string, percent: number){
-    const label = this.betPercentages[choice];
-    label.string = `${percent} %`;
-  }
-
-  resetDataAndUI(){
+  resetDataAndUI() {
     super.resetDataAndUI();
-    this.betPercentageLeft.string = "0 %";
-    this.betPercentageRight.string = "0 %";
+    this.betPercentageLeft.string = '0 %';
+    this.betPercentageRight.string = '0 %';
   }
 }

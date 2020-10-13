@@ -42,7 +42,6 @@ export default class MiniRoundHistory extends cc.Component {
     }
 
     public setData(data: any[]) {
-        console.log(data.length);
         this.items.forEach((item, index) => {
             if (index >= data.length) {
                 return;
