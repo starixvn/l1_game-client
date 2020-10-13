@@ -4,7 +4,7 @@ import GameRoomBase from "../GameRoomBase";
 import DataHandler from "./DataHandler";
 
 export interface IGameBaseTimeHandler extends DataHandler {
-  playTimeInterval: NodeJS.Timeout;
+  playTimeInterval: number;
   playTime(): void;
   stopPlayTime(): void;
   resetTime(): void;
@@ -14,7 +14,7 @@ export interface IGameBaseTimeHandler extends DataHandler {
 }
 
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
-  playTimeInterval: NodeJS.Timeout;
+  playTimeInterval: number;
 
   constructor(protected readonly main: GameBase) {}
 
@@ -32,10 +32,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
   handle(data: any): boolean {
     if (data.remainingTime) {
-      if (
-        (data.remainingTime || data.remainingTime >= 0) &&
-        !this.main.isStopGame
-      ) {
+      if ((data.remainingTime || data.remainingTime >= 0) && !this.main.isStopGame) {
         this.setCurrentTimeRemaining(data);
         this.playTime();
         this.main.hideUmMessage();
@@ -68,14 +65,12 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.handleStartingNewGameRound();
       }
 
-      const isInRoundTime =
-        this.main.currentTimeRemaining >= this.main.config.minBetTime;
+      const isInRoundTime = this.main.currentTimeRemaining >= this.main.config.minBetTime;
 
       if (isInRoundTime) {
         this.handleInRoundTime();
 
-        const isInLockBetTime =
-          this.main.currentTimeRemaining <= this.main.config.stopBetTime;
+        const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
 
         if (isInLockBetTime) {
           if (this.main.currentTimeRemaining == this.main.config.stopBetTime) {
@@ -108,16 +103,12 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
   showWaitTime() {
     this.main.timeWaitNode.active = true;
-    this.main.timeWaitLabel.string = this.formatTime(
-      this.main.currentTimeRemaining - this.main.config.betTime - 1
-    );
+    this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
   }
 
   handleStartingNewGameRound() {
     this.main.noticeNode.destroyAllChildren();
-    this.main.node.activeInHierarchy &&
-      this.main.gameAudios &&
-      this.main.gameAudios.playStartGameAudio();
+    this.main.node.activeInHierarchy && this.main.gameAudios && this.main.gameAudios.playStartGameAudio();
     this.main.resetDataAndUI();
 
     var mainRoomGame = this.main as GameRoomBase;

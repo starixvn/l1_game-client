@@ -1,5 +1,6 @@
 import { gameIds } from "../../../Configs";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
@@ -150,19 +151,16 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     const miniHistoryData = this.currentDataLogs.map((log) => {
       let count = 0;
       const { result } = log;
-
       Object.keys(result).forEach((key) => {
         if (result[key]) {
           count++;
         }
       });
-
       return {
         roundId: log.roundId || log.id || log.round,
         red: count,
       };
     });
-
     this.miniRoundHistory.setData(miniHistoryData);
   }
 
@@ -178,6 +176,15 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
       this.setDots(result);
       this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
       this.updateRoundHistory();
+
+      cc.tween(this.thePlate)
+        .to(0.5, { position: cc.v2(50, 100) }, { easing: 'sineInOut' })
+        .call(() => {
+          (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
+          this.finishShowResult = true;
+        })
+        .to(0.2, { opacity: 0 })
+        .start();
     }
   }
 
@@ -210,11 +217,5 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     this.betHistory = node.getComponent(SpecialSedieBetHistory);
     this.betHistory.init(this.socket, roundId);
     this.currentMiniPanel.node.addChild(node);
-  }
-
-  resetDataAndUI() {
-    super.resetDataAndUI();
-    this.betPercentageLeft.string = '0 %';
-    this.betPercentageRight.string = '0 %';
   }
 }

@@ -3,17 +3,39 @@ import SpecialSeDie from "../SpecialSeDie";
 
 export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
   private readonly shakeThePlateTime = 32;
+  private readonly displayResultTime = 36;
 
   constructor(protected readonly main: SpecialSeDie) {
     super(main);
   }
 
   get isInWaitTime() {
-    return this.main.currentTimeRemaining > this.shakeThePlateTime;
+    return this.main.currentTimeRemaining > this.shakeThePlateTime && this.main.currentTimeRemaining <= this.displayResultTime;
+  }
+
+  get isInBalanceBetTime() {
+    return this.main.currentTimeRemaining > this.displayResultTime;
   }
 
   get isStartingNewGameRound() {
     return this.main.currentTimeRemaining == this.shakeThePlateTime;
+  }
+
+  get isDisplayResultTime() {
+    return this.main.currentTimeRemaining == this.displayResultTime;
+  }
+
+  gameUpdate(): void {
+    super.gameUpdate();
+
+    if (this.isInBalanceBetTime) {
+      this.main.balanceBet();
+    }
+
+    if (this.isDisplayResultTime) {
+      this.main.hideBalanceBetNotice();
+      this.main.showResult();
+    }
   }
 
   handleStartingNewGameRound() {
@@ -32,22 +54,14 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
   handleWaitTime() {
     super.handleWaitTime();
 
-    if (
-      this.main.currentTimeRemaining > this.shakeThePlateTime &&
-      !this.main.finishShowResult
-    ) {
+    if (this.main.currentTimeRemaining > this.shakeThePlateTime && !this.main.finishShowResult) {
       this.main.showResult();
-      this.main.thePlate.position = cc.v2(50, 150);
-      this.main.thePlate.opacity = 0;
-      this.main.finishShowResult = true;
     }
   }
 
   showWaitTime() {
     this.main.timeWaitNode.active = true;
-    this.main.timeWaitLabel.string = this.formatTime(
-      this.main.currentTimeRemaining - this.shakeThePlateTime - 1
-    );
+    this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.shakeThePlateTime - 1);
   }
 
   shakeThePlate() {

@@ -1,3 +1,5 @@
+import * as _ from "lodash";
+
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
 import NewSocketMiniGameBase from "./NewSocketMiniGameBase";
@@ -15,6 +17,12 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
   @property(cc.Prefab)
   presetBetPrefab: cc.Prefab = null;
 
+  @property(cc.Node)
+  balanceBetNoticeContainer: cc.Node = null;
+
+  @property(cc.Prefab)
+  balanceBetNoticePrefab: cc.Prefab = null;
+
   private presetBet: PresetBet;
   private betBoard: BetBoard;
   private presetBetValue = 0;
@@ -25,6 +33,8 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
   protected selectedBetAmountClickedImages: { [choice: string]: cc.SpriteFrame };
   protected selectedBetAmountUnClickedImages: { [choice: string]: cc.SpriteFrame };
   protected betPercentages: { [choice: string]: cc.Label };
+
+  public totalBets: { [choice: string]: number };
 
   onLoad() {
     super.onLoad();
@@ -76,6 +86,7 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
     this.node.addChild(node);
     node.active = false;
 
+    this.presetBetSettingKey = `presetBet_${this.gameName}_${cc.RedT.user.UID}`;
     this.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
   }
 
@@ -169,5 +180,31 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
   showBetPercentage(choice: string, percent: number) {
     const label = this.betPercentages[choice];
     label.string = `${percent} %`;
+  }
+
+  resetDataAndUI() {
+    super.resetDataAndUI();
+
+    _.values(this.betPercentages).forEach((label) => {
+      label.string = '0 %';
+    });
+  }
+
+  balanceBet() {
+    const balancedBetAmount = Math.min(..._.values(this.totalBets));
+    _.keys(this.totalBets).forEach((key) => {
+      this.totalBets[key] = balancedBetAmount;
+    });
+
+    this.betItems.forEach((item) => item.setData({ totalBets: this.totalBets }));
+  }
+
+  showBalanceBetNotice() {
+    const balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
+    this.balanceBetNoticeContainer.addChild(balanceBetNotice);
+  }
+
+  hideBalanceBetNotice() {
+    this.balanceBetNoticeContainer.destroyAllChildren();
   }
 }
