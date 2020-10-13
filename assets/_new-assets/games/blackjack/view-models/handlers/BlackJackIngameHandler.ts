@@ -34,6 +34,7 @@ export default class BlackJackIngameHandler implements DataHandler {
                 cardComponent.faceDown();
                 this.main.dealerHand.addCard(cardNode);
                 this.main.dealerHand.cardLayout.updateLayout();
+                this.main.dealerHand.showScoreWithOutData(dealerCards, 1);
             }
 
             const hands = ownBets.hands;

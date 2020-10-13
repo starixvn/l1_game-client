@@ -1,4 +1,5 @@
 import * as helper from "../../../common/helpers/Helper";
+import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJackUtils from "./BlackJackUtils";
 import CardLayout from "./CardLayout";
 
@@ -184,24 +185,38 @@ export default class HandPlace extends cc.Component {
         this.scoreValue.node.parent.active = show;
     }
 
-    updateDisplayScore(fullScore: boolean) {
+    updateDisplayScore(final: boolean) {
         if (!this.data) {
             this.scoreValue.string = "";
             this.showScore(false);
             return;
         }
         this.showScore(true);
-        if (fullScore) {
-            this.scoreValue.string = this.data.isStand ? this.data.total[this.data.total.length - 1] : this.data.total.join(' / ');
+        if (final) {
+            if (this.data.isStand) {
+                const total = this.data.total[this.data.total.length - 1];
+                this.scoreValue.string = total;
+                if (total > 21) {
+                    this.burstNode.active = true;
+                }
+            } else {
+                this.scoreValue.string = this.data.total.join(' / ');
+            }
         } else {
-            const firstCard = this.data.cards[0];
-            const values = BlackJackUtils.getValues(firstCard.rank);
+            const card = this.data.cards[0];
+            const values = BlackJackUtils.getValues(card.rank);
             this.scoreValue.string = values.join(' / ');
         }
     }
 
+    showScoreWithOutData(cards: CardModel[], cardNum: number, final = false) {
+        this.showScore(true);
+        const values = BlackJackUtils.getTotal(cards, cardNum);
+        this.scoreValue.string = final ? `${values[values.length - 1]}` : values.join(' / ');
+    }
+
     showClearBetButton(show: boolean) {
-        this.clearBetButton.active = show;
+        this.clearBetButton && (this.clearBetButton.active = show);
     }
 
     enablePlaceChip(enable: boolean) {

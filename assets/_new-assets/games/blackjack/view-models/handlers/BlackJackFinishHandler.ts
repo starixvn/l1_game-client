@@ -13,11 +13,14 @@ export default class BlackJackFinishHandler implements DataHandler {
     handle(data: any): boolean {
         if (data.finish) {
             this.finishDataCache = data.finish;
+
+            this.processFinish();
         }
         return true;
     }
 
     processFinish() {
+        console.log("processFinish ====================");
         const finish = this.finishDataCache;
         if (!finish) {
             console.error("BlackJack data finish did not receive");
@@ -25,24 +28,35 @@ export default class BlackJackFinishHandler implements DataHandler {
         }
 
         const openCardDuration = 0.7;
-        this.main.dealerOpenSecondCard(finish.results[1], openCardDuration);
+        this.main.dealerOpenSecondCard(finish.result[1], openCardDuration);
+        this.main.dealerHand.showScoreWithOutData(finish.result, 2);
 
         cc.tween(this.main)
             .delay(openCardDuration)
             .call(() => {
-                this.drawMoreCardForDealer(finish.results.slice(2));
+                this.drawMoreCardForDealer(finish.result);
             })
             .start();
     }
 
     drawMoreCardForDealer(cards: CardModel[]) {
         const actions = [];
-        if (cards.length > 0) {
-            cards.forEach((card, index) => {
-                actions.push(() => { this.main.drawingCardToDealer(card, false); });
+
+        const moreCards = cards.slice(2);
+        if (moreCards.length > 0) {
+            moreCards.forEach((card, index) => {
+                actions.push(() => {
+                    this.main.drawingCardToDealer(card, false);
+                    this.main.dealerHand.showScoreWithOutData(cards, index + 3, index === moreCards.length - 1);
+                });
             })
         }
-        actions.push(() => this.showWinningHands());
+        actions.push(() => {
+            this.showWinningHands();
+
+            this.main.rebetButton.active = true;
+            this.main.newBetButton.active = true;
+        });
         let count = 0;
         cc.tween(this.main)
             .repeat(actions.length,

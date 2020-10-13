@@ -53,6 +53,9 @@ export default class BlackJack extends NewSocketGameBase {
     cardBox: cc.Node = null;
 
     @property(cc.Node)
+    cardDropPlace: cc.Node = null;
+
+    @property(cc.Node)
     smallSplitButton: cc.Node = null;
 
     @property(cc.Node)
@@ -274,16 +277,16 @@ export default class BlackJack extends NewSocketGameBase {
         const nextHand = this.handPlaces.find(hand => hand.isActive && !hand.isStand);
         if (nextHand) {
             this.activeHand = nextHand;
-            this.updateAvailableActions();
             nextHand.selected = true;
         } else {
             this.switchToDealer();
         }
+        this.updateAvailableActions();
     }
 
     switchToDealer() {
         console.log("switchToDealer ====================");
-        this.finishRound();
+        // this.finishRound();
     }
 
     canSendRequest(): boolean {
@@ -384,7 +387,50 @@ export default class BlackJack extends NewSocketGameBase {
 
     onNewBetClick() {
         cc.RedT.audio.playClick();
+        this.collectCardsOnTable();
         this.newGame();
+    }
+
+    collectCardsOnTable() {
+        const worldPositon = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
+
+        let count = 0;
+        this.handPlaces.forEach(place => {
+            const cardNodes = place.getCards();
+            if (cardNodes.length === 0) {
+                return;
+            }
+
+            count++;
+            const destPosition = cardNodes[0].parent.convertToNodeSpaceAR(worldPositon);
+            cardNodes.forEach(cardNode => {
+                const cardComponent = cardNode.getComponent(NewCard);
+                cardComponent.playAnimation(CardAnimation.DropCard, 1);
+
+                cc.tween(cardNode)
+                    .to(0.3, { position: cc.v2(0, 0) })
+                    .delay(0.1 + count * 0.05)
+                    .to(0.7, { position: destPosition })
+                    .delay(0.2)
+                    .call(() => cardNode.destroy())
+                    .start();
+            })
+        });
+
+        const dealerCardsNodes = this.dealerHand.getCards();
+        const destPosition = dealerCardsNodes[0].parent.convertToNodeSpaceAR(worldPositon);
+        dealerCardsNodes.forEach(cardNode => {
+            const cardComponent = cardNode.getComponent(NewCard);
+            cardComponent.playAnimation(CardAnimation.DropCard, 1);
+
+            cc.tween(cardNode)
+                .to(0.3, { position: cc.v2(0, 0) })
+                .delay(0.1 + count * 0.05)
+                .to(0.5, { position: destPosition })
+                .delay(0.2)
+                .call(() => cardNode.destroy())
+                .start();
+        })
     }
 
     onRebetClick() {

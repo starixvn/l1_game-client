@@ -13,6 +13,7 @@ export default class DealHandler implements DataHandler {
     handle(data: any): boolean {
         if (data.deal) {
             this.processData(data.deal);
+            this.main.showProcessingWarning(false);
         }
         return true;
     }
@@ -50,9 +51,15 @@ export default class DealHandler implements DataHandler {
 
         const isBlackJack = dealerCards.length > 1;
         if (isBlackJack) {
-            actions.push(() => this.main.drawingCardToDealer(dealerCards[1], true));
+            actions.push(() => {
+                this.main.drawingCardToDealer(dealerCards[1], true);
+                this.main.dealerHand.showScoreWithOutData(dealerCards, 1);
+            });
         } else {
-            actions.push(() => this.main.drawingCardToDealer(null, true));
+            actions.push(() => {
+                this.main.drawingCardToDealer(null, true);
+                this.main.dealerHand.showScoreWithOutData(dealerCards, 1);
+            });
         }
 
         let count = 0;
