@@ -2,6 +2,7 @@ import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { games } from "../../../SabaConfigs";
 import DataHandler from "../../_base/handlers/DataHandler";
+import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
@@ -89,7 +90,12 @@ export default class BlackJack extends NewSocketGameBase {
     lastHandBets: any[] = [];
 
     public chipOption = [1000, 500, 200, 100, 50, 10, 5, 1];
+    public configDuration = {
+        drawingCardDelay: 0.7,
+        delaySwitchHand: 1,
+    }
     private priorityHands = [];
+    private roundFinished = false;
 
     constructor() {
         super();
@@ -136,6 +142,7 @@ export default class BlackJack extends NewSocketGameBase {
         this.noticeHandler = new GameBaseNoticeHandler(this);
         this.errorHandler = new GameBaseErrorHandler(this);
         this.configsHandler = new GameBaseConfigsHandler(this);
+        this.betHandler = new GameBaseBetHandler(this);
 
         this.dealHander = new DealHandler(this);
         this.ingameActionHander = new IngameActionHandler(this);
@@ -145,6 +152,7 @@ export default class BlackJack extends NewSocketGameBase {
         this.addHandlers(
             this.umHandler,
             this.noticeHandler,
+            this.betHandler,
             this.errorHandler,
             this.configsHandler,
             this.finishHandler,
@@ -169,8 +177,9 @@ export default class BlackJack extends NewSocketGameBase {
                 handPlace.highlightPlace(true);
                 const chipNode = this.betChips.createChip(this.currentBet).node;
                 const destNode = this.chipContainers[index];
+                handPlace.addBetAmount(this.currentBet);
                 this.betChips.moveChipWithCallback(chipNode, this.currentBet, destNode, null, () => {
-                    handPlace.addBetAmount(this.currentBet);
+                    handPlace.updateDisplayBetValue();
                     handPlace.clearBetButton.active = true;
                     destNode.destroyAllChildren();
                     const chipStack = this.betChips.createChipStack(handPlace.getBetAmount(), this.chipOption);
@@ -264,7 +273,13 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     finishRound() {
+        if (!this.roundFinished) {
+            return;
+        }
         const finishHandler = this.finishHandler as BlackJackFinishHandler;
+        if (!finishHandler.finishDataCache) {
+            return;
+        }
         finishHandler.processFinish();
     }
 
@@ -274,7 +289,9 @@ export default class BlackJack extends NewSocketGameBase {
 
     switchToNextHand() {
         console.log("switchToNextHand ====================");
-        const nextHand = this.handPlaces.find(hand => hand.isActive && !hand.isStand);
+        const sortIndices = [0, 3, 1, 4, 2, 5];
+        const places = sortIndices.map(i => this.handPlaces[i])
+        const nextHand = places.find(hand => hand.isActive && !hand.isStand);
         if (nextHand) {
             this.activeHand = nextHand;
             nextHand.selected = true;
@@ -286,7 +303,8 @@ export default class BlackJack extends NewSocketGameBase {
 
     switchToDealer() {
         console.log("switchToDealer ====================");
-        // this.finishRound();
+        this.roundFinished = true;
+        this.finishRound();
     }
 
     canSendRequest(): boolean {
@@ -387,10 +405,11 @@ export default class BlackJack extends NewSocketGameBase {
 
     onNewBetClick() {
         cc.RedT.audio.playClick();
-        this.collectCardsOnTable(() => this.newGame());
+        this.collectCardsOnTable();
     }
 
     collectCardsOnTable(complete = () => { }) {
+        this.newGame();
         const worldPositon = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
 
         let count = 0;
@@ -444,8 +463,6 @@ export default class BlackJack extends NewSocketGameBase {
         }
 
         this.collectCardsOnTable(() => {
-            this.newGame();
-
             let total = 0;
             this.lastHandBets.forEach(hand => total += hand.bet);
             if (total > cc.RedT.user.red) {
@@ -496,6 +513,8 @@ export default class BlackJack extends NewSocketGameBase {
         });
         this.handPlaces[1].highlightPlace(true);
         this.dealerHand.resetView();
+        this.roundFinished = false;
+        (this.finishHandler as BlackJackFinishHandler).clearCache();
     }
 
     updateAvailableActions() {

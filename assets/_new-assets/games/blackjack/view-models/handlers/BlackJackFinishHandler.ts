@@ -8,16 +8,19 @@ export default class BlackJackFinishHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {
     }
 
-    finishDataCache: any;
+    finishDataCache: any = null;
     drawingCardDelay = 0.5;
 
     handle(data: any): boolean {
         if (data.finish) {
             this.finishDataCache = data.finish;
-
-            this.processFinish();
+            this.main.finishRound();
         }
         return true;
+    }
+
+    clearCache() {
+        this.finishDataCache = null;
     }
 
     processFinish() {
@@ -27,7 +30,7 @@ export default class BlackJackFinishHandler implements DataHandler {
             console.error("BlackJack data finish did not receive");
             return;
         }
-
+        console.log("processFinish ==================== success");
         const totals = BlackJackUtils.getTotal(finish.result, 2);
         if (finish.result.length === 2 && totals[totals.length - 1] === 21) {
             this.main.dealerHand.showScoreWithOutData(finish.result, 2);

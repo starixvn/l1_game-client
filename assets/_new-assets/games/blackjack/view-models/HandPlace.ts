@@ -79,12 +79,12 @@ export default class HandPlace extends cc.Component {
             }
         }
 
-        return isEqual && !this.data.splitFrom;
+        return isEqual && !this.data.splitFrom && !this.data.actions.includes("split");
     }
 
     get canDouble() {
         const cards = this.data.cards;
-        if (cards.length < 2) {
+        if (cards.length != 2) {
             return false;
         }
 
@@ -172,9 +172,9 @@ export default class HandPlace extends cc.Component {
         this.betValue.node.parent.active = show;
     }
 
-    updateDisplayBetValue(bet: number) {
+    updateDisplayBetValue(bet?: number) {
         this.showBetValue(true);
-        this.betValue.string = helper.numberWithCommas(bet);
+        this.betValue.string = helper.numberWithCommas(bet ? bet : this._betAmount);
     }
 
     syncBetValue() {

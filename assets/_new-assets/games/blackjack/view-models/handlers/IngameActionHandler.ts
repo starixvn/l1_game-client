@@ -20,12 +20,10 @@ export default class IngameActionHandler implements DataHandler {
 
         if (data.double) {
             this.processDoubleAction(data.double);
-            this.main.showProcessingWarning(false);
         }
 
         if (data.split) {
             this.processSplitAction(data.split);
-            this.main.showProcessingWarning(false);
             this.main.updateAvailableActions();
         }
         return true;
@@ -82,12 +80,15 @@ export default class IngameActionHandler implements DataHandler {
         place.selected = false;
         place.updateDisplayScore(true);
 
-        this.main.switchToNextHand();
+        cc.tween(this.main)
+            .delay(this.main.configDuration.delaySwitchHand)
+            .call(() => this.main.switchToNextHand())
+            .start();
     }
 
     processDoubleAction(data: any) {
         this.processHitAction(data);
-        this.placeChipsForDoubleHand(data.pos - 1, data.endBet);
+        this.placeChipsForDoubleHand(data.pos - 1, data.bet);
     }
 
     processHitAction(data: any) {
@@ -100,7 +101,10 @@ export default class IngameActionHandler implements DataHandler {
         this.main.drawingCardToPlayer(card, pos, isStand ? () => {
             place.updateDisplayScore(true);
             place.selected = false;
-            this.main.switchToNextHand();
+            cc.tween(this.main)
+                .delay(this.main.configDuration.delaySwitchHand)
+                .call(() => this.main.switchToNextHand())
+                .start();
         } : () => {
             place.updateDisplayScore(true);
         });
@@ -121,7 +125,7 @@ export default class IngameActionHandler implements DataHandler {
 
     placeChipsForDoubleHand(index: number, amount: number) {
         const destNode = this.main.chipContainers[index];
-        const chipStack = this.main.betChips.createChipStack(amount, this.main.chipOption);
+        const chipStack = this.main.betChips.createChipStack(amount / 2, this.main.chipOption);
         chipStack.zIndex = -1;
         destNode.addChild(chipStack);
 
@@ -132,9 +136,10 @@ export default class IngameActionHandler implements DataHandler {
             cc.jumpTo(0.5, 0, 0, 250, 1),
             cc.callFunc(() => {
                 destNode.destroyAllChildren();
-                const chipStack = this.main.betChips.createChipStack(amount * 2, this.main.chipOption);
+                const chipStack = this.main.betChips.createChipStack(amount, this.main.chipOption);
                 chipStack.zIndex = -1;
                 destNode.addChild(chipStack);
+                this.main.handPlaces[index].updateDisplayBetValue(amount);
             })
         ));
     }

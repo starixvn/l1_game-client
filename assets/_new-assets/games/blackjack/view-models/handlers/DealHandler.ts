@@ -7,8 +7,6 @@ export default class DealHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {
     }
 
-    drawingCardDelay = 0.7;
-
     handle(data: any): boolean {
         if (data.deal) {
             this.processData(data.deal);
@@ -66,9 +64,9 @@ export default class DealHandler implements DataHandler {
                     actions[count]();
                     count++;
                 })
-                .delay(this.drawingCardDelay)
+                .delay(this.main.configDuration.drawingCardDelay)
             )
-            .call(() => { this.playAnimationDealerCheck(dealerCards[0], isBlackJack); })
+            .call(() => { this.playAnimationDealerCheck(dealerCards, isBlackJack); })
             .start();
 
         this.main.hideAllButtons();
@@ -79,11 +77,11 @@ export default class DealHandler implements DataHandler {
         });
     }
 
-    playAnimationDealerCheck(firstDealerCard: CardModel, isBlackJack: boolean) {
+    playAnimationDealerCheck(dealerCards: CardModel[], isBlackJack: boolean) {
         console.log("dealer check cards");
         const checkList = ["A", "J", "Q", "K", "10"];
         let delaytime = 1;
-        if (checkList.includes(firstDealerCard.rank)) {
+        if (checkList.includes(dealerCards[0].rank)) {
             const secondCard = this.main.dealerHand.cardLayout.content.children[1].getComponent(NewCard);
             const checkDuration = 1.5;
             secondCard.playAnimation(isBlackJack ? CardAnimation.DealerCheckBlackJackSuccess : CardAnimation.DealerCheckBlackJackFail, checkDuration);
@@ -94,8 +92,8 @@ export default class DealHandler implements DataHandler {
             .delay(delaytime)
             .call(() => {
                 if (isBlackJack) {
-                    // const finishHandler = this.main.finishHandler as BlackJackFinishHandler;
-                    // finishHandler.showWinningHands();
+                    this.main.dealerHand.showScoreWithOutData(dealerCards, 2);
+                    this.main.switchToDealer();
                 } else {
                     this.main.startRound();
                 }
