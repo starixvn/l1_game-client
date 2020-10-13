@@ -11,6 +11,7 @@ export interface HandModel {
     isStand: boolean,
     cards: any[],
     splitFrom: boolean,
+    actions: string[],
 }
 
 const { ccclass, property } = cc._decorator;
@@ -198,6 +199,8 @@ export default class HandPlace extends cc.Component {
                 this.scoreValue.string = total;
                 if (total > 21) {
                     this.burstNode.active = true;
+                } else if (total === 21 && this.data.cards.length === 2 && !this.data.actions.includes("split")) {
+                    this.blackJackNode.active = true;
                 }
             } else {
                 this.scoreValue.string = this.data.total.join(' / ');
@@ -210,9 +213,20 @@ export default class HandPlace extends cc.Component {
     }
 
     showScoreWithOutData(cards: CardModel[], cardNum: number, final = false) {
+        console.log("showScoreWithOutData  ", final);
         this.showScore(true);
         const values = BlackJackUtils.getTotal(cards, cardNum);
-        this.scoreValue.string = final ? `${values[values.length - 1]}` : values.join(' / ');
+        if (final) {
+            const total = values[values.length - 1];
+            this.scoreValue.string = total.toString();
+            if (total > 21) {
+                this.burstNode.active = true;
+            } else if (total === 21 && cards.length === 2) {
+                this.blackJackNode.active = true;
+            }
+        } else {
+            this.scoreValue.string = values.join(' / ');
+        }
     }
 
     showClearBetButton(show: boolean) {

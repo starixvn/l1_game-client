@@ -387,11 +387,10 @@ export default class BlackJack extends NewSocketGameBase {
 
     onNewBetClick() {
         cc.RedT.audio.playClick();
-        this.collectCardsOnTable();
-        this.newGame();
+        this.collectCardsOnTable(() => this.newGame());
     }
 
-    collectCardsOnTable() {
+    collectCardsOnTable(complete = () => { }) {
         const worldPositon = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
 
         let count = 0;
@@ -430,7 +429,12 @@ export default class BlackJack extends NewSocketGameBase {
                 .delay(0.2)
                 .call(() => cardNode.destroy())
                 .start();
-        })
+        });
+
+        cc.tween(this.node)
+            .delay(1)
+            .call(() => complete())
+            .start();
     }
 
     onRebetClick() {
@@ -439,14 +443,18 @@ export default class BlackJack extends NewSocketGameBase {
             return;
         }
 
-        let total = 0;
-        this.lastHandBets.forEach(hand => total += hand.bet);
-        if (total > cc.RedT.user.red) {
-            this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
-            return;
-        }
+        this.collectCardsOnTable(() => {
+            this.newGame();
 
-        this.rebet();
+            let total = 0;
+            this.lastHandBets.forEach(hand => total += hand.bet);
+            if (total > cc.RedT.user.red) {
+                this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+                return;
+            }
+
+            this.rebet();
+        });
     }
 
     onClearClick() {
@@ -487,13 +495,14 @@ export default class BlackJack extends NewSocketGameBase {
             place.enablePlaceChip(true);
         });
         this.handPlaces[1].highlightPlace(true);
+        this.dealerHand.resetView();
     }
 
     updateAvailableActions() {
         this.hideAllButtons();
 
         this.hitButton.active = this.standButton.active = !this.activeHand.isStand;
-        this.doubleButton.active = this.activeHand.canDouble;
+        this.doubleButton.active = this.activeHand.canDouble && !this.activeHand.isStand;
         this.smallSplitButton.active = !this.activeHand.isStand && this.activeHand.canSplit && this.doubleButton.active;
         this.bigSplitButton.active = !this.activeHand.isStand && this.activeHand.canSplit && !this.doubleButton.active;
     }

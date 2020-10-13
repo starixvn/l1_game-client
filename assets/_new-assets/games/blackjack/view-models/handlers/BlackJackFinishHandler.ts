@@ -1,6 +1,7 @@
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
+import BlackJackUtils from "../BlackJackUtils";
 
 
 export default class BlackJackFinishHandler implements DataHandler {
@@ -27,16 +28,25 @@ export default class BlackJackFinishHandler implements DataHandler {
             return;
         }
 
-        const openCardDuration = 0.7;
-        this.main.dealerOpenSecondCard(finish.result[1], openCardDuration);
-        this.main.dealerHand.showScoreWithOutData(finish.result, 2);
+        const totals = BlackJackUtils.getTotal(finish.result, 2);
+        if (finish.result.length === 2 && totals[totals.length - 1] === 21) {
+            this.main.dealerHand.showScoreWithOutData(finish.result, 2);
+            this.showWinningHands();
 
-        cc.tween(this.main)
-            .delay(openCardDuration)
-            .call(() => {
-                this.drawMoreCardForDealer(finish.result);
-            })
-            .start();
+            this.main.rebetButton.active = true;
+            this.main.newBetButton.active = true;
+        } else {
+            const openCardDuration = 0.7;
+            this.main.dealerOpenSecondCard(finish.result[1], openCardDuration);
+
+            cc.tween(this.main)
+                .delay(openCardDuration)
+                .call(() => {
+                    this.main.dealerHand.showScoreWithOutData(finish.result, 2);
+                    this.drawMoreCardForDealer(finish.result);
+                })
+                .start();
+        }
     }
 
     drawMoreCardForDealer(cards: CardModel[]) {
@@ -46,8 +56,9 @@ export default class BlackJackFinishHandler implements DataHandler {
         if (moreCards.length > 0) {
             moreCards.forEach((card, index) => {
                 actions.push(() => {
-                    this.main.drawingCardToDealer(card, false);
-                    this.main.dealerHand.showScoreWithOutData(cards, index + 3, index === moreCards.length - 1);
+                    this.main.drawingCardToDealer(card, false, () => {
+                        this.main.dealerHand.showScoreWithOutData(cards, index + 3, index === moreCards.length - 1);
+                    });
                 });
             })
         }

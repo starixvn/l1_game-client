@@ -10,6 +10,7 @@ export default class IngameActionHandler implements DataHandler {
         if (data.hit) {
             this.processHitAction(data.hit);
             this.main.showProcessingWarning(false);
+            this.main.updateAvailableActions();
         }
 
         if (data.stand) {
@@ -25,12 +26,13 @@ export default class IngameActionHandler implements DataHandler {
         if (data.split) {
             this.processSplitAction(data.split);
             this.main.showProcessingWarning(false);
+            this.main.updateAvailableActions();
         }
         return true;
     }
 
     processSplitAction(split: any) {
-        const hands = split.data.hands;
+        const hands = split.hands;
         const firstHand = hands[0];
         const secondHand = hands[1];
 

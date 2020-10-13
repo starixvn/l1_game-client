@@ -38,8 +38,18 @@ export default class BlackJackIngameHandler implements DataHandler {
             }
 
             const hands = ownBets.hands;
+
+
             hands.forEach(hand => {
                 const pos = hand.pos - 1;
+
+                if (hand.pos < 4) {
+                    let originalBet = hand.bet;
+                    if (hand.actions.includes('double')) {
+                        originalBet = originalBet / 2;
+                    }
+                    this.main.lastHandBets.push({ pos: hand.pos, bet: originalBet });
+                }
                 const place = this.main.handPlaces[pos];
                 place.setData(hand);
                 hand.cards.forEach(card => {

@@ -2,7 +2,6 @@ import a from "../../../../../libs/chance/chance";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
-import BlackJackFinishHandler from "./BlackJackFinishHandler";
 
 export default class DealHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {
@@ -52,13 +51,11 @@ export default class DealHandler implements DataHandler {
         const isBlackJack = dealerCards.length > 1;
         if (isBlackJack) {
             actions.push(() => {
-                this.main.drawingCardToDealer(dealerCards[1], true);
-                this.main.dealerHand.showScoreWithOutData(dealerCards, 1);
+                this.main.drawingCardToDealer(dealerCards[1], true, () => this.main.dealerHand.showScoreWithOutData(dealerCards, 1));
             });
         } else {
             actions.push(() => {
-                this.main.drawingCardToDealer(null, true);
-                this.main.dealerHand.showScoreWithOutData(dealerCards, 1);
+                this.main.drawingCardToDealer(null, true, () => this.main.dealerHand.showScoreWithOutData(dealerCards, 1));
             });
         }
 
@@ -89,7 +86,7 @@ export default class DealHandler implements DataHandler {
         if (checkList.includes(firstDealerCard.rank)) {
             const secondCard = this.main.dealerHand.cardLayout.content.children[1].getComponent(NewCard);
             const checkDuration = 1.5;
-            secondCard.playAnimation(CardAnimation.DealerCheckBlackJackFail, checkDuration);
+            secondCard.playAnimation(isBlackJack ? CardAnimation.DealerCheckBlackJackSuccess : CardAnimation.DealerCheckBlackJackFail, checkDuration);
             delaytime += checkDuration;
         }
 
@@ -97,8 +94,8 @@ export default class DealHandler implements DataHandler {
             .delay(delaytime)
             .call(() => {
                 if (isBlackJack) {
-                    const finishHandler = this.main.finishHandler as BlackJackFinishHandler;
-                    finishHandler.showWinningHands();
+                    // const finishHandler = this.main.finishHandler as BlackJackFinishHandler;
+                    // finishHandler.showWinningHands();
                 } else {
                     this.main.startRound();
                 }
