@@ -11,6 +11,7 @@ import SpecialSeDieGuide from "./SpecialSeDieGuide";
 import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
 import SpecialSeDieStats from "./SpecialSeDieStats";
+import * as _ from 'lodash';
 
 const { ccclass, property } = cc._decorator;
 
@@ -82,6 +83,9 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
   @property(cc.Label)
   betPercentageRight: cc.Label = null;
+
+  @property(cc.Node)
+  randomPosNode: cc.Node = null;
 
   private miniRoundHistory: SpecialSedieRoundHistory;
   private historyComponent: SpecialSeDieHistory;
@@ -171,7 +175,11 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   }
 
   setDots(result) {
+    const optRandom = _.random(0, this.randomPosNode.children.length - 1);
+    const randomOption = this.randomPosNode.children[optRandom];
+
     Object.keys(result).forEach((key, index) => {
+      this.dots[index].node.position = randomOption.children[index].position;
       this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
     });
   }
