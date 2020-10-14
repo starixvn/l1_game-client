@@ -60,10 +60,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
   handleWaitTime() {
     super.handleWaitTime();
-
-    if (this.main.currentTimeRemaining > this.shakeThePlateTime && !this.main.finishShowResult) {
-      this.main.showResult();
-    }
+    this.main.showResult();
   }
 
   showWaitTime() {
