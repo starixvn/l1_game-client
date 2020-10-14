@@ -15,19 +15,19 @@ const configs = {
           subDomain: "uatproxy",
           port: "",
           path: "/user/xocxoc",
-          proxyRoute: "/sit/sedie"
+          proxyRoute: "/sit/sedie/socket.io"
         },
         22: {
           subDomain: "uatproxy",
           port: "",
           path: "/user/vipsedie",
-          proxyRoute: "/sit/vipsedie"
+          proxyRoute: "/sit/vipsedie/socket.io"
         },
         24: {
           subDomain: 'uatproxy',
           port: '',
           path: '/user/specialsedie',
-          proxyRoute: "/sit/specialsedie"
+          proxyRoute: "/sit/specialsedie/socket.io"
         },
     },
     gameIds: {

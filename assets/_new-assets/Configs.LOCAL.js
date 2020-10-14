@@ -15,19 +15,19 @@ const configs = {
           subDomain: "haproxy",
           port: "7000",
           path: "/user/xocxoc",
-          proxyRoute: "/sedie"
+          proxyRoute: "/sedie/socket.io"
         },
         22: {
           subDomain: "haproxy",
           port: "7000",
           path: "/user/vipsedie",
-          proxyRoute: "/vipsedie"
+          proxyRoute: "/vipsedie/socket.io"
         },
         24: {
           subDomain: 'haproxy',
           port: 7000,
           path: '/user/specialsedie',
-          proxyRoute: "/specialsedie"
+          proxyRoute: "/specialsedie/socket.io"
         },
     },
     gameIds: {
