@@ -58,5 +58,9 @@ cc.Class({
   openNewGameSocket: function (e, gameId) {
     cc.RedT.audio.playClick();
     cc.RedT.MiniPanel.openNewGameSocket(e, gameId);
+  },
+  openNewSocketMiniGame: function (e, gameId) {
+    cc.RedT.audio.playClick();
+    cc.RedT.MiniPanel.openNewSocketMiniGame(e, gameId);
   }
 });

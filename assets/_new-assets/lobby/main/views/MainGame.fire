@@ -87,25 +87,25 @@
         "__id__": 63
       },
       {
-        "__id__": 94
+        "__id__": 90
       },
       {
         "__id__": 44
       },
       {
-        "__id__": 96
+        "__id__": 92
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 98
+        "__id__": 94
       },
       {
-        "__id__": 99
+        "__id__": 95
       },
       {
-        "__id__": 100
+        "__id__": 96
       }
     ],
     "_prefab": null,
@@ -273,7 +273,7 @@
       "array": [
         0,
         0,
-        442.6337028623871,
+        442.5389813338482,
         0,
         0,
         0,
@@ -2781,16 +2781,16 @@
         "__id__": 64
       },
       {
-        "__id__": 85
+        "__id__": 81
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 92
+        "__id__": 88
       },
       {
-        "__id__": 93
+        "__id__": 89
       }
     ],
     "_prefab": null,
@@ -2856,13 +2856,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 82
+        "__id__": 78
       },
       {
-        "__id__": 83
+        "__id__": 79
       },
       {
-        "__id__": 84
+        "__id__": 80
       }
     ],
     "_prefab": null,
@@ -2929,9 +2929,6 @@
       },
       {
         "__id__": 74
-      },
-      {
-        "__id__": 78
       }
     ],
     "_active": true,
@@ -3167,7 +3164,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "baccarat",
+    "_name": "special-sedie",
     "_objFlags": 0,
     "_parent": {
       "__id__": 65
@@ -3193,8 +3190,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 232,
-      "height": 391
+      "width": 237,
+      "height": 372
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3225,10 +3222,10 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_is3DNode": false,
+    "_is3DNode": true,
     "_groupIndex": 0,
     "groupIndex": 0,
-    "_id": "6f/mdegUpJDold0Qwme1cK"
+    "_id": "fdreZFkYpM677XPi2kxcfh"
   },
   {
     "__type__": "cc.Sprite",
@@ -3246,7 +3243,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "55eb548b-6c9e-4eb0-a7c1-69bee014ac1d"
+      "__uuid__": "f073a172-3758-4dc9-b665-5bd5d198bbff"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -3262,7 +3259,7 @@
     "_atlas": {
       "__uuid__": "cb0c4695-9ec0-4586-8c6a-ff07b60f4c8f"
     },
-    "_id": "765c+CSS9O87zJzlXh1EGn"
+    "_id": "73k9NXmHhKt4Mag+fK6RmD"
   },
   {
     "__type__": "cc.Button",
@@ -3334,7 +3331,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
-    "_id": "12ZdiiJrZMrLVDUEGmh5TB"
+    "_id": "71jWKdXNdGWa7WoW24Wbpy"
   },
   {
     "__type__": "cc.ClickEvent",
@@ -3343,189 +3340,8 @@
     },
     "component": "",
     "_componentId": "1763c2/MDpCQ4oC+FaHXfWh",
-    "handler": "openGameRoom",
-    "customEventData": "10"
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "roulette",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 65
-    },
-    "_children": [],
-    "_active": false,
-    "_components": [
-      {
-        "__id__": 75
-      },
-      {
-        "__id__": 76
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 262,
-      "height": 500
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": true,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "dbbUUEvKRID5DKJ8v/W+39"
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 74
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "e30a32da-e60c-4480-9386-98482a8ad200"
-    },
-    "_type": 0,
-    "_sizeMode": 0,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": false,
-    "_atlas": {
-      "__uuid__": "cb0c4695-9ec0-4586-8c6a-ff07b60f4c8f"
-    },
-    "_id": "9dFRSRqLVBWaet0i9ntyhN"
-  },
-  {
-    "__type__": "cc.Button",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 74
-    },
-    "_enabled": true,
-    "_normalMaterial": null,
-    "_grayMaterial": null,
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [
-      {
-        "__id__": 77
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$transition": 0,
-    "transition": 0,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_N$pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "_N$hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_N$disabledColor": {
-      "__type__": "cc.Color",
-      "r": 124,
-      "g": 124,
-      "b": 124,
-      "a": 255
-    },
-    "_N$normalSprite": null,
-    "_N$pressedSprite": null,
-    "pressedSprite": null,
-    "_N$hoverSprite": null,
-    "hoverSprite": null,
-    "_N$disabledSprite": null,
-    "_N$target": null,
-    "_id": "2dFx01XEhAj5TA7BMN12wT"
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 63
-    },
-    "component": "",
-    "_componentId": "1763c2/MDpCQ4oC+FaHXfWh",
-    "handler": "openGameRoom",
-    "customEventData": "21"
+    "handler": "openNewSocketMiniGame",
+    "customEventData": "24"
   },
   {
     "__type__": "cc.Node",
@@ -3538,10 +3354,10 @@
     "_active": false,
     "_components": [
       {
-        "__id__": 79
+        "__id__": 75
       },
       {
-        "__id__": 80
+        "__id__": 76
       }
     ],
     "_prefab": null,
@@ -3597,7 +3413,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 78
+      "__id__": 74
     },
     "_enabled": true,
     "_materials": [
@@ -3631,16 +3447,16 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 78
+      "__id__": 74
     },
-    "_enabled": true,
+    "_enabled": false,
     "_normalMaterial": null,
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 81
+        "__id__": 77
       }
     ],
     "_N$interactable": true,
@@ -3776,22 +3592,22 @@
     },
     "_children": [
       {
-        "__id__": 86
+        "__id__": 82
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 88
+        "__id__": 84
       },
       {
-        "__id__": 89
+        "__id__": 85
       },
       {
-        "__id__": 90
+        "__id__": 86
       },
       {
-        "__id__": 91
+        "__id__": 87
       }
     ],
     "_prefab": null,
@@ -3847,13 +3663,13 @@
     "_name": "ContentScroll",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 85
+      "__id__": 81
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 87
+        "__id__": 83
       }
     ],
     "_prefab": null,
@@ -3909,7 +3725,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 86
+      "__id__": 82
     },
     "_enabled": true,
     "_layoutSize": {
@@ -3941,7 +3757,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 85
+      "__id__": 81
     },
     "_enabled": true,
     "horizontal": true,
@@ -3953,10 +3769,10 @@
     "scrollEvents": [],
     "cancelInnerEvents": true,
     "_N$content": {
-      "__id__": 86
+      "__id__": 82
     },
     "content": {
-      "__id__": 86
+      "__id__": 82
     },
     "_N$horizontalScrollBar": null,
     "_N$verticalScrollBar": null,
@@ -3967,7 +3783,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 85
+      "__id__": 81
     },
     "_enabled": true,
     "alignMode": 1,
@@ -3994,7 +3810,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 85
+      "__id__": 81
     },
     "_enabled": true,
     "_materials": [
@@ -4014,11 +3830,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 85
+      "__id__": 81
     },
     "_enabled": true,
     "content": {
-      "__id__": 86
+      "__id__": 82
     },
     "columnPrefab": {
       "__uuid__": "c7851704-ddaf-4ca7-8109-e55d2dbcd3ff"
@@ -4063,7 +3879,7 @@
     "_enabled": true,
     "header": null,
     "games": {
-      "__id__": 86
+      "__id__": 82
     },
     "adsContent": null,
     "adsTimeNext": 5,
@@ -4080,7 +3896,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 95
+        "__id__": 91
       }
     ],
     "_prefab": null,
@@ -4136,7 +3952,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 94
+      "__id__": 90
     },
     "_enabled": true,
     "alignMode": 1,
@@ -4166,7 +3982,7 @@
     },
     "_id": "003wAJXldMRKBdHrPX1UQe",
     "_prefab": {
-      "__id__": 97
+      "__id__": 93
     },
     "_name": "Loading",
     "_active": false,
@@ -4196,7 +4012,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 96
+      "__id__": 92
     },
     "asset": {
       "__uuid__": "3b363726-d7d5-449d-a4c5-0c15f31ae04e"
@@ -4241,16 +4057,16 @@
       "__id__": 55
     },
     "center": {
-      "__id__": 93
+      "__id__": 89
     },
     "mainScroll": {
-      "__id__": 85
+      "__id__": 81
     },
     "gameAds": {
       "__id__": 64
     },
     "scrollContent": {
-      "__id__": 86
+      "__id__": 82
     },
     "news": {
       "__id__": 56
@@ -4264,13 +4080,13 @@
     "iconTaiXiu": null,
     "iconMegaJ": null,
     "redhat": {
-      "__id__": 94
+      "__id__": 90
     },
     "dialogNode": {
       "__id__": 44
     },
     "loading": {
-      "__id__": 96
+      "__id__": 92
     },
     "audioBG": {
       "__id__": 4
