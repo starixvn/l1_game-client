@@ -2,8 +2,8 @@ import * as _ from "lodash";
 
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
-import NewSocketMiniGameBase from "./NewSocketMiniGameBase";
 import { numberWithCommas } from "./../../common/helpers/Helper";
+import NewSocketMiniGameBase from "./NewSocketMiniGameBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,6 +23,9 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
 
   @property(cc.Prefab)
   balanceBetNoticePrefab: cc.Prefab = null;
+
+  @property(cc.Node)
+  historyButton: cc.Node = null;
 
   private presetBet: PresetBet;
   private betBoard: BetBoard;
@@ -189,9 +192,11 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
     _.values(this.betPercentages).forEach((label) => {
       label.string = '0%';
     });
+    this.hideBalanceBetNotice();
   }
 
   balanceBet() {
+    this.disableHistoryButton();
     const totalBets = _.values(this.totalBets);
     const balancedBetAmount = Math.min(...[totalBets[0] ?? 0, totalBets[1] ?? 0]);
     _.keys(this.totalBets).forEach((key) => {
@@ -204,6 +209,7 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
   showBalanceBetNotice() {
     const balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
     this.balanceBetNoticeContainer.addChild(balanceBetNotice);
+    this.disableHistoryButton();
   }
 
   hideBalanceBetNotice() {
@@ -214,5 +220,17 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
     super.closeGame();
     this.betBoard.close();
     this.presetBet.forceClose();
+  }
+
+  enableHistoryButton() {
+    this.historyButton.opacity = 255;
+    const button = this.historyButton.getComponent(cc.Button);
+    button.interactable = true;
+  }
+
+  disableHistoryButton() {
+    this.historyButton.opacity = 130;
+    const button = this.historyButton.getComponent(cc.Button);
+    button.interactable = false;
   }
 }

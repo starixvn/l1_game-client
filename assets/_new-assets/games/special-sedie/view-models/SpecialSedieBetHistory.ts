@@ -1,124 +1,125 @@
-import { getStringDateByTime, getStringHourByTime, numberWithCommas } from "./../../../common/helpers/Helper";
+import { getStringDateByTime, getStringHourByTime, numberWithCommas, shortenName } from "./../../../common/helpers/Helper";
 import SpecialSedieBetHistoryItem from "./SpecialSedieBetHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SpecialSedieBetHistory extends cc.Component {
+  @property(cc.Label)
+  roundIdLabel: cc.Label = null;
 
-    @property(cc.Label)
-    roundIdLabel: cc.Label = null;
+  @property(cc.Node)
+  dots: cc.Node = null;
 
-    @property(cc.Node)
-    dots: cc.Node = null;
+  @property(cc.SpriteFrame)
+  redDot: cc.SpriteFrame = null;
 
-    @property(cc.SpriteFrame)
-    redDot: cc.SpriteFrame = null;
+  @property(cc.SpriteFrame)
+  whiteDot: cc.SpriteFrame = null;
 
-    @property(cc.SpriteFrame)
-    whiteDot: cc.SpriteFrame = null;
+  @property(cc.Label)
+  evenBetAmount: cc.Label = null;
 
-    @property(cc.Label)
-    evenBetAmount: cc.Label = null;
+  @property(cc.Label)
+  evenRefundAmount: cc.Label = null;
 
-    @property(cc.Label)
-    evenRefundAmount: cc.Label = null;
+  @property(cc.Label)
+  oddBetAmount: cc.Label = null;
 
-    @property(cc.Label)
-    oddBetAmount: cc.Label = null;
+  @property(cc.Label)
+  oddRefundAmount: cc.Label = null;
 
-    @property(cc.Label)
-    oddRefundAmount: cc.Label = null;
+  @property(cc.Node)
+  evenContent: cc.Node = null;
 
-    @property(cc.Node)
-    evenContent: cc.Node = null;
+  @property(cc.Node)
+  oddContent: cc.Node = null;
 
-    @property(cc.Node)
-    oddContent: cc.Node = null;
+  @property(cc.Prefab)
+  itemPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    itemPrefab: cc.Prefab = null;
+  private socket: SocketIOClient.Socket;
+  private roundId: number = 0;
 
-    private socket: SocketIOClient.Socket;
-    private roundId: number = 0;
-    
-    init(socket:SocketIOClient.Socket, roundId: number) {
-        this.socket = socket;
-        this.roundId = roundId;
+  init(socket: SocketIOClient.Socket, roundId: number) {
+    this.socket = socket;
+    this.roundId = roundId;
+  }
+
+  onDisable() {
+    this.node.destroy();
+  }
+
+  onLoad() {
+    if (!cc.sys.isMobile) {
+      this.node.scale = 0.8;
     }
 
-    onDisable() {
-        this.node.destroy();
-    }
+    this.getRound(this.roundId);
+  }
 
-    onLoad() {
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
+  onNextClick() {
+    this.getRound(this.roundId + 1);
+  }
 
-        this.getRound(this.roundId);
-    }
+  onPreviousClick() {
+    this.getRound(this.roundId - 1);
+  }
 
-    onNextClick() {
-        this.getRound(this.roundId + 1);
-    }
+  getRound(roundId: number) {
+    this.socket.emit('getRound', { roundId });
+  }
 
-    onPreviousClick() {
-        this.getRound(this.roundId - 1);
-    }
+  onData(data: any) {
+    this.resetData();
 
-    getRound(roundId: number) {
-        this.socket.emit("getRound",{roundId});
-    }
+    const { id, time, total, result, even, odd } = data;
+    this.roundId = id;
+    this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
 
-    onData(data: any) {
-        this.resetData();
+    this.evenBetAmount.string = numberWithCommas(total?.even?.betAmount ?? 0);
+    this.evenRefundAmount.string = numberWithCommas(total?.even?.refund ?? 0);
+    this.oddBetAmount.string = numberWithCommas(total?.odd?.betAmount ?? 0);
+    this.oddRefundAmount.string = numberWithCommas(total?.odd?.refund ?? 0);
 
-        const {id, time, total, result, even, odd} = data;
-        this.roundId = id;
-        this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
+    this.updateDotsResult(result);
 
-        this.evenBetAmount.string = numberWithCommas(total?.even?.betAmount ?? 0);
-        this.evenRefundAmount.string = numberWithCommas(total?.even?.refund ?? 0);
-        this.oddBetAmount.string = numberWithCommas(total?.odd?.betAmount ?? 0);
-        this.oddRefundAmount.string = numberWithCommas(total?.odd?.refund ?? 0);
-        
+    even &&
+      even.forEach((user) => {
+        let item = this.addItem(user);
+        this.evenContent.addChild(item);
+      });
 
-        this.updateDotsResult(result);
+    odd &&
+      odd.forEach((user) => {
+        let item = this.addItem(user);
+        this.oddContent.addChild(item);
+      });
+  }
 
-        even && even.forEach(user => {
-            let item = this.addItem(user);
-            this.evenContent.addChild(item);
-        });
+  updateDotsResult(result: any) {
+    Object.keys(result).forEach((key, index) => {
+      const dot = this.dots.children[index]?.getComponent(cc.Sprite);
+      dot.spriteFrame = result[key] ? this.redDot : this.whiteDot;
+    });
+  }
 
-        odd && odd.forEach(user => {
-            let item = this.addItem(user);
-            this.oddContent.addChild(item);
-        });
-    }
+  addItem(data: any) {
+    let item = cc.instantiate(this.itemPrefab);
+    let itemComponent = item.getComponent(SpecialSedieBetHistoryItem);
 
-    updateDotsResult(result: any) {
-        Object.keys(result).forEach((key, index)=>{
-            const dot = this.dots.children[index]?.getComponent(cc.Sprite);
-            dot.spriteFrame=result[key] ? this.redDot : this.whiteDot;
-        });
-    }
+    let isLoginUser = data.name == cc.RedT.user.name;
+    itemComponent.highlight.active = isLoginUser;
+    itemComponent.time.string = getStringHourByTime(data.time);
+    itemComponent.username.string = isLoginUser ? data.name : shortenName(data.name);
+    data.name;
+    itemComponent.betAmount.string = numberWithCommas(data.amount);
+    itemComponent.refund.string = numberWithCommas(data.refund);
 
-    addItem(data: any) {
-        let item = cc.instantiate(this.itemPrefab);
-        let itemComponent = item.getComponent(SpecialSedieBetHistoryItem);
+    return item;
+  }
 
-        let isLoginUser = data.name == cc.RedT.user.name;
-        itemComponent.highlight.active = isLoginUser;
-        itemComponent.time.string = getStringHourByTime(data.time);
-        itemComponent.username.string = data.name;
-        itemComponent.betAmount.string = numberWithCommas(data.amount);
-        itemComponent.refund.string = numberWithCommas(data.refund);
-        
-        return item;
-    }
-
-    resetData() {
-        this.evenContent.destroyAllChildren();
-        this.oddContent.destroyAllChildren();
-    }    
+  resetData() {
+    this.evenContent.destroyAllChildren();
+    this.oddContent.destroyAllChildren();
+  }
 }

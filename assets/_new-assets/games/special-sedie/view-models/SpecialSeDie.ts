@@ -1,3 +1,4 @@
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import { gameIds } from "../../../Configs";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
@@ -10,7 +11,6 @@ import SpecialSeDieGuide from "./SpecialSeDieGuide";
 import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
 import SpecialSeDieStats from "./SpecialSeDieStats";
-import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -121,7 +121,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     const dragableItem = this.getComponent(DraggableItem);
     dragableItem.touchCallback.start = (node) => {
       this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
-    }
+    };
   }
 
   onData(data: any) {
@@ -187,6 +187,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
         .to(0.5, { position: cc.v2(50, 100) }, { easing: 'sineInOut' })
         .call(() => {
           (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
+          this.enableHistoryButton();
           this.finishShowResult = true;
         })
         .to(0.2, { opacity: 0 })
