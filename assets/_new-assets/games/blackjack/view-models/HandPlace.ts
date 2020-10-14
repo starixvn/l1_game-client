@@ -79,7 +79,11 @@ export default class HandPlace extends cc.Component {
             }
         }
 
-        return isEqual && !this.data.splitFrom && !this.data.actions.includes("split");
+        return isEqual && !this.isSplit;
+    }
+
+    get isSplit() {
+        return this.data.splitFrom || this.data.actions.includes("split");
     }
 
     get canDouble() {
@@ -89,7 +93,7 @@ export default class HandPlace extends cc.Component {
         }
 
         const total = this.data.total[0];
-        return total > 8 && total < 12 && !this.data.splitFrom;
+        return total > 8 && total < 12 && !this.isSplit;
     }
 
     get isActive() {
@@ -199,7 +203,7 @@ export default class HandPlace extends cc.Component {
                 this.scoreValue.string = total;
                 if (total > 21) {
                     this.burstNode.active = true;
-                } else if (total === 21 && this.data.cards.length === 2 && !this.data.actions.includes("split")) {
+                } else if (total === 21 && this.data.cards.length === 2 && !this.isSplit) {
                     this.blackJackNode.active = true;
                 }
             } else {

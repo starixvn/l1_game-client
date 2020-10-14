@@ -57,6 +57,9 @@ export default class BlackJack extends NewSocketGameBase {
     cardDropPlace: cc.Node = null;
 
     @property(cc.Node)
+    dealerChipTray: cc.Node = null;
+
+    @property(cc.Node)
     smallSplitButton: cc.Node = null;
 
     @property(cc.Node)
@@ -413,6 +416,22 @@ export default class BlackJack extends NewSocketGameBase {
         const worldPositon = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
 
         let count = 0;
+        const dealerCardsNodes = this.dealerHand.getCards();
+        const destPosition = dealerCardsNodes[0].parent.convertToNodeSpaceAR(worldPositon);
+        dealerCardsNodes.forEach(cardNode => {
+            cc.tween(cardNode)
+                .to(0.3, { position: cc.v2(0, 0) })
+                .delay(count * 0.05)
+                .call(() => {
+                    const cardComponent = cardNode.getComponent(NewCard);
+                    cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
+                })
+                .to(0.5, { position: destPosition })
+                .delay(0.2)
+                .call(() => cardNode.destroy())
+                .start();
+        });
+        count++;
         this.handPlaces.forEach(place => {
             const cardNodes = place.getCards();
             if (cardNodes.length === 0) {
@@ -422,32 +441,18 @@ export default class BlackJack extends NewSocketGameBase {
             count++;
             const destPosition = cardNodes[0].parent.convertToNodeSpaceAR(worldPositon);
             cardNodes.forEach(cardNode => {
-                const cardComponent = cardNode.getComponent(NewCard);
-                cardComponent.playAnimation(CardAnimation.DropCard, 1);
-
                 cc.tween(cardNode)
                     .to(0.3, { position: cc.v2(0, 0) })
-                    .delay(0.1 + count * 0.05)
+                    .delay(count * 0.05)
+                    .call(() => {
+                        const cardComponent = cardNode.getComponent(NewCard);
+                        cardComponent.playAnimation(CardAnimation.DropCard, 0.7);
+                    })
                     .to(0.7, { position: destPosition })
                     .delay(0.2)
                     .call(() => cardNode.destroy())
                     .start();
             })
-        });
-
-        const dealerCardsNodes = this.dealerHand.getCards();
-        const destPosition = dealerCardsNodes[0].parent.convertToNodeSpaceAR(worldPositon);
-        dealerCardsNodes.forEach(cardNode => {
-            const cardComponent = cardNode.getComponent(NewCard);
-            cardComponent.playAnimation(CardAnimation.DropCard, 1);
-
-            cc.tween(cardNode)
-                .to(0.3, { position: cc.v2(0, 0) })
-                .delay(0.1 + count * 0.05)
-                .to(0.5, { position: destPosition })
-                .delay(0.2)
-                .call(() => cardNode.destroy())
-                .start();
         });
 
         cc.tween(this.node)
@@ -472,6 +477,13 @@ export default class BlackJack extends NewSocketGameBase {
 
             this.rebet();
         });
+
+        //restore chip value
+        this.lastHandBets.forEach(hand => {
+            const chipStack = this.betChips.createChipStack(hand.bet, this.chipOption);
+            this.chipContainers[hand.pos - 1].addChild(chipStack);
+            this.handPlaces[hand.pos - 1].updateDisplayBetValue(hand.bet);
+        })
     }
 
     onClearClick() {

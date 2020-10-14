@@ -46,15 +46,28 @@ export default class BlackJackFinishHandler implements DataHandler {
                 .delay(openCardDuration)
                 .call(() => {
                     this.main.dealerHand.showScoreWithOutData(finish.result, 2);
-                    this.drawMoreCardForDealer(finish.result);
+                    this.drawMoreCardForDealer(finish.result, () => {
+                        cc.tween(this.main)
+                            .delay(1)
+                            .call(() => {
+                                this.showWinningHands();
+
+                                this.main.rebetButton.active = true;
+                                this.main.newBetButton.active = true;
+                            })
+                            .start();
+                    });
                 })
                 .start();
         }
     }
 
-    drawMoreCardForDealer(cards: CardModel[]) {
+    drawMoreCardForDealer(cards: CardModel[], complete = () => { }) {
+        if (cards.length === 2) {
+            complete();
+            return;
+        }
         const actions = [];
-
         const moreCards = cards.slice(2);
         if (moreCards.length > 0) {
             moreCards.forEach((card, index) => {
@@ -65,12 +78,6 @@ export default class BlackJackFinishHandler implements DataHandler {
                 });
             })
         }
-        actions.push(() => {
-            this.showWinningHands();
-
-            this.main.rebetButton.active = true;
-            this.main.newBetButton.active = true;
-        });
         let count = 0;
         cc.tween(this.main)
             .repeat(actions.length,
@@ -81,14 +88,53 @@ export default class BlackJackFinishHandler implements DataHandler {
                     })
                     .delay(this.drawingCardDelay)
             )
+            .call(complete)
             .start();
     }
 
     showWinningHands() {
         const winningHands = this.finishDataCache.winningHands;
-        winningHands.forEach(hand => {
-            const wonPlace = this.main.handPlaces.find(place => place.isActive && place.idValue === hand.id);
-            wonPlace && wonPlace.setResult(hand.betwin);
+        let totalWin = 0;
+
+        this.main.handPlaces.forEach((place, index) => {
+            if (place.isActive) {
+                const hand = winningHands.find(hand => hand.id === place.idValue)
+                if (hand) {
+                    totalWin += +hand.betwin;
+                    place.setResult(hand.betwin);
+
+                    const chipStack = this.main.betChips.createChipStack(hand.betwin / 2, this.main.chipOption);
+                    this.main.chipContainers[index].addChild(chipStack);
+                    const startPos = chipStack.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
+                    chipStack.position = startPos;
+                    chipStack.runAction(cc.sequence(
+                        cc.jumpTo(0.8, cc.v2(20, -20), 100, 1),
+                        cc.delayTime(0.1),
+                        // cc.fadeOut(0.3),
+                        // cc.callFunc(() => {
+                        //     chip.destroy();
+                        // })
+                    ))
+                } else {
+                    const chip = this.main.chipContainers[index].children[0];
+                    const destPos = chip.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
+                    chip.runAction(cc.sequence(
+                        cc.jumpTo(0.8, destPos, 100, 1),
+                        cc.delayTime(0.1),
+                        cc.fadeOut(0.3),
+                        cc.callFunc(() => {
+                            chip.destroy();
+                        })
+                    ))
+                }
+            }
+        })
+
+        totalWin > 0 && this.main.showWinningBet(totalWin);
+        cc.RedT.send({
+            user: {
+                updateCoin: true
+            }
         });
     }
 }

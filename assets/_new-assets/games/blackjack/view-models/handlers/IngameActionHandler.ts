@@ -39,7 +39,7 @@ export default class IngameActionHandler implements DataHandler {
         firstPlace.setData(firstHand);
         secondPlace.setData(secondHand);
 
-        this.placeChipsForSplitHand(firstHand.pos + 2, split.endBet);
+        this.placeChipsForSplitHand(firstHand.pos + 2, firstHand.bet);
         cc.tween(this.main)
             .call(() => {
                 this.moveCardForSplitting(firstHand.pos, 0.3);
@@ -51,9 +51,13 @@ export default class IngameActionHandler implements DataHandler {
                 firstPlace.updateDisplayScore(true);
             }))
             .delay(0.5)
-            .call(() => this.main.drawingCardToPlayer(secondHand.cards[1], secondHand.pos - 1, () => {
-                secondPlace.updateDisplayScore(true);
-            }))
+            .call(() => {
+                this.main.drawingCardToPlayer(secondHand.cards[1], secondHand.pos - 1, () => {
+                    secondPlace.updateDisplayScore(true);
+                });
+            })
+            .delay(this.main.configDuration.delaySwitchHand)
+            .call(() => this.main.switchToNextHand())
             .start();
     }
 

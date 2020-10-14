@@ -93,7 +93,7 @@ export default class CardLayout extends cc.Component {
                     .delay(0.1 * (this.content.childrenCount - 1 - index))
                     .parallel(
                         cc.tween(child)
-                            .by(0.3, { position: cc.v2(0, this.selectedPositionY) }),
+                            .to(0.3, { position: cc.v2(child.x, this.selectedPositionY) }),
                         cc.tween(child)
                             .to(0.3, { scaleY: this.selectedScaleY })
                     )
@@ -105,7 +105,7 @@ export default class CardLayout extends cc.Component {
                     .delay(0.1 * index)
                     .parallel(
                         cc.tween(child)
-                            .by(0.3, { position: cc.v2(0, -this.selectedPositionY) }),
+                            .to(0.3, { position: cc.v2(child.x, 0) }),
                         cc.tween(child)
                             .to(0.3, { scaleY: this.scaleY })
                     )
