@@ -1,4 +1,5 @@
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
+import NewButton from "../../../common/custom-button/NewButton";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { games } from "../../../SabaConfigs";
 import DataHandler from "../../_base/handlers/DataHandler";
@@ -109,6 +110,16 @@ export default class BlackJack extends NewSocketGameBase {
         super.onLoad();
         this.initHandPlaces();
         this.hideAllButtons();
+
+        this.bigSplitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick();
+        this.smallSplitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick();
+        this.doubleButton.getComponent(NewButton).callback.selected = () => this.onDoubleClick();
+        this.standButton.getComponent(NewButton).callback.selected = () => this.onStandClick();
+        this.hitButton.getComponent(NewButton).callback.selected = () => this.onHitClick();
+        this.newBetButton.getComponent(NewButton).callback.selected = () => this.onNewBetClick();
+        this.rebetButton.getComponent(NewButton).callback.selected = () => this.onRebetClick();
+        this.clearButton.getComponent(NewButton).callback.selected = () => this.onClearClick();
+        this.dealButton.getComponent(NewButton).callback.selected = () => this.onDealClick()
     }
 
     onEnable() {

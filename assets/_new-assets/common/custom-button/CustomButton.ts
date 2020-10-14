@@ -66,18 +66,23 @@ export default class CustomButton extends cc.Component {
         if (!this.checkCollider(e)) {
             return;
         }
+        this.setHighlight(true);
+    }
+
+    setHighlight(highlight: boolean) {
         this.callback.highlight(true);
     }
 
     onTouchMove(e) {
         if (!this.checkCollider(e)) {
+            this.setHighlight(false);
             return;
         }
-        this.callback.highlight(true);
+        this.setHighlight(true);
     }
 
     onTouchEnd(e) {
-        this.callback.highlight(false);
+        this.setHighlight(false);
         if (!this.checkCollider(e)) {
             return;
         }
@@ -85,6 +90,6 @@ export default class CustomButton extends cc.Component {
     }
 
     onTouchCancel(e) {
-        this.callback.highlight(false);
+        this.setHighlight(false);
     }
 }
