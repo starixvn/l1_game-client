@@ -6,28 +6,28 @@ const configs = {
     serverGameEndPoints: {
         0: {
           //Main Server
-          subDomain: 'proxy',
+          subDomain: 'uatproxy',
           port: '',
           path: '',
-          proxyRoute: "/main"
+          proxyRoute: "/sit/main"
         },
         2: {
-          subDomain: "proxy",
+          subDomain: "uatproxy",
           port: "",
           path: "/user/xocxoc",
-          proxyRoute: "/sedie"
+          proxyRoute: "/sit/sedie"
         },
         22: {
-          subDomain: "proxy",
+          subDomain: "uatproxy",
           port: "",
           path: "/user/vipsedie",
-          proxyRoute: "/vipsedie"
+          proxyRoute: "/sit/vipsedie"
         },
         24: {
-          subDomain: 'proxy',
+          subDomain: 'uatproxy',
           port: '',
           path: '/user/specialsedie',
-          proxyRoute: "/specialsedie"
+          proxyRoute: "/sit/specialsedie"
         },
     },
     gameIds: {
