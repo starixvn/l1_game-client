@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
 import NewSocketMiniGameBase from "./NewSocketMiniGameBase";
+import { numberWithCommas } from "./../../common/helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -129,7 +130,7 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
     const maxBet = this.gameConfigs.choices_maxbet[choice];
     const betAmount = bet > maxBet ? maxBet : bet;
     const selectedBetAmountLabel = this.selectedBetAmountLabels[choice];
-    selectedBetAmountLabel.string = betAmount;
+    selectedBetAmountLabel.string = numberWithCommas(betAmount);
   }
 
   onCancelBet(info: BetInfo) {

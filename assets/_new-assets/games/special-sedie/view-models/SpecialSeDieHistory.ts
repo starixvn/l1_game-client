@@ -80,8 +80,8 @@ export default class SpecialSeDieHistory extends cc.Component {
                     item.kqLabel.node.color = cc.Color.BLACK;
                 }
                 item.option.string = GameUtils.getBetChoiceString(choice);
-                item.bet.string = amount;
-                item.refund.string = refund;
+                item.bet.string = numberWithCommas(amount);
+                item.refund.string = numberWithCommas(refund);
                 item.roundId = phien;
                 item.win.string = numberWithCommas(betwin);
                 item.handleRoundIdClick = (roundId) => {

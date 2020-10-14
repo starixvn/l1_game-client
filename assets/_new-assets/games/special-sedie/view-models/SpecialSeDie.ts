@@ -10,6 +10,7 @@ import SpecialSeDieGuide from "./SpecialSeDieGuide";
 import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
 import SpecialSeDieStats from "./SpecialSeDieStats";
+import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -116,6 +117,11 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
     this.initRoundHistory();
     this.animatedTime.setAnimatedY(30, -5);
+
+    const dragableItem = this.getComponent(DraggableItem);
+    dragableItem.touchCallback.start = (node) => {
+      this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+    }
   }
 
   onData(data: any) {
