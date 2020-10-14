@@ -4,21 +4,31 @@ const configs = {
         "sit.sabagame.com": 'sabagame.com',
     },
     serverGameEndPoints: {
-        0: { //Main Server
-            subDomain: "sit-gsr",
-            port: "",
-            path: ""
+        0: {
+          //Main Server
+          subDomain: 'proxy',
+          port: '',
+          path: '',
+          proxyRoute: "/main"
         },
         2: {
-            subDomain: "sitsed",
-            port: "",
-            path: "/user/xocxoc"
+          subDomain: "proxy",
+          port: "",
+          path: "/user/xocxoc",
+          proxyRoute: "/sedie"
         },
         22: {
-            subDomain: "sitvipsedie",
-            port: "",
-            path: "/user/vipsedie"
-        }
+          subDomain: "proxy",
+          port: "",
+          path: "/user/vipsedie",
+          proxyRoute: "/vipsedie"
+        },
+        24: {
+          subDomain: 'proxy',
+          port: '',
+          path: '/user/specialsedie',
+          proxyRoute: "/specialsedie"
+        },
     },
     gameIds: {
         TaiXiu: 1,
