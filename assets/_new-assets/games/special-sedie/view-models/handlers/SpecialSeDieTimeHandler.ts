@@ -42,6 +42,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
   handleStartingNewGameRound() {
     super.handleStartingNewGameRound();
     this.shakeThePlate();
+    this.main.highlightLastResult();
   }
 
   handleInRoundTime() {
@@ -78,5 +79,10 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
         this.main.shakeThePlateAnimation.play();
       })
       .start();
+  }
+
+  handleInLockBetTime() {
+    super.handleInLockBetTime();
+    this.main.betItems.forEach(item => item.setHighlight(false));
   }
 }

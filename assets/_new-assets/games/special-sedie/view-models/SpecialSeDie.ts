@@ -207,6 +207,20 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     }
   }
 
+  public highlightLastResult() {
+    if (this.currentTimeRemaining <= this.config.stopBetTime) {
+      return;
+    }
+    const dataLog = this.currentDataLogs[0];
+    this.highlightWonItems(dataLog.settlementResult, false);
+  }
+
+  private highlightWonItems(settlementResult: any, isAnimated = true) {
+    this.betItems.forEach((betItem) => {
+      betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
+    });
+  }
+
   public openGuide() {
     let guide = cc.instantiate(this.guidePrefab);
     let specialSedieGuide = guide.getComponent(SpecialSeDieGuide);

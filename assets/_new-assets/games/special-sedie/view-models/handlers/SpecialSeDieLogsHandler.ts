@@ -8,5 +8,6 @@ export default class SpecialSeDieLogsHandler extends GameBaseLogsHandler {
 
   buildLogs(dataLogs) {
     this.main.updateRoundHistory();
+    this.main.highlightLastResult();
   }
 }
