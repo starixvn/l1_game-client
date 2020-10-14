@@ -31,4 +31,13 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
 
     this.registerViewGame();
   }
+
+  onData(data) {
+    if (data.user) {
+      cc.RedT.inGame.loadUserData(data.user);
+      cc.RedT.userData(data.user);
+    }
+
+    super.onData(data);
+  }
 }

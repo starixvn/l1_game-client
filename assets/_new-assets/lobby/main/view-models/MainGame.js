@@ -6,18 +6,17 @@ import * as authManager from "./../../../common/auth/AuthManager";
 
 const sentryLogger = logger();
 
-
-var header = require("Header"),
-  center = require("Menu"),
-  dialog = require("Dialog"),
-  newsContents = require("NewsContents");
+var header = require('Header'),
+  center = require('Menu'),
+  dialog = require('Dialog'),
+  newsContents = require('NewsContents');
 
 cc.Class({
   extends: cc.Component,
   properties: {
     PrefabT: {
       default: [],
-      type: cc.Prefab
+      type: cc.Prefab,
     },
     header: header,
     center: center,
@@ -45,8 +44,8 @@ cc.Class({
     cc.RedT.inGame = null;
   },
   onLoad: function () {
-    this.dialog = this.dialogNode.getComponent("Dialog");
-    document.cookie = "redT=1702;path=/";
+    this.dialog = this.dialogNode.getComponent('Dialog');
+    document.cookie = 'redT=1702;path=/';
 
     if (void 0 === cc.RedT) {
       cc.RedT = baseControll;
@@ -55,25 +54,31 @@ cc.Class({
 
     cc.RedT.inGame = this;
 
-    cc.game.on(cc.game.EVENT_HIDE, function () {
-      cc.RedT.GAME_IS_SHOWED = false;
-      this.sleepTime = new Date();
-    }.bind(this));
+    cc.game.on(
+      cc.game.EVENT_HIDE,
+      function () {
+        cc.RedT.GAME_IS_SHOWED = false;
+        this.sleepTime = new Date();
+      }.bind(this)
+    );
 
-    cc.game.on(cc.game.EVENT_SHOW, function () {
-      cc.RedT.GAME_IS_SHOWED = true;
-      cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoin: true } });
+    cc.game.on(
+      cc.game.EVENT_SHOW,
+      function () {
+        cc.RedT.GAME_IS_SHOWED = true;
+        cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoin: true } });
 
-      if (cc.sys.isMobile) {
-        const sleepSecond = (new Date() - this.sleepTime) / 1000;
+        if (cc.sys.isMobile) {
+          const sleepSecond = (new Date() - this.sleepTime) / 1000;
 
-        if (sleepSecond > 300) {
-          cc.RedT.MiniPanel.onForceReload(false);
+          if (sleepSecond > 300) {
+            cc.RedT.MiniPanel.onForceReload(false);
+          }
         }
-      }
-    }.bind(this));
+      }.bind(this)
+    );
 
-    cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
+    cc.RedT.audio = this.PrefabT[0].data.getComponent('MainAudio');
     // Connect Server
     cc.RedT.reconnect();
 
@@ -81,7 +86,7 @@ cc.Class({
     this.newsContents.init(this);
 
     var MiniPanel = cc.instantiate(this.PrefabT[1]);
-    cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
+    cc.RedT.MiniPanel = MiniPanel.getComponent('MiniPanel');
     this.redhat.insertChild(MiniPanel);
     this.dialogNode.removeFromParent();
     MiniPanel.addChild(this.dialogNode);
@@ -95,25 +100,25 @@ cc.Class({
     }
 
     if (cc.RedT.IS_LOGIN) {
-      cc.RedT.send({ scene: "home" });
+      cc.RedT.send({ scene: 'home' });
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
       this.header.setAvatar(cc.RedT.user.avatarId);
     }
 
-    this.center.node.on("size-changed", this.repositionMenu, this);
+    this.center.node.on('size-changed', this.repositionMenu, this);
     if (!cc.sys.isMobile) {
       this.center.node.scale = 0.8;
     }
 
-    const gameIconLayout = this.mainScroll.getComponent("GameIconLayout");
+    const gameIconLayout = this.mainScroll.getComponent('GameIconLayout');
     gameIconLayout.miniPanel = cc.RedT.MiniPanel;
     gameIconLayout.initializedCallback = () => {
       if (this.node === null) {
         return;
       }
       this.repositionMenu();
-    }
+    };
   },
   repositionMenu() {
     const adsWidth = this.gameAds.width;
@@ -122,12 +127,12 @@ cc.Class({
     const adsWidget = this.gameAds.getComponent(cc.Widget);
     if (scrollContentWidth < this.center.node.width) {
       scrollView.enabled = false;
-      this.scrollContent.position = cc.v2(- scrollContentWidth / 2 + adsWidth / 2, this.scrollContent.position.y);
+      this.scrollContent.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.scrollContent.position.y);
       adsWidget.enabled = false;
-      this.gameAds.position = cc.v2(- scrollContentWidth / 2 + adsWidth / 2, this.gameAds.position.y);
+      this.gameAds.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.gameAds.position.y);
     } else {
       scrollView.enabled = true;
-      this.scrollContent.position = cc.v2(- scrollView.node.width / 2, this.scrollContent.position.y);
+      this.scrollContent.position = cc.v2(-scrollView.node.width / 2, this.scrollContent.position.y);
       adsWidget.enabled = true;
     }
   },
@@ -141,12 +146,13 @@ cc.Class({
       this.loading.active = false;
     }
 
-    if (void 0 !== data["message"]) {
+    if (void 0 !== data['message']) {
       this.showNotice({
-        text: data.isSessionExpired || data.noPassword
-          ? "Phiên đăng nhập đã hết hạn, bạn vui lòng đăng nhập lại."
-          : "Có lỗi xảy ra, vui lòng kiểm tra lại."
-      })
+        text:
+          data.isSessionExpired || data.noPassword
+            ? 'Phiên đăng nhập đã hết hạn, bạn vui lòng đăng nhập lại.'
+            : 'Có lỗi xảy ra, vui lòng kiểm tra lại.',
+      });
     } else {
       this.showNotice(data);
     }
@@ -160,17 +166,16 @@ cc.Class({
     }
   },
   onData: function (data) {
-    if (void 0 !== data["unauth"]) {
-      this.unAuthorized(data["unauth"]);
+    if (void 0 !== data['unauth']) {
+      this.unAuthorized(data['unauth']);
     }
 
     if (void 0 !== data.user) {
-      this.dataUser(data.user);
+      this.loadUserData(data.user);
       cc.RedT.userData(data.user);
 
       try {
         if (data.user.name) {
-
           if (this.loading) {
             this.loading.active = false;
           }
@@ -178,7 +183,9 @@ cc.Class({
       } catch (ex) {
         console.log(ex);
         const userAgent = window.navigator ? window.navigator.userAgent : 'offline';
-        sentryLogger.logError(`Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}\nError:${ex}`);
+        sentryLogger.logError(
+          `Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(data.user)} \nBrowser:${userAgent}\nError:${ex}`
+        );
       }
     }
 
@@ -203,40 +210,38 @@ cc.Class({
   },
   captcha: function (data) {
     switch (data.name) {
-      case "signUp":
+      case 'signUp':
         this.dialog.signUp.initCaptcha(data.data);
         break;
 
-      case "giftcode":
+      case 'giftcode':
         this.dialog.GiftCode.initCaptcha(data.data);
         break;
 
-      case "forgotpass":
+      case 'forgotpass':
         this.dialog.ForGotPass.initCaptcha(data.data);
         break;
 
-      case "chargeCard":
+      case 'chargeCard':
         this.dialog.shop.NapRed.initCaptcha(data.data);
         break;
 
-      case "withdrawXu":
+      case 'withdrawXu':
         this.dialog.shop.TieuRed.MuaXu.initCaptcha(data.data);
         break;
     }
   },
   formatUserCurrency: function (red, currency) {
-    const userCurrency = cc.RedT.user.currency
-      ? cc.RedT.user.currency.toUpperCase()
-      : currency === undefined ? '' : currency;
+    const userCurrency = cc.RedT.user.currency ? cc.RedT.user.currency.toUpperCase() : currency === undefined ? '' : currency;
 
     return `${helper.numberWithCommas(red)} ${userCurrency}`;
   },
   showNotice: function (noticeData) {
     var noticePrefab = cc.instantiate(this.NoticePrefab);
-    var notice = noticePrefab.getComponent("Notice");
+    var notice = noticePrefab.getComponent('Notice');
     noticeData.button = { text: 'OK' };
     notice.init(noticeData);
-    this.node.addChild(noticePrefab)
+    this.node.addChild(noticePrefab);
   },
   clickNoticeButton: function () {
     switch (this.type) {
@@ -258,7 +263,7 @@ cc.Class({
       //   break;
     }
   },
-  dataUser: function (data) {
+  loadUserData: function (data) {
     if (void 0 !== data.red && this.header && this.header.userRed) {
       this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
     }
@@ -280,12 +285,12 @@ cc.Class({
     cc.RedT.user = {};
     cc.RedT.IS_LOGIN = false;
     this.AllReset();
-    cc.sys.localStorage.removeItem("infoRed8");
+    cc.sys.localStorage.removeItem('infoRed8');
     authManager.signOut();
   },
   onDisconnected: function () {
     this.AllReset();
-    cc.sys.localStorage.removeItem("infoRed8");
+    cc.sys.localStorage.removeItem('infoRed8');
   },
   signIn: function () {
     cc.RedT.IS_LOGIN = true;
@@ -337,15 +342,15 @@ cc.Class({
     cc.RedT.audio.playUnClick();
   },
   fanpage: function () {
-    cc.sys.openURL(this.url + "/fanpage/");
+    cc.sys.openURL(this.url + '/fanpage/');
   },
   ios: function () {
-    cc.sys.openURL(this.url + "/help/ios");
+    cc.sys.openURL(this.url + '/help/ios');
   },
   android: function () {
-    cc.sys.openURL(this.url + "/download/" + this.appApk);
+    cc.sys.openURL(this.url + '/download/' + this.appApk);
   },
   telegram: function () {
-    cc.sys.openURL(this.url + "/telegram/");
-  }
+    cc.sys.openURL(this.url + '/telegram/');
+  },
 });
