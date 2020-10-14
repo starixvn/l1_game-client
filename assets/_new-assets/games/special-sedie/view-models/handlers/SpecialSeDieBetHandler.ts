@@ -7,7 +7,7 @@ export default class SpecialSeDieBetHandler extends GameBaseBetHandler {
   }
 
   handle(data: any): boolean {
-    if (data.totalBet) {
+    if (data.totalBets) {
       this.main.totalBets = data.totalBets;
     }
 

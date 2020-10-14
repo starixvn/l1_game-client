@@ -191,7 +191,8 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
   }
 
   balanceBet() {
-    const balancedBetAmount = Math.min(..._.values(this.totalBets));
+    const totalBets = _.values(this.totalBets);
+    const balancedBetAmount = Math.min(...[totalBets[0] ?? 0, totalBets[1] ?? 0]);
     _.keys(this.totalBets).forEach((key) => {
       this.totalBets[key] = balancedBetAmount;
     });
