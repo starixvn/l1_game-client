@@ -208,4 +208,10 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
   hideBalanceBetNotice() {
     this.balanceBetNoticeContainer.destroyAllChildren();
   }
+
+  closeGame() {
+    super.closeGame();
+    this.betBoard.close();
+    this.presetBet.forceClose();
+  }
 }
