@@ -184,6 +184,9 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
       this.updateRoundHistory();
 
       cc.tween(this.thePlate)
+        .call(() => {
+          this.shakeThePlateAnimation.node.active = true;
+        })
         .to(0.5, { position: cc.v2(50, 100) }, { easing: 'sineInOut' })
         .call(() => {
           (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
@@ -224,5 +227,10 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     this.betHistory = node.getComponent(SpecialSedieBetHistory);
     this.betHistory.init(this.socket, roundId);
     this.currentMiniPanel.node.addChild(node);
+  }
+
+  resetDataAndUI() {
+    super.resetDataAndUI();
+    this.shakeThePlateAnimation.node.active = false;
   }
 }

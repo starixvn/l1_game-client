@@ -30,6 +30,8 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
     if (this.isInBalanceBetTime) {
       this.main.balanceBet();
+    } else {
+      this.main.hideBalanceBetNotice();
     }
 
     if (this.isDisplayResultTime) {
@@ -45,6 +47,11 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
   handleInRoundTime() {
     this.main.setGameRound(this.main.roundId);
+    this.main.betItems.forEach((item) => item.resetHighlight());
+    this.main.thePlate.position = cc.v2(0, 0);
+    this.main.thePlate.opacity = 255;
+    this.main.thePlate.active = true;
+    this.main.shakeThePlateAnimation.node.active = true;
 
     if (this.main.currentTimeRemaining <= this.main.config.betTime) {
       this.showRoundTime();
@@ -69,6 +76,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
       .to(0, { opacity: 255 })
       .to(0.5, { position: cc.v2(0, 0) })
       .call(() => {
+        this.main.shakeThePlateAnimation.node.active = true;
         this.main.shakeThePlateAnimation.play();
       })
       .start();
