@@ -62,6 +62,8 @@ export default class SpecialSeDieHistory extends cc.Component {
                 const { time, phien, result, betwin, choice, amount, refund } = betLog;
 
                 item.time.string = getStringDateByTime(time);
+                item.time.node.color = betwin ? cc.Color.YELLOW : cc.Color.WHITE;
+
                 item.phien.string = phien;
 
                 let number = 0;
@@ -80,10 +82,15 @@ export default class SpecialSeDieHistory extends cc.Component {
                     item.kqLabel.node.color = cc.Color.BLACK;
                 }
                 item.option.string = GameUtils.getBetChoiceString(choice);
+                item.option.node.color = betwin ? cc.Color.YELLOW : cc.Color.WHITE;
+
                 item.bet.string = numberWithCommas(amount);
                 item.refund.string = numberWithCommas(refund);
                 item.roundId = phien;
+
                 item.win.string = numberWithCommas(betwin);
+                item.win.node.color = betwin ? cc.Color.YELLOW : cc.Color.WHITE;
+
                 item.handleRoundIdClick = (roundId) => {
                     this.openBetHistory(roundId);
                 }
