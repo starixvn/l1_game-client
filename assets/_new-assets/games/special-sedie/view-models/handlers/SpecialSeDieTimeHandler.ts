@@ -10,7 +10,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
   }
 
   get isInWaitTime() {
-    return this.main.currentTimeRemaining > this.shakeThePlateTime && this.main.currentTimeRemaining <= this.displayResultTime;
+    return this.main.currentTimeRemaining > this.shakeThePlateTime;
   }
 
   get isInBalanceBetTime() {
@@ -26,8 +26,6 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
   }
 
   gameUpdate(): void {
-    super.gameUpdate();
-
     if (this.isInBalanceBetTime) {
       this.main.balanceBet();
     } else {
@@ -35,9 +33,10 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
     }
 
     if (this.isDisplayResultTime) {
-      this.main.hideBalanceBetNotice();
       this.main.showResult();
     }
+
+    super.gameUpdate();
   }
 
   handleStartingNewGameRound() {
@@ -60,7 +59,9 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
   handleWaitTime() {
     super.handleWaitTime();
-    this.main.showResult();
+    if (this.main.currentTimeRemaining > this.shakeThePlateTime && !this.main.finishShowResult) {
+      this.main.showResult();
+    }
   }
 
   showWaitTime() {

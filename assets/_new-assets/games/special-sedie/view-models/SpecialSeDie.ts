@@ -194,6 +194,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
       cc.tween(this.thePlate)
         .call(() => {
           this.shakeThePlateAnimation.node.active = true;
+          this.hideBalanceBetNotice();
         })
         .to(0.5, { position: cc.v2(50, 100) }, { easing: 'sineInOut' })
         .call(() => {

@@ -30,6 +30,10 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     return this.main.currentTimeRemaining == this.main.config.betTime;
   }
 
+  get isInRoundTime() {
+    return this.main.currentTimeRemaining >= this.main.config.minBetTime;
+  }
+
   handle(data: any): boolean {
     if (data.remainingTime) {
       if ((data.remainingTime || data.remainingTime >= 0) && !this.main.isStopGame) {
@@ -65,9 +69,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.handleStartingNewGameRound();
       }
 
-      const isInRoundTime = this.main.currentTimeRemaining >= this.main.config.minBetTime;
-
-      if (isInRoundTime) {
+      if (this.isInRoundTime) {
         this.handleInRoundTime();
 
         const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
