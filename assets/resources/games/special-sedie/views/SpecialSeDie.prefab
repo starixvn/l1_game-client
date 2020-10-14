@@ -24,14 +24,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 282
+        "__id__": 281
       },
       {
-        "__id__": 283
+        "__id__": 282
       }
     ],
     "_prefab": {
-      "__id__": 284
+      "__id__": 283
     },
     "_opacity": 255,
     "_color": {
@@ -138,13 +138,9 @@
       }
     ],
     "_active": true,
-    "_components": [
-      {
-        "__id__": 280
-      }
-    ],
+    "_components": [],
     "_prefab": {
-      "__id__": 281
+      "__id__": 280
     },
     "_opacity": 255,
     "_color": {
@@ -1075,8 +1071,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 393,
-      "height": 127
+      "width": 317,
+      "height": 103
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3103,7 +3099,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 20.13,
+      "width": 48.16,
       "height": 40
     },
     "_anchorPoint": {
@@ -3156,8 +3152,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "0",
-    "_N$string": "0",
+    "_string": "800",
+    "_N$string": "800",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -3247,7 +3243,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 12.92,
+      "width": 69.09,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3300,8 +3296,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "0",
-    "_N$string": "0",
+    "_string": "6,8000",
+    "_N$string": "6,8000",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -3586,7 +3582,7 @@
     "_id": ""
   },
   {
-    "__type__": "2393aJvk7dCJK4k8bAaqT7L",
+    "__type__": "7e07fo2xPxISYcO0LWM4BE2",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -5380,7 +5376,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 20.13,
+      "width": 48.16,
       "height": 40
     },
     "_anchorPoint": {
@@ -5433,8 +5429,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "0",
-    "_N$string": "0",
+    "_string": "800",
+    "_N$string": "800",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -5524,7 +5520,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 12.92,
+      "width": 69.09,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -5577,8 +5573,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "0",
-    "_N$string": "0",
+    "_string": "6,8000",
+    "_N$string": "6,8000",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -5863,7 +5859,7 @@
     "_id": ""
   },
   {
-    "__type__": "2393aJvk7dCJK4k8bAaqT7L",
+    "__type__": "7e07fo2xPxISYcO0LWM4BE2",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -10235,7 +10231,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -60,
+        -138,
         0,
         0,
         0,
@@ -10340,36 +10336,6 @@
     },
     "fileId": "e1BvTJVBlJ14FjbQVcpCDi",
     "sync": false
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": null,
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
-    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -10512,16 +10478,16 @@
       "__id__": 204
     },
     "selectedBetAmountClickedImageLeft": {
-      "__uuid__": "218e5971-fa77-4bfe-ad9e-d897fa0983f7"
-    },
-    "selectedBetAmountUnClickedImageLeft": {
-      "__uuid__": "bc2bd8a1-406a-4829-8dc3-3a272b691f3b"
-    },
-    "selectedBetAmountClickedImageRight": {
       "__uuid__": "24f8c825-1fec-43d8-8964-c688d2f67615"
     },
-    "selectedBetAmountUnClickedImageRight": {
+    "selectedBetAmountUnClickedImageLeft": {
       "__uuid__": "ca9c5864-566b-4d60-832c-a689c9e438f6"
+    },
+    "selectedBetAmountClickedImageRight": {
+      "__uuid__": "218e5971-fa77-4bfe-ad9e-d897fa0983f7"
+    },
+    "selectedBetAmountUnClickedImageRight": {
+      "__uuid__": "bc2bd8a1-406a-4829-8dc3-3a272b691f3b"
     },
     "betHistoryPrefab": {
       "__uuid__": "04c58286-9799-4535-b7a1-a2e4bf650a41"
