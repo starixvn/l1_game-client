@@ -1,3 +1,5 @@
+import * as _ from "lodash";
+
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import { gameIds } from "../../../Configs";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
@@ -5,13 +7,13 @@ import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
+import SpecialSeDieStatusHandler from "./handlers/SpecialSeDieStatusHandler";
 import SpecialSeDieTimeHandler from "./handlers/SpecialSeDieTimeHandler";
 import SpecialSedieBetHistory from "./SpecialSedieBetHistory";
 import SpecialSeDieGuide from "./SpecialSeDieGuide";
 import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
 import SpecialSeDieStats from "./SpecialSeDieStats";
-import * as _ from 'lodash';
 
 const { ccclass, property } = cc._decorator;
 
@@ -146,6 +148,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     this.logsHandler = new SpecialSeDieLogsHandler(this);
     this.finishHandler = new SpecialSeDieFinishHandler(this);
     this.betHandler = new SpecialSeDieBetHandler(this);
+    this.statusHandler = new SpecialSeDieStatusHandler(this);
   }
 
   initRoundHistory() {
@@ -207,6 +210,11 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     }
   }
 
+  showWinningAnimation() {
+    const currentStatusData = this.statusHandler.currentStatusData;
+    currentStatusData && currentStatusData.win && this.showWinningBet(currentStatusData.bet);
+  }
+
   public highlightLastResult() {
     if (this.currentTimeRemaining <= this.config.stopBetTime) {
       return;
@@ -255,5 +263,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   resetDataAndUI() {
     super.resetDataAndUI();
     this.shakeThePlateAnimation.node.active = false;
+    this.statusHandler.currentStatusData = null;
   }
 }

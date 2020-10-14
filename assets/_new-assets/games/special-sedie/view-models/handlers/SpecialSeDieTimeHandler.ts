@@ -34,6 +34,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
     if (this.isDisplayResultTime) {
       this.main.showResult();
+      this.main.showWinningAnimation();
     }
 
     super.gameUpdate();
@@ -41,6 +42,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
   handleStartingNewGameRound() {
     super.handleStartingNewGameRound();
+    this.main.statusHandler.currentStatusData = null;
     this.shakeThePlate();
     this.main.highlightLastResult();
   }
