@@ -179,14 +179,14 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
 
   showBetPercentage(choice: string, percent: number) {
     const label = this.betPercentages[choice];
-    label.string = `${percent} %`;
+    label.string = `${percent}%`;
   }
 
   resetDataAndUI() {
     super.resetDataAndUI();
 
     _.values(this.betPercentages).forEach((label) => {
-      label.string = '0 %';
+      label.string = '0%';
     });
   }
 
