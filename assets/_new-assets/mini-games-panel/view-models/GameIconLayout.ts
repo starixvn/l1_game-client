@@ -40,8 +40,8 @@ export default class GameIconLayout extends cc.Component {
   constructor() {
     super();
     this.gameIds = [
-      gameIds.XocXoc,
       gameIds.VipSedie,
+      gameIds.XocXoc,
       gameIds.MiniSedie,
       gameIds.SpecialSeDie,
       gameIds.TaiXiuTurbo,
