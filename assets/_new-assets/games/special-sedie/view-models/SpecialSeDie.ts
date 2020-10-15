@@ -256,7 +256,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   openBetHistory(roundId: number) {
     let node = cc.instantiate(this.betHistoryPrefab);
     this.betHistory = node.getComponent(SpecialSedieBetHistory);
-    this.betHistory.init(this.socket, roundId);
+    this.betHistory.init(this, roundId);
     this.currentMiniPanel.node.addChild(node);
   }
 

@@ -2,7 +2,7 @@ import BaseSocketIOController from "../../BaseSocketIOController";
 import GameBase from "./GameBase";
 
 export default abstract class NewSocketMiniGameBase extends GameBase {
-  protected socket: SocketIOClient.Socket;
+  public socket: SocketIOClient.Socket;
   abstract get gameId(): number;
 
   startGame() {

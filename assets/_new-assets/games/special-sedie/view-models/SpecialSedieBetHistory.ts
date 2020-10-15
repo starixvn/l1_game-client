@@ -1,4 +1,5 @@
 import { getStringDateByTime, getStringHourByTime, numberWithCommas, shortenName } from "./../../../common/helpers/Helper";
+import SpecialSeDie from "./SpecialSeDie";
 import SpecialSedieBetHistoryItem from "./SpecialSedieBetHistoryItem";
 
 const { ccclass, property } = cc._decorator;
@@ -37,11 +38,14 @@ export default class SpecialSedieBetHistory extends cc.Component {
   @property(cc.Prefab)
   itemPrefab: cc.Prefab = null;
 
-  private socket: SocketIOClient.Socket;
+  @property(cc.Node)
+  nextButton: cc.Node = null;
+
+  private main: SpecialSeDie;
   private roundId: number = 0;
 
-  init(socket: SocketIOClient.Socket, roundId: number) {
-    this.socket = socket;
+  init(main: SpecialSeDie, roundId: number) {
+    this.main = main;
     this.roundId = roundId;
   }
 
@@ -66,7 +70,7 @@ export default class SpecialSedieBetHistory extends cc.Component {
   }
 
   getRound(roundId: number) {
-    this.socket.emit('getRound', { roundId });
+    this.main.socket.emit('getRound', { roundId });
   }
 
   onData(data: any) {
@@ -94,6 +98,8 @@ export default class SpecialSedieBetHistory extends cc.Component {
         let item = this.addItem(user);
         this.oddContent.addChild(item);
       });
+
+    this.nextButton.active = this.main.currentDataLogs[0].roundId > id;
   }
 
   updateDotsResult(result: any) {
