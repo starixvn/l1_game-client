@@ -5,29 +5,29 @@ const configs = {
     },
     serverGameEndPoints: {
         0: {
-          //Main Server
-          subDomain: 'haproxy',
-          port: 7000,
-          path: '',
-          proxyRoute: "/main"
+            //Main Server
+            subDomain: 'haproxy',
+            port: 7000,
+            path: '',
+            proxyRoute: "/main"
         },
         2: {
-          subDomain: "haproxy",
-          port: "7000",
-          path: "/user/xocxoc",
-          proxyRoute: "/sedie/socket.io"
+            subDomain: "haproxy",
+            port: "7000",
+            path: "/user/xocxoc",
+            proxyRoute: "/sedie/socket.io"
         },
         22: {
-          subDomain: "haproxy",
-          port: "7000",
-          path: "/user/vipsedie",
-          proxyRoute: "/vipsedie/socket.io"
+            subDomain: "haproxy",
+            port: "7000",
+            path: "/user/vipsedie",
+            proxyRoute: "/vipsedie/socket.io"
         },
         24: {
-          subDomain: 'haproxy',
-          port: 7000,
-          path: '/user/specialsedie',
-          proxyRoute: "/specialsedie/socket.io"
+            subDomain: 'haproxy',
+            port: 7000,
+            path: '/user/specialsedie',
+            proxyRoute: "/specialsedie/socket.io"
         },
     },
     gameIds: {
@@ -85,6 +85,7 @@ const configs = {
     },
     gameRoomIds: [8, 10, 21],
     gameRoomNewSocketIds: [2, 22],
+    gameMiniNewSocketIds: [24],
     sentryUrl: 'https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20',
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",

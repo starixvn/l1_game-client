@@ -302,8 +302,11 @@ cc.Class({
   openGameSSO: function () {
     if (window.openGameId) {
       const gameId = parseInt(window.openGameId);
+
       if (configs.gameRoomNewSocketIds.includes(gameId)) {
         cc.RedT.MiniPanel.openNewGameSocket(null, gameId);
+      } else if (configs.gameMiniNewSocketIds.includes(gameId)) {
+        cc.RedT.MiniPanel.openNewSocketMiniGame(null, gameId);
       } else if (configs.gameRoomIds.includes(gameId)) {
         cc.RedT.MiniPanel.openGameRoom(null, gameId);
       } else {

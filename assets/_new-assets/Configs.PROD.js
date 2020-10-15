@@ -78,6 +78,7 @@ const configs = {
     },
     gameRoomIds: [8, 10, 21],
     gameRoomNewSocketIds: [2, 22],
+    gameMiniNewSocketIds: [24],
     sentryUrl: 'https://19b3909c434341f0b13eb3a8529e5862@sentry.sabagame.com/9',
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
