@@ -125,6 +125,7 @@ export default class IngameActionHandler implements DataHandler {
         const localPosition = destNode.convertToNodeSpaceAR(worldPositon);
         chipStack.position = localPosition;
         chipStack.runAction(cc.jumpTo(0.5, 0, 0, 250, 1));
+        this.main.updateTotalBetLabel();
     }
 
     placeChipsForDoubleHand(index: number, amount: number) {
@@ -144,6 +145,7 @@ export default class IngameActionHandler implements DataHandler {
                 chipStack.zIndex = -1;
                 destNode.addChild(chipStack);
                 this.main.handPlaces[index].updateDisplayBetValue(amount);
+                this.main.updateTotalBetLabel();
             })
         ));
     }

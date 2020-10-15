@@ -36,6 +36,7 @@ export default class DealHandler implements DataHandler {
                 this.main.chipContainers[pos].addChild(chipStack);
             }
         });
+        this.main.updateTotalBetLabel();
 
         const firstDealerCard = dealerCards[0];
         actions.push(() => { this.main.drawingCardToDealer(firstDealerCard, false); });

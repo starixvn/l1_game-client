@@ -1,5 +1,6 @@
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import NewButton from "../../../common/custom-button/NewButton";
+import * as helper from "../../../common/helpers/Helper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { games } from "../../../SabaConfigs";
 import DataHandler from "../../_base/handlers/DataHandler";
@@ -86,6 +87,9 @@ export default class BlackJack extends NewSocketGameBase {
 
     @property(cc.Node)
     dealButton: cc.Node = null;
+
+    @property(cc.Label)
+    totalBetLabel: cc.Label = null;
 
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
@@ -176,6 +180,14 @@ export default class BlackJack extends NewSocketGameBase {
         );
     }
 
+    updateTotalBetLabel() {
+        let total = 0;
+        this.handPlaces.forEach(place => {
+            total += place.getBetAmount();
+        })
+        this.totalBetLabel.string = helper.numberWithCommas(total);
+    }
+
     initHandPlaces() {
         const chipFlyingDuration = 0.5;
         this.handPlaces.forEach((handPlace, index) => {
@@ -199,6 +211,7 @@ export default class BlackJack extends NewSocketGameBase {
                     const chipStack = this.betChips.createChipStack(handPlace.getBetAmount(), this.chipOption);
                     chipStack.zIndex = -1;
                     destNode.addChild(chipStack);
+                    this.updateTotalBetLabel();
                 }, 0, chipFlyingDuration, 0);
             }
             handPlace.clearBetClickCallback = () => {
@@ -208,9 +221,10 @@ export default class BlackJack extends NewSocketGameBase {
                     this.priorityHands.splice(location, 1);
                 }
 
-                const existChip = this.checkExistChipOnTable()
+                const existChip = this.checkExistChipOnTable();
                 this.dealButton.active = existChip;
                 this.clearButton.active = existChip;
+                this.updateTotalBetLabel();
             }
         })
     }
@@ -494,7 +508,8 @@ export default class BlackJack extends NewSocketGameBase {
             const chipStack = this.betChips.createChipStack(hand.bet, this.chipOption);
             this.chipContainers[hand.pos - 1].addChild(chipStack);
             this.handPlaces[hand.pos - 1].updateDisplayBetValue(hand.bet);
-        })
+        });
+        this.updateTotalBetLabel();
     }
 
     onClearClick() {
