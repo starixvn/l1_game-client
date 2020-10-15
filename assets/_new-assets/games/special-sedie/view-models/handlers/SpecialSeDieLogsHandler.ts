@@ -8,7 +8,7 @@ export default class SpecialSeDieLogsHandler extends GameBaseLogsHandler {
 
   handle(data: any): boolean {
     if (data.roundHistory) {
-      this.main.setDots(data.roundHistory[0]);
+      this.main.setDots(data.roundHistory[0].result);
     }
 
     return super.handle(data);
