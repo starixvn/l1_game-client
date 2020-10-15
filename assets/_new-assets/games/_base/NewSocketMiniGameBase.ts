@@ -33,12 +33,13 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
   }
 
   onData(data) {
+    super.onData(data);
+
     if (data.user) {
       cc.RedT.inGame.loadUserData(data.user);
       cc.RedT.userData(data.user);
     }
 
-    this.currentMiniPanel.onGeneralData(data);
-    super.onData(data);
+    !data.notice && this.currentMiniPanel.onGeneralData(data);
   }
 }
