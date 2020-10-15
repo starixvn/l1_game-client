@@ -1,4 +1,4 @@
-import { numberTo } from "../../common/helpers/Helper";
+import { numberTo, numberWithCommas } from "../../common/helpers/Helper";
 import BetItem from "./BetItem";
 
 const { ccclass } = cc._decorator;
@@ -19,10 +19,10 @@ export default class BalancedBettingPoolBetItem extends BetItem {
   }
 
   public balanceBet(bet: number) {
-    if (bet > 0) {
       numberTo(this.totalBet, 0, bet, 1000, true);
-    } else {
-      this.totalBet.string = '';
-    }
+  }
+
+  protected setTotalBet(bet: number) {
+    this.totalBet.string = numberWithCommas(bet);
   }
 }
