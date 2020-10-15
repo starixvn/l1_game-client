@@ -2,6 +2,7 @@ import a from "../../../../../libs/chance/chance";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
+import BlackJackUtils from "../BlackJackUtils";
 
 export default class DealHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {
@@ -32,7 +33,7 @@ export default class DealHandler implements DataHandler {
             if (hand.bet != place.getBetAmount()) {
                 place.syncBetValue();
                 this.main.chipContainers[pos].destroyAllChildren();
-                const chipStack = this.main.betChips.createChipStack(hand.bet, this.main.chipOption);
+                const chipStack = BlackJackUtils.createChipStack(hand.bet, this.main.betChips.chipAltas, this.main.chipOption);
                 this.main.chipContainers[pos].addChild(chipStack);
             }
         });

@@ -1,7 +1,9 @@
+import * as _ from "lodash";
+
+import GameUtils from "../../GameUtils";
+import SnappedScrollView from "./SnappedScrollView";
+
 const { ccclass, property } = cc._decorator;
-import * as _ from 'lodash';
-import GameUtils from '../../GameUtils';
-import SnappedScrollView from './SnappedScrollView';
 type OnChangedBet = (bet: string) => void;
 
 @ccclass
@@ -214,6 +216,10 @@ export default class BetChips extends cc.Component {
                     onComplete();
                 })
             ));
+    }
+
+    public getChipNode(bet: number): cc.Node {
+        return this.chips.children.find(child => child.name === bet.toString());
     }
 
     public moveChipWithCallback(chipNode: cc.Node, bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }, delayDestroy: number, duration: number, fadeDuration = 1) {

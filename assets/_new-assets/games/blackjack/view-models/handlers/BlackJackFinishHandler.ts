@@ -1,3 +1,4 @@
+import ChipStack from "../../../../common/chip-stack/views/ChipStack";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
@@ -103,18 +104,32 @@ export default class BlackJackFinishHandler implements DataHandler {
                     totalWin += +hand.betwin;
                     place.setResult(hand.betwin);
 
-                    const chipStack = this.main.betChips.createChipStack(hand.betwin / 2, this.main.chipOption);
-                    this.main.chipContainers[index].addChild(chipStack);
-                    const startPos = chipStack.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
-                    chipStack.position = startPos;
-                    chipStack.runAction(cc.sequence(
-                        cc.jumpTo(0.8, cc.v2(20, -20), 100, 1),
-                        cc.delayTime(0.1),
-                        // cc.fadeOut(0.3),
-                        // cc.callFunc(() => {
-                        //     chip.destroy();
-                        // })
-                    ))
+                    if (+hand.betwin > place.getBetAmount()) {
+                        const winAmount = +hand.betwin - place.getBetAmount();
+                        const options = [...this.main.chipOption, 0.5];
+                        const chipStack = BlackJackUtils.createChipStack(winAmount, this.main.betChips.chipAltas, options);
+                        const destNode = this.main.chipContainers[index];
+                        destNode.addChild(chipStack);
+                        const startPos = chipStack.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
+                        chipStack.position = startPos;
+
+                        let destPosition = cc.v2(0, 0);
+                        if (destNode.childrenCount > 0) {
+                            const stack = destNode.children[0].getComponent(ChipStack);
+                            if (stack) {
+                                destPosition = cc.v2(0, stack.getCurrentHeight());
+                            }
+                        }
+
+                        chipStack.runAction(cc.sequence(
+                            cc.jumpTo(0.8, destPosition, 100, 1),
+                            cc.delayTime(0.1),
+                            // cc.fadeOut(0.3),
+                            // cc.callFunc(() => {
+                            //     chip.destroy();
+                            // })
+                        ))
+                    }
                 } else {
                     const chip = this.main.chipContainers[index].children[0];
                     const destPos = chip.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
