@@ -520,7 +520,7 @@ export default class BlackJack extends NewSocketGameBase {
     onLobbyClick() {
         cc.RedT.audio.playClick();
 
-        this.closeGame();
+        this.onCloseGameClick();
     }
 
     onHistoryClick() {
