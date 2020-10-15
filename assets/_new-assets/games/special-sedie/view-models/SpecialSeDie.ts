@@ -189,14 +189,12 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
   showResult() {
     if (this.currentDataLogs.length > 0) {
-      const { result, settlementResult } = this.currentDataLogs[0];
-      this.setDots(result);
+      const { settlementResult } = this.currentDataLogs[0];
       this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
       this.updateRoundHistory();
 
       cc.tween(this.thePlate)
         .call(() => {
-          this.shakeThePlateAnimation.node.active = true;
           this.hideBalanceBetNotice();
         })
         .to(0.5, { position: cc.v2(50, 100) }, { easing: 'sineInOut' })
@@ -212,7 +210,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
   showWinningAnimation() {
     const currentStatusData = this.statusHandler.currentStatusData;
-    currentStatusData && currentStatusData.win && this.showWinningBet(currentStatusData.bet);
+    currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
   }
 
   public highlightLastResult() {
@@ -262,7 +260,13 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
   resetDataAndUI() {
     super.resetDataAndUI();
-    this.shakeThePlateAnimation.node.active = false;
+    this.resetThePlatePosition();
     this.statusHandler.currentStatusData = null;
+  }
+
+  resetThePlatePosition() {
+    this.thePlate.position = cc.v2(0, 0);
+    this.thePlate.opacity = 255;
+    this.thePlate.active = true;
   }
 }

@@ -28,16 +28,18 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
   gameUpdate(): void {
     if (this.isInBalanceBetTime) {
       this.main.balanceBet();
+      this.main.currentTimeRemaining--;
     } else {
       this.main.hideBalanceBetNotice();
-    }
 
-    if (this.isDisplayResultTime) {
-      this.main.showResult();
-      this.main.showWinningAnimation();
+      if (this.isDisplayResultTime) {
+        this.main.showResult();
+        this.main.showWinningAnimation();
+        this.main.currentTimeRemaining--;
+      } else {
+        super.gameUpdate();
+      }
     }
-
-    super.gameUpdate();
   }
 
   handleStartingNewGameRound() {
@@ -49,11 +51,8 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
   handleInRoundTime() {
     this.main.setGameRound(this.main.roundId);
+    this.main.resetThePlatePosition();
     this.main.betItems.forEach((item) => item.resetHighlight());
-    this.main.thePlate.position = cc.v2(0, 0);
-    this.main.thePlate.opacity = 255;
-    this.main.thePlate.active = true;
-    this.main.shakeThePlateAnimation.node.active = true;
 
     if (this.main.currentTimeRemaining <= this.main.config.betTime) {
       this.showRoundTime();
@@ -62,9 +61,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
   handleWaitTime() {
     super.handleWaitTime();
-    if (this.main.currentTimeRemaining > this.shakeThePlateTime && !this.main.finishShowResult) {
-      this.main.showResult();
-    }
+    this.main.thePlate.opacity = 0;
   }
 
   showWaitTime() {
@@ -77,7 +74,6 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
       .to(0, { opacity: 255 })
       .to(0.5, { position: cc.v2(0, 0) })
       .call(() => {
-        this.main.shakeThePlateAnimation.node.active = true;
         this.main.shakeThePlateAnimation.play();
       })
       .start();
@@ -85,6 +81,6 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
   handleInLockBetTime() {
     super.handleInLockBetTime();
-    this.main.betItems.forEach(item => item.setHighlight(false));
+    this.main.betItems.forEach((item) => item.setHighlight(false));
   }
 }

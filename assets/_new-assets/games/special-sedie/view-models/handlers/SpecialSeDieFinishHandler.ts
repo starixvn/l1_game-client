@@ -11,5 +11,6 @@ export default class SpecialSeDieFinishHandler extends GameBaseFinishHandler {
     this.main.currentDataLogs.unshift(dataFinish);
     this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
     this.main.showBalanceBetNotice();
+    this.main.setDots(dataFinish.result);
   }
 }

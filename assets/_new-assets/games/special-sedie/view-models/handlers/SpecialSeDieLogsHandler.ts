@@ -6,6 +6,14 @@ export default class SpecialSeDieLogsHandler extends GameBaseLogsHandler {
     super(main);
   }
 
+  handle(data: any): boolean {
+    if (data.roundHistory) {
+      this.main.setDots(data.roundHistory[0]);
+    }
+
+    return super.handle(data);
+  }
+
   buildLogs(dataLogs) {
     this.main.updateRoundHistory();
     this.main.highlightLastResult();
