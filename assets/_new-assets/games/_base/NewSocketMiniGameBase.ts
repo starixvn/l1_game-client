@@ -38,6 +38,7 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
       cc.RedT.userData(data.user);
     }
 
+    this.currentMiniPanel.onGeneralData(data);
     super.onData(data);
   }
 }
