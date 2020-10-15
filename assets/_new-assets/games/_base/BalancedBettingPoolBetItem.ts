@@ -1,14 +1,10 @@
-import { numberTo } from "../../../common/helpers/Helper";
-import BetItem from "../../_base/BetItem";
+import { numberTo } from "../../common/helpers/Helper";
+import BetItem from "./BetItem";
 
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class SpecialSeDieBetItem extends BetItem {
-  setTotalBet(bet: number) {
-    numberTo(this.totalBet, 0, bet, 1000, true);
-  }
-
+export default class BalancedBettingPoolBetItem extends BetItem {
   public resetHighlight() {
     this.highlight.active = false;
     this.highlightBackground && (this.highlightBackground.active = false);
@@ -20,5 +16,9 @@ export default class SpecialSeDieBetItem extends BetItem {
 
     this.highlightBorder && (this.highlightBorder.active = highlight && !isAnimated);
     this.normalBorder && (this.normalBorder.active = !highlight);
+  }
+
+  public balanceBet(bet: number) {
+    numberTo(this.totalBet, 0, bet, 1000, true);
   }
 }

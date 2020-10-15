@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
 import { numberWithCommas } from "./../../common/helpers/Helper";
+import BalancedBettingPoolBetItem from "./BalancedBettingPoolBetItem";
 import NewSocketMiniGameBase from "./NewSocketMiniGameBase";
 
 const { ccclass, property } = cc._decorator;
@@ -199,11 +200,7 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
     this.disableHistoryButton();
     const totalBets = _.values(this.totalBets);
     const balancedBetAmount = Math.min(...[totalBets[0] ?? 0, totalBets[1] ?? 0]);
-    _.keys(this.totalBets).forEach((key) => {
-      this.totalBets[key] = balancedBetAmount;
-    });
-
-    this.betItems.forEach((item) => item.setData({ totalBets: this.totalBets }));
+    this.betItems.forEach((item) => (item as BalancedBettingPoolBetItem).balanceBet(balancedBetAmount));
   }
 
   showBalanceBetNotice() {
