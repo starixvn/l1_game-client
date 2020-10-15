@@ -110,9 +110,9 @@ export default class GameIconLayout extends cc.Component {
   }
 
   itemPressed(event, gameId) {
-    if (!cc.RedT.user.name) {
-      return;
-    }
+    // if (!cc.RedT.user.name) {
+    //   return;
+    // }
     const id = +gameId;
     switch (id) {
       case gameIds.XocXoc:
