@@ -19,6 +19,10 @@ export default class BalancedBettingPoolBetItem extends BetItem {
   }
 
   public balanceBet(bet: number) {
-    numberTo(this.totalBet, 0, bet, 1000, true);
+    if (bet > 0) {
+      numberTo(this.totalBet, 0, bet, 1000, true);
+    } else {
+      this.totalBet.string = '';
+    }
   }
 }

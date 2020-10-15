@@ -124,8 +124,8 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     this.initRoundHistory();
     this.animatedTime.setAnimatedY(30, -5);
 
-    const dragableItem = this.getComponent(DraggableItem);
-    dragableItem.touchCallback.start = (node) => {
+    const draggableItem = this.getComponent(DraggableItem);
+    draggableItem.touchCallback.start = (node) => {
       this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
     };
   }

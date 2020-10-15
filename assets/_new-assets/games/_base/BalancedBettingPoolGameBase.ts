@@ -119,14 +119,16 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
   }
 
   onAcceptedBet(info: BetInfo) {
+    const { choice, bet } = info;
+
+    this.resetSelectedBetAmountLabel(choice);
+    this.setSelectedBetAmountSpriteFrame(choice, false);
+
     if (!this.validateBet()) {
       return;
     }
 
-    const { choice, bet } = info;
     this.sendBetRequest(choice, bet);
-    this.resetSelectedBetAmountLabel(choice);
-    this.setSelectedBetAmountSpriteFrame(choice, false);
   }
 
   onChangedBet(info: BetInfo) {
@@ -207,6 +209,7 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
     const balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
     this.balanceBetNoticeContainer.addChild(balanceBetNotice);
     this.disableHistoryButton();
+    this.balanceBet();
   }
 
   hideBalanceBetNotice() {
