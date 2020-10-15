@@ -41,6 +41,12 @@ export default class SpecialSedieBetHistory extends cc.Component {
   @property(cc.Node)
   nextButton: cc.Node = null;
 
+  @property(cc.Node)
+  evenNode: cc.Node = null;
+
+  @property(cc.Node)
+  oddNode: cc.Node = null;
+
   private main: SpecialSeDie;
   private roundId: number = 0;
 
@@ -76,7 +82,7 @@ export default class SpecialSedieBetHistory extends cc.Component {
   onData(data: any) {
     this.resetData();
 
-    const { id, time, total, result, even, odd } = data;
+    const { id, time, total, result, even, odd, settlementResult } = data;
     this.roundId = id;
     this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
 
@@ -84,6 +90,9 @@ export default class SpecialSedieBetHistory extends cc.Component {
     this.evenRefundAmount.string = numberWithCommas(total?.even?.refund ?? 0);
     this.oddBetAmount.string = numberWithCommas(total?.odd?.betAmount ?? 0);
     this.oddRefundAmount.string = numberWithCommas(total?.odd?.refund ?? 0);
+
+    this.evenNode.opacity = settlementResult?.even ? 255 : 100;
+    this.oddNode.opacity = settlementResult?.odd ? 255 : 100;
 
     this.updateDotsResult(result);
 
