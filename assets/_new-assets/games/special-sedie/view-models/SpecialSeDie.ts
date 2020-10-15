@@ -266,7 +266,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   }
 
   resetThePlatePosition() {
-    this.shakeThePlateAnimation.stop();
+    cc.tween(this.thePlate).stop();
     this.thePlate.position = cc.v2(0, 0);
     this.thePlate.opacity = 255;
     this.thePlate.active = true;
