@@ -230,7 +230,10 @@ export default class MiniPanelMiniGameInitializers {
 
   openNewSocket(gameId) {
     const socketIoController = BaseSocketIOController.getInstance();
-    socketIoController.closeSocket(gameId).then(() => {
+    const currentSocket: SocketIOClient.Socket = socketIoController.gameSockets[gameId];
+    if(currentSocket && currentSocket.connected){
+      this.openNewSocketGame(gameId);
+    }else{
       const gameName = configs.gameNames[gameId];
       const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
       const gameServerUrl = buildServerUrl(configs.ssl, 'http', '', gameId);
@@ -242,13 +245,7 @@ export default class MiniPanelMiniGameInitializers {
       );
 
       socket.on('signedIn', () => {
-        switch (parseInt(gameId)) {
-          case gameIds.SpecialSeDie:
-            this.openSpecialSeDie();
-            break;
-          default:
-            break;
-        }
+        this.openNewSocketGame(gameId);
       });
 
       socket.on('forceDisconnect', () => {
@@ -256,7 +253,17 @@ export default class MiniPanelMiniGameInitializers {
       });
 
       socketIoController.gameSockets[gameId] = socket;
-    });
+    }    
+  }
+
+  openNewSocketGame(gameId){
+    switch (parseInt(gameId)) {
+      case gameIds.SpecialSeDie:
+        this.openSpecialSeDie();
+        break;
+      default:
+        break;
+    }
   }
 
   openSpecialSeDie() {

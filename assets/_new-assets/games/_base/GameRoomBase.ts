@@ -1,3 +1,4 @@
+import BaseSocketIOController from "../../BaseSocketIOController";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/Helper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
@@ -145,6 +146,7 @@ export default class GameRoomBase extends GameBase {
             this.node.runAction(cc.sequence(
                 cc.delayTime(1),
                 cc.callFunc(() => {
+                    BaseSocketIOController.getInstance().closeAllSocket();
                     this.stopGame();
                     resolve();
                 })));
