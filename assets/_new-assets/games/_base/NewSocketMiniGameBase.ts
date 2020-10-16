@@ -4,14 +4,16 @@ import GameBase from "./GameBase";
 export default abstract class NewSocketMiniGameBase extends GameBase {
   public socket: SocketIOClient.Socket;
   abstract get gameId(): number;
+  
+  
 
   startGame() {
     super.startGame();
     this.socket = BaseSocketIOController.getInstance().gameSockets[this.gameId];
 
     if (this.socket) {
-      this.socket.on(this.gameName, this.onData.bind(this));
-      this.socket.on('disconnect', this.closeGame.bind(this));
+      this.socket.off(this.gameName).on(this.gameName, this.onData.bind(this));
+      this.socket.off('disconnect').on('disconnect', this.closeGame.bind(this));
     }
   }
 
