@@ -188,11 +188,16 @@ export default class BlackJack extends NewSocketGameBase {
         );
     }
 
-    updateTotalBetLabel() {
+    getCurrentTotalAmount(): number {
         let total = 0;
         this.handPlaces.forEach(place => {
             total += place.getBetAmount();
         })
+        return total;
+    }
+
+    updateTotalBetLabel() {
+        const total = this.getCurrentTotalAmount();
         this.totalBetLabel.string = helper.numberWithCommas(total);
     }
 
@@ -201,6 +206,16 @@ export default class BlackJack extends NewSocketGameBase {
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 cc.RedT.audio.playClick();
+                if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxbet) {
+                    this.showMiniWarning(`Tổng tiền cược tối đa của tay bài này là ${helper.numberWithCommas(this.gameConfigs.maxbet)}`);
+                    return;
+                }
+
+                if (this.getCurrentTotalAmount() + this.currentBet > cc.RedT.user.red) {
+                    this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+                    return;
+                }
+
                 if (!this.priorityHands.includes(index)) {
                     this.priorityHands.push(index);
                 }
