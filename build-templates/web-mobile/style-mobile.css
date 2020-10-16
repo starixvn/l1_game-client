@@ -2,7 +2,9 @@ html {
   -ms-touch-action: none;
 }
 
-body, canvas, div {
+body,
+canvas,
+div {
   display: block;
   outline: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -20,7 +22,8 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
   -webkit-appearance: none;
-  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 body {
@@ -32,7 +35,7 @@ body {
   padding: 0;
   border: 0;
   margin: 0;
-  background: url(./background.jpg) repeat-x;
+  background: url(./background.jpg) #000 repeat-x;
   background-size: 100vw 100vh;
 
   cursor: default;
@@ -43,7 +46,7 @@ body {
 
   display: flex;
   flex-direction: column;
-  
+
   /* fix bug: https://github.com/cocos-creator/2d-tasks/issues/791 */
   /* overflow cannot be applied in Cocos2dGameContainer, 
   otherwise child elements will be hidden when Cocos2dGameContainer rotated 90 deg */
@@ -66,11 +69,13 @@ canvas {
   background-color: rgba(0, 0, 0, 0);
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
   color: #666;
 }
 
-a:active, a:hover {
+a:active,
+a:hover {
   color: #666;
 }
 
@@ -83,16 +88,16 @@ p.footer {
 }
 
 
-@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation:portrait){
+@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation:portrait) {
   .flash-container {
     height: 100vw;
     transform: rotate(90deg);
   }
 }
 
-@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation:landscape){
+@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation:landscape) {
   .flash-container {
-     transform: rotate(0deg);
+    transform: rotate(0deg);
   }
 }
 
@@ -113,7 +118,7 @@ p.footer {
   height: 20.35vh;
 }
 
-@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation:portrait){ 
+@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation:portrait) {
   .splash {
     background-size: auto 10vh;
   }
@@ -122,24 +127,24 @@ p.footer {
 
 .text {
   margin-bottom: 36px;
-	text-transform: capitalize;
-	background: linear-gradient(to bottom, #ffe28e 0%, #f9a71a 100%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	font-size: 1.8em;
+  text-transform: capitalize;
+  background: linear-gradient(to bottom, #ffe28e 0%, #f9a71a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.8em;
   font-family: Arial;
 }
 
 .progress-bar {
   background-color: #1a1a1a;
   display: none;
-    position: absolute;
-    left: 25%;
-    height: 30px;
-    padding: 0px;
-    width: 50%;
-    border-radius: 3px;
-    box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;        
+  position: absolute;
+  left: 25%;
+  height: 30px;
+  padding: 0px;
+  width: 50%;
+  border-radius: 3px;
+  box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
 }
 
 .instruction {
@@ -155,17 +160,17 @@ p.footer {
 .ldBar {
   top: 50%;
   position: absolute;
-  color:  #f9a71a;
+  color: #f9a71a;
   font-size: 18pt;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@media only screen and (min-width: 320px) and (max-width: 767px) { 
+@media only screen and (min-width: 320px) and (max-width: 767px) {
   .ldBar {
     top: 40%;
     height: 52px !important;
     font-size: 16px;
-  }  
+  }
 }
 
 .ldBar path.mainline {
@@ -173,6 +178,7 @@ p.footer {
   stroke: #f9a71a;
   stroke-linecap: round;
 }
+
 .ldBar path.baseline {
   stroke-width: 10;
   stroke: #444;
@@ -180,5 +186,11 @@ p.footer {
 }
 
 @keyframes animate-stripes {
-    0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
 }
