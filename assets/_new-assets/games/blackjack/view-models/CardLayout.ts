@@ -11,6 +11,9 @@ export default class CardLayout extends cc.Component {
     shadow: cc.Node = null;
 
     @property
+    scaleX = 1;
+
+    @property
     scaleY = 0.8;
 
     @property
@@ -41,8 +44,11 @@ export default class CardLayout extends cc.Component {
 
     cardSizeWidth = 76;
     selectedPositionY = 30;
-    selectedScaleY = 1;
     _selected = false;
+
+    get selectedScaleY() {
+        return this.scaleY * 1.2;
+    }
 
     onLoad() {
         if (CC_EDITOR) {
@@ -68,6 +74,7 @@ export default class CardLayout extends cc.Component {
             child.angle = (index - half) * 1;
             // child.y = Math.abs(index - half) * 0.45;
             width = child.x;
+            child.scaleX = this.scaleX;
             child.scaleY = this._selected ? this.selectedScaleY : this.scaleY;
         });
 
