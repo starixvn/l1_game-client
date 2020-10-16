@@ -31,43 +31,39 @@ export default class MiniPanelMiniGameInitializers {
     showGameFunc: () => void
   ) {
     this.main.popupMiniGame.hideListGame();
-    if (cc.RedT.IS_LOGIN) {
-      let gameComponent: any;
+    let gameComponent: any;
 
-      if (!isAlreadyOpened) {
-        this.main.loading.node.active = true;
-        this.main.loading.setDefaultPercent();
+    if (!isAlreadyOpened) {
+      this.main.loading.node.active = true;
+      this.main.loading.setDefaultPercent();
 
-        cc.loader.loadRes(
-          prefabPath,
-          (completedCount, total, item) => {
-            this.main.loading &&
-              this.main.loading.onProgress(completedCount, total, item);
-          },
-          (err: Error, prefab: any) => {
-            if (!this.main.node || !this.main.node.isValid) {
-              return;
-            }
-            if (err || prefab === null) {
-              this.main.loading.node.active = false;
-              this.main.onForceReload();
-              return;
-            }
-
-            let node = cc.instantiate(prefab);
-            gameComponent = node.getComponent(componentName);
-            initFunc ? initFunc(gameComponent) : gameComponent.init(this);
-            this.main.miniGames &&
-              this.main.miniGames.addChild(gameComponent.node);
-            gameComponent.openGame();
-            this.main.loading.node.active = false;
+      cc.loader.loadRes(
+        prefabPath,
+        (completedCount, total, item) => {
+          this.main.loading &&
+            this.main.loading.onProgress(completedCount, total, item);
+        },
+        (err: Error, prefab: any) => {
+          if (!this.main.node || !this.main.node.isValid) {
+            return;
           }
-        );
-      } else {
-        showGameFunc();
-      }
+          if (err || prefab === null) {
+            this.main.loading.node.active = false;
+            this.main.onForceReload();
+            return;
+          }
+
+          let node = cc.instantiate(prefab);
+          gameComponent = node.getComponent(componentName);
+          initFunc ? initFunc(gameComponent) : gameComponent.init(this);
+          this.main.miniGames &&
+            this.main.miniGames.addChild(gameComponent.node);
+          gameComponent.openGame();
+          this.main.loading.node.active = false;
+        }
+      );
     } else {
-      this.main.forceKickedOut();
+      showGameFunc();
     }
   }
 
