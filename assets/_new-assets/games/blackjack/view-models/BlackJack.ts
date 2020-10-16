@@ -99,6 +99,9 @@ export default class BlackJack extends NewSocketGameBase {
     @property(cc.Label)
     maxBetLabel: cc.Label = null;
 
+    @property(cc.Label)
+    blackjackOddLabel: cc.Label = null;
+
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
     ingameHander: DataHandler;
@@ -606,5 +609,6 @@ export default class BlackJack extends NewSocketGameBase {
         super.updateDisplayForRemoteConfig();
         this.minBetLabel.string = this.gameConfigs.minbet.toString();
         this.maxBetLabel.string = helper.numberWithCommas(this.gameConfigs.maxbet);
+        this.blackjackOddLabel.string = this.gameConfigs.odds.blackjack;
     }
 }

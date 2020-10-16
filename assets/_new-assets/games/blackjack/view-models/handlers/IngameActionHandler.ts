@@ -86,6 +86,7 @@ export default class IngameActionHandler implements DataHandler {
         place.selected = false;
         place.updateDisplayScore(true);
 
+        this.main.updateAvailableActions();
         cc.tween(this.main)
             .delay(this.main.configDuration.delaySwitchHand)
             .call(() => this.main.switchToNextHand())
@@ -107,6 +108,7 @@ export default class IngameActionHandler implements DataHandler {
         this.main.drawingCardToPlayer(card, pos, isStand ? () => {
             place.updateDisplayScore(true);
             place.selected = false;
+            this.main.updateAvailableActions();
             cc.tween(this.main)
                 .delay(this.main.configDuration.delaySwitchHand)
                 .call(() => this.main.switchToNextHand())
