@@ -227,7 +227,7 @@ export default class BlackJack extends NewSocketGameBase {
 
                 this.handPlaces.forEach(place => place.highlightPlace(false));
                 handPlace.highlightPlace(true);
-                const chipNode = this.betChips.createChip(this.currentBet).node;
+                const chipNode = BlackJackUtils.createChip(this.currentBet, this.betChips.chipAltas);
                 const destNode = this.chipContainers[index];
                 handPlace.addBetAmount(this.currentBet);
 
@@ -244,7 +244,7 @@ export default class BlackJack extends NewSocketGameBase {
                 }
 
                 chipNode.runAction(cc.sequence(
-                    cc.jumpTo(chipFlyingDuration, destPosition, 100, 1),
+                    cc.jumpTo(chipFlyingDuration, destPosition, 150, 1),
                     cc.callFunc(() => {
                         handPlace.updateDisplayBetValue();
                         handPlace.clearBetButton.active = true;

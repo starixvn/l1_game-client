@@ -46,7 +46,7 @@ export default class BlackJackUtils {
         const node = new cc.Node();
         const chipStack = node.addComponent(ChipStack);
         chipStack.chipSize = 26;
-        chipStack.thickness = 5;
+        chipStack.thickness = 10;
 
         const keys = Object.keys(values).sort((a, b) => +b - +a);
         keys.forEach(chip => {
