@@ -31,9 +31,10 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
       this.main.currentTimeRemaining--;
     } else {
       this.main.hideBalanceBetNotice();
+      this.main.enableHistoryButton();
 
       if (this.isDisplayResultTime) {
-        this.main.showResult();
+        cc.RedT.GAME_IS_SHOWED && this.main.showResult();
         this.main.showWinningAnimation();
         this.main.currentTimeRemaining--;
       } else {
@@ -45,7 +46,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
   handleStartingNewGameRound() {
     super.handleStartingNewGameRound();
     this.main.statusHandler.currentStatusData = null;
-    this.shakeThePlate();
+    cc.RedT.GAME_IS_SHOWED && this.shakeThePlate();
     this.main.highlightLastResult();
   }
 
