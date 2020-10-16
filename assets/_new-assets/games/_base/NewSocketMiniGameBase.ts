@@ -18,7 +18,7 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
   }
 
   protected registerViewGame() {
-    this.socket.emit('inGame');
+    this.socket?.emit('inGame');
   }
 
   closeGame() {
