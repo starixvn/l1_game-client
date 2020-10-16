@@ -12,7 +12,6 @@ cc.Class({
     },
     retryButtonNode: cc.Node,
     updateProgressBar: cc.Node,
-    star: cc.Node,
     _am: null,
     _updating: !1,
     _canRetry: !1,
@@ -272,10 +271,6 @@ cc.Class({
   updateProgress: function (progress) {
     if (this && this.updateProgressBar) {
       this.updateProgressBar.width = progress;
-    }
-
-    if (this && this.star) {
-      this.star.position = cc.v2(progress, 0);
     }
   }
 });
