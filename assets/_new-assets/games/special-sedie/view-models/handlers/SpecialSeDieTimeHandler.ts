@@ -3,7 +3,7 @@ import SpecialSeDie from "../SpecialSeDie";
 
 export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
   private readonly shakeThePlateTime = 32;
-  private readonly displayResultTime = 36;
+  private readonly displayResultTime = 37;
 
   constructor(protected readonly main: SpecialSeDie) {
     super(main);
