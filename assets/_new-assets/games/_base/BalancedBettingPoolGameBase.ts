@@ -58,7 +58,7 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
       choice: choice,
       bet: 0,
       betItem: null,
-      maxBet: this.gameConfigs.choices_maxbet[choice],
+      maxBet: this.gameConfigs.maxbet,
     };
     this.betBoard.show(betInfo);
     this.betBoard.node.runAction(
