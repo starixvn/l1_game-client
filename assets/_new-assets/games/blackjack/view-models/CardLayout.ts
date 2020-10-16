@@ -47,7 +47,7 @@ export default class CardLayout extends cc.Component {
     _selected = false;
 
     get selectedScaleY() {
-        return this.scaleY * 1.2;
+        return this.scaleY * 1.5;
     }
 
     onLoad() {

@@ -36,7 +36,7 @@ export default class BlackJackUtils {
     public static createChip(bet: number, chipAltas: cc.SpriteAtlas): cc.Node {
         const chip = new cc.Node();
         const chipSprite = chip.addComponent(cc.Sprite);
-        const name = `chip${bet}_small`;
+        const name = `chip${bet}`;
         chipSprite.spriteFrame = chipAltas.getSpriteFrame(name);
         return chip;
     }
