@@ -120,7 +120,6 @@ export default class BlackJackFinishHandler implements DataHandler {
                                 destPosition = cc.v2(0, stack.getCurrentHeight());
                             }
                         }
-
                         chipStack.runAction(cc.sequence(
                             cc.jumpTo(0.8, destPosition, 100, 1),
                             cc.delayTime(0.1),

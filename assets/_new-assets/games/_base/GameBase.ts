@@ -359,4 +359,8 @@ export default class GameBase extends cc.Component {
         this.timeHandler.stopPlayTime();
         this.statusHandler.clearTimeout();
     }
+
+    public updateDisplayForRemoteConfig() {
+        this.gameConfigs.odds && this.betItems.forEach(item => item.setOdd(this.gameConfigs.odds[item.node.name]));
+    }
 }

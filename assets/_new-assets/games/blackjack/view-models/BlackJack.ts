@@ -93,6 +93,12 @@ export default class BlackJack extends NewSocketGameBase {
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
+    @property(cc.Label)
+    minBetLabel: cc.Label = null;
+
+    @property(cc.Label)
+    maxBetLabel: cc.Label = null;
+
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
     ingameHander: DataHandler;
@@ -581,160 +587,9 @@ export default class BlackJack extends NewSocketGameBase {
         this.bigSplitButton.active = !this.activeHand.isStand && this.activeHand.canSplit && !this.doubleButton.active;
     }
 
-    testDealer() {
-        const data = {
-            deal: {
-                roundId: 1,
-                totalAmount: 10,
-                uid: "fasdaaaa",
-                memberId: 14247,
-                dealer: [{ rank: "A", suit: 1 }],
-                hands: [
-                    {
-                        id: 1,
-                        pos: 1,
-                        isStand: false,
-                        bet: 1,
-                        cards: [
-                            { rank: 2, suit: 0 },
-                            { rank: 2, suit: 1 }
-                        ],
-                        total: 5,
-                    },
-                    // {
-                    //     id: 22,
-                    //     pos: 2,
-                    //     isStand: false,
-                    //     bet: 1,
-                    //     cards: [
-                    //         { rank: "K", suit: 2 },
-                    //         { rank: "A", suit: 3 }
-                    //     ],
-                    //     total: 5,
-                    // }
-                    // ,
-                    // {
-                    //     id: 23,
-                    //     pos: 3,
-                    //     isStand: false,
-                    //     bet: 1,
-                    //     cards: [
-                    //         { rank: 8, suit: 2 },
-                    //         { rank: 5, suit: 3 }
-                    //     ],
-                    //     total: 5,
-                    // }
-                ]
-            }
-        };
-        this.dealHander.handle(data);
-        this.testFinish();
-    }
-
-    testHit() {
-        const data = {
-            hit:
-            {
-                id: 1,
-                pos: 1,
-                bet: 10,
-                betwin: 0,
-                cards: [
-                    { rank: 2, suit: 1 },
-                    { rank: 3, suit: 1 },
-                    { rank: 6, suit: 1 }
-                ],
-                newCard: { rank: 6, suit: 1 },
-                total: [11],
-                isStand: false
-            }
-        }
-        this.ingameActionHander.handle(data);
-    }
-
-    testDouble() {
-        const data = {
-            double:
-            {
-                id: 1,
-                pos: 1,
-                bet: 10,
-                betwin: 0,
-                cards: [
-                    { rank: 2, suit: 1 },
-                    { rank: 3, suit: 1 },
-                    { rank: 6, suit: 1 }
-                ],
-                newCard: { rank: 6, suit: 1 },
-                total: [11],
-                isStand: true
-            }
-        }
-        this.ingameActionHander.handle(data);
-    }
-
-    testSplit() {
-        const data = {
-            split:
-            {
-                data: {
-                    hands: [
-                        {
-                            id: 1,
-                            pos: 1,
-                            bet: 10,
-                            betwin: 0,
-                            cards: [
-                                { rank: 2, suit: 1 },
-                                { rank: 10, suit: 1 },
-                            ],
-                            total: [11],
-                            isStand: false
-                        },
-                        {
-                            id: 4,
-                            pos: 4,
-                            bet: 10,
-                            betwin: 0,
-                            cards: [
-                                { rank: 2, suit: 1 },
-                                { rank: 7, suit: 1 },
-                            ],
-                            splitFrom: 1,
-                            total: [11],
-                            isStand: false
-                        }
-                    ]
-                },
-                endBet: 10
-            }
-        }
-        this.ingameActionHander.handle(data);
-    }
-
-    testFinish() {
-        const data = {
-            finish:
-            {
-                results: [
-                    { rank: 10, suit: 1 },
-                    { rank: 3, suit: 1 },
-                    { rank: 5, suit: 1 },
-                    { rank: 9, suit: 1 },
-                ],
-                settlementResult: 18,
-                winningHands: [
-                    {
-                        id: 1,
-                        betwin: 10,
-                    },
-                    {
-                        id: 4,
-                        betwin: 10,
-                    }
-                ]
-            }
-        }
-        this.finishHandler.handle(data);
+    updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        this.minBetLabel.string = this.gameConfigs.minbet.toString();
+        this.maxBetLabel.string = helper.numberWithCommas(this.gameConfigs.maxbet);
     }
 }
