@@ -101,7 +101,8 @@ cc.Class({
     }
 
     if (cc.RedT.IS_LOGIN) {
-      cc.RedT.send({ scene: 'home' });
+      cc.RedT.send({ scene: "home" });
+      this.getGameNotifications();
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
       this.header.setAvatar(cc.RedT.user.avatarId);
@@ -120,6 +121,13 @@ cc.Class({
       }
       this.repositionMenu();
     };
+  },
+  getGameNotifications() {
+    cc.RedT.send({
+      gameNotifications: {
+        gameId: 23
+      }
+    });
   },
   repositionMenu() {
     const adsWidth = this.gameAds.width;
@@ -302,6 +310,7 @@ cc.Class({
     this.dialog.onBack();
     cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
     this.openGameSSO();
+    this.getGameNotifications();
   },
   openGameSSO: function () {
     if (window.openGameId) {
