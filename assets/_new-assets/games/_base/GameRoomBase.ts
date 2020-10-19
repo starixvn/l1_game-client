@@ -1,13 +1,13 @@
-import BaseSocketIOController from "../../BaseSocketIOController";
-import GameUtils from "../../common/GameUtils";
-import { numberWithCommas } from "../../common/helpers/Helper";
-import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
-import UmWarning from "../../common/um-warning/UmWarning";
-import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
-import GameBase from "./GameBase";
-import { GameBaseConfigs } from "./GameBaseConfig";
-import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
-import RoomPlayer from "./RoomPlayer";
+import BaseSocketIOController from '../../BaseSocketIOController';
+import GameUtils from '../../common/GameUtils';
+import { numberWithCommas } from '../../common/helpers/Helper';
+import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
+import UmWarning from '../../common/um-warning/UmWarning';
+import MiniPanel from '../../mini-games-panel/view-models/MiniPanel';
+import GameBase from './GameBase';
+import { GameBaseConfigs } from './GameBaseConfig';
+import { GameBasePlayerHandler } from './handlers/GameBasePlayerHandler';
+import RoomPlayer from './RoomPlayer';
 
 const { ccclass, property } = cc._decorator;
 
@@ -146,7 +146,7 @@ export default class GameRoomBase extends GameBase {
             this.node.runAction(cc.sequence(
                 cc.delayTime(1),
                 cc.callFunc(() => {
-                    BaseSocketIOController.getInstance().closeAllSocket();
+                    BaseSocketIOController.getInstance().closeMiniGameSockets();
                     this.stopGame();
                     resolve();
                 })));

@@ -1,6 +1,8 @@
-import * as socketIo from "socket.io-client";
-import { getSession } from "./common/auth/AuthManager";
-import { sentryLogger } from "./common/logger.js";
+import * as socketIo from 'socket.io-client';
+
+import { getSession } from './common/auth/AuthManager';
+import { sentryLogger } from './common/logger.js';
+import { gameMiniNewSocketIds } from './Configs';
 
 export default class BaseSocketIOController {
   private static instance: BaseSocketIOController;
@@ -60,6 +62,14 @@ export default class BaseSocketIOController {
         delete this.gameSockets[key];
       });
     }
+  }
+
+  closeMiniGameSockets() {
+    gameMiniNewSocketIds.forEach((gameId) => {
+      const socket: SocketIOClient.Socket = this.gameSockets[gameId];
+      socket && socket.disconnect();
+      delete this.gameSockets[gameId];
+    });
   }
 
   recheckin() {

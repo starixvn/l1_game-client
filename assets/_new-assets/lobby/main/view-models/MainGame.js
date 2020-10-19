@@ -1,9 +1,9 @@
-import baseControll from "../../../BaseController";
-import helper from "../../../common/helpers/Helper";
-import logger from "../../../common/logger";
-import configs from "../../../Configs";
-import * as authManager from "./../../../common/auth/AuthManager";
-import BaseSocketIOController from "../../../BaseSocketIOController";
+import baseControll from '../../../BaseController';
+import BaseSocketIOController from '../../../BaseSocketIOController';
+import helper from '../../../common/helpers/Helper';
+import logger from '../../../common/logger';
+import configs from '../../../Configs';
+import * as authManager from './../../../common/auth/AuthManager';
 
 const sentryLogger = logger();
 
@@ -140,7 +140,7 @@ cc.Class({
   outRoomGame: function () {
     //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
     return new Promise((resolve)=>{
-        BaseSocketIOController.getInstance().closeAllSocket();
+        BaseSocketIOController.getInstance().closeMiniGameSockets();
         resolve();
     });
   },
