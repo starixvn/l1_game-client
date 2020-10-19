@@ -1,5 +1,6 @@
 import a from "../../../../../libs/chance/chance";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
+import { NoticeData } from "../../../../common/notice/view-models/Notice";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
@@ -10,13 +11,17 @@ export default class DealHandler implements DataHandler {
 
     handle(data: any): boolean {
         if (data.deal) {
-            this.processData(data.deal);
+            this.processDealSuccess(data.deal);
             this.main.showProcessingWarning(false);
+        }
+
+        if (data.blackjackNotice) {
+            this.processFailedDealHands(data.blackjackNotice);
         }
         return true;
     }
 
-    processData(data: any) {
+    processDealSuccess(data: any) {
         const hands = data.hands.sort((a, b) => a.pos < b.pos);
         const dealerCards = data.dealer;
 
@@ -101,5 +106,24 @@ export default class DealHandler implements DataHandler {
                 }
             })
             .start();
+    }
+
+    processFailedDealHands(data: any) {
+        const positions = [];
+        if (data.errorApiHands.message) {
+            const notice = this.main.showNotice(<NoticeData>{
+                text: data.errorApiHands.message,
+                isInfo: false,
+            });
+            notice.handleClose = () => {
+                const positions = data.errorApiHands.pos;
+                positions.forEach(position => this.main.handPlaces[position - 1].showErrorNotice());
+            }
+        }
+        if (data.invalidBetAmountHands.message) {
+            this.main.showMiniWarning(data.invalidBetAmountHands.message);
+            const positions = data.invalidBetAmountHands.pos;
+            positions.forEach(position => this.main.handPlaces[position - 1].showErrorNotice());
+        }
     }
 }

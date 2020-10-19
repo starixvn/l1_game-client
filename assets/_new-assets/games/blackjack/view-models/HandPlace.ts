@@ -44,6 +44,12 @@ export default class HandPlace extends cc.Component {
     @property(cc.Node)
     burstNode: cc.Node = null;
 
+    @property(cc.Node)
+    errorNode: cc.Node = null;
+
+    @property(cc.Node)
+    betText: cc.Node = null;
+
     @property
     _selected = false;
 
@@ -124,6 +130,8 @@ export default class HandPlace extends cc.Component {
         this.resultValue && this.showResult(false);
         this.blackJackNode.active = false;
         this.burstNode.active = false;
+        this.errorNode && (this.errorNode.active = false);
+        this.betText && (this.betText.active = true);
     }
 
     updateDisplay() {
@@ -261,5 +269,19 @@ export default class HandPlace extends cc.Component {
     setResult(result: string) {
         this.resultValue.string = `+${helper.numberWithCommas(result)}`;
         this.showResult(true);
+    }
+
+    showErrorNotice() {
+        if (this.errorNode) {
+            this.errorNode.active = true;
+            cc.tween(this.errorNode)
+                .delay(2)
+                .call(() => this.errorNode.active = false)
+                .start();
+        }
+    }
+
+    showBetText(show: boolean) {
+        this.betText && (this.betText.active = show);
     }
 }

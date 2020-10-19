@@ -39,8 +39,6 @@ export default class BlackJackIngameHandler implements DataHandler {
             }
 
             const hands = ownBets.hands;
-
-
             hands.forEach(hand => {
                 const pos = hand.pos - 1;
 
@@ -52,6 +50,7 @@ export default class BlackJackIngameHandler implements DataHandler {
                     this.main.lastHandBets.push({ pos: hand.pos, bet: originalBet });
                 }
                 const place = this.main.handPlaces[pos];
+                place.showBetText(false);
                 place.setData(hand);
                 hand.cards.forEach(card => {
                     const cardNode = this.main.createCard(card);

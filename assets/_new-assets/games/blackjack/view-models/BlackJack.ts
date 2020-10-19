@@ -209,16 +209,16 @@ export default class BlackJack extends NewSocketGameBase {
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 cc.RedT.audio.playClick();
-                if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxbet) {
-                    this.showMiniWarning(`Tổng tiền cược tối đa của tay bài này là ${helper.numberWithCommas(this.gameConfigs.maxbet)}`);
-                    return;
-                }
+                // if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxbet) {
+                //     this.showMiniWarning(`Tổng tiền cược tối đa của tay bài này là ${helper.numberWithCommas(this.gameConfigs.maxbet)}`);
+                //     return;
+                // }
 
-                if (this.getCurrentTotalAmount() + this.currentBet > cc.RedT.user.red) {
-                    this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
-                    return;
-                }
-
+                // if (this.getCurrentTotalAmount() + this.currentBet > cc.RedT.user.red) {
+                //     this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+                //     return;
+                // }
+                handPlace.showBetText(false);
                 if (!this.priorityHands.includes(index)) {
                     this.priorityHands.push(index);
                 }
@@ -256,6 +256,7 @@ export default class BlackJack extends NewSocketGameBase {
                     })));
             }
             handPlace.clearBetClickCallback = () => {
+                handPlace.showBetText(true);
                 this.chipContainers[index].destroyAllChildren();
                 const location = this.priorityHands.indexOf(index);
                 if (location > -1) {
@@ -548,7 +549,9 @@ export default class BlackJack extends NewSocketGameBase {
         this.lastHandBets.forEach(hand => {
             const chipStack = BlackJackUtils.createChipStack(hand.bet, this.betChips.chipAltas, this.chipOption);
             this.chipContainers[hand.pos - 1].addChild(chipStack);
-            this.handPlaces[hand.pos - 1].updateDisplayBetValue(hand.bet);
+            const place = this.handPlaces[hand.pos - 1];
+            place.updateDisplayBetValue(hand.bet);
+            place.showBetText(false);
         });
         this.updateTotalBetLabel();
     }
