@@ -218,7 +218,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
       return;
     }
     const dataLog = this.currentDataLogs[0];
-    this.highlightWonItems(dataLog.settlementResult, false);
+    dataLog && this.highlightWonItems(dataLog?.settlementResult, false);
   }
 
   private highlightWonItems(settlementResult: any, isAnimated = true) {
