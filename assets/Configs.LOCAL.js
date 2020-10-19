@@ -12,11 +12,38 @@ const configs = {
         path: '',
         proxyRoute: "/main"
     },
-    2: {
-        subDomain: "haproxy",
-        port: "7001",
-        path: "/user/xocxoc",
-        proxyRoute: "/sedie/socket.io"
+    serverGameEndPoints: {
+        0: {
+            //Main Server
+            subDomain: 'haproxy',
+            port: 7000,
+            path: '',
+            proxyRoute: "/main"
+        },
+        2: {
+            subDomain: "haproxy",
+            port: "7000",
+            path: "/user/xocxoc",
+            proxyRoute: "/sedie/socket.io"
+        },
+        22: {
+            subDomain: "haproxy",
+            port: "7000",
+            path: "/user/vipsedie",
+            proxyRoute: "/vipsedie/socket.io"
+        },
+        23: {
+            subDomain: "haproxy",
+            port: "7000",
+            path: "/user/blackjack",
+            proxyRoute: "/blackjack/socket.io"
+        },
+        24: {
+            subDomain: 'haproxy',
+            port: 7000,
+            path: '/user/specialsedie',
+            proxyRoute: "/specialsedie/socket.io"
+        },
     },
     sentryUrl: 'https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20',
     gameAnalytics: {

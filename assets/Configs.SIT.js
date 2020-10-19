@@ -12,11 +12,38 @@ const configs = {
       path: '/sit/main',
       proxyRoute: "/sit/main"
     },
-    2: {
-        subDomain: "uatproxy",
-        port: "",
-        path: "/user/xocxoc",
-        proxyRoute: "/sit/sedie/socket.io"
+    serverGameEndPoints: {
+        0: {
+            //Main Server
+            subDomain: 'uatproxy',
+            port: '',
+            path: '',
+            proxyRoute: "/sit/main"
+        },
+        2: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/xocxoc",
+            proxyRoute: "/sit/sedie/socket.io"
+        },
+        22: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/vipsedie",
+            proxyRoute: "/sit/vipsedie/socket.io"
+        },
+        23: {
+            subDomain: "uatproxy",
+            port: '',
+            path: "/user/blackjack",
+            proxyRoute: "/blackjack/socket.io"
+        },
+        24: {
+            subDomain: 'uatproxy',
+            port: '',
+            path: '/user/specialsedie',
+            proxyRoute: "/sit/specialsedie/socket.io"
+        },
     },
     sentryUrl: 'https://08d902b128ea45b6a11639833224f481@sentryuat.sabagame.com/25',
     gameAnalytics: {
