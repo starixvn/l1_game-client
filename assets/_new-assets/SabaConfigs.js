@@ -67,7 +67,7 @@ const configs = {
         BlackJack: {
             id: 23, name: "BlackJack"
         },
-        SpecialSedie: {
+        SpecialSeDie: {
             id: 24, name: 'Xóc Đĩa Cân Cửa',
         }
     },

@@ -40,21 +40,20 @@ export default class GameIconLayout extends cc.Component {
   constructor() {
     super();
     this.gameIds = [
-      games.VipSedie,
-      games.XocXoc,
-      games.MiniSedie,
-      games.SpecialSeDie,
-      games.TaiXiuTurbo,
-      games.TaiXiu,
-      games.KenoProMax,
-      games.KenoProViet,
-      games.Baccarat,
-      games.Roulette,
-      games.BauCua,
-      games.RongHo,
-      games.ChanLeTurbo,
+      games.VipSedie.id,
+      games.XocXoc.id,
+      games.MiniSedie.id,
+      games.SpecialSeDie.id,
+      games.TaiXiuTurbo.id,
+      games.TaiXiu.id,
+      games.KenoProMax.id,
+      games.KenoProViet.id,
+      games.Baccarat.id,
+      games.Roulette.id,
+      games.BauCua.id,
+      games.RongHo.id,
+      games.ChanLeTurbo.id,
       games.BlackJack.id,
-
     ];
   }
 
@@ -63,8 +62,8 @@ export default class GameIconLayout extends cc.Component {
     nameDict[games.XocXoc.id] = 'XocXoc';
     nameDict[games.TaiXiuTurbo.id] = 'TaiXiuTurbo';
     nameDict[games.VipSedie.id] = 'VipSedie';
-    nameDict[games.TaiXiu.idid] = 'TaiXiu';
-    nameDict[games.MiniSedie.idid] = 'MiniSedie';
+    nameDict[games.TaiXiu.id] = 'TaiXiu';
+    nameDict[games.MiniSedie.id] = 'MiniSedie';
     nameDict[games.KenoProViet.id] = 'KenoProViet';
     nameDict[games.KenoProMax.id] = 'KenoProMax';
     nameDict[games.Baccarat.id] = 'Baccarat';
@@ -79,7 +78,7 @@ export default class GameIconLayout extends cc.Component {
     for (let i = 0; i < this.gameIds?.length; i++) {
       const path = `${this.path}/${nameDict[this.gameIds[i]]}`;
       const prefab = await GameUtils.loadResource(path);
-      this.itemPrefabs?.push(prefab);
+      this.itemPrefabs.push(prefab);
     }
   }
 
