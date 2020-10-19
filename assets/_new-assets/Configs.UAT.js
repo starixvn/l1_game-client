@@ -23,7 +23,7 @@ const configs = {
             subDomain: 'uatproxy',
             port: '',
             path: '/user/specialsedie',
-            proxyRoute: "/sit/specialsedie/socket.io"
+            proxyRoute: "/uat/specialsedie/socket.io"
         },
     },
     gameIds: {
