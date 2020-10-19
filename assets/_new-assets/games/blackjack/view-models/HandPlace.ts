@@ -71,7 +71,7 @@ export default class HandPlace extends cc.Component {
 
     get canSplit() {
         const cards = this.data.cards;
-        if (cards.length < 2) {
+        if (cards.length != 2) {
             return false;
         }
 

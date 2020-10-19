@@ -3,7 +3,7 @@ import BaseSocketIOController from "../../../BaseSocketIOController";
 import GameUtils from "../../../common/GameUtils";
 import helper from "../../../common/helpers/Helper";
 import logger from "../../../common/logger";
-import SabaConfigs from "../../../SabaConfigs";
+import * as SabaConfigs from "../../../SabaConfigs";
 import * as authManager from "./../../../common/auth/AuthManager";
 
 const sentryLogger = logger();

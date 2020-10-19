@@ -6,7 +6,7 @@ import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
 import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
 import RongHo from "../../games/rong-ho/view-models/RongHo";
 import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
-import SabaConfigs from "../../SabaConfigs";
+import * as SabaConfigs from "../../SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
 import GameIconLayout from "./GameIconLayout";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";

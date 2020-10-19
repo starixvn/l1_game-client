@@ -141,7 +141,6 @@ export default class GameBase extends cc.Component {
         this.initGameAudios();
         this.setGameRound(0);
         this.resetDataAndUI();
-        this.gameRound.string = '';
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
@@ -235,6 +234,9 @@ export default class GameBase extends cc.Component {
     }
 
     setGameRound(gameRoundId) {
+        if (!this.gameRound) {
+            return;
+        }
         const gameRound = this.formatGameRound(gameRoundId);
         this.gameRound.string = gameRound;
 
