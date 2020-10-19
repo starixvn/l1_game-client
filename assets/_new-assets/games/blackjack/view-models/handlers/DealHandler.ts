@@ -85,7 +85,6 @@ export default class DealHandler implements DataHandler {
     }
 
     playAnimationDealerCheck(dealerCards: CardModel[], isBlackJack: boolean) {
-        console.log("dealer check cards");
         const checkList = ["A", "J", "Q", "K", "10"];
         let delaytime = 1;
         if (checkList.includes(dealerCards[0].rank)) {
@@ -117,13 +116,28 @@ export default class DealHandler implements DataHandler {
             });
             notice.handleClose = () => {
                 const positions = data.errorApiHands.pos;
-                positions.forEach(position => this.main.handPlaces[position - 1].showErrorNotice());
+                this.clearChipsAndShowErrorNotice(positions);
             }
         }
         if (data.invalidBetAmountHands.message) {
             this.main.showMiniWarning(data.invalidBetAmountHands.message);
             const positions = data.invalidBetAmountHands.pos;
-            positions.forEach(position => this.main.handPlaces[position - 1].showErrorNotice());
+            this.clearChipsAndShowErrorNotice(positions);
         }
+    }
+
+    clearChipsAndShowErrorNotice(positions: number[]) {
+        positions.forEach(position => {
+            const place = this.main.handPlaces[position - 1];
+            place.showErrorNotice();
+            const chipContainer = this.main.chipContainers[position - 1];
+            const chips = chipContainer.children[0];
+            const destPosition = chipContainer.convertToNodeSpaceAR(chipContainer.parent.convertToWorldSpaceAR(cc.v2(0, -300)));
+            chips.runAction(cc.sequence(
+                cc.jumpTo(0.7, destPosition, 250, 1),
+                cc.callFunc(() => {
+                    place.onClearBetClick();
+                })));
+        });
     }
 }

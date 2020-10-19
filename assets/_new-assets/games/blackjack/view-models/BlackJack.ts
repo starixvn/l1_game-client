@@ -358,7 +358,6 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     switchToNextHand() {
-        console.log("switchToNextHand ====================");
         const sortIndices = [0, 3, 1, 4, 2, 5];
         const places = sortIndices.map(i => this.handPlaces[i])
         const nextHand = places.find(hand => hand.isActive && !hand.isStand);
@@ -372,7 +371,6 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     switchToDealer() {
-        console.log("switchToDealer ====================");
         this.roundFinished = true;
         this.finishRound();
     }
@@ -404,7 +402,6 @@ export default class BlackJack extends NewSocketGameBase {
         });
 
         this.lastHandBets = hands;
-        console.log("deal hands   ", hands);
         this.rebet();
     }
 

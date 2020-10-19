@@ -25,13 +25,11 @@ export default class BlackJackFinishHandler implements DataHandler {
     }
 
     processFinish() {
-        console.log("processFinish ====================");
         const finish = this.finishDataCache;
         if (!finish) {
             console.error("BlackJack data finish did not receive");
             return;
         }
-        console.log("processFinish ==================== success");
         const totals = BlackJackUtils.getTotal(finish.result, 2);
         if (finish.result.length === 2 && totals[totals.length - 1] === 21) {
             this.main.dealerHand.showScoreWithOutData(finish.result, 2);

@@ -225,7 +225,6 @@ export default class HandPlace extends cc.Component {
     }
 
     showScoreWithOutData(cards: CardModel[], cardNum: number, final = false) {
-        console.log("showScoreWithOutData  ", final);
         this.showScore(true);
         const values = BlackJackUtils.getTotal(cards, cardNum);
         if (final) {
