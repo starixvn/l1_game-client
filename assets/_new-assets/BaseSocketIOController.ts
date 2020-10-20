@@ -2,7 +2,7 @@ import * as socketIo from "socket.io-client";
 
 import { getSession } from "./common/auth/AuthManager";
 import { sentryLogger } from "./common/logger.js";
-import { gameMiniNewSocketIds } from "./Configs";
+import { gameMiniNewSocketIds } from "./SabaConfigs";
 
 export default class BaseSocketIOController {
   private static instance: BaseSocketIOController;

@@ -78,5 +78,6 @@ const configs = {
     },
     gameRoomIds: [8, 10, 21],
     gameRoomNewSocketIds: [2, 22, 23],
+    gameMiniNewSocketIds: [24],
 }
 module.exports = configs;
