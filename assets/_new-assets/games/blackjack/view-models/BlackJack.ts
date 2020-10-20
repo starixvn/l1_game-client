@@ -12,6 +12,7 @@ import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmHandler";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import RoomPlayer from "../../_base/RoomPlayer";
+import BlackJackHistory from "./BlackJackHistory";
 import BlackJackUtils from "./BlackJackUtils";
 import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
 import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
@@ -102,11 +103,15 @@ export default class BlackJack extends NewSocketGameBase {
     @property(cc.Label)
     blackjackOddLabel: cc.Label = null;
 
+    @property(cc.Prefab)
+    blackjackHistory: cc.Prefab = null;
+
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
     ingameHander: DataHandler;
     activeHand: HandPlace = null;
     lastHandBets: any[] = [];
+    historyComponent: BlackJackHistory;
 
     public chipOption = [1000, 500, 200, 100, 50, 10, 5, 1];
     public configDuration = {
@@ -566,6 +571,10 @@ export default class BlackJack extends NewSocketGameBase {
 
     onHistoryClick() {
         cc.RedT.audio.playClick();
+        let history = cc.instantiate(this.blackjackHistory);
+        this.historyComponent = history.getComponent(BlackJackHistory);
+        this.historyComponent.init(this.socket);
+        this.currentMiniPanel.node.addChild(history);
     }
 
     onGuideClick() {
@@ -610,5 +619,13 @@ export default class BlackJack extends NewSocketGameBase {
         this.minBetLabel.string = this.gameConfigs.minbet.toString();
         this.maxBetLabel.string = helper.numberWithCommas(this.gameConfigs.maxbet);
         this.blackjackOddLabel.string = this.gameConfigs.odds.blackjack;
+    }
+
+    onDataGameRoom(data) {
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
+
+        super.onDataGameRoom(data);
     }
 }
