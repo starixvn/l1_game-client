@@ -10,7 +10,7 @@ import BaseSocketIOController from '../../BaseSocketIOController';
 import { buildServerUrl } from '../.././common/helpers/UrlHelper';
 
 export default class MiniPanelMiniGameInitializers {
-  constructor(private main: MiniPanel) {}
+  constructor(private main: MiniPanel) { }
 
   showGame(gameComponent) {
     if (gameComponent) {
@@ -227,9 +227,9 @@ export default class MiniPanelMiniGameInitializers {
   openNewSocket(gameId) {
     const socketIoController = BaseSocketIOController.getInstance();
     const currentSocket: SocketIOClient.Socket = socketIoController.gameSockets[gameId];
-    if(currentSocket && currentSocket.connected){
+    if (currentSocket && currentSocket.connected) {
       this.openNewSocketGame(gameId);
-    }else{
+    } else {
       const gameName = configs.gameNames[gameId];
       const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
       const gameServerUrl = buildServerUrl(configs.ssl, 'http', '', gameId);
@@ -237,7 +237,8 @@ export default class MiniPanelMiniGameInitializers {
         gameServerUrl,
         gameName,
         proxyRoute,
-        this.main.onConnectSocketFailed.bind(this.main)
+        this.main.onConnectSocketFailed.bind(this.main),
+        false
       );
 
       socket.on('signedIn', () => {
@@ -249,10 +250,10 @@ export default class MiniPanelMiniGameInitializers {
       });
 
       socketIoController.gameSockets[gameId] = socket;
-    }    
+    }
   }
 
-  openNewSocketGame(gameId){
+  openNewSocketGame(gameId) {
     switch (parseInt(gameId)) {
       case gameIds.SpecialSeDie:
         this.openSpecialSeDie();

@@ -1,8 +1,8 @@
-import * as socketIo from 'socket.io-client';
+import * as socketIo from "socket.io-client";
 
-import { getSession } from './common/auth/AuthManager';
-import { sentryLogger } from './common/logger.js';
-import { gameMiniNewSocketIds } from './Configs';
+import { getSession } from "./common/auth/AuthManager";
+import { sentryLogger } from "./common/logger.js";
+import { gameMiniNewSocketIds } from "./Configs";
 
 export default class BaseSocketIOController {
   private static instance: BaseSocketIOController;
@@ -16,7 +16,7 @@ export default class BaseSocketIOController {
     return this.instance;
   }
 
-  connectGameSocket = (socketUri: string, gameName: string, proxyRoute: string, onConnectFailed: (gameName) => void): SocketIOClient.Socket => {
+  connectGameSocket = (socketUri: string, gameName: string, proxyRoute: string, onConnectFailed: (gameName, isGameRoom) => void, isGameRoom = true): SocketIOClient.Socket => {
     const socket = socketIo(socketUri, { forceNew: true, transports: ["websocket"], upgrade: false, path: proxyRoute });
 
     socket.on('connect', () => {
@@ -30,13 +30,13 @@ export default class BaseSocketIOController {
     socket.on('connect_failed', () => {
       sentryLogger.logError('Sedie connect failed');
       socket.disconnect();
-      onConnectFailed(gameName);
+      onConnectFailed(gameName, isGameRoom);
     });
 
     socket.on('connect_error', (error) => {
       sentryLogger.logError(error);
       socket.disconnect();
-      onConnectFailed(gameName);
+      onConnectFailed(gameName, isGameRoom);
     });
 
     socket.on('disconnect', (reason) => {

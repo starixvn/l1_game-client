@@ -133,7 +133,7 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
 
   onChangedBet(info: BetInfo) {
     const { bet, choice } = info;
-    const maxBet = this.gameConfigs.choices_maxbet[choice];
+    const maxBet = this.gameConfigs.maxbet;
     const betAmount = bet > maxBet ? maxBet : bet;
     const selectedBetAmountLabel = this.selectedBetAmountLabels[choice];
     selectedBetAmountLabel.string = numberWithCommas(betAmount);
