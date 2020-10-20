@@ -71,11 +71,11 @@ export default class CardLayout extends cc.Component {
             // child.angle = (index - half) * 1;
             // child.y = Math.abs(index - half) * 0.45;
 
-            child.angle = (index - half) * 1;
+            // child.angle = (index - half) * 1;
             // child.y = Math.abs(index - half) * 0.45;
             width = child.x;
             child.scaleX = this.scaleX;
-            child.scaleY = this._selected ? this.selectedScaleY : this.scaleY;
+            child.scaleY = this._selected ? this.selectedScaleY : 1;
         });
 
         width += halfCardSize;
@@ -114,7 +114,7 @@ export default class CardLayout extends cc.Component {
                         cc.tween(child)
                             .to(0.3, { position: cc.v2(child.x, 0) }),
                         cc.tween(child)
-                            .to(0.3, { scaleY: this.scaleY })
+                            .to(0.3, { scaleY: 1 })
                     )
                     .start();
             });
