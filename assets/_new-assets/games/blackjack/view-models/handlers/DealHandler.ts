@@ -22,7 +22,7 @@ export default class DealHandler implements DataHandler {
     }
 
     processDealSuccess(data: any) {
-        const hands = data.hands.sort((a, b) => a.pos < b.pos);
+        const hands = data.hands.sort((a, b) => +a.pos - +b.pos);
         const dealerCards = data.dealer;
 
         const actions = [];
