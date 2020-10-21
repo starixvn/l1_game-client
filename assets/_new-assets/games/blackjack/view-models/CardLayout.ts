@@ -61,6 +61,9 @@ export default class CardLayout extends cc.Component {
         this.content.children.forEach((child, index) => {
             child.zIndex = index;
             child.x = halfCardSize + this.ratio * index * this.spacingX;
+            if (this._selected) {
+                child.x += this.movingOffsetX;
+            }
             width = child.x;
         });
 
