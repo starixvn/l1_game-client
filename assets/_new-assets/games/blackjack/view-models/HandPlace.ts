@@ -125,7 +125,7 @@ export default class HandPlace extends cc.Component {
             this.clearBetButton.active = false;
         }
 
-        this.betValue && this.showBetValue(false);
+        this.showBetValue(false);
         this.showScore(false);
         this.handId && this.showHandId(false);
         this.resultValue && this.showResult(false);
@@ -182,7 +182,7 @@ export default class HandPlace extends cc.Component {
     }
 
     showBetValue(show: boolean) {
-        this.betValue.node.parent.active = show;
+        this.betValue && (this.betValue.node.parent.active = show);
     }
 
     updateDisplayBetValue(bet?: number) {

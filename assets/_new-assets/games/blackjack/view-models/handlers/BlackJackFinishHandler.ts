@@ -132,6 +132,7 @@ export default class BlackJackFinishHandler implements DataHandler {
                     }
                 } else {
                     const chip = this.main.chipContainers[index].children[0];
+                    this.main.handPlaces[index].showBetValue(false);
                     const destPos = chip.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
                     chip.runAction(cc.sequence(
                         cc.jumpTo(0.8, destPos, 100, 1),

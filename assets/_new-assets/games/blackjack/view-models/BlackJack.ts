@@ -371,6 +371,7 @@ export default class BlackJack extends NewSocketGameBase {
         const places = sortIndices.map(i => this.handPlaces[i])
         const nextHand = places.find(hand => hand.isActive && !hand.isStand);
         if (nextHand) {
+            this.activeHand && (this.activeHand.selected = false);
             this.activeHand = nextHand;
             nextHand.selected = true;
         } else {
