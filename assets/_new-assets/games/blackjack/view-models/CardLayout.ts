@@ -109,6 +109,7 @@ export default class CardLayout extends cc.Component {
                         cc.tween(child)
                             .to(0.3, { rotationX: 0, z: 0 })
                     )
+                    .call(() => this.updateLayout())
                     .start();
             });
         }
