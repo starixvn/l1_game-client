@@ -135,6 +135,7 @@ export default class DealHandler implements DataHandler {
             const destPosition = chipContainer.convertToNodeSpaceAR(chipContainer.parent.convertToWorldSpaceAR(cc.v2(0, -300)));
             chips.runAction(cc.sequence(
                 cc.jumpTo(0.7, destPosition, 250, 1),
+                cc.delayTime(1.8),
                 cc.callFunc(() => {
                     place.onClearBetClick();
                 })));

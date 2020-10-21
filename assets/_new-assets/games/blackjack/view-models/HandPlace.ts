@@ -275,7 +275,7 @@ export default class HandPlace extends cc.Component {
         if (this.errorNode) {
             this.errorNode.active = true;
             cc.tween(this.errorNode)
-                .delay(2)
+                .delay(2.5)
                 .call(() => this.errorNode.active = false)
                 .start();
         }
