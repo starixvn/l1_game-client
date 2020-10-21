@@ -106,10 +106,10 @@ export default class IngameActionHandler implements DataHandler {
         const pos = data.pos - 1;
         const place = this.main.handPlaces[pos];
         place.setData(data);
+        place.syncBetValue();
 
         const isStand = data.isStand;
         this.main.drawingCardToPlayer(card, pos, isStand ? () => {
-            place.syncBetValue();
             place.updateDisplayScore(true);
             place.selected = false;
             this.main.updateAvailableActions();
