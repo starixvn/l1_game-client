@@ -24,11 +24,11 @@ export default class BaseSocketIOController {
     });
 
     socket.on('reconnect', () => {
-      sentryLogger.logError('Sedie reconnect');
+      sentryLogger.logError(`${gameName} socket reconnect`);
     });
 
     socket.on('connect_failed', () => {
-      sentryLogger.logError('Sedie connect failed');
+      sentryLogger.logError(`${gameName} socket connect failed`);
       socket.disconnect();
       onConnectFailed(gameName, isGameRoom);
     });
@@ -40,7 +40,7 @@ export default class BaseSocketIOController {
     });
 
     socket.on('disconnect', (reason) => {
-      sentryLogger.log('Sedie disconnect\n' + reason);
+      sentryLogger.log(`${gameName} socket disconnect\n` + reason);
     });
 
     return socket;
