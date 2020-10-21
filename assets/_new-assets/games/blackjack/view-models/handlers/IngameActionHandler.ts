@@ -41,6 +41,7 @@ export default class IngameActionHandler implements DataHandler {
         firstPlace.setData(firstHand);
         secondPlace.setData(secondHand);
 
+        secondPlace.syncBetValue();
         this.placeChipsForSplitHand(firstHand.pos + 2, firstHand.bet);
         cc.tween(this.main)
             .call(() => {
@@ -108,6 +109,7 @@ export default class IngameActionHandler implements DataHandler {
 
         const isStand = data.isStand;
         this.main.drawingCardToPlayer(card, pos, isStand ? () => {
+            place.syncBetValue();
             place.updateDisplayScore(true);
             place.selected = false;
             this.main.updateAvailableActions();
