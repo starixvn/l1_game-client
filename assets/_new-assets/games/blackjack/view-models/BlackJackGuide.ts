@@ -31,4 +31,8 @@ export default class BlackJackGuide extends cc.Component {
 
         return replaceData;
     }
+
+    onDisable() {
+        this.node.destroy();
+    }
 }
