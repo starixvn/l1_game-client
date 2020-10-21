@@ -21,7 +21,13 @@ const configs = {
             subDomain: "vipsedie",
             port: "",
             path: "/user/vipsedie"
-        }
+        },
+        24: {
+            subDomain: 'proxy',
+            port: '',
+            path: '/user/specialsedie',
+            proxyRoute: "/specialsedie/socket.io"
+        },
     },
     gameIds: {
         TaiXiu: 1,

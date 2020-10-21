@@ -20,11 +20,17 @@ const configs = {
             path: "/user/vipsedie"
         },
         24: {
-            subDomain: 'uatproxy',
+            subDomain: 'proxy',
             port: '',
             path: '/user/specialsedie',
-            proxyRoute: "/uat/specialsedie/socket.io"
-        },
+            proxyRoute: "/specialsedie/socket.io"
+        }
+        // 24: {
+        //     subDomain: 'uatproxy',
+        //     port: '',
+        //     path: '/user/specialsedie',
+        //     proxyRoute: "/uat/specialsedie/socket.io"
+        // },
     },
     gameIds: {
         TaiXiu: 1,
