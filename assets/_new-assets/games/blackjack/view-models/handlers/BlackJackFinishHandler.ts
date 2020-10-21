@@ -32,7 +32,7 @@ export default class BlackJackFinishHandler implements DataHandler {
         }
         const totals = BlackJackUtils.getTotal(finish.result, 2);
         if (finish.result.length === 2 && totals[totals.length - 1] === 21) {
-            this.main.dealerHand.showScoreWithOutData(finish.result, 2);
+            this.main.dealerHand.showScoreWithOutData(finish.result, 2, true);
             this.showWinningHands();
 
             this.main.rebetButton.active = true;
@@ -49,6 +49,7 @@ export default class BlackJackFinishHandler implements DataHandler {
                         cc.tween(this.main)
                             .delay(1)
                             .call(() => {
+                                this.main.dealerHand.showScoreWithOutData(finish.result, finish.result.length, true);
                                 this.showWinningHands();
 
                                 this.main.rebetButton.active = true;
@@ -122,9 +123,11 @@ export default class BlackJackFinishHandler implements DataHandler {
                             cc.jumpTo(0.8, destPosition, 100, 1),
                             cc.delayTime(0.1),
                             // cc.fadeOut(0.3),
-                            // cc.callFunc(() => {
-                            //     chip.destroy();
-                            // })
+                            cc.callFunc(() => {
+                                destNode.destroyAllChildren();
+                                const chipStack = BlackJackUtils.createChipStack(+hand.betwin, this.main.betChips.chipAltas, options);
+                                destNode.addChild(chipStack);
+                            })
                         ))
                     }
                 } else {

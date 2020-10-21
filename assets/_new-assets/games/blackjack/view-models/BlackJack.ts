@@ -12,6 +12,7 @@ import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmHandler";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import RoomPlayer from "../../_base/RoomPlayer";
+import BlackJackGuide from "./BlackJackGuide";
 import BlackJackHistory from "./BlackJackHistory";
 import BlackJackUtils from "./BlackJackUtils";
 import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
@@ -19,7 +20,6 @@ import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
-import BlackJackGuide from './BlackJackGuide';
 
 const { ccclass, property } = cc._decorator;
 
