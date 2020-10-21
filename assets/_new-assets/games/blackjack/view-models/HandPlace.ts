@@ -14,8 +14,9 @@ export interface HandModel {
     actions: string[],
 }
 
-const { ccclass, property } = cc._decorator;
+const { ccclass, property, executeInEditMode } = cc._decorator;
 @ccclass
+@executeInEditMode
 export default class HandPlace extends cc.Component {
     @property(cc.Button)
     betPlace: cc.Button = null;

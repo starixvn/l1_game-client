@@ -11,10 +11,7 @@ export default class CardLayout extends cc.Component {
     shadow: cc.Node = null;
 
     @property
-    scaleX = 1;
-
-    @property
-    scaleY = 0.8;
+    movingOffsetX = 0;
 
     @property
     _spacingX = 20;
@@ -43,39 +40,28 @@ export default class CardLayout extends cc.Component {
     }
 
     cardSizeWidth = 76;
-    selectedPositionY = 30;
+    selectedPosZ = 80;
+    public selectedRotationX = 10;
     _selected = false;
-
-    get selectedScaleY() {
-        return this.scaleY * 1.5;
-    }
 
     onLoad() {
         if (CC_EDITOR) {
             this.content.on(cc.Node.EventType.CHILD_ADDED, this.updateLayout, this);
             this.content.on(cc.Node.EventType.CHILD_REMOVED, this.updateLayout, this);
             this.content.on(cc.Node.EventType.CHILD_REORDER, this.updateLayout, this);
+            this.updateLayout();
         } else {
             this.content.removeAllChildren();
         }
     }
 
     updateLayout() {
-        const half = this.content.childrenCount / 2;
-
         let width = 0;
         const halfCardSize = this.cardSizeWidth / 2;
         this.content.children.forEach((child, index) => {
             child.zIndex = index;
             child.x = halfCardSize + this.ratio * index * this.spacingX;
-            // child.angle = (index - half) * 1;
-            // child.y = Math.abs(index - half) * 0.45;
-
-            // child.angle = (index - half) * 1;
-            // child.y = Math.abs(index - half) * 0.45;
             width = child.x;
-            child.scaleX = this.scaleX;
-            child.scaleY = this._selected ? this.selectedScaleY : 1;
         });
 
         width += halfCardSize;
@@ -84,37 +70,41 @@ export default class CardLayout extends cc.Component {
         this.shadow.scale = this.content.scale;
     }
 
-    getScaleY(): number {
-        return this._selected ? this.selectedScaleY : this.scaleY;
-    }
-
-    getNextPosition(): cc.Vec2 {
-        return cc.v2(this.cardSizeWidth / 2 + this.ratio * (this.content.childrenCount - 1) * this.spacingX, this._selected ? this.selectedPositionY : 0);
+    getNextPosition(): cc.Vec3 {
+        let x = this.cardSizeWidth / 2 + this.ratio * (this.content.childrenCount - 1) * this.spacingX;
+        let z = 0;
+        if (this._selected) {
+            x += this.movingOffsetX;
+            z = this.selectedPosZ;
+        }
+        return cc.v3(x, 0, z);
     }
 
     changeCardView(selected: boolean) {
         this._selected = selected;
         if (selected) {
             this.content.children.forEach((child, index) => {
+                child.is3DNode = true;
                 cc.tween(child)
                     .delay(0.1 * (this.content.childrenCount - 1 - index))
                     .parallel(
                         cc.tween(child)
-                            .to(0.3, { position: cc.v2(child.x, this.selectedPositionY) }),
+                            .by(0.3, { x: this.movingOffsetX }),
                         cc.tween(child)
-                            .to(0.3, { scaleY: this.selectedScaleY })
+                            .to(0.3, { rotationX: this.selectedRotationX, z: this.selectedPosZ })
                     )
                     .start();
             });
         } else {
             this.content.children.forEach((child, index) => {
+                child.is3DNode = true;
                 cc.tween(child)
                     .delay(0.1 * index)
                     .parallel(
                         cc.tween(child)
-                            .to(0.3, { position: cc.v2(child.x, 0) }),
+                            .by(0.3, { x: -this.movingOffsetX }),
                         cc.tween(child)
-                            .to(0.3, { scaleY: 1 })
+                            .to(0.3, { rotationX: 0, z: 0 })
                     )
                     .start();
             });

@@ -300,7 +300,7 @@ export default class BlackJack extends NewSocketGameBase {
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = handPlace.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = handPlace.cardLayout.getNextPosition();
-        const cardScaleY = this.dealerHand.cardLayout.getScaleY();
+        const rotationX = this.dealerHand.cardLayout.selectedRotationX;
         cardNode.position = startLocalPos;
 
         const pullDuration = 0.2;
@@ -311,7 +311,7 @@ export default class BlackJack extends NewSocketGameBase {
             .call(() => {
                 cardComponent.playAnimation(CardAnimation.DealerToHand, moveDuration);
             })
-            .to(moveDuration, { position: nextPosition, scaleY: cardScaleY })
+            .to(moveDuration, { position: nextPosition, rotationX: rotationX })
             .call(() => {
                 handPlace.cardLayout.updateLayout();
                 onComplete();
@@ -327,7 +327,7 @@ export default class BlackJack extends NewSocketGameBase {
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = this.dealerHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = this.dealerHand.cardLayout.getNextPosition();
-        const cardScaleY = this.dealerHand.cardLayout.getScaleY();
+        const rotationX = this.dealerHand.cardLayout.selectedRotationX;
         cardNode.position = startLocalPos;
 
         const pullDuration = 0.2;
@@ -336,7 +336,7 @@ export default class BlackJack extends NewSocketGameBase {
         cc.tween(cardNode)
             .delay(pullDuration)
             .call(() => cardComponent.playAnimation(faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand, moveDuration))
-            .to(moveDuration, { position: nextPosition, scaleY: cardScaleY })
+            .to(moveDuration, { position: nextPosition, rotationX: rotationX })
             .call(() => {
                 // this.dealerHand.cardLayout.updateLayout();
                 onComplete();

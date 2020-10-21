@@ -71,11 +71,13 @@ export default class IngameActionHandler implements DataHandler {
 
         secondCard.removeFromParent();
 
-        const nextPosition = this.main.handPlaces[destPos].cardLayout.getNextPosition();
+        const cardLayout = this.main.handPlaces[destPos].cardLayout;
+        const nextPosition = cardLayout.getNextPosition();
+        const rotationX = cardLayout.selectedRotationX;
         this.main.handPlaces[destPos].addCard(secondCard);
 
         cc.tween(secondCard)
-            .to(duration, { position: nextPosition })
+            .to(duration, { position: nextPosition, rotationX: rotationX })
             .start();
     }
 
