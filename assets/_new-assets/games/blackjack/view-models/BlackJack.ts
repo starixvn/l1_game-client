@@ -545,21 +545,21 @@ export default class BlackJack extends NewSocketGameBase {
             this.lastHandBets.forEach(hand => total += hand.bet);
             if (total > cc.RedT.user.red) {
                 this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+                this.showProcessingWarning(false);
+
                 return;
             }
-
+            //restore chip value
+            this.lastHandBets.forEach(hand => {
+                const chipStack = BlackJackUtils.createChipStack(hand.bet, this.betChips.chipAltas, this.chipOption);
+                this.chipContainers[hand.pos - 1].addChild(chipStack);
+                const place = this.handPlaces[hand.pos - 1];
+                place.updateDisplayBetValue(hand.bet);
+                place.showBetText(false);
+            });
+            this.updateTotalBetLabel();
             this.rebet();
         });
-
-        //restore chip value
-        this.lastHandBets.forEach(hand => {
-            const chipStack = BlackJackUtils.createChipStack(hand.bet, this.betChips.chipAltas, this.chipOption);
-            this.chipContainers[hand.pos - 1].addChild(chipStack);
-            const place = this.handPlaces[hand.pos - 1];
-            place.updateDisplayBetValue(hand.bet);
-            place.showBetText(false);
-        });
-        this.updateTotalBetLabel();
     }
 
     onClearClick() {
