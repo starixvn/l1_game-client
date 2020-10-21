@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import GameUtils from '../../../common/GameUtils';
 
 const { ccclass, property } = cc._decorator;
 
@@ -28,7 +29,7 @@ export default class GameAds extends cc.Component {
         this.currentIndex = this.content.childrenCount - 1; //show first page
     }
 
-    start(){
+    start() {
         this.autoChange();
     }
 
@@ -151,5 +152,10 @@ export default class GameAds extends cc.Component {
             cc.callFunc(() => {
                 this.scheduleOnce(this.autoChange, this.intervalChangeImage);
             })));
+    }
+
+    openGame(e, gameId) {
+        cc.RedT.audio.playClick();
+        GameUtils.openGame(+gameId, cc.RedT.MiniPanel);
     }
 }

@@ -273,7 +273,7 @@
       "array": [
         0,
         0,
-        527.6178343176912,
+        442.5389813338482,
         0,
         0,
         0,
@@ -3152,11 +3152,11 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 63
+      "__id__": 64
     },
     "component": "",
-    "_componentId": "1763c2/MDpCQ4oC+FaHXfWh",
-    "handler": "openNewGameSocket",
+    "_componentId": "b3f34J4At1AWJ5j8Bjfm/C8",
+    "handler": "openGame",
     "customEventData": "22"
   },
   {
@@ -3333,11 +3333,11 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 63
+      "__id__": 64
     },
     "component": "",
-    "_componentId": "1763c2/MDpCQ4oC+FaHXfWh",
-    "handler": "openNewSocketMiniGame",
+    "_componentId": "b3f34J4At1AWJ5j8Bjfm/C8",
+    "handler": "openGame",
     "customEventData": "24"
   },
   {
@@ -3446,7 +3446,7 @@
     "node": {
       "__id__": 74
     },
-    "_enabled": false,
+    "_enabled": true,
     "_normalMaterial": null,
     "_grayMaterial": null,
     "duration": 0.1,
@@ -3513,11 +3513,13 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 64
+    },
     "component": "",
-    "_componentId": "1763c2/MDpCQ4oC+FaHXfWh",
-    "handler": "openNewGameSocket",
-    "customEventData": "22"
+    "_componentId": "b3f34J4At1AWJ5j8Bjfm/C8",
+    "handler": "openGame",
+    "customEventData": "23"
   },
   {
     "__type__": "b3f34J4At1AWJ5j8Bjfm/C8",
