@@ -19,6 +19,7 @@ import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
+import BlackJackGuide from './BlackJackGuide';
 
 const { ccclass, property } = cc._decorator;
 
@@ -105,6 +106,9 @@ export default class BlackJack extends NewSocketGameBase {
 
     @property(cc.Prefab)
     blackjackHistory: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    blackjackGuide: cc.Prefab = null;
 
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
@@ -579,6 +583,10 @@ export default class BlackJack extends NewSocketGameBase {
 
     onGuideClick() {
         cc.RedT.audio.playClick();
+        let guide = cc.instantiate(this.blackjackGuide);
+        let guideComponent = guide.getComponent(BlackJackGuide);
+        guideComponent.init(this.gameConfigs);
+        this.currentMiniPanel.node.addChild(guide);
     }
 
     hideAllButtons() {
