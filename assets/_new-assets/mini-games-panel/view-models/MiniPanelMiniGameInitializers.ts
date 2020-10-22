@@ -20,6 +20,8 @@ export default class MiniPanelMiniGameInitializers {
           gameComponent.node,
           this.main.miniGames.children.length - 1
         );
+
+      this.main.loading.node.active = false;
     }
   }
 
@@ -33,10 +35,10 @@ export default class MiniPanelMiniGameInitializers {
     this.main.popupMiniGame.hideListGame();
     let gameComponent: any;
 
-    if (!isAlreadyOpened) {
-      this.main.loading.node.active = true;
-      this.main.loading.setDefaultPercent();
+    this.main.loading.node.active = true;
+    this.main.loading.setDefaultPercent();
 
+    if (!isAlreadyOpened) {
       cc.loader.loadRes(
         prefabPath,
         (completedCount, total, item) => {
