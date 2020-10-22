@@ -13,7 +13,7 @@ export default class ExpandableMenu extends cc.Component {
         this.collapseMenu(false);
     }
 
-    private collapseMenu(animated = true) {
+    collapseMenu(animated = true) {
         if (!animated) {
             this.expandableNode.opacity = 0;
             this.expandableNode.scaleY = 0;
@@ -25,7 +25,7 @@ export default class ExpandableMenu extends cc.Component {
             .start();
     }
 
-    private expandMenu() {
+    expandMenu() {
         this.expandableNode.stopAllActions();
         cc.tween(this.expandableNode)
             .to(0.2, { opacity: 255, scale: 1 })

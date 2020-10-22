@@ -1,6 +1,7 @@
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import NewButton from "../../../common/custom-button/NewButton";
+import ExpandableMenu from "../../../common/ExpandableMenu";
 import * as helper from "../../../common/helpers/Helper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { games } from "../../../SabaConfigs";
@@ -109,6 +110,9 @@ export default class BlackJack extends NewSocketGameBase {
 
     @property(cc.Prefab)
     blackjackGuide: cc.Prefab = null;
+
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
 
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
@@ -619,6 +623,10 @@ export default class BlackJack extends NewSocketGameBase {
         this.doubleButton.active = this.activeHand.canDouble && !this.activeHand.isStand;
         this.smallSplitButton.active = !this.activeHand.isStand && this.activeHand.canSplit && this.doubleButton.active;
         this.bigSplitButton.active = !this.activeHand.isStand && this.activeHand.canSplit && !this.doubleButton.active;
+
+        if (this.doubleButton.active || this.bigSplitButton.active || this.smallSplitButton.active) {
+            this.expandableMenu && this.expandableMenu.collapseMenu(false);
+        }
     }
 
     updateDisplayForRemoteConfig() {

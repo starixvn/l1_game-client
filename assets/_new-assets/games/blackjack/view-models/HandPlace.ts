@@ -215,6 +215,7 @@ export default class HandPlace extends cc.Component {
                     this.showScore(false);
                 } else if (total === 21 && this.data.cards.length === 2 && !this.isSplit) {
                     this.blackJackNode.active = true;
+                    this.showScore(false);
                 }
             } else {
                 this.scoreValue.string = this.data.total.join(' / ');
@@ -237,6 +238,7 @@ export default class HandPlace extends cc.Component {
                 this.showScore(false);
             } else if (total === 21 && cards.length === 2) {
                 this.blackJackNode.active = true;
+                this.showScore(false);
             }
         } else {
             this.scoreValue.string = values.join(' / ');
