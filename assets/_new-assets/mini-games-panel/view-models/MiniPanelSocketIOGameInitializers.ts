@@ -33,11 +33,13 @@ export default class MiniPanelSocketIOGameInitializers {
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
             const socket = socketIoController.connectGameSocket(gameServerUrl, gameName, proxyRoute, this.main.onConnectSocketFailed.bind(this.main));
             socket.on('message', (data) => {
-                this.main.loading.node.active = false;
                 if (data.um) {
                     socketIoController.closeSocket(gameId);
                 }
-
+                if (!this.main.node.isValid) {
+                    return;
+                }
+                this.main.loading.node.active = false;
                 this.main.onGeneralData(data);
             });
 
