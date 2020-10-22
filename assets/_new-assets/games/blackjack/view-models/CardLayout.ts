@@ -70,7 +70,7 @@ export default class CardLayout extends cc.Component {
         width += halfCardSize;
         this.content.width = width;
         this.shadow.width = width;
-        this.shadow.scale = this.content.scale;
+        // this.shadow.scale = this.content.scale;
     }
 
     getNextPosition(): cc.Vec3 {
