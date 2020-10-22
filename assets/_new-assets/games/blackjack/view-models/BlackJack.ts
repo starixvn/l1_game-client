@@ -294,14 +294,13 @@ export default class BlackJack extends NewSocketGameBase {
     drawingCardToPlayer(card: CardModel, pos: number, onComplete = () => { }) {
         const cardNode = this.createCard(card);
         const handPlace = this.handPlaces[pos];
-        handPlace.addCard(cardNode);
-
         const cardComponent = cardNode.getComponent(NewCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = handPlace.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = handPlace.cardLayout.getNextPosition();
         const rotationX = this.dealerHand.cardLayout.selectedRotationX;
         cardNode.position = startLocalPos;
+        handPlace.addCard(cardNode);
 
         const pullDuration = 0.2;
         const moveDuration = 0.45;
@@ -321,14 +320,13 @@ export default class BlackJack extends NewSocketGameBase {
 
     drawingCardToDealer(card: CardModel, faceDown: boolean, onComplete = () => { }) {
         const cardNode = this.createCard(card);
-        this.dealerHand.addCard(cardNode);
-
         const cardComponent = cardNode.getComponent(NewCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = this.dealerHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = this.dealerHand.cardLayout.getNextPosition();
-        const rotationX = this.dealerHand.cardLayout.selectedRotationX;
+        const rotationX = 0;
         cardNode.position = startLocalPos;
+        this.dealerHand.addCard(cardNode);
 
         const pullDuration = 0.2;
         const moveDuration = 0.45;

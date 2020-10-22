@@ -74,7 +74,7 @@ export default class IngameActionHandler implements DataHandler {
 
         const cardLayout = this.main.handPlaces[destPos].cardLayout;
         const nextPosition = cardLayout.getNextPosition();
-        const rotationX = cardLayout.selectedRotationX;
+        const rotationX = 0;
         this.main.handPlaces[destPos].addCard(secondCard);
 
         cc.tween(secondCard)

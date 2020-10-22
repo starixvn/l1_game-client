@@ -42,7 +42,7 @@ export default class CardLayout extends cc.Component {
     cardSizeWidth = 76;
     selectedPosZ = 80;
     public selectedRotationX = 10;
-    _selected = false;
+    _selected = undefined;
 
     onLoad() {
         if (CC_EDITOR) {
@@ -74,7 +74,7 @@ export default class CardLayout extends cc.Component {
     }
 
     getNextPosition(): cc.Vec3 {
-        let x = this.cardSizeWidth / 2 + this.ratio * (this.content.childrenCount - 1) * this.spacingX;
+        let x = this.cardSizeWidth / 2 + this.ratio * this.content.childrenCount * this.spacingX;
         let z = 0;
         if (this._selected) {
             x += this.movingOffsetX;
@@ -84,6 +84,10 @@ export default class CardLayout extends cc.Component {
     }
 
     changeCardView(selected: boolean) {
+        const needChange = this._selected != selected;
+        if (this._selected != undefined && !needChange) {
+            return;
+        }
         this._selected = selected;
         if (selected) {
             this.content.children.forEach((child, index) => {
@@ -101,6 +105,7 @@ export default class CardLayout extends cc.Component {
         } else {
             this.content.children.forEach((child, index) => {
                 child.is3DNode = true;
+                const isLastChild = index === this.content.childrenCount - 1;
                 cc.tween(child)
                     .delay(0.1 * index)
                     .parallel(
@@ -109,7 +114,11 @@ export default class CardLayout extends cc.Component {
                         cc.tween(child)
                             .to(0.3, { rotationX: 0, z: 0 })
                     )
-                    .call(() => this.updateLayout())
+                    .call(() => {
+                        if (isLastChild) {
+                            this.updateLayout();
+                        }
+                    })
                     .start();
             });
         }
