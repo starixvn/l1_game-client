@@ -302,7 +302,7 @@ export default class BlackJack extends NewSocketGameBase {
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = handPlace.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = handPlace.cardLayout.getNextPosition();
-        const rotationX = this.dealerHand.cardLayout.selectedRotationX;
+        const rotationX = handPlace.selected ? this.dealerHand.cardLayout.selectedRotationX : 0;
         cardNode.position = startLocalPos;
         handPlace.addCard(cardNode);
 
@@ -373,9 +373,11 @@ export default class BlackJack extends NewSocketGameBase {
         const places = sortIndices.map(i => this.handPlaces[i])
         const nextHand = places.find(hand => hand.isActive && !hand.isStand);
         if (nextHand) {
-            this.activeHand && (this.activeHand.selected = false);
-            this.activeHand = nextHand;
-            nextHand.selected = true;
+            if (this.activeHand != nextHand) {
+                this.activeHand && (this.activeHand.selected = false);
+                this.activeHand = nextHand;
+                nextHand.selected = true;
+            }
         } else {
             this.switchToDealer();
         }
@@ -618,6 +620,9 @@ export default class BlackJack extends NewSocketGameBase {
 
     updateAvailableActions() {
         this.hideAllButtons();
+        if (!this.activeHand) {
+            return;
+        }
 
         this.hitButton.active = this.standButton.active = !this.activeHand.isStand;
         this.doubleButton.active = this.activeHand.canDouble && !this.activeHand.isStand;
