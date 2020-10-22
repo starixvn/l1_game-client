@@ -340,7 +340,6 @@ export default class BlackJack extends NewSocketGameBase {
             .call(() => cardComponent.playAnimation(faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand, moveDuration))
             .to(moveDuration, { position: nextPosition, rotationX: rotationX })
             .call(() => {
-                // this.dealerHand.cardLayout.updateLayout();
                 onComplete();
             })
             .start();
@@ -638,7 +637,7 @@ export default class BlackJack extends NewSocketGameBase {
         super.updateDisplayForRemoteConfig();
         this.minBetLabel.string = this.gameConfigs.minbet.toString();
         this.maxBetLabel.string = helper.numberWithCommas(this.gameConfigs.maxbet);
-        this.blackjackOddLabel.string = this.gameConfigs.odds.blackjack;
+        this.blackjackOddLabel.string = `${(+this.gameConfigs.odds.blackjack - 1)}`;
     }
 
     onDataGameRoom(data) {

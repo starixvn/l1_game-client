@@ -62,7 +62,10 @@ export default class DealHandler implements DataHandler {
         const isBlackJack = dealerCards.length > 1;
         if (isBlackJack) {
             actions.push(() => {
-                this.main.drawingCardToDealer(dealerCards[1], true, () => this.main.dealerHand.showScoreWithOutData(dealerCards, 1));
+                this.main.drawingCardToDealer(dealerCards[1], true, () => {
+                    this.main.dealerHand.showScoreWithOutData(dealerCards, 1);
+                    this.main.dealerHand.cardLayout.updateLayout();
+                });
             });
         } else {
             actions.push(() => {

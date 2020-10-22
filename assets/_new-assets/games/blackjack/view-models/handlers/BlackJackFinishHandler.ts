@@ -71,9 +71,11 @@ export default class BlackJackFinishHandler implements DataHandler {
         const moreCards = cards.slice(2);
         if (moreCards.length > 0) {
             moreCards.forEach((card, index) => {
+                const isLast = index === moreCards.length - 1;
                 actions.push(() => {
                     this.main.drawingCardToDealer(card, false, () => {
                         this.main.dealerHand.showScoreWithOutData(cards, index + 3, index === moreCards.length - 1);
+                        isLast && this.main.dealerHand.cardLayout.updateLayout();
                     });
                 });
             })
