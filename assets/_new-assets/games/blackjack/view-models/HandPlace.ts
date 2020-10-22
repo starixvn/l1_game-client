@@ -283,6 +283,7 @@ export default class HandPlace extends cc.Component {
                 .call(() => this.errorNode.active = false)
                 .start();
         }
+        this.showBetValue(false);
     }
 
     showBetText(show: boolean) {
