@@ -237,7 +237,8 @@ export default class MiniPanelMiniGameInitializers {
     if (currentSocket && currentSocket.connected) {
       this.openNewSocketGame(gameId);
     } else {
-      const gameName = configs.gameNames[gameId];
+      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === gameId);
+      const gameName = SabaConfigs.games[key].name;
       const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
       const gameServerUrl = buildServerUrl(configs.ssl, 'http', '', gameId);
       const socket = socketIoController.connectGameSocket(

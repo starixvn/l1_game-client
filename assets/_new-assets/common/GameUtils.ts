@@ -73,6 +73,8 @@ export default class GameUtils {
             miniPanel.openNewGameSocket(null, gameId);
         } else if (SabaConfigs.gameRoomIds.includes(gameId)) {
             miniPanel.openGameRoom(null, gameId);
+        } else if (SabaConfigs.gameMiniNewSocketIds.includes(gameId)) {
+            miniPanel.openNewSocketMiniGame(null, gameId);
         } else {
             miniPanel.openGame(null, gameId);
         }
