@@ -46,7 +46,7 @@ cc.Class({
   },
   loadAssets: function () {
     this.updateProgress(0);
-    this.messageLabel.string = "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất ...";
+    this.messageLabel.string = "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...";
     if (cc.sys.isBrowser && authManager) {
       let self = this;
       authManager.preChecking(() => {
@@ -156,22 +156,22 @@ cc.Class({
       i = !1;
     switch (t.getEventCode()) {
       case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
-        this.messageLabel.string = "Không tìm thấy Hot Update ...";
+        this.messageLabel.string = "Không tìm thấy Hot Update...";
         break;
       case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
       case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
         // TODO: bug for update game on android, must be checked later
         //this.messageLabel.string = "Tải manifest thất bại ...";
-        this.messageLabel.string = "Phiên bản đã cập nhật ...";
+        this.messageLabel.string = "Phiên bản đã cập nhật...";
         e = !0;
         break;
       case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
         this.updateProgress(838);
-        this.messageLabel.string = "Phiên bản mới nhất ...";
+        this.messageLabel.string = "Phiên bản mới nhất...";
         e = !0;
         break;
       case jsb.EventAssetsManager.NEW_VERSION_FOUND:
-        this.messageLabel.string = "Tìm thấy phiên bản cập nhật ...";
+        this.messageLabel.string = "Tìm thấy phiên bản cập nhật...";
         this.updateProgress(0);
         i = true;
         break;

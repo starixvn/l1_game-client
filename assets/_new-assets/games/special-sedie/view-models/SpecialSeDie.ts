@@ -4,6 +4,7 @@ import DraggableItem from "../../../common/draggable-layout/view-models/Draggabl
 import { gameIds } from "../../../Configs";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
@@ -13,7 +14,6 @@ import SpecialSedieBetHistory from "./SpecialSedieBetHistory";
 import SpecialSeDieGuide from "./SpecialSeDieGuide";
 import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
-import SpecialSeDieStats from "./SpecialSeDieStats";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,6 +22,12 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   get gameId() {
     return gameIds.SpecialSeDie;
   }
+
+  @property(cc.Prefab)
+  roundHistoryPrefab: cc.Prefab = null;
+
+  @property(cc.Node)
+  roundHistoryContainer: cc.Node = null;
 
   @property(cc.Prefab)
   miniRoundHistoryPrefab: cc.Prefab = null;
@@ -49,9 +55,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
   @property(cc.Prefab)
   historyPrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
-  statisticPrefab: cc.Prefab = null;
 
   @property(cc.Label)
   selectedBetAmountLabelLeft: cc.Label = null;
@@ -89,6 +92,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   @property(cc.Node)
   randomPosNode: cc.Node = null;
 
+  private roundHistory: SedieRoundHistory = null;
   private miniRoundHistory: SpecialSedieRoundHistory;
   private historyComponent: SpecialSeDieHistory;
   private betHistory: SpecialSedieBetHistory;
@@ -96,6 +100,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     odd: 'odd',
     even: 'even',
   };
+  private showStats = true;
 
   onLoad() {
     super.onLoad();
@@ -130,6 +135,20 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     };
   }
 
+  onEnable() {
+    super.onEnable();
+    this.showStats = true;
+    this.toggleStats(this.showStats);
+  }
+
+  onDestroy() {
+    super.onDestroy();
+    this.roundHistoryContainer.isValid &&
+      this.roundHistoryContainer.destroyAllChildren();
+    this.miniRoundHistoryContainer.isValid &&
+      this.miniRoundHistoryContainer.destroyAllChildren();
+  }
+
   onData(data: any) {
     super.onData(data);
     if (data.history) {
@@ -152,6 +171,11 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   }
 
   initRoundHistory() {
+    var node = cc.instantiate(this.roundHistoryPrefab);
+    this.roundHistory = node.getComponent(SedieRoundHistory);
+    this.roundHistory.init(this);
+    this.roundHistoryContainer.addChild(node);
+
     var mini = cc.instantiate(this.miniRoundHistoryPrefab);
     this.miniRoundHistory = mini.getComponent(SpecialSedieRoundHistory);
     this.miniRoundHistory.handleBetHistory = (roundId) => {
@@ -174,6 +198,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
         red: count,
       };
     });
+    this.roundHistory.setData(miniHistoryData.map((d) => d.red));
     this.miniRoundHistory.setData(miniHistoryData);
   }
 
@@ -190,7 +215,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   showResult() {
     if (this.currentDataLogs.length > 0) {
       const { settlementResult } = this.currentDataLogs[0];
-      
+
 
       cc.tween(this.thePlate)
         .call(() => {
@@ -244,11 +269,13 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     this.currentMiniPanel.node.addChild(dialog);
   }
 
-  public openStats() {
-    let dialog = cc.instantiate(this.statisticPrefab);
-    let statsComponent = dialog.getComponent(SpecialSeDieStats);
-    statsComponent.init(this.currentDataLogs);
-    this.currentMiniPanel.node.addChild(dialog);
+  public onBtnStatsClick() {
+    this.showStats = !this.showStats;
+    this.toggleStats(this.showStats);
+  }
+
+  public toggleStats(show: boolean) {
+    this.roundHistoryContainer.active = show;
   }
 
   openBetHistory(roundId: number) {

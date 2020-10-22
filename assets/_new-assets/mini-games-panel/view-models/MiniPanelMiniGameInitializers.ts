@@ -20,6 +20,8 @@ export default class MiniPanelMiniGameInitializers {
           gameComponent.node,
           this.main.miniGames.children.length - 1
         );
+
+      this.main.loading.node.active = false;
     }
   }
 
@@ -34,9 +36,7 @@ export default class MiniPanelMiniGameInitializers {
     let gameComponent: any;
 
     if (!isAlreadyOpened) {
-      this.main.loading.node.active = true;
       this.main.loading.setDefaultPercent();
-
       cc.loader.loadRes(
         prefabPath,
         (completedCount, total, item) => {
@@ -74,6 +74,8 @@ export default class MiniPanelMiniGameInitializers {
       return;
     }
 
+    this.main.loading.node.active = true;
+
     id = parseInt(id);
     switch (id) {
       case configs.gameIds.TaiXiu:
@@ -101,6 +103,7 @@ export default class MiniPanelMiniGameInitializers {
         this.openKenoProViet();
         break;
       default:
+        this.main.loading.node.active = false;
         break;
     }
   }
@@ -225,8 +228,11 @@ export default class MiniPanelMiniGameInitializers {
   }
 
   openNewSocket(gameId) {
+    this.main.loading.node.active = true;
+
     const socketIoController = BaseSocketIOController.getInstance();
     const currentSocket: SocketIOClient.Socket = socketIoController.gameSockets[gameId];
+
     if (currentSocket && currentSocket.connected) {
       this.openNewSocketGame(gameId);
     } else {
@@ -259,6 +265,7 @@ export default class MiniPanelMiniGameInitializers {
         this.openSpecialSeDie();
         break;
       default:
+        this.main.loading.node.active = false;
         break;
     }
   }
