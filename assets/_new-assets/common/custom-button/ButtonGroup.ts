@@ -4,8 +4,9 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class ButtonGroup extends cc.Component {
-    // @property({ type: NewButton })
     buttons: NewButton[] = [];
+
+    private _interactable = true;
 
     onLoad() {
         this.registerEventListener();
@@ -53,12 +54,21 @@ export default class ButtonGroup extends cc.Component {
     }
 
     onTouchEnd(e) {
+        if (!this._interactable) {
+            return;
+        }
         let selected = false;
         for (let i = this.buttons.length - 1; i >= 0; i--) {
             const button = this.buttons[i];
             if (button.node.active && button.checkCollider(e) && !selected) {
                 selected = true;
                 button.callback.selected();
+                this._interactable = false;
+                cc.tween(this.node)
+                    .delay(1)
+                    .call(() => this._interactable = true)
+                    .start();
+                break;
             }
         }
     }
