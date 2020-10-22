@@ -212,6 +212,7 @@ export default class HandPlace extends cc.Component {
                 this.scoreValue.string = total;
                 if (total > 21) {
                     this.burstNode.active = true;
+                    this.showScore(false);
                 } else if (total === 21 && this.data.cards.length === 2 && !this.isSplit) {
                     this.blackJackNode.active = true;
                 }
@@ -233,6 +234,7 @@ export default class HandPlace extends cc.Component {
             this.scoreValue.string = total.toString();
             if (total > 21) {
                 this.burstNode.active = true;
+                this.showScore(false);
             } else if (total === 21 && cards.length === 2) {
                 this.blackJackNode.active = true;
             }
