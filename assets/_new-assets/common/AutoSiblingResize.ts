@@ -18,5 +18,12 @@ export default class AutoSiblingResize extends cc.Component {
     resizeNode() {
         this.node.width = this.target.width;
         this.node.height = this.target.height;
+
+        this.node.children.forEach(child => {
+            const widget = child.getComponent(cc.Widget);
+            if (widget) {
+                widget.updateAlignment();
+            }
+        })
     }
 }
