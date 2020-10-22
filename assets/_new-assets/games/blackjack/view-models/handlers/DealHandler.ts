@@ -117,7 +117,6 @@ export default class DealHandler implements DataHandler {
     }
 
     processFailedDealHands(data: any) {
-        const positions = [];
         if (data.errorApiHands.message) {
             const notice = this.main.showNotice(<NoticeData>{
                 text: data.errorApiHands.message,
