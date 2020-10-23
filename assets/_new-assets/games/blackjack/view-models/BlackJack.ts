@@ -223,6 +223,7 @@ export default class BlackJack extends NewSocketGameBase {
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 cc.RedT.audio.playClick();
+                this.handPlaces.forEach(place => place.highlightPlace(false));
                 handPlace.highlightPlace(true);
 
                 if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxbet) {
@@ -241,7 +242,6 @@ export default class BlackJack extends NewSocketGameBase {
                 this.dealButton.getComponent(FadeEffectButton).setActive();
                 this.clearButton.getComponent(FadeEffectButton).setActive();
 
-                this.handPlaces.forEach(place => place.highlightPlace(false));
                 const chipNode = BlackJackUtils.createChip(this.currentBet, this.betChips.chipAltas);
                 const destNode = this.chipContainers[index];
                 handPlace.addBetAmount(this.currentBet);
