@@ -64,13 +64,11 @@ export default class CardLayout extends cc.Component {
             if (this._selected) {
                 child.x += this.movingOffsetX;
             }
-            width = child.x;
         });
 
-        width += halfCardSize;
+        width = this.cardSizeWidth + this.ratio * (this.content.childrenCount - 1) * this.spacingX;
         this.content.width = width;
         this.shadow.width = width;
-        // this.shadow.scale = this.content.scale;
     }
 
     getNextPosition(): cc.Vec3 {
