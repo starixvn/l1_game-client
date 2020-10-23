@@ -17,8 +17,7 @@ const configs = {
             //Main Server
             subDomain: 'uatproxy',
             port: '',
-            path: '',
-            proxyRoute: "/uat/main"
+            path: '/uat/main',
         },
         2: {
             subDomain: "uatproxy",
