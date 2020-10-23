@@ -118,14 +118,16 @@ export default class DealHandler implements DataHandler {
 
     processFailedDealHands(data: any) {
         if (data.errorApiHands) {
-            const notice = this.main.showNotice(<NoticeData>{
-                text: data.errorApiHands.message,
-                isInfo: false,
+            data.errorApiHands.forEach(error => {
+                const notice = this.main.showNotice(<NoticeData>{
+                    text: error.message,
+                    isInfo: false,
+                });
+                notice.handleClose = () => {
+                    const positions = error.pos;
+                    this.clearChipsAndShowErrorNotice(positions);
+                }
             });
-            notice.handleClose = () => {
-                const positions = data.errorApiHands.pos;
-                this.clearChipsAndShowErrorNotice(positions);
-            }
         }
         if (data.invalidBetAmountHands) {
             this.main.showMiniWarning(data.invalidBetAmountHands.message);
