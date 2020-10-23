@@ -3,6 +3,7 @@ import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
+import FadeEffectButton from '../../../../common/custom-button/FadeEffectButton';
 
 
 export default class BlackJackFinishHandler implements DataHandler {
@@ -36,8 +37,8 @@ export default class BlackJackFinishHandler implements DataHandler {
             this.main.dealerHand.showScoreWithOutData(finish.result, 2, true);
             this.showWinningHands();
 
-            this.main.rebetButton.active = true;
-            this.main.newBetButton.active = true;
+            this.main.rebetButton.getComponent(FadeEffectButton).setActive();
+            this.main.newBetButton.getComponent(FadeEffectButton).setActive();
         } else {
             const openCardDuration = 0.7;
             this.main.dealerOpenSecondCard(finish.result[1], openCardDuration);
@@ -54,8 +55,8 @@ export default class BlackJackFinishHandler implements DataHandler {
                                 this.main.dealerHand.showScoreWithOutData(finish.result, finish.result.length, true);
                                 this.showWinningHands();
 
-                                this.main.rebetButton.active = true;
-                                this.main.newBetButton.active = true;
+                                this.main.rebetButton.getComponent(FadeEffectButton).setActive();
+                                this.main.newBetButton.getComponent(FadeEffectButton).setActive();
                             })
                             .start();
                     });
