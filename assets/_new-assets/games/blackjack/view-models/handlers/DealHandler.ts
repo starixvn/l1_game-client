@@ -117,7 +117,7 @@ export default class DealHandler implements DataHandler {
     }
 
     processFailedDealHands(data: any) {
-        if (data.errorApiHands.message) {
+        if (data.errorApiHands) {
             const notice = this.main.showNotice(<NoticeData>{
                 text: data.errorApiHands.message,
                 isInfo: false,
@@ -127,7 +127,7 @@ export default class DealHandler implements DataHandler {
                 this.clearChipsAndShowErrorNotice(positions);
             }
         }
-        if (data.invalidBetAmountHands.message) {
+        if (data.invalidBetAmountHands) {
             this.main.showMiniWarning(data.invalidBetAmountHands.message);
             const positions = data.invalidBetAmountHands.pos;
             this.clearChipsAndShowErrorNotice(positions);
