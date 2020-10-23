@@ -40,7 +40,9 @@ export default class CardLayout extends cc.Component {
     }
 
     cardSizeWidth = 76;
-    selectedPosZ = 80;
+
+    selectedPosY = 40;
+    selectedPosZ = 60;
     public selectedRotationX = 20;
     _selected = undefined;
 
@@ -73,12 +75,15 @@ export default class CardLayout extends cc.Component {
 
     getNextPosition(): cc.Vec3 {
         let x = this.cardSizeWidth / 2 + this.ratio * this.content.childrenCount * this.spacingX;
+        let y = 0;
         let z = 0;
+
         if (this._selected) {
             x += this.movingOffsetX;
+            y = this.selectedPosY;
             z = this.selectedPosZ;
         }
-        return cc.v3(x, 0, z);
+        return cc.v3(x, y, z);
     }
 
     changeCardView(selected: boolean) {
@@ -96,7 +101,7 @@ export default class CardLayout extends cc.Component {
                         cc.tween(child)
                             .by(0.3, { x: this.movingOffsetX }),
                         cc.tween(child)
-                            .to(0.3, { rotationX: this.selectedRotationX, z: this.selectedPosZ })
+                            .to(0.3, { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.2 }, { easing: "easeIn" })
                     )
                     .start();
             });
@@ -110,7 +115,7 @@ export default class CardLayout extends cc.Component {
                         cc.tween(child)
                             .by(0.3, { x: -this.movingOffsetX }),
                         cc.tween(child)
-                            .to(0.3, { rotationX: 0, z: 0 })
+                            .to(0.3, { rotationX: 0, y: 0, z: 0, scaleY: 1 })
                     )
                     .call(() => {
                         if (isLastChild) {

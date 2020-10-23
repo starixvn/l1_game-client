@@ -78,7 +78,7 @@ export default class IngameActionHandler implements DataHandler {
         this.main.handPlaces[destPos].addCard(secondCard);
 
         cc.tween(secondCard)
-            .to(duration, { position: nextPosition, rotationX: rotationX })
+            .to(duration, { position: nextPosition, rotationX: rotationX }, { easing: 'easeOut' })
             .start();
     }
 

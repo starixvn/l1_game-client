@@ -28,9 +28,16 @@ export default class NewButton extends CustomButton {
         super.setHighlight(highlight);
         if (this.buttonSprite) {
             const ratio = highlight ? this.highlightScale : 1;
-            this.node.scaleX = this.originalScaleX * ratio;
-            this.node.scaleY = this.originalScaleY * ratio;
+
             this.buttonSprite.spriteFrame = highlight ? this.highlightFrame : this.normalFrame;
+            cc.tween(this.node)
+                .parallel(
+                    cc.tween(this.node)
+                        .to(0.1, { scaleX: this.originalScaleX * ratio }),
+                    cc.tween(this.node)
+                        .to(0.1, { scaleY: this.originalScaleY * ratio })
+                )
+                .start();
         }
     }
 }

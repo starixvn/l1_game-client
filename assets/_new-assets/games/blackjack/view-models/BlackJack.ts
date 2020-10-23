@@ -305,6 +305,7 @@ export default class BlackJack extends NewSocketGameBase {
         const startLocalPos = handPlace.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = handPlace.cardLayout.getNextPosition();
         const rotationX = handPlace.selected ? this.dealerHand.cardLayout.selectedRotationX : 0;
+        const scaleY = handPlace.selected ? 1.2 : 1;
         cardNode.position = startLocalPos;
         handPlace.addCard(cardNode);
 
@@ -316,7 +317,7 @@ export default class BlackJack extends NewSocketGameBase {
             .call(() => {
                 cardComponent.playAnimation(CardAnimation.DealerToHand, moveDuration);
             })
-            .to(moveDuration, { position: nextPosition, rotationX: rotationX })
+            .to(moveDuration, { position: nextPosition, rotationX: rotationX, scaleY: scaleY }, { easing: 'easeOut' })
             .call(() => {
                 handPlace.cardLayout.updateLayout();
                 onComplete();
@@ -340,7 +341,7 @@ export default class BlackJack extends NewSocketGameBase {
         cc.tween(cardNode)
             .delay(pullDuration)
             .call(() => cardComponent.playAnimation(faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand, moveDuration))
-            .to(moveDuration, { position: nextPosition, rotationX: rotationX })
+            .to(moveDuration, { position: nextPosition, rotationX: rotationX }, { easing: 'easeOut' })
             .call(() => {
                 onComplete();
             })
