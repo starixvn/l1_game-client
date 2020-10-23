@@ -16,7 +16,7 @@ export default class NewSocketGameBase extends GameRoomBase {
 
         this.socket = BaseSocketIOController.getInstance().gameSockets[this.gameId];
         this.socket.on(this.gameName, (data) => {
-            if (!this.node.isValid) {
+            if (!this.node || !this.node.isValid) {
                 return;
             }
             this.onDataGameRoom(data);

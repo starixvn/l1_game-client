@@ -303,7 +303,7 @@ export default class MiniPanel extends cc.Component {
   }
 
   onConnectSocketFailed(gameName, isGameRoom = true) {
-    if (!this.node.isValid) {
+    if (!this.node || !this.node.isValid) {
       return;
     }
     let handleCloseNotice = () => isGameRoom && this.redirectToLobby();

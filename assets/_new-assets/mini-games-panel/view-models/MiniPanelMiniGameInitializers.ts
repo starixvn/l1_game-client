@@ -250,7 +250,7 @@ export default class MiniPanelMiniGameInitializers {
       );
 
       socket.on('signedIn', () => {
-        if (!this.main.node.isValid) {
+        if (!this.main.node || !this.main.node.isValid) {
           return;
         }
         this.openNewSocketGame(gameId);
