@@ -7,20 +7,30 @@ const configs = {
         "gamesaba.com": 'gamesaba.com'
     },
     serverGameEndPoints: {
-        0: { //Main Server
-            subDomain: "gsr",
-            port: "",
-            path: ""
+        0: {
+            //Main Server
+            subDomain: 'proxy',
+            port: '',
+            path: '',
+            proxyRoute: "/main"
         },
         2: {
-            subDomain: "sed",
+            subDomain: "proxy",
             port: "",
-            path: "/user/xocxoc"
+            path: "/user/xocxoc",
+            proxyRoute: "/sedie/socket.io"
         },
         22: {
-            subDomain: "vipsedie",
+            subDomain: "proxy",
             port: "",
-            path: "/user/vipsedie"
+            path: "/user/vipsedie",
+            proxyRoute: "/vipsedie/socket.io"
+        },
+        23: {
+            subDomain: 'proxy',
+            port: '',
+            path: '/user/blackjack',
+            proxyRoute: "/blackjack/socket.io"
         },
         24: {
             subDomain: 'proxy',
