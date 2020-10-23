@@ -52,7 +52,11 @@ export default class BlackJackHistory extends cc.Component {
             let item = historyItemPrefab.getComponent(BlackJackHistoryItem);
             let isSplit = log.splitFrom || log.actions.includes("split");
             item.time.string = getStringDateByTime(log.time);
+            item.time.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+
             item.handId.string = log.id;
+            item.handId.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+
             item.split.active = isSplit;
             item.bet.string = numberWithCommas(log.bet);
             item.win.string = numberWithCommas(log.betwin);
@@ -65,6 +69,7 @@ export default class BlackJackHistory extends cc.Component {
             // cards for player
             this.initCards(log.cards, item.playerCards);
             this.convertResult(item.playerResult, log.total, log.cards, isSplit);
+            item.playerResult.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
             this.content.addChild(historyItemPrefab);
         })
