@@ -11,8 +11,7 @@ const configs = {
             //Main Server
             subDomain: 'proxy',
             port: '',
-            path: '',
-            proxyRoute: "/main"
+            path: '/main',
         },
         2: {
             subDomain: "proxy",

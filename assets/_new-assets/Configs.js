@@ -9,8 +9,7 @@ const configs = {
       //Main Server
       subDomain: 'haproxy',
       port: 7000,
-      path: '',
-      proxyRoute: '/main',
+      path: '/main',
     },
     2: {
       subDomain: "haproxy",
