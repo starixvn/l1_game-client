@@ -223,6 +223,8 @@ export default class BlackJack extends NewSocketGameBase {
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 cc.RedT.audio.playClick();
+                handPlace.highlightPlace(true);
+
                 if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxbet) {
                     this.showMiniWarning(`Tổng tiền cược tối đa của tay bài này là ${helper.numberWithCommas(this.gameConfigs.maxbet)}`);
                     return;
@@ -240,7 +242,6 @@ export default class BlackJack extends NewSocketGameBase {
                 this.clearButton.getComponent(FadeEffectButton).setActive();
 
                 this.handPlaces.forEach(place => place.highlightPlace(false));
-                handPlace.highlightPlace(true);
                 const chipNode = BlackJackUtils.createChip(this.currentBet, this.betChips.chipAltas);
                 const destNode = this.chipContainers[index];
                 handPlace.addBetAmount(this.currentBet);
@@ -269,7 +270,7 @@ export default class BlackJack extends NewSocketGameBase {
                         this.updateTotalBetLabel();
                     })));
             }
-            handPlace.clearBetClickCallback = () => {
+            handPlace.clearBetClickCallback = (checkExistChip) => {
                 handPlace.showBetText(true);
                 this.chipContainers[index].destroyAllChildren();
                 const location = this.priorityHands.indexOf(index);
@@ -277,16 +278,16 @@ export default class BlackJack extends NewSocketGameBase {
                     this.priorityHands.splice(location, 1);
                 }
 
-                const existChip = this.checkExistChipOnTable();
-                this.dealButton.getComponent(FadeEffectButton).setActive(existChip);
-                this.clearButton.getComponent(FadeEffectButton).setActive(existChip);
-                this.updateTotalBetLabel();
+                checkExistChip && this.checkExistChipOnTable();
             }
         })
     }
 
-    checkExistChipOnTable(): boolean {
-        return this.handPlaces.find(place => place.getBetAmount() > 0) != undefined;
+    checkExistChipOnTable() {
+        const existChip = this.handPlaces.find(place => place.getBetAmount() > 0) != undefined;
+        this.dealButton.getComponent(FadeEffectButton).setActive(existChip);
+        this.clearButton.getComponent(FadeEffectButton).setActive(existChip);
+        this.updateTotalBetLabel();
     }
 
     createCard(card: CardModel): cc.Node {
@@ -609,7 +610,7 @@ export default class BlackJack extends NewSocketGameBase {
     newGame() {
         this.hideAllButtons();
         this.handPlaces.forEach(place => {
-            place.onClearBetClick();
+            place.onClearBetClick(false);
             place.enablePlaceChip(true);
         });
         this.handPlaces[1].highlightPlace(true);

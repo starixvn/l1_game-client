@@ -113,7 +113,7 @@ export default class HandPlace extends cc.Component {
 
     private _betAmount = 0;
     public betItemClickCallback = () => { }
-    public clearBetClickCallback = () => { }
+    public clearBetClickCallback = (checkExistChip) => { }
 
     onLoad() {
         this.resetView();
@@ -153,11 +153,11 @@ export default class HandPlace extends cc.Component {
         this.betItemClickCallback();
     }
 
-    onClearBetClick() {
+    onClearBetClick(checkExistChip = true) {
         this.resetView();
         this.clearBetAmount();
         this.clearData();
-        this.clearBetClickCallback();
+        this.clearBetClickCallback(checkExistChip);
     }
 
     getBetAmount(): number {
