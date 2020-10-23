@@ -109,6 +109,7 @@ cc.Class({
     }
 
     this.center.on("size-changed", this.repositionMenu, this);
+    this.center.on("scale-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
       this.center.scale = 0.8;
     }
@@ -132,7 +133,7 @@ cc.Class({
   repositionMenu() {
     const adsWidth = this.gameAds.width;
     const scrollContentWidth = this.scrollContent.width + adsWidth;
-    const scrollView = this.scrollContent.parent.getComponent(cc.ScrollView);
+    const scrollView = this.mainScroll.getComponent(cc.ScrollView);
     const adsWidget = this.gameAds.getComponent(cc.Widget);
     if (scrollContentWidth < this.center.width) {
       scrollView.enabled = false;
