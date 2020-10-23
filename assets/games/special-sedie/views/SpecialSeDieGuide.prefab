@@ -2402,8 +2402,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 170.06,
-      "height": 32
+      "width": 128.91,
+      "height": 16
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2415,7 +2415,7 @@
       "ctor": "Float64Array",
       "array": [
         308.743,
-        9.825,
+        9.776,
         0,
         0,
         0,
@@ -2455,8 +2455,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Tỷ Lệ Trả Thưởng\n(đã bao gồm tiền cược)",
-    "_N$string": "Tỷ Lệ Trả Thưởng\n(đã bao gồm tiền cược)",
+    "_string": "Tỷ Lệ Trả Thưởng",
+    "_N$string": "Tỷ Lệ Trả Thưởng",
     "_fontSize": 16,
     "_lineHeight": 16,
     "_enableWrapText": true,
@@ -2514,7 +2514,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 148.8,
-      "height": 40
+      "height": 16
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2526,7 +2526,7 @@
       "ctor": "Float64Array",
       "array": [
         308.743,
-        -9.056,
+        -7.891,
         0,
         0,
         0,
@@ -2569,7 +2569,7 @@
     "_string": "(đã bao gồm tiền cược)",
     "_N$string": "(đã bao gồm tiền cược)",
     "_fontSize": 14,
-    "_lineHeight": 40,
+    "_lineHeight": 16,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "cafd24ce-1dec-430a-9047-0775cfb46eb6"
@@ -2594,7 +2594,7 @@
     "asset": {
       "__uuid__": "98a0ee36-20df-481a-bcbc-4467a3713e60"
     },
-    "fileId": "ec68rGoe5AG6Bquh0dMy6A",
+    "fileId": "4ctuI61b9GSrZ+2Vmz9zTb",
     "sync": false
   },
   {
@@ -6066,8 +6066,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Số tiền cược phải nằm trong khoảng từ 10 đến _maxBetRound cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là _maxBetRound.",
-    "_N$string": "- Số tiền cược phải nằm trong khoảng từ 10 đến _maxBetRound cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là _maxBetRound.",
+    "_string": "- Số tiền cược phải nằm trong khoảng từ 1$ đến _maxBetRound$ cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là _maxBetRound$",
+    "_N$string": "- Số tiền cược phải nằm trong khoảng từ 1$ đến _maxBetRound$ cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là _maxBetRound$",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -6348,8 +6348,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Nhà cái cân cửa: trong trường hợp tiền đặt cược giữa 2 cửa chênh lệch nhau, số tiền chênh lệch sẽ được hoàn trả vào tài khoản người chơi đặt cược sau.\nVí dụ: Người chơi A đặt 80 vào cửa Chẵn, người chơi B đặt 50 vào cửa Lẻ, người chơi C đặt 60 vào cửa Lẻ. Hệ thống sẽ tính toán cân bằng lượng tiền giữa 2 cửa và sẽ trả lại cho C (người chơi đặt cược sau) 30.",
-    "_N$string": "- Nhà cái cân cửa: trong trường hợp tiền đặt cược giữa 2 cửa chênh lệch nhau, số tiền chênh lệch sẽ được hoàn trả vào tài khoản người chơi đặt cược sau.\nVí dụ: Người chơi A đặt 80 vào cửa Chẵn, người chơi B đặt 50 vào cửa Lẻ, người chơi C đặt 60 vào cửa Lẻ. Hệ thống sẽ tính toán cân bằng lượng tiền giữa 2 cửa và sẽ trả lại cho C (người chơi đặt cược sau) 30.",
+    "_string": "- Nhà cái cân cửa: trong trường hợp tiền đặt cược giữa 2 cửa chênh lệch nhau, số tiền chênh lệch sẽ được hoàn trả vào tài khoản người chơi đặt cược sau.\nVí dụ: Người chơi A đặt 80$ vào cửa Chẵn, người chơi B đặt 40$ vào cửa Lẻ, người chơi C đặt 60$ vào cửa Lẻ. Hệ thống sẽ tính toán cân bằng lượng tiền giữa 2 cửa và sẽ trả lại cho C (người chơi đặt cược sau) 20$.",
+    "_N$string": "- Nhà cái cân cửa: trong trường hợp tiền đặt cược giữa 2 cửa chênh lệch nhau, số tiền chênh lệch sẽ được hoàn trả vào tài khoản người chơi đặt cược sau.\nVí dụ: Người chơi A đặt 80$ vào cửa Chẵn, người chơi B đặt 40$ vào cửa Lẻ, người chơi C đặt 60$ vào cửa Lẻ. Hệ thống sẽ tính toán cân bằng lượng tiền giữa 2 cửa và sẽ trả lại cho C (người chơi đặt cược sau) 20$.",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
