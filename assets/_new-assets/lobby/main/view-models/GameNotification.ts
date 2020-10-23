@@ -15,7 +15,12 @@ export default class GameNotification extends cc.Component {
     dataKey = "";
     onLoad() {
         this.dataKey = `${this.key}_${this.gameId}`;
-        cc.RedT.addDataObserver(this.dataKey, this.receivedData.bind(this))
+        cc.RedT.addDataObserver(this.dataKey, this.receivedData.bind(this));
+        cc.RedT.send({
+            gameNotifications: {
+                gameId: this.gameId
+            }
+        });
     }
 
     onDestroy() {

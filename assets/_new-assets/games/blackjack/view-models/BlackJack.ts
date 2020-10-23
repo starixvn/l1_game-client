@@ -139,7 +139,7 @@ export default class BlackJack extends NewSocketGameBase {
         super.onLoad();
         this.initHandPlaces();
         this.hideAllButtons();
-
+        this.totalBetLabel.string = "";
         this.bigSplitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick();
         this.smallSplitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick();
         this.doubleButton.getComponent(NewButton).callback.selected = () => this.onDoubleClick();
@@ -305,7 +305,7 @@ export default class BlackJack extends NewSocketGameBase {
         const startLocalPos = handPlace.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = handPlace.cardLayout.getNextPosition();
         const rotationX = handPlace.selected ? this.dealerHand.cardLayout.selectedRotationX : 0;
-        const scaleY = handPlace.selected ? 1.2 : 1;
+        const scaleY = handPlace.selected ? 1.15 : 1;
         cardNode.position = startLocalPos;
         handPlace.addCard(cardNode);
 
@@ -610,6 +610,7 @@ export default class BlackJack extends NewSocketGameBase {
 
     newGame() {
         this.hideAllButtons();
+        this.totalBetLabel.string = "0";
         this.handPlaces.forEach(place => {
             place.onClearBetClick(false);
             place.enablePlaceChip(true);

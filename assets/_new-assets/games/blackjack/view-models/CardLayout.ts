@@ -43,7 +43,7 @@ export default class CardLayout extends cc.Component {
 
     selectedPosY = 40;
     selectedPosZ = 60;
-    public selectedRotationX = 20;
+    public selectedRotationX = 30;
     _selected = undefined;
 
     onLoad() {
@@ -101,7 +101,7 @@ export default class CardLayout extends cc.Component {
                         cc.tween(child)
                             .by(0.3, { x: this.movingOffsetX }),
                         cc.tween(child)
-                            .to(0.3, { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.2 }, { easing: "easeIn" })
+                            .to(0.3, { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.15 }, { easing: "easeIn" })
                     )
                     .start();
             });
