@@ -17,13 +17,13 @@ export default class FadeEffectButton extends cc.Component {
             this.node.opacity = 0;
 
             cc.tween(this.node)
-                .to(0.3, { opacity: 255 }, { easing: 'easeOut' })
+                .to(0.3, { opacity: 255 }, { easing: 'smooth' })
                 .start();
         } else {
             this.node.opacity = 255;
 
             cc.tween(this.node)
-                .to(0.3, { opacity: 0 }, { easing: 'easeIn' })
+                .to(0.3, { opacity: 0 }, { easing: 'smooth' })
                 .call(() => {
                     this.node.active = status;
                 })
