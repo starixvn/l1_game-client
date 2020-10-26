@@ -102,7 +102,7 @@ export default class CardLayout extends cc.Component {
                         cc.tween(child)
                             .by(0.3, { x: this.movingOffsetX }),
                         cc.tween(child)
-                            .to(0.3, { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.15 }, { easing: "smooth" })
+                            .to(0.3, { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.15 }, { easing: "sineIn" })
                     )
                     .start();
             });
