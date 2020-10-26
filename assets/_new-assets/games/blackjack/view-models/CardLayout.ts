@@ -41,9 +41,9 @@ export default class CardLayout extends cc.Component {
 
     cardSizeWidth = 76;
 
-    selectedPosY = 40;
+    selectedPosY = 36;
     selectedPosZ = 60;
-    public selectedRotationX = 30;
+    public selectedRotationX = 20;
     _selected = undefined;
 
     onLoad() {
