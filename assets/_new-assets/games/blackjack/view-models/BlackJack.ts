@@ -510,7 +510,7 @@ export default class BlackJack extends NewSocketGameBase {
                     const cardComponent = cardNode.getComponent(NewCard);
                     cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
                 })
-                .to(0.5, { position: destPosition })
+                .then(cc.jumpTo(0.5, destPosition, 250, 1))
                 .delay(0.2)
                 .call(() => cardNode.destroy())
                 .start();
@@ -532,7 +532,8 @@ export default class BlackJack extends NewSocketGameBase {
                         const cardComponent = cardNode.getComponent(NewCard);
                         cardComponent.playAnimation(CardAnimation.DropCard, 0.7);
                     })
-                    .to(0.7, { position: destPosition })
+                    .then(
+                        cc.jumpTo(0.7, destPosition, 250, 1))
                     .delay(0.2)
                     .call(() => cardNode.destroy())
                     .start();
