@@ -4,8 +4,8 @@ import GameBase from "./GameBase";
 export default abstract class NewSocketMiniGameBase extends GameBase {
   public socket: SocketIOClient.Socket;
   abstract get gameId(): number;
-  
-  
+
+
 
   startGame() {
     super.startGame();
@@ -22,8 +22,11 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
   }
 
   closeGame() {
-    super.closeGame();
     BaseSocketIOController.getInstance().closeSocket(this.gameId);
+    if (!this.node || !this.node.isValid) {
+      return;
+    }
+    super.closeGame();
   }
 
   onSignIn() {
@@ -35,6 +38,9 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
   }
 
   onData(data) {
+    if (!this.node || !this.node.isValid) {
+      return;
+    }
     super.onData(data);
 
     if (data.user) {

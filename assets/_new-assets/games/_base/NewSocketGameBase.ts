@@ -22,7 +22,7 @@ export default class NewSocketGameBase extends GameRoomBase {
             this.onDataGameRoom(data);
         });
         this.socket.on("disconnect", () => {
-            if (!this.node.isValid) {
+            if (!this.node || !this.node.isValid) {
                 return;
             }
             this.closeGame();
@@ -44,6 +44,9 @@ export default class NewSocketGameBase extends GameRoomBase {
     }
 
     onData(data) {
+        if (!this.node || !this.node.isValid) {
+            return;
+        }
         this.currentMiniPanel.onGeneralData(data);
         this.onDataGameRoomGeneral(data);
     }
