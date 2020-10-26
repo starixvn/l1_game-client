@@ -17,6 +17,11 @@ const configs = {
       port: 8001,
       path: '/user/xocxoc',
     },
+    22: {
+      subDomain: 'l2-gsr',
+      port: 8503,
+      path: '/user/vipsedie',
+    },
   },
   gameIds: {
     TaiXiu: 1,
@@ -39,6 +44,7 @@ const configs = {
     KenoSouth: 18,
     KenoNorth: 19,
     Roulette: 21,
+    VipSedie: 22,
   },
   gameNames: {
     1: 'Tài Xỉu',
@@ -61,18 +67,17 @@ const configs = {
     18: 'Keno Nam',
     19: 'Keno Bắc',
     21: 'Roulette',
+    22: 'Xóc Đĩa VIP',
   },
-  kenoVietLotUrl:
-    'https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno',
-  sentryUrl:
-    'https://4c2b6824d6ed41f291540878d9c76181@sentryuat.sabagame.com/50',
-  gameRoomIds: [8, 10, 21],
   gameRoomRegNames: {
     8: 'KenoProMax',
     10: 'baccarat',
     21: 'roulette',
   },
-  gameRoomNewSocketIds: [2],
+  gameRoomIds: [8, 10, 21],
+  gameRoomNewSocketIds: [2, 22],
+  kenoVietLotUrl: 'https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno',
+  sentryUrl: 'https://4c2b6824d6ed41f291540878d9c76181@sentryuat.sabagame.com/50',
 };
 
 module.exports = configs;
