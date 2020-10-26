@@ -1,9 +1,9 @@
 import ChipStack from "../../../../common/chip-stack/views/ChipStack";
+import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
-import FadeEffectButton from '../../../../common/custom-button/FadeEffectButton';
 
 
 export default class BlackJackFinishHandler implements DataHandler {
@@ -76,7 +76,7 @@ export default class BlackJackFinishHandler implements DataHandler {
             moreCards.forEach((card, index) => {
                 actions.push(() => {
                     this.main.drawingCardToDealer(card, false, () => {
-                        this.main.dealerHand.showScoreWithOutData(cards, index + 3, index === moreCards.length - 1);
+                        this.main.dealerHand.showScoreWithOutData(cards, index + 3, false);
                     });
                 });
             })
