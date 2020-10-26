@@ -15,6 +15,7 @@ export default class BlackjackUmHandler extends GameBaseUmDataHandler {
         }
 
         this.main.showUmMessage(data);
+        this.main.disableGame();
 
         return true;
     }

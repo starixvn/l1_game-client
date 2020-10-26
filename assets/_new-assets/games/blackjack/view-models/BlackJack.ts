@@ -7,6 +7,7 @@ import GameUtils from "../../../common/GameUtils";
 import * as helper from "../../../common/helpers/Helper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { games } from "../../../SabaConfigs";
+import { GameState } from "../../_base/GameBase";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
@@ -169,6 +170,10 @@ export default class BlackJack extends NewSocketGameBase {
         // this.gameState = GameState.Stopped;
         // this.clearIntervalAndTimeout();
         // this.resetDataAndUI();
+    }
+
+    disableGame() {
+        this.gameState = GameState.Disabled;
     }
 
     protected onGameHide() {
