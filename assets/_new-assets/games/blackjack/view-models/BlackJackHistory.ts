@@ -1,7 +1,7 @@
-import * as Pagination from '../../../../common/helpers/Pagination/Pagination';
-import BlackJackHistoryItem from './BlackJackHistoryItem';
-import { numberWithCommas, getStringDateByTime, nFormatter } from '../../../common/helpers/Helper';
-import NewCard, { CardModel } from '../../../common/new-card/view-models/NewCard';
+import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import * as Pagination from "../../../common/helpers/Pagination/Pagination";
+import NewCard from "../../../common/new-card/view-models/NewCard";
+import BlackJackHistoryItem from "./BlackJackHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
