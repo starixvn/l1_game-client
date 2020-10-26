@@ -382,8 +382,8 @@ export default class BlackJack extends NewSocketGameBase {
             if (this.activeHand != nextHand) {
                 this.activeHand && (this.activeHand.selected = false);
                 this.activeHand = nextHand;
-                nextHand.selected = true;
             }
+            nextHand.selected = true;
         } else {
             this.switchToDealer();
         }

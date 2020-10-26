@@ -107,6 +107,7 @@ export default class DealHandler implements DataHandler {
             .delay(delaytime)
             .call(() => {
                 if (isBlackJack) {
+                    this.main.dealerHand.cardLayout.updateLayout();
                     this.main.dealerHand.showScoreWithOutData(dealerCards, 2);
                     this.main.switchToDealer();
                 } else {

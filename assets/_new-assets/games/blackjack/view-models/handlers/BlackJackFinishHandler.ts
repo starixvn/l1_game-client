@@ -104,6 +104,7 @@ export default class BlackJackFinishHandler implements DataHandler {
                 const hand = winningHands.find(hand => hand.id === place.idValue)
                 if (hand) {
                     totalWin += +hand.betwin;
+                    place.cardLayout.updateLayout();
                     place.setResult(hand.betwin);
 
                     if (+hand.betwin > place.getBetAmount()) {
