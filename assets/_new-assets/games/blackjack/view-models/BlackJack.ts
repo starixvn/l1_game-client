@@ -575,10 +575,10 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     onClearClick() {
-        cc.RedT.audio.playClick();
-        if (!this.canSendRequest()) {
+        if (this.waitingProcessing) {
             return;
         }
+        cc.RedT.audio.playClick();
         this.handPlaces.forEach(place => place.onClearBetClick());
     }
 
