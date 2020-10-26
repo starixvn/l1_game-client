@@ -45,6 +45,7 @@ export default class CardLayout extends cc.Component {
     selectedPosZ = 60;
     public selectedRotationX = 20;
     _selected = undefined;
+    shadowWidth = 100;
 
     onLoad() {
         if (CC_EDITOR) {
@@ -70,7 +71,7 @@ export default class CardLayout extends cc.Component {
 
         width = this.cardSizeWidth + this.ratio * (this.content.childrenCount - 1) * this.spacingX;
         this.content.width = width;
-        this.shadow.width = width;
+        this.shadow.width = width + this.shadowWidth;
     }
 
     getNextPosition(): cc.Vec3 {
