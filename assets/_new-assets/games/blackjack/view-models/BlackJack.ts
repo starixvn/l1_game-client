@@ -222,6 +222,10 @@ export default class BlackJack extends NewSocketGameBase {
         const chipFlyingDuration = 0.5;
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
+                if (this.waitingProcessing) {
+                    return;
+                }
+
                 cc.RedT.audio.playClick();
                 this.handPlaces.forEach(place => place.highlightPlace(false));
                 handPlace.highlightPlace(true);
@@ -571,6 +575,9 @@ export default class BlackJack extends NewSocketGameBase {
 
     onClearClick() {
         cc.RedT.audio.playClick();
+        if (!this.canSendRequest()) {
+            return;
+        }
         this.handPlaces.forEach(place => place.onClearBetClick());
     }
 
