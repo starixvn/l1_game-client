@@ -2,14 +2,14 @@ const configs = {
   ssl: false,
   disabledDirectLogin: true,
   serverDomainMapper: {
-    localhost: 'localhost',
+    localhost: 'lumigame.com',
     '10.5.10.14': 'lumigame.com',
   },
   serverGameEndPoints: {
     0: {
       //Main Server
-      subDomain: '',
-      port: 8080,
+      subDomain: 'l2-gsr',
+      port: 8000,
       path: '',
     },
     2: {
@@ -18,8 +18,8 @@ const configs = {
       path: '/user/xocxoc',
     },
     22: {
-      subDomain: '',
-      port: 8083,
+      subDomain: 'l2-gsr',
+      port: 8503,
       path: '/user/vipsedie',
     },
   },
