@@ -3,6 +3,7 @@ import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
 import ExpandableMenu from "../../../common/ExpandableMenu";
+import GameUtils from "../../../common/GameUtils";
 import * as helper from "../../../common/helpers/Helper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { games } from "../../../SabaConfigs";
@@ -169,7 +170,6 @@ export default class BlackJack extends NewSocketGameBase {
         // this.clearIntervalAndTimeout();
         // this.resetDataAndUI();
     }
-
 
     protected onGameHide() {
     }
@@ -643,7 +643,7 @@ export default class BlackJack extends NewSocketGameBase {
         super.updateDisplayForRemoteConfig();
         this.minBetLabel.string = this.gameConfigs.minbet.toString();
         this.maxBetLabel.string = helper.numberWithCommas(this.gameConfigs.maxbet);
-        this.blackjackOddLabel.string = `${(+this.gameConfigs.odds.blackjack - 1)}`;
+        this.blackjackOddLabel.string = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
     }
 
     onDataGameRoom(data) {

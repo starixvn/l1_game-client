@@ -79,4 +79,9 @@ export default class GameUtils {
             miniPanel.openGame(null, gameId);
         }
     }
+
+    public static roundFixed(num: number, fixedNumber: number): number {
+        const numToFixedDp = Number(num).toFixed(fixedNumber);
+        return Number(numToFixedDp);
+    }
 }
