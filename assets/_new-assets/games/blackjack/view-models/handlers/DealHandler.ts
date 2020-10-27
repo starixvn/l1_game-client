@@ -3,6 +3,7 @@ import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/v
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
+import FadeEffectButton from '../../../../common/custom-button/FadeEffectButton';
 
 export default class DealHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {
@@ -152,6 +153,10 @@ export default class DealHandler implements DataHandler {
             const chipContainer = this.main.chipContainers[position - 1];
             const chips = chipContainer.children[0];
             const destPosition = chipContainer.convertToNodeSpaceAR(chipContainer.parent.convertToWorldSpaceAR(cc.v2(0, -300)));
+            this.main.dealButton.getComponent(FadeEffectButton).setActive(false);
+            this.main.clearButton.getComponent(FadeEffectButton).setActive(false);
+            this.main.rebetButton.getComponent(FadeEffectButton).setActive(false);
+            this.main.newBetButton.getComponent(FadeEffectButton).setActive(false);
             chips.runAction(cc.sequence(
                 cc.jumpTo(0.7, destPosition, 250, 1),
                 cc.delayTime(1.8),
