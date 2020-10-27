@@ -110,8 +110,8 @@ export default class BlackJackFinishHandler implements DataHandler {
                     if (+hand.betwin > place.getBetAmount()) {
                         const winAmount = +hand.betwin - place.getBetAmount();
                         const options = [...this.main.chipOption, 0.5];
-                        const chipStack = BlackJackUtils.createChipStack(winAmount, this.main.betChips.chipAltas, options);
                         const destNode = this.main.chipContainers[index];
+                        const chipStack = BlackJackUtils.createChipStack(winAmount, this.main.betChips.chipAltas, options, this.main.shadowChip, destNode.skewX);
                         destNode.addChild(chipStack);
                         const startPos = chipStack.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
                         chipStack.position = startPos;
@@ -129,7 +129,7 @@ export default class BlackJackFinishHandler implements DataHandler {
                             // cc.fadeOut(0.3),
                             cc.callFunc(() => {
                                 destNode.destroyAllChildren();
-                                const chipStack = BlackJackUtils.createChipStack(+hand.betwin, this.main.betChips.chipAltas, options);
+                                const chipStack = BlackJackUtils.createChipStack(+hand.betwin, this.main.betChips.chipAltas, options, this.main.shadowChip, destNode.skewX);
                                 destNode.addChild(chipStack);
                             })
                         ))

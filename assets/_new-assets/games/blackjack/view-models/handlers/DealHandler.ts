@@ -44,7 +44,7 @@ export default class DealHandler implements DataHandler {
             if (hand.bet != place.getBetAmount()) {
                 place.syncBetValue();
                 this.main.chipContainers[pos].destroyAllChildren();
-                const chipStack = BlackJackUtils.createChipStack(hand.bet, this.main.betChips.chipAltas, this.main.chipOption);
+                const chipStack = BlackJackUtils.createChipStack(hand.bet, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, this.main.chipContainers[pos].skewX);
                 this.main.chipContainers[pos].addChild(chipStack);
             }
         });

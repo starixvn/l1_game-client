@@ -117,6 +117,9 @@ export default class BlackJack extends NewSocketGameBase {
     @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
 
+    @property(cc.SpriteFrame)
+    shadowChip: cc.SpriteFrame = null;
+
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
     ingameHander: DataHandler;
@@ -273,7 +276,7 @@ export default class BlackJack extends NewSocketGameBase {
                         handPlace.updateDisplayBetValue();
                         handPlace.clearBetButton.active = true;
                         destNode.destroyAllChildren();
-                        const chipStack = BlackJackUtils.createChipStack(handPlace.getBetAmount(), this.betChips.chipAltas, this.chipOption);
+                        const chipStack = BlackJackUtils.createChipStack(handPlace.getBetAmount(), this.betChips.chipAltas, this.chipOption, this.shadowChip, destNode.skewX);
                         chipStack.zIndex = -1;
                         destNode.addChild(chipStack);
                         this.updateTotalBetLabel();
@@ -568,7 +571,7 @@ export default class BlackJack extends NewSocketGameBase {
             }
             //restore chip value
             this.lastHandBets.forEach(hand => {
-                const chipStack = BlackJackUtils.createChipStack(hand.bet, this.betChips.chipAltas, this.chipOption);
+                const chipStack = BlackJackUtils.createChipStack(hand.bet, this.betChips.chipAltas, this.chipOption, this.shadowChip, this.chipContainers[hand.pos - 1].skewX);
                 this.chipContainers[hand.pos - 1].addChild(chipStack);
                 const place = this.handPlaces[hand.pos - 1];
                 place.updateDisplayBetValue(hand.bet);

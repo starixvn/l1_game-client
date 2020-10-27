@@ -126,7 +126,7 @@ export default class IngameActionHandler implements DataHandler {
     placeChipsForSplitHand(index: number, amount: number) {
         const destNode = this.main.chipContainers[index];
         destNode.destroyAllChildren();
-        const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips.chipAltas, this.main.chipOption);
+        const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, destNode.skewX);
         chipStack.zIndex = -1;
         destNode.addChild(chipStack);
 
@@ -139,7 +139,7 @@ export default class IngameActionHandler implements DataHandler {
 
     placeChipsForDoubleHand(index: number, amount: number) {
         const destNode = this.main.chipContainers[index];
-        const chipStack = BlackJackUtils.createChipStack(amount / 2, this.main.betChips.chipAltas, this.main.chipOption);
+        const chipStack = BlackJackUtils.createChipStack(amount / 2, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, destNode.skewX);
         chipStack.zIndex = -1;
         destNode.addChild(chipStack);
 
@@ -159,7 +159,7 @@ export default class IngameActionHandler implements DataHandler {
             cc.jumpTo(0.5, destPosition, 250, 1),
             cc.callFunc(() => {
                 destNode.destroyAllChildren();
-                const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips.chipAltas, this.main.chipOption);
+                const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, destNode.skewX);
                 chipStack.zIndex = -1;
                 destNode.addChild(chipStack);
                 this.main.handPlaces[index].updateDisplayBetValue(amount);

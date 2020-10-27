@@ -41,22 +41,31 @@ export default class BlackJackUtils {
         return chip;
     }
 
-    public static createChipStack(bet: number, chipAltas: cc.SpriteAtlas, options: number[]) {
+    public static createChipStack(bet: number, chipAltas: cc.SpriteAtlas, options: number[], shadowFrame: cc.SpriteFrame, skewX: number) {
         const values = GameUtils.getChipValues(bet, options);
         const node = new cc.Node();
         const chipStack = node.addComponent(ChipStack);
         chipStack.chipSize = 26;
         chipStack.thickness = 10;
+        chipStack.skewX = skewX;
 
         const keys = Object.keys(values).sort((a, b) => +b - +a);
-        keys.forEach(chip => {
+        let firstChip = true;
+        keys.forEach((chip, index) => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {
+
                 const chipNode = this.createChip(+chip, chipAltas);
                 chipStack.addChip(chipNode);
+
+                if (firstChip && i === 0) {
+                    firstChip = false;
+                    const shadow = new cc.Node();
+                    shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
+                    chipNode.addChild(shadow);
+                }
             }
         });
-
         return node;
     }
 }

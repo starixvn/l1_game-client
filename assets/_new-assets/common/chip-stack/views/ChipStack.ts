@@ -5,18 +5,38 @@ const { ccclass, property } = cc._decorator;
 export default class ChipStack extends cc.Component {
 
     public chipSize: number = 20;
-    public thickness: number = 5;
+    public thickness: number = 3;
+    public skewX: number = 0;
+    public ratioPosX = 1.5;
 
     onLoad() {
         this.node.anchorY = 0;
     }
 
     addChip(chipNode: cc.Node) {
-        chipNode.position = cc.v2(0, this.getCurrentHeight());
+        chipNode.position = cc.v2(this.calcPositionX(), this.getCurrentHeight());
         this.node.addChild(chipNode);
     }
 
     getCurrentHeight(): number {
         return this.node.childrenCount * this.thickness;
+    }
+
+    calcPositionX() {
+        if (this.skewX === 0) {
+            return 0;
+        }
+
+        let positionX = 0;
+
+        if (this.skewX > 0) {
+            positionX = - this.node.childrenCount * this.ratioPosX;
+        }
+
+        if (this.skewX < 0) {
+            positionX = this.node.childrenCount * this.ratioPosX;
+        }
+
+        return positionX;
     }
 }
