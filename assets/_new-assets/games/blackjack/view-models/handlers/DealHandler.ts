@@ -1,6 +1,5 @@
 import a from "../../../../../libs/chance/chance";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
-import { NoticeData } from "../../../../common/notice/view-models/Notice";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
@@ -122,7 +121,12 @@ export default class DealHandler implements DataHandler {
             this.showNoticesErrors(data.errorApiHands);
         }
         if (data.kickedOutHands) {
-            this.showNoticesErrors(data.kickedOutHands);
+            data.kickedOutHands.forEach(error => {
+                const transferredData = {
+                    kickedOut: error
+                };
+                this.main.currentMiniPanel.onGeneralData(transferredData);
+            })
         }
         if (data.invalidBetAmountHands) {
             this.main.showMiniWarning(data.invalidBetAmountHands.message);
@@ -133,10 +137,7 @@ export default class DealHandler implements DataHandler {
 
     showNoticesErrors(data: any) {
         data.forEach(error => {
-            const notice = this.main.showNotice(<NoticeData>{
-                text: error.message,
-                isInfo: false,
-            });
+            const notice = this.main.currentMiniPanel.showErrorNotice(error);
             notice.handleClose = () => {
                 const positions = error.pos;
                 this.clearChipsAndShowErrorNotice(positions);

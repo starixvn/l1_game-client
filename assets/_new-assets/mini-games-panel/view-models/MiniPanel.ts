@@ -254,9 +254,9 @@ export default class MiniPanel extends cc.Component {
     );
   }
 
-  showErrorNotice(error) {
+  showErrorNotice(error): Notice {
     var noticePrefab = cc.instantiate(this.noticePrefab);
-    var notice = noticePrefab.getComponent('Notice');
+    var notice = noticePrefab.getComponent(Notice);
     var message = '';
 
     if (error.gameTypeId) {
@@ -271,8 +271,10 @@ export default class MiniPanel extends cc.Component {
       message += ' Đặt cược thất bại!';
     }
 
-    notice.init({ text: message });
+    notice.init(<NoticeData>{ text: message });
     this.node.addChild(noticePrefab);
+
+    return notice;
   }
 
   showNotice(
