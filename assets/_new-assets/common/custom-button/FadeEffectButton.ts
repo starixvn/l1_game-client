@@ -1,3 +1,5 @@
+import NewButton from "./NewButton";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -14,6 +16,7 @@ export default class FadeEffectButton extends cc.Component {
 
         if (status) {
             this.node.active = status;
+            this.node.getComponent(NewButton).collider.getComponent(cc.PolygonCollider).enabled = true;
             this.node.opacity = 0;
 
             cc.tween(this.node)
@@ -21,7 +24,7 @@ export default class FadeEffectButton extends cc.Component {
                 .start();
         } else {
             this.node.opacity = 255;
-
+            this.node.getComponent(NewButton).collider.getComponent(cc.PolygonCollider).enabled = false;
             cc.tween(this.node)
                 .to(0.3, { opacity: 0 }, { easing: 'sineIn' })
                 .call(() => {
