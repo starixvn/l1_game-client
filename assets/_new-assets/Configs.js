@@ -70,6 +70,7 @@ const configs = {
     KenoNorth: 19,
     Roulette: 21,
     VipSedie: 22,
+    SpecialSeDie: 24,
   },
   gameNames: {
     1: 'Tài Xỉu',
@@ -93,6 +94,7 @@ const configs = {
     19: 'Keno Bắc',
     21: 'Roulette',
     22: 'Xóc Đĩa VIP',
+    24: 'Xóc Đĩa Cân Cửa',
   },
   gameRoomRegNames: {
     8: 'KenoProMax',
@@ -101,6 +103,7 @@ const configs = {
   },
   gameRoomIds: [8, 10, 21],
   gameRoomNewSocketIds: [2, 22],
+  gameMiniNewSocketIds: [24],
   sentryUrl: 'https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20',
   gameAnalytics: {
     clientId: '093146669bf12df12eeedd2d57ddb469',
