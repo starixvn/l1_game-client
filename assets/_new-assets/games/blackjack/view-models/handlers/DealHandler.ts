@@ -170,5 +170,13 @@ export default class DealHandler implements DataHandler {
                     place.onClearBetClick(false);
                 })));
         });
+
+        this.main.waitingProcessing = true;
+        cc.tween(this.main)
+            .delay(2.5)
+            .call(() => {
+                this.main.waitingProcessing = false;
+            })
+            .start();
     }
 }
