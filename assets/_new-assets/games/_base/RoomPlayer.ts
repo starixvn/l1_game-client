@@ -50,7 +50,6 @@ export default class RoomPlayer extends cc.Component {
 
     setBalance(balance: number) {
         this.data.red = balance ? balance : 0;
-
         this.displayBalance(this.data.red);
     }
 
@@ -62,7 +61,6 @@ export default class RoomPlayer extends cc.Component {
     }
 
     displayBalance(balance: number) {
-        console.log(balance);
         this.balance.string = balance > RoomPlayer.MAX_BALANCE_DISPLAY ? `${helper.numberWithCommas(RoomPlayer.MAX_BALANCE_DISPLAY)}+` : helper.numberWithCommas(balance);
     }
 
