@@ -92,6 +92,11 @@ export default class DealHandler implements DataHandler {
             place.enablePlaceChip(false);
             place.showClearBetButton(false);
         });
+
+        this.main.dealButton.getComponent(FadeEffectButton).setActive(false);
+        this.main.clearButton.getComponent(FadeEffectButton).setActive(false);
+        this.main.newBetButton.getComponent(FadeEffectButton).setActive(false);
+        this.main.rebetButton.getComponent(FadeEffectButton).setActive(false);
     }
 
     playAnimationDealerCheck(dealerCards: CardModel[], isBlackJack: boolean) {
