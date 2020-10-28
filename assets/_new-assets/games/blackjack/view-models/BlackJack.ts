@@ -283,6 +283,9 @@ export default class BlackJack extends NewSocketGameBase {
                     })));
             }
             handPlace.clearBetClickCallback = (checkExistChip) => {
+                if (this.waitingProcessing) {
+                    return;
+                }
                 handPlace.showBetText(true);
                 this.chipContainers[index].destroyAllChildren();
                 const location = this.priorityHands.indexOf(index);

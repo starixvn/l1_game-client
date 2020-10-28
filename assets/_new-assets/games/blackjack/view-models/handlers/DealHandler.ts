@@ -1,9 +1,9 @@
 import a from "../../../../../libs/chance/chance";
+import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
-import FadeEffectButton from '../../../../common/custom-button/FadeEffectButton';
 
 export default class DealHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {
@@ -42,6 +42,7 @@ export default class DealHandler implements DataHandler {
             actions.push(() => this.main.drawingCardToPlayer(card, pos, () => place.updateDisplayScore(false)));
 
             if (hand.bet != place.getBetAmount()) {
+                place.showBetText(false);
                 place.syncBetValue();
                 this.main.chipContainers[pos].destroyAllChildren();
                 const chipStack = BlackJackUtils.createChipStack(hand.bet, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, this.main.chipContainers[pos].skewX);
