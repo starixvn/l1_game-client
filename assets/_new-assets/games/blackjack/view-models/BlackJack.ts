@@ -283,9 +283,7 @@ export default class BlackJack extends NewSocketGameBase {
                     })));
             }
             handPlace.clearBetClickCallback = (checkExistChip) => {
-                if (this.waitingProcessing) {
-                    return;
-                }
+
                 handPlace.showBetText(true);
                 this.chipContainers[index].destroyAllChildren();
                 const location = this.priorityHands.indexOf(index);
@@ -422,6 +420,10 @@ export default class BlackJack extends NewSocketGameBase {
         if (!this.canSendRequest()) {
             return;
         }
+
+        this.handPlaces.forEach(place => {
+            place.showClearBetButton(false);
+        })
 
         const hands = [];
 
