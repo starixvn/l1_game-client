@@ -60,7 +60,10 @@ export default class IngameActionHandler implements DataHandler {
                 });
             })
             .delay(this.main.configDuration.delaySwitchHand)
-            .call(() => this.main.switchToNextHand())
+            .call(() => {
+                firstPlace.selected = !firstHand.isStand;
+                this.main.switchToNextHand();
+            })
             .start();
     }
 
