@@ -640,6 +640,7 @@ export default class BlackJack extends NewSocketGameBase {
         this.dealerHand.resetView();
         this.roundFinished = false;
         (this.finishHandler as BlackJackFinishHandler).clearCache();
+        this.activeHand = null;
     }
 
     updateAvailableActions() {
