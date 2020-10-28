@@ -120,6 +120,9 @@ export default class BlackJack extends NewSocketGameBase {
     @property(cc.SpriteFrame)
     shadowChip: cc.SpriteFrame = null;
 
+    @property(cc.AudioSource)
+    cardSlideAudioSource: cc.AudioSource = null;
+
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
     ingameHander: DataHandler;
@@ -180,9 +183,6 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     protected onGameHide() {
-    }
-
-    protected initGameAudios() {
     }
 
     setGameRound(gameRoundId) {
@@ -310,6 +310,10 @@ export default class BlackJack extends NewSocketGameBase {
         return node;
     }
 
+    playAudioCardSliding() {
+        this.cardSlideAudioSource.play();
+    }
+
     drawingCardToPlayer(card: CardModel, pos: number, onComplete = () => { }) {
         const cardNode = this.createCard(card);
         const handPlace = this.handPlaces[pos];
@@ -328,6 +332,7 @@ export default class BlackJack extends NewSocketGameBase {
         cc.tween(cardNode)
             .delay(pullDuration)
             .call(() => {
+                this.playAudioCardSliding();
                 cardComponent.playAnimation(CardAnimation.DealerToHand, moveDuration);
             })
             .to(moveDuration, { position: nextPosition, rotationX: rotationX, scaleY: scaleY }, { easing: 'easeOut' })
@@ -353,7 +358,10 @@ export default class BlackJack extends NewSocketGameBase {
         cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
         cc.tween(cardNode)
             .delay(pullDuration)
-            .call(() => cardComponent.playAnimation(faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand, moveDuration))
+            .call(() => {
+                this.playAudioCardSliding();
+                cardComponent.playAnimation(faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand, moveDuration);
+            })
             .to(moveDuration, { position: nextPosition, rotationX: rotationX }, { easing: 'easeOut' })
             .call(() => {
                 onComplete();

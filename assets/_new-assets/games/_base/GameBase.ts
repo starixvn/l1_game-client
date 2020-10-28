@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../common/GameUtils";
+import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
@@ -264,7 +265,7 @@ export default class GameBase extends cc.Component {
             if (!this.processingWarning || !this.processingWarning.isValid) {
                 return;
             }
-            this.processingWarning.getComponent('ProcessingWarning').close();
+            this.processingWarning.getComponent(ProcessingWarning).close();
             this.processingWarning = null;
         }
     }
@@ -327,7 +328,7 @@ export default class GameBase extends cc.Component {
     protected initBetChips() {
         if (this.enableChips) {
             var betChipsNode = cc.instantiate(this.betChipsPrefab);
-            this.betChips = betChipsNode.getComponent('BetChips') as BetChips;
+            this.betChips = betChipsNode.getComponent(BetChips);
             var self = this;
             this.betChips.init((bet) => {
                 self.currentBet = parseInt(bet);
@@ -338,7 +339,7 @@ export default class GameBase extends cc.Component {
 
     protected initGameAudios() {
         var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
-        this.gameAudios = gameAudiosNode.getComponent('GameAudios') as GameAudios;
+        this.gameAudios = gameAudiosNode.getComponent(GameAudios);
     }
 
     protected initHandlers() {
