@@ -167,7 +167,7 @@ export default class DealHandler implements DataHandler {
                 cc.jumpTo(0.7, destPosition, 250, 1),
                 cc.delayTime(1.8),
                 cc.callFunc(() => {
-                    place.onClearBetClick();
+                    place.onClearBetClick(false);
                 })));
         });
     }
