@@ -28,7 +28,28 @@ export default class NewCard extends cc.Component {
     @property(cc.Animation)
     animation: cc.Animation = null;
 
+    @property(cc.Node)
+    description: cc.Node = null;
+
+    @property(cc.Sprite)
+    number: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    smallSuite: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    largeSuite: cc.Sprite = null;
+
+
     private card: CardModel = { rank: "A", suit: 3 };
+
+    private suffix = ["heart", "diamond", "club", "spade"];
+    private picture = {
+        "j": "j_picture",
+        "q": "q_picture",
+        "k": "k_picture"
+    };
+
 
     public onAnimationComplete = () => { }
 
@@ -45,8 +66,21 @@ export default class NewCard extends cc.Component {
     setFaceUp(faceUp: boolean) {
         if (faceUp) {
             if (this.card) {
-                const suffix = ["A", "B", "C", "D"];
-                this.image.spriteFrame = this.atlas.getSpriteFrame(`${this.card.rank}${suffix[this.card.suit]}`);
+                this.description.active = true;
+
+                const lowerCaseRank = this.card.rank.toLowerCase();
+                const color = cc.Color.BLACK;
+                this.number.spriteFrame = this.atlas.getSpriteFrame(lowerCaseRank);
+                this.number.node.color = this.card.suit > 1 ? color : color.fromHEX("#960000");
+                this.smallSuite.spriteFrame = this.atlas.getSpriteFrame(`${this.suffix[this.card.suit]}_small`);
+
+                if (+this.card.rank || this.card.rank == "A") {
+                    this.largeSuite.spriteFrame = this.atlas.getSpriteFrame(this.suffix[this.card.suit]);
+                } else {
+                    this.largeSuite.spriteFrame = this.atlas.getSpriteFrame(this.picture[lowerCaseRank]);
+                }
+
+                this.image.spriteFrame = this.atlas.getSpriteFrame("card_bg");
             } else {
                 console.warn("Call setFaceUp when this.card null");
                 this.showCardBack();
@@ -65,6 +99,7 @@ export default class NewCard extends cc.Component {
     }
 
     private showCardBack() {
+        this.description.active = false;
         this.image.spriteFrame = this.atlas.getSpriteFrame("BACK_1");
     }
 
