@@ -123,12 +123,16 @@ export default class BlackJack extends NewSocketGameBase {
     @property(cc.AudioSource)
     cardSlideAudioSource: cc.AudioSource = null;
 
+    @property(cc.AudioSource)
+    gameNotificationsAudio: cc.AudioSource = null;
+
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
     ingameHander: DataHandler;
     activeHand: HandPlace = null;
     lastHandBets: any[] = [];
     historyComponent: BlackJackHistory;
+    audioNotificationInterval: any;
 
     public chipOption = [1000, 500, 200, 100, 50, 10, 5, 1];
     public configDuration = {
@@ -159,6 +163,11 @@ export default class BlackJack extends NewSocketGameBase {
         this.dealButton.getComponent(NewButton).callback.selected = () => this.onDealClick()
     }
 
+    onDestroy() {
+        super.onDestroy();
+        this.stopIntervalReminder();
+    }
+
     onEnable() {
 
     }
@@ -169,7 +178,7 @@ export default class BlackJack extends NewSocketGameBase {
 
     start() {
         cc.RedT.send({ scene: this.gameName });
-        this.socket.emit("inGame");
+        this.socketSendData("inGame", null);
     }
 
     stopGame() {
@@ -446,13 +455,18 @@ export default class BlackJack extends NewSocketGameBase {
         this.rebet();
     }
 
+    socketSendData(key: string, data: any) {
+        this.socket && this.socket.emit(key, data);
+        this.setIntervalReminder();
+    }
+
     rebet() {
         const data = {
             deal: {
                 hands: this.lastHandBets
             }
         };
-        this.socket && this.socket.emit("bet", data);
+        this.socketSendData("bet", data);
     }
 
     onSplitClick() {
@@ -466,7 +480,7 @@ export default class BlackJack extends NewSocketGameBase {
                 id: this.activeHand.idValue
             }
         }
-        this.socket && this.socket.emit("bet", data);
+        this.socketSendData("bet", data);
     }
 
     onDoubleClick() {
@@ -480,7 +494,7 @@ export default class BlackJack extends NewSocketGameBase {
                 id: this.activeHand.idValue
             }
         }
-        this.socket && this.socket.emit("bet", data);
+        this.socketSendData("bet", data);
     }
 
     onStandClick() {
@@ -494,7 +508,7 @@ export default class BlackJack extends NewSocketGameBase {
                 id: this.activeHand.idValue
             }
         }
-        this.socket && this.socket.emit("bet", data);
+        this.socketSendData("bet", data);
     }
 
     onHitClick() {
@@ -508,7 +522,7 @@ export default class BlackJack extends NewSocketGameBase {
                 id: this.activeHand.idValue
             }
         }
-        this.socket && this.socket.emit("bet", data);
+        this.socketSendData("bet", data);
     }
 
     onNewBetClick() {
@@ -682,5 +696,24 @@ export default class BlackJack extends NewSocketGameBase {
         }
 
         super.onDataGameRoom(data);
+    }
+
+    playAudioNotification() {
+        // console.log('playAudioNotification');
+        this.gameNotificationsAudio.play();
+    }
+
+    setIntervalReminder() {
+        this.stopIntervalReminder();
+        this.audioNotificationInterval = setInterval(() => {
+            if (!this.node || !this.node.isValid) {
+                return;
+            }
+            this.playAudioNotification();
+        }, 300000);
+    }
+
+    stopIntervalReminder() {
+        this.audioNotificationInterval && clearInterval(this.audioNotificationInterval);
     }
 }

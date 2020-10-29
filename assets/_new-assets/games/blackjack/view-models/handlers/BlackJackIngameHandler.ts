@@ -20,6 +20,7 @@ export default class BlackJackIngameHandler implements DataHandler {
         if (_.isEmpty(ownBets)) {
             this.main.newGame();
         } else {
+            this.main.setIntervalReminder();
             const dealerCards = ownBets.dealer;
             dealerCards.forEach(card => {
                 const cardNode = this.main.createCard(card);

@@ -29,6 +29,7 @@ export default class BlackJackFinishHandler implements DataHandler {
         this.main.gameAudios.playStartGameAudio();
         this.main.rebetButton.getComponent(FadeEffectButton).setActive();
         this.main.newBetButton.getComponent(FadeEffectButton).setActive();
+        this.main.stopIntervalReminder();
     }
 
     processFinish() {
