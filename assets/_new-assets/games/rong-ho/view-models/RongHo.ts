@@ -3,6 +3,7 @@ import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../../common/GameUtils";
 import * as helper from "../../../common/helpers/Helper";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import NewCard from "../../../common/new-card/view-models/NewCard";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import GameAudios from "../../_base/GameAudios";
@@ -139,6 +140,7 @@ export default class RongHo extends cc.Component {
   public cardsUtil: any;
   private betChips: BetChips = null;
   private gameAudios: GameAudios;
+  private frontCards: NewCard[] = [];
 
   //#region Public Methods
   public init(miniPanel: MiniPanel, name: string, config: GameBaseConfigs) {
@@ -254,6 +256,7 @@ export default class RongHo extends cc.Component {
       );
     };
     this.logControl.init(condition);
+    this.frontCards = this.cards.map(card => card.node.children[0].getComponent(NewCard));
   }
 
   private initGameAudios() {
@@ -462,7 +465,11 @@ export default class RongHo extends cc.Component {
         var card = this.cards[index];
         card.node.active = true;
         card.node.scaleX = 1;
-        card.spriteFrame = this.cardsUtil.getCard(data.card, data.type);
+        this.frontCards[index].setCard({
+          rank: data.card.toString(),
+          suit: data.type
+        });
+        this.frontCards[index].faceUp();
       });
     } else {
       this.cards.forEach((card, index) => {
@@ -478,8 +485,11 @@ export default class RongHo extends cc.Component {
     }
 
     this.resultCards.forEach((data, index) => {
-      var card = this.cards[index];
-      card.spriteFrame = this.cardsUtil.getCard(data.card, data.type);
+      this.frontCards[index].setCard({
+        rank: data.card.toString(),
+        suit: data.type
+      });
+      this.frontCards[index].faceUp();
     });
   }
 

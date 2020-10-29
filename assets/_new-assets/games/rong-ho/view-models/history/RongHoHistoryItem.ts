@@ -1,3 +1,5 @@
+import NewCard from "../../../../common/new-card/view-models/NewCard";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -9,8 +11,8 @@ export default class RongHoHistoryItem extends cc.Component {
     @property(cc.Label)
     round: cc.Label = null;
 
-    @property([cc.Node])
-    result: Array<cc.Node> = [];
+    @property({ type: NewCard })
+    cards: NewCard[] = [];
 
     @property(cc.Label)
     betDragon: cc.Label = null;
