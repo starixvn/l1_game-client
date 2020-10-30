@@ -26,13 +26,20 @@ export default class RouletteMain extends cc.Component {
     @property({ type: AnimatedTime })
     animatedTime: AnimatedTime = null;
 
+    @property(cc.Node)
+    backgroundWheel: cc.Node = null;
+
     betList: RouletteBetInfo[] = [];
 
+    protected wheelHidePositionY = 1000;
 
     onLoad() {
         this.quickBet.callback.highlight = (highlight, numbers) => {
             this.board.internalHighlight(highlight, numbers);
         }
+
+        this.backgroundWheel.active = false;
+        this.wheel.node.y = this.wheelHidePositionY;
     }
 
     enableQuickBet(enable: boolean) {
@@ -54,10 +61,21 @@ export default class RouletteMain extends cc.Component {
                 .call(() => this.hideRoulette())
                 .start();
         });
+
+        this.backgroundWheel.active = true;
+        this.wheel.node.active = true;
+        this.wheel.node.runAction(cc.moveTo(0.5, cc.v2(0, 0)));
     }
 
     hideRoulette() {
         this.wheel.hideResultNumber();
+        this.wheel.node.runAction(cc.sequence(
+            cc.moveTo(0.5, cc.v2(0, this.wheelHidePositionY)),
+            cc.callFunc(() => {
+                this.backgroundWheel.active = false;
+                this.wheel.node.active = false;
+            })
+        ));
     }
 
     highlightLastResult(result: number, animated: boolean) {

@@ -164,9 +164,6 @@ export default class Roulette extends GameRoomBase {
         this.confirmButton.node.children[1].active = !this.confirmButton.interactable;
         this.undoButton.node.children[1].active = !this.undoButton.interactable;
         this.rebetButton.node.children[1].active = !this.rebetButton.interactable;
-
-
-
     }
 
     resetDataAndUI() {
@@ -547,6 +544,6 @@ export default class Roulette extends GameRoomBase {
     }
 
     protected formatGameRound(gameRoundId: any) {
-        return gameRoundId ? gameRoundId : "";
+        return gameRoundId ? `#${gameRoundId}` : "";
     }
 }

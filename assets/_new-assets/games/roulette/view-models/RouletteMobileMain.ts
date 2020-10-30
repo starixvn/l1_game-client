@@ -14,11 +14,8 @@ export default class RouletteMobileMain extends RouletteMain {
     @property(cc.Node)
     backgroundQuickBet: cc.Node = null;
 
-    @property(cc.Node)
-    backgroundWheel: cc.Node = null;
 
     private quickBetDialog: any;
-    private wheelHidePositionY = 1000;
 
     onLoad() {
         super.onLoad();
