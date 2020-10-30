@@ -8,19 +8,28 @@ const configs = {
   serverGameEndPoints: {
     0: {
       //Main Server
-      subDomain: 'l2-gsr',
-      port: 8000,
+      subDomain: 'haproxy',
+      port: 7001,
       path: '',
+      proxyRoute: "/main"
     },
     2: {
-      subDomain: 'l2-gsr',
-      port: 8001,
-      path: '/user/xocxoc',
+      subDomain: "haproxy",
+      port: "7001",
+      path: "/user/xocxoc",
+      proxyRoute: "/sedie/socket.io"
     },
     22: {
-      subDomain: 'l2-gsr',
-      port: 8503,
-      path: '/user/vipsedie',
+      subDomain: "haproxy",
+      port: "7001",
+      path: "/user/vipsedie",
+      proxyRoute: "/vipsedie/socket.io"
+    },
+    24: {
+      subDomain: 'haproxy',
+      port: 7001,
+      path: '/user/specialsedie',
+      proxyRoute: "/specialsedie/socket.io"
     },
   },
   gameIds: {
