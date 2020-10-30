@@ -8,9 +8,10 @@ const configs = {
   serverGameEndPoints: {
     0: {
       //Main Server
-      subDomain: 'l2-gsr',
-      port: 8000,
+      subDomain: 'haproxy',
+      port: 7001,
       path: '',
+      proxyRoute: "/main"
     },
     2: {
       subDomain: "haproxy",
@@ -24,28 +25,11 @@ const configs = {
       path: "/user/vipsedie",
       proxyRoute: "/vipsedie/socket.io"
     },
-    23: {
-      subDomain: 'haproxy',
-      port: '7000',
-      path: '/user/blackjack',
-      proxyRoute: '/blackjack/socket.io',
-    },
     24: {
       subDomain: 'haproxy',
       port: 7001,
       path: '/user/specialsedie',
-      proxyRoute: '/specialsedie/socket.io',
-    },
-    26: {
-      subDomain: 'haproxy',
-      port: 7000,
-      path: '/user/vipfishprawncrab',
-      proxyRoute: '/vipfishprawncrab/socket.io',
-    },
-    22: {
-      subDomain: 'l2-gsr',
-      port: 8503,
-      path: '/user/vipsedie',
+      proxyRoute: "/specialsedie/socket.io"
     },
   },
   gameIds: {
