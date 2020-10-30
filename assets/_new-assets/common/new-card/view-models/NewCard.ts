@@ -63,14 +63,26 @@ export default class NewCard extends cc.Component {
         this.card = card;
     }
 
+    convertOldRankType(num: number): string {
+        const dict = {
+            10: 'j',
+            11: 'q',
+            12: 'k',
+            1: 'a',
+        }
+        return dict[num] || this.card.rank.toLowerCase();
+    }
+
     setFaceUp(faceUp: boolean) {
         if (faceUp) {
             if (this.card) {
                 this.description.active = true;
 
-                const lowerCaseRank = this.card.rank.toLowerCase();
+                const lowerCaseRank = this.convertOldRankType(+this.card.rank);
                 const color = cc.Color.BLACK;
-                this.number.spriteFrame = this.atlas.getSpriteFrame(lowerCaseRank);
+                const frame = this.atlas.getSpriteFrame(lowerCaseRank);
+                console.log(`rank ${this.card.rank}  frame ${frame}`);
+                this.number.spriteFrame = frame;
                 this.number.node.color = this.card.suit > 1 ? color : color.fromHEX("#960000");
                 this.smallSuite.spriteFrame = this.atlas.getSpriteFrame(`${this.suffix[this.card.suit]}_small`);
 
