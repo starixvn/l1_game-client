@@ -63,14 +63,20 @@ export default class NewCard extends cc.Component {
         this.card = card;
     }
 
-    convertOldRankType(num: number): string {
+    setCardOldStyle(card: CardModel) {
+        this.card.rank = this.convertOldRank(+card.rank);
+        this.card.suit = card.suit;
+    }
+
+    convertOldRank(num: number): string {
+        num++;
         const dict = {
-            10: 'j',
-            11: 'q',
-            12: 'k',
-            1: 'a',
+            11: 'J',
+            12: 'Q',
+            13: 'K',
+            1: 'A',
         }
-        return dict[num] || this.card.rank.toLowerCase();
+        return dict[num] || num.toString();
     }
 
     setFaceUp(faceUp: boolean) {
@@ -78,15 +84,14 @@ export default class NewCard extends cc.Component {
             if (this.card) {
                 this.description.active = true;
 
-                const lowerCaseRank = this.convertOldRankType(+this.card.rank);
+                const lowerCaseRank = this.card.rank.toLowerCase();
                 const color = cc.Color.BLACK;
                 const frame = this.atlas.getSpriteFrame(lowerCaseRank);
-                console.log(`rank ${this.card.rank}  frame ${frame}`);
                 this.number.spriteFrame = frame;
                 this.number.node.color = this.card.suit > 1 ? color : color.fromHEX("#960000");
                 this.smallSuite.spriteFrame = this.atlas.getSpriteFrame(`${this.suffix[this.card.suit]}_small`);
 
-                if (+this.card.rank || this.card.rank == "A") {
+                if (+this.card.rank || this.card.rank === "A") {
                     this.largeSuite.spriteFrame = this.atlas.getSpriteFrame(this.suffix[this.card.suit]);
                 } else {
                     this.largeSuite.spriteFrame = this.atlas.getSpriteFrame(this.picture[lowerCaseRank]);

@@ -59,7 +59,7 @@ export default class RongHoHistory extends cc.Component {
                         rank: dataT.kq[j].card.toString(),
                         suit: dataT.kq[j].type
                     };
-                    card.setCard(cardData);
+                    card.setCardOldStyle(cardData);
                     card.faceUp();
                 });
 

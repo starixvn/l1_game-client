@@ -447,7 +447,7 @@ export default class RongHo extends cc.Component {
         var card = this.frontCardNodes[index];
         card.active = true;
         card.scaleX = 1;
-        this.frontCards[index].setCard({
+        this.frontCards[index].setCardOldStyle({
           rank: data.card.toString(),
           suit: data.type
         });
@@ -467,7 +467,7 @@ export default class RongHo extends cc.Component {
     }
 
     this.resultCards.forEach((data, index) => {
-      this.frontCards[index].setCard({
+      this.frontCards[index].setCardOldStyle({
         rank: data.card.toString(),
         suit: data.type
       });

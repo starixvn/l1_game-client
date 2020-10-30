@@ -1,21 +1,18 @@
-const { ccclass, property } = cc._decorator;
 import GameRoomBase from "../../_base/GameRoomBase";
-import BaccaratTimeHandler from "./data-handlers/BaccaratTimeDataHandler";
-import { BaccaratConfigs } from "./BaccaratConfigs";
+import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
+import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
+import { games } from "./../../../SabaConfigs";
 import BaccaratCards from "./BaccaratCards";
+import { BaccaratConfigs } from "./BaccaratConfigs";
+import BaccaratHistory from "./BaccaratHistory";
 import BaccaratFinishHandler from "./data-handlers/BaccaratFInishHandler";
 import BaccaratLogsHandler from "./data-handlers/BaccaratLogsHandler";
-import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
+import BaccaratTimeHandler from "./data-handlers/BaccaratTimeDataHandler";
 import TotalHistoryBoard from "./TotalHistoryBoard";
-import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
-import BaccaratHistory from "./BaccaratHistory";
-import { games } from './../../../SabaConfigs';
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Baccarat extends GameRoomBase {
-    @property(cc.Prefab)
-    cardsPrefab: cc.Prefab = null;
-
     @property(BaccaratCards)
     playerCards: BaccaratCards = null;
 
@@ -46,7 +43,9 @@ export default class Baccarat extends GameRoomBase {
     @property(cc.Label)
     winNoticeLabel: cc.Label = null;
 
-    cardsResource: any = null;
+    @property(cc.AudioSource)
+    getCardAudioSource: cc.AudioSource = null;
+
     basicHistoryBoard: BasicHistoryBoard;
     detailHistoryBoard: DragonScoreBoard;
     showScoreBoardNextDot = false;
@@ -98,12 +97,13 @@ export default class Baccarat extends GameRoomBase {
         this.winNoticeLabel.node.parent.active = false;
     }
 
+    playGetCardAudio() {
+        this.getCardAudioSource.play();
+    }
+
     private initCards() {
-        var cardsNode = cc.instantiate(this.cardsPrefab);
-        this.cardsResource = cardsNode.getComponent("Card");
-        this.cardsResource.init();
-        this.bankerCards.init(this.cardsResource);
-        this.playerCards.init(this.cardsResource);
+        this.bankerCards.init(() => { this.playGetCardAudio(); });
+        this.playerCards.init(() => { this.playGetCardAudio(); });
     }
 
     private initScoreBoards() {

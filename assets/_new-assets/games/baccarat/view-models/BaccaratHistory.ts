@@ -1,10 +1,11 @@
-const { ccclass, property } = cc._decorator;
-import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
-import { numberWithCommas, getStringDateByTime, nFormatter } from "../../../common/helpers/Helper";
-import Baccarat from "./Baccarat.js";
-import BaccaratHistoryItem from "./BaccaratHistoryItem";
 import * as _ from "lodash";
 
+import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
+import Baccarat from "./Baccarat.js";
+import BaccaratHistoryItem from "./BaccaratHistoryItem";
+
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class BaccaratHistory extends cc.Component {
     @property(Pagination)
@@ -61,8 +62,9 @@ export default class BaccaratHistory extends cc.Component {
 
             if (historyItemData) {
                 let historyItemPrefab = cc.instantiate(this.prefabItem);
-                let item = historyItemPrefab.getComponent("BaccaratHistoryItem") as BaccaratHistoryItem;
+                let item = historyItemPrefab.getComponent(BaccaratHistoryItem);
                 item.node.active = true
+                this.content.addChild(historyItemPrefab);
 
                 if (historyItemData.bet) {
                     item.time.string = getStringDateByTime(historyItemData.bet.time);
@@ -72,8 +74,8 @@ export default class BaccaratHistory extends cc.Component {
 
                     const playerCards = _.values(historyItemData.round.player);
                     const bankerCards = _.values(historyItemData.round.banker);
-                    item.playerCards.init(this.root.cardsResource, false);
-                    item.bankerCards.init(this.root.cardsResource, false);
+                    item.playerCards.init(null, false);
+                    item.bankerCards.init(null, false);
                     item.playerCards.showCardsWithoutAnimation(playerCards);
                     item.bankerCards.showCardsWithoutAnimation(bankerCards);
 
@@ -91,8 +93,6 @@ export default class BaccaratHistory extends cc.Component {
                         }
                     })
                 }
-
-                this.content.addChild(historyItemPrefab);
             }
         }
     }
