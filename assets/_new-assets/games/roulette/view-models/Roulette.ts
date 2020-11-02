@@ -1,18 +1,22 @@
+import * as _ from "lodash";
+
+import GameUtils from "../../../common/GameUtils";
+import * as helper from "../../../common/helpers/Helper";
+import { games } from "../../../SabaConfigs";
 import GameRoomBase from "../../_base/GameRoomBase";
-import { RouletteConfigs } from "./RouletteConfigs";
-import RouletteMain from "./RouletteMain";
+import BottomControls from "./BottomControls";
+import RouletteBetHandler from "./handlers/RouletteBetHandler";
 import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
 import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
+import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
+import LeftControls from "./LeftControls";
+import { RouletteConfigs } from "./RouletteConfigs";
+import RouletteMain from "./RouletteMain";
 import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteUtils from "./RouletteUtils";
-import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
-import RouletteBetHandler from "./handlers/RouletteBetHandler";
-import * as helper from "../../../common/helpers/Helper";
-import * as _ from "lodash";
-import { games } from "../../../SabaConfigs";
+import TopControls from "./TopControls";
 
 const { ccclass, property } = cc._decorator;
-
 
 export interface RouletteBetInfo {
     type: string;
@@ -63,22 +67,24 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
-    @property(cc.Button)
+    @property(cc.Node)
+    topContainer: cc.Node = null;
+
+    @property(cc.Node)
+    bottomContainer: cc.Node = null;
+
+    @property(cc.Node)
+    leftContainer: cc.Node = null;
+
+    topControls: TopControls = null;
+    bottomControls: BottomControls = null;
+    leftControls: LeftControls = null;
+
     doubleButton: cc.Button = null;
-
-    @property(cc.Button)
     rebetButton: cc.Button = null;
-
-    @property(cc.Button)
     undoButton: cc.Button = null;
-
-    @property(cc.Button)
     clearButton: cc.Button = null;
-
-    @property(cc.Button)
     confirmButton: cc.Button = null;
-
-    @property(cc.Animation)
     confirmAnimation: cc.Animation = null;
 
     rouletteMain: RouletteMain;
@@ -105,12 +111,13 @@ export default class Roulette extends GameRoomBase {
     }
 
     onLoad() {
-        this.initMain();
-        this.initBetBoard();
-        super.onLoad();
-        this.updateTotalBetLabel();
-        this.updateBetStatus(true);
-        this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
+        this.initMain().then(() => {
+            this.initBetBoard();
+            super.onLoad();
+            this.updateTotalBetLabel();
+            this.updateBetStatus(true);
+            this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
+        });
     }
 
     onDestroy() {
@@ -170,7 +177,7 @@ export default class Roulette extends GameRoomBase {
         super.resetDataAndUI();
     }
 
-    initMain() {
+    async initMain() {
         const node = cc.instantiate(cc.sys.isMobile ? this.mobileMainPrefab : this.mainPrefab);
         // const node = cc.instantiate(this.mobileMainPrefab);
         this.mainContainer.addChild(node);
@@ -178,6 +185,46 @@ export default class Roulette extends GameRoomBase {
         this.timeWaitLabel = this.rouletteMain.timeWaitLabel;
         this.timeWaitNode = this.rouletteMain.timeWaitNode;
         this.animatedTime = this.rouletteMain.animatedTime;
+
+        const bottomControlsNode = await this.loadResource('BottomControls', this.bottomContainer);
+        this.bottomControls = bottomControlsNode.getComponent(BottomControls);
+        this.bottomControls.doubleButton.node.on('click', this.onPressedDouble, this);
+        this.bottomControls.clearButton.node.on('click', this.onPressedClear, this);
+        this.bottomControls.rebetButton.node.on('click', this.onPressedRebet, this);
+        this.bottomControls.confirmButton.node.on('click', this.onPressedConfirm, this);
+        this.bottomControls.undoButton.node.on('click', this.onPressedUndo, this);
+
+        this.userName = this.bottomControls.userName;
+        this.userBalance = this.bottomControls.userBalance;
+        this.userAvatar = this.bottomControls.userAvatar;
+        this.betChipsContainer = this.bottomControls.betChipsContainer;
+        this.doubleButton = this.bottomControls.doubleButton;
+        this.clearButton = this.bottomControls.clearButton;
+        this.rebetButton = this.bottomControls.rebetButton;
+        this.confirmButton = this.bottomControls.confirmButton;
+        this.confirmAnimation = this.bottomControls.confirmAnimation;
+        this.undoButton = this.bottomControls.undoButton;
+
+        const topControlsNode = await this.loadResource('TopControls', this.topContainer);
+        this.topControls = topControlsNode.getComponent(TopControls);
+        this.players = this.topControls.players;
+        this.otherPlayers = this.topControls.otherPlayers;
+
+        const leftControlsNode = await this.loadResource('LeftControls', this.leftContainer);
+        this.leftControls = leftControlsNode.getComponent(LeftControls);
+        this.leftControls.guideButton.on('click', this.pressedShowGuide, this);
+        this.leftControls.historyButton.on('click', this.pressedShowHistory, this);
+        this.leftControls.statisticButton.on('click', this.pressedShowStatistic, this);
+        this.leftControls.homeButton.on('click', this.onCloseGameClick, this);
+    }
+
+    async loadResource(name: string, container: cc.Node) {
+        const suffix = cc.sys.isMobile ? `_mobile` : ``;
+        const path = `games/roulette/${name}${suffix}`;
+        const prefab = await GameUtils.loadResource(path);
+        const node = cc.instantiate(prefab);
+        container.addChild(node);
+        return node;
     }
 
     initBetBoard() {
