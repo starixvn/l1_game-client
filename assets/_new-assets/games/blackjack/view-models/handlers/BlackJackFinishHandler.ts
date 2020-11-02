@@ -108,11 +108,11 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
         this.main.handPlaces.forEach((place, index) => {
             if (place.isActive) {
-                const hand = winningHands.find(hand => hand.id === place.idValue)
+                const hand = winningHands.find(hand => hand.id === place.idValue);
+                const betAmount = place.getBetAmount();
+                totalBet += betAmount;
                 if (hand) {
                     totalWin += +hand.betwin;
-                    const betAmount = place.getBetAmount();
-                    totalBet += betAmount;
                     place.cardLayout.updateLayout();
                     place.setResult(hand.betwin);
 
