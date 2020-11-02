@@ -601,22 +601,6 @@ export default class Roulette extends GameRoomBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
-    public expandMenu() {
-        if (this.expandedMenuNode.scaleY == 0) {
-            this.expandedMenuNode.runAction(
-                cc.spawn(
-                    cc.fadeIn(0.2),
-                    cc.scaleTo(0.2, 1, 1)
-                ));
-        } else {
-            this.expandedMenuNode.runAction(
-                cc.spawn(
-                    cc.fadeOut(0.1),
-                    cc.scaleTo(0.2, 1, 0)
-                ));
-        }
-    }
-
     protected formatGameRound(gameRoundId: any) {
         return gameRoundId ? `#${gameRoundId}` : "";
     }
