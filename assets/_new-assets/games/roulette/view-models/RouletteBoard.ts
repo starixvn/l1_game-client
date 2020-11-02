@@ -125,7 +125,7 @@ export default class RouletteBoard extends cc.Component {
 
                 const tip = this.getBetDetail(i);
                 tip.show(bet);
-                tip.node.position = this.node.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v2(0, 20)));
+                tip.node.position = this.node.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v2(0, 0)));
                 i++;
             }
         }
