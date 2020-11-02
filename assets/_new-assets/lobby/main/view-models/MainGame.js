@@ -184,7 +184,7 @@ cc.Class({
     }
 
     if (void 0 !== data.user) {
-      this.dataUser(data.user);
+      this.loadUserData(data.user);
       cc.RedT.userData(data.user);
 
       try {
@@ -276,7 +276,7 @@ cc.Class({
       //   break;
     }
   },
-  dataUser: function (data) {
+  loadUserData: function (data) {
     if (void 0 !== data.red && this.header && this.header.userRed) {
       this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
     }
