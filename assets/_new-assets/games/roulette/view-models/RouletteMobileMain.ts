@@ -87,7 +87,6 @@ export default class RouletteMobileMain extends RouletteMain {
     }
 
     showRoulette(result: number, onComplete: () => void) {
-
         this.wheel.showResult(result, () => {
             cc.tween(this.node)
                 .delay(2)
@@ -100,13 +99,5 @@ export default class RouletteMobileMain extends RouletteMain {
 
         this.backgroundWheel.active = true;
         this.wheel.node.runAction(cc.moveTo(0.5, cc.v2(0, 0)));
-    }
-
-    hideRoulette() {
-        super.hideRoulette();
-        this.wheel.node.runAction(cc.sequence(
-            cc.moveTo(0.5, cc.v2(0, this.wheelHidePositionY)),
-            cc.callFunc(() => this.backgroundWheel.active = false)
-        ));
     }
 }
