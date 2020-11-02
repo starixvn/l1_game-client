@@ -178,9 +178,7 @@ export default class Roulette extends GameRoomBase {
     }
 
     async initMain() {
-        const node = cc.instantiate(cc.sys.isMobile ? this.mobileMainPrefab : this.mainPrefab);
-        // const node = cc.instantiate(this.mobileMainPrefab);
-        this.mainContainer.addChild(node);
+        const node = await this.loadResource('RouletteMain', this.mainContainer);
         this.rouletteMain = node.getComponent(RouletteMain);
         this.timeWaitLabel = this.rouletteMain.timeWaitLabel;
         this.timeWaitNode = this.rouletteMain.timeWaitNode;
