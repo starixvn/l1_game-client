@@ -15,6 +15,9 @@ export default class GameIconLayout extends cc.Component {
   @property
   path = 'minipanel/games';
 
+  @property
+  displaySize = 6;
+
   itemPrefabs: cc.Prefab[] = [];
   gameIds: number[] = [];
 

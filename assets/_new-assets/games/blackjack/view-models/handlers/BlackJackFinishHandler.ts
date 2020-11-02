@@ -1,13 +1,14 @@
 import ChipStack from "../../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
-import DataHandler from "../../../_base/handlers/DataHandler";
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
 
-export default class BlackJackFinishHandler implements DataHandler {
-    constructor(private readonly main: BlackJack) {
+export default class BlackJackFinishHandler extends GameBaseFinishHandler {
+    constructor(protected readonly main: BlackJack) {
+        super(main);
     }
 
     finishDataCache: any = null;
@@ -103,17 +104,20 @@ export default class BlackJackFinishHandler implements DataHandler {
     showWinningHands() {
         const winningHands = this.finishDataCache.winningHands;
         let totalWin = 0;
+        let totalBet = 0;
 
         this.main.handPlaces.forEach((place, index) => {
             if (place.isActive) {
                 const hand = winningHands.find(hand => hand.id === place.idValue)
                 if (hand) {
                     totalWin += +hand.betwin;
+                    const betAmount = place.getBetAmount();
+                    totalBet += betAmount;
                     place.cardLayout.updateLayout();
                     place.setResult(hand.betwin);
 
-                    if (+hand.betwin > place.getBetAmount()) {
-                        const winAmount = +hand.betwin - place.getBetAmount();
+                    if (+hand.betwin > betAmount) {
+                        const winAmount = +hand.betwin - betAmount;
                         const options = [...this.main.chipOption, 0.5];
                         const destNode = this.main.chipContainers[index];
                         const chipStack = BlackJackUtils.createChipStack(winAmount, this.main.betChips.chipAltas, options, this.main.shadowChip, destNode.skewX);
@@ -133,7 +137,6 @@ export default class BlackJackFinishHandler implements DataHandler {
                             cc.spawn(cc.jumpTo(0.8, destPosition, 100, 1),
                                 cc.scaleTo(0.8, 1)),
                             cc.delayTime(0.1),
-                            // cc.fadeOut(0.3),
                             cc.callFunc(() => {
                                 destNode.destroyAllChildren();
                                 const chipStack = BlackJackUtils.createChipStack(+hand.betwin, this.main.betChips.chipAltas, options, this.main.shadowChip, destNode.skewX);
@@ -159,6 +162,9 @@ export default class BlackJackFinishHandler implements DataHandler {
         })
 
         totalWin > 0 && this.main.showWinningBet(totalWin);
+        if (totalWin > totalBet) {
+            this.playWinningEffect(this.main, this.main.userAvatar.node.parent);
+        }
         cc.RedT.send({
             user: {
                 updateCoin: true

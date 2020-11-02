@@ -355,14 +355,14 @@ export default class MiniPanel extends cc.Component {
 
   public onPrevious() {
     cc.RedT.audio.playClick();
-    const index = this.scrollView.getMinDisplayIndex() - 1;
+    const index = this.scrollView.getMinDisplayIndex() - this.gameIconLayout.displaySize;
     this.scrollView.scrollTo(index < 0 ? 0 : index);
     this.updateArrowVisibility(index);
   }
 
   public onNext() {
     cc.RedT.audio.playClick();
-    const index = this.scrollView.getMinDisplayIndex() + 1;
+    const index = this.scrollView.getMinDisplayIndex() + this.gameIconLayout.displaySize;
     this.scrollView.scrollTo(index);
     this.updateArrowVisibility(index);
   }
