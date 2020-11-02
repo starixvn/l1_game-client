@@ -43,12 +43,6 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Node)
     mainContainer: cc.Node = null;
 
-    @property(cc.Prefab)
-    mainPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    mobileMainPrefab: cc.Prefab = null;
-
     @property(RouletteMiniRoundResult)
     miniRoundResult: RouletteMiniRoundResult = null;
 
@@ -78,6 +72,9 @@ export default class Roulette extends GameRoomBase {
 
     @property(cc.Node)
     leftContainer: cc.Node = null;
+
+    @property(cc.Node)
+    roundIdContainer: cc.Node = null;
 
     topControls: TopControls = null;
     bottomControls: BottomControls = null;
@@ -113,14 +110,35 @@ export default class Roulette extends GameRoomBase {
         // this.timeHandler = new KenoTimeHandler(this);
     }
 
+    start() {
+        // dont send until loading resoures done
+        // cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
+    }
+
+
+    onEnable() {
+        // this.startGame();
+        // this.registerViewGame();
+    }
+
     onLoad() {
+        this.roundIdContainer.opacity = 0;
         this.initMain().then(() => {
             this.initBetBoard();
             super.onLoad();
             this.updateTotalBetLabel();
             this.updateBetStatus(true);
             this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
+
+            this.startGame();
+            this.registerViewGame();
+            cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
         });
+    }
+
+    setGameRound(gameRoundId) {
+        super.setGameRound(gameRoundId);
+        this.roundIdContainer.opacity = 255;
     }
 
     onDestroy() {

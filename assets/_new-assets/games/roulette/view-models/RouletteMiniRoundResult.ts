@@ -13,10 +13,13 @@ export default class RouletteMiniRoundResult extends cc.Component {
     resultNumbers: RouletteResultNumber[] = [];
 
     onLoad() {
-        this.resultNumbers = this.contentNode.children.map(child => child.getComponent(RouletteResultNumber))
+        this.resultNumbers = this.contentNode.children.map(child => child.getComponent(RouletteResultNumber));
+        this.node.opacity = 0;
     }
 
     public setData(numbers: number[], animated: boolean = false) {
+        this.node.opacity = 255;
+
         this.resultNumbers.forEach((child, index) => {
             if (index > numbers.length - 1) {
                 child.hide();
