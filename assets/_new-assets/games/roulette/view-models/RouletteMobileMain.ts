@@ -12,19 +12,15 @@ export default class RouletteMobileMain extends RouletteMain {
     regularBetButton: cc.Node = null;
 
     @property(cc.Node)
-    backgroundQuickBet: cc.Node = null;
+    smallRegularBetNode: cc.Node = null;
 
-
-    private quickBetDialog: any;
+    // private quickBetDialog: any;
 
     onLoad() {
         super.onLoad();
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
-        this.backgroundQuickBet.active = false;
-        this.quickBetDialog = this.quickBet.getComponent("CommonDialog");
-        this.quickBetDialog.onWillShow = () => this.backgroundQuickBet.active = true;
-        this.quickBetDialog.onDidHide = () => this.backgroundQuickBet.active = false;
+        // this.quickBetDialog = this.quickBet.getComponent("CommonDialog");
         this.quickBet.node.opacity = 0;
         this.quickBet.node.active = false;
         this.backgroundWheel.active = false;
@@ -44,8 +40,25 @@ export default class RouletteMobileMain extends RouletteMain {
         cc.RedT.audio.playClick();
         this.quickBetButton.active = false;
         this.regularBetButton.active = true;
+        this.quickBet.node.active = true;
+        this.quickBet.node.y = this.smallRegularBetNode.y;
+        this.quickBet.node.scale = 0;
 
-        this.quickBetDialog.showDialog();
+        cc.tween(this.quickBet.node)
+            .parallel(
+                cc.tween().to(0.2, { opacity: 255 }, { easing: "sineOut" }),
+                cc.tween().to(0.2, { scale: 1 }, { easing: "sineOut" }),
+                cc.tween().to(0.2, { position: cc.v2(0, -74) }, { easing: "sineIn" })
+            )
+            .start();
+
+        cc.tween(this.board.node)
+            .parallel(
+                cc.tween().to(0.2, { position: cc.v2(0, this.smallRegularBetNode.y) }, { easing: "sineIn" }),
+                cc.tween().to(0.2, { scale: 0.452 }, { easing: "sineOut" })
+            )
+            .start();
+        // this.quickBetDialog.showDialog();
     }
 
     switchToRegularBet() {
@@ -55,7 +68,22 @@ export default class RouletteMobileMain extends RouletteMain {
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
 
-        this.quickBetDialog.closeDialog(false);
+        // this.quickBetDialog.closeDialog(false);
+        cc.tween(this.quickBet.node)
+            .parallel(
+                cc.tween().to(0.2, { opacity: 0 }, { easing: "sineIn" }),
+                cc.tween().to(0.2, { scale: 0 }, { easing: "sineIn" }),
+                cc.tween().to(0.2, { position: cc.v2(0, this.smallRegularBetNode.y) }, { easing: "sineOut" })
+            )
+            .start();
+
+        cc.tween(this.board.node)
+            .parallel(
+                cc.tween().to(0.2, { position: cc.v2(0, 8) }, { easing: "sineOut" }),
+                cc.tween().to(0.2, { scale: 1 }, { easing: "sineIn" })
+            )
+            .start();
+
     }
 
     showRoulette(result: number, onComplete: () => void) {
