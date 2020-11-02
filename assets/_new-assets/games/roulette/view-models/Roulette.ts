@@ -67,6 +67,9 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
+    @property(cc.Label)
+    tempBetLabel: cc.Label = null;
+
     @property(cc.Node)
     topContainer: cc.Node = null;
 
@@ -494,6 +497,14 @@ export default class Roulette extends GameRoomBase {
         this.totalBetLabel.string = helper.numberWithCommas(total);
 
         this.totalBetLabel.node.runAction(cc.repeat(cc.sequence(
+            cc.scaleTo(0.15, 1.2),
+            cc.scaleTo(0.15, 1.0)
+        ), 2));
+
+        const tempValue = this.sumValueBetChoices(this.tempBetChoices);
+        this.tempBetLabel.string = helper.numberWithCommas(tempValue);
+
+        this.tempBetLabel.node.runAction(cc.repeat(cc.sequence(
             cc.scaleTo(0.15, 1.2),
             cc.scaleTo(0.15, 1.0)
         ), 2));

@@ -394,7 +394,7 @@ export default class RouletteBoard extends cc.Component {
     }
 
     highlightNumbers(numbers: number[]) {
-        this.hideBetDetailTips();
+        // this.hideBetDetailTips();
         this.rouletteNumbers.forEach((number, index) => {
             if (numbers.includes(index)) {
                 number.showHighlight();
@@ -406,6 +406,6 @@ export default class RouletteBoard extends cc.Component {
 
     clearHighlight() {
         this.rouletteNumbers.forEach(number => { number.clearHighlight(); });
-        this.hideBetDetailTips();
+        // this.hideBetDetailTips();
     }
 }
