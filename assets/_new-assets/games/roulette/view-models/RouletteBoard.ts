@@ -117,6 +117,7 @@ export default class RouletteBoard extends cc.Component {
     }
 
     showBetDetailTips() {
+        this.hideBetDetailTips();
         let i = 0;
         for (let type in this.betChoices) {
             for (let key in this.betChoices[type]) {

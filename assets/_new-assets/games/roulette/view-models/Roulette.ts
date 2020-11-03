@@ -325,14 +325,16 @@ export default class Roulette extends GameRoomBase {
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
 
         this.updateTotalBetLabel();
-        this.rouletteMain.board.hideBetDetailTips();
+        // this.rouletteMain.board.hideBetDetailTips();
+        this.rouletteMain.board.showBetDetailTips();
         this.rouletteMain.board.clearHighlight();
     }
 
     clearCurrentBetChoices() {
         this.currentBetChoices = {};
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
-        this.rouletteMain.board.hideBetDetailTips();
+        this.rouletteMain.board.showBetDetailTips();
+        // this.rouletteMain.board.hideBetDetailTips();
     }
 
     checkAvailableBalance(bet: number): boolean {
@@ -506,26 +508,31 @@ export default class Roulette extends GameRoomBase {
     updateBetChoicesOnBoard() {
         const totalBetChoices = this.getCurrentTotalBetChoices();
         this.rouletteMain.board.showBetChoices(totalBetChoices, this.currentBetChoices);
+        this.rouletteMain.board.showBetDetailTips();
         this.updateTotalBetLabel();
     }
 
     updateTotalBetLabel() {
-        const totalBetChoices = this.getCurrentTotalBetChoices();
+        const totalBetChoices = this.currentBetChoices;// this.getCurrentTotalBetChoices();
         const total = this.sumValueBetChoices(totalBetChoices);
-        this.totalBetLabel.string = helper.numberWithCommas(total);
-
-        this.totalBetLabel.node.runAction(cc.repeat(cc.sequence(
-            cc.scaleTo(0.15, 1.2),
-            cc.scaleTo(0.15, 1.0)
-        ), 2));
+        const newTotal = helper.numberWithCommas(total);
+        if (newTotal !== this.totalBetLabel.string) {
+            this.totalBetLabel.string = newTotal;
+            this.totalBetLabel.node.runAction(cc.repeat(cc.sequence(
+                cc.scaleTo(0.15, 1.2),
+                cc.scaleTo(0.15, 1.0)
+            ), 2));
+        }
 
         const tempValue = this.sumValueBetChoices(this.tempBetChoices);
-        this.tempBetLabel.string = helper.numberWithCommas(tempValue);
-
-        this.tempBetLabel.node.runAction(cc.repeat(cc.sequence(
-            cc.scaleTo(0.15, 1.2),
-            cc.scaleTo(0.15, 1.0)
-        ), 2));
+        const newTempValue = helper.numberWithCommas(tempValue);
+        if (this.tempBetLabel.string !== newTempValue) {
+            this.tempBetLabel.string = newTempValue;
+            this.tempBetLabel.node.runAction(cc.repeat(cc.sequence(
+                cc.scaleTo(0.15, 1.2),
+                cc.scaleTo(0.15, 1.0)
+            ), 2));
+        }
     }
 
     onPressedUndo() {
