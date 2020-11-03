@@ -19,6 +19,9 @@ export default class RouletteGroupBetItem extends CustomButton {
     private selectedNumbers: number[] = [];
     private originFrame: cc.SpriteFrame;
 
+    private readonly UNHIGHLIGHTED_TAG = 1;
+    private readonly HIGHLIGHTED_TAG = 2;
+
     public groupBetItemCallback = {
         highlight: (highlight: boolean, numbers: number[]) => { },
         selected: (betType: string, numbers: number[]) => { }
@@ -47,15 +50,23 @@ export default class RouletteGroupBetItem extends CustomButton {
 
     public clearHighlight() {
         if (this.highlight) {
-            this.highlight.stopAllActions();
-            this.highlight.runAction(cc.fadeOut(0.1));
+            if (this.highlight.getActionByTag(this.UNHIGHLIGHTED_TAG)) {
+                return;
+            }
+            const action = cc.fadeOut(0.1);
+            action.setTag(this.UNHIGHLIGHTED_TAG);
+            this.highlight.runAction(action);
         }
     }
 
     public showHighlight() {
         if (this.highlight) {
-            this.highlight.stopAllActions();
-            this.highlight.runAction(cc.fadeIn(0.11));
+            if (this.highlight.getActionByTag(this.HIGHLIGHTED_TAG)) {
+                return;
+            }
+            const action = cc.fadeIn(0.11);
+            action.setTag(this.HIGHLIGHTED_TAG);
+            this.highlight.runAction(action);
         }
     }
 
