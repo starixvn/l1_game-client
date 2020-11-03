@@ -85,7 +85,7 @@ export default class Roulette extends GameRoomBase {
     undoButton: cc.Button = null;
     clearButton: cc.Button = null;
     confirmButton: cc.Button = null;
-    confirmAnimation: cc.Animation = null;
+    confirmGlow: cc.Node = null;
 
     rouletteMain: RouletteMain;
 
@@ -163,13 +163,11 @@ export default class Roulette extends GameRoomBase {
         this.doubleButton.interactable = tempLength > 0;
         this.undoButton.interactable = tempLength > 0;
         if (this.confirmButton.interactable != tempLength > 0) {
-            this.confirmButton.node.stopAllActions();
-            this.confirmAnimation.stop("ConfirmAnimation");
-            const glow = this.confirmAnimation.node.getChildByName("glow");
-            glow && (glow.active = false);
+            this.confirmButton.node.parent.stopAllActions();
+            this.confirmGlow.active = false;
             this.confirmButton.node.scale = 1;
             if (!this.confirmButton.interactable) {
-                cc.tween(this.confirmButton.node)
+                cc.tween(this.confirmButton.node.parent)
                     .repeatForever(
                         cc.tween()
                             .to(0.15, { scale: 0.9 })
@@ -179,10 +177,8 @@ export default class Roulette extends GameRoomBase {
                             .delay(1))
                     .start();
 
-                glow && (glow.active = true);
-                this.confirmAnimation.play("ConfirmAnimation");
+                this.confirmGlow.active = true;
             }
-
         }
         this.confirmButton.interactable = tempLength > 0;
 
@@ -221,7 +217,7 @@ export default class Roulette extends GameRoomBase {
         this.clearButton = this.bottomControls.clearButton;
         this.rebetButton = this.bottomControls.rebetButton;
         this.confirmButton = this.bottomControls.confirmButton;
-        this.confirmAnimation = this.bottomControls.confirmAnimation;
+        this.confirmGlow = this.bottomControls.confirmGlow;
         this.undoButton = this.bottomControls.undoButton;
 
         const topControlsNode = await this.loadResource('TopControls', this.topContainer);

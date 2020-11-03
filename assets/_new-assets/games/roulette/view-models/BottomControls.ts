@@ -29,6 +29,6 @@ export default class BottomControls extends cc.Component {
     @property(cc.Button)
     confirmButton: cc.Button = null;
 
-    @property(cc.Animation)
-    confirmAnimation: cc.Animation = null;
+    @property(cc.Node)
+    confirmGlow: cc.Node = null;
 }
