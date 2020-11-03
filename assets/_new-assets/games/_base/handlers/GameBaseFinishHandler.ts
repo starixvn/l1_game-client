@@ -166,6 +166,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node, duration = 3) {
         var winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
+        winningEffect.name = 'winningEffect';
         playerNode.addChild(winningEffect);
         var animation = winningEffect.getComponent(cc.Animation);
 

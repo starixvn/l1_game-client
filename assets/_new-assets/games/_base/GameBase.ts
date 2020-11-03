@@ -231,7 +231,8 @@ export default class GameBase extends cc.Component {
     }
 
     showWinningBet(bet: number) {
-        GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
+        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
+        winningBet.name = 'winningBet';
     }
 
     setGameRound(gameRoundId) {

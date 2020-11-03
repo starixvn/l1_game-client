@@ -18,6 +18,7 @@ export default class GameUtils {
                 }, temp)
             )
         );
+        return temp.node;
     }
 
     public static getBetChoiceString(choice: string): string {
