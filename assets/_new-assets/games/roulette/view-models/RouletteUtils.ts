@@ -120,25 +120,31 @@ export default class RouletteUtils {
 
     public static createChips(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
         const values = this.getChipValues(bet);
-        const node = new cc.Node();
-        const layoutNode = new cc.Node();
-        layoutNode.y = -13; //half size chip
-        node.addChild(layoutNode);
-        layoutNode.anchorY = 0;
-        const layout = layoutNode.addComponent(cc.Layout);
-        layout.type = cc.Layout.Type.VERTICAL;
-        layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
-        layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
-        layout.spacingY = -22;
-        const keys = Object.keys(values).sort((a, b) => +b - +a);
-        keys.forEach(chip => {
-            const count = values[chip];
-            for (let i = 0; i < count; i++) {
-                const chipNode = this.createChip(+chip, chipAltas, highlight);
-                layoutNode.addChild(chipNode);
-            }
-        });
+        const keys = Object.keys(values).sort((a, b) => +a - +b); // sort ascending by key
+        const key = keys.find(key => values[key] > 0);
+        const chipNode = this.createChip(+key, chipAltas, false);
+        return chipNode;
 
-        return node;
+        // const values = this.getChipValues(bet);
+        // const keys = Object.keys(values).sort((a, b) => +b - +a); // sort descending by key
+        // const node = new cc.Node();
+        // const layoutNode = new cc.Node();
+        // layoutNode.y = -13; //half size chip
+        // node.addChild(layoutNode);
+        // layoutNode.anchorY = 0;
+        // const layout = layoutNode.addComponent(cc.Layout);
+        // layout.type = cc.Layout.Type.VERTICAL;
+        // layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
+        // layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
+        // layout.spacingY = -22;
+        // keys.forEach(chip => {
+        //     const count = values[chip];
+        //     for (let i = 0; i < count; i++) {
+        //         const chipNode = this.createChip(+chip, chipAltas, highlight);
+        //         layoutNode.addChild(chipNode);
+        //     }
+        // });
+
+        // return node;
     }
 }
