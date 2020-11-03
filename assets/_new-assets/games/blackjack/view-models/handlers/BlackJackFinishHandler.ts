@@ -163,7 +163,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
         totalWin > 0 && this.main.showWinningBet(totalWin);
         if (totalWin > totalBet) {
-            this.playWinningEffect(this.main, this.main.userAvatar.node.parent);
+            this.playWinningEffect(this.main, this.main.userAvatar.node.parent, 5);
         }
         cc.RedT.send({
             user: {

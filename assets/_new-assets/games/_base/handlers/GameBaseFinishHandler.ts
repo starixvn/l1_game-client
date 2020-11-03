@@ -164,7 +164,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         hasChip && this.main.betChips.playMultiChipsSound();
     }
 
-    playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node) {
+    playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node, duration = 3) {
         var winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
         playerNode.addChild(winningEffect);
         var animation = winningEffect.getComponent(cc.Animation);
@@ -172,7 +172,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         // console.log("duration anim ", animation.defaultClip.duration);
         winningEffect.runAction(cc.sequence(
             cc.callFunc(() => { animation.play(); }),
-            cc.delayTime(3), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
+            cc.delayTime(duration), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
             cc.callFunc(() => { winningEffect.destroy(); })));
     }
 }
