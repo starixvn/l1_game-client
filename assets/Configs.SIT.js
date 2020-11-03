@@ -7,14 +7,28 @@ const configs = {
   serverGameEndPoints: {
     0: {
       //Main Server
-      subDomain: 'sit-gsr',
+      subDomain: 'uatproxy',
       port: '',
       path: '',
+      proxyRoute: "/sit/main"
     },
     2: {
-      subDomain: 'sitsed',
-      port: '',
-      path: '/user/xocxoc',
+        subDomain: "uatproxy",
+        port: "",
+        path: "/user/xocxoc",
+        proxyRoute: "/sit/sedie/socket.io"
+    },
+    22: {
+        subDomain: "uatproxy",
+        port: "",
+        path: "/user/vipsedie",
+        proxyRoute: "/sit/vipsedie/socket.io"
+    },
+    24: {
+        subDomain: 'uatproxy',
+        port: '',
+        path: '/user/specialsedie',
+        proxyRoute: "/sit/specialsedie/socket.io"
     },
     27: {
       subDomain: 'uatproxy',
