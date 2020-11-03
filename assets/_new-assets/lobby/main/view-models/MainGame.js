@@ -1,4 +1,5 @@
 import baseControll from "../../../BaseController";
+import BaseSocketIOController from "../../../BaseSocketIOController";
 import helper from "../../../common/helpers/Helper";
 import logger from "../../../common/logger";
 import configs from "../../../Configs";
@@ -149,7 +150,10 @@ cc.Class({
   },
   outRoomGame: function () {
     //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
-    return Promise.resolve();
+    return new Promise((resolve) => {
+      BaseSocketIOController.getInstance().closeMiniGameSockets();
+      resolve();
+    });
   },
 
   unAuthorized: function (data) {
