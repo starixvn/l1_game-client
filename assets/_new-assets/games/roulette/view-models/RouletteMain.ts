@@ -29,6 +29,9 @@ export default class RouletteMain extends cc.Component {
     @property(cc.Node)
     backgroundWheel: cc.Node = null;
 
+    @property(cc.Node)
+    newMenuPosition: cc.Node = null;
+
     betList: RouletteBetInfo[] = [];
 
     protected wheelHidePositionY = 1000;

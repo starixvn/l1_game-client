@@ -126,6 +126,7 @@ export default class Roulette extends GameRoomBase {
         this.initMain().then(() => {
             this.initBetBoard();
             super.onLoad();
+            this.currentMiniPanel.miniMenu.position = this.currentMiniPanel.miniMenu.convertToNodeSpaceAR(this.rouletteMain.newMenuPosition.convertToWorldSpaceAR(cc.v2(0, 0)));
             this.updateTotalBetLabel();
             this.updateBetStatus(true);
             this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
@@ -134,6 +135,8 @@ export default class Roulette extends GameRoomBase {
             this.registerViewGame();
             cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
         });
+
+
     }
 
     setGameRound(gameRoundId) {
