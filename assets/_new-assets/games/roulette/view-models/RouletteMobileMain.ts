@@ -14,7 +14,13 @@ export default class RouletteMobileMain extends RouletteMain {
     @property(cc.Node)
     smallRegularBetNode: cc.Node = null;
 
+    @property(cc.Node)
+    switchQuickBetTime: cc.Node = null;
+
     // private quickBetDialog: any;
+    private prevQuickBetPosition = cc.v2();
+    private prevRegularBetPosition = cc.v2();
+    private prevTimePosition = cc.v2();
 
     onLoad() {
         super.onLoad();
@@ -30,6 +36,10 @@ export default class RouletteMobileMain extends RouletteMain {
                 cc.scaleTo(0.8, 1.05).easing(cc.easeSineInOut()),
                 cc.scaleTo(0.8, 1.0).easing(cc.easeSineInOut()))
         ));
+
+        this.prevQuickBetPosition = this.quickBet.node.position;
+        this.prevRegularBetPosition = this.board.node.position;
+        this.prevTimePosition = this.timeWaitNode.parent.position;
     }
 
     enableQuickBet(enable: boolean) {
@@ -45,18 +55,22 @@ export default class RouletteMobileMain extends RouletteMain {
         this.quickBet.node.scale = 0;
 
         cc.tween(this.quickBet.node)
-            .parallel(
-                cc.tween().to(0.2, { opacity: 255 }, { easing: "sineOut" }),
-                cc.tween().to(0.2, { scale: 1 }, { easing: "sineOut" }),
-                cc.tween().to(0.2, { position: cc.v2(0, -74) }, { easing: "sineIn" })
-            )
+            .to(0.2, {
+                opacity: { value: 255, easing: "sineOut" },
+                scale: { value: 1, easing: "sineIn" },
+                position: { value: this.prevQuickBetPosition, easing: "sineIn" }
+            })
             .start();
 
         cc.tween(this.board.node)
-            .parallel(
-                cc.tween().to(0.2, { position: cc.v2(0, this.smallRegularBetNode.y) }, { easing: "sineIn" }),
-                cc.tween().to(0.2, { scale: 0.452 }, { easing: "sineOut" })
-            )
+            .to(0.2, {
+                scale: { value: 0.452, easing: "sineOut" },
+                position: { value: this.smallRegularBetNode.position, easing: "sineIn" }
+            })
+            .start();
+
+        cc.tween(this.timeWaitNode.parent)
+            .to(0.2, { position: this.switchQuickBetTime.position }, { easing: "sineIn" })
             .start();
         // this.quickBetDialog.showDialog();
     }
@@ -70,18 +84,22 @@ export default class RouletteMobileMain extends RouletteMain {
 
         // this.quickBetDialog.closeDialog(false);
         cc.tween(this.quickBet.node)
-            .parallel(
-                cc.tween().to(0.2, { opacity: 0 }, { easing: "sineIn" }),
-                cc.tween().to(0.2, { scale: 0 }, { easing: "sineIn" }),
-                cc.tween().to(0.2, { position: cc.v2(0, this.smallRegularBetNode.y) }, { easing: "sineOut" })
-            )
+            .to(0.2, {
+                opacity: { value: 0, easing: "sineIn" },
+                scale: { value: 0, easing: "sineOut" },
+                position: { value: this.smallRegularBetNode.position, easing: "sineOut" }
+            })
             .start();
 
         cc.tween(this.board.node)
-            .parallel(
-                cc.tween().to(0.2, { position: cc.v2(0, 8) }, { easing: "sineOut" }),
-                cc.tween().to(0.2, { scale: 1 }, { easing: "sineIn" })
-            )
+            .to(0.2, {
+                scale: { value: 1, easing: "sineIn" },
+                position: { value: this.prevRegularBetPosition, easing: "sineOut" }
+            })
+            .start();
+
+        cc.tween(this.timeWaitNode.parent)
+            .to(0.2, { position: this.prevTimePosition }, { easing: "sineOut" })
             .start();
 
     }
