@@ -2,7 +2,7 @@ const configs = {
   ssl: false,
   disabledDirectLogin: true,
   serverDomainMapper: {
-    localhost: 'lumigame.com',
+    localhost: 'localhost',
     '10.5.10.14': 'lumigame.com',
   },
   serverGameEndPoints: {
@@ -26,16 +26,22 @@ const configs = {
       proxyRoute: "/vipsedie/socket.io"
     },
     23: {
-      subDomain: "haproxy",
-      port: "7000",
-      path: "/user/blackjack",
-      proxyRoute: "/blackjack/socket.io"
+      subDomain: 'haproxy',
+      port: '7000',
+      path: '/user/blackjack',
+      proxyRoute: '/blackjack/socket.io',
     },
     24: {
       subDomain: 'haproxy',
       port: 7001,
       path: '/user/specialsedie',
-      proxyRoute: "/specialsedie/socket.io"
+      proxyRoute: '/specialsedie/socket.io',
+    },
+    26: {
+      subDomain: '',
+      port: 8085,
+      path: '/user/vipfishprawncrab',
+      proxyRoute: '',
     },
   },
   sentryUrl: 'https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20',
