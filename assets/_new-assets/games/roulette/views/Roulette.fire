@@ -85,21 +85,18 @@
       },
       {
         "__id__": 108
-      },
-      {
-        "__id__": 110
       }
     ],
     "_active": true,
     "_components": [
       {
+        "__id__": 110
+      },
+      {
+        "__id__": 111
+      },
+      {
         "__id__": 112
-      },
-      {
-        "__id__": 113
-      },
-      {
-        "__id__": 114
       }
     ],
     "_prefab": null,
@@ -189,7 +186,7 @@
       "array": [
         0,
         0,
-        527.4094709047232,
+        420.1711689517282,
         0,
         0,
         0,
@@ -5078,100 +5075,6 @@
     },
     "fileId": "27UWNsfrFLWLhcxXpKtYdl",
     "sync": true
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "mockup",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": false,
-    "_components": [
-      {
-        "__id__": 111
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 100,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 1398,
-      "height": 786
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "ffNhaQSPBOD6EGSOQKA6pA"
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 110
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "8926a3dc-56a5-41b4-89dd-306740763e18"
-    },
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
-    "_id": "c6q/78+pxCEqSDrhS7n8Ia"
   },
   {
     "__type__": "cc.Canvas",
