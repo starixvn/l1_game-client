@@ -271,6 +271,8 @@ export default class RouletteBoard extends cc.Component {
     addBetChoice(betInfo: RouletteBetInfo, bet: number, other = false) {
         const key = RouletteUtils.getKey(betInfo);
         this.addBetChoiceByKey(betInfo.type, key, bet, other);
+
+        this.showBetDetailTips();
     }
 
     addBetChoiceByKey(type: string, key: string, bet: number, other = false) {
