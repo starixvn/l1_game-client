@@ -283,7 +283,7 @@ export default class Roulette extends GameRoomBase {
             }
             this.isPlacingChip = true;
 
-            this.rouletteMain.switchToRegularBet();
+            // this.rouletteMain.switchToRegularBet();
 
             const sum = this.sumValueBetChoices(betChoices);
             if (!this.checkAvailableBalance(sum)) {

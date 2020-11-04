@@ -106,7 +106,7 @@ export default class RouletteBoard extends cc.Component {
     getBetDetail(index: number) {
         if (index >= this.detailTips.length) {
             const tip = cc.instantiate(this.tipPrefab);
-            tip.scale = 1 / this.node.scale;
+            //tip.scale = 1 / this.node.scale;
             this.node.addChild(tip);
             const component = tip.getComponent(BetDetailTip);
             this.detailTips.push(component);
