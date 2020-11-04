@@ -64,7 +64,7 @@ export default class RouletteMain extends cc.Component {
 
         this.backgroundWheel.active = true;
         this.wheel.node.active = true;
-        this.wheel.node.runAction(cc.moveTo(0.5, cc.v2(0, 35)));
+        this.wheel.node.runAction(cc.moveTo(0.5, cc.v2(0, 0)));
     }
 
     hideRoulette() {
