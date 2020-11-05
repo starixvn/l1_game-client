@@ -244,9 +244,9 @@ export default class Roulette extends GameRoomBase {
                 case 0://regular
                     items.push(...[
                         this.roundIdContainer,
-                        this.bottomContainer,
                         this.mainContainer,
                         this.leftContainer,
+                        this.bottomContainer,
                         this.noticeNode,
                     ]);
                     break;
@@ -262,8 +262,8 @@ export default class Roulette extends GameRoomBase {
                 case 2://show results
                     items.push(...[
                         this.roundIdContainer,
-                        this.bottomContainer,
                         this.leftContainer,
+                        this.bottomContainer,
                         this.mainContainer,
                         this.noticeNode,
                     ]);
@@ -272,8 +272,31 @@ export default class Roulette extends GameRoomBase {
                     break;
             }
 
-            items.forEach((item, index) => { item.zIndex = index });
+        } else {
+            switch (type) {
+                case 0:
+                case 1:
+                    items.push(...[
+                        this.roundIdContainer,
+                        this.mainContainer,
+                        this.leftContainer,
+                        this.bottomContainer,
+                        this.noticeNode,
+                    ]);
+                    break;
+                case 2://show results
+                    items.push(...[
+                        this.roundIdContainer,
+                        this.leftContainer,
+                        this.bottomContainer,
+                        this.mainContainer,
+                        this.noticeNode,
+                    ]);
+                default:
+                    break;
+            }
         }
+        items.forEach((item, index) => { item.zIndex = index });
     }
 
     async loadResource(name: string, container: cc.Node) {
