@@ -51,6 +51,7 @@ export default class RouletteBoard extends cc.Component {
 
     onLoad() {
         this.cellSize = new cc.Size(this.gridStartNode.width, this.gridStartNode.height);
+        this.middleCellOffset = this.gridStartNode.getComponent(cc.Widget).bottom;
         this.initGroupBetItems();
         this.rouletteNumbers = this.numberContainer.children.map(child => child.getComponent(RouletteNumber));
 
