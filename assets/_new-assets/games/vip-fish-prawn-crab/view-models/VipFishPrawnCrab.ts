@@ -5,6 +5,7 @@ import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHand
 import VipFishPrawnCrabLogsHandler from "./handlers/VipFishPrawnCrabLogsHandler";
 import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
 import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
+import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
 import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
 
 const { ccclass, property } = cc._decorator;
