@@ -1,13 +1,13 @@
-import * as configs from '../../Configs';
-import { gameIds } from '../../Configs';
-import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
-import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
-import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
-import { RongHoConfigs } from '../../games/rong-ho/view-models/RongHoConfigs';
-import { SpecialSeDieConfigs } from '../../games/special-sedie/view-models/SpecialSeDieConfigs';
-import MiniPanel from './MiniPanel';
-import BaseSocketIOController from '../../BaseSocketIOController';
-import { buildServerUrl } from '../.././common/helpers/UrlHelper';
+import { buildServerUrl } from "../.././common/helpers/UrlHelper";
+import BaseSocketIOController from "../../BaseSocketIOController";
+import * as configs from "../../Configs";
+import ChanLeTurboConfigs from "../../games/chan-le-turbo/view-models/ChanLeTurboConfigs";
+import { ChanLeConfigs } from "../../games/chan-le/view-models/ChanLeConfigs";
+import { MiniSedieConfigs } from "../../games/mini-sedie/viewModels/MiniSedieConfigs";
+import { RongHoConfigs } from "../../games/rong-ho/view-models/RongHoConfigs";
+import { SpecialSeDieConfigs } from "../../games/special-sedie/view-models/SpecialSeDieConfigs";
+import * as SabaConfigs from "../../SabaConfigs";
+import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelMiniGameInitializers {
   constructor(private main: MiniPanel) { }
@@ -69,7 +69,8 @@ export default class MiniPanelMiniGameInitializers {
 
   openGame(id) {
     if (!cc.RedT.isConnected) {
-      const gameName = configs.gameNames[id];
+      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === id);
+      const gameName = SabaConfigs.games[key].name;
       this.main.onConnectSocketFailed(gameName, false);
       return;
     }
@@ -78,28 +79,28 @@ export default class MiniPanelMiniGameInitializers {
 
     id = parseInt(id);
     switch (id) {
-      case configs.gameIds.TaiXiu:
+      case SabaConfigs.games.TaiXiu.id:
         this.openTaiXiu();
         break;
-      case configs.gameIds.BauCua:
+      case SabaConfigs.games.BauCua.id:
         this.openBauCua();
         break;
-      case configs.gameIds.TaiXiuTurbo:
+      case SabaConfigs.games.TaiXiuTurbo.id:
         this.openTaiXiuTurbo();
         break;
-      case configs.gameIds.ChanLe:
+      case SabaConfigs.games.ChanLe.id:
         this.openChanLe();
         break;
-      case configs.gameIds.ChanLeTurbo:
+      case SabaConfigs.games.ChanLeTurbo.id:
         this.openChanLeTurbo();
         break;
-      case configs.gameIds.RongHo:
+      case SabaConfigs.games.RongHo.id:
         this.openRongHo();
         break;
-      case configs.gameIds.MiniSedie:
+      case SabaConfigs.games.MiniSedie.id:
         this.openMiniSedie();
         break;
-      case configs.gameIds.KenoProViet:
+      case SabaConfigs.games.KenoProViet.id:
         this.openKenoProViet();
         break;
       default:
@@ -236,7 +237,8 @@ export default class MiniPanelMiniGameInitializers {
     if (currentSocket && currentSocket.connected) {
       this.openNewSocketGame(gameId);
     } else {
-      const gameName = configs.gameNames[gameId];
+      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === gameId);
+      const gameName = SabaConfigs.games[key].name;
       const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
       const gameServerUrl = buildServerUrl(configs.ssl, 'http', '', gameId);
       const socket = socketIoController.connectGameSocket(
@@ -248,6 +250,9 @@ export default class MiniPanelMiniGameInitializers {
       );
 
       socket.on('signedIn', () => {
+        if (!this.main.node || !this.main.node.isValid) {
+          return;
+        }
         this.openNewSocketGame(gameId);
       });
 
@@ -261,7 +266,7 @@ export default class MiniPanelMiniGameInitializers {
 
   openNewSocketGame(gameId) {
     switch (parseInt(gameId)) {
-      case gameIds.SpecialSeDie:
+      case SabaConfigs.games.SpecialSeDie.id:
         this.openSpecialSeDie();
         break;
       default:

@@ -1,0 +1,99 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "lablepending",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 3,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "paths": {
+      "  Phiên chưa kết thúc ": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "738f51ce-0844-45a1-86d7-ae012530142c"
+                }
+              },
+              {
+                "frame": 1,
+                "value": {
+                  "__uuid__": "ed6404dd-8f26-4677-94b3-5a9593f6fccc"
+                }
+              },
+              {
+                "frame": 2,
+                "value": {
+                  "__uuid__": "ed6404dd-8f26-4677-94b3-5a9593f6fccc"
+                }
+              },
+              {
+                "frame": 2.0166666666666666,
+                "value": {
+                  "__uuid__": "738f51ce-0844-45a1-86d7-ae012530142c"
+                }
+              }
+            ]
+          }
+        },
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.05,
+                "y": 1.05
+              }
+            },
+            {
+              "frame": 1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 1.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.03,
+                "y": 1.03
+              }
+            },
+            {
+              "frame": 2,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.06,
+                "y": 1.06
+              }
+            },
+            {
+              "frame": 3,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

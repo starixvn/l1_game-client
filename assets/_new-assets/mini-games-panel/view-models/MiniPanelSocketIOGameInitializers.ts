@@ -2,6 +2,7 @@ import { buildServerUrl } from "../.././common/helpers/UrlHelper";
 import BaseSocketIOController from "../../BaseSocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
 import * as configs from "./../../Configs";
+import * as SabaConfigs from "./../../SabaConfigs";
 import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelSocketIOGameInitializers {
@@ -26,16 +27,19 @@ export default class MiniPanelSocketIOGameInitializers {
     private openNewSocket(gameId) {
         const socketIoController = BaseSocketIOController.getInstance();
         socketIoController.closeSocket(gameId).then(() => {
-            const gameName = configs.gameNames[gameId];
+            const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === gameId);
+            const gameName = SabaConfigs.games[key].name;
             const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
             const socket = socketIoController.connectGameSocket(gameServerUrl, gameName, proxyRoute, this.main.onConnectSocketFailed.bind(this.main));
             socket.on('message', (data) => {
-                this.main.loading.node.active = false;
                 if (data.um) {
                     socketIoController.closeSocket(gameId);
                 }
-
+                if (!this.main.node.isValid) {
+                    return;
+                }
+                this.main.loading.node.active = false;
                 this.main.onGeneralData(data);
             });
 

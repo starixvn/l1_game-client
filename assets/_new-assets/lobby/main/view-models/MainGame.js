@@ -1,16 +1,16 @@
-import baseControll from '../../../BaseController';
-import BaseSocketIOController from '../../../BaseSocketIOController';
-import helper from '../../../common/helpers/Helper';
-import logger from '../../../common/logger';
-import configs from '../../../Configs';
-import * as authManager from './../../../common/auth/AuthManager';
+import baseControll from "../../../BaseController";
+import BaseSocketIOController from "../../../BaseSocketIOController";
+import GameUtils from "../../../common/GameUtils";
+import helper from "../../../common/helpers/Helper";
+import logger from "../../../common/logger";
+import * as SabaConfigs from "../../../SabaConfigs";
+import * as authManager from "./../../../common/auth/AuthManager";
 
 const sentryLogger = logger();
 
-var header = require('Header'),
-  center = require('Menu'),
-  dialog = require('Dialog'),
-  newsContents = require('NewsContents');
+var header = require("Header"),
+  dialog = require("Dialog"),
+  newsContents = require("NewsContents");
 
 cc.Class({
   extends: cc.Component,
@@ -20,7 +20,7 @@ cc.Class({
       type: cc.Prefab,
     },
     header: header,
-    center: center,
+    center: cc.Node,
     mainScroll: cc.Node,
     gameAds: cc.Node,
     scrollContent: cc.Node,
@@ -101,15 +101,17 @@ cc.Class({
     }
 
     if (cc.RedT.IS_LOGIN) {
-      cc.RedT.send({ scene: 'home' });
+      cc.RedT.send({ scene: "home" });
+      this.getGameNotifications();
       this.header.userName.string = cc.RedT.user.name;
       this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
       this.header.setAvatar(cc.RedT.user.avatarId);
     }
 
-    this.center.node.on('size-changed', this.repositionMenu, this);
+    this.center.on("size-changed", this.repositionMenu, this);
+    this.center.on("scale-changed", this.repositionMenu, this);
     if (!cc.sys.isMobile) {
-      this.center.node.scale = 0.8;
+      this.center.scale = 0.8;
     }
 
     const gameIconLayout = this.mainScroll.getComponent('GameIconLayout');
@@ -121,12 +123,19 @@ cc.Class({
       this.repositionMenu();
     };
   },
+  getGameNotifications() {
+    cc.RedT.send({
+      gameNotifications: {
+        gameId: 23
+      }
+    });
+  },
   repositionMenu() {
     const adsWidth = this.gameAds.width;
     const scrollContentWidth = this.scrollContent.width + adsWidth;
-    const scrollView = this.scrollContent.parent.getComponent(cc.ScrollView);
+    const scrollView = this.mainScroll.getComponent(cc.ScrollView);
     const adsWidget = this.gameAds.getComponent(cc.Widget);
-    if (scrollContentWidth < this.center.node.width) {
+    if (scrollContentWidth < this.center.width) {
       scrollView.enabled = false;
       this.scrollContent.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.scrollContent.position.y);
       adsWidget.enabled = false;
@@ -139,9 +148,9 @@ cc.Class({
   },
   outRoomGame: function () {
     //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
-    return new Promise((resolve)=>{
-        BaseSocketIOController.getInstance().closeMiniGameSockets();
-        resolve();
+    return new Promise((resolve) => {
+      BaseSocketIOController.getInstance().closeMiniGameSockets();
+      resolve();
     });
   },
 
@@ -302,27 +311,19 @@ cc.Class({
     this.dialog.onBack();
     cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
     this.openGameSSO();
+    this.getGameNotifications();
   },
   openGameSSO: function () {
     if (window.openGameId) {
       const gameId = parseInt(window.openGameId);
-
-      if (configs.gameRoomNewSocketIds.includes(gameId)) {
-        cc.RedT.MiniPanel.openNewGameSocket(null, gameId);
-      } else if (configs.gameMiniNewSocketIds.includes(gameId)) {
-        cc.RedT.MiniPanel.openNewSocketMiniGame(null, gameId);
-      } else if (configs.gameRoomIds.includes(gameId)) {
-        cc.RedT.MiniPanel.openGameRoom(null, gameId);
-      } else {
-        cc.RedT.MiniPanel.openGame(null, gameId);
-      }
+      GameUtils.openGame(gameId, cc.RedT.MiniPanel);
       window.openGameId = null;
     }
   },
 
   openInRoomGame(gameId) {
-    if (configs.gameRoomNewSocketIds.includes(parseInt(gameId))) {
-      this.center.openNewGameSocket(null, gameId);
+    if (SabaConfigs.gameRoomNewSocketIds.includes(+gameId)) {
+      cc.RedT.MiniPanel.openNewGameSocket(null, +gameId);
     }
   },
   AllReset: function () {

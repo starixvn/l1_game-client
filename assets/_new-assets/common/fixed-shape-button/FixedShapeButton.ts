@@ -21,4 +21,14 @@ export default class FixedShapeButton extends cc.Button {
 
         super._onTouchBegan(event);
     }
+
+    _onTouchMove(event) {
+        let touch = event.touch;
+        let touchLoc = touch.getLocation();
+        if (!cc.Intersection.pointInPolygon(touchLoc, this.collider.world.points)) {
+            return;
+        }
+
+        super._onTouchMove(event);
+    }
 }

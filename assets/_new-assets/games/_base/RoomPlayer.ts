@@ -1,4 +1,5 @@
-import * as helper from '../../common/helpers/Helper';
+import * as helper from "../../common/helpers/Helper";
+
 const { ccclass, property } = cc._decorator;
 
 export interface PlayerData {
@@ -25,6 +26,7 @@ export default class RoomPlayer extends cc.Component {
     data: PlayerData;
 
     static readonly MAX_IDLE_COUNT: number = 2;
+    static readonly MAX_BALANCE_DISPLAY: number = 9999;
 
     get isIdle() {
         return this.data.idleCount > RoomPlayer.MAX_IDLE_COUNT;
@@ -37,7 +39,7 @@ export default class RoomPlayer extends cc.Component {
         if (data) {
             this.data = data;
             this.node.runAction(cc.fadeTo(1, 255));
-            this.balance.string = (data.red ? helper.numberWithCommas(data.red) : 0).toString();
+            this.setBalance(data.red);
             data.name && (this.nickname.string = data.name.length > 8 ? data.name.substring(0, 7) + "..." : data.name);
             this.setAvatar(data.avatarId);
         } else {
@@ -48,14 +50,18 @@ export default class RoomPlayer extends cc.Component {
 
     setBalance(balance: number) {
         this.data.red = balance ? balance : 0;
-        this.balance.string = helper.numberWithCommas(this.data.red);
+        this.displayBalance(this.data.red);
     }
 
     increaseBalance(money: number) {
         if (money) {
             this.data.red += money;
-            this.balance.string = helper.numberWithCommas(this.data.red);
+            this.displayBalance(this.data.red);
         }
+    }
+
+    displayBalance(balance: number) {
+        this.balance.string = balance > RoomPlayer.MAX_BALANCE_DISPLAY ? `${helper.numberWithCommas(RoomPlayer.MAX_BALANCE_DISPLAY)}+` : helper.numberWithCommas(balance);
     }
 
     setAvatar(avatarId) {

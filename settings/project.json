@@ -3,6 +3,36 @@
   "collision-matrix": [
     [
       true
+    ],
+    [
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
     ]
   ],
   "design-resolution-height": 786,
@@ -26,7 +56,12 @@
   "fit-height": true,
   "fit-width": true,
   "group-list": [
-    "default"
+    "default",
+    "Background",
+    "Game",
+    "UI",
+    "Chip",
+    "HUD"
   ],
   "last-module-event-record-time": 1595830917677,
   "simulator-orientation": false,

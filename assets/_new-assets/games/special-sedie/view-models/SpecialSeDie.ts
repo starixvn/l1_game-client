@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import { gameIds } from "../../../Configs";
+import { games } from "../../../SabaConfigs";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
@@ -20,7 +20,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   get gameId() {
-    return gameIds.SpecialSeDie;
+    return games.SpecialSeDie.id;
   }
 
   @property(cc.Prefab)

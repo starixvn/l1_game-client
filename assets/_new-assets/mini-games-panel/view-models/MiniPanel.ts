@@ -6,8 +6,8 @@ import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
 import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
 import RongHo from "../../games/rong-ho/view-models/RongHo";
 import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
+import * as SabaConfigs from "../../SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
-import * as configs from "./../../Configs";
 import GameIconLayout from "./GameIconLayout";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
@@ -214,13 +214,14 @@ export default class MiniPanel extends cc.Component {
     authManager.removeInRoomGameId();
 
     if (!cc.RedT.isConnected) {
-      const gameName = configs.gameNames[id];
+      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === id);
+      const gameName = SabaConfigs.games[key].name;
       this.onConnectSocketFailed(gameName);
       return;
     }
 
     if (cc.RedT.IS_LOGIN) {
-      const regName = configs.gameRoomRegNames[id];
+      const regName = SabaConfigs.gameRoomRegNames[id];
       this.loading.node.active = true;
       cc.RedT.inGame.outRoomGame().then(() => {
         cc.RedT.send({ g: { reg: regName } });
@@ -253,15 +254,15 @@ export default class MiniPanel extends cc.Component {
     );
   }
 
-  showErrorNotice(error) {
+  showErrorNotice(error): Notice {
     var noticePrefab = cc.instantiate(this.noticePrefab);
-    var notice = noticePrefab.getComponent('Notice');
+    var notice = noticePrefab.getComponent(Notice);
     var message = '';
 
     if (error.gameTypeId) {
-      message += `Game ${configs.gameNames[error.gameTypeId]} (#${
-        error.gameRoundId
-      })\r\n`;
+      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === error.gameTypeId);
+      const gameName = SabaConfigs.games[key].name;
+      message += `Game ${gameName} (#${error.gameRoundId})\r\n`;
     }
 
     message += `${error.message}.`;
@@ -270,8 +271,10 @@ export default class MiniPanel extends cc.Component {
       message += ' Đặt cược thất bại!';
     }
 
-    notice.init({ text: message });
+    notice.init(<NoticeData>{ text: message });
     this.node.addChild(noticePrefab);
+
+    return notice;
   }
 
   showNotice(
@@ -302,6 +305,9 @@ export default class MiniPanel extends cc.Component {
   }
 
   onConnectSocketFailed(gameName, isGameRoom = true) {
+    if (!this.node || !this.node.isValid) {
+      return;
+    }
     let handleCloseNotice = () => isGameRoom && this.redirectToLobby();
 
     this.showNotice(
@@ -349,14 +355,14 @@ export default class MiniPanel extends cc.Component {
 
   public onPrevious() {
     cc.RedT.audio.playClick();
-    const index = this.scrollView.getMinDisplayIndex() - 1;
+    const index = this.scrollView.getMinDisplayIndex() - this.gameIconLayout.displaySize;
     this.scrollView.scrollTo(index < 0 ? 0 : index);
     this.updateArrowVisibility(index);
   }
 
   public onNext() {
     cc.RedT.audio.playClick();
-    const index = this.scrollView.getMinDisplayIndex() + 1;
+    const index = this.scrollView.getMinDisplayIndex() + this.gameIconLayout.displaySize;
     this.scrollView.scrollTo(index);
     this.updateArrowVisibility(index);
   }

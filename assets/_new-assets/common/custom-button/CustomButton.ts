@@ -43,7 +43,7 @@ export default class CustomButton extends cc.Component {
     }
 
     registerEventListener() {
-        this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
+        this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchMove, this);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
@@ -53,7 +53,7 @@ export default class CustomButton extends cc.Component {
     }
 
     clearEvenListener() {
-        this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
+        this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchMove, this);
         this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
@@ -62,22 +62,20 @@ export default class CustomButton extends cc.Component {
         this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
     }
 
-    onTouchStart(e) {
-        if (!this.checkCollider(e)) {
-            return;
-        }
-        this.callback.highlight(true);
+    setHighlight(highlight: boolean) {
+        this.callback.highlight(highlight);
     }
 
     onTouchMove(e) {
         if (!this.checkCollider(e)) {
+            this.setHighlight(false);
             return;
         }
-        this.callback.highlight(true);
+        this.setHighlight(true);
     }
 
     onTouchEnd(e) {
-        this.callback.highlight(false);
+        this.setHighlight(false);
         if (!this.checkCollider(e)) {
             return;
         }
@@ -85,6 +83,6 @@ export default class CustomButton extends cc.Component {
     }
 
     onTouchCancel(e) {
-        this.callback.highlight(false);
+        this.setHighlight(false);
     }
 }

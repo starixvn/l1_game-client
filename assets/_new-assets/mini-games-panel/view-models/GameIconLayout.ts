@@ -1,5 +1,5 @@
 import GameUtils from "../../common/GameUtils";
-import { gameIds } from "../../Configs";
+import { games } from "../../SabaConfigs";
 import MiniPanel from "./MiniPanel";
 
 const { ccclass, property } = cc._decorator;
@@ -14,6 +14,9 @@ export default class GameIconLayout extends cc.Component {
 
   @property
   path = 'minipanel/games';
+
+  @property
+  displaySize = 6;
 
   itemPrefabs: cc.Prefab[] = [];
   gameIds: number[] = [];
@@ -40,43 +43,45 @@ export default class GameIconLayout extends cc.Component {
   constructor() {
     super();
     this.gameIds = [
-      gameIds.VipSedie,
-      gameIds.XocXoc,
-      gameIds.MiniSedie,
-      gameIds.SpecialSeDie,
-      gameIds.TaiXiuTurbo,
-      gameIds.TaiXiu,
-      gameIds.KenoProMax,
-      gameIds.KenoProViet,
-      gameIds.Baccarat,
-      gameIds.Roulette,
-      gameIds.BauCua,
-      gameIds.RongHo,
-      gameIds.ChanLeTurbo,
+      games.VipSedie.id,
+      games.XocXoc.id,
+      games.MiniSedie.id,
+      games.SpecialSeDie.id,
+      games.TaiXiuTurbo.id,
+      games.TaiXiu.id,
+      games.KenoProMax.id,
+      games.KenoProViet.id,
+      games.Baccarat.id,
+      games.Roulette.id,
+      games.BauCua.id,
+      games.RongHo.id,
+      games.ChanLeTurbo.id,
+      games.BlackJack.id,
     ];
   }
 
   async initPrefabs() {
     const nameDict = {};
-    nameDict[gameIds.XocXoc] = 'XocXoc';
-    nameDict[gameIds.TaiXiuTurbo] = 'TaiXiuTurbo';
-    nameDict[gameIds.VipSedie] = 'VipSedie';
-    nameDict[gameIds.TaiXiu] = 'TaiXiu';
-    nameDict[gameIds.MiniSedie] = 'MiniSedie';
-    nameDict[gameIds.KenoProViet] = 'KenoProViet';
-    nameDict[gameIds.KenoProMax] = 'KenoProMax';
-    nameDict[gameIds.Baccarat] = 'Baccarat';
-    nameDict[gameIds.RongHo] = 'RongHo';
-    nameDict[gameIds.ChanLeTurbo] = 'ChanLeTurbo';
-    nameDict[gameIds.BauCua] = 'BauCua';
-    nameDict[gameIds.Roulette] = 'Roulette';
-    nameDict[gameIds.ChanLe] = 'ChanLe';
-    nameDict[gameIds.SpecialSeDie] = 'SpecialSeDie';
+    nameDict[games.XocXoc.id] = 'XocXoc';
+    nameDict[games.TaiXiuTurbo.id] = 'TaiXiuTurbo';
+    nameDict[games.VipSedie.id] = 'VipSedie';
+    nameDict[games.TaiXiu.id] = 'TaiXiu';
+    nameDict[games.MiniSedie.id] = 'MiniSedie';
+    nameDict[games.KenoProViet.id] = 'KenoProViet';
+    nameDict[games.KenoProMax.id] = 'KenoProMax';
+    nameDict[games.Baccarat.id] = 'Baccarat';
+    nameDict[games.RongHo.id] = 'RongHo';
+    nameDict[games.ChanLeTurbo.id] = 'ChanLeTurbo';
+    nameDict[games.BauCua.id] = 'BauCua';
+    nameDict[games.Roulette.id] = 'Roulette';
+    nameDict[games.ChanLe.id] = 'ChanLe';
+    nameDict[games.SpecialSeDie.id] = 'SpecialSeDie';
+    nameDict[games.BlackJack.id] = "BlackJack";
 
     for (let i = 0; i < this.gameIds?.length; i++) {
       const path = `${this.path}/${nameDict[this.gameIds[i]]}`;
       const prefab = await GameUtils.loadResource(path);
-      this.itemPrefabs?.push(prefab);
+      this.itemPrefabs.push(prefab);
     }
   }
 
@@ -101,8 +106,8 @@ export default class GameIconLayout extends cc.Component {
       const gameId = this.gameIds[i];
       const clickEventHandler = new cc.Component.EventHandler();
       clickEventHandler.target = this.node;
-      clickEventHandler.component = 'GameIconLayout';
-      clickEventHandler.handler = 'itemPressed';
+      clickEventHandler.component = "GameIconLayout";
+      clickEventHandler.handler = "itemPressed";
       clickEventHandler.customEventData = gameId.toString();
       const button = item.getComponent(cc.Button);
       button.clickEvents.push(clickEventHandler);
@@ -110,49 +115,8 @@ export default class GameIconLayout extends cc.Component {
   }
 
   itemPressed(event, gameId) {
-    // if (!cc.RedT.user.name) {
-    //   return;
-    // }
+    cc.RedT.audio.playClick();
     const id = +gameId;
-    switch (id) {
-      case gameIds.XocXoc:
-      case gameIds.VipSedie:
-        this.openNewGameSocket(event, gameId);
-        break;
-
-      case gameIds.KenoProMax:
-      case gameIds.Baccarat:
-      case gameIds.Roulette:
-        this.openGameRoom(event, gameId);
-        break;
-
-      case gameIds.SpecialSeDie:
-        this.openNewSocketMiniGame(event, gameId);
-        break;
-
-      default:
-        this.openGameMini(event, gameId);
-        break;
-    }
-  }
-
-  openGameRoom(e, id) {
-    cc.RedT.audio.playClick();
-    this.miniPanel?.openGameRoom(e, id);
-  }
-
-  openGameMini(e, id) {
-    cc.RedT.audio.playClick();
-    this.miniPanel?.openGame(e, id);
-  }
-
-  openNewSocketMiniGame(e, id) {
-    cc.RedT.audio.playClick();
-    this.miniPanel?.openNewSocketMiniGame(e, id);
-  }
-
-  openNewGameSocket(e, gameId) {
-    cc.RedT.audio.playClick();
-    this.miniPanel?.openNewGameSocket(e, gameId);
+    GameUtils.openGame(id, this.miniPanel);
   }
 }

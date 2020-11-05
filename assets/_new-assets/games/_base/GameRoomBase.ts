@@ -1,13 +1,13 @@
-import BaseSocketIOController from '../../BaseSocketIOController';
-import GameUtils from '../../common/GameUtils';
-import { numberWithCommas } from '../../common/helpers/Helper';
-import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
-import UmWarning from '../../common/um-warning/UmWarning';
-import MiniPanel from '../../mini-games-panel/view-models/MiniPanel';
-import GameBase from './GameBase';
-import { GameBaseConfigs } from './GameBaseConfig';
-import { GameBasePlayerHandler } from './handlers/GameBasePlayerHandler';
-import RoomPlayer from './RoomPlayer';
+import BaseSocketIOController from "../../BaseSocketIOController";
+import GameUtils from "../../common/GameUtils";
+import { numberWithCommas } from "../../common/helpers/Helper";
+import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import UmWarning from "../../common/um-warning/UmWarning";
+import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import GameBase from "./GameBase";
+import { GameBaseConfigs } from "./GameBaseConfig";
+import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
+import RoomPlayer from "./RoomPlayer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -158,7 +158,22 @@ export default class GameRoomBase extends GameBase {
     }
 
     showWinningBet(bet: number) {
-        GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, 3, 80, 10);
+        const winningBet = GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, 3, 80, 10);
+        winningBet.name = 'winningBet';
+    }
+
+    clearWinningBet() {
+        const winningBet = this.userAvatar.node.parent.getChildByName('winningBet');
+        if (winningBet) {
+            winningBet.destroy();
+        }
+    }
+
+    clearWinningEffect() {
+        const winningEffect = this.userAvatar.node.parent.getChildByName('winningEffect');
+        if (winningEffect) {
+            winningEffect.destroy();
+        }
     }
 
     protected onGameHide() {

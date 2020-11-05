@@ -1,9 +1,11 @@
-import * as _ from 'lodash';
-import { RouletteBetType, RouletteBetInfo } from './Roulette';
-import RouletteGroupBetItem from './RouletteGroupBetItem';
-import RouletteNumber from './RouletteNumber';
-import RouletteUtils from './RouletteUtils';
-import BetDetailTip from './BetDetailTip';
+import * as _ from "lodash";
+
+import BetDetailTip from "./BetDetailTip";
+import { RouletteBetInfo, RouletteBetType } from "./Roulette";
+import RouletteGroupBetItem from "./RouletteGroupBetItem";
+import RouletteNumber from "./RouletteNumber";
+import RouletteUtils from "./RouletteUtils";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -392,9 +394,13 @@ export default class RouletteBoard extends cc.Component {
     }
 
     highlightNumbers(numbers: number[]) {
-        this.clearHighlight();
-        numbers.forEach(i => {
-            this.rouletteNumbers[i].showHighlight();
+        this.hideBetDetailTips();
+        this.rouletteNumbers.forEach((number, index) => {
+            if (numbers.includes(index)) {
+                number.showHighlight();
+            } else {
+                number.clearHighlight();
+            }
         });
     }
 

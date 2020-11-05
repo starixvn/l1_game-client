@@ -6,7 +6,7 @@ import KenoNumber from './KenoNumber';
 import RoundHistory from './RoundHistory';
 import KenoLogsHandler from './handlers/KenoLogsHandler';
 import KenoRoundResult from "./history/KenoRoundResult";
-import { gameIds } from "../../../Configs";
+import { games } from "../../../SabaConfigs";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,7 +33,7 @@ export default class Keno extends GameRoomBase {
 
     constructor() {
         super();
-        this.init("kenoProMax", new KenoConfigs(), null, 1, gameIds.KenoProMax);
+        this.init("kenoProMax", new KenoConfigs(), null, 1, games.KenoProMax.id);
     }
 
     initHandlers() {

@@ -1,3 +1,4 @@
+import * as SabaConfigs from "../../_new-assets/SabaConfigs";
 import * as helper from "./helpers/Helper";
 
 export default class GameUtils {
@@ -17,6 +18,7 @@ export default class GameUtils {
                 }, temp)
             )
         );
+        return temp.node;
     }
 
     public static getBetChoiceString(choice: string): string {
@@ -54,5 +56,33 @@ export default class GameUtils {
                 resolve(prefab);
             });
         })
+    }
+
+    public static getChipValues(bet: number, options: number[]): any {
+        let total = bet;
+        const values = {};
+        options.forEach(value => {
+            const count = Math.floor(total / value);
+            values[value] = count;
+            total = total % value;
+        });
+        return values;
+    }
+
+    public static openGame(gameId, miniPanel) {
+        if (SabaConfigs.gameRoomNewSocketIds.includes(gameId)) {
+            miniPanel.openNewGameSocket(null, gameId);
+        } else if (SabaConfigs.gameRoomIds.includes(gameId)) {
+            miniPanel.openGameRoom(null, gameId);
+        } else if (SabaConfigs.gameMiniNewSocketIds.includes(gameId)) {
+            miniPanel.openNewSocketMiniGame(null, gameId);
+        } else {
+            miniPanel.openGame(null, gameId);
+        }
+    }
+
+    public static roundFixed(num: number, fixedNumber: number): number {
+        const numToFixedDp = Number(num).toFixed(fixedNumber);
+        return Number(numToFixedDp);
     }
 }

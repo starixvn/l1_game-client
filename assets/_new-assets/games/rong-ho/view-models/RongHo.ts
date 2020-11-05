@@ -3,6 +3,7 @@ import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../../common/GameUtils";
 import * as helper from "../../../common/helpers/Helper";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import NewCard from "../../../common/new-card/view-models/NewCard";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import GameAudios from "../../_base/GameAudios";
@@ -76,14 +77,11 @@ export default class RongHo extends cc.Component {
   @property({ type: RongHoBetItem })
   betItems: RongHoBetItem[] = [];
 
-  @property({ type: cc.Sprite })
-  cards: cc.Sprite[] = [];
+  @property({ type: cc.Node })
+  frontCardNodes: cc.Node[] = [];
 
   @property({ type: cc.Sprite })
   cardBacks: cc.Sprite[] = [];
-
-  @property(cc.SpriteAtlas)
-  cardAtlas: cc.SpriteAtlas = null;
 
   @property(UmWarning)
   umNotice: UmWarning = null;
@@ -96,9 +94,6 @@ export default class RongHo extends cc.Component {
 
   @property(cc.Prefab)
   historyPrefab: cc.Prefab = null;
-
-  @property(cc.Prefab)
-  cardsPrefab: cc.Prefab = null;
 
   @property(cc.Prefab)
   gameAudiosPrefab: cc.Prefab = null;
@@ -136,9 +131,9 @@ export default class RongHo extends cc.Component {
   private statusTimeout: number;
   private cuoc: any;
   private resultAnimating = false;
-  public cardsUtil: any;
   private betChips: BetChips = null;
   private gameAudios: GameAudios;
+  private frontCards: NewCard[] = [];
 
   //#region Public Methods
   public init(miniPanel: MiniPanel, name: string, config: GameBaseConfigs) {
@@ -233,17 +228,12 @@ export default class RongHo extends cc.Component {
   //#endregion
 
   //#region Component Methods
-  onDestroy() {
-    this.cardsUtil.node.destroy();
-  }
-
   onLoad() {
     if (!cc.sys.isMobile) {
       this.node.scale = 0.8;
     }
     this.setOddLabels();
     this.setPhienLabel(0);
-    this.initCards();
     this.animatedTime.node.active = false;
     this.initGameAudios();
     const condition = () => {
@@ -254,17 +244,12 @@ export default class RongHo extends cc.Component {
       );
     };
     this.logControl.init(condition);
+    this.frontCards = this.frontCardNodes.map(card => card.children[0].getComponent(NewCard));
   }
 
   private initGameAudios() {
     var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
     this.gameAudios = gameAudiosNode.getComponent("GameAudios") as GameAudios;
-  }
-
-  private initCards() {
-    var cardsNode = cc.instantiate(this.cardsPrefab);
-    this.cardsUtil = cardsNode.getComponent("Card");
-    this.cardsUtil.init();
   }
 
   onEnable() {
@@ -344,7 +329,7 @@ export default class RongHo extends cc.Component {
       item.clear();
       item.resetHighlight();
     });
-    this.cards.forEach((card) => (card.node.active = false));
+    this.frontCardNodes.forEach((card) => (card.active = false));
     this.cardBacks.forEach((back) => (back.node.scale = 1));
     this.notice.children.forEach((child) => child.destroy());
     this.drawAnimation.stop();
@@ -459,15 +444,19 @@ export default class RongHo extends cc.Component {
 
     if (show) {
       this.resultCards.forEach((data, index) => {
-        var card = this.cards[index];
-        card.node.active = true;
-        card.node.scaleX = 1;
-        card.spriteFrame = this.cardsUtil.getCard(data.card, data.type);
+        var card = this.frontCardNodes[index];
+        card.active = true;
+        card.scaleX = 1;
+        this.frontCards[index].setCardOldStyle({
+          rank: data.card.toString(),
+          suit: data.type
+        });
+        this.frontCards[index].faceUp();
       });
     } else {
-      this.cards.forEach((card, index) => {
-        card.node.scaleX = 0;
-        card.spriteFrame = this.cardsUtil.cardB2;
+      this.frontCardNodes.forEach((card, index) => {
+        card.scaleX = 0;
+        this.frontCards[index].faceDown();
       });
     }
   }
@@ -478,8 +467,11 @@ export default class RongHo extends cc.Component {
     }
 
     this.resultCards.forEach((data, index) => {
-      var card = this.cards[index];
-      card.spriteFrame = this.cardsUtil.getCard(data.card, data.type);
+      this.frontCards[index].setCardOldStyle({
+        rank: data.card.toString(),
+        suit: data.type
+      });
+      this.frontCards[index].faceUp();
     });
   }
 

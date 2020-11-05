@@ -11,12 +11,7 @@ export default class GameBaseConfigsHandler implements DataHandler {
         }
 
         this.main.gameConfigs = data.gameConfigs;
-        data.gameConfigs.odds && this.setOdds(data.gameConfigs.odds);
-
+        this.main.updateDisplayForRemoteConfig();
         return true;
-    }
-
-    private setOdds(oddData: any) {
-        this.main.betItems.forEach(item => item.setOdd(oddData[item.node.name]));
     }
 }
