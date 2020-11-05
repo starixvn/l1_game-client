@@ -34,19 +34,37 @@ export default class RouletteMobileMain extends RouletteMain {
         this.quickBet.node.active = false;
         this.backgroundWheel.active = false;
         this.wheel.node.y = this.wheelHidePositionY;
-        this.quickBetButton.parent.runAction(cc.repeatForever(
-            cc.sequence(
-                cc.scaleTo(0.8, 1.05).easing(cc.easeSineInOut()),
-                cc.scaleTo(0.8, 1.0).easing(cc.easeSineInOut()))
-        ));
-
         this.prevQuickBetPosition = this.quickBet.node.position;
         this.prevRegularBetPosition = this.board.node.position;
         this.prevTimePosition = this.timeWaitNode.parent.position;
     }
 
+    playAnimationSwitchViewButton() {
+        const action = cc.repeatForever(
+            cc.sequence(
+                cc.scaleTo(0.8, 1.05).easing(cc.easeSineInOut()),
+                cc.scaleTo(0.8, 1.0).easing(cc.easeSineInOut()))
+        );
+        action.setTag(1);
+        this.quickBetButton.parent.runAction(action);
+    }
+
+    stopAnimationSwitchViewButton() {
+        this.quickBetButton.parent.scale = 1;
+        this.quickBetButton.parent.stopActionByTag(1);
+    }
+
     enableQuickBet(enable: boolean) {
         this.quickBetButton.getComponent(cc.Button).interactable = enable;
+        const disableSprite = this.quickBetButton.parent.children[2];
+        if (disableSprite) {
+            disableSprite.active = !enable;
+        }
+        if (enable) {
+            this.playAnimationSwitchViewButton();
+        } else {
+            this.stopAnimationSwitchViewButton();
+        }
     }
 
     switchToQuickBet() {
