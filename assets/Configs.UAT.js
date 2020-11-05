@@ -7,14 +7,28 @@ const configs = {
   serverGameEndPoints: {
     0: {
       //Main Server
-      subDomain: 'uat-gsr',
+      subDomain: 'uatproxy',
       port: '',
       path: '',
+      proxyRoute: "/uat/main"
     },
     2: {
-      subDomain: 'uatsed',
-      port: '',
-      path: '/user/xocxoc',
+        subDomain: "uatproxy",
+        port: "",
+        path: "/user/xocxoc",
+        proxyRoute: "/uat/sedie/socket.io"
+    },
+    22: {
+        subDomain: "uatproxy",
+        port: "",
+        path: "/user/vipsedie",
+        proxyRoute: "/uat/vipsedie/socket.io"
+    },
+    24: {
+        subDomain: 'uatproxy',
+        port: '',
+        path: '/user/specialsedie',
+        proxyRoute: "/uat/specialsedie/socket.io"
     },
     27: {
       subDomain: 'uatproxy',
