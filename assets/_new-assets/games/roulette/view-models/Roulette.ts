@@ -247,6 +247,7 @@ export default class Roulette extends GameRoomBase {
                         this.bottomContainer,
                         this.mainContainer,
                         this.leftContainer,
+                        this.noticeNode,
                     ]);
                     break;
                 case 1://quickBet
@@ -255,6 +256,7 @@ export default class Roulette extends GameRoomBase {
                         this.mainContainer,
                         this.bottomContainer,
                         this.roundIdContainer,
+                        this.noticeNode,
                     ]);
                     break;
                 case 2://show results
@@ -263,6 +265,7 @@ export default class Roulette extends GameRoomBase {
                         this.bottomContainer,
                         this.leftContainer,
                         this.mainContainer,
+                        this.noticeNode,
                     ]);
                     break;
                 default:
