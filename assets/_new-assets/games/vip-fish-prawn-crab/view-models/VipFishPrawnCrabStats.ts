@@ -14,12 +14,8 @@ export default class VipFishPrawnCrabStats extends cc.Component {
     @property({ type: cc.Label })
     characterCountLabels: cc.Label[] = [];
 
-    private characterIcons: cc.SpriteFrame[] = [];
-
-    init(characterIcons: cc.SpriteFrame[]) {
-        this.characterIcons = characterIcons;
-    }
-
+    @property({ type: cc.SpriteFrame })
+    characterIcons: cc.SpriteFrame[] = [];
     renderData(roundResults: any[]) {
         const characterCounts = {};
         this.content.removeAllChildren();

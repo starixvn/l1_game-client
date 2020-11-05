@@ -4,7 +4,7 @@ import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
 import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
 import VipFishPrawnCrabLogsHandler from "./handlers/VipFishPrawnCrabLogsHandler";
 import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
-import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
+import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
 import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
 
 const { ccclass, property } = cc._decorator;
@@ -54,8 +54,6 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     initStats() {
         const node = cc.instantiate(this.statsPrefab);
         this.statsComponent = node.getComponent(VipFishPrawnCrabStats);
-        this.statsComponent.init(this.characterIcons);
-
         this.statsContainer.addChild(node);
     }
 
@@ -111,5 +109,12 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
     public updateDisplayForRemoteConfig() {
         // this.gameConfigs.odds && this.betItems.forEach(item => item.setOdd(this.gameConfigs.odds[item.node.name]));
+    }
+
+    openGuide() {
+        let dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(VipFishPrawnCrabGuide);
+        guide.init(this.gameConfigs);
+        this.currentMiniPanel.node.addChild(dialog);
     }
 }
