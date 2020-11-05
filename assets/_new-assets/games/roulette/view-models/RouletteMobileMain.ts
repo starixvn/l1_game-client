@@ -94,7 +94,7 @@ export default class RouletteMobileMain extends RouletteMain {
             .start();
 
         cc.tween(this.timeWaitNode.parent)
-            .to(0.3, { opacity: 0, scale: 0 }, { easing: "circInOut" })
+            .to(0.1, { opacity: 0, scale: 0 }, { easing: "circInOut" })
             .call(() => { this.timeWaitNode.parent.position = this.switchQuickBetTime.position })
             .to(0.3, { opacity: 255, scale: 1 }, { easing: "circInOut" })
             .start();
@@ -129,9 +129,9 @@ export default class RouletteMobileMain extends RouletteMain {
             .start();
 
         cc.tween(this.timeWaitNode.parent)
-            .to(0.3, { opacity: 0, scale: 0 }, { easing: "circInOut" })
+            .to(0.1, { opacity: 0, scale: 0 }, { easing: "circInOut" })
             .call(() => { this.timeWaitNode.parent.position = this.prevTimePosition })
-            .to(0.2, { opacity: 255, scale: 1 }, { easing: "circInOut" })
+            .to(0.3, { opacity: 255, scale: 1 }, { easing: "circInOut" })
             .start();
 
     }
