@@ -25,6 +25,9 @@ export default class RouletteNumber extends cc.Component {
         if (this.highlight.getActionByTag(this.UNHIGHLIGHTED_TAG)) {
             return;
         }
+        if (this.highlight.getActionByTag(this.HIGHLIGHTED_TAG)) {
+            this.highlight.stopActionByTag(this.HIGHLIGHTED_TAG);
+        }
         const action = cc.fadeOut(0.1);
         action.setTag(this.UNHIGHLIGHTED_TAG);
         this.highlight.runAction(action);
@@ -33,6 +36,9 @@ export default class RouletteNumber extends cc.Component {
     public showHighlight() {
         if (this.highlight.getActionByTag(this.HIGHLIGHTED_TAG)) {
             return;
+        }
+        if (this.highlight.getActionByTag(this.UNHIGHLIGHTED_TAG)) {
+            this.highlight.stopActionByTag(this.UNHIGHLIGHTED_TAG);
         }
         const action = cc.fadeIn(0.11);
         action.setTag(this.HIGHLIGHTED_TAG);
