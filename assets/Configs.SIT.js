@@ -9,7 +9,7 @@ const configs = {
       //Main Server
       subDomain: 'uatproxy',
       port: '',
-      path: '',
+      path: '/sit/main',
       proxyRoute: "/sit/main"
     },
     2: {
