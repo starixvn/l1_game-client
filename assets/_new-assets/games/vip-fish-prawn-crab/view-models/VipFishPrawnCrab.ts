@@ -4,6 +4,7 @@ import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
 import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
 import VipFishPrawnCrabLogsHandler from "./handlers/VipFishPrawnCrabLogsHandler";
 import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
+import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
 import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
 
 const { ccclass, property } = cc._decorator;
@@ -32,6 +33,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     statsPrefab: cc.Prefab = null;
 
     private statsComponent: VipFishPrawnCrabStats;
+    private historyComponent: VipFishPrawnCrabHistory;
 
     constructor() {
         super();
@@ -90,6 +92,21 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
         super.resetDataAndUI();
 
         this.openDiskAnimation.node.active = false;
+    }
+
+    openHistory() {
+        let dialog = cc.instantiate(this.historyPrefab);
+        this.historyComponent = dialog.getComponent(VipFishPrawnCrabHistory);
+        this.historyComponent.init(this.socket);
+        this.currentMiniPanel.node.addChild(dialog);
+    }
+
+    onDataGameRoom(data) {
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
+
+        super.onDataGameRoom(data);
     }
 
     public updateDisplayForRemoteConfig() {
