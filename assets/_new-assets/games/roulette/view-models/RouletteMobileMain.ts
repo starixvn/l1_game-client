@@ -17,6 +17,9 @@ export default class RouletteMobileMain extends RouletteMain {
     @property(cc.Node)
     switchQuickBetTime: cc.Node = null;
 
+    @property(cc.Node)
+    switchViewBackground: cc.Node = null;
+
     // private quickBetDialog: any;
     private prevQuickBetPosition = cc.v2();
     private prevRegularBetPosition = cc.v2();
@@ -50,6 +53,7 @@ export default class RouletteMobileMain extends RouletteMain {
         cc.RedT.audio.playClick();
         this.quickBetButton.active = false;
         this.regularBetButton.active = true;
+        this.switchViewBackground.active = true;
         this.quickBet.node.active = true;
         this.quickBet.node.y = this.smallRegularBetNode.y;
         this.quickBet.node.scale = 0;
@@ -81,6 +85,7 @@ export default class RouletteMobileMain extends RouletteMain {
         cc.RedT.audio.playClick();
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
+        this.switchViewBackground.active = false;
 
         // this.quickBetDialog.closeDialog(false);
         cc.tween(this.quickBet.node)

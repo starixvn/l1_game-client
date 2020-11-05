@@ -55,9 +55,6 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    expandedMenuNode: cc.Node = null;
-
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
