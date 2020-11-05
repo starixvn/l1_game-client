@@ -132,8 +132,6 @@ export default class Roulette extends GameRoomBase {
             this.registerViewGame();
             cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
         });
-
-
     }
 
     setGameRound(gameRoundId) {
@@ -197,6 +195,7 @@ export default class Roulette extends GameRoomBase {
     async initMain() {
         const node = await this.loadResource('RouletteMain', this.mainContainer);
         this.rouletteMain = node.getComponent(RouletteMain);
+        this.rouletteMain.rearrangeIndexCallback = (type: number) => this.rearrangeIndex(type);
         this.timeWaitLabel = this.rouletteMain.timeWaitLabel;
         this.timeWaitNode = this.rouletteMain.timeWaitNode;
         this.animatedTime = this.rouletteMain.animatedTime;
@@ -233,8 +232,49 @@ export default class Roulette extends GameRoomBase {
         this.leftControls.homeButton.on('click', this.onCloseGameClick, this);
     }
 
+    isMobile(): boolean {
+        // return true;
+        return cc.sys.isMobile;
+    }
+
+    rearrangeIndex(type: number) {
+        const items = [];
+        if (this.isMobile()) {
+            switch (type) {
+                case 0://regular
+                    items.push(...[
+                        this.roundIdContainer,
+                        this.bottomContainer,
+                        this.mainContainer,
+                        this.leftContainer,
+                    ]);
+                    break;
+                case 1://quickBet
+                    items.push(...[
+                        this.leftContainer,
+                        this.mainContainer,
+                        this.bottomContainer,
+                        this.roundIdContainer,
+                    ]);
+                    break;
+                case 2://show results
+                    items.push(...[
+                        this.roundIdContainer,
+                        this.bottomContainer,
+                        this.leftContainer,
+                        this.mainContainer,
+                    ]);
+                    break;
+                default:
+                    break;
+            }
+
+            items.forEach((item, index) => { item.zIndex = index });
+        }
+    }
+
     async loadResource(name: string, container: cc.Node) {
-        const suffix = cc.sys.isMobile ? `_mobile` : ``;
+        const suffix = this.isMobile() ? `_mobile` : ``;
         const path = `games/roulette/${name}${suffix}`;
         const prefab = await GameUtils.loadResource(path);
         const node = cc.instantiate(prefab);

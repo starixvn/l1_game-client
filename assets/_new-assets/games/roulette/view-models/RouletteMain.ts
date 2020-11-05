@@ -35,6 +35,7 @@ export default class RouletteMain extends cc.Component {
     betList: RouletteBetInfo[] = [];
 
     protected wheelHidePositionY = 1000;
+    public rearrangeIndexCallback = (type: number) => { };
 
     onLoad() {
         this.quickBet.callback.highlight = (highlight, numbers) => {
@@ -57,6 +58,7 @@ export default class RouletteMain extends cc.Component {
     }
 
     showRoulette(result: number, onComplete: () => void) {
+        this.rearrangeIndexCallback(2);
         this.wheel.showResult(result, () => {
             cc.tween(this.node)
                 .call(onComplete)
@@ -75,6 +77,7 @@ export default class RouletteMain extends cc.Component {
         this.wheel.node.runAction(cc.sequence(
             cc.moveTo(0.5, cc.v2(0, this.wheelHidePositionY)),
             cc.callFunc(() => {
+                this.rearrangeIndexCallback(0);
                 this.backgroundWheel.active = false;
                 this.wheel.node.active = false;
             })

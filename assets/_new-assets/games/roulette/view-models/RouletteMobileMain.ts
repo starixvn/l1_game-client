@@ -57,6 +57,7 @@ export default class RouletteMobileMain extends RouletteMain {
         this.quickBet.node.active = true;
         this.quickBet.node.y = this.smallRegularBetNode.y;
         this.quickBet.node.scale = 0;
+        this.rearrangeIndexCallback(1);
 
         cc.tween(this.quickBet.node)
             .to(0.2, {
@@ -86,6 +87,7 @@ export default class RouletteMobileMain extends RouletteMain {
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
         this.switchViewBackground.active = false;
+        this.rearrangeIndexCallback(0);
 
         // this.quickBetDialog.closeDialog(false);
         cc.tween(this.quickBet.node)
