@@ -7,16 +7,13 @@ export default class RouletteResultNumber extends cc.Component {
     @property(cc.Sprite)
     background: cc.Sprite = null;
 
-    @property(cc.SpriteAtlas)
-    backgroundAtlas: cc.SpriteAtlas = null;
-
     @property(cc.Label)
     label: cc.Label = null;
 
     setNumber(number: number) {
         this.label.string = number.toString();
-        const type = number == 0 ? 'green' : (RouletteUtils.isRed(number) ? 'red' : 'black');
-        this.background.spriteFrame = this.backgroundAtlas.getSpriteFrame(`history_number_${type}`);
+        const color = cc.Color.BLACK;
+        this.background.node.color = number == 0 ? color.fromHEX("#145c1c") : (RouletteUtils.isRed(number) ? color.fromHEX("#b80201") : color)
         this.show();
     }
 
