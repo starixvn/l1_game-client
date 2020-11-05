@@ -9,4 +9,8 @@ export default class TopControls extends cc.Component {
 
     @property({ type: cc.Node })
     otherPlayers: cc.Node = null;
+
+    onLoad() {
+        this.players.forEach(player => player.node.active = false);
+    }
 }
