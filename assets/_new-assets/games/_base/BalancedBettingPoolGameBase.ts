@@ -218,8 +218,8 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
 
   closeGame() {
     super.closeGame();
-    this.betBoard.close();
-    this.presetBet.forceClose();
+    this.betBoard && this.betBoard.close();
+    this.presetBet && this.presetBet.forceClose();
   }
 
   enableHistoryButton() {
