@@ -195,7 +195,12 @@ export default class Roulette extends GameRoomBase {
     async initMain() {
         const node = await this.loadResource('RouletteMain', this.mainContainer);
         this.rouletteMain = node.getComponent(RouletteMain);
-        this.rouletteMain.rearrangeIndexCallback = (type: number) => this.rearrangeIndex(type);
+        this.rouletteMain.rearrangeIndexCallback = (type: number) => {
+            this.rearrangeIndex(type);
+            if (type === 1) {//quickBet
+                this.leftControls.collapseMenu();
+            }
+        }
         this.timeWaitLabel = this.rouletteMain.timeWaitLabel;
         this.timeWaitNode = this.rouletteMain.timeWaitNode;
         this.animatedTime = this.rouletteMain.animatedTime;
