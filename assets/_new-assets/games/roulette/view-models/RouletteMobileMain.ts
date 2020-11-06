@@ -32,6 +32,7 @@ export default class RouletteMobileMain extends RouletteMain {
         // this.quickBetDialog = this.quickBet.getComponent("CommonDialog");
         this.quickBet.node.active = false;
         this.backgroundWheel.active = false;
+        this.switchViewBackground.active = false;
         this.wheel.node.y = this.wheelHidePositionY;
         this.prevQuickBetPosition = this.quickBet.node.position;
         this.prevRegularBetPosition = this.board.node.position;
