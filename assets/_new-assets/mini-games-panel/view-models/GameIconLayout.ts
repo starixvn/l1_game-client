@@ -81,7 +81,7 @@ export default class GameIconLayout extends cc.Component {
     for (let i = 0; i < this.gameIds?.length; i++) {
       const path = `${this.path}/${nameDict[this.gameIds[i]]}`;
       const prefab = await GameUtils.loadResource(path);
-      this.itemPrefabs.push(prefab);
+      this.itemPrefabs && this.itemPrefabs.push(prefab);
     }
   }
 
