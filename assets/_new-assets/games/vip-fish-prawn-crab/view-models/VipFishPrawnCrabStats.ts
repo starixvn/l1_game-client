@@ -18,17 +18,21 @@ export default class VipFishPrawnCrabStats extends cc.Component {
 
     @property({ type: cc.SpriteFrame })
     characterIcons: cc.SpriteFrame[] = [];
+
+    @property({ type: cc.SpriteFrame })
+    highlightCharacterIcons: cc.SpriteFrame[] = [];
+
     renderData(roundResults: any[]) {
         const characterCounts = {};
         this.content.removeAllChildren();
 
-        roundResults.forEach((result) => {
+        roundResults.forEach((result, roundIndex) => {
             const node = cc.instantiate(this.itemPrefab);
             const itemComponent = node.getComponent(VipFishPrawnCrabStatsItem);
 
             _.values(result).forEach((character: number, index: number) => {
                 characterCounts[character] = (characterCounts[character] ?? 0) + 1;
-                itemComponent.icons[index].spriteFrame = this.characterIcons[character];
+                itemComponent.icons[index].spriteFrame = roundIndex == 0 ? this.highlightCharacterIcons[character] : this.characterIcons[character];
             });
 
             this.content.addChild(node);
