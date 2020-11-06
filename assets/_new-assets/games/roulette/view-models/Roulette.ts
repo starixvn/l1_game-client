@@ -481,6 +481,7 @@ export default class Roulette extends GameRoomBase {
 
     showWheelResult(result: number, onComplete: () => void) {
         this.rouletteMain.showRoulette(result, onComplete);
+        this.leftControls.collapseMenu();
     }
 
     updateMiniRoundResult(animated = false) {
