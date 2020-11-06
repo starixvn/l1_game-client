@@ -1,11 +1,16 @@
+import * as _ from "lodash";
+
 import { games } from "../../../SabaConfigs";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
 import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
 import VipFishPrawnCrabLogsHandler from "./handlers/VipFishPrawnCrabLogsHandler";
+import VipFishPrawnCrabBetItem from "./VipFishPrawnCrabBetItem";
 import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
+import constants from "./VipFishPrawnCrabConstants";
 import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
 import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
+import VipFishPrawnCrabOddItem from "./VipFishPrawnCrabOddItem";
 import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
 
 const { ccclass, property } = cc._decorator;
@@ -32,6 +37,9 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
     @property(cc.Prefab)
     statsPrefab: cc.Prefab = null;
+
+    @property({ type: VipFishPrawnCrabOddItem })
+    oddItems: VipFishPrawnCrabOddItem[] = [];
 
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
@@ -74,8 +82,18 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     setResult() {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
-            this.setDices(Object.values(result));
-            this.betItems.forEach(betItem => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
+            const resultArray = _.values(result);
+
+            this.setDices(resultArray);
+            this.betItems.forEach((betItem: VipFishPrawnCrabBetItem) => {
+                const choice = betItem.node.name.toLowerCase();
+                betItem.setHighlight(settlementResult[choice], true);
+
+                if (_.keys(constants.resultMapper).indexOf(choice) >= 0) {
+                    const xValue = resultArray.filter(value => value == constants.resultMapper[choice]).length;
+                    xValue > 1 && betItem.setXValue(xValue);
+                }
+            });
             this.updateStats();
         }
     }
@@ -109,7 +127,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     }
 
     public updateDisplayForRemoteConfig() {
-        // this.gameConfigs.odds && this.betItems.forEach(item => item.setOdd(this.gameConfigs.odds[item.node.name]));
+        this.gameConfigs.odds && this.oddItems.forEach(item => item.setValue(this.gameConfigs.odds[item.node.name]));
     }
 
     openGuide() {

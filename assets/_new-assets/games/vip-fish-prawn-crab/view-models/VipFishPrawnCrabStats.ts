@@ -1,3 +1,5 @@
+import * as _ from "lodash";
+
 import VipFishPrawnCrabStatsItem from "./VipFishPrawnCrabStatsItem";
 
 const { ccclass, property } = cc._decorator;
@@ -24,7 +26,7 @@ export default class VipFishPrawnCrabStats extends cc.Component {
             const node = cc.instantiate(this.itemPrefab);
             const itemComponent = node.getComponent(VipFishPrawnCrabStatsItem);
 
-            Object.values(result).forEach((character: number, index: number) => {
+            _.values(result).forEach((character: number, index: number) => {
                 characterCounts[character] = (characterCounts[character] ?? 0) + 1;
                 itemComponent.icons[index].spriteFrame = this.characterIcons[character];
             });
