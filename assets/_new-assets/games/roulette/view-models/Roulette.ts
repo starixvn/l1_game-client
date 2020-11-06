@@ -311,6 +311,7 @@ export default class Roulette extends GameRoomBase {
     initBetBoard() {
         const chipFlyingDuration = 0.3;
         this.rouletteMain.board.callback.selected = (betInfo: RouletteBetInfo) => {
+            this.leftControls.collapseMenu();
             if (this.isDisablePlaceChip()) {
                 return;
             }
@@ -344,6 +345,7 @@ export default class Roulette extends GameRoomBase {
 
         this.rouletteMain.quickBet.callback.getCurrentBet = () => this.currentBet;
         this.rouletteMain.quickBet.callback.selected = (betChoices: any) => {
+            this.leftControls.collapseMenu();
             if (this.isDisablePlaceChip()) {
                 return;
             }
