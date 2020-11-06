@@ -41,6 +41,12 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property({ type: VipFishPrawnCrabOddItem })
     oddItems: VipFishPrawnCrabOddItem[] = [];
 
+    @property(cc.SpriteFrame)
+    x2SpriteFrame: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    x3SpriteFrame: cc.SpriteFrame = null;
+
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
 
@@ -91,7 +97,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
                 if (_.keys(constants.resultMapper).indexOf(choice) >= 0) {
                     const xValue = resultArray.filter(value => value == constants.resultMapper[choice]).length;
-                    xValue > 1 && betItem.setXValue(xValue);
+                    xValue > 1 && betItem.setXSpriteFrame(xValue == 2 ? this.x2SpriteFrame : this.x3SpriteFrame);
                 }
             });
             this.updateStats();
