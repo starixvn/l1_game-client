@@ -12,6 +12,7 @@ import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
 import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
 import VipFishPrawnCrabOddItem from "./VipFishPrawnCrabOddItem";
 import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
+import VipFishPrawnCrabTimeHandler from './handlers/VipFishPrawnCrabTimeHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -47,6 +48,10 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property(cc.SpriteFrame)
     x3SpriteFrame: cc.SpriteFrame = null;
 
+    @property(cc.Animation)
+    shakeAnimation: cc.Animation = null;
+
+
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
 
@@ -62,7 +67,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
     onLoad() {
         super.onLoad();
-
+        this.shakeAnimation.node.active = false;
         this.initStats();
     }
 
@@ -83,6 +88,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
         this.finishHandler = new VipFishPrawnCrabFinishHandler(this);
         this.logsHandler = new VipFishPrawnCrabLogsHandler(this);
         this.betHandler = new VipFishPrawnCrabBetHandler(this);
+        this.timeHandler = new VipFishPrawnCrabTimeHandler(this);
     }
 
     setResult() {

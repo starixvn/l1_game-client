@@ -15,6 +15,7 @@ export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler
 
         cc.tween(this.main.node)
             .call(() => {
+                this.main.shakeAnimation.node.active = false;
                 this.main.openDiskAnimation.node.active = true;
                 this.main.openDiskAnimation.play();
             })

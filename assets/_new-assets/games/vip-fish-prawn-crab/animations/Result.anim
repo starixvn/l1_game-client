@@ -1,0 +1,189 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Result",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 3.533333333333333,
+  "sample": 60,
+  "speed": 1.2,
+  "wrapMode": 0,
+  "curveData": {
+    "paths": {
+      "plate-dia": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.5333333333333333,
+              "value": true
+            }
+          ],
+          "scale": [
+            {
+              "frame": 3.0166666666666666,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 3.533333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.12,
+                "y": 0.12
+              }
+            }
+          ],
+          "position": [
+            {
+              "frame": 0.5333333333333333,
+              "value": [
+                2.285,
+                1.239,
+                0
+              ]
+            },
+            {
+              "frame": 3,
+              "value": [
+                2.285,
+                1.239,
+                0
+              ]
+            },
+            {
+              "frame": 3.533333333333333,
+              "value": [
+                -108,
+                228,
+                0
+              ]
+            }
+          ]
+        }
+      },
+      "plate-bat": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 0.5333333333333333,
+              "value": true
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -101,
+                228
+              ],
+              "curve": "cubicOut",
+              "motionPath": []
+            },
+            {
+              "frame": 0.5333333333333333,
+              "value": [
+                0,
+                51
+              ],
+              "motionPath": [
+                [
+                  2,
+                  173,
+                  2,
+                  102,
+                  2,
+                  232
+                ]
+              ]
+            },
+            {
+              "frame": 1.1833333333333333,
+              "value": [
+                0,
+                311
+              ],
+              "motionPath": []
+            },
+            {
+              "frame": 1.4833333333333334,
+              "value": [
+                0,
+                591
+              ],
+              "motionPath": []
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.12,
+                "y": 0.12
+              }
+            },
+            {
+              "frame": 0.5333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 1.1833333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          ]
+        }
+      },
+      "light": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 1.05,
+              "value": 255
+            },
+            {
+              "frame": 3.0166666666666666,
+              "value": 255
+            },
+            {
+              "frame": 3.216666666666667,
+              "value": 0
+            }
+          ],
+          "angle": [
+            {
+              "frame": 1.05,
+              "value": 0
+            },
+            {
+              "frame": 3.0166666666666666,
+              "value": 90
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}
