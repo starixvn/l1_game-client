@@ -92,7 +92,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
             this.setDices(resultArray);
             this.betItems.forEach((betItem: VipFishPrawnCrabBetItem) => {
-                const choice = betItem.node.name.toLowerCase();
+                const choice = betItem.node.name;
                 betItem.setHighlight(settlementResult[choice], true);
 
                 if (_.keys(constants.resultMapper).indexOf(choice) >= 0) {
