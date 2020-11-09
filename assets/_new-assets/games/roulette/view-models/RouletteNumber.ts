@@ -46,7 +46,7 @@ export default class RouletteNumber extends cc.Component {
     }
 
     public showWinning(animated: boolean) {
-        this.winning && (this.winning.active = animated);
+        this.winning && (this.winning.active = true);
 
         const sprite = this.winning.getComponent(cc.Sprite);
         sprite.spriteFrame = this.originFrame;
