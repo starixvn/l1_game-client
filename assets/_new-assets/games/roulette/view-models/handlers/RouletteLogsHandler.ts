@@ -7,7 +7,7 @@ export default class RouletteLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
-        this.main.updateMiniRoundResult();
+        this.main.updateMiniRoundResult(this.main.currentTimeRemaining > this.main.config.betTime);
         const lastResult = dataLogs[0].result;
         this.main.rouletteMain.wheel.setResult(lastResult);
     }
