@@ -32,8 +32,8 @@ export default class VipFishPrawnCrabBetItem extends BetItem {
         cc.tween(this.highlightBackground)
             .repeatForever(
                 cc.tween()
-                    .to(0.4, { opacity: 150 }, { easing: "cubicInOut" })
-                    .to(0.4, { opacity: 255 }, { easing: "cubicInOut" })
+                    .to(0.2, { opacity: 100 }, { easing: "cubicInOut" })
+                    .to(0.2, { opacity: 255 }, { easing: "cubicInOut" })
             )
             .start();
     }
