@@ -432,6 +432,9 @@ export default class Roulette extends GameRoomBase {
     }
 
     checkAvailableBetChoices(betChoices): boolean {
+        if (!this.gameConfigs) {
+            return false;
+        }
         let totalChoices = {};
         totalChoices = this.mergeBetChoices(totalChoices, this.currentBetChoices);
         totalChoices = this.mergeBetChoices(totalChoices, this.tempBetChoices);
