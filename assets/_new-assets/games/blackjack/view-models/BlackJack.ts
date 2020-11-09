@@ -456,6 +456,7 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     socketSendData(key: string, data: any) {
+        data && (data.username = cc.RedT.user.name);
         this.socket && this.socket.connected && this.socket.emit(key, data);
         this.setIntervalReminder();
     }
