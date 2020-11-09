@@ -32,7 +32,21 @@ export default class VipFishPrawnCrabStats extends cc.Component {
 
             _.values(result).forEach((character: number, index: number) => {
                 characterCounts[character] = (characterCounts[character] ?? 0) + 1;
-                itemComponent.icons[index].spriteFrame = roundIndex == 0 ? this.highlightCharacterIcons[character] : this.characterIcons[character];
+                itemComponent.icons[index].node.stopAllActions();
+
+                if (roundIndex == 0) {
+                    itemComponent.icons[index].spriteFrame = this.highlightCharacterIcons[character];
+                    cc.tween(itemComponent.icons[index].node)
+                        .repeatForever(
+                            cc.tween()
+                                .to(0.2, { scale: 0.94, opacity: 200 }, { easing: "cubicIn" })
+                                .delay(0.1)
+                                .to(0.2, { scale: 1, opacity: 255 }, { easing: "cubicOut" })
+                        )
+                        .start()
+                } else {
+                    itemComponent.icons[index].spriteFrame = this.characterIcons[character];
+                }
             });
 
             this.content.addChild(node);
