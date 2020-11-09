@@ -71,7 +71,7 @@ export default class NewSocketGameBase extends GameRoomBase {
                 amount: this.currentBet,
                 betChoice: event.target.name,
             };
-            this.socket && this.socket.emit("bet", betData);
+            this.socket && this.socket.connected && this.socket.emit("bet", betData);
         }
     }
 
