@@ -70,8 +70,9 @@ export default class NewSocketGameBase extends GameRoomBase {
             const betData = {
                 amount: this.currentBet,
                 betChoice: event.target.name,
+                username: cc.RedT.user.name,
             };
-            this.socket && this.socket.emit("bet", betData);
+            this.socket && this.socket.connected && this.socket.emit("bet", betData);
         }
     }
 

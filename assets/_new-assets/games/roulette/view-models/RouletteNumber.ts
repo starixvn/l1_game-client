@@ -10,6 +10,9 @@ export default class RouletteNumber extends cc.Component {
 
     private originFrame: cc.SpriteFrame;
 
+    private readonly UNHIGHLIGHTED_TAG = 1;
+    private readonly HIGHLIGHTED_TAG = 2;
+
     onLoad() {
         if (this.winning) {
             this.originFrame = this.winning.getComponent(cc.Sprite).spriteFrame;
@@ -19,13 +22,27 @@ export default class RouletteNumber extends cc.Component {
     }
 
     public clearHighlight() {
-        this.highlight.stopAllActions();
-        this.highlight.runAction(cc.fadeOut(0.1));
+        if (this.highlight.getActionByTag(this.UNHIGHLIGHTED_TAG)) {
+            return;
+        }
+        if (this.highlight.getActionByTag(this.HIGHLIGHTED_TAG)) {
+            this.highlight.stopActionByTag(this.HIGHLIGHTED_TAG);
+        }
+        const action = cc.fadeOut(0.1);
+        action.setTag(this.UNHIGHLIGHTED_TAG);
+        this.highlight.runAction(action);
     }
 
     public showHighlight() {
-        this.highlight.stopAllActions();
-        this.highlight.runAction(cc.fadeIn(0.11));
+        if (this.highlight.getActionByTag(this.HIGHLIGHTED_TAG)) {
+            return;
+        }
+        if (this.highlight.getActionByTag(this.UNHIGHLIGHTED_TAG)) {
+            this.highlight.stopActionByTag(this.UNHIGHLIGHTED_TAG);
+        }
+        const action = cc.fadeIn(0.11);
+        action.setTag(this.HIGHLIGHTED_TAG);
+        this.highlight.runAction(action);
     }
 
     public showWinning(animated: boolean) {

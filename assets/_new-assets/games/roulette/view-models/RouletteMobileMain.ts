@@ -12,43 +12,94 @@ export default class RouletteMobileMain extends RouletteMain {
     regularBetButton: cc.Node = null;
 
     @property(cc.Node)
-    backgroundQuickBet: cc.Node = null;
+    smallRegularBetNode: cc.Node = null;
 
     @property(cc.Node)
-    backgroundWheel: cc.Node = null;
+    switchQuickBetTime: cc.Node = null;
 
-    private quickBetDialog: any;
-    private wheelHidePositionY = 1000;
+    @property(cc.Node)
+    switchViewBackground: cc.Node = null;
+
+    // private quickBetDialog: any;
+    private prevQuickBetPosition = cc.v2();
+    private prevRegularBetPosition = cc.v2();
+    private prevTimePosition = cc.v2();
 
     onLoad() {
         super.onLoad();
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
-        this.backgroundQuickBet.active = false;
-        this.quickBetDialog = this.quickBet.getComponent("CommonDialog");
-        this.quickBetDialog.onWillShow = () => this.backgroundQuickBet.active = true;
-        this.quickBetDialog.onDidHide = () => this.backgroundQuickBet.active = false;
-        this.quickBet.node.opacity = 0;
+        // this.quickBetDialog = this.quickBet.getComponent("CommonDialog");
         this.quickBet.node.active = false;
         this.backgroundWheel.active = false;
+        this.switchViewBackground.active = false;
         this.wheel.node.y = this.wheelHidePositionY;
-        this.quickBetButton.parent.runAction(cc.repeatForever(
+        this.prevQuickBetPosition = this.quickBet.node.position;
+        this.prevRegularBetPosition = this.board.node.position;
+        this.prevTimePosition = this.timeWaitNode.parent.position;
+    }
+
+    playAnimationSwitchViewButton() {
+        const action = cc.repeatForever(
             cc.sequence(
                 cc.scaleTo(0.8, 1.05).easing(cc.easeSineInOut()),
                 cc.scaleTo(0.8, 1.0).easing(cc.easeSineInOut()))
-        ));
+        );
+        action.setTag(1);
+        this.quickBetButton.parent.runAction(action);
+    }
+
+    stopAnimationSwitchViewButton() {
+        this.quickBetButton.parent.scale = 1;
+        this.quickBetButton.parent.stopActionByTag(1);
     }
 
     enableQuickBet(enable: boolean) {
         this.quickBetButton.getComponent(cc.Button).interactable = enable;
+        const disableSprite = this.quickBetButton.parent.children[2];
+        if (disableSprite) {
+            disableSprite.active = !enable;
+        }
+        if (enable) {
+            this.playAnimationSwitchViewButton();
+        } else {
+            this.stopAnimationSwitchViewButton();
+        }
     }
 
     switchToQuickBet() {
         cc.RedT.audio.playClick();
         this.quickBetButton.active = false;
         this.regularBetButton.active = true;
+        this.switchViewBackground.active = true;
+        this.quickBet.node.active = true;
+        this.quickBet.node.y = this.smallRegularBetNode.y;
+        this.quickBet.node.scale = 0;
+        this.rearrangeIndexCallback(1);
+        this.quickBet.node.stopAllActions();
+        this.board.node.stopAllActions();
+        this.timeWaitNode.stopAllActions();
 
-        this.quickBetDialog.showDialog();
+        cc.tween(this.quickBet.node)
+            .to(0.3, {
+                scale: { value: 1, easing: "circInOut" },
+                position: { value: this.prevQuickBetPosition, easing: "circInOut" }
+            })
+            .start();
+
+        cc.tween(this.board.node)
+            .to(0.3, {
+                scale: { value: 0.452, easing: "circInOut" },
+                position: { value: this.smallRegularBetNode.position, easing: "circInOut" }
+            })
+            .start();
+
+        cc.tween(this.timeWaitNode.parent)
+            .to(0.1, { opacity: 0, scale: 0 }, { easing: "circInOut" })
+            .call(() => { this.timeWaitNode.parent.position = this.switchQuickBetTime.position })
+            .to(0.3, { opacity: 255, scale: 1 }, { easing: "circInOut" })
+            .start();
+        // this.quickBetDialog.showDialog();
     }
 
     switchToRegularBet() {
@@ -57,31 +108,32 @@ export default class RouletteMobileMain extends RouletteMain {
         cc.RedT.audio.playClick();
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
+        this.switchViewBackground.active = false;
+        this.rearrangeIndexCallback(0);
+        this.quickBet.node.stopAllActions();
+        this.board.node.stopAllActions();
+        this.timeWaitNode.stopAllActions();
 
-        this.quickBetDialog.closeDialog(false);
-    }
+        // this.quickBetDialog.closeDialog(false);
+        cc.tween(this.quickBet.node)
+            .to(0.3, {
+                scale: { value: 0, easing: "circInOut" },
+                position: { value: this.smallRegularBetNode.position, easing: "circInOut" }
+            })
+            .start();
 
-    showRoulette(result: number, onComplete: () => void) {
+        cc.tween(this.board.node)
+            .to(0.3, {
+                scale: { value: 1, easing: "circInOut" },
+                position: { value: this.prevRegularBetPosition, easing: "circInOut" }
+            })
+            .start();
 
-        this.wheel.showResult(result, () => {
-            cc.tween(this.node)
-                .delay(2)
-                .call(() => {
-                    this.hideRoulette();
-                    onComplete();
-                })
-                .start();
-        });
+        cc.tween(this.timeWaitNode.parent)
+            .to(0.1, { opacity: 0, scale: 0 }, { easing: "circInOut" })
+            .call(() => { this.timeWaitNode.parent.position = this.prevTimePosition })
+            .to(0.3, { opacity: 255, scale: 1 }, { easing: "circInOut" })
+            .start();
 
-        this.backgroundWheel.active = true;
-        this.wheel.node.runAction(cc.moveTo(0.5, cc.v2(0, 0)));
-    }
-
-    hideRoulette() {
-        super.hideRoulette();
-        this.wheel.node.runAction(cc.sequence(
-            cc.moveTo(0.5, cc.v2(0, this.wheelHidePositionY)),
-            cc.callFunc(() => this.backgroundWheel.active = false)
-        ));
     }
 }

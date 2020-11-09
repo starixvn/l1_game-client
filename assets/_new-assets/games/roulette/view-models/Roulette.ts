@@ -1,18 +1,22 @@
+import * as _ from "lodash";
+
+import GameUtils from "../../../common/GameUtils";
+import * as helper from "../../../common/helpers/Helper";
+import { games } from "../../../SabaConfigs";
 import GameRoomBase from "../../_base/GameRoomBase";
-import { RouletteConfigs } from "./RouletteConfigs";
-import RouletteMain from "./RouletteMain";
+import BottomControls from "./BottomControls";
+import RouletteBetHandler from "./handlers/RouletteBetHandler";
 import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
 import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
+import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
+import LeftControls from "./LeftControls";
+import { RouletteConfigs } from "./RouletteConfigs";
+import RouletteMain from "./RouletteMain";
 import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteUtils from "./RouletteUtils";
-import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
-import RouletteBetHandler from "./handlers/RouletteBetHandler";
-import * as helper from "../../../common/helpers/Helper";
-import * as _ from "lodash";
-import { games } from "../../../SabaConfigs";
+import TopControls from "./TopControls";
 
 const { ccclass, property } = cc._decorator;
-
 
 export interface RouletteBetInfo {
     type: string;
@@ -39,12 +43,6 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Node)
     mainContainer: cc.Node = null;
 
-    @property(cc.Prefab)
-    mainPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    mobileMainPrefab: cc.Prefab = null;
-
     @property(RouletteMiniRoundResult)
     miniRoundResult: RouletteMiniRoundResult = null;
 
@@ -57,29 +55,34 @@ export default class Roulette extends GameRoomBase {
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    expandedMenuNode: cc.Node = null;
-
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
-    @property(cc.Button)
+    @property(cc.Label)
+    tempBetLabel: cc.Label = null;
+
+    @property(cc.Node)
+    topContainer: cc.Node = null;
+
+    @property(cc.Node)
+    bottomContainer: cc.Node = null;
+
+    @property(cc.Node)
+    leftContainer: cc.Node = null;
+
+    @property(cc.Node)
+    roundIdContainer: cc.Node = null;
+
+    topControls: TopControls = null;
+    bottomControls: BottomControls = null;
+    leftControls: LeftControls = null;
+
     doubleButton: cc.Button = null;
-
-    @property(cc.Button)
     rebetButton: cc.Button = null;
-
-    @property(cc.Button)
     undoButton: cc.Button = null;
-
-    @property(cc.Button)
     clearButton: cc.Button = null;
-
-    @property(cc.Button)
     confirmButton: cc.Button = null;
-
-    @property(cc.Animation)
-    confirmAnimation: cc.Animation = null;
+    confirmGlow: cc.Node = null;
 
     rouletteMain: RouletteMain;
 
@@ -104,13 +107,43 @@ export default class Roulette extends GameRoomBase {
         // this.timeHandler = new KenoTimeHandler(this);
     }
 
+    start() {
+        // dont send until loading resoures done
+        // cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
+    }
+
+
+    onEnable() {
+        // this.startGame();
+        // this.registerViewGame();
+    }
+
     onLoad() {
-        this.initMain();
-        this.initBetBoard();
-        super.onLoad();
-        this.updateTotalBetLabel();
-        this.updateBetStatus(true);
-        this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
+        this.roundIdContainer.opacity = 0;
+        this.initMain().then(() => {
+            this.initBetBoard();
+            super.onLoad();
+            this.updateTotalBetLabel();
+            this.updateBetStatus(true);
+            this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
+
+            this.startGame();
+            this.registerViewGame();
+            cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
+            cc.tween(this.node)
+                .delay(0.1)
+                .call(() => {
+                    const wPosition = this.rouletteMain.newMenuPosition.convertToWorldSpaceAR(cc.v2(0, 0));
+                    const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
+                    this.currentMiniPanel.miniMenu.position = cc.v2(this.currentMiniPanel.miniMenu.position.x, localPosition.y)
+                })
+                .start();
+        });
+    }
+
+    setGameRound(gameRoundId) {
+        super.setGameRound(gameRoundId);
+        this.roundIdContainer.opacity = 255;
     }
 
     onDestroy() {
@@ -135,13 +168,11 @@ export default class Roulette extends GameRoomBase {
         this.doubleButton.interactable = tempLength > 0;
         this.undoButton.interactable = tempLength > 0;
         if (this.confirmButton.interactable != tempLength > 0) {
-            this.confirmButton.node.stopAllActions();
-            this.confirmAnimation.stop("ConfirmAnimation");
-            const glow = this.confirmAnimation.node.getChildByName("glow");
-            glow && (glow.active = false);
+            this.confirmButton.node.parent.stopAllActions();
+            this.confirmGlow.active = false;
             this.confirmButton.node.scale = 1;
             if (!this.confirmButton.interactable) {
-                cc.tween(this.confirmButton.node)
+                cc.tween(this.confirmButton.node.parent)
                     .repeatForever(
                         cc.tween()
                             .to(0.15, { scale: 0.9 })
@@ -151,10 +182,8 @@ export default class Roulette extends GameRoomBase {
                             .delay(1))
                     .start();
 
-                glow && (glow.active = true);
-                this.confirmAnimation.play("ConfirmAnimation");
+                this.confirmGlow.active = true;
             }
-
         }
         this.confirmButton.interactable = tempLength > 0;
 
@@ -164,28 +193,137 @@ export default class Roulette extends GameRoomBase {
         this.confirmButton.node.children[1].active = !this.confirmButton.interactable;
         this.undoButton.node.children[1].active = !this.undoButton.interactable;
         this.rebetButton.node.children[1].active = !this.rebetButton.interactable;
-
-
-
     }
 
     resetDataAndUI() {
         super.resetDataAndUI();
     }
 
-    initMain() {
-        const node = cc.instantiate(cc.sys.isMobile ? this.mobileMainPrefab : this.mainPrefab);
-        // const node = cc.instantiate(this.mobileMainPrefab);
-        this.mainContainer.addChild(node);
+    async initMain() {
+        const node = await this.loadResource('RouletteMain', this.mainContainer);
         this.rouletteMain = node.getComponent(RouletteMain);
+        this.rouletteMain.rearrangeIndexCallback = (type: number) => {
+            this.rearrangeIndex(type);
+            if (type === 1) {//quickBet
+                this.leftControls.collapseMenu();
+            }
+        }
         this.timeWaitLabel = this.rouletteMain.timeWaitLabel;
         this.timeWaitNode = this.rouletteMain.timeWaitNode;
         this.animatedTime = this.rouletteMain.animatedTime;
+
+        const bottomControlsNode = await this.loadResource('BottomControls', this.bottomContainer);
+        this.bottomControls = bottomControlsNode.getComponent(BottomControls);
+        this.bottomControls.doubleButton.node.on('click', this.onPressedDouble, this);
+        this.bottomControls.clearButton.node.on('click', this.onPressedClear, this);
+        this.bottomControls.rebetButton.node.on('click', this.onPressedRebet, this);
+        this.bottomControls.confirmButton.node.on('click', this.onPressedConfirm, this);
+        this.bottomControls.undoButton.node.on('click', this.onPressedUndo, this);
+
+        this.userName = this.bottomControls.userName;
+        this.userBalance = this.bottomControls.userBalance;
+        this.userAvatar = this.bottomControls.userAvatar;
+        this.betChipsContainer = this.bottomControls.betChipsContainer;
+        this.doubleButton = this.bottomControls.doubleButton;
+        this.clearButton = this.bottomControls.clearButton;
+        this.rebetButton = this.bottomControls.rebetButton;
+        this.confirmButton = this.bottomControls.confirmButton;
+        this.confirmGlow = this.bottomControls.confirmGlow;
+        this.undoButton = this.bottomControls.undoButton;
+
+        const topControlsNode = await this.loadResource('TopControls', this.topContainer);
+        this.topControls = topControlsNode.getComponent(TopControls);
+        this.players = this.topControls.players;
+        this.otherPlayers = this.topControls.otherPlayers;
+
+        const leftControlsNode = await this.loadResource('LeftControls', this.leftContainer);
+        this.leftControls = leftControlsNode.getComponent(LeftControls);
+        this.leftControls.guideButton.on('click', this.pressedShowGuide, this);
+        this.leftControls.historyButton.on('click', this.pressedShowHistory, this);
+        this.leftControls.statisticButton.on('click', this.pressedShowStatistic, this);
+        this.leftControls.homeButton.on('click', this.onCloseGameClick, this);
+    }
+
+    isMobile(): boolean {
+        // return true;
+        return cc.sys.isMobile;
+    }
+
+    rearrangeIndex(type: number) {
+        const items = [];
+        if (this.isMobile()) {
+            switch (type) {
+                case 0://regular
+                    items.push(...[
+                        this.roundIdContainer,
+                        this.mainContainer,
+                        this.leftContainer,
+                        this.bottomContainer,
+                        this.noticeNode,
+                    ]);
+                    break;
+                case 1://quickBet
+                    items.push(...[
+                        this.leftContainer,
+                        this.mainContainer,
+                        this.bottomContainer,
+                        this.roundIdContainer,
+                        this.noticeNode,
+                    ]);
+                    break;
+                case 2://show results
+                    items.push(...[
+                        this.roundIdContainer,
+                        this.leftContainer,
+                        this.bottomContainer,
+                        this.mainContainer,
+                        this.noticeNode,
+                    ]);
+                    break;
+                default:
+                    break;
+            }
+
+        } else {
+            switch (type) {
+                case 0:
+                case 1:
+                    items.push(...[
+                        this.roundIdContainer,
+                        this.mainContainer,
+                        this.leftContainer,
+                        this.bottomContainer,
+                        this.noticeNode,
+                    ]);
+                    break;
+                case 2://show results
+                    items.push(...[
+                        this.roundIdContainer,
+                        this.leftContainer,
+                        this.bottomContainer,
+                        this.mainContainer,
+                        this.noticeNode,
+                    ]);
+                default:
+                    break;
+            }
+        }
+        items.forEach((item, index) => { item.zIndex = index });
+    }
+
+    async loadResource(name: string, container: cc.Node) {
+        const suffix = this.isMobile() ? `_mobile` : ``;
+        const path = `games/roulette/${name}${suffix}`;
+        const prefab = await GameUtils.loadResource(path);
+        const node = cc.instantiate(prefab);
+        container.addChild(node);
+        return node;
     }
 
     initBetBoard() {
         const chipFlyingDuration = 0.3;
         this.rouletteMain.board.callback.selected = (betInfo: RouletteBetInfo) => {
+            this.leftControls.collapseMenu();
             if (this.isDisablePlaceChip()) {
                 return;
             }
@@ -219,12 +357,13 @@ export default class Roulette extends GameRoomBase {
 
         this.rouletteMain.quickBet.callback.getCurrentBet = () => this.currentBet;
         this.rouletteMain.quickBet.callback.selected = (betChoices: any) => {
+            this.leftControls.collapseMenu();
             if (this.isDisablePlaceChip()) {
                 return;
             }
             this.isPlacingChip = true;
 
-            this.rouletteMain.switchToRegularBet();
+            // this.rouletteMain.switchToRegularBet();
 
             const sum = this.sumValueBetChoices(betChoices);
             if (!this.checkAvailableBalance(sum)) {
@@ -262,14 +401,16 @@ export default class Roulette extends GameRoomBase {
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
 
         this.updateTotalBetLabel();
-        this.rouletteMain.board.hideBetDetailTips();
+        // this.rouletteMain.board.hideBetDetailTips();
+        this.rouletteMain.board.showBetDetailTips();
         this.rouletteMain.board.clearHighlight();
     }
 
     clearCurrentBetChoices() {
         this.currentBetChoices = {};
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
-        this.rouletteMain.board.hideBetDetailTips();
+        this.rouletteMain.board.showBetDetailTips();
+        // this.rouletteMain.board.hideBetDetailTips();
     }
 
     checkAvailableBalance(bet: number): boolean {
@@ -291,6 +432,9 @@ export default class Roulette extends GameRoomBase {
     }
 
     checkAvailableBetChoices(betChoices): boolean {
+        if (!this.gameConfigs) {
+            return false;
+        }
         let totalChoices = {};
         totalChoices = this.mergeBetChoices(totalChoices, this.currentBetChoices);
         totalChoices = this.mergeBetChoices(totalChoices, this.tempBetChoices);
@@ -354,6 +498,7 @@ export default class Roulette extends GameRoomBase {
 
     showWheelResult(result: number, onComplete: () => void) {
         this.rouletteMain.showRoulette(result, onComplete);
+        this.leftControls.collapseMenu();
     }
 
     updateMiniRoundResult(animated = false) {
@@ -443,18 +588,31 @@ export default class Roulette extends GameRoomBase {
     updateBetChoicesOnBoard() {
         const totalBetChoices = this.getCurrentTotalBetChoices();
         this.rouletteMain.board.showBetChoices(totalBetChoices, this.currentBetChoices);
+        this.rouletteMain.board.showBetDetailTips();
         this.updateTotalBetLabel();
     }
 
     updateTotalBetLabel() {
-        const totalBetChoices = this.getCurrentTotalBetChoices();
+        const totalBetChoices = this.currentBetChoices;// this.getCurrentTotalBetChoices();
         const total = this.sumValueBetChoices(totalBetChoices);
-        this.totalBetLabel.string = helper.numberWithCommas(total);
+        const newTotal = helper.numberWithCommas(total);
+        if (newTotal !== this.totalBetLabel.string) {
+            this.totalBetLabel.string = newTotal;
+            this.totalBetLabel.node.runAction(cc.repeat(cc.sequence(
+                cc.scaleTo(0.15, 1.2),
+                cc.scaleTo(0.15, 1.0)
+            ), 2));
+        }
 
-        this.totalBetLabel.node.runAction(cc.repeat(cc.sequence(
-            cc.scaleTo(0.15, 1.2),
-            cc.scaleTo(0.15, 1.0)
-        ), 2));
+        const tempValue = this.sumValueBetChoices(this.tempBetChoices);
+        const newTempValue = helper.numberWithCommas(tempValue);
+        if (this.tempBetLabel.string !== newTempValue) {
+            this.tempBetLabel.string = newTempValue;
+            this.tempBetLabel.node.runAction(cc.repeat(cc.sequence(
+                cc.scaleTo(0.15, 1.2),
+                cc.scaleTo(0.15, 1.0)
+            ), 2));
+        }
     }
 
     onPressedUndo() {
@@ -530,23 +688,7 @@ export default class Roulette extends GameRoomBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
-    public expandMenu() {
-        if (this.expandedMenuNode.scaleY == 0) {
-            this.expandedMenuNode.runAction(
-                cc.spawn(
-                    cc.fadeIn(0.2),
-                    cc.scaleTo(0.2, 1, 1)
-                ));
-        } else {
-            this.expandedMenuNode.runAction(
-                cc.spawn(
-                    cc.fadeOut(0.1),
-                    cc.scaleTo(0.2, 1, 0)
-                ));
-        }
-    }
-
     protected formatGameRound(gameRoundId: any) {
-        return gameRoundId ? gameRoundId : "";
+        return gameRoundId ? `#${gameRoundId}` : "";
     }
 }

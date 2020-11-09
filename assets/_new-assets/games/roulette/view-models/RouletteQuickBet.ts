@@ -1,7 +1,5 @@
-import RouletteNumber from "./RouletteNumber";
 import RouletteGroupBetItem from "./RouletteGroupBetItem";
-import { RouletteBetInfo, RouletteBetType } from "./Roulette";
-import CustomButton from "../../../common/custom-button/CustomButton";
+import RouletteNumber from "./RouletteNumber";
 import RouletteUtils from "./RouletteUtils";
 
 const { ccclass, property } = cc._decorator;
@@ -160,9 +158,13 @@ export default class RouletteQuickBet extends cc.Component {
     }
 
     highlightNumbers(numbers: number[]) {
-        this.clearHighlight();
-        numbers.forEach(i => {
-            this.rouletteNumbers[i].showHighlight();
+        this.rouletteNumbers.forEach((number, index) => {
+            if (numbers.includes(index)) {
+                number.showHighlight();
+            }
+            else {
+                number.clearHighlight();
+            }
         });
     }
 

@@ -36,7 +36,7 @@ export default class MiniPanelSocketIOGameInitializers {
                 if (data.um) {
                     socketIoController.closeSocket(gameId);
                 }
-                if (!this.main.node.isValid) {
+                if (!this.main.node || !this.main.node.isValid) {
                     return;
                 }
                 this.main.loading.node.active = false;
