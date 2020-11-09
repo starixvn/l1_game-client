@@ -20,6 +20,7 @@ export default class VipFishPrawnCrabTimeHandler extends GameBaseTimeHandler {
         super.handleStartingNewGameRound();
         this.main.shakeAnimation.node.active = true;
         this.main.shakeAnimation.play();
+        this.main.highlightLastResult();
     }
 
     handleInRoundTime() {

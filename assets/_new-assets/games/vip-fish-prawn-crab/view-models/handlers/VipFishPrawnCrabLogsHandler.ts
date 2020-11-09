@@ -8,5 +8,6 @@ export default class VipFishPrawnCrabLogsHandler extends GameBaseLogsHandler {
 
     buildLogs(dataLogs) {
         this.main.updateStats();
+        this.main.highlightLastResult();
     }
 }

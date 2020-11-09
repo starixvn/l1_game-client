@@ -5,6 +5,7 @@ import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
 import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
 import VipFishPrawnCrabLogsHandler from "./handlers/VipFishPrawnCrabLogsHandler";
+import VipFishPrawnCrabTimeHandler from "./handlers/VipFishPrawnCrabTimeHandler";
 import VipFishPrawnCrabBetItem from "./VipFishPrawnCrabBetItem";
 import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
 import constants from "./VipFishPrawnCrabConstants";
@@ -12,7 +13,6 @@ import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
 import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
 import VipFishPrawnCrabOddItem from "./VipFishPrawnCrabOddItem";
 import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
-import VipFishPrawnCrabTimeHandler from './handlers/VipFishPrawnCrabTimeHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -147,5 +147,18 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
         const guide = dialog.getComponent(VipFishPrawnCrabGuide);
         guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
+    }
+
+    public highlightLastResult() {
+        if (this.currentTimeRemaining <= this.config.stopBetTime) {
+            return;
+        }
+        const dataLog = this.currentDataLogs[0];
+
+        if (dataLog) {
+            this.betItems.forEach((betItem) => {
+                betItem.setHighlight(dataLog?.settlementResult[betItem.node.name], false);
+            });
+        }
     }
 }
