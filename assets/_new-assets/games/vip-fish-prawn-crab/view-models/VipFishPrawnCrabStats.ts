@@ -39,7 +39,7 @@ export default class VipFishPrawnCrabStats extends cc.Component {
                     cc.tween(itemComponent.icons[index].node)
                         .repeatForever(
                             cc.tween()
-                                .to(0.2, { scale: 0.94, opacity: 200 }, { easing: "cubicIn" })
+                                .to(0.2, { scale: 0.96, opacity: 200 }, { easing: "cubicIn" })
                                 .delay(0.1)
                                 .to(0.2, { scale: 1, opacity: 255 }, { easing: "cubicOut" })
                         )

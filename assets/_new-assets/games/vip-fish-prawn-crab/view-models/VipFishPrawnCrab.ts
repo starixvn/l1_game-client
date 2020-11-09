@@ -156,8 +156,13 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
         const dataLog = this.currentDataLogs[0];
 
         if (dataLog) {
-            this.betItems.forEach((betItem) => {
-                betItem.setHighlight(dataLog?.settlementResult[betItem.node.name], false);
+            this.betItems.forEach((betItem: VipFishPrawnCrabBetItem) => {
+                const choice = betItem.node.name;
+                betItem.setHighlight(dataLog?.settlementResult[choice], false);
+                if (_.keys(constants.resultMapper).indexOf(choice) >= 0) {
+                    const xValue = _.values(dataLog?.result).filter(value => value == constants.resultMapper[choice]).length;
+                    xValue > 1 && betItem.setXSpriteFrame(xValue == 2 ? this.x2SpriteFrame : this.x3SpriteFrame, false);
+                }
             });
         }
     }
