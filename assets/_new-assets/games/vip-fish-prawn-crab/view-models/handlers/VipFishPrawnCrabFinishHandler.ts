@@ -4,7 +4,7 @@ import VipFishPrawnCrab from "../VipFishPrawnCrab";
 export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler {
 
     constructor(protected readonly main: VipFishPrawnCrab) {
-        super(main, 4);
+        super(main, 3);
     }
 
     handleFinishData(dataFinish, onFinishHandlingData: () => void = null) {

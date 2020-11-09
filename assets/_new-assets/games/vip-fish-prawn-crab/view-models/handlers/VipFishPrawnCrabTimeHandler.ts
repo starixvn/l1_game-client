@@ -2,18 +2,16 @@ import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import VipFishPrawnCrab from "../VipFishPrawnCrab";
 
 export default class VipFishPrawnCrabTimeHandler extends GameBaseTimeHandler {
-    private readonly shakeThePlateTime = 32;
-
     constructor(protected readonly main: VipFishPrawnCrab) {
         super(main);
     }
 
     get isInWaitTime() {
-        return this.main.currentTimeRemaining > this.shakeThePlateTime;
+        return this.main.currentTimeRemaining > this.main.shakeThePlateTime;
     }
 
     get isStartingNewGameRound() {
-        return this.main.currentTimeRemaining == this.shakeThePlateTime;
+        return this.main.currentTimeRemaining == this.main.shakeThePlateTime;
     }
 
     handleStartingNewGameRound() {
@@ -39,21 +37,8 @@ export default class VipFishPrawnCrabTimeHandler extends GameBaseTimeHandler {
         }
     }
 
-    handleWaitTime() {
-        super.handleWaitTime();
-
-        if (this.main.currentTimeRemaining > this.shakeThePlateTime && !this.main.finishShowResult) {
-            this.main.setResult();
-            this.main.shakeAnimation.node.active = false;
-            this.main.openDiskAnimation.node.active = true;
-            var duration = this.main.openDiskAnimation.defaultClip.duration;
-            // this.main.openDiskAnimation.play("Result", duration);
-            this.main.finishShowResult = true;
-        }
-    }
-
     showWaitTime() {
         this.main.timeWaitNode.active = true;
-        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.shakeThePlateTime - 1);
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.shakeThePlateTime - 1);
     }
 }

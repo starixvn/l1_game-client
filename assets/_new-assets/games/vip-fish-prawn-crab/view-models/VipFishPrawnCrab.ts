@@ -18,6 +18,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipFishPrawnCrab extends NewSocketGameBase {
+    public readonly shakeThePlateTime = 32;
+
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
@@ -138,7 +140,6 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     }
 
     resetDataAndUI() {
-        console.log("VipFishPrawnCrab resetDataAndUI");
         super.resetDataAndUI();
 
         this.openDiskAnimation.node.active = false;
