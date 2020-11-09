@@ -138,6 +138,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     }
 
     resetDataAndUI() {
+        console.log("VipFishPrawnCrab resetDataAndUI");
         super.resetDataAndUI();
 
         this.openDiskAnimation.node.active = false;
