@@ -3,7 +3,7 @@ import SpecialSeDie from "../SpecialSeDie";
 
 export default class SpecialSeDieFinishHandler extends GameBaseFinishHandler {
   constructor(protected readonly main: SpecialSeDie) {
-    super(main);
+    super(main, 3);
   }
 
   handleFinishData(dataFinish, onFinishHandlingData: () => void = null) {
