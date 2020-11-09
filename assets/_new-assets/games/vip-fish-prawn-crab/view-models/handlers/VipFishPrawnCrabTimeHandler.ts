@@ -18,8 +18,10 @@ export default class VipFishPrawnCrabTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
+        this.main.finishShakeThePlate = false;
         this.main.shakeAnimation.node.active = true;
         this.main.shakeAnimation.play();
+        this.main.finishShakeThePlate = true;
         this.main.highlightLastResult();
     }
 
@@ -28,6 +30,25 @@ export default class VipFishPrawnCrabTimeHandler extends GameBaseTimeHandler {
 
         if (this.main.currentTimeRemaining <= this.main.config.betTime) {
             this.showRoundTime();
+            if (!this.main.finishShakeThePlate) {
+                this.main.shakeAnimation.node.active = true;
+                const duration = this.main.shakeAnimation.defaultClip.duration;
+                this.main.shakeAnimation.play("Shake", duration);
+                this.main.finishShakeThePlate = true;
+            }
+        }
+    }
+
+    handleWaitTime() {
+        super.handleWaitTime();
+
+        if (this.main.currentTimeRemaining > this.shakeThePlateTime && !this.main.finishShowResult) {
+            this.main.setResult();
+            this.main.shakeAnimation.node.active = false;
+            this.main.openDiskAnimation.node.active = true;
+            var duration = this.main.openDiskAnimation.defaultClip.duration;
+            this.main.openDiskAnimation.play("Result", duration);
+            this.main.finishShowResult = true;
         }
     }
 

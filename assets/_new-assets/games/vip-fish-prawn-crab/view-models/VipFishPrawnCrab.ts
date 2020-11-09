@@ -51,9 +51,24 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property(cc.Animation)
     shakeAnimation: cc.Animation = null;
 
+    @property(cc.Node)
+    displayResultNode: cc.Node = null;
+
+    @property(cc.Label)
+    displayResultLabel: cc.Label = null;
 
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
+
+    public finishShakeThePlate: boolean = false;
+    private resultTextMapper = {
+        0: "Nai",
+        1: "Bầu",
+        2: "Gà",
+        3: "Cá",
+        4: "Cua",
+        5: "Tôm",
+    };
 
     constructor() {
         super();
@@ -111,10 +126,15 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     }
 
     setDices(dices: number[]) {
+        const resultText = [];
+
         dices.forEach((dice, index) => {
             this.dices[index].spriteFrame = this.characterIcons[dice];
             this.dices[index].node.active = true;
+            resultText.push(this.resultTextMapper[dice]);
         });
+
+        this.displayResultLabel.string = resultText.join(" - ");
     }
 
     resetDataAndUI() {
