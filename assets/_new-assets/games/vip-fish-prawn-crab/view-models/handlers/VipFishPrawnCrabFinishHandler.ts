@@ -24,6 +24,7 @@ export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler
             .delay(this.playResultAnimationTime)
             .call(() => {
                 onFinishHandlingData();
+                this.main.highlightWinningBetItems();
                 this.main.updateStats();
             })
             .start();
