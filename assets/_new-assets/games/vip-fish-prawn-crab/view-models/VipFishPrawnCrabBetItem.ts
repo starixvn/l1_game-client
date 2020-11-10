@@ -8,12 +8,9 @@ export default class VipFishPrawnCrabBetItem extends BetItem {
     @property(cc.Sprite)
     xSprite: cc.Sprite = null;
 
-    setXSpriteFrame(spriteFrame: cc.SpriteFrame, opacity: boolean = true) {
+    setXSpriteFrame(spriteFrame: cc.SpriteFrame) {
         this.xSprite.node.active = true;
         this.xSprite.spriteFrame = spriteFrame;
-        if (!opacity) {
-            this.xSprite.node.opacity = 100;
-        }
     }
 
     public resetHighlight() {

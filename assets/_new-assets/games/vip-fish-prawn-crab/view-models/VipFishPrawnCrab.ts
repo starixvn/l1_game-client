@@ -48,7 +48,13 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     x2SpriteFrame: cc.SpriteFrame = null;
 
     @property(cc.SpriteFrame)
+    x2LastSpriteFrame: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
     x3SpriteFrame: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    x3LastSpriteFrame: cc.SpriteFrame = null;
 
     @property(cc.Animation)
     shakeAnimation: cc.Animation = null;
@@ -123,7 +129,6 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
                     xValue > 1 && betItem.setXSpriteFrame(xValue == 2 ? this.x2SpriteFrame : this.x3SpriteFrame);
                 }
             });
-            this.updateStats();
         }
     }
 
@@ -183,7 +188,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
                 betItem.setHighlight(dataLog?.settlementResult[choice], false);
                 if (_.keys(constants.resultMapper).indexOf(choice) >= 0) {
                     const xValue = _.values(dataLog?.result).filter(value => value == constants.resultMapper[choice]).length;
-                    xValue > 1 && betItem.setXSpriteFrame(xValue == 2 ? this.x2SpriteFrame : this.x3SpriteFrame, false);
+                    xValue > 1 && betItem.setXSpriteFrame(xValue == 2 ? this.x2LastSpriteFrame : this.x3LastSpriteFrame);
                 }
             });
         }

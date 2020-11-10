@@ -20,7 +20,10 @@ export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler
                 this.main.openDiskAnimation.play();
             })
             .delay(this.playResultAnimationTime)
-            .call(() => onFinishHandlingData())
+            .call(() => {
+                onFinishHandlingData();
+                this.main.updateStats();
+            })
             .start();
     }
 }
