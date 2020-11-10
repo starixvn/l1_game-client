@@ -1,7 +1,4 @@
-import {
-  getStringDateByTime,
-  numberWithCommas,
-} from "./../../../common/helpers/Helper";
+import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
 import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
 import VipFishPrawnCrabHistoryItem from "./VipFishPrawnCrabHistoryItem";
 
@@ -36,7 +33,7 @@ export default class VipFishPrawnCrabHistory extends cc.Component {
   }
 
   get_data(page = 1) {
-    this.socket.emit("getHistory", { page: page });
+    this.socket && this.socket.connected && this.socket.emit("getHistory", { page: page });
   }
 
   onData(data) {

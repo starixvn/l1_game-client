@@ -24,7 +24,7 @@ export default class SpecialSeDieHistory extends cc.Component {
 
   private socket: SocketIOClient.Socket;
 
-  public handleBetHistory = (roundId) => {};
+  public handleBetHistory = (roundId) => { };
 
   init(socket: SocketIOClient.Socket) {
     this.socket = socket;
@@ -43,7 +43,7 @@ export default class SpecialSeDieHistory extends cc.Component {
   }
 
   get_data(page = 1) {
-    this.socket.emit('getHistory', { page: page });
+    this.socket && this.socket.connected && this.socket.emit('getHistory', { page: page });
   }
 
   onData(data) {
