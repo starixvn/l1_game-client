@@ -94,7 +94,7 @@ const configs = {
     },
     VipFishPrawnCrab: {
       id: 26,
-      name: 'Bàu Cua VIP',
+      name: 'Bầu Cua VIP',
     },
   },
   gameRoomRegNames: {
