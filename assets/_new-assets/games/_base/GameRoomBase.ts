@@ -46,6 +46,8 @@ export default class GameRoomBase extends GameBase {
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
 
+    protected get WinningAnimationDuration() { return 3; }
+
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale: number;
     protected gameId: number;
@@ -158,7 +160,7 @@ export default class GameRoomBase extends GameBase {
     }
 
     showWinningBet(bet: number) {
-        const winningBet = GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, 3, 80, 10);
+        const winningBet = GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, this.WinningAnimationDuration, 80, 10);
         winningBet.name = 'winningBet';
     }
 

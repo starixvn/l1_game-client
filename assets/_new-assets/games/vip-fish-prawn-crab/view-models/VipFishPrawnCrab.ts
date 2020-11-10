@@ -70,6 +70,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
+    protected get WinningAnimationDuration() { return 2; }
 
     public finishShakeThePlate: boolean = false;
     private resultTextMapper = {
@@ -125,6 +126,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
             this.setDices(resultArray);
             this.betItems.forEach((betItem: VipFishPrawnCrabBetItem) => {
                 const choice = betItem.node.name;
+                betItem.xSprite && betItem.hideXSprite();
                 betItem.setHighlight(settlementResult[choice], true);
 
                 if (_.keys(constants.resultMapper).indexOf(choice) >= 0) {

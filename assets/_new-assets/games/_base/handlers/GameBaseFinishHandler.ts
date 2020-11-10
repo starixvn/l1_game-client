@@ -11,6 +11,7 @@ import DataHandler from "./DataHandler";
 
 export default class GameBaseFinishHandler implements DataHandler {
     protected readonly payChipFlyTime = 1.2;
+    protected get WinningAnimationDuration() { return 3; }
 
     constructor(
         protected readonly main: GameBase, protected readonly playResultAnimationTime: number = 0) {
@@ -145,7 +146,7 @@ export default class GameBaseFinishHandler implements DataHandler {
                 });
 
                 playerSlot.increaseBalance(winningPlayerData.bet);
-                GameUtils.addFlyingText(playerSlot.node, true, bet, 3, 0, 10);
+                GameUtils.addFlyingText(playerSlot.node, true, bet, this.WinningAnimationDuration, 0, 10);
                 this.playWinningEffect(mainRoomGame, playerSlot.node);
             }
         });
@@ -164,7 +165,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         hasChip && this.main.betChips.playMultiChipsSound();
     }
 
-    playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node, duration = 3) {
+    playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node, duration = this.WinningAnimationDuration) {
         var winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
         winningEffect.name = 'winningEffect';
         playerNode.addChild(winningEffect);
