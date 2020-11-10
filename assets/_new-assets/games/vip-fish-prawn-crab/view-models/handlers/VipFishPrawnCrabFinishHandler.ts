@@ -6,7 +6,7 @@ export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler
     protected get WinningAnimationDuration() { return 2 };
 
     constructor(protected readonly main: VipFishPrawnCrab) {
-        super(main, 2);
+        super(main, 2.5);
     }
 
     handleFinishData(dataFinish, onFinishHandlingData: () => void = null) {
