@@ -1661,7 +1661,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "gourd",
+    "_name": "stag",
     "_objFlags": 0,
     "_parent": {
       "__id__": 32
@@ -1686,7 +1686,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 40.57,
+      "width": 33.71,
       "height": 42
     },
     "_anchorPoint": {
@@ -1698,7 +1698,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -137,
+        -137.054,
         0,
         0,
         0,
@@ -1729,6 +1729,117 @@
     "_objFlags": 0,
     "node": {
       "__id__": 42
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_useOriginalSize": false,
+    "_string": "NAI",
+    "_N$string": "NAI",
+    "_fontSize": 20,
+    "_lineHeight": 42,
+    "_enableWrapText": true,
+    "_N$file": {
+      "__uuid__": "cafd24ce-1dec-430a-9047-0775cfb46eb6"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "aefe329a-a6dc-4f79-860f-ebfa06aec4aa"
+    },
+    "fileId": "56CYhv5MdOzapCFhTt6nva",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "gourd",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 32
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 46
+      }
+    ],
+    "_prefab": {
+      "__id__": 47
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 244,
+      "g": 223,
+      "b": 109,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 40.57,
+      "height": 42
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -48.905,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Label",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 45
     },
     "_enabled": true,
     "_materials": [
@@ -1772,118 +1883,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "crab",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 32
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 46
-      }
-    ],
-    "_prefab": {
-      "__id__": 47
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 244,
-      "g": 223,
-      "b": 109,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 41.71,
-      "height": 42
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        -49.092,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Label",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 45
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "CUA",
-    "_N$string": "CUA",
-    "_fontSize": 20,
-    "_lineHeight": 42,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "cafd24ce-1dec-430a-9047-0775cfb46eb6"
-    },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "aefe329a-a6dc-4f79-860f-ebfa06aec4aa"
-    },
-    "fileId": "6ftoE1tmBO7KqWdjsQh7hI",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "prawn",
+    "_name": "rooster",
     "_objFlags": 0,
     "_parent": {
       "__id__": 32
@@ -1908,7 +1908,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 44,
+      "width": 28,
       "height": 42
     },
     "_anchorPoint": {
@@ -1920,7 +1920,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        38.031,
+        37.47,
         0,
         0,
         0,
@@ -1961,8 +1961,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "TÔM",
-    "_N$string": "TÔM",
+    "_string": "GÀ",
+    "_N$string": "GÀ",
     "_fontSize": 20,
     "_lineHeight": 42,
     "_enableWrapText": true,
@@ -1989,7 +1989,7 @@
     "asset": {
       "__uuid__": "aefe329a-a6dc-4f79-860f-ebfa06aec4aa"
     },
-    "fileId": "53ieUvcBNNo6iYaCJSn/Ka",
+    "fileId": "7c6jeh9vhCOLUwxGSUgZY5",
     "sync": false
   },
   {
@@ -2031,7 +2031,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        133.9,
+        125.091,
         0,
         0,
         0,
@@ -2105,7 +2105,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "rooster",
+    "_name": "crab",
     "_objFlags": 0,
     "_parent": {
       "__id__": 32
@@ -2130,7 +2130,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 28,
+      "width": 41.71,
       "height": 42
     },
     "_anchorPoint": {
@@ -2142,7 +2142,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        219.532,
+        206.382,
         0,
         0,
         0,
@@ -2183,8 +2183,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "GÀ",
-    "_N$string": "GÀ",
+    "_string": "CUA",
+    "_N$string": "CUA",
     "_fontSize": 20,
     "_lineHeight": 42,
     "_enableWrapText": true,
@@ -2211,12 +2211,12 @@
     "asset": {
       "__uuid__": "aefe329a-a6dc-4f79-860f-ebfa06aec4aa"
     },
-    "fileId": "7c6jeh9vhCOLUwxGSUgZY5",
+    "fileId": "6ftoE1tmBO7KqWdjsQh7hI",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "stag",
+    "_name": "prawn",
     "_objFlags": 0,
     "_parent": {
       "__id__": 32
@@ -2241,7 +2241,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 33.71,
+      "width": 44,
       "height": 42
     },
     "_anchorPoint": {
@@ -2253,7 +2253,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        312.228,
+        287.632,
         0,
         0,
         0,
@@ -2294,8 +2294,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "NAI",
-    "_N$string": "NAI",
+    "_string": "TÔM",
+    "_N$string": "TÔM",
     "_fontSize": 20,
     "_lineHeight": 42,
     "_enableWrapText": true,
@@ -2322,7 +2322,7 @@
     "asset": {
       "__uuid__": "aefe329a-a6dc-4f79-860f-ebfa06aec4aa"
     },
-    "fileId": "56CYhv5MdOzapCFhTt6nva",
+    "fileId": "53ieUvcBNNo6iYaCJSn/Ka",
     "sync": false
   },
   {
@@ -6242,26 +6242,26 @@
       "__id__": 67
     },
     "itemPrefab": {
-      "__uuid__": "1f6e9a33-fa9c-4182-ba12-6b6694aa3643"
+      "__uuid__": "01932f35-c410-47e1-a624-f3262c6c22fa"
     },
     "animalSprites": [
       {
-        "__uuid__": "8946e1bb-49ab-426b-b1d6-2c25a0c36642"
+        "__uuid__": "fa3de714-a7b1-4e2b-a61b-a20788f1ae8a"
       },
       {
-        "__uuid__": "f1cedb23-7a00-48ee-90cb-763bf0f30f7e"
+        "__uuid__": "5f868238-4c38-44f3-86c8-806ab4867b2d"
       },
       {
-        "__uuid__": "6b1c7a07-087b-4bd2-a63e-5b6d9b3d6e96"
+        "__uuid__": "c55bd22f-f950-4676-9e4a-4ac8814b8138"
       },
       {
-        "__uuid__": "0647fb12-b815-446f-8971-41c5fdfbd1c2"
+        "__uuid__": "a60489f5-13d9-4dbf-a383-a8de043f41af"
       },
       {
-        "__uuid__": "08de7603-0890-4ac1-8a1e-4ca13b1348bb"
+        "__uuid__": "3bfa175e-512b-4ed1-9140-bc0daa49244f"
       },
       {
-        "__uuid__": "28372fee-f7de-43cc-be51-409f0edf1d1f"
+        "__uuid__": "93dd2948-cbc4-498c-afad-bfc32b419d61"
       }
     ],
     "_id": ""
