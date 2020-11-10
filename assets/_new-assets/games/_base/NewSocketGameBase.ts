@@ -31,7 +31,7 @@ export default class NewSocketGameBase extends GameRoomBase {
 
     start() {
         cc.RedT.send({ scene: this.gameName });
-        this.socket.emit("inGame");
+        this.socket && this.socket.connected && this.socket.emit("inGame");
     }
 
     onDestroy() {
