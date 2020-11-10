@@ -24,6 +24,11 @@ export default class VipFishPrawnCrabTimeHandler extends GameBaseTimeHandler {
         this.main.highlightLastResult();
     }
 
+    handleInLockBetTime() {
+        super.handleAtLockBetTime();
+        this.main.betItems.forEach((item) => item.resetHighlight());
+    }
+
     handleInRoundTime() {
         this.main.setGameRound(this.main.roundId);
 

@@ -13,10 +13,6 @@ export default class VipFishPrawnCrabBetItem extends BetItem {
         this.xSprite.spriteFrame = spriteFrame;
     }
 
-    hideXSprite() {
-        this.xSprite.node.active = false;
-    }
-
     public resetHighlight() {
         super.resetHighlight();
         if (this.xSprite) {
