@@ -65,6 +65,9 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property(cc.Label)
     displayResultLabel: cc.Label = null;
 
+    @property(cc.AudioSource)
+    shakeAudio: cc.AudioSource = null;
+
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
 

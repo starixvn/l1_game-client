@@ -19,6 +19,7 @@ export default class VipFishPrawnCrabTimeHandler extends GameBaseTimeHandler {
         this.main.finishShakeThePlate = false;
         this.main.shakeAnimation.node.active = true;
         this.main.shakeAnimation.play();
+        this.main.shakeAudio.play();
         this.main.finishShakeThePlate = true;
         this.main.highlightLastResult();
     }
