@@ -96,6 +96,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
         super.onLoad();
         this.shakeAnimation.node.active = false;
         this.initStats();
+        this.animatedTime.setAnimatedY(30, -5);
     }
 
     initStats() {
