@@ -32,7 +32,7 @@ export default class VipFishPrawnCrabBetHandler extends GameBaseBetHandler {
             startNode = this.main.otherPlayers;
             this.updateOtherDataStorage(data);
         }
-        this.main.betChips.placeChipBet(amount, betItem.chipNode, startNode);
+        betItem?.chipNode && this.main.betChips.placeChipBet(amount, betItem.chipNode, startNode);
         this.playerChips.pop();
     }
 }
