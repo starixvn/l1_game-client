@@ -18,7 +18,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipFishPrawnCrab extends NewSocketGameBase {
-    public readonly shakeThePlateTime = 32;
+    public readonly shakeThePlateTime = 33;
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
