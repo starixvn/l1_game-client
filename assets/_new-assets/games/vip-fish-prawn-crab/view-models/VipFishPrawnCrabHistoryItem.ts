@@ -36,5 +36,11 @@ export default class VipFishPrawnCrabHistoryItem extends cc.Component {
     anyTriple: cc.Label = null;
 
     @property(cc.Label)
+    mountain: cc.Label = null;
+
+    @property(cc.Label)
+    ocean: cc.Label = null;
+
+    @property(cc.Label)
     win: cc.Label = null;
 }
