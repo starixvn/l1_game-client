@@ -14,6 +14,9 @@ export default class VipFishPrawnCrabStats extends cc.Component {
     itemPrefab: cc.Prefab = null;
 
     @property(cc.Node)
+    characterView: cc.Node = null;
+
+    @property(cc.Node)
     characterContent: cc.Node = null;
 
     @property(LogControl)
@@ -34,6 +37,8 @@ export default class VipFishPrawnCrabStats extends cc.Component {
     @property(cc.Label)
     oceanPercent: cc.Label = null;
 
+    private isCharacterMode = true;
+
     public init(main: GameBase) {
         const condition = () => {
             const finishHandler = main.finishHandler as GameBaseFinishHandler;
@@ -49,6 +54,7 @@ export default class VipFishPrawnCrabStats extends cc.Component {
 
         const characterCounts = {};
         let mountainCount = 0;
+        let statsData = [];
         this.characterContent.removeAllChildren();
 
         dataLogs.forEach((log, roundIndex) => {
@@ -57,6 +63,7 @@ export default class VipFishPrawnCrabStats extends cc.Component {
             const { result, settlementResult } = log;
 
             mountainCount += settlementResult.mountain ? 1 : 0;
+            statsData.unshift(settlementResult.mountain ? 0 : 1);
 
             _.values(result).forEach((character: number, index: number) => {
                 characterCounts[character] = (characterCounts[character] ?? 0) + 1;
@@ -93,6 +100,7 @@ export default class VipFishPrawnCrabStats extends cc.Component {
         this.mountainPercent.string = `${mountainPercent} %`;
         this.oceanPercent.string = `${100 - mountainPercent} %`;
 
+        this.logControl.setData(statsData);
         this.updateCountLabels(characterCounts);
     }
 
@@ -100,5 +108,12 @@ export default class VipFishPrawnCrabStats extends cc.Component {
         this.characterCountLabels.forEach((label, index) => {
             label.string = characterCounts[index] ?? "0";
         });
+    }
+
+    changeDisplayMode() {
+        this.isCharacterMode = !this.isCharacterMode;
+
+        this.characterView.active = this.isCharacterMode;
+        this.logControl.node.active = !this.isCharacterMode;
     }
 }
