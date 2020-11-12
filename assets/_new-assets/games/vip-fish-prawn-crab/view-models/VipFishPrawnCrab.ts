@@ -102,12 +102,12 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     initStats() {
         const node = cc.instantiate(this.statsPrefab);
         this.statsComponent = node.getComponent(VipFishPrawnCrabStats);
+        this.statsComponent.init(this);
         this.statsContainer.addChild(node);
     }
 
     updateStats() {
-        const roundResults = this.currentDataLogs.map((log) => log.result);
-        this.statsComponent.renderData(roundResults);
+        this.statsComponent.renderData(this.currentDataLogs);
     }
 
     initHandlers() {

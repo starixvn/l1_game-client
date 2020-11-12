@@ -1,5 +1,8 @@
 import * as _ from "lodash";
 
+import GameBase from "../../_base/GameBase";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import LogControl from "../../keno-pro/view-models/LogControl";
 import VipFishPrawnCrabStatsItem from "./VipFishPrawnCrabStatsItem";
 
 const { ccclass, property } = cc._decorator;
@@ -11,7 +14,10 @@ export default class VipFishPrawnCrabStats extends cc.Component {
     itemPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    content: cc.Node = null;
+    characterContent: cc.Node = null;
+
+    @property(LogControl)
+    logControl: LogControl = null;
 
     @property({ type: cc.Label })
     characterCountLabels: cc.Label[] = [];
@@ -22,13 +28,35 @@ export default class VipFishPrawnCrabStats extends cc.Component {
     @property({ type: cc.SpriteFrame })
     highlightCharacterIcons: cc.SpriteFrame[] = [];
 
-    renderData(roundResults: any[]) {
-        const characterCounts = {};
-        this.content.removeAllChildren();
+    @property(cc.Label)
+    mountainPercent: cc.Label = null;
 
-        roundResults.forEach((result, roundIndex) => {
+    @property(cc.Label)
+    oceanPercent: cc.Label = null;
+
+    public init(main: GameBase) {
+        const condition = () => {
+            const finishHandler = main.finishHandler as GameBaseFinishHandler;
+            return main.currentTimeRemaining < main.config.stopBetTime || main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime();
+        }
+        this.logControl.init(condition);
+    }
+
+    renderData(dataLogs: any[]) {
+        if (!dataLogs || !dataLogs.length) {
+            return;
+        }
+
+        const characterCounts = {};
+        let mountainCount = 0;
+        this.characterContent.removeAllChildren();
+
+        dataLogs.forEach((log, roundIndex) => {
             const node = cc.instantiate(this.itemPrefab);
             const itemComponent = node.getComponent(VipFishPrawnCrabStatsItem);
+            const { result, settlementResult } = log;
+
+            mountainCount += settlementResult.mountain ? 1 : 0;
 
             _.values(result).forEach((character: number, index: number) => {
                 characterCounts[character] = (characterCounts[character] ?? 0) + 1;
@@ -53,14 +81,17 @@ export default class VipFishPrawnCrabStats extends cc.Component {
                                 )
                                 .start();
                         }).start();
-
                 } else {
                     itemComponent.icons[index].spriteFrame = this.characterIcons[character];
                 }
             });
 
-            this.content.addChild(node);
+            this.characterContent.addChild(node);
         });
+
+        const mountainPercent = Math.floor(mountainCount * 100 / dataLogs.length);
+        this.mountainPercent.string = `${mountainPercent} %`;
+        this.oceanPercent.string = `${100 - mountainPercent} %`;
 
         this.updateCountLabels(characterCounts);
     }
