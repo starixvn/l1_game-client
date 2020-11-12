@@ -25,6 +25,7 @@ export default class VipFishPrawnCrabGuide extends cc.Component {
             "_oddSingle": odds.single,
             "_oddDouble": odds.double,
             "_oddTriple": odds.triple,
+            "_oddMountain": odds.mountain,
             "_oddAnyTriple": odds.anyTriple,
             "_minBet": numberWithCommas(configs.minbet),
             "_maxBetMain": numberWithCommas(choices_maxbet.fish),
