@@ -246,7 +246,7 @@ export default class MiniPanel extends cc.Component {
       (error, assets) => {
         if (error) {
           this.loading.node.active = false;
-          cc.RedT.MiniPanel.onForceReload();
+          this.onForceReload();
         } else {
           cc.director.loadScene(name);
         }
