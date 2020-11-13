@@ -19,19 +19,4 @@ export default class VipFishPrawnCrabBetItem extends BetItem {
             this.xSprite.node.active = false;
         }
     }
-
-    protected setHighlightItems(highlight: boolean, isAnimated = true) {
-        super.setHighlightItems(highlight, isAnimated);
-        if (this.highlightBackground.active) {
-            this.highlightBorder.active = false;
-        }
-
-        cc.tween(this.highlightBackground)
-            .repeatForever(
-                cc.tween()
-                    .to(0.2, { opacity: 100 }, { easing: "cubicInOut" })
-                    .to(0.2, { opacity: 255 }, { easing: "cubicInOut" })
-            )
-            .start();
-    }
 }
