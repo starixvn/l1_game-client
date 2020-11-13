@@ -13,18 +13,20 @@ export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.setResult();
 
-        cc.tween(this.main.node)
-            .call(() => {
-                this.main.shakeAnimation.node.active = false;
-                this.main.openDiskAnimation.node.active = true;
-                this.main.openDiskAnimation.play();
-            })
-            .delay(this.playResultAnimationTime)
-            .call(() => {
-                onFinishHandlingData();
-                this.main.highlightWinningBetItems();
-                this.main.updateStats();
-            })
-            .start();
+        if (cc.RedT.GAME_IS_SHOWED) {
+            cc.tween(this.main.node)
+                .call(() => {
+                    this.main.shakeAnimation.node.active = false;
+                    this.main.openDiskAnimation.node.active = true;
+                    this.main.openDiskAnimation.play();
+                })
+                .delay(this.playResultAnimationTime)
+                .call(() => {
+                    onFinishHandlingData();
+                    this.main.highlightWinningBetItems();
+                    this.main.updateStats();
+                })
+                .start();
+        }
     }
 }

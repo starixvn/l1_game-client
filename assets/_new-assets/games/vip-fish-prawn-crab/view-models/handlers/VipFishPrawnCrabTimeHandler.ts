@@ -16,12 +16,15 @@ export default class VipFishPrawnCrabTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        this.main.finishShakeThePlate = false;
-        this.main.shakeAnimation.node.active = true;
-        this.main.shakeAnimation.play();
-        cc.RedT.isSoundGame() && this.main.shakeAudio.play();
-        this.main.finishShakeThePlate = true;
         this.main.highlightLastResult();
+
+        if (cc.RedT.GAME_IS_SHOWED) {
+            this.main.finishShakeThePlate = false;
+            this.main.shakeAnimation.node.active = true;
+            this.main.shakeAnimation.play();
+            cc.RedT.isSoundGame() && this.main.shakeAudio.play();
+            this.main.finishShakeThePlate = true;
+        }
     }
 
     handleInLockBetTime() {
