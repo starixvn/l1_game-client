@@ -70,7 +70,6 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
-    protected get WinningAnimationDuration() { return 2; }
 
     public finishShakeThePlate: boolean = false;
     private resultTextMapper = {
