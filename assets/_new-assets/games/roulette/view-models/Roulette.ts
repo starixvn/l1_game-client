@@ -411,6 +411,7 @@ export default class Roulette extends GameRoomBase {
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
         this.rouletteMain.board.showBetDetailTips();
         // this.rouletteMain.board.hideBetDetailTips();
+        this.updateTotalBetLabel();
     }
 
     checkAvailableBalance(bet: number): boolean {

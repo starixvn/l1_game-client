@@ -61,9 +61,9 @@ export default class RouletteMain extends cc.Component {
         this.rearrangeIndexCallback(2);
         this.wheel.showResult(result, () => {
             cc.tween(this.node)
-                .call(onComplete)
                 .delay(2)
                 .call(() => this.hideRoulette())
+                .call(onComplete)
                 .start();
         });
 

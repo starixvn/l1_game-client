@@ -22,7 +22,7 @@ export default class RouletteTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        this.main.updateTotalBetLabel();
+        this.main.clearCurrentBetChoices();
         this.main.rouletteMain.enableQuickBet(true);
         this.main.rouletteMain.board.rouletteNumbers.forEach(n => n.hideWinning());
         this.main.rouletteMain.board.groupItems.forEach(n => n.hideWinning());

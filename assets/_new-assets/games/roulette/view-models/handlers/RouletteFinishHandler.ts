@@ -51,28 +51,28 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
         }
 
         const playerNode = this.main.userAvatar.node.parent;
-        const duration = 0.7;
+        // const duration = 0.7;
 
-        for (let type in data.winningByChoices) {
-            for (let key in data.winningByChoices[type]) {
-                const startNode = this.main.rouletteMain.board.getBetNodeByKey(type, key);
-                this.moveChip(data.winningByChoices[type][key], startNode, playerNode, duration);
+        // for (let type in data.winningByChoices) {
+        //     for (let key in data.winningByChoices[type]) {
+        //         const startNode = this.main.rouletteMain.board.getBetNodeByKey(type, key);
+        //         this.moveChip(data.winningByChoices[type][key], startNode, playerNode, duration);
+        //     }
+        // }
+
+        // cc.tween(this.main)
+        //     .delay(this.payChipFlyTime)
+        //     .call(() => {
+        this.main.showWinningBet(data.bet);
+        this.playWinningEffect(this.main, playerNode);
+
+        cc.RedT.send({
+            user: {
+                updateCoin: true
             }
-        }
-
-        cc.tween(this.main)
-            .delay(this.payChipFlyTime)
-            .call(() => {
-                this.main.showWinningBet(data.bet);
-                this.playWinningEffect(this.main, playerNode);
-
-                cc.RedT.send({
-                    user: {
-                        updateCoin: true
-                    }
-                });
-            })
-            .start();
+        });
+        // })
+        // .start();
     }
 
     payChipsFromBetChoices(winningPlayers: any) {
@@ -95,12 +95,12 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
                 destNode = this.main.otherPlayers;
             }
 
-            for (let type in data.winningByChoices) {
-                for (let key in data.winningByChoices[type]) {
-                    const startNode = this.main.rouletteMain.board.getBetNodeByKey(type, key);
-                    this.moveChip(data.winningByChoices[type][key], startNode, destNode, duration);
-                }
-            }
+            // for (let type in data.winningByChoices) {
+            //     for (let key in data.winningByChoices[type]) {
+            //         const startNode = this.main.rouletteMain.board.getBetNodeByKey(type, key);
+            //         this.moveChip(data.winningByChoices[type][key], startNode, destNode, duration);
+            //     }
+            // }
         }
     }
 
@@ -109,7 +109,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             this.main.currentDataLogs.unshift(dataFinish);
             this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
             this.main.updateMiniRoundResult(true);
-            this.main.clearCurrentBetChoices();
+            // this.main.clearCurrentBetChoices();
             this.main.rouletteMain.board.clearOtherBetChoices();
             onFinishHanlingData();
         });
