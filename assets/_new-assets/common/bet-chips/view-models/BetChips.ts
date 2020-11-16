@@ -325,6 +325,7 @@ export default class BetChips extends cc.Component {
 
     public createChip(bet: number): cc.Sprite {
         const chip = new cc.Node();
+        chip.group = "Chip";
         const chipSprite = chip.addComponent(cc.Sprite);
         const name = `chip${bet}_small`;
         chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
