@@ -188,49 +188,6 @@
             }
           ]
         }
-      },
-      "DisplayResult": {
-        "props": {
-          "opacity": [
-            {
-              "frame": 0,
-              "value": 0
-            },
-            {
-              "frame": 2.2333333333333334,
-              "value": 0,
-              "curve": "cubicIn"
-            },
-            {
-              "frame": 3,
-              "value": 255
-            }
-          ],
-          "scale": [
-            {
-              "frame": 2.216666666666667,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0,
-                "y": 1
-              },
-              "curve": [
-                0.4,
-                0.4,
-                0.6,
-                0.6
-              ]
-            },
-            {
-              "frame": 3,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            }
-          ]
-        }
       }
     }
   },
