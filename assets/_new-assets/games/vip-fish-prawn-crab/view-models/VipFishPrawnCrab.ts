@@ -62,6 +62,9 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property(cc.AudioSource)
     shakeAudio: cc.AudioSource = null;
 
+    @property(cc.Node)
+    randomResult: cc.Node = null;
+
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
 
@@ -127,9 +130,13 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     }
 
     setDices(dices: number[]) {
+        const optRandom = _.random(0, this.randomResult.children.length - 1);
+        const randomOption = this.randomResult.children[optRandom];
+
         const resultText = [];
 
         dices.forEach((dice, index) => {
+            this.dices[index].node.position = randomOption.children[index].position;
             this.dices[index].spriteFrame = this.characterIcons[dice];
             this.dices[index].node.active = true;
         });
