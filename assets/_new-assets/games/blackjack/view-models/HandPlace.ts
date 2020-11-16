@@ -51,6 +51,9 @@ export default class HandPlace extends cc.Component {
     @property(cc.Node)
     betText: cc.Node = null;
 
+    @property(cc.Node)
+    activeIcon: cc.Node = null;
+
     @property
     _selected = false;
 
@@ -114,6 +117,7 @@ export default class HandPlace extends cc.Component {
     private _betAmount = 0;
     public betItemClickCallback = () => { }
     public clearBetClickCallback = (checkExistChip) => { }
+    private scoreFrame: cc.Node = null;
 
     onLoad() {
         this.resetView();
@@ -133,11 +137,33 @@ export default class HandPlace extends cc.Component {
         this.burstNode.active = false;
         this.errorNode && (this.errorNode.active = false);
         this.betText && (this.betText.active = true);
+
+        this.activeIcon && (this.activeIcon.active = false);
+        this.scoreFrame = this.scoreValue.node.parent;
     }
 
     updateDisplay() {
         this.cardLayout.shadow.active = this.selected;
         this.cardLayout.changeCardView(this.selected);
+
+        if (this.selected) {
+            this.activeIcon.active = true;
+            cc.tween(this.activeIcon)
+                .repeatForever(
+                    cc.tween()
+                        .to(1, { scaleY: -1 }, { easing: 'sineInOut' })
+                        .delay(0.1)
+                        .to(1, { scaleY: 1 }, { easing: 'sineInOut' })
+                )
+                .start();
+            this.scoreFrame.color = new cc.Color(168, 255, 126);
+            this.scoreValue.node.color = new cc.Color(26, 255, 20);
+        } else {
+            this.activeIcon.stopAllActions();
+            this.activeIcon.active = false;
+            this.scoreFrame.color = cc.Color.BLACK;
+            this.scoreValue.node.color = new cc.Color(192, 192, 192);
+        }
     }
 
     setData(data: HandModel) {
