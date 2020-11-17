@@ -1,4 +1,42 @@
+image: git3.nexdev.net:5050/lumi-ops/docker-images/docker:19.03.12
+
+variables:
+  WORKING_PATH: /var/www/l2/game-client/
+  DOCKER_SERVICE_NAME: l2-game-client
+  DOCKER_IMAGE_PATH: l2/game-client
+  PROJECT_NAME: l2-game-client
+
+stages:
+  - test
+  - build_game
+  - build
+  - post-build
+  - deploy
+
 include:
-    - project: "ci/luminet/game-client-ci"
-      ref: L1-New
-      file: "gitlab-ci.yml"
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'sonarqube/sonarqube.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'docker/before-script-docker.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'rules/l2-rules.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'docker/build-docker-image-cocos.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'docker/post-build-docker-image.gitlab-ci.yml'
+  - project: 'lumi-ops/ci-scripts'
+    ref: master
+    file: 'docker/deploy-docker-cocos.gitlab-ci.yml'
+  - project: "lumi-ops/ci-scripts"
+    ref: master
+    file: "docker/deploy-swarm-service.gitlab-ci.yml"
+  - local: .gitlab-ci/build-cocos.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-local.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-sit.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-uat.gitlab-ci.yml
+  - local: .gitlab-ci/deploy-pro.gitlab-ci.yml
