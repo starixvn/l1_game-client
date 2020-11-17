@@ -10,14 +10,16 @@ const configs = {
   serverGameEndPoints: {
     0: {
       //Main Server
-      subDomain: 'gsr',
+      subDomain: 'proxy',
       port: '',
-      path: '',
+      path: '/main',
+      proxyRoute: "/main"
     },
     2: {
-      subDomain: 'sed',
+      subDomain: 'proxy',
       port: '',
       path: '/user/xocxoc',
+      proxyRoute: "/sedie/socket.io"
     },
     22: {
         subDomain: "proxy",
