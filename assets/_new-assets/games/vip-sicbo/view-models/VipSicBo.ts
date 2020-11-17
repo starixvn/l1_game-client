@@ -21,12 +21,6 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
-    @property({ type: cc.SpriteFrame })
-    characterIcons: cc.SpriteFrame[] = [];
-
-    @property({ type: cc.Sprite })
-    dices: cc.Sprite[] = [];
-
     @property(cc.Animation)
     openDiskAnimation: cc.Animation = null;
 
@@ -35,18 +29,6 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
     @property(cc.Prefab)
     statsPrefab: cc.Prefab = null;
-
-    @property(cc.SpriteFrame)
-    x2SpriteFrame: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    x2LastSpriteFrame: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    x3SpriteFrame: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    x3LastSpriteFrame: cc.SpriteFrame = null;
 
     @property(cc.Animation)
     shakeAnimation: cc.Animation = null;
@@ -57,9 +39,6 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property(cc.Node)
     randomResult: cc.Node = null;
 
-    private statsComponent: VipFishPrawnCrabStats;
-    private historyComponent: VipFishPrawnCrabHistory;
-
     public finishShakeThePlate: boolean = false;
 
     constructor() {
@@ -68,7 +47,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     }
 
     protected internalInit() {
-        this.init("VipFishPrawnCrab", new VipFishPrawnCrabConfigs(), null, 1, games.VipFishPrawnCrab.id);
+        this.init("VipSicBo", new VipSicBoConfigs(), null, 1, games.VipFishPrawnCrab.id);
         this.finishShowResult = false;
     }
 
@@ -81,10 +60,10 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     initHandlers() {
         super.initHandlers();
 
-        this.finishHandler = new VipFishPrawnCrabFinishHandler(this);
-        this.logsHandler = new VipFishPrawnCrabLogsHandler(this);
-        this.betHandler = new VipFishPrawnCrabBetHandler(this);
-        this.timeHandler = new VipFishPrawnCrabTimeHandler(this);
+        this.finishHandler = new VipSicBoFinishHandler(this);
+        this.logsHandler = new VipSicBoLogsHandler(this);
+        this.betHandler = new VipSicBoBetHandler(this);
+        this.timeHandler = new VipSicBoTimeHandler(this);
     }
 
     setResult() {
@@ -97,14 +76,9 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     highlightWinningBetItems() {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
-            this.betItems.forEach((betItem: VipFishPrawnCrabBetItem) => {
+            this.betItems.forEach((betItem: VipSicBoBetItem) => {
                 const choice = betItem.node.name;
                 betItem.setHighlight(settlementResult[choice], true);
-
-                if (_.keys(constants.resultMapper).indexOf(choice) >= 0) {
-                    const xValue = _.values(result).filter(value => value == constants.resultMapper[choice]).length;
-                    xValue > 1 && betItem.setXSpriteFrame(xValue == 2 ? this.x2SpriteFrame : this.x3SpriteFrame);
-                }
             });
         }
     }
@@ -133,7 +107,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
     onDataGameRoom(data) {
         if (data.history) {
-            this.historyComponent.onData(data.history);
+            // this.historyComponent.onData(data.history);
         }
 
         super.onDataGameRoom(data);
