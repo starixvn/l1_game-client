@@ -42,7 +42,7 @@ export default class VipFishPrawnCrabStats extends cc.Component {
     public init(main: GameBase) {
         const condition = () => {
             const finishHandler = main.finishHandler as GameBaseFinishHandler;
-            return main.currentTimeRemaining < main.config.stopBetTime || main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime();
+            return main.currentTimeRemaining < main.config.stopBetTime || main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime() + 0.5;
         }
         this.logControl.init(condition);
     }
