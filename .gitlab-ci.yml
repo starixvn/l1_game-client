@@ -1,6 +1,4 @@
-image: docker:19.03.12
-services:
-  - docker:19.03.12-dind
+image: git3.nexdev.net:5050/lumi-ops/docker-images/docker:19.03.12
 
 variables:
   WORKING_PATH: /var/www/l1/game-client/
