@@ -95,6 +95,9 @@ export default class VipFishPrawnCrabStats extends cc.Component {
 
             this.characterContent.addChild(node);
         });
+        this.characterContent.getComponent(cc.Layout).updateLayout();
+        this.characterView.getComponent(cc.ScrollView).horizontal = this.characterView.width < this.characterContent.width;
+        this.characterContent.getComponent(cc.Widget).updateAlignment();
 
         const mountainPercent = Math.floor(mountainCount * 100 / dataLogs.length);
         this.mountainPercent.string = `${mountainPercent} %`;
