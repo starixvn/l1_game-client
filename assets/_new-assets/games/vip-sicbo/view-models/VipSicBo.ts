@@ -6,7 +6,6 @@ import NewSocketGameBase from "../../_base/NewSocketGameBase";
 // import VipSicBoFinishHandler from "./handlers/VipSicBoFinishHandler";
 // import VipSicBoLogsHandler from "./handlers/VipSicBoLogsHandler";
 // import VipSicBoTimeHandler from "./handlers/VipSicBoTimeHandler";
-import VipSicBoBetItem from "./VipSicBoBetItem";
 import VipSicBoConfigs from "./VipSicBoConfigs";
 
 const { ccclass, property } = cc._decorator;
@@ -14,6 +13,12 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class VipFishPrawnCrab extends NewSocketGameBase {
     public readonly shakeThePlateTime = 33;
+
+    @property(cc.Node)
+    dice: cc.Node = null;
+
+    @property(cc.SpriteFrame)
+    characterIcons: cc.SpriteFrame[] = [];
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
@@ -48,7 +53,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     }
 
     protected internalInit() {
-        this.init("VipSicBo", new VipSicBoConfigs(), null, 1, games.VipFishPrawnCrab.id);
+        this.init("VipSicBo", new VipSicBoConfigs(), null, 1, games.VipSicBo.id);
         this.finishShowResult = false;
     }
 
