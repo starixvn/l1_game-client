@@ -2,10 +2,10 @@ import * as _ from "lodash";
 
 import { games } from "../../../SabaConfigs";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
-import VipSicBoBetHandler from "./handlers/VipSicBoBetHandler";
-import VipSicBoFinishHandler from "./handlers/VipSicBoFinishHandler";
-import VipSicBoLogsHandler from "./handlers/VipSicBoLogsHandler";
-import VipSicBoTimeHandler from "./handlers/VipSicBoTimeHandler";
+// import VipSicBoBetHandler from "./handlers/VipSicBoBetHandler";
+// import VipSicBoFinishHandler from "./handlers/VipSicBoFinishHandler";
+// import VipSicBoLogsHandler from "./handlers/VipSicBoLogsHandler";
+// import VipSicBoTimeHandler from "./handlers/VipSicBoTimeHandler";
 import VipSicBoBetItem from "./VipSicBoBetItem";
 import VipSicBoConfigs from "./VipSicBoConfigs";
 
@@ -39,7 +39,8 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property(cc.Node)
     randomResult: cc.Node = null;
 
-    public finishShakeThePlate: boolean = false;
+    @property(cc.Node)
+    dice: cc.Node = null;
 
     constructor() {
         super();
@@ -59,51 +60,35 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
     initHandlers() {
         super.initHandlers();
-
-        this.finishHandler = new VipSicBoFinishHandler(this);
-        this.logsHandler = new VipSicBoLogsHandler(this);
-        this.betHandler = new VipSicBoBetHandler(this);
-        this.timeHandler = new VipSicBoTimeHandler(this);
     }
 
-    setResult() {
-        if (this.currentDataLogs.length > 0) {
-            const { result } = this.currentDataLogs[0];
-            this.setDices(_.values(result));
-        }
-    }
+    // setResult() {
+    //     if (this.currentDataLogs.length > 0) {
+    //         const { result } = this.currentDataLogs[0];
+    //         this.setDices(_.values(result));
+    //     }
+    // }
 
-    highlightWinningBetItems() {
-        if (this.currentDataLogs.length > 0) {
-            const { result, settlementResult } = this.currentDataLogs[0];
-            this.betItems.forEach((betItem: VipSicBoBetItem) => {
-                const choice = betItem.node.name;
-                betItem.setHighlight(settlementResult[choice], true);
-            });
-        }
-    }
+    // setDices(dices: number[]) {
+    //     const optRandom = _.random(0, this.randomResult.children.length - 1);
+    //     const randomOption = this.randomResult.children[optRandom];
 
-    setDices(dices: number[]) {
-        const optRandom = _.random(0, this.randomResult.children.length - 1);
-        const randomOption = this.randomResult.children[optRandom];
+    //     const resultText = [];
 
-        const resultText = [];
+    //     dices.forEach((dice, index) => {
+    //         this.dices[index].node.position = randomOption.children[index].position;
+    //         this.dices[index].spriteFrame = this.characterIcons[dice];
+    //         this.dices[index].node.active = true;
+    //     });
+    // }
 
-        dices.forEach((dice, index) => {
-            this.dices[index].node.position = randomOption.children[index].position;
-            this.dices[index].spriteFrame = this.characterIcons[dice];
-            this.dices[index].node.active = true;
-        });
-    }
+    // resetDataAndUI() {
+    //     super.resetDataAndUI();
 
-    resetDataAndUI() {
-        super.resetDataAndUI();
+    //     this.openDiskAnimation.node.active = false;
+    // }
 
-        this.openDiskAnimation.node.active = false;
-    }
 
-    openHistory() {
-    }
 
     onDataGameRoom(data) {
         if (data.history) {
@@ -116,17 +101,6 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     openGuide() {
     }
 
-    public highlightLastResult() {
-        if (this.currentTimeRemaining <= this.config.stopBetTime) {
-            return;
-        }
-        const dataLog = this.currentDataLogs[0];
-
-        if (dataLog) {
-            this.betItems.forEach((betItem: VipSicBoBetItem) => {
-                const choice = betItem.node.name;
-                betItem.setHighlight(dataLog?.settlementResult[choice], false);
-            });
-        }
+    openHistory() {
     }
 }

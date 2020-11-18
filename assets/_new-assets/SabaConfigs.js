@@ -96,7 +96,7 @@ const configs = {
       id: 26,
       name: 'Bầu Cua VIP',
     },
-    VipFishPrawnCrab: {
+    VipSicBo: {
       id: 27,
       name: 'Sic Bo VIP ',
     },

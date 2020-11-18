@@ -1,16 +1,16 @@
 const configs = {
   ssl: false,
   serverDomainMapper: {
-    localhost: 'lumigame.com',
+    localhost: 'localhost',
     '10.5.10.14': 'lumigame.com',
   },
   serverGameEndPoints: {
     0: {
       //Main Server
-      subDomain: 'haproxy',
-      port: 7000,
+      subDomain: '',
+      port: 8080,
       path: '',
-      proxyRoute: '/main',
+      proxyRoute: '',
     },
     2: {
       subDomain: 'haproxy',
@@ -43,10 +43,10 @@ const configs = {
       proxyRoute: '/vipfishprawncrab/socket.io',
     },
     27: {
-      subDomain: 'haproxy',
-      port: 7000,
+      subDomain: '',
+      port: 8086,
       path: '/user/vipsicbo',
-      proxyRoute: '/vipsicbo/socket.io',
+      proxyRoute: '',
     },
   },
   sentryUrl: 'https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20',
