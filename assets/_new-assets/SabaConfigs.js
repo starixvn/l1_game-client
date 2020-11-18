@@ -96,6 +96,10 @@ const configs = {
       id: 26,
       name: 'Bầu Cua VIP',
     },
+    VipFishPrawnCrab: {
+      id: 27,
+      name: 'Sic Bo VIP ',
+    },
   },
   gameRoomRegNames: {
     8: 'KenoProMax',
@@ -103,7 +107,7 @@ const configs = {
     21: 'roulette',
   },
   gameRoomIds: [8, 10, 21],
-  gameRoomNewSocketIds: [2, 22, 23, 26],
+  gameRoomNewSocketIds: [2, 22, 23, 26, 27],
   gameMiniNewSocketIds: [24],
 };
 
