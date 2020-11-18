@@ -35,10 +35,10 @@ const configs = {
       proxyRoute: '/uat/specialsedie/socket.io',
     },
     26: {
-      subDomain: 'proxy',
+      subDomain: 'uatproxy',
       port: '',
       path: '/user/vipfishprawncrab',
-      proxyRoute: '/vipfishprawncrab/socket.io',
+      proxyRoute: '/uat/vipfishprawncrab/socket.io',
     },
   },
   sentryUrl: 'https://e2d54dceaaab4ccc8e3b3b20d806d6ac@sentryuat.sabagame.com/30',
