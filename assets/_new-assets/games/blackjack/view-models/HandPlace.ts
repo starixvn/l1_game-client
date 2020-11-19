@@ -2,6 +2,7 @@ import * as helper from "../../../common/helpers/Helper";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJackUtils from "./BlackJackUtils";
 import CardLayout from "./CardLayout";
+import { easeSineIn } from '../../../../../creator';
 
 export interface HandModel {
     id: string,
@@ -148,15 +149,16 @@ export default class HandPlace extends cc.Component {
 
         if (this.selected) {
             this.activeIcon.active = true;
-            this.activeIcon.stopAllActions();
-            cc.tween(this.activeIcon)
-                .repeatForever(
-                    cc.tween()
-                        .to(0.4, { position: cc.v2(-35, 0) }, { easing: 'sineIn' })
-                        .delay(0.1)
-                        .to(0.4, { position: cc.v2(-25, 0) }, { easing: 'sineOut' })
-                )
-                .start();
+
+            if (!this.activeIcon.getActionByTag(10)) {
+                const action = cc.repeatForever(cc.sequence(
+                    cc.moveTo(0.4, cc.v2(-35, 0)).easing(cc.easeSineIn()),
+                    cc.delayTime(0.1),
+                    cc.moveTo(0.4, cc.v2(-25, 0)).easing(cc.easeSineOut())
+                ));
+                this.activeIcon.runAction(action).setTag(10);
+            }
+
             this.scoreFrame.color = new cc.Color(168, 255, 126);
             this.scoreValue.node.color = new cc.Color(26, 255, 20);
         } else {
