@@ -31,4 +31,8 @@ export default class BottomControls extends cc.Component {
 
     @property(cc.Node)
     confirmGlow: cc.Node = null;
+
+    onLoad() {
+        this.userAvatar.node.parent.active = false;
+    }
 }
