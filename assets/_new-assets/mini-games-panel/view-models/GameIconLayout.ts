@@ -58,7 +58,7 @@ export default class GameIconLayout extends cc.Component {
       games.RongHo.id,
       games.BlackJack.id,
       games.ChanLeTurbo.id,
-	  game.VipSicBo.id
+	  game.SicBo.id
     ];
   }
 
@@ -80,7 +80,7 @@ export default class GameIconLayout extends cc.Component {
     nameDict[games.SpecialSeDie.id] = 'SpecialSeDie';
     nameDict[games.BlackJack.id] = 'BlackJack';
     nameDict[games.VipFishPrawnCrab.id] = 'VipFishPrawnCrab';
-    nameDict[games.VipSicBo.id] = 'VipSicBo';
+    nameDict[games.SicBo.id] = 'SicBo';
 
     for (let i = 0; i < this.gameIds?.length; i++) {
       const path = `${this.path}/${nameDict[this.gameIds[i]]}`;

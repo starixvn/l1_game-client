@@ -2,20 +2,16 @@ import * as _ from "lodash";
 
 import { games } from "../../../SabaConfigs";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
-// import VipSicBoBetHandler from "./handlers/VipSicBoBetHandler";
-// import VipSicBoFinishHandler from "./handlers/VipSicBoFinishHandler";
-// import VipSicBoLogsHandler from "./handlers/VipSicBoLogsHandler";
-// import VipSicBoTimeHandler from "./handlers/VipSicBoTimeHandler";
-import VipSicBoConfigs from "./VipSicBoConfigs";
+import SicBoConfigs from "./SicBoConfigs";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class VipFishPrawnCrab extends NewSocketGameBase {
+export default class SicBo extends NewSocketGameBase {
     public readonly shakeThePlateTime = 33;
 
-    @property(cc.Node)
-    dice: cc.Node = null;
+    @property({ type: cc.Node })
+    dice: cc.Node[] = [];
 
     @property(cc.SpriteFrame)
     characterIcons: cc.SpriteFrame[] = [];
@@ -44,16 +40,13 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property(cc.Node)
     randomResult: cc.Node = null;
 
-    @property(cc.Node)
-    dice: cc.Node = null;
-
     constructor() {
         super();
         this.internalInit();
     }
 
     protected internalInit() {
-        this.init("VipSicBo", new VipSicBoConfigs(), null, 1, games.VipSicBo.id);
+        this.init("SicBo", new SicBoConfigs(), null, 1, games.SicBo.id);
         this.finishShowResult = false;
     }
 

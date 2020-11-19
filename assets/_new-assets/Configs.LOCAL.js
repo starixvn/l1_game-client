@@ -44,8 +44,8 @@ const configs = {
     27: {
       subDomain: 'haproxy',
       port: 7000,
-      path: '/user/vipsicbo',
-      proxyRoute: '/vipsicbo/socket.io',
+      path: '/user/sicbo',
+      proxyRoute: '/sicbo/socket.io',
     },
   },
   sentryUrl: 'https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20',

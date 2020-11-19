@@ -45,7 +45,7 @@ const configs = {
     27: {
       subDomain: '',
       port: 8086,
-      path: '/user/vipsicbo',
+      path: '/user/sicbo',
       proxyRoute: '',
     },
   },

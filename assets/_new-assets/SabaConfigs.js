@@ -96,9 +96,9 @@ const configs = {
       id: 26,
       name: 'Bầu Cua VIP',
     },
-    VipSicBo: {
+    SicBo: {
       id: 27,
-      name: 'Sic Bo VIP ',
+      name: 'Sic Bo',
     },
   },
   gameRoomRegNames: {
