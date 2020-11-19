@@ -53,11 +53,11 @@ export default class GameIconLayout extends cc.Component {
       games.KenoProViet.id,
       games.Baccarat.id,
       games.Roulette.id,
+      games.VipFishPrawnCrab.id,
       games.BauCua.id,
       games.RongHo.id,
-      games.ChanLeTurbo.id,
       games.BlackJack.id,
-      games.VipFishPrawnCrab.id
+      games.ChanLeTurbo.id
     ];
   }
 
