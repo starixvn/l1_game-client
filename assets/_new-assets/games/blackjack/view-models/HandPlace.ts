@@ -151,9 +151,9 @@ export default class HandPlace extends cc.Component {
             cc.tween(this.activeIcon)
                 .repeatForever(
                     cc.tween()
-                        .to(1, { scaleY: -1 }, { easing: 'sineInOut' })
+                        .to(0.4, { position: cc.v2(-35, 0) }, { easing: 'sineIn' })
                         .delay(0.1)
-                        .to(1, { scaleY: 1 }, { easing: 'sineInOut' })
+                        .to(0.4, { position: cc.v2(-25, 0) }, { easing: 'sineOut' })
                 )
                 .start();
             this.scoreFrame.color = new cc.Color(168, 255, 126);
