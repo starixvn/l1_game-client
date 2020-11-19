@@ -1,8 +1,8 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
 import BaseSocketIOController from "../../BaseSocketIOController";
+import * as SabaConfigs from "../../SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
 import * as configs from "./../../Configs";
-import * as SabaConfigs from "./../../SabaConfigs";
 import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelSocketIOGameInitializers {

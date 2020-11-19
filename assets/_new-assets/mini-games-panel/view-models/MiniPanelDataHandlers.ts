@@ -1,6 +1,6 @@
 import { NoticeData } from "../../common/notice/view-models/Notice";
+import * as SabaConfigs from "../../SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
-import * as SabaConfigs from "./../../SabaConfigs";
 import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelDataHandlers {

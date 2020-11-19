@@ -40,7 +40,7 @@ export default class BlackJackHistory extends cc.Component {
     }
 
     get_data(page = 1) {
-        this.socket.emit('getHistory', { page: page });
+        this.socket && this.socket.connected && this.socket.emit('getHistory', { page: page });
     }
 
     onData(data: any) {

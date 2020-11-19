@@ -15,23 +15,27 @@ export default class NewSocketGameBase extends GameRoomBase {
         this.currentMiniPanel.currentGameRoomId = this.gameId;
 
         this.socket = BaseSocketIOController.getInstance().gameSockets[this.gameId];
-        this.socket.on(this.gameName, (data) => {
-            if (!this.node || !this.node.isValid) {
-                return;
-            }
-            this.onDataGameRoom(data);
-        });
-        this.socket.on("disconnect", () => {
-            if (!this.node || !this.node.isValid) {
-                return;
-            }
+        if (!this.socket) {
             this.closeGame();
-        });
+        } else {
+            this.socket.on(this.gameName, (data) => {
+                if (!this.node || !this.node.isValid) {
+                    return;
+                }
+                this.onDataGameRoom(data);
+            });
+            this.socket.on("disconnect", () => {
+                if (!this.node || !this.node.isValid) {
+                    return;
+                }
+                this.closeGame();
+            });
+        }
     }
 
     start() {
         cc.RedT.send({ scene: this.gameName });
-        this.socket.emit("inGame");
+        this.socket && this.socket.connected && this.socket.emit("inGame");
     }
 
     onDestroy() {

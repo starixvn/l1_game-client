@@ -1,5 +1,5 @@
-import * as _ from 'lodash';
-import GameUtils from '../../../common/GameUtils';
+import GameUtils from "../../../common/GameUtils";
+import GameAdsItem from "./GameAdsItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -140,18 +140,19 @@ export default class GameAds extends cc.Component {
         const currentNode = this.content.children[index];
         currentNode.active = true;
         currentNode.position = cc.v2(direction * distance, currentNode.position.y);
+
+        this.intervalChangeImage = currentNode.getComponent(GameAdsItem).displayTime;
         this.moveToCenter(currentNode, 0.6);
     }
 
     moveToCenter(node: cc.Node, duration: number) {
         node.stopAllActions();
-        const move = cc.moveTo(0.6, cc.v2(0, 0));
-        move.easing = cc.easeCubicActionInOut();
-        node.runAction(cc.sequence(
-            move,
-            cc.callFunc(() => {
+        cc.tween(node)
+            .to(duration, { position: cc.v2(0, 0) }, { easing: "cubicInOut" })
+            .call(() => {
                 this.scheduleOnce(this.autoChange, this.intervalChangeImage);
-            })));
+            })
+            .start();
     }
 
     openGame(e, gameId) {
