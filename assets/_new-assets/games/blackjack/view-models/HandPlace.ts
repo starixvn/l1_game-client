@@ -148,6 +148,7 @@ export default class HandPlace extends cc.Component {
 
         if (this.selected) {
             this.activeIcon.active = true;
+            this.activeIcon.stopAllActions();
             cc.tween(this.activeIcon)
                 .repeatForever(
                     cc.tween()
