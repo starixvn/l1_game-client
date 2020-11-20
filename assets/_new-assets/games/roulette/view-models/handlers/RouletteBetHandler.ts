@@ -1,6 +1,7 @@
+import * as _ from "lodash";
+
 import GameBaseBetHandler from "../../../_base/handlers/GameBaseBetHandler";
 import Roulette from "../Roulette";
-import * as _ from "lodash";
 import RouletteUtils from "../RouletteUtils";
 
 export default class RouletteBetHandler extends GameBaseBetHandler {
@@ -19,12 +20,9 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
 
         if (data.ownBets) {
             this.main.currentTimeRemaining = data.remainingTime || this.main.currentTimeRemaining;
-            if (this.main.currentTimeRemaining <= this.main.config.betTime) {
-                this.main.currentBetChoices = _.cloneDeep(data.ownBets);
-                this.main.previousRoundBetChoices = _.cloneDeep(this.main.currentBetChoices);
-
-                this.clearTempBetChoices();
-            }
+            this.main.currentBetChoices = _.cloneDeep(data.ownBets);
+            this.main.previousRoundBetChoices = _.cloneDeep(this.main.currentBetChoices);
+            this.clearTempBetChoices();
         }
 
         if (data.endBet) {

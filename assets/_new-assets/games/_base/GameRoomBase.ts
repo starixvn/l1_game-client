@@ -230,6 +230,7 @@ export default class GameRoomBase extends GameBase {
                     let avatarId = cc.RedT.user.avatarId;
                     let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
                     this.userAvatar.spriteFrame = frame;
+                    this.userAvatar.node.parent.active = true;
                 }
             });
         }

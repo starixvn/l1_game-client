@@ -2,6 +2,7 @@ import * as helper from "../../../common/helpers/Helper";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJackUtils from "./BlackJackUtils";
 import CardLayout from "./CardLayout";
+import { easeSineIn } from '../../../../../creator';
 
 export interface HandModel {
     id: string,
@@ -50,6 +51,9 @@ export default class HandPlace extends cc.Component {
 
     @property(cc.Node)
     betText: cc.Node = null;
+
+    @property(cc.Node)
+    activeIcon: cc.Node = null;
 
     @property
     _selected = false;
@@ -114,6 +118,7 @@ export default class HandPlace extends cc.Component {
     private _betAmount = 0;
     public betItemClickCallback = () => { }
     public clearBetClickCallback = (checkExistChip) => { }
+    private scoreFrame: cc.Node = null;
 
     onLoad() {
         this.resetView();
@@ -133,11 +138,35 @@ export default class HandPlace extends cc.Component {
         this.burstNode.active = false;
         this.errorNode && (this.errorNode.active = false);
         this.betText && (this.betText.active = true);
+
+        this.activeIcon && (this.activeIcon.active = false);
+        this.scoreFrame = this.scoreValue.node.parent;
     }
 
     updateDisplay() {
         this.cardLayout.shadow.active = this.selected;
         this.cardLayout.changeCardView(this.selected);
+
+        if (this.selected) {
+            this.activeIcon.active = true;
+
+            if (!this.activeIcon.getActionByTag(10)) {
+                const action = cc.repeatForever(cc.sequence(
+                    cc.moveTo(0.4, cc.v2(-35, 0)).easing(cc.easeSineIn()),
+                    cc.delayTime(0.1),
+                    cc.moveTo(0.4, cc.v2(-25, 0)).easing(cc.easeSineOut())
+                ));
+                this.activeIcon.runAction(action).setTag(10);
+            }
+
+            this.scoreFrame.color = new cc.Color(168, 255, 126);
+            this.scoreValue.node.color = new cc.Color(26, 255, 20);
+        } else {
+            this.activeIcon.stopAllActions();
+            this.activeIcon.active = false;
+            this.scoreFrame.color = cc.Color.BLACK;
+            this.scoreValue.node.color = new cc.Color(192, 192, 192);
+        }
     }
 
     setData(data: HandModel) {
