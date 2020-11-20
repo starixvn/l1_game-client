@@ -16,7 +16,7 @@ export interface IGameBaseTimeHandler extends DataHandler {
 export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
   playTimeInterval: number;
 
-  constructor(protected readonly main: GameBase) {}
+  constructor(protected readonly main: GameBase) { }
 
   get isInLockBetTime() {
     return this.main.currentTimeRemaining <= this.main.config.stopBetTime;
@@ -87,7 +87,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     this.main.currentTimeRemaining--;
   }
 
-  handleAtLockBetTime() {}
+  handleAtLockBetTime() { }
 
   stopPlayTime(): void {
     this.playTimeInterval && clearInterval(this.playTimeInterval);
@@ -131,7 +131,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     this.main.animatedTime && this.main.animatedTime.setTime(time);
   }
 
-  handleInLockBetTime() {}
+  handleInLockBetTime() { }
 
   handleInEndTime() {
     this.main.setGameRound(this.main.roundId);

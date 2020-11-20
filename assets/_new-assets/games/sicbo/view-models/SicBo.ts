@@ -4,6 +4,11 @@ import { games } from "../../../SabaConfigs";
 import BetItem from "../../_base/BetItem";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import SicBoConfigs from "./SicBoConfigs";
+import SicBoOddsItem from './SicBoOddsItem';
+import SicBoTimeHandler from './handlers/SicBoTimeHandler';
+import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
+import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
+import SicBoBetItem from './SicBoBetItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,11 +19,14 @@ export default class SicBo extends NewSocketGameBase {
     @property(cc.Node)
     betChoices: cc.Node = null;
 
-    @property({ type: cc.Node })
-    dice: cc.Node[] = [];
+    @property(cc.Sprite)
+    dices: cc.Sprite[] = [];
 
     @property(cc.SpriteFrame)
     characterIcons: cc.SpriteFrame[] = [];
+
+    @property({ type: SicBoOddsItem })
+    oddsItems: SicBoOddsItem[] = [];
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
@@ -43,6 +51,8 @@ export default class SicBo extends NewSocketGameBase {
 
     @property(cc.Node)
     randomResult: cc.Node = null;
+
+    public finishShakeThePlate: boolean = false;
 
     constructor() {
         super();
@@ -69,36 +79,54 @@ export default class SicBo extends NewSocketGameBase {
 
     initHandlers() {
         super.initHandlers();
+        this.finishHandler = new SicBoFinishHandler(this);
+        this.logsHandler = new SicBoLogsHandler(this);
+        this.timeHandler = new SicBoTimeHandler(this);
     }
 
-    // setResult() {
-    //     if (this.currentDataLogs.length > 0) {
-    //         const { result } = this.currentDataLogs[0];
-    //         this.setDices(_.values(result));
-    //     }
-    // }
+    public updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        this.gameConfigs.odds && this.oddsItems.forEach(item => item.setValue(this.gameConfigs.odds[item.node.name]));
+    }
 
-    // setDices(dices: number[]) {
-    //     const optRandom = _.random(0, this.randomResult.children.length - 1);
-    //     const randomOption = this.randomResult.children[optRandom];
+    setResult() {
+        if (this.currentDataLogs.length > 0) {
+            const { result } = this.currentDataLogs[0];
+            console.log(result);
+            this.setDices(_.values(result))
+        }
+    }
 
-    //     const resultText = [];
+    setDices(dices: number[]) {
+        dices.forEach((dice, index) => {
+            this.dices[index].spriteFrame = this.characterIcons[dice - 1];
+            this.dices[index].node.active = true;
+        })
+    }
 
-    //     dices.forEach((dice, index) => {
-    //         this.dices[index].node.position = randomOption.children[index].position;
-    //         this.dices[index].spriteFrame = this.characterIcons[dice];
-    //         this.dices[index].node.active = true;
-    //     });
-    // }
+    highlightLastResult() {
+        if (this.currentTimeRemaining <= this.config.stopBetTime) {
+            return;
+        }
+        const dataLog = this.currentDataLogs[0];
 
-    // resetDataAndUI() {
-    //     super.resetDataAndUI();
+        if (dataLog) {
+            this.betItems.forEach((betItem: SicBoBetItem) => {
+                const choice = betItem.node.name;
+                betItem.setHighlight(dataLog?.settlementResult[choice], false);
+            });
+        }
+    }
 
-    //     this.openDiskAnimation.node.active = false;
-    // }
-
-
-
+    highlightWinningBetItems() {
+        if (this.currentDataLogs.length > 0) {
+            const { result, settlementResult } = this.currentDataLogs[0];
+            this.betItems.forEach((betItem: SicBoBetItem) => {
+                const choice = betItem.node.name;
+                betItem.setHighlight(settlementResult[choice], true);
+            });
+        }
+    }
 
     onDataGameRoom(data) {
         if (data.history) {
