@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 
 import { games } from "../../../SabaConfigs";
+import BetItem from "../../_base/BetItem";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import SicBoConfigs from "./SicBoConfigs";
 
@@ -9,6 +10,9 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SicBo extends NewSocketGameBase {
     public readonly shakeThePlateTime = 33;
+
+    @property(cc.Node)
+    betChoices: cc.Node = null;
 
     @property({ type: cc.Node })
     dice: cc.Node[] = [];
@@ -51,6 +55,13 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     onLoad() {
+        this.betChoices.children.forEach((choice) => {
+            const betItem = choice.getComponent(BetItem);
+            if (betItem) {
+                this.betItems.push(betItem)
+            }
+        });
+
         super.onLoad();
         this.shakeAnimation.node.active = false;
         this.animatedTime.setAnimatedY(30, -5);
@@ -85,6 +96,7 @@ export default class SicBo extends NewSocketGameBase {
 
     //     this.openDiskAnimation.node.active = false;
     // }
+
 
 
 

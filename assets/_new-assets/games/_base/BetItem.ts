@@ -33,11 +33,11 @@ export default class BetItem extends cc.Component {
     public betCallback = (e) => { };
 
     protected setOwnBet(bet: number) {
-        this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+        this.ownBet && (this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "");
     }
 
     protected setTotalBet(bet: number) {
-        this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+        this.totalBet && (this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "");
     }
 
     public onBetClick(e) {
