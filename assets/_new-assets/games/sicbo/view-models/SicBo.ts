@@ -141,4 +141,8 @@ export default class SicBo extends NewSocketGameBase {
 
     openHistory() {
     }
+
+    openStatistic(){
+        
+    }
 }
