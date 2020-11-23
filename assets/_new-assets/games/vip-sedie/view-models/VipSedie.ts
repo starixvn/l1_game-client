@@ -1,9 +1,10 @@
+import * as _ from "lodash";
+
+import { games } from "../../../SabaConfigs";
 import Sedie from "../../xoc-xoc/view-models/Sedie";
 import { SedieConfigs } from "../../xoc-xoc/view-models/SedieConfigs";
-import { gameIds } from "../../../Configs";
-import VipSedieTimeHandler from "./handlers/VipSedieTimeHandler";
 import VipSedieLogHandler from "./handlers/VipSedieLogHandler";
-import * as _ from 'lodash';
+import VipSedieTimeHandler from "./handlers/VipSedieTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,7 +21,7 @@ export default class VipSedie extends Sedie {
     }
 
     protected internalInit() {
-        this.init("VipSeDie", new SedieConfigs(), null, 1, gameIds.VipSedie);
+        this.init("VipSeDie", new SedieConfigs(), null, 1, games.VipSedie.id);
         this.finishShowResult = false;
     }
 
