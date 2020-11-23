@@ -58,7 +58,7 @@ export default class GameIconLayout extends cc.Component {
       games.RongHo.id,
       games.BlackJack.id,
       games.ChanLeTurbo.id,
-	  game.SicBo.id
+      games.SicBo.id
     ];
   }
 
