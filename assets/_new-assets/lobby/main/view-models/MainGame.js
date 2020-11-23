@@ -330,8 +330,6 @@ cc.Class({
       const gameId = parseInt(window.openGameId);
       GameUtils.openGame(gameId, cc.RedT.MiniPanel);
       window.openGameId = null;
-    } else {
-      !this.inRoomGameId && this.openLuckyWheel();
     }
   },
 
