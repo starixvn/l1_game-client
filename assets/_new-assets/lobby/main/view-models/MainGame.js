@@ -111,7 +111,8 @@ cc.Class({
       cc.RedT.needShowLuckyWheelIcon && this.renderLuckyWheelIcon();
     }
 
-    this.center.on("size-changed", this.repositionMenu, this);
+    this.center.on('size-changed', this.repositionMenu, this);
+    this.center.on('scale-changed', this.repositionMenu, this);
     if (!cc.sys.isMobile) {
       this.center.scale = 0.8;
     }
