@@ -1,3 +1,5 @@
+import SicBo from './SicBo';
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -18,10 +20,13 @@ export default class SicBoStatistic extends cc.Component {
   nodeChanLe: cc.Node = null;
 
   @property(cc.Label)
-  KetQuaLeft: cc.Label = null;
+  totalBig: cc.Label = null;
 
   @property(cc.Label)
-  KetQuaRight: cc.Label = null;
+  totalSmall: cc.Label = null;
+
+  @property(cc.Label)
+  totalAnyTriple: cc.Label = null;
 
   @property(cc.Node)
   KetQuaDot: cc.Node = null;
@@ -77,10 +82,65 @@ export default class SicBoStatistic extends cc.Component {
   @property(cc.Node)
   line_dot3: cc.Node = null;
 
-  private ttOffset:cc.Vec2 = null;
-  private KetQuaDots: cc.Sprite[];
+  @property(cc.SpriteFrame)
+  logCircle: cc.SpriteFrame = null;
 
- /*  init(obj) {
+  private ttOffset: cc.Vec2 = null;
+  private dataLogs = [];
+  private bigColor: cc.Color = cc.color(219, 21, 21, 1);
+  private smallColor: cc.Color = cc.color(37, 128, 241, 1);
+  private anyTripleColor: cc.Color = cc.color(242, 159, 0, 1);
+
+  init(sicbo: SicBo) {
+    this.dataLogs = sicbo.currentDataLogs;
+
+    const dotSprites = this.KetQuaDot.children.map(function (obj) {
+      return obj.getComponent(cc.Sprite);
+    });
+
+    let currentDataLogIndex = 0;
+    for(const layout of this.KetQuaDot.children) {
+      for(const dot of layout.children) {
+        const data = this.dataLogs[currentDataLogIndex];
+        const dotSprite= dot.getComponent(cc.Sprite);
+        if (data) {
+          const { settlementResult, result } = data;
+          dotSprite.node.active = true;
+          dotSprite.spriteFrame = this.logCircle;
+          dotSprite.node.color = settlementResult.anyTriple
+            ? this.anyTripleColor
+            : settlementResult.big
+            ? this.bigColor
+            : this.smallColor;
+
+            dot.children[0].getComponent(cc.Label).string = result.dice1 + result.dice2 + result.dice3;
+        } else {
+          dotSprite.node.active = false;
+        }
+        currentDataLogIndex++;
+      }
+    }
+    dotSprites.forEach((dotSprite, index) => {
+      const data = this.dataLogs[index];
+      if (data) {
+        const { settlementResult } = data;
+        dotSprite.node.active = true;
+        dotSprite.spriteFrame = this.logCircle;
+        dotSprite.node.color = settlementResult.anyTriple
+          ? this.anyTripleColor
+          : settlementResult.big
+          ? this.bigColor
+          : this.smallColor
+      } else {
+        dotSprite.node.active = false;
+      }
+    });
+
+    this.totalBig.string = this.dataLogs.filter(data => data.settlementResult.big).length.toString();
+    this.totalSmall.string = this.dataLogs.filter(data => data.settlementResult.small).length.toString();
+    this.totalAnyTriple.string = this.dataLogs.filter(data => data.settlementResult.anyTriple).length.toString();
+  }
+  /*  init(obj) {
     this.TXRoot = obj;
 
 		if (void 0 !== cc.RedT.setting.taixiu.tk_position) {
