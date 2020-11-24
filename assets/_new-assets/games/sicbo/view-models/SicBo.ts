@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-
+import * as helper from "../../../common/helpers/Helper";
 import { games } from "../../../SabaConfigs";
 import BetItem from "../../_base/BetItem";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
@@ -9,6 +9,7 @@ import SicBoTimeHandler from './handlers/SicBoTimeHandler';
 import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
 import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
 import SicBoBetItem from './SicBoBetItem';
+import SicBoBetHandler from "./handlers/SicBoBetHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -52,7 +53,14 @@ export default class SicBo extends NewSocketGameBase {
     @property(cc.Node)
     randomResult: cc.Node = null;
 
+    @property(cc.Label)
+    totalBetLabel: cc.Label = null;
+
     public finishShakeThePlate: boolean = false;
+
+    bigStatistic: number = 0;
+    smallStatistic: number = 0;
+    anyTripleStatistic: number = 0;
 
     constructor() {
         super();
@@ -82,6 +90,7 @@ export default class SicBo extends NewSocketGameBase {
         this.finishHandler = new SicBoFinishHandler(this);
         this.logsHandler = new SicBoLogsHandler(this);
         this.timeHandler = new SicBoTimeHandler(this);
+        this.betHandler = new SicBoBetHandler(this);
     }
 
     public updateDisplayForRemoteConfig() {
@@ -145,4 +154,16 @@ export default class SicBo extends NewSocketGameBase {
     openStatistic(){
         
     }
+
+    updateStatistic(data: any) {
+        console.log(data);
+    }
+
+    // getBigSmallResult(logData: any, choice: string) {
+    //     logData.forEach((log, index) => {
+    //         if (log[choice]) {
+    //             this.bigStatistic
+    //         }
+    //     })
+    // }
 }
