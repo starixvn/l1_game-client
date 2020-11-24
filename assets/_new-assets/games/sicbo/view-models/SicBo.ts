@@ -176,7 +176,7 @@ export default class SicBo extends NewSocketGameBase {
     openStatistic() {
         let dialog = cc.instantiate(this.statsPrefab);
         this.statisticComponent = dialog.getComponent(SicBoStatistic);
-        this.statisticComponent.init(this.socket);
+        this.statisticComponent.init(this);
         this.currentMiniPanel.node.addChild(dialog);
     }
 

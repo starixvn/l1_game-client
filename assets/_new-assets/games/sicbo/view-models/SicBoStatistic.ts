@@ -94,10 +94,6 @@ export default class SicBoStatistic extends cc.Component {
   init(sicbo: SicBo) {
     this.dataLogs = sicbo.currentDataLogs;
 
-    const dotSprites = this.KetQuaDot.children.map(function (obj) {
-      return obj.getComponent(cc.Sprite);
-    });
-
     let currentDataLogIndex = 0;
     for(const layout of this.KetQuaDot.children) {
       for(const dot of layout.children) {
@@ -105,9 +101,9 @@ export default class SicBoStatistic extends cc.Component {
         const dotSprite= dot.getComponent(cc.Sprite);
         if (data) {
           const { settlementResult, result } = data;
-          dotSprite.node.active = true;
+          dot.active = true;
           dotSprite.spriteFrame = this.logCircle;
-          dotSprite.node.color = settlementResult.anyTriple
+          dot.color = settlementResult.anyTriple
             ? this.anyTripleColor
             : settlementResult.big
             ? this.bigColor
@@ -115,26 +111,11 @@ export default class SicBoStatistic extends cc.Component {
 
             dot.children[0].getComponent(cc.Label).string = result.dice1 + result.dice2 + result.dice3;
         } else {
-          dotSprite.node.active = false;
+          dot.active = false;
         }
         currentDataLogIndex++;
       }
     }
-    dotSprites.forEach((dotSprite, index) => {
-      const data = this.dataLogs[index];
-      if (data) {
-        const { settlementResult } = data;
-        dotSprite.node.active = true;
-        dotSprite.spriteFrame = this.logCircle;
-        dotSprite.node.color = settlementResult.anyTriple
-          ? this.anyTripleColor
-          : settlementResult.big
-          ? this.bigColor
-          : this.smallColor
-      } else {
-        dotSprite.node.active = false;
-      }
-    });
 
     this.totalBig.string = this.dataLogs.filter(data => data.settlementResult.big).length.toString();
     this.totalSmall.string = this.dataLogs.filter(data => data.settlementResult.small).length.toString();
