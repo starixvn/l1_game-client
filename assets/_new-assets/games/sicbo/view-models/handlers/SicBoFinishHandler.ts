@@ -24,6 +24,7 @@ export default class SicBoFinishHandler extends GameBaseFinishHandler {
                 .call(() => {
                     onFinishHandlingData();
                     this.main.highlightWinningBetItems();
+                    this.main.updateResultOnTable(this.main.currentDataLogs[0]);
                 })
                 .start();
         }

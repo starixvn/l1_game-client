@@ -56,6 +56,24 @@ export default class SicBo extends NewSocketGameBase {
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
+    @property(cc.Label)
+    bigStatsLabel: cc.Label = null;
+
+    @property(cc.Label)
+    smallStatsLabel: cc.Label = null;
+
+    @property(cc.Label)
+    anyTripleStatsLabel: cc.Label = null;
+
+    @property(cc.Label)
+    lastTotalPoints: cc.Label = null;
+
+    @property(cc.Node)
+    lastResultDices: cc.Node = null;
+
+    @property(cc.SpriteAtlas)
+    sicboAtlas: cc.SpriteAtlas = null;
+
     public finishShakeThePlate: boolean = false;
 
     bigStatistic: number = 0;
@@ -83,6 +101,9 @@ export default class SicBo extends NewSocketGameBase {
         super.onLoad();
         this.shakeAnimation.node.active = false;
         this.animatedTime.setAnimatedY(30, -5);
+        this.bigStatsLabel.string = '';
+        this.smallStatsLabel.string = '';
+        this.anyTripleStatsLabel.string = '';
     }
 
     initHandlers() {
@@ -155,19 +176,49 @@ export default class SicBo extends NewSocketGameBase {
 
     }
 
+    resetStatistic() {
+        this.bigStatistic = 0;
+        this.smallStatistic = 0;
+        this.anyTripleStatistic = 0;
+    }
+
     updateStatistic(data: any) {
-        console.log(data);
+        this.resetStatistic();
+
+        data.forEach(log => {
+            this.smallStatistic += log.settlementResult["small"] ? 1 : 0;
+            this.bigStatistic += log.settlementResult["big"] ? 1 : 0;
+            this.anyTripleStatistic += log.settlementResult["anyTriple"] ? 1 : 0;
+        })
+
+        const small = _.round((this.smallStatistic / data.length) * 100);
+        const big = _.round((this.bigStatistic / data.length) * 100);
+        const anyTriple = _.round((this.anyTripleStatistic / data.length) * 100);
+
+        this.smallStatsLabel.string = `${small}%`;
+        this.bigStatsLabel.string = `${big}%`;
+        this.anyTripleStatsLabel.string = `${anyTriple}%`;
+    }
+
+    updateResultOnTable(data: any) {
+        let totalPoints = 0;
+
+        Object.values(data.result).forEach(point => {
+            totalPoints += +point;
+        })
+
+        this.lastTotalPoints.string = `${totalPoints}`;
+
+        const dices: number[] = Object.values(data.result);
+
+        this.lastResultDices.children.forEach((dice, index) => {
+            const component = dice.getComponent(cc.Sprite);
+            const name = `dice_${dices[index]}_table`;
+            component.spriteFrame = this.sicboAtlas.getSpriteFrame(name);
+        })
     }
 
     updateTotalBetLabel(totalBet: number) {
         this.totalBetLabel.string = totalBet.toString();
     }
-
-    // getBigSmallResult(logData: any, choice: string) {
-    //     logData.forEach((log, index) => {
-    //         if (log[choice]) {
-    //             this.bigStatistic
-    //         }
-    //     })
-    // }
 }
