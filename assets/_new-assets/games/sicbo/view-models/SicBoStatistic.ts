@@ -77,8 +77,11 @@ export default class SicBoStatistic extends cc.Component {
   @property(cc.Node)
   line_dot3: cc.Node = null;
 
-  init(obj) {
-    /* this.TXRoot = obj;
+  private ttOffset:cc.Vec2 = null;
+  private KetQuaDots: cc.Sprite[];
+
+ /*  init(obj) {
+    this.TXRoot = obj;
 
 		if (void 0 !== cc.RedT.setting.taixiu.tk_position) {
 			this.node.position = cc.RedT.setting.taixiu.tk_position;
@@ -89,7 +92,7 @@ export default class SicBoStatistic extends cc.Component {
 		}
 
 		//KetQuaDot
-		this.KetQuaDot = this.KetQuaDot.children.map(function (obj) {
+		this.KetQuaDots = this.KetQuaDot.children.map(function (obj) {
 			return obj.getComponent(cc.Sprite);
 		});
 
@@ -148,7 +151,7 @@ export default class SicBoStatistic extends cc.Component {
 		Promise.all([DiemSoCel, dice1, dice2, dice3, tong_dot])
 			.then(() => {
 				self.TXRoot.TX_Main.updateTXStats();
-			}); */
+			});
   }
   onDestroy() {
     //this.TXRoot.TXStats = null;
@@ -158,14 +161,12 @@ export default class SicBoStatistic extends cc.Component {
       this.node.scale = 0.8;
     }
 
-    //this.ttOffset = null;
-
     Promise.all(
       this.header.children.map(function (obj) {
         return obj.getComponent('itemContentMenu');
       })
     ).then((result) => {
-      //this.header = result;
+      this.header = result;
     });
   }
 
@@ -197,8 +198,8 @@ export default class SicBoStatistic extends cc.Component {
     cc.RedT.setting.taixiu.tk_position = this.node.position;
   }
   setTop() {
-    this.node.parent.insertChild(this.node);
-    this.TXRoot.setTop();
+    //this.node.parent.insertChild(this.node);
+    //this.TXRoot.setTop();
   }
   onSelectHeader(event, name) {
     Promise.all(
@@ -295,4 +296,173 @@ export default class SicBoStatistic extends cc.Component {
     this.dice3_line.node.active = !this.dice3_line.node.active;
     this.line_dot3.active = !this.line_dot3.active;
   }
+
+  updateStatistic() {
+    var self = this;
+    var line_dice1 = [];
+    var line_dice2 = [];
+    var line_dice3 = [];
+    var line_tong = [];
+
+    var tmp_DS = -1;
+    var tmp_arrA = [];
+    var tmp_arrB = [];
+    var c_tai = 0;
+    var c_xiu = 0;
+
+    var sliced = cc.RedT.setting.taixiu.logs.slice(0, 19);
+    sliced.reverse();
+    // Line paint
+    var Paint = new Promise(function (resolve, reject) {
+      for (var i = 0; i < sliced.length; i++) {
+        var data = sliced[i];
+        if (void 0 !== data) {
+          this.lineAc(i, true);
+          var dice1 = sliced[i].dice[0];
+          var dice2 = sliced[i].dice[1];
+          var dice3 = sliced[i].dice[2];
+          var tong = dice1 + dice2 + dice3;
+
+          line_dice1[i] = {
+            x: i * 28,
+            y: dice1 * 28 - 28,
+            dice: dice1
+          };
+          line_dice2[i] = {
+            x: i * 28,
+            y: dice2 * 28 - 28,
+            dice: dice2
+          };
+          line_dice3[i] = {
+            x: i * 28,
+            y: dice3 * 28 - 28,
+            dice: dice3
+          };
+          line_tong[i] = {
+            x: i * 27.7,
+            y: tong * 9.233 - 27.7,
+            tong: tong
+          };
+        } else {
+          this.lineAc(i, false);
+        }
+      }
+      this.draw(
+        this.dice1_line,
+        this.dice1_dots,
+        line_dice1
+      );
+      this.draw(
+        this.dice2_line,
+        this.dice2_dots,
+        line_dice2
+      );
+      this.draw(
+        this.dice3_line,
+        this.dice3_dots,
+        line_dice3
+      );
+      this.draw_Tong(
+        this.tong_line,
+        line_tong
+      );
+    });
+
+    // Ket Qua
+    var ketqua = this.KetQuaDots.map(function (dot, index) {
+      var data = cc.RedT.setting.taixiu.logs[index];
+      if (void 0 !== data) {
+        dot.node.active = true;
+        var point = data.dice[0] + data.dice[1] + data.dice[2];
+        dot.spriteFrame = 
+          point < 11 ?
+            this.dot_white :
+            this.dot_black;
+
+        return self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+      } else {
+        dot.node.active = false;
+        return -1;
+      }
+    });
+
+    // Diem So
+    var newArr = cc.RedT.setting.taixiu.logs.slice();
+    newArr.reverse();
+    for (var newDS of newArr) {
+      var point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
+      var type = self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+      if (tmp_DS === -1) {
+        tmp_DS = type;
+      }
+      if (type != tmp_DS || tmp_arrB.length > 4) {
+        tmp_DS = type;
+        tmp_arrA.push(tmp_arrB);
+        tmp_arrB = [];
+      }
+      if (type == tmp_DS) {
+        tmp_arrB.push(point);
+      }
+    }
+    tmp_arrA.push(tmp_arrB);
+
+    var newData = tmp_arrA;
+    newData.reverse();
+    newData = newData.slice(0, 20);
+    newData.reverse();
+    this.KetQuaLeft.string = ketqua.filter(
+      i => i == 1
+    ).length;
+    this.KetQuaRight.string = ketqua.filter(
+      i => i == 0
+    ).length;
+
+    this.DiemSoCel.forEach(function (obj, i) {
+      var data = newData[i];
+      if (void 0 !== data) {
+        obj.active = true;
+        return Promise.all(
+          obj.RedT.map(function (current, index) {
+            var data_Cel = data[index];
+            if (void 0 !== data_Cel) {
+              var type = self.taixiu ?
+                data_Cel > 10 ?
+                  true :
+                  false :
+                data_Cel % 2 ?
+                  false :
+                  true;
+              c_tai = type ? c_tai + 1 : c_tai;
+              c_xiu = !type ? c_xiu + 1 : c_xiu;
+              current.active = true;
+              current.color = self.taixiu ?
+                type ?
+                  cc.Color.BLACK :
+                  cc.Color.WHITE :
+                type ?
+                  cc.Color.YELLOW :
+                  cc.Color.BLACK;
+              current.text.string = data_Cel;
+              current.text.node.color = self.taixiu ?
+                type ?
+                  cc.Color.WHITE :
+                  cc.Color.BLACK :
+                type ?
+                  cc.Color.BLACK :
+                  cc.Color.WHITE;
+            } else {
+              current.active = false;
+            }
+            return void 0;
+          })
+        );
+      } else {
+        obj.active = false;
+      }
+      return void 0;
+    })
+
+    this.DiemSoLeft.string = c_tai;
+    this.DiemSoRight.string = c_xiu;
+  } */
 }

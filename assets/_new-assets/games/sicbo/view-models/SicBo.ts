@@ -10,6 +10,7 @@ import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
 import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
 import SicBoBetItem from './SicBoBetItem';
 import SicBoBetHandler from "./handlers/SicBoBetHandler";
+import SicBoStatistic from "./SicBoStatistic";
 
 const { ccclass, property } = cc._decorator;
 
@@ -79,7 +80,7 @@ export default class SicBo extends NewSocketGameBase {
     bigStatistic: number = 0;
     smallStatistic: number = 0;
     anyTripleStatistic: number = 0;
-
+   private statisticComponent: SicBoStatistic;
     constructor() {
         super();
         this.internalInit();
@@ -173,7 +174,10 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     openStatistic() {
-
+        let dialog = cc.instantiate(this.statsPrefab);
+        this.statisticComponent = dialog.getComponent(SicBoStatistic);
+        this.statisticComponent.init(this.socket);
+        this.currentMiniPanel.node.addChild(dialog);
     }
 
     resetStatistic() {
