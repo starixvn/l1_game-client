@@ -151,12 +151,16 @@ export default class SicBo extends NewSocketGameBase {
     openHistory() {
     }
 
-    openStatistic(){
-        
+    openStatistic() {
+
     }
 
     updateStatistic(data: any) {
         console.log(data);
+    }
+
+    updateTotalBetLabel(totalBet: number) {
+        this.totalBetLabel.string = totalBet.toString();
     }
 
     // getBigSmallResult(logData: any, choice: string) {
