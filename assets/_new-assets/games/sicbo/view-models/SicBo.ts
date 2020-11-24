@@ -56,7 +56,7 @@ export default class SicBo extends NewSocketGameBase {
 
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
-
+    
     @property(cc.Label)
     bigStatsLabel: cc.Label = null;
 
@@ -80,7 +80,7 @@ export default class SicBo extends NewSocketGameBase {
     bigStatistic: number = 0;
     smallStatistic: number = 0;
     anyTripleStatistic: number = 0;
-   private statisticComponent: SicBoStatistic;
+    private statisticComponent: SicBoStatistic;
     constructor() {
         super();
         this.internalInit();
@@ -189,6 +189,9 @@ export default class SicBo extends NewSocketGameBase {
     updateStatistic(data: any) {
         this.resetStatistic();
 
+         if(this.statisticComponent) {
+            this.statisticComponent.init(this);
+        }
         data.forEach(log => {
             this.smallStatistic += log.settlementResult["small"] ? 1 : 0;
             this.bigStatistic += log.settlementResult["big"] ? 1 : 0;

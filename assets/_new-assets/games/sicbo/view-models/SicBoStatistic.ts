@@ -85,15 +85,32 @@ export default class SicBoStatistic extends cc.Component {
   @property(cc.SpriteFrame)
   logCircle: cc.SpriteFrame = null;
 
+  @property(cc.Node)
+  columnGraphScrollView: cc.ScrollView = null;
+
+  @property(cc.Node)
+  columnGraphContent: cc.Node = null;
+
+  @property(cc.Node)
+  columnGraphLayout: cc.Layout = null;
+
+  @property(cc.Prefab)
+  statisticColumnPrefab: cc.Prefab = null;
+
   private ttOffset: cc.Vec2 = null;
   private dataLogs = [];
-  private bigColor: cc.Color = cc.color(219, 21, 21, 1);
-  private smallColor: cc.Color = cc.color(37, 128, 241, 1);
-  private anyTripleColor: cc.Color = cc.color(242, 159, 0, 1);
+  private bigColor: cc.Color = cc.color(219, 21, 21);
+  private smallColor: cc.Color = cc.color(37, 128, 241);
+  private anyTripleColor: cc.Color = cc.color(242, 159, 0);
 
   init(sicbo: SicBo) {
     this.dataLogs = sicbo.currentDataLogs;
+    
+    this.renderDotLineGraph();
+    this.updateStatisticLabels();
+  }
 
+  renderDotLineGraph() {
     let currentDataLogIndex = 0;
     for(const layout of this.KetQuaDot.children) {
       for(const dot of layout.children) {
@@ -103,7 +120,7 @@ export default class SicBoStatistic extends cc.Component {
           const { settlementResult, result } = data;
           dot.active = true;
           dotSprite.spriteFrame = this.logCircle;
-          dot.color = settlementResult.anyTriple
+          dotSprite.node.color = settlementResult.anyTriple
             ? this.anyTripleColor
             : settlementResult.big
             ? this.bigColor
@@ -116,10 +133,25 @@ export default class SicBoStatistic extends cc.Component {
         currentDataLogIndex++;
       }
     }
+  }
 
-    this.totalBig.string = this.dataLogs.filter(data => data.settlementResult.big).length.toString();
-    this.totalSmall.string = this.dataLogs.filter(data => data.settlementResult.small).length.toString();
-    this.totalAnyTriple.string = this.dataLogs.filter(data => data.settlementResult.anyTriple).length.toString();
+  renderColumnGraph() {
+    let startAddingColumn = false;
+    let columnDatas = [];
+    for(const dataLog of this.dataLogs) {
+      if(columnDatas.length > 0){
+        const columnData = columnDatas[0];
+      
+      }else{
+        columnDatas.push(dataLog);
+      }
+    }
+  }
+
+  updateStatisticLabels() {
+    this.totalBig.string = `${this.dataLogs.filter(data => data.settlementResult.big).length * 100 / this.dataLogs.length}%`;
+    this.totalSmall.string = `${this.dataLogs.filter(data => data.settlementResult.small).length * 100 / this.dataLogs.length}%`;
+    this.totalAnyTriple.string = `${this.dataLogs.filter(data => data.settlementResult.anyTriple).length * 100 / this.dataLogs.length}%`;
   }
   /*  init(obj) {
     this.TXRoot = obj;
