@@ -19,7 +19,6 @@ export default class SicBoTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        this.main.updateTotalBetLabel(0);
         this.main.highlightLastResult();
 
         if (cc.RedT.GAME_IS_SHOWED) {

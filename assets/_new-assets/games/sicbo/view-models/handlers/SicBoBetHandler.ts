@@ -15,7 +15,6 @@ export default class SicBoBetHandler extends GameBaseBetHandler {
             const bets = Object.values(data.ownBets);
             let ownBetTotal = 0;
             bets.forEach(bet => ownBetTotal += +bet);
-            this.main.updateTotalBetLabel(ownBetTotal);
         }
         return true;
     }

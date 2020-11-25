@@ -61,9 +61,6 @@ export default class SicBo extends NewSocketGameBase {
     randomResult: cc.Node = null;
 
     @property(cc.Label)
-    totalBetLabel: cc.Label = null;
-    
-    @property(cc.Label)
     bigStatsLabel: cc.Label = null;
 
     @property(cc.Label)
@@ -71,6 +68,9 @@ export default class SicBo extends NewSocketGameBase {
 
     @property(cc.Label)
     anyTripleStatsLabel: cc.Label = null;
+
+    @property(cc.Node)
+    betChoiceStatistic: cc.Node = null;
 
     @property(cc.Label)
     lastTotalPoints: cc.Label = null;
@@ -86,6 +86,13 @@ export default class SicBo extends NewSocketGameBase {
     bigStatistic: number = 0;
     smallStatistic: number = 0;
     anyTripleStatistic: number = 0;
+    specific1Statistic: number = 0;
+    specific2Statistic: number = 0;
+    specific3Statistic: number = 0;
+    specific4Statistic: number = 0;
+    specific5Statistic: number = 0;
+    specific6Statistic: number = 0;
+
     private statisticComponent: SicBoStatistic;
     constructor() {
         super();
@@ -108,9 +115,7 @@ export default class SicBo extends NewSocketGameBase {
         super.onLoad();
         this.shakeAnimation.node.active = false;
         this.animatedTime.setAnimatedY(30, -5);
-        this.bigStatsLabel.string = '';
-        this.smallStatsLabel.string = '';
-        this.anyTripleStatsLabel.string = '';
+        this.initBetChoiceStatistic();
     }
 
     initHandlers() {
@@ -186,16 +191,29 @@ export default class SicBo extends NewSocketGameBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
+    initBetChoiceStatistic() {
+        this.betChoiceStatistic.children.forEach(choice => {
+            const label = choice.getComponent(cc.Label);
+            label.string = "";
+        })
+    }
+
     resetStatistic() {
         this.bigStatistic = 0;
         this.smallStatistic = 0;
         this.anyTripleStatistic = 0;
+        this.specific1Statistic = 0;
+        this.specific2Statistic = 0;
+        this.specific3Statistic = 0;
+        this.specific4Statistic = 0;
+        this.specific5Statistic = 0;
+        this.specific6Statistic = 0;
     }
 
     updateStatistic(data: any) {
         this.resetStatistic();
 
-         if(this.statisticComponent) {
+        if (this.statisticComponent) {
             this.statisticComponent.init(this);
         }
         data.forEach(log => {
@@ -244,9 +262,5 @@ export default class SicBo extends NewSocketGameBase {
             const name = `dice_${dices[index]}_table`;
             component.spriteFrame = this.sicboAtlas.getSpriteFrame(name);
         })
-    }
-
-    updateTotalBetLabel(totalBet: number) {
-        this.totalBetLabel.string = totalBet.toString();
     }
 }
