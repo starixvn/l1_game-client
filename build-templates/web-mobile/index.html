@@ -57,6 +57,7 @@
     </div>
     <div class="ldBar label-center" data-value="0" data-preset="circle" style="width:100%;"></div>
   </div>
+  <div id="buttonFullAndroid"></div>
   <script type="text/javascript" src="./loading-bar/loading-bar.min.js"></script>
   <script src="src/settings.js" charset="utf-8"></script>
   <script src="main.js" charset="utf-8"></script>
@@ -75,10 +76,10 @@
       var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
       if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement && requestFullScreen) {
-        try {
-          requestFullScreen.call(docEl);
-        } catch (e) {
-        }
+        // try {
+        requestFullScreen.call(docEl);
+        // } catch (e) {
+        // }
       }
     }
 
@@ -125,10 +126,16 @@
       }
 
       if (userAgent.match(/android/i)) {
-        window.addEventListener("orientationchange", function () {
+        var fullButton = document.getElementById("buttonFullAndroid");
+        fullButton.style.display = "block";
+        window.onresize = () => {
+          fullButton.style.display = "block";
           updateViewport();
+        }
+        fullButton.onclick = () => {
           toggleFullScreen();
-        })
+          fullButton.style.display = "none";
+        }
       }
     };
 
