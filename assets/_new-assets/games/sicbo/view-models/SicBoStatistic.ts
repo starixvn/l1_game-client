@@ -1,4 +1,5 @@
 import SicBo from './SicBo';
+import SicBoStatisticColumn from './SicBoStatisticColumn';
 
 const { ccclass, property } = cc._decorator;
 
@@ -91,9 +92,6 @@ export default class SicBoStatistic extends cc.Component {
   @property(cc.Node)
   columnGraphContent: cc.Node = null;
 
-  @property(cc.Node)
-  columnGraphLayout: cc.Layout = null;
-
   @property(cc.Prefab)
   statisticColumnPrefab: cc.Prefab = null;
 
@@ -105,28 +103,25 @@ export default class SicBoStatistic extends cc.Component {
 
   init(sicbo: SicBo) {
     this.dataLogs = sicbo.currentDataLogs;
-    
+
     this.renderDotLineGraph();
+    this.renderColumnGraph();
     this.updateStatisticLabels();
   }
 
   renderDotLineGraph() {
     let currentDataLogIndex = 0;
-    for(const layout of this.KetQuaDot.children) {
-      for(const dot of layout.children) {
+    for (const layout of this.KetQuaDot.children) {
+      for (const dot of layout.children) {
         const data = this.dataLogs[currentDataLogIndex];
-        const dotSprite= dot.getComponent(cc.Sprite);
+        const dotSprite = dot.getComponent(cc.Sprite);
         if (data) {
           const { settlementResult, result } = data;
           dot.active = true;
           dotSprite.spriteFrame = this.logCircle;
-          dotSprite.node.color = settlementResult.anyTriple
-            ? this.anyTripleColor
-            : settlementResult.big
-            ? this.bigColor
-            : this.smallColor;
+          dotSprite.node.color = settlementResult.anyTriple ? this.anyTripleColor : settlementResult.big ? this.bigColor : this.smallColor;
 
-            dot.children[0].getComponent(cc.Label).string = result.dice1 + result.dice2 + result.dice3;
+          dot.children[0].getComponent(cc.Label).string = result.dice1 + result.dice2 + result.dice3;
         } else {
           dot.active = false;
         }
@@ -136,22 +131,54 @@ export default class SicBoStatistic extends cc.Component {
   }
 
   renderColumnGraph() {
-    let startAddingColumn = false;
-    let columnDatas = [];
-    for(const dataLog of this.dataLogs) {
-      if(columnDatas.length > 0){
-        const columnData = columnDatas[0];
-      
-      }else{
-        columnDatas.push(dataLog);
-      }
+    this.columnGraphContent.removeAllChildren();
+
+    let currentIndex = 0;
+    while (currentIndex < this.dataLogs.length) {
+      const columnLogs = [];
+      currentIndex = this.getColumnLogs(columnLogs, currentIndex);
+      columnLogs.reverse();
+
+      const column = cc.instantiate(this.statisticColumnPrefab);
+      const columnComponent = column.getComponent(SicBoStatisticColumn);
+      columnLogs.forEach((log, index) => {
+        const { result, settlementResult } = log;
+        const dot = columnComponent.dots[index];
+        dot.node.children[0].getComponent(cc.Label).string = result.dice1 + result.dice2 + result.dice3;
+        dot.spriteFrame = this.logCircle;
+        dot.node.color = settlementResult.anyTriple ? this.anyTripleColor : settlementResult.big ? this.bigColor : this.smallColor;
+      });
+      this.columnGraphContent.addChild(column);
     }
   }
 
+  getColumnLogs(arr: any[], startIndex: number) {
+    const firstLog = this.dataLogs[startIndex];
+    arr.push(firstLog);
+    startIndex++;
+
+    for (startIndex; startIndex < this.dataLogs.length && arr.length < 5; startIndex++) {
+      const log = this.dataLogs[startIndex];
+      if (
+        log.settlementResult.anyTriple ||
+        arr.some((x) => x.settlementResult.big === log.settlementResult.big || x.settlementResult.small === log.settlementResult.small) ||
+        (firstLog.settlementResult.anyTriple && arr.length === 1)
+      ) {
+        arr.push(log);
+      } else {
+        break;
+      }
+    }
+
+    return startIndex;
+  }
+
   updateStatisticLabels() {
-    this.totalBig.string = `${this.dataLogs.filter(data => data.settlementResult.big).length * 100 / this.dataLogs.length}%`;
-    this.totalSmall.string = `${this.dataLogs.filter(data => data.settlementResult.small).length * 100 / this.dataLogs.length}%`;
-    this.totalAnyTriple.string = `${this.dataLogs.filter(data => data.settlementResult.anyTriple).length * 100 / this.dataLogs.length}%`;
+    this.totalBig.string = `${(this.dataLogs.filter((data) => data.settlementResult.big).length * 100) / this.dataLogs.length}%`;
+    this.totalSmall.string = `${(this.dataLogs.filter((data) => data.settlementResult.small).length * 100) / this.dataLogs.length}%`;
+    this.totalAnyTriple.string = `${
+      (this.dataLogs.filter((data) => data.settlementResult.anyTriple).length * 100) / this.dataLogs.length
+    }%`;
   }
   /*  init(obj) {
     this.TXRoot = obj;
