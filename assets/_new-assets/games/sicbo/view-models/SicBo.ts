@@ -11,6 +11,8 @@ import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
 import SicBoBetItem from './SicBoBetItem';
 import SicBoBetHandler from "./handlers/SicBoBetHandler";
 import SicBoStatistic from "./SicBoStatistic";
+import SicBoRoundHistory from './SicBoRoundHistory';
+import SicBoRoundHistoryItem from "./SicBoRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -87,6 +89,12 @@ export default class SicBo extends NewSocketGameBase {
     @property(cc.SpriteAtlas)
     sicboAtlas: cc.SpriteAtlas = null;
 
+    @property(cc.Prefab)
+    roundHistoryPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    roundHistoryContainer: cc.Node = null;
+
     public finishShakeThePlate: boolean = false;
 
     bigStatistic: number = 0;
@@ -100,6 +108,8 @@ export default class SicBo extends NewSocketGameBase {
     specific6Statistic: number = 0;
 
     private statisticComponent: SicBoStatistic;
+    private miniRoundHistory: SicBoRoundHistory;
+
     constructor() {
         super();
         this.internalInit();
@@ -121,6 +131,7 @@ export default class SicBo extends NewSocketGameBase {
         super.onLoad();
         this.shakeAnimation.node.active = false;
         this.animatedTime.setAnimatedY(30, -5);
+        this.initRoundHistory();
         this.initBetChoiceStatistic();
     }
 
@@ -284,5 +295,15 @@ export default class SicBo extends NewSocketGameBase {
             const name = `dice_${dices[index]}_table`;
             component.spriteFrame = this.sicboAtlas.getSpriteFrame(name);
         })
+    }
+
+    initRoundHistory() {
+        const node = cc.instantiate(this.roundHistoryPrefab);
+        this.miniRoundHistory = node.getComponent(SicBoRoundHistory);;
+        this.roundHistoryContainer.addChild(node);
+    }
+
+    updateRoundHistory(data) {
+        this.miniRoundHistory.setData(data);
     }
 }

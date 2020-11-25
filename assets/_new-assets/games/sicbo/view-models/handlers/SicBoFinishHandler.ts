@@ -10,7 +10,7 @@ export default class SicBoFinishHandler extends GameBaseFinishHandler {
         super.handleFinishData(dataFinish, onFinishHandlingData);
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
-        this.main.updateStatistic(this.main.currentDataLogs);
+
         this.main.setResult();
 
         if (cc.RedT.GAME_IS_SHOWED) {
@@ -25,6 +25,8 @@ export default class SicBoFinishHandler extends GameBaseFinishHandler {
                     onFinishHandlingData();
                     this.main.highlightWinningBetItems();
                     this.main.updateResultOnTable(this.main.currentDataLogs[0]);
+                    this.main.updateStatistic(this.main.currentDataLogs);
+                    this.main.updateRoundHistory(this.main.currentDataLogs);
                 })
                 .start();
         }
