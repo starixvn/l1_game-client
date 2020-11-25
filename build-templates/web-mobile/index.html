@@ -76,10 +76,7 @@
       var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
       if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement && requestFullScreen) {
-        // try {
         requestFullScreen.call(docEl);
-        // } catch (e) {
-        // }
       }
     }
 
@@ -114,6 +111,7 @@
       var userAgent = window.navigator.userAgent;
       updateViewport();
       if (userAgent.match(/iPad|iPhone|iPod/i)) {
+        document.body.style.overflowY = "scroll";
         showIntruction();
         window.addEventListener("resize", function () {
           showIntruction();
@@ -129,7 +127,8 @@
         var fullButton = document.getElementById("buttonFullAndroid");
         fullButton.style.display = "block";
         window.onresize = () => {
-          fullButton.style.display = "block";
+          var isFullScreen = (screen.height - window.innerHeight) < 1;
+          fullButton.style.display = isFullScreen ? "none" : "block";
           updateViewport();
         }
         fullButton.onclick = () => {
