@@ -218,7 +218,6 @@ export default class SicBo extends NewSocketGameBase {
 
     updateStatistic(data: any) {
         this.resetStatistic();
-        console.log(data);
 
         data.forEach(log => {
             this.smallStatistic += log.settlementResult[SicBoBetType.small] ? 1 : 0;
@@ -233,15 +232,17 @@ export default class SicBo extends NewSocketGameBase {
         })
 
         const length = data.length;
+
         const big = _.round((this.bigStatistic / length) * 100);
         const small = _.round((this.smallStatistic / length) * 100);
         const anyTriple = _.round((this.anyTripleStatistic / length) * 100);
-        const specific1 = _.round((this.specific1Statistic / length) * 100);
-        const specific2 = _.round((this.specific2Statistic / length) * 100);
-        const specific3 = _.round((this.specific3Statistic / length) * 100);
-        const specific4 = _.round((this.specific4Statistic / length) * 100);
-        const specific5 = _.round((this.specific5Statistic / data.length) * 100);
-        const specific6 = _.round((this.specific6Statistic / data.length) * 100);
+
+        const specific1 = _.round((this.specific1Statistic / (length * 3)) * 100);
+        const specific2 = _.round((this.specific2Statistic / (length * 3)) * 100);
+        const specific3 = _.round((this.specific3Statistic / (length * 3)) * 100);
+        const specific4 = _.round((this.specific4Statistic / (length * 3)) * 100);
+        const specific5 = _.round((this.specific5Statistic / (length * 3)) * 100);
+        const specific6 = 100 - (specific1 + specific2 + specific3 + specific4 + specific5);
 
         let betPercentArray = [];
         betPercentArray.push(big, small, anyTriple, anyTriple, specific1, specific2, specific3, specific4, specific5, specific6);
