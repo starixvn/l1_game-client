@@ -17,7 +17,13 @@ const { ccclass, property } = cc._decorator;
 export enum SicBoBetType {
     big = "big",
     small = "small",
-    anyTriple = "anyTriple"
+    anyTriple = "anyTriple",
+    specific1 = "specific1",
+    specific2 = "specific2",
+    specific3 = "specific3",
+    specific4 = "specific4",
+    specific5 = "specific5",
+    specific6 = "specific6"
 }
 
 @ccclass
@@ -212,23 +218,38 @@ export default class SicBo extends NewSocketGameBase {
 
     updateStatistic(data: any) {
         this.resetStatistic();
+        console.log(data);
 
-        if (this.statisticComponent) {
-            this.statisticComponent.init(this);
-        }
         data.forEach(log => {
             this.smallStatistic += log.settlementResult[SicBoBetType.small] ? 1 : 0;
             this.bigStatistic += log.settlementResult[SicBoBetType.big] ? 1 : 0;
             this.anyTripleStatistic += log.settlementResult[SicBoBetType.anyTriple] ? 1 : 0;
+            this.specific1Statistic += log.settlementResult[SicBoBetType.specific1] ? 1 : 0;
+            this.specific2Statistic += log.settlementResult[SicBoBetType.specific2] ? 1 : 0;
+            this.specific3Statistic += log.settlementResult[SicBoBetType.specific3] ? 1 : 0;
+            this.specific4Statistic += log.settlementResult[SicBoBetType.specific4] ? 1 : 0;
+            this.specific5Statistic += log.settlementResult[SicBoBetType.specific5] ? 1 : 0;
+            this.specific6Statistic += log.settlementResult[SicBoBetType.specific6] ? 1 : 0;
         })
 
-        const small = _.round((this.smallStatistic / data.length) * 100);
-        const big = _.round((this.bigStatistic / data.length) * 100);
-        const anyTriple = _.round((this.anyTripleStatistic / data.length) * 100);
+        const length = data.length;
+        const big = _.round((this.bigStatistic / length) * 100);
+        const small = _.round((this.smallStatistic / length) * 100);
+        const anyTriple = _.round((this.anyTripleStatistic / length) * 100);
+        const specific1 = _.round((this.specific1Statistic / length) * 100);
+        const specific2 = _.round((this.specific2Statistic / length) * 100);
+        const specific3 = _.round((this.specific3Statistic / length) * 100);
+        const specific4 = _.round((this.specific4Statistic / length) * 100);
+        const specific5 = _.round((this.specific5Statistic / data.length) * 100);
+        const specific6 = _.round((this.specific6Statistic / data.length) * 100);
 
-        this.smallStatsLabel.string = `${small}%`;
-        this.bigStatsLabel.string = `${big}%`;
-        this.anyTripleStatsLabel.string = `${anyTriple}%`;
+        let betPercentArray = [];
+        betPercentArray.push(big, small, anyTriple, anyTriple, specific1, specific2, specific3, specific4, specific5, specific6);
+
+        this.betChoiceStatistic.children.forEach((choice, index) => {
+            const label = choice.getComponent(cc.Label);
+            label.string = `${betPercentArray[index]}%`;
+        })
     }
 
     updateResultOnTable(data: any) {
@@ -240,14 +261,14 @@ export default class SicBo extends NewSocketGameBase {
 
         let result = "";
         Object.keys(data.settlementResult).forEach(key => {
-            if (key == SicBoBetType.anyTriple) {
+            if (data.settlementResult[SicBoBetType.anyTriple]) {
                 result = "Bão";
             } else {
-                if (key == SicBoBetType.big) {
+                if (data.settlementResult[SicBoBetType.big]) {
                     result = "Tài";
                 }
 
-                if (key == SicBoBetType.small) {
+                if (data.settlementResult[SicBoBetType.small]) {
                     result = "Xỉu";
                 }
             }
