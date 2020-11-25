@@ -320,7 +320,7 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     playAudioCardSliding() {
-        this.cardSlideAudioSource.play();
+        cc.RedT.isSoundGame() && this.cardSlideAudioSource.play();
     }
 
     drawingCardToPlayer(card: CardModel, pos: number, onComplete = () => { }) {
@@ -458,7 +458,7 @@ export default class BlackJack extends NewSocketGameBase {
     socketSendData(key: string, data: any) {
         data && (data.username = cc.RedT.user.name);
         this.socket && this.socket.connected && this.socket.emit(key, data);
-        this.setIntervalReminder();
+        data && this.setIntervalReminder();
     }
 
     rebet() {
@@ -703,8 +703,7 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     playAudioNotification() {
-        // console.log('playAudioNotification');
-        this.gameNotificationsAudio.play();
+        cc.RedT.isSoundGame() && this.gameNotificationsAudio.play();
     }
 
     setIntervalReminder() {
