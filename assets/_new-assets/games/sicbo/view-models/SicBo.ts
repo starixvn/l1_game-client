@@ -14,9 +14,15 @@ import SicBoStatistic from "./SicBoStatistic";
 
 const { ccclass, property } = cc._decorator;
 
+export enum SicBoBetType {
+    big = "big",
+    small = "small",
+    anyTriple = "anyTriple"
+}
+
 @ccclass
 export default class SicBo extends NewSocketGameBase {
-    public readonly shakeThePlateTime = 33;
+    public get shakeThePlateTime() { return this.config.betTime + 3; }
 
     @property(cc.Node)
     betChoices: cc.Node = null;
@@ -193,9 +199,9 @@ export default class SicBo extends NewSocketGameBase {
             this.statisticComponent.init(this);
         }
         data.forEach(log => {
-            this.smallStatistic += log.settlementResult["small"] ? 1 : 0;
-            this.bigStatistic += log.settlementResult["big"] ? 1 : 0;
-            this.anyTripleStatistic += log.settlementResult["anyTriple"] ? 1 : 0;
+            this.smallStatistic += log.settlementResult[SicBoBetType.small] ? 1 : 0;
+            this.bigStatistic += log.settlementResult[SicBoBetType.big] ? 1 : 0;
+            this.anyTripleStatistic += log.settlementResult[SicBoBetType.anyTriple] ? 1 : 0;
         })
 
         const small = _.round((this.smallStatistic / data.length) * 100);
@@ -214,7 +220,22 @@ export default class SicBo extends NewSocketGameBase {
             totalPoints += +point;
         })
 
-        this.lastTotalPoints.string = `${totalPoints}`;
+        let result = "";
+        Object.keys(data.settlementResult).forEach(key => {
+            if (key == SicBoBetType.anyTriple) {
+                result = "Bão";
+            } else {
+                if (key == SicBoBetType.big) {
+                    result = "Tài";
+                }
+
+                if (key == SicBoBetType.small) {
+                    result = "Xỉu";
+                }
+            }
+        })
+
+        this.lastTotalPoints.string = `${totalPoints}/${result}`;
 
         const dices: number[] = Object.values(data.result);
 
