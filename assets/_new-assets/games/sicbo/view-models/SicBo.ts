@@ -262,6 +262,10 @@ export default class SicBo extends NewSocketGameBase {
             const label = choice.getComponent(cc.Label);
             label.string = `${betPercentArray[index]}%`;
         })
+
+        if (this.statisticComponent) {
+            this.statisticComponent.init(this);
+        }
     }
 
     updateResultOnTable(data: any) {
