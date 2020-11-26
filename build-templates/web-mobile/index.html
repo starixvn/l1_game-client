@@ -94,8 +94,11 @@
 
     function updateViewport() {
       var userAgent = window.navigator.userAgent;
-      if (userAgent.match(/iphone|ipad|ipod/i) && userAgent.match(/safari/i)) {
-        const height = screen.width;
+      if (userAgent.match(/iphone|ipad|ipod/i)) {
+        let height = screen.width;
+        if (userAgent.match(/crios/i)) {
+          height -= 20;
+        }
         let vh = height * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
       } else if (userAgent.match(/android/i)) {

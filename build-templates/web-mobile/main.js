@@ -70,6 +70,9 @@ window.boot = function () {
         //CHEAT: force height equal screen.width
         if(isLandscape){
             h = screen.width;
+            if(window.navigator.userAgent.match(/crios/i)){ 
+                h -= 20;
+            }
         }
 
         if (CC_EDITOR || !cc.sys.isMobile ||
