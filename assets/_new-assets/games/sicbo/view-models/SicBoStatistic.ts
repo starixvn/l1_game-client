@@ -172,11 +172,15 @@ export default class SicBoStatistic extends cc.Component {
   }
 
   updateStatisticLabels() {
-    this.totalBig.string = `${(this.dataLogs.filter((data) => data.settlementResult.big).length * 100) / this.dataLogs.length}%`;
-    this.totalSmall.string = `${(this.dataLogs.filter((data) => data.settlementResult.small).length * 100) / this.dataLogs.length}%`;
-    this.totalAnyTriple.string = `${
+    this.totalBig.string = `${Math.round(
+      (this.dataLogs.filter((data) => data.settlementResult.big).length * 100) / this.dataLogs.length
+    )}%`;
+    this.totalSmall.string = `${Math.round(
+      (this.dataLogs.filter((data) => data.settlementResult.small).length * 100) / this.dataLogs.length
+    )}%`;
+    this.totalAnyTriple.string = `${Math.round(
       (this.dataLogs.filter((data) => data.settlementResult.anyTriple).length * 100) / this.dataLogs.length
-    }%`;
+    )}%`;
   }
   onEnable() {
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -241,7 +245,7 @@ export default class SicBoStatistic extends cc.Component {
     this.dice3_dot.children[index].active = isActive;
     this.totalDots.children[index].active = isActive;
   }
-  
+
   showLineTotal() {
     cc.RedT.audio.playClick();
     this.totalDots.active = !this.totalDots.active;

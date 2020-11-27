@@ -13,6 +13,7 @@ import SicBoBetHandler from "./handlers/SicBoBetHandler";
 import SicBoStatistic from "./SicBoStatistic";
 import SicBoRoundHistory from './SicBoRoundHistory';
 import SicBoRoundHistoryItem from "./SicBoRoundHistoryItem";
+import SicBoHistory from "./SicBoHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -109,6 +110,7 @@ export default class SicBo extends NewSocketGameBase {
 
     private statisticComponent: SicBoStatistic;
     private miniRoundHistory: SicBoRoundHistory;
+    private userHistoryComponent: SicBoHistory;
 
     constructor() {
         super();
@@ -188,8 +190,8 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     onDataGameRoom(data) {
-        if (data.history) {
-            // this.historyComponent.onData(data.history);
+        if (data.history && this.userHistoryComponent) {
+            this.userHistoryComponent.onData(data.history);
         }
 
         super.onDataGameRoom(data);
@@ -199,6 +201,10 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     openHistory() {
+        let dialog = cc.instantiate(this.historyPrefab);
+        this.userHistoryComponent = dialog.getComponent(SicBoHistory);
+        this.userHistoryComponent.init(this.socket);
+        this.currentMiniPanel.node.addChild(dialog);
     }
 
     openStatistic() {
