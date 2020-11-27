@@ -6,12 +6,14 @@
     <title>Saba Club</title>
     <!--http://www.html5rocks.com/en/mobile/mobifying/-->
     <meta name="viewport"
-        content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1" />
+        content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1" />
 
     <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
+
+    <meta name="mobile-web-app-capable" content="yes">
 
     <!-- force webkit on 360 -->
     <meta name="renderer" content="webkit" />
@@ -56,11 +58,10 @@
         </div>
         <div class="ldBar label-center" data-value="0" data-preset="circle" style="width:100%;"></div>
     </div>
+    <div id="buttonFullAndroid"></div>
     <script type="text/javascript" src="./loading-bar/loading-bar.min.js"></script>
     <script src="src/settings.js" charset="utf-8"></script>
-
     <script src="main.js" charset="utf-8"></script>
-
     <script type="text/javascript">
         window.mobilecheck = function () {
             var check = false;
@@ -68,60 +69,82 @@
             return check;
         };
 
+        function toggleFullScreen() {
+            var doc = window.document;
+            var docEl = document.documentElement;
+
+            var requestFullScreen = docEl.webkitEnterFullscreen || docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+            if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement && requestFullScreen) {
+                requestFullScreen.call(docEl);
+            }
+        }
+
+        function showIntruction() {
+            var instruction = document.getElementById('myInstruction');
+            var show = window.innerHeight < screen.width - 20;
+            instruction.style.display = show ? "block" : "none";
+        }
+
+        function quickHideAddressBar() {
+            setTimeout(function () {
+                window.scrollTo(0, 1);
+            }, 0);
+        }
+
+        function updateViewport() {
+            var userAgent = window.navigator.userAgent;
+            if (userAgent.match(/iphone|ipad|ipod/i)) {
+                let height = screen.width;
+                if (userAgent.match(/crios/i)) {
+                    height -= 20;
+                }
+                let vh = height * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            } else if (userAgent.match(/android/i)) {
+                const height = window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
+                let vh = height * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            } else {
+                document.documentElement.style.setProperty('--vh', `1%`);
+            }
+        }
+
         handleFullScreen = function () {
             var userAgent = window.navigator.userAgent;
-            if (userAgent.match(/iPhone/i)) {
-                var instruction = document.getElementById("myInstruction");
+            updateViewport();
+            if (userAgent.match(/iPad|iPhone|iPod/i)) {
+                document.body.style.overflowY = "scroll";
+                showIntruction();
+                window.addEventListener("resize", function () {
+                    showIntruction();
+                    updateViewport();
+                    toggleFullScreen();
+                    quickHideAddressBar();
+                })
+                window.addEventListener("scroll", () => {
+                    showIntruction();
+                });
+            }
 
-                function myFunction(x) {
-                    if (x.matches) {
-                        instruction.style.display = "none";
-                    } else {
-                        listenCallBack();
-                        window.addEventListener("resize", listenCallBack);
-                        window.onload = listenCallBack;
-                        function listenCallBack() {
-                            var instruction = document.getElementById('myInstruction');
-                            var inner = parseInt(window.innerHeight);
-                            var client = parseInt(document.documentElement.clientHeight);
-                            var addressbar = client - inner;
-                            if (inner == client || addressbar < 20) {
-                                instruction.style.display = "none";
-                            } else if (!x.matches) {
-                                instruction.style.display = "block";
-                            }
-                        }
-                    }
+            if (userAgent.match(/android/i)) {
+                var fullButton = document.getElementById("buttonFullAndroid");
+                fullButton.style.display = "block";
+                window.onresize = () => {
+                    var isFullScreen = (screen.height - window.innerHeight) < 1;
+                    fullButton.style.display = isFullScreen ? "none" : "block";
+                    updateViewport();
                 }
-                var x = window.matchMedia("(max-width: 500px)")
-                myFunction(x)
-                x.addListener(myFunction)
-
-            } else if (userAgent.match(/Android/i)) {
-                var goFS = document.getElementById("GameCanvas");
-                var elem = document.documentElement;
-
-                goFS.addEventListener("touchstart", function () {
-                    if (elem.mozRequestFullScreen) { /* Firefox */
-                        elem.mozRequestFullScreen();
-                    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                        elem.webkitRequestFullscreen();
-                    } else if (elem.msRequestFullscreen) { /* IE/Edge */
-                        elem.msRequestFullscreen();
-                    }
-                }, false);
-
-                if (document.addEventListener) {
-                    document.addEventListener('mozfullscreenchange', exitHandler, false);
-                    document.addEventListener('MSFullscreenChange', exitHandler, false);
-                    document.addEventListener('webkitfullscreenchange', exitHandler, false);
-                }
-
-                function exitHandler() {
+                fullButton.onclick = () => {
+                    toggleFullScreen();
+                    fullButton.style.display = "none";
                 }
             }
         };
+
         (function () {
+            // open web debugger console
             if (typeof VConsole !== 'undefined') {
                 window.vConsole = new VConsole();
             }
