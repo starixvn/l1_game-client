@@ -247,46 +247,11 @@ export default class SicBo extends NewSocketGameBase {
         this.specific6Statistic = 0;
     }
 
-    // updateStatistic(data: any) {
+    updateStatistic(data: any) {
         this.statisticDicesComponent.updateData();
 
-    //     data.forEach(log => {
-    //         this.smallStatistic += log.settlementResult[SicBoBetType.small] ? 1 : 0;
-    //         this.bigStatistic += log.settlementResult[SicBoBetType.big] ? 1 : 0;
-    //         this.anyTripleStatistic += log.settlementResult[SicBoBetType.anyTriple] ? 1 : 0;
-    //         this.specific1Statistic += log.settlementResult[SicBoBetType.specific1] ? 1 : 0;
-    //         this.specific2Statistic += log.settlementResult[SicBoBetType.specific2] ? 1 : 0;
-    //         this.specific3Statistic += log.settlementResult[SicBoBetType.specific3] ? 1 : 0;
-    //         this.specific4Statistic += log.settlementResult[SicBoBetType.specific4] ? 1 : 0;
-    //         this.specific5Statistic += log.settlementResult[SicBoBetType.specific5] ? 1 : 0;
-    //         this.specific6Statistic += log.settlementResult[SicBoBetType.specific6] ? 1 : 0;
-    //     })
-
-    //     const length = data.length;
-
-    //     const big = _.round((this.bigStatistic / length) * 100);
-    //     const small = _.round((this.smallStatistic / length) * 100);
-    //     const anyTriple = _.round((this.anyTripleStatistic / length) * 100);
-
-    //     const specific1 = _.round((this.specific1Statistic / (length * 3)) * 100);
-    //     const specific2 = _.round((this.specific2Statistic / (length * 3)) * 100);
-    //     const specific3 = _.round((this.specific3Statistic / (length * 3)) * 100);
-    //     const specific4 = _.round((this.specific4Statistic / (length * 3)) * 100);
-    //     const specific5 = _.round((this.specific5Statistic / (length * 3)) * 100);
-    //     const specific6 = 100 - (specific1 + specific2 + specific3 + specific4 + specific5);
-
-    //     let betPercentArray = [];
-    //     betPercentArray.push(big, small, anyTriple, anyTriple, specific1, specific2, specific3, specific4, specific5, specific6);
-
-    //     this.betChoiceStatistic.children.forEach((choice, index) => {
-    //         const label = choice.getComponent(cc.Label);
-    //         label.string = `${betPercentArray[index]}%`;
-    //     })
-
-    //     if (this.statisticComponent) {
-    //         this.statisticComponent.init(this);
-    //     }
-    // }
+ 
+    }
 
     initRoundHistory() {
         const node = cc.instantiate(this.roundHistoryPrefab);
