@@ -14,6 +14,7 @@ import SicBoStatistic from "./SicBoStatistic";
 import SicBoRoundHistory from './SicBoRoundHistory';
 import SicBoRoundHistoryItem from "./SicBoRoundHistoryItem";
 import SicBoHistory from "./SicBoHistory";
+import SicBoGuide from './SiBoGuide';
 
 const { ccclass, property } = cc._decorator;
 
@@ -198,6 +199,10 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     openGuide() {
+        let dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(SicBoGuide);
+        guide.init(this.gameConfigs);
+        this.currentMiniPanel.node.addChild(dialog);
     }
 
     openHistory() {
