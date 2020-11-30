@@ -7,9 +7,8 @@ export default class SicBoLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
-        this.main.updateStatistic(dataLogs);
+        // this.main.updateStatistic(dataLogs);
         this.main.updateRoundHistory(dataLogs);
-        this.main.updateResultOnTable(dataLogs[0]);
         this.main.highlightLastResult();
 
         if (this.main.currentTimeRemaining > this.main.shakeThePlateTime && !this.main.finishShowResult) {

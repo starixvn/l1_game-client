@@ -7,6 +7,9 @@ export default abstract class SicBoRoundHistoryItem extends cc.Component {
     @property(cc.Sprite)
     icon: cc.Sprite = null;
 
+    @property(cc.Label)
+    points: cc.Label = null;
+
     @property(cc.SpriteFrame)
     circle: cc.SpriteFrame = null;
 
