@@ -142,8 +142,8 @@ cc.Class({
       this.gameAds.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.gameAds.position.y);
     } else {
       scrollView.enabled = true;
-      this.scrollContent.position = cc.v2(-scrollView.node.width / 2, this.scrollContent.position.y);
       adsWidget.enabled = true;
+      scrollView.scrollTo(0, 0);
     }
   },
   outRoomGame: function () {
