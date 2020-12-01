@@ -98,7 +98,7 @@ const configs = {
     },
     SicBo: {
       id: 27,
-      name: 'Sic Bo',
+      name: 'Tài Xỉu Sic Bo',
     },
   },
   gameRoomRegNames: {
