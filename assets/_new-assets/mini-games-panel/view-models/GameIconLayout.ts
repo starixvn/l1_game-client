@@ -1,6 +1,6 @@
-import GameUtils from "../../common/GameUtils";
-import { games } from "../../SabaConfigs";
-import MiniPanel from "./MiniPanel";
+import GameUtils from '../../common/GameUtils';
+import { games } from '../../SabaConfigs';
+import MiniPanel from './MiniPanel';
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,7 +24,7 @@ export default class GameIconLayout extends cc.Component {
   private colums: cc.Node[] = [];
   public miniPanel: MiniPanel = null;
   public columnCount = 0;
-  public initializedCallback = () => { };
+  public initializedCallback = () => {};
 
   onLoad() {
     this.initPrefabs().then(() => {
@@ -61,6 +61,7 @@ export default class GameIconLayout extends cc.Component {
       games.SpecialSeDie.id,
       games.BlackJack.id,
       games.Roulette.id
+      games.VipBaccarat.id,
     ];
   }
 
