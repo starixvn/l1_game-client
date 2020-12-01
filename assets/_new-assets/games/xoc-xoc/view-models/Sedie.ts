@@ -1,3 +1,4 @@
+import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { games } from "../../../SabaConfigs";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
@@ -52,7 +53,7 @@ export default class Sedie extends NewSocketGameBase {
     dotWhite: cc.SpriteFrame = null;
 
     private roundHistory: SedieRoundHistory;
-    private miniRoundHistory: SedieMiniRoundHistory;
+    protected miniRoundHistory: MiniRoundHistory;
     private historyComponent: SedieHistory;
 
     constructor() {
@@ -149,5 +150,24 @@ export default class Sedie extends NewSocketGameBase {
             this.betItems.forEach(betItem => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
             this.updateRoundHistory();
         }
+    }
+
+    openPlate(animated: boolean) {
+        if (animated) {
+            cc.tween(this.thePlate)
+                .to(0.5, { position: cc.v2(50, 100) }, { easing: "sineInOut" })
+                .to(0.2, { opacity: 0 })
+                .start();
+        } else {
+            this.thePlate.position = cc.v2(50, 150);
+            this.thePlate.opacity = 0;
+        }
+    }
+
+    closePlate() {
+        cc.tween(this.thePlate)
+            .to(0, { opacity: 255 })
+            .to(0.5, { position: cc.v2(0, 0) })
+            .start();
     }
 }

@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "VipSeDieWar",
+    "_name": "vip-sedie",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -34,10 +34,13 @@
       },
       {
         "__id__": 10
+      },
+      {
+        "__id__": 11
       }
     ],
     "_prefab": {
-      "__id__": 11
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -70,7 +73,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -103,7 +106,7 @@
     "_prefab": {
       "__id__": 4
     },
-    "_opacity": 102,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -166,7 +169,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "25c0c649-e9dc-4ee3-bb63-ba1b3d136867"
+      "__uuid__": "3b410df4-c88f-4408-8ece-954c9cf87323"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -190,7 +193,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "d3ef2f44-ae2d-40bd-93c0-876653da4fc4"
+      "__uuid__": "49b29b23-dd0f-44df-9dd0-95b2e002ae5f"
     },
     "fileId": "03K0sHG6BKe65tVZGlaBOG",
     "sync": false
@@ -215,14 +218,14 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 180,
-      "g": 180,
-      "b": 180,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 192,
+      "width": 117.71,
       "height": 40
     },
     "_anchorPoint": {
@@ -275,8 +278,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "XÓC ĐĨA ĐỐI KHÁNG",
-    "_N$string": "XÓC ĐĨA ĐỐI KHÁNG",
+    "_string": "XÓC ĐĨA VIP",
+    "_N$string": "XÓC ĐĨA VIP",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -301,10 +304,80 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "d3ef2f44-ae2d-40bd-93c0-876653da4fc4"
+      "__uuid__": "49b29b23-dd0f-44df-9dd0-95b2e002ae5f"
     },
     "fileId": "2ePMqvd65JO6bhfvJCIeKH",
     "sync": false
+  },
+  {
+    "__type__": "cc.Button",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_normalMaterial": null,
+    "_grayMaterial": null,
+    "duration": 0.1,
+    "zoomScale": 1.1,
+    "clickEvents": [
+      null
+    ],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$transition": 3,
+    "transition": 3,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 214,
+      "g": 214,
+      "b": 214,
+      "a": 255
+    },
+    "_N$pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
+    "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
+    "_N$hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$disabledColor": {
+      "__type__": "cc.Color",
+      "r": 124,
+      "g": 124,
+      "b": 124,
+      "a": 255
+    },
+    "_N$normalSprite": null,
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
+    "_N$target": null,
+    "_id": ""
   },
   {
     "__type__": "d8e56/FW3FDTab9UduKTQcx",
@@ -367,7 +440,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "d3ef2f44-ae2d-40bd-93c0-876653da4fc4"
+      "__uuid__": "49b29b23-dd0f-44df-9dd0-95b2e002ae5f"
     },
     "fileId": "f7yBCy5CdMNb0Q6Amz30Qa",
     "sync": false

@@ -1,7 +1,7 @@
-import LogControl from "../../keno-pro/view-models/LogControl";
-import SedieRoundHistoryItem from "./SedieRoundHistoryItem";
 import GameBase from "../../_base/GameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import LogControl from "../../keno-pro/view-models/LogControl";
+import SedieRoundHistoryItem from "./SedieRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
