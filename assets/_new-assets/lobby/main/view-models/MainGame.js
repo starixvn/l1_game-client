@@ -8,9 +8,9 @@ import * as authManager from "./../../../common/auth/AuthManager";
 
 const sentryLogger = logger();
 
-var header = require("Header"),
-  dialog = require("Dialog"),
-  newsContents = require("NewsContents");
+var header = require('Header'),
+  dialog = require('Dialog'),
+  newsContents = require('NewsContents');
 
 cc.Class({
   extends: cc.Component,
@@ -129,8 +129,8 @@ cc.Class({
   getGameNotifications() {
     cc.RedT.send({
       gameNotifications: {
-        gameId: 23
-      }
+        gameId: 23,
+      },
     });
   },
   repositionMenu() {
@@ -329,8 +329,10 @@ cc.Class({
   openGameSSO: function () {
     if (window.openGameId) {
       const gameId = parseInt(window.openGameId);
-      GameUtils.openGame(gameId, cc.RedT.MiniPanel);
+      GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
       window.openGameId = null;
+    } else {
+      !this.inRoomGameId && this.openLuckyWheel();
     }
   },
 
