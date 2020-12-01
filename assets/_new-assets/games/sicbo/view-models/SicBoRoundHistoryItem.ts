@@ -32,5 +32,12 @@ export default abstract class SicBoRoundHistoryItem extends cc.Component {
 
         this.icon.spriteFrame = this.circle;
         this.icon.node.color = color;
+
+        let totalPoint = 0;
+        Object.values(data.result).forEach((point: number) => {
+            totalPoint += point;
+        })
+
+        this.points.string = totalPoint.toString();
     }
 }
