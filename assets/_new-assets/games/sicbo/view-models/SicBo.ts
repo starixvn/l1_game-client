@@ -104,6 +104,10 @@ export default class SicBo extends NewSocketGameBase {
 
     @property(cc.Prefab)
     majorChoicesStatisticPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    displayResultNode: cc.Node = null;
+
     public finishShakeThePlate: boolean = false;
 
     bigStatistic: number = 0;
@@ -141,13 +145,19 @@ export default class SicBo extends NewSocketGameBase {
         });
 
         super.onLoad();
-   
+
         this.shakeAnimation.node.active = false;
         this.animatedTime.setAnimatedY(30, -5);
         this.initRoundHistory();
         //this.initBetChoiceStatistic();
         this.initDicesStatistic();
         this.initMajorChoicesStatistic();
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+
+        this.openDiskAnimation.node.active = false;
     }
 
     initDicesStatistic() {
@@ -157,7 +167,7 @@ export default class SicBo extends NewSocketGameBase {
 
         this.dicesStatisticContainer.addChild(dicesStatistic);
     }
-    
+
     initMajorChoicesStatistic() {
         const majorChoicesStatistic = cc.instantiate(this.majorChoicesStatisticPrefab);
         this.majorChoicesStatisticComponent = majorChoicesStatistic.getComponent(SicBoMajorChoicesStatistic);
@@ -182,9 +192,29 @@ export default class SicBo extends NewSocketGameBase {
 
     setResult() {
         if (this.currentDataLogs.length > 0) {
-            const { result } = this.currentDataLogs[0];
-            console.log(result);
-            this.setDices(_.values(result))
+            const { result, settlementResult } = this.currentDataLogs[0];
+            console.log(this.currentDataLogs[0]);
+            this.setDices(_.values(result));
+            let resultPrite: cc.SpriteFrame = null;
+            let currentResultArray = Object.keys(settlementResult);
+
+            if (currentResultArray[SicBoBetType.anyTriple]) {
+                resultPrite = this.sicboAtlas.getSpriteFrame("Bo3");
+            } else {
+                if (currentResultArray[SicBoBetType.big]) {
+                    resultPrite = this.sicboAtlas.getSpriteFrame("big");
+                } else {
+                    resultPrite = this.sicboAtlas.getSpriteFrame("small");
+                }
+            }
+
+            let totalPoints = 0;
+            Object.values(result).forEach((point: number) => {
+                totalPoints += point;
+            })
+
+            this.displayResultNode.children[0].getComponent(cc.Label).string = `${totalPoints} -`;
+            this.displayResultNode.children[1].getComponent(cc.Sprite).spriteFrame = resultPrite;
         }
     }
 
