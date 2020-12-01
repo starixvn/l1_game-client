@@ -157,6 +157,7 @@ export default class SicBo extends NewSocketGameBase {
 
         this.dicesStatisticContainer.addChild(dicesStatistic);
     }
+    
     initMajorChoicesStatistic() {
         const majorChoicesStatistic = cc.instantiate(this.majorChoicesStatisticPrefab);
         this.majorChoicesStatisticComponent = majorChoicesStatistic.getComponent(SicBoMajorChoicesStatistic);
