@@ -1,4 +1,5 @@
 import LogControl from '../../keno-pro/view-models/LogControl';
+import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
 import SicBo, { SicBoBetType } from './SicBo';
 
 const { ccclass, property } = cc._decorator;
@@ -22,6 +23,12 @@ export default class SicBoMajorChoicesStatistic extends cc.Component {
   init(sicbo: SicBo) {
     this.sicBo = sicbo;
     this.updateData(sicbo.currentDataLogs);
+
+    const condition = () => {
+      const finishHandler = sicbo.finishHandler as GameBaseFinishHandler;
+      return sicbo.currentTimeRemaining < sicbo.config.stopBetTime || sicbo.currentTimeRemaining > sicbo.config.fullTime - finishHandler.getResultAnimationTime() + 0.5;
+    };
+    this.logControl.init(condition);
   }
 
   updateData(dataLogs: any[]) {

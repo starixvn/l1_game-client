@@ -95,8 +95,9 @@ export default class SicBoDicesStatistic extends cc.Component {
 
   updateRoundResult(dataLogs: any[]) {
     this.roundResultContainer.destroyAllChildren();
-    
-    for (const dataLog of dataLogs) {
+
+    for (let i = 0; i < dataLogs.length; i++) {
+      const dataLog = dataLogs[i];
       const { result } = dataLog;
       const roundResultNode = cc.instantiate(this.roundResultPrefab);
       const roundResultComponent = roundResultNode.getComponent(SicBoRoundResult);
@@ -104,6 +105,7 @@ export default class SicBoDicesStatistic extends cc.Component {
       roundResultComponent.dice1.spriteFrame = this.diceSpriteFrames[result.dice1 - 1];
       roundResultComponent.dice2.spriteFrame = this.diceSpriteFrames[result.dice2 - 1];
       roundResultComponent.dice3.spriteFrame = this.diceSpriteFrames[result.dice3 - 1];
+      roundResultComponent.highlight.node.active = i === 0;
       this.roundResultContainer.addChild(roundResultNode);
     }
   }

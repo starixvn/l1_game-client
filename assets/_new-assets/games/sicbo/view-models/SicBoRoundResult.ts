@@ -18,6 +18,9 @@ export default abstract class SicBoRoundResult extends cc.Component {
   @property(cc.Label)
   result: cc.Label = null;
 
+  @property(cc.Sprite)
+  highlight: cc.Sprite = null;
+
   updateLabels(data: any) {
     const { settlementResult, result } = data;
     let color = cc.Color.BLACK;
