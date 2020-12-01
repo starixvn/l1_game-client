@@ -18,6 +18,8 @@ export default class SicBoRoundHistory extends cc.Component {
     }
 
     public setData(data: any[]) {
+
+        console.log(data);
         this.items.forEach((item, index) => {
             if (index >= data.length) {
                 return;
