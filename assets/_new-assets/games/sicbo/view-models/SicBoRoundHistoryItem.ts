@@ -18,7 +18,6 @@ export default abstract class SicBoRoundHistoryItem extends cc.Component {
     public setData(data: any) {
         this.data = data.settlementResult;
         let color = cc.Color.BLACK;
-        console.log(this.data);
 
         if (this.data[SicBoBetType.anyTriple]) {
             color.fromHEX("#f29f00");
