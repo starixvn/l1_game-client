@@ -16,6 +16,7 @@ import SicBoRoundHistoryItem from "./SicBoRoundHistoryItem";
 import SicBoHistory from "./SicBoHistory";
 import SicBoGuide from './SiBoGuide';
 import SicBoDicesStatistic from "./SicBoDicesStatistic";
+import SicBoMajorChoicesStatistic from "./SicBoMajorChoicesStatistic";
 
 const { ccclass, property } = cc._decorator;
 
@@ -96,9 +97,13 @@ export default class SicBo extends NewSocketGameBase {
     dicesStatisticContainer: cc.Node = null;
 
     @property(cc.Prefab)
-
     dicesStatisticPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    majorChoicesStatisticContainer: cc.Node = null;
+
+    @property(cc.Prefab)
+    majorChoicesStatisticPrefab: cc.Prefab = null;
     public finishShakeThePlate: boolean = false;
 
     bigStatistic: number = 0;
@@ -115,6 +120,7 @@ export default class SicBo extends NewSocketGameBase {
     private miniRoundHistory: SicBoRoundHistory;
     private userHistoryComponent: SicBoHistory;
     private dicesStatisticComponent: SicBoDicesStatistic;
+    private majorChoicesStatisticComponent: SicBoMajorChoicesStatistic;
 
     constructor() {
         super();
@@ -141,6 +147,7 @@ export default class SicBo extends NewSocketGameBase {
         this.initRoundHistory();
         //this.initBetChoiceStatistic();
         this.initDicesStatistic();
+        this.initMajorChoicesStatistic();
     }
 
     initDicesStatistic() {
@@ -150,6 +157,14 @@ export default class SicBo extends NewSocketGameBase {
 
         this.dicesStatisticContainer.addChild(dicesStatistic);
     }
+    initMajorChoicesStatistic() {
+        const majorChoicesStatistic = cc.instantiate(this.majorChoicesStatisticPrefab);
+        this.majorChoicesStatisticComponent = majorChoicesStatistic.getComponent(SicBoMajorChoicesStatistic);
+        this.majorChoicesStatisticComponent.init(this);
+
+        this.majorChoicesStatisticContainer.addChild(majorChoicesStatistic);
+    }
+
 
     initHandlers() {
         super.initHandlers();
@@ -253,7 +268,7 @@ export default class SicBo extends NewSocketGameBase {
 
     updateStatistic(data: any) {
         this.dicesStatisticComponent.updateData(data);
-
+        this.majorChoicesStatisticComponent.updateData(data);
     }
 
     initRoundHistory() {
