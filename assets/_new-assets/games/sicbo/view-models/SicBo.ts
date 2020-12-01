@@ -124,12 +124,6 @@ export default class SicBo extends NewSocketGameBase {
     protected internalInit() {
         this.init("SicBo", new SicBoConfigs(), null, 1, games.SicBo.id);
         this.finishShowResult = false;
-
-        const dicesStatistic = cc.instantiate(this.dicesStatisticPrefab);
-        this.statisticDicesComponent  = dicesStatistic.getComponent(SicBoDicesStatistic);
-        this.statisticDicesComponent.init(this);
-
-        this.dicesStatisticContainer.addChild(dicesStatistic);
     }
 
     onLoad() {
@@ -141,6 +135,12 @@ export default class SicBo extends NewSocketGameBase {
         });
 
         super.onLoad();
+        const dicesStatistic = cc.instantiate(this.dicesStatisticPrefab);
+        this.statisticDicesComponent = dicesStatistic.getComponent(SicBoDicesStatistic);
+        this.statisticDicesComponent.init(this);
+
+        this.dicesStatisticContainer.addChild(dicesStatistic);
+
         this.shakeAnimation.node.active = false;
         this.animatedTime.setAnimatedY(30, -5);
         this.initRoundHistory();
@@ -250,7 +250,7 @@ export default class SicBo extends NewSocketGameBase {
     updateStatistic(data: any) {
         this.statisticDicesComponent.updateData();
 
- 
+
     }
 
     initRoundHistory() {
