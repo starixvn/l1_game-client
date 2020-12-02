@@ -56,12 +56,6 @@ export default class SicBo extends NewSocketGameBase {
     @property(cc.Animation)
     openDiskAnimation: cc.Animation = null;
 
-    @property(cc.Node)
-    statsContainer: cc.Node = null;
-
-    @property(cc.Prefab)
-    statsPrefab: cc.Prefab = null;
-
     @property(cc.Animation)
     shakeAnimation: cc.Animation = null;
 
@@ -70,15 +64,6 @@ export default class SicBo extends NewSocketGameBase {
 
     @property(cc.Node)
     randomResult: cc.Node = null;
-
-    @property(cc.Label)
-    bigStatsLabel: cc.Label = null;
-
-    @property(cc.Label)
-    smallStatsLabel: cc.Label = null;
-
-    @property(cc.Label)
-    anyTripleStatsLabel: cc.Label = null;
 
     @property(cc.Node)
     betChoiceStatistic: cc.Node = null;
