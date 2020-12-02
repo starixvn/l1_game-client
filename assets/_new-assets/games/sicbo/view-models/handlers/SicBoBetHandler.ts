@@ -16,6 +16,15 @@ export default class SicBoBetHandler extends GameBaseBetHandler {
             let ownBetTotal = 0;
             bets.forEach(bet => ownBetTotal += +bet);
         }
+
+        if (data.ownChip) {
+            this.placeOwnChip(data.ownChip);
+        }
+
+        if (data.chips && this.main.currentTimeRemaining < this.main.config.betTime) {
+            this.placeTotalChips(data.chips);
+        }
+
         return true;
     }
 
