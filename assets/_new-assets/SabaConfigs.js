@@ -97,7 +97,7 @@ const configs = {
       name: 'Bầu Cua VIP',
     },
     SicBo: {
-      id: 27,
+      id: 25,
       name: 'Tài Xỉu Sic Bo',
     },
   },
@@ -107,7 +107,7 @@ const configs = {
     21: 'roulette',
   },
   gameRoomIds: [8, 10, 21],
-  gameRoomNewSocketIds: [2, 22, 23, 26, 27],
+  gameRoomNewSocketIds: [2, 22, 23, 25, 26],
   gameMiniNewSocketIds: [24],
 };
 

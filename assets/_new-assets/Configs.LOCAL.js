@@ -35,17 +35,17 @@ const configs = {
       path: '/user/specialsedie',
       proxyRoute: '/specialsedie/socket.io',
     },
+    25: {
+      subDomain: 'haproxy',
+      port: 7000,
+      path: '/user/sicbo',
+      proxyRoute: '/sicbo/socket.io',
+    },
     26: {
       subDomain: 'haproxy',
       port: 7000,
       path: '/user/vipfishprawncrab',
       proxyRoute: '/vipfishprawncrab/socket.io',
-    },
-    27: {
-      subDomain: 'haproxy',
-      port: 7000,
-      path: '/user/sicbo',
-      proxyRoute: '/sicbo/socket.io',
     },
   },
   sentryUrl: 'https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20',

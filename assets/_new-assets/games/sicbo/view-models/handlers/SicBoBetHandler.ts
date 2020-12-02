@@ -11,12 +11,6 @@ export default class SicBoBetHandler extends GameBaseBetHandler {
     handle(data: any): boolean {
         super.handle(data);
 
-        if (data.ownBets) {
-            const bets = Object.values(data.ownBets);
-            let ownBetTotal = 0;
-            bets.forEach(bet => ownBetTotal += +bet);
-        }
-
         if (data.ownChip) {
             this.placeOwnChip(data.ownChip);
         }
