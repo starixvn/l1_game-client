@@ -1,5 +1,8 @@
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import SicBo from "../SicBo";
+import GameRoomBase from '../../../_base/GameRoomBase';
+import BetItem from '../../../_base/BetItem';
+import * as _ from "lodash";
 
 export default class SicBoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: SicBo) {
@@ -29,5 +32,37 @@ export default class SicBoFinishHandler extends GameBaseFinishHandler {
                 })
                 .start();
         }
+    }
+
+    payChipsToOtherPlayers(roomGame: GameRoomBase, winBetItems: BetItem[]) {
+        if (!roomGame.otherPlayers) {
+            return;
+        }
+        super.payChipsToOtherPlayers(roomGame, winBetItems);
+    }
+
+
+    payChipsToLoginPlayer(mainRoomGame: GameRoomBase, statusData, winBetItems: BetItem[]) {
+        if (!statusData || !statusData.win) {
+            return;
+        }
+
+        var betItems = statusData.winningByChoices;
+
+        _.forEach(winBetItems, item => {
+            if (betItems[item.node.name.toLowerCase()]) {
+                this.main.betChips.moveChips(item.chipNode, mainRoomGame.userAvatar.node);
+            }
+        });
+
+        var playerNode = mainRoomGame.userAvatar.node.parent;
+        this.main.showWinningBet(statusData.bet);
+        this.playWinningEffect(mainRoomGame, playerNode);
+
+        cc.RedT.send({
+            user: {
+                updateCoin: true
+            }
+        });
     }
 }
