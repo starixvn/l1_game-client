@@ -10,7 +10,6 @@ import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
 import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
 import SicBoBetItem from './SicBoBetItem';
 import SicBoBetHandler from "./handlers/SicBoBetHandler";
-import SicBoStatistic from "./SicBoStatistic";
 import SicBoRoundHistory from './SicBoRoundHistory';
 import SicBoRoundHistoryItem from "./SicBoRoundHistoryItem";
 import SicBoHistory from "./SicBoHistory";
@@ -120,7 +119,6 @@ export default class SicBo extends NewSocketGameBase {
     specific5Statistic: number = 0;
     specific6Statistic: number = 0;
 
-    private statisticComponent: SicBoStatistic;
     private miniRoundHistory: SicBoRoundHistory;
     private userHistoryComponent: SicBoHistory;
     private dicesStatisticComponent: SicBoDicesStatistic;
@@ -149,7 +147,6 @@ export default class SicBo extends NewSocketGameBase {
         this.shakeAnimation.node.active = false;
         this.animatedTime.setAnimatedY(30, -5);
         this.initRoundHistory();
-        //this.initBetChoiceStatistic();
         this.initDicesStatistic();
         this.initMajorChoicesStatistic();
     }
@@ -269,20 +266,6 @@ export default class SicBo extends NewSocketGameBase {
         this.userHistoryComponent = dialog.getComponent(SicBoHistory);
         this.userHistoryComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    openStatistic() {
-        let dialog = cc.instantiate(this.statsPrefab);
-        this.statisticComponent = dialog.getComponent(SicBoStatistic);
-        this.statisticComponent.init(this);
-        this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    initBetChoiceStatistic() {
-        this.betChoiceStatistic.children.forEach(choice => {
-            const label = choice.getComponent(cc.Label);
-            label.string = "";
-        })
     }
 
     resetStatistic() {
