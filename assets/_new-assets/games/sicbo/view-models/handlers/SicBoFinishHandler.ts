@@ -3,7 +3,7 @@ import SicBo from "../SicBo";
 
 export default class SicBoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: SicBo) {
-        super(main, 2.5);
+        super(main, 3);
     }
 
     handleFinishData(dataFinish, onFinishHandlingData: () => void = null) {
