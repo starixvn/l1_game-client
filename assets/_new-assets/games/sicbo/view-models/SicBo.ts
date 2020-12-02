@@ -190,15 +190,15 @@ export default class SicBo extends NewSocketGameBase {
     setResult() {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
-            console.log(this.currentDataLogs[0]);
-            this.setDices(_.values(result));
-            let resultPrite: cc.SpriteFrame = null;
-            let currentResultArray = Object.keys(settlementResult);
 
-            if (currentResultArray[SicBoBetType.anyTriple]) {
+            this.setDices(_.values(result));
+
+            let resultPrite: cc.SpriteFrame = null;
+
+            if (settlementResult[SicBoBetType.anyTriple]) {
                 resultPrite = this.sicboAtlas.getSpriteFrame("Bo3");
             } else {
-                if (currentResultArray[SicBoBetType.big]) {
+                if (settlementResult[SicBoBetType.big]) {
                     resultPrite = this.sicboAtlas.getSpriteFrame("big");
                 } else {
                     resultPrite = this.sicboAtlas.getSpriteFrame("small");
