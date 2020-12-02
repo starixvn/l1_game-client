@@ -55,6 +55,7 @@ export default class SicBoHistory extends cc.Component {
       item.dices[0].spriteFrame = this.dices[log.result.dice1 - 1];
       item.dices[1].spriteFrame = this.dices[log.result.dice2 - 1];
       item.dices[2].spriteFrame = this.dices[log.result.dice3 - 1];
+      item.total.string = log.result.dice1 + log.result.dice2 + log.result.dice3;
       item.amountLabel.string = numberWithCommas(log.totalAmount);
       item.winLabel.string = numberWithCommas(log.betwin);
       item.winLabel.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;

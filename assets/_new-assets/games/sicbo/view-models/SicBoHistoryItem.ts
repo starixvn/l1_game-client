@@ -13,6 +13,9 @@ export default class SicBoHistoryItem extends cc.Component {
     dices: cc.Sprite[] = [];
 
     @property(cc.Label)
+    total: cc.Label = null;
+
+    @property(cc.Label)
     amountLabel: cc.Label = null;
 
     @property(cc.Label)
