@@ -1,8 +1,10 @@
+import * as _ from "lodash";
+
+import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper.js";
+import BetItem from "../../../_base/BetItem";
+import GameRoomBase from "../../../_base/GameRoomBase";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import SicBo from "../SicBo";
-import GameRoomBase from '../../../_base/GameRoomBase';
-import BetItem from '../../../_base/BetItem';
-import * as _ from "lodash";
 
 export default class SicBoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: SicBo) {
@@ -48,9 +50,10 @@ export default class SicBoFinishHandler extends GameBaseFinishHandler {
         }
 
         var betItems = statusData.winningByChoices;
+        const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
 
         _.forEach(winBetItems, item => {
-            if (betItems[item.node.name.toLowerCase()]) {
+            if (betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
                 this.main.betChips.moveChips(item.chipNode, mainRoomGame.userAvatar.node);
             }
         });
