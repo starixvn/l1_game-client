@@ -142,9 +142,12 @@ cc.Class({
 		this.list.runAction(cc.sequence(
 			cc.scaleTo(0.3, 0).easing(cc.easeSineInOut()),
 			cc.callFunc(function () {
-				this.toggleRuning = this.list.active = false;
+				this.list.active = false;
 				this.background.runAction(cc.sequence(cc.fadeOut(0.1),
-					cc.callFunc(() => this.background.active = false))
+					cc.callFunc(() => {
+						this.background.active = false;
+						this.toggleRuning = false;
+					}))
 				);
 			}, this)));
 	},
