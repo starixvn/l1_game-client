@@ -8,12 +8,6 @@ export default class SicBoBetHandler extends GameBaseBetHandler {
         super(main);
     }
 
-    handle(data: any): boolean {
-        super.handle(data);
-
-        return true;
-    }
-
     placeOwnChip(data) {
         const { betChoice, amount } = data;
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
