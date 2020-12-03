@@ -10,11 +10,11 @@ import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
 import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
 import SicBoBetItem from './SicBoBetItem';
 import SicBoBetHandler from "./handlers/SicBoBetHandler";
-import SicBoRoundHistory from './SicBoRoundHistory';
 import SicBoHistory from "./SicBoHistory";
 import SicBoGuide from './SiBoGuide';
 import SicBoDicesStatistic from "./SicBoDicesStatistic";
 import SicBoMajorChoicesStatistic from "./SicBoMajorChoicesStatistic";
+import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
 
 const { ccclass, property } = cc._decorator;
 
@@ -103,7 +103,7 @@ export default class SicBo extends NewSocketGameBase {
     specific5Statistic: number = 0;
     specific6Statistic: number = 0;
 
-    private miniRoundHistory: SicBoRoundHistory;
+    private miniRoundHistory: MiniRoundHistory;
     private userHistoryComponent: SicBoHistory;
     private dicesStatisticComponent: SicBoDicesStatistic;
     private majorChoicesStatisticComponent: SicBoMajorChoicesStatistic;
@@ -271,7 +271,7 @@ export default class SicBo extends NewSocketGameBase {
 
     initRoundHistory() {
         const node = cc.instantiate(this.roundHistoryPrefab);
-        this.miniRoundHistory = node.getComponent(SicBoRoundHistory);;
+        this.miniRoundHistory = node.getComponent(MiniRoundHistory);;
         this.roundHistoryContainer.addChild(node);
     }
 

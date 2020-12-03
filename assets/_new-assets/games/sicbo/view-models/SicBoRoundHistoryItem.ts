@@ -1,8 +1,9 @@
 import { SicBoBetType } from './SicBo';
+import MiniRoundHistoryItem from '../../../common/mini-round-history/MiniRoundHistoryItem';
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default abstract class SicBoRoundHistoryItem extends cc.Component {
+export default abstract class SicBoRoundHistoryItem extends MiniRoundHistoryItem {
 
     @property(cc.Sprite)
     icon: cc.Sprite = null;
@@ -16,13 +17,13 @@ export default abstract class SicBoRoundHistoryItem extends cc.Component {
     public data: any = {};
 
     public setData(data: any) {
-        this.data = data.settlementResult;
+        this.data = data;
         let color = cc.Color.BLACK;
 
-        if (this.data[SicBoBetType.anyTriple]) {
+        if (this.data.settlementResult[SicBoBetType.anyTriple]) {
             color.fromHEX("#f29f00");
         } else {
-            if (this.data[SicBoBetType.big]) {
+            if (this.data.settlementResult[SicBoBetType.big]) {
                 color.fromHEX("#db1515");
             } else {
                 color.fromHEX("#2580f1");
@@ -32,10 +33,7 @@ export default abstract class SicBoRoundHistoryItem extends cc.Component {
         this.icon.spriteFrame = this.circle;
         this.icon.node.color = color;
 
-        let totalPoint = 0;
-        Object.values(data.result).forEach((point: number) => {
-            totalPoint += point;
-        })
+        let totalPoint = this.data.result.dice1 + this.data.result.dice2 + this.data.result.dice3;
 
         this.points.string = totalPoint.toString();
     }

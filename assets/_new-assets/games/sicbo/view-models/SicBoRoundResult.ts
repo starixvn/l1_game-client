@@ -25,9 +25,9 @@ export default abstract class SicBoRoundResult extends cc.Component {
     cc.tween(this.highlight.node)
       .repeatForever(
         cc.tween()
-          .to(0.2, { opacity: 150 }, { easing: "cubicIn" })
-          .delay(0.1)
-          .to(0.2, { opacity: 255 }, { easing: "cubicOut" })
+          .to(0.4, { opacity: 150 }, { easing: "cubicIn" })
+          .delay(0.4)
+          .to(0.4, { opacity: 255 }, { easing: "cubicOut" })
       )
       .start();
   }
