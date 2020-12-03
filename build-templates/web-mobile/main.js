@@ -19,6 +19,88 @@ window.boot = function () {
         }
     }
 
+    if(cc.sys.os === cc.sys.OS_IOS)
+    {
+        var __BrowserGetter = {
+            init: function(){
+                this.html = document.getElementsByTagName("html")[0];
+            },
+            availWidth: function(frame){
+                if (!frame || frame === this.html)
+                    return window.innerWidth;
+                else
+                    return frame.clientWidth;
+            },
+            availHeight: function(frame){
+                if (!frame || frame === this.html)
+                    return window.innerHeight;
+                else
+                    return frame.clientHeight;
+            },
+            meta: {
+                "width": "device-width"
+            },
+            adaptationType: cc.sys.browserType
+        };
+        
+        if (cc.sys.os === cc.sys.OS_IOS) // All browsers are WebView
+            __BrowserGetter.adaptationType = cc.sys.BROWSER_TYPE_SAFARI;
+        
+        switch (__BrowserGetter.adaptationType) {
+            case cc.sys.BROWSER_TYPE_SAFARI:
+            case cc.sys.BROWSER_TYPE_SOUGOU:
+            case cc.sys.BROWSER_TYPE_UC:
+                __BrowserGetter.meta["minimal-ui"] = "true";
+                __BrowserGetter.availWidth = function(frame){
+                    return frame.clientWidth;
+                };
+                __BrowserGetter.availHeight = function(frame){
+                    return frame.clientHeight;
+                };
+                break;
+        }
+    
+       // fix canvas display wrong scale
+        cc.view._initFrameSize = function () {
+        var locFrameSize = this._frameSize;
+        var w = __BrowserGetter.availWidth(cc.game.frame);
+        var h = __BrowserGetter.availHeight(cc.game.frame);
+        var isLandscape = w >= h;
+    
+        //CHEAT: force height equal screen.width
+        if(isLandscape){
+            h = screen.width;
+            if(window.navigator.userAgent.match(/crios/i)){ 
+                h -= 20;
+            }
+        }
+
+        if (CC_EDITOR || !cc.sys.isMobile ||
+            (isLandscape && this._orientation & cc.macro.ORIENTATION_LANDSCAPE) || 
+            (!isLandscape && this._orientation & cc.macro.ORIENTATION_PORTRAIT)) {
+            locFrameSize.width = w;
+            locFrameSize.height = h;
+            cc.game.container.style['-webkit-transform'] = 'rotate(0deg)';
+            cc.game.container.style.transform = 'rotate(0deg)';
+            this._isRotated = false;
+        }
+        else {
+            locFrameSize.width = h;
+            locFrameSize.height = w;
+            cc.game.container.style['-webkit-transform'] = 'rotate(90deg)';
+            cc.game.container.style.transform = 'rotate(90deg)';
+            cc.game.container.style['-webkit-transform-origin'] = '0px 0px 0px';
+            cc.game.container.style.transformOrigin = '0px 0px 0px';
+            this._isRotated = true;
+        }
+        if (this._orientationChanging) {
+            setTimeout(function () {
+                cc.view._orientationChanging = false;
+            }, 1000);
+        }
+        };
+    }
+
     let { RESOURCES, INTERNAL, MAIN, START_SCENE } = cc.AssetManager.BuiltinBundleName;
     function setLoadingDisplay() {
         // Loading splash scene
@@ -41,7 +123,6 @@ window.boot = function () {
     }
 
     var onStart = function () {
-
         cc.view.enableRetina(true);
         cc.view.resizeWithBrowserSize(true);
 
@@ -56,13 +137,15 @@ window.boot = function () {
             else if (settings.orientation === 'portrait') {
                 cc.view.setOrientation(cc.macro.ORIENTATION_PORTRAIT);
             }
-            cc.view.enableAutoFullScreen([
-                cc.sys.BROWSER_TYPE_BAIDU,
-                cc.sys.BROWSER_TYPE_BAIDU_APP,
-                cc.sys.BROWSER_TYPE_WECHAT,
-                cc.sys.BROWSER_TYPE_MOBILE_QQ,
-                cc.sys.BROWSER_TYPE_MIUI,
-            ].indexOf(cc.sys.browserType) < 0);
+            // cc.view.enableAutoFullScreen([
+            //     cc.sys.BROWSER_TYPE_BAIDU,
+            //     cc.sys.BROWSER_TYPE_BAIDU_APP,
+            //     cc.sys.BROWSER_TYPE_WECHAT,
+            //     cc.sys.BROWSER_TYPE_MOBILE_QQ,
+            //     cc.sys.BROWSER_TYPE_MIUI,
+            // ].indexOf(cc.sys.browserType) < 0);
+
+            cc.view.enableAutoFullScreen(true);
         }
 
         // Limit downloading max concurrent task to 2,

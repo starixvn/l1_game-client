@@ -2,7 +2,6 @@ import * as helper from "../../../common/helpers/Helper";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJackUtils from "./BlackJackUtils";
 import CardLayout from "./CardLayout";
-import { easeSineIn } from '../../../../../creator';
 
 export interface HandModel {
     id: string,
