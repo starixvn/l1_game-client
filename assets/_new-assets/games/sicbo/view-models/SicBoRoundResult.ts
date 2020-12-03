@@ -21,6 +21,17 @@ export default abstract class SicBoRoundResult extends cc.Component {
   @property(cc.Sprite)
   highlight: cc.Sprite = null;
 
+  onLoad() {
+    cc.tween(this.highlight.node)
+      .repeatForever(
+        cc.tween()
+          .to(0.2, { opacity: 150 }, { easing: "cubicIn" })
+          .delay(0.1)
+          .to(0.2, { opacity: 255 }, { easing: "cubicOut" })
+      )
+      .start();
+  }
+
   updateLabels(data: any) {
     const { settlementResult, result } = data;
     let color = cc.Color.BLACK;
