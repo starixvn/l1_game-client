@@ -20,6 +20,9 @@ export default class SicBoTicketDetail extends cc.Component {
     @property(cc.Prefab)
     ticketDetailItemPrefab: cc.Prefab = null;
 
+    @property(cc.Label)
+    total: cc.Label = null;
+
     roundID: number;
     result: number;
     betLogDetails = null;

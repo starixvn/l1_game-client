@@ -81,6 +81,7 @@ export default class SicBoHistory extends cc.Component {
     ticketDetailComponent.dices[0].spriteFrame = this.dices[result.dice1 - 1];
     ticketDetailComponent.dices[1].spriteFrame = this.dices[result.dice2 - 1];
     ticketDetailComponent.dices[2].spriteFrame = this.dices[result.dice3 - 1];
+    ticketDetailComponent.total.string = result.dice1 + result.dice2 + result.dice3;
     ticketDetailComponent.setData(betLogDetails, settlementResult);
     ticketDetailComponent.showbetLogs();
   }
