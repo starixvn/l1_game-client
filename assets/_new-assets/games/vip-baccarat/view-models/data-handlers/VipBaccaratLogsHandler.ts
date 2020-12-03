@@ -5,7 +5,7 @@ import { BasicHistoryData } from '../../../_base/view-models/BasicHistoryBoard';
 import { getLowercaseObjectKeys } from '../../../../common/helpers/Helper.js';
 import { TotalHistoryData } from '../../../baccarat/view-models/TotalHistoryBoard';
 import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from '../../../baccarat/view-models/BaccaratDragonScoreBoard';
-import BaccaratFinishHandler from '../../../baccarat/view-models/data-handlers/BaccaratFInishHandler';
+import VipBaccaratFinishHandler from './VipBaccaratFinishHandler';
 
 export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
   constructor(protected readonly main: VipBaccarat) {
@@ -17,7 +17,7 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
 
     if (data.roundHistory && data.roundHistory[0]) {
       const lastLog = data.roundHistory[0];
-      const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
+      const finishHandler = this.main.finishHandler as VipBaccaratFinishHandler;
 
       if (this.main.timeHandler.isInWaitTime) {
         const playerCards = _.values(lastLog.player);

@@ -3,13 +3,13 @@ import { BaccaratConfigs } from '../../baccarat/view-models/BaccaratConfigs';
 import NewSocketGameBase from '../../_base/NewSocketGameBase';
 import BaccaratCards from '../../baccarat/view-models/BaccaratCards';
 import TotalHistoryBoard from '../../baccarat/view-models/TotalHistoryBoard';
+import VipBaccaratHistory from './VipBaccaratHistory';
 import BasicHistoryBoard from '../../_base/view-models/BasicHistoryBoard';
 import DragonScoreBoard from '../../_base/view-models/DragonScoreBoard';
-import BaccaratFinishHandler from '../../baccarat/view-models/data-handlers/BaccaratFInishHandler';
+import VipBaccaratFinishHandler from './data-handlers/VipBaccaratFinishHandler';
 import BaccaratTimeHandler from '../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler';
 import VipBaccaratBetHandler from './data-handlers/VipBaccaratBetHandler';
 import VipBaccaratLogsHandler from './data-handlers/VipBaccaratLogsHandler';
-import Baccarat from '../../baccarat/view-models/Baccarat';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -50,7 +50,6 @@ export default class VipBaccarat extends NewSocketGameBase {
   basicHistoryBoard: BasicHistoryBoard;
   detailHistoryBoard: DragonScoreBoard;
   showScoreBoardNextDot = false;
-  baccarat: Baccarat;
 
   constructor() {
     super();
@@ -63,14 +62,75 @@ export default class VipBaccarat extends NewSocketGameBase {
 
   onLoad() {
     super.onLoad();
+    this.initCards();
+    this.initScoreBoards();
   }
 
   initHandlers() {
     super.initHandlers();
 
     this.timeHandler = new BaccaratTimeHandler(this);
-    // this.finishHandler = new BaccaratFinishHandler(this);
-    // this.logsHandler = new VipBaccaratLogsHandler(this);
+    this.finishHandler = new VipBaccaratFinishHandler(this);
+    this.logsHandler = new VipBaccaratLogsHandler(this);
     this.betHandler = new VipBaccaratBetHandler(this);
+  }
+
+  onDataGameRoom(data) {
+    super.onDataGameRoom(data);
+  }
+
+  onBet(event, box) {
+    this.bet({ bet: { red: true, bet: this.currentBet, box: box } });
+  }
+
+  openHistory() {
+    const historyNode = cc.instantiate(this.historyPrefab);
+    const history = historyNode.getComponent('BaccaratHistory') as VipBaccaratHistory;
+    history.init(this);
+    this.currentMiniPanel.node.addChild(historyNode);
+  }
+
+  openGuide() {
+    const guideNode = cc.instantiate(this.guidePrefab);
+    var guide = guideNode.getComponent('BaccaratGuide');
+    guide.init(this.gameConfigs);
+    this.currentMiniPanel.node.addChild(guideNode);
+  }
+
+  resetDataAndUI() {
+    super.resetDataAndUI();
+
+    this.winNoticeLabel.node.parent.active = false;
+  }
+
+  playGetCardAudio() {
+    this.getCardAudioSource.play();
+  }
+
+  private initCards() {
+    this.bankerCards.init(() => {
+      this.playGetCardAudio();
+    });
+    this.playerCards.init(() => {
+      this.playGetCardAudio();
+    });
+  }
+
+  private initScoreBoards() {
+    const condition = () => {
+      const result = this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
+
+      return result;
+    };
+
+    const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
+    this.basicHistoryBoard = historyBoardNode.getComponent('BasicHistoryBoard');
+    this.basicHistoryBoard.init(condition);
+    this.basicHistoryBoardNode.addChild(historyBoardNode);
+
+    const detailHistoryBoardNode = cc.instantiate(this.detailHistoryBoardPrefab);
+    this.detailHistoryBoard = detailHistoryBoardNode.getComponent('BaccaratDragonScoreBoard');
+    this.detailHistoryBoard.init(condition);
+    this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
   }
 }
