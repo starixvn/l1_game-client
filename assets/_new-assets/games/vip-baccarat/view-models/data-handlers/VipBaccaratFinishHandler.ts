@@ -21,8 +21,8 @@ export default class VipBaccaratFinishHandler extends GameBaseFinishHandler {
     baccaratMain.showScoreBoardNextDot = true;
     const result = dataFinish.result;
     const settlementResult = dataFinish.settlementResult;
-    const player = result.player;
-    const banker = result.banker;
+    const player = Object.values(result.player);
+    const banker = Object.values(result.banker);
     const showResultFunc = () => {
       baccaratMain.showScoreBoardNextDot = false;
       this.showResult(settlementResult);

@@ -10,6 +10,7 @@ import VipBaccaratFinishHandler from './data-handlers/VipBaccaratFinishHandler';
 import BaccaratTimeHandler from '../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler';
 import VipBaccaratBetHandler from './data-handlers/VipBaccaratBetHandler';
 import VipBaccaratLogsHandler from './data-handlers/VipBaccaratLogsHandler';
+import VipBaccaratMiniRoundHistory from './VipBaccaratMiniRoundHistory';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -47,9 +48,16 @@ export default class VipBaccarat extends NewSocketGameBase {
   @property(cc.AudioSource)
   getCardAudioSource: cc.AudioSource = null;
 
+  @property(cc.Prefab)
+  miniRoundHistoryPrefab: cc.Prefab = null;
+
+  @property(cc.Node)
+  miniRoundHistoryContainer: cc.Node = null;
+
   basicHistoryBoard: BasicHistoryBoard;
   detailHistoryBoard: DragonScoreBoard;
   showScoreBoardNextDot = false;
+  private miniRoundHistory: VipBaccaratMiniRoundHistory;
 
   constructor() {
     super();
@@ -64,6 +72,7 @@ export default class VipBaccarat extends NewSocketGameBase {
     super.onLoad();
     this.initCards();
     this.initScoreBoards();
+    this.initMiniRoundHistory();
   }
 
   initHandlers() {
@@ -132,5 +141,11 @@ export default class VipBaccarat extends NewSocketGameBase {
     this.detailHistoryBoard = detailHistoryBoardNode.getComponent('BaccaratDragonScoreBoard');
     this.detailHistoryBoard.init(condition);
     this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
+  }
+
+  initMiniRoundHistory() {
+    var mini = cc.instantiate(this.miniRoundHistoryPrefab);
+    this.miniRoundHistory = mini.getComponent(VipBaccaratMiniRoundHistory);
+    this.miniRoundHistoryContainer.addChild(mini);
   }
 }
