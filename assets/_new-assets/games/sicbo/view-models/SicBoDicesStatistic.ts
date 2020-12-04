@@ -27,6 +27,9 @@ export default class SicBoDicesStatistic extends cc.Component {
   roundResultPrefab: cc.Prefab = null;
 
   @property(cc.Node)
+  statsScrollView: cc.Node = null;
+
+  @property(cc.Node)
   roundResultContainer: cc.Node = null;
 
   @property(cc.SpriteFrame)
@@ -42,6 +45,10 @@ export default class SicBoDicesStatistic extends cc.Component {
   updateData(dataLogs: any[]) {
     this.updatePercentages(dataLogs);
     this.updateRoundResult(dataLogs);
+
+    this.roundResultContainer.getComponent(cc.Layout).updateLayout();
+    this.statsScrollView.getComponent(cc.ScrollView).horizontal = this.statsScrollView.width < this.roundResultContainer.width;
+    this.roundResultContainer.getComponent(cc.Widget).updateAlignment();
   }
 
   updatePercentages(dataLogs: any[]) {
@@ -108,5 +115,6 @@ export default class SicBoDicesStatistic extends cc.Component {
       roundResultComponent.highlight.node.active = i === 0;
       this.roundResultContainer.addChild(roundResultNode);
     }
+
   }
 }
