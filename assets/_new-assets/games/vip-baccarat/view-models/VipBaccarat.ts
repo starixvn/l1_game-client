@@ -88,10 +88,6 @@ export default class VipBaccarat extends NewSocketGameBase {
     super.onDataGameRoom(data);
   }
 
-  onBet(event, box) {
-    this.bet({ bet: { red: true, bet: this.currentBet, box: box } });
-  }
-
   openHistory() {
     const historyNode = cc.instantiate(this.historyPrefab);
     const history = historyNode.getComponent('BaccaratHistory') as VipBaccaratHistory;
