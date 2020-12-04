@@ -99,6 +99,7 @@ const configs = {
     SicBo: {
       id: 25,
       name: 'Tài Xỉu Sic Bo',
+    },
     VipBaccarat: {
       id: 27,
       name: 'Cào Baccarat VIP',
@@ -119,7 +120,7 @@ const configs = {
   },
   gameRoomIds: [8, 10, 21],
   gameRoomNewSocketIds: [2, 22, 23, 25, 26],
-  gameRoomNewSocketIds: [2, 22, 23, 26,27],
+  gameRoomNewSocketIds: [2, 22, 23, 26, 27],
   gameMiniNewSocketIds: [24],
 };
 
