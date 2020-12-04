@@ -200,7 +200,11 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     setDices(dices: number[]) {
+        const optRandom = _.random(0, this.randomResult.children.length - 1);
+        const randomOption = this.randomResult.children[optRandom];
+
         dices.forEach((dice, index) => {
+            this.dices[index].node.position = randomOption.children[index].position;
             this.dices[index].spriteFrame = this.characterIcons[dice - 1];
             this.dices[index].node.active = true;
         })
