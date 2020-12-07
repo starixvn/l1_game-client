@@ -1,16 +1,16 @@
-import { games } from './../../../SabaConfigs';
-import { BaccaratConfigs } from '../../baccarat/view-models/BaccaratConfigs';
-import NewSocketGameBase from '../../_base/NewSocketGameBase';
-import BaccaratCards from '../../baccarat/view-models/BaccaratCards';
-import TotalHistoryBoard from '../../baccarat/view-models/TotalHistoryBoard';
-import VipBaccaratHistory from './VipBaccaratHistory';
-import BasicHistoryBoard from '../../_base/view-models/BasicHistoryBoard';
-import DragonScoreBoard from '../../_base/view-models/DragonScoreBoard';
-import VipBaccaratFinishHandler from './data-handlers/VipBaccaratFinishHandler';
-import BaccaratTimeHandler from '../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler';
-import VipBaccaratBetHandler from './data-handlers/VipBaccaratBetHandler';
-import VipBaccaratLogsHandler from './data-handlers/VipBaccaratLogsHandler';
-import VipBaccaratMiniRoundHistory from './VipBaccaratMiniRoundHistory';
+import NewSocketGameBase from "../../_base/NewSocketGameBase";
+import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
+import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
+import BaccaratCards from "../../baccarat/view-models/BaccaratCards";
+import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
+import BaccaratTimeHandler from "../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
+import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
+import { games } from "./../../../SabaConfigs";
+import VipBaccaratBetHandler from "./data-handlers/VipBaccaratBetHandler";
+import VipBaccaratFinishHandler from "./data-handlers/VipBaccaratFinishHandler";
+import VipBaccaratLogsHandler from "./data-handlers/VipBaccaratLogsHandler";
+import VipBaccaratHistory from "./VipBaccaratHistory";
+import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -58,6 +58,7 @@ export default class VipBaccarat extends NewSocketGameBase {
   detailHistoryBoard: DragonScoreBoard;
   showScoreBoardNextDot = false;
   private miniRoundHistory: VipBaccaratMiniRoundHistory;
+  private historyComponent: VipBaccaratHistory;
 
   constructor() {
     super();
@@ -84,15 +85,19 @@ export default class VipBaccarat extends NewSocketGameBase {
     this.betHandler = new VipBaccaratBetHandler(this);
   }
 
-  onDataGameRoom(data) {
-    super.onDataGameRoom(data);
+  openHistory() {
+    let dialog = cc.instantiate(this.historyPrefab);
+    this.historyComponent = dialog.getComponent(VipBaccaratHistory);
+    this.historyComponent.init(this.socket);
+    this.currentMiniPanel.node.addChild(dialog);
   }
 
-  openHistory() {
-    const historyNode = cc.instantiate(this.historyPrefab);
-    const history = historyNode.getComponent('BaccaratHistory') as VipBaccaratHistory;
-    history.init(this);
-    this.currentMiniPanel.node.addChild(historyNode);
+  onDataGameRoom(data) {
+    if (data.history) {
+      this.historyComponent.onData(data.history);
+    }
+
+    super.onDataGameRoom(data);
   }
 
   openGuide() {
