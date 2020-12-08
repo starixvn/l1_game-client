@@ -1,3 +1,4 @@
+import ExpandableMenu from "../../../common/ExpandableMenu";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { games } from "../../../SabaConfigs";
 import BetItem from "../../_base/BetItem";
@@ -24,6 +25,9 @@ export default class VipSedieWar extends VipSedie {
     @property(cc.Node)
     betChoicesNode: cc.Node = null;
 
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
+
     protected internalInit() {
         this.init("VipSedieWar", new VipSedieWarConfigs(), null, 1, games.VipSedieWar.id);
         this.finishShowResult = false;
@@ -37,6 +41,20 @@ export default class VipSedieWar extends VipSedie {
             }
         });
         super.onLoad();
+
+        this.node.on(cc.Node.EventType.TOUCH_START, () => {
+            this.expandableMenu.collapseMenu();
+        })
+    }
+
+    protected onChangedBetChip(bet) {
+        super.onChangedBetChip(bet);
+        this.expandableMenu.collapseMenu();
+    }
+
+    onBetItemClick(event) {
+        super.onBetItemClick(event);
+        this.expandableMenu.collapseMenu();
     }
 
     updateRoundHistory() {
