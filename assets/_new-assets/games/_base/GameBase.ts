@@ -236,9 +236,10 @@ export default class GameBase extends cc.Component {
     }
 
     setGameRound(gameRoundId) {
-        if (!this.gameRound) {
+        if (!this.gameRound || gameRoundId < 0) {
             return;
         }
+
         const gameRound = this.formatGameRound(gameRoundId);
         this.gameRound.string = gameRound;
 
