@@ -27,7 +27,7 @@ export default class HoverEffect extends cc.Component {
 
     eventOnHover(e) {
         this.background.spriteFrame = this.highlightSprite;
-        this.hoverSound.play();
+        cc.RedT.isSoundGame() && this.hoverSound.play();
     }
 
     eventOffHover(e) {
