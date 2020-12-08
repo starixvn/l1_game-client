@@ -28,9 +28,14 @@ export default class VipBaccaratFinishHandler extends GameBaseFinishHandler {
       this.showResult(settlementResult);
       this.showWinNotice(settlementResult);
       onFinishHanlingData && onFinishHanlingData();
-      baccaratMain.currentDataLogs.unshift({ result: dataFinish.settlementResult });
-      baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
+      if (dataFinish.winningPlayers) {
+        delete dataFinish.winningPlayers;
+      }
+
+      baccaratMain.currentDataLogs.unshift(dataFinish);
+      baccaratMain.currentDataLogs.length > 120 && this.main.currentDataLogs.pop();
       (baccaratMain.logsHandler as VipBaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
+      baccaratMain.miniRoundHistory.setData(baccaratMain.currentDataLogs);
     };
 
     baccaratMain.playerCards.showCards(player, banker.length == 3 ? null : showResultFunc);

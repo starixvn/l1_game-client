@@ -38,11 +38,12 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
     this.buildBasicScoreBoard(dataLogs);
     this.buildTotalScoreBoard(dataLogs);
     this.buildDragonScoreBoard(dataLogs);
+    this.main.miniRoundHistory.setData(dataLogs);
   }
 
   private buildBasicScoreBoard(dataLogs: any) {
     const historyData = _.map(dataLogs, (log) => {
-      const result = log.result;
+      const result = log.settlementResult;
       if (result.banker) {
         return new BasicHistoryData('banker', '0');
       }
@@ -64,10 +65,10 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
       return;
     }
 
-    const resultKeys = getLowercaseObjectKeys(firstLog.result);
+    const resultKeys = getLowercaseObjectKeys(firstLog.settlementResult);
 
     const totalHistoryData = _.map(this.main.betItems, (item) => {
-      const total = _.filter(dataLogs, (log) => log.result[resultKeys[item.node.name.toLowerCase()]]).length;
+      const total = _.filter(dataLogs, (log) => log.settlementResult[resultKeys[item.node.name.toLowerCase()]]).length;
       return new TotalHistoryData(item.node.name, total.toString());
     });
 
@@ -77,13 +78,13 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
   private buildDragonScoreBoard(dataLogs: any) {
     dataLogs = _.map(dataLogs, (log, index) => {
       const previousLog = dataLogs[parseInt(index) + 1];
-      log.result.tieCount = 0;
+      log.settlementResult.tieCount = 0;
 
       if (previousLog) {
         log.previousLog = previousLog;
       } else {
-        if (log.result.tie) {
-          log.result.firstTie = true;
+        if (log.settlementResult.tie) {
+          log.settlementResult.firstTie = true;
         }
       }
 
@@ -91,12 +92,12 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
     });
 
     _.forEach(dataLogs, (log) => {
-      log.result.tie && this.setTieLog(log, log.previousLog);
+      log.settlementResult.tie && this.setTieLog(log, log.previousLog);
     });
 
-    const noTieDataLogs = _.filter(dataLogs, (log) => !log.result.tie || log.result.firstTie);
+    const noTieDataLogs = _.filter(dataLogs, (log) => !log.settlementResult.tie || log.settlementResult.firstTie);
     const detailHistoreBoardData = _.map(noTieDataLogs, (log, index) => {
-      const result = log.result;
+      const result = log.settlementResult;
 
       if (result.banker) {
         return new BaccaratDragonScoreBoardItemData(
@@ -133,16 +134,16 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
   }
 
   private setTieLog(log, previousLog) {
-    if (log && log.result.tie && previousLog) {
-      previousLog.result.bankerPair = previousLog.result.bankerPair || log.result.bankerPair;
-      previousLog.result.playerPair = previousLog.result.playerPair || log.result.playerPair;
+    if (log && log.settlementResult.tie && previousLog) {
+      previousLog.settlementResult.bankerPair = previousLog.settlementResult.bankerPair || log.settlementResult.bankerPair;
+      previousLog.settlementResult.playerPair = previousLog.settlementResult.playerPair || log.settlementResult.playerPair;
       this.setTieLog(previousLog, previousLog.previousLog);
       return;
     }
 
     if (log) {
-      log.result.isTie = true;
-      log.result.tieCount = log.result.tieCount + 1;
+      log.settlementResult.isTie = true;
+      log.settlementResult.tieCount = log.settlementResult.tieCount + 1;
     }
   }
 }
