@@ -18,6 +18,7 @@ export default class HoverEffect extends cc.Component {
     onLoad() {
         this.node.on(cc.Node.EventType.TOUCH_START, this.eventOnHover, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.eventOffHover, this);
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.eventOffHover, this);
 
         this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnHover, this);
         this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.eventOffHover, this);
@@ -26,6 +27,7 @@ export default class HoverEffect extends cc.Component {
     onDestroy() {
         this.node.off(cc.Node.EventType.TOUCH_START, this.eventOnHover, this);
         this.node.off(cc.Node.EventType.TOUCH_END, this.eventOffHover, this);
+        this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.eventOffHover, this);
 
         this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnHover, this);
         this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOffHover, this);
