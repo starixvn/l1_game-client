@@ -10,13 +10,15 @@ export default class VipSedieWarMiniRoundHistoryItem extends MiniRoundHistoryIte
     @property(cc.Label)
     red: cc.Label = null;
 
-    @property({ type: cc.SpriteFrame })
-    dotsFrame: cc.SpriteFrame[] = [];
-
     public setData(data: any) {
         this.data = data;
         const red = data.red;
-        this.icon.spriteFrame = this.dotsFrame[data.type];
+        const colors = [
+            cc.color(37, 128, 241),
+            cc.color(253, 101, 0),
+            cc.color(19, 180, 50),
+        ];
+        this.icon.node.color = colors[data.type];
         this.red.string = red;
     }
 }

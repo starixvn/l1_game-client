@@ -1,5 +1,6 @@
 import GameBase from "../../_base/GameBase";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
+import VipSedieWarRoundHistoryItem from "./VipSedieWarRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -177,7 +178,7 @@ export default class VipSedieWarStatistic extends cc.Component {
     updateTotalMode() {
         this.totalNode && (this.totalNode.active = true);
 
-        const historyData = this.data.map((d) => {
+        const data = this.data.map((d) => {
             let result = 0;
             const list = ["even", "odd"];
             list.forEach((key, index) => {
@@ -185,11 +186,28 @@ export default class VipSedieWarStatistic extends cc.Component {
                     result = index;
                 }
             });
-            return result;
+
+            let redCount = 0;
+            const listRed = ["red1", "red2", "red3", "red4"];
+            listRed.forEach((i) => {
+                if (d.result.player[i]) {
+                    redCount++;
+                }
+                if (d.result.banker[i]) {
+                    redCount++;
+                }
+            });
+            return { result, redCount };
         });
+
+        const historyData = data.map(d => d.result);
         this.updateTotalModeStatistic(historyData);
         this.sedieRoundHistory.logControl.items = this.sedieModeItems;
         this.sedieRoundHistory.logControl.setData(historyData.reverse());
+
+        const redCountData = data.map(d => d.redCount);
+        const items = this.sedieRoundHistory.logControl.content.getComponentsInChildren(VipSedieWarRoundHistoryItem);
+        items.forEach((item, i) => item.setValue(redCountData[i]));
     }
 
     updateTotalModeStatistic(data: any) {
