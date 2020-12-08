@@ -14,8 +14,16 @@ export default class VipBaccaratRoundHistoryTip extends MiniRoundHistoryTip {
 
     const player = Object.values(data.result.player).filter((value) => value != null);
     const banker = Object.values(data.result.banker).filter((value) => value != null);
-    let totalPlayer = player.reduce((sum: number, item: itemType) => sum + item.card, 0);
-    let totalBanker = banker.reduce((sum: number, item: itemType) => sum + item.card, 0);
+
+    let totalPlayer = 0;
+    let totalBanker = 0;
+    player.forEach((item: itemType) => {
+      totalPlayer += item.card + 1;
+    });
+
+    banker.forEach((item: itemType) => {
+      totalBanker += item.card + 1;
+    });
 
     this.result.string = `Nhà con: ${this.setPoint(totalPlayer)} - Nhà cái: ${this.setPoint(totalBanker)}`;
     this.show();
