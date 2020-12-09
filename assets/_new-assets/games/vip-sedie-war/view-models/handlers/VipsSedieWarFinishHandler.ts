@@ -11,6 +11,20 @@ export default class VipSedieWarFinishHandler extends SedieFinishHandler {
         super(main);
     }
 
+    handleFinishData(dataFinish, onFinishHandlingData: () => void = null) {
+        this.main.currentDataLogs.unshift(dataFinish);
+        this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
+        this.main.setDotsResult();
+        cc.tween(this.main)
+            .call(() => this.main.openPlate(true))
+            .delay(1.5)
+            .call(() => {
+                this.main.showResultOnTable();
+                onFinishHandlingData();
+            })
+            .start();
+    }
+
     payChipsToLoginPlayer(mainRoomGame: GameRoomBase, statusData, winBetItems: BetItem[]) {
         if (!statusData || !statusData.win) {
             return;

@@ -108,6 +108,20 @@ export default class VipSedieWar extends VipSedie {
         this.miniRoundHistoryContainer.addChild(mini);
     }
 
+    setDotsResult() {
+        const { result } = this.currentDataLogs[0];
+
+        this.dishes[0].setDots(result.player);
+        this.dishes[1].setDots(result.banker);
+    }
+
+    showResultOnTable() {
+        const { settlementResult } = this.currentDataLogs[0];
+
+        this.betItems.forEach(betItem => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
+        this.updateRoundHistory();
+    }
+
     showResult() {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
@@ -121,8 +135,15 @@ export default class VipSedieWar extends VipSedie {
     }
 
     openPlate(animated: boolean) {
-        this.dishes.forEach(dish => dish.openPlate(animated));
-
+        if (animated) {
+            this.dishes[0].openPlate(animated);
+            cc.tween(this)
+                .delay(1)
+                .call(() => this.dishes[1].openPlate(animated))
+                .start();
+        } else {
+            this.dishes.forEach(dish => dish.openPlate(animated));
+        }
     }
 
     closePlate() {
