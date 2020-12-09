@@ -21,6 +21,9 @@ export default class SicBoHistory extends cc.Component {
   @property(cc.SpriteFrame)
   dices: cc.SpriteFrame[] = [];
 
+  @property(cc.Node)
+  mainFrame: cc.Node = null;
+
   private socket: SocketIOClient.Socket;
 
   init(socket: SocketIOClient.Socket) {
@@ -29,6 +32,9 @@ export default class SicBoHistory extends cc.Component {
 
   onLoad() {
     this.pages.init(this);
+
+    const commonDialog = this.mainFrame.getComponent('CommonDialog');
+    commonDialog.onDidHide = () => { this.node.destroy(); };
   }
 
   onEnable() {
