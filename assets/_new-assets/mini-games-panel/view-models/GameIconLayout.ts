@@ -45,20 +45,22 @@ export default class GameIconLayout extends cc.Component {
     this.gameIds = [
       games.VipSedie.id,
       games.XocXoc.id,
+      games.VipSedieWar.id,
       games.MiniSedie.id,
-      games.SpecialSeDie.id,
-      games.TaiXiuTurbo.id,
+      games.SicBo.id,
       games.TaiXiu.id,
+      games.TaiXiuTurbo.id,
+      games.ChanLeTurbo.id,
       games.KenoProMax.id,
       games.KenoProViet.id,
+      games.VipBaccarat.id,
       games.Baccarat.id,
-      games.Roulette.id,
       games.VipFishPrawnCrab.id,
       games.BauCua.id,
       games.RongHo.id,
+      games.SpecialSeDie.id,
       games.BlackJack.id,
-      games.ChanLeTurbo.id,
-      games.SicBo.id
+      games.Roulette.id
     ];
   }
 
@@ -81,6 +83,8 @@ export default class GameIconLayout extends cc.Component {
     nameDict[games.BlackJack.id] = 'BlackJack';
     nameDict[games.VipFishPrawnCrab.id] = 'VipFishPrawnCrab';
     nameDict[games.SicBo.id] = 'SicBo';
+    nameDict[games.VipBaccarat.id] = 'VipBaccarat';
+    nameDict[games.VipSedieWar.id] = 'VipSedieWar';
 
     for (let i = 0; i < this.gameIds?.length; i++) {
       const path = `${this.path}/${nameDict[this.gameIds[i]]}`;
@@ -107,20 +111,25 @@ export default class GameIconLayout extends cc.Component {
 
       column.addChild(item);
       column.width = item.width;
-      const gameId = this.gameIds[i];
-      const clickEventHandler = new cc.Component.EventHandler();
-      clickEventHandler.target = this.node;
-      clickEventHandler.component = "GameIconLayout";
-      clickEventHandler.handler = "itemPressed";
-      clickEventHandler.customEventData = gameId.toString();
+
       const button = item.getComponent(cc.Button);
-      button.clickEvents.push(clickEventHandler);
+
+      if (button) {
+        const gameId = this.gameIds[i];
+        const clickEventHandler = new cc.Component.EventHandler();
+        clickEventHandler.target = this.node;
+        clickEventHandler.component = "GameIconLayout";
+        clickEventHandler.handler = "itemPressed";
+        clickEventHandler.customEventData = gameId.toString();
+        button.clickEvents.push(clickEventHandler);
+      }
     }
   }
 
   itemPressed(event, gameId) {
     cc.RedT.audio.playClick();
     const id = +gameId;
+
     GameUtils.openGame(id, this.miniPanel);
   }
 }

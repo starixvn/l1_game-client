@@ -100,6 +100,14 @@ const configs = {
       id: 25,
       name: 'Tài Xỉu Sic Bo',
     },
+    VipBaccarat: {
+      id: 27,
+      name: 'Cào Baccarat VIP',
+    },
+    VipSedieWar: {
+      id: 28,
+      name: 'Xóc Đĩa Đối Kháng VIP',
+    },
   },
   gameRoomRegNames: {
     8: 'KenoProMax',
