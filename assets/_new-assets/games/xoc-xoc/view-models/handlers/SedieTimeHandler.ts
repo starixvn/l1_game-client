@@ -3,7 +3,7 @@ import Sedie from "../Sedie";
 
 export default class SedieTimeHandler extends GameBaseTimeHandler {
 
-    private readonly shakeThePlateTime = 32;
+    private get shakeThePlateTime() { return this.main.config.betTime + 2 };
 
     constructor(protected readonly main: Sedie) {
         super(main);
