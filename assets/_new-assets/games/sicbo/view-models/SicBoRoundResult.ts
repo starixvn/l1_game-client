@@ -12,11 +12,14 @@ export default abstract class SicBoRoundResult extends cc.Component {
   @property(cc.Sprite)
   dice3: cc.Sprite = null;
 
-  @property(cc.Label)
-  total: cc.Label = null;
+  @property(cc.SpriteAtlas)
+  sicboAtlas: cc.SpriteAtlas = null;
 
-  @property(cc.Label)
-  result: cc.Label = null;
+  @property(cc.Sprite)
+  total: cc.Sprite = null;
+
+  @property(cc.Sprite)
+  result: cc.Sprite = null;
 
   @property(cc.Sprite)
   highlight: cc.Sprite = null;
@@ -36,21 +39,15 @@ export default abstract class SicBoRoundResult extends cc.Component {
     const { settlementResult, result } = data;
     let color = cc.Color.BLACK;
 
-    this.total.string = result.dice1 + result.dice2 + result.dice3;
+    this.total.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_${result.dice1 + result.dice2 + result.dice3}`);
 
     if (settlementResult[SicBoBetType.anyTriple]) {
-      color.fromHEX('#f29f00');
-      this.result.string = 'B';
-      this.result.node.color = color;
+      this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_B`);
     } else {
       if (settlementResult[SicBoBetType.big]) {
-        color.fromHEX('#db1515');
-        this.result.string = 'T';
-        this.result.node.color = color;
+        this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_T`);
       } else {
-        color.fromHEX('#2580f1');
-        this.result.string = 'X';
-        this.result.node.color = color;
+        this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_X`);
       }
     }
   }
