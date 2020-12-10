@@ -119,7 +119,7 @@ export default class VipSedieWar extends VipSedie {
     showResultOnTable() {
         const { settlementResult } = this.currentDataLogs[0];
 
-        this.betItems.forEach(betItem => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
+        this.betItems.forEach(betItem => betItem.setHighlight(settlementResult[betItem.node.name], true));
         this.updateRoundHistory();
     }
 
@@ -130,7 +130,7 @@ export default class VipSedieWar extends VipSedie {
             this.dishes[0].setDots(result.player);
             this.dishes[1].setDots(result.banker);
 
-            this.betItems.forEach(betItem => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
+            this.betItems.forEach(betItem => betItem.setHighlight(settlementResult[betItem.node.name], true));
             this.updateRoundHistory();
         }
     }
