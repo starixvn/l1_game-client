@@ -205,7 +205,7 @@ export default class VipSedieWarStatistic extends cc.Component {
         this.sedieRoundHistory.logControl.items = this.sedieModeItems;
         this.sedieRoundHistory.logControl.setData(historyData.reverse());
 
-        const redCountData = data.map(d => d.redCount);
+        const redCountData = data.map(d => d.redCount).reverse();
         const items = this.sedieRoundHistory.logControl.content.getComponentsInChildren(VipSedieWarRoundHistoryItem);
         items.forEach((item, i) => item.setValue(redCountData[i]));
     }
