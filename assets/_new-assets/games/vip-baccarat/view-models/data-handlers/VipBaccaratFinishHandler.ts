@@ -5,8 +5,8 @@ import { getLowercaseObjectKeys } from '../../../../common/helpers/Helper.js';
 import VipBaccaratLogsHandler from './VipBaccaratLogsHandler';
 
 export default class VipBaccaratFinishHandler extends GameBaseFinishHandler {
-  handleFinishData(dataFinish: any, onFinishHanlingData: () => void = null) {
-    super.handleFinishData(dataFinish, onFinishHanlingData);
+  handleFinishData(dataFinish: any, onFinishHandlingData: () => void = null) {
+    super.handleFinishData(dataFinish, onFinishHandlingData);
 
     var baccaratMain = this.main as VipBaccarat;
 
@@ -14,10 +14,10 @@ export default class VipBaccaratFinishHandler extends GameBaseFinishHandler {
       return;
     }
 
-    this.showCards(dataFinish, baccaratMain, onFinishHanlingData);
+    this.showCards(dataFinish, baccaratMain, onFinishHandlingData);
   }
 
-  private showCards(dataFinish: any, baccaratMain: VipBaccarat, onFinishHanlingData: () => void) {
+  private showCards(dataFinish: any, baccaratMain: VipBaccarat, onFinishHandlingData: () => void) {
     baccaratMain.showScoreBoardNextDot = true;
     const result = dataFinish.result;
     const settlementResult = dataFinish.settlementResult;
@@ -27,7 +27,7 @@ export default class VipBaccaratFinishHandler extends GameBaseFinishHandler {
       baccaratMain.showScoreBoardNextDot = false;
       this.showResult(settlementResult);
       this.showWinNotice(settlementResult);
-      onFinishHanlingData && onFinishHanlingData();
+      onFinishHandlingData && onFinishHandlingData();
       if (dataFinish.winningPlayers) {
         delete dataFinish.winningPlayers;
       }
