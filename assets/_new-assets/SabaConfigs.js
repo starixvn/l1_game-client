@@ -104,10 +104,6 @@ const configs = {
       id: 27,
       name: 'Cào Baccarat VIP',
     },
-    VipBaccarat: {
-      id: 27,
-      name: 'Cào Baccarat VIP',
-    },
     VipSedieWar: {
       id: 28,
       name: 'Xóc Đĩa Đối Kháng',

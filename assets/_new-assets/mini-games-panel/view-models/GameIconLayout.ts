@@ -60,8 +60,7 @@ export default class GameIconLayout extends cc.Component {
       games.RongHo.id,
       games.SpecialSeDie.id,
       games.BlackJack.id,
-      games.Roulette.id
-      games.VipBaccarat.id,
+      games.Roulette.id,
     ];
   }
 
@@ -119,8 +118,8 @@ export default class GameIconLayout extends cc.Component {
         const gameId = this.gameIds[i];
         const clickEventHandler = new cc.Component.EventHandler();
         clickEventHandler.target = this.node;
-        clickEventHandler.component = "GameIconLayout";
-        clickEventHandler.handler = "itemPressed";
+        clickEventHandler.component = 'GameIconLayout';
+        clickEventHandler.handler = 'itemPressed';
         clickEventHandler.customEventData = gameId.toString();
         button.clickEvents.push(clickEventHandler);
       }
