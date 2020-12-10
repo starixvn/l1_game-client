@@ -35,6 +35,10 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
   }
 
   buildLogs(dataLogs) {
+    if (dataLogs[dataLogs.length - 1].previousLog != undefined) {
+      dataLogs[dataLogs.length - 1].previousLog = null;
+    }
+
     this.buildBasicScoreBoard(dataLogs);
     this.buildTotalScoreBoard(dataLogs);
     this.buildDragonScoreBoard(dataLogs);

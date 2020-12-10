@@ -18,11 +18,11 @@ export default class VipBaccaratRoundHistoryTip extends MiniRoundHistoryTip {
     let totalPlayer = 0;
     let totalBanker = 0;
     player.forEach((item: itemType) => {
-      totalPlayer += item.card + 1;
+      totalPlayer += this.setValueCard(item.card + 1);
     });
 
     banker.forEach((item: itemType) => {
-      totalBanker += item.card + 1;
+      totalBanker += this.setValueCard(item.card + 1);
     });
 
     this.result.string = `Nhà con: ${this.setPoint(totalPlayer)} - Nhà cái: ${this.setPoint(totalBanker)}`;
@@ -31,5 +31,9 @@ export default class VipBaccaratRoundHistoryTip extends MiniRoundHistoryTip {
 
   private setPoint(point) {
     return point % 10;
+  }
+
+  private setValueCard(value: number) {
+    return value >= 10 ? 0 : value;
   }
 }
