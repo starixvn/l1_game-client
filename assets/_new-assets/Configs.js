@@ -37,6 +37,12 @@ const configs = {
       path: '/user/specialsedie',
       proxyRoute: '/specialsedie/socket.io',
     },
+    25: {
+      subDomain: 'haproxy',
+      port: 7001,
+      path: '/user/sicbo',
+      proxyRoute: '/sicbo/socket.io',
+    },
     26: {
       subDomain: 'haproxy',
       port: 7001,
