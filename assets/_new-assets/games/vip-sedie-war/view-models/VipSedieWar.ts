@@ -8,6 +8,7 @@ import VipSedieWarFinishHandler from "./handlers/VipsSedieWarFinishHandler";
 import SedieDish from "./SedieDish";
 import { VipSedieWarConfigs } from "./VipSedieWarConfigs";
 import VipSedieWarStatistic from "./VipSedieWarStatistic";
+import VipSedieWarGuide from './VipSedieWarGuide';
 
 const { ccclass, property } = cc._decorator;
 
@@ -148,5 +149,12 @@ export default class VipSedieWar extends VipSedie {
 
     closePlate() {
         this.dishes.forEach(dish => dish.closePlate());
+    }
+
+    openGuide() {
+        let dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(VipSedieWarGuide);
+        guide.init(this.gameConfigs);
+        this.currentMiniPanel.node.addChild(dialog);
     }
 }
