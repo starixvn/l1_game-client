@@ -17,18 +17,20 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
 
     if (data.roundHistory && data.roundHistory[0]) {
       const lastLog = data.roundHistory[0];
+      const result = lastLog.result;
+      const settlementResult = lastLog.settlementResult;
       const finishHandler = this.main.finishHandler as VipBaccaratFinishHandler;
 
       if (this.main.timeHandler.isInWaitTime) {
-        const playerCards = _.values(lastLog.player);
-        const bankerCards = _.values(lastLog.banker);
+        const player = Object.values(result.player).filter((value) => value != null);
+        const banker = Object.values(result.banker).filter((value) => value != null);
 
-        this.main.playerCards.showCardsWithoutAnimation(playerCards);
-        this.main.bankerCards.showCardsWithoutAnimation(bankerCards);
-        finishHandler.showWinNotice(lastLog.result);
+        this.main.playerCards.showCardsWithoutAnimation(player);
+        this.main.bankerCards.showCardsWithoutAnimation(banker);
+        finishHandler.showWinNotice(settlementResult);
       }
 
-      finishHandler.showResult(lastLog.result, false);
+      finishHandler.showResult(settlementResult, false);
     }
 
     return true;

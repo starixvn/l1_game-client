@@ -102,7 +102,7 @@ export default class VipBaccarat extends NewSocketGameBase {
 
   openGuide() {
     const guideNode = cc.instantiate(this.guidePrefab);
-    var guide = guideNode.getComponent('BaccaratGuide');
+    const guide = guideNode.getComponent('BaccaratGuide');
     guide.init(this.gameConfigs);
     this.currentMiniPanel.node.addChild(guideNode);
   }
@@ -145,7 +145,7 @@ export default class VipBaccarat extends NewSocketGameBase {
   }
 
   initMiniRoundHistory() {
-    var mini = cc.instantiate(this.miniRoundHistoryPrefab);
+    const mini = cc.instantiate(this.miniRoundHistoryPrefab);
     this.miniRoundHistory = mini.getComponent(VipBaccaratMiniRoundHistory);
     this.miniRoundHistoryContainer.addChild(mini);
   }

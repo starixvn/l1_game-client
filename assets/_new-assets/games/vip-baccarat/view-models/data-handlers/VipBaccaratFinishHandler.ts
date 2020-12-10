@@ -8,7 +8,7 @@ export default class VipBaccaratFinishHandler extends GameBaseFinishHandler {
   handleFinishData(dataFinish: any, onFinishHandlingData: () => void = null) {
     super.handleFinishData(dataFinish, onFinishHandlingData);
 
-    var baccaratMain = this.main as VipBaccarat;
+    const baccaratMain = this.main as VipBaccarat;
 
     if (!dataFinish.result) {
       return;
