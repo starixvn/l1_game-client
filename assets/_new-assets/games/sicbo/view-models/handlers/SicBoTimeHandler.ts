@@ -1,8 +1,6 @@
 import GameBaseTimeHandler from '../../../_base/handlers/GameBaseTimeHandler';
 import SicBo from '../SicBo';
-const { ccclass, property } = cc._decorator;
 
-@ccclass
 export default class SicBoTimeHandler extends GameBaseTimeHandler {
 
     constructor(protected readonly main: SicBo) {
