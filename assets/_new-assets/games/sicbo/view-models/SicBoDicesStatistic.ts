@@ -1,4 +1,4 @@
-import SicBo, { SicBoBetType } from './SicBo';
+import SicBo from './SicBo';
 import SicBoRoundResult from './SicBoRoundResult';
 
 const { ccclass, property } = cc._decorator;
