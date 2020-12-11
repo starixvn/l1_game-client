@@ -1,4 +1,4 @@
-import { getStringHourByTime, numberWithCommas } from "./../../../common/helpers/Helper";
+import { formatDateTime, numberWithCommas } from "./../../../common/helpers/Helper";
 import VipSedieWarUtils from "./VipSedieWarUtils";
 
 
@@ -17,10 +17,12 @@ export default class VipSedieWarTicketDetailItem extends cc.Component {
     setData(data: any) {
         this.choice.string = VipSedieWarUtils.getBetChoiceString(data.choice);
         this.amount.string = numberWithCommas(data.amount);
-        this.time.string = getStringHourByTime(data.time);
+        this.time.string = formatDateTime(data.time);
     }
 
     setHighlightWinChoice(highlight: boolean) {
-        this.amount.node.color = highlight ? cc.color(246, 193, 8) : cc.Color.WHITE;
+        const color = highlight ? cc.color(246, 193, 8) : cc.Color.WHITE;
+        this.amount.node.color = color;
+        this.choice.node.color = color;
     }
 }
