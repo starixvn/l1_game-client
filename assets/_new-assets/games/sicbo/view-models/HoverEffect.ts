@@ -12,9 +12,6 @@ export default class HoverEffect extends cc.Component {
     @property(cc.SpriteFrame)
     highlightSprite: cc.SpriteFrame = null;
 
-    @property(cc.AudioSource)
-    hoverSound: cc.AudioSource = null;
-
     onLoad() {
         this.node.on(cc.Node.EventType.TOUCH_START, this.eventOnHover, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.eventOffHover, this);
@@ -35,7 +32,6 @@ export default class HoverEffect extends cc.Component {
 
     eventOnHover(e) {
         this.background.spriteFrame = this.highlightSprite;
-        cc.RedT.isSoundGame() && this.hoverSound.play();
     }
 
     eventOffHover(e) {
