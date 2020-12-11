@@ -33,7 +33,7 @@ export default class VipBaccaratFinishHandler extends GameBaseFinishHandler {
       }
 
       baccaratMain.currentDataLogs.unshift(dataFinish);
-      baccaratMain.currentDataLogs.length > 120 && this.main.currentDataLogs.pop();
+      baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
       (baccaratMain.logsHandler as VipBaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
       baccaratMain.miniRoundHistory.setData(baccaratMain.currentDataLogs);
     };

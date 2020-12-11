@@ -28,7 +28,7 @@ export default class VipBaccaratTimeDataHandler extends GameBaseTimeHandler {
 
     this.main.betItems.forEach((item) => item.setHighlight(false));
 
-    if (this.main.currentTimeRemaining == this.main.config.stopBetTime && this.main.currentDataLogs.length >= 120) {
+    if (this.main.currentTimeRemaining == this.main.config.stopBetTime && this.main.currentDataLogs.length >= 102) {
       this.main.currentDataLogs.pop();
       (this.main.logsHandler as VipBaccaratLogsHandler).buildLogs(this.main.currentDataLogs);
     }
