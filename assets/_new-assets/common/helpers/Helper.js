@@ -48,12 +48,12 @@ export function nFormatter(t, e) {
   return t.toFixed(e).replace(o, "$1");
 }
 
-export function numberWithCommas(number) {
+export function numberWithCommas(number, toFixed = 2) {
   if (number) {
-    var result = (number = parseFloat(number)).toFixed(2).toString().split(".");
+    var result = (number = parseFloat(number)).toFixed(toFixed).toString().split(".");
     result[0] = result[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-    return result[1] !== "00" ? result.join(".") : result[0];
+    return +result[1] !== 0 ? result.join(".") : result[0];
   }
   return "0";
 }
