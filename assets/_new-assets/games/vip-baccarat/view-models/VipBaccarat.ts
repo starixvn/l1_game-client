@@ -1,7 +1,7 @@
 import NewSocketGameBase from '../../_base/NewSocketGameBase';
 import BasicHistoryBoard from '../../_base/view-models/BasicHistoryBoard';
 import DragonScoreBoard from '../../_base/view-models/DragonScoreBoard';
-import BaccaratCards from '../../baccarat/view-models/BaccaratCards';
+import VipBaccaratCards from './VipBaccaratCards';
 import { BaccaratConfigs } from '../../baccarat/view-models/BaccaratConfigs';
 import VipBaccaratTimeDataHandler from './data-handlers/VipBaccaratTimeDataHandler';
 import TotalHistoryBoard from '../../baccarat/view-models/TotalHistoryBoard';
@@ -15,11 +15,11 @@ import VipBaccaratMiniRoundHistory from './VipBaccaratMiniRoundHistory';
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class VipBaccarat extends NewSocketGameBase {
-  @property(BaccaratCards)
-  playerCards: BaccaratCards = null;
+  @property(VipBaccaratCards)
+  playerCards: VipBaccaratCards = null;
 
-  @property(BaccaratCards)
-  bankerCards: BaccaratCards = null;
+  @property(VipBaccaratCards)
+  bankerCards: VipBaccaratCards = null;
 
   @property(cc.Node)
   basicHistoryBoardNode: cc.Node = null;

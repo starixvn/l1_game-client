@@ -32,12 +32,12 @@ export default class BaccaratCards extends cc.Component {
   @property(cc.Label)
   point: cc.Label = null;
 
-  private playGetCardAudio = () => {};
-  private readonly flyCardSecond = 0.8;
-  private readonly openCardSecond = 0.3;
-  private readonly openSecondCardSecond = 1.6;
-  private readonly setPointSecond = 0.2;
-  private isMainPage = false;
+  protected playGetCardAudio = () => {};
+  protected readonly flyCardSecond = 0.8;
+  protected readonly openCardSecond = 0.3;
+  protected readonly openSecondCardSecond = 1.6;
+  protected readonly setPointSecond = 0.2;
+  protected isMainPage = false;
 
   onLoad() {
     console.log('onLoad------------------');
@@ -121,7 +121,7 @@ export default class BaccaratCards extends cc.Component {
     this.flyCard(this.card2);
   }
 
-  private setPoint(point: number) {
+  protected setPoint(point: number) {
     this.point.node.active = true;
     this.point.node.parent.active = true;
 
@@ -209,14 +209,14 @@ export default class BaccaratCards extends cc.Component {
       );
   }
 
-  private resetCard(card: cc.Node) {
+  protected resetCard(card: cc.Node) {
     card.children[0].getComponent(NewCard).faceDown();
     card.opacity = 0;
     card.scale = 0.5;
     card.angle = -135;
   }
 
-  private openCard(index: number, cards: any[], isAnimated = true) {
+  protected openCard(index: number, cards: any[], isAnimated = true) {
     if (index < cards.length) {
       let delayTime = 0;
       const cardData = cards[index];
