@@ -1,148 +1,152 @@
-import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
-import Baccarat from "../Baccarat";
-import * as _ from "lodash";
-import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
+import GameBaseLogsHandler from '../../../_base/handlers/GameBaseLogsHandler';
+import Baccarat from '../Baccarat';
+import * as _ from 'lodash';
+import { BasicHistoryData } from '../../../_base/view-models/BasicHistoryBoard';
 import { getLowercaseObjectKeys } from '../../../../common/helpers/Helper.js';
-import { TotalHistoryData } from "../TotalHistoryBoard";
-import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from "../BaccaratDragonScoreBoard";
-import BaccaratFinishHandler from "./BaccaratFInishHandler";
+import { TotalHistoryData } from '../TotalHistoryBoard';
+import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from '../BaccaratDragonScoreBoard';
+import BaccaratFinishHandler from './BaccaratFInishHandler';
 
 export default class BaccaratLogsHandler extends GameBaseLogsHandler {
+  constructor(protected readonly main: Baccarat) {
+    super(main);
+  }
 
-    constructor(protected readonly main: Baccarat) {
-        super(main);
+  handle(data: any): boolean {
+    super.handle(data);
+
+    if (data.roundHistory && data.roundHistory[0]) {
+      const lastLog = data.roundHistory[0];
+      const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
+
+      if (this.main.timeHandler.isInWaitTime) {
+        const playerCards = _.values(lastLog.player);
+        const bankerCards = _.values(lastLog.banker);
+
+        this.main.playerCards.showCardsWithoutAnimation(playerCards);
+        this.main.bankerCards.showCardsWithoutAnimation(bankerCards);
+        finishHandler.showWinNotice(lastLog.result);
+      }
+
+      finishHandler.showResult(lastLog.result, false);
     }
 
-    handle(data: any): boolean {
-        super.handle(data);
+    return true;
+  }
 
-        if (data.roundHistory && data.roundHistory[0]) {
-            const lastLog = data.roundHistory[0];
-            const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
+  buildLogs(dataLogs) {
+    if (dataLogs[dataLogs.length - 1].previousLog != undefined) {
+      dataLogs[dataLogs.length - 1].previousLog = null;
+    }
 
-            if (this.main.timeHandler.isInWaitTime) {
-                const playerCards = _.values(lastLog.player);
-                const bankerCards = _.values(lastLog.banker);
+    this.buildBasicScoreBoard(dataLogs);
+    this.buildTotalScoreBoard(dataLogs);
+    this.buildDragonScoreBoard(dataLogs);
+  }
 
-                this.main.playerCards.showCardsWithoutAnimation(playerCards);
-                this.main.bankerCards.showCardsWithoutAnimation(bankerCards);
-                finishHandler.showWinNotice(lastLog.result);
-            }
+  private buildBasicScoreBoard(dataLogs: any) {
+    const historyData = _.map(dataLogs, (log) => {
+      const result = log.result;
+      if (result.banker) {
+        return new BasicHistoryData('banker', '0');
+      }
+      if (result.player) {
+        return new BasicHistoryData('player', '0');
+      }
+      if (result.tie) {
+        return new BasicHistoryData('tie', '0');
+      }
+    });
 
-            finishHandler.showResult(lastLog.result, false);
+    this.main.basicHistoryBoard.setData(historyData.reverse());
+  }
+
+  private buildTotalScoreBoard(dataLogs: any) {
+    const firstLog = dataLogs[0];
+
+    if (!firstLog) {
+      return;
+    }
+
+    const resultKeys = getLowercaseObjectKeys(firstLog.result);
+
+    const totalHistoryData = _.map(this.main.betItems, (item) => {
+      const total = _.filter(dataLogs, (log) => log.result[resultKeys[item.node.name.toLowerCase()]]).length;
+      return new TotalHistoryData(item.node.name, total.toString());
+    });
+
+    this.main.totalHistoryBoard.setData(totalHistoryData);
+  }
+
+  private buildDragonScoreBoard(dataLogs: any) {
+    dataLogs = _.map(dataLogs, (log, index) => {
+      const previousLog = dataLogs[parseInt(index) + 1];
+      log.result.tieCount = 0;
+
+      if (previousLog) {
+        log.previousLog = previousLog;
+      } else {
+        if (log.result.tie) {
+          log.result.firstTie = true;
         }
+      }
 
-        return true;
+      return log;
+    });
+
+    _.forEach(dataLogs, (log) => {
+      log.result.tie && this.setTieLog(log, log.previousLog);
+    });
+
+    const noTieDataLogs = _.filter(dataLogs, (log) => !log.result.tie || log.result.firstTie);
+    const detailHistoreBoardData = _.map(noTieDataLogs, (log, index) => {
+      const result = log.result;
+
+      if (result.banker) {
+        return new BaccaratDragonScoreBoardItemData(
+          BaccaratDragonScoreBoard.BANKER,
+          result.playerPair,
+          result.bankerPair,
+          result.natural,
+          result.isTie,
+          result.tieCount
+        );
+      } else if (result.player) {
+        return new BaccaratDragonScoreBoardItemData(
+          BaccaratDragonScoreBoard.PLAYER,
+          result.playerPair,
+          result.bankerPair,
+          result.natural,
+          result.isTie,
+          result.tieCount
+        );
+      } else {
+        return new BaccaratDragonScoreBoardItemData(
+          BaccaratDragonScoreBoard.BANKER,
+          result.playerPair,
+          result.bankerPair,
+          result.natural,
+          result.isTie || result.tie,
+          result.tieCount,
+          result.firstTie
+        );
+      }
+    });
+
+    this.main.detailHistoryBoard.setData(detailHistoreBoardData.reverse());
+  }
+
+  private setTieLog(log, previousLog) {
+    if (log && log.result.tie && previousLog) {
+      previousLog.result.bankerPair = previousLog.result.bankerPair || log.result.bankerPair;
+      previousLog.result.playerPair = previousLog.result.playerPair || log.result.playerPair;
+      this.setTieLog(previousLog, previousLog.previousLog);
+      return;
     }
 
-    buildLogs(dataLogs) {
-        this.buildBasicScoreBoard(dataLogs);
-        this.buildTotalScoreBoard(dataLogs);
-        this.buildDragonScoreBoard(dataLogs);
+    if (log) {
+      log.result.isTie = true;
+      log.result.tieCount = log.result.tieCount + 1;
     }
-
-    private buildBasicScoreBoard(dataLogs: any) {
-        const historyData = _.map(dataLogs, (log) => {
-            const result = log.result;
-            if (result.banker) {
-                return new BasicHistoryData("banker", "0");
-            }
-            if (result.player) {
-                return new BasicHistoryData("player", "0");
-            }
-            if (result.tie) {
-                return new BasicHistoryData("tie", "0");
-            }
-        });
-
-        this.main.basicHistoryBoard.setData(historyData.reverse());
-    }
-
-    private buildTotalScoreBoard(dataLogs: any) {
-        const firstLog = dataLogs[0];
-
-        if (!firstLog) {
-            return;
-        }
-
-        const resultKeys = getLowercaseObjectKeys(firstLog.result);
-
-        const totalHistoryData = _.map(this.main.betItems, item => {
-            const total = _.filter(dataLogs, log => log.result[resultKeys[item.node.name.toLowerCase()]]).length;
-            return new TotalHistoryData(item.node.name, total.toString());
-        });
-
-        this.main.totalHistoryBoard.setData(totalHistoryData);
-    }
-
-    private buildDragonScoreBoard(dataLogs: any) {
-        dataLogs = _.map(dataLogs, (log, index) => {
-            const previousLog = dataLogs[parseInt(index) + 1];
-            log.result.tieCount = 0;
-
-            if (previousLog) {
-                log.previousLog = previousLog;
-            }
-            else {
-                if (log.result.tie) {
-                    log.result.firstTie = true;
-                }
-            }
-
-            return log;
-        })
-
-        _.forEach(dataLogs, (log) => {
-            log.result.tie && this.setTieLog(log, log.previousLog);
-        });
-
-        const noTieDataLogs = _.filter(dataLogs, (log) => !log.result.tie || log.result.firstTie);
-        const detailHistoreBoardData = _.map(noTieDataLogs, (log, index) => {
-            const result = log.result;
-
-            if (result.banker) {
-                return new BaccaratDragonScoreBoardItemData(
-                    BaccaratDragonScoreBoard.BANKER,
-                    result.playerPair,
-                    result.bankerPair,
-                    result.natural,
-                    result.isTie,
-                    result.tieCount);
-            } else if (result.player) {
-                return new BaccaratDragonScoreBoardItemData(
-                    BaccaratDragonScoreBoard.PLAYER,
-                    result.playerPair,
-                    result.bankerPair,
-                    result.natural,
-                    result.isTie,
-                    result.tieCount);
-            }
-            else {
-                return new BaccaratDragonScoreBoardItemData(
-                    BaccaratDragonScoreBoard.BANKER,
-                    result.playerPair,
-                    result.bankerPair,
-                    result.natural,
-                    result.isTie || result.tie,
-                    result.tieCount,
-                    result.firstTie);
-            }
-        });
-
-        this.main.detailHistoryBoard.setData(detailHistoreBoardData.reverse());
-    }
-
-    private setTieLog(log, previousLog) {
-        if (log && log.result.tie && previousLog) {
-            previousLog.result.bankerPair = previousLog.result.bankerPair || log.result.bankerPair;
-            previousLog.result.playerPair = previousLog.result.playerPair || log.result.playerPair;
-            this.setTieLog(previousLog, previousLog.previousLog);
-            return;
-        }
-
-        if (log) {
-            log.result.isTie = true;
-            log.result.tieCount = log.result.tieCount + 1;
-        }
-    }
+  }
 }
