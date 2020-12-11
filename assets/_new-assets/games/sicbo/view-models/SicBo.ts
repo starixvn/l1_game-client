@@ -1,20 +1,20 @@
-import * as _ from "lodash";
-import * as helper from "../../../common/helpers/Helper";
-import { games } from "../../../SabaConfigs";
-import BetItem from "../../_base/BetItem";
-import NewSocketGameBase from "../../_base/NewSocketGameBase";
-import SicBoConfigs from "./SicBoConfigs";
-import SicBoOddsItem from './SicBoOddsItem';
-import SicBoTimeHandler from './handlers/SicBoTimeHandler';
-import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
-import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
-import SicBoBetItem from './SicBoBetItem';
-import SicBoBetHandler from "./handlers/SicBoBetHandler";
-import SicBoHistory from "./SicBoHistory";
-import SicBoGuide from './SiBoGuide';
-import SicBoDicesStatistic from "./SicBoDicesStatistic";
-import SicBoMajorChoicesStatistic from "./SicBoMajorChoicesStatistic";
+import * as _ from 'lodash';
+
 import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
+import { games } from '../../../SabaConfigs';
+import BetItem from '../../_base/BetItem';
+import NewSocketGameBase from '../../_base/NewSocketGameBase';
+import SicBoBetHandler from './handlers/SicBoBetHandler';
+import SicBoFinishHandler from './handlers/SicBoFinishHandler';
+import SicBoLogsHandler from './handlers/SicBoLogsHandler';
+import SicBoTimeHandler from './handlers/SicBoTimeHandler';
+import SicBoGuide from './SiBoGuide';
+import SicBoBetItem from './SicBoBetItem';
+import SicBoConfigs from './SicBoConfigs';
+import SicBoDicesStatistic from './SicBoDicesStatistic';
+import SicBoHistory from './SicBoHistory';
+import SicBoMajorChoicesStatistic from './SicBoMajorChoicesStatistic';
+import SicBoOddsItem from './SicBoOddsItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -226,7 +226,7 @@ export default class SicBo extends NewSocketGameBase {
 
     highlightWinningBetItems() {
         if (this.currentDataLogs.length > 0) {
-            const { result, settlementResult } = this.currentDataLogs[0];
+            const { settlementResult } = this.currentDataLogs[0];
             this.betItems.forEach((betItem: SicBoBetItem) => {
                 const choice = betItem.node.name;
                 betItem.setHighlight(settlementResult[choice], true);
@@ -275,7 +275,7 @@ export default class SicBo extends NewSocketGameBase {
 
     initRoundHistory() {
         const node = cc.instantiate(this.roundHistoryPrefab);
-        this.miniRoundHistory = node.getComponent(MiniRoundHistory);;
+        this.miniRoundHistory = node.getComponent(MiniRoundHistory);
         this.roundHistoryContainer.addChild(node);
     }
 

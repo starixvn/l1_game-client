@@ -106,7 +106,7 @@ const configs = {
     },
     VipSedieWar: {
       id: 28,
-      name: 'Xóc Đĩa Đối Kháng VIP',
+      name: 'Xóc Đĩa Đối Kháng',
     },
   },
   gameRoomRegNames: {
