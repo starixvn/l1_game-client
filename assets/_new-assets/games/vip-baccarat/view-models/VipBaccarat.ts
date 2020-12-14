@@ -145,8 +145,15 @@ export default class VipBaccarat extends NewSocketGameBase {
   }
 
   initMiniRoundHistory() {
+    const condition = () => {
+      const result = this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
+
+      return result;
+    };
+
     const mini = cc.instantiate(this.miniRoundHistoryPrefab);
     this.miniRoundHistory = mini.getComponent(VipBaccaratMiniRoundHistory);
+    this.miniRoundHistory.init(condition);
     this.miniRoundHistoryContainer.addChild(mini);
   }
 }
