@@ -1,11 +1,14 @@
-import GameBaseLogsHandler from '../../../_base/handlers/GameBaseLogsHandler';
-import VipBaccarat from '../VipBaccarat';
-import * as _ from 'lodash';
-import { BasicHistoryData } from '../../../_base/view-models/BasicHistoryBoard';
-import { getLowercaseObjectKeys } from '../../../../common/helpers/Helper.js';
-import { TotalHistoryData } from '../../../baccarat/view-models/TotalHistoryBoard';
-import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from '../../../baccarat/view-models/BaccaratDragonScoreBoard';
-import VipBaccaratFinishHandler from './VipBaccaratFinishHandler';
+import * as _ from "lodash";
+
+import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper.js";
+import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
+import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
+import BaccaratDragonScoreBoard, {
+  BaccaratDragonScoreBoardItemData,
+} from "../../../baccarat/view-models/BaccaratDragonScoreBoard";
+import { TotalHistoryData } from "../../../baccarat/view-models/TotalHistoryBoard";
+import VipBaccarat from "../VipBaccarat";
+import VipBaccaratFinishHandler from "./VipBaccaratFinishHandler";
 
 export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
   constructor(protected readonly main: VipBaccarat) {
@@ -37,7 +40,7 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
   }
 
   buildLogs(dataLogs) {
-    if (dataLogs[dataLogs.length - 1].previousLog != undefined) {
+    if (dataLogs[dataLogs.length - 1] && dataLogs[dataLogs.length - 1].previousLog != undefined) {
       dataLogs[dataLogs.length - 1].previousLog = null;
     }
 
