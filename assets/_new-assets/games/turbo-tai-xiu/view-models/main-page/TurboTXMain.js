@@ -23,7 +23,7 @@ cc.Class({
     this.balanceBetNotice = null;
     this.currentStatus = null;
     this.presetBetValue = 0;
-    this.MAX_BET = 1000;
+    this.MAX_BET = 2000;
     this.betBoard = null;
 
     if (void 0 === cc.RedT.setting.taixiu_turbo.red) {
@@ -423,7 +423,7 @@ cc.Class({
               this.showBetWinLoss();
             }
             // time count down to next phien
-            var time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - Constants.betTime - 1, 2);
+            const time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - Constants.betTime - 1, 2);
             this.showWaitTime(time);
 
             if (this.localResultDices.length > 0) {
@@ -447,7 +447,7 @@ cc.Class({
           }
 
           if (cc.RedT.setting.taixiu_turbo.time_remain > Constants.minBetTime) {
-            var time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - 1, 2);
+            const time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - 1, 2);
             this.AnimatedTime.setTime(time);
             // this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
             this.AnimatedTime.node.active = !self.isUM;
@@ -574,7 +574,7 @@ cc.Class({
         this.dotLogs.map(function (dot, index) {
           var data = cc.RedT.setting.taixiu_turbo.logs[index];
           if (void 0 !== data) {
-            var point = data.dice[0] + data.dice[1] + data.dice[2];
+            const point = data.dice[0] + data.dice[1] + data.dice[2];
             dot.node.active = true;
             dot.node.phien = data.phien;
             dot.mod.round.string = `#${data.phien}`;
@@ -613,7 +613,7 @@ cc.Class({
     var sliced = cc.RedT.setting.taixiu_turbo.logs.slice(0, 19);
     sliced.reverse();
     // Line paint
-    var Paint = new Promise(function (resolve, reject) {
+    new Promise(function (resolve, reject) {
       for (var i = 0; i < sliced.length; i++) {
         var data = sliced[i];
         if (void 0 !== data) {
@@ -673,7 +673,7 @@ cc.Class({
       var data = cc.RedT.setting.taixiu_turbo.logs[index];
       if (void 0 !== data) {
         dot.node.active = true;
-        var point = data.dice[0] + data.dice[1] + data.dice[2];
+        const point = data.dice[0] + data.dice[1] + data.dice[2];
         dot.spriteFrame = self.taixiu ?
           point < 11 ?
             self.dot_white :
@@ -692,8 +692,8 @@ cc.Class({
     var newArr = cc.RedT.setting.taixiu_turbo.logs.slice();
     newArr.reverse();
     for (var newDS of newArr) {
-      var point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
-      var type = self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+      const point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
+      const type = self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
       if (tmp_DS === -1) {
         tmp_DS = type;
       }
@@ -727,7 +727,7 @@ cc.Class({
           obj.RedT.map(function (current, index) {
             var data_Cel = data[index];
             if (void 0 !== data_Cel) {
-              var type = self.taixiu ?
+              const type = self.taixiu ?
                 data_Cel > 10 ?
                   true :
                   false :

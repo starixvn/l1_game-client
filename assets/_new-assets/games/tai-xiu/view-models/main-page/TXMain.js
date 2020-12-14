@@ -218,7 +218,7 @@ cc.Class({
     this.balanceBetNotice = null;
     this.currentStatus = null;
     this.presetBetValue = 0;
-    this.MAX_BET = 1000;
+    this.MAX_BET = 2000;
     this.betBoard = null;
 
     if (void 0 === cc.RedT.setting.taixiu.red) {
@@ -645,8 +645,8 @@ cc.Class({
               this.showBetWinLoss()
             }
             // time count down to next phien
-            var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
-            this.showWaitTime(time);
+            var waitTime = helper.numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
+            this.showWaitTime(waitTime);
 
             if (this.localResultDices.length > 0) {
               this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
@@ -837,7 +837,7 @@ cc.Class({
     var sliced = cc.RedT.setting.taixiu.logs.slice(0, 19);
     sliced.reverse();
     // Line paint
-    var Paint = new Promise(function (resolve, reject) {
+    new Promise(function (resolve, reject) {
       for (var i = 0; i < sliced.length; i++) {
         var data = sliced[i];
         if (void 0 !== data) {
@@ -897,15 +897,15 @@ cc.Class({
       var data = cc.RedT.setting.taixiu.logs[index];
       if (void 0 !== data) {
         dot.node.active = true;
-        var point = data.dice[0] + data.dice[1] + data.dice[2];
+        var kqPoint = data.dice[0] + data.dice[1] + data.dice[2];
         dot.spriteFrame = self.taixiu ?
-          point < 11 ?
+          kqPoint < 11 ?
             self.dot_white :
             self.dot_black :
-          point % 2 ?
+          kqPoint % 2 ?
             self.dot_black :
             self.dot_yellow;
-        return self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+        return self.taixiu ? (kqPoint > 10 ? 1 : 0) : kqPoint % 2 ? 0 : 1;
       } else {
         dot.node.active = false;
         return -1;
@@ -917,7 +917,7 @@ cc.Class({
     newArr.reverse();
     for (var newDS of newArr) {
       var point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
-      var type = self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+      const type = self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
       if (tmp_DS === -1) {
         tmp_DS = type;
       }
@@ -951,7 +951,7 @@ cc.Class({
           obj.RedT.map(function (current, index) {
             var data_Cel = data[index];
             if (void 0 !== data_Cel) {
-              var type = self.taixiu ?
+              const type = self.taixiu ?
                 data_Cel > 10 ?
                   true :
                   false :

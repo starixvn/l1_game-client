@@ -170,7 +170,7 @@ export default class ChanLeMain extends cc.Component {
   public betBoard: BetBoard;
   public presetBetValue = 0;
 
-  private static readonly MAX_BET = 1000;
+  private static readonly MAX_BET = 2000;
   private static readonly DAT_CUOC = "ĐẶT CỬA";
   private readonly umDataHandler: DataHandler;
   private readonly errorDataHandler: DataHandler;

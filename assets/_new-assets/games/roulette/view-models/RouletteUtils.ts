@@ -3,7 +3,7 @@ import { RouletteBetInfo, RouletteBetType } from "./Roulette";
 
 export default class RouletteUtils {
     private static redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
-    private static options = [1000, 500, 200, 100, 50, 10, 5, 1];
+    private static options = [2000, 1000, 500, 200, 100, 50, 10, 5, 1];
 
     public static isRed(number): boolean {
         return this.redNumbers.indexOf(number) != -1;
@@ -121,7 +121,7 @@ export default class RouletteUtils {
     public static createChips(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
         const values = this.getChipValues(bet);
         const keys = Object.keys(values).sort((a, b) => +a - +b); // sort ascending by key
-        const key = keys.find(key => values[key] > 0);
+        const key = keys.find(k => values[k] > 0);
         const chipNode = this.createChip(+key, chipAltas, false);
         return chipNode;
 

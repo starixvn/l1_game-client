@@ -134,7 +134,7 @@ export default class BlackJack extends NewSocketGameBase {
     historyComponent: BlackJackHistory;
     audioNotificationInterval: any;
 
-    public chipOption = [1000, 500, 200, 100, 50, 10, 5, 1];
+    public chipOption = [2000, 1000, 500, 200, 100, 50, 10, 5, 1];
     public configDuration = {
         drawingCardDelay: 0.7,
         delaySwitchHand: 1,
@@ -268,7 +268,7 @@ export default class BlackJack extends NewSocketGameBase {
                 handPlace.addBetAmount(this.currentBet);
 
                 const startNode = this.betChips.getChipNode(this.currentBet);
-                chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v2(0, 0)));;
+                chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v2(0, 0)));
                 destNode.addChild(chipNode);
 
                 let destPosition = cc.v2(0, 0);
@@ -559,7 +559,7 @@ export default class BlackJack extends NewSocketGameBase {
             }
 
             count++;
-            const destPosition = cardNodes[0].parent.convertToNodeSpaceAR(worldPositon);
+            const destPos = cardNodes[0].parent.convertToNodeSpaceAR(worldPositon);
             cardNodes.forEach(cardNode => {
                 cc.tween(cardNode)
                     .to(0.3, { position: cc.v2(0, 0) })
@@ -569,7 +569,7 @@ export default class BlackJack extends NewSocketGameBase {
                         cardComponent.playAnimation(CardAnimation.DropCard, 0.7);
                     })
                     .then(
-                        cc.jumpTo(0.7, destPosition, 250, 1))
+                        cc.jumpTo(0.7, destPos, 250, 1))
                     .delay(0.2)
                     .call(() => cardNode.destroy())
                     .start();
