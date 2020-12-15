@@ -11,6 +11,7 @@ import VipBaccaratFinishHandler from './data-handlers/VipBaccaratFinishHandler';
 import VipBaccaratLogsHandler from './data-handlers/VipBaccaratLogsHandler';
 import VipBaccaratHistory from './VipBaccaratHistory';
 import VipBaccaratMiniRoundHistory from './VipBaccaratMiniRoundHistory';
+import GameUtils from '../../../common/GameUtils';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -54,6 +55,15 @@ export default class VipBaccarat extends NewSocketGameBase {
   @property(cc.Node)
   miniRoundHistoryContainer: cc.Node = null;
 
+  @property(cc.Node)
+  chipContainer: cc.Node = null;
+
+  @property(cc.Node)
+  totalBetContainer: cc.Node = null;
+
+  @property(cc.Node)
+  ownBetContainer: cc.Node = null;
+
   basicHistoryBoard: BasicHistoryBoard;
   detailHistoryBoard: DragonScoreBoard;
   showScoreBoardNextDot = false;
@@ -74,6 +84,12 @@ export default class VipBaccarat extends NewSocketGameBase {
     this.initCards();
     this.initScoreBoards();
     this.initMiniRoundHistory();
+
+    this.betItems.forEach((item) => {
+      GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
+      GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
+      GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
+    });
   }
 
   initHandlers() {
