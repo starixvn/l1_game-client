@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+import GameUtils from "../../../common/GameUtils";
 import { games } from "../../../SabaConfigs";
 import NewSocketGameBase from "../../_base/NewSocketGameBase";
 import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
@@ -65,6 +66,15 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     @property(cc.Node)
     randomResult: cc.Node = null;
 
+    @property(cc.Node)
+    chipContainer: cc.Node = null;
+
+    @property(cc.Node)
+    totalBetContainer: cc.Node = null;
+
+    @property(cc.Node)
+    ownBetContainer: cc.Node = null;
+
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
 
@@ -85,6 +95,16 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
         this.shakeAnimation.node.active = false;
         this.initStats();
         this.animatedTime.setAnimatedY(30, -5);
+
+        this.betItems.forEach((item: VipFishPrawnCrabBetItem) => {
+            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
+            GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
+            GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
+
+            item.chipNode.scaleX = 1;
+            item.totalBet.node.scaleX = 1;
+            item.ownBet.node.scaleX = 1;
+        })
     }
 
     initStats() {
