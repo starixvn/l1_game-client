@@ -1,5 +1,5 @@
-import { formatDateTime, numberWithCommas } from "./../../../common/helpers/Helper";
-import VipSedieWarUtils from "./VipSedieWarUtils";
+import { getStringHourByTime, numberWithCommas } from './../../../common/helpers/Helper';
+import VipSedieWarUtils from './VipSedieWarUtils';
 
 
 const { ccclass, property } = cc._decorator;
@@ -17,7 +17,7 @@ export default class VipSedieWarTicketDetailItem extends cc.Component {
     setData(data: any) {
         this.choice.string = VipSedieWarUtils.getBetChoiceString(data.choice);
         this.amount.string = numberWithCommas(data.amount);
-        this.time.string = formatDateTime(data.time);
+        this.time.string = getStringHourByTime(data.time);
     }
 
     setHighlightWinChoice(highlight: boolean) {
