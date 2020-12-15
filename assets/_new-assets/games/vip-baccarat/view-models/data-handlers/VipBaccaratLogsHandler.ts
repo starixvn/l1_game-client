@@ -1,14 +1,12 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper.js";
-import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
-import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
-import BaccaratDragonScoreBoard, {
-  BaccaratDragonScoreBoardItemData,
-} from "../../../baccarat/view-models/BaccaratDragonScoreBoard";
-import { TotalHistoryData } from "../../../baccarat/view-models/TotalHistoryBoard";
-import VipBaccarat from "../VipBaccarat";
-import VipBaccaratFinishHandler from "./VipBaccaratFinishHandler";
+import { getLowercaseObjectKeys } from '../../../../common/helpers/Helper.js';
+import GameBaseLogsHandler from '../../../_base/handlers/GameBaseLogsHandler';
+import { BasicHistoryData } from '../../../_base/view-models/BasicHistoryBoard';
+import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from '../../../baccarat/view-models/BaccaratDragonScoreBoard';
+import { TotalHistoryData } from '../../../baccarat/view-models/TotalHistoryBoard';
+import VipBaccarat from '../VipBaccarat';
+import VipBaccaratFinishHandler from './VipBaccaratFinishHandler';
 
 export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
   constructor(protected readonly main: VipBaccarat) {
@@ -18,6 +16,7 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
   handle(data: any): boolean {
     super.handle(data);
 
+    
     if (data.roundHistory && data.roundHistory[0]) {
       const lastLog = data.roundHistory[0];
       const result = lastLog.result;
@@ -33,7 +32,9 @@ export default class VipBaccaratLogsHandler extends GameBaseLogsHandler {
         finishHandler.showWinNotice(settlementResult);
       }
 
-      finishHandler.showResult(settlementResult, false);
+      if (this.main.currentTimeRemaining > this.main.config.stopBetTime) {
+        finishHandler.showResult(settlementResult, false);
+      }
     }
 
     return true;
