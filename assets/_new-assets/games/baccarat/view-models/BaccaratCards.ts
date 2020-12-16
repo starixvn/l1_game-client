@@ -40,8 +40,6 @@ export default class BaccaratCards extends cc.Component {
   protected isMainPage = false;
 
   onLoad() {
-    console.log('onLoad------------------');
-
     this.card1.children[0].getComponent(NewCard).faceDown();
     this.card2.children[0].getComponent(NewCard).faceDown();
     this.card3.children[0].getComponent(NewCard).faceDown();
@@ -84,33 +82,40 @@ export default class BaccaratCards extends cc.Component {
   }
 
   showCards(cards: any[], onFinishShowCards: () => void, playerHasCard3: boolean = false): void {
-    this.node.runAction(
-      cc.sequence(
-        cc.callFunc(() => {
-          this.openCard(0, cards);
-        }),
-        cc.delayTime(this.openCardSecond), // Waiting for open 1st card
-        cc.callFunc(() => {
-          this.openCard2(cards);
-        }),
-        cc.delayTime(this.openSecondCardSecond), // Waiting for open 2nd card
-        cc.callFunc(() => {
-          let delayTime = this.openSecondCardSecond; // Waiting for the other side open 2nd card
-          const hasCard3 = cards.length == 3;
+    this.point.string = '0';
+    let delayTime = 0;
+    const hasCard3 = cards.length == 3;
+    const SHOW_CARD = 1;
+    const SHOW_FINISH_CARD = 2;
+    const handleCard = cc.sequence(
+      cc.callFunc(() => {
+        this.openCard(0, cards);
+      }),
+      cc.delayTime(this.openCardSecond), // Waiting for open 1st card
+      cc.callFunc(() => {
+        this.openCard2(cards);
+      }),
+      cc.delayTime(this.openSecondCardSecond), // Waiting for open 2nd card
+      cc.callFunc(() => {
+        delayTime = this.openSecondCardSecond; // Waiting for the other side open 2nd card
+        if (hasCard3) {
+          delayTime = this.flyAndOpenCard3(cards, delayTime, playerHasCard3);
+        }
+        const handleFinishCard = cc.sequence(
+          cc.delayTime(delayTime),
+          cc.callFunc(() => onFinishShowCards && onFinishShowCards())
+        );
 
-          if (hasCard3) {
-            delayTime = this.flyAndOpenCard3(cards, delayTime, playerHasCard3);
-          }
-
-          this.node.runAction(
-            cc.sequence(
-              cc.delayTime(delayTime),
-              cc.callFunc(() => onFinishShowCards && onFinishShowCards())
-            )
-          );
-        })
-      )
+        handleFinishCard.setTag(SHOW_FINISH_CARD);
+        this.node.runAction(handleFinishCard);
+      })
     );
+
+    this.node.stopActionByTag(SHOW_CARD);
+    this.node.stopActionByTag(SHOW_FINISH_CARD);
+    handleCard.setTag(SHOW_CARD);
+
+    this.node.runAction(handleCard);
   }
 
   flyFirstCard() {
@@ -279,13 +284,15 @@ export default class BaccaratCards extends cc.Component {
 
       if (this.point) {
         const point: number = cardData.card + 1;
-
-        currentCard.runAction(
-          cc.sequence(
-            cc.delayTime(delayTime),
-            cc.callFunc(() => this.setPoint(point >= 10 ? 0 : point))
-          )
+        const SET_PONT = 3;
+        const setPoint = cc.sequence(
+          cc.delayTime(delayTime),
+          cc.callFunc(() => this.setPoint(point >= 10 ? 0 : point))
         );
+
+        this.node.stopActionByTag(SET_PONT);
+        setPoint.setTag(SET_PONT);
+        currentCard.runAction(setPoint);
       }
     }
   }

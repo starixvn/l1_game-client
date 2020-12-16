@@ -83,13 +83,15 @@ export default class VipBaccaratCards extends BaccaratCards {
 
       if (this.point) {
         const point: number = cardData.card + 1;
-
-        currentCard.runAction(
-          cc.sequence(
-            cc.delayTime(delayTime),
-            cc.callFunc(() => this.setPoint(point >= 10 ? 0 : point))
-          )
+        const SET_PONT = 3;
+        const setPoint = cc.sequence(
+          cc.delayTime(delayTime),
+          cc.callFunc(() => this.setPoint(point >= 10 ? 0 : point))
         );
+
+        this.node.stopActionByTag(SET_PONT);
+        setPoint.setTag(SET_PONT);
+        currentCard.runAction(setPoint);
       }
     }
   }
