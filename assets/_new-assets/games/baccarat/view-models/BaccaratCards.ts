@@ -86,6 +86,7 @@ export default class BaccaratCards extends cc.Component {
 
   showCards(cards: any[], onFinishShowCards: () => void, playerHasCard3: boolean = false): void {
     this.point.string = '0';
+    this.resetCard(this.card3);
     let delayTime = 0;
     const hasCard3 = cards.length == 3;
     const handleCard = cc.sequence(
