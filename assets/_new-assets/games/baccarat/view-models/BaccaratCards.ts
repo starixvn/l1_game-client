@@ -2,7 +2,6 @@ import NewCard from '../../../common/new-card/view-models/NewCard';
 import BaccaratCard from './BaccaratCard';
 
 const { ccclass, property } = cc._decorator;
-
 @ccclass
 export default class BaccaratCards extends cc.Component {
   @property(cc.Node)
@@ -39,6 +38,10 @@ export default class BaccaratCards extends cc.Component {
   protected readonly setPointSecond = 0.2;
   protected isMainPage = false;
 
+  private SHOW_CARD = 1;
+  private SHOW_FINISH_CARD = 2;
+  protected SET_POINT = 3;
+
   onLoad() {
     this.card1.children[0].getComponent(NewCard).faceDown();
     this.card2.children[0].getComponent(NewCard).faceDown();
@@ -70,9 +73,9 @@ export default class BaccaratCards extends cc.Component {
   }
 
   showCardsWithoutAnimation(cards: any[]) {
+    this.resetSomeActionCards();
     this.openCard(0, cards, false);
     this.openCard(1, cards, false);
-
     if (cards.length > 2 && cards[2]) {
       this.openCard(2, cards, false);
       this.otherCard && (this.otherCard.active = true);
@@ -85,8 +88,6 @@ export default class BaccaratCards extends cc.Component {
     this.point.string = '0';
     let delayTime = 0;
     const hasCard3 = cards.length == 3;
-    const SHOW_CARD = 1;
-    const SHOW_FINISH_CARD = 2;
     const handleCard = cc.sequence(
       cc.callFunc(() => {
         this.openCard(0, cards);
@@ -106,16 +107,23 @@ export default class BaccaratCards extends cc.Component {
           cc.callFunc(() => onFinishShowCards && onFinishShowCards())
         );
 
-        handleFinishCard.setTag(SHOW_FINISH_CARD);
+        handleFinishCard.setTag(this.SHOW_FINISH_CARD);
         this.node.runAction(handleFinishCard);
       })
     );
 
-    this.node.stopActionByTag(SHOW_CARD);
-    this.node.stopActionByTag(SHOW_FINISH_CARD);
-    handleCard.setTag(SHOW_CARD);
+    this.resetSomeActionCards();
+    handleCard.setTag(this.SHOW_CARD);
 
     this.node.runAction(handleCard);
+  }
+
+  protected resetSomeActionCards() {
+    this.node.stopActionByTag(this.SHOW_CARD);
+    this.node.stopActionByTag(this.SHOW_FINISH_CARD);
+    this.card1.stopActionByTag(this.SET_POINT);
+    this.card2.stopActionByTag(this.SET_POINT);
+    this.card3.stopActionByTag(this.SET_POINT);
   }
 
   flyFirstCard() {
@@ -283,15 +291,14 @@ export default class BaccaratCards extends cc.Component {
       }
 
       if (this.point) {
-        const point: number = cardData.card + 1;
-        const SET_PONT = 3;
+        const pointValue: number = cardData.card + 1;
         const setPoint = cc.sequence(
           cc.delayTime(delayTime),
-          cc.callFunc(() => this.setPoint(point >= 10 ? 0 : point))
+          cc.callFunc(() => this.setPoint(pointValue >= 10 ? 0 : pointValue))
         );
 
-        this.node.stopActionByTag(SET_PONT);
-        setPoint.setTag(SET_PONT);
+        currentCard.stopActionByTag(this.SET_POINT);
+        setPoint.setTag(this.SET_POINT);
         currentCard.runAction(setPoint);
       }
     }
