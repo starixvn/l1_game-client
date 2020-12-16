@@ -266,7 +266,7 @@
       "array": [
         0,
         0,
-        549.9190998189915,
+        536.0697249425675,
         0,
         0,
         0,
@@ -788,7 +788,7 @@
         "__id__": 1201
       },
       {
-        "__id__": 1205
+        "__id__": 1202
       },
       {
         "__id__": 1206
@@ -57298,6 +57298,64 @@
   },
   {
     "__type__": "cc.Node",
+    "_name": "round-history-container",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 16
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 631,
+      "height": 30
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        -227.3,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "79kPBSIxpPcJEdVAZziRuw"
+  },
+  {
+    "__type__": "cc.Node",
     "_name": "chipContainer",
     "_objFlags": 0,
     "_parent": {
@@ -57479,13 +57537,13 @@
     },
     "_children": [
       {
-        "__id__": 1202
+        "__id__": 1203
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 1204
+        "__id__": 1205
       }
     ],
     "_prefab": null,
@@ -57541,13 +57599,13 @@
     "_name": "timeWait",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1201
+      "__id__": 1202
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 1203
+        "__id__": 1204
       }
     ],
     "_prefab": null,
@@ -57603,7 +57661,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1202
+      "__id__": 1203
     },
     "_enabled": true,
     "_materials": [
@@ -57639,7 +57697,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1201
+      "__id__": 1202
     },
     "_enabled": true,
     "_materials": [
@@ -57667,64 +57725,6 @@
       "__uuid__": "91a0204e-a956-4b87-ad7d-ebce00dbf818"
     },
     "_id": "5c75eyYBpAQJoSAnVqXIRE"
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "round-history-container",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 16
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 631,
-      "height": 30
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        -227.3,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "79kPBSIxpPcJEdVAZziRuw"
   },
   {
     "__type__": "cc.Node",
@@ -64288,10 +64288,10 @@
     },
     "umNotice": null,
     "timeWaitNode": {
-      "__id__": 1201
+      "__id__": 1202
     },
     "timeWaitLabel": {
-      "__id__": 1203
+      "__id__": 1204
     },
     "animatedTime": {
       "__id__": 30
@@ -64410,7 +64410,7 @@
       "__uuid__": "6a3f11c2-4933-4b12-9057-1bf6fa691799"
     },
     "roundHistoryContainer": {
-      "__id__": 1205
+      "__id__": 1198
     },
     "dicesStatisticContainer": {
       "__id__": 31
@@ -64428,13 +64428,13 @@
       "__id__": 1313
     },
     "chipContainer": {
-      "__id__": 1198
+      "__id__": 1199
     },
     "totalBetContainer": {
-      "__id__": 1200
+      "__id__": 1201
     },
     "ownBetContainer": {
-      "__id__": 1199
+      "__id__": 1200
     },
     "_id": "98w+yLJP9B9JApsCay2TIC"
   }
