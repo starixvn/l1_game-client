@@ -1,15 +1,15 @@
-import ExpandableMenu from "../../../common/ExpandableMenu";
-import GameUtils from "../../../common/GameUtils";
-import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../SabaConfigs";
-import BetItem from "../../_base/BetItem";
-import VipSedie from "../../vip-sedie/view-models/VipSedie";
-import VipSedieWarTimeHandler from "./handlers/VipSedieWarTimeHandler";
-import VipSedieWarFinishHandler from "./handlers/VipsSedieWarFinishHandler";
-import SedieDish from "./SedieDish";
-import { VipSedieWarConfigs } from "./VipSedieWarConfigs";
-import VipSedieWarGuide from "./VipSedieWarGuide";
-import VipSedieWarStatistic from "./VipSedieWarStatistic";
+import ExpandableMenu from '../../../common/ExpandableMenu';
+import GameUtils from '../../../common/GameUtils';
+import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
+import { games } from '../../../SabaConfigs';
+import BetItem from '../../_base/BetItem';
+import VipSedie from '../../vip-sedie/view-models/VipSedie';
+import VipSedieWarTimeHandler from './handlers/VipSedieWarTimeHandler';
+import VipSedieWarFinishHandler from './handlers/VipsSedieWarFinishHandler';
+import SedieDish from './SedieDish';
+import { VipSedieWarConfigs } from './VipSedieWarConfigs';
+import VipSedieWarGuide from './VipSedieWarGuide';
+import VipSedieWarStatistic from './VipSedieWarStatistic';
 
 const { ccclass, property } = cc._decorator;
 
@@ -62,6 +62,9 @@ export default class VipSedieWar extends VipSedie {
             GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
         })
+
+        this.miniRoundHistory.tip.node.zIndex = 100;
+        GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
     }
 
     protected onChangedBetChip(bet) {
