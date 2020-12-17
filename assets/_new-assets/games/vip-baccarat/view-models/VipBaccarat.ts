@@ -90,6 +90,9 @@ export default class VipBaccarat extends NewSocketGameBase {
       GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
       GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
     });
+
+    this.miniRoundHistory.tip.node.zIndex = 100;
+    GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
   }
 
   initHandlers() {
