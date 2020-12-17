@@ -1,6 +1,6 @@
-import GameBase from "../../_base/GameBase";
-import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
-import VipSedieWarRoundHistoryItem from "./VipSedieWarRoundHistoryItem";
+import GameBase from '../../_base/GameBase';
+import SedieRoundHistory from '../../mini-sedie/viewModels/SedieRoundHistory';
+import VipSedieWarRoundHistoryItem from './VipSedieWarRoundHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -152,6 +152,8 @@ export default class VipSedieWarStatistic extends cc.Component {
             this.playerValue.string = `0${this.suffix}`;
             this.bankerValue.string = `0${this.suffix}`;
             this.tieValue.string = `0${this.suffix}`;
+
+            return;
         }
 
         let playerCount = 0, bankerCount = 0;
@@ -215,6 +217,8 @@ export default class VipSedieWarStatistic extends cc.Component {
         if (total === 0) {
             this.totalOddValue.string = `0${this.suffix}`;
             this.totalEvenValue.string = `0${this.suffix}`;
+
+            return;
         }
 
         let eventCount = 0;

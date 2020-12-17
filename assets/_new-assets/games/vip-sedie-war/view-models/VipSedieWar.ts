@@ -1,5 +1,4 @@
 import ExpandableMenu from '../../../common/ExpandableMenu';
-import GameUtils from '../../../common/GameUtils';
 import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
 import { games } from '../../../SabaConfigs';
 import BetItem from '../../_base/BetItem';
@@ -30,15 +29,6 @@ export default class VipSedieWar extends VipSedie {
     @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
 
-    @property(cc.Node)
-    chipContainer: cc.Node = null;
-
-    @property(cc.Node)
-    totalBetContainer: cc.Node = null;
-
-    @property(cc.Node)
-    ownBetContainer: cc.Node = null;
-
     protected internalInit() {
         this.init("VipSedieWar", new VipSedieWarConfigs(), null, 1, games.VipSedieWar.id);
         this.finishShowResult = false;
@@ -56,15 +46,6 @@ export default class VipSedieWar extends VipSedie {
         this.node.on(cc.Node.EventType.TOUCH_START, () => {
             this.expandableMenu.collapseMenu();
         })
-
-        this.betItems.forEach((item) => {
-            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
-            GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
-            GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
-        })
-
-        this.miniRoundHistory.tip.node.zIndex = 100;
-        GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
     }
 
     protected onChangedBetChip(bet) {
