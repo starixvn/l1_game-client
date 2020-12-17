@@ -1,16 +1,17 @@
-import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../SabaConfigs";
-import NewSocketGameBase from "../../_base/NewSocketGameBase";
-import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
-import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
-import SedieBetHandler from "./handlers/SedieBetHandler";
-import SedieFinishHandler from "./handlers/SedieFinishHandler";
-import SedieLogsHandler from "./handlers/SedieLogsHandler";
-import SedieStatusHandler from "./handlers/SedieStatusHandler";
-import SedieTimeHandler from "./handlers/SedieTimeHandler";
-import { SedieConfigs } from "./SedieConfigs";
-import SedieGuide from "./SedieGuide";
-import SedieHistory from "./SedieHistory";
+import GameUtils from '../../../common/GameUtils';
+import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
+import { games } from '../../../SabaConfigs';
+import NewSocketGameBase from '../../_base/NewSocketGameBase';
+import SedieMiniRoundHistory from '../../mini-sedie/viewModels/SedieMiniRoundHistory';
+import SedieRoundHistory from '../../mini-sedie/viewModels/SedieRoundHistory';
+import SedieBetHandler from './handlers/SedieBetHandler';
+import SedieFinishHandler from './handlers/SedieFinishHandler';
+import SedieLogsHandler from './handlers/SedieLogsHandler';
+import SedieStatusHandler from './handlers/SedieStatusHandler';
+import SedieTimeHandler from './handlers/SedieTimeHandler';
+import { SedieConfigs } from './SedieConfigs';
+import SedieGuide from './SedieGuide';
+import SedieHistory from './SedieHistory';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -52,6 +53,15 @@ export default class Sedie extends NewSocketGameBase {
     @property(cc.SpriteFrame)
     dotWhite: cc.SpriteFrame = null;
 
+    @property(cc.Node)
+    chipContainer: cc.Node = null;
+
+    @property(cc.Node)
+    totalBetContainer: cc.Node = null;
+
+    @property(cc.Node)
+    ownBetContainer: cc.Node = null;
+
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
     private historyComponent: SedieHistory;
@@ -81,6 +91,15 @@ export default class Sedie extends NewSocketGameBase {
 
         this.initRoundHistory();
         this.animatedTime.setAnimatedY(30, -5);
+
+        this.betItems.forEach((item) => {
+            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
+            GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
+            GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
+        })
+
+        this.miniRoundHistory.tip.node.zIndex = 100;
+        GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
     }
 
     initRoundHistory() {

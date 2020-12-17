@@ -1,14 +1,15 @@
-import GameRoomBase from "../../_base/GameRoomBase";
-import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
-import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
-import { games } from "./../../../SabaConfigs";
-import BaccaratCards from "./BaccaratCards";
-import { BaccaratConfigs } from "./BaccaratConfigs";
-import BaccaratHistory from "./BaccaratHistory";
-import BaccaratFinishHandler from "./data-handlers/BaccaratFInishHandler";
-import BaccaratLogsHandler from "./data-handlers/BaccaratLogsHandler";
-import BaccaratTimeHandler from "./data-handlers/BaccaratTimeDataHandler";
-import TotalHistoryBoard from "./TotalHistoryBoard";
+import GameUtils from '../../../common/GameUtils';
+import GameRoomBase from '../../_base/GameRoomBase';
+import BasicHistoryBoard from '../../_base/view-models/BasicHistoryBoard';
+import DragonScoreBoard from '../../_base/view-models/DragonScoreBoard';
+import { games } from './../../../SabaConfigs';
+import BaccaratCards from './BaccaratCards';
+import { BaccaratConfigs } from './BaccaratConfigs';
+import BaccaratHistory from './BaccaratHistory';
+import BaccaratFinishHandler from './data-handlers/BaccaratFInishHandler';
+import BaccaratLogsHandler from './data-handlers/BaccaratLogsHandler';
+import BaccaratTimeHandler from './data-handlers/BaccaratTimeDataHandler';
+import TotalHistoryBoard from './TotalHistoryBoard';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -46,6 +47,15 @@ export default class Baccarat extends GameRoomBase {
     @property(cc.AudioSource)
     getCardAudioSource: cc.AudioSource = null;
 
+    @property(cc.Node)
+    chipContainer: cc.Node = null;
+
+    @property(cc.Node)
+    totalBetContainer: cc.Node = null;
+
+    @property(cc.Node)
+    ownBetContainer: cc.Node = null;
+
     basicHistoryBoard: BasicHistoryBoard;
     detailHistoryBoard: DragonScoreBoard;
     showScoreBoardNextDot = false;
@@ -55,6 +65,12 @@ export default class Baccarat extends GameRoomBase {
         super.onLoad();
         this.initCards();
         this.initScoreBoards();
+
+        this.betItems.forEach((item) => {
+            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
+            GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
+            GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
+        })
     }
 
     onData(data) {

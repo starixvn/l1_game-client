@@ -1,12 +1,13 @@
-import GameRoomBase from "../../_base/GameRoomBase";
-import KenoTimeHandler from './handlers/KenoTimeHandler';
+import GameUtils from '../../../common/GameUtils';
+import { games } from '../../../SabaConfigs';
+import GameRoomBase from '../../_base/GameRoomBase';
 import KenoFinishHandler from './handlers/KenoFinishHandler';
+import KenoLogsHandler from './handlers/KenoLogsHandler';
+import KenoTimeHandler from './handlers/KenoTimeHandler';
+import KenoRoundResult from './history/KenoRoundResult';
 import { KenoConfigs } from './KenoConfigs';
 import KenoNumber from './KenoNumber';
 import RoundHistory from './RoundHistory';
-import KenoLogsHandler from './handlers/KenoLogsHandler';
-import KenoRoundResult from "./history/KenoRoundResult";
-import { games } from "../../../SabaConfigs";
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,6 +28,15 @@ export default class Keno extends GameRoomBase {
 
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    chipContainer: cc.Node = null;
+
+    @property(cc.Node)
+    totalBetContainer: cc.Node = null;
+
+    @property(cc.Node)
+    ownBetContainer: cc.Node = null;
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
@@ -80,6 +90,12 @@ export default class Keno extends GameRoomBase {
         }
 
         this.roundHistory.init(this);
+
+        this.betItems.forEach((item) => {
+            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
+            GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
+            GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
+        })
     }
     //#endregion
 
