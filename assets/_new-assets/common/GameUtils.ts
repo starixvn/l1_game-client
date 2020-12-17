@@ -85,4 +85,10 @@ export default class GameUtils {
         const numToFixedDp = Number(num).toFixed(fixedNumber);
         return Number(numToFixedDp);
     }
+
+    public static moveToOtherNode(node: cc.Node, destNode: cc.Node) {
+        const position = destNode.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v2(0, 0)));
+        node.parent = destNode;
+        node.position = position;
+    }
 }

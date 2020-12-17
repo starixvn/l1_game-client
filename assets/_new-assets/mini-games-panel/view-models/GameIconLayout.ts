@@ -1,6 +1,6 @@
-import GameUtils from "../../common/GameUtils";
-import { games } from "../../SabaConfigs";
-import MiniPanel from "./MiniPanel";
+import GameUtils from '../../common/GameUtils';
+import { games } from '../../SabaConfigs';
+import MiniPanel from './MiniPanel';
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,7 +24,7 @@ export default class GameIconLayout extends cc.Component {
   private colums: cc.Node[] = [];
   public miniPanel: MiniPanel = null;
   public columnCount = 0;
-  public initializedCallback = () => { };
+  public initializedCallback = () => {};
 
   onLoad() {
     this.initPrefabs().then(() => {
@@ -60,7 +60,7 @@ export default class GameIconLayout extends cc.Component {
       games.RongHo.id,
       games.SpecialSeDie.id,
       games.BlackJack.id,
-      games.Roulette.id
+      games.Roulette.id,
     ];
   }
 
@@ -118,8 +118,8 @@ export default class GameIconLayout extends cc.Component {
         const gameId = this.gameIds[i];
         const clickEventHandler = new cc.Component.EventHandler();
         clickEventHandler.target = this.node;
-        clickEventHandler.component = "GameIconLayout";
-        clickEventHandler.handler = "itemPressed";
+        clickEventHandler.component = 'GameIconLayout';
+        clickEventHandler.handler = 'itemPressed';
         clickEventHandler.customEventData = gameId.toString();
         button.clickEvents.push(clickEventHandler);
       }

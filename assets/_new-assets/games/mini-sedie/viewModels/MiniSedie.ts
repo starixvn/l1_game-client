@@ -1,11 +1,11 @@
-import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import GameMiniBase from "../../_base/GameMiniBase";
-import SedieGuide from "../../xoc-xoc/view-models/SedieGuide";
-import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
-import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
-import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
-import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
-import SedieRoundHistory from "./SedieRoundHistory";
+import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
+import GameMiniBase from '../../_base/GameMiniBase';
+import SedieGuide from '../../xoc-xoc/view-models/SedieGuide';
+import MiniSedieFinishHandler from './handlers/MiniSedieFinishHandler';
+import MiniSedieLogsHandler from './handlers/MiniSedieLogsHandler';
+import MiniSedieTimeHandler from './handlers/MiniSedieTimeHandler';
+import SedieMiniRoundHistory from './SedieMiniRoundHistory';
+import SedieRoundHistory from './SedieRoundHistory';
 
 const { ccclass, property } = cc._decorator;
 
@@ -116,7 +116,7 @@ export default class MiniSedie extends GameMiniBase {
       return;
     }
     const dataLog = this.currentDataLogs[0];
-    this.highlightWonItems(dataLog.settlementResult, false);
+    dataLog && this.highlightWonItems(dataLog.settlementResult, false);
   }
 
   public setDots(result) {

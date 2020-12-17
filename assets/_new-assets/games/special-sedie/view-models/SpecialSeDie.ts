@@ -1,19 +1,19 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import { games } from "../../../SabaConfigs";
-import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
-import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
-import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
-import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
-import SpecialSeDieStatusHandler from "./handlers/SpecialSeDieStatusHandler";
-import SpecialSeDieTimeHandler from "./handlers/SpecialSeDieTimeHandler";
-import SpecialSedieBetHistory from "./SpecialSedieBetHistory";
-import SpecialSeDieGuide from "./SpecialSeDieGuide";
-import SpecialSeDieHistory from "./SpecialSeDieHistory";
-import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
+import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
+import { games } from '../../../SabaConfigs';
+import BalancedBettingPoolGameBase from '../../_base/BalancedBettingPoolGameBase';
+import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
+import SedieRoundHistory from '../../mini-sedie/viewModels/SedieRoundHistory';
+import SpecialSeDieBetHandler from './handlers/SpecialSeDieBetHandler';
+import SpecialSeDieFinishHandler from './handlers/SpecialSeDieFinishHandler';
+import SpecialSeDieLogsHandler from './handlers/SpecialSeDieLogsHandler';
+import SpecialSeDieStatusHandler from './handlers/SpecialSeDieStatusHandler';
+import SpecialSeDieTimeHandler from './handlers/SpecialSeDieTimeHandler';
+import SpecialSedieBetHistory from './SpecialSedieBetHistory';
+import SpecialSeDieGuide from './SpecialSeDieGuide';
+import SpecialSeDieHistory from './SpecialSeDieHistory';
+import SpecialSedieRoundHistory from './SpecialSedieRoundHistory';
 
 const { ccclass, property } = cc._decorator;
 
@@ -243,7 +243,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
       return;
     }
     const dataLog = this.currentDataLogs[0];
-    dataLog && this.highlightWonItems(dataLog?.settlementResult, false);
+    dataLog && this.highlightWonItems(dataLog.settlementResult, false);
   }
 
   private highlightWonItems(settlementResult: any, isAnimated = true) {
