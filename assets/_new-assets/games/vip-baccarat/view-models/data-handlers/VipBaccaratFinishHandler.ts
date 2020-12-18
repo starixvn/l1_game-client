@@ -1,69 +1,36 @@
 import VipBaccarat from '../VipBaccarat';
-import GameBaseFinishHandler from '../../../_base/handlers/GameBaseFinishHandler';
+import BaccaratFinishHandler, { TypeGame } from '../../../baccarat/view-models/data-handlers/BaccaratFinishHandler';
 import * as _ from 'lodash';
-import { getLowercaseObjectKeys } from '../../../../common/helpers/Helper.js';
 import VipBaccaratLogsHandler from './VipBaccaratLogsHandler';
 
-export default class VipBaccaratFinishHandler extends GameBaseFinishHandler {
-  handleFinishData(dataFinish: any, onFinishHandlingData: () => void = null) {
-    super.handleFinishData(dataFinish, onFinishHandlingData);
+export default class VipBaccaratFinishHandler extends BaccaratFinishHandler {
+  protected getOwnMain(): any {
+    return this.main as VipBaccarat;
+  }
 
-    const baccaratMain = this.main as VipBaccarat;
+  protected getDataFollowTypePlayer(data: any, isBanker: boolean) {
+    if (isBanker) {
+      return Object.values(data.banker).filter((value) => value != null);
+    }
+    return Object.values(data.player).filter((value) => value != null);
+  }
 
-    if (!dataFinish.result) {
-      return;
+  protected insertCurrentDataLogs(baccaratMain: any, dataFinish: any) {
+    if (dataFinish.winningPlayers) {
+      delete dataFinish.winningPlayers;
     }
 
-    this.showCards(dataFinish, baccaratMain, onFinishHandlingData);
+    baccaratMain.currentDataLogs.unshift(dataFinish);
   }
 
-  private showCards(dataFinish: any, baccaratMain: VipBaccarat, onFinishHandlingData: () => void) {
-    baccaratMain.showScoreBoardNextDot = true;
-    const result = dataFinish.result;
-    const settlementResult = dataFinish.settlementResult;
-    const player = Object.values(result.player).filter((value) => value != null);
-    const banker = Object.values(result.banker).filter((value) => value != null);
-    const showResultFunc = () => {
-      baccaratMain.showScoreBoardNextDot = false;
-      this.showResult(settlementResult);
-      this.showWinNotice(settlementResult);
-      onFinishHandlingData && onFinishHandlingData();
-      if (dataFinish.winningPlayers) {
-        delete dataFinish.winningPlayers;
-      }
-
-      baccaratMain.currentDataLogs.unshift(dataFinish);
-      baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
-      (baccaratMain.logsHandler as VipBaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
-      baccaratMain.miniRoundHistory.setData(baccaratMain.currentDataLogs);
-    };
-
-    baccaratMain.playerCards.showCards(player, banker.length == 3 ? null : showResultFunc);
-    baccaratMain.bankerCards.showCards(banker, banker.length == 3 ? showResultFunc : null, player.length == 3);
+  protected handleBuildLogs(baccaratMain: any) {
+    (baccaratMain.logsHandler as VipBaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
+    baccaratMain.miniRoundHistory.setData(baccaratMain.currentDataLogs);
   }
 
-  public showResult(resultData, isAnimated = true): void {
-    const keys = getLowercaseObjectKeys(resultData);
-
-    _.forEach(this.main.betItems, (item) => item.setHighlight(resultData[keys[item.node.name.toLowerCase()]], isAnimated));
-  }
-
-  public showWinNotice(result) {
-    const baccaratMain = this.main as VipBaccarat;
-    const winNoticeNode = baccaratMain.winNoticeLabel.node.parent;
-    let noticeText: string;
-
-    if (result.banker) {
-      noticeText = 'NHÀ CÁI THẮNG!';
-      baccaratMain.bankerCards.showHighlightCards();
-    } else if (result.player) {
-      noticeText = 'NHÀ CON THẮNG!';
-      baccaratMain.playerCards.showHighlightCards();
-    } else {
-      noticeText = 'HÒA!';
-    }
-
-    baccaratMain.winNoticeLabel.string = noticeText;
-    winNoticeNode.active = true;
+  protected handleBuildMiniLogs(baccaratMain: any) {
+    const logsHandler = baccaratMain.logsHandler as VipBaccaratLogsHandler;
+    const currentDataLogs = logsHandler.convertLogsDataLogs(baccaratMain.currentDataLogs);
+    baccaratMain.miniRoundHistory.setData(currentDataLogs);
   }
 }

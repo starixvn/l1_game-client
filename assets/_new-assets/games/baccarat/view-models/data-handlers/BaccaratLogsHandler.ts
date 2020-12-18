@@ -5,10 +5,11 @@ import { BasicHistoryData } from '../../../_base/view-models/BasicHistoryBoard';
 import { getLowercaseObjectKeys } from '../../../../common/helpers/Helper.js';
 import { TotalHistoryData } from '../TotalHistoryBoard';
 import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from '../BaccaratDragonScoreBoard';
-import BaccaratFinishHandler from './BaccaratFInishHandler';
+import BaccaratFinishHandler from './BaccaratFinishHandler';
+import GameRoomBase from '../../../_base/GameRoomBase';
 
 export default class BaccaratLogsHandler extends GameBaseLogsHandler {
-  constructor(protected readonly main: Baccarat) {
+  constructor(protected readonly main: GameRoomBase) {
     super(main);
   }
 
@@ -17,34 +18,63 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
 
     if (data.roundHistory && data.roundHistory[0]) {
       const lastLog = data.roundHistory[0];
-      const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
+      const settlementResult = this.getSettlementResult(lastLog);
+      const finishHandler = this.getOwnFinishHandle();
 
       if (this.main.timeHandler.isInWaitTime) {
-        const playerCards = _.values(lastLog.player);
-        const bankerCards = _.values(lastLog.banker);
+        const playerCards = this.getLogDataFollowTypePlayer(false, lastLog);
+        const bankerCards = this.getLogDataFollowTypePlayer(false, lastLog);
 
-        this.main.playerCards.showCardsWithoutAnimation(playerCards);
-        this.main.bankerCards.showCardsWithoutAnimation(bankerCards);
-        finishHandler.showWinNotice(lastLog.result);
+        const ownMain = this.getOwnMain();
+        ownMain.playerCards.showCardsWithoutAnimation(playerCards);
+        ownMain.bankerCards.showCardsWithoutAnimation(bankerCards);
+        finishHandler.showWinNotice(settlementResult);
       }
 
-      finishHandler.showResult(lastLog.result, false);
+      if (this.main.currentTimeRemaining > this.main.config.stopBetTime) {
+        finishHandler.showResult(settlementResult, false);
+      }
     }
 
     return true;
   }
 
-  buildLogs(dataLogs) {
-    if (dataLogs[dataLogs.length - 1].previousLog != undefined) {
+  protected getLogDataFollowTypePlayer(isBanker: boolean, data: any) {
+    return isBanker ? _.values(data.banker) : _.values(data.player);
+  }
+
+  protected getOwnMain(): any {
+    return this.main as Baccarat;
+  }
+
+  protected getOwnFinishHandle(): any {
+    const ownMain = this.getOwnMain();
+    return ownMain.finishHandler as BaccaratFinishHandler;
+  }
+
+  protected getSettlementResult(lastLog: any) {
+    return lastLog.result;
+  }
+
+  buildLogs(dataLogs: any) {
+    dataLogs = this.convertLogsDataLogs(dataLogs);
+    if (dataLogs[dataLogs.length - 1] && dataLogs[dataLogs.length - 1].previousLog != undefined) {
       dataLogs[dataLogs.length - 1].previousLog = null;
     }
 
     this.buildBasicScoreBoard(dataLogs);
     this.buildTotalScoreBoard(dataLogs);
     this.buildDragonScoreBoard(dataLogs);
+    this.updateMiniHistoryLogs(dataLogs);
   }
 
-  private buildBasicScoreBoard(dataLogs: any) {
+  protected convertLogsDataLogs(dataLogs: any) {
+    return dataLogs;
+  }
+
+  protected updateMiniHistoryLogs(dataLogs: any) {}
+
+  protected buildBasicScoreBoard(dataLogs: any) {
     const historyData = _.map(dataLogs, (log) => {
       const result = log.result;
       if (result.banker) {
@@ -58,10 +88,12 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
       }
     });
 
-    this.main.basicHistoryBoard.setData(historyData.reverse());
+    const ownMain = this.getOwnMain();
+    const tmpData = [...historyData].reverse();
+    ownMain.basicHistoryBoard.setData(tmpData);
   }
 
-  private buildTotalScoreBoard(dataLogs: any) {
+  protected buildTotalScoreBoard(dataLogs: any) {
     const firstLog = dataLogs[0];
 
     if (!firstLog) {
@@ -69,16 +101,17 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     }
 
     const resultKeys = getLowercaseObjectKeys(firstLog.result);
-
     const totalHistoryData = _.map(this.main.betItems, (item) => {
       const total = _.filter(dataLogs, (log) => log.result[resultKeys[item.node.name.toLowerCase()]]).length;
       return new TotalHistoryData(item.node.name, total.toString());
     });
 
-    this.main.totalHistoryBoard.setData(totalHistoryData);
+    const ownMain = this.getOwnMain();
+    ownMain.totalHistoryBoard.setData(totalHistoryData);
   }
 
-  private buildDragonScoreBoard(dataLogs: any) {
+  protected buildDragonScoreBoard(dataLogs: any) {
+    const ownMain = this.getOwnMain();
     dataLogs = _.map(dataLogs, (log, index) => {
       const previousLog = dataLogs[parseInt(index) + 1];
       log.result.tieCount = 0;
@@ -99,7 +132,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     });
 
     const noTieDataLogs = _.filter(dataLogs, (log) => !log.result.tie || log.result.firstTie);
-    const detailHistoreBoardData = _.map(noTieDataLogs, (log, index) => {
+    const detailHistoryBoardData = _.map(noTieDataLogs, (log, index) => {
       const result = log.result;
 
       if (result.banker) {
@@ -133,10 +166,11 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
       }
     });
 
-    this.main.detailHistoryBoard.setData(detailHistoreBoardData.reverse());
+    const tmpData = [...detailHistoryBoardData].reverse(); // de-structure and create a new array, so reverse doesn't impact 'a'
+    ownMain.detailHistoryBoard.setData(tmpData);
   }
 
-  private setTieLog(log, previousLog) {
+  protected setTieLog(log, previousLog) {
     if (log && log.result.tie && previousLog) {
       previousLog.result.bankerPair = previousLog.result.bankerPair || log.result.bankerPair;
       previousLog.result.playerPair = previousLog.result.playerPair || log.result.playerPair;
