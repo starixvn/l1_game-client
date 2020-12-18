@@ -1,6 +1,7 @@
-import * as _ from "lodash";
-import RouletteUtils from "./RouletteUtils";
-import RouletteStatisticItem from "./RouletteStatisticItem";
+import * as _ from 'lodash';
+
+import RouletteStatisticItem from './RouletteStatisticItem';
+import RouletteUtils from './RouletteUtils';
 
 const { ccclass, property } = cc._decorator;
 
@@ -58,6 +59,9 @@ export default class RouletteStatistic extends cc.Component {
     @property(cc.SpriteFrame)
     numberZeroBg: cc.SpriteFrame = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     wheelDegree = 360;
     numberAngle: number = this.wheelDegree / 37;
     numbersOnWheel: number[] = [26, 0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3];
@@ -70,6 +74,9 @@ export default class RouletteStatistic extends cc.Component {
         this.toggleRuning = true;
         this.get_data();
         this.addDataObserver();
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     addDataObserver() {

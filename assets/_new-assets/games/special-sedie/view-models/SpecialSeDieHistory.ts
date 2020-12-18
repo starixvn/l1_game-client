@@ -1,7 +1,7 @@
-import GameUtils from "./../../../common/GameUtils";
-import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
-import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
-import SpecialSeDieHistoryItem from "./SpecialSeDieHistoryItem";
+import GameUtils from './../../../common/GameUtils';
+import { getStringDateByTime, numberWithCommas } from './../../../common/helpers/Helper';
+import * as Pagination from './../../../common/helpers/Pagination/Pagination';
+import SpecialSeDieHistoryItem from './SpecialSeDieHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,6 +22,9 @@ export default class SpecialSeDieHistory extends cc.Component {
   @property(cc.SpriteFrame)
   iconWhite: cc.SpriteFrame = null;
 
+  @property(cc.Node)
+  mainFrame: cc.Node = null;
+
   private socket: SocketIOClient.Socket;
 
   public handleBetHistory = (roundId) => { };
@@ -32,6 +35,9 @@ export default class SpecialSeDieHistory extends cc.Component {
 
   onLoad() {
     this.pagination.init(this);
+
+    const commonDialog = this.mainFrame.getComponent('CommonDialog');
+    commonDialog.onDidHide = () => { this.node.destroy(); };
   }
 
   onEnable() {

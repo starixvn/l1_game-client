@@ -1,13 +1,21 @@
-const { ccclass, property } = cc._decorator;
-import { numberWithCommas } from "./../../../common/helpers/Helper";
+import { numberWithCommas } from './../../../common/helpers/Helper';
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class BlackJackGuide extends cc.Component {
 
     @property({ type: cc.Label })
     replaceNodes: cc.Label[] = [];
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     protected configs: any;
+
+    onLoad() {
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
+    }
 
     init(configs) {
         this.configs = configs;
@@ -30,9 +38,5 @@ export default class BlackJackGuide extends cc.Component {
         }
 
         return replaceData;
-    }
-
-    onDisable() {
-        this.node.destroy();
     }
 }

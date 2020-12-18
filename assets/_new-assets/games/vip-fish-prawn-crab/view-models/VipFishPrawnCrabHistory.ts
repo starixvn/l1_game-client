@@ -1,6 +1,6 @@
-import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
-import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
-import VipFishPrawnCrabHistoryItem from "./VipFishPrawnCrabHistoryItem";
+import { getStringDateByTime, numberWithCommas } from './../../../common/helpers/Helper';
+import * as Pagination from './../../../common/helpers/Pagination/Pagination';
+import VipFishPrawnCrabHistoryItem from './VipFishPrawnCrabHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,6 +18,9 @@ export default class VipFishPrawnCrabHistory extends cc.Component {
   @property(cc.SpriteFrame)
   animalSprites: cc.SpriteFrame[] = [];
 
+  @property(cc.Node)
+  mainFrame: cc.Node = null;
+
   private socket: SocketIOClient.Socket;
 
   init(socket: SocketIOClient.Socket) {
@@ -26,6 +29,9 @@ export default class VipFishPrawnCrabHistory extends cc.Component {
 
   onLoad() {
     this.pagination.init(this);
+
+    const commonDialog = this.mainFrame.getComponent('CommonDialog');
+    commonDialog.onDidHide = () => { this.node.destroy(); };
   }
 
   onEnable() {

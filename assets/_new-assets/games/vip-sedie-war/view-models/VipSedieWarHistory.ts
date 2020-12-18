@@ -1,19 +1,10 @@
-import SedieHistory from "../../xoc-xoc/view-models/SedieHistory";
-import VipSedieWarHistoryItem from "./VipSedieWarHistoryItem";
+import SedieHistory from '../../xoc-xoc/view-models/SedieHistory';
+import VipSedieWarHistoryItem from './VipSedieWarHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipSedieWarHistory extends SedieHistory {
-
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
-
-    onLoad() {
-        super.onLoad();
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
-    }
 
     onData(data: any) {
         const { page, pageSize, total, betLogs } = data;

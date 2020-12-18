@@ -1,9 +1,9 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
-import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
-import Baccarat from "./Baccarat.js";
-import BaccaratHistoryItem from "./BaccaratHistoryItem";
+import { getStringDateByTime, numberWithCommas } from '../../../common/helpers/Helper';
+import * as Pagination from '../../../common/helpers/Pagination/Pagination.js';
+import Baccarat from './Baccarat.js';
+import BaccaratHistoryItem from './BaccaratHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -20,6 +20,9 @@ export default class BaccaratHistory extends cc.Component {
     @property(cc.Prefab)
     prefabItem: cc.Prefab = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private root: Baccarat;
 
     init(root: Baccarat) {
@@ -30,6 +33,9 @@ export default class BaccaratHistory extends cc.Component {
 
     onLoad() {
         this.pages.init(this);
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     onEnable() {

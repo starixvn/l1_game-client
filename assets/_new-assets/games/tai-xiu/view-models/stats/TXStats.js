@@ -103,6 +103,10 @@ cc.Class({
 			default: null,
 			type: cc.Node
 		},
+		mainFrame: {
+			default: null,
+			type: cc.Node
+		}
 	},
 	init(obj) {
 		this.TXRoot = obj;
@@ -193,6 +197,9 @@ cc.Class({
 			.then(result => {
 				this.header = result;
 			});
+
+		const commonDialog = this.mainFrame.getComponent('CommonDialog');
+		commonDialog.onDidHide = () => { this.node.destroy(); };
 	},
 	onEnable: function () {
 		this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);

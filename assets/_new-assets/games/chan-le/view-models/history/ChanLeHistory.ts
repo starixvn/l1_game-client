@@ -1,9 +1,9 @@
-const { ccclass, property } = cc._decorator;
-import * as Pagination from '../../../../common/helpers/Pagination/Pagination'
-import { numberWithCommas, getStringDateByTime } from '../../../../common/helpers/Helper';
+import { getStringDateByTime, numberWithCommas } from '../../../../common/helpers/Helper';
+import * as Pagination from '../../../../common/helpers/Pagination/Pagination';
 import ChanLe from '../ChanLe';
 import ChanLeHistoryItem from './ChanLeHistoryItem';
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ChanLeHistory extends cc.Component {
     @property(cc.Label)
@@ -18,6 +18,9 @@ export default class ChanLeHistory extends cc.Component {
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private static readonly LICH_SU = "Lịch sử";
     private root: ChanLe;
 
@@ -28,15 +31,13 @@ export default class ChanLeHistory extends cc.Component {
     onLoad() {
         this.pages.init(this);
         this.title.string = `${ChanLeHistory.LICH_SU} ${this.root.gameTitle}`.toUpperCase();
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     onEnable() {
         this.get_data();
-    }
-
-    onDisable() {
-        this.root.hideHistory();
-        this.node.destroy();
     }
 
     onData(historyData: any) {

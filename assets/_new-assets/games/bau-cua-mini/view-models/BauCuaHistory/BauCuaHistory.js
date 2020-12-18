@@ -9,6 +9,7 @@ cc.Class({
 		cointRed: cc.Node,
 		cointXu: cc.Node,
 		red: true,
+		mainFrame: cc.Node
 	},
 	init(obj) {
 		this.RedT = obj;
@@ -24,12 +25,13 @@ cc.Class({
 		})
 
 		this.page.init(this);
+
+		const commonDialog = this.mainFrame.getComponent('CommonDialog');
+		commonDialog.onDidHide = () => { this.node.destroy(); };
 	},
 	onEnable: function () {
 		this.get_data();
 	},
-	//onDisable: function() {
-	//},
 	get_data: function (page = 1) {
 		cc.RedT.send({ g: { baucua: { viewlogs: { red: this.red, page: page } } } });
 	},

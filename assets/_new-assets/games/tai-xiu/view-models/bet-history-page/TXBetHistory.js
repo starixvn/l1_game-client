@@ -77,11 +77,18 @@ cc.Class({
 			default: null,
 			type: cc.Node
 		},
+		mainFrame: {
+			default: null,
+			type: cc.Node
+		}
 	},
 	onLoad: function () {
 		if (!cc.sys.isMobile) {
 			this.node.scale = 0.8;
 		}
+
+		const commonDialog = this.mainFrame.getComponent('CommonDialog');
+		commonDialog.onDidHide = () => { this.node.destroy(); };
 	},
 	init(obj) {
 		this.RedT = obj;

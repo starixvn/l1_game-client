@@ -1,8 +1,8 @@
-const { ccclass, property } = cc._decorator;
-import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
-import { numberWithCommas, getStringDateByTime, nFormatter } from "../../../common/helpers/Helper";
-import SedieHistoryItem from "../../xoc-xoc/view-models/SedieHistoryItem";
+import { getStringDateByTime, numberWithCommas } from '../../../common/helpers/Helper';
+import * as Pagination from '../../../common/helpers/Pagination/Pagination.js';
+import SedieHistoryItem from '../../xoc-xoc/view-models/SedieHistoryItem';
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniSedieHistory extends cc.Component {
     @property(cc.Prefab)
@@ -20,6 +20,10 @@ export default class MiniSedieHistory extends cc.Component {
     @property(cc.SpriteFrame)
     iconWhite: cc.SpriteFrame = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
+
     private pagination: Pagination;
     private dataObserverKey = "MiniSedieHistory";
 
@@ -29,6 +33,9 @@ export default class MiniSedieHistory extends cc.Component {
         this.node.addChild(page);
         this.pagination = page.getComponent("Pagination");
         this.pagination.init(this);
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     onEnable() {

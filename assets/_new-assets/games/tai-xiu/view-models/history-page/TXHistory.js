@@ -6,13 +6,20 @@ cc.Class({
   properties: {
     content: cc.Node,
     page: Pagination,
-    ItemPrefab: cc.Prefab
+    ItemPrefab: cc.Prefab,
+    mainFrame: {
+      default: null,
+      type: cc.Node
+    }
   },
   init(obj) {
     this.RedT = obj;
   },
   onLoad() {
     this.page.init(this);
+
+    const commonDialog = this.mainFrame.getComponent('CommonDialog');
+    commonDialog.onDidHide = () => { this.node.destroy(); };
   },
   onEnable: function () {
     this.get_data();
