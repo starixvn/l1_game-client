@@ -5,7 +5,7 @@ import { BasicHistoryData } from '../../../_base/view-models/BasicHistoryBoard';
 import { getLowercaseObjectKeys } from '../../../../common/helpers/Helper.js';
 import { TotalHistoryData } from '../TotalHistoryBoard';
 import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from '../BaccaratDragonScoreBoard';
-import BaccaratFinishHandler from './BaccaratFinishHandler';
+import BaccaratFinishHandler from './BaccaratFinishHandlerRename';
 import GameRoomBase from '../../../_base/GameRoomBase';
 
 export default class BaccaratLogsHandler extends GameBaseLogsHandler {

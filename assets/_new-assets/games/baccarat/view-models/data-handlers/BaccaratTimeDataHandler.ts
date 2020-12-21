@@ -1,7 +1,7 @@
 import Baccarat from '../Baccarat';
 import GameBaseTimeHandler from '../../../_base/handlers/GameBaseTimeHandler';
 import BaccaratLogsHandler from './BaccaratLogsHandler';
-import BaccaratFinishHandler from './BaccaratFinishHandler';
+import BaccaratFinishHandler from './BaccaratFinishHandlerRename';
 
 export default class BaccaratTimeHandler extends GameBaseTimeHandler {
   handleStartingNewGameRound() {
