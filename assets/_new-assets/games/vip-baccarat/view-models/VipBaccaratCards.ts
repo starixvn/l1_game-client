@@ -7,10 +7,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class VipBaccaratCards extends BaccaratCards {
   protected resetCard(card: cc.Node) {
-    card.children[0].getComponent(NewCard).faceDown();
-    card.opacity = 0;
-    card.scale = 0.5;
-    card.angle = -135;
+    super.resetCard(card);
     card.y = 0;
   }
 

@@ -43,7 +43,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
       onFinishHandlingData && onFinishHandlingData();
       this.insertCurrentDataLogs(baccaratMain, dataFinish);
       baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
-      this.handleBuildLogs(baccaratMain);
+      (baccaratMain.logsHandler as BaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
       this.handleBuildMiniLogs(baccaratMain);
     };
 
@@ -57,10 +57,6 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
 
   protected insertCurrentDataLogs(baccaratMain: any, dataFinish: any) {
     baccaratMain.currentDataLogs.unshift({ result: dataFinish.settlementResult });
-  }
-
-  protected handleBuildLogs(baccaratMain: any) {
-    (baccaratMain.logsHandler as BaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
   }
 
   protected handleBuildMiniLogs(baccaratMain: any) {}
