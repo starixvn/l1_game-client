@@ -6,7 +6,7 @@ import { games } from './../../../SabaConfigs';
 import BaccaratCards from './BaccaratCards';
 import { BaccaratConfigs } from './BaccaratConfigs';
 import BaccaratHistory from './BaccaratHistory';
-import BaccaratFinishHandler from './data-handlers/BaccaratFInishHandler';
+import BaccaratFinishHandler from './data-handlers/BaccaratFinishHandler';
 import BaccaratLogsHandler from './data-handlers/BaccaratLogsHandler';
 import BaccaratTimeHandler from './data-handlers/BaccaratTimeDataHandler';
 import TotalHistoryBoard from './TotalHistoryBoard';
