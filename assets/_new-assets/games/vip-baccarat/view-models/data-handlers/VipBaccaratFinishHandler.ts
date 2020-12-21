@@ -1,5 +1,5 @@
 import VipBaccarat from '../VipBaccarat';
-import BaccaratFinishHandler, { TypeGame } from '../../../baccarat/view-models/data-handlers/BaccaratFinishHandlerRename';
+import BaccaratFinishHandler, { TypeGame } from '../../../baccarat/view-models/data-handlers/BaccaratFinishHandler';
 import * as _ from 'lodash';
 import VipBaccaratLogsHandler from './VipBaccaratLogsHandler';
 
