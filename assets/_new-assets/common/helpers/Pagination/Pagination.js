@@ -157,7 +157,6 @@ cc.Class({
     }
 
     const layout = this.node.getComponent(cc.Layout);
-    layout.enabled = true;
     layout.updateLayout();
     layout.enabled = false;
 
