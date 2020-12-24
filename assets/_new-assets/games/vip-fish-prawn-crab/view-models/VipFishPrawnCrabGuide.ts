@@ -1,4 +1,4 @@
-import { numberWithCommas } from "../../../common/helpers/Helper";
+import { numberWithCommas } from '../../../common/helpers/Helper';
 
 
 const { ccclass, property } = cc._decorator;
@@ -8,6 +8,14 @@ export default class VipFishPrawnCrabGuide extends cc.Component {
 
     @property({ type: cc.Label })
     replaceNodes: cc.Label[] = [];
+
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
+    onLoad() {
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
+    }
 
     init(configs) {
         const replaceData = this.createReplaceData(configs);

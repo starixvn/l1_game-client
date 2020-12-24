@@ -1,8 +1,8 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
-import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
-import BaccaratHistoryItem from "../../baccarat/view-models/BaccaratHistoryItem";
+import { getStringDateByTime, numberWithCommas } from '../../../common/helpers/Helper';
+import * as Pagination from '../../../common/helpers/Pagination/Pagination.js';
+import BaccaratHistoryItem from '../../baccarat/view-models/BaccaratHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -16,6 +16,9 @@ export default class VipBaccaratHistory extends cc.Component {
   @property(cc.Prefab)
   prefabItem: cc.Prefab = null;
 
+  @property(cc.Node)
+  mainFrame: cc.Node = null;
+
   private socket: SocketIOClient.Socket;
 
   init(socket: SocketIOClient.Socket) {
@@ -24,6 +27,9 @@ export default class VipBaccaratHistory extends cc.Component {
 
   onLoad() {
     this.pages.init(this);
+
+    const commonDialog = this.mainFrame.getComponent('CommonDialog');
+    commonDialog.onDidHide = () => { this.node.destroy(); };
   }
 
   onEnable() {

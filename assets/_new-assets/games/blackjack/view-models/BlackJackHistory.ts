@@ -1,7 +1,7 @@
-import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
-import * as Pagination from "../../../common/helpers/Pagination/Pagination";
-import NewCard from "../../../common/new-card/view-models/NewCard";
-import BlackJackHistoryItem from "./BlackJackHistoryItem";
+import { getStringDateByTime, numberWithCommas } from '../../../common/helpers/Helper';
+import * as Pagination from '../../../common/helpers/Pagination/Pagination';
+import NewCard from '../../../common/new-card/view-models/NewCard';
+import BlackJackHistoryItem from './BlackJackHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,6 +20,9 @@ export default class BlackJackHistory extends cc.Component {
     @property(cc.Prefab)
     cardPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private socket: SocketIOClient.Socket;
 
     init(socket: SocketIOClient.Socket) {
@@ -28,15 +31,13 @@ export default class BlackJackHistory extends cc.Component {
 
     onLoad() {
         this.pages.init(this);
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     onEnable() {
         this.get_data();
-    }
-
-    onDisable() {
-        this.content.children.forEach(child => child.destroy());
-        this.node.destroy();
     }
 
     get_data(page = 1) {

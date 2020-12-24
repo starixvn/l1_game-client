@@ -3,7 +3,7 @@ import Sedie from "../Sedie";
 
 export default class SedieTimeHandler extends GameBaseTimeHandler {
 
-    private readonly shakeThePlateTime = 32;
+    private get shakeThePlateTime() { return this.main.config.betTime + 2 };
 
     constructor(protected readonly main: Sedie) {
         super(main);
@@ -35,8 +35,7 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
 
         if (this.main.currentTimeRemaining > this.shakeThePlateTime && !this.main.finishShowResult) {
             this.main.showResult();
-            this.main.thePlate.position = cc.v2(50, 150);
-            this.main.thePlate.opacity = 0;
+            this.main.openPlate(false);
             this.main.finishShowResult = true;
         }
     }
@@ -47,9 +46,9 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
     }
 
     shakeThePlate() {
-        cc.tween(this.main.thePlate)
-            .to(0, { opacity: 255 })
-            .to(0.5, { position: cc.v2(0, 0) })
+        cc.tween(this.main)
+            .call(() => this.main.closePlate())
+            .delay(0.5)
             .call(() => {
                 cc.RedT.isSoundGame() && this.main.shakeThePlateAudio.play();
                 this.main.shakeThePlateAnimation.play();

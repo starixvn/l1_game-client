@@ -1,6 +1,4 @@
 import BlinkNode from "../../../common/BlinkNode";
-import GameBase from "../../_base/GameBase";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -81,7 +79,7 @@ export default class LogControl extends cc.Component {
             this.dots.push(dot);
         });
 
-        this.addNextMark(rowMax, row, col, colMax, nextCol, start);
+        this.addNextMark(rowMax, row, col, nextCol, start);
 
         maxX = Math.max(maxX, this.nextMark.position.x);
         this.content.width = Math.max(maxX + this.itemSize.width / 2, this.node.width) + 2 * this.padding.width;
@@ -89,16 +87,13 @@ export default class LogControl extends cc.Component {
         this.content.position = cc.v2(-this.content.width, this.content.position.y);
     }
 
-    private addNextMark(rowMax, row, col, colMax, nextCol, start) {
+    private addNextMark(rowMax, row, col, nextCol, start) {
         let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
         if (row < max - 1) {
             row++;
         } else {
             row = 0;
             col = nextCol;
-            if (col > colMax) {
-                colMax = col;
-            }
         }
         let dot = cc.instantiate(this.itemNext);
         dot.active = false;

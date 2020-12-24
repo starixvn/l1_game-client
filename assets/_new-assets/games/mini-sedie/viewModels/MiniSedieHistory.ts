@@ -1,12 +1,12 @@
-const { ccclass, property } = cc._decorator;
-import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
-import { numberWithCommas, getStringDateByTime, nFormatter } from "../../../common/helpers/Helper";
-import SedieHistoryItem from "../../xoc-xoc/view-models/SedieHistoryItem";
+import { getStringDateByTime, numberWithCommas } from '../../../common/helpers/Helper';
+import * as Pagination from '../../../common/helpers/Pagination/Pagination.js';
+import SedieHistoryItem from '../../xoc-xoc/view-models/SedieHistoryItem';
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniSedieHistory extends cc.Component {
-    @property(cc.Prefab)
-    page: cc.Prefab = null;
+    @property(Pagination)
+    pages: Pagination = null;
 
     @property(cc.Node)
     content: cc.Node = null;
@@ -20,15 +20,18 @@ export default class MiniSedieHistory extends cc.Component {
     @property(cc.SpriteFrame)
     iconWhite: cc.SpriteFrame = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
+
     private pagination: Pagination;
     private dataObserverKey = "MiniSedieHistory";
 
     onLoad() {
-        let page = cc.instantiate(this.page);
-        page.y = -295;
-        this.node.addChild(page);
-        this.pagination = page.getComponent("Pagination");
-        this.pagination.init(this);
+        this.pages.init(this);
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     onEnable() {
@@ -48,7 +51,7 @@ export default class MiniSedieHistory extends cc.Component {
 
     onData(data) {
         const { page, pageSize, total, betLogs } = data;
-        this.pagination.onSet(page, pageSize, total);
+        this.pages.onSet(page, pageSize, total);
         this.content.destroyAllChildren();
 
         if (betLogs && betLogs.length) {

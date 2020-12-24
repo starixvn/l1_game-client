@@ -15,16 +15,10 @@ export default class SedieRoundHistoryItem extends cc.Component {
         }
 
         let spriteName = "chip_trang_0";
-        switch (value) {
-            case 1:
-            case 3:
-                spriteName = `chip_do_${value}`;
-                break;
-            case 0:
-            case 2:
-            case 4:
-                spriteName = `chip_trang_${value}`;
-                break;
+        if (value % 2) {
+            spriteName = `chip_do_${value}`;
+        } else {
+            spriteName = `chip_trang_${value}`;
         }
         this.sprite.spriteFrame = this.atlas.getSpriteFrame(spriteName);
     }

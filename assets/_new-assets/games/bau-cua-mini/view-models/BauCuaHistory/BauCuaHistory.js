@@ -1,35 +1,39 @@
 
 var helper = require('Helper');
+var Pagination = require("Pagination");
 
 cc.Class({
 	extends: cc.Component,
 	properties: {
-		page: cc.Prefab,
+		pages: {
+			default: null,
+			type: Pagination
+		},
 		content: cc.Node,
 		cointRed: cc.Node,
 		cointXu: cc.Node,
 		red: true,
+		mainFrame: {
+			default: null,
+			type: cc.Node
+		}
 	},
 	init(obj) {
 		this.RedT = obj;
 	},
 	onLoad() {
-		this.page = cc.instantiate(this.page);
-		this.page.y = -325;
-		this.node.addChild(this.page);
-		this.page = this.page.getComponent('Pagination');
+		this.pages.init(this);
 
 		this.content = this.content.children.map(function (obj) {
 			return obj.getComponent('BauCuaHistoryItem');
 		})
 
-		this.page.init(this);
+		const commonDialog = this.mainFrame.getComponent('CommonDialog');
+		commonDialog.onDidHide = () => { this.node.destroy(); };
 	},
 	onEnable: function () {
 		this.get_data();
 	},
-	//onDisable: function() {
-	//},
 	get_data: function (page = 1) {
 		cc.RedT.send({ g: { baucua: { viewlogs: { red: this.red, page: page } } } });
 	},
@@ -41,7 +45,7 @@ cc.Class({
 	},
 	onData: function (data) {
 		var self = this;
-		this.page.onSet(data.page, data.kmess, data.total);
+		this.pages.onSet(data.page, data.kmess, data.total);
 		this.content.forEach(function (obj, i) {
 			var dataT = data.data[i]
 			if (void 0 !== dataT) {
@@ -66,9 +70,5 @@ cc.Class({
 				obj.node.active = false
 			}
 		})
-	},
-	pressedCloseDialog() {
-		var dialog = this.node.getComponent("CommonDialog");
-		dialog && dialog.closeDialog();
 	}
 });

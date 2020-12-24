@@ -1,4 +1,4 @@
-import { numberWithCommas } from "../../../common/helpers/Helper";
+import { numberWithCommas } from '../../../common/helpers/Helper';
 
 const { ccclass, property } = cc._decorator;
 
@@ -6,6 +6,14 @@ const { ccclass, property } = cc._decorator;
 export default class SedieGuide extends cc.Component {
     @property({ type: cc.Label })
     replaceNodes: cc.Label[] = [];
+
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
+    onLoad() {
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
+    }
 
     protected configs: any;
 

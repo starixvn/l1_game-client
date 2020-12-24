@@ -1,5 +1,6 @@
-import ChanLe from "../ChanLe";
-import TabMenu from "../../../../common/tab-menu/TabMenu";
+import TabMenu from '../../../../common/tab-menu/TabMenu';
+import ChanLe from '../ChanLe';
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -82,6 +83,9 @@ export default class ChanLeStats extends cc.Component {
     @property(cc.SpriteFrame)
     dotRight: cc.SpriteFrame = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private root: ChanLe;
     private currentResultDots: cc.Sprite[] = [];
     private currentPointCells: Dots[] = [];
@@ -106,11 +110,9 @@ export default class ChanLeStats extends cc.Component {
         })).then(tabs => {
             this.currentHeaderTabs = tabs;
         });
-    }
 
-    onDisable() {
-        this.root.hideStats();
-        this.node.destroy();
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     onSelectHeaderTab(event, name) {

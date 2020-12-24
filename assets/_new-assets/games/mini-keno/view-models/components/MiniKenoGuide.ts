@@ -1,6 +1,6 @@
+import { numberWithCommas } from './../../../../common/helpers/Helper';
+
 const { ccclass, property } = cc._decorator;
-import { numberWithCommas } from "./../../../../common/helpers/Helper";
-import { TAIXIU_HISTORIES_DETAIL } from "../../../../common/helpers/Message";
 @ccclass
 export default class MiniKenoGuide extends cc.Component {
 
@@ -22,6 +22,9 @@ export default class MiniKenoGuide extends cc.Component {
     @property({ type: cc.Label })
     kenoMiniReplaceNodes: cc.Label[] = [];
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private kenoProVietGameName = "kenoProViet";
     private kenoMaxGameName = "kenoMax";
     private kenoMiniGameName = "kenoMini";
@@ -31,6 +34,9 @@ export default class MiniKenoGuide extends cc.Component {
 
     onLoad() {
         this.select(this.gameName);
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     receivedData(data) {

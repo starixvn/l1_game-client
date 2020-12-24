@@ -1,8 +1,9 @@
-import * as _ from "lodash";
-import MiniKenoHistoryDetailItem from "./MiniKenoHistoryDetailItem";
-import { numberWithCommas, formatDateTime } from '../../../../common/helpers/Helper';
-import KenoNumber from "../../../keno-pro/view-models/KenoNumber";
-import GameUtils from "../../../../common/GameUtils";
+import * as _ from 'lodash';
+
+import GameUtils from '../../../../common/GameUtils';
+import { formatDateTime, numberWithCommas } from '../../../../common/helpers/Helper';
+import KenoNumber from '../../../keno-pro/view-models/KenoNumber';
+import MiniKenoHistoryDetailItem from './MiniKenoHistoryDetailItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -30,6 +31,9 @@ export default class MiniKenoHistoryDetail extends cc.Component {
     @property(cc.Node)
     betDetails: cc.Node = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private result: number[] = [];
     private settlementResult: any;
     private resultLabels: cc.Label[] = [];
@@ -38,6 +42,9 @@ export default class MiniKenoHistoryDetail extends cc.Component {
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map(child => child.getComponent(KenoNumber));
         this.resultLabels = this.settleResult.children.map(child => child.getComponent(cc.Label));
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     public setData(result: number[], settlementResult: any, betLogDetails: any[]) {

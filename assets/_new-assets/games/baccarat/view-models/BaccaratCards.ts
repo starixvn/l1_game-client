@@ -259,29 +259,13 @@ export default class BaccaratCards extends cc.Component {
           this.cardBack.node.active = true;
           const position = cc.v2(currentCard.position.x - currentCard.width / 2, currentCard.position.y - currentCard.height / 2);
           this.cardBack.node.position = position;
-
-          this.cardBack.node.runAction(
-            cc.sequence(
-              cc.moveBy(0.8, cc.v2(10, -10)).easing(cc.easeSineOut()),
-              cc.spawn(
-                cc.moveBy(0.8, cc.v2(150, -150)).easing(cc.easeExponentialInOut()),
-                cc.fadeOut(0.8).easing(cc.easeExponentialInOut())
-              ),
-              cc.callFunc(() => {
-                this.cardBack.node.active = false;
-                this.cardBack.node.opacity = 255;
-              })
-            )
-          );
+          this.setActionCardBack();
 
           delayTime += this.openSecondCardSecond;
         }
 
         if (index == 2) {
-          // 3rd card
-          currentCard.runAction(
-            cc.sequence(cc.delayTime(delayTime), cc.rotateBy(0.5, this.isBanker ? 270 : -270).easing(cc.easeSineOut()))
-          );
+          this.setActionCardThree(currentCard, delayTime);
         }
       } else {
         if (this.isMainPage && index == 2) {
@@ -292,16 +276,37 @@ export default class BaccaratCards extends cc.Component {
       }
 
       if (this.point) {
-        const pointValue: number = cardData.card + 1;
-        const setPoint = cc.sequence(
-          cc.delayTime(delayTime),
-          cc.callFunc(() => this.setPoint(pointValue >= 10 ? 0 : pointValue))
-        );
-
-        currentCard.stopActionByTag(this.SET_POINT);
-        setPoint.setTag(this.SET_POINT);
-        currentCard.runAction(setPoint);
+        this.handleSetPoint(cardData, delayTime, currentCard);
       }
     }
+  }
+
+  private setActionCardBack() {
+    this.cardBack.node.runAction(
+      cc.sequence(
+        cc.moveBy(0.8, cc.v2(10, -10)).easing(cc.easeSineOut()),
+        cc.spawn(cc.moveBy(0.8, cc.v2(150, -150)).easing(cc.easeExponentialInOut()), cc.fadeOut(0.8).easing(cc.easeExponentialInOut())),
+        cc.callFunc(() => {
+          this.cardBack.node.active = false;
+          this.cardBack.node.opacity = 255;
+        })
+      )
+    );
+  }
+
+  protected setActionCardThree(currentCard: cc.Node, delayTime: number) {
+    currentCard.runAction(cc.sequence(cc.delayTime(delayTime), cc.rotateBy(0.5, this.isBanker ? 270 : -270).easing(cc.easeSineOut())));
+  }
+
+  private handleSetPoint(data: any, delayTime: number, currentCard: cc.Node) {
+    const pointValue: number = data.card + 1;
+    const setPoint = cc.sequence(
+      cc.delayTime(delayTime),
+      cc.callFunc(() => this.setPoint(pointValue >= 10 ? 0 : pointValue))
+    );
+
+    currentCard.stopActionByTag(this.SET_POINT);
+    setPoint.setTag(this.SET_POINT);
+    currentCard.runAction(setPoint);
   }
 }

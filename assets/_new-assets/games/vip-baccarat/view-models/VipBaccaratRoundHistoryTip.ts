@@ -12,8 +12,8 @@ export default class VipBaccaratRoundHistoryTip extends MiniRoundHistoryTip {
   public setData(data: any) {
     this.roundId.string = `#${data.roundId}`;
 
-    const player = Object.values(data.result.player).filter((value) => value != null);
-    const banker = Object.values(data.result.banker).filter((value) => value != null);
+    const player = data.player;
+    const banker = data.banker;
 
     let totalPlayer = 0;
     let totalBanker = 0;

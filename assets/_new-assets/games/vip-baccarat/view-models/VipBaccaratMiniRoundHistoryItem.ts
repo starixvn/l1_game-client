@@ -1,3 +1,4 @@
+import { result } from 'lodash';
 import MiniRoundHistoryItem from '../../../common/mini-round-history/MiniRoundHistoryItem';
 
 const { ccclass, property } = cc._decorator;
@@ -9,7 +10,7 @@ export default class VipBaccaratMiniRoundHistoryItem extends MiniRoundHistoryIte
 
   @property(cc.SpriteFrame)
   dotRed: cc.SpriteFrame = null;
-  
+
   @property(cc.SpriteFrame)
   dotBlue: cc.SpriteFrame = null;
 
@@ -18,7 +19,7 @@ export default class VipBaccaratMiniRoundHistoryItem extends MiniRoundHistoryIte
 
   public setData(data: any) {
     this.data = data;
-    const result = data.settlementResult;
+    const result = data.result;
     if (result.tie) {
       this.icon.spriteFrame = this.dotGreen;
     } else {

@@ -1,6 +1,4 @@
-import * as _ from "lodash";
-import { getStringHourByTime } from '../../../common/helpers/Helper';
-import SicBoTicketDetailItem from "./SicBoTicketDetailItem";
+import SicBoTicketDetailItem from './SicBoTicketDetailItem';
 
 
 const { ccclass, property } = cc._decorator;
@@ -23,6 +21,9 @@ export default class SicBoTicketDetail extends cc.Component {
     @property(cc.Label)
     total: cc.Label = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     roundID: number;
     result: number;
     betLogDetails = null;
@@ -30,6 +31,9 @@ export default class SicBoTicketDetail extends cc.Component {
 
     onLoad() {
         this.content.children.forEach(child => child.destroy());
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     public setData(betLogDetails: any, settlementResult: any) {
@@ -39,16 +43,11 @@ export default class SicBoTicketDetail extends cc.Component {
 
     public showbetLogs() {
         this.node.active = true;
-        for(const betLogDetail of this.betLogDetails){
+        for (const betLogDetail of this.betLogDetails) {
             const ticketDetailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const ticketDetailItemComponent = ticketDetailItem.getComponent(SicBoTicketDetailItem);
             ticketDetailItemComponent.updateContent(betLogDetail, this.settlementResult);
             this.content.addChild(ticketDetailItem);
         }
-    }
-
-    onDisable() {
-        this.content.destroyAllChildren();
-        this.node.destroy();
     }
 }

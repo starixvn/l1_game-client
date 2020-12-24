@@ -12,10 +12,10 @@ export default class SedieFinishHandler extends GameBaseFinishHandler {
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.showResult();
 
-        cc.tween(this.main.thePlate)
-            .to(0.5, { position: cc.v2(50, 100) }, { easing: "sineInOut" })
+        cc.tween(this.main)
+            .call(() => this.main.openPlate(true))
+            .delay(0.5)
             .call(() => onFinishHandlingData())
-            .to(0.2, { opacity: 0 })
             .start();
     }
 }

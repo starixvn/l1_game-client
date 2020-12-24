@@ -1,10 +1,10 @@
-const { ccclass, property } = cc._decorator;
-import * as Pagination from '../../../../common/helpers/Pagination/Pagination'
+import { getStringDateByTime, numberWithCommas } from '../../../../common/helpers/Helper';
+import * as Pagination from '../../../../common/helpers/Pagination/Pagination';
 import Keno from '../Keno';
-import KenoUserHistoryItem from './KenoUserHistoryItem';
-import { numberWithCommas, getStringDateByTime, nFormatter } from '../../../../common/helpers/Helper';
 import KenoRoundResult from './KenoRoundResult';
+import KenoUserHistoryItem from './KenoUserHistoryItem';
 
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoUserHistory extends cc.Component {
@@ -21,12 +21,18 @@ export default class KenoUserHistory extends cc.Component {
     @property(cc.Prefab)
     prefabRoundResult: cc.Prefab = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private root: Keno;
     private roundResult: KenoRoundResult = null;
     private dataObserverKey = "KenoUserHistory";
 
     onLoad() {
         this.pages.init(this);
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     onEnable() {
@@ -43,7 +49,6 @@ export default class KenoUserHistory extends cc.Component {
     onDisable() {
         this.content.children.forEach(child => child.destroy());
         cc.RedT.removeDataObserver(this.dataObserverKey);
-        this.node.destroy();
     }
 
     public onData(data: any) {

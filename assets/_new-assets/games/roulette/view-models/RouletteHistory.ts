@@ -1,7 +1,7 @@
-import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
-import * as Pagination from "../../../common/helpers/Pagination/Pagination";
-import RouletteHistoryItem from "./RouletteHistoryItem";
-import RouletteTicketDetail from "./RouletteTicketDetail";
+import { getStringDateByTime, numberWithCommas } from '../../../common/helpers/Helper';
+import * as Pagination from '../../../common/helpers/Pagination/Pagination';
+import RouletteHistoryItem from './RouletteHistoryItem';
+import RouletteTicketDetail from './RouletteTicketDetail';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -19,6 +19,9 @@ export default class RouletteHistory extends cc.Component {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     historyData: any = null;
     private dataObserverKey = "RouletteHistory";
 
@@ -26,6 +29,9 @@ export default class RouletteHistory extends cc.Component {
         this.pages.init(this);
         this.get_data();
         this.addDataObserver();
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     addDataObserver() {
@@ -34,11 +40,6 @@ export default class RouletteHistory extends cc.Component {
 
     onDestroy() {
         this.removeDataObserver();
-    }
-
-    onDisable() {
-        this.content.destroyAllChildren();
-        this.node.destroy();
     }
 
     removeDataObserver() {

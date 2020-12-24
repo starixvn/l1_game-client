@@ -1,6 +1,6 @@
-import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
-import * as Pagination from "./../../../common/helpers/Pagination/Pagination";
-import SedieHistoryItem from "./SedieHistoryItem";
+import { getStringDateByTime, numberWithCommas } from './../../../common/helpers/Helper';
+import * as Pagination from './../../../common/helpers/Pagination/Pagination';
+import SedieHistoryItem from './SedieHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,6 +22,9 @@ export default class SedieHistory extends cc.Component {
     @property(cc.SpriteFrame)
     iconWhite: cc.SpriteFrame = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private socket: SocketIOClient.Socket;
 
     init(socket: SocketIOClient.Socket) {
@@ -30,6 +33,9 @@ export default class SedieHistory extends cc.Component {
 
     onLoad() {
         this.pagination.init(this);
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     onEnable() {
@@ -87,6 +93,10 @@ export default class SedieHistory extends cc.Component {
                 this.content.addChild(itemNode);
             });
         }
+
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
 }

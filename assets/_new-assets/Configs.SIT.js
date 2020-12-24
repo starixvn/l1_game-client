@@ -51,7 +51,13 @@ const configs = {
       port: '',
       path: '/user/vipbaccarat',
       proxyRoute: '/sit/vipbaccarat/socket.io',
-  },
+    },
+    28: {
+      subDomain: 'uatproxy',
+      port: '',
+      path: '/user/vipsediewar',
+      proxyRoute: '/sit/vipsediewar/socket.io',
+    },
   },
   sentryUrl: 'https://08d902b128ea45b6a11639833224f481@sentryuat.sabagame.com/25',
   gameAnalytics: {

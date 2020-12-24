@@ -1,6 +1,5 @@
-import * as _ from "lodash";
-import RouletteTicketDetailIGroup from "./RouletteTicketDetailIGroup";
 import { getStringHourByTime } from '../../../common/helpers/Helper';
+import RouletteTicketDetailIGroup from './RouletteTicketDetailIGroup';
 
 
 const { ccclass, property } = cc._decorator;
@@ -20,6 +19,9 @@ export default class RouletteTicketDetail extends cc.Component {
     @property(cc.Prefab)
     groupPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     roundID: number = 2000;
     result: number = 20;
     betLogDetails = null;
@@ -27,6 +29,9 @@ export default class RouletteTicketDetail extends cc.Component {
 
     onLoad() {
         this.content.children.forEach(child => child.destroy());
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     public setData(betLogDetails: any, settlementResult: any) {
@@ -43,10 +48,5 @@ export default class RouletteTicketDetail extends cc.Component {
             this.content.addChild(group);
             groupComponent.createBetLogItem(log, this.settlementResult);
         })
-    }
-
-    onDisable() {
-        this.content.destroyAllChildren();
-        this.node.destroy();
     }
 }

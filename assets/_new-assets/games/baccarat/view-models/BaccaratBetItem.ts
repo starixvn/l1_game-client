@@ -1,12 +1,11 @@
-import BetItem from "../../_base/BetItem";
-import BlinkNode from "../../../common/BlinkNode";
+import BetItem from '../../_base/BetItem';
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class BaccaratBetItem extends BetItem {
-    public resetHighlight() {
-        this.highlight.active = false;
-        this.highlightBackground && (this.highlightBackground.active = false);
-    }
+  public resetHighlight() {
+    this.highlight.active = false;
+    this.highlightBackground && (this.highlightBackground.active = false);
+  }
 }

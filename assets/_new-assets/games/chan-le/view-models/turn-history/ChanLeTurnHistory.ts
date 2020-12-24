@@ -1,8 +1,8 @@
-const { ccclass, property } = cc._decorator;
-import ChanLe from "../ChanLe";
-import ChanLeTurnHistoryItem from "./ChanLeTurnHistoryItem";
-import { numberWithCommas, getStringDateByTime, getStringHourByTime, shortenName } from '../../../../common/helpers/Helper'
+import { getStringDateByTime, getStringHourByTime, numberWithCommas, shortenName } from '../../../../common/helpers/Helper';
+import ChanLe from '../ChanLe';
+import ChanLeTurnHistoryItem from './ChanLeTurnHistoryItem';
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ChanLeTurnHistory extends cc.Component {
     @property(cc.Prefab)
@@ -47,6 +47,9 @@ export default class ChanLeTurnHistory extends cc.Component {
     @property(cc.Node)
     previousButton: cc.Node = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private static readonly LICH_SU_PHIEN = "Lịch sử phiên";
     private root: ChanLe;
     private currentTurnId: number;
@@ -55,6 +58,9 @@ export default class ChanLeTurnHistory extends cc.Component {
         if (!cc.sys.isMobile) {
             this.node.scale = 0.8;
         }
+
+        const commonDialog = this.mainFrame.getComponent('CommonDialog');
+        commonDialog.onDidHide = () => { this.node.destroy(); };
     }
 
     init(root: ChanLe) {
@@ -68,11 +74,6 @@ export default class ChanLeTurnHistory extends cc.Component {
 
     onEnable() {
         this.getTurnData(this.currentTurnId);
-    }
-
-    onDisable() {
-        this.root.hideTurnHistory();
-        this.node.destroy();
     }
 
     onNextClick(event) {

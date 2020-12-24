@@ -1,8 +1,8 @@
 import { getLowercaseObjectKeys } from "../../../common/helpers/Helper";
-import KenoNumber from "../../keno-pro/view-models/KenoNumber";
-import RoundHistory from "../../keno-pro/view-models/RoundHistory";
 import { GameState } from "../../_base/GameBase";
 import GameMiniBase from "../../_base/GameMiniBase";
+import KenoNumber from "../../keno-pro/view-models/KenoNumber";
+import RoundHistory from "../../keno-pro/view-models/RoundHistory";
 import BetBoard, { BetInfo } from "./../../../common/bet-board/view-models/BetBoard";
 import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
@@ -129,11 +129,11 @@ export default class MiniKeno extends GameMiniBase {
             South: 2,
             North: 2,
         };
-        const colors = [
-            new cc.Color(72, 109, 216),
-            new cc.Color(137, 95, 50),
-            new cc.Color(66, 130, 44),
-        ];
+        // const colors = [
+        //     new cc.Color(72, 109, 216),
+        //     new cc.Color(137, 95, 50),
+        //     new cc.Color(66, 130, 44),
+        // ];
 
         const bgIndex = dict[KenoType[this.kenoType]];
         this.headerBg.spriteFrame = this.headerFrames[bgIndex];
