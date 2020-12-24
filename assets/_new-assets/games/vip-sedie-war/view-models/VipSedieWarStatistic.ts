@@ -148,6 +148,7 @@ export default class VipSedieWarStatistic extends cc.Component {
 
     updateWarModeStatistic(data: any) {
         const total = data.length;
+
         if (total === 0) {
             this.playerValue.string = `0${this.suffix}`;
             this.bankerValue.string = `0${this.suffix}`;
@@ -156,21 +157,21 @@ export default class VipSedieWarStatistic extends cc.Component {
             return;
         }
 
-        let playerCount = 0, bankerCount = 0;
+        let playerCount = 0, tieCount = 0;
         data.forEach(item => {
             switch (item) {
                 case 0:
                     playerCount++;
                     break;
-                case 1:
-                    bankerCount++;
+                case 2:
+                    tieCount++;
                     break;
             }
         });
 
         const playerValue = Math.round(playerCount * 100 / total);
-        const bankerValue = Math.round(bankerCount * 100 / total);
-        const tieValue = 100 - (playerValue + bankerValue);
+        const tieValue  = Math.round(tieCount * 100 / total);
+        const bankerValue = 100 - (playerValue + tieValue);
 
         this.playerValue.string = `${playerValue}${this.suffix}`;
         this.bankerValue.string = `${bankerValue}${this.suffix}`;

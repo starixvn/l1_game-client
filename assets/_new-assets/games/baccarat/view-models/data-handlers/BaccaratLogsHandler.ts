@@ -23,7 +23,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
 
       if (this.main.timeHandler.isInWaitTime) {
         const playerCards = this.getLogDataFollowTypePlayer(false, lastLog);
-        const bankerCards = this.getLogDataFollowTypePlayer(false, lastLog);
+        const bankerCards = this.getLogDataFollowTypePlayer(true, lastLog);
 
         const ownMain = this.getOwnMain();
         ownMain.playerCards.showCardsWithoutAnimation(playerCards);
