@@ -48,6 +48,18 @@ const configs = {
       path: '/user/vipfishprawncrab',
       proxyRoute: '/vipfishprawncrab/socket.io',
     },
+    27: {
+      subDomain: 'haproxy',
+      port: 7001,
+      path: '/user/vipbaccarat',
+      proxyRoute: '/vipbaccarat/socket.io',
+    },
+    28: {
+      subDomain: 'haproxy',
+      port: 7001,
+      path: '/user/vipsediewar',
+      proxyRoute: '/vipsediewar/socket.io',
+    },
   },
   kenoVietLotUrl: 'https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno',
   sentryUrl: 'https://4c2b6824d6ed41f291540878d9c76181@sentryuat.sabagame.com/50',
