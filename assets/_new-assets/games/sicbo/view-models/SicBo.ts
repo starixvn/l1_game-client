@@ -259,14 +259,14 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     openGuide() {
-        let dialog = cc.instantiate(this.guidePrefab);
+        const dialog = cc.instantiate(this.guidePrefab);
         const guide = dialog.getComponent(SicBoGuide);
         guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }
 
     openHistory() {
-        let dialog = cc.instantiate(this.historyPrefab);
+        const dialog = cc.instantiate(this.historyPrefab);
         this.userHistoryComponent = dialog.getComponent(SicBoHistory);
         this.userHistoryComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);

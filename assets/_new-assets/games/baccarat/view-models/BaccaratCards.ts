@@ -161,7 +161,7 @@ export default class BaccaratCards extends cc.Component {
   }
 
   private flyAndOpenCard3(cards: any[], delayTime: number, playerHasCard3: boolean) {
-    let card = this.card3;
+    const card = this.card3;
     card.active = true;
 
     if (this.isBanker) {

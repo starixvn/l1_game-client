@@ -626,7 +626,7 @@ export default class BlackJack extends NewSocketGameBase {
 
     onHistoryClick() {
         cc.RedT.audio.playClick();
-        let history = cc.instantiate(this.blackjackHistory);
+        const history = cc.instantiate(this.blackjackHistory);
         this.historyComponent = history.getComponent(BlackJackHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(history);
@@ -634,8 +634,8 @@ export default class BlackJack extends NewSocketGameBase {
 
     onGuideClick() {
         cc.RedT.audio.playClick();
-        let guide = cc.instantiate(this.blackjackGuide);
-        let guideComponent = guide.getComponent(BlackJackGuide);
+        const guide = cc.instantiate(this.blackjackGuide);
+        const guideComponent = guide.getComponent(BlackJackGuide);
         guideComponent.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(guide);
     }

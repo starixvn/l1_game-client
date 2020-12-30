@@ -267,13 +267,13 @@ export default class KenoProViet extends cc.Component {
 
     openGuide() {
         cc.RedT.audio.playClick();
-        let node = cc.instantiate(this.guidePrefab);
+        const node = cc.instantiate(this.guidePrefab);
         this.miniPanel.node.addChild(node);
     }
 
     openHistory() {
         cc.RedT.audio.playClick();
-        let node = cc.instantiate(this.historyPrefab);
+        const node = cc.instantiate(this.historyPrefab);
         this.miniPanel.node.addChild(node);
     };
 

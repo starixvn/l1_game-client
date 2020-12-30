@@ -56,8 +56,8 @@ export default class MiniSedieHistory extends cc.Component {
 
         if (betLogs && betLogs.length) {
             betLogs.map((betLog, index) => {
-                let itemNode = cc.instantiate(this.itemPrefab);
-                let item = itemNode.getComponent(SedieHistoryItem);
+                const itemNode = cc.instantiate(this.itemPrefab);
+                const item = itemNode.getComponent(SedieHistoryItem);
                 item.node.active = true;
                 item.bg.active = (index % 2) > 0;
 

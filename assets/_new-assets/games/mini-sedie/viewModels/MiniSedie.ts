@@ -159,12 +159,12 @@ export default class MiniSedie extends GameMiniBase {
   }
 
   public openHistory() {
-    let dialog = cc.instantiate(this.historyPrefab);
+    const dialog = cc.instantiate(this.historyPrefab);
     this.currentMiniPanel.node.addChild(dialog);
   }
 
   public openGuide() {
-    let dialog = cc.instantiate(this.guidePrefab);
+    const dialog = cc.instantiate(this.guidePrefab);
     var guide = dialog.getComponent(SedieGuide);
     guide.init(this.gameConfigs);
     this.currentMiniPanel.node.addChild(dialog);

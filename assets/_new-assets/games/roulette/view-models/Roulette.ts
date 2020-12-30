@@ -376,8 +376,8 @@ export default class Roulette extends GameRoomBase {
                 return;
             }
 
-            for (let type in betChoices) {
-                for (let key in betChoices[type]) {
+            for (const type in betChoices) {
+                for (const key in betChoices[type]) {
                     const betInfo = { type: type, numbers: RouletteUtils.parseKeyToNumbers(key) };
                     const bet = betChoices[type][key];
                     const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, key);
@@ -424,8 +424,8 @@ export default class Roulette extends GameRoomBase {
 
     sumValueBetChoices(totalChoices: any) {
         let total = 0;
-        for (let type in totalChoices) {
-            for (let key in totalChoices[type]) {
+        for (const type in totalChoices) {
+            for (const key in totalChoices[type]) {
                 total += totalChoices[type][key];
             }
         }
@@ -442,8 +442,8 @@ export default class Roulette extends GameRoomBase {
 
         const isMultiChoices = Object.keys(betChoices).length > 1 || Object.keys(betChoices[Object.keys(betChoices)[0]]).length > 1;
 
-        for (let type in betChoices) {
-            for (let key in betChoices[type]) {
+        for (const type in betChoices) {
+            for (const key in betChoices[type]) {
                 if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
                     this.showMiniWarning(isMultiChoices ? "Tiền cược của một trong các cửa vượt mức quy định." : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`);
                     return false;
@@ -541,8 +541,8 @@ export default class Roulette extends GameRoomBase {
 
     mergeBetChoices(betChoices1: any, betChoices2: any): any {
         const total = _.cloneDeep(betChoices1);
-        for (let type in betChoices2) {
-            for (let key in betChoices2[type]) {
+        for (const type in betChoices2) {
+            for (const key in betChoices2[type]) {
                 if (total[type]) {
                     if (total[type][key]) {
                         total[type][key] += betChoices2[type][key];
@@ -560,8 +560,8 @@ export default class Roulette extends GameRoomBase {
 
     subtractBetChoices(betChoices1: any, betChoices2: any): any {
         const result = _.cloneDeep(betChoices1);
-        for (let type in betChoices2) {
-            for (let key in betChoices2[type]) {
+        for (const type in betChoices2) {
+            for (const key in betChoices2[type]) {
                 if (result[type]) {
                     if (result[type][key]) {
                         result[type][key] -= betChoices2[type][key];
@@ -671,7 +671,7 @@ export default class Roulette extends GameRoomBase {
 
     public pressedShowGuide() {
         this.playClick();
-        let dialog = cc.instantiate(this.guidePrefab);
+        const dialog = cc.instantiate(this.guidePrefab);
         var rouletteGuide = dialog.getComponent("RouletteGuide");
         rouletteGuide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
@@ -679,13 +679,13 @@ export default class Roulette extends GameRoomBase {
 
     public pressedShowStatistic() {
         this.playClick();
-        let dialog = cc.instantiate(this.statisticPrefab);
+        const dialog = cc.instantiate(this.statisticPrefab);
         this.currentMiniPanel.node.addChild(dialog);
     }
 
     public pressedShowHistory() {
         this.playClick();
-        let dialog = cc.instantiate(this.historyPrefab);
+        const dialog = cc.instantiate(this.historyPrefab);
         this.currentMiniPanel.node.addChild(dialog);
     }
 

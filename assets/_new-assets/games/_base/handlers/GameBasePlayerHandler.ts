@@ -35,11 +35,11 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
             if (slot) {
                 slot.setInfo(null);
-                let keys = Object.keys(this.otherPlayers);
+                const keys = Object.keys(this.otherPlayers);
 
                 // Move player from others to slot
                 if (keys.length > 0) {
-                    let newPlayer = this.otherPlayers[keys[0]];
+                    const newPlayer = this.otherPlayers[keys[0]];
                     this.addPlayer(newPlayer);
                     delete this.otherPlayers[newPlayer.id];
                 }
@@ -83,7 +83,7 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
     }
 
     updateTablePlayers() {
-        let otherPlayers: any[] = _.values(this.otherPlayers);
+        const otherPlayers: any[] = _.values(this.otherPlayers);
 
         _.forEach(this.main.players, (player) => {
             if (!player.data) {

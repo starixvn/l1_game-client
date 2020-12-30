@@ -42,12 +42,12 @@ export default class LogControl extends cc.Component {
         let maxX = 0;
         let nextCol = 1;
         let previousResult = undefined;
-        let rowMax = {};
+        const rowMax = {};
         let colMax = 0;
-        let start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
+        const start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
         results.forEach((result, i) => {
             if (result == previousResult) {
-                let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
+                const max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
                 if (row < max - 1) {
                     row++;
                 } else if (row == 0 && max == 1) {
@@ -69,7 +69,7 @@ export default class LogControl extends cc.Component {
 
             previousResult = result;
 
-            let dot = cc.instantiate(this.items[result]);
+            const dot = cc.instantiate(this.items[result]);
             dot.active = true;
 
             dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
@@ -88,14 +88,14 @@ export default class LogControl extends cc.Component {
     }
 
     private addNextMark(rowMax, row, col, nextCol, start) {
-        let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
+        const max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
         if (row < max - 1) {
             row++;
         } else {
             row = 0;
             col = nextCol;
         }
-        let dot = cc.instantiate(this.itemNext);
+        const dot = cc.instantiate(this.itemNext);
         dot.active = false;
         dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
         dot.addComponent(BlinkNode).interval = 0.5;

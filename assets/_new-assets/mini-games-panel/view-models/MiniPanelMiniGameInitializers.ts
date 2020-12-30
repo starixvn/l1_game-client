@@ -1,25 +1,21 @@
-import { buildServerUrl } from "../.././common/helpers/UrlHelper";
-import BaseSocketIOController from "../../BaseSocketIOController";
-import * as configs from "../../Configs";
-import ChanLeTurboConfigs from "../../games/chan-le-turbo/view-models/ChanLeTurboConfigs";
-import { ChanLeConfigs } from "../../games/chan-le/view-models/ChanLeConfigs";
-import { MiniSedieConfigs } from "../../games/mini-sedie/viewModels/MiniSedieConfigs";
-import { RongHoConfigs } from "../../games/rong-ho/view-models/RongHoConfigs";
-import { SpecialSeDieConfigs } from "../../games/special-sedie/view-models/SpecialSeDieConfigs";
-import * as SabaConfigs from "../../SabaConfigs";
-import MiniPanel from "./MiniPanel";
+import { buildServerUrl } from '../.././common/helpers/UrlHelper';
+import BaseSocketIOController from '../../BaseSocketIOController';
+import * as configs from '../../Configs';
+import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
+import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
+import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
+import { RongHoConfigs } from '../../games/rong-ho/view-models/RongHoConfigs';
+import { SpecialSeDieConfigs } from '../../games/special-sedie/view-models/SpecialSeDieConfigs';
+import * as SabaConfigs from '../../SabaConfigs';
+import MiniPanel from './MiniPanel';
 
 export default class MiniPanelMiniGameInitializers {
-  constructor(private main: MiniPanel) { }
+  constructor(private main: MiniPanel) {}
 
   showGame(gameComponent) {
     if (gameComponent) {
       gameComponent.node.active = true;
-      this.main.miniGames &&
-        this.main.miniGames.insertChild(
-          gameComponent.node,
-          this.main.miniGames.children.length - 1
-        );
+      this.main.miniGames && this.main.miniGames.insertChild(gameComponent.node, this.main.miniGames.children.length - 1);
 
       this.main.loading.node.active = false;
     }
@@ -40,8 +36,7 @@ export default class MiniPanelMiniGameInitializers {
       cc.loader.loadRes(
         prefabPath,
         (completedCount, total, item) => {
-          this.main.loading &&
-            this.main.loading.onProgress(completedCount, total, item);
+          this.main.loading && this.main.loading.onProgress(completedCount, total, item);
         },
         (err: Error, prefab: any) => {
           if (!this.main.node || !this.main.node.isValid) {
@@ -53,11 +48,10 @@ export default class MiniPanelMiniGameInitializers {
             return;
           }
 
-          let node = cc.instantiate(prefab);
+          const node = cc.instantiate(prefab);
           gameComponent = node.getComponent(componentName);
           initFunc ? initFunc(gameComponent) : gameComponent.init(this);
-          this.main.miniGames &&
-            this.main.miniGames.addChild(gameComponent.node);
+          this.main.miniGames && this.main.miniGames.addChild(gameComponent.node);
           gameComponent.openGame();
           this.main.loading.node.active = false;
         }
@@ -69,7 +63,7 @@ export default class MiniPanelMiniGameInitializers {
 
   openGame(id) {
     if (!cc.RedT.isConnected) {
-      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === id);
+      const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === id);
       const gameName = SabaConfigs.games[key].name;
       this.main.onConnectSocketFailed(gameName, false);
       return;
@@ -181,11 +175,7 @@ export default class MiniPanelMiniGameInitializers {
       this.main.miniSedie != null,
       (gameComponent) => {
         this.main.miniSedie = gameComponent;
-        this.main.miniSedie.init(
-          'miniSedie',
-          new MiniSedieConfigs(),
-          this.main
-        );
+        this.main.miniSedie.init('miniSedie', new MiniSedieConfigs(), this.main);
       },
       () => this.showGame(this.main.miniSedie)
     );
@@ -198,12 +188,7 @@ export default class MiniPanelMiniGameInitializers {
       this.main.chanLe != null,
       (gameComponent) => {
         this.main.chanLe = gameComponent;
-        this.main.chanLe.init(
-          this.main,
-          'chanle',
-          new ChanLeConfigs(),
-          'Chẵn Lẻ'
-        );
+        this.main.chanLe.init(this.main, 'chanle', new ChanLeConfigs(), 'Chẵn Lẻ');
       },
       () => this.showGame(this.main.chanLe)
     );
@@ -216,13 +201,7 @@ export default class MiniPanelMiniGameInitializers {
       this.main.chanLeTurbo != null,
       (gameComponent) => {
         this.main.chanLeTurbo = gameComponent;
-        this.main.chanLeTurbo.init(
-          this.main,
-          'clturbo',
-          new ChanLeTurboConfigs(),
-          'Chẵn lẻ siêu tốc',
-          true
-        );
+        this.main.chanLeTurbo.init(this.main, 'clturbo', new ChanLeTurboConfigs(), 'Chẵn lẻ siêu tốc', true);
       },
       () => this.showGame(this.main.chanLeTurbo)
     );
@@ -237,7 +216,7 @@ export default class MiniPanelMiniGameInitializers {
     if (currentSocket && currentSocket.connected) {
       this.openNewSocketGame(gameId);
     } else {
-      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === gameId);
+      const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === gameId);
       const gameName = SabaConfigs.games[key].name;
       const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
       const gameServerUrl = buildServerUrl(configs.ssl, 'http', '', gameId);
@@ -282,11 +261,7 @@ export default class MiniPanelMiniGameInitializers {
       this.main.specialSeDie != null,
       (gameComponent) => {
         this.main.specialSeDie = gameComponent;
-        this.main.specialSeDie.init(
-          'SpecialSeDie',
-          new SpecialSeDieConfigs(),
-          this.main
-        );
+        this.main.specialSeDie.init('SpecialSeDie', new SpecialSeDieConfigs(), this.main);
       },
       () => this.showGame(this.main.specialSeDie)
     );

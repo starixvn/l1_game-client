@@ -1,16 +1,16 @@
-import UmWarning from "../../../../common/um-warning/UmWarning";
+import UmWarning from '../../../../common/um-warning/UmWarning';
 
-var BrowserUtil = require("BrowserUtil"),
-  helper = require("Helper"),
-  TaiXiu_efScale = require("TXScale"),
-  Constants = require("TXConstants"),
-  NoticeUtil = require("NoticeUtil");
+var BrowserUtil = require('BrowserUtil'),
+  helper = require('Helper'),
+  TaiXiu_efScale = require('TXScale'),
+  Constants = require('TXConstants'),
+  NoticeUtil = require('NoticeUtil');
 cc.Class({
   extends: cc.Component,
   properties: {
     background: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     inputL: cc.Sprite,
     inputR: cc.Sprite,
@@ -18,87 +18,87 @@ cc.Class({
     inputRTxt: cc.Label,
     totalLeft: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     totalRight: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     myLeft: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     myRight: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     playerLeft: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     playerRight: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     nodeKetQua: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     labelKetQua: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     timeWait: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     nodeTimeWait: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     timeCuoc: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     timePopup: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     nodeChanLe: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     nodeTaiXiu: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     nodeTimePopup: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     labelPhien: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     diaNan: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     dice: {
       default: [],
-      type: cc.Sprite
+      type: cc.Sprite,
     },
     diceSF: {
       default: [],
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
     dotLogs: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     diceAnimation: {
       default: null,
-      type: cc.Animation
+      type: cc.Animation,
     },
     efTai: TaiXiu_efScale,
     efXiu: TaiXiu_efScale,
@@ -106,108 +106,108 @@ cc.Class({
     efLe: TaiXiu_efScale,
     winningTai: {
       default: null,
-      type: cc.Animation
+      type: cc.Animation,
     },
     winningXiu: {
       default: null,
-      type: cc.Animation
+      type: cc.Animation,
     },
     frameNan: {
       default: [],
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
     spriteNan: {
       default: null,
-      type: cc.Sprite
+      type: cc.Sprite,
     },
     dot_black: {
       default: null,
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
     dot_white: {
       default: null,
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
     dot_yellow: {
       default: null,
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
     notice: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     mini_warning: {
       default: null,
-      type: cc.Prefab
+      type: cc.Prefab,
     },
     WIN_HT: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     WIN_DN: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     LOST_HT: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     LOST_DN: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     red: true,
     taixiu: true,
     centerRoundLight: {
       default: null,
-      type: cc.Sprite
+      type: cc.Sprite,
     },
     AnimatedTime: cc.Component,
     BetButtonClickedFrame: {
       default: null,
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
     BetButtonUnClickedFrame: {
       default: null,
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
     UMWarning: UmWarning,
     ProcessingWarning: {
       default: null,
-      type: cc.Prefab
+      type: cc.Prefab,
     },
     extendTouchPart: {
       default: null,
-      type: cc.Component
+      type: cc.Component,
     },
     gameAudiosPrefab: {
       default: null,
-      type: cc.Prefab
+      type: cc.Prefab,
     },
     balanceBetNoticePrefab: {
       default: null,
-      type: cc.Prefab
+      type: cc.Prefab,
     },
     balanceBetNoticeContainer: cc.Node,
     historyButton: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     betBoardContainer: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     betBoardPrefab: {
       default: null,
-      type: cc.Prefab
-    }
+      type: cc.Prefab,
+    },
   },
   init: function (obj) {
     this.TXRoot = obj;
     cc.RedT.setting.taixiu.data = cc.RedT.setting.taixiu.data || {
       taixiu: {},
       chanle: {},
-      du_day: {}
+      du_day: {},
     };
 
     this.isNan = false;
@@ -237,10 +237,10 @@ cc.Class({
     Promise.all(
       this.dotLogs.children.map(function (dot) {
         var temp = dot.getComponent(cc.Sprite);
-        temp.mod = dot.getComponent("TXLogTips");
+        temp.mod = dot.getComponent('TXLogTips');
         return temp;
       })
-    ).then(resulf => {
+    ).then((resulf) => {
       this.dotLogs = resulf;
     });
 
@@ -274,43 +274,38 @@ cc.Class({
     this.ttOffset = null;
     this.initBetBoard();
 
-    this.diaNan.getComponent("TXDiaNan").init(this);
+    this.diaNan.getComponent('TXDiaNan').init(this);
 
     this.playCenterRoundLight();
 
     this.keyHandle = function (t) {
-      return t.keyCode === cc.macro.KEY.tab ?
-        (self.changeNextFocusEditBox(),
-          t.preventDefault && t.preventDefault(),
-          !1) :
-        t.keyCode === cc.macro.KEY.enter ?
-          (BrowserUtil.focusGame(),
-            self.onCuocClick(),
-            t.preventDefault && t.preventDefault(),
-            !1) :
-          void 0;
+      return t.keyCode === cc.macro.KEY.tab
+        ? (self.changeNextFocusEditBox(), t.preventDefault && t.preventDefault(), !1)
+        : t.keyCode === cc.macro.KEY.enter
+        ? (BrowserUtil.focusGame(), self.onCuocClick(), t.preventDefault && t.preventDefault(), !1)
+        : void 0;
     };
 
-    this.diceAnimation.on("finished", this.onDiceAnimationFinish, this);
+    this.diceAnimation.on('finished', this.onDiceAnimationFinish, this);
 
     if (this.TXRoot.board) {
       this.inputL.active = this.inputR.active = false;
     }
 
-    var extendTouchPartComponent = this.extendTouchPart.getComponent("ExtendTouchPart");
+    var extendTouchPartComponent = this.extendTouchPart.getComponent('ExtendTouchPart');
     if (extendTouchPartComponent) {
       extendTouchPartComponent.listener = {
         eventStart: (e) => this.eventStart(e),
         eventMove: (e) => this.eventMove(e),
         eventEnd: () => this.eventEnd(),
-      }
+      };
     }
 
     this.initGameAudios();
   },
   initGameAudios: function () {
     var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
-    this.gameAudios = gameAudiosNode.getComponent("GameAudios");
+    this.gameAudios = gameAudiosNode.getComponent('GameAudios');
   },
   onEnable: function () {
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -330,21 +325,13 @@ cc.Class({
     this.TXRoot.board && cc.sys.isBrowser && this.removeEvent();
   },
   addEvent: function () {
-    for (let t in this.editboxs) {
-      BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).addEventListener(
-        "keydown",
-        this.keyHandle,
-        !1
-      );
+    for (const t in this.editboxs) {
+      BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).addEventListener('keydown', this.keyHandle, !1);
     }
   },
   removeEvent: function () {
-    for (let t in this.editboxs) {
-      BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).removeEventListener(
-        "keydown",
-        this.keyHandle,
-        !1
-      );
+    for (const t in this.editboxs) {
+      BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).removeEventListener('keydown', this.keyHandle, !1);
     }
   },
   changeNextFocusEditBox: function () {
@@ -354,9 +341,8 @@ cc.Class({
         t = !0;
         break;
       }
-    } !t &&
-      0 < this.editboxs.length &&
-      BrowserUtil.focusEditBox(this.editboxs[1]);
+    }
+    !t && 0 < this.editboxs.length && BrowserUtil.focusEditBox(this.editboxs[1]);
   },
   initGame: function (taixiu) {
     if (taixiu != this.taixiu) {
@@ -378,9 +364,7 @@ cc.Class({
   },
   onChangerNan: function () {
     cc.RedT.setting.taixiu.isNan = this.isNan = !this.isNan;
-    this.spriteNan.spriteFrame = this.isNan ?
-      this.frameNan[1] :
-      this.frameNan[0];
+    this.spriteNan.spriteFrame = this.isNan ? this.frameNan[1] : this.frameNan[0];
   },
   reLoadGame: function () {
     setTimeout(
@@ -410,9 +394,9 @@ cc.Class({
   },
   onChangerRED: function () {
     cc.RedT.setting.taixiu.red = this.red = !this.red;
-    this.totalLeft.node.color = this.totalRight.node.color = this.red ?
-      this.totalRight.node.color.fromHEX("#FFEB0A") :
-      this.totalRight.node.color.fromHEX("#FFFFFF");
+    this.totalLeft.node.color = this.totalRight.node.color = this.red
+      ? this.totalRight.node.color.fromHEX('#FFEB0A')
+      : this.totalRight.node.color.fromHEX('#FFFFFF');
     //FIX ME: TX_LichSuPhien NOT FOUND
     this.TXRoot.TX_LichSuPhien.onChangerCoint();
     this.taixiu && this.onDataTaiXiu(cc.RedT.setting.taixiu.data.taixiu);
@@ -421,18 +405,10 @@ cc.Class({
   },
   eventStart: function (e) {
     this.setTop();
-    this.ttOffset = cc.v2(
-      e.touch.getLocationX() - this.node.position.x,
-      e.touch.getLocationY() - this.node.position.y
-    );
+    this.ttOffset = cc.v2(e.touch.getLocationX() - this.node.position.x, e.touch.getLocationY() - this.node.position.y);
   },
   eventMove: function (e) {
-    this.node.position = cc.v2(
-      e.touch.getLocationX() - this.ttOffset.x,
-      e.touch.getLocationY() - this.ttOffset.y
-    );
-
-
+    this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
   },
   eventEnd: function () {
     cc.RedT.setting.taixiu.position = this.node.position;
@@ -447,48 +423,51 @@ cc.Class({
       this.inputL.spriteFrame = isClick ? this.BetButtonClickedFrame : this.BetButtonUnClickedFrame;
     } else {
       if (isClick) {
-        select == "right" && (this.inputR.spriteFrame = this.BetButtonClickedFrame);
-        select == "left" && (this.inputL.spriteFrame = this.BetButtonClickedFrame);
+        select == 'right' && (this.inputR.spriteFrame = this.BetButtonClickedFrame);
+        select == 'left' && (this.inputL.spriteFrame = this.BetButtonClickedFrame);
       } else {
-        select == "right" && (this.inputR.spriteFrame = this.BetButtonUnClickedFrame);
-        select == "left" && (this.inputL.spriteFrame = this.BetButtonUnClickedFrame);
+        select == 'right' && (this.inputR.spriteFrame = this.BetButtonUnClickedFrame);
+        select == 'left' && (this.inputL.spriteFrame = this.BetButtonUnClickedFrame);
       }
     }
   },
   onSelectInput: function (event, select) {
     this.setBetButtonClicked(true, select);
     this.inputOld = select;
-    this.input = select == "right" ? this.inputRTxt : this.inputLTxt;
+    this.input = select == 'right' ? this.inputRTxt : this.inputLTxt;
     this.onChangerInput();
     const info = {
       choice: select,
       bet: 0,
       betItem: null,
-      maxBet: this.MAX_BET
-    }
+      maxBet: this.MAX_BET,
+    };
     this.betBoard.show(info);
-    this.betBoard.node.runAction(cc.sequence(cc.delayTime(0.05), cc.callFunc(() => {
-      this.adjustPosition();
-    })));
+    this.betBoard.node.runAction(
+      cc.sequence(
+        cc.delayTime(0.05),
+        cc.callFunc(() => {
+          this.adjustPosition();
+        })
+      )
+    );
   },
   onChangerInput: function () {
     var value = helper.numberWithCommas(helper.getOnlyNumberInString(this.input.string));
     this.input.string = value;
   },
   setPhienLabel: function (phien) {
-    if (phien === "") {
-      this.labelPhien.string = "";
+    if (phien === '') {
+      this.labelPhien.string = '';
       return;
     }
-    this.labelPhien.string = "#" + phien;
+    this.labelPhien.string = '#' + phien;
   },
   setDice: function (bool = false, sprite = true) {
     var self = this;
     Promise.all(
       this.dice.map(function (dice, index) {
-        sprite &&
-          (dice.spriteFrame =
-            self.diceSF[cc.RedT.setting.taixiu.logs[0].dice[index] - 1]);
+        sprite && (dice.spriteFrame = self.diceSF[cc.RedT.setting.taixiu.logs[0].dice[index] - 1]);
         dice.node.active = bool;
       })
     );
@@ -580,12 +559,8 @@ cc.Class({
         void 0 !== this.timeInterval && clearInterval(this.timeInterval);
         // Thêm kết quả
         cc.RedT.setting.taixiu.logs.unshift({
-          dice: [
-            data.finish.dices[0],
-            data.finish.dices[1],
-            data.finish.dices[2]
-          ],
-          phien: data.finish.phien
+          dice: [data.finish.dices[0], data.finish.dices[1], data.finish.dices[2]],
+          phien: data.finish.phien,
         });
         cc.RedT.setting.taixiu.logs.length > 120 && cc.RedT.setting.taixiu.logs.pop();
         //this.dataLogs();
@@ -642,7 +617,7 @@ cc.Class({
             this.enableHistoryButton();
             if (cc.RedT.setting.taixiu.time_remain == Constants.displayResultTime) {
               this.displayDiceResult();
-              this.showBetWinLoss()
+              this.showBetWinLoss();
             }
             // time count down to next phien
             var waitTime = helper.numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
@@ -669,10 +644,7 @@ cc.Class({
           }
 
           if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
-            var time = helper.numberPad(
-              cc.RedT.setting.taixiu.time_remain - 1,
-              2
-            );
+            var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - 1, 2);
             this.AnimatedTime.setTime(time);
             this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
           } else {
@@ -687,37 +659,23 @@ cc.Class({
   },
   showWaitTime: function (time) {
     this.nodeTimeWait && (this.nodeTimeWait.active = true);
-    this.timeWait.string = "00:" + helper.numberPad(time, 2);
+    this.timeWait.string = '00:' + helper.numberPad(time, 2);
   },
   onDataChanLe: function (data) {
     if (this.red) {
-      void 0 !== data.red_chan &&
-        (this.totalLeft.string = helper.numberWithCommas(data.red_chan));
-      void 0 !== data.red_le &&
-        (this.totalRight.string = helper.numberWithCommas(data.red_le));
-      void 0 !== data.red_me_chan &&
-        (this.myLeft.string = helper.numberWithCommas(data.red_me_chan));
-      void 0 !== data.red_me_le &&
-        (this.myRight.string = helper.numberWithCommas(data.red_me_le));
-      void 0 !== data.red_player_chan &&
-        (this.playerLeft.string = helper.numberWithCommas(
-          data.red_player_chan
-        ));
-      void 0 !== data.red_player_le &&
-        (this.playerRight.string = helper.numberWithCommas(data.red_player_le));
+      void 0 !== data.red_chan && (this.totalLeft.string = helper.numberWithCommas(data.red_chan));
+      void 0 !== data.red_le && (this.totalRight.string = helper.numberWithCommas(data.red_le));
+      void 0 !== data.red_me_chan && (this.myLeft.string = helper.numberWithCommas(data.red_me_chan));
+      void 0 !== data.red_me_le && (this.myRight.string = helper.numberWithCommas(data.red_me_le));
+      void 0 !== data.red_player_chan && (this.playerLeft.string = helper.numberWithCommas(data.red_player_chan));
+      void 0 !== data.red_player_le && (this.playerRight.string = helper.numberWithCommas(data.red_player_le));
     } else {
-      void 0 !== data.xu_chan &&
-        (this.totalLeft.string = helper.numberWithCommas(data.xu_chan));
-      void 0 !== data.xu_le &&
-        (this.totalRight.string = helper.numberWithCommas(data.xu_le));
-      void 0 !== data.xu_me_chan &&
-        (this.myLeft.string = helper.numberWithCommas(data.xu_me_chan));
-      void 0 !== data.xu_me_le &&
-        (this.myRight.string = helper.numberWithCommas(data.xu_me_le));
-      void 0 !== data.xu_player_chan &&
-        (this.playerLeft.string = helper.numberWithCommas(data.xu_player_chan));
-      void 0 !== data.xu_player_le &&
-        (this.playerRight.string = helper.numberWithCommas(data.xu_player_le));
+      void 0 !== data.xu_chan && (this.totalLeft.string = helper.numberWithCommas(data.xu_chan));
+      void 0 !== data.xu_le && (this.totalRight.string = helper.numberWithCommas(data.xu_le));
+      void 0 !== data.xu_me_chan && (this.myLeft.string = helper.numberWithCommas(data.xu_me_chan));
+      void 0 !== data.xu_me_le && (this.myRight.string = helper.numberWithCommas(data.xu_me_le));
+      void 0 !== data.xu_player_chan && (this.playerLeft.string = helper.numberWithCommas(data.xu_player_chan));
+      void 0 !== data.xu_player_le && (this.playerRight.string = helper.numberWithCommas(data.xu_player_le));
     }
   },
   onDataTaiXiu: function (data) {
@@ -754,11 +712,11 @@ cc.Class({
     void 0 !== data.red_me_xiu && (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
     if (void 0 !== data.red_player_tai) {
       const betTaiPercent = parseInt(data.red_player_tai) >> 0;
-      this.playerLeft.string = betTaiPercent + "%";
+      this.playerLeft.string = betTaiPercent + '%';
     }
     if (void 0 !== data.red_player_xiu) {
       const betXiuPercent = parseInt(data.red_player_xiu) >> 0;
-      this.playerRight.string = betXiuPercent + "%";
+      this.playerRight.string = betXiuPercent + '%';
     }
   },
   onDuDay: function (data) {
@@ -802,14 +760,8 @@ cc.Class({
             dot.node.active = true;
             dot.node.phien = data.phien;
             dot.mod.round.string = `#${data.phien}`;
-            dot.mod.text.string = `${point < 11 ? "XỈU" : "TÀI"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
-            dot.spriteFrame = self.taixiu ?
-              point < 11 ?
-                self.dot_white :
-                self.dot_black :
-              point % 2 ?
-                self.dot_black :
-                self.dot_yellow;
+            dot.mod.text.string = `${point < 11 ? 'XỈU' : 'TÀI'} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
+            dot.spriteFrame = self.taixiu ? (point < 11 ? self.dot_white : self.dot_black) : point % 2 ? self.dot_black : self.dot_yellow;
           } else {
             dot.node.active = false;
           }
@@ -850,46 +802,31 @@ cc.Class({
           line_dice1[i] = {
             x: i * 28,
             y: dice1 * 28 - 28,
-            dice: dice1
+            dice: dice1,
           };
           line_dice2[i] = {
             x: i * 28,
             y: dice2 * 28 - 28,
-            dice: dice2
+            dice: dice2,
           };
           line_dice3[i] = {
             x: i * 28,
             y: dice3 * 28 - 28,
-            dice: dice3
+            dice: dice3,
           };
           line_tong[i] = {
             x: i * 27.7,
             y: tong * 9.233 - 27.7,
-            tong: tong
+            tong: tong,
           };
         } else {
           self.TXRoot.TXStats.lineAc(i, false);
         }
       }
-      self.TXRoot.TXStats.draw(
-        self.TXRoot.TXStats.dice1_line,
-        self.TXRoot.TXStats.dice1_dots,
-        line_dice1
-      );
-      self.TXRoot.TXStats.draw(
-        self.TXRoot.TXStats.dice2_line,
-        self.TXRoot.TXStats.dice2_dots,
-        line_dice2
-      );
-      self.TXRoot.TXStats.draw(
-        self.TXRoot.TXStats.dice3_line,
-        self.TXRoot.TXStats.dice3_dots,
-        line_dice3
-      );
-      self.TXRoot.TXStats.draw_Tong(
-        self.TXRoot.TXStats.tong_line,
-        line_tong
-      );
+      self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice1_line, self.TXRoot.TXStats.dice1_dots, line_dice1);
+      self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice2_line, self.TXRoot.TXStats.dice2_dots, line_dice2);
+      self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice3_line, self.TXRoot.TXStats.dice3_dots, line_dice3);
+      self.TXRoot.TXStats.draw_Tong(self.TXRoot.TXStats.tong_line, line_tong);
     });
 
     // Ket Qua
@@ -898,13 +835,7 @@ cc.Class({
       if (void 0 !== data) {
         dot.node.active = true;
         var kqPoint = data.dice[0] + data.dice[1] + data.dice[2];
-        dot.spriteFrame = self.taixiu ?
-          kqPoint < 11 ?
-            self.dot_white :
-            self.dot_black :
-          kqPoint % 2 ?
-            self.dot_black :
-            self.dot_yellow;
+        dot.spriteFrame = self.taixiu ? (kqPoint < 11 ? self.dot_white : self.dot_black) : kqPoint % 2 ? self.dot_black : self.dot_yellow;
         return self.taixiu ? (kqPoint > 10 ? 1 : 0) : kqPoint % 2 ? 0 : 1;
       } else {
         dot.node.active = false;
@@ -936,12 +867,8 @@ cc.Class({
     newData.reverse();
     newData = newData.slice(0, 20);
     newData.reverse();
-    self.TXRoot.TXStats.KetQuaLeft.string = ketqua.filter(
-      i => i == 1
-    ).length;
-    self.TXRoot.TXStats.KetQuaRight.string = ketqua.filter(
-      i => i == 0
-    ).length;
+    self.TXRoot.TXStats.KetQuaLeft.string = ketqua.filter((i) => i == 1).length;
+    self.TXRoot.TXStats.KetQuaRight.string = ketqua.filter((i) => i == 0).length;
 
     self.TXRoot.TXStats.DiemSoCel.forEach(function (obj, i) {
       var data = newData[i];
@@ -951,31 +878,13 @@ cc.Class({
           obj.RedT.map(function (current, index) {
             var data_Cel = data[index];
             if (void 0 !== data_Cel) {
-              const type = self.taixiu ?
-                data_Cel > 10 ?
-                  true :
-                  false :
-                data_Cel % 2 ?
-                  false :
-                  true;
+              const type = self.taixiu ? (data_Cel > 10 ? true : false) : data_Cel % 2 ? false : true;
               c_tai = type ? c_tai + 1 : c_tai;
               c_xiu = !type ? c_xiu + 1 : c_xiu;
               current.active = true;
-              current.color = self.taixiu ?
-                type ?
-                  cc.Color.BLACK :
-                  cc.Color.WHITE :
-                type ?
-                  cc.Color.YELLOW :
-                  cc.Color.BLACK;
+              current.color = self.taixiu ? (type ? cc.Color.BLACK : cc.Color.WHITE) : type ? cc.Color.YELLOW : cc.Color.BLACK;
               current.text.string = data_Cel;
-              current.text.node.color = self.taixiu ?
-                type ?
-                  cc.Color.WHITE :
-                  cc.Color.BLACK :
-                type ?
-                  cc.Color.BLACK :
-                  cc.Color.WHITE;
+              current.text.node.color = self.taixiu ? (type ? cc.Color.WHITE : cc.Color.BLACK) : type ? cc.Color.BLACK : cc.Color.WHITE;
             } else {
               current.active = false;
             }
@@ -986,7 +895,7 @@ cc.Class({
         obj.active = false;
       }
       return void 0;
-    })
+    });
 
     self.TXRoot.TXStats.DiemSoLeft.string = c_tai;
     self.TXRoot.TXStats.DiemSoRight.string = c_xiu;
@@ -1003,7 +912,7 @@ cc.Class({
   reset: function () {
     this.isNan && this.dataLogs();
     cc.RedT.setting.taixiu.data.chanle.red_chan = cc.RedT.setting.taixiu.data.chanle.red_le = cc.RedT.setting.taixiu.data.chanle.red_me_chan = cc.RedT.setting.taixiu.data.chanle.red_me_le = cc.RedT.setting.taixiu.data.chanle.red_player_chan = cc.RedT.setting.taixiu.data.chanle.red_player_le = cc.RedT.setting.taixiu.data.chanle.xu_chan = cc.RedT.setting.taixiu.data.chanle.xu_le = cc.RedT.setting.taixiu.data.chanle.xu_me_chan = cc.RedT.setting.taixiu.data.chanle.xu_me_le = cc.RedT.setting.taixiu.data.chanle.xu_player_chan = cc.RedT.setting.taixiu.data.chanle.xu_player_le = cc.RedT.setting.taixiu.data.taixiu.red_me_tai = cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu.data.taixiu.red_player_tai = cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu.data.taixiu.red_tai = cc.RedT.setting.taixiu.data.taixiu.red_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_tai = cc.RedT.setting.taixiu.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = 0;
-    this.playerLeft.string = this.playerRight.string = "0%";
+    this.playerLeft.string = this.playerRight.string = '0%';
     this.gameAudios && this.gameAudios.playStartGameAudio();
   },
   setDefautl: function () {
@@ -1041,10 +950,12 @@ cc.Class({
         }
         cc.RedT.send({
           taixiu: {
-            get_new: true
-          }
+            get_new: true,
+          },
         });
-      }.bind(this), 1000);
+      }.bind(this),
+      1000
+    );
   },
   showBetWinLossAnimation: function (data) {
     if (!cc.RedT.GAME_IS_SHOWED || !this.notice) {
@@ -1054,7 +965,7 @@ cc.Class({
     var temp = new cc.Node();
     temp.addComponent(cc.Label);
     temp = temp.getComponent(cc.Label);
-    temp.string = (data.win ? "+" : "-") + helper.numberWithCommas(data.bet);
+    temp.string = (data.win ? '+' : '-') + helper.numberWithCommas(data.bet);
     temp.font = data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
     temp.lineHeight = 130;
     temp.fontSize = 22;
@@ -1072,8 +983,7 @@ cc.Class({
       var thuong = new cc.Node();
       thuong.addComponent(cc.Label);
       thuong = thuong.getComponent(cc.Label);
-      thuong.string =
-        (data.win ? "+" : "-") + helper.numberWithCommas(data.thuong);
+      thuong.string = (data.win ? '+' : '-') + helper.numberWithCommas(data.thuong);
       thuong.font = cc.RedT.util.fontEffect;
       thuong.lineHeight = 90;
       thuong.fontSize = 14;
@@ -1099,11 +1009,11 @@ cc.Class({
     this.timeInterval && clearInterval(this.timeInterval);
     this.resetUI();
     this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = '';
-    this.playerLeft.string = this.playerRight.string = "0%";
+    this.playerLeft.string = this.playerRight.string = '0%';
   },
   resetBetButtonText(select) {
-    (!select || select == "left") && (this.inputLTxt.string = "ĐẶT CỬA");
-    (!select || select == "right") && (this.inputRTxt.string = "ĐẶT CỬA");
+    (!select || select == 'left') && (this.inputLTxt.string = 'ĐẶT CỬA');
+    (!select || select == 'right') && (this.inputRTxt.string = 'ĐẶT CỬA');
   },
   playCenterRoundLight() {
     this.centerRoundLight.node.runAction(cc.repeatForever(cc.rotateBy(1, 360)));
@@ -1127,7 +1037,7 @@ cc.Class({
       this.totalRight.string = helper.numberWithCommas(this.redXiu);
     } else {
       if (hasAnimation) {
-        helper.numberTo(this.totalRight, 0, this.redTai, 1000, true)
+        helper.numberTo(this.totalRight, 0, this.redTai, 1000, true);
       } else {
         this.totalRight.string = helper.numberWithCommas(this.redTai);
       }
@@ -1154,11 +1064,17 @@ cc.Class({
 
   initBetBoard() {
     const betBoardNode = cc.instantiate(this.betBoardPrefab);
-    this.betBoard = betBoardNode.getComponent("BetBoard");
+    this.betBoard = betBoardNode.getComponent('BetBoard');
     this.betBoard.callback = {
-      getPreset: () => { return this.presetBetValue; },
-      acceptedBet: (info) => { this.onCuocClick(); },
-      changedBet: (info) => { this.setCurrentBetInput(info.bet); },
+      getPreset: () => {
+        return this.presetBetValue;
+      },
+      acceptedBet: (info) => {
+        this.onCuocClick();
+      },
+      changedBet: (info) => {
+        this.setCurrentBetInput(info.bet);
+      },
       cancel: (info) => {
         this.resetBetButtonText(info.choice);
         this.setBetButtonClicked(false, info.choice);
@@ -1176,13 +1092,13 @@ cc.Class({
   onCuocClick() {
     var bet = helper.getOnlyNumberInString(this.input.string);
     bet = parseInt(bet);
-    this.resetBetButtonText()
+    this.resetBetButtonText();
     this.betBoard.node.active = false;
     this.setBetButtonClicked(false);
 
     if (this.waitingBetResponse) {
       var processingWarning = cc.instantiate(this.ProcessingWarning);
-      this.processingWarningPopup = processingWarning.getComponent("ProcessingWarning");
+      this.processingWarningPopup = processingWarning.getComponent('ProcessingWarning');
       this.notice.addChild(processingWarning);
       return;
     }
@@ -1196,10 +1112,10 @@ cc.Class({
         cuoc: {
           red: this.red,
           taixiu: this.taixiu,
-          select: this.inputOld == "left",
-          bet: bet
-        }
-      }
+          select: this.inputOld == 'left',
+          bet: bet,
+        },
+      },
     });
   },
 
@@ -1213,5 +1129,5 @@ cc.Class({
 
       this.node.runAction(cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut()));
     }
-  }
+  },
 });

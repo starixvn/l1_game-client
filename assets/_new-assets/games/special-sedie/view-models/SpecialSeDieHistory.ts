@@ -59,8 +59,8 @@ export default class SpecialSeDieHistory extends cc.Component {
 
     if (betLogs && betLogs.length) {
       betLogs.map((betLog, index) => {
-        let itemNode = cc.instantiate(this.itemPrefab);
-        let item = itemNode.getComponent(SpecialSeDieHistoryItem);
+        const itemNode = cc.instantiate(this.itemPrefab);
+        const item = itemNode.getComponent(SpecialSeDieHistoryItem);
         item.node.active = true;
         item.bg.active = index % 2 > 0;
 

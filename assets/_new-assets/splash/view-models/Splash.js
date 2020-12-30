@@ -8,14 +8,14 @@ cc.Class({
     messageLabel: cc.Label,
     manifestUrl: {
       default: null,
-      type: cc.Asset
+      type: cc.Asset,
     },
     retryButtonNode: cc.Node,
     updateProgressBar: cc.Node,
     _am: null,
     _updating: !1,
     _canRetry: !1,
-    _storagePath: ""
+    _storagePath: '',
   },
   onLoad: function () {
     this.isLoadScene = !1;
@@ -30,44 +30,37 @@ cc.Class({
   initOneSign: function () {
     this.checkPlugin() &&
       (sdkbox.PluginOneSignal.init(),
-        sdkbox.PluginOneSignal.setListener({
-          onSendTag: function (t, e, i) { },
-          onGetTags: function (t) { },
-          onIdsAvailable: function (t, e) { },
-          onPostNotification: function (t, e) { },
-          onNotification: function (t, e, i) { }
-        }));
+      sdkbox.PluginOneSignal.setListener({
+        onSendTag: function (t, e, i) {},
+        onGetTags: function (t) {},
+        onIdsAvailable: function (t, e) {},
+        onPostNotification: function (t, e) {},
+        onNotification: function (t, e, i) {},
+      }));
   },
   checkPlugin: function () {
-    return "undefined" == typeof sdkbox
-      ? (console.log("sdkbox is undefined"), !1)
-      : void 0 !== sdkbox.PluginOneSignal ||
-      (console.log("sdkbox.PluginFacebook is undefined"), !1);
+    return 'undefined' == typeof sdkbox
+      ? (console.log('sdkbox is undefined'), !1)
+      : void 0 !== sdkbox.PluginOneSignal || (console.log('sdkbox.PluginFacebook is undefined'), !1);
   },
   loadAssets: function () {
     this.updateProgress(0);
-    this.messageLabel.string = "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...";
+    this.messageLabel.string = 'Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...';
     if (cc.sys.isBrowser && authManager) {
-      let self = this;
+      const self = this;
       authManager.preChecking(() => {
         authManager.checkSSO(self.messageLabel, () => {
           self.loadScene();
         });
       }, self.messageLabel);
-    }
-    else {
+    } else {
       this.loadScene();
     }
-
   },
   loadScene: function () {
     this.loadSceneTimeout = setTimeout(
       function () {
-        cc.director.preloadScene(
-          "MainGame",
-          this.onProgress.bind(this),
-          this.onLoaded.bind(this)
-        );
+        cc.director.preloadScene('MainGame', this.onProgress.bind(this), this.onLoaded.bind(this));
       }.bind(this),
       100
     );
@@ -86,12 +79,12 @@ cc.Class({
   },
   onLoaded: function (err, asset) {
     // Tải cảnh thành công
-    cc.loader.loadResDir("lobby/games", (error, resource, urls) => {
-      cc.director.loadScene("MainGame");
+    cc.loader.loadResDir('lobby/games', (error, resource, urls) => {
+      cc.director.loadScene('MainGame');
     });
   },
   onFakeGameLoaded: function (err, asset) {
-    cc.director.loadScene("FakeGame");
+    cc.director.loadScene('FakeGame');
   },
   onDestroy: function () {
     if (this._updateListener) {
@@ -101,14 +94,8 @@ cc.Class({
   },
   initHotUpdate: function () {
     this.updateProgress(0);
-    this._storagePath =
-      (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") +
-      "hot-update-remote-asset";
-    this._am = new jsb.AssetsManager(
-      "",
-      this._storagePath,
-      this.versionCompareHandle
-    );
+    this._storagePath = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'hot-update-remote-asset';
+    this._am = new jsb.AssetsManager('', this._storagePath, this.versionCompareHandle);
     this._am.setVerifyCallback(
       function (t, e) {
         e.compressed;
@@ -119,7 +106,7 @@ cc.Class({
   },
   checkUpdate: function () {
     if (this._updating) {
-      this.messageLabel.string = "Đang kiểm tra phiên bản ...";
+      this.messageLabel.string = 'Đang kiểm tra phiên bản ...';
       return;
     }
 
@@ -147,31 +134,31 @@ cc.Class({
     !this._updating &&
       this._canRetry &&
       ((this.retryButtonNode.active = !1),
-        (this._canRetry = !1),
-        (this.messageLabel.string = "Thử lại ..."),
-        this._am.downloadFailedAssets());
+      (this._canRetry = !1),
+      (this.messageLabel.string = 'Thử lại ...'),
+      this._am.downloadFailedAssets());
   },
   checkCb: function (t) {
     var e = !1,
       i = !1;
     switch (t.getEventCode()) {
       case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
-        this.messageLabel.string = "Không tìm thấy Hot Update...";
+        this.messageLabel.string = 'Không tìm thấy Hot Update...';
         break;
       case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
       case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
         // TODO: bug for update game on android, must be checked later
         //this.messageLabel.string = "Tải manifest thất bại ...";
-        this.messageLabel.string = "Phiên bản đã cập nhật...";
+        this.messageLabel.string = 'Phiên bản đã cập nhật...';
         e = !0;
         break;
       case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
         this.updateProgress(838);
-        this.messageLabel.string = "Phiên bản mới nhất...";
+        this.messageLabel.string = 'Phiên bản mới nhất...';
         e = !0;
         break;
       case jsb.EventAssetsManager.NEW_VERSION_FOUND:
-        this.messageLabel.string = "Tìm thấy phiên bản cập nhật...";
+        this.messageLabel.string = 'Tìm thấy phiên bản cập nhật...';
         this.updateProgress(0);
         i = true;
         break;
@@ -189,37 +176,37 @@ cc.Class({
     var failed = false;
     switch (event.getEventCode()) {
       case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
-        this.messageLabel.string = "Không tìm thấy Hot Update ...";
+        this.messageLabel.string = 'Không tìm thấy Hot Update ...';
         failed = true;
         break;
       case jsb.EventAssetsManager.UPDATE_PROGRESSION:
         var RedT = event.getPercent() * 838;
         this.updateProgress(RedT);
         //event.getMessage();
-        this.messageLabel.string = "Đang cập nhật ...";
+        this.messageLabel.string = 'Đang cập nhật ...';
         break;
       case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
       case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
-        this.messageLabel.string = "Tải manifest thất bại ...";
+        this.messageLabel.string = 'Tải manifest thất bại ...';
         failed = true;
         break;
       case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
         this.updateProgress(838);
-        this.messageLabel.string = "Phiên bản mới nhất ...";
+        this.messageLabel.string = 'Phiên bản mới nhất ...';
         failed = true;
         break;
       case jsb.EventAssetsManager.UPDATE_FINISHED:
-        this.messageLabel.string = "Cập nhật thành công";
+        this.messageLabel.string = 'Cập nhật thành công';
         needRestart = true;
         break;
       case jsb.EventAssetsManager.UPDATE_FAILED:
-        this.messageLabel.string = "Cập nhật thất bại";
+        this.messageLabel.string = 'Cập nhật thất bại';
         this.retryButtonNode.active = !0;
         this._updating = !1;
         this._canRetry = !0;
         break;
       case jsb.EventAssetsManager.ERROR_UPDATING:
-        this.messageLabel.string = "Cập nhật thất bại";
+        this.messageLabel.string = 'Cập nhật thất bại';
         break;
       case jsb.EventAssetsManager.ERROR_DECOMPRESS:
         this.messageLabel.string = event.getMessage();
@@ -241,10 +228,7 @@ cc.Class({
       // This value will be retrieved and appended to the default search path during game startup,
       // please refer to samples/js-tests/main.js for detailed usage.
       // !!! Re-add the search paths in main.js is very important, otherwise, new scripts won't take effect.
-      cc.sys.localStorage.setItem(
-        "HotUpdateSearchPaths",
-        JSON.stringify(searchPaths)
-      );
+      cc.sys.localStorage.setItem('HotUpdateSearchPaths', JSON.stringify(searchPaths));
       jsb.fileUtils.setSearchPaths(searchPaths);
 
       cc.audioEngine.stopAll();
@@ -255,16 +239,14 @@ cc.Class({
     this.retry();
   },
   versionCompareHandle: function (t, e) {
-    console.log(
-      "JS Custom Version Compare: version A is " + t + ", version B is " + e
-    ),
-      console.log(
-        "JS Custom Version Compare: version A is " + t + ", version B is " + e
-      );
-    for (var i = t.split("."), o = e.split("."), n = 0; n < i.length; ++n) {
+    console.log('JS Custom Version Compare: version A is ' + t + ', version B is ' + e),
+      console.log('JS Custom Version Compare: version A is ' + t + ', version B is ' + e);
+    for (var i = t.split('.'), o = e.split('.'), n = 0; n < i.length; ++n) {
       var s = parseInt(i[n]),
         a = parseInt(o[n] || 0);
-      if (s !== a) return s - a;
+      if (s !== a) {
+        return s - a;
+      }
     }
     return o.length > i.length ? -1 : 0;
   },
@@ -272,5 +254,5 @@ cc.Class({
     if (this && this.updateProgressBar) {
       this.updateProgressBar.width = progress;
     }
-  }
+  },
 });

@@ -24,7 +24,7 @@ export default class BaccaratTimeHandler extends GameBaseTimeHandler {
     );
 
     if (this.main.currentDataLogs[0]) {
-      let currentData = this.main.currentDataLogs[0];
+      const currentData = this.main.currentDataLogs[0];
       const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
       finishHandler.showResult(this.getSettlementResult(currentData), false);
     }

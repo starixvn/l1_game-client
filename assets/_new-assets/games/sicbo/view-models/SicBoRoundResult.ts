@@ -37,7 +37,7 @@ export default abstract class SicBoRoundResult extends cc.Component {
 
   updateLabels(data: any) {
     const { settlementResult, result } = data;
-    let color = cc.Color.BLACK;
+    const color = cc.Color.BLACK;
 
     this.total.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_${result.dice1 + result.dice2 + result.dice3}`);
 

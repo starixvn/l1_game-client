@@ -49,13 +49,13 @@ export default class DragonScoreBoard extends cc.Component {
     let maxX = 0;
     let nextCol = 1;
     let previousResult: DragonScoreBoardItemData = undefined;
-    let rowMax = {};
+    const rowMax = {};
     let colMax = 0;
-    let start = cc.v2(-this.itemSize.width / 2 - this.padding.width, -this.itemSize.height / 2 - this.padding.height);
+    const start = cc.v2(-this.itemSize.width / 2 - this.padding.width, -this.itemSize.height / 2 - this.padding.height);
 
     results.forEach((result, i) => {
       if (this.compareResult(result, previousResult)) {
-        let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
+        const max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
 
         if (row < max - 1) {
           row++;
@@ -109,7 +109,7 @@ export default class DragonScoreBoard extends cc.Component {
   }
 
   private addNextMark(rowMax, row, col, colMax, nextCol, start) {
-    let max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
+    const max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
 
     if (row < max - 1) {
       row++;
@@ -121,7 +121,7 @@ export default class DragonScoreBoard extends cc.Component {
       }
     }
 
-    let dot = cc.instantiate(this.itemNext);
+    const dot = cc.instantiate(this.itemNext);
     dot.active = false;
 
     if (row == 1 && col == 0) {

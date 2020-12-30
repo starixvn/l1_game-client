@@ -1,17 +1,17 @@
-import SnappedScrollView from "../../common/bet-chips/view-models/SnappedScrollView";
-import Loading from "../../common/loading/view-models/Loading";
-import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
-import ChanLe from "../../games/chan-le/view-models/ChanLe";
-import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
-import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
-import RongHo from "../../games/rong-ho/view-models/RongHo";
-import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
-import * as SabaConfigs from "../../SabaConfigs";
-import * as authManager from "./../../common/auth/AuthManager";
-import GameIconLayout from "./GameIconLayout";
-import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
-import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
-import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
+import SnappedScrollView from '../../common/bet-chips/view-models/SnappedScrollView';
+import Loading from '../../common/loading/view-models/Loading';
+import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
+import ChanLe from '../../games/chan-le/view-models/ChanLe';
+import KenoProViet from '../../games/mini-keno/view-models/KenoProViet';
+import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
+import RongHo from '../../games/rong-ho/view-models/RongHo';
+import SpecialSeDie from '../../games/special-sedie/view-models/SpecialSeDie';
+import * as SabaConfigs from '../../SabaConfigs';
+import * as authManager from './../../common/auth/AuthManager';
+import GameIconLayout from './GameIconLayout';
+import MiniPanelDataHandlers from './MiniPanelDataHandlers';
+import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
+import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -210,7 +210,7 @@ export default class MiniPanel extends cc.Component {
     authManager.removeInRoomGameId();
 
     if (!cc.RedT.isConnected) {
-      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === id);
+      const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === id);
       const gameName = SabaConfigs.games[key].name;
       this.onConnectSocketFailed(gameName);
       return;
@@ -256,7 +256,7 @@ export default class MiniPanel extends cc.Component {
     var message = '';
 
     if (error.gameTypeId) {
-      const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === error.gameTypeId);
+      const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === error.gameTypeId);
       const gameName = SabaConfigs.games[key].name;
       message += `Game ${gameName} (#${error.gameRoundId})\r\n`;
     }
@@ -273,11 +273,7 @@ export default class MiniPanel extends cc.Component {
     return notice;
   }
 
-  showNotice(
-    noticeData: NoticeData,
-    handleClickButton = null,
-    handleClose = null
-  ) {
+  showNotice(noticeData: NoticeData, handleClickButton = null, handleClose = null) {
     var noticePrefab = cc.instantiate(this.noticePrefab);
     var notice = noticePrefab.getComponent('Notice') as Notice;
 
@@ -304,7 +300,7 @@ export default class MiniPanel extends cc.Component {
     if (!this.node || !this.node.isValid) {
       return;
     }
-    let handleCloseNotice = () => isGameRoom && this.redirectToLobby();
+    const handleCloseNotice = () => isGameRoom && this.redirectToLobby();
 
     this.showNotice(
       <NoticeData>{

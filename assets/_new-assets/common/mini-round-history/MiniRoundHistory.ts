@@ -21,7 +21,7 @@ export default class MiniRoundHistory extends cc.Component {
     onEnter: (node: cc.Node) => {
       this.selectedNode = node;
       this.tip.node.position = cc.v2(node.x, this.tip.node.y);
-      let data = node.getComponent(MiniRoundHistoryItem).data;
+      const data = node.getComponent(MiniRoundHistoryItem).data;
       this.tip.setData(data);
       this.tip.show();
     },
@@ -58,7 +58,7 @@ export default class MiniRoundHistory extends cc.Component {
       if (index >= data.length) {
         return;
       }
-      let value = data[index];
+      const value = data[index];
       item.setData(value);
       this.handleNextDot(index, item);
       item.node.active = true;
@@ -74,7 +74,7 @@ export default class MiniRoundHistory extends cc.Component {
 
       // ignore first node, when the next node active
       if (index > 0) {
-        let value = data[index - 1];
+        const value = data[index - 1];
         item.setData(value);
         item.node.active = true;
       }

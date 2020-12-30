@@ -37,7 +37,7 @@ export default class RouletteQuickBet extends cc.Component {
         const padding = 2;
         const neighbors = [];
         for (let i = centerIndex - padding; i <= centerIndex + padding; i++) {
-            let index = (i + array.length) % array.length;
+            const index = (i + array.length) % array.length;
             neighbors.push(array[index]);
         }
         return neighbors;

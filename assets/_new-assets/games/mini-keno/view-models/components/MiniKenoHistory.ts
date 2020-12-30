@@ -82,7 +82,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
                 const betLog = data.betLogs[index];
                 const { phien, betLogDetails, betwin, result, settlementResult } = betLog;
                 const node = cc.instantiate(this.prefabItem);
-                let item: MiniKenoHistoryItem = node.getComponent("MiniKenoHistoryItem");
+                const item: MiniKenoHistoryItem = node.getComponent("MiniKenoHistoryItem");
                 item.init(this);
                 item.node.active = true;
                 item.result = result;
@@ -119,7 +119,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
     }
 
     showHistoryDetail(round, result, settlementResult, betLogDetails) {
-        let dialog = cc.instantiate(this.prefabRoundResult);
+        const dialog = cc.instantiate(this.prefabRoundResult);
         this.historyDetail = dialog.getComponent("MiniKenoHistoryDetail");
         this.historyDetail.roundId.string = round;
         this.historyDetail.roundLabel.string = this.isKenoProViet() ? "Kỳ vé:" : "Phiên:";

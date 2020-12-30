@@ -58,8 +58,8 @@ export default class KenoUserHistory extends cc.Component {
         for (let i = 0; i < data.betLogs.length; i++) {
             var dataT = data.betLogs[i];
             if (void 0 !== dataT) {
-                let historyItemPrefab = cc.instantiate(this.prefabItem);
-                let item = historyItemPrefab.getComponent("KenoUserHistoryItem") as KenoUserHistoryItem;
+                const historyItemPrefab = cc.instantiate(this.prefabItem);
+                const item = historyItemPrefab.getComponent("KenoUserHistoryItem") as KenoUserHistoryItem;
                 item.init(this);
                 item.node.active = true
                 item.time.string = getStringDateByTime(dataT.time);
@@ -74,7 +74,7 @@ export default class KenoUserHistory extends cc.Component {
                     total += result[i];
                 };
 
-                let settlementResult = dataT.settlementResult;
+                const settlementResult = dataT.settlementResult;
                 item.settlementResult = settlementResult;
                 Object.keys(settlementResult).forEach(key => {
                     if (settlementResult[key]) {
@@ -106,7 +106,7 @@ export default class KenoUserHistory extends cc.Component {
     }
 
     public showRoundResult(round, total: number, result: number[], settlementResult: any) {
-        let dialog = cc.instantiate(this.prefabRoundResult);
+        const dialog = cc.instantiate(this.prefabRoundResult);
         this.roundResult = dialog.getComponent("KenoRoundResult");
         this.roundResult.round.string = round;
         this.node.addChild(dialog);

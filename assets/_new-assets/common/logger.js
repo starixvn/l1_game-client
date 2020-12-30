@@ -22,7 +22,7 @@ export const sentryLogger = {
             sentryLogger.sentryUrl = configs.sentryUrl;
 
             if (sentryLogger.isEnabled() && document.head && !document.getElementById('sentry-logger')) {
-                let sentryScript = document.createElement('script');
+                const sentryScript = document.createElement('script');
 
                 sentryScript.setAttribute('id', 'sentry-logger');
                 sentryScript.setAttribute('src', 'https://browser.sentry-cdn.com/5.15.0/bundle.min.js');

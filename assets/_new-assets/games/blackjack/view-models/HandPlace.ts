@@ -82,7 +82,7 @@ export default class HandPlace extends cc.Component {
         const firstValues = BlackJackUtils.getValues(cards[0].rank);
         const secondValues = BlackJackUtils.getValues(cards[1].rank);
         let isEqual = false;
-        for (let value of firstValues) {
+        for (const value of firstValues) {
             if (secondValues.includes(value)) {
                 isEqual = true;
                 break;

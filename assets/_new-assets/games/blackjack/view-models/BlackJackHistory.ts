@@ -49,9 +49,9 @@ export default class BlackJackHistory extends cc.Component {
         this.content.children.forEach(child => child.destroy());
 
         data.betLogs.forEach(log => {
-            let historyItemPrefab = cc.instantiate(this.itemPrefab);
-            let item = historyItemPrefab.getComponent(BlackJackHistoryItem);
-            let isSplit = log.splitFrom || log.actions.includes("split");
+            const historyItemPrefab = cc.instantiate(this.itemPrefab);
+            const item = historyItemPrefab.getComponent(BlackJackHistoryItem);
+            const isSplit = log.splitFrom || log.actions.includes("split");
             item.time.string = getStringDateByTime(log.time);
             item.time.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
@@ -78,8 +78,8 @@ export default class BlackJackHistory extends cc.Component {
 
     initCards(cards: any, cardsNode: cc.Node) {
         cards.forEach(playerCard => {
-            let node = cc.instantiate(this.cardPrefab);
-            let cardComponent = node.getComponent(NewCard);
+            const node = cc.instantiate(this.cardPrefab);
+            const cardComponent = node.getComponent(NewCard);
 
             cardComponent.setCard(playerCard);
             cardComponent.faceUp();

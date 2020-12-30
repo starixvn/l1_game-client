@@ -52,8 +52,8 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
         this.main.animatedTime.node.active = false;
         this.main.showProcessingWarning(false);
 
-        let shakingDuration = 2;
-        let shakeTimePoint = this.main.config.betTime + shakingDuration;
+        const shakingDuration = 2;
+        const shakeTimePoint = this.main.config.betTime + shakingDuration;
 
         if (this.main.currentTimeRemaining > shakeTimePoint) {
             this.main.setGameRound(this.main.roundId - 1);

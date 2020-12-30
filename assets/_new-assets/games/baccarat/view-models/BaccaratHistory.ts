@@ -67,8 +67,8 @@ export default class BaccaratHistory extends cc.Component {
             const historyItemData = data.betLogs[i];
 
             if (historyItemData) {
-                let historyItemPrefab = cc.instantiate(this.prefabItem);
-                let item = historyItemPrefab.getComponent(BaccaratHistoryItem);
+                const historyItemPrefab = cc.instantiate(this.prefabItem);
+                const item = historyItemPrefab.getComponent(BaccaratHistoryItem);
                 item.node.active = true
                 this.content.addChild(historyItemPrefab);
 

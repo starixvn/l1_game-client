@@ -5,18 +5,18 @@ cc.Class({
     avatar: cc.Sprite,
     nodeUsers: {
       default: null,
-      type: cc.Node
+      type: cc.Node,
     },
     userName: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     userRed: {
       default: null,
-      type: cc.Label
+      type: cc.Label,
     },
     maskFull: 0,
-    NoticePrefab: cc.Prefab
+    NoticePrefab: cc.Prefab,
   },
   onLoad() {
     if (cc.RedT.IS_LOGIN) {
@@ -29,16 +29,16 @@ cc.Class({
     this.nodeUsers.active = true;
   },
   isSignOut: function () {
-    this.userName.string = this.userRed.string = "";
+    this.userName.string = this.userRed.string = '';
     this.nodeUsers.active = false;
   },
   setAvatar: function (avatarId) {
-    let self = this;
-    cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
+    const self = this;
+    cc.loader.loadRes('profile-picture', cc.SpriteAtlas, function (err, atlas) {
       if (self && self.avatar) {
-        let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+        const frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
         self.avatar.spriteFrame = frame;
       }
     });
-  }
+  },
 });

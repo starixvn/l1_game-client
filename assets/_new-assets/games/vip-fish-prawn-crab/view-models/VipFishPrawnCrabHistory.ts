@@ -31,7 +31,9 @@ export default class VipFishPrawnCrabHistory extends cc.Component {
     this.pagination.init(this);
 
     const commonDialog = this.mainFrame.getComponent('CommonDialog');
-    commonDialog.onDidHide = () => { this.node.destroy(); };
+    commonDialog.onDidHide = () => {
+      this.node.destroy();
+    };
   }
 
   onEnable() {
@@ -39,7 +41,7 @@ export default class VipFishPrawnCrabHistory extends cc.Component {
   }
 
   get_data(page = 1) {
-    this.socket && this.socket.connected && this.socket.emit("getHistory", { page: page });
+    this.socket && this.socket.connected && this.socket.emit('getHistory', { page: page });
   }
 
   onData(data) {
@@ -49,8 +51,8 @@ export default class VipFishPrawnCrabHistory extends cc.Component {
 
     if (betLogs && betLogs.length) {
       betLogs.forEach((betLog, index) => {
-        let itemNode = cc.instantiate(this.itemPrefab);
-        let item = itemNode.getComponent(VipFishPrawnCrabHistoryItem);
+        const itemNode = cc.instantiate(this.itemPrefab);
+        const item = itemNode.getComponent(VipFishPrawnCrabHistoryItem);
         item.node.active = true;
         item.background.active = index % 2 > 0;
 

@@ -47,8 +47,8 @@ export default class RongHoHistory extends cc.Component {
         for (let i = 0; i < data.data.length; i++) {
             var dataT = data.data[i];
             if (void 0 !== dataT) {
-                let historyItemPrefab = cc.instantiate(this.prefabItem);
-                let item = historyItemPrefab.getComponent("RongHoHistoryItem") as RongHoHistoryItem;
+                const historyItemPrefab = cc.instantiate(this.prefabItem);
+                const item = historyItemPrefab.getComponent("RongHoHistoryItem") as RongHoHistoryItem;
                 item.node.active = true
                 item.time.string = getStringDateByTime(dataT.time);
                 item.round.string = dataT.phien;

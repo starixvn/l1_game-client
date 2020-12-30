@@ -32,9 +32,9 @@ export default class VipBaccaratLogsHandler extends BaccaratLogsHandler {
   }
 
   public convertLogsDataLogs(dataLogs: any) {
-    let logs = [];
+    const logs = [];
     dataLogs.forEach((element: any) => {
-      let data = {
+      const data = {
         banker: {},
         player: {},
         result: {},

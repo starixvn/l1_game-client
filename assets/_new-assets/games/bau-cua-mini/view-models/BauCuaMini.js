@@ -1,6 +1,6 @@
-var helper = require("Helper");
-var BauCua_linhVat = require("BauCuaMascot");
-var BCConstants = require("BCConstants");
+var helper = require('Helper');
+var BauCua_linhVat = require('BauCuaMascot');
+var BCConstants = require('BCConstants');
 
 cc.Class({
   extends: cc.Component,
@@ -9,27 +9,27 @@ cc.Class({
     background: cc.Node,
     linhVat: {
       default: [],
-      type: BauCua_linhVat
+      type: BauCua_linhVat,
     },
 
     iconMini: {
       default: [],
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
 
     iconLV: {
       default: [],
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
 
     dices: {
       default: [],
-      type: cc.Sprite
+      type: cc.Sprite,
     },
 
     chipSprites: {
       default: [],
-      type: cc.SpriteFrame
+      type: cc.SpriteFrame,
     },
 
     logHuou: cc.Label,
@@ -56,7 +56,7 @@ cc.Class({
     prefabNotice: cc.Prefab,
     center: cc.Node,
 
-    cuoc: "",
+    cuoc: '',
     red: true,
     topDialog: cc.Prefab,
     historyDialog: cc.Prefab,
@@ -66,11 +66,11 @@ cc.Class({
     oddThree: cc.Label,
     gameAudiosPrefab: {
       default: null,
-      type: cc.Prefab
+      type: cc.Prefab,
     },
     guidePrefab: cc.Prefab,
     betChipsContainer: cc.Node,
-    betChipsPrefab: cc.Prefab
+    betChipsPrefab: cc.Prefab,
   },
   init(gameName, obj) {
     this.gameName = gameName;
@@ -83,8 +83,8 @@ cc.Class({
     this.gameAudios = null;
     this.betChips = null;
 
-    var check = cc.sys.localStorage.getItem("bauCua");
-    if (check == "true") {
+    var check = cc.sys.localStorage.getItem('bauCua');
+    if (check == 'true') {
       this.node.active = true;
     }
 
@@ -106,12 +106,9 @@ cc.Class({
       }
     }
 
-
     this.betChipList = [];
-    this.localPhien = "";
+    this.localPhien = '';
     this.localResultDices = [];
-
-
   },
   initSettingBauCua() {
     cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
@@ -132,16 +129,16 @@ cc.Class({
       },
       logLV: {},
       red: true,
-      bet: "1"
+      bet: '1',
     };
   },
   onGameShow() {
     var data = {
       g: {
         baucua: {
-          regOpen: true
-        }
-      }
+          regOpen: true,
+        },
+      },
     };
     cc.RedT.send(data);
   },
@@ -149,13 +146,13 @@ cc.Class({
     this.timeInterval && clearInterval(this.timeInterval);
     this.animatedTime.node.active = false;
     this.waitedTime.node.parent.active = false;
-    this.phienLabel.string = "";
+    this.phienLabel.string = '';
     this.hideAllDices();
     this.unSelect();
     this.resetStateAllSlot();
     this.clearCuocAllSlot();
     this.statusTimeout && clearTimeout(this.statusTimeout);
-    this.notice.children.forEach(child => child.active = false); //hide all notice
+    this.notice.children.forEach((child) => (child.active = false)); //hide all notice
   },
   onSignIn() {
     if (!this.node.active) {
@@ -182,10 +179,10 @@ cc.Class({
   },
   initGameAudios: function () {
     var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
-    this.gameAudios = gameAudiosNode.getComponent("GameAudios");
+    this.gameAudios = gameAudiosNode.getComponent('GameAudios');
   },
   onEnable: function () {
-    this.Animation.on("finished", this.addLogs, this);
+    this.Animation.on('finished', this.addLogs, this);
     this.regEvent(true);
     this.background.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
     this.background.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
@@ -197,7 +194,7 @@ cc.Class({
     this.observeData();
   },
   onDisable: function () {
-    this.Animation.off("finished");
+    this.Animation.off('finished');
     this.onGameHide();
     this.regEvent(false);
     this.background.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -237,32 +234,26 @@ cc.Class({
           baucua: {
             view: true,
             regOpen: true,
-            get_odd: true
-          }
-        }
+            get_odd: true,
+          },
+        },
       });
     } else {
       cc.RedT.send({
         g: {
           baucua: {
-            view: false
-          }
-        }
+            view: false,
+          },
+        },
       });
     }
   },
   eventStart: function (e) {
     this.setTop();
-    this.ttOffset = cc.v2(
-      e.touch.getLocationX() - this.node.position.x,
-      e.touch.getLocationY() - this.node.position.y
-    );
+    this.ttOffset = cc.v2(e.touch.getLocationX() - this.node.position.x, e.touch.getLocationY() - this.node.position.y);
   },
   eventMove: function (e) {
-    this.node.position = cc.v2(
-      e.touch.getLocationX() - this.ttOffset.x,
-      e.touch.getLocationY() - this.ttOffset.y
-    );
+    this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
   },
   eventEnd: function () {
     cc.RedT.setting.baucua.position = this.node.position;
@@ -273,7 +264,7 @@ cc.Class({
       this.clearCuocAllSlot();
       this.showUMWarning(this.disabled);
     }
-    cc.sys.localStorage.setItem("bauCua", true);
+    cc.sys.localStorage.setItem('bauCua', true);
   },
   showUMWarning(show) {
     if (this.umWarning) {
@@ -283,14 +274,14 @@ cc.Class({
   closeGame: function () {
     cc.RedT.audio.playUnClick();
     this.node.active = !1;
-    cc.sys.localStorage.setItem("bauCua", false);
+    cc.sys.localStorage.setItem('bauCua', false);
   },
   pressedTopDialog() {
     cc.RedT.audio.playClick();
 
     var dialog = cc.instantiate(this.topDialog);
     this.miniPanel.dialog.insertChild(dialog);
-    this.Top = dialog.getComponent("BauCuaTop");
+    this.Top = dialog.getComponent('BauCuaTop');
     this.Top.init(this);
   },
   pressedShowScoreBoard() {
@@ -302,7 +293,7 @@ cc.Class({
 
     var dialog = cc.instantiate(this.historyDialog);
     this.miniPanel.dialog.insertChild(dialog);
-    this.LichSu = dialog.getComponent("BauCuaHistory");
+    this.LichSu = dialog.getComponent('BauCuaHistory');
     this.LichSu.init(this);
   },
   pressedShowGuide() {
@@ -317,8 +308,7 @@ cc.Class({
     this.red = !this.red;
     this.nodeRed.active = !this.nodeRed.active;
     this.nodeXu.active = !this.nodeXu.active;
-    cc.RedT.setting.baucua.regOpen &&
-      this.DataHandling(cc.RedT.setting.baucua.data);
+    cc.RedT.setting.baucua.regOpen && this.DataHandling(cc.RedT.setting.baucua.data);
     cc.RedT.setting.baucua.red = this.red;
     //this.onGetHu();
   },
@@ -348,7 +338,7 @@ cc.Class({
       var node = cc.instantiate(this.processWarningPrefab);
       node.position = this.center.position;
       this.node.addChild(node);
-      this.processingWarning = node.getComponent("ProcessingWarning");
+      this.processingWarning = node.getComponent('ProcessingWarning');
     } else {
       if (this.processingWarning === null) {
         return;
@@ -374,20 +364,20 @@ cc.Class({
           cuoc: {
             cuoc: this.cuoc,
             red: this.red,
-            linhVat: linhVat
-          }
-        }
-      }
+            linhVat: linhVat,
+          },
+        },
+      },
     });
   },
   addNotice: function (text) {
     var notice = cc.instantiate(this.prefabNotice);
-    var noticeComponent = notice.getComponent("mini_warning");
+    var noticeComponent = notice.getComponent('mini_warning');
     noticeComponent.text.string = text;
     this.notice.addChild(notice);
   },
   hideAllDices: function () {
-    this.dices.forEach(dice => {
+    this.dices.forEach((dice) => {
       dice.node.active = false;
     });
   },
@@ -415,7 +405,7 @@ cc.Class({
       LinhVat[log[1]] += 1;
       LinhVat[log[2]] += 1;
       var node = cc.instantiate(self.prefabLogs);
-      var nodeComponent = node.getComponent("BauCua_logMini");
+      var nodeComponent = node.getComponent('BauCua_logMini');
       nodeComponent.icon.forEach(function (sp, i) {
         sp.spriteFrame = self.iconMini[log[i]];
       });
@@ -427,7 +417,7 @@ cc.Class({
   },
   addChipThrowAnimation(chipCuoc) {
     var list = [1, 5, 10, 50, 100, 200];
-    var spriteIndex = list.findIndex(i => i === chipCuoc.chip);
+    var spriteIndex = list.findIndex((i) => i === chipCuoc.chip);
     if (spriteIndex === -1) {
       return;
     }
@@ -436,7 +426,7 @@ cc.Class({
     this.node.addChild(node);
     this.betChipList.push(node);
 
-    var chipBet = this.bet.children.find(obj => obj.name == chipCuoc.chip);
+    var chipBet = this.bet.children.find((obj) => obj.name == chipCuoc.chip);
     var totalNode = this.userCountLabel.node;
     if (chipCuoc.ownChip) {
       node.position = this.node.convertToNodeSpaceAR(chipBet.parent.convertToWorldSpaceAR(chipBet.position));
@@ -452,7 +442,7 @@ cc.Class({
     linhvatPos = linhvatPos.add(cc.v2(linhvatNode.width * (-0.5 + padding + randomX), linhvatNode.height * (-0.5 + padding + randomY)));
     cc.tween(node)
       .to(0.2, {
-        position: cc.v2(linhvatPos.x, linhvatPos.y)
+        position: cc.v2(linhvatPos.x, linhvatPos.y),
       })
       .start();
   },
@@ -530,13 +520,8 @@ cc.Class({
         // Huỷ đếm
         void 0 !== this.timeInterval && clearInterval(this.timeInterval);
         // Thêm kết quả
-        cc.RedT.setting.baucua.logs.unshift([
-          data.finish.dices[0],
-          data.finish.dices[1],
-          data.finish.dices[2]
-        ]);
-        cc.RedT.setting.baucua.logs.length > BCConstants.limitLog &&
-          cc.RedT.setting.baucua.logs.pop();
+        cc.RedT.setting.baucua.logs.unshift([data.finish.dices[0], data.finish.dices[1], data.finish.dices[2]]);
+        cc.RedT.setting.baucua.logs.length > BCConstants.limitLog && cc.RedT.setting.baucua.logs.pop();
 
         this.localResultDices = [...data.finish.dices];
         this.setDice(this.localResultDices);
@@ -547,7 +532,7 @@ cc.Class({
         } else {
           //force play the end
           var duration = this.Animation.defaultClip.duration;
-          this.Animation.play("BauCua_plate", duration - 1);
+          this.Animation.play('BauCua_plate', duration - 1);
         }
       }
       cc.RedT.setting.baucua.time_remain = BCConstants.betTime + BCConstants.timeToNext + 2;
@@ -566,9 +551,9 @@ cc.Class({
     cc.RedT.send({
       g: {
         baucua: {
-          get_odd: true
-        }
-      }
+          get_odd: true,
+        },
+      },
     });
   },
   updateOddLabels: function () {
@@ -584,10 +569,10 @@ cc.Class({
     this.oddThree.string = `1:${odds[2]}`;
   },
   setPhien(phien) {
-    if (phien == "") {
-      this.phienLabel.string = "";
+    if (phien == '') {
+      this.phienLabel.string = '';
     } else {
-      this.phienLabel.string = "#" + phien;
+      this.phienLabel.string = '#' + phien;
     }
   },
   clearCuocAllSlot: function () {
@@ -604,7 +589,7 @@ cc.Class({
     for (var i = 0; i < this.linhVat.length; ++i) {
       this.linhVat[i].updateState(false);
     }
-    dices.forEach(i => {
+    dices.forEach((i) => {
       this.linhVat[i].updateState(true);
     });
   },
@@ -616,18 +601,15 @@ cc.Class({
     void 0 !== this.timeInterval && clearInterval(this.timeInterval);
     this.timeInterval = setInterval(
       function () {
-        if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
+        if (cc.RedT.setting.baucua.time_remain > BCConstants.betTime + 1) {
           this.waitingCuoc = false;
           //count down to next round
-          let time = helper.numberPad(
-            cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2),
-            2
-          );
+          const time = helper.numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
           this.animatedTime.node.active = false;
-          this.waitedTime.string = time == "00" ? '' : "00:" + time;
-          this.waitedTime.node.parent.active = true && time != "00";
+          this.waitedTime.string = time == '00' ? '' : '00:' + time;
+          this.waitedTime.node.parent.active = true && time != '00';
 
-          this.localPhien !== "" && this.setPhien(this.localPhien - 1);
+          this.localPhien !== '' && this.setPhien(this.localPhien - 1);
 
           if (this.localResultDices.length > 0) {
             var dices = this.localResultDices;
@@ -642,10 +624,7 @@ cc.Class({
           this.resetStateAllSlot();
           this.hideAllDices();
 
-          if (
-            cc.RedT.setting.baucua.regOpen &&
-            cc.RedT.setting.baucua.time_remain == (BCConstants.betTime + 1)
-          ) {
+          if (cc.RedT.setting.baucua.regOpen && cc.RedT.setting.baucua.time_remain == BCConstants.betTime + 1) {
             this.resetGame();
             if (this.disabled) {
               this.animatedTime.node.active = false;
@@ -656,15 +635,13 @@ cc.Class({
           }
 
           if (cc.RedT.setting.baucua.time_remain > 1) {
-            let time = helper.numberPad(
-              cc.RedT.setting.baucua.time_remain - 1,
-              2
-            );
+            const time = helper.numberPad(cc.RedT.setting.baucua.time_remain - 1, 2);
 
             this.animatedTime.node.active = true;
             this.animatedTime.setTime(time);
-
-          } else clearInterval(this.timeInterval);
+          } else {
+            clearInterval(this.timeInterval);
+          }
         }
         cc.RedT.setting.baucua.time_remain--;
       }.bind(this),
@@ -672,7 +649,7 @@ cc.Class({
     );
   },
   nextRealTime: function () {
-    if (cc.RedT.setting.baucua.time_remain > (BCConstants.betTime + 1)) {
+    if (cc.RedT.setting.baucua.time_remain > BCConstants.betTime + 1) {
       var time = helper.numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
       this.animatedTime.setTime(helper.numberPad(time, 2), true);
     } else {
@@ -734,7 +711,7 @@ cc.Class({
   unSelect: function () {
     this.linhVat.forEach(function (linhVat) {
       linhVat.unSelect();
-    })
+    });
   },
   resetGame: function () {
     var data = Object.keys(cc.RedT.setting.baucua.data);
@@ -760,7 +737,7 @@ cc.Class({
     var temp = new cc.Node();
     temp.addComponent(cc.Label);
     temp = temp.getComponent(cc.Label);
-    temp.string = (win ? "+" : "-") + helper.numberWithCommas(value);
+    temp.string = (win ? '+' : '-') + helper.numberWithCommas(value);
     temp.font = win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
     temp.lineHeight = 130;
     temp.fontSize = 30;
@@ -785,8 +762,8 @@ cc.Class({
           this.addFlyingText(data.win, data.bet, 4);
           cc.RedT.send({
             user: {
-              updateCoin: true
-            }
+              updateCoin: true,
+            },
           });
         }
 
@@ -794,7 +771,7 @@ cc.Class({
           var thuong = new cc.Node();
           thuong.addComponent(cc.Label);
           thuong = thuong.getComponent(cc.Label);
-          thuong.string = "+" + helper.numberWithCommas(data.thuong);
+          thuong.string = '+' + helper.numberWithCommas(data.thuong);
           thuong.font = cc.RedT.util.fontEffect;
           thuong.lineHeight = 90;
           thuong.fontSize = 14;
@@ -814,10 +791,10 @@ cc.Class({
   },
   initBetChips() {
     var betChipsNode = cc.instantiate(this.betChipsPrefab);
-    this.betChips = betChipsNode.getComponent("BetChips");
+    this.betChips = betChipsNode.getComponent('BetChips');
     this.betChips.init((bet) => {
       this.cuoc = parseInt(bet);
     });
     this.betChipsContainer.addChild(betChipsNode);
-  }
+  },
 });

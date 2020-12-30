@@ -53,7 +53,7 @@ export default class BetItem extends cc.Component {
 
         if (data.ownBets) {
             const ownBetsKeys = getLowercaseObjectKeys(data.ownBets);
-            let ownBet = data.ownBets[ownBetsKeys[this.node.name.toLowerCase()]];
+            const ownBet = data.ownBets[ownBetsKeys[this.node.name.toLowerCase()]];
             ownBet && this.setOwnBet(ownBet);
         }
     }

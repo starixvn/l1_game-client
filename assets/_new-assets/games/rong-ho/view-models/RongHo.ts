@@ -424,7 +424,7 @@ export default class RongHo extends cc.Component {
   onData(data: any) {
     //this.dataHandlers.forEach(handler => handler.handle(data));
     for (let index = 0; index < this.dataHandlers.length; index++) {
-      let handler = this.dataHandlers[index];
+      const handler = this.dataHandlers[index];
       if (index == 0 && handler.handle(data)) {
         break;
       } else {
@@ -540,8 +540,8 @@ export default class RongHo extends cc.Component {
     const logControlData = [];
     const result = [];
     this.logs.forEach((log, index) => {
-      let cards = log.result;
-      let winItem = RongHo.getWinItem(cards);
+      const cards = log.result;
+      const winItem = RongHo.getWinItem(cards);
       result.push(winItem);
 
       switch (winItem) {

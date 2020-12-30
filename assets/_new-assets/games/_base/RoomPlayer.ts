@@ -65,10 +65,10 @@ export default class RoomPlayer extends cc.Component {
     }
 
     setAvatar(avatarId) {
-        let self = this;
+        const self = this;
 
         cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
-            let frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
+            const frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
 
             if (self && self.avatar) {
                 self.avatar.spriteFrame = frame;

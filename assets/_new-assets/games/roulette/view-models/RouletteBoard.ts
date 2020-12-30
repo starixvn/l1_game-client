@@ -120,8 +120,8 @@ export default class RouletteBoard extends cc.Component {
     showBetDetailTips() {
         this.hideBetDetailTips();
         let i = 0;
-        for (let type in this.betChoices) {
-            for (let key in this.betChoices[type]) {
+        for (const type in this.betChoices) {
+            for (const key in this.betChoices[type]) {
                 const bet = this.betChoices[type][key];
                 const node = this.getBetNodeByKey(type, key);
 
@@ -301,8 +301,8 @@ export default class RouletteBoard extends cc.Component {
         }
 
         const betChoicesContent = other ? this.otherBetChoices : this.betChoices;
-        for (let type in betChoicesContent) {
-            for (let key in betChoicesContent[type]) {
+        for (const type in betChoicesContent) {
+            for (const key in betChoicesContent[type]) {
                 const bet = betChoicesContent[type][key];
                 const highlight = !currentBetChoices[type] || !currentBetChoices[type][key] || currentBetChoices[type][key] != bet;
                 this.placeChipsByKey(type, key, bet, highlight, other);

@@ -133,7 +133,7 @@ cc.Class({
     this.TXRoot.board && cc.sys.isBrowser && this.removeEvent();
   },
   addEvent: function () {
-    for (let t in this.editboxs) {
+    for (const t in this.editboxs) {
       BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).addEventListener(
         "keydown",
         this.keyHandle,
@@ -142,7 +142,7 @@ cc.Class({
     }
   },
   removeEvent: function () {
-    for (let t in this.editboxs) {
+    for (const t in this.editboxs) {
       BrowserUtil.getHTMLElementByEditBox(this.editboxs[t]).removeEventListener(
         "keydown",
         this.keyHandle,

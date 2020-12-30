@@ -38,10 +38,10 @@ cc.Class({
     }
   },
   addMarqueeMessage: function (message) {
-    let node = new cc.Node();
+    const node = new cc.Node();
     node.color = node.color.fromHEX(this.colors[Math.floor(Math.random() * 3)]);
     node.addComponent(cc.Label);
-    let label = node.getComponent(cc.Label);
+    const label = node.getComponent(cc.Label);
     label.font = this.marqueeFont;
     label.string = message;
     label.lineHeight = 47;

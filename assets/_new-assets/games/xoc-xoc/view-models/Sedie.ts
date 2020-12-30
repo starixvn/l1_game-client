@@ -135,14 +135,14 @@ export default class Sedie extends NewSocketGameBase {
   }
 
   openGuide() {
-    let dialog = cc.instantiate(this.guidePrefab);
+    const dialog = cc.instantiate(this.guidePrefab);
     const guide = dialog.getComponent(SedieGuide);
     guide.init(this.gameConfigs);
     this.currentMiniPanel.node.addChild(dialog);
   }
 
   openHistory() {
-    let dialog = cc.instantiate(this.historyPrefab);
+    const dialog = cc.instantiate(this.historyPrefab);
     this.historyComponent = dialog.getComponent(SedieHistory);
     this.historyComponent.init(this.socket);
     this.currentMiniPanel.node.addChild(dialog);

@@ -98,13 +98,13 @@ export default class SpecialSedieBetHistory extends cc.Component {
 
     even &&
       even.forEach((user) => {
-        let item = this.addItem(user);
+        const item = this.addItem(user);
         this.evenContent.addChild(item);
       });
 
     odd &&
       odd.forEach((user) => {
-        let item = this.addItem(user);
+        const item = this.addItem(user);
         this.oddContent.addChild(item);
       });
 
@@ -119,10 +119,10 @@ export default class SpecialSedieBetHistory extends cc.Component {
   }
 
   addItem(data: any) {
-    let item = cc.instantiate(this.itemPrefab);
-    let itemComponent = item.getComponent(SpecialSedieBetHistoryItem);
+    const item = cc.instantiate(this.itemPrefab);
+    const itemComponent = item.getComponent(SpecialSedieBetHistoryItem);
 
-    let isLoginUser = data.name == cc.RedT.user.name;
+    const isLoginUser = data.name == cc.RedT.user.name;
     itemComponent.highlight.active = isLoginUser;
     itemComponent.time.string = getStringHourByTime(data.time);
     itemComponent.username.string = isLoginUser ? data.name : shortenName(data.name);

@@ -13,84 +13,89 @@ export function checkPhoneValid(phone) {
 export function nFormatter(t, e) {
   for (
     var i = [
-      {
-        value: 1e18,
-        symbol: "E"
-      },
-      {
-        value: 1e15,
-        symbol: "P"
-      },
-      {
-        value: 1e12,
-        symbol: "T"
-      },
-      {
-        value: 1e9,
-        symbol: "G"
-      },
-      {
-        value: 1e6,
-        symbol: "M"
-      },
-      {
-        value: 1e3,
-        symbol: "k"
-      }
-    ],
-    o = /\.0+$|(\.[0-9]*[1-9])0+$/,
-    n = 0;
+        {
+          value: 1e18,
+          symbol: 'E',
+        },
+        {
+          value: 1e15,
+          symbol: 'P',
+        },
+        {
+          value: 1e12,
+          symbol: 'T',
+        },
+        {
+          value: 1e9,
+          symbol: 'G',
+        },
+        {
+          value: 1e6,
+          symbol: 'M',
+        },
+        {
+          value: 1e3,
+          symbol: 'k',
+        },
+      ],
+      o = /\.0+$|(\.[0-9]*[1-9])0+$/,
+      n = 0;
     n < i.length;
     n++
-  )
-    if (t >= i[n].value)
-      return (t / i[n].value).toFixed(e).replace(o, "$1") + i[n].symbol;
-  return t.toFixed(e).replace(o, "$1");
+  ) {
+    if (t >= i[n].value) {
+      return (t / i[n].value).toFixed(e).replace(o, '$1') + i[n].symbol;
+    }
+  }
+
+  return t.toFixed(e).replace(o, '$1');
 }
 
 export function numberWithCommas(number, toFixed = 2) {
   if (number) {
-    var result = (number = parseFloat(number)).toFixed(toFixed).toString().split(".");
-    result[0] = result[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    var result = (number = parseFloat(number)).toFixed(toFixed).toString().split('.');
+    result[0] = result[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-    return +result[1] !== 0 ? result.join(".") : result[0];
+    return +result[1] !== 0 ? result.join('.') : result[0];
   }
-  return "0";
+  return '0';
 }
 
 export function getOnlyNumberInString(t) {
   var e = t.match(/\d+/g);
-  return e ? e.join("") : "";
+  return e ? e.join('') : '';
 }
 
 export function numberToTime(t) {
   t < 0 && (t = 0), (t = parseInt(t));
   let e = parseInt(t / 60),
     i = t % 60;
-  return e < 10 && (e = "0" + e), i < 10 && (i = "0" + i), e + ":" + i;
+  return e < 10 && (e = '0' + e), i < 10 && (i = '0' + i), e + ':' + i;
 }
 
 export function numberPad(number, length) {
-  let str = "" + number;
-  while (str.length < length) str = "0" + str;
+  let str = '' + number;
+  while (str.length < length) {
+    str = '0' + str;
+  }
   return str;
 }
 
 export function inputNumber(obj) {
   var onShift = false;
-  obj.addEventListener("keydown", function (e) {
+  obj.addEventListener('keydown', function (e) {
     if (e.keyCode === 16) {
       e.preventDefault();
       onShift = true;
     }
   });
-  obj.addEventListener("keyup", function (e) {
+  obj.addEventListener('keyup', function (e) {
     if (e.keyCode === 16) {
       e.preventDefault();
       onShift = false;
     }
   });
-  obj.addEventListener("keydown", function (e) {
+  obj.addEventListener('keydown', function (e) {
     if (
       !onShift &&
       ((e.keyCode >= 48 && e.keyCode <= 57) ||
@@ -127,7 +132,9 @@ export function numberTo(obj, start, end, duration, currency = false) {
       if (value == end) {
         clearInterval(obj.timer);
       }
-    } else clearInterval(obj.timer);
+    } else {
+      clearInterval(obj.timer);
+    }
   }, stepTime);
 }
 
@@ -138,11 +145,11 @@ export function getStringDateByTime(t) {
     n = e.getDate(),
     s = e.getMonth() + 1;
   return (
-    i < 10 && (i = "0" + i),
-    o < 10 && (o = "0" + o),
-    n < 10 && (n = "0" + n),
-    s < 10 && (s = "0" + s),
-    i + ":" + o + " " + n + "/" + s + "/" + e.getFullYear()
+    i < 10 && (i = '0' + i),
+    o < 10 && (o = '0' + o),
+    n < 10 && (n = '0' + n),
+    s < 10 && (s = '0' + s),
+    i + ':' + o + ' ' + n + '/' + s + '/' + e.getFullYear()
   );
 }
 
@@ -154,18 +161,18 @@ export function formatDateTime(t) {
     n = e.getDate(),
     s = e.getMonth() + 1;
   return (
-    i < 10 && (i = "0" + i),
-    o < 10 && (o = "0" + o),
-    sc < 10 && (sc = "0" + sc),
-    n < 10 && (n = "0" + n),
-    s < 10 && (s = "0" + s),
-    i + ":" + o + ":" + sc + " " + n + "/" + s + "/" + e.getFullYear()
+    i < 10 && (i = '0' + i),
+    o < 10 && (o = '0' + o),
+    sc < 10 && (sc = '0' + sc),
+    n < 10 && (n = '0' + n),
+    s < 10 && (s = '0' + s),
+    i + ':' + o + ':' + sc + ' ' + n + '/' + s + '/' + e.getFullYear()
   );
 }
 
 export function getDateByTime(t) {
   var e = new Date(t);
-  return e.getDate() + "/" + (e.getMonth() + 1) + "/" + e.getFullYear();
+  return e.getDate() + '/' + (e.getMonth() + 1) + '/' + e.getFullYear();
 }
 
 export function getStringHourByTime(t) {
@@ -173,12 +180,7 @@ export function getStringHourByTime(t) {
     i = e.getHours(),
     o = e.getMinutes(),
     n = e.getSeconds();
-  return (
-    i < 10 && (i = "0" + i),
-    o < 10 && (o = "0" + o),
-    n < 10 && (n = "0" + n),
-    i + ":" + o + ":" + n
-  );
+  return i < 10 && (i = '0' + i), o < 10 && (o = '0' + o), n < 10 && (n = '0' + n), i + ':' + o + ':' + n;
 }
 
 export function anPhanTram(bet, so_nhan, ti_le, type = false) {
@@ -192,7 +194,7 @@ export function anPhanTram(bet, so_nhan, ti_le, type = false) {
 
 export function addZero10(i) {
   if (i < 10) {
-    i = "0" + i;
+    i = '0' + i;
   }
   return i;
 }
@@ -205,16 +207,16 @@ export function formatMoneyNumber(money) {
     value = value * -1;
   }
 
-  var format = "";
+  var format = '';
   if (value >= 1000000000.0) {
     value /= 1000000000.0;
-    format = "B";
+    format = 'B';
   } else if (value >= 1000000.0) {
     value /= 1000000.0;
-    format = "M";
+    format = 'M';
   } else if (value >= 1000.0) {
     value /= 1000.0;
-    format = "K";
+    format = 'K';
   }
 
   value = (Math.floor(value * 100 + 0.00000001) / 100) * sign;
@@ -236,13 +238,13 @@ export function getLowercaseObjectKeys(data) {
 }
 
 export function getNameCard(index) {
-  const list = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+  const list = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
   return list[index];
 }
 
 export function zeroPad(num, places) {
   var zero = places - num.toString().length + 1;
-  return Array(+(zero > 0 && zero)).join("0") + num;
+  return Array(+(zero > 0 && zero)).join('0') + num;
 }
 
 module.exports = {
@@ -265,5 +267,5 @@ module.exports = {
   addZero10: addZero10,
   formatMoneyNumber: formatMoneyNumber,
   getLowercaseObjectKeys: getLowercaseObjectKeys,
-  zeroPad: zeroPad
+  zeroPad: zeroPad,
 };

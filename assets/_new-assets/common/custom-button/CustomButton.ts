@@ -19,7 +19,7 @@ export default class CustomButton extends cc.Component {
 
     checkCollider(event) {
         if (this.collider) {
-            let touchLoc = event.getLocation();
+            const touchLoc = event.getLocation();
             if (!cc.Intersection.pointInPolygon(touchLoc, this.collider.world.points)) {
                 return false;
             }

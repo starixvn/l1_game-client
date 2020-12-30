@@ -107,7 +107,7 @@ export default class GameRoomBase extends GameBase {
         }
 
         const message = data.um_message;
-        let text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
+        const text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
         var noticeData = <NoticeData>{ text: text, button: { text: "OK" } };
         var notice = this.showNotice(noticeData)
 
@@ -227,8 +227,8 @@ export default class GameRoomBase extends GameBase {
         if (void 0 !== user.avatarId) {
             cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
                 if (this && this.userAvatar) {
-                    let avatarId = cc.RedT.user.avatarId;
-                    let frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
+                    const avatarId = cc.RedT.user.avatarId;
+                    const frame = atlas.getSpriteFrame(avatarId === 0 ? 1 : avatarId);
                     this.userAvatar.spriteFrame = frame;
                     this.userAvatar.node.parent.active = true;
                 }

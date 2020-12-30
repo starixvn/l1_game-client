@@ -51,8 +51,8 @@ export default class MiniKenoHistoryDetail extends cc.Component {
         this.result = result;
         this.settlementResult = settlementResult;
         betLogDetails.forEach(item => {
-            let node = cc.instantiate(this.prefabDetail);
-            let detailItem: MiniKenoHistoryDetailItem = node.getComponent("MiniKenoHistoryDetailItem");
+            const node = cc.instantiate(this.prefabDetail);
+            const detailItem: MiniKenoHistoryDetailItem = node.getComponent("MiniKenoHistoryDetailItem");
             detailItem.time.string = formatDateTime(item.time);
             detailItem.choice.string = GameUtils.getBetChoiceString(item.choice);
             detailItem.amount.string = numberWithCommas(item.amount);

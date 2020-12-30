@@ -105,7 +105,7 @@ export default class VipBaccarat extends NewSocketGameBase {
   }
 
   openHistory() {
-    let dialog = cc.instantiate(this.historyPrefab);
+    const dialog = cc.instantiate(this.historyPrefab);
     this.historyComponent = dialog.getComponent(VipBaccaratHistory);
     this.historyComponent.init(this.socket);
     this.currentMiniPanel.node.addChild(dialog);

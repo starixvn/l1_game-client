@@ -13,8 +13,8 @@ export default class FixedShapeButton extends cc.Button {
     }
 
     _onTouchBegan(event) {
-        let touch = event.touch;
-        let touchLoc = touch.getLocation();
+        const touch = event.touch;
+        const touchLoc = touch.getLocation();
         if (!cc.Intersection.pointInPolygon(touchLoc, this.collider.world.points)) {
             return;
         }
@@ -23,8 +23,8 @@ export default class FixedShapeButton extends cc.Button {
     }
 
     _onTouchMove(event) {
-        let touch = event.touch;
-        let touchLoc = touch.getLocation();
+        const touch = event.touch;
+        const touchLoc = touch.getLocation();
         if (!cc.Intersection.pointInPolygon(touchLoc, this.collider.world.points)) {
             return;
         }

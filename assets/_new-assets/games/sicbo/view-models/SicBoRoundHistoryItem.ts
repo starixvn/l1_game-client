@@ -18,7 +18,7 @@ export default abstract class SicBoRoundHistoryItem extends MiniRoundHistoryItem
 
     public setData(data: any) {
         this.data = data;
-        let color = cc.Color.BLACK;
+        const color = cc.Color.BLACK;
 
         if (this.data.settlementResult[SicBoBetType.anyTriple]) {
             color.fromHEX("#f29f00");
@@ -33,7 +33,7 @@ export default abstract class SicBoRoundHistoryItem extends MiniRoundHistoryItem
         this.icon.spriteFrame = this.circle;
         this.icon.node.color = color;
 
-        let totalPoint = this.data.result.dice1 + this.data.result.dice2 + this.data.result.dice3;
+        const totalPoint = this.data.result.dice1 + this.data.result.dice2 + this.data.result.dice3;
 
         this.points.string = totalPoint.toString();
     }

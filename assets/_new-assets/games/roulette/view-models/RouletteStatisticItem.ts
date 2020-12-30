@@ -14,8 +14,8 @@ export default class RouletteStatisticItem extends cc.Component {
 
     public updateProgressBar(firstCount, secondCount) {
         let progress = firstCount / (firstCount + secondCount);
-        let minValue = 0.15;
-        let maxValue = 0.85;
+        const minValue = 0.15;
+        const maxValue = 0.85;
         progress = Math.min(progress, maxValue);
         progress = Math.max(progress, minValue);
 

@@ -29,7 +29,9 @@ export default class VipBaccaratHistory extends cc.Component {
     this.pages.init(this);
 
     const commonDialog = this.mainFrame.getComponent('CommonDialog');
-    commonDialog.onDidHide = () => { this.node.destroy(); };
+    commonDialog.onDidHide = () => {
+      this.node.destroy();
+    };
   }
 
   onEnable() {
@@ -37,9 +39,8 @@ export default class VipBaccaratHistory extends cc.Component {
   }
 
   get_data(page = 1) {
-    this.socket && this.socket.connected && this.socket.emit("getHistory", { page: page });
+    this.socket && this.socket.connected && this.socket.emit('getHistory', { page: page });
   }
-
 
   onData(data: any) {
     const { page, pageSize, total, betLogs } = data;
@@ -48,8 +49,8 @@ export default class VipBaccaratHistory extends cc.Component {
 
     if (betLogs && betLogs.length) {
       betLogs.forEach((betLog, index) => {
-        let historyItemPrefab = cc.instantiate(this.prefabItem);
-        let item = historyItemPrefab.getComponent(BaccaratHistoryItem);
+        const historyItemPrefab = cc.instantiate(this.prefabItem);
+        const item = historyItemPrefab.getComponent(BaccaratHistoryItem);
         item.node.active = true;
         this.content.addChild(historyItemPrefab);
 
@@ -78,7 +79,6 @@ export default class VipBaccaratHistory extends cc.Component {
             currentItem.string = numberWithCommas(betLog[key]);
           }
         });
-
       });
     }
   }

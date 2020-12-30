@@ -143,10 +143,8 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
   onDestroy() {
     super.onDestroy();
-    this.roundHistoryContainer.isValid &&
-      this.roundHistoryContainer.destroyAllChildren();
-    this.miniRoundHistoryContainer.isValid &&
-      this.miniRoundHistoryContainer.destroyAllChildren();
+    this.roundHistoryContainer.isValid && this.roundHistoryContainer.destroyAllChildren();
+    this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
   }
 
   onData(data: any) {
@@ -216,7 +214,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     if (this.currentDataLogs.length > 0) {
       const { settlementResult } = this.currentDataLogs[0];
 
-
       cc.tween(this.thePlate)
         .call(() => {
           this.hideBalanceBetNotice();
@@ -253,14 +250,14 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   }
 
   public openGuide() {
-    let guide = cc.instantiate(this.guidePrefab);
-    let specialSedieGuide = guide.getComponent(SpecialSeDieGuide);
+    const guide = cc.instantiate(this.guidePrefab);
+    const specialSedieGuide = guide.getComponent(SpecialSeDieGuide);
     specialSedieGuide.init(this.gameConfigs);
     this.currentMiniPanel.node.addChild(guide);
   }
 
   public openHistory() {
-    let dialog = cc.instantiate(this.historyPrefab);
+    const dialog = cc.instantiate(this.historyPrefab);
     this.historyComponent = dialog.getComponent(SpecialSeDieHistory);
     this.historyComponent.init(this.socket);
     this.historyComponent.handleBetHistory = (roundId) => {
@@ -279,7 +276,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
   }
 
   openBetHistory(roundId: number) {
-    let node = cc.instantiate(this.betHistoryPrefab);
+    const node = cc.instantiate(this.betHistoryPrefab);
     this.betHistory = node.getComponent(SpecialSedieBetHistory);
     this.betHistory.init(this, roundId);
     this.currentMiniPanel.node.addChild(node);

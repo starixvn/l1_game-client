@@ -43,8 +43,8 @@ export default class DropDownList extends cc.Component {
     }
 
     addItem(option: DropDownOption) {
-        let itemNode = cc.instantiate(this.prefabItem);
-        let itemComponent: DropDownItem = itemNode.getComponent("DropDownItem");
+        const itemNode = cc.instantiate(this.prefabItem);
+        const itemComponent: DropDownItem = itemNode.getComponent("DropDownItem");
         itemComponent.label.string = option.text;
         itemComponent.value = option.value;
         itemNode.on(cc.Node.EventType.TOUCH_END, this.onSelectItem, this);

@@ -44,7 +44,7 @@ export default class SedieRoundHistory extends cc.Component {
     }
 
     private updateHistory(redData: any) {
-        let data = [...redData];
+        const data = [...redData];
         this.updateStatistic(data);
         data.reverse();
         const logData = data.map(d => d % 2 === 0 ? 0 : 1);
