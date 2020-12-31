@@ -1,11 +1,9 @@
-import { numberWithCommas } from '../../../common/helpers/Helper';
-
+import { numberWithCommas } from "../../../common/helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipFishPrawnCrabGuide extends cc.Component {
-
     @property({ type: cc.Label })
     replaceNodes: cc.Label[] = [];
 
@@ -13,15 +11,17 @@ export default class VipFishPrawnCrabGuide extends cc.Component {
     mainFrame: cc.Node = null;
 
     onLoad() {
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     init(configs) {
         const replaceData = this.createReplaceData(configs);
 
-        this.replaceNodes.forEach(label => {
-            Object.keys(replaceData).forEach(key => {
+        this.replaceNodes.forEach((label) => {
+            Object.keys(replaceData).forEach((key) => {
                 label.string = label.string.replace(key, replaceData[key]);
             });
         });
@@ -29,19 +29,18 @@ export default class VipFishPrawnCrabGuide extends cc.Component {
 
     createReplaceData(configs) {
         const { odds, choices_maxbet } = configs;
-        const replaceData = {
-            "_oddSingle": odds.single,
-            "_oddDouble": odds.double,
-            "_oddTriple": odds.triple,
-            "_oddMountain": odds.mountain,
-            "_oddOcean": odds.ocean,
-            "_oddAnyTriple": odds.anyTriple,
-            "_minBet": numberWithCommas(configs.minbet),
-            "_maxBetMain": numberWithCommas(choices_maxbet.fish),
-            "_maxBetAnyTriple": numberWithCommas(choices_maxbet.anyTriple),
-            "_maxBetRound": numberWithCommas(configs.maxbet)
-        };
 
-        return replaceData;
+        return {
+            _oddSingle: odds.single,
+            _oddDouble: odds.double,
+            _oddTriple: odds.triple,
+            _oddMountain: odds.mountain,
+            _oddOcean: odds.ocean,
+            _oddAnyTriple: odds.anyTriple,
+            _minBet: numberWithCommas(configs.minbet),
+            _maxBetMain: numberWithCommas(choices_maxbet.fish),
+            _maxBetAnyTriple: numberWithCommas(choices_maxbet.anyTriple),
+            _maxBetRound: numberWithCommas(configs.maxbet)
+        };
     }
 }

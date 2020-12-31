@@ -4,7 +4,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipFishPrawnCrabBetItem extends BetItem {
-
     @property(cc.Sprite)
     xSprite: cc.Sprite = null;
 
@@ -22,9 +21,16 @@ export default class VipFishPrawnCrabBetItem extends BetItem {
 
     protected setHighlightItems(highlight: boolean, isAnimated = true) {
         this.highlight.active = highlight && isAnimated;
-        this.highlightBackground && (this.highlightBackground.active = highlight && isAnimated);
+        if (this.highlightBackground) {
+            this.highlightBackground.active = highlight && isAnimated;
+        }
 
-        this.highlightBorder && (this.highlightBorder.active = highlight && !isAnimated);
-        this.normalBorder && (this.normalBorder.active = !highlight);
+        if (this.highlightBorder) {
+            this.highlightBorder.active = highlight && !isAnimated;
+        }
+
+        if (this.normalBorder) {
+            this.normalBorder.active = !highlight;
+        }
     }
 }

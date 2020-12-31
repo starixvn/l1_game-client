@@ -1,11 +1,10 @@
-import SedieGuide from "../../xoc-xoc/view-models/SedieGuide";
 import { numberWithCommas } from "../../../common/helpers/Helper";
+import SedieGuide from "../../xoc-xoc/view-models/SedieGuide";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipSedieGuide extends SedieGuide {
-
     createReplaceData() {
         const replaceData = super.createReplaceData();
 

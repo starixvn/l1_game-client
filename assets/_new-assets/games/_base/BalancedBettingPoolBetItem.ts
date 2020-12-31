@@ -1,5 +1,5 @@
-import { numberTo, numberWithCommas } from '../../common/helpers/Helper';
-import BetItem from './BetItem';
+import { numberTo, numberWithCommas } from "../../common/helpers/Helper";
+import BetItem from "./BetItem";
 
 const { ccclass } = cc._decorator;
 
@@ -12,9 +12,6 @@ export default class BalancedBettingPoolBetItem extends BetItem {
         }
     }
 
-  protected setTotalBet(bet: number) {
-    this.totalBet.string = numberWithCommas(bet);
-  }
     protected setHighlightItems(highlight: boolean, isAnimated = true) {
         this.highlight.active = highlight && isAnimated;
         if (this.highlightBackground) {

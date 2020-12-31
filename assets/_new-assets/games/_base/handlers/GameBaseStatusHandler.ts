@@ -2,7 +2,6 @@ import GameBase from "../GameBase";
 import GameRoomBase from "../GameRoomBase";
 import DataHandler from "./DataHandler";
 
-
 export interface IGameBaseStatusHandler extends DataHandler {
     currentStatusData: any;
 }
@@ -10,10 +9,9 @@ export interface IGameBaseStatusHandler extends DataHandler {
 export class GameBaseStatusHandler implements IGameBaseStatusHandler {
     public currentStatusData: any;
 
-    constructor(protected readonly main: GameBase) {
-    }
+    constructor(protected readonly main: GameBase) {}
 
-    private timeout: NodeJS.Timeout;
+    private timeout: number;
 
     handle(data: any): boolean {
         if (data.status) {
@@ -48,7 +46,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
             return;
         }
         if (win) {
-            this.main.showWinningBet(bet);;
+            this.main.showWinningBet(bet);
 
             cc.RedT.send({
                 user: {

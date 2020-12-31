@@ -34,7 +34,7 @@ export default class VipSedieWarHistoryItem extends cc.Component {
 
     getMiniPanel: () => cc.Node;
 
-    detailtData: any;
+    detailData: any;
 
     setData(data: any) {
         const { time, phien, result, settlementResult, betwin, totalAmount, betLogDetails } = data;
@@ -46,24 +46,28 @@ export default class VipSedieWarHistoryItem extends cc.Component {
 
         VipSedieWarUtils.setDotsImage(result, this.playerResultNode, this.bankerResultNode, this.dotsFrame);
 
-        this.detailtData = {
+        this.detailData = {
             phien,
             betLogDetails,
             settlementResult,
             result
-        }
+        };
     }
 
     onLoad() {
-        this.bet.node.on('click', () => {
-            this.openTicketDetail();
-        }, false);
+        this.bet.node.on(
+            "click",
+            () => {
+                this.openTicketDetail();
+            },
+            false
+        );
     }
 
     openTicketDetail() {
         const miniPanel = this.getMiniPanel();
         const node = cc.instantiate(this.ticketDetailPrefab);
-        node.getComponent(VipSedieWarTicketDetail).setData(this.detailtData);
+        node.getComponent(VipSedieWarTicketDetail).setData(this.detailData);
         miniPanel.addChild(node);
     }
 }
