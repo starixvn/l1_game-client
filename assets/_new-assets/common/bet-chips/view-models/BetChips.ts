@@ -41,7 +41,7 @@ export default class BetChips extends cc.Component {
     @property
     movingStep = 1;
 
-    public onChanged: OnChangedBet = (bet) => { };
+    public onChanged: OnChangedBet = (bet) => {};
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
@@ -121,7 +121,7 @@ export default class BetChips extends cc.Component {
         this.betChipClickAudio.play();
         var i = 0;
         for (; i < this.chipList.length; i++) {
-            if (this.chipList[i].name == bet) {
+            if (this.chipList[i].name === bet) {
                 break;
             }
         }
@@ -134,20 +134,16 @@ export default class BetChips extends cc.Component {
         this.onChanged(bet);
     }
 
-    public moveChips(chipsBox: cc.Node, destBox: cc.Node, hideOnDestBox: boolean = true) {
+    public moveChips(chipsBox: cc.Node, destBox: cc.Node) {
         var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
         var destBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(destBoxPosition);
 
-        _.forEach(chipsBox.children, chip => {
+        _.forEach(chipsBox.children, (chip) => {
             this.startMoveChip(chip, destBoxInChipBoxSpacePosition);
         });
     }
 
-    public moveChipsWithRandomAmount(
-        chipsBox: cc.Node,
-        destBox: cc.Node,
-        flyTime: number = this.chipFlyingTime,
-        randomAmount: number = 3) {
+    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, flyTime: number = this.chipFlyingTime, randomAmount: number = 3) {
         var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
         var cloneChipsBox = cc.instantiate(chipsBox);
         cloneChipsBox.destroyAllChildren();
@@ -162,15 +158,16 @@ export default class BetChips extends cc.Component {
             if (chip) {
                 var cloneChip = cc.instantiate(chip);
                 cloneChipsBox.addChild(cloneChip);
-                // chip.destroy();
                 this.startMoveChip(cloneChip, destBoxInChipBoxSpacePosition, flyTime);
             }
         }
 
-        this.node.runAction(cc.sequence(
-            cc.delayTime(flyTime * 1.5),
-            cc.callFunc(() => cloneChipsBox.destroy())
-        ));
+        this.node.runAction(
+            cc.sequence(
+                cc.delayTime(flyTime * 1.5),
+                cc.callFunc(() => cloneChipsBox.destroy())
+            )
+        );
     }
 
     public payChipsToWinningBetItem(chipBox: cc.Node, dealerBox: cc.Node) {
@@ -178,7 +175,7 @@ export default class BetChips extends cc.Component {
         var dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
         chipBox.children.length > 0 && this.playMultiChipsSound();
 
-        _.forEach(chipBox.children, chip => {
+        _.forEach(chipBox.children, (chip) => {
             var cloneChip = cc.instantiate(chip);
             cloneChip.position = dealerBoxInChipBoxSpacePosition;
             chipBox.addChild(cloneChip);
@@ -187,15 +184,14 @@ export default class BetChips extends cc.Component {
         });
     }
 
-    public placeChipBet(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }) {
+    public placeChipBet(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => {}) {
         var chipPosition: cc.Vec2;
         var isLoginUserPlaceBet = startNode == null;
 
         if (startNode) {
             chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
-        }
-        else {
-            var chip = this.chips.children.filter(child => child.name === bet.toString())[0];
+        } else {
+            var chip = this.chips.children.filter((child) => child.name === bet.toString())[0];
             chipPosition = chip.parent.convertToWorldSpaceAR(chip.position);
         }
 
@@ -215,22 +211,32 @@ export default class BetChips extends cc.Component {
                 cc.callFunc(() => {
                     onComplete();
                 })
-            ));
+            )
+        );
     }
 
     public getChipNode(bet: number): cc.Node {
-        return this.chips.children.find(child => child.name === bet.toString());
+        return this.chips.children.find((child) => child.name === bet.toString());
     }
 
-    public moveChipWithCallback(chipNode: cc.Node, bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => { }, delayDestroy: number, duration: number, fadeDuration = 1) {
+    public moveChipWithCallback(
+        chipNode: cc.Node,
+        bet: number,
+        destNode: cc.Node,
+        startNode: cc.Node = null,
+        onComplete = () => {},
+        delayDestroy: number,
+        duration: number,
+        fadeDuration = 1
+    ) {
         let chipPosition: cc.Vec2;
         const isLoginUserPlaceBet = startNode == null;
         if (startNode) {
             chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
         } else {
-            let chip = this.chips.children.filter(child => child.name === bet.toString())[0];
+            let chip = this.chips.children.filter((child) => child.name === bet.toString())[0];
             if (!chip) {
-                const chips = this.chips.children.filter(child => +child.name < bet).sort((b, a) => +a.name - +b.name);
+                const chips = this.chips.children.filter((child) => +child.name < bet).sort((b, a) => +a.name - +b.name);
                 chip = chips[0];
                 bet = +chip.name;
             }
@@ -267,22 +273,17 @@ export default class BetChips extends cc.Component {
         _.forEach(chipBets, (chipBet) => {
             var chipCountOfBet = chipsData[chipBet];
             for (var i = 0; i < chipCountOfBet; i++) {
-
                 var chip = this.createChip(+chipBet);
                 var randomPosition = this.getRandomPositionChip(chip.node, chipsBox);
                 chip.node.position = randomPosition;
                 chipsBox.addChild(chip.node);
             }
-        })
+        });
     }
 
-    public playMultiChipsSound() {
-        // cc.RedT.isSoundGame() && this.multiChipAudio.play();
-    }
+    public playMultiChipsSound() {}
 
-    public playSingleChipsSound() {
-        // cc.RedT.isSoundGame() && this.singleChipAudio.play();
-    }
+    public playSingleChipsSound() {}
 
     private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, flyTime: number = this.chipFlyingTime) {
         chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition, flyTime));
@@ -312,7 +313,7 @@ export default class BetChips extends cc.Component {
         layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
         layout.spacingY = -22;
         const keys = Object.keys(values).sort((a, b) => +b - +a);
-        keys.forEach(chip => {
+        keys.forEach((chip) => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {
                 const chipNode = this.createChip(+chip).node;
@@ -333,22 +334,24 @@ export default class BetChips extends cc.Component {
     }
 
     private destroyChip(chip: cc.Node, delayTime: number) {
-        this.node.runAction(cc.sequence(
-            cc.delayTime(delayTime * 1.5),
-            cc.callFunc(() => chip.destroy())
-        ));
+        this.node.runAction(
+            cc.sequence(
+                cc.delayTime(delayTime * 1.5),
+                cc.callFunc(() => chip.destroy())
+            )
+        );
     }
 
     private updateSelectedBet(targetName: string) {
-        this.chips.children.forEach(chip => {
+        this.chips.children.forEach((chip) => {
             chip.stopAllActions();
-            if (chip.name == targetName) {
+            if (chip.name === targetName) {
                 chip.children[0].active = true;
                 chip.zIndex = 2;
                 cc.tween(chip)
                     .to(0.2, {
                         scale: 1.15,
-                        position: cc.v2(chip.position.x, 12),
+                        position: cc.v2(chip.position.x, 12)
                     })
                     .start();
             } else {
@@ -357,7 +360,7 @@ export default class BetChips extends cc.Component {
                 cc.tween(chip)
                     .to(0.2, {
                         scale: 1,
-                        position: cc.v2(chip.position.x, 0),
+                        position: cc.v2(chip.position.x, 0)
                     })
                     .start();
             }

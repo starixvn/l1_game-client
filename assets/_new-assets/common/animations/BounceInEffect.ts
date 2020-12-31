@@ -21,9 +21,7 @@ export default class BounceInEffect extends cc.Component {
 
     zooming() {
         this.node.scale = 0;
-        cc.tween(this.node)
-            .to(this.time, { scale: this.originScale, opacity: 255 }, { easing: 'backOut' })
-            .start();
+        cc.tween(this.node).to(this.time, { scale: this.originScale, opacity: 255 }, { easing: 'backOut' }).start();
     }
 
     onDisable() {

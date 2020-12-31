@@ -27,7 +27,7 @@ export enum GameState {
     None = 0,
     Started,
     Stopped,
-    Disabled,
+    Disabled
 }
 
 @ccclass
@@ -66,7 +66,7 @@ export default class GameBase extends cc.Component {
         type: cc.Node,
         visible: function (this: GameBase) {
             return this.enableChips;
-        },
+        }
     })
     betChipsContainer: cc.Node = null;
 
@@ -74,14 +74,14 @@ export default class GameBase extends cc.Component {
         type: cc.Prefab,
         visible: function (this: GameBase) {
             return this.enableChips;
-        },
+        }
     })
     betChipsPrefab: cc.Prefab = null;
 
     @property({
         visible: function (this: GameBase) {
             return this.enableChips;
-        },
+        }
     })
     enablePlaceChips: boolean = false;
 
@@ -89,7 +89,7 @@ export default class GameBase extends cc.Component {
         type: cc.Node,
         visible: function (this: GameBase) {
             return this.enablePlaceChips;
-        },
+        }
     })
     dealerChipBox: cc.Node = null;
 
@@ -127,7 +127,7 @@ export default class GameBase extends cc.Component {
     public betChips: BetChips;
     public currentBet: number;
     public gameAudios: GameAudios;
-    private dataHandlers: DataHandler[] = [];
+    private readonly dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
 
     init(gameName: string, config: GameBaseConfigs, miniPanel: MiniPanel) {
@@ -178,7 +178,7 @@ export default class GameBase extends cc.Component {
     onData(data: any) {
         for (let index = 0; index < this.dataHandlers.length; index++) {
             const handler = this.dataHandlers[index];
-            if (index == 0 && handler.handle(data)) {
+            if (index === 0 && handler.handle(data)) {
                 //um handler
                 break;
             } else {
@@ -221,8 +221,8 @@ export default class GameBase extends cc.Component {
     sendData(payload: any) {
         cc.RedT.send({
             g: {
-                [this.gameName]: payload,
-            },
+                [this.gameName]: payload
+            }
         });
     }
 
@@ -232,7 +232,7 @@ export default class GameBase extends cc.Component {
 
     showWinningBet(bet: number) {
         const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
-        winningBet.name = 'winningBet';
+        winningBet.name = "winningBet";
     }
 
     setGameRound(gameRoundId) {
@@ -286,7 +286,7 @@ export default class GameBase extends cc.Component {
 
     showMiniWarning(data) {
         var notice = cc.instantiate(this.miniNoticePrefab);
-        var noticeComponent = notice.getComponent('mini_warning');
+        var noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = data;
         this.noticeNode.addChild(notice);
     }
@@ -296,13 +296,22 @@ export default class GameBase extends cc.Component {
             item.clearBet();
             item.resetHighlight();
         });
-        this.animatedTime && (this.animatedTime.node.active = false);
-        this.timeWaitNode && (this.timeWaitNode.active = false);
-        this.statusHandler && (this.statusHandler.currentStatusData = null);
+
+        if (this.animatedTime) {
+            this.animatedTime.node.active = false;
+        }
+
+        if (this.timeWaitNode) {
+            this.timeWaitNode.active = false;
+        }
+
+        if (this.statusHandler) {
+            this.statusHandler.currentStatusData = null;
+        }
     }
 
     protected formatGameRound(gameRoundId: any) {
-        return gameRoundId ? '#' + gameRoundId : '';
+        return gameRoundId ? `#${gameRoundId}` : "";
     }
 
     protected onGameHide() {
@@ -369,6 +378,6 @@ export default class GameBase extends cc.Component {
     }
 
     public updateDisplayForRemoteConfig() {
-        this.gameConfigs.odds && this.betItems.forEach(item => item.setOdd(this.gameConfigs.odds[item.node.name]));
+        this.gameConfigs.odds && this.betItems.forEach((item) => item.setOdd(this.gameConfigs.odds[item.node.name]));
     }
 }

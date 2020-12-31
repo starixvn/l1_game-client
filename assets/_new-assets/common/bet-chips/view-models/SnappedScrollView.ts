@@ -11,9 +11,9 @@ export default class SnappedScrollView extends cc.Component {
     @property
     enableHalfSpacing: boolean = true;
 
-    public onScrollEnded = () => { };
+    public onScrollEnded = () => {};
 
-    private calculatedPercent: number[] = [];
+    private readonly calculatedPercent: number[] = [];
     private minDisplayIndex = 0;
 
     public scroll: cc.ScrollView;
@@ -44,7 +44,7 @@ export default class SnappedScrollView extends cc.Component {
     }
 
     onScroll(scroll: cc.ScrollView, eventType) {
-        if (eventType == cc.ScrollView.EventType.SCROLL_ENDED) {
+        if (eventType === cc.ScrollView.EventType.SCROLL_ENDED) {
             if (!this.scrollBegan) {
                 return;
             }
@@ -54,7 +54,7 @@ export default class SnappedScrollView extends cc.Component {
             this.scrollTo(this.minDisplayIndex);
             this.onScrollEnded();
         }
-        if (eventType == cc.ScrollView.EventType.SCROLL_BEGAN) {
+        if (eventType === cc.ScrollView.EventType.SCROLL_BEGAN) {
             this.scrollBegan = true;
         }
     }
@@ -64,7 +64,9 @@ export default class SnappedScrollView extends cc.Component {
             if (this.calculatedPercent[i] <= percent && percent <= this.calculatedPercent[i + 1]) {
                 const delta1 = percent - this.calculatedPercent[i];
                 const delta2 = this.calculatedPercent[i + 1] - percent;
-                delta1 + delta2 > 0 && (this.minDisplayIndex = (delta1 < delta2) ? i : i + 1);
+                if (delta1 + delta2 > 0) {
+                    this.minDisplayIndex = delta1 < delta2 ? i : i + 1;
+                }
                 break;
             }
 

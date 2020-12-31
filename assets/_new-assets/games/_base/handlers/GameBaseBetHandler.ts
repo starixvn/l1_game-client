@@ -8,8 +8,7 @@ import DataHandler from "./DataHandler";
 
 export default class GameBaseBetHandler implements DataHandler {
     protected playerChips = [];
-    constructor(protected readonly main: GameBase) {
-    }
+    constructor(protected readonly main: GameBase) {}
 
     handle(data: any): boolean {
         if (this.main.isStopGame || this.main.isDisableGame) {
@@ -17,11 +16,11 @@ export default class GameBaseBetHandler implements DataHandler {
         }
 
         if (data.totalBets || data.ownBets) {
-            this.main.betItems.forEach(item => item.setData(data));
+            this.main.betItems.forEach((item) => item.setData(data));
         }
 
         if (data.endBet) {
-            data.endBet != -1 && this.main.showAcceptedBet(data.endBet); //endCuoc -1 is error
+            data.endBet !== -1 && this.main.showAcceptedBet(data.endBet); //endCuoc -1 is error
             this.main.showProcessingWarning(false);
         }
 
@@ -39,15 +38,16 @@ export default class GameBaseBetHandler implements DataHandler {
 
                 if (this.main.currentTimeRemaining >= this.main.config.stopBetTime + 2) {
                     delayTime = this.playerChips.length * 0.07;
-                }
-                else {
+                } else {
                     delayTime = this.playerChips.length * 0.01;
                 }
 
-                this.main.node.runAction(cc.sequence(
-                    cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
-                    cc.callFunc(() => this.placePlayerChip(data.playerChip))
-                ));
+                this.main.node.runAction(
+                    cc.sequence(
+                        cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
+                        cc.callFunc(() => this.placePlayerChip(data.playerChip))
+                    )
+                );
             }
 
             if (data.chips && data.remainingTime < mainRoomGame.config.betTime) {
@@ -58,15 +58,12 @@ export default class GameBaseBetHandler implements DataHandler {
         return true;
     }
 
-
     placeOwnChip(data) {
         const betOption = data.box.toLowerCase();
         const bet = data.bet;
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
 
-        this.main.betChips.placeChipBet(
-            bet,
-            betItem.chipNode);
+        this.main.betChips.placeChipBet(bet, betItem.chipNode);
     }
 
     placePlayerChip(data) {
@@ -82,8 +79,7 @@ export default class GameBaseBetHandler implements DataHandler {
             if (playerSlot) {
                 this.updatePlayerSlotDataStorage(data, playerSlot);
                 startNode = playerSlot.avatar.node;
-            }
-            else {
+            } else {
                 startNode = gameRoomMain.otherPlayers;
                 this.updateOtherDataStorage(data);
             }
@@ -117,7 +113,7 @@ export default class GameBaseBetHandler implements DataHandler {
 
         const chipsKeys = getLowercaseObjectKeys(chips);
 
-        _.forEach(this.main.betItems, item => {
+        _.forEach(this.main.betItems, (item) => {
             const betItemData = chips[chipsKeys[item.node.name.toLowerCase()]];
             this.main.betChips.initChips(betItemData, item.chipNode);
         });
