@@ -2,7 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        DegreePerSecond: 360,
+        DegreePerSecond: 360
     },
 
     onEnable() {
@@ -12,5 +12,5 @@ cc.Class({
             })
             .repeatForever()
             .start();
-    },
+    }
 });

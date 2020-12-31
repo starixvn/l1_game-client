@@ -1,4 +1,4 @@
-import { numberWithCommas } from '../../../common/helpers/Helper';
+import { numberWithCommas } from "../../../common/helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,16 +13,18 @@ export default class SpecialSeDieGuide extends cc.Component {
     protected configs: any;
 
     onLoad() {
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     init(configs) {
         this.configs = configs;
         const replaceData = this.createReplaceData();
 
-        this.replaceNodes.forEach(label => {
-            Object.keys(replaceData).forEach(key => {
+        this.replaceNodes.forEach((label) => {
+            Object.keys(replaceData).forEach((key) => {
                 label.string = label.string.replace(key, replaceData[key]);
             });
         });
@@ -30,11 +32,9 @@ export default class SpecialSeDieGuide extends cc.Component {
 
     createReplaceData() {
         const odds = this.configs.odds;
-        const replaceData = {
-            "_oddsMain": odds.even,
-            "_maxBetRound": numberWithCommas(this.configs.maxbet)
-        }
-
-        return replaceData;
+        return {
+            _oddsMain: odds.even,
+            _maxBetRound: numberWithCommas(this.configs.maxbet)
+        };
     }
 }

@@ -2,14 +2,12 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FixedShapeButton extends cc.Button {
-
     @property(cc.PolygonCollider)
     collider: cc.PolygonCollider = null;
 
     start() {
         // Open the collision manager, without this part statement you will not detect any collision.
         cc.director.getCollisionManager().enabled = true;
-        // cc.director.getCollisionManager().enabledDebugDraw = true;
     }
 
     _onTouchBegan(event) {

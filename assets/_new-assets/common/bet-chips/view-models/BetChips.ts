@@ -143,7 +143,7 @@ export default class BetChips extends cc.Component {
         });
     }
 
-    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, flyTime: number = this.chipFlyingTime, randomAmount: number = 3) {
+    public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, flyTime: number = this.chipFlyingTime, randomAmount = 3) {
         var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
         var cloneChipsBox = cc.instantiate(chipsBox);
         cloneChipsBox.destroyAllChildren();
