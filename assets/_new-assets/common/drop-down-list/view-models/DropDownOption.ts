@@ -4,7 +4,7 @@ export default class DropDownOption {
         this.text = text;
     }
 
-    value: string = "";
+    value = "";
 
-    text: string = "";
+    text = "";
 }

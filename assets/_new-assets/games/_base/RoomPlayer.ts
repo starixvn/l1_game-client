@@ -13,7 +13,6 @@ export interface PlayerData {
 
 @ccclass
 export default class RoomPlayer extends cc.Component {
-
     @property(cc.Label)
     nickname: cc.Label = null;
 
@@ -40,8 +39,11 @@ export default class RoomPlayer extends cc.Component {
             this.data = data;
             this.node.runAction(cc.fadeTo(1, 255));
             this.setBalance(data.red);
-            data.name && (this.nickname.string = data.name.length > 8 ? data.name.substring(0, 7) + "..." : data.name);
             this.setAvatar(data.avatarId);
+
+            if (data.name) {
+                this.nickname.string = data.name.length > 8 ? `${data.name.substring(0, 7)}...` : data.name;
+            }
         } else {
             this.data = null;
             this.node.runAction(cc.fadeTo(1, 0));
@@ -61,17 +63,18 @@ export default class RoomPlayer extends cc.Component {
     }
 
     displayBalance(balance: number) {
-        this.balance.string = balance > RoomPlayer.MAX_BALANCE_DISPLAY ? `${helper.numberWithCommas(RoomPlayer.MAX_BALANCE_DISPLAY)}+` : helper.numberWithCommas(balance);
+        this.balance.string =
+            balance > RoomPlayer.MAX_BALANCE_DISPLAY
+                ? `${helper.numberWithCommas(RoomPlayer.MAX_BALANCE_DISPLAY)}+`
+                : helper.numberWithCommas(balance);
     }
 
     setAvatar(avatarId) {
-        const self = this;
-
-        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
+        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
             const frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
 
-            if (self && self.avatar) {
-                self.avatar.spriteFrame = frame;
+            if (this.avatar) {
+                this.avatar.spriteFrame = frame;
             }
         });
     }
@@ -98,6 +101,6 @@ export default class RoomPlayer extends cc.Component {
     }
 
     private static playersCacheKey(gameName: string) {
-        return "PLAYERS_" + gameName;
+        return `PLAYERS_${gameName}`;
     }
 }

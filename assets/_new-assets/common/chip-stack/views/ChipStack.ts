@@ -1,12 +1,10 @@
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class ChipStack extends cc.Component {
-
-    public chipSize: number = 20;
-    public thickness: number = 3;
-    public skewX: number = 0;
+    public chipSize = 20;
+    public thickness = 3;
+    public skewX = 0;
     public ratioPosX = 1.5;
 
     onLoad() {
@@ -30,7 +28,7 @@ export default class ChipStack extends cc.Component {
         let positionX = 0;
 
         if (this.skewX > 0) {
-            positionX = - this.node.childrenCount * this.ratioPosX;
+            positionX = -this.node.childrenCount * this.ratioPosX;
         }
 
         if (this.skewX < 0) {

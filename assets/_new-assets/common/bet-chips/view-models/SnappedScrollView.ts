@@ -3,13 +3,13 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SnappedScrollView extends cc.Component {
     @property
-    itemSize: number = 85;
+    itemSize = 85;
 
     @property
-    spacing: number = 8;
+    spacing = 8;
 
     @property
-    enableHalfSpacing: boolean = true;
+    enableHalfSpacing = true;
 
     public onScrollEnded = () => {};
 

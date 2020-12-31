@@ -1,5 +1,5 @@
-import DropDownOption from "./DropDownOption";
 import DropDownItem from "./DropDownItem";
+import DropDownOption from "./DropDownOption";
 
 const { ccclass, property } = cc._decorator;
 
@@ -63,8 +63,8 @@ export default class DropDownList extends cc.Component {
     }
 
     openDropDown() {
-        this.options.forEach(option => {
-            option.value != this.selectedItem.value && this.addItem(option);
+        this.options.forEach((option) => {
+            option.value !== this.selectedItem.value && this.addItem(option);
         });
         this.optionContainer.active = true;
     }

@@ -46,7 +46,9 @@ export default class GameRoomBase extends GameBase {
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
 
-    protected get WinningAnimationDuration() { return 3; }
+    protected get WinningAnimationDuration() {
+        return 3;
+    }
 
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale: number;
@@ -57,7 +59,7 @@ export default class GameRoomBase extends GameBase {
         cc.RedT.inGame = this;
         this.loadMiniPanel();
         this.loadUserData(cc.RedT.user);
-        this.players.forEach(player => player.node.active = false);
+        this.players.forEach((player) => (player.node.active = false));
     }
 
     onDestroy() {
@@ -65,12 +67,7 @@ export default class GameRoomBase extends GameBase {
         cc.RedT.inGame = null;
     }
 
-    init(gameName: string,
-        gameConfigs: GameBaseConfigs,
-        miniPanel: MiniPanel = null,
-        miniPanelScale: number = 1,
-        gameId: number = 0) {
-
+    init(gameName: string, gameConfigs: GameBaseConfigs, miniPanel: MiniPanel = null, miniPanelScale = 1, gameId = 0) {
         super.init(gameName, gameConfigs, miniPanel);
         this.miniPanelScale = miniPanelScale;
         this.gameId = gameId;
@@ -109,14 +106,14 @@ export default class GameRoomBase extends GameBase {
         const message = data.um_message;
         const text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
         var noticeData = <NoticeData>{ text: text, button: { text: "OK" } };
-        var notice = this.showNotice(noticeData)
+        var notice = this.showNotice(noticeData);
 
         notice.handleClickButton = () => {
             this.onCloseGameClick();
-        }
+        };
         notice.handleClose = () => {
             this.onCloseGameClick();
-        }
+        };
     }
 
     onCloseGameClick() {
@@ -126,7 +123,7 @@ export default class GameRoomBase extends GameBase {
     showNotice(data: NoticeData): Notice {
         var noticePrefab = cc.instantiate(this.noticePrefab);
         var notice = noticePrefab.getComponent("Notice") as Notice;
-        data.button = { text: 'OK' };
+        data.button = { text: "OK" };
         notice.init(data);
         this.miniPanelContainer.addChild(noticePrefab);
 
@@ -138,20 +135,23 @@ export default class GameRoomBase extends GameBase {
             this.loading.active = true;
         }
         this.outRoomGame().then(() => {
-            cc.director.loadScene('MainGame');
+            cc.director.loadScene("MainGame");
         });
     }
 
     public outRoomGame() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this.sendData({ outgame: true });
-            this.node.runAction(cc.sequence(
-                cc.delayTime(1),
-                cc.callFunc(() => {
-                    BaseSocketIOController.getInstance().closeMiniGameSockets();
-                    this.stopGame();
-                    resolve();
-                })));
+            this.node.runAction(
+                cc.sequence(
+                    cc.delayTime(1),
+                    cc.callFunc(() => {
+                        BaseSocketIOController.getInstance().closeMiniGameSockets();
+                        this.stopGame();
+                        resolve("done");
+                    })
+                )
+            );
         });
     }
 
@@ -161,18 +161,18 @@ export default class GameRoomBase extends GameBase {
 
     showWinningBet(bet: number) {
         const winningBet = GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, this.WinningAnimationDuration, 80, 10);
-        winningBet.name = 'winningBet';
+        winningBet.name = "winningBet";
     }
 
     clearWinningBet() {
-        const winningBet = this.userAvatar.node.parent.getChildByName('winningBet');
+        const winningBet = this.userAvatar.node.parent.getChildByName("winningBet");
         if (winningBet) {
             winningBet.destroy();
         }
     }
 
     clearWinningEffect() {
-        const winningEffect = this.userAvatar.node.parent.getChildByName('winningEffect');
+        const winningEffect = this.userAvatar.node.parent.getChildByName("winningEffect");
         if (winningEffect) {
             winningEffect.destroy();
         }
@@ -195,7 +195,6 @@ export default class GameRoomBase extends GameBase {
         }
     }
 
-
     protected onDataGameRoom(data: any) {
         super.onData(data);
 
@@ -206,7 +205,7 @@ export default class GameRoomBase extends GameBase {
 
     protected loadMiniPanel() {
         var miniPanel = cc.instantiate(this.miniPanelPrefab);
-        this.currentMiniPanel = miniPanel.getComponent('MiniPanel');
+        this.currentMiniPanel = miniPanel.getComponent("MiniPanel");
         this.currentMiniPanel.currentGameRoomId = this.gameId;
         this.miniPanelContainer.addChild(miniPanel);
 

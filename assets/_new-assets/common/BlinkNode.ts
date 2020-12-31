@@ -2,9 +2,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BlinkNode extends cc.Component {
-
     @property
-    interval: number = 0.2;
+    interval = 0.2;
 
     onEnable() {
         this.playAnimation();

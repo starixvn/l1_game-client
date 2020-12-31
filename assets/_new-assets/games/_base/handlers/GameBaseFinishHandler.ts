@@ -8,14 +8,13 @@ import GameRoomBase from "../GameRoomBase";
 import RoomPlayer from "../RoomPlayer";
 import DataHandler from "./DataHandler";
 
-
 export default class GameBaseFinishHandler implements DataHandler {
     protected readonly payChipFlyTime = 1.2;
-    protected get WinningAnimationDuration() { return 3; }
-
-    constructor(
-        protected readonly main: GameBase, protected readonly playResultAnimationTime: number = 0) {
+    protected get WinningAnimationDuration() {
+        return 3;
     }
+
+    constructor(protected readonly main: GameBase, protected readonly playResultAnimationTime: number = 0) {}
 
     handle(data: any): boolean {
         if (data.finish) {
@@ -26,12 +25,10 @@ export default class GameBaseFinishHandler implements DataHandler {
             if (mainRoomGame && mainRoomGame.playerHandler) {
                 this.updateOtherPlayerBalance(data.finish.winningPlayers, mainRoomGame);
             }
-            this.handleFinishData(
-                data.finish,
-                () => {
-                    this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
-                    this.main.finishShowResult = true;
-                })
+            this.handleFinishData(data.finish, () => {
+                this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
+                this.main.finishShowResult = true;
+            });
         }
 
         return true;
@@ -46,8 +43,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         return this.playResultAnimationTime;
     }
 
-    handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
-    }
+    handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {}
 
     payChips(settlementResult: any, winningPlayers: any) {
         const mainRoomGame = this.main as GameRoomBase;
@@ -56,33 +52,34 @@ export default class GameBaseFinishHandler implements DataHandler {
             return;
         }
         const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
-        const lostBetItems = _.filter(this.main.betItems, item => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
-        const winBetItems = _.filter(this.main.betItems, item => !!settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
+        const lostBetItems = _.filter(this.main.betItems, (item) => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
+        const winBetItems = _.filter(this.main.betItems, (item) => !!settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
 
-        this.main.node && this.main.node.runAction(
-            cc.sequence(
-                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                cc.callFunc(() => this.dealerGetChips(mainRoomGame, lostBetItems)),
-                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                cc.callFunc(() => this.dealerPayChips(mainRoomGame, winBetItems)),
-                cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                cc.callFunc(() => {
-                    this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems);
-                    this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
-                    this.payChipsToOtherPlayers(mainRoomGame, winBetItems);
-                }),
-            )
-        )
+        this.main.node &&
+            this.main.node.runAction(
+                cc.sequence(
+                    cc.delayTime(this.main.betChips.chipDelayFlyingTime),
+                    cc.callFunc(() => this.dealerGetChips(mainRoomGame, lostBetItems)),
+                    cc.delayTime(this.main.betChips.chipDelayFlyingTime),
+                    cc.callFunc(() => this.dealerPayChips(mainRoomGame, winBetItems)),
+                    cc.delayTime(this.main.betChips.chipDelayFlyingTime),
+                    cc.callFunc(() => {
+                        this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems);
+                        this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
+                        this.payChipsToOtherPlayers(mainRoomGame, winBetItems);
+                    })
+                )
+            );
     }
 
     dealerGetChips(mainRoomGame: GameRoomBase, lostBetItems: BetItem[]) {
-        _.forEach(lostBetItems, item => {
+        _.forEach(lostBetItems, (item) => {
             this.main.betChips.moveChips(item.chipNode, mainRoomGame.dealerChipBox);
         });
     }
 
     dealerPayChips(mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {
-        _.forEach(winBetItems, item => {
+        _.forEach(winBetItems, (item) => {
             this.main.betChips.payChipsToWinningBetItem(item.chipNode, mainRoomGame.dealerChipBox);
         });
     }
@@ -94,7 +91,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         var betItems = statusData.winningByChoices;
 
-        _.forEach(winBetItems, item => {
+        _.forEach(winBetItems, (item) => {
             if (betItems[item.node.name.toLowerCase()]) {
                 this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node, this.payChipFlyTime);
             }
@@ -115,7 +112,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         if (!winningPlayers) {
             return;
         }
-        Object.keys(winningPlayers).forEach(playerId => {
+        Object.keys(winningPlayers).forEach((playerId) => {
             const otherPlayerData = main.playerHandler.otherPlayers[playerId];
             if (otherPlayerData) {
                 const winningPlayerData = winningPlayers[playerId];
@@ -139,7 +136,7 @@ export default class GameBaseFinishHandler implements DataHandler {
             var bet = winningPlayerData.bet;
 
             if (playerSlot) {
-                _.forEach(winBetItems, item => {
+                _.forEach(winBetItems, (item) => {
                     if (playerBetItems && playerBetItems[item.node.name.toLowerCase()] > 0) {
                         this.main.betChips.moveChipsWithRandomAmount(item.chipNode, playerSlot.avatar.node, this.payChipFlyTime);
                     }
@@ -155,26 +152,32 @@ export default class GameBaseFinishHandler implements DataHandler {
     payChipsToOtherPlayers(roomGame: GameRoomBase, winBetItems: BetItem[]) {
         let hasChip = false;
 
-        _.forEach(winBetItems, item => {
+        _.forEach(winBetItems, (item) => {
             if (!hasChip) {
                 hasChip = item.chipNode.children.length > 0;
             }
             this.main.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
-        })
+        });
 
         hasChip && this.main.betChips.playMultiChipsSound();
     }
 
     playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node, duration = this.WinningAnimationDuration) {
         var winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
-        winningEffect.name = 'winningEffect';
+        winningEffect.name = "winningEffect";
         playerNode.addChild(winningEffect);
         var animation = winningEffect.getComponent(cc.Animation);
 
-        // console.log("duration anim ", animation.defaultClip.duration);
-        winningEffect.runAction(cc.sequence(
-            cc.callFunc(() => { animation.play(); }),
-            cc.delayTime(duration), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
-            cc.callFunc(() => { winningEffect.destroy(); })));
+        winningEffect.runAction(
+            cc.sequence(
+                cc.callFunc(() => {
+                    animation.play();
+                }),
+                cc.delayTime(duration), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
+                cc.callFunc(() => {
+                    winningEffect.destroy();
+                })
+            )
+        );
     }
 }

@@ -1,6 +1,6 @@
-import * as helper from '../../../_new-assets/common/helpers/Helper';
-import { getLowercaseObjectKeys } from '../../common/helpers/Helper.js';
-import BlinkNode from '../../common/BlinkNode';
+import * as helper from "../../../_new-assets/common/helpers/Helper";
+import BlinkNode from "../../common/BlinkNode";
+import { getLowercaseObjectKeys } from "../../common/helpers/Helper.js";
 
 const { ccclass, property } = cc._decorator;
 
@@ -30,14 +30,18 @@ export default class BetItem extends cc.Component {
     @property(cc.Node)
     normalBorder: cc.Node = null;
 
-    public betCallback = (e) => { };
+    public betCallback = (e) => {};
 
     protected setOwnBet(bet: number) {
-        this.ownBet && (this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "");
+        if (this.ownBet) {
+            this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+        }
     }
 
     protected setTotalBet(bet: number) {
-        this.totalBet && (this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "");
+        if (this.totalBet) {
+            this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+        }
     }
 
     public onBetClick(e) {
@@ -59,7 +63,9 @@ export default class BetItem extends cc.Component {
     }
 
     public setOdd(value: string) {
-        this.odds && (this.odds.string = `1:${value}`);
+        if (this.odds) {
+            this.odds.string = `1:${value}`;
+        }
     }
 
     public clearBet() {
@@ -86,8 +92,14 @@ export default class BetItem extends cc.Component {
 
     protected setHighlightItems(highlight: boolean, isAnimated = true) {
         this.highlight.active = highlight && isAnimated;
-        this.highlightBackground && (this.highlightBackground.active = highlight && isAnimated);
-        this.highlightBorder && (this.highlightBorder.active = highlight);
-        this.normalBorder && (this.normalBorder.active = !highlight);
+        if (this.highlightBackground) {
+            this.highlightBackground.active = highlight && isAnimated;
+        }
+        if (this.highlightBorder) {
+            this.highlightBorder.active = highlight;
+        }
+        if (this.normalBorder) {
+            this.normalBorder.active = !highlight;
+        }
     }
 }
