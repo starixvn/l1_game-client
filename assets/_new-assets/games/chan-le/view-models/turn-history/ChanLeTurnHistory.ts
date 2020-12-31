@@ -1,6 +1,6 @@
-import { getStringDateByTime, getStringHourByTime, numberWithCommas, shortenName } from '../../../../common/helpers/Helper';
-import ChanLe from '../ChanLe';
-import ChanLeTurnHistoryItem from './ChanLeTurnHistoryItem';
+import { getStringDateByTime, getStringHourByTime, numberWithCommas, shortenName } from "../../../../common/helpers/Helper";
+import ChanLe from "../ChanLe";
+import ChanLeTurnHistoryItem from "./ChanLeTurnHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -59,8 +59,10 @@ export default class ChanLeTurnHistory extends cc.Component {
             this.node.scale = 0.8;
         }
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     init(root: ChanLe) {
@@ -105,48 +107,51 @@ export default class ChanLeTurnHistory extends cc.Component {
         this.totalBetRight.string = numberWithCommas(data.tong_R);
         this.totalRefundLeft.string = numberWithCommas(data.tong_tralai_L);
         this.totalRefundRight.string = numberWithCommas(data.tong_tralai_R);
-        this.turnInfo.string = data.phien + '  -  ' + getStringDateByTime(data.time);
+        this.turnInfo.string = `${data.phien}  -  ${getStringDateByTime(data.time)}`;
         this.currentTurnId = data.phien;
         var lastTurnId = this.root.main.dataLogs[0].phien;
-        this.nextButton.active = (lastTurnId - data.phien) > 0;
+        this.nextButton.active = lastTurnId - data.phien > 0;
     }
 
     private buildDices(data: any) {
-        var self = this;
-        Promise.all(this.dices.map(function (dice, index) {
-            var point = data.dice[index];
-            dice.spriteFrame = self.root.main.diceFrames[point - 1];
-        }));
+        Promise.all(
+            this.dices.map((dice, index) => {
+                var point = data.dice[index];
+                dice.spriteFrame = this.root.main.diceFrames[point - 1];
+            })
+        );
     }
 
     private buildBetChoices(data: any) {
         var point = data.dice[0] + data.dice[1] + data.dice[2];
 
-        this.leftBetChoice.color = point % 2 ? this.leftBetChoice.color.fromHEX('#ACACAC') : cc.Color.WHITE;
-        this.rightBetChoice.color = point % 2 ? cc.Color.WHITE : this.rightBetChoice.color.fromHEX('#ACACAC');
+        this.leftBetChoice.color = point % 2 ? this.leftBetChoice.color.fromHEX("#ACACAC") : cc.Color.WHITE;
+        this.rightBetChoice.color = point % 2 ? cc.Color.WHITE : this.rightBetChoice.color.fromHEX("#ACACAC");
         this.leftBetChoice.opacity = point % 2 ? 100 : 255;
         this.rightBetChoice.opacity = point % 2 ? 255 : 100;
     }
 
     private buildTurnData(data: any) {
-        var self = this;
+        Promise.all(
+            data.dataL.map((turnData) => {
+                var item = self.addItem(turnData);
+                this.scrollViewLeft.content.addChild(item);
+            })
+        );
 
-        Promise.all(data.dataL.map(function (turnData) {
-            var item = self.addItem(turnData);
-            self.scrollViewLeft.content.addChild(item);
-        }));
-
-        Promise.all(data.dataR.map(function (turnData) {
-            var item = self.addItem(turnData);
-            self.scrollViewRight.content.addChild(item);
-        }));
+        Promise.all(
+            data.dataR.map((turnData) => {
+                var item = this.addItem(turnData);
+                this.scrollViewRight.content.addChild(item);
+            })
+        );
     }
 
     private addItem(turnData: any): cc.Node {
         var item = cc.instantiate(this.itemPrefab);
-        var itemComponent = item.getComponent('ChanLeTurnHistoryItem') as ChanLeTurnHistoryItem;
+        var itemComponent = item.getComponent("ChanLeTurnHistoryItem") as ChanLeTurnHistoryItem;
         itemComponent.time.string = getStringHourByTime(turnData.time);
-        var isLoginUser = turnData.name == cc.RedT.user.name;
+        var isLoginUser = turnData.name === cc.RedT.user.name;
         itemComponent.highlight.active = isLoginUser;
         itemComponent.userName.string = isLoginUser ? turnData.name : shortenName(turnData.name);
         itemComponent.bet.string = numberWithCommas(turnData.bet);

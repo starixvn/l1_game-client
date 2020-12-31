@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
-import ChanLe from './../ChanLe';
-import ChanLeTopUsersItem from './ChanLeTopUsersItem';
-import { numberWithCommas } from './../../../../common/helpers/Helper';
+import ChanLe from "./../ChanLe";
+import ChanLeTopUsersItem from "./ChanLeTopUsersItem";
+import { numberWithCommas } from "./../../../../common/helpers/Helper";
 
 @ccclass
 export default class ChanLeTopUsers extends cc.Component {
@@ -17,7 +17,7 @@ export default class ChanLeTopUsers extends cc.Component {
     @property(cc.Prefab)
     item: cc.Prefab = null;
 
-    private static readonly TOP_CHAN_LE = "Top"
+    private static readonly TOP_CHAN_LE = "Top";
     private root: ChanLe;
 
     init(root: ChanLe) {
@@ -36,17 +36,16 @@ export default class ChanLeTopUsers extends cc.Component {
 
     onData(data) {
         this.scrollView.content.destroyAllChildren();
-        var self = this;
 
         Promise.all(
-            data.map(function (user, index) {
-                var userItem = cc.instantiate(self.item);
+            data.map((user, index) => {
+                var userItem = cc.instantiate(this.item);
                 var itemComponent = userItem.getComponent("ChanLeTopUsersItem") as ChanLeTopUsersItem;
                 itemComponent.rank.string = index + 1;
                 itemComponent.userName.string = user.name;
                 itemComponent.winMoney.string = numberWithCommas(user.bet);
                 itemComponent.node.children[0].active = index % 2 ? true : false;
-                self.scrollView.content.addChild(userItem);
+                this.scrollView.content.addChild(userItem);
             })
         );
     }
@@ -56,5 +55,4 @@ export default class ChanLeTopUsers extends cc.Component {
             get_top: true
         });
     }
-
 }
