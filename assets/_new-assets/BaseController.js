@@ -1,7 +1,7 @@
-import * as authManager from "./common/auth/AuthManager";
-import { buildServerUrl } from "./common/helpers/UrlHelper";
-import logger from "./common/logger";
-import configs from "./Configs";
+import * as authManager from './common/auth/AuthManager';
+import { buildServerUrl } from './common/helpers/UrlHelper';
+import logger from './common/logger';
+import configs from './Configs';
 
 const sentryLogger = logger();
 
@@ -23,7 +23,7 @@ module.exports = {
 
   connect: function (ssl) {
     if (!this.isConnected && !this.isForceKickedOut) {
-      this._socket = new WebSocket(buildServerUrl(ssl, "ws", "/websocket"));
+      this._socket = new WebSocket(buildServerUrl(ssl, 'ws', '/websocket'));
       this._socket.onopen = this._onSocketConnect;
       this._socket.onclose = this._onSocketDisconnect;
       this._socket.onmessage = this._onSocketData;
@@ -53,7 +53,7 @@ module.exports = {
         this.send({ reCheckin: true, user: { updateCoin: true } });
       }
     } catch (ex) {
-      console.log(JSON.stringify(ex))
+      console.log(JSON.stringify(ex));
     }
   },
   disconnect: function () {
@@ -62,14 +62,14 @@ module.exports = {
   },
   send: function (message) {
     try {
-      this._socket.readyState == 1 && this._socket.send(this._encodeMessage(message));
+      this._socket.readyState === 1 && this._socket.send(this._encodeMessage(message));
     } catch (err) {
       sentryLogger.logError(err);
       if (this.inGame && this.inGame.loading) {
         this.inGame.loading.active = false;
         this.inGame.showNotice({
-          title: "THÔNG BÁO",
-          text: "Không thể kết nối tới máy chủ."
+          title: 'THÔNG BÁO',
+          text: 'Không thể kết nối tới máy chủ.',
         });
       }
     }
@@ -82,7 +82,9 @@ module.exports = {
   },
   _onSocketConnect: function () {
     cc.RedT.isConnected = true;
-    cc.RedT.inGame && cc.RedT.inGame.loading && (cc.RedT.inGame.loading.active = true);
+    if (cc.RedT.inGame && cc.RedT.inGame.loading) {
+      cc.RedT.inGame.loading.active = true;
+    }
 
     authManager && authManager.triggerSignIn();
 
@@ -111,7 +113,7 @@ module.exports = {
     data = cc.RedT._decodeMessage(data);
     cc.RedT.inGame && cc.RedT.inGame.onData(data);
 
-    Object.keys(cc.RedT.dataObservers).forEach(key => {
+    Object.keys(cc.RedT.dataObservers).forEach((key) => {
       var observer = cc.RedT.dataObservers[key];
       observer && observer(data);
     });
@@ -142,37 +144,37 @@ module.exports = {
   },
   // Function localStorage
   setAutoLogin: function (bool) {
-    cc.sys.localStorage.setItem("AUTO_LOGIN", bool);
+    cc.sys.localStorage.setItem('AUTO_LOGIN', bool);
   },
   isAutoLogin: function () {
-    var check = cc.sys.localStorage.getItem("AUTO_LOGIN");
-    return check == "true";
+    var check = cc.sys.localStorage.getItem('AUTO_LOGIN');
+    return check === true;
   },
   setSoundGame: function (bool) {
-    cc.sys.localStorage.setItem("SOUND_GAME", bool);
+    cc.sys.localStorage.setItem('SOUND_GAME', bool);
   },
   isSoundGame: function () {
-    var check = cc.sys.localStorage.getItem("SOUND_GAME");
+    var check = cc.sys.localStorage.getItem('SOUND_GAME');
 
-    if (check == null || check == undefined) {
+    if (check === null || check === undefined) {
       this.setSoundGame(true);
       return true;
     }
 
-    return check == "true";
+    return check === true;
   },
   setSoundBackground: function (bool) {
-    cc.sys.localStorage.setItem("SOUND_BACKGROUND", bool);
+    cc.sys.localStorage.setItem('SOUND_BACKGROUND', bool);
   },
   isSoundBackground: function () {
-    var check = cc.sys.localStorage.getItem("SOUND_BACKGROUND");
+    var check = cc.sys.localStorage.getItem('SOUND_BACKGROUND');
 
-    if (check == null || check == undefined) {
+    if (check === null || check === undefined) {
       this.setSoundBackground(true);
       return true;
     }
 
-    return check == "true";
+    return check === true;
   },
   userData: function (data) {
     if (void 0 !== data.name) {
@@ -199,5 +201,5 @@ module.exports = {
     if (void 0 !== data.availSpins) {
       this.user.availSpins = data.availSpins;
     }
-  }
+  },
 };

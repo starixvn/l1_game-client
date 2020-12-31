@@ -12,7 +12,7 @@ export function preChecking(cb) {
   const settingUrl = buildServerUrl(configs.ssl, 'http', '/api/settings');
 
   const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('isUM') && urlParams.get('isUM') == 'true') {
+  if (urlParams.has('isUM') && urlParams.get('isUM') === 'true') {
     window.umInfo = {
       isUM: true,
       startTime: new Date(),
@@ -22,7 +22,7 @@ export function preChecking(cb) {
     return;
   }
 
-  if (urlParams.has('isTimeout') && urlParams.get('isTimeout') == 'true') {
+  if (urlParams.has('isTimeout') && urlParams.get('isTimeout') === 'true') {
     cc.director.loadScene('sessiontimeout');
     return;
   }

@@ -8,7 +8,7 @@ export default class LoopBouncingEffect extends cc.Component {
   @property
   duration: number = 0.3;
 
-  private tag = 100;
+  private readonly tag = 100;
   private originalPosition: cc.Vec2;
 
   onLoad() {

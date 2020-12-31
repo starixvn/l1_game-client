@@ -1,8 +1,8 @@
-import * as socketIo from "socket.io-client";
+import * as socketIo from 'socket.io-client';
 
-import { getSession } from "./common/auth/AuthManager";
-import { sentryLogger } from "./common/logger.js";
-import { gameMiniNewSocketIds } from "./SabaConfigs";
+import { getSession } from './common/auth/AuthManager';
+import { sentryLogger } from './common/logger.js';
+import { gameMiniNewSocketIds } from './SabaConfigs';
 
 export default class BaseSocketIOController {
   private static instance: BaseSocketIOController;
@@ -16,8 +16,14 @@ export default class BaseSocketIOController {
     return this.instance;
   }
 
-  connectGameSocket = (socketUri: string, gameName: string, proxyRoute: string, onConnectFailed: (gameName, isGameRoom) => void, isGameRoom = true): SocketIOClient.Socket => {
-    const socket = socketIo(socketUri, { forceNew: true, transports: ["websocket"], upgrade: false, path: proxyRoute });
+  connectGameSocket = (
+    socketUri: string,
+    gameName: string,
+    proxyRoute: string,
+    onConnectFailed: (gameName, isGameRoom) => void,
+    isGameRoom = true
+  ): SocketIOClient.Socket => {
+    const socket = socketIo(socketUri, { forceNew: true, transports: ['websocket'], upgrade: false, path: proxyRoute });
 
     socket.on('connect', () => {
       socket.emit('signin', getSession());
@@ -72,9 +78,5 @@ export default class BaseSocketIOController {
     });
   }
 
-  recheckin() {
-    // Object.values(this.gameSockets).forEach((socket: SocketIOClient.Socket) => {
-    //   socket.emit('recheckin', getSession());
-    // })
-  }
-} 
+  recheckin() {}
+}
