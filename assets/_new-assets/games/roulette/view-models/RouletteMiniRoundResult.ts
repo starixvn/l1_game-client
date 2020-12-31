@@ -13,11 +13,11 @@ export default class RouletteMiniRoundResult extends cc.Component {
     resultNumbers: RouletteResultNumber[] = [];
 
     onLoad() {
-        this.resultNumbers = this.contentNode.children.map(child => child.getComponent(RouletteResultNumber));
+        this.resultNumbers = this.contentNode.children.map((child) => child.getComponent(RouletteResultNumber));
         this.node.opacity = 0;
     }
 
-    public setData(numbers: number[], animated: boolean = false) {
+    public setData(numbers: number[], animated = false) {
         this.node.opacity = 255;
 
         this.resultNumbers.forEach((child, index) => {
@@ -31,10 +31,7 @@ export default class RouletteMiniRoundResult extends cc.Component {
         this.highlight.active = numbers.length > 0;
 
         if (animated) {
-            const sequence = cc.sequence(
-                cc.fadeOut(.2),
-                cc.fadeIn(.2),
-            );
+            const sequence = cc.sequence(cc.fadeOut(0.2), cc.fadeIn(0.2));
             this.highlight.runAction(cc.repeat(sequence, 4));
         }
     }

@@ -4,7 +4,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RouletteMobileMain extends RouletteMain {
-
     @property(cc.Node)
     quickBetButton: cc.Node = null;
 
@@ -29,7 +28,6 @@ export default class RouletteMobileMain extends RouletteMain {
         super.onLoad();
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
-        // this.quickBetDialog = this.quickBet.getComponent("CommonDialog");
         this.quickBet.node.active = false;
         this.backgroundWheel.active = false;
         this.switchViewBackground.active = false;
@@ -41,9 +39,7 @@ export default class RouletteMobileMain extends RouletteMain {
 
     playAnimationSwitchViewButton() {
         const action = cc.repeatForever(
-            cc.sequence(
-                cc.scaleTo(0.8, 1.05).easing(cc.easeSineInOut()),
-                cc.scaleTo(0.8, 1.0).easing(cc.easeSineInOut()))
+            cc.sequence(cc.scaleTo(0.8, 1.05).easing(cc.easeSineInOut()), cc.scaleTo(0.8, 1.0).easing(cc.easeSineInOut()))
         );
         action.setTag(1);
         this.quickBetButton.parent.runAction(action);
@@ -96,10 +92,11 @@ export default class RouletteMobileMain extends RouletteMain {
 
         cc.tween(this.timeWaitNode.parent)
             .to(0.1, { opacity: 0, scale: 0 }, { easing: "circInOut" })
-            .call(() => { this.timeWaitNode.parent.position = this.switchQuickBetTime.position })
+            .call(() => {
+                this.timeWaitNode.parent.position = this.switchQuickBetTime.position;
+            })
             .to(0.3, { opacity: 255, scale: 1 }, { easing: "circInOut" })
             .start();
-        // this.quickBetDialog.showDialog();
     }
 
     switchToRegularBet() {
@@ -114,7 +111,6 @@ export default class RouletteMobileMain extends RouletteMain {
         this.board.node.stopAllActions();
         this.timeWaitNode.stopAllActions();
 
-        // this.quickBetDialog.closeDialog(false);
         cc.tween(this.quickBet.node)
             .to(0.3, {
                 scale: { value: 0, easing: "circInOut" },
@@ -131,9 +127,10 @@ export default class RouletteMobileMain extends RouletteMain {
 
         cc.tween(this.timeWaitNode.parent)
             .to(0.1, { opacity: 0, scale: 0 }, { easing: "circInOut" })
-            .call(() => { this.timeWaitNode.parent.position = this.prevTimePosition })
+            .call(() => {
+                this.timeWaitNode.parent.position = this.prevTimePosition;
+            })
             .to(0.3, { opacity: 255, scale: 1 }, { easing: "circInOut" })
             .start();
-
     }
 }

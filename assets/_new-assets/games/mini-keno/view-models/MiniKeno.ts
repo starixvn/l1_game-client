@@ -77,20 +77,22 @@ export default class MiniKeno extends GameMiniBase {
     rebet: cc.Button = null;
 
     public kenoNumbers: KenoNumber[] = [];
-    public onFavoriteChanged = (favourite: boolean, type: number) => { };
-    public getPreset = () => { return 0 };
+    public onFavoriteChanged = (favourite: boolean, type: number) => {};
+    public getPreset = () => {
+        return 0;
+    };
     public roundHistory: RoundHistory;
     public roundResult: MiniKenoRoundResult;
     public betBoard: BetBoard;
     public kenoTimer: MiniKenoTimer;
     public lastBetInfo: BetInfo = null;
-    public statusCallback = (gameName: number, roundId: number, winAmount: number) => { }
+    public statusCallback = (gameName: number, roundId: number, winAmount: number) => {};
     public isMiniKeno: boolean;
 
     onLoad() {
         this.gameName = `keno${KenoType[this.kenoType]}`;
         this.config = new MiniKenoConfig(this.kenoType);
-        this.isMiniKeno = this.kenoType == KenoType.Mini || this.kenoType == KenoType.Mini2;
+        this.isMiniKeno = this.kenoType === KenoType.Mini || this.kenoType === KenoType.Mini2;
 
         this.initComponents();
         this.initHeaderBackground();
@@ -127,13 +129,8 @@ export default class MiniKeno extends GameMiniBase {
             East: 2,
             West: 2,
             South: 2,
-            North: 2,
+            North: 2
         };
-        // const colors = [
-        //     new cc.Color(72, 109, 216),
-        //     new cc.Color(137, 95, 50),
-        //     new cc.Color(66, 130, 44),
-        // ];
 
         const bgIndex = dict[KenoType[this.kenoType]];
         this.headerBg.spriteFrame = this.headerFrames[bgIndex];
@@ -173,9 +170,11 @@ export default class MiniKeno extends GameMiniBase {
     }
 
     protected isDisabledBet(): boolean {
-        return this.currentTimeRemaining >= this.config.betTime
-            || this.currentTimeRemaining <= this.config.stopBetTime
-            || this.gameState == GameState.Stopped;
+        return (
+            this.currentTimeRemaining >= this.config.betTime ||
+            this.currentTimeRemaining <= this.config.stopBetTime ||
+            this.gameState === GameState.Stopped
+        );
     }
 
     public onBetItemClick(e) {
@@ -192,7 +191,7 @@ export default class MiniKeno extends GameMiniBase {
             bet: 0,
             betItem: e.target,
             maxBet: this.gameConfigs.choices_maxbet[betChoice]
-        }
+        };
         this.betBoard.show(info);
     }
 
@@ -216,7 +215,7 @@ export default class MiniKeno extends GameMiniBase {
         const nodeIndex = node.parent.children.indexOf(node);
         node.parent.insertChild(tempNode, nodeIndex + 1);
         node.opacity = 0;
-        const xPosition = direction == "right" ? node.width : -node.width;
+        const xPosition = direction === "right" ? node.width : -node.width;
 
         node.runAction(
             cc.sequence(
@@ -228,15 +227,18 @@ export default class MiniKeno extends GameMiniBase {
             )
         );
 
-        tempNode.runAction(cc.sequence(
-            cc.spawn(
-                cc.fadeOut(transitionTime).easing(cc.easeSineInOut()),
-                cc.moveBy(transitionTime, cc.v2(-xPosition, 0)).easing(cc.easeSineInOut())),
-            cc.delayTime(transitionTime * 1.5),
-            cc.callFunc(() => {
-                tempNode.destroy();
-            })
-        ));
+        tempNode.runAction(
+            cc.sequence(
+                cc.spawn(
+                    cc.fadeOut(transitionTime).easing(cc.easeSineInOut()),
+                    cc.moveBy(transitionTime, cc.v2(-xPosition, 0)).easing(cc.easeSineInOut())
+                ),
+                cc.delayTime(transitionTime * 1.5),
+                cc.callFunc(() => {
+                    tempNode.destroy();
+                })
+            )
+        );
     }
 
     public updateRoundHistory() {
@@ -259,7 +261,11 @@ export default class MiniKeno extends GameMiniBase {
         const betItems = betItemsNode.getComponent(MiniKenoBetItems);
         this.betItems = betItems.betItems;
         this.body.addChild(betItemsNode);
-        this.betItems.forEach(item => { item.betCallback = (e) => { this.onBetItemClick(e); } });
+        this.betItems.forEach((item) => {
+            item.betCallback = (e) => {
+                this.onBetItemClick(e);
+            };
+        });
     }
 
     protected initRoundHistory() {
@@ -271,12 +277,6 @@ export default class MiniKeno extends GameMiniBase {
     }
 
     protected initRoundResult() {
-        // this.betItems.forEach(item => {
-        // const miniKenoBetItem = item as MiniKenoBetItem;
-        // const rule = KenoUtils.getKenoRuleChoice(item.node.name, this.isMiniKeno);
-        // miniKenoBetItem.setRule(rule);
-        // });
-
         const roundResultNode = cc.instantiate(this.isMiniKeno ? this.roundResultMiniPrefab : this.roundResultPrefab);
         this.roundResult = roundResultNode.getComponent(MiniKenoRoundResult);
         this.roundResultContainer.addChild(roundResultNode);
@@ -288,7 +288,9 @@ export default class MiniKeno extends GameMiniBase {
         const betBoardNode = cc.instantiate(this.betBoardPrefab);
         this.betBoard = betBoardNode.getComponent(BetBoard);
         this.betBoard.callback = {
-            getPreset: () => { return this.getPreset(); },
+            getPreset: () => {
+                return this.getPreset();
+            },
             acceptedBet: (info: BetInfo) => {
                 if (info.bet > 0) {
                     this.enableRebetButton(true);
@@ -298,8 +300,12 @@ export default class MiniKeno extends GameMiniBase {
                 }
                 info.betItem.getComponent(MiniKenoBetItem).clearInputBet();
             },
-            changedBet: (info: BetInfo) => { info.betItem.getComponent(MiniKenoBetItem).inputBetChanged(info.bet); },
-            cancel: (info: BetInfo) => { info.betItem.getComponent(MiniKenoBetItem).clearInputBet(); },
+            changedBet: (info: BetInfo) => {
+                info.betItem.getComponent(MiniKenoBetItem).inputBetChanged(info.bet);
+            },
+            cancel: (info: BetInfo) => {
+                info.betItem.getComponent(MiniKenoBetItem).clearInputBet();
+            }
         };
         this.betBoard.node.active = false;
         this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
@@ -307,7 +313,7 @@ export default class MiniKeno extends GameMiniBase {
 
     public highlightWonItem(results: any, { isAnimated = true, showWinningEffect = false }) {
         const keys = getLowercaseObjectKeys(results);
-        this.betItems.forEach(item => {
+        this.betItems.forEach((item) => {
             const miniKenoBetItem = item as MiniKenoBetItem;
             const highlight = results[keys[item.node.name.toLowerCase()]];
             miniKenoBetItem.setHighlight(highlight, isAnimated);

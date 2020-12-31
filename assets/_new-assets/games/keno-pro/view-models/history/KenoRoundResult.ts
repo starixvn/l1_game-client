@@ -36,7 +36,7 @@ export default class KenoRoundResult extends cc.Component {
         this.settlementResult = settlementResult;
     }
 
-    public showResult(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
+    public showResult(animated = false, duration = 0, onComplete: () => void = () => { }) {
         this.node.active = true;
 
         if (animated) {

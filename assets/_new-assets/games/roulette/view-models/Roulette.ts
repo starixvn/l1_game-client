@@ -104,19 +104,11 @@ export default class Roulette extends GameRoomBase {
         this.logsHandler = new RouletteLogsHandler(this);
         this.timeHandler = new RouletteTimeHandler(this);
         this.betHandler = new RouletteBetHandler(this);
-        // this.timeHandler = new KenoTimeHandler(this);
     }
 
-    start() {
-        // dont send until loading resoures done
-        // cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
-    }
+    start() {}
 
-
-    onEnable() {
-        // this.startGame();
-        // this.registerViewGame();
-    }
+    onEnable() {}
 
     onLoad() {
         this.roundIdContainer.opacity = 0;
@@ -135,7 +127,7 @@ export default class Roulette extends GameRoomBase {
                 .call(() => {
                     const wPosition = this.rouletteMain.newMenuPosition.convertToWorldSpaceAR(cc.v2(0, 0));
                     const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
-                    this.currentMiniPanel.miniMenu.position = cc.v2(this.currentMiniPanel.miniMenu.position.x, localPosition.y)
+                    this.currentMiniPanel.miniMenu.position = cc.v2(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
                 })
                 .start();
         });
@@ -167,19 +159,15 @@ export default class Roulette extends GameRoomBase {
         this.clearButton.interactable = tempLength > 0;
         this.doubleButton.interactable = tempLength > 0;
         this.undoButton.interactable = tempLength > 0;
-        if (this.confirmButton.interactable != tempLength > 0) {
+        if (this.confirmButton.interactable !== tempLength > 0) {
             this.confirmButton.node.parent.stopAllActions();
             this.confirmGlow.active = false;
             this.confirmButton.node.scale = 1;
             if (!this.confirmButton.interactable) {
                 cc.tween(this.confirmButton.node.parent)
                     .repeatForever(
-                        cc.tween()
-                            .to(0.15, { scale: 0.9 })
-                            .to(0.1, { scale: 1 })
-                            .to(0.1, { scale: 0.9 })
-                            .to(0.1, { scale: 1 })
-                            .delay(1))
+                        cc.tween().to(0.15, { scale: 0.9 }).to(0.1, { scale: 1 }).to(0.1, { scale: 0.9 }).to(0.1, { scale: 1 }).delay(1)
+                    )
                     .start();
 
                 this.confirmGlow.active = true;
@@ -200,25 +188,26 @@ export default class Roulette extends GameRoomBase {
     }
 
     async initMain() {
-        const node = await this.loadResource('RouletteMain', this.mainContainer);
+        const node = await this.loadResource("RouletteMain", this.mainContainer);
         this.rouletteMain = node.getComponent(RouletteMain);
         this.rouletteMain.rearrangeIndexCallback = (type: number) => {
             this.rearrangeIndex(type);
-            if (type === 1) {//quickBet
+            if (type === 1) {
+                //quickBet
                 this.leftControls.collapseMenu();
             }
-        }
+        };
         this.timeWaitLabel = this.rouletteMain.timeWaitLabel;
         this.timeWaitNode = this.rouletteMain.timeWaitNode;
         this.animatedTime = this.rouletteMain.animatedTime;
 
-        const bottomControlsNode = await this.loadResource('BottomControls', this.bottomContainer);
+        const bottomControlsNode = await this.loadResource("BottomControls", this.bottomContainer);
         this.bottomControls = bottomControlsNode.getComponent(BottomControls);
-        this.bottomControls.doubleButton.node.on('click', this.onPressedDouble, this);
-        this.bottomControls.clearButton.node.on('click', this.onPressedClear, this);
-        this.bottomControls.rebetButton.node.on('click', this.onPressedRebet, this);
-        this.bottomControls.confirmButton.node.on('click', this.onPressedConfirm, this);
-        this.bottomControls.undoButton.node.on('click', this.onPressedUndo, this);
+        this.bottomControls.doubleButton.node.on("click", this.onPressedDouble, this);
+        this.bottomControls.clearButton.node.on("click", this.onPressedClear, this);
+        this.bottomControls.rebetButton.node.on("click", this.onPressedRebet, this);
+        this.bottomControls.confirmButton.node.on("click", this.onPressedConfirm, this);
+        this.bottomControls.undoButton.node.on("click", this.onPressedUndo, this);
 
         this.userName = this.bottomControls.userName;
         this.userBalance = this.bottomControls.userBalance;
@@ -231,21 +220,20 @@ export default class Roulette extends GameRoomBase {
         this.confirmGlow = this.bottomControls.confirmGlow;
         this.undoButton = this.bottomControls.undoButton;
 
-        const topControlsNode = await this.loadResource('TopControls', this.topContainer);
+        const topControlsNode = await this.loadResource("TopControls", this.topContainer);
         this.topControls = topControlsNode.getComponent(TopControls);
         this.players = this.topControls.players;
         this.otherPlayers = this.topControls.otherPlayers;
 
-        const leftControlsNode = await this.loadResource('LeftControls', this.leftContainer);
+        const leftControlsNode = await this.loadResource("LeftControls", this.leftContainer);
         this.leftControls = leftControlsNode.getComponent(LeftControls);
-        this.leftControls.guideButton.on('click', this.pressedShowGuide, this);
-        this.leftControls.historyButton.on('click', this.pressedShowHistory, this);
-        this.leftControls.statisticButton.on('click', this.pressedShowStatistic, this);
-        this.leftControls.homeButton.on('click', this.onCloseGameClick, this);
+        this.leftControls.guideButton.on("click", this.pressedShowGuide, this);
+        this.leftControls.historyButton.on("click", this.pressedShowHistory, this);
+        this.leftControls.statisticButton.on("click", this.pressedShowStatistic, this);
+        this.leftControls.homeButton.on("click", this.onCloseGameClick, this);
     }
 
     isMobile(): boolean {
-        // return true;
         return cc.sys.isMobile;
     }
 
@@ -253,62 +241,34 @@ export default class Roulette extends GameRoomBase {
         const items = [];
         if (this.isMobile()) {
             switch (type) {
-                case 0://regular
-                    items.push(...[
-                        this.roundIdContainer,
-                        this.mainContainer,
-                        this.leftContainer,
-                        this.bottomContainer,
-                        this.noticeNode,
-                    ]);
+                case 0: //regular
+                    items.push(...[this.roundIdContainer, this.mainContainer, this.leftContainer, this.bottomContainer, this.noticeNode]);
                     break;
-                case 1://quickBet
-                    items.push(...[
-                        this.leftContainer,
-                        this.mainContainer,
-                        this.bottomContainer,
-                        this.roundIdContainer,
-                        this.noticeNode,
-                    ]);
+                case 1: //quickBet
+                    items.push(...[this.leftContainer, this.mainContainer, this.bottomContainer, this.roundIdContainer, this.noticeNode]);
                     break;
-                case 2://show results
-                    items.push(...[
-                        this.roundIdContainer,
-                        this.leftContainer,
-                        this.bottomContainer,
-                        this.mainContainer,
-                        this.noticeNode,
-                    ]);
+                case 2: //show results
+                    items.push(...[this.roundIdContainer, this.leftContainer, this.bottomContainer, this.mainContainer, this.noticeNode]);
                     break;
                 default:
                     break;
             }
-
         } else {
             switch (type) {
                 case 0:
                 case 1:
-                    items.push(...[
-                        this.roundIdContainer,
-                        this.mainContainer,
-                        this.leftContainer,
-                        this.bottomContainer,
-                        this.noticeNode,
-                    ]);
+                    items.push(...[this.roundIdContainer, this.mainContainer, this.leftContainer, this.bottomContainer, this.noticeNode]);
                     break;
-                case 2://show results
-                    items.push(...[
-                        this.roundIdContainer,
-                        this.leftContainer,
-                        this.bottomContainer,
-                        this.mainContainer,
-                        this.noticeNode,
-                    ]);
+                case 2: //show results
+                    items.push(...[this.roundIdContainer, this.leftContainer, this.bottomContainer, this.mainContainer, this.noticeNode]);
+                    break;
                 default:
                     break;
             }
         }
-        items.forEach((item, index) => { item.zIndex = index });
+        items.forEach((item, index) => {
+            item.zIndex = index;
+        });
     }
 
     async loadResource(name: string, container: cc.Node) {
@@ -349,11 +309,19 @@ export default class Roulette extends GameRoomBase {
 
             this.addBetChoice(betInfo, this.currentBet);
             this.addToBetChoicesStack(betChoices);
-            this.betChips.moveChipWithCallback(chipNode, this.currentBet, destNode, null, () => {
-                this.rouletteMain.board.addBetChoice(betInfo, this.currentBet);
-                this.isPlacingChip = false;
-            }, 0, chipFlyingDuration);
-        }
+            this.betChips.moveChipWithCallback(
+                chipNode,
+                this.currentBet,
+                destNode,
+                null,
+                () => {
+                    this.rouletteMain.board.addBetChoice(betInfo, this.currentBet);
+                    this.isPlacingChip = false;
+                },
+                0,
+                chipFlyingDuration
+            );
+        };
 
         this.rouletteMain.quickBet.callback.getCurrentBet = () => this.currentBet;
         this.rouletteMain.quickBet.callback.selected = (betChoices: any) => {
@@ -362,8 +330,6 @@ export default class Roulette extends GameRoomBase {
                 return;
             }
             this.isPlacingChip = true;
-
-            // this.rouletteMain.switchToRegularBet();
 
             const sum = this.sumValueBetChoices(betChoices);
             if (!this.checkAvailableBalance(sum)) {
@@ -384,14 +350,22 @@ export default class Roulette extends GameRoomBase {
                     const chipNode = RouletteUtils.createChips(bet, this.betChips.chipAltas);
 
                     this.addBetChoice(betInfo, bet);
-                    this.betChips.moveChipWithCallback(chipNode, bet, destNode, null, () => {
-                        this.rouletteMain.board.addBetChoice(betInfo, bet);
-                        this.isPlacingChip = false;
-                    }, 0, chipFlyingDuration);
+                    this.betChips.moveChipWithCallback(
+                        chipNode,
+                        bet,
+                        destNode,
+                        null,
+                        () => {
+                            this.rouletteMain.board.addBetChoice(betInfo, bet);
+                            this.isPlacingChip = false;
+                        },
+                        0,
+                        chipFlyingDuration
+                    );
                 }
             }
             this.addToBetChoicesStack(betChoices);
-        }
+        };
     }
 
     clearTempBetChoices() {
@@ -401,7 +375,6 @@ export default class Roulette extends GameRoomBase {
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
 
         this.updateTotalBetLabel();
-        // this.rouletteMain.board.hideBetDetailTips();
         this.rouletteMain.board.showBetDetailTips();
         this.rouletteMain.board.clearHighlight();
     }
@@ -410,7 +383,6 @@ export default class Roulette extends GameRoomBase {
         this.currentBetChoices = {};
         this.rouletteMain.board.showBetChoices(this.currentBetChoices, this.currentBetChoices);
         this.rouletteMain.board.showBetDetailTips();
-        // this.rouletteMain.board.hideBetDetailTips();
         this.updateTotalBetLabel();
     }
 
@@ -445,13 +417,21 @@ export default class Roulette extends GameRoomBase {
         for (const type in betChoices) {
             for (const key in betChoices[type]) {
                 if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
-                    this.showMiniWarning(isMultiChoices ? "Tiền cược của một trong các cửa vượt mức quy định." : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`);
+                    this.showMiniWarning(
+                        isMultiChoices
+                            ? "Tiền cược của một trong các cửa vượt mức quy định."
+                            : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
+                    );
                     return false;
                 }
                 if (totalChoices[type] && totalChoices[type][key]) {
                     const total = totalChoices[type][key] + betChoices[type][key];
                     if (total > this.gameConfigs.choices_maxbet[type]) {
-                        this.showMiniWarning(isMultiChoices ? "Tiền cược của một trong các cửa vượt mức quy định." : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`);
+                        this.showMiniWarning(
+                            isMultiChoices
+                                ? "Tiền cược của một trong các cửa vượt mức quy định."
+                                : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
+                        );
                         return false;
                     }
                 }
@@ -503,7 +483,7 @@ export default class Roulette extends GameRoomBase {
     }
 
     updateMiniRoundResult(animated = false) {
-        const data = this.currentDataLogs.map(log => log.result);
+        const data = this.currentDataLogs.map((log) => log.result);
         this.miniRoundResult.setData(data, animated);
         if (this.currentTimeRemaining > this.config.stopBetTime) {
             this.rouletteMain.highlightLastResult(data[0], animated);
@@ -594,25 +574,19 @@ export default class Roulette extends GameRoomBase {
     }
 
     updateTotalBetLabel() {
-        const totalBetChoices = this.currentBetChoices;// this.getCurrentTotalBetChoices();
+        const totalBetChoices = this.currentBetChoices;
         const total = this.sumValueBetChoices(totalBetChoices);
         const newTotal = helper.numberWithCommas(total);
         if (newTotal !== this.totalBetLabel.string) {
             this.totalBetLabel.string = newTotal;
-            this.totalBetLabel.node.runAction(cc.repeat(cc.sequence(
-                cc.scaleTo(0.15, 1.2),
-                cc.scaleTo(0.15, 1.0)
-            ), 2));
+            this.totalBetLabel.node.runAction(cc.repeat(cc.sequence(cc.scaleTo(0.15, 1.2), cc.scaleTo(0.15, 1.0)), 2));
         }
 
         const tempValue = this.sumValueBetChoices(this.tempBetChoices);
         const newTempValue = helper.numberWithCommas(tempValue);
         if (this.tempBetLabel.string !== newTempValue) {
             this.tempBetLabel.string = newTempValue;
-            this.tempBetLabel.node.runAction(cc.repeat(cc.sequence(
-                cc.scaleTo(0.15, 1.2),
-                cc.scaleTo(0.15, 1.0)
-            ), 2));
+            this.tempBetLabel.node.runAction(cc.repeat(cc.sequence(cc.scaleTo(0.15, 1.2), cc.scaleTo(0.15, 1.0)), 2));
         }
     }
 

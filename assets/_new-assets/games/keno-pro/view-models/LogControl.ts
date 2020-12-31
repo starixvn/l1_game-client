@@ -4,7 +4,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LogControl extends cc.Component {
-
     @property({ type: cc.Node })
     items: cc.Node[] = [];
 
@@ -32,25 +31,26 @@ export default class LogControl extends cc.Component {
     }
 
     public setData(results: number[]) {
-        this.dots.forEach(dot => {
+        this.dots.forEach((dot) => {
             dot.removeFromParent();
             dot.destroy();
         });
         this.dots = [];
 
-        let col = 0, row = 0;
+        let col = 0,
+            row = 0;
         let maxX = 0;
         let nextCol = 1;
         let previousResult = undefined;
         const rowMax = {};
         let colMax = 0;
-        const start = cc.v2(-this.itemSize.width / 2, - this.itemSize.height / 2 - this.padding.height);
+        const start = cc.v2(-this.itemSize.width / 2, -this.itemSize.height / 2 - this.padding.height);
         results.forEach((result, i) => {
-            if (result == previousResult) {
+            if (result === previousResult) {
                 const max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
                 if (row < max - 1) {
                     row++;
-                } else if (row == 0 && max == 1) {
+                } else if (row === 0 && max === 1) {
                     col = nextCol;
                     nextCol++;
                 } else {

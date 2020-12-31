@@ -1,19 +1,18 @@
-import GameUtils from '../../../common/GameUtils';
-import { games } from '../../../SabaConfigs';
-import GameRoomBase from '../../_base/GameRoomBase';
-import KenoFinishHandler from './handlers/KenoFinishHandler';
-import KenoLogsHandler from './handlers/KenoLogsHandler';
-import KenoTimeHandler from './handlers/KenoTimeHandler';
-import KenoRoundResult from './history/KenoRoundResult';
-import { KenoConfigs } from './KenoConfigs';
-import KenoNumber from './KenoNumber';
-import RoundHistory from './RoundHistory';
+import GameUtils from "../../../common/GameUtils";
+import { games } from "../../../SabaConfigs";
+import GameRoomBase from "../../_base/GameRoomBase";
+import KenoFinishHandler from "./handlers/KenoFinishHandler";
+import KenoLogsHandler from "./handlers/KenoLogsHandler";
+import KenoTimeHandler from "./handlers/KenoTimeHandler";
+import KenoRoundResult from "./history/KenoRoundResult";
+import { KenoConfigs } from "./KenoConfigs";
+import KenoNumber from "./KenoNumber";
+import RoundHistory from "./RoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Keno extends GameRoomBase {
-
     @property(KenoRoundResult)
     roundResult: KenoRoundResult = null;
 
@@ -85,7 +84,7 @@ export default class Keno extends GameRoomBase {
     onLoad() {
         super.onLoad();
         var check = cc.sys.localStorage.getItem(this.gameName);
-        if (check == "true") {
+        if (check === "true") {
             this.node.active = true;
         }
 
@@ -95,7 +94,7 @@ export default class Keno extends GameRoomBase {
             GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
             GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
-        })
+        });
     }
     //#endregion
 
@@ -140,7 +139,7 @@ export default class Keno extends GameRoomBase {
             if (settlementResult[key]) {
                 results.push(key);
             }
-        })
+        });
 
         return results;
     }

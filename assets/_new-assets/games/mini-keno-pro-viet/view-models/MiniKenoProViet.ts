@@ -1,6 +1,6 @@
 import * as moment from "moment";
-import { zeroPad } from '../../../common/helpers/Helper.js';
-import * as config from '../../../Configs';
+import { zeroPad } from "../../../common/helpers/Helper.js";
+import * as config from "../../../Configs";
 import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
@@ -26,18 +26,18 @@ export default class MiniKenoProViet extends MiniKeno {
     static readonly DATE_FORMAT = "DD/MM";
     static readonly FULL_DATE_FORMAT = "DD/MM/YYYY";
     static readonly DATETIME_FORMAT = "DD/MM HH:mm";
-    static readonly STOP_BET_MESSAGE = "Kỳ vé $ROUND \nđã dừng nhận cược. \nVui lòng chọn kỳ vé khác."
+    static readonly STOP_BET_MESSAGE = "Kỳ vé $ROUND \nđã dừng nhận cược. \nVui lòng chọn kỳ vé khác.";
 
     roundsHandler: MiniKenoProVietRoundsHandler;
     rounds: MiniKenoProVietRound[];
     roundsSelection: MiniKenoProVietRoundsSelection;
     roundEndTime: Date;
-    isIncomingGameRound: boolean = true;
+    isIncomingGameRound = true;
 
     public onLoad() {
         super.onLoad();
         this.config = new MiniKenoProVietConfig();
-        this.addHandlers(this.roundsHandler)
+        this.addHandlers(this.roundsHandler);
     }
 
     protected initComponents() {
@@ -57,7 +57,7 @@ export default class MiniKenoProViet extends MiniKeno {
     public initHandlers() {
         super.initHandlers();
 
-        this.umHandler = new MiniKenoProVietUMHandler(this)
+        this.umHandler = new MiniKenoProVietUMHandler(this);
         this.finishHandler = new MiniKenoProVietFinishHandler(this);
         this.roundsHandler = new MiniKenoProVietRoundsHandler(this);
         this.timeHandler = new MiniKenoProVietTimeHandler(this);
@@ -69,7 +69,7 @@ export default class MiniKenoProViet extends MiniKeno {
     }
 
     public static openVietlottUrl() {
-        window.open(config.kenoVietLotUrl, '_blank', "rel=noopener noreferrer");
+        window.open(config.kenoVietLotUrl, "_blank", "rel=noopener noreferrer");
         window.focus();
     }
 
@@ -91,12 +91,12 @@ export default class MiniKenoProViet extends MiniKeno {
     public selectNextRound() {
         cc.RedT.audio.playClick();
         const nextRoundId = this.roundId + 1;
-        const round = this.rounds.find(r => r.id === nextRoundId);
+        const round = this.rounds.find((r) => r.id === nextRoundId);
         this.changeRound(round, 0);
     }
 
     public getGameRounds() {
-        this.sendData({ "getRounds": true });
+        this.sendData({ getRounds: true });
     }
 
     public resetDataAndUI() {
@@ -106,27 +106,31 @@ export default class MiniKenoProViet extends MiniKeno {
         this.timer.active = true;
         this.animatedTime.resetTime();
         this.betBoard.node.active = false;
-        this.roundsSelection && (this.roundsSelection.node.active = false);
+        if (this.roundsSelection) {
+            this.roundsSelection.node.active = false;
+        }
     }
 
-    public changeRound(round: MiniKenoProVietRound, delayTime: number = 0.51) {
+    public changeRound(round: MiniKenoProVietRound, delayTime = 0.51) {
         const newRoundId = round.id;
 
-        if (newRoundId == this.roundId) {
+        if (newRoundId === this.roundId) {
             return;
         }
 
         const direction = this.roundId < newRoundId ? "right" : "left";
 
-        this.node.parent.runAction(cc.sequence(
-            cc.delayTime(delayTime),
-            cc.callFunc(() => {
-                this.slideTransition(this.node, direction, 0.4, (tempNode) => {
-                    tempNode.removeComponent(MiniKenoProViet);
-                    this.initGameRound(newRoundId, new Date(round.time));
-                });
-            })
-        ))
+        this.node.parent.runAction(
+            cc.sequence(
+                cc.delayTime(delayTime),
+                cc.callFunc(() => {
+                    this.slideTransition(this.node, direction, 0.4, (tempNode) => {
+                        tempNode.removeComponent(MiniKenoProViet);
+                        this.initGameRound(newRoundId, new Date(round.time));
+                    });
+                })
+            )
+        );
     }
 
     public getPlayerBetsAndTimeOfRound(roundId: string) {
@@ -164,7 +168,7 @@ export default class MiniKenoProViet extends MiniKeno {
         if (roundId && this.rounds) {
             const formatedRoundId = `#${MiniKenoProViet.formatProVGameRound(roundId)}`;
             this.stopBetMessage.string = MiniKenoProViet.STOP_BET_MESSAGE.replace("$ROUND", formatedRoundId);
-            const currentRound = this.rounds.find(round => round.id === roundId);
+            const currentRound = this.rounds.find((round) => round.id === roundId);
 
             if (currentRound) {
                 return `${formatedRoundId} - ${moment(currentRound.time).format(MiniKenoProViet.TIME_FORMAT)} `;
@@ -196,7 +200,7 @@ export default class MiniKenoProViet extends MiniKeno {
 
             const finishHandler = this.finishHandler as GameBaseFinishHandler;
             const currentRoundId = this.currentDataLogs[0].roundId + 1;
-            const currentRound = this.rounds.find(round => round.id === currentRoundId);
+            const currentRound = this.rounds.find((round) => round.id === currentRoundId);
 
             if (!currentRound) {
                 return false;
@@ -204,12 +208,13 @@ export default class MiniKenoProViet extends MiniKeno {
 
             const remainingTime = (new Date(currentRound.time).getTime() - new Date().getTime()) / 1000;
 
-            return remainingTime < this.config.stopBetTime
-                || (remainingTime > this.config.fullTime - finishHandler.getResultAnimationTime()
-                    && !this.isInLastRoundOfDay(remainingTime));
-        }
+            return (
+                remainingTime < this.config.stopBetTime ||
+                (remainingTime > this.config.fullTime - finishHandler.getResultAnimationTime() && !this.isInLastRoundOfDay(remainingTime))
+            );
+        };
 
-        this.roundHistory.sharedLogControl.init(condition)
+        this.roundHistory.sharedLogControl.init(condition);
     }
 
     private initGameRound(roundId: number, roundTime: Date) {

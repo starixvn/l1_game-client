@@ -1,14 +1,13 @@
-import { getStringDateByTime, numberWithCommas } from '../../../../common/helpers/Helper';
-import * as Pagination from '../../../../common/helpers/Pagination/Pagination';
-import Keno from '../Keno';
-import KenoRoundResult from './KenoRoundResult';
-import KenoUserHistoryItem from './KenoUserHistoryItem';
+import { getStringDateByTime, numberWithCommas } from "../../../../common/helpers/Helper";
+import * as Pagination from "../../../../common/helpers/Pagination/Pagination";
+import Keno from "../Keno";
+import KenoRoundResult from "./KenoRoundResult";
+import KenoUserHistoryItem from "./KenoUserHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoUserHistory extends cc.Component {
-
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -24,15 +23,17 @@ export default class KenoUserHistory extends cc.Component {
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
-    private root: Keno;
+    private readonly root: Keno;
     private roundResult: KenoRoundResult = null;
-    private dataObserverKey = "KenoUserHistory";
+    private readonly dataObserverKey = "KenoUserHistory";
 
     onLoad() {
         this.pages.init(this);
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     onEnable() {
@@ -47,13 +48,13 @@ export default class KenoUserHistory extends cc.Component {
     }
 
     onDisable() {
-        this.content.children.forEach(child => child.destroy());
+        this.content.children.forEach((child) => child.destroy());
         cc.RedT.removeDataObserver(this.dataObserverKey);
     }
 
     public onData(data: any) {
         this.pages.onSet(data.page, data.pageSize, data.total);
-        this.content.children.forEach(child => child.destroy());
+        this.content.children.forEach((child) => child.destroy());
 
         for (let i = 0; i < data.betLogs.length; i++) {
             var dataT = data.betLogs[i];
@@ -61,7 +62,7 @@ export default class KenoUserHistory extends cc.Component {
                 const historyItemPrefab = cc.instantiate(this.prefabItem);
                 const item = historyItemPrefab.getComponent("KenoUserHistoryItem") as KenoUserHistoryItem;
                 item.init(this);
-                item.node.active = true
+                item.node.active = true;
                 item.time.string = getStringDateByTime(dataT.time);
                 item.roundId = dataT.phien;
                 item.round.string = dataT.phien;
@@ -72,11 +73,11 @@ export default class KenoUserHistory extends cc.Component {
                 const result = dataT.result;
                 for (let i = 0; i < result.length; i++) {
                     total += result[i];
-                };
+                }
 
                 const settlementResult = dataT.settlementResult;
                 item.settlementResult = settlementResult;
-                Object.keys(settlementResult).forEach(key => {
+                Object.keys(settlementResult).forEach((key) => {
                     if (settlementResult[key]) {
                         item[key].node.color = cc.Color.YELLOW;
                     }

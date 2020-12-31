@@ -17,14 +17,16 @@ export default class RouletteQuickBet extends cc.Component {
 
     public callback = {
         getCurrentBet: () => 1,
-        highlight: (highlight: boolean, numbers: number[]) => { },
-        selected: (betChoices: any) => { }
-    }
+        highlight: (highlight: boolean, numbers: number[]) => {},
+        selected: (betChoices: any) => {}
+    };
 
     onLoad() {
         this.initGroupBetItems();
         this.initHandleTouch();
-        this.rouletteNumbers = this.numberContainer.children.map(child => child.getComponent(RouletteNumber)).sort((a, b) => +a.node.name - +b.node.name);
+        this.rouletteNumbers = this.numberContainer.children
+            .map((child) => child.getComponent(RouletteNumber))
+            .sort((a, b) => +a.node.name - +b.node.name);
     }
 
     onDestroy() {
@@ -32,8 +34,46 @@ export default class RouletteQuickBet extends cc.Component {
     }
 
     getNeighbours(number: number) {
-        const array = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
-        const centerIndex = array.findIndex(n => n === number);
+        const array = [
+            0,
+            32,
+            15,
+            19,
+            4,
+            21,
+            2,
+            25,
+            17,
+            34,
+            6,
+            27,
+            13,
+            36,
+            11,
+            30,
+            8,
+            23,
+            10,
+            5,
+            24,
+            16,
+            33,
+            1,
+            20,
+            14,
+            31,
+            9,
+            22,
+            18,
+            29,
+            7,
+            28,
+            12,
+            35,
+            3,
+            26
+        ];
+        const centerIndex = array.findIndex((n) => n === number);
         const padding = 2;
         const neighbors = [];
         for (let i = centerIndex - padding; i <= centerIndex + padding; i++) {
@@ -69,7 +109,7 @@ export default class RouletteQuickBet extends cc.Component {
 
     onTouchMove(e) {
         const location = e.getLocation();
-        this.groupItems.forEach(groupItem => {
+        this.groupItems.forEach((groupItem) => {
             if (!groupItem.parentControl) {
                 return;
             }
@@ -79,7 +119,7 @@ export default class RouletteQuickBet extends cc.Component {
             }
         });
 
-        this.rouletteNumbers.forEach(rouletteNumber => {
+        this.rouletteNumbers.forEach((rouletteNumber) => {
             const collider = rouletteNumber.highlight.getComponent(cc.PolygonCollider);
             if (collider) {
                 if (this.checkCollider(location, collider)) {
@@ -92,7 +132,7 @@ export default class RouletteQuickBet extends cc.Component {
 
     onTouchEnd(e) {
         const location = e.getLocation();
-        this.groupItems.forEach(groupItem => {
+        this.groupItems.forEach((groupItem) => {
             if (!groupItem.parentControl) {
                 return;
             }
@@ -106,17 +146,17 @@ export default class RouletteQuickBet extends cc.Component {
             }
         });
 
-        this.rouletteNumbers.forEach(rouletteNumber => {
+        this.rouletteNumbers.forEach((rouletteNumber) => {
             const collider = rouletteNumber.highlight.getComponent(cc.PolygonCollider);
             if (collider) {
                 if (this.checkCollider(location, collider)) {
                     const numbers = this.getNeighbours(+rouletteNumber.node.name);
                     const betChoices = {
-                        "straightUp": {}
-                    }
-                    numbers.forEach(number => {
+                        straightUp: {}
+                    };
+                    numbers.forEach((number) => {
                         betChoices["straightUp"][number] = this.callback.getCurrentBet();
-                    })
+                    });
                     this.internalHighlight(false, numbers);
                     this.internalSelected(betChoices);
                 }
@@ -125,7 +165,9 @@ export default class RouletteQuickBet extends cc.Component {
     }
 
     onTouchCancel(e) {
-        this.rouletteNumbers.forEach(number => { number.clearHighlight(); });
+        this.rouletteNumbers.forEach((number) => {
+            number.clearHighlight();
+        });
         this.internalHighlight(false, []);
     }
 
@@ -144,8 +186,8 @@ export default class RouletteQuickBet extends cc.Component {
     }
 
     initGroupBetItems() {
-        this.groupItems = this.groupItemNode.children.map(child => child.getComponent(RouletteGroupBetItem));
-        this.groupItems.forEach(item => {
+        this.groupItems = this.groupItemNode.children.map((child) => child.getComponent(RouletteGroupBetItem));
+        this.groupItems.forEach((item) => {
             item.groupBetItemCallback.highlight = (highlight, numbers) => {
                 this.internalHighlight(highlight, numbers);
             };
@@ -161,14 +203,15 @@ export default class RouletteQuickBet extends cc.Component {
         this.rouletteNumbers.forEach((number, index) => {
             if (numbers.includes(index)) {
                 number.showHighlight();
-            }
-            else {
+            } else {
                 number.clearHighlight();
             }
         });
     }
 
     clearHighlight() {
-        this.rouletteNumbers.forEach(number => { number.clearHighlight(); });
+        this.rouletteNumbers.forEach((number) => {
+            number.clearHighlight();
+        });
     }
 }

@@ -1,13 +1,12 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import RouletteStatisticItem from './RouletteStatisticItem';
-import RouletteUtils from './RouletteUtils';
+import RouletteStatisticItem from "./RouletteStatisticItem";
+import RouletteUtils from "./RouletteUtils";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RouletteStatistic extends cc.Component {
-
     @property(cc.Node)
     wheel: cc.Node = null;
 
@@ -64,19 +63,59 @@ export default class RouletteStatistic extends cc.Component {
 
     wheelDegree = 360;
     numberAngle: number = this.wheelDegree / 37;
-    numbersOnWheel: number[] = [26, 0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3];
+    numbersOnWheel: number[] = [
+        26,
+        0,
+        32,
+        15,
+        19,
+        4,
+        21,
+        2,
+        25,
+        17,
+        34,
+        6,
+        27,
+        13,
+        36,
+        11,
+        30,
+        8,
+        23,
+        10,
+        5,
+        24,
+        16,
+        33,
+        1,
+        20,
+        14,
+        31,
+        9,
+        22,
+        18,
+        29,
+        7,
+        28,
+        12,
+        35,
+        3
+    ];
     result: any = null;
     resultStats = [];
     toggleRuning: boolean = null;
-    private dataObserverKey = "RouletteStatistic";
+    private readonly dataObserverKey = "RouletteStatistic";
 
     onLoad() {
         this.toggleRuning = true;
         this.get_data();
         this.addDataObserver();
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     addDataObserver() {
@@ -92,13 +131,13 @@ export default class RouletteStatistic extends cc.Component {
     }
 
     receivedData(data) {
-        if (data['roulette'] && data['roulette'].statistics) {
-            this.onData(data['roulette'].statistics.latestResults);
+        if (data["roulette"] && data["roulette"].statistics) {
+            this.onData(data["roulette"].statistics.latestResults);
         }
     }
 
     get_data() {
-        cc.RedT.send({ g: { ['roulette']: { getStatistics: true } } });
+        cc.RedT.send({ g: { ["roulette"]: { getStatistics: true } } });
     }
 
     onData(data: any) {
@@ -111,23 +150,23 @@ export default class RouletteStatistic extends cc.Component {
     createResultStatistic() {
         for (let i = 0; i < 37; i++) {
             this.resultStats.push({
-                "number": i,
-                "times": 0
+                number: i,
+                times: 0
             });
         }
-        this.result.forEach(number => {
+        this.result.forEach((number) => {
             this.resultStats[number].times++;
         });
     }
 
     createWheel() {
-        if (this.result.length == 0) {
+        if (this.result.length === 0) {
             return;
         }
-        const largestTimes = _.maxBy(this.resultStats, 'times').times;
+        const largestTimes = _.maxBy(this.resultStats, "times").times;
         const offfetCenter = 0.19;
         this.numbersOnWheel.forEach((number, index) => {
-            const itemAngle = index == 0 ? 0 : index * this.numberAngle + 0.1;
+            const itemAngle = index === 0 ? 0 : index * this.numberAngle + 0.1;
             const numberNode = cc.instantiate(this.numberStatistic);
             const spriteComponent = numberNode.getComponent(cc.Sprite);
 
@@ -150,11 +189,11 @@ export default class RouletteStatistic extends cc.Component {
             }
 
             this.wheel.addChild(numberNode);
-        })
+        });
     }
 
     handleStatsPercent() {
-        if (this.result.length == 0) {
+        if (this.result.length === 0) {
             return;
         }
         this.findHotColdNumbers();
@@ -162,7 +201,9 @@ export default class RouletteStatistic extends cc.Component {
     }
 
     findHotColdNumbers() {
-        this.resultStats.sort((a, b) => { return a.times - b.times });
+        this.resultStats.sort((a, b) => {
+            return a.times - b.times;
+        });
 
         const coldNumbers = _.slice(this.resultStats, 0, 4);
         const hotNumbers = _.slice(this.resultStats, this.resultStats.length - 4, this.resultStats.length);
@@ -183,7 +224,7 @@ export default class RouletteStatistic extends cc.Component {
             } else {
                 spriteComponent.spriteFrame = RouletteUtils.isRed(number) ? this.numberRedBg : this.numberBlackBg;
             }
-        })
+        });
     }
 
     calculatePercent() {
@@ -196,7 +237,7 @@ export default class RouletteStatistic extends cc.Component {
         let dozen1Count = 0;
         let dozen2Count = 0;
         let zeroCount = 0;
-        this.result.forEach(number => {
+        this.result.forEach((number) => {
             if (number === 0) {
                 zeroCount += 1;
             } else {
@@ -224,7 +265,7 @@ export default class RouletteStatistic extends cc.Component {
                     dozen2Count += 1;
                 }
             }
-        })
+        });
 
         const zeroPercent = _.round((zeroCount / this.result.length) * 100);
         this.zeroPercent.string = `${zeroPercent}%`;
@@ -258,7 +299,7 @@ export default class RouletteStatistic extends cc.Component {
                 itemComponent.secondValue.string = `${big}%`;
                 itemComponent.updateProgressBar(smallCount, bigCount);
             }
-        })
+        });
 
         const dozen1 = _.round((dozen1Count / this.result.length) * 100);
         const dozen2 = _.round((dozen2Count / this.result.length) * 100);
@@ -271,11 +312,14 @@ export default class RouletteStatistic extends cc.Component {
     hideStatisticContent() {
         cc.RedT.audio.playClick();
 
-        this.content.runAction(cc.sequence(
-            cc.scaleTo(0.3, 0).easing(cc.easeSineInOut()),
-            cc.callFunc(() => {
-                this.background.runAction(cc.fadeOut(0.1));
-                this.node.destroy();
-            })));
+        this.content.runAction(
+            cc.sequence(
+                cc.scaleTo(0.3, 0).easing(cc.easeSineInOut()),
+                cc.callFunc(() => {
+                    this.background.runAction(cc.fadeOut(0.1));
+                    this.node.destroy();
+                })
+            )
+        );
     }
 }

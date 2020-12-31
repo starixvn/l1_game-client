@@ -46,27 +46,29 @@ export default class RouletteNumber extends cc.Component {
     }
 
     public showWinning(animated: boolean) {
-        this.winning && (this.winning.active = animated);
+        if (this.winning) {
+            this.winning.active = animated;
+        }
 
         const sprite = this.winning.getComponent(cc.Sprite);
         sprite.spriteFrame = this.originFrame;
         if (animated) {
-            // sprite.spriteFrame = this.highlight.getComponent(cc.Sprite).spriteFrame;
-            const sequence = cc.sequence(
-                cc.fadeOut(.2),
-                cc.fadeIn(.2),
+            const sequence = cc.sequence(cc.fadeOut(0.2), cc.fadeIn(0.2));
+            this.winning.runAction(
+                cc.sequence(
+                    cc.repeat(sequence, 20),
+                    cc.fadeOut(0.2),
+                    cc.callFunc(() => {
+                        sprite.spriteFrame = this.originFrame;
+                    })
+                )
             );
-            this.winning.runAction(cc.sequence(
-                cc.repeat(sequence, 20),
-                cc.fadeOut(.2),
-                cc.callFunc(() => {
-                    sprite.spriteFrame = this.originFrame;
-                })
-            ));
         }
     }
 
     public hideWinning() {
-        this.winning && (this.winning.active = false);
+        if (this.winning) {
+            this.winning.active = false;
+        }
     }
 }

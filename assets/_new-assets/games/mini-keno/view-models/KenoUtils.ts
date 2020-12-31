@@ -1,4 +1,3 @@
-
 export enum KenoType {
     ProViet,
     Max,
@@ -8,11 +7,11 @@ export enum KenoType {
     East,
     West,
     South,
-    North,
+    North
 }
 
 export default class KenoUtils {
-    public static getKenoRuleChoice(choice: string, isMini: boolean = false) {
+    public static getKenoRuleChoice(choice: string, isMini = false) {
         const rules = {
             big: "[811-1410]",
             small: "[210-810]",
@@ -22,7 +21,7 @@ export default class KenoUtils {
             wood: "[696-763]",
             water: "[764-855]",
             fire: "[856-923]",
-            earth: "[924-1410]",
+            earth: "[924-1410]"
         };
         const rules2 = {
             big: "[206-355]",
@@ -33,12 +32,12 @@ export default class KenoUtils {
             wood: "[164-187]",
             water: "[188-222]",
             fire: "[223-246]",
-            earth: "[247-355]",
+            earth: "[247-355]"
         };
         return isMini ? rules2[choice] : rules[choice];
     }
 
-    public static getSettleResult(total: number, miniType: boolean = false) {
+    public static getSettleResult(total: number, miniType = false) {
         const normalRules = {
             big: 810,
             gold: 696,
@@ -94,8 +93,8 @@ export default class KenoUtils {
             East: "Keno Đông",
             West: "Keno Tây",
             South: "Keno Nam",
-            North: "Keno Bắc",
-        }
+            North: "Keno Bắc"
+        };
 
         return dict[KenoType[kenoType]];
     }

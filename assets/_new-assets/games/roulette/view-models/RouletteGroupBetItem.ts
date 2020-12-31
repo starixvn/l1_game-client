@@ -5,10 +5,10 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class RouletteGroupBetItem extends CustomButton {
     @property
-    betType: string = ""
+    betType = "";
 
     @property
-    numbers: string = "";
+    numbers = "";
 
     @property(cc.Node)
     highlight: cc.Node = null;
@@ -23,9 +23,9 @@ export default class RouletteGroupBetItem extends CustomButton {
     private readonly HIGHLIGHTED_TAG = 2;
 
     public groupBetItemCallback = {
-        highlight: (highlight: boolean, numbers: number[]) => { },
-        selected: (betType: string, numbers: number[]) => { }
-    }
+        highlight: (highlight: boolean, numbers: number[]) => {},
+        selected: (betType: string, numbers: number[]) => {}
+    };
 
     getNumbers(): number[] {
         return this.selectedNumbers;
@@ -37,7 +37,7 @@ export default class RouletteGroupBetItem extends CustomButton {
             this.originFrame = this.winning.getComponent(cc.Sprite).spriteFrame;
         }
 
-        this.selectedNumbers = this.numbers.split(',').map(i => +i);
+        this.selectedNumbers = this.numbers.split(",").map((i) => +i);
         this.callback.highlight = (highlight) => {
             this.groupBetItemCallback.highlight(highlight, this.selectedNumbers);
             highlight ? this.showHighlight() : this.clearHighlight();
@@ -71,22 +71,22 @@ export default class RouletteGroupBetItem extends CustomButton {
     }
 
     public showWinning(animated: boolean) {
-        this.winning && (this.winning.active = animated);
+        if (this.winning) {
+            this.winning.active = animated;
+        }
         const sprite = this.winning.getComponent(cc.Sprite);
         sprite.spriteFrame = this.originFrame;
         if (animated) {
-            // sprite.spriteFrame = this.highlight.getComponent(cc.Sprite).spriteFrame;
-            const sequence = cc.sequence(
-                cc.fadeOut(.2),
-                cc.fadeIn(.2),
+            const sequence = cc.sequence(cc.fadeOut(0.2), cc.fadeIn(0.2));
+            this.winning.runAction(
+                cc.sequence(
+                    cc.repeat(sequence, 14),
+                    cc.fadeOut(0.2),
+                    cc.callFunc(() => {
+                        sprite.spriteFrame = this.originFrame;
+                    })
+                )
             );
-            this.winning.runAction(cc.sequence(
-                cc.repeat(sequence, 14),
-                cc.fadeOut(.2),
-                cc.callFunc(() => {
-                    sprite.spriteFrame = this.originFrame;
-                })
-            ));
         }
     }
 

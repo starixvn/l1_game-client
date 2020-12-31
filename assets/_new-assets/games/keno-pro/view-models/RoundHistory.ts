@@ -38,7 +38,12 @@ export default class RoundHistory extends cc.Component {
     @property
     toggleStatistics = false;
 
-    @property({ type: cc.Node, visible: function (this: RoundHistory) { return this.toggleStatistics } })
+    @property({
+        type: cc.Node,
+        visible: function (this: RoundHistory) {
+            return this.toggleStatistics;
+        }
+    })
     statisticsNodes: cc.Node[] = [];
 
     private main: GameBase;
@@ -67,7 +72,7 @@ export default class RoundHistory extends cc.Component {
         water: 2,
         fire: 2,
         earth: 2
-    }
+    };
 
     onLoad() {
         this.node.active = false;
@@ -77,8 +82,11 @@ export default class RoundHistory extends cc.Component {
         this.main = main;
         const condition = () => {
             const finishHandler = main.finishHandler as GameBaseFinishHandler;
-            return main.currentTimeRemaining < main.config.stopBetTime || main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime();
-        }
+            return (
+                main.currentTimeRemaining < main.config.stopBetTime ||
+                main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime()
+            );
+        };
         this.sharedLogControl.init(condition);
     }
 
@@ -101,11 +109,11 @@ export default class RoundHistory extends cc.Component {
     private updateDisplay() {
         this.waterMarks.forEach((waterMark, index) => {
             waterMark.active = index === this.currentOption;
-        })
+        });
         switch (this.currentOption) {
             case 0:
                 this.showBigSmall();
-                break
+                break;
             case 1:
                 this.showEvenOdd();
                 break;
@@ -123,36 +131,38 @@ export default class RoundHistory extends cc.Component {
 
         this.statisticsNodes.forEach((child, index) => {
             this.statisticsNodes[index].active = index === this.currentOption;
-        })
+        });
     }
 
     public setData(data: any) {
         this.node.active = true;
 
-        const results: string[][] = data.map(d => {
+        const results: string[][] = data.map((d) => {
             const settlementResult = d.settlementResult;
             return Keno.getResults(settlementResult);
         });
 
-        this.statisticData = [{
-            data: [],
-            statistic: [0, 0],
-        },
-        {
-            data: [],
-            statistic: [0, 0],
-        },
-        {
-            data: [],
-            statistic: [0, 0, 0, 0, 0],
-        }];
+        this.statisticData = [
+            {
+                data: [],
+                statistic: [0, 0]
+            },
+            {
+                data: [],
+                statistic: [0, 0]
+            },
+            {
+                data: [],
+                statistic: [0, 0, 0, 0, 0]
+            }
+        ];
 
-        results.reverse().forEach(result => {
-            result.forEach(e => {
+        [...results].reverse().forEach((result) => {
+            result.forEach((e) => {
                 const statistic = this.statisticData[this.dataIndexDictionary[e]];
                 statistic.data.push(this.indexDictionary[e]);
                 statistic.statistic[this.indexDictionary[e]]++;
-            })
+            });
         });
 
         this.updateStatistics();
@@ -186,14 +196,14 @@ export default class RoundHistory extends cc.Component {
         const statisticBigSmall = this.statisticData[HistoryOption.BigSmall];
         const big = statisticBigSmall.statistic[0];
         const small = statisticBigSmall.statistic[1];
-        const bigValue = Math.round(big * 100 / (big + small));
+        const bigValue = Math.round((big * 100) / (big + small));
         this.statisticLabels[0].string = `${bigValue}%`;
         this.statisticLabels[1].string = `${100 - bigValue}%`;
 
         const statisticEvenOdd = this.statisticData[HistoryOption.EvenOdd];
         const even = statisticEvenOdd.statistic[0];
         const odd = statisticEvenOdd.statistic[1];
-        const evenValue = Math.round(even * 100 / (even + odd));
+        const evenValue = Math.round((even * 100) / (even + odd));
         this.statisticLabels[2].string = `${evenValue}%`;
         this.statisticLabels[3].string = `${100 - evenValue}%`;
 
@@ -205,10 +215,10 @@ export default class RoundHistory extends cc.Component {
         const earth = statisticFiveElements.statistic[4];
         const total = gold + wood + water + fire + earth;
 
-        const goldValue = Math.round(gold * 100 / total);
-        const woodValue = Math.round(wood * 100 / total);
-        const earthValue = Math.round(earth * 100 / total);
-        const fireValue = Math.round(fire * 100 / total);
+        const goldValue = Math.round((gold * 100) / total);
+        const woodValue = Math.round((wood * 100) / total);
+        const earthValue = Math.round((earth * 100) / total);
+        const fireValue = Math.round((fire * 100) / total);
         const waterValue = 100 - (goldValue + woodValue + earthValue + fireValue);
         this.statisticLabels[4].string = `${goldValue}%`;
         this.statisticLabels[5].string = `${woodValue}%`;

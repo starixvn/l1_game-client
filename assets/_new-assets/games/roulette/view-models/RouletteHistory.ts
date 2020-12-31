@@ -1,12 +1,11 @@
-import { getStringDateByTime, numberWithCommas } from '../../../common/helpers/Helper';
-import * as Pagination from '../../../common/helpers/Pagination/Pagination';
-import RouletteHistoryItem from './RouletteHistoryItem';
-import RouletteTicketDetail from './RouletteTicketDetail';
+import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import * as Pagination from "../../../common/helpers/Pagination/Pagination";
+import RouletteHistoryItem from "./RouletteHistoryItem";
+import RouletteTicketDetail from "./RouletteTicketDetail";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class RouletteHistory extends cc.Component {
-
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -23,15 +22,17 @@ export default class RouletteHistory extends cc.Component {
     mainFrame: cc.Node = null;
 
     historyData: any = null;
-    private dataObserverKey = "RouletteHistory";
+    private readonly dataObserverKey = "RouletteHistory";
 
     onLoad() {
         this.pages.init(this);
         this.get_data();
         this.addDataObserver();
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     addDataObserver() {
@@ -47,21 +48,21 @@ export default class RouletteHistory extends cc.Component {
     }
 
     receivedData(data) {
-        if (data['roulette'] && data['roulette'].history) {
-            this.onData(data['roulette'].history);
+        if (data["roulette"] && data["roulette"].history) {
+            this.onData(data["roulette"].history);
         }
     }
 
     get_data(page = 1) {
-        cc.RedT.send({ g: { ['roulette']: { getHistory: { page: page } } } });
+        cc.RedT.send({ g: { ["roulette"]: { getHistory: { page: page } } } });
     }
 
     onData(data: any) {
         this.historyData = data.betLogs;
         this.pages.onSet(data.page, data.pageSize, data.total);
-        this.content.children.forEach(child => child.destroy());
+        this.content.children.forEach((child) => child.destroy());
 
-        this.historyData.forEach(log => {
+        this.historyData.forEach((log) => {
             const historyItemPrefab = cc.instantiate(this.itemPrefab);
             const item = historyItemPrefab.getComponent(RouletteHistoryItem);
             this.content.addChild(historyItemPrefab);
@@ -73,15 +74,15 @@ export default class RouletteHistory extends cc.Component {
             item.winLabel.string = numberWithCommas(log.betwin);
             item.winLabel.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
-            item.time = '';
+            item.time = "";
             item.round = log.phien;
             item.result = log.result;
             item.betLogDetails = log.betLogDetails;
             item.settlementResult = log.settlementResult;
 
             item.showTicketDetail = (round, time, result, betLogDetails, settlementResult) => {
-                this.showTicketDetail(round, time, result, betLogDetails, settlementResult)
-            }
+                this.showTicketDetail(round, time, result, betLogDetails, settlementResult);
+            };
         });
     }
 

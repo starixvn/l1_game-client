@@ -5,7 +5,6 @@ import DraggableItem from "../../../common/draggable-layout/view-models/Draggabl
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import KenoStatusBanner from "./components/KenoStatusBanner";
 import KenoUtils from "./KenoUtils";
-import * as helper from "../../../common/helpers/Helper";
 import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
 import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
 
@@ -57,16 +56,16 @@ export default class KenoProViet extends cc.Component {
 
     private selectedIndex = 0;
     private childList: cc.Node[] = [];
-    private allGames = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    private readonly allGames = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     private favouriteGames = [];
     private sortedGames = [];
-    private miniKenos: MiniKeno[] = [];
+    private readonly miniKenos: MiniKeno[] = [];
     private contentLayout: cc.Layout;
     private presetBet: MiniKenoPresetBet;
     private presetBetValue = 0;
     private pageIndicatorDots: KenoPageIndicatorItem[] = [];
     private miniPanel: MiniPanel;
-    private statusQueue: any[] = [];
+    private readonly statusQueue: any[] = [];
     private presetBetSettingKey: string;
 
     init(miniPanel: MiniPanel) {
@@ -75,7 +74,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     onDestroy() {
-        this.miniKenos.forEach(keno => {
+        this.miniKenos.forEach((keno) => {
             if (keno.node != null && keno.node.isValid) {
                 keno.node.destroy();
             }
@@ -83,7 +82,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     private initAllKeno() {
-        const content = cc.sys.localStorage.getItem('keno_favourites') || "[]";
+        const content = cc.sys.localStorage.getItem("keno_favourites") || "[]";
         this.favouriteGames = JSON.parse(content);
         const otherGames = _.difference(this.allGames, this.favouriteGames);
         this.sortedGames = [...this.favouriteGames, ...otherGames];
@@ -107,7 +106,7 @@ export default class KenoProViet extends cc.Component {
         this.contentLayout.updateLayout();
         this.contentLayout.enabled = false;
 
-        this.pageIndicatorDots = this.pageIndicator.children.map(child => child.getComponent(KenoPageIndicatorItem));
+        this.pageIndicatorDots = this.pageIndicator.children.map((child) => child.getComponent(KenoPageIndicatorItem));
         this.pageIndicatorDots.forEach((dot, index) => {
             dot.init(this.miniKenos[index]);
         });
@@ -129,7 +128,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     private saveFavourites() {
-        cc.sys.localStorage.setItem('keno_favourites', JSON.stringify(this.favouriteGames));
+        cc.sys.localStorage.setItem("keno_favourites", JSON.stringify(this.favouriteGames));
     }
 
     private onFavoriteChanged(favourite: boolean, type: number) {
@@ -148,7 +147,7 @@ export default class KenoProViet extends cc.Component {
         const otherGames = _.difference(this.allGames, this.favouriteGames);
         this.sortedGames = [...this.favouriteGames, ...otherGames];
         this.sortedGames.forEach((type, index) => {
-            const keno = this.miniKenos.find(game => game.kenoType === type);
+            const keno = this.miniKenos.find((game) => game.kenoType === type);
             keno.node.position = cc.v2(left + keno.node.width / 2 + index * (keno.node.width + spacing), 0);
             keno.favourite.isChecked = index < this.favouriteGames.length;
 
@@ -162,7 +161,9 @@ export default class KenoProViet extends cc.Component {
     private initPresetBetBoard() {
         const node = cc.instantiate(this.presetBetPrefab);
         this.presetBet = node.getComponent(MiniKenoPresetBet);
-        this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
+        this.presetBet.onChangedBet = (betAmount: number) => {
+            this.changedPresetBet(betAmount);
+        };
         this.presetBet.getPreset = () => this.presetBetValue;
         this.presetNode.addChild(node);
         node.active = false;
@@ -191,7 +192,7 @@ export default class KenoProViet extends cc.Component {
         const dragableItem = this.getComponent(DraggableItem);
         dragableItem.touchCallback.start = (node) => {
             this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
-        }
+        };
     }
 
     onEnable() {
@@ -232,14 +233,12 @@ export default class KenoProViet extends cc.Component {
 
     private updatePageIndicator() {
         this.pageIndicatorDots.forEach((dot, index) => {
-            const highlight = index == this.selectedIndex || index == this.selectedIndex + 1;
+            const highlight = index === this.selectedIndex || index === this.selectedIndex + 1;
             dot.setHighlight(highlight);
         });
     }
 
-    openGame() {
-        // this.node.active = true;
-    }
+    openGame() {}
 
     closeGame() {
         cc.RedT.audio.playClick();
@@ -248,7 +247,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     onSignIn() {
-        this.miniKenos.forEach(keno => {
+        this.miniKenos.forEach((keno) => {
             if (keno.node.active) {
                 keno.onSignIn();
             }
@@ -256,7 +255,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     onPageIndicatorClick(e) {
-        const clickIndex = this.pageIndicatorDots.findIndex(dot => dot.node === e.target);
+        const clickIndex = this.pageIndicatorDots.findIndex((dot) => dot.node === e.target);
         if (clickIndex === this.pageIndicatorDots.length - 1) {
             this.selectedIndex = clickIndex - 1;
         } else {
@@ -275,7 +274,7 @@ export default class KenoProViet extends cc.Component {
         cc.RedT.audio.playClick();
         const node = cc.instantiate(this.historyPrefab);
         this.miniPanel.node.addChild(node);
-    };
+    }
 
     openPresetBetDialog() {
         cc.RedT.audio.playClick();

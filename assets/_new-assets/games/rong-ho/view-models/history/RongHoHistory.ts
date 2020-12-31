@@ -1,13 +1,12 @@
-import { getStringDateByTime, numberWithCommas } from '../../../../common/helpers/Helper';
-import * as Pagination from '../../../../common/helpers/Pagination/Pagination';
-import RongHo from '../RongHo';
-import RongHoHistoryItem from './RongHoHistoryItem';
+import { getStringDateByTime, numberWithCommas } from "../../../../common/helpers/Helper";
+import * as Pagination from "../../../../common/helpers/Pagination/Pagination";
+import RongHo from "../RongHo";
+import RongHoHistoryItem from "./RongHoHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RongHoHistory extends cc.Component {
-
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -32,8 +31,10 @@ export default class RongHoHistory extends cc.Component {
     onLoad() {
         this.pages.init(this);
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     onEnable() {
@@ -42,14 +43,14 @@ export default class RongHoHistory extends cc.Component {
 
     onData(data: any) {
         this.pages.onSet(data.page, data.kmess, data.total);
-        this.content.children.forEach(child => child.destroy());
+        this.content.children.forEach((child) => child.destroy());
 
         for (let i = 0; i < data.data.length; i++) {
             var dataT = data.data[i];
             if (void 0 !== dataT) {
                 const historyItemPrefab = cc.instantiate(this.prefabItem);
                 const item = historyItemPrefab.getComponent("RongHoHistoryItem") as RongHoHistoryItem;
-                item.node.active = true
+                item.node.active = true;
                 item.time.string = getStringDateByTime(dataT.time);
                 item.round.string = dataT.phien;
                 item.win.string = numberWithCommas(dataT.betwin);

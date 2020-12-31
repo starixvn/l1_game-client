@@ -15,6 +15,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
             this.playTime();
             return true;
         }
+        return false;
     }
 
     protected setCurrentTimeRemaining(data: any) {
@@ -29,12 +30,10 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
             if (this.main.roundEndTime) {
                 const remainingTime = (this.main.roundEndTime.getTime() - new Date().getTime()) / 1000;
                 this.main.currentTimeRemaining = remainingTime;
-            }
-            else {
+            } else {
                 this.main.currentTimeRemaining = data.remainingTime;
             }
-        }
-        else {
+        } else {
             super.setCurrentTimeRemaining(data);
         }
     }
@@ -42,9 +41,8 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
     playTime() {
         if (this.main.isIncomingGameRound && !this.main.isInLastRoundOfDay(this.main.currentTimeRemaining)) {
             super.playTime();
-        }
-        else {
-            if (this.receiveTimeRemaining == 0 && this.playTimeInterval) {
+        } else {
+            if (this.receiveTimeRemaining === 0 && this.playTimeInterval) {
                 return;
             }
 
@@ -54,8 +52,7 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
                 if (this.main.currentTimeRemaining > 0) {
                     this.handleInRoundTime();
                     this.main.currentTimeRemaining--;
-                }
-                else {
+                } else {
                     clearInterval(this.playTimeInterval);
                 }
             }, 1000);
@@ -75,17 +72,16 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
         this.main.roundResult.setTimer(this.main.currentTimeRemaining.toString());
         this.main.timer.active = false;
 
-        if (this.main.currentTimeRemaining % 10 == 0
-            && this.main.currentTimeRemaining < this.main.config.stopBetTime
-            && this.main.currentTimeRemaining >= 20
-            && !this.main.isStopGame) {
-
-            if (this.main.roundResult.node.scaleX == 0) {
+        if (
+            this.main.currentTimeRemaining % 10 === 0 &&
+            this.main.currentTimeRemaining < this.main.config.stopBetTime &&
+            this.main.currentTimeRemaining >= 20 &&
+            !this.main.isStopGame
+        ) {
+            if (this.main.roundResult.node.scaleX === 0) {
                 this.rotateNode(this.main.stopBetWarning, this.main.roundResult.node);
-            }
-            else {
-                this.main.currentTimeRemaining > 20
-                    && this.rotateNode(this.main.roundResult.node, this.main.stopBetWarning);
+            } else {
+                this.main.currentTimeRemaining > 20 && this.rotateNode(this.main.roundResult.node, this.main.stopBetWarning);
             }
         }
     }
@@ -107,16 +103,14 @@ export default class MiniKenoProVietTimeHandler extends MiniKenoTimeHandler {
             return;
         }
 
-        if (newNode.scaleX == 1) {
+        if (newNode.scaleX === 1) {
             newNode.scaleX = 0;
         }
 
         cc.tween(oldNode)
             .to(animationTime, { scaleX: 0 }, { easing: "cubicIn" })
             .call(() => {
-                cc.tween(newNode)
-                    .to(animationTime, { scaleX: 1 }, { easing: "cubicOut" })
-                    .start();
+                cc.tween(newNode).to(animationTime, { scaleX: 1 }, { easing: "cubicOut" }).start();
             })
             .start();
     }

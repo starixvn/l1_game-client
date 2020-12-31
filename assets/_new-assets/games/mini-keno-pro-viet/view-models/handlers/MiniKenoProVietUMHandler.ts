@@ -11,7 +11,7 @@ export default class MiniKenoProVietUMHandler extends GameBaseUmDataHandler {
             this.main.showUmMessage(data);
         }
 
-        if (data.um == false) {
+        if (data.um === false) {
             this.main.hideUmMessage();
         }
 

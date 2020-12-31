@@ -2,15 +2,15 @@ import GameUtils from "../../../common/GameUtils";
 import { RouletteBetInfo, RouletteBetType } from "./Roulette";
 
 export default class RouletteUtils {
-    private static redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
-    private static options = [2000, 1000, 500, 200, 100, 50, 10, 5, 1];
+    private static readonly redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
+    private static readonly options = [2000, 1000, 500, 200, 100, 50, 10, 5, 1];
 
     public static isRed(number): boolean {
-        return this.redNumbers.indexOf(number) != -1;
+        return this.redNumbers.indexOf(number) !== -1;
     }
 
     public static isOdd(number): boolean {
-        return number % 2 != 0;
+        return number % 2 !== 0;
     }
 
     public static isBig(number): boolean {
@@ -18,7 +18,7 @@ export default class RouletteUtils {
     }
 
     public static getKey(betInfo: RouletteBetInfo): string {
-        let key = betInfo.numbers.join('-');
+        let key = betInfo.numbers.join("-");
         switch (betInfo.type) {
             case RouletteBetType.Column:
                 key = betInfo.numbers[0].toString();
@@ -44,7 +44,7 @@ export default class RouletteUtils {
     }
 
     public static parseKeyToNumbers(key: string): number[] {
-        return key.split('-').map(i => +i);
+        return key.split("-").map((i) => +i);
     }
 
     public static createQuickBetChoices(type: string, bet: number): any {
@@ -53,10 +53,10 @@ export default class RouletteUtils {
                 split: {
                     "0-3": bet,
                     "12-15": bet,
-                    "32-35": bet,
+                    "32-35": bet
                 },
                 straightUp: {
-                    "26": bet,
+                    "26": bet
                 }
             },
             voisins: {
@@ -65,13 +65,13 @@ export default class RouletteUtils {
                     "12-15": bet,
                     "32-35": bet,
                     "19-22": bet,
-                    "4-7": bet,
+                    "4-7": bet
                 },
                 triangle: {
-                    "0-2-3": bet * 2,
+                    "0-2-3": bet * 2
                 },
                 corner: {
-                    "25-26-28-29": bet * 2,
+                    "25-26-28-29": bet * 2
                 }
             },
             tiers: {
@@ -81,20 +81,20 @@ export default class RouletteUtils {
                     "13-16": bet,
                     "23-24": bet,
                     "27-30": bet,
-                    "33-36": bet,
-                },
+                    "33-36": bet
+                }
             },
             orphelins: {
                 split: {
                     "6-9": bet,
                     "14-17": bet,
                     "17-20": bet,
-                    "31-34": bet,
+                    "31-34": bet
                 },
                 straightUp: {
-                    "1": bet,
+                    "1": bet
                 }
-            },
+            }
         };
         return options[type];
     }
@@ -121,30 +121,7 @@ export default class RouletteUtils {
     public static createChips(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
         const values = this.getChipValues(bet);
         const keys = Object.keys(values).sort((a, b) => +a - +b); // sort ascending by key
-        const key = keys.find(k => values[k] > 0);
-        const chipNode = this.createChip(+key, chipAltas, false);
-        return chipNode;
-
-        // const values = this.getChipValues(bet);
-        // const keys = Object.keys(values).sort((a, b) => +b - +a); // sort descending by key
-        // const node = new cc.Node();
-        // const layoutNode = new cc.Node();
-        // layoutNode.y = -13; //half size chip
-        // node.addChild(layoutNode);
-        // layoutNode.anchorY = 0;
-        // const layout = layoutNode.addComponent(cc.Layout);
-        // layout.type = cc.Layout.Type.VERTICAL;
-        // layout.resizeMode = cc.Layout.ResizeMode.CONTAINER;
-        // layout.verticalDirection = cc.Layout.VerticalDirection.BOTTOM_TO_TOP;
-        // layout.spacingY = -22;
-        // keys.forEach(chip => {
-        //     const count = values[chip];
-        //     for (let i = 0; i < count; i++) {
-        //         const chipNode = this.createChip(+chip, chipAltas, highlight);
-        //         layoutNode.addChild(chipNode);
-        //     }
-        // });
-
-        // return node;
+        const key = keys.find((k) => values[k] > 0);
+        return this.createChip(+key, chipAltas, false);
     }
 }
