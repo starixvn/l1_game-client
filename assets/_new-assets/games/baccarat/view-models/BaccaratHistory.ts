@@ -1,9 +1,9 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import { getStringDateByTime, numberWithCommas } from '../../../common/helpers/Helper';
-import * as Pagination from '../../../common/helpers/Pagination/Pagination.js';
-import Baccarat from './Baccarat.js';
-import BaccaratHistoryItem from './BaccaratHistoryItem';
+import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
+import Baccarat from "./Baccarat.js";
+import BaccaratHistoryItem from "./BaccaratHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -29,13 +29,15 @@ export default class BaccaratHistory extends cc.Component {
         this.root = root;
     }
 
-    private dataObserverKey = "BaccaratHistory";
+    private readonly dataObserverKey = "BaccaratHistory";
 
     onLoad() {
         this.pages.init(this);
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     onEnable() {
@@ -45,7 +47,7 @@ export default class BaccaratHistory extends cc.Component {
 
     onDisable() {
         cc.RedT.removeDataObserver(this.dataObserverKey);
-        this.content.children.forEach(child => child.destroy());
+        this.content.children.forEach((child) => child.destroy());
         this.node.destroy();
     }
 
@@ -61,7 +63,7 @@ export default class BaccaratHistory extends cc.Component {
 
     public onData(data: any) {
         this.pages.onSet(data.page, data.pageSize, data.total);
-        this.content.children.forEach(child => child.destroy());
+        this.content.children.forEach((child) => child.destroy());
 
         for (let i = 0; i < data.betLogs.length; i++) {
             const historyItemData = data.betLogs[i];
@@ -69,7 +71,7 @@ export default class BaccaratHistory extends cc.Component {
             if (historyItemData) {
                 const historyItemPrefab = cc.instantiate(this.prefabItem);
                 const item = historyItemPrefab.getComponent(BaccaratHistoryItem);
-                item.node.active = true
+                item.node.active = true;
                 this.content.addChild(historyItemPrefab);
 
                 if (historyItemData.bet) {
@@ -97,7 +99,7 @@ export default class BaccaratHistory extends cc.Component {
                             currentItem.node.color = isWin ? cc.Color.YELLOW : cc.Color.WHITE;
                             currentItem.string = numberWithCommas(bet);
                         }
-                    })
+                    });
                 }
             }
         }

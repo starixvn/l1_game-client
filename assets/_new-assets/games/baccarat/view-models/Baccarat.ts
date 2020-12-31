@@ -128,9 +128,7 @@ export default class Baccarat extends GameRoomBase {
 
   private initScoreBoards() {
     const condition = () => {
-      const result = this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
-
-      return result;
+      return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
     };
 
     const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);

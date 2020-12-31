@@ -1,6 +1,4 @@
 import BlinkNode from '../../../common/BlinkNode';
-import GameBase from '../GameBase';
-import GameBaseFinishHandler from '../handlers/GameBaseFinishHandler';
 import DragonScoreBoardItem from './DragonScoreBoardItem';
 
 const { ccclass, property } = cc._decorator;
@@ -59,7 +57,7 @@ export default class DragonScoreBoard extends cc.Component {
 
         if (row < max - 1) {
           row++;
-        } else if (row == 0 && max == 1) {
+        } else if (row === 0 && max === 1) {
           col = nextCol;
           nextCol++;
         } else {
@@ -116,15 +114,12 @@ export default class DragonScoreBoard extends cc.Component {
     } else {
       row = 0;
       col = nextCol;
-      if (col > colMax) {
-        colMax = col;
-      }
     }
 
     const dot = cc.instantiate(this.itemNext);
     dot.active = false;
 
-    if (row == 1 && col == 0) {
+    if (row === 1 && col === 0) {
       // First dot
       col = 1;
       row = 0;

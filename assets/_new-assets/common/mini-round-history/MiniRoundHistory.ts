@@ -83,7 +83,7 @@ export default class MiniRoundHistory extends cc.Component {
   }
 
   protected handleNextDot(index: number, item: any) {
-    if (index == 0 && this.nodeNext && this.nodeNext.isValid) {
+    if (index === 0 && this.nodeNext && this.nodeNext.isValid) {
       this.nodeNext.addComponent(BlinkNode).interval = 0.5;
       this.nodeNext.active = false;
       this.nodeHighlight = item.node;

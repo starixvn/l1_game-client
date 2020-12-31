@@ -4,8 +4,7 @@ import * as _ from "lodash";
 const { ccclass, property } = cc._decorator;
 
 export class TotalHistoryData {
-    constructor(public name: string, public value: string) {
-    }
+    constructor(public name: string, public value: string) {}
 }
 
 @ccclass
@@ -20,10 +19,13 @@ export default class TotalHistoryBoard extends cc.Component {
     }
 
     setData(data: TotalHistoryData[]) {
-        data.forEach(itemData => {
-            const historyItem = _.find(this.totalHistoryItems, item => item.node.name.toLowerCase() === itemData.name.toLowerCase() + "total");
+        data.forEach((itemData) => {
+            const historyItem = _.find(
+                this.totalHistoryItems,
+                (item) => item.node.name.toLowerCase() === `${itemData.name.toLowerCase()}total`
+            );
 
             historyItem.string = itemData.value;
-        })
+        });
     }
 }
