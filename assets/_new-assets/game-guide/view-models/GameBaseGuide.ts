@@ -3,7 +3,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class GameBaseGuide extends cc.Component {
     @property
-    gameName: string = "";
+    gameName = "";
 
     @property({ type: cc.Label })
     oddLabels: cc.Label[] = [];
@@ -17,9 +17,7 @@ export default class GameBaseGuide extends cc.Component {
         this.gameName !== "" && cc.RedT.removeDataObserver(`${this.gameName}_guide`);
     }
 
-    getOdds() {
-
-    }
+    getOdds() {}
 
     receivedData(data) {
         const dataGame = data[this.gameName] || (data.mini && data.mini[this.gameName]);
@@ -28,9 +26,7 @@ export default class GameBaseGuide extends cc.Component {
         }
     }
 
-    onData(data) {
-
-    }
+    onData(data) {}
 
     updateOddLabels(odds) {
         odds.forEach((odd, index) => {
@@ -39,7 +35,7 @@ export default class GameBaseGuide extends cc.Component {
     }
 
     clearAllOddLabels() {
-        this.oddLabels.forEach(label => label.string = '')
+        this.oddLabels.forEach((label) => (label.string = ""));
     }
 
     closeGuide() {

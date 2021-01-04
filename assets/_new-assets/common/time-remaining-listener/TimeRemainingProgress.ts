@@ -5,10 +5,10 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class TimeRemainingProgress extends cc.Component {
     @property
-    gameName: string = "";
+    gameName = "";
 
     @property
-    betTime: number = 0;
+    betTime = 0;
 
     @property(cc.Label)
     label: cc.Label = null;
@@ -22,7 +22,7 @@ export default class TimeRemainingProgress extends cc.Component {
             this.label.node.parent.active = timeRemaining > 0 && timeRemaining <= this.betTime;
             this.label.string = timeRemaining.toString();
         }
-    }
+    };
 
     onEnable() {
         this.label.node.parent.active = false;

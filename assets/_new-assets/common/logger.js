@@ -1,5 +1,5 @@
-import configs from './../Configs';
-import sentryConfig from './../SentryConfig';
+import configs from "./../Configs";
+import sentryConfig from "./../SentryConfig";
 
 export const sentryLogger = {
     sentryUrl: null,
@@ -12,7 +12,7 @@ export const sentryLogger = {
             window.Sentry.init({
                 dsn: configs.sentryUrl,
                 maxValueLength: 5000,
-                release: sentryConfig.Release ? 'game-client@' + sentryConfig.Release : ''
+                release: sentryConfig.Release ? `game-client@${sentryConfig.Release}` : ""
             });
             sentryLogger.loaded = true;
         }
@@ -21,13 +21,13 @@ export const sentryLogger = {
         try {
             sentryLogger.sentryUrl = configs.sentryUrl;
 
-            if (sentryLogger.isEnabled() && document.head && !document.getElementById('sentry-logger')) {
-                const sentryScript = document.createElement('script');
+            if (sentryLogger.isEnabled() && document.head && !document.getElementById("sentry-logger")) {
+                const sentryScript = document.createElement("script");
 
-                sentryScript.setAttribute('id', 'sentry-logger');
-                sentryScript.setAttribute('src', 'https://browser.sentry-cdn.com/5.15.0/bundle.min.js');
-                sentryScript.setAttribute('integrity', 'sha384-+ysfQckQvwCB5SppH41IScIz/Iynt2pePnJNMl+D7ZOzDJ+VYhQEuwB0pA60IDM0');
-                sentryScript.setAttribute('crossorigin', 'anonymous');
+                sentryScript.setAttribute("id", "sentry-logger");
+                sentryScript.setAttribute("src", "https://browser.sentry-cdn.com/5.15.0/bundle.min.js");
+                sentryScript.setAttribute("integrity", "sha384-+ysfQckQvwCB5SppH41IScIz/Iynt2pePnJNMl+D7ZOzDJ+VYhQEuwB0pA60IDM0");
+                sentryScript.setAttribute("crossorigin", "anonymous");
                 sentryScript.onload = () => {
                     sentryLogger.loadScript();
                 };
@@ -57,11 +57,11 @@ export const sentryLogger = {
         if (sentryLogger.isEnabled() && user) {
             setTimeout(function () {
                 try {
-                    window.Sentry && window.Sentry.configureScope(function (scope) {
-                        scope.setUser(user);
-                    });
-                }
-                catch (ex) {
+                    window.Sentry &&
+                        window.Sentry.configureScope(function (scope) {
+                            scope.setUser(user);
+                        });
+                } catch (ex) {
                     console.log(ex);
                 }
             }, 5000);
@@ -71,11 +71,11 @@ export const sentryLogger = {
     setTag: (tag) => {
         if (sentryLogger.isEnabled() && tag) {
             try {
-                window.Sentry && window.Sentry.configureScope(function (scope) {
-                    scope.setTag(tag.id, tag.value);
-                });
-            }
-            catch (ex) {
+                window.Sentry &&
+                    window.Sentry.configureScope(function (scope) {
+                        scope.setTag(tag.id, tag.value);
+                    });
+            } catch (ex) {
                 console.log(ex);
             }
         }

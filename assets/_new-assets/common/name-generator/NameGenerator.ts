@@ -26,7 +26,7 @@ export default class NameGenerator {
         const numberLength = shortName.length < 10 ? 5 : 14 - shortName.length;
         let maxNumber = "";
         for (let i = 0; i < numberLength; i++) {
-            maxNumber = "9" + maxNumber;
+            maxNumber = `9${maxNumber}`;
         }
         const randomNumber = NameGenerator.chance.integer({ min: 0, max: +maxNumber });
 

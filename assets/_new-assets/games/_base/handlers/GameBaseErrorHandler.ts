@@ -1,9 +1,8 @@
-import DataHandler from "./DataHandler";
 import GameBase from "../GameBase";
+import DataHandler from "./DataHandler";
 
 export default class GameBaseErrorHandler implements DataHandler {
-    constructor(protected readonly main: GameBase) {
-    }
+    constructor(protected readonly main: GameBase) {}
 
     handle(data: any): boolean {
         if (data.apiError) {
@@ -17,5 +16,4 @@ export default class GameBaseErrorHandler implements DataHandler {
 
         return false;
     }
-
 }

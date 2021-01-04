@@ -10,8 +10,7 @@ export interface IGameBasePlayerHandler extends DataHandler {
 export class GameBasePlayerHandler implements IGameBasePlayerHandler {
     otherPlayers = {};
 
-    constructor(protected readonly main: GameRoomBase) {
-    }
+    constructor(protected readonly main: GameRoomBase) {}
 
     handle(data: any): boolean {
         if (data.player) {
@@ -51,16 +50,16 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
     addPlayers(playersData) {
         const players: PlayerData[] = _.values(playersData);
-        const realPlayers = _.filter(players, player => !player.type);
-        const botPlayers = _.filter(players, player => player.type);
+        const realPlayers = _.filter(players, (player) => !player.type);
+        const botPlayers = _.filter(players, (player) => player.type);
 
         _.forEach(realPlayers, (player) => {
             this.addPlayer(player);
-        })
+        });
 
         _.forEach(botPlayers, (player) => {
             this.addPlayer(player);
-        })
+        });
     }
 
     addPlayer(player: PlayerData) {
@@ -79,7 +78,6 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
             this.otherPlayers[player.id] = player;
         }
-
     }
 
     updateTablePlayers() {
@@ -90,13 +88,13 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
                 return;
             }
 
-            player.data.idleCount++
+            player.data.idleCount++;
             RoomPlayer.storePlayerToCache(player.data, this.main.gameName);
 
             if (player.isIdle) {
                 const oldPlayerData = player.data;
 
-                const newPlayer = _.find(otherPlayers, player => player.idleCount <= RoomPlayer.MAX_IDLE_COUNT);
+                const newPlayer = _.find(otherPlayers, (player) => player.idleCount <= RoomPlayer.MAX_IDLE_COUNT);
 
                 if (newPlayer) {
                     player.setInfo(newPlayer);
@@ -107,12 +105,12 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
             }
         });
 
-        const botsInTable = _.filter(this.main.players, player => player.data && player.data.type);
-        const realPlayers: PlayerData[] = _.filter(otherPlayers, player => player && !player.type);
+        const botsInTable = _.filter(this.main.players, (player) => player.data && player.data.type);
+        const realPlayers: PlayerData[] = _.filter(otherPlayers, (player) => player && !player.type);
 
         _.forEach(botsInTable, (bot) => {
             const botData = bot.data;
-            const realPlayer = _.find(realPlayers, player => player.idleCount <= RoomPlayer.MAX_IDLE_COUNT);
+            const realPlayer = _.find(realPlayers, (player) => player.idleCount <= RoomPlayer.MAX_IDLE_COUNT);
 
             if (realPlayer) {
                 this.otherPlayers[botData.id] = botData;
@@ -120,7 +118,7 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
                 delete this.otherPlayers[realPlayer.id];
                 _.remove(realPlayers, realPlayer);
             }
-        })
+        });
     }
 
     getPlayerSlot(playerId: string): RoomPlayer {

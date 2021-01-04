@@ -5,7 +5,7 @@ export default class TypingLabel extends cc.Component {
     @property(cc.Label)
     label: cc.Label = null;
 
-    playTypingEffect(duration: number = 0.5) {
+    playTypingEffect(duration = 0.5) {
         const labelWidth = this.label.node.width;
 
         if (!this.node.activeInHierarchy) {
@@ -20,12 +20,14 @@ export default class TypingLabel extends cc.Component {
             cc.delayTime(duration / labelWidth)
         );
 
-        this.node.runAction(cc.sequence(
-            cc.callFunc(() => {
-                this.node.width = 0;
-            }),
-            cc.repeat(changeWitdhAction, labelWidth)
-        ));
+        this.node.runAction(
+            cc.sequence(
+                cc.callFunc(() => {
+                    this.node.width = 0;
+                }),
+                cc.repeat(changeWitdhAction, labelWidth)
+            )
+        );
     }
 
     adjustWidth() {

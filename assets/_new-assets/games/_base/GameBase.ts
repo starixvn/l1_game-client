@@ -60,7 +60,7 @@ export default class GameBase extends cc.Component {
     gameRound: cc.Label = null;
 
     @property
-    enableChips: boolean = false;
+    enableChips = false;
 
     @property({
         type: cc.Node,
@@ -83,7 +83,7 @@ export default class GameBase extends cc.Component {
             return this.enableChips;
         }
     })
-    enablePlaceChips: boolean = false;
+    enablePlaceChips = false;
 
     @property({
         type: cc.Node,
