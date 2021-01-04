@@ -1,7 +1,7 @@
-import BaseDataHandler from "./BaseDataHandler";
 import DataHandler from "../../../../_base/handlers/DataHandler";
 import ChanLeLogTips from "../ChanLeLogTips";
 import ChanLeMain from "../ChanLeMain";
+import BaseDataHandler from "./BaseDataHandler";
 
 export interface ILogsDataHandler extends DataHandler {
     dataLogs: any;
@@ -27,9 +27,11 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
         this.dataLogs = data.logs;
         this.main.currentResultDices = [...data.logs[0].dice];
 
-        if (this.main.currentTimeRemaining > this.main.root.gameConfigs.betTime
-            && this.main.currentTimeRemaining < this.main.root.gameConfigs.displayResultTime
-            && !this.main.isDisabled) {
+        if (
+            this.main.currentTimeRemaining > this.main.root.gameConfigs.betTime &&
+            this.main.currentTimeRemaining < this.main.root.gameConfigs.displayResultTime &&
+            !this.main.isDisabled
+        ) {
             this.main.showDices(true);
             this.main.showBetResult();
         }
@@ -48,11 +50,7 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
             return;
         }
         this.dataLogs.unshift({
-            dice: [
-                data.finish.dices[0],
-                data.finish.dices[1],
-                data.finish.dices[2]
-            ],
+            dice: [data.finish.dices[0], data.finish.dices[1], data.finish.dices[2]],
             phien: data.finish.phien
         });
 
@@ -60,9 +58,11 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
     }
 
     initDotLogs() {
-        Promise.all(this.main.dotLogs.children.map((dot) => {
-            return dot.getComponent("ChanLeLogTips") as ChanLeLogTips;
-        })).then(result => {
+        Promise.all(
+            this.main.dotLogs.children.map((dot) => {
+                return dot.getComponent("ChanLeLogTips") as ChanLeLogTips;
+            })
+        ).then((result) => {
             this.dotLogs = result;
         });
     }
@@ -72,23 +72,22 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
             return;
         }
 
-        var self = this;
-        Promise.all(self.dotLogs.map(function (dotLog, index) {
-            var data = dataLogs[index];
+        Promise.all(
+            this.dotLogs.map((dotLog, index) => {
+                var data = dataLogs[index];
 
-            if (data) {
-                var point = data.dice[0] + data.dice[1] + data.dice[2];
-                dotLog.node.active = true;
-                dotLog.text.string = `${point % 2 ? "LẺ" : "CHẴN"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
-                dotLog.turnId = data.phien;
-                dotLog.round.string = `#${data.phien}`;
+                if (data) {
+                    var point = data.dice[0] + data.dice[1] + data.dice[2];
+                    dotLog.node.active = true;
+                    dotLog.text.string = `${point % 2 ? "LẺ" : "CHẴN"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
+                    dotLog.turnId = data.phien;
+                    dotLog.round.string = `#${data.phien}`;
 
-                dotLog.sprite.spriteFrame = point % 2
-                    ? self.main.dotWhite
-                    : self.main.dotBlack;
-            } else {
-                dotLog.node.active = false;
-            }
-        }));
+                    dotLog.sprite.spriteFrame = point % 2 ? this.main.dotWhite : this.main.dotBlack;
+                } else {
+                    dotLog.node.active = false;
+                }
+            })
+        );
     }
 }

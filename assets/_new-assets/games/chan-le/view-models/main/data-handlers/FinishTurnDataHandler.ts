@@ -1,8 +1,8 @@
-import BaseDataHandler from "./BaseDataHandler";
 import DataHandler from "../../../../_base/handlers/DataHandler";
 import ChanLeMain from "../ChanLeMain";
-import { ITimeDataHandler } from "./TimeDataHandler";
+import BaseDataHandler from "./BaseDataHandler";
 import { ILogsDataHandler } from "./LogsDataHandler";
+import { ITimeDataHandler } from "./TimeDataHandler";
 
 export default class FinishTurnDataHandler extends BaseDataHandler implements DataHandler {
     private readonly timeDataHandler: ITimeDataHandler;
@@ -29,5 +29,4 @@ export default class FinishTurnDataHandler extends BaseDataHandler implements Da
 
         return true;
     }
-
 }

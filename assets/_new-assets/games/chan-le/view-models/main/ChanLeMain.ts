@@ -180,7 +180,7 @@ export default class ChanLeMain extends cc.Component {
     private readonly timeDataHandler: ITimeDataHandler;
     private readonly finishTurnDataHandler: DataHandler;
 
-    private betChoice = {
+    private readonly betChoice = {
         left: "left",
         right: "right"
     };
@@ -209,7 +209,6 @@ export default class ChanLeMain extends cc.Component {
     init(root: ChanLe, hideDiaNan: boolean) {
         this.root = root;
         this.hideDiaNan = hideDiaNan;
-        //this.betBoard.init(this);
         this.diaNan.init(this);
     }
 
@@ -266,7 +265,7 @@ export default class ChanLeMain extends cc.Component {
         this.root.sendData({
             cuoc: {
                 red: true,
-                select: this.currentInputSide == this.betChoice.left,
+                select: this.currentInputSide === this.betChoice.left,
                 bet: bet
             }
         });
@@ -313,10 +312,12 @@ export default class ChanLeMain extends cc.Component {
     }
 
     resetCurrentBetInput(select = ""): void {
-        // this.currentInputBet.string = ChanLeMain.DAT_CUOC;
-        // this.currentInputBet.node.active = true;
-        (!select || select == this.betChoice.left) && (this.betInputLeft.string = ChanLeMain.DAT_CUOC);
-        (!select || select == this.betChoice.right) && (this.betInputRight.string = ChanLeMain.DAT_CUOC);
+        if (!select || select === this.betChoice.left) {
+            this.betInputLeft.string = ChanLeMain.DAT_CUOC;
+        }
+        if (!select || select === this.betChoice.right) {
+            this.betInputRight.string = ChanLeMain.DAT_CUOC;
+        }
     }
 
     clearCurrentBetInput(): void {

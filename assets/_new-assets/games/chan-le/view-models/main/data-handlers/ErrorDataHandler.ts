@@ -1,6 +1,6 @@
+import DataHandler from "../../../../_base/handlers/DataHandler";
 import ChanLeMain from "../ChanLeMain";
 import BaseDataHandler from "./BaseDataHandler";
-import DataHandler from "../../../../_base/handlers/DataHandler";
 
 export default class ErrorDataHandler extends BaseDataHandler implements DataHandler {
     constructor(main: ChanLeMain) {
@@ -21,5 +21,4 @@ export default class ErrorDataHandler extends BaseDataHandler implements DataHan
 
         return false;
     }
-
 }

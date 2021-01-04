@@ -7,12 +7,12 @@ export interface CLGameConfigs extends GameBaseConfigs {
 }
 
 export class ChanLeConfigs implements CLGameConfigs {
-    fullTime: number = 61;
-    betTime: number = 51;
-    waitTime: number = 10;
-    nanTime: number = 55;
-    stopBetTime: number = 5;
-    minBetTime: number = 1;
-    displayResultTime: number = 58;
-    presetBetSettingKey: string = "odd_even_preset_bet";
+    fullTime = 61;
+    betTime = 51;
+    waitTime = 10;
+    nanTime = 55;
+    stopBetTime = 5;
+    minBetTime = 1;
+    displayResultTime = 58;
+    presetBetSettingKey = "odd_even_preset_bet";
 }

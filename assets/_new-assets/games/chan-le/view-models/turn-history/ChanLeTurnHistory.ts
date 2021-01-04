@@ -134,7 +134,7 @@ export default class ChanLeTurnHistory extends cc.Component {
     private buildTurnData(data: any) {
         Promise.all(
             data.dataL.map((turnData) => {
-                var item = self.addItem(turnData);
+                var item = this.addItem(turnData);
                 this.scrollViewLeft.content.addChild(item);
             })
         );

@@ -1,14 +1,14 @@
-const { ccclass, property } = cc._decorator;
-import ChanLeMain from './main/ChanLeMain';
-import ChanLeTopUsers from './top-users/ChanLeTopUsers';
-import ChanLeHistory from './history/ChanLeHistory';
-import ChanLeTurnHistory from './turn-history/ChanLeTurnHistory';
-import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import ChanLeLogTips from './main/ChanLeLogTips';
-import ChanLeStats from './statistics/ChanLeStats';
-import { CLGameConfigs } from './ChanLeConfigs';
-import PresetBet from '../../../common/preset-bet/view-models/PresetBet';
+import PresetBet from "../../../common/preset-bet/view-models/PresetBet";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import { CLGameConfigs } from "./ChanLeConfigs";
+import ChanLeHistory from "./history/ChanLeHistory";
+import ChanLeLogTips from "./main/ChanLeLogTips";
+import ChanLeMain from "./main/ChanLeMain";
+import ChanLeStats from "./statistics/ChanLeStats";
+import ChanLeTopUsers from "./top-users/ChanLeTopUsers";
+import ChanLeTurnHistory from "./turn-history/ChanLeTurnHistory";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ChanLe extends cc.Component {
     @property(ChanLeMain)
@@ -207,18 +207,12 @@ export default class ChanLe extends cc.Component {
     }
 
     private eventStart(event) {
-        this.touchOffset = cc.v2(
-            event.touch.getLocationX() - this.node.position.x,
-            event.touch.getLocationY() - this.node.position.y
-        );
+        this.touchOffset = cc.v2(event.touch.getLocationX() - this.node.position.x, event.touch.getLocationY() - this.node.position.y);
         this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
     }
 
     private eventMove(event) {
-        this.node.position = cc.v2(
-            event.touch.getLocationX() - this.touchOffset.x,
-            event.touch.getLocationY() - this.touchOffset.y
-        );
+        this.node.position = cc.v2(event.touch.getLocationX() - this.touchOffset.x, event.touch.getLocationY() - this.touchOffset.y);
     }
 
     private onGameShow() {
@@ -235,7 +229,9 @@ export default class ChanLe extends cc.Component {
     private initPresetBetBoard() {
         const node = cc.instantiate(this.presetBetPrefab);
         this.presetBet = node.getComponent(PresetBet);
-        this.presetBet.onChangedBet = (betAmount: number) => { this.changedPresetBet(betAmount); }
+        this.presetBet.onChangedBet = (betAmount: number) => {
+            this.changedPresetBet(betAmount);
+        };
         this.presetBet.getPreset = () => this.main.presetBetValue;
         this.main.node.addChild(node);
         node.active = false;

@@ -1,7 +1,7 @@
-import BaseDataHandler from "./BaseDataHandler";
+import { numberPad } from "../../../../../common/helpers/Helper";
 import DataHandler from "../../../../_base/handlers/DataHandler";
 import ChanLeMain from "../ChanLeMain";
-import { numberPad } from '../../../../../common/helpers/Helper';
+import BaseDataHandler from "./BaseDataHandler";
 import { ILogsDataHandler } from "./LogsDataHandler";
 
 export interface ITimeDataHandler extends DataHandler {
@@ -35,65 +35,72 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
 
     playTime() {
         this.playTimeInterval && clearInterval(this.playTimeInterval);
-        var self = this;
 
         this.playTimeInterval = setInterval(() => {
-            const isInWaitTime = self.main.currentTimeRemaining > this.main.root.gameConfigs.betTime;
+            const isInWaitTime = this.main.currentTimeRemaining > this.main.root.gameConfigs.betTime;
 
             if (isInWaitTime) {
-                const isBalanceBetTime = self.main.currentTimeRemaining > this.main.root.gameConfigs.displayResultTime;
-                if (isBalanceBetTime) {
-                    self.main.balanceBet(self.main.currentTimeRemaining == this.main.root.gameConfigs.fullTime);
-                } else {
-                    self.main.hideBetBalanceNotice();
-                    self.main.enableHistoryButton();
-                    if (self.main.currentTimeRemaining == this.main.root.gameConfigs.displayResultTime) {
-                        this.main.showResult();
-                        this.main.currentStatus && this.main.showUserWinLoss(this.main.currentStatus);
-                    }
-
-                    var time = numberPad(self.main.currentTimeRemaining - this.main.root.gameConfigs.betTime - 1, 2);
-                    self.showWaitTime(time);
-
-                    if (self.main.isNan) {
-                        if (self.main.currentTimeRemaining < this.main.root.gameConfigs.nanTime) {
-                            self.main.showDices(true);
-                            self.main.showBetResult();
-                            self.main.diaNan.node.active = false;
-                        }
-                    }
-
-                    if (self.logsDataHandler.dataLogs) {
-                        self.main.setTurnLabel(self.logsDataHandler.dataLogs[0].phien);
-                    }
-                }
+                this.handleInWaitTime();
             } else {
-                self.main.resetUI();
-                self.main.currentResultDices = [];
-                self.main.currentStatus = null;
-                const isStartingNewTurn = self.main.currentTimeRemaining == this.main.root.gameConfigs.betTime;
-                const isInTurnTime = self.main.currentTimeRemaining > this.main.root.gameConfigs.minBetTime;
+                this.handleInRoundTime();
+            }
+            this.main.currentTimeRemaining--;
+        }, 1000);
+    }
 
-                if (self.logsDataHandler.dataLogs) {
-                    self.main.setTurnLabel(self.logsDataHandler.dataLogs[0].phien + 1);
-                }
+    handleInWaitTime() {
+        const isBalanceBetTime = this.main.currentTimeRemaining > this.main.root.gameConfigs.displayResultTime;
+        if (isBalanceBetTime) {
+            this.main.balanceBet(this.main.currentTimeRemaining === this.main.root.gameConfigs.fullTime);
+        } else {
+            this.main.hideBetBalanceNotice();
+            this.main.enableHistoryButton();
+            if (this.main.currentTimeRemaining === this.main.root.gameConfigs.displayResultTime) {
+                this.main.showResult();
+                this.main.currentStatus && this.main.showUserWinLoss(this.main.currentStatus);
+            }
 
-                if (isStartingNewTurn) {
-                    this.main.gameAudios.playStartGameAudio();
-                    self.main.resetData();
-                }
+            var time = numberPad(this.main.currentTimeRemaining - this.main.root.gameConfigs.betTime - 1, 2);
+            this.showWaitTime(time);
 
-                if (isInTurnTime) {
-                    var time = numberPad(self.main.currentTimeRemaining - 1, 2);
-                    self.main.animatedTime.setTime(time);
-                    self.main.diaNanSprite.node.active = !this.main.hideDiaNan;
-                } else {
-                    this.main.disableHistoryButton();
-                    clearInterval(self.playTimeInterval);
+            if (this.main.isNan) {
+                if (this.main.currentTimeRemaining < this.main.root.gameConfigs.nanTime) {
+                    this.main.showDices(true);
+                    this.main.showBetResult();
+                    this.main.diaNan.node.active = false;
                 }
             }
-            self.main.currentTimeRemaining--;
-        }, 1000);
+
+            if (this.logsDataHandler.dataLogs) {
+                this.main.setTurnLabel(this.logsDataHandler.dataLogs[0].phien);
+            }
+        }
+    }
+
+    handleInRoundTime() {
+        this.main.resetUI();
+        this.main.currentResultDices = [];
+        this.main.currentStatus = null;
+        const isStartingNewTurn = this.main.currentTimeRemaining === this.main.root.gameConfigs.betTime;
+        const isInTurnTime = this.main.currentTimeRemaining > this.main.root.gameConfigs.minBetTime;
+
+        if (this.logsDataHandler.dataLogs) {
+            this.main.setTurnLabel(this.logsDataHandler.dataLogs[0].phien + 1);
+        }
+
+        if (isStartingNewTurn) {
+            this.main.gameAudios.playStartGameAudio();
+            this.main.resetData();
+        }
+
+        if (isInTurnTime) {
+            var time = numberPad(this.main.currentTimeRemaining - 1, 2);
+            this.main.animatedTime.setTime(time);
+            this.main.diaNanSprite.node.active = !this.main.hideDiaNan;
+        } else {
+            this.main.disableHistoryButton();
+            clearInterval(this.playTimeInterval);
+        }
     }
 
     stopPlayTime() {
@@ -103,7 +110,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
     private showWaitTime(time: number) {
         if (this.main.timeWaitNode) {
             this.main.timeWaitNode.active = true;
-            this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
+            this.main.timeWaitLabel.string = `00:${numberPad(time, 2)}`;
         }
     }
 }
