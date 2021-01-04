@@ -1,12 +1,12 @@
 var helper = require("Helper");
-var Pagination = require("Pagination");
+import PaginationCommon from "../../../../../_new-assets/common/helpers/Pagination/PaginationCommon";
 
 cc.Class({
     extends: cc.Component,
     properties: {
         pages: {
             default: null,
-            type: Pagination
+            type: PaginationCommon
         },
         content: cc.Node,
         cointRed: cc.Node,

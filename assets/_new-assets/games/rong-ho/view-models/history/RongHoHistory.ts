@@ -1,5 +1,5 @@
 import { getStringDateByTime, numberWithCommas } from "../../../../common/helpers/Helper";
-import * as Pagination from "../../../../common/helpers/Pagination/Pagination";
+import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
 import RongHo from "../RongHo";
 import RongHoHistoryItem from "./RongHoHistoryItem";
 
@@ -10,8 +10,8 @@ export default class RongHoHistory extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(Pagination)
-    pages: Pagination = null;
+    @property(PaginationCommon)
+    pages: PaginationCommon = null;
 
     @property([cc.SpriteFrame])
     cardTypes: Array<cc.SpriteFrame> = [];
