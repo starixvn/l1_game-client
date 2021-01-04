@@ -1,5 +1,5 @@
 import { getStringDateByTime, numberWithCommas } from "../../../../common/helpers/Helper";
-import * as Pagination from "../../../../common/helpers/Pagination/Pagination";
+import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
 import Keno from "../Keno";
 import KenoRoundResult from "./KenoRoundResult";
 import KenoUserHistoryItem from "./KenoUserHistoryItem";
@@ -11,8 +11,8 @@ export default class KenoUserHistory extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(Pagination)
-    pages: Pagination = null;
+    @property(PaginationCommon)
+    pages: PaginationCommon = null;
 
     @property(cc.Prefab)
     prefabItem: cc.Prefab = null;

@@ -102,27 +102,23 @@ export default class PaginationCommon extends cc.Component {
 
         this.listComponentPage.forEach((component, index) => {
             if (index <= this.totalPage && startIndex <= this.totalPage) {
+                isButtonActive = false;
                 component.number.string = startIndex;
                 component.node.page = startIndex;
                 startIndex++;
+                component.node.active = true;
 
                 if (+component.number.string === this.pageNumberCurrent) {
                     isButtonActive = true;
                     this.pageSelect = component;
-                } else {
-                    isButtonActive = false;
+                    component.node.pauseSystemEvents(true);
                 }
 
-                component.node.active = true;
                 component.number.node.color = isButtonActive ? cc.Color.BLACK : cc.Color.WHITE;
                 component.bg.active = !isButtonActive;
                 component.bgSelect.active = isButtonActive;
             } else {
                 component.node.active = false;
-            }
-
-            if (isButtonActive) {
-                component.node.pauseSystemEvents(true);
             }
         });
 
