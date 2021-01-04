@@ -1,7 +1,7 @@
-import { getStringDateByTime, numberWithCommas } from '../../../../common/helpers/Helper';
-import * as Pagination from '../../../../common/helpers/Pagination/Pagination';
-import ChanLe from '../ChanLe';
-import ChanLeHistoryItem from './ChanLeHistoryItem';
+import { getStringDateByTime, numberWithCommas } from "../../../../common/helpers/Helper";
+import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
+import ChanLe from "../ChanLe";
+import ChanLeHistoryItem from "./ChanLeHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -12,8 +12,8 @@ export default class ChanLeHistory extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(Pagination)
-    pages: Pagination = null;
+    @property(PaginationCommon)
+    pages: PaginationCommon = null;
 
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
@@ -32,8 +32,10 @@ export default class ChanLeHistory extends cc.Component {
         this.pages.init(this);
         this.title.string = `${ChanLeHistory.LICH_SU} ${this.root.gameTitle}`.toUpperCase();
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     onEnable() {
@@ -59,7 +61,8 @@ export default class ChanLeHistory extends cc.Component {
                     this.root.showBetHistoryAtRound(roundId);
                 };
                 historyItem.betChoice.string = this.buildBetChoice(historyItemData.select);
-                historyItem.result.string = historyItemData.dice1 + "-" + historyItemData.dice2 + "-" + historyItemData.dice3 + "  " + point;
+                historyItem.result.string =
+                    historyItemData.dice1 + "-" + historyItemData.dice2 + "-" + historyItemData.dice3 + "  " + point;
                 historyItem.betMoney.string = numberWithCommas(historyItemData.bet);
                 historyItem.refund.string = numberWithCommas(historyItemData.tralai);
                 historyItem.winMoney.string = numberWithCommas(historyItemData.betwin);
@@ -67,9 +70,7 @@ export default class ChanLeHistory extends cc.Component {
                     ? cc.Color.YELLOW
                     : historyItem.winMoney.node.color.fromHEX("#E2E2E2");
 
-                historyItem.time.node.color = historyItemData.win
-                    ? cc.Color.YELLOW
-                    : historyItem.time.node.color.fromHEX("#E2E2E2");
+                historyItem.time.node.color = historyItemData.win ? cc.Color.YELLOW : historyItem.time.node.color.fromHEX("#E2E2E2");
                 historyItem.betChoice.node.color = historyItemData.win
                     ? cc.Color.YELLOW
                     : historyItem.betChoice.node.color.fromHEX("#E2E2E2");

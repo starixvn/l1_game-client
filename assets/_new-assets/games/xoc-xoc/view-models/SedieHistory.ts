@@ -1,103 +1,103 @@
-import { getStringDateByTime, numberWithCommas } from './../../../common/helpers/Helper';
-import * as Pagination from './../../../common/helpers/Pagination/Pagination';
-import SedieHistoryItem from './SedieHistoryItem';
+import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
+import PaginationCommon from "./../../../common/helpers/Pagination/PaginationCommon";
+import SedieHistoryItem from "./SedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SedieHistory extends cc.Component {
-  @property(Pagination)
-  pagination: Pagination = null;
+    @property(PaginationCommon)
+    pagination: PaginationCommon = null;
 
-  @property(cc.Node)
-  content: cc.Node = null;
+    @property(cc.Node)
+    content: cc.Node = null;
 
-  @property(cc.Prefab)
-  itemPrefab: cc.Prefab = null;
+    @property(cc.Prefab)
+    itemPrefab: cc.Prefab = null;
 
-  @property(cc.SpriteFrame)
-  iconRed: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    iconRed: cc.SpriteFrame = null;
 
-  @property(cc.SpriteFrame)
-  iconWhite: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    iconWhite: cc.SpriteFrame = null;
 
-  @property(cc.Node)
-  mainFrame: cc.Node = null;
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
 
-  private socket: SocketIOClient.Socket;
+    private socket: SocketIOClient.Socket;
 
-  init(socket: SocketIOClient.Socket) {
-    this.socket = socket;
-  }
-
-  onLoad() {
-    this.pagination.init(this);
-
-    const commonDialog = this.mainFrame.getComponent('CommonDialog');
-    commonDialog.onDidHide = () => {
-      this.node.destroy();
-    };
-  }
-
-  onEnable() {
-    this.get_data();
-  }
-
-  get_data(page = 1) {
-    this.socket && this.socket.connected && this.socket.emit('getHistory', { page: page });
-  }
-
-  onData(data) {
-    const { page, pageSize, total, betLogs } = data;
-    this.pagination.onSet(page, pageSize, total);
-    this.content.destroyAllChildren();
-
-    if (betLogs && betLogs.length) {
-      betLogs.map((betLog, index) => {
-        const itemNode = cc.instantiate(this.itemPrefab);
-        const item = itemNode.getComponent(SedieHistoryItem);
-        item.node.active = true;
-        item.bg.active = index % 2 > 0;
-
-        const { time, phien, result, settlementResult, betwin } = betLog;
-
-        item.time.string = getStringDateByTime(time);
-        item.phien.string = phien;
-
-        let number = 0;
-        Object.keys(result).forEach((key) => {
-          if (result[key]) {
-            number++;
-          }
-        });
-
-        item.kqLabel.string = number.toString();
-        if (number % 2) {
-          item.kqSprite.spriteFrame = this.iconRed;
-          item.kqLabel.node.color = cc.Color.WHITE;
-        } else {
-          item.kqSprite.spriteFrame = this.iconWhite;
-          item.kqLabel.node.color = cc.Color.BLACK;
-        }
-
-        Object.keys(settlementResult).forEach((choice) => {
-          item[choice].string = numberWithCommas(betLog[choice]);
-          if (settlementResult[choice]) {
-            item[choice].node.color = cc.Color.YELLOW;
-          } else {
-            item[choice].node.color = cc.Color.WHITE;
-          }
-        });
-
-        item.win.string = numberWithCommas(betwin);
-
-        this.content.addChild(itemNode);
-      });
+    init(socket: SocketIOClient.Socket) {
+        this.socket = socket;
     }
 
-    const commonDialog = this.mainFrame.getComponent('CommonDialog');
-    commonDialog.onDidHide = () => {
-      this.node.destroy();
-    };
-  }
+    onLoad() {
+        this.pagination.init(this);
+
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
+    }
+
+    onEnable() {
+        this.get_data();
+    }
+
+    get_data(page = 1) {
+        this.socket && this.socket.connected && this.socket.emit("getHistory", { page: page });
+    }
+
+    onData(data) {
+        const { page, pageSize, total, betLogs } = data;
+        this.pagination.onSet(page, pageSize, total);
+        this.content.destroyAllChildren();
+
+        if (betLogs && betLogs.length) {
+            betLogs.map((betLog, index) => {
+                const itemNode = cc.instantiate(this.itemPrefab);
+                const item = itemNode.getComponent(SedieHistoryItem);
+                item.node.active = true;
+                item.bg.active = index % 2 > 0;
+
+                const { time, phien, result, settlementResult, betwin } = betLog;
+
+                item.time.string = getStringDateByTime(time);
+                item.phien.string = phien;
+
+                let number = 0;
+                Object.keys(result).forEach((key) => {
+                    if (result[key]) {
+                        number++;
+                    }
+                });
+
+                item.kqLabel.string = number.toString();
+                if (number % 2) {
+                    item.kqSprite.spriteFrame = this.iconRed;
+                    item.kqLabel.node.color = cc.Color.WHITE;
+                } else {
+                    item.kqSprite.spriteFrame = this.iconWhite;
+                    item.kqLabel.node.color = cc.Color.BLACK;
+                }
+
+                Object.keys(settlementResult).forEach((choice) => {
+                    item[choice].string = numberWithCommas(betLog[choice]);
+                    if (settlementResult[choice]) {
+                        item[choice].node.color = cc.Color.YELLOW;
+                    } else {
+                        item[choice].node.color = cc.Color.WHITE;
+                    }
+                });
+
+                item.win.string = numberWithCommas(betwin);
+
+                this.content.addChild(itemNode);
+            });
+        }
+
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
+    }
 }

@@ -1,12 +1,12 @@
 import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
-import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
+import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import SedieHistoryItem from "../../xoc-xoc/view-models/SedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniSedieHistory extends cc.Component {
-    @property(Pagination)
-    pages: Pagination = null;
+    @property(PaginationCommon)
+    pages: PaginationCommon = null;
 
     @property(cc.Node)
     content: cc.Node = null;
