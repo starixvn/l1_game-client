@@ -1,11 +1,11 @@
-import * as Pagination from "./../../common/helpers/Pagination/Pagination";
+import PaginationCommon from "./../../common/helpers/Pagination/PaginationCommon";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameHistoryBase extends cc.Component {
-    @property(Pagination)
-    pages: Pagination = null;
+    @property(PaginationCommon)
+    pages: PaginationCommon = null;
 
     @property(cc.Node)
     content: cc.Node = null;

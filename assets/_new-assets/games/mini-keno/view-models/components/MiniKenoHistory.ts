@@ -71,6 +71,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
         this.gameName = this.kenoGameDropDownList.selectedItem.value;
         this.addDataObserver(this.gameName);
         this.updateRoundLabel();
+        this.pages.resetPageCurrent();
         this.get_data();
     }
 
@@ -82,7 +83,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
             return;
         }
 
-        data.betLogs.foreach((betLog) => {
+        data.betLogs.forEach((betLog) => {
             const { phien, betLogDetails, betwin, result, settlementResult } = betLog;
             const node = cc.instantiate(this.prefabItem);
             const item: MiniKenoHistoryItem = node.getComponent("MiniKenoHistoryItem");

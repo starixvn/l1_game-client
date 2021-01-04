@@ -84,11 +84,19 @@ export default class PaginationCommon extends cc.Component {
             this.node.active = false;
         }
 
+        this.updateArrowButtonsVisibility();
+        this.updateLayout();
+    }
+
+    resetPageCurrent() {
+        this.pageNumberCurrent = 1;
+    }
+
+    updateLayout() {
         const layout = this.node.getComponent(cc.Layout);
+        layout.enabled = true;
         layout.updateLayout();
         layout.enabled = false;
-
-        this.updateArrowButtonsVisibility();
     }
 
     handleActionPage() {
