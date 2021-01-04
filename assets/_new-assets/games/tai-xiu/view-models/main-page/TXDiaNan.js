@@ -1,4 +1,3 @@
-
 cc.Class({
     extends: cc.Component,
     init(obj) {
@@ -12,14 +11,12 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-        // this.node.on(cc.Node.EventType.MOUSE_ENTER,  this.setTop,     this);
     },
     onDisable: function () {
         this.node.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.node.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
         this.node.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
         this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
-        // this.node.off(cc.Node.EventType.MOUSE_ENTER,  this.setTop,     this);
     },
     eventStart: function (e) {
         this.setTop();
@@ -28,8 +25,8 @@ cc.Class({
     eventMove: function (e) {
         this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
     },
-    eventEnd: function () { },
+    eventEnd: function () {},
     setTop: function () {
         this.RedT.setTop();
-    },
+    }
 });

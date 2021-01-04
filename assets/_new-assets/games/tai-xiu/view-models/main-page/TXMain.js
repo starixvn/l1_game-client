@@ -343,7 +343,7 @@ cc.Class({
         !t && 0 < this.editboxs.length && BrowserUtil.focusEditBox(this.editboxs[1]);
     },
     initGame: function (taixiu) {
-        if (taixiu != this.taixiu) {
+        if (taixiu !== this.taixiu) {
             this.onChangerGame();
         }
     },
@@ -356,7 +356,6 @@ cc.Class({
             self.TXRoot.TXStats.onChangerGame();
             this.TXRoot.TX_LichSuPhien.onChangerGame();
             this.taixiu && this.onDataTaiXiu(cc.RedT.setting.taixiu.data.taixiu);
-            !this.taixiu && this.onDataChanLe(cc.RedT.setting.taixiu.data.chanle);
             this.onDuDay(cc.RedT.setting.taixiu.data.du_day);
         }
     },
@@ -367,24 +366,22 @@ cc.Class({
     reLoadGame: function () {
         setTimeout(
             function () {
-                if (cc.RedT.setting.taixiu.red != this.red) {
+                if (cc.RedT.setting.taixiu.red !== this.red) {
                     this.onChangerRED();
                 }
-                if (cc.RedT.setting.taixiu.taixiu != this.taixiu) {
+                if (cc.RedT.setting.taixiu.taixiu !== this.taixiu) {
                     this.onChangerGame();
                 } else {
                     this.dataLogs();
                 }
-                if (cc.RedT.setting.taixiu.isNan != this.isNan) {
+                if (cc.RedT.setting.taixiu.isNan !== this.isNan) {
                     this.onChangerNan();
                 }
-                //if (void 0 !== data.du_day) {
+
                 this.onDuDay(cc.RedT.setting.taixiu.data.du_day);
-                //}
+
                 if (cc.RedT.setting.taixiu.taixiu) {
                     this.onDataTaiXiu(cc.RedT.setting.taixiu.data.taixiu);
-                } else {
-                    this.onDataChanLe(cc.RedT.setting.taixiu.data.chanle);
                 }
             }.bind(this),
             50
@@ -398,7 +395,6 @@ cc.Class({
         //FIX ME: TX_LichSuPhien NOT FOUND
         this.TXRoot.TX_LichSuPhien.onChangerCoint();
         this.taixiu && this.onDataTaiXiu(cc.RedT.setting.taixiu.data.taixiu);
-        !this.taixiu && this.onDataChanLe(cc.RedT.setting.taixiu.data.chanle);
         this.onDuDay(cc.RedT.setting.taixiu.data.du_day);
     },
     eventStart: function (e) {
@@ -421,18 +417,26 @@ cc.Class({
             this.inputL.spriteFrame = isClick ? this.BetButtonClickedFrame : this.BetButtonUnClickedFrame;
         } else {
             if (isClick) {
-                select == "right" && (this.inputR.spriteFrame = this.BetButtonClickedFrame);
-                select == "left" && (this.inputL.spriteFrame = this.BetButtonClickedFrame);
+                if (select === "right") {
+                    this.inputR.spriteFrame = this.BetButtonClickedFrame;
+                }
+                if (select === "left") {
+                    this.inputL.spriteFrame = this.BetButtonClickedFrame;
+                }
             } else {
-                select == "right" && (this.inputR.spriteFrame = this.BetButtonUnClickedFrame);
-                select == "left" && (this.inputL.spriteFrame = this.BetButtonUnClickedFrame);
+                if (select === "right") {
+                    this.inputR.spriteFrame = this.BetButtonUnClickedFrame;
+                }
+                if (select === "left") {
+                    this.inputL.spriteFrame = this.BetButtonUnClickedFrame;
+                }
             }
         }
     },
     onSelectInput: function (event, select) {
         this.setBetButtonClicked(true, select);
         this.inputOld = select;
-        this.input = select == "right" ? this.inputRTxt : this.inputLTxt;
+        this.input = select === "right" ? this.inputRTxt : this.inputLTxt;
         this.onChangerInput();
         const info = {
             choice: select,
@@ -472,7 +476,7 @@ cc.Class({
     },
     onData: function (data) {
         if (data.um) {
-            if (cc.RedT.setting.taixiu.time_remain == Constants.betTime || data.time_remain == Constants.fullTime) {
+            if (cc.RedT.setting.taixiu.time_remain === Constants.betTime || data.time_remain === Constants.fullTime) {
                 this.isUM = true;
                 this.UMWarning.show(data);
                 this.centerRoundLight.node.stopAllActions();
@@ -500,10 +504,7 @@ cc.Class({
             Object.assign(cc.RedT.setting.taixiu.data.taixiu, data.taixiu);
             this.taixiu && this.onDataTaiXiu(data.taixiu);
         }
-        if (data.chanle) {
-            Object.assign(cc.RedT.setting.taixiu.data.chanle, data.chanle);
-            !this.taixiu && this.onDataChanLe(data.chanle);
-        }
+
         if (data.get_top) {
             this.TXRoot.TXTop.node && this.TXRoot.TXTop.onData(data.get_top);
         }
@@ -544,10 +545,8 @@ cc.Class({
             ) {
                 this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
                 this.labelKetQua.string = this.diemSo;
-                // if (!this.isNan) {
                 this.setDice(true);
                 this.showResult();
-                // }
             }
             this.dataLogs();
             cc.RedT.setting.taixiu.getLogs = true;
@@ -564,7 +563,6 @@ cc.Class({
                     phien: data.finish.phien
                 });
                 cc.RedT.setting.taixiu.logs.length > 120 && cc.RedT.setting.taixiu.logs.pop();
-                //this.dataLogs();
                 this.localResultDices = [...data.finish.dices];
 
                 this.AnimatedTime.node.active = false;
@@ -612,11 +610,11 @@ cc.Class({
                 if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
                     const isBalanceBetTime = cc.RedT.setting.taixiu.time_remain > Constants.displayResultTime;
                     if (isBalanceBetTime) {
-                        this.balanceBet(cc.RedT.setting.taixiu.time_remain == Constants.fullTime);
+                        this.balanceBet(cc.RedT.setting.taixiu.time_remain === Constants.fullTime);
                     } else {
                         this.hideBetBalanceNotice();
                         this.enableHistoryButton();
-                        if (cc.RedT.setting.taixiu.time_remain == Constants.displayResultTime) {
+                        if (cc.RedT.setting.taixiu.time_remain === Constants.displayResultTime) {
                             this.displayDiceResult();
                             this.showBetWinLoss();
                         }
@@ -659,26 +657,12 @@ cc.Class({
         );
     },
     showWaitTime: function (time) {
-        this.nodeTimeWait && (this.nodeTimeWait.active = true);
-        this.timeWait.string = "00:" + helper.numberPad(time, 2);
-    },
-    onDataChanLe: function (data) {
-        if (this.red) {
-            void 0 !== data.red_chan && (this.totalLeft.string = helper.numberWithCommas(data.red_chan));
-            void 0 !== data.red_le && (this.totalRight.string = helper.numberWithCommas(data.red_le));
-            void 0 !== data.red_me_chan && (this.myLeft.string = helper.numberWithCommas(data.red_me_chan));
-            void 0 !== data.red_me_le && (this.myRight.string = helper.numberWithCommas(data.red_me_le));
-            void 0 !== data.red_player_chan && (this.playerLeft.string = helper.numberWithCommas(data.red_player_chan));
-            void 0 !== data.red_player_le && (this.playerRight.string = helper.numberWithCommas(data.red_player_le));
-        } else {
-            void 0 !== data.xu_chan && (this.totalLeft.string = helper.numberWithCommas(data.xu_chan));
-            void 0 !== data.xu_le && (this.totalRight.string = helper.numberWithCommas(data.xu_le));
-            void 0 !== data.xu_me_chan && (this.myLeft.string = helper.numberWithCommas(data.xu_me_chan));
-            void 0 !== data.xu_me_le && (this.myRight.string = helper.numberWithCommas(data.xu_me_le));
-            void 0 !== data.xu_player_chan && (this.playerLeft.string = helper.numberWithCommas(data.xu_player_chan));
-            void 0 !== data.xu_player_le && (this.playerRight.string = helper.numberWithCommas(data.xu_player_le));
+        if (this.nodeTimeWait) {
+            this.nodeTimeWait.active = true;
         }
+        this.timeWait.string = `00:${helper.numberPad(time, 2)}`;
     },
+
     onDataTaiXiu: function (data) {
         if (void 0 !== cc.RedT.inGame.onGetTaiXiu) {
             cc.RedT.inGame.onGetTaiXiu(data.red_tai, data.red_xiu);
@@ -709,15 +693,19 @@ cc.Class({
             }
         }
 
-        void 0 !== data.red_me_tai && (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
-        void 0 !== data.red_me_xiu && (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
+        if (void 0 !== data.red_me_tai) {
+            this.myLeft.string = helper.numberWithCommas(data.red_me_tai);
+        }
+        if (void 0 !== data.red_me_xiu) {
+            this.myRight.string = helper.numberWithCommas(data.red_me_xiu);
+        }
         if (void 0 !== data.red_player_tai) {
             const betTaiPercent = parseInt(data.red_player_tai) >> 0;
-            this.playerLeft.string = betTaiPercent + "%";
+            this.playerLeft.string = `${betTaiPercent}%`;
         }
         if (void 0 !== data.red_player_xiu) {
             const betXiuPercent = parseInt(data.red_player_xiu) >> 0;
-            this.playerRight.string = betXiuPercent + "%";
+            this.playerRight.string = `${betXiuPercent}%`;
         }
     },
     onDuDay: function (data) {
@@ -762,13 +750,7 @@ cc.Class({
                         dot.node.phien = data.phien;
                         dot.mod.round.string = `#${data.phien}`;
                         dot.mod.text.string = `${point < 11 ? "XỈU" : "TÀI"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
-                        dot.spriteFrame = self.taixiu
-                            ? point < 11
-                                ? self.dot_white
-                                : self.dot_black
-                            : point % 2
-                            ? self.dot_black
-                            : self.dot_yellow;
+                        dot.spriteFrame = point < 11 ? self.dot_white : self.dot_black;
                     } else {
                         dot.node.active = false;
                     }
@@ -842,14 +824,8 @@ cc.Class({
             if (void 0 !== data) {
                 dot.node.active = true;
                 var kqPoint = data.dice[0] + data.dice[1] + data.dice[2];
-                dot.spriteFrame = self.taixiu
-                    ? kqPoint < 11
-                        ? self.dot_white
-                        : self.dot_black
-                    : kqPoint % 2
-                    ? self.dot_black
-                    : self.dot_yellow;
-                return self.taixiu ? (kqPoint > 10 ? 1 : 0) : kqPoint % 2 ? 0 : 1;
+                dot.spriteFrame = kqPoint < 11 ? self.dot_white : self.dot_black;
+                return kqPoint > 10 ? 1 : 0;
             } else {
                 dot.node.active = false;
                 return -1;
@@ -861,16 +837,16 @@ cc.Class({
         newArr.reverse();
         for (var newDS of newArr) {
             var point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
-            const type = self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+            const type = point > 10 ? 1 : 0;
             if (tmp_DS === -1) {
                 tmp_DS = type;
             }
-            if (type != tmp_DS || tmp_arrB.length > 4) {
+            if (type !== tmp_DS || tmp_arrB.length > 4) {
                 tmp_DS = type;
                 tmp_arrA.push(tmp_arrB);
                 tmp_arrB = [];
             }
-            if (type == tmp_DS) {
+            if (type === tmp_DS) {
                 tmp_arrB.push(point);
             }
         }
@@ -880,8 +856,8 @@ cc.Class({
         newData.reverse();
         newData = newData.slice(0, 20);
         newData.reverse();
-        self.TXRoot.TXStats.KetQuaLeft.string = ketqua.filter((i) => i == 1).length;
-        self.TXRoot.TXStats.KetQuaRight.string = ketqua.filter((i) => i == 0).length;
+        self.TXRoot.TXStats.KetQuaLeft.string = ketqua.filter((i) => i === 1).length;
+        self.TXRoot.TXStats.KetQuaRight.string = ketqua.filter((i) => i === 0).length;
 
         self.TXRoot.TXStats.DiemSoCel.forEach(function (obj, i) {
             var data = newData[i];
@@ -891,25 +867,13 @@ cc.Class({
                     obj.RedT.map(function (current, index) {
                         var data_Cel = data[index];
                         if (void 0 !== data_Cel) {
-                            const type = self.taixiu ? (data_Cel > 10 ? true : false) : data_Cel % 2 ? false : true;
+                            const type = data_Cel > 10 ? true : false;
                             c_tai = type ? c_tai + 1 : c_tai;
                             c_xiu = !type ? c_xiu + 1 : c_xiu;
                             current.active = true;
-                            current.color = self.taixiu
-                                ? type
-                                    ? cc.Color.BLACK
-                                    : cc.Color.WHITE
-                                : type
-                                ? cc.Color.YELLOW
-                                : cc.Color.BLACK;
+                            current.color = type ? cc.Color.BLACK : cc.Color.WHITE;
                             current.text.string = data_Cel;
-                            current.text.node.color = self.taixiu
-                                ? type
-                                    ? cc.Color.WHITE
-                                    : cc.Color.BLACK
-                                : type
-                                ? cc.Color.BLACK
-                                : cc.Color.WHITE;
+                            current.text.node.color = type ? cc.Color.WHITE : cc.Color.BLACK;
                         } else {
                             current.active = false;
                         }
@@ -936,7 +900,23 @@ cc.Class({
     },
     reset: function () {
         this.isNan && this.dataLogs();
-        cc.RedT.setting.taixiu.data.chanle.red_chan = cc.RedT.setting.taixiu.data.chanle.red_le = cc.RedT.setting.taixiu.data.chanle.red_me_chan = cc.RedT.setting.taixiu.data.chanle.red_me_le = cc.RedT.setting.taixiu.data.chanle.red_player_chan = cc.RedT.setting.taixiu.data.chanle.red_player_le = cc.RedT.setting.taixiu.data.chanle.xu_chan = cc.RedT.setting.taixiu.data.chanle.xu_le = cc.RedT.setting.taixiu.data.chanle.xu_me_chan = cc.RedT.setting.taixiu.data.chanle.xu_me_le = cc.RedT.setting.taixiu.data.chanle.xu_player_chan = cc.RedT.setting.taixiu.data.chanle.xu_player_le = cc.RedT.setting.taixiu.data.taixiu.red_me_tai = cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu.data.taixiu.red_player_tai = cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu.data.taixiu.red_tai = cc.RedT.setting.taixiu.data.taixiu.red_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu.data.taixiu.xu_tai = cc.RedT.setting.taixiu.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = 0;
+        cc.RedT.setting.taixiu.data.taixiu.red_me_tai = 0;
+        cc.RedT.setting.taixiu.data.taixiu.red_me_xiu = 0;
+        cc.RedT.setting.taixiu.data.taixiu.red_player_tai = 0;
+        cc.RedT.setting.taixiu.data.taixiu.red_player_xiu = 0;
+        cc.RedT.setting.taixiu.data.taixiu.red_tai = 0;
+        cc.RedT.setting.taixiu.data.taixiu.red_xiu = 0;
+        cc.RedT.setting.taixiu.data.taixiu.xu_me_tai = 0;
+        cc.RedT.setting.taixiu.data.taixiu.xu_me_xiu = 0;
+        cc.RedT.setting.taixiu.data.taixiu.xu_player_tai = 0;
+        cc.RedT.setting.taixiu.data.taixiu.xu_player_xiu = 0;
+        cc.RedT.setting.taixiu.data.taixiu.xu_tai = 0;
+        cc.RedT.setting.taixiu.data.taixiu.xu_xiu = 0;
+        this.totalLeft.string = 0;
+        this.totalRight.string = 0;
+        this.myLeft.string = 0;
+        this.myRight.string = 0;
+
         this.playerLeft.string = this.playerRight.string = "0%";
         this.gameAudios && this.gameAudios.playStartGameAudio();
     },
@@ -1037,8 +1017,12 @@ cc.Class({
         this.playerLeft.string = this.playerRight.string = "0%";
     },
     resetBetButtonText(select) {
-        (!select || select == "left") && (this.inputLTxt.string = "ĐẶT CỬA");
-        (!select || select == "right") && (this.inputRTxt.string = "ĐẶT CỬA");
+        if (!select || select === "left") {
+            this.inputLTxt.string = "ĐẶT CỬA";
+        }
+        if (!select || select === "right") {
+            this.inputRTxt.string = "ĐẶT CỬA";
+        }
     },
     playCenterRoundLight() {
         this.centerRoundLight.node.runAction(cc.repeatForever(cc.rotateBy(1, 360)));
@@ -1137,7 +1121,7 @@ cc.Class({
                 cuoc: {
                     red: this.red,
                     taixiu: this.taixiu,
-                    select: this.inputOld == "left",
+                    select: this.inputOld === "left",
                     bet: bet
                 }
             }

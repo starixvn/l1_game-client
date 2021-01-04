@@ -6,5 +6,4 @@ export default abstract class BaseDataHandler {
     constructor(main: ChanLeMain) {
         this.main = main;
     }
-
 }
