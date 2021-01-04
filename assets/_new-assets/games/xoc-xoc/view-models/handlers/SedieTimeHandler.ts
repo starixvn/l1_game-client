@@ -2,8 +2,9 @@ import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import Sedie from "../Sedie";
 
 export default class SedieTimeHandler extends GameBaseTimeHandler {
-
-    private get shakeThePlateTime() { return this.main.config.betTime + 2 };
+    private get shakeThePlateTime() {
+        return this.main.config.betTime + 2;
+    }
 
     constructor(protected readonly main: Sedie) {
         super(main);
@@ -14,7 +15,7 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
     }
 
     get isStartingNewGameRound() {
-        return this.main.currentTimeRemaining == this.shakeThePlateTime;
+        return this.main.currentTimeRemaining === this.shakeThePlateTime;
     }
 
     handleStartingNewGameRound() {

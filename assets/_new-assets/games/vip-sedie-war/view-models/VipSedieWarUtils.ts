@@ -1,5 +1,3 @@
-
-
 export default class VipSedieWarUtils {
     public static getBetChoiceString(choice: string): string {
         const dict = {
@@ -31,26 +29,26 @@ export default class VipSedieWarUtils {
     }
 
     public static setDotsImage(result: any, playerResultNode: cc.Node, bankerResultNode: cc.Node, dotsFrame: cc.SpriteFrame[]) {
-        const playerSprites = playerResultNode.children.map(child => {
+        const playerSprites = playerResultNode.children.map((child) => {
             const sprite = child.getComponent(cc.Sprite);
             sprite.spriteFrame = dotsFrame[0];
             return sprite;
         });
         let index = 0;
-        Object.keys(result.player).forEach(key => {
+        Object.keys(result.player).forEach((key) => {
             if (result.player[key]) {
                 playerSprites[index].getComponent(cc.Sprite).spriteFrame = dotsFrame[1];
                 index++;
             }
         });
 
-        const bankerSprites = bankerResultNode.children.map(child => {
+        const bankerSprites = bankerResultNode.children.map((child) => {
             const sprite = child.getComponent(cc.Sprite);
             sprite.spriteFrame = dotsFrame[0];
             return sprite;
         });
         index = 0;
-        Object.keys(result.banker).forEach(key => {
+        Object.keys(result.banker).forEach((key) => {
             if (result.banker[key]) {
                 bankerSprites[index].getComponent(cc.Sprite).spriteFrame = dotsFrame[1];
                 index++;

@@ -1,12 +1,11 @@
-import GameBase from '../../_base/GameBase';
-import SedieRoundHistory from '../../mini-sedie/viewModels/SedieRoundHistory';
-import VipSedieWarRoundHistoryItem from './VipSedieWarRoundHistoryItem';
+import GameBase from "../../_base/GameBase";
+import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
+import VipSedieWarRoundHistoryItem from "./VipSedieWarRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipSedieWarStatistic extends cc.Component {
-
     @property(SedieRoundHistory)
     sedieRoundHistory: SedieRoundHistory = null;
 
@@ -22,28 +21,58 @@ export default class VipSedieWarStatistic extends cc.Component {
     @property(cc.Node)
     sedieModeItems: cc.Node[] = [];
 
-    @property({ type: cc.Label, visible: function (this: VipSedieWarStatistic) { return this.warNode != null } })
+    @property({
+        type: cc.Label,
+        visible: function (this: VipSedieWarStatistic) {
+            return this.warNode != null;
+        }
+    })
     playerValue: cc.Label = null;
 
-    @property({ type: cc.Label, visible: function (this: VipSedieWarStatistic) { return this.warNode != null } })
+    @property({
+        type: cc.Label,
+        visible: function (this: VipSedieWarStatistic) {
+            return this.warNode != null;
+        }
+    })
     bankerValue: cc.Label = null;
 
-    @property({ type: cc.Label, visible: function (this: VipSedieWarStatistic) { return this.warNode != null } })
+    @property({
+        type: cc.Label,
+        visible: function (this: VipSedieWarStatistic) {
+            return this.warNode != null;
+        }
+    })
     tieValue: cc.Label = null;
 
-    @property({ type: cc.Node, visible: function (this: VipSedieWarStatistic) { return this.warNode != null } })
+    @property({
+        type: cc.Node,
+        visible: function (this: VipSedieWarStatistic) {
+            return this.warNode != null;
+        }
+    })
     warModeItems: cc.Node[] = [];
 
-    @property({ type: cc.Label, visible: function (this: VipSedieWarStatistic) { return this.totalNode != null } })
+    @property({
+        type: cc.Label,
+        visible: function (this: VipSedieWarStatistic) {
+            return this.totalNode != null;
+        }
+    })
     totalOddValue: cc.Label = null;
 
-    @property({ type: cc.Label, visible: function (this: VipSedieWarStatistic) { return this.totalNode != null } })
+    @property({
+        type: cc.Label,
+        visible: function (this: VipSedieWarStatistic) {
+            return this.totalNode != null;
+        }
+    })
     totalEvenValue: cc.Label = null;
 
     @property
     currentMode = 0;
 
-    private suffix: string = "%";
+    private readonly suffix: string = "%";
     private data: any;
 
     private readonly PlayerSedie = 0;
@@ -73,9 +102,17 @@ export default class VipSedieWarStatistic extends cc.Component {
     }
 
     updateDisplay() {
-        this.sedieNode && (this.sedieNode.active = false);
-        this.warNode && (this.warNode.active = false);
-        this.totalNode && (this.totalNode.active = false);
+        if (this.sedieNode) {
+            this.sedieNode.active = false;
+        }
+
+        if (this.warNode) {
+            this.warNode.active = false;
+        }
+
+        if (this.totalNode) {
+            this.totalNode.active = false;
+        }
 
         switch (this.currentMode) {
             case this.PlayerSedie:
@@ -94,7 +131,9 @@ export default class VipSedieWarStatistic extends cc.Component {
     }
 
     updatePlayerSedieMode() {
-        this.sedieNode && (this.sedieNode.active = true);
+        if (this.sedieNode) {
+            this.sedieNode.active = true;
+        }
 
         const historyData = this.data.map((d) => {
             let count = 0;
@@ -111,7 +150,9 @@ export default class VipSedieWarStatistic extends cc.Component {
     }
 
     updateBankerSedieMode() {
-        this.sedieNode && (this.sedieNode.active = true);
+        if (this.sedieNode) {
+            this.sedieNode.active = true;
+        }
 
         const historyData = this.data.map((d) => {
             let count = 0;
@@ -128,7 +169,9 @@ export default class VipSedieWarStatistic extends cc.Component {
     }
 
     updateWarMode() {
-        this.warNode && (this.warNode.active = true);
+        if (this.warNode) {
+            this.warNode.active = true;
+        }
 
         const historyData = this.data.map((d) => {
             let result = 0;
@@ -157,8 +200,9 @@ export default class VipSedieWarStatistic extends cc.Component {
             return;
         }
 
-        let playerCount = 0, tieCount = 0;
-        data.forEach(item => {
+        let playerCount = 0,
+            tieCount = 0;
+        data.forEach((item) => {
             switch (item) {
                 case 0:
                     playerCount++;
@@ -169,8 +213,8 @@ export default class VipSedieWarStatistic extends cc.Component {
             }
         });
 
-        const playerValue = Math.round(playerCount * 100 / total);
-        const tieValue  = Math.round(tieCount * 100 / total);
+        const playerValue = Math.round((playerCount * 100) / total);
+        const tieValue = Math.round((tieCount * 100) / total);
         const bankerValue = 100 - (playerValue + tieValue);
 
         this.playerValue.string = `${playerValue}${this.suffix}`;
@@ -179,7 +223,9 @@ export default class VipSedieWarStatistic extends cc.Component {
     }
 
     updateTotalMode() {
-        this.totalNode && (this.totalNode.active = true);
+        if (this.totalNode) {
+            this.totalNode.active = true;
+        }
 
         const data = this.data.map((d) => {
             let result = 0;
@@ -203,12 +249,12 @@ export default class VipSedieWarStatistic extends cc.Component {
             return { result, redCount };
         });
 
-        const historyData = data.map(d => d.result);
+        const historyData = data.map((d) => d.result);
         this.updateTotalModeStatistic(historyData);
         this.sedieRoundHistory.logControl.items = this.sedieModeItems;
         this.sedieRoundHistory.logControl.setData(historyData.reverse());
 
-        const redCountData = data.map(d => d.redCount).reverse();
+        const redCountData = data.map((d) => d.redCount).reverse();
         const items = this.sedieRoundHistory.logControl.content.getComponentsInChildren(VipSedieWarRoundHistoryItem);
         items.forEach((item, i) => item.setValue(redCountData[i]));
     }
@@ -223,7 +269,7 @@ export default class VipSedieWarStatistic extends cc.Component {
         }
 
         let eventCount = 0;
-        data.forEach(item => {
+        data.forEach((item) => {
             switch (item) {
                 case 0:
                     eventCount++;
@@ -231,7 +277,7 @@ export default class VipSedieWarStatistic extends cc.Component {
             }
         });
 
-        const evenValue = Math.round(eventCount * 100 / total);
+        const evenValue = Math.round((eventCount * 100) / total);
         const oddValue = 100 - evenValue;
 
         this.totalOddValue.string = `${oddValue}${this.suffix}`;

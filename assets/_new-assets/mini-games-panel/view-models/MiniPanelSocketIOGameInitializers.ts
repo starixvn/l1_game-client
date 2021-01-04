@@ -6,14 +6,13 @@ import * as configs from "./../../Configs";
 import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelSocketIOGameInitializers {
-    constructor(private main: MiniPanel) {
-    }
+    constructor(private readonly main: MiniPanel) {}
 
     public openGame(gameId) {
         cc.RedT.audio.playClick();
         this.main.popupMiniGame.hideListGame();
 
-        if (this.main.currentGameRoomId == gameId) {
+        if (this.main.currentGameRoomId === gameId) {
             return;
         }
 
@@ -27,12 +26,17 @@ export default class MiniPanelSocketIOGameInitializers {
     private openNewSocket(gameId) {
         const socketIoController = BaseSocketIOController.getInstance();
         socketIoController.closeSocket(gameId).then(() => {
-            const key = Object.keys(SabaConfigs.games).find(key => SabaConfigs.games[key].id === gameId);
+            const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === gameId);
             const gameName = SabaConfigs.games[key].name;
             const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
-            const socket = socketIoController.connectGameSocket(gameServerUrl, gameName, proxyRoute, this.main.onConnectSocketFailed.bind(this.main));
-            socket.on('message', (data) => {
+            const socket = socketIoController.connectGameSocket(
+                gameServerUrl,
+                gameName,
+                proxyRoute,
+                this.main.onConnectSocketFailed.bind(this.main)
+            );
+            socket.on("message", (data) => {
                 if (data.um) {
                     socketIoController.closeSocket(gameId);
                 }
@@ -43,9 +47,9 @@ export default class MiniPanelSocketIOGameInitializers {
                 this.main.onGeneralData(data);
             });
 
-            socket.on('forceDisconnect', () => {
+            socket.on("forceDisconnect", () => {
                 socket.disconnect();
-            })
+            });
 
             socketIoController.gameSockets[gameId] = socket;
         });

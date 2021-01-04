@@ -1,44 +1,44 @@
 cc.Class({
-  extends: cc.Component,
+    extends: cc.Component,
 
-  properties: {
-    avatar: cc.Sprite,
-    nodeUsers: {
-      default: null,
-      type: cc.Node,
+    properties: {
+        avatar: cc.Sprite,
+        nodeUsers: {
+            default: null,
+            type: cc.Node
+        },
+        userName: {
+            default: null,
+            type: cc.Label
+        },
+        userRed: {
+            default: null,
+            type: cc.Label
+        },
+        maskFull: 0,
+        NoticePrefab: cc.Prefab
     },
-    userName: {
-      default: null,
-      type: cc.Label,
+    onLoad() {
+        if (cc.RedT.IS_LOGIN) {
+            this.isSignIn();
+        } else {
+            this.isSignOut();
+        }
     },
-    userRed: {
-      default: null,
-      type: cc.Label,
+    isSignIn: function () {
+        this.nodeUsers.active = true;
     },
-    maskFull: 0,
-    NoticePrefab: cc.Prefab,
-  },
-  onLoad() {
-    if (cc.RedT.IS_LOGIN) {
-      this.isSignIn();
-    } else {
-      this.isSignOut();
+    isSignOut: function () {
+        this.userName.string = this.userRed.string = "";
+        this.nodeUsers.active = false;
+    },
+    setAvatar: function (avatarId) {
+        const self = this;
+        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, function (err, atlas) {
+            if (self && self.avatar) {
+                const frame = atlas.getSpriteFrame(avatarId === 0 ? 1 : avatarId);
+                self.avatar.spriteFrame = frame;
+            }
+        });
     }
-  },
-  isSignIn: function () {
-    this.nodeUsers.active = true;
-  },
-  isSignOut: function () {
-    this.userName.string = this.userRed.string = '';
-    this.nodeUsers.active = false;
-  },
-  setAvatar: function (avatarId) {
-    const self = this;
-    cc.loader.loadRes('profile-picture', cc.SpriteAtlas, function (err, atlas) {
-      if (self && self.avatar) {
-        const frame = atlas.getSpriteFrame(avatarId == 0 ? 1 : avatarId);
-        self.avatar.spriteFrame = frame;
-      }
-    });
-  },
 });

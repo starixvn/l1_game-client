@@ -16,7 +16,7 @@ export default class GameAds extends cc.Component {
     @property
     intervalChangeImage = 4;
 
-    private dragThreshold = 0.5;
+    private readonly dragThreshold = 0.5;
     private currentIndex = 0;
     private touchOffset = cc.v2(0, 0);
     private started = false;
@@ -55,7 +55,7 @@ export default class GameAds extends cc.Component {
                 this.showNextPage();
             }
         } else {
-            this.moveToCenter(node, .3);
+            this.moveToCenter(node, 0.3);
         }
     }
 
@@ -80,20 +80,14 @@ export default class GameAds extends cc.Component {
             }
         } else {
             const node = this.getCurrentPage();
-            node.position = cc.v2(
-                e.touch.getLocationX() - this.touchOffset.x,
-                node.position.y
-            );
+            node.position = cc.v2(e.touch.getLocationX() - this.touchOffset.x, node.position.y);
         }
     }
 
     eventStart(e) {
         this.started = true;
         const node = this.getCurrentPage();
-        this.touchOffset = cc.v2(
-            e.touch.getLocationX() - node.position.x,
-            node.position.y
-        );
+        this.touchOffset = cc.v2(e.touch.getLocationX() - node.position.x, node.position.y);
     }
 
     getCurrentPage(): cc.Node {
@@ -128,15 +122,17 @@ export default class GameAds extends cc.Component {
         this.unschedule(this.autoChange);
         this.started = false;
 
-        const direction = pageDirection == PageDirection.Right ? 1 : -1;
+        const direction = pageDirection === PageDirection.Right ? 1 : -1;
         const distance = this.node.width * 1.3;
 
-        oldNode.runAction(cc.sequence(
-            cc.moveBy(0.3, cc.v2(-direction * distance, 0)),
-            cc.callFunc(() => {
-                oldNode.active = false;
-            })
-        ))
+        oldNode.runAction(
+            cc.sequence(
+                cc.moveBy(0.3, cc.v2(-direction * distance, 0)),
+                cc.callFunc(() => {
+                    oldNode.active = false;
+                })
+            )
+        );
         const currentNode = this.content.children[index];
         currentNode.active = true;
         currentNode.position = cc.v2(direction * distance, currentNode.position.y);

@@ -11,7 +11,7 @@ export default class VipFishPrawnCrabTimeHandler extends GameBaseTimeHandler {
     }
 
     get isStartingNewGameRound() {
-        return this.main.currentTimeRemaining == this.main.shakeThePlateTime;
+        return this.main.currentTimeRemaining === this.main.shakeThePlateTime;
     }
 
     handleStartingNewGameRound() {
