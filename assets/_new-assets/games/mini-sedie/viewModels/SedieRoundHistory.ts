@@ -7,7 +7,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SedieRoundHistory extends cc.Component {
-
     @property(LogControl)
     logControl: LogControl = null;
 
@@ -29,7 +28,7 @@ export default class SedieRoundHistory extends cc.Component {
     @property(cc.Label)
     white4: cc.Label = null;
 
-    protected suffix: string = "%";
+    protected suffix = "%";
 
     public setData(redData: any) {
         this.updateHistory(redData);
@@ -38,8 +37,11 @@ export default class SedieRoundHistory extends cc.Component {
     public init(main: GameBase) {
         const condition = () => {
             const finishHandler = main.finishHandler as GameBaseFinishHandler;
-            return main.currentTimeRemaining < main.config.stopBetTime || main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime();
-        }
+            return (
+                main.currentTimeRemaining < main.config.stopBetTime ||
+                main.currentTimeRemaining > main.config.fullTime - finishHandler.getResultAnimationTime()
+            );
+        };
         this.logControl.init(condition);
     }
 
@@ -47,7 +49,7 @@ export default class SedieRoundHistory extends cc.Component {
         const data = [...redData];
         this.updateStatistic(data);
         data.reverse();
-        const logData = data.map(d => d % 2 === 0 ? 0 : 1);
+        const logData = data.map((d) => (d % 2 === 0 ? 0 : 1));
         this.logControl.setData(logData);
         const items = this.logControl.content.getComponentsInChildren(SedieRoundHistoryItem);
         items.forEach((item, i) => item.setValue(data[i]));
@@ -57,12 +59,25 @@ export default class SedieRoundHistory extends cc.Component {
         const total = redData.length;
 
         if (total === 0) {
-            this.updateStatisticLabels({ oddValue: 0, evenValue: 0, red2Value: 0, red3Value: 0, red4Value: 0, white3Value: 0, white4Value: 0, total: 0 });
+            this.updateStatisticLabels({
+                oddValue: 0,
+                evenValue: 0,
+                red2Value: 0,
+                red3Value: 0,
+                red4Value: 0,
+                white3Value: 0,
+                white4Value: 0,
+                total: 0
+            });
             return;
         }
 
-        let oddCount = 0, red3Count = 0, red4Count = 0, white3Count = 0, white4Count = 0;
-        redData.forEach(i => {
+        let oddCount = 0,
+            red3Count = 0,
+            red4Count = 0,
+            white3Count = 0,
+            white4Count = 0;
+        redData.forEach((i) => {
             switch (i) {
                 case 0:
                     white4Count++;
@@ -81,12 +96,12 @@ export default class SedieRoundHistory extends cc.Component {
             }
         });
 
-        const oddValue = Math.round(oddCount * 100 / total);
+        const oddValue = Math.round((oddCount * 100) / total);
         const evenValue = 100 - oddValue;
-        const red3Value = Math.round(red3Count * 100 / total);
-        const red4Value = Math.round(red4Count * 100 / total);
+        const red3Value = Math.round((red3Count * 100) / total);
+        const red4Value = Math.round((red4Count * 100) / total);
         const white3Value = oddValue - red3Value;
-        const white4Value = Math.round(white4Count * 100 / total);
+        const white4Value = Math.round((white4Count * 100) / total);
         const red2Value = evenValue - red4Value - white4Value;
         this.updateStatisticLabels({ oddValue, evenValue, red2Value, red3Value, red4Value, white3Value, white4Value, total });
     }

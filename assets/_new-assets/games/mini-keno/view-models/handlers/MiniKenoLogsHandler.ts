@@ -8,7 +8,7 @@ export default class MiniKenoLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
-        if (!dataLogs || dataLogs.length == 0) {
+        if (!dataLogs || dataLogs.length === 0) {
             return;
         }
 
@@ -16,8 +16,7 @@ export default class MiniKenoLogsHandler extends GameBaseLogsHandler {
 
         if (this.main.timeHandler.isInWaitTime) {
             this.handleInWaitingTime();
-        }
-        else {
+        } else {
             const lastLog = dataLogs[0];
             this.main.highlightWonItem(lastLog.settlementResult, { isAnimated: false, showWinningEffect: true });
         }

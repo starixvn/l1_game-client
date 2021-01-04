@@ -1,6 +1,6 @@
-import { getStringDateByTime, numberWithCommas } from '../../../common/helpers/Helper';
-import * as Pagination from '../../../common/helpers/Pagination/Pagination.js';
-import SedieHistoryItem from '../../xoc-xoc/view-models/SedieHistoryItem';
+import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import * as Pagination from "../../../common/helpers/Pagination/Pagination.js";
+import SedieHistoryItem from "../../xoc-xoc/view-models/SedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -23,15 +23,15 @@ export default class MiniSedieHistory extends cc.Component {
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
-
-    private pagination: Pagination;
-    private dataObserverKey = "MiniSedieHistory";
+    private readonly dataObserverKey = "MiniSedieHistory";
 
     onLoad() {
         this.pages.init(this);
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     onEnable() {
@@ -59,7 +59,7 @@ export default class MiniSedieHistory extends cc.Component {
                 const itemNode = cc.instantiate(this.itemPrefab);
                 const item = itemNode.getComponent(SedieHistoryItem);
                 item.node.active = true;
-                item.bg.active = (index % 2) > 0;
+                item.bg.active = index % 2 > 0;
 
                 const { time, phien, result, settlementResult, betwin } = betLog;
 
@@ -67,7 +67,7 @@ export default class MiniSedieHistory extends cc.Component {
                 item.phien.string = phien;
 
                 let number = 0;
-                Object.keys(result).forEach(key => {
+                Object.keys(result).forEach((key) => {
                     if (result[key]) {
                         number++;
                     }
@@ -82,7 +82,7 @@ export default class MiniSedieHistory extends cc.Component {
                     item.kqLabel.node.color = cc.Color.BLACK;
                 }
 
-                Object.keys(settlementResult).forEach(choice => {
+                Object.keys(settlementResult).forEach((choice) => {
                     item[choice].string = numberWithCommas(betLog[choice]);
                     if (settlementResult[choice]) {
                         item[choice].node.color = cc.Color.YELLOW;

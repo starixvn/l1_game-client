@@ -1,7 +1,7 @@
-import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
-import MiniSedie from "../MiniSedie";
 import { numberPad } from "../../../../common/helpers/Helper";
 import { GameState } from "../../../_base/GameBase";
+import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
+import MiniSedie from "../MiniSedie";
 
 export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     constructor(protected readonly main: MiniSedie) {
@@ -63,13 +63,17 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
             }
 
             var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - shakingDuration - 1, 2);
-            this.main.timeWaitNode && (this.main.timeWaitNode.active = true);
-            this.main.timeWaitLabel.string = "00:" + numberPad(time, 2);
+            if (this.main.timeWaitNode) {
+                this.main.timeWaitNode.active = true;
+            }
+            this.main.timeWaitLabel.string = `00:${numberPad(time, 2)}`;
         } else {
-            this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
+            if (this.main.timeWaitNode) {
+                this.main.timeWaitNode.active = false;
+            }
             this.main.setGameRound(this.main.roundId);
 
-            if (this.main.currentTimeRemaining == shakeTimePoint) {
+            if (this.main.currentTimeRemaining === shakeTimePoint) {
                 this.main.dishNode.active = true;
                 this.main.dishNode.runAction(
                     cc.sequence(
