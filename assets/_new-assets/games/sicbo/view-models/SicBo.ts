@@ -33,7 +33,9 @@ export enum SicBoBetType {
 
 @ccclass
 export default class SicBo extends NewSocketGameBase {
-    public get shakeThePlateTime() { return this.config.betTime + 3; }
+    public get shakeThePlateTime() {
+        return this.config.betTime + 3;
+    }
 
     @property(cc.Node)
     betChoices: cc.Node = null;
@@ -101,17 +103,17 @@ export default class SicBo extends NewSocketGameBase {
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
 
-    public finishShakeThePlate: boolean = false;
+    public finishShakeThePlate = false;
 
-    bigStatistic: number = 0;
-    smallStatistic: number = 0;
-    anyTripleStatistic: number = 0;
-    specific1Statistic: number = 0;
-    specific2Statistic: number = 0;
-    specific3Statistic: number = 0;
-    specific4Statistic: number = 0;
-    specific5Statistic: number = 0;
-    specific6Statistic: number = 0;
+    bigStatistic = 0;
+    smallStatistic = 0;
+    anyTripleStatistic = 0;
+    specific1Statistic = 0;
+    specific2Statistic = 0;
+    specific3Statistic = 0;
+    specific4Statistic = 0;
+    specific5Statistic = 0;
+    specific6Statistic = 0;
 
     private miniRoundHistory: MiniRoundHistory;
     private userHistoryComponent: SicBoHistory;
@@ -132,7 +134,7 @@ export default class SicBo extends NewSocketGameBase {
         this.betChoices.children.forEach((choice) => {
             const betItem = choice.getComponent(BetItem);
             if (betItem) {
-                this.betItems.push(betItem)
+                this.betItems.push(betItem);
             }
         });
 
@@ -148,7 +150,7 @@ export default class SicBo extends NewSocketGameBase {
             GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
             GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
-        })
+        });
     }
 
     resetDataAndUI() {
@@ -173,7 +175,6 @@ export default class SicBo extends NewSocketGameBase {
         this.majorChoicesStatisticContainer.addChild(majorChoicesStatistic);
     }
 
-
     initHandlers() {
         super.initHandlers();
         this.finishHandler = new SicBoFinishHandler(this);
@@ -184,7 +185,7 @@ export default class SicBo extends NewSocketGameBase {
 
     public updateDisplayForRemoteConfig() {
         super.updateDisplayForRemoteConfig();
-        this.gameConfigs.odds && this.oddsItems.forEach(item => item.setValue(this.gameConfigs.odds[item.node.name]));
+        this.gameConfigs.odds && this.oddsItems.forEach((item) => item.setValue(this.gameConfigs.odds[item.node.name]));
     }
 
     setResult() {
@@ -208,7 +209,7 @@ export default class SicBo extends NewSocketGameBase {
             let totalPoints = 0;
             Object.values(result).forEach((point: number) => {
                 totalPoints += point;
-            })
+            });
 
             this.displayResultNode.children[0].getComponent(cc.Label).string = `${totalPoints} -`;
             this.displayResultNode.children[1].getComponent(cc.Sprite).spriteFrame = resultPrite;
@@ -223,7 +224,7 @@ export default class SicBo extends NewSocketGameBase {
             this.dices[index].node.position = randomOption.children[index].position;
             this.dices[index].spriteFrame = this.characterIcons[dice - 1];
             this.dices[index].node.active = true;
-        })
+        });
     }
 
     highlightLastResult() {

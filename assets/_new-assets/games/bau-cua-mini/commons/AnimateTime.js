@@ -4,7 +4,7 @@ cc.Class({
     properties: {
         atlas: {
             default: null,
-            type: cc.SpriteAtlas,
+            type: cc.SpriteAtlas
         },
         firstBetTime: {
             default: null,
@@ -13,7 +13,7 @@ cc.Class({
         secondBetTime: {
             default: null,
             type: cc.Sprite
-        },
+        }
     },
 
     onLoad() {
@@ -34,14 +34,10 @@ cc.Class({
         }
         this.handleBetTimeAnimation(this.secondBetTime.node);
 
-        var suffix = (forceRed || (this.redTime != undefined && time <= this.redTime) ? "red" : "");
-        var firstFrame = this.atlas.getSpriteFrame(
-            firstTimeChar + suffix
-        );
+        var suffix = forceRed || (this.redTime !== undefined && time <= this.redTime) ? "red" : "";
+        var firstFrame = this.atlas.getSpriteFrame(firstTimeChar + suffix);
         this.firstBetTime.spriteFrame = firstFrame;
-        var secondFrame = this.atlas.getSpriteFrame(
-            secondTimeChar + suffix
-        );
+        var secondFrame = this.atlas.getSpriteFrame(secondTimeChar + suffix);
         this.secondBetTime.spriteFrame = secondFrame;
     },
     handleBetTimeAnimation(node) {
@@ -62,5 +58,5 @@ cc.Class({
                 opacity: 255
             })
             .start();
-    },
+    }
 });

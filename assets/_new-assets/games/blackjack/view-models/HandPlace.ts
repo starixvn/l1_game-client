@@ -4,14 +4,14 @@ import BlackJackUtils from "./BlackJackUtils";
 import CardLayout from "./CardLayout";
 
 export interface HandModel {
-    id: string,
-    pos: number,
-    bet: number,
-    total: any,
-    isStand: boolean,
-    cards: any[],
-    splitFrom: boolean,
-    actions: string[],
+    id: string;
+    pos: number;
+    bet: number;
+    total: any;
+    isStand: boolean;
+    cards: any[];
+    splitFrom: boolean;
+    actions: string[];
 }
 
 const { ccclass, property, executeInEditMode } = cc._decorator;
@@ -75,7 +75,7 @@ export default class HandPlace extends cc.Component {
 
     get canSplit() {
         const cards = this.data.cards;
-        if (cards.length != 2) {
+        if (cards.length !== 2) {
             return false;
         }
 
@@ -98,7 +98,7 @@ export default class HandPlace extends cc.Component {
 
     get canDouble() {
         const cards = this.data.cards;
-        if (cards.length != 2) {
+        if (cards.length !== 2) {
             return false;
         }
 
@@ -115,8 +115,8 @@ export default class HandPlace extends cc.Component {
     }
 
     private _betAmount = 0;
-    public betItemClickCallback = () => { }
-    public clearBetClickCallback = (checkExistChip) => { }
+    public betItemClickCallback = () => {};
+    public clearBetClickCallback = (checkExistChip) => {};
     private scoreFrame: cc.Node = null;
 
     onLoad() {
@@ -125,7 +125,7 @@ export default class HandPlace extends cc.Component {
 
     resetView() {
         if (this.clearBetButton) {
-            this.clearBetButton.on('click', this.onClearBetClick, this);
+            this.clearBetButton.on("click", this.onClearBetClick, this);
             this.clearBetButton.active = false;
         }
 
@@ -135,10 +135,16 @@ export default class HandPlace extends cc.Component {
         this.resultValue && this.showResult(false);
         this.blackJackNode.active = false;
         this.burstNode.active = false;
-        this.errorNode && (this.errorNode.active = false);
-        this.betText && (this.betText.active = true);
+        if (this.errorNode) {
+            this.errorNode.active = false;
+        }
+        if (this.betText) {
+            this.betText.active = true;
+        }
 
-        this.activeIcon && (this.activeIcon.active = false);
+        if (this.activeIcon) {
+            this.activeIcon.active = false;
+        }
         this.scoreFrame = this.scoreValue.node.parent;
     }
 
@@ -150,11 +156,13 @@ export default class HandPlace extends cc.Component {
             this.activeIcon.active = true;
 
             if (!this.activeIcon.getActionByTag(10)) {
-                const action = cc.repeatForever(cc.sequence(
-                    cc.moveTo(0.4, cc.v2(-35, 0)).easing(cc.easeSineIn()),
-                    cc.delayTime(0.1),
-                    cc.moveTo(0.4, cc.v2(-25, 0)).easing(cc.easeSineOut())
-                ));
+                const action = cc.repeatForever(
+                    cc.sequence(
+                        cc.moveTo(0.4, cc.v2(-35, 0)).easing(cc.easeSineIn()),
+                        cc.delayTime(0.1),
+                        cc.moveTo(0.4, cc.v2(-25, 0)).easing(cc.easeSineOut())
+                    )
+                );
                 this.activeIcon.runAction(action).setTag(10);
             }
 
@@ -210,7 +218,9 @@ export default class HandPlace extends cc.Component {
     }
 
     showBetValue(show: boolean) {
-        this.betValue && (this.betValue.node.parent.active = show);
+        if (this.betValue) {
+            this.betValue.node.parent.active = show;
+        }
     }
 
     updateDisplayBetValue(bet?: number) {
@@ -246,12 +256,12 @@ export default class HandPlace extends cc.Component {
                     this.showScore(false);
                 }
             } else {
-                this.scoreValue.string = this.data.total.join(' / ');
+                this.scoreValue.string = this.data.total.join(" / ");
             }
         } else {
             const card = this.data.cards[0];
             const values = BlackJackUtils.getValues(card.rank);
-            this.scoreValue.string = values.join(' / ');
+            this.scoreValue.string = values.join(" / ");
         }
     }
 
@@ -269,20 +279,26 @@ export default class HandPlace extends cc.Component {
                 this.showScore(false);
             }
         } else {
-            this.scoreValue.string = values.join(' / ');
+            this.scoreValue.string = values.join(" / ");
         }
     }
 
     showClearBetButton(show: boolean) {
-        this.clearBetButton && (this.clearBetButton.active = show);
+        if (this.clearBetButton) {
+            this.clearBetButton.active = show;
+        }
     }
 
     enablePlaceChip(enable: boolean) {
-        this.betPlace && (this.betPlace.interactable = enable);
+        if (this.betPlace) {
+            this.betPlace.interactable = enable;
+        }
     }
 
     highlightPlace(highlight: boolean) {
-        this.betPlace && (this.betPlace.node.children[0].active = highlight);
+        if (this.betPlace) {
+            this.betPlace.node.children[0].active = highlight;
+        }
     }
 
     showHandId(show: boolean) {
@@ -308,13 +324,15 @@ export default class HandPlace extends cc.Component {
             this.errorNode.active = true;
             cc.tween(this.errorNode)
                 .delay(2.5)
-                .call(() => this.errorNode.active = false)
+                .call(() => (this.errorNode.active = false))
                 .start();
         }
         this.showBetValue(false);
     }
 
     showBetText(show: boolean) {
-        this.betText && (this.betText.active = show);
+        if (this.betText) {
+            this.betText.active = show;
+        }
     }
 }

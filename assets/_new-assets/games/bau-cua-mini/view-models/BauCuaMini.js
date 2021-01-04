@@ -768,7 +768,7 @@ cc.Class({
                     var thuong = new cc.Node();
                     thuong.addComponent(cc.Label);
                     thuong = thuong.getComponent(cc.Label);
-                    thuong.string = "+" + helper.numberWithCommas(data.thuong);
+                    thuong.string = `+${helper.numberWithCommas(data.thuong)}`;
                     thuong.font = cc.RedT.util.fontEffect;
                     thuong.lineHeight = 90;
                     thuong.fontSize = 14;

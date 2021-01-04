@@ -54,7 +54,6 @@ export default class BlackJackUtils {
         keys.forEach((chip, index) => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {
-
                 const chipNode = this.createChip(+chip, chipAltas);
                 chipStack.addChip(chipNode);
 

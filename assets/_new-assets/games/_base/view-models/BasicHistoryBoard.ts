@@ -1,13 +1,12 @@
+import * as _ from "lodash";
+
 import BlinkNode from "../../../common/BlinkNode";
 import GameBase from "../../_base/GameBase";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import * as _ from "lodash";
 
 const { ccclass, property } = cc._decorator;
 
 export class BasicHistoryData {
-    constructor(public name: string, public value: string) {
-    }
+    constructor(public name: string, public value: string) {}
 }
 
 @ccclass
@@ -46,7 +45,7 @@ export default class BasicHistoryBoard extends cc.Component {
     }
 
     public setData(historyData: BasicHistoryData[]) {
-        this.dots.forEach(dot => {
+        this.dots.forEach((dot) => {
             dot.removeFromParent();
             dot.destroy();
         });
@@ -56,7 +55,7 @@ export default class BasicHistoryBoard extends cc.Component {
         this.nextMark = null;
 
         historyData.forEach((history) => {
-            const historyItem = _.find(this.items, item => item.name.toLowerCase() === history.name);
+            const historyItem = _.find(this.items, (item) => item.name.toLowerCase() === history.name);
             var historyDot = cc.instantiate(historyItem);
             historyDot.active = true;
             this.content.addChild(historyDot);

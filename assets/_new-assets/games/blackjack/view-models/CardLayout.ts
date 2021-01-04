@@ -1,4 +1,3 @@
-
 const { ccclass, property, executeInEditMode } = cc._decorator;
 
 @ccclass
@@ -88,8 +87,8 @@ export default class CardLayout extends cc.Component {
     }
 
     changeCardView(selected: boolean) {
-        const needChange = this._selected != selected;
-        if (this._selected != undefined && !needChange) {
+        const needChange = this._selected !== selected;
+        if (this._selected !== undefined && !needChange) {
             return;
         }
         this._selected = selected;
@@ -99,10 +98,14 @@ export default class CardLayout extends cc.Component {
                 cc.tween(child)
                     .delay(0.1 * (this.content.childrenCount - 1 - index))
                     .parallel(
-                        cc.tween(child)
-                            .by(0.3, { x: this.movingOffsetX }),
-                        cc.tween(child)
-                            .to(0.3, { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.15 }, { easing: "sineIn" })
+                        cc.tween(child).by(0.3, { x: this.movingOffsetX }),
+                        cc
+                            .tween(child)
+                            .to(
+                                0.3,
+                                { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.15 },
+                                { easing: "sineIn" }
+                            )
                     )
                     .start();
             });
@@ -113,10 +116,8 @@ export default class CardLayout extends cc.Component {
                 cc.tween(child)
                     .delay(0.1 * index)
                     .parallel(
-                        cc.tween(child)
-                            .by(0.3, { x: -this.movingOffsetX }),
-                        cc.tween(child)
-                            .to(0.3, { rotationX: 0, y: 0, z: 0, scaleY: 1 })
+                        cc.tween(child).by(0.3, { x: -this.movingOffsetX }),
+                        cc.tween(child).to(0.3, { rotationX: 0, y: 0, z: 0, scaleY: 1 })
                     )
                     .call(() => {
                         if (isLastChild) {
