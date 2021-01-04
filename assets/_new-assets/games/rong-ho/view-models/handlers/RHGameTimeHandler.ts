@@ -1,10 +1,8 @@
-import RongHo from "../RongHo";
 import DataHandler from "../../../_base/handlers/DataHandler";
+import RongHo from "../RongHo";
 
 export default class RHGameTimeHandler implements DataHandler {
-
-    constructor(private readonly main: RongHo) {
-    }
+    constructor(private readonly main: RongHo) {}
 
     handle(data: any): boolean {
         if (data.time_remain) {
@@ -14,7 +12,8 @@ export default class RHGameTimeHandler implements DataHandler {
             if (cc.RedT.GAME_IS_SHOWED) {
                 this.main.playTime();
             }
-            return true;
         }
+
+        return true;
     }
 }

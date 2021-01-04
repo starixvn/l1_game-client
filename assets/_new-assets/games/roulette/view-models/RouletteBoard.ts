@@ -253,12 +253,10 @@ export default class RouletteBoard extends cc.Component {
                 break;
         }
 
-        const betInfo: RouletteBetInfo = {
+        return {
             type: type,
             numbers: selectNumbers
         };
-
-        return betInfo;
     }
 
     getLocation(betNumber: number): cc.Vec2 {

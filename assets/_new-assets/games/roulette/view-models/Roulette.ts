@@ -542,12 +542,10 @@ export default class Roulette extends GameRoomBase {
         const result = _.cloneDeep(betChoices1);
         for (const type in betChoices2) {
             for (const key in betChoices2[type]) {
-                if (result[type]) {
-                    if (result[type][key]) {
-                        result[type][key] -= betChoices2[type][key];
-                        if (result[type][key] === 0) {
-                            delete result[type][key];
-                        }
+                if (result[type] && result[type][key]) {
+                    result[type][key] -= betChoices2[type][key];
+                    if (result[type][key] === 0) {
+                        delete result[type][key];
                     }
                 }
             }

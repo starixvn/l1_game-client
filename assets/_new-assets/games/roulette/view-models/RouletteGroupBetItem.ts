@@ -91,6 +91,8 @@ export default class RouletteGroupBetItem extends CustomButton {
     }
 
     public hideWinning() {
-        this.winning && (this.winning.active = false);
+        if (this.winning) {
+            this.winning.active = false;
+        }
     }
 }
