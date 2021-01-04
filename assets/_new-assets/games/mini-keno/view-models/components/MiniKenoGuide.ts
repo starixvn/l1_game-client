@@ -1,9 +1,8 @@
-import { numberWithCommas } from './../../../../common/helpers/Helper';
+import { numberWithCommas } from "./../../../../common/helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniKenoGuide extends cc.Component {
-
     @property(cc.Node)
     sideBar: cc.Node = null;
 
@@ -25,18 +24,20 @@ export default class MiniKenoGuide extends cc.Component {
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
-    private kenoProVietGameName = "kenoProViet";
-    private kenoMaxGameName = "kenoMax";
-    private kenoMiniGameName = "kenoMini";
-    private mainGameGuides = [this.kenoProVietGameName, this.kenoMaxGameName, this.kenoMiniGameName];
+    private readonly kenoProVietGameName = "kenoProViet";
+    private readonly kenoMaxGameName = "kenoMax";
+    private readonly kenoMiniGameName = "kenoMini";
+    private readonly mainGameGuides = [this.kenoProVietGameName, this.kenoMaxGameName, this.kenoMiniGameName];
 
     private gameName = this.kenoProVietGameName;
 
     onLoad() {
         this.select(this.gameName);
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     receivedData(data) {
@@ -48,42 +49,42 @@ export default class MiniKenoGuide extends cc.Component {
     onData(data) {
         const { minbet, maxbet, odds, choices_maxbet } = data;
         const replaceData = {
-            "_oddBig": odds.big,
-            "_oddSmall": odds.small,
-            "_oddEven": odds.even,
-            "_oddEarth": odds.earth,
-            "_oddFire": odds.fire,
-            "_oddWater": odds.water,
-            "_oddGold": odds.gold,
-            "_oddWood": odds.wood,
-            "_minBet": numberWithCommas(minbet),
-            "_maxBetBig": numberWithCommas(choices_maxbet.big),
-            "_maxBetGold": numberWithCommas(choices_maxbet.gold),
-            "_maxBetWood": numberWithCommas(choices_maxbet.wood),
-            "_maxBetWater": numberWithCommas(choices_maxbet.water),
-            "_maxBetFire": numberWithCommas(choices_maxbet.fire),
-            "_maxBetEarth": numberWithCommas(choices_maxbet.earth),
-            "_maxBetRound": numberWithCommas(maxbet)
-        }
+            _oddBig: odds.big,
+            _oddSmall: odds.small,
+            _oddEven: odds.even,
+            _oddEarth: odds.earth,
+            _oddFire: odds.fire,
+            _oddWater: odds.water,
+            _oddGold: odds.gold,
+            _oddWood: odds.wood,
+            _minBet: numberWithCommas(minbet),
+            _maxBetBig: numberWithCommas(choices_maxbet.big),
+            _maxBetGold: numberWithCommas(choices_maxbet.gold),
+            _maxBetWood: numberWithCommas(choices_maxbet.wood),
+            _maxBetWater: numberWithCommas(choices_maxbet.water),
+            _maxBetFire: numberWithCommas(choices_maxbet.fire),
+            _maxBetEarth: numberWithCommas(choices_maxbet.earth),
+            _maxBetRound: numberWithCommas(maxbet)
+        };
 
         switch (this.gameName) {
             case this.kenoProVietGameName:
-                this.kenoProVietReplaceNodes.forEach(label => {
-                    Object.keys(replaceData).forEach(key => {
+                this.kenoProVietReplaceNodes.forEach((label) => {
+                    Object.keys(replaceData).forEach((key) => {
                         label.string = label.string.replace(key, replaceData[key]);
                     });
                 });
                 break;
             case this.kenoMaxGameName:
-                this.kenoMaxReplaceNodes.forEach(label => {
-                    Object.keys(replaceData).forEach(key => {
+                this.kenoMaxReplaceNodes.forEach((label) => {
+                    Object.keys(replaceData).forEach((key) => {
                         label.string = label.string.replace(key, replaceData[key]);
                     });
                 });
                 break;
             case this.kenoMiniGameName:
-                this.kenoMiniReplaceNodes.forEach(label => {
-                    Object.keys(replaceData).forEach(key => {
+                this.kenoMiniReplaceNodes.forEach((label) => {
+                    Object.keys(replaceData).forEach((key) => {
                         label.string = label.string.replace(key, replaceData[key]);
                     });
                 });
@@ -110,26 +111,29 @@ export default class MiniKenoGuide extends cc.Component {
         }
 
         cc.RedT.audio.playClick();
-        var self = this;
-        Promise.all(this.sideBar.children.map(function (obj) {
-            if (obj.name == game) {
-                obj.children[0].color = new cc.Color(244, 223, 109, 255);
-                obj.pauseSystemEvents(true);
-                self.title.string = obj.children[0].getComponent(cc.Label).string;
-            } else {
-                obj.children[0].color = new cc.Color(255, 255, 255, 255);
-                obj.resumeSystemEvents(true);
-            }
-            return void 0;
-        }));
+        Promise.all(
+            this.sideBar.children.map((obj) => {
+                if (obj.name === game) {
+                    obj.children[0].color = new cc.Color(244, 223, 109, 255);
+                    obj.pauseSystemEvents(true);
+                    this.title.string = obj.children[0].getComponent(cc.Label).string;
+                } else {
+                    obj.children[0].color = new cc.Color(255, 255, 255, 255);
+                    obj.resumeSystemEvents(true);
+                }
+                return void 0;
+            })
+        );
 
-        Promise.all(this.content.children.map(function (obj) {
-            if (obj.name == game) {
-                obj.active = true;
-            } else {
-                obj.active = false;
-            }
-            return void 0;
-        }));
+        Promise.all(
+            this.content.children.map((obj) => {
+                if (obj.name === game) {
+                    obj.active = true;
+                } else {
+                    obj.active = false;
+                }
+                return void 0;
+            })
+        );
     }
 }

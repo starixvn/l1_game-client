@@ -1,4 +1,3 @@
-import { GameBaseConfigs } from "../../../../../_new-assets/games/_base/GameBaseConfig";
 import MiniKeno from "../../../../../_new-assets/games/mini-keno/view-models/MiniKeno";
 import KenoUtils, { KenoType } from "../KenoUtils";
 
@@ -6,7 +5,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoPageIndicatorItem extends cc.Component {
-
     @property(cc.Node)
     highlight: cc.Node = null;
 
@@ -27,7 +25,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     private highlighted = false;
     private miniKeno: MiniKeno;
-    private actionTag = 10000;
     private currentTimeRemaining: number;
     private dataKey: string;
 
@@ -43,8 +40,8 @@ export default class KenoPageIndicatorItem extends cc.Component {
             East: 3,
             West: 3,
             South: 3,
-            North: 3,
-        }
+            North: 3
+        };
         const backSprite = this.backgroundFrames[dict[KenoType[this.miniKeno.kenoType]]];
         this.proressBar.barSprite.spriteFrame = backSprite;
         this.proressBar.getComponent(cc.Sprite).spriteFrame = backSprite;
@@ -56,10 +53,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
     onLoad() {
         this.node.active = false;
         cc.RedT.addDataObserver(this.dataKey, (data) => this.receivedData(data));
-        // this.schedule(this.playtime, 1);
-
-        // this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
-        // this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLeave, this);
     }
 
     receivedData(data) {
@@ -92,8 +85,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     onDestroy() {
         cc.RedT.removeDataObserver(this.dataKey);
-        // this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnEnter, this);
-        // this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOnLeave, this);
     }
 
     eventOnEnter() {
@@ -114,7 +105,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
         const config = this.miniKeno.config;
         let progress = (config.betTime - this.currentTimeRemaining) / config.betTime;
-        // progress = Math.max(progress, 0);
         progress = Math.min(progress, 1);
         this.proressBar.progress = progress < 0 ? 1 : progress;
         this.highlight.active = this.highlighted;

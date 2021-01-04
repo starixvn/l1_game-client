@@ -12,8 +12,8 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
     timer: MiniKenoTimer = null;
 
     private miniKeno: MiniKeno;
-    private showActionTag = 100;
-    private hideActionTag = 101;
+    private readonly showActionTag = 100;
+    private readonly hideActionTag = 101;
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
@@ -27,7 +27,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
     }
 
     onClickRound() {
-        if (this.miniKeno.kenoType == KenoType.ProViet) {
+        if (this.miniKeno.kenoType === KenoType.ProViet) {
             MiniKenoProViet.openVietlottUrl();
         }
     }
@@ -41,7 +41,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
             number.showWaiting();
         });
 
-        this.betChoices.forEach(choice => choice.setValue(""))
+        this.betChoices.forEach((choice) => choice.setValue(""));
         this.total.string = "";
     }
 
@@ -56,17 +56,19 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
         this.node.active = true;
         this.node.scale = 0;
 
-        this.node.runAction(cc.scaleTo(.3, 1, 1));
+        this.node.runAction(cc.scaleTo(0.3, 1, 1));
     }
 
-    public showResult(animated: boolean = false, duration: number = 0, onComplete: () => void = () => { }) {
+    public showResult(animated = false, duration = 0, onComplete: () => void = () => {}) {
         if (!cc.RedT.GAME_IS_SHOWED || !this.miniKeno.node.activeInHierarchy) {
             onComplete();
             return;
         }
 
         this.show();
-        this.timer && (this.timer.node.parent.active = false);
+        if (this.timer) {
+            this.timer.node.parent.active = false;
+        }
 
         if (animated) {
             this.total.string = "0";
@@ -87,24 +89,17 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
                 cc.delayTime(duration / this.result.length)
             );
 
-
             const action = cc.sequence(
                 cc.repeat(showNumberAction, this.result.length),
                 cc.callFunc(() => {
-                    this.total.node.runAction(cc.sequence(
-                        cc.scaleTo(.1, 1.2),
-                        cc.scaleTo(.1, 1)
-                    ));
-                    this.betChoices.forEach(label => {
-                        label.node.runAction(cc.sequence(
-                            cc.scaleTo(.1, 1.2),
-                            cc.scaleTo(.1, 1)
-                        ));
+                    this.total.node.runAction(cc.sequence(cc.scaleTo(0.1, 1.2), cc.scaleTo(0.1, 1)));
+                    this.betChoices.forEach((label) => {
+                        label.node.runAction(cc.sequence(cc.scaleTo(0.1, 1.2), cc.scaleTo(0.1, 1)));
                     });
                     this.showSettleResult(this.settlementResult);
 
                     onComplete();
-                }),
+                })
             );
 
             action.setTag(this.showActionTag);
@@ -112,7 +107,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
         } else {
             this.node.stopActionByTag(this.showActionTag);
             this.total.node.scale = 1;
-            this.betChoices.forEach(label => label.node.scale = 1);
+            this.betChoices.forEach((label) => (label.node.scale = 1));
 
             let total = 0;
 

@@ -1,4 +1,4 @@
-import * as helper from '../../../../../_new-assets/common/helpers/Helper';
+import * as helper from "../../../../../_new-assets/common/helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,15 +17,21 @@ export default class MiniKenoPresetBet extends cc.Component {
     betButton: cc.Button = null;
 
     private betAmount = 0;
-    public onChangedBet = (betAmount: number) => { };
-    public getPreset = () => { return 0 };
+    public onChangedBet = (betAmount: number) => {};
+    public getPreset = () => {
+        return 0;
+    };
     private commonDialog: any;
     private isOpened = false;
 
     onLoad() {
         this.commonDialog = this.main.getComponent("CommonDialog");
-        this.commonDialog.onDidHide = () => { this.node.active = false; };
-        this.commonDialog.onWillShow = () => { this.node.active = true; };
+        this.commonDialog.onDidHide = () => {
+            this.node.active = false;
+        };
+        this.commonDialog.onWillShow = () => {
+            this.node.active = true;
+        };
     }
 
     onEnable() {

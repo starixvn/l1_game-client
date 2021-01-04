@@ -1,7 +1,8 @@
-const { ccclass, property } = cc._decorator;
 import * as moment from "moment";
+
 import AnimatedTime from "../../../../common/animated-time/view-models/AnimatedTime";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniKenoTimer extends AnimatedTime {
     @property(cc.Label)
@@ -19,10 +20,10 @@ export default class MiniKenoTimer extends AnimatedTime {
     @property(cc.Label)
     secondMinuteChar: cc.Label = null;
 
-    private enableHour: boolean = false;
+    private enableHour = false;
     private readonly numberMoveTime = 0.4;
 
-    init(enableHour: boolean, animatedYTop: number = 60, animatedYBottom: number = -10) {
+    init(enableHour: boolean, animatedYTop = 60, animatedYBottom = -10) {
         this.enableHour = enableHour;
 
         if (enableHour) {
@@ -48,12 +49,12 @@ export default class MiniKenoTimer extends AnimatedTime {
     }
 
     resetTime() {
-        this.firstHourChar.string = "0"
-        this.secondHourChar.string = "0"
-        this.firstMinuteChar.string = "0"
-        this.secondMinuteChar.string = "0"
-        this.firstChar.string = "0"
-        this.secondChar.string = "0"
+        this.firstHourChar.string = "0";
+        this.secondHourChar.string = "0";
+        this.firstMinuteChar.string = "0";
+        this.secondMinuteChar.string = "0";
+        this.firstChar.string = "0";
+        this.secondChar.string = "0";
     }
 
     private showTimeNumber(timeLabel: cc.Label, time: string) {
@@ -65,26 +66,3 @@ export default class MiniKenoTimer extends AnimatedTime {
         this.handleBetTimeAnimation(timeLabel.node);
     }
 }
-
-    // const tempCharNode = cc.instantiate(timeLabel.node);
-        // timeLabel.node.parent.addChild(tempCharNode);
-        // timeLabel.string = time;
-        // timeLabel.node.opacity = 0;
-
-        // timeLabel.node.runAction(
-        //     cc.sequence(
-        //         cc.moveBy(0, cc.v2(0, 27)),
-        //         cc.spawn(
-        //             cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeCircleActionOut()),
-        //             cc.fadeIn(this.numberMoveTime / 2)
-        //         )
-        //     )
-        // )
-
-        // tempCharNode.runAction(cc.sequence(
-        //     cc.moveBy(this.numberMoveTime, cc.v2(0, -27)).easing(cc.easeCircleActionOut()),
-        //     cc.delayTime(this.numberMoveTime),
-        //     cc.callFunc(() => {
-        //         tempCharNode.destroy();
-        //     })
-        // ))
