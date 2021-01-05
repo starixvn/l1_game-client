@@ -1,6 +1,6 @@
-var Helper = require("Helper");
 import PaginationCommon from "../../../../../_new-assets/common/helpers/Pagination/PaginationCommon";
 
+var Helper = require("Helper");
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -50,15 +50,21 @@ cc.Class({
                 item.roundIdClick = () => {
                     this.RedT.showBetHistoryAtRound(roundId);
                 };
-                item.dat.string = dataT.taixiu ? (dataT.select ? "Tài" : "Xỉu") : dataT.select ? "Chẵn" : "Lẻ";
-                item.ketqua.string = dataT.dice1 + "-" + dataT.dice2 + "-" + dataT.dice3 + "  " + tong;
+                item.dat.string = dataT.select ? "Tài" : "Xỉu";
+                item.ketqua.string = `${dataT.dice1}-${dataT.dice2}-${dataT.dice3}  ${tong}`;
                 item.cuoc.string = Helper.numberWithCommas(dataT.bet);
                 item.tralai.string = Helper.numberWithCommas(dataT.tralai);
                 item.win.string = Helper.numberWithCommas(dataT.betwin);
-                item.win.node.color = dataT.win ? cc.Color.YELLOW : item.win.node.color.fromHEX("#E2E2E2");
 
-                item.time.node.color = dataT.win ? cc.Color.YELLOW : item.time.node.color.fromHEX("#E2E2E2");
-                item.dat.node.color = dataT.win ? cc.Color.YELLOW : item.dat.node.color.fromHEX("#E2E2E2");
+                if (dataT.win) {
+                    item.win.node.color = cc.Color.YELLOW;
+                    item.time.node.color = cc.Color.YELLOW;
+                    item.dat.node.color = cc.Color.YELLOW;
+                } else {
+                    item.win.node.color = item.win.node.color.fromHEX("#E2E2E2");
+                    item.time.node.color = item.time.node.color.fromHEX("#E2E2E2");
+                    item.dat.node.color = item.dat.node.color.fromHEX("#E2E2E2");
+                }
             } else {
                 item.node.active = false;
             }
