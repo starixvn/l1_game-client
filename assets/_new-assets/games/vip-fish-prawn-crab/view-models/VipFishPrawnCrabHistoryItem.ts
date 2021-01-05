@@ -31,7 +31,7 @@ export default class VipFishPrawnCrabHistoryItem extends cc.Component {
 
     @property(cc.Label)
     stag: cc.Label = null;
-    
+
     @property(cc.Label)
     anyTriple: cc.Label = null;
 

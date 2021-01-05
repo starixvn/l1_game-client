@@ -33,7 +33,7 @@ export default class VipSedieWarFinishHandler extends SedieFinishHandler {
         var betItems = statusData.winningByChoices;
         const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
 
-        _.forEach(winBetItems, item => {
+        _.forEach(winBetItems, (item) => {
             if (betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
                 this.main.betChips.moveChips(item.chipNode, mainRoomGame.userAvatar.node);
             }

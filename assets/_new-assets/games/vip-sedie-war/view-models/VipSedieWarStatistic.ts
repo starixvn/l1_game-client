@@ -131,25 +131,14 @@ export default class VipSedieWarStatistic extends cc.Component {
     }
 
     updatePlayerSedieMode() {
-        if (this.sedieNode) {
-            this.sedieNode.active = true;
-        }
-
-        const historyData = this.data.map((d) => {
-            let count = 0;
-            const list = ["red1", "red2", "red3", "red4"];
-            list.forEach((i) => {
-                if (d.result.player[i]) {
-                    count++;
-                }
-            });
-            return count;
-        });
-        this.sedieRoundHistory.logControl.items = this.sedieModeItems;
-        this.sedieRoundHistory.setData(historyData);
+        this.updateSedieMode(true);
     }
 
     updateBankerSedieMode() {
+        this.updateSedieMode(false);
+    }
+
+    updateSedieMode(isPlayer: boolean) {
         if (this.sedieNode) {
             this.sedieNode.active = true;
         }
@@ -158,7 +147,7 @@ export default class VipSedieWarStatistic extends cc.Component {
             let count = 0;
             const list = ["red1", "red2", "red3", "red4"];
             list.forEach((i) => {
-                if (d.result.banker[i]) {
+                if (isPlayer ? d.result.player[i] : d.result.banker[i]) {
                     count++;
                 }
             });
@@ -270,10 +259,8 @@ export default class VipSedieWarStatistic extends cc.Component {
 
         let eventCount = 0;
         data.forEach((item) => {
-            switch (item) {
-                case 0:
-                    eventCount++;
-                    break;
+            if (item === 0) {
+                eventCount++;
             }
         });
 

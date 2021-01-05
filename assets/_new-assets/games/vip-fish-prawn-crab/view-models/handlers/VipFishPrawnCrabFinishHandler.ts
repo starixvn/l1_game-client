@@ -2,7 +2,6 @@ import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler
 import VipFishPrawnCrab from "../VipFishPrawnCrab";
 
 export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler {
-
     constructor(protected readonly main: VipFishPrawnCrab) {
         super(main, 2.5);
     }

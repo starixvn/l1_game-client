@@ -247,7 +247,12 @@ cc.Class({
         }
     },
     formatUserCurrency: function (red, currency) {
-        const userCurrency = cc.RedT.user.currency ? cc.RedT.user.currency.toUpperCase() : currency === undefined ? "" : currency;
+        let userCurrency = "";
+        if (cc.RedT.user.currency) {
+            userCurrency = cc.RedT.user.currency.toUpperCase();
+        } else {
+            userCurrency = currency === undefined ? "" : currency;
+        }
 
         return `${helper.numberWithCommas(red)} ${userCurrency}`;
     },
@@ -259,14 +264,12 @@ cc.Class({
         this.node.addChild(noticePrefab);
     },
     clickNoticeButton: function () {
-        switch (this.type) {
-            case "sign_out":
-                cc.RedT._socket.close();
-                if (authManager) {
-                    authManager.signOut();
-                }
-                this.node.active = false;
-                break;
+        if (this.type === sign_out) {
+            cc.RedT._socket.close();
+            if (authManager) {
+                authManager.signOut();
+            }
+            this.node.active = false;
         }
     },
     loadUserData: function (data) {
@@ -340,15 +343,15 @@ cc.Class({
         cc.RedT.audio.playUnClick();
     },
     fanpage: function () {
-        cc.sys.openURL(this.url + "/fanpage/");
+        cc.sys.openURL(`${this.url}/fanpage/`);
     },
     ios: function () {
-        cc.sys.openURL(this.url + "/help/ios");
+        cc.sys.openURL(`${this.url}/help/ios`);
     },
     android: function () {
-        cc.sys.openURL(this.url + "/download/" + this.appApk);
+        cc.sys.openURL(`${this.url}/download/${this.appApk}`);
     },
     telegram: function () {
-        cc.sys.openURL(this.url + "/telegram/");
+        cc.sys.openURL(`${this.url}/telegram/`);
     }
 });

@@ -85,7 +85,7 @@ cc.Class({
     },
     initHotUpdate: function () {
         this.updateProgress(0);
-        this._storagePath = (jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/") + "hot-update-remote-asset";
+        this._storagePath = `${jsb.fileUtils ? jsb.fileUtils.getWritablePath() : "/"}hot-update-remote-asset`;
         this._am = new jsb.AssetsManager("", this._storagePath, this.versionCompareHandle);
         this._am.setVerifyCallback(
             function (t, e) {
@@ -138,7 +138,7 @@ cc.Class({
                 break;
             case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
             case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
-                // TODO: bug for update game on android, must be checked later
+                // bug for update game on android, must be checked later
                 //this.messageLabel.string = "Tải manifest thất bại ...";
                 this.messageLabel.string = "Phiên bản đã cập nhật...";
                 e = !0;

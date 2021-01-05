@@ -32,7 +32,7 @@ cc.Class({
     formatDate(date, template) {
         try {
             template = template.replace(/(M+|d+|h+|m+|s+)/g, function (v) {
-                return ((v.length > 1 ? "0" : "") + eval("z." + v.slice(-1))).slice(-2);
+                return ((v.length > 1 ? "0" : "") + eval(`z.${v.slice(-1)}`)).slice(-2);
             });
 
             return template.replace(/(y+)/g, function (v) {

@@ -86,8 +86,8 @@ export default class GameIconLayout extends cc.Component {
         nameDict[games.VipBaccarat.id] = "VipBaccarat";
         nameDict[games.VipSedieWar.id] = "VipSedieWar";
 
-        for (let i = 0; i < this.gameIds?.length; i++) {
-            const path = `${this.path}/${nameDict[this.gameIds[i]]}`;
+        for (const gameId of this.gameIds) {
+            const path = `${this.path}/${nameDict[gameId]}`;
             const prefab = await GameUtils.loadResource(path);
             this.itemPrefabs && this.itemPrefabs.push(prefab);
         }

@@ -157,10 +157,10 @@ export default class MiniPanel extends cc.Component {
         };
 
         if (showNotice) {
-            const noticeData = <NoticeData>{
+            const noticeData = {
                 text: "Vui lòng tải lại trang để cập nhật phiên bản mới.",
                 isInfo: true
-            };
+            } as NoticeData;
             this.showNotice(noticeData, forceReload, forceReload);
         } else {
             forceReload();
@@ -267,7 +267,7 @@ export default class MiniPanel extends cc.Component {
             message += " Đặt cược thất bại!";
         }
 
-        notice.init(<NoticeData>{ text: message });
+        notice.init({ text: message } as NoticeData);
         this.node.addChild(noticePrefab);
 
         return notice;
@@ -303,9 +303,9 @@ export default class MiniPanel extends cc.Component {
         const handleCloseNotice = () => isGameRoom && this.redirectToLobby();
 
         this.showNotice(
-            <NoticeData>{
+            {
                 text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.`
-            },
+            } as NoticeData,
             handleCloseNotice,
             handleCloseNotice
         );
