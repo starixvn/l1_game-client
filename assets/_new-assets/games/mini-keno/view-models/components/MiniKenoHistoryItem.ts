@@ -4,7 +4,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniKenoHistoryItem extends cc.Component {
-
     @property(cc.Label)
     time: cc.Label = null;
 
@@ -48,7 +47,7 @@ export default class MiniKenoHistoryItem extends cc.Component {
     public settlementResult: any;
     public betLogDetails: any[];
 
-    private main: MiniKenoHistory
+    private main: MiniKenoHistory;
 
     init(main: MiniKenoHistory) {
         this.main = main;

@@ -1,11 +1,11 @@
-var TX_Main = require("TXMain");
+var TXMain = require("TXMain");
 var Constants = require("./main-page/TXConstants");
 const { constant } = require("lodash");
 
 cc.Class({
     extends: cc.Component,
     properties: {
-        TX_Main: TX_Main,
+        TX_Main: TXMain,
         board: true,
         TX_StatsPrefab: cc.Prefab,
         TX_TopPrefab: cc.Prefab,

@@ -2,7 +2,7 @@ import UmWarning from "../../../../common/um-warning/UmWarning";
 
 var BrowserUtil = require("BrowserUtil"),
     helper = require("Helper"),
-    TaiXiu_efScale = require("TXScale"),
+    TXScale = require("TXScale"),
     Constants = require("TXConstants"),
     NoticeUtil = require("NoticeUtil");
 cc.Class({
@@ -100,10 +100,10 @@ cc.Class({
             default: null,
             type: cc.Animation
         },
-        efTai: TaiXiu_efScale,
-        efXiu: TaiXiu_efScale,
-        efChan: TaiXiu_efScale,
-        efLe: TaiXiu_efScale,
+        efTai: TXScale,
+        efXiu: TXScale,
+        efChan: TXScale,
+        efLe: TXScale,
         winningTai: {
             default: null,
             type: cc.Animation
@@ -413,26 +413,23 @@ cc.Class({
     },
     setBetButtonClicked(isClick, select) {
         if (!select) {
-            this.inputR.spriteFrame = isClick ? this.BetButtonClickedFrame : this.BetButtonUnClickedFrame;
-            this.inputL.spriteFrame = isClick ? this.BetButtonClickedFrame : this.BetButtonUnClickedFrame;
+            this.inputR.spriteFrame = this.getBetButtonSpriteFrame(isClick);
+            this.inputL.spriteFrame = this.getBetButtonSpriteFrame(isClick);
         } else {
-            if (isClick) {
-                if (select === "right") {
-                    this.inputR.spriteFrame = this.BetButtonClickedFrame;
-                }
-                if (select === "left") {
-                    this.inputL.spriteFrame = this.BetButtonClickedFrame;
-                }
-            } else {
-                if (select === "right") {
-                    this.inputR.spriteFrame = this.BetButtonUnClickedFrame;
-                }
-                if (select === "left") {
-                    this.inputL.spriteFrame = this.BetButtonUnClickedFrame;
-                }
+            if (select === "right") {
+                this.inputR.spriteFrame = this.getBetButtonSpriteFrame(isClick);
+            }
+
+            if (select === "left") {
+                this.inputL.spriteFrame = this.getBetButtonSpriteFrame(isClick);
             }
         }
     },
+
+    getBetButtonSpriteFrame: function (isClick) {
+        return isClick ? this.BetButtonClickedFrame : this.BetButtonUnClickedFrame;
+    },
+
     onSelectInput: function (event, select) {
         this.setBetButtonClicked(true, select);
         this.inputOld = select;
@@ -463,39 +460,35 @@ cc.Class({
             this.labelPhien.string = "";
             return;
         }
-        this.labelPhien.string = "#" + phien;
+        this.labelPhien.string = `#${phien}`;
     },
     setDice: function (bool = false, sprite = true) {
         var self = this;
         Promise.all(
             this.dice.map(function (dice, index) {
-                sprite && (dice.spriteFrame = self.diceSF[cc.RedT.setting.taixiu.logs[0].dice[index] - 1]);
+                if (sprite) {
+                    dice.spriteFrame = self.diceSF[cc.RedT.setting.taixiu.logs[0].dice[index] - 1];
+                }
                 dice.node.active = bool;
             })
         );
     },
     onData: function (data) {
-        if (data.um) {
-            if (cc.RedT.setting.taixiu.time_remain === Constants.betTime || data.time_remain === Constants.fullTime) {
-                this.isUM = true;
-                this.UMWarning.show(data);
-                this.centerRoundLight.node.stopAllActions();
-                this.onGameHide();
+        if (data.um && (cc.RedT.setting.taixiu.time_remain === Constants.betTime || data.time_remain === Constants.fullTime)) {
+            this.isUM = true;
+            this.UMWarning.show(data);
+            this.centerRoundLight.node.stopAllActions();
+            this.onGameHide();
 
-                return;
-            }
+            return;
         }
 
         if (data.get_phien) {
             this.TXRoot.TXBetHistory.node && this.TXRoot.TXBetHistory.onData(data.get_phien);
         }
-        if (data.apiError) {
-            this.closeProcessingWarningPopup();
-        }
-        if (data.err) {
-            this.closeProcessingWarningPopup();
-            NoticeUtil.showNoticeMessage(this, data.err);
-        }
+
+        this.onError(data);
+
         if (data.du_day) {
             Object.assign(cc.RedT.setting.taixiu.data.du_day, data.du_day);
             this.onDuDay(data.du_day);
@@ -534,6 +527,15 @@ cc.Class({
         this.winningTai.stop();
         this.winningXiu.node.active = false;
         this.winningXiu.stop();
+    },
+    onError: function (data) {
+        if (data.apiError) {
+            this.closeProcessingWarningPopup();
+        }
+        if (data.err) {
+            this.closeProcessingWarningPopup();
+            NoticeUtil.showNoticeMessage(this, data.err);
+        }
     },
     onDataLogs: function (data) {
         if (void 0 !== data.logs) {
@@ -603,59 +605,67 @@ cc.Class({
             return;
         }
         void 0 !== this.timeInterval && clearInterval(this.timeInterval);
-        var self = this;
 
         this.timeInterval = setInterval(
             function () {
                 if (cc.RedT.setting.taixiu.time_remain > Constants.betTime) {
-                    const isBalanceBetTime = cc.RedT.setting.taixiu.time_remain > Constants.displayResultTime;
-                    if (isBalanceBetTime) {
-                        this.balanceBet(cc.RedT.setting.taixiu.time_remain === Constants.fullTime);
-                    } else {
-                        this.hideBetBalanceNotice();
-                        this.enableHistoryButton();
-                        if (cc.RedT.setting.taixiu.time_remain === Constants.displayResultTime) {
-                            this.displayDiceResult();
-                            this.showBetWinLoss();
-                        }
-                        // time count down to next phien
-                        var waitTime = helper.numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
-                        this.showWaitTime(waitTime);
-
-                        if (this.localResultDices.length > 0) {
-                            this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
-                            this.labelKetQua.string = this.diemSo;
-                            this.updateShowResult();
-                        }
-                        if (cc.RedT.setting.taixiu.logs) {
-                            this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien);
-                        }
-                    }
+                    this.handleInWaitTime();
                 } else {
-                    this.resetUI();
-                    this.localResultDices = [];
-                    this.currentStatus = null;
-                    if (cc.RedT.setting.taixiu.logs) {
-                        this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien + 1);
-                    }
-                    if (cc.RedT.setting.taixiu.time_remain === Constants.betTime) {
-                        this.reset();
-                    }
-
-                    if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
-                        var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - 1, 2);
-                        this.AnimatedTime.setTime(time);
-                        this.spriteNan.node.active = this.AnimatedTime.node.active = !self.isUM;
-                    } else {
-                        this.disableHistoryButton();
-                        clearInterval(this.timeInterval);
-                    }
+                    this.handleInRoundTime();
                 }
                 cc.RedT.setting.taixiu.time_remain--;
             }.bind(this),
             1000
         );
     },
+
+    handleInWaitTime: function () {
+        const isBalanceBetTime = cc.RedT.setting.taixiu.time_remain > Constants.displayResultTime;
+        if (isBalanceBetTime) {
+            this.balanceBet(cc.RedT.setting.taixiu.time_remain === Constants.fullTime);
+        } else {
+            this.hideBetBalanceNotice();
+            this.enableHistoryButton();
+            if (cc.RedT.setting.taixiu.time_remain === Constants.displayResultTime) {
+                this.displayDiceResult();
+                this.showBetWinLoss();
+            }
+            // time count down to next phien
+            var waitTime = helper.numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
+            this.showWaitTime(waitTime);
+
+            if (this.localResultDices.length > 0) {
+                this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+                this.labelKetQua.string = this.diemSo;
+                this.updateShowResult();
+            }
+            if (cc.RedT.setting.taixiu.logs) {
+                this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien);
+            }
+        }
+    },
+
+    handleInRoundTime: function () {
+        this.resetUI();
+        this.localResultDices = [];
+        this.currentStatus = null;
+        if (cc.RedT.setting.taixiu.logs) {
+            this.setPhienLabel(cc.RedT.setting.taixiu.logs[0].phien + 1);
+        }
+        if (cc.RedT.setting.taixiu.time_remain === Constants.betTime) {
+            this.reset();
+        }
+
+        if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
+            var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - 1, 2);
+            this.AnimatedTime.setTime(time);
+            this.spriteNan.node.active = this.AnimatedTime.node.active = !this.isUM;
+        } else {
+            this.disableHistoryButton();
+            clearInterval(this.timeInterval);
+        }
+    },
+
     showWaitTime: function (time) {
         if (this.nodeTimeWait) {
             this.nodeTimeWait.active = true;
