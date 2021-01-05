@@ -19,7 +19,7 @@ import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
 import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
-import GameBaseUmDataHandler from "./handlers/GameBaseUmHandler";
+import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
 
 const { ccclass, property } = cc._decorator;
 

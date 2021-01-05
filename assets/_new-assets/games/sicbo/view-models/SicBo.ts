@@ -9,7 +9,7 @@ import SicBoBetHandler from "./handlers/SicBoBetHandler";
 import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
 import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
 import SicBoTimeHandler from "./handlers/SicBoTimeHandler";
-import SicBoGuide from "./SiBoGuide";
+import SicBoGuide from "./SicBoGuide";
 import SicBoBetItem from "./SicBoBetItem";
 import SicBoConfigs from "./SicBoConfigs";
 import SicBoDicesStatistic from "./SicBoDicesStatistic";

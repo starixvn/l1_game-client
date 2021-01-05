@@ -1,4 +1,4 @@
-import GameBaseUmDataHandler from "../../../_base/handlers/GameBaseUmHandler";
+import GameBaseUmDataHandler from "../../../_base/handlers/GameBaseUmDataHandler";
 import BlackJack from "../BlackJack";
 
 export default class BlackjackUmHandler extends GameBaseUmDataHandler {

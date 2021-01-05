@@ -172,7 +172,7 @@ cc.Class({
         });
 
         //tong_dot
-        var tong_dot = Promise.all(
+        var sumDot = Promise.all(
             this.tong_dot.children.map(function (dot) {
                 dot.text = dot.children[0].getComponent(cc.Label);
                 return dot;
@@ -182,7 +182,7 @@ cc.Class({
         });
 
         var self = this;
-        Promise.all([DiemSoCel, dice1, dice2, dice3, tong_dot]).then(() => {
+        Promise.all([DiemSoCel, dice1, dice2, dice3, sumDot]).then(() => {
             self.TXRoot.TX_Main.updateTXStats();
         });
     },

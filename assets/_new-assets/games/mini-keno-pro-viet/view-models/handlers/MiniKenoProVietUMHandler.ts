@@ -1,5 +1,5 @@
 import MiniKenoProViet from "../MiniKenoProViet";
-import GameBaseUmDataHandler from "../../../_base/handlers/GameBaseUmHandler";
+import GameBaseUmDataHandler from "../../../_base/handlers/GameBaseUmDataHandler";
 
 export default class MiniKenoProVietUMHandler extends GameBaseUmDataHandler {
     constructor(protected readonly main: MiniKenoProViet) {
