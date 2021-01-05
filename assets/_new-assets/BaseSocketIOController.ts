@@ -23,29 +23,29 @@ export default class BaseSocketIOController {
         onConnectFailed: (gameName, isGameRoom) => void,
         isGameRoom = true
     ): SocketIOClient.Socket => {
-        const socket = socketIo(socketUri, { forceNew: true, transports: ['websocket'], upgrade: false, path: proxyRoute });
+        const socket = socketIo(socketUri, { forceNew: true, transports: ["websocket"], upgrade: false, path: proxyRoute });
 
-        socket.on('connect', () => {
-            socket.emit('signin', getSession());
+        socket.on("connect", () => {
+            socket.emit("signin", getSession());
         });
 
-        socket.on('reconnect', () => {
+        socket.on("reconnect", () => {
             sentryLogger.logError(`${gameName} socket reconnect`);
         });
 
-        socket.on('connect_failed', () => {
+        socket.on("connect_failed", () => {
             sentryLogger.logError(`${gameName} socket connect failed`);
             socket.disconnect();
             onConnectFailed(gameName, isGameRoom);
         });
 
-        socket.on('connect_error', (error) => {
+        socket.on("connect_error", (error) => {
             sentryLogger.logError(error);
             socket.disconnect();
             onConnectFailed(gameName, isGameRoom);
         });
 
-        socket.on('disconnect', (reason) => {
+        socket.on("disconnect", (reason) => {
             sentryLogger.log(`${gameName} socket disconnect\n${reason}`);
         });
 
@@ -72,9 +72,7 @@ export default class BaseSocketIOController {
 
     closeMiniGameSockets() {
         gameMiniNewSocketIds.forEach((gameId) => {
-            const socket: SocketIOClient.Socket = this.gameSockets[gameId];
-            socket && socket.disconnect();
-            delete this.gameSockets[gameId];
+            this.closeSocket(gameId);
         });
     }
 

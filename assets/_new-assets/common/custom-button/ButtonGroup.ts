@@ -10,7 +10,7 @@ export default class ButtonGroup extends cc.Component {
 
     onLoad() {
         this.registerEventListener();
-        this.node.children.forEach(child => {
+        this.node.children.forEach((child) => {
             const newButton = child.getComponent(NewButton);
             newButton && this.buttons.push(newButton);
         });
@@ -57,16 +57,15 @@ export default class ButtonGroup extends cc.Component {
         if (!this._interactable) {
             return;
         }
-        let selected = false;
+
         for (let i = this.buttons.length - 1; i >= 0; i--) {
             const button = this.buttons[i];
-            if (button.node.active && button.checkCollider(e) && !selected) {
-                selected = true;
+            if (button.node.active && button.checkCollider(e)) {
                 button.callback.selected();
                 this._interactable = false;
                 cc.tween(this.node)
                     .delay(1)
-                    .call(() => this._interactable = true)
+                    .call(() => (this._interactable = true))
                     .start();
                 break;
             }
@@ -74,6 +73,6 @@ export default class ButtonGroup extends cc.Component {
     }
 
     onTouchCancel(e) {
-        this.buttons.forEach(button => button.setHighlight(false));
+        this.buttons.forEach((button) => button.setHighlight(false));
     }
 }

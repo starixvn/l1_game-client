@@ -11,6 +11,7 @@ export function checkPhoneValid(phone) {
 }
 
 export function nFormatter(t, e) {
+    const o = /\.0+$|(\.[0-9]*[1-9])0+$/;
     for (
         var i = [
                 {
@@ -38,7 +39,6 @@ export function nFormatter(t, e) {
                     symbol: "k"
                 }
             ],
-            o = /\.0+$|(\.[0-9]*[1-9])0+$/,
             n = 0;
         n < i.length;
         n++
@@ -68,10 +68,21 @@ export function getOnlyNumberInString(t) {
 }
 
 export function numberToTime(t) {
-    t < 0 && (t = 0), (t = parseInt(t));
+    if (t < 0) {
+        t = 0;
+        t = parseInt(t);
+    }
     let e = parseInt(t / 60),
         i = t % 60;
-    return e < 10 && (e = "0" + e), i < 10 && (i = "0" + i), e + ":" + i;
+    if (e < 10) {
+        e = `0${e}`;
+    }
+
+    if (i < 10) {
+        i = `0${i}`;
+    }
+
+    return `${e}:${i}`;
 }
 
 export function numberPad(number, length) {
@@ -80,38 +91,6 @@ export function numberPad(number, length) {
         str = `0${str}`;
     }
     return str;
-}
-
-export function inputNumber(obj) {
-    var onShift = false;
-    obj.addEventListener("keydown", function (e) {
-        if (e.keyCode === 16) {
-            e.preventDefault();
-            onShift = true;
-        }
-    });
-    obj.addEventListener("keyup", function (e) {
-        if (e.keyCode === 16) {
-            e.preventDefault();
-            onShift = false;
-        }
-    });
-    obj.addEventListener("keydown", function (e) {
-        if (
-            !onShift &&
-            ((e.keyCode >= 48 && e.keyCode <= 57) ||
-                (e.keyCode >= 96 && e.keyCode <= 105) ||
-                (e.keyCode >= 37 && e.keyCode <= 40) ||
-                e.keyCode === 107 ||
-                e.keyCode === 109 ||
-                e.keyCode === 189 ||
-                e.keyCode === 8 ||
-                e.keyCode === 13)
-        ) {
-        } else {
-            e.preventDefault();
-        }
-    });
 }
 
 export function numberTo(obj, start, end, duration, currency = false) {
