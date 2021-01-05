@@ -89,7 +89,6 @@ cc.Class({
         this._am = new jsb.AssetsManager("", this._storagePath, this.versionCompareHandle);
         this._am.setVerifyCallback(
             function (t, e) {
-                e.compressed;
                 return !0;
             }.bind(this)
         );

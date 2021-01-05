@@ -83,11 +83,21 @@ cc.Class({
         this.playCenterRoundLight();
 
         this.keyHandle = function (t) {
-            return t.keyCode === cc.macro.KEY.tab
-                ? (self.changeNextFocusEditBox(), t.preventDefault && t.preventDefault(), !1)
-                : t.keyCode === cc.macro.KEY.enter
-                ? (BrowserUtil.focusGame(), self.onCuocClick(), t.preventDefault && t.preventDefault(), !1)
-                : void 0;
+            if (t.keyCode === cc.macro.KEY.tab) {
+                self.changeNextFocusEditBox();
+                if (t.preventDefault && t.preventDefault()) {
+                    return false;
+                }
+                return undefined;
+            } else if (t.keyCode === cc.macro.KEY.enter) {
+                BrowserUtil.focusGame();
+                self.onCuocClick();
+                if (t.preventDefault && t.preventDefault()) {
+                    return false;
+                }
+                return undefined;
+            }
+            return undefined;
         };
 
         this.diceAnimation.on("finished", this.onDiceAnimationFinish, this);
@@ -136,10 +146,11 @@ cc.Class({
         }
     },
     changeNextFocusEditBox: function () {
-        for (var t = !1, e = 0, i = this.editboxs.length; e < i; e++) {
+        let t = false;
+        for (var e = 0, i = this.editboxs.length; e < i; e++) {
             if (BrowserUtil.checkEditBoxFocus(this.editboxs[e])) {
                 BrowserUtil.focusEditBox(this.editboxs[e]);
-                t = !0;
+                t = true;
                 break;
             }
         }
@@ -234,7 +245,9 @@ cc.Class({
         var self = this;
         Promise.all(
             this.dice.map(function (dice, index) {
-                sprite && (dice.spriteFrame = self.diceSF[cc.RedT.setting.taixiu_turbo.logs[0].dice[index] - 1]);
+                if (sprite) {
+                    dice.spriteFrame = self.diceSF[cc.RedT.setting.taixiu_turbo.logs[0].dice[index] - 1];
+                }
                 dice.node.active = bool;
             })
         );
@@ -424,24 +437,34 @@ cc.Class({
         );
     },
     showWaitTime: function (time) {
-        this.nodeTimeWait && (this.nodeTimeWait.active = true);
-        this.timeWait.string = "00:" + helper.numberPad(time, 2);
+        if (this.nodeTimeWait) {
+            this.nodeTimeWait.active = true;
+        }
+        this.timeWait.string = `00:${helper.numberPad(time, 2)}`;
     },
     onDataChanLe: function (data) {
-        if (this.red) {
-            void 0 !== data.red_chan && (this.totalLeft.string = helper.numberWithCommas(data.red_chan));
-            void 0 !== data.red_le && (this.totalRight.string = helper.numberWithCommas(data.red_le));
-            void 0 !== data.red_me_chan && (this.myLeft.string = helper.numberWithCommas(data.red_me_chan));
-            void 0 !== data.red_me_le && (this.myRight.string = helper.numberWithCommas(data.red_me_le));
-            void 0 !== data.red_player_chan && (this.playerLeft.string = helper.numberWithCommas(data.red_player_chan));
-            void 0 !== data.red_player_le && (this.playerRight.string = helper.numberWithCommas(data.red_player_le));
-        } else {
-            void 0 !== data.xu_chan && (this.totalLeft.string = helper.numberWithCommas(data.xu_chan));
-            void 0 !== data.xu_le && (this.totalRight.string = helper.numberWithCommas(data.xu_le));
-            void 0 !== data.xu_me_chan && (this.myLeft.string = helper.numberWithCommas(data.xu_me_chan));
-            void 0 !== data.xu_me_le && (this.myRight.string = helper.numberWithCommas(data.xu_me_le));
-            void 0 !== data.xu_player_chan && (this.playerLeft.string = helper.numberWithCommas(data.xu_player_chan));
-            void 0 !== data.xu_player_le && (this.playerRight.string = helper.numberWithCommas(data.xu_player_le));
+        if (void 0 !== data.red_chan) {
+            this.totalLeft.string = helper.numberWithCommas(data.red_chan);
+        }
+
+        if (void 0 !== data.red_le) {
+            this.totalRight.string = helper.numberWithCommas(data.red_le);
+        }
+
+        if (void 0 !== data.red_me_chan) {
+            this.myLeft.string = helper.numberWithCommas(data.red_me_chan);
+        }
+
+        if (void 0 !== data.red_me_le) {
+            this.myRight.string = helper.numberWithCommas(data.red_me_le);
+        }
+
+        if (void 0 !== data.red_player_chan) {
+            this.playerLeft.string = helper.numberWithCommas(data.red_player_chan);
+        }
+
+        if (void 0 !== data.red_player_le) {
+            this.playerRight.string = helper.numberWithCommas(data.red_player_le);
         }
     },
     onDataTaiXiu: function (data) {
@@ -474,15 +497,20 @@ cc.Class({
             }
         }
 
-        void 0 !== data.red_me_tai && (this.myLeft.string = helper.numberWithCommas(data.red_me_tai));
-        void 0 !== data.red_me_xiu && (this.myRight.string = helper.numberWithCommas(data.red_me_xiu));
+        if (void 0 !== data.red_me_tai) {
+            this.myLeft.string = helper.numberWithCommas(data.red_me_tai);
+        }
+
+        if (0 !== data.red_me_xiu) {
+            this.myRight.string = helper.numberWithCommas(data.red_me_xiu);
+        }
         if (void 0 !== data.red_player_tai) {
             const betTaiPercent = parseInt(data.red_player_tai) >> 0;
-            this.playerLeft.string = betTaiPercent + "%";
+            this.playerLeft.string = `${betTaiPercent}%`;
         }
         if (void 0 !== data.red_player_xiu) {
             const betXiuPercent = parseInt(data.red_player_xiu) >> 0;
-            this.playerRight.string = betXiuPercent + "%";
+            this.playerRight.string = `${betXiuPercent}%`;
         }
     },
     onDuDay: function (data) {
@@ -516,10 +544,9 @@ cc.Class({
     },
     dataLogs: function () {
         if (!!cc.RedT.setting.taixiu_turbo.logs.length) {
-            var self = this;
             //Main log
             Promise.all(
-                this.dotLogs.map(function (dot, index) {
+                this.dotLogs.map((dot, index) => {
                     var data = cc.RedT.setting.taixiu_turbo.logs[index];
                     if (void 0 !== data) {
                         const point = data.dice[0] + data.dice[1] + data.dice[2];
@@ -527,23 +554,33 @@ cc.Class({
                         dot.node.phien = data.phien;
                         dot.mod.round.string = `#${data.phien}`;
                         dot.mod.text.string = `${point < 11 ? "XỈU" : "TÀI"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
-                        dot.spriteFrame = self.taixiu
-                            ? point < 11
-                                ? self.dot_white
-                                : self.dot_black
-                            : point % 2
-                            ? self.dot_black
-                            : self.dot_yellow;
+                        dot.spriteFrame = this.handleDotSprite(point);
                     } else {
                         dot.node.active = false;
                     }
                 })
             );
 
-            if (self.TXRoot.TXStats) {
+            if (this.TXRoot.TXStats) {
                 this.updateTXStats();
             }
         }
+    },
+    handleDotSprite(point) {
+        let spriteFrame = null;
+        if (this.taixiu) {
+            spriteFrame = this.dot_black;
+            if (point < 11) {
+                spriteFrame = this.dot_white;
+            }
+        } else {
+            spriteFrame = this.dot_yellow;
+            if (point % 2) {
+                spriteFrame = this.dot_black;
+            }
+        }
+
+        return spriteFrame;
     },
     updateTXStats() {
         var self = this;
@@ -602,19 +639,13 @@ cc.Class({
         });
 
         // Ket Qua
-        var ketqua = self.TXRoot.TXStats.KetQuaDot.map(function (dot, index) {
+        var ketqua = self.TXRoot.TXStats.KetQuaDot.map((dot, index) => {
             var data = cc.RedT.setting.taixiu_turbo.logs[index];
             if (void 0 !== data) {
                 dot.node.active = true;
                 const point = data.dice[0] + data.dice[1] + data.dice[2];
-                dot.spriteFrame = self.taixiu
-                    ? point < 11
-                        ? self.dot_white
-                        : self.dot_black
-                    : point % 2
-                    ? self.dot_black
-                    : self.dot_yellow;
-                return self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+                dot.spriteFrame = this.handleDotSprite(point);
+                return this.handlePointValue(point);
             } else {
                 dot.node.active = false;
                 return -1;
@@ -626,7 +657,7 @@ cc.Class({
         newArr.reverse();
         for (var newDS of newArr) {
             const point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
-            const type = self.taixiu ? (point > 10 ? 1 : 0) : point % 2 ? 0 : 1;
+            const type = this.handlePointValue(point);
             if (tmp_DS === -1) {
                 tmp_DS = type;
             }
@@ -648,33 +679,21 @@ cc.Class({
         self.TXRoot.TXStats.KetQuaLeft.string = ketqua.filter((i) => i === 1).length;
         self.TXRoot.TXStats.KetQuaRight.string = ketqua.filter((i) => i === 0).length;
 
-        self.TXRoot.TXStats.DiemSoCel.forEach(function (obj, i) {
+        self.TXRoot.TXStats.DiemSoCel.forEach((obj, i) => {
             var data = newData[i];
             if (void 0 !== data) {
                 obj.active = true;
                 return Promise.all(
-                    obj.RedT.map(function (current, index) {
+                    obj.RedT.map((current, index) => {
                         var data_Cel = data[index];
                         if (void 0 !== data_Cel) {
-                            const type = self.taixiu ? (data_Cel > 10 ? true : false) : data_Cel % 2 ? false : true;
+                            const type = this.handlePointValue(data_Cel);
                             c_tai = type ? c_tai + 1 : c_tai;
                             c_xiu = !type ? c_xiu + 1 : c_xiu;
                             current.active = true;
-                            current.color = self.taixiu
-                                ? type
-                                    ? cc.Color.BLACK
-                                    : cc.Color.WHITE
-                                : type
-                                ? cc.Color.YELLOW
-                                : cc.Color.BLACK;
+                            current.color = this.handleColorNode(type);
                             current.text.string = data_Cel;
-                            current.text.node.color = self.taixiu
-                                ? type
-                                    ? cc.Color.WHITE
-                                    : cc.Color.BLACK
-                                : type
-                                ? cc.Color.BLACK
-                                : cc.Color.WHITE;
+                            current.text.node.color = this.handleColorNodeChild(type);
                         } else {
                             current.active = false;
                         }
@@ -690,9 +709,68 @@ cc.Class({
         self.TXRoot.TXStats.DiemSoLeft.string = c_tai;
         self.TXRoot.TXStats.DiemSoRight.string = c_xiu;
     },
+    handleColorNode(type) {
+        let color = null;
+        if (this.taixiu) {
+            color = cc.Color.WHITE;
+            if (type) {
+                color = cc.Color.BLACK;
+            }
+        } else {
+            color = cc.Color.BLACK;
+            if (type) {
+                color = cc.Color.YELLOW;
+            }
+        }
+
+        return color;
+    },
+    handleColorNodeChild(type) {
+        let color = null;
+        if (this.taixiu) {
+            color = cc.Color.BLACK;
+            if (type) {
+                color = cc.Color.WHITE;
+            }
+        } else {
+            color = cc.Color.WHITE;
+            if (type) {
+                color = cc.Color.BLACK;
+            }
+        }
+
+        return color;
+    },
+    handlePointValue(point) {
+        if (this.taixiu) {
+            let value = 0;
+            if (point > 10) {
+                value = 1;
+            }
+            return value;
+        } else {
+            let value = 1;
+            if (point % 2) {
+                value = 0;
+            }
+            return value;
+        }
+    },
     reset: function () {
         this.isNan && this.dataLogs();
-        cc.RedT.setting.taixiu_turbo.data.chanle.red_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_le = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_le = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_le = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_le = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.red_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_xiu = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_xiu = this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = 0;
+        cc.RedT.setting.taixiu_turbo.data.chanle.red_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_le = 0;
+        cc.RedT.setting.taixiu_turbo.data.chanle.red_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_le = 0;
+        cc.RedT.setting.taixiu_turbo.data.chanle.red_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_le = 0;
+        cc.RedT.setting.taixiu_turbo.data.chanle.xu_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_le = 0;
+        cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_le = 0;
+        cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_le = 0;
+        cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_xiu = 0;
+        cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_xiu = 0;
+        cc.RedT.setting.taixiu_turbo.data.taixiu.red_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_xiu = 0;
+        cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_xiu = 0;
+        cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_xiu = 0;
+        cc.RedT.setting.taixiu_turbo.data.taixiu.xu_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_xiu = 0;
+        this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = 0;
         this.playerLeft.string = this.playerRight.string = "0%";
         this.gameAudios && this.gameAudios.playStartGameAudio();
     },
