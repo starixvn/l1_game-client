@@ -163,19 +163,24 @@ export default class VipSedieWarStatistic extends cc.Component {
         }
 
         const historyData = this.data.map((d) => {
-            let result = 0;
             const list = ["player", "banker", "tie"];
-            list.forEach((key, index) => {
-                if (d.settlementResult[key]) {
-                    result = index;
-                }
-            });
-            return result;
+            return this.getValueValid(list, d);
         });
         this.updateWarModeStatistic(historyData);
 
         this.sedieRoundHistory.logControl.items = this.warModeItems;
         this.sedieRoundHistory.logControl.setData(historyData.reverse());
+    }
+
+    getValueValid(list: string[], data: any) {
+        let result = 0;
+        list.forEach((key, index) => {
+            if (data.settlementResult[key]) {
+                result = index;
+            }
+        });
+
+        return result;
     }
 
     updateWarModeStatistic(data: any) {
@@ -217,14 +222,8 @@ export default class VipSedieWarStatistic extends cc.Component {
         }
 
         const data = this.data.map((d) => {
-            let result = 0;
             const list = ["even", "odd"];
-            list.forEach((key, index) => {
-                if (d.settlementResult[key]) {
-                    result = index;
-                }
-            });
-
+            const result = this.getValueValid(list, d);
             let redCount = 0;
             const listRed = ["red1", "red2", "red3", "red4"];
             listRed.forEach((i) => {

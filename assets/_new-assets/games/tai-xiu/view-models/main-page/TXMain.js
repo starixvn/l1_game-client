@@ -279,11 +279,22 @@ cc.Class({
         this.playCenterRoundLight();
 
         this.keyHandle = function (t) {
-            return t.keyCode === cc.macro.KEY.tab
-                ? (self.changeNextFocusEditBox(), t.preventDefault && t.preventDefault(), !1)
-                : t.keyCode === cc.macro.KEY.enter
-                ? (BrowserUtil.focusGame(), self.onCuocClick(), t.preventDefault && t.preventDefault(), !1)
-                : void 0;
+            if (t.keyCode === cc.macro.KEY.tab) {
+                self.changeNextFocusEditBox();
+                if (t.preventDefault && t.preventDefault()) {
+                    return false;
+                }
+                return undefined;
+            } else if (t.keyCode === cc.macro.KEY.enter) {
+                BrowserUtil.focusGame();
+                self.onCuocClick();
+                if (t.preventDefault && t.preventDefault()) {
+                    return false;
+                }
+
+                return undefined;
+            }
+            return undefined;
         };
 
         this.diceAnimation.on("finished", this.onDiceAnimationFinish, this);
@@ -333,10 +344,11 @@ cc.Class({
         }
     },
     changeNextFocusEditBox: function () {
-        for (var t = !1, e = 0, i = this.editboxs.length; e < i; e++) {
+        let t = false;
+        for (var e = 0, i = this.editboxs.length; e < i; e++) {
             if (BrowserUtil.checkEditBoxFocus(this.editboxs[e])) {
                 BrowserUtil.focusEditBox(this.editboxs[e]);
-                t = !0;
+                t = true;
                 break;
             }
         }

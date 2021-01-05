@@ -51,6 +51,8 @@ export function preChecking(cb) {
             }
 
             cb();
+
+            return void 0;
         },
         true
     );

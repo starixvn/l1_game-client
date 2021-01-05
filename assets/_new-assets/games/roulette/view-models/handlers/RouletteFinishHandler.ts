@@ -62,20 +62,20 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
     payChipsFromBetChoices(winningPlayers: any) {
         const duration = 0.7;
+
         for (const playerId in winningPlayers) {
             const data = winningPlayers[playerId];
             const playerSlot = this.main.playerHandler.getPlayerSlot(playerId);
             if (playerSlot) {
-                cc.tween(this.main)
-                    .delay(duration)
-                    .call(() => {
-                        playerSlot.increaseBalance(data.bet);
-                        GameUtils.addFlyingText(playerSlot.node, true, data.bet, 3, 0, 10);
-                        this.playWinningEffect(this.main, playerSlot.node);
-                    })
-                    .start();
+                cc.tween(this.main).delay(duration).call(this.showWinningEffect.bind(this, playerSlot, data)).start();
             }
         }
+    }
+
+    showWinningEffect(playerSlot, data) {
+        playerSlot.increaseBalance(data.bet);
+        GameUtils.addFlyingText(playerSlot.node, true, data.bet, 3, 0, 10);
+        this.playWinningEffect(this.main, playerSlot.node);
     }
 
     public handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
