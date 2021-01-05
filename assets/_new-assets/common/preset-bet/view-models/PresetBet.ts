@@ -1,20 +1,21 @@
-import * as helper from './../../helpers/Helper';
+import * as helper from "./../../helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class PresetBet extends cc.Component {
-
     @property(cc.Label)
     betValue: cc.Label = null;
 
     @property(cc.Button)
     betButton: cc.Button = null;
 
-    private betAmount = 0;
-    public onChangedBet = (betAmount: number) => { };
-    public getPreset = () => { return 0 };
-    private commonDialog: any;
+    protected betAmount = 0;
+    public onChangedBet = (betAmount: number) => {};
+    public getPreset = () => {
+        return 0;
+    };
+    protected commonDialog: any;
     private isOpened = false;
 
     onLoad() {

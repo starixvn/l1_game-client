@@ -1,56 +1,3 @@
-export function isEmpty(str) {
-    return !str || 0 === str.length;
-}
-export function validateEmail(t) {
-    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        t
-    );
-}
-export function checkPhoneValid(phone) {
-    return /^[\+]?(?:[(][0-9]{1,3}[)]|(?:84|0))[0-9]{7,10}$/im.test(phone);
-}
-
-export function nFormatter(t, e) {
-    const o = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    for (
-        var i = [
-                {
-                    value: 1e18,
-                    symbol: "E"
-                },
-                {
-                    value: 1e15,
-                    symbol: "P"
-                },
-                {
-                    value: 1e12,
-                    symbol: "T"
-                },
-                {
-                    value: 1e9,
-                    symbol: "G"
-                },
-                {
-                    value: 1e6,
-                    symbol: "M"
-                },
-                {
-                    value: 1e3,
-                    symbol: "k"
-                }
-            ],
-            n = 0;
-        n < i.length;
-        n++
-    ) {
-        if (t >= i[n].value) {
-            return (t / i[n].value).toFixed(e).replace(o, "$1") + i[n].symbol;
-        }
-    }
-
-    return t.toFixed(e).replace(o, "$1");
-}
-
 export function numberWithCommas(number, toFixed = 2) {
     if (number) {
         var result = parseFloat(number).toFixed(toFixed).toString().split(".");
@@ -67,24 +14,6 @@ export function getOnlyNumberInString(t) {
     return e ? e.join("") : "";
 }
 
-export function numberToTime(t) {
-    if (t < 0) {
-        t = 0;
-        t = parseInt(t);
-    }
-    let e = parseInt(t / 60),
-        i = t % 60;
-    if (e < 10) {
-        e = `0${e}`;
-    }
-
-    if (i < 10) {
-        i = `0${i}`;
-    }
-
-    return `${e}:${i}`;
-}
-
 export function numberPad(number, length) {
     let str = `${number}`;
     while (str.length < length) {
@@ -95,8 +24,7 @@ export function numberPad(number, length) {
 
 export function numberTo(obj, start, end, duration, currency = false) {
     clearInterval(obj.timer);
-    start = parseInt(obj.string.replace(",", "")) || 0;
-    var range = end - start;
+    var range = end - (parseInt(obj.string.replace(",", "")) || 0);
     var minTimer = 50;
     var stepTime = Math.abs(Math.floor(duration / range));
     stepTime = Math.max(stepTime, minTimer);
@@ -150,57 +78,12 @@ export function formatDateTime(t) {
     );
 }
 
-export function getDateByTime(t) {
-    var e = new Date(t);
-    return `${e.getDate()}/${e.getMonth() + 1}/${e.getFullYear()}`;
-}
-
 export function getStringHourByTime(t) {
     var e = new Date(t),
         i = e.getHours(),
         o = e.getMinutes(),
         n = e.getSeconds();
     return i < 10 && (i = "0" + i), o < 10 && (o = "0" + o), n < 10 && (n = "0" + n), i + ":" + o + ":" + n;
-}
-
-export function anPhanTram(bet, so_nhan, ti_le, type = false) {
-    // so_nhan: số nhân
-    // ti_le: tỉ lệ thuế
-    // type: Thuế tổng, thuế gốc
-    var vV = bet * so_nhan;
-    var vT = !!type ? v1 : bet;
-    return vV - Math.ceil((vT * ti_le) / 100);
-}
-
-export function addZero10(i) {
-    if (i < 10) {
-        i = "0" + i;
-    }
-    return i;
-}
-
-export function formatMoneyNumber(money) {
-    let sign = 1;
-    let value = money;
-    if (money < 0) {
-        sign = -1;
-        value = value * -1;
-    }
-
-    var format = "";
-    if (value >= 1000000000.0) {
-        value /= 1000000000.0;
-        format = "B";
-    } else if (value >= 1000000.0) {
-        value /= 1000000.0;
-        format = "M";
-    } else if (value >= 1000.0) {
-        value /= 1000.0;
-        format = "K";
-    }
-
-    value = (Math.floor(value * 100 + 0.00000001) / 100) * sign;
-    return value + format;
 }
 
 export function shortenName(name) {
@@ -230,21 +113,13 @@ export function zeroPad(num, places) {
 module.exports = {
     getNameCard: getNameCard,
     shortenName: shortenName,
-    checkPhoneValid: checkPhoneValid,
-    nFormatter: nFormatter,
     numberWithCommas: numberWithCommas,
-    isEmpty: isEmpty,
     getOnlyNumberInString: getOnlyNumberInString,
     numberPad: numberPad,
-    anPhanTram: anPhanTram,
     numberTo: numberTo,
     getStringDateByTime: getStringDateByTime,
     getStringHourByTime: getStringHourByTime,
     formatDateTime: formatDateTime,
-    numberToTime: numberToTime,
-    validateEmail: validateEmail,
-    addZero10: addZero10,
-    formatMoneyNumber: formatMoneyNumber,
     getLowercaseObjectKeys: getLowercaseObjectKeys,
     zeroPad: zeroPad
 };
