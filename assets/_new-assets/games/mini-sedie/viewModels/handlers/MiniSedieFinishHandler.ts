@@ -1,4 +1,4 @@
-import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler"
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import MiniSedie from "../MiniSedie";
 
 export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
@@ -22,16 +22,18 @@ export default class MiniSedieFinishHandler extends GameBaseFinishHandler {
             const dataLog = this.main.currentDataLogs[0];
             this.main.setDots(dataLog.result);
             this.main.resultAnimating = true;
-            this.main.dishNode.runAction(cc.sequence(
-                cc.moveBy(0.7, cc.v2(0, 150)),
-                cc.callFunc(() => {
-                    this.main.dishNode.active = false;
-                    this.main.resultAnimating = false;
-                    this.main.updateRoundHistory();
-                    this.main.showResult();
-                    onFinishHanlingData();
-                })
-            ));
+            this.main.dishNode.runAction(
+                cc.sequence(
+                    cc.moveBy(0.7, cc.v2(0, 150)),
+                    cc.callFunc(() => {
+                        this.main.dishNode.active = false;
+                        this.main.resultAnimating = false;
+                        this.main.updateRoundHistory();
+                        this.main.showResult();
+                        onFinishHanlingData();
+                    })
+                )
+            );
         }
     }
 }

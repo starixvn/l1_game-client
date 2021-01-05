@@ -1,11 +1,9 @@
-import SicBoTicketDetailItem from './SicBoTicketDetailItem';
-
+import SicBoTicketDetailItem from "./SicBoTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SicBoTicketDetail extends cc.Component {
-
     @property(cc.Label)
     roundLabel: cc.Label = null;
 
@@ -30,10 +28,12 @@ export default class SicBoTicketDetail extends cc.Component {
     settlementResult = null;
 
     onLoad() {
-        this.content.children.forEach(child => child.destroy());
+        this.content.children.forEach((child) => child.destroy());
 
-        const commonDialog = this.mainFrame.getComponent('CommonDialog');
-        commonDialog.onDidHide = () => { this.node.destroy(); };
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     public setData(betLogDetails: any, settlementResult: any) {

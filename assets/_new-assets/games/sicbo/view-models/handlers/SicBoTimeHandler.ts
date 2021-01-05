@@ -1,8 +1,7 @@
-import GameBaseTimeHandler from '../../../_base/handlers/GameBaseTimeHandler';
-import SicBo from '../SicBo';
+import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
+import SicBo from "../SicBo";
 
 export default class SicBoTimeHandler extends GameBaseTimeHandler {
-
     constructor(protected readonly main: SicBo) {
         super(main);
     }
@@ -12,7 +11,7 @@ export default class SicBoTimeHandler extends GameBaseTimeHandler {
     }
 
     get isStartingNewGameRound() {
-        return this.main.currentTimeRemaining == this.main.shakeThePlateTime;
+        return this.main.currentTimeRemaining === this.main.shakeThePlateTime;
     }
 
     handleStartingNewGameRound() {
