@@ -268,7 +268,7 @@ export default class ChanLeStats extends cc.Component {
     }
 
     private drawResult(logs: any) {
-        var result = this.currentResultDots.map(function (dot, index) {
+        var result = this.currentResultDots.map((dot, index) => {
             var log = logs[index];
             if (log) {
                 dot.node.active = true;
