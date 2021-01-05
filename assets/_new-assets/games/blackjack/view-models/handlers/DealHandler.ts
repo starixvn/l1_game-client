@@ -1,4 +1,3 @@
-import a from "../../../../../libs/chance/chance";
 import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
@@ -6,8 +5,7 @@ import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
 export default class DealHandler implements DataHandler {
-    constructor(private readonly main: BlackJack) {
-    }
+    constructor(private readonly main: BlackJack) {}
 
     handle(data: any): boolean {
         if (data.deal) {
@@ -23,16 +21,16 @@ export default class DealHandler implements DataHandler {
 
     processDealSuccess(data: any) {
         const hands = data.hands.sort((a, b) => +a.pos - +b.pos);
-        this.main.lastHandBets = data.hands.map(hand => {
+        this.main.lastHandBets = data.hands.map((hand) => {
             return {
                 pos: hand.pos,
                 bet: hand.bet
             };
-        })
+        });
         const dealerCards = data.dealer;
 
         const actions = [];
-        hands.forEach(hand => {
+        hands.forEach((hand) => {
             const card = hand.cards[0];
             const pos = hand.pos - 1;
 
@@ -41,19 +39,27 @@ export default class DealHandler implements DataHandler {
 
             actions.push(() => this.main.drawingCardToPlayer(card, pos, () => place.updateDisplayScore(false)));
 
-            if (hand.bet != place.getBetAmount()) {
+            if (hand.bet !== place.getBetAmount()) {
                 place.showBetText(false);
                 place.syncBetValue();
                 this.main.chipContainers[pos].destroyAllChildren();
-                const chipStack = BlackJackUtils.createChipStack(hand.bet, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, this.main.chipContainers[pos].skewX);
+                const chipStack = BlackJackUtils.createChipStack(
+                    hand.bet,
+                    this.main.betChips.chipAltas,
+                    this.main.chipOption,
+                    this.main.shadowChip,
+                    this.main.chipContainers[pos].skewX
+                );
                 this.main.chipContainers[pos].addChild(chipStack);
             }
         });
         this.main.updateTotalBetLabel();
 
         const firstDealerCard = dealerCards[0];
-        actions.push(() => { this.main.drawingCardToDealer(firstDealerCard, false); });
-        hands.forEach(hand => {
+        actions.push(() => {
+            this.main.drawingCardToDealer(firstDealerCard, false);
+        });
+        hands.forEach((hand) => {
             const card = hand.cards[1];
             const pos = hand.pos - 1;
             const place = this.main.handPlaces[pos];
@@ -76,18 +82,23 @@ export default class DealHandler implements DataHandler {
 
         let count = 0;
         cc.tween(this.main)
-            .repeat(actions.length, cc.tween()
-                .call(() => {
-                    actions[count]();
-                    count++;
-                })
-                .delay(this.main.configDuration.drawingCardDelay)
+            .repeat(
+                actions.length,
+                cc
+                    .tween()
+                    .call(() => {
+                        actions[count]();
+                        count++;
+                    })
+                    .delay(this.main.configDuration.drawingCardDelay)
             )
-            .call(() => { this.playAnimationDealerCheck(dealerCards, isBlackJack); })
+            .call(() => {
+                this.playAnimationDealerCheck(dealerCards, isBlackJack);
+            })
             .start();
 
         this.main.hideAllButtons();
-        this.main.handPlaces.forEach(place => {
+        this.main.handPlaces.forEach((place) => {
             place.highlightPlace(false);
             place.enablePlaceChip(false);
             place.showClearBetButton(false);
@@ -105,7 +116,10 @@ export default class DealHandler implements DataHandler {
         if (checkList.includes(dealerCards[0].rank)) {
             const secondCard = this.main.dealerHand.cardLayout.content.children[1].getComponent(NewCard);
             const checkDuration = 1.5;
-            secondCard.playAnimation(isBlackJack ? CardAnimation.DealerCheckBlackJackSuccess : CardAnimation.DealerCheckBlackJackFail, checkDuration);
+            secondCard.playAnimation(
+                isBlackJack ? CardAnimation.DealerCheckBlackJackSuccess : CardAnimation.DealerCheckBlackJackFail,
+                checkDuration
+            );
             delaytime += checkDuration;
         }
 
@@ -128,12 +142,12 @@ export default class DealHandler implements DataHandler {
             this.showNoticesErrors(data.errorApiHands);
         }
         if (data.kickedOutHands) {
-            data.kickedOutHands.forEach(error => {
+            data.kickedOutHands.forEach((error) => {
                 const transferredData = {
                     kickedOut: error
                 };
                 this.main.currentMiniPanel.onGeneralData(transferredData);
-            })
+            });
         }
         if (data.invalidBetAmountHands) {
             this.main.showMiniWarning(data.invalidBetAmountHands.message);
@@ -143,17 +157,17 @@ export default class DealHandler implements DataHandler {
     }
 
     showNoticesErrors(data: any) {
-        data.forEach(error => {
+        data.forEach((error) => {
             const notice = this.main.currentMiniPanel.showErrorNotice(error);
             notice.handleClose = () => {
                 const positions = error.pos;
                 this.clearChipsAndShowErrorNotice(positions);
-            }
+            };
         });
     }
 
     clearChipsAndShowErrorNotice(positions: number[]) {
-        positions.forEach(position => {
+        positions.forEach((position) => {
             const place = this.main.handPlaces[position - 1];
             place.showErrorNotice();
             const chipContainer = this.main.chipContainers[position - 1];
@@ -163,12 +177,15 @@ export default class DealHandler implements DataHandler {
             this.main.clearButton.getComponent(FadeEffectButton).setActive(false);
             this.main.rebetButton.getComponent(FadeEffectButton).setActive(false);
             this.main.newBetButton.getComponent(FadeEffectButton).setActive(false);
-            chips.runAction(cc.sequence(
-                cc.jumpTo(0.7, destPosition, 250, 1),
-                cc.delayTime(1.8),
-                cc.callFunc(() => {
-                    place.onClearBetClick(false);
-                })));
+            chips.runAction(
+                cc.sequence(
+                    cc.jumpTo(0.7, destPosition, 250, 1),
+                    cc.delayTime(1.8),
+                    cc.callFunc(() => {
+                        place.onClearBetClick(false);
+                    })
+                )
+            );
         });
 
         this.main.waitingProcessing = true;

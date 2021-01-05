@@ -61,8 +61,7 @@ export default class ChanLeHistory extends cc.Component {
                     this.root.showBetHistoryAtRound(roundId);
                 };
                 historyItem.betChoice.string = this.buildBetChoice(historyItemData.select);
-                historyItem.result.string =
-                    historyItemData.dice1 + "-" + historyItemData.dice2 + "-" + historyItemData.dice3 + "  " + point;
+                historyItem.result.string = `${historyItemData.dice1}-${historyItemData.dice2}-${historyItemData.dice3}  ${point}`;
                 historyItem.betMoney.string = numberWithCommas(historyItemData.bet);
                 historyItem.refund.string = numberWithCommas(historyItemData.tralai);
                 historyItem.winMoney.string = numberWithCommas(historyItemData.betwin);

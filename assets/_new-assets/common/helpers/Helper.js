@@ -236,7 +236,6 @@ module.exports = {
     isEmpty: isEmpty,
     getOnlyNumberInString: getOnlyNumberInString,
     numberPad: numberPad,
-    inputNumber: inputNumber,
     anPhanTram: anPhanTram,
     numberTo: numberTo,
     getStringDateByTime: getStringDateByTime,

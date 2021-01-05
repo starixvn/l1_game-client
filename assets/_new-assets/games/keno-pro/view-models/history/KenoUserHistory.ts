@@ -56,50 +56,51 @@ export default class KenoUserHistory extends cc.Component {
         this.pages.onSet(data.page, data.pageSize, data.total);
         this.content.children.forEach((child) => child.destroy());
 
-        for (let i = 0; i < data.betLogs.length; i++) {
-            var dataT = data.betLogs[i];
-            if (void 0 !== dataT) {
-                const historyItemPrefab = cc.instantiate(this.prefabItem);
-                const item = historyItemPrefab.getComponent("KenoUserHistoryItem") as KenoUserHistoryItem;
-                item.init(this);
-                item.node.active = true;
-                item.time.string = getStringDateByTime(dataT.time);
-                item.roundId = dataT.phien;
-                item.round.string = dataT.phien;
-                item.win.string = numberWithCommas(dataT.betwin);
-                item.win.node.color = dataT.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-
-                let total = 0;
-                const result = dataT.result;
-                for (let i = 0; i < result.length; i++) {
-                    total += result[i];
-                }
-
-                const settlementResult = dataT.settlementResult;
-                item.settlementResult = settlementResult;
-                Object.keys(settlementResult).forEach((key) => {
-                    if (settlementResult[key]) {
-                        item[key].node.color = cc.Color.YELLOW;
-                    }
-                });
-
-                item.total.string = total.toString();
-                item.big.string = numberWithCommas(dataT.big);
-                item.small.string = numberWithCommas(dataT.small);
-                item.odd.string = numberWithCommas(dataT.odd);
-                item.even.string = numberWithCommas(dataT.even);
-                item.gold.string = numberWithCommas(dataT.gold);
-                item.wood.string = numberWithCommas(dataT.wood);
-                item.water.string = numberWithCommas(dataT.water);
-                item.fire.string = numberWithCommas(dataT.fire);
-                item.earth.string = numberWithCommas(dataT.earth);
-
-                item.totalResult = total;
-                item.result = result;
-
-                this.content.addChild(historyItemPrefab);
-            }
+        if (!data.betLogs || !data.betLogs.length) {
+            return;
         }
+
+        data.betLogs.forEach((dataT) => {
+            const historyItemPrefab = cc.instantiate(this.prefabItem);
+            const item = historyItemPrefab.getComponent("KenoUserHistoryItem") as KenoUserHistoryItem;
+            item.init(this);
+            item.node.active = true;
+            item.time.string = getStringDateByTime(dataT.time);
+            item.roundId = dataT.phien;
+            item.round.string = dataT.phien;
+            item.win.string = numberWithCommas(dataT.betwin);
+            item.win.node.color = dataT.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+
+            let total = 0;
+            const result = dataT.result;
+            result.forEach((item) => {
+                total += item;
+            });
+
+            const settlementResult = dataT.settlementResult;
+            item.settlementResult = settlementResult;
+            Object.keys(settlementResult).forEach((key) => {
+                if (settlementResult[key]) {
+                    item[key].node.color = cc.Color.YELLOW;
+                }
+            });
+
+            item.total.string = total.toString();
+            item.big.string = numberWithCommas(dataT.big);
+            item.small.string = numberWithCommas(dataT.small);
+            item.odd.string = numberWithCommas(dataT.odd);
+            item.even.string = numberWithCommas(dataT.even);
+            item.gold.string = numberWithCommas(dataT.gold);
+            item.wood.string = numberWithCommas(dataT.wood);
+            item.water.string = numberWithCommas(dataT.water);
+            item.fire.string = numberWithCommas(dataT.fire);
+            item.earth.string = numberWithCommas(dataT.earth);
+
+            item.totalResult = total;
+            item.result = result;
+
+            this.content.addChild(historyItemPrefab);
+        });
     }
 
     get_data(page = 1) {

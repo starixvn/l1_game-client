@@ -62,18 +62,12 @@ export default class BaseSocketIOController {
         const keys = Object.keys(this.gameSockets);
 
         if (keys && keys.length) {
-            keys.forEach((key) => {
-                const socket: SocketIOClient.Socket = this.gameSockets[key];
-                socket && socket.disconnect();
-                delete this.gameSockets[key];
-            });
+            keys.forEach(this.closeSocket.bind(this));
         }
     }
 
     closeMiniGameSockets() {
-        gameMiniNewSocketIds.forEach((gameId) => {
-            this.closeSocket(gameId);
-        });
+        gameMiniNewSocketIds.forEach(this.closeSocket.bind(this));
     }
 
     recheckin() {}

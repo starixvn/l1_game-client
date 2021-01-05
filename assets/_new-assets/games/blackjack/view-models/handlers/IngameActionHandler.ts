@@ -3,10 +3,8 @@ import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
-
 export default class IngameActionHandler implements DataHandler {
-    constructor(private readonly main: BlackJack) {
-    }
+    constructor(private readonly main: BlackJack) {}
 
     handle(data: any): boolean {
         if (data.hit) {
@@ -51,9 +49,11 @@ export default class IngameActionHandler implements DataHandler {
                 secondPlace.updateDisplayScore(false);
             })
             .delay(0.5)
-            .call(() => this.main.drawingCardToPlayer(firstHand.cards[1], firstHand.pos - 1, () => {
-                firstPlace.updateDisplayScore(true);
-            }))
+            .call(() =>
+                this.main.drawingCardToPlayer(firstHand.cards[1], firstHand.pos - 1, () => {
+                    firstPlace.updateDisplayScore(true);
+                })
+            )
             .delay(0.5)
             .call(() => {
                 this.main.drawingCardToPlayer(secondHand.cards[1], secondHand.pos - 1, () => {
@@ -83,9 +83,7 @@ export default class IngameActionHandler implements DataHandler {
         const scaleY = 1;
         this.main.handPlaces[destPos].addCard(secondCard);
 
-        cc.tween(secondCard)
-            .to(duration, { position: nextPosition, rotationX: rotationX, scaleY: scaleY }, { easing: 'easeOut' })
-            .start();
+        cc.tween(secondCard).to(duration, { position: nextPosition, rotationX: rotationX, scaleY: scaleY }, { easing: "easeOut" }).start();
     }
 
     processStandAction(data: any) {
@@ -115,23 +113,35 @@ export default class IngameActionHandler implements DataHandler {
         place.syncBetValue();
 
         const isStand = data.isStand;
-        this.main.drawingCardToPlayer(card, pos, isStand ? () => {
-            place.updateDisplayScore(true);
-            place.selected = false;
-            this.main.updateAvailableActions();
-            cc.tween(this.main)
-                .delay(this.main.configDuration.delaySwitchHand)
-                .call(() => this.main.switchToNextHand())
-                .start();
-        } : () => {
-            place.updateDisplayScore(true);
-        });
+        this.main.drawingCardToPlayer(
+            card,
+            pos,
+            isStand
+                ? () => {
+                      place.updateDisplayScore(true);
+                      place.selected = false;
+                      this.main.updateAvailableActions();
+                      cc.tween(this.main)
+                          .delay(this.main.configDuration.delaySwitchHand)
+                          .call(() => this.main.switchToNextHand())
+                          .start();
+                  }
+                : () => {
+                      place.updateDisplayScore(true);
+                  }
+        );
     }
 
     placeChipsForSplitHand(index: number, amount: number) {
         const destNode = this.main.chipContainers[index];
         destNode.destroyAllChildren();
-        const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, destNode.skewX);
+        const chipStack = BlackJackUtils.createChipStack(
+            amount,
+            this.main.betChips.chipAltas,
+            this.main.chipOption,
+            this.main.shadowChip,
+            destNode.skewX
+        );
         chipStack.zIndex = -1;
         destNode.addChild(chipStack);
 
@@ -144,7 +154,13 @@ export default class IngameActionHandler implements DataHandler {
 
     placeChipsForDoubleHand(index: number, amount: number) {
         const destNode = this.main.chipContainers[index];
-        const chipStack = BlackJackUtils.createChipStack(amount / 2, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, destNode.skewX);
+        const chipStack = BlackJackUtils.createChipStack(
+            amount / 2,
+            this.main.betChips.chipAltas,
+            this.main.chipOption,
+            this.main.shadowChip,
+            destNode.skewX
+        );
         chipStack.zIndex = -1;
         destNode.addChild(chipStack);
 
@@ -160,16 +176,24 @@ export default class IngameActionHandler implements DataHandler {
             }
         }
 
-        chipStack.runAction(cc.sequence(
-            cc.jumpTo(0.5, destPosition, 250, 1),
-            cc.callFunc(() => {
-                destNode.destroyAllChildren();
-                const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, destNode.skewX);
-                chipStack.zIndex = -1;
-                destNode.addChild(chipStack);
-                this.main.handPlaces[index].updateDisplayBetValue(amount);
-                this.main.updateTotalBetLabel();
-            })
-        ));
+        chipStack.runAction(
+            cc.sequence(
+                cc.jumpTo(0.5, destPosition, 250, 1),
+                cc.callFunc(() => {
+                    destNode.destroyAllChildren();
+                    const chipStack = BlackJackUtils.createChipStack(
+                        amount,
+                        this.main.betChips.chipAltas,
+                        this.main.chipOption,
+                        this.main.shadowChip,
+                        destNode.skewX
+                    );
+                    chipStack.zIndex = -1;
+                    destNode.addChild(chipStack);
+                    this.main.handPlaces[index].updateDisplayBetValue(amount);
+                    this.main.updateTotalBetLabel();
+                })
+            )
+        );
     }
 }

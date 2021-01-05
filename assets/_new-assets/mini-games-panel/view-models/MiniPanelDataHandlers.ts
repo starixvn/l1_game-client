@@ -3,6 +3,12 @@ import * as SabaConfigs from "../../SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanel from "./MiniPanel";
 
+declare global {
+    interface Window {
+        umInfo: any;
+    }
+}
+
 export default class MiniPanelDataHandlers {
     constructor(private readonly main: MiniPanel) {}
 
@@ -63,7 +69,7 @@ export default class MiniPanelDataHandlers {
             } else {
                 this.main.forceKickedOut();
             }
-            const noticeData = <NoticeData>{ text: data.message };
+            const noticeData = { text: data.message } as NoticeData;
             this.main.showNotice(noticeData, this.main.forceKickedOut, this.main.forceKickedOut);
         }
     }
@@ -94,10 +100,10 @@ export default class MiniPanelDataHandlers {
     }
 
     handleNoticeData(notice: any) {
-        const noticeData = <NoticeData>{
+        const noticeData = {
             text: notice.text,
             isInfo: false
-        };
+        } as NoticeData;
 
         this.main.loading.node.active = false;
         this.main.showNotice(noticeData);
