@@ -1,11 +1,14 @@
 import PresetBet from "../../../../common/preset-bet/view-models/PresetBet";
 
-const { ccclass } = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniKenoPresetBet extends PresetBet {
+    @property(cc.Node)
+    main: cc.Node = null;
+
     onLoad() {
-        super.onLoad();
+        this.commonDialog = this.main.getComponent("CommonDialog");
         this.commonDialog.onDidHide = () => {
             this.node.active = false;
         };

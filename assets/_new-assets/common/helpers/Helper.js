@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 export function numberWithCommas(number, toFixed = 2) {
     if (number) {
         var result = parseFloat(number).toFixed(toFixed).toString().split(".");
@@ -47,43 +49,15 @@ export function numberTo(obj, start, end, duration, currency = false) {
 }
 
 export function getStringDateByTime(t) {
-    var e = new Date(t),
-        i = e.getHours(),
-        o = e.getMinutes(),
-        n = e.getDate(),
-        s = e.getMonth() + 1;
-    return (
-        i < 10 && (i = "0" + i),
-        o < 10 && (o = "0" + o),
-        n < 10 && (n = "0" + n),
-        s < 10 && (s = "0" + s),
-        i + ":" + o + " " + n + "/" + s + "/" + e.getFullYear()
-    );
+    return moment(new Date(t)).format("HH:mm DD/MM/YYYY");
 }
 
 export function formatDateTime(t) {
-    var e = new Date(t),
-        i = e.getHours(),
-        o = e.getMinutes(),
-        sc = e.getSeconds(),
-        n = e.getDate(),
-        s = e.getMonth() + 1;
-    return (
-        i < 10 && (i = "0" + i),
-        o < 10 && (o = "0" + o),
-        sc < 10 && (sc = "0" + sc),
-        n < 10 && (n = "0" + n),
-        s < 10 && (s = "0" + s),
-        i + ":" + o + ":" + sc + " " + n + "/" + s + "/" + e.getFullYear()
-    );
+    return moment(new Date(t)).format("HH:mm:ss DD/MM/YYYY");
 }
 
 export function getStringHourByTime(t) {
-    var e = new Date(t),
-        i = e.getHours(),
-        o = e.getMinutes(),
-        n = e.getSeconds();
-    return i < 10 && (i = "0" + i), o < 10 && (o = "0" + o), n < 10 && (n = "0" + n), i + ":" + o + ":" + n;
+    return moment(new Date(t)).format("HH:mm:ss");
 }
 
 export function shortenName(name) {

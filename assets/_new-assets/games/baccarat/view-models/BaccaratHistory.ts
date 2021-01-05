@@ -65,43 +65,45 @@ export default class BaccaratHistory extends cc.Component {
         this.pages.onSet(data.page, data.pageSize, data.total);
         this.content.children.forEach((child) => child.destroy());
 
-        for (let i = 0; i < data.betLogs.length; i++) {
-            const historyItemData = data.betLogs[i];
-
-            if (historyItemData) {
-                const historyItemPrefab = cc.instantiate(this.prefabItem);
-                const item = historyItemPrefab.getComponent(BaccaratHistoryItem);
-                item.node.active = true;
-                this.content.addChild(historyItemPrefab);
-
-                if (historyItemData.bet) {
-                    item.time.string = getStringDateByTime(historyItemData.bet.time);
-                    item.round.string = historyItemData.bet.phien;
-                    item.win.string = numberWithCommas(historyItemData.bet.betwin);
-                    item.win.node.color = historyItemData.bet.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-
-                    const playerCards = _.values(historyItemData.round.player);
-                    const bankerCards = _.values(historyItemData.round.banker);
-                    item.playerCards.init(null, false);
-                    item.bankerCards.init(null, false);
-                    item.playerCards.showCardsWithoutAnimation(playerCards);
-                    item.bankerCards.showCardsWithoutAnimation(bankerCards);
-
-                    const result = historyItemData.round.result;
-                    const resultKeys = _.keys(result);
-
-                    _.forEach(resultKeys, (key) => {
-                        const bet = historyItemData.bet[key];
-                        const currentItem = item[key];
-                        const isWin = result[key];
-
-                        if (currentItem) {
-                            currentItem.node.color = isWin ? cc.Color.YELLOW : cc.Color.WHITE;
-                            currentItem.string = numberWithCommas(bet);
-                        }
-                    });
-                }
-            }
+        if (!data.betLogs || !data.betLogs.length) {
+            return;
         }
+
+        data.betLogs.forEach((historyItemData) => {
+            const historyItemPrefab = cc.instantiate(this.prefabItem);
+            const item = historyItemPrefab.getComponent(BaccaratHistoryItem);
+            item.node.active = true;
+            this.content.addChild(historyItemPrefab);
+
+            if (!historyItemData.bet) {
+                return;
+            }
+
+            item.time.string = getStringDateByTime(historyItemData.bet.time);
+            item.round.string = historyItemData.bet.phien;
+            item.win.string = numberWithCommas(historyItemData.bet.betwin);
+            item.win.node.color = historyItemData.bet.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+
+            const playerCards = _.values(historyItemData.round.player);
+            const bankerCards = _.values(historyItemData.round.banker);
+            item.playerCards.init(null, false);
+            item.bankerCards.init(null, false);
+            item.playerCards.showCardsWithoutAnimation(playerCards);
+            item.bankerCards.showCardsWithoutAnimation(bankerCards);
+
+            const result = historyItemData.round.result;
+            const resultKeys = _.keys(result);
+
+            _.forEach(resultKeys, (key) => {
+                const bet = historyItemData.bet[key];
+                const currentItem = item[key];
+                const isWin = result[key];
+
+                if (currentItem) {
+                    currentItem.node.color = isWin ? cc.Color.YELLOW : cc.Color.WHITE;
+                    currentItem.string = numberWithCommas(bet);
+                }
+            });
+        });
     }
 }
