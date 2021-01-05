@@ -2,7 +2,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SedieRoundHistoryItem extends cc.Component {
-
     @property(cc.Sprite)
     sprite: cc.Sprite = null;
 
@@ -14,12 +13,11 @@ export default class SedieRoundHistoryItem extends cc.Component {
             return;
         }
 
-        let spriteName = "chip_trang_0";
+        let spriteName = `chip_trang_${value}`;
         if (value % 2) {
             spriteName = `chip_do_${value}`;
-        } else {
-            spriteName = `chip_trang_${value}`;
         }
+
         this.sprite.spriteFrame = this.atlas.getSpriteFrame(spriteName);
     }
 }

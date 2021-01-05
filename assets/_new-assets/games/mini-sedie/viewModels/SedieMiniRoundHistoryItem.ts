@@ -16,6 +16,6 @@ export default class SedieMiniRoundHistoryItem extends MiniRoundHistoryItem {
     public setData(data: any) {
         this.data = data;
         const red = data.red;
-        this.icon.spriteFrame = red % 2 == 0 ? this.dotWhite : this.dotRed;
+        this.icon.spriteFrame = red % 2 === 0 ? this.dotWhite : this.dotRed;
     }
 }

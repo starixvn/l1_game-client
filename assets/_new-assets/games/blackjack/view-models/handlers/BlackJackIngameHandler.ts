@@ -6,8 +6,7 @@ import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
 export default class BlackJackIngameHandler implements DataHandler {
-    constructor(private readonly main: BlackJack) {
-    }
+    constructor(private readonly main: BlackJack) {}
 
     handle(data: any): boolean {
         if (data.ownBets) {
@@ -22,7 +21,7 @@ export default class BlackJackIngameHandler implements DataHandler {
         } else {
             this.main.setIntervalReminder();
             const dealerCards = ownBets.dealer;
-            dealerCards.forEach(card => {
+            dealerCards.forEach((card) => {
                 const cardNode = this.main.createCard(card);
                 this.main.dealerHand.addCard(cardNode);
 
@@ -40,12 +39,12 @@ export default class BlackJackIngameHandler implements DataHandler {
             }
 
             const hands = ownBets.hands;
-            hands.forEach(hand => {
+            hands.forEach((hand) => {
                 const pos = hand.pos - 1;
 
                 if (hand.pos < 4) {
                     let originalBet = hand.bet;
-                    if (hand.actions.includes('double')) {
+                    if (hand.actions.includes("double")) {
                         originalBet = originalBet / 2;
                     }
                     this.main.lastHandBets.push({ pos: hand.pos, bet: originalBet });
@@ -53,7 +52,7 @@ export default class BlackJackIngameHandler implements DataHandler {
                 const place = this.main.handPlaces[pos];
                 place.showBetText(false);
                 place.setData(hand);
-                hand.cards.forEach(card => {
+                hand.cards.forEach((card) => {
                     const cardNode = this.main.createCard(card);
                     const cardComponent = cardNode.getComponent(NewCard);
                     cardComponent.faceUp();
@@ -62,14 +61,19 @@ export default class BlackJackIngameHandler implements DataHandler {
                 });
 
                 this.main.chipContainers[pos].destroyAllChildren();
-                const chipStack = BlackJackUtils.createChipStack(hand.bet, this.main.betChips.chipAltas, this.main.chipOption, this.main.shadowChip, this.main.chipContainers[pos].skewX);
+                const chipStack = BlackJackUtils.createChipStack(
+                    hand.bet,
+                    this.main.betChips.chipAltas,
+                    this.main.chipOption,
+                    this.main.shadowChip,
+                    this.main.chipContainers[pos].skewX
+                );
                 this.main.chipContainers[pos].addChild(chipStack);
                 place.syncBetValue();
                 place.updateDisplayScore(true);
-
             });
 
-            this.main.handPlaces.forEach(place => place.enablePlaceChip(false));
+            this.main.handPlaces.forEach((place) => place.enablePlaceChip(false));
             this.main.updateTotalBetLabel();
             this.main.switchToNextHand();
         }

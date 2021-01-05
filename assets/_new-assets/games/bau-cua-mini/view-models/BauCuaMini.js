@@ -713,7 +713,7 @@ cc.Class({
     resetGame: function () {
         var data = Object.keys(cc.RedT.setting.baucua.data);
         data.forEach(function (key) {
-            return (cc.RedT.setting.baucua.data[key] = 0);
+            return (cc.RedT.setting.baucua.data[key] === 0);
         });
         this.DataHandling(cc.RedT.setting.baucua.data);
 

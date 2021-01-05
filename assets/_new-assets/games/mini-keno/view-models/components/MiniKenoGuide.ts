@@ -69,27 +69,26 @@ export default class MiniKenoGuide extends cc.Component {
 
         switch (this.gameName) {
             case this.kenoProVietGameName:
-                this.kenoProVietReplaceNodes.forEach((label) => {
-                    Object.keys(replaceData).forEach((key) => {
-                        label.string = label.string.replace(key, replaceData[key]);
-                    });
-                });
+                this.setLabelString(this.kenoProVietReplaceNodes, replaceData);
+
                 break;
             case this.kenoMaxGameName:
-                this.kenoMaxReplaceNodes.forEach((label) => {
-                    Object.keys(replaceData).forEach((key) => {
-                        label.string = label.string.replace(key, replaceData[key]);
-                    });
-                });
+                this.setLabelString(this.kenoMaxReplaceNodes, replaceData);
+
                 break;
             case this.kenoMiniGameName:
-                this.kenoMiniReplaceNodes.forEach((label) => {
-                    Object.keys(replaceData).forEach((key) => {
-                        label.string = label.string.replace(key, replaceData[key]);
-                    });
-                });
+                this.setLabelString(this.kenoMiniReplaceNodes, replaceData);
+
                 break;
         }
+    }
+
+    setLabelString(nodeLabel: any, replaceData: any) {
+        nodeLabel.forEach((label) => {
+            Object.keys(replaceData).forEach((key) => {
+                label.string = label.string.replace(key, replaceData[key]);
+            });
+        });
     }
 
     isMainGameGuide(gameName) {

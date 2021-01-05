@@ -50,7 +50,9 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     resetTime(): void {
-        this.main.animatedTime && (this.main.animatedTime.node.active = false);
+        if (this.main.animatedTime) {
+            this.main.animatedTime.node.active = false;
+        }
         this.main.currentTimeRemaining = this.main.config.fullTime;
         this.playTime();
     }
@@ -100,7 +102,10 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             this.main.finishShowResult && this.showWaitTime();
         }
 
-        this.main.animatedTime && (this.main.animatedTime.node.active = false);
+        if (this.main.animatedTime) {
+            this.main.animatedTime.node.active = false;
+        }
+
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId - 1);
     }
@@ -128,7 +133,9 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     showRoundTime() {
-        this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
+        if (this.main.timeWaitNode) {
+            this.main.timeWaitNode.active = false;
+        }
         const time = this.formatTime(this.main.currentTimeRemaining);
         this.main.animatedTime && this.main.animatedTime.setTime(time);
     }
@@ -137,8 +144,13 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
     handleInEndTime() {
         this.main.setGameRound(this.main.roundId);
-        this.main.timeWaitNode && (this.main.timeWaitNode.active = false);
-        this.main.animatedTime && (this.main.animatedTime.node.active = false);
+        if (this.main.timeWaitNode) {
+            this.main.timeWaitNode.active = false;
+        }
+
+        if (this.main.animatedTime) {
+            this.main.animatedTime.node.active = false;
+        }
         clearInterval(this.playTimeInterval);
     }
 
