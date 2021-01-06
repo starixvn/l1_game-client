@@ -81,6 +81,7 @@ export default class SedieHistory extends cc.Component {
                 }
 
                 Object.keys(settlementResult).forEach((choice) => {
+                    debugger;
                     item[choice].string = numberWithCommas(betLog[choice]);
                     if (settlementResult[choice]) {
                         item[choice].node.color = cc.Color.YELLOW;

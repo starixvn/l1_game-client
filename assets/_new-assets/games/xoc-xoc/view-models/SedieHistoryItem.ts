@@ -24,6 +24,9 @@ export default class SedieHistoryItem extends cc.Component {
     even: cc.Label = null;
 
     @property(cc.Label)
+    red2: cc.Label = null;
+
+    @property(cc.Label)
     red3: cc.Label = null;
 
     @property(cc.Label)
