@@ -96,7 +96,7 @@ cc.Class({
             this.nextRealTime();
         }
         if (cc.RedT.IS_LOGIN) {
-            this.DataHandling(cc.RedT.setting.baucua.data);
+            this.dataHandling(cc.RedT.setting.baucua.data);
             if (this.red !== cc.RedT.setting.baucua.red) {
                 this.changerCoint();
             }
@@ -308,11 +308,11 @@ cc.Class({
         this.red = !this.red;
         this.nodeRed.active = !this.nodeRed.active;
         this.nodeXu.active = !this.nodeXu.active;
-        cc.RedT.setting.baucua.regOpen && this.DataHandling(cc.RedT.setting.baucua.data);
+        cc.RedT.setting.baucua.regOpen && this.dataHandling(cc.RedT.setting.baucua.data);
         cc.RedT.setting.baucua.red = this.red;
     },
 
-    showResulSlots: function (dices) {
+    showResultSlots: function (dices) {
         this.showWinSlot(dices);
         var heSo = {};
         for (var i = 0; i < 3; i++) {
@@ -460,18 +460,25 @@ cc.Class({
         }
 
         if (void 0 !== data.um) {
-            if (data && data.um_message) {
-                this.umWarningMessage.string = data.um_message;
-            }
-            this.disabled = true;
-            if (!this.timeInterval || cc.RedT.setting.baucua.time_remain === BCConstants.betTime) {
-                this.timeInterval && clearInterval(this.timeInterval);
-                this.clearCuocAllSlot();
-                this.showUMWarning(this.disabled);
-            }
+            this.handleDataUM(data);
             return;
         }
 
+        this.handleDataWithoutUndefined(data);
+        this.checkDataFinishWithoutUndefined(data);
+    },
+    handleDataUM: function (data) {
+        if (data && data.um_message) {
+            this.umWarningMessage.string = data.um_message;
+        }
+        this.disabled = true;
+        if (!this.timeInterval || cc.RedT.setting.baucua.time_remain === BCConstants.betTime) {
+            this.timeInterval && clearInterval(this.timeInterval);
+            this.clearCuocAllSlot();
+            this.showUMWarning(this.disabled);
+        }
+    },
+    handleDataWithoutUndefined: function (data) {
         if (void 0 !== data.odds) {
             cc.RedT.setting.baucua.odds = data.odds;
             this.updateOddLabels();
@@ -487,7 +494,7 @@ cc.Class({
         }
 
         if (void 0 !== data.data) {
-            this.DataHandling(data.data);
+            this.dataHandling(data.data);
         }
         if (void 0 !== data.status) {
             this.status(data.status);
@@ -511,6 +518,12 @@ cc.Class({
             this.showUMWarning(false);
             this.playTime();
         }
+
+        if (void 0 !== data.notice) {
+            this.addNotice(data.notice);
+        }
+    },
+    checkDataFinishWithoutUndefined: function (data) {
         if (void 0 !== data.finish) {
             if (cc.RedT.setting.baucua.regOpen) {
                 this.unSelect();
@@ -539,9 +552,6 @@ cc.Class({
             this.localPhien = data.finish.phien + 1;
 
             this.getNewOdds();
-        }
-        if (void 0 !== data.notice) {
-            this.addNotice(data.notice);
         }
     },
     getNewOdds: function () {
@@ -595,24 +605,12 @@ cc.Class({
             this.showUMWarning(this.disabled);
             return;
         }
+
         void 0 !== this.timeInterval && clearInterval(this.timeInterval);
         this.timeInterval = setInterval(
             function () {
                 if (cc.RedT.setting.baucua.time_remain > BCConstants.betTime + 1) {
-                    this.waitingCuoc = false;
-                    //count down to next round
-                    const time = helper.numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
-                    this.animatedTime.node.active = false;
-                    this.waitedTime.string = time === "00" ? "" : `00:${time}`;
-                    this.waitedTime.node.parent.active = time !== "00";
-
-                    this.localPhien !== "" && this.setPhien(this.localPhien - 1);
-
-                    if (this.localResultDices.length > 0) {
-                        var dices = this.localResultDices;
-                        this.setDice(dices);
-                        this.showResulSlots(dices);
-                    }
+                    this.handleCountDownNextRound();
                 } else {
                     this.localResultDices = [];
                     this.waitedTime.node.parent.active = false;
@@ -621,14 +619,8 @@ cc.Class({
                     this.resetStateAllSlot();
                     this.hideAllDices();
 
-                    if (cc.RedT.setting.baucua.regOpen && cc.RedT.setting.baucua.time_remain === BCConstants.betTime + 1) {
-                        this.resetGame();
-                        if (this.disabled) {
-                            this.animatedTime.node.active = false;
-                            this.showUMWarning(this.disabled);
-                            clearInterval(this.timeInterval);
-                            return;
-                        }
+                    if (this.handleIsReopenGame()) {
+                        return;
                     }
 
                     if (cc.RedT.setting.baucua.time_remain > 1) {
@@ -644,6 +636,34 @@ cc.Class({
             }.bind(this),
             1000
         );
+    },
+    handleIsReopenGame: function () {
+        if (cc.RedT.setting.baucua.regOpen && cc.RedT.setting.baucua.time_remain === BCConstants.betTime + 1) {
+            this.resetGame();
+            if (this.disabled) {
+                this.animatedTime.node.active = false;
+                this.showUMWarning(this.disabled);
+                clearInterval(this.timeInterval);
+                return true;
+            }
+        }
+
+        return false;
+    },
+    handleCountDownNextRound: function () {
+        this.waitingCuoc = false;
+        const time = helper.numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
+        this.animatedTime.node.active = false;
+        this.waitedTime.string = time === "00" ? "" : `00:${time}`;
+        this.waitedTime.node.parent.active = time !== "00";
+
+        this.localPhien !== "" && this.setPhien(this.localPhien - 1);
+
+        if (this.localResultDices.length > 0) {
+            var dices = this.localResultDices;
+            this.setDice(dices);
+            this.showResultSlots(dices);
+        }
     },
     nextRealTime: function () {
         if (cc.RedT.setting.baucua.time_remain > BCConstants.betTime + 1) {
@@ -664,45 +684,50 @@ cc.Class({
         this.logCua.string = helper.numberWithCommas(data[4]);
         this.logTom.string = helper.numberWithCommas(data[5]);
     },
-    DataHandling: function (data) {
+    dataHandling: function (data) {
         if (this.red && this.linhVat) {
-            if (void 0 !== data.redHuou) {
-                this.linhVat[0].totallCuoc(data.redHuou);
-            }
-            if (void 0 !== data.redBau) {
-                this.linhVat[1].totallCuoc(data.redBau);
-            }
-            if (void 0 !== data.redGa) {
-                this.linhVat[2].totallCuoc(data.redGa);
-            }
-            if (void 0 !== data.redCa) {
-                this.linhVat[3].totallCuoc(data.redCa);
-            }
-            if (void 0 !== data.redCua) {
-                this.linhVat[4].totallCuoc(data.redCua);
-            }
-            if (void 0 !== data.redTom) {
-                this.linhVat[5].totallCuoc(data.redTom);
-            }
-
-            if (void 0 !== data.meRedHuou) {
-                this.linhVat[0].meCuoc(data.meRedHuou);
-            }
-            if (void 0 !== data.meRedBau) {
-                this.linhVat[1].meCuoc(data.meRedBau);
-            }
-            if (void 0 !== data.meRedGa) {
-                this.linhVat[2].meCuoc(data.meRedGa);
-            }
-            if (void 0 !== data.meRedCa) {
-                this.linhVat[3].meCuoc(data.meRedCa);
-            }
-            if (void 0 !== data.meRedCua) {
-                this.linhVat[4].meCuoc(data.meRedCua);
-            }
-            if (void 0 !== data.meRedTom) {
-                this.linhVat[5].meCuoc(data.meRedTom);
-            }
+            this.handleTotalBet(data);
+            this.handleTotalBetOfMe(data);
+        }
+    },
+    handleTotalBet: function (data) {
+        if (void 0 !== data.redHuou) {
+            this.linhVat[0].totallCuoc(data.redHuou);
+        }
+        if (void 0 !== data.redBau) {
+            this.linhVat[1].totallCuoc(data.redBau);
+        }
+        if (void 0 !== data.redGa) {
+            this.linhVat[2].totallCuoc(data.redGa);
+        }
+        if (void 0 !== data.redCa) {
+            this.linhVat[3].totallCuoc(data.redCa);
+        }
+        if (void 0 !== data.redCua) {
+            this.linhVat[4].totallCuoc(data.redCua);
+        }
+        if (void 0 !== data.redTom) {
+            this.linhVat[5].totallCuoc(data.redTom);
+        }
+    },
+    handleTotalBetOfMe: function (data) {
+        if (void 0 !== data.meRedHuou) {
+            this.linhVat[0].meCuoc(data.meRedHuou);
+        }
+        if (void 0 !== data.meRedBau) {
+            this.linhVat[1].meCuoc(data.meRedBau);
+        }
+        if (void 0 !== data.meRedGa) {
+            this.linhVat[2].meCuoc(data.meRedGa);
+        }
+        if (void 0 !== data.meRedCa) {
+            this.linhVat[3].meCuoc(data.meRedCa);
+        }
+        if (void 0 !== data.meRedCua) {
+            this.linhVat[4].meCuoc(data.meRedCua);
+        }
+        if (void 0 !== data.meRedTom) {
+            this.linhVat[5].meCuoc(data.meRedTom);
         }
     },
     unSelect: function () {
@@ -713,9 +738,9 @@ cc.Class({
     resetGame: function () {
         var data = Object.keys(cc.RedT.setting.baucua.data);
         data.forEach(function (key) {
-            return (cc.RedT.setting.baucua.data[key] === 0);
+            return cc.RedT.setting.baucua.data[key] === 0;
         });
-        this.DataHandling(cc.RedT.setting.baucua.data);
+        this.dataHandling(cc.RedT.setting.baucua.data);
 
         this.unSelect();
 
