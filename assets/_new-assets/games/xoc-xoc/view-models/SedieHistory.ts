@@ -1,6 +1,6 @@
-import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
-import PaginationCommon from "./../../../common/helpers/Pagination/PaginationCommon";
-import SedieHistoryItem from "./SedieHistoryItem";
+import { getStringDateByTime, numberWithCommas } from './../../../common/helpers/Helper';
+import PaginationCommon from './../../../common/helpers/Pagination/PaginationCommon';
+import SedieHistoryItem from './SedieHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -81,7 +81,6 @@ export default class SedieHistory extends cc.Component {
                 }
 
                 Object.keys(settlementResult).forEach((choice) => {
-                    debugger;
                     item[choice].string = numberWithCommas(betLog[choice]);
                     if (settlementResult[choice]) {
                         item[choice].node.color = cc.Color.YELLOW;
