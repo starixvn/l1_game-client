@@ -1,18 +1,17 @@
 import { numberWithCommas } from "../../../common/helpers/Helper";
 import SedieGuide from "../../xoc-xoc/view-models/SedieGuide";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class VipSedieGuide extends SedieGuide {
-    createReplaceData() {
-        const replaceData = super.createReplaceData();
+    createReplaceData(configs) {
+        const replaceData = super.createReplaceData(configs);
 
-        const odds = this.configs.odds;
-        const choiceMaxBet = this.configs.choices_maxbet;
+        const { odds, choices_maxbet } = configs;
 
         replaceData["_oddsRed2"] = odds.red2;
-        replaceData["_maxBetRed2"] = numberWithCommas(choiceMaxBet.red2);
+        replaceData["_maxBetRed2"] = numberWithCommas(choices_maxbet.red2);
 
         return replaceData;
     }
