@@ -245,28 +245,23 @@ export default class BlackJack extends NewSocketGameBase {
                     this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
                     return;
                 }
+
                 handPlace.showBetText(false);
                 if (!this.priorityHands.includes(index)) {
                     this.priorityHands.push(index);
                 }
                 this.dealButton.getComponent(FadeEffectButton).setActive();
                 this.clearButton.getComponent(FadeEffectButton).setActive();
+                handPlace.addBetAmount(this.currentBet);
 
                 const chipNode = BlackJackUtils.createChip(this.currentBet, this.betChips.chipAltas);
                 const destNode = this.chipContainers[index];
-                handPlace.addBetAmount(this.currentBet);
-
                 const startNode = this.betChips.getChipNode(this.currentBet);
                 chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v2(0, 0)));
                 destNode.addChild(chipNode);
 
                 let destPosition = cc.v2(0, 0);
-                if (destNode.childrenCount > 0) {
-                    const stack = destNode.children[0].getComponent(ChipStack);
-                    if (stack) {
-                        destPosition = cc.v2(0, stack.getCurrentHeight());
-                    }
-                }
+                destPosition = this.handleDestPosition(destNode, destPosition);
 
                 chipNode.runAction(
                     cc.sequence(
@@ -300,6 +295,17 @@ export default class BlackJack extends NewSocketGameBase {
                 checkExistChip && this.checkExistChipOnTable();
             };
         });
+    }
+
+    handleDestPosition(destNode: any, destPosition: any) {
+        if (destNode.childrenCount > 0) {
+            const stack = destNode.children[0].getComponent(ChipStack);
+            if (stack) {
+                destPosition = cc.v2(0, stack.getCurrentHeight());
+            }
+        }
+
+        return destPosition;
     }
 
     checkExistChipOnTable() {

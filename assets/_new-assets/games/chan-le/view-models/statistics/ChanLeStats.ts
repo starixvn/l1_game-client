@@ -2,6 +2,10 @@ import TabMenu from "../../../../common/tab-menu/TabMenu";
 import ChanLe from "../ChanLe";
 
 const { ccclass, property } = cc._decorator;
+type TotalType = {
+    left: number;
+    right: number;
+};
 
 @ccclass
 export default class ChanLeStats extends cc.Component {
@@ -175,10 +179,12 @@ export default class ChanLeStats extends cc.Component {
     }
 
     drawStatistics() {
-        var logs = this.root.main.dataLogs;
-        this.drawDiceCharts(logs);
-        this.drawResult(logs);
-        this.drawPoints(logs);
+        if (this.root.main) {
+            const logs = this.root.main.dataLogs;
+            this.drawDiceCharts(logs);
+            this.drawResult(logs);
+            this.drawPoints(logs);
+        }
     }
 
     private initStats() {
@@ -286,15 +292,34 @@ export default class ChanLeStats extends cc.Component {
     }
 
     private drawPoints(logs: any) {
-        var currentType = -1;
         var pointsData = [];
-        var pointsDataOfType = [];
-        var totalLeft = 0;
-        var totalRight = 0;
+        let totalType: TotalType = {
+            left: 0,
+            right: 0
+        };
+
         // Diem So
+        pointsData = this.handlePointsData(logs, pointsData);
+        var slicedPointsData = [...pointsData].reverse().slice(0, 20).reverse();
+
+        this.currentPointCells.forEach((pointCell, index) => {
+            var pointsDataOfType = slicedPointsData[index];
+            if (pointsDataOfType) {
+                pointCell.active = true;
+                totalType = this.handleTotalType(pointCell, pointsDataOfType);
+            } else {
+                pointCell.active = false;
+            }
+        });
+        this.totalPointsLeft.string = totalType.left.toString();
+        this.totalPointsRight.string = totalType.right.toString();
+    }
+
+    handlePointsData(logs: any, pointsData: any) {
+        var pointsDataOfType = [];
+        var currentType = -1;
         var pointLogs = logs.slice();
         pointLogs.reverse();
-
         for (var pointLog of pointLogs) {
             var point = pointLog.dice[0] + pointLog.dice[1] + pointLog.dice[2];
             var type = point % 2 ? 0 : 1;
@@ -311,36 +336,31 @@ export default class ChanLeStats extends cc.Component {
             }
         }
         pointsData.push(pointsDataOfType);
-        var slicedPointsData = [...pointsData].reverse().slice(0, 20).reverse();
 
-        this.currentPointCells.forEach(function (pointCell, index) {
-            var pointsDataOfType = slicedPointsData[index];
-            if (pointsDataOfType) {
-                pointCell.active = true;
-                return Promise.all(
-                    pointCell.dots.map(function (dot, index) {
-                        const pointsData = pointsDataOfType[index];
-                        if (pointsData) {
-                            dot.active = true;
-                            dot.dotText.string = pointsData;
-                            var isOdd = pointsData % 2 ? false : true;
-                            totalLeft = isOdd ? totalLeft + 1 : totalLeft;
-                            totalRight = !isOdd ? totalRight + 1 : totalRight;
-                            dot.color = isOdd ? cc.Color.BLACK : cc.Color.WHITE;
-                            dot.dotText.node.color = isOdd ? cc.Color.WHITE : cc.Color.BLACK;
-                        } else {
-                            dot.active = false;
-                        }
-                        return void 0;
-                    })
-                );
+        return pointsData;
+    }
+
+    handleTotalType(pointCell: any, pointsDataOfType: any): TotalType {
+        const totalType = {
+            left: 0,
+            right: 0
+        };
+        pointCell.dots.forEach((dot: any, index: number) => {
+            const pointsData = pointsDataOfType[index];
+            if (pointsData) {
+                dot.active = true;
+                dot.dotText.string = pointsData;
+                var isOdd = pointsData % 2 ? false : true;
+                totalType.left = isOdd ? totalType.left + 1 : totalType.left;
+                totalType.right = !isOdd ? totalType.right + 1 : totalType.right;
+                dot.color = isOdd ? cc.Color.BLACK : cc.Color.WHITE;
+                dot.dotText.node.color = isOdd ? cc.Color.WHITE : cc.Color.BLACK;
             } else {
-                pointCell.active = false;
+                dot.active = false;
             }
-            return void 0;
         });
-        this.totalPointsLeft.string = totalLeft.toString();
-        this.totalPointsRight.string = totalRight.toString();
+
+        return totalType;
     }
 
     private drawDiceLine(line: cc.Graphics, dots: Dot[], data: any) {

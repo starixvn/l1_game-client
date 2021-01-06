@@ -5,7 +5,6 @@ import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
-
 export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: BlackJack) {
         super(main);
@@ -71,7 +70,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         }
     }
 
-    drawMoreCardForDealer(cards: CardModel[], complete = () => { }) {
+    drawMoreCardForDealer(cards: CardModel[], complete = () => {}) {
         if (cards.length === 2) {
             complete();
             return;
@@ -85,12 +84,14 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                         this.main.dealerHand.showScoreWithOutData(cards, index + 3, false);
                     });
                 });
-            })
+            });
         }
         let count = 0;
         cc.tween(this.main)
-            .repeat(actions.length,
-                cc.tween()
+            .repeat(
+                actions.length,
+                cc
+                    .tween()
                     .call(() => {
                         actions[count]();
                         count++;
@@ -108,7 +109,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
         this.main.handPlaces.forEach((place, index) => {
             if (place.isActive) {
-                const hand = winningHands.find(hand => hand.id === place.idValue);
+                const hand = winningHands.find((hand) => hand.id === place.idValue);
                 const betAmount = place.getBetAmount();
                 totalBet += betAmount;
                 if (hand) {
@@ -117,49 +118,25 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                     place.setResult(hand.betwin);
 
                     if (+hand.betwin > betAmount) {
-                        const winAmount = +hand.betwin - betAmount;
-                        const options = [...this.main.chipOption, 0.5];
-                        const destNode = this.main.chipContainers[index];
-                        const chipStack = BlackJackUtils.createChipStack(winAmount, this.main.betChips.chipAltas, options, this.main.shadowChip, destNode.skewX);
-                        destNode.addChild(chipStack);
-                        const startPos = chipStack.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
-                        chipStack.position = startPos;
-
-                        let destPosition = cc.v2(0, 0);
-                        if (destNode.childrenCount > 0) {
-                            const stack = destNode.children[0].getComponent(ChipStack);
-                            if (stack) {
-                                destPosition = cc.v2(0, stack.getCurrentHeight());
-                            }
-                        }
-                        chipStack.scale = 0.5;
-                        chipStack.runAction(cc.sequence(
-                            cc.spawn(cc.jumpTo(0.8, destPosition, 100, 1),
-                                cc.scaleTo(0.8, 1)),
-                            cc.delayTime(0.1),
-                            cc.callFunc(() => {
-                                destNode.destroyAllChildren();
-                                const chipStack = BlackJackUtils.createChipStack(+hand.betwin, this.main.betChips.chipAltas, options, this.main.shadowChip, destNode.skewX);
-                                destNode.addChild(chipStack);
-                            })
-                        ))
+                        this.handleHandAction(hand, betAmount, index);
                     }
                 } else {
                     const chip = this.main.chipContainers[index].children[0];
                     this.main.handPlaces[index].showBetValue(false);
                     const destPos = chip.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
-                    chip.runAction(cc.sequence(
-                        cc.spawn(cc.jumpTo(0.8, destPos, 100, 1),
-                            cc.scaleTo(0.8, 0.5)),
-                        cc.delayTime(0.1),
-                        cc.fadeOut(0.3),
-                        cc.callFunc(() => {
-                            chip.destroy();
-                        })
-                    ))
+                    chip.runAction(
+                        cc.sequence(
+                            cc.spawn(cc.jumpTo(0.8, destPos, 100, 1), cc.scaleTo(0.8, 0.5)),
+                            cc.delayTime(0.1),
+                            cc.fadeOut(0.3),
+                            cc.callFunc(() => {
+                                chip.destroy();
+                            })
+                        )
+                    );
                 }
             }
-        })
+        });
 
         totalWin > 0 && this.main.showWinningBet(totalWin);
         if (totalWin > totalBet) {
@@ -170,5 +147,46 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                 updateCoin: true
             }
         });
+    }
+    handleHandAction(hand: any, betAmount: any, index: number) {
+        const winAmount = +hand.betwin - betAmount;
+        const options = [...this.main.chipOption, 0.5];
+        const destNode = this.main.chipContainers[index];
+        const chipStack = BlackJackUtils.createChipStack(
+            winAmount,
+            this.main.betChips.chipAltas,
+            options,
+            this.main.shadowChip,
+            destNode.skewX
+        );
+        destNode.addChild(chipStack);
+        const startPos = chipStack.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
+        chipStack.position = startPos;
+
+        let destPosition = cc.v2(0, 0);
+        if (destNode.childrenCount > 0) {
+            const stack = destNode.children[0].getComponent(ChipStack);
+            if (stack) {
+                destPosition = cc.v2(0, stack.getCurrentHeight());
+            }
+        }
+        chipStack.scale = 0.5;
+        chipStack.runAction(
+            cc.sequence(
+                cc.spawn(cc.jumpTo(0.8, destPosition, 100, 1), cc.scaleTo(0.8, 1)),
+                cc.delayTime(0.1),
+                cc.callFunc(() => {
+                    destNode.destroyAllChildren();
+                    const chipStack = BlackJackUtils.createChipStack(
+                        +hand.betwin,
+                        this.main.betChips.chipAltas,
+                        options,
+                        this.main.shadowChip,
+                        destNode.skewX
+                    );
+                    destNode.addChild(chipStack);
+                })
+            )
+        );
     }
 }
