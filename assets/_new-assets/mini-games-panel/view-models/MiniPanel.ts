@@ -153,7 +153,7 @@ export default class MiniPanel extends cc.Component {
 
     onForceReload(showNotice = true) {
         const forceReload = () => {
-            window.location.reload(true);
+            location.reload();
         };
 
         if (showNotice) {

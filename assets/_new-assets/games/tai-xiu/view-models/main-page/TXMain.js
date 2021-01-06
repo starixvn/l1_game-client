@@ -786,16 +786,15 @@ cc.Class({
     },
     updateTXStats() {
         var self = this;
-        var line_dice1 = [];
-        var line_dice2 = [];
-        var line_dice3 = [];
-        var line_tong = [];
-
-        var tmp_DS = -1;
-        var tmp_arrA = [];
-        var tmp_arrB = [];
-        var c_tai = 0;
-        var c_xiu = 0;
+        var lineDice1 = [];
+        var lineDice2 = [];
+        var lineDice3 = [];
+        var lineTong = [];
+        var tmpDS = -1;
+        var tmpArrA = [];
+        var tmpArrB = [];
+        var cTai = 0;
+        var cXiu = 0;
 
         var sliced = cc.RedT.setting.taixiu.logs.slice(0, 19);
         sliced.reverse();
@@ -810,22 +809,22 @@ cc.Class({
                     var dice3 = sliced[i].dice[2];
                     var tong = dice1 + dice2 + dice3;
 
-                    line_dice1[i] = {
+                    lineDice1[i] = {
                         x: i * 28,
                         y: dice1 * 28 - 28,
                         dice: dice1
                     };
-                    line_dice2[i] = {
+                    lineDice2[i] = {
                         x: i * 28,
                         y: dice2 * 28 - 28,
                         dice: dice2
                     };
-                    line_dice3[i] = {
+                    lineDice3[i] = {
                         x: i * 28,
                         y: dice3 * 28 - 28,
                         dice: dice3
                     };
-                    line_tong[i] = {
+                    lineTong[i] = {
                         x: i * 27.7,
                         y: tong * 9.233 - 27.7,
                         tong: tong
@@ -834,10 +833,10 @@ cc.Class({
                     self.TXRoot.TXStats.lineAc(i, false);
                 }
             }
-            self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice1_line, self.TXRoot.TXStats.dice1_dots, line_dice1);
-            self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice2_line, self.TXRoot.TXStats.dice2_dots, line_dice2);
-            self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice3_line, self.TXRoot.TXStats.dice3_dots, line_dice3);
-            self.TXRoot.TXStats.draw_Tong(self.TXRoot.TXStats.tong_line, line_tong);
+            self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice1_line, self.TXRoot.TXStats.dice1_dots, lineDice1);
+            self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice2_line, self.TXRoot.TXStats.dice2_dots, lineDice2);
+            self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice3_line, self.TXRoot.TXStats.dice3_dots, lineDice3);
+            self.TXRoot.TXStats.draw_Tong(self.TXRoot.TXStats.tong_line, lineTong);
         });
 
         // Ket Qua
@@ -860,21 +859,21 @@ cc.Class({
         for (var newDS of newArr) {
             var point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
             const type = point > 10 ? 1 : 0;
-            if (tmp_DS === -1) {
-                tmp_DS = type;
+            if (tmpDS === -1) {
+                tmpDS = type;
             }
-            if (type !== tmp_DS || tmp_arrB.length > 4) {
-                tmp_DS = type;
-                tmp_arrA.push(tmp_arrB);
-                tmp_arrB = [];
+            if (type !== tmpDS || tmpArrB.length > 4) {
+                tmpDS = type;
+                tmpArrA.push(tmpArrB);
+                tmpArrB = [];
             }
-            if (type === tmp_DS) {
-                tmp_arrB.push(point);
+            if (type === tmpDS) {
+                tmpArrB.push(point);
             }
         }
-        tmp_arrA.push(tmp_arrB);
+        tmpArrA.push(tmpArrB);
 
-        var newData = tmp_arrA;
+        var newData = tmpArrA;
         newData.reverse();
         newData = newData.slice(0, 20);
         newData.reverse();
@@ -887,14 +886,14 @@ cc.Class({
                 obj.active = true;
                 return Promise.all(
                     obj.RedT.map(function (current, index) {
-                        var data_Cel = data[index];
-                        if (void 0 !== data_Cel) {
-                            const type = data_Cel > 10 ? true : false;
-                            c_tai = type ? c_tai + 1 : c_tai;
-                            c_xiu = !type ? c_xiu + 1 : c_xiu;
+                        var dataCel = data[index];
+                        if (void 0 !== dataCel) {
+                            const type = dataCel > 10 ? true : false;
+                            cTai = type ? cTai + 1 : cTai;
+                            cXiu = !type ? cXiu + 1 : cXiu;
                             current.active = true;
                             current.color = type ? cc.Color.BLACK : cc.Color.WHITE;
-                            current.text.string = data_Cel;
+                            current.text.string = dataCel;
                             current.text.node.color = type ? cc.Color.WHITE : cc.Color.BLACK;
                         } else {
                             current.active = false;
@@ -908,8 +907,8 @@ cc.Class({
             return void 0;
         });
 
-        self.TXRoot.TXStats.DiemSoLeft.string = c_tai;
-        self.TXRoot.TXStats.DiemSoRight.string = c_xiu;
+        self.TXRoot.TXStats.DiemSoLeft.string = cTai;
+        self.TXRoot.TXStats.DiemSoRight.string = cXiu;
     },
     resetUI: function () {
         this.efStop();
@@ -943,7 +942,6 @@ cc.Class({
         this.gameAudios && this.gameAudios.playStartGameAudio();
     },
     setDefautl: function () {
-        // TODO: cc.RedT.setting.taixiu.getLogs = this.nodeTimePopup.active = false;
         void 0 !== this.timeInterval && clearInterval(this.timeInterval);
     },
     status: function (data) {

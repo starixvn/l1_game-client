@@ -9,7 +9,7 @@ import VipFishPrawnCrabLogsHandler from "./handlers/VipFishPrawnCrabLogsHandler"
 import VipFishPrawnCrabTimeHandler from "./handlers/VipFishPrawnCrabTimeHandler";
 import VipFishPrawnCrabBetItem from "./VipFishPrawnCrabBetItem";
 import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
-import constants from "./VipFishPrawnCrabConstants";
+import vipFishPrawnCrabConstants from "./VipFishPrawnCrabConstants";
 import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
 import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
 import VipFishPrawnCrabOddItem from "./VipFishPrawnCrabOddItem";
@@ -77,8 +77,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
 
     private statsComponent: VipFishPrawnCrabStats;
     private historyComponent: VipFishPrawnCrabHistory;
-
-    public finishShakeThePlate: boolean = false;
+    public finishShakeThePlate = false;
 
     constructor() {
         super();
@@ -141,8 +140,8 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
                 const choice = betItem.node.name;
                 betItem.setHighlight(settlementResult[choice], true);
 
-                if (_.keys(constants.resultMapper).indexOf(choice) >= 0) {
-                    const xValue = _.values(result).filter((value) => value === constants.resultMapper[choice]).length;
+                if (_.keys(vipFishPrawnCrabConstants.resultMapper).indexOf(choice) >= 0) {
+                    const xValue = _.values(result).filter((value) => value === vipFishPrawnCrabConstants.resultMapper[choice]).length;
                     if (xValue > 1) {
                         betItem.setXSpriteFrame(xValue === 2 ? this.x2SpriteFrame : this.x3SpriteFrame);
                     }
@@ -204,8 +203,8 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
             this.betItems.forEach((betItem: VipFishPrawnCrabBetItem) => {
                 const choice = betItem.node.name;
                 betItem.setHighlight(dataLog.settlementResult[choice], false);
-                if (_.keys(constants.resultMapper).indexOf(choice) >= 0) {
-                    const xValue = _.values(dataLog.result).filter((value) => value === constants.resultMapper[choice]).length;
+                if (_.keys(vipFishPrawnCrabConstants.resultMapper).indexOf(choice) >= 0) {
+                    const xValue = _.values(dataLog.result).filter((value) => value === vipFishPrawnCrabConstants.resultMapper[choice]).length;
                     if (xValue > 1) {
                         betItem.setXSpriteFrame(xValue === 2 ? this.x2LastSpriteFrame : this.x3LastSpriteFrame);
                     }
