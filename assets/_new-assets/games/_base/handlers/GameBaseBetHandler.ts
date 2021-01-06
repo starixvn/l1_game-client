@@ -21,40 +21,11 @@ export default class GameBaseBetHandler implements DataHandler {
             }
 
             if (data.endBet) {
-                data.endBet !== -1 && this.main.showAcceptedBet(data.endBet); //endCuoc -1 is error
+                data.endBet !== -1 && this.main.showAcceptedBet(data.endBet);
                 this.main.showProcessingWarning(false);
             }
 
-            const mainRoomGame = this.main as GameRoomBase;
-
-            if (mainRoomGame && mainRoomGame.enablePlaceChips) {
-                if (data.ownChip) {
-                    this.placeOwnChip(data.ownChip);
-                }
-
-                if (data.playerChip) {
-                    this.playerChips.push(data.playerChip);
-
-                    let delayTime = 0;
-
-                    if (this.main.currentTimeRemaining >= this.main.config.stopBetTime + 2) {
-                        delayTime = this.playerChips.length * 0.07;
-                    } else {
-                        delayTime = this.playerChips.length * 0.01;
-                    }
-
-                    this.main.node.runAction(
-                        cc.sequence(
-                            cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
-                            cc.callFunc(() => this.placePlayerChip(data.playerChip))
-                        )
-                    );
-                }
-
-                if (data.chips && data.remainingTime < mainRoomGame.config.betTime) {
-                    this.placeTotalChips(data.chips);
-                }
-            }
+            this.handleChipInMainRoom(data);
 
             return true;
         }
@@ -62,7 +33,44 @@ export default class GameBaseBetHandler implements DataHandler {
         return false;
     }
 
-    placeOwnChip(data) {
+    handleChipInMainRoom(data) {
+        const mainRoomGame = this.main as GameRoomBase;
+        if (mainRoomGame && mainRoomGame.enablePlaceChips) {
+            if (data.ownChip) {
+                this.placeOwnChip(data.ownChip);
+            }
+
+            if (data.playerChip) {
+                this.handlePlayerChipAction(data);
+            }
+
+            if (data.chips && data.remainingTime < mainRoomGame.config.betTime) {
+                this.placeTotalChips(data.chips);
+            }
+        }
+
+        return true;
+    }
+
+    handlePlayerChipAction(data: any) {
+        this.playerChips.push(data.playerChip);
+        let delayTime = 0;
+
+        if (this.main.currentTimeRemaining >= this.main.config.stopBetTime + 2) {
+            delayTime = this.playerChips.length * 0.07;
+        } else {
+            delayTime = this.playerChips.length * 0.01;
+        }
+
+        this.main.node.runAction(
+            cc.sequence(
+                cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
+                cc.callFunc(() => this.placePlayerChip(data.playerChip))
+            )
+        );
+    }
+
+    placeOwnChip(data: any) {
         const betOption = data.box.toLowerCase();
         const bet = data.bet;
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
@@ -70,7 +78,7 @@ export default class GameBaseBetHandler implements DataHandler {
         this.main.betChips.placeChipBet(bet, betItem.chipNode);
     }
 
-    placePlayerChip(data) {
+    placePlayerChip(data: any) {
         const gameRoomMain = this.main as GameRoomBase;
 
         if (gameRoomMain) {

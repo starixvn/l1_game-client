@@ -221,20 +221,11 @@ export default class RouletteBoard extends cc.Component {
             rowArr = [0, 1, 2];
         }
 
-        let selectNumbers = [];
-        colArr.forEach((colElement) => {
-            rowArr.forEach((rowElement) => {
-                const element = this.getNumber(colElement, rowElement);
-                if (element !== -1) {
-                    selectNumbers.push(element);
-                }
-            });
-        });
-
+        let selectNumbers = this.getSelectNumbersOnBetInfo(colArr, rowArr);
         selectNumbers = _.uniq([...selectNumbers].sort((a, b) => a - b));
-
         const count = selectNumbers.length;
         let type: RouletteBetType;
+
         switch (count) {
             case 6:
                 type = RouletteBetType.Line;
@@ -257,6 +248,20 @@ export default class RouletteBoard extends cc.Component {
             type: type,
             numbers: selectNumbers
         };
+    }
+
+    getSelectNumbersOnBetInfo(colArr: number[], rowArr: number[]) {
+        const selectNumbers = [];
+        colArr.forEach((colElement) => {
+            rowArr.forEach((rowElement) => {
+                const element = this.getNumber(colElement, rowElement);
+                if (element !== -1) {
+                    selectNumbers.push(element);
+                }
+            });
+        });
+
+        return selectNumbers;
     }
 
     getLocation(betNumber: number): cc.Vec2 {
