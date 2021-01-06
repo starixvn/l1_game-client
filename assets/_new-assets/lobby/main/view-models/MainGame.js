@@ -184,24 +184,7 @@ cc.Class({
         }
 
         if (void 0 !== data.user) {
-            this.loadUserData(data.user);
-            cc.RedT.userData(data.user);
-
-            try {
-                if (data.user.name) {
-                    if (this.loading) {
-                        this.loading.active = false;
-                    }
-                }
-            } catch (ex) {
-                console.log(ex);
-                const userAgent = window.navigator ? window.navigator.userAgent : "offline";
-                sentryLogger.logError(
-                    `Logged In User: ${data.user.name} at ${new Date()}\nInfo:\n${JSON.stringify(
-                        data.user
-                    )} \nBrowser:${userAgent}\nError:${ex}`
-                );
-            }
+            this.handleUserData(data.user);
         }
 
         if (void 0 !== data.Authorized) {
@@ -213,9 +196,7 @@ cc.Class({
         if (void 0 !== data.marqueeMsg && this.newsContents) {
             this.newsContents.onData(data.marqueeMsg);
         }
-        if (void 0 !== data.captcha) {
-            this.captcha(data.captcha);
-        }
+
         if (void 0 !== data.loading) {
             this.loading.onData(data.loading);
         }
@@ -223,29 +204,25 @@ cc.Class({
             this.loading.active = false;
         }
     },
-    captcha: function (data) {
-        switch (data.name) {
-            case "signUp":
-                this.dialog.signUp.initCaptcha(data.data);
-                break;
 
-            case "giftcode":
-                this.dialog.GiftCode.initCaptcha(data.data);
-                break;
+    handleUserData: function (user) {
+        this.loadUserData(user);
+        cc.RedT.userData(user);
 
-            case "forgotpass":
-                this.dialog.ForGotPass.initCaptcha(data.data);
-                break;
-
-            case "chargeCard":
-                this.dialog.shop.NapRed.initCaptcha(data.data);
-                break;
-
-            case "withdrawXu":
-                this.dialog.shop.TieuRed.MuaXu.initCaptcha(data.data);
-                break;
+        try {
+            if (user.name) {
+                if (this.loading) {
+                    this.loading.active = false;
+                }
+            }
+        } catch (ex) {
+            const userAgent = window.navigator ? window.navigator.userAgent : "offline";
+            sentryLogger.logError(
+                `Logged In User: ${user.name} at ${new Date()}\nInfo:\n${JSON.stringify(user)} \nBrowser:${userAgent}\nError:${ex}`
+            );
         }
     },
+
     formatUserCurrency: function (red, currency) {
         let userCurrency = "";
         if (cc.RedT.user.currency) {
@@ -341,17 +318,5 @@ cc.Class({
     },
     audioUnClick: function () {
         cc.RedT.audio.playUnClick();
-    },
-    fanpage: function () {
-        cc.sys.openURL(`${this.url}/fanpage/`);
-    },
-    ios: function () {
-        cc.sys.openURL(`${this.url}/help/ios`);
-    },
-    android: function () {
-        cc.sys.openURL(`${this.url}/download/${this.appApk}`);
-    },
-    telegram: function () {
-        cc.sys.openURL(`${this.url}/telegram/`);
     }
 });

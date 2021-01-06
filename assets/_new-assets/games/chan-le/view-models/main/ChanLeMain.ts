@@ -326,27 +326,21 @@ export default class ChanLeMain extends cc.Component {
 
     setBetButtonFrame(isClick: boolean, select = "") {
         if (!select) {
-            this.betButtonSpriteRight.spriteFrame = isClick ? this.betButtonClickedImage : this.betButtonUnClickedImage;
-            this.betButtonSpriteLeft.spriteFrame = isClick ? this.betButtonClickedImage : this.betButtonUnClickedImage;
+            this.betButtonSpriteRight.spriteFrame = this.getBetButtonSpriteFrame(isClick);
+            this.betButtonSpriteLeft.spriteFrame = this.getBetButtonSpriteFrame(isClick);
         } else {
-            if (isClick) {
-                if (select === this.betChoice.right) {
-                    this.betButtonSpriteRight.spriteFrame = this.betButtonClickedImage;
-                }
+            if (select === this.betChoice.right) {
+                this.betButtonSpriteRight.spriteFrame = this.getBetButtonSpriteFrame(isClick);
+            }
 
-                if (select === this.betChoice.left) {
-                    this.betButtonSpriteLeft.spriteFrame = this.betButtonClickedImage;
-                }
-            } else {
-                if (select === this.betChoice.right) {
-                    this.betButtonSpriteRight.spriteFrame = this.betButtonUnClickedImage;
-                }
-
-                if (select === this.betChoice.left) {
-                    this.betButtonSpriteLeft.spriteFrame = this.betButtonUnClickedImage;
-                }
+            if (select === this.betChoice.left) {
+                this.betButtonSpriteLeft.spriteFrame = this.getBetButtonSpriteFrame(isClick);
             }
         }
+    }
+
+    getBetButtonSpriteFrame(isClick: boolean): cc.SpriteFrame {
+        return isClick ? this.betButtonClickedImage : this.betButtonUnClickedImage;
     }
 
     setTurnLabel(turnId) {
