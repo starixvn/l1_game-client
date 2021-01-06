@@ -21,6 +21,12 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.shakeThePlate();
+        this.main.highlightLastResult();
+    }
+
+    handleInLockBetTime() {
+        super.handleInLockBetTime();
+        this.main.betItems.forEach(item => item.setHighlight(false));
     }
 
     handleInRoundTime() {
