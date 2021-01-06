@@ -1,112 +1,63 @@
+import NewSocketGameBaseHistory from "../../_base/NewSocketGameBaseHistory";
 import GameUtils from "./../../../common/GameUtils";
 import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
-import PaginationCommon from "./../../../common/helpers/Pagination/PaginationCommon";
 import SpecialSeDieHistoryItem from "./SpecialSeDieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SpecialSeDieHistory extends cc.Component {
-    @property(PaginationCommon)
-    pagination: PaginationCommon = null;
-
-    @property(cc.Node)
-    content: cc.Node = null;
-
-    @property(cc.Prefab)
-    itemPrefab: cc.Prefab = null;
-
+export default class SpecialSeDieHistory extends NewSocketGameBaseHistory {
     @property(cc.SpriteFrame)
     iconRed: cc.SpriteFrame = null;
 
     @property(cc.SpriteFrame)
     iconWhite: cc.SpriteFrame = null;
 
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
-
-    private socket: SocketIOClient.Socket;
-
     public handleBetHistory = (roundId) => {};
 
-    init(socket: SocketIOClient.Socket) {
-        this.socket = socket;
-    }
+    bindItemRowData(betLog, index) {
+        const itemNode = cc.instantiate(this.itemPrefab);
+        const item = itemNode.getComponent(SpecialSeDieHistoryItem);
+        item.node.active = true;
+        item.bg.active = index % 2 > 0;
 
-    onLoad() {
-        this.pagination.init(this);
+        const { time, phien, result, betwin, choice, amount, refund, win } = betLog;
 
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
-            this.node.destroy();
-        };
-    }
+        item.time.string = getStringDateByTime(time);
+        item.time.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
 
-    onEnable() {
-        this.get_data();
-    }
+        item.phien.string = phien;
 
-    onDisable() {
-        this.node.destroy();
-    }
-
-    get_data(page = 1) {
-        this.socket && this.socket.connected && this.socket.emit("getHistory", { page: page });
-    }
-
-    onData(data) {
-        const { page, pageSize, total, betLogs } = data;
-        this.pagination.onSet(page, pageSize, total);
-        this.content.destroyAllChildren();
-
-        if (!betLogs || !betLogs.length) {
-            return;
-        }
-
-        betLogs.map((betLog, index) => {
-            const itemNode = cc.instantiate(this.itemPrefab);
-            const item = itemNode.getComponent(SpecialSeDieHistoryItem);
-            item.node.active = true;
-            item.bg.active = index % 2 > 0;
-
-            const { time, phien, result, betwin, choice, amount, refund, win } = betLog;
-
-            item.time.string = getStringDateByTime(time);
-            item.time.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
-
-            item.phien.string = phien;
-
-            let number = 0;
-            Object.keys(result).forEach((key) => {
-                if (result[key]) {
-                    number++;
-                }
-            });
-
-            item.kqLabel.string = number.toString();
-            if (number % 2) {
-                item.kqSprite.spriteFrame = this.iconRed;
-                item.kqLabel.node.color = cc.Color.WHITE;
-            } else {
-                item.kqSprite.spriteFrame = this.iconWhite;
-                item.kqLabel.node.color = cc.Color.BLACK;
+        let number = 0;
+        Object.keys(result).forEach((key) => {
+            if (result[key]) {
+                number++;
             }
-            item.option.string = GameUtils.getBetChoiceString(choice);
-            item.option.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
-
-            item.bet.string = numberWithCommas(amount);
-            item.refund.string = numberWithCommas(refund);
-            item.roundId = phien;
-
-            item.win.string = numberWithCommas(betwin);
-            item.win.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
-
-            item.handleRoundIdClick = (roundId) => {
-                this.openBetHistory(roundId);
-            };
-
-            this.content.addChild(itemNode);
         });
+
+        item.kqLabel.string = number.toString();
+        if (number % 2) {
+            item.kqSprite.spriteFrame = this.iconRed;
+            item.kqLabel.node.color = cc.Color.WHITE;
+        } else {
+            item.kqSprite.spriteFrame = this.iconWhite;
+            item.kqLabel.node.color = cc.Color.BLACK;
+        }
+        item.option.string = GameUtils.getBetChoiceString(choice);
+        item.option.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
+
+        item.bet.string = numberWithCommas(amount);
+        item.refund.string = numberWithCommas(refund);
+        item.roundId = phien;
+
+        item.win.string = numberWithCommas(betwin);
+        item.win.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
+
+        item.handleRoundIdClick = (roundId) => {
+            this.openBetHistory(roundId);
+        };
+
+        this.content.addChild(itemNode);
     }
 
     openBetHistory(roundId: number) {

@@ -1,80 +1,40 @@
 import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
-import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import NewCard from "../../../common/new-card/view-models/NewCard";
+import NewSocketGameBaseHistory from "../../_base/NewSocketGameBaseHistory";
 import BlackJackHistoryItem from "./BlackJackHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BlackJackHistory extends cc.Component {
-    @property(cc.Node)
-    content: cc.Node = null;
-
-    @property(PaginationCommon)
-    pages: PaginationCommon = null;
-
-    @property(cc.Prefab)
-    itemPrefab: cc.Prefab = null;
-
+export default class BlackJackHistory extends NewSocketGameBaseHistory {
     @property(cc.Prefab)
     cardPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
+    bindItemRowData(log, index) {
+        const historyItemPrefab = cc.instantiate(this.itemPrefab);
+        const item = historyItemPrefab.getComponent(BlackJackHistoryItem);
+        const isSplit = log.splitFrom || log.actions.includes("split");
+        item.time.string = getStringDateByTime(log.time);
+        item.time.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
-    private socket: SocketIOClient.Socket;
+        item.handId.string = log.id;
+        item.handId.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
-    init(socket: SocketIOClient.Socket) {
-        this.socket = socket;
-    }
+        item.split.active = isSplit;
+        item.bet.string = numberWithCommas(log.bet);
+        item.win.string = numberWithCommas(log.betwin);
+        item.win.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
-    onLoad() {
-        this.pages.init(this);
+        // cards for dealer
+        this.initCards(log.result, item.dealerCards);
+        this.convertResult(item.dealerResult, log.settlementResult, log.result, isSplit);
 
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
-            this.node.destroy();
-        };
-    }
+        // cards for player
+        this.initCards(log.cards, item.playerCards);
+        this.convertResult(item.playerResult, log.total, log.cards, isSplit);
+        item.playerResult.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
-    onEnable() {
-        this.get_data();
-    }
-
-    get_data(page = 1) {
-        this.socket && this.socket.connected && this.socket.emit("getHistory", { page: page });
-    }
-
-    onData(data: any) {
-        this.pages.onSet(data.page, data.pageSize, data.total);
-        this.content.children.forEach((child) => child.destroy());
-
-        data.betLogs.forEach((log) => {
-            const historyItemPrefab = cc.instantiate(this.itemPrefab);
-            const item = historyItemPrefab.getComponent(BlackJackHistoryItem);
-            const isSplit = log.splitFrom || log.actions.includes("split");
-            item.time.string = getStringDateByTime(log.time);
-            item.time.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-
-            item.handId.string = log.id;
-            item.handId.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-
-            item.split.active = isSplit;
-            item.bet.string = numberWithCommas(log.bet);
-            item.win.string = numberWithCommas(log.betwin);
-            item.win.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-
-            // cards for dealer
-            this.initCards(log.result, item.dealerCards);
-            this.convertResult(item.dealerResult, log.settlementResult, log.result, isSplit);
-
-            // cards for player
-            this.initCards(log.cards, item.playerCards);
-            this.convertResult(item.playerResult, log.total, log.cards, isSplit);
-            item.playerResult.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-
-            this.content.addChild(historyItemPrefab);
-        });
+        this.content.addChild(historyItemPrefab);
     }
 
     initCards(cards: any, cardsNode: cc.Node) {
