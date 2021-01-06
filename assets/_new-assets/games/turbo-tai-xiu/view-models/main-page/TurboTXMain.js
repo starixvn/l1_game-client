@@ -263,7 +263,19 @@ cc.Class({
                 return;
             }
         }
+        this.handleDataValid(data);
+        this.onDataLogs(data);
+        if (data.time_remain) {
+            this.isUM = false;
+            this.playCenterRoundLight();
+            this.UMWarning.node.active = false;
+            cc.RedT.setting.taixiu_turbo.time_remain = data.time_remain - 1;
+            this.playTime();
+        }
 
+        this.onDataFinishPhien(data);
+    },
+    handleDataValid: function (data) {
         if (data.get_phien) {
             this.TXRoot.TXBetHistory.node && this.TXRoot.TXBetHistory.onData(data.get_phien);
         }
@@ -295,18 +307,6 @@ cc.Class({
         if (data.get_log) {
             this.TXRoot.TXHistory.node && this.TXRoot.TXHistory.onData(data.get_log);
         }
-
-        this.onDataLogs(data);
-
-        if (data.time_remain) {
-            this.isUM = false;
-            this.playCenterRoundLight();
-            this.UMWarning.node.active = false;
-            cc.RedT.setting.taixiu_turbo.time_remain = data.time_remain - 1;
-            this.playTime();
-        }
-
-        this.onDataFinishPhien(data);
     },
     efStop: function () {
         this.efTai.stop();

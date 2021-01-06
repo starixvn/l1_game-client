@@ -418,24 +418,8 @@ export default class Roulette extends GameRoomBase {
 
         for (const type in betChoices) {
             for (const key in betChoices[type]) {
-                if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
-                    this.showMiniWarning(
-                        isMultiChoices
-                            ? "Tiền cược của một trong các cửa vượt mức quy định."
-                            : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
-                    );
+                if (this.showWarningOnBetChoices(betChoices, totalChoices, type, key, isMultiChoices)) {
                     return false;
-                }
-                if (totalChoices[type] && totalChoices[type][key]) {
-                    const total = totalChoices[type][key] + betChoices[type][key];
-                    if (total > this.gameConfigs.choices_maxbet[type]) {
-                        this.showMiniWarning(
-                            isMultiChoices
-                                ? "Tiền cược của một trong các cửa vượt mức quy định."
-                                : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
-                        );
-                        return false;
-                    }
                 }
             }
         }
@@ -448,6 +432,30 @@ export default class Roulette extends GameRoomBase {
         }
 
         return true;
+    }
+
+    showWarningOnBetChoices(betChoices: any, totalChoices: any, type: any, key: any, isMultiChoices: boolean): boolean {
+        if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
+            this.showMiniWarning(
+                isMultiChoices
+                    ? "Tiền cược của một trong các cửa vượt mức quy định."
+                    : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
+            );
+            return true;
+        }
+        if (totalChoices[type] && totalChoices[type][key]) {
+            const total = totalChoices[type][key] + betChoices[type][key];
+            if (total > this.gameConfigs.choices_maxbet[type]) {
+                this.showMiniWarning(
+                    isMultiChoices
+                        ? "Tiền cược của một trong các cửa vượt mức quy định."
+                        : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
+                );
+                return true;
+            }
+        }
+
+        return false;
     }
 
     isDisablePlaceChip(): boolean {
