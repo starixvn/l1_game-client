@@ -1,40 +1,15 @@
 import { numberWithCommas } from "../../../common/helpers/Helper";
+import GameGuideBase from "../../_base/view-models/GameGuideBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SpecialSeDieGuide extends cc.Component {
-    @property({ type: cc.Label })
-    replaceNodes: cc.Label[] = [];
-
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
-
-    protected configs: any;
-
-    onLoad() {
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
-            this.node.destroy();
-        };
-    }
-
-    init(configs) {
-        this.configs = configs;
-        const replaceData = this.createReplaceData();
-
-        this.replaceNodes.forEach((label) => {
-            Object.keys(replaceData).forEach((key) => {
-                label.string = label.string.replace(key, replaceData[key]);
-            });
-        });
-    }
-
-    createReplaceData() {
-        const odds = this.configs.odds;
+export default class SpecialSeDieGuide extends GameGuideBase {
+    createReplaceData(configs) {
+        const odds = configs.odds;
         return {
             _oddsMain: odds.even,
-            _maxBetRound: numberWithCommas(this.configs.maxbet)
+            _maxBetRound: numberWithCommas(configs.maxbet)
         };
     }
 }

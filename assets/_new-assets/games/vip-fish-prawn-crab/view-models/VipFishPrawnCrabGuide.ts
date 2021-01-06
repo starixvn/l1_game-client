@@ -1,32 +1,10 @@
 import { numberWithCommas } from "../../../common/helpers/Helper";
+import GameGuideBase from "../../_base/view-models/GameGuideBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class VipFishPrawnCrabGuide extends cc.Component {
-    @property({ type: cc.Label })
-    replaceNodes: cc.Label[] = [];
-
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
-
-    onLoad() {
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
-            this.node.destroy();
-        };
-    }
-
-    init(configs) {
-        const replaceData = this.createReplaceData(configs);
-
-        this.replaceNodes.forEach((label) => {
-            Object.keys(replaceData).forEach((key) => {
-                label.string = label.string.replace(key, replaceData[key]);
-            });
-        });
-    }
-
+export default class VipFishPrawnCrabGuide extends GameGuideBase {
     createReplaceData(configs) {
         const { odds, choices_maxbet } = configs;
 
