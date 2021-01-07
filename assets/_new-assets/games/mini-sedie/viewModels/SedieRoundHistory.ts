@@ -1,14 +1,14 @@
 import GameBase from "../../_base/GameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import LogControl from "../../keno-pro/view-models/LogControl";
+import GameLogControlBase from "../../_base/GameLogControlBase";
 import SedieRoundHistoryItem from "./SedieRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SedieRoundHistory extends cc.Component {
-    @property(LogControl)
-    logControl: LogControl = null;
+    @property(GameLogControlBase)
+    logControl: GameLogControlBase = null;
 
     @property(cc.Label)
     even: cc.Label = null;

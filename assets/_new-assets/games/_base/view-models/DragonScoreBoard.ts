@@ -1,4 +1,5 @@
 import BlinkNode from "../../../common/BlinkNode";
+import GameLogControlBase from "../GameLogControlBase";
 import DragonScoreBoardItem from "./DragonScoreBoardItem";
 
 const { ccclass, property } = cc._decorator;
@@ -8,34 +9,11 @@ export class DragonScoreBoardItemData {
 }
 
 @ccclass
-export default class DragonScoreBoard extends cc.Component {
+export default class DragonScoreBoard extends GameLogControlBase {
     @property({ type: DragonScoreBoardItem })
-    items: DragonScoreBoardItem[] = [];
+    itemsData: DragonScoreBoardItem[] = [];
 
-    @property(cc.Node)
-    content: cc.Node = null;
-
-    @property(cc.Node)
-    itemNext: cc.Node = null;
-
-    @property({ type: cc.Integer })
-    RowMax = 6;
-
-    @property(cc.Size)
-    itemSize: cc.Size = new cc.Size(22, 22);
-
-    @property(cc.Size)
-    padding: cc.Size = new cc.Size(2, 2);
-
-    private nextMark: cc.Node = null;
-    private dots: cc.Node[] = [];
-    private checkShowNext = () => false;
-
-    init(condition: () => boolean) {
-        this.checkShowNext = condition;
-    }
-
-    public setData(results: DragonScoreBoardItemData[]) {
+    public setData(results: any) {
         this.dots.forEach((dot) => {
             dot.removeFromParent();
             dot.destroy();
@@ -44,7 +22,6 @@ export default class DragonScoreBoard extends cc.Component {
 
         let col = 0,
             row = 0;
-        let maxX = 0;
         let nextCol = 1;
         let previousResult: DragonScoreBoardItemData = undefined;
         const rowMax = {};
@@ -78,23 +55,15 @@ export default class DragonScoreBoard extends cc.Component {
 
             const item = this.buildItem(result);
             var dot = cc.instantiate(item.node);
-            dot.active = true;
-            dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
-            maxX = Math.max(maxX, dot.position.x);
-            this.content.addChild(dot);
-            this.dots.push(dot);
+            this.handleDotAction(dot, start, col, row);
         });
 
         this.addNextMark(rowMax, row, col, nextCol, start);
-
-        maxX = Math.max(maxX, this.nextMark.position.x);
-        this.content.width = Math.max(maxX + this.itemSize.width / 2, this.node.width) + 2 * this.padding.width;
-
-        this.content.position = cc.v2(-this.content.width, this.content.position.y);
+        this.updateContentPosition();
     }
 
     protected buildItem(result: DragonScoreBoardItemData) {
-        const item = this.items[result.key];
+        const item = this.itemsData[result.key];
         item.tie.active = result.isTie;
         item.tieCount.node.active = result.isTie;
         item.tieCount.string = result.tieCount < 2 ? "" : result.tieCount.toString();
@@ -106,7 +75,7 @@ export default class DragonScoreBoard extends cc.Component {
         return previousResult && result.key === previousResult.key;
     }
 
-    private addNextMark(rowMax, row, col, nextCol, start) {
+    protected addNextMark(rowMax, row, col, nextCol, start) {
         const max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
 
         if (row < max - 1) {
@@ -131,11 +100,5 @@ export default class DragonScoreBoard extends cc.Component {
         this.nextMark = dot;
         this.content.addChild(dot);
         this.dots.push(dot);
-    }
-
-    update() {
-        if (this.nextMark && this.nextMark.isValid) {
-            this.nextMark.active = this.checkShowNext();
-        }
     }
 }

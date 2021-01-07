@@ -9,7 +9,7 @@ import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import GameAudios from "../../_base/GameAudios";
 import { GameBaseConfigs } from "../../_base/GameBaseConfig";
 import DataHandler from "../../_base/handlers/DataHandler";
-import LogControl from "../../keno-pro/view-models/LogControl";
+import GameLogControlBase from "../../_base/GameLogControlBase";
 import RHBetDataHandler from "./handlers/RHBetDataHandler";
 import RHBetStatusDataHandler from "./handlers/RHBetStatusDataHandler";
 import RHFinishDataHandler from "./handlers/RHFinishDataHandler";
@@ -98,8 +98,8 @@ export default class RongHo extends cc.Component {
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
-    @property(LogControl)
-    logControl: LogControl = null;
+    @property(GameLogControlBase)
+    logControl: GameLogControlBase = null;
 
     @property(MiniRoundHistory)
     miniRoundHistory: MiniRoundHistory = null;

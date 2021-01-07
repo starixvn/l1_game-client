@@ -1,5 +1,5 @@
 import Keno from "./Keno";
-import LogControl from "./LogControl";
+import GameLogControlBase from "../../_base/GameLogControlBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import GameBase from "../../_base/GameBase";
 
@@ -20,8 +20,8 @@ export default class RoundHistory extends cc.Component {
     @property({ type: cc.Label })
     statisticLabels: cc.Label[] = [];
 
-    @property(LogControl)
-    sharedLogControl: LogControl = null;
+    @property(GameLogControlBase)
+    sharedLogControl: GameLogControlBase = null;
 
     @property({ type: cc.Node })
     bigSmallItem: cc.Node[] = [];

@@ -1,9 +1,9 @@
-import BlinkNode from "../../../common/BlinkNode";
+import BlinkNode from "../../common/BlinkNode";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class LogControl extends cc.Component {
+export default class GameLogControlBase extends cc.Component {
     @property({ type: cc.Node })
     items: cc.Node[] = [];
 
@@ -22,9 +22,10 @@ export default class LogControl extends cc.Component {
     @property(cc.Size)
     padding: cc.Size = new cc.Size(2, 2);
 
-    private nextMark: cc.Node = null;
-    private dots: cc.Node[] = [];
-    private checkShowNext = () => false;
+    protected nextMark: cc.Node = null;
+    protected dots: cc.Node[] = [];
+    protected checkShowNext = () => false;
+    maxX = 0;
 
     init(condition: () => boolean) {
         this.checkShowNext = condition;
@@ -39,7 +40,6 @@ export default class LogControl extends cc.Component {
 
         let col = 0,
             row = 0;
-        let maxX = 0;
         let nextCol = 1;
         let previousResult = undefined;
         const rowMax = {};
@@ -70,24 +70,31 @@ export default class LogControl extends cc.Component {
             previousResult = result;
 
             const dot = cc.instantiate(this.items[result]);
-            dot.active = true;
-
-            dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
-
-            maxX = Math.max(maxX, dot.position.x);
-            this.content.addChild(dot);
-            this.dots.push(dot);
+            this.handleDotAction(dot, start, col, row);
         });
 
         this.addNextMark(rowMax, row, col, nextCol, start);
+        this.updateContentPosition();
+    }
 
-        maxX = Math.max(maxX, this.nextMark.position.x);
-        this.content.width = Math.max(maxX + this.itemSize.width / 2, this.node.width) + 2 * this.padding.width;
+    protected handleDotAction(dot: any, start: any, col: number, row: number) {
+        dot.active = true;
+
+        dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
+
+        this.maxX = Math.max(this.maxX, dot.position.x);
+        this.content.addChild(dot);
+        this.dots.push(dot);
+    }
+
+    protected updateContentPosition() {
+        this.maxX = Math.max(this.maxX, this.nextMark.position.x);
+        this.content.width = Math.max(this.maxX + this.itemSize.width / 2, this.node.width) + 2 * this.padding.width;
 
         this.content.position = cc.v2(-this.content.width, this.content.position.y);
     }
 
-    private addNextMark(rowMax, row, col, nextCol, start) {
+    protected addNextMark(rowMax, row, col, nextCol, start) {
         const max = rowMax.hasOwnProperty(col) ? rowMax[col] : this.RowMax;
         if (row < max - 1) {
             row++;

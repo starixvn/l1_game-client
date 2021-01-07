@@ -2,7 +2,7 @@ import * as _ from "lodash";
 
 import GameBase from "../../_base/GameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import LogControl from "../../keno-pro/view-models/LogControl";
+import GameLogControlBase from "../../_base/GameLogControlBase";
 import VipFishPrawnCrabStatsItem from "./VipFishPrawnCrabStatsItem";
 
 const { ccclass, property } = cc._decorator;
@@ -18,8 +18,8 @@ export default class VipFishPrawnCrabStats extends cc.Component {
     @property(cc.Node)
     characterContent: cc.Node = null;
 
-    @property(LogControl)
-    logControl: LogControl = null;
+    @property(GameLogControlBase)
+    logControl: GameLogControlBase = null;
 
     @property({ type: cc.Label })
     characterCountLabels: cc.Label[] = [];
