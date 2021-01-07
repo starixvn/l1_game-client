@@ -102,4 +102,26 @@ export default class BetItem extends cc.Component {
             this.normalBorder.active = !highlight;
         }
     }
+
+    protected resetHighlightOptions(){
+        this.highlight.active = false;
+        if (this.highlightBackground) {
+            this.highlightBackground.active = false;
+        }
+    }
+
+    protected setHighlightItemsOptions(highlight: boolean, isAnimated = true){
+        this.highlight.active = highlight && isAnimated;
+        if (this.highlightBackground) {
+            this.highlightBackground.active = highlight && isAnimated;
+        }
+
+        if (this.highlightBorder) {
+            this.highlightBorder.active = highlight && !isAnimated;
+        }
+
+        if (this.normalBorder) {
+            this.normalBorder.active = !highlight;
+        }
+    }
 }

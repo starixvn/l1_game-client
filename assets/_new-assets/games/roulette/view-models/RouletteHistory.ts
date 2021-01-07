@@ -1,4 +1,4 @@
-import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import { getStringDateByTime } from "../../../common/helpers/Helper";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import GameHistoryBase from "../../_base/GameHistoryBase";
 import RouletteBase from "./RouletteBase";

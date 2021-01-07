@@ -1,4 +1,4 @@
-import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import { getStringDateByTime } from "../../../common/helpers/Helper";
 import GameHistoryBase from "../../_base/GameHistoryBase";
 import NewSocketGameBaseHistory from "../../_base/NewSocketGameBaseHistory";
 import SicBoHistoryItem from "./SicBoHistoryItem";
