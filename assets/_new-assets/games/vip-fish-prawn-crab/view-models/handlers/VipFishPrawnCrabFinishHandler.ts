@@ -14,11 +14,7 @@ export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler
 
         if (cc.RedT.GAME_IS_SHOWED) {
             cc.tween(this.main.node)
-                .call(() => {
-                    this.main.shakeAnimation.node.active = false;
-                    this.main.openDiskAnimation.node.active = true;
-                    this.main.openDiskAnimation.play();
-                })
+                .call(this.openDisk.bind(this))
                 .delay(this.playResultAnimationTime)
                 .call(() => {
                     onFinishHandlingData();
@@ -27,5 +23,11 @@ export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler
                 })
                 .start();
         }
+    }
+
+    openDisk() {
+        this.main.shakeAnimation.node.active = false;
+        this.main.openDiskAnimation.node.active = true;
+        this.main.openDiskAnimation.play();
     }
 }

@@ -1,16 +1,15 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import { games } from '../../../SabaConfigs';
-import Sedie from '../../xoc-xoc/view-models/Sedie';
-import { SedieConfigs } from '../../xoc-xoc/view-models/SedieConfigs';
-import VipSedieLogHandler from './handlers/VipSedieLogHandler';
-import VipSedieTimeHandler from './handlers/VipSedieTimeHandler';
+import { games } from "../../../SabaConfigs";
+import Sedie from "../../xoc-xoc/view-models/Sedie";
+import { SedieConfigs } from "../../xoc-xoc/view-models/SedieConfigs";
+import VipSedieLogHandler from "./handlers/VipSedieLogHandler";
+import VipSedieTimeHandler from "./handlers/VipSedieTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipSedie extends Sedie {
-
     @property(cc.Node)
     randomPosNode: cc.Node = null;
 
@@ -23,20 +22,6 @@ export default class VipSedie extends Sedie {
     protected internalInit() {
         this.init("VipSeDie", new SedieConfigs(), null, 1, games.VipSedie.id);
         this.finishShowResult = false;
-    }
-
-    public highlightLastResult() {
-        if (this.currentTimeRemaining <= this.config.stopBetTime) {
-            return;
-        }
-        const dataLog = this.currentDataLogs[0];
-        dataLog && this.highlightWonItems(dataLog.settlementResult, false);
-    }
-
-    private highlightWonItems(settlementResult: any, isAnimated = true) {
-        this.betItems.forEach((betItem) => {
-            betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
-        });
     }
 
     setDots(result) {

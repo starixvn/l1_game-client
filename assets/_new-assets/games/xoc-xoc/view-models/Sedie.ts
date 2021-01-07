@@ -198,7 +198,7 @@ export default class Sedie extends NewSocketGameBase {
         dataLog && this.highlightWonItems(dataLog.settlementResult, false);
     }
 
-    private highlightWonItems(settlementResult: any, isAnimated = true) {
+    highlightWonItems(settlementResult: any, isAnimated = true) {
         this.betItems.forEach((betItem) => {
             betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
         });
