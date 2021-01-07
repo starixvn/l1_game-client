@@ -219,16 +219,7 @@ export default class BetChips extends cc.Component {
         return this.chips.children.find((child) => child.name === bet.toString());
     }
 
-    public moveChipWithCallback(
-        chipNode: cc.Node,
-        bet: number,
-        destNode: cc.Node,
-        startNode: cc.Node = null,
-        onComplete = () => {},
-        delayDestroy: number,
-        duration: number,
-        fadeDuration = 1
-    ) {
+    public moveChipWithCallback({ chipNode, bet, destNode, startNode, onComplete = () => {}, delayDestroy, duration, fadeDuration = 1 }) {
         let chipPosition: cc.Vec2;
         const isLoginUserPlaceBet = startNode == null;
         if (startNode) {

@@ -29,11 +29,7 @@ export default class VipSedieWarUtils {
     }
 
     public static setDotsImage(result: any, playerResultNode: cc.Node, bankerResultNode: cc.Node, dotsFrame: cc.SpriteFrame[]) {
-        const playerSprites = playerResultNode.children.map((child) => {
-            const sprite = child.getComponent(cc.Sprite);
-            sprite.spriteFrame = dotsFrame[0];
-            return sprite;
-        });
+        const playerSprites = this.getSpriteFrame(playerResultNode, dotsFrame);
         let index = 0;
         Object.keys(result.player).forEach((key) => {
             if (result.player[key]) {
@@ -41,18 +37,21 @@ export default class VipSedieWarUtils {
                 index++;
             }
         });
-
-        const bankerSprites = bankerResultNode.children.map((child) => {
-            const sprite = child.getComponent(cc.Sprite);
-            sprite.spriteFrame = dotsFrame[0];
-            return sprite;
-        });
+        const bankerSprites = this.getSpriteFrame(bankerResultNode, dotsFrame);
         index = 0;
         Object.keys(result.banker).forEach((key) => {
             if (result.banker[key]) {
                 bankerSprites[index].getComponent(cc.Sprite).spriteFrame = dotsFrame[1];
                 index++;
             }
+        });
+    }
+
+    public static getSpriteFrame(node, dotsFrame) {
+        return node.children.map((child) => {
+            const sprite = child.getComponent(cc.Sprite);
+            sprite.spriteFrame = dotsFrame[0];
+            return sprite;
         });
     }
 }
