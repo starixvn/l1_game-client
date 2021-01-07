@@ -568,7 +568,7 @@ cc.Class({
             );
 
             if (this.TXRoot.TXStats) {
-                this.updateTXStats();
+                this.TXRoot.TXStats.updateTXStats(cc.RedT.setting.taixiu_turbo.logs);
             }
         }
     },
@@ -588,132 +588,7 @@ cc.Class({
 
         return spriteFrame;
     },
-    updateTXStats() {
-        var self = this;
-        var lineDice1 = [];
-        var lineDice2 = [];
-        var lineDice3 = [];
-        var lineTong = [];
-        var tmpDS = -1;
-        var tmpArrA = [];
-        var tmpArrB = [];
-        var cTai = 0;
-        var cXiu = 0;
 
-        var sliced = cc.RedT.setting.taixiu_turbo.logs.slice(0, 19);
-        sliced.reverse();
-        // Line paint
-        new Promise(function (resolve, reject) {
-            for (var i = 0; i < sliced.length; i++) {
-                var data = sliced[i];
-                if (void 0 !== data) {
-                    self.TXRoot.TXStats.lineAc(i, true);
-                    var dice1 = sliced[i].dice[0];
-                    var dice2 = sliced[i].dice[1];
-                    var dice3 = sliced[i].dice[2];
-                    var tong = dice1 + dice2 + dice3;
-
-                    lineDice1[i] = {
-                        x: i * 28,
-                        y: dice1 * 28 - 28,
-                        dice: dice1
-                    };
-                    lineDice2[i] = {
-                        x: i * 28,
-                        y: dice2 * 28 - 28,
-                        dice: dice2
-                    };
-                    lineDice3[i] = {
-                        x: i * 28,
-                        y: dice3 * 28 - 28,
-                        dice: dice3
-                    };
-                    lineTong[i] = {
-                        x: i * 27.7,
-                        y: tong * 9.233 - 27.7,
-                        tong: tong
-                    };
-                } else {
-                    self.TXRoot.TXStats.lineAc(i, false);
-                }
-            }
-            self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice1_line, self.TXRoot.TXStats.dice1_dots, lineDice1);
-            self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice2_line, self.TXRoot.TXStats.dice2_dots, lineDice2);
-            self.TXRoot.TXStats.draw(self.TXRoot.TXStats.dice3_line, self.TXRoot.TXStats.dice3_dots, lineDice3);
-            self.TXRoot.TXStats.draw_Tong(self.TXRoot.TXStats.tong_line, lineTong);
-        });
-
-        // Ket Qua
-        var ketqua = self.TXRoot.TXStats.KetQuaDot.map((dot, index) => {
-            var data = cc.RedT.setting.taixiu_turbo.logs[index];
-            if (void 0 !== data) {
-                dot.node.active = true;
-                const point = data.dice[0] + data.dice[1] + data.dice[2];
-                dot.spriteFrame = this.handleDotSprite(point);
-                return this.handlePointValue(point);
-            } else {
-                dot.node.active = false;
-                return -1;
-            }
-        });
-
-        // Diem So
-        var newArr = cc.RedT.setting.taixiu_turbo.logs.slice();
-        newArr.reverse();
-        for (var newDS of newArr) {
-            const point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
-            const type = this.handlePointValue(point);
-            if (tmpDS === -1) {
-                tmpDS = type;
-            }
-            if (type !== tmpDS || tmpArrB.length > 4) {
-                tmpDS = type;
-                tmpArrA.push(tmpArrB);
-                tmpArrB = [];
-            }
-            if (type === tmpDS) {
-                tmpArrB.push(point);
-            }
-        }
-        tmpArrA.push(tmpArrB);
-
-        var newData = tmpArrA;
-        newData.reverse();
-        newData = newData.slice(0, 20);
-        newData.reverse();
-        self.TXRoot.TXStats.KetQuaLeft.string = ketqua.filter((i) => i === 1).length;
-        self.TXRoot.TXStats.KetQuaRight.string = ketqua.filter((i) => i === 0).length;
-
-        self.TXRoot.TXStats.DiemSoCel.forEach((obj, i) => {
-            var data = newData[i];
-            if (void 0 !== data) {
-                obj.active = true;
-                return Promise.all(
-                    obj.RedT.map((current, index) => {
-                        var dataCel = data[index];
-                        if (void 0 !== dataCel) {
-                            const type = this.handlePointValue(dataCel);
-                            cTai = type ? cTai + 1 : cTai;
-                            cXiu = !type ? cXiu + 1 : cXiu;
-                            current.active = true;
-                            current.color = this.handleColorNode(type);
-                            current.text.string = dataCel;
-                            current.text.node.color = this.handleColorNodeChild(type);
-                        } else {
-                            current.active = false;
-                        }
-                        return void 0;
-                    })
-                );
-            } else {
-                obj.active = false;
-            }
-            return void 0;
-        });
-
-        self.TXRoot.TXStats.DiemSoLeft.string = cTai;
-        self.TXRoot.TXStats.DiemSoRight.string = cXiu;
-    },
     handleColorNode(type) {
         let color = null;
         if (this.taixiu) {

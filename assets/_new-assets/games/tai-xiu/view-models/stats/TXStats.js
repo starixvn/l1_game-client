@@ -181,9 +181,8 @@ cc.Class({
             this.tong_dots = result;
         });
 
-        var self = this;
         Promise.all([DiemSoCel, dice1, dice2, dice3, sumDot]).then(() => {
-            self.TXRoot.TX_Main.updateTXStats();
+            this.updateTXStats(cc.RedT.setting.taixiu.logs);
         });
     },
     onDestroy() {
@@ -315,5 +314,155 @@ cc.Class({
         this.dice3_dot.active = !this.dice3_dot.active;
         this.dice3_line.node.active = !this.dice3_line.node.active;
         this.line_dot3.active = !this.line_dot3.active;
+    },
+
+    updateTXStats(logs) {
+        this.drawLinePaint(logs);
+        this.drawResult(logs);
+        this.drawPoints(logs);
+    },
+
+    drawLinePaint(logs) {
+        var lineTong = [];
+        var lineDice1 = [];
+        var lineDice2 = [];
+        var lineDice3 = [];
+
+        var sliced = logs.slice(0, 19);
+        sliced.reverse();
+        // Line paint
+        new Promise((resolve, reject) => {
+            for (var i = 0; i < sliced.length; i++) {
+                var data = sliced[i];
+                if (void 0 !== data) {
+                    this.lineAc(i, true);
+                    var dice1 = sliced[i].dice[0];
+                    var dice2 = sliced[i].dice[1];
+                    var dice3 = sliced[i].dice[2];
+                    var tong = dice1 + dice2 + dice3;
+
+                    lineDice1[i] = {
+                        x: i * 28,
+                        y: dice1 * 28 - 28,
+                        dice: dice1
+                    };
+                    lineDice2[i] = {
+                        x: i * 28,
+                        y: dice2 * 28 - 28,
+                        dice: dice2
+                    };
+                    lineDice3[i] = {
+                        x: i * 28,
+                        y: dice3 * 28 - 28,
+                        dice: dice3
+                    };
+                    lineTong[i] = {
+                        x: i * 27.7,
+                        y: tong * 9.233 - 27.7,
+                        tong: tong
+                    };
+                } else {
+                    this.lineAc(i, false);
+                }
+            }
+            this.draw(this.dice1_line, this.dice1_dots, lineDice1);
+            this.draw(this.dice2_line, this.dice2_dots, lineDice2);
+            this.draw(this.dice3_line, this.dice3_dots, lineDice3);
+            this.draw_Tong(this.tong_line, lineTong);
+        });
+    },
+
+    drawResult(logs) {
+        const ketqua = this.KetQuaDot.map((dot, index) => {
+            var data = logs[index];
+            if (void 0 !== data) {
+                dot.node.active = true;
+                var kqPoint = data.dice[0] + data.dice[1] + data.dice[2];
+                dot.spriteFrame = kqPoint < 11 ? this.TXRoot.TX_Main.dot_white : this.TXRoot.TX_Main.dot_black;
+                return kqPoint > 10 ? 1 : 0;
+            } else {
+                dot.node.active = false;
+                return -1;
+            }
+        });
+
+        this.KetQuaLeft.string = ketqua.filter((i) => i === 1).length;
+        this.KetQuaRight.string = ketqua.filter((i) => i === 0).length;
+    },
+
+    drawPoints(logs) {
+        var newData = this.handlePointsData(logs);
+        let totalPoints = {
+            cTai: 0,
+            cXiu: 0
+        };
+
+        this.DiemSoCel.forEach((obj, i) => {
+            var data = newData[i];
+            if (void 0 !== data) {
+                obj.active = true;
+                totalPoints = this.calculateTotalPoints(obj, data);
+            } else {
+                obj.active = false;
+            }
+        });
+
+        this.DiemSoLeft.string = totalPoints.cTai;
+        this.DiemSoRight.string = totalPoints.cXiu;
+    },
+
+    calculateTotalPoints(obj, data) {
+        const totalPoints = {
+            cTai: 0,
+            cXiu: 0
+        };
+
+        obj.RedT.forEach((current, index) => {
+            var dataCel = data[index];
+            if (void 0 !== dataCel) {
+                const type = dataCel > 10 ? true : false;
+                totalPoints.cTai = type ? totalPoints.cTai + 1 : totalPoints.cTai;
+                totalPoints.cXiu = !type ? totalPoints.cXiu + 1 : totalPoints.cXiu;
+                current.active = true;
+                current.color = type ? cc.Color.BLACK : cc.Color.WHITE;
+                current.text.string = dataCel;
+                current.text.node.color = type ? cc.Color.WHITE : cc.Color.BLACK;
+            } else {
+                current.active = false;
+            }
+        });
+
+        return totalPoints;
+    },
+
+    handlePointsData(logs) {
+        var tmpDS = -1;
+        var tmpArrA = [];
+        var tmpArrB = [];
+        var newArr = logs.slice();
+        newArr.reverse();
+        for (var newDS of newArr) {
+            var point = newDS.dice[0] + newDS.dice[1] + newDS.dice[2];
+            const type = point > 10 ? 1 : 0;
+            if (tmpDS === -1) {
+                tmpDS = type;
+            }
+            if (type !== tmpDS || tmpArrB.length > 4) {
+                tmpDS = type;
+                tmpArrA.push(tmpArrB);
+                tmpArrB = [];
+            }
+            if (type === tmpDS) {
+                tmpArrB.push(point);
+            }
+        }
+        tmpArrA.push(tmpArrB);
+
+        var newData = tmpArrA;
+        newData.reverse();
+        newData = newData.slice(0, 20);
+        newData.reverse();
+
+        return newData;
     }
 });

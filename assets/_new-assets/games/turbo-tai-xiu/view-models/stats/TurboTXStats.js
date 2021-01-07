@@ -76,9 +76,8 @@ cc.Class({
             this.tong_dots = result;
         });
 
-        var self = this;
         Promise.all([DiemSoCel, dice1, dice2, dice3, sumDot]).then(() => {
-            self.TXRoot.TX_Main.updateTXStats();
+            this.updateTXStats(cc.RedT.setting.taixiu_turbo.logs);
         });
     },
     eventEnd: function () {
