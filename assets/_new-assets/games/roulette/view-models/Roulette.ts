@@ -314,7 +314,7 @@ export default class Roulette extends GameRoomBase {
                 this.currentBet,
                 destNode,
                 null,
-                this.addBetChoiceOnBoard.bind(this, betInfo),
+                this.addBetChoiceOnBoard.bind(this, betInfo, this.currentBet),
                 0,
                 chipFlyingDuration
             );
@@ -352,10 +352,7 @@ export default class Roulette extends GameRoomBase {
                         bet,
                         destNode,
                         null,
-                        () => {
-                            this.rouletteMain.board.addBetChoice(betInfo, bet);
-                            this.isPlacingChip = false;
-                        },
+                        this.addBetChoiceOnBoard.bind(this, betInfo, bet),
                         0,
                         chipFlyingDuration
                     );
@@ -365,8 +362,8 @@ export default class Roulette extends GameRoomBase {
         };
     }
 
-    addBetChoiceOnBoard(betInfo) {
-        this.rouletteMain.board.addBetChoice(betInfo, this.currentBet);
+    addBetChoiceOnBoard(betInfo: any, bet: any) {
+        this.rouletteMain.board.addBetChoice(betInfo, bet);
         this.isPlacingChip = false;
     }
 

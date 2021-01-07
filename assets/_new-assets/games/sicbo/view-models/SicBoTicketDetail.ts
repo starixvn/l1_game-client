@@ -1,17 +1,15 @@
+import GameTicketDetailBase from "../../_base/GameTicketDetailBase";
 import SicBoTicketDetailItem from "./SicBoTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SicBoTicketDetail extends cc.Component {
+export default class SicBoTicketDetail extends GameTicketDetailBase {
     @property(cc.Label)
     roundLabel: cc.Label = null;
 
     @property(cc.Sprite)
     dices: cc.Sprite[] = [];
-
-    @property(cc.Node)
-    content: cc.Node = null;
 
     @property(cc.Prefab)
     ticketDetailItemPrefab: cc.Prefab = null;
@@ -24,22 +22,6 @@ export default class SicBoTicketDetail extends cc.Component {
 
     roundID: number;
     result: number;
-    betLogDetails = null;
-    settlementResult = null;
-
-    onLoad() {
-        this.content.children.forEach((child) => child.destroy());
-
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
-            this.node.destroy();
-        };
-    }
-
-    public setData(betLogDetails: any, settlementResult: any) {
-        this.betLogDetails = betLogDetails;
-        this.settlementResult = settlementResult;
-    }
 
     public showbetLogs() {
         this.node.active = true;
