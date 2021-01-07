@@ -1,10 +1,10 @@
+import GameHistoryItemBase from "../../../_base/GameHistoryItemBase";
 import KenoUserHistory from "./KenoUserHistory";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class KenoUserHistoryItem extends cc.Component {
-
+export default class KenoUserHistoryItem extends GameHistoryItemBase {
     @property(cc.Label)
     time: cc.Label = null;
 
@@ -16,33 +16,6 @@ export default class KenoUserHistoryItem extends cc.Component {
 
     @property(cc.Label)
     win: cc.Label = null;
-
-    @property(cc.Label)
-    big: cc.Label = null;
-
-    @property(cc.Label)
-    small: cc.Label = null;
-
-    @property(cc.Label)
-    odd: cc.Label = null;
-
-    @property(cc.Label)
-    even: cc.Label = null;
-
-    @property(cc.Label)
-    gold: cc.Label = null;
-
-    @property(cc.Label)
-    wood: cc.Label = null;
-
-    @property(cc.Label)
-    water: cc.Label = null;
-
-    @property(cc.Label)
-    fire: cc.Label = null;
-
-    @property(cc.Label)
-    earth: cc.Label = null;
 
     public roundId: number;
     public totalResult: number;

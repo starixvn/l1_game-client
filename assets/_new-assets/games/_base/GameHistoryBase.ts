@@ -1,4 +1,5 @@
 import PaginationCommon from "./../../common/helpers/Pagination/PaginationCommon";
+import { getStringDateByTime, numberWithCommas } from "./../../common/helpers/Helper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -50,4 +51,45 @@ export default class GameHistoryBase extends cc.Component {
     }
 
     onData(data) {}
+
+    static buildItemRowData(context, betLog, index, componentName) {
+        const itemNode = cc.instantiate(context.itemPrefab);
+        const item = itemNode.getComponent(componentName);
+        item.node.active = true;
+        item.bg.active = index % 2 > 0;
+
+        const { time, phien, result, settlementResult, betwin } = betLog;
+
+        item.time.string = getStringDateByTime(time);
+        item.phien.string = phien;
+
+        let number = 0;
+        Object.keys(result).forEach((key) => {
+            if (result[key]) {
+                number++;
+            }
+        });
+
+        item.kqLabel.string = number.toString();
+        if (number % 2) {
+            item.kqSprite.spriteFrame = context.iconRed;
+            item.kqLabel.node.color = cc.Color.WHITE;
+        } else {
+            item.kqSprite.spriteFrame = context.iconWhite;
+            item.kqLabel.node.color = cc.Color.BLACK;
+        }
+
+        Object.keys(settlementResult).forEach((choice) => {
+            item[choice].string = numberWithCommas(betLog[choice]);
+            if (settlementResult[choice]) {
+                item[choice].node.color = cc.Color.YELLOW;
+            } else {
+                item[choice].node.color = cc.Color.WHITE;
+            }
+        });
+
+        item.win.string = numberWithCommas(betwin);
+
+        context.content.addChild(itemNode);
+    }
 }

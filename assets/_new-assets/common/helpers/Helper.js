@@ -26,7 +26,7 @@ export function numberPad(number, length) {
 
 export function numberTo(obj, start, end, duration, currency = false) {
     clearInterval(obj.timer);
-    var range = end - (parseInt(obj.string.replace(",", "")) || 0);
+    var range = end - (parseInt(obj.string.replace(/,/g, "")) || 0);
     var minTimer = 50;
     var stepTime = Math.abs(Math.floor(duration / range));
     stepTime = Math.max(stepTime, minTimer);

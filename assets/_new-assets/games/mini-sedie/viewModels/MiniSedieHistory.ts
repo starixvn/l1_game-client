@@ -1,6 +1,6 @@
-import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import SedieHistoryItem from "../../xoc-xoc/view-models/SedieHistoryItem";
+import GameHistoryBase from "./../../_base/GameHistoryBase";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -56,44 +56,7 @@ export default class MiniSedieHistory extends cc.Component {
 
         if (betLogs && betLogs.length) {
             betLogs.map((betLog, index) => {
-                const itemNode = cc.instantiate(this.itemPrefab);
-                const item = itemNode.getComponent(SedieHistoryItem);
-                item.node.active = true;
-                item.bg.active = index % 2 > 0;
-
-                const { time, phien, result, settlementResult, betwin } = betLog;
-
-                item.time.string = getStringDateByTime(time);
-                item.phien.string = phien;
-
-                let number = 0;
-                Object.keys(result).forEach((key) => {
-                    if (result[key]) {
-                        number++;
-                    }
-                });
-
-                item.kqLabel.string = number.toString();
-                if (number % 2) {
-                    item.kqSprite.spriteFrame = this.iconRed;
-                    item.kqLabel.node.color = cc.Color.WHITE;
-                } else {
-                    item.kqSprite.spriteFrame = this.iconWhite;
-                    item.kqLabel.node.color = cc.Color.BLACK;
-                }
-
-                Object.keys(settlementResult).forEach((choice) => {
-                    item[choice].string = numberWithCommas(betLog[choice]);
-                    if (settlementResult[choice]) {
-                        item[choice].node.color = cc.Color.YELLOW;
-                    } else {
-                        item[choice].node.color = cc.Color.WHITE;
-                    }
-                });
-
-                item.win.string = numberWithCommas(betwin);
-
-                this.content.addChild(itemNode);
+                GameHistoryBase.buildItemRowData(this, betLog, index, SedieHistoryItem);
             });
         }
     }
