@@ -1,21 +1,27 @@
+import HoverItemBase from "../HoverItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class CustomButton extends cc.Component {
+export default class CustomButton extends HoverItemBase {
     @property
     fixedShape = false;
 
-    @property({ type: cc.PolygonCollider, visible: function (this: CustomButton) { return this.fixedShape } })
+    @property({
+        type: cc.PolygonCollider,
+        visible: function (this: CustomButton) {
+            return this.fixedShape;
+        }
+    })
     collider: cc.PolygonCollider = null;
 
     @property
     parentControl = false;
 
     public callback = {
-        highlight: (highlight: boolean) => { },
-        selected: () => { }
-    }
+        highlight: (highlight: boolean) => {},
+        selected: () => {}
+    };
 
     checkCollider(event) {
         if (this.collider) {
@@ -32,38 +38,14 @@ export default class CustomButton extends cc.Component {
         cc.director.getCollisionManager().enabled = true;
 
         if (!this.parentControl) {
-            this.registerEventListener();
+            super.onLoad();
         }
     }
 
     onDestroy() {
         if (!this.parentControl) {
-            this.clearEvenListener();
+            super.onDestroy();
         }
-    }
-
-    registerEventListener() {
-        this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchMove, this);
-        this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-        this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-
-        this.node.on(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
-        this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
-    }
-
-    clearEvenListener() {
-        this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchMove, this);
-        this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-        this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
-        this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-
-        this.node.off(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
-        this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
-    }
-
-    setHighlight(highlight: boolean) {
-        this.callback.highlight(highlight);
     }
 
     onTouchMove(e) {

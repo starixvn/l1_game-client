@@ -1,43 +1,20 @@
+import HoverItemBase from "../HoverItemBase";
 import NewButton from "./NewButton";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
-export default class ButtonGroup extends cc.Component {
+export default class ButtonGroup extends HoverItemBase {
     buttons: NewButton[] = [];
 
-    private _interactable = true;
+    private _intractable = true;
 
     onLoad() {
-        this.registerEventListener();
+        super.onLoad();
         this.node.children.forEach((child) => {
             const newButton = child.getComponent(NewButton);
             newButton && this.buttons.push(newButton);
         });
-    }
-
-    onDestroy() {
-        this.clearEvenListener();
-    }
-
-    registerEventListener() {
-        this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchMove, this);
-        this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-        this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-
-        this.node.on(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
-        this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
-    }
-
-    clearEvenListener() {
-        this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchMove, this);
-        this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-        this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
-        this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-
-        this.node.off(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
-        this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
     }
 
     onTouchMove(e) {
@@ -54,7 +31,7 @@ export default class ButtonGroup extends cc.Component {
     }
 
     onTouchEnd(e) {
-        if (!this._interactable) {
+        if (!this._intractable) {
             return;
         }
 
@@ -62,10 +39,10 @@ export default class ButtonGroup extends cc.Component {
             const button = this.buttons[i];
             if (button.node.active && button.checkCollider(e)) {
                 button.callback.selected();
-                this._interactable = false;
+                this._intractable = false;
                 cc.tween(this.node)
                     .delay(1)
-                    .call(() => (this._interactable = true))
+                    .call(() => (this._intractable = true))
                     .start();
                 break;
             }

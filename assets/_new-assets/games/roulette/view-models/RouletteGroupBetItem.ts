@@ -19,7 +19,7 @@ export default class RouletteGroupBetItem extends CustomButton {
     private selectedNumbers: number[] = [];
     private originFrame: cc.SpriteFrame;
 
-    private readonly UNHIGHLIGHTED_TAG = 1;
+    private readonly UN_HIGHLIGHTED_TAG = 1;
     private readonly HIGHLIGHTED_TAG = 2;
 
     public groupBetItemCallback = {
@@ -33,6 +33,7 @@ export default class RouletteGroupBetItem extends CustomButton {
 
     onLoad() {
         super.onLoad();
+
         if (this.winning) {
             this.originFrame = this.winning.getComponent(cc.Sprite).spriteFrame;
         }
@@ -50,11 +51,11 @@ export default class RouletteGroupBetItem extends CustomButton {
 
     public clearHighlight() {
         if (this.highlight) {
-            if (this.highlight.getActionByTag(this.UNHIGHLIGHTED_TAG)) {
+            if (this.highlight.getActionByTag(this.UN_HIGHLIGHTED_TAG)) {
                 return;
             }
             const action = cc.fadeOut(0.1);
-            action.setTag(this.UNHIGHLIGHTED_TAG);
+            action.setTag(this.UN_HIGHLIGHTED_TAG);
             this.highlight.runAction(action);
         }
     }

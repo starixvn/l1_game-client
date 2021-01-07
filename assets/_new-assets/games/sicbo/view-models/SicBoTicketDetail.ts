@@ -17,9 +17,6 @@ export default class SicBoTicketDetail extends GameTicketDetailBase {
     @property(cc.Label)
     total: cc.Label = null;
 
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
-
     roundID: number;
     result: number;
 

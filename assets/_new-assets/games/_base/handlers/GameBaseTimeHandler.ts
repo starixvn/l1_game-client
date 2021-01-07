@@ -115,6 +115,11 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
     }
 
+    showWaitTimeOptions(context: any) {
+        this.main.timeWaitNode.active = true;
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - context.shakeThePlateTime - 1);
+    }
+
     handleStartingNewGameRound() {
         this.main.noticeNode.destroyAllChildren();
         this.main.node.activeInHierarchy && this.main.gameAudios && this.main.gameAudios.playStartGameAudio();
@@ -127,9 +132,42 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         }
     }
 
+    handleStartingNewGameRoundOptions(context: any) {
+        context.highlightLastResult();
+
+        if (cc.RedT.GAME_IS_SHOWED) {
+            context.finishShakeThePlate = false;
+            context.shakeAnimation.node.active = true;
+            context.shakeAnimation.play();
+            cc.tween(context)
+                .delay(0.3)
+                .call(() => cc.RedT.isSoundGame() && context.shakeAudio.play())
+                .start();
+
+            context.finishShakeThePlate = true;
+        }
+    }
+
     handleInRoundTime() {
         this.showRoundTime();
         this.main.setGameRound(this.main.roundId);
+    }
+
+    /**
+     * using SicBo && vipFishPrawnCrab
+     */
+    handleInRoundTimeOptions(context: any) {
+        context.setGameRound(context.roundId);
+
+        if (context.currentTimeRemaining <= context.config.betTime) {
+            this.showRoundTime();
+            if (!context.finishShakeThePlate) {
+                context.shakeAnimation.node.active = true;
+                const duration = context.shakeAnimation.defaultClip.duration;
+                context.shakeAnimation.play("Shake", duration);
+                context.finishShakeThePlate = true;
+            }
+        }
     }
 
     showRoundTime() {
@@ -141,6 +179,9 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handleInLockBetTime() {}
+    handleInLockBetTimeOptions(context: any) {
+        context.betItems.forEach((item: any) => item.resetHighlight());
+    }
 
     handleInEndTime() {
         this.main.setGameRound(this.main.roundId);
