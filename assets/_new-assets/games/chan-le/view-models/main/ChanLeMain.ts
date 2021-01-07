@@ -2,6 +2,7 @@ import { getOnlyNumberInString, numberTo, numberWithCommas } from "../../../../c
 import UmWarning from "../../../../common/um-warning/UmWarning";
 import GameAudios from "../../../_base/GameAudios";
 import DataHandler from "../../../_base/handlers/DataHandler";
+import NewSocketMiniGameBase from "../../../_base/NewSocketMiniGameBase";
 import AnimatedTime from "./../../../../common/animated-time/view-models/AnimatedTime";
 import BetBoard, { BetInfo } from "./../../../../common/bet-board/view-models/BetBoard";
 import ProcessingWarning from "./../../../../common/processing-warning/view-models/ProcessingWarning";
@@ -300,7 +301,7 @@ export default class ChanLeMain extends cc.Component {
             cc.sequence(
                 cc.delayTime(0.05),
                 cc.callFunc(() => {
-                    this.adjustPosition();
+                    NewSocketMiniGameBase.adjustPosition(this.betBoard, this.node);
                 })
             )
         );

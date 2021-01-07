@@ -65,22 +65,10 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
       cc.sequence(
         cc.delayTime(0.05),
         cc.callFunc(() => {
-          this.adjustPosition();
+          NewSocketMiniGameBase.adjustPosition(this.betBoard, this.node);
         })
       )
     );
-  }
-
-  protected adjustPosition() {
-    const okButtonPositionY = this.betBoard.okButton.node.parent.convertToWorldSpaceAR(this.betBoard.okButton.node.position).y;
-    const expectPositionY = this.betBoard.okButton.node.height;
-    const paddingBottom = 20;
-
-    if (okButtonPositionY < expectPositionY) {
-      const distance = expectPositionY - okButtonPositionY + paddingBottom;
-
-      this.node.runAction(cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut()));
-    }
   }
 
   private initPresetBetBoard() {
