@@ -383,64 +383,70 @@ cc.Class({
             return;
         }
         void 0 !== this.timeInterval && clearInterval(this.timeInterval);
-        var self = this;
 
         this.timeInterval = setInterval(
             function () {
                 if (cc.RedT.setting.taixiu_turbo.time_remain > Constants.betTime) {
-                    const isBalanceBetTime = cc.RedT.setting.taixiu_turbo.time_remain > Constants.displayResultTime;
-                    if (isBalanceBetTime) {
-                        this.balanceBet(cc.RedT.setting.taixiu_turbo.time_remain === Constants.fullTime);
-                    } else {
-                        this.hideBetBalanceNotice();
-                        this.enableHistoryButton();
-                        if (cc.RedT.setting.taixiu_turbo.time_remain === Constants.displayResultTime) {
-                            this.displayDiceResult();
-                            this.showBetWinLoss();
-                        }
-                        // time count down to next phien
-                        const time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - Constants.betTime - 1, 2);
-                        this.showWaitTime(time);
-
-                        if (this.localResultDices.length > 0) {
-                            this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
-                            this.labelKetQua.string = this.diemSo;
-                            this.updateShowResult();
-                        }
-                        if (cc.RedT.setting.taixiu_turbo.logs) {
-                            this.setPhienLabel(cc.RedT.setting.taixiu_turbo.logs[0].phien);
-                        }
-                    }
+                    this.handleInWaitTime();
                 } else {
-                    this.resetUI();
-                    this.localResultDices = [];
-                    this.currentStatus = null;
-                    if (cc.RedT.setting.taixiu_turbo.logs) {
-                        this.setPhienLabel(cc.RedT.setting.taixiu_turbo.logs[0].phien + 1);
-                    }
-                    if (cc.RedT.setting.taixiu_turbo.time_remain === Constants.betTime) {
-                        this.reset();
-                    }
-
-                    if (cc.RedT.setting.taixiu_turbo.time_remain > Constants.minBetTime) {
-                        const time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - 1, 2);
-                        this.AnimatedTime.setTime(time);
-                        this.AnimatedTime.node.active = !self.isUM;
-                    } else {
-                        this.disableHistoryButton();
-                        clearInterval(this.timeInterval);
-                    }
+                    this.handleInRoundTime();
                 }
                 cc.RedT.setting.taixiu_turbo.time_remain--;
             }.bind(this),
             1000
         );
     },
+    handleInWaitTime: function () {
+        const isBalanceBetTime = cc.RedT.setting.taixiu_turbo.time_remain > Constants.displayResultTime;
+        if (isBalanceBetTime) {
+            this.balanceBet(cc.RedT.setting.taixiu_turbo.time_remain === Constants.fullTime);
+        } else {
+            this.hideBetBalanceNotice();
+            this.enableHistoryButton();
+            if (cc.RedT.setting.taixiu_turbo.time_remain === Constants.displayResultTime) {
+                this.displayDiceResult();
+                this.showBetWinLoss();
+            }
+            // time count down to next phien
+            const time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - Constants.betTime - 1, 2);
+            this.showWaitTime(time);
+
+            if (this.localResultDices.length > 0) {
+                this.diemSo = this.localResultDices[0] + this.localResultDices[1] + this.localResultDices[2];
+                this.labelKetQua.string = this.diemSo;
+                this.updateShowResult();
+            }
+            if (cc.RedT.setting.taixiu_turbo.logs) {
+                this.setPhienLabel(cc.RedT.setting.taixiu_turbo.logs[0].phien);
+            }
+        }
+    },
     showWaitTime: function (time) {
         if (this.nodeTimeWait) {
             this.nodeTimeWait.active = true;
         }
         this.timeWait.string = `00:${helper.numberPad(time, 2)}`;
+    },
+
+    handleInRoundTime: function () {
+        this.resetUI();
+        this.localResultDices = [];
+        this.currentStatus = null;
+        if (cc.RedT.setting.taixiu_turbo.logs) {
+            this.setPhienLabel(cc.RedT.setting.taixiu_turbo.logs[0].phien + 1);
+        }
+        if (cc.RedT.setting.taixiu_turbo.time_remain === Constants.betTime) {
+            this.reset();
+        }
+
+        if (cc.RedT.setting.taixiu_turbo.time_remain > Constants.minBetTime) {
+            const time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - 1, 2);
+            this.AnimatedTime.setTime(time);
+            this.AnimatedTime.node.active = !this.isUM;
+        } else {
+            this.disableHistoryButton();
+            clearInterval(this.timeInterval);
+        }
     },
     onDataChanLe: function (data) {
         if (void 0 !== data.red_chan) {
