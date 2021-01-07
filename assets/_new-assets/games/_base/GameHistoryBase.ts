@@ -52,7 +52,7 @@ export default class GameHistoryBase extends cc.Component {
 
     onData(data) {}
 
-    static buildItemRowData(context, betLog, index, componentName) {
+    static buildItemRowData(context: any, betLog: any, index: number, componentName: any) {
         const itemNode = cc.instantiate(context.itemPrefab);
         const item = itemNode.getComponent(componentName);
         item.node.active = true;
@@ -91,5 +91,21 @@ export default class GameHistoryBase extends cc.Component {
         item.win.string = numberWithCommas(betwin);
 
         context.content.addChild(itemNode);
+    }
+
+    static handleSomeItemRowData(context: any, item: any, log: any) {
+        item.amountLabel.string = numberWithCommas(log.totalAmount);
+        item.winLabel.string = numberWithCommas(log.betwin);
+        item.winLabel.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+
+        item.time = "";
+        item.round = log.phien;
+        item.result = log.result;
+        item.betLogDetails = log.betLogDetails;
+        item.settlementResult = log.settlementResult;
+
+        item.showTicketDetail = (round, time, result, betLogDetails, settlementResult) => {
+            context.showTicketDetail(round, time, result, betLogDetails, settlementResult);
+        };
     }
 }

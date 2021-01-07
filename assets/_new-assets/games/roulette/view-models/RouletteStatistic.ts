@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+import RouletteBase from "./RouletteBase";
 
 import RouletteStatisticItem from "./RouletteStatisticItem";
 import RouletteUtils from "./RouletteUtils";
@@ -6,7 +7,7 @@ import RouletteUtils from "./RouletteUtils";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class RouletteStatistic extends cc.Component {
+export default class RouletteStatistic extends RouletteBase {
     @property(cc.Node)
     wheel: cc.Node = null;
 
@@ -58,9 +59,6 @@ export default class RouletteStatistic extends cc.Component {
     @property(cc.SpriteFrame)
     numberZeroBg: cc.SpriteFrame = null;
 
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
-
     wheelDegree = 360;
     numberAngle: number = this.wheelDegree / 37;
     numbersOnWheel: number[] = [
@@ -105,29 +103,11 @@ export default class RouletteStatistic extends cc.Component {
     result: any = null;
     resultStats = [];
     toggleRuning: boolean = null;
-    private readonly dataObserverKey = "RouletteStatistic";
+    dataObserverKey = "RouletteStatistic";
 
     onLoad() {
         this.toggleRuning = true;
-        this.get_data();
-        this.addDataObserver();
-
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
-            this.node.destroy();
-        };
-    }
-
-    addDataObserver() {
-        cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
-    }
-
-    onDestroy() {
-        this.removeDataObserver();
-    }
-
-    removeDataObserver() {
-        cc.RedT.removeDataObserver(this.dataObserverKey);
+        super.onLoad();
     }
 
     receivedData(data) {

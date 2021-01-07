@@ -1,4 +1,5 @@
 import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import GameHistoryBase from "../../_base/GameHistoryBase";
 import NewSocketGameBaseHistory from "../../_base/NewSocketGameBaseHistory";
 import SicBoHistoryItem from "./SicBoHistoryItem";
 import SicBoTicketDetail from "./SicBoTicketDetail";
@@ -23,19 +24,8 @@ export default class SicBoHistory extends NewSocketGameBaseHistory {
         item.dices[1].spriteFrame = this.dices[log.result.dice2 - 1];
         item.dices[2].spriteFrame = this.dices[log.result.dice3 - 1];
         item.total.string = log.result.dice1 + log.result.dice2 + log.result.dice3;
-        item.amountLabel.string = numberWithCommas(log.totalAmount);
-        item.winLabel.string = numberWithCommas(log.betwin);
-        item.winLabel.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
-        item.time = "";
-        item.round = log.phien;
-        item.result = log.result;
-        item.betLogDetails = log.betLogDetails;
-        item.settlementResult = log.settlementResult;
-
-        item.showTicketDetail = (round, time, result, betLogDetails, settlementResult) => {
-            this.showTicketDetail(round, time, result, betLogDetails, settlementResult);
-        };
+        GameHistoryBase.handleSomeItemRowData(this, item, log);
     }
 
     showTicketDetail(round: number, time: string, result: any, betLogDetails: any, settlementResult: any) {
