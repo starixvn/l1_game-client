@@ -315,7 +315,7 @@ export default class Roulette extends GameRoomBase {
                 destNode: destNode,
                 startNode: null,
                 onComplete: () => {
-                    this.addBetChoiceOnBoard.bind(this, betInfo, this.currentBet);
+                    this.addBetChoiceOnBoard(betInfo, this.currentBet);
                 },
                 delayDestroy: 0,
                 duration: chipFlyingDuration,
@@ -351,15 +351,17 @@ export default class Roulette extends GameRoomBase {
                     const chipNode = RouletteUtils.createChips(bet, this.betChips.chipAltas);
 
                     this.addBetChoice(betInfo, bet);
-                    this.betChips.moveChipWithCallback(
-                        chipNode,
-                        bet,
-                        destNode,
-                        null,
-                        this.addBetChoiceOnBoard.bind(this, betInfo, bet),
-                        0,
-                        chipFlyingDuration
-                    );
+                    const objectData = {
+                        chipNode: chipNode,
+                        bet: bet,
+                        destNode: destNode,
+                        startNode: null,
+                        onComplete: this.addBetChoiceOnBoard.bind(this, betInfo, bet),
+                        delayDestroy: 0,
+                        duration: chipFlyingDuration,
+                        fadeDuration: 1
+                    };
+                    this.betChips.moveChipWithCallback(objectData);
                 }
             }
             this.addToBetChoicesStack(betChoices);
