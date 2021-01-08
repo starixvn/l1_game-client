@@ -7,7 +7,7 @@ const { ccclass } = cc._decorator;
 export default class ButtonGroup extends HoverItemBase {
     buttons: NewButton[] = [];
 
-    private _intractable = true;
+    private _interactable = true;
 
     onLoad() {
         super.onLoad();
@@ -31,7 +31,7 @@ export default class ButtonGroup extends HoverItemBase {
     }
 
     onTouchEnd(e) {
-        if (!this._intractable) {
+        if (!this._interactable) {
             return;
         }
 
@@ -39,10 +39,10 @@ export default class ButtonGroup extends HoverItemBase {
             const button = this.buttons[i];
             if (button.node.active && button.checkCollider(e)) {
                 button.callback.selected();
-                this._intractable = false;
+                this._interactable = false;
                 cc.tween(this.node)
                     .delay(1)
-                    .call(() => (this._intractable = true))
+                    .call(() => (this._interactable = true))
                     .start();
                 break;
             }
