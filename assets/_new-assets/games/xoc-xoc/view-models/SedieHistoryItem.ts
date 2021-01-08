@@ -46,7 +46,4 @@ export default class SedieHistoryItem extends cc.Component {
 
     @property(cc.Node)
     scoinIcon: cc.Node = null;
-
-    @property(cc.Label)
-    red2: cc.Label = null;
 }

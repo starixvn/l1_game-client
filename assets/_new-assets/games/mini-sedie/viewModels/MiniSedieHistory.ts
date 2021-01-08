@@ -1,6 +1,6 @@
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
-import SedieHistoryItem from "../../xoc-xoc/view-models/SedieHistoryItem";
 import GameHistoryBase from "./../../_base/GameHistoryBase";
+import MiniSedieHistoryItem from "./MiniSedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -56,7 +56,7 @@ export default class MiniSedieHistory extends cc.Component {
 
         if (betLogs && betLogs.length) {
             betLogs.map((betLog, index) => {
-                GameHistoryBase.buildItemRowData(this, betLog, index, SedieHistoryItem);
+                GameHistoryBase.buildItemRowData(this, betLog, index, MiniSedieHistoryItem);
             });
         }
     }
