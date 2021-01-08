@@ -25,7 +25,6 @@ export default class GameLogControlBase extends cc.Component {
     protected nextMark: cc.Node = null;
     protected dots: cc.Node[] = [];
     protected checkShowNext = () => false;
-    maxX = 0;
 
     init(condition: () => boolean) {
         this.checkShowNext = condition;
@@ -40,6 +39,7 @@ export default class GameLogControlBase extends cc.Component {
 
         let col = 0,
             row = 0;
+        let maxX = 0;
         let nextCol = 1;
         let previousResult = undefined;
         const rowMax = {};
@@ -70,26 +70,26 @@ export default class GameLogControlBase extends cc.Component {
             previousResult = result;
 
             const dot = cc.instantiate(this.items[result]);
-            this.handleDotAction(dot, start, col, row);
+            maxX = this.handleDotAction(dot, start, col, row, maxX);
         });
 
         this.addNextMark(rowMax, row, col, nextCol, start);
-        this.updateContentPosition();
+        this.updateContentPosition(maxX);
     }
 
-    protected handleDotAction(dot: any, start: any, col: number, row: number) {
+    protected handleDotAction(dot: any, start: any, col: number, row: number, maxX: number) {
         dot.active = true;
-
         dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
-
-        this.maxX = Math.max(this.maxX, dot.position.x);
+        maxX = Math.max(maxX, dot.position.x);
         this.content.addChild(dot);
         this.dots.push(dot);
+
+        return maxX;
     }
 
-    protected updateContentPosition() {
-        this.maxX = Math.max(this.maxX, this.nextMark.position.x);
-        this.content.width = Math.max(this.maxX + this.itemSize.width / 2, this.node.width) + 2 * this.padding.width;
+    protected updateContentPosition(maxX: number) {
+        maxX = Math.max(maxX, this.nextMark.position.x);
+        this.content.width = Math.max(maxX + this.itemSize.width / 2, this.node.width) + 2 * this.padding.width;
 
         this.content.position = cc.v2(-this.content.width, this.content.position.y);
     }

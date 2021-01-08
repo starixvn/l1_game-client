@@ -22,6 +22,7 @@ export default class DragonScoreBoard extends GameLogControlBase {
 
         let col = 0,
             row = 0;
+        let maxX = 0;
         let nextCol = 1;
         let previousResult: DragonScoreBoardItemData = undefined;
         const rowMax = {};
@@ -55,11 +56,11 @@ export default class DragonScoreBoard extends GameLogControlBase {
 
             const item = this.buildItem(result);
             var dot = cc.instantiate(item.node);
-            this.handleDotAction(dot, start, col, row);
+            maxX = this.handleDotAction(dot, start, col, row, maxX);
         });
 
         this.addNextMark(rowMax, row, col, nextCol, start);
-        this.updateContentPosition();
+        this.updateContentPosition(maxX);
     }
 
     protected buildItem(result: DragonScoreBoardItemData) {
