@@ -401,7 +401,7 @@ cc.Class({
             var data = newData[i];
             if (void 0 !== data) {
                 obj.active = true;
-                totalPoints = this.calculateTotalPoints(obj, data);
+                totalPoints = this.calculateTotalPoints(totalPoints, obj, data);
             } else {
                 obj.active = false;
             }
@@ -411,12 +411,7 @@ cc.Class({
         this.DiemSoRight.string = totalPoints.cXiu;
     },
 
-    calculateTotalPoints(obj, data) {
-        const totalPoints = {
-            cTai: 0,
-            cXiu: 0
-        };
-
+    calculateTotalPoints(totalPoints, obj, data) {
         obj.RedT.forEach((current, index) => {
             var dataCel = data[index];
             if (void 0 !== dataCel) {

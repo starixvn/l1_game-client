@@ -171,7 +171,6 @@ cc.Class({
             self.TXRoot.TXStats.onChangerGame();
             this.TXRoot.TX_LichSuPhien.onChangerGame();
             this.taixiu && this.onDataTaiXiu(cc.RedT.setting.taixiu_turbo.data.taixiu);
-            !this.taixiu && this.onDataChanLe(cc.RedT.setting.taixiu_turbo.data.chanle);
             this.onDuDay(cc.RedT.setting.taixiu_turbo.data.du_day);
         }
     },
@@ -194,11 +193,8 @@ cc.Class({
                     this.onChangerNan();
                 }
                 this.onDuDay(cc.RedT.setting.taixiu_turbo.data.du_day);
-                if (cc.RedT.setting.taixiu_turbo.taixiu) {
-                    this.onDataTaiXiu(cc.RedT.setting.taixiu_turbo.data.taixiu);
-                } else {
-                    this.onDataChanLe(cc.RedT.setting.taixiu_turbo.data.chanle);
-                }
+
+                this.onDataTaiXiu(cc.RedT.setting.taixiu_turbo.data.taixiu);
             }.bind(this),
             50
         );
@@ -213,7 +209,6 @@ cc.Class({
         //FIX ME: TX_LichSuPhien NOT FOUND
         this.TXRoot.TX_LichSuPhien.onChangerCoint();
         this.taixiu && this.onDataTaiXiu(cc.RedT.setting.taixiu_turbo.data.taixiu);
-        !this.taixiu && this.onDataChanLe(cc.RedT.setting.taixiu_turbo.data.chanle);
         this.onDuDay(cc.RedT.setting.taixiu_turbo.data.du_day);
     },
     eventStart: function (e) {
@@ -293,10 +288,6 @@ cc.Class({
         if (data.taixiu && !this.isUM) {
             Object.assign(cc.RedT.setting.taixiu_turbo.data.taixiu, data.taixiu);
             this.taixiu && this.onDataTaiXiu(data.taixiu);
-        }
-        if (data.chanle) {
-            Object.assign(cc.RedT.setting.taixiu_turbo.data.chanle, data.chanle);
-            !this.taixiu && this.onDataChanLe(data.chanle);
         }
         if (data.get_top) {
             this.TXRoot.TXTop.node && this.TXRoot.TXTop.onData(data.get_top);
@@ -448,31 +439,6 @@ cc.Class({
             clearInterval(this.timeInterval);
         }
     },
-    onDataChanLe: function (data) {
-        if (void 0 !== data.red_chan) {
-            this.totalLeft.string = helper.numberWithCommas(data.red_chan);
-        }
-
-        if (void 0 !== data.red_le) {
-            this.totalRight.string = helper.numberWithCommas(data.red_le);
-        }
-
-        if (void 0 !== data.red_me_chan) {
-            this.myLeft.string = helper.numberWithCommas(data.red_me_chan);
-        }
-
-        if (void 0 !== data.red_me_le) {
-            this.myRight.string = helper.numberWithCommas(data.red_me_le);
-        }
-
-        if (void 0 !== data.red_player_chan) {
-            this.playerLeft.string = helper.numberWithCommas(data.red_player_chan);
-        }
-
-        if (void 0 !== data.red_player_le) {
-            this.playerRight.string = helper.numberWithCommas(data.red_player_le);
-        }
-    },
     onDataTaiXiu: function (data) {
         if (void 0 !== cc.RedT.inGame.onGetTaiXiu) {
             cc.RedT.inGame.onGetTaiXiu(data.red_tai, data.red_xiu);
@@ -507,7 +473,7 @@ cc.Class({
             this.myLeft.string = helper.numberWithCommas(data.red_me_tai);
         }
 
-        if (0 !== data.red_me_xiu) {
+        if (void 0 !== data.red_me_xiu) {
             this.myRight.string = helper.numberWithCommas(data.red_me_xiu);
         }
         if (void 0 !== data.red_player_tai) {
@@ -638,18 +604,9 @@ cc.Class({
     },
     reset: function () {
         this.isNan && this.dataLogs();
-        cc.RedT.setting.taixiu_turbo.data.chanle.red_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_le = 0;
-        cc.RedT.setting.taixiu_turbo.data.chanle.red_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_me_le = 0;
-        cc.RedT.setting.taixiu_turbo.data.chanle.red_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.red_player_le = 0;
-        cc.RedT.setting.taixiu_turbo.data.chanle.xu_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_le = 0;
-        cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_me_le = 0;
-        cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_chan = cc.RedT.setting.taixiu_turbo.data.chanle.xu_player_le = 0;
         cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_me_xiu = 0;
         cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_player_xiu = 0;
         cc.RedT.setting.taixiu_turbo.data.taixiu.red_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.red_xiu = 0;
-        cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_me_xiu = 0;
-        cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_player_xiu = 0;
-        cc.RedT.setting.taixiu_turbo.data.taixiu.xu_tai = cc.RedT.setting.taixiu_turbo.data.taixiu.xu_xiu = 0;
         this.totalLeft.string = this.totalRight.string = this.myLeft.string = this.myRight.string = 0;
         this.playerLeft.string = this.playerRight.string = "0%";
         this.gameAudios && this.gameAudios.playStartGameAudio();

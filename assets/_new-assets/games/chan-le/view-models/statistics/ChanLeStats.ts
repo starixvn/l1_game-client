@@ -306,7 +306,7 @@ export default class ChanLeStats extends cc.Component {
             var pointsDataOfType = slicedPointsData[index];
             if (pointsDataOfType) {
                 pointCell.active = true;
-                totalType = this.handleTotalType(pointCell, pointsDataOfType);
+                totalType = this.handleTotalType(totalType, pointCell, pointsDataOfType);
             } else {
                 pointCell.active = false;
             }
@@ -320,6 +320,7 @@ export default class ChanLeStats extends cc.Component {
         var currentType = -1;
         var pointLogs = logs.slice();
         pointLogs.reverse();
+
         for (var pointLog of pointLogs) {
             var point = pointLog.dice[0] + pointLog.dice[1] + pointLog.dice[2];
             var type = point % 2 ? 0 : 1;
@@ -340,11 +341,7 @@ export default class ChanLeStats extends cc.Component {
         return pointsData;
     }
 
-    handleTotalType(pointCell: any, pointsDataOfType: any): TotalType {
-        const totalType = {
-            left: 0,
-            right: 0
-        };
+    handleTotalType(totalType, pointCell: any, pointsDataOfType: any): TotalType {
         pointCell.dots.forEach((dot: any, index: number) => {
             const pointsData = pointsDataOfType[index];
             if (pointsData) {
