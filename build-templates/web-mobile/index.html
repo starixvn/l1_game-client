@@ -130,11 +130,19 @@
       }
 
       if (userAgent.match(/android/i)) {
+        var focused = false;
+        window.onfocus = () => {
+          focused = true;
+        }
+        window.onblur = () => {
+          focused = false;
+        }
+
         var fullButton = document.getElementById("buttonFullAndroid");
         fullButton.style.display = "block";
         window.onresize = () => {
           var isFullScreen = (screen.height - window.innerHeight) < 1;
-          fullButton.style.display = isFullScreen ? "none" : "block";
+          fullButton.style.display = isFullScreen || !focused ? "none" : "block";
           updateViewport();
         }
         fullButton.onclick = () => {
