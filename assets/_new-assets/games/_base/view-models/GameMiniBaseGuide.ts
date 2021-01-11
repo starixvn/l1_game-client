@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class GameBaseGuide extends cc.Component {
+export default class GameMiniBaseGuide extends cc.Component {
     @property
     gameName = "";
 

@@ -1,9 +1,9 @@
-import GameBaseGuide from "../../../games/_base/view-models/GameBaseGuide";
+import GameMiniBaseGuide from "../../../games/_base/view-models/GameMiniBaseGuide";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BCGuide extends GameBaseGuide {
+export default class BCGuide extends GameMiniBaseGuide {
     getOdds() {
         cc.RedT.send({
             g: {
