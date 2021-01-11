@@ -1,7 +1,7 @@
-import { NoticeData } from "../../common/notice/view-models/Notice";
-import * as SabaConfigs from "../../SabaConfigs";
-import * as authManager from "./../../common/auth/AuthManager";
-import MiniPanel from "./MiniPanel";
+import { NoticeData } from '../../common/notice/view-models/Notice';
+import * as SabaConfigs from '../../SabaConfigs';
+import * as authManager from './../../common/auth/AuthManager';
+import MiniPanel from './MiniPanel';
 
 declare global {
     interface Window {
@@ -44,11 +44,6 @@ export default class MiniPanelDataHandlers {
         if (data.Authorized) {
             cc.RedT.IS_LOGIN = true;
             this.main.onSignIn();
-        }
-
-        if (data.gameResult) {
-            const { redirectUrl } = data.gameResult;
-            this.main.openResultPage(redirectUrl);
         }
     }
 

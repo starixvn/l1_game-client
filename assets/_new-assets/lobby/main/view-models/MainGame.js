@@ -1,10 +1,10 @@
-import baseControll from "../../../BaseController";
-import BaseSocketIOController from "../../../BaseSocketIOController";
-import GameUtils from "../../../common/GameUtils";
-import helper from "../../../common/helpers/Helper";
-import logger from "../../../common/logger";
-import * as SabaConfigs from "../../../SabaConfigs";
-import * as authManager from "./../../../common/auth/AuthManager";
+import baseControll from '../../../BaseController';
+import BaseSocketIOController from '../../../BaseSocketIOController';
+import GameUtils from '../../../common/GameUtils';
+import helper from '../../../common/helpers/Helper';
+import logger from '../../../common/logger';
+import * as SabaConfigs from '../../../SabaConfigs';
+import * as authManager from './../../../common/auth/AuthManager';
 
 const sentryLogger = logger();
 
@@ -37,7 +37,10 @@ cc.Class({
         audioBG: cc.AudioSource,
         url: cc.String,
         appApk: cc.String,
-        NoticePrefab: cc.Prefab
+        NoticePrefab: cc.Prefab,
+        sound: cc.Sprite,
+        soundOn: cc.SpriteFrame,
+        soundOff: cc.SpriteFrame
     },
     onDestroy() {
         this.dialogNode.destroy();
@@ -114,14 +117,16 @@ cc.Class({
             this.center.scale = 0.8;
         }
 
-        const gameIconLayout = this.mainScroll.getComponent("GameIconLayout");
-        gameIconLayout.miniPanel = cc.RedT.MiniPanel;
-        gameIconLayout.initializedCallback = () => {
+        const lobbyMenu = this.mainScroll.getComponent("LobbyMenu");
+        lobbyMenu.miniPanel = cc.RedT.MiniPanel;
+        lobbyMenu.initializedCallback = () => {
             if (this.node === null) {
                 return;
             }
             this.repositionMenu();
         };
+
+        this.initSound();
     },
     getGameNotifications() {
         cc.RedT.send({
@@ -202,6 +207,12 @@ cc.Class({
         }
         if (!!data.removeIsLoading && this.loading) {
             this.loading.active = false;
+        }
+
+        // open result page
+        if (data.gameResult) {
+            const { redirectUrl } = data.gameResult;
+            this.openResultPage(redirectUrl);
         }
     },
 
@@ -318,5 +329,36 @@ cc.Class({
     },
     audioUnClick: function () {
         cc.RedT.audio.playUnClick();
+    },
+    openResultPage(redirectUrl) {
+        cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
+        cc.RedT.resultPage.focus();
+
+        window.onbeforeunload = function () {
+            cc.RedT.resultPage.close();
+        };
+    },
+
+    onGameResultClick() {
+        cc.RedT.send({ gameResult: { language: "vi-VN" } });
+    },
+
+    onClickSoundGame() {
+        cc.RedT.audio.playClick();
+        cc.RedT.isSoundGame() ? this.setSoundGameOff() : this.setSoundGameOn();
+    },
+
+    initSound() {
+        cc.RedT.isSoundGame() ? this.setSoundGameOn() : this.setSoundGameOff();
+    },
+
+    setSoundGameOn() {
+        this.sound.spriteFrame = this.soundOn;
+        cc.RedT.setSoundGame(true);
+    },
+
+    setSoundGameOff() {
+        this.sound.spriteFrame = this.soundOff;
+        cc.RedT.setSoundGame(false);
     }
 });

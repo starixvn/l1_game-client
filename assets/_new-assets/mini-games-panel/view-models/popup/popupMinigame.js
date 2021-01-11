@@ -59,12 +59,17 @@ cc.Class({
     eventMove: function (e) {
         this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
     },
+    getCurrentSize() {
+        const listBox = this.list.getBoundingBox();
+        return cc.v2(Math.max(this.node.width, listBox.width), Math.max(this.node.height, listBox.height));
+    },
     moveToEdge: function () {
         const width = this.node.parent.width;
         const height = this.node.parent.height;
         const fixTopPadding = 100;
-        const maxX = width / 2 - this.node.width / 2;
-        const maxY = height / 2 - this.node.height / 2;
+        const size = this.getCurrentSize();
+        const maxX = width / 2 - size.x / 2;
+        const maxY = height / 2 - size.y / 2;
         const deltaWidth = maxX - Math.abs(this.node.x);
         const deltaHeight = maxY - Math.abs(this.node.y);
 
@@ -82,6 +87,7 @@ cc.Class({
         }
 
         posY = Math.min(maxY - fixTopPadding, posY);
+
         this.node.runAction(cc.moveTo(0.3, posX, posY).easing(cc.easeSineOut()));
         cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
     },
@@ -110,8 +116,9 @@ cc.Class({
         this.list.active = cc.RedT.setting.popupMini.open = true;
         this.list.runAction(
             cc.sequence(
-                cc.scaleTo(0.3, 1).easing(cc.easeSineInOut()),
-                cc.callFunc(function () {
+                cc.spawn(cc.scaleTo(0.3, 1).easing(cc.easeSineInOut()), cc.rotateBy(0.5, 360).easing(cc.easeSineInOut())),
+                cc.callFunc(() => {
+                    this.list.angle = 0;
                     this.toggleRuning = false;
                 }, this)
             )

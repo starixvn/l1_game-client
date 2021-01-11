@@ -1,17 +1,16 @@
-import SnappedScrollView from "../../common/bet-chips/view-models/SnappedScrollView";
-import Loading from "../../common/loading/view-models/Loading";
-import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
-import ChanLe from "../../games/chan-le/view-models/ChanLe";
-import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
-import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
-import RongHo from "../../games/rong-ho/view-models/RongHo";
-import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
-import * as SabaConfigs from "../../SabaConfigs";
-import * as authManager from "./../../common/auth/AuthManager";
-import GameIconLayout from "./GameIconLayout";
-import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
-import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
-import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
+import Loading from '../../common/loading/view-models/Loading';
+import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
+import ChanLe from '../../games/chan-le/view-models/ChanLe';
+import KenoProViet from '../../games/mini-keno/view-models/KenoProViet';
+import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
+import RongHo from '../../games/rong-ho/view-models/RongHo';
+import SpecialSeDie from '../../games/special-sedie/view-models/SpecialSeDie';
+import GameIconMenu from '../../lobby/main/view-models/GameIconMenu';
+import * as SabaConfigs from '../../SabaConfigs';
+import * as authManager from './../../common/auth/AuthManager';
+import MiniPanelDataHandlers from './MiniPanelDataHandlers';
+import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
+import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -32,18 +31,6 @@ export default class MiniPanel extends cc.Component {
     dialog: cc.Node = null;
 
     @property(cc.Node)
-    lightBackground: cc.Node = null;
-
-    @property(cc.Sprite)
-    lightSprite: cc.Sprite = null;
-
-    @property(cc.SpriteFrame)
-    lightOnSpriteFrame: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    lightOffSpriteFrame: cc.SpriteFrame = null;
-
-    @property(cc.Node)
     effectNode: cc.Node = null;
 
     @property(cc.Prefab)
@@ -52,26 +39,8 @@ export default class MiniPanel extends cc.Component {
     @property(cc.Prefab)
     loadingPrefab: cc.Prefab = null;
 
-    @property(cc.Sprite)
-    sound: cc.Sprite = null;
-
-    @property(cc.SpriteFrame)
-    soundOn: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    soundOff: cc.SpriteFrame = null;
-
-    @property(GameIconLayout)
-    gameIconLayout: GameIconLayout = null;
-
-    @property(cc.Node)
-    leftButton: cc.Node = null;
-
-    @property(cc.Node)
-    rightButton: cc.Node = null;
-
-    @property(SnappedScrollView)
-    scrollView: SnappedScrollView = null;
+    @property(GameIconMenu)
+    gameMenu: GameIconMenu = null;
 
     public taiXiu: any;
     public bauCua: any;
@@ -87,7 +56,6 @@ export default class MiniPanel extends cc.Component {
     public loading: Loading;
     public dataHandlers: MiniPanelDataHandlers;
     public currentGameRoomId: number;
-    private isLightOn: boolean;
     private gameMiniInitializers: MiniPanelMiniGameInitializers;
     private socketIOGameInitializers: MiniPanelSocketIOGameInitializers;
 
@@ -103,15 +71,10 @@ export default class MiniPanel extends cc.Component {
         this.node.addChild(loadingNode);
 
         this.popupMiniGame = this.miniMenu.getComponent("popupMinigame");
-        this.initSound();
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
-        this.gameIconLayout.miniPanel = this;
-        this.scrollView.onScrollEnded = () => {
-            const min = this.scrollView.getMinDisplayIndex();
-            this.updateArrowVisibility(min);
-        };
+        this.gameMenu.miniPanel = this;
     }
 
     onDestroy() {
@@ -170,18 +133,6 @@ export default class MiniPanel extends cc.Component {
     forceKickedOut() {
         cc.RedT.forceKickedOut();
         authManager.signOut();
-    }
-
-    changeLight() {
-        this.isLightOn = !this.isLightOn;
-
-        if (this.isLightOn) {
-            this.lightBackground.active = false;
-            this.lightSprite.spriteFrame = this.lightOffSpriteFrame;
-        } else {
-            this.lightBackground.active = true;
-            this.lightSprite.spriteFrame = this.lightOnSpriteFrame;
-        }
     }
 
     playClick() {
@@ -291,11 +242,6 @@ export default class MiniPanel extends cc.Component {
         this.node.addChild(noticePrefab);
     }
 
-    onClickSoundGame() {
-        cc.RedT.audio.playClick();
-        cc.RedT.isSoundGame() ? this.setSoundGameOff() : this.setSoundGameOn();
-    }
-
     onConnectSocketFailed(gameName, isGameRoom = true) {
         if (!this.node || !this.node.isValid) {
             return;
@@ -316,51 +262,5 @@ export default class MiniPanel extends cc.Component {
         const currentSceneName = cc.director.getScene().name;
 
         currentSceneName !== "MainGame" && cc.director.loadScene("MainGame");
-    }
-
-    private initSound() {
-        cc.RedT.isSoundGame() ? this.setSoundGameOn() : this.setSoundGameOff();
-    }
-
-    private setSoundGameOn() {
-        this.sound.spriteFrame = this.soundOn;
-        cc.RedT.setSoundGame(true);
-    }
-
-    private setSoundGameOff() {
-        this.sound.spriteFrame = this.soundOff;
-        cc.RedT.setSoundGame(false);
-    }
-
-    public openResultPage(redirectUrl) {
-        cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
-        cc.RedT.resultPage.focus();
-
-        window.onbeforeunload = function () {
-            cc.RedT.resultPage.close();
-        };
-    }
-
-    public onGameResultClick() {
-        cc.RedT.send({ gameResult: { language: "vi-VN" } });
-    }
-
-    public onPrevious() {
-        cc.RedT.audio.playClick();
-        const index = this.scrollView.getMinDisplayIndex() - this.gameIconLayout.displaySize;
-        this.scrollView.scrollTo(index < 0 ? 0 : index);
-        this.updateArrowVisibility(index);
-    }
-
-    public onNext() {
-        cc.RedT.audio.playClick();
-        const index = this.scrollView.getMinDisplayIndex() + this.gameIconLayout.displaySize;
-        this.scrollView.scrollTo(index);
-        this.updateArrowVisibility(index);
-    }
-
-    private updateArrowVisibility(index: number) {
-        this.leftButton.active = index > 0;
-        this.rightButton.active = index < this.gameIconLayout.columnCount - 6;
     }
 }
