@@ -1,7 +1,7 @@
-import * as authManager from "./common/auth/AuthManager";
-import { buildServerUrl } from "./common/helpers/UrlHelper";
-import logger from "./common/logger";
-import configs from "./Configs";
+import * as authManager from './common/auth/AuthManager';
+import { buildServerUrl } from './common/helpers/UrlHelper';
+import logger from './common/logger';
+import configs from './Configs';
 
 const sentryLogger = logger();
 
@@ -162,7 +162,7 @@ module.exports = {
             return true;
         }
 
-        return check === true;
+        return check === "true";
     },
     setSoundBackground: function (bool) {
         cc.sys.localStorage.setItem("SOUND_BACKGROUND", bool);
