@@ -1,7 +1,6 @@
+import BaseSocketIOController from "../../../BaseSocketIOController";
 
-import BaseSocketIOController from '../../BaseSocketIOController';
-
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class SessionTimeOut extends cc.Component {
