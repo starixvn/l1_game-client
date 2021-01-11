@@ -1,4 +1,4 @@
-import GameBaseGuide from "../../../game-guide/view-models/GameBaseGuide";
+import GameBaseGuide from "../../../games/_base/view-models/GameBaseGuide";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,7 +21,7 @@ export default class BCGuide extends GameBaseGuide {
                 this.clearAllOddLabels();
                 return;
             } else {
-                this.updateOddLabels(odds)
+                this.updateOddLabels(odds);
             }
         }
     }
