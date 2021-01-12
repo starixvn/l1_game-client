@@ -13,6 +13,10 @@ cc.Class({
         background: {
             default: null,
             type: cc.Node
+        },
+        menuIcon: {
+            default: null,
+            type: cc.Node
         }
     },
     onLoad() {
@@ -88,7 +92,7 @@ cc.Class({
 
         posY = Math.min(maxY - fixTopPadding, posY);
 
-        this.node.runAction(cc.moveTo(0.3, posX, posY).easing(cc.easeSineOut()));
+        this.node.runAction(cc.moveTo(0.2, posX, posY).easing(cc.easeSineOut()));
         cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
     },
     eventEnd: function (e) {
@@ -103,10 +107,18 @@ cc.Class({
         cc.RedT.audio.playClick();
         if (!this.toggleRuning) {
             this.toggleRuning = true;
+            const menuAnimation = this.menuIcon.getComponent(cc.Animation);
+
             if (this.list.active) {
+                cc.tween(this.menuIcon).to(1, { scale: 1 }).start();
                 this.hideListGame();
+                cc.tween(this.node).to(1, { scale: 1 }).start();
+                menuAnimation.play();
             } else {
+                cc.tween(this.menuIcon).to(1, { scale: 0.9 }).start();
                 this.showListGame();
+                cc.tween(this.node).to(1, { scale: 0.9 }).start();
+                menuAnimation.stop();
             }
         }
     },
@@ -114,11 +126,11 @@ cc.Class({
         this.background.active = true;
         this.background.runAction(cc.fadeTo(0.1, 224));
         this.list.active = cc.RedT.setting.popupMini.open = true;
-        this.list.runAction(
+        this.node.runAction(
             cc.sequence(
-                cc.spawn(cc.scaleTo(0.3, 1).easing(cc.easeSineInOut()), cc.rotateBy(0.5, 360).easing(cc.easeSineInOut())),
+                cc.scaleTo(0.3, 1).easing(cc.easeSineInOut()),
                 cc.callFunc(() => {
-                    this.list.angle = 0;
+                    cc.tween(this.list).to(0.2, { scale: 1 }).start();
                     this.toggleRuning = false;
                 }, this)
             )
@@ -126,9 +138,9 @@ cc.Class({
     },
     hideListGame() {
         cc.RedT.setting.popupMini.open = false;
-        this.list.runAction(
+        this.node.runAction(
             cc.sequence(
-                cc.scaleTo(0.3, 0).easing(cc.easeSineInOut()),
+                cc.scaleTo(0.3, 1).easing(cc.easeSineInOut()),
                 cc.callFunc(function () {
                     this.list.active = false;
                     this.background.runAction(
@@ -137,6 +149,7 @@ cc.Class({
                             cc.callFunc(() => {
                                 this.background.active = false;
                                 this.toggleRuning = false;
+                                cc.tween(this.list).to(0.2, { scale: 0 }).start();
                             })
                         )
                     );
