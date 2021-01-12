@@ -105,21 +105,21 @@ export default class BetChips extends cc.Component {
     private scrollToSelectedIndex() {
         this.updateArrowVisibility();
 
-        var min = this.snappedScrollView.getMinDisplayIndex();
+        const min = this.snappedScrollView.getMinDisplayIndex();
         if (this.selectedIndex <= min) {
             this.snappedScrollView.scrollTo(min > 0 ? min - 1 : 0);
         }
         if (this.selectedIndex >= min + this.displaySize - 1) {
             this.snappedScrollView.scrollTo(min + 1);
         }
-        var item = this.chipList[this.selectedIndex].name;
+        const item = this.chipList[this.selectedIndex].name;
         this.setCurrentBet(item);
     }
 
     public onClickBet(event) {
-        var bet = event.target.name;
+        const bet = event.target.name;
         this.betChipClickAudio.play();
-        var i = 0;
+        let i = 0;
         for (; i < this.chipList.length; i++) {
             if (this.chipList[i].name === bet) {
                 break;
@@ -135,8 +135,8 @@ export default class BetChips extends cc.Component {
     }
 
     public moveChips(chipsBox: cc.Node, destBox: cc.Node) {
-        var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
-        var destBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(destBoxPosition);
+        const destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
+        const destBoxInChipBoxSpacePosition = chipsBox.convertToNodeSpaceAR(destBoxPosition);
 
         _.forEach(chipsBox.children, (chip) => {
             this.startMoveChip(chip, destBoxInChipBoxSpacePosition);
@@ -144,19 +144,19 @@ export default class BetChips extends cc.Component {
     }
 
     public moveChipsWithRandomAmount(chipsBox: cc.Node, destBox: cc.Node, flyTime: number = this.chipFlyingTime, randomAmount = 3) {
-        var destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
-        var cloneChipsBox = cc.instantiate(chipsBox);
+        const destBoxPosition = destBox.parent.convertToWorldSpaceAR(destBox.position);
+        const cloneChipsBox = cc.instantiate(chipsBox);
         cloneChipsBox.destroyAllChildren();
         chipsBox.parent.addChild(cloneChipsBox);
 
-        var destBoxInChipBoxSpacePosition = cloneChipsBox.convertToNodeSpaceAR(destBoxPosition);
-        var chipsCount = _.round(_.random(1, randomAmount));
+        const destBoxInChipBoxSpacePosition = cloneChipsBox.convertToNodeSpaceAR(destBoxPosition);
+        const chipsCount = _.round(_.random(1, randomAmount));
 
-        for (var i = 0; i < chipsCount; i++) {
-            var chip = chipsBox.children[i];
+        for (let i = 0; i < chipsCount; i++) {
+            const chip = chipsBox.children[i];
 
             if (chip) {
-                var cloneChip = cc.instantiate(chip);
+                const cloneChip = cc.instantiate(chip);
                 cloneChipsBox.addChild(cloneChip);
                 this.startMoveChip(cloneChip, destBoxInChipBoxSpacePosition, flyTime);
             }
@@ -171,34 +171,34 @@ export default class BetChips extends cc.Component {
     }
 
     public payChipsToWinningBetItem(chipBox: cc.Node, dealerBox: cc.Node) {
-        var dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
-        var dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
+        const dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
+        const dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
         chipBox.children.length > 0 && this.playMultiChipsSound();
 
         _.forEach(chipBox.children, (chip) => {
-            var cloneChip = cc.instantiate(chip);
+            const cloneChip = cc.instantiate(chip);
             cloneChip.position = dealerBoxInChipBoxSpacePosition;
             chipBox.addChild(cloneChip);
-            var randomPosition = this.getRandomPositionChip(cloneChip, chipBox);
+            const randomPosition = this.getRandomPositionChip(cloneChip, chipBox);
             cloneChip.runAction(this.moveChipTo(randomPosition));
         });
     }
 
     public placeChipBet(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => {}) {
-        var chipPosition: cc.Vec2;
-        var isLoginUserPlaceBet = startNode == null;
+        let chipPosition: cc.Vec2;
+        const isLoginUserPlaceBet = startNode == null;
 
         if (startNode) {
             chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
         } else {
-            var chip = this.chips.children.filter((child) => child.name === bet.toString())[0];
+            const chip = this.chips.children.filter((child) => child.name === bet.toString())[0];
             chipPosition = chip.parent.convertToWorldSpaceAR(chip.position);
         }
 
         chipPosition = destNode.convertToNodeSpaceAR(chipPosition);
-        var chipNode = this.createChip(bet);
+        const chipNode = this.createChip(bet);
         chipNode.node.position = chipPosition;
-        var randomPosition = this.getRandomPositionChip(chipNode.node, destNode);
+        const randomPosition = this.getRandomPositionChip(chipNode.node, destNode);
         destNode.addChild(chipNode.node);
 
         if (isLoginUserPlaceBet) {
@@ -259,13 +259,13 @@ export default class BetChips extends cc.Component {
             return;
         }
 
-        var chipBets = Object.keys(chipsData);
+        const chipBets = Object.keys(chipsData);
 
         _.forEach(chipBets, (chipBet) => {
-            var chipCountOfBet = chipsData[chipBet];
-            for (var i = 0; i < chipCountOfBet; i++) {
-                var chip = this.createChip(+chipBet);
-                var randomPosition = this.getRandomPositionChip(chip.node, chipsBox);
+            const chipCountOfBet = chipsData[chipBet];
+            for (let i = 0; i < chipCountOfBet; i++) {
+                const chip = this.createChip(+chipBet);
+                const randomPosition = this.getRandomPositionChip(chip.node, chipsBox);
                 chip.node.position = randomPosition;
                 chipsBox.addChild(chip.node);
             }

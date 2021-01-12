@@ -657,7 +657,7 @@ export default class Roulette extends GameRoomBase {
     public pressedShowGuide() {
         this.playClick();
         const dialog = cc.instantiate(this.guidePrefab);
-        var rouletteGuide = dialog.getComponent("RouletteGuide");
+        const rouletteGuide = dialog.getComponent("RouletteGuide");
         rouletteGuide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }

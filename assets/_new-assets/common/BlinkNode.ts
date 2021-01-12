@@ -10,8 +10,8 @@ export default class BlinkNode extends cc.Component {
     }
 
     playAnimation() {
-        var action = cc.sequence(cc.fadeOut(this.interval), cc.fadeIn(this.interval));
-        var repeat = cc.repeatForever(action);
+        const action = cc.sequence(cc.fadeOut(this.interval), cc.fadeIn(this.interval));
+        const repeat = cc.repeatForever(action);
         this.node.runAction(repeat);
     }
 

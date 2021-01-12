@@ -1,12 +1,13 @@
-import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
-import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import * as _ from "lodash";
+
+import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import KenoStatusBanner from "./components/KenoStatusBanner";
-import KenoUtils from "./KenoUtils";
-import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
+import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
+import KenoStatusBanner from "./components/KenoStatusBanner";
+import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
+import KenoUtils from "./KenoUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -184,7 +185,7 @@ export default class KenoProViet extends cc.Component {
         this.leftButton.active = false;
         this.childList = [...this.content.children];
         this.snappedScrollView.onScrollEnded = () => {
-            var min = this.snappedScrollView.getMinDisplayIndex();
+            const min = this.snappedScrollView.getMinDisplayIndex();
             this.selectedIndex = min;
             this.scrollToSelectedIndex();
         };

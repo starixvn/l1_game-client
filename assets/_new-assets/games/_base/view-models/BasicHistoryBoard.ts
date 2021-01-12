@@ -56,7 +56,7 @@ export default class BasicHistoryBoard extends cc.Component {
 
         historyData.forEach((history) => {
             const historyItem = _.find(this.items, (item) => item.name.toLowerCase() === history.name);
-            var historyDot = cc.instantiate(historyItem);
+            const historyDot = cc.instantiate(historyItem);
             historyDot.active = true;
             this.content.addChild(historyDot);
             this.dots.push(historyDot);

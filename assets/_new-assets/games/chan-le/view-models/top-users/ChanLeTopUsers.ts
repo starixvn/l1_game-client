@@ -1,8 +1,8 @@
-const { ccclass, property } = cc._decorator;
+import { numberWithCommas } from "./../../../../common/helpers/Helper";
 import ChanLe from "./../ChanLe";
 import ChanLeTopUsersItem from "./ChanLeTopUsersItem";
-import { numberWithCommas } from "./../../../../common/helpers/Helper";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ChanLeTopUsers extends cc.Component {
     @property(cc.Node)
@@ -39,8 +39,8 @@ export default class ChanLeTopUsers extends cc.Component {
 
         Promise.all(
             data.map((user, index) => {
-                var userItem = cc.instantiate(this.item);
-                var itemComponent = userItem.getComponent("ChanLeTopUsersItem") as ChanLeTopUsersItem;
+                const userItem = cc.instantiate(this.item);
+                const itemComponent = userItem.getComponent("ChanLeTopUsersItem") as ChanLeTopUsersItem;
                 itemComponent.rank.string = index + 1;
                 itemComponent.userName.string = user.name;
                 itemComponent.winMoney.string = numberWithCommas(user.bet);

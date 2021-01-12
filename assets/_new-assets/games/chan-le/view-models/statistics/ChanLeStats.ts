@@ -191,7 +191,7 @@ export default class ChanLeStats extends cc.Component {
         this.currentResultDots = this.resultDots.children.map((dot) => {
             return dot.getComponent(cc.Sprite);
         });
-        var pointCells = Promise.all(
+        const pointCells = Promise.all(
             this.pointCells.children.map((pointCell: Dots) => {
                 Promise.all(
                     pointCell.children.map((point: Dot) => {
@@ -206,7 +206,7 @@ export default class ChanLeStats extends cc.Component {
         ).then((pointCells) => {
             this.currentPointCells = pointCells;
         });
-        var firstDiceDots = Promise.all(
+        const firstDiceDots = Promise.all(
             this.firstDiceDots.children.map((dot: Dot) => {
                 dot.dotText = dot.children[0].getComponent(cc.Label);
                 return dot;
@@ -214,7 +214,7 @@ export default class ChanLeStats extends cc.Component {
         ).then((dots) => {
             this.currentFirstDiceDots = dots;
         });
-        var secondDiceDots = Promise.all(
+        const secondDiceDots = Promise.all(
             this.secondDiceDots.children.map((dot: Dot) => {
                 dot.dotText = dot.children[0].getComponent(cc.Label);
                 return dot;
@@ -222,7 +222,7 @@ export default class ChanLeStats extends cc.Component {
         ).then((dots) => {
             this.currentSecondDiceDots = dots;
         });
-        var thirdDiceDots = Promise.all(
+        const thirdDiceDots = Promise.all(
             this.thirdDiceDots.children.map((dots: Dot) => {
                 dots.dotText = dots.children[0].getComponent(cc.Label);
                 return dots;
@@ -230,7 +230,7 @@ export default class ChanLeStats extends cc.Component {
         ).then((dots) => {
             this.currentThirdDiceDots = dots;
         });
-        var totalDots = Promise.all(
+        const totalDots = Promise.all(
             this.totalDots.children.map((dot: Dot) => {
                 dot.dotText = dot.children[0].getComponent(cc.Label);
                 return dot;
@@ -244,21 +244,21 @@ export default class ChanLeStats extends cc.Component {
     }
 
     private drawDiceCharts(logs: any) {
-        var slicedLogs = logs.slice(0, 19);
+        const slicedLogs = logs.slice(0, 19);
         slicedLogs.reverse();
-        var firstDiceLine = [];
-        var secondDiceLine = [];
-        var thirdDiceLine = [];
-        var totalLine = [];
+        const firstDiceLine = [];
+        const secondDiceLine = [];
+        const thirdDiceLine = [];
+        const totalLine = [];
 
-        for (var index = 0; index < slicedLogs.length; index++) {
-            var log = slicedLogs[index];
+        for (let index = 0; index < slicedLogs.length; index++) {
+            const log = slicedLogs[index];
             if (log) {
                 this.activateDot(index, true);
-                var dice1 = log.dice[0];
-                var dice2 = log.dice[1];
-                var dice3 = log.dice[2];
-                var tong = dice1 + dice2 + dice3;
+                const dice1 = log.dice[0];
+                const dice2 = log.dice[1];
+                const dice3 = log.dice[2];
+                const tong = dice1 + dice2 + dice3;
                 firstDiceLine[index] = { x: index * 28, y: dice1 * 28 - 28, dice: dice1 };
                 secondDiceLine[index] = { x: index * 28, y: dice2 * 28 - 28, dice: dice2 };
                 thirdDiceLine[index] = { x: index * 28, y: dice3 * 28 - 28, dice: dice3 };
@@ -274,11 +274,11 @@ export default class ChanLeStats extends cc.Component {
     }
 
     private drawResult(logs: any) {
-        var result = this.currentResultDots.map((dot, index) => {
-            var log = logs[index];
+        const result = this.currentResultDots.map((dot, index) => {
+            const log = logs[index];
             if (log) {
                 dot.node.active = true;
-                var point = log.dice[0] + log.dice[1] + log.dice[2];
+                const point = log.dice[0] + log.dice[1] + log.dice[2];
                 dot.spriteFrame = point % 2 ? this.dotRight : this.dotLeft;
                 return point % 2 ? 0 : 1;
             } else {
@@ -292,7 +292,7 @@ export default class ChanLeStats extends cc.Component {
     }
 
     private drawPoints(logs: any) {
-        var pointsData = [];
+        let pointsData = [];
         let totalType: TotalType = {
             left: 0,
             right: 0
@@ -300,10 +300,10 @@ export default class ChanLeStats extends cc.Component {
 
         // Diem So
         pointsData = this.handlePointsData(logs, pointsData);
-        var slicedPointsData = [...pointsData].reverse().slice(0, 20).reverse();
+        const slicedPointsData = [...pointsData].reverse().slice(0, 20).reverse();
 
         this.currentPointCells.forEach((pointCell, index) => {
-            var pointsDataOfType = slicedPointsData[index];
+            const pointsDataOfType = slicedPointsData[index];
             if (pointsDataOfType) {
                 pointCell.active = true;
                 totalType = this.handleTotalType(totalType, pointCell, pointsDataOfType);
@@ -316,14 +316,14 @@ export default class ChanLeStats extends cc.Component {
     }
 
     handlePointsData(logs: any, pointsData: any) {
-        var pointsDataOfType = [];
-        var currentType = -1;
-        var pointLogs = logs.slice();
+        let pointsDataOfType = [];
+        let currentType = -1;
+        const pointLogs = logs.slice();
         pointLogs.reverse();
 
-        for (var pointLog of pointLogs) {
-            var point = pointLog.dice[0] + pointLog.dice[1] + pointLog.dice[2];
-            var type = point % 2 ? 0 : 1;
+        for (const pointLog of pointLogs) {
+            const point = pointLog.dice[0] + pointLog.dice[1] + pointLog.dice[2];
+            const type = point % 2 ? 0 : 1;
             if (currentType === -1) {
                 currentType = type;
             }
@@ -347,7 +347,7 @@ export default class ChanLeStats extends cc.Component {
             if (pointsData) {
                 dot.active = true;
                 dot.dotText.string = pointsData;
-                var isOdd = pointsData % 2 ? false : true;
+                const isOdd = pointsData % 2 ? false : true;
                 totalType.left = isOdd ? totalType.left + 1 : totalType.left;
                 totalType.right = !isOdd ? totalType.right + 1 : totalType.right;
                 dot.color = isOdd ? cc.Color.BLACK : cc.Color.WHITE;
@@ -362,10 +362,10 @@ export default class ChanLeStats extends cc.Component {
 
     private drawDiceLine(line: cc.Graphics, dots: Dot[], data: any) {
         line.clear();
-        var dataLength = data.length;
+        const dataLength = data.length;
 
-        for (var index = 0; index < dataLength; index++) {
-            var dot = dots[index],
+        for (let index = 0; index < dataLength; index++) {
+            const dot = dots[index],
                 point = data[index];
             dot.dotText.string = point.dice;
             dot.position = cc.v2(dot.position.x, point.y);
@@ -378,8 +378,8 @@ export default class ChanLeStats extends cc.Component {
     private drawTotalLine(line: cc.Graphics, data: any) {
         line.clear();
 
-        for (var index = 0, dataLength = data.length; index < dataLength; index++) {
-            var dotData = data[index],
+        for (let index = 0, dataLength = data.length; index < dataLength; index++) {
+            const dotData = data[index],
                 dot = this.currentTotalDots[index];
             index === 0 ? line.moveTo(dotData.x, dotData.y) : line.lineTo(dotData.x, dotData.y);
             dot.dotText.string = dotData.tong;

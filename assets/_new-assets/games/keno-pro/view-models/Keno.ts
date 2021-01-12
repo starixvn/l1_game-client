@@ -63,14 +63,14 @@ export default class Keno extends GameRoomBase {
     public pressedHistoryDialog() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.historyPrefab);
+        const dialog = cc.instantiate(this.historyPrefab);
         this.currentMiniPanel.node.addChild(dialog);
     }
 
     public pressedShowGuide() {
         cc.RedT.audio.playClick();
         const dialog = cc.instantiate(this.guidePrefab);
-        var kenoGuide = dialog.getComponent("KenoGuide");
+        const kenoGuide = dialog.getComponent("KenoGuide");
         kenoGuide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }
@@ -83,7 +83,7 @@ export default class Keno extends GameRoomBase {
 
     onLoad() {
         super.onLoad();
-        var check = cc.sys.localStorage.getItem(this.gameName);
+        const check = cc.sys.localStorage.getItem(this.gameName);
         if (check === "true") {
             this.node.active = true;
         }
@@ -105,7 +105,7 @@ export default class Keno extends GameRoomBase {
     }
 
     regEvent(show: boolean) {
-        var data = {
+        const data = {
             view: show,
             get_time: show,
             getLogs: show
@@ -121,15 +121,15 @@ export default class Keno extends GameRoomBase {
     }
 
     public getTempTotal(numberArray: number[], index: number): number {
-        var total = 0;
-        for (var i = 0; i <= index; i++) {
+        let total = 0;
+        for (let i = 0; i <= index; i++) {
             total += numberArray[i];
         }
         return total;
     }
 
     public static getResults(settlementResult: any): string[] {
-        var results = [];
+        const results = [];
 
         if (!settlementResult) {
             return results;

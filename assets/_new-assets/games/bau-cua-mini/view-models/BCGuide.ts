@@ -16,7 +16,7 @@ export default class BCGuide extends GameMiniBaseGuide {
 
     onData(data) {
         if (void 0 !== data.odds) {
-            var odds = data.odds;
+            const odds = data.odds;
             if (odds.length < 3) {
                 this.clearAllOddLabels();
                 return;

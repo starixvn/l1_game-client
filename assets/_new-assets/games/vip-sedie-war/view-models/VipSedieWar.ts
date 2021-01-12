@@ -3,8 +3,8 @@ import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistor
 import { games } from "../../../SabaConfigs";
 import BetItem from "../../_base/BetItem";
 import VipSedie from "../../vip-sedie/view-models/VipSedie";
-import VipSedieWarTimeHandler from "./handlers/VipSedieWarTimeHandler";
 import VipSedieWarFinishHandler from "./handlers/VipSedieWarFinishHandler";
+import VipSedieWarTimeHandler from "./handlers/VipSedieWarTimeHandler";
 import SedieDish from "./SedieDish";
 import { VipSedieWarConfigs } from "./VipSedieWarConfigs";
 import VipSedieWarGuide from "./VipSedieWarGuide";
@@ -104,7 +104,7 @@ export default class VipSedieWar extends VipSedie {
         this.leftStatistic.sedieRoundHistory.logControl.init(condition);
         this.rightStatistic.sedieRoundHistory.logControl.init(condition);
 
-        var mini = cc.instantiate(this.miniRoundHistoryPrefab);
+        const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(MiniRoundHistory);
         this.miniRoundHistoryContainer.addChild(mini);
     }

@@ -89,7 +89,7 @@ export default class GameBaseFinishHandler implements DataHandler {
             return;
         }
 
-        var betItems = statusData.winningByChoices;
+        const betItems = statusData.winningByChoices;
 
         _.forEach(winBetItems, (item) => {
             if (betItems[item.node.name.toLowerCase()]) {
@@ -97,7 +97,7 @@ export default class GameBaseFinishHandler implements DataHandler {
             }
         });
 
-        var playerNode = mainRoomGame.userAvatar.node.parent;
+        const playerNode = mainRoomGame.userAvatar.node.parent;
         this.main.showWinningBet(statusData.bet);
         this.playWinningEffect(mainRoomGame, playerNode);
 
@@ -127,13 +127,13 @@ export default class GameBaseFinishHandler implements DataHandler {
             return;
         }
 
-        var winningPlayerIds = Object.keys(winningPlayers);
+        const winningPlayerIds = Object.keys(winningPlayers);
 
         _.forEach(winningPlayerIds, (playerId) => {
-            var winningPlayerData = winningPlayers[playerId];
-            var playerSlot = mainRoomGame.playerHandler.getPlayerSlot(playerId);
-            var playerBetItems = winningPlayerData.winningByChoices;
-            var bet = winningPlayerData.bet;
+            const winningPlayerData = winningPlayers[playerId];
+            const playerSlot = mainRoomGame.playerHandler.getPlayerSlot(playerId);
+            const playerBetItems = winningPlayerData.winningByChoices;
+            const bet = winningPlayerData.bet;
 
             if (playerSlot) {
                 _.forEach(winBetItems, (item) => {
@@ -163,10 +163,10 @@ export default class GameBaseFinishHandler implements DataHandler {
     }
 
     playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node, duration = this.WinningAnimationDuration) {
-        var winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
+        const winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
         winningEffect.name = "winningEffect";
         playerNode.addChild(winningEffect);
-        var animation = winningEffect.getComponent(cc.Animation);
+        const animation = winningEffect.getComponent(cc.Animation);
 
         winningEffect.runAction(
             cc.sequence(

@@ -30,8 +30,8 @@ export default class AnimatedTime extends cc.Component {
 
     public setTime(time: string, forceChangeColor = false) {
         this.node.active = true;
-        var firstTimeChar = time.toString().substr(0, 1);
-        var secondTimeChar = time.toString().substr(1, 1);
+        const firstTimeChar = time.toString().substr(0, 1);
+        const secondTimeChar = time.toString().substr(1, 1);
 
         if (this.firstChar.string !== firstTimeChar) {
             this.handleBetTimeAnimation(this.firstChar.node);
@@ -41,7 +41,7 @@ export default class AnimatedTime extends cc.Component {
         this.firstChar.string = firstTimeChar;
         this.secondChar.string = secondTimeChar;
 
-        var colorChange = forceChangeColor || (this.timeToChangeColor !== undefined && parseInt(time) <= this.timeToChangeColor);
+        const colorChange = forceChangeColor || (this.timeToChangeColor !== undefined && parseInt(time) <= this.timeToChangeColor);
         this.firstChar.node.color = colorChange ? this.changedColor : cc.Color.WHITE;
         this.secondChar.node.color = this.firstChar.node.color;
     }

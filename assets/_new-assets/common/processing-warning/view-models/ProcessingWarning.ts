@@ -14,7 +14,7 @@ export default class ProcessingWarning extends cc.Component {
 
     onEnable() {
         this.titleLabel.string = this.title;
-        var waitTime = this.waitTime;
+        const waitTime = this.waitTime;
 
         this.countDownId = setInterval(function () {
             waitTime--;

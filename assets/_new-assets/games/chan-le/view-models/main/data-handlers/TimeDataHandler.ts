@@ -60,7 +60,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
                 this.main.currentStatus && this.main.showUserWinLoss(this.main.currentStatus);
             }
 
-            var time = numberPad(this.main.currentTimeRemaining - this.main.root.gameConfigs.betTime - 1, 2);
+            const time = this.main.currentTimeRemaining - this.main.root.gameConfigs.betTime - 1;
             this.showWaitTime(time);
 
             if (this.main.isNan) {
@@ -94,7 +94,7 @@ export default class TimeDataHandler extends BaseDataHandler implements ITimeDat
         }
 
         if (isInTurnTime) {
-            var time = numberPad(this.main.currentTimeRemaining - 1, 2);
+            const time = numberPad(this.main.currentTimeRemaining - 1, 2);
             this.main.animatedTime.setTime(time);
             this.main.diaNanSprite.node.active = !this.main.hideDiaNan;
         } else {

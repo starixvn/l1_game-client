@@ -70,8 +70,8 @@ export default class RongHoHistory extends cc.Component {
             item.betTiger.string = numberWithCommas(dataT.tiger);
             item.betDraw.string = numberWithCommas(dataT.tie);
 
-            var card1 = dataT.kq[0];
-            var card2 = dataT.kq[1];
+            const card1 = dataT.kq[0];
+            const card2 = dataT.kq[1];
             if (card1.card > card2.card) {
                 item.betDragon.node.color = cc.Color.YELLOW;
             } else if (card1.card < card2.card) {

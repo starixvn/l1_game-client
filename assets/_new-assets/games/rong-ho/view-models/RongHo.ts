@@ -8,8 +8,8 @@ import UmWarning from "../../../common/um-warning/UmWarning";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import GameAudios from "../../_base/GameAudios";
 import { GameBaseConfigs } from "../../_base/GameBaseConfig";
-import DataHandler from "../../_base/handlers/DataHandler";
 import GameLogControlBase from "../../_base/GameLogControlBase";
+import DataHandler from "../../_base/handlers/DataHandler";
 import RHBetDataHandler from "./handlers/RHBetDataHandler";
 import RHBetStatusDataHandler from "./handlers/RHBetStatusDataHandler";
 import RHFinishDataHandler from "./handlers/RHFinishDataHandler";
@@ -141,7 +141,7 @@ export default class RongHo extends cc.Component {
         this.gameName = name;
         this.config = config;
 
-        var check = cc.sys.localStorage.getItem(this.gameName);
+        const check = cc.sys.localStorage.getItem(this.gameName);
         if (check === "true") {
             this.node.active = true;
         }
@@ -175,7 +175,7 @@ export default class RongHo extends cc.Component {
 
         this.waitingCuoc = true;
         //send cuoc
-        var data = {
+        const data = {
             cuoc: { cuoc: this.cuoc, box: e.target.name }
         };
         this.sendData(data);
@@ -205,7 +205,7 @@ export default class RongHo extends cc.Component {
     public pressedHistoryDialog() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.historyPrefab);
+        const dialog = cc.instantiate(this.historyPrefab);
         this.history = dialog.getComponent("RongHoHistory");
         this.history.init(this);
         this.miniPanel.dialog.insertChild(dialog, 0);
@@ -217,7 +217,7 @@ export default class RongHo extends cc.Component {
 
     public pressedShowGuide() {
         cc.RedT.audio.playClick();
-        var dialog = cc.instantiate(this.guidePrefab);
+        const dialog = cc.instantiate(this.guidePrefab);
         this.miniPanel.dialog.addChild(dialog);
     }
 
@@ -247,7 +247,7 @@ export default class RongHo extends cc.Component {
     }
 
     private initGameAudios() {
-        var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+        const gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
         this.gameAudios = gameAudiosNode.getComponent("GameAudios") as GameAudios;
     }
 
@@ -296,7 +296,7 @@ export default class RongHo extends cc.Component {
     }
 
     initDataHandlers() {
-        var handlers = [
+        const handlers = [
             new RHUMDataHandler(this),
             new RHGameTimeHandler(this),
             new RHBetDataHandler(this),
@@ -345,7 +345,7 @@ export default class RongHo extends cc.Component {
     }
 
     regEvent(show: boolean) {
-        var data = {
+        const data = {
             view: show,
             get_time: show,
             getLogs: show
@@ -386,7 +386,7 @@ export default class RongHo extends cc.Component {
             if (this.processingWarning && this.processingWarning.isValid) {
                 return;
             }
-            var node = cc.instantiate(this.processWarningPrefab);
+            const node = cc.instantiate(this.processWarningPrefab);
             this.node.addChild(node);
             this.processingWarning = node;
         } else {
@@ -399,8 +399,8 @@ export default class RongHo extends cc.Component {
     }
 
     addNotice(text) {
-        var notice = cc.instantiate(this.noticePrefab);
-        var noticeComponent = notice.getComponent("mini_warning");
+        const notice = cc.instantiate(this.noticePrefab);
+        const noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = text;
         this.notice.addChild(notice);
     }
@@ -436,7 +436,7 @@ export default class RongHo extends cc.Component {
 
         if (show) {
             this.resultCards.forEach((data, index) => {
-                var card = this.frontCardNodes[index];
+                const card = this.frontCardNodes[index];
                 card.active = true;
                 card.scaleX = 1;
                 this.frontCards[index].setCardOldStyle({
@@ -472,8 +472,8 @@ export default class RongHo extends cc.Component {
             return -1;
         }
 
-        var card1 = cards[0];
-        var card2 = cards[1];
+        const card1 = cards[0];
+        const card2 = cards[1];
         if (card1.card > card2.card) {
             return 0;
         } else if (card1.card < card2.card) {
@@ -568,9 +568,9 @@ export default class RongHo extends cc.Component {
         const items = this.logControl.content.getComponentsInChildren(RHRoundResultItem);
         items.forEach((item, index) => item.setValue(logControlData[index].draw));
 
-        var dragonStats = Math.floor((dragonCount * 100) / this.logs.length);
-        var drawStats = Math.floor((drawCount * 100) / this.logs.length);
-        var tigerStats = 100 - (dragonStats + drawStats);
+        const dragonStats = Math.floor((dragonCount * 100) / this.logs.length);
+        const drawStats = Math.floor((drawCount * 100) / this.logs.length);
+        const tigerStats = 100 - (dragonStats + drawStats);
 
         this.dragonStats.string = `${dragonStats}%`;
         this.tigerStats.string = `${tigerStats}%`;
@@ -585,7 +585,7 @@ export default class RongHo extends cc.Component {
 
             const betChoice = ["dragon", "tiger", "tie"];
             const choiceWin = RongHo.getWinItem(this.resultCards);
-            var winItem = betChoice[choiceWin];
+            const winItem = betChoice[choiceWin];
             if (winItem !== "") {
                 this.gameAudios.playShowResultAudio();
                 this.resultFrame.active = true;

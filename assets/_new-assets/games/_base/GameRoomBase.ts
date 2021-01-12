@@ -91,7 +91,7 @@ export default class GameRoomBase extends GameBase {
         this.currentMiniPanel.onGeneralData(data);
         this.onDataGameRoomGeneral(data);
 
-        var gameData = data[this.gameName];
+        const gameData = data[this.gameName];
 
         if (gameData) {
             this.onDataGameRoom(gameData);
@@ -105,8 +105,8 @@ export default class GameRoomBase extends GameBase {
 
         const message = data.um_message;
         const text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
-        var noticeData = { text: text, button: { text: "OK" } } as NoticeData;
-        var notice = this.showNotice(noticeData);
+        const noticeData = { text: text, button: { text: "OK" } } as NoticeData;
+        const notice = this.showNotice(noticeData);
 
         notice.handleClickButton = () => {
             this.onCloseGameClick();
@@ -121,8 +121,8 @@ export default class GameRoomBase extends GameBase {
     }
 
     showNotice(data: NoticeData): Notice {
-        var noticePrefab = cc.instantiate(this.noticePrefab);
-        var notice = noticePrefab.getComponent("Notice") as Notice;
+        const noticePrefab = cc.instantiate(this.noticePrefab);
+        const notice = noticePrefab.getComponent("Notice") as Notice;
         data.button = { text: "OK" };
         notice.init(data);
         this.miniPanelContainer.addChild(noticePrefab);
@@ -204,7 +204,7 @@ export default class GameRoomBase extends GameBase {
     }
 
     protected loadMiniPanel() {
-        var miniPanel = cc.instantiate(this.miniPanelPrefab);
+        const miniPanel = cc.instantiate(this.miniPanelPrefab);
         this.currentMiniPanel = miniPanel.getComponent("MiniPanel");
         this.currentMiniPanel.currentGameRoomId = this.gameId;
         this.miniPanelContainer.addChild(miniPanel);

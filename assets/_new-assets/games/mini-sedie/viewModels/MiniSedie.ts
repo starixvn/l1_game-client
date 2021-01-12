@@ -1,11 +1,11 @@
-import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
-import GameMiniBase from '../../_base/GameMiniBase';
-import MiniSedieFinishHandler from './handlers/MiniSedieFinishHandler';
-import MiniSedieLogsHandler from './handlers/MiniSedieLogsHandler';
-import MiniSedieTimeHandler from './handlers/MiniSedieTimeHandler';
-import MiniSedieGuide from './MiniSedieGuide';
-import SedieMiniRoundHistory from './SedieMiniRoundHistory';
-import SedieRoundHistory from './SedieRoundHistory';
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import GameMiniBase from "../../_base/GameMiniBase";
+import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
+import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
+import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
+import MiniSedieGuide from "./MiniSedieGuide";
+import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
+import SedieRoundHistory from "./SedieRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -54,12 +54,12 @@ export default class MiniSedie extends GameMiniBase {
             this.node.scale = 0.8;
         }
         super.onLoad();
-        var node = cc.instantiate(this.roundHistoryPrefab);
+        const node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(SedieRoundHistory);
         this.roundHistory.init(this);
         this.roundHistoryContainer.addChild(node);
 
-        var mini = cc.instantiate(this.miniRoundHistoryPrefab);
+        const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(SedieMiniRoundHistory);
         this.miniRoundHistoryContainer.addChild(mini);
         this.animatedTime.setAnimatedY(30, -5);
@@ -163,7 +163,7 @@ export default class MiniSedie extends GameMiniBase {
 
     public openGuide() {
         const dialog = cc.instantiate(this.guidePrefab);
-        var guide = dialog.getComponent(MiniSedieGuide);
+        const guide = dialog.getComponent(MiniSedieGuide);
         guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }

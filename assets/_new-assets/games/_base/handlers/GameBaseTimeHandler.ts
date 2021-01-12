@@ -125,7 +125,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.node.activeInHierarchy && this.main.gameAudios && this.main.gameAudios.playStartGameAudio();
         this.main.resetDataAndUI();
 
-        var mainRoomGame = this.main as GameRoomBase;
+        const mainRoomGame = this.main as GameRoomBase;
 
         if (mainRoomGame && mainRoomGame.playerHandler) {
             mainRoomGame.playerHandler.updateTablePlayers();

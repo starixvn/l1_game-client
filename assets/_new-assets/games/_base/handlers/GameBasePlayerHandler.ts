@@ -30,7 +30,7 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
     removePlayer(playerData: any) {
         if (playerData.playerId) {
-            var slot = this.getPlayerSlot(playerData.playerId);
+            const slot = this.getPlayerSlot(playerData.playerId);
 
             if (slot) {
                 slot.setInfo(null);

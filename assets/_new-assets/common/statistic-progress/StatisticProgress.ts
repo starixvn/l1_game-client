@@ -21,10 +21,10 @@ export default class StatisticProgress extends cc.Component {
     showPrefix = false;
 
     public setProgress(values: number[], total: number) {
-        var count = this.frames.length;
-        for (var i = 0; i < count; i++) {
-            var value = Math.round((values[i] * 100) / total);
-            var prefix = this.showPrefix ? `${this.prefixes[i]} ` : ``;
+        const count = this.frames.length;
+        for (let i = 0; i < count; i++) {
+            const value = Math.round((values[i] * 100) / total);
+            const prefix = this.showPrefix ? `${this.prefixes[i]} ` : ``;
             this.labels[i].string = `${prefix}${value}${this.suffix}`;
             this.labels[i].node.active = true;
 
@@ -34,10 +34,10 @@ export default class StatisticProgress extends cc.Component {
     }
 
     public updateFakeProgress() {
-        var count = this.frames.length;
-        var limit = 18;
-        var delta = 0;
-        var j = 0;
+        const count = this.frames.length;
+        const limit = 18;
+        let delta = 0;
+        let j = 0;
         for (let i = 0; i < count; i++) {
             const width = this.frames[i].width;
             if (width < limit) {
@@ -49,7 +49,7 @@ export default class StatisticProgress extends cc.Component {
         if (j === 0) {
             return;
         }
-        var offset = delta / j;
+        const offset = delta / j;
         for (let i = 0; i < count; i++) {
             const width = this.frames[i].width;
             if (width < limit) {

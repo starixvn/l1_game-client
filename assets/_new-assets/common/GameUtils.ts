@@ -3,7 +3,7 @@ import * as helper from "./helpers/Helper";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
-        var temp = new cc.Node().addComponent(cc.Label);
+        const temp = new cc.Node().addComponent(cc.Label);
         temp.string = (win ? "+" : "-") + helper.numberWithCommas(value);
         temp.font = win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
         temp.lineHeight = 130;

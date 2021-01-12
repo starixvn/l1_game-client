@@ -2,7 +2,6 @@ import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import Keno from "../Keno";
 
 export default class KenoTimeHandler extends GameBaseTimeHandler {
-
     constructor(protected readonly main: Keno) {
         super(main);
     }
@@ -29,7 +28,7 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
     handleInLockBetTime() {
         super.handleInLockBetTime();
 
-        this.main.betItems.forEach(item => item.setHighlight(false));
+        this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 
     public showResult(show: boolean, showForPreviousResult = false) {
@@ -40,7 +39,7 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
                 this.main.roundResult.setData(this.main.currentDataLogs[0].result, this.main.currentDataLogs[0].settlementResult);
                 this.main.roundResult.showResult(false);
 
-                var results = Keno.getResults(this.main.currentDataLogs[0].settlementResult);
+                const results = Keno.getResults(this.main.currentDataLogs[0].settlementResult);
                 this.highlightWonItem(true, results, !showForPreviousResult);
                 this.main.roundResult.node.active = !showForPreviousResult;
             }
@@ -52,12 +51,12 @@ export default class KenoTimeHandler extends GameBaseTimeHandler {
 
     highlightWonItem(highlight: boolean, results: string[] = [], isAnimated = true) {
         if (highlight) {
-            this.main.betItems.forEach(item => {
-                var exist = results.indexOf(item.node.name);
+            this.main.betItems.forEach((item) => {
+                const exist = results.indexOf(item.node.name);
                 item.setHighlight(exist > -1, isAnimated);
             });
         } else {
-            this.main.betItems.forEach(item => item.resetHighlight());
+            this.main.betItems.forEach((item) => item.resetHighlight());
         }
     }
 }

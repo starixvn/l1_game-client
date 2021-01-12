@@ -119,7 +119,7 @@ export default class ChanLe extends cc.Component {
     showTop() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.topUsersPrefab);
+        const dialog = cc.instantiate(this.topUsersPrefab);
         this.topUsers = dialog.getComponent("ChanLeTopUsers");
         this.topUsers.init(this);
         this.miniPanel.dialog.addChild(dialog);
@@ -131,7 +131,7 @@ export default class ChanLe extends cc.Component {
     showStats() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.statsPrefab);
+        const dialog = cc.instantiate(this.statsPrefab);
         this.statistics = dialog.getComponent("ChanLeStats");
         this.statistics.init(this);
         this.miniPanel.dialog.addChild(dialog);
@@ -144,7 +144,7 @@ export default class ChanLe extends cc.Component {
     showHistory() {
         cc.RedT.audio.playClick();
 
-        var dialog = cc.instantiate(this.historyPrefab);
+        const dialog = cc.instantiate(this.historyPrefab);
         this.history = dialog.getComponent("ChanLeHistory");
         this.history.init(this);
         this.miniPanel.dialog.addChild(dialog);
@@ -157,12 +157,12 @@ export default class ChanLe extends cc.Component {
     showTurnHistory(event) {
         cc.RedT.audio.playClick();
 
-        var dotLog = event.target.getComponent("ChanLeLogTips") as ChanLeLogTips;
+        const dotLog = event.target.getComponent("ChanLeLogTips") as ChanLeLogTips;
         this.showBetHistoryAtRound(dotLog.turnId);
     }
 
     showBetHistoryAtRound(turnId: number) {
-        var dialog = cc.instantiate(this.turnHistoryPrefab);
+        const dialog = cc.instantiate(this.turnHistoryPrefab);
         this.turnHistory = dialog.getComponent("ChanLeTurnHistory");
 
         this.turnHistory.init(this);
@@ -176,7 +176,7 @@ export default class ChanLe extends cc.Component {
 
     showGuide() {
         cc.RedT.audio.playClick();
-        var dialog = cc.instantiate(this.guidePrefab);
+        const dialog = cc.instantiate(this.guidePrefab);
         this.miniPanel.dialog.addChild(dialog);
     }
 

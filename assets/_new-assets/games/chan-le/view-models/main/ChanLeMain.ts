@@ -226,7 +226,7 @@ export default class ChanLeMain extends cc.Component {
     }
 
     protected initGameAudios() {
-        var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+        const gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
         this.gameAudios = gameAudiosNode.getComponent("GameAudios") as GameAudios;
     }
 
@@ -251,7 +251,7 @@ export default class ChanLeMain extends cc.Component {
     }
 
     onBetClick() {
-        var bet = getOnlyNumberInString(this.currentInputBet.string);
+        let bet = getOnlyNumberInString(this.currentInputBet.string);
         bet = parseInt(bet);
         this.resetCurrentBetInput();
         this.betBoard.node.active = false;
@@ -369,7 +369,7 @@ export default class ChanLeMain extends cc.Component {
     }
 
     showBetResult() {
-        var point = this.showResultPoint();
+        const point = this.showResultPoint();
         this.stopWinningAnims();
 
         if (point % 2) {
@@ -384,7 +384,7 @@ export default class ChanLeMain extends cc.Component {
     }
 
     showResultPoint(): number {
-        var point = this.currentResultDices[0] + this.currentResultDices[1] + this.currentResultDices[2];
+        const point = this.currentResultDices[0] + this.currentResultDices[1] + this.currentResultDices[2];
         this.resultLabel.string = point.toString();
         this.resultNode.active = true;
 
@@ -401,14 +401,14 @@ export default class ChanLeMain extends cc.Component {
     }
 
     showMiniWarning(message) {
-        var miniWarningPrefab = cc.instantiate(this.miniWarningPrefab);
-        var miniWarning = miniWarningPrefab.getComponent("mini_warning");
+        const miniWarningPrefab = cc.instantiate(this.miniWarningPrefab);
+        const miniWarning = miniWarningPrefab.getComponent("mini_warning");
         miniWarning.text.string = message;
         this.notice.addChild(miniWarningPrefab);
     }
 
     showBetProcessWarning() {
-        var processingWarningNode = cc.instantiate(this.processingWarningPrefab);
+        const processingWarningNode = cc.instantiate(this.processingWarningPrefab);
         this.processingWarning = processingWarningNode.getComponent("ProcessingWarning");
         this.notice.addChild(processingWarningNode);
     }
@@ -508,9 +508,9 @@ export default class ChanLeMain extends cc.Component {
             return;
         }
 
-        var resultNode = new cc.Node();
+        const resultNode = new cc.Node();
         resultNode.addComponent(cc.Label);
-        var resultLabel = resultNode.getComponent(cc.Label);
+        const resultLabel = resultNode.getComponent(cc.Label);
         resultLabel.string = (data.win ? "+" : "-") + numberWithCommas(data.bet);
         resultLabel.font = data.win ? this.fontPlus : this.fontMinus;
         resultLabel.lineHeight = 130;

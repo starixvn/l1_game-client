@@ -110,7 +110,7 @@ export default class Sedie extends NewSocketGameBase {
         this.roundHistory.logControl.init(condition);
         this.roundHistoryContainer.addChild(node);
 
-        var mini = cc.instantiate(this.miniRoundHistoryPrefab);
+        const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(SedieMiniRoundHistory);
         this.miniRoundHistory.init(condition);
         this.miniRoundHistoryContainer.addChild(mini);

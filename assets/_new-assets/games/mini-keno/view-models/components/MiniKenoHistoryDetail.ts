@@ -67,19 +67,19 @@ export default class MiniKenoHistoryDetail extends cc.Component {
         if (animated) {
             this.total.string = "0";
             this.kenoNumbers.forEach((keno) => keno.show(false));
-            var shuffle = [];
-            for (var index = 0; index < this.result.length; index++) {
+            let shuffle = [];
+            for (let index = 0; index < this.result.length; index++) {
                 shuffle.push(index);
             }
             shuffle = _.shuffle(shuffle);
 
-            var i = 0;
-            var sequence = cc.sequence(
+            let i = 0;
+            const sequence = cc.sequence(
                 cc.callFunc(() => {
-                    var index = shuffle[i];
+                    const index = shuffle[i];
                     this.kenoNumbers[index].setNumber(this.result[index], true);
-                    var total = 0;
-                    for (var j = 0; j <= i; j++) {
+                    let total = 0;
+                    for (let j = 0; j <= i; j++) {
                         total += this.result[shuffle[j]];
                     }
                     this.showSettleResult(this.getSettleResult(total));
@@ -103,7 +103,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
                 )
             );
         } else {
-            var total = 0;
+            let total = 0;
             for (let i = 0; i < this.result.length; i++) {
                 total += this.result[i];
                 this.kenoNumbers[i].setNumber(this.result[i], false);
@@ -115,7 +115,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
     }
 
     private getSettleResult(total: number) {
-        var settle: any = {};
+        const settle: any = {};
         if (total > 810) {
             settle.big = true;
         } else {
@@ -146,7 +146,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
         let index = 0;
         Object.keys(settlementResult).forEach((key) => {
             if (settlementResult[key]) {
-                var label = this.resultLabels[index];
+                const label = this.resultLabels[index];
                 label.node.active = true;
                 label.string = GameUtils.getBetChoiceString(key);
                 index++;

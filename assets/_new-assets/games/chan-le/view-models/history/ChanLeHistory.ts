@@ -46,14 +46,14 @@ export default class ChanLeHistory extends cc.Component {
         this.pages.onSet(historyData.page, historyData.kmess, historyData.total);
         this.content.removeAllChildren(true);
 
-        for (var i = 0; i < 9; i++) {
-            var historyItemData = historyData.data[i];
-            var historyItemPrefab = cc.instantiate(this.itemPrefab);
-            var historyItem = historyItemPrefab.getComponent("ChanLeHistoryItem") as ChanLeHistoryItem;
+        for (let i = 0; i < 9; i++) {
+            const historyItemData = historyData.data[i];
+            const historyItemPrefab = cc.instantiate(this.itemPrefab);
+            const historyItem = historyItemPrefab.getComponent("ChanLeHistoryItem") as ChanLeHistoryItem;
 
             if (historyItemData) {
                 historyItem.node.active = true;
-                var point = historyItemData.dice1 + historyItemData.dice2 + historyItemData.dice3;
+                const point = historyItemData.dice1 + historyItemData.dice2 + historyItemData.dice3;
                 historyItem.time.string = getStringDateByTime(historyItemData.time);
                 historyItem.turnId.string = historyItemData.phien;
                 const roundId = historyItemData.phien;

@@ -169,12 +169,12 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     }
 
     initRoundHistory() {
-        var node = cc.instantiate(this.roundHistoryPrefab);
+        const node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(SedieRoundHistory);
         this.roundHistory.init(this);
         this.roundHistoryContainer.addChild(node);
 
-        var mini = cc.instantiate(this.miniRoundHistoryPrefab);
+        const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(SpecialSedieRoundHistory);
         this.miniRoundHistory.handleBetHistory = (roundId) => {
             this.openBetHistory(roundId);

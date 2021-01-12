@@ -14,7 +14,7 @@ export default class VipFishPrawnCrabLogsHandler extends GameBaseLogsHandler {
             this.main.setResult();
             this.main.shakeAnimation.node.active = false;
             this.main.openDiskAnimation.node.active = true;
-            var duration = this.main.openDiskAnimation.defaultClip.duration;
+            const duration = this.main.openDiskAnimation.defaultClip.duration;
             this.main.openDiskAnimation.play("Result", duration);
             this.main.finishShowResult = true;
         }

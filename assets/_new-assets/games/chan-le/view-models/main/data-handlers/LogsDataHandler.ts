@@ -74,10 +74,10 @@ export default class LogsDataHandler extends BaseDataHandler implements ILogsDat
 
         Promise.all(
             this.dotLogs.map((dotLog, index) => {
-                var data = dataLogs[index];
+                const data = dataLogs[index];
 
                 if (data) {
-                    var point = data.dice[0] + data.dice[1] + data.dice[2];
+                    const point = data.dice[0] + data.dice[1] + data.dice[2];
                     dotLog.node.active = true;
                     dotLog.text.string = `${point % 2 ? "LẺ" : "CHẴN"} (${data.dice[0]}-${data.dice[1]}-${data.dice[2]})`;
                     dotLog.turnId = data.phien;

@@ -259,7 +259,7 @@ export default class GameBase extends cc.Component {
             if (this.processingWarning && this.processingWarning.isValid) {
                 return;
             }
-            var node = cc.instantiate(this.processWarningPrefab);
+            const node = cc.instantiate(this.processWarningPrefab);
             this.node.addChild(node);
             this.processingWarning = node;
         } else {
@@ -285,8 +285,8 @@ export default class GameBase extends cc.Component {
     }
 
     showMiniWarning(data) {
-        var notice = cc.instantiate(this.miniNoticePrefab);
-        var noticeComponent = notice.getComponent("mini_warning");
+        const notice = cc.instantiate(this.miniNoticePrefab);
+        const noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = data;
         this.noticeNode.addChild(notice);
     }
@@ -338,7 +338,7 @@ export default class GameBase extends cc.Component {
 
     protected initBetChips() {
         if (this.enableChips) {
-            var betChipsNode = cc.instantiate(this.betChipsPrefab);
+            const betChipsNode = cc.instantiate(this.betChipsPrefab);
             this.betChips = betChipsNode.getComponent(BetChips);
             this.betChips.init((bet) => {
                 this.onChangedBetChip(bet);
@@ -352,7 +352,7 @@ export default class GameBase extends cc.Component {
     }
 
     protected initGameAudios() {
-        var gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
+        const gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
         this.gameAudios = gameAudiosNode.getComponent(GameAudios);
     }
 

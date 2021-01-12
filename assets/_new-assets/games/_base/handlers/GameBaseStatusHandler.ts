@@ -27,7 +27,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
     }
 
     status(win: boolean, bet: number): void {
-        var mainRoomGame = this.main as GameRoomBase;
+        const mainRoomGame = this.main as GameRoomBase;
         if (mainRoomGame && mainRoomGame.enablePlaceChips) {
             return;
         }

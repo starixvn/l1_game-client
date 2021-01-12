@@ -1,16 +1,16 @@
-import Loading from '../../common/loading/view-models/Loading';
-import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
-import ChanLe from '../../games/chan-le/view-models/ChanLe';
-import KenoProViet from '../../games/mini-keno/view-models/KenoProViet';
-import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
-import RongHo from '../../games/rong-ho/view-models/RongHo';
-import SpecialSeDie from '../../games/special-sedie/view-models/SpecialSeDie';
-import GameIconMenu from '../../lobby/main/view-models/GameIconMenu';
-import * as SabaConfigs from '../../SabaConfigs';
-import * as authManager from './../../common/auth/AuthManager';
-import MiniPanelDataHandlers from './MiniPanelDataHandlers';
-import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
-import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
+import Loading from "../../common/loading/view-models/Loading";
+import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import ChanLe from "../../games/chan-le/view-models/ChanLe";
+import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
+import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
+import RongHo from "../../games/rong-ho/view-models/RongHo";
+import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
+import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
+import * as SabaConfigs from "../../SabaConfigs";
+import * as authManager from "./../../common/auth/AuthManager";
+import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
+import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
+import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -202,9 +202,9 @@ export default class MiniPanel extends cc.Component {
     }
 
     showErrorNotice(error): Notice {
-        var noticePrefab = cc.instantiate(this.noticePrefab);
-        var notice = noticePrefab.getComponent(Notice);
-        var message = "";
+        const noticePrefab = cc.instantiate(this.noticePrefab);
+        const notice = noticePrefab.getComponent(Notice);
+        let message = "";
 
         if (error.gameTypeId) {
             const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === error.gameTypeId);
@@ -225,8 +225,8 @@ export default class MiniPanel extends cc.Component {
     }
 
     showNotice(noticeData: NoticeData, handleClickButton = null, handleClose = null) {
-        var noticePrefab = cc.instantiate(this.noticePrefab);
-        var notice = noticePrefab.getComponent("Notice") as Notice;
+        const noticePrefab = cc.instantiate(this.noticePrefab);
+        const notice = noticePrefab.getComponent("Notice") as Notice;
 
         noticeData.button = { text: "OK" };
         notice.init(noticeData);

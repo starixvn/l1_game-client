@@ -13,7 +13,7 @@ export default class GameDataHandler extends BaseDataHandler implements DataHand
             return false;
         }
 
-        var chanleData = data[this.main.root.gameName];
+        const chanleData = data[this.main.root.gameName];
 
         if (chanleData.red_me_chan || chanleData.red_me_le) {
             this.main.closeProcessWarning();

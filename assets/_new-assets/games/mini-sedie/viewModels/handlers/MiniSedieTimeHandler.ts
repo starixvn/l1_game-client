@@ -62,7 +62,7 @@ export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
                 this.main.showResult();
             }
 
-            var time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - shakingDuration - 1, 2);
+            const time = numberPad(this.main.currentTimeRemaining - this.main.config.betTime - shakingDuration - 1, 2);
             if (this.main.timeWaitNode) {
                 this.main.timeWaitNode.active = true;
             }

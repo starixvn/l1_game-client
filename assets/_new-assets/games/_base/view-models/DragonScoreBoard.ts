@@ -55,7 +55,7 @@ export default class DragonScoreBoard extends GameLogControlBase {
             previousResult = result;
 
             const item = this.buildItem(result);
-            var dot = cc.instantiate(item.node);
+            const dot = cc.instantiate(item.node);
             maxX = this.handleDotAction(dot, start, col, row, maxX);
         });
 

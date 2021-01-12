@@ -43,22 +43,21 @@ export default class SicBoFinishHandler extends GameBaseFinishHandler {
         super.payChipsToOtherPlayers(roomGame, winBetItems);
     }
 
-
     payChipsToLoginPlayer(mainRoomGame: GameRoomBase, statusData, winBetItems: BetItem[]) {
         if (!statusData || !statusData.win) {
             return;
         }
 
-        var betItems = statusData.winningByChoices;
+        const betItems = statusData.winningByChoices;
         const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
 
-        _.forEach(winBetItems, item => {
+        _.forEach(winBetItems, (item) => {
             if (betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
                 this.main.betChips.moveChips(item.chipNode, mainRoomGame.userAvatar.node);
             }
         });
 
-        var playerNode = mainRoomGame.userAvatar.node.parent;
+        const playerNode = mainRoomGame.userAvatar.node.parent;
         this.main.showWinningBet(statusData.bet);
         this.playWinningEffect(mainRoomGame, playerNode);
 
