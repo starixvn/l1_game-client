@@ -52,14 +52,14 @@ const configs = {
       proxyRoute: '/vipfishprawncrab/socket.io',
     },
     27: {
-      subDomain: 'haproxy',
-      port: 7000,
+      subDomain: 'proxy',
+      port: '',
       path: '/user/vipbaccarat',
       proxyRoute: '/vipbaccarat/socket.io',
     },
     28: {
-      subDomain: 'haproxy',
-      port: 7000,
+      subDomain: 'proxy',
+      port: '',
       path: '/user/vipsediewar',
       proxyRoute: '/vipsediewar/socket.io',
     },
