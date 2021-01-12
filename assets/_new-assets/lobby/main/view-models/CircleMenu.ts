@@ -50,10 +50,8 @@ export default class CircleMenu extends GameIconMenu {
         const lobbySceneName = "MainGame";
 
         if (cc.director.getScene().name !== lobbySceneName) {
-            cc.RedT.inGame.outRoomGame().then(() => {
-                removeInRoomGameId();
-                cc.director.loadScene(lobbySceneName);
-            });
+            removeInRoomGameId();
+            cc.RedT.inGame.closeGame();
         } else {
             this.miniMenu.getComponent("popupMinigame").hideListGame();
         }
