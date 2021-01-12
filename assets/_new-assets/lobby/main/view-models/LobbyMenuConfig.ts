@@ -1,6 +1,6 @@
-const configs = {
+const LobbyMenuConfig = {
     list: [22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 21, 23],
-    miniList: [1, 4, 6, 3, 11, 7, 24, 9],
+    miniList: [1, 4, 6, 3, 0, 7, 11, 9],
     detail: {
         28: {
             size: cc.v2(1, 1),
@@ -78,4 +78,4 @@ const configs = {
     }
 };
 
-export default configs;
+export default LobbyMenuConfig;
