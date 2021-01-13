@@ -1,21 +1,17 @@
-import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
-import SpecialSeDie from "../SpecialSeDie";
+import GameBaseLogsHandler from '../../../_base/handlers/GameBaseLogsHandler';
+import SpecialSeDie from '../SpecialSeDie';
 
 export default class SpecialSeDieLogsHandler extends GameBaseLogsHandler {
-  constructor(protected readonly main: SpecialSeDie) {
-    super(main);
-  }
-
-  handle(data: any): boolean {
-    if (data.roundHistory && data.roundHistory[0] && data.roundHistory[0].result) {
-      this.main.setDots(data.roundHistory[0].result);
+    constructor(protected readonly main: SpecialSeDie) {
+        super(main);
     }
 
-    return super.handle(data);
-  }
+    buildLogs(dataLogs) {
+        if (dataLogs && dataLogs[0] && dataLogs[0].result) {
+            this.main.setDots(dataLogs[0].result);
+        }
 
-  buildLogs(dataLogs) {
-    this.main.updateRoundHistory();
-    this.main.highlightLastResult();
-  }
+        this.main.updateRoundHistory();
+        this.main.highlightLastResult();
+    }
 }

@@ -1,19 +1,19 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../SabaConfigs";
-import NewSocketGameBase from "../../_base/NewSocketGameBase";
-import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
-import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
-import VipFishPrawnCrabLogsHandler from "./handlers/VipFishPrawnCrabLogsHandler";
-import VipFishPrawnCrabTimeHandler from "./handlers/VipFishPrawnCrabTimeHandler";
-import VipFishPrawnCrabBetItem from "./VipFishPrawnCrabBetItem";
-import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
-import vipFishPrawnCrabConstants from "./VipFishPrawnCrabConstants";
-import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
-import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
-import VipFishPrawnCrabOddItem from "./VipFishPrawnCrabOddItem";
-import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
+import GameUtils from '../../../common/GameUtils';
+import { games } from '../../../SabaConfigs';
+import NewSocketGameBase from '../../_base/NewSocketGameBase';
+import VipFishPrawnCrabBetHandler from './handlers/VipFishPrawnCrabBetHandler';
+import VipFishPrawnCrabFinishHandler from './handlers/VipFishPrawnCrabFinishHandler';
+import VipFishPrawnCrabLogsHandler from './handlers/VipFishPrawnCrabLogsHandler';
+import VipFishPrawnCrabTimeHandler from './handlers/VipFishPrawnCrabTimeHandler';
+import VipFishPrawnCrabBetItem from './VipFishPrawnCrabBetItem';
+import VipFishPrawnCrabConfigs from './VipFishPrawnCrabConfigs';
+import vipFishPrawnCrabConstants from './VipFishPrawnCrabConstants';
+import VipFishPrawnCrabGuide from './VipFishPrawnCrabGuide';
+import VipFishPrawnCrabHistory from './VipFishPrawnCrabHistory';
+import VipFishPrawnCrabOddItem from './VipFishPrawnCrabOddItem';
+import VipFishPrawnCrabStats from './VipFishPrawnCrabStats';
 
 const { ccclass, property } = cc._decorator;
 
@@ -151,8 +151,7 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
     }
 
     setDices(dices: number[]) {
-        const optRandom = _.random(0, this.randomResult.children.length - 1);
-        const randomOption = this.randomResult.children[optRandom];
+        const randomOption = this.randomResult.children[this.roundId % 5];
 
         dices.forEach((dice, index) => {
             this.dices[index].node.position = randomOption.children[index].position;
@@ -204,7 +203,8 @@ export default class VipFishPrawnCrab extends NewSocketGameBase {
                 const choice = betItem.node.name;
                 betItem.setHighlight(dataLog.settlementResult[choice], false);
                 if (_.keys(vipFishPrawnCrabConstants.resultMapper).indexOf(choice) >= 0) {
-                    const xValue = _.values(dataLog.result).filter((value) => value === vipFishPrawnCrabConstants.resultMapper[choice]).length;
+                    const xValue = _.values(dataLog.result).filter((value) => value === vipFishPrawnCrabConstants.resultMapper[choice])
+                        .length;
                     if (xValue > 1) {
                         betItem.setXSpriteFrame(xValue === 2 ? this.x2LastSpriteFrame : this.x3LastSpriteFrame);
                     }

@@ -1,21 +1,21 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import GameUtils from "../../../common/GameUtils";
-import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../SabaConfigs";
-import BetItem from "../../_base/BetItem";
-import NewSocketGameBase from "../../_base/NewSocketGameBase";
-import SicBoBetHandler from "./handlers/SicBoBetHandler";
-import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
-import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
-import SicBoTimeHandler from "./handlers/SicBoTimeHandler";
-import SicBoGuide from "./SicBoGuide";
-import SicBoBetItem from "./SicBoBetItem";
-import SicBoConfigs from "./SicBoConfigs";
-import SicBoDicesStatistic from "./SicBoDicesStatistic";
-import SicBoHistory from "./SicBoHistory";
-import SicBoMajorChoicesStatistic from "./SicBoMajorChoicesStatistic";
-import SicBoOddsItem from "./SicBoOddsItem";
+import GameUtils from '../../../common/GameUtils';
+import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
+import { games } from '../../../SabaConfigs';
+import BetItem from '../../_base/BetItem';
+import NewSocketGameBase from '../../_base/NewSocketGameBase';
+import SicBoBetHandler from './handlers/SicBoBetHandler';
+import SicBoFinishHandler from './handlers/SicBoFinishHandler';
+import SicBoLogsHandler from './handlers/SicBoLogsHandler';
+import SicBoTimeHandler from './handlers/SicBoTimeHandler';
+import SicBoBetItem from './SicBoBetItem';
+import SicBoConfigs from './SicBoConfigs';
+import SicBoDicesStatistic from './SicBoDicesStatistic';
+import SicBoGuide from './SicBoGuide';
+import SicBoHistory from './SicBoHistory';
+import SicBoMajorChoicesStatistic from './SicBoMajorChoicesStatistic';
+import SicBoOddsItem from './SicBoOddsItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -217,8 +217,7 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     setDices(dices: number[]) {
-        const optRandom = _.random(0, this.randomResult.children.length - 1);
-        const randomOption = this.randomResult.children[optRandom];
+        const randomOption = this.randomResult.children[this.roundId % 5];
 
         dices.forEach((dice, index) => {
             this.dices[index].node.position = randomOption.children[index].position;
