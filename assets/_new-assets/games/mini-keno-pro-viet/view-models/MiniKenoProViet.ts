@@ -1,6 +1,6 @@
 import * as moment from "moment";
 
-import { zeroPad } from "../../../common/helpers/NumberHelper.js";
+import { zeroPad } from "../../../common/helpers/NumberHelper";
 import * as config from "../../../Configs";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer";

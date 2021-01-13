@@ -1,4 +1,4 @@
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper.js";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import BetItem from "../../../_base/BetItem";
 
 const { ccclass, property } = cc._decorator;

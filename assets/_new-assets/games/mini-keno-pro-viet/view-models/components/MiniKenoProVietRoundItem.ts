@@ -1,6 +1,6 @@
 import * as moment from "moment";
 
-import { zeroPad } from "../../../../common/helpers/NumberHelper.js";
+import { zeroPad } from "../../../../common/helpers/NumberHelper";
 import MiniKenoProViet from "../MiniKenoProViet";
 import { MiniKenoProVietRound } from "./MiniKenoProVietRoundsSelection";
 
