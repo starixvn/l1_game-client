@@ -1,16 +1,16 @@
-import Loading from "../../common/loading/view-models/Loading";
-import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
-import ChanLe from "../../games/chan-le/view-models/ChanLe";
-import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
-import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
-import RongHo from "../../games/rong-ho/view-models/RongHo";
-import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
-import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
-import * as SabaConfigs from "../../SabaConfigs";
-import * as authManager from "./../../common/auth/AuthManager";
-import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
-import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
-import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
+import Loading from '../../common/loading/view-models/Loading';
+import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
+import ChanLe from '../../games/chan-le/view-models/ChanLe';
+import KenoProViet from '../../games/mini-keno/view-models/KenoProViet';
+import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
+import RongHo from '../../games/rong-ho/view-models/RongHo';
+import SpecialSeDie from '../../games/special-sedie/view-models/SpecialSeDie';
+import GameIconMenu from '../../lobby/main/view-models/GameIconMenu';
+import * as SabaConfigs from '../../SabaConfigs';
+import * as authManager from './../../common/auth/AuthManager';
+import MiniPanelDataHandlers from './MiniPanelDataHandlers';
+import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
+import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -70,7 +70,7 @@ export default class MiniPanel extends cc.Component {
         loadingNode.active = false;
         this.node.addChild(loadingNode);
 
-        this.popupMiniGame = this.miniMenu.getComponent("popupMinigame");
+        this.popupMiniGame = this.miniMenu.getComponent("PopupMinigame");
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);

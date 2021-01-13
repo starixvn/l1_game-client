@@ -1,24 +1,19 @@
-cc.Class({
-    extends: cc.Component,
+const { ccclass, property } = cc._decorator;
+@ccclass
+export default class PopupMinigame extends cc.Component {
+    @property(cc.Node)
+    list: cc.Node = null;
+    @property(cc.Node)
+    panel: cc.Node = null;
+    @property(cc.Node)
+    background: cc.Node = null;
+    @property(cc.Node)
+    menuIcon: cc.Node = null;
 
-    properties: {
-        list: {
-            default: null,
-            type: cc.Node
-        },
-        panel: {
-            default: null,
-            type: cc.Node
-        },
-        background: {
-            default: null,
-            type: cc.Node
-        },
-        menuIcon: {
-            default: null,
-            type: cc.Node
-        }
-    },
+    private ttOffset = cc.v2(0, 0);
+    private ttOffset2 = cc.v2(0, 0);
+    private toggleRuning = false;
+
     onLoad() {
         cc.RedT.setting.popupMini = cc.RedT.setting.popupMini || {};
         this.background.active = false;
@@ -26,48 +21,45 @@ cc.Class({
         this.list.active = false;
         this.list.scale = 0;
 
-        this.ttOffset = cc.v2(0, 0);
-        this.ttOffset2 = cc.v2(0, 0);
-        this.toggleRuning = false;
-
         if (void 0 !== cc.RedT.setting.popupMini.position) {
             this.node.position = cc.RedT.setting.popupMini.position;
         }
         this.schedule(this.moveToEdge, 0.05, cc.macro.REPEAT_FOREVER);
-    },
-    onDestroy: function () {
+    }
+
+    onDestroy() {
         this.unschedule(this.moveToEdge);
-    },
-    onEnable: function () {
+    }
+    onEnable() {
         this.panel.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.panel.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
         this.panel.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
         this.panel.on(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
         this.panel.on(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
-    },
-    onDisable: function () {
+    }
+    onDisable() {
         this.panel.off(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.panel.off(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
         this.panel.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this);
         this.panel.off(cc.Node.EventType.TOUCH_CANCEL, this.eventEnd, this);
         this.panel.off(cc.Node.EventType.MOUSE_ENTER, this.setTop, this);
-    },
-    eventStart: function (e) {
+    }
+    eventStart(e) {
         this.setTop();
         this.ttOffset = cc.v2(e.touch.getLocationX() - this.node.position.x, e.touch.getLocationY() - this.node.position.y);
         this.ttOffset2 = cc.v2(
             e.touch.getLocationX() - (e.touch.getLocationX() - this.node.position.x),
             e.touch.getLocationY() - (e.touch.getLocationY() - this.node.position.y)
         );
-    },
-    eventMove: function (e) {
+    }
+    eventMove(e) {
         this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
-    },
+    }
     getCurrentSize() {
         const listBox = this.list.getBoundingBox();
         return cc.v2(Math.max(this.node.width, listBox.width), Math.max(this.node.height, listBox.height));
-    },
-    moveToEdge: function () {
+    }
+    moveToEdge() {
         const width = this.node.parent.width;
         const height = this.node.parent.height;
         const fixTopPadding = 100;
@@ -94,71 +86,63 @@ cc.Class({
 
         this.node.runAction(cc.moveTo(0.1, posX, posY).easing(cc.easeSineOut()));
         cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
-    },
-    eventEnd: function (e) {
+    }
+
+    eventEnd(e) {
         this.moveToEdge();
         const xChanger = this.ttOffset2.x - (e.touch.getLocationX() - this.ttOffset.x);
         const yChanger = this.ttOffset2.y - (e.touch.getLocationY() - this.ttOffset.y);
         if (xChanger < 5 && xChanger > -5 && yChanger < 5 && yChanger > -5) {
             this.toggle();
         }
-    },
-    toggle: function () {
+    }
+
+    toggle() {
         cc.RedT.audio.playClick();
         if (!this.toggleRuning) {
             this.toggleRuning = true;
             const menuAnimation = this.menuIcon.getComponent(cc.Animation);
 
-            if (this.list.active) {
-                cc.tween(this.menuIcon).to(0.2, { scale: 0.9 }).start();
+            if (this.list.scale !== 0) {
                 this.hideListGame();
-                cc.tween(this.node).to(0.2, { scale: 1 }).start();
                 menuAnimation.play();
             } else {
-                cc.tween(this.menuIcon).to(0.2, { scale: 0.8 }).start();
                 this.showListGame();
-                cc.tween(this.node).to(0.2, { scale: 1 }).start();
                 menuAnimation.stop();
                 this.menuIcon.getChildByName("icon").angle = 0;
             }
         }
-    },
+    }
     showListGame() {
         this.background.active = true;
         this.background.runAction(cc.fadeTo(0.1, 224));
         this.list.active = cc.RedT.setting.popupMini.open = true;
-        this.node.runAction(
-            cc.sequence(
-                cc.scaleTo(0.1, 1).easing(cc.easeSineInOut()),
-                cc.callFunc(() => {
-                    cc.tween(this.list).to(0.2, { scale: 1 }).start();
-                    this.toggleRuning = false;
-                }, this)
-            )
-        );
-    },
+
+        cc.tween(this.menuIcon)
+            .to(0.2, { scale: 0, opacity: 0 }, { easing: "sineOut" })
+            .to(0.2, { scale: 0.8, opacity: 255 }, { easing: "sineIn" })
+            .start();
+        cc.tween(this.list)
+            .delay(0.2)
+            .to(0.2, { scale: 1 }, { easing: "sineInOut" })
+            .call(() => {
+                this.toggleRuning = false;
+            })
+            .start();
+    }
+
     hideListGame() {
         cc.RedT.setting.popupMini.open = false;
-        this.node.runAction(
-            cc.sequence(
-                cc.scaleTo(0.1, 1).easing(cc.easeSineInOut()),
-                cc.callFunc(function () {
-                    this.list.active = false;
-                    this.background.runAction(
-                        cc.sequence(
-                            cc.fadeOut(0.1),
-                            cc.callFunc(() => {
-                                this.background.active = false;
-                                this.toggleRuning = false;
-                                cc.tween(this.list).to(0.1, { scale: 0 }).start();
-                            })
-                        )
-                    );
-                }, this)
-            )
-        );
-    },
-    setTop: function () {
-        this.node.parent.insertChild(this.node);
+        cc.tween(this.list)
+            .to(0.2, { scale: 0 }, { easing: "sineInOut" })
+            .call(() => {
+                this.toggleRuning = false;
+                cc.tween(this.menuIcon).to(0.2, { scale: 0.9 }, { easing: "sineInOut" }).start();
+            })
+            .start();
     }
-});
+
+    setTop() {
+        this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+    }
+}
