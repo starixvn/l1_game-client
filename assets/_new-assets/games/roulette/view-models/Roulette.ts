@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 
 import GameUtils from "../../../common/GameUtils";
-import * as helper from "../../../common/helpers/Helper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { games } from "../../../SabaConfigs";
 import GameRoomBase from "../../_base/GameRoomBase";
 import BottomControls from "./BottomControls";
@@ -430,7 +430,7 @@ export default class Roulette extends GameRoomBase {
         const currentTotal = this.sumValueBetChoices(totalChoices);
         const newTotal = this.sumValueBetChoices(betChoices);
         if (currentTotal + newTotal > this.gameConfigs.maxbet) {
-            this.showMiniWarning(`Tổng tiền cược tối đa ở phiên này là ${helper.numberWithCommas(this.gameConfigs.maxbet)}`);
+            this.showMiniWarning(`Tổng tiền cược tối đa ở phiên này là ${numberWithCommas(this.gameConfigs.maxbet)}`);
             return false;
         }
 
@@ -442,7 +442,7 @@ export default class Roulette extends GameRoomBase {
             this.showMiniWarning(
                 isMultiChoices
                     ? "Tiền cược của một trong các cửa vượt mức quy định."
-                    : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
+                    : `Tiền cược tối đa ở cửa này là ${numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
             );
             return true;
         }
@@ -452,7 +452,7 @@ export default class Roulette extends GameRoomBase {
                 this.showMiniWarning(
                     isMultiChoices
                         ? "Tiền cược của một trong các cửa vượt mức quy định."
-                        : `Tiền cược tối đa ở cửa này là ${helper.numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
+                        : `Tiền cược tối đa ở cửa này là ${numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
                 );
                 return true;
             }
@@ -587,14 +587,14 @@ export default class Roulette extends GameRoomBase {
     updateTotalBetLabel() {
         const totalBetChoices = this.currentBetChoices;
         const total = this.sumValueBetChoices(totalBetChoices);
-        const newTotal = helper.numberWithCommas(total);
+        const newTotal = numberWithCommas(total);
         if (newTotal !== this.totalBetLabel.string) {
             this.totalBetLabel.string = newTotal;
             this.totalBetLabel.node.runAction(cc.repeat(cc.sequence(cc.scaleTo(0.15, 1.2), cc.scaleTo(0.15, 1.0)), 2));
         }
 
         const tempValue = this.sumValueBetChoices(this.tempBetChoices);
-        const newTempValue = helper.numberWithCommas(tempValue);
+        const newTempValue = numberWithCommas(tempValue);
         if (this.tempBetLabel.string !== newTempValue) {
             this.tempBetLabel.string = newTempValue;
             this.tempBetLabel.node.runAction(cc.repeat(cc.sequence(cc.scaleTo(0.15, 1.2), cc.scaleTo(0.15, 1.0)), 2));

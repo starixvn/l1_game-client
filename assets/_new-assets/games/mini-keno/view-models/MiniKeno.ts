@@ -1,4 +1,4 @@
-import { getLowercaseObjectKeys } from "../../../common/helpers/Helper";
+import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import { GameState } from "../../_base/GameBase";
 import GameMiniBase from "../../_base/GameMiniBase";
 import KenoNumber from "../../keno-pro/view-models/KenoNumber";

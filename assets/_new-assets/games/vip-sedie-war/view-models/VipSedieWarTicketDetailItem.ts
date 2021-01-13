@@ -1,6 +1,6 @@
-import { getStringHourByTime, numberWithCommas } from './../../../common/helpers/Helper';
-import VipSedieWarUtils from './VipSedieWarUtils';
-
+import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import VipSedieWarUtils from "./VipSedieWarUtils";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

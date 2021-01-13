@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 
-import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper.js";
+import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
 import BetItem from "../../../_base/BetItem";
 import GameRoomBase from "../../../_base/GameRoomBase";
 import SedieFinishHandler from "../../../xoc-xoc/view-models/handlers/SedieFinishHandler";

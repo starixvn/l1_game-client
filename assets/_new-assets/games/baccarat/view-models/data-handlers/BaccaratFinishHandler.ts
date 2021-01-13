@@ -1,8 +1,10 @@
-import Baccarat from "../Baccarat";
-import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import * as _ from "lodash";
+
+import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
+import Baccarat from "../Baccarat";
 import BaccaratLogsHandler from "./BaccaratLogsHandler";
-import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper.js";
+
 export default class BaccaratFinishHandler extends GameBaseFinishHandler {
     handleFinishData(dataFinish: any, onFinishHandlingData: () => void = null) {
         super.handleFinishData(dataFinish, onFinishHandlingData);

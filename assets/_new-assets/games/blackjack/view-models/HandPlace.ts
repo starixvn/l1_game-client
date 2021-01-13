@@ -1,4 +1,4 @@
-import * as helper from "../../../common/helpers/Helper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJackUtils from "./BlackJackUtils";
 import CardLayout from "./CardLayout";
@@ -225,7 +225,7 @@ export default class HandPlace extends cc.Component {
 
     updateDisplayBetValue(bet?: number) {
         this.showBetValue(true);
-        this.betValue.string = helper.numberWithCommas(bet ? bet : this._betAmount);
+        this.betValue.string = numberWithCommas(bet ? bet : this._betAmount);
     }
 
     syncBetValue() {
@@ -314,8 +314,8 @@ export default class HandPlace extends cc.Component {
         this.resultValue.node.parent.active = show;
     }
 
-    setResult(result: string) {
-        this.resultValue.string = `+${helper.numberWithCommas(result)}`;
+    setResult(result: number) {
+        this.resultValue.string = `+${numberWithCommas(result)}`;
         this.showResult(true);
     }
 

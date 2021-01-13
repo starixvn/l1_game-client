@@ -1,4 +1,4 @@
-import { getStringHourByTime } from "../../../common/helpers/Helper";
+import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import GameTicketDetailBase from "../../_base/GameTicketDetailBase";
 import RouletteTicketDetailIGroup from "./RouletteTicketDetailIGroup";
 

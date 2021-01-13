@@ -1,4 +1,5 @@
-import { getStringHourByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

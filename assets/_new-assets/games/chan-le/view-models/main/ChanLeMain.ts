@@ -1,4 +1,4 @@
-import { getOnlyNumberInString, numberTo, numberWithCommas } from "../../../../common/helpers/Helper";
+import { getOnlyNumberInString, numberTo, numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import UmWarning from "../../../../common/um-warning/UmWarning";
 import GameAudios from "../../../_base/GameAudios";
 import DataHandler from "../../../_base/handlers/DataHandler";
@@ -251,8 +251,7 @@ export default class ChanLeMain extends cc.Component {
     }
 
     onBetClick() {
-        let bet = getOnlyNumberInString(this.currentInputBet.string);
-        bet = parseInt(bet);
+        const bet = getOnlyNumberInString(this.currentInputBet.string);
         this.resetCurrentBetInput();
         this.betBoard.node.active = false;
         this.setBetButtonFrame(false);
@@ -267,7 +266,7 @@ export default class ChanLeMain extends cc.Component {
             cuoc: {
                 red: true,
                 select: this.currentInputSide === this.betChoice.left,
-                bet: bet
+                bet: parseInt(bet)
             }
         });
     }

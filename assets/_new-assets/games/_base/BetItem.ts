@@ -1,6 +1,6 @@
-import * as helper from "../../../_new-assets/common/helpers/Helper";
 import BlinkNode from "../../common/BlinkNode";
-import { getLowercaseObjectKeys } from "../../common/helpers/Helper.js";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
+import { getLowercaseObjectKeys } from "../../common/helpers/ObjectHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,13 +34,13 @@ export default class BetItem extends cc.Component {
 
     protected setOwnBet(bet: number) {
         if (this.ownBet) {
-            this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+            this.ownBet.string = bet > 0 ? numberWithCommas(bet) : "";
         }
     }
 
     protected setTotalBet(bet: number) {
         if (this.totalBet) {
-            this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+            this.totalBet.string = bet > 0 ? numberWithCommas(bet) : "";
         }
     }
 
@@ -103,14 +103,14 @@ export default class BetItem extends cc.Component {
         }
     }
 
-    protected resetHighlightOptions(){
+    protected resetHighlightOptions() {
         this.highlight.active = false;
         if (this.highlightBackground) {
             this.highlightBackground.active = false;
         }
     }
 
-    protected setHighlightItemsOptions(highlight: boolean, isAnimated = true){
+    protected setHighlightItemsOptions(highlight: boolean, isAnimated = true) {
         this.highlight.active = highlight && isAnimated;
         if (this.highlightBackground) {
             this.highlightBackground.active = highlight && isAnimated;

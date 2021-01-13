@@ -1,4 +1,5 @@
-import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
 import VipSedieWarTicketDetail from "./VipSedieWarTicketDetail";
 import VipSedieWarUtils from "./VipSedieWarUtils";
 

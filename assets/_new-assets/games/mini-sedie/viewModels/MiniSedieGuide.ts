@@ -1,5 +1,5 @@
-import { numberWithCommas } from '../../../common/helpers/Helper';
-import GameGuideBase from '../../_base/view-models/GameGuideBase';
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import GameGuideBase from "../../_base/view-models/GameGuideBase";
 
 const { ccclass, property } = cc._decorator;
 

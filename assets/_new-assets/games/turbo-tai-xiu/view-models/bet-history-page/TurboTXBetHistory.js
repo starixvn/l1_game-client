@@ -1,5 +1,8 @@
+import { getStringDateByTime, getStringHourByTime } from "../../../../common/helpers/DateTimeHelper";
+import { shortenName } from "../../../../common/helpers/NicknameHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+
 var TXBetHistory = require("TXBetHistory");
-var helper = require("Helper");
 
 cc.Class({
     extends: TXBetHistory,
@@ -15,11 +18,11 @@ cc.Class({
         var self = this;
         this.setNew();
         cc.RedT.inGame.loading.active = false;
-        this.leftCuoc.string = helper.numberWithCommas(data.tong_L);
-        this.rightCuoc.string = helper.numberWithCommas(data.tong_R);
-        this.leftTraLai.string = helper.numberWithCommas(data.tong_tralai_L);
-        this.rightTraLai.string = helper.numberWithCommas(data.tong_tralai_R);
-        this.phien.string = `${data.phien}  -  ${helper.getStringDateByTime(data.time)}`;
+        this.leftCuoc.string = numberWithCommas(data.tong_L);
+        this.rightCuoc.string = numberWithCommas(data.tong_R);
+        this.leftTraLai.string = numberWithCommas(data.tong_tralai_L);
+        this.rightTraLai.string = numberWithCommas(data.tong_tralai_R);
+        this.phien.string = `${data.phien}  -  ${getStringDateByTime(data.time)}`;
         this.isPhien = data.phien;
         var total = data.dice[0] + data.dice[1] + data.dice[2];
         var phienT = cc.RedT.setting.taixiu_turbo.logs[0].phien - data.phien;
@@ -76,12 +79,12 @@ cc.Class({
     addItem: function (obj) {
         var item = cc.instantiate(this.itemPrefab);
         var itemComponent = item.getComponent("TXBetHistoryItem");
-        itemComponent.time.string = helper.getStringHourByTime(obj.time);
+        itemComponent.time.string = getStringHourByTime(obj.time);
         var isLoginUser = obj.name === cc.RedT.user.name;
         itemComponent.highlight.active = isLoginUser;
-        itemComponent.user.string = isLoginUser ? obj.name : helper.shortenName(obj.name);
-        itemComponent.cuoc.string = helper.numberWithCommas(obj.bet);
-        itemComponent.tralai.string = helper.numberWithCommas(obj.tralai);
+        itemComponent.user.string = isLoginUser ? obj.name : shortenName(obj.name);
+        itemComponent.cuoc.string = numberWithCommas(obj.bet);
+        itemComponent.tralai.string = numberWithCommas(obj.tralai);
         return item;
     }
 });

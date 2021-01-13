@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 
 import GameUtils from "../../../common/GameUtils";
-import { getLowercaseObjectKeys } from "../../../common/helpers/Helper.js";
+import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import BetItem from "../BetItem";
 import GameBase from "../GameBase";
 import GameRoomBase from "../GameRoomBase";

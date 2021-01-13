@@ -1,4 +1,4 @@
-import * as helper from "./../../helpers/Helper";
+import { numberWithCommas } from "../../helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -80,6 +80,6 @@ export default class PresetBet extends cc.Component {
     }
 
     private updateBetAmount() {
-        this.betValue.string = helper.numberWithCommas(this.betAmount);
+        this.betValue.string = numberWithCommas(this.betAmount);
     }
 }

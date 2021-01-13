@@ -1,4 +1,6 @@
-import { getStringDateByTime, getStringHourByTime, numberWithCommas, shortenName } from "./../../../common/helpers/Helper";
+import { shortenName } from "../../../common/helpers/NicknameHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { getStringDateByTime, getStringHourByTime } from "./../../../common/helpers/DateTimeHelper";
 import SpecialSeDie from "./SpecialSeDie";
 import SpecialSedieBetHistoryItem from "./SpecialSedieBetHistoryItem";
 

@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 
-import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewSocketGameBaseHistory from "../../_base/NewSocketGameBaseHistory";
 import BaccaratHistoryItem from "../../baccarat/view-models/BaccaratHistoryItem";
 

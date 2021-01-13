@@ -1,5 +1,6 @@
-var helper = require("Helper");
 import PaginationCommon from "../../../../../_new-assets/common/helpers/Pagination/PaginationCommon";
+import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 cc.Class({
     extends: cc.Component,
@@ -51,9 +52,9 @@ cc.Class({
             var dataT = data.data[i];
             if (void 0 !== dataT) {
                 obj.node.active = true;
-                obj.time.string = helper.getStringDateByTime(dataT.time);
+                obj.time.string = getStringDateByTime(dataT.time);
                 obj.phien.string = dataT.phien;
-                obj.thang.string = helper.numberWithCommas(dataT.betwin);
+                obj.thang.string = numberWithCommas(dataT.betwin);
                 obj.thang.node.color = dataT.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
                 obj.kq.forEach(function (kq, j) {
                     kq.spriteFrame = self.RedT.iconMini[dataT.kq[j]];
@@ -62,7 +63,7 @@ cc.Class({
                 obj.datLabel.forEach(function (cuoc, k) {
                     if (dataT[k] > 0) {
                         cuoc.node.parent.active = true;
-                        cuoc.string = helper.numberWithCommas(dataT[k]);
+                        cuoc.string = numberWithCommas(dataT[k]);
                     } else {
                         cuoc.node.parent.active = false;
                     }

@@ -1,7 +1,8 @@
 import * as _ from "lodash";
 
 import GameUtils from "../../../../common/GameUtils";
-import { formatDateTime, numberWithCommas } from "../../../../common/helpers/Helper";
+import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import KenoNumber from "../../../keno-pro/view-models/KenoNumber";
 import MiniKenoHistoryDetailItem from "./MiniKenoHistoryDetailItem";
 

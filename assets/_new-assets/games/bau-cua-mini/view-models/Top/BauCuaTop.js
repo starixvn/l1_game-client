@@ -1,6 +1,3 @@
-
-var helper = require('Helper');
-
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -8,7 +5,7 @@ cc.Class({
         content: cc.Node,
         cointRed: cc.Node,
         cointXu: cc.Node,
-        red: true,
+        red: true
     },
     init(obj) {
         this.RedT = obj;
@@ -30,13 +27,13 @@ cc.Class({
         var self = this;
         data.forEach(function (obj, index) {
             var item = cc.instantiate(self.item);
-            var itemComponent = item.getComponent('BauCuaTopItem');
+            var itemComponent = item.getComponent("BauCuaTopItem");
             itemComponent.stt.string = index + 1;
             itemComponent.nick.string = obj.name;
-            itemComponent.win.string = helper.numberWithCommas(obj.bet);
+            itemComponent.win.string = numberWithCommas(obj.bet);
             item.children[0].active = !(index & 1);
             self.content.addChild(item);
-        })
+        });
     },
     pressedCloseDialog() {
         var dialog = this.node.getComponent("CommonDialog");

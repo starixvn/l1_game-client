@@ -1,4 +1,4 @@
-import { numberWithCommas } from "./../../../../common/helpers/Helper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import ChanLe from "./../ChanLe";
 import ChanLeTopUsersItem from "./ChanLeTopUsersItem";
 

@@ -1,6 +1,7 @@
+import { getOnlyNumberInString, numberPad, numberWithCommas } from "../../../../common/helpers/NumberHelper";
+
 var TXMain = require("TXMain"),
     BrowserUtil = require("BrowserUtil"),
-    helper = require("Helper"),
     Constants = require("TurboTXConstants"),
     NoticeUtil = require("NoticeUtil");
 
@@ -226,7 +227,7 @@ cc.Class({
         this.TXRoot.setTop();
     },
     onChangerInput: function () {
-        var value = helper.numberWithCommas(helper.getOnlyNumberInString(this.input.string));
+        var value = numberWithCommas(getOnlyNumberInString(this.input.string));
         this.input.string = value;
     },
     setPhienLabel: function (phien) {
@@ -399,7 +400,7 @@ cc.Class({
                 this.showBetWinLoss();
             }
             // time count down to next phien
-            const time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - Constants.betTime - 1, 2);
+            const time = numberPad(cc.RedT.setting.taixiu_turbo.time_remain - Constants.betTime - 1, 2);
             this.showWaitTime(time);
 
             if (this.localResultDices.length > 0) {
@@ -416,7 +417,7 @@ cc.Class({
         if (this.nodeTimeWait) {
             this.nodeTimeWait.active = true;
         }
-        this.timeWait.string = `00:${helper.numberPad(time, 2)}`;
+        this.timeWait.string = `00:${numberPad(time, 2)}`;
     },
 
     handleInRoundTime: function () {
@@ -431,7 +432,7 @@ cc.Class({
         }
 
         if (cc.RedT.setting.taixiu_turbo.time_remain > Constants.minBetTime) {
-            const time = helper.numberPad(cc.RedT.setting.taixiu_turbo.time_remain - 1, 2);
+            const time = numberPad(cc.RedT.setting.taixiu_turbo.time_remain - 1, 2);
             this.AnimatedTime.setTime(time);
             this.AnimatedTime.node.active = !this.isUM;
         } else {
@@ -451,30 +452,30 @@ cc.Class({
         }
 
         if (void 0 !== data.red_tai) {
-            var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
+            var sTai = getOnlyNumberInString(this.totalLeft.string);
 
             if (sTai < data.red_tai) {
-                helper.numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
+                numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
             } else {
-                this.totalLeft.string = helper.numberWithCommas(data.red_tai);
+                this.totalLeft.string = numberWithCommas(data.red_tai);
             }
         }
         if (void 0 !== data.red_xiu) {
-            var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
+            var sXiu = getOnlyNumberInString(this.totalRight.string);
 
             if (sXiu < data.red_xiu) {
-                helper.numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
+                numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
             } else {
-                this.totalRight.string = helper.numberWithCommas(data.red_xiu);
+                this.totalRight.string = numberWithCommas(data.red_xiu);
             }
         }
 
         if (void 0 !== data.red_me_tai) {
-            this.myLeft.string = helper.numberWithCommas(data.red_me_tai);
+            this.myLeft.string = numberWithCommas(data.red_me_tai);
         }
 
         if (void 0 !== data.red_me_xiu) {
-            this.myRight.string = helper.numberWithCommas(data.red_me_xiu);
+            this.myRight.string = numberWithCommas(data.red_me_xiu);
         }
         if (void 0 !== data.red_player_tai) {
             const betTaiPercent = parseInt(data.red_player_tai) >> 0;
@@ -660,7 +661,7 @@ cc.Class({
         var temp = new cc.Node();
         temp.addComponent(cc.Label);
         temp = temp.getComponent(cc.Label);
-        temp.string = (data.win ? "+" : "-") + helper.numberWithCommas(data.bet);
+        temp.string = (data.win ? "+" : "-") + numberWithCommas(data.bet);
         temp.font = data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
         temp.lineHeight = 130;
         temp.fontSize = 22;
@@ -678,7 +679,7 @@ cc.Class({
             var thuong = new cc.Node();
             thuong.addComponent(cc.Label);
             thuong = thuong.getComponent(cc.Label);
-            thuong.string = (data.win ? "+" : "-") + helper.numberWithCommas(data.thuong);
+            thuong.string = (data.win ? "+" : "-") + numberWithCommas(data.thuong);
             thuong.font = cc.RedT.util.fontEffect;
             thuong.lineHeight = 90;
             thuong.fontSize = 14;

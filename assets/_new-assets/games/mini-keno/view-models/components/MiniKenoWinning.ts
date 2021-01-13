@@ -1,4 +1,4 @@
-import * as helper from "../../../../common/helpers/Helper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -16,7 +16,7 @@ export default class MiniKenoWinning extends cc.Component {
 
     init(gameName, roundId, winAmount) {
         this.gameName.string = `${gameName} (#${roundId})`;
-        this.winAmount.string = `+${helper.numberWithCommas(winAmount)}`;
+        this.winAmount.string = `+${numberWithCommas(winAmount)}`;
     }
 
     onLoad() {

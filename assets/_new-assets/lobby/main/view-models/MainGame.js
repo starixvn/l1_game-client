@@ -1,10 +1,10 @@
-import baseControll from '../../../BaseController';
-import BaseSocketIOController from '../../../BaseSocketIOController';
-import GameUtils from '../../../common/GameUtils';
-import helper from '../../../common/helpers/Helper';
-import logger from '../../../common/logger';
-import * as SabaConfigs from '../../../SabaConfigs';
-import * as authManager from './../../../common/auth/AuthManager';
+import baseControll from "../../../BaseController";
+import BaseSocketIOController from "../../../BaseSocketIOController";
+import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import logger from "../../../common/logger";
+import * as SabaConfigs from "../../../SabaConfigs";
+import * as authManager from "./../../../common/auth/AuthManager";
 
 const sentryLogger = logger();
 
@@ -242,7 +242,7 @@ cc.Class({
             userCurrency = currency === undefined ? "" : currency;
         }
 
-        return `${helper.numberWithCommas(red)} ${userCurrency}`;
+        return `${numberWithCommas(red)} ${userCurrency}`;
     },
     showNotice: function (noticeData) {
         var noticePrefab = cc.instantiate(this.NoticePrefab);

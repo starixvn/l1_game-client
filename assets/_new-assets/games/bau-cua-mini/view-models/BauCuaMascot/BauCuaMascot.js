@@ -1,4 +1,4 @@
-var helper = require("Helper");
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 cc.Class({
     extends: cc.Component,
@@ -16,11 +16,11 @@ cc.Class({
 
     meCuoc: function (cuoc) {
         if (!!cuoc) {
-            this.me.string = helper.numberWithCommas(cuoc);
+            this.me.string = numberWithCommas(cuoc);
         }
     },
     totallCuoc: function (cuoc) {
-        this.totall.string = cuoc > 0 ? helper.numberWithCommas(cuoc) : "";
+        this.totall.string = cuoc > 0 ? numberWithCommas(cuoc) : "";
     },
     Select: function (x) {
         this.xSprite.node.active = x !== 1;

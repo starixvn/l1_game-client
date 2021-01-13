@@ -1,6 +1,7 @@
+import { getStringDateByTime } from "../../../../../_new-assets/common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../../_new-assets/common/helpers/NumberHelper";
 import PaginationCommon from "../../../../../_new-assets/common/helpers/Pagination/PaginationCommon";
 
-var Helper = require("Helper");
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -44,7 +45,7 @@ cc.Class({
             if (void 0 !== dataT) {
                 item.node.active = true;
                 var tong = dataT.dice1 + dataT.dice2 + dataT.dice3;
-                item.time.string = Helper.getStringDateByTime(dataT.time);
+                item.time.string = getStringDateByTime(dataT.time);
                 item.phien.string = dataT.phien;
                 const roundId = dataT.phien;
                 item.roundIdClick = () => {
@@ -52,9 +53,9 @@ cc.Class({
                 };
                 item.dat.string = dataT.select ? "Tài" : "Xỉu";
                 item.ketqua.string = `${dataT.dice1}-${dataT.dice2}-${dataT.dice3}  ${tong}`;
-                item.cuoc.string = Helper.numberWithCommas(dataT.bet);
-                item.tralai.string = Helper.numberWithCommas(dataT.tralai);
-                item.win.string = Helper.numberWithCommas(dataT.betwin);
+                item.cuoc.string = numberWithCommas(dataT.bet);
+                item.tralai.string = numberWithCommas(dataT.tralai);
+                item.win.string = numberWithCommas(dataT.betwin);
 
                 if (dataT.win) {
                     item.win.node.color = cc.Color.YELLOW;

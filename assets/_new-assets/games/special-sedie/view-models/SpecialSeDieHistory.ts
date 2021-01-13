@@ -1,6 +1,7 @@
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewSocketGameBaseHistory from "../../_base/NewSocketGameBaseHistory";
 import GameUtils from "./../../../common/GameUtils";
-import { getStringDateByTime, numberWithCommas } from "./../../../common/helpers/Helper";
+import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
 import SpecialSeDieHistoryItem from "./SpecialSeDieHistoryItem";
 
 const { ccclass, property } = cc._decorator;

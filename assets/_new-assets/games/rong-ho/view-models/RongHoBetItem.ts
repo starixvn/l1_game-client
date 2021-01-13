@@ -1,10 +1,9 @@
-import * as helper from '../../../common/helpers/Helper';
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RongHoBetItem extends cc.Component {
-
     @property(cc.Node)
     inActive: cc.Node = null;
 
@@ -32,11 +31,11 @@ export default class RongHoBetItem extends cc.Component {
     }
 
     protected setOwnBet(bet: number) {
-        this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+        this.ownBet.string = bet > 0 ? numberWithCommas(bet) : "";
     }
 
     protected setTotalBet(bet: number) {
-        this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : '';
+        this.totalBet.string = bet > 0 ? numberWithCommas(bet) : "";
     }
 
     public setHighlight(highlight: boolean) {

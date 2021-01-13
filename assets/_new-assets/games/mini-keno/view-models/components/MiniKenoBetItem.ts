@@ -1,11 +1,10 @@
-import * as helper from "../../../../common/helpers/Helper.js";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper.js";
 import BetItem from "../../../_base/BetItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniKenoBetItem extends BetItem {
-
     @property(cc.Label)
     inputBet: cc.Label = null;
 
@@ -41,13 +40,10 @@ export default class MiniKenoBetItem extends BetItem {
     }
 
     public inputBetChanged(bet: number) {
-        this.inputBet.string = helper.numberWithCommas(bet);
+        this.inputBet.string = numberWithCommas(bet);
         this.inputBet.node.parent.active = true;
         this.inputBet.node.stopAllActions();
-        this.inputBet.node.runAction(cc.sequence(
-            cc.scaleTo(0.1, 1.5),
-            cc.scaleTo(0.2, 1).easing(cc.easeBackOut())
-        ));
+        this.inputBet.node.runAction(cc.sequence(cc.scaleTo(0.1, 1.5), cc.scaleTo(0.2, 1).easing(cc.easeBackOut())));
     }
 
     public clearInputBet() {

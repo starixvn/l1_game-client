@@ -1,4 +1,4 @@
-import { numberWithCommas } from "../../../../../common/helpers/Helper";
+import { numberWithCommas } from "../../../../../common/helpers/NumberHelper";
 import DataHandler from "../../../../_base/handlers/DataHandler";
 import ChanLeMain from "../ChanLeMain";
 import BaseDataHandler from "./BaseDataHandler";

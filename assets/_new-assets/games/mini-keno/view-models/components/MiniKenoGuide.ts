@@ -1,4 +1,4 @@
-import { numberWithCommas } from "./../../../../common/helpers/Helper";
+import { numberWithCommas } from "./../../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

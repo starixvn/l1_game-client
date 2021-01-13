@@ -1,4 +1,5 @@
-var helper = require("Helper");
+import { numberPad, numberWithCommas } from "./../../../common/helpers/NumberHelper";
+
 var BauCuaLinhVat = require("BauCuaMascot");
 var BCConstants = require("BCConstants");
 
@@ -624,7 +625,7 @@ cc.Class({
                     }
 
                     if (cc.RedT.setting.baucua.time_remain > 1) {
-                        const time = helper.numberPad(cc.RedT.setting.baucua.time_remain - 1, 2);
+                        const time = numberPad(cc.RedT.setting.baucua.time_remain - 1, 2);
 
                         this.animatedTime.node.active = true;
                         this.animatedTime.setTime(time);
@@ -652,7 +653,7 @@ cc.Class({
     },
     handleCountDownNextRound: function () {
         this.waitingCuoc = false;
-        const time = helper.numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
+        const time = numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
         this.animatedTime.node.active = false;
         this.waitedTime.string = time === "00" ? "" : `00:${time}`;
         this.waitedTime.node.parent.active = time !== "00";
@@ -667,22 +668,22 @@ cc.Class({
     },
     nextRealTime: function () {
         if (cc.RedT.setting.baucua.time_remain > BCConstants.betTime + 1) {
-            const time = helper.numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
-            this.animatedTime.setTime(helper.numberPad(time, 2), true);
+            const time = numberPad(cc.RedT.setting.baucua.time_remain - (BCConstants.betTime + 2), 2);
+            this.animatedTime.setTime(numberPad(time, 2), true);
         } else {
             if (cc.RedT.setting.baucua.time_remain > 0) {
-                const time = helper.numberPad(cc.RedT.setting.baucua.time_remain - 1, 2);
+                const time = numberPad(cc.RedT.setting.baucua.time_remain - 1, 2);
                 this.animatedTime.setTime(time);
             }
         }
     },
     logLVHandling: function (data) {
-        this.logHuou.string = helper.numberWithCommas(data[0]);
-        this.logBau.string = helper.numberWithCommas(data[1]);
-        this.logGa.string = helper.numberWithCommas(data[2]);
-        this.logCa.string = helper.numberWithCommas(data[3]);
-        this.logCua.string = helper.numberWithCommas(data[4]);
-        this.logTom.string = helper.numberWithCommas(data[5]);
+        this.logHuou.string = numberWithCommas(data[0]);
+        this.logBau.string = numberWithCommas(data[1]);
+        this.logGa.string = numberWithCommas(data[2]);
+        this.logCa.string = numberWithCommas(data[3]);
+        this.logCua.string = numberWithCommas(data[4]);
+        this.logTom.string = numberWithCommas(data[5]);
     },
     dataHandling: function (data) {
         if (this.red && this.linhVat) {
@@ -759,7 +760,7 @@ cc.Class({
         var temp = new cc.Node();
         temp.addComponent(cc.Label);
         temp = temp.getComponent(cc.Label);
-        temp.string = (win ? "+" : "-") + helper.numberWithCommas(value);
+        temp.string = (win ? "+" : "-") + numberWithCommas(value);
         temp.font = win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
         temp.lineHeight = 130;
         temp.fontSize = 30;
@@ -793,7 +794,7 @@ cc.Class({
                     var thuong = new cc.Node();
                     thuong.addComponent(cc.Label);
                     thuong = thuong.getComponent(cc.Label);
-                    thuong.string = `+${helper.numberWithCommas(data.thuong)}`;
+                    thuong.string = `+${numberWithCommas(data.thuong)}`;
                     thuong.font = cc.RedT.util.fontEffect;
                     thuong.lineHeight = 90;
                     thuong.fontSize = 14;

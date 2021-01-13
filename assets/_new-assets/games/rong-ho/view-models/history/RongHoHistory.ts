@@ -1,4 +1,5 @@
-import { getStringDateByTime, numberWithCommas } from "../../../../common/helpers/Helper";
+import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
 import RongHo from "../RongHo";
 import RongHoHistoryItem from "./RongHoHistoryItem";

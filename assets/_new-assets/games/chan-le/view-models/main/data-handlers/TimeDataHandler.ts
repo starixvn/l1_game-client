@@ -1,4 +1,4 @@
-import { numberPad } from "../../../../../common/helpers/Helper";
+import { numberPad } from "../../../../../common/helpers/NumberHelper";
 import DataHandler from "../../../../_base/handlers/DataHandler";
 import ChanLeMain from "../ChanLeMain";
 import BaseDataHandler from "./BaseDataHandler";

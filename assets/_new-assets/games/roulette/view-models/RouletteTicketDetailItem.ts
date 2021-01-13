@@ -1,8 +1,9 @@
-const { ccclass, property } = cc._decorator;
 import * as _ from "lodash";
-import { numberWithCommas } from "../../../common/helpers/Helper";
+
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { RouletteBetType } from "./Roulette";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class RouletteTicketDetailItem extends cc.Component {
     @property(cc.Label)

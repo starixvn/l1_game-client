@@ -1,7 +1,7 @@
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../../common/GameUtils";
-import * as helper from "../../../common/helpers/Helper";
+import { numberPad } from "../../../common/helpers/NumberHelper";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
 import UmWarning from "../../../common/um-warning/UmWarning";
@@ -498,10 +498,10 @@ export default class RongHo extends cc.Component {
     private showTime(isInWaitTime, isInTurnTime) {
         let time: any;
         if (isInWaitTime) {
-            time = helper.numberPad(this.currentTimeRemaining - this.config.betTime, 2);
+            time = numberPad(this.currentTimeRemaining - this.config.betTime, 2);
         } else {
             if (isInTurnTime) {
-                time = helper.numberPad(this.currentTimeRemaining, 2);
+                time = numberPad(this.currentTimeRemaining, 2);
             } else {
                 time = 0;
             }

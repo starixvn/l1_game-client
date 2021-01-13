@@ -1,4 +1,5 @@
-import { getStringDateByTime, numberWithCommas } from "../../../common/helpers/Helper";
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard from "../../../common/new-card/view-models/NewCard";
 import NewSocketGameBaseHistory from "../../_base/NewSocketGameBaseHistory";
 import BlackJackHistoryItem from "./BlackJackHistoryItem";

@@ -1,6 +1,6 @@
 import BaseSocketIOController from "../../BaseSocketIOController";
 import GameUtils from "../../common/GameUtils";
-import { numberWithCommas } from "../../common/helpers/Helper";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";

@@ -1,9 +1,8 @@
-const { ccclass, property } = cc._decorator;
-import * as helper from "../../../../common/helpers/Helper.js";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper.js";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class KenoStatusBanner extends cc.Component {
-
     @property(cc.Label)
     gameName: cc.Label = null;
 
@@ -24,15 +23,18 @@ export default class KenoStatusBanner extends cc.Component {
     init(gameName, roundId, winAmount) {
         this.gameName.string = `${gameName}`;
         this.roundId.string = `#${roundId}`;
-        this.winAmount.string = `+${helper.numberWithCommas(winAmount)}`;
-
+        this.winAmount.string = `+${numberWithCommas(winAmount)}`;
     }
 
     onLoad() {
-        this.animation.on("finished", () => {
-            this.isShowing = false;
-            this.node.active = false;
-        }, this);
+        this.animation.on(
+            "finished",
+            () => {
+                this.isShowing = false;
+                this.node.active = false;
+            },
+            this
+        );
     }
 
     show() {

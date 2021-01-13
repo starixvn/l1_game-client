@@ -1,12 +1,13 @@
-import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
-import Baccarat from "../Baccarat";
 import * as _ from "lodash";
-import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
-import { getLowercaseObjectKeys } from "../../../../common/helpers/Helper.js";
-import { TotalHistoryData } from "../TotalHistoryBoard";
-import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from "../BaccaratDragonScoreBoard";
-import BaccaratFinishHandler from "./BaccaratFinishHandler";
+
+import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
 import GameRoomBase from "../../../_base/GameRoomBase";
+import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
+import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
+import Baccarat from "../Baccarat";
+import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from "../BaccaratDragonScoreBoard";
+import { TotalHistoryData } from "../TotalHistoryBoard";
+import BaccaratFinishHandler from "./BaccaratFinishHandler";
 
 export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     constructor(protected readonly main: GameRoomBase) {

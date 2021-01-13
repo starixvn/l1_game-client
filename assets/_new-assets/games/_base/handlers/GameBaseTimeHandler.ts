@@ -1,4 +1,4 @@
-import { numberPad } from "../../../common/helpers/Helper";
+import { numberPad } from "../../../common/helpers/NumberHelper";
 import GameBase, { GameState } from "../GameBase";
 import GameRoomBase from "../GameRoomBase";
 import DataHandler from "./DataHandler";

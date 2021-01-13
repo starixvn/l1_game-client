@@ -1,4 +1,6 @@
-import { getStringDateByTime, getStringHourByTime, numberWithCommas, shortenName } from "../../../../common/helpers/Helper";
+import { getStringDateByTime, getStringHourByTime } from "../../../../common/helpers/DateTimeHelper";
+import { shortenName } from "../../../../common/helpers/NicknameHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import ChanLe from "../ChanLe";
 import ChanLeTurnHistoryItem from "./ChanLeTurnHistoryItem";
 

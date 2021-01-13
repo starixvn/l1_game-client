@@ -4,7 +4,7 @@ import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
-import * as helper from "../../../common/helpers/Helper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { games } from "../../../SabaConfigs";
 import { GameState } from "../../_base/GameBase";
@@ -221,7 +221,7 @@ export default class BlackJack extends NewSocketGameBase {
 
     updateTotalBetLabel() {
         const total = this.getCurrentTotalAmount();
-        this.totalBetLabel.string = helper.numberWithCommas(total);
+        this.totalBetLabel.string = numberWithCommas(total);
     }
 
     initHandPlaces() {
@@ -237,7 +237,7 @@ export default class BlackJack extends NewSocketGameBase {
                 handPlace.highlightPlace(true);
 
                 if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxbet) {
-                    this.showMiniWarning(`Tổng tiền cược tối đa của tay bài này là ${helper.numberWithCommas(this.gameConfigs.maxbet)}`);
+                    this.showMiniWarning(`Tổng tiền cược tối đa của tay bài này là ${numberWithCommas(this.gameConfigs.maxbet)}`);
                     return;
                 }
 
@@ -705,7 +705,7 @@ export default class BlackJack extends NewSocketGameBase {
     updateDisplayForRemoteConfig() {
         super.updateDisplayForRemoteConfig();
         this.minBetLabel.string = this.gameConfigs.minbet.toString();
-        this.maxBetLabel.string = helper.numberWithCommas(this.gameConfigs.maxbet);
+        this.maxBetLabel.string = numberWithCommas(this.gameConfigs.maxbet);
         this.blackjackOddLabel.string = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
     }
 

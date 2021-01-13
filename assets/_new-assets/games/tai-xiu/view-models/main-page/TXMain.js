@@ -1,7 +1,7 @@
+import { getOnlyNumberInString, numberPad, numberTo, numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import UmWarning from "../../../../common/um-warning/UmWarning";
 
 var BrowserUtil = require("BrowserUtil"),
-    helper = require("Helper"),
     TXScale = require("TXScale"),
     Constants = require("TXConstants"),
     NoticeUtil = require("NoticeUtil");
@@ -464,7 +464,7 @@ cc.Class({
         );
     },
     onChangerInput: function () {
-        var value = helper.numberWithCommas(helper.getOnlyNumberInString(this.input.string));
+        var value = numberWithCommas(getOnlyNumberInString(this.input.string));
         this.input.string = value;
     },
     setPhienLabel: function (phien) {
@@ -643,7 +643,7 @@ cc.Class({
                 this.showBetWinLoss();
             }
             // time count down to next phien
-            var waitTime = helper.numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
+            var waitTime = numberPad(cc.RedT.setting.taixiu.time_remain - Constants.betTime - 1, 2);
             this.showWaitTime(waitTime);
 
             if (this.localResultDices.length > 0) {
@@ -669,7 +669,7 @@ cc.Class({
         }
 
         if (cc.RedT.setting.taixiu.time_remain > Constants.minBetTime) {
-            var time = helper.numberPad(cc.RedT.setting.taixiu.time_remain - 1, 2);
+            var time = numberPad(cc.RedT.setting.taixiu.time_remain - 1, 2);
             this.AnimatedTime.setTime(time);
             this.spriteNan.node.active = this.AnimatedTime.node.active = !this.isUM;
         } else {
@@ -682,7 +682,7 @@ cc.Class({
         if (this.nodeTimeWait) {
             this.nodeTimeWait.active = true;
         }
-        this.timeWait.string = `00:${helper.numberPad(time, 2)}`;
+        this.timeWait.string = `00:${numberPad(time, 2)}`;
     },
 
     onDataTaiXiu: function (data) {
@@ -697,29 +697,29 @@ cc.Class({
         }
 
         if (void 0 !== data.red_tai) {
-            var sTai = helper.getOnlyNumberInString(this.totalLeft.string);
+            var sTai = getOnlyNumberInString(this.totalLeft.string);
 
             if (sTai < data.red_tai) {
-                helper.numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
+                numberTo(this.totalLeft, sTai, data.red_tai, 0, true);
             } else {
-                this.totalLeft.string = helper.numberWithCommas(data.red_tai);
+                this.totalLeft.string = numberWithCommas(data.red_tai);
             }
         }
         if (void 0 !== data.red_xiu) {
-            var sXiu = helper.getOnlyNumberInString(this.totalRight.string);
+            var sXiu = getOnlyNumberInString(this.totalRight.string);
 
             if (sXiu < data.red_xiu) {
-                helper.numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
+                numberTo(this.totalRight, sXiu, data.red_xiu, 0, true);
             } else {
-                this.totalRight.string = helper.numberWithCommas(data.red_xiu);
+                this.totalRight.string = numberWithCommas(data.red_xiu);
             }
         }
 
         if (void 0 !== data.red_me_tai) {
-            this.myLeft.string = helper.numberWithCommas(data.red_me_tai);
+            this.myLeft.string = numberWithCommas(data.red_me_tai);
         }
         if (void 0 !== data.red_me_xiu) {
-            this.myRight.string = helper.numberWithCommas(data.red_me_xiu);
+            this.myRight.string = numberWithCommas(data.red_me_xiu);
         }
         if (void 0 !== data.red_player_tai) {
             const betTaiPercent = parseInt(data.red_player_tai) >> 0;
@@ -865,7 +865,7 @@ cc.Class({
         var temp = new cc.Node();
         temp.addComponent(cc.Label);
         temp = temp.getComponent(cc.Label);
-        temp.string = (data.win ? "+" : "-") + helper.numberWithCommas(data.bet);
+        temp.string = (data.win ? "+" : "-") + numberWithCommas(data.bet);
         temp.font = data.win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
         temp.lineHeight = 130;
         temp.fontSize = 22;
@@ -883,7 +883,7 @@ cc.Class({
             var thuong = new cc.Node();
             thuong.addComponent(cc.Label);
             thuong = thuong.getComponent(cc.Label);
-            thuong.string = (data.win ? "+" : "-") + helper.numberWithCommas(data.thuong);
+            thuong.string = (data.win ? "+" : "-") + numberWithCommas(data.thuong);
             thuong.font = cc.RedT.util.fontEffect;
             thuong.lineHeight = 90;
             thuong.fontSize = 14;
@@ -934,18 +934,18 @@ cc.Class({
         hasAnimation && this.showBalanceBetNotice();
         if (isLechTai) {
             if (hasAnimation) {
-                helper.numberTo(this.totalLeft, 0, this.redXiu, 1000, true);
+                numberTo(this.totalLeft, 0, this.redXiu, 1000, true);
             } else {
-                this.totalLeft.string = helper.numberWithCommas(this.redXiu);
+                this.totalLeft.string = numberWithCommas(this.redXiu);
             }
-            this.totalRight.string = helper.numberWithCommas(this.redXiu);
+            this.totalRight.string = numberWithCommas(this.redXiu);
         } else {
             if (hasAnimation) {
-                helper.numberTo(this.totalRight, 0, this.redTai, 1000, true);
+                numberTo(this.totalRight, 0, this.redTai, 1000, true);
             } else {
-                this.totalRight.string = helper.numberWithCommas(this.redTai);
+                this.totalRight.string = numberWithCommas(this.redTai);
             }
-            this.totalLeft.string = helper.numberWithCommas(this.redTai);
+            this.totalLeft.string = numberWithCommas(this.redTai);
         }
     },
 
@@ -989,12 +989,12 @@ cc.Class({
     },
 
     setCurrentBetInput(value) {
-        this.input.string = helper.numberWithCommas(value > this.MAX_BET ? this.MAX_BET : value);
+        this.input.string = numberWithCommas(value > this.MAX_BET ? this.MAX_BET : value);
         this.input.node.active = true;
     },
 
     onCuocClick() {
-        var bet = helper.getOnlyNumberInString(this.input.string);
+        var bet = getOnlyNumberInString(this.input.string);
         bet = parseInt(bet);
         this.resetBetButtonText();
         this.betBoard.node.active = false;

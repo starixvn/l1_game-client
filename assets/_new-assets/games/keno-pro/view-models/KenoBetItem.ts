@@ -1,20 +1,19 @@
-import * as helper from '../../../common/helpers/Helper';
-import BetItem from '../../_base/BetItem';
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import BetItem from "../../_base/BetItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoBetItem extends BetItem {
-
     @property(cc.Node)
     inActive: cc.Node = null;
 
     protected setOwnBet(bet: number) {
-        this.ownBet.string = bet > 0 ? helper.numberWithCommas(bet) : "";
+        this.ownBet.string = bet > 0 ? numberWithCommas(bet) : "";
     }
 
     protected setTotalBet(bet: number) {
-        this.totalBet.string = bet > 0 ? helper.numberWithCommas(bet) : '';
+        this.totalBet.string = bet > 0 ? numberWithCommas(bet) : "";
     }
 
     public setHighlight(highlight: boolean, isAnimated = true) {

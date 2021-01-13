@@ -1,4 +1,4 @@
-var helper = require("Helper");
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 cc.Class({
     extends: cc.Component,
@@ -97,7 +97,7 @@ cc.Class({
                 var itemComponent = item.getComponent("TXTopItem");
                 itemComponent.time.string = index + 1;
                 itemComponent.phien.string = obj.name;
-                itemComponent.dat.string = helper.numberWithCommas(obj.bet);
+                itemComponent.dat.string = numberWithCommas(obj.bet);
                 itemComponent.node.children[0].active = index % 2;
                 self.scrollview.content.addChild(item);
             })

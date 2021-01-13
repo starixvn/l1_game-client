@@ -1,4 +1,4 @@
-import { numberPad } from "../../../../common/helpers/Helper";
+import { numberPad } from "../../../../common/helpers/NumberHelper";
 import { GameState } from "../../../_base/GameBase";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import MiniSedie from "../MiniSedie";

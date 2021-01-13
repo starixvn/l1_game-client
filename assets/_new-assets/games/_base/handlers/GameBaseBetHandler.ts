@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 
-import { getLowercaseObjectKeys } from "../../../common/helpers/Helper.js";
+import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import GameBase from "../GameBase";
 import GameRoomBase from "../GameRoomBase";
 import RoomPlayer from "../RoomPlayer";

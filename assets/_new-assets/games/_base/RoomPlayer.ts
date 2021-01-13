@@ -1,4 +1,4 @@
-import * as helper from "../../common/helpers/Helper";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -64,9 +64,7 @@ export default class RoomPlayer extends cc.Component {
 
     displayBalance(balance: number) {
         this.balance.string =
-            balance > RoomPlayer.MAX_BALANCE_DISPLAY
-                ? `${helper.numberWithCommas(RoomPlayer.MAX_BALANCE_DISPLAY)}+`
-                : helper.numberWithCommas(balance);
+            balance > RoomPlayer.MAX_BALANCE_DISPLAY ? `${numberWithCommas(RoomPlayer.MAX_BALANCE_DISPLAY)}+` : numberWithCommas(balance);
     }
 
     setAvatar(avatarId) {
