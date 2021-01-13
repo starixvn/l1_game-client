@@ -70,7 +70,7 @@ export default class MiniPanel extends cc.Component {
         loadingNode.active = false;
         this.node.addChild(loadingNode);
 
-        this.popupMiniGame = this.miniMenu.getComponent("PopupMinigame");
+        this.popupMiniGame = this.miniMenu.getComponent("PopupMinigames");
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
