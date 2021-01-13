@@ -31,8 +31,15 @@ cc.Class({
 
     formatDate(date, template) {
         try {
+            var z = {
+                M: date.getMonth() + 1,
+                d: date.getDate(),
+                h: date.getHours(),
+                m: date.getMinutes(),
+                s: date.getSeconds()
+            };
             template = template.replace(/(M+|d+|h+|m+|s+)/g, function (v) {
-                return ((v.length > 1 ? "0" : "") + eval(`z.${v.slice(-1)}`)).slice(-2);
+                return ((v.length > 1 ? "0" : "") + z[v.slice(-1)]).slice(-2);
             });
 
             return template.replace(/(y+)/g, function (v) {
