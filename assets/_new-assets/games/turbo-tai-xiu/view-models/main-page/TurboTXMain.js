@@ -1,4 +1,4 @@
-import { getOnlyNumberInString, numberPad, numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import { getOnlyNumberInString, numberPad, numberTo, numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 var TXMain = require("TXMain"),
     BrowserUtil = require("BrowserUtil"),
