@@ -125,7 +125,7 @@ export default class PopupMinigames extends cc.Component {
                 this.list.active = true;
                 cc.tween(this.menuIcon).to(0.2, { scale: 0.8 }, { easing: "sineOut" }).start();
             })
-            .to(0.2, { scale: 1, opacity: 255 }, { easing: "sineIn" })
+            .to(0.3, { scale: 1, opacity: 255 }, { easing: "sineIn" })
             .call(() => {
                 this.toggleRuning = false;
             })
@@ -145,7 +145,7 @@ export default class PopupMinigames extends cc.Component {
             })
             .to(0.2, { scale: 1, opacity: 255 }, { easing: "sineOut" })
             .call(() => {
-                cc.tween(this.menuIcon).to(0.1, { scale: 0.9 }, { easing: "sineOut" }).start();
+                cc.tween(this.menuIcon).to(0.2, { scale: 0.9 }, { easing: "sineOut" }).start();
             })
             .start();
     }

@@ -1,14 +1,14 @@
-import ExpandableMenu from "../../../common/ExpandableMenu";
-import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../SabaConfigs";
-import BetItem from "../../_base/BetItem";
-import VipSedie from "../../vip-sedie/view-models/VipSedie";
-import VipSedieWarFinishHandler from "./handlers/VipSedieWarFinishHandler";
-import VipSedieWarTimeHandler from "./handlers/VipSedieWarTimeHandler";
-import SedieDish from "./SedieDish";
-import { VipSedieWarConfigs } from "./VipSedieWarConfigs";
-import VipSedieWarGuide from "./VipSedieWarGuide";
-import VipSedieWarStatistic from "./VipSedieWarStatistic";
+import ExpandableMenu from '../../../common/ExpandableMenu';
+import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
+import { games } from '../../../SabaConfigs';
+import BetItem from '../../_base/BetItem';
+import VipSedie from '../../vip-sedie/view-models/VipSedie';
+import VipSedieWarFinishHandler from './handlers/VipSedieWarFinishHandler';
+import VipSedieWarTimeHandler from './handlers/VipSedieWarTimeHandler';
+import SedieDish from './SedieDish';
+import { VipSedieWarConfigs } from './VipSedieWarConfigs';
+import VipSedieWarGuide from './VipSedieWarGuide';
+import VipSedieWarStatistic from './VipSedieWarStatistic';
 
 const { ccclass, property } = cc._decorator;
 
@@ -112,8 +112,8 @@ export default class VipSedieWar extends VipSedie {
     setDotsResult() {
         const { result } = this.currentDataLogs[0];
 
-        this.dishes[0].setDots(result.player);
-        this.dishes[1].setDots(result.banker);
+        this.dishes[0].setDots(result.player, this.roundId);
+        this.dishes[1].setDots(result.banker, this.roundId);
     }
 
     showResultOnTable() {
@@ -127,8 +127,8 @@ export default class VipSedieWar extends VipSedie {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
 
-            this.dishes[0].setDots(result.player);
-            this.dishes[1].setDots(result.banker);
+            this.dishes[0].setDots(result.player, this.roundId);
+            this.dishes[1].setDots(result.banker, this.roundId);
 
             this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name], true));
             this.updateRoundHistory();

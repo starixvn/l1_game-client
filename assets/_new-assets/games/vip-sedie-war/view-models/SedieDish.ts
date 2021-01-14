@@ -1,5 +1,3 @@
-import * as _ from "lodash";
-
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SedieDish extends cc.Component {
@@ -21,9 +19,9 @@ export default class SedieDish extends cc.Component {
     @property(cc.Animation)
     shakeThePlateAnimation: cc.Animation = null;
 
-    setDots(result) {
-        const optRandom = _.random(0, this.randomPosNode.children.length - 1);
-        const randomOption = this.randomPosNode.children[optRandom];
+    setDots(result, roundId: number) {
+        const randomOption = this.randomPosNode.children[roundId % 5];
+
         Object.keys(result).forEach((key, index) => {
             this.dots[index].node.position = randomOption.children[index].position;
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
