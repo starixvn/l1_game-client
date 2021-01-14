@@ -1,6 +1,6 @@
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class PopupMinigame extends cc.Component {
+export default class PopupMinigames extends cc.Component {
     @property(cc.Node)
     list: cc.Node = null;
     @property(cc.Node)
@@ -24,7 +24,7 @@ export default class PopupMinigame extends cc.Component {
         if (void 0 !== cc.RedT.setting.popupMini.position) {
             this.node.position = cc.RedT.setting.popupMini.position;
         }
-        this.schedule(this.moveToEdge, 0.05, cc.macro.REPEAT_FOREVER);
+        this.schedule(this.moveToEdge, 0.1, cc.macro.REPEAT_FOREVER);
     }
 
     onDestroy() {
@@ -116,15 +116,16 @@ export default class PopupMinigame extends cc.Component {
     showListGame() {
         this.background.active = true;
         this.background.runAction(cc.fadeTo(0.1, 224));
-        this.list.active = cc.RedT.setting.popupMini.open = true;
+        cc.RedT.setting.popupMini.open = true;
+        this.list.scale = 1;
 
-        cc.tween(this.menuIcon)
+        cc.tween(this.node)
             .to(0.2, { scale: 0, opacity: 0 }, { easing: "sineOut" })
-            .to(0.2, { scale: 0.8, opacity: 255 }, { easing: "sineIn" })
-            .start();
-        cc.tween(this.list)
-            .delay(0.2)
-            .to(0.2, { scale: 1 }, { easing: "sineInOut" })
+            .call(() => {
+                this.list.active = true;
+                cc.tween(this.menuIcon).to(0.2, { scale: 0.8 }, { easing: "sineOut" }).start();
+            })
+            .to(0.2, { scale: 1, opacity: 255 }, { easing: "sineIn" })
             .call(() => {
                 this.toggleRuning = false;
             })
@@ -133,11 +134,18 @@ export default class PopupMinigame extends cc.Component {
 
     hideListGame() {
         cc.RedT.setting.popupMini.open = false;
-        cc.tween(this.list)
-            .to(0.2, { scale: 0 }, { easing: "sineInOut" })
+
+        cc.tween(this.node)
+            .to(0.2, { scale: 0, opacity: 0 }, { easing: "sineIn" })
             .call(() => {
+                this.background.active = false;
                 this.toggleRuning = false;
-                cc.tween(this.menuIcon).to(0.2, { scale: 0.9 }, { easing: "sineInOut" }).start();
+                this.list.active = false;
+                this.list.scale = 0;
+            })
+            .to(0.2, { scale: 1, opacity: 255 }, { easing: "sineOut" })
+            .call(() => {
+                cc.tween(this.menuIcon).to(0.1, { scale: 0.9 }, { easing: "sineOut" }).start();
             })
             .start();
     }

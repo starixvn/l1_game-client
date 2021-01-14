@@ -1,5 +1,6 @@
 import { removeInRoomGameId } from '../../../common/auth/AuthManager';
 import GameUtils from '../../../common/GameUtils';
+import PopupMinigames from '../../../mini-games-panel/view-models/popup/PopupMinigames';
 import GameIconMenu from './GameIconMenu';
 import LobbyMenuConfig from './LobbyMenuConfig';
 
@@ -53,7 +54,7 @@ export default class CircleMenu extends GameIconMenu {
             removeInRoomGameId();
             cc.RedT.inGame.closeGame();
         } else {
-            this.miniMenu.getComponent("popupMinigame").hideListGame();
+            this.miniMenu.getComponent(PopupMinigames).hideListGame();
         }
     }
 }

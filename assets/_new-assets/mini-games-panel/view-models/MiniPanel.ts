@@ -11,6 +11,7 @@ import * as authManager from './../../common/auth/AuthManager';
 import MiniPanelDataHandlers from './MiniPanelDataHandlers';
 import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
 import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
+import PopupMinigames from './popup/PopupMinigames';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -70,7 +71,7 @@ export default class MiniPanel extends cc.Component {
         loadingNode.active = false;
         this.node.addChild(loadingNode);
 
-        this.popupMiniGame = this.miniMenu.getComponent("PopupMinigames");
+        this.popupMiniGame = this.miniMenu.getComponent(PopupMinigames);
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
