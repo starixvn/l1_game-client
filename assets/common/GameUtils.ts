@@ -1,4 +1,4 @@
-import * as SabaConfigs from "../../_new-assets/SabaConfigs";
+import * as SabaConfigs from "../SabaConfigs";
 import { numberWithCommas } from "./helpers/NumberHelper";
 
 export default class GameUtils {
