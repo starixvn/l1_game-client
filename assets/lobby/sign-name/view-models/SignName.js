@@ -1,5 +1,6 @@
 var BrowserUtil = require("BrowserUtil");
 const NameGenerator = require("../../../common/name-generator/NameGenerator");
+const InvalidUserName = "Tên nhân vật không hợp lệ.";
 
 cc.Class({
     extends: cc.Component,
@@ -86,7 +87,7 @@ cc.Class({
     },
     onSignNameClick: function () {
         if (this.validateUsername(this.username.string)) {
-            this.errorMessage.string = "Tên nhân vật không hợp lệ.";
+            this.errorMessage.string = InvalidUserName;
         } else {
             //Ricky: Client SignName
             cc.RedT.send({ signName: this.username.string });
@@ -95,13 +96,14 @@ cc.Class({
 
     usernameTextChanged: function () {
         if (this.validateUsername(this.username.string)) {
-            this.errorMessage.string = "Tên nhân vật không hợp lệ.";
+            this.errorMessage.string = InvalidUserName;
         } else {
             this.errorMessage.string = "";
         }
     },
 
     validateUsername: function (username) {
-        return username.length > 14 || username.length < 3 || username.match(new RegExp("^[a-zA-Z0-9]+$")) === null;
+        const regex = new RegExp("^[a-zA-Z0-9]+$");
+        return username.length > 14 || username.length < 3 || username.match(regex) === null;
     }
 });

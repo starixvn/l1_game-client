@@ -1,10 +1,10 @@
-import GameHistoryItemBase from "../../../_base/GameHistoryItemBase";
+import KenoHistoryItem from "../../../keno-pro/view-models/KenoHistoryItem";
 import MiniKenoHistory from "./MiniKenoHistory";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniKenoHistoryItem extends GameHistoryItemBase {
+export default class MiniKenoHistoryItem extends KenoHistoryItem {
     @property(cc.Label)
     time: cc.Label = null;
 

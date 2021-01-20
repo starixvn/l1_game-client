@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class GameHistoryItemBase extends cc.Component {
+export default class KenoHistoryItem extends cc.Component {
     @property(cc.Label)
     big: cc.Label = null;
 
