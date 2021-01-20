@@ -7,9 +7,8 @@ import * as cools from "./name-dictionaries/cools";
 import * as fruits from "./name-dictionaries/fruits";
 import * as marvels from "./name-dictionaries/marvels";
 
-
 export default class NameGenerator {
-    static chance = new Chance.Chance();
+    static chance = new Chance();
 
     public static generateName(): string {
         const dictionaries = [colors, animals, marvels, fruits, cools, new_202010];
