@@ -1,6 +1,6 @@
-import GameUtils from '../../../common/GameUtils';
-import GameIconMenu from './GameIconMenu';
-import LobbyMenuConfig from './LobbyMenuConfig';
+import GameUtils from "../../../common/GameUtils";
+import GameIconMenu from "./GameIconMenu";
+import LobbyMenuConfig from "./LobbyMenuConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,6 +26,9 @@ export default class LobbyMenu extends GameIconMenu {
 
     async addItem(id: number): Promise<cc.Node> {
         const prefab = await GameUtils.loadResource(`lobby/games/${id}`);
+        if (this.node === null || !this.node.isValid) {
+            return;
+        }
         const node = cc.instantiate(prefab);
 
         const detail = LobbyMenuConfig.detail;

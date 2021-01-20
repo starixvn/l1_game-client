@@ -1,5 +1,5 @@
-import GameUtils from '../../../common/GameUtils';
-import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
+import GameUtils from "../../../common/GameUtils";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,9 +22,14 @@ export default class GameIconMenu extends cc.Component {
         const list = this.getList();
         for (const id of list) {
             const node = await this.addItem(id);
-            node.on("click", this.itemPressed.bind(this, id));
+            if (node) {
+                node.on("click", this.itemPressed.bind(this, id));
+            }
         }
 
+        if (this.node === null || !this.node.isValid) {
+            return;
+        }
         this.onInitialized();
     }
 
