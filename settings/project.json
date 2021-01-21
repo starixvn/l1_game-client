@@ -1,28 +1,48 @@
 {
-  "group-list": [
-    "default"
-  ],
+  "assets-sort-type": "name",
   "collision-matrix": [
     [
       true
+    ],
+    [
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
     ]
   ],
+  "design-resolution-height": 786,
+  "design-resolution-width": 1398,
   "excluded-modules": [
-    "3D Physics/Builtin"
+    "3D Physics/cannon.js",
+    "3D Physics/Builtin",
+    "3D Particle",
+    "SafeArea"
   ],
-  "start-scene": "2dbb7549-feda-42b6-a6a9-86608310bcaf",
-  "preview-port": 7456,
-  "design-resolution-width": 960,
-  "design-resolution-height": 640,
-  "fit-width": false,
-  "fit-height": true,
-  "use-project-simulator-setting": false,
-  "simulator-orientation": false,
-  "use-customize-simulator": true,
-  "simulator-resolution": {
-    "height": 640,
-    "width": 960
-  },
   "facebook": {
     "appID": "",
     "audience": {
@@ -33,5 +53,27 @@
       "enable": false
     }
   },
-  "last-module-event-record-time": 1611045665042
+  "fit-height": true,
+  "fit-width": true,
+  "group-list": [
+    "default",
+    "Background",
+    "Game",
+    "UI",
+    "Chip",
+    "HUD"
+  ],
+  "last-module-event-record-time": 1595830917677,
+  "simulator-orientation": false,
+  "simulator-resolution": {
+    "height": 640,
+    "width": 960
+  },
+  "use-customize-simulator": true,
+  "use-project-simulator-setting": false,
+  "migrate-history": [
+    "cloud-function"
+  ],
+  "preview-port": 7456,
+  "start-scene": "2dbb7549-feda-42b6-a6a9-86608310bcaf"
 }
