@@ -22,6 +22,10 @@ export default class VipSedieWarGuide extends GameGuideBase {
             _maxBetRound: numberWithCommas(configs.maxbet),
             _maxBetPlayerRed4: numberWithCommas(choiceMaxBet.playerRed4),
             _maxBetBankerRed4: numberWithCommas(choiceMaxBet.bankerRed4),
+            _maxBetPlayerEven: numberWithCommas(choiceMaxBet.playerEven),
+            _maxBetPlayerRed3: numberWithCommas(choiceMaxBet.playerRed3),
+            _maxBetBankerEven: numberWithCommas(choiceMaxBet.bankerEven),
+            _maxBetBankerRed3: numberWithCommas(choiceMaxBet.bankerRed3),
             _maxBetPlayer: numberWithCommas(choiceMaxBet.player),
             _maxBetBanker: numberWithCommas(choiceMaxBet.banker)
         };
