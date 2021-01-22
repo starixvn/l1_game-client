@@ -218,7 +218,7 @@ cc.Class({
         this.balanceBetNotice = null;
         this.currentStatus = null;
         this.presetBetValue = 0;
-        this.MAX_BET = 2000;
+        this.MAX_BET = 20000;
         this.betBoard = null;
 
         if (void 0 === cc.RedT.setting.taixiu.red) {
