@@ -1,4 +1,4 @@
-import { numberWithCommas } from "../../common/helpers/Helper";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import NewSocketGameBase from "./NewSocketGameBase";
 
 const { ccclass, property } = cc._decorator;
@@ -90,7 +90,7 @@ export default class FreeBetGameBase extends NewSocketGameBase {
             const betData = {
                 amount: this.currentBet,
                 betChoice: event.target.name,
-                freeBet: this.isFreeBet,
+                freeBet: this.isFreeBet
             };
             this.socket && this.socket.emit("bet", betData);
         }

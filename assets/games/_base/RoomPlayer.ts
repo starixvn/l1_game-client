@@ -25,7 +25,7 @@ export default class RoomPlayer extends cc.Component {
     data: PlayerData;
 
     static readonly MAX_IDLE_COUNT: number = 2;
-    static readonly MAX_BALANCE_DISPLAY: number = 9999;
+    static readonly MAX_BALANCE_DISPLAY: number = 99999;
 
     get isIdle() {
         return this.data.idleCount > RoomPlayer.MAX_IDLE_COUNT;

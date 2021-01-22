@@ -1,8 +1,8 @@
-import { games } from '../../../SabaConfigs';
-import Sedie from '../../xoc-xoc/view-models/Sedie';
-import { SedieConfigs } from '../../xoc-xoc/view-models/SedieConfigs';
-import VipSedieLogHandler from './handlers/VipSedieLogHandler';
-import VipSedieTimeHandler from './handlers/VipSedieTimeHandler';
+import { games } from "../../../SabaConfigs";
+import Sedie from "../../xoc-xoc/view-models/Sedie";
+import { SedieConfigs } from "../../xoc-xoc/view-models/SedieConfigs";
+import VipSedieLogHandler from "./handlers/VipSedieLogHandler";
+import VipSedieTimeHandler from "./handlers/VipSedieTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 

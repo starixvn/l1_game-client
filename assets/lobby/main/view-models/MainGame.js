@@ -9,7 +9,6 @@ import * as authManager from "./../../../common/auth/AuthManager";
 const sentryLogger = logger();
 
 var header = require("Header"),
-    dialog = require("Dialog"),
     newsContents = require("NewsContents");
 
 cc.Class({
@@ -33,7 +32,8 @@ cc.Class({
         NoticePrefab: cc.Prefab,
         sound: cc.Sprite,
         soundOn: cc.SpriteFrame,
-        soundOff: cc.SpriteFrame
+        soundOff: cc.SpriteFrame,
+        luckyWheelIconPrefab: cc.Prefab
     },
     onDestroy() {
         this.dialogNode.destroy();
@@ -102,6 +102,9 @@ cc.Class({
             this.header.userName.string = cc.RedT.user.name;
             this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
             this.header.setAvatar(cc.RedT.user.avatarId);
+            (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
+
+            cc.RedT.needShowLuckyWheelIcon && this.renderLuckyWheelIcon();
         }
 
         this.center.on("size-changed", this.repositionMenu, this);
@@ -170,6 +173,8 @@ cc.Class({
     },
     Authorized: function (Authorized) {
         this.loading.active = false;
+
+        cc.RedT.needShowLuckyWheelIcon = cc.RedT.user.availSpins > 0;
         if (!Authorized) {
             this.dialog.showSignName();
         } else {
@@ -198,6 +203,7 @@ cc.Class({
         if (void 0 !== data.loading) {
             this.loading.onData(data.loading);
         }
+
         if (!!data.removeIsLoading && this.loading) {
             this.loading.active = false;
         }
@@ -227,15 +233,8 @@ cc.Class({
         }
     },
 
-    formatUserCurrency: function (red, currency) {
-        let userCurrency = "";
-        if (cc.RedT.user.currency) {
-            userCurrency = cc.RedT.user.currency.toUpperCase();
-        } else {
-            userCurrency = currency === undefined ? "" : currency;
-        }
-
-        return `${numberWithCommas(red)} ${userCurrency}`;
+    formatUserCurrency: function (red) {
+        return `${numberWithCommas(red)}`;
     },
     showNotice: function (noticeData) {
         var noticePrefab = cc.instantiate(this.NoticePrefab);
@@ -255,7 +254,7 @@ cc.Class({
     },
     loadUserData: function (data) {
         if (void 0 !== data.red && this.header && this.header.userRed) {
-            this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
+            this.header.userRed.string = this.formatUserCurrency(data.red);
         }
 
         if (void 0 !== data.avatarId) {
@@ -269,6 +268,14 @@ cc.Class({
         if (void 0 !== data.name) {
             this.header.userName.string = data.name;
             sentryLogger.setCharacterName(data.name);
+        }
+
+        if (data.availSpins || data.scoins) {
+            this.header.showScoins(data.scoins);
+        }
+
+        if (data.availSpins) {
+            this.renderLuckyWheelIcon();
         }
     },
     signOut: function () {
@@ -293,8 +300,10 @@ cc.Class({
     openGameSSO: function () {
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
-            GameUtils.openGame(gameId, cc.RedT.MiniPanel);
+            GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
             window.openGameId = null;
+        } else {
+            !this.inRoomGameId && this.openLuckyWheel();
         }
     },
 
@@ -323,6 +332,7 @@ cc.Class({
     audioUnClick: function () {
         cc.RedT.audio.playUnClick();
     },
+
     openResultPage(redirectUrl) {
         cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
         cc.RedT.resultPage.focus();
@@ -353,5 +363,20 @@ cc.Class({
     setSoundGameOff() {
         this.sound.spriteFrame = this.soundOff;
         cc.RedT.setSoundGame(false);
+    },
+
+    renderLuckyWheelIcon() {
+        if (!this.luckyWheelIcon) {
+            const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
+            this.node.addChild(iconNode);
+            this.luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
+            this.luckyWheelIcon.init(this.node);
+        }
+    },
+
+    openLuckyWheel() {
+        if (cc.RedT.user && cc.RedT.user.name) {
+            this.luckyWheelIcon && cc.RedT.user.availSpins && this.luckyWheelIcon.openGame();
+        }
     }
 });

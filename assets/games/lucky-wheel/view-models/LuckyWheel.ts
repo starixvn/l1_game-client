@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 
-import { numberWithCommas } from "../../../common/helpers/Helper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import LuckyWheelWinning from "./LuckyWheelWinning";
 
@@ -18,7 +18,6 @@ export enum LuckyWheelColor {
 
 @ccclass
 export default class LuckyWheel extends cc.Component {
-
     @property(cc.Node)
     wheel: cc.Node = null;
 
@@ -110,16 +109,14 @@ export default class LuckyWheel extends cc.Component {
         30: LuckyWheelColor.Green,
         50: LuckyWheelColor.Orange,
         100: LuckyWheelColor.Red
-    }
+    };
 
     onLoad() {
         this.addDataObserver();
 
-        this.buttonTween = cc.tween(this.button.node)
-            .repeatForever(
-                cc.tween()
-                    .to(0.5, { scale: 0.92 }, { easing: 'sineOutIn' })
-                    .to(0.5, { scale: 1 }, { easing: 'sineOutIn' }));
+        this.buttonTween = cc
+            .tween(this.button.node)
+            .repeatForever(cc.tween().to(0.5, { scale: 0.92 }, { easing: "sineOutIn" }).to(0.5, { scale: 1 }, { easing: "sineOutIn" }));
     }
 
     onEnable() {
@@ -139,17 +136,17 @@ export default class LuckyWheel extends cc.Component {
     }
 
     receivedData(data) {
-        if (data['luckyWheel']) {
-            this.onData(data['luckyWheel']);
+        if (data["luckyWheel"]) {
+            this.onData(data["luckyWheel"]);
         }
     }
 
     playSpin() {
-        cc.RedT.send({ g: { ['luckyWheel']: { playSpin: true } } });
+        cc.RedT.send({ g: { ["luckyWheel"]: { playSpin: true } } });
     }
 
     getData() {
-        cc.RedT.send({ g: { ['luckyWheel']: { getLogs: true } } });
+        cc.RedT.send({ g: { ["luckyWheel"]: { getLogs: true } } });
         cc.RedT.send({ user: { updateCoin: true } });
     }
 
@@ -186,17 +183,26 @@ export default class LuckyWheel extends cc.Component {
         this.indicatorTween?.stop();
 
         this.timeTween = cc.tween(this).to(0.26, { progress: 0.26 }).start();
-        this.indicatorTween = cc.tween(this.indicator)
-            .to(0.13, { angle: -10 }, {
-                easing: t => {
-                    return this.customizeBezierAnimation(t);
+        this.indicatorTween = cc
+            .tween(this.indicator)
+            .to(
+                0.13,
+                { angle: -10 },
+                {
+                    easing: (t) => {
+                        return this.customizeBezierAnimation(t);
+                    }
                 }
-            })
-            .to(0.13, { angle: 3 }, {
-                easing: t => {
-                    return this.customizeBezierAnimation(t);
+            )
+            .to(
+                0.13,
+                { angle: 3 },
+                {
+                    easing: (t) => {
+                        return this.customizeBezierAnimation(t);
+                    }
                 }
-            })
+            )
             .start();
     }
 
@@ -207,9 +213,9 @@ export default class LuckyWheel extends cc.Component {
 
         this.wheelInitialized = true;
 
-        choices.forEach(coin => {
+        choices.forEach((coin) => {
             this.scoinPresents.push(coin);
-        })
+        });
 
         this.createWheel();
     }
@@ -237,31 +243,36 @@ export default class LuckyWheel extends cc.Component {
 
         let randomPosition = _.random(-3, 3);
         let offsetAngleResult = 360 - (this.wheel.angle % 360);
-        let rotateResult = (resultIndex * this.defaultAngle) + (this.defaultRoundNumber * -360) + offsetAngleResult - randomPosition;
+        let rotateResult = resultIndex * this.defaultAngle + this.defaultRoundNumber * -360 + offsetAngleResult - randomPosition;
         rotateResult = this.autoBalanceRotation(rotateResult);
 
         this.resultAngle = this.wheel.angle + rotateResult;
         this.shakeIndicator();
-        this.wheelTween = cc.tween(this.wheel)
-            .by(this.gameTime, { angle: rotateResult }, {
-                progress: (start, end, current, ratio) => {
-                    this.button.interactable = false;
-                    this.ratioWheel = ratio;
-                    this.currentRotation = this.wheel.angle;
-                    const tolerance = this.currentRotation - this.lastRotation;
-                    const temp = Math.round(this.currentRotation) % (360 / this.scoinPresents.length);
-                    if (temp <= tolerance) {
-                        if (this.progress > 0.2) {
-                            this.shakeIndicator();
+        this.wheelTween = cc
+            .tween(this.wheel)
+            .by(
+                this.gameTime,
+                { angle: rotateResult },
+                {
+                    progress: (start, end, current, ratio) => {
+                        this.button.interactable = false;
+                        this.ratioWheel = ratio;
+                        this.currentRotation = this.wheel.angle;
+                        const tolerance = this.currentRotation - this.lastRotation;
+                        const temp = Math.round(this.currentRotation) % (360 / this.scoinPresents.length);
+                        if (temp <= tolerance) {
+                            if (this.progress > 0.2) {
+                                this.shakeIndicator();
+                            }
                         }
+                        this.lastRotation = this.currentRotation;
+                        return start + (end - start) * ratio;
+                    },
+                    easing: (t) => {
+                        return this.customizeBezierAnimation(t);
                     }
-                    this.lastRotation = this.currentRotation;
-                    return start + (end - start) * ratio;
-                },
-                easing: t => {
-                    return this.customizeBezierAnimation(t);
-                },
-            })
+                }
+            )
             .call(() => {
                 this.button.interactable = data.availSpins ? true : false;
                 data.availSpins ? this.buttonTween.start() : this.buttonTween.stop();
@@ -278,8 +289,16 @@ export default class LuckyWheel extends cc.Component {
     }
 
     customizeBezierAnimation(time) {
-        const point1 = 0, point2 = 0.69, point3 = 0.99999999, point4 = 1;
-        return (Math.pow(1 - time, 3) * point1 + 3 * time * (Math.pow(1 - time, 2)) * point2 + 3 * Math.pow(time, 2) * (1 - time) * point3 + Math.pow(time, 3) * point4);
+        const point1 = 0,
+            point2 = 0.69,
+            point3 = 0.99999999,
+            point4 = 1;
+        return (
+            Math.pow(1 - time, 3) * point1 +
+            3 * time * Math.pow(1 - time, 2) * point2 +
+            3 * Math.pow(time, 2) * (1 - time) * point3 +
+            Math.pow(time, 3) * point4
+        );
     }
 
     createWheel() {
@@ -321,7 +340,7 @@ export default class LuckyWheel extends cc.Component {
             pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin == 0 ? this.goodLuckMessage : `${scoin} Scoin`;
 
             this.wheelPieces.addChild(pieceNode);
-        })
+        });
     }
 
     showLuckyWheel() {

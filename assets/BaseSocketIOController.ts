@@ -1,8 +1,8 @@
 import * as socketIo from "socket.io-client";
+
 import { getSession } from "./common/auth/AuthManager";
 import { sentryLogger } from "./common/logger.js";
 import { gameMiniNewSocketIds } from "./SabaConfigs";
-
 
 export default class BaseSocketIOController {
     private static instance: BaseSocketIOController;
@@ -40,7 +40,7 @@ export default class BaseSocketIOController {
         });
 
         socket.on("connect_error", (error) => {
-            console.log(error)
+            console.log(error);
 
             sentryLogger.logError(error);
             socket.disconnect();

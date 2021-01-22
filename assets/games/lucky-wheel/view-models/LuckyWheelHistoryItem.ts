@@ -1,10 +1,9 @@
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 
-import { numberWithCommas, getStringDateByTime, nFormatter } from '../../../common/helpers/Helper';
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LuckyWheelHistoryItem extends cc.Component {
-
     @property(cc.Label)
     id: cc.Label = null;
 
