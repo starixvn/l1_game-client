@@ -1,5 +1,5 @@
-import * as SabaConfigs from "../SabaConfigs";
-import { numberWithCommas } from "./helpers/NumberHelper";
+import * as SabaConfigs from '../SabaConfigs';
+import { numberWithCommas } from './helpers/NumberHelper';
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -40,7 +40,8 @@ export default class GameUtils {
             red3: "3 ĐỎ",
             red4: "4 ĐỎ",
             white3: "1 ĐỎ",
-            white4: "4 TRẮNG"
+            white4: "4 TRẮNG",
+            red2: "2 ĐỎ"
         };
 
         return dict[choice];

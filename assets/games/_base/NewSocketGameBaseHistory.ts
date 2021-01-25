@@ -1,4 +1,4 @@
-import PaginationCommon from "../../common/helpers/Pagination/PaginationCommon";
+import PaginationCommon from '../../common/helpers/Pagination/PaginationCommon';
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,6 +17,8 @@ export default abstract class NewSocketGameBaseHistory extends cc.Component {
     mainFrame: cc.Node = null;
 
     private socket: SocketIOClient.Socket;
+
+    onUpdatedData = () => {};
 
     init(socket: SocketIOClient.Socket) {
         this.socket = socket;
@@ -49,6 +51,7 @@ export default abstract class NewSocketGameBaseHistory extends cc.Component {
         }
 
         betLogs.forEach((betLog, index) => this.bindItemRowData(betLog, index));
+        this.onUpdatedData();
     }
 
     abstract bindItemRowData(betLog, index);

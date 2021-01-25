@@ -1,5 +1,5 @@
-import { numberWithCommas } from "../../common/helpers/NumberHelper";
-import NewSocketGameBase from "./NewSocketGameBase";
+import { numberWithCommas } from '../../common/helpers/NumberHelper';
+import NewSocketGameBase from './NewSocketGameBase';
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,8 +23,8 @@ export default class FreeBetGameBase extends NewSocketGameBase {
     @property(cc.Node)
     scoinNode: cc.Node = null;
 
-    private isFreeBet: boolean = false;
-    private isFocusScoin: boolean = false;
+    private isFreeBet = false;
+    private isFocusScoin = false;
 
     protected socket: SocketIOClient.Socket;
 
