@@ -1,3 +1,5 @@
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+
 cc.Class({
     extends: cc.Component,
 
@@ -51,6 +53,6 @@ cc.Class({
     },
     showScoins(scoins = 0) {
         this.scoinsNode.active = true;
-        this.scoinsValue.string = helper.numberWithCommas(scoins);
+        this.scoinsValue.string = numberWithCommas(scoins);
     }
 });
