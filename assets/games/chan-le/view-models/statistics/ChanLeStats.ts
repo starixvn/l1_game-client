@@ -1,0 +1,409 @@
+import TabMenu from "../../../../common/tab-menu/TabMenu";
+import ChanLe from "../ChanLe";
+
+const { ccclass, property } = cc._decorator;
+type TotalType = {
+    left: number;
+    right: number;
+};
+
+@ccclass
+export default class ChanLeStats extends cc.Component {
+    @property(cc.Node)
+    background: cc.Node = null;
+
+    @property(cc.Label)
+    title: cc.Label = null;
+
+    @property(cc.Node)
+    header: cc.Node = null;
+
+    @property(cc.Node)
+    body: cc.Node = null;
+
+    @property(cc.Node)
+    resultForm: cc.Node = null;
+
+    @property(cc.Node)
+    dicesLineForm: cc.Node = null;
+
+    @property(cc.Node)
+    resultDots: cc.Node = null;
+
+    @property(cc.Label)
+    totalResultLeft: cc.Label = null;
+
+    @property(cc.Label)
+    totalResultRight: cc.Label = null;
+
+    @property(cc.Node)
+    pointCells: cc.Node = null;
+
+    @property(cc.Label)
+    totalPointsLeft: cc.Label = null;
+
+    @property(cc.Label)
+    totalPointsRight: cc.Label = null;
+
+    @property(cc.Node)
+    firstDiceDots: cc.Node = null;
+
+    @property(cc.Node)
+    secondDiceDots: cc.Node = null;
+
+    @property(cc.Node)
+    thirdDiceDots: cc.Node = null;
+
+    @property(cc.Node)
+    totalDots: cc.Node = null;
+
+    @property(cc.Graphics)
+    firstDiceLine: cc.Graphics = null;
+
+    @property(cc.Graphics)
+    secondDiceLine: cc.Graphics = null;
+
+    @property(cc.Graphics)
+    thirdDiceLine: cc.Graphics = null;
+
+    @property(cc.Graphics)
+    totalLine: cc.Graphics = null;
+
+    @property(cc.Node)
+    firstDiceButton: cc.Node = null;
+
+    @property(cc.Node)
+    secondDiceButton: cc.Node = null;
+
+    @property(cc.Node)
+    thirdDiceButton: cc.Node = null;
+
+    @property(cc.Node)
+    totalButton: cc.Node = null;
+
+    @property(cc.SpriteFrame)
+    dotLeft: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    dotRight: cc.SpriteFrame = null;
+
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
+    private root: ChanLe;
+    private currentResultDots: cc.Sprite[] = [];
+    private currentPointCells: Dots[] = [];
+    private currentFirstDiceDots: Dot[] = [];
+    private currentSecondDiceDots: Dot[] = [];
+    private currentThirdDiceDots: Dot[] = [];
+    private currentTotalDots: Dot[] = [];
+    private currentHeaderTabs: TabMenu[];
+
+    init(root: ChanLe) {
+        this.root = root;
+        this.initStats();
+        this.title.string = this.root.gameTitle.toUpperCase();
+    }
+
+    onLoad() {
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
+        Promise.all(
+            this.header.children.map((obj) => {
+                return obj.getComponent("TabMenu") as TabMenu;
+            })
+        ).then((tabs) => {
+            this.currentHeaderTabs = tabs;
+        });
+
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
+    }
+
+    onSelectHeaderTab(event, name) {
+        Promise.all(
+            this.currentHeaderTabs.map(function (tab) {
+                if (tab.node.name === name) {
+                    tab.select();
+                } else {
+                    tab.unselect();
+                }
+            })
+        );
+
+        Promise.all(
+            this.body.children.map(function (body) {
+                if (body.name === name) {
+                    body.active = true;
+                } else {
+                    body.active = false;
+                }
+            })
+        );
+    }
+
+    onNextPreviousButtonClick() {
+        this.resultForm.active = !this.resultForm.active;
+        this.dicesLineForm.active = !this.dicesLineForm.active;
+    }
+
+    showLineTotal() {
+        cc.RedT.audio.playClick();
+        this.totalDots.active = !this.totalDots.active;
+        this.totalLine.node.active = !this.totalLine.node.active;
+        this.totalButton.active = !this.totalButton.active;
+    }
+
+    showLineFirstDice() {
+        cc.RedT.audio.playClick();
+        this.firstDiceDots.active = !this.firstDiceDots.active;
+        this.firstDiceLine.node.active = !this.firstDiceLine.node.active;
+        this.firstDiceButton.active = !this.firstDiceButton.active;
+    }
+
+    showLineSecondDice() {
+        cc.RedT.audio.playClick();
+        this.secondDiceDots.active = !this.secondDiceDots.active;
+        this.secondDiceLine.node.active = !this.secondDiceLine.node.active;
+        this.secondDiceButton.active = !this.secondDiceButton.active;
+    }
+
+    showLineThirdDice() {
+        cc.RedT.audio.playClick();
+        this.thirdDiceDots.active = !this.thirdDiceDots.active;
+        this.thirdDiceLine.node.active = !this.thirdDiceLine.node.active;
+        this.thirdDiceButton.active = !this.thirdDiceButton.active;
+    }
+
+    drawStatistics() {
+        if (this.root.main) {
+            const logs = this.root.main.dataLogs;
+            this.drawDiceCharts(logs);
+            this.drawResult(logs);
+            this.drawPoints(logs);
+        }
+    }
+
+    private initStats() {
+        this.currentResultDots = this.resultDots.children.map((dot) => {
+            return dot.getComponent(cc.Sprite);
+        });
+        const pointCells = Promise.all(
+            this.pointCells.children.map((pointCell: Dots) => {
+                Promise.all(
+                    pointCell.children.map((point: Dot) => {
+                        point.dotText = point.children[0].getComponent(cc.Label);
+                        return point;
+                    })
+                ).then((points) => {
+                    pointCell.dots = points;
+                });
+                return pointCell;
+            })
+        ).then((pointCells) => {
+            this.currentPointCells = pointCells;
+        });
+        const firstDiceDots = Promise.all(
+            this.firstDiceDots.children.map((dot: Dot) => {
+                dot.dotText = dot.children[0].getComponent(cc.Label);
+                return dot;
+            })
+        ).then((dots) => {
+            this.currentFirstDiceDots = dots;
+        });
+        const secondDiceDots = Promise.all(
+            this.secondDiceDots.children.map((dot: Dot) => {
+                dot.dotText = dot.children[0].getComponent(cc.Label);
+                return dot;
+            })
+        ).then((dots) => {
+            this.currentSecondDiceDots = dots;
+        });
+        const thirdDiceDots = Promise.all(
+            this.thirdDiceDots.children.map((dots: Dot) => {
+                dots.dotText = dots.children[0].getComponent(cc.Label);
+                return dots;
+            })
+        ).then((dots) => {
+            this.currentThirdDiceDots = dots;
+        });
+        const totalDots = Promise.all(
+            this.totalDots.children.map((dot: Dot) => {
+                dot.dotText = dot.children[0].getComponent(cc.Label);
+                return dot;
+            })
+        ).then((dots) => {
+            this.currentTotalDots = dots;
+        });
+        Promise.all([pointCells, firstDiceDots, secondDiceDots, thirdDiceDots, totalDots]).then(() => {
+            this.drawStatistics();
+        });
+    }
+
+    private drawDiceCharts(logs: any) {
+        const slicedLogs = logs.slice(0, 19);
+        slicedLogs.reverse();
+        const firstDiceLine = [];
+        const secondDiceLine = [];
+        const thirdDiceLine = [];
+        const totalLine = [];
+
+        for (let index = 0; index < slicedLogs.length; index++) {
+            const log = slicedLogs[index];
+            if (log) {
+                this.activateDot(index, true);
+                const dice1 = log.dice[0];
+                const dice2 = log.dice[1];
+                const dice3 = log.dice[2];
+                const tong = dice1 + dice2 + dice3;
+                firstDiceLine[index] = { x: index * 28, y: dice1 * 28 - 28, dice: dice1 };
+                secondDiceLine[index] = { x: index * 28, y: dice2 * 28 - 28, dice: dice2 };
+                thirdDiceLine[index] = { x: index * 28, y: dice3 * 28 - 28, dice: dice3 };
+                totalLine[index] = { x: index * 27.7, y: tong * 9.233 - 27.7, tong: tong };
+            } else {
+                this.activateDot(index, false);
+            }
+        }
+        this.drawDiceLine(this.firstDiceLine, this.currentFirstDiceDots, firstDiceLine);
+        this.drawDiceLine(this.secondDiceLine, this.currentSecondDiceDots, secondDiceLine);
+        this.drawDiceLine(this.thirdDiceLine, this.currentThirdDiceDots, thirdDiceLine);
+        this.drawTotalLine(this.totalLine, totalLine);
+    }
+
+    private drawResult(logs: any) {
+        const result = this.currentResultDots.map((dot, index) => {
+            const log = logs[index];
+            if (log) {
+                dot.node.active = true;
+                const point = log.dice[0] + log.dice[1] + log.dice[2];
+                dot.spriteFrame = point % 2 ? this.dotRight : this.dotLeft;
+                return point % 2 ? 0 : 1;
+            } else {
+                dot.node.active = false;
+                return -1;
+            }
+        });
+
+        this.totalResultLeft.string = result.filter((i) => i === 1).length.toString();
+        this.totalResultRight.string = result.filter((i) => i === 0).length.toString();
+    }
+
+    private drawPoints(logs: any) {
+        let pointsData = [];
+        let totalType: TotalType = {
+            left: 0,
+            right: 0
+        };
+
+        // Diem So
+        pointsData = this.handlePointsData(logs, pointsData);
+        const slicedPointsData = [...pointsData].reverse().slice(0, 20).reverse();
+
+        this.currentPointCells.forEach((pointCell, index) => {
+            const pointsDataOfType = slicedPointsData[index];
+            if (pointsDataOfType) {
+                pointCell.active = true;
+                totalType = this.handleTotalType(totalType, pointCell, pointsDataOfType);
+            } else {
+                pointCell.active = false;
+            }
+        });
+        this.totalPointsLeft.string = totalType.left.toString();
+        this.totalPointsRight.string = totalType.right.toString();
+    }
+
+    handlePointsData(logs: any, pointsData: any) {
+        let pointsDataOfType = [];
+        let currentType = -1;
+        const pointLogs = logs.slice();
+        pointLogs.reverse();
+
+        for (const pointLog of pointLogs) {
+            const point = pointLog.dice[0] + pointLog.dice[1] + pointLog.dice[2];
+            const type = point % 2 ? 0 : 1;
+            if (currentType === -1) {
+                currentType = type;
+            }
+            if (type !== currentType || pointsDataOfType.length > 4) {
+                currentType = type;
+                pointsData.push(pointsDataOfType);
+                pointsDataOfType = [];
+            }
+            if (type === currentType) {
+                pointsDataOfType.push(point);
+            }
+        }
+        pointsData.push(pointsDataOfType);
+
+        return pointsData;
+    }
+
+    handleTotalType(totalType, pointCell: any, pointsDataOfType: any): TotalType {
+        pointCell.dots.forEach((dot: any, index: number) => {
+            const pointsData = pointsDataOfType[index];
+            if (pointsData) {
+                dot.active = true;
+                dot.dotText.string = pointsData;
+                const isOdd = pointsData % 2 ? false : true;
+                totalType.left = isOdd ? totalType.left + 1 : totalType.left;
+                totalType.right = !isOdd ? totalType.right + 1 : totalType.right;
+                dot.color = isOdd ? cc.Color.BLACK : cc.Color.WHITE;
+                dot.dotText.node.color = isOdd ? cc.Color.WHITE : cc.Color.BLACK;
+            } else {
+                dot.active = false;
+            }
+        });
+
+        return totalType;
+    }
+
+    private drawDiceLine(line: cc.Graphics, dots: Dot[], data: any) {
+        line.clear();
+        const dataLength = data.length;
+
+        for (let index = 0; index < dataLength; index++) {
+            const dot = dots[index],
+                point = data[index];
+            dot.dotText.string = point.dice;
+            dot.position = cc.v2(dot.position.x, point.y);
+            index === 0 ? line.moveTo(point.x, point.y) : line.lineTo(point.x, point.y);
+        }
+
+        line.stroke();
+    }
+
+    private drawTotalLine(line: cc.Graphics, data: any) {
+        line.clear();
+
+        for (let index = 0, dataLength = data.length; index < dataLength; index++) {
+            const dotData = data[index],
+                dot = this.currentTotalDots[index];
+            index === 0 ? line.moveTo(dotData.x, dotData.y) : line.lineTo(dotData.x, dotData.y);
+            dot.dotText.string = dotData.tong;
+            dot.position = cc.v2(dot.position.x, dotData.y);
+
+            dot.dotText.node.color = dotData.tong % 2 ? cc.Color.BLACK : cc.Color.WHITE;
+            dot.color = dotData.tong % 2 ? cc.Color.WHITE : cc.Color.BLACK;
+        }
+
+        line.stroke();
+    }
+
+    private activateDot(index: number, isActive: boolean) {
+        this.currentFirstDiceDots[index].active = isActive;
+        this.currentSecondDiceDots[index].active = isActive;
+        this.currentThirdDiceDots[index].active = isActive;
+        this.currentTotalDots[index].active = isActive;
+    }
+}
+
+class Dots extends cc.Node {
+    dots: Dot[] = [];
+}
+
+class Dot extends cc.Node {
+    dotText: cc.Label;
+}
