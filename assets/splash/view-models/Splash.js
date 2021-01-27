@@ -1,5 +1,6 @@
-import logger from "../../common/logger";
-import * as authManager from "./../../common/auth/AuthManager";
+import logger from '../../common/logger';
+import * as authManager from './../../common/auth/AuthManager';
+
 const sentryLogger = logger();
 
 cc.Class({
@@ -70,8 +71,10 @@ cc.Class({
     },
     onLoaded: function (err, asset) {
         // Tải cảnh thành công
-        cc.loader.loadResDir("lobby/games", (error, resource, urls) => {
-            cc.director.loadScene("MainGame");
+        cc.loader.loadResDir("lobby/games", (e, r, u) => {
+            cc.loader.loadResDir("minipanel/games", (error, resource, urls) => {
+                cc.director.loadScene("MainGame");
+            });
         });
     },
     onFakeGameLoaded: function (err, asset) {
