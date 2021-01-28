@@ -1,4 +1,4 @@
 include:
-  - project: 'ci/repos-ci/pentagon_l2_game_client'
-    ref: master
-    file: 'gitlab-ci.yml'
+    - project: "ci/luminet/game-client-ci"
+      ref: L2
+      file: "gitlab-ci.yml"
