@@ -1,6 +1,6 @@
-import { getStringDateByTime } from "../../../../../_new-assets/common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../../../_new-assets/common/helpers/NumberHelper";
-import PaginationCommon from "../../../../../_new-assets/common/helpers/Pagination/PaginationCommon";
+import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
 
 cc.Class({
     extends: cc.Component,

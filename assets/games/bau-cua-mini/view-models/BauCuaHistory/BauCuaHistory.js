@@ -1,4 +1,4 @@
-import PaginationCommon from "../../../../../_new-assets/common/helpers/Pagination/PaginationCommon";
+import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 

@@ -1,4 +1,4 @@
-import MiniKeno from "../../../../../_new-assets/games/mini-keno/view-models/MiniKeno";
+import MiniKeno from "../../../../games/mini-keno/view-models/MiniKeno";
 import { KenoType } from "../KenoUtils";
 
 const { ccclass, property } = cc._decorator;
