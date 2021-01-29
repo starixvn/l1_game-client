@@ -1,7 +1,9 @@
 const configs = {
     ssl: false,
+    disabledDirectLogin: true,
     serverDomainMapper: {
-        localhost: "lumigame.com"
+        localhost: "lumigame.com",
+        "10.5.10.14": "lumigame.com"
     },
     serverGameEndPoints: {
         0: {
@@ -58,6 +60,12 @@ const configs = {
             port: 7001,
             path: "/user/vipsediewar",
             proxyRoute: "/vipsediewar/socket.io"
+        },
+        29: {
+            subDomain: "haproxy",
+            port: 7001,
+            path: "/user/fourguardians",
+            proxyRoute: "/fourguardians/socket.io"
         }
     },
 

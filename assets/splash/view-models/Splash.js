@@ -1,5 +1,5 @@
-import logger from '../../common/logger';
-import * as authManager from './../../common/auth/AuthManager';
+import logger from "../../common/logger";
+import * as authManager from "./../../common/auth/AuthManager";
 
 const sentryLogger = logger();
 

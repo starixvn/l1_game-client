@@ -1,5 +1,6 @@
 const configs = {
     ssl: true,
+    disabledDirectLogin: true,
     serverDomainMapper: {
         "www.sabagame.net": "sabagame.net",
         "sabagame.net": "sabagame.net",
@@ -61,6 +62,12 @@ const configs = {
             port: "",
             path: "/user/vipsediewar",
             proxyRoute: "/vipsediewar/socket.io"
+        },
+        29: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/fourguardians",
+            proxyRoute: "/fourguardians/socket.io"
         }
     },
     sentryUrl: "https://eb5f1c92d1da4cb6a059fa40c1276a9d@sentry.sabagame.com/48",

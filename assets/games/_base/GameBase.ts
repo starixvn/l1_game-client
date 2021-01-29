@@ -352,6 +352,9 @@ export default class GameBase extends cc.Component {
     }
 
     protected initGameAudios() {
+        if (!this.gameAudiosPrefab) {
+            return;
+        }
         const gameAudiosNode = cc.instantiate(this.gameAudiosPrefab);
         this.gameAudios = gameAudiosNode.getComponent(GameAudios);
     }
@@ -379,5 +382,13 @@ export default class GameBase extends cc.Component {
 
     public updateDisplayForRemoteConfig() {
         this.gameConfigs.odds && this.betItems.forEach((item) => item.setOdd(this.gameConfigs.odds[item.node.name]));
+    }
+
+    public updateUserBalance() {
+        cc.RedT.send({
+            user: {
+                updateCoin: true
+            }
+        });
     }
 }

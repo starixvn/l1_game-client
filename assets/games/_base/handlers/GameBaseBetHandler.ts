@@ -15,22 +15,22 @@ export default class GameBaseBetHandler implements DataHandler {
             return true;
         }
 
-        if (!this.main.isStopGame && !this.main.isDisableGame) {
-            if (data.totalBets || data.ownBets) {
-                this.main.betItems.forEach((item) => item.setData(data));
-            }
-
-            if (data.endBet) {
-                data.endBet !== -1 && this.main.showAcceptedBet(data.endBet);
-                this.main.showProcessingWarning(false);
-            }
-
-            this.handleChipInMainRoom(data);
-
-            return true;
+        if (data.totalBets || data.ownBets) {
+            this.main.betItems.forEach((item) => item.setData(data));
         }
 
+        this.handleEndBet(data);
+
+        this.handleChipInMainRoom(data);
+
         return false;
+    }
+
+    handleEndBet(data) {
+        if (data.endBet) {
+            data.endBet != -1 && this.main.showAcceptedBet(data.endBet); //endCuoc -1 is error
+            this.main.showProcessingWarning(false);
+        }
     }
 
     handleChipInMainRoom(data) {

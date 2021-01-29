@@ -107,6 +107,10 @@ const configs = {
         VipSedieWar: {
             id: 28,
             name: "Xóc Đĩa Đối Kháng"
+        },
+        FourGuardians: {
+            id: 29,
+            name: "Long Lân Quy Phụng"
         }
     },
     gameRoomRegNames: {
@@ -115,7 +119,7 @@ const configs = {
         21: "roulette"
     },
     gameRoomIds: [8, 10, 21],
-    gameRoomNewSocketIds: [2, 22, 23, 25, 26, 27, 28],
+    gameRoomNewSocketIds: [2, 22, 23, 25, 26, 27, 28, 29],
     gameMiniNewSocketIds: [24]
 };
 

@@ -1,5 +1,6 @@
 const configs = {
     ssl: false,
+    disabledDirectLogin: true,
     serverDomainMapper: {
         "l2-games.lumigame.com": "lumigame.com"
     },
@@ -58,6 +59,12 @@ const configs = {
             port: 7001,
             path: "/user/vipsediewar",
             proxyRoute: "/vipsediewar/socket.io"
+        },
+        29: {
+            subDomain: "haproxy",
+            port: 7001,
+            path: "/user/fourguardians",
+            proxyRoute: "/fourguardians/socket.io"
         }
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",

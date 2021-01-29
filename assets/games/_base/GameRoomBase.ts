@@ -52,7 +52,11 @@ export default class GameRoomBase extends GameBase {
 
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale: number;
-    protected gameId: number;
+    protected _gameId: number;
+
+    public get gameId(): number {
+        return this._gameId;
+    }
 
     onLoad() {
         super.onLoad();
@@ -70,7 +74,7 @@ export default class GameRoomBase extends GameBase {
     init(gameName: string, gameConfigs: GameBaseConfigs, miniPanel: MiniPanel = null, miniPanelScale = 1, gameId = 0) {
         super.init(gameName, gameConfigs, miniPanel);
         this.miniPanelScale = miniPanelScale;
-        this.gameId = gameId;
+        this._gameId = gameId;
     }
 
     initHandlers() {
@@ -215,7 +219,7 @@ export default class GameRoomBase extends GameBase {
     }
 
     protected loadUserData(user) {
-        if (void 0 !== user.name) {
+        if (void 0 !== user.name && this.userName) {
             this.userName.string = user.name;
         }
 

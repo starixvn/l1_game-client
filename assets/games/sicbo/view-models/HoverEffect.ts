@@ -1,8 +1,9 @@
+import HoverItemBase from "../../../common/HoverItemBase";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class HoverEffect extends cc.Component {
-
+export default class HoverEffect extends HoverItemBase {
     @property(cc.Sprite)
     background: cc.Sprite = null;
 
@@ -12,29 +13,18 @@ export default class HoverEffect extends cc.Component {
     @property(cc.SpriteFrame)
     highlightSprite: cc.SpriteFrame = null;
 
-    onLoad() {
-        this.node.on(cc.Node.EventType.TOUCH_START, this.eventOnHover, this);
-        this.node.on(cc.Node.EventType.TOUCH_END, this.eventOffHover, this);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.eventOffHover, this);
-
-        this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnHover, this);
-        this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.eventOffHover, this);
-    }
-
-    onDestroy() {
-        this.node.off(cc.Node.EventType.TOUCH_START, this.eventOnHover, this);
-        this.node.off(cc.Node.EventType.TOUCH_END, this.eventOffHover, this);
-        this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.eventOffHover, this);
-
-        this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnHover, this);
-        this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOffHover, this);
-    }
-
-    eventOnHover(e) {
+    onTouchMove(e) {
+        super.onTouchMove(e);
         this.background.spriteFrame = this.highlightSprite;
     }
 
-    eventOffHover(e) {
+    onTouchEnd(e) {
+        super.onTouchEnd(e);
+        this.background.spriteFrame = this.normalSprite;
+    }
+
+    onTouchCancel(e) {
+        super.onTouchCancel(e);
         this.background.spriteFrame = this.normalSprite;
     }
 }

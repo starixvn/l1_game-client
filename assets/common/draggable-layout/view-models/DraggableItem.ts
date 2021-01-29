@@ -3,12 +3,14 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class DraggableItem extends cc.Component {
     private startPosition = cc.v2(0, 0);
+    private startTouchLocation = cc.v2(0, 0);
+
     private isTouchStarted = false;
 
     public touchCallback = {
         start: (node: cc.Node) => {},
         move: (touchPosition: cc.Vec2) => {},
-        end: () => {}
+        end: (isClicked: boolean) => {}
     };
 
     onLoad() {
@@ -28,14 +30,15 @@ export default class DraggableItem extends cc.Component {
     onTouchStart(e) {
         this.isTouchStarted = true;
         this.touchCallback.start(this.node);
-        this.startPosition = cc.v2(e.touch.getLocationX() - this.node.position.x, e.touch.getLocationY() - this.node.position.y);
+        this.startPosition = this.node.position;
+        this.startTouchLocation = e.touch.getLocation();
     }
 
     onTouchMove(e) {
         if (!this.isTouchStarted) {
             return;
         }
-        this.node.position = cc.v2(e.touch.getLocationX() - this.startPosition.x, e.touch.getLocationY() - this.startPosition.y);
+        this.node.position = e.touch.getLocation().sub(this.startTouchLocation).add(this.startPosition);
         this.touchCallback.move(e.touch.getLocation());
     }
 
@@ -44,10 +47,19 @@ export default class DraggableItem extends cc.Component {
             return;
         }
         this.isTouchStarted = false;
-        this.touchCallback.end();
+        this.touchCallback.end(this.isClicked(e));
+    }
+
+    isClicked(e): boolean {
+        const delta = e.touch.getLocation().sub(this.startTouchLocation);
+        return Math.abs(delta.x) + Math.abs(delta.y) < 10;
     }
 
     onTouchCancel(e) {
-        this.onTouchEnd(e);
+        if (!this.isTouchStarted) {
+            return;
+        }
+        this.isTouchStarted = false;
+        this.touchCallback.end(false);
     }
 }

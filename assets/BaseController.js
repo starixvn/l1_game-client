@@ -20,6 +20,7 @@ module.exports = {
     gameSockets: {},
 
     dataObservers: {},
+    soundObservers: {},
 
     connect: function (ssl) {
         if (!this.isConnected && !this.isForceKickedOut) {
@@ -82,9 +83,7 @@ module.exports = {
     },
     _onSocketConnect: function () {
         cc.RedT.isConnected = true;
-        if (cc.RedT.inGame && cc.RedT.inGame.loading) {
-            cc.RedT.inGame.loading.active = true;
-        }
+        cc.RedT.inGame && cc.RedT.inGame.loading && (cc.RedT.inGame.loading.active = true);
 
         authManager && authManager.triggerSignIn();
 
@@ -134,14 +133,13 @@ module.exports = {
         this.dataObservers = {};
     },
     initPrototype: function () {
-        if (!String.format) {
-            String.format = function (t) {
+        String.format ||
+            (String.format = function (t) {
                 var i = Array.prototype.slice.call(arguments, 1);
                 return t.replace(/{(\d+)}/g, function (t, e) {
                     return void 0 !== i[e] ? i[e] : t;
                 });
-            };
-        }
+            });
     },
     // Function localStorage
     setAutoLogin: function (bool) {
@@ -149,10 +147,21 @@ module.exports = {
     },
     isAutoLogin: function () {
         var check = cc.sys.localStorage.getItem("AUTO_LOGIN");
-        return check === true;
+        return check === "true";
+    },
+    addSoundObserver(key, observer) {
+        this.soundObservers[key] = observer;
+    },
+    removeSoundObserver(key) {
+        delete this.soundObservers[key];
     },
     setSoundGame: function (bool) {
         cc.sys.localStorage.setItem("SOUND_GAME", bool);
+
+        Object.keys(cc.RedT.soundObservers).forEach((key) => {
+            var observer = cc.RedT.soundObservers[key];
+            observer && observer(bool);
+        });
     },
     isSoundGame: function () {
         var check = cc.sys.localStorage.getItem("SOUND_GAME");
@@ -175,7 +184,7 @@ module.exports = {
             return true;
         }
 
-        return check === true;
+        return check === "true";
     },
     userData: function (data) {
         if (void 0 !== data.name) {

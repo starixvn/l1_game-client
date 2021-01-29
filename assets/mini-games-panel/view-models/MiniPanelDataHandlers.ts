@@ -71,6 +71,12 @@ export default class MiniPanelDataHandlers {
 
     handleDataApiError(apiErrorData: any) {
         const error = apiErrorData.apiError;
+        const gameId = error.gameTypeId;
+
+        if (this.main.skipShowApiErrorGameIds.includes(gameId)) {
+            return;
+        }
+
         this.main.showErrorNotice(error);
 
         if (error.gameTypeId === SabaConfigs.games.TaiXiu.id && this.main.taiXiu && this.main.taiXiu.TX_Main) {

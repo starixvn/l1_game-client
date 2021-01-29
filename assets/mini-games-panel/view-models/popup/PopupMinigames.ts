@@ -1,3 +1,5 @@
+import JackpotWinner from "../../../games/four-guardians/scripts/JackpotWinner";
+
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class PopupMinigames extends cc.Component {
@@ -9,6 +11,12 @@ export default class PopupMinigames extends cc.Component {
     background: cc.Node = null;
     @property(cc.Node)
     menuIcon: cc.Node = null;
+
+    @property(cc.Node)
+    jackPotContainer: cc.Node = null;
+
+    @property(cc.Prefab)
+    jackpotWinnerPrefab: cc.Prefab = null;
 
     private ttOffset = cc.v2(0, 0);
     private ttOffset2 = cc.v2(0, 0);
@@ -25,6 +33,13 @@ export default class PopupMinigames extends cc.Component {
             this.node.position = cc.RedT.setting.popupMini.position;
         }
         this.schedule(this.moveToEdge, 0.1, cc.macro.REPEAT_FOREVER);
+
+        // init jackpot winner icon
+        const jackpot = cc.instantiate(this.jackpotWinnerPrefab);
+        const jackpotWinner = jackpot.getComponent(JackpotWinner);
+        jackpotWinner.popupMiniGame = this;
+        this.jackPotContainer.addChild(jackpot);
+        this.jackPotContainer.active = false;
     }
 
     onDestroy() {
@@ -56,7 +71,12 @@ export default class PopupMinigames extends cc.Component {
         this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
     }
     getCurrentSize() {
-        const listBox = this.list.getBoundingBox();
+        let listBox = this.list.getBoundingBox();
+
+        if (!this.list.active && this.jackPotContainer.active) {
+            listBox = this.jackPotContainer.getBoundingBox();
+        }
+
         return cc.v2(Math.max(this.node.width, listBox.width), Math.max(this.node.height, listBox.height));
     }
     moveToEdge() {

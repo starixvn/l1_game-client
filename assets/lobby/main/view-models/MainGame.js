@@ -21,7 +21,11 @@ cc.Class({
         header: header,
         center: cc.Node,
         mainScroll: cc.Node,
-        gameAds: cc.Node,
+        bannerContainer: cc.Node,
+        adsBannerContainer: cc.Node,
+        jackpotBannerContainer: cc.Node,
+        adsToggle: cc.Toggle,
+        jackpotToggle: cc.Toggle,
         scrollContent: cc.Node,
         news: cc.Node,
         newsContents: newsContents,
@@ -30,9 +34,6 @@ cc.Class({
         loading: cc.Node,
         audioBG: cc.AudioSource,
         NoticePrefab: cc.Prefab,
-        sound: cc.Sprite,
-        soundOn: cc.SpriteFrame,
-        soundOff: cc.SpriteFrame,
         luckyWheelIconPrefab: cc.Prefab
     },
     onDestroy() {
@@ -122,30 +123,53 @@ cc.Class({
             this.repositionMenu();
         };
 
-        this.initSound();
+        this.jackpotBannerContainer.getComponent("BannerController").onEndingRound = () => {
+            this.jackpotToggle.isChecked = false;
+            this.jackpotBannerContainer.active = false;
+
+            this.adsToggle.isChecked = true;
+            this.adsBannerContainer.active = true;
+        };
+
+        this.adsBannerContainer.getComponent("BannerController").onEndingRound = () => {
+            this.adsToggle.isChecked = false;
+            this.adsBannerContainer.active = false;
+
+            this.jackpotToggle.isChecked = true;
+            this.jackpotBannerContainer.active = true;
+        };
     },
     getGameNotifications() {
-        cc.RedT.send({
-            gameNotifications: {
-                gameId: 23
-            }
+        const list = [23, 29];
+        list.forEach((id) => {
+            cc.RedT.send({
+                gameNotifications: {
+                    gameId: id
+                }
+            });
         });
     },
     repositionMenu() {
-        const adsWidth = this.gameAds.width;
+        const adsWidth = this.bannerContainer.width;
         const scrollContentWidth = this.scrollContent.width + adsWidth;
         const scrollView = this.mainScroll.getComponent(cc.ScrollView);
-        const adsWidget = this.gameAds.getComponent(cc.Widget);
+        const adsWidget = this.bannerContainer.getComponent(cc.Widget);
         if (scrollContentWidth < this.center.width) {
             scrollView.enabled = false;
             this.scrollContent.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.scrollContent.position.y);
             adsWidget.enabled = false;
-            this.gameAds.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.gameAds.position.y);
+            this.bannerContainer.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.bannerContainer.position.y);
         } else {
             scrollView.enabled = true;
             adsWidget.enabled = true;
             scrollView.scrollTo(0, 0);
         }
+    },
+    onBannerTypeChanged(e, param) {
+        const type = +param;
+        const showJackpot = type === 1;
+        this.adsBannerContainer.active = !showJackpot;
+        this.jackpotBannerContainer.active = showJackpot;
     },
     outRoomGame: function () {
         //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
@@ -296,6 +320,14 @@ cc.Class({
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         this.openGameSSO();
         this.getGameNotifications();
+        this.getJackpotInfo();
+    },
+    getJackpotInfo() {
+        cc.RedT.send({
+            jackpot: {
+                getPools: true
+            }
+        });
     },
     openGameSSO: function () {
         if (window.openGameId) {
@@ -344,25 +376,6 @@ cc.Class({
 
     onGameResultClick() {
         cc.RedT.send({ gameResult: { language: "vi-VN" } });
-    },
-
-    onClickSoundGame() {
-        cc.RedT.audio.playClick();
-        cc.RedT.isSoundGame() ? this.setSoundGameOff() : this.setSoundGameOn();
-    },
-
-    initSound() {
-        cc.RedT.isSoundGame() ? this.setSoundGameOn() : this.setSoundGameOff();
-    },
-
-    setSoundGameOn() {
-        this.sound.spriteFrame = this.soundOn;
-        cc.RedT.setSoundGame(true);
-    },
-
-    setSoundGameOff() {
-        this.sound.spriteFrame = this.soundOff;
-        cc.RedT.setSoundGame(false);
     },
 
     renderLuckyWheelIcon() {

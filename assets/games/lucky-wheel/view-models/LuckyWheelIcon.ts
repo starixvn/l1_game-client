@@ -1,7 +1,6 @@
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import LuckyWheel from "./LuckyWheel";
 
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -9,7 +8,6 @@ export default class LuckyWheelIcon extends cc.Component {
     @property(cc.Prefab)
     luckyWheelPrefab: cc.Prefab = null;
 
-    private startPos = cc.v2(0, 0);
     private luckyWheelComponent: LuckyWheel;
     private mainNode: cc.Node;
 
@@ -23,18 +21,12 @@ export default class LuckyWheelIcon extends cc.Component {
         }
 
         const draggableItem = this.node.getComponent(DraggableItem);
-
-        draggableItem.touchCallback.start = () => { this.startPos = this.node.position; }
-        draggableItem.touchCallback.end = () => {
-            const changePosX = this.node.position.x - this.startPos.x;
-            const changePosY = this.node.position.y - this.startPos.y;
-
+        draggableItem.touchCallback.end = (isClicked) => {
             this.moveToEdge();
-
-            if (changePosX > -5 && changePosX < 5 && changePosY > -5 && changePosY < 5) {
+            if (isClicked) {
                 this.openGame();
             }
-        }
+        };
     }
 
     moveToEdge() {

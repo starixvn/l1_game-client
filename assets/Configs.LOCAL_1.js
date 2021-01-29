@@ -58,6 +58,12 @@ const configs = {
             port: 7101,
             path: "/user/vipsediewar",
             proxyRoute: "/vipsediewar/socket.io"
+        },
+        29: {
+            subDomain: "haproxy",
+            port: 7101,
+            path: "/user/fourguardians",
+            proxyRoute: "/fourguardians/socket.io"
         }
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",

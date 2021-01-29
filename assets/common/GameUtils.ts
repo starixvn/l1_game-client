@@ -72,13 +72,14 @@ export default class GameUtils {
         return values;
     }
 
-    public static openGame(gameId, miniPanel, openLuckyWheelFunc: () => void) {
+    public static openGame(gameId, miniPanel, openLuckyWheelFunc = () => {}) {
         if (SabaConfigs.gameRoomNewSocketIds.includes(gameId)) {
             miniPanel.openNewGameSocket(null, gameId);
         } else if (SabaConfigs.gameRoomIds.includes(gameId)) {
             miniPanel.openGameRoom(null, gameId);
         } else if (SabaConfigs.gameMiniNewSocketIds.includes(gameId)) {
             miniPanel.openNewSocketMiniGame(null, gameId);
+            openLuckyWheelFunc && openLuckyWheelFunc();
         } else {
             miniPanel.openGame(null, gameId);
             openLuckyWheelFunc && openLuckyWheelFunc();
@@ -94,5 +95,42 @@ export default class GameUtils {
         const position = destNode.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v2(0, 0)));
         node.parent = destNode;
         node.position = position;
+    }
+
+    public static floatToNumber(label: cc.Label, end: number, duration: number, start?: number, noZeroSuffix = true) {
+        start = start || parseFloat(label.string.replace(/,/g, "")) || 0;
+        const range = Math.abs(end - start);
+        if (!range) {
+            return;
+        }
+        const stepTime = Math.max(duration / range, 0.05);
+        const repeatCount = Math.floor(duration / stepTime);
+        const stepValue = Math.floor(range / repeatCount);
+        let value = start;
+        label.node.stopAllActions();
+        cc.tween(label)
+            .repeat(
+                repeatCount,
+                cc
+                    .tween(label)
+                    .call(() => {
+                        label.string = numberWithCommas(value, 2, noZeroSuffix);
+                        value += stepValue;
+                    })
+                    .delay(stepTime)
+            )
+            .call(() => {
+                label.string = numberWithCommas(end, 2, noZeroSuffix);
+            })
+            .start();
+    }
+
+    public static getAvatarSprite(avatarId: number): Promise<cc.SpriteFrame> {
+        return new Promise((resolve, reject) => {
+            cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+                const frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
+                resolve(frame);
+            });
+        });
     }
 }

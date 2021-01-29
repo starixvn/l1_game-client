@@ -1,16 +1,21 @@
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class ExpandableMenu extends cc.Component {
-
     @property(cc.Node)
     expandableNode: cc.Node = null;
+
+    @property
+    defaultExpand = false;
 
     private expanded = false;
 
     onLoad() {
-        this.collapseMenu(false);
+        if (this.defaultExpand) {
+            this.expandMenu();
+        } else {
+            this.collapseMenu(false);
+        }
     }
 
     collapseMenu(animated = true) {
@@ -21,17 +26,13 @@ export default class ExpandableMenu extends cc.Component {
             return;
         }
         this.expandableNode.stopAllActions();
-        cc.tween(this.expandableNode)
-            .to(0.2, { opacity: 0, scaleY: 0 })
-            .start();
+        cc.tween(this.expandableNode).to(0.2, { opacity: 0, scaleY: 0 }).start();
     }
 
     expandMenu() {
         this.expanded = true;
         this.expandableNode.stopAllActions();
-        cc.tween(this.expandableNode)
-            .to(0.2, { opacity: 255, scale: 1 })
-            .start();
+        cc.tween(this.expandableNode).to(0.2, { opacity: 255, scale: 1 }).start();
     }
 
     onMenuClick() {

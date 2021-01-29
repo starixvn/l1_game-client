@@ -2,9 +2,14 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class HoverItemBase extends cc.Component {
-    protected callback = {
+    public callback = {
         highlight: (highlight: boolean) => {},
         selected: () => {}
+    };
+
+    public touchCallback = {
+        onLeave: (e) => {},
+        onMove: (e) => {}
     };
 
     onLoad() {
@@ -39,9 +44,15 @@ export default class HoverItemBase extends cc.Component {
         this.callback.highlight(highlight);
     }
 
-    onTouchMove(e) {}
+    onTouchMove(e) {
+        this.touchCallback.onMove(e);
+    }
 
-    onTouchEnd(e) {}
+    onTouchEnd(e) {
+        this.touchCallback.onLeave(e);
+    }
 
-    onTouchCancel(e) {}
+    onTouchCancel(e) {
+        this.touchCallback.onLeave(e);
+    }
 }

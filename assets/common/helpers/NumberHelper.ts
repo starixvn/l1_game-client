@@ -1,11 +1,14 @@
-const numberWithCommas = (number: number, toFixed = 2) => {
+const numberWithCommas = (number, toFixed = 2, noZeroSuffix = true) => {
     if (number) {
-        var result = number.toFixed(toFixed).toString().split(".");
+        var result = parseFloat(number).toFixed(toFixed).toString().split(".");
         result[0] = result[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-        return +result[1] !== 0 ? result.join(".") : result[0];
+        if (noZeroSuffix) {
+            return +result[1] !== 0 ? result.join(".") : result[0];
+        } else {
+            return result.join(".");
+        }
     }
-
     return "0";
 };
 
@@ -27,7 +30,7 @@ const numberPad = (number: number, length: number) => {
 
 const numberTo = (obj, start, end, duration, currency = false) => {
     clearInterval(obj.timer);
-    var range = end - (parseInt(obj.string.replace(/,/g, "")) || 0);
+    var range = end - (parseFloat(obj.string.replace(/,/g, "")) || 0);
     var minTimer = 50;
     var stepTime = Math.abs(Math.floor(duration / range));
     stepTime = Math.max(stepTime, minTimer);
