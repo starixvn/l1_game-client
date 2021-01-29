@@ -19,7 +19,7 @@ export default class SedieHistory extends NewSocketGameBaseHistory {
         item.node.active = true;
         item.bg.active = index % 2 > 0;
 
-        const { time, phien, result, settlementResult, betwin } = betLog;
+        const { freeBet, time, phien, result, settlementResult, betwin } = betLog;
 
         item.time.string = getStringDateByTime(time);
         item.phien.string = phien;
@@ -42,7 +42,7 @@ export default class SedieHistory extends NewSocketGameBaseHistory {
 
         Object.keys(settlementResult).forEach((choice) => {
             const historyItem = item[choice];
-            historyItem.string = numberWithCommas(betLog[choice]);
+            historyItem.string = freeBet ? 0 : numberWithCommas(betLog[choice]);
 
             if (settlementResult[choice]) {
                 historyItem.node.color = cc.Color.YELLOW;
