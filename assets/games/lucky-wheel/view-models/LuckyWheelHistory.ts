@@ -1,15 +1,15 @@
+import PaginationCommon from '../../../common/helpers/Pagination/PaginationCommon';
 import LuckyWheelHistoryItem from './LuckyWheelHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LuckyWheelHistory extends cc.Component {
-
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(cc.Component)
-    pages: cc.Component = null;
+    @property(PaginationCommon)
+    pages: PaginationCommon = null;
 
     @property(cc.Prefab)
     itemHistory: cc.Prefab = null;
@@ -35,13 +35,13 @@ export default class LuckyWheelHistory extends cc.Component {
     }
 
     receivedData(data) {
-        if (data['luckyWheel']) {
-            this.onData(data['luckyWheel'].history);
+        if (data["luckyWheel"]) {
+            this.onData(data["luckyWheel"].history);
         }
     }
 
     get_data(page = 1) {
-        cc.RedT.send({ g: { ['luckyWheel']: { getHistory: { page: page } } } });
+        cc.RedT.send({ g: { ["luckyWheel"]: { getHistory: { page: page } } } });
     }
 
     onDestroy() {
@@ -50,9 +50,9 @@ export default class LuckyWheelHistory extends cc.Component {
 
     onData(data) {
         this.pages.onSet(data.page, data.pageSize, data.total);
-        this.content.children.forEach(child => child.destroy());
+        this.content.children.forEach((child) => child.destroy());
 
-        data.spinHistories.forEach(log => {
+        data.spinHistories.forEach((log) => {
             const item = cc.instantiate(this.itemHistory);
             const component = item.getComponent(LuckyWheelHistoryItem);
             component.updateData(log);
