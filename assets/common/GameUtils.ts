@@ -81,7 +81,7 @@ export default class GameUtils {
             miniPanel.openNewSocketMiniGame(null, gameId);
         } else {
             miniPanel.openGame(null, gameId);
-            openLuckyWheelFunc();
+            openLuckyWheelFunc && openLuckyWheelFunc();
         }
     }
 
