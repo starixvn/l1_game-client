@@ -1,5 +1,5 @@
-import * as SabaConfigs from '../SabaConfigs';
-import { numberWithCommas } from './helpers/NumberHelper';
+import * as SabaConfigs from "../SabaConfigs";
+import { numberWithCommas } from "./helpers/NumberHelper";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -72,7 +72,7 @@ export default class GameUtils {
         return values;
     }
 
-    public static openGame(gameId, miniPanel) {
+    public static openGame(gameId, miniPanel, openLuckyWheelFunc: () => void) {
         if (SabaConfigs.gameRoomNewSocketIds.includes(gameId)) {
             miniPanel.openNewGameSocket(null, gameId);
         } else if (SabaConfigs.gameRoomIds.includes(gameId)) {
@@ -81,6 +81,7 @@ export default class GameUtils {
             miniPanel.openNewSocketMiniGame(null, gameId);
         } else {
             miniPanel.openGame(null, gameId);
+            openLuckyWheelFunc();
         }
     }
 
