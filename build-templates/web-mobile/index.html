@@ -206,11 +206,20 @@
             })();
         </script>
         <script>
-            const domains = ["sabagame.com", "gamesaba.com", "sabagame.net", "gamesaba.net"];
+            const domains = [
+                "www.sabagame.com",
+                "sabagame.com",
+                "www.gamesaba.com",
+                "gamesaba.com",
+                "www.sabagame.net",
+                "sabagame.net",
+                "www.gamesaba.net",
+                "gamesaba.net"
+            ];
 
             if (
                 domains.some((domain) => {
-                    return window.location.hostname.indexOf(domain) >= 0;
+                    return window.location.hostname === domain;
                 })
             ) {
                 loadScript("https://www.googletagmanager.com/gtag/js?id=UA-161943539-1").then(
