@@ -148,9 +148,9 @@ export default class RouletteWheel extends cc.Component {
     }
 
     getCurrentWheelDegree() {
-        var t;
+        let t;
         this.pauseAnimation();
-        var e = this.animation.getCurrent(this.wheelTrack);
+        const e = this.animation.getCurrent(this.wheelTrack);
         const i = this.getRotationDataFromTrack(e);
         const n = e.getAnimationTime();
         let o = i.angle - i.frames[1];
@@ -187,16 +187,16 @@ export default class RouletteWheel extends cc.Component {
     }
 
     getRotationDataFromAnimation(t) {
-        var e: any = {},
+        const e: any = {},
             i = this.getAnimationRotationTimeline(t);
-        var o = i.frames.length >> 1,
+        const o = i.frames.length >> 1,
             s = sp.spine.Animation.binarySearch(i.frames, 0, sp.spine.RotateTimeline.ENTRIES);
         (e.name = t), (e.frames = i.frames), (e.frameIndex = s), (e.frameTime = i.frames[s]), (e.angle = i.frames[s + 1]), (e.size = o);
         return e;
     }
 
     getAnimationRotationTimeline(t) {
-        var i = this.getAnimation(t);
+        const i = this.getAnimation(t);
         return _.filter(i.timelines, (t) => {
             return t instanceof sp.spine.RotateTimeline;
         })[0];
@@ -207,24 +207,24 @@ export default class RouletteWheel extends cc.Component {
     }
 
     updateRotationTimeline(t, e) {
-        var i = this.getAnimationRotationTimeline(t);
+        const i = this.getAnimationRotationTimeline(t);
         _.each(e, (t, e) => {
-            var n = e << 1;
+            const n = e << 1;
             i.frames[n + 1] = t;
         });
     }
 
     adjustAnimationRotationTimeline(t, e) {
-        var i = this.getRotationDataFromAnimation(t);
+        const i = this.getRotationDataFromAnimation(t);
         if (_.has(i, "size")) {
-            var o = this.getRotationFrameSteps(i.frames, i.size),
+            const o = this.getRotationFrameSteps(i.frames, i.size),
                 r = this.getWheelDegreesArray(e, i.size, o);
             this.updateRotationTimeline(t, r);
         }
     }
 
     getWheelDegreesArray(t, e, i) {
-        var o = this,
+        let o = this,
             r = new Array(e),
             s = t;
         return (
@@ -237,7 +237,7 @@ export default class RouletteWheel extends cc.Component {
     }
 
     getRotationFrameSteps(t, e) {
-        var i,
+        let i,
             o = [],
             r = _.filter(t, (t, e) => {
                 return e % 2 != 0;
@@ -251,9 +251,9 @@ export default class RouletteWheel extends cc.Component {
     }
 
     getNextWheelDegreeValue(e, i) {
-        var n = NaN;
+        let n = NaN;
         if (e + i >= this.MAX_DEGREE) {
-            var o = e + i - this.MAX_DEGREE;
+            const o = e + i - this.MAX_DEGREE;
             n = o > 0 ? -1 * (this.MAX_DEGREE - o) : this.MAX_DEGREE;
         } else {
             n = e + i;
@@ -263,7 +263,7 @@ export default class RouletteWheel extends cc.Component {
     }
 
     getHitAnimationId(t) {
-        var e = this.convertTo360(t),
+        let e = this.convertTo360(t),
             i = this.numberRotationDegree - e;
         return (i = this.convertTo360(i)), Math.ceil(i / this.BALL_HIT_OUT_DEGREE_STEP);
     }
@@ -277,7 +277,7 @@ export default class RouletteWheel extends cc.Component {
     }
 
     prepareBallHitAnimation(t, e) {
-        var i,
+        let i,
             n,
             o,
             r = this.getHitAnimationId(t);
@@ -291,21 +291,21 @@ export default class RouletteWheel extends cc.Component {
             this.animation.findAnimation(i))
         ) {
             this.adjustAnimationRotationTimeline(i, t);
-            var s = this.animation.setAnimation(this.wheelTrack, i, !1),
+            const s = this.animation.setAnimation(this.wheelTrack, i, !1),
                 a = this.animation.setAnimation(this.ballTrack, n, !1);
             (a.timeScale = (a.animation.duration / s.animation.duration) * s.timeScale), (e.animationId = o), (e.ballTrackEntry = a);
         }
     }
 
     runBallHitNonCollisionAnimationGroup1(t) {
-        var i: any = {};
+        const i: any = {};
         this.prepareBallHitAnimation(t, i);
         _.isNil(i.ballTrackEntry) ||
             (i.ballTrackEntry.listener = {
                 complete: (t) => {
                     t.animation.name;
                     this.pauseAnimation();
-                    var n = this.getCurrentWheelDegree();
+                    const n = this.getCurrentWheelDegree();
                     this.setBallStopAnimDataSector0(n, i.animationId);
                     this.animation._state.setEmptyAnimation(this.ballTrack, 0);
                     this.resumeAnimation();
@@ -315,12 +315,12 @@ export default class RouletteWheel extends cc.Component {
     }
 
     runBallHitCollisionAnimationGroup1(t) {
-        var i: any = {};
+        const i: any = {};
         (this.prepareBallHitAnimation(t, i), _.isNil(i.ballTrackEntry)) ||
             (i.ballTrackEntry.listener = {
                 complete: (t) => {
                     this.pauseAnimation();
-                    var n = this.getCurrentWheelDegree();
+                    const n = this.getCurrentWheelDegree();
                     this.animation._state.setEmptyAnimation(this.ballTrack, 0),
                         this.startBallPostCollisionTransitionAnimationGroup1(n, i.animationId),
                         this.resumeAnimation();
@@ -329,13 +329,13 @@ export default class RouletteWheel extends cc.Component {
     }
 
     runBallHitCollisionAnimationGroup2(t) {
-        var e = this,
+        const e = this,
             i: any = {};
         (this.prepareBallHitAnimation(t, i), _.isNil(i.ballTrackEntry)) ||
             (i.ballTrackEntry.listener = {
                 complete: (t) => {
                     e.pauseAnimation();
-                    var n = e.getCurrentWheelDegree();
+                    const n = e.getCurrentWheelDegree();
                     e.animation._state.setEmptyAnimation(e.ballTrack, 0),
                         e.startBallPostCollisionTransitionAnimationGroup2(n, i.animationId),
                         e.resumeAnimation();
@@ -344,13 +344,13 @@ export default class RouletteWheel extends cc.Component {
     }
 
     runBallHitCollisionAnimationGroup3(t) {
-        var e = this,
+        const e = this,
             i: any = {};
         (this.prepareBallHitAnimation(t, i), _.isNil(i.ballTrackEntry)) ||
             (i.ballTrackEntry.listener = {
                 complete: (t) => {
                     e.pauseAnimation();
-                    var n = e.getCurrentWheelDegree();
+                    const n = e.getCurrentWheelDegree();
                     e.animation._state.setEmptyAnimation(e.ballTrack, 0),
                         e.startBallPostCollisionTransitionAnimationGroup3(n, i.animationId),
                         e.resumeAnimation();
@@ -359,12 +359,12 @@ export default class RouletteWheel extends cc.Component {
     }
 
     startBallPostCollisionTransitionAnimationGroup1(t, e) {
-        var n: any = {};
+        const n: any = {};
         this.prepareBallPostCollisionTransitionAnimation(t, e, n),
             _.isNil(n.ballTrackEntry) ||
                 (n.ballTrackEntry.listener.complete = (t) => {
                     this.pauseAnimation();
-                    var n = this.getCurrentWheelDegree();
+                    const n = this.getCurrentWheelDegree();
                     this.animation._state.setEmptyAnimation(this.ballTrack, 0),
                         this.setBallStopAnimDataSector1Forward(n, e),
                         this.resumeAnimation(),
@@ -373,12 +373,12 @@ export default class RouletteWheel extends cc.Component {
     }
 
     startBallPostCollisionTransitionAnimationGroup2(t, e) {
-        var n: any = {};
+        const n: any = {};
         this.prepareBallPostCollisionTransitionAnimation(t, e, n),
             _.isNil(n.ballTrackEntry) ||
                 (n.ballTrackEntry.listener.complete = (t) => {
                     this.pauseAnimation();
-                    var n = this.getCurrentWheelDegree();
+                    const n = this.getCurrentWheelDegree();
                     this.animation._state.setEmptyAnimation(this.ballTrack, 0),
                         this.setBallStopAnimDataSector0(n, e),
                         this.resumeAnimation(),
@@ -387,12 +387,12 @@ export default class RouletteWheel extends cc.Component {
     }
 
     startBallPostCollisionTransitionAnimationGroup3(t, e) {
-        var n: any = {};
+        const n: any = {};
         this.prepareBallPostCollisionTransitionAnimation(t, e, n),
             _.isNil(n.ballTrackEntry) ||
                 (n.ballTrackEntry.listener.complete = (t) => {
                     this.pauseAnimation();
-                    var n = this.getCurrentWheelDegree();
+                    const n = this.getCurrentWheelDegree();
                     this.animation._state.setEmptyAnimation(this.ballTrack, 0),
                         this.setBallStopAnimDataSector2Forward(n, e),
                         this.resumeAnimation(),
@@ -401,9 +401,9 @@ export default class RouletteWheel extends cc.Component {
     }
 
     prepareBallPostCollisionTransitionAnimation(t, e, i) {
-        var o = WheelAnimation.WHEEL_HIT_OUT_NAME + this.landingAnimationGroup.transitionAnimationOffset;
+        const o = WheelAnimation.WHEEL_HIT_OUT_NAME + this.landingAnimationGroup.transitionAnimationOffset;
         _.isNaN(t) || this.adjustAnimationRotationTimeline(o, t), this.animation._state.setAnimation(this.wheelTrack, o, !1);
-        var s = this.landingAnimationGroup.transitionAnimation + e,
+        const s = this.landingAnimationGroup.transitionAnimation + e,
             a = this.animation._state.addAnimation(this.ballTrack, s, !1, 0);
         (i.ballTrackEntry = a),
             (a.listener = {
@@ -553,21 +553,21 @@ export default class RouletteWheel extends cc.Component {
     }
 
     applyStopAnimationRotationStep() {
-        var t = (this.sectorInitialAngle - this.sectorStartAngle) / 3;
+        const t = (this.sectorInitialAngle - this.sectorStartAngle) / 3;
         this.rotateBallBone.rotation += t;
     }
 
     onWheelPositionBallOnNumber(t) {
         this.isFromRestore = t.isFromRestore;
-        var i = t.lastNumber;
+        const i = t.lastNumber;
         if (i > -1) {
-            var n = this.getWheelNumber(i);
+            const n = this.getWheelNumber(i);
             this.numberRotationDegree = this.wheelNumbersRotations[n];
         } else {
             this.numberRotationDegree = this.initBallRotation;
         }
 
-        var o = !1;
+        let o = !1;
         _.has(t, "showWheel") && (o = t.showWheel),
             o &&
                 this.resetWheelAnimation().then(() => {
@@ -577,9 +577,9 @@ export default class RouletteWheel extends cc.Component {
     }
 
     startIdleAnimation() {
-        var t = this.animation.getCurrent(this.wheelTrack);
+        const t = this.animation.getCurrent(this.wheelTrack);
         if (!_.isNil(t)) {
-            var e = this.getCurrentWheelDegree();
+            const e = this.getCurrentWheelDegree();
             this.adjustAnimationRotationTimeline(WheelAnimation.WHEEL_IDLE, e);
             // this.pauseAnimation();
         }
@@ -592,10 +592,10 @@ export default class RouletteWheel extends cc.Component {
     onWheelShow() {}
 
     setBallStopAnimDataSector0(t, e) {
-        var i = Math.ceil(this.numberRotationDegree / this.BALL_HIT_OUT_DEGREE_STEP);
+        const i = Math.ceil(this.numberRotationDegree / this.BALL_HIT_OUT_DEGREE_STEP);
         this.sectorStartAngle = this.numberRotationDegree;
         this.numberLocalIndex = 1;
-        var n = this.convertTo360(t),
+        let n = this.convertTo360(t),
             o = e * this.BALL_HIT_OUT_DEGREE_STEP - (this.fullRotationDegrees - n);
         for (
             o < 0 && (o += this.fullRotationDegrees),
@@ -610,9 +610,9 @@ export default class RouletteWheel extends cc.Component {
     }
 
     setBallStopAnimDataSector1Forward(t, e) {
-        var i = Math.ceil(this.numberRotationDegree / this.BALL_HIT_OUT_DEGREE_STEP);
+        const i = Math.ceil(this.numberRotationDegree / this.BALL_HIT_OUT_DEGREE_STEP);
         (this.sectorStartAngle = this.numberRotationDegree), (this.numberLocalIndex = 1);
-        var n = this.convertTo360(t),
+        let n = this.convertTo360(t),
             o = (e + 1) * this.BALL_HIT_OUT_DEGREE_STEP - (this.fullRotationDegrees - n);
         for (
             o < 0 && (o += this.fullRotationDegrees),
@@ -627,11 +627,11 @@ export default class RouletteWheel extends cc.Component {
     }
 
     setBallStopAnimDataSector2Forward(t, e) {
-        var i = Math.ceil(this.numberRotationDegree / this.BALL_HIT_OUT_DEGREE_STEP);
+        const i = Math.ceil(this.numberRotationDegree / this.BALL_HIT_OUT_DEGREE_STEP);
         (this.sectorStartAngle = this.numberRotationDegree - this.BALL_HIT_OUT_DEGREE_STEP),
             (this.sectorStartAngle = this.convertTo360(this.sectorStartAngle)),
             (this.numberLocalIndex = 1);
-        var n = this.convertTo360(t),
+        let n = this.convertTo360(t),
             o = (e + 1) * this.BALL_HIT_OUT_DEGREE_STEP - (this.fullRotationDegrees - n);
         for (
             o < 0 && (o += this.fullRotationDegrees),
@@ -646,28 +646,28 @@ export default class RouletteWheel extends cc.Component {
     }
 
     onWheelUpdateResultNumber(t) {
-        var e = t.resultNumber;
+        const e = t.resultNumber;
         if (-1 != e) {
-            var i = this.getWheelNumber(e);
+            const i = this.getWheelNumber(e);
             (this.numberRotationDegree = this.wheelNumbersRotations[i]),
                 (this.resultReceived = !0),
                 (this.currentNumberColorVO = this.getNumberColorVO(e));
-            var n = {
+            const n = {
                 value: this.currentNumberColorVO.value,
                 color: this.currentNumberColorVO.color
             };
             // this.wheelResultController.updateResult(n);
-            var o = this.animation.getCurrent(this.wheelTrack).animation.name;
+            const o = this.animation.getCurrent(this.wheelTrack).animation.name;
         }
     }
 
     getWheelNumber(t) {
-        var e = this.getNumberColorVO(t);
+        const e = this.getNumberColorVO(t);
         return Number(e.value);
     }
 
     getNumberColorVO(t) {
-        var e = void 0;
+        let e = void 0;
         return (
             _.each(this.numbersColorsVOs, (i, n) => {
                 if (i.id == t) {
@@ -688,7 +688,7 @@ export default class RouletteWheel extends cc.Component {
 
     stopBallAnimation(t) {
         this.adjustAnimationRotationTimeline(WheelAnimation.WHEEL_STOP_TRANSITION, t);
-        var i = this.animation.setAnimation(this.wheelTrack, WheelAnimation.WHEEL_STOP_TRANSITION, !1),
+        const i = this.animation.setAnimation(this.wheelTrack, WheelAnimation.WHEEL_STOP_TRANSITION, !1),
             n = this.landingAnimationGroup.stopAnimation + this.numberLocalIndex;
         this.animation.setAnimation(this.ballTrack, n, !1).listener = {
             start: (t) => {
@@ -710,7 +710,7 @@ export default class RouletteWheel extends cc.Component {
         i.listener = {
             complete: (t) => {
                 this.pauseAnimation();
-                var i = this.getCurrentWheelDegree();
+                const i = this.getCurrentWheelDegree();
                 this.adjustAnimationRotationTimeline(WheelAnimation.WHEEL_IDLE, i);
                 this.animation.setAnimation(this.wheelTrack, WheelAnimation.WHEEL_IDLE, !0);
                 this.resumeAnimation();
@@ -732,10 +732,10 @@ export default class RouletteWheel extends cc.Component {
     }
 
     onWheelStartSpinAnimation(t) {
-        var i = !1;
+        let i = !1;
         if ((_.has(t, "showWheel") && (i = t.showWheel), i)) {
             this.isFromRestore && this.rotateBallBone.setToSetupPose();
-            var n = this.animation.getCurrent(this.wheelTrack);
+            const n = this.animation.getCurrent(this.wheelTrack);
             (_.isNil(n) || n.animation.name !== WheelAnimation.WHEEL_IDLE) && (this.pauseAnimation(), this.startIdleAnimation()),
                 this.resumeAnimation(),
                 _.delay(() => {
@@ -747,7 +747,7 @@ export default class RouletteWheel extends cc.Component {
     }
 
     prepareWheelSpinAnimation() {
-        var e = NaN,
+        let e = NaN,
             i = this.animation.getCurrent(this.wheelTrack);
         this.pauseAnimation();
         e = this.getCurrentWheelDegree();

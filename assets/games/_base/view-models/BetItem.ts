@@ -1,6 +1,6 @@
-import BlinkNode from "../../common/BlinkNode";
-import { numberWithCommas } from "../../common/helpers/NumberHelper";
-import { getLowercaseObjectKeys } from "../../common/helpers/ObjectHelper";
+import BlinkNode from "../../../common/BlinkNode";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,7 +32,7 @@ export default class BetItem extends cc.Component {
 
     public betCallback = (e) => {};
 
-    protected setOwnBet(bet: number) {
+    public setOwnBet(bet: number) {
         if (this.ownBet) {
             this.ownBet.string = bet > 0 ? numberWithCommas(bet) : "";
         }

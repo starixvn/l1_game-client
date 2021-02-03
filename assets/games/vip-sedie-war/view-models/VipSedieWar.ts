@@ -1,14 +1,14 @@
-import ExpandableMenu from '../../../common/ExpandableMenu';
-import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
-import { games } from '../../../SabaConfigs';
-import BetItem from '../../_base/BetItem';
-import VipSedie from '../../vip-sedie/view-models/VipSedie';
-import VipSedieWarFinishHandler from './handlers/VipSedieWarFinishHandler';
-import VipSedieWarTimeHandler from './handlers/VipSedieWarTimeHandler';
-import SedieDish from './SedieDish';
-import { VipSedieWarConfigs } from './VipSedieWarConfigs';
-import VipSedieWarGuide from './VipSedieWarGuide';
-import VipSedieWarStatistic from './VipSedieWarStatistic';
+import ExpandableMenu from "../../../common/ExpandableMenu";
+import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import { games } from "../../../SabaConfigs";
+import VipSedie from "../../vip-sedie/view-models/VipSedie";
+import BetItem from "../../_base/view-models/BetItem";
+import VipSedieWarFinishHandler from "./handlers/VipSedieWarFinishHandler";
+import VipSedieWarTimeHandler from "./handlers/VipSedieWarTimeHandler";
+import SedieDish from "./SedieDish";
+import { VipSedieWarConfigs } from "./VipSedieWarConfigs";
+import VipSedieWarGuide from "./VipSedieWarGuide";
+import VipSedieWarStatistic from "./VipSedieWarStatistic";
 
 const { ccclass, property } = cc._decorator;
 

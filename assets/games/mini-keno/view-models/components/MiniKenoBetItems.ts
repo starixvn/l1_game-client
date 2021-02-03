@@ -1,5 +1,5 @@
+import BetItem from "../../../_base/view-models/BetItem";
 import MiniKeno from "../MiniKeno";
-import BetItem from "../../../_base/BetItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -13,7 +13,5 @@ export default class MiniKenoBetItems extends cc.Component {
         this.root = root;
     }
 
-    onLoad() {
-
-    }
+    onLoad() {}
 }

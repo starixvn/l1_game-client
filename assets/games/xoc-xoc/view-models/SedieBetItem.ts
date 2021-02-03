@@ -1,4 +1,4 @@
-import BetItem from "../../_base/BetItem";
+import BetItem from "../../_base/view-models/BetItem";
 
 const { ccclass } = cc._decorator;
 

@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../common/GameUtils";
@@ -7,7 +6,6 @@ import ProcessingWarning from "../../common/processing-warning/view-models/Proce
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
-import BetItem from "./BetItem";
 import GameAudios from "./GameAudios";
 import { GameBaseConfigs } from "./GameBaseConfig";
 import DataHandler from "./handlers/DataHandler";
@@ -20,6 +18,7 @@ import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
 import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
+import BetItem from "./view-models/BetItem";
 
 const { ccclass, property } = cc._decorator;
 

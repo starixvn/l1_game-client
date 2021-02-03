@@ -1,5 +1,5 @@
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
-import BetItem from "../../../_base/BetItem";
+import BetItem from "../../../_base/view-models/BetItem";
 
 const { ccclass, property } = cc._decorator;
 

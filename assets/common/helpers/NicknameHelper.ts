@@ -1,7 +1,7 @@
 const shortenName = (name: string) => {
     name = name.toLowerCase();
-    var prefix = name.slice(0, 1);
-    var suffix = name.slice(-3);
+    const prefix = name.slice(0, 1);
+    const suffix = name.slice(-3);
     return `${prefix}***${suffix}`;
 };
 
