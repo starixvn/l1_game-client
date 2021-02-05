@@ -4,54 +4,58 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CountDownWarning extends cc.Component {
-  @property(AnimatedTime)
-  time: AnimatedTime = null;
+    @property(AnimatedTime)
+    time: AnimatedTime = null;
 
-  @property
-  duration = 3;
+    @property(cc.Label)
+    spinCount: cc.Label = null;
 
-  private isShowing = false;
-  private checkCancel = () => false;
+    @property
+    duration = 3;
 
-  show(onFinished = () => {}, checkCancel = () => false) {
-    this.checkCancel = checkCancel;
-    this.node.active = true;
-    this.setTime(this.duration);
-    let count = 1;
-    this.isShowing = true;
-    cc.tween(this.node)
-      .repeat(
-        this.duration,
-        cc
-          .tween()
-          .delay(1)
-          .call(() => {
-            this.setTime(this.duration - count);
-            count++;
-          })
-      )
-      .call(() => {
-        this.node.active = false;
-        this.isShowing = false;
-        onFinished();
-      })
-      .start();
-  }
+    private isShowing = false;
+    private checkCancel = () => false;
 
-  update() {
-    if (!this.isShowing) {
-      return;
+    show(spinCount: number, onFinished = () => {}, checkCancel = () => false) {
+        this.spinCount.string = `${spinCount} lần`;
+        this.checkCancel = checkCancel;
+        this.node.active = true;
+        this.setTime(this.duration);
+        let count = 1;
+        this.isShowing = true;
+        cc.tween(this.node)
+            .repeat(
+                this.duration,
+                cc
+                    .tween()
+                    .delay(1)
+                    .call(() => {
+                        this.setTime(this.duration - count);
+                        count++;
+                    })
+            )
+            .call(() => {
+                this.node.active = false;
+                this.isShowing = false;
+                onFinished();
+            })
+            .start();
     }
 
-    if (this.checkCancel()) {
-      this.node.stopAllActions();
-      this.node.active = false;
-      this.isShowing = false;
-    }
-  }
+    update() {
+        if (!this.isShowing) {
+            return;
+        }
 
-  setTime(time: number) {
-    const num = String(time).padStart(2, '0');
-    this.time.setTime(num);
-  }
+        if (this.checkCancel()) {
+            this.node.stopAllActions();
+            this.node.active = false;
+            this.isShowing = false;
+        }
+    }
+
+    setTime(time: number) {
+        const num = String(time).padStart(2, "0");
+        this.time.setTime(num);
+    }
 }

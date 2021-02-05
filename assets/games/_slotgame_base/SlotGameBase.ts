@@ -8,6 +8,7 @@ import HoverItemBase from "../../common/HoverItemBase";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { GameState } from "../_base/GameBase";
 import NewSocketGameBase from "../_base/NewSocketGameBase";
+import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import BonusDialog from "./BonusDialog";
 import CountDownWarning from "./CountDownWarning";
@@ -145,6 +146,9 @@ export default class SlotGameBase extends NewSocketGameBase {
     @property({ type: cc.AudioSource })
     soundSources: cc.AudioSource[] = [];
 
+    @property(cc.Prefab)
+    autoSpinDialogPrefab: cc.Prefab = null;
+
     protected betChoices: number[] = [];
     protected stake: number;
     protected ingameHandler: SlotGameIngameHandler;
@@ -163,6 +167,7 @@ export default class SlotGameBase extends NewSocketGameBase {
     public waitingSpinResult = false;
     public cacheApiError: any = null;
     protected userSettings: SlotGameUserSettings;
+    private autoSpinCount = 0;
 
     onLoad() {
         super.onLoad();
@@ -400,13 +405,28 @@ export default class SlotGameBase extends NewSocketGameBase {
         }
 
         if (!this.isAnimatingResult && !this.isFreeSpin()) {
-            this.stopAllFinishTweens();
-            this.countDownAutoSpin.show(
-                () => {
-                    this.spin();
-                },
-                () => !this.isAutoSpinMode()
-            );
+            const node = cc.instantiate(this.autoSpinDialogPrefab);
+            this.currentMiniPanel.addDialog(node);
+            const dialog = node.getComponent(AutoSpinSettingDialog);
+            dialog.onConfirmCallback = (autoSpinCount: number) => {
+                this.autoSpinCount = autoSpinCount;
+                this.stopAllFinishTweens();
+                this.countDownAutoSpin.show(
+                    autoSpinCount,
+                    () => this.spin(),
+                    () => !this.isAutoSpinMode()
+                );
+            };
+
+            dialog.onCancelCallback = () => {
+                this.resetStateButtons();
+            };
+        }
+    }
+
+    consumeAutoSpinCount() {
+        if (this.autoSpinCount > 0) {
+            this.autoSpinCount--;
         }
     }
 
@@ -495,13 +515,17 @@ export default class SlotGameBase extends NewSocketGameBase {
         this.hideWinningEffectOnItems();
 
         this.waitingProcessing = true;
+        const isFreeSpin = this.isFreeSpin();
         const data = {
             betChoice: this.betChoices,
             amount: this.stake,
-            freeSpin: this.isFreeSpin()
+            freeSpin: isFreeSpin
         };
 
         this.waitingSpinResult = true;
+        if (!isFreeSpin) {
+            this.consumeAutoSpinCount();
+        }
         this.socket.emit("bet", data);
     }
 
@@ -571,6 +595,10 @@ export default class SlotGameBase extends NewSocketGameBase {
 
     isAutoSpinMode() {
         return this.autoSpinToggle.isChecked;
+    }
+
+    stillAutoSpin() {
+        return this.autoSpinCount > 0;
     }
 
     isFreeSpin(): boolean {

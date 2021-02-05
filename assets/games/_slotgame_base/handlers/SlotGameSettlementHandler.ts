@@ -153,8 +153,10 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
                 this.finishAnimationResult();
                 if (!this.main.gotApiError()) {
-                    if (freeSpins.count > 0 || this.main.autoSpinToggle.isChecked || this.main.totalFreeSpins) {
+                    if (freeSpins.count > 0 || (this.main.isAutoSpinMode() && this.main.stillAutoSpin()) || this.main.totalFreeSpins) {
                         this.main.spin();
+                    } else {
+                        this.main.resetStateButtons();
                     }
                 }
             })
