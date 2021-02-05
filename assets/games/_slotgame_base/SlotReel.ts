@@ -70,7 +70,6 @@ export default class SlotReel extends cc.Component {
     }
 
     onSpinFinish() {
-        console.log("Finish");
         for (let i = 0; i < this.itemDisplayCount; i++) {
             const index = this.itemCount - 1 - i;
             const copyIndex = this.itemDisplayCount - 1 - i;
@@ -85,13 +84,11 @@ export default class SlotReel extends cc.Component {
         const highlight = item.index === symbol || item.index === this.slotGameConfig.wildSymbol;
         item.showWinningEffect(highlight);
         itemCopy.showWinningEffect(highlight);
-        console.log("showWinningEffect");
         GameUtils.moveToOtherNode(item.node, this.winningContainer);
     }
 
     hideWinningEffect() {
         this.items.forEach((item) => {
-            console.log("hideWinningEffect");
             GameUtils.moveToOtherNode(item.node, this.node);
             item.showWinningEffect(false);
         });
@@ -101,7 +98,6 @@ export default class SlotReel extends cc.Component {
         for (let i = 0; i < this.itemDisplayCount; i++) {
             const item = this.items[this.itemCount - 1 - i];
             if (item.index === symbol) {
-                console.log("showWinningEffect special");
                 GameUtils.moveToOtherNode(item.node, this.winningContainer);
                 item.showWinningEffect(true);
                 break;
