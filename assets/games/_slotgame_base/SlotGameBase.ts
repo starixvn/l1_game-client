@@ -400,6 +400,7 @@ export default class SlotGameBase extends NewSocketGameBase {
         this.showStakeContainer(false);
 
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
+            this.autoSpinCount = 0;
             this.activeButtons();
             return;
         }
@@ -419,6 +420,7 @@ export default class SlotGameBase extends NewSocketGameBase {
             };
 
             dialog.onCancelCallback = () => {
+                this.autoSpinCount = 0;
                 this.resetStateButtons();
             };
         }
