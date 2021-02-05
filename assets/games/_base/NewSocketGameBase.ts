@@ -1,6 +1,6 @@
-import BaseSocketIOController from "../../BaseSocketIOController";
-import * as authManager from "../../common/auth/AuthManager";
-import GameRoomBase from "./GameRoomBase";
+import BaseSocketIOController from '../../BaseSocketIOController';
+import * as authManager from '../../common/auth/AuthManager';
+import GameRoomBase from './GameRoomBase';
 
 const { ccclass } = cc._decorator;
 

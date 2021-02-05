@@ -1,6 +1,6 @@
-import MiniRoundHistoryItem from "./MiniRoundHistoryItem";
-import MiniRoundHistoryTip from "./MiniRoundHistoryTip";
-import BlinkNode from "../../common/BlinkNode";
+import BlinkNode from '../../common/BlinkNode';
+import MiniRoundHistoryItem from './MiniRoundHistoryItem';
+import MiniRoundHistoryTip from './MiniRoundHistoryTip';
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,17 +32,22 @@ export default class MiniRoundHistory extends cc.Component {
     };
 
     protected checkShowNext = () => false;
-    protected nodeHighlight: cc.Node = null;
     protected dataLogs: any[] = [];
-    private lengthItems = 0;
+    private cachedDataLog: any[] = [];
 
     onLoad() {
         this.items = this.content.children.map((child) => child.getComponent(MiniRoundHistoryItem));
-        this.lengthItems = this.items.length;
         this.items.forEach((item) => {
             item.node.active = false;
             item.listener = this.listener;
         });
+
+        this.initNextDot();
+        this.schedule(this.updateDisplayNextItem, 1);
+    }
+
+    onDestroy() {
+        this.unschedule(this.updateDisplayNextItem);
     }
 
     init(condition: () => boolean) {
@@ -55,55 +60,52 @@ export default class MiniRoundHistory extends cc.Component {
     }
 
     public setData(data: any[]) {
+        const updateNow = !this.dataLogs;
         this.dataLogs = data;
-        this.items.forEach((item, index) => {
-            if (index >= data.length) {
+
+        if (updateNow) {
+            this.updateDisplayNextItem(0);
+        }
+    }
+
+    protected updateOrderNode(data: any[], showNext: boolean) {
+        const startIndex = showNext ? 1 : 0;
+        data.forEach((log, index) => {
+            const calculatedIndex = startIndex + index;
+            if (calculatedIndex >= this.items.length) {
                 return;
             }
-            const value = data[index];
-            item.setData(value);
-            this.handleNextDot(index, item);
+            const item = this.items[calculatedIndex];
+            item.setData(log);
             item.node.active = true;
         });
         this.selectedNode && this.onUpdate(this.selectedNode);
     }
 
-    protected updateOrderNode(data: any[]) {
-        const conditionRemoveDot = data.length >= this.lengthItems ? 0 : 1;
-        this.items.forEach((item, index) => {
-            if (index - conditionRemoveDot >= data.length) {
-                return;
-            }
-
-            // ignore first node, when the next node active
-            if (index > 0) {
-                const value = data[index - 1];
-                item.setData(value);
-                item.node.active = true;
-            }
-        });
-        this.selectedNode && this.onUpdate(this.selectedNode);
-    }
-
-    protected handleNextDot(index: number, item: any) {
-        if (index === 0 && this.nodeNext && this.nodeNext.isValid) {
+    protected initNextDot() {
+        if (this.nodeNext) {
             this.nodeNext.addComponent(BlinkNode).interval = 0.5;
             this.nodeNext.active = false;
-            this.nodeHighlight = item.node;
         }
     }
 
-    update() {
-        if (this.nodeNext && this.nodeNext.isValid) {
+    updateDisplayNextItem(dt: number) {
+        if (this.nodeNext) {
+            const lastVisible = this.nodeNext.active;
             this.nodeNext.active = this.checkShowNext();
-            if (this.nodeHighlight && this.nodeHighlight.isValid) {
-                if (this.nodeNext.active) {
-                    this.updateOrderNode(this.dataLogs);
-                    this.nodeHighlight.active = false;
-                } else {
-                    this.nodeHighlight.active = true;
-                }
+            const needUpdate = this.cachedDataLog.length === 0 || lastVisible !== this.nodeNext.active;
+            let data;
+            if (needUpdate) {
+                data = this.dataLogs;
+                this.cachedDataLog = [...this.dataLogs];
+            } else {
+                data = this.cachedDataLog;
             }
+            this.updateOrderNode(data, this.nodeNext.active);
+            this.items[0].node.active = !this.nodeNext.active;
+        } else {
+            this.updateOrderNode(this.dataLogs, false);
+            this.items[0].node.active = true;
         }
     }
 }

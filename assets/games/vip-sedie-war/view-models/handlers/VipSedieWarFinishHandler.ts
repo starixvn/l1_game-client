@@ -1,5 +1,7 @@
-import SedieFinishHandler from '../../../xoc-xoc/view-models/handlers/SedieFinishHandler';
-import VipSedieWar from '../VipSedieWar';
+import * as _ from "lodash";
+
+import SedieFinishHandler from "../../../xoc-xoc/view-models/handlers/SedieFinishHandler";
+import VipSedieWar from "../VipSedieWar";
 
 export default class VipSedieWarFinishHandler extends SedieFinishHandler {
     constructor(protected readonly main: VipSedieWar) {
@@ -12,7 +14,7 @@ export default class VipSedieWarFinishHandler extends SedieFinishHandler {
         this.main.setDotsResult();
         cc.tween(this.main)
             .call(() => this.main.openPlate(true))
-            .delay(1.5)
+            .delay(1)
             .call(() => {
                 this.main.showResultOnTable();
                 onFinishHandlingData();

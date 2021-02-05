@@ -1,7 +1,7 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import GameUtils from "../../GameUtils";
-import SnappedScrollView from "./SnappedScrollView";
+import GameUtils from '../../GameUtils';
+import SnappedScrollView from './SnappedScrollView';
 
 const { ccclass, property } = cc._decorator;
 type OnChangedBet = (bet: string) => void;
@@ -274,7 +274,9 @@ export default class BetChips extends cc.Component {
 
     public playMultiChipsSound() {}
 
-    public playSingleChipsSound() {}
+    public playSingleChipsSound() {
+        cc.RedT.isSoundGame() && this.singleChipAudio.play();
+    }
 
     private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, flyTime: number = this.chipFlyingTime) {
         chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition, flyTime));

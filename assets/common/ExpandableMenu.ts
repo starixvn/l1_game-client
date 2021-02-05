@@ -8,6 +8,9 @@ export default class ExpandableMenu extends cc.Component {
     @property
     defaultExpand = false;
 
+    @property(cc.Node)
+    blockInputNode: cc.Node = null;
+
     private expanded = false;
 
     onLoad() {
@@ -20,6 +23,11 @@ export default class ExpandableMenu extends cc.Component {
 
     collapseMenu(animated = true) {
         this.expanded = false;
+
+        if (this.blockInputNode) {
+            this.blockInputNode.active = false;
+        }
+
         if (!animated) {
             this.expandableNode.opacity = 0;
             this.expandableNode.scaleY = 0;
@@ -31,6 +39,9 @@ export default class ExpandableMenu extends cc.Component {
 
     expandMenu() {
         this.expanded = true;
+        if (this.blockInputNode) {
+            this.blockInputNode.active = true;
+        }
         this.expandableNode.stopAllActions();
         cc.tween(this.expandableNode).to(0.2, { opacity: 255, scale: 1 }).start();
     }

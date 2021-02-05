@@ -1,20 +1,20 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import GameUtils from "../../../common/GameUtils";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { games } from "../../../SabaConfigs";
-import GameRoomBase from "../../_base/GameRoomBase";
-import BottomControls from "./BottomControls";
-import RouletteBetHandler from "./handlers/RouletteBetHandler";
-import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
-import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
-import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
-import LeftControls from "./LeftControls";
-import { RouletteConfigs } from "./RouletteConfigs";
-import RouletteMain from "./RouletteMain";
-import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
-import RouletteUtils from "./RouletteUtils";
-import TopControls from "./TopControls";
+import GameUtils from '../../../common/GameUtils';
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import { games } from '../../../SabaConfigs';
+import GameRoomBase from '../../_base/GameRoomBase';
+import BottomControls from './BottomControls';
+import RouletteBetHandler from './handlers/RouletteBetHandler';
+import RouletteFinishHandler from './handlers/RouletteFinishHandler';
+import RouletteLogsHandler from './handlers/RouletteLogsHandler';
+import RouletteTimeHandler from './handlers/RouletteTimeHandler';
+import LeftControls from './LeftControls';
+import { RouletteConfigs } from './RouletteConfigs';
+import RouletteMain from './RouletteMain';
+import RouletteMiniRoundResult from './RouletteMiniRoundResult';
+import RouletteUtils from './RouletteUtils';
+import TopControls from './TopControls';
 
 const { ccclass, property } = cc._decorator;
 
@@ -512,7 +512,6 @@ export default class Roulette extends GameRoomBase {
     }
 
     onPressedDouble() {
-        this.playClick();
         if (this.isDisablePlaceChip()) {
             return;
         }
@@ -526,6 +525,8 @@ export default class Roulette extends GameRoomBase {
         if (!this.checkAvailableBetChoices(temp)) {
             return;
         }
+
+        this.betChips.playSingleChipsSound();
 
         this.addToBetChoicesStack(temp);
         this.tempBetChoices = this.mergeBetChoices(this.tempBetChoices, temp);
@@ -620,11 +621,11 @@ export default class Roulette extends GameRoomBase {
     }
 
     onPressedRebet() {
-        this.playClick();
-
         if (this.isDisablePlaceChip()) {
             return;
         }
+
+        this.betChips.playSingleChipsSound();
 
         this.tempBetChoices = _.cloneDeep(this.previousRoundBetChoices);
         this.addToBetChoicesStack(this.tempBetChoices);
@@ -656,6 +657,8 @@ export default class Roulette extends GameRoomBase {
 
     public pressedShowGuide() {
         this.playClick();
+        this.leftControls.expandableMenu.collapseMenu();
+
         const dialog = cc.instantiate(this.guidePrefab);
         const rouletteGuide = dialog.getComponent("RouletteGuide");
         rouletteGuide.init(this.gameConfigs);
@@ -670,6 +673,8 @@ export default class Roulette extends GameRoomBase {
 
     public pressedShowHistory() {
         this.playClick();
+        this.leftControls.expandableMenu.collapseMenu();
+
         const dialog = cc.instantiate(this.historyPrefab);
         this.currentMiniPanel.node.addChild(dialog);
     }

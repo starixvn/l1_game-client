@@ -1,29 +1,29 @@
-import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
-import ChipStack from "../../../common/chip-stack/views/ChipStack";
-import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
-import NewButton from "../../../common/custom-button/NewButton";
-import ExpandableMenu from "../../../common/ExpandableMenu";
-import GameUtils from "../../../common/GameUtils";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
-import { games } from "../../../SabaConfigs";
-import { GameState } from "../../_base/GameBase";
-import DataHandler from "../../_base/handlers/DataHandler";
-import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
-import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
-import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
-import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
-import NewSocketGameBase from "../../_base/NewSocketGameBase";
-import RoomPlayer from "../../_base/RoomPlayer";
-import BlackJackGuide from "./BlackJackGuide";
-import BlackJackHistory from "./BlackJackHistory";
-import BlackJackUtils from "./BlackJackUtils";
-import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
-import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
-import BlackjackUmHandler from "./handlers/BlackjackUmHandler";
-import DealHandler from "./handlers/DealHandler";
-import IngameActionHandler from "./handlers/IngameActionHandler";
-import HandPlace from "./HandPlace";
+import AnimatedTime from '../../../common/animated-time/view-models/AnimatedTime';
+import ChipStack from '../../../common/chip-stack/views/ChipStack';
+import FadeEffectButton from '../../../common/custom-button/FadeEffectButton';
+import NewButton from '../../../common/custom-button/NewButton';
+import ExpandableMenu from '../../../common/ExpandableMenu';
+import GameUtils from '../../../common/GameUtils';
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import NewCard, { CardAnimation, CardModel } from '../../../common/new-card/view-models/NewCard';
+import { games } from '../../../SabaConfigs';
+import { GameState } from '../../_base/GameBase';
+import DataHandler from '../../_base/handlers/DataHandler';
+import GameBaseBetHandler from '../../_base/handlers/GameBaseBetHandler';
+import GameBaseConfigsHandler from '../../_base/handlers/GameBaseConfigsHandler';
+import GameBaseErrorHandler from '../../_base/handlers/GameBaseErrorHandler';
+import GameBaseNoticeHandler from '../../_base/handlers/GameBaseNoticeHandler';
+import NewSocketGameBase from '../../_base/NewSocketGameBase';
+import RoomPlayer from '../../_base/RoomPlayer';
+import BlackJackGuide from './BlackJackGuide';
+import BlackJackHistory from './BlackJackHistory';
+import BlackJackUtils from './BlackJackUtils';
+import BlackJackFinishHandler from './handlers/BlackJackFinishHandler';
+import BlackJackIngameHandler from './handlers/BlackJackIngameHandler';
+import BlackjackUmHandler from './handlers/BlackjackUmHandler';
+import DealHandler from './handlers/DealHandler';
+import IngameActionHandler from './handlers/IngameActionHandler';
+import HandPlace from './HandPlace';
 
 const { ccclass, property } = cc._decorator;
 
@@ -124,6 +124,9 @@ export default class BlackJack extends NewSocketGameBase {
 
     @property(cc.AudioSource)
     gameNotificationsAudio: cc.AudioSource = null;
+
+    @property(cc.AudioSource)
+    singleChipAudio: cc.AudioSource = null;
 
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
@@ -232,7 +235,6 @@ export default class BlackJack extends NewSocketGameBase {
                     return;
                 }
 
-                cc.RedT.audio.playClick();
                 this.handPlaces.forEach((place) => place.highlightPlace(false));
                 handPlace.highlightPlace(true);
 
@@ -246,7 +248,10 @@ export default class BlackJack extends NewSocketGameBase {
                     return;
                 }
 
+                this.playSingleChipsSound();
+
                 handPlace.showBetText(false);
+
                 if (!this.priorityHands.includes(index)) {
                     this.priorityHands.push(index);
                 }
@@ -478,10 +483,11 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     onSplitClick() {
-        cc.RedT.audio.playClick();
         if (!this.canSendRequest()) {
             return;
         }
+
+        this.playSingleChipsSound();
 
         const data = {
             split: {
@@ -492,10 +498,11 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     onDoubleClick() {
-        cc.RedT.audio.playClick();
         if (!this.canSendRequest()) {
             return;
         }
+
+        this.playSingleChipsSound();
 
         const data = {
             double: {
@@ -589,7 +596,6 @@ export default class BlackJack extends NewSocketGameBase {
     }
 
     onRebetClick() {
-        cc.RedT.audio.playClick();
         if (!this.canSendRequest()) {
             return;
         }
@@ -605,6 +611,8 @@ export default class BlackJack extends NewSocketGameBase {
             }
             //restore chip value
             this.lastHandBets.forEach((hand) => {
+                this.playSingleChipsSound();
+
                 const chipStack = BlackJackUtils.createChipStack(
                     hand.bet,
                     this.betChips.chipAltas,
@@ -638,6 +646,8 @@ export default class BlackJack extends NewSocketGameBase {
 
     onHistoryClick() {
         cc.RedT.audio.playClick();
+        this.expandableMenu.collapseMenu();
+
         const history = cc.instantiate(this.blackjackHistory);
         this.historyComponent = history.getComponent(BlackJackHistory);
         this.historyComponent.init(this.socket);
@@ -646,6 +656,8 @@ export default class BlackJack extends NewSocketGameBase {
 
     onGuideClick() {
         cc.RedT.audio.playClick();
+        this.expandableMenu.collapseMenu();
+
         const guide = cc.instantiate(this.blackjackGuide);
         const guideComponent = guide.getComponent(BlackJackGuide);
         guideComponent.init(this.gameConfigs);
@@ -733,5 +745,9 @@ export default class BlackJack extends NewSocketGameBase {
 
     stopIntervalReminder() {
         this.audioNotificationInterval && clearInterval(this.audioNotificationInterval);
+    }
+
+    playSingleChipsSound() {
+        cc.RedT.isSoundGame() && this.singleChipAudio.play();
     }
 }

@@ -99,13 +99,14 @@ export default class VipSedieWar extends VipSedie {
 
     initRoundHistory() {
         const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
+            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - 0.1;
         };
         this.leftStatistic.sedieRoundHistory.logControl.init(condition);
         this.rightStatistic.sedieRoundHistory.logControl.init(condition);
 
         const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(MiniRoundHistory);
+        this.miniRoundHistory.init(condition);
         this.miniRoundHistoryContainer.addChild(mini);
     }
 
@@ -152,9 +153,18 @@ export default class VipSedieWar extends VipSedie {
     }
 
     openGuide() {
+        cc.RedT.audio.playClick();
+        this.expandableMenu.collapseMenu();
+
         const dialog = cc.instantiate(this.guidePrefab);
         const guide = dialog.getComponent(VipSedieWarGuide);
         guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
+    }
+
+    openHistory() {
+        super.openHistory();
+        cc.RedT.audio.playClick();
+        this.expandableMenu.collapseMenu();
     }
 }

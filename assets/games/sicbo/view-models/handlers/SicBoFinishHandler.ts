@@ -1,5 +1,7 @@
-import GameBaseFinishHandler from '../../../_base/handlers/GameBaseFinishHandler';
-import SicBo from '../SicBo';
+import * as _ from "lodash";
+
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
+import SicBo from "../SicBo";
 
 export default class SicBoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: SicBo) {

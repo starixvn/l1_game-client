@@ -1,9 +1,11 @@
 import * as _ from 'lodash';
 
+import ExpandableMenu from '../../../common/ExpandableMenu';
 import GameUtils from '../../../common/GameUtils';
 import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
 import { games } from '../../../SabaConfigs';
 import BetItem from '../../_base/BetItem';
+import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
 import NewSocketGameBase from '../../_base/NewSocketGameBase';
 import SicBoBetHandler from './handlers/SicBoBetHandler';
 import SicBoFinishHandler from './handlers/SicBoFinishHandler';
@@ -102,6 +104,9 @@ export default class SicBo extends NewSocketGameBase {
 
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
+
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
 
     public finishShakeThePlate = false;
 
@@ -259,6 +264,9 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     openGuide() {
+        cc.RedT.audio.playClick();
+        this.expandableMenu.collapseMenu();
+
         const dialog = cc.instantiate(this.guidePrefab);
         const guide = dialog.getComponent(SicBoGuide);
         guide.init(this.gameConfigs);
@@ -266,6 +274,9 @@ export default class SicBo extends NewSocketGameBase {
     }
 
     openHistory() {
+        cc.RedT.audio.playClick();
+        this.expandableMenu.collapseMenu();
+
         const dialog = cc.instantiate(this.historyPrefab);
         this.userHistoryComponent = dialog.getComponent(SicBoHistory);
         this.userHistoryComponent.init(this.socket);
@@ -289,9 +300,19 @@ export default class SicBo extends NewSocketGameBase {
         this.majorChoicesStatisticComponent.updateData(data);
     }
 
+    checkConditionUpdateRoundHistory() {
+        const finishHandler = this.finishHandler as GameBaseFinishHandler;
+        return () =>
+            this.currentTimeRemaining < this.config.stopBetTime ||
+            this.currentTimeRemaining > this.config.fullTime - finishHandler.getResultAnimationTime();
+    }
+
     initRoundHistory() {
         const node = cc.instantiate(this.roundHistoryPrefab);
         this.miniRoundHistory = node.getComponent(MiniRoundHistory);
+
+        const condition = this.checkConditionUpdateRoundHistory();
+        this.miniRoundHistory.init(condition);
         this.roundHistoryContainer.addChild(node);
     }
 
