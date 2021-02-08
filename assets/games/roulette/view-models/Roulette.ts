@@ -657,7 +657,9 @@ export default class Roulette extends GameRoomBase {
 
     public pressedShowGuide() {
         this.playClick();
-        this.leftControls.expandableMenu.collapseMenu();
+        if (this.leftControls.expandableMenu) {
+            this.leftControls.expandableMenu.collapseMenu();
+        }
 
         const dialog = cc.instantiate(this.guidePrefab);
         const rouletteGuide = dialog.getComponent("RouletteGuide");
@@ -673,7 +675,9 @@ export default class Roulette extends GameRoomBase {
 
     public pressedShowHistory() {
         this.playClick();
-        this.leftControls.expandableMenu.collapseMenu();
+        if (this.leftControls.expandableMenu) {
+            this.leftControls.expandableMenu.collapseMenu();
+        }
 
         const dialog = cc.instantiate(this.historyPrefab);
         this.currentMiniPanel.node.addChild(dialog);
