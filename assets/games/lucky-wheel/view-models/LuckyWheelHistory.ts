@@ -14,7 +14,7 @@ export default class LuckyWheelHistory extends cc.Component {
     @property(cc.Prefab)
     itemHistory: cc.Prefab = null;
 
-    private dataObserverKey = "LuckyWheelHistory";
+    private readonly dataObserverKey = "LuckyWheelHistory";
 
     onLoad() {
         this.pages.init(this);

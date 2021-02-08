@@ -1,8 +1,8 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import UmWarning from "../../../common/um-warning/UmWarning";
-import LuckyWheelWinning from "./LuckyWheelWinning";
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import UmWarning from '../../../common/um-warning/UmWarning';
+import LuckyWheelWinning from './LuckyWheelWinning';
 
 const { ccclass, property } = cc._decorator;
 
@@ -82,25 +82,25 @@ export default class LuckyWheel extends cc.Component {
     noticePrefab: cc.Prefab = null;
 
     scoinPresents: number[] = [];
-    defaultAngle: number = 12;
-    gameTime: number = 6;
-    currentRotation: number = 0;
-    lastRotation: number = 0;
-    progress: number = 0;
-    ratioWheel: number = 0;
-    resultAngle: number = 0;
+    defaultAngle = 12;
+    gameTime = 6;
+    currentRotation = 0;
+    lastRotation = 0;
+    progress = 0;
+    ratioWheel = 0;
+    resultAngle = 0;
 
     timeTween: cc.Tween;
     indicatorTween: cc.Tween;
-    currentScoin: number = 0;
+    currentScoin = 0;
     wheelTween: cc.Tween;
     wheelInitialized = false;
     buttonTween: cc.Tween;
 
-    goodLuckMessage: string = "CHÚC MAY MẮN";
+    goodLuckMessage = "CHÚC MAY MẮN";
 
-    private dataObserverKey = "LuckyWheel";
-    private defaultRoundNumber = 4;
+    private readonly dataObserverKey = "LuckyWheel";
+    private readonly defaultRoundNumber = 4;
 
     colorDictionary = {
         0: LuckyWheelColor.Purple,
@@ -179,8 +179,13 @@ export default class LuckyWheel extends cc.Component {
     shakeIndicator() {
         this.progress = 0;
 
-        this.timeTween?.stop();
-        this.indicatorTween?.stop();
+        if (this.timeTween) {
+            this.timeTween.stop();
+        }
+
+        if (this.indicatorTween) {
+            this.indicatorTween.stop();
+        }
 
         this.timeTween = cc.tween(this).to(0.26, { progress: 0.26 }).start();
         this.indicatorTween = cc
@@ -241,8 +246,8 @@ export default class LuckyWheel extends cc.Component {
         this.scoinPresents.forEach((value, index) => value === data.coins && indexList.push(index));
         const resultIndex = indexList[_.random(indexList.length - 1, 0)];
 
-        let randomPosition = _.random(-3, 3);
-        let offsetAngleResult = 360 - (this.wheel.angle % 360);
+        const randomPosition = _.random(-3, 3);
+        const offsetAngleResult = 360 - (this.wheel.angle % 360);
         let rotateResult = resultIndex * this.defaultAngle + this.defaultRoundNumber * -360 + offsetAngleResult - randomPosition;
         rotateResult = this.autoBalanceRotation(rotateResult);
 
@@ -305,7 +310,7 @@ export default class LuckyWheel extends cc.Component {
         this.scoinPresents.forEach((scoin, index) => {
             const pieceNode = cc.instantiate(this.piece);
             const spriteComponent = pieceNode.getComponent(cc.Sprite);
-            const angle = index == 0 ? 0 : index * this.defaultAngle + 0.2;
+            const angle = index === 0 ? 0 : index * this.defaultAngle + 0.2;
             pieceNode.active = true;
             pieceNode.angle = -angle;
 
@@ -337,7 +342,7 @@ export default class LuckyWheel extends cc.Component {
             }
             spriteComponent.spriteFrame = sprite;
 
-            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin == 0 ? this.goodLuckMessage : `${scoin} Scoin`;
+            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin === 0 ? this.goodLuckMessage : `${scoin} Scoin`;
 
             this.wheelPieces.addChild(pieceNode);
         });
@@ -353,7 +358,9 @@ export default class LuckyWheel extends cc.Component {
     closeLuckyWheel() {
         cc.RedT.audio.playClick();
         this.wheel.angle = this.resultAngle;
-        this.wheelTween?.stop();
+        if (this.wheelTween) {
+            this.wheelTween.stop();
+        }
 
         const dialog = this.node.getComponent("CommonDialog");
         dialog.closeDialog();
