@@ -19,8 +19,9 @@ export default class AutoSpinSettingDialog extends cc.Component {
     private confirmed = false;
 
     onLoad() {
-        this.autoSpinCount = +this.choicesContainer.children[0].name || 10;
-        this.spinNumber.string = this.choicesContainer.children[0].name || "10";
+        const defaultSpin = this.choicesContainer.children[0].name || 10;
+        this.autoSpinCount = +defaultSpin;
+        this.spinNumber.string = defaultSpin.toString();
 
         this.dialog.onDidHide = () => {
             this.node.destroy();
