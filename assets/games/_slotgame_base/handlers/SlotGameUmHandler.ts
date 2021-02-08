@@ -1,7 +1,7 @@
-import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmDataHandler";
-import SlotGameBase from "../SlotGameBase";
+import GameBaseUmDataHandler from '../../_base/handlers/GameBaseUmDataHandler';
+import SlotGameBase from '../SlotGameBase';
 
-export default class SlotGameBaseUmHandler extends GameBaseUmDataHandler {
+export default class SlotGameUmHandler extends GameBaseUmDataHandler {
     constructor(protected readonly main: SlotGameBase) {
         super(main);
     }

@@ -1,10 +1,10 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import GameBase from "../GameBase";
-import GameRoomBase from "../GameRoomBase";
-import RoomPlayer from "../RoomPlayer";
-import DataHandler from "./DataHandler";
+import { getLowercaseObjectKeys } from '../../../common/helpers/ObjectHelper';
+import GameBase from '../GameBase';
+import GameRoomBase from '../GameRoomBase';
+import RoomPlayer from '../RoomPlayer';
+import DataHandler from './DataHandler';
 
 export default class GameBaseBetHandler implements DataHandler {
     protected playerChips = [];
@@ -28,7 +28,7 @@ export default class GameBaseBetHandler implements DataHandler {
 
     handleEndBet(data) {
         if (data.endBet) {
-            data.endBet != -1 && this.main.showAcceptedBet(data.endBet); //endCuoc -1 is error
+            data.endBet !== -1 && this.main.showAcceptedBet(data.endBet); //endCuoc -1 is error
             this.main.showProcessingWarning(false);
         }
     }
