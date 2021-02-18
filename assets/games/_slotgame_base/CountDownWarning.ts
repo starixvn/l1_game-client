@@ -1,4 +1,4 @@
-import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
+import AnimatedTime from '../../common/animated-time/view-models/AnimatedTime';
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,7 +17,7 @@ export default class CountDownWarning extends cc.Component {
     private checkCancel = () => false;
 
     show(spinCount: number, onFinished = () => {}, checkCancel = () => false) {
-        this.spinCount.string = `${spinCount} lần`;
+        this.spinCount.string = spinCount.toString();
         this.checkCancel = checkCancel;
         this.node.active = true;
         this.setTime(this.duration);

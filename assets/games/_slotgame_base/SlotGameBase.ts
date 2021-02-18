@@ -396,6 +396,7 @@ export default class SlotGameBase extends NewSocketGameBase {
         cc.RedT.audio.playClick();
         this.expandableMenu.collapseMenu();
         this.hideWinningEffectOnItems();
+        this.stopAllFinishTweens();
         this.deactiveButtons();
         this.showStakeContainer(false);
 
@@ -411,7 +412,6 @@ export default class SlotGameBase extends NewSocketGameBase {
             const dialog = node.getComponent(AutoSpinSettingDialog);
             dialog.onConfirmCallback = (autoSpinCount: number) => {
                 this.autoSpinCount = autoSpinCount;
-                this.stopAllFinishTweens();
                 this.countDownAutoSpin.show(
                     autoSpinCount,
                     () => this.spin(),
@@ -484,7 +484,6 @@ export default class SlotGameBase extends NewSocketGameBase {
     onSpinClick() {
         cc.RedT.audio.playClick();
         this.expandableMenu.collapseMenu();
-        this.hideWinningEffectOnItems();
         this.lineButton.interactable = false;
         this.stakeButton.interactable = false;
 

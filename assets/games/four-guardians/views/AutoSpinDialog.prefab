@@ -27,14 +27,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 156
+        "__id__": 157
       },
       {
-        "__id__": 157
+        "__id__": 158
       }
     ],
     "_prefab": {
-      "__id__": 158
+      "__id__": 159
     },
     "_opacity": 255,
     "_color": {
@@ -104,7 +104,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 155
+      "__id__": 156
     },
     "_opacity": 150,
     "_color": {
@@ -330,10 +330,13 @@
     "_components": [
       {
         "__id__": 153
+      },
+      {
+        "__id__": 154
       }
     ],
     "_prefab": {
-      "__id__": 154
+      "__id__": 155
     },
     "_opacity": 255,
     "_color": {
@@ -1739,7 +1742,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 196.56,
+      "width": 207.08,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1792,8 +1795,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Chọn số lần quay:",
-    "_N$string": "Chọn số lần quay:",
+    "_string": "Chọn số lượt quay:",
+    "_N$string": "Chọn số lượt quay:",
     "_fontSize": 25,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -4280,7 +4283,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -4898,7 +4901,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5862,6 +5865,16 @@
     },
     "_enabled": true,
     "time": 0.4,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.BlockInputEvents",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 7
+    },
+    "_enabled": true,
     "_id": ""
   },
   {
