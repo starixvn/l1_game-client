@@ -1,5 +1,5 @@
-import GameUtils from "../../../common/GameUtils";
-import BannerItem from "./BannerItem";
+import GameUtils from '../../../common/GameUtils';
+import BannerItem from './BannerItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,7 +16,7 @@ export default class BannerController extends cc.Component {
     @property
     intervalChangeImage = 4;
 
-    private dragThreshold = 0.25;
+    private readonly dragThreshold = 0.25;
     private currentIndex = 0;
     private touchOffset = cc.v2(0, 0);
     private started = false;
@@ -164,7 +164,7 @@ export default class BannerController extends cc.Component {
     showPage(oldNode: cc.Node, index: number, pageDirection: PageDirection = PageDirection.Right) {
         this.started = false;
 
-        const direction = pageDirection == PageDirection.Right ? 1 : -1;
+        const direction = pageDirection === PageDirection.Right ? 1 : -1;
         const distance = this.node.width * 1.3;
 
         if (oldNode) {

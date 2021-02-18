@@ -1,7 +1,7 @@
-import * as authManager from "./common/auth/AuthManager";
-import { buildServerUrl } from "./common/helpers/UrlHelper";
-import logger from "./common/logger";
-import configs from "./Configs";
+import * as authManager from './common/auth/AuthManager';
+import { buildServerUrl } from './common/helpers/UrlHelper';
+import logger from './common/logger';
+import configs from './Configs';
 
 const sentryLogger = logger();
 
@@ -83,7 +83,9 @@ module.exports = {
     },
     _onSocketConnect: function () {
         cc.RedT.isConnected = true;
-        cc.RedT.inGame && cc.RedT.inGame.loading && (cc.RedT.inGame.loading.active = true);
+        if (cc.RedT.inGame && cc.RedT.inGame.loading) {
+            cc.RedT.inGame.loading.active = true;
+        }
 
         authManager && authManager.triggerSignIn();
 
@@ -133,13 +135,14 @@ module.exports = {
         this.dataObservers = {};
     },
     initPrototype: function () {
-        String.format ||
-            (String.format = function (t) {
+        if (!String.format) {
+            String.format = function (t) {
                 var i = Array.prototype.slice.call(arguments, 1);
                 return t.replace(/{(\d+)}/g, function (t, e) {
                     return void 0 !== i[e] ? i[e] : t;
                 });
-            });
+            };
+        }
     },
     // Function localStorage
     setAutoLogin: function (bool) {
