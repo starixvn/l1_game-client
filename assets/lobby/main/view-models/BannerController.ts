@@ -16,7 +16,7 @@ export default class BannerController extends cc.Component {
     @property
     intervalChangeImage = 4;
 
-    private readonly dragThreshold = 0.25;
+    protected dragThreshold = 0.25;
     private currentIndex = 0;
     private touchOffset = cc.v2(0, 0);
     private started = false;
