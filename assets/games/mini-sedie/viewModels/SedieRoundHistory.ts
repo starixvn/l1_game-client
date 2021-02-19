@@ -1,6 +1,6 @@
 import GameBase from "../../_base/GameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import GameLogControlBase from "../../_base/GameLogControlBase";
+import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
 import SedieRoundHistoryItem from "./SedieRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;

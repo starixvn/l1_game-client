@@ -1,16 +1,15 @@
 import * as _ from "lodash";
-
 import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
-import GameRoomBase from "../../../_base/GameRoomBase";
 import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
 import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
+import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import Baccarat from "../Baccarat";
 import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from "../BaccaratDragonScoreBoard";
 import { TotalHistoryData } from "../TotalHistoryBoard";
 import BaccaratFinishHandler from "./BaccaratFinishHandler";
 
 export default class BaccaratLogsHandler extends GameBaseLogsHandler {
-    constructor(protected readonly main: GameRoomBase) {
+    constructor(protected readonly main: WebSocketTableGameBase) {
         super(main);
     }
 

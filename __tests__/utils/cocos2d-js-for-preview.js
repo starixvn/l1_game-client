@@ -9641,7 +9641,7 @@
     var EventTarget = require("./event/event-target");
     require("../audio/CCAudioEngine");
     var debug = require("./CCDebug");
-    var renderer = require("./renderer/index.js");
+    var renderer = require("./renderer/index.js.js");
     var dynamicAtlasManager = require("../core/renderer/utils/dynamic-atlas/manager");
     var game = {
       EVENT_HIDE: "game_on_hide",
@@ -12719,7 +12719,7 @@
   71: [ (function(require, module, exports) {
     "use strict";
     var EventTarget = require("../event/event-target");
-    var textureUtil = require("../utils/texture-util");
+    var textureUtil = require("./texture-util");
     var INSET_LEFT = 0;
     var INSET_TOP = 1;
     var INSET_RIGHT = 2;
@@ -14196,7 +14196,7 @@
         default: obj
       };
     }
-    var AffineTrans = require("../utils/affine-transform");
+    var AffineTrans = require("./affine-transform");
     var renderer = require("../renderer/index");
     var RenderFlow = require("../renderer/render-flow");
     var game = require("../CCGame");
@@ -15754,7 +15754,7 @@
   } ],
   92: [ (function(require, module, exports) {
     "use strict";
-    var misc = require("../utils/misc");
+    var misc = require("./misc");
     var Component = require("./CCComponent");
     var AudioClip = require("../assets/CCAudioClip");
     var AudioSource = cc.Class({
@@ -15951,7 +15951,7 @@
   94: [ (function(require, module, exports) {
     "use strict";
     var Component = require("./CCComponent");
-    var GraySpriteState = require("../utils/gray-sprite-state");
+    var GraySpriteState = require("./gray-sprite-state");
     var Transition = cc.Enum({
       NONE: 0,
       COLOR: 1,
@@ -17818,7 +17818,7 @@
         default: obj
       };
     }
-    var misc = require("../utils/misc");
+    var misc = require("./misc");
     var Material = require("../assets/material/CCMaterial");
     var RenderComponent = require("./CCRenderComponent");
     var RenderFlow = require("../renderer/render-flow");
@@ -18111,7 +18111,7 @@
     "use strict";
     var RenderComponent = require("../components/CCRenderComponent");
     var Material = require("../assets/material/CCMaterial");
-    var textureUtil = require("../utils/texture-util");
+    var textureUtil = require("./texture-util");
     var BlendFunc = require("../../core/utils/blend-func");
     var MotionStreak = cc.Class({
       name: "cc.MotionStreak",
@@ -18664,7 +18664,7 @@
   } ],
   106: [ (function(require, module, exports) {
     "use strict";
-    var misc = require("../utils/misc");
+    var misc = require("./misc");
     var Component = require("./CCComponent");
     var Mode = cc.Enum({
       HORIZONTAL: 0,
@@ -18924,8 +18924,8 @@
     "use strict";
     var js = require("../platform/js");
     var macro = require("../platform/CCMacro");
-    var textUtils = require("../utils/text-utils");
-    var HtmlTextParser = require("../utils/html-text-parser");
+    var textUtils = require("./text-utils");
+    var HtmlTextParser = require("./html-text-parser");
     var _htmlTextParser = new HtmlTextParser();
     var HorizontalAlign = macro.TextAlignment;
     var VerticalAlign = macro.VerticalTextAlignment;
@@ -19484,7 +19484,7 @@
   } ],
   109: [ (function(require, module, exports) {
     "use strict";
-    var misc = require("../utils/misc");
+    var misc = require("./misc");
     var Component = require("./CCComponent");
     var GETTINGSHORTERFACTOR = 20;
     var Direction = cc.Enum({
@@ -20482,7 +20482,7 @@
   } ],
   111: [ (function(require, module, exports) {
     "use strict";
-    var misc = require("../utils/misc");
+    var misc = require("./misc");
     var Component = require("./CCComponent");
     var Direction = cc.Enum({
       Horizontal: 0,
@@ -20611,10 +20611,10 @@
   } ],
   112: [ (function(require, module, exports) {
     "use strict";
-    var misc = require("../utils/misc");
+    var misc = require("./misc");
     var NodeEvent = require("../CCNode").EventType;
     var RenderComponent = require("./CCRenderComponent");
-    var BlendFunc = require("../utils/blend-func");
+    var BlendFunc = require("./blend-func");
     var RenderFlow = require("../renderer/render-flow");
     var Material = require("../assets/material/CCMaterial");
     var SpriteType = cc.Enum({
@@ -20891,7 +20891,7 @@
         HorizontalAlign: HorizontalAlign
       }
     });
-    var PrefabHelper = require("../utils/prefab-helper");
+    var PrefabHelper = require("./prefab-helper");
     StudioComponent.PlaceHolder = cc.Class({
       name: "cc.StudioComponent.PlaceHolder",
       extends: cc.Component,
@@ -20928,7 +20928,7 @@
   } ],
   114: [ (function(require, module, exports) {
     "use strict";
-    var GraySpriteState = require("../utils/gray-sprite-state");
+    var GraySpriteState = require("./gray-sprite-state");
     var Toggle = cc.Class({
       name: "cc.Toggle",
       extends: require("./CCButton"),
@@ -22754,7 +22754,7 @@
   127: [ (function(require, module, exports) {
     "use strict";
     var js = cc.js;
-    var BUILTIN_CLASSID_RE = require("../utils/misc").BUILTIN_CLASSID_RE;
+    var BUILTIN_CLASSID_RE = require("./misc").BUILTIN_CLASSID_RE;
     var MissingClass = cc.Class({
       name: "cc.MissingClass",
       properties: {
@@ -25215,7 +25215,7 @@
   } ],
   149: [ (function(require, module, exports) {
     "use strict";
-    require("../utils/CCPath");
+    require("./CCPath");
     var debug = require("../CCDebug");
     var Pipeline = require("./pipeline");
     var LoadingItems = require("./loading-items");
@@ -25272,7 +25272,7 @@
   } ],
   150: [ (function(require, module, exports) {
     "use strict";
-    var pushToMap = require("../utils/misc").pushToMap;
+    var pushToMap = require("./misc").pushToMap;
     var js = require("../platform/js");
     function Entry(uuid, type) {
       this.uuid = uuid;
@@ -25538,7 +25538,7 @@
     "use strict";
     var js = require("../platform/js");
     var debug = require("../CCDebug");
-    require("../utils/CCPath");
+    require("./CCPath");
     var Pipeline = require("./pipeline");
     var PackDownloader = require("./pack-downloader");
     var downloadBinary = require("./binary-downloader");
@@ -25707,7 +25707,7 @@
   } ],
   155: [ (function(require, module, exports) {
     "use strict";
-    var textUtils = require("../utils/text-utils");
+    var textUtils = require("./text-utils");
     var _canvasContext = null;
     var _testString = "BES bswy:->@123\u4e01\u3041\u1101";
     var _fontFaces = {};
@@ -26009,7 +26009,7 @@
   158: [ (function(require, module, exports) {
     "use strict";
     var CallbacksInvoker = require("../platform/callbacks-invoker");
-    require("../utils/CCPath");
+    require("./CCPath");
     var js = require("../platform/js");
     var _qid = 0 | 998 * Math.random();
     var _queues = js.createMap(true);
@@ -26330,7 +26330,7 @@
   160: [ (function(require, module, exports) {
     "use strict";
     var Unpackers = require("./unpackers");
-    var pushToMap = require("../utils/misc").pushToMap;
+    var pushToMap = require("./misc").pushToMap;
     var PackState = {
       Invalid: 0,
       Removed: 1,
@@ -27188,7 +27188,7 @@
     var _geomUtils2 = _interopRequireDefault(_geomUtils);
     var _customProperties = require("../assets/material/custom-properties");
     var _customProperties2 = _interopRequireDefault(_customProperties);
-    var _meshUtil = require("../utils/mesh-util");
+    var _meshUtil = require("./mesh-util");
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : {
         default: obj
@@ -29064,7 +29064,7 @@
   183: [ (function(require, module, exports) {
     "use strict";
     var PTM_RATIO = require("../CCPhysicsTypes").PTM_RATIO;
-    var getWorldScale = require("../utils").getWorldScale;
+    var getWorldScale = require(".").getWorldScale;
     var PhysicsCollider = cc.Class({
       name: "cc.PhysicsCollider",
       extends: cc.Collider,
@@ -30336,7 +30336,7 @@
     var AssetTable = require("../load-pipeline/asset-table");
     var PackDownloader = require("../load-pipeline/pack-downloader");
     var AutoReleaseUtils = require("../load-pipeline/auto-release-utils");
-    var decodeUuid = require("../utils/decode-uuid");
+    var decodeUuid = require("./decode-uuid");
     var MD5Pipe = require("../load-pipeline/md5-pipe");
     var SubPackPipe = require("../load-pipeline/subpackage-pipe");
     var js = require("./js");
@@ -33761,7 +33761,7 @@
     var js = require("./js");
     var Attr = require("./attribute");
     var CCClass = require("./CCClass");
-    var misc = require("../utils/misc");
+    var misc = require("./misc");
     var Details = function Details() {
       this.uuidList = [];
       this.uuidObjList = [];
@@ -34955,7 +34955,7 @@
       appendObjectsAt: appendObjectsAt,
       copy: copy,
       indexOf: indexOf,
-      MutableForwardIterator: require("../utils/mutable-forward-iterator")
+      MutableForwardIterator: require("./mutable-forward-iterator")
     };
     function Pool(cleanupFunc, size) {
       if (void 0 === size) {
@@ -35542,7 +35542,7 @@
   229: [ (function(require, module, exports) {
     "use strict";
     exports.__esModule = true;
-    var _pool3 = require("../utils/pool");
+    var _pool3 = require("./pool");
     var _pool4 = _interopRequireDefault(_pool3);
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : {
@@ -36056,7 +36056,7 @@
     var _bmfont2 = _interopRequireDefault(_bmfont);
     var _renderData = require("../render-data");
     var _renderData2 = _interopRequireDefault(_renderData);
-    var _utils = require("../utils");
+    var _utils = require(".");
     var _utils2 = _interopRequireDefault(_utils);
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : {
@@ -36214,7 +36214,7 @@
     var _ttf2 = _interopRequireDefault(_ttf);
     var _renderData = require("../render-data");
     var _renderData2 = _interopRequireDefault(_renderData);
-    var _utils = require("../utils");
+    var _utils = require(".");
     var _utils2 = _interopRequireDefault(_utils);
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : {
@@ -36469,7 +36469,7 @@
       });
       superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
     }
-    var utils = require("../utils");
+    var utils = require(".");
     var CanvasSimpleSprite = (function(_Assembler) {
       _inherits(CanvasSimpleSprite, _Assembler);
       function CanvasSimpleSprite() {
@@ -36608,7 +36608,7 @@
       });
       superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
     }
-    var utils = require("../utils");
+    var utils = require(".");
     var CanvasSlicedSprite = (function(_CanvasSimpleSprite) {
       _inherits(CanvasSlicedSprite, _CanvasSimpleSprite);
       function CanvasSlicedSprite() {
@@ -36763,7 +36763,7 @@
       });
       superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
     }
-    var utils = require("../utils");
+    var utils = require(".");
     var CanvasTiledSprite = (function(_Assembler) {
       _inherits(CanvasTiledSprite, _Assembler);
       function CanvasTiledSprite() {
@@ -37497,7 +37497,7 @@
     var macro = require("../../../platform/CCMacro");
     var Label = require("../../../components/CCLabel");
     var Overflow = Label.Overflow;
-    var shareLabelInfo = require("../utils").shareLabelInfo;
+    var shareLabelInfo = require(".").shareLabelInfo;
     var LetterInfo = function LetterInfo() {
       this.char = "";
       this.valid = true;
@@ -38017,8 +38017,8 @@
     var Component = require("../../../components/CCComponent");
     var RenderTexture = require("../../../assets/CCRenderTexture");
     var OUTLINE_SUPPORTED = cc.js.isChildClassOf(LabelOutline, Component);
-    var getFontFamily = require("../utils").getFontFamily;
-    var shareLabelInfo = require("../utils").shareLabelInfo;
+    var getFontFamily = require(".").getFontFamily;
+    var shareLabelInfo = require(".").shareLabelInfo;
     var FontLetterDefinition = cc.BitmapFont.FontLetterDefinition;
     var FontAtlas = cc.BitmapFont.FontAtlas;
     var WHITE = cc.Color.WHITE;
@@ -38275,8 +38275,8 @@
     var LabelOutline = require("../../../components/CCLabelOutline");
     var LabelShadow = require("../../../components/CCLabelShadow");
     var Overflow = Label.Overflow;
-    var deleteFromDynamicAtlas = require("../utils").deleteFromDynamicAtlas;
-    var getFontFamily = require("../utils").getFontFamily;
+    var deleteFromDynamicAtlas = require(".").deleteFromDynamicAtlas;
+    var getFontFamily = require(".").getFontFamily;
     var MAX_SIZE = 2048;
     var _invisibleAlpha = (1 / 255).toFixed(3);
     var _context = null;
@@ -45295,7 +45295,7 @@
     var ValueType = require("./value-type");
     var js = require("../platform/js");
     var CCClass = require("../platform/CCClass");
-    var misc = require("../utils/misc");
+    var misc = require("./misc");
     function Vec2(x, y) {
       if (x && "object" === typeof x) {
         y = x.y;
@@ -45525,7 +45525,7 @@
     var ValueType = require("./value-type");
     var js = require("../platform/js");
     var CCClass = require("../platform/CCClass");
-    var misc = require("../utils/misc");
+    var misc = require("./misc");
     var v2Proto = require("./vec2").prototype;
     function Vec3(x, y, z) {
       if (x && "object" === typeof x) {
@@ -45732,7 +45732,7 @@
     var _CCClass = require("../platform/CCClass");
     var _CCClass2 = _interopRequireDefault(_CCClass);
     var _vmath = require("../vmath");
-    var _misc = require("../utils/misc");
+    var _misc = require("./misc");
     function _interopRequireDefault(obj) {
       return obj && obj.__esModule ? obj : {
         default: obj

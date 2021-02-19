@@ -1,6 +1,6 @@
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 
-export class VipSedieWarConfigs implements GameBaseConfigs {
+export class VipSedieWarConfigs implements GameConfigBase {
     minBetTime = 1;
     fullTime = 54;
     betTime = 45;

@@ -1,6 +1,4 @@
-import * as _ from "lodash";
-
-import SedieFinishHandler from "../../../xoc-xoc/view-models/handlers/SedieFinishHandler";
+import SedieFinishHandler from "../../../sedie/view-models/handlers/SedieFinishHandler";
 import VipSedieWar from "../VipSedieWar";
 
 export default class VipSedieWarFinishHandler extends SedieFinishHandler {

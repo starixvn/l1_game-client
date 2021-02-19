@@ -1,6 +1,6 @@
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 
-export class KenoConfigs implements GameBaseConfigs {
+export class KenoConfigs implements GameConfigBase {
     minBetTime = 1;
     fullTime = 39;
     betTime = 30;

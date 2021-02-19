@@ -1,10 +1,10 @@
-import GameRoomBase from "../../../_base/GameRoomBase";
 import BaccaratLogsHandler from "../../../baccarat/view-models/data-handlers/BaccaratLogsHandler";
+import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import VipBaccarat from "../VipBaccarat";
 import VipBaccaratFinishHandler from "./VipBaccaratFinishHandler";
 
 export default class VipBaccaratLogsHandler extends BaccaratLogsHandler {
-    constructor(protected readonly main: GameRoomBase) {
+    constructor(protected readonly main: WebSocketTableGameBase) {
         super(main);
     }
 

@@ -6,8 +6,6 @@ import ProcessingWarning from "../../common/processing-warning/view-models/Proce
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
-import GameAudios from "./GameAudios";
-import { GameBaseConfigs } from "./GameBaseConfig";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "./handlers/GameBaseConfigsHandler";
@@ -19,6 +17,8 @@ import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
 import BetItem from "./view-models/BetItem";
+import GameAudios from "./view-models/GameAudios";
+import { GameConfigBase } from "./view-models/GameConfigBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -104,7 +104,7 @@ export default class GameBase extends cc.Component {
     }
     public waitingProcessing = false;
     public currentTimeRemaining: number;
-    public config: GameBaseConfigs;
+    public config: GameConfigBase;
     public gameName: string;
     public currentDataLogs = [];
     public roundId = -1;
@@ -129,7 +129,7 @@ export default class GameBase extends cc.Component {
     private readonly dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
 
-    init(gameName: string, config: GameBaseConfigs, miniPanel: MiniPanel) {
+    init(gameName: string, config: GameConfigBase, miniPanel: MiniPanel) {
         this.gameName = gameName;
         this.config = config;
         this.currentMiniPanel = miniPanel;

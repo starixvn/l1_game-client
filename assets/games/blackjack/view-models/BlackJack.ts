@@ -13,8 +13,8 @@ import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
-import RoomPlayer from "../../_base/RoomPlayer";
-import SocketIOGameBase from "../../_base/SocketIOGameBase";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
+import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackGuide from "./BlackJackGuide";
 import BlackJackHistory from "./BlackJackHistory";
 import BlackJackUtils from "./BlackJackUtils";
@@ -28,7 +28,7 @@ import HandPlace from "./HandPlace";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BlackJack extends SocketIOGameBase {
+export default class BlackJack extends SocketIOTableGameBase {
     @property({ type: cc.Node, visible: false, override: true })
     timeWaitNode: cc.Node = null;
 

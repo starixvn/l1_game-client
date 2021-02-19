@@ -1,7 +1,7 @@
 import { numberPad, numberWithCommas } from "./../../../common/helpers/NumberHelper";
 
-var BauCuaLinhVat = require("BauCuaMascot");
-var BCConstants = require("BCConstants");
+const BauCuaLinhVat = require("BauCuaMascot");
+const BCConstants = require("BCConstants");
 
 cc.Class({
     extends: cc.Component,

@@ -1,10 +1,9 @@
 import * as _ from "lodash";
-
-import GameRoomBase from "../GameRoomBase";
+import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import GameBaseBetHandler from "./GameBaseBetHandler";
 
 export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
-    constructor(protected readonly main: GameRoomBase) {
+    constructor(protected readonly main: WebSocketTableGameBase) {
         super(main);
     }
 

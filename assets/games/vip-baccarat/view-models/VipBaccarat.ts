@@ -2,7 +2,7 @@ import GameUtils from "../../../common/GameUtils";
 import { games } from "../../../configs/SabaConfigs";
 import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
 import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
-import SocketIOGameBase from "../../_base/SocketIOGameBase";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
 import VipBaccaratBetHandler from "./data-handlers/VipBaccaratBetHandler";
@@ -15,7 +15,7 @@ import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class VipBaccarat extends SocketIOGameBase {
+export default class VipBaccarat extends SocketIOTableGameBase {
     @property(VipBaccaratCards)
     playerCards: VipBaccaratCards = null;
 

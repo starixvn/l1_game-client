@@ -1,11 +1,9 @@
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 
-
-export class RouletteConfigs implements GameBaseConfigs {
+export class RouletteConfigs implements GameConfigBase {
     minBetTime = 1;
     fullTime = 59;
     betTime = 45;
     stopBetTime = 5;
     waitTime = 15;
 }
-

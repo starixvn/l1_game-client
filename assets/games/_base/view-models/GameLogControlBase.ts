@@ -1,4 +1,4 @@
-import BlinkNode from "../../common/BlinkNode";
+import BlinkNode from "../../../common/BlinkNode";
 
 const { ccclass, property } = cc._decorator;
 

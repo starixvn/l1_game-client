@@ -1,8 +1,8 @@
 import GameUtils from "../../../common/GameUtils";
 import { games } from "../../../configs/SabaConfigs";
-import GameRoomBase from "../../_base/GameRoomBase";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
+import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 import BaccaratCards from "./BaccaratCards";
 import { BaccaratConfigs } from "./BaccaratConfigs";
 import BaccaratHistory from "./BaccaratHistory";
@@ -13,7 +13,7 @@ import TotalHistoryBoard from "./TotalHistoryBoard";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class Baccarat extends GameRoomBase {
+export default class Baccarat extends WebSocketTableGameBase {
     @property(BaccaratCards)
     playerCards: BaccaratCards = null;
 

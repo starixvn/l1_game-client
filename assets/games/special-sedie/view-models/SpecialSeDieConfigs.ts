@@ -1,9 +1,9 @@
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 
-export class SpecialSeDieConfigs implements GameBaseConfigs {
-  minBetTime = 1;
-  fullTime = 39;
-  betTime = 30;
-  stopBetTime = 5;
-  waitTime = 5;
+export class SpecialSeDieConfigs implements GameConfigBase {
+    minBetTime = 1;
+    fullTime = 39;
+    betTime = 30;
+    stopBetTime = 5;
+    waitTime = 5;
 }

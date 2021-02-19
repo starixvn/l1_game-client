@@ -2,11 +2,11 @@ import * as _ from "lodash";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import BaccaratHistoryItem from "../../baccarat/view-models/BaccaratHistoryItem";
-import SocketIOGameBaseHistory from "../../_base/SocketIOGameBaseHistory";
+import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class VipBaccaratHistory extends SocketIOGameBaseHistory {
+export default class VipBaccaratHistory extends SocketIOGameHistoryBase {
     bindItemRowData(betLog, index) {
         const historyItemPrefab = cc.instantiate(this.itemPrefab);
         const item = historyItemPrefab.getComponent(BaccaratHistoryItem);

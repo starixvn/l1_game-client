@@ -1,6 +1,6 @@
 import BlinkNode from "../../../common/BlinkNode";
-import GameLogControlBase from "../GameLogControlBase";
 import DragonScoreBoardItem from "./DragonScoreBoardItem";
+import GameLogControlBase from "./GameLogControlBase";
 
 const { ccclass, property } = cc._decorator;
 

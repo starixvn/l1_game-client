@@ -2,8 +2,8 @@ import DropDownList from "../../../../common/drop-down-list/view-models/DropDown
 import DropDownOption from "../../../../common/drop-down-list/view-models/DropDownOption";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
-import GameHistoryBase from "../../../_base/GameHistoryBase";
 import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
+import GameHistoryBase from "../../../_base/view-models/GameHistoryBase";
 import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
 import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
 

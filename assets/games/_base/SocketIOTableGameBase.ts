@@ -1,10 +1,10 @@
 import * as authManager from "../../common/auth/AuthManager";
-import GameRoomBase from "./GameRoomBase";
+import WebSocketTableGameBase from "./WebSocketTableGameBase";
 
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class SocketIOGameBase extends GameRoomBase {
+export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     protected socket: SocketIOClient.Socket;
 
     onLoad() {

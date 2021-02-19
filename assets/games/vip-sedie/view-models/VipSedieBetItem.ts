@@ -1,4 +1,4 @@
-import SedieBetItem from "../../xoc-xoc/view-models/SedieBetItem";
+import SedieBetItem from "../../sedie/view-models/SedieBetItem";
 
 const { ccclass } = cc._decorator;
 

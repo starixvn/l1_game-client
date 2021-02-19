@@ -1,10 +1,9 @@
-import * as _ from 'lodash';
-
-import { getLowercaseObjectKeys } from '../../../common/helpers/ObjectHelper';
-import GameBase from '../GameBase';
-import GameRoomBase from '../GameRoomBase';
-import RoomPlayer from '../RoomPlayer';
-import DataHandler from './DataHandler';
+import * as _ from "lodash";
+import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
+import GameBase from "../GameBase";
+import RoomPlayer from "../view-models/RoomPlayer";
+import WebSocketTableGameBase from "../WebSocketTableGameBase";
+import DataHandler from "./DataHandler";
 
 export default class GameBaseBetHandler implements DataHandler {
     protected playerChips = [];
@@ -34,7 +33,7 @@ export default class GameBaseBetHandler implements DataHandler {
     }
 
     handleChipInMainRoom(data) {
-        const mainRoomGame = this.main as GameRoomBase;
+        const mainRoomGame = this.main as WebSocketTableGameBase;
         if (mainRoomGame && mainRoomGame.enablePlaceChips) {
             if (data.ownChip) {
                 this.placeOwnChip(data.ownChip);
@@ -79,7 +78,7 @@ export default class GameBaseBetHandler implements DataHandler {
     }
 
     placePlayerChip(data: any) {
-        const gameRoomMain = this.main as GameRoomBase;
+        const gameRoomMain = this.main as WebSocketTableGameBase;
 
         if (gameRoomMain) {
             const betOption = data.box.toLowerCase();
@@ -107,7 +106,7 @@ export default class GameBaseBetHandler implements DataHandler {
     }
 
     updateOtherDataStorage(data) {
-        const gameRoomMain = this.main as GameRoomBase;
+        const gameRoomMain = this.main as WebSocketTableGameBase;
         const player = gameRoomMain.playerHandler.otherPlayers[data.playerId];
 
         if (player) {

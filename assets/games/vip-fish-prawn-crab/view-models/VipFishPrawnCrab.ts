@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import GameUtils from "../../../common/GameUtils";
 import { games } from "../../../configs/SabaConfigs";
-import SocketIOGameBase from "../../_base/SocketIOGameBase";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
 import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
 import VipFishPrawnCrabLogsHandler from "./handlers/VipFishPrawnCrabLogsHandler";
@@ -17,7 +17,7 @@ import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class VipFishPrawnCrab extends SocketIOGameBase {
+export default class VipFishPrawnCrab extends SocketIOTableGameBase {
     public readonly shakeThePlateTime = 33;
 
     @property(cc.Prefab)

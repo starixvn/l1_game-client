@@ -1,8 +1,8 @@
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import { GameState } from "../../_base/GameBase";
-import GameMiniBase from "../../_base/GameMiniBase";
 import KenoNumber from "../../keno-pro/view-models/KenoNumber";
 import RoundHistory from "../../keno-pro/view-models/RoundHistory";
+import { GameState } from "../../_base/GameBase";
+import WebSocketMiniGameBase from "../../_base/WebSocketMiniGameBase";
 import BetBoard, { BetInfo } from "./../../../common/bet-board/view-models/BetBoard";
 import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
@@ -18,7 +18,7 @@ import MiniKenoConfig from "./MiniKenoConfig";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniKeno extends GameMiniBase {
+export default class MiniKeno extends WebSocketMiniGameBase {
     @property({ type: cc.Enum(KenoType) })
     kenoType: KenoType = KenoType.Max;
 

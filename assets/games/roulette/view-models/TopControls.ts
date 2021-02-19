@@ -1,4 +1,4 @@
-import RoomPlayer from "../../_base/RoomPlayer";
+import RoomPlayer from "../../_base/view-models/RoomPlayer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,6 +11,6 @@ export default class TopControls extends cc.Component {
     otherPlayers: cc.Node = null;
 
     onLoad() {
-        this.players.forEach(player => player.node.active = false);
+        this.players.forEach((player) => (player.node.active = false));
     }
 }

@@ -1,7 +1,6 @@
 import * as _ from "lodash";
-
-import GameRoomBase from "../GameRoomBase";
-import RoomPlayer, { PlayerData } from "../RoomPlayer";
+import RoomPlayer from "../view-models/RoomPlayer";
+import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
 
 export interface IGameBasePlayerHandler extends DataHandler {
@@ -10,7 +9,7 @@ export interface IGameBasePlayerHandler extends DataHandler {
 export class GameBasePlayerHandler implements IGameBasePlayerHandler {
     otherPlayers = {};
 
-    constructor(protected readonly main: GameRoomBase) {}
+    constructor(protected readonly main: WebSocketTableGameBase) {}
 
     handle(data: any): boolean {
         if (data.player) {

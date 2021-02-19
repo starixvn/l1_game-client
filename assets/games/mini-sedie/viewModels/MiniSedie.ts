@@ -1,5 +1,5 @@
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import GameMiniBase from "../../_base/GameMiniBase";
+import WebSocketMiniGameBase from "../../_base/WebSocketMiniGameBase";
 import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
 import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
 import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
@@ -10,7 +10,7 @@ import SedieRoundHistory from "./SedieRoundHistory";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniSedie extends GameMiniBase {
+export default class MiniSedie extends WebSocketMiniGameBase {
     @property({ type: cc.Sprite })
     dots: cc.Sprite[] = [];
 

@@ -1,5 +1,5 @@
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
-import GameHistoryBase from "./../../_base/GameHistoryBase";
+import GameHistoryBase from "../../_base/view-models/GameHistoryBase";
 import MiniSedieHistoryItem from "./MiniSedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;

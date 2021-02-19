@@ -1,12 +1,11 @@
-import * as _ from 'lodash';
-
-import GameUtils from '../../../common/GameUtils';
-import { getLowercaseObjectKeys } from '../../../common/helpers/ObjectHelper';
-import BetItem from '../BetItem';
-import GameBase from '../GameBase';
-import GameRoomBase from '../GameRoomBase';
-import RoomPlayer from '../RoomPlayer';
-import DataHandler from './DataHandler';
+import * as _ from "lodash";
+import GameUtils from "../../../common/GameUtils";
+import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
+import BetItem from "../BetItem";
+import GameBase from "../GameBase";
+import RoomPlayer from "../view-models/RoomPlayer";
+import WebSocketTableGameBase from "../WebSocketTableGameBase";
+import DataHandler from "./DataHandler";
 
 export default class GameBaseFinishHandler implements DataHandler {
     protected readonly payChipFlyTime = 1.2;
@@ -21,7 +20,7 @@ export default class GameBaseFinishHandler implements DataHandler {
             this.main.finishShowResult = false;
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
             this.setNewGameRound(data);
-            const mainRoomGame = this.main as GameRoomBase;
+            const mainRoomGame = this.main as WebSocketTableGameBase;
             if (mainRoomGame && mainRoomGame.playerHandler) {
                 this.updateOtherPlayerBalance(data.finish.winningPlayers, mainRoomGame);
             }
@@ -46,7 +45,7 @@ export default class GameBaseFinishHandler implements DataHandler {
     handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {}
 
     payChips(settlementResult: any, winningPlayers: any) {
-        const mainRoomGame = this.main as GameRoomBase;
+        const mainRoomGame = this.main as WebSocketTableGameBase;
 
         if (!mainRoomGame || !settlementResult || !mainRoomGame.enablePlaceChips) {
             return;
@@ -77,19 +76,19 @@ export default class GameBaseFinishHandler implements DataHandler {
             );
     }
 
-    dealerGetChips(mainRoomGame: GameRoomBase, lostBetItems: BetItem[]) {
+    dealerGetChips(mainRoomGame: WebSocketTableGameBase, lostBetItems: BetItem[]) {
         _.forEach(lostBetItems, (item) => {
             this.main.betChips.moveChips(item.chipNode, mainRoomGame.dealerChipBox);
         });
     }
 
-    dealerPayChips(mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {
+    dealerPayChips(mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[]) {
         _.forEach(winBetItems, (item) => {
             this.main.betChips.payChipsToWinningBetItem(item.chipNode, mainRoomGame.dealerChipBox);
         });
     }
 
-    payChipsToLoginPlayer(mainRoomGame: GameRoomBase, statusData, winBetItems: BetItem[], isOtherPlayers = true) {
+    payChipsToLoginPlayer(mainRoomGame: WebSocketTableGameBase, statusData, winBetItems: BetItem[], isOtherPlayers = true) {
         if (!statusData || !statusData.win) {
             return;
         }
@@ -112,7 +111,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         });
     }
 
-    moveChipWithRandomAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: GameRoomBase) {
+    moveChipWithRandomAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) {
         _.forEach(winBetItems, (item) => {
             if (betItems[item.node.name.toLowerCase()]) {
                 this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node, this.payChipFlyTime);
@@ -120,7 +119,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         });
     }
 
-    moveChipWithAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: GameRoomBase) {
+    moveChipWithAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) {
         const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
 
         _.forEach(winBetItems, (item) => {
@@ -130,7 +129,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         });
     }
 
-    updateOtherPlayerBalance(winningPlayers: any, main: GameRoomBase) {
+    updateOtherPlayerBalance(winningPlayers: any, main: WebSocketTableGameBase) {
         if (!winningPlayers) {
             return;
         }
@@ -144,7 +143,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         });
     }
 
-    payChipsToInGamePlayers(winningPlayers: any, mainRoomGame: GameRoomBase, winBetItems: BetItem[]) {
+    payChipsToInGamePlayers(winningPlayers: any, mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[]) {
         if (!winningPlayers) {
             return;
         }
@@ -171,7 +170,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         });
     }
 
-    payChipsToOtherPlayers(roomGame: GameRoomBase, winBetItems: BetItem[]) {
+    payChipsToOtherPlayers(roomGame: WebSocketTableGameBase, winBetItems: BetItem[]) {
         let hasChip = false;
 
         _.forEach(winBetItems, (item) => {
@@ -184,7 +183,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         hasChip && this.main.betChips.playMultiChipsSound();
     }
 
-    playWinningEffect(mainRoomGame: GameRoomBase, playerNode: cc.Node, duration = this.WinningAnimationDuration) {
+    playWinningEffect(mainRoomGame: WebSocketTableGameBase, playerNode: cc.Node, duration = this.WinningAnimationDuration) {
         const winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
         winningEffect.name = "winningEffect";
         playerNode.addChild(winningEffect);

@@ -6,7 +6,7 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import HoverItemBase from "../../common/HoverItemBase";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { GameState } from "../_base/GameBase";
-import SocketIOGameBase from "../_base/SocketIOGameBase";
+import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import BonusDialog from "./BonusDialog";
@@ -39,7 +39,7 @@ enum SlotGameSound {
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SlotGameBase extends SocketIOGameBase {
+export default class SlotGameBase extends SocketIOTableGameBase {
     @property(SlotBoard)
     slotBoard: SlotBoard = null;
 

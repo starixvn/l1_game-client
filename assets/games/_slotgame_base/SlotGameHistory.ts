@@ -1,4 +1,4 @@
-import SocketIOGameBaseHistory from "../_base/SocketIOGameBaseHistory";
+import SocketIOGameHistoryBase from "../_base/view-models/SocketIOGameHistoryBase";
 import { getStringDateByTime } from "./../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "./../../common/helpers/NumberHelper";
 import SlotGameHistoryItem from "./SlotGameHistoryItem";
@@ -6,7 +6,7 @@ import SlotGameHistoryItem from "./SlotGameHistoryItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SlotGameHistory extends SocketIOGameBaseHistory {
+export default class SlotGameHistory extends SocketIOGameHistoryBase {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 

@@ -1,6 +1,6 @@
 import { numberPad } from "../../../common/helpers/NumberHelper";
 import GameBase, { GameState } from "../GameBase";
-import GameRoomBase from "../GameRoomBase";
+import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
 
 export interface IGameBaseTimeHandler extends DataHandler {
@@ -125,7 +125,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.node.activeInHierarchy && this.main.gameAudios && this.main.gameAudios.playStartGameAudio();
         this.main.resetDataAndUI();
 
-        const mainRoomGame = this.main as GameRoomBase;
+        const mainRoomGame = this.main as WebSocketTableGameBase;
 
         if (mainRoomGame && mainRoomGame.playerHandler) {
             mainRoomGame.playerHandler.updateTablePlayers();

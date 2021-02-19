@@ -1,8 +1,8 @@
 import { getOnlyNumberInString, numberTo, numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import UmWarning from "../../../../common/um-warning/UmWarning";
-import GameAudios from "../../../_base/GameAudios";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import SocketIOMiniGameBase from "../../../_base/SocketIOMiniGameBase";
+import GameAudios from "../../../_base/view-models/GameAudios";
 import AnimatedTime from "./../../../../common/animated-time/view-models/AnimatedTime";
 import BetBoard, { BetInfo } from "./../../../../common/bet-board/view-models/BetBoard";
 import ProcessingWarning from "./../../../../common/processing-warning/view-models/ProcessingWarning";

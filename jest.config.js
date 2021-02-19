@@ -2,7 +2,7 @@ module.exports = {
     preset: "ts-jest",
     collectCoverageFrom: ["<rootDir>/assets/**/*.ts"],
     coverageDirectory: "coverage",
-    setupFiles: ["jest-canvas-mock", "<rootDir>/test/utils/cocos2d-js-for-preview.js"],
+    setupFiles: ["jest-canvas-mock", "<rootDir>/__tests__/utils/cocos2d-js-for-preview.js"],
     testEnvironment: "jsdom",
     testPathIgnorePatterns: ["/lib/", "/node_modules/"],
     moduleFileExtensions: ["ts", "js"],

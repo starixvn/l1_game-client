@@ -6,14 +6,14 @@ import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
-import { GameBaseConfigs } from "./GameBaseConfig";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
-import RoomPlayer from "./RoomPlayer";
+import { GameConfigBase } from "./view-models/GameConfigBase";
+import RoomPlayer from "./view-models/RoomPlayer";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class GameRoomBase extends GameBase {
+export default class WebSocketTableGameBase extends GameBase {
     @property({ type: UmWarning, visible: false, override: true })
     umNotice: UmWarning = null;
 
@@ -80,7 +80,7 @@ export default class GameRoomBase extends GameBase {
         cc.RedT.inGame = null;
     }
 
-    init(gameName: string, gameConfigs: GameBaseConfigs, miniPanel: MiniPanel = null, miniPanelScale = 1, gameId = 0) {
+    init(gameName: string, gameConfigs: GameConfigBase, miniPanel: MiniPanel = null, miniPanelScale = 1, gameId = 0) {
         super.init(gameName, gameConfigs, miniPanel);
         this.miniPanelScale = miniPanelScale;
         this._gameId = gameId;

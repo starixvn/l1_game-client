@@ -1,4 +1,4 @@
-import SedieRoundHistory from '../../mini-sedie/viewModels/SedieRoundHistory';
+import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 

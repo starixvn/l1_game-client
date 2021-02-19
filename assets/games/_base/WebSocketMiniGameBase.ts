@@ -3,7 +3,7 @@ import GameBase from "./GameBase";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class GameMiniBase extends GameBase {
+export default class WebSocketMiniGameBase extends GameBase {
     @property(cc.Node)
     background: cc.Node = null;
 

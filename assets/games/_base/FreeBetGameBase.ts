@@ -1,10 +1,10 @@
-import { numberWithCommas } from '../../common/helpers/NumberHelper';
-import SocketIOGameBase from './SocketIOGameBase';
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
+import SocketIOTableGameBase from "./SocketIOTableGameBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class FreeBetGameBase extends SocketIOGameBase {
+export default class FreeBetGameBase extends SocketIOTableGameBase {
     @property(cc.Label)
     userSCoin: cc.Label = null;
 

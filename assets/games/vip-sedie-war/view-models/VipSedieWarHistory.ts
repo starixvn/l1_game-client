@@ -1,4 +1,4 @@
-import SedieHistory from "../../xoc-xoc/view-models/SedieHistory";
+import SedieHistory from "../../sedie/view-models/SedieHistory";
 import VipSedieWarHistoryItem from "./VipSedieWarHistoryItem";
 
 const { ccclass } = cc._decorator;

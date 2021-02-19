@@ -1,7 +1,7 @@
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 import { KenoType } from "./KenoUtils";
 
-export default class MiniKenoConfig implements GameBaseConfigs {
+export default class MiniKenoConfig implements GameConfigBase {
     minBetTime = 1;
     fullTime = 59;
     betTime = 50;

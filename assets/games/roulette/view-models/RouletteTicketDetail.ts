@@ -1,5 +1,5 @@
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
-import GameTicketDetailBase from "../../_base/GameTicketDetailBase";
+import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import RouletteTicketDetailIGroup from "./RouletteTicketDetailIGroup";
 
 const { ccclass, property } = cc._decorator;

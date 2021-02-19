@@ -7,9 +7,9 @@ import NewCard from "../../../common/new-card/view-models/NewCard";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import GameAudios from "../../_base/GameAudios";
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
-import GameLogControlBase from "../../_base/GameLogControlBase";
 import DataHandler from "../../_base/handlers/DataHandler";
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
+import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
 import RHBetDataHandler from "./handlers/RHBetDataHandler";
 import RHBetStatusDataHandler from "./handlers/RHBetStatusDataHandler";
 import RHFinishDataHandler from "./handlers/RHFinishDataHandler";
@@ -113,7 +113,7 @@ export default class RongHo extends cc.Component {
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
-    public config: GameBaseConfigs;
+    public config: GameConfigBase;
     public currentTimeRemaining: number;
     public disabledGame = false;
     public waitingCuoc = false;
@@ -136,7 +136,7 @@ export default class RongHo extends cc.Component {
     private frontCards: NewCard[] = [];
 
     //#region Public Methods
-    public init(miniPanel: MiniPanel, name: string, config: GameBaseConfigs) {
+    public init(miniPanel: MiniPanel, name: string, config: GameConfigBase) {
         this.miniPanel = miniPanel; // MiniPanel
         this.gameName = name;
         this.config = config;

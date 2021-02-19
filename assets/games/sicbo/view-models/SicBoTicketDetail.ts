@@ -1,4 +1,4 @@
-import GameTicketDetailBase from "../../_base/GameTicketDetailBase";
+import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import SicBoTicketDetailItem from "./SicBoTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;

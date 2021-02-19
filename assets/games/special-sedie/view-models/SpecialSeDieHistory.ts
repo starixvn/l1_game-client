@@ -1,5 +1,5 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import SocketIOGameBaseHistory from "../../_base/SocketIOGameBaseHistory";
+import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import GameUtils from "./../../../common/GameUtils";
 import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
 import SpecialSeDieHistoryItem from "./SpecialSeDieHistoryItem";
@@ -7,7 +7,7 @@ import SpecialSeDieHistoryItem from "./SpecialSeDieHistoryItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SpecialSeDieHistory extends SocketIOGameBaseHistory {
+export default class SpecialSeDieHistory extends SocketIOGameHistoryBase {
     @property(cc.SpriteFrame)
     iconRed: cc.SpriteFrame = null;
 

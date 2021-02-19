@@ -1,13 +1,13 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard from "../../../common/new-card/view-models/NewCard";
-import SocketIOGameBaseHistory from "../../_base/SocketIOGameBaseHistory";
+import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import BlackJackHistoryItem from "./BlackJackHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BlackJackHistory extends SocketIOGameBaseHistory {
+export default class BlackJackHistory extends SocketIOGameHistoryBase {
     @property(cc.Prefab)
     cardPrefab: cc.Prefab = null;
 

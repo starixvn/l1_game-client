@@ -1,7 +1,7 @@
-import Keno from "./Keno";
-import GameLogControlBase from "../../_base/GameLogControlBase";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import GameBase from "../../_base/GameBase";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
+import Keno from "./Keno";
 
 const { ccclass, property } = cc._decorator;
 interface StatisticData {

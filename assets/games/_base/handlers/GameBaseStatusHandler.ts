@@ -1,5 +1,5 @@
 import GameBase from "../GameBase";
-import GameRoomBase from "../GameRoomBase";
+import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
 
 export interface IGameBaseStatusHandler extends DataHandler {
@@ -27,7 +27,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
     }
 
     status(win: boolean, bet: number): void {
-        const mainRoomGame = this.main as GameRoomBase;
+        const mainRoomGame = this.main as WebSocketTableGameBase;
         if (mainRoomGame && mainRoomGame.enablePlaceChips) {
             return;
         }

@@ -1,6 +1,6 @@
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 
-export class RongHoConfigs implements GameBaseConfigs {
+export class RongHoConfigs implements GameConfigBase {
     minBetTime: number;
     minBet: number;
     maxBet: number;

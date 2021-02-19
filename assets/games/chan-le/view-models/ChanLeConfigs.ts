@@ -1,6 +1,6 @@
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 
-export interface CLGameConfigs extends GameBaseConfigs {
+export interface CLGameConfigs extends GameConfigBase {
     readonly nanTime: number;
     readonly displayResultTime: number;
     readonly presetBetSettingKey: string;

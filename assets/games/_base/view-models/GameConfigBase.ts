@@ -1,4 +1,4 @@
-export interface GameBaseConfigs {
+export interface GameConfigBase {
     readonly fullTime: number;
     readonly betTime: number;
     readonly waitTime: number;

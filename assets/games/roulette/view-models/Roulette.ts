@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { games } from "../../../configs/SabaConfigs";
-import GameRoomBase from "../../_base/GameRoomBase";
+import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 import BottomControls from "./BottomControls";
 import RouletteBetHandler from "./handlers/RouletteBetHandler";
 import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
@@ -38,7 +38,7 @@ export enum RouletteBetType {
 }
 
 @ccclass
-export default class Roulette extends GameRoomBase {
+export default class Roulette extends WebSocketTableGameBase {
     @property(cc.Node)
     mainContainer: cc.Node = null;
 

@@ -1,4 +1,4 @@
-import SedieTimeHandler from "../../../xoc-xoc/view-models/handlers/SedieTimeHandler";
+import SedieTimeHandler from "../../../sedie/view-models/handlers/SedieTimeHandler";
 import VipSedie from "../VipSedie";
 
 export default class VipSedieTimeHandler extends SedieTimeHandler {
@@ -8,7 +8,7 @@ export default class VipSedieTimeHandler extends SedieTimeHandler {
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        this.main.betItems.forEach(item => item.setHighlight(false));
+        this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 
     handleStartingNewGameRound() {

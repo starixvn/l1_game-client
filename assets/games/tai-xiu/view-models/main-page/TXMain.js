@@ -1,10 +1,11 @@
 import { getOnlyNumberInString, numberPad, numberTo, numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import UmWarning from "../../../../common/um-warning/UmWarning";
 
-var BrowserUtil = require("BrowserUtil"),
+const BrowserUtil = require("BrowserUtil"),
     TXScale = require("TXScale"),
     Constants = require("TXConstants"),
     NoticeUtil = require("NoticeUtil");
+
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -270,7 +271,7 @@ cc.Class({
         }
         this.AnimatedTime.node.active = false;
         this.waitingBetResponse = false;
-        var self = this;
+        let self = this;
         this.ttOffset = null;
         this.initBetBoard();
 
@@ -464,7 +465,7 @@ cc.Class({
         );
     },
     onChangerInput: function () {
-        var value = numberWithCommas(getOnlyNumberInString(this.input.string));
+        let value = numberWithCommas(getOnlyNumberInString(this.input.string));
         this.input.string = value;
     },
     setPhienLabel: function (phien) {
@@ -475,7 +476,7 @@ cc.Class({
         this.labelPhien.string = `#${phien}`;
     },
     setDice: function (bool = false, sprite = true) {
-        var self = this;
+        let self = this;
         Promise.all(
             this.dice.map(function (dice, index) {
                 if (sprite) {
@@ -761,7 +762,7 @@ cc.Class({
     },
     dataLogs: function () {
         if (!!cc.RedT.setting.taixiu.logs.length) {
-            var self = this;
+            let self = this;
             //Main log
             Promise.all(
                 this.dotLogs.map(function (dot, index) {

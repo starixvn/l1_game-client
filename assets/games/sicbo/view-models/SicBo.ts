@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { games } from "../../../configs/SabaConfigs";
-import SocketIOGameBase from "../../_base/SocketIOGameBase";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BetItem from "../../_base/view-models/BetItem";
 import SicBoBetHandler from "./handlers/SicBoBetHandler";
 import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
@@ -31,7 +31,7 @@ export enum SicBoBetType {
 }
 
 @ccclass
-export default class SicBo extends SocketIOGameBase {
+export default class SicBo extends SocketIOTableGameBase {
     public get shakeThePlateTime() {
         return this.config.betTime + 3;
     }

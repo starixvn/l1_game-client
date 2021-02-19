@@ -1,6 +1,6 @@
-import { numberWithCommas } from "../../common/helpers/NumberHelper";
-import { getStringDateByTime } from "./../../common/helpers/DateTimeHelper";
-import PaginationCommon from "./../../common/helpers/Pagination/PaginationCommon";
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 
 const { ccclass, property } = cc._decorator;
 

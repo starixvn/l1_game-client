@@ -1,5 +1,6 @@
-import GameLogControlBase from '../../_base/GameLogControlBase';
-import SicBo, { SicBoBetType } from './SicBo';
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
+import SicBo, { SicBoBetType } from "./SicBo";
 
 const { ccclass, property } = cc._decorator;
 

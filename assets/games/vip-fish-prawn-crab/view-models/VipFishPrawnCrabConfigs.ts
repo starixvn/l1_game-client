@@ -1,6 +1,6 @@
-import { GameBaseConfigs } from "../../_base/GameBaseConfig";
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 
-export default class VipFishPrawnCrabConfigs implements GameBaseConfigs {
+export default class VipFishPrawnCrabConfigs implements GameConfigBase {
     minBetTime = 1;
     fullTime = 42;
     betTime = 30;

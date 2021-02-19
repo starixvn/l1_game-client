@@ -1,6 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import { games } from "../../../configs/SabaConfigs";
-import GameRoomBase from "../../_base/GameRoomBase";
+import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 import KenoFinishHandler from "./handlers/KenoFinishHandler";
 import KenoLogsHandler from "./handlers/KenoLogsHandler";
 import KenoTimeHandler from "./handlers/KenoTimeHandler";
@@ -12,7 +12,7 @@ import RoundHistory from "./RoundHistory";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Keno extends GameRoomBase {
+export default class Keno extends WebSocketTableGameBase {
     @property(KenoRoundResult)
     roundResult: KenoRoundResult = null;
 
