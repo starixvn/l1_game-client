@@ -1,20 +1,19 @@
-import * as _ from 'lodash';
-
-import GameUtils from '../../../common/GameUtils';
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import { games } from '../../../SabaConfigs';
-import GameRoomBase from '../../_base/GameRoomBase';
-import BottomControls from './BottomControls';
-import RouletteBetHandler from './handlers/RouletteBetHandler';
-import RouletteFinishHandler from './handlers/RouletteFinishHandler';
-import RouletteLogsHandler from './handlers/RouletteLogsHandler';
-import RouletteTimeHandler from './handlers/RouletteTimeHandler';
-import LeftControls from './LeftControls';
-import { RouletteConfigs } from './RouletteConfigs';
-import RouletteMain from './RouletteMain';
-import RouletteMiniRoundResult from './RouletteMiniRoundResult';
-import RouletteUtils from './RouletteUtils';
-import TopControls from './TopControls';
+import * as _ from "lodash";
+import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { games } from "../../../configs/SabaConfigs";
+import GameRoomBase from "../../_base/GameRoomBase";
+import BottomControls from "./BottomControls";
+import RouletteBetHandler from "./handlers/RouletteBetHandler";
+import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
+import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
+import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
+import LeftControls from "./LeftControls";
+import { RouletteConfigs } from "./RouletteConfigs";
+import RouletteMain from "./RouletteMain";
+import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
+import RouletteUtils from "./RouletteUtils";
+import TopControls from "./TopControls";
 
 const { ccclass, property } = cc._decorator;
 

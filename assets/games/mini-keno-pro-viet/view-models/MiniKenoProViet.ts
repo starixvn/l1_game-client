@@ -1,10 +1,9 @@
 import * as moment from "moment";
-
 import { zeroPad } from "../../../common/helpers/NumberHelper";
-import * as config from "../../../Configs";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import * as config from "../../../configs/Configs";
 import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
 import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
 import MiniKenoProVietLogsHandler from "./handlers/MiniKenoProVietLogsHandler";

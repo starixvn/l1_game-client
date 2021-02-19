@@ -1,9 +1,9 @@
-import { games } from '../../../SabaConfigs';
-import SlotGameBase from '../../_slotgame_base/SlotGameBase';
-import SlotGameTopWinner from '../../_slotgame_base/SlotGameTopWinner';
-import FourGuardiansGuide from './FourGuardiansGuide';
-import FourGuardiansHistory from './FourGuardiansHistory';
-import { FourGuardiansSlotConfigs } from './FourGuardiansSlotConfigs';
+import { games } from "../../../configs/SabaConfigs";
+import SlotGameBase from "../../_slotgame_base/SlotGameBase";
+import SlotGameTopWinner from "../../_slotgame_base/SlotGameTopWinner";
+import FourGuardiansGuide from "./FourGuardiansGuide";
+import FourGuardiansHistory from "./FourGuardiansHistory";
+import { FourGuardiansSlotConfigs } from "./FourGuardiansSlotConfigs";
 
 const { ccclass, property } = cc._decorator;
 

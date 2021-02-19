@@ -1,12 +1,12 @@
 import Loading from "../../common/loading/view-models/Loading";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import * as SabaConfigs from "../../configs/SabaConfigs";
 import ChanLe from "../../games/chan-le/view-models/ChanLe";
 import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
 import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
 import RongHo from "../../games/rong-ho/view-models/RongHo";
 import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
 import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
-import * as SabaConfigs from "../../SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";

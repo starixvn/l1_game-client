@@ -1,11 +1,10 @@
+import { games } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import { games } from "../../../SabaConfigs";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LuckyWheelBanner extends cc.Component {
-
     private miniPanel: MiniPanel;
 
     onLoad() {

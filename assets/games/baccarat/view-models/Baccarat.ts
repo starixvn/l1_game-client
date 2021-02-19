@@ -1,8 +1,8 @@
 import GameUtils from "../../../common/GameUtils";
+import { games } from "../../../configs/SabaConfigs";
 import GameRoomBase from "../../_base/GameRoomBase";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
-import { games } from "./../../../SabaConfigs";
 import BaccaratCards from "./BaccaratCards";
 import { BaccaratConfigs } from "./BaccaratConfigs";
 import BaccaratHistory from "./BaccaratHistory";

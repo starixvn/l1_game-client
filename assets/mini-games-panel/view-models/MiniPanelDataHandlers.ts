@@ -1,5 +1,5 @@
 import { NoticeData } from "../../common/notice/view-models/Notice";
-import * as SabaConfigs from "../../SabaConfigs";
+import * as SabaConfigs from "../../configs/SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanel from "./MiniPanel";
 

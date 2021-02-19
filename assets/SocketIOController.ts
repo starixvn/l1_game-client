@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import * as socketIo from "socket.io-client";
 import { getSession } from "./common/auth/AuthManager";
 import { sentryLogger } from "./common/logger.js";
-import { gameMiniNewSocketIds } from "./SabaConfigs";
+import { gameMiniNewSocketIds } from "./configs/SabaConfigs";
 
 @injectable()
 export default class SocketIOController {
@@ -63,6 +63,4 @@ export default class SocketIOController {
     closeMiniGameSockets() {
         gameMiniNewSocketIds.forEach(this.closeSocket.bind(this));
     }
-
-    recheckin() {}
 }

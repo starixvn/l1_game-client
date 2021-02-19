@@ -1,8 +1,8 @@
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import { games } from "../../../SabaConfigs";
+import { games } from "../../../configs/SabaConfigs";
+import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";

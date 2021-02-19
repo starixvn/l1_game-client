@@ -1,5 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../SabaConfigs";
+import { games } from "../../../configs/SabaConfigs";
 import GameRoomBase from "../../_base/GameRoomBase";
 import KenoFinishHandler from "./handlers/KenoFinishHandler";
 import KenoLogsHandler from "./handlers/KenoLogsHandler";

@@ -1,12 +1,12 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
 import { lazyInject } from "../../Application";
-import * as configs from "../../Configs";
+import * as configs from "../../configs/Configs";
+import * as SabaConfigs from "../../configs/SabaConfigs";
 import ChanLeTurboConfigs from "../../games/chan-le-turbo/view-models/ChanLeTurboConfigs";
 import { ChanLeConfigs } from "../../games/chan-le/view-models/ChanLeConfigs";
 import { MiniSedieConfigs } from "../../games/mini-sedie/viewModels/MiniSedieConfigs";
 import { RongHoConfigs } from "../../games/rong-ho/view-models/RongHoConfigs";
 import { SpecialSeDieConfigs } from "../../games/special-sedie/view-models/SpecialSeDieConfigs";
-import * as SabaConfigs from "../../SabaConfigs";
 import SocketIOController from "../../SocketIOController";
 import MiniPanel from "./MiniPanel";
 

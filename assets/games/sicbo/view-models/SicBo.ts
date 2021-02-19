@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../SabaConfigs";
+import { games } from "../../../configs/SabaConfigs";
 import SocketIOGameBase from "../../_base/SocketIOGameBase";
 import BetItem from "../../_base/view-models/BetItem";
 import SicBoBetHandler from "./handlers/SicBoBetHandler";

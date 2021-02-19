@@ -6,7 +6,7 @@ import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
-import { games } from "../../../SabaConfigs";
+import { games } from "../../../configs/SabaConfigs";
 import { GameState } from "../../_base/GameBase";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";

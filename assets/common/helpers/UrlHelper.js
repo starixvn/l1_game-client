@@ -1,4 +1,4 @@
-import * as configs from "../../Configs";
+import * as configs from "../../configs/Configs";
 
 export function buildUrl(subDomain, hostName, ssl, protocol = "http", path = "/", port = 80) {
     const subDomainText = `${subDomain}.`;

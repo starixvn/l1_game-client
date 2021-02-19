@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../SabaConfigs";
+import { games } from "../../../configs/SabaConfigs";
 import SocketIOGameBase from "../../_base/SocketIOGameBase";
 import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
 import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";

@@ -1,5 +1,5 @@
+import * as SabaConfigs from "../configs/SabaConfigs";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
-import * as SabaConfigs from "../SabaConfigs";
 import { numberWithCommas } from "./helpers/NumberHelper";
 
 export default class GameUtils {

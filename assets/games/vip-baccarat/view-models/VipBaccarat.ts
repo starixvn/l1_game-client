@@ -1,10 +1,10 @@
 import GameUtils from "../../../common/GameUtils";
+import { games } from "../../../configs/SabaConfigs";
 import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
 import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
 import SocketIOGameBase from "../../_base/SocketIOGameBase";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
-import { games } from "./../../../SabaConfigs";
 import VipBaccaratBetHandler from "./data-handlers/VipBaccaratBetHandler";
 import VipBaccaratFinishHandler from "./data-handlers/VipBaccaratFinishHandler";
 import VipBaccaratLogsHandler from "./data-handlers/VipBaccaratLogsHandler";

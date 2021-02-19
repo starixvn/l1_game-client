@@ -1,5 +1,5 @@
+import * as SabaConfigs from "../../../configs/SabaConfigs";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
-import * as SabaConfigs from "../../../SabaConfigs";
 import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;

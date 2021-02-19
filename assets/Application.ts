@@ -17,6 +17,7 @@ export class Application {
 
 const app = new Application();
 app.startup();
+
 const { lazyInject } = getDecorators(app.container);
 const appContainer = app.container;
 export { lazyInject, appContainer };

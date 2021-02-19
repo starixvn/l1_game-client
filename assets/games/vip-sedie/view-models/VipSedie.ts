@@ -1,4 +1,4 @@
-import { games } from "../../../SabaConfigs";
+import { games } from "../../../configs/SabaConfigs";
 import Sedie from "../../xoc-xoc/view-models/Sedie";
 import { SedieConfigs } from "../../xoc-xoc/view-models/SedieConfigs";
 import VipSedieLogHandler from "./handlers/VipSedieLogHandler";

@@ -1,9 +1,9 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
 import { lazyInject } from "../../Application";
-import * as SabaConfigs from "../../SabaConfigs";
+import * as configs from "../../configs/Configs";
+import * as SabaConfigs from "../../configs/SabaConfigs";
 import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
-import * as configs from "./../../Configs";
 import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelSocketIOGameInitializers {

@@ -3,7 +3,7 @@ import baseControll from "../../../BaseController";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import logger from "../../../common/logger";
-import * as SabaConfigs from "../../../SabaConfigs";
+import * as SabaConfigs from "../../../configs/SabaConfigs";
 import SocketIOController from "../../../SocketIOController";
 import * as authManager from "./../../../common/auth/AuthManager";
 

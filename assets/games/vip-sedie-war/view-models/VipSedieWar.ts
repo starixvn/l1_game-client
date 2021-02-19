@@ -1,6 +1,6 @@
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../SabaConfigs";
+import { games } from "../../../configs/SabaConfigs";
 import VipSedie from "../../vip-sedie/view-models/VipSedie";
 import BetItem from "../../_base/view-models/BetItem";
 import VipSedieWarFinishHandler from "./handlers/VipSedieWarFinishHandler";

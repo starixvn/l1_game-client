@@ -1,6 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../SabaConfigs";
+import { games } from "../../../configs/SabaConfigs";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import FreeBetGameBase from "../../_base/FreeBetGameBase";
