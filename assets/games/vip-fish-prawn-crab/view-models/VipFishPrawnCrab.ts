@@ -1,24 +1,23 @@
-import * as _ from 'lodash';
-
-import GameUtils from '../../../common/GameUtils';
-import { games } from '../../../SabaConfigs';
-import NewSocketGameBase from '../../_base/NewSocketGameBase';
-import VipFishPrawnCrabBetHandler from './handlers/VipFishPrawnCrabBetHandler';
-import VipFishPrawnCrabFinishHandler from './handlers/VipFishPrawnCrabFinishHandler';
-import VipFishPrawnCrabLogsHandler from './handlers/VipFishPrawnCrabLogsHandler';
-import VipFishPrawnCrabTimeHandler from './handlers/VipFishPrawnCrabTimeHandler';
-import VipFishPrawnCrabBetItem from './VipFishPrawnCrabBetItem';
-import VipFishPrawnCrabConfigs from './VipFishPrawnCrabConfigs';
-import vipFishPrawnCrabConstants from './VipFishPrawnCrabConstants';
-import VipFishPrawnCrabGuide from './VipFishPrawnCrabGuide';
-import VipFishPrawnCrabHistory from './VipFishPrawnCrabHistory';
-import VipFishPrawnCrabOddItem from './VipFishPrawnCrabOddItem';
-import VipFishPrawnCrabStats from './VipFishPrawnCrabStats';
+import * as _ from "lodash";
+import GameUtils from "../../../common/GameUtils";
+import { games } from "../../../SabaConfigs";
+import SocketIOGameBase from "../../_base/SocketIOGameBase";
+import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
+import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
+import VipFishPrawnCrabLogsHandler from "./handlers/VipFishPrawnCrabLogsHandler";
+import VipFishPrawnCrabTimeHandler from "./handlers/VipFishPrawnCrabTimeHandler";
+import VipFishPrawnCrabBetItem from "./VipFishPrawnCrabBetItem";
+import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
+import vipFishPrawnCrabConstants from "./VipFishPrawnCrabConstants";
+import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
+import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
+import VipFishPrawnCrabOddItem from "./VipFishPrawnCrabOddItem";
+import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class VipFishPrawnCrab extends NewSocketGameBase {
+export default class VipFishPrawnCrab extends SocketIOGameBase {
     public readonly shakeThePlateTime = 33;
 
     @property(cc.Prefab)

@@ -1,4 +1,5 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
+import { lazyInject } from "../../Application";
 import * as configs from "../../Configs";
 import ChanLeTurboConfigs from "../../games/chan-le-turbo/view-models/ChanLeTurboConfigs";
 import { ChanLeConfigs } from "../../games/chan-le/view-models/ChanLeConfigs";
@@ -6,10 +7,13 @@ import { MiniSedieConfigs } from "../../games/mini-sedie/viewModels/MiniSedieCon
 import { RongHoConfigs } from "../../games/rong-ho/view-models/RongHoConfigs";
 import { SpecialSeDieConfigs } from "../../games/special-sedie/view-models/SpecialSeDieConfigs";
 import * as SabaConfigs from "../../SabaConfigs";
-import SocketController from "../../SocketController";
+import SocketIOController from "../../SocketIOController";
 import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelMiniGameInitializers {
+    @lazyInject(SocketIOController)
+    private readonly socketIOController: SocketIOController;
+
     constructor(private main: MiniPanel) {}
 
     showGame(gameComponent) {
@@ -209,9 +213,7 @@ export default class MiniPanelMiniGameInitializers {
 
     openNewSocket(gameId) {
         this.main.loading.node.active = true;
-
-        const socketIoController = SocketController.getInstance();
-        const currentSocket: SocketIOClient.Socket = socketIoController.gameSockets[gameId];
+        const currentSocket: SocketIOClient.Socket = this.socketIOController.gameSockets[gameId];
 
         if (currentSocket && currentSocket.connected) {
             this.openNewSocketGame(gameId);
@@ -220,7 +222,7 @@ export default class MiniPanelMiniGameInitializers {
             const gameName = SabaConfigs.games[key].name;
             const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
-            const socket = socketIoController.connectGameSocket(
+            const socket = this.socketIOController.connectGameSocket(
                 gameServerUrl,
                 gameName,
                 proxyRoute,
@@ -239,7 +241,7 @@ export default class MiniPanelMiniGameInitializers {
                 socket.disconnect();
             });
 
-            socketIoController.gameSockets[gameId] = socket;
+            this.socketIOController.gameSockets[gameId] = socket;
         }
     }
 

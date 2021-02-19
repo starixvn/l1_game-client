@@ -1,34 +1,34 @@
-import AnimatedTime from '../../../common/animated-time/view-models/AnimatedTime';
-import ChipStack from '../../../common/chip-stack/views/ChipStack';
-import FadeEffectButton from '../../../common/custom-button/FadeEffectButton';
-import NewButton from '../../../common/custom-button/NewButton';
-import ExpandableMenu from '../../../common/ExpandableMenu';
-import GameUtils from '../../../common/GameUtils';
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import NewCard, { CardAnimation, CardModel } from '../../../common/new-card/view-models/NewCard';
-import { games } from '../../../SabaConfigs';
-import { GameState } from '../../_base/GameBase';
-import DataHandler from '../../_base/handlers/DataHandler';
-import GameBaseBetHandler from '../../_base/handlers/GameBaseBetHandler';
-import GameBaseConfigsHandler from '../../_base/handlers/GameBaseConfigsHandler';
-import GameBaseErrorHandler from '../../_base/handlers/GameBaseErrorHandler';
-import GameBaseNoticeHandler from '../../_base/handlers/GameBaseNoticeHandler';
-import NewSocketGameBase from '../../_base/NewSocketGameBase';
-import RoomPlayer from '../../_base/RoomPlayer';
-import BlackJackGuide from './BlackJackGuide';
-import BlackJackHistory from './BlackJackHistory';
-import BlackJackUtils from './BlackJackUtils';
-import BlackJackFinishHandler from './handlers/BlackJackFinishHandler';
-import BlackJackIngameHandler from './handlers/BlackJackIngameHandler';
-import BlackjackUmHandler from './handlers/BlackjackUmHandler';
-import DealHandler from './handlers/DealHandler';
-import IngameActionHandler from './handlers/IngameActionHandler';
-import HandPlace from './HandPlace';
+import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
+import ChipStack from "../../../common/chip-stack/views/ChipStack";
+import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
+import NewButton from "../../../common/custom-button/NewButton";
+import ExpandableMenu from "../../../common/ExpandableMenu";
+import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
+import { games } from "../../../SabaConfigs";
+import { GameState } from "../../_base/GameBase";
+import DataHandler from "../../_base/handlers/DataHandler";
+import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
+import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
+import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
+import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
+import RoomPlayer from "../../_base/RoomPlayer";
+import SocketIOGameBase from "../../_base/SocketIOGameBase";
+import BlackJackGuide from "./BlackJackGuide";
+import BlackJackHistory from "./BlackJackHistory";
+import BlackJackUtils from "./BlackJackUtils";
+import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
+import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
+import BlackjackUmHandler from "./handlers/BlackjackUmHandler";
+import DealHandler from "./handlers/DealHandler";
+import IngameActionHandler from "./handlers/IngameActionHandler";
+import HandPlace from "./HandPlace";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BlackJack extends NewSocketGameBase {
+export default class BlackJack extends SocketIOGameBase {
     @property({ type: cc.Node, visible: false, override: true })
     timeWaitNode: cc.Node = null;
 

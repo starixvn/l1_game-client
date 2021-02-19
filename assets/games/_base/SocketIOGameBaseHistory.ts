@@ -1,9 +1,9 @@
-import PaginationCommon from '../../common/helpers/Pagination/PaginationCommon';
+import PaginationCommon from "../../common/helpers/Pagination/PaginationCommon";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default abstract class NewSocketGameBaseHistory extends cc.Component {
+export default abstract class SocketIOGameBaseHistory extends cc.Component {
     @property(PaginationCommon)
     pagination: PaginationCommon = null;
 

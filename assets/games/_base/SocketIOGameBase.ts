@@ -1,11 +1,10 @@
 import * as authManager from "../../common/auth/AuthManager";
-import SocketController from "../../SocketController";
 import GameRoomBase from "./GameRoomBase";
 
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class NewSocketGameBase extends GameRoomBase {
+export default class SocketIOGameBase extends GameRoomBase {
     protected socket: SocketIOClient.Socket;
 
     onLoad() {
@@ -14,7 +13,8 @@ export default class NewSocketGameBase extends GameRoomBase {
         authManager.storeInRoomGameId(this.gameId);
         this.currentMiniPanel.currentGameRoomId = this.gameId;
 
-        this.socket = SocketController.getInstance().gameSockets[this.gameId];
+        this.socket = this.socketIOController.gameSockets[this.gameId];
+        console.log(this.socket);
         if (!this.socket) {
             this.closeGame();
         } else {
@@ -40,7 +40,7 @@ export default class NewSocketGameBase extends GameRoomBase {
 
     onDestroy() {
         super.destroy();
-        SocketController.getInstance().closeSocket(this.gameId);
+        this.socketIOController.closeSocket(this.gameId);
     }
 
     onDisconnected() {

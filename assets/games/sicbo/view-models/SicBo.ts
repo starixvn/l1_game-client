@@ -1,23 +1,20 @@
-import * as _ from 'lodash';
-
-import ExpandableMenu from '../../../common/ExpandableMenu';
-import GameUtils from '../../../common/GameUtils';
-import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
-import { games } from '../../../SabaConfigs';
-import BetItem from '../../_base/BetItem';
-import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
-import NewSocketGameBase from '../../_base/NewSocketGameBase';
-import SicBoBetHandler from './handlers/SicBoBetHandler';
-import SicBoFinishHandler from './handlers/SicBoFinishHandler';
-import SicBoLogsHandler from './handlers/SicBoLogsHandler';
-import SicBoTimeHandler from './handlers/SicBoTimeHandler';
-import SicBoBetItem from './SicBoBetItem';
-import SicBoConfigs from './SicBoConfigs';
-import SicBoDicesStatistic from './SicBoDicesStatistic';
-import SicBoGuide from './SicBoGuide';
-import SicBoHistory from './SicBoHistory';
-import SicBoMajorChoicesStatistic from './SicBoMajorChoicesStatistic';
-import SicBoOddsItem from './SicBoOddsItem';
+import * as _ from "lodash";
+import GameUtils from "../../../common/GameUtils";
+import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import { games } from "../../../SabaConfigs";
+import SocketIOGameBase from "../../_base/SocketIOGameBase";
+import BetItem from "../../_base/view-models/BetItem";
+import SicBoBetHandler from "./handlers/SicBoBetHandler";
+import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
+import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
+import SicBoTimeHandler from "./handlers/SicBoTimeHandler";
+import SicBoBetItem from "./SicBoBetItem";
+import SicBoConfigs from "./SicBoConfigs";
+import SicBoDicesStatistic from "./SicBoDicesStatistic";
+import SicBoGuide from "./SicBoGuide";
+import SicBoHistory from "./SicBoHistory";
+import SicBoMajorChoicesStatistic from "./SicBoMajorChoicesStatistic";
+import SicBoOddsItem from "./SicBoOddsItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,7 +31,7 @@ export enum SicBoBetType {
 }
 
 @ccclass
-export default class SicBo extends NewSocketGameBase {
+export default class SicBo extends SocketIOGameBase {
     public get shakeThePlateTime() {
         return this.config.betTime + 3;
     }

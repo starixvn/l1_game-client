@@ -6,15 +6,16 @@
         {
             "label": "compile",
             "command": "curl",
-            "args": ["http://localhost:7456/update-db"],
-            "type":"shell",
-            // "isShellCommand": true,
+            "args": [
+                "http://localhost:7456/update-db"
+            ],
+            "type": "shell",
             "isBackground": true,
             "group": "build",
             "presentation": {
-                // Reveal the output only if unrecognized errors occur.
                 "reveal": "always"
             },
-        }    
+            "problemMatcher": []
+        }
     ]
 }

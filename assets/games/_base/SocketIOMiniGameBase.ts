@@ -1,13 +1,17 @@
-import SocketController from "../../SocketController";
+import { lazyInject } from "../../Application";
+import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 
-export default abstract class NewSocketMiniGameBase extends GameBase {
+export default abstract class SocketIOMiniGameBase extends GameBase {
+    @lazyInject(SocketIOController)
+    private readonly socketIOController: SocketIOController;
+
     public socket: SocketIOClient.Socket;
     abstract get gameId(): number;
 
     startGame() {
         super.startGame();
-        this.socket = SocketController.getInstance().gameSockets[this.gameId];
+        this.socket = this.socketIOController.gameSockets[this.gameId];
 
         if (this.socket) {
             this.socket.off(this.gameName).on(this.gameName, this.onData.bind(this));
@@ -20,7 +24,7 @@ export default abstract class NewSocketMiniGameBase extends GameBase {
     }
 
     closeGame() {
-        SocketController.getInstance().closeSocket(this.gameId);
+        this.socketIOController.closeSocket(this.gameId);
         if (!this.node || !this.node.isValid) {
             return;
         }

@@ -1,20 +1,22 @@
 import { Container } from "inversify";
+import getDecorators from "inversify-inject-decorators";
 import "reflect-metadata";
-import SocketController from "./SocketController";
+import SocketIOController from "./SocketIOController";
 
-export interface IApplication {
-    startup();
-    configureServices();
-}
-
-export class Application implements IApplication {
-    constructor(private readonly appContainer = new Container()) {}
+export class Application {
+    constructor(public readonly container = new Container()) {}
 
     startup() {
         this.configureServices();
     }
 
     configureServices() {
-        this.appContainer.bind<SocketController>(SocketController).toSelf().inSingletonScope();
+        this.container.bind<SocketIOController>(SocketIOController).toSelf().inSingletonScope();
     }
 }
+
+const app = new Application();
+app.startup();
+const { lazyInject } = getDecorators(app.container);
+const appContainer = app.container;
+export { lazyInject, appContainer };

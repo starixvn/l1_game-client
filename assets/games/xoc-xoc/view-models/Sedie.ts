@@ -1,9 +1,9 @@
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { games } from "../../../SabaConfigs";
-import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
+import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import SedieBetHandler from "./handlers/SedieBetHandler";
 import SedieFinishHandler from "./handlers/SedieFinishHandler";
 import SedieLogsHandler from "./handlers/SedieLogsHandler";
@@ -75,19 +75,8 @@ export default class Sedie extends FreeBetGameBase {
         this.finishShowResult = false;
     }
 
-    initHandlers() {
-        super.initHandlers();
-
-        this.logsHandler = new SedieLogsHandler(this);
-        this.timeHandler = new SedieTimeHandler(this);
-        this.finishHandler = new SedieFinishHandler(this);
-        this.betHandler = new SedieBetHandler(this);
-        this.statusHandler = new SedieStatusHandler(this);
-    }
-
     onLoad() {
         super.onLoad();
-
         this.initRoundHistory();
         this.animatedTime.setAnimatedY(30, -5);
 
@@ -99,6 +88,16 @@ export default class Sedie extends FreeBetGameBase {
 
         this.miniRoundHistory.tip.node.zIndex = 100;
         GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
+    }
+
+    initHandlers() {
+        super.initHandlers();
+
+        this.logsHandler = new SedieLogsHandler(this);
+        this.timeHandler = new SedieTimeHandler(this);
+        this.finishHandler = new SedieFinishHandler(this);
+        this.betHandler = new SedieBetHandler(this);
+        this.statusHandler = new SedieStatusHandler(this);
     }
 
     initRoundHistory() {

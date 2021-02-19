@@ -1,27 +1,26 @@
-import * as _ from 'lodash';
-
-import CallbackAnimation from '../../common/CallbackAnimation';
-import ExpandableMenu from '../../common/ExpandableMenu';
-import GameUtils from '../../common/GameUtils';
-import { numberWithCommas } from '../../common/helpers/NumberHelper';
-import HoverItemBase from '../../common/HoverItemBase';
-import JackpotPoolInfoBase from '../../lobby/main/view-models/JackpotPoolInfoBase';
-import { GameState } from '../_base/GameBase';
-import NewSocketGameBase from '../_base/NewSocketGameBase';
-import AutoSpinSettingDialog from './AutoSpinSettingDialog';
-import BigWinAnimation from './BigWinAnimation';
-import BonusDialog from './BonusDialog';
-import CountDownWarning from './CountDownWarning';
-import SlotGameBetHandler from './handlers/SlotGameBetHandler';
-import SlotGameBonusHandler from './handlers/SlotGameBonusHandler';
-import SlotGameIngameHandler from './handlers/SlotGameIngameHandler';
-import SlotGameJackpotHandler from './handlers/SlotGameJackpotHandler';
-import SlotGameSettlementHandler from './handlers/SlotGameSettlementHandler';
-import SlotGameUmHandler from './handlers/SlotGameUmHandler';
-import LineSelectionDialog from './LineSelectionDialog';
-import SlotBoard from './SlotBoard';
-import { SlotGameBaseConfigs } from './SlotGameBaseConfigs';
-import SlotGameUserSettings from './SlotGameUserSettings';
+import * as _ from "lodash";
+import CallbackAnimation from "../../common/CallbackAnimation";
+import ExpandableMenu from "../../common/ExpandableMenu";
+import GameUtils from "../../common/GameUtils";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
+import HoverItemBase from "../../common/HoverItemBase";
+import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
+import { GameState } from "../_base/GameBase";
+import SocketIOGameBase from "../_base/SocketIOGameBase";
+import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
+import BigWinAnimation from "./BigWinAnimation";
+import BonusDialog from "./BonusDialog";
+import CountDownWarning from "./CountDownWarning";
+import SlotGameBetHandler from "./handlers/SlotGameBetHandler";
+import SlotGameBonusHandler from "./handlers/SlotGameBonusHandler";
+import SlotGameIngameHandler from "./handlers/SlotGameIngameHandler";
+import SlotGameJackpotHandler from "./handlers/SlotGameJackpotHandler";
+import SlotGameSettlementHandler from "./handlers/SlotGameSettlementHandler";
+import SlotGameUmHandler from "./handlers/SlotGameUmHandler";
+import LineSelectionDialog from "./LineSelectionDialog";
+import SlotBoard from "./SlotBoard";
+import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
+import SlotGameUserSettings from "./SlotGameUserSettings";
 
 export interface LineData {
     payline: number;
@@ -40,7 +39,7 @@ enum SlotGameSound {
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SlotGameBase extends NewSocketGameBase {
+export default class SlotGameBase extends SocketIOGameBase {
     @property(SlotBoard)
     slotBoard: SlotBoard = null;
 

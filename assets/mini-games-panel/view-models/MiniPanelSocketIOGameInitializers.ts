@@ -1,11 +1,15 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
+import { lazyInject } from "../../Application";
 import * as SabaConfigs from "../../SabaConfigs";
-import SocketController from "../../SocketController";
+import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
 import * as configs from "./../../Configs";
 import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelSocketIOGameInitializers {
+    @lazyInject(SocketIOController)
+    private readonly socketIOController: SocketIOController;
+
     constructor(private readonly main: MiniPanel) {}
 
     public openGame(gameId) {
@@ -24,13 +28,12 @@ export default class MiniPanelSocketIOGameInitializers {
     }
 
     private openNewSocket(gameId) {
-        const socketIoController = SocketController.getInstance();
-        socketIoController.closeSocket(gameId).then(() => {
+        this.socketIOController.closeSocket(gameId).then(() => {
             const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === gameId);
             const gameName = SabaConfigs.games[key].name;
             const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
-            const socket = socketIoController.connectGameSocket(
+            const socket = this.socketIOController.connectGameSocket(
                 gameServerUrl,
                 gameName,
                 proxyRoute,
@@ -38,7 +41,7 @@ export default class MiniPanelSocketIOGameInitializers {
             );
             socket.on("message", (data) => {
                 if (data.um) {
-                    socketIoController.closeSocket(gameId);
+                    this.socketIOController.closeSocket(gameId);
                 }
                 if (!this.main.node || !this.main.node.isValid) {
                     return;
@@ -51,7 +54,7 @@ export default class MiniPanelSocketIOGameInitializers {
                 socket.disconnect();
             });
 
-            socketIoController.gameSockets[gameId] = socket;
+            this.socketIOController.gameSockets[gameId] = socket;
         });
     }
 }

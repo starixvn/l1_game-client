@@ -5,17 +5,8 @@ import { sentryLogger } from "./common/logger.js";
 import { gameMiniNewSocketIds } from "./SabaConfigs";
 
 @injectable()
-export default class SocketController {
-    private static instance: SocketController;
+export default class SocketIOController {
     public gameSockets = {};
-
-    public static getInstance(): SocketController {
-        if (!this.instance) {
-            this.instance = new SocketController();
-        }
-
-        return this.instance;
-    }
 
     connectGameSocket = (
         socketUri: string,

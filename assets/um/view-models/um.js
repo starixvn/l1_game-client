@@ -1,4 +1,6 @@
-import SocketController from "../../SocketController";
+import { appContainer } from "../../Application";
+import SocketIOController from "../../SocketIOController";
+const socketIOController = appContainer.get(SocketIOController);
 
 cc.Class({
     extends: cc.Component,
@@ -18,7 +20,7 @@ cc.Class({
             }
         }
 
-        SocketController.getInstance().closeAllSocket();
+        socketIOController.closeAllSocket();
     },
 
     convertToGMT8(date) {

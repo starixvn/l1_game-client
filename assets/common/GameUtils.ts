@@ -1,3 +1,4 @@
+import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import * as SabaConfigs from "../SabaConfigs";
 import { numberWithCommas } from "./helpers/NumberHelper";
 
@@ -72,7 +73,7 @@ export default class GameUtils {
         return values;
     }
 
-    public static openGame(gameId, miniPanel, openLuckyWheelFunc = () => {}) {
+    public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}) {
         if (SabaConfigs.gameRoomNewSocketIds.includes(gameId)) {
             miniPanel.openNewGameSocket(null, gameId);
         } else if (SabaConfigs.gameRoomIds.includes(gameId)) {

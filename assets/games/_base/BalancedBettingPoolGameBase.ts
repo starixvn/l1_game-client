@@ -1,15 +1,14 @@
 import * as _ from "lodash";
-
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
 import BalancedBettingPoolBetItem from "./BalancedBettingPoolBetItem";
-import NewSocketMiniGameBase from "./NewSocketMiniGameBase";
+import SocketIOMiniGameBase from "./SocketIOMiniGameBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniGameBase {
+export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGameBase {
     @property(cc.Node)
     betBoardContainer: cc.Node = null;
 
@@ -65,7 +64,7 @@ export default abstract class BalancedBettingPoolGameBase extends NewSocketMiniG
             cc.sequence(
                 cc.delayTime(0.05),
                 cc.callFunc(() => {
-                    NewSocketMiniGameBase.adjustPosition(this.betBoard, this.node);
+                    SocketIOMiniGameBase.adjustPosition(this.betBoard, this.node);
                 })
             )
         );

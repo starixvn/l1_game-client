@@ -1,9 +1,10 @@
+import { lazyInject } from "../../Application";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
-import SocketController from "../../SocketController";
+import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 import { GameBaseConfigs } from "./GameBaseConfig";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
@@ -52,10 +53,18 @@ export default class GameRoomBase extends GameBase {
 
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale: number;
+
+    @lazyInject(SocketIOController)
+    protected readonly socketIOController: SocketIOController;
+
     protected _gameId: number;
-    private socketController: SocketController;
+
     public get gameId(): number {
         return this._gameId;
+    }
+
+    constructor() {
+        super();
     }
 
     onLoad() {
@@ -150,7 +159,7 @@ export default class GameRoomBase extends GameBase {
                 cc.sequence(
                     cc.delayTime(1),
                     cc.callFunc(() => {
-                        this.socketController.closeMiniGameSockets();
+                        this.socketIOController.closeMiniGameSockets();
                         this.stopGame();
                         resolve("done");
                     })

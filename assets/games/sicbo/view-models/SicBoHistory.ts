@@ -1,12 +1,12 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import GameHistoryBase from "../../_base/GameHistoryBase";
-import NewSocketGameBaseHistory from "../../_base/NewSocketGameBaseHistory";
+import SocketIOGameBaseHistory from "../../_base/SocketIOGameBaseHistory";
 import SicBoHistoryItem from "./SicBoHistoryItem";
 import SicBoTicketDetail from "./SicBoTicketDetail";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class SicBoHistory extends NewSocketGameBaseHistory {
+export default class SicBoHistory extends SocketIOGameBaseHistory {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 

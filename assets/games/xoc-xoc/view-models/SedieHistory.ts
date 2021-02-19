@@ -1,12 +1,12 @@
-import { getStringDateByTime } from '../../../common/helpers/DateTimeHelper';
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import NewSocketGameBaseHistory from '../../_base/NewSocketGameBaseHistory';
-import SedieHistoryItem from './SedieHistoryItem';
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOGameBaseHistory from "../../_base/SocketIOGameBaseHistory";
+import SedieHistoryItem from "./SedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SedieHistory extends NewSocketGameBaseHistory {
+export default class SedieHistory extends SocketIOGameBaseHistory {
     @property(cc.SpriteFrame)
     iconRed: cc.SpriteFrame = null;
 

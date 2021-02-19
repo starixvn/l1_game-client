@@ -1,12 +1,12 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import NewSocketGameBaseHistory from "../../_base/NewSocketGameBaseHistory";
+import SocketIOGameBaseHistory from "../../_base/SocketIOGameBaseHistory";
 import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
 import VipFishPrawnCrabHistoryItem from "./VipFishPrawnCrabHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class VipFishPrawnCrabHistory extends NewSocketGameBaseHistory {
+export default class VipFishPrawnCrabHistory extends SocketIOGameBaseHistory {
     @property(cc.SpriteFrame)
     animalSprites: cc.SpriteFrame[] = [];
 

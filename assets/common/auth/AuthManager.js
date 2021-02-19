@@ -1,5 +1,6 @@
+import { appContainer } from "../../Application";
 import * as configs from "../../Configs";
-import SocketController from "../../SocketController";
+import SocketIOController from "../../SocketIOController";
 import httpHelper from "../helpers/httpHelper";
 import { buildServerUrl } from "../helpers/UrlHelper";
 import logger from "../logger";
@@ -185,13 +186,13 @@ function auth(obj) {
 export function checkAndUpdateRecheckIn(dontClearSession) {
     const session = getSession();
     let isSessionExpired = true;
+    const socketIOController = appContainer.get(SocketIOController);
 
     try {
         if (session && session.time) {
             const now = new Date();
             const lastRecheckIn = new Date(session.time);
             const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
-            //console.log(`differenceInMinutes: ${differenceInMinutes}`)
 
             if (differenceInMinutes > sessionExpiredTimeoutMinutes && !dontClearSession) {
                 signOut();
@@ -199,7 +200,7 @@ export function checkAndUpdateRecheckIn(dontClearSession) {
                 session.time = new Date();
                 isSessionExpired = false;
                 storeSessionData(session);
-                SocketController.getInstance().recheckin();
+                socketIOController.recheckin();
             }
         } else {
             !dontClearSession && signOut();
