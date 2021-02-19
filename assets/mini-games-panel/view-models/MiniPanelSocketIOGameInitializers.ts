@@ -1,6 +1,6 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
-import BaseSocketIOController from "../../BaseSocketIOController";
 import * as SabaConfigs from "../../SabaConfigs";
+import SocketController from "../../SocketController";
 import * as authManager from "./../../common/auth/AuthManager";
 import * as configs from "./../../Configs";
 import MiniPanel from "./MiniPanel";
@@ -24,7 +24,7 @@ export default class MiniPanelSocketIOGameInitializers {
     }
 
     private openNewSocket(gameId) {
-        const socketIoController = BaseSocketIOController.getInstance();
+        const socketIoController = SocketController.getInstance();
         socketIoController.closeSocket(gameId).then(() => {
             const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === gameId);
             const gameName = SabaConfigs.games[key].name;

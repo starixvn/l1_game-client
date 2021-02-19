@@ -1,11 +1,11 @@
+import { Application } from "../../../Application";
 import baseControll from "../../../BaseController";
-import BaseSocketIOController from "../../../BaseSocketIOController";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import logger from "../../../common/logger";
 import * as SabaConfigs from "../../../SabaConfigs";
+import SocketController from "../../../SocketController";
 import * as authManager from "./../../../common/auth/AuthManager";
-
 const sentryLogger = logger();
 
 var header = require("Header"),
@@ -42,6 +42,8 @@ cc.Class({
         cc.RedT.inGame = null;
     },
     onLoad: function () {
+        const application = new Application();
+        application.startup();
         this.dialog = this.dialogNode.getComponent("Dialog");
         document.cookie = "redT=1702;path=/";
 
@@ -209,7 +211,7 @@ cc.Class({
     outRoomGame: function () {
         //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
         return new Promise((resolve) => {
-            BaseSocketIOController.getInstance().closeMiniGameSockets();
+            SocketController.getInstance().closeMiniGameSockets();
             resolve();
         });
     },

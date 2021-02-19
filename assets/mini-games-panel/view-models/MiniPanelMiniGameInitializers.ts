@@ -1,5 +1,4 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
-import BaseSocketIOController from "../../BaseSocketIOController";
 import * as configs from "../../Configs";
 import ChanLeTurboConfigs from "../../games/chan-le-turbo/view-models/ChanLeTurboConfigs";
 import { ChanLeConfigs } from "../../games/chan-le/view-models/ChanLeConfigs";
@@ -7,6 +6,7 @@ import { MiniSedieConfigs } from "../../games/mini-sedie/viewModels/MiniSedieCon
 import { RongHoConfigs } from "../../games/rong-ho/view-models/RongHoConfigs";
 import { SpecialSeDieConfigs } from "../../games/special-sedie/view-models/SpecialSeDieConfigs";
 import * as SabaConfigs from "../../SabaConfigs";
+import SocketController from "../../SocketController";
 import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelMiniGameInitializers {
@@ -210,7 +210,7 @@ export default class MiniPanelMiniGameInitializers {
     openNewSocket(gameId) {
         this.main.loading.node.active = true;
 
-        const socketIoController = BaseSocketIOController.getInstance();
+        const socketIoController = SocketController.getInstance();
         const currentSocket: SocketIOClient.Socket = socketIoController.gameSockets[gameId];
 
         if (currentSocket && currentSocket.connected) {

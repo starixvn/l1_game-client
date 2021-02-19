@@ -1,5 +1,5 @@
-import BaseSocketIOController from "../../BaseSocketIOController";
 import * as configs from "../../Configs";
+import SocketController from "../../SocketController";
 import httpHelper from "../helpers/httpHelper";
 import { buildServerUrl } from "../helpers/UrlHelper";
 import logger from "../logger";
@@ -199,7 +199,7 @@ export function checkAndUpdateRecheckIn(dontClearSession) {
                 session.time = new Date();
                 isSessionExpired = false;
                 storeSessionData(session);
-                BaseSocketIOController.getInstance().recheckin();
+                SocketController.getInstance().recheckin();
             }
         } else {
             !dontClearSession && signOut();

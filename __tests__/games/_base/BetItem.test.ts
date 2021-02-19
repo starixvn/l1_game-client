@@ -1,4 +1,4 @@
-import BetItem from "../BetItem";
+import BetItem from "../../../assets/games/_base/view-models/BetItem";
 
 let node: cc.Node;
 let betItem: BetItem;

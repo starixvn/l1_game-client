@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-
 import BlinkNode from "../../../common/BlinkNode";
 import GameBase from "../../_base/GameBase";
 

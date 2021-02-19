@@ -1,6 +1,6 @@
-import BaseSocketIOController from '../../BaseSocketIOController';
-import * as authManager from '../../common/auth/AuthManager';
-import GameRoomBase from './GameRoomBase';
+import * as authManager from "../../common/auth/AuthManager";
+import SocketController from "../../SocketController";
+import GameRoomBase from "./GameRoomBase";
 
 const { ccclass } = cc._decorator;
 
@@ -14,7 +14,7 @@ export default class NewSocketGameBase extends GameRoomBase {
         authManager.storeInRoomGameId(this.gameId);
         this.currentMiniPanel.currentGameRoomId = this.gameId;
 
-        this.socket = BaseSocketIOController.getInstance().gameSockets[this.gameId];
+        this.socket = SocketController.getInstance().gameSockets[this.gameId];
         if (!this.socket) {
             this.closeGame();
         } else {
@@ -40,7 +40,7 @@ export default class NewSocketGameBase extends GameRoomBase {
 
     onDestroy() {
         super.destroy();
-        BaseSocketIOController.getInstance().closeSocket(this.gameId);
+        SocketController.getInstance().closeSocket(this.gameId);
     }
 
     onDisconnected() {

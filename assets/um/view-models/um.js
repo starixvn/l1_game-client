@@ -1,4 +1,4 @@
-import BaseSocketIOController from "../../BaseSocketIOController";
+import SocketController from "../../SocketController";
 
 cc.Class({
     extends: cc.Component,
@@ -18,7 +18,7 @@ cc.Class({
             }
         }
 
-        BaseSocketIOController.getInstance().closeAllSocket();
+        SocketController.getInstance().closeAllSocket();
     },
 
     convertToGMT8(date) {

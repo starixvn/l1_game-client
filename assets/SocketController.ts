@@ -1,16 +1,17 @@
+import { injectable } from "inversify";
 import * as socketIo from "socket.io-client";
-
 import { getSession } from "./common/auth/AuthManager";
 import { sentryLogger } from "./common/logger.js";
 import { gameMiniNewSocketIds } from "./SabaConfigs";
 
-export default class BaseSocketIOController {
-    private static instance: BaseSocketIOController;
+@injectable()
+export default class SocketController {
+    private static instance: SocketController;
     public gameSockets = {};
 
-    public static getInstance(): BaseSocketIOController {
+    public static getInstance(): SocketController {
         if (!this.instance) {
-            this.instance = new BaseSocketIOController();
+            this.instance = new SocketController();
         }
 
         return this.instance;
