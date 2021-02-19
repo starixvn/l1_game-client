@@ -1,12 +1,12 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import GameUtils from "../../../common/GameUtils";
-import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import BetItem from "../BetItem";
-import GameBase from "../GameBase";
-import GameRoomBase from "../GameRoomBase";
-import RoomPlayer from "../RoomPlayer";
-import DataHandler from "./DataHandler";
+import GameUtils from '../../../common/GameUtils';
+import { getLowercaseObjectKeys } from '../../../common/helpers/ObjectHelper';
+import BetItem from '../BetItem';
+import GameBase from '../GameBase';
+import GameRoomBase from '../GameRoomBase';
+import RoomPlayer from '../RoomPlayer';
+import DataHandler from './DataHandler';
 
 export default class GameBaseFinishHandler implements DataHandler {
     protected readonly payChipFlyTime = 1.2;
@@ -64,9 +64,14 @@ export default class GameBaseFinishHandler implements DataHandler {
                     cc.callFunc(() => this.dealerPayChips(mainRoomGame, winBetItems)),
                     cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                     cc.callFunc(() => {
-                        this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems);
+                        if (mainRoomGame.otherPlayers) {
+                            this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems, true);
+                            this.payChipsToOtherPlayers(mainRoomGame, winBetItems);
+                        } else {
+                            this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems, false);
+                        }
+
                         this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
-                        this.payChipsToOtherPlayers(mainRoomGame, winBetItems);
                     })
                 )
             );
@@ -84,18 +89,17 @@ export default class GameBaseFinishHandler implements DataHandler {
         });
     }
 
-    payChipsToLoginPlayer(mainRoomGame: GameRoomBase, statusData, winBetItems: BetItem[]) {
+    payChipsToLoginPlayer(mainRoomGame: GameRoomBase, statusData, winBetItems: BetItem[], isOtherPlayers = true) {
         if (!statusData || !statusData.win) {
             return;
         }
 
         const betItems = statusData.winningByChoices;
-
-        _.forEach(winBetItems, (item) => {
-            if (betItems[item.node.name.toLowerCase()]) {
-                this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node, this.payChipFlyTime);
-            }
-        });
+        if (isOtherPlayers) {
+            this.moveChipWithRandomAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
+        } else {
+            this.moveChipWithAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
+        }
 
         const playerNode = mainRoomGame.userAvatar.node.parent;
         this.main.showWinningBet(statusData.bet);
@@ -104,6 +108,24 @@ export default class GameBaseFinishHandler implements DataHandler {
         cc.RedT.send({
             user: {
                 updateCoin: true
+            }
+        });
+    }
+
+    moveChipWithRandomAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: GameRoomBase) {
+        _.forEach(winBetItems, (item) => {
+            if (betItems[item.node.name.toLowerCase()]) {
+                this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node, this.payChipFlyTime);
+            }
+        });
+    }
+
+    moveChipWithAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: GameRoomBase) {
+        const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
+
+        _.forEach(winBetItems, (item) => {
+            if (betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
+                this.main.betChips.moveChips(item.chipNode, mainRoomGame.userAvatar.node);
             }
         });
     }
