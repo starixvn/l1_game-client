@@ -126,7 +126,8 @@ export default class BannerController extends cc.Component {
     }
 
     getCurrentPage(): cc.Node {
-        return this.content.children[this.currentIndex];
+        // return this.content.children[this.currentIndex];
+        return this.content.children.find((child) => child.active === true);
     }
 
     autoChange() {
@@ -139,12 +140,11 @@ export default class BannerController extends cc.Component {
         const oldNode = this.getCurrentPage();
         this.currentIndex++;
         if (this.currentIndex >= this.content.childrenCount) {
-            this.currentIndex = 0;
             this.onEndingRound();
             return;
         }
 
-        this.showPage(oldNode, this.currentIndex, PageDirection.Right);
+        this.showPage(oldNode, Math.abs(this.currentIndex), PageDirection.Right);
     }
 
     showPreviouPage() {
@@ -152,13 +152,12 @@ export default class BannerController extends cc.Component {
 
         const oldPage = this.getCurrentPage();
         this.currentIndex--;
-        if (this.currentIndex < 0) {
-            this.currentIndex = this.content.childrenCount - 1;
+        if (this.currentIndex <= -this.content.childrenCount) {
             this.onEndingRound();
             return;
         }
 
-        this.showPage(oldPage, this.currentIndex, PageDirection.Left);
+        this.showPage(oldPage, Math.abs(this.currentIndex), PageDirection.Left);
     }
 
     showPage(oldNode: cc.Node, index: number, pageDirection: PageDirection = PageDirection.Right) {
