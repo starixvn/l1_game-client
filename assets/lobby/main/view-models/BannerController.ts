@@ -1,5 +1,5 @@
-import GameUtils from '../../../common/GameUtils';
-import BannerItem from './BannerItem';
+import GameUtils from "../../../common/GameUtils";
+import BannerItem from "./BannerItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,7 +32,7 @@ export default class BannerController extends cc.Component {
         } else {
             this.content.on(cc.Node.EventType.MOUSE_DOWN, this.eventStart, this, true);
             this.content.on(cc.Node.EventType.MOUSE_MOVE, this.eventMove, this, true);
-            this.content.on(cc.Node.EventType.MOUSE_UP, this.eventEnd, this, true);
+            this.content.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
             this.content.on(cc.Node.EventType.MOUSE_LEAVE, this.handleReleaseTouch, this, true);
         }
     }
@@ -67,7 +67,7 @@ export default class BannerController extends cc.Component {
         } else {
             this.content.off(cc.Node.EventType.MOUSE_DOWN, this.eventStart, this, true);
             this.content.off(cc.Node.EventType.MOUSE_MOVE, this.eventMove, this, true);
-            this.content.off(cc.Node.EventType.MOUSE_UP, this.eventEnd, this, true);
+            this.content.off(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
             this.content.off(cc.Node.EventType.MOUSE_LEAVE, this.handleReleaseTouch, this, true);
         }
     }
