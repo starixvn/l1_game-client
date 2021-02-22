@@ -35,15 +35,24 @@ export default class BannerController extends cc.Component {
             this.content.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
             this.content.on(cc.Node.EventType.MOUSE_LEAVE, this.handleReleaseTouch, this, true);
         }
+
+        // this.content.children.forEach((child) => {
+        //     child.active = false;
+        // });
     }
 
     onEnable() {
-        this.content.children.forEach((child) => {
-            child.active = false;
-        });
+        this.started = false;
+    }
+
+    showFirstPage() {
         this.currentIndex = -1; //show first page
         this.showNextPage();
-        this.started = false;
+    }
+
+    showLastPage() {
+        this.currentIndex = this.content.childrenCount;
+        this.showPreviouPage();
     }
 
     onDisable() {
@@ -126,8 +135,7 @@ export default class BannerController extends cc.Component {
     }
 
     getCurrentPage(): cc.Node {
-        // return this.content.children[this.currentIndex];
-        return this.content.children.find((child) => child.active === true);
+        return this.content.children[this.currentIndex];
     }
 
     autoChange() {
@@ -144,7 +152,7 @@ export default class BannerController extends cc.Component {
             return;
         }
 
-        this.showPage(oldNode, Math.abs(this.currentIndex), PageDirection.Right);
+        this.showPage(oldNode, this.currentIndex, PageDirection.Right);
     }
 
     showPreviouPage() {
@@ -152,12 +160,12 @@ export default class BannerController extends cc.Component {
 
         const oldPage = this.getCurrentPage();
         this.currentIndex--;
-        if (this.currentIndex <= -this.content.childrenCount) {
+        if (this.currentIndex < 0) {
             this.onEndingRound();
             return;
         }
 
-        this.showPage(oldPage, Math.abs(this.currentIndex), PageDirection.Left);
+        this.showPage(oldPage, this.currentIndex, PageDirection.Left);
     }
 
     showPage(oldNode: cc.Node, index: number, pageDirection: PageDirection = PageDirection.Right) {

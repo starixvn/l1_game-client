@@ -123,21 +123,39 @@ cc.Class({
             this.repositionMenu();
         };
 
-        this.jackpotBannerContainer.getComponent("BannerController").onEndingRound = () => {
+        const jpBannerController = this.jackpotBannerContainer.getComponent("BannerController");
+        const adsBannerController = this.adsBannerContainer.getComponent("BannerController");
+
+        jpBannerController.onEndingRound = () => {
             this.jackpotToggle.isChecked = false;
-            this.jackpotBannerContainer.active = false;
-
             this.adsToggle.isChecked = true;
-            this.adsBannerContainer.active = true;
+
+            this.switchBanner(false);
         };
 
-        this.adsBannerContainer.getComponent("BannerController").onEndingRound = () => {
+        adsBannerController.onEndingRound = () => {
             this.adsToggle.isChecked = false;
-            this.adsBannerContainer.active = false;
-
             this.jackpotToggle.isChecked = true;
-            this.jackpotBannerContainer.active = true;
+
+            this.switchBanner(true);
         };
+        adsBannerController.showFirstPage();
+    },
+    switchBanner(showJackpot, reset) {
+        this.adsBannerContainer.active = !showJackpot;
+        this.jackpotBannerContainer.active = showJackpot;
+
+        const currentContainer = showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
+        const newContainer = !showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
+
+        const currentController = currentContainer.getComponent("BannerController");
+        const newController = newContainer.getComponent("BannerController");
+
+        if (currentController.currentIndex > 0 || reset) {
+            newController.showFirstPage();
+        } else {
+            newController.showLastPage();
+        }
     },
     getGameNotifications() {
         const list = [23, 29];
@@ -168,8 +186,7 @@ cc.Class({
     onBannerTypeChanged(e, param) {
         const type = +param;
         const showJackpot = type === 1;
-        this.adsBannerContainer.active = !showJackpot;
-        this.jackpotBannerContainer.active = showJackpot;
+        this.switchBanner(showJackpot, true);
     },
     outRoomGame: function () {
         //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
