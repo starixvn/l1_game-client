@@ -17,6 +17,7 @@ export default class JackpotPoolItem extends cc.Component {
     setData(itemData: any) {
         this.stake.string = numberWithCommas(itemData.pool);
         GameUtils.floatToNumber(this.amount, itemData.amount, 1, 0, false);
+        this.node.active = true;
     }
 
     setHighlight(highlight: boolean) {
