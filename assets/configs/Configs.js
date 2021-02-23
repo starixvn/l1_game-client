@@ -71,7 +71,8 @@ const configs = {
 
     sentryUrl: "https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20",
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    resultPageUrl: "http://result.lumigame.com/vi-VN/auth?key=58148de3-b895-4f6b-82de-a35eed1b4b28"
+    resultPageUrl: "http://result.lumigame.com/vi-VN/auth?key=58148de3-b895-4f6b-82de-a35eed1b4b28",
+    systemType: "L2"
 };
 
 module.exports = configs;

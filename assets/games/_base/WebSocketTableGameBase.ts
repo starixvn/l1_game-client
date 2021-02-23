@@ -1,10 +1,8 @@
-import { lazyInject } from "../../Application";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
-import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import { GameConfigBase } from "./view-models/GameConfigBase";
@@ -53,9 +51,6 @@ export default class WebSocketTableGameBase extends GameBase {
 
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale: number;
-
-    @lazyInject(SocketIOController)
-    protected readonly socketIOController: SocketIOController;
 
     protected _gameId: number;
 
@@ -153,18 +148,8 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     public outRoomGame() {
-        return new Promise((resolve) => {
+        return new Promise(() => {
             this.sendData({ outgame: true });
-            this.node.runAction(
-                cc.sequence(
-                    cc.delayTime(1),
-                    cc.callFunc(() => {
-                        this.socketIOController.closeMiniGameSockets();
-                        this.stopGame();
-                        resolve("done");
-                    })
-                )
-            );
         });
     }
 
