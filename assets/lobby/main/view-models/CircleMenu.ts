@@ -13,10 +13,10 @@ export default class CircleMenu extends GameIconMenu {
     miniMenu: cc.Node = null;
 
     @lazyInject(LobbyMenuConfig)
-    private readonly lobbyMenuConfig;
+    private readonly lobbyMenuConfig: LobbyMenuConfig;
 
     getList() {
-        return this.lobbyMenuConfig.list;
+        return this.lobbyMenuConfig.miniList;
     }
 
     async addItem(id: number): Promise<cc.Node> {

@@ -16,7 +16,7 @@ export default class LobbyMenu extends GameIconMenu {
     public initializedCallback = () => {};
 
     @lazyInject(LobbyMenuConfig)
-    private readonly lobbyMenuConfig;
+    private readonly lobbyMenuConfig: LobbyMenuConfig;
 
     getList() {
         return cc.RedT.user.availableGames; // LobbyMenuConfig.list;

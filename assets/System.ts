@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
 import { injectable } from "inversify";
 import * as configs from "./configs/Configs.js";
 
@@ -32,6 +31,11 @@ export class System implements ISystem {
 
 @injectable()
 export class ComponentSystem extends cc.Component implements ISystem {
+    constructor() {
+        super();
+        this.initSystem();
+    }
+
     initSystem(): void {
         customizeSystems(this);
     }
@@ -40,11 +44,11 @@ export class ComponentSystem extends cc.Component implements ISystem {
 const customizeSystems = (systemInstance: ISystem): void => {
     switch (configs.systemType) {
         case SystemType.SC1:
-            (systemInstance as ICreditSystem).customizeCredit();
+            (systemInstance as ICreditSystem)?.customizeCredit();
             break;
 
         case SystemType.SC2:
-            (systemInstance as ICashSystem).customizeCash();
+            (systemInstance as ICashSystem)?.customizeCash();
             break;
     }
 };
