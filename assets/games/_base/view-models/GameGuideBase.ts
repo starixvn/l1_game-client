@@ -1,5 +1,6 @@
-const { ccclass, property } = cc._decorator;
+import * as SabaConfigs from '../../../configs/SabaConfigs';
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default abstract class GameGuideBase extends cc.Component {
     @property({ type: cc.Label })
@@ -7,6 +8,8 @@ export default abstract class GameGuideBase extends cc.Component {
 
     @property(cc.Node)
     mainFrame: cc.Node = null;
+
+    protected siteCurrent = SabaConfigs.currency;
 
     onLoad() {
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
@@ -20,7 +23,8 @@ export default abstract class GameGuideBase extends cc.Component {
 
         this.replaceNodes.forEach((label) => {
             Object.keys(replaceData).forEach((key) => {
-                label.string = label.string.replace(key, replaceData[key]);
+                const reg = new RegExp(key, "g");
+                label.string = label.string.replace(reg, replaceData[key]);
             });
         });
     }

@@ -233,8 +233,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "3f2d7jTry1GwYdPfRPmqaT3",
-    "handler": "closeGuide",
+    "_componentId": "3492eBS2vhBuLOdLyde5NgL",
+    "handler": "closeDialog",
     "customEventData": ""
   },
   {
@@ -788,8 +788,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "3f2d7jTry1GwYdPfRPmqaT3",
-    "handler": "closeGuide",
+    "_componentId": "3492eBS2vhBuLOdLyde5NgL",
+    "handler": "closeDialog",
     "customEventData": ""
   },
   {
@@ -1016,7 +1016,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 1090
+      "height": 1150
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1156,7 +1156,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 113.71,
+      "width": 111.43,
       "height": 30
     },
     "_anchorPoint": {
@@ -1241,7 +1241,7 @@
     "_target": null,
     "_alignFlags": 40,
     "_left": 0,
-    "_right": 886.29,
+    "_right": 888.5699999999999,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -1539,7 +1539,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 500
+      "height": 560
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1551,7 +1551,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -360,
+        -390,
         0,
         0,
         0,
@@ -1618,7 +1618,7 @@
       "ctor": "Float64Array",
       "array": [
         -500,
-        235,
+        265,
         0,
         0,
         0,
@@ -1759,7 +1759,7 @@
       "ctor": "Float64Array",
       "array": [
         -500,
-        210,
+        240,
         0,
         0,
         0,
@@ -1900,7 +1900,7 @@
       "ctor": "Float64Array",
       "array": [
         -500,
-        110,
+        140,
         0,
         0,
         0,
@@ -2041,7 +2041,7 @@
       "ctor": "Float64Array",
       "array": [
         -500,
-        70,
+        100,
         0,
         0,
         0,
@@ -2182,7 +2182,7 @@
       "ctor": "Float64Array",
       "array": [
         -500,
-        30,
+        60,
         0,
         0,
         0,
@@ -2311,7 +2311,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 30
+      "height": 60
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2323,7 +2323,7 @@
       "ctor": "Float64Array",
       "array": [
         -500,
-        -10,
+        20,
         0,
         0,
         0,
@@ -2363,8 +2363,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Số tiền cược phải nằm trong khoảng từ 10 đến 20,000 cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là 20,000.",
-    "_N$string": "- Số tiền cược phải nằm trong khoảng từ 10 đến 20,000 cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là 20,000.",
+    "_string": "- Số tiền cược phải nằm trong khoảng từ _minBet đến _maxBet cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là _maxBetRound.",
+    "_N$string": "- Số tiền cược phải nằm trong khoảng từ _minBet đến _maxBet cho một lần đặt cược và tổng tiền cược tối đa cho 1 phiên là _maxBetRound.",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -2734,7 +2734,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 60
+      "height": 90
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2786,8 +2786,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "   * Ví dụ: Người chơi A đặt 100 vào cửa Tài, người chơi B đặt 40 vào cửa Xỉu, người chơi C đặt 80 vào cửa Xỉu. Hệ thống sẽ tính toán cân bằng lượng tiền giữa 2 cửa và sẽ trả lại cho C (người chơi đặt cược sau) 20.",
-    "_N$string": "   * Ví dụ: Người chơi A đặt 100 vào cửa Tài, người chơi B đặt 40 vào cửa Xỉu, người chơi C đặt 80 vào cửa Xỉu. Hệ thống sẽ tính toán cân bằng lượng tiền giữa 2 cửa và sẽ trả lại cho C (người chơi đặt cược sau) 20.",
+    "_string": "   * Ví dụ: Người chơi A đặt 100_siteCurrency vào cửa Tài, người chơi B đặt 40_siteCurrency vào cửa Xỉu, người chơi C đặt 80 vào cửa Xỉu. Hệ thống sẽ tính toán cân bằng lượng tiền giữa 2 cửa và sẽ trả lại cho C (người chơi đặt cược sau) 20_siteCurrency.",
+    "_N$string": "   * Ví dụ: Người chơi A đặt 100_siteCurrency vào cửa Tài, người chơi B đặt 40_siteCurrency vào cửa Xỉu, người chơi C đặt 80 vào cửa Xỉu. Hệ thống sẽ tính toán cân bằng lượng tiền giữa 2 cửa và sẽ trả lại cho C (người chơi đặt cược sau) 20_siteCurrency.",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -2855,7 +2855,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 500
+      "height": 560
     },
     "_resize": 1,
     "_N$layoutType": 2,
@@ -2972,7 +2972,7 @@
       "ctor": "Float64Array",
       "array": [
         -387.547,
-        -695,
+        -755,
         0,
         0,
         0,
@@ -3361,8 +3361,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Tỷ lệ trả thưởng khi đặt vào Tài, Xỉu là 1 ăn 1.96",
-    "_N$string": "- Tỷ lệ trả thưởng khi đặt vào Tài, Xỉu là 1 ăn 1.96",
+    "_string": "- Tỷ lệ trả thưởng khi đặt vào Tài, Xỉu là 1 ăn _oddEven",
+    "_N$string": "- Tỷ lệ trả thưởng khi đặt vào Tài, Xỉu là 1 ăn _oddEven",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3691,7 +3691,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -935,
+        -995,
         0,
         0,
         0,
@@ -3957,7 +3957,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 27.26,
+      "width": 25.71,
       "height": 40
     },
     "_anchorPoint": {
@@ -4042,7 +4042,7 @@
     "_target": null,
     "_alignFlags": 40,
     "_left": -0.36,
-    "_right": 954.658,
+    "_right": 956.208,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -5081,7 +5081,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 1000,
-      "height": 1090
+      "height": 1150
     },
     "_resize": 1,
     "_N$layoutType": 2,
@@ -5416,15 +5416,27 @@
     "_id": ""
   },
   {
-    "__type__": "3f2d7jTry1GwYdPfRPmqaT3",
+    "__type__": "c8308bJZfRLXKf8LRXOZNna",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "gameName": "",
-    "oddLabels": [],
+    "replaceNodes": [
+      {
+        "__id__": 58
+      },
+      {
+        "__id__": 70
+      },
+      {
+        "__id__": 86
+      }
+    ],
+    "mainFrame": {
+      "__id__": 1
+    },
     "_id": ""
   },
   {
