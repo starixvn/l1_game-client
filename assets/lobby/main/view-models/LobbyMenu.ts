@@ -1,3 +1,4 @@
+import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
@@ -13,6 +14,9 @@ export default class LobbyMenu extends GameIconMenu {
     currentRow: cc.Node = null;
     rowChildrenCount = 0;
     public initializedCallback = () => {};
+
+    @lazyInject(LobbyMenuConfig)
+    private readonly lobbyMenuConfig;
 
     getList() {
         return cc.RedT.user.availableGames; // LobbyMenuConfig.list;
@@ -31,7 +35,7 @@ export default class LobbyMenu extends GameIconMenu {
         }
         const node = cc.instantiate(prefab);
 
-        const detail = LobbyMenuConfig.detail;
+        const detail = this.lobbyMenuConfig.detail;
         const size = detail[id].size;
         if (!this.currentColumn || size.y > 1) {
             this.createNewColumn();

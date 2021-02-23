@@ -1,8 +1,9 @@
-import { removeInRoomGameId } from '../../../common/auth/AuthManager';
-import GameUtils from '../../../common/GameUtils';
-import PopupMinigames from '../../../mini-games-panel/view-models/popup/PopupMinigames';
-import GameIconMenu from './GameIconMenu';
-import LobbyMenuConfig from './LobbyMenuConfig';
+import { lazyInject } from "../../../Application";
+import { removeInRoomGameId } from "../../../common/auth/AuthManager";
+import GameUtils from "../../../common/GameUtils";
+import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
+import GameIconMenu from "./GameIconMenu";
+import LobbyMenuConfig from "./LobbyMenuConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,8 +12,11 @@ export default class CircleMenu extends GameIconMenu {
     @property(cc.Node)
     miniMenu: cc.Node = null;
 
+    @lazyInject(LobbyMenuConfig)
+    private readonly lobbyMenuConfig;
+
     getList() {
-        return LobbyMenuConfig.miniList;
+        return this.lobbyMenuConfig.list;
     }
 
     async addItem(id: number): Promise<cc.Node> {

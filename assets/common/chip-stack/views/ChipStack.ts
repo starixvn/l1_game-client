@@ -1,20 +1,11 @@
-import { ApplicationSystem, ICashSystem, ICreditSystem } from "../../../ApplicationSystem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class ChipStack extends ApplicationSystem implements ICashSystem, ICreditSystem {
+export default class ChipStack extends cc.Component {
     public chipSize = 20;
     public thickness = 3;
     public skewX = 0;
     public ratioPosX = 1.5;
-
-    customizeCredit(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    customizeCash(): void {
-        throw new Error("Method not implemented.");
-    }
 
     onLoad() {
         this.node.anchorY = 0;
