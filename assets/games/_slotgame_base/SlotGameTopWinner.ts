@@ -1,7 +1,7 @@
-import { getStringDateByTime } from './../../common/helpers/DateTimeHelper';
-import { numberWithCommas } from './../../common/helpers/NumberHelper';
-import PaginationCommon from './../../common/helpers/Pagination/PaginationCommon';
-import SlotGameTopWinnerItem from './SlotGameTopWinnerItem';
+import { getStringDateByTime } from "./../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "./../../common/helpers/NumberHelper";
+import PaginationCommon from "./../../common/helpers/Pagination/PaginationCommon";
+import SlotGameTopWinnerItem from "./SlotGameTopWinnerItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -140,6 +140,7 @@ export default class SlotGameTopWinner extends cc.Component {
                 this.get_data();
                 break;
         }
+        this.pagination.resetPageCurrent();
     }
 
     showBigWinningView(status: boolean) {
