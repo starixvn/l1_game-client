@@ -47,6 +47,7 @@ cc.Class({
 
         if (void 0 === cc.RedT) {
             cc.RedT = baseControll;
+            console.log("cc.RedT ready");
             cc.RedT.init(this.loading);
         }
 
@@ -99,7 +100,7 @@ cc.Class({
 
         if (cc.RedT.IS_LOGIN) {
             cc.RedT.send({ scene: "home" });
-            this.getGameNotifications();
+            this.onSignIn();
             this.header.userName.string = cc.RedT.user.name;
             this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
             this.header.setAvatar(cc.RedT.user.avatarId);
@@ -108,13 +109,21 @@ cc.Class({
             cc.RedT.needShowLuckyWheelIcon && this.renderLuckyWheelIcon();
         }
 
-        this.center.on("size-changed", this.repositionMenu, this);
-        this.center.on("scale-changed", this.repositionMenu, this);
+        // this.center.on("size-changed", this.repositionMenu, this);
+        // this.center.on("scale-changed", this.repositionMenu, this);
         if (!cc.sys.isMobile) {
             this.center.scale = 0.8;
         }
-
-        const lobbyMenu = this.mainScroll.getComponent("LobbyMenu");
+        console.log("end onLoad");
+    },
+    onSignIn() {
+        this.getGameNotifications();
+        this.initLobbyMenu();
+        this.initBanners();
+    },
+    initLobbyMenu() {
+        const lobbyMenu = this.mainScroll.addComponent("LobbyMenu");
+        lobbyMenu.content = this.scrollContent;
         lobbyMenu.miniPanel = cc.RedT.MiniPanel;
         lobbyMenu.initializedCallback = () => {
             if (this.node === null) {
@@ -122,9 +131,14 @@ cc.Class({
             }
             this.repositionMenu();
         };
+        lobbyMenu.initItems();
+    },
+    initBanners() {
+        const showJackpotBanner = cc.RedT.user.availableGames.includes(SabaConfigs.games.FourGuardians.id);
+        this.jackpotToggle.node.parent.active = showJackpotBanner;
 
         const jpBannerController = this.jackpotBannerContainer.getComponent("BannerController");
-        const adsBannerController = this.adsBannerContainer.getComponent("BannerController");
+        const adsBannerController = this.adsBannerContainer.getComponent("DynamicAdsBannerController");
 
         jpBannerController.onEndingRound = () => {
             this.jackpotToggle.isChecked = false;
@@ -133,11 +147,15 @@ cc.Class({
             this.switchBanner(false);
         };
 
+        adsBannerController.menuLoop = !showJackpotBanner;
+        adsBannerController.setGameAds([28, 27, 25]);
         adsBannerController.onEndingRound = () => {
-            this.adsToggle.isChecked = false;
-            this.jackpotToggle.isChecked = true;
+            if (showJackpotBanner) {
+                this.adsToggle.isChecked = false;
+                this.jackpotToggle.isChecked = true;
 
-            this.switchBanner(true);
+                this.switchBanner(true);
+            }
         };
         adsBannerController.showFirstPage();
     },
@@ -335,8 +353,8 @@ cc.Class({
         this.header.isSignIn();
         this.dialog.onBack();
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
+        this.onSignIn();
         this.openGameSSO();
-        this.getGameNotifications();
         this.getJackpotInfo();
     },
     getJackpotInfo() {

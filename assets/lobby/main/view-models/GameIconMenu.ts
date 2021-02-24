@@ -11,7 +11,9 @@ export default class GameIconMenu extends cc.Component {
     public miniPanel: MiniPanel;
 
     onLoad() {
-        this.initItems();
+        if (this.content) {
+            this.initItems();
+        }
     }
 
     getList() {

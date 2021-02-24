@@ -15,7 +15,7 @@ export default class LobbyMenu extends GameIconMenu {
     public initializedCallback = () => {};
 
     getList() {
-        return LobbyMenuConfig.list;
+        return cc.RedT.user.availableGames; // LobbyMenuConfig.list;
     }
 
     onInitialized() {

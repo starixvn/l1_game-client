@@ -21,9 +21,17 @@ export default class BannerController extends cc.Component {
     private touchOffset = cc.v2(0, 0);
     private started = false;
 
+    public menuLoop = false;
     public onEndingRound = () => {};
 
     onLoad() {
+        this.enableTouch();
+        // this.content.children.forEach((child) => {
+        //     child.active = false;
+        // });
+    }
+
+    enableTouch() {
         if (cc.sys.isMobile) {
             this.content.on(cc.Node.EventType.TOUCH_START, this.eventStart, this, true);
             this.content.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this, true);
@@ -35,10 +43,6 @@ export default class BannerController extends cc.Component {
             this.content.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
             this.content.on(cc.Node.EventType.MOUSE_LEAVE, this.handleReleaseTouch, this, true);
         }
-
-        // this.content.children.forEach((child) => {
-        //     child.active = false;
-        // });
     }
 
     onEnable() {
@@ -145,14 +149,19 @@ export default class BannerController extends cc.Component {
     showNextPage() {
         this.unschedule(this.autoChange);
 
-        const oldNode = this.getCurrentPage();
+        const oldPage = this.getCurrentPage();
         this.currentIndex++;
         if (this.currentIndex >= this.content.childrenCount) {
-            this.onEndingRound();
-            return;
+            if (!this.menuLoop) {
+                this.currentIndex = this.content.childrenCount - 1;
+                this.onEndingRound();
+                return;
+            } else {
+                this.currentIndex = 0;
+            }
         }
 
-        this.showPage(oldNode, this.currentIndex, PageDirection.Right);
+        this.showPage(oldPage, this.currentIndex, PageDirection.Right);
     }
 
     showPreviouPage() {
@@ -161,8 +170,13 @@ export default class BannerController extends cc.Component {
         const oldPage = this.getCurrentPage();
         this.currentIndex--;
         if (this.currentIndex < 0) {
-            this.onEndingRound();
-            return;
+            if (this.menuLoop) {
+                this.currentIndex = 0;
+                this.onEndingRound();
+                return;
+            } else {
+                this.currentIndex = this.content.childrenCount - 1;
+            }
         }
 
         this.showPage(oldPage, this.currentIndex, PageDirection.Left);

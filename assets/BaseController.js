@@ -1,7 +1,7 @@
-import * as authManager from './common/auth/AuthManager';
-import { buildServerUrl } from './common/helpers/UrlHelper';
-import logger from './common/logger';
-import configs from './Configs';
+import * as authManager from "./common/auth/AuthManager";
+import { buildServerUrl } from "./common/helpers/UrlHelper";
+import logger from "./common/logger";
+import configs from "./Configs";
 
 const sentryLogger = logger();
 
@@ -192,6 +192,8 @@ module.exports = {
     userData: function (data) {
         if (void 0 !== data.name) {
             this.user.name = data.name;
+
+            this.user.availableGames = [29, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21];
         }
         if (void 0 !== data.avatarId) {
             this.user.avatarId = data.avatarId;
