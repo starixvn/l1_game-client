@@ -1,4 +1,5 @@
 const configs = {
+    systemType: "SC2",
     ssl: true,
     disabledDirectLogin: true,
     serverDomainMapper: {

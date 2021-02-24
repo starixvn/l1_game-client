@@ -1,4 +1,5 @@
 const configs = {
+    systemType: "SC1",
     ssl: false,
     serverDomainMapper: {
         "games.lumigame.com": "lumigame.com"
@@ -58,6 +59,12 @@ const configs = {
             port: 7000,
             path: "/user/vipsediewar",
             proxyRoute: "/vipsediewar/socket.io"
+        },
+        29: {
+            subDomain: "haproxy",
+            port: 7000,
+            path: "/user/fourguardians",
+            proxyRoute: "/fourguardians/socket.io"
         }
     },
     sentryUrl: "https://bb445a2db0534a549906991ccf4bf895@sentryuat.sabagame.com/20",

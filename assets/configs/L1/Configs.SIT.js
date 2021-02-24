@@ -1,4 +1,5 @@
 const configs = {
+    systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
         "sit.sabagame.com": "sabagame.com"
