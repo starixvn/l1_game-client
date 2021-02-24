@@ -1,10 +1,11 @@
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
 import GameGuideBase from '../../_base/view-models/GameGuideBase';
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class TXGuide extends GameGuideBase {
-    private gameConfig = {
+    private readonly gameConfig = {
         minbet: 10,
         maxbet: 20000,
         odds: {
@@ -20,11 +21,11 @@ export default class TXGuide extends GameGuideBase {
 
     createReplaceData(configs) {
         return {
-            _maxBetRound: configs.maxbet + this.siteCurrent,
-            _minBet: configs.minbet + this.siteCurrent,
-            _maxBet: configs.maxbet + this.siteCurrent,
+            _maxBetRound: numberWithCommas(configs.maxbet) + this.siteCurrency,
+            _minBet: configs.minbet + this.siteCurrency,
+            _maxBet: numberWithCommas(configs.maxbet) + this.siteCurrency,
             _oddEven: configs.odds.even,
-            _siteCurrency: this.siteCurrent
+            _siteCurrency: this.siteCurrency
         };
     }
 }

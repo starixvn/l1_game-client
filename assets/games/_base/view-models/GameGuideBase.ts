@@ -9,7 +9,7 @@ export default abstract class GameGuideBase extends cc.Component {
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
-    protected siteCurrent = SabaConfigs.currency;
+    protected siteCurrency = SabaConfigs.currency;
 
     onLoad() {
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
