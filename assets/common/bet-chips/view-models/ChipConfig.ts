@@ -7,18 +7,7 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
         super();
     }
 
-    private chipSpriteDict: any = {
-        10: 0,
-        20: 1,
-        50: 2,
-        100: 3,
-        200: 4,
-        500: 5,
-        1000: 6,
-        5000: 7,
-        10000: 12,
-        20000: 8
-    };
+    private chipSpriteDict: any;
 
     customizeCredit(): void {
         this.chipSpriteDict = {
@@ -36,7 +25,20 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
         };
     }
 
-    customizeCash(): void {}
+    customizeCash(): void {
+        this.chipSpriteDict = {
+            10: 0,
+            20: 1,
+            50: 2,
+            100: 3,
+            200: 4,
+            500: 5,
+            1000: 6,
+            5000: 7,
+            10000: 12,
+            20000: 8
+        };
+    }
 
     getBigChipSpriteName(value: number): string {
         return `chip_${this.chipSpriteDict[value]}`;

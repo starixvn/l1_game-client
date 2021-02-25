@@ -1,8 +1,7 @@
 import * as _ from "lodash";
 import { lazyInject } from "../../../Application";
-import { ComponentSystem, ICreditSystem } from "../../../System";
 import { nFormatter } from "../../../common/helpers/NumberHelper";
-
+import { ComponentSystem, ICashSystem, ICreditSystem } from "../../../System";
 import GameUtils from "../../GameUtils";
 import ChipConfig from "./ChipConfig";
 import SnappedScrollView from "./SnappedScrollView";
@@ -11,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 type OnChangedBet = (bet: string) => void;
 
 @ccclass
-export default class BetChips extends ComponentSystem implements ICreditSystem {
+export default class BetChips extends ComponentSystem implements ICreditSystem, ICashSystem {
     @property(cc.Node)
     chips: cc.Node = null;
 
@@ -45,25 +44,27 @@ export default class BetChips extends ComponentSystem implements ICreditSystem {
     @property(cc.Prefab)
     chipPrefab: cc.Prefab = null;
 
+    public chipValues: number[];
+    public onChanged: OnChangedBet = (bet) => {};
+    public readonly chipFlyingTime: number = 0.8;
+    public readonly loginUserChipFlyingTime: number = 0.5;
+    public readonly chipDelayFlyingTime: number = 1.25;
+
     @lazyInject(ChipConfig)
     private readonly chipConfig: ChipConfig;
+    private selectedIndex = 0;
+    private chipList: cc.Node[] = [];
 
     constructor() {
         super();
     }
 
-    public chipValues = [10, 20, 50, 100, 200, 500, 1000, 5000, 20000];
-
-    public onChanged: OnChangedBet = (bet) => {};
-    public readonly chipFlyingTime: number = 0.8;
-    public readonly loginUserChipFlyingTime: number = 0.5;
-    public readonly chipDelayFlyingTime: number = 1.25;
-    private selectedIndex = 0;
-    private chipList: cc.Node[] = [];
-
     customizeCredit(): void {
         this.chipValues = [1, 5, 10, 100, 200, 500, 1000, 2000];
-        console.log("L1 Chip Value");
+    }
+
+    customizeCash(): void {
+        this.chipValues = [10, 20, 50, 100, 200, 500, 1000, 5000, 20000];
     }
 
     onLoad() {
