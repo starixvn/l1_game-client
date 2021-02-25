@@ -1,10 +1,10 @@
 import { appContainer } from "../../Application";
 import LobbyMenuConfig from "./view-models/LobbyMenuConfig";
 
-export default class LobbyComponent {
+export default class LobbyModule {
     constructor() {
         appContainer.bind<LobbyMenuConfig>(LobbyMenuConfig).toSelf().inSingletonScope();
     }
 }
 
-new LobbyComponent();
+new LobbyModule();
