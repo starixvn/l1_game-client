@@ -1,9 +1,12 @@
-import { games } from "../../../configs/SabaConfigs";
-import SlotGameBase from "../../_slotgame_base/SlotGameBase";
-import SlotGameTopWinner from "../../_slotgame_base/SlotGameTopWinner";
-import FourGuardiansGuide from "./FourGuardiansGuide";
-import FourGuardiansHistory from "./FourGuardiansHistory";
-import { FourGuardiansSlotConfigs } from "./FourGuardiansSlotConfigs";
+import { lazyInject } from '../../../Application';
+import GameUtils from '../../../common/GameUtils';
+import { games } from '../../../configs/SabaConfigs';
+import SlotGameBase from '../../_slotgame_base/SlotGameBase';
+import SlotGameTopWinner from '../../_slotgame_base/SlotGameTopWinner';
+import FourGuardiansConfig from './FourGuardiansConfig';
+import FourGuardiansGuide from './FourGuardiansGuide';
+import FourGuardiansHistory from './FourGuardiansHistory';
+import { FourGuardiansSlotConfigs } from './FourGuardiansSlotConfigs';
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,6 +14,9 @@ const { ccclass, property } = cc._decorator;
 export default class FourGuardians extends SlotGameBase {
     @property(cc.Node)
     deactiveSpinNode: cc.Node = null;
+
+    @lazyInject(FourGuardiansConfig)
+    private readonly fourGuardiansConfig: FourGuardiansConfig;
 
     private historyComponent: FourGuardiansHistory;
 
@@ -40,10 +46,10 @@ export default class FourGuardians extends SlotGameBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
-    onClickShowGuide() {
+    async onClickShowGuide() {
         super.onClickShowGuide();
-
-        const dialog = cc.instantiate(this.guidePrefab);
+        const prefab = await GameUtils.loadResource(this.fourGuardiansConfig.guidePrefabUrl);
+        const dialog = cc.instantiate(prefab);
         dialog.getComponent(FourGuardiansGuide).init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }
