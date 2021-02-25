@@ -233,8 +233,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "3f2d7jTry1GwYdPfRPmqaT3",
-    "handler": "closeGuide",
+    "_componentId": "3492eBS2vhBuLOdLyde5NgL",
+    "handler": "closeDialog",
     "customEventData": ""
   },
   {
@@ -788,8 +788,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "3f2d7jTry1GwYdPfRPmqaT3",
-    "handler": "closeGuide",
+    "_componentId": "3492eBS2vhBuLOdLyde5NgL",
+    "handler": "closeDialog",
     "customEventData": ""
   },
   {
@@ -1156,7 +1156,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 113.71,
+      "width": 111.43,
       "height": 30
     },
     "_anchorPoint": {
@@ -1241,7 +1241,7 @@
     "_target": null,
     "_alignFlags": 40,
     "_left": 0,
-    "_right": 886.29,
+    "_right": 888.5699999999999,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -6208,7 +6208,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 19.66,
+      "width": 17.83,
       "height": 40
     },
     "_anchorPoint": {
@@ -7912,7 +7912,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 17.6,
+      "width": 15.2,
       "height": 40
     },
     "_anchorPoint": {
@@ -8023,7 +8023,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 14,
+      "width": 11.6,
       "height": 40
     },
     "_anchorPoint": {
@@ -8134,7 +8134,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 18.4,
+      "width": 16,
       "height": 40
     },
     "_anchorPoint": {
@@ -8245,7 +8245,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 18,
+      "width": 15.6,
       "height": 40
     },
     "_anchorPoint": {
@@ -10332,8 +10332,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 20,000. Lưu ý, không thể hủy cược sau khi đặt.",
-    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là 20,000. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound. Lưu ý, không thể hủy cược sau khi đặt.",
+    "_N$string": "- Người chơi có thể đặt cược vào nhiều lựa chọn cùng lúc và không bị giới hạn số lần đặt cược. Tổng tiền cược tối đa cho 1 phiên là _maxBetRound. Lưu ý, không thể hủy cược sau khi đặt.",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -12467,8 +12467,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "10 - 20,000",
-    "_N$string": "10 - 20,000",
+    "_string": "_minBet - _maxBetDragon",
+    "_N$string": "_minBet - _maxBetDragon",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -12578,8 +12578,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "1:2",
-    "_N$string": "1:2",
+    "_string": "1:_oddDragon",
+    "_N$string": "1:_oddDragon",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -13026,8 +13026,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "10 - 2,000",
-    "_N$string": "10 - 2,000",
+    "_string": "_minBet - _maxBetTie",
+    "_N$string": "_minBet - _maxBetTie",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -13137,8 +13137,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "1:11",
-    "_N$string": "1:11",
+    "_string": "1:_oddTie",
+    "_N$string": "1:_oddTie",
     "_fontSize": 16,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -14238,7 +14238,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 27.26,
+      "width": 25.71,
       "height": 40
     },
     "_anchorPoint": {
@@ -14323,7 +14323,7 @@
     "_target": null,
     "_alignFlags": 40,
     "_left": -0.36,
-    "_right": 954.658,
+    "_right": 956.208,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -15697,15 +15697,33 @@
     "_id": ""
   },
   {
-    "__type__": "3f2d7jTry1GwYdPfRPmqaT3",
+    "__type__": "1d515OJNYhNIJdRZgwStmxo",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "gameName": "",
-    "oddLabels": [],
+    "replaceNodes": [
+      {
+        "__id__": 273
+      },
+      {
+        "__id__": 329
+      },
+      {
+        "__id__": 332
+      },
+      {
+        "__id__": 344
+      },
+      {
+        "__id__": 347
+      }
+    ],
+    "mainFrame": {
+      "__id__": 1
+    },
     "_id": ""
   },
   {

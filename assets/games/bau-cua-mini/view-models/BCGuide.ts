@@ -49,10 +49,9 @@ export default class BCGuide extends GameGuideBase {
 
     createReplaceData(configs) {
         return {
-            _maxBetRound: numberWithCommas(configs.maxbet) + this.siteCurrency,
-            _minBet: configs.minbet + this.siteCurrency,
-            _maxBet: numberWithCommas(configs.maxbet) + this.siteCurrency,
-            _siteCurrency: this.siteCurrency,
+            _maxBetRound: numberWithCommas(configs.maxbet),
+            _minBet: configs.minbet,
+            _maxBet: numberWithCommas(configs.maxbet),
             _oddSingle: configs.odds.oddSingle,
             _oddDouble: configs.odds.oddDouble,
             _oddTriple: configs.odds.oddTriple

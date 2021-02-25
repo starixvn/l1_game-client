@@ -120,8 +120,7 @@ const configs = {
     },
     gameRoomIds: [8, 10, 21],
     gameRoomNewSocketIds: [2, 22, 23, 25, 26, 27, 28, 29],
-    gameMiniNewSocketIds: [24],
-    currency: ""
+    gameMiniNewSocketIds: [24]
 };
 
 module.exports = configs;

@@ -21,11 +21,10 @@ export default class TXGuide extends GameGuideBase {
 
     createReplaceData(configs) {
         return {
-            _maxBetRound: numberWithCommas(configs.maxbet) + this.siteCurrency,
-            _minBet: configs.minbet + this.siteCurrency,
-            _maxBet: numberWithCommas(configs.maxbet) + this.siteCurrency,
-            _oddEven: configs.odds.even,
-            _siteCurrency: this.siteCurrency
+            _maxBetRound: numberWithCommas(configs.maxbet),
+            _minBet: configs.minbet,
+            _maxBet: numberWithCommas(configs.maxbet),
+            _oddEven: configs.odds.even
         };
     }
 }

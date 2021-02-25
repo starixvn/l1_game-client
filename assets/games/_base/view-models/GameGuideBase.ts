@@ -1,5 +1,3 @@
-import * as SabaConfigs from '../../../configs/SabaConfigs';
-
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default abstract class GameGuideBase extends cc.Component {
@@ -8,8 +6,6 @@ export default abstract class GameGuideBase extends cc.Component {
 
     @property(cc.Node)
     mainFrame: cc.Node = null;
-
-    protected siteCurrency = SabaConfigs.currency;
 
     onLoad() {
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
