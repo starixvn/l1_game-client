@@ -1,4 +1,6 @@
 import * as _ from "lodash";
+import { lazyInject } from "../../../Application";
+import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 
 import BetDetailTip from "./BetDetailTip";
 import { RouletteBetInfo, RouletteBetType } from "./Roulette";
@@ -43,6 +45,8 @@ export default class RouletteBoard extends cc.Component {
 
     private betChoices = {};
     private otherBetChoices = {};
+    @lazyInject(ChipConfig)
+    private readonly chipConfig: ChipConfig;
 
     public callback = {
         selected: (betInfo: RouletteBetInfo) => {}
@@ -346,14 +350,14 @@ export default class RouletteBoard extends cc.Component {
     placeChipsByKey(type: string, key: string, bet: number, highlight = false, other = false) {
         const childNode = this.getBetNodeByKey(type, key, other);
         childNode.destroyAllChildren();
-        const node = RouletteUtils.createChips(bet, this.chipAltas, highlight);
+        const node = RouletteUtils.createChips(bet, this.chipAltas, this.chipConfig, highlight);
         childNode.addChild(node);
     }
 
     placeChips(betInfo: RouletteBetInfo, bet: number, highlight = false, other = false) {
         const childNode = this.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo), other);
         childNode.destroyAllChildren();
-        const node = RouletteUtils.createChips(bet, this.chipAltas, highlight);
+        const node = RouletteUtils.createChips(bet, this.chipAltas, this.chipConfig, highlight);
         childNode.addChild(node);
     }
 

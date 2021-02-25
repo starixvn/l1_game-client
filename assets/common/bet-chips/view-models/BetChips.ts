@@ -51,7 +51,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     public readonly chipDelayFlyingTime: number = 1.25;
 
     @lazyInject(ChipConfig)
-    private readonly chipConfig: ChipConfig;
+    public readonly chipConfig: ChipConfig;
     private selectedIndex = 0;
     private chipList: cc.Node[] = [];
 
@@ -99,9 +99,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
             node.name = `${value}`;
 
             const label = node.children[0].getComponent(cc.Label);
-            // console.log(`====================== ${nFormatter(value, 1)}`);
             label.string = nFormatter(value, 0);
-            // label.string = `${value}`;
 
             const button = node.getComponent(cc.Button);
             const event = new cc.Component.EventHandler();
@@ -371,7 +369,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         const chip = new cc.Node();
         chip.group = "Chip";
         const chipSprite = chip.addComponent(cc.Sprite);
-        const name = this.chipConfig.getBigChipSpriteName(bet);
+        const name = this.chipConfig.getSmallChipSpriteName(bet);
         chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
         return chipSprite;
     }

@@ -1,3 +1,4 @@
+import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import GameUtils from "../../../common/GameUtils";
 
@@ -33,15 +34,22 @@ export default class BlackJackUtils {
         return [total];
     }
 
-    public static createChip(bet: number, chipAltas: cc.SpriteAtlas): cc.Node {
+    public static createChip(bet: number, chipAltas: cc.SpriteAtlas, chipConfig: ChipConfig): cc.Node {
         const chip = new cc.Node();
         const chipSprite = chip.addComponent(cc.Sprite);
-        const name = `chip${bet}`;
+        const name = chipConfig.getBigChipSpriteName(bet);
         chipSprite.spriteFrame = chipAltas.getSpriteFrame(name);
         return chip;
     }
 
-    public static createChipStack(bet: number, chipAltas: cc.SpriteAtlas, options: number[], shadowFrame: cc.SpriteFrame, skewX: number) {
+    public static createChipStack(
+        bet: number,
+        chipAltas: cc.SpriteAtlas,
+        chipConfig: ChipConfig,
+        options: number[],
+        shadowFrame: cc.SpriteFrame,
+        skewX: number
+    ) {
         const values = GameUtils.getChipValues(bet, options);
         const node = new cc.Node();
         const chipStack = node.addComponent(ChipStack);
@@ -54,7 +62,7 @@ export default class BlackJackUtils {
         keys.forEach((chip, index) => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {
-                const chipNode = this.createChip(+chip, chipAltas);
+                const chipNode = this.createChip(+chip, chipAltas, chipConfig);
                 chipStack.addChip(chipNode);
 
                 if (firstChip && i === 0) {

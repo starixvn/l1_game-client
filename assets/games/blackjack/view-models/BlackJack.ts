@@ -278,6 +278,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                             const chipStack = BlackJackUtils.createChipStack(
                                 handPlace.getBetAmount(),
                                 this.betChips.chipAltas,
+                                this.betChips.chipConfig,
                                 this.chipOption,
                                 this.shadowChip,
                                 destNode.skewX
@@ -616,6 +617,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                 const chipStack = BlackJackUtils.createChipStack(
                     hand.bet,
                     this.betChips.chipAltas,
+                    this.betChips.chipConfig,
                     this.chipOption,
                     this.shadowChip,
                     this.chipContainers[hand.pos - 1].skewX

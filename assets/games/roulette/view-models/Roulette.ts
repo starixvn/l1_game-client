@@ -347,7 +347,7 @@ export default class Roulette extends WebSocketTableGameBase {
                     const betInfo = { type: type, numbers: RouletteUtils.parseKeyToNumbers(key) };
                     const bet = betChoices[type][key];
                     const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, key);
-                    const chipNode = RouletteUtils.createChips(bet, this.betChips.chipAltas);
+                    const chipNode = RouletteUtils.createChips(bet, this.betChips.chipAltas, this.betChips.chipConfig);
 
                     this.addBetChoice(betInfo, bet);
                     const objectData = {

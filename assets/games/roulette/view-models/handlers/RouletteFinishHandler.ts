@@ -29,7 +29,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
     moveChip(betNumber: number, startNode: cc.Node, destNode: cc.Node, duration: number) {
         const atlas = this.main.rouletteMain.board.chipAltas;
-        const chip = RouletteUtils.createChips(betNumber, atlas);
+        const chip = RouletteUtils.createChips(betNumber, atlas, this.main.betChips.chipConfig);
         startNode.addChild(chip);
 
         const destWorldPosition = destNode.convertToWorldSpaceAR(cc.v2(0, 0));

@@ -1,3 +1,4 @@
+import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import GameUtils from "../../../common/GameUtils";
 import { RouletteBetInfo, RouletteBetType } from "./Roulette";
 
@@ -99,10 +100,10 @@ export default class RouletteUtils {
         return options[type];
     }
 
-    public static createChip(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
+    public static createChip(bet: number, chipAltas: cc.SpriteAtlas, chipConfig: ChipConfig, highlight = false): cc.Node {
         const chip = new cc.Node();
         const chipSprite = chip.addComponent(cc.Sprite);
-        const name = `chip${bet}_small`;
+        const name = chipConfig.getSmallChipSpriteName(bet);
         chipSprite.spriteFrame = chipAltas.getSpriteFrame(name);
 
         if (highlight) {
@@ -118,10 +119,10 @@ export default class RouletteUtils {
         return GameUtils.getChipValues(bet, this.options);
     }
 
-    public static createChips(bet: number, chipAltas: cc.SpriteAtlas, highlight = false): cc.Node {
+    public static createChips(bet: number, chipAltas: cc.SpriteAtlas, chipConfig: ChipConfig, highlight = false): cc.Node {
         const values = this.getChipValues(bet);
         const keys = Object.keys(values).sort((a, b) => +a - +b); // sort ascending by key
         const key = keys.find((k) => values[k] > 0);
-        return this.createChip(+key, chipAltas, false);
+        return this.createChip(+key, chipAltas, chipConfig, false);
     }
 }

@@ -138,6 +138,7 @@ export default class IngameActionHandler implements DataHandler {
         const chipStack = BlackJackUtils.createChipStack(
             amount,
             this.main.betChips.chipAltas,
+            this.main.betChips.chipConfig,
             this.main.chipOption,
             this.main.shadowChip,
             destNode.skewX
@@ -157,6 +158,7 @@ export default class IngameActionHandler implements DataHandler {
         const chipStack = BlackJackUtils.createChipStack(
             amount / 2,
             this.main.betChips.chipAltas,
+            this.main.betChips.chipConfig,
             this.main.chipOption,
             this.main.shadowChip,
             destNode.skewX
@@ -184,6 +186,7 @@ export default class IngameActionHandler implements DataHandler {
                     const chipStack = BlackJackUtils.createChipStack(
                         amount,
                         this.main.betChips.chipAltas,
+                        this.main.betChips.chipConfig,
                         this.main.chipOption,
                         this.main.shadowChip,
                         destNode.skewX

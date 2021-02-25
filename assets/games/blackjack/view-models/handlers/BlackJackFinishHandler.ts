@@ -155,6 +155,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         const chipStack = BlackJackUtils.createChipStack(
             winAmount,
             this.main.betChips.chipAltas,
+            this.main.betChips.chipConfig,
             options,
             this.main.shadowChip,
             destNode.skewX
@@ -180,6 +181,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                     const chipStack = BlackJackUtils.createChipStack(
                         +hand.betwin,
                         this.main.betChips.chipAltas,
+                        this.main.betChips.chipConfig,
                         options,
                         this.main.shadowChip,
                         destNode.skewX
