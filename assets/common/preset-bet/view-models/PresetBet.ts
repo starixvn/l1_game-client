@@ -1,3 +1,5 @@
+import { lazyInject } from "../../../Application";
+import BetBoardConfig from "../../bet-board/view-models/BetBoardConfig";
 import { numberWithCommas } from "../../helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
@@ -10,6 +12,12 @@ export default class PresetBet extends cc.Component {
     @property(cc.Button)
     betButton: cc.Button = null;
 
+    @property(cc.Node)
+    itemContainer: cc.Node = null;
+
+    @lazyInject(BetBoardConfig)
+    private readonly config: BetBoardConfig;
+
     protected betAmount = 0;
     public onChangedBet = (betAmount: number) => {};
     public getPreset = () => {
@@ -20,6 +28,18 @@ export default class PresetBet extends cc.Component {
 
     onLoad() {
         this.commonDialog = this.node.getComponent("CommonDialog");
+        this.updateItems();
+    }
+
+    updateItems() {
+        const listItem = this.config.presetItems;
+        this.itemContainer.children.forEach((child, index) => {
+            const label = child.children[0].getComponent(cc.Label);
+            let value = listItem[index];
+
+            child.name = value;
+            label.string = `+${value}`;
+        });
     }
 
     onEnable() {

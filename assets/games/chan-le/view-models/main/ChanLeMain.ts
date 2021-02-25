@@ -1,3 +1,4 @@
+import BetBoardConfig from "../../../../common/bet-board/view-models/BetBoardConfig";
 import { getOnlyNumberInString, numberTo, numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import UmWarning from "../../../../common/um-warning/UmWarning";
 import DataHandler from "../../../_base/handlers/DataHandler";
@@ -16,7 +17,8 @@ import GameDataHandler from "./data-handlers/GameDataHandler";
 import LogsDataHandler, { ILogsDataHandler } from "./data-handlers/LogsDataHandler";
 import TimeDataHandler, { ITimeDataHandler } from "./data-handlers/TimeDataHandler";
 import UMDataHandler from "./data-handlers/UMDataHandler";
-
+import { appContainer } from "../../../../Application";
+const betBoardConfig = appContainer.get(BetBoardConfig);
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ChanLeMain extends cc.Component {
@@ -171,7 +173,7 @@ export default class ChanLeMain extends cc.Component {
     public betBoard: BetBoard;
     public presetBetValue = 0;
 
-    private static readonly MAX_BET = 20000;
+    private static readonly MAX_BET = betBoardConfig.MAX_BET;
     private static readonly DAT_CUOC = "ĐẶT CỬA";
     private readonly umDataHandler: DataHandler;
     private readonly errorDataHandler: DataHandler;

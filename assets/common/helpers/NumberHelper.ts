@@ -12,7 +12,7 @@ const numberWithCommas = (number, toFixed = 2, noZeroSuffix = true) => {
     return "0";
 };
 
-const nFormatter = (num, digits) => {
+const nFormatter = (num, digits = 0) => {
     var si = [
         { value: 1, symbol: "" },
         { value: 1e3, symbol: "K" },

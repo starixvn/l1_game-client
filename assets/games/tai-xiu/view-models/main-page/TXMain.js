@@ -1,6 +1,8 @@
 import { getOnlyNumberInString, numberPad, numberTo, numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import UmWarning from "../../../../common/um-warning/UmWarning";
-
+import BetBoardConfig from "../../../../common/bet-board/view-models/BetBoardConfig";
+import { appContainer } from "../../../../Application";
+const betBoardConfig = appContainer.get(BetBoardConfig);
 const BrowserUtil = require("BrowserUtil"),
     TXScale = require("TXScale"),
     Constants = require("TXConstants"),
@@ -219,7 +221,7 @@ cc.Class({
         this.balanceBetNotice = null;
         this.currentStatus = null;
         this.presetBetValue = 0;
-        this.MAX_BET = 20000;
+        this.MAX_BET = betBoardConfig.MAX_BET;
         this.betBoard = null;
 
         if (void 0 === cc.RedT.setting.taixiu.red) {

@@ -15,5 +15,6 @@ export default class MiniKenoPresetBet extends PresetBet {
         this.commonDialog.onWillShow = () => {
             this.node.active = true;
         };
+        this.updateItems();
     }
 }
