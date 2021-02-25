@@ -150,7 +150,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     }
     handleHandAction(hand: any, betAmount: any, index: number) {
         const winAmount = +hand.betwin - betAmount;
-        const options = [...this.main.chipOption, 0.5];
+        const options = this.main.chipOption;
         const destNode = this.main.chipContainers[index];
         const chipStack = BlackJackUtils.createChipStack(
             winAmount,

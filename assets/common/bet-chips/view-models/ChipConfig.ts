@@ -8,9 +8,11 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
     }
 
     private chipSpriteDict: any;
+    public chipOption: number[];
 
     customizeCredit(): void {
         this.chipSpriteDict = {
+            0.5: 13,
             1: 0,
             5: 2,
             10: 3,
@@ -23,10 +25,14 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
             3000: 10,
             5000: 11
         };
+        this.chipOption = Object.keys(this.chipSpriteDict)
+            .map((key) => +key)
+            .sort((a, b) => b - a); //sort ascending
     }
 
     customizeCash(): void {
         this.chipSpriteDict = {
+            5: 13,
             10: 0,
             20: 1,
             50: 2,
@@ -38,6 +44,9 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
             10000: 12,
             20000: 8
         };
+        this.chipOption = Object.keys(this.chipSpriteDict)
+            .map((key) => +key)
+            .sort((a, b) => b - a); //sort ascending
     }
 
     getBigChipSpriteName(value: number): string {

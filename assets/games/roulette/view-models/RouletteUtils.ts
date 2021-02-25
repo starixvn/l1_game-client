@@ -4,7 +4,6 @@ import { RouletteBetInfo, RouletteBetType } from "./Roulette";
 
 export default class RouletteUtils {
     private static readonly redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
-    private static readonly options = [2000, 1000, 500, 200, 100, 50, 10, 5, 1];
 
     public static isRed(number): boolean {
         return this.redNumbers.indexOf(number) !== -1;
@@ -115,12 +114,12 @@ export default class RouletteUtils {
         return chip;
     }
 
-    public static getChipValues(bet: number): any {
-        return GameUtils.getChipValues(bet, this.options);
+    public static getChipValues(bet: number, options: number[]): any {
+        return GameUtils.getChipValues(bet, options);
     }
 
     public static createChips(bet: number, chipAltas: cc.SpriteAtlas, chipConfig: ChipConfig, highlight = false): cc.Node {
-        const values = this.getChipValues(bet);
+        const values = this.getChipValues(bet, chipConfig.chipOption);
         const keys = Object.keys(values).sort((a, b) => +a - +b); // sort ascending by key
         const key = keys.find((k) => values[k] > 0);
         return this.createChip(+key, chipAltas, chipConfig, false);

@@ -72,7 +72,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
         const remainingTimeToStopBet = this.main.currentTimeRemaining - this.main.config.stopBetTime;
         const destNode = this.main.rouletteMain.board.getBetNodeByKey(type, key, true);
         const bet = other.betChoices[type][key];
-        const values = RouletteUtils.getChipValues(bet);
+        const values = RouletteUtils.getChipValues(bet, this.main.betChips.chipConfig.chipOption);
 
         let count = 0;
         Object.keys(values).forEach((chip) => {
@@ -83,7 +83,11 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
                         cc.tween(this.main)
                             .delay(delayTime)
                             .call(() => {
-                                const chipNode = RouletteUtils.createChip(+chip, this.main.betChips.chipAltas);
+                                const chipNode = RouletteUtils.createChip(
+                                    +chip,
+                                    this.main.betChips.chipAltas,
+                                    this.main.betChips.chipConfig
+                                );
                                 const objectData = {
                                     chipNode: chipNode,
                                     bet: bet,
