@@ -1,13 +1,17 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
+import { lazyInject } from "../../../Application";
+import { ComponentSystem, ICreditSystem } from "../../../System";
+import { nFormatter } from "../../../common/helpers/NumberHelper";
 
-import GameUtils from '../../GameUtils';
-import SnappedScrollView from './SnappedScrollView';
+import GameUtils from "../../GameUtils";
+import ChipConfig from "./ChipConfig";
+import SnappedScrollView from "./SnappedScrollView";
 
 const { ccclass, property } = cc._decorator;
 type OnChangedBet = (bet: string) => void;
 
 @ccclass
-export default class BetChips extends cc.Component {
+export default class BetChips extends ComponentSystem implements ICreditSystem {
     @property(cc.Node)
     chips: cc.Node = null;
 
@@ -22,9 +26,6 @@ export default class BetChips extends cc.Component {
 
     @property(cc.SpriteAtlas)
     chipAltas: cc.SpriteAtlas = null;
-
-    @property()
-    defaultChip = "1";
 
     @property(SnappedScrollView)
     snappedScrollView: SnappedScrollView = null;
@@ -41,6 +42,18 @@ export default class BetChips extends cc.Component {
     @property
     movingStep = 1;
 
+    @property(cc.Prefab)
+    chipPrefab: cc.Prefab = null;
+
+    @lazyInject(ChipConfig)
+    private readonly chipConfig: ChipConfig;
+
+    constructor() {
+        super();
+    }
+
+    public chipValues = [10, 20, 50, 100, 200, 500, 1000, 5000, 20000];
+
     public onChanged: OnChangedBet = (bet) => {};
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
@@ -48,7 +61,15 @@ export default class BetChips extends cc.Component {
     private selectedIndex = 0;
     private chipList: cc.Node[] = [];
 
+    customizeCredit(): void {
+        this.chipValues = [1, 5, 10, 100, 200, 500, 1000, 2000];
+        console.log("L1 Chip Value");
+    }
+
     onLoad() {
+        //use chipVaues here ,
+        this.createChips();
+
         this.leftButton.active = false;
         this.chipList = [...this.chips.children];
         this.snappedScrollView.onScrollEnded = () => {
@@ -67,6 +88,34 @@ export default class BetChips extends cc.Component {
         };
     }
 
+    createChips() {
+        this.chipValues.forEach((value) => {
+            const node = cc.instantiate(this.chipPrefab);
+            this.chips.addChild(node);
+
+            const sprite = node.getComponent(cc.Sprite);
+            sprite.spriteFrame = this.chipAltas.getSpriteFrame(this.chipConfig.getBigChipSpriteName(value));
+            node.name = `${value}`;
+
+            const label = node.children[0].getComponent(cc.Label);
+            // console.log(`====================== ${nFormatter(value, 1)}`);
+            label.string = nFormatter(value, 0);
+            // label.string = `${value}`;
+
+            const button = node.getComponent(cc.Button);
+            const event = new cc.Component.EventHandler();
+            event.target = this.node;
+            event.component = "BetChips";
+            event.handler = "onClickBet";
+            button.clickEvents.push(event);
+        });
+
+        const layout = this.chips.getComponent(cc.Layout);
+        layout.enabled = true;
+        layout.updateLayout();
+        layout.enabled = false;
+    }
+
     onEnable() {
         this.selectedIndex = 0;
         this.snappedScrollView.scrollTo(0);
@@ -75,7 +124,7 @@ export default class BetChips extends cc.Component {
 
     public init(onChanged: OnChangedBet) {
         this.onChanged = onChanged;
-        this.setCurrentBet(this.defaultChip);
+        this.setCurrentBet(this.chipValues[0].toString());
     }
 
     public onPrevious() {
@@ -321,7 +370,7 @@ export default class BetChips extends cc.Component {
         const chip = new cc.Node();
         chip.group = "Chip";
         const chipSprite = chip.addComponent(cc.Sprite);
-        const name = `chip${bet}_small`;
+        const name = this.chipConfig.getBigChipSpriteName(bet);
         chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
         return chipSprite;
     }
@@ -339,7 +388,7 @@ export default class BetChips extends cc.Component {
         this.chips.children.forEach((chip) => {
             chip.stopAllActions();
             if (chip.name === targetName) {
-                chip.children[0].active = true;
+                chip.children[1].active = true;
                 chip.zIndex = 2;
                 cc.tween(chip)
                     .to(0.2, {
@@ -348,7 +397,7 @@ export default class BetChips extends cc.Component {
                     })
                     .start();
             } else {
-                chip.children[0].active = false;
+                chip.children[1].active = false;
                 chip.zIndex = 1;
                 cc.tween(chip)
                     .to(0.2, {

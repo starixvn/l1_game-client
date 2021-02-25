@@ -1,6 +1,7 @@
 import { Container } from "inversify";
 import getDecorators from "inversify-inject-decorators";
 import "reflect-metadata";
+import ChipConfig from "./common/bet-chips/view-models/ChipConfig";
 import SocketIOController from "./SocketIOController";
 
 export class Application {
@@ -12,6 +13,7 @@ export class Application {
 
     configureServices() {
         this.container.bind<SocketIOController>(SocketIOController).toSelf().inSingletonScope();
+        this.container.bind<ChipConfig>(ChipConfig).toSelf().inSingletonScope();
     }
 }
 
