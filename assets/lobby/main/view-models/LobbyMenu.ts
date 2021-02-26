@@ -19,7 +19,7 @@ export default class LobbyMenu extends GameIconMenu {
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
     getList() {
-        return cc.RedT.user.availableGames; // LobbyMenuConfig.list;
+        return cc.RedT.user.offerGames; // LobbyMenuConfig.list;
     }
 
     onInitialized() {

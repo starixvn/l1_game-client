@@ -190,10 +190,13 @@ module.exports = {
         return check === "true";
     },
     userData: function (data) {
+        if (void 0 !== data.offerGames) {
+            this.user.offerGames = data.offerGames;
+            console.log("OfferGames: ", data.offerGames);
+            this.user.offerGames = [29, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21];
+        }
         if (void 0 !== data.name) {
             this.user.name = data.name;
-
-            this.user.availableGames = [29, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21];
         }
         if (void 0 !== data.avatarId) {
             this.user.avatarId = data.avatarId;
