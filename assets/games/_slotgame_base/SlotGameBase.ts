@@ -172,7 +172,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.initEventForNumberContainer();
         this.initSlotGameConfig();
         this.loadSlotGameConfig();
-        this.loadUserSetting();
 
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
         cc.tween(this.node)
@@ -226,8 +225,11 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     updateStakeContainer() {
+        if (!this.gameConfigs) {
+            return;
+        }
         this.stakeContainer.toggleItems.forEach((item, index) => {
-            if (this.stake === this.slotGameConfigs.stakeLevels[index]) {
+            if (this.stake === this.gameConfigs.stakeLevels[index]) {
                 item.isChecked = true;
             }
         });
@@ -270,11 +272,20 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             return;
         }
         this.slotBoard.setConfig(this.slotGameConfigs);
-        this.setStake(this.slotGameConfigs.stakeLevels[0] || 0);
+    }
+
+    loadStakeLevelsConfig() {
+        this.setStake(this.gameConfigs.stakeLevels[0] || 0);
         this.onStakeChanged();
         this.stakeContainer.toggleItems.forEach((item, index) => {
-            item.node.getChildByName("value").getComponent(cc.Label).string = numberWithCommas(this.slotGameConfigs.stakeLevels[index]);
+            item.node.getChildByName("value").getComponent(cc.Label).string = numberWithCommas(this.gameConfigs.stakeLevels[index], 1);
         });
+        this.loadUserSetting();
+    }
+
+    updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        this.loadStakeLevelsConfig();
     }
 
     start() {
@@ -440,12 +451,12 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     updateTotalBetLabel() {
         const total = this.getCurrentTotalBet();
-        this.totalBet.string = numberWithCommas(total);
+        this.totalBet.string = numberWithCommas(total, 1);
     }
 
     setStake(stake: number) {
         this.stake = stake;
-        this.stakeLabel.string = numberWithCommas(stake);
+        this.stakeLabel.string = numberWithCommas(stake, 1);
     }
 
     updateLineChanged() {
@@ -455,7 +466,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     onStakeToggleChanged(event: cc.Event, param: string) {
         cc.RedT.audio.playClick();
-        this.setStake(this.slotGameConfigs.stakeLevels[+param]);
+        this.setStake(this.gameConfigs.stakeLevels[+param]);
         this.onStakeChanged();
     }
 
