@@ -1,5 +1,5 @@
-import { appContainer } from '../../Application';
-import FourGuardiansConfig from './scripts/FourGuardiansConfig';
+import { appContainer } from '../../../Application';
+import FourGuardiansConfig from './FourGuardiansConfig';
 
 export default class FourGuardiansModule {
     constructor() {
