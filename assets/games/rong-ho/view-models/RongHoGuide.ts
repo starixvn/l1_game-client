@@ -1,26 +1,28 @@
+import { lazyInject } from '../../../Application';
 import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import OldMiniGameConfig from '../../_base/OldMiniGameConfig';
 import GameGuideBase from '../../_base/view-models/GameGuideBase';
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RongHoGuide extends GameGuideBase {
-    protected gameConfig = {
-        minbet: 10,
-        maxbet: 20000,
-        choices_maxbet: {
-            dragon: 20000,
-            tie: 2000
-        },
-        odds: {
-            dragon: 2,
-            tie: 11
-        }
+    @lazyInject(OldMiniGameConfig)
+    private readonly oldMiniGameConfig: OldMiniGameConfig;
+
+    protected gameConfigs;
+
+    private odds = {
+        dragon: 2,
+        tie: 11
     };
 
     onLoad() {
         super.onLoad();
-        this.init(this.gameConfig);
+        this.gameConfigs = this.oldMiniGameConfig.gameConfigs;
+        this.gameConfigs.choices_maxbet = this.oldMiniGameConfig.dragonTigerChoicesMaxbet;
+        this.gameConfigs.odds = this.odds;
+        this.init(this.gameConfigs);
     }
 
     createReplaceData(configs) {
