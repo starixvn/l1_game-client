@@ -1,12 +1,12 @@
-import { lazyInject } from '../../../Application';
-import GameUtils from '../../../common/GameUtils';
-import { games } from '../../../configs/SabaConfigs';
-import SlotGameBase from '../../_slotgame_base/SlotGameBase';
-import SlotGameTopWinner from '../../_slotgame_base/SlotGameTopWinner';
-import FourGuardiansConfig from './FourGuardiansConfig';
-import FourGuardiansGuide from './FourGuardiansGuide';
-import FourGuardiansHistory from './FourGuardiansHistory';
-import { FourGuardiansSlotConfigs } from './FourGuardiansSlotConfigs';
+import { lazyInject } from "../../../Application";
+import GameUtils from "../../../common/GameUtils";
+import { games } from "../../../configs/SabaConfigs";
+import SlotGameBase from "../../_slotgame_base/SlotGameBase";
+import SlotGameTopWinner from "../../_slotgame_base/SlotGameTopWinner";
+import FourGuardiansConfig from "./FourGuardiansConfig";
+import FourGuardiansGuide from "./FourGuardiansGuide";
+import FourGuardiansHistory from "./FourGuardiansHistory";
+import { FourGuardiansSlotConfigs } from "./FourGuardiansSlotConfigs";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,6 +23,12 @@ export default class FourGuardians extends SlotGameBase {
     constructor() {
         super();
         this.init("FourGuardians", null, null, 1, games.FourGuardians.id);
+    }
+
+    onLoad() {
+        super.onLoad();
+
+        this.showJackpotInfo(this.fourGuardiansConfig.jackpotEnabled);
     }
 
     onDataGameRoom(data) {
