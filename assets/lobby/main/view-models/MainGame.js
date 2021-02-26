@@ -6,8 +6,10 @@ import logger from "../../../common/logger";
 import * as SabaConfigs from "../../../configs/SabaConfigs";
 import SocketIOController from "../../../SocketIOController";
 import * as authManager from "./../../../common/auth/AuthManager";
+import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 
 const socketIOController = appContainer.get(SocketIOController);
+const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
 const sentryLogger = logger();
 
 var header = require("Header"),
@@ -136,7 +138,8 @@ cc.Class({
         lobbyMenu.initItems();
     },
     initBanners() {
-        const showJackpotBanner = cc.RedT.user.offerGames.includes(SabaConfigs.games.FourGuardians.id);
+        const showJackpotBanner =
+            cc.RedT.user.offerGames.includes(SabaConfigs.games.FourGuardians.id) && fourGuardiansConfig.jackpotEnabled;
         this.jackpotToggle.node.parent.active = showJackpotBanner;
 
         const jpBannerController = this.jackpotBannerContainer.getComponent("BannerController");
