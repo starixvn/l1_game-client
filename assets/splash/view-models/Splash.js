@@ -1,6 +1,8 @@
-import logger from "../../common/logger";
-import * as authManager from "./../../common/auth/AuthManager";
+import logger from '../../common/logger';
+import * as authManager from './../../common/auth/AuthManager';
+import SplashConfig from './SplashConfig';
 
+// const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
 
 cc.Class({
@@ -13,6 +15,8 @@ cc.Class({
         },
         retryButtonNode: cc.Node,
         updateProgressBar: cc.Node,
+        sloganSC1: cc.Node,
+        sloganSC2: cc.Node,
         _am: null,
         _updating: !1,
         _canRetry: !1,
@@ -24,6 +28,10 @@ cc.Class({
         this.initOneSign();
         sentryLogger.start();
         this.loadAssets();
+
+        const splashConfig = new SplashConfig();
+        this.sloganSC1.active = splashConfig.enabledSC1;
+        this.sloganSC2.active = !splashConfig.enabledSC1;
     },
     initOneSign: function () {
         if (this.checkPlugin()) {
