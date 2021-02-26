@@ -1,8 +1,9 @@
-import logger from '../../common/logger';
-import * as authManager from './../../common/auth/AuthManager';
-import SplashConfig from './SplashConfig';
+import { appContainer } from "../../Application";
+import logger from "../../common/logger";
+import * as authManager from "./../../common/auth/AuthManager";
+import SplashConfig from "./SplashConfig";
 
-// const splashConfig = appContainer.get(SplashConfig);
+const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
 
 cc.Class({
@@ -29,7 +30,6 @@ cc.Class({
         sentryLogger.start();
         this.loadAssets();
 
-        const splashConfig = new SplashConfig();
         this.sloganSC1.active = splashConfig.enabledSC1;
         this.sloganSC2.active = !splashConfig.enabledSC1;
     },

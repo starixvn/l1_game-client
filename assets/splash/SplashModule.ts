@@ -1,5 +1,5 @@
-import { appContainer } from '../../Application';
-import SplashConfig from './SplashConfig';
+import { appContainer } from "../Application";
+import SplashConfig from "./view-models/SplashConfig";
 
 export default class SplashModule {
     constructor() {

@@ -1,6 +1,5 @@
-import { injectable } from 'inversify';
-
-import { ICashSystem, ICreditSystem, System } from '../../System';
+import { injectable } from "inversify";
+import { ICashSystem, ICreditSystem, System } from "../../System";
 
 @injectable()
 export default class SplashConfig extends System implements ICreditSystem, ICashSystem {
