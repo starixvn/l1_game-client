@@ -45,6 +45,11 @@ export default class MiniPanelDataHandlers {
             cc.RedT.IS_LOGIN = true;
             this.main.onSignIn();
         }
+
+        if (data.notPermittedToPlay) {
+            const message = data.message;
+            this.main.onForceReload(true, message);
+        }
     }
 
     handleDataKickedOut(data: any) {

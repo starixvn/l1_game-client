@@ -116,14 +116,14 @@ export default class MiniPanel extends cc.Component {
         this.specialSeDie && this.specialSeDie.node && this.specialSeDie.onSignIn();
     }
 
-    onForceReload(showNotice = true) {
+    onForceReload(showNotice = true, message = "Vui lòng tải lại trang để cập nhật phiên bản mới.") {
         const forceReload = () => {
             location.reload();
         };
 
         if (showNotice) {
             const noticeData = {
-                text: "Vui lòng tải lại trang để cập nhật phiên bản mới.",
+                text: message,
                 isInfo: true
             } as NoticeData;
             this.showNotice(noticeData, forceReload, forceReload);
