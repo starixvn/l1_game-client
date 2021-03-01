@@ -170,7 +170,7 @@ export default class BannerController extends cc.Component {
         const oldPage = this.getCurrentPage();
         this.currentIndex--;
         if (this.currentIndex < 0) {
-            if (this.menuLoop) {
+            if (!this.menuLoop) {
                 this.currentIndex = 0;
                 this.onEndingRound();
                 return;
