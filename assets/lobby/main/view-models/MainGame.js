@@ -166,20 +166,25 @@ cc.Class({
         adsBannerController.showFirstPage();
     },
     switchBanner(showJackpot, reset) {
-        this.adsBannerContainer.active = !showJackpot;
-        this.jackpotBannerContainer.active = showJackpot;
+        cc.tween(this.node)
+            .delay(0.1)
+            .call(() => {
+                this.adsBannerContainer.active = !showJackpot;
+                this.jackpotBannerContainer.active = showJackpot;
 
-        const currentContainer = showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
-        const newContainer = !showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
+                const currentContainer = showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
+                const newContainer = !showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
 
-        const currentController = currentContainer.getComponent("BannerController");
-        const newController = newContainer.getComponent("BannerController");
+                const currentController = currentContainer.getComponent("BannerController");
+                const newController = newContainer.getComponent("BannerController");
 
-        if (currentController.currentIndex > 0 || reset) {
-            newController.showFirstPage();
-        } else {
-            newController.showLastPage();
-        }
+                if (currentController.currentIndex > 0 || reset) {
+                    newController.showFirstPage();
+                } else {
+                    newController.showLastPage();
+                }
+            })
+            .start();
     },
     getGameNotifications() {
         const list = [23, 29];
