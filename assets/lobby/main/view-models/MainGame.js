@@ -1,15 +1,17 @@
-import { appContainer } from "../../../Application";
-import baseControll from "../../../BaseController";
-import GameUtils from "../../../common/GameUtils";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import logger from "../../../common/logger";
-import * as SabaConfigs from "../../../configs/SabaConfigs";
-import SocketIOController from "../../../SocketIOController";
-import * as authManager from "./../../../common/auth/AuthManager";
-import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
+import { appContainer } from '../../../Application';
+import baseControll from '../../../BaseController';
+import GameUtils from '../../../common/GameUtils';
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import logger from '../../../common/logger';
+import * as SabaConfigs from '../../../configs/SabaConfigs';
+import FourGuardiansConfig from '../../../games/four-guardians/scripts/FourGuardiansConfig';
+import SocketIOController from '../../../SocketIOController';
+import SplashConfig from '../../../splash/view-models/SplashConfig';
+import * as authManager from './../../../common/auth/AuthManager';
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
+const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
 
 var header = require("Header"),
@@ -298,7 +300,18 @@ cc.Class({
     },
 
     formatUserCurrency: function (red) {
-        return `${numberWithCommas(red)}`;
+        if (splashConfig.enabledSC1) {
+            return `${numberWithCommas(red)}`;
+        } else {
+            let userCurrency = "";
+            if (cc.RedT.user.currency) {
+                userCurrency = cc.RedT.user.currency.toUpperCase();
+            } else {
+                userCurrency = currency === undefined ? "" : currency;
+            }
+
+            return `${numberWithCommas(red)} ${userCurrency}`;
+        }
     },
     showNotice: function (noticeData) {
         var noticePrefab = cc.instantiate(this.NoticePrefab);
