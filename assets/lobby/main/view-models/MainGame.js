@@ -11,7 +11,6 @@ import * as authManager from './../../../common/auth/AuthManager';
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
-const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
 
 var header = require("Header"),
@@ -299,10 +298,10 @@ cc.Class({
         }
     },
 
-    formatUserCurrency: function (red) {
+    formatUserCurrency: function (red, currency) {
+        const splashConfig = new SplashConfig();
+
         if (splashConfig.enabledSC1) {
-            return `${numberWithCommas(red)}`;
-        } else {
             let userCurrency = "";
             if (cc.RedT.user.currency) {
                 userCurrency = cc.RedT.user.currency.toUpperCase();
@@ -311,6 +310,8 @@ cc.Class({
             }
 
             return `${numberWithCommas(red)} ${userCurrency}`;
+        } else {
+            return `${numberWithCommas(red)}`;
         }
     },
     showNotice: function (noticeData) {
@@ -331,7 +332,7 @@ cc.Class({
     },
     loadUserData: function (data) {
         if (void 0 !== data.red && this.header && this.header.userRed) {
-            this.header.userRed.string = this.formatUserCurrency(data.red);
+            this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
         }
 
         if (void 0 !== data.avatarId) {
