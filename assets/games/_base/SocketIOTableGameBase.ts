@@ -1,6 +1,4 @@
-import { lazyInject } from "../../Application";
 import * as authManager from "../../common/auth/AuthManager";
-import SocketIOController from "../../SocketIOController";
 import WebSocketTableGameBase from "./WebSocketTableGameBase";
 
 const { ccclass } = cc._decorator;
@@ -8,9 +6,6 @@ const { ccclass } = cc._decorator;
 @ccclass
 export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     protected socket: SocketIOClient.Socket;
-
-    @lazyInject(SocketIOController)
-    protected readonly socketIOController: SocketIOController;
 
     onLoad() {
         super.onLoad();
@@ -88,20 +83,5 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     onCloseGameClick() {
         super.onCloseGameClick();
         authManager.removeInRoomGameId();
-    }
-
-    outRoomGame() {
-        return new Promise((resolve) => {
-            this.node.runAction(
-                cc.sequence(
-                    cc.delayTime(1),
-                    cc.callFunc(() => {
-                        this.socketIOController.closeMiniGameSockets();
-                        this.stopGame();
-                        resolve("done");
-                    })
-                )
-            );
-        });
     }
 }
