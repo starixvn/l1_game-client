@@ -1,49 +1,19 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
-import GameUtils from "./../../../common/GameUtils";
-import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
-import SpecialSeDieHistoryItem from "./SpecialSeDieHistoryItem";
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import SedieHistoryBase from '../../_base/view-models/SedieHistoryBase';
+import GameUtils from './../../../common/GameUtils';
+import SpecialSeDieHistoryItem from './SpecialSeDieHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SpecialSeDieHistory extends SocketIOGameHistoryBase {
-    @property(cc.SpriteFrame)
-    iconRed: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    iconWhite: cc.SpriteFrame = null;
-
+export default class SpecialSeDieHistory extends SedieHistoryBase {
     public handleBetHistory = (roundId) => {};
 
     bindItemRowData(betLog, index) {
-        const itemNode = cc.instantiate(this.itemPrefab);
+        const itemNode = this.bindCommonData(betLog, index);
         const item = itemNode.getComponent(SpecialSeDieHistoryItem);
-        item.node.active = true;
-        item.bg.active = index % 2 > 0;
+        const { phien, choice, amount, refund, win } = betLog;
 
-        const { time, phien, result, betwin, choice, amount, refund, win } = betLog;
-
-        item.time.string = getStringDateByTime(time);
-        item.time.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
-
-        item.phien.string = phien;
-
-        let number = 0;
-        Object.keys(result).forEach((key) => {
-            if (result[key]) {
-                number++;
-            }
-        });
-
-        item.kqLabel.string = number.toString();
-        if (number % 2) {
-            item.kqSprite.spriteFrame = this.iconRed;
-            item.kqLabel.node.color = cc.Color.WHITE;
-        } else {
-            item.kqSprite.spriteFrame = this.iconWhite;
-            item.kqLabel.node.color = cc.Color.BLACK;
-        }
         item.option.string = GameUtils.getBetChoiceString(choice);
         item.option.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
 
@@ -51,7 +21,6 @@ export default class SpecialSeDieHistory extends SocketIOGameHistoryBase {
         item.refund.string = numberWithCommas(refund);
         item.roundId = phien;
 
-        item.win.string = numberWithCommas(betwin);
         item.win.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
 
         item.handleRoundIdClick = (roundId) => {

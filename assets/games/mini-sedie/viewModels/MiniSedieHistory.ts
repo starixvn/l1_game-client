@@ -1,38 +1,11 @@
-import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
-import GameHistoryBase from "../../_base/view-models/GameHistoryBase";
-import MiniSedieHistoryItem from "./MiniSedieHistoryItem";
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import SedieHistoryBase from '../../_base/view-models/SedieHistoryBase';
+import MiniSedieHistoryItem from './MiniSedieHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class MiniSedieHistory extends cc.Component {
-    @property(PaginationCommon)
-    pages: PaginationCommon = null;
-
-    @property(cc.Node)
-    content: cc.Node = null;
-
-    @property(cc.Prefab)
-    itemPrefab: cc.Prefab = null;
-
-    @property(cc.SpriteFrame)
-    iconRed: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    iconWhite: cc.SpriteFrame = null;
-
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
-
+export default class MiniSedieHistory extends SedieHistoryBase {
     private readonly dataObserverKey = "MiniSedieHistory";
-
-    onLoad() {
-        this.pages.init(this);
-
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
-            this.node.destroy();
-        };
-    }
 
     onEnable() {
         cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
@@ -49,15 +22,21 @@ export default class MiniSedieHistory extends cc.Component {
         cc.RedT.send({ g: { miniSedie: { getHistory: { page: page } } } });
     }
 
-    onData(data) {
-        const { page, pageSize, total, betLogs } = data;
-        this.pages.onSet(page, pageSize, total);
-        this.content.destroyAllChildren();
+    bindItemRowData(betLog, index) {
+        const itemNode = this.bindCommonData(betLog, index);
+        const item = itemNode.getComponent(MiniSedieHistoryItem);
 
-        if (betLogs && betLogs.length) {
-            betLogs.map((betLog, index) => {
-                GameHistoryBase.buildItemRowData(this, betLog, index, MiniSedieHistoryItem);
-            });
-        }
+        const { settlementResult } = betLog;
+
+        Object.keys(settlementResult).forEach((choice) => {
+            item[choice].string = numberWithCommas(betLog[choice]);
+            if (settlementResult[choice]) {
+                item[choice].node.color = cc.Color.YELLOW;
+            } else {
+                item[choice].node.color = cc.Color.WHITE;
+            }
+        });
+
+        this.content.addChild(itemNode);
     }
 }
