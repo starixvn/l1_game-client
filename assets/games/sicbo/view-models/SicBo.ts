@@ -187,8 +187,8 @@ export default class SicBo extends SocketIOTableGameBase {
         this.betHandler = new SicBoBetHandler(this);
     }
 
-    public updateDisplayForRemoteConfig() {
-        super.updateDisplayForRemoteConfig();
+    public updateOddsFromConfigs() {
+        super.updateOddsFromConfigs();
         this.gameConfigs.odds && this.oddsItems.forEach((item) => item.setValue(this.gameConfigs.odds[item.node.name]));
     }
 

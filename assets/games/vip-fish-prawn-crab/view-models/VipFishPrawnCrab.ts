@@ -180,7 +180,7 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
         super.onDataGameRoom(data);
     }
 
-    public updateDisplayForRemoteConfig() {
+    public updateOddsFromConfigs() {
         this.gameConfigs.odds && this.oddItems.forEach((item) => item.setValue(this.gameConfigs.odds[item.node.name]));
     }
 

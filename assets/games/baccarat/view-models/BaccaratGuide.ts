@@ -28,9 +28,9 @@ export default class BaccaratGuide extends cc.Component {
             _oddTie: odds.tie,
             _oddPair: odds.playerPair,
             _minBet: numberWithCommas(configs.minbet),
-            _maxBetMainChoice: numberWithCommas(choiceMaxBet.player),
-            _maxBetSubChoice: numberWithCommas(choiceMaxBet.tie),
-            _maxBetRound: numberWithCommas(configs.maxbet)
+            _maxBetMainChoice: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, configs.maxbet, choiceMaxBet.player)),
+            _maxBetSubChoice: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, configs.maxbet, choiceMaxBet.tie)),
+            _maxBetRound: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, configs.maxbet))
         };
 
         this.replaceNodes.forEach((label) => {

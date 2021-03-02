@@ -84,8 +84,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
             }
 
             this.updateArrowVisibility();
-            const item = this.chipList[this.selectedIndex].name;
-            this.setCurrentBet(item);
+            this.updateSelectedChipValue();
         };
     }
 
@@ -94,12 +93,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
             const node = cc.instantiate(this.chipPrefab);
             this.chips.addChild(node);
 
-            const sprite = node.getComponent(cc.Sprite);
-            sprite.spriteFrame = this.chipAltas.getSpriteFrame(this.chipConfig.getBigChipSpriteName(value));
-            node.name = `${value}`;
-
-            const label = node.children[0].getComponent(cc.Label);
-            label.string = nFormatter(value, 0);
+            this.updateChipItem(node, value);
 
             const button = node.getComponent(cc.Button);
             const event = new cc.Component.EventHandler();
@@ -113,6 +107,19 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         layout.enabled = true;
         layout.updateLayout();
         layout.enabled = false;
+    }
+
+    updateChipItem(node: cc.Node, value: number) {
+        const sprite = node.getComponent(cc.Sprite);
+        sprite.spriteFrame = this.chipAltas.getSpriteFrame(this.chipConfig.getBigChipSpriteName(value));
+        node.name = `${value}`;
+
+        const label = node.children[0].getComponent(cc.Label);
+        label.string = nFormatter(value, 0);
+    }
+
+    updateLastChip(value: number) {
+        this.updateChipItem(this.chipList[this.chipList.length - 1], value);
     }
 
     onEnable() {
@@ -160,8 +167,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         if (this.selectedIndex >= min + this.displaySize - 1) {
             this.snappedScrollView.scrollTo(min + 1);
         }
-        const item = this.chipList[this.selectedIndex].name;
-        this.setCurrentBet(item);
+        this.updateSelectedChipValue();
     }
 
     public onClickBet(event) {
@@ -406,5 +412,10 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
                     .start();
             }
         });
+    }
+
+    updateSelectedChipValue() {
+        const item = this.chipList[this.selectedIndex].name;
+        this.setCurrentBet(item);
     }
 }

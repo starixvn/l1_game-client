@@ -14,11 +14,11 @@ export default class SedieGuide extends GameGuideBase {
             _oddsRed3: odds.red3,
             _oddsRed2: odds.red2,
             _minBet: numberWithCommas(minbet),
-            _maxBetMain: numberWithCommas(choices_maxbet.even),
-            _maxBetRed4: numberWithCommas(choices_maxbet.red4),
-            _maxBetRed3: numberWithCommas(choices_maxbet.red3),
-            _maxBetRed2: numberWithCommas(choices_maxbet.red2),
-            _maxBetRound: numberWithCommas(maxbet)
+            _maxBetMain: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, maxbet, choices_maxbet.even)),
+            _maxBetRed4: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, maxbet, choices_maxbet.red4)),
+            _maxBetRed3: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, maxbet, choices_maxbet.red3)),
+            _maxBetRed2: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, maxbet, choices_maxbet.red2)),
+            _maxBetRound: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, maxbet))
         };
     }
 }

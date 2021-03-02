@@ -125,7 +125,7 @@ p.footer {
 
 .splash {
     position: relative;
-    top: 35.05vh;
+    top: 35vh;
     background: url(./splash.png) no-repeat center;
     background-size: auto 20.35vh;
     width: auto;
@@ -134,16 +134,22 @@ p.footer {
 
 .splash-text {
     position: relative;
-    top: 39vh;
+    top: 38.5vh;
     background: url(./splash_text.png) no-repeat center;
-    background-size: auto 4vh;
+    background-size: auto 5vh;
     width: auto;
-    height: 4vh;
+    height: 5vh;
 }
 
 @media only screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
     .splash {
+        top: 29.5vh;
         background-size: auto 10vh;
+    }
+
+    .splash-text {
+        top: 25vh;
+        background-size: auto 2.5vh;
     }
 }
 

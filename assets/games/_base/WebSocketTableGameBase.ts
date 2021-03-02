@@ -1,4 +1,5 @@
 import { lazyInject } from "../../Application";
+import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
@@ -106,8 +107,27 @@ export default class WebSocketTableGameBase extends GameBase {
 
         const gameData = data[this.gameName];
 
+        let apiErrorGameData;
+
         if (gameData) {
             this.onDataGameRoom(gameData);
+            if (gameData.apiError) {
+                apiErrorGameData = gameData.apiError;
+            }
+        }
+
+        if (data.apiError || apiErrorGameData) {
+            this.updateUserStakeLevel(data.apiError || apiErrorGameData);
+        }
+    }
+
+    updateUserStakeLevel(data) {
+        if (data.maxBet && data.maxBet > 0) {
+            cc.RedT.userStakeLevelData(data);
+            const comp = this.betChips.getComponent(HandleUserStakeLevel);
+            if (comp) {
+                comp.handle();
+            }
         }
     }
 
@@ -205,6 +225,10 @@ export default class WebSocketTableGameBase extends GameBase {
         if (data.kickedOut || data.apiError) {
             this.waitingProcessing = false;
             this.showProcessingWarning(false);
+        }
+
+        if (data.apiError) {
+            this.updateUserStakeLevel(data.apiError);
         }
     }
 

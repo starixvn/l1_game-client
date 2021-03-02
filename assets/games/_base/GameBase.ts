@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
+import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
@@ -379,8 +380,20 @@ export default class GameBase extends cc.Component {
         this.statusHandler.clearTimeout();
     }
 
-    public updateDisplayForRemoteConfig() {
+    public updateOddsFromConfigs() {
         this.gameConfigs.odds && this.betItems.forEach((item) => item.setOdd(this.gameConfigs.odds[item.node.name]));
+    }
+
+    public updateDisplayForRemoteConfig() {
+        this.updateOddsFromConfigs();
+
+        if (this.betChips) {
+            const userStakeLevel = this.betChips.getComponent(HandleUserStakeLevel);
+            if (userStakeLevel) {
+                userStakeLevel.gameConfig = this.gameConfigs;
+                userStakeLevel.handle();
+            }
+        }
     }
 
     public updateUserBalance() {

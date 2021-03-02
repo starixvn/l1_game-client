@@ -22,6 +22,7 @@ module.exports = {
 
     dataObservers: {},
     soundObservers: {},
+    userStakeLevel: {},
 
     connect: function (ssl) {
         if (!this.isConnected && !this.isForceKickedOut) {
@@ -121,6 +122,10 @@ module.exports = {
             var observer = cc.RedT.dataObservers[key];
             observer && observer(data);
         });
+
+        if (data.userStakeLevel) {
+            cc.RedT.userStakeLevelData(data.userStakeLevel);
+        }
     },
     addDataObserver(key, observer) {
         this.dataObservers[key] = observer;
@@ -230,5 +235,9 @@ module.exports = {
         if (void 0 !== data.scoins) {
             this.user.scoins = data.scoins;
         }
+    },
+    userStakeLevelData: function (data) {
+        this.userStakeLevel.minBet = data.minBet;
+        this.userStakeLevel.maxBet = data.maxBet;
     }
 };

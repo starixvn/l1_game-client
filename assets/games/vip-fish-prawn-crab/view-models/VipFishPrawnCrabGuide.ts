@@ -16,9 +16,9 @@ export default class VipFishPrawnCrabGuide extends GameGuideBase {
             _oddOcean: odds.ocean,
             _oddAnyTriple: odds.anyTriple,
             _minBet: numberWithCommas(configs.minbet),
-            _maxBetMain: numberWithCommas(choices_maxbet.fish),
-            _maxBetAnyTriple: numberWithCommas(choices_maxbet.anyTriple),
-            _maxBetRound: numberWithCommas(configs.maxbet)
+            _maxBetMain: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, configs.maxbet, choices_maxbet.fish)),
+            _maxBetAnyTriple: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, configs.maxbet, choices_maxbet.anyTriple)),
+            _maxBetRound: numberWithCommas(Math.min(cc.RedT.userStakeLevel.maxBet, configs.maxbet))
         };
     }
 }

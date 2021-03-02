@@ -50,6 +50,10 @@ export default class MiniPanelDataHandlers {
             const message = data.message;
             this.main.onForceReload(true, message);
         }
+
+        if (data.userStakeLevel) {
+            cc.RedT.userStakeLevelData(data.userStakeLevel);
+        }
     }
 
     handleDataKickedOut(data: any) {
@@ -102,6 +106,10 @@ export default class MiniPanelDataHandlers {
 
         if (error.gameTypeId === SabaConfigs.games.ChanLeTurbo.id && this.main.chanLeTurbo) {
             this.main.chanLeTurbo.onData(apiErrorData);
+        }
+
+        if (error.maxBet && error.maxBet > 0) {
+            cc.RedT.userStakeLevelData(error);
         }
     }
 
