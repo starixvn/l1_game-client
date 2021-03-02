@@ -1,3 +1,4 @@
+import { lazyInject } from "../../../Application";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
@@ -15,6 +16,7 @@ import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
+import BlackJackConfig from "./BlackJackConfig";
 import BlackJackGuide from "./BlackJackGuide";
 import BlackJackHistory from "./BlackJackHistory";
 import BlackJackUtils from "./BlackJackUtils";
@@ -128,6 +130,9 @@ export default class BlackJack extends SocketIOTableGameBase {
     @property(cc.AudioSource)
     singleChipAudio: cc.AudioSource = null;
 
+    @lazyInject(BlackJackConfig)
+    private readonly blackJackConfig: BlackJackConfig;
+
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
     ingameHander: DataHandler;
@@ -164,7 +169,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.clearButton.getComponent(NewButton).callback.selected = () => this.onClearClick();
         this.dealButton.getComponent(NewButton).callback.selected = () => this.onDealClick();
 
-        this.chipOption = this.betChips.chipConfig.chipOption;
+        this.chipOption = this.blackJackConfig.chipOption;
     }
 
     onDestroy() {

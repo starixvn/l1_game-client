@@ -1,5 +1,4 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
-import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import GameUtils from "../../../common/GameUtils";
 
