@@ -261,7 +261,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                 this.clearButton.getComponent(FadeEffectButton).setActive();
                 handPlace.addBetAmount(this.currentBet);
 
-                const chipNode = BlackJackUtils.createChip(this.currentBet, this.betChips.chipAltas, this.betChips.chipConfig);
+                const chipNode = this.betChips.createBigChip(this.currentBet);
                 const destNode = this.chipContainers[index];
                 const startNode = this.betChips.getChipNode(this.currentBet);
                 chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v2(0, 0)));
@@ -279,8 +279,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                             destNode.destroyAllChildren();
                             const chipStack = BlackJackUtils.createChipStack(
                                 handPlace.getBetAmount(),
-                                this.betChips.chipAltas,
-                                this.betChips.chipConfig,
+                                this.betChips,
                                 this.chipOption,
                                 this.shadowChip,
                                 destNode.skewX
@@ -618,8 +617,7 @@ export default class BlackJack extends SocketIOTableGameBase {
 
                 const chipStack = BlackJackUtils.createChipStack(
                     hand.bet,
-                    this.betChips.chipAltas,
-                    this.betChips.chipConfig,
+                    this.betChips,
                     this.chipOption,
                     this.shadowChip,
                     this.chipContainers[hand.pos - 1].skewX

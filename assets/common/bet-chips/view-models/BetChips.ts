@@ -251,15 +251,15 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
 
         chipPosition = destNode.convertToNodeSpaceAR(chipPosition);
         const chipNode = this.createChip(bet);
-        chipNode.node.position = chipPosition;
-        const randomPosition = this.getRandomPositionChip(chipNode.node, destNode);
-        destNode.addChild(chipNode.node);
+        chipNode.position = chipPosition;
+        const randomPosition = this.getRandomPositionChip(chipNode, destNode);
+        destNode.addChild(chipNode);
 
         if (isLoginUserPlaceBet) {
             this.playSingleChipsSound();
         }
 
-        chipNode.node.runAction(
+        chipNode.runAction(
             cc.sequence(
                 this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
                 cc.callFunc(() => {
@@ -319,9 +319,9 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
             const chipCountOfBet = chipsData[chipBet];
             for (let i = 0; i < chipCountOfBet; i++) {
                 const chip = this.createChip(+chipBet);
-                const randomPosition = this.getRandomPositionChip(chip.node, chipsBox);
-                chip.node.position = randomPosition;
-                chipsBox.addChild(chip.node);
+                const randomPosition = this.getRandomPositionChip(chip, chipsBox);
+                chip.position = randomPosition;
+                chipsBox.addChild(chip);
             }
         });
     }
@@ -363,7 +363,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         keys.forEach((chip) => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {
-                const chipNode = this.createChip(+chip).node;
+                const chipNode = this.createChip(+chip);
                 layoutNode.addChild(chipNode);
             }
         });
@@ -371,13 +371,19 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         return node;
     }
 
-    public createChip(bet: number): cc.Sprite {
+    public createChip(bet: number): cc.Node {
         const chip = new cc.Node();
         chip.group = "Chip";
         const chipSprite = chip.addComponent(cc.Sprite);
         const name = this.chipConfig.getSmallChipSpriteName(bet);
         chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
-        return chipSprite;
+        return chip;
+    }
+
+    public createBigChip(bet: number): cc.Node {
+        const chip = cc.instantiate(this.chipPrefab);
+        this.updateChipItem(chip, bet);
+        return chip;
     }
 
     private destroyChip(chip: cc.Node, delayTime: number) {

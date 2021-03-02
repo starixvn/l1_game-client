@@ -45,8 +45,7 @@ export default class DealHandler implements DataHandler {
                 this.main.chipContainers[pos].destroyAllChildren();
                 const chipStack = BlackJackUtils.createChipStack(
                     hand.bet,
-                    this.main.betChips.chipAltas,
-                    this.main.betChips.chipConfig,
+                    this.main.betChips,
                     this.main.chipOption,
                     this.main.shadowChip,
                     this.main.chipContainers[pos].skewX
