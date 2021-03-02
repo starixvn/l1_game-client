@@ -1,6 +1,4 @@
-import { appContainer } from "../../Application";
 import * as configs from "../../configs/Configs";
-import SocketIOController from "../../SocketIOController";
 import httpHelper from "../helpers/httpHelper";
 import { buildServerUrl } from "../helpers/UrlHelper";
 import logger from "../logger";

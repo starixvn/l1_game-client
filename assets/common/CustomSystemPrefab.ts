@@ -6,10 +6,10 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class CustomSystemPrefab extends ComponentSystem implements ICreditSystem, ICashSystem {
     @property
-    prefabPath: string = "";
+    prefabPath = "";
 
     @property
-    prefabName: string = "";
+    prefabName = "";
 
     customPath: string;
 

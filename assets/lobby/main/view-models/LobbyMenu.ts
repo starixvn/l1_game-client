@@ -19,7 +19,7 @@ export default class LobbyMenu extends GameIconMenu {
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
     getList() {
-        return cc.RedT.user.offerGames; // LobbyMenuConfig.list;
+        return cc.RedT.user.offerGames;
     }
 
     onInitialized() {
@@ -31,7 +31,7 @@ export default class LobbyMenu extends GameIconMenu {
     async addItem(id: number): Promise<cc.Node> {
         const prefab = await GameUtils.loadResource(`lobby/games/${id}`);
         if (this.node === null || !this.node.isValid) {
-            return;
+            return null;
         }
         const node = cc.instantiate(prefab);
 
