@@ -1,4 +1,5 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import { ComponentSystem, ICashSystem, ICreditSystem } from '../../../System';
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,7 +13,7 @@ export interface PlayerData {
 }
 
 @ccclass
-export default class RoomPlayer extends cc.Component {
+export default class RoomPlayer extends ComponentSystem implements ICreditSystem, ICashSystem {
     @property(cc.Label)
     nickname: cc.Label = null;
 
@@ -25,7 +26,15 @@ export default class RoomPlayer extends cc.Component {
     data: PlayerData;
 
     static readonly MAX_IDLE_COUNT: number = 2;
-    static readonly MAX_BALANCE_DISPLAY: number = 99999;
+    MAX_BALANCE_DISPLAY: number;
+
+    customizeCredit(): void {
+        this.MAX_BALANCE_DISPLAY = 9999;
+    }
+
+    customizeCash(): void {
+        this.MAX_BALANCE_DISPLAY = 99999;
+    }
 
     get isIdle() {
         return this.data.idleCount > RoomPlayer.MAX_IDLE_COUNT;
@@ -64,7 +73,7 @@ export default class RoomPlayer extends cc.Component {
 
     displayBalance(balance: number) {
         this.balance.string =
-            balance > RoomPlayer.MAX_BALANCE_DISPLAY ? `${numberWithCommas(RoomPlayer.MAX_BALANCE_DISPLAY)}+` : numberWithCommas(balance);
+            balance > this.MAX_BALANCE_DISPLAY ? `${numberWithCommas(this.MAX_BALANCE_DISPLAY)}+` : numberWithCommas(balance);
     }
 
     setAvatar(avatarId) {
