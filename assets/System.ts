@@ -1,5 +1,6 @@
-import { injectable } from "inversify";
-import * as configs from "./configs/Configs.js";
+import { injectable } from 'inversify';
+
+import * as configs from './configs/Configs.js';
 
 interface ISystem {
     initSystem(): void;
@@ -44,11 +45,17 @@ export class ComponentSystem extends cc.Component implements ISystem {
 const customizeSystems = (systemInstance: ISystem): void => {
     switch (configs.systemType) {
         case SystemType.SC1:
-            (systemInstance as ICreditSystem)?.customizeCredit();
+            if (systemInstance) {
+                const system = systemInstance as ICreditSystem;
+                system.customizeCredit();
+            }
             break;
 
         case SystemType.SC2:
-            (systemInstance as ICashSystem)?.customizeCash();
+            if (systemInstance) {
+                const system = systemInstance as ICashSystem;
+                system.customizeCash();
+            }
             break;
     }
 };

@@ -11,12 +11,12 @@ export default class BCGuide extends GameGuideBase {
     private readonly oldMiniGameConfig: OldMiniGameConfig;
 
     protected gameConfigs;
-    private defaultOdds = {
+    private readonly defaultOdds = {
         oddSingle: 0,
         oddDouble: 0,
         oddTriple: 0
     };
-    private gameName = "baucua";
+    private readonly gameName = "baucua";
 
     onLoad() {
         super.onLoad();

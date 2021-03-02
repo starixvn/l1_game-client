@@ -1,4 +1,4 @@
-import { numberPad, numberWithCommas } from "./../../../common/helpers/NumberHelper";
+import { numberPad, numberWithCommas } from './../../../common/helpers/NumberHelper';
 
 const BauCuaLinhVat = require("BauCuaMascot");
 const BCConstants = require("BCConstants");
@@ -415,37 +415,6 @@ cc.Class({
 
         this.logLVHandling(LinhVat);
     },
-    // addChipThrowAnimation(chipCuoc) {
-    //     var list = [1, 5, 10, 50, 100, 200];
-    //     var spriteIndex = list.findIndex((i) => i === chipCuoc.chip);
-    //     if (spriteIndex === -1) {
-    //         return;
-    //     }
-    //     var node = new cc.Node();
-    //     node.addComponent(cc.Sprite).spriteFrame = this.chipSprites[spriteIndex];
-    //     this.node.addChild(node);
-    //     this.betChipList.push(node);
-
-    //     var chipBet = this.bet.children.find((obj) => obj.name === chipCuoc.chip);
-    //     var totalNode = this.userCountLabel.node;
-    //     if (chipCuoc.ownChip) {
-    //         node.position = this.node.convertToNodeSpaceAR(chipBet.parent.convertToWorldSpaceAR(chipBet.position));
-    //     } else {
-    //         node.position = this.node.convertToNodeSpaceAR(totalNode.parent.convertToWorldSpaceAR(totalNode.position));
-    //     }
-
-    //     var linhvatNode = this.linhVat[chipCuoc.linhvat].node;
-    //     var padding = 0.1;
-    //     var randomX = padding + Math.random() * (1 - 2 * padding);
-    //     var randomY = padding + Math.random() * (1 - 2 * padding);
-    //     var linhvatPos = this.node.convertToNodeSpaceAR(linhvatNode.parent.convertToWorldSpaceAR(linhvatNode.position));
-    //     linhvatPos = linhvatPos.add(cc.v2(linhvatNode.width * (-0.5 + padding + randomX), linhvatNode.height * (-0.5 + padding + randomY)));
-    //     cc.tween(node)
-    //         .to(0.2, {
-    //             position: cc.v2(linhvatPos.x, linhvatPos.y)
-    //         })
-    //         .start();
-    // },
     onData: function (data) {
         if (void 0 !== data.tops) {
             this.Top && this.Top.node && this.Top.onData(data.tops);

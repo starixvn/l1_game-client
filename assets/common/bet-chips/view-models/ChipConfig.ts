@@ -1,5 +1,6 @@
-import { injectable } from "inversify";
-import { ICashSystem, ICreditSystem, System } from "../../../System";
+import { injectable } from 'inversify';
+
+import { ICashSystem, ICreditSystem, System } from '../../../System';
 
 @injectable()
 export default class ChipConfig extends System implements ICreditSystem, ICashSystem {
@@ -41,6 +42,7 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
             200: 4,
             500: 5,
             1000: 6,
+            2000: 14,
             5000: 7,
             10000: 12,
             20000: 8

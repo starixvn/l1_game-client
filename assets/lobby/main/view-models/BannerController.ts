@@ -1,5 +1,5 @@
-import GameUtils from "../../../common/GameUtils";
-import BannerItem from "./BannerItem";
+import GameUtils from '../../../common/GameUtils';
+import BannerItem from './BannerItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,9 +26,6 @@ export default class BannerController extends cc.Component {
 
     onLoad() {
         this.enableTouch();
-        // this.content.children.forEach((child) => {
-        //     child.active = false;
-        // });
     }
 
     enableTouch() {

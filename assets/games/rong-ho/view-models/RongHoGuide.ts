@@ -12,7 +12,7 @@ export default class RongHoGuide extends GameGuideBase {
 
     protected gameConfigs;
 
-    private odds = {
+    private readonly odds = {
         dragon: 2,
         tie: 11
     };

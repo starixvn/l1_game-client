@@ -38,7 +38,7 @@ export default class BetBoard extends cc.Component {
     updateItems() {
         const listItem = this.config.items;
         this.itemContainer.children.forEach((child, index) => {
-            let value = listItem[index];
+            const value = listItem[index];
             child.name = value;
 
             const valueString = this.config.shortenValue && value !== "MAX" ? `+${nFormatter(value)}` : `+${value}`;
