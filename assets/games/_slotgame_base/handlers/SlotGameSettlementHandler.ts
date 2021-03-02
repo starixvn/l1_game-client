@@ -115,29 +115,31 @@ export default class SlotGameSettlementHandler implements DataHandler {
         this.main.activeButtons();
     }
 
+    showWinningLines(betWin: number, bigWin: boolean, jackpot: any, winningLines: LineData[], delayTime: number) {
+        if (betWin > 0) {
+            if (!bigWin) {
+                this.main.showWinningBet(betWin);
+            }
+        }
+
+        const lines: LineData[] = [];
+        if (jackpot) {
+            lines.push({
+                payline: jackpot.winningLine,
+                positions: jackpot.positions,
+                symbol: jackpot.symbol
+            });
+        }
+        lines.push(...winningLines);
+        this.main.showWinningLines(lines, delayTime);
+    }
+
     handlePayline(jackpot: any, betWin: number, winningLines: LineData[], bigWin: boolean, freeSpins: any) {
         const delayTime =
             betWin > 0 && !bigWin ? this.main.slotGameConfigs.showWinningLineDuration : this.main.slotGameConfigs.noWinningLineDuration;
         this.main.settleTween = cc
             .tween(this.main)
-            .call(() => {
-                if (betWin > 0) {
-                    if (!bigWin) {
-                        this.main.showWinningBet(betWin);
-                    }
-                }
-
-                const lines: LineData[] = [];
-                if (jackpot) {
-                    lines.push({
-                        payline: jackpot.winningLine,
-                        positions: jackpot.positions,
-                        symbol: jackpot.symbol
-                    });
-                }
-                lines.push(...winningLines);
-                this.main.showWinningLines(lines, delayTime);
-            })
+            .call(() => this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime))
             .delay(delayTime)
             .call(async () => {
                 if (bigWin) {
@@ -152,15 +154,19 @@ export default class SlotGameSettlementHandler implements DataHandler {
                 }
 
                 this.finishAnimationResult();
-                if (!this.main.gotApiError()) {
-                    if (freeSpins.count > 0 || (this.main.isAutoSpinMode() && this.main.stillAutoSpin()) || this.main.totalFreeSpins) {
-                        this.main.spin();
-                    } else {
-                        this.main.resetStateButtons();
-                    }
-                }
+                this.checkSpinNextRound(freeSpins);
             })
             .start();
+    }
+
+    checkSpinNextRound(freeSpins: any) {
+        if (!this.main.gotApiError()) {
+            if (freeSpins.count > 0 || (this.main.isAutoSpinMode() && this.main.stillAutoSpin()) || this.main.totalFreeSpins) {
+                this.main.spin();
+            } else {
+                this.main.resetStateButtons();
+            }
+        }
     }
 
     async handleBonus(bonus: number) {
