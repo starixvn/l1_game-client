@@ -60,7 +60,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     customizeCredit(): void {
-        this.chipValues = [1, 5, 10, 100, 200, 500, 1000, 2000];
+        this.chipValues = [1, 5, 10, 50, 100, 200, 500, 1000, 2000];
     }
 
     customizeCash(): void {

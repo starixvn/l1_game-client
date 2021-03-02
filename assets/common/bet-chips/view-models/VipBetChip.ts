@@ -5,7 +5,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class VipBetChips extends BetChips {
     customizeCredit(): void {
-        this.chipValues = [10, 100, 200, 500, 1000, 2000, 3000];
+        this.chipValues = [10, 50, 100, 200, 500, 1000, 2000, 3000];
     }
 
     customizeCash(): void {
