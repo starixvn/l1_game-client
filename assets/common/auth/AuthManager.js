@@ -186,7 +186,6 @@ function auth(obj) {
 export function checkAndUpdateRecheckIn(dontClearSession) {
     const session = getSession();
     let isSessionExpired = true;
-    const socketIOController = appContainer.get(SocketIOController);
 
     try {
         if (session && session.time) {
@@ -200,7 +199,6 @@ export function checkAndUpdateRecheckIn(dontClearSession) {
                 session.time = new Date();
                 isSessionExpired = false;
                 storeSessionData(session);
-                socketIOController.recheckin();
             }
         } else {
             !dontClearSession && signOut();
