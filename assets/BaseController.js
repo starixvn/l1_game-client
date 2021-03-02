@@ -197,7 +197,7 @@ module.exports = {
             const offerGames = data.offerGames;
             const list = [];
             this.user.offerGames.forEach((id) => {
-                if (offerGames.includes(id.toString())) {
+                if (offerGames.includes(id)) {
                     list.push(id);
                 }
             });
