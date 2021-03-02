@@ -1,6 +1,6 @@
-import { lazyInject } from "../../../Application";
-import BetBoardConfig from "../../bet-board/view-models/BetBoardConfig";
-import { numberWithCommas } from "../../helpers/NumberHelper";
+import { lazyInject } from '../../../Application';
+import BetBoardConfig from '../../bet-board/view-models/BetBoardConfig';
+import { nFormatter, numberWithCommas } from '../../helpers/NumberHelper';
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,11 +34,11 @@ export default class PresetBet extends cc.Component {
     updateItems() {
         const listItem = this.config.presetItems;
         this.itemContainer.children.forEach((child, index) => {
-            const label = child.children[0].getComponent(cc.Label);
             let value = listItem[index];
-
             child.name = value;
-            label.string = `+${value}`;
+
+            const valueString = this.config.shortenValue ? `+${nFormatter(value)}` : `+${value}`;
+            child.children[0].getComponent(cc.Label).string = valueString;
         });
     }
 

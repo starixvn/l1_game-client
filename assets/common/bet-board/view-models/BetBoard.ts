@@ -1,6 +1,6 @@
-import BetBoardConfig from "./BetBoardConfig";
-import { nFormatter } from "../../../common/helpers/NumberHelper";
-import { lazyInject } from "../../../Application";
+import { lazyInject } from '../../../Application';
+import { nFormatter } from '../../../common/helpers/NumberHelper';
+import BetBoardConfig from './BetBoardConfig';
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,14 +38,11 @@ export default class BetBoard extends cc.Component {
     updateItems() {
         const listItem = this.config.items;
         this.itemContainer.children.forEach((child, index) => {
-            const label = child.children[0].getComponent(cc.Label);
             let value = listItem[index];
-
             child.name = value;
-            if (value !== "MAX") {
-                value = `+${nFormatter(value)}`;
-            }
-            label.string = value;
+
+            const valueString = this.config.shortenValue && value !== "MAX" ? `+${nFormatter(value)}` : `+${value}`;
+            child.children[0].getComponent(cc.Label).string = valueString;
         });
     }
 
