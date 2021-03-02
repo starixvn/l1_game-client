@@ -16,6 +16,7 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
             1: 0,
             5: 2,
             10: 3,
+            20: 12,
             50: 4,
             100: 5,
             200: 6,
