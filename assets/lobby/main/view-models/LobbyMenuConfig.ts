@@ -7,7 +7,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         super();
     }
 
-    list: Array<number>;
+    list = [29, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21];
     miniList = [1, 4, 6, 3, 0, 7, 11, 9];
     detail = {
         29: {
@@ -89,11 +89,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
 
-    customizeCredit(): void {
-        this.list = [22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21];
-    }
+    customizeCredit(): void {}
 
-    customizeCash(): void {
-        this.list = [29, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21];
-    }
+    customizeCash(): void {}
 }

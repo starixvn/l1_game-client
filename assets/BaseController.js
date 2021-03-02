@@ -2,6 +2,7 @@ import * as authManager from "./common/auth/AuthManager";
 import { buildServerUrl } from "./common/helpers/UrlHelper";
 import logger from "./common/logger";
 import configs from "./configs/Configs";
+import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
 
 const sentryLogger = logger();
 
@@ -42,6 +43,8 @@ module.exports = {
                 this.loading.active = false;
             }
         }
+        const menuConfig = new LobbyMenuConfig();
+        this.user.offerGames = menuConfig.list;
     },
     forceKickedOut: function () {
         this.isForceKickedOut = true;
@@ -190,11 +193,16 @@ module.exports = {
         return check === "true";
     },
     userData: function (data) {
-        // if (void 0 !== data.offerGames) {
-        this.user.offerGames = data.offerGames;
-        console.log("OfferGames: ", data.offerGames);
-        this.user.offerGames = [29, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21];
-        // }
+        if (void 0 !== data.offerGames && data.offerGames.length > 0) {
+            const offerGames = data.offerGames;
+            const list = [];
+            this.user.offerGames.forEach((id) => {
+                if (offerGames.includes(id)) {
+                    list.push(id);
+                }
+            });
+            this.user.offerGames = list;
+        }
         if (void 0 !== data.name) {
             this.user.name = data.name;
         }
