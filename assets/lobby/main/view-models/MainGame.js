@@ -1,16 +1,18 @@
-import { appContainer } from '../../../Application';
-import baseControll from '../../../BaseController';
-import GameUtils from '../../../common/GameUtils';
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import logger from '../../../common/logger';
-import * as SabaConfigs from '../../../configs/SabaConfigs';
-import FourGuardiansConfig from '../../../games/four-guardians/scripts/FourGuardiansConfig';
-import SocketIOController from '../../../SocketIOController';
-import SplashConfig from '../../../splash/view-models/SplashConfig';
-import * as authManager from './../../../common/auth/AuthManager';
+import { appContainer } from "../../../Application";
+import baseControll from "../../../BaseController";
+import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import logger from "../../../common/logger";
+import * as SabaConfigs from "../../../configs/SabaConfigs";
+import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
+import SocketIOController from "../../../SocketIOController";
+import SplashConfig from "../../../splash/view-models/SplashConfig";
+import * as authManager from "./../../../common/auth/AuthManager";
+import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
+const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 const sentryLogger = logger();
 
 var header = require("Header"),
@@ -154,7 +156,15 @@ cc.Class({
         };
 
         adsBannerController.menuLoop = !showJackpotBanner;
-        adsBannerController.setGameAds([28, 27, 25]);
+        const gameAds = lobbyMenuConfig.bannerAds;
+        const offerGames = cc.RedT.user.offerGames;
+        const filterList = [];
+        gameAds.forEach((id) => {
+            if (offerGames.includes(id)) {
+                filterList.push(id);
+            }
+        });
+        adsBannerController.setGameAds(filterList);
         adsBannerController.onEndingRound = () => {
             if (showJackpotBanner) {
                 this.adsToggle.isChecked = false;
