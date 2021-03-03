@@ -103,12 +103,7 @@ export default class GameBaseFinishHandler implements DataHandler {
         const playerNode = mainRoomGame.userAvatar.node.parent;
         this.main.showWinningBet(statusData.bet);
         this.playWinningEffect(mainRoomGame, playerNode);
-
-        cc.RedT.send({
-            user: {
-                updateCoin: true
-            }
-        });
+        this.main.updateUserBalance();
     }
 
     moveChipWithRandomAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) {

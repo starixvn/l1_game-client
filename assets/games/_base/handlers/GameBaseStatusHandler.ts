@@ -47,12 +47,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
         }
         if (win) {
             this.main.showWinningBet(bet);
-
-            cc.RedT.send({
-                user: {
-                    updateCoin: true
-                }
-            });
+            this.main.updateUserBalance();
         }
     }
 }

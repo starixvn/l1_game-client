@@ -52,12 +52,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
         const playerNode = this.main.userAvatar.node.parent;
         this.main.showWinningBet(data.bet);
         this.playWinningEffect(this.main, playerNode);
-
-        cc.RedT.send({
-            user: {
-                updateCoin: true
-            }
-        });
+        this.main.updateUserBalance();
     }
 
     payChipsFromBetChoices(winningPlayers: any) {
