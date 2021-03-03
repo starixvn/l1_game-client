@@ -58,7 +58,7 @@ const configs = {
             subDomain: "haproxy",
             port: 7101,
             path: "/user/vipsediewar",
-            proxyRoute: "/vipsediewar/socket.io"
+            proxyRoute: "/vsediewar/socket.io"
         },
         29: {
             subDomain: "haproxy",
