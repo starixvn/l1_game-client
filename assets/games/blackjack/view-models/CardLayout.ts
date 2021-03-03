@@ -69,6 +69,7 @@ export default class CardLayout extends cc.Component {
         });
 
         width = this.cardSizeWidth + this.ratio * (this.content.childrenCount - 1) * this.spacingX;
+        this.content.width = 0; //FIXBUG: do this, to fix bug not call event SIZE_CHANGED
         this.content.width = width;
         this.shadow.width = width + this.shadowWidth;
     }
