@@ -169,7 +169,10 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.clearButton.getComponent(NewButton).callback.selected = () => this.onClearClick();
         this.dealButton.getComponent(NewButton).callback.selected = () => this.onDealClick();
 
-        this.chipOption = this.blackJackConfig.chipOption;
+        const options = [...this.betChips.chipValues];
+        options.reverse();
+        options.push(...this.blackJackConfig.chipOption);
+        this.chipOption = options;
     }
 
     onDestroy() {

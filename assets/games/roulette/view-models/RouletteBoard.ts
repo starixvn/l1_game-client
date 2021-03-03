@@ -48,6 +48,8 @@ export default class RouletteBoard extends cc.Component {
     @lazyInject(ChipConfig)
     private readonly chipConfig: ChipConfig;
 
+    chipOption: number[];
+
     public callback = {
         selected: (betInfo: RouletteBetInfo) => {}
     };
@@ -350,14 +352,14 @@ export default class RouletteBoard extends cc.Component {
     placeChipsByKey(type: string, key: string, bet: number, highlight = false, other = false) {
         const childNode = this.getBetNodeByKey(type, key, other);
         childNode.destroyAllChildren();
-        const node = RouletteUtils.createChips(bet, this.chipAltas, this.chipConfig, highlight);
+        const node = RouletteUtils.createChips(bet, this.chipOption, this.chipAltas, this.chipConfig, highlight);
         childNode.addChild(node);
     }
 
     placeChips(betInfo: RouletteBetInfo, bet: number, highlight = false, other = false) {
         const childNode = this.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo), other);
         childNode.destroyAllChildren();
-        const node = RouletteUtils.createChips(bet, this.chipAltas, this.chipConfig, highlight);
+        const node = RouletteUtils.createChips(bet, this.chipOption, this.chipAltas, this.chipConfig, highlight);
         childNode.addChild(node);
     }
 

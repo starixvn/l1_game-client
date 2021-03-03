@@ -118,8 +118,8 @@ export default class RouletteUtils {
         return GameUtils.getChipValues(bet, options);
     }
 
-    public static createChips(bet: number, chipAltas: cc.SpriteAtlas, chipConfig: ChipConfig, highlight = false): cc.Node {
-        const values = this.getChipValues(bet, chipConfig.chipOption);
+    public static createChips(bet: number, chipOption: number[], chipAltas: cc.SpriteAtlas, chipConfig: ChipConfig): cc.Node {
+        const values = this.getChipValues(bet, chipOption);
         const keys = Object.keys(values).sort((a, b) => +a - +b); // sort ascending by key
         const key = keys.find((k) => values[k] > 0);
         return this.createChip(+key, chipAltas, chipConfig, false);

@@ -90,6 +90,7 @@ export default class Roulette extends WebSocketTableGameBase {
     previousRoundBetChoices: any = {};
     betChoicesStack = [];
     isPlacingChip = false;
+    readonly chipOption: number[] = [];
 
     constructor() {
         super();
@@ -129,6 +130,12 @@ export default class Roulette extends WebSocketTableGameBase {
                     this.currentMiniPanel.miniMenu.position = cc.v2(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
                 })
                 .start();
+
+            const options = [...this.betChips.chipValues];
+            options.reverse();
+            this.chipOption.push(...options);
+
+            this.rouletteMain.board.chipOption = this.chipOption;
         });
     }
 
@@ -347,7 +354,7 @@ export default class Roulette extends WebSocketTableGameBase {
                     const betInfo = { type: type, numbers: RouletteUtils.parseKeyToNumbers(key) };
                     const bet = betChoices[type][key];
                     const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, key);
-                    const chipNode = RouletteUtils.createChips(bet, this.betChips.chipAltas, this.betChips.chipConfig);
+                    const chipNode = RouletteUtils.createChips(bet, this.chipOption, this.betChips.chipAltas, this.betChips.chipConfig);
 
                     this.addBetChoice(betInfo, bet);
                     const objectData = {
