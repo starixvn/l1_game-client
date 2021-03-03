@@ -1,5 +1,5 @@
-import { ComponentSystem, ICashSystem, ICreditSystem, SystemType } from "../System";
-import GameUtils from "./GameUtils";
+import { ComponentSystem, ICashSystem, ICreditSystem, SystemType } from '../System';
+import GameUtils from './GameUtils';
 
 const { ccclass, property } = cc._decorator;
 
