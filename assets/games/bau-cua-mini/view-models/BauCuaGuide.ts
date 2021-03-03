@@ -1,27 +1,21 @@
 import { lazyInject } from '../../../Application';
 import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import OldMiniGameConfig from '../../_base/OldMiniGameConfig';
 import GameGuideBase from '../../_base/view-models/GameGuideBase';
+import BauCuaConfig from './BauCuaConfig';
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BCGuide extends GameGuideBase {
-    @lazyInject(OldMiniGameConfig)
-    private readonly oldMiniGameConfig: OldMiniGameConfig;
+export default class BauCuaGuide extends GameGuideBase {
+    @lazyInject(BauCuaConfig)
+    private readonly bauCuaConfig: BauCuaConfig;
 
     protected gameConfigs;
-    private readonly defaultOdds = {
-        oddSingle: 0,
-        oddDouble: 0,
-        oddTriple: 0
-    };
     private readonly gameName = "baucua";
 
     onLoad() {
         super.onLoad();
-        this.gameConfigs = this.oldMiniGameConfig.gameConfigs;
-        this.gameConfigs.odds = this.defaultOdds;
+        this.gameConfigs = this.bauCuaConfig.gameConfigs;
         this.getOdds();
         cc.RedT.addDataObserver(`${this.gameName}_guide`, (data) => this.receivedData(data));
     }
@@ -52,7 +46,7 @@ export default class BCGuide extends GameGuideBase {
 
     createReplaceData(configs) {
         return {
-            _maxBetRound: numberWithCommas(configs.maxbet),
+            _maxBetRound: numberWithCommas(configs.maxbetRound),
             _minBet: configs.minbet,
             _maxBet: numberWithCommas(configs.maxbet),
             _oddSingle: configs.odds.oddSingle,

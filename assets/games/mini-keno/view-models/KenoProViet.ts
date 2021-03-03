@@ -1,13 +1,13 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
-import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import MiniKeno from "../../mini-keno/view-models/MiniKeno";
-import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
-import KenoStatusBanner from "./components/KenoStatusBanner";
-import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
-import KenoUtils from "./KenoUtils";
+import SnappedScrollView from '../../../common/bet-chips/view-models/SnappedScrollView';
+import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
+import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
+import MiniKeno from '../../mini-keno/view-models/MiniKeno';
+import KenoPageIndicatorItem from './components/KenoPageIndicatorItem';
+import KenoStatusBanner from './components/KenoStatusBanner';
+import MiniKenoPresetBet from './components/MiniKenoPresetBet';
+import KenoUtils from './KenoUtils';
 
 const { ccclass, property } = cc._decorator;
 
@@ -57,7 +57,7 @@ export default class KenoProViet extends cc.Component {
 
     private selectedIndex = 0;
     private childList: cc.Node[] = [];
-    private readonly allGames = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    private readonly allGames = [1, 2, 3, 4, 5, 6, 7, 8, 0];
     private favouriteGames = [];
     private sortedGames = [];
     private readonly miniKenos: MiniKeno[] = [];
