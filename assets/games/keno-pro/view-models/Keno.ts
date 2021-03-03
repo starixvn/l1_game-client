@@ -87,6 +87,14 @@ export default class Keno extends SocketIOTableGameBase {
         });
     }
 
+    onDataGameRoom(data) {
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
+
+        super.onDataGameRoom(data);
+    }
+
     resetDataAndUI() {
         super.resetDataAndUI();
         this.roundResult.node.active = false;
