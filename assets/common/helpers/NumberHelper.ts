@@ -29,6 +29,9 @@ const nFormatter = (num, digits = 0) => {
             break;
         }
     }
+    if (num < 1e3) {
+        return `${num}`;
+    }
     return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
 };
 
