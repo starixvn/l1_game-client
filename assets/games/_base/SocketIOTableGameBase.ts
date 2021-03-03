@@ -14,7 +14,6 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         this.currentMiniPanel.currentGameRoomId = this.gameId;
 
         this.socket = this.socketIOController.gameSockets[this.gameId];
-        console.log(this.socket);
         if (!this.socket) {
             this.closeGame();
         } else {

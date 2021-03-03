@@ -1,6 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { games } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
+import KenoBetHandler from "./handlers/KenoBetHandler";
 import KenoFinishHandler from "./handlers/KenoFinishHandler";
 import KenoLogsHandler from "./handlers/KenoLogsHandler";
 import KenoTimeHandler from "./handlers/KenoTimeHandler";
@@ -53,6 +54,7 @@ export default class Keno extends SocketIOTableGameBase {
         this.finishHandler = new KenoFinishHandler(this);
         this.timeHandler = new KenoTimeHandler(this);
         this.logsHandler = new KenoLogsHandler(this);
+        this.betHandler = new KenoBetHandler(this);
     }
 
     public pressedHistoryDialog() {
