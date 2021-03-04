@@ -1,16 +1,22 @@
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import WebSocketMiniGameBase from "../../_base/WebSocketMiniGameBase";
+// import WebSocketMiniGameBase from "../../_base/WebSocketMiniGameBase";
 import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
 import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
 import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
 import MiniSedieGuide from "./MiniSedieGuide";
 import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
 import SedieRoundHistory from "./SedieRoundHistory";
+import { games } from "../../../configs/SabaConfigs";
+import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniSedie extends WebSocketMiniGameBase {
+export default class MiniSedie extends SocketIOMiniGameBase {
+    get gameId() {
+        return games.MiniSedie.id;
+    }
+
     @property({ type: cc.Sprite })
     dots: cc.Sprite[] = [];
 
@@ -92,11 +98,6 @@ export default class MiniSedie extends WebSocketMiniGameBase {
         this.finishHandler = new MiniSedieFinishHandler(this);
         this.timeHandler = new MiniSedieTimeHandler(this);
         this.logsHandler = new MiniSedieLogsHandler(this);
-    }
-
-    public onBetItemClick(e) {
-        cc.RedT.audio.playClick();
-        this.bet({ bet: { amount: this.currentBet, betChoice: e.target.name } });
     }
 
     public showResult() {

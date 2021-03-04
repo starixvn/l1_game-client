@@ -64,4 +64,15 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             node.runAction(cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut()));
         }
     }
+
+    public onBetItemClick(e) {
+        cc.RedT.audio.playClick();
+        const betData = {
+            amount: this.currentBet,
+            betChoice: e.target.name,
+            username: cc.RedT.user.name
+        };
+
+        this.socket && this.socket.connected && this.socket.emit("bet", betData);
+    }
 }

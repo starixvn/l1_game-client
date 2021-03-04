@@ -95,9 +95,6 @@ export default class MiniPanelMiniGameInitializers {
             case SabaConfigs.games.RongHo.id:
                 this.openRongHo();
                 break;
-            case SabaConfigs.games.MiniSedie.id:
-                this.openMiniSedie();
-                break;
             case SabaConfigs.games.KenoProViet.id:
                 this.openKenoProViet();
                 break;
@@ -179,7 +176,7 @@ export default class MiniPanelMiniGameInitializers {
             this.main.miniSedie != null,
             (gameComponent) => {
                 this.main.miniSedie = gameComponent;
-                this.main.miniSedie.init("miniSedie", new MiniSedieConfigs(), this.main);
+                this.main.miniSedie.init("MiniSeDie", new MiniSedieConfigs(), this.main);
             },
             () => this.showGame(this.main.miniSedie)
         );
@@ -247,6 +244,8 @@ export default class MiniPanelMiniGameInitializers {
     openNewSocketGame(gameId) {
         if (parseInt(gameId) === SabaConfigs.games.SpecialSeDie.id) {
             this.openSpecialSeDie();
+        } else if (parseInt(gameId) === SabaConfigs.games.MiniSedie.id) {
+            this.openMiniSedie();
         } else {
             this.main.loading.node.active = false;
         }
