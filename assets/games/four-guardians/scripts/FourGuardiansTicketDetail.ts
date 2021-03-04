@@ -1,6 +1,8 @@
-import GameUtils from "../../../common/GameUtils";
-import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
-import FourGuardiansTicketDetailItem from "./FourGuardiansTicketDetailItem";
+import { lazyInject } from '../../../Application';
+import GameUtils from '../../../common/GameUtils';
+import { numberWithCommas } from './../../../common/helpers/NumberHelper';
+import FourGuardiansConfig from './FourGuardiansConfig';
+import FourGuardiansTicketDetailItem from './FourGuardiansTicketDetailItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,9 +13,6 @@ export default class FourGuardiansTicketDetail extends cc.Component {
 
     @property(cc.Node)
     mainFrame: cc.Node = null;
-
-    @property(cc.SpriteFrame)
-    symbolsSprites: cc.SpriteFrame[] = [];
 
     @property(cc.SpriteFrame)
     paylinesSprites: cc.SpriteFrame[] = [];
@@ -27,6 +26,17 @@ export default class FourGuardiansTicketDetail extends cc.Component {
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
 
+    @property(cc.SpriteAtlas)
+    fourGuardiansAtlas: cc.SpriteAtlas = null;
+
+    @property(cc.SpriteAtlas)
+    fourGuardiansAtlasSC1: cc.SpriteAtlas = null;
+
+    @lazyInject(FourGuardiansConfig)
+    private readonly fourGuardiansConfig: FourGuardiansConfig;
+
+    private readonly jackpotSymbolNumber = 10;
+
     onLoad() {
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
         commonDialog.onDidHide = () => {
@@ -39,7 +49,7 @@ export default class FourGuardiansTicketDetail extends cc.Component {
             for (let column = 0; column < 5; column++) {
                 const node = new cc.Node();
                 node.scale = 0.8;
-                node.addComponent(cc.Sprite).spriteFrame = this.symbolsSprites[board[row + column * 3]];
+                node.addComponent(cc.Sprite).spriteFrame = this.setSymbolFrame(board[row + column * 3]);
                 this.resultBoard.addChild(node);
             }
         }
@@ -68,14 +78,16 @@ export default class FourGuardiansTicketDetail extends cc.Component {
 
         if (settlementResult.jackpot) {
             const jackpot = settlementResult.jackpot;
+
             this.creatLogItem(
                 order,
                 this.paylinesSprites[jackpot.winningLine],
-                this.symbolsSprites[10],
+                this.setSymbolFrame(this.jackpotSymbolNumber),
                 5,
                 "Nổ Hũ",
                 bet,
-                jackpot.winningAmount
+                jackpot.winningAmount,
+                this.jackpotSymbolNumber
             );
             order++;
         }
@@ -84,29 +96,49 @@ export default class FourGuardiansTicketDetail extends cc.Component {
             this.creatLogItem(
                 order,
                 this.paylinesSprites[line.payline],
-                this.symbolsSprites[line.symbol],
+                this.setSymbolFrame(line.symbol),
                 line.count,
                 line.odds,
                 bet,
-                bet * line.odds
+                bet * line.odds,
+                line.symbol
             );
             order++;
         });
 
         if (settlementResult.bonus.odds > 0) {
             const bonus = settlementResult.bonus;
-            this.creatLogItem(order, null, this.symbolsSprites[8], bonus.count, `${bonus.odds} Bonus`, "", bonus.winningAmount);
+            this.creatLogItem(
+                order,
+                null,
+                this.fourGuardiansAtlas.getSpriteFrame[`item8`],
+                bonus.count,
+                `${bonus.odds} Bonus`,
+                "",
+                bonus.winningAmount,
+                8
+            );
             order++;
         }
 
         if (settlementResult.freeSpins.odds > 0) {
             const freeSpins = settlementResult.freeSpins;
-            this.creatLogItem(order, null, this.symbolsSprites[7], freeSpins.count, `${freeSpins.odds} Free Spins`, "", "");
+
+            this.creatLogItem(
+                order,
+                null,
+                this.fourGuardiansAtlas.getSpriteFrame[`item7`],
+                freeSpins.count,
+                `${freeSpins.odds} Free Spins`,
+                "",
+                "",
+                7
+            );
             order++;
         }
 
         failureLine.forEach((line) => {
-            this.creatLogItem(order, this.paylinesSprites[line], null, "", "", bet, 0);
+            this.creatLogItem(order, this.paylinesSprites[line], null, "", "", bet, 0, line.symbol);
             order++;
         });
 
@@ -124,12 +156,16 @@ export default class FourGuardiansTicketDetail extends cc.Component {
         });
     }
 
-    creatLogItem(order, paylineSprite, symbolsSprite, amount, payout, bet, win) {
+    creatLogItem(order, paylineSprite, symbolsSprite, amount, payout, bet, win, symbolNumber: number) {
         const item = cc.instantiate(this.itemPrefab);
         const ticketDetail = item.getComponent(FourGuardiansTicketDetailItem);
 
         ticketDetail.order.string = order.toString();
         ticketDetail.payline.spriteFrame = paylineSprite;
+
+        if (!this.fourGuardiansConfig.jackpotEnabled && symbolNumber === this.jackpotSymbolNumber) {
+            ticketDetail.symbol.node.scale = 0.36;
+        }
         ticketDetail.symbol.spriteFrame = symbolsSprite;
         ticketDetail.amount.string = amount.toString();
         ticketDetail.payout.string = payout.toString();
@@ -137,5 +173,17 @@ export default class FourGuardiansTicketDetail extends cc.Component {
         ticketDetail.win.string = win !== "" ? numberWithCommas(win) : "";
         ticketDetail.backhground.active = (order - 1) % 2 > 0;
         this.content.addChild(item);
+    }
+
+    setSymbolFrame(symbolNumber: number) {
+        let jackpotFrame: cc.SpriteFrame = null;
+
+        if (!this.fourGuardiansConfig.jackpotEnabled && symbolNumber === this.jackpotSymbolNumber) {
+            jackpotFrame = this.fourGuardiansAtlasSC1.getSpriteFrame(`item${this.jackpotSymbolNumber}`);
+        } else {
+            jackpotFrame = this.fourGuardiansAtlas.getSpriteFrame(`item${symbolNumber}`);
+        }
+
+        return jackpotFrame;
     }
 }
