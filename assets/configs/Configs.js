@@ -2,80 +2,80 @@ const configs = {
     systemType: "SC1",
     ssl: false,
     serverDomainMapper: {
-        localhost: "localhost",
+        localhost: "lumigame.com",
         "10.5.10.14": "lumigame.com"
     },
     serverGameEndPoints: {
         0: {
             //Main Server
             subDomain: "haproxy",
-            port: 7001,
+            port: 7000,
             path: "",
             proxyRoute: "/main"
         },
+        1: {
+            subDomain: "haproxy",
+            port: 7000,
+            path: "/user/bigsmall",
+            proxyRoute: "/bigsmall/socket.io"
+        },
         2: {
             subDomain: "haproxy",
-            port: 7001,
+            port: "7000",
             path: "/user/xocxoc",
             proxyRoute: "/sedie/socket.io"
         },
         8: {
             subDomain: "haproxy",
-            port: 7001,
+            port: "7000",
             path: "/user/kenopromax",
             proxyRoute: "/kenopromax/socket.io"
         },
-        9: {
-            subDomain: "haproxy",
-            port: 7001,
-            path: "/user/minisedie",
-            proxyRoute: "/minisedie/socket.io"
-        },
         22: {
             subDomain: "haproxy",
-            port: "7001",
+            port: "7000",
             path: "/user/vipsedie",
             proxyRoute: "/vipsedie/socket.io"
         },
         23: {
             subDomain: "haproxy",
-            port: "7001",
+            port: "7000",
             path: "/user/blackjack",
             proxyRoute: "/blackjack/socket.io"
         },
         24: {
             subDomain: "haproxy",
-            port: 7001,
+            port: 7000,
             path: "/user/specialsedie",
             proxyRoute: "/specialsedie/socket.io"
         },
         25: {
             subDomain: "haproxy",
-            port: 7001,
+            port: 7000,
             path: "/user/sicbo",
             proxyRoute: "/sicbo/socket.io"
         },
         26: {
             subDomain: "haproxy",
-            port: 7001,
+            port: 7000,
             path: "/user/vipfishprawncrab",
             proxyRoute: "/vipfishprawncrab/socket.io"
         },
         27: {
             subDomain: "haproxy",
-            port: 7001,
+            port: 7000,
             path: "/user/vipbaccarat",
             proxyRoute: "/vipbaccarat/socket.io"
         },
         28: {
             subDomain: "haproxy",
-            port: 7001,
+            port: 7000,
             path: "/user/vipsediewar",
             proxyRoute: "/vipsediewar/socket.io"
         },
         29: {
             subDomain: "haproxy",
-            port: 7001,
+            port: 7000,
             path: "/user/fourguardians",
             proxyRoute: "/fourguardians/socket.io"
         }

@@ -1,0 +1,10 @@
+export class TXConstants {
+    fullTime: 61;
+    betTime: 51;
+    waitTime: 10;
+    nanTime: 55;
+    redTime: 5;
+    minBetTime: 1;
+    displayResultTime: 58;
+    presetBetSettingKey: "big_small_preset_bet";
+}
