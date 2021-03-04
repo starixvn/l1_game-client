@@ -19,6 +19,12 @@ const configs = {
             path: "/user/xocxoc",
             proxyRoute: "/uat/sedie/socket.io"
         },
+        8: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/kenopromax",
+            proxyRoute: "/uat/kenopromax/socket.io"
+        },
         22: {
             subDomain: "uatproxy",
             port: "",
