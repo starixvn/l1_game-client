@@ -75,7 +75,7 @@ export default class FourGuardians extends SlotGameBase {
 
         const dialog = cc.instantiate(this.topWinnerPrefab);
         const topWinnerComponent = dialog.getComponent(SlotGameTopWinner);
-        topWinnerComponent.init(this.socket, this.gameName);
+        topWinnerComponent.init(this.socket, this.gameName, this.fourGuardiansConfig.jackpotEnabled);
         this.currentMiniPanel.node.addChild(dialog);
     }
 }

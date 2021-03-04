@@ -37,14 +37,25 @@ export default class SlotGameTopWinner extends cc.Component {
     @property(cc.Node)
     jackpotWinnerNode: cc.Node = null;
 
+    @property(cc.Node)
+    backgroundNode: cc.Node = null;
+
+    @property(cc.Layout)
+    mainLayout: cc.Layout = null;
+
+    @property(cc.Node)
+    tabContainer: cc.Node = null;
+
     private socket: SocketIOClient.Socket;
     private gameName: string;
+    private jackpotEnabled = false;
 
     topWinnerView = "getBigWinningWinners";
 
-    init(socket: SocketIOClient.Socket, gameName: string) {
+    init(socket: SocketIOClient.Socket, gameName: string, jackpotEnabled = true) {
         this.socket = socket;
         this.gameName = gameName;
+        this.jackpotEnabled = jackpotEnabled;
     }
 
     onLoad() {
@@ -58,6 +69,14 @@ export default class SlotGameTopWinner extends cc.Component {
         this.showBigWinningView(true);
 
         this.socket.on(this.gameName, this.receivedData.bind(this));
+
+        if (!this.jackpotEnabled) {
+            this.tabContainer.active = false;
+            this.mainLayout.updateLayout();
+            this.mainLayout.enabled = false;
+
+            this.backgroundNode.height = this.mainLayout.node.height;
+        }
     }
 
     onDestroy() {
