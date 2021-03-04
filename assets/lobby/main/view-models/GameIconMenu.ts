@@ -12,6 +12,7 @@ export default class GameIconMenu extends cc.Component {
 
     onLoad() {
         if (this.content) {
+            this.content.removeAllChildren();
             this.initItems();
         }
     }
