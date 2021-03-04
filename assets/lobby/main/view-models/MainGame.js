@@ -129,7 +129,11 @@ cc.Class({
         this.initBanners();
     },
     initLobbyMenu() {
-        const lobbyMenu = this.mainScroll.addComponent("LobbyMenu");
+        let lobbyMenu = this.mainScroll.getComponent("LobbyMenu");
+        if (lobbyMenu) {
+            return;
+        }
+        lobbyMenu = this.mainScroll.addComponent("LobbyMenu");
         lobbyMenu.content = this.scrollContent;
         lobbyMenu.miniPanel = cc.RedT.MiniPanel;
         lobbyMenu.initializedCallback = () => {
