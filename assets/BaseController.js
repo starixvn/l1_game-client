@@ -199,9 +199,10 @@ module.exports = {
     },
     userData: function (data) {
         if (void 0 !== data.offerGames && data.offerGames.length > 0) {
+            const menuConfig = new LobbyMenuConfig();
             const offerGames = data.offerGames;
             const list = [];
-            this.user.offerGames.forEach((id) => {
+            menuConfig.list.forEach((id) => {
                 if (offerGames.includes(id)) {
                     list.push(id);
                 }
