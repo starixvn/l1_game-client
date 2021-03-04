@@ -1,5 +1,6 @@
-import { injectable } from "inversify";
-import { ICashSystem, ICreditSystem, System } from "../../../System";
+import { injectable } from 'inversify';
+
+import { ICashSystem, ICreditSystem, System } from '../../../System';
 
 @injectable()
 export default class LobbyMenuConfig extends System implements ICreditSystem, ICashSystem {
@@ -7,7 +8,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         super();
     }
 
-    bannerAds = [28, 27, 25];
+    bannerAds = [22, 27, 25];
     list = [29, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21];
     miniList = [1, 4, 6, 3, 0, 7, 11, 9];
     detail = {
