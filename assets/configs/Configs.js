@@ -8,30 +8,28 @@ const configs = {
     serverGameEndPoints: {
         0: {
             //Main Server
-            subDomain: "",
-            port: 8080,
+            subDomain: "haproxy",
+            port: 7001,
             path: "",
             proxyRoute: "/main"
         },
         2: {
             subDomain: "haproxy",
-            port: "7001",
+            port: 7001,
             path: "/user/xocxoc",
             proxyRoute: "/sedie/socket.io"
         },
         8: {
-            // subDomain: "haproxy",
-            subDomain: "",
-            port: 8083,
+            subDomain: "haproxy",
+            port: 7001,
             path: "/user/kenopromax",
-            proxyRoute: ""
+            proxyRoute: "/kenopromax/socket.io"
         },
         9: {
-            // subDomain: "haproxy",
-            subDomain: "",
-            port: 8083,
+            subDomain: "haproxy",
+            port: 7001,
             path: "/user/minisedie",
-            proxyRoute: "",
+            proxyRoute: "/minisedie/socket.io"
         },
         22: {
             subDomain: "haproxy",
