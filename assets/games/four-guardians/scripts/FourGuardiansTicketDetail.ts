@@ -1,8 +1,8 @@
-import { lazyInject } from '../../../Application';
-import GameUtils from '../../../common/GameUtils';
-import { numberWithCommas } from './../../../common/helpers/NumberHelper';
-import FourGuardiansConfig from './FourGuardiansConfig';
-import FourGuardiansTicketDetailItem from './FourGuardiansTicketDetailItem';
+import { lazyInject } from "../../../Application";
+import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
+import FourGuardiansConfig from "./FourGuardiansConfig";
+import FourGuardiansTicketDetailItem from "./FourGuardiansTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,9 +13,6 @@ export default class FourGuardiansTicketDetail extends cc.Component {
 
     @property(cc.Node)
     mainFrame: cc.Node = null;
-
-    @property(cc.SpriteFrame)
-    paylinesSprites: cc.SpriteFrame[] = [];
 
     @property(cc.Node)
     resultBoard: cc.Node = null;
@@ -81,13 +78,12 @@ export default class FourGuardiansTicketDetail extends cc.Component {
 
             this.creatLogItem(
                 order,
-                this.paylinesSprites[jackpot.winningLine],
+                this.getSpriteLine(jackpot.winningLine),
                 this.setSymbolFrame(this.jackpotSymbolNumber),
-                5,
+                "5",
                 "Nổ Hũ",
                 bet,
-                jackpot.winningAmount,
-                this.jackpotSymbolNumber
+                jackpot.winningAmount
             );
             order++;
         }
@@ -95,13 +91,12 @@ export default class FourGuardiansTicketDetail extends cc.Component {
         winningLines.forEach((line) => {
             this.creatLogItem(
                 order,
-                this.paylinesSprites[line.payline],
-                this.setSymbolFrame(line.symbol),
+                this.getSpriteLine(line.payline),
+                this.setSymbolFrame(+line.symbol),
                 line.count,
                 line.odds,
                 bet,
-                bet * line.odds,
-                line.symbol
+                `${bet * line.odds}`
             );
             order++;
         });
@@ -115,8 +110,7 @@ export default class FourGuardiansTicketDetail extends cc.Component {
                 bonus.count,
                 `${bonus.odds} Bonus`,
                 "",
-                bonus.winningAmount,
-                8
+                bonus.winningAmount
             );
             order++;
         }
@@ -131,14 +125,13 @@ export default class FourGuardiansTicketDetail extends cc.Component {
                 freeSpins.count,
                 `${freeSpins.odds} Free Spins`,
                 "",
-                "",
-                7
+                ""
             );
             order++;
         }
 
         failureLine.forEach((line) => {
-            this.creatLogItem(order, this.paylinesSprites[line], null, "", "", bet, 0, line.symbol);
+            this.creatLogItem(order, this.getSpriteLine(line), null, "", "", bet, "0");
             order++;
         });
 
@@ -156,20 +149,28 @@ export default class FourGuardiansTicketDetail extends cc.Component {
         });
     }
 
-    creatLogItem(order, paylineSprite, symbolsSprite, amount, payout, bet, win, symbolNumber: number) {
+    getSpriteLine(line: number): cc.SpriteFrame {
+        return this.fourGuardiansAtlas.getSpriteFrame(`dong${line + 1}`);
+    }
+
+    creatLogItem(
+        order: number,
+        paylineSprite: cc.SpriteFrame,
+        symbolsSprite: cc.SpriteFrame,
+        amount: string,
+        payout: string,
+        bet: string,
+        win: string
+    ) {
         const item = cc.instantiate(this.itemPrefab);
         const ticketDetail = item.getComponent(FourGuardiansTicketDetailItem);
 
         ticketDetail.order.string = order.toString();
         ticketDetail.payline.spriteFrame = paylineSprite;
-
-        if (!this.fourGuardiansConfig.jackpotEnabled && symbolNumber === this.jackpotSymbolNumber) {
-            ticketDetail.symbol.node.scale = 0.36;
-        }
         ticketDetail.symbol.spriteFrame = symbolsSprite;
-        ticketDetail.amount.string = amount.toString();
-        ticketDetail.payout.string = payout.toString();
-        ticketDetail.bet.string = bet !== "" ? numberWithCommas(bet) : "";
+        ticketDetail.amount.string = amount;
+        ticketDetail.payout.string = payout;
+        ticketDetail.bet.string = bet !== "" ? numberWithCommas(bet, 1) : "";
         ticketDetail.win.string = win !== "" ? numberWithCommas(win) : "";
         ticketDetail.backhground.active = (order - 1) % 2 > 0;
         this.content.addChild(item);
