@@ -72,6 +72,7 @@ export default class LobbyMenu extends GameIconMenu {
 
     createNewColumn() {
         const node = new cc.Node();
+        node.anchorY = 1;
         node.name = "col";
         const layout = node.addComponent(cc.Layout);
         layout.type = cc.Layout.Type.VERTICAL;
