@@ -127,9 +127,9 @@ export default class SlotGameTopWinner extends cc.Component {
                 item.player.string = player.name;
 
                 if (this.topWinnerView === "getBigWinningWinners") {
-                    item.amount.string = player.freeSpin ? "Free Spin" : numberWithCommas(player.totalAmount);
+                    item.amount.string = player.freeSpin ? "Free Spin" : numberWithCommas(player.totalAmount, 1);
                 } else {
-                    item.amount.string = numberWithCommas(player.bet);
+                    item.amount.string = numberWithCommas(player.bet, 1);
                 }
 
                 item.win.string = numberWithCommas(player.winningAmount);
