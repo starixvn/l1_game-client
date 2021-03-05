@@ -3768,7 +3768,7 @@
     "node": {
       "__id__": 2
     },
-    "_enabled": true,
+    "_enabled": false,
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 499,
@@ -3943,8 +3943,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 79.4,
-      "height": 42
+      "width": 85,
+      "height": 52
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4008,7 +4008,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 45.6,
-      "height": 40
+      "height": 15
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4019,8 +4019,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -12.900000000000002,
-        12.531,
+        0,
+        13.5,
         0,
         0,
         0,
@@ -4063,7 +4063,7 @@
     "_string": "#123456",
     "_N$string": "#123456",
     "_fontSize": 12,
-    "_lineHeight": 40,
+    "_lineHeight": 15,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "3ffe3de6-d3a7-4148-aa63-92c401f9da18"
@@ -4119,7 +4119,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 13.8,
-      "height": 40
+      "height": 20
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4130,8 +4130,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        20.799999999999997,
-        -1.958,
+        0,
+        -4,
         0,
         0,
         0,
@@ -4174,7 +4174,7 @@
     "_string": "LẺ",
     "_N$string": "LẺ",
     "_fontSize": 12,
-    "_lineHeight": 40,
+    "_lineHeight": 20,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "3ffe3de6-d3a7-4148-aa63-92c401f9da18"
@@ -4246,11 +4246,11 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 79.4,
-      "height": 42
+      "width": 85,
+      "height": 52
     },
     "_resize": 1,
-    "_N$layoutType": 1,
+    "_N$layoutType": 2,
     "_N$cellSize": {
       "__type__": "cc.Size",
       "width": 40,
@@ -4259,8 +4259,8 @@
     "_N$startAxis": 0,
     "_N$paddingLeft": 4,
     "_N$paddingRight": 12,
-    "_N$paddingTop": 0,
-    "_N$paddingBottom": 0,
+    "_N$paddingTop": 5,
+    "_N$paddingBottom": 12,
     "_N$spacingX": 4,
     "_N$spacingY": 0,
     "_N$verticalDirection": 1,
@@ -4307,7 +4307,7 @@
     "sync": false
   },
   {
-    "__type__": "fbdc5qBh4lDcIzvkDJyYNN4",
+    "__type__": "168d5whEQdJtbpNSKel/pZ4",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -4317,7 +4317,9 @@
     "content": {
       "__id__": 2
     },
-    "tip": null,
+    "tip": {
+      "__id__": 106
+    },
     "nodeNext": null,
     "_id": ""
   },

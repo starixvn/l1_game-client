@@ -1,9 +1,11 @@
 import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
-import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
 import { games } from '../../../configs/SabaConfigs';
 import BalancedBettingPoolGameBase from '../../_base/BalancedBettingPoolGameBase';
 import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
+import BigSmallBetHistory from './BigSmallBetHistory';
 import BigSmallGuide from './BigSmallGuide';
+import BigSmallHistory from './BigSmallHistory';
+import BigSmallMiniRoundHistory from './BigSmallMiniRoundHistory';
 import BigSmallBetHandler from './handlers/BigSmallBetHandler';
 import BigSmallFinishHandler from './handlers/BigSmallFinishHandler';
 import BigSmallLogsHandler from './handlers/BigSmallLogsHandler';
@@ -69,9 +71,18 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Label)
     betPercentageSmall: cc.Label = null;
 
-    private miniRoundHistory: MiniRoundHistory;
-    // private historyComponent: SpecialSeDieHistory;
-    // private betHistory: SpecialSedieBetHistory;
+    @property(cc.Node)
+    resultNode: cc.Node = null;
+
+    @property(cc.Label)
+    resultLabel: cc.Label = null;
+
+    @property(cc.Label)
+    odds: cc.Label = null;
+
+    private miniRoundHistory: BigSmallMiniRoundHistory;
+    private historyComponent: BigSmallHistory;
+    private betHistory: BigSmallBetHistory;
 
     private readonly choice = {
         big: "big",
@@ -104,6 +115,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         };
 
         this.animatedTime.setAnimatedY(30, -5);
+        this.initRoundHistory();
 
         const draggableItem = this.getComponent(DraggableItem);
         draggableItem.touchCallback.start = (node) => {
@@ -123,9 +135,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     onData(data: any) {
         super.onData(data);
-        // if (data.history) {
-        //     this.historyComponent.onData(data.history);
-        // }
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
 
         // if (data.round) {
         //     this.betHistory && this.betHistory.onData(data.round);
@@ -142,41 +154,22 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.statusHandler = new BigSmallStatusHandler(this);
     }
 
-    // initRoundHistory() {
-    //     const node = cc.instantiate(this.roundHistoryPrefab);
-    //     this.roundHistory = node.getComponent(SedieRoundHistory);
-    //     this.roundHistory.init(this);
-    //     this.roundHistoryContainer.addChild(node);
+    initRoundHistory() {
+        const mini = cc.instantiate(this.miniRoundHistoryPrefab);
+        this.miniRoundHistory = mini.getComponent(BigSmallMiniRoundHistory);
+        this.miniRoundHistory.handleBetHistory = (roundId) => {
+            this.openBetHistory(roundId);
+        };
+        this.miniRoundHistoryContainer.addChild(mini);
+    }
 
-    //     const mini = cc.instantiate(this.miniRoundHistoryPrefab);
-    //     this.miniRoundHistory = mini.getComponent(SpecialSedieRoundHistory);
-    //     this.miniRoundHistory.handleBetHistory = (roundId) => {
-    //         this.openBetHistory(roundId);
-    //     };
-    //     this.miniRoundHistoryContainer.addChild(mini);
-    // }
-
-    // updateRoundHistory() {
-    //     const miniHistoryData = this.currentDataLogs.map((log) => {
-    //         let count = 0;
-    //         const { result } = log;
-    //         Object.keys(result).forEach((key) => {
-    //             if (result[key]) {
-    //                 count++;
-    //             }
-    //         });
-    //         return {
-    //             roundId: log.roundId || log.id || log.round,
-    //             red: count
-    //         };
-    //     });
-    //     this.roundHistory.setData(miniHistoryData.map((d) => d.red));
-    //     this.miniRoundHistory.setData(miniHistoryData);
-    // }
+    updateRoundHistory() {
+        this.miniRoundHistory.setData(this.currentDataLogs);
+    }
 
     setDices(result) {
         Object.keys(result).forEach((key, index) => {
-            this.dices[index].spriteFrame = this.diceFrames[result[key]];
+            this.dices[index].spriteFrame = this.diceFrames[result[key] - 1];
         });
     }
 
@@ -184,28 +177,32 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
 
+            cc.tween(this.node)
+                .call(() => {
+                    this.diceAnimation.node.active = true;
+                    this.diceContainer.active = false;
+                    this.diceAnimation.play();
+                })
+                .delay(3)
+                .call(() => {
+                    this.diceAnimation.node.active = false;
+                    this.diceContainer.active = true;
+                    this.updateRoundHistory();
+                })
+                .start();
+
             (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
             this.finishShowResult = true;
         }
     }
 
-    showWinningAnimation() {
-        const currentStatusData = this.statusHandler.currentStatusData;
-        currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
-    }
-
-    public highlightLastResult() {
-        if (this.currentTimeRemaining <= this.config.stopBetTime) {
-            return;
-        }
-        const dataLog = this.currentDataLogs[0];
-        dataLog && this.highlightWonItems(dataLog.settlementResult, false);
-    }
-
-    private highlightWonItems(settlementResult: any, isAnimated = true) {
+    showWinningAnimation(data) {
         this.betItems.forEach((betItem) => {
-            betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
+            betItem.setHighlight(data.settlementResult[betItem.node.name], true);
         });
+
+        this.resultNode.active = true;
+        this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
     }
 
     public openGuide() {
@@ -216,24 +213,32 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     public openHistory() {
-        // const dialog = cc.instantiate(this.historyPrefab);
-        // this.historyComponent = dialog.getComponent(SpecialSeDieHistory);
-        // this.historyComponent.init(this.socket);
-        // this.historyComponent.handleBetHistory = (roundId) => {
-        //     this.openBetHistory(roundId);
-        // };
-        // this.currentMiniPanel.node.addChild(dialog);
+        const dialog = cc.instantiate(this.historyPrefab);
+        this.historyComponent = dialog.getComponent(BigSmallHistory);
+        this.historyComponent.init(this.socket);
+        this.historyComponent.handleBetHistory = (roundId) => {
+            this.openBetHistory(roundId);
+        };
+        this.currentMiniPanel.node.addChild(dialog);
     }
 
     openBetHistory(roundId: number) {
-        // const node = cc.instantiate(this.betHistoryPrefab);
-        // this.betHistory = node.getComponent(SpecialSedieBetHistory);
-        // this.betHistory.init(this, roundId);
-        // this.currentMiniPanel.node.addChild(node);
+        const node = cc.instantiate(this.betHistoryPrefab);
+        this.betHistory = node.getComponent(BigSmallBetHistory);
+        this.betHistory.init(this, roundId);
+        this.currentMiniPanel.node.addChild(node);
     }
 
     resetDataAndUI() {
         super.resetDataAndUI();
         this.statusHandler.currentStatusData = null;
+        this.diceContainer.active = false;
+        this.resultNode.active = false;
+    }
+
+    public updateOddsFromConfigs() {
+        if (this.gameConfigs.odds) {
+            this.odds.string = `1:${this.gameConfigs.odds.big}`;
+        }
     }
 }

@@ -12,17 +12,5 @@ export default class BigSmallFinishHandler extends GameBaseFinishHandler {
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.showBalanceBetNotice();
         this.main.setDices(dataFinish.result);
-
-        cc.tween(this.main.node)
-            .call(() => {
-                this.main.diceContainer.active = false;
-                this.main.diceAnimation.play();
-            })
-            .delay(this.playResultAnimationTime)
-            .call(() => {
-                onFinishHandlingData();
-                this.main.diceContainer.active = true;
-            })
-            .start();
     }
 }

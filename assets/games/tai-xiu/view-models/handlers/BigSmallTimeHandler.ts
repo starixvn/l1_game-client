@@ -2,23 +2,14 @@ import GameBaseTimeHandler from '../../../_base/handlers/GameBaseTimeHandler';
 import BigSmall from '../BigSmall';
 
 export default class BigSmallTimeHandler extends GameBaseTimeHandler {
-    private readonly shakeThePlateTime = 32;
-    private readonly displayResultTime = 37;
+    private readonly displayResultTime = 58;
 
     constructor(protected readonly main: BigSmall) {
         super(main);
     }
 
-    get isInWaitTime() {
-        return this.main.currentTimeRemaining > this.shakeThePlateTime;
-    }
-
     get isInBalanceBetTime() {
         return this.main.currentTimeRemaining > this.displayResultTime;
-    }
-
-    get isStartingNewGameRound() {
-        return this.main.currentTimeRemaining === this.shakeThePlateTime;
     }
 
     get isDisplayResultTime() {
@@ -35,7 +26,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
             if (this.isDisplayResultTime) {
                 cc.RedT.GAME_IS_SHOWED && this.main.showResult();
-                this.main.showWinningAnimation();
+                this.main.showWinningAnimation(this.main.currentDataLogs[0]);
                 this.main.currentTimeRemaining--;
             } else {
                 super.gameUpdate();
@@ -46,7 +37,6 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.statusHandler.currentStatusData = null;
-        this.main.highlightLastResult();
     }
 
     handleInRoundTime() {
@@ -62,13 +52,8 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
         super.handleWaitTime();
     }
 
-    showWaitTime() {
-        this.main.timeWaitNode.active = true;
-        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.shakeThePlateTime - 1);
-    }
-
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        this.main.betItems.forEach((item) => item.setHighlight(false));
+        // this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 }

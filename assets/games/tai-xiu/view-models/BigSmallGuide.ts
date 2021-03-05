@@ -10,7 +10,7 @@ export default class BigSmallGuide extends GameGuideBase {
             _maxBetRound: numberWithCommas(configs.maxbet),
             _minBet: configs.minbet,
             _maxBet: numberWithCommas(configs.maxbet),
-            _oddEven: configs.odds.odd
+            _oddEven: configs.odds.big
         };
     }
 }

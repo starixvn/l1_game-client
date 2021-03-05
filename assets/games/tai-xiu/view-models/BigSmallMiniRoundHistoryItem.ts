@@ -14,7 +14,9 @@ export default class BigSmallMiniRoundHistoryItem extends MiniRoundHistoryItem {
     blackDot: cc.SpriteFrame = null;
 
     public setData(data: any) {
-        const point = data.dice[0] + data.dice[1] + data.dice[2];
+        this.data = data;
+
+        const point = data.result.dice1 + data.result.dice2 + data.result.dice3;
         this.icon.spriteFrame = point < 11 ? this.whiteDot : this.blackDot;
     }
 }
