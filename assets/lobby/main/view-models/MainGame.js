@@ -145,6 +145,9 @@ cc.Class({
         lobbyMenu.initItems();
     },
     initBanners() {
+        if (this.adsBannerContainer.childrenCount > 0) {
+            return;
+        }
         const showJackpotBanner =
             cc.RedT.user.offerGames.includes(SabaConfigs.games.FourGuardians.id) && fourGuardiansConfig.jackpotEnabled;
         this.jackpotToggle.node.parent.active = showJackpotBanner;

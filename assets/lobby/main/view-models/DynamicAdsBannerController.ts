@@ -11,7 +11,6 @@ export default class DynamicAdsBannerController extends BannerController {
     bannerAtlas: cc.SpriteAtlas = null;
 
     setGameAds(games: number[]) {
-        this.node.destroyAllChildren();
         games.forEach((id) => this.createAdsItem(id));
         if (this.node.childrenCount > 0) {
             this.enableTouch();
