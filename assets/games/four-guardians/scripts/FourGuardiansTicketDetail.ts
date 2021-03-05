@@ -106,7 +106,7 @@ export default class FourGuardiansTicketDetail extends cc.Component {
             this.creatLogItem(
                 order,
                 null,
-                this.fourGuardiansAtlas.getSpriteFrame[`item8`],
+                this.fourGuardiansAtlas.getSpriteFrame(`item8`),
                 bonus.count,
                 `${bonus.odds} Bonus`,
                 "",
@@ -121,7 +121,7 @@ export default class FourGuardiansTicketDetail extends cc.Component {
             this.creatLogItem(
                 order,
                 null,
-                this.fourGuardiansAtlas.getSpriteFrame[`item7`],
+                this.fourGuardiansAtlas.getSpriteFrame(`item7`),
                 freeSpins.count,
                 `${freeSpins.odds} Free Spins`,
                 "",
