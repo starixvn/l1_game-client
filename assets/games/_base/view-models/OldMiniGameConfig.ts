@@ -1,6 +1,6 @@
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 
-import { ICashSystem, ICreditSystem, System } from '../../System';
+import { ICashSystem, ICreditSystem, System } from "../../../System";
 
 @injectable()
 export default class OldMiniGameConfig extends System implements ICreditSystem, ICashSystem {
@@ -8,8 +8,8 @@ export default class OldMiniGameConfig extends System implements ICreditSystem, 
         super();
     }
 
-    gameConfigs: object;
-    dragonTigerChoicesMaxbet: object;
+    gameConfigs: any;
+    dragonTigerChoicesMaxbet: any;
 
     customizeCredit(): void {
         this.gameConfigs = {

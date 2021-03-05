@@ -1,5 +1,5 @@
-import { appContainer } from '../../Application';
-import OldMiniGameConfig from './OldMiniGameConfig';
+import { appContainer } from "../../../Application";
+import OldMiniGameConfig from "./OldMiniGameConfig";
 
 export default class OldMiniGameModule {
     constructor() {

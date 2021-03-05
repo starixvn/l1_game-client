@@ -44,8 +44,6 @@ module.exports = {
                 this.loading.active = false;
             }
         }
-        const menuConfig = new LobbyMenuConfig();
-        this.user.offerGames = menuConfig.list;
     },
     forceKickedOut: function () {
         this.isForceKickedOut = true;
@@ -141,6 +139,9 @@ module.exports = {
         this.initPrototype();
         this.loading = loading;
         this.dataObservers = {};
+
+        const menuConfig = new LobbyMenuConfig();
+        this.user.offerGames = menuConfig.list;
     },
     initPrototype: function () {
         if (!String.format) {
