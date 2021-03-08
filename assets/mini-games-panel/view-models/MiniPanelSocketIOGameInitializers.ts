@@ -1,5 +1,6 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
 import { lazyInject } from "../../Application";
+import GameUtils from "../../common/GameUtils";
 import * as configs from "../../configs/Configs";
 import * as SabaConfigs from "../../configs/SabaConfigs";
 import SocketIOController from "../../SocketIOController";
@@ -29,8 +30,7 @@ export default class MiniPanelSocketIOGameInitializers {
 
     private openNewSocket(gameId) {
         this.socketIOController.closeSocket(gameId).then(() => {
-            const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === gameId);
-            const gameName = SabaConfigs.games[key].name;
+            const gameName = GameUtils.getGameNameString(gameId);
             const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
             const socket = this.socketIOController.connectGameSocket(

@@ -30,6 +30,12 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
                 }
                 this.closeGame();
             });
+            this.socket.on("message", (data) => {
+                if (!this.node || !this.node.isValid) {
+                    return;
+                }
+                this.currentMiniPanel.onGeneralData(data);
+            });
         }
     }
 

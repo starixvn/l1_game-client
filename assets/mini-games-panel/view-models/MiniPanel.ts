@@ -1,3 +1,4 @@
+import GameUtils from "../../common/GameUtils";
 import Loading from "../../common/loading/view-models/Loading";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import * as SabaConfigs from "../../configs/SabaConfigs";
@@ -163,8 +164,7 @@ export default class MiniPanel extends cc.Component {
         authManager.removeInRoomGameId();
 
         if (!cc.RedT.isConnected) {
-            const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === id);
-            const gameName = SabaConfigs.games[key].name;
+            const gameName = GameUtils.getGameNameString(id);
             this.onConnectSocketFailed(gameName);
             return;
         }
@@ -209,8 +209,7 @@ export default class MiniPanel extends cc.Component {
         let message = "";
 
         if (error.gameTypeId) {
-            const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === error.gameTypeId);
-            const gameName = SabaConfigs.games[key].name;
+            const gameName = GameUtils.getGameNameString(error.gameTypeId);
             message += `Game ${gameName} (#${error.gameRoundId})\r\n`;
         }
 

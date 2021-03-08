@@ -134,4 +134,9 @@ export default class GameUtils {
             });
         });
     }
+
+    public static getGameNameString(gameId): string {
+        const key = Object.keys(SabaConfigs.games).find((game) => SabaConfigs.games[game].id === gameId);
+        return SabaConfigs.games[key].name;
+    }
 }

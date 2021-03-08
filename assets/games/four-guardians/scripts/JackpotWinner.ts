@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import * as SabaConfigs from "../../../configs/SabaConfigs";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
@@ -59,8 +60,7 @@ export default class JackpotWinner extends cc.Component {
             this.username.string = data.winnerName;
             this.amount.string = numberWithCommas(data.amount);
 
-            const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === data.gameId);
-            this.gameName.string = SabaConfigs.games[key].name;
+            this.gameName.string = GameUtils.getGameNameString(data.gameId);
 
             jackPotContainer.active = true;
 

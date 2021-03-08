@@ -1,5 +1,6 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
 import { lazyInject } from "../../Application";
+import GameUtils from "../../common/GameUtils";
 import * as configs from "../../configs/Configs";
 import * as SabaConfigs from "../../configs/SabaConfigs";
 import ChanLeTurboConfigs from "../../games/chan-le-turbo/view-models/ChanLeTurboConfigs";
@@ -67,8 +68,7 @@ export default class MiniPanelMiniGameInitializers {
 
     openGame(id) {
         if (!cc.RedT.isConnected) {
-            const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === id);
-            const gameName = SabaConfigs.games[key].name;
+            const gameName = GameUtils.getGameNameString(id);
             this.main.onConnectSocketFailed(gameName, false);
             return;
         }
@@ -218,8 +218,7 @@ export default class MiniPanelMiniGameInitializers {
         if (currentSocket && currentSocket.connected) {
             this.openNewSocketGame(gameId);
         } else {
-            const key = Object.keys(SabaConfigs.games).find((key) => SabaConfigs.games[key].id === gameId);
-            const gameName = SabaConfigs.games[key].name;
+            const gameName = GameUtils.getGameNameString(gameId);
             const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
             const socket = this.socketIOController.connectGameSocket(

@@ -1,3 +1,4 @@
+import GameUtils from "../../common/GameUtils";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import * as SabaConfigs from "../../configs/SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
@@ -47,7 +48,9 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.notPermittedToPlay) {
-            const message = data.message;
+            const gameId = data.gameId;
+            const gameName = GameUtils.getGameNameString(gameId);
+            const message = `${gameName}\nTài khoản của bạn hiện đang bị giới hạn, vui lòng thử các trò chơi khác.`;
             this.main.onForceReload(true, message);
         }
 
