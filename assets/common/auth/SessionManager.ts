@@ -49,5 +49,6 @@ export function removeInRoomGameId() {
 declare global {
     export interface Window {
         authData: Session;
+        openGameId: string;
     }
 }

@@ -9,6 +9,24 @@ export interface SSOResponse {
     ss: string;
 }
 
+export interface ReCheckInResponse {
+    isSuccessful: boolean;
+    message: string;
+    balance: number;
+    isDisableAccount: boolean;
+}
+
+export interface AuthorizeResponse {
+    authorized: boolean;
+    user: any;
+}
+
+export interface SignNameResponse {
+    isSuccessful: boolean;
+    message: string;
+    user: any;
+}
+
 export default class UserService {
     private static instance: UserService;
     private readonly axiosInstance: AxiosInstance;
@@ -28,9 +46,38 @@ export default class UserService {
     }
 
     async sso(token: string) {
-        const response = await this.axiosInstance.get<SSOResponse>(token);
+        const response = await this.axiosInstance.get<SSOResponse>(`/auth/sso?token=${token}`);
         return response.data;
     }
 
-    async reCheckIn(session: string, username: string) {}
+    async reCheckIn(session: string, username: string) {
+        const request = {
+            session,
+            username,
+            browserUserAgent: navigator.userAgent
+        };
+        const response = await this.axiosInstance.post<ReCheckInResponse>("/auth/reCheckIn", request);
+        return response.data;
+    }
+
+    async authorize(session: string, username: string) {
+        const request = {
+            session,
+            username,
+            browserUserAgent: navigator.userAgent
+        };
+        const response = await this.axiosInstance.post<AuthorizeResponse>("/auth/authorize", request);
+        return response.data;
+    }
+
+    async signName(session: string, username: string, nickname: string) {
+        const request = {
+            session,
+            username,
+            nickname,
+            browserUserAgent: navigator.userAgent
+        };
+        const response = await this.axiosInstance.post<SignNameResponse>("/auth/signName", request);
+        return response.data;
+    }
 }

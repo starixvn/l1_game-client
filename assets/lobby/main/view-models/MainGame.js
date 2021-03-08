@@ -88,7 +88,7 @@ cc.Class({
         // Connect Server
         cc.RedT.reconnect();
 
-        this.dialog.init();
+        this.dialog.init(this);
         this.newsContents.init(this);
 
         var MiniPanel = cc.instantiate(this.PrefabT[1]);
@@ -100,7 +100,7 @@ cc.Class({
         this.inRoomGameId = sessionManager.getInRoomGameId();
 
         if (authManager && !cc.RedT.IS_LOGIN && !this.inRoomGameId) {
-            authManager.triggerSignIn(this, this.loading);
+            authManager.triggerSignIn(this);
         } else {
             !window.openGameId && this.openInRoomGame(this.inRoomGameId);
         }

@@ -37,11 +37,11 @@ cc.Class({
         if (this.checkPlugin()) {
             sdkbox.PluginOneSignal.init();
             sdkbox.PluginOneSignal.setListener({
-                onSendTag: function (t, e, i) {},
-                onGetTags: function (t) {},
-                onIdsAvailable: function (t, e) {},
-                onPostNotification: function (t, e) {},
-                onNotification: function (t, e, i) {}
+                onSendTag: function (t, e, i) { },
+                onGetTags: function (t) { },
+                onIdsAvailable: function (t, e) { },
+                onPostNotification: function (t, e) { },
+                onNotification: function (t, e, i) { }
             });
         }
     },
@@ -58,6 +58,12 @@ cc.Class({
             authManager.preChecking(() => {
                 authManager.checkSSO(self.messageLabel, () => {
                     self.loadScene();
+                    if (self.reCheckInId) {
+                        clearInterval(reCheckInId);
+                    }
+                    self.reCheckInId = setInterval(() => {
+                        authManager.reCheckIn();
+                    }, 60 * 1000);
                 });
             }, self.messageLabel);
         } else {

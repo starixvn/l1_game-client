@@ -2,8 +2,7 @@ const configs = {
     systemType: "SC1",
     ssl: false,
     serverDomainMapper: {
-        // localhost: "lumigame.com",
-        localhost: "localhost",
+        localhost: "lumigame.com",
         "10.5.10.14": "lumigame.com"
     },
     serverGameEndPoints: {

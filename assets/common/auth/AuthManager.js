@@ -3,6 +3,7 @@ import httpHelper from "../helpers/httpHelper";
 import { buildServerUrl } from "../helpers/UrlHelper";
 import logger from "../logger";
 import * as sessionManager from "./SessionManager";
+import UserService from "./UserService";
 
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
@@ -38,9 +39,11 @@ export function preChecking(cb) {
                     return settingResponse;
                 }
 
-                const isSessionExpired = checkAndUpdateRecheckIn(urlParams.has("token"));
+                const session = sessionManager.getSession();
+                const isSessionExpired = verifySession(session);
+
                 if (isSessionExpired && !urlParams.has("token")) {
-                    cc.director.loadScene("sessiontimeout");
+                    signOut();
 
                     return settingResponse;
                 }
@@ -62,27 +65,22 @@ export function checkSSO(labelMessage, onSuccessFunc) {
     const authData = sessionManager.getSession();
 
     if (urlParams.has("token")) {
-        const url = buildServerUrl(configs.ssl, "http", `/authenticate?token=${urlParams.get("token")}`);
-
-        try {
-            httpHelper.get(url, function (response) {
-                if (response.isAuthenticated) {
-                    window.authData = response;
-                    sentryLogger.setUser(response);
-                    window.authData.time = new Date();
-                    response.isSSO = true;
-                    window.openGameId = urlParams.get("gameId");
-                    sessionManager.storeSessionData(response);
-                    clearTokenOnUrl();
-                    onSuccessFunc();
-                } else {
-                    labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
-                }
-            });
-        } catch (error) {
+        UserService.getInstance().sso(urlParams.get("token")).then((response) => {
+            if (response.isAuthenticated) {
+                window.authData = response;
+                sentryLogger.setUser(response);
+                window.authData.time = new Date();
+                window.openGameId = urlParams.get("gameId");
+                sessionManager.storeSessionData(response);
+                clearTokenOnUrl();
+                onSuccessFunc();
+            } else {
+                labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
+            }
+        }).catch((error) => {
             labelMessage.string = "Đăng nhập lỗi.";
             sentryLogger.logError(error);
-        }
+        });
 
         isSuccess = true;
     } else if (authData && authData.isAuthenticated && authData.ss) {
@@ -110,20 +108,24 @@ export function signOut() {
 
 let autoTriggerSignInTimeout = null;
 
-export function triggerSignIn() {
+export function triggerSignIn(main) {
     if (!!window.authData) {
-        if (autoTriggerSignInTimeout) {
-            clearTimeout(autoTriggerSignInTimeout);
-        }
-
-        autoTriggerSignInTimeout = setTimeout(() => {
-            auth({
-                authentication: {
-                    username: window.authData.username,
-                    data: window.authData
+        UserService.getInstance().authorize(window.authData.ss, window.authData.username)
+            .then((response) => {
+                if (response.user) {
+                    main.handleUserData(response.user);
                 }
-            });
-        }, 500);
+                main.Authorized(response.authorized);
+
+                autoTriggerSignInTimeout = setTimeout(() => {
+                    auth({
+                        authentication: {
+                            username: window.authData.username,
+                            data: window.authData
+                        }
+                    });
+                }, 500);
+            }).catch(sentryLogger.logError);
     }
 }
 
@@ -137,8 +139,7 @@ function auth(obj) {
     }
 }
 
-export function checkAndUpdateRecheckIn(dontClearSession) {
-    const session = sessionManager.getSession();
+export function verifySession(session) {
     let isSessionExpired = true;
 
     try {
@@ -147,19 +148,49 @@ export function checkAndUpdateRecheckIn(dontClearSession) {
             const lastRecheckIn = new Date(session.time);
             const differenceInMinutes = Math.abs(now - lastRecheckIn) / (1000 * 60);
 
-            if (differenceInMinutes > sessionExpiredTimeoutMinutes && !dontClearSession) {
-                signOut();
-            } else {
-                session.time = new Date();
+            if (differenceInMinutes <= sessionExpiredTimeoutMinutes) {
                 isSessionExpired = false;
-                sessionManager.storeSessionData(session);
             }
-        } else {
-            !dontClearSession && signOut();
         }
     } catch (ex) {
         sentryLogger.logError(ex);
     }
 
     return isSessionExpired;
+}
+
+export function reCheckIn() {
+    try {
+        const session = sessionManager.getSession();
+        const isSessionExpired = verifySession(session);
+
+        if (isSessionExpired) {
+            signOut();
+        } else {
+            UserService.getInstance().reCheckIn(session.ss, session.username).then((response) => {
+                if (response.isSuccessful) {
+                    session.time = new Date();
+                    sessionManager.storeSessionData(session);
+
+                    if (cc.RedT.user) {
+                        cc.RedT.user.red = response.balance;
+                    }
+
+                } else {
+                    if (response.isDisableAccount) {
+                        setTimeout(signOut, 10000);
+                    } else {
+                        signOut();
+                    }
+
+                    const noticeData = { text: response.message };
+                    cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
+                }
+            }).catch(error => sentryLogger.logError(error))
+        }
+    } catch (ex) {
+        console.log(JSON.stringify(ex));
+    }
+
+
 }

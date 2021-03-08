@@ -1,8 +1,9 @@
-import GameUtils from '../../common/GameUtils';
-import { NoticeData } from '../../common/notice/view-models/Notice';
-import * as SabaConfigs from '../../configs/SabaConfigs';
-import * as authManager from './../../common/auth/AuthManager';
-import MiniPanel from './MiniPanel';
+import GameUtils from "../../common/GameUtils";
+import { NoticeData } from "../../common/notice/view-models/Notice";
+import * as SabaConfigs from "../../configs/SabaConfigs";
+import * as authManager from "./../../common/auth/AuthManager";
+import { removeInRoomGameId, removeSession } from "./../../common/auth/SessionManager";
+import MiniPanel from "./MiniPanel";
 
 declare global {
     interface Window {
@@ -48,7 +49,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.notPermittedToPlay) {
-            authManager.removeInRoomGameId();
+            removeInRoomGameId();
 
             const gameId = data.gameId;
             const gameName = GameUtils.getGameNameString(gameId);
@@ -62,7 +63,7 @@ export default class MiniPanelDataHandlers {
     }
 
     handleDataKickedOut(data: any) {
-        authManager.removeSession();
+        removeSession();
 
         if (data.umInfo) {
             cc.RedT.forceKickedOut();
