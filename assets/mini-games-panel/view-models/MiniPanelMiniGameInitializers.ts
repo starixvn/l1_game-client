@@ -3,6 +3,7 @@ import { lazyInject } from '../../Application';
 import GameUtils from '../../common/GameUtils';
 import * as configs from '../../configs/Configs';
 import * as SabaConfigs from '../../configs/SabaConfigs';
+import BauCuaConfig from '../../games/bau-cua-mini/view-models/BauCuaConfig';
 import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
 import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
 import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
@@ -135,7 +136,7 @@ export default class MiniPanelMiniGameInitializers {
             this.main.bauCua && this.main.bauCua.node,
             (gameComponent) => {
                 this.main.bauCua = gameComponent;
-                this.main.bauCua.init("baucua", this.main);
+                this.main.bauCua.init("baucua", new BauCuaConfig(), this.main);
             },
             () => this.showGame(this.main.bauCua)
         );
@@ -232,10 +233,13 @@ export default class MiniPanelMiniGameInitializers {
                 this.openSpecialSeDie();
                 break;
             case SabaConfigs.games.MiniSedie.id:
-                this.openSpecialSeDie();
+                this.openMiniSedie();
                 break;
             case SabaConfigs.games.BigSmall.id:
                 this.openTaiXiu();
+                break;
+            case SabaConfigs.games.BauCua.id:
+                this.openBauCua();
                 break;
             default:
                 this.main.loading.node.active = false;
