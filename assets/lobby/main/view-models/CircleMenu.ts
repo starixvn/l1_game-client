@@ -1,5 +1,5 @@
 import { lazyInject } from "../../../Application";
-import { removeInRoomGameId } from "../../../common/auth/AuthManager";
+import { removeInRoomGameId } from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import GameIconMenu from "./GameIconMenu";

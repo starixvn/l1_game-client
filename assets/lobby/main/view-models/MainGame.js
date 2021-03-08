@@ -9,6 +9,7 @@ import LobbyMenuConfig from '../../../lobby/main/view-models/LobbyMenuConfig';
 import SocketIOController from '../../../SocketIOController';
 import SplashConfig from '../../../splash/view-models/SplashConfig';
 import * as authManager from './../../../common/auth/AuthManager';
+import * as sessionManager from './../../../common/auth/SessionManager';
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -96,7 +97,7 @@ cc.Class({
         this.dialogNode.removeFromParent();
         MiniPanel.addChild(this.dialogNode);
 
-        this.inRoomGameId = authManager.getInRoomGameId();
+        this.inRoomGameId = sessionManager.getInRoomGameId();
 
         if (authManager && !cc.RedT.IS_LOGIN && !this.inRoomGameId) {
             authManager.triggerSignIn(this, this.loading);
@@ -375,7 +376,7 @@ cc.Class({
         }
 
         if (data.ss) {
-            authManager.storeSessionData(data.ss);
+            sessionManager.storeSessionData(data.ss);
         }
 
         if (void 0 !== data.name) {

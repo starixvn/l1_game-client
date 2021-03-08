@@ -2,10 +2,9 @@ import * as configs from "../../configs/Configs";
 import httpHelper from "../helpers/httpHelper";
 import { buildServerUrl } from "../helpers/UrlHelper";
 import logger from "../logger";
+import * as sessionManager from "./SessionManager";
 
 const sentryLogger = logger();
-
-const sessionIdStorageName = "scss";
 const sessionExpiredTimeoutMinutes = 19.8;
 
 export function preChecking(cb) {
@@ -60,7 +59,7 @@ export function preChecking(cb) {
 export function checkSSO(labelMessage, onSuccessFunc) {
     let isSuccess = false;
     const urlParams = new URLSearchParams(window.location.search);
-    const authData = getSession();
+    const authData = sessionManager.getSession();
 
     if (urlParams.has("token")) {
         const url = buildServerUrl(configs.ssl, "http", `/authenticate?token=${urlParams.get("token")}`);
@@ -73,7 +72,7 @@ export function checkSSO(labelMessage, onSuccessFunc) {
                     window.authData.time = new Date();
                     response.isSSO = true;
                     window.openGameId = urlParams.get("gameId");
-                    storeSessionData(response);
+                    sessionManager.storeSessionData(response);
                     clearTokenOnUrl();
                     onSuccessFunc();
                 } else {
@@ -104,52 +103,9 @@ export function clearTokenOnUrl() {
     }
 }
 
-export function getSessionKey() {
-    if (window.location && window.location.hostname) {
-        return `${window.location.hostname}.${sessionIdStorageName}`;
-    }
-
-    return sessionIdStorageName;
-}
-
 export function signOut() {
     cc.director.loadScene("sessiontimeout");
-    cc.sys.localStorage.removeItem(getSessionKey());
-}
-
-export function removeSession() {
-    cc.sys.localStorage.removeItem(getSessionKey());
-}
-
-export function getSession() {
-    return JSON.parse(cc.sys.localStorage.getItem(getSessionKey()));
-}
-
-export function isSSO() {
-    const session = getSession();
-    return session && session.isSSO;
-}
-
-export function storeSessionData(data) {
-    cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
-}
-
-export function getInRoomGameIdKey() {
-    const session = getSession();
-
-    return session ? `${session.ss}_inroomgame` : "";
-}
-
-export function storeInRoomGameId(gameId) {
-    cc.sys.localStorage.setItem(getInRoomGameIdKey(), gameId);
-}
-
-export function getInRoomGameId() {
-    return cc.sys.localStorage.getItem(getInRoomGameIdKey());
-}
-
-export function removeInRoomGameId() {
-    cc.sys.localStorage.removeItem(getInRoomGameIdKey());
+    sessionManager.removeSession();
 }
 
 let autoTriggerSignInTimeout = null;
@@ -182,7 +138,7 @@ function auth(obj) {
 }
 
 export function checkAndUpdateRecheckIn(dontClearSession) {
-    const session = getSession();
+    const session = sessionManager.getSession();
     let isSessionExpired = true;
 
     try {
@@ -196,7 +152,7 @@ export function checkAndUpdateRecheckIn(dontClearSession) {
             } else {
                 session.time = new Date();
                 isSessionExpired = false;
-                storeSessionData(session);
+                sessionManager.storeSessionData(session);
             }
         } else {
             !dontClearSession && signOut();

@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import * as socketIo from "socket.io-client";
-import { getSession } from "./common/auth/AuthManager";
+
+import { getSession } from "./common/auth/SessionManager";
 import { sentryLogger } from "./common/logger.js";
 import { gameMiniNewSocketIds } from "./configs/SabaConfigs";
 
