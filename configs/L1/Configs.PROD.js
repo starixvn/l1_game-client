@@ -61,6 +61,12 @@ const configs = {
             port: "",
             path: "/user/vipsediewar",
             proxyRoute: "/vipsediewar/socket.io"
+        },
+        29: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/fourguardians",
+            proxyRoute: "/fourguardians/socket.io"
         }
     },
     sentryUrl: "https://19b3909c434341f0b13eb3a8529e5862@sentry.sabagame.com/9",
