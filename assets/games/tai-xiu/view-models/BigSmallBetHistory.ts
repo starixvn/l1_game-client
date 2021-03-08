@@ -46,6 +46,9 @@ export default class BigSmallBetHistory extends cc.Component {
     @property(cc.Node)
     smallNode: cc.Node = null;
 
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     private main: BigSmall;
     private roundId = 0;
 
@@ -64,6 +67,11 @@ export default class BigSmallBetHistory extends cc.Component {
         }
 
         this.getRound(this.roundId);
+
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
     }
 
     onNextClick() {

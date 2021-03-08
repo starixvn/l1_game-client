@@ -6,6 +6,7 @@ import BigSmallBetHistory from './BigSmallBetHistory';
 import BigSmallGuide from './BigSmallGuide';
 import BigSmallHistory from './BigSmallHistory';
 import BigSmallMiniRoundHistory from './BigSmallMiniRoundHistory';
+import BigSmallStatistic from './BigSmallStatistic';
 import BigSmallBetHandler from './handlers/BigSmallBetHandler';
 import BigSmallFinishHandler from './handlers/BigSmallFinishHandler';
 import BigSmallLogsHandler from './handlers/BigSmallLogsHandler';
@@ -80,9 +81,13 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Label)
     odds: cc.Label = null;
 
+    @property(cc.Prefab)
+    statisticPrefab: cc.Prefab = null;
+
     private miniRoundHistory: BigSmallMiniRoundHistory;
     private historyComponent: BigSmallHistory;
     private betHistory: BigSmallBetHistory;
+    private bigSmallStats: BigSmallStatistic;
 
     private readonly choice = {
         big: "big",
@@ -139,9 +144,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
             this.historyComponent.onData(data.history);
         }
 
-        // if (data.round) {
-        //     this.betHistory && this.betHistory.onData(data.round);
-        // }
+        if (data.round) {
+            this.betHistory && this.betHistory.onData(data.round);
+        }
     }
 
     initHandlers() {
@@ -206,6 +211,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     public openGuide() {
+        cc.RedT.audio.playClick();
+
         const guide = cc.instantiate(this.guidePrefab);
         const specialSedieGuide = guide.getComponent(BigSmallGuide);
         specialSedieGuide.init(this.gameConfigs);
@@ -213,6 +220,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     public openHistory() {
+        cc.RedT.audio.playClick();
+
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(BigSmallHistory);
         this.historyComponent.init(this.socket);
@@ -222,7 +231,18 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
+    public openStatistic() {
+        cc.RedT.audio.playClick();
+
+        var node = cc.instantiate(this.statisticPrefab);
+        this.bigSmallStats = node.getComponent("BigSmallStatistic");
+        this.bigSmallStats.init(this);
+        this.currentMiniPanel.node.addChild(node);
+    }
+
     openBetHistory(roundId: number) {
+        cc.RedT.audio.playClick();
+
         const node = cc.instantiate(this.betHistoryPrefab);
         this.betHistory = node.getComponent(BigSmallBetHistory);
         this.betHistory.init(this, roundId);
