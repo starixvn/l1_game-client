@@ -5,6 +5,13 @@ import BauCuaFinishHandler from "./handlers/BauCuaFinishHandler";
 import BauCuaTimeHandler from "./handlers/BauCuaTimeHandler";
 import BauCuaLogsHandler from "./handlers/BauCuaLogsHandler";
 import BauCuaBetHandler from "./handlers/BauCuaBetHandler";
+import BauCuaLogItems from "./BauCuaLogItems";
+import BauCuaOddItem from "./BauCuaOddItem";
+import BauCuaBetItem from "./BauCuaBetItem";
+import BauCuaHistory from "./BauCuaHistory/BauCuaHistory";
+import vipFishPrawnCrabConstants from "../../vip-fish-prawn-crab/view-models/VipFishPrawnCrabConstants";
+import * as _ from "lodash";
+import BauCuaGuide from "./BauCuaGuide";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,32 +24,17 @@ export default class BauCua extends SocketIOMiniGameBase {
     @property(cc.Node)
     background: cc.Node = null;
 
-    @property({ type: cc.Sprite })
-    iconLV: cc.Sprite[] = [];
+    @property({ type: cc.SpriteFrame })
+    iconMini: cc.SpriteFrame[] = [];
+
+    @property({ type: cc.SpriteFrame })
+    iconLV: cc.SpriteFrame[] = [];
 
     @property({ type: cc.Sprite })
     dices: cc.Sprite[] = [];
 
-    @property(cc.Label)
-    logHuou: cc.Label = null;
-
-    @property(cc.Label)
-    logBau: cc.Label = null;
-
-    @property(cc.Label)
-    logGa: cc.Label = null;
-
-    @property(cc.Label)
-    logCa: cc.Label = null;
-
-    @property(cc.Label)
-    logCua: cc.Label = null;
-
-    @property(cc.Label)
-    logTom: cc.Label = null;
-
-    @property(cc.Label)
-    phienLabel: cc.Label = null;
+    @property({ type: cc.Label })
+    characterCountLabels: cc.Label[] = [];
 
     @property(cc.Label)
     userCountLabel: cc.Label = null;
@@ -50,11 +42,14 @@ export default class BauCua extends SocketIOMiniGameBase {
     @property(cc.Label)
     waitedTime: cc.Label = null;
 
+    @property(cc.Animation)
+    animationNode: cc.Animation = null;
+
     @property(cc.Node)
     logNode: cc.Node = null;
 
     @property(cc.Node)
-    logs: cc.Node = null;
+    contentLogs: cc.Node = null;
 
     @property(cc.Prefab)
     prefabLogs: cc.Prefab = null;
@@ -73,8 +68,7 @@ export default class BauCua extends SocketIOMiniGameBase {
 
     @property(cc.Node)
     center: cc.Node = null;
-    // @property(cc.Prefab)
-    // historyPrefab: cc.Prefab = null;
+
     @property(cc.Prefab)
     historyDialog: cc.Prefab = null;
 
@@ -89,6 +83,9 @@ export default class BauCua extends SocketIOMiniGameBase {
 
     @property(cc.Label)
     oddThree: cc.Label = null;
+
+    @property({ type: BauCuaOddItem })
+    oddItems: BauCuaOddItem[] = [];
 
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
@@ -105,62 +102,9 @@ export default class BauCua extends SocketIOMiniGameBase {
     protected cuoc: any;
     protected red = true;
     protected betChipList = [];
-    protected localPhien = "";
     protected localResultDices = [];
     private limitLog = 30;
-    protected LichSu: cc.Component;
-
-    // init(gameName, obj) {
-    //     this.gameName = gameName;
-    //     // this.initSettingBauCua();
-    //     cc.RedT.setting.baucua.regOpen = false; // force get new data when back from other scene
-
-    //     var check = cc.sys.localStorage.getItem("bauCua");
-    //     if (check === "true") {
-    //         this.node.active = true;
-    //     }
-
-    //     if (void 0 !== cc.RedT.setting.baucua.position) {
-    //         this.node.position = cc.RedT.setting.baucua.position;
-    //     }
-    //     // if (void 0 !== cc.RedT.setting.baucua.time_remain) {
-    //     //     cc.RedT.setting.baucua.time_remain++;
-    //     //     this.nextRealTime();
-    //     // }
-    //     // if (cc.RedT.IS_LOGIN) {
-    //     //     this.dataHandling(cc.RedT.setting.baucua.data);
-    //     //     if (this.red !== cc.RedT.setting.baucua.red) {
-    //     //         this.changerCoint();
-    //     //     }
-
-    //     //     if (void 0 !== cc.RedT.setting.baucua.logs) {
-    //     //         this.addLogs();
-    //     //     }
-    //     // }
-    // }
-
-    initSettingBauCua() {
-        cc.RedT.setting.baucua = cc.RedT.setting.baucua || {
-            regOpen: false,
-            data: {
-                meRedBau: 0,
-                meRedCa: 0,
-                meRedCua: 0,
-                meRedGa: 0,
-                meRedHuou: 0,
-                meRedTom: 0,
-                redBau: 0,
-                redCa: 0,
-                redCua: 0,
-                redGa: 0,
-                redHuou: 0,
-                redTom: 0
-            },
-            logLV: {},
-            red: true,
-            bet: "1"
-        };
-    }
+    private historyComponent: BauCuaHistory;
 
     onLoad() {
         if (!cc.sys.isMobile) {
@@ -168,57 +112,51 @@ export default class BauCua extends SocketIOMiniGameBase {
         }
 
         super.onLoad();
-    }
-    initBetChips() {
-        var betChipsNode = cc.instantiate(this.betChipsPrefab);
-        this.betChips = betChipsNode.getComponent("BetChips");
-        this.betChips.init((bet) => {
-            this.cuoc = parseInt(bet);
-        });
-        this.betChipsContainer.addChild(betChipsNode);
+        this.logNode.active = false;
     }
 
     onEnable() {
         super.onEnable();
-        // this.logNode.active = cc.RedT.setting.baucua.logs && cc.RedT.setting.baucua.logs.length > 0;
-        // this.observeData();
+        if (this.currentDataLogs && this.currentDataLogs.length > 0) {
+            this.logNode.active = true;
+        }
     }
 
     initHandlers() {
         super.initHandlers();
         // this.finishHandler = new BauCuaBetHandler(this);
-        // this.finishHandler = new BauCuaFinishHandler(this);
+        this.finishHandler = new BauCuaFinishHandler(this);
         this.timeHandler = new BauCuaTimeHandler(this);
-        // this.logsHandler = new BauCuaLogsHandler(this);
+        this.logsHandler = new BauCuaLogsHandler(this);
     }
 
-    // addLogs() {
-    //     var self = this;
-    //     this.logs.removeAllChildren();
-    //     var count = Math.min(this.limitLog, cc.RedT.setting.baucua.logs.length);
-    //     if (count === 0) {
-    //         this.logNode.active = false;
-    //         return;
-    //     }
-    //     this.logNode.active = true;
+    addLogs() {
+        this.contentLogs.removeAllChildren();
+        const logLength = this.currentDataLogs.length;
+        const count = Math.min(this.limitLog, logLength);
+        if (count === 0) {
+            this.logNode.active = false;
+            return;
+        }
 
-    //     var LinhVat = [0, 0, 0, 0, 0, 0];
-    //     for (var index = 0; index < count; index++) {
-    //         var log = cc.RedT.setting.baucua.logs[index];
-    //         LinhVat[log[0]] += 1;
-    //         LinhVat[log[1]] += 1;
-    //         LinhVat[log[2]] += 1;
-    //         var node = cc.instantiate(self.prefabLogs);
-    //         var nodeComponent = node.getComponent("BauCua_logMini");
-    //         nodeComponent.icon.forEach(function (sp, i) {
-    //             sp.spriteFrame = self.iconMini[log[i]];
-    //         });
+        this.logNode.active = true;
+        const characterCounts = {};
+        for (let index = 0; index < count; index++) {
+            const { result } = this.currentDataLogs[index];
 
-    //         self.logs.addChild(node);
-    //     }
+            const node = cc.instantiate(this.prefabLogs);
+            const nodeComponent = node.getComponent(BauCuaLogItems);
+            _.values(result).forEach((character: number, index: number) => {
+                characterCounts[character] = (characterCounts[character] ?? 0) + 1;
+                nodeComponent.icon[index].spriteFrame = this.iconMini[character];
+            });
+            this.contentLogs.addChild(node);
+        }
 
-    //     this.logLVHandling(LinhVat);
-    // }
+        this.characterCountLabels.forEach((label, index) => {
+            label.string = characterCounts[index] ?? "0";
+        });
+    }
 
     pressedShowScoreBoard() {
         cc.RedT.audio.playClick();
@@ -226,12 +164,54 @@ export default class BauCua extends SocketIOMiniGameBase {
     }
     pressedHistoryDialog() {
         cc.RedT.audio.playClick();
-        var dialog = cc.instantiate(this.historyDialog);
+        const dialog = cc.instantiate(this.historyDialog);
+        this.historyComponent = dialog.getComponent(BauCuaHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
+
     pressedShowGuide() {
         cc.RedT.audio.playClick();
-        var dialog = cc.instantiate(this.guidePrefab);
+        const dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(BauCuaGuide);
+        guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
+    }
+
+    updateOddsFromConfigs() {
+        this.gameConfigs.odds && this.oddItems.forEach((item) => item.setValue(this.gameConfigs.odds[item.node.name]));
+    }
+
+    setDiceResult() {
+        if (this.currentDataLogs.length > 0) {
+            const { result } = this.currentDataLogs[0];
+            const dices = _.values(result);
+            dices.forEach((dice, index) => {
+                this.dices[index].spriteFrame = this.iconLV[dice];
+                this.dices[index].node.active = true;
+            });
+        }
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+        this.animationNode.node.active = false;
+    }
+
+    highlightWinningBetItems() {
+        if (this.currentDataLogs.length > 0) {
+            const { result, settlementResult } = this.currentDataLogs[0];
+            this.betItems.forEach((betItem: BauCuaBetItem) => {
+                const choice = betItem.node.name;
+                betItem.setHighlight(settlementResult[choice], true);
+
+                if (_.keys(vipFishPrawnCrabConstants.resultMapper).indexOf(choice) >= 0) {
+                    const xValue = _.values(result).filter((value) => value === vipFishPrawnCrabConstants.resultMapper[choice]).length;
+                    if (xValue > 1) {
+                        betItem.setXSpriteFrame(xValue === 2 ? betItem.x2Sprite : betItem.x3Sprite);
+                    }
+                }
+            });
+        }
     }
 }

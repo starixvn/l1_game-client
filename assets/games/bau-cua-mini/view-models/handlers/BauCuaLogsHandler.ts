@@ -6,5 +6,15 @@ export default class BauCuaLogsHandler extends GameBaseLogsHandler {
         super(main);
     }
 
-    buildLogs(dataLogs) {}
+    buildLogs(dataLogs) {
+        this.main.addLogs();
+        this.main.highlightWinningBetItems();
+        if (!this.main.finishShowResult) {
+            this.main.setDiceResult();
+            this.main.animationNode.node.active = true;
+            const duration = this.main.animationNode.defaultClip.duration;
+            this.main.animationNode.play("Result", duration);
+            this.main.finishShowResult = true;
+        }
+    }
 }

@@ -25,17 +25,30 @@ export default class BauCuaBetItem extends BetItem {
     //     this.xSprite.node.active = false;
     // }
 
+    public resetHighlight() {
+        super.resetHighlight();
+        if (this.xSprite) {
+            this.xSprite.node.active = false;
+        }
+    }
+
+    protected setHighlightItems(highlight: boolean, isAnimated = true) {
+        this.highlight.active = !highlight && isAnimated;
+        if (this.highlightBackground) {
+            this.highlightBackground.active = !highlight && isAnimated;
+        }
+
+        if (this.highlightBorder) {
+            this.highlightBorder.active = !highlight && !isAnimated;
+        }
+
+        if (this.normalBorder) {
+            this.normalBorder.active = highlight;
+        }
+    }
+
     setXSpriteFrame(spriteFrame: cc.SpriteFrame) {
         this.xSprite.node.active = true;
         this.xSprite.spriteFrame = spriteFrame;
-    }
-
-    updateState(show) {
-        this.node.children[1].active = show;
-        this.node.children[2].active = show;
-    }
-    resetState() {
-        this.node.children[1].active = false; // highlight
-        this.node.children[2].active = true;
     }
 }

@@ -1,4 +1,4 @@
-import { numberPad, numberWithCommas } from './../../../common/helpers/NumberHelper';
+import { numberPad, numberWithCommas } from "./../../../common/helpers/NumberHelper";
 
 const BauCuaLinhVat = require("BauCuaMascot");
 const BCConstants = require("BCConstants");
