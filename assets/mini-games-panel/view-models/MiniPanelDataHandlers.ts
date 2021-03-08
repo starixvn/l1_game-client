@@ -48,6 +48,8 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.notPermittedToPlay) {
+            authManager.removeInRoomGameId();
+
             const gameId = data.gameId;
             const gameName = GameUtils.getGameNameString(gameId);
             const message = `${gameName}\nTài khoản của bạn hiện đang bị giới hạn, vui lòng thử các trò chơi khác.`;
