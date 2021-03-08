@@ -1,9 +1,8 @@
 import { buildServerUrl } from '../.././common/helpers/UrlHelper';
 import { lazyInject } from '../../Application';
-import GameUtils from '../../common/GameUtils';
 import * as configs from '../../configs/Configs';
 import * as SabaConfigs from '../../configs/SabaConfigs';
-import BauCuaConfig from '../../games/bau-cua-mini/view-models/BauCuaConfig';
+import { BauCuaConfigs } from '../../games/bau-cua-mini/view-models/BauCuaConfigs';
 import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
 import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
 import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
@@ -132,11 +131,11 @@ export default class MiniPanelMiniGameInitializers {
     openBauCua() {
         this.openMiniGame(
             "games/bau-cua/views/BauCua",
-            "BauCuaMini",
+            "BauCua",
             this.main.bauCua && this.main.bauCua.node,
             (gameComponent) => {
                 this.main.bauCua = gameComponent;
-                this.main.bauCua.init("baucua", new BauCuaConfig(), this.main);
+                this.main.bauCua.init("BauCua", new BauCuaConfigs(), this.main);
             },
             () => this.showGame(this.main.bauCua)
         );
