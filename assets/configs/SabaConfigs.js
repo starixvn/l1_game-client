@@ -1,6 +1,6 @@
 const configs = {
     games: {
-        TaiXiu: {
+        BigSmall: {
             id: 1,
             name: "Tài Xỉu"
         },

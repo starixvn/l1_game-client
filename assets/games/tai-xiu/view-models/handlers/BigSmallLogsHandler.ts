@@ -11,7 +11,6 @@ export default class BigSmallLogsHandler extends GameBaseLogsHandler {
             this.main.setDices(dataLogs[0].result);
         }
 
-        this.main.updateRoundHistory();
         this.main.highlightLastResult();
     }
 }

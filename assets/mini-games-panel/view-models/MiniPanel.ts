@@ -1,18 +1,19 @@
-import GameUtils from "../../common/GameUtils";
-import Loading from "../../common/loading/view-models/Loading";
-import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
-import * as SabaConfigs from "../../configs/SabaConfigs";
-import ChanLe from "../../games/chan-le/view-models/ChanLe";
-import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
-import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
-import RongHo from "../../games/rong-ho/view-models/RongHo";
-import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
-import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
-import * as authManager from "./../../common/auth/AuthManager";
-import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
-import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
-import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
-import PopupMinigames from "./popup/PopupMinigames";
+import GameUtils from '../../common/GameUtils';
+import Loading from '../../common/loading/view-models/Loading';
+import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
+import * as SabaConfigs from '../../configs/SabaConfigs';
+import ChanLe from '../../games/chan-le/view-models/ChanLe';
+import KenoProViet from '../../games/mini-keno/view-models/KenoProViet';
+import MiniSedie from '../../games/mini-sedie/viewModels/MiniSedie';
+import RongHo from '../../games/rong-ho/view-models/RongHo';
+import SpecialSeDie from '../../games/special-sedie/view-models/SpecialSeDie';
+import BigSmall from '../../games/tai-xiu/view-models/BigSmall';
+import GameIconMenu from '../../lobby/main/view-models/GameIconMenu';
+import * as authManager from './../../common/auth/AuthManager';
+import MiniPanelDataHandlers from './MiniPanelDataHandlers';
+import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
+import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
+import PopupMinigames from './popup/PopupMinigames';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -44,7 +45,7 @@ export default class MiniPanel extends cc.Component {
     @property(GameIconMenu)
     gameMenu: GameIconMenu = null;
 
-    public taiXiu: any;
+    public bigSmall: BigSmall;
     public bauCua: any;
     public taiXiuTurbo: any;
     public chanLe: ChanLe;
@@ -81,8 +82,6 @@ export default class MiniPanel extends cc.Component {
     }
 
     onDestroy() {
-        this.taiXiu && this.taiXiu.destroy();
-        this.taiXiu = null;
         this.taiXiuTurbo && this.taiXiuTurbo.destroy();
         this.taiXiuTurbo = null;
         this.chanLe && this.chanLe.destroy();
@@ -107,7 +106,7 @@ export default class MiniPanel extends cc.Component {
 
     onSignIn() {
         this.bauCua && this.bauCua.node && this.bauCua.onSignIn();
-        this.taiXiu && this.taiXiu.node && this.taiXiu.onSignIn();
+        this.bigSmall && this.bigSmall.node && this.bigSmall.onSignIn();
         this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.onSignIn();
         this.chanLe && this.chanLe.node && this.chanLe.onSignIn();
         this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.onSignIn();

@@ -46,13 +46,11 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.statusHandler.currentStatusData = null;
-        cc.RedT.GAME_IS_SHOWED && this.shakeThePlate();
         this.main.highlightLastResult();
     }
 
     handleInRoundTime() {
         this.main.setGameRound(this.main.roundId);
-        this.main.resetThePlatePosition();
         this.main.betItems.forEach((item) => item.resetHighlight());
 
         if (this.main.currentTimeRemaining <= this.main.config.betTime) {
@@ -62,22 +60,11 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-        this.main.thePlate.opacity = 0;
     }
 
     showWaitTime() {
         this.main.timeWaitNode.active = true;
         this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.shakeThePlateTime - 1);
-    }
-
-    shakeThePlate() {
-        cc.tween(this.main.thePlate)
-            .to(0, { opacity: 255 })
-            .to(0.5, { position: cc.v2(0, 0) })
-            .call(() => {
-                this.main.shakeThePlateAnimation.play();
-            })
-            .start();
     }
 
     handleInLockBetTime() {

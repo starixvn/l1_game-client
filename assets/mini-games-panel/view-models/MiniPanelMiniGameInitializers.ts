@@ -1,15 +1,16 @@
-import { buildServerUrl } from "../.././common/helpers/UrlHelper";
-import { lazyInject } from "../../Application";
-import GameUtils from "../../common/GameUtils";
-import * as configs from "../../configs/Configs";
-import * as SabaConfigs from "../../configs/SabaConfigs";
-import ChanLeTurboConfigs from "../../games/chan-le-turbo/view-models/ChanLeTurboConfigs";
-import { ChanLeConfigs } from "../../games/chan-le/view-models/ChanLeConfigs";
-import { MiniSedieConfigs } from "../../games/mini-sedie/viewModels/MiniSedieConfigs";
-import { RongHoConfigs } from "../../games/rong-ho/view-models/RongHoConfigs";
-import { SpecialSeDieConfigs } from "../../games/special-sedie/view-models/SpecialSeDieConfigs";
-import SocketIOController from "../../SocketIOController";
-import MiniPanel from "./MiniPanel";
+import { buildServerUrl } from '../.././common/helpers/UrlHelper';
+import { lazyInject } from '../../Application';
+import GameUtils from '../../common/GameUtils';
+import * as configs from '../../configs/Configs';
+import * as SabaConfigs from '../../configs/SabaConfigs';
+import ChanLeTurboConfigs from '../../games/chan-le-turbo/view-models/ChanLeTurboConfigs';
+import { ChanLeConfigs } from '../../games/chan-le/view-models/ChanLeConfigs';
+import { MiniSedieConfigs } from '../../games/mini-sedie/viewModels/MiniSedieConfigs';
+import { RongHoConfigs } from '../../games/rong-ho/view-models/RongHoConfigs';
+import { SpecialSeDieConfigs } from '../../games/special-sedie/view-models/SpecialSeDieConfigs';
+import { BigSmallConfigs } from '../../games/tai-xiu/view-models/BigSmallConfigs';
+import SocketIOController from '../../SocketIOController';
+import MiniPanel from './MiniPanel';
 
 export default class MiniPanelMiniGameInitializers {
     @lazyInject(SocketIOController)
@@ -77,9 +78,6 @@ export default class MiniPanelMiniGameInitializers {
 
         id = parseInt(id);
         switch (id) {
-            case SabaConfigs.games.TaiXiu.id:
-                this.openTaiXiu();
-                break;
             case SabaConfigs.games.BauCua.id:
                 this.openBauCua();
                 break;
@@ -102,19 +100,6 @@ export default class MiniPanelMiniGameInitializers {
                 this.main.loading.node.active = false;
                 break;
         }
-    }
-
-    openTaiXiu() {
-        this.openMiniGame(
-            "games/tai-xiu/views/TaiXiu",
-            "TX",
-            this.main.taiXiu && this.main.taiXiu.node,
-            (gameComponent) => {
-                this.main.taiXiu = gameComponent;
-                this.main.taiXiu.init("taixiu", this.main);
-            },
-            () => this.showGame(this.main.taiXiu)
-        );
     }
 
     openTaiXiuTurbo() {
@@ -242,12 +227,18 @@ export default class MiniPanelMiniGameInitializers {
     }
 
     openNewSocketGame(gameId) {
-        if (parseInt(gameId) === SabaConfigs.games.SpecialSeDie.id) {
-            this.openSpecialSeDie();
-        } else if (parseInt(gameId) === SabaConfigs.games.MiniSedie.id) {
-            this.openMiniSedie();
-        } else {
-            this.main.loading.node.active = false;
+        switch (gameId) {
+            case SabaConfigs.games.SpecialSeDie.id:
+                this.openSpecialSeDie();
+                break;
+            case SabaConfigs.games.MiniSedie.id:
+                this.openSpecialSeDie();
+                break;
+            case SabaConfigs.games.BigSmall.id:
+                this.openTaiXiu();
+                break;
+            default:
+                this.main.loading.node.active = false;
         }
     }
 
@@ -261,6 +252,19 @@ export default class MiniPanelMiniGameInitializers {
                 this.main.specialSeDie.init("SpecialSeDie", new SpecialSeDieConfigs(), this.main);
             },
             () => this.showGame(this.main.specialSeDie)
+        );
+    }
+
+    openTaiXiu() {
+        this.openMiniGame(
+            "games/big-small/views/BigSmall",
+            "BigSmall",
+            this.main.bigSmall != null,
+            (gameComponent) => {
+                this.main.bigSmall = gameComponent;
+                this.main.bigSmall.init("taixiu", new BigSmallConfigs(), this.main);
+            },
+            () => this.showGame(this.main.bigSmall)
         );
     }
 }

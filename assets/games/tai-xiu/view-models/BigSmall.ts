@@ -15,7 +15,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class BigSmall extends BalancedBettingPoolGameBase {
     get gameId() {
-        return games.TaiXiu.id;
+        return games.BigSmall.id;
     }
 
     @property(cc.Prefab)
@@ -27,11 +27,14 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Animation)
     diceAnimation: cc.Animation = null;
 
+    @property(cc.Node)
+    diceContainer: cc.Node = null;
+
     @property({ type: cc.Sprite })
     dices: cc.Sprite[] = [];
 
     @property({ type: cc.SpriteFrame })
-    diceFrames: cc.Sprite[] = [];
+    diceFrames: cc.SpriteFrame[] = [];
 
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
@@ -80,12 +83,12 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         super.onLoad();
 
         this.selectedBetAmountLabels = {
-            [this.choice.small]: this.selectedBetAmountLabelLeft,
-            [this.choice.big]: this.selectedBetAmountLabelRight
+            [this.choice.small]: this.selectedBetAmountLabelRight,
+            [this.choice.big]: this.selectedBetAmountLabelLeft
         };
         this.selectedBetAmountSprites = {
-            [this.choice.small]: this.selectedBetAmountSpriteLeft,
-            [this.choice.big]: this.selectedBetAmountSpriteRight
+            [this.choice.small]: this.selectedBetAmountSpriteRight,
+            [this.choice.big]: this.selectedBetAmountSpriteLeft
         };
         this.selectedBetAmountClickedImages = {
             [this.choice.small]: this.selectedBetAmountClickedImage,
@@ -96,11 +99,10 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
             [this.choice.big]: this.selectedBetAmountUnClickedImage
         };
         this.betPercentages = {
-            [this.choice.small]: this.betPercentageBig,
-            [this.choice.big]: this.betPercentageSmall
+            [this.choice.small]: this.betPercentageSmall,
+            [this.choice.big]: this.betPercentageBig
         };
 
-        // this.initRoundHistory();
         this.animatedTime.setAnimatedY(30, -5);
 
         const draggableItem = this.getComponent(DraggableItem);
@@ -112,12 +114,10 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     onEnable() {
         super.onEnable();
         this.showStats = true;
-        this.toggleStats(this.showStats);
     }
 
     onDestroy() {
         super.onDestroy();
-        this.roundHistoryContainer.isValid && this.roundHistoryContainer.destroyAllChildren();
         this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
     }
 
@@ -176,7 +176,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     setDices(result) {
         Object.keys(result).forEach((key, index) => {
-            this.dices[index].spriteFrame = result[key];
+            this.dices[index].spriteFrame = this.diceFrames[result[key]];
         });
     }
 
@@ -184,19 +184,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
 
-            cc.tween(this.thePlate)
-                .call(() => {
-                    this.hideBalanceBetNotice();
-                })
-                .to(0.5, { position: cc.v2(50, 100) }, { easing: "sineInOut" })
-                .call(() => {
-                    // this.updateRoundHistory();
-                    this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
-                    (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
-                    this.finishShowResult = true;
-                })
-                .to(0.2, { opacity: 0 })
-                .start();
+            (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
+            this.finishShowResult = true;
         }
     }
 
@@ -234,15 +223,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         //     this.openBetHistory(roundId);
         // };
         // this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    public onBtnStatsClick() {
-        this.showStats = !this.showStats;
-        this.toggleStats(this.showStats);
-    }
-
-    public toggleStats(show: boolean) {
-        this.roundHistoryContainer.active = show;
     }
 
     openBetHistory(roundId: number) {
