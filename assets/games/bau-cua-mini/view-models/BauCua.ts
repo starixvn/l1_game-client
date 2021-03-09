@@ -1,10 +1,7 @@
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import { games } from "../../../configs/SabaConfigs";
-import { numberPad, numberWithCommas } from "./../../../common/helpers/NumberHelper";
 import BauCuaFinishHandler from "./handlers/BauCuaFinishHandler";
-import BauCuaTimeHandler from "./handlers/BauCuaTimeHandler";
 import BauCuaLogsHandler from "./handlers/BauCuaLogsHandler";
-import BauCuaBetHandler from "./handlers/BauCuaBetHandler";
 import BauCuaLogItems from "./BauCuaLogItems";
 import BauCuaOddItem from "./BauCuaOddItem";
 import BauCuaBetItem from "./BauCuaBetItem";
@@ -55,25 +52,10 @@ export default class BauCua extends SocketIOMiniGameBase {
     prefabLogs: cc.Prefab = null;
 
     @property(cc.Node)
-    notice: cc.Node = null;
-
-    @property(cc.Node)
-    umWarning: cc.Node = null;
-
-    @property(cc.Label)
-    umWarningMessage: cc.Label = null;
-
-    @property(cc.Prefab)
-    prefabNotice: cc.Prefab = null;
-
-    @property(cc.Node)
     center: cc.Node = null;
 
     @property(cc.Prefab)
     historyDialog: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    topDialog: cc.Prefab = null;
 
     @property(cc.Label)
     oddOne: cc.Label = null;
@@ -99,10 +81,6 @@ export default class BauCua extends SocketIOMiniGameBase {
     @property(cc.Prefab)
     betChipsPrefab: cc.Prefab = null;
 
-    protected cuoc: any;
-    protected red = true;
-    protected betChipList = [];
-    protected localResultDices = [];
     private limitLog = 30;
     private historyComponent: BauCuaHistory;
 
@@ -115,6 +93,13 @@ export default class BauCua extends SocketIOMiniGameBase {
         this.logNode.active = false;
     }
 
+    onData(data: any) {
+        super.onData(data);
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
+    }
+
     onEnable() {
         super.onEnable();
         if (this.currentDataLogs && this.currentDataLogs.length > 0) {
@@ -124,9 +109,7 @@ export default class BauCua extends SocketIOMiniGameBase {
 
     initHandlers() {
         super.initHandlers();
-        // this.finishHandler = new BauCuaBetHandler(this);
         this.finishHandler = new BauCuaFinishHandler(this);
-        this.timeHandler = new BauCuaTimeHandler(this);
         this.logsHandler = new BauCuaLogsHandler(this);
     }
 
@@ -198,12 +181,18 @@ export default class BauCua extends SocketIOMiniGameBase {
         this.animationNode.node.active = false;
     }
 
-    highlightWinningBetItems() {
+    resetUIBetItems() {
+        this.betItems.forEach((betItem: BauCuaBetItem) => {
+            betItem.resetHighlight();
+        });
+    }
+
+    highlightWinningBetItems(type: boolean) {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
             this.betItems.forEach((betItem: BauCuaBetItem) => {
                 const choice = betItem.node.name;
-                betItem.setHighlight(settlementResult[choice], true);
+                betItem.setHighlight(settlementResult[choice], type);
 
                 if (_.keys(vipFishPrawnCrabConstants.resultMapper).indexOf(choice) >= 0) {
                     const xValue = _.values(result).filter((value) => value === vipFishPrawnCrabConstants.resultMapper[choice]).length;

@@ -13,18 +13,6 @@ export default class BauCuaBetItem extends BetItem {
     @property(cc.SpriteFrame)
     x3Sprite: cc.SpriteFrame = null;
 
-    // totallCuoc(cuoc) {
-    //     this.total.string = cuoc > 0 ? numberWithCommas(cuoc) : "";
-    // }
-    // select(x) {
-    //     this.xSprite.node.active = x !== 1;
-    //     this.xSprite.spriteFrame = x === 2 ? this.x2Sprite : this.x3Sprite;
-    // }
-
-    // unSelect() {
-    //     this.xSprite.node.active = false;
-    // }
-
     public resetHighlight() {
         super.resetHighlight();
         if (this.xSprite) {
@@ -33,13 +21,18 @@ export default class BauCuaBetItem extends BetItem {
     }
 
     protected setHighlightItems(highlight: boolean, isAnimated = true) {
-        this.highlight.active = !highlight && isAnimated;
+        if (!isAnimated) {
+            this.highlight.active = true;
+        } else {
+            this.highlight.active = !highlight && isAnimated;
+        }
+
         if (this.highlightBackground) {
-            this.highlightBackground.active = !highlight && isAnimated;
+            this.highlightBackground.active = highlight && isAnimated;
         }
 
         if (this.highlightBorder) {
-            this.highlightBorder.active = !highlight && !isAnimated;
+            this.highlightBorder.active = highlight && !isAnimated;
         }
 
         if (this.normalBorder) {

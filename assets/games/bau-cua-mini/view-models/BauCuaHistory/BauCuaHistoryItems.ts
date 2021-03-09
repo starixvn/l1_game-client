@@ -11,8 +11,8 @@ export default class BauCuaHistoryItems extends cc.Component {
     @property({ type: cc.Sprite })
     dices: cc.Sprite[] = [];
 
-    @property({ type: cc.Label })
-    dataLabels: cc.Label[] = [];
+    @property({ type: cc.Node })
+    betList: cc.Node[] = [];
 
     @property(cc.Label)
     win: cc.Label = null;

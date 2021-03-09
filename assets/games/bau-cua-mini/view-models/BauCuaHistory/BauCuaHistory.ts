@@ -1,4 +1,3 @@
-import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import SocketIOGameHistoryBase from "../../../_base/view-models/SocketIOGameHistoryBase";
@@ -10,24 +9,11 @@ export default class BauCuaHistory extends SocketIOGameHistoryBase {
     @property(cc.SpriteFrame)
     animalSprites: cc.SpriteFrame[] = [];
 
-    private readonly dataObserverKey = "BauCuaHistory";
-
-    onEnable() {
-        cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
-        this.get_data();
-    }
-
-    receivedData(data) {
-        if (data.baucua && data.baucua.history) {
-            this.onData(data.baucua.history);
-        }
-    }
-
     bindItemRowData(betLog, index) {
         const itemNode = cc.instantiate(this.itemPrefab);
         const item = itemNode.getComponent(BauCuaHistoryItems);
         item.node.active = true;
-        const { time, phien, result, settlementResult, betwin } = betLog;
+        const { time, phien, result, betwin, stag, crab, fish, gourd, prawn, rooster } = betLog;
         item.time.string = getStringDateByTime(time);
         item.round.string = phien;
 
@@ -35,22 +21,39 @@ export default class BauCuaHistory extends SocketIOGameHistoryBase {
         item.dices[1].spriteFrame = this.animalSprites[result.dice2];
         item.dices[2].spriteFrame = this.animalSprites[result.dice3];
 
-        // Object.keys(settlementResult).forEach((choice, index) => {
-        //     item[choice].string = numberWithCommas(betLog[choice]);
-
-        //     item.dataLabels.forEach((bet, index) => {
-
-        //     });
-
-        //     if (settlementResult[choice]) {
-        //         item[choice].node.color = cc.Color.YELLOW;
-        //     } else {
-        //         item[choice].node.color = cc.Color.WHITE;
-        //     }
-        // });
+        item.betList.forEach((node) => {
+            switch (node.name) {
+                case "stag":
+                    this.handleUINodeBet(node, stag);
+                    break;
+                case "crab":
+                    this.handleUINodeBet(node, crab);
+                    break;
+                case "fish":
+                    this.handleUINodeBet(node, fish);
+                    break;
+                case "gourd":
+                    this.handleUINodeBet(node, gourd);
+                    break;
+                case "prawn":
+                    this.handleUINodeBet(node, prawn);
+                    break;
+                case "rooster":
+                    this.handleUINodeBet(node, rooster);
+                    break;
+            }
+        });
 
         item.win.string = numberWithCommas(betwin);
         item.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.content.addChild(itemNode);
+    }
+
+    handleUINodeBet(node: cc.Node, value: number) {
+        if (value > 0) {
+            node.active = true;
+            node.getComponentInChildren(cc.Label).string = value.toString();
+            node.getChildByName("value").color = cc.Color.YELLOW;
+        }
     }
 }

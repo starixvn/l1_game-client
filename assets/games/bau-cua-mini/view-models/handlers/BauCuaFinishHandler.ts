@@ -18,7 +18,7 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
                 .delay(this.playResultAnimationTime)
                 .call(() => {
                     onFinishHandlingData();
-                    this.main.highlightWinningBetItems();
+                    this.main.highlightWinningBetItems(true);
                     this.main.addLogs();
                 })
                 .start();
@@ -27,7 +27,6 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
 
     handleAnimation() {
         this.main.animationNode.node.active = true;
-        const duration = this.main.animationNode.defaultClip.duration;
-        this.main.animationNode.play("BauCua_plate", duration - 1);
+        this.main.animationNode.play();
     }
 }

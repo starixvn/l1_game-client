@@ -8,6 +8,7 @@ import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
 import SedieRoundHistory from "./SedieRoundHistory";
 import { games } from "../../../configs/SabaConfigs";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
+import MiniSedieHistory from "./MiniSedieHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -54,6 +55,7 @@ export default class MiniSedie extends SocketIOMiniGameBase {
     public miniRoundHistory: SedieMiniRoundHistory = null;
     private showLogs = true;
     public resultAnimating = false;
+    private historyComponent: MiniSedieHistory;
 
     onLoad() {
         if (!cc.sys.isMobile) {
@@ -85,6 +87,13 @@ export default class MiniSedie extends SocketIOMiniGameBase {
         super.onDestroy();
         this.roundHistoryContainer.isValid && this.roundHistoryContainer.destroyAllChildren();
         this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
+    }
+
+    onData(data: any) {
+        super.onData(data);
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
     }
 
     onEnable() {
@@ -159,6 +168,8 @@ export default class MiniSedie extends SocketIOMiniGameBase {
 
     public openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
+        this.historyComponent = dialog.getComponent(MiniSedieHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
 
