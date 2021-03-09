@@ -1,11 +1,10 @@
-import { buildServerUrl } from "../.././common/helpers/UrlHelper";
-import { lazyInject } from "../../Application";
-import GameUtils from "../../common/GameUtils";
-import * as configs from "../../configs/Configs";
-import * as SabaConfigs from "../../configs/SabaConfigs";
-import SocketIOController from "../../SocketIOController";
-import * as authManager from "./../../common/auth/AuthManager";
-import MiniPanel from "./MiniPanel";
+import { buildServerUrl } from '../.././common/helpers/UrlHelper';
+import { lazyInject } from '../../Application';
+import * as sessionManager from '../../common/auth/SessionManager';
+import GameUtils from '../../common/GameUtils';
+import * as configs from '../../configs/Configs';
+import SocketIOController from '../../SocketIOController';
+import MiniPanel from './MiniPanel';
 
 export default class MiniPanelSocketIOGameInitializers {
     @lazyInject(SocketIOController)
@@ -23,7 +22,7 @@ export default class MiniPanelSocketIOGameInitializers {
 
         this.main.loading.node.active = true;
         cc.RedT.inGame.outRoomGame().then(() => {
-            authManager.removeInRoomGameId();
+            sessionManager.removeInRoomGameId();
             this.openNewSocket(gameId);
         });
     }

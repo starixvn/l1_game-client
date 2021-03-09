@@ -1,3 +1,4 @@
+import * as sessionManager from '../../common/auth/SessionManager';
 import GameUtils from '../../common/GameUtils';
 import Loading from '../../common/loading/view-models/Loading';
 import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
@@ -132,7 +133,7 @@ export default class MiniPanel extends cc.Component {
             return;
         }
 
-        authManager.removeInRoomGameId();
+        sessionManager.removeInRoomGameId();
 
         if (!cc.RedT.isConnected) {
             const gameName = GameUtils.getGameNameString(id);
