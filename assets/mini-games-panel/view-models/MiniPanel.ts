@@ -86,7 +86,12 @@ export default class MiniPanel extends cc.Component {
     }
 
     onSignIn() {
-        Object.keys(this.miniGamesCache).forEach((key) => this.miniGamesCache[key].onSignIn());
+        Object.keys(this.miniGamesCache).forEach((key) => {
+            const game = this.miniGamesCache[key];
+            if (game && game.node && game.node.isValid) {
+                game.onSignIn();
+            }
+        });
     }
 
     onForceReload(showNotice = true, message = "Vui lòng tải lại trang để cập nhật phiên bản mới.") {
