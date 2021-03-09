@@ -7,6 +7,17 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BigSmallHistory extends SocketIOGameHistoryBase {
+    @property(cc.Label)
+    titleLabel: cc.Label = null;
+
+    public gameTitle = "";
+    private readonly historyTitle = "LỊCH SỬ";
+
+    onLoad() {
+        super.onLoad();
+        this.titleLabel.string = `${this.historyTitle} ${this.gameTitle.toUpperCase()}`;
+    }
+
     public handleBetHistory = (roundId) => {};
 
     bindItemRowData(betLog, index) {

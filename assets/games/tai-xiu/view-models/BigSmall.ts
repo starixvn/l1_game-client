@@ -1,5 +1,6 @@
 import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
 import { games } from '../../../configs/SabaConfigs';
+import SabaConfigs = require('../../../configs/SabaConfigs');
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import BalancedBettingPoolGameBase from '../../_base/BalancedBettingPoolGameBase';
 import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
@@ -91,6 +92,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     private betHistory: BigSmallBetHistory;
     bigSmallStats: BigSmallStatistic;
     diceAnimationDuration: number;
+    protected gameTitle = SabaConfigs.games.BigSmall.name;
 
     private readonly choice = {
         big: "big",
@@ -238,6 +240,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(BigSmallHistory);
+        this.historyComponent.gameTitle = this.gameTitle;
         this.historyComponent.init(this.socket);
         this.historyComponent.handleBetHistory = (roundId) => {
             this.openBetHistory(roundId);
@@ -249,7 +252,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         cc.RedT.audio.playClick();
 
         var node = cc.instantiate(this.statisticPrefab);
-        this.bigSmallStats = node.getComponent("BigSmallStatistic");
+        this.bigSmallStats = node.getComponent(BigSmallStatistic);
+        this.bigSmallStats.gameTitle = this.gameTitle;
         this.bigSmallStats.init(this.currentDataLogs);
         this.currentMiniPanel.node.addChild(node);
     }
@@ -259,6 +263,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
         const node = cc.instantiate(this.betHistoryPrefab);
         this.betHistory = node.getComponent(BigSmallBetHistory);
+        this.betHistory.gameTitle = this.gameTitle;
         this.betHistory.init(this, roundId);
         this.currentMiniPanel.node.addChild(node);
     }

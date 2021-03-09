@@ -1,9 +1,9 @@
-import GameUtils from "../../common/GameUtils";
-import { NoticeData } from "../../common/notice/view-models/Notice";
-import * as SabaConfigs from "../../configs/SabaConfigs";
-import * as authManager from "./../../common/auth/AuthManager";
-import { removeInRoomGameId, removeSession } from "./../../common/auth/SessionManager";
-import MiniPanel from "./MiniPanel";
+import GameUtils from '../../common/GameUtils';
+import { NoticeData } from '../../common/notice/view-models/Notice';
+import * as SabaConfigs from '../../configs/SabaConfigs';
+import * as authManager from './../../common/auth/AuthManager';
+import { removeInRoomGameId, removeSession } from './../../common/auth/SessionManager';
+import MiniPanel from './MiniPanel';
 
 declare global {
     interface Window {
@@ -93,10 +93,6 @@ export default class MiniPanelDataHandlers {
         }
 
         this.main.showErrorNotice(error);
-
-        if (error.gameTypeId === SabaConfigs.games.TaiXiuTurbo.id && this.main.taiXiuTurbo && this.main.taiXiuTurbo.TX_Main) {
-            this.main.taiXiuTurbo.TX_Main.onData(apiErrorData);
-        }
 
         if (error.gameTypeId === SabaConfigs.games.BauCua.id && this.main.bauCua) {
             this.main.bauCua.onData(apiErrorData);

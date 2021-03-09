@@ -76,6 +76,11 @@ export default class BigSmallStatistic extends cc.Component {
     @property(cc.SpriteFrame)
     blackDot: cc.SpriteFrame = null;
 
+    @property(cc.Label)
+    titleLabel: cc.Label = null;
+
+    public gameTitle = "";
+
     private dataLogs;
 
     init(dataLogs: any) {
@@ -90,6 +95,8 @@ export default class BigSmallStatistic extends cc.Component {
         commonDialog.onDidHide = () => {
             this.node.destroy();
         };
+
+        this.titleLabel.string = this.gameTitle.toUpperCase();
 
         this.showResultDots();
         this.drawLinePaintInChart(this.dataLogs);

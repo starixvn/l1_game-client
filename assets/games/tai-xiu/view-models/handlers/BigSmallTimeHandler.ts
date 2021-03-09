@@ -2,7 +2,7 @@ import GameBaseTimeHandler from '../../../_base/handlers/GameBaseTimeHandler';
 import BigSmall from '../BigSmall';
 
 export default class BigSmallTimeHandler extends GameBaseTimeHandler {
-    private readonly displayResultTime = 58;
+    protected displayResultTime = 58;
 
     constructor(protected readonly main: BigSmall) {
         super(main);

@@ -51,6 +51,11 @@ export default class BigSmallBetHistory extends cc.Component {
 
     private main: BigSmall;
     private roundId = 0;
+    @property(cc.Label)
+    titleLabel: cc.Label = null;
+
+    public gameTitle = "";
+    private readonly betHistoryTitle = "LỊCH SỬ PHIÊN";
 
     init(main: BigSmall, roundId: number) {
         this.main = main;
@@ -72,6 +77,8 @@ export default class BigSmallBetHistory extends cc.Component {
         commonDialog.onDidHide = () => {
             this.node.destroy();
         };
+
+        this.titleLabel.string = `${this.betHistoryTitle} ${this.gameTitle.toUpperCase()}`;
     }
 
     onNextClick() {
