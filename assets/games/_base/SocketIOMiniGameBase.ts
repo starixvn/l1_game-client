@@ -1,6 +1,6 @@
-import { lazyInject } from "../../Application";
-import SocketIOController from "../../SocketIOController";
-import GameBase from "./GameBase";
+import { lazyInject } from '../../Application';
+import SocketIOController from '../../SocketIOController';
+import GameBase from './GameBase';
 
 export default abstract class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
@@ -29,14 +29,6 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             return;
         }
         super.closeGame();
-    }
-
-    onSignIn() {
-        if (!this.node.active) {
-            return;
-        }
-
-        this.registerViewGame();
     }
 
     onData(data) {

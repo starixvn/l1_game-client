@@ -31,6 +31,12 @@ const configs = {
             path: "/user/baucua",
             proxyRoute: ""
         },
+        7: {
+            subDomain: "",
+            port: "8083",
+            path: "/user/dragontiger",
+            proxyRoute: ""
+        },
         8: {
             subDomain: "haproxy",
             port: "7002",

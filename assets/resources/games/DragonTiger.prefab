@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "RongHo",
+    "_name": "DragonTiger",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -5182,7 +5182,7 @@
     },
     "component": "",
     "_componentId": "7dd03CCjZpMq5s2G350+Aqt",
-    "handler": "onCuocClick",
+    "handler": "onBetItemClick",
     "customEventData": "0"
   },
   {
@@ -5193,17 +5193,24 @@
       "__id__": 113
     },
     "_enabled": true,
-    "inActive": {
-      "__id__": 124
-    },
-    "highlight": {
-      "__id__": 114
-    },
     "totalBet": {
       "__id__": 134
     },
     "ownBet": {
       "__id__": 131
+    },
+    "odds": {
+      "__id__": 122
+    },
+    "chipNode": null,
+    "highlight": {
+      "__id__": 114
+    },
+    "highlightBackground": null,
+    "highlightBorder": null,
+    "normalBorder": null,
+    "inActive": {
+      "__id__": 124
     },
     "_id": ""
   },
@@ -6232,7 +6239,7 @@
     },
     "component": "",
     "_componentId": "7dd03CCjZpMq5s2G350+Aqt",
-    "handler": "onCuocClick",
+    "handler": "onBetItemClick",
     "customEventData": "1"
   },
   {
@@ -6243,17 +6250,24 @@
       "__id__": 142
     },
     "_enabled": true,
-    "inActive": {
-      "__id__": 153
-    },
-    "highlight": {
-      "__id__": 143
-    },
     "totalBet": {
       "__id__": 163
     },
     "ownBet": {
       "__id__": 160
+    },
+    "odds": {
+      "__id__": 151
+    },
+    "chipNode": null,
+    "highlight": {
+      "__id__": 143
+    },
+    "highlightBackground": null,
+    "highlightBorder": null,
+    "normalBorder": null,
+    "inActive": {
+      "__id__": 153
     },
     "_id": ""
   },
@@ -7278,7 +7292,7 @@
     },
     "component": "",
     "_componentId": "7dd03CCjZpMq5s2G350+Aqt",
-    "handler": "onCuocClick",
+    "handler": "onBetItemClick",
     "customEventData": "2"
   },
   {
@@ -7289,17 +7303,24 @@
       "__id__": 171
     },
     "_enabled": true,
-    "inActive": {
-      "__id__": 182
-    },
-    "highlight": {
-      "__id__": 172
-    },
     "totalBet": {
       "__id__": 192
     },
     "ownBet": {
       "__id__": 189
+    },
+    "odds": {
+      "__id__": 180
+    },
+    "chipNode": null,
+    "highlight": {
+      "__id__": 172
+    },
+    "highlightBackground": null,
+    "highlightBorder": null,
+    "normalBorder": null,
+    "inActive": {
+      "__id__": 182
     },
     "_id": ""
   },
@@ -15191,7 +15212,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "time",
+    "_name": "AnimatedTimeContainer",
     "_objFlags": 0,
     "_parent": {
       "__id__": 5
@@ -15208,7 +15229,11 @@
       }
     ],
     "_active": false,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 435
+      }
+    ],
     "_prefab": {
       "__id__": 436
     },
@@ -15493,7 +15518,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "AnimatedTime",
+    "_name": "container",
     "_objFlags": 0,
     "_parent": {
       "__id__": 419
@@ -15507,13 +15532,9 @@
       }
     ],
     "_active": true,
-    "_components": [
-      {
-        "__id__": 434
-      }
-    ],
+    "_components": [],
     "_prefab": {
-      "__id__": 435
+      "__id__": 434
     },
     "_opacity": 255,
     "_color": {
@@ -15590,7 +15611,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 84.8,
-      "height": 32
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -15701,7 +15722,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 84.8,
-      "height": 32
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -15785,22 +15806,6 @@
     "sync": false
   },
   {
-    "__type__": "5bbc3QuvCtJAoCNAw7YP5MX",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 427
-    },
-    "_enabled": true,
-    "firstChar": {
-      "__id__": 429
-    },
-    "secondChar": {
-      "__id__": 432
-    },
-    "_id": ""
-  },
-  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -15810,6 +15815,22 @@
     },
     "fileId": "90X37+LV5FKLz+y/QdUs3q",
     "sync": false
+  },
+  {
+    "__type__": "5bbc3QuvCtJAoCNAw7YP5MX",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 419
+    },
+    "_enabled": true,
+    "firstChar": {
+      "__id__": 429
+    },
+    "secondChar": {
+      "__id__": 432
+    },
+    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -16507,7 +16528,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "phien",
+    "_name": "gameround",
     "_objFlags": 0,
     "_parent": {
       "__id__": 5
@@ -16627,7 +16648,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bet",
+    "_name": "BetChipsContainer",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -18715,54 +18736,6 @@
       "__id__": 1
     },
     "_enabled": true,
-    "background": {
-      "__id__": 2
-    },
-    "betChipsContainer": {
-      "__id__": 460
-    },
-    "betChipsPrefab": {
-      "__uuid__": "8dafed8b-6f31-4971-bc8d-774ce01e4202"
-    },
-    "notice": {
-      "__id__": 511
-    },
-    "resultAnimation": {
-      "__id__": 283
-    },
-    "drawAnimation": {
-      "__id__": 285
-    },
-    "animatedTime": {
-      "__id__": 434
-    },
-    "waitTime": {
-      "__id__": 439
-    },
-    "resultFrame": {
-      "__id__": 443
-    },
-    "phienLabel": {
-      "__id__": 457
-    },
-    "dragonOdd": {
-      "__id__": 122
-    },
-    "tigerOdd": {
-      "__id__": 180
-    },
-    "drawOdd": {
-      "__id__": 151
-    },
-    "dragonStats": {
-      "__id__": 33
-    },
-    "tigerStats": {
-      "__id__": 39
-    },
-    "drawStats": {
-      "__id__": 45
-    },
     "betItems": [
       {
         "__id__": 140
@@ -18774,6 +18747,60 @@
         "__id__": 198
       }
     ],
+    "processWarningPrefab": {
+      "__uuid__": "fd5fde1e-3092-4df5-b560-35786915c6e2"
+    },
+    "miniNoticePrefab": {
+      "__uuid__": "33b0ebea-3392-4bf8-aa8c-7ea614252597"
+    },
+    "noticeNode": {
+      "__id__": 511
+    },
+    "umNotice": {
+      "__id__": 505
+    },
+    "timeWaitNode": {
+      "__id__": 437
+    },
+    "timeWaitLabel": {
+      "__id__": 439
+    },
+    "animatedTime": {
+      "__id__": 435
+    },
+    "gameRound": {
+      "__id__": 457
+    },
+    "enableChips": true,
+    "betChipsContainer": {
+      "__id__": 460
+    },
+    "betChipsPrefab": {
+      "__uuid__": "8dafed8b-6f31-4971-bc8d-774ce01e4202"
+    },
+    "enablePlaceChips": false,
+    "dealerChipBox": null,
+    "gameAudiosPrefab": {
+      "__uuid__": "3391a89c-0709-40d3-b108-362be76d665d"
+    },
+    "resultAnimation": {
+      "__id__": 283
+    },
+    "drawAnimation": {
+      "__id__": 285
+    },
+    "resultFrame": {
+      "__id__": 443
+    },
+    "dragonStats": {
+      "__id__": 33
+    },
+    "tigerStats": {
+      "__id__": 39
+    },
+    "drawStats": {
+      "__id__": 45
+    },
     "frontCardNodes": [
       {
         "__id__": 210
@@ -18790,20 +18817,8 @@
         "__id__": 249
       }
     ],
-    "umNotice": {
-      "__id__": 505
-    },
-    "processWarningPrefab": {
-      "__uuid__": "fd5fde1e-3092-4df5-b560-35786915c6e2"
-    },
-    "noticePrefab": {
-      "__uuid__": "33b0ebea-3392-4bf8-aa8c-7ea614252597"
-    },
     "historyPrefab": {
       "__uuid__": "0345d729-4538-418b-8637-7856cfa0bec7"
-    },
-    "gameAudiosPrefab": {
-      "__uuid__": "3391a89c-0709-40d3-b108-362be76d665d"
     },
     "logControl": {
       "__id__": 106

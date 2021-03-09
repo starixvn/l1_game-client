@@ -24,7 +24,7 @@ const configs = {
             id: 6,
             name: "Chẵn Lẻ Siêu Tốc"
         },
-        RongHo: {
+        DragonTiger: {
             id: 7,
             name: "Rồng Hổ"
         },
@@ -119,7 +119,7 @@ const configs = {
     },
     gameRoomIds: [10, 21],
     gameRoomNewSocketIds: [2, 8, 22, 23, 25, 26, 27, 28, 29],
-    gameMiniNewSocketIds: [24, 9, 1, 3]
+    gameMiniNewSocketIds: [24, 9, 1, 3, 7]
 };
 
 module.exports = configs;
