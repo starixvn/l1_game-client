@@ -572,7 +572,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
         const showAutoSpin = !isFreeSpin && this.autoSpinCount > 0;
         this.autoSpinCountLabel.node.parent.active = showAutoSpin;
-        this.normalSpinNode.active = !showAutoSpin;
+        this.normalSpinNode.active = !showAutoSpin && !isFreeSpin;
 
         if (isFreeSpin) {
             this.totalBet.string = "0";
