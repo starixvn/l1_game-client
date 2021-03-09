@@ -54,6 +54,5 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        // this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 }

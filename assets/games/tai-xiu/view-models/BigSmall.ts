@@ -87,13 +87,13 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     private miniRoundHistory: BigSmallMiniRoundHistory;
     private historyComponent: BigSmallHistory;
     private betHistory: BigSmallBetHistory;
-    private bigSmallStats: BigSmallStatistic;
+    bigSmallStats: BigSmallStatistic;
+    diceAnimationDuration: number;
 
     private readonly choice = {
         big: "big",
         small: "small"
     };
-    private showStats = true;
 
     onLoad() {
         super.onLoad();
@@ -119,8 +119,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
             [this.choice.big]: this.betPercentageBig
         };
 
-        this.animatedTime.setAnimatedY(30, -5);
         this.initRoundHistory();
+        this.diceAnimationDuration = this.diceAnimation.defaultClip.duration / this.diceAnimation.defaultClip.speed;
 
         const draggableItem = this.getComponent(DraggableItem);
         draggableItem.touchCallback.start = (node) => {
@@ -130,7 +130,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     onEnable() {
         super.onEnable();
-        this.showStats = true;
     }
 
     onDestroy() {
@@ -188,7 +187,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                     this.diceContainer.active = false;
                     this.diceAnimation.play();
                 })
-                .delay(3)
+                .delay(this.diceAnimationDuration)
                 .call(() => {
                     this.diceAnimation.node.active = false;
                     this.diceContainer.active = true;
@@ -202,12 +201,21 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     showWinningAnimation(data) {
-        this.betItems.forEach((betItem) => {
-            betItem.setHighlight(data.settlementResult[betItem.node.name], true);
-        });
+        cc.tween(this.node)
+            .delay(this.diceAnimationDuration)
+            .call(() => {
+                this.betItems.forEach((betItem) => {
+                    betItem.setHighlight(data.settlementResult[betItem.node.name], true);
+                });
 
-        this.resultNode.active = true;
-        this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
+                this.resultNode.active = true;
+                this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
+
+                if (this.bigSmallStats && this.bigSmallStats.node && this.bigSmallStats.node.isValid) {
+                    this.bigSmallStats.updateStatistic(this.currentDataLogs);
+                }
+            })
+            .start();
     }
 
     public openGuide() {
@@ -236,7 +244,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
         var node = cc.instantiate(this.statisticPrefab);
         this.bigSmallStats = node.getComponent("BigSmallStatistic");
-        this.bigSmallStats.init(this);
+        this.bigSmallStats.init(this.currentDataLogs);
         this.currentMiniPanel.node.addChild(node);
     }
 

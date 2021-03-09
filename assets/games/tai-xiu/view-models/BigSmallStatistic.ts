@@ -1,5 +1,4 @@
 import ItemContentMenu from '../../../common/helpers/Menu/ItemContentMenu';
-import BigSmall from './BigSmall';
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,25 +14,16 @@ export default class BigSmallStatistic extends cc.Component {
     body: cc.Node = null;
 
     @property(cc.Node)
-    nodeTaiXiu: cc.Node = null;
-
-    @property(cc.Label)
-    KetQuaLeft: cc.Label = null;
-
-    @property(cc.Label)
-    KetQuaRight: cc.Label = null;
+    resultDots: cc.Node = null;
 
     @property(cc.Node)
-    KetQuaDot: cc.Node = null;
-
-    @property(cc.Node)
-    DiemSoCel: cc.Node = null;
+    pointCels: cc.Node = null;
 
     @property(cc.Label)
-    DiemSoLeft: cc.Label = null;
+    bigAmountStatistic: cc.Label = null;
 
     @property(cc.Label)
-    DiemSoRight: cc.Label = null;
+    smallAmountStatistic: cc.Label = null;
 
     @property(cc.Node)
     node1: cc.Node = null;
@@ -86,10 +76,13 @@ export default class BigSmallStatistic extends cc.Component {
     @property(cc.SpriteFrame)
     blackDot: cc.SpriteFrame = null;
 
-    private main: BigSmall;
+    private dataLogs;
 
-    init(main: BigSmall) {
-        this.main = main;
+    init(dataLogs: any) {
+        this.dataLogs = dataLogs;
+
+        // expect 99 result;
+        this.dataLogs.pop();
     }
 
     onLoad() {
@@ -98,30 +91,41 @@ export default class BigSmallStatistic extends cc.Component {
             this.node.destroy();
         };
 
-        this.calculateStatistic();
-        this.displayResult();
-        this.displayTableStatistic();
-        this.updateTXStats(this.main.currentDataLogs);
+        this.showResultDots();
+        this.drawLinePaintInChart(this.dataLogs);
     }
 
-    calculateStatistic() {
+    updateStatistic(dataLogs: any) {
+        this.init(dataLogs);
+        this.showResultDots();
+        this.drawLinePaintInChart(this.dataLogs);
+        this.showPointsStatistic();
+    }
+
+    showResultDots() {
+        this.calculateResultStatistic();
+
+        this.resultDots.children.forEach((dot, index) => {
+            const component = dot.getComponent(cc.Sprite);
+            component.spriteFrame = this.dataLogs[index].settlementResult.big ? this.blackDot : this.whiteDot;
+        });
+    }
+
+    calculateResultStatistic() {
         let bigStats = 0;
-        this.main.currentDataLogs.forEach((log) => {
+
+        this.dataLogs.forEach((log) => {
             if (log.settlementResult.big) {
                 bigStats += 1;
             }
         });
 
-        this.KetQuaLeft.string = bigStats.toString();
-        const smallStats = this.main.currentDataLogs.length - bigStats;
-        this.KetQuaRight.string = smallStats.toString();
+        this.updateBigSmallAmountStatistic(bigStats, this.dataLogs.length - bigStats);
     }
 
-    displayResult() {
-        this.KetQuaDot.children.forEach((dot, index) => {
-            const component = dot.getComponent(cc.Sprite);
-            component.spriteFrame = this.main.currentDataLogs[index].settlementResult.big ? this.blackDot : this.whiteDot;
-        });
+    updateBigSmallAmountStatistic(big: number, small: number) {
+        this.bigAmountStatistic.string = big.toString();
+        this.smallAmountStatistic.string = small.toString();
     }
 
     onSelectHeader(event, name) {
@@ -142,16 +146,18 @@ export default class BigSmallStatistic extends cc.Component {
                 body.active = false;
             }
         });
+
+        name === "result" ? this.calculateResultStatistic() : this.showPointsStatistic();
     }
 
-    displayTableStatistic() {
-        var newData = this.handlePointsData(this.main.currentDataLogs);
+    showPointsStatistic() {
+        var newData = this.handlePointsData(this.dataLogs);
         let totalPoints = {
             cTai: 0,
             cXiu: 0
         };
 
-        this.DiemSoCel.children.forEach((obj, i) => {
+        this.pointCels.children.forEach((obj, i) => {
             var data = newData[i];
             if (void 0 !== data) {
                 obj.active = true;
@@ -160,6 +166,8 @@ export default class BigSmallStatistic extends cc.Component {
                 obj.active = false;
             }
         });
+
+        this.updateBigSmallAmountStatistic(totalPoints.cTai, totalPoints.cXiu);
     }
 
     handlePointsData(logs) {
@@ -215,16 +223,7 @@ export default class BigSmallStatistic extends cc.Component {
         return totalPoints;
     }
 
-    onChangerClick() {
-        this.node1.active = !this.node1.active;
-        this.node2.active = !this.node2.active;
-    }
-
-    updateTXStats(logs) {
-        this.drawLinePaint(logs);
-    }
-
-    drawLinePaint(logs) {
+    drawLinePaintInChart(logs) {
         var lineTong = [];
         var lineDice1 = [];
         var lineDice2 = [];
@@ -237,7 +236,7 @@ export default class BigSmallStatistic extends cc.Component {
             for (var i = 0; i < sliced.length; i++) {
                 var data = sliced[i];
                 if (void 0 !== data) {
-                    this.lineAc(i, true);
+                    this.handleDotsActiveInChart(i, true);
                     var dice1 = sliced[i].result.dice1;
                     var dice2 = sliced[i].result.dice2;
                     var dice3 = sliced[i].result.dice3;
@@ -264,7 +263,7 @@ export default class BigSmallStatistic extends cc.Component {
                         tong: tong
                     };
                 } else {
-                    this.lineAc(i, false);
+                    this.handleDotsActiveInChart(i, false);
                 }
             }
             this.draw(this.dice1_line, this.dice1_dot.children, lineDice1);
@@ -274,7 +273,7 @@ export default class BigSmallStatistic extends cc.Component {
         });
     }
 
-    lineAc(index, bool) {
+    handleDotsActiveInChart(index, bool) {
         this.dice1_dot.children[index].active = bool;
         this.dice2_dot.children[index].active = bool;
         this.dice3_dot.children[index].active = bool;
@@ -306,5 +305,10 @@ export default class BigSmallStatistic extends cc.Component {
             line.color = temp.tong > 10 ? cc.Color.BLACK : cc.Color.WHITE;
         }
         obj.stroke();
+    }
+
+    changeView() {
+        this.node1.active = !this.node1.active;
+        this.node2.active = !this.node2.active;
     }
 }
