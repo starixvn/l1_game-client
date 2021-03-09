@@ -29,7 +29,7 @@ export default class MiniPanelMiniGameInitializers {
 
     openMiniGame(gameId) {
         this.main.popupMiniGame.hideListGame();
-        const prefabPath = `games/${this.getGameName(gameId)}`;
+        const prefabPath = `games/minigame/${this.getGameName(gameId)}`;
 
         const gameBase = this.main.getGameMini(gameId);
         const isAlreadyOpened = gameBase !== undefined;

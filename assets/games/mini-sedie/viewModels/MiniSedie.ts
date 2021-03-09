@@ -1,3 +1,4 @@
+import { MiniSedieConfigs } from "./MiniSedieConfigs";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 // import WebSocketMiniGameBase from "../../_base/WebSocketMiniGameBase";
 import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
@@ -9,6 +10,7 @@ import SedieRoundHistory from "./SedieRoundHistory";
 import { games } from "../../../configs/SabaConfigs";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import MiniSedieHistory from "./MiniSedieHistory";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -76,6 +78,10 @@ export default class MiniSedie extends SocketIOMiniGameBase {
         dragableItem.touchCallback.start = (node) => {
             this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
         };
+    }
+
+    initMiniGame(miniPanel: MiniPanel) {
+        this.init("MiniSeDie", new MiniSedieConfigs(), miniPanel);
     }
 
     resetDataAndUI() {

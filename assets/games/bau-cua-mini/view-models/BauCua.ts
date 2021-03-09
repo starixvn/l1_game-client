@@ -1,3 +1,4 @@
+import { BauCuaConfigs } from "./BauCuaConfigs";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import { games } from "../../../configs/SabaConfigs";
 import BauCuaFinishHandler from "./handlers/BauCuaFinishHandler";
@@ -9,6 +10,7 @@ import BauCuaHistory from "./BauCuaHistory/BauCuaHistory";
 import vipFishPrawnCrabConstants from "../../vip-fish-prawn-crab/view-models/VipFishPrawnCrabConstants";
 import * as _ from "lodash";
 import BauCuaGuide from "./BauCuaGuide";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -75,10 +77,10 @@ export default class BauCua extends SocketIOMiniGameBase {
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
-    @property(cc.Node)
+    @property({ type: cc.Node, override: true })
     betChipsContainer: cc.Node = null;
 
-    @property(cc.Prefab)
+    @property({ type: cc.Prefab, override: true })
     betChipsPrefab: cc.Prefab = null;
 
     private limitLog = 30;
@@ -91,6 +93,10 @@ export default class BauCua extends SocketIOMiniGameBase {
 
         super.onLoad();
         this.logNode.active = false;
+    }
+
+    initMiniGame(miniPanel: MiniPanel) {
+        this.init("BauCua", new BauCuaConfigs(), miniPanel);
     }
 
     onData(data: any) {

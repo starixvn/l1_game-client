@@ -21,43 +21,43 @@ const configs = {
         },
         2: {
             subDomain: "haproxy",
-            port: "7002",
+            port: 7002,
             path: "/user/xocxoc",
             proxyRoute: "/sedie/socket.io"
         },
         3: {
-            subDomain: "",
-            port: "8085",
+            subDomain: "haproxy",
+            port: 7002,
             path: "/user/baucua",
-            proxyRoute: ""
+            proxyRoute: "baucua/socket.io"
         },
         7: {
-            subDomain: "",
-            port: "8083",
+            subDomain: "haproxy",
+            port: 7002,
             path: "/user/dragontiger",
-            proxyRoute: ""
+            proxyRoute: "dragontiger/socket.io"
         },
         8: {
             subDomain: "haproxy",
-            port: "7002",
+            port: 7002,
             path: "/user/kenopromax",
             proxyRoute: "/kenopromax/socket.io"
         },
         9: {
             subDomain: "haproxy",
-            port: "7002",
+            port: 7002,
             path: "/user/minisedie",
-            proxyRoute: ""
+            proxyRoute: "/minisedie/socket.io"
         },
         22: {
             subDomain: "haproxy",
-            port: "7002",
+            port: 7002,
             path: "/user/vipsedie",
             proxyRoute: "/vipsedie/socket.io"
         },
         23: {
             subDomain: "haproxy",
-            port: "7002",
+            port: 7002,
             path: "/user/blackjack",
             proxyRoute: "/blackjack/socket.io"
         },
@@ -104,7 +104,7 @@ const configs = {
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    userServiceUrl: "http://haproxy.lumigame.com:7002/user"
+    userServiceUrl: "http://localhost:5000/"
 };
 
 module.exports = configs;
