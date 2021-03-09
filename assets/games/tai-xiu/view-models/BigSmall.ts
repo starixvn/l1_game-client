@@ -103,6 +103,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     onLoad() {
         super.onLoad();
+        this.diceAnimationDuration = this.diceAnimation.defaultClip.duration / this.diceAnimation.defaultClip.speed;
 
         this.selectedBetAmountLabels = {
             [this.choice.small]: this.selectedBetAmountLabelRight,
@@ -126,7 +127,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         };
 
         this.initRoundHistory();
-        this.diceAnimationDuration = this.diceAnimation.defaultClip.duration / this.diceAnimation.defaultClip.speed;
 
         const draggableItem = this.getComponent(DraggableItem);
         draggableItem.touchCallback.start = (node) => {
