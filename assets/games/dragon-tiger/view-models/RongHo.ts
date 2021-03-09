@@ -67,7 +67,7 @@ export default class RongHo extends SocketIOMiniGameBase {
         return games.DragonTiger.id;
     }
 
-    initMiniGame(miniPanel: MiniPanel) {
+    initMiniPanel(miniPanel: MiniPanel) {
         this.init("DragonTiger", new RongHoConfigs(), miniPanel);
         cc.RedT.setting[this.gameName] = cc.RedT.setting[this.gameName] || {
             bet: "1"

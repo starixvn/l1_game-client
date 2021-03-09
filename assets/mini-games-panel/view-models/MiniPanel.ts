@@ -3,7 +3,6 @@ import GameUtils from '../../common/GameUtils';
 import Loading from '../../common/loading/view-models/Loading';
 import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
 import * as SabaConfigs from '../../configs/SabaConfigs';
-import GameBase from '../../games/_base/GameBase';
 import GameIconMenu from '../../lobby/main/view-models/GameIconMenu';
 import * as authManager from './../../common/auth/AuthManager';
 import MiniPanelDataHandlers from './MiniPanelDataHandlers';
@@ -76,12 +75,12 @@ export default class MiniPanel extends cc.Component {
         this.dataHandlers.handleData(data);
     }
 
-    addMiniGame(game: GameBase, gameId: number) {
+    addMiniGame(game: any, gameId: number) {
         this.miniGames && this.miniGames.addChild(game.node);
         this.miniGamesCache[gameId] = game;
     }
 
-    getGameMini(gameId): GameBase {
+    getGameMini(gameId): any {
         return this.miniGamesCache[gameId];
     }
 

@@ -1,16 +1,17 @@
-import { BauCuaConfigs } from "./BauCuaConfigs";
-import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
-import { games } from "../../../configs/SabaConfigs";
-import BauCuaFinishHandler from "./handlers/BauCuaFinishHandler";
-import BauCuaLogsHandler from "./handlers/BauCuaLogsHandler";
-import BauCuaLogItems from "./BauCuaLogItems";
-import BauCuaOddItem from "./BauCuaOddItem";
-import BauCuaBetItem from "./BauCuaBetItem";
-import BauCuaHistory from "./BauCuaHistory/BauCuaHistory";
-import vipFishPrawnCrabConstants from "../../vip-fish-prawn-crab/view-models/VipFishPrawnCrabConstants";
-import * as _ from "lodash";
-import BauCuaGuide from "./BauCuaGuide";
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import * as _ from 'lodash';
+
+import { games } from '../../../configs/SabaConfigs';
+import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
+import SocketIOMiniGameBase from '../../_base/SocketIOMiniGameBase';
+import vipFishPrawnCrabConstants from '../../vip-fish-prawn-crab/view-models/VipFishPrawnCrabConstants';
+import BauCuaBetItem from './BauCuaBetItem';
+import { BauCuaConfigs } from './BauCuaConfigs';
+import BauCuaGuide from './BauCuaGuide';
+import BauCuaHistory from './BauCuaHistory/BauCuaHistory';
+import BauCuaLogItems from './BauCuaLogItems';
+import BauCuaOddItem from './BauCuaOddItem';
+import BauCuaFinishHandler from './handlers/BauCuaFinishHandler';
+import BauCuaLogsHandler from './handlers/BauCuaLogsHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -72,9 +73,6 @@ export default class BauCua extends SocketIOMiniGameBase {
     oddItems: BauCuaOddItem[] = [];
 
     @property(cc.Prefab)
-    gameAudiosPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
     @property({ type: cc.Node, override: true })
@@ -95,7 +93,7 @@ export default class BauCua extends SocketIOMiniGameBase {
         this.logNode.active = false;
     }
 
-    initMiniGame(miniPanel: MiniPanel) {
+    initMiniPanel(miniPanel: MiniPanel) {
         this.init("BauCua", new BauCuaConfigs(), miniPanel);
     }
 

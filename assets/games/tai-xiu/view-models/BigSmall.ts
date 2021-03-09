@@ -97,7 +97,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         small: "small"
     };
 
-    initMiniGame(miniPanel: MiniPanel) {
+    initMiniPanel(miniPanel: MiniPanel) {
         this.init("taixiu", new BigSmallConfigs(), miniPanel);
     }
 

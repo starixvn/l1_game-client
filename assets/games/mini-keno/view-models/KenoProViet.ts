@@ -69,7 +69,7 @@ export default class KenoProViet extends cc.Component {
     private readonly statusQueue: any[] = [];
     private presetBetSettingKey: string;
 
-    init(miniPanel: MiniPanel) {
+    initMiniPanel(miniPanel: MiniPanel) {
         this.miniPanel = miniPanel;
         this.presetBetSettingKey = `keno_preset_bet${cc.RedT.user.UID}`;
     }

@@ -137,7 +137,7 @@ export default class GameBase extends cc.Component {
         this.currentMiniPanel = miniPanel;
     }
 
-    initMiniGame(miniPanel: MiniPanel) {
+    initMiniPanel(miniPanel: MiniPanel) {
         this.currentMiniPanel = miniPanel;
     }
 

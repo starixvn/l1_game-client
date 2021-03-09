@@ -3,7 +3,7 @@ import { lazyInject } from '../../Application';
 import GameUtils from '../../common/GameUtils';
 import * as configs from '../../configs/Configs';
 import { games } from '../../configs/SabaConfigs';
-import GameBase from '../../games/_base/GameBase';
+import SabaConfigs = require('../../configs/SabaConfigs');
 import SocketIOController from '../../SocketIOController';
 import MiniPanel from './MiniPanel';
 
@@ -52,8 +52,9 @@ export default class MiniPanelMiniGameInitializers {
                     }
 
                     const node = cc.instantiate(prefab);
-                    const gameComponent = node.getComponent(GameBase);
-                    gameComponent.initMiniGame(this.main);
+                    const componentName = gameId === SabaConfigs.games.KenoProViet.id ? "KenoProViet" : "GameBase";
+                    const gameComponent = node.getComponent(componentName);
+                    gameComponent.initMiniPanel(this.main);
                     this.main.addMiniGame(gameComponent, gameId);
                     gameComponent.openGame();
                     this.main.loading.node.active = false;

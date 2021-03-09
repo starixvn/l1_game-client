@@ -1,15 +1,15 @@
-import { MiniSedieConfigs } from "./MiniSedieConfigs";
-import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
-import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
-import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
-import MiniSedieGuide from "./MiniSedieGuide";
-import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
-import SedieRoundHistory from "./SedieRoundHistory";
-import { games } from "../../../configs/SabaConfigs";
-import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
-import MiniSedieHistory from "./MiniSedieHistory";
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
+import { games } from '../../../configs/SabaConfigs';
+import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
+import SocketIOMiniGameBase from '../../_base/SocketIOMiniGameBase';
+import MiniSedieFinishHandler from './handlers/MiniSedieFinishHandler';
+import MiniSedieLogsHandler from './handlers/MiniSedieLogsHandler';
+import MiniSedieTimeHandler from './handlers/MiniSedieTimeHandler';
+import { MiniSedieConfigs } from './MiniSedieConfigs';
+import MiniSedieGuide from './MiniSedieGuide';
+import MiniSedieHistory from './MiniSedieHistory';
+import SedieMiniRoundHistory from './SedieMiniRoundHistory';
+import SedieRoundHistory from './SedieRoundHistory';
 
 const { ccclass, property } = cc._decorator;
 
@@ -79,7 +79,7 @@ export default class MiniSedie extends SocketIOMiniGameBase {
         };
     }
 
-    initMiniGame(miniPanel: MiniPanel) {
+    initMiniPanel(miniPanel: MiniPanel) {
         this.init("MiniSeDie", new MiniSedieConfigs(), miniPanel);
     }
 
