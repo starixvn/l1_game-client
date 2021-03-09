@@ -1,27 +1,27 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import CallbackAnimation from "../../common/CallbackAnimation";
-import ExpandableMenu from "../../common/ExpandableMenu";
-import GameUtils from "../../common/GameUtils";
-import { numberWithCommas } from "../../common/helpers/NumberHelper";
-import HoverItemBase from "../../common/HoverItemBase";
-import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
-import { GameState } from "../_base/GameBase";
-import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
-import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
-import BigWinAnimation from "./BigWinAnimation";
-import BonusDialog from "./BonusDialog";
-import CountDownWarning from "./CountDownWarning";
-import SlotGameBetHandler from "./handlers/SlotGameBetHandler";
-import SlotGameBonusHandler from "./handlers/SlotGameBonusHandler";
-import SlotGameIngameHandler from "./handlers/SlotGameIngameHandler";
-import SlotGameJackpotHandler from "./handlers/SlotGameJackpotHandler";
-import SlotGameSettlementHandler from "./handlers/SlotGameSettlementHandler";
-import SlotGameUmHandler from "./handlers/SlotGameUmHandler";
-import LineSelectionDialog from "./LineSelectionDialog";
-import SlotBoard from "./SlotBoard";
-import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
-import SlotGameUserSettings from "./SlotGameUserSettings";
+import CallbackAnimation from '../../common/CallbackAnimation';
+import ExpandableMenu from '../../common/ExpandableMenu';
+import GameUtils from '../../common/GameUtils';
+import { numberWithCommas } from '../../common/helpers/NumberHelper';
+import HoverItemBase from '../../common/HoverItemBase';
+import JackpotPoolInfoBase from '../../lobby/main/view-models/JackpotPoolInfoBase';
+import { GameState } from '../_base/GameBase';
+import SocketIOTableGameBase from '../_base/SocketIOTableGameBase';
+import AutoSpinSettingDialog from './AutoSpinSettingDialog';
+import BigWinAnimation from './BigWinAnimation';
+import BonusDialog from './BonusDialog';
+import CountDownWarning from './CountDownWarning';
+import SlotGameBetHandler from './handlers/SlotGameBetHandler';
+import SlotGameBonusHandler from './handlers/SlotGameBonusHandler';
+import SlotGameIngameHandler from './handlers/SlotGameIngameHandler';
+import SlotGameJackpotHandler from './handlers/SlotGameJackpotHandler';
+import SlotGameSettlementHandler from './handlers/SlotGameSettlementHandler';
+import SlotGameUmHandler from './handlers/SlotGameUmHandler';
+import LineSelectionDialog from './LineSelectionDialog';
+import SlotBoard from './SlotBoard';
+import { SlotGameBaseConfigs } from './SlotGameBaseConfigs';
+import SlotGameUserSettings from './SlotGameUserSettings';
 
 export interface LineData {
     payline: number;
@@ -94,6 +94,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     @property(cc.Node)
     freeSpinNode: cc.Node = null;
+
+    @property(cc.Label)
+    autoSpinCountLabel: cc.Label = null;
 
     @property(cc.Node)
     textFreeSpinNode: cc.Node = null;
@@ -412,7 +415,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.showStakeContainer(false);
 
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
-            this.autoSpinCount = 0;
+            this.setAutoSpinCount(0);
+            this.updateModeSpinButton(false);
             this.activeButtons();
             return;
         }
@@ -422,7 +426,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.currentMiniPanel.addDialog(node);
             const dialog = node.getComponent(AutoSpinSettingDialog);
             dialog.onConfirmCallback = (autoSpinCount: number) => {
-                this.autoSpinCount = autoSpinCount;
+                this.setAutoSpinCount(autoSpinCount);
+                this.updateModeSpinButton(false);
                 this.hideWinningEffectOnItems();
                 this.stopAllFinishTweens();
                 this.countDownAutoSpin.show(
@@ -433,7 +438,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             };
 
             dialog.onCancelCallback = () => {
-                this.autoSpinCount = 0;
+                this.setAutoSpinCount(0);
                 this.resetStateButtons();
             };
         }
@@ -441,8 +446,13 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     consumeAutoSpinCount() {
         if (this.autoSpinCount > 0) {
-            this.autoSpinCount--;
+            this.setAutoSpinCount(this.autoSpinCount - 1);
         }
+    }
+
+    setAutoSpinCount(count: number) {
+        this.autoSpinCount = count;
+        this.autoSpinCountLabel.string = this.autoSpinCount.toString();
     }
 
     getCurrentTotalBet() {
@@ -550,17 +560,21 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     updateDisplaySpinButtons() {
         this.freeSpinLabel.string = `${this.totalFreeSpins}`;
         const showFreeSpin = this.totalFreeSpins >= 0;
-        this.displayFreeSpin(showFreeSpin);
+        this.updateModeSpinButton(showFreeSpin);
     }
 
     updateDisplayFreeSpinNode() {
-        this.displayFreeSpin(this.isFreeSpin());
+        this.updateModeSpinButton(this.isFreeSpin());
     }
 
-    displayFreeSpin(show: boolean) {
-        this.normalSpinNode.active = !show;
-        this.freeSpinNode.active = show;
-        if (show) {
+    updateModeSpinButton(isFreeSpin: boolean) {
+        this.freeSpinNode.active = isFreeSpin;
+
+        const showAutoSpin = !isFreeSpin && this.autoSpinCount > 0;
+        this.autoSpinCountLabel.node.parent.active = showAutoSpin;
+        this.normalSpinNode.active = !showAutoSpin;
+
+        if (isFreeSpin) {
             this.totalBet.string = "0";
         } else {
             this.updateTotalBetLabel();
