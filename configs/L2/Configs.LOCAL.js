@@ -19,6 +19,18 @@ const configs = {
             path: "/user/xocxoc",
             proxyRoute: "/sedie/socket.io"
         },
+        3: {
+            subDomain: "haproxy",
+            port: "7001",
+            path: "/user/baucua",
+            proxyRoute: "/baucua/socket.io"
+        },
+        7: {
+            subDomain: "haproxy",
+            port: "7001",
+            path: "/user/dragontiger",
+            proxyRoute: "/dragontiger/socket.io"
+        },
         8: {
             subDomain: "haproxy",
             port: "7001",

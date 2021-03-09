@@ -22,13 +22,13 @@ const configs = {
             subDomain: "haproxy",
             port: 7002,
             path: "/user/baucua",
-            proxyRoute: "baucua/socket.io"
+            proxyRoute: "/baucua/socket.io"
         },
         7: {
             subDomain: "haproxy",
             port: 7002,
             path: "/user/dragontiger",
-            proxyRoute: "dragontiger/socket.io"
+            proxyRoute: "/dragontiger/socket.io"
         },
         8: {
             subDomain: "haproxy",
