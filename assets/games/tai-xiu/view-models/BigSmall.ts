@@ -1,8 +1,10 @@
 import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
 import { games } from '../../../configs/SabaConfigs';
+import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import BalancedBettingPoolGameBase from '../../_base/BalancedBettingPoolGameBase';
 import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
 import BigSmallBetHistory from './BigSmallBetHistory';
+import { BigSmallConfigs } from './BigSmallConfigs';
 import BigSmallGuide from './BigSmallGuide';
 import BigSmallHistory from './BigSmallHistory';
 import BigSmallMiniRoundHistory from './BigSmallMiniRoundHistory';
@@ -94,6 +96,10 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         big: "big",
         small: "small"
     };
+
+    initMiniGame(miniPanel: MiniPanel) {
+        this.init("taixiu", new BigSmallConfigs(), miniPanel);
+    }
 
     onLoad() {
         super.onLoad();
