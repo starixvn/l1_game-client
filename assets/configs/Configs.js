@@ -104,7 +104,7 @@ const configs = {
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    userServiceUrl: "http://localhost:5000/"
+    userServiceUrl: "http://haproxy.lumigame.com:7002/user"
 };
 
 module.exports = configs;
