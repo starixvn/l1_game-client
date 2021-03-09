@@ -1,5 +1,6 @@
 import { buildServerUrl } from '../.././common/helpers/UrlHelper';
 import { lazyInject } from '../../Application';
+import GameUtils from '../../common/GameUtils';
 import * as configs from '../../configs/Configs';
 import * as SabaConfigs from '../../configs/SabaConfigs';
 import { BauCuaConfigs } from '../../games/bau-cua-mini/view-models/BauCuaConfigs';

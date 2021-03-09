@@ -1,5 +1,6 @@
+import UserService from '../../../common/auth/UserService';
+
 var BrowserUtil = require("BrowserUtil");
-const { default: UserService } = require("../../../common/auth/UserService");
 const NameGenerator = require("../../../common/name-generator/NameGenerator");
 const InvalidUserName = "Tên nhân vật không hợp lệ.";
 
