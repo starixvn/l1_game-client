@@ -5,5 +5,5 @@ export class BauCuaConfigs implements GameConfigBase {
     fullTime = 39;
     betTime = 30;
     stopBetTime = 5;
-    waitTime = 5;
+    waitTime = 10;
 }
