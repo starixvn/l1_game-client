@@ -4,12 +4,12 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class VipBaccaratCards extends BaccaratCards {
-    protected resetCard(card: cc.Node) {
+    resetCard(card: cc.Node) {
         super.resetCard(card);
         card.y = 0;
     }
 
-    protected setActionCardThree(currentCard: cc.Node, delayTime: number) {
+    setActionCardThree(currentCard: cc.Node, delayTime: number) {
         const currentX = this.card3.x;
         currentCard.runAction(
             cc.sequence(

@@ -50,6 +50,12 @@ const configs = {
             path: "/user/minisedie",
             proxyRoute: "/minisedie/socket.io"
         },
+        10: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/baccarat",
+            proxyRoute: "/baccarat/socket.io"
+        },
         22: {
             subDomain: "proxy",
             port: "",

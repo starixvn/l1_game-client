@@ -1,102 +1,33 @@
-import GameUtils from "../../../common/GameUtils";
 import { games } from "../../../configs/SabaConfigs";
-import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
-import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
-import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
+import VipBaccarat from "../../vip-baccarat/view-models/VipBaccarat";
 import BaccaratCards from "./BaccaratCards";
 import { BaccaratConfigs } from "./BaccaratConfigs";
 import BaccaratHistory from "./BaccaratHistory";
 import BaccaratFinishHandler from "./data-handlers/BaccaratFinishHandler";
 import BaccaratLogsHandler from "./data-handlers/BaccaratLogsHandler";
 import BaccaratTimeHandler from "./data-handlers/BaccaratTimeDataHandler";
-import TotalHistoryBoard from "./TotalHistoryBoard";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class Baccarat extends WebSocketTableGameBase {
-    @property(BaccaratCards)
+export default class Baccarat extends VipBaccarat {
+    @property({ type: BaccaratCards, override: true })
     playerCards: BaccaratCards = null;
 
-    @property(BaccaratCards)
+    @property({ type: BaccaratCards, override: true })
     bankerCards: BaccaratCards = null;
 
-    @property(cc.Node)
-    basicHistoryBoardNode: cc.Node = null;
+    @property({ type: cc.Prefab, visible: false, override: true })
+    miniRoundHistoryPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    basicHistoryBoardPrefab: cc.Prefab = null;
+    @property({ type: cc.Node, visible: false, override: true })
+    miniRoundHistoryContainer: cc.Node = null;
 
-    @property(cc.Node)
-    detailHistoryBoardNode: cc.Node = null;
-
-    @property(cc.Prefab)
-    detailHistoryBoardPrefab: cc.Prefab = null;
-
-    @property(TotalHistoryBoard)
-    totalHistoryBoard: TotalHistoryBoard = null;
-
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
-    @property(cc.Label)
-    winNoticeLabel: cc.Label = null;
-
-    @property(cc.AudioSource)
-    getCardAudioSource: cc.AudioSource = null;
-
-    @property(cc.Node)
-    chipContainer: cc.Node = null;
-
-    @property(cc.Node)
-    totalBetContainer: cc.Node = null;
-
-    @property(cc.Node)
-    ownBetContainer: cc.Node = null;
-
-    basicHistoryBoard: BasicHistoryBoard;
-    detailHistoryBoard: DragonScoreBoard;
-    showScoreBoardNextDot = false;
+    protected internalInit() {
+        this.init("Baccarat", new BaccaratConfigs(), null, 1, games.Baccarat.id);
+    }
 
     onLoad() {
-        this.init("baccarat", new BaccaratConfigs(), null, 1, games.Baccarat.id);
         super.onLoad();
-        this.initCards();
-        this.initScoreBoards();
-
-        this.betItems.forEach((item) => {
-            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
-            GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
-            GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
-        });
-    }
-
-    onData(data) {
-        super.onData(data);
-    }
-
-    onDataGameRoom(data) {
-        super.onDataGameRoom(data);
-    }
-
-    onBet(event, box) {
-        this.bet({ bet: { red: true, bet: this.currentBet, box: box } });
-    }
-
-    openHistory() {
-        const historyNode = cc.instantiate(this.historyPrefab);
-        const history = historyNode.getComponent("BaccaratHistory") as BaccaratHistory;
-        history.init(this);
-        this.currentMiniPanel.node.addChild(historyNode);
-    }
-
-    openGuide() {
-        const guideNode = cc.instantiate(this.guidePrefab);
-        const guide = guideNode.getComponent("BaccaratGuide");
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(guideNode);
     }
 
     initHandlers() {
@@ -107,38 +38,21 @@ export default class Baccarat extends WebSocketTableGameBase {
         this.logsHandler = new BaccaratLogsHandler(this);
     }
 
-    resetDataAndUI() {
-        super.resetDataAndUI();
+    handlePositionMiniRoundHistory() {}
 
-        this.winNoticeLabel.node.parent.active = false;
+    openHistory() {
+        const historyNode = cc.instantiate(this.historyPrefab);
+        this.historyComponent = historyNode.getComponent("BaccaratHistory") as BaccaratHistory;
+        this.historyComponent.init(this.socket);
+        this.currentMiniPanel.node.addChild(historyNode);
     }
 
-    playGetCardAudio() {
-        this.getCardAudioSource.play();
+    openGuide() {
+        const guideNode = cc.instantiate(this.guidePrefab);
+        const guide = guideNode.getComponent("BaccaratGuide");
+        guide.init(this.gameConfigs);
+        this.currentMiniPanel.node.addChild(guideNode);
     }
 
-    private initCards() {
-        this.bankerCards.init(() => {
-            this.playGetCardAudio();
-        });
-        this.playerCards.init(() => {
-            this.playGetCardAudio();
-        });
-    }
-
-    private initScoreBoards() {
-        const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
-        };
-
-        const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
-        this.basicHistoryBoard = historyBoardNode.getComponent("BasicHistoryBoard");
-        this.basicHistoryBoard.init(condition);
-        this.basicHistoryBoardNode.addChild(historyBoardNode);
-
-        const detailHistoryBoardNode = cc.instantiate(this.detailHistoryBoardPrefab);
-        this.detailHistoryBoard = detailHistoryBoardNode.getComponent("BaccaratDragonScoreBoard");
-        this.detailHistoryBoard.init(condition);
-        this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
-    }
+    initMiniRoundHistory() {}
 }

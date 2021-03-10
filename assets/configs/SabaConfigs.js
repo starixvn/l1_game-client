@@ -114,12 +114,11 @@ const configs = {
         }
     },
     gameRoomRegNames: {
-        10: "baccarat",
         21: "roulette"
     },
-    gameRoomIds: [10, 21],
-    gameRoomNewSocketIds: [2, 8, 22, 23, 25, 26, 27, 28, 29],
-    gameMiniNewSocketIds: [24, 9, 1, 3, 7, 4]
+    gameRoomIds: [21],
+    gameRoomNewSocketIds: [2, 8, 10, 22, 23, 25, 26, 27, 28, 29],
+    gameMiniNewSocketIds: [24, 9, 1, 3, 7]
 };
 
 module.exports = configs;

@@ -40,7 +40,11 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     }
 
     protected getLogDataFollowTypePlayer(isBanker: boolean, data: any) {
-        return isBanker ? _.values(data.banker) : _.values(data.player);
+        const resultTmp = data.result;
+        if (isBanker) {
+            return Object.values(resultTmp.banker).filter((value) => value != null);
+        }
+        return Object.values(resultTmp.player).filter((value) => value != null);
     }
 
     protected getOwnMain(): any {
@@ -53,7 +57,7 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
     }
 
     protected getSettlementResult(lastLog: any) {
-        return lastLog.result;
+        return lastLog.settlementResult;
     }
 
     buildLogs(dataLogs: any) {
@@ -68,8 +72,26 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
         this.updateMiniHistoryLogs(dataLogs);
     }
 
-    protected convertLogsDataLogs(dataLogs: any) {
-        return dataLogs;
+    public convertLogsDataLogs(dataLogs: any) {
+        const logs = [];
+        dataLogs.forEach((element: any) => {
+            const data = {
+                banker: {},
+                player: {},
+                result: {},
+                roundId: 0
+            };
+            const settlementResult = element.settlementResult;
+            const result = element.result;
+            data.banker = Object.values(result.banker).filter((value) => value != null);
+            data.player = Object.values(result.player).filter((value) => value != null);
+            data.result = settlementResult;
+            data.roundId = element.roundId;
+
+            logs.push(data);
+        });
+
+        return logs;
     }
 
     protected updateMiniHistoryLogs(dataLogs: any) {}

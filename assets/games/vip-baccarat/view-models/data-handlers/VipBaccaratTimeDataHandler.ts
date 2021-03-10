@@ -1,12 +1,8 @@
-import VipBaccarat from '../VipBaccarat';
-import BaccaratTimeHandler from '../../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler';
+import VipBaccarat from "../VipBaccarat";
+import BaccaratTimeHandler from "../../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
 
 export default class VipBaccaratTimeDataHandler extends BaccaratTimeHandler {
-  protected getOwnMain(): any {
-    return this.main as VipBaccarat;
-  }
-
-  protected getSettlementResult(currentData: any) {
-    return currentData.settlementResult;
-  }
+    protected getOwnMain(): any {
+        return this.main as VipBaccarat;
+    }
 }

@@ -1,9 +1,9 @@
-import GameUtils from '../../common/GameUtils';
-import { NoticeData } from '../../common/notice/view-models/Notice';
-import * as SabaConfigs from '../../configs/SabaConfigs';
-import * as authManager from './../../common/auth/AuthManager';
-import { removeInRoomGameId, removeSession } from './../../common/auth/SessionManager';
-import MiniPanel from './MiniPanel';
+import GameUtils from "../../common/GameUtils";
+import { NoticeData } from "../../common/notice/view-models/Notice";
+import * as SabaConfigs from "../../configs/SabaConfigs";
+import * as authManager from "./../../common/auth/AuthManager";
+import { removeInRoomGameId, removeSession } from "./../../common/auth/SessionManager";
+import MiniPanel from "./MiniPanel";
 
 declare global {
     interface Window {
@@ -90,20 +90,6 @@ export default class MiniPanelDataHandlers {
 
         if (this.main.skipShowApiErrorGameIds.includes(gameId)) {
             return;
-        }
-
-        this.main.showErrorNotice(error);
-
-        if (error.gameTypeId === SabaConfigs.games.BauCua.id && this.main.bauCua) {
-            this.main.bauCua.onData(apiErrorData);
-        }
-
-        if (error.gameTypeId === SabaConfigs.games.ChanLe.id && this.main.chanLe) {
-            this.main.chanLe.onData(apiErrorData);
-        }
-
-        if (error.gameTypeId === SabaConfigs.games.ChanLeTurbo.id && this.main.chanLeTurbo) {
-            this.main.chanLeTurbo.onData(apiErrorData);
         }
 
         if (error.maxBet && error.maxBet > 0) {
