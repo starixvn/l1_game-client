@@ -1,7 +1,7 @@
-import { getStringDateByTime } from "./../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "./../../common/helpers/NumberHelper";
-import PaginationCommon from "./../../common/helpers/Pagination/PaginationCommon";
-import SlotGameTopWinnerItem from "./SlotGameTopWinnerItem";
+import { getStringDateByTime } from './../../common/helpers/DateTimeHelper';
+import { numberWithCommas } from './../../common/helpers/NumberHelper';
+import PaginationCommon from './../../common/helpers/Pagination/PaginationCommon';
+import SlotGameTopWinnerItem from './SlotGameTopWinnerItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -72,11 +72,10 @@ export default class SlotGameTopWinner extends cc.Component {
 
         if (!this.jackpotEnabled) {
             this.tabContainer.active = false;
-            this.mainLayout.updateLayout();
-            this.mainLayout.enabled = false;
-
-            this.backgroundNode.height = this.mainLayout.node.height;
         }
+        this.mainLayout.updateLayout();
+        this.mainLayout.enabled = false;
+        this.backgroundNode.height = this.mainLayout.node.height;
     }
 
     onDestroy() {
