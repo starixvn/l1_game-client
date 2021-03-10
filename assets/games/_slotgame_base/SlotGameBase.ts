@@ -166,6 +166,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     public onOpenBonusChest: (data: any) => void;
     public waitingSpinResult = false;
     public cacheApiError: any = null;
+    public isShowAutoSpinSettingDialog = false;
     protected userSettings: SlotGameUserSettings;
     private autoSpinCount = 0;
 
@@ -424,6 +425,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         if (!this.isAnimatingResult && !this.isFreeSpin()) {
             const node = cc.instantiate(this.autoSpinDialogPrefab);
             this.currentMiniPanel.addDialog(node);
+            this.isShowAutoSpinSettingDialog = true;
             const dialog = node.getComponent(AutoSpinSettingDialog);
             dialog.onConfirmCallback = (autoSpinCount: number) => {
                 this.setAutoSpinCount(autoSpinCount);
@@ -435,12 +437,14 @@ export default class SlotGameBase extends SocketIOTableGameBase {
                     () => this.spin(),
                     () => !this.isAutoSpinMode()
                 );
+                this.isShowAutoSpinSettingDialog = false;
             };
 
             dialog.onCancelCallback = () => {
                 this.setAutoSpinCount(0);
                 this.autoSpinToggle.isChecked = false;
                 this.activeButtons();
+                this.isShowAutoSpinSettingDialog = false;
             };
         }
     }
@@ -526,6 +530,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
 
         if (!this.checkAvailableBalance()) {
+            this.setAutoSpinCount(0);
+            this.updateModeSpinButton(false);
             this.activeButtons();
             return;
         }
@@ -571,7 +577,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     updateModeSpinButton(isFreeSpin: boolean) {
         this.freeSpinNode.active = isFreeSpin;
 
-        const showAutoSpin = !isFreeSpin && this.autoSpinCount > 0;
+        const showAutoSpin = !isFreeSpin && this.stillAutoSpin() && this.isAutoSpinMode();
         this.autoSpinCountLabel.node.parent.active = showAutoSpin;
         this.normalSpinNode.active = !showAutoSpin && !isFreeSpin;
 
@@ -846,9 +852,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     resetStateButtons() {
-        if (this.stillAutoSpin()) {
-            this.autoSpinToggle.isChecked = false;
-        }
+        this.autoSpinToggle.isChecked = false;
         this.activeButtons();
         if (this.isFreeSpin()) {
             this.resetFreeSpinButton();

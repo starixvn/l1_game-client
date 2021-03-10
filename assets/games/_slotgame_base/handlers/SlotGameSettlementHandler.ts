@@ -1,5 +1,5 @@
-import DataHandler from "../../_base/handlers/DataHandler";
-import SlotGameBase, { LineData } from "../SlotGameBase";
+import DataHandler from '../../_base/handlers/DataHandler';
+import SlotGameBase, { LineData } from '../SlotGameBase';
 
 export default class SlotGameSettlementHandler implements DataHandler {
     constructor(protected readonly main: SlotGameBase) {}
@@ -164,7 +164,9 @@ export default class SlotGameSettlementHandler implements DataHandler {
             if (freeSpins.count > 0 || (this.main.isAutoSpinMode() && this.main.stillAutoSpin()) || this.main.totalFreeSpins) {
                 this.main.spin();
             } else {
-                this.main.resetStateButtons();
+                if (!this.main.isShowAutoSpinSettingDialog) {
+                    this.main.resetStateButtons();
+                }
             }
         }
     }
