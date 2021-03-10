@@ -439,7 +439,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
             dialog.onCancelCallback = () => {
                 this.setAutoSpinCount(0);
-                this.resetStateButtons();
+                this.autoSpinToggle.isChecked = false;
+                this.activeButtons();
             };
         }
     }
@@ -845,7 +846,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     resetStateButtons() {
-        this.autoSpinToggle.isChecked = false;
+        if (this.stillAutoSpin()) {
+            this.autoSpinToggle.isChecked = false;
+        }
         this.activeButtons();
         if (this.isFreeSpin()) {
             this.resetFreeSpinButton();
