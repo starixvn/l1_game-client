@@ -23,6 +23,7 @@ export default class CountDownWarning extends cc.Component {
         this.setTime(this.duration);
         let count = 1;
         this.isShowing = true;
+        this.schedule(this.updateInterval, 0.3, cc.macro.REPEAT_FOREVER, 1);
         cc.tween(this.node)
             .repeat(
                 this.duration,
@@ -35,6 +36,7 @@ export default class CountDownWarning extends cc.Component {
                     })
             )
             .call(() => {
+                this.unschedule(this.updateInterval);
                 this.node.active = false;
                 this.isShowing = false;
                 onFinished();
@@ -42,12 +44,13 @@ export default class CountDownWarning extends cc.Component {
             .start();
     }
 
-    update() {
+    updateInterval() {
         if (!this.isShowing) {
             return;
         }
 
         if (this.checkCancel()) {
+            this.unschedule(this.updateInterval);
             this.node.stopAllActions();
             this.node.active = false;
             this.isShowing = false;
