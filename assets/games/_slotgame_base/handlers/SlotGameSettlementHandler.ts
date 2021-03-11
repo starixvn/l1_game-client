@@ -81,7 +81,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
         this.main.setTotalFreeSpins(totalOfFreeSpins);
         const needWaitEffect = bigWin || freeSpins.count > 0 || betByFreeSpin;
         if (!needWaitEffect) {
-            this.main.updateDisplayFreeSpinNode();
+            this.main.updateModeSpinButton(this.main.isFreeSpin());
             this.finishAnimationResult();
         }
         if (betWin === 0) {
@@ -150,7 +150,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
                     this.main.showHighlightSpecialSymbols(+freeSpins.symbol);
                     await this.main.showEffectFreeSpin();
                 } else {
-                    this.main.updateDisplayFreeSpinNode();
+                    this.main.updateModeSpinButton(this.main.isFreeSpin());
                 }
 
                 this.finishAnimationResult();

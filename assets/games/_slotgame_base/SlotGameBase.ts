@@ -416,9 +416,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.showStakeContainer(false);
 
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
-            this.setAutoSpinCount(0);
-            this.updateModeSpinButton(false);
-            this.activeButtons();
+            this.resetStateButtons();
             return;
         }
 
@@ -441,9 +439,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             };
 
             dialog.onCancelCallback = () => {
-                this.setAutoSpinCount(0);
-                this.autoSpinToggle.isChecked = false;
-                this.activeButtons();
+                this.resetStateButtons();
                 this.isShowAutoSpinSettingDialog = false;
             };
         }
@@ -530,9 +526,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
 
         if (!this.checkAvailableBalance()) {
-            this.setAutoSpinCount(0);
-            this.updateModeSpinButton(false);
-            this.activeButtons();
+            this.resetStateButtons();
             return;
         }
 
@@ -570,10 +564,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.updateModeSpinButton(showFreeSpin);
     }
 
-    updateDisplayFreeSpinNode() {
-        this.updateModeSpinButton(this.isFreeSpin());
-    }
-
     updateModeSpinButton(isFreeSpin: boolean) {
         this.freeSpinNode.active = isFreeSpin;
 
@@ -588,7 +578,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
     }
 
-    resetFreeSpinButton() {
+    showActiveFreeSpinButton() {
         this.textFreeSpinNode.active = true;
         this.activeSpinButton();
     }
@@ -853,9 +843,11 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     resetStateButtons() {
         this.autoSpinToggle.isChecked = false;
+        this.setAutoSpinCount(0);
+        this.updateModeSpinButton(false);
         this.activeButtons();
         if (this.isFreeSpin()) {
-            this.resetFreeSpinButton();
+            this.showActiveFreeSpinButton();
         }
     }
 
