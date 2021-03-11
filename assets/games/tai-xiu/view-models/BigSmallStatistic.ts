@@ -1,4 +1,4 @@
-import ItemContentMenu from '../../../common/helpers/Menu/ItemContentMenu';
+import ItemContentMenu from "../../../common/helpers/Menu/ItemContentMenu";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,40 +32,40 @@ export default class BigSmallStatistic extends cc.Component {
     node2: cc.Node = null;
 
     @property(cc.Graphics)
-    dice1_line: cc.Graphics = null;
+    dice1Line: cc.Graphics = null;
 
     @property(cc.Graphics)
-    dice2_line: cc.Graphics = null;
+    dice2Line: cc.Graphics = null;
 
     @property(cc.Graphics)
-    dice3_line: cc.Graphics = null;
+    dice3Line: cc.Graphics = null;
 
     @property(cc.Graphics)
-    tong_line: cc.Graphics = null;
+    tongLine: cc.Graphics = null;
 
     @property(cc.Node)
-    dice1_dot: cc.Node = null;
+    dice1Dot: cc.Node = null;
 
     @property(cc.Node)
-    dice2_dot: cc.Node = null;
+    dice2Dot: cc.Node = null;
 
     @property(cc.Node)
-    dice3_dot: cc.Node = null;
+    dice3Dot: cc.Node = null;
 
     @property(cc.Node)
-    tong_dot: cc.Node = null;
+    tongDot: cc.Node = null;
 
     @property(cc.Node)
-    line_dotT: cc.Node = null;
+    lineDotT: cc.Node = null;
 
     @property(cc.Node)
-    line_dot1: cc.Node = null;
+    lineDot1: cc.Node = null;
 
     @property(cc.Node)
-    line_dot2: cc.Node = null;
+    lineDot2: cc.Node = null;
 
     @property(cc.Node)
-    line_dot3: cc.Node = null;
+    lineDot3: cc.Node = null;
 
     @property(cc.Node)
     mainFrame: cc.Node = null;
@@ -158,14 +158,14 @@ export default class BigSmallStatistic extends cc.Component {
     }
 
     showPointsStatistic() {
-        var newData = this.handlePointsData(this.dataLogs);
+        const newData = this.handlePointsData(this.dataLogs);
         let totalPoints = {
             cTai: 0,
             cXiu: 0
         };
 
         this.pointCels.children.forEach((obj, i) => {
-            var data = newData[i];
+            const data = newData[i];
             if (void 0 !== data) {
                 obj.active = true;
                 totalPoints = this.calculateTotalPoints(totalPoints, obj, data);
@@ -178,13 +178,13 @@ export default class BigSmallStatistic extends cc.Component {
     }
 
     handlePointsData(logs) {
-        var tmpDS = -1;
-        var tmpArrA = [];
-        var tmpArrB = [];
-        var newArr = logs.slice();
+        let tmpDS = -1;
+        const tmpArrA = [];
+        let tmpArrB = [];
+        const newArr = logs.slice();
         newArr.reverse();
 
-        for (var newDS of newArr) {
+        for (const newDS of newArr) {
             const point = newDS.result.dice1 + newDS.result.dice2 + newDS.result.dice3;
             const type = point > 10 ? 1 : 0;
 
@@ -203,7 +203,7 @@ export default class BigSmallStatistic extends cc.Component {
         }
         tmpArrA.push(tmpArrB);
 
-        var newData = tmpArrA;
+        let newData = tmpArrA;
         newData.reverse();
         newData = newData.slice(0, 20);
         newData.reverse();
@@ -213,7 +213,7 @@ export default class BigSmallStatistic extends cc.Component {
 
     calculateTotalPoints(totalPoints, obj, data) {
         obj.children.forEach((current, index) => {
-            var dataCel = data[index];
+            const dataCel = data[index];
             if (void 0 !== dataCel) {
                 const type = dataCel > 10 ? true : false;
                 totalPoints.cTai = type ? totalPoints.cTai + 1 : totalPoints.cTai;
@@ -231,23 +231,23 @@ export default class BigSmallStatistic extends cc.Component {
     }
 
     drawLinePaintInChart(logs) {
-        var lineTong = [];
-        var lineDice1 = [];
-        var lineDice2 = [];
-        var lineDice3 = [];
+        const lineTong = [];
+        const lineDice1 = [];
+        const lineDice2 = [];
+        const lineDice3 = [];
 
-        var sliced = logs.slice(0, 19);
+        const sliced = logs.slice(0, 19);
         sliced.reverse();
         // Line paint
         new Promise((resolve, reject) => {
-            for (var i = 0; i < sliced.length; i++) {
-                var data = sliced[i];
+            for (let i = 0; i < sliced.length; i++) {
+                const data = sliced[i];
                 if (void 0 !== data) {
                     this.handleDotsActiveInChart(i, true);
-                    var dice1 = sliced[i].result.dice1;
-                    var dice2 = sliced[i].result.dice2;
-                    var dice3 = sliced[i].result.dice3;
-                    var tong = dice1 + dice2 + dice3;
+                    const dice1 = sliced[i].result.dice1;
+                    const dice2 = sliced[i].result.dice2;
+                    const dice3 = sliced[i].result.dice3;
+                    const tong = dice1 + dice2 + dice3;
 
                     lineDice1[i] = {
                         x: i * 28,
@@ -273,25 +273,25 @@ export default class BigSmallStatistic extends cc.Component {
                     this.handleDotsActiveInChart(i, false);
                 }
             }
-            this.draw(this.dice1_line, this.dice1_dot.children, lineDice1);
-            this.draw(this.dice2_line, this.dice2_dot.children, lineDice2);
-            this.draw(this.dice3_line, this.dice3_dot.children, lineDice3);
-            this.draw_Tong(this.tong_line, lineTong);
+            this.draw(this.dice1Line, this.dice1Dot.children, lineDice1);
+            this.draw(this.dice2Line, this.dice2Dot.children, lineDice2);
+            this.draw(this.dice3Line, this.dice3Dot.children, lineDice3);
+            this.draw_Tong(this.tongLine, lineTong);
         });
     }
 
     handleDotsActiveInChart(index, bool) {
-        this.dice1_dot.children[index].active = bool;
-        this.dice2_dot.children[index].active = bool;
-        this.dice3_dot.children[index].active = bool;
-        this.tong_dot.children[index].active = bool;
+        this.dice1Dot.children[index].active = bool;
+        this.dice2Dot.children[index].active = bool;
+        this.dice3Dot.children[index].active = bool;
+        this.tongDot.children[index].active = bool;
     }
 
     draw(line, node, data) {
         line.clear();
-        var o = data.length;
-        for (var n = 0; n < o; n++) {
-            var nodeT = node[n],
+        const o = data.length;
+        for (let n = 0; n < o; n++) {
+            const nodeT = node[n],
                 point = data[n];
             nodeT.children[0].getComponent(cc.Label).string = point.dice;
             nodeT.position = cc.v2(nodeT.position.x, point.y);
@@ -302,9 +302,9 @@ export default class BigSmallStatistic extends cc.Component {
 
     draw_Tong(obj, data) {
         obj.clear();
-        for (var n = 0, o = data.length; n < o; n++) {
-            var temp = data[n],
-                line = this.tong_dot.children[n];
+        for (let n = 0, o = data.length; n < o; n++) {
+            const temp = data[n],
+                line = this.tongDot.children[n];
             0 === n ? obj.moveTo(temp.x, temp.y) : obj.lineTo(temp.x, temp.y);
             line.children[0].getComponent(cc.Label).string = temp.tong;
             line.children[0].color = temp.tong > 10 ? cc.Color.WHITE : cc.Color.BLACK;

@@ -1,6 +1,6 @@
 import MiniRoundHistoryTip from '../../../common/mini-round-history/MiniRoundHistoryTip';
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class BigSmallRoundHistoryTip extends MiniRoundHistoryTip {

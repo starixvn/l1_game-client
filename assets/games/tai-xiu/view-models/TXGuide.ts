@@ -3,7 +3,7 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import OldMiniGameConfig from "../../_base/view-models/OldMiniGameConfig";
 import GameGuideBase from "../../_base/view-models/GameGuideBase";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class TXGuide extends GameGuideBase {

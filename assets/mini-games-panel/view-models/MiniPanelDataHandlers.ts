@@ -1,6 +1,5 @@
 import GameUtils from "../../common/GameUtils";
 import { NoticeData } from "../../common/notice/view-models/Notice";
-import * as SabaConfigs from "../../configs/SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
 import { removeInRoomGameId, removeSession } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";

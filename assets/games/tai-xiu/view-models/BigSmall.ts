@@ -1,20 +1,20 @@
-import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
-import { games } from '../../../configs/SabaConfigs';
-import SabaConfigs = require('../../../configs/SabaConfigs');
-import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import BalancedBettingPoolGameBase from '../../_base/BalancedBettingPoolGameBase';
-import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
-import BigSmallBetHistory from './BigSmallBetHistory';
-import { BigSmallConfigs } from './BigSmallConfigs';
-import BigSmallGuide from './BigSmallGuide';
-import BigSmallHistory from './BigSmallHistory';
-import BigSmallMiniRoundHistory from './BigSmallMiniRoundHistory';
-import BigSmallStatistic from './BigSmallStatistic';
-import BigSmallBetHandler from './handlers/BigSmallBetHandler';
-import BigSmallFinishHandler from './handlers/BigSmallFinishHandler';
-import BigSmallLogsHandler from './handlers/BigSmallLogsHandler';
-import BigSmallStatusHandler from './handlers/BigSmallStatusHandler';
-import BigSmallTimeHandler from './handlers/BigSmallTimeHandler';
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import { games } from "../../../configs/SabaConfigs";
+import SabaConfigs = require("../../../configs/SabaConfigs");
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import BigSmallBetHistory from "./BigSmallBetHistory";
+import { BigSmallConfigs } from "./BigSmallConfigs";
+import BigSmallGuide from "./BigSmallGuide";
+import BigSmallHistory from "./BigSmallHistory";
+import BigSmallMiniRoundHistory from "./BigSmallMiniRoundHistory";
+import BigSmallStatistic from "./BigSmallStatistic";
+import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
+import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
+import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
+import BigSmallStatusHandler from "./handlers/BigSmallStatusHandler";
+import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -251,7 +251,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     public openStatistic() {
         cc.RedT.audio.playClick();
 
-        var node = cc.instantiate(this.statisticPrefab);
+        const node = cc.instantiate(this.statisticPrefab);
         this.bigSmallStats = node.getComponent(BigSmallStatistic);
         this.bigSmallStats.gameTitle = this.gameTitle;
         this.bigSmallStats.init(this.currentDataLogs);

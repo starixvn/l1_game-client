@@ -1,17 +1,17 @@
-import { buildServerUrl } from '../.././common/helpers/UrlHelper';
-import { lazyInject } from '../../Application';
-import GameUtils from '../../common/GameUtils';
-import * as configs from '../../configs/Configs';
-import { games } from '../../configs/SabaConfigs';
-import SabaConfigs = require('../../configs/SabaConfigs');
-import SocketIOController from '../../SocketIOController';
-import MiniPanel from './MiniPanel';
+import { buildServerUrl } from "../.././common/helpers/UrlHelper";
+import { lazyInject } from "../../Application";
+import GameUtils from "../../common/GameUtils";
+import * as configs from "../../configs/Configs";
+import { games } from "../../configs/SabaConfigs";
+import SabaConfigs = require("../../configs/SabaConfigs");
+import SocketIOController from "../../SocketIOController";
+import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelMiniGameInitializers {
     @lazyInject(SocketIOController)
     private readonly socketIOController: SocketIOController;
 
-    constructor(private main: MiniPanel) {}
+    constructor(private readonly main: MiniPanel) {}
 
     showGame(node: cc.Node) {
         if (node) {
@@ -23,8 +23,7 @@ export default class MiniPanelMiniGameInitializers {
     }
 
     getGameName(id: number): string {
-        const name = Object.keys(games).find((key) => games[key].id === id);
-        return name;
+        return Object.keys(games).find((key) => games[key].id === id);
     }
 
     openMiniGame(gameId) {
