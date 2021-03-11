@@ -15,13 +15,12 @@ export default class TurboBigSmall extends BigSmall {
         return games.TurboBigSmall.id;
     }
 
-    initMiniGame(miniPanel: MiniPanel) {
+    initMiniPanel(miniPanel: MiniPanel) {
         this.init("TXTurbo", new TurboBigSmallConfigs(), miniPanel);
     }
 
     initHandlers() {
         super.initHandlers();
-
         this.timeHandler = new TurboBigSmallTimeHandler(this);
     }
 }
