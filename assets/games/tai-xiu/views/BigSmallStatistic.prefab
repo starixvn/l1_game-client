@@ -355,7 +355,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 547,
+      "width": 647,
       "height": 77
     },
     "_anchorPoint": {
@@ -432,7 +432,7 @@
       "ctor": "Float64Array",
       "array": [
         -9,
-        1.443,
+        0,
         0,
         0,
         0,
@@ -982,7 +982,7 @@
     },
     "component": "",
     "_componentId": "7bd02k5cEJAtKhZPLKALafX",
-    "handler": "changeView",
+    "handler": "onNextPreviousButtonClick",
     "customEventData": ""
   },
   {
@@ -1206,7 +1206,7 @@
     },
     "component": "",
     "_componentId": "7bd02k5cEJAtKhZPLKALafX",
-    "handler": "changeView",
+    "handler": "onNextPreviousButtonClick",
     "customEventData": ""
   },
   {
@@ -1249,7 +1249,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Node2",
+    "_name": "dice-lines",
     "_objFlags": 0,
     "_parent": {
       "__id__": 5
@@ -21239,7 +21239,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Node1",
+    "_name": "dice-result",
     "_objFlags": 0,
     "_parent": {
       "__id__": 5
@@ -57667,16 +57667,16 @@
     "pointCels": {
       "__id__": 879
     },
-    "bigAmountStatistic": {
+    "leftAmountStatistic": {
       "__id__": 592
     },
-    "smallAmountStatistic": {
+    "rightAmountStatistic": {
       "__id__": 595
     },
-    "node1": {
+    "resultForm": {
       "__id__": 559
     },
-    "node2": {
+    "dicesLineForm": {
       "__id__": 31
     },
     "dice1Line": {

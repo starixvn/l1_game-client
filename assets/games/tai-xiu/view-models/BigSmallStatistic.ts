@@ -1,6 +1,11 @@
-import ItemContentMenu from "../../../common/helpers/Menu/ItemContentMenu";
+import ItemContentMenu from '../../../common/helpers/Menu/ItemContentMenu';
 
 const { ccclass, property } = cc._decorator;
+
+type TotalType = {
+    left: number;
+    right: number;
+};
 
 @ccclass
 export default class BigSmallStatistic extends cc.Component {
@@ -20,16 +25,16 @@ export default class BigSmallStatistic extends cc.Component {
     pointCels: cc.Node = null;
 
     @property(cc.Label)
-    bigAmountStatistic: cc.Label = null;
+    leftAmountStatistic: cc.Label = null;
 
     @property(cc.Label)
-    smallAmountStatistic: cc.Label = null;
+    rightAmountStatistic: cc.Label = null;
 
     @property(cc.Node)
-    node1: cc.Node = null;
+    resultForm: cc.Node = null;
 
     @property(cc.Node)
-    node2: cc.Node = null;
+    dicesLineForm: cc.Node = null;
 
     @property(cc.Graphics)
     dice1Line: cc.Graphics = null;
@@ -80,14 +85,16 @@ export default class BigSmallStatistic extends cc.Component {
     titleLabel: cc.Label = null;
 
     public gameTitle = "";
-
-    private dataLogs;
+    protected dataLogs;
+    protected readonly betTypes = ["big", "small"];
 
     init(dataLogs: any) {
         this.dataLogs = dataLogs;
 
         // expect 99 result;
-        this.dataLogs.pop();
+        if (this.dataLogs.length > 99) {
+            this.dataLogs.pop();
+        }
     }
 
     onLoad() {
@@ -113,6 +120,9 @@ export default class BigSmallStatistic extends cc.Component {
         this.calculateResultStatistic();
 
         this.resultDots.children.forEach((dot, index) => {
+            if (index > this.dataLogs.length) {
+                return;
+            }
             const component = dot.getComponent(cc.Sprite);
             component.spriteFrame = this.dataLogs[index].settlementResult.big ? this.blackDot : this.whiteDot;
         });
@@ -122,7 +132,7 @@ export default class BigSmallStatistic extends cc.Component {
         let bigStats = 0;
 
         this.dataLogs.forEach((log) => {
-            if (log.settlementResult.big) {
+            if (log.settlementResult[this.betTypes[0]]) {
                 bigStats += 1;
             }
         });
@@ -130,9 +140,9 @@ export default class BigSmallStatistic extends cc.Component {
         this.updateBigSmallAmountStatistic(bigStats, this.dataLogs.length - bigStats);
     }
 
-    updateBigSmallAmountStatistic(big: number, small: number) {
-        this.bigAmountStatistic.string = big.toString();
-        this.smallAmountStatistic.string = small.toString();
+    updateBigSmallAmountStatistic(leftValue: number, rightValue: number) {
+        this.leftAmountStatistic.string = leftValue.toString();
+        this.rightAmountStatistic.string = rightValue.toString();
     }
 
     onSelectHeader(event, name) {
@@ -158,164 +168,165 @@ export default class BigSmallStatistic extends cc.Component {
     }
 
     showPointsStatistic() {
-        const newData = this.handlePointsData(this.dataLogs);
-        let totalPoints = {
-            cTai: 0,
-            cXiu: 0
+        let pointsData = [];
+        let totalType: TotalType = {
+            left: 0,
+            right: 0
         };
 
-        this.pointCels.children.forEach((obj, i) => {
-            const data = newData[i];
-            if (void 0 !== data) {
-                obj.active = true;
-                totalPoints = this.calculateTotalPoints(totalPoints, obj, data);
+        pointsData = this.handlePointsData(this.dataLogs, pointsData);
+        const slicedPointsData = [...pointsData].reverse().slice(0, 20).reverse();
+
+        this.pointCels.children.forEach((pointCell, i) => {
+            const pointsDataOfType = slicedPointsData[i];
+            if (pointsDataOfType) {
+                pointCell.active = true;
+                totalType = this.handleTotalType(totalType, pointCell, pointsDataOfType);
             } else {
-                obj.active = false;
+                pointCell.active = false;
             }
         });
 
-        this.updateBigSmallAmountStatistic(totalPoints.cTai, totalPoints.cXiu);
+        this.updateBigSmallAmountStatistic(totalType.left, totalType.right);
     }
 
-    handlePointsData(logs) {
-        let tmpDS = -1;
-        const tmpArrA = [];
-        let tmpArrB = [];
-        const newArr = logs.slice();
-        newArr.reverse();
+    handlePointsData(logs, pointsData: any) {
+        let currentType = null;
+        let pointsDataOfType = [];
+        const pointLogs = logs.slice();
+        pointLogs.reverse();
 
-        for (const newDS of newArr) {
-            const point = newDS.result.dice1 + newDS.result.dice2 + newDS.result.dice3;
-            const type = point > 10 ? 1 : 0;
+        for (const pointLog of pointLogs) {
+            const points = pointLog.result.dice1 + pointLog.result.dice2 + pointLog.result.dice3;
+            const type = pointLog.settlementResult[this.betTypes[0]] ? true : false;
 
-            if (tmpDS === -1) {
-                tmpDS = type;
+            if (currentType === null) {
+                currentType = type;
             }
 
-            if (type !== tmpDS || tmpArrB.length > 4) {
-                tmpDS = type;
-                tmpArrA.push(tmpArrB);
-                tmpArrB = [];
+            if (type !== currentType || pointsDataOfType.length > 4) {
+                currentType = type;
+                pointsData.push(pointsDataOfType);
+                pointsDataOfType = [];
             }
-            if (type === tmpDS) {
-                tmpArrB.push(point);
+            if (type === currentType) {
+                pointsDataOfType.push(points);
             }
         }
-        tmpArrA.push(tmpArrB);
+        pointsData.push(pointsDataOfType);
 
-        let newData = tmpArrA;
-        newData.reverse();
-        newData = newData.slice(0, 20);
-        newData.reverse();
-
-        return newData;
+        return pointsData;
     }
 
-    calculateTotalPoints(totalPoints, obj, data) {
-        obj.children.forEach((current, index) => {
-            const dataCel = data[index];
-            if (void 0 !== dataCel) {
-                const type = dataCel > 10 ? true : false;
-                totalPoints.cTai = type ? totalPoints.cTai + 1 : totalPoints.cTai;
-                totalPoints.cXiu = !type ? totalPoints.cXiu + 1 : totalPoints.cXiu;
-                current.active = true;
-                current.color = type ? cc.Color.BLACK : cc.Color.WHITE;
-                current.children[0].getComponent(cc.Label).string = dataCel;
-                current.children[0].color = type ? cc.Color.WHITE : cc.Color.BLACK;
+    handleTotalType(totalType, pointCell: any, pointsDataOfType: any): TotalType {
+        pointCell.children.forEach((dot, index) => {
+            const pointsData = pointsDataOfType[index];
+            if (pointsData) {
+                const type = this.checkPointResult(pointsData);
+                totalType.left = type ? totalType.left + 1 : totalType.left;
+                totalType.right = !type ? totalType.right + 1 : totalType.right;
+                dot.active = true;
+                dot.color = type ? cc.Color.BLACK : cc.Color.WHITE;
+                dot.children[0].getComponent(cc.Label).string = pointsData;
+                dot.children[0].color = type ? cc.Color.WHITE : cc.Color.BLACK;
             } else {
-                current.active = false;
+                dot.active = false;
             }
         });
 
-        return totalPoints;
+        return totalType;
+    }
+
+    checkPointResult(points: number) {
+        return points > 10 ? true : false;
     }
 
     drawLinePaintInChart(logs) {
-        const lineTong = [];
-        const lineDice1 = [];
-        const lineDice2 = [];
-        const lineDice3 = [];
+        const totalLine = [];
+        const firstDiceLine = [];
+        const secondDiceLine = [];
+        const thirdDiceLine = [];
 
-        const sliced = logs.slice(0, 19);
-        sliced.reverse();
-        // Line paint
-        new Promise((resolve, reject) => {
-            for (let i = 0; i < sliced.length; i++) {
-                const data = sliced[i];
-                if (void 0 !== data) {
-                    this.handleDotsActiveInChart(i, true);
-                    const dice1 = sliced[i].result.dice1;
-                    const dice2 = sliced[i].result.dice2;
-                    const dice3 = sliced[i].result.dice3;
-                    const tong = dice1 + dice2 + dice3;
+        const slicedLogs = logs.slice(0, 19);
+        slicedLogs.reverse();
 
-                    lineDice1[i] = {
-                        x: i * 28,
-                        y: dice1 * 28 - 28,
-                        dice: dice1
-                    };
-                    lineDice2[i] = {
-                        x: i * 28,
-                        y: dice2 * 28 - 28,
-                        dice: dice2
-                    };
-                    lineDice3[i] = {
-                        x: i * 28,
-                        y: dice3 * 28 - 28,
-                        dice: dice3
-                    };
-                    lineTong[i] = {
-                        x: i * 27.7,
-                        y: tong * 9.233 - 27.7,
-                        tong: tong
-                    };
-                } else {
-                    this.handleDotsActiveInChart(i, false);
-                }
+        for (let index = 0; index < slicedLogs.length; index++) {
+            const data = slicedLogs[index];
+            if (void 0 !== data) {
+                this.activeDotsInChart(index, true);
+                const dice1 = slicedLogs[index].result.dice1;
+                const dice2 = slicedLogs[index].result.dice2;
+                const dice3 = slicedLogs[index].result.dice3;
+                const tong = dice1 + dice2 + dice3;
+
+                firstDiceLine[index] = {
+                    x: index * 28,
+                    y: dice1 * 28 - 28,
+                    dice: dice1
+                };
+                secondDiceLine[index] = {
+                    x: index * 28,
+                    y: dice2 * 28 - 28,
+                    dice: dice2
+                };
+                thirdDiceLine[index] = {
+                    x: index * 28,
+                    y: dice3 * 28 - 28,
+                    dice: dice3
+                };
+                totalLine[index] = {
+                    x: index * 27.7,
+                    y: tong * 9.233 - 27.7,
+                    tong: tong,
+                    betChoice: slicedLogs[index].settlementResult[this.betTypes[0]]
+                };
+            } else {
+                this.activeDotsInChart(index, false);
             }
-            this.draw(this.dice1Line, this.dice1Dot.children, lineDice1);
-            this.draw(this.dice2Line, this.dice2Dot.children, lineDice2);
-            this.draw(this.dice3Line, this.dice3Dot.children, lineDice3);
-            this.draw_Tong(this.tongLine, lineTong);
-        });
+        }
+        this.drawDiceLine(this.dice1Line, this.dice1Dot.children, firstDiceLine);
+        this.drawDiceLine(this.dice2Line, this.dice2Dot.children, secondDiceLine);
+        this.drawDiceLine(this.dice3Line, this.dice3Dot.children, thirdDiceLine);
+        this.drawTotalLine(this.tongLine, totalLine);
     }
 
-    handleDotsActiveInChart(index, bool) {
+    activeDotsInChart(index, bool) {
         this.dice1Dot.children[index].active = bool;
         this.dice2Dot.children[index].active = bool;
         this.dice3Dot.children[index].active = bool;
         this.tongDot.children[index].active = bool;
     }
 
-    draw(line, node, data) {
+    drawDiceLine(line: cc.Graphics, node, data: any) {
         line.clear();
-        const o = data.length;
-        for (let n = 0; n < o; n++) {
-            const nodeT = node[n],
-                point = data[n];
-            nodeT.children[0].getComponent(cc.Label).string = point.dice;
-            nodeT.position = cc.v2(nodeT.position.x, point.y);
-            0 === n ? line.moveTo(point.x, point.y) : line.lineTo(point.x, point.y);
+        const dataLength = data.length;
+        for (let index = 0; index < dataLength; index++) {
+            const dot = node[index],
+                point = data[index];
+            dot.children[0].getComponent(cc.Label).string = point.dice;
+            dot.position = cc.v2(dot.position.x, point.y);
+            index === 0 ? line.moveTo(point.x, point.y) : line.lineTo(point.x, point.y);
         }
         line.stroke();
     }
 
-    draw_Tong(obj, data) {
-        obj.clear();
-        for (let n = 0, o = data.length; n < o; n++) {
-            const temp = data[n],
-                line = this.tongDot.children[n];
-            0 === n ? obj.moveTo(temp.x, temp.y) : obj.lineTo(temp.x, temp.y);
-            line.children[0].getComponent(cc.Label).string = temp.tong;
-            line.children[0].color = temp.tong > 10 ? cc.Color.WHITE : cc.Color.BLACK;
-            line.position = cc.v2(line.position.x, temp.y);
-            line.color = temp.tong > 10 ? cc.Color.BLACK : cc.Color.WHITE;
+    drawTotalLine(line: cc.Graphics, data) {
+        line.clear();
+        for (let index = 0, dataLength = data.length; index < dataLength; index++) {
+            const dotData = data[index],
+                dot = this.tongDot.children[index];
+            0 === index ? line.moveTo(dotData.x, dotData.y) : line.lineTo(dotData.x, dotData.y);
+            dot.children[0].getComponent(cc.Label).string = dotData.tong;
+            dot.children[0].color = dotData.betChoice ? cc.Color.WHITE : cc.Color.BLACK;
+
+            dot.position = cc.v2(dot.position.x, dotData.y);
+            dot.color = dotData.betChoice ? cc.Color.BLACK : cc.Color.WHITE;
         }
-        obj.stroke();
+        line.stroke();
     }
 
-    changeView() {
-        this.node1.active = !this.node1.active;
-        this.node2.active = !this.node2.active;
+    onNextPreviousButtonClick() {
+        this.resultForm.active = !this.resultForm.active;
+        this.dicesLineForm.active = !this.dicesLineForm.active;
     }
 }

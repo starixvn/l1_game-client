@@ -1,4 +1,3 @@
-import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
 import { games } from '../../../configs/SabaConfigs';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import BalancedBettingPoolGameBase from '../../_base/BalancedBettingPoolGameBase';
@@ -132,11 +131,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
         this.initRoundHistory();
         this.animatedTime.setAnimatedY(30, -5);
-
-        const draggableItem = this.getComponent(DraggableItem);
-        draggableItem.touchCallback.start = (node) => {
-            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
-        };
     }
 
     onEnable() {

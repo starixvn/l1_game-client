@@ -17,22 +17,22 @@ export default class BigSmallBetHistory extends cc.Component {
     diceFrames: cc.SpriteFrame[] = [];
 
     @property(cc.Label)
-    bigBetAmount: cc.Label = null;
+    leftBetAmount: cc.Label = null;
 
     @property(cc.Label)
-    bigRefundAmount: cc.Label = null;
+    leftRefundAmount: cc.Label = null;
 
     @property(cc.Label)
-    smallBetAmount: cc.Label = null;
+    rightBetAmount: cc.Label = null;
 
     @property(cc.Label)
-    smallRefundAmount: cc.Label = null;
+    rightRefundAmount: cc.Label = null;
 
     @property(cc.Node)
-    bigContent: cc.Node = null;
+    leftContent: cc.Node = null;
 
     @property(cc.Node)
-    smallContent: cc.Node = null;
+    rightContent: cc.Node = null;
 
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
@@ -41,16 +41,16 @@ export default class BigSmallBetHistory extends cc.Component {
     nextButton: cc.Node = null;
 
     @property(cc.Node)
-    bigNode: cc.Node = null;
+    leftResultNode: cc.Node = null;
 
     @property(cc.Node)
-    smallNode: cc.Node = null;
+    rightResultNode: cc.Node = null;
 
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
-    private main: BigSmall;
-    private roundId = 0;
+    protected main: BigSmall;
+    protected roundId = 0;
     @property(cc.Label)
     titleLabel: cc.Label = null;
 
@@ -97,32 +97,32 @@ export default class BigSmallBetHistory extends cc.Component {
         this.resetData();
 
         const { id, time, total, result, big, small, settlementResult } = data;
-        this.roundId = id;
         this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
+        this.nextButton.active = this.main.currentDataLogs[0].roundId > id;
 
-        this.bigBetAmount.string = numberWithCommas(total?.big?.betAmount ?? 0);
-        this.bigRefundAmount.string = numberWithCommas(total?.big?.refund ?? 0);
-        this.smallBetAmount.string = numberWithCommas(total?.small?.betAmount ?? 0);
-        this.smallRefundAmount.string = numberWithCommas(total?.small?.refund ?? 0);
+        this.leftBetAmount.string = numberWithCommas(total?.big?.betAmount ?? 0);
+        this.leftRefundAmount.string = numberWithCommas(total?.big?.refund ?? 0);
+        this.rightBetAmount.string = numberWithCommas(total?.small?.betAmount ?? 0);
+        this.rightRefundAmount.string = numberWithCommas(total?.small?.refund ?? 0);
 
-        this.bigNode.opacity = settlementResult?.big ? 255 : 100;
-        this.smallNode.opacity = settlementResult?.small ? 255 : 100;
+        this.leftResultNode.opacity = settlementResult?.big ? 255 : 100;
+        this.rightResultNode.opacity = settlementResult?.small ? 255 : 100;
 
         this.updateDotsResult(result);
 
-        big &&
+        if (big.length) {
             big.forEach((user) => {
                 const item = this.addItem(user);
-                this.bigContent.addChild(item);
+                this.leftContent.addChild(item);
             });
+        }
 
-        small &&
+        if (small.length) {
             small.forEach((user) => {
                 const item = this.addItem(user);
-                this.smallContent.addChild(item);
+                this.rightContent.addChild(item);
             });
-
-        this.nextButton.active = this.main.currentDataLogs[0].roundId > id;
+        }
     }
 
     updateDotsResult(result: any) {
@@ -147,7 +147,7 @@ export default class BigSmallBetHistory extends cc.Component {
     }
 
     resetData() {
-        this.bigContent.destroyAllChildren();
-        this.smallContent.destroyAllChildren();
+        this.leftContent.destroyAllChildren();
+        this.rightContent.destroyAllChildren();
     }
 }

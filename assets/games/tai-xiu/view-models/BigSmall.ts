@@ -1,20 +1,19 @@
-import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import { games } from "../../../configs/SabaConfigs";
-import SabaConfigs = require("../../../configs/SabaConfigs");
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import BigSmallBetHistory from "./BigSmallBetHistory";
-import { BigSmallConfigs } from "./BigSmallConfigs";
-import BigSmallGuide from "./BigSmallGuide";
-import BigSmallHistory from "./BigSmallHistory";
-import BigSmallMiniRoundHistory from "./BigSmallMiniRoundHistory";
-import BigSmallStatistic from "./BigSmallStatistic";
-import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
-import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
-import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
-import BigSmallStatusHandler from "./handlers/BigSmallStatusHandler";
-import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
+import { games } from '../../../configs/SabaConfigs';
+import SabaConfigs = require('../../../configs/SabaConfigs');
+import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
+import BalancedBettingPoolGameBase from '../../_base/BalancedBettingPoolGameBase';
+import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
+import BigSmallBetHistory from './BigSmallBetHistory';
+import { BigSmallConfigs } from './BigSmallConfigs';
+import BigSmallGuide from './BigSmallGuide';
+import BigSmallHistory from './BigSmallHistory';
+import BigSmallMiniRoundHistory from './BigSmallMiniRoundHistory';
+import BigSmallStatistic from './BigSmallStatistic';
+import BigSmallBetHandler from './handlers/BigSmallBetHandler';
+import BigSmallFinishHandler from './handlers/BigSmallFinishHandler';
+import BigSmallLogsHandler from './handlers/BigSmallLogsHandler';
+import BigSmallStatusHandler from './handlers/BigSmallStatusHandler';
+import BigSmallTimeHandler from './handlers/BigSmallTimeHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -70,10 +69,10 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     betHistoryPrefab: cc.Prefab = null;
 
     @property(cc.Label)
-    betPercentageBig: cc.Label = null;
+    betPercentageLeft: cc.Label = null;
 
     @property(cc.Label)
-    betPercentageSmall: cc.Label = null;
+    betPercentageRight: cc.Label = null;
 
     @property(cc.Node)
     resultNode: cc.Node = null;
@@ -87,17 +86,14 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
-    private miniRoundHistory: BigSmallMiniRoundHistory;
-    private historyComponent: BigSmallHistory;
-    private betHistory: BigSmallBetHistory;
-    bigSmallStats: BigSmallStatistic;
+    protected miniRoundHistory: BigSmallMiniRoundHistory;
+    protected historyComponent: BigSmallHistory;
+    protected betHistory: BigSmallBetHistory;
+    statistic: BigSmallStatistic;
     diceAnimationDuration: number;
     protected gameTitle = SabaConfigs.games.BigSmall.name;
 
-    private readonly choice = {
-        big: "big",
-        small: "small"
-    };
+    protected readonly choices = ["small", "big"];
 
     initMiniPanel(miniPanel: MiniPanel) {
         this.init("taixiu", new BigSmallConfigs(), miniPanel);
@@ -106,38 +102,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     onLoad() {
         super.onLoad();
         this.diceAnimationDuration = this.diceAnimation.defaultClip.duration / this.diceAnimation.defaultClip.speed;
-
-        this.selectedBetAmountLabels = {
-            [this.choice.small]: this.selectedBetAmountLabelRight,
-            [this.choice.big]: this.selectedBetAmountLabelLeft
-        };
-        this.selectedBetAmountSprites = {
-            [this.choice.small]: this.selectedBetAmountSpriteRight,
-            [this.choice.big]: this.selectedBetAmountSpriteLeft
-        };
-        this.selectedBetAmountClickedImages = {
-            [this.choice.small]: this.selectedBetAmountClickedImage,
-            [this.choice.big]: this.selectedBetAmountClickedImage
-        };
-        this.selectedBetAmountUnClickedImages = {
-            [this.choice.small]: this.selectedBetAmountUnClickedImage,
-            [this.choice.big]: this.selectedBetAmountUnClickedImage
-        };
-        this.betPercentages = {
-            [this.choice.small]: this.betPercentageSmall,
-            [this.choice.big]: this.betPercentageBig
-        };
-
+        this.setValueBetAmount();
         this.initRoundHistory();
-
-        const draggableItem = this.getComponent(DraggableItem);
-        draggableItem.touchCallback.start = (node) => {
-            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
-        };
-    }
-
-    onEnable() {
-        super.onEnable();
     }
 
     onDestroy() {
@@ -164,6 +130,29 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.finishHandler = new BigSmallFinishHandler(this);
         this.betHandler = new BigSmallBetHandler(this);
         this.statusHandler = new BigSmallStatusHandler(this);
+    }
+
+    setValueBetAmount() {
+        this.selectedBetAmountLabels = {
+            [this.choices[0]]: this.selectedBetAmountLabelRight,
+            [this.choices[1]]: this.selectedBetAmountLabelLeft
+        };
+        this.selectedBetAmountSprites = {
+            [this.choices[0]]: this.selectedBetAmountSpriteRight,
+            [this.choices[1]]: this.selectedBetAmountSpriteLeft
+        };
+        this.selectedBetAmountClickedImages = {
+            [this.choices[0]]: this.selectedBetAmountClickedImage,
+            [this.choices[1]]: this.selectedBetAmountClickedImage
+        };
+        this.selectedBetAmountUnClickedImages = {
+            [this.choices[0]]: this.selectedBetAmountUnClickedImage,
+            [this.choices[1]]: this.selectedBetAmountUnClickedImage
+        };
+        this.betPercentages = {
+            [this.choices[0]]: this.betPercentageRight,
+            [this.choices[1]]: this.betPercentageLeft
+        };
     }
 
     initRoundHistory() {
@@ -219,8 +208,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                 this.resultNode.active = true;
                 this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
 
-                if (this.bigSmallStats && this.bigSmallStats.node && this.bigSmallStats.node.isValid) {
-                    this.bigSmallStats.updateStatistic(this.currentDataLogs);
+                if (this.statistic && this.statistic.node && this.statistic.node.isValid) {
+                    this.statistic.updateStatistic(this.currentDataLogs);
                 }
             })
             .start();
@@ -252,9 +241,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         cc.RedT.audio.playClick();
 
         const node = cc.instantiate(this.statisticPrefab);
-        this.bigSmallStats = node.getComponent(BigSmallStatistic);
-        this.bigSmallStats.gameTitle = this.gameTitle;
-        this.bigSmallStats.init(this.currentDataLogs);
+        this.statistic = node.getComponent(BigSmallStatistic);
+        this.statistic.gameTitle = this.gameTitle;
+        this.statistic.init(this.currentDataLogs);
         this.currentMiniPanel.node.addChild(node);
     }
 

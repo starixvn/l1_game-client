@@ -20,7 +20,7 @@ const configs = {
             id: 5,
             name: "Chẵn Lẻ"
         },
-        ChanLeTurbo: {
+        TurboOddEven: {
             id: 6,
             name: "Chẵn Lẻ Siêu Tốc"
         },
@@ -118,7 +118,7 @@ const configs = {
     },
     gameRoomIds: [21],
     gameRoomNewSocketIds: [2, 8, 10, 22, 23, 25, 26, 27, 28, 29],
-    gameMiniNewSocketIds: [24, 9, 1, 3, 4, 7]
+    gameMiniNewSocketIds: [24, 9, 1, 3, 4, 6, 7]
 };
 
 module.exports = configs;

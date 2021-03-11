@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 import BetBoard, { BetInfo } from '../../common/bet-board/view-models/BetBoard';
+import DraggableItem from '../../common/draggable-layout/view-models/DraggableItem';
 import { numberWithCommas } from '../../common/helpers/NumberHelper';
 import PresetBet from '../../common/preset-bet/view-models/PresetBet';
 import SocketIOMiniGameBase from './SocketIOMiniGameBase';
@@ -50,6 +51,11 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
 
         this.initPresetBetBoard();
         this.initBetBoard();
+
+        const draggableItem = this.getComponent(DraggableItem);
+        draggableItem.touchCallback.start = (node) => {
+            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+        };
     }
 
     onSelectBetChoiceClick(event: cc.Event, choice: string) {
