@@ -1,26 +1,26 @@
-import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
-import BetChips from "../../../common/bet-chips/view-models/BetChips";
-import GameUtils from "../../../common/GameUtils";
-import { numberPad } from "../../../common/helpers/NumberHelper";
-import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import NewCard from "../../../common/new-card/view-models/NewCard";
-import UmWarning from "../../../common/um-warning/UmWarning";
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import GameAudios from "../../_base/GameAudios";
-import DataHandler from "../../_base/handlers/DataHandler";
-import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
-import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
-import RHBetDataHandler from "./handlers/RHBetDataHandler";
-import RHBetStatusDataHandler from "./handlers/RHBetStatusDataHandler";
-import RHFinishDataHandler from "./handlers/RHFinishDataHandler";
-import RHGameTimeHandler from "./handlers/RHGameTimeHandler";
-import RHHistoryDataHandler from "./handlers/RHHistoryDataHandler";
-import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
-import RHNoticeHandler from "./handlers/RHNoticeHandler";
-import RHUMDataHandler from "./handlers/RHUMDataHandler";
-import RongHoHistory from "./history/RongHoHistory";
-import RHRoundResultItem from "./RHRoundResultItem";
-import RongHoBetItem from "./RongHoBetItem";
+import AnimatedTime from '../../../common/animated-time/view-models/AnimatedTime';
+import BetChips from '../../../common/bet-chips/view-models/BetChips';
+import GameUtils from '../../../common/GameUtils';
+import { numberPad } from '../../../common/helpers/NumberHelper';
+import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
+import NewCard from '../../../common/new-card/view-models/NewCard';
+import UmWarning from '../../../common/um-warning/UmWarning';
+import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
+import GameAudios from '../../_base/GameAudios';
+import DataHandler from '../../_base/handlers/DataHandler';
+import { GameConfigBase } from '../../_base/view-models/GameConfigBase';
+import GameLogControlBase from '../../_base/view-models/GameLogControlBase';
+import RHBetDataHandler from './handlers/RHBetDataHandler';
+import RHBetStatusDataHandler from './handlers/RHBetStatusDataHandler';
+import RHFinishDataHandler from './handlers/RHFinishDataHandler';
+import RHGameTimeHandler from './handlers/RHGameTimeHandler';
+import RHHistoryDataHandler from './handlers/RHHistoryDataHandler';
+import RHLogsDataHandler from './handlers/RHLogsDataHandler';
+import RHNoticeHandler from './handlers/RHNoticeHandler';
+import RHUMDataHandler from './handlers/RHUMDataHandler';
+import RongHoHistory from './history/RongHoHistory';
+import RHRoundResultItem from './RHRoundResultItem';
+import RongHoBetItem from './RongHoBetItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -328,12 +328,18 @@ export default class RongHo extends cc.Component {
             item.clear();
             item.resetHighlight();
         });
-        this.frontCardNodes.forEach((card) => (card.active = false));
-        this.cardBacks.forEach((back) => (back.node.scale = 1));
-        this.notice.children.forEach((child) => child.destroy());
         this.drawAnimation.stop();
         this.resultAnimation.stop();
         this.node.stopAllActions();
+        this.frontCardNodes.forEach((card) => {
+            card.active = false;
+            card.position = cc.v2(0, -13);
+        });
+        this.cardBacks.forEach((back) => {
+            back.node.scale = 1;
+            back.node.position = cc.v2(0, -13);
+        });
+        this.notice.children.forEach((child) => child.destroy());
     }
 
     onSignIn() {
