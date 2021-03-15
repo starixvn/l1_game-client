@@ -54,6 +54,12 @@ const configs = {
             path: "/user/baccarat",
             proxyRoute: "/baccarat/socket.io"
         },
+        21: {
+            subDomain: "haproxy",
+            port: "7000",
+            path: "/user/roulette",
+            proxyRoute: "/roulette/socket.io"
+        },
         22: {
             subDomain: "haproxy",
             port: "7000",

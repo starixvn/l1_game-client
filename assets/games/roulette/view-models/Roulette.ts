@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { games } from "../../../configs/SabaConfigs";
-import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BottomControls from "./BottomControls";
 import RouletteBetHandler from "./handlers/RouletteBetHandler";
 import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
@@ -10,8 +10,10 @@ import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
 import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
 import LeftControls from "./LeftControls";
 import { RouletteConfigs } from "./RouletteConfigs";
+import RouletteHistory from "./RouletteHistory";
 import RouletteMain from "./RouletteMain";
 import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
+import RouletteStatistic from "./RouletteStatistic";
 import RouletteUtils from "./RouletteUtils";
 import TopControls from "./TopControls";
 
@@ -38,7 +40,7 @@ export enum RouletteBetType {
 }
 
 @ccclass
-export default class Roulette extends WebSocketTableGameBase {
+export default class Roulette extends SocketIOTableGameBase {
     @property(cc.Node)
     mainContainer: cc.Node = null;
 
@@ -90,11 +92,13 @@ export default class Roulette extends WebSocketTableGameBase {
     previousRoundBetChoices: any = {};
     betChoicesStack = [];
     isPlacingChip = false;
+    userHistoryComponent: RouletteHistory;
+    statisticComponent: RouletteStatistic;
     readonly chipOption: number[] = [];
 
     constructor() {
         super();
-        this.init("roulette", new RouletteConfigs(), null, 1, games.Roulette.id);
+        this.init("Roulette", new RouletteConfigs(), null, 1, games.Roulette.id);
     }
 
     initHandlers() {
@@ -105,10 +109,6 @@ export default class Roulette extends WebSocketTableGameBase {
         this.timeHandler = new RouletteTimeHandler(this);
         this.betHandler = new RouletteBetHandler(this);
     }
-
-    start() {}
-
-    onEnable() {}
 
     onLoad() {
         this.roundIdContainer.opacity = 0;
@@ -121,7 +121,7 @@ export default class Roulette extends WebSocketTableGameBase {
 
             this.startGame();
             this.registerViewGame();
-            cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
+            this.socket.emit("inGame");
             cc.tween(this.node)
                 .delay(0.1)
                 .call(() => {
@@ -372,6 +372,14 @@ export default class Roulette extends WebSocketTableGameBase {
             }
             this.addToBetChoicesStack(betChoices);
         };
+    }
+
+    onDataGameRoom(data) {
+        if (data.history && this.userHistoryComponent) {
+            this.userHistoryComponent.onData(data.history);
+        }
+
+        super.onDataGameRoom(data);
     }
 
     addBetChoiceOnBoard(betInfo: any, bet: any) {
@@ -649,11 +657,9 @@ export default class Roulette extends WebSocketTableGameBase {
         }
 
         this.waitingProcessing = true;
-        this.sendData({
-            bet: {
-                roundId: this.roundId,
-                betChoices: this.tempBetChoices
-            }
+        this.socket.emit("bet", {
+            roundId: this.roundId,
+            betChoices: this.tempBetChoices
         });
     }
 
@@ -676,6 +682,10 @@ export default class Roulette extends WebSocketTableGameBase {
     public pressedShowStatistic() {
         this.playClick();
         const dialog = cc.instantiate(this.statisticPrefab);
+        const statisticData = this.currentDataLogs.map((log) => log.result);
+        this.statisticComponent = dialog.getComponent(RouletteStatistic);
+        this.statisticComponent.generateStatistic(statisticData);
+
         this.currentMiniPanel.node.addChild(dialog);
     }
 
@@ -686,6 +696,8 @@ export default class Roulette extends WebSocketTableGameBase {
         }
 
         const dialog = cc.instantiate(this.historyPrefab);
+        this.userHistoryComponent = dialog.getComponent(RouletteHistory);
+        this.userHistoryComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
 

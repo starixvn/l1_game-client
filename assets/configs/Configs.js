@@ -2,16 +2,16 @@ const configs = {
     systemType: "SC1",
     ssl: false,
     serverDomainMapper: {
-        localhost: "lumigame.com",
+        localhost: "localhost",
         "10.5.10.14": "lumigame.com"
     },
     serverGameEndPoints: {
         0: {
             //Main Server
-            subDomain: "haproxy",
-            port: 7002,
+            subDomain: "",
+            port: 8080,
             path: "",
-            proxyRoute: "/main"
+            proxyRoute: "/"
         },
         1: {
             subDomain: "haproxy",
@@ -66,6 +66,12 @@ const configs = {
             port: 7002,
             path: "/user/baccarat",
             proxyRoute: "/baccarat/socket.io"
+        },
+        21: {
+            subDomain: "",
+            port: 5000,
+            path: "/user/roulette",
+            proxyRoute: "/socket.io"
         },
         22: {
             subDomain: "haproxy",
@@ -122,7 +128,7 @@ const configs = {
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    userServiceUrl: "http://haproxy.lumigame.com:7002/user"
+    userServiceUrl: "http://127.0.0.1:7002/"
 };
 
 module.exports = configs;

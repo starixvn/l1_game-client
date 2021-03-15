@@ -32,7 +32,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
                 this.clearTempBetChoices();
             }
 
-            if (data.othersBetChoices) {
+            if (data.playerChip) {
                 this.handleDataOnOthersBetChoices(data);
             }
 
@@ -43,7 +43,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
     }
 
     handleDataOnOthersBetChoices(data: any) {
-        const other = data.othersBetChoices;
+        const other = data.playerChip;
         const playerSlot = this.main.playerHandler.getPlayerSlot(other.playerId);
         let startNode: cc.Node;
         if (playerSlot) {
@@ -58,7 +58,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
     }
 
     handleTypeBetChoices(data: any, startNode: any) {
-        const other = data.othersBetChoices;
+        const other = data.playerChip;
         for (const type in other.betChoices) {
             for (const key in other.betChoices[type]) {
                 this.handleAnimatedChip(data, type, key, startNode);
@@ -67,7 +67,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
     }
 
     handleAnimatedChip(data: any, type: any, key: any, startNode: any) {
-        const other = data.othersBetChoices;
+        const other = data.playerChip;
         const duration = 0.8;
         const remainingTimeToStopBet = this.main.currentTimeRemaining - this.main.config.stopBetTime;
         const destNode = this.main.rouletteMain.board.getBetNodeByKey(type, key, true);
