@@ -1,11 +1,11 @@
-import DropDownList from "../../../../common/drop-down-list/view-models/DropDownList";
-import DropDownOption from "../../../../common/drop-down-list/view-models/DropDownOption";
-import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
-import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
-import GameHistoryBase from "../../../_base/view-models/GameHistoryBase";
-import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
-import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
+import DropDownList from '../../../../common/drop-down-list/view-models/DropDownList';
+import DropDownOption from '../../../../common/drop-down-list/view-models/DropDownOption';
+import { getStringDateByTime } from '../../../../common/helpers/DateTimeHelper';
+import { numberWithCommas } from '../../../../common/helpers/NumberHelper';
+import GameHistoryBase from '../../../_base/view-models/GameHistoryBase';
+import MiniKenoProViet from '../../../mini-keno-pro-viet/view-models/MiniKenoProViet';
+import MiniKenoHistoryDetail from './MiniKenoHistoryDetail';
+import MiniKenoHistoryItem from './MiniKenoHistoryItem';
 
 const { ccclass, property } = cc._decorator;
 
@@ -31,7 +31,6 @@ export default class MiniKenoHistory extends GameHistoryBase {
     private readonly kenoProVietGameName = "kenoProViet";
 
     private readonly options: DropDownOption[] = [
-        new DropDownOption("kenoProViet", "Keno Pro Viet"),
         new DropDownOption("kenoMax", "Keno Max"),
         new DropDownOption("kenoMax2", "Keno Max 2"),
         new DropDownOption("kenoMini", "Keno Mini"),
@@ -39,7 +38,8 @@ export default class MiniKenoHistory extends GameHistoryBase {
         new DropDownOption("kenoEast", "Keno Đông"),
         new DropDownOption("kenoWest", "Keno Tây"),
         new DropDownOption("kenoSouth", "Keno Nam"),
-        new DropDownOption("kenoNorth", "Keno Bắc")
+        new DropDownOption("kenoNorth", "Keno Bắc"),
+        new DropDownOption("kenoProViet", "Keno Pro Viet")
     ];
 
     private readonly betChoices = ["even", "odd", "big", "small", "gold", "wood", "water", "fire", "earth"];
