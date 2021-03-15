@@ -1,4 +1,4 @@
-import BigSmallStatistic from '../../tai-xiu/view-models/BigSmallStatistic';
+import BigSmallStatistic from '../../bigsmall/view-models/BigSmallStatistic';
 
 const { ccclass, property } = cc._decorator;
 

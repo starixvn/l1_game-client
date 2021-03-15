@@ -13,10 +13,10 @@ export default class BigSmallMiniRoundHistoryItem extends MiniRoundHistoryItem {
     @property(cc.SpriteFrame)
     blackDot: cc.SpriteFrame = null;
 
+    protected readonly betTypes = ["big", "small"];
+
     public setData(data: any) {
         this.data = data;
-
-        const point = data.result.dice1 + data.result.dice2 + data.result.dice3;
-        this.icon.spriteFrame = point > 10 ? this.blackDot : this.whiteDot;
+        this.icon.spriteFrame = data.settlementResult[this.betTypes[0]] ? this.blackDot : this.whiteDot;
     }
 }

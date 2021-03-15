@@ -1,6 +1,6 @@
 import { getStringDateByTime } from '../../../common/helpers/DateTimeHelper';
 import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import BigSmallBetHistory from '../../tai-xiu/view-models/BigSmallBetHistory';
+import BigSmallBetHistory from '../../bigsmall/view-models/BigSmallBetHistory';
 import TurboOddEven from './TurboOddEven';
 
 const { ccclass, property } = cc._decorator;

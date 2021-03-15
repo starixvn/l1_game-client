@@ -262,11 +262,12 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.statusHandler.currentStatusData = null;
         this.diceContainer.active = false;
         this.resultNode.active = false;
+        this.node.stopAllActions();
     }
 
     public updateOddsFromConfigs() {
         if (this.gameConfigs.odds) {
-            this.odds.string = `1:${this.gameConfigs.odds.big}`;
+            this.odds.string = `1:${this.gameConfigs.odds[this.choices[0]]}`;
         }
     }
 }

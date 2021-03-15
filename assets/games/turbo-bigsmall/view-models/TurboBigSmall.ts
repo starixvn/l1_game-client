@@ -1,7 +1,7 @@
 import { games } from '../../../configs/SabaConfigs';
 import SabaConfigs = require('../../../configs/SabaConfigs');
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import BigSmall from '../../tai-xiu/view-models/BigSmall';
+import BigSmall from '../../bigsmall/view-models/BigSmall';
 import TurboBigSmallTimeHandler from './handlers/TurboBigSmallTimeHandler';
 import { TurboBigSmallConfigs } from './TurboBigSmallConfigs';
 

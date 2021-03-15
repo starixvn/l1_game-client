@@ -1,8 +1,8 @@
 import { games } from '../../../configs/SabaConfigs';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import BigSmall from '../../tai-xiu/view-models/BigSmall';
-import TurboBigSmallTimeHandler from '../../turbo-tai-xiu/view-models/handlers/TurboBigSmallTimeHandler';
-import { TurboBigSmallConfigs } from '../../turbo-tai-xiu/view-models/TurboBigSmallConfigs';
+import BigSmall from '../../bigsmall/view-models/BigSmall';
+import TurboBigSmallTimeHandler from '../../turbo-bigsmall/view-models/handlers/TurboBigSmallTimeHandler';
+import { TurboBigSmallConfigs } from '../../turbo-bigsmall/view-models/TurboBigSmallConfigs';
 import TurboOddEvenBetHistory from './TurboOddEvenBetHistory';
 import TurboOddEvenGuide from './TurboOddEvenGuide';
 import TurboOddEvenStatistic from './TurboOddEvenStatistic';
@@ -26,12 +26,6 @@ export default class TurboOddEven extends BigSmall {
 
     initMiniPanel(miniPanel: MiniPanel) {
         this.init("OETurbo", new TurboBigSmallConfigs(), miniPanel);
-    }
-
-    public updateOddsFromConfigs() {
-        if (this.gameConfigs.odds) {
-            this.odds.string = `1:${this.gameConfigs.odds.even}`;
-        }
     }
 
     public openGuide() {
