@@ -1,5 +1,5 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import GameGuideBase from "../../_base/view-models/GameGuideBase";
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import GameGuideBase from '../../_base/view-models/GameGuideBase';
 
 const { ccclass, property } = cc._decorator;
 
@@ -8,6 +8,7 @@ export default class SpecialSeDieGuide extends GameGuideBase {
     createReplaceData(configs) {
         const odds = configs.odds;
         return {
+            _minBet: configs.minbet,
             _oddsMain: odds.even,
             _maxBetRound: numberWithCommas(configs.maxbet)
         };
