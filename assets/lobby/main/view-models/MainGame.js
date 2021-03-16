@@ -125,8 +125,19 @@ cc.Class({
     },
     onSignIn() {
         this.getGameNotifications();
+        if(!this.initializedLobby){
+            this.initLobby();
+        }
+    },
+    onSocketError(){
+        if(!this.initializedLobby){
+            this.initLobby();
+        }
+    },
+    initLobby(){
         this.initLobbyMenu();
         this.initBanners();
+        this.initializedLobby = true;
     },
     initLobbyMenu() {
         let lobbyMenu = this.mainScroll.getComponent("LobbyMenu");

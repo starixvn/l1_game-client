@@ -1,8 +1,8 @@
-import * as authManager from "./common/auth/AuthManager";
-import { buildServerUrl } from "./common/helpers/UrlHelper";
-import logger from "./common/logger";
-import configs from "./configs/Configs";
-import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
+import * as authManager from './common/auth/AuthManager';
+import { buildServerUrl } from './common/helpers/UrlHelper';
+import logger from './common/logger';
+import configs from './configs/Configs';
+import LobbyMenuConfig from './lobby/main/view-models/LobbyMenuConfig';
 
 const sentryLogger = logger();
 
@@ -110,6 +110,7 @@ module.exports = {
     },
     _onSocketError: function (message) {
         cc.RedT.isConnected = false;
+        cc.RedT.inGame.onSocketError && cc.RedT.inGame.onSocketError();
     },
     _onSocketData: function (message) {
         var data = message.data;
