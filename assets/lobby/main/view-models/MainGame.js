@@ -1,14 +1,14 @@
-import { appContainer } from "../../../Application";
-import baseControll from "../../../BaseController";
-import GameUtils from "../../../common/GameUtils";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import logger from "../../../common/logger";
-import * as SabaConfigs from "../../../configs/SabaConfigs";
-import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
-import SocketIOController from "../../../SocketIOController";
-import SplashConfig from "../../../splash/view-models/SplashConfig";
-import * as authManager from "./../../../common/auth/AuthManager";
-import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
+import { appContainer } from '../../../Application';
+import baseControll from '../../../BaseController';
+import GameUtils from '../../../common/GameUtils';
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import logger from '../../../common/logger';
+import * as SabaConfigs from '../../../configs/SabaConfigs';
+import FourGuardiansConfig from '../../../games/four-guardians/scripts/FourGuardiansConfig';
+import LobbyMenuConfig from '../../../lobby/main/view-models/LobbyMenuConfig';
+import SocketIOController from '../../../SocketIOController';
+import SplashConfig from '../../../splash/view-models/SplashConfig';
+import * as authManager from './../../../common/auth/AuthManager';
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -125,16 +125,20 @@ cc.Class({
     },
     onSignIn() {
         this.getGameNotifications();
-        if(!this.initializedLobby){
+        if (!this.initializedLobby) {
             this.initLobby();
         }
     },
-    onSocketError(){
-        if(!this.initializedLobby){
+    onSocketError() {
+        if (!this.initializedLobby) {
+            const storage = cc.sys.localStorage.getItem("latestOfferGames");
+            if (storage) {
+                cc.RedT.user.offerGames = JSON.parse(storage);
+            }
             this.initLobby();
         }
     },
-    initLobby(){
+    initLobby() {
         this.initLobbyMenu();
         this.initBanners();
         this.initializedLobby = true;

@@ -210,6 +210,7 @@ module.exports = {
                 }
             });
             this.user.offerGames = list;
+            cc.sys.localStorage.setItem("latestOfferGames", JSON.stringify(list));
         }
         if (void 0 !== data.name) {
             this.user.name = data.name;
