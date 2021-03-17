@@ -1,3 +1,3 @@
 var configs = {
-    site: "SC2"
+    site: "SC1"
 };
