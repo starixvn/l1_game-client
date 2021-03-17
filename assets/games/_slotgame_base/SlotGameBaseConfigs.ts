@@ -1,5 +1,6 @@
 export interface SlotGameBaseConfigs {
     readonly wildSymbol: number;
+    readonly jackpotSymbol: number;
     readonly showWinningLineDuration: number;
     readonly noWinningLineDuration: number;
     readonly showTotalBonusAmountDuration: number;
