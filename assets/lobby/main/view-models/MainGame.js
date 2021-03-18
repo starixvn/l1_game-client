@@ -316,8 +316,8 @@ cc.Class({
     },
 
     handleUserData: function (user) {
-        this.loadUserData(user);
         cc.RedT.userData(user);
+        this.loadUserData(user);
 
         try {
             if (user.name) {
