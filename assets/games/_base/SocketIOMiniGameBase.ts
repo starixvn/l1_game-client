@@ -1,6 +1,6 @@
-import { lazyInject } from '../../Application';
-import SocketIOController from '../../SocketIOController';
-import GameBase from './GameBase';
+import { lazyInject } from "../../Application";
+import SocketIOController from "../../SocketIOController";
+import GameBase from "./GameBase";
 
 export default abstract class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
@@ -59,12 +59,20 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
     public onBetItemClick(e) {
         cc.RedT.audio.playClick();
-        const betData = {
-            amount: this.currentBet,
-            betChoice: e.target.name,
-            username: cc.RedT.user.name
-        };
+        if (this.isDisableGame) {
+            return;
+        }
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+        } else {
+            this.waitingProcessing = true;
+            const betData = {
+                amount: this.currentBet,
+                betChoice: e.target.name,
+                username: cc.RedT.user.name
+            };
 
-        this.socket && this.socket.connected && this.socket.emit("bet", betData);
+            this.socket && this.socket.connected && this.socket.emit("bet", betData);
+        }
     }
 }
