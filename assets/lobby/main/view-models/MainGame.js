@@ -112,7 +112,7 @@ cc.Class({
             this.header.setAvatar(cc.RedT.user.avatarId);
             (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
 
-            cc.RedT.needShowLuckyWheelIcon && this.renderLuckyWheelIcon();
+            this.renderLuckyWheelIcon();
         }
 
         // this.center.on("size-changed", this.repositionMenu, this);
@@ -275,7 +275,6 @@ cc.Class({
     Authorized: function (Authorized) {
         this.loading.active = false;
 
-        cc.RedT.needShowLuckyWheelIcon = cc.RedT.user.availSpins > 0;
         if (!Authorized) {
             this.dialog.showSignName();
         } else {
@@ -470,7 +469,7 @@ cc.Class({
 
     renderLuckyWheelIcon() {
         return new Promise((resolve, reject) => {
-            if (!this.luckyWheelIcon) {
+            if (!this.luckyWheelIcon && cc.RedT.user.availSpins > 0) {
                 GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
                     const node = cc.instantiate(prefab);
                     this.node.addChild(node);
