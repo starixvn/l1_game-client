@@ -469,19 +469,26 @@ cc.Class({
     },
 
     renderLuckyWheelIcon() {
-        if (!this.luckyWheelIcon) {
-            GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
-                const node = cc.instantiate(prefab);
-                this.node.addChild(node);
-                this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
-                this.luckyWheelIcon.init(this.node);
-            });
-        }
+        return new Promise((resolve, reject) => {
+            if (!this.luckyWheelIcon) {
+                GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
+                    const node = cc.instantiate(prefab);
+                    this.node.addChild(node);
+                    this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
+                    this.luckyWheelIcon.init(this.node);
+                    resolve();
+                });
+            } else {
+                resolve();
+            }
+        });
     },
 
     openLuckyWheel() {
         if (cc.RedT.user && cc.RedT.user.name) {
-            this.luckyWheelIcon && cc.RedT.user.availSpins && this.luckyWheelIcon.openGame();
+            this.renderLuckyWheelIcon().then(() => {
+                this.luckyWheelIcon && cc.RedT.user.availSpins && this.luckyWheelIcon.openGame();
+            });
         }
     }
 });
