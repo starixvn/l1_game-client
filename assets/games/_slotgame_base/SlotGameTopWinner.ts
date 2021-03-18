@@ -1,5 +1,3 @@
-import { getStringDateByTime } from './../../common/helpers/DateTimeHelper';
-import { numberWithCommas } from './../../common/helpers/NumberHelper';
 import PaginationCommon from './../../common/helpers/Pagination/PaginationCommon';
 import SlotGameTopWinnerItem from './SlotGameTopWinnerItem';
 
@@ -121,25 +119,7 @@ export default class SlotGameTopWinner extends cc.Component {
             winners.map((player, index) => {
                 const itemNode = cc.instantiate(this.itemPrefab);
                 const item = itemNode.getComponent(SlotGameTopWinnerItem);
-                item.bg.active = index % 2 > 0;
-                item.time.string = getStringDateByTime(player.time);
-                item.player.string = player.name;
-
-                if (this.topWinnerView === "getBigWinningWinners") {
-                    item.amount.string = player.freeSpin ? "Free Spin" : numberWithCommas(player.totalAmount, 1);
-                } else {
-                    item.amount.string = numberWithCommas(player.bet, 1);
-                }
-
-                item.win.string = numberWithCommas(player.winningAmount);
-
-                if (cc.RedT.user.name === player.name) {
-                    item.time.node.color = cc.Color.YELLOW;
-                    item.player.node.color = cc.Color.YELLOW;
-                    item.amount.node.color = cc.Color.YELLOW;
-                    item.win.node.color = cc.Color.YELLOW;
-                }
-
+                item.setData(player, index, this.topWinnerView === "getBigWinningWinners");
                 this.content.addChild(itemNode);
             });
         }
