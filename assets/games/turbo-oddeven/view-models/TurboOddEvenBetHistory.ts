@@ -1,4 +1,3 @@
-import { getStringDateByTime } from '../../../common/helpers/DateTimeHelper';
 import { numberWithCommas } from '../../../common/helpers/NumberHelper';
 import BigSmallBetHistory from '../../bigsmall/view-models/BigSmallBetHistory';
 import TurboOddEven from './TurboOddEven';
@@ -11,12 +10,8 @@ export default class TurboOddEvenBetHistory extends BigSmallBetHistory {
         this.roundId = roundId;
     }
 
-    onData(data: any) {
-        this.resetData();
-
-        const { id, time, total, result, even, odd, settlementResult } = data;
-        this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
-        this.nextButton.active = this.main.currentDataLogs[0].roundId > id;
+    updateChoicesData(data) {
+        const { total, even, odd, settlementResult } = data;
 
         this.leftBetAmount.string = numberWithCommas(total?.even?.betAmount ?? 0);
         this.leftRefundAmount.string = numberWithCommas(total?.even?.refund ?? 0);
@@ -25,8 +20,6 @@ export default class TurboOddEvenBetHistory extends BigSmallBetHistory {
 
         this.leftResultNode.opacity = settlementResult?.even ? 255 : 100;
         this.rightResultNode.opacity = settlementResult?.odd ? 255 : 100;
-
-        this.updateDotsResult(result);
 
         if (even.length) {
             even.forEach((user) => {

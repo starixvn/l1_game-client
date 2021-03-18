@@ -1,6 +1,5 @@
-import { shortenName } from '../../../common/helpers/NicknameHelper';
 import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import { getStringDateByTime, getStringHourByTime } from './../../../common/helpers/DateTimeHelper';
+import { getStringDateByTime } from './../../../common/helpers/DateTimeHelper';
 import BigSmall from './BigSmall';
 import BigSmallBetHistoryItem from './BigSmallBetHistoryItem';
 
@@ -96,9 +95,16 @@ export default class BigSmallBetHistory extends cc.Component {
     onData(data: any) {
         this.resetData();
 
-        const { id, time, total, result, big, small, settlementResult } = data;
+        const { id, time, result } = data;
         this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
         this.nextButton.active = this.main.currentDataLogs[0].roundId > id;
+
+        this.updateChoicesData(data);
+        this.updateDotsResult(result);
+    }
+
+    updateChoicesData(data) {
+        const { total, big, small, settlementResult } = data;
 
         this.leftBetAmount.string = numberWithCommas(total?.big?.betAmount ?? 0);
         this.leftRefundAmount.string = numberWithCommas(total?.big?.refund ?? 0);
@@ -107,8 +113,6 @@ export default class BigSmallBetHistory extends cc.Component {
 
         this.leftResultNode.opacity = settlementResult?.big ? 255 : 100;
         this.rightResultNode.opacity = settlementResult?.small ? 255 : 100;
-
-        this.updateDotsResult(result);
 
         if (big.length) {
             big.forEach((user) => {
@@ -135,14 +139,7 @@ export default class BigSmallBetHistory extends cc.Component {
     addItem(data: any) {
         const item = cc.instantiate(this.itemPrefab);
         const itemComponent = item.getComponent(BigSmallBetHistoryItem);
-
-        const isLoginUser = data.name === cc.RedT.user.name;
-        itemComponent.highlight.active = isLoginUser;
-        itemComponent.time.string = getStringHourByTime(data.time);
-        itemComponent.username.string = isLoginUser ? data.name : shortenName(data.name);
-        itemComponent.betAmount.string = numberWithCommas(data.amount);
-        itemComponent.refund.string = numberWithCommas(data.refund);
-
+        itemComponent.setData(data);
         return item;
     }
 
