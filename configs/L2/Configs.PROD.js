@@ -32,7 +32,7 @@ const configs = {
             subDomain: "proxy",
             port: "",
             path: "/user/baucua",
-            proxyRoute: "/baucua/socket.io"
+            proxyRoute: "/fishprawncrab/socket.io"
         },
         7: {
             subDomain: "proxy",
