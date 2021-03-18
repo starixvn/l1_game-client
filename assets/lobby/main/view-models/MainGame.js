@@ -40,8 +40,7 @@ cc.Class({
         dialogNode: cc.Node,
         loading: cc.Node,
         audioBG: cc.AudioSource,
-        NoticePrefab: cc.Prefab,
-        luckyWheelIconPrefab: cc.Prefab
+        NoticePrefab: cc.Prefab
     },
     onDestroy() {
         this.dialogNode.destroy();
@@ -113,7 +112,7 @@ cc.Class({
             this.header.setAvatar(cc.RedT.user.avatarId);
             (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
 
-            cc.RedT.needShowLuckyWheelIcon && this.renderLuckyWheelIcon();
+            this.renderLuckyWheelIcon();
         }
 
         // this.center.on("size-changed", this.repositionMenu, this);
@@ -276,7 +275,6 @@ cc.Class({
     Authorized: function (Authorized) {
         this.loading.active = false;
 
-        cc.RedT.needShowLuckyWheelIcon = cc.RedT.user.availSpins > 0;
         if (!Authorized) {
             this.dialog.showSignName();
         } else {
@@ -318,8 +316,8 @@ cc.Class({
     },
 
     handleUserData: function (user) {
-        this.loadUserData(user);
         cc.RedT.userData(user);
+        this.loadUserData(user);
 
         try {
             if (user.name) {
@@ -470,17 +468,26 @@ cc.Class({
     },
 
     renderLuckyWheelIcon() {
-        if (!this.luckyWheelIcon) {
-            const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
-            this.node.addChild(iconNode);
-            this.luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
-            this.luckyWheelIcon.init(this.node);
-        }
+        return new Promise((resolve, reject) => {
+            if (!this.luckyWheelIcon && cc.RedT.user.availSpins > 0) {
+                GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
+                    const node = cc.instantiate(prefab);
+                    this.node.addChild(node);
+                    this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
+                    this.luckyWheelIcon.init(this.node);
+                    resolve();
+                });
+            } else {
+                resolve();
+            }
+        });
     },
 
     openLuckyWheel() {
         if (cc.RedT.user && cc.RedT.user.name) {
-            this.luckyWheelIcon && cc.RedT.user.availSpins && this.luckyWheelIcon.openGame();
+            this.renderLuckyWheelIcon().then(() => {
+                this.luckyWheelIcon && cc.RedT.user.availSpins && this.luckyWheelIcon.openGame();
+            });
         }
     }
 });
