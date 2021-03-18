@@ -94,6 +94,8 @@ export default class MiniPanelDataHandlers {
         if (error.maxBet && error.maxBet > 0) {
             cc.RedT.userStakeLevelData(error);
         }
+
+        this.main.showErrorNotice(error);
     }
 
     handleNoticeData(notice: any) {
