@@ -40,8 +40,7 @@ cc.Class({
         dialogNode: cc.Node,
         loading: cc.Node,
         audioBG: cc.AudioSource,
-        NoticePrefab: cc.Prefab,
-        luckyWheelIconPrefab: cc.Prefab
+        NoticePrefab: cc.Prefab
     },
     onDestroy() {
         this.dialogNode.destroy();
@@ -471,10 +470,12 @@ cc.Class({
 
     renderLuckyWheelIcon() {
         if (!this.luckyWheelIcon) {
-            const iconNode = cc.instantiate(this.luckyWheelIconPrefab);
-            this.node.addChild(iconNode);
-            this.luckyWheelIcon = iconNode.getComponent("LuckyWheelIcon");
-            this.luckyWheelIcon.init(this.node);
+            GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
+                const node = cc.instantiate(prefab);
+                this.node.addChild(node);
+                this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
+                this.luckyWheelIcon.init(this.node);
+            });
         }
     },
 
