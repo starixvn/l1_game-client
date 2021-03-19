@@ -266,6 +266,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.diceContainer.active = false;
         this.resultNode.active = false;
         this.node.stopAllActions();
+        this.betItems.forEach((betItem) => {
+            betItem.ownBet.string = "0";
+        });
     }
 
     public updateOddsFromConfigs() {

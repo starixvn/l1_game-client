@@ -1,5 +1,6 @@
 import _ = require('lodash');
 
+import CommonDialog from '../../../common/_base/view-models/CommonDialog';
 import ItemContentMenu from '../../../common/helpers/Menu/ItemContentMenu';
 
 const { ccclass, property } = cc._decorator;
@@ -96,7 +97,7 @@ export default class BigSmallStatistic extends cc.Component {
     }
 
     onLoad() {
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
         commonDialog.onDidHide = () => {
             this.node.destroy();
         };
