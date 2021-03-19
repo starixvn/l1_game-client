@@ -14,6 +14,12 @@ export interface ReCheckInResponse {
     message: string;
     balance: number;
     isDisableAccount: boolean;
+    apiError: APIError;
+}
+
+export interface APIError {
+    errorCode: number | string;
+    errorMessage: string;
 }
 
 export interface AuthorizeResponse {

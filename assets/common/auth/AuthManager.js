@@ -65,22 +65,25 @@ export function checkSSO(labelMessage, onSuccessFunc) {
     const authData = sessionManager.getSession();
 
     if (urlParams.has("token")) {
-        UserService.getInstance().sso(urlParams.get("token")).then((response) => {
-            if (response.isAuthenticated) {
-                window.authData = response;
-                sentryLogger.setUser(response);
-                window.authData.time = new Date();
-                window.openGameId = urlParams.get("gameId");
-                sessionManager.storeSessionData(response);
-                clearTokenOnUrl();
-                onSuccessFunc();
-            } else {
-                labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
-            }
-        }).catch((error) => {
-            labelMessage.string = "Đăng nhập lỗi.";
-            sentryLogger.logError(error);
-        });
+        UserService.getInstance()
+            .sso(urlParams.get("token"))
+            .then((response) => {
+                if (response.isAuthenticated) {
+                    window.authData = response;
+                    sentryLogger.setUser(response);
+                    window.authData.time = new Date();
+                    window.openGameId = urlParams.get("gameId");
+                    sessionManager.storeSessionData(response);
+                    clearTokenOnUrl();
+                    onSuccessFunc();
+                } else {
+                    labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
+                }
+            })
+            .catch((error) => {
+                labelMessage.string = "Đăng nhập lỗi.";
+                sentryLogger.logError(error);
+            });
 
         isSuccess = true;
     } else if (authData && authData.isAuthenticated && authData.ss) {
@@ -110,7 +113,8 @@ let autoTriggerSignInTimeout = null;
 
 export function triggerSignIn(main) {
     if (!!window.authData) {
-        UserService.getInstance().authorize(window.authData.ss, window.authData.username)
+        UserService.getInstance()
+            .authorize(window.authData.ss, window.authData.username)
             .then((response) => {
                 if (response.user) {
                     main.handleUserData(response.user);
@@ -125,7 +129,8 @@ export function triggerSignIn(main) {
                         }
                     });
                 }, 500);
-            }).catch(sentryLogger.logError);
+            })
+            .catch(sentryLogger.logError);
     }
 }
 
@@ -167,30 +172,38 @@ export function reCheckIn() {
         if (isSessionExpired) {
             signOut();
         } else {
-            UserService.getInstance().reCheckIn(session.ss, session.username).then((response) => {
-                if (response.isSuccessful) {
-                    session.time = new Date();
-                    sessionManager.storeSessionData(session);
+            UserService.getInstance()
+                .reCheckIn(session.ss, session.username)
+                .then((response) => {
+                    if (response.isSuccessful) {
+                        session.time = new Date();
+                        sessionManager.storeSessionData(session);
 
-                    if (cc.RedT.user) {
-                        cc.RedT.user.red = response.balance;
-                    }
+                        if (response.apiError) {
+                            if (response.isDisableAccount) {
+                                setTimeout(signOut, 10000);
 
-                } else {
-                    if (response.isDisableAccount) {
-                        setTimeout(signOut, 10000);
+                                const noticeData = {
+                                    text:
+                                        "Tài khoản đã bị đóng. Phiên đăng nhập sẽ hết hạn sau 10 giây. Vui lòng liên hệ với cấp trên để biết thêm chi tiết."
+                                };
+                                cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
+                            } else {
+                                const noticeData = { text: `${response.apiError.errorMessage} (${response.apiError.errorCode})` };
+                                cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
+                            }
+                        } else {
+                            if (cc.RedT.user) {
+                                cc.RedT.user.red = response.balance;
+                            }
+                        }
                     } else {
                         signOut();
                     }
-
-                    const noticeData = { text: response.message };
-                    cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
-                }
-            }).catch(error => sentryLogger.logError(error))
+                })
+                .catch((error) => sentryLogger.logError(error));
         }
     } catch (ex) {
         console.log(JSON.stringify(ex));
     }
-
-
 }
