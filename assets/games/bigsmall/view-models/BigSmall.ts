@@ -93,7 +93,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     diceAnimationDuration: number;
     protected gameTitle = SabaConfigs.games.BigSmall.name;
 
-    protected readonly choices = ["small", "big"];
+    readonly choices = ["small", "big"];
 
     initMiniPanel(miniPanel: MiniPanel) {
         this.init("taixiu", new BigSmallConfigs(), miniPanel);
@@ -211,6 +211,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                 if (this.statistic && this.statistic.node && this.statistic.node.isValid) {
                     this.statistic.updateStatistic(this.currentDataLogs);
                 }
+
+                const currentStatusData = this.statusHandler.currentStatusData;
+                currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
             })
             .start();
     }

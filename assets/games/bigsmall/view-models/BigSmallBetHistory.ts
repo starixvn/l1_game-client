@@ -1,4 +1,3 @@
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
 import { getStringDateByTime } from './../../../common/helpers/DateTimeHelper';
 import BigSmall from './BigSmall';
 import BigSmallBetHistoryItem from './BigSmallBetHistoryItem';
@@ -95,39 +94,56 @@ export default class BigSmallBetHistory extends cc.Component {
     onData(data: any) {
         this.resetData();
 
-        const { id, time, result } = data;
+        const { id, time, result, total, settlementResult } = data;
+        const leftChoice = total[this.main.choices[1]];
+        const rightChoice = total[this.main.choices[0]];
+        const big = data[this.main.choices[1]];
+        const small = data[this.main.choices[0]];
+        let leftBetAmount = 0;
+        let rightBetAmount = 0;
+        let leftRefund = 0;
+        let rightRefund = 0;
+
+        this.roundId = id;
         this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
         this.nextButton.active = this.main.currentDataLogs[0].roundId > id;
 
-        this.updateChoicesData(data);
-        this.updateDotsResult(result);
-    }
+        if (leftChoice) {
+            leftBetAmount = leftChoice.betAmount;
+            leftRefund = leftChoice.refund;
+        }
 
-    updateChoicesData(data) {
-        const { total, big, small, settlementResult } = data;
+        if (rightChoice) {
+            rightBetAmount = rightChoice.betAmount;
+            rightRefund = rightChoice.refund;
+        }
 
-        this.leftBetAmount.string = numberWithCommas(total?.big?.betAmount ?? 0);
-        this.leftRefundAmount.string = numberWithCommas(total?.big?.refund ?? 0);
-        this.rightBetAmount.string = numberWithCommas(total?.small?.betAmount ?? 0);
-        this.rightRefundAmount.string = numberWithCommas(total?.small?.refund ?? 0);
+        this.leftBetAmount.string = leftBetAmount.toString();
+        this.rightBetAmount.string = rightBetAmount.toString();
 
-        this.leftResultNode.opacity = settlementResult?.big ? 255 : 100;
-        this.rightResultNode.opacity = settlementResult?.small ? 255 : 100;
+        this.leftRefundAmount.string = leftRefund.toString();
+        this.rightRefundAmount.string = rightRefund.toString();
 
-        if (big.length) {
+        this.leftResultNode.opacity = settlementResult[this.main.choices[1]] ? 255 : 100;
+        this.rightResultNode.opacity = settlementResult[this.main.choices[0]] ? 255 : 100;
+
+        if (big) {
             big.forEach((user) => {
                 const item = this.addItem(user);
                 this.leftContent.addChild(item);
             });
         }
 
-        if (small.length) {
+        if (small) {
             small.forEach((user) => {
                 const item = this.addItem(user);
                 this.rightContent.addChild(item);
             });
         }
+        this.updateDotsResult(result);
     }
+
+    updateChoicesData(data) {}
 
     updateDotsResult(result: any) {
         Object.keys(result).forEach((key, index) => {

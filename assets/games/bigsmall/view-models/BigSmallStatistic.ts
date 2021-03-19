@@ -1,3 +1,5 @@
+import _ = require('lodash');
+
 import ItemContentMenu from '../../../common/helpers/Menu/ItemContentMenu';
 
 const { ccclass, property } = cc._decorator;
@@ -87,14 +89,10 @@ export default class BigSmallStatistic extends cc.Component {
     public gameTitle = "";
     protected dataLogs;
     protected readonly betTypes = ["big", "small"];
+    protected activeTab = "result";
 
     init(dataLogs: any) {
-        this.dataLogs = dataLogs;
-
-        // expect 99 result;
-        if (this.dataLogs.length > 99) {
-            this.dataLogs.pop();
-        }
+        this.dataLogs = dataLogs.length > 89 ? _.slice(dataLogs, 0, 89) : dataLogs;
     }
 
     onLoad() {
@@ -113,7 +111,10 @@ export default class BigSmallStatistic extends cc.Component {
         this.init(dataLogs);
         this.showResultDots();
         this.drawLinePaintInChart(this.dataLogs);
-        this.showPointsStatistic();
+
+        if (this.activeTab !== "result") {
+            this.calculatePointsStatistic();
+        }
     }
 
     showResultDots() {
@@ -129,18 +130,17 @@ export default class BigSmallStatistic extends cc.Component {
     }
 
     calculateResultStatistic() {
-        let bigStats = 0;
+        let leftStats = 0;
 
         this.dataLogs.forEach((log) => {
             if (log.settlementResult[this.betTypes[0]]) {
-                bigStats += 1;
+                leftStats += 1;
             }
         });
-
-        this.updateBigSmallAmountStatistic(bigStats, this.dataLogs.length - bigStats);
+        this.updateLeftRightAmountStatistic(leftStats, this.dataLogs.length - leftStats);
     }
 
-    updateBigSmallAmountStatistic(leftValue: number, rightValue: number) {
+    updateLeftRightAmountStatistic(leftValue: number, rightValue: number) {
         this.leftAmountStatistic.string = leftValue.toString();
         this.rightAmountStatistic.string = rightValue.toString();
     }
@@ -150,6 +150,7 @@ export default class BigSmallStatistic extends cc.Component {
             const menuComponent = header.getComponent(ItemContentMenu);
 
             if (header.name === name) {
+                this.activeTab = name;
                 menuComponent.select();
             } else {
                 menuComponent.unselect();
@@ -164,10 +165,10 @@ export default class BigSmallStatistic extends cc.Component {
             }
         });
 
-        name === "result" ? this.calculateResultStatistic() : this.showPointsStatistic();
+        name === "result" ? this.calculateResultStatistic() : this.calculatePointsStatistic();
     }
 
-    showPointsStatistic() {
+    calculatePointsStatistic() {
         let pointsData = [];
         let totalType: TotalType = {
             left: 0,
@@ -176,6 +177,7 @@ export default class BigSmallStatistic extends cc.Component {
 
         pointsData = this.handlePointsData(this.dataLogs, pointsData);
         const slicedPointsData = [...pointsData].reverse().slice(0, 20).reverse();
+        console.log(slicedPointsData.length);
 
         this.pointCels.children.forEach((pointCell, i) => {
             const pointsDataOfType = slicedPointsData[i];
@@ -187,7 +189,7 @@ export default class BigSmallStatistic extends cc.Component {
             }
         });
 
-        this.updateBigSmallAmountStatistic(totalType.left, totalType.right);
+        this.updateLeftRightAmountStatistic(totalType.left, totalType.right);
     }
 
     handlePointsData(logs, pointsData: any) {

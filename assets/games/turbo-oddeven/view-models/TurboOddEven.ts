@@ -1,9 +1,9 @@
 import { games } from '../../../configs/SabaConfigs';
 import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import BigSmall from '../../bigsmall/view-models/BigSmall';
+import BigSmallBetHistory from '../../bigsmall/view-models/BigSmallBetHistory';
 import TurboBigSmallTimeHandler from '../../turbo-bigsmall/view-models/handlers/TurboBigSmallTimeHandler';
 import { TurboBigSmallConfigs } from '../../turbo-bigsmall/view-models/TurboBigSmallConfigs';
-import TurboOddEvenBetHistory from './TurboOddEvenBetHistory';
 import TurboOddEvenGuide from './TurboOddEvenGuide';
 import TurboOddEvenStatistic from './TurboOddEvenStatistic';
 
@@ -13,7 +13,7 @@ const { ccclass } = cc._decorator;
 export default class TurboOddEven extends BigSmall {
     protected gameTitle = games.TurboOddEven.name;
 
-    protected readonly choices = ["odd", "even"];
+    readonly choices = ["odd", "even"];
 
     get gameId() {
         return games.TurboOddEven.id;
@@ -41,7 +41,7 @@ export default class TurboOddEven extends BigSmall {
         cc.RedT.audio.playClick();
 
         const node = cc.instantiate(this.betHistoryPrefab);
-        this.betHistory = node.getComponent(TurboOddEvenBetHistory);
+        this.betHistory = node.getComponent(BigSmallBetHistory);
         this.betHistory.gameTitle = this.gameTitle;
         this.betHistory.init(this, roundId);
         this.currentMiniPanel.node.addChild(node);
