@@ -1,0 +1,77 @@
+const configs = {
+    systemType: "SC1",
+    ssl: true,
+    serverDomainMapper: {
+        "sc1-games.sportsfun.app": "sportsfun.app"
+    },
+    serverGameEndPoints: {
+        0: {
+            //Main Server
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/main"
+        },
+        2: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/xocxoc",
+            proxyRoute: "/sedie/socket.io"
+        },
+        22: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/vipsedie",
+            proxyRoute: "/vipsedie/socket.io"
+        },
+        23: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/blackjack",
+            proxyRoute: "/blackjack/socket.io"
+        },
+        24: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/specialsedie",
+            proxyRoute: "/specialsedie/socket.io"
+        },
+        25: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/sicbo",
+            proxyRoute: "/sicbo/socket.io"
+        },
+        26: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/vipfishprawncrab",
+            proxyRoute: "/vipfishprawncrab/socket.io"
+        },
+        27: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/vipbaccarat",
+            proxyRoute: "/vipbaccarat/socket.io"
+        },
+        28: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/vipsediewar",
+            proxyRoute: "/vipsediewar/socket.io"
+        },
+        29: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/fourguardians",
+            proxyRoute: "/fourguardians/socket.io"
+        }
+    },
+    sentryUrl: "https://19b3909c434341f0b13eb3a8529e5862@sentry.sabagame.com/9",
+    gameAnalytics: {
+        clientId: "093146669bf12df12eeedd2d57ddb469",
+        secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
+    },
+    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno"
+};
+
+module.exports = configs;
