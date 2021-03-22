@@ -142,11 +142,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         if (totalWin > totalBet) {
             this.playWinningEffect(this.main, this.main.userAvatar.node.parent, 5);
         }
-        cc.RedT.send({
-            user: {
-                updateCoin: true
-            }
-        });
+        this.main.updateUserBalance();
     }
     handleHandAction(hand: any, betAmount: any, index: number) {
         const winAmount = +hand.betwin - betAmount;

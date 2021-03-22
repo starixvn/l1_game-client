@@ -1,6 +1,6 @@
-import { lazyInject } from '../../../Application';
-import { nFormatter } from '../../../common/helpers/NumberHelper';
-import BetBoardConfig from './BetBoardConfig';
+import { lazyInject } from "../../../Application";
+import { nFormatter } from "../../../common/helpers/NumberHelper";
+import BetBoardConfig from "./BetBoardConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,12 +22,12 @@ export default class BetBoard extends cc.Component {
     @lazyInject(BetBoardConfig)
     private readonly config: BetBoardConfig;
 
-    public info: BetInfo = null;
+    public info: any = null;
 
     public callback = {
-        acceptedBet: (info: BetInfo) => {},
-        changedBet: (info: BetInfo) => {},
-        cancel: (info: BetInfo) => {},
+        acceptedBet: (info: any) => {},
+        changedBet: (info: any) => {},
+        cancel: (info: any) => {},
         getPreset: () => 0
     };
 
@@ -58,7 +58,17 @@ export default class BetBoard extends cc.Component {
 
     public onAcceptBet() {
         cc.RedT.audio.playClick();
-        this.callback.acceptedBet(this.info);
+        if (this.checkBetLimit()) {
+            this.callback.acceptedBet(this.info);
+            this.closeBoard();
+        }
+    }
+
+    protected checkBetLimit(): boolean {
+        return true;
+    }
+
+    protected closeBoard() {
         this.node.active = false;
         this.info = null;
     }
@@ -75,12 +85,11 @@ export default class BetBoard extends cc.Component {
     }
 
     public close() {
-        this.node.active = false;
         this.info && this.callback.cancel(this.info);
-        this.info = null;
+        this.closeBoard();
     }
 
-    public show(info: BetInfo) {
+    public show(info: any) {
         if (this.info) {
             if (info.choice === this.info.choice) {
                 return;
@@ -103,7 +112,7 @@ export default class BetBoard extends cc.Component {
         this.betChanged();
     }
 
-    private betChanged() {
+    protected betChanged() {
         this.callback.changedBet(this.info);
         this.okButton.interactable = this.info.bet > 0;
     }
