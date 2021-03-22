@@ -126,7 +126,7 @@ export default class BigSmallStatistic extends cc.Component {
                 return;
             }
             const component = dot.getComponent(cc.Sprite);
-            component.spriteFrame = this.dataLogs[index].settlementResult.big ? this.blackDot : this.whiteDot;
+            component.spriteFrame = this.dataLogs[index].settlementResult[this.betTypes[0]] ? this.blackDot : this.whiteDot;
         });
     }
 
