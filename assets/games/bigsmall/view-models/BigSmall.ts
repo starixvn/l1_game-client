@@ -183,6 +183,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                     this.diceAnimation.node.active = true;
                     this.diceContainer.active = false;
                     this.diceAnimation.play();
+
+                    const currentStatusData = this.statusHandler.currentStatusData;
+                    currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
                 })
                 .delay(this.diceAnimationDuration)
                 .call(() => {
@@ -211,9 +214,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                 if (this.statistic && this.statistic.node && this.statistic.node.isValid) {
                     this.statistic.updateStatistic(this.currentDataLogs);
                 }
-
-                const currentStatusData = this.statusHandler.currentStatusData;
-                currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
             })
             .start();
     }
