@@ -1,3 +1,4 @@
+import { numberWithCommas } from '../../../common/helpers/NumberHelper';
 import { getStringDateByTime } from './../../../common/helpers/DateTimeHelper';
 import BigSmall from './BigSmall';
 import BigSmallBetHistoryItem from './BigSmallBetHistoryItem';
@@ -118,11 +119,11 @@ export default class BigSmallBetHistory extends cc.Component {
             rightRefund = rightChoice.refund;
         }
 
-        this.leftBetAmount.string = leftBetAmount.toString();
-        this.rightBetAmount.string = rightBetAmount.toString();
+        this.leftBetAmount.string = numberWithCommas(leftBetAmount);
+        this.rightBetAmount.string = numberWithCommas(rightBetAmount);
 
-        this.leftRefundAmount.string = leftRefund.toString();
-        this.rightRefundAmount.string = rightRefund.toString();
+        this.leftRefundAmount.string = numberWithCommas(leftRefund);
+        this.rightRefundAmount.string = numberWithCommas(rightRefund);
 
         this.leftResultNode.opacity = settlementResult[this.main.choices[1]] ? 255 : 100;
         this.rightResultNode.opacity = settlementResult[this.main.choices[0]] ? 255 : 100;
