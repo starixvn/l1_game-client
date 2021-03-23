@@ -21,9 +21,6 @@ export default class BauCua extends SocketIOMiniGameBase {
         return games.BauCua.id;
     }
 
-    @property(cc.Node)
-    background: cc.Node = null;
-
     @property({ type: cc.SpriteFrame })
     iconMini: cc.SpriteFrame[] = [];
 
@@ -183,6 +180,7 @@ export default class BauCua extends SocketIOMiniGameBase {
     resetDataAndUI() {
         super.resetDataAndUI();
         this.animationNode.node.active = false;
+        this.node.stopAllActions();
     }
 
     resetUIBetItems() {
@@ -196,6 +194,8 @@ export default class BauCua extends SocketIOMiniGameBase {
             const { result, settlementResult } = this.currentDataLogs[0];
             this.betItems.forEach((betItem: BauCuaBetItem) => {
                 const choice = betItem.node.name;
+                betItem.updateHighlight(false);
+                betItem.hideBetChoiceXTimes();
                 betItem.setHighlight(settlementResult[choice], type);
 
                 if (_.keys(vipFishPrawnCrabConstants.resultMapper).indexOf(choice) >= 0) {
