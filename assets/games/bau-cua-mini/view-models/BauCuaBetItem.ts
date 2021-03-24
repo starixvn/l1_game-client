@@ -32,7 +32,7 @@ export default class BauCuaBetItem extends BetItem {
         this.highlight.active = show;
     }
 
-    hideBetChoiceXTimes() {
+    hideXTimesResult() {
         this.xSprite.node.active = false;
     }
 }
