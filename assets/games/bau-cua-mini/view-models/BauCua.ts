@@ -82,10 +82,6 @@ export default class BauCua extends SocketIOMiniGameBase {
     private historyComponent: BauCuaHistory;
 
     onLoad() {
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
-
         super.onLoad();
         this.logNode.active = false;
     }

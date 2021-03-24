@@ -1,6 +1,7 @@
-import { lazyInject } from "../../Application";
-import SocketIOController from "../../SocketIOController";
-import GameBase from "./GameBase";
+import { lazyInject } from '../../Application';
+import DraggableItem from '../../common/draggable-layout/view-models/DraggableItem';
+import SocketIOController from '../../SocketIOController';
+import GameBase from './GameBase';
 
 export default abstract class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
@@ -8,6 +9,19 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
     public socket: SocketIOClient.Socket;
     abstract get gameId(): number;
+
+    onLoad() {
+        super.onLoad();
+
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
+
+        const draggableItem = this.getComponent(DraggableItem);
+        draggableItem.touchCallback.start = (node) => {
+            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+        };
+    }
 
     startGame() {
         super.startGame();

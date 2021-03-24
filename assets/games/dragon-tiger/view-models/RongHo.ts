@@ -111,9 +111,6 @@ export default class RongHo extends SocketIOMiniGameBase {
     }
 
     onLoad() {
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
         super.onLoad();
         const condition = () => {
             return (
