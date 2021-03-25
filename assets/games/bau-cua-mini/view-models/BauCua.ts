@@ -12,6 +12,7 @@ import BauCuaLogItems from './BauCuaLogItems';
 import BauCuaOddItem from './BauCuaOddItem';
 import BauCuaFinishHandler from './handlers/BauCuaFinishHandler';
 import BauCuaLogsHandler from './handlers/BauCuaLogsHandler';
+import BauCuaTimeHandler from './handlers/BauCuaTimeHandler';
 
 const { ccclass, property } = cc._decorator;
 
@@ -108,6 +109,7 @@ export default class BauCua extends SocketIOMiniGameBase {
         super.initHandlers();
         this.finishHandler = new BauCuaFinishHandler(this);
         this.logsHandler = new BauCuaLogsHandler(this);
+        this.timeHandler = new BauCuaTimeHandler(this);
     }
 
     addLogs() {
@@ -176,8 +178,15 @@ export default class BauCua extends SocketIOMiniGameBase {
     resetDataAndUI() {
         super.resetDataAndUI();
         this.animationNode.node.active = false;
+        this.hideAllDices();
         this.node.stopAllActions();
         this.resetXTimesResult();
+    }
+
+    hideAllDices() {
+        this.dices.forEach((dice) => {
+            dice.node.active = false;
+        });
     }
 
     resetXTimesResult() {
