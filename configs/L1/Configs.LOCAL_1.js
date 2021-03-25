@@ -107,6 +107,18 @@ const configs = {
             port: 7001,
             path: "/user/vipbaccarat",
             proxyRoute: "/vipbaccarat/socket.io"
+        },
+        28: {
+            subDomain: "haproxy",
+            port: 7002,
+            path: "/user/vipsediewar",
+            proxyRoute: "/vipsediewar/socket.io"
+        },
+        29: {
+            subDomain: "haproxy",
+            port: 7002,
+            path: "/user/fourguardians",
+            proxyRoute: "/fourguardians/socket.io"
         }
     },
     sentryUrl: "https://fa56ea3af2784789a971ee09e84b57df@sentryuat.sabagame.com/185",
