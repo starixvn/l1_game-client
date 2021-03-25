@@ -5,6 +5,7 @@ import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
 import SocketIOMiniGameBase from '../../_base/SocketIOMiniGameBase';
 import GameLogControlBase from '../../_base/view-models/GameLogControlBase';
 import RHFinishDataHandler from './handlers/RHFinishDataHandler';
+import RHGameTimeHandler from './handlers/RHGameTimeHandler';
 import RHLogsDataHandler from './handlers/RHLogsDataHandler';
 import RongHoHistory from './history/RongHoHistory';
 import RHRoundResultItem from './RHRoundResultItem';
@@ -143,12 +144,12 @@ export default class RongHo extends SocketIOMiniGameBase {
 
         this.logsHandler = new RHLogsDataHandler(this);
         this.finishHandler = new RHFinishDataHandler(this);
+        this.timeHandler = new RHGameTimeHandler(this);
     }
 
     resetDataAndUI() {
         super.resetDataAndUI();
         this.resultFrame.active = false;
-        this.frontCardNodes.forEach((card) => (card.active = false));
         this.cardBacks.forEach((back) => (back.node.scale = 1));
         this.drawAnimation.stop();
         this.resultAnimation.stop();
@@ -299,6 +300,7 @@ export default class RongHo extends SocketIOMiniGameBase {
     }
 
     public playDrawAnimation() {
+        this.showResult(false);
         this.drawAnimation.play();
         this.audioDrawCard.setCurrentTime(0.2);
         this.audioDrawCard.play();

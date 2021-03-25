@@ -1,5 +1,5 @@
-import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
-import RongHo from "../RongHo";
+import GameBaseTimeHandler from '../../../_base/handlers/GameBaseTimeHandler';
+import RongHo from '../RongHo';
 
 export default class RHGameTimeHandler extends GameBaseTimeHandler {
     constructor(protected readonly main: RongHo) {
@@ -12,6 +12,10 @@ export default class RHGameTimeHandler extends GameBaseTimeHandler {
         if (!this.main.resultAnimating) {
             this.main.showResult(true);
             this.main.resultAnimating = true;
+        }
+
+        if (this.main.currentTimeRemaining === this.main.config.betTime + 1) {
+            this.main.playDrawAnimation();
         }
     }
 
