@@ -1,5 +1,5 @@
-import MiniKeno from "../../../../games/mini-keno/view-models/MiniKeno";
-import { KenoType } from "../KenoUtils";
+import MiniKeno from '../../../../games/mini-keno/view-models/MiniKeno';
+import { KenoType } from '../KenoUtils';
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,7 +32,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
         this.miniKeno = miniKeno;
         this.gameName.spriteFrame = this.nameFrames[this.miniKeno.kenoType];
         const dict = {
-            ProViet: 0,
             Max: 1,
             Max2: 1,
             Mini: 2,
@@ -58,7 +57,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
     receivedData(data) {
         const dataGame = data[this.miniKeno.gameName];
         if (dataGame) {
-            if (dataGame.um && this.miniKeno.kenoType !== KenoType.ProViet) {
+            if (dataGame.um) {
                 this.currentTimeRemaining = this.miniKeno.config.betTime;
                 this.unschedule(this.updateTime);
                 this.updateImage();

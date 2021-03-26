@@ -57,7 +57,7 @@ export default class KenoProViet extends cc.Component {
 
     private selectedIndex = 0;
     private childList: cc.Node[] = [];
-    private readonly allGames = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+    private readonly allGames = [1, 2, 3, 4, 5, 6, 7, 8];
     private favouriteGames = [];
     private sortedGames = [];
     private readonly miniKenos: MiniKeno[] = [];
@@ -88,7 +88,7 @@ export default class KenoProViet extends cc.Component {
         const otherGames = _.difference(this.allGames, this.favouriteGames);
         this.sortedGames = [...this.favouriteGames, ...otherGames];
         this.sortedGames.forEach((type, index) => {
-            const node = cc.instantiate(type === 0 ? this.kenoProVietPrefab : this.kenoPrefab);
+            const node = cc.instantiate(this.kenoPrefab);
             const keno = node.getComponent(MiniKeno);
             keno.kenoType = type;
             keno.favourite.isChecked = index < this.favouriteGames.length;

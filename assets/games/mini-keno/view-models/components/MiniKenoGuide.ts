@@ -1,4 +1,4 @@
-import { numberWithCommas } from "./../../../../common/helpers/NumberHelper";
+import { numberWithCommas } from './../../../../common/helpers/NumberHelper';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -13,9 +13,6 @@ export default class MiniKenoGuide extends cc.Component {
     title: cc.Label = null;
 
     @property({ type: cc.Label })
-    kenoProVietReplaceNodes: cc.Label[] = [];
-
-    @property({ type: cc.Label })
     kenoMaxReplaceNodes: cc.Label[] = [];
 
     @property({ type: cc.Label })
@@ -24,12 +21,11 @@ export default class MiniKenoGuide extends cc.Component {
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
-    private readonly kenoProVietGameName = "kenoProViet";
     private readonly kenoMaxGameName = "kenoMax";
     private readonly kenoMiniGameName = "kenoMini";
-    private readonly mainGameGuides = [this.kenoProVietGameName, this.kenoMaxGameName, this.kenoMiniGameName];
+    private readonly mainGameGuides = [this.kenoMaxGameName, this.kenoMiniGameName];
 
-    private gameName = this.kenoProVietGameName;
+    private gameName = this.kenoMaxGameName;
 
     onLoad() {
         this.select(this.gameName);
@@ -68,10 +64,6 @@ export default class MiniKenoGuide extends cc.Component {
         };
 
         switch (this.gameName) {
-            case this.kenoProVietGameName:
-                this.setLabelString(this.kenoProVietReplaceNodes, replaceData);
-
-                break;
             case this.kenoMaxGameName:
                 this.setLabelString(this.kenoMaxReplaceNodes, replaceData);
 
