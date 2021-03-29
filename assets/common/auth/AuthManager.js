@@ -81,7 +81,7 @@ export function checkSSO(labelMessage, onSuccessFunc) {
                 }
             })
             .catch((error) => {
-                labelMessage.string = "Đăng nhập lỗi.";
+                labelMessage.string = "Mất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.";
                 sentryLogger.logError(error);
             });
 
