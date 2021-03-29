@@ -1,15 +1,15 @@
-import { appContainer } from '../../../Application';
-import baseControll from '../../../BaseController';
-import GameUtils from '../../../common/GameUtils';
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import logger from '../../../common/logger';
-import * as SabaConfigs from '../../../configs/SabaConfigs';
-import FourGuardiansConfig from '../../../games/four-guardians/scripts/FourGuardiansConfig';
-import LobbyMenuConfig from '../../../lobby/main/view-models/LobbyMenuConfig';
-import SocketIOController from '../../../SocketIOController';
-import SplashConfig from '../../../splash/view-models/SplashConfig';
-import * as authManager from './../../../common/auth/AuthManager';
-import * as sessionManager from './../../../common/auth/SessionManager';
+import { appContainer } from "../../../Application";
+import baseControll from "../../../BaseController";
+import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import logger from "../../../common/logger";
+import * as SabaConfigs from "../../../configs/SabaConfigs";
+import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
+import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
+import SocketIOController from "../../../SocketIOController";
+import SplashConfig from "../../../splash/view-models/SplashConfig";
+import * as authManager from "./../../../common/auth/AuthManager";
+import * as sessionManager from "./../../../common/auth/SessionManager";
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -437,7 +437,7 @@ cc.Class({
     AllReset: function () {
         this.loading.active = false;
         this.newsContents.reset();
-        this.header.isSignOut();
+        //this.header.isSignOut();
         this.dialog.onCloseDialog();
     },
 
