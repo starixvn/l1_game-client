@@ -438,7 +438,7 @@ cc.Class({
         this.loading.active = false;
         this.newsContents.reset();
         //this.header.isSignOut();
-        this.dialog.onCloseDialog();
+        //this.dialog.onCloseDialog();
     },
 
     playMusic: function () {

@@ -1,7 +1,7 @@
-import { buildServerUrl } from './common/helpers/UrlHelper';
-import logger from './common/logger';
-import configs from './configs/Configs';
-import LobbyMenuConfig from './lobby/main/view-models/LobbyMenuConfig';
+import { buildServerUrl } from "./common/helpers/UrlHelper";
+import logger from "./common/logger";
+import configs from "./configs/Configs";
+import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
 
 const sentryLogger = logger();
 
@@ -83,9 +83,10 @@ module.exports = {
         if (cc.RedT.inGame) {
             if (cc.RedT.IS_LOGIN) {
                 cc.RedT.inGame.onDisconnected();
-            } else if (cc.RedT.inGame.dialog) {
-                cc.RedT.inGame.dialog.onCloseDialog();
             }
+            // else if (cc.RedT.inGame.dialog) {
+            //     cc.RedT.inGame.dialog.onCloseDialog();
+            // }
         }
         cc.RedT.reconnect();
     },

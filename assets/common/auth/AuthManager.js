@@ -195,6 +195,7 @@ export function reCheckIn() {
                         } else {
                             if (cc.RedT.user) {
                                 cc.RedT.user.red = response.balance;
+                                cc.RedT.inGame.loadUserData(cc.RedT.user);
                             }
                         }
                     } else {
