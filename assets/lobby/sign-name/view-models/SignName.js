@@ -1,4 +1,4 @@
-import UserService from '../../../common/auth/UserService';
+import UserService from "../../../common/auth/UserService";
 
 var BrowserUtil = require("BrowserUtil");
 const NameGenerator = require("../../../common/name-generator/NameGenerator");
@@ -97,7 +97,7 @@ cc.Class({
             //Ricky: Client SignName
             //cc.RedT.send({ signName: this.username.string });
             const authData = window.authData;
-            UserService.getInstance().signName(authData.ss, authData.username, this.username.string).then(this.onSuccessFunc);
+            UserService.getInstance().auth.signName(authData.ss, authData.username, this.username.string).then(this.onSuccessFunc);
         }
     },
 

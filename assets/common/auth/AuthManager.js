@@ -66,7 +66,7 @@ export function checkSSO(labelMessage, onSuccessFunc) {
 
     if (urlParams.has("token")) {
         UserService.getInstance()
-            .sso(urlParams.get("token"))
+            .auth.sso(urlParams.get("token"))
             .then((response) => {
                 if (response.isAuthenticated) {
                     window.authData = response;
@@ -114,7 +114,7 @@ let autoTriggerSignInTimeout = null;
 export function triggerSignIn(main) {
     if (!!window.authData) {
         UserService.getInstance()
-            .authorize(window.authData.ss, window.authData.username)
+            .auth.authorize(window.authData.ss, window.authData.username)
             .then((response) => {
                 if (response.user) {
                     main.handleUserData(response.user);
@@ -173,7 +173,7 @@ export function reCheckIn() {
             signOut();
         } else {
             UserService.getInstance()
-                .reCheckIn(session.ss, session.username)
+                .auth.reCheckIn(session.ss, session.username)
                 .then((response) => {
                     if (response.isSuccessful) {
                         session.time = new Date();
