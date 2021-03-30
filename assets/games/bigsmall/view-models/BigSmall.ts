@@ -1,19 +1,19 @@
-import { games } from '../../../configs/SabaConfigs';
-import SabaConfigs = require('../../../configs/SabaConfigs');
-import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import BalancedBettingPoolGameBase from '../../_base/BalancedBettingPoolGameBase';
-import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
-import BigSmallBetHistory from './BigSmallBetHistory';
-import { BigSmallConfigs } from './BigSmallConfigs';
-import BigSmallGuide from './BigSmallGuide';
-import BigSmallHistory from './BigSmallHistory';
-import BigSmallMiniRoundHistory from './BigSmallMiniRoundHistory';
-import BigSmallStatistic from './BigSmallStatistic';
-import BigSmallBetHandler from './handlers/BigSmallBetHandler';
-import BigSmallFinishHandler from './handlers/BigSmallFinishHandler';
-import BigSmallLogsHandler from './handlers/BigSmallLogsHandler';
-import BigSmallStatusHandler from './handlers/BigSmallStatusHandler';
-import BigSmallTimeHandler from './handlers/BigSmallTimeHandler';
+import { games } from "../../../configs/SabaConfigs";
+import SabaConfigs = require("../../../configs/SabaConfigs");
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import BigSmallBetHistory from "./BigSmallBetHistory";
+import { BigSmallConfigs } from "./BigSmallConfigs";
+import BigSmallGuide from "./BigSmallGuide";
+import BigSmallHistory from "./BigSmallHistory";
+import BigSmallMiniRoundHistory from "./BigSmallMiniRoundHistory";
+import BigSmallStatistic from "./BigSmallStatistic";
+import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
+import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
+import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
+import BigSmallStatusHandler from "./handlers/BigSmallStatusHandler";
+import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -263,6 +263,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     resetDataAndUI() {
         super.resetDataAndUI();
         this.statusHandler.currentStatusData = null;
+        this.diceAnimation.stop();
+        this.diceAnimation.node.active = false;
         this.diceContainer.active = false;
         this.resultNode.active = false;
         this.node.stopAllActions();
