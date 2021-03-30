@@ -14,7 +14,7 @@ const configs = {
         },
         1: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/taixiu",
             proxyRoute: "/bigsmall/socket.io"
         },
@@ -26,49 +26,49 @@ const configs = {
         },
         3: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/baucua",
             proxyRoute: "/fishprawncrab/socket.io"
         },
         4: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/txturbo",
             proxyRoute: "/turbobigsmall/socket.io"
         },
         6: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/oeturbo",
             proxyRoute: "/turbooddeven/socket.io"
         },
         7: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/dragontiger",
             proxyRoute: "/dragontiger/socket.io"
         },
         8: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/kenopromax",
             proxyRoute: "/kenopromax/socket.io"
         },
         9: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/minisedie",
             proxyRoute: "/minisedie/socket.io"
         },
         10: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/baccarat",
             proxyRoute: "/baccarat/socket.io"
         },
         21: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/roulette",
             proxyRoute: "/roulette/socket.io"
         },
@@ -110,13 +110,13 @@ const configs = {
         },
         28: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/vipsediewar",
             proxyRoute: "/vipsediewar/socket.io"
         },
         29: {
             subDomain: "haproxy",
-            port: 7002,
+            port: 7001,
             path: "/user/fourguardians",
             proxyRoute: "/fourguardians/socket.io"
         }
