@@ -10,6 +10,7 @@ export default class BauCuaLogsHandler extends GameBaseLogsHandler {
         this.main.addLogs();
         this.main.highlightWinningBetItems(false);
         this.main.resetUIBetItems();
+        this.main.resetXTimesResult();
         if (!this.main.finishShowResult) {
             this.main.setDiceResult();
             this.main.animationNode.node.active = true;
