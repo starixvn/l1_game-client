@@ -15,7 +15,7 @@ const configs = {
         },
         1: {
             subDomain: "haproxy",
-            port: "7001",
+            port: "7100",
             path: "/user/taixiu",
             proxyRoute: "/bigsmall/socket.io"
         },
@@ -27,37 +27,37 @@ const configs = {
         },
         3: {
             subDomain: "haproxy",
-            port: "7001",
+            port: "7100",
             path: "/user/baucua",
             proxyRoute: "/fishprawncrab/socket.io"
         },
         7: {
             subDomain: "haproxy",
-            port: "7001",
+            port: "7100",
             path: "/user/dragontiger",
             proxyRoute: "/dragontiger/socket.io"
         },
         8: {
             subDomain: "haproxy",
-            port: "7001",
+            port: "7100",
             path: "/user/kenopromax",
             proxyRoute: "/kenopromax/socket.io"
         },
         9: {
             subDomain: "haproxy",
-            port: "7001",
+            port: "7100",
             path: "/user/minisedie",
             proxyRoute: "/minisedie/socket.io"
         },
         10: {
             subDomain: "haproxy",
-            port: "7001",
+            port: "7100",
             path: "/user/baccarat",
             proxyRoute: "/baccarat/socket.io"
         },
         21: {
             subDomain: "haproxy",
-            port: "7001",
+            port: "7100",
             path: "/user/roulette",
             proxyRoute: "/roulette/socket.io"
         },
