@@ -116,8 +116,11 @@ export default class WebSocketTableGameBase extends GameBase {
             }
         }
 
-        if (data.apiError || apiErrorGameData) {
-            this.updateUserStakeLevel(data.apiError || apiErrorGameData);
+        if (data.apiError) {
+            this.updateUserStakeLevel(data.apiError);
+        }
+        if (apiErrorGameData) {
+            this.updateUserStakeLevel(apiErrorGameData);
         }
     }
 
@@ -231,6 +234,9 @@ export default class WebSocketTableGameBase extends GameBase {
 
         if (data.apiError) {
             this.updateUserStakeLevel(data.apiError);
+        }
+        if (data.userStakeLevel) {
+            this.updateUserStakeLevel(data.userStakeLevel);
         }
     }
 
