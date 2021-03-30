@@ -130,7 +130,15 @@ export function triggerSignIn(main) {
                     });
                 }, 500);
             })
-            .catch(sentryLogger.logError);
+            .catch((e) => {
+                sentryLogger.logError(e);
+                const session = sessionManager.getSession();
+                const isSessionExpired = verifySession(session);
+
+                if (!isSessionExpired) {
+                    main.loadLobbyMenuFromStorage();
+                }
+            });
     }
 }
 

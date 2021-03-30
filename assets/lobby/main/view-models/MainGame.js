@@ -129,7 +129,7 @@ cc.Class({
             this.initLobby();
         }
     },
-    onSocketError() {
+    loadLobbyMenuFromStorage() {
         if (!this.initializedLobby) {
             const storage = cc.sys.localStorage.getItem("latestOfferGames");
             if (storage) {
@@ -137,6 +137,9 @@ cc.Class({
             }
             this.initLobby();
         }
+    },
+    onSocketError() {
+        this.loadLobbyMenuFromStorage();
     },
     initLobby() {
         this.initLobbyMenu();
