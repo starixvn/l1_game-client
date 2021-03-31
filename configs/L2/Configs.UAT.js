@@ -111,7 +111,8 @@ const configs = {
         }
     },
     sentryUrl: "https://7c448e6d62e14af6a041086f23642377@sentryuat.sabagame.com/49",
-    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno"
+    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
+    userServiceUrl: "https://uatproxy.sabagame.net/uat/user"
 };
 
 module.exports = configs;

@@ -111,7 +111,8 @@ const configs = {
         }
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    sentryUrl: "https://4c2b6824d6ed41f291540878d9c76181@sentryuat.sabagame.com/50"
+    sentryUrl: "https://4c2b6824d6ed41f291540878d9c76181@sentryuat.sabagame.com/50",
+    userServiceUrl: "http://haproxy.lumigame.com:7100/user"
 };
 
 module.exports = configs;
