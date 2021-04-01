@@ -65,7 +65,7 @@ const configs = {
             path: "/user/baccarat",
             proxyRoute: "/sit/baccarat/socket.io"
         },
-        22: {
+        21: {
             subDomain: "uatproxy",
             port: "",
             path: "/user/roulette",

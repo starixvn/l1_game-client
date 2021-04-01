@@ -11,11 +11,65 @@ const configs = {
             port: "",
             path: "/main"
         },
+        1: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/taixiu",
+            proxyRoute: "/bigsmall/socket.io"
+        },
         2: {
             subDomain: "sc1-proxy",
             port: "",
             path: "/user/xocxoc",
             proxyRoute: "/sedie/socket.io"
+        },
+        3: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/baucua",
+            proxyRoute: "/fishprawncrab/socket.io"
+        },
+        4: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/txturbo",
+            proxyRoute: "/turbobigsmall/socket.io"
+        },
+        6: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/oeturbo",
+            proxyRoute: "/turbooddeven/socket.io"
+        },
+        7: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/dragontiger",
+            proxyRoute: "/dragontiger/socket.io"
+        },
+        8: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/kenopromax",
+            proxyRoute: "/kenopromax/socket.io"
+        },
+        9: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/minisedie",
+            proxyRoute: "/minisedie/socket.io"
+        },
+        10: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/baccarat",
+            proxyRoute: "/baccarat/socket.io"
+        },
+        21: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/roulette",
+            proxyRoute: "/socket.io"
         },
         22: {
             subDomain: "sc1-proxy",
