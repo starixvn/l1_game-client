@@ -75,7 +75,7 @@ const configs = {
             subDomain: "sc1-proxy",
             port: "",
             path: "/user/vipsedie",
-            proxyRoute: "/vipsedie/socket.io"
+            proxyRoute: "/vsedie/socket.io"
         },
         23: {
             subDomain: "sc1-proxy",
