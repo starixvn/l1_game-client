@@ -102,6 +102,13 @@ cc.Class({
         if (authManager && !cc.RedT.IS_LOGIN && !this.inRoomGameId) {
             authManager.triggerSignIn(this);
         } else {
+            !!window.authData &&
+                authManager.auth({
+                    authentication: {
+                        username: window.authData.username,
+                        data: window.authData
+                    }
+                });
             !window.openGameId && this.openInRoomGame(this.inRoomGameId);
         }
 
