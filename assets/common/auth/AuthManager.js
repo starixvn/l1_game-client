@@ -109,6 +109,8 @@ export function signOut() {
     sessionManager.removeSession();
 }
 
+let autoTriggerSignInTimeout = null;
+
 export function triggerSignIn(main) {
     if (!!window.authData) {
         UserService.getInstance()
@@ -118,12 +120,14 @@ export function triggerSignIn(main) {
                     main.handleUserData(response.user);
                 }
                 main.Authorized(response.authorized);
-                this.auth({
-                    authentication: {
-                        username: window.authData.username,
-                        data: window.authData
-                    }
-                });
+                autoTriggerSignInTimeout = setTimeout(() => {
+                    this.auth({
+                        authentication: {
+                            username: window.authData.username,
+                            data: window.authData
+                        }
+                    });
+                }, 500);
             })
             .catch((e) => {
                 sentryLogger.logError(e);
