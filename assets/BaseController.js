@@ -92,7 +92,7 @@ module.exports = {
     },
     _onSocketError: function (message) {
         cc.RedT.isConnected = false;
-        cc.RedT.inGame.onSocketError && cc.RedT.inGame.onSocketError();
+        cc.RedT.inGame && cc.RedT.inGame.onSocketError && cc.RedT.inGame.onSocketError();
     },
     _onSocketData: function (message) {
         var data = message.data;
