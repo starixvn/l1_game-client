@@ -15,7 +15,7 @@ const configs = {
             path: "/main"
         },
         1: {
-            subDomain: "haproxy",
+            subDomain: "proxy",
             port: "",
             path: "/user/taixiu",
             proxyRoute: "/bigsmall/socket.io"
