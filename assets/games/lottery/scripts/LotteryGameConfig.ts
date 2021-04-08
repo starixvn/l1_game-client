@@ -2,8 +2,8 @@ import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 
 export default class LotteryGameConfig implements GameConfigBase {
     minBetTime = 1;
-    fullTime = 52;
+    fullTime = 50;
     betTime = 45;
     stopBetTime = 5;
-    waitTime = 7;
+    waitTime = 5;
 }
