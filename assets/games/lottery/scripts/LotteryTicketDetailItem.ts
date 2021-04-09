@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import LotteryHelper from "./LotteryHelper";
@@ -42,10 +43,12 @@ export default class LotteryTicketDetailItem extends cc.Component {
                 const winCount = LotteryHelper.getWinOnChoice(choiceKey, choiceValue, settlementResult);
                 const bet = numberWithCommas(values[choiceValue]);
                 const ratio = winCount > 1 ? `${odds[choiceKey]} (x${winCount})` : `${odds[choiceKey]}`;
-                const win = numberWithCommas(odds[choiceKey] * winCount * values[choiceValue]);
+                const winAmount = odds[choiceKey] * winCount * values[choiceValue];
+                const win = numberWithCommas(winAmount);
+                const isOthers = choiceKey === "others";
                 const choiceDetail = {
                     type: LotteryHelper.getNameChoiceKey(choiceKey),
-                    choice: choiceValue,
+                    choice: isOthers ? GameUtils.getBetChoiceString(choiceValue) : choiceValue,
                     ratio: ratio,
                     bet: bet,
                     win: win
@@ -56,6 +59,7 @@ export default class LotteryTicketDetailItem extends cc.Component {
                 node.active = true;
                 const subItem = node.getComponent(LotteryTicketDetailSubItem);
                 subItem.setData(choiceDetail);
+                subItem.setHighlight(winAmount > 0);
 
                 subItem.lineTop.active = index > 0;
             });

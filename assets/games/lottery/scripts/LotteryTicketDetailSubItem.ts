@@ -38,4 +38,13 @@ export default class LotteryTicketDetailSubItem extends cc.Component {
         this.bet.string = data.bet;
         this.win.string = data.win;
     }
+
+    setHighlight(highlight: boolean) {
+        const color = highlight ? cc.Color.YELLOW : cc.Color.WHITE;
+        this.type.node.color = color;
+        this.choice.node.color = color;
+        this.ratio.node.color = color;
+        this.bet.node.color = color;
+        this.win.node.color = color;
+    }
 }
