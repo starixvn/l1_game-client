@@ -12,7 +12,7 @@ export interface LotteryTicketInfo {
     maxBet: number;
     bet: number;
     selectedItems: string;
-    totalBets: any;
+    ownBets: any;
     maxBetTotal: number;
 }
 
@@ -56,20 +56,59 @@ export default class LotteryTicketConfirmation extends BetBoard {
     }
 
     protected checkBetLimit(): boolean {
-        const bet = this.getCurrentTotal();
-        const choiceKey = LotteryHelper.getNameChoiceKey(this.info.choiceType);
-        const totalPerChoice = this.info.totalBets[choiceKey];
-
-        if (bet > this.info.maxBet || bet + totalPerChoice > this.info.maxBet) {
-            this.showNotice("Tiền cược vượt mức quy định.");
+        if (this.isReachMaxBetPerChoice()) {
             return false;
         }
-        const totalBet = LotteryHelper.getTotalBet(this.info.totalBets);
-        if (bet + totalBet > this.info.maxBetTotal) {
+        const totalInputBet = this.getCurrentTotal();
+        const totalBet = this.info.ownBets.totalAmount;
+        if (totalInputBet + totalBet > this.info.maxBetTotal) {
             this.showNotice(`Tổng tiền cược tối đa của phiên này là ${numberWithCommas(this.info.maxBetTotal)}.`);
             return false;
         }
         return true;
+    }
+
+    isReachMaxBetPerChoice(): boolean {
+        const choiceKey = LotteryHelper.getChoiceTypeKey(this.info.choiceType);
+
+        const isMaxBetPerNumber =
+            this.info.choiceType === ChoiceType.Set4 ||
+            this.info.choiceType === ChoiceType.Special ||
+            this.info.choiceType === ChoiceType.Head ||
+            this.info.choiceType === ChoiceType.Tail ||
+            this.info.choiceType === ChoiceType.Set27;
+
+        if (!isMaxBetPerNumber) {
+            const totalInputBet = this.getCurrentTotal();
+            const totalPerChoice = this.info.ownBets[choiceKey];
+            if (totalInputBet > this.info.maxBet || totalInputBet + totalPerChoice > this.info.maxBet) {
+                this.showNotice("Tiền cược vượt mức quy định.");
+                return true;
+            }
+        } else {
+            const inputBet = this.info.bet;
+            const choices = this.info.selectedItems;
+            const notValidList = [];
+            choices.forEach((choice) => {
+                const choiceTotal = (this.info.ownBets[choiceKey] && this.info.ownBets[choiceKey][choice]) || 0;
+                if (+inputBet + +choiceTotal > +this.info.maxBet) {
+                    notValidList.push(choice);
+                }
+            });
+            if (notValidList.length > 0) {
+                this.showNotice(`Tiền cược trên số [${notValidList.join(", ")}] vượt mức quy định.`);
+                return true;
+            }
+        }
+    }
+
+    protected getMaxTotalBetOfChoices(choices: string[], choiceKey: string) {
+        let total = 0;
+        choices.forEach((choice) => {
+            const choiceTotal = (this.info.ownBets[choiceKey] && this.info.ownBets[choiceKey][choice]) || 0;
+            total = Math.max(total, choiceTotal);
+        });
+        return total;
     }
 
     showNotice(text: string) {

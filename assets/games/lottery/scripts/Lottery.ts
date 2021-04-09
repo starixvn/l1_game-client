@@ -86,7 +86,7 @@ export default class Lottery extends SocketIOTableGameBase {
     extraResult: LotteryExtraResult = null;
     historyComponent: LotteryHistory = null;
     ticketConfirmation: LotteryTicketConfirmation = null;
-    totalBets = {};
+    ownBets = {};
 
     constructor() {
         super();
@@ -323,7 +323,7 @@ export default class Lottery extends SocketIOTableGameBase {
             bet: 0,
             selectedItems: this.selectedItems,
             maxBetTotal: this.gameConfigs.maxbet,
-            totalBets: this.totalBets
+            ownBets: this.ownBets
         });
 
         dialog.callback.acceptedBet = this.acceptedBet.bind(this);

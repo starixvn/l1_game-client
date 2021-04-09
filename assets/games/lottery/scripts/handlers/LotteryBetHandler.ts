@@ -11,10 +11,9 @@ export default class LotteryBetHandler extends GameBaseBetHandler {
     handle(data: any): boolean {
         super.handle(data);
 
-        if (data.totalBets) {
-            this.main.totalBets = data.totalBets;
-            const total = LotteryHelper.getTotalBet(data.totalBets);
-            this.main.totalBet.string = numberWithCommas(total);
+        if (data.ownBets) {
+            this.main.ownBets = data.ownBets;
+            this.main.totalBet.string = numberWithCommas(data.ownBets.totalAmount);
         }
 
         return false;
