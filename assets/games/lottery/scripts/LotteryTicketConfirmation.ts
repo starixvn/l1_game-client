@@ -60,7 +60,7 @@ export default class LotteryTicketConfirmation extends BetBoard {
             return false;
         }
         const totalInputBet = this.getCurrentTotal();
-        const totalBet = this.info.ownBets.totalAmount;
+        const totalBet = this.info.ownBets.totalAmount || 0;
         if (totalInputBet + totalBet > this.info.maxBetTotal) {
             this.showNotice(`Tổng tiền cược tối đa của phiên này là ${numberWithCommas(this.info.maxBetTotal)}.`);
             return false;
@@ -100,6 +100,7 @@ export default class LotteryTicketConfirmation extends BetBoard {
                 return true;
             }
         }
+        return false;
     }
 
     protected getMaxTotalBetOfChoices(choices: string[], choiceKey: string) {
