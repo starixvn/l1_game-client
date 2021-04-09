@@ -221,7 +221,6 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     updateDisplaySelectedItems() {
-        this.itemLayout.updateItems(this.selectedItems, this.currentTypeIndex !== ChoiceType.Others);
         if (
             this.currentTypeIndex === ChoiceType.Parlay2 ||
             this.currentTypeIndex === ChoiceType.Parlay3 ||
@@ -229,11 +228,8 @@ export default class Lottery extends SocketIOTableGameBase {
         ) {
             this.parlayReminderLabel.node.parent.active = true;
             this.updateParlayReminderText();
-            this.itemLayout.layout.type = cc.Layout.Type.HORIZONTAL;
         } else {
             this.parlayReminderLabel.node.parent.active = false;
-            this.itemLayout.node.width = 255;
-            this.itemLayout.layout.type = cc.Layout.Type.GRID;
         }
 
         this.itemLayoutBackgrounds.forEach((bg) => (bg.active = false));
@@ -250,6 +246,11 @@ export default class Lottery extends SocketIOTableGameBase {
         }
 
         this.itemLayoutBackgrounds[backgroundIndex].active = true;
+        this.itemLayout.updateItems(
+            this.selectedItems,
+            this.currentTypeIndex !== ChoiceType.Others,
+            this.itemLayoutBackgrounds[backgroundIndex]
+        );
     }
 
     updateParlayReminderText() {

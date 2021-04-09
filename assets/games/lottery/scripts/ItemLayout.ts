@@ -6,8 +6,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class ItemLayout extends cc.Component {
-    @property(cc.Layout)
-    layout: cc.Layout = null;
+    @property(cc.Node)
+    content: cc.Node = null;
 
     @property(cc.Prefab)
     numberItemPrefab: cc.Prefab = null;
@@ -15,12 +15,14 @@ export default class ItemLayout extends cc.Component {
     @property(cc.Prefab)
     otherItemPrefab: cc.Prefab = null;
 
-    updateItems(items: string[], isNumber: boolean) {
-        this.layout.node.destroyAllChildren();
+    updateItems(items: string[], isNumber: boolean, maskContainer: cc.Node) {
+        this.content.destroyAllChildren();
         const prefab = isNumber ? this.numberItemPrefab : this.otherItemPrefab;
-        items.forEach((item) => {
+        items.forEach((item, index) => {
             const node = cc.instantiate(prefab);
-            this.layout.node.addChild(node);
+            this.content.addChild(node);
+            node.position = maskContainer.children[index].position;
+
             const label = node.getComponent(LabelItem);
             label.setValue(isNumber ? item : GameUtils.getBetChoiceString(item));
         });
