@@ -16,6 +16,7 @@ export abstract class LotteryChoicesBoard extends cc.Component {
 
     resetBoard() {
         this.unCheck();
+        this.unlockSelection();
     }
 
     initCallbackForItems() {

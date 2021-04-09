@@ -76,6 +76,9 @@ export default class Lottery extends SocketIOTableGameBase {
     @property({ type: LotteryMiniRoundHistory })
     miniRoundHistories: LotteryMiniRoundHistory[] = [];
 
+    @property({ type: cc.Node })
+    itemLayoutBackgrounds: cc.Node[] = [];
+
     lotteryTypeItems: LotteryTypeItem[] = [];
     currentTypeIndex = 0;
     selectedItems: string[] = [];
@@ -197,7 +200,7 @@ export default class Lottery extends SocketIOTableGameBase {
         }
 
         const isInBetTime = this.currentTimeRemaining > this.config.stopBetTime && this.currentTimeRemaining <= this.config.betTime;
-        this.confirmButton.interactable = available && isInBetTime;
+        this.confirmButton.interactable = available && isInBetTime && (!this.ticketConfirmation || this.ticketConfirmation.isClosed);
     }
 
     hideTicketConfirmation() {
@@ -232,6 +235,21 @@ export default class Lottery extends SocketIOTableGameBase {
             this.itemLayout.node.width = 255;
             this.itemLayout.layout.type = cc.Layout.Type.GRID;
         }
+
+        this.itemLayoutBackgrounds.forEach((bg) => (bg.active = false));
+        let backgroundIndex = 0;
+        switch (this.currentTypeIndex) {
+            case ChoiceType.Parlay2:
+            case ChoiceType.Parlay3:
+            case ChoiceType.Parlay4:
+            case ChoiceType.Others:
+                backgroundIndex = this.currentTypeIndex - ChoiceType.Parlay2 + 1;
+                break;
+            default:
+                break;
+        }
+
+        this.itemLayoutBackgrounds[backgroundIndex].active = true;
     }
 
     updateParlayReminderText() {
@@ -289,6 +307,8 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onConfirmClick() {
+        this.confirmButton.interactable = false;
+
         const node = cc.instantiate(this.confirmationPrefab);
         this.currentMiniPanel.addDialog(node);
         const dialog = node.getComponent(LotteryTicketConfirmation);
@@ -305,7 +325,7 @@ export default class Lottery extends SocketIOTableGameBase {
         });
 
         dialog.callback.acceptedBet = this.acceptedBet.bind(this);
-
+        dialog.callback.cancel = () => this.checkAvailableConfirmation();
         this.ticketConfirmation = dialog;
     }
 

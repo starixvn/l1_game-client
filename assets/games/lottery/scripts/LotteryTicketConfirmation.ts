@@ -47,6 +47,7 @@ export default class LotteryTicketConfirmation extends BetBoard {
     @property(cc.Prefab)
     noticePrefab: cc.Prefab = null;
 
+    isClosed = false;
     protected commonDialog: CommonDialog;
     onLoad() {
         super.onLoad();
@@ -56,13 +57,16 @@ export default class LotteryTicketConfirmation extends BetBoard {
 
     protected checkBetLimit(): boolean {
         const bet = this.getCurrentTotal();
-        if (bet > this.info.maxBet) {
-            this.showNotice("Tiền cược vượt mức quy định");
+        const choiceKey = LotteryHelper.getNameChoiceKey(this.info.choiceType);
+        const totalPerChoice = this.info.totalBets[choiceKey];
+
+        if (bet > this.info.maxBet || bet + totalPerChoice > this.info.maxBet) {
+            this.showNotice("Tiền cược vượt mức quy định.");
             return false;
         }
         const totalBet = LotteryHelper.getTotalBet(this.info.totalBets);
         if (bet + totalBet > this.info.maxBetTotal) {
-            this.showNotice(`Tổng tiền cược tối đa của phiên này là ${numberWithCommas(this.info.maxBetTotal)}`);
+            this.showNotice(`Tổng tiền cược tối đa của phiên này là ${numberWithCommas(this.info.maxBetTotal)}.`);
             return false;
         }
         return true;
@@ -76,6 +80,7 @@ export default class LotteryTicketConfirmation extends BetBoard {
     }
 
     protected closeBoard() {
+        this.isClosed = true;
         this.commonDialog.closeDialog();
         this.info = null;
     }
