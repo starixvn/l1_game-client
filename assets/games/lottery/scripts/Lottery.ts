@@ -318,7 +318,7 @@ export default class Lottery extends SocketIOTableGameBase {
             roundId: this.roundId,
             odds: this.gameConfigs.odds[key],
             maxBet: Math.min(this.gameConfigs.maxbet, this.gameConfigs.choices_maxbet[key]),
-            bet: this.gameConfigs.minbet,
+            bet: 0,
             selectedItems: this.selectedItems,
             maxBetTotal: this.gameConfigs.maxbet,
             totalBets: this.totalBets
@@ -414,15 +414,16 @@ export default class Lottery extends SocketIOTableGameBase {
         const result = {};
         for (let i = 0; i < 10; i++) {
             const key = i.toString();
+            const list = [];
             data.forEach((num) => {
                 if (num.charAt(0) === key) {
                     const secondChar = num.charAt(1);
-                    result[key] = result[key] ? [result[key], secondChar].join(",") : secondChar;
+                    list.push(secondChar);
                 }
             });
-            if (!result[key]) {
-                result[key] = "";
-            }
+
+            list.sort((a, b) => +a - +b);
+            result[key] = list.join(",");
         }
         return Object.values(result);
     }
