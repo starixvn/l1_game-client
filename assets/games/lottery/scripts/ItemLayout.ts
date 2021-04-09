@@ -21,7 +21,9 @@ export default class ItemLayout extends cc.Component {
         items.forEach((item, index) => {
             const node = cc.instantiate(prefab);
             this.content.addChild(node);
-            node.position = maskContainer.children[index].position;
+            if (maskContainer) {
+                node.position = maskContainer.children[index].position;
+            }
 
             const label = node.getComponent(LabelItem);
             label.setValue(isNumber ? item : GameUtils.getBetChoiceString(item));

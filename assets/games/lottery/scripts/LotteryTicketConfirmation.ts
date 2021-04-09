@@ -99,7 +99,7 @@ export default class LotteryTicketConfirmation extends BetBoard {
         this.odds.string = `1:${this.info.odds}`;
         this.roundId.string = `#${this.info.roundId}`;
         this.limitBet.string = `1 - ${this.info.maxBet}`;
-        this.itemLayout.updateItems(this.info.selectedItems, this.info.choiceType !== ChoiceType.Others);
+        this.itemLayout.updateItems(this.info.selectedItems, this.info.choiceType !== ChoiceType.Others, null);
     }
 
     protected betChanged() {
