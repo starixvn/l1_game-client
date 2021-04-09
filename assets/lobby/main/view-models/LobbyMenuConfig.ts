@@ -8,7 +8,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         super();
     }
 
-    bannerAds = [22, 27, 25];
+    bannerAds = [31, 22, 25];
     list = [29, 31, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21];
     miniList = [1, 4, 6, 3, 0, 7, 11, 9];
     detail = {

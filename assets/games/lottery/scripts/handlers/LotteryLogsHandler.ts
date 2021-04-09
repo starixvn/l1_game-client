@@ -10,6 +10,7 @@ export default class LotteryLogsHandler extends GameBaseLogsHandler {
         if (this.main.timeHandler.isInWaitTime && this.main.currentTimeRemaining > this.main.config.betTime) {
             this.main.showResultDialog();
             this.main.setResult(dataLogs[0], false);
+            this.main.highlightLastResult();
         }
         this.main.updateLastResult();
         this.main.updateMiniRoundHistories();

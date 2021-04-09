@@ -41,7 +41,7 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
             this.main.hideResultDialog();
             this.main.updateLastResult();
             this.main.updateMiniRoundHistories();
-            // this.main.highlightLastResult();
+            this.main.highlightLastResult();
         }
     }
 
