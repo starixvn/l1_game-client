@@ -19,6 +19,8 @@ export abstract class LotteryChoicesBoard extends cc.Component {
         this.unlockSelection();
     }
 
+    resetScrolling() {}
+
     initCallbackForItems() {
         this.items.forEach((item) => {
             item.choiceItemChanged = (name: string, selected: boolean) => {

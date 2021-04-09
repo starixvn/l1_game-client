@@ -1,4 +1,4 @@
-import LotterryNumberBoard from './LotteryNumberBoard';
+import LotterryNumberBoard from "./LotteryNumberBoard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,8 +15,7 @@ export default class LotteryLargeNumberBoard extends LotterryNumberBoard {
         }
     }
 
-    resetBoard() {
-        super.resetBoard();
+    resetScrolling() {
         this.pageView.scrollToPage(0, 0);
     }
 

@@ -301,6 +301,7 @@ export default class Lottery extends SocketIOTableGameBase {
             board.node.active = show;
             if (show) {
                 board.resetBoard();
+                board.resetScrolling();
                 board.setHighlightResult(highlightData);
             }
         });
