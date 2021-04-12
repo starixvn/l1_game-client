@@ -525,6 +525,16 @@ export default class Lottery extends SocketIOTableGameBase {
         return [];
     }
 
+    onStatisticsToggleChanged(toggle: cc.Toggle) {
+        if (toggle.isChecked) {
+            this.requestStatistics();
+        }
+    }
+
+    requestStatistics() {
+        this.socket.emit("stats");
+    }
+
     initMiniHistories() {
         const condition = () => {
             return this.currentTimeRemaining < this.config.stopBetTime;
