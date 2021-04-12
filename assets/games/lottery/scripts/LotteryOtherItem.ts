@@ -16,7 +16,7 @@ export default class LotteryOtherItem extends LotteryChoiceItem {
 
     setStats(number: number) {
         this.statsLabel.node.active = true;
-        this.statsLabel.string = number.toString();
+        this.statsLabel.string = `${number}%`;
     }
 
     hideStatistics() {

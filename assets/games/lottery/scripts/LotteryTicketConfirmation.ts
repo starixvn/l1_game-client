@@ -47,11 +47,13 @@ export default class LotteryTicketConfirmation extends BetBoard {
     @property(cc.Prefab)
     noticePrefab: cc.Prefab = null;
 
+    @property(CommonDialog)
+    protected commonDialog: CommonDialog = null;
+
     isClosed = false;
-    protected commonDialog: CommonDialog;
+
     onLoad() {
         super.onLoad();
-        this.commonDialog = this.node.getComponent(CommonDialog);
         this.commonDialog.onDidHide = () => this.node.destroy();
     }
 
