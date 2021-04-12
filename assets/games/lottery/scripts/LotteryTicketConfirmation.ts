@@ -67,6 +67,10 @@ export default class LotteryTicketConfirmation extends BetBoard {
             this.showNotice(`Tổng tiền cược tối đa của phiên này là ${numberWithCommas(this.info.maxBetTotal)}.`);
             return false;
         }
+        if (totalInputBet > cc.RedT.user.red) {
+            this.showNotice("Bạn hiện không có đủ tiền để cược.");
+            return false;
+        }
         return true;
     }
 
