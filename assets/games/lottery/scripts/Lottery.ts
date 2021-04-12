@@ -19,6 +19,7 @@ import LotteryMiniRoundHistory from "./LotteryMiniRoundHistory";
 import LotteryStatusHandler from "./handlers/LotteryStatusHandler";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import LotteryNumberItem from "./LotteryNumberItem";
+import ExpandableMenu from "../../../common/ExpandableMenu";
 
 const { ccclass, property } = cc._decorator;
 
@@ -89,6 +90,9 @@ export default class Lottery extends SocketIOTableGameBase {
 
     @property(cc.Toggle)
     statsToggle: cc.Toggle = null;
+
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
 
     lotteryTypeItems: LotteryTypeItem[] = [];
     currentTypeIndex = 0;
@@ -184,6 +188,7 @@ export default class Lottery extends SocketIOTableGameBase {
         this.updateDisplaySelectedItems();
         this.checkLockSelection();
         this.checkAvailableConfirmation();
+        this.expandableMenu.collapseMenu();
     }
 
     checkLockSelection() {
@@ -289,6 +294,7 @@ export default class Lottery extends SocketIOTableGameBase {
         this.unlockItemSelection();
         this.clearSelectedItems();
         this.checkAvailableConfirmation();
+        this.expandableMenu.collapseMenu();
     }
 
     getBoardIndex(index: number): number {
