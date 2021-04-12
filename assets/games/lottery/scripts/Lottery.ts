@@ -211,8 +211,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     lockItemSelection() {
-        const boardIndex = this.getBoardIndex(this.currentTypeIndex);
-        const currentBoard = this.boards[boardIndex];
+        const currentBoard = this.getCurrentBoard();
         currentBoard.lockSelection();
     }
 
@@ -306,6 +305,7 @@ export default class Lottery extends SocketIOTableGameBase {
                 board.setHighlightResult(highlightData);
             }
         });
+        this.updateDisplayOwnBets();
     }
 
     onConfirmClick() {
@@ -345,8 +345,7 @@ export default class Lottery extends SocketIOTableGameBase {
             };
             this.socket && this.socket.connected && this.socket.emit("bet", betData);
             this.clearSelectedItems();
-            const boardIndex = this.getBoardIndex(this.currentTypeIndex);
-            const currentBoard = this.boards[boardIndex];
+            const currentBoard = this.getCurrentBoard();
             currentBoard.resetBoard();
             this.checkAvailableConfirmation();
         }
@@ -451,13 +450,23 @@ export default class Lottery extends SocketIOTableGameBase {
         this.boards.forEach((board) => {
             board.showHighlight(true);
         });
-        const boardIndex = this.getBoardIndex(this.currentTypeIndex);
-        const currentBoard = this.boards[boardIndex];
+        const currentBoard = this.getCurrentBoard();
         currentBoard.setHighlightResult(this.getHighlightData());
+    }
+
+    getCurrentBoard(): LotteryChoicesBoard {
+        const boardIndex = this.getBoardIndex(this.currentTypeIndex);
+        return this.boards[boardIndex];
     }
 
     clearHighlight() {
         this.boards.forEach((board) => board.clearHighlight());
+    }
+
+    getOwnBetsData() {
+        const key = LotteryHelper.getChoiceTypeKey(this.currentTypeIndex);
+        const data = this.ownBets[key] || {};
+        return data;
     }
 
     getHighlightData(): string[] {
@@ -507,6 +516,11 @@ export default class Lottery extends SocketIOTableGameBase {
         }
 
         super.onDataGameRoom(data);
+    }
+
+    updateDisplayOwnBets() {
+        const currentBoard = this.getCurrentBoard();
+        currentBoard.setOwnBet(this.getOwnBetsData());
     }
 
     onOpenGuide() {

@@ -28,6 +28,7 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.ownBets = {};
+        this.main.updateDisplayOwnBets();
         this.main.clearHighlight();
         this.main.checkAvailableConfirmation();
     }

@@ -8,6 +8,7 @@ export abstract class LotteryChoicesBoard extends cc.Component {
 
     protected items: LotteryChoiceItem[] = [];
     protected highlighted = false;
+    protected showedOwnBet = false;
     choiceBoardChanged = (name: string, selected: boolean) => {};
 
     unCheck() {
@@ -68,5 +69,19 @@ export abstract class LotteryChoicesBoard extends cc.Component {
     clearHighlight() {
         this.highlighted = false;
         this.items.forEach((item) => item.setHighlight(false));
+    }
+
+    clearOwnBet() {
+        this.items.forEach((item) => item.clearOwnBet());
+    }
+
+    setOwnBet(values: any) {
+        this.clearOwnBet();
+        Object.keys(values).forEach((key) => {
+            const item = this.items.find((i) => i.node.name === key);
+            if (item) {
+                item.setOwnBet(values[key]);
+            }
+        });
     }
 }

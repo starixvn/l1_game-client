@@ -14,6 +14,7 @@ export default class LotteryBetHandler extends GameBaseBetHandler {
         if (data.ownBets) {
             this.main.ownBets = data.ownBets;
             this.main.totalBet.string = numberWithCommas(data.ownBets.totalAmount);
+            this.main.updateDisplayOwnBets();
         }
 
         return false;

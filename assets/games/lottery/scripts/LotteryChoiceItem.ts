@@ -1,3 +1,5 @@
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -13,6 +15,9 @@ export abstract class LotteryChoiceItem extends cc.Component {
 
     @property(cc.Node)
     highlight: cc.Node = null;
+
+    @property(cc.Label)
+    ownBet: cc.Label = null;
 
     abstract setStats(number: number);
     choiceItemChanged = (name: string, selected: boolean) => {};
@@ -35,5 +40,20 @@ export abstract class LotteryChoiceItem extends cc.Component {
 
     setHighlight(show: boolean) {
         this.highlight.active = show;
+    }
+
+    setOwnBet(value: number) {
+        if (this.label) {
+            this.label.node.color = cc.Color.GREEN;
+        }
+        this.ownBet.string = numberWithCommas(value);
+        this.ownBet.node.parent.active = true;
+    }
+
+    clearOwnBet() {
+        if (this.label) {
+            this.label.node.color = cc.Color.WHITE;
+        }
+        this.ownBet.node.parent.active = false;
     }
 }
