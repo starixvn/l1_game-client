@@ -178,6 +178,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onSelectedItemChanged(name: string, selected: boolean) {
+        cc.RedT.audio.playClick();
         if (selected) {
             this.selectedItems.push(name);
         } else {
@@ -289,6 +290,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onLotteryTypeChanged(toggle: cc.Toggle) {
+        cc.RedT.audio.playClick();
         const id = this.lotteryTypeItems.findIndex((item) => item.toggle === toggle);
         this.currentTypeIndex = id;
         this.showChoiceBoard(this.currentTypeIndex);
@@ -337,6 +339,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onConfirmClick() {
+        cc.RedT.audio.playClick();
         this.confirmButton.interactable = false;
 
         const node = cc.instantiate(this.confirmationPrefab);
@@ -539,6 +542,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onStatisticsToggleChanged(toggle: cc.Toggle) {
+        cc.RedT.audio.playClick();
         if (toggle.isChecked) {
             this.requestStatistics();
         } else {
