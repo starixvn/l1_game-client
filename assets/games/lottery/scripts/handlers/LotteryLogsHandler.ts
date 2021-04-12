@@ -7,7 +7,7 @@ export default class LotteryLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
-        if (this.main.timeHandler.isInWaitTime && this.main.currentTimeRemaining > this.main.config.betTime) {
+        if (this.main.timeHandler.isInWaitTime && this.main.currentTimeRemaining > this.main.config.betTime + 4) {
             this.main.showResultDialog();
             this.main.setResult(dataLogs[0], false);
             this.main.highlightLastResult();
