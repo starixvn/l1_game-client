@@ -20,6 +20,7 @@ import LotteryStatusHandler from "./handlers/LotteryStatusHandler";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import LotteryNumberItem from "./LotteryNumberItem";
 import ExpandableMenu from "../../../common/ExpandableMenu";
+import LotteryGuide from './LotteryGuide';
 
 const { ccclass, property } = cc._decorator;
 
@@ -621,8 +622,9 @@ export default class Lottery extends SocketIOTableGameBase {
     onOpenGuide() {
         cc.RedT.audio.playClick();
         const node = cc.instantiate(this.guidePrefab);
+        const guide = node.getComponent(LotteryGuide);
+        guide.init(this.gameConfigs);
         this.currentMiniPanel.addDialog(node);
-        // this.guideComponent = node.getComponent(Lotter);
     }
 
     onOpenHistory() {
