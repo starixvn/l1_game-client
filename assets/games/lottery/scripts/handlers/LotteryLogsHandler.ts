@@ -7,12 +7,13 @@ export default class LotteryLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
-        if (this.main.timeHandler.isInWaitTime && this.main.currentTimeRemaining > this.main.config.betTime + 4) {
-            this.main.showResultDialog();
-            this.main.setResult(dataLogs[0], false);
-            this.main.highlightLastResult();
+        if (this.main.timeHandler.isInWaitTime && this.main.currentTimeRemaining === this.main.config.fullTime - 1) {
+            this.main.showResult(dataLogs[0]);
+        } else {
+            if (this.main.timeHandler.isInWaitTime) {
+                this.main.highlightLastResult();
+            }
+            this.main.updateAfterResult();
         }
-        this.main.updateLastResult();
-        this.main.updateMiniRoundHistories();
     }
 }

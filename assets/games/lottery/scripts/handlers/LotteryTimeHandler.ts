@@ -38,12 +38,6 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
         if (this.main.animatedTime) {
             this.main.animatedTime.node.active = true;
         }
-        if (this.main.currentTimeRemaining <= this.main.config.betTime + 2) {
-            this.main.hideResultDialog();
-            this.main.updateLastResult();
-            this.main.updateMiniRoundHistories();
-            this.main.highlightLastResult();
-        }
     }
 
     resetTime(): void {

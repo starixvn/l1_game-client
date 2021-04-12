@@ -129,7 +129,7 @@ export default class Lottery extends SocketIOTableGameBase {
     showWinningBet(bet: number) {
         const winningBet = cc.instantiate(this.playWinningPrefab);
         const label = winningBet.getComponent(LabelItem);
-        label.label.string = numberWithCommas(bet);
+        label.label.string = `+${numberWithCommas(bet)}`;
 
         this.resultContainer.addChild(winningBet);
         const animation = winningBet.getComponent(cc.Animation);
@@ -392,6 +392,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     showResult(dataFinish: any): Promise<void> {
+        const displayTime = 5;
         return new Promise((resolve, reject) => {
             this.showResultDialog();
             cc.tween(this.node)
@@ -399,8 +400,19 @@ export default class Lottery extends SocketIOTableGameBase {
                     await this.setResult(dataFinish, true);
                     resolve();
                 })
+                .delay(displayTime)
+                .call(() => {
+                    this.hideResultDialog();
+                    this.highlightLastResult();
+                    this.updateAfterResult();
+                })
                 .start();
         });
+    }
+
+    updateAfterResult() {
+        this.updateLastResult();
+        this.updateMiniRoundHistories();
     }
 
     showLastSpecialResult(show: boolean) {
