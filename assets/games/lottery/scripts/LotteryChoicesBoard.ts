@@ -82,9 +82,19 @@ export abstract class LotteryChoicesBoard extends cc.Component {
     setOwnBet(values: any) {
         this.clearOwnBet();
         Object.keys(values).forEach((key) => {
-            const item = this.items.find((i) => i.node.name === key);
-            if (item) {
-                item.setOwnBet(values[key]);
+            if (key.includes("-")) {
+                const separated = key.split("-");
+                separated.forEach((eachKey) => {
+                    const item = this.items.find((i) => i.node.name === eachKey);
+                    if (item) {
+                        item.markOwnBet();
+                    }
+                });
+            } else {
+                const item = this.items.find((i) => i.node.name === key);
+                if (item) {
+                    item.setOwnBet(values[key]);
+                }
             }
         });
     }

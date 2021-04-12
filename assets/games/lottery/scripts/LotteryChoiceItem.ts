@@ -51,6 +51,12 @@ export abstract class LotteryChoiceItem extends cc.Component {
         this.ownBet.node.parent.active = true;
     }
 
+    markOwnBet() {
+        if (this.label) {
+            this.label.node.color = cc.Color.GREEN;
+        }
+    }
+
     clearOwnBet() {
         if (this.label) {
             this.label.node.color = cc.Color.WHITE;
