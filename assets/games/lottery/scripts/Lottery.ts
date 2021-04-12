@@ -17,6 +17,7 @@ import LotteryExtraResult from "./LotteryExtraResult";
 import LotteryHistory from "./LotteryHistory";
 import LotteryMiniRoundHistory from "./LotteryMiniRoundHistory";
 import LotteryStatusHandler from "./handlers/LotteryStatusHandler";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -67,8 +68,14 @@ export default class Lottery extends SocketIOTableGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    guidePrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    playWinningPrefab: cc.Prefab = null;
+
     @property(cc.Node)
-    resultConainer: cc.Node = null;
+    resultContainer: cc.Node = null;
 
     @property(cc.Node)
     winningBetLocation: cc.Node = null;
@@ -120,8 +127,16 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     showWinningBet(bet: number) {
-        const winningBet = GameUtils.addFlyingText(this.winningBetLocation, true, bet, 3, 0, 50);
-        winningBet.name = "winningBet";
+        const winningBet = cc.instantiate(this.playWinningPrefab);
+        const label = winningBet.getComponent(LabelItem);
+        label.label.string = numberWithCommas(bet);
+
+        this.resultContainer.addChild(winningBet);
+        const animation = winningBet.getComponent(cc.Animation);
+        cc.tween(this.resultContainer)
+            .delay(animation.defaultClip.duration)
+            .call(() => winningBet.destroy())
+            .start();
     }
 
     updateOddsFromConfigs() {
@@ -398,7 +413,7 @@ export default class Lottery extends SocketIOTableGameBase {
             return;
         }
         const node = cc.instantiate(this.resultPrefab);
-        this.resultConainer.addChild(node);
+        this.resultContainer.addChild(node);
         this.result = node.getComponent(LotteryResult);
         this.extraResult = node.getComponent(LotteryExtraResult);
     }
@@ -525,9 +540,9 @@ export default class Lottery extends SocketIOTableGameBase {
 
     onOpenGuide() {
         cc.RedT.audio.playClick();
-        // const node = cc.instantiate(this.guidePrefab);
-        // this.currentMiniPanel.addDialog(node);
-        // this.guideComponent = node.getComponent(LotteryGuide);
+        const node = cc.instantiate(this.guidePrefab);
+        this.currentMiniPanel.addDialog(node);
+        // this.guideComponent = node.getComponent(Lotter);
     }
 
     onOpenHistory() {

@@ -22,11 +22,7 @@ export default class LotteryStatusHandler extends GameBaseStatusHandler {
             return;
         }
         if (win) {
-            const playerNode = this.main.userAvatar.node.parent;
             this.main.showWinningBet(bet);
-
-            const finishHandler = this.main.finishHandler as LotteryFinishHandler;
-            finishHandler.playWinningEffect(this.main, playerNode);
             this.main.updateUserBalance();
         }
     }
