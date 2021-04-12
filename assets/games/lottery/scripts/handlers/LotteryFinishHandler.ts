@@ -13,6 +13,8 @@ export default class LotteryFinishHandler extends GameBaseFinishHandler {
             this.main.showResult(dataFinish).then(() => {
                 onFinishHanlingData();
             });
+        } else {
+            this.main.updateAfterResult();
         }
     }
 }
