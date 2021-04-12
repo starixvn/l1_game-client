@@ -18,6 +18,7 @@ import LotteryHistory from "./LotteryHistory";
 import LotteryMiniRoundHistory from "./LotteryMiniRoundHistory";
 import LotteryStatusHandler from "./handlers/LotteryStatusHandler";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import LotteryNumberItem from "./LotteryNumberItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -86,6 +87,9 @@ export default class Lottery extends SocketIOTableGameBase {
     @property({ type: cc.Node })
     itemLayoutBackgrounds: cc.Node[] = [];
 
+    @property(cc.Toggle)
+    statsToggle: cc.Toggle = null;
+
     lotteryTypeItems: LotteryTypeItem[] = [];
     currentTypeIndex = 0;
     selectedItems: string[] = [];
@@ -94,6 +98,7 @@ export default class Lottery extends SocketIOTableGameBase {
     historyComponent: LotteryHistory = null;
     ticketConfirmation: LotteryTicketConfirmation = null;
     ownBets = {};
+    stats = {};
 
     constructor() {
         super();
@@ -321,6 +326,7 @@ export default class Lottery extends SocketIOTableGameBase {
             }
         });
         this.updateDisplayOwnBets();
+        this.updateDisplayStats();
     }
 
     onConfirmClick() {
@@ -528,6 +534,8 @@ export default class Lottery extends SocketIOTableGameBase {
     onStatisticsToggleChanged(toggle: cc.Toggle) {
         if (toggle.isChecked) {
             this.requestStatistics();
+        } else {
+            this.boards.forEach((board) => board.hideStatistics());
         }
     }
 
@@ -558,6 +566,50 @@ export default class Lottery extends SocketIOTableGameBase {
     updateDisplayOwnBets() {
         const currentBoard = this.getCurrentBoard();
         currentBoard.setOwnBet(this.getOwnBetsData());
+    }
+
+    updateDisplayStats() {
+        if (this.statsToggle.isChecked) {
+            const board = this.getCurrentBoard();
+
+            if (this.currentTypeIndex === ChoiceType.Others) {
+                const dataOthers = this.stats["othersPercentage"];
+                board.items.forEach((item) => {
+                    item.setStats(dataOthers[item.node.name]);
+                });
+            } else {
+                let choiceKey = "parlays";
+                switch (this.currentTypeIndex) {
+                    case ChoiceType.Set4:
+                        choiceKey = "seventh";
+                        break;
+                    case ChoiceType.Special:
+                        choiceKey = "special";
+                        break;
+                    case ChoiceType.Head:
+                        choiceKey = "head";
+                        break;
+                    case ChoiceType.Tail:
+                        choiceKey = "tail";
+                        break;
+                    default:
+                        break;
+                }
+                const hotData = this.stats["hot"][choiceKey];
+                const coldData = this.stats["cold"][choiceKey];
+                board.items.forEach((item: LotteryNumberItem) => {
+                    const name = item.node.name;
+                    if (Object.keys(hotData).includes(name)) {
+                        item.setState(false);
+                        item.setStats(hotData[name]);
+                    }
+                    if (Object.keys(coldData).includes(name)) {
+                        item.setState(true);
+                        item.setStats(coldData[name]);
+                    }
+                });
+            }
+        }
     }
 
     onOpenGuide() {

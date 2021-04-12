@@ -6,7 +6,7 @@ const { ccclass, property } = cc._decorator;
 export abstract class LotteryChoicesBoard extends cc.Component {
     abstract getChoices(): string[];
 
-    protected items: LotteryChoiceItem[] = [];
+    public items: LotteryChoiceItem[] = [];
     protected highlighted = false;
     protected showedOwnBet = false;
     choiceBoardChanged = (name: string, selected: boolean) => {};
@@ -46,6 +46,10 @@ export abstract class LotteryChoicesBoard extends cc.Component {
                 item.toggle.interactable = false;
             }
         });
+    }
+
+    hideStatistics() {
+        this.items.forEach((item) => item.hideStatistics());
     }
 
     unlockSelection() {

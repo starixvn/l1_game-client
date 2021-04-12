@@ -17,6 +17,11 @@ export default class LotteryBetHandler extends GameBaseBetHandler {
             this.main.updateDisplayOwnBets();
         }
 
+        if (data.stats) {
+            this.main.stats = data.stats;
+            this.main.updateDisplayStats();
+        }
+
         return false;
     }
 }

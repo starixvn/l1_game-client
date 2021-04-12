@@ -7,10 +7,13 @@ export default class LotteryNumberItem extends LotteryChoiceItem {
     @property
     paddingEnabled = true;
 
-    onLoad() {
-        super.onLoad();
-        this.statsLabel.node.active = false;
-    }
+    @property(cc.Label)
+    coldLabel: cc.Label = null;
+
+    @property(cc.Label)
+    hotLabel: cc.Label = null;
+
+    protected isCold = false;
 
     setNumber(value: number) {
         this.label.string = this.paddingEnabled ? `${value}`.padStart(2, "0") : `${value}`;
@@ -18,14 +21,21 @@ export default class LotteryNumberItem extends LotteryChoiceItem {
     }
 
     setStats(number: number) {
-        this.statsLabel.string = number.toString();
+        if (this.isCold) {
+            this.coldLabel.string = number.toString();
+        } else {
+            this.hotLabel.string = number.toString();
+        }
     }
 
-    setCold(isCold = true) {
-        this.statsLabel.node.color = isCold ? cc.Color.BLUE : cc.Color.RED;
+    hideStatistics() {
+        this.coldLabel.node.active = false;
+        this.hotLabel.node.active = false;
     }
 
-    clearStats() {
-        this.statsLabel.node.color = cc.Color.WHITE;
+    setState(isCold = true) {
+        this.isCold = isCold;
+        this.coldLabel.node.active = isCold;
+        this.hotLabel.node.active = !isCold;
     }
 }

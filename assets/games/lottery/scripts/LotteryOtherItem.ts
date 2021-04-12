@@ -9,8 +9,18 @@ export default class LotteryOtherItem extends LotteryChoiceItem {
     @property(cc.Sprite)
     nameSprite: cc.Sprite = null;
 
+    onLoad() {
+        super.onLoad();
+        this.statsLabel.node.active = false;
+    }
+
     setStats(number: number) {
+        this.statsLabel.node.active = true;
         this.statsLabel.string = number.toString();
+    }
+
+    hideStatistics() {
+        this.statsLabel.node.active = false;
     }
 
     setName(key: string) {

@@ -20,6 +20,7 @@ export abstract class LotteryChoiceItem extends cc.Component {
     ownBet: cc.Label = null;
 
     abstract setStats(number: number);
+    abstract hideStatistics();
     choiceItemChanged = (name: string, selected: boolean) => {};
 
     unCheck() {
