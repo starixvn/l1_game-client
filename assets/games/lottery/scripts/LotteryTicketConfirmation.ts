@@ -4,6 +4,7 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import ItemLayout from "./ItemLayout";
 import { ChoiceType } from "./Lottery";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import GameUtils from "../../../common/GameUtils";
 
 export interface LotteryTicketInfo {
     choiceType: number;
@@ -76,35 +77,24 @@ export default class LotteryTicketConfirmation extends BetBoard {
 
     isReachMaxBetPerChoice(): boolean {
         const choiceKey = LotteryHelper.getChoiceTypeKey(this.info.choiceType);
+        const choices = this.info.selectedItems;
+        const inputBet = this.info.bet;
+        const isOthers = this.info.choiceType === ChoiceType.Others;
 
-        const isMaxBetPerNumber =
-            this.info.choiceType === ChoiceType.Set4 ||
-            this.info.choiceType === ChoiceType.Special ||
-            this.info.choiceType === ChoiceType.Head ||
-            this.info.choiceType === ChoiceType.Tail ||
-            this.info.choiceType === ChoiceType.Set27;
-
-        if (!isMaxBetPerNumber) {
-            const totalInputBet = this.getCurrentTotal();
-            const totalPerChoice = this.info.ownBets[choiceKey];
-            if (totalInputBet > this.info.maxBet || totalInputBet + totalPerChoice > this.info.maxBet) {
-                this.showNotice("Tiền cược vượt mức quy định.");
-                return true;
-            }
-        } else {
-            const inputBet = this.info.bet;
-            const choices = this.info.selectedItems;
-            const notValidList = [];
-            choices.forEach((choice) => {
-                const choiceTotal = (this.info.ownBets[choiceKey] && this.info.ownBets[choiceKey][choice]) || 0;
-                if (+inputBet + +choiceTotal > +this.info.maxBet) {
+        const notValidList = [];
+        choices.forEach((choice) => {
+            const choiceTotal = (this.info.ownBets[choiceKey] && this.info.ownBets[choiceKey][choice]) || 0;
+            if (+inputBet + +choiceTotal > +this.info.maxBet) {
+                if (isOthers) {
+                    notValidList.push(GameUtils.getBetChoiceString(choice));
+                } else {
                     notValidList.push(choice);
                 }
-            });
-            if (notValidList.length > 0) {
-                this.showNotice(`Tiền cược trên số [${notValidList.join(", ")}] vượt mức quy định.`);
-                return true;
             }
+        });
+        if (notValidList.length > 0) {
+            this.showNotice(`Tiền cược trên [${notValidList.join(", ")}] vượt mức quy định.`);
+            return true;
         }
         return false;
     }
