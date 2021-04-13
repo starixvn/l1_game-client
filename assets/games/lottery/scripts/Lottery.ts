@@ -659,6 +659,7 @@ export default class Lottery extends SocketIOTableGameBase {
                 const coldData = this.stats["cold"][choiceKey];
                 board.items.forEach((item: LotteryNumberItem) => {
                     const name = item.node.name;
+                    item.hideStatistics();
                     if (Object.keys(hotData).includes(name)) {
                         item.setState(false);
                         item.setStats(hotData[name]);
