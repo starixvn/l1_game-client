@@ -105,6 +105,8 @@ export default class Lottery extends SocketIOTableGameBase {
     ticketConfirmation: LotteryTicketConfirmation = null;
     ownBets = {};
     stats = {};
+    resultTween: cc.Tween;
+    winningTween: cc.Tween;
 
     constructor() {
         super();
@@ -178,14 +180,19 @@ export default class Lottery extends SocketIOTableGameBase {
 
     showWinningBet(bet: number) {
         const winningBet = cc.instantiate(this.playWinningPrefab);
+        winningBet.name = "winningBet";
         const label = winningBet.getComponent(LabelItem);
         label.label.string = `+${numberWithCommas(bet)}`;
 
         this.resultContainer.addChild(winningBet);
         const animation = winningBet.getComponent(cc.Animation);
-        cc.tween(this.resultContainer)
+        this.winningTween = cc
+            .tween(this.resultContainer)
             .delay(animation.defaultClip.duration)
-            .call(() => winningBet.destroy())
+            .call(() => {
+                winningBet.destroy();
+                this.winningTween = null;
+            })
             .start();
     }
 
@@ -217,6 +224,18 @@ export default class Lottery extends SocketIOTableGameBase {
             this.extraResult = null;
         }
         this.clearHighlight();
+        if (this.resultTween) {
+            this.resultTween.stop();
+            this.highlightLastResult();
+            this.updateAfterResult();
+            this.resultTween = null;
+        }
+        if (this.winningTween) {
+            this.winningTween.stop();
+            const winningBet = this.resultContainer.getChildByName("winningBet");
+            winningBet.destroy();
+            this.winningTween = null;
+        }
     }
 
     showAcceptedBet(bet: number) {
@@ -460,7 +479,8 @@ export default class Lottery extends SocketIOTableGameBase {
         const displayTime = this.displayResultTime;
         return new Promise((resolve, reject) => {
             this.showResultDialog();
-            cc.tween(this.node)
+            this.resultTween = cc
+                .tween(this.node)
                 .call(async () => {
                     await this.setResult(dataFinish, true);
                     resolve();
@@ -470,6 +490,7 @@ export default class Lottery extends SocketIOTableGameBase {
                     this.hideResultDialog();
                     this.highlightLastResult();
                     this.updateAfterResult();
+                    this.resultTween = null;
                 })
                 .start();
         });
