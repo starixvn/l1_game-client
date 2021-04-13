@@ -48,7 +48,7 @@ export default class LotteryTicketDetailItem extends cc.Component {
                 const isOthers = choiceKey === "others";
                 const choiceDetail = {
                     type: LotteryHelper.getNameChoiceKey(choiceKey),
-                    choice: isOthers ? GameUtils.getBetChoiceString(choiceValue) : choiceValue,
+                    choice: isOthers ? GameUtils.getBetChoiceString(choiceValue) : choiceValue.split("-").join(", "),
                     ratio: ratio,
                     bet: bet,
                     win: win

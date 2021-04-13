@@ -16,11 +16,9 @@ export default class LotteryMiniRoundHistoryItem extends MiniRoundHistoryItem {
         this.data = data;
 
         if (this.type === 0) {
-            this.icon.spriteFrame = this.iconFrames[0];
-            this.icon.node.color = this.data.settlementResult.others.big ? cc.Color.BLACK : cc.Color.WHITE;
+            this.icon.spriteFrame = this.data.settlementResult.others.big ? this.iconFrames[0] : this.iconFrames[1];
         } else {
             this.icon.spriteFrame = this.data.settlementResult.others.even ? this.iconFrames[0] : this.iconFrames[1];
-            this.icon.node.color = cc.Color.WHITE;
         }
     }
 }
