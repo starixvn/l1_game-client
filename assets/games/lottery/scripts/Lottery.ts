@@ -127,6 +127,41 @@ export default class Lottery extends SocketIOTableGameBase {
         this.initMiniHistories();
     }
 
+    start() {
+        super.start();
+        this.loadPreviousSelection();
+    }
+
+    loadPreviousSelection() {
+        const info = cc.sys.localStorage.getItem(`UserSetting_game_${this.gameId}`);
+
+        if (info) {
+            const settings = JSON.parse(info);
+            this.currentTypeIndex = settings.currentTypeIndex;
+            this.lotteryTypeItems[this.currentTypeIndex].toggle.isChecked = true;
+            const selectedItems = settings.selectedItems;
+            const board = this.getCurrentBoard();
+            board.items.forEach((item) => {
+                if (selectedItems.includes(item.node.name)) {
+                    item.toggle.check();
+                    this.onSelectedItemChanged(item.node.name, true, true);
+                }
+            });
+        }
+
+        this.clearSetting();
+    }
+
+    clearSetting() {
+        //clear setting
+        cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, "");
+    }
+
+    onCloseGameClick() {
+        super.onCloseGameClick();
+        this.clearSetting();
+    }
+
     initHandlers() {
         super.initHandlers();
         this.timeHandler = new LotteryTimeHandler(this);
@@ -159,6 +194,8 @@ export default class Lottery extends SocketIOTableGameBase {
 
     protected onGameHide() {
         this.resetDataAndUI();
+        const settings = { currentTypeIndex: this.currentTypeIndex, selectedItems: this.selectedItems };
+        cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, JSON.stringify(settings));
     }
 
     resetDataAndUI() {
@@ -177,8 +214,10 @@ export default class Lottery extends SocketIOTableGameBase {
         GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
     }
 
-    onSelectedItemChanged(name: string, selected: boolean) {
-        cc.RedT.audio.playClick();
+    onSelectedItemChanged(name: string, selected: boolean, mute = false) {
+        if (!mute) {
+            cc.RedT.audio.playClick();
+        }
         if (selected) {
             this.selectedItems.push(name);
         } else {
@@ -514,6 +553,9 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     getHighlightData(): string[] {
+        if (this.currentDataLogs.length === 0) {
+            return [];
+        }
         const lastData = this.currentDataLogs[0];
         switch (this.currentTypeIndex) {
             case 0:
