@@ -9,6 +9,7 @@ export default class LotteryFinishHandler extends GameBaseFinishHandler {
     handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
+        this.main.requestStatistics();
         if (cc.RedT.GAME_IS_SHOWED) {
             this.main.showResult(dataFinish).then(() => {
                 onFinishHanlingData();
