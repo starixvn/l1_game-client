@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import BlinkNode from '../../common/BlinkNode';
-import MiniRoundHistoryItem from './MiniRoundHistoryItem';
-import MiniRoundHistoryTip from './MiniRoundHistoryTip';
+import BlinkNode from "../../common/BlinkNode";
+import MiniRoundHistoryItem from "./MiniRoundHistoryItem";
+import MiniRoundHistoryTip from "./MiniRoundHistoryTip";
 
 const { ccclass, property } = cc._decorator;
 
@@ -105,6 +105,9 @@ export default class MiniRoundHistory extends cc.Component {
             }
             this.updateOrderNode(data, this.nodeNext.active);
             this.items[0].node.active = !this.nodeNext.active;
+            if (this.nodeNext.active) {
+                this.tip.show(false);
+            }
         } else {
             this.updateOrderNode(this.dataLogs, false);
             this.items[0].node.active = true;
