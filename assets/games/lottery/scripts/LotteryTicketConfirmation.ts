@@ -77,7 +77,10 @@ export default class LotteryTicketConfirmation extends BetBoard {
 
     isReachMaxBetPerChoice(): boolean {
         const choiceKey = LotteryHelper.getChoiceTypeKey(this.info.choiceType);
-        const choices = [...this.info.selectedItems].sort();
+        let choices = [...this.info.selectedItems].sort();
+        if (choiceKey.slice(0, 6) === "parlay") {
+            choices = [choices.join("-")];
+        }
         const inputBet = this.info.bet;
         const isOthers = this.info.choiceType === ChoiceType.Others;
 
