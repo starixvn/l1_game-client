@@ -163,8 +163,8 @@ export default class Lottery extends SocketIOTableGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-        this.animatedTime.setTime("0");
-        this.totalBet.string = "";
+        this.animatedTime.node.active = false;
+        this.totalBet.string = "0";
         if (this.result) {
             this.result.node.active = false;
             this.result = null;
