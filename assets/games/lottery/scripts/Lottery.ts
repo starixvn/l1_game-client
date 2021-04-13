@@ -20,7 +20,7 @@ import LotteryStatusHandler from "./handlers/LotteryStatusHandler";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import LotteryNumberItem from "./LotteryNumberItem";
 import ExpandableMenu from "../../../common/ExpandableMenu";
-import LotteryGuide from './LotteryGuide';
+import LotteryGuide from "./LotteryGuide";
 
 const { ccclass, property } = cc._decorator;
 
@@ -383,15 +383,16 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     createBetChoice(choiceType: number, selectedItems: string[], bet: number): any {
+        const choices = [...selectedItems].sort();
         const key = LotteryHelper.getChoiceTypeKey(choiceType);
         const result = {};
         const subInfo = {};
         result[key] = subInfo;
         if (choiceType === ChoiceType.Parlay2 || choiceType === ChoiceType.Parlay3 || choiceType === ChoiceType.Parlay4) {
-            subInfo[selectedItems.join("-")] = bet;
+            subInfo[choices.join("-")] = bet;
             return result;
         } else {
-            selectedItems.forEach((item) => (subInfo[item] = bet));
+            choices.forEach((item) => (subInfo[item] = bet));
             return result;
         }
     }
