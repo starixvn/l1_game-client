@@ -148,6 +148,10 @@ export default class Lottery extends SocketIOTableGameBase {
                     this.onSelectedItemChanged(item.node.name, true, true);
                 }
             });
+            this.statsToggle.isChecked = settings.statsEnabled;
+            if (this.statsToggle.isChecked) {
+                this.requestStatistics();
+            }
         }
 
         this.clearSetting();
@@ -195,7 +199,11 @@ export default class Lottery extends SocketIOTableGameBase {
 
     protected onGameHide() {
         this.resetDataAndUI();
-        const settings = { currentTypeIndex: this.currentTypeIndex, selectedItems: this.selectedItems };
+        const settings = {
+            currentTypeIndex: this.currentTypeIndex,
+            selectedItems: this.selectedItems,
+            statsEnabled: this.statsToggle.isChecked
+        };
         cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, JSON.stringify(settings));
     }
 
