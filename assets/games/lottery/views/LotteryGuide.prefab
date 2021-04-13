@@ -20859,7 +20859,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "remote",
     "_objFlags": 0,
     "_parent": {
       "__id__": 371
@@ -20940,8 +20940,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "+ Người chơi đặt cược vào hai số 07, 77. Tỷ lệ trả thưởng 1:24\n+ Tiền cược: 10 \n+ Tổng cược: 20\n+ Kết quả:",
-    "_N$string": "+ Người chơi đặt cược vào hai số 07, 77. Tỷ lệ trả thưởng 1:24\n+ Tiền cược: 10 \n+ Tổng cược: 20\n+ Kết quả:",
+    "_string": "+ Người chơi đặt cược vào hai số 07, 77. Tỷ lệ trả thưởng 1:_odds4Sets\n+ Tiền cược: _examValue \n+ Tổng cược: 20\n+ Kết quả:",
+    "_N$string": "+ Người chơi đặt cược vào hai số 07, 77. Tỷ lệ trả thưởng 1:_odds4Sets\n+ Tiền cược: _examValue \n+ Tổng cược: 20\n+ Kết quả:",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -22058,7 +22058,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "remote",
     "_objFlags": 0,
     "_parent": {
       "__id__": 371
@@ -22139,8 +22139,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Số 07 xuất hiện hai lần trong kết quả giải Bảy. Tiền thắng = (10 * 24) * 2 = 480",
-    "_N$string": "Số 07 xuất hiện hai lần trong kết quả giải Bảy. Tiền thắng = (10 * 24) * 2 = 480",
+    "_string": "Số 07 xuất hiện hai lần trong kết quả giải Bảy. Tiền thắng = (_examValue * _odds4Sets) * 2 = _examResult4Sets",
+    "_N$string": "Số 07 xuất hiện hai lần trong kết quả giải Bảy. Tiền thắng = (_examValue * _odds4Sets) * 2 = _examResult4Sets",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -22340,7 +22340,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "remote",
     "_objFlags": 0,
     "_parent": {
       "__id__": 371
@@ -22421,8 +22421,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "+ Người chơi đặt cược vào ba số 00, 62, 79. Tỷ lệ trả thưởng 1:90\n+ Tiền cược: 10 \n+ Tổng cược: 30\n+ Kết quả:",
-    "_N$string": "+ Người chơi đặt cược vào ba số 00, 62, 79. Tỷ lệ trả thưởng 1:90\n+ Tiền cược: 10 \n+ Tổng cược: 30\n+ Kết quả:",
+    "_string": "+ Người chơi đặt cược vào ba số 00, 62, 79. Tỷ lệ trả thưởng 1:_oddsSpecial\n+ Tiền cược: _examValue \n+ Tổng cược: 30\n+ Kết quả:",
+    "_N$string": "+ Người chơi đặt cược vào ba số 00, 62, 79. Tỷ lệ trả thưởng 1:_oddsSpecial\n+ Tiền cược: _examValue \n+ Tổng cược: 30\n+ Kết quả:",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -23654,7 +23654,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "remote",
     "_objFlags": 0,
     "_parent": {
       "__id__": 371
@@ -23735,8 +23735,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Số 62 xuất hiện ở hai số cuối giải Đặc Biệt. Tiền thắng = 10 * 90  = 900",
-    "_N$string": "Số 62 xuất hiện ở hai số cuối giải Đặc Biệt. Tiền thắng = 10 * 90  = 900",
+    "_string": "Số 62 xuất hiện ở hai số cuối giải Đặc Biệt. Tiền thắng = _examValue * _oddsSpecial  = _examResultSpecial",
+    "_N$string": "Số 62 xuất hiện ở hai số cuối giải Đặc Biệt. Tiền thắng = _examValue * _oddsSpecial  = _examResultSpecial",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -23936,7 +23936,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "remote",
     "_objFlags": 0,
     "_parent": {
       "__id__": 371
@@ -24017,8 +24017,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "+ Người chơi đặt cược vào ba số 0, 6, 9. Tỷ lệ trả thưởng 1:9\n+ Tiền cược: 10 \n+ Tổng cược: 30\n+ Kết quả:",
-    "_N$string": "+ Người chơi đặt cược vào ba số 0, 6, 9. Tỷ lệ trả thưởng 1:9\n+ Tiền cược: 10 \n+ Tổng cược: 30\n+ Kết quả:",
+    "_string": "+ Người chơi đặt cược vào ba số 0, 6, 9. Tỷ lệ trả thưởng 1:_oddsHead\n+ Tiền cược: _examValue \n+ Tổng cược: 30\n+ Kết quả:",
+    "_N$string": "+ Người chơi đặt cược vào ba số 0, 6, 9. Tỷ lệ trả thưởng 1:_oddsHead\n+ Tiền cược: _examValue \n+ Tổng cược: 30\n+ Kết quả:",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -25250,7 +25250,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "remote",
     "_objFlags": 0,
     "_parent": {
       "__id__": 371
@@ -25331,8 +25331,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Số 6 xuất hiện ở chữ số hàng chục của giải Đặc Biệt. Tiền thắng = 10 * 9  = 90",
-    "_N$string": "Số 6 xuất hiện ở chữ số hàng chục của giải Đặc Biệt. Tiền thắng = 10 * 9  = 90",
+    "_string": "Số 6 xuất hiện ở chữ số hàng chục của giải Đặc Biệt. Tiền thắng = _examValue * _oddsHead  = _examResultHead",
+    "_N$string": "Số 6 xuất hiện ở chữ số hàng chục của giải Đặc Biệt. Tiền thắng = _examValue * _oddsHead  = _examResultHead",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -25532,7 +25532,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "remote",
     "_objFlags": 0,
     "_parent": {
       "__id__": 371
@@ -25613,8 +25613,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "+ Người chơi đặt cược vào bốn số 05, 12, 77, 85. Tỷ lệ trả thưởng 1:3.6\n+ Tiền cược: 10 \n+ Tổng cược: 40\n+ Kết quả:",
-    "_N$string": "+ Người chơi đặt cược vào bốn số 05, 12, 77, 85. Tỷ lệ trả thưởng 1:3.6\n+ Tiền cược: 10 \n+ Tổng cược: 40\n+ Kết quả:",
+    "_string": "+ Người chơi đặt cược vào bốn số 05, 12, 77, 85. Tỷ lệ trả thưởng 1:_odds27Sets\n+ Tiền cược: _examValue \n+ Tổng cược: 40\n+ Kết quả:",
+    "_N$string": "+ Người chơi đặt cược vào bốn số 05, 12, 77, 85. Tỷ lệ trả thưởng 1:_odds27Sets\n+ Tiền cược: _examValue \n+ Tổng cược: 40\n+ Kết quả:",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -37898,7 +37898,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "remote",
     "_objFlags": 0,
     "_parent": {
       "__id__": 371
@@ -37979,8 +37979,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Số 05 xuất hiện hai lần trong kết quả. Tiền thắng trên số 05 = (10 * 3.6) * 2 = 72\nSố 12 xuất hiện một lần trong kết quả. Tiền thắng trên số 12 = 10 * 3.6 = 36",
-    "_N$string": "Số 05 xuất hiện hai lần trong kết quả. Tiền thắng trên số 05 = (10 * 3.6) * 2 = 72\nSố 12 xuất hiện một lần trong kết quả. Tiền thắng trên số 12 = 10 * 3.6 = 36",
+    "_string": "Số 05 xuất hiện hai lần trong kết quả. Tiền thắng trên số 05 = (_examValue * _odds27Sets) * 2 = _examResult27Sets2\nSố 12 xuất hiện một lần trong kết quả. Tiền thắng trên số 12 = _examValue * _odds27Sets = _examResult27Sets",
+    "_N$string": "Số 05 xuất hiện hai lần trong kết quả. Tiền thắng trên số 05 = (_examValue * _odds27Sets) * 2 = _examResult27Sets2\nSố 12 xuất hiện một lần trong kết quả. Tiền thắng trên số 12 = _examValue * _odds27Sets = _examResult27Sets",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -38180,7 +38180,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CL_c1 copy",
+    "_name": "remote",
     "_objFlags": 0,
     "_parent": {
       "__id__": 371
@@ -38261,8 +38261,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "+ Người chơi đặt cược vào ba số 00, 05, 77. Tỷ lệ trả thưởng 1:50\n+ Tiền cược: 10 \n+ Tổng cược: 10\n+ Kết quả:",
-    "_N$string": "+ Người chơi đặt cược vào ba số 00, 05, 77. Tỷ lệ trả thưởng 1:50\n+ Tiền cược: 10 \n+ Tổng cược: 10\n+ Kết quả:",
+    "_string": "+ Người chơi đặt cược vào ba số 00, 05, 77. Tỷ lệ trả thưởng 1:_oddsParlay3\n+ Tiền cược: _examValue \n+ Tổng cược: 10\n+ Kết quả:",
+    "_N$string": "+ Người chơi đặt cược vào ba số 00, 05, 77. Tỷ lệ trả thưởng 1:_oddsParlay3\n+ Tiền cược: _examValue \n+ Tổng cược: 10\n+ Kết quả:",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -60163,8 +60163,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 60
+      "width": 333.45,
+      "height": 30
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -60232,7 +60232,7 @@
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 3,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -60248,7 +60248,7 @@
     "_target": null,
     "_alignFlags": 40,
     "_left": 120.796,
-    "_right": -120.796,
+    "_right": -154.24599999999998,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -66488,8 +66488,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "+ Nếu số lần xuất hiện > 30 lần, được ký hiệu màu \n+ Nếu số lần xuất hiện <= 30 lần, được ký hiệu màu ",
-    "_N$string": "+ Nếu số lần xuất hiện > 30 lần, được ký hiệu màu \n+ Nếu số lần xuất hiện <= 30 lần, được ký hiệu màu ",
+    "_string": "+ Nếu số lần xuất hiện > 10 lần, được ký hiệu màu \n+ Nếu số lần xuất hiện <= 10 lần, được ký hiệu màu ",
+    "_N$string": "+ Nếu số lần xuất hiện > 10 lần, được ký hiệu màu \n+ Nếu số lần xuất hiện <= 10 lần, được ký hiệu màu ",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -74960,6 +74960,33 @@
       },
       {
         "__id__": 1570
+      },
+      {
+        "__id__": 561
+      },
+      {
+        "__id__": 594
+      },
+      {
+        "__id__": 602
+      },
+      {
+        "__id__": 638
+      },
+      {
+        "__id__": 646
+      },
+      {
+        "__id__": 682
+      },
+      {
+        "__id__": 690
+      },
+      {
+        "__id__": 1025
+      },
+      {
+        "__id__": 1033
       }
     ],
     "mainFrame": {

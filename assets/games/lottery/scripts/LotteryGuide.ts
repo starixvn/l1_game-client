@@ -7,13 +7,23 @@ const { ccclass, property } = cc._decorator;
 export default class LotteryGuide extends GameGuideBase {
     createReplaceData(configs) {
         const { odds, choices_maxbet, minbet, maxbet } = configs;
-
+        const betValue = 10;
         return {
             _odds4Sets: odds["4Sets"],
+            _examValue: betValue,
+            _examResult4Sets: betValue * odds["4Sets"] * 2,
+
             _oddsSpecial: odds.special,
+            _examResultSpecial: odds.special * betValue,
+
             _oddsHead: odds.head,
+            _examResultHead: odds.head * betValue,
+
             _oddsTail: odds.tail,
             _odds27Sets: odds["27Sets"],
+            _examResult27Sets: betValue * odds["27Sets"],
+            _examResult27Sets2: betValue * odds["27Sets"] * 2,
+
             _oddsParlay2: odds.parlay2,
             _oddsParlay3: odds.parlay3,
             _oddsParlay4: odds.parlay4,
