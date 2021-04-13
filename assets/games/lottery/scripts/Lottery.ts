@@ -97,6 +97,7 @@ export default class Lottery extends SocketIOTableGameBase {
 
     lotteryTypeItems: LotteryTypeItem[] = [];
     currentTypeIndex = 0;
+    displayResultTime = 5;
     selectedItems: string[] = [];
     result: LotteryResult = null;
     extraResult: LotteryExtraResult = null;
@@ -448,7 +449,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     showResult(dataFinish: any): Promise<void> {
-        const displayTime = 5;
+        const displayTime = this.displayResultTime;
         return new Promise((resolve, reject) => {
             this.showResultDialog();
             cc.tween(this.node)
@@ -601,7 +602,10 @@ export default class Lottery extends SocketIOTableGameBase {
 
     initMiniHistories() {
         const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime;
+            return (
+                this.currentTimeRemaining < this.config.stopBetTime ||
+                this.currentTimeRemaining > this.config.fullTime - this.displayResultTime
+            );
         };
 
         this.miniRoundHistories.forEach((history) => history.init(condition));
