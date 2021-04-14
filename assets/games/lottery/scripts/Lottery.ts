@@ -115,6 +115,7 @@ export default class Lottery extends SocketIOTableGameBase {
 
     onLoad() {
         super.onLoad();
+        this.showLastSpecialResult(false);
         this.headerContainer.children.forEach((child) => {
             const item = child.getComponent(LotteryTypeItem);
             if (item) {
@@ -552,6 +553,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     updateLastResult() {
+        this.showLastSpecialResult(true);
         const lastFinish = this.currentDataLogs[0];
         const result = lastFinish.result;
         const lastSpecial = result.special[0];
