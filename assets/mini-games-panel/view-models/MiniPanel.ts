@@ -1,14 +1,14 @@
-import * as sessionManager from '../../common/auth/SessionManager';
-import GameUtils from '../../common/GameUtils';
-import Loading from '../../common/loading/view-models/Loading';
-import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
-import * as SabaConfigs from '../../configs/SabaConfigs';
-import GameIconMenu from '../../lobby/main/view-models/GameIconMenu';
-import * as authManager from './../../common/auth/AuthManager';
-import MiniPanelDataHandlers from './MiniPanelDataHandlers';
-import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
-import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
-import PopupMinigames from './popup/PopupMinigames';
+import * as sessionManager from "../../common/auth/SessionManager";
+import GameUtils from "../../common/GameUtils";
+import Loading from "../../common/loading/view-models/Loading";
+import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import * as SabaConfigs from "../../configs/SabaConfigs";
+import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
+import * as authManager from "./../../common/auth/AuthManager";
+import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
+import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
+import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
+import PopupMinigames from "./popup/PopupMinigames";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -73,6 +73,24 @@ export default class MiniPanel extends cc.Component {
         }
 
         this.dataHandlers.handleData(data);
+        // open result page
+        if (data.gameResult) {
+            const { redirectUrl } = data.gameResult;
+            this.redirectToResultPage(redirectUrl);
+        }
+    }
+
+    redirectToResultPage(redirectUrl) {
+        cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
+        cc.RedT.resultPage.focus();
+
+        window.onbeforeunload = function () {
+            cc.RedT.resultPage.close();
+        };
+    }
+
+    openResultPage() {
+        cc.RedT.send({ gameResult: { language: "vi-VN" } });
     }
 
     addMiniGame(game: any, gameId: number) {

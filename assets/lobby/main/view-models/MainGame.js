@@ -312,12 +312,6 @@ cc.Class({
         if (!!data.removeIsLoading && this.loading) {
             this.loading.active = false;
         }
-
-        // open result page
-        if (data.gameResult) {
-            const { redirectUrl } = data.gameResult;
-            this.openResultPage(redirectUrl);
-        }
     },
 
     handleUserData: function (user) {
@@ -459,17 +453,8 @@ cc.Class({
         cc.RedT.audio.playUnClick();
     },
 
-    openResultPage(redirectUrl) {
-        cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
-        cc.RedT.resultPage.focus();
-
-        window.onbeforeunload = function () {
-            cc.RedT.resultPage.close();
-        };
-    },
-
     onGameResultClick() {
-        cc.RedT.send({ gameResult: { language: "vi-VN" } });
+        cc.RedT.MiniPanel.openResultPage();
     },
 
     renderLuckyWheelIcon() {
