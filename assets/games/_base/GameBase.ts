@@ -1,26 +1,26 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import AnimatedTime from '../../common/animated-time/view-models/AnimatedTime';
-import BetChips from '../../common/bet-chips/view-models/BetChips';
-import HandleUserStakeLevel from '../../common/bet-chips/view-models/HandleUserStakeLevel';
-import GameUtils from '../../common/GameUtils';
-import ProcessingWarning from '../../common/processing-warning/view-models/ProcessingWarning';
-import TypingLabel from '../../common/typing-label/view-models/TypingLabel';
-import UmWarning from '../../common/um-warning/UmWarning';
-import MiniPanel from '../../mini-games-panel/view-models/MiniPanel';
-import DataHandler from './handlers/DataHandler';
-import GameBaseBetHandler from './handlers/GameBaseBetHandler';
-import GameBaseConfigsHandler from './handlers/GameBaseConfigsHandler';
-import GameBaseErrorHandler from './handlers/GameBaseErrorHandler';
-import GameBaseFinishHandler from './handlers/GameBaseFinishHandler';
-import GameBaseLogsHandler from './handlers/GameBaseLogsHandler';
-import GameBaseNoticeHandler from './handlers/GameBaseNoticeHandler';
-import { GameBaseStatusHandler } from './handlers/GameBaseStatusHandler';
-import GameBaseTimeHandler from './handlers/GameBaseTimeHandler';
-import GameBaseUmDataHandler from './handlers/GameBaseUmDataHandler';
-import BetItem from './view-models/BetItem';
-import GameAudios from './view-models/GameAudios';
-import { GameConfigBase } from './view-models/GameConfigBase';
+import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
+import BetChips from "../../common/bet-chips/view-models/BetChips";
+import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
+import GameUtils from "../../common/GameUtils";
+import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
+import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
+import UmWarning from "../../common/um-warning/UmWarning";
+import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import DataHandler from "./handlers/DataHandler";
+import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
+import GameBaseConfigsHandler from "./handlers/GameBaseConfigsHandler";
+import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
+import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
+import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
+import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
+import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
+import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
+import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
+import BetItem from "./view-models/BetItem";
+import GameAudios from "./view-models/GameAudios";
+import { GameConfigBase } from "./view-models/GameConfigBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -297,11 +297,12 @@ export default class GameBase extends cc.Component {
         this.umNotice && this.umNotice.hide();
     }
 
-    showMiniWarning(data) {
+    showMiniWarning(data): cc.Node {
         const notice = cc.instantiate(this.miniNoticePrefab);
         const noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = data;
         this.noticeNode.addChild(notice);
+        return notice;
     }
 
     resetDataAndUI() {

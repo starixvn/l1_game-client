@@ -1,6 +1,6 @@
-import GameUtils from '../../common/GameUtils';
-import { SlotGameBaseConfigs } from './SlotGameBaseConfigs';
-import SlotReelItem from './SlotReelItem';
+import GameUtils from "../../common/GameUtils";
+import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
+import SlotReelItem from "./SlotReelItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,8 +23,6 @@ export default class SlotReel extends cc.Component {
     public get itemTypeCount() {
         return this.items[0].itemPrefabs.length || 0;
     }
-
-    protected readonly spinDuration = 1;
 
     onLoad() {
         this.createReel();
@@ -53,9 +51,9 @@ export default class SlotReel extends cc.Component {
         });
     }
 
-    spin() {
+    spin(spinDuration = 1) {
         const boardHeight = this.node.parent.height;
-        const moving = cc.moveTo(this.spinDuration, cc.v2(this.node.x, -(this.node.height - boardHeight))).easing(cc.easeInOut(3));
+        const moving = cc.moveTo(spinDuration, cc.v2(this.node.x, -(this.node.height - boardHeight))).easing(cc.easeInOut(3));
         this.node.runAction(
             cc.sequence(
                 moving,
