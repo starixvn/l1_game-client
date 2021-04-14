@@ -451,7 +451,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     createBetChoice(choiceType: number, selectedItems: string[], bet: number): any {
-        const choices = [...selectedItems].sort();
+        const choices = [...selectedItems].sort((a, b) => parseInt(b) - parseInt(a));
         const key = LotteryHelper.getChoiceTypeKey(choiceType);
         const result = {};
         const subInfo = {};
