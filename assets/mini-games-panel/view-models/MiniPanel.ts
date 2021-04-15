@@ -89,8 +89,12 @@ export default class MiniPanel extends cc.Component {
         };
     }
 
-    openResultPage() {
-        cc.RedT.send({ gameResult: { language: "vi-VN" } });
+    openResultPage(gameId: string = undefined) {
+        const data = { language: "vi-VN" };
+        if (gameId) {
+            data["gameId"] = gameId;
+        }
+        cc.RedT.send({ gameResult: data });
     }
 
     addMiniGame(game: any, gameId: number) {
