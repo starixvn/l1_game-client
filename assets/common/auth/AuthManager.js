@@ -120,14 +120,7 @@ export function triggerSignIn(main) {
                     main.handleUserData(response.user);
                 }
                 main.Authorized(response.authorized);
-                autoTriggerSignInTimeout = setTimeout(() => {
-                    this.auth({
-                        authentication: {
-                            username: window.authData.username,
-                            data: window.authData
-                        }
-                    });
-                }, 500);
+                this.auth();
             })
             .catch((e) => {
                 sentryLogger.logError(e);
@@ -141,13 +134,16 @@ export function triggerSignIn(main) {
     }
 }
 
-export function auth(obj) {
-    if (cc.RedT._socket == null || cc.RedT._socket.readyState !== 1) {
-        setTimeout(function () {
-            cc.RedT.send(obj);
-        }, 300);
-    } else {
-        cc.RedT.send(obj);
+export function auth() {
+    if (!!window.authData) {
+        const authentication = {
+            username: window.authData.username,
+            data: window.authData
+        };
+
+        autoTriggerSignInTimeout = setTimeout(() => {
+            cc.RedT.send({ authentication });
+        }, 500);
     }
 }
 

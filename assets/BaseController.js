@@ -70,7 +70,9 @@ module.exports = {
             cc.RedT.inGame.loading.active = true;
         }
 
-        //authManager && authManager.triggerSignIn();
+        if (cc.RedT.IS_LOGIN) {
+            authManager && authManager.auth();
+        }
 
         setTimeout(function () {
             if (cc.RedT.inGame && cc.RedT.inGame.loading) {
