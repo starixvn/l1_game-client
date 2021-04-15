@@ -123,7 +123,7 @@ const configs = {
             subDomain: "uatproxy",
             port: "",
             path: "/user/lottery",
-            proxyRoute: "/lottery/socket.io"
+            proxyRoute: "/sit/lottery/socket.io"
         }
     },
     sentry: {
