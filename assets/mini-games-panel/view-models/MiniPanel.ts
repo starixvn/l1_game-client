@@ -89,7 +89,7 @@ export default class MiniPanel extends cc.Component {
         };
     }
 
-    openResultPage(gameId: string = undefined) {
+    openResultPage(gameId: number = undefined) {
         const data = { language: "vi-VN" };
         if (gameId) {
             data["gameId"] = gameId;

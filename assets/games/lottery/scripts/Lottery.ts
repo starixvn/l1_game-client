@@ -726,6 +726,6 @@ export default class Lottery extends SocketIOTableGameBase {
 
     onResultClick() {
         cc.RedT.audio.playClick();
-        this.currentMiniPanel.openResultPage(this.gameId.toString());
+        this.currentMiniPanel.openResultPage(this.gameId);
     }
 }
