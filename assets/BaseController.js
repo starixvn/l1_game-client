@@ -1,3 +1,4 @@
+import * as authManager from "./common/auth/AuthManager";
 import { buildServerUrl } from "./common/helpers/UrlHelper";
 import logger from "./common/logger";
 import configs from "./configs/Configs";
