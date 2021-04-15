@@ -207,6 +207,9 @@ export default class Lottery extends SocketIOTableGameBase {
 
     protected onGameHide() {
         this.resetDataAndUI();
+    }
+
+    updateSettingStorage() {
         const settings = {
             currentTypeIndex: this.currentTypeIndex,
             selectedItems: this.selectedItems,
@@ -256,6 +259,7 @@ export default class Lottery extends SocketIOTableGameBase {
             }
         }
         this.updateDisplaySelectedItems();
+        this.updateSettingStorage();
         this.checkLockSelection();
         this.checkAvailableConfirmation();
         this.expandableMenu.collapseMenu();
@@ -355,6 +359,7 @@ export default class Lottery extends SocketIOTableGameBase {
     clearSelectedItems() {
         this.selectedItems = [];
         this.updateDisplaySelectedItems();
+        this.updateSettingStorage();
     }
 
     onLotteryTypeChanged(toggle: cc.Toggle) {
@@ -627,6 +632,7 @@ export default class Lottery extends SocketIOTableGameBase {
         } else {
             this.boards.forEach((board) => board.hideStatistics());
         }
+        this.updateSettingStorage();
     }
 
     requestStatistics() {
