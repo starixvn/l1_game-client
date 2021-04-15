@@ -205,10 +205,6 @@ export default class Lottery extends SocketIOTableGameBase {
         }
     }
 
-    protected onGameHide() {
-        this.resetDataAndUI();
-    }
-
     updateSettingStorage() {
         const settings = {
             currentTypeIndex: this.currentTypeIndex,
