@@ -29,8 +29,14 @@ export default class LotteryHistory extends SocketIOGameHistoryBase {
 
     onData(data) {
         super.onData(data);
+        const { pageSize, total, betLogs } = data;
 
-        const { pageSize, total } = data;
+        if (betLogs && betLogs.length > 0) {
+            const lastNode = this.content.children.slice(-1)[0];
+            const item = lastNode.getComponent(LotteryHistoryItem);
+            item.bottomLine.active = true;
+        }
+
         if (total <= pageSize) {
             this.pagination.node.active = false;
         }

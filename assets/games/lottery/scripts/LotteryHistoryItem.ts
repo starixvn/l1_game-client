@@ -28,6 +28,9 @@ export default class LotteryHistoryItem extends cc.Component {
     @property(cc.Node)
     background: cc.Node = null;
 
+    @property(cc.Node)
+    bottomLine: cc.Node = null;
+
     public showTicketDetail = (data: any) => {};
     protected data: any;
 
