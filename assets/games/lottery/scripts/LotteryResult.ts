@@ -70,7 +70,8 @@ export default class LotteryResult extends cc.Component {
         if (!animated) {
             list.forEach((key) => {
                 data[key].forEach((value) => {
-                    this.setPrizeLabel(this.prizeLabels[i], value, true);
+                    const isSeventh = i < 26 && i > 21;
+                    this.setPrizeLabel(this.prizeLabels[i], value, !isSeventh);
                     this.removeLoading(this.prizeLabels[i].node);
                     i++;
                 });

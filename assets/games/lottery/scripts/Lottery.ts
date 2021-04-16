@@ -156,8 +156,6 @@ export default class Lottery extends SocketIOTableGameBase {
                 this.requestStatistics();
             }
         }
-
-        this.clearSetting();
     }
 
     clearSetting() {
@@ -396,7 +394,9 @@ export default class Lottery extends SocketIOTableGameBase {
         const highlightData = this.getHighlightData();
         this.boards.forEach((board, i) => {
             const show = i === selectedIndex;
-            board.node.active = show;
+            board.node.active = true;
+            board.node.opacity = show ? 255 : 0;
+            board.node.y = show ? 0 : 10000;
             if (show) {
                 board.resetBoard();
                 board.resetScrolling();
