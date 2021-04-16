@@ -140,7 +140,7 @@ cc.Class({
         }
     },
     onSocketError() {
-        this.loadLobbyMenuFromStorage();
+        //this.loadLobbyMenuFromStorage();
     },
     initLobby() {
         this.initLobbyMenu();
