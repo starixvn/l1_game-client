@@ -12891,7 +12891,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "text",
+    "_name": "remote_maxbet",
     "_objFlags": 0,
     "_parent": {
       "__id__": 334
@@ -12972,8 +12972,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "- Bạn có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược.Tổng tiền cược tối đa cho 1 phiên là 2,000. ",
-    "_N$string": "- Bạn có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược.Tổng tiền cược tối đa cho 1 phiên là 2,000. ",
+    "_string": "- Bạn có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược.Tổng tiền cược tối đa cho 1 phiên là _maxBet. ",
+    "_N$string": "- Bạn có thể đặt cược vào nhiều lựa chọn và không bị giới hạn số lần đặt cược.Tổng tiền cược tối đa cho 1 phiên là _maxBet. ",
     "_fontSize": 18,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -76606,6 +76606,9 @@
       },
       {
         "__id__": 680
+      },
+      {
+        "__id__": 344
       }
     ],
     "mainFrame": {
