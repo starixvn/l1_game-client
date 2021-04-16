@@ -12,10 +12,22 @@ export default class LotteryFinishHandler extends GameBaseFinishHandler {
         this.main.requestStatistics();
         if (cc.RedT.GAME_IS_SHOWED) {
             this.main.showResult(dataFinish).then(() => {
+                this.handleStatus();
                 onFinishHanlingData();
             });
         } else {
             this.main.updateAfterResult();
+        }
+    }
+
+    handleStatus() {
+        if (this.main.statusHandler.currentStatusData) {
+            const { win, bet } = this.main.statusHandler.currentStatusData;
+            if (win) {
+                this.main.showWinningBet(bet);
+                this.main.updateUserBalance();
+            }
+            this.main.statusHandler.currentStatusData = null;
         }
     }
 }

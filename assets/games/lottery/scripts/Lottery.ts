@@ -97,7 +97,7 @@ export default class Lottery extends SocketIOTableGameBase {
 
     lotteryTypeItems: LotteryTypeItem[] = [];
     currentTypeIndex = 0;
-    displayResultTime = 5;
+    displayResultTime = 7;
     selectedItems: string[] = [];
     result: LotteryResult = null;
     extraResult: LotteryExtraResult = null;
