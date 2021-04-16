@@ -558,6 +558,9 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     updateLastResult() {
+        if (this.currentDataLogs.length === 0) {
+            return;
+        }
         this.showLastSpecialResult(true);
         const lastFinish = this.currentDataLogs[0];
         const result = lastFinish.result;
