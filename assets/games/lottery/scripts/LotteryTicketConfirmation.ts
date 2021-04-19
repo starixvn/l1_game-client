@@ -78,7 +78,8 @@ export default class LotteryTicketConfirmation extends BetBoard {
     isReachMaxBetPerChoice(): boolean {
         const choiceKey = LotteryHelper.getChoiceTypeKey(this.info.choiceType);
         let choices = [...this.info.selectedItems].sort((a, b) => parseInt(a) - parseInt(b));
-        if (choiceKey.slice(0, 6) === "parlay") {
+        const isParlay = choiceKey.slice(0, 6) === "parlay";
+        if (isParlay) {
             choices = [choices.join("-")];
         }
         const inputBet = this.info.bet;
@@ -91,7 +92,7 @@ export default class LotteryTicketConfirmation extends BetBoard {
                 if (isOthers) {
                     notValidList.push(GameUtils.getBetChoiceString(choice));
                 } else {
-                    notValidList.push(choice);
+                    notValidList.push(isParlay ? choice.split("-").join(", ") : choice);
                 }
             }
         });
@@ -137,7 +138,7 @@ export default class LotteryTicketConfirmation extends BetBoard {
         this.choice.string = LotteryHelper.getNameChoiceType(this.info.choiceType);
         this.odds.string = `1:${this.info.odds}`;
         this.roundId.string = `#${this.info.roundId}`;
-        this.limitBet.string = `1 - ${this.info.maxBet}`;
+        this.limitBet.string = `1 - ${numberWithCommas(this.info.maxBet)}`;
         this.itemLayout.updateItems(this.info.selectedItems, this.info.choiceType !== ChoiceType.Others, null);
     }
 
