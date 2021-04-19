@@ -8,10 +8,7 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
 
     handleInEndTime() {
         super.handleInEndTime();
-        if (this.main.animatedTime) {
-            this.main.animatedTime.node.active = true;
-            this.main.animatedTime.setTime("0");
-        }
+        this.resetAnimatedTime();
     }
 
     handleInLockBetTime() {
@@ -35,15 +32,18 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
+        this.resetAnimatedTime();
+    }
+
+    resetAnimatedTime() {
         if (this.main.animatedTime) {
             this.main.animatedTime.node.active = true;
+            this.main.animatedTime.setTime("0");
         }
     }
 
     resetTime(): void {
         super.resetTime();
-        if (this.main.animatedTime) {
-            this.main.animatedTime.node.active = true;
-        }
+        this.resetAnimatedTime();
     }
 }
