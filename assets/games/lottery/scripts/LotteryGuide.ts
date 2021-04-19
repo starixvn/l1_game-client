@@ -21,8 +21,8 @@ export default class LotteryGuide extends GameGuideBase {
 
             _oddsTail: odds.tail,
             _odds27Sets: odds["27Sets"],
-            _examResult27Sets: betValue * odds["27Sets"],
             _examResult27Sets2: betValue * odds["27Sets"] * 2,
+            _examResult27Sets: betValue * odds["27Sets"],
 
             _oddsParlay2: odds.parlay2,
             _oddsParlay3: odds.parlay3,
