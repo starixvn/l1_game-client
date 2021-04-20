@@ -1,5 +1,4 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
-import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import GameHistoryBase from "../../_base/view-models/GameHistoryBase";
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import RouletteHistoryItem from "./RouletteHistoryItem";

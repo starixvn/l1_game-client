@@ -1,9 +1,9 @@
-import LotterryNumberBoard from "./LotteryNumberBoard";
+import LotteryNumberBoard from "./LotteryNumberBoard";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class LotteryLargeNumberBoard extends LotterryNumberBoard {
+export default class LotteryLargeNumberBoard extends LotteryNumberBoard {
     @property(cc.PageView)
     pageView: cc.PageView = null;
 

@@ -1,7 +1,6 @@
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import GameBaseBetHandler from "../../../_base/handlers/GameBaseBetHandler";
 import Lottery from "../Lottery";
-import LotteryHelper from "../LotteryHelper";
 
 export default class LotteryBetHandler extends GameBaseBetHandler {
     constructor(protected readonly main: Lottery) {

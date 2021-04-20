@@ -603,9 +603,12 @@ export default class Lottery extends SocketIOTableGameBase {
         this.boards.forEach((board) => board.clearHighlight());
     }
 
-    getOwnBetsData() {
+    getOwnBetsData(): any {
         const key = LotteryHelper.getChoiceTypeKey(this.currentTypeIndex);
-        const data = this.ownBets[key] || {};
+        const data = this.ownBets[key];
+        if (!data) {
+            return {};
+        }
         return data;
     }
 

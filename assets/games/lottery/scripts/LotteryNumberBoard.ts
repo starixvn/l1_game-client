@@ -4,7 +4,7 @@ import LotteryNumberItem from "./LotteryNumberItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class LotterryNumberBoard extends LotteryChoicesBoard {
+export default class LotteryNumberBoard extends LotteryChoicesBoard {
     @property(cc.Prefab)
     numberItemPrefab: cc.Prefab = null;
 

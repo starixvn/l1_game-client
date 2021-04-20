@@ -1,8 +1,3 @@
-import { ChoiceType } from "./Lottery";
-
-const { ccclass, property } = cc._decorator;
-
-@ccclass
 export default class LotteryHelper {
     public static getNameChoiceType(type: number) {
         const dict = {

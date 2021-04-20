@@ -1,6 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
 import LabelItem from "./LabelItem";
-import { ChoiceType } from "./Lottery";
 
 const { ccclass, property } = cc._decorator;
 

@@ -2,5 +2,10 @@
     "jest.pathToJest": "npm test --",
     "jest.showCoverageOnLoad": false,
     "coverage-gutters.showGutterCoverage": true,
-    "coverage-gutters.showLineCoverage": false
+    "coverage-gutters.showLineCoverage": false,
+    "sonarlint.analyzerProperties": {},
+    "sonarlint.connectedMode.project": {
+        "connectionId": "l1-game-client",
+        "projectKey": "l1-game-client"
+    }
 }

@@ -1,6 +1,5 @@
 import * as moment from "moment";
 
-import AnimatedTime from "../../../../common/animated-time/view-models/AnimatedTime";
 import ShortAnimatedTime from "../../../../common/animated-time/view-models/ShortAnimatedTime";
 
 const { ccclass, property } = cc._decorator;
