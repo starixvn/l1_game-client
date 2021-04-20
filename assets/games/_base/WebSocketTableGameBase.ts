@@ -270,6 +270,10 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     protected loadUserData(user) {
+        if (!this.node || !this.node.isValid) {
+            return;
+        }
+
         if (void 0 !== user.name && this.userName) {
             this.userName.string = user.name;
         }
