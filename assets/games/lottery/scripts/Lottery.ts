@@ -21,6 +21,7 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import LotteryNumberItem from "./LotteryNumberItem";
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import LotteryGuide from "./LotteryGuide";
+import LotteryLargeNumberBoard from "./LotteryLargeNumberBoard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -124,6 +125,10 @@ export default class Lottery extends SocketIOTableGameBase {
         });
         this.boards.forEach((board) => {
             board.choiceBoardChanged = (name, selected) => this.onSelectedItemChanged(name, selected);
+            const largeNumberboard = board.getComponent(LotteryLargeNumberBoard);
+            if (largeNumberboard) {
+                largeNumberboard.pageView.node.on("page-turning", this.updateSettingStorage, this);
+            }
         });
         this.checkAvailableConfirmation();
         this.animatedTime.setAnimatedY(0, 0);
@@ -145,6 +150,12 @@ export default class Lottery extends SocketIOTableGameBase {
             this.lotteryTypeItems[this.currentTypeIndex].toggle.isChecked = true;
             const selectedItems = settings.selectedItems;
             const board = this.getCurrentBoard();
+
+            const largeNumberboard = board.getComponent(LotteryLargeNumberBoard);
+            if (largeNumberboard) {
+                largeNumberboard.pageView.scrollToPage(settings.boardPage, 0);
+            }
+
             board.items.forEach((item) => {
                 if (selectedItems.includes(item.node.name)) {
                     item.toggle.check();
@@ -204,10 +215,16 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     updateSettingStorage() {
+        const board = this.getCurrentBoard().getComponent(LotteryLargeNumberBoard);
+        let page = 0;
+        if (board) {
+            page = board.pageView.getCurrentPageIndex();
+        }
         const settings = {
             currentTypeIndex: this.currentTypeIndex,
             selectedItems: this.selectedItems,
-            statsEnabled: this.statsToggle.isChecked
+            statsEnabled: this.statsToggle.isChecked,
+            boardPage: page
         };
         cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, JSON.stringify(settings));
     }
