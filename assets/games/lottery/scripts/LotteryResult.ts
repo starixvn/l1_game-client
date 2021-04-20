@@ -99,7 +99,10 @@ export default class LotteryResult extends cc.Component {
                             })
                             .delay(delayTime)
                     )
-                    .call(resolve)
+                    .call(() => {
+                        this.createSpecialEffect();
+                        resolve();
+                    })
                     .start();
             });
         }
@@ -107,9 +110,9 @@ export default class LotteryResult extends cc.Component {
 
     createSpecialEffect() {
         const special = this.prizeLabels[this.prizeLabels.length - 1].node;
-        special.scale = 2;
-        this.node.runAction(cc.scaleTo(0.3, 1).easing(cc.easeSineOut()));
-        cc.tween(special).to(0.3, { scale: 1 }, { easing: "sineOut" }).start();
+        cc.tween(special)
+            .repeat(10, cc.tween().to(0.15, { scale: 1.08 }).to(0.15, { scale: 1 }))
+            .start();
     }
 
     removeLoading(node: cc.Node) {
