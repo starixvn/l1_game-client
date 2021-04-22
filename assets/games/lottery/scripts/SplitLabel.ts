@@ -29,12 +29,26 @@ export default class SplitLabel extends cc.Component {
         this.layout.updateLayout();
     }
 
-    addMoreLabels(count: number) {
+    private addMoreLabels(count: number) {
         const sample = this.node.children[0];
         for (let i = 0; i < count; i++) {
             const node = cc.instantiate(sample);
             this.node.addChild(node);
             this.labels.push(node.getComponent(cc.Label));
         }
+    }
+
+    setHighlight(indices: number[], color: cc.Color) {
+        indices.forEach((index) => {
+            this.setColor(index, color);
+        });
+    }
+
+    private setColor(index: number, color: cc.Color) {
+        if (index < 0 || index >= this.labels.length) {
+            return;
+        }
+        const node = this.labels[index].node;
+        node.color = color;
     }
 }

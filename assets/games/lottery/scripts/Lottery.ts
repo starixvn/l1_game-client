@@ -543,7 +543,7 @@ export default class Lottery extends SocketIOTableGameBase {
         if (!this.result) {
             return;
         }
-        await this.result.setData(data.result, animated);
+        await this.result.setData(data, animated, this.ownBets);
         this.extraResult.setData(this.calculateFinishNumberStatistics(data.settlementResult["27Sets"]));
     }
 

@@ -1,53 +1,35 @@
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import LotteryHelper from "./LotteryHelper";
+import LotteryResultNumber from "./LotteryResultNumber";
 import SplitLabel from "./SplitLabel";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LotteryResult extends cc.Component {
-    @property({ type: cc.Node })
-    prizeContainers: cc.Node[] = [];
-
-    @property(cc.Node)
-    loading: cc.Node = null;
-
     @property(CommonDialog)
     dialog: CommonDialog = null;
+
+    @property({ type: LotteryResultNumber })
+    resultNumbers: LotteryResultNumber[] = [];
 
     @property(cc.Node)
     sampleSplitLabel: cc.Node = null;
 
-    prizeLabels: cc.Label[] = [];
+    @property(cc.Node)
+    sampleHighlight: cc.Node = null;
 
     onLoad() {
-        this.prizeContainers.forEach((container) => {
-            if (container.childrenCount > 0) {
-                container.children.forEach((child) => {
-                    const lbl = child.getComponent(cc.Label);
-                    if (lbl) {
-                        this.prizeLabels.push(lbl);
-                    }
-                });
-            } else {
-                const label = container.getComponent(cc.Label);
-                if (label) {
-                    this.prizeLabels.push(label);
-                }
-            }
-        });
-
-        this.prizeLabels.forEach((label) => {
-            label.string = "";
-
-            const splitLabel = cc.instantiate(this.sampleSplitLabel);
-            label.node.addChild(splitLabel);
-        });
-
         if (this.dialog) {
             this.dialog.onDidHide = () => {
                 this.node.destroy();
             };
         }
+
+        this.resultNumbers.forEach((resultNumber) => {
+            resultNumber.sampleSplitLabel = this.sampleSplitLabel;
+            resultNumber.sampleHighlight = this.sampleHighlight;
+        });
     }
 
     setPrizeLabel(label: cc.Label, value: string, split: boolean) {
@@ -63,16 +45,25 @@ export default class LotteryResult extends cc.Component {
         }
     }
 
-    setData(data: any, animated: boolean): Promise<void> {
+    setData(data: any, animated: boolean, ownBets: any): Promise<void> {
+        const { result } = data;
         const list = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "special"];
         let i = 0;
 
+        const winChoices = LotteryHelper.getWinChoices(data, ownBets);
+        const locations = LotteryHelper.getPrizeLocations(data, winChoices);
+
         if (!animated) {
             list.forEach((key) => {
-                data[key].forEach((value) => {
+                result[key].forEach((value) => {
                     const isSeventh = i < 26 && i > 21;
-                    this.setPrizeLabel(this.prizeLabels[i], value, !isSeventh);
-                    this.removeLoading(this.prizeLabels[i].node);
+                    const info = locations[i];
+                    if (!info) {
+                        this.resultNumbers[i].setValue(value);
+                    } else {
+                        this.resultNumbers[i].setSplitValues(info.text, info.highlight, cc.Color.GREEN);
+                    }
+                    this.removeLoading(this.resultNumbers[i].node);
                     i++;
                 });
             });
@@ -84,7 +75,7 @@ export default class LotteryResult extends cc.Component {
 
                 const values = [];
                 list.forEach((key) => {
-                    data[key].forEach((value) => values.push(value));
+                    result[key].forEach((value) => values.push(value));
                 });
                 cc.tween(this.node)
                     .repeat(
@@ -93,8 +84,14 @@ export default class LotteryResult extends cc.Component {
                             .tween()
                             .call(() => {
                                 const isSeventh = i < 26 && i > 21;
-                                this.setPrizeLabel(this.prizeLabels[i], values[i], !isSeventh);
-                                this.removeLoading(this.prizeLabels[i].node);
+                                const info = locations[i];
+                                if (!info) {
+                                    this.resultNumbers[i].setValue(values[i]);
+                                } else {
+                                    this.resultNumbers[i].setSplitValues(info.text, info.highlight, cc.Color.GREEN);
+                                    this.resultNumbers[i].setHighlight();
+                                }
+                                this.removeLoading(this.resultNumbers[i].node);
                                 i++;
                             })
                             .delay(delayTime)
@@ -109,7 +106,7 @@ export default class LotteryResult extends cc.Component {
     }
 
     createSpecialEffect() {
-        const special = this.prizeLabels[this.prizeLabels.length - 1].node;
+        const special = this.resultNumbers[this.resultNumbers.length - 1].label.node;
         cc.tween(special)
             .repeat(10, cc.tween().to(0.15, { scale: 1.08 }).to(0.15, { scale: 1 }))
             .start();
@@ -120,10 +117,6 @@ export default class LotteryResult extends cc.Component {
         if (loading) {
             loading.destroy();
         }
-    }
-
-    showLoading(show: boolean) {
-        this.loading.active = show;
     }
 
     close() {

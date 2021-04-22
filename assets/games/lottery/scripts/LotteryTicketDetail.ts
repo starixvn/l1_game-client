@@ -1,6 +1,7 @@
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import LotteryResult from "./LotteryResult";
 import LotteryTicketDetailItem from "./LotteryTicketDetailItem";
+import * as _ from "lodash";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,8 +27,12 @@ export default class LotteryTicketDetail extends cc.Component {
     }
 
     setData(data: any) {
-        const { result, betLogDetails, phien } = data;
-        this.result.setData(result, false);
+        const { betLogDetails, phien } = data;
+        const choices = {};
+        betLogDetails.forEach((log) => {
+            _.merge(choices, log.choices);
+        });
+        this.result.setData(data, false, choices);
         this.roundId.string = `#${phien}`;
 
         const total = betLogDetails.length;
