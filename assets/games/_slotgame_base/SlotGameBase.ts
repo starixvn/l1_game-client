@@ -218,9 +218,11 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         if (info) {
             const defaultSettings: SlotGameUserSettings = {
                 betChoices: this.betChoices,
-                stake: this.stake
+                stake: this.stake,
+                turboEnabled: false
             };
             const settings: SlotGameUserSettings = JSON.parse(info) || defaultSettings;
+            this.turboToggle.isChecked = settings.turboEnabled;
             this.setBetChoices(settings.betChoices);
             this.setStake(settings.stake);
             this.onStakeChanged();
@@ -249,7 +251,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
         const currentSetting: SlotGameUserSettings = {
             betChoices: this.betChoices,
-            stake: this.stake
+            stake: this.stake,
+            turboEnabled: this.turboToggle.isChecked
         };
 
         cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, JSON.stringify(currentSetting));

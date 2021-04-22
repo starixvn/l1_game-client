@@ -12,7 +12,7 @@ export class FourGuardiansSlotConfigs implements SlotGameBaseConfigs {
         noWinningDuration: 1,
         bigWinDuration: 3.5,
         freespinDuration: 3.5,
-        bonusDuration: 3.5,
+        bonusDuration: 4.61,
         jackpotDuration: 4.61
     };
 
@@ -22,7 +22,7 @@ export class FourGuardiansSlotConfigs implements SlotGameBaseConfigs {
         noWinningDuration: 0.75,
         bigWinDuration: 2,
         freespinDuration: 2,
-        bonusDuration: 2,
+        bonusDuration: 4.61,
         jackpotDuration: 4.61
     };
 }
