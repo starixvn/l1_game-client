@@ -43,7 +43,10 @@ export default class GameUtils {
             red4: "4 ĐỎ",
             white3: "1 ĐỎ",
             white4: "4 TRẮNG",
-            red2: "2 ĐỎ"
+            red2: "2 ĐỎ",
+
+            red: "ĐỎ",
+            black: "ĐEN"
         };
 
         return dict[choice];

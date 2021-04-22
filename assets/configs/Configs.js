@@ -127,6 +127,12 @@ const configs = {
             port: "",
             path: "/user/lottery",
             proxyRoute: "/lottery/socket.io"
+        },
+        35: {
+            subDomain: "haproxy",
+            port: 7000,
+            path: "/user/threecards",
+            proxyRoute: "/threecards/socket.io"
         }
     },
     sentry: {

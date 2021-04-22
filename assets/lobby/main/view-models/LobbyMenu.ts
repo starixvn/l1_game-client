@@ -36,7 +36,7 @@ export default class LobbyMenu extends GameIconMenu {
         const node = cc.instantiate(prefab);
 
         const detail = this.lobbyMenuConfig.detail;
-        const size = detail[id].size;
+        const size = detail[id]?.size || cc.v2(1, 1);
         if (!this.currentColumn || size.y > 1) {
             this.createNewColumn();
         }

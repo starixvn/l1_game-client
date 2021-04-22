@@ -6,7 +6,7 @@ export default class LotteryFinishHandler extends GameBaseFinishHandler {
         super(main);
     }
 
-    handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
+    handleFinishData(dataFinish, onFinishHandlingData: () => void = null) {
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.requestStatistics();
@@ -14,7 +14,7 @@ export default class LotteryFinishHandler extends GameBaseFinishHandler {
             this.main.clearAllNotices();
             this.main.showResult(dataFinish).then(() => {
                 this.handleStatus();
-                onFinishHanlingData();
+                onFinishHandlingData();
             });
         } else {
             this.main.updateAfterResult();
