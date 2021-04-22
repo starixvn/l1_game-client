@@ -896,9 +896,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     resetStateButtons() {
         this.autoSpinToggle.isChecked = false;
         this.setAutoSpinCount(0);
-        this.updateModeSpinButton(false);
+        const isFreeSpin = this.isFreeSpin();
+        this.updateModeSpinButton(isFreeSpin);
         this.activeButtons();
-        if (this.isFreeSpin()) {
+        if (isFreeSpin) {
             this.showActiveFreeSpinButton();
         }
     }
