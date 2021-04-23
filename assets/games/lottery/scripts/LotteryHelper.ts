@@ -104,9 +104,13 @@ export default class LotteryHelper {
     }
 
     private static calculateForSpecialCase(locations: any, winChoices: any, special: string) {
-        if (!winChoices["head"] || !winChoices["tail"]) {
-            const index = 26;
-
+        const index = 26;
+        if (winChoices["special"] || winChoices["others"]) {
+            locations[index] = {
+                text: [special.slice(0, special.length - 2), special.slice(-2)],
+                highlight: [1]
+            };
+        } else {
             if (!locations[index]) {
                 if (winChoices["head"]) {
                     locations[index] = {
@@ -124,12 +128,6 @@ export default class LotteryHelper {
                     };
                 }
             }
-        } else {
-            const index = 26;
-            locations[index] = {
-                text: [special.slice(0, special.length - 2), special.slice(-2)],
-                highlight: [1]
-            };
         }
     }
 
@@ -182,6 +180,7 @@ export default class LotteryHelper {
                     case "head":
                     case "tail":
                     case "special":
+                    case "others":
                         LotteryHelper.calculateForSpecialCase(locations, winChoices, special);
                         break;
 

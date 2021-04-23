@@ -19,6 +19,9 @@ export default class LotteryResult extends cc.Component {
     @property(cc.Node)
     sampleHighlight: cc.Node = null;
 
+    @property(cc.Animation)
+    animation: cc.Animation = null;
+
     onLoad() {
         if (this.dialog) {
             this.dialog.onDidHide = () => {
@@ -29,6 +32,10 @@ export default class LotteryResult extends cc.Component {
         this.resultNumbers.forEach((resultNumber) => {
             resultNumber.sampleSplitLabel = this.sampleSplitLabel;
             resultNumber.sampleHighlight = this.sampleHighlight;
+            if (this.animation) {
+                const animation = resultNumber.addComponent(cc.Animation);
+                animation.defaultClip = this.animation.defaultClip;
+            }
         });
     }
 
@@ -56,14 +63,12 @@ export default class LotteryResult extends cc.Component {
         if (!animated) {
             list.forEach((key) => {
                 result[key].forEach((value) => {
-                    const isSeventh = i < 26 && i > 21;
                     const info = locations[i];
                     if (!info) {
                         this.resultNumbers[i].setValue(value);
                     } else {
-                        this.resultNumbers[i].setSplitValues(info.text, info.highlight, cc.Color.GREEN);
+                        this.resultNumbers[i].setSplitValues(info.text, info.highlight, cc.Color.GREEN, animated);
                     }
-                    this.removeLoading(this.resultNumbers[i].node);
                     i++;
                 });
             });
@@ -83,21 +88,22 @@ export default class LotteryResult extends cc.Component {
                         cc
                             .tween()
                             .call(() => {
-                                const isSeventh = i < 26 && i > 21;
-                                const info = locations[i];
-                                if (!info) {
-                                    this.resultNumbers[i].setValue(values[i]);
-                                } else {
-                                    this.resultNumbers[i].setSplitValues(info.text, info.highlight, cc.Color.GREEN);
-                                    this.resultNumbers[i].setHighlight();
-                                }
-                                this.removeLoading(this.resultNumbers[i].node);
+                                this.resultNumbers[i].setValue(values[i]);
+                                this.resultNumbers[i].getComponent(cc.Animation).play();
                                 i++;
                             })
                             .delay(delayTime)
                     )
                     .call(() => {
-                        this.createSpecialEffect();
+                        if (Object.keys(winChoices).length === 0) {
+                            this.createSpecialEffect();
+                        }
+
+                        Object.keys(locations).forEach((key) => {
+                            const info = locations[key];
+                            this.resultNumbers[key].setSplitValues(info.text, info.highlight, cc.Color.GREEN, animated);
+                            this.resultNumbers[key].setHighlight();
+                        });
                         resolve();
                     })
                     .start();
@@ -110,13 +116,6 @@ export default class LotteryResult extends cc.Component {
         cc.tween(special)
             .repeat(10, cc.tween().to(0.15, { scale: 1.08 }).to(0.15, { scale: 1 }))
             .start();
-    }
-
-    removeLoading(node: cc.Node) {
-        const loading = node.getChildByName("loading");
-        if (loading) {
-            loading.destroy();
-        }
     }
 
     close() {

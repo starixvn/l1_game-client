@@ -1,3 +1,5 @@
+import JumpInEffect from "../../../common/animations/JumpInEffect";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -38,17 +40,21 @@ export default class SplitLabel extends cc.Component {
         }
     }
 
-    setHighlight(indices: number[], color: cc.Color) {
+    setHighlight(indices: number[], color: cc.Color, animated: boolean) {
         indices.forEach((index) => {
-            this.setColor(index, color);
+            this.setColor(index, color, animated);
         });
     }
 
-    private setColor(index: number, color: cc.Color) {
+    private setColor(index: number, color: cc.Color, animated: boolean) {
         if (index < 0 || index >= this.labels.length) {
             return;
         }
         const node = this.labels[index].node;
         node.color = color;
+        if (animated) {
+            node.scale = 1.3;
+            cc.tween(node).to(0.3, { scale: 1 }, { easing: "bounceOut" }).start();
+        }
     }
 }

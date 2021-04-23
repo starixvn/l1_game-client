@@ -31,14 +31,14 @@ export default class LotteryResultNumber extends cc.Component {
         this.label.string = value;
     }
 
-    setSplitValues(values: string[], highlightIndices: number[], color: cc.Color) {
+    setSplitValues(values: string[], highlightIndices: number[], color: cc.Color, animated: boolean) {
         this.label.string = "";
         if (!this.splitLabel) {
             this.addSplitLabel();
         }
 
         this.splitLabel.setString(values);
-        this.splitLabel.setHighlight(highlightIndices, color);
+        this.splitLabel.setHighlight(highlightIndices, color, animated);
     }
 
     setHighlight() {
