@@ -342,7 +342,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.noticeNode, false, bet, 1, 80);
+        GameUtils.addFlyingText(this.noticeNode, false, bet, this.getCustomDuration("acceptedBet"), 80);
     }
 
     showWinningBet(bet: number) {
@@ -780,7 +780,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     getCustomDuration(type: string): number {
-        const info = this.isTurboMode() ? this.slotGameConfigs.turboMode : this.slotGameConfigs.normalMode;
+        const isTurboMode = this.isTurboMode();
+        const info = isTurboMode ? this.slotGameConfigs.turboMode : this.slotGameConfigs.normalMode;
         switch (type) {
             case "bigwin":
                 return info.bigWinDuration;
@@ -796,6 +797,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
                 return info.noWinningDuration;
             case "spin":
                 return info.spinDuration;
+            case "acceptedBet":
+                return isTurboMode ? 0.5 : 1;
         }
         return 0;
     }
