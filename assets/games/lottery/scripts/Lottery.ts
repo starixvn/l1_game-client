@@ -621,7 +621,7 @@ export default class Lottery extends SocketIOTableGameBase {
             case 0:
                 return lastData.settlementResult["4Sets"];
             case 1:
-                return [...lastData.result.special.slice(-2)];
+                return [lastData.result.special[0].slice(-2)];
             case 2:
                 return [...lastData.settlementResult.head];
             case 3:
