@@ -121,8 +121,11 @@ const configs = {
             proxyRoute: "/fourguardians/socket.io"
         }
     },
+    sentry: {
+        url: "https://b015ef787273452c8fce4af733e62d59@sentry.lumigame.com/29",
+        env: "LOCAL_1"
+    },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    sentryUrl: "https://4c2b6824d6ed41f291540878d9c76181@sentryuat.sabagame.com/50",
     userServiceUrl: "http://haproxy.lumigame.com:7101/user"
 };
 

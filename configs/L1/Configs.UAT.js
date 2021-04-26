@@ -120,7 +120,10 @@ const configs = {
             proxyRoute: "/uat/fourguardians/socket.io"
         }
     },
-    sentryUrl: "https://e2d54dceaaab4ccc8e3b3b20d806d6ac@sentryuat.sabagame.com/30",
+    sentry: {
+        url: "https://08d902b128ea45b6a11639833224f481@sentryuat.sabagame.com/25",
+        env: "UAT"
+    },
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
