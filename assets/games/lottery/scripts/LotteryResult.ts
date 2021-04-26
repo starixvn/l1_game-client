@@ -34,7 +34,7 @@ export default class LotteryResult extends cc.Component {
             resultNumber.sampleHighlight = this.sampleHighlight;
             if (this.animation) {
                 const animation = resultNumber.addComponent(cc.Animation);
-                animation.defaultClip = this.animation.defaultClip;
+                animation.addClip(this.animation.defaultClip);
             }
         });
     }
@@ -89,11 +89,12 @@ export default class LotteryResult extends cc.Component {
                             .tween()
                             .call(() => {
                                 this.resultNumbers[i].setValue(values[i]);
-                                this.resultNumbers[i].getComponent(cc.Animation).play();
+                                this.resultNumbers[i].getComponent(cc.Animation).play("number_appear");
                                 i++;
                             })
                             .delay(delayTime)
                     )
+                    .delay(0.2)
                     .call(() => {
                         if (Object.keys(winChoices).length === 0) {
                             this.createSpecialEffect();
