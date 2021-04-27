@@ -1,8 +1,6 @@
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
-import ItemLayout from "./ItemLayout";
 import { LotteryChoicesBoard } from "./LotteryChoicesBoard";
 import LotteryGameConfig from "./LotteryGameConfig";
-import LotteryTicketConfirmation from "./LotteryTicketConfirmation";
 import LotteryTypeItem from "./LotteryTypeItem";
 import { games } from "../../../configs/SabaConfigs";
 import LotteryHelper from "./LotteryHelper";
@@ -26,15 +24,15 @@ import LotteryLargeNumberBoard from "./LotteryLargeNumberBoard";
 const { ccclass, property } = cc._decorator;
 
 export enum ChoiceType {
-    Set4 = 0,
+    Set27 = 0,
+    Set4,
     Special,
     Head,
     Tail,
-    Set27,
+    Others,
     Parlay2,
     Parlay3,
-    Parlay4,
-    Others
+    Parlay4
 }
 
 @ccclass
@@ -44,18 +42,6 @@ export default class Lottery extends SocketIOTableGameBase {
 
     @property({ type: LotteryChoicesBoard })
     boards: LotteryChoicesBoard[] = [];
-
-    @property(cc.Button)
-    confirmButton: cc.Button = null;
-
-    @property({ type: ItemLayout })
-    itemLayout: ItemLayout = null;
-
-    @property(cc.Label)
-    parlayReminderLabel: cc.Label = null;
-
-    @property(cc.Prefab)
-    confirmationPrefab: cc.Prefab = null;
 
     @property({ type: LabelItem })
     lastSpecialNumbers: LabelItem[] = [];
@@ -87,14 +73,17 @@ export default class Lottery extends SocketIOTableGameBase {
     @property({ type: LotteryMiniRoundHistory })
     miniRoundHistories: LotteryMiniRoundHistory[] = [];
 
-    @property({ type: cc.Node })
-    itemLayoutBackgrounds: cc.Node[] = [];
-
     @property(cc.Toggle)
     statsToggle: cc.Toggle = null;
 
     @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
+
+    @property(cc.Node)
+    bettingNotice: cc.Node = null;
+
+    @property(cc.Node)
+    stoppingBetNotice: cc.Node = null;
 
     lotteryTypeItems: LotteryTypeItem[] = [];
     currentTypeIndex = 0;
@@ -103,7 +92,6 @@ export default class Lottery extends SocketIOTableGameBase {
     result: LotteryResult = null;
     extraResult: LotteryExtraResult = null;
     historyComponent: LotteryHistory = null;
-    ticketConfirmation: LotteryTicketConfirmation = null;
     ownBets = {};
     stats = {};
     resultTween: cc.Tween;
@@ -124,14 +112,13 @@ export default class Lottery extends SocketIOTableGameBase {
             }
         });
         this.boards.forEach((board) => {
-            board.choiceBoardChanged = (name, selected) => this.onSelectedItemChanged(name, selected);
+            board.onChoiceBet = (name) => this.onChoiceBet(name);
             const largeNumberboard = board.getComponent(LotteryLargeNumberBoard);
             if (largeNumberboard) {
                 largeNumberboard.pageView.node.on("page-turning", this.updateSettingStorage, this);
             }
         });
-        this.checkAvailableConfirmation();
-        this.animatedTime.setAnimatedY(0, 0);
+        this.animatedTime.setAnimatedY(15, 0);
         this.animatedTime.setRedTime(this.config.stopBetTime);
         this.initMiniHistories();
     }
@@ -148,7 +135,6 @@ export default class Lottery extends SocketIOTableGameBase {
             const settings = JSON.parse(info);
             this.currentTypeIndex = settings.currentTypeIndex;
             this.lotteryTypeItems[this.currentTypeIndex].toggle.isChecked = true;
-            const selectedItems = settings.selectedItems;
             const board = this.getCurrentBoard();
 
             const largeNumberboard = board.getComponent(LotteryLargeNumberBoard);
@@ -156,12 +142,6 @@ export default class Lottery extends SocketIOTableGameBase {
                 largeNumberboard.pageView.scrollToPage(settings.boardPage, 0);
             }
 
-            board.items.forEach((item) => {
-                if (selectedItems.includes(item.node.name)) {
-                    item.toggle.check();
-                    this.onSelectedItemChanged(item.node.name, true, true);
-                }
-            });
             this.statsToggle.isChecked = settings.statsEnabled;
             if (this.statsToggle.isChecked) {
                 this.requestStatistics();
@@ -222,7 +202,6 @@ export default class Lottery extends SocketIOTableGameBase {
         }
         const settings = {
             currentTypeIndex: this.currentTypeIndex,
-            selectedItems: this.selectedItems,
             statsEnabled: this.statsToggle.isChecked,
             boardPage: page
         };
@@ -257,120 +236,25 @@ export default class Lottery extends SocketIOTableGameBase {
         GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
     }
 
-    onSelectedItemChanged(name: string, selected: boolean, mute = false) {
-        if (!mute) {
-            cc.RedT.audio.playClick();
+    onChoiceBet(name: string) {
+        console.log("onChoiceBet ", name);
+
+        if (this.isDisableGame) {
+            return;
         }
-        if (selected) {
-            this.selectedItems.push(name);
+
+        cc.RedT.audio.playClick();
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
         } else {
-            const index = this.selectedItems.findIndex((item) => item === name);
-            if (index !== -1) {
-                this.selectedItems.splice(index, 1);
-            }
+            this.waitingProcessing = true;
+            const betData = {
+                betChoice: this.createBetChoice(this.currentTypeIndex, [name], this.currentBet)
+            };
+            this.socket && this.socket.connected && this.socket.emit("bet", betData);
+            const currentBoard = this.getCurrentBoard();
+            currentBoard.resetBoard();
         }
-        this.updateDisplaySelectedItems();
-        this.updateSettingStorage();
-        this.checkLockSelection();
-        this.checkAvailableConfirmation();
-        this.expandableMenu.collapseMenu();
-    }
-
-    checkLockSelection() {
-        const count = this.selectedItems.length;
-        let shouldLock = false;
-        if (
-            this.currentTypeIndex === ChoiceType.Parlay2 ||
-            this.currentTypeIndex === ChoiceType.Parlay3 ||
-            this.currentTypeIndex === ChoiceType.Parlay4
-        ) {
-            shouldLock = count > 0 && count >= this.currentTypeIndex - ChoiceType.Parlay2 + 2;
-        } else {
-            shouldLock = count >= 10;
-        }
-
-        if (shouldLock) {
-            this.lockItemSelection();
-        } else {
-            this.unlockItemSelection();
-        }
-    }
-
-    checkAvailableConfirmation() {
-        const count = this.selectedItems.length;
-        let available = false;
-        if (
-            this.currentTypeIndex === ChoiceType.Parlay2 ||
-            this.currentTypeIndex === ChoiceType.Parlay3 ||
-            this.currentTypeIndex === ChoiceType.Parlay4
-        ) {
-            available = count > 0 && count === this.currentTypeIndex - ChoiceType.Parlay2 + 2;
-        } else {
-            available = count > 0;
-        }
-
-        const isInBetTime = this.currentTimeRemaining > this.config.stopBetTime && this.currentTimeRemaining <= this.config.betTime;
-        this.confirmButton.interactable = available && isInBetTime && (!this.ticketConfirmation || this.ticketConfirmation.isClosed);
-    }
-
-    hideTicketConfirmation() {
-        if (this.ticketConfirmation && this.ticketConfirmation.node) {
-            this.ticketConfirmation.close();
-            this.ticketConfirmation = null;
-        }
-    }
-
-    lockItemSelection() {
-        const currentBoard = this.getCurrentBoard();
-        currentBoard.lockSelection();
-    }
-
-    unlockItemSelection() {
-        this.boards.forEach((board) => board.unlockSelection());
-    }
-
-    updateDisplaySelectedItems() {
-        if (
-            this.currentTypeIndex === ChoiceType.Parlay2 ||
-            this.currentTypeIndex === ChoiceType.Parlay3 ||
-            this.currentTypeIndex === ChoiceType.Parlay4
-        ) {
-            this.parlayReminderLabel.node.parent.active = true;
-            this.updateParlayReminderText();
-        } else {
-            this.parlayReminderLabel.node.parent.active = false;
-        }
-
-        this.itemLayoutBackgrounds.forEach((bg) => (bg.active = false));
-        let backgroundIndex = 0;
-        switch (this.currentTypeIndex) {
-            case ChoiceType.Parlay2:
-            case ChoiceType.Parlay3:
-            case ChoiceType.Parlay4:
-            case ChoiceType.Others:
-                backgroundIndex = this.currentTypeIndex - ChoiceType.Parlay2 + 1;
-                break;
-            default:
-                break;
-        }
-
-        this.itemLayoutBackgrounds[backgroundIndex].active = true;
-        this.itemLayout.updateItems(
-            this.selectedItems,
-            this.currentTypeIndex !== ChoiceType.Others,
-            this.itemLayoutBackgrounds[backgroundIndex]
-        );
-    }
-
-    updateParlayReminderText() {
-        const count = this.currentTypeIndex - ChoiceType.Parlay2 + 2;
-        this.parlayReminderLabel.string = `Chọn ${count} số cho một lần cược`;
-    }
-
-    clearSelectedItems() {
-        this.selectedItems = [];
-        this.updateDisplaySelectedItems();
-        this.updateSettingStorage();
     }
 
     onLotteryTypeChanged(toggle: cc.Toggle) {
@@ -378,9 +262,6 @@ export default class Lottery extends SocketIOTableGameBase {
         const id = this.lotteryTypeItems.findIndex((item) => item.toggle === toggle);
         this.currentTypeIndex = id;
         this.showChoiceBoard(this.currentTypeIndex);
-        this.unlockItemSelection();
-        this.clearSelectedItems();
-        this.checkAvailableConfirmation();
         this.expandableMenu.collapseMenu();
     }
 
@@ -394,9 +275,9 @@ export default class Lottery extends SocketIOTableGameBase {
             case ChoiceType.Set4:
             case ChoiceType.Set27:
             case ChoiceType.Special:
-            case ChoiceType.Parlay2:
-            case ChoiceType.Parlay3:
-            case ChoiceType.Parlay4:
+                // case ChoiceType.Parlay2:
+                // case ChoiceType.Parlay3:
+                // case ChoiceType.Parlay4:
                 selectedIndex = 0;
                 break;
             case ChoiceType.Others:
@@ -424,50 +305,6 @@ export default class Lottery extends SocketIOTableGameBase {
         this.updateDisplayStats();
     }
 
-    onConfirmClick() {
-        cc.RedT.audio.playClick();
-        this.confirmButton.interactable = false;
-
-        const node = cc.instantiate(this.confirmationPrefab);
-        this.currentMiniPanel.addDialog(node);
-        const dialog = node.getComponent(LotteryTicketConfirmation);
-        const key = LotteryHelper.getChoiceTypeKey(this.currentTypeIndex);
-        dialog.show({
-            choiceType: this.currentTypeIndex,
-            roundId: this.roundId,
-            odds: this.gameConfigs.odds[key],
-            maxBet: Math.min(this.gameConfigs.maxbet, this.gameConfigs.choices_maxbet[key]),
-            bet: 0,
-            selectedItems: this.selectedItems,
-            maxBetTotal: this.gameConfigs.maxbet,
-            ownBets: this.ownBets
-        });
-
-        dialog.callback.acceptedBet = this.acceptedBet.bind(this);
-        dialog.callback.cancel = () => this.checkAvailableConfirmation();
-        this.ticketConfirmation = dialog;
-    }
-
-    acceptedBet(info: any) {
-        if (this.isDisableGame) {
-            return;
-        }
-
-        if (this.waitingProcessing) {
-            this.showProcessingWarning(true);
-        } else {
-            this.waitingProcessing = true;
-            const betData = {
-                betChoice: this.createBetChoice(this.currentTypeIndex, this.selectedItems, info.bet)
-            };
-            this.socket && this.socket.connected && this.socket.emit("bet", betData);
-            this.clearSelectedItems();
-            const currentBoard = this.getCurrentBoard();
-            currentBoard.resetBoard();
-            this.checkAvailableConfirmation();
-        }
-    }
-
     createBetChoice(choiceType: number, selectedItems: string[], bet: number): any {
         const choices = [...selectedItems].sort((a, b) => parseInt(a) - parseInt(b));
         if (choiceType === ChoiceType.Others) {
@@ -478,13 +315,9 @@ export default class Lottery extends SocketIOTableGameBase {
         const result = {};
         const subInfo = {};
         result[key] = subInfo;
-        if (choiceType === ChoiceType.Parlay2 || choiceType === ChoiceType.Parlay3 || choiceType === ChoiceType.Parlay4) {
-            subInfo[choices.join("-")] = bet;
-            return result;
-        } else {
-            choices.forEach((item) => (subInfo[item] = bet));
-            return result;
-        }
+
+        choices.forEach((item) => (subInfo[item] = bet));
+        return result;
     }
 
     setSpecialNumbers(lastSpecial: string) {
@@ -500,7 +333,7 @@ export default class Lottery extends SocketIOTableGameBase {
 
     showResult(dataFinish: any): Promise<void> {
         const displayTime = this.displayResultTime;
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this.showResultDialog();
             this.resultTween = cc
                 .tween(this.node)
@@ -618,20 +451,20 @@ export default class Lottery extends SocketIOTableGameBase {
         }
         const lastData = this.currentDataLogs[0];
         switch (this.currentTypeIndex) {
-            case 0:
+            case ChoiceType.Set4:
                 return lastData.settlementResult["4Sets"];
-            case 1:
+            case ChoiceType.Special:
                 return [lastData.result.special[0].slice(-2)];
-            case 2:
+            case ChoiceType.Head:
                 return [...lastData.settlementResult.head];
-            case 3:
+            case ChoiceType.Tail:
                 return [...lastData.settlementResult.tail];
-            case 4:
-            case 5:
-            case 6:
-            case 7:
+            case ChoiceType.Set27:
+            case ChoiceType.Parlay2:
+            case ChoiceType.Parlay3:
+            case ChoiceType.Parlay4:
                 return lastData.settlementResult["27Sets"];
-            case 8:
+            case ChoiceType.Others:
                 const arr = [];
                 const others = lastData.settlementResult.others;
                 Object.keys(others).forEach((key) => {

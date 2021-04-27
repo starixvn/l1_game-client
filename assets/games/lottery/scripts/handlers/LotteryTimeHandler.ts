@@ -9,17 +9,19 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
     handleInEndTime() {
         super.handleInEndTime();
         this.resetAnimatedTime();
+        this.main.stoppingBetNotice.active = false;
     }
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        this.main.checkAvailableConfirmation();
-        this.main.hideTicketConfirmation();
+        this.main.stoppingBetNotice.active = true;
+        this.main.bettingNotice.active = false;
     }
 
     handleInRoundTime() {
         super.handleInRoundTime();
-        this.main.checkAvailableConfirmation();
+        this.main.stoppingBetNotice.active = false;
+        this.main.bettingNotice.active = true;
     }
 
     handleStartingNewGameRound() {
@@ -27,7 +29,6 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
         this.main.ownBets = {};
         this.main.updateDisplayOwnBets();
         this.main.clearHighlight();
-        this.main.checkAvailableConfirmation();
     }
 
     handleWaitTime() {
@@ -38,7 +39,7 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
     resetAnimatedTime() {
         if (this.main.animatedTime) {
             this.main.animatedTime.node.active = true;
-            this.main.animatedTime.setTime("0");
+            this.main.animatedTime.setTime("00");
         }
     }
 

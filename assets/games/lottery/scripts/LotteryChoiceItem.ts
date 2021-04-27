@@ -4,9 +4,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export abstract class LotteryChoiceItem extends cc.Component {
-    @property(cc.Toggle)
-    toggle: cc.Toggle = null;
-
     @property(cc.Label)
     label: cc.Label = null;
 
@@ -19,24 +16,15 @@ export abstract class LotteryChoiceItem extends cc.Component {
     @property(cc.Label)
     ownBet: cc.Label = null;
 
+    @property(cc.Node)
+    chipLocation: cc.Node = null;
+
     abstract setStats(number: number);
     abstract hideStatistics();
-    choiceItemChanged = (name: string, selected: boolean) => {};
+    onChoiceBet = (name: string) => {};
 
-    unCheck() {
-        this.toggle.isChecked = false;
-    }
-
-    isChecked() {
-        return this.toggle.isChecked;
-    }
-
-    onLoad() {
-        this.toggle.node.on("toggle", this.onToggleChanged, this);
-    }
-
-    onToggleChanged() {
-        this.choiceItemChanged(this.node.name, this.toggle.isChecked);
+    onChoiceClick() {
+        this.onChoiceBet(this.node.name);
     }
 
     setHighlight(show: boolean) {

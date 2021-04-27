@@ -1,21 +1,11 @@
 export default class LotteryHelper {
     public static getNameChoiceType(type: number) {
-        const dict = {
-            0: "ĐỀ ĐẦU",
-            1: "ĐỀ ĐẶC BIỆT",
-            2: "SỐ ĐẦU",
-            3: "SỐ CUỐI",
-            4: "LÔ",
-            5: "XIÊN 2",
-            6: "XIÊN 3",
-            7: "XIÊN 4",
-            8: "HAI CỬA"
-        };
+        const dict = ["LÔ", "ĐỀ ĐẦU", "ĐỀ ĐẶC BIỆT", "SỐ ĐẦU", "SỐ CUỐI", "HAI CỬA", "XIÊN 2", "XIÊN 3", "XIÊN 4"];
         return dict[type];
     }
 
     public static getNameChoiceKey(key: string): string {
-        const list = ["4Sets", "special", "head", "tail", "27Sets", "parlay2", "parlay3", "parlay4", "others"];
+        const list = ["27Sets", "4Sets", "special", "head", "tail", "others", "27Sets", "parlay2", "parlay3", "parlay4"];
         const index = list.findIndex((item) => item === key);
         if (index > -1) {
             return LotteryHelper.getNameChoiceType(index);
@@ -25,17 +15,7 @@ export default class LotteryHelper {
     }
 
     public static getChoiceTypeKey(type: number) {
-        const dict = {
-            0: "4Sets",
-            1: "special",
-            2: "head",
-            3: "tail",
-            4: "27Sets",
-            5: "parlay2",
-            6: "parlay3",
-            7: "parlay4",
-            8: "others"
-        };
+        const dict = ["27Sets", "4Sets", "special", "head", "tail", "others", "27Sets", "parlay2", "parlay3", "parlay4"];
         return dict[type];
     }
 

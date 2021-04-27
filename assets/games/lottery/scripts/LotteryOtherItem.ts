@@ -10,7 +10,6 @@ export default class LotteryOtherItem extends LotteryChoiceItem {
     nameSprite: cc.Sprite = null;
 
     onLoad() {
-        super.onLoad();
         this.statsLabel.node.active = false;
     }
 

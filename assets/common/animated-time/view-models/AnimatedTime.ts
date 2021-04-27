@@ -37,7 +37,9 @@ export default class AnimatedTime extends cc.Component {
             this.handleBetTimeAnimation(this.firstChar.node);
         }
 
-        this.handleBetTimeAnimation(this.secondChar.node);
+        if (this.secondChar.string !== secondTimeChar) {
+            this.handleBetTimeAnimation(this.secondChar.node);
+        }
         this.firstChar.string = firstTimeChar;
         this.secondChar.string = secondTimeChar;
 

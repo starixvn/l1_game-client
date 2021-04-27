@@ -1,61 +1,28 @@
 import { LotteryChoiceItem } from "./LotteryChoiceItem";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export abstract class LotteryChoicesBoard extends cc.Component {
-    abstract getChoices(): string[];
-
     public items: LotteryChoiceItem[] = [];
     protected highlighted = false;
     protected showedOwnBet = false;
-    choiceBoardChanged = (name: string, selected: boolean) => {};
+    onChoiceBet = (name: string) => {};
 
-    unCheck() {
-        this.items.forEach((item) => item.unCheck());
-    }
-
-    resetBoard() {
-        this.unCheck();
-        this.unlockSelection();
-    }
+    resetBoard() {}
 
     resetScrolling() {}
 
     initCallbackForItems() {
         this.items.forEach((item) => {
-            item.choiceItemChanged = (name: string, selected: boolean) => {
-                this.choiceBoardChanged(name, selected);
+            item.onChoiceBet = (name: string) => {
+                this.onChoiceBet(name);
             };
-        });
-    }
-
-    getSelectedItems(): string[] {
-        const result = [];
-        this.items.forEach((item) => {
-            if (item.isChecked()) {
-                result.push(item.node.name);
-            }
-        });
-        return result;
-    }
-
-    lockSelection() {
-        this.items.forEach((item) => {
-            if (!item.isChecked()) {
-                item.toggle.interactable = false;
-            }
         });
     }
 
     hideStatistics() {
         this.items.forEach((item) => item.hideStatistics());
-    }
-
-    unlockSelection() {
-        this.items.forEach((item) => {
-            item.toggle.interactable = true;
-        });
     }
 
     showHighlight(highlight: boolean) {

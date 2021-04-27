@@ -11,14 +11,4 @@ export default class LotteryOtherBoard extends LotteryChoicesBoard {
     onLoad() {
         this.initCallbackForItems();
     }
-
-    getChoices(): string[] {
-        const result: string[] = [];
-        this.items.forEach((item) => {
-            if (item.isChecked()) {
-                result.push(item.node.name);
-            }
-        });
-        return result;
-    }
 }

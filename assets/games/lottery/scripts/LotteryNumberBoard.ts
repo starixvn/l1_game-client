@@ -31,14 +31,4 @@ export default class LotteryNumberBoard extends LotteryChoicesBoard {
 
         this.items.push(item);
     }
-
-    getChoices(): string[] {
-        const result: string[] = [];
-        this.items.forEach((item) => {
-            if (item.isChecked()) {
-                result.push(item.label.string);
-            }
-        });
-        return result;
-    }
 }
