@@ -102,8 +102,14 @@ export default class LotteryResult extends cc.Component {
 
                         Object.keys(locations).forEach((key) => {
                             const info = locations[key];
-                            this.resultNumbers[key].setSplitValues(info.text, info.highlight, cc.Color.GREEN, animated);
-                            this.resultNumbers[key].setHighlight();
+                            const num = this.resultNumbers[key];
+                            num.setSplitValues(info.text, info.highlight, cc.Color.GREEN, animated);
+                            cc.tween(num.node)
+                                .delay(0.4) //delay for SplitLabel highlight text done
+                                .call(() => {
+                                    this.resultNumbers[key].setHighlight();
+                                })
+                                .start();
                         });
                         resolve();
                     })
