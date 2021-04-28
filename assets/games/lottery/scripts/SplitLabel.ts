@@ -1,5 +1,3 @@
-import JumpInEffect from "../../../common/animations/JumpInEffect";
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
