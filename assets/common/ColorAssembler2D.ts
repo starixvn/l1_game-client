@@ -45,7 +45,6 @@ export default class ColorAssembler2D extends cc.Component {
         const colorOffset = _assembler.colorOffset;
         let count = 0;
         for (let i = colorOffset, l = uintVerts.length; i < l; i += floatsPerVert) {
-            console.log(count);
             uintVerts[i] = (this.colors[count] || color)["_val"];
             count++;
         }
