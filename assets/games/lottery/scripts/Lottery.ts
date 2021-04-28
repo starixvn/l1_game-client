@@ -92,7 +92,7 @@ export default class Lottery extends SocketIOTableGameBase {
     result: LotteryResult = null;
     extraResult: LotteryExtraResult = null;
     historyComponent: LotteryHistory = null;
-    ownBets = {};
+    ownBets: any = {};
     stats = {};
     resultTween: cc.Tween;
     winningTween: cc.Tween;
@@ -376,6 +376,7 @@ export default class Lottery extends SocketIOTableGameBase {
         if (!this.result) {
             return;
         }
+        this.result.setRoundId(data.roundId);
         await this.result.setData(data, animated, this.ownBets);
         this.extraResult.setData(this.calculateFinishNumberStatistics(data.settlementResult["27Sets"]));
     }
@@ -519,6 +520,30 @@ export default class Lottery extends SocketIOTableGameBase {
     updateDisplayOwnBets() {
         const currentBoard = this.getCurrentBoard();
         currentBoard.setOwnBet(this.getOwnBetsData());
+    }
+
+    placeChipOnBoard(bet: number, choiceType: string, choiceName: string, onComplete: () => void) {
+        const currentType = LotteryHelper.getChoiceTypeKey(this.currentTypeIndex);
+        if (currentType !== choiceType) {
+            return;
+        }
+        const currentBoard = this.getCurrentBoard();
+        const chipLocation = currentBoard.getChipLocation(choiceName);
+        const chipFlyingDuration = 0.3;
+        if (chipLocation) {
+            const chipNode = this.betChips.createChip(bet);
+            const objectData = {
+                chipNode: chipNode,
+                bet: bet,
+                destNode: chipLocation,
+                startNode: null,
+                onComplete: onComplete,
+                delayDestroy: 0,
+                duration: chipFlyingDuration,
+                fadeDuration: 0.8
+            };
+            this.betChips.moveChipWithCallback(objectData);
+        }
     }
 
     updateDisplayStats() {

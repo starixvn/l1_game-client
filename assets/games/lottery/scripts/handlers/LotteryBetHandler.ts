@@ -12,8 +12,14 @@ export default class LotteryBetHandler extends GameBaseBetHandler {
 
         if (data.ownBets) {
             this.main.ownBets = data.ownBets;
-            this.main.totalBet.string = numberWithCommas(data.ownBets.totalAmount);
-            this.main.updateDisplayOwnBets();
+        }
+
+        if (data.ownChip) {
+            this.placeOwnChip(data.ownChip);
+        }
+
+        if (data.chips) {
+            this.updateOwnBetDisplay();
         }
 
         if (data.stats) {
@@ -22,5 +28,22 @@ export default class LotteryBetHandler extends GameBaseBetHandler {
         }
 
         return false;
+    }
+
+    placeOwnChip(data: any) {
+        const { betChoice } = data;
+        Object.keys(betChoice).forEach((choiceType) => {
+            const choiceInfo = betChoice[choiceType];
+            Object.keys(choiceInfo).forEach((choiceName) => {
+                this.main.placeChipOnBoard(choiceInfo[choiceName], choiceType, choiceName, () => {
+                    this.updateOwnBetDisplay();
+                });
+            });
+        });
+    }
+
+    updateOwnBetDisplay() {
+        this.main.totalBet.string = numberWithCommas(this.main.ownBets.totalAmount);
+        this.main.updateDisplayOwnBets();
     }
 }

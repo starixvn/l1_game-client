@@ -37,6 +37,11 @@ export abstract class LotteryChoicesBoard extends cc.Component {
         }
     }
 
+    getChipLocation(choiceName: string) {
+        const item = this.items.find((item) => item.node.name === choiceName);
+        return item ? item.chipLocation : null;
+    }
+
     clearHighlight() {
         this.highlighted = false;
         this.items.forEach((item) => item.setHighlight(false));

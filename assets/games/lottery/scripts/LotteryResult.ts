@@ -22,6 +22,9 @@ export default class LotteryResult extends cc.Component {
     @property(cc.Animation)
     animation: cc.Animation = null;
 
+    @property(cc.Label)
+    roundId: cc.Label = null;
+
     onLoad() {
         if (this.dialog) {
             this.dialog.onDidHide = () => {
@@ -49,6 +52,12 @@ export default class LotteryResult extends cc.Component {
             splitLabel.labels[1].node.color = cc.Color.GREEN;
 
             splitLabel.cloneLabelInfo(label);
+        }
+    }
+
+    setRoundId(roundId: number) {
+        if (this.roundId) {
+            this.roundId.string = `#${roundId}`;
         }
     }
 
