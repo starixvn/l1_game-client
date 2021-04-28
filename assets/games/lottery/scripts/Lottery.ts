@@ -169,21 +169,8 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     showWinningBet(bet: number) {
-        const winningBet = cc.instantiate(this.playWinningPrefab);
+        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, 3, 0, 300);
         winningBet.name = "winningBet";
-        const label = winningBet.getComponent(LabelItem);
-        label.label.string = `+${numberWithCommas(bet)}`;
-
-        this.resultContainer.addChild(winningBet);
-        const animation = winningBet.getComponent(cc.Animation);
-        this.winningTween = cc
-            .tween(this.resultContainer)
-            .delay(animation.defaultClip.duration)
-            .call(() => {
-                winningBet.destroy();
-                this.winningTween = null;
-            })
-            .start();
     }
 
     updateOddsFromConfigs() {
