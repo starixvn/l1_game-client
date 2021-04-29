@@ -248,6 +248,7 @@ export default class Lottery extends SocketIOTableGameBase {
         this.currentTypeIndex = id;
         this.showChoiceBoard(this.currentTypeIndex);
         this.expandableMenu.collapseMenu();
+        this.updateSettingStorage();
     }
 
     getBoardIndex(index: number): number {
