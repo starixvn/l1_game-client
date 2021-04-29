@@ -1,7 +1,7 @@
 import GameUtils from "../../common/GameUtils";
 import { NoticeData } from "../../common/notice/view-models/Notice";
-import * as SabaConfigs from "../../configs/SabaConfigs";
 import * as authManager from "./../../common/auth/AuthManager";
+import { removeInRoomGameId, removeSession } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
 
 declare global {
@@ -48,7 +48,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.notPermittedToPlay) {
-            authManager.removeInRoomGameId();
+            removeInRoomGameId();
 
             const gameId = data.gameId;
             const gameName = GameUtils.getGameNameString(gameId);
@@ -62,7 +62,7 @@ export default class MiniPanelDataHandlers {
     }
 
     handleDataKickedOut(data: any) {
-        authManager.removeSession();
+        removeSession();
 
         if (data.umInfo) {
             cc.RedT.forceKickedOut();
@@ -91,31 +91,11 @@ export default class MiniPanelDataHandlers {
             return;
         }
 
-        this.main.showErrorNotice(error);
-
-        if (error.gameTypeId === SabaConfigs.games.TaiXiu.id && this.main.taiXiu && this.main.taiXiu.TX_Main) {
-            this.main.taiXiu.TX_Main.onData(apiErrorData);
-        }
-
-        if (error.gameTypeId === SabaConfigs.games.TaiXiuTurbo.id && this.main.taiXiuTurbo && this.main.taiXiuTurbo.TX_Main) {
-            this.main.taiXiuTurbo.TX_Main.onData(apiErrorData);
-        }
-
-        if (error.gameTypeId === SabaConfigs.games.BauCua.id && this.main.bauCua) {
-            this.main.bauCua.onData(apiErrorData);
-        }
-
-        if (error.gameTypeId === SabaConfigs.games.ChanLe.id && this.main.chanLe) {
-            this.main.chanLe.onData(apiErrorData);
-        }
-
-        if (error.gameTypeId === SabaConfigs.games.ChanLeTurbo.id && this.main.chanLeTurbo) {
-            this.main.chanLeTurbo.onData(apiErrorData);
-        }
-
         if (error.maxBet && error.maxBet > 0) {
             cc.RedT.userStakeLevelData(error);
         }
+
+        this.main.showErrorNotice(error);
     }
 
     handleNoticeData(notice: any) {

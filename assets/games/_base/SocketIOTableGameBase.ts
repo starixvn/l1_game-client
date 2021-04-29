@@ -1,4 +1,4 @@
-import * as authManager from "../../common/auth/AuthManager";
+import * as sessionManager from "../../common/auth/SessionManager";
 import WebSocketTableGameBase from "./WebSocketTableGameBase";
 
 const { ccclass } = cc._decorator;
@@ -10,11 +10,10 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     onLoad() {
         super.onLoad();
 
-        authManager.storeInRoomGameId(this.gameId);
+        sessionManager.storeInRoomGameId(this.gameId);
         this.currentMiniPanel.currentGameRoomId = this.gameId;
 
         this.socket = this.socketIOController.gameSockets[this.gameId];
-        console.log(this.socket);
         if (!this.socket) {
             this.closeGame();
         } else {
@@ -88,6 +87,6 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
 
     onCloseGameClick() {
         super.onCloseGameClick();
-        authManager.removeInRoomGameId();
+        sessionManager.removeInRoomGameId();
     }
 }

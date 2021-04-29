@@ -11,17 +11,71 @@ const configs = {
             port: "",
             path: "/main"
         },
+        1: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/taixiu",
+            proxyRoute: "/bigsmall/socket.io"
+        },
         2: {
             subDomain: "sc1-proxy",
             port: "",
             path: "/user/xocxoc",
             proxyRoute: "/sedie/socket.io"
         },
+        3: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/baucua",
+            proxyRoute: "/fishprawncrab/socket.io"
+        },
+        4: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/txturbo",
+            proxyRoute: "/turbobigsmall/socket.io"
+        },
+        6: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/oeturbo",
+            proxyRoute: "/turbooddeven/socket.io"
+        },
+        7: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/dragontiger",
+            proxyRoute: "/dragontiger/socket.io"
+        },
+        8: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/kenopromax",
+            proxyRoute: "/kenopromax/socket.io"
+        },
+        9: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/minisedie",
+            proxyRoute: "/minisedie/socket.io"
+        },
+        10: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/baccarat",
+            proxyRoute: "/baccarat/socket.io"
+        },
+        21: {
+            subDomain: "sc1-proxy",
+            port: "",
+            path: "/user/roulette",
+            proxyRoute: "/socket.io"
+        },
         22: {
             subDomain: "sc1-proxy",
             port: "",
             path: "/user/vipsedie",
-            proxyRoute: "/vipsedie/socket.io"
+            proxyRoute: "/vsedie/socket.io"
         },
         23: {
             subDomain: "sc1-proxy",
@@ -66,7 +120,10 @@ const configs = {
             proxyRoute: "/fourguardians/socket.io"
         }
     },
-    sentryUrl: "https://19b3909c434341f0b13eb3a8529e5862@sentry.sabagame.com/9",
+    sentry: {
+        url: "https://19b3909c434341f0b13eb3a8529e5862@sentry.sabagame.com/9",
+        env: "AWS"
+    },
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"

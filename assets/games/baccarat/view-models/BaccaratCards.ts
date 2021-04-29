@@ -229,7 +229,7 @@ export default class BaccaratCards extends cc.Component {
             );
     }
 
-    protected resetCard(card: cc.Node) {
+    resetCard(card: cc.Node) {
         card.children[0].getComponent(NewCard).faceDown();
         card.opacity = 0;
         card.scale = 0.5;
@@ -308,7 +308,7 @@ export default class BaccaratCards extends cc.Component {
         );
     }
 
-    protected setActionCardThree(currentCard: cc.Node, delayTime: number) {
+    setActionCardThree(currentCard: cc.Node, delayTime: number) {
         currentCard.runAction(cc.sequence(cc.delayTime(delayTime), cc.rotateBy(0.5, this.isBanker ? 270 : -270).easing(cc.easeSineOut())));
     }
 

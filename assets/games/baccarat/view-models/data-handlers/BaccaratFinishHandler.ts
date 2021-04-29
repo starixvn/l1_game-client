@@ -43,11 +43,18 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
     }
 
     protected getDataFollowTypePlayer(data: any, isBanker: boolean) {
-        return isBanker ? data.bankerCards : data.playerCards;
+        if (isBanker) {
+            return Object.values(data.banker).filter((value) => value != null);
+        }
+        return Object.values(data.player).filter((value) => value != null);
     }
 
     protected insertCurrentDataLogs(baccaratMain: any, dataFinish: any) {
-        baccaratMain.currentDataLogs.unshift({ result: dataFinish.settlementResult });
+        if (dataFinish.winningPlayers) {
+            delete dataFinish.winningPlayers;
+        }
+
+        baccaratMain.currentDataLogs.unshift(dataFinish);
     }
 
     protected handleBuildMiniLogs(baccaratMain: any) {}

@@ -1,5 +1,4 @@
 import * as _ from "lodash";
-import RouletteBase from "./RouletteBase";
 
 import RouletteStatisticItem from "./RouletteStatisticItem";
 import RouletteUtils from "./RouletteUtils";
@@ -7,7 +6,10 @@ import RouletteUtils from "./RouletteUtils";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class RouletteStatistic extends RouletteBase {
+export default class RouletteStatistic extends cc.Component {
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
     @property(cc.Node)
     wheel: cc.Node = null;
 
@@ -103,24 +105,17 @@ export default class RouletteStatistic extends RouletteBase {
     result: any = null;
     resultStats = [];
     toggleRuning: boolean = null;
-    dataObserverKey = "RouletteStatistic";
 
     onLoad() {
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.onDidHide = () => {
+            this.node.destroy();
+        };
+
         this.toggleRuning = true;
-        super.onLoad();
     }
 
-    receivedData(data) {
-        if (data["roulette"] && data["roulette"].statistics) {
-            this.onData(data["roulette"].statistics.latestResults);
-        }
-    }
-
-    get_data() {
-        cc.RedT.send({ g: { ["roulette"]: { getStatistics: true } } });
-    }
-
-    onData(data: any) {
+    public generateStatistic(data: any) {
         this.result = data;
         this.createResultStatistic();
         this.createWheel();

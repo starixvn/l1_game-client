@@ -189,7 +189,7 @@
       "array": [
         0,
         0,
-        489.2983567613312,
+        479.77807369657904,
         0,
         0,
         0,
@@ -2357,7 +2357,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 61.14,
+      "width": 56.57,
       "height": 40
     },
     "_anchorPoint": {
@@ -2824,7 +2824,7 @@
     },
     "component": "",
     "_componentId": "6a29f6600tAa62MYhYxI93H",
-    "handler": "onBet",
+    "handler": "onBetItemClick",
     "customEventData": "big"
   },
   {
@@ -4531,7 +4531,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 42.29,
+      "width": 37.71,
       "height": 40
     },
     "_anchorPoint": {
@@ -4998,7 +4998,7 @@
     },
     "component": "",
     "_componentId": "6a29f6600tAa62MYhYxI93H",
-    "handler": "onBet",
+    "handler": "onBetItemClick",
     "customEventData": "playerPair"
   },
   {
@@ -6692,7 +6692,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 42.29,
+      "width": 37.71,
       "height": 40
     },
     "_anchorPoint": {
@@ -7159,7 +7159,7 @@
     },
     "component": "",
     "_componentId": "6a29f6600tAa62MYhYxI93H",
-    "handler": "onBet",
+    "handler": "onBetItemClick",
     "customEventData": "bankerPair"
   },
   {
@@ -8853,7 +8853,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 61.14,
+      "width": 56.57,
       "height": 40
     },
     "_anchorPoint": {
@@ -9320,7 +9320,7 @@
     },
     "component": "",
     "_componentId": "6a29f6600tAa62MYhYxI93H",
-    "handler": "onBet",
+    "handler": "onBetItemClick",
     "customEventData": "small"
   },
   {
@@ -11024,7 +11024,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 52.86,
+      "width": 50,
       "height": 40
     },
     "_anchorPoint": {
@@ -11491,7 +11491,7 @@
     },
     "component": "",
     "_componentId": "6a29f6600tAa62MYhYxI93H",
-    "handler": "onBet",
+    "handler": "onBetItemClick",
     "customEventData": "banker"
   },
   {
@@ -13190,7 +13190,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 37.86,
+      "width": 35,
       "height": 40
     },
     "_anchorPoint": {
@@ -13657,7 +13657,7 @@
     },
     "component": "",
     "_componentId": "6a29f6600tAa62MYhYxI93H",
-    "handler": "onBet",
+    "handler": "onBetItemClick",
     "customEventData": "player"
   },
   {
@@ -15356,7 +15356,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 37.86,
+      "width": 35,
       "height": 40
     },
     "_anchorPoint": {
@@ -15823,7 +15823,7 @@
     },
     "component": "",
     "_componentId": "6a29f6600tAa62MYhYxI93H",
-    "handler": "onBet",
+    "handler": "onBetItemClick",
     "customEventData": "tie"
   },
   {
@@ -32413,6 +32413,8 @@
     "getCardAudioSource": {
       "__id__": 749
     },
+    "miniRoundHistoryPrefab": null,
+    "miniRoundHistoryContainer": null,
     "chipContainer": {
       "__id__": 518
     },
@@ -33567,7 +33569,7 @@
     },
     "component": "",
     "_componentId": "6a29f6600tAa62MYhYxI93H",
-    "handler": "closeGame",
+    "handler": "onCloseGameClick",
     "customEventData": ""
   },
   {

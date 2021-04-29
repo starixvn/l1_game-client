@@ -1,15 +1,15 @@
-import { lazyInject } from '../../Application';
-import HandleUserStakeLevel from '../../common/bet-chips/view-models/HandleUserStakeLevel';
-import GameUtils from '../../common/GameUtils';
-import { numberWithCommas } from '../../common/helpers/NumberHelper';
-import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
-import UmWarning from '../../common/um-warning/UmWarning';
-import MiniPanel from '../../mini-games-panel/view-models/MiniPanel';
-import SocketIOController from '../../SocketIOController';
-import GameBase from './GameBase';
-import { GameBasePlayerHandler } from './handlers/GameBasePlayerHandler';
-import { GameConfigBase } from './view-models/GameConfigBase';
-import RoomPlayer from './view-models/RoomPlayer';
+import { lazyInject } from "../../Application";
+import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
+import GameUtils from "../../common/GameUtils";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
+import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import UmWarning from "../../common/um-warning/UmWarning";
+import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import SocketIOController from "../../SocketIOController";
+import GameBase from "./GameBase";
+import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
+import { GameConfigBase } from "./view-models/GameConfigBase";
+import RoomPlayer from "./view-models/RoomPlayer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -116,8 +116,11 @@ export default class WebSocketTableGameBase extends GameBase {
             }
         }
 
-        if (data.apiError || apiErrorGameData) {
-            this.updateUserStakeLevel(data.apiError || apiErrorGameData);
+        if (data.apiError) {
+            this.updateUserStakeLevel(data.apiError);
+        }
+        if (apiErrorGameData) {
+            this.updateUserStakeLevel(apiErrorGameData);
         }
     }
 
@@ -231,6 +234,15 @@ export default class WebSocketTableGameBase extends GameBase {
 
         if (data.apiError) {
             this.updateUserStakeLevel(data.apiError);
+        }
+        if (data.userStakeLevel) {
+            if (
+                data.userStakeLevel.minBet !== cc.RedT.userStakeLevel.minBet ||
+                data.userStakeLevel.maxBet !== cc.RedT.userStakeLevel.maxBet
+            ) {
+                this.showMiniWarning("Hạn mức cược của bạn vừa được cập nhật.");
+                this.updateUserStakeLevel(data.userStakeLevel);
+            }
         }
     }
 

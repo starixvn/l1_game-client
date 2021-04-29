@@ -11,7 +11,7 @@ export default class BigWinAnimation extends CallbackAnimation {
     private amount = 0;
 
     get textAnimationDuration() {
-        return this.animation.defaultClip.duration - 2;
+        return (this.animation.defaultClip.duration - 2) / this.animation.defaultClip.speed;
     }
 
     setAmount(amount: number) {

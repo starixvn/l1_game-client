@@ -4,6 +4,10 @@ import BaccaratLogsHandler from "./BaccaratLogsHandler";
 import BaccaratFinishHandler from "./BaccaratFinishHandler";
 
 export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
+    protected getOwnMain(): any {
+        return this.main as Baccarat;
+    }
+
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         const baccarat = this.getOwnMain();
@@ -41,11 +45,7 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
         }
     }
 
-    protected getOwnMain(): any {
-        return this.main as Baccarat;
-    }
-
     protected getSettlementResult(currentData: any) {
-        return currentData.result;
+        return currentData.settlementResult;
     }
 }

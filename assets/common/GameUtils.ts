@@ -1,6 +1,6 @@
-import * as SabaConfigs from "../configs/SabaConfigs";
-import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
-import { numberWithCommas } from "./helpers/NumberHelper";
+import * as SabaConfigs from '../configs/SabaConfigs';
+import MiniPanel from '../mini-games-panel/view-models/MiniPanel';
+import { numberWithCommas } from './helpers/NumberHelper';
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -74,6 +74,10 @@ export default class GameUtils {
     }
 
     public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}) {
+        if (gameId === 0) {
+            openLuckyWheelFunc && openLuckyWheelFunc();
+            return;
+        }
         if (SabaConfigs.gameRoomNewSocketIds.includes(gameId)) {
             miniPanel.openNewGameSocket(null, gameId);
         } else if (SabaConfigs.gameRoomIds.includes(gameId)) {

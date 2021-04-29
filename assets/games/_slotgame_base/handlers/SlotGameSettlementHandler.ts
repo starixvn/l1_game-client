@@ -1,5 +1,5 @@
-import DataHandler from '../../_base/handlers/DataHandler';
-import SlotGameBase, { LineData } from '../SlotGameBase';
+import DataHandler from "../../_base/handlers/DataHandler";
+import SlotGameBase, { LineData } from "../SlotGameBase";
 
 export default class SlotGameSettlementHandler implements DataHandler {
     constructor(protected readonly main: SlotGameBase) {}
@@ -135,8 +135,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
     }
 
     handlePayline(jackpot: any, betWin: number, winningLines: LineData[], bigWin: boolean, freeSpins: any) {
-        const delayTime =
-            betWin > 0 && !bigWin ? this.main.slotGameConfigs.showWinningLineDuration : this.main.slotGameConfigs.noWinningLineDuration;
+        const delayTime = betWin > 0 && !bigWin ? this.main.getCustomDuration("win") : this.main.getCustomDuration("lose");
         this.main.settleTween = cc
             .tween(this.main)
             .call(() => this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime))

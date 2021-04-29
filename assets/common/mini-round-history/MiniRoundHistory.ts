@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import BlinkNode from '../../common/BlinkNode';
 import MiniRoundHistoryItem from './MiniRoundHistoryItem';
 import MiniRoundHistoryTip from './MiniRoundHistoryTip';
@@ -61,7 +63,7 @@ export default class MiniRoundHistory extends cc.Component {
 
     public setData(data: any[]) {
         const updateNow = !this.dataLogs;
-        this.dataLogs = data;
+        this.dataLogs = _.cloneDeep(data);
 
         if (updateNow) {
             this.updateDisplayNextItem(0);

@@ -1,6 +1,7 @@
-import { lazyInject } from "../../Application";
-import SocketIOController from "../../SocketIOController";
-import GameBase from "./GameBase";
+import { lazyInject } from '../../Application';
+import DraggableItem from '../../common/draggable-layout/view-models/DraggableItem';
+import SocketIOController from '../../SocketIOController';
+import GameBase from './GameBase';
 
 export default abstract class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
@@ -8,6 +9,19 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
     public socket: SocketIOClient.Socket;
     abstract get gameId(): number;
+
+    onLoad() {
+        super.onLoad();
+
+        if (!cc.sys.isMobile) {
+            this.node.scale = 0.8;
+        }
+
+        const draggableItem = this.getComponent(DraggableItem);
+        draggableItem.touchCallback.start = (node) => {
+            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+        };
+    }
 
     startGame() {
         super.startGame();
@@ -29,14 +43,6 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             return;
         }
         super.closeGame();
-    }
-
-    onSignIn() {
-        if (!this.node.active) {
-            return;
-        }
-
-        this.registerViewGame();
     }
 
     onData(data) {
@@ -62,6 +68,25 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             const distance = expectPositionY - okButtonPositionY + paddingBottom;
 
             node.runAction(cc.moveBy(0.5, cc.v2(0, distance)).easing(cc.easeBackOut()));
+        }
+    }
+
+    public onBetItemClick(e) {
+        cc.RedT.audio.playClick();
+        if (this.isDisableGame) {
+            return;
+        }
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+        } else {
+            this.waitingProcessing = true;
+            const betData = {
+                amount: this.currentBet,
+                betChoice: e.target.name,
+                username: cc.RedT.user.name
+            };
+
+            this.socket && this.socket.connected && this.socket.emit("bet", betData);
         }
     }
 }

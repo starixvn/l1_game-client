@@ -76,7 +76,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
     public handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
         this.main.showWheelResult(dataFinish.result, () => {
             this.main.currentDataLogs.unshift(dataFinish);
-            this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
+            this.main.currentDataLogs.length > 300 && this.main.currentDataLogs.pop();
             this.main.updateMiniRoundResult(true);
             this.main.rouletteMain.board.clearOtherBetChoices();
             onFinishHanlingData();

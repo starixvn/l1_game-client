@@ -1,8 +1,8 @@
-import * as authManager from './common/auth/AuthManager';
-import { buildServerUrl } from './common/helpers/UrlHelper';
-import logger from './common/logger';
-import configs from './configs/Configs';
-import LobbyMenuConfig from './lobby/main/view-models/LobbyMenuConfig';
+import * as authManager from "./common/auth/AuthManager";
+import { buildServerUrl } from "./common/helpers/UrlHelper";
+import logger from "./common/logger";
+import configs from "./configs/Configs";
+import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
 
 const sentryLogger = logger();
 
@@ -32,14 +32,6 @@ module.exports = {
             this._socket.onmessage = this._onSocketData;
             this._socket.onerror = this._onSocketError;
 
-            if (this.recheckInId) {
-                clearInterval(this.recheckInId);
-            }
-
-            this.recheckInId = setInterval(() => {
-                this.recheckIn();
-            }, 60 * 1000);
-
             if (this.loading) {
                 this.loading.active = false;
             }
@@ -48,16 +40,6 @@ module.exports = {
     forceKickedOut: function () {
         this.isForceKickedOut = true;
         this._socket.close();
-    },
-    recheckIn: function () {
-        try {
-            if (this.isConnected) {
-                authManager.checkAndUpdateRecheckIn();
-                this.send({ reCheckin: true, user: { updateCoin: true } });
-            }
-        } catch (ex) {
-            console.log(JSON.stringify(ex));
-        }
     },
     disconnect: function () {
         this.isConnected = !1;
@@ -89,7 +71,9 @@ module.exports = {
             cc.RedT.inGame.loading.active = true;
         }
 
-        authManager && authManager.triggerSignIn();
+        if (cc.RedT.IS_LOGIN) {
+            authManager && authManager.auth();
+        }
 
         setTimeout(function () {
             if (cc.RedT.inGame && cc.RedT.inGame.loading) {
@@ -102,15 +86,16 @@ module.exports = {
         if (cc.RedT.inGame) {
             if (cc.RedT.IS_LOGIN) {
                 cc.RedT.inGame.onDisconnected();
-            } else if (cc.RedT.inGame.dialog) {
-                cc.RedT.inGame.dialog.onCloseDialog();
             }
+            // else if (cc.RedT.inGame.dialog) {
+            //     cc.RedT.inGame.dialog.onCloseDialog();
+            // }
         }
         cc.RedT.reconnect();
     },
     _onSocketError: function (message) {
         cc.RedT.isConnected = false;
-        cc.RedT.inGame.onSocketError && cc.RedT.inGame.onSocketError();
+        cc.RedT.inGame && cc.RedT.inGame.onSocketError && cc.RedT.inGame.onSocketError();
     },
     _onSocketData: function (message) {
         var data = message.data;

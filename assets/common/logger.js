@@ -9,7 +9,8 @@ export const sentryLogger = {
     loadScript: () => {
         if (window.Sentry && !sentryLogger.loaded) {
             window.Sentry.init({
-                dsn: configs.sentryUrl,
+                dsn: configs.sentry.url,
+                environment: configs.sentry.env,
                 maxValueLength: 5000
             });
             sentryLogger.loaded = true;
@@ -17,7 +18,7 @@ export const sentryLogger = {
     },
     start: () => {
         try {
-            sentryLogger.sentryUrl = configs.sentryUrl;
+            sentryLogger.sentryUrl = configs.sentry.url;
 
             if (sentryLogger.isEnabled() && document.head && !document.getElementById("sentry-logger")) {
                 const sentryScript = document.createElement("script");

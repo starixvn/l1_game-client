@@ -1,6 +1,6 @@
 const configs = {
     games: {
-        TaiXiu: {
+        BigSmall: {
             id: 1,
             name: "Tài Xỉu"
         },
@@ -12,7 +12,7 @@ const configs = {
             id: 3,
             name: "Bầu Cua"
         },
-        TaiXiuTurbo: {
+        TurboBigSmall: {
             id: 4,
             name: "Tài Xỉu Siêu Tốc"
         },
@@ -20,11 +20,11 @@ const configs = {
             id: 5,
             name: "Chẵn Lẻ"
         },
-        ChanLeTurbo: {
+        TurboOddEven: {
             id: 6,
             name: "Chẵn Lẻ Siêu Tốc"
         },
-        RongHo: {
+        DragonTiger: {
             id: 7,
             name: "Rồng Hổ"
         },
@@ -113,14 +113,10 @@ const configs = {
             name: "Long Lân Quy Phụng"
         }
     },
-    gameRoomRegNames: {
-        8: "KenoProMax",
-        10: "baccarat",
-        21: "roulette"
-    },
-    gameRoomIds: [8, 10, 21],
-    gameRoomNewSocketIds: [2, 22, 23, 25, 26, 27, 28, 29],
-    gameMiniNewSocketIds: [24]
+    gameRoomRegNames: {},
+    gameRoomIds: [],
+    gameRoomNewSocketIds: [2, 8, 10, 21, 22, 23, 25, 26, 27, 28, 29],
+    gameMiniNewSocketIds: [24, 9, 1, 3, 4, 6, 7]
 };
 
 module.exports = configs;

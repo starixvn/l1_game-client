@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
@@ -136,6 +137,10 @@ export default class GameBase extends cc.Component {
         this.currentMiniPanel = miniPanel;
     }
 
+    initMiniPanel(miniPanel: MiniPanel) {
+        this.currentMiniPanel = miniPanel;
+    }
+
     onLoad() {
         this.setUpHandlers();
         this.initBetChips();
@@ -218,6 +223,14 @@ export default class GameBase extends cc.Component {
         this.sendData({ view: true, get_time: true, getLogs: true });
     }
 
+    onSignIn() {
+        if (!this.node.active) {
+            return;
+        }
+
+        this.registerViewGame();
+    }
+
     sendData(payload: any) {
         cc.RedT.send({
             g: {
@@ -284,11 +297,12 @@ export default class GameBase extends cc.Component {
         this.umNotice && this.umNotice.hide();
     }
 
-    showMiniWarning(data) {
+    showMiniWarning(data): cc.Node {
         const notice = cc.instantiate(this.miniNoticePrefab);
         const noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = data;
         this.noticeNode.addChild(notice);
+        return notice;
     }
 
     resetDataAndUI() {

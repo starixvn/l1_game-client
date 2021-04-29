@@ -1,27 +1,27 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import CallbackAnimation from '../../common/CallbackAnimation';
-import ExpandableMenu from '../../common/ExpandableMenu';
-import GameUtils from '../../common/GameUtils';
-import { numberWithCommas } from '../../common/helpers/NumberHelper';
-import HoverItemBase from '../../common/HoverItemBase';
-import JackpotPoolInfoBase from '../../lobby/main/view-models/JackpotPoolInfoBase';
-import { GameState } from '../_base/GameBase';
-import SocketIOTableGameBase from '../_base/SocketIOTableGameBase';
-import AutoSpinSettingDialog from './AutoSpinSettingDialog';
-import BigWinAnimation from './BigWinAnimation';
-import BonusDialog from './BonusDialog';
-import CountDownWarning from './CountDownWarning';
-import SlotGameBetHandler from './handlers/SlotGameBetHandler';
-import SlotGameBonusHandler from './handlers/SlotGameBonusHandler';
-import SlotGameIngameHandler from './handlers/SlotGameIngameHandler';
-import SlotGameJackpotHandler from './handlers/SlotGameJackpotHandler';
-import SlotGameSettlementHandler from './handlers/SlotGameSettlementHandler';
-import SlotGameUmHandler from './handlers/SlotGameUmHandler';
-import LineSelectionDialog from './LineSelectionDialog';
-import SlotBoard from './SlotBoard';
-import { SlotGameBaseConfigs } from './SlotGameBaseConfigs';
-import SlotGameUserSettings from './SlotGameUserSettings';
+import CallbackAnimation from "../../common/CallbackAnimation";
+import ExpandableMenu from "../../common/ExpandableMenu";
+import GameUtils from "../../common/GameUtils";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
+import HoverItemBase from "../../common/HoverItemBase";
+import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
+import { GameState } from "../_base/GameBase";
+import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
+import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
+import BigWinAnimation from "./BigWinAnimation";
+import BonusDialog from "./BonusDialog";
+import CountDownWarning from "./CountDownWarning";
+import SlotGameBetHandler from "./handlers/SlotGameBetHandler";
+import SlotGameBonusHandler from "./handlers/SlotGameBonusHandler";
+import SlotGameIngameHandler from "./handlers/SlotGameIngameHandler";
+import SlotGameJackpotHandler from "./handlers/SlotGameJackpotHandler";
+import SlotGameSettlementHandler from "./handlers/SlotGameSettlementHandler";
+import SlotGameUmHandler from "./handlers/SlotGameUmHandler";
+import LineSelectionDialog from "./LineSelectionDialog";
+import SlotBoard from "./SlotBoard";
+import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
+import SlotGameUserSettings from "./SlotGameUserSettings";
 
 export interface LineData {
     payline: number;
@@ -70,6 +70,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     @property(cc.Toggle)
     autoSpinToggle: cc.Toggle = null;
+
+    @property(cc.Toggle)
+    turboToggle: cc.Toggle = null;
 
     @property(cc.Label)
     stakeLabel: cc.Label = null;
@@ -215,9 +218,11 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         if (info) {
             const defaultSettings: SlotGameUserSettings = {
                 betChoices: this.betChoices,
-                stake: this.stake
+                stake: this.stake,
+                turboEnabled: false
             };
             const settings: SlotGameUserSettings = JSON.parse(info) || defaultSettings;
+            this.turboToggle.isChecked = settings.turboEnabled;
             this.setBetChoices(settings.betChoices);
             this.setStake(settings.stake);
             this.onStakeChanged();
@@ -246,7 +251,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
         const currentSetting: SlotGameUserSettings = {
             betChoices: this.betChoices,
-            stake: this.stake
+            stake: this.stake,
+            turboEnabled: this.turboToggle.isChecked
         };
 
         cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, JSON.stringify(currentSetting));
@@ -336,11 +342,11 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.noticeNode, false, bet, 1, 80);
+        GameUtils.addFlyingText(this.noticeNode, false, bet, this.getCustomDuration("acceptedBet"), 80);
     }
 
     showWinningBet(bet: number) {
-        const winningBet = GameUtils.addFlyingText(this.winningNode, true, bet, this.slotGameConfigs.showWinningLineDuration, 80);
+        const winningBet = GameUtils.addFlyingText(this.winningNode, true, bet, this.getCustomDuration("win"), 80);
         winningBet.name = "winningBet";
         this.updateWinningBetLabel(bet);
         this.playSound(SlotGameSound.WIN);
@@ -407,6 +413,21 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             return false;
         }
         return true;
+    }
+
+    onTurboModeChanged(toggle: cc.Toggle) {
+        cc.RedT.audio.playClick();
+
+        const turboWarningName = "turbo_warning";
+        this.noticeNode.children.forEach((child) => {
+            if (child.name === turboWarningName) {
+                child.destroy();
+            }
+        });
+
+        const message = toggle.isChecked ? "Bật chế độ Siêu Tốc." : "Tắt chế độ Siêu Tốc.";
+        const notice = this.showMiniWarning(message);
+        notice.name = turboWarningName;
     }
 
     onAutoSpinChanged() {
@@ -517,7 +538,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     async setDataAndSpin(data: any) {
         this.playSound(SlotGameSound.SPIN);
         this.slotBoard.setBoardData(data);
-        await this.slotBoard.spin();
+        await this.slotBoard.spin(this.getCustomDuration("spin"), this.isAutoSpinMode());
     }
 
     spin() {
@@ -748,8 +769,38 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     async showEffectFreeSpin() {
         const effect = cc.instantiate(this.effectFreeSpin);
+        const animation = effect.getComponent(CallbackAnimation);
+        animation.setDuration(this.getCustomDuration("freespin"));
         await this.showEffect(effect);
         this.updateDisplaySpinButtons();
+    }
+
+    isTurboMode(): boolean {
+        return this.turboToggle.isChecked;
+    }
+
+    getCustomDuration(type: string): number {
+        const isTurboMode = this.isTurboMode();
+        const info = isTurboMode ? this.slotGameConfigs.turboMode : this.slotGameConfigs.normalMode;
+        switch (type) {
+            case "bigwin":
+                return info.bigWinDuration;
+            case "freespin":
+                return info.freespinDuration;
+            case "bonus":
+                return info.bonusDuration;
+            case "jackpot":
+                return info.jackpotDuration;
+            case "win":
+                return info.winningDuration;
+            case "lose":
+                return info.noWinningDuration;
+            case "spin":
+                return info.spinDuration;
+            case "acceptedBet":
+                return isTurboMode ? 0.5 : 1;
+        }
+        return 0;
     }
 
     async showEffectBigWin(betWin: number) {
@@ -757,6 +808,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
         const effect = cc.instantiate(this.effectBigWin);
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        bigWinAnimation.setDuration(this.getCustomDuration("bigwin"));
         bigWinAnimation.setAmount(betWin);
         cc.tween(this)
             .delay(bigWinAnimation.textAnimationDuration)
@@ -768,6 +820,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     async showEffectBonus(bonus: number): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
             const effect = cc.instantiate(this.effectBonus);
+            const animation = effect.getComponent(CallbackAnimation);
+            animation.setDuration(this.getCustomDuration("bonus"));
             await this.showEffect(effect);
             const node = cc.instantiate(this.bonusDialog);
             this.currentMiniPanel.addDialog(node);
@@ -789,6 +843,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
         const effect = cc.instantiate(this.effectJackpot);
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        bigWinAnimation.setDuration(this.getCustomDuration("jackpot"));
         bigWinAnimation.setAmount(amount);
         await this.showEffect(effect);
     }
@@ -844,9 +899,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     resetStateButtons() {
         this.autoSpinToggle.isChecked = false;
         this.setAutoSpinCount(0);
-        this.updateModeSpinButton(false);
+        const isFreeSpin = this.isFreeSpin();
+        this.updateModeSpinButton(isFreeSpin);
         this.activeButtons();
-        if (this.isFreeSpin()) {
+        if (isFreeSpin) {
             this.showActiveFreeSpinButton();
         }
     }

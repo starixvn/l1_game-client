@@ -13,17 +13,71 @@ const configs = {
             path: "",
             proxyRoute: "/main"
         },
+        1: {
+            subDomain: "haproxy",
+            port: "7100",
+            path: "/user/taixiu",
+            proxyRoute: "/bigsmall/socket.io"
+        },
         2: {
             subDomain: "haproxy",
             port: "7100",
             path: "/user/xocxoc",
             proxyRoute: "/sedie/socket.io"
         },
+        3: {
+            subDomain: "haproxy",
+            port: "7100",
+            path: "/user/baucua",
+            proxyRoute: "/fishprawncrab/socket.io"
+        },
+        4: {
+            subDomain: "haproxy",
+            port: "7100",
+            path: "/user/txturbo",
+            proxyRoute: "/turbobigsmall/socket.io"
+        },
+        6: {
+            subDomain: "haproxy",
+            port: "7100",
+            path: "/user/oeturbo",
+            proxyRoute: "/turbooddeven/socket.io"
+        },
+        7: {
+            subDomain: "haproxy",
+            port: "7100",
+            path: "/user/dragontiger",
+            proxyRoute: "/dragontiger/socket.io"
+        },
+        8: {
+            subDomain: "haproxy",
+            port: "7100",
+            path: "/user/kenopromax",
+            proxyRoute: "/kenopromax/socket.io"
+        },
+        9: {
+            subDomain: "haproxy",
+            port: "7100",
+            path: "/user/minisedie",
+            proxyRoute: "/minisedie/socket.io"
+        },
+        10: {
+            subDomain: "haproxy",
+            port: "7100",
+            path: "/user/baccarat",
+            proxyRoute: "/baccarat/socket.io"
+        },
+        21: {
+            subDomain: "haproxy",
+            port: "7100",
+            path: "/user/roulette",
+            proxyRoute: "/roulette/socket.io"
+        },
         22: {
             subDomain: "haproxy",
             port: "7100",
             path: "/user/vipsedie",
-            proxyRoute: "/vipsedie/socket.io"
+            proxyRoute: "/vsedie/socket.io"
         },
         23: {
             subDomain: "haproxy",
@@ -68,8 +122,12 @@ const configs = {
             proxyRoute: "/fourguardians/socket.io"
         }
     },
+    sentry: {
+        url: "https://b015ef787273452c8fce4af733e62d59@sentry.lumigame.com/29",
+        env: "LOCAL"
+    },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    sentryUrl: "https://4c2b6824d6ed41f291540878d9c76181@sentryuat.sabagame.com/50"
+    userServiceUrl: "http://haproxy.lumigame.com:7100/user"
 };
 
 module.exports = configs;

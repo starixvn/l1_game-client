@@ -1,5 +1,4 @@
 import GameUtils from "../../../common/GameUtils";
-import * as SabaConfigs from "../../../configs/SabaConfigs";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
 

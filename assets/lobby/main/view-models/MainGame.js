@@ -1,14 +1,15 @@
-import { appContainer } from '../../../Application';
-import baseControll from '../../../BaseController';
-import GameUtils from '../../../common/GameUtils';
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import logger from '../../../common/logger';
-import * as SabaConfigs from '../../../configs/SabaConfigs';
-import FourGuardiansConfig from '../../../games/four-guardians/scripts/FourGuardiansConfig';
-import LobbyMenuConfig from '../../../lobby/main/view-models/LobbyMenuConfig';
-import SocketIOController from '../../../SocketIOController';
-import SplashConfig from '../../../splash/view-models/SplashConfig';
-import * as authManager from './../../../common/auth/AuthManager';
+import { appContainer } from "../../../Application";
+import baseControll from "../../../BaseController";
+import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import logger from "../../../common/logger";
+import * as SabaConfigs from "../../../configs/SabaConfigs";
+import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
+import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
+import SocketIOController from "../../../SocketIOController";
+import SplashConfig from "../../../splash/view-models/SplashConfig";
+import * as authManager from "./../../../common/auth/AuthManager";
+import * as sessionManager from "./../../../common/auth/SessionManager";
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -87,7 +88,7 @@ cc.Class({
         // Connect Server
         cc.RedT.reconnect();
 
-        this.dialog.init();
+        this.dialog.init(this);
         this.newsContents.init(this);
 
         var MiniPanel = cc.instantiate(this.PrefabT[1]);
@@ -96,11 +97,12 @@ cc.Class({
         this.dialogNode.removeFromParent();
         MiniPanel.addChild(this.dialogNode);
 
-        this.inRoomGameId = authManager.getInRoomGameId();
+        this.inRoomGameId = sessionManager.getInRoomGameId();
 
         if (authManager && !cc.RedT.IS_LOGIN && !this.inRoomGameId) {
-            authManager.triggerSignIn(this, this.loading);
+            authManager.triggerSignIn(this);
         } else {
+            authManager.auth();
             !window.openGameId && this.openInRoomGame(this.inRoomGameId);
         }
 
@@ -128,7 +130,7 @@ cc.Class({
             this.initLobby();
         }
     },
-    onSocketError() {
+    loadLobbyMenuFromStorage() {
         if (!this.initializedLobby) {
             const storage = cc.sys.localStorage.getItem("latestOfferGames");
             if (storage) {
@@ -136,6 +138,9 @@ cc.Class({
             }
             this.initLobby();
         }
+    },
+    onSocketError() {
+        //this.loadLobbyMenuFromStorage();
     },
     initLobby() {
         this.initLobbyMenu();
@@ -375,7 +380,7 @@ cc.Class({
         }
 
         if (data.ss) {
-            authManager.storeSessionData(data.ss);
+            sessionManager.storeSessionData(data.ss);
         }
 
         if (void 0 !== data.name) {
@@ -436,8 +441,8 @@ cc.Class({
     AllReset: function () {
         this.loading.active = false;
         this.newsContents.reset();
-        this.header.isSignOut();
-        this.dialog.onCloseDialog();
+        //this.header.isSignOut();
+        //this.dialog.onCloseDialog();
     },
 
     playMusic: function () {

@@ -1,16 +1,24 @@
-import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import WebSocketMiniGameBase from "../../_base/WebSocketMiniGameBase";
-import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
-import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
-import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
-import MiniSedieGuide from "./MiniSedieGuide";
-import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
-import SedieRoundHistory from "./SedieRoundHistory";
+import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
+import { games } from '../../../configs/SabaConfigs';
+import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
+import SocketIOMiniGameBase from '../../_base/SocketIOMiniGameBase';
+import MiniSedieFinishHandler from './handlers/MiniSedieFinishHandler';
+import MiniSedieLogsHandler from './handlers/MiniSedieLogsHandler';
+import MiniSedieTimeHandler from './handlers/MiniSedieTimeHandler';
+import { MiniSedieConfigs } from './MiniSedieConfigs';
+import MiniSedieGuide from './MiniSedieGuide';
+import MiniSedieHistory from './MiniSedieHistory';
+import SedieMiniRoundHistory from './SedieMiniRoundHistory';
+import SedieRoundHistory from './SedieRoundHistory';
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniSedie extends WebSocketMiniGameBase {
+export default class MiniSedie extends SocketIOMiniGameBase {
+    get gameId() {
+        return games.MiniSedie.id;
+    }
+
     @property({ type: cc.Sprite })
     dots: cc.Sprite[] = [];
 
@@ -48,6 +56,7 @@ export default class MiniSedie extends WebSocketMiniGameBase {
     public miniRoundHistory: SedieMiniRoundHistory = null;
     private showLogs = true;
     public resultAnimating = false;
+    private historyComponent: MiniSedieHistory;
 
     onLoad() {
         if (!cc.sys.isMobile) {
@@ -70,6 +79,10 @@ export default class MiniSedie extends WebSocketMiniGameBase {
         };
     }
 
+    initMiniPanel(miniPanel: MiniPanel) {
+        this.init("MiniSeDie", new MiniSedieConfigs(), miniPanel);
+    }
+
     resetDataAndUI() {
         super.resetDataAndUI();
         this.animation.node.active = false;
@@ -79,6 +92,13 @@ export default class MiniSedie extends WebSocketMiniGameBase {
         super.onDestroy();
         this.roundHistoryContainer.isValid && this.roundHistoryContainer.destroyAllChildren();
         this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
+    }
+
+    onData(data: any) {
+        super.onData(data);
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
     }
 
     onEnable() {
@@ -92,11 +112,6 @@ export default class MiniSedie extends WebSocketMiniGameBase {
         this.finishHandler = new MiniSedieFinishHandler(this);
         this.timeHandler = new MiniSedieTimeHandler(this);
         this.logsHandler = new MiniSedieLogsHandler(this);
-    }
-
-    public onBetItemClick(e) {
-        cc.RedT.audio.playClick();
-        this.bet({ bet: { amount: this.currentBet, betChoice: e.target.name } });
     }
 
     public showResult() {
@@ -158,6 +173,8 @@ export default class MiniSedie extends WebSocketMiniGameBase {
 
     public openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
+        this.historyComponent = dialog.getComponent(MiniSedieHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
 

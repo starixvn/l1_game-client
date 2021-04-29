@@ -11,17 +11,71 @@ const configs = {
             port: "",
             path: "/sit/main"
         },
+        1: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/taixiu",
+            proxyRoute: "/sit/bigsmall/socket.io"
+        },
         2: {
             subDomain: "uatproxy",
             port: "",
             path: "/user/xocxoc",
             proxyRoute: "/sit/sedie/socket.io"
         },
+        3: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/baucua",
+            proxyRoute: "/sit/fishprawncrab/socket.io"
+        },
+        4: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/txturbo",
+            proxyRoute: "/sit/turbobigsmall/socket.io"
+        },
+        6: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/oeturbo",
+            proxyRoute: "/sit/turbooddeven/socket.io"
+        },
+        7: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/dragontiger",
+            proxyRoute: "/sit/dragontiger/socket.io"
+        },
+        8: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/kenopromax",
+            proxyRoute: "/sit/kenopromax/socket.io"
+        },
+        9: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/minisedie",
+            proxyRoute: "/sit/minisedie/socket.io"
+        },
+        10: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/baccarat",
+            proxyRoute: "/sit/baccarat/socket.io"
+        },
+        21: {
+            subDomain: "uatproxy",
+            port: "",
+            path: "/user/roulette",
+            proxyRoute: "/sit/roulette/socket.io"
+        },
         22: {
             subDomain: "uatproxy",
             port: "",
             path: "/user/vipsedie",
-            proxyRoute: "/sit/vipsedie/socket.io"
+            proxyRoute: "/sit/vsedie/socket.io"
         },
         23: {
             subDomain: "uatproxy",
@@ -66,12 +120,16 @@ const configs = {
             proxyRoute: "/sit/fourguardians/socket.io"
         }
     },
-    sentryUrl: "https://08d902b128ea45b6a11639833224f481@sentryuat.sabagame.com/25",
+    sentry: {
+        url: "https://08d902b128ea45b6a11639833224f481@sentryuat.sabagame.com/25",
+        env: "SIT"
+    },
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
-    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno"
+    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
+    userServiceUrl: "https://uatproxy.sabagame.com/sit/user"
 };
 
 module.exports = configs;

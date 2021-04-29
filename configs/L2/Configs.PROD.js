@@ -16,17 +16,71 @@ const configs = {
             path: "/main",
             proxyRoute: "/main"
         },
+        1: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/taixiu",
+            proxyRoute: "/bigsmall/socket.io"
+        },
         2: {
             subDomain: "proxy",
             port: "",
             path: "/user/xocxoc",
             proxyRoute: "/sedie/socket.io"
         },
+        3: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/baucua",
+            proxyRoute: "/fishprawncrab/socket.io"
+        },
+        4: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/txturbo",
+            proxyRoute: "/turbobigsmall/socket.io"
+        },
+        6: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/oeturbo",
+            proxyRoute: "/turbooddeven/socket.io"
+        },
+        7: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/dragontiger",
+            proxyRoute: "/dragontiger/socket.io"
+        },
+        8: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/kenopromax",
+            proxyRoute: "/kenopromax/socket.io"
+        },
+        9: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/minisedie",
+            proxyRoute: "/minisedie/socket.io"
+        },
+        10: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/baccarat",
+            proxyRoute: "/baccarat/socket.io"
+        },
+        21: {
+            subDomain: "proxy",
+            port: "",
+            path: "/user/roulette",
+            proxyRoute: "/roulette/socket.io"
+        },
         22: {
             subDomain: "proxy",
             port: "",
             path: "/user/vipsedie",
-            proxyRoute: "/vipsedie/socket.io"
+            proxyRoute: "/vsedie/socket.io"
         },
         23: {
             subDomain: "proxy",
@@ -71,8 +125,12 @@ const configs = {
             proxyRoute: "/fourguardians/socket.io"
         }
     },
-    sentryUrl: "https://eb5f1c92d1da4cb6a059fa40c1276a9d@sentry.sabagame.com/48",
-    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno"
+    sentry: {
+        url: "https://eb5f1c92d1da4cb6a059fa40c1276a9d@sentry.sabagame.com/48",
+        env: "PRO"
+    },
+    kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
+    userServiceUrl: "https://proxy.sabagame.net/user"
 };
 
 module.exports = configs;

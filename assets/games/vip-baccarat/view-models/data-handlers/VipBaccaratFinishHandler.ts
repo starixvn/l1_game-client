@@ -6,22 +6,6 @@ export default class VipBaccaratFinishHandler extends BaccaratFinishHandler {
     protected getOwnMain(): any {
         return this.main as VipBaccarat;
     }
-
-    protected getDataFollowTypePlayer(data: any, isBanker: boolean) {
-        if (isBanker) {
-            return Object.values(data.banker).filter((value) => value != null);
-        }
-        return Object.values(data.player).filter((value) => value != null);
-    }
-
-    protected insertCurrentDataLogs(baccaratMain: any, dataFinish: any) {
-        if (dataFinish.winningPlayers) {
-            delete dataFinish.winningPlayers;
-        }
-
-        baccaratMain.currentDataLogs.unshift(dataFinish);
-    }
-
     protected handleBuildMiniLogs(baccaratMain: any) {
         const logsHandler = baccaratMain.logsHandler as VipBaccaratLogsHandler;
         const currentDataLogs = logsHandler.convertLogsDataLogs(baccaratMain.currentDataLogs);

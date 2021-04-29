@@ -1,5 +1,5 @@
-import { SlotGameBaseConfigs } from './SlotGameBaseConfigs';
-import SlotReel from './SlotReel';
+import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
+import SlotReel from "./SlotReel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -69,15 +69,16 @@ export default class SlotBoard extends cc.Component {
         this.reels.forEach((reel, index) => reel.setReelData(columns[index]));
     }
 
-    spin(): Promise<void> {
+    spin(duration: number, turbo: boolean): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const actions = [];
             this.reels.forEach((reel) => {
                 actions.push(() => {
-                    reel.spin();
+                    reel.spin(duration);
                 });
             });
             let count = 0;
+            const timeGap = 0.1 * duration;
             cc.tween(this.node)
                 .repeat(
                     actions.length,
@@ -87,11 +88,13 @@ export default class SlotBoard extends cc.Component {
                             actions[count]();
                             count++;
                         })
-                        .delay(0.1)
+                        .delay(timeGap)
                 )
-                .delay(0.2)
-                .call(() => this.applyData(this.data))
-                .delay(0.8)
+                .delay(0.2 * duration)
+                .call(() => {
+                    this.applyData(this.data);
+                })
+                .delay(0.8 * duration)
                 .call(resolve)
                 .start();
         });

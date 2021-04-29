@@ -1,18 +1,14 @@
-import GameUtils from "../../common/GameUtils";
-import Loading from "../../common/loading/view-models/Loading";
-import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
-import * as SabaConfigs from "../../configs/SabaConfigs";
-import ChanLe from "../../games/chan-le/view-models/ChanLe";
-import KenoProViet from "../../games/mini-keno/view-models/KenoProViet";
-import MiniSedie from "../../games/mini-sedie/viewModels/MiniSedie";
-import RongHo from "../../games/rong-ho/view-models/RongHo";
-import SpecialSeDie from "../../games/special-sedie/view-models/SpecialSeDie";
-import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
-import * as authManager from "./../../common/auth/AuthManager";
-import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
-import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
-import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
-import PopupMinigames from "./popup/PopupMinigames";
+import * as sessionManager from '../../common/auth/SessionManager';
+import GameUtils from '../../common/GameUtils';
+import Loading from '../../common/loading/view-models/Loading';
+import Notice, { NoticeData } from '../../common/notice/view-models/Notice';
+import * as SabaConfigs from '../../configs/SabaConfigs';
+import GameIconMenu from '../../lobby/main/view-models/GameIconMenu';
+import * as authManager from './../../common/auth/AuthManager';
+import MiniPanelDataHandlers from './MiniPanelDataHandlers';
+import MiniPanelMiniGameInitializers from './MiniPanelMiniGameInitializers';
+import MiniPanelSocketIOGameInitializers from './MiniPanelSocketIOGameInitializers';
+import PopupMinigames from './popup/PopupMinigames';
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -44,16 +40,6 @@ export default class MiniPanel extends cc.Component {
     @property(GameIconMenu)
     gameMenu: GameIconMenu = null;
 
-    public taiXiu: any;
-    public bauCua: any;
-    public taiXiuTurbo: any;
-    public chanLe: ChanLe;
-    public chanLeTurbo: ChanLe;
-    public rongHo: RongHo;
-    public miniSedie: MiniSedie;
-    public kenoProViet: KenoProViet;
-    public specialSeDie: SpecialSeDie;
-
     public popupMiniGame: any;
     public loading: Loading;
     public dataHandlers: MiniPanelDataHandlers;
@@ -61,6 +47,7 @@ export default class MiniPanel extends cc.Component {
     public skipShowApiErrorGameIds: number[] = [];
     private gameMiniInitializers: MiniPanelMiniGameInitializers;
     private socketIOGameInitializers: MiniPanelSocketIOGameInitializers;
+    private miniGamesCache = {};
 
     onLoad() {
         if (void 0 === cc.RedT.util.fontCong) {
@@ -80,23 +67,6 @@ export default class MiniPanel extends cc.Component {
         this.gameMenu.miniPanel = this;
     }
 
-    onDestroy() {
-        this.taiXiu && this.taiXiu.destroy();
-        this.taiXiu = null;
-        this.taiXiuTurbo && this.taiXiuTurbo.destroy();
-        this.taiXiuTurbo = null;
-        this.chanLe && this.chanLe.destroy();
-        this.chanLe = null;
-        this.chanLeTurbo && this.chanLeTurbo.destroy();
-        this.chanLeTurbo = null;
-        this.bauCua && this.bauCua.destroy();
-        this.bauCua = null;
-        this.miniSedie && this.miniSedie.destroy();
-        this.miniSedie = null;
-        this.kenoProViet && this.kenoProViet.destroy();
-        this.kenoProViet = null;
-    }
-
     onGeneralData(data: any) {
         if (!this.dataHandlers) {
             this.dataHandlers = new MiniPanelDataHandlers(this);
@@ -105,16 +75,22 @@ export default class MiniPanel extends cc.Component {
         this.dataHandlers.handleData(data);
     }
 
+    addMiniGame(game: any, gameId: number) {
+        this.miniGames && this.miniGames.addChild(game.node);
+        this.miniGamesCache[gameId] = game;
+    }
+
+    getGameMini(gameId): any {
+        return this.miniGamesCache[gameId];
+    }
+
     onSignIn() {
-        this.bauCua && this.bauCua.node && this.bauCua.onSignIn();
-        this.taiXiu && this.taiXiu.node && this.taiXiu.onSignIn();
-        this.taiXiuTurbo && this.taiXiuTurbo.node && this.taiXiuTurbo.onSignIn();
-        this.chanLe && this.chanLe.node && this.chanLe.onSignIn();
-        this.chanLeTurbo && this.chanLeTurbo.node && this.chanLeTurbo.onSignIn();
-        this.rongHo && this.rongHo.node && this.rongHo.onSignIn();
-        this.miniSedie && this.miniSedie.node && this.miniSedie.onSignIn();
-        this.kenoProViet && this.kenoProViet.node && this.kenoProViet.onSignIn();
-        this.specialSeDie && this.specialSeDie.node && this.specialSeDie.onSignIn();
+        Object.keys(this.miniGamesCache).forEach((key) => {
+            const game = this.miniGamesCache[key];
+            if (game && game.node && game.node.isValid) {
+                game.onSignIn();
+            }
+        });
     }
 
     onForceReload(showNotice = true, message = "Vui lòng tải lại trang để cập nhật phiên bản mới.") {
@@ -161,7 +137,7 @@ export default class MiniPanel extends cc.Component {
             return;
         }
 
-        authManager.removeInRoomGameId();
+        sessionManager.removeInRoomGameId();
 
         if (!cc.RedT.isConnected) {
             const gameName = GameUtils.getGameNameString(id);

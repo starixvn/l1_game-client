@@ -16,10 +16,10 @@ import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class VipBaccarat extends SocketIOTableGameBase {
-    @property(VipBaccaratCards)
+    @property({ type: VipBaccaratCards })
     playerCards: VipBaccaratCards = null;
 
-    @property(VipBaccaratCards)
+    @property({ type: VipBaccaratCards })
     bankerCards: VipBaccaratCards = null;
 
     @property(cc.Node)
@@ -67,8 +67,8 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     basicHistoryBoard: BasicHistoryBoard;
     detailHistoryBoard: DragonScoreBoard;
     showScoreBoardNextDot = false;
-    public miniRoundHistory: VipBaccaratMiniRoundHistory;
-    private historyComponent: VipBaccaratHistory;
+    protected miniRoundHistory: VipBaccaratMiniRoundHistory;
+    protected historyComponent: VipBaccaratHistory;
 
     constructor() {
         super();
@@ -91,6 +91,10 @@ export default class VipBaccarat extends SocketIOTableGameBase {
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
         });
 
+        this.handlePositionMiniRoundHistory();
+    }
+
+    handlePositionMiniRoundHistory() {
         this.miniRoundHistory.tip.node.zIndex = 100;
         GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
     }

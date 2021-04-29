@@ -1,3 +1,5 @@
+import UserService from "../../../common/auth/UserService";
+
 var BrowserUtil = require("BrowserUtil");
 const NameGenerator = require("../../../common/name-generator/NameGenerator");
 const InvalidUserName = "Tên nhân vật không hợp lệ.";
@@ -15,6 +17,9 @@ cc.Class({
             type: cc.Label
         },
         dialogNode: cc.Node
+    },
+    init(onSuccessFunc) {
+        this.onSuccessFunc = onSuccessFunc;
     },
     onLoad() {
         var self = this;
@@ -90,7 +95,9 @@ cc.Class({
             this.errorMessage.string = InvalidUserName;
         } else {
             //Ricky: Client SignName
-            cc.RedT.send({ signName: this.username.string });
+            //cc.RedT.send({ signName: this.username.string });
+            const authData = window.authData;
+            UserService.getInstance().auth.signName(authData.ss, authData.username, this.username.string).then(this.onSuccessFunc);
         }
     },
 

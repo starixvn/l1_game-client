@@ -1,10 +1,12 @@
 import GameUtils from "../../../common/GameUtils";
 import { games } from "../../../configs/SabaConfigs";
-import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
+import KenoBetHandler from "./handlers/KenoBetHandler";
 import KenoFinishHandler from "./handlers/KenoFinishHandler";
 import KenoLogsHandler from "./handlers/KenoLogsHandler";
 import KenoTimeHandler from "./handlers/KenoTimeHandler";
 import KenoRoundResult from "./history/KenoRoundResult";
+import KenoUserHistory from "./history/KenoUserHistory";
 import { KenoConfigs } from "./KenoConfigs";
 import KenoNumber from "./KenoNumber";
 import RoundHistory from "./RoundHistory";
@@ -12,7 +14,7 @@ import RoundHistory from "./RoundHistory";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Keno extends WebSocketTableGameBase {
+export default class Keno extends SocketIOTableGameBase {
     @property(KenoRoundResult)
     roundResult: KenoRoundResult = null;
 
@@ -39,10 +41,11 @@ export default class Keno extends WebSocketTableGameBase {
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
+    private historyComponent: KenoUserHistory;
 
     constructor() {
         super();
-        this.init("kenoProMax", new KenoConfigs(), null, 1, games.KenoProMax.id);
+        this.init("KenoProMax", new KenoConfigs(), null, 1, games.KenoProMax.id);
     }
 
     initHandlers() {
@@ -51,19 +54,15 @@ export default class Keno extends WebSocketTableGameBase {
         this.finishHandler = new KenoFinishHandler(this);
         this.timeHandler = new KenoTimeHandler(this);
         this.logsHandler = new KenoLogsHandler(this);
-    }
-
-    //#region Public Methods
-    public onCuocClick(e) {
-        this.bet({
-            bet: { amount: this.currentBet, box: e.target.name }
-        });
+        this.betHandler = new KenoBetHandler(this);
     }
 
     public pressedHistoryDialog() {
         cc.RedT.audio.playClick();
 
         const dialog = cc.instantiate(this.historyPrefab);
+        this.historyComponent = dialog.getComponent(KenoUserHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
 
@@ -74,12 +73,6 @@ export default class Keno extends WebSocketTableGameBase {
         kenoGuide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }
-    //#endregion
-
-    //#region Component Methods
-    onDestroy() {
-        super.onDestroy();
-    }
 
     onLoad() {
         super.onLoad();
@@ -89,43 +82,28 @@ export default class Keno extends WebSocketTableGameBase {
         }
 
         this.roundHistory.init(this);
-
         this.betItems.forEach((item) => {
             GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
             GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
         });
     }
-    //#endregion
 
-    //#region Private Methods
+    onDataGameRoom(data) {
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
+
+        super.onDataGameRoom(data);
+    }
+
     resetDataAndUI() {
         super.resetDataAndUI();
         this.roundResult.node.active = false;
     }
 
-    regEvent(show: boolean) {
-        const data = {
-            view: show,
-            get_time: show,
-            getLogs: show
-        };
-        this.sendData(data);
-    }
-
-    //#endregion Private Methods
-
-    //#region Game Methods
     public updateRoundHistory() {
         this.roundHistory.setData(this.currentDataLogs);
-    }
-
-    public getTempTotal(numberArray: number[], index: number): number {
-        let total = 0;
-        for (let i = 0; i <= index; i++) {
-            total += numberArray[i];
-        }
-        return total;
     }
 
     public static getResults(settlementResult: any): string[] {
@@ -143,5 +121,4 @@ export default class Keno extends WebSocketTableGameBase {
 
         return results;
     }
-    //#endregion
 }

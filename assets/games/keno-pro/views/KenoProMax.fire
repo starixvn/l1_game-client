@@ -186,7 +186,7 @@
       "array": [
         0,
         0,
-        562.0504870561007,
+        530.8735725198609,
         0,
         0,
         0,
@@ -3516,8 +3516,8 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "onCuocClick",
-    "customEventData": ""
+    "handler": "onBetItemClick",
+    "customEventData": "even"
   },
   {
     "__type__": "cc.PolygonCollider",
@@ -5528,8 +5528,8 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "onCuocClick",
-    "customEventData": ""
+    "handler": "onBetItemClick",
+    "customEventData": "odd"
   },
   {
     "__type__": "cc.PolygonCollider",
@@ -7606,8 +7606,8 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "onCuocClick",
-    "customEventData": ""
+    "handler": "onBetItemClick",
+    "customEventData": "big"
   },
   {
     "__type__": "cc.PolygonCollider",
@@ -9641,8 +9641,8 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "onCuocClick",
-    "customEventData": ""
+    "handler": "onBetItemClick",
+    "customEventData": "small"
   },
   {
     "__type__": "cc.PolygonCollider",
@@ -11676,8 +11676,8 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "onCuocClick",
-    "customEventData": ""
+    "handler": "onBetItemClick",
+    "customEventData": "gold"
   },
   {
     "__type__": "cc.PolygonCollider",
@@ -13716,8 +13716,8 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "onCuocClick",
-    "customEventData": ""
+    "handler": "onBetItemClick",
+    "customEventData": "wood"
   },
   {
     "__type__": "cc.PolygonCollider",
@@ -15769,8 +15769,8 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "onCuocClick",
-    "customEventData": ""
+    "handler": "onBetItemClick",
+    "customEventData": "water"
   },
   {
     "__type__": "cc.PolygonCollider",
@@ -17804,8 +17804,8 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "onCuocClick",
-    "customEventData": ""
+    "handler": "onBetItemClick",
+    "customEventData": "fire"
   },
   {
     "__type__": "cc.PolygonCollider",
@@ -19839,8 +19839,8 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "onCuocClick",
-    "customEventData": ""
+    "handler": "onBetItemClick",
+    "customEventData": "earth"
   },
   {
     "__type__": "cc.PolygonCollider",
@@ -27793,7 +27793,7 @@
         "__id__": 601
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 723
@@ -33840,7 +33840,7 @@
         "__id__": 736
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 741
@@ -34191,7 +34191,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 141.33,
-      "height": 53.33
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -34289,7 +34289,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 141.33,
-      "height": 53.33
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -41841,7 +41841,7 @@
     },
     "component": "",
     "_componentId": "5e248k2r+JGk41YGs95L5+n",
-    "handler": "closeGame",
+    "handler": "onCloseGameClick",
     "customEventData": ""
   },
   {
