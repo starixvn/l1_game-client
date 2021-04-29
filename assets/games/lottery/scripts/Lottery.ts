@@ -15,7 +15,6 @@ import LotteryExtraResult from "./LotteryExtraResult";
 import LotteryHistory from "./LotteryHistory";
 import LotteryMiniRoundHistory from "./LotteryMiniRoundHistory";
 import LotteryStatusHandler from "./handlers/LotteryStatusHandler";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import LotteryNumberItem from "./LotteryNumberItem";
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import LotteryGuide from "./LotteryGuide";

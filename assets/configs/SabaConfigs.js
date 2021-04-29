@@ -114,7 +114,7 @@ const configs = {
         },
         Lottery: {
             id: 31,
-            name: "Xổ Số Saba.club"
+            name: "Xổ Số RNG"
         }
     },
     gameRoomRegNames: {},
