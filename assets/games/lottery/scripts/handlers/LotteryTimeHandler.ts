@@ -10,6 +10,7 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
         super.handleInEndTime();
         this.resetAnimatedTime();
         this.main.stoppingBetNotice.active = false;
+        this.main.bettingNotice.active = false;
     }
 
     handleInLockBetTime() {
@@ -34,6 +35,8 @@ export default class LotteryTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
         this.resetAnimatedTime();
+        this.main.stoppingBetNotice.active = false;
+        this.main.bettingNotice.active = false;
     }
 
     resetAnimatedTime() {
