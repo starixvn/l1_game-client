@@ -218,6 +218,13 @@ export default class Lottery extends SocketIOTableGameBase {
         }
     }
 
+    showMiniWarning(data): cc.Node {
+        if (this.resultTween) {
+            return null;
+        }
+        return super.showMiniWarning(data);
+    }
+
     showAcceptedBet(bet: number) {
         GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
     }
