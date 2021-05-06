@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import UmWarning from '../../../common/um-warning/UmWarning';
-import LuckyWheelWinning from './LuckyWheelWinning';
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import UmWarning from "../../../common/um-warning/UmWarning";
+import LuckyWheelWinning from "./LuckyWheelWinning";
 
 const { ccclass, property } = cc._decorator;
 
@@ -159,6 +159,7 @@ export default class LuckyWheel extends cc.Component {
             this.spin(data.status);
         }
 
+        //TODO: handle server messages
         if (data.notice) {
             this.showNotice(data.notice);
         }

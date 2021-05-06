@@ -1,8 +1,10 @@
 import GameUtils from "../../common/GameUtils";
 import { NoticeData } from "../../common/notice/view-models/Notice";
+import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
 import { removeInRoomGameId, removeSession } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
+const i18n = require("LanguageData");
 
 declare global {
     interface Window {
@@ -52,7 +54,7 @@ export default class MiniPanelDataHandlers {
 
             const gameId = data.gameId;
             const gameName = GameUtils.getGameNameString(gameId);
-            const message = `${gameName}\nTài khoản của bạn hiện đang bị giới hạn, vui lòng thử các trò chơi khác.`;
+            const message = i18n.t("messages.gameExcluded", { gameName: gameName });
             this.main.onForceReload(true, message);
         }
 
@@ -78,7 +80,9 @@ export default class MiniPanelDataHandlers {
             } else {
                 this.main.forceKickedOut();
             }
-            const noticeData = { text: data.message } as NoticeData;
+            const errorCode = data.errorCode;
+            const text = NoticeUtil.getLocalizedErrorMessage(errorCode, {});
+            const noticeData = { text: text } as NoticeData;
             this.main.showNotice(noticeData, this.main.forceKickedOut, this.main.forceKickedOut);
         }
     }
@@ -99,12 +103,18 @@ export default class MiniPanelDataHandlers {
     }
 
     handleNoticeData(notice: any) {
-        const noticeData = {
-            text: notice.text,
-            isInfo: false
-        } as NoticeData;
-
         this.main.loading.node.active = false;
-        this.main.showNotice(noticeData);
+        const errorCode = notice.errorCode;
+        const gameName = GameUtils.getGameNameString(notice.gameTypeId);
+        const { minBet, maxBet, gameRoundId } = notice;
+        const opt = { gameName, minBet, maxBet, gameRoundId };
+        const text = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
+        if (text) {
+            const noticeData = {
+                text: text,
+                isInfo: false
+            } as NoticeData;
+            this.main.showNotice(noticeData);
+        }
     }
 }

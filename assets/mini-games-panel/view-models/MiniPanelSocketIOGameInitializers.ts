@@ -1,10 +1,10 @@
-import { buildServerUrl } from '../.././common/helpers/UrlHelper';
-import { lazyInject } from '../../Application';
-import * as sessionManager from '../../common/auth/SessionManager';
-import GameUtils from '../../common/GameUtils';
-import * as configs from '../../configs/Configs';
-import SocketIOController from '../../SocketIOController';
-import MiniPanel from './MiniPanel';
+import { buildServerUrl } from "../.././common/helpers/UrlHelper";
+import { lazyInject } from "../../Application";
+import * as sessionManager from "../../common/auth/SessionManager";
+import GameUtils from "../../common/GameUtils";
+import * as configs from "../../configs/Configs";
+import SocketIOController from "../../SocketIOController";
+import MiniPanel from "./MiniPanel";
 
 export default class MiniPanelSocketIOGameInitializers {
     @lazyInject(SocketIOController)
@@ -41,6 +41,9 @@ export default class MiniPanelSocketIOGameInitializers {
             socket.on("message", (data) => {
                 if (data.um) {
                     this.socketIOController.closeSocket(gameId);
+                    if (data.um_message) {
+                        this.main.handleUmMessage(data.um_message);
+                    }
                 }
                 if (!this.main.node || !this.main.node.isValid) {
                     return;

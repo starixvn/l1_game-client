@@ -1,3 +1,5 @@
+const { default: NoticeUtil } = require("../../common/utils/NoticeUtil");
+
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -40,7 +42,8 @@ cc.Class({
         if (response.authorized) {
             this.main.handleUserData(response.user);
         } else {
-            this.main.showNotice({ text: response.message });
+            const text = NoticeUtil.getLocalizedErrorMessage(response.errorCode);
+            this.main.showNotice({ text: text });
         }
 
         this.main.Authorized(response.authorized);

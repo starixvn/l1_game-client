@@ -22,6 +22,7 @@ import LineSelectionDialog from "./LineSelectionDialog";
 import SlotBoard from "./SlotBoard";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotGameUserSettings from "./SlotGameUserSettings";
+const i18n = require("LanguageData");
 
 export interface LineData {
     payline: number;
@@ -408,7 +409,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     checkAvailableBalance(): boolean {
         const total = this.getCurrentTotalBet();
         if (cc.RedT.user.red < total && !this.isFreeSpin()) {
-            this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+            this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
             this.autoSpinToggle.isChecked = false;
             return false;
         }
@@ -425,7 +426,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             }
         });
 
-        const message = toggle.isChecked ? "Bật chế độ Siêu Tốc." : "Tắt chế độ Siêu Tốc.";
+        const key = toggle.isChecked ? "enableTurboMode" : "disableTurboMode";
+        const message = i18n.t(`messages.${key}`);
         const notice = this.showMiniWarning(message);
         notice.name = turboWarningName;
     }

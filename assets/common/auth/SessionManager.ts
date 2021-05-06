@@ -6,6 +6,7 @@ export interface Session {
     isAuthenticated: boolean;
 }
 
+const i18n = require("LanguageData");
 const sessionIdStorageName = "scss";
 
 export function getSessionKey() {
@@ -25,7 +26,34 @@ export function getSession(): Session {
 }
 
 export function storeSessionData(data) {
+    updateLanguage(data);
     cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
+}
+
+function getLanguage(data) {
+    let language = data.language || "en";
+    switch (language) {
+        case "en-US":
+            language = "en";
+            break;
+        case "vi-VN":
+            language = "vi";
+            break;
+        default:
+            break;
+    }
+    return language;
+}
+
+export function getLocale() {
+    const data = getSession();
+    return data.language;
+}
+
+function updateLanguage(data) {
+    const language = getLanguage(data);
+    console.log(`i18n init language ${data.language} => ${language}`);
+    i18n.init(language);
 }
 
 export function getInRoomGameIdKey() {

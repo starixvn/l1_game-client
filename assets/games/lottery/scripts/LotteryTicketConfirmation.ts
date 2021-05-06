@@ -5,6 +5,7 @@ import ItemLayout from "./ItemLayout";
 import { ChoiceType } from "./Lottery";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import GameUtils from "../../../common/GameUtils";
+const i18n = require("LanguageData");
 
 export interface LotteryTicketInfo {
     choiceType: number;
@@ -65,11 +66,11 @@ export default class LotteryTicketConfirmation extends BetBoard {
         const totalInputBet = this.getCurrentTotal();
         const totalBet = this.info.ownBets.totalAmount || 0;
         if (totalInputBet + totalBet > this.info.maxBetTotal) {
-            this.showNotice(`Tổng tiền cược tối đa của phiên này là ${numberWithCommas(this.info.maxBetTotal)}.`);
+            this.showNotice(i18n.t("messages.maxBetNotice", { maxBet: numberWithCommas(this.info.maxBetTotal) }));
             return false;
         }
         if (totalInputBet > cc.RedT.user.red) {
-            this.showNotice("Bạn hiện không có đủ tiền để cược.");
+            this.showNotice(i18n.t("messages.notEnoughMoney"));
             return false;
         }
         return true;
@@ -96,6 +97,7 @@ export default class LotteryTicketConfirmation extends BetBoard {
                 }
             }
         });
+        //TODO: handle server messages
         if (notValidList.length > 0) {
             this.showNotice(`Tiền cược trên [${notValidList.join(", ")}] vượt mức quy định.`);
             return true;

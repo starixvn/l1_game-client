@@ -9,6 +9,7 @@ export default class GameBaseErrorHandler implements DataHandler {
             return true;
         }
 
+        //TODO: handle server messages
         if (data.err) {
             this.main.showMiniWarning(data.err);
             return true;

@@ -1,3 +1,4 @@
+const i18n = require("LanguageData");
 const { ccclass, property } = cc._decorator;
 
 export interface NoticeData {
@@ -81,8 +82,7 @@ export default class Notice extends cc.Component {
     public setBackground(isInfo: boolean) {
         if (isInfo) {
             this.popupNode.spriteFrame = this.infoBackground;
-        }
-        else {
+        } else {
             this.popupNode.spriteFrame = this.errorBackground;
         }
     }
@@ -90,9 +90,8 @@ export default class Notice extends cc.Component {
     public setTitle(title: string) {
         if (title) {
             this.title.string = title.toUpperCase();
-        }
-        else {
-            this.title.string = "THÔNG BÁO";
+        } else {
+            this.title.string = i18n.t("messages.noticeTitle");
         }
     }
 

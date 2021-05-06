@@ -1,5 +1,7 @@
 import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
+import GameUtils from "../../../../common/GameUtils";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
+import NoticeUtil from "../../../../common/utils/NoticeUtil";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
@@ -149,8 +151,18 @@ export default class DealHandler implements DataHandler {
                 this.main.currentMiniPanel.onGeneralData(transferredData);
             });
         }
+        //TODO: handle server messages
         if (data.invalidBetAmountHands) {
-            this.main.showMiniWarning(data.invalidBetAmountHands.message);
+            const errorCode = data.invalidBetAmountHands.errorCode;
+            const { minBet, maxBet, gameRoundId } = data.invalidBetAmountHands;
+            const opt = {
+                gameName: GameUtils.getGameNameString(this.main.gameId),
+                minBet: minBet || this.main.gameConfigs.minbet,
+                maxBet: maxBet || this.main.gameConfigs.maxbet,
+                gameRoundId
+            };
+            const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
+            this.main.showMiniWarning(message);
             const positions = data.invalidBetAmountHands.pos;
             this.clearChipsAndShowErrorNotice(positions);
         }

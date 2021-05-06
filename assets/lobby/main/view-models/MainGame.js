@@ -268,10 +268,7 @@ cc.Class({
 
         if (void 0 !== data["message"]) {
             this.showNotice({
-                text:
-                    data.isSessionExpired || data.noPassword
-                        ? "Phiên đăng nhập đã hết hạn, bạn vui lòng đăng nhập lại."
-                        : "Có lỗi xảy ra, vui lòng kiểm tra lại."
+                text: data.isSessionExpired || data.noPassword ? i18n.t("messages.sessionExpired") : i18n.t("messages.errorOccurred")
             });
         } else {
             this.showNotice(data);
@@ -446,7 +443,7 @@ cc.Class({
     pauseMusic: function () {
         this.audioBG.pause();
     },
-    resumeMusic: function () { },
+    resumeMusic: function () {},
     audioClick: function () {
         cc.RedT.audio.playClick();
     },
