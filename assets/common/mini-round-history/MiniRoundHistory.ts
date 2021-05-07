@@ -92,6 +92,9 @@ export default class MiniRoundHistory extends cc.Component {
     }
 
     updateDisplayNextItem(dt: number) {
+        if (this.dataLogs.length === 0) {
+            return;
+        }
         if (this.nodeNext) {
             const lastVisible = this.nodeNext.active;
             this.nodeNext.active = this.checkShowNext();

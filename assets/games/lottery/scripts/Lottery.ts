@@ -498,6 +498,9 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     updateMiniRoundHistories() {
+        if (this.currentDataLogs.length === 0) {
+            return;
+        }
         this.miniRoundHistories.forEach((history) => history.setData(this.currentDataLogs));
     }
 
