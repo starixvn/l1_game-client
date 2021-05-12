@@ -97,11 +97,13 @@ export default class MiniPanel extends cc.Component {
 
     redirectToResultPage(redirectUrl) {
         cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
-        cc.RedT.resultPage.focus();
+        if (cc.RedT.resultPage) {
+            cc.RedT.resultPage.focus();
 
-        window.onbeforeunload = function () {
-            cc.RedT.resultPage.close();
-        };
+            window.onbeforeunload = function () {
+                cc.RedT.resultPage.close();
+            };
+        }
     }
 
     openResultPage(gameId: number = undefined) {
