@@ -147,8 +147,8 @@ window.boot = function () {
                     cc.sys.BROWSER_TYPE_BAIDU,
                     cc.sys.BROWSER_TYPE_BAIDU_APP,
                     cc.sys.BROWSER_TYPE_WECHAT,
-                    cc.sys.BROWSER_TYPE_MOBILE_QQ
-                    // cc.sys.BROWSER_TYPE_MIUI,
+                    cc.sys.BROWSER_TYPE_MOBILE_QQ,
+                    cc.sys.BROWSER_TYPE_MIUI
                 ].indexOf(cc.sys.browserType) < 0
             );
 
