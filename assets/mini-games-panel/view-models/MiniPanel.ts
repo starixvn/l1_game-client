@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
@@ -11,7 +13,6 @@ import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -107,7 +108,7 @@ export default class MiniPanel extends cc.Component {
     }
 
     openResultPage(gameId: number = undefined) {
-        const data = { language: "vi-VN" };
+        const data = { language: sessionManager.getLocale() };
         if (gameId) {
             data["gameId"] = gameId;
         }
