@@ -145,8 +145,8 @@ export default class Lottery extends SocketIOTableGameBase {
             if (this.statsToggle.isChecked) {
                 this.requestStatistics();
             }
-            this.updateHeaderColor();
         }
+        this.updateHeaderColor();
     }
 
     updateHeaderColor() {
