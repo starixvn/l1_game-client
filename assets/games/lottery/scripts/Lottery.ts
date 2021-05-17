@@ -227,7 +227,15 @@ export default class Lottery extends SocketIOTableGameBase {
         if (this.resultTween) {
             return null;
         }
+        cc.RedT.audio.playClick();
         return super.showMiniWarning(data);
+    }
+
+    showProcessingWarning(show: boolean) {
+        if (show) {
+            cc.RedT.audio.playClick();
+        }
+        super.showProcessingWarning(show);
     }
 
     showAcceptedBet(bet: number) {
@@ -239,7 +247,6 @@ export default class Lottery extends SocketIOTableGameBase {
             return;
         }
 
-        cc.RedT.audio.playClick();
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
         } else {
