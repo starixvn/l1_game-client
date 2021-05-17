@@ -145,7 +145,12 @@ export default class Lottery extends SocketIOTableGameBase {
             if (this.statsToggle.isChecked) {
                 this.requestStatistics();
             }
+            this.updateHeaderColor();
         }
+    }
+
+    updateHeaderColor() {
+        this.lotteryTypeItems.forEach((item) => item.updateLabelColor());
     }
 
     clearSetting() {
@@ -255,6 +260,7 @@ export default class Lottery extends SocketIOTableGameBase {
         this.showChoiceBoard(this.currentTypeIndex);
         this.expandableMenu.collapseMenu();
         this.updateSettingStorage();
+        this.updateHeaderColor();
     }
 
     getBoardIndex(index: number): number {
