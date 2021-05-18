@@ -74,8 +74,13 @@ window.boot = function () {
             //CHEAT: force height equal screen.width
             if (isLandscape) {
                 h = screen.width;
-                if (window.navigator.userAgent.match(/crios/i)) {
-                    h -= 20;
+                const userAgent = window.navigator.userAgent;
+                if (userAgent.match(/crios/i)) {
+                    let navBarHeight = 20;
+                    if (userAgent.match(/ipad/i)) {
+                        navBarHeight = 44;
+                    }
+                    h -= navBarHeight;
                 }
             }
 
