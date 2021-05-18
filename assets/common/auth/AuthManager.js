@@ -192,7 +192,7 @@ export function reCheckIn() {
                                 };
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             } else {
-                                const noticeData = { text: `${response.apiError.errorMessage} (${response.apiError.errorCode})` };
+                                const noticeData = { text: `${response.apiError.message} (${response.apiError.errorCode})` };
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             }
                         } else {
