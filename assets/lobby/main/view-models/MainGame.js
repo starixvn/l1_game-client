@@ -403,6 +403,7 @@ cc.Class({
     },
     signIn: function () {
         cc.RedT.IS_LOGIN = true;
+        authManager.auth();
         this.header.isSignIn();
         this.dialog.onBack();
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
@@ -445,7 +446,7 @@ cc.Class({
     pauseMusic: function () {
         this.audioBG.pause();
     },
-    resumeMusic: function () {},
+    resumeMusic: function () { },
     audioClick: function () {
         cc.RedT.audio.playClick();
     },

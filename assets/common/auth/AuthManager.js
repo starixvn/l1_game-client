@@ -120,7 +120,6 @@ export function triggerSignIn(main) {
                     main.handleUserData(response.user);
                 }
                 main.Authorized(response.authorized);
-                this.auth();
             })
             .catch((e) => {
                 sentryLogger.logError(e);
