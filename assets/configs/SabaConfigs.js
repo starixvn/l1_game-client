@@ -111,11 +111,15 @@ const configs = {
         FourGuardians: {
             id: 29,
             name: "Long Lân Quy Phụng"
+        },
+        Lottery: {
+            id: 31,
+            name: "Xổ Số RNG"
         }
     },
     gameRoomRegNames: {},
     gameRoomIds: [],
-    gameRoomNewSocketIds: [2, 8, 10, 21, 22, 23, 25, 26, 27, 28, 29],
+    gameRoomNewSocketIds: [2, 8, 10, 21, 22, 23, 25, 26, 27, 28, 29, 31],
     gameMiniNewSocketIds: [24, 9, 1, 3, 4, 6, 7]
 };
 

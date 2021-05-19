@@ -8,10 +8,10 @@ export default class AnimatedTime extends cc.Component {
     @property(cc.Label)
     secondChar: cc.Label = null;
 
-    private timeToChangeColor = 5;
-    private changedColor: cc.Color = cc.Color.RED;
-    private animatedYTop = 70;
-    private animatedYBottom = -10;
+    protected timeToChangeColor = 5;
+    protected changedColor: cc.Color = cc.Color.RED;
+    protected animatedYTop = 70;
+    protected animatedYBottom = -10;
 
     setRedTime(time: number) {
         this.timeToChangeColor = time;
@@ -37,7 +37,9 @@ export default class AnimatedTime extends cc.Component {
             this.handleBetTimeAnimation(this.firstChar.node);
         }
 
-        this.handleBetTimeAnimation(this.secondChar.node);
+        if (this.secondChar.string !== secondTimeChar) {
+            this.handleBetTimeAnimation(this.secondChar.node);
+        }
         this.firstChar.string = firstTimeChar;
         this.secondChar.string = secondTimeChar;
 

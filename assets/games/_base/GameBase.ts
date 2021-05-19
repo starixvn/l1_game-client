@@ -297,6 +297,10 @@ export default class GameBase extends cc.Component {
         this.umNotice && this.umNotice.hide();
     }
 
+    clearAllNotices() {
+        this.noticeNode.destroyAllChildren();
+    }
+
     showMiniWarning(data): cc.Node {
         const notice = cc.instantiate(this.miniNoticePrefab);
         const noticeComponent = notice.getComponent("mini_warning");

@@ -1,4 +1,7 @@
+import { lazyInject } from "../../../Application";
 import BannerController from "./BannerController";
+import BannerItem from "./BannerItem";
+import LobbyMenuConfig from "./LobbyMenuConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -9,6 +12,9 @@ export default class DynamicAdsBannerController extends BannerController {
 
     @property(cc.SpriteAtlas)
     bannerAtlas: cc.SpriteAtlas = null;
+
+    @lazyInject(LobbyMenuConfig)
+    private readonly lobbyMenuConfig: LobbyMenuConfig;
 
     setGameAds(games: number[]) {
         games.forEach((id) => this.createAdsItem(id));
@@ -33,6 +39,14 @@ export default class DynamicAdsBannerController extends BannerController {
             event.handler = "openGame";
             event.customEventData = id.toString();
             button.clickEvents.push(event);
+
+            const bannerItem = item.getComponent(BannerItem);
+            const adsInfo = this.lobbyMenuConfig.bannerAdsInfo[id];
+            if (adsInfo) {
+                bannerItem.displayTime = adsInfo.displayTime;
+            } else {
+                bannerItem.displayTime = 4;
+            }
         }
     }
 

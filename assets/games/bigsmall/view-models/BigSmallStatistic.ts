@@ -1,7 +1,7 @@
-import _ = require('lodash');
+import _ = require("lodash");
 
-import CommonDialog from '../../../common/_base/view-models/CommonDialog';
-import ItemContentMenu from '../../../common/helpers/Menu/ItemContentMenu';
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import ItemContentMenu from "../../../common/helpers/Menu/ItemContentMenu";
 
 const { ccclass, property } = cc._decorator;
 
@@ -122,7 +122,7 @@ export default class BigSmallStatistic extends cc.Component {
         this.calculateResultStatistic();
 
         this.resultDots.children.forEach((dot, index) => {
-            if (index > this.dataLogs.length) {
+            if (index >= this.dataLogs.length) {
                 return;
             }
             const component = dot.getComponent(cc.Sprite);

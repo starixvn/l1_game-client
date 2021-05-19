@@ -80,7 +80,7 @@ export default class SlotReel extends cc.Component {
         const item = this.items[this.itemCount + position - this.itemDisplayCount];
         const itemCopy = this.items[position];
         const highlight =
-            item.index === symbol || (item.index === this.slotGameConfig.wildSymbol && symbol != this.slotGameConfig.jackpotSymbol);
+            item.index === symbol || (item.index === this.slotGameConfig.wildSymbol && symbol !== this.slotGameConfig.jackpotSymbol);
         item.showWinningEffect(highlight);
         itemCopy.showWinningEffect(highlight);
         GameUtils.moveToOtherNode(item.node, this.winningContainer);

@@ -1,10 +1,10 @@
 import * as moment from "moment";
 
-import AnimatedTime from "../../../../common/animated-time/view-models/AnimatedTime";
+import ShortAnimatedTime from "../../../../common/animated-time/view-models/ShortAnimatedTime";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class MiniKenoTimer extends AnimatedTime {
+export default class MiniKenoTimer extends ShortAnimatedTime {
     @property(cc.Label)
     firstHourChar: cc.Label = null;
 
@@ -13,12 +13,6 @@ export default class MiniKenoTimer extends AnimatedTime {
 
     @property(cc.Node)
     hourColon: cc.Node = null;
-
-    @property(cc.Label)
-    firstMinuteChar: cc.Label = null;
-
-    @property(cc.Label)
-    secondMinuteChar: cc.Label = null;
 
     private enableHour = false;
     private readonly numberMoveTime = 0.4;
@@ -35,10 +29,14 @@ export default class MiniKenoTimer extends AnimatedTime {
         this.setAnimatedY(animatedYTop, animatedYBottom);
     }
 
+    getTimeChars(time: string): string[] {
+        const timeText = moment.utc(parseInt(time) * 1000).format("HH:mm:ss");
+        return Array.from(timeText);
+    }
+
     setTime(time: string, forceChangeColor = false) {
         this.node.active = true;
-        const timeText = moment.utc(parseInt(time) * 1000).format("HH:mm:ss");
-        const timeChars = Array.from(timeText);
+        const timeChars = this.getTimeChars(time);
 
         this.firstHourChar && this.showTimeNumber(this.firstHourChar, timeChars[0]);
         this.secondHourChar && this.showTimeNumber(this.secondHourChar, timeChars[1]);
@@ -49,20 +47,8 @@ export default class MiniKenoTimer extends AnimatedTime {
     }
 
     resetTime() {
+        super.resetTime();
         this.firstHourChar.string = "0";
         this.secondHourChar.string = "0";
-        this.firstMinuteChar.string = "0";
-        this.secondMinuteChar.string = "0";
-        this.firstChar.string = "0";
-        this.secondChar.string = "0";
-    }
-
-    private showTimeNumber(timeLabel: cc.Label, time: string) {
-        if (time === timeLabel.string) {
-            return;
-        }
-
-        timeLabel.string = time;
-        this.handleBetTimeAnimation(timeLabel.node);
     }
 }

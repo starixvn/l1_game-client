@@ -124,16 +124,19 @@ export default class WebSocketTableGameBase extends GameBase {
         }
     }
 
-    updateUserStakeLevel(data) {
+    updateUserStakeLevel(data): boolean {
+        let updated = false;
         if (data.maxBet && data.maxBet > 0) {
             cc.RedT.userStakeLevelData(data);
             if (this.betChips) {
                 const comp = this.betChips.getComponent(HandleUserStakeLevel);
                 if (comp) {
+                    updated = true;
                     comp.handle();
                 }
             }
         }
+        return updated;
     }
 
     showUmMessage(data: any) {
@@ -240,8 +243,9 @@ export default class WebSocketTableGameBase extends GameBase {
                 data.userStakeLevel.minBet !== cc.RedT.userStakeLevel.minBet ||
                 data.userStakeLevel.maxBet !== cc.RedT.userStakeLevel.maxBet
             ) {
-                this.showMiniWarning("Hạn mức cược của bạn vừa được cập nhật.");
-                this.updateUserStakeLevel(data.userStakeLevel);
+                if (this.updateUserStakeLevel(data.userStakeLevel)) {
+                    this.showMiniWarning("Hạn mức cược của bạn vừa được cập nhật.");
+                }
             }
         }
     }
@@ -266,6 +270,10 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     protected loadUserData(user) {
+        if (!this.node || !this.node.isValid) {
+            return;
+        }
+
         if (void 0 !== user.name && this.userName) {
             this.userName.string = user.name;
         }

@@ -120,7 +120,6 @@ export function triggerSignIn(main) {
                     main.handleUserData(response.user);
                 }
                 main.Authorized(response.authorized);
-                this.auth();
             })
             .catch((e) => {
                 sentryLogger.logError(e);
@@ -192,13 +191,13 @@ export function reCheckIn() {
                                 };
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             } else {
-                                const noticeData = { text: `${response.apiError.errorMessage} (${response.apiError.errorCode})` };
+                                const noticeData = { text: `${response.apiError.message} (${response.apiError.errorCode})` };
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             }
                         } else {
                             if (cc.RedT.user) {
                                 cc.RedT.user.red = response.balance;
-                                cc.RedT.inGame.loadUserData(cc.RedT.user);
+                                cc.RedT.inGame && cc.RedT.inGame.loadUserData(cc.RedT.user);
                             }
                         }
                     } else {
