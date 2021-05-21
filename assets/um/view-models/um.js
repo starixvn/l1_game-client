@@ -1,5 +1,6 @@
 import { appContainer } from "../../Application";
 import SocketIOController from "../../SocketIOController";
+
 const socketIOController = appContainer.get(SocketIOController);
 
 cc.Class({
@@ -18,6 +19,10 @@ cc.Class({
 
                 this.message.string = `Thời gian bảo trì từ ${startTime} đến ${endTime} (GMT+8).`;
             }
+        }
+
+        if (window.reCheckInId) {
+            clearInterval(window.reCheckInId);
         }
 
         socketIOController.closeAllSocket();
