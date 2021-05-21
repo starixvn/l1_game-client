@@ -122,6 +122,11 @@ export default class Lottery extends SocketIOTableGameBase {
         this.initMiniHistories();
     }
 
+    protected onChangedBetChip(bet) {
+        super.onChangedBetChip(bet);
+        this.expandableMenu.collapseMenu();
+    }
+
     start() {
         super.start();
         this.loadPreviousSelection();
@@ -243,6 +248,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onChoiceBet(name: string) {
+        this.expandableMenu.collapseMenu();
         if (this.isDisableGame) {
             return;
         }
