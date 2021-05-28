@@ -144,6 +144,6 @@ export default class GameUtils {
         if (!gameId) {
             return "";
         }
-        return i18n.t(`gameNames[${gameId}]`);
+        return i18n.t(`gameNames.${gameId}`);
     }
 }
