@@ -30,7 +30,7 @@ window.i18n.languages.en = {
         27: "VIP Baccarat",
         28: "Se Die War",
         29: "Four Guardians",
-        31: "Lottery RNG"
+        31: "RNG Lottery"
     },
     messages: {
         loginFailed: "Incorrect login name or password",
