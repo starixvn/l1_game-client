@@ -1,5 +1,6 @@
 import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import GameUtils from "../../../../common/GameUtils";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import NoticeUtil from "../../../../common/utils/NoticeUtil";
 import DataHandler from "../../../_base/handlers/DataHandler";
@@ -157,8 +158,8 @@ export default class DealHandler implements DataHandler {
             const { minBet, maxBet, gameRoundId } = data.invalidBetAmountHands;
             const opt = {
                 gameName: GameUtils.getGameNameString(this.main.gameId),
-                minBet: minBet || this.main.gameConfigs.minbet,
-                maxBet: maxBet || this.main.gameConfigs.maxbet,
+                minBet: numberWithCommas(minBet || this.main.gameConfigs.minbet),
+                maxBet: numberWithCommas(maxBet || this.main.gameConfigs.maxbet),
                 gameRoundId
             };
             const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);

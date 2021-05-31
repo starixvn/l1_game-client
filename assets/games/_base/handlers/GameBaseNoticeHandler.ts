@@ -1,4 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
@@ -15,7 +16,7 @@ export default class GameBaseNoticeHandler implements DataHandler {
         const errorCode = data.notice.errorCode;
         const gameName = GameUtils.getGameNameString(notice.gameTypeId);
         const { minBet, maxBet, gameRoundId } = notice;
-        const opt = { gameName, minBet, maxBet, gameRoundId };
+        const opt = { gameName, gameRoundId, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
         const text = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
         if (text) {
             this.main.showMiniWarning(text);

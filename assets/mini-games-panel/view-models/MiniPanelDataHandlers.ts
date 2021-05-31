@@ -1,4 +1,5 @@
 import GameUtils from "../../common/GameUtils";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
@@ -107,7 +108,7 @@ export default class MiniPanelDataHandlers {
         const errorCode = notice.errorCode;
         const gameName = GameUtils.getGameNameString(notice.gameTypeId);
         const { minBet, maxBet, gameRoundId } = notice;
-        const opt = { gameName, minBet, maxBet, gameRoundId };
+        const opt = { gameName, gameRoundId, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
         const text = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
         if (text) {
             const noticeData = {

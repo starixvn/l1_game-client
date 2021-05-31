@@ -1,5 +1,6 @@
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Loading from "../../common/loading/view-models/Loading";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
@@ -221,7 +222,7 @@ export default class MiniPanel extends cc.Component {
 
         const gameName = GameUtils.getGameNameString(error.gameTypeId);
         const { minBet, maxBet, gameRoundId, errorCode } = error;
-        const opt = { gameName, minBet, maxBet, gameRoundId };
+        const opt = { gameName, gameRoundId, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
         const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
 
         notice.init({ text: `${message} (${errorCode})` } as NoticeData);
