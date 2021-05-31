@@ -220,11 +220,11 @@ export default class MiniPanel extends cc.Component {
         const notice = noticePrefab.getComponent(Notice);
 
         const gameName = GameUtils.getGameNameString(error.gameTypeId);
-        const { minBet, maxBet, gameRoundId } = error;
+        const { minBet, maxBet, gameRoundId, errorCode } = error;
         const opt = { gameName, minBet, maxBet, gameRoundId };
-        const message = NoticeUtil.getLocalizedErrorMessage(error.errorCode, opt);
+        const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
 
-        notice.init({ text: message } as NoticeData);
+        notice.init({ text: `${message} (${errorCode})` } as NoticeData);
         this.node.addChild(noticePrefab);
 
         return notice;

@@ -82,7 +82,7 @@ export default class MiniPanelDataHandlers {
             }
             const errorCode = data.errorCode;
             const text = NoticeUtil.getLocalizedErrorMessage(errorCode, {});
-            const noticeData = { text: text } as NoticeData;
+            const noticeData = { text: `${text} (${errorCode})` } as NoticeData;
             this.main.showNotice(noticeData, this.main.forceKickedOut, this.main.forceKickedOut);
         }
     }
@@ -111,7 +111,7 @@ export default class MiniPanelDataHandlers {
         const text = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
         if (text) {
             const noticeData = {
-                text: text,
+                text: `${text} (${errorCode})`,
                 isInfo: false
             } as NoticeData;
             this.main.showNotice(noticeData);

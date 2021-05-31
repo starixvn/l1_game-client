@@ -42,8 +42,9 @@ cc.Class({
         if (response.authorized) {
             this.main.handleUserData(response.user);
         } else {
-            const text = NoticeUtil.getLocalizedErrorMessage(response.errorCode);
-            this.main.showNotice({ text: text });
+            const errorCode = response.errorCode;
+            const text = NoticeUtil.getLocalizedErrorMessage(errorCode);
+            this.main.showNotice({ text: `${text} (${errorCode})` });
         }
 
         this.main.Authorized(response.authorized);
