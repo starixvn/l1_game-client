@@ -12,6 +12,7 @@ import ThreeCardsLogsHandler from "./handlers/ThreeCardsLogsHandler";
 import ThreeCardsTimeHandler from "./handlers/ThreeCardsTimeHandler";
 import ThreeCardsFinishHandler from "./handlers/ThreeCardsFinishHandler";
 import ThreeCardsGuide from "./ThreeCardsGuide";
+import ThreeCardsHistory from "./ThreeCardsHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -58,6 +59,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
 
     roundHistory: ThreeCardsRoundHistory;
     miniRoundHistory: MiniRoundHistory;
+    historyComponent: ThreeCardsHistory;
     openCardsAnimation: cc.Tween = null;
     constructor() {
         super();
@@ -215,8 +217,16 @@ export default class ThreeCards extends SocketIOTableGameBase {
     openHistory() {
         cc.RedT.audio.playClick();
         const dialog = cc.instantiate(this.historyPrefab);
-        // this.historyComponent = dialog.getComponent(SedieHistory);
-        // this.historyComponent.init(this.socket);
+        this.historyComponent = dialog.getComponent(ThreeCardsHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.addDialog(dialog);
+    }
+
+    onDataGameRoom(data) {
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
+
+        super.onDataGameRoom(data);
     }
 }

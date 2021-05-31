@@ -46,7 +46,12 @@ export default class GameUtils {
             red2: "2 ĐỎ",
 
             red: "ĐỎ",
-            black: "ĐEN"
+            black: "ĐEN",
+
+            diamonds: "RÔ",
+            hearts: "CƠ",
+            spades: "BÍCH",
+            clubs: "CHUỒN"
         };
 
         return dict[choice];

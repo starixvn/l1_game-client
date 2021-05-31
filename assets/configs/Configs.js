@@ -129,8 +129,8 @@ const configs = {
             proxyRoute: "/lottery/socket.io"
         },
         35: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/threecards",
             proxyRoute: "/threecards/socket.io"
         }

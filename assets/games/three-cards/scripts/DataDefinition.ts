@@ -13,13 +13,29 @@ export interface ThreeCardsSettlementResultData {
     spade: boolean;
 }
 
+export interface ThreeCardsOdds {
+    red: number;
+    black: number;
+    diamonds: number;
+    hearts: number;
+    clubs: number;
+    spades: number;
+}
+
 export interface ThreeCardsBetData {
     red: number;
     black: number;
-    diamond: number;
-    heart: number;
-    club: number;
-    spade: number;
+    diamonds: number;
+    hearts: number;
+    clubs: number;
+    spades: number;
+
+    time: string;
+    phien: string;
+    betwin: number;
+    result: ThreeCardsGameResultData;
+    settlementResult: ThreeCardsSettlementResultData;
+    odds: ThreeCardsOdds;
 }
 
 export interface ThreeCardsRoundData {

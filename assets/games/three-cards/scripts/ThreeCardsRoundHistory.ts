@@ -18,9 +18,11 @@ export default class ThreeCardsRoundHistory extends cc.Component {
             const label = child.getComponent(cc.Label);
             this.statsLabels.push(label);
         });
+        this.node.active = false;
     }
 
     setData(rounds: ThreeCardsRoundData[]) {
+        this.node.active = true;
         const logControlData = [];
         const dataCount = rounds.length;
         let redCount = 0;
