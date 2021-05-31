@@ -6,7 +6,7 @@ export default class NoticeUtil {
     public static getLocalizedErrorMessage(errorCode: string, opt: any) {
         if (!ErrorCodeDictionary[errorCode]) {
             console.error(`not found error code ${errorCode}`);
-            return "";
+            return i18n.t("messages.errorOccurred", opt);
         }
         const key = `messages.${ErrorCodeDictionary[errorCode]}`;
         return i18n.t(key, opt);
