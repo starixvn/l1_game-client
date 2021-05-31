@@ -46,11 +46,16 @@ window.i18n.languages.vi = {
             "Game %{gameName} (#%{gameRoundId})\n\nKhoản tiền cược của bạn đã vượt quá cài đặt giới hạn cược, vui lòng thử lại. Đặt cược thất bại!",
         playerNotPermittedPlay:
             "Game %{gameName} (#%{gameRoundId})\n\nTrò chơi bị vô hiệu hóa. Vui lòng liên hệ với cấp trên để biết chi tiết, cảm ơn bạn.",
-        winLimitHit: "Đã đạt giới hạn thắng cược! Vui lòng liên hệ với cấp trên, cảm ơn bạn. Đặt cược thất bại!",
-        loseLimitHit: "Đã đạt giới hạn thua cược! Vui lòng liên hệ với cấp trên, cảm ơn bạn. Đặt cược thất bại!",
-        limitBetUpdated: "Hạn mức cược của bạn đã được cập nhật. vui lòng thử lại. Đặt cược thất bại!",
-        limitBetNotDefined: "Hạn mức cược của bạn cho trò chơi này chưa được thiết lập. Vui lòng liên hệ với cấp trên. Đặt cược thất bại!",
-        accountSuspended: "Tài khoản đã bị treo. Vui lòng liên hệ với cấp trên để biết chi tiết, cảm ơn bạn. Đặt cược thất bại!",
+        winLimitHit:
+            "Game %{gameName} (#%{gameRoundId})\n\nĐã đạt giới hạn thắng cược! Vui lòng liên hệ với cấp trên, cảm ơn bạn. Đặt cược thất bại!",
+        loseLimitHit:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nĐã đạt giới hạn thua cược! Vui lòng liên hệ với cấp trên, cảm ơn bạn. Đặt cược thất bại!",
+        limitBetUpdated:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nHạn mức cược của bạn đã được cập nhật. vui lòng thử lại. Đặt cược thất bại!",
+        limitBetNotDefined:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nHạn mức cược của bạn cho trò chơi này chưa được thiết lập. Vui lòng liên hệ với cấp trên. Đặt cược thất bại!",
+        accountSuspended:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nTài khoản đã bị treo. Vui lòng liên hệ với cấp trên để biết chi tiết, cảm ơn bạn. Đặt cược thất bại!",
         unavailableGame: "Trò chơi không khả dụng vào thời điểm này. Vui lòng liên hệ với bộ phận CSKH để biết chi tiết, cảm ơn bạn",
         errorOccurred: "Đã xảy ra lỗi. Vui lòng liên hệ với bộ phận CSKH để được hỗ trợ.",
         sessionTimeout: "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập. Vui lòng đóng cửa sổ game và thử đăng nhập lại.",

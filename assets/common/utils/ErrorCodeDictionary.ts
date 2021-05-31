@@ -4,7 +4,7 @@ const ErrorCodeDictionary = {
     "1002": "sessionTimeout",
     "1007": "errorOccurred",
     "2001": "loginFailed",
-    "2002": "accountLocked",
+    "2002": "accountClosed",
     "2003": "accountNotExist",
     "2004": "ipRestricted",
     "2005": "accountBlacklisted",

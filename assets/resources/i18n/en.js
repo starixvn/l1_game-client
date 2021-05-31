@@ -45,11 +45,15 @@ window.i18n.languages.en = {
         limitBetExceeded:
             "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your stake has exceeded your bet limit settings, please try again.",
         playerNotPermittedPlay: "Game %{gameName} (#%{gameRoundId})\n\nGame disabled. Please contact your upline for details, thank you.",
-        winLimitHit: "Failed to place bet! Win limit hit. Please contact your upline, thank you",
-        loseLimitHit: "Failed to place bet! Lose limit hit. Please contact your upline, thank you.",
-        limitBetUpdated: "Failed to place bet! Your bet limit has been updated, please try again.",
-        limitBetNotDefined: "Failed to place bet! Your bet limit for this game has not been set. Please contact your upline, thank you.",
-        accountSuspended: "Failed to place bet! Account has been suspended. Please contact your upline for details, thank you.",
+        winLimitHit: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Win limit hit. Please contact your upline, thank you",
+        loseLimitHit:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Lose limit hit. Please contact your upline, thank you.",
+        limitBetUpdated:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Your bet limit has been updated, please try again.",
+        limitBetNotDefined:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Your bet limit for this game has not been set. Please contact your upline, thank you.",
+        accountSuspended:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Account has been suspended. Please contact your upline for details, thank you.",
         unavailableGame: "The game is unavailable at the moment. Please contact CSD for details, thank you.",
         errorOccurred: "An error has occurred, please contact CSD for details.",
         sessionTimeout:
