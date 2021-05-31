@@ -42,7 +42,8 @@ window.i18n.languages.en = {
         sysMaintenance: "The game is under maintenance.",
         networkError: "Network error",
         userInsufficientFund: "Your account has Insufficient funds. ",
-        limitBetExceeded: "Game %{gameName} (#%{gameRoundId})\n\nYour stake has exceeded your bet limit settings, please try again.",
+        limitBetExceeded:
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your stake has exceeded your bet limit settings, please try again.",
         playerNotPermittedPlay: "Game %{gameName} (#%{gameRoundId})\n\nGame disabled. Please contact your upline for details, thank you.",
         winLimitHit: "Failed to place bet! Win limit hit. Please contact your upline, thank you",
         loseLimitHit: "Failed to place bet! Lose limit hit. Please contact your upline, thank you.",
@@ -66,7 +67,7 @@ window.i18n.languages.en = {
         nickNameCharacter: "Nickname is cannot contain spaces, special characters, and non-English characters. ",
         nickDifferentUserName: "Nickname must be different from your username.",
         existNickName: "Nickname is already taken, please try another one.",
-        placeBetFailed: "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet.",
+        placeBetFailed: "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet!",
         endGameFailed: "Game %{gameName} (#%{gameRoundId})\n\nAn error has occurred. Please contact CSD for details.",
         getBalanceFailed: "Cannot update the account balance.",
         enterPortalFailed: "An error has occurred. Please contact CSD for details.",
