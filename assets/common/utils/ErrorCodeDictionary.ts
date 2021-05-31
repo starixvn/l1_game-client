@@ -15,6 +15,7 @@ const ErrorCodeDictionary = {
     "3005": "errorOccurred",
     "3006": "winLimitHit",
     "3007": "loseLimitHit",
+    "3008": "limitBetNotDefined",
     "3009": "limitBetUpdated",
     "3010": "accountSuspended",
     "3013": "accountSuspended",
