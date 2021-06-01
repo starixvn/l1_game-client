@@ -14,6 +14,6 @@ export default class NoticeUtil {
 
     public static getMessageByLocale(data: any): string {
         const locale = getLocale();
-        return data[locale];
+        return data[locale] || data["en-US"];
     }
 }

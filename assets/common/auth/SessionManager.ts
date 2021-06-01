@@ -31,15 +31,14 @@ export function storeSessionData(data) {
 }
 
 function getLanguage(data) {
-    let language = data.language || "en";
-    switch (language) {
-        case "en-US":
-            language = "en";
-            break;
+    let language = "";
+    const locale = data.language;
+    switch (locale) {
         case "vi-VN":
             language = "vi";
             break;
         default:
+            language = "en";
             break;
     }
     return language;
