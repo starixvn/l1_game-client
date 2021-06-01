@@ -90,6 +90,7 @@ export function checkSSO(labelMessage, onSuccessFunc) {
     } else if (authData && authData.isAuthenticated && authData.ss) {
         isSuccess = true;
         window.authData = authData;
+        sessionManager.updateLanguage(authData);
         sentryLogger.setUser(authData);
         onSuccessFunc();
     }

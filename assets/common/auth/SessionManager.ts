@@ -49,7 +49,7 @@ export function getLocale() {
     return data.language;
 }
 
-function updateLanguage(data) {
+export function updateLanguage(data) {
     const language = getLanguage(data);
     console.log(`i18n init language ${data.language} => ${language}`);
     i18n.init(language);
