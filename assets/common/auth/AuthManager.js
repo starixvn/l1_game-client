@@ -2,6 +2,7 @@ import * as configs from "../../configs/Configs";
 import httpHelper from "../helpers/httpHelper";
 import { buildServerUrl } from "../helpers/UrlHelper";
 import logger from "../logger";
+import NoticeUtil from "../utils/NoticeUtil";
 import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
 
@@ -191,7 +192,9 @@ export function reCheckIn() {
                                 };
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             } else {
-                                const noticeData = { text: `${response.apiError.message} (${response.apiError.errorCode})` };
+                                const errorCode = response.apiError.errorCode;
+                                const message = NoticeUtil.getLocalizedErrorMessage(errorCode, {});
+                                const noticeData = { text: `${message} (${errorCode})` };
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             }
                         } else {
