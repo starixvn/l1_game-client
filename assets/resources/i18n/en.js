@@ -51,11 +51,13 @@ window.i18n.languages.en = {
         limitBetUpdated:
             "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Your bet limit has been updated, please try again.",
         limitBetNotDefined:
-            "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Your bet limit for this game has not been set. Please contact your upline, thank you.",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your bet limit for this game has not been set. Please contact your upline, thank you.",
         accountSuspended:
-            "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Account has been suspended. Please contact your upline for details, thank you.",
-        unavailableGame: "The game is unavailable at the moment. Please contact CSD for details, thank you.",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Account has been suspended. Please contact your upline for details, thank you.",
+        unavailableGame:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nThe game is unavailable at the moment. Please contact CSD for details, thank you.",
         errorOccurred: "An error has occurred, please contact CSD for details.",
+        errorOccurredFull: "Game %{gameName} (#%{gameRoundId})\r\n\r\nAn error has occurred, please contact CSD for details.",
         sessionTimeout:
             "Your session has timed out or you have not logged in yet. Please close the current windows and try to login again.",
         playOnOtherDevice: "Your account is being used to play [game] on another browser or device.",

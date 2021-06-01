@@ -56,8 +56,10 @@ window.i18n.languages.vi = {
             "Game %{gameName} (#%{gameRoundId})\r\n\r\nHạn mức cược của bạn cho trò chơi này chưa được thiết lập. Vui lòng liên hệ với cấp trên. Đặt cược thất bại!",
         accountSuspended:
             "Game %{gameName} (#%{gameRoundId})\r\n\r\nTài khoản đã bị treo. Vui lòng liên hệ với cấp trên để biết chi tiết, cảm ơn bạn. Đặt cược thất bại!",
-        unavailableGame: "Trò chơi không khả dụng vào thời điểm này. Vui lòng liên hệ với bộ phận CSKH để biết chi tiết, cảm ơn bạn",
+        unavailableGame:
+            "Game %{gameName} (#%{gameRoundId})\r\n\r\nTrò chơi không khả dụng vào thời điểm này. Vui lòng liên hệ với bộ phận CSKH để biết chi tiết, cảm ơn bạn",
         errorOccurred: "Đã xảy ra lỗi. Vui lòng liên hệ với bộ phận CSKH để được hỗ trợ.",
+        errorOccurredFull: "Game %{gameName} (#%{gameRoundId})\r\n\r\nĐã xảy ra lỗi. Vui lòng liên hệ với bộ phận CSKH để được hỗ trợ.",
         sessionTimeout: "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập. Vui lòng đóng cửa sổ game và thử đăng nhập lại.",
         playOnOtherDevice: "Bạn hoặc ai đó đang chơi [game] bằng tài khoản này.",
         serverError: "Máy chủ gặp sự cố.",
