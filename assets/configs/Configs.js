@@ -1,6 +1,6 @@
 const configs = {
     systemType: "SC1",
-    ssl: false,
+    ssl: true,
     serverDomainMapper: {
         localhost: "lumigame.com",
         "10.5.10.14": "lumigame.com",
@@ -9,116 +9,122 @@ const configs = {
     serverGameEndPoints: {
         0: {
             //Main Server
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "",
             proxyRoute: "/main"
         },
         1: {
-            subDomain: "haproxy",
-            port: "7000",
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/taixiu",
             proxyRoute: "/bigsmall/socket.io"
         },
         2: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/xocxoc",
             proxyRoute: "/sedie/socket.io"
         },
         3: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/baucua",
             proxyRoute: "/fishprawncrab/socket.io"
         },
+        4: {
+            subDomain: "l1-proxy",
+            port: "",
+            path: "/user/txturbo",
+            proxyRoute: "/turbobigsmall/socket.io"
+        },
         6: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/oeturbo",
             proxyRoute: "/turbooddeven/socket.io"
         },
         7: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/dragontiger",
             proxyRoute: "/dragontiger/socket.io"
         },
         8: {
-            subDomain: "haproxy",
-            port: "7000",
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/kenopromax",
             proxyRoute: "/kenopromax/socket.io"
         },
         9: {
-            subDomain: "haproxy",
-            port: "7000",
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/minisedie",
             proxyRoute: "/minisedie/socket.io"
         },
         10: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/baccarat",
             proxyRoute: "/baccarat/socket.io"
         },
         21: {
-            subDomain: "haproxy",
-            port: "7000",
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/roulette",
             proxyRoute: "/roulette/socket.io"
         },
         22: {
-            subDomain: "haproxy",
-            port: "7000",
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/vipsedie",
             proxyRoute: "/vsedie/socket.io"
         },
         23: {
-            subDomain: "haproxy",
-            port: "7000",
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/blackjack",
             proxyRoute: "/blackjack/socket.io"
         },
         24: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/specialsedie",
             proxyRoute: "/specialsedie/socket.io"
         },
         25: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/sicbo",
             proxyRoute: "/sicbo/socket.io"
         },
         26: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/vipfishprawncrab",
             proxyRoute: "/vipfishprawncrab/socket.io"
         },
         27: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/vipbaccarat",
             proxyRoute: "/vipbaccarat/socket.io"
         },
         28: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/vipsediewar",
             proxyRoute: "/vipsediewar/socket.io"
         },
         29: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/fourguardians",
             proxyRoute: "/fourguardians/socket.io"
         },
         31: {
-            subDomain: "haproxy",
-            port: 7000,
+            subDomain: "l1-proxy",
+            port: "",
             path: "/user/lottery",
             proxyRoute: "/lottery/socket.io"
         }
@@ -132,7 +138,7 @@ const configs = {
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    userServiceUrl: "http://haproxy.lumigame.com:7000/user"
+    userServiceUrl: "https://l1-proxy.lumigame.com/user"
 };
 
 module.exports = configs;
