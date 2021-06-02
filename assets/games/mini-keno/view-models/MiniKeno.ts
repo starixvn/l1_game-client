@@ -14,7 +14,7 @@ import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
 import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
 import { KenoType } from "./KenoUtils";
 import MiniKenoConfig from "./MiniKenoConfig";
-const i18n = require("LanguageData");
+import * as i18n from "LanguageData";
 
 const { ccclass, property } = cc._decorator;
 

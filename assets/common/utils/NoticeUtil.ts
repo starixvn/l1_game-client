@@ -1,4 +1,4 @@
-const i18n = require("LanguageData");
+import * as i18n from "LanguageData";
 import ErrorCodeDictionary from "./ErrorCodeDictionary";
 import { getLocale } from "../../common/auth/SessionManager";
 

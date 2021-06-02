@@ -159,7 +159,7 @@ export default class LuckyWheel extends cc.Component {
             this.spin(data.status);
         }
 
-        //TODO: handle server messages
+        //handle server messages
         if (data.notice) {
             this.showNotice(data.notice);
         }

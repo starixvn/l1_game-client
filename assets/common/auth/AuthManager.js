@@ -5,8 +5,8 @@ import logger from "../logger";
 import NoticeUtil from "../utils/NoticeUtil";
 import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
+import * as i18n from "LanguageData";
 
-const i18n = require("LanguageData");
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
 

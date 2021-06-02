@@ -11,7 +11,7 @@ import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import RoomPlayer from "./view-models/RoomPlayer";
 import NoticeUtil from "../../common/utils/NoticeUtil";
-const i18n = require("LanguageData");
+import * as i18n from "LanguageData";
 
 const { ccclass, property } = cc._decorator;
 

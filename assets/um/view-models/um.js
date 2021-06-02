@@ -11,7 +11,6 @@ cc.Class({
     },
 
     onLoad() {
-        //TODO: handle server messages
         if (window.umInfo) {
             if (this) {
                 const template = "hh:mm dd/MM/yyyy";

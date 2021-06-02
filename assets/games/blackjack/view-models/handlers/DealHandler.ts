@@ -152,7 +152,7 @@ export default class DealHandler implements DataHandler {
                 this.main.currentMiniPanel.onGeneralData(transferredData);
             });
         }
-        //TODO: handle server messages
+
         if (data.invalidBetAmountHands) {
             const errorCode = data.invalidBetAmountHands.errorCode;
             const { minBet, maxBet, gameRoundId } = data.invalidBetAmountHands;

@@ -1,3 +1,5 @@
+import * as i18n from "LanguageData";
+
 export interface Session {
     username: string;
     language: string;
@@ -6,7 +8,6 @@ export interface Session {
     isAuthenticated: boolean;
 }
 
-const i18n = require("LanguageData");
 const sessionIdStorageName = "scss";
 
 export function getSessionKey() {
@@ -36,6 +37,10 @@ function getLanguage(data) {
     switch (locale) {
         case "vi-VN":
             language = "vi";
+            break;
+        case "en-US":
+        case "en-UK":
+            language = "en";
             break;
         default:
             language = "en";

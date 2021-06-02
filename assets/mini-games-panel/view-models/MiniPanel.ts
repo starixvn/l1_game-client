@@ -11,7 +11,7 @@ import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
-const i18n = require("LanguageData");
+import * as i18n from "LanguageData";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

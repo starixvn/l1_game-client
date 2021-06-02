@@ -26,7 +26,7 @@ import BlackjackUmHandler from "./handlers/BlackjackUmHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
-const i18n = require("LanguageData");
+import * as i18n from "LanguageData";
 
 const { ccclass, property } = cc._decorator;
 

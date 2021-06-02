@@ -2,7 +2,6 @@ import { appContainer } from "../../Application";
 import logger from "../../common/logger";
 import * as authManager from "./../../common/auth/AuthManager";
 import SplashConfig from "./SplashConfig";
-const i18n = require("LanguageData");
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();

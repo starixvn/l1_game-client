@@ -5,7 +5,7 @@ import ItemLayout from "./ItemLayout";
 import { ChoiceType } from "./Lottery";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import GameUtils from "../../../common/GameUtils";
-const i18n = require("LanguageData");
+import * as i18n from "LanguageData";
 
 export interface LotteryTicketInfo {
     choiceType: number;
@@ -97,7 +97,6 @@ export default class LotteryTicketConfirmation extends BetBoard {
                 }
             }
         });
-        //TODO: handle server messages
         if (notValidList.length > 0) {
             this.showNotice(`Tiền cược trên [${notValidList.join(", ")}] vượt mức quy định.`);
             return true;

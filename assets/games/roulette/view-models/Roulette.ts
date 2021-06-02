@@ -17,7 +17,7 @@ import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteStatistic from "./RouletteStatistic";
 import RouletteUtils from "./RouletteUtils";
 import TopControls from "./TopControls";
-const i18n = require("LanguageData");
+import * as i18n from "LanguageData";
 
 const { ccclass, property } = cc._decorator;
 

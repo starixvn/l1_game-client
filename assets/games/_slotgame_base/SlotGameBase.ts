@@ -22,7 +22,7 @@ import LineSelectionDialog from "./LineSelectionDialog";
 import SlotBoard from "./SlotBoard";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotGameUserSettings from "./SlotGameUserSettings";
-const i18n = require("LanguageData");
+import * as i18n from "LanguageData";
 
 export interface LineData {
     payline: number;

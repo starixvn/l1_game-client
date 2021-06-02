@@ -1,12 +1,12 @@
-const SpriteFrameSet = require('SpriteFrameSet');
+const SpriteFrameSet = require("SpriteFrameSet");
 
 cc.Class({
     extends: cc.Component,
 
     editor: {
         executeInEditMode: true,
-        inspector: 'packages://i18n/inspector/localized-sprite.js',
-        menu: 'i18n/LocalizedSprite'
+        inspector: "packages://i18n/inspector/localized-sprite.js",
+        menu: "i18n/LocalizedSprite"
     },
 
     properties: {
@@ -16,11 +16,11 @@ cc.Class({
         }
     },
 
-    onLoad () {
+    onLoad() {
         this.fetchRender();
     },
 
-    fetchRender () {
+    fetchRender() {
         let sprite = this.getComponent(cc.Sprite);
         if (sprite) {
             this.sprite = sprite;
@@ -29,7 +29,7 @@ cc.Class({
         }
     },
 
-    getSpriteFrameByLang (lang) {
+    getSpriteFrameByLang(lang) {
         for (let i = 0; i < this.spriteFrameSet.length; ++i) {
             if (this.spriteFrameSet[i].language === lang) {
                 return this.spriteFrameSet[i].spriteFrame;
@@ -37,9 +37,9 @@ cc.Class({
         }
     },
 
-    updateSprite (language) {
+    updateSprite(language) {
         if (!this.sprite) {
-            cc.error('Failed to update localized sprite, sprite component is invalid!');
+            cc.error("Failed to update localized sprite, sprite component is invalid!");
             return;
         }
 
