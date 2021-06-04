@@ -52,7 +52,6 @@ cc.Class({
     },
     loadAssets: function () {
         this.updateProgress(0);
-        //TODO: handle server messages
         this.messageLabel.string = "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...";
         if (cc.sys.isBrowser && authManager) {
             authManager.preChecking(() => {
@@ -112,7 +111,6 @@ cc.Class({
         cc.sys.os === cc.sys.OS_ANDROID && this._am.setMaxConcurrentTask(2);
     },
     checkUpdate: function () {
-        //TODO: handle server messages
         if (this._updating) {
             this.messageLabel.string = "Đang kiểm tra phiên bản ...";
             return;
@@ -139,7 +137,6 @@ cc.Class({
         }
     },
     retry: function () {
-        //TODO: handle server messages
         if (!this._updating && this._canRetry) {
             this.retryButtonNode.active = !1;
             this._canRetry = !1;
@@ -148,7 +145,6 @@ cc.Class({
         }
     },
     checkCb: function (t) {
-        //TODO: handle server messages
         var e = !1,
             i = !1;
         switch (t.getEventCode()) {
@@ -182,7 +178,6 @@ cc.Class({
         i && this.hotUpdate();
     },
     updateCb: function (event) {
-        //TODO: handle server messages
         var needRestart = false;
         var failed = false;
         switch (event.getEventCode()) {

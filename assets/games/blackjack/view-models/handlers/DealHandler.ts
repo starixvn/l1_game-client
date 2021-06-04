@@ -160,7 +160,8 @@ export default class DealHandler implements DataHandler {
                 gameName: GameUtils.getGameNameString(this.main.gameId),
                 minBet: numberWithCommas(minBet || this.main.gameConfigs.minbet),
                 maxBet: numberWithCommas(maxBet || this.main.gameConfigs.maxbet),
-                gameRoundId
+                gameRoundId,
+                errorCode
             };
             const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
             this.main.showMiniWarning(message);

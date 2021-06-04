@@ -16,7 +16,7 @@ export default class GameBaseNoticeHandler implements DataHandler {
         const errorCode = data.notice.errorCode;
         const gameName = GameUtils.getGameNameString(notice.gameTypeId);
         const { minBet, maxBet, gameRoundId } = notice;
-        const opt = { gameName, gameRoundId, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
+        const opt = { gameName, gameRoundId, errorCode, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
         const text = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
         if (text) {
             this.main.showMiniWarning(text);

@@ -43,8 +43,8 @@ cc.Class({
             this.main.handleUserData(response.user);
         } else {
             const errorCode = response.errorCode;
-            const text = NoticeUtil.getLocalizedErrorMessage(errorCode);
-            this.main.showNotice({ text: `${text} (${errorCode})` });
+            const text = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
+            this.main.showNotice({ text: text });
         }
 
         this.main.Authorized(response.authorized);

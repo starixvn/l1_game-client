@@ -88,4 +88,17 @@ const ErrorCodeDictionary = {
     SB1935: "invalidBet"
 };
 
+export const CommonErrorCodeList = [
+    "errorOccurred",
+    "sessionTimeout",
+    "loginFailed",
+    "accountClosed",
+    "accountNotExist",
+    "ipRestricted",
+    "accountBlacklisted",
+    "userNotFound",
+    "sysMaintenance",
+    "networkError"
+];
+
 export default ErrorCodeDictionary;

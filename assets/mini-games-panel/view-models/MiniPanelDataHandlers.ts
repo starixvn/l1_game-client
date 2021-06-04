@@ -82,8 +82,8 @@ export default class MiniPanelDataHandlers {
                 this.main.forceKickedOut();
             }
             const errorCode = data.errorCode;
-            const text = NoticeUtil.getLocalizedErrorMessage(errorCode, {});
-            const noticeData = { text: `${text} (${errorCode})` } as NoticeData;
+            const text = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
+            const noticeData = { text: text } as NoticeData;
             this.main.showNotice(noticeData, this.main.forceKickedOut, this.main.forceKickedOut);
         }
     }
@@ -108,11 +108,11 @@ export default class MiniPanelDataHandlers {
         const errorCode = notice.errorCode;
         const gameName = GameUtils.getGameNameString(notice.gameTypeId);
         const { minBet, maxBet, gameRoundId } = notice;
-        const opt = { gameName, gameRoundId, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
+        const opt = { gameName, gameRoundId, errorCode, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
         const text = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
         if (text) {
             const noticeData = {
-                text: `${text} (${errorCode})`,
+                text: text,
                 isInfo: false
             } as NoticeData;
             this.main.showNotice(noticeData);

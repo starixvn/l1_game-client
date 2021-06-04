@@ -193,8 +193,8 @@ export function reCheckIn() {
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             } else {
                                 const errorCode = response.apiError.errorCode;
-                                const message = NoticeUtil.getLocalizedErrorMessage(errorCode, {});
-                                const noticeData = { text: `${message} (${errorCode})` };
+                                const message = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
+                                const noticeData = { text: message };
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             }
                         } else {

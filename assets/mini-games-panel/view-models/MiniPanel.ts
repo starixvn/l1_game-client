@@ -222,10 +222,11 @@ export default class MiniPanel extends cc.Component {
 
         const gameName = GameUtils.getGameNameString(error.gameTypeId);
         const { minBet, maxBet, gameRoundId, errorCode } = error;
-        const opt = { gameName, gameRoundId, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
-        const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt);
+        const opt = { gameName, gameRoundId, errorCode, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
+        const isPlaceBet = error.isPlaceBetFailed;
+        const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt, isPlaceBet);
 
-        notice.init({ text: `${message} (${errorCode})` } as NoticeData);
+        notice.init({ text: message } as NoticeData);
         this.node.addChild(noticePrefab);
 
         return notice;
