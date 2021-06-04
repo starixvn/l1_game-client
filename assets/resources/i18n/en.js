@@ -72,7 +72,7 @@ window.i18n.languages.en = {
         connectionFailed: "The connection to server failed.",
         sessionExpired: "Your session has expired, please login again.",
         nickNameDistance: "Nickname must be between 3 and 14 characters long.",
-        nickNameCharacter: "Nickname is cannot contain spaces, special characters, and non-English characters. ",
+        nickNameCharacter: "Nickname cannot contain spaces, special characters, and non-English characters. ",
         nickDifferentUserName: "Nickname must be different from your username.",
         existNickName: "Nickname is already taken, please try another one.",
         placeBetFailed: "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet!(%{errorCode})",
