@@ -1,7 +1,7 @@
 import * as SabaConfigs from "../configs/SabaConfigs";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
-import * as i18n from "LanguageData";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {

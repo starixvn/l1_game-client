@@ -5,7 +5,7 @@ import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
 import { removeInRoomGameId, removeSession } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
-import * as i18n from "LanguageData";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 declare global {
     interface Window {

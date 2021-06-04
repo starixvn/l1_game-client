@@ -5,7 +5,7 @@ import ItemLayout from "./ItemLayout";
 import { ChoiceType } from "./Lottery";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import GameUtils from "../../../common/GameUtils";
-import * as i18n from "LanguageData";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export interface LotteryTicketInfo {
     choiceType: number;

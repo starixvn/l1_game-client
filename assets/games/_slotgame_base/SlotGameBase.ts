@@ -22,7 +22,7 @@ import LineSelectionDialog from "./LineSelectionDialog";
 import SlotBoard from "./SlotBoard";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotGameUserSettings from "./SlotGameUserSettings";
-import * as i18n from "LanguageData";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export interface LineData {
     payline: number;

@@ -1,4 +1,4 @@
-import * as i18n from "LanguageData";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export interface Session {
     username: string;
