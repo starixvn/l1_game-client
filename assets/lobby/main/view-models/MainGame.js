@@ -190,6 +190,11 @@ cc.Class({
                 filterList.push(id);
             }
         });
+
+        // Add SM promotion banner at page 2
+        filterList.splice(1, 0, 0);
+        console.log("filterList", filterList);
+
         adsBannerController.setGameAds(filterList);
         adsBannerController.onEndingRound = () => {
             if (showJackpotBanner) {
