@@ -108,22 +108,19 @@ export default class WebSocketTableGameBase extends GameBase {
         this.onDataGameRoomGeneral(data);
 
         const gameData = data[this.gameName];
-
-        let apiErrorGameData;
-
         if (gameData) {
             this.onDataGameRoom(gameData);
-            if (gameData.apiError) {
-                apiErrorGameData = gameData.apiError;
+            const apiErrorGameData = gameData.apiError;
+            if (apiErrorGameData) {
+                if (this.updateUserStakeLevel(apiErrorGameData)) {
+                    this.showMiniWarningLimitBetChanged();
+                }
             }
         }
+    }
 
-        if (data.apiError) {
-            this.updateUserStakeLevel(data.apiError);
-        }
-        if (apiErrorGameData) {
-            this.updateUserStakeLevel(apiErrorGameData);
-        }
+    showMiniWarningLimitBetChanged() {
+        this.showMiniWarning(i18n.t("messages.limitBetChanged"));
     }
 
     updateUserStakeLevel(data): boolean {
@@ -239,15 +236,18 @@ export default class WebSocketTableGameBase extends GameBase {
         }
 
         if (data.apiError) {
-            this.updateUserStakeLevel(data.apiError);
+            if (this.updateUserStakeLevel(data.apiError)) {
+                this.showMiniWarningLimitBetChanged();
+            }
         }
+
         if (data.userStakeLevel) {
             if (
                 data.userStakeLevel.minBet !== cc.RedT.userStakeLevel.minBet ||
                 data.userStakeLevel.maxBet !== cc.RedT.userStakeLevel.maxBet
             ) {
                 if (this.updateUserStakeLevel(data.userStakeLevel)) {
-                    this.showMiniWarning(i18n.t("messages.limitBetChanged"));
+                    this.showMiniWarningLimitBetChanged();
                 }
             }
         }
