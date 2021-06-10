@@ -59,6 +59,9 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
     }
 
     onSelectBetChoiceClick(event: cc.Event, choice: string) {
+        if (!this.gameConfigs) {
+            return;
+        }
         this.setSelectedBetAmountSpriteFrame(choice, true);
         const betInfo = {
             choice: choice,
