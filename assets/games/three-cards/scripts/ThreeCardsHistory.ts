@@ -14,7 +14,7 @@ export default class ThreeCardsHistory extends SocketIOGameHistoryBase {
         const item = itemNode.getComponent(ThreeCardsHistoryItem);
         item.setData(betLog);
         item.showTicketDetail = (data) => this.showTicketDetail(data);
-        item.showBackground(index % 2 === 0);
+        item.showBackground(index % 2 !== 0);
         this.content.addChild(itemNode);
     }
 

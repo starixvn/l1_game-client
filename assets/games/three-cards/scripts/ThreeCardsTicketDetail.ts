@@ -60,7 +60,7 @@ export default class ThreeCardsTicketDetail extends cc.Component {
                 odds: data.odds[key]
             };
             item.setData(itemData);
-            item.showBackground(i % 2 === 0);
+            item.showBackground(i % 2 !== 0);
             item.setHighlight(settlementResult[key]);
         });
     }
