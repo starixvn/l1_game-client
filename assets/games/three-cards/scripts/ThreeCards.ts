@@ -97,8 +97,12 @@ export default class ThreeCards extends SocketIOTableGameBase {
     initRoundHistory() {
         const node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(ThreeCardsRoundHistory);
+        const showResultDuration = 2;
         const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
+            return (
+                this.currentTimeRemaining < this.config.stopBetTime ||
+                this.currentTimeRemaining >= this.config.fullTime - showResultDuration
+            );
         };
         this.roundHistory.logControl.init(condition);
         this.roundHistoryContainer.addChild(node);
