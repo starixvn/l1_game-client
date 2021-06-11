@@ -17,8 +17,12 @@ export default class ThreeCardsTicketDetailItem extends cc.Component {
     @property(cc.Node)
     bg: cc.Node = null;
 
+    @property(cc.Node)
+    bottomLine: cc.Node = null;
+
     showBackground(show: boolean) {
         this.bg.active = show;
+        this.bottomLine.active = !show;
     }
 
     setData({ choice, odds, bet }) {

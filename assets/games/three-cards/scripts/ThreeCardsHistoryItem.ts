@@ -31,6 +31,9 @@ export default class ThreeCardsHistoryItem extends cc.Component {
     @property(cc.Node)
     bg: cc.Node = null;
 
+    @property(cc.Node)
+    bottomLine: cc.Node = null;
+
     data: ThreeCardsBetData = null;
 
     public showTicketDetail = (data: any) => {};
@@ -51,6 +54,7 @@ export default class ThreeCardsHistoryItem extends cc.Component {
 
     showBackground(show: boolean) {
         this.bg.active = show;
+        this.bottomLine.active = !show;
     }
 
     public static generateWinChoices(data: ThreeCardsBetData): string {

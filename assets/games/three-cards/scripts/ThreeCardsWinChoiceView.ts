@@ -26,9 +26,9 @@ export default class ThreeCardsWinChoiceView extends cc.Component {
 
         let index = 0;
         this.icons.forEach((icon) => (icon.node.active = false));
-        keys.forEach((key) => {
+        keys.forEach((key, i) => {
             if (settlementResult[key]) {
-                this.icons[index].spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffix[index]}`);
+                this.icons[index].spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffix[i]}`);
                 this.icons[index].node.active = true;
                 index++;
             }
