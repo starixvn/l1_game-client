@@ -24,12 +24,21 @@ export default class ThreeCardsTimeHandler extends GameBaseTimeHandler {
         this.main.resetCards();
     }
 
+    showWaitTime() {
+        this.main.timeWaitNode.active = true;
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 3);
+    }
+
     handleWaitTime() {
         super.handleWaitTime();
         const dealingCardsDuration = 2;
-        if (this.main.currentTimeRemaining === this.main.config.betTime + dealingCardsDuration) {
+        const newRoundTimePoint = this.main.config.betTime + dealingCardsDuration;
+        if (this.main.currentTimeRemaining === newRoundTimePoint) {
             this.main.playDealingAnimation();
             this.handleStartingNewGameRound();
+        }
+        if (this.main.currentTimeRemaining <= newRoundTimePoint) {
+            this.main.timeWaitNode.active = false;
         }
     }
 }
