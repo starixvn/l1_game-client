@@ -100,8 +100,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
         const showResultDuration = 2;
         const condition = () => {
             return (
-                this.currentTimeRemaining < this.config.stopBetTime ||
-                this.currentTimeRemaining >= this.config.fullTime - showResultDuration
+                this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - showResultDuration
             );
         };
         this.roundHistory.logControl.init(condition);
