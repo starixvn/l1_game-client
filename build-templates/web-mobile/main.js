@@ -78,7 +78,7 @@ window.boot = function () {
                 if (userAgent.match(/crios/i)) {
                     let navBarHeight = 20;
                     if (userAgent.match(/ipad/i)) {
-                        navBarHeight = 44;
+                        navBarHeight = 75;
                     }
                     h -= navBarHeight;
                 }
