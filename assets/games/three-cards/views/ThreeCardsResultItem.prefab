@@ -34,10 +34,13 @@
     "_components": [
       {
         "__id__": 14
+      },
+      {
+        "__id__": 15
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 16
     },
     "_opacity": 255,
     "_color": {
@@ -545,6 +548,29 @@
       "__uuid__": "3e12866d-5a42-46ff-bc15-a7e0555a1136"
     },
     "prefix": "result_icon_",
+    "highlightPrefix": "result_highlight_",
+    "animation": {
+      "__id__": 15
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_defaultClip": {
+      "__uuid__": "c69ab6ca-ca1d-428e-ad5f-0591a0a391d6"
+    },
+    "_clips": [
+      {
+        "__uuid__": "c69ab6ca-ca1d-428e-ad5f-0591a0a391d6"
+      }
+    ],
+    "playOnLoad": false,
     "_id": ""
   },
   {

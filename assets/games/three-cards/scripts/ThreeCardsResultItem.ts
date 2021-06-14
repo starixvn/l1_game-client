@@ -13,16 +13,40 @@ export default class ThreeCardsResultItem extends cc.Component {
     @property
     prefix = "result_icon_";
 
+    @property
+    highlightPrefix = "result_highlight_";
+
+    @property(cc.Animation)
+    animation: cc.Animation = null;
+
     private readonly suffix = ["heart", "diamond", "club", "spade"];
+    private data: ThreeCardsResultData;
 
     setData(data: ThreeCardsResultData) {
+        this.data = data;
+        this.setIcons(false);
+    }
+
+    setIcons(highlight: boolean) {
+        const prefix = highlight ? this.highlightPrefix : this.prefix;
         const iconsCount = this.icons.length;
-        data.forEach((icon, index) => {
+        this.data.forEach((icon, index) => {
             if (index >= iconsCount) {
                 return;
             }
 
-            this.icons[index].spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${this.suffix[icon]}`);
+            this.icons[index].node.scale = 1;
+            this.icons[index].spriteFrame = this.atlas.getSpriteFrame(`${prefix}${this.suffix[icon]}`);
         });
+    }
+
+    setHighlight(highlight: boolean) {
+        if (highlight) {
+            this.animation.play();
+            this.setIcons(true);
+        } else {
+            this.animation.stop();
+            this.setIcons(false);
+        }
     }
 }

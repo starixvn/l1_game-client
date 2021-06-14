@@ -13,8 +13,11 @@ export default class ThreeCardsResultStatistics extends cc.Component {
 
     setData(logs: ThreeCardsResultData[]) {
         this.content.destroyAllChildren();
-        logs.forEach((log) => {
-            this.addItem(log);
+        logs.forEach((log, index) => {
+            const item = this.addItem(log);
+            if (index === 0) {
+                item.setHighlight(true);
+            }
         });
     }
 
