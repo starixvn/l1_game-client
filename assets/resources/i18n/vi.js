@@ -47,7 +47,8 @@ window.i18n.languages.vi = {
             "Game %{gameName} (#%{gameRoundId})\n\nKhoản tiền cược của bạn đã vượt quá cài đặt giới hạn cược, vui lòng thử lại. Đặt cược thất bại!(%{errorCode})",
         playerNotPermittedPlay:
             "Game %{gameName} (#%{gameRoundId})\n\nTrò chơi bị vô hiệu hóa. Vui lòng liên hệ với cấp trên để biết chi tiết, cảm ơn bạn.(%{errorCode})",
-        winLimitHit: "  ",
+        winLimitHit:
+            "Game %{gameName} (#%{gameRoundId})\n\nĐã đạt giới hạn thắng cược! Vui lòng liên hệ với cấp trên, cảm ơn bạn. Đặt cược thất bại!(%{errorCode})",
         loseLimitHit:
             "Game %{gameName} (#%{gameRoundId})\n\nĐã đạt giới hạn thua cược! Vui lòng liên hệ với cấp trên, cảm ơn bạn. Đặt cược thất bại!(%{errorCode})",
         limitBetUpdated:
