@@ -19,6 +19,11 @@ export default class ThreeCardsResultStatistics extends cc.Component {
                 item.setHighlight(true);
             }
         });
+
+        this.content.getComponent(cc.Layout).updateLayout();
+        const scrollView = this.content.parent;
+        scrollView.getComponent(cc.ScrollView).horizontal = scrollView.width < this.content.width;
+        this.content.getComponent(cc.Widget).updateAlignment();
     }
 
     addItem(log: ThreeCardsResultData): ThreeCardsResultItem {

@@ -128,7 +128,6 @@ export default class ThreeCards extends SocketIOTableGameBase {
             return log.result.map((card) => card.suit);
         });
         this.resultStatistics.setData(resultStatisticsData);
-        this.resultStatistics.node.active = true;
     }
 
     playDealingAnimation() {
