@@ -61,6 +61,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
     miniRoundHistory: MiniRoundHistory;
     historyComponent: ThreeCardsHistory;
     openCardsAnimation: cc.Tween = null;
+    showResultDuration = 2;
     constructor() {
         super();
         this.init("ThreeCards", new ThreeCardsConfigs(), null, 1, games.ThreeCards.id);
@@ -118,10 +119,10 @@ export default class ThreeCards extends SocketIOTableGameBase {
     initRoundHistory() {
         const node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(ThreeCardsRoundHistory);
-        const showResultDuration = 2;
         const condition = () => {
             return (
-                this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - showResultDuration
+                this.currentTimeRemaining < this.config.stopBetTime ||
+                this.currentTimeRemaining > this.config.fullTime - this.showResultDuration
             );
         };
         this.roundHistory.logControl.init(condition);
@@ -160,17 +161,22 @@ export default class ThreeCards extends SocketIOTableGameBase {
         let count = 0;
         this.openCardsAnimation = cc
             .tween(this.node)
-            .repeat(
-                3,
-                cc
-                    .tween()
-                    .call(() => {
-                        this.flippingAnimations[count].play();
-                        this.resultCards[count].faceUp();
-                        count++;
-                    })
-                    .delay(delayTime)
-            )
+            .call(() => {
+                cc.tween(this.node)
+                    .repeat(
+                        3,
+                        cc
+                            .tween()
+                            .call(() => {
+                                this.flippingAnimations[count].play();
+                                this.resultCards[count].faceUp();
+                                count++;
+                            })
+                            .delay(delayTime)
+                    )
+                    .start();
+            })
+            .delay(this.showResultDuration)
             .call(onFinished)
             .start();
     }
