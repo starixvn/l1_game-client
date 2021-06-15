@@ -90,6 +90,27 @@ export default class ThreeCards extends SocketIOTableGameBase {
         this.showCards(false);
     }
 
+    onBetItemClick(event) {
+        // override this method to add roundId and time
+        if (this.isDisableGame) {
+            return;
+        }
+
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+        } else {
+            this.waitingProcessing = true;
+            const betData = {
+                amount: this.currentBet,
+                betChoice: event.target.name,
+                username: cc.RedT.user.name,
+                roundId: this.roundId,
+                time: new Date().toUTCString()
+            };
+            this.socket && this.socket.connected && this.socket.emit("bet", betData);
+        }
+    }
+
     showCards(show: boolean) {
         this.dealingAnimation.node.active = show;
     }
