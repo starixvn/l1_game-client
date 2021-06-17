@@ -3,7 +3,6 @@ import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard from "../../../common/new-card/view-models/NewCard";
 import { ThreeCardsBetData } from "./DataDefinition";
-import ThreeCardsResultItem from "./ThreeCardsResultItem";
 import ThreeCardsWinChoiceView from "./ThreeCardsWinChoiceView";
 
 const { ccclass, property } = cc._decorator;
