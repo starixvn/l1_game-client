@@ -11,7 +11,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     bannerAds = [35, 31, 22];
     bannerAdsInfo = {
         35: {
-            displayTime: 10
+            displayTime: 20
         }
     };
     list = [29, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21, 31, 35];
