@@ -1,4 +1,4 @@
-const i18n = require("./LanguageData");
+import i18n from "i18n/runtime-scripts/LanguageData";
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
@@ -48,9 +48,9 @@ cc.Class({
     },
 
     onLoad() {
-        if (CC_EDITOR) {
-            this._debouncedUpdateLabel = debounce(this.updateLabel, 200);
-        }
+        // if (CC_EDITOR) {
+        //     this._debouncedUpdateLabel = debounce(this.updateLabel, 200);
+        // }
         if (!i18n.inst) {
             i18n.init();
         }

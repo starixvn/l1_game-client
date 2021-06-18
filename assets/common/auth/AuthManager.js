@@ -1,3 +1,5 @@
+import i18n from "i18n/runtime-scripts/LanguageData";
+
 import * as configs from "../../configs/Configs";
 import httpHelper from "../helpers/httpHelper";
 import { buildServerUrl } from "../helpers/UrlHelper";
@@ -5,7 +7,6 @@ import logger from "../logger";
 import NoticeUtil from "../utils/NoticeUtil";
 import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;

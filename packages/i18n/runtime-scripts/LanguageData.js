@@ -33,6 +33,7 @@ function initPolyglot(data) {
 }
 
 module.exports = {
+    inst: polyInst,
     /**
      * This method allow you to switch language during runtime, language argument should be the same as your data file name
      * such as when language is 'zh', it will load your 'zh.js' data source.
@@ -67,8 +68,6 @@ module.exports = {
             return polyInst.t(key, opt);
         }
     },
-
-    inst: polyInst,
 
     updateSceneRenderers() {
         // very costly iterations
