@@ -201,6 +201,12 @@ window.i18n.languages.vi = {
         odds: "Tỷ Lệ Cược",
         index: "STT",
         bigWin: "Thắng Lớn",
-        jackpot: "Nổ Hũ"
+        jackpot: "Nổ Hũ",
+        choice_banker: "Nhà Cái",
+        choice_player: "Nhà Con",
+        total_even: "Tổng Chẵn",
+        total_odd: "Tổng Lẻ",
+        sum_war: "Đối Kháng",
+        sum_oe: "Tổng Chẵn/Lẻ"
     }
 };

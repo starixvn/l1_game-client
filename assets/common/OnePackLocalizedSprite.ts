@@ -1,7 +1,8 @@
-const { ccclass, property, executeInEditMode } = cc._decorator;
+const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 
 @ccclass
 @executeInEditMode
+@menu("i18n/OnePackLocalizedSprite")
 export default class OnePackLocalizedSprite extends cc.Component {
     @property(cc.SpriteAtlas)
     atlas: cc.SpriteAtlas = null;

@@ -199,6 +199,12 @@ window.i18n.languages.en = {
         odds: "Odds",
         index: "No.",
         bigWin: "Big Win",
-        jackpot: "Jackpot"
+        jackpot: "Jackpot",
+        choice_banker: "Banker",
+        choice_player: "Player",
+        total_even: "Total Even",
+        total_odd: "Total Odd",
+        sum_war: "War",
+        sum_oe: "Total Even/Odd"
     }
 };
