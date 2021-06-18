@@ -10,7 +10,7 @@ const configs = {
             //Main Server
             subDomain: "l2-proxy",
             port: "",
-            path: "",
+            path: "/main",
             proxyRoute: "/main"
         },
         1: {
