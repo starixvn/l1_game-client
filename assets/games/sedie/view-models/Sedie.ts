@@ -1,7 +1,5 @@
-import { getLocale } from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { games } from "../../../configs/SabaConfigs";
 import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
@@ -19,9 +17,6 @@ const { ccclass, property } = cc._decorator;
 export default class Sedie extends FreeBetGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
     roundHistoryPrefab: cc.Prefab = null;
@@ -132,14 +127,6 @@ export default class Sedie extends FreeBetGameBase {
         });
         this.roundHistory.setData(miniHistoryData.map((d) => d.red));
         this.miniRoundHistory.setData(miniHistoryData);
-    }
-
-    openGuide() {
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(WebViewGuide);
-        const { minbet, maxbet } = this.gameConfigs;
-        guide.initURL(this.gameId, minbet, maxbet, getLocale());
-        this.currentMiniPanel.node.addChild(dialog);
     }
 
     openHistory() {

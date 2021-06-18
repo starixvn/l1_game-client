@@ -30,4 +30,12 @@ export default class VipSedie extends Sedie {
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
         });
     }
+
+    getBetRange() {
+        const { minbet, maxbet } = this.gameConfigs;
+        return {
+            minBet: minbet,
+            maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxbet)
+        };
+    }
 }

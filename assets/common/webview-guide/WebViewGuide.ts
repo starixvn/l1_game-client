@@ -18,7 +18,7 @@ export default class WebViewGuide extends cc.Component {
     }
 
     initURL(gameId: number, minBet: number, maxBet: number, locale: string) {
-        const url = `https://l1-guide.lumigame.com/?gId=${gameId}&lang=${locale}&t=blue&minBet=${minBet}&maxBet=${maxBet}1000`;
+        const url = `https://l1-guide.lumigame.com/?gId=${gameId}&lang=${locale}&t=blue&minBet=${minBet}&maxBet=${maxBet}`;
         this.url = url;
     }
 
