@@ -1,6 +1,6 @@
 const configs = {
     systemType: "SC2",
-    ssl: false,
+    ssl: true,
     disabledDirectLogin: true,
     serverDomainMapper: {
         "l2-games.lumigame.com": "lumigame.com"
