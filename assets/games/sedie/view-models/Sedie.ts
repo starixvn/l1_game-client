@@ -1,16 +1,17 @@
+import { getLocale } from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { games } from "../../../configs/SabaConfigs";
+import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
-import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import SedieBetHandler from "./handlers/SedieBetHandler";
 import SedieFinishHandler from "./handlers/SedieFinishHandler";
 import SedieLogsHandler from "./handlers/SedieLogsHandler";
 import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
-import SedieGuide from "./SedieGuide";
 import SedieHistory from "./SedieHistory";
 
 const { ccclass, property } = cc._decorator;
@@ -135,8 +136,9 @@ export default class Sedie extends FreeBetGameBase {
 
     openGuide() {
         const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(SedieGuide);
-        guide.init(this.gameConfigs);
+        const guide = dialog.getComponent(WebViewGuide);
+        const { minbet, maxbet } = this.gameConfigs;
+        guide.initURL(this.gameId, minbet, maxbet, getLocale());
         this.currentMiniPanel.node.addChild(dialog);
     }
 
