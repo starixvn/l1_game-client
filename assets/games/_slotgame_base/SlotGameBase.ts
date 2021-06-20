@@ -560,7 +560,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.showStakeContainer(false);
         this.hideWinningEffectOnItems();
 
-        this.waitingProcessing = true;
+        this.lockBet();
         const isFreeSpin = this.isFreeSpin();
         const data = {
             betChoice: this.betChoices,

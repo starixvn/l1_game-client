@@ -276,13 +276,26 @@ export default class GameBase extends cc.Component {
             this.node.addChild(node);
             this.processingWarning = node;
         } else {
-            this.waitingProcessing = false;
+            this.unlockBet();
             if (!this.processingWarning || !this.processingWarning.isValid) {
                 return;
             }
             this.processingWarning.getComponent(ProcessingWarning).close();
             this.processingWarning = null;
         }
+    }
+
+    sendRetryMessage() {}
+
+    lockBet() {
+        this.waitingProcessing = true;
+        const intervalTime = 3; // 3 seconds
+        this.schedule(this.sendRetryMessage, intervalTime, cc.macro.REPEAT_FOREVER, 0);
+    }
+
+    unlockBet() {
+        this.waitingProcessing = false;
+        this.unschedule(this.sendRetryMessage);
     }
 
     showUmMessage(data: any) {
@@ -349,7 +362,7 @@ export default class GameBase extends cc.Component {
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
         } else {
-            this.waitingProcessing = true;
+            this.lockBet();
             this.sendData(betData);
         }
     }

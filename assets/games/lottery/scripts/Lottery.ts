@@ -1,24 +1,24 @@
-import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
-import { LotteryChoicesBoard } from "./LotteryChoicesBoard";
-import LotteryGameConfig from "./LotteryGameConfig";
-import LotteryTypeItem from "./LotteryTypeItem";
-import { games } from "../../../configs/SabaConfigs";
-import LotteryHelper from "./LotteryHelper";
+import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
+import { games } from "../../../configs/SabaConfigs";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
+import LotteryBetHandler from "./handlers/LotteryBetHandler";
 import LotteryFinishHandler from "./handlers/LotteryFinishHandler";
 import LotteryLogsHandler from "./handlers/LotteryLogsHandler";
+import LotteryStatusHandler from "./handlers/LotteryStatusHandler";
 import LotteryTimeHandler from "./handlers/LotteryTimeHandler";
 import LabelItem from "./LabelItem";
-import LotteryBetHandler from "./handlers/LotteryBetHandler";
-import LotteryResult from "./LotteryResult";
+import { LotteryChoicesBoard } from "./LotteryChoicesBoard";
 import LotteryExtraResult from "./LotteryExtraResult";
-import LotteryHistory from "./LotteryHistory";
-import LotteryMiniRoundHistory from "./LotteryMiniRoundHistory";
-import LotteryStatusHandler from "./handlers/LotteryStatusHandler";
-import LotteryNumberItem from "./LotteryNumberItem";
-import ExpandableMenu from "../../../common/ExpandableMenu";
+import LotteryGameConfig from "./LotteryGameConfig";
 import LotteryGuide from "./LotteryGuide";
+import LotteryHelper from "./LotteryHelper";
+import LotteryHistory from "./LotteryHistory";
 import LotteryLargeNumberBoard from "./LotteryLargeNumberBoard";
+import LotteryMiniRoundHistory from "./LotteryMiniRoundHistory";
+import LotteryNumberItem from "./LotteryNumberItem";
+import LotteryResult from "./LotteryResult";
+import LotteryTypeItem from "./LotteryTypeItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -250,7 +250,7 @@ export default class Lottery extends SocketIOTableGameBase {
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
         } else {
-            this.waitingProcessing = true;
+            this.lockBet();
             const betData = {
                 betChoice: this.createBetChoice(this.currentTypeIndex, [name], this.currentBet)
             };

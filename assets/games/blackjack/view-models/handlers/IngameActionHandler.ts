@@ -41,7 +41,7 @@ export default class IngameActionHandler implements DataHandler {
 
         secondPlace.syncBetValue();
         this.placeChipsForSplitHand(firstHand.pos + 2, firstHand.bet);
-        this.main.waitingProcessing = true;
+        this.main.lockBet();
         cc.tween(this.main)
             .call(() => {
                 this.moveCardForSplitting(firstHand.pos, 0.3);
@@ -64,7 +64,7 @@ export default class IngameActionHandler implements DataHandler {
             .call(() => {
                 firstPlace.selected = !firstHand.isStand;
                 this.main.switchToNextHand();
-                this.main.waitingProcessing = false;
+                this.main.unlockBet();
             })
             .start();
     }

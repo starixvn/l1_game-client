@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { games } from "../../../configs/SabaConfigs";
@@ -656,7 +657,7 @@ export default class Roulette extends SocketIOTableGameBase {
             return;
         }
 
-        this.waitingProcessing = true;
+        this.lockBet();
         this.socket.emit("bet", {
             roundId: this.roundId,
             betChoices: this.tempBetChoices

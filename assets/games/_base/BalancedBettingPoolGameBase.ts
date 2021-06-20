@@ -1,11 +1,11 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import BetBoard, { BetInfo } from '../../common/bet-board/view-models/BetBoard';
-import DraggableItem from '../../common/draggable-layout/view-models/DraggableItem';
-import { numberWithCommas } from '../../common/helpers/NumberHelper';
-import PresetBet from '../../common/preset-bet/view-models/PresetBet';
-import SocketIOMiniGameBase from './SocketIOMiniGameBase';
-import BalancedBettingPoolBetItem from './view-models/BalancedBettingPoolBetItem';
+import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
+import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
+import PresetBet from "../../common/preset-bet/view-models/PresetBet";
+import SocketIOMiniGameBase from "./SocketIOMiniGameBase";
+import BalancedBettingPoolBetItem from "./view-models/BalancedBettingPoolBetItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -160,7 +160,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
             this.showProcessingWarning(true);
             return false;
         } else {
-            this.waitingProcessing = true;
+            this.lockBet();
             return true;
         }
     }

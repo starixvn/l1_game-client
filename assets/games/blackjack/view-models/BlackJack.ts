@@ -446,7 +446,7 @@ export default class BlackJack extends SocketIOTableGameBase {
             this.showProcessingWarning(true);
             return false;
         } else {
-            this.waitingProcessing = true;
+            this.lockBet();
             return true;
         }
     }

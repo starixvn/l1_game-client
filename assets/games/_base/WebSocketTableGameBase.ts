@@ -231,7 +231,7 @@ export default class WebSocketTableGameBase extends GameBase {
         }
 
         if (data.kickedOut || data.apiError) {
-            this.waitingProcessing = false;
+            this.unlockBet();
             this.showProcessingWarning(false);
         }
 

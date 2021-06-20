@@ -1,7 +1,7 @@
-import { lazyInject } from '../../Application';
-import DraggableItem from '../../common/draggable-layout/view-models/DraggableItem';
-import SocketIOController from '../../SocketIOController';
-import GameBase from './GameBase';
+import { lazyInject } from "../../Application";
+import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
+import SocketIOController from "../../SocketIOController";
+import GameBase from "./GameBase";
 
 export default abstract class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
@@ -79,7 +79,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
         } else {
-            this.waitingProcessing = true;
+            this.lockBet();
             const betData = {
                 amount: this.currentBet,
                 betChoice: e.target.name,
@@ -87,6 +87,12 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             };
 
             this.socket && this.socket.connected && this.socket.emit("bet", betData);
+        }
+    }
+
+    sendRetryMessage() {
+        if (this.socket) {
+            this.socket.emit("retry");
         }
     }
 }

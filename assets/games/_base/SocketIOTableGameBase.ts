@@ -75,7 +75,7 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
         } else {
-            this.waitingProcessing = true;
+            this.lockBet();
             const betData = {
                 amount: this.currentBet,
                 betChoice: event.target.name,
@@ -88,5 +88,11 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     onCloseGameClick() {
         super.onCloseGameClick();
         sessionManager.removeInRoomGameId();
+    }
+
+    sendRetryMessage() {
+        if (this.socket) {
+            this.socket.emit("retry");
+        }
     }
 }
