@@ -1,18 +1,18 @@
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
-import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
-import { ThreeCardsRoundData } from "./DataDefinition";
-import { ThreeCardsConfigs } from "./ThreeCardsConfigs";
-import ThreeCardsResultStatistics from "./ThreeCardsResultStatistics";
-import ThreeCardsRoundHistory from "./ThreeCardsRoundHistory";
 import { games } from "../../../configs/SabaConfigs";
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
+import { ThreeCardsRoundData } from "./DataDefinition";
+import ThreeCardsFinishHandler from "./handlers/ThreeCardsFinishHandler";
 import ThreeCardsLogsHandler from "./handlers/ThreeCardsLogsHandler";
 import ThreeCardsTimeHandler from "./handlers/ThreeCardsTimeHandler";
-import ThreeCardsFinishHandler from "./handlers/ThreeCardsFinishHandler";
+import { ThreeCardsConfigs } from "./ThreeCardsConfigs";
 import ThreeCardsGuide from "./ThreeCardsGuide";
 import ThreeCardsHistory from "./ThreeCardsHistory";
+import ThreeCardsResultStatistics from "./ThreeCardsResultStatistics";
+import ThreeCardsRoundHistory from "./ThreeCardsRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -100,7 +100,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
         } else {
-            this.waitingProcessing = true;
+            this.lockBet();
             const betData = {
                 amount: this.currentBet,
                 betChoice: event.target.name,
