@@ -1,15 +1,14 @@
-import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
-import { games } from '../../../configs/SabaConfigs';
-import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import SocketIOMiniGameBase from '../../_base/SocketIOMiniGameBase';
-import MiniSedieFinishHandler from './handlers/MiniSedieFinishHandler';
-import MiniSedieLogsHandler from './handlers/MiniSedieLogsHandler';
-import MiniSedieTimeHandler from './handlers/MiniSedieTimeHandler';
-import { MiniSedieConfigs } from './MiniSedieConfigs';
-import MiniSedieGuide from './MiniSedieGuide';
-import MiniSedieHistory from './MiniSedieHistory';
-import SedieMiniRoundHistory from './SedieMiniRoundHistory';
-import SedieRoundHistory from './SedieRoundHistory';
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import { games } from "../../../configs/SabaConfigs";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
+import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
+import MiniSedieLogsHandler from "./handlers/MiniSedieLogsHandler";
+import MiniSedieTimeHandler from "./handlers/MiniSedieTimeHandler";
+import { MiniSedieConfigs } from "./MiniSedieConfigs";
+import MiniSedieHistory from "./MiniSedieHistory";
+import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
+import SedieRoundHistory from "./SedieRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -45,9 +44,6 @@ export default class MiniSedie extends SocketIOMiniGameBase {
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
 
     @property(cc.Node)
     dishNode: cc.Node = null;
@@ -175,13 +171,6 @@ export default class MiniSedie extends SocketIOMiniGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(MiniSedieHistory);
         this.historyComponent.init(this.socket);
-        this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    public openGuide() {
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(MiniSedieGuide);
-        guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }
 }
