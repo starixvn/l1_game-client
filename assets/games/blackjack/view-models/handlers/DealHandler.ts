@@ -188,11 +188,11 @@ export default class DealHandler implements DataHandler {
             );
         });
 
-        this.main.waitingProcessing = true;
+        this.main.lockBet();
         cc.tween(this.main)
             .delay(2.5)
             .call(() => {
-                this.main.waitingProcessing = false;
+                this.main.unlockBet();
             })
             .start();
     }

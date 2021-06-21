@@ -86,7 +86,7 @@ export default class FreeBetGameBase extends SocketIOTableGameBase {
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
         } else {
-            this.waitingProcessing = true;
+            this.lockBet();
             const betData = {
                 amount: this.currentBet,
                 betChoice: event.target.name,

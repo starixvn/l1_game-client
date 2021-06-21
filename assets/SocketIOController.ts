@@ -24,6 +24,7 @@ export default class SocketIOController {
 
         socket.on("reconnect", () => {
             sentryLogger.logError(`${gameName} socket reconnect`);
+            socket.sendBuffer = [];
         });
 
         socket.on("connect_failed", () => {
@@ -34,14 +35,13 @@ export default class SocketIOController {
 
         socket.on("connect_error", (error) => {
             console.log(error);
-
             sentryLogger.logError(error);
             socket.disconnect();
             onConnectFailed(gameName, isGameRoom);
         });
 
         socket.on("disconnect", (reason) => {
-            sentryLogger.log(`${gameName} socket disconnect\n${reason}`);
+            sentryLogger.log(`${gameName} socket disconnect: ${reason}`);
         });
 
         return socket;
