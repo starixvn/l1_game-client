@@ -38,10 +38,12 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
     }
 
     closeGame() {
-        this.socketIOController.closeSocket(this.gameId);
         if (!this.node || !this.node.isValid) {
             return;
         }
+        this.sendRetryMessage();
+        this.socketIOController.closeSocket(this.gameId);
+        this.showProcessingWarning(false);
         super.closeGame();
     }
 
