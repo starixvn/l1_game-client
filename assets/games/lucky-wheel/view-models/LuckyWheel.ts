@@ -2,6 +2,7 @@ import * as _ from "lodash";
 
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import UmWarning from "../../../common/um-warning/UmWarning";
+import NoticeUtil from "../../../common/utils/NoticeUtil";
 import LuckyWheelWinning from "./LuckyWheelWinning";
 
 const { ccclass, property } = cc._decorator;
@@ -159,9 +160,10 @@ export default class LuckyWheel extends cc.Component {
             this.spin(data.status);
         }
 
-        //handle server messages
         if (data.notice) {
-            this.showNotice(data.notice);
+            const errorCode = data.notice.errorCode;
+            const message = NoticeUtil.getLocalizedErrorMessage(errorCode, {});
+            this.showNotice(message);
         }
 
         if (void 0 !== data.availSpins) {
