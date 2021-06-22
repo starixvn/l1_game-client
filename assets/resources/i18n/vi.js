@@ -214,6 +214,19 @@ window.i18n.languages.vi = {
         ok: "Đồng Ý",
         preset_bet: "Số tiền cược đặt sẵn",
         ticket_history: "Lịch Sử Phiên",
-        total: "Tổng"
+        total: "Tổng",
+        choice_win: "Cửa Thắng",
+        choice_player_even: "Nhà Con chẵn",
+        choice_player_odd: "Nhà Con lẻ",
+        choice_banker_even: "Nhà Cái chẵn",
+        choice_banker_odd: "Nhà Cái lẻ",
+        choice_player_red3: "Nhà Con 3 đỏ",
+        choice_player_red4: "Nhà Con 4 đỏ",
+        choice_player_white3: "Nhà Con 1 đỏ",
+        choice_player_white4: "Nhà Con 4 trắng",
+        choice_banker_red3: "Nhà Cái 3 đỏ",
+        choice_banker_red4: "Nhà Cái 4 đỏ",
+        choice_banker_white3: "Nhà Cái 1 đỏ",
+        choice_banker_white4: "Nhà Cái 4 trắng"
     }
 };

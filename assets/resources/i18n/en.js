@@ -212,6 +212,19 @@ window.i18n.languages.en = {
         ok: "Confirm",
         preset_bet: "Preset Stake",
         ticket_history: "Ticket History",
-        total: "Total"
+        total: "Total",
+        choice_win: "Winning Options",
+        choice_player_even: "Player - Even",
+        choice_player_odd: "Player - Odd",
+        choice_banker_even: "Banker - Even",
+        choice_banker_odd: "Banker - Odd",
+        choice_player_red3: "Player - 3 Red",
+        choice_player_red4: "Player - 4 Red",
+        choice_player_white3: "Player - 1 Red",
+        choice_player_white4: "Player - 4 White",
+        choice_banker_red3: "Banker - 3 Red",
+        choice_banker_red4: "Banker - 4 Red",
+        choice_banker_white3: "Banker - 1 Red",
+        choice_banker_white4: "Banker - 4 White"
     }
 };
