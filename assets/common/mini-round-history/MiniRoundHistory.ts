@@ -62,7 +62,7 @@ export default class MiniRoundHistory extends cc.Component {
     }
 
     public setData(data: any[]) {
-        const updateNow = !this.dataLogs;
+        const updateNow = !this.dataLogs || this.dataLogs.length !== data.length;
         this.dataLogs = _.cloneDeep(data);
 
         if (updateNow) {
@@ -70,7 +70,14 @@ export default class MiniRoundHistory extends cc.Component {
         }
     }
 
+    protected hideAllDots() {
+        this.items.forEach((item) => {
+            item.node.active = false;
+        });
+    }
+
     protected updateOrderNode(data: any[], showNext: boolean) {
+        this.hideAllDots();
         const startIndex = showNext ? 1 : 0;
         data.forEach((log, index) => {
             const calculatedIndex = startIndex + index;
