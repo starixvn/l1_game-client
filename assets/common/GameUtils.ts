@@ -1,7 +1,8 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import * as SabaConfigs from "../configs/SabaConfigs";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -24,37 +25,7 @@ export default class GameUtils {
     }
 
     public static getBetChoiceString(choice: string): string {
-        const dict = {
-            even: "CHẴN",
-            odd: "LẺ",
-            big: "TÀI",
-            small: "XỈU",
-
-            gold: "KIM",
-            wood: "MỘC",
-            water: "THỦY",
-            fire: "HỎA",
-            earth: "THỔ",
-
-            dragon: "RỒNG",
-            tiger: "HỔ",
-            tie: "HÒA",
-            red3: "3 ĐỎ",
-            red4: "4 ĐỎ",
-            white3: "1 ĐỎ",
-            white4: "4 TRẮNG",
-            red2: "2 ĐỎ",
-
-            red: "ĐỎ",
-            black: "ĐEN",
-
-            diamonds: "RÔ",
-            hearts: "CƠ",
-            spades: "BÍCH",
-            clubs: "CHUỒN"
-        };
-
-        return dict[choice];
+        return i18n.t(`ui.choice_${choice}`);
     }
 
     public static capitalizeWords(str: string) {

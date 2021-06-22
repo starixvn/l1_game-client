@@ -48,9 +48,12 @@ cc.Class({
     },
 
     onLoad() {
-        // if (CC_EDITOR) {
-        //     this._debouncedUpdateLabel = debounce(this.updateLabel, 200);
-        // }
+        if (CC_EDITOR) {
+            if (!i18n.inst) {
+                i18n.init("vi");
+            }
+            this._debouncedUpdateLabel = debounce(this.updateLabel, 200);
+        }
         if (!i18n.inst) {
             i18n.init();
         }

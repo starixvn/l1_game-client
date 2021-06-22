@@ -1,3 +1,4 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
@@ -144,7 +145,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
 
     resetSelectedBetAmountLabel(choice: string) {
         const selectedBetAmountLabel = this.selectedBetAmountLabels[choice];
-        selectedBetAmountLabel.string = "ĐẶT CỬA";
+        selectedBetAmountLabel.string = i18n.t(`ui.input_bet`).toUpperCase();
     }
 
     setSelectedBetAmountSpriteFrame(choice: string, isClicked: boolean) {
