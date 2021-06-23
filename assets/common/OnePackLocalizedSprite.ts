@@ -1,14 +1,20 @@
+import * as LocalizedSprite from "i18n/runtime-scripts/LocalizedSprite";
+import * as SpriteFrameSet from "i18n/runtime-scripts/SpriteFrameSet";
+
 const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 
 @ccclass
 @executeInEditMode
 @menu("i18n/OnePackLocalizedSprite")
-export default class OnePackLocalizedSprite extends cc.Component {
+export default class OnePackLocalizedSprite extends LocalizedSprite {
     @property(cc.SpriteAtlas)
     atlas: cc.SpriteAtlas = null;
 
     @property()
     prefix = "";
+
+    @property({ type: SpriteFrameSet, visible: false })
+    spriteFrameSet: SpriteFrameSet[] = [];
 
     protected sprite: cc.Sprite;
 
