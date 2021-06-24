@@ -1,5 +1,5 @@
-import * as LocalizedSprite from "i18n/runtime-scripts/LocalizedSprite";
-import * as SpriteFrameSet from "i18n/runtime-scripts/SpriteFrameSet";
+const SpriteFrameSet = require("SpriteFrameSet");
+const LocalizedSprite = require("LocalizedSprite");
 
 const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 
