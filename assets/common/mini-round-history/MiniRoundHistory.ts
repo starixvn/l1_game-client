@@ -99,7 +99,7 @@ export default class MiniRoundHistory extends cc.Component {
     }
 
     updateDisplayNextItem(dt: number) {
-        if (this.dataLogs.length === 0) {
+        if (this.dataLogs.length === 0 || this.items.length === 0) {
             return;
         }
         if (this.nodeNext) {
