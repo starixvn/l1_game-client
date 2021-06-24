@@ -274,6 +274,7 @@ export default class Lottery extends SocketIOTableGameBase {
         this.expandableMenu.collapseMenu();
         this.updateSettingStorage();
         this.updateHeaderColor();
+        this.updateMiniRoundHistories();
     }
 
     getBoardIndex(index: number): number {
@@ -520,7 +521,11 @@ export default class Lottery extends SocketIOTableGameBase {
         if (this.currentDataLogs.length === 0) {
             return;
         }
-        this.miniRoundHistories.forEach((history) => history.setData(this.currentDataLogs));
+        this.miniRoundHistories.forEach((history) => {
+            if (history.node.activeInHierarchy) {
+                history.setData(this.currentDataLogs);
+            }
+        });
     }
 
     onDataGameRoom(data) {
