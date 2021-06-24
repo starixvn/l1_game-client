@@ -13,7 +13,7 @@ export default class OnePackLocalizedSprite extends LocalizedSprite {
     @property()
     prefix = "";
 
-    @property({ type: SpriteFrameSet, visible: false })
+    @property({ type: SpriteFrameSet, visible: false, override: true })
     spriteFrameSet: SpriteFrameSet[] = [];
 
     protected sprite: cc.Sprite;

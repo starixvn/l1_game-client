@@ -5,7 +5,6 @@ import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BigSmallBetHistory from "./BigSmallBetHistory";
 import { BigSmallConfigs } from "./BigSmallConfigs";
-import BigSmallGuide from "./BigSmallGuide";
 import BigSmallHistory from "./BigSmallHistory";
 import BigSmallMiniRoundHistory from "./BigSmallMiniRoundHistory";
 import BigSmallStatistic from "./BigSmallStatistic";
@@ -40,9 +39,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     @property({ type: cc.SpriteFrame })
     diceFrames: cc.SpriteFrame[] = [];
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
@@ -216,15 +212,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                 }
             })
             .start();
-    }
-
-    public openGuide() {
-        cc.RedT.audio.playClick();
-
-        const guide = cc.instantiate(this.guidePrefab);
-        const specialSedieGuide = guide.getComponent(BigSmallGuide);
-        specialSedieGuide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(guide);
     }
 
     public openHistory() {
