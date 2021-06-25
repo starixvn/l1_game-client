@@ -72,7 +72,7 @@ cc.Class({
             cc.error("Failed to update localized label, label component is invalid!");
             return;
         }
-        let localizedString = i18n.t(this.dataID);
+        let localizedString = i18n.t(this.dataId);
 
         if (this.upperCase) {
             localizedString = localizedString.toUpperCase();
