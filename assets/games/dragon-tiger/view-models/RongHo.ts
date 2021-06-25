@@ -1,16 +1,16 @@
-import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
-import NewCard from '../../../common/new-card/view-models/NewCard';
-import { games } from '../../../configs/SabaConfigs';
-import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import SocketIOMiniGameBase from '../../_base/SocketIOMiniGameBase';
-import GameLogControlBase from '../../_base/view-models/GameLogControlBase';
-import RHFinishDataHandler from './handlers/RHFinishDataHandler';
-import RHGameTimeHandler from './handlers/RHGameTimeHandler';
-import RHLogsDataHandler from './handlers/RHLogsDataHandler';
-import RongHoHistory from './history/RongHoHistory';
-import RHRoundResultItem from './RHRoundResultItem';
-import { RongHoConfigs } from './RongHoConfigs';
-import RongHoGuide from './RongHoGuide';
+import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import NewCard from "../../../common/new-card/view-models/NewCard";
+import { games } from "../../../configs/SabaConfigs";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
+import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
+import RHFinishDataHandler from "./handlers/RHFinishDataHandler";
+import RHGameTimeHandler from "./handlers/RHGameTimeHandler";
+import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
+import RongHoHistory from "./history/RongHoHistory";
+import RHRoundResultItem from "./RHRoundResultItem";
+import { RongHoConfigs } from "./RongHoConfigs";
+import RongHoGuide from "./RongHoGuide";
 
 const { ccclass, property } = cc._decorator;
 
@@ -55,9 +55,6 @@ export default class RongHo extends SocketIOMiniGameBase {
     @property(cc.AudioSource)
     audioDrawCard: cc.AudioSource = null;
 
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
     public resultCards = [];
     public history: RongHoHistory;
 
@@ -95,14 +92,6 @@ export default class RongHo extends SocketIOMiniGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.history = dialog.getComponent(RongHoHistory);
         this.history.init(this.socket);
-        this.currentMiniPanel.addDialog(dialog);
-    }
-
-    public pressedShowGuide() {
-        cc.RedT.audio.playClick();
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(RongHoGuide);
-        guide.init(this.gameConfigs);
         this.currentMiniPanel.addDialog(dialog);
     }
 
