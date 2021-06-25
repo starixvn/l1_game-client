@@ -1,19 +1,20 @@
-import SocketIOGameHistoryBase from '../../_base/view-models/SocketIOGameHistoryBase';
-import BigSmallHistoryItem from './BigSmallHistoryItem';
+import LocalizedLabelWithFormat from "../../../common/i18n/LocalizedLabelWithFormat";
+import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
+import BigSmallHistoryItem from "./BigSmallHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BigSmallHistory extends SocketIOGameHistoryBase {
-    @property(cc.Label)
-    titleLabel: cc.Label = null;
-
-    public gameTitle = "";
-    private readonly historyTitle = "LỊCH SỬ";
+    @property(LocalizedLabelWithFormat)
+    gameName: LocalizedLabelWithFormat = null;
 
     onLoad() {
         super.onLoad();
-        this.titleLabel.string = `${this.historyTitle} ${this.gameTitle.toUpperCase()}`;
+    }
+
+    setGameName(gameId: number) {
+        this.gameName.dataId = `gameNames.${gameId}`;
     }
 
     public handleBetHistory = (roundId) => {};

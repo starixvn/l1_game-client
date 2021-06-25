@@ -29,13 +29,13 @@ cc.Class({
     },
 
     properties: {
-        dataID: {
+        dataId: {
             get() {
-                return this._dataID;
+                return this._dataId;
             },
             set(val) {
-                if (this._dataID !== val) {
-                    this._dataID = val;
+                if (this._dataId !== val) {
+                    this._dataId = val;
                     if (CC_EDITOR) {
                         this._debouncedUpdateLabel();
                     } else {
@@ -44,7 +44,7 @@ cc.Class({
                 }
             }
         },
-        _dataID: ""
+        _dataId: ""
     },
 
     onLoad() {

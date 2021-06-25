@@ -46,8 +46,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1920,
-      "height": 1080
+      "width": 1398,
+      "height": 786
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -58,8 +58,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        960,
-        540,
+        699,
+        393,
         0,
         0,
         0,
@@ -119,8 +119,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1920,
-      "height": 1080
+      "width": 1398,
+      "height": 786
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -514,7 +514,7 @@
       "__id__": 10
     },
     "_enabled": true,
-    "_dataID": "ui.preset_bet",
+    "_dataId": "",
     "_id": ""
   },
   {
@@ -4124,6 +4124,7 @@
       "__id__": 105
     },
     "_enabled": true,
+    "spriteFrameSet": [],
     "atlas": {
       "__uuid__": "bef2b1e0-22b5-420d-b277-bc3ca60b9b43"
     },
@@ -4866,6 +4867,7 @@
       "__id__": 125
     },
     "_enabled": true,
+    "spriteFrameSet": [],
     "atlas": {
       "__uuid__": "bef2b1e0-22b5-420d-b277-bc3ca60b9b43"
     },
@@ -5574,6 +5576,7 @@
       "__id__": 145
     },
     "_enabled": true,
+    "spriteFrameSet": [],
     "atlas": {
       "__uuid__": "bef2b1e0-22b5-420d-b277-bc3ca60b9b43"
     },
@@ -5998,7 +6001,9 @@
     "betValue": {
       "__id__": 16
     },
-    "betButton": null,
+    "betButton": {
+      "__id__": 154
+    },
     "itemContainer": {
       "__id__": 21
     },

@@ -77,9 +77,6 @@ module.exports = {
         for (let i = 0; i < rootNodes.length; ++i) {
             let labels = rootNodes[i].getComponentsInChildren("LocalizedLabel");
             Array.prototype.push.apply(allLocalizedLabels, labels);
-
-            const labelWithFormat = rootNodes[i].getComponentsInChildren("LocalizedLabelWithFormat");
-            Array.prototype.push.apply(allLocalizedLabels, labelWithFormat);
         }
         for (let i = 0; i < allLocalizedLabels.length; ++i) {
             let label = allLocalizedLabels[i];

@@ -87,7 +87,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     protected betHistory: BigSmallBetHistory;
     statistic: BigSmallStatistic;
     diceAnimationDuration: number;
-    protected gameTitle = SabaConfigs.games.BigSmall.name;
 
     readonly choices = ["small", "big"];
 
@@ -219,12 +218,12 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(BigSmallHistory);
-        this.historyComponent.gameTitle = this.gameTitle;
         this.historyComponent.init(this.socket);
         this.historyComponent.handleBetHistory = (roundId) => {
             this.openBetHistory(roundId);
         };
         this.currentMiniPanel.node.addChild(dialog);
+        this.historyComponent.setGameName(this.gameId);
     }
 
     public openStatistic() {
@@ -232,9 +231,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
         const node = cc.instantiate(this.statisticPrefab);
         this.statistic = node.getComponent(BigSmallStatistic);
-        this.statistic.gameTitle = this.gameTitle;
-        this.statistic.init(this.currentDataLogs);
         this.currentMiniPanel.node.addChild(node);
+        this.statistic.init(this.currentDataLogs);
+        this.statistic.setGameName(this.gameId);
     }
 
     openBetHistory(roundId: number) {
@@ -242,9 +241,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
         const node = cc.instantiate(this.betHistoryPrefab);
         this.betHistory = node.getComponent(BigSmallBetHistory);
-        this.betHistory.gameTitle = this.gameTitle;
-        this.betHistory.init(this, roundId);
         this.currentMiniPanel.node.addChild(node);
+        this.betHistory.init(this, roundId);
     }
 
     resetDataAndUI() {
