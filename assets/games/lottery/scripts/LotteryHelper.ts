@@ -1,3 +1,4 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 export default class LotteryHelper {
     public static getNameChoiceType(type: number) {
         const dict = ["LÔ", "ĐỀ ĐẦU", "ĐỀ ĐẶC BIỆT", "SỐ ĐẦU", "SỐ CUỐI", "HAI CỬA", "XIÊN 2", "XIÊN 3", "XIÊN 4"];
@@ -5,13 +6,7 @@ export default class LotteryHelper {
     }
 
     public static getNameChoiceKey(key: string): string {
-        const list = ["27Sets", "4Sets", "special", "head", "tail", "others", "27Sets", "parlay2", "parlay3", "parlay4"];
-        const index = list.findIndex((item) => item === key);
-        if (index > -1) {
-            return LotteryHelper.getNameChoiceType(index);
-        } else {
-            return "";
-        }
+        return i18n.t(`ui.type_${key}`);
     }
 
     public static getChoiceTypeKey(type: number) {

@@ -58,9 +58,6 @@ export default class Lottery extends SocketIOTableGameBase {
     historyPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
     playWinningPrefab: cc.Prefab = null;
 
     @property(cc.Node)
@@ -608,14 +605,6 @@ export default class Lottery extends SocketIOTableGameBase {
                 });
             }
         }
-    }
-
-    onOpenGuide() {
-        cc.RedT.audio.playClick();
-        const node = cc.instantiate(this.guidePrefab);
-        const guide = node.getComponent(LotteryGuide);
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.addDialog(node);
     }
 
     onOpenHistory() {
