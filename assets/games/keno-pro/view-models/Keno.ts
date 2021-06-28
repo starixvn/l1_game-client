@@ -27,9 +27,6 @@ export default class Keno extends SocketIOTableGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
     @property(cc.Node)
     chipContainer: cc.Node = null;
 
@@ -63,14 +60,6 @@ export default class Keno extends SocketIOTableGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(KenoUserHistory);
         this.historyComponent.init(this.socket);
-        this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    public pressedShowGuide() {
-        cc.RedT.audio.playClick();
-        const dialog = cc.instantiate(this.guidePrefab);
-        const kenoGuide = dialog.getComponent("KenoGuide");
-        kenoGuide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }
 
