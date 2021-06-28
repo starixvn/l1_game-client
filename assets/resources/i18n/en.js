@@ -175,6 +175,7 @@ window.i18n.languages.en = {
         win: "Win",
         betChoice: "Bet Choice",
         stake: "Stake",
+        stake2: "Stake",
         gameRules: "Game Guides ",
         history: "History",
         time: "Time",

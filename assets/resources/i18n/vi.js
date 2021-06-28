@@ -177,6 +177,7 @@ window.i18n.languages.vi = {
         win: "Thắng",
         betChoice: "Lựa Chọn",
         stake: "Cược",
+        stake2: "Tiền Cược",
         gameRules: "Hướng Dẫn",
         history: "Lịch Sử",
         time: "Thời Gian",

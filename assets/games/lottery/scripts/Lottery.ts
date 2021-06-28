@@ -11,7 +11,6 @@ import LabelItem from "./LabelItem";
 import { LotteryChoicesBoard } from "./LotteryChoicesBoard";
 import LotteryExtraResult from "./LotteryExtraResult";
 import LotteryGameConfig from "./LotteryGameConfig";
-import LotteryGuide from "./LotteryGuide";
 import LotteryHelper from "./LotteryHelper";
 import LotteryHistory from "./LotteryHistory";
 import LotteryLargeNumberBoard from "./LotteryLargeNumberBoard";
