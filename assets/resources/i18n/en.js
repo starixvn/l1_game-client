@@ -254,6 +254,9 @@ window.i18n.languages.en = {
         prize_sixth: "Sixth",
         prize_seventh: "Seventh",
         lottery_result: "RNG Lottery results",
-        lose_any_triple: "Lose if any triple appears"
+        lose_any_triple: "Lose if any triple appears",
+        lottery_others_notice: "The Winloss is calculated based on the last two digits of the Special Prize.",
+        head: "Head",
+        tail: "Tail"
     }
 };

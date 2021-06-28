@@ -5,7 +5,8 @@ const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 
 export enum FormationHandler {
     UPPER,
-    LOWER
+    LOWER,
+    TITLE
 }
 
 @ccclass
@@ -37,14 +38,28 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
             {
                 condition: this.format === FormationHandler.UPPER,
                 handle: this.upperCase
+            },
+            {
+                condition: this.format === FormationHandler.TITLE,
+                handle: this.titleCase
             }
         ];
         const handler = data.filter((passed) => passed.condition);
         return handler.length ? handler[0].handle(value) : value;
     }
+
+    titleCase(value: string) {
+        const space = " ";
+        return value
+            .split(space)
+            .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+            .join(space);
+    }
+
     upperCase(value: string) {
         return value.toUpperCase();
     }
+
     lowerCase(value: string) {
         return value.toLowerCase();
     }

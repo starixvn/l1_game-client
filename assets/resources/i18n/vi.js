@@ -256,6 +256,9 @@ window.i18n.languages.vi = {
         prize_sixth: "Sáu",
         prize_seventh: "Bảy",
         lottery_result: "Kết quả Xổ Số RNG",
-        lose_any_triple: "Tính Thua Đối Với Bộ Ba Bất Kỳ"
+        lose_any_triple: "Tính Thua Đối Với Bộ Ba Bất Kỳ",
+        lottery_others_notice: "Kết quả được tính dựa trên hai số cuối của giải Đặc Biệt.",
+        head: "Đầu",
+        tail: "Đuôi"
     }
 };
