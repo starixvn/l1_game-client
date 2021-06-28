@@ -17,7 +17,6 @@ import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackConfig from "./BlackJackConfig";
-import BlackJackGuide from "./BlackJackGuide";
 import BlackJackHistory from "./BlackJackHistory";
 import BlackJackUtils from "./BlackJackUtils";
 import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
@@ -112,9 +111,6 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     @property(cc.Prefab)
     blackjackHistory: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    blackjackGuide: cc.Prefab = null;
 
     @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
@@ -665,16 +661,6 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.currentMiniPanel.node.addChild(history);
     }
 
-    onGuideClick() {
-        cc.RedT.audio.playClick();
-        this.expandableMenu.collapseMenu();
-
-        const guide = cc.instantiate(this.blackjackGuide);
-        const guideComponent = guide.getComponent(BlackJackGuide);
-        guideComponent.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(guide);
-    }
-
     hideAllButtons() {
         this.smallSplitButton.getComponent(FadeEffectButton).setActive(false);
         this.bigSplitButton.getComponent(FadeEffectButton).setActive(false);
@@ -729,7 +715,8 @@ export default class BlackJack extends SocketIOTableGameBase {
         super.updateDisplayForRemoteConfig();
         this.minBetLabel.string = this.gameConfigs.minbet.toString();
         this.maxBetLabel.string = numberWithCommas(this.gameConfigs.maxbet);
-        this.blackjackOddLabel.string = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
+        const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
+        this.blackjackOddLabel.string = i18n.t("ui.blackjack_pay", { odds });
     }
 
     onDataGameRoom(data) {

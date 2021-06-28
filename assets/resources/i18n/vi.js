@@ -196,7 +196,7 @@ window.i18n.languages.vi = {
         oddNumbers: "Dòng Lẻ",
         all: "Tất Cả",
         uncheck: "Bỏ Chọn",
-        confirm: "Xác Nhận",
+        confirm: "Đồng Ý",
         symbol: "Biểu Tượng",
         noOfSymbol: "Số Lượng",
         odds: "Tỷ Lệ Cược",
@@ -261,6 +261,12 @@ window.i18n.languages.vi = {
         lottery_others_notice: "Kết quả được tính dựa trên hai số cuối của giải Đặc Biệt.",
         head: "Đầu",
         tail: "Đuôi",
-        payout: "Trả Thưởng"
+        payout: "Trả Thưởng",
+        undo: "Giảm",
+        bet_double: "Gấp Đôi",
+        rebet: "Cược Lại",
+        hand_id: "Tay Bài",
+        player: "Người Chơi",
+        blackjack_pay: "1 ĂN %{odds}"
     }
 };

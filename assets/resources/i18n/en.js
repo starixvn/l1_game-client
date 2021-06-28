@@ -209,7 +209,7 @@ window.i18n.languages.en = {
         sum_oe: "Total Even/Odd",
         input_bet: "Place Bet",
         close: "Close",
-        clear: "Cancel",
+        clear: "Clear",
         ok: "Confirm",
         preset_bet: "Preset Stake",
         ticket_history: "Ticket History",
@@ -259,6 +259,12 @@ window.i18n.languages.en = {
         lottery_others_notice: "The Winloss is calculated based on the last two digits of the Special Prize.",
         head: "Head",
         tail: "Tail",
-        payout: "Payout"
+        payout: "Payout",
+        undo: "Undo",
+        bet_double: "Double",
+        rebet: "Rebet",
+        hand_id: "Hand ID",
+        player: "Player",
+        blackjack_pay: "Pay %{odds} to 1"
     }
 };
