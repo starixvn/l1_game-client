@@ -265,6 +265,8 @@ window.i18n.languages.en = {
         rebet: "Rebet",
         hand_id: "Hand ID",
         player: "Player",
-        blackjack_pay: "Pay %{odds} to 1"
+        blackjack_pay: "Pay %{odds} to 1",
+        player_pair: "Player Pair",
+        banker_pair: "Banker Pair"
     }
 };

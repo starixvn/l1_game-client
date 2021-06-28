@@ -47,12 +47,5 @@ export default class Baccarat extends VipBaccarat {
         this.currentMiniPanel.node.addChild(historyNode);
     }
 
-    openGuide() {
-        const guideNode = cc.instantiate(this.guidePrefab);
-        const guide = guideNode.getComponent("BaccaratGuide");
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(guideNode);
-    }
-
     initMiniRoundHistory() {}
 }

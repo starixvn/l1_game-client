@@ -40,9 +40,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
     @property(cc.Label)
     winNoticeLabel: cc.Label = null;
 
@@ -121,13 +118,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         }
 
         super.onDataGameRoom(data);
-    }
-
-    openGuide() {
-        const guideNode = cc.instantiate(this.guidePrefab);
-        const guide = guideNode.getComponent("BaccaratGuide");
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(guideNode);
     }
 
     resetDataAndUI() {

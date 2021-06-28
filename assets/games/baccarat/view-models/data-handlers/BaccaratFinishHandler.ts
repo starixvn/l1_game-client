@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
@@ -68,19 +69,19 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
     public showWinNotice(result) {
         const baccaratMain = this.getOwnMain();
         const winNoticeNode = baccaratMain.winNoticeLabel.node.parent;
-        let noticeText: string;
+        let key = "";
 
         if (result.banker) {
-            noticeText = "NHÀ CÁI THẮNG!";
+            key = "banker_win";
             baccaratMain.bankerCards.showHighlightCards();
         } else if (result.player) {
-            noticeText = "NHÀ CON THẮNG!";
+            key = "player_win";
             baccaratMain.playerCards.showHighlightCards();
         } else {
-            noticeText = "HÒA!";
+            key = "tie_win";
         }
 
-        baccaratMain.winNoticeLabel.string = noticeText;
+        baccaratMain.winNoticeLabel.string = i18n.t(`ui.${key}`);
         winNoticeNode.active = true;
     }
 }

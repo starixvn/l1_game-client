@@ -267,6 +267,8 @@ window.i18n.languages.vi = {
         rebet: "Cược Lại",
         hand_id: "Tay Bài",
         player: "Người Chơi",
-        blackjack_pay: "1 ĂN %{odds}"
+        blackjack_pay: "1 ĂN %{odds}",
+        player_pair: "Con Đôi",
+        banker_pair: "Cái Đôi"
     }
 };
