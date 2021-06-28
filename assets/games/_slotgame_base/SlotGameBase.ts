@@ -343,7 +343,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.noticeNode, false, bet, this.getCustomDuration("acceptedBet"), 80);
+        GameUtils.addFlyingText(this.winningNode, false, bet, this.getCustomDuration("acceptedBet"), 80);
     }
 
     showWinningBet(bet: number) {
