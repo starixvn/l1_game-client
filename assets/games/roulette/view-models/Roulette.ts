@@ -53,9 +53,6 @@ export default class Roulette extends SocketIOTableGameBase {
     historyPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
     @property(cc.Label)

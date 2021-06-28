@@ -53,9 +53,6 @@ export default class SicBo extends SocketIOTableGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
     @property(cc.Animation)
     openDiskAnimation: cc.Animation = null;
 
@@ -260,16 +257,6 @@ export default class SicBo extends SocketIOTableGameBase {
         }
 
         super.onDataGameRoom(data);
-    }
-
-    openGuide() {
-        cc.RedT.audio.playClick();
-        this.expandableMenu.collapseMenu();
-
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(SicBoGuide);
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(dialog);
     }
 
     openHistory() {

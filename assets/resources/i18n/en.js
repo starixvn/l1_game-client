@@ -267,6 +267,9 @@ window.i18n.languages.en = {
         player: "Player",
         blackjack_pay: "Pay %{odds} to 1",
         player_pair: "Player Pair",
-        banker_pair: "Banker Pair"
+        banker_pair: "Banker Pair",
+        banker_win: "Banker Win!",
+        player_win: "Player Win!",
+        tie_win: "TIE!"
     }
 };

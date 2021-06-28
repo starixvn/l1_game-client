@@ -269,6 +269,9 @@ window.i18n.languages.vi = {
         player: "Người Chơi",
         blackjack_pay: "1 ĂN %{odds}",
         player_pair: "Con Đôi",
-        banker_pair: "Cái Đôi"
+        banker_pair: "Cái Đôi",
+        banker_win: "NHÀ CÁI THẮNG!",
+        player_win: "NHÀ CON THẮNG!",
+        tie_win: "HÒA!"
     }
 };
