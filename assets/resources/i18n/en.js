@@ -258,6 +258,7 @@ window.i18n.languages.en = {
         lose_any_triple: "Lose if any triple appears",
         lottery_others_notice: "The Winloss is calculated based on the last two digits of the Special Prize.",
         head: "Head",
-        tail: "Tail"
+        tail: "Tail",
+        payout: "Payout"
     }
 };
