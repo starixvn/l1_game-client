@@ -291,6 +291,11 @@ window.i18n.languages.en = {
         type_red_black: "Red/Black",
         type_odd_even: "Odd/Even",
         type_big_small: "Big/Small",
-        column_number: "Column %{num}"
+        column_number: "Column %{num}",
+        hit: "Hit",
+        deal: "Deal",
+        split: "Split",
+        stand: "Stand",
+        new_bet: "New Bet"
     }
 };

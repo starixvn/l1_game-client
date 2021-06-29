@@ -293,6 +293,11 @@ window.i18n.languages.vi = {
         type_red_black: "Đỏ/Đen",
         type_odd_even: "Chẵn/Lẻ",
         type_big_small: "Tài/Xỉu",
-        column_number: "Cột %{num}"
+        column_number: "Cột %{num}",
+        hit: "Rút Bài",
+        deal: "Chia Bài",
+        split: "Tách Bài",
+        stand: "Dừng",
+        new_bet: "Ván Mới"
     }
 };
