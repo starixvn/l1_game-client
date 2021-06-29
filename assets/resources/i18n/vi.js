@@ -278,6 +278,21 @@ window.i18n.languages.vi = {
         choice_rooster: "Gà",
         choice_fish: "Cá",
         choice_crab: "Cua",
-        choice_prawn: "Tôm"
+        choice_prawn: "Tôm",
+        total_score: "Tổng điểm",
+        type_bet_number: "Cược số",
+        type_straight_up: "Cược đơn",
+        type_split: "Cược đôi",
+        type_street: "Cược hàng",
+        type_triangle: "Cược bộ ba",
+        type_corner: "Cược góc",
+        type_4number: "Cược bộ bốn",
+        type_line: "Cược 2 hàng",
+        type_column: "Cược cột",
+        type_dozen: "Cược tá",
+        type_red_black: "Đỏ/Đen",
+        type_odd_even: "Chẵn/Lẻ",
+        type_big_small: "Tài/Xỉu",
+        column_number: "Cột %{num}"
     }
 };
