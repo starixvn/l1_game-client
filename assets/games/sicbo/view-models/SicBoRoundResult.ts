@@ -1,3 +1,4 @@
+import NoticeUtil from "../../../common/utils/NoticeUtil";
 import { SicBoBetType } from "./SicBo";
 
 const { ccclass, property } = cc._decorator;
@@ -38,13 +39,18 @@ export default abstract class SicBoRoundResult extends cc.Component {
 
         this.total.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_${result.dice1 + result.dice2 + result.dice3}`);
 
+        let suffix = "";
+        const lang = NoticeUtil.getCurrentLanguage();
+        if (lang !== "vi") {
+            suffix += `_${lang}`;
+        }
         if (settlementResult[SicBoBetType.anyTriple]) {
-            this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_B`);
+            this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_B${suffix}`);
         } else {
             if (settlementResult[SicBoBetType.big]) {
-                this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_T`);
+                this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_T${suffix}`);
             } else {
-                this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_X`);
+                this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_X${suffix}`);
             }
         }
     }

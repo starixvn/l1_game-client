@@ -3,6 +3,10 @@ import ErrorCodeDictionary, { CommonErrorCodeList } from "./ErrorCodeDictionary"
 import { getLocale } from "../../common/auth/SessionManager";
 
 export default class NoticeUtil {
+    public static getCurrentLanguage(): string {
+        return window.i18n.curLang;
+    }
+
     public static getLocalizedErrorMessage(errorCode: string, opt: any, isPlaceBet = false): string {
         if (!ErrorCodeDictionary[errorCode]) {
             console.error(`not found error code ${errorCode}`);
