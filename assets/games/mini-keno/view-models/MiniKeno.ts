@@ -1,8 +1,11 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import KenoNumber from "../../keno-pro/view-models/KenoNumber";
-import RoundHistory from "../../keno-pro/view-models/RoundHistory";
+import NoticeUtil from "../../../common/utils/NoticeUtil";
 import { GameState } from "../../_base/GameBase";
 import WebSocketMiniGameBase from "../../_base/WebSocketMiniGameBase";
+import KenoNumber from "../../keno-pro/view-models/KenoNumber";
+import RoundHistory from "../../keno-pro/view-models/RoundHistory";
 import BetBoard, { BetInfo } from "./../../../common/bet-board/view-models/BetBoard";
 import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
@@ -14,7 +17,6 @@ import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
 import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
 import { KenoType } from "./KenoUtils";
 import MiniKenoConfig from "./MiniKenoConfig";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,8 +28,8 @@ export default class MiniKeno extends WebSocketMiniGameBase {
     @property(cc.Sprite)
     kenoName: cc.Sprite = null;
 
-    @property({ type: cc.SpriteFrame })
-    nameFrames: cc.SpriteFrame[] = [];
+    @property(cc.SpriteAtlas)
+    atlas: cc.SpriteAtlas = null;
 
     @property(cc.Toggle)
     favourite: cc.Toggle = null;
@@ -135,7 +137,30 @@ export default class MiniKeno extends WebSocketMiniGameBase {
 
         const bgIndex = dict[KenoType[this.kenoType]];
         this.headerBg.spriteFrame = this.headerFrames[bgIndex];
-        this.kenoName.spriteFrame = this.nameFrames[this.kenoType];
+        this.kenoName.spriteFrame = this.getGameNameSprite(this.kenoType);
+    }
+
+    getGameNameSprite(type: KenoType) {
+        const dict = {
+            ProViet: "pro_viet",
+            Max: "max",
+            Max2: "max2",
+            Mini: "mini",
+            Mini2: "mini2",
+            East: "dong",
+            West: "tay",
+            South: "nam",
+            North: "bac"
+        };
+        const name = `header_text_${dict[KenoType[type]]}`;
+        let suffix = "";
+        const lang = NoticeUtil.getCurrentLanguage();
+        if (lang !== "vi") {
+            suffix += `_${lang}`;
+        }
+
+        const sprite = this.atlas.getSpriteFrame(`${name}${suffix}`);
+        return sprite ? sprite : this.atlas.getSpriteFrame(name);
     }
 
     onDestroy() {

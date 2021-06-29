@@ -1,5 +1,6 @@
-import MiniKeno from '../../../../games/mini-keno/view-models/MiniKeno';
-import { KenoType } from '../KenoUtils';
+import NoticeUtil from "../../../../common/utils/NoticeUtil";
+import MiniKeno from "../../../../games/mini-keno/view-models/MiniKeno";
+import { KenoType } from "../KenoUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,8 +18,8 @@ export default class KenoPageIndicatorItem extends cc.Component {
     @property({ type: cc.SpriteFrame })
     backgroundFrames: cc.SpriteFrame[] = [];
 
-    @property({ type: cc.SpriteFrame })
-    nameFrames: cc.SpriteFrame[] = [];
+    @property(cc.SpriteAtlas)
+    atlas: cc.SpriteAtlas = null;
 
     // @property(cc.Node)
     // effect: cc.Node = null;
@@ -30,7 +31,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
-        this.gameName.spriteFrame = this.nameFrames[this.miniKeno.kenoType];
+        this.gameName.spriteFrame = this.getNameSprite(this.miniKeno.kenoType);
         const dict = {
             Max: 1,
             Max2: 1,
@@ -47,6 +48,29 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
         this.dataKey = `indicator_${this.miniKeno.gameName}`;
         this.updateImage();
+    }
+
+    getNameSprite(type: KenoType) {
+        const dict = {
+            ProViet: "pro_viet",
+            Max: "max",
+            Max2: "max2",
+            Mini: "mini",
+            Mini2: "mini2",
+            East: "east",
+            West: "west",
+            South: "south",
+            North: "north"
+        };
+        const name = `progress_${dict[KenoType[type]]}_text`;
+        let suffix = "";
+        const lang = NoticeUtil.getCurrentLanguage();
+        if (lang !== "vi") {
+            suffix += `_${lang}`;
+        }
+
+        const sprite = this.atlas.getSpriteFrame(`${name}${suffix}`);
+        return sprite ? sprite : this.atlas.getSpriteFrame(name);
     }
 
     onLoad() {

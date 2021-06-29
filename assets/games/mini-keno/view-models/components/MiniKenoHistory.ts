@@ -1,7 +1,9 @@
 import DropDownList from "../../../../common/drop-down-list/view-models/DropDownList";
 import DropDownOption from "../../../../common/drop-down-list/view-models/DropDownOption";
+import GameUtils from "../../../../common/GameUtils";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import { games } from "../../../../configs/SabaConfigs";
 import GameHistoryBase from "../../../_base/view-models/GameHistoryBase";
 import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
 import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
@@ -35,10 +37,10 @@ export default class MiniKenoHistory extends GameHistoryBase {
         new DropDownOption("kenoMax2", "Keno Max 2"),
         new DropDownOption("kenoMini", "Keno Mini"),
         new DropDownOption("kenoMini2", "Keno Mini 2"),
-        new DropDownOption("kenoEast", "Keno Đông"),
-        new DropDownOption("kenoWest", "Keno Tây"),
-        new DropDownOption("kenoSouth", "Keno Nam"),
-        new DropDownOption("kenoNorth", "Keno Bắc")
+        new DropDownOption("kenoEast", GameUtils.getGameNameString(games.KenoEast.id)),
+        new DropDownOption("kenoWest", GameUtils.getGameNameString(games.KenoWest.id)),
+        new DropDownOption("kenoSouth", GameUtils.getGameNameString(games.KenoSouth.id)),
+        new DropDownOption("kenoNorth", GameUtils.getGameNameString(games.KenoNorth.id))
         // new DropDownOption("kenoProViet", "Keno Pro Viet")
     ];
 
