@@ -270,6 +270,12 @@ window.i18n.languages.en = {
         banker_pair: "Banker Pair",
         banker_win: "Banker Win!",
         player_win: "Player Win!",
-        tie_win: "TIE!"
+        tie_win: "TIE!",
+        choice_stag: "STAG",
+        choice_gourd: "GOURD",
+        choice_rooster: "ROOSTER",
+        choice_fish: "FISH",
+        choice_crab: "CRAB",
+        choice_prawn: "PRAWN"
     }
 };

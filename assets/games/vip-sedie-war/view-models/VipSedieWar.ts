@@ -158,11 +158,7 @@ export default class VipSedieWar extends VipSedie {
     }
 
     getBetRange() {
-        const { minbet, maxbet } = this.gameConfigs;
-        return {
-            minBet: minbet,
-            maxBet: maxbet
-        };
+        return this.getNormalBetRange();
     }
 
     openHistory() {

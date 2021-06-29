@@ -272,6 +272,12 @@ window.i18n.languages.vi = {
         banker_pair: "Cái Đôi",
         banker_win: "NHÀ CÁI THẮNG!",
         player_win: "NHÀ CON THẮNG!",
-        tie_win: "HÒA!"
+        tie_win: "HÒA!",
+        choice_stag: "Nai",
+        choice_gourd: "Bầu",
+        choice_rooster: "Gà",
+        choice_fish: "Cá",
+        choice_crab: "Cua",
+        choice_prawn: "Tôm"
     }
 };

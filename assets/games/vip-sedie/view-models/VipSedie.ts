@@ -32,10 +32,6 @@ export default class VipSedie extends Sedie {
     }
 
     getBetRange() {
-        const { minbet, maxbet } = this.gameConfigs;
-        return {
-            minBet: minbet,
-            maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxbet)
-        };
+        return this.getVipBetRange();
     }
 }

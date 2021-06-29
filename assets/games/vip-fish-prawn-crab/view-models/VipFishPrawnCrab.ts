@@ -9,7 +9,6 @@ import VipFishPrawnCrabTimeHandler from "./handlers/VipFishPrawnCrabTimeHandler"
 import VipFishPrawnCrabBetItem from "./VipFishPrawnCrabBetItem";
 import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
 import vipFishPrawnCrabConstants from "./VipFishPrawnCrabConstants";
-import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
 import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
 import VipFishPrawnCrabOddItem from "./VipFishPrawnCrabOddItem";
 import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
@@ -22,9 +21,6 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
 
     @property({ type: cc.SpriteFrame })
     characterIcons: cc.SpriteFrame[] = [];
@@ -184,11 +180,8 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
         this.gameConfigs.odds && this.oddItems.forEach((item) => item.setValue(this.gameConfigs.odds[item.node.name]));
     }
 
-    openGuide() {
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(VipFishPrawnCrabGuide);
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(dialog);
+    getBetRange() {
+        return this.getVipBetRange();
     }
 
     public highlightLastResult() {
