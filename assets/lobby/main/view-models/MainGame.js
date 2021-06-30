@@ -191,8 +191,10 @@ cc.Class({
             }
         });
 
-        // Add SM promotion banner at page 2
-        filterList.splice(1, 0, 0);
+        if (lobbyMenuConfig.smPromotion) {
+            // Add SM promotion banner at page 2
+            filterList.splice(1, 0, 0);
+        }
         console.log("filterList", filterList);
 
         adsBannerController.setGameAds(filterList);
