@@ -1,3 +1,4 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -9,11 +10,11 @@ export default class ProcessingWarning extends cc.Component {
     timeLabel: cc.Label = null;
 
     private waitTime = 5;
-    private title = "Cược đang được xử lý. Vui lòng đợi trong giây lát.";
+    private title = "";
     private countDownId: number;
 
     onEnable() {
-        this.titleLabel.string = this.title;
+        this.titleLabel.string = this.title = i18n.t("messages.betProcessing");
         const waitTime = this.waitTime;
 
         this.countDownId = setInterval(function () {

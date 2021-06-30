@@ -3,7 +3,7 @@ import { buildServerUrl } from "./common/helpers/UrlHelper";
 import logger from "./common/logger";
 import configs from "./configs/Configs";
 import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
-
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 const sentryLogger = logger();
 
 module.exports = {
@@ -53,8 +53,7 @@ module.exports = {
             if (this.inGame && this.inGame.loading) {
                 this.inGame.loading.active = false;
                 this.inGame.showNotice({
-                    title: "THÔNG BÁO",
-                    text: "Không thể kết nối tới máy chủ."
+                    text: i18n.t("messages.connectionFailed")
                 });
             }
         }

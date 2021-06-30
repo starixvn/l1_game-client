@@ -17,6 +17,7 @@ import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteStatistic from "./RouletteStatistic";
 import RouletteUtils from "./RouletteUtils";
 import TopControls from "./TopControls";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -410,7 +411,7 @@ export default class Roulette extends SocketIOTableGameBase {
         const total = this.sumValueBetChoices(this.tempBetChoices);
         const available = total + bet <= cc.RedT.user.red;
 
-        !available && this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+        !available && this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
         return available;
     }
 
@@ -445,7 +446,7 @@ export default class Roulette extends SocketIOTableGameBase {
         const currentTotal = this.sumValueBetChoices(totalChoices);
         const newTotal = this.sumValueBetChoices(betChoices);
         if (currentTotal + newTotal > this.gameConfigs.maxbet) {
-            this.showMiniWarning(`Tổng tiền cược tối đa ở phiên này là ${numberWithCommas(this.gameConfigs.maxbet)}`);
+            this.showMiniWarning(i18n.t("messages.maxBetNotice", { maxBet: numberWithCommas(this.gameConfigs.maxbet) }));
             return false;
         }
 
@@ -453,22 +454,17 @@ export default class Roulette extends SocketIOTableGameBase {
     }
 
     showWarningOnBetChoices(betChoices: any, totalChoices: any, type: any, key: any, isMultiChoices: boolean): boolean {
+        const text = isMultiChoices
+            ? i18n.t("messages.maxBetOfAnyChoiceReached")
+            : i18n.t("messages.maxBetForChoiceNotice", { maxBet: numberWithCommas(this.gameConfigs.choices_maxbet[type]) });
         if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
-            this.showMiniWarning(
-                isMultiChoices
-                    ? "Tiền cược của một trong các cửa vượt mức quy định."
-                    : `Tiền cược tối đa ở cửa này là ${numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
-            );
+            this.showMiniWarning(text);
             return true;
         }
         if (totalChoices[type] && totalChoices[type][key]) {
             const total = totalChoices[type][key] + betChoices[type][key];
             if (total > this.gameConfigs.choices_maxbet[type]) {
-                this.showMiniWarning(
-                    isMultiChoices
-                        ? "Tiền cược của một trong các cửa vượt mức quy định."
-                        : `Tiền cược tối đa ở cửa này là ${numberWithCommas(this.gameConfigs.choices_maxbet[type])}`
-                );
+                this.showMiniWarning(text);
                 return true;
             }
         }
@@ -487,7 +483,7 @@ export default class Roulette extends SocketIOTableGameBase {
         }
 
         if (this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.betTime - 1) {
-            this.showMiniWarning("Vui lòng đặt cược ở phiên sau.");
+            this.showMiniWarning(i18n.t("messages.placeBetNextRound"));
             return true;
         }
 

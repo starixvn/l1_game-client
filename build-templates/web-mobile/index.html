@@ -65,7 +65,7 @@
         <script src="main.js" charset="utf-8"></script>
         <script type="text/javascript">
             window.mobilecheck = function () {
-                var check = false;
+                let check = false;
                 (function (a) {
                     if (
                         /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
@@ -81,16 +81,16 @@
             };
 
             function toggleFullScreen() {
-                var doc = window.document;
-                var docEl = document.documentElement;
+                const doc = window.document;
+                const docEl = document.documentElement;
 
-                var requestFullScreen =
+                const requestFullScreen =
                     docEl.webkitEnterFullscreen ||
                     docEl.requestFullscreen ||
                     docEl.mozRequestFullScreen ||
                     docEl.webkitRequestFullScreen ||
                     docEl.msRequestFullscreen;
-                var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+                const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
                 if (
                     !doc.fullscreenElement &&
@@ -104,8 +104,9 @@
             }
 
             function showIntruction() {
-                var instruction = document.getElementById("myInstruction");
-                var show = window.innerHeight < screen.width - 20;
+                const instruction = document.getElementById("myInstruction");
+                const navBarHeight = getNavigationBarHeight();
+                const show = window.innerHeight < screen.width - navBarHeight;
                 instruction.style.display = show ? "block" : "none";
             }
 
@@ -115,18 +116,28 @@
                 }, 0);
             }
 
+            function getNavigationBarHeight() {
+                const userAgent = window.navigator.userAgent;
+                let navBarHeight = 20;
+                if (userAgent.match(/ipad/i)) {
+                    navBarHeight = 75;
+                }
+                return navBarHeight;
+            }
+
             function updateViewport() {
-                var userAgent = window.navigator.userAgent;
+                const userAgent = window.navigator.userAgent;
                 if (userAgent.match(/iphone|ipad|ipod/i)) {
                     let height = screen.width;
+                    const navBarHeight = getNavigationBarHeight();
                     if (userAgent.match(/crios/i)) {
-                        height -= 20;
+                        height -= navBarHeight;
                     }
-                    let vh = height * 0.01;
+                    const vh = height * 0.01;
                     document.documentElement.style.setProperty("--vh", `${vh}px`);
                 } else if (userAgent.match(/android/i)) {
                     const height = window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
-                    let vh = height * 0.01;
+                    const vh = height * 0.01;
                     document.documentElement.style.setProperty("--vh", `${vh}px`);
                 } else {
                     document.documentElement.style.setProperty("--vh", `1%`);
@@ -134,7 +145,7 @@
             }
 
             handleFullScreen = function () {
-                var userAgent = window.navigator.userAgent;
+                const userAgent = window.navigator.userAgent;
                 updateViewport();
                 if (userAgent.match(/iPad|iPhone|iPod/i)) {
                     document.body.style.overflowY = "scroll";
@@ -142,7 +153,7 @@
                     window.addEventListener("resize", function () {
                         showIntruction();
                         updateViewport();
-                        toggleFullScreen();
+                        // toggleFullScreen();
                         quickHideAddressBar();
                     });
                     window.addEventListener("scroll", () => {
@@ -151,7 +162,7 @@
                 }
 
                 if (userAgent.match(/android/i)) {
-                    var focused = false;
+                    let focused = false;
                     window.onfocus = () => {
                         focused = true;
                     };
@@ -159,10 +170,10 @@
                         focused = false;
                     };
 
-                    var fullButton = document.getElementById("buttonFullAndroid");
+                    const fullButton = document.getElementById("buttonFullAndroid");
                     fullButton.style.display = "block";
                     window.onresize = () => {
-                        var isFullScreen = screen.height - window.innerHeight < 1;
+                        const isFullScreen = screen.height - window.innerHeight < 1;
                         fullButton.style.display = isFullScreen || !focused ? "none" : "block";
                         updateViewport();
                     };
@@ -179,8 +190,8 @@
                     window.vConsole = new VConsole();
                 }
 
-                var debug = window._CCSettings.debug;
-                var splash = document.getElementById("splash");
+                const debug = window._CCSettings.debug;
+                const splash = document.getElementById("splash");
                 splash.style.display = "block";
 
                 function loadScript(moduleName, cb) {
@@ -189,7 +200,7 @@
                         domScript.removeEventListener("load", scriptLoaded, false);
                         cb && cb();
                     }
-                    var domScript = document.createElement("script");
+                    const domScript = document.createElement("script");
                     domScript.async = true;
                     domScript.src = moduleName;
                     domScript.addEventListener("load", scriptLoaded, false);

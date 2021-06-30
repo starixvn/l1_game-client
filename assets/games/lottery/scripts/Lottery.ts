@@ -122,6 +122,11 @@ export default class Lottery extends SocketIOTableGameBase {
         this.initMiniHistories();
     }
 
+    protected onChangedBetChip(bet) {
+        super.onChangedBetChip(bet);
+        this.expandableMenu.collapseMenu();
+    }
+
     start() {
         super.start();
         this.loadPreviousSelection();
@@ -243,7 +248,8 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onChoiceBet(name: string) {
-        if (this.isDisableGame) {
+        this.expandableMenu.collapseMenu();
+        if (this.isDisableGame || !this.gameConfigs) {
             return;
         }
 
@@ -268,6 +274,7 @@ export default class Lottery extends SocketIOTableGameBase {
         this.expandableMenu.collapseMenu();
         this.updateSettingStorage();
         this.updateHeaderColor();
+        this.updateMiniRoundHistories();
     }
 
     getBoardIndex(index: number): number {
@@ -514,7 +521,11 @@ export default class Lottery extends SocketIOTableGameBase {
         if (this.currentDataLogs.length === 0) {
             return;
         }
-        this.miniRoundHistories.forEach((history) => history.setData(this.currentDataLogs));
+        this.miniRoundHistories.forEach((history) => {
+            if (history.node.activeInHierarchy) {
+                history.setData(this.currentDataLogs);
+            }
+        });
     }
 
     onDataGameRoom(data) {

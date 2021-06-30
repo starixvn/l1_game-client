@@ -26,6 +26,7 @@ import BlackjackUmHandler from "./handlers/BlackjackUmHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -249,12 +250,12 @@ export default class BlackJack extends SocketIOTableGameBase {
                 handPlace.highlightPlace(true);
 
                 if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxbet) {
-                    this.showMiniWarning(`Tổng tiền cược tối đa của tay bài này là ${numberWithCommas(this.gameConfigs.maxbet)}`);
+                    this.showMiniWarning(i18n.t("messages.maxStakeHand", { maxBet: numberWithCommas(this.gameConfigs.maxbet) }));
                     return;
                 }
 
                 if (this.getCurrentTotalAmount() + this.currentBet > cc.RedT.user.red) {
-                    this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+                    this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
                     return;
                 }
 
@@ -614,7 +615,7 @@ export default class BlackJack extends SocketIOTableGameBase {
             let total = 0;
             this.lastHandBets.forEach((hand) => (total += hand.bet));
             if (total > cc.RedT.user.red) {
-                this.showMiniWarning("Bạn hiện không có đủ tiền để cược.");
+                this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
                 this.showProcessingWarning(false);
 
                 return;

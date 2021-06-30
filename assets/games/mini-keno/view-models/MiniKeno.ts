@@ -14,6 +14,7 @@ import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
 import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
 import { KenoType } from "./KenoUtils";
 import MiniKenoConfig from "./MiniKenoConfig";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -181,7 +182,7 @@ export default class MiniKeno extends WebSocketMiniGameBase {
         cc.RedT.audio.playClick();
 
         if (this.isDisabledBet()) {
-            this.showMiniWarning("Vui lòng đặt cược ở phiên sau.");
+            this.showMiniWarning(i18n.t("messages.placeBetNextRound"));
             return;
         }
 

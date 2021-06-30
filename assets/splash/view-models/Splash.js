@@ -37,11 +37,11 @@ cc.Class({
         if (this.checkPlugin()) {
             sdkbox.PluginOneSignal.init();
             sdkbox.PluginOneSignal.setListener({
-                onSendTag: function (t, e, i) { },
-                onGetTags: function (t) { },
-                onIdsAvailable: function (t, e) { },
-                onPostNotification: function (t, e) { },
-                onNotification: function (t, e, i) { }
+                onSendTag: function (t, e, i) {},
+                onGetTags: function (t) {},
+                onIdsAvailable: function (t, e) {},
+                onPostNotification: function (t, e) {},
+                onNotification: function (t, e, i) {}
             });
         }
     },
@@ -54,18 +54,17 @@ cc.Class({
         this.updateProgress(0);
         this.messageLabel.string = "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...";
         if (cc.sys.isBrowser && authManager) {
-            const self = this;
             authManager.preChecking(() => {
-                authManager.checkSSO(self.messageLabel, () => {
-                    self.loadScene();
-                    if (self.reCheckInId) {
-                        clearInterval(reCheckInId);
+                authManager.checkSSO(this.messageLabel, () => {
+                    this.loadScene();
+                    if (window.reCheckInId) {
+                        clearInterval(window.reCheckInId);
                     }
-                    self.reCheckInId = setInterval(() => {
+                    window.reCheckInId = setInterval(() => {
                         authManager.reCheckIn();
                     }, 60 * 1000);
                 });
-            }, self.messageLabel);
+            });
         } else {
             this.loadScene();
         }

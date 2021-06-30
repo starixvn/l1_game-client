@@ -190,6 +190,13 @@ cc.Class({
                 filterList.push(id);
             }
         });
+
+        if (lobbyMenuConfig.smPromotion) {
+            // Add SM promotion banner at page 2
+            filterList.splice(1, 0, 0);
+        }
+        console.log("filterList", filterList);
+
         adsBannerController.setGameAds(filterList);
         adsBannerController.onEndingRound = () => {
             if (showJackpotBanner) {
@@ -268,10 +275,7 @@ cc.Class({
 
         if (void 0 !== data["message"]) {
             this.showNotice({
-                text:
-                    data.isSessionExpired || data.noPassword
-                        ? "Phiên đăng nhập đã hết hạn, bạn vui lòng đăng nhập lại."
-                        : "Có lỗi xảy ra, vui lòng kiểm tra lại."
+                text: data.isSessionExpired || data.noPassword ? i18n.t("messages.sessionExpired") : i18n.t("messages.errorOccurred")
             });
         } else {
             this.showNotice(data);
@@ -421,7 +425,9 @@ cc.Class({
     openGameSSO: function () {
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
-            GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
+            if (gameId !== SabaConfigs.games.ThreeCards.id) {
+                GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
+            }
             window.openGameId = null;
         } else {
             !this.inRoomGameId && this.openLuckyWheel();
@@ -446,7 +452,7 @@ cc.Class({
     pauseMusic: function () {
         this.audioBG.pause();
     },
-    resumeMusic: function () { },
+    resumeMusic: function () {},
     audioClick: function () {
         cc.RedT.audio.playClick();
     },

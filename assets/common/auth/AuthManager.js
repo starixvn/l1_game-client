@@ -2,8 +2,10 @@ import * as configs from "../../configs/Configs";
 import httpHelper from "../helpers/httpHelper";
 import { buildServerUrl } from "../helpers/UrlHelper";
 import logger from "../logger";
+import NoticeUtil from "../utils/NoticeUtil";
 import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
@@ -89,6 +91,7 @@ export function checkSSO(labelMessage, onSuccessFunc) {
     } else if (authData && authData.isAuthenticated && authData.ss) {
         isSuccess = true;
         window.authData = authData;
+        sessionManager.updateLanguage(authData);
         sentryLogger.setUser(authData);
         onSuccessFunc();
     }
@@ -184,14 +187,14 @@ export function reCheckIn() {
                         if (response.apiError) {
                             if (response.isDisableAccount) {
                                 setTimeout(signOut, 10000);
-
                                 const noticeData = {
-                                    text:
-                                        "Tài khoản đã bị đóng. Phiên đăng nhập sẽ hết hạn sau 10 giây. Vui lòng liên hệ với cấp trên để biết thêm chi tiết."
+                                    text: i18n.t("messages.accountClosed")
                                 };
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             } else {
-                                const noticeData = { text: `${response.apiError.message} (${response.apiError.errorCode})` };
+                                const errorCode = response.apiError.errorCode;
+                                const message = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
+                                const noticeData = { text: message };
                                 cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             }
                         } else {

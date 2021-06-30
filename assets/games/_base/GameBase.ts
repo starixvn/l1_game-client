@@ -355,7 +355,7 @@ export default class GameBase extends cc.Component {
     }
 
     protected bet(betData) {
-        if (this.isDisableGame) {
+        if (this.isDisableGame || !this.gameConfigs) {
             return;
         }
 

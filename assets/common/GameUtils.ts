@@ -1,6 +1,7 @@
-import * as SabaConfigs from '../configs/SabaConfigs';
-import MiniPanel from '../mini-games-panel/view-models/MiniPanel';
-import { numberWithCommas } from './helpers/NumberHelper';
+import * as SabaConfigs from "../configs/SabaConfigs";
+import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
+import { numberWithCommas } from "./helpers/NumberHelper";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -42,7 +43,15 @@ export default class GameUtils {
             red4: "4 ĐỎ",
             white3: "1 ĐỎ",
             white4: "4 TRẮNG",
-            red2: "2 ĐỎ"
+            red2: "2 ĐỎ",
+
+            red: "ĐỎ",
+            black: "ĐEN",
+
+            diamonds: "RÔ",
+            hearts: "CƠ",
+            spades: "BÍCH",
+            clubs: "CHUỒN"
         };
 
         return dict[choice];
@@ -140,7 +149,9 @@ export default class GameUtils {
     }
 
     public static getGameNameString(gameId): string {
-        const key = Object.keys(SabaConfigs.games).find((game) => SabaConfigs.games[game].id === gameId);
-        return SabaConfigs.games[key].name;
+        if (!gameId) {
+            return "";
+        }
+        return i18n.t(`gameNames.${gameId}`);
     }
 }

@@ -1,7 +1,9 @@
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Loading from "../../common/loading/view-models/Loading";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as SabaConfigs from "../../configs/SabaConfigs";
 import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
 import * as authManager from "./../../common/auth/AuthManager";
@@ -9,6 +11,7 @@ import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -80,13 +83,27 @@ export default class MiniPanel extends cc.Component {
         }
     }
 
+    handleUmMessage(data) {
+        this.loading.node.active = false;
+        const text = NoticeUtil.getMessageByLocale(data);
+        if (text) {
+            const noticeData = {
+                text: text,
+                isInfo: false
+            } as NoticeData;
+            this.showNotice(noticeData);
+        }
+    }
+
     redirectToResultPage(redirectUrl) {
         cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
-        cc.RedT.resultPage.focus();
+        if (cc.RedT.resultPage) {
+            cc.RedT.resultPage.focus();
 
-        window.onbeforeunload = function () {
-            cc.RedT.resultPage.close();
-        };
+            window.onbeforeunload = function () {
+                cc.RedT.resultPage.close();
+            };
+        }
     }
 
     openResultPage(gameId: number = undefined) {
@@ -115,7 +132,7 @@ export default class MiniPanel extends cc.Component {
         });
     }
 
-    onForceReload(showNotice = true, message = "Vui lòng tải lại trang để cập nhật phiên bản mới.") {
+    onForceReload(showNotice = true, message = i18n.t("messages.newUpdateAvailable")) {
         const forceReload = () => {
             location.reload();
         };
@@ -204,18 +221,12 @@ export default class MiniPanel extends cc.Component {
     showErrorNotice(error): Notice {
         const noticePrefab = cc.instantiate(this.noticePrefab);
         const notice = noticePrefab.getComponent(Notice);
-        let message = "";
 
-        if (error.gameTypeId) {
-            const gameName = GameUtils.getGameNameString(error.gameTypeId);
-            message += `Game ${gameName} (#${error.gameRoundId})\r\n`;
-        }
-
-        message += `${error.message}.`;
-
-        if (error.isPlaceBetFailed) {
-            message += " Đặt cược thất bại!";
-        }
+        const gameName = GameUtils.getGameNameString(error.gameTypeId);
+        const { minBet, maxBet, gameRoundId, errorCode } = error;
+        const opt = { gameName, gameRoundId, errorCode, minBet: numberWithCommas(minBet), maxBet: numberWithCommas(maxBet) };
+        const isPlaceBet = error.isPlaceBetFailed;
+        const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt, isPlaceBet);
 
         notice.init({ text: message } as NoticeData);
         this.node.addChild(noticePrefab);
@@ -249,7 +260,7 @@ export default class MiniPanel extends cc.Component {
 
         this.showNotice(
             {
-                text: `${gameName}\nMất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.`
+                text: i18n.t("messages.lostGameConnection", { gameName: gameName })
             } as NoticeData,
             handleCloseNotice,
             handleCloseNotice

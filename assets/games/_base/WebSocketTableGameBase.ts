@@ -10,6 +10,8 @@ import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import RoomPlayer from "./view-models/RoomPlayer";
+import NoticeUtil from "../../common/utils/NoticeUtil";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -106,22 +108,19 @@ export default class WebSocketTableGameBase extends GameBase {
         this.onDataGameRoomGeneral(data);
 
         const gameData = data[this.gameName];
-
-        let apiErrorGameData;
-
         if (gameData) {
             this.onDataGameRoom(gameData);
-            if (gameData.apiError) {
-                apiErrorGameData = gameData.apiError;
+            const apiErrorGameData = gameData.apiError;
+            if (apiErrorGameData) {
+                if (this.updateUserStakeLevel(apiErrorGameData)) {
+                    this.showMiniWarningLimitBetChanged();
+                }
             }
         }
+    }
 
-        if (data.apiError) {
-            this.updateUserStakeLevel(data.apiError);
-        }
-        if (apiErrorGameData) {
-            this.updateUserStakeLevel(apiErrorGameData);
-        }
+    showMiniWarningLimitBetChanged() {
+        this.showMiniWarning(i18n.t("messages.limitBetChanged"));
     }
 
     updateUserStakeLevel(data): boolean {
@@ -144,8 +143,9 @@ export default class WebSocketTableGameBase extends GameBase {
             return;
         }
 
-        const message = data.um_message;
-        const text = message ? message : "Game đang được bảo trì, vui lòng quay lại sau 10 phút.";
+        const message = NoticeUtil.getMessageByLocale(data.um_message);
+
+        const text = message ? message : i18n.t("messages.disabledGame");
         const noticeData = { text: text, button: { text: "OK" } } as NoticeData;
         const notice = this.showNotice(noticeData);
 
@@ -236,15 +236,18 @@ export default class WebSocketTableGameBase extends GameBase {
         }
 
         if (data.apiError) {
-            this.updateUserStakeLevel(data.apiError);
+            if (this.updateUserStakeLevel(data.apiError)) {
+                this.showMiniWarningLimitBetChanged();
+            }
         }
+
         if (data.userStakeLevel) {
             if (
                 data.userStakeLevel.minBet !== cc.RedT.userStakeLevel.minBet ||
                 data.userStakeLevel.maxBet !== cc.RedT.userStakeLevel.maxBet
             ) {
                 if (this.updateUserStakeLevel(data.userStakeLevel)) {
-                    this.showMiniWarning("Hạn mức cược của bạn vừa được cập nhật.");
+                    this.showMiniWarningLimitBetChanged();
                 }
             }
         }

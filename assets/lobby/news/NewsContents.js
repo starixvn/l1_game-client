@@ -1,3 +1,5 @@
+import NoticeUtil from "../../common/utils/NoticeUtil";
+
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -32,7 +34,7 @@ cc.Class({
         }
 
         if (void 0 !== data) {
-            this.addMarqueeMessage(data);
+            this.addMarqueeMessage(NoticeUtil.getMessageByLocale(data));
         }
     },
     addMarqueeMessage: function (message) {

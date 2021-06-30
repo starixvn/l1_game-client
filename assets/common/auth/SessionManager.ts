@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 export interface Session {
     username: string;
     language: string;
@@ -25,7 +27,37 @@ export function getSession(): Session {
 }
 
 export function storeSessionData(data) {
+    updateLanguage(data);
     cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
+}
+
+function getLanguage(data) {
+    let language = "";
+    const locale = data.language;
+    switch (locale) {
+        case "vi-VN":
+            language = "vi";
+            break;
+        case "en-US":
+        case "en-UK":
+            language = "en";
+            break;
+        default:
+            language = "en";
+            break;
+    }
+    return language;
+}
+
+export function getLocale() {
+    const data = getSession();
+    return data.language;
+}
+
+export function updateLanguage(data) {
+    const language = getLanguage(data);
+    console.log(`i18n init language ${data.language} => ${language}`);
+    i18n.init(language);
 }
 
 export function getInRoomGameIdKey() {
