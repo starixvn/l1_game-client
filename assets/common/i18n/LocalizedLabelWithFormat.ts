@@ -1,4 +1,5 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 const LocalizedLabel = require("LocalizedLabel");
 
 const { ccclass, property, executeInEditMode, menu } = cc._decorator;
@@ -16,6 +17,9 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
     @property({ type: cc.Enum(FormationHandler) })
     format = FormationHandler.UPPER;
 
+    @property()
+    suffix = "";
+
     public dataId: string;
 
     updateLabel() {
@@ -26,6 +30,9 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
         let localizedString = i18n.t(this.dataId);
         if (localizedString) {
             localizedString = this.handleFormat(localizedString);
+            if (this.suffix.length > 0) {
+                localizedString += this.suffix;
+            }
             this.label.string = localizedString;
         }
     }

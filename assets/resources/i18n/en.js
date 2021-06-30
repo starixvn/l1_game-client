@@ -221,6 +221,7 @@ window.i18n.languages.en = {
         index: "No.",
         input_bet: "Place Bet",
         jackpot: "Jackpot",
+        line: "Line",
         lines: "Lines",
         lose_any_triple: "Lose if any triple appears",
         lottery_others_notice: "The Winloss is calculated based on the last two digits of the Special Prize.",

@@ -223,6 +223,7 @@ window.i18n.languages.vi = {
         index: "STT",
         input_bet: "Đặt Cửa",
         jackpot: "Nổ Hũ",
+        line: "Dòng",
         lines: "Dòng Cược",
         lose_any_triple: "Tính Thua Đối Với Bộ Ba Bất Kỳ",
         lottery_others_notice: "Kết quả được tính dựa trên hai số cuối của giải Đặc Biệt.",
