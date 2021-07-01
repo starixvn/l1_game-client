@@ -23226,7 +23226,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 89.1,
+      "width": 99.9,
       "height": 20
     },
     "_anchorPoint": {
@@ -23279,8 +23279,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "DÒNG",
-    "_N$string": "DÒNG",
+    "_string": "UI.LINE",
+    "_N$string": "UI.LINE",
     "_fontSize": 18,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -23755,8 +23755,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "TỔNG CƯỢC",
-    "_N$string": "TỔNG CƯỢC",
+    "_string": "UI.TOTALSTAKE",
+    "_N$string": "UI.TOTALSTAKE",
     "_fontSize": 18,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -24214,7 +24214,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 83.7,
+      "width": 136.8,
       "height": 20
     },
     "_anchorPoint": {
@@ -24267,8 +24267,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "CƯỢC",
-    "_N$string": "CƯỢC",
+    "_string": "UI.STAKE",
+    "_N$string": "UI.STAKE",
     "_fontSize": 18,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -26410,7 +26410,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 138,
+      "width": 121.9,
       "height": 20
     },
     "_anchorPoint": {
@@ -26476,8 +26476,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "THẮNG",
-    "_N$string": "THẮNG",
+    "_string": "UI.WIN",
+    "_N$string": "UI.WIN",
     "_fontSize": 23,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -26935,7 +26935,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 123.2,
+      "width": 164,
       "height": 20
     },
     "_anchorPoint": {
@@ -27001,8 +27001,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "TỰ QUAY",
-    "_N$string": "TỰ QUAY",
+    "_string": "UI.AUTOSPIN",
+    "_N$string": "UI.AUTOSPIN",
     "_fontSize": 16,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -27648,7 +27648,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 119.2,
+      "width": 120.8,
       "height": 20
     },
     "_anchorPoint": {
@@ -27714,8 +27714,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "SIÊU TỐC",
-    "_N$string": "SIÊU TỐC",
+    "_string": "UI.TURBO",
+    "_N$string": "UI.TURBO",
     "_fontSize": 16,
     "_lineHeight": 20,
     "_enableWrapText": false,
@@ -28839,6 +28839,21 @@
     "_id": "2fB8u1ysJP+orAFTiAWdR8"
   },
   {
+    "__type__": "e07eb7ZtCFH5IdBzWDXvE12",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 603
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "atlas": {
+      "__uuid__": "f7eb5689-25f7-4f4e-8d8e-2aeef6b3fcc6"
+    },
+    "prefix": "text_spin",
+    "_id": "84h+BwN4ZPv7hNguNNe0Ei"
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -28854,7 +28869,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "efa2f669-51a0-46be-aa82-3764e097fced"
+      "__uuid__": "2ec951cc-8fa8-44de-b10c-b3c1ce64e343"
     },
     "_type": 0,
     "_sizeMode": 2,
@@ -28871,21 +28886,6 @@
       "__uuid__": "f7eb5689-25f7-4f4e-8d8e-2aeef6b3fcc6"
     },
     "_id": "4cAqJgvSVLMrPDRRyzP+LQ"
-  },
-  {
-    "__type__": "e07eb7ZtCFH5IdBzWDXvE12",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 603
-    },
-    "_enabled": true,
-    "spriteFrameSet": [],
-    "atlas": {
-      "__uuid__": "f7eb5689-25f7-4f4e-8d8e-2aeef6b3fcc6"
-    },
-    "prefix": "text_spin",
-    "_id": "84h+BwN4ZPv7hNguNNe0Ei"
   },
   {
     "__type__": "cc.Node",
@@ -31676,7 +31676,7 @@
     },
     "component": "",
     "_componentId": "baba7fVFp9JLp/lIbG2XbgY",
-    "handler": "onClickShowGuide",
+    "handler": "openGuide",
     "customEventData": ""
   },
   {
@@ -33878,7 +33878,9 @@
     "enablePlaceChips": false,
     "dealerChipBox": null,
     "gameAudiosPrefab": null,
-    "guidePrefab": null,
+    "guidePrefab": {
+      "__uuid__": "fa4d55d2-343b-4957-a6cf-ec174f5a91c3"
+    },
     "players": [],
     "otherPlayers": null,
     "miniPanelPrefab": {
@@ -33959,7 +33961,9 @@
     "autoSpinCountLabel": {
       "__id__": 616
     },
-    "textFreeSpinNode": null,
+    "textFreeSpinNode": {
+      "__id__": 603
+    },
     "effectContainer": {
       "__id__": 707
     },
