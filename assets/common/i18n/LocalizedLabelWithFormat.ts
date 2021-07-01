@@ -5,6 +5,7 @@ const LocalizedLabel = require("LocalizedLabel");
 const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 
 export enum FormationHandler {
+    NONE,
     UPPER,
     LOWER,
     TITLE
