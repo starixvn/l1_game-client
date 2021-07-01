@@ -1,9 +1,10 @@
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
+import { ComponentSystem, ICashSystem, ICreditSystem } from "../../System";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class WebViewGuide extends cc.Component {
+export default class WebViewGuide extends ComponentSystem implements ICreditSystem, ICashSystem {
     @property(CommonDialog)
     commonDialog: CommonDialog = null;
 
@@ -11,14 +12,23 @@ export default class WebViewGuide extends cc.Component {
     webView: cc.WebView = null;
 
     protected url: string;
+    private domain: string;
     onLoad() {
         this.commonDialog.onDidHide = () => {
             this.node.destroy();
         };
     }
 
+    customizeCredit(): void {
+        this.domain = "https://l1-guide.lumigame.com";
+    }
+
+    customizeCash(): void {
+        this.domain = "https://l2-guide.lumigame.com";
+    }
+
     initURL(gameId: number, minBet: number, maxBet: number, locale: string) {
-        const url = `https://l1-guide.lumigame.com/?gId=${gameId}&lang=${locale}&t=blue&minBet=${minBet}&maxBet=${maxBet}`;
+        const url = `${this.domain}/?gId=${gameId}&lang=${locale}&t=blue&minBet=${minBet}&maxBet=${maxBet}`;
         this.url = url;
     }
 
