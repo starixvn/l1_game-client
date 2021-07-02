@@ -15,7 +15,7 @@ export default class VipSedieWarMiniRoundHistoryTip extends MiniRoundHistoryTip 
     public setData(data: any) {
         this.roundId.string = `#${data.roundId}`;
         const key = data.red % 2 === 0 ? "total_even" : "total_odd";
-        const message = i18n.t(`ui.${key}`).toUpperCase();
+        const message = i18n.t(`ui.${key}`);
         this.result.string = `${message} (${data.red})`;
         const list = ["red1", "red2", "red3", "red4"];
         let count = 0;
