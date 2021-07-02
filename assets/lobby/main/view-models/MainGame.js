@@ -425,9 +425,7 @@ cc.Class({
     openGameSSO: function () {
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
-            if (gameId !== SabaConfigs.games.ThreeCards.id) {
-                GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
-            }
+            GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
             window.openGameId = null;
         } else {
             !this.inRoomGameId && this.openLuckyWheel();
