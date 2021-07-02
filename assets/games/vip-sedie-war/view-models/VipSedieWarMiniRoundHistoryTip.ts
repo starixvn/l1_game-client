@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
 
 const { ccclass, property } = cc._decorator;
@@ -12,7 +14,9 @@ export default class VipSedieWarMiniRoundHistoryTip extends MiniRoundHistoryTip 
 
     public setData(data: any) {
         this.roundId.string = `#${data.roundId}`;
-        this.result.string = data.red % 2 === 0 ? `Tổng chẵn (${data.red})` : `Tổng lẻ (${data.red})`;
+        const key = data.red % 2 === 0 ? "total_even" : "total_odd";
+        const message = i18n.t(`ui.${key}`);
+        this.result.string = `${message} (${data.red})`;
         const list = ["red1", "red2", "red3", "red4"];
         let count = 0;
         this.dotNode.children.forEach((child) => {

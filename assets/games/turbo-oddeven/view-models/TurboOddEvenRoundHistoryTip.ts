@@ -1,4 +1,4 @@
-import BigSmallRoundHistoryTip from '../../bigsmall/view-models/BigSmallRoundHistoryTip';
+import BigSmallRoundHistoryTip from "../../bigsmall/view-models/BigSmallRoundHistoryTip";
 
 const { ccclass } = cc._decorator;
 
