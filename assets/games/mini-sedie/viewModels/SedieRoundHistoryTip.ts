@@ -1,5 +1,4 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
+import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
 
 const { ccclass, property } = cc._decorator;
@@ -16,7 +15,7 @@ export default class SedieRoundHistoryTip extends MiniRoundHistoryTip {
         const red = data.red;
         this.roundId.string = `#${data.roundId}`;
         const key = red % 2 === 0 ? "even" : "odd";
-        this.result.string = i18n.t(`ui.choice_${key}`);
+        this.result.string = GameUtils.getBetChoiceString(key).toUpperCase();
         this.red.string = red.toString();
         this.white.string = (4 - red).toString();
         this.show();

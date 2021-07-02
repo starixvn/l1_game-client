@@ -1,5 +1,8 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
+import NoticeUtil from "../../../common/utils/NoticeUtil";
 import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
 import FourGuardiansConfig from "./FourGuardiansConfig";
 import FourGuardiansTicketDetailItem from "./FourGuardiansTicketDetailItem";
@@ -81,7 +84,7 @@ export default class FourGuardiansTicketDetail extends cc.Component {
                 this.getSpriteLine(jackpot.winningLine),
                 this.setSymbolFrame(this.jackpotSymbolNumber),
                 "5",
-                "Nổ Hũ",
+                i18n.t("ui.jackpot"),
                 bet,
                 jackpot.winningAmount
             );
@@ -180,7 +183,12 @@ export default class FourGuardiansTicketDetail extends cc.Component {
         let jackpotFrame: cc.SpriteFrame = null;
 
         if (!this.fourGuardiansConfig.jackpotEnabled && symbolNumber === this.jackpotSymbolNumber) {
-            jackpotFrame = this.fourGuardiansAtlasSC1.getSpriteFrame(`item${this.jackpotSymbolNumber}`);
+            let suffix = "";
+            const lang = NoticeUtil.getCurrentLanguage();
+            if (lang !== "vi") {
+                suffix += `_${lang}`;
+            }
+            jackpotFrame = this.fourGuardiansAtlasSC1.getSpriteFrame(`item${this.jackpotSymbolNumber}${suffix}`);
         } else {
             jackpotFrame = this.fourGuardiansAtlas.getSpriteFrame(`item${symbolNumber}`);
         }

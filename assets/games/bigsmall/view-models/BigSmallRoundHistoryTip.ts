@@ -1,5 +1,4 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
+import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
 
 const { ccclass } = cc._decorator;
@@ -11,7 +10,7 @@ export default class BigSmallRoundHistoryTip extends MiniRoundHistoryTip {
     public setData(data: any) {
         this.roundId.string = `#${data.roundId}`;
         const key = data.settlementResult[this.betTypes[0]] ? this.betTypes[0] : this.betTypes[1];
-        const message = i18n.t(`ui.choice_${key}`);
+        const message = GameUtils.getBetChoiceString(key).toUpperCase();
         this.result.string = `${message} (${data.result.dice1}-${data.result.dice2}-${data.result.dice3})`;
     }
 }
