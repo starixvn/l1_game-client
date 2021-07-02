@@ -418,7 +418,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 137.25,
+      "width": 125.25,
       "height": 60
     },
     "_anchorPoint": {
@@ -471,8 +471,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "HISTORY",
-    "_N$string": "HISTORY",
+    "_string": "LỊCH SỬ",
+    "_N$string": "LỊCH SỬ",
     "_fontSize": 24,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -501,6 +501,7 @@
     "_enabled": true,
     "_dataId": "ui.history",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1110,7 +1111,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 47,
+      "width": 96,
       "height": 44
     },
     "_anchorPoint": {
@@ -1177,7 +1178,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 67,
+      "width": 57.5,
       "height": 44
     },
     "_anchorPoint": {
@@ -1224,6 +1225,7 @@
     "_enabled": true,
     "_dataId": "ui.round",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1242,8 +1244,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "ROUND",
-    "_N$string": "ROUND",
+    "_string": "PHIÊN",
+    "_N$string": "PHIÊN",
     "_fontSize": 20,
     "_lineHeight": 44,
     "_enableWrapText": true,
@@ -1303,7 +1305,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 72.5,
+      "width": 198,
       "height": 44
     },
     "_anchorPoint": {
@@ -1348,8 +1350,9 @@
       "__id__": 31
     },
     "_enabled": true,
-    "_dataId": "ui.result",
+    "_dataId": "ui.result_dragon_tiger",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1368,8 +1371,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "RESULT",
-    "_N$string": "RESULT",
+    "_string": "KẾT QUẢ (RỒNG | HỔ)",
+    "_N$string": "KẾT QUẢ (RỒNG | HỔ)",
     "_fontSize": 20,
     "_lineHeight": 44,
     "_enableWrapText": true,
@@ -1429,7 +1432,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 79.5,
+      "width": 54,
       "height": 44
     },
     "_anchorPoint": {
@@ -1476,6 +1479,7 @@
     "_enabled": true,
     "_dataId": "ui.choice_dragon",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1494,8 +1498,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "DRAGON",
-    "_N$string": "DRAGON",
+    "_string": "RỒNG",
+    "_N$string": "RỒNG",
     "_fontSize": 20,
     "_lineHeight": 44,
     "_enableWrapText": true,
@@ -1555,7 +1559,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 55.5,
+      "width": 28,
       "height": 44
     },
     "_anchorPoint": {
@@ -1602,6 +1606,7 @@
     "_enabled": true,
     "_dataId": "ui.choice_tiger",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1620,8 +1625,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "TIGER",
-    "_N$string": "TIGER",
+    "_string": "HỔ",
+    "_N$string": "HỔ",
     "_fontSize": 20,
     "_lineHeight": 44,
     "_enableWrapText": true,
@@ -1681,7 +1686,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 29.5,
+      "width": 43,
       "height": 44
     },
     "_anchorPoint": {
@@ -1728,6 +1733,7 @@
     "_enabled": true,
     "_dataId": "ui.choice_tie",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1746,8 +1752,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "TIE",
-    "_N$string": "TIE",
+    "_string": "HÒA",
+    "_N$string": "HÒA",
     "_fontSize": 20,
     "_lineHeight": 44,
     "_enableWrapText": true,
@@ -1807,7 +1813,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 42.5,
+      "width": 67,
       "height": 44
     },
     "_anchorPoint": {
@@ -1854,6 +1860,7 @@
     "_enabled": true,
     "_dataId": "ui.win",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1872,8 +1879,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "WIN",
-    "_N$string": "WIN",
+    "_string": "THẮNG",
+    "_N$string": "THẮNG",
     "_fontSize": 20,
     "_lineHeight": 44,
     "_enableWrapText": true,
@@ -1913,6 +1920,7 @@
     "_enabled": true,
     "_dataId": "ui.time",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1931,8 +1939,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "TIME",
-    "_N$string": "TIME",
+    "_string": "THỜI GIAN",
+    "_N$string": "THỜI GIAN",
     "_fontSize": 20,
     "_lineHeight": 44,
     "_enableWrapText": true,
