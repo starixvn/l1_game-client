@@ -103,7 +103,9 @@ export default class Keno extends SocketIOTableGameBase {
     }
 
     public updateRoundHistory() {
-        this.roundHistory.setData(this.currentDataLogs);
+        if (this.currentDataLogs.length > 0) {
+            this.roundHistory.setData(this.currentDataLogs);
+        }
     }
 
     public static getResults(settlementResult: any): string[] {

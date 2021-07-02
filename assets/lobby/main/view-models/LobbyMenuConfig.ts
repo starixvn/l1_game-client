@@ -8,10 +8,11 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         super();
     }
 
+    smPromotion: boolean;
     bannerAds = [35, 2, 23, 10];
     bannerAdsInfo = {
         35: {
-            displayTime: 20
+            displayTime: 10
         },
         2: {
             displayTime: 5
@@ -112,7 +113,11 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
 
-    customizeCredit(): void {}
+    customizeCredit(): void {
+        this.smPromotion = true;
+    }
 
-    customizeCash(): void {}
+    customizeCash(): void {
+        this.smPromotion = false;
+    }
 }
