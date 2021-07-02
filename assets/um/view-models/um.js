@@ -1,3 +1,5 @@
+import i18n from "i18n/runtime-scripts/LanguageData";
+
 import { appContainer } from "../../Application";
 import SocketIOController from "../../SocketIOController";
 
@@ -17,7 +19,8 @@ cc.Class({
                 const startTime = this.formatDate(this.convertToGMT8(new Date(umInfo.startTime)), template);
                 const endTime = this.formatDate(this.convertToGMT8(new Date(umInfo.endTime)), template);
 
-                this.message.string = `Thời gian bảo trì từ ${startTime} đến ${endTime} (GMT+8).`;
+                const message = i18n.t("ui.maintain_time", { startTime: startTime, endTime: endTime });
+                this.message.string = message;
             }
         }
 
