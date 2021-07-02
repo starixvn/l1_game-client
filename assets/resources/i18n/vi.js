@@ -165,6 +165,7 @@ window.i18n.languages.vi = {
         bigWin: "Thắng Lớn",
         blackjack_pay: "1 ĂN %{odds}",
         bonus_count_text: "Số lần mở thưởng",
+        bust: "Quắc",
         choice_banker: "Nhà Cái",
         choice_banker_even: "Nhà Cái chẵn",
         choice_banker_odd: "Nhà Cái lẻ",

@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard from "../../../common/new-card/view-models/NewCard";
@@ -53,7 +55,7 @@ export default class BlackJackHistory extends SocketIOGameHistoryBase {
 
     convertResult(resultLabel: cc.Label, result, array, isSplit: boolean) {
         if (result > 21) {
-            resultLabel.string = "Quắc";
+            resultLabel.string = i18n.t(`ui.bust`);
         } else if (result === 21 && array.length === 2 && !isSplit) {
             resultLabel.string = "BJ";
         } else {

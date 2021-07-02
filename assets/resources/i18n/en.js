@@ -163,6 +163,7 @@ window.i18n.languages.en = {
         bigWin: "Big Win",
         blackjack_pay: "Pay %{odds} to 1",
         bonus_count_text: "No. of Treasure Chest",
+        bust: "Bust",
         choice_banker: "Banker",
         choice_banker_even: "Banker - Even",
         choice_banker_odd: "Banker - Odd",
