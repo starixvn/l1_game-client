@@ -1,16 +1,17 @@
-import MiniRoundHistoryTip from '../../../common/mini-round-history/MiniRoundHistoryTip';
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
+import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
 
 const { ccclass } = cc._decorator;
 
 @ccclass
 export default class BigSmallRoundHistoryTip extends MiniRoundHistoryTip {
     protected readonly betTypes = ["big", "small"];
-    protected readonly betTypesText = ["TÀI", "XỈU"];
 
     public setData(data: any) {
         this.roundId.string = `#${data.roundId}`;
-        this.result.string = `${data.settlementResult[this.betTypes[0]] ? this.betTypesText[0] : this.betTypesText[1]} (${
-            data.result.dice1
-        }-${data.result.dice2}-${data.result.dice3})`;
+        const key = data.settlementResult[this.betTypes[0]] ? this.betTypes[0] : this.betTypes[1];
+        const message = i18n.t(`ui.choice_${key}`);
+        this.result.string = `${message} (${data.result.dice1}-${data.result.dice2}-${data.result.dice3})`;
     }
 }
