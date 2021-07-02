@@ -218,6 +218,7 @@ window.i18n.languages.vi = {
         confirm: "Đồng Ý",
         create_nickname: "Tạo tên nhân vật",
         deal: "Chia Bài",
+        dice: "Xúc Xắc",
         double: "Đôi",
         enter_your_name: "Nhập tên nhân vật",
         evenNumbers: "Dòng Chẵn",
@@ -273,6 +274,7 @@ window.i18n.languages.vi = {
         refund: "Trả Lại",
         result: "Kết Quả",
         result_dragon_tiger: "Kết Quả (Rồng | Hổ)",
+        result_player_banker: "Kết Quả\n(Nhà Con | Nhà Cái)",
         round: "Phiên",
         score_result: "Điểm Số",
         single: "Đơn",
@@ -320,6 +322,7 @@ window.i18n.languages.vi = {
         type_triangle: "Cược bộ ba",
         uncheck: "Bỏ Chọn",
         undo: "Giảm",
-        win: "Thắng"
+        win: "Thắng",
+        you_win: "Bạn vừa thắng"
     }
 };

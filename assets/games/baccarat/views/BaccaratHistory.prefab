@@ -501,6 +501,7 @@
     "_enabled": true,
     "_dataId": "ui.history",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -4725,6 +4726,7 @@
     "_enabled": true,
     "_dataId": "ui.round",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -4804,8 +4806,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 82.5,
-      "height": 44
+      "width": 196,
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4849,8 +4851,9 @@
       "__id__": 124
     },
     "_enabled": true,
-    "_dataId": "ui.result",
+    "_dataId": "ui.result_player_banker",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -4869,10 +4872,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": true,
-    "_string": "KẾT QUẢ",
-    "_N$string": "KẾT QUẢ",
+    "_string": "KẾT QUẢ\n(NHÀ CON | NHÀ CÁI)",
+    "_N$string": "KẾT QUẢ\n(NHÀ CON | NHÀ CÁI)",
     "_fontSize": 20,
-    "_lineHeight": 44,
+    "_lineHeight": 20,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "3ffe3de6-d3a7-4148-aa63-92c401f9da18"
@@ -4882,7 +4885,7 @@
     "_batchAsBitmap": false,
     "_styleFlags": 0,
     "_underlineHeight": 0,
-    "_N$horizontalAlign": 0,
+    "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
@@ -4977,6 +4980,7 @@
     "_enabled": true,
     "_dataId": "ui.choice_player",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -5103,6 +5107,7 @@
     "_enabled": true,
     "_dataId": "ui.choice_banker",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -5229,6 +5234,7 @@
     "_enabled": true,
     "_dataId": "ui.choice_tie",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -5355,6 +5361,7 @@
     "_enabled": true,
     "_dataId": "ui.player_pair",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -5481,6 +5488,7 @@
     "_enabled": true,
     "_dataId": "ui.banker_pair",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -5607,6 +5615,7 @@
     "_enabled": true,
     "_dataId": "ui.choice_big",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -5733,6 +5742,7 @@
     "_enabled": true,
     "_dataId": "ui.choice_small",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -5859,6 +5869,7 @@
     "_enabled": true,
     "_dataId": "ui.win",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -5918,6 +5929,7 @@
     "_enabled": true,
     "_dataId": "ui.time",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {

@@ -216,6 +216,7 @@ window.i18n.languages.en = {
         confirm: "Confirm",
         create_nickname: "Create Your Nickname",
         deal: "Deal",
+        dice: "Dice",
         double: "Double",
         enter_your_name: "Enter your nickname.",
         evenNumbers: "Even Numbers",
@@ -271,6 +272,7 @@ window.i18n.languages.en = {
         refund: "Refund",
         result: "Result",
         result_dragon_tiger: "RESULT (DRAGON | TIGER)",
+        result_player_banker: "RESULT\n(PLAYER | BANKER)",
         round: "Round",
         score_result: "Points",
         single: "Single",
@@ -318,6 +320,7 @@ window.i18n.languages.en = {
         type_triangle: "Triangle",
         uncheck: "Uncheck",
         undo: "Undo",
-        win: "Win"
+        win: "Win",
+        you_win: "YOU WIN"
     }
 };
