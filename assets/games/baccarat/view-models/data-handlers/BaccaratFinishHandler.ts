@@ -1,5 +1,5 @@
-import * as _ from "lodash";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import * as _ from "lodash";
 
 import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
@@ -81,7 +81,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             key = "tie_win";
         }
 
-        baccaratMain.winNoticeLabel.string = i18n.t(`ui.${key}`);
+        baccaratMain.winNoticeLabel.string = i18n.t(`ui.${key}`).toUpperCase();
         winNoticeNode.active = true;
     }
 }
