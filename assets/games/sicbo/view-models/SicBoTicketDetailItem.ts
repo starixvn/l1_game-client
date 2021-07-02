@@ -24,8 +24,8 @@ export default class SicBoTicketDetailItem extends cc.Component {
         const typeNumberText = i18n.t("ui.type_bet_number");
         const totalScoreText = i18n.t("ui.total_score");
         const betTypes = {
-            small: i18n.t("ui.type_red_black"),
-            big: i18n.t("ui.type_red_black"),
+            small: i18n.t("ui.type_big_small"),
+            big: i18n.t("ui.type_big_small"),
             anyTriple: i18n.t("ui.any_triple"),
             specific1: typeNumberText,
             specific2: typeNumberText,
