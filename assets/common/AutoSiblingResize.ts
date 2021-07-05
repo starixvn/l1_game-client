@@ -1,4 +1,3 @@
-
 const { ccclass, property, executeInEditMode } = cc._decorator;
 
 @ccclass
@@ -9,6 +8,7 @@ export default class AutoSiblingResize extends cc.Component {
 
     onLoad() {
         this.target.on(cc.Node.EventType.SIZE_CHANGED, this.resizeNode, this);
+        this.resizeNode();
     }
 
     onDestroy() {
@@ -19,11 +19,11 @@ export default class AutoSiblingResize extends cc.Component {
         this.node.width = this.target.width;
         this.node.height = this.target.height;
 
-        this.node.children.forEach(child => {
+        this.node.children.forEach((child) => {
             const widget = child.getComponent(cc.Widget);
             if (widget) {
                 widget.updateAlignment();
             }
-        })
+        });
     }
 }
