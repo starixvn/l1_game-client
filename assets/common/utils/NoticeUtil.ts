@@ -1,10 +1,20 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import ErrorCodeDictionary, { CommonErrorCodeList } from "./ErrorCodeDictionary";
+
 import { getLocale } from "../../common/auth/SessionManager";
+import ErrorCodeDictionary, { CommonErrorCodeList } from "./ErrorCodeDictionary";
 
 export default class NoticeUtil {
     public static getCurrentLanguage(): string {
         return window.i18n.curLang;
+    }
+
+    public static getSuffixSpriteName(): string {
+        let suffix = "";
+        const lang = NoticeUtil.getCurrentLanguage();
+        if (lang !== "vi") {
+            suffix += `_${lang}`;
+        }
+        return suffix;
     }
 
     public static getLocalizedErrorMessage(errorCode: string, opt: any, isPlaceBet = false): string {

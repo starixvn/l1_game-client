@@ -39,11 +39,7 @@ export default abstract class SicBoRoundResult extends cc.Component {
 
         this.total.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_${result.dice1 + result.dice2 + result.dice3}`);
 
-        let suffix = "";
-        const lang = NoticeUtil.getCurrentLanguage();
-        if (lang !== "vi") {
-            suffix += `_${lang}`;
-        }
+        const suffix = NoticeUtil.getSuffixSpriteName();
         if (settlementResult[SicBoBetType.anyTriple]) {
             this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_B${suffix}`);
         } else {

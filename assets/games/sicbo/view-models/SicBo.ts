@@ -1,7 +1,9 @@
 import * as _ from "lodash";
+
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import NoticeUtil from "../../../common/utils/NoticeUtil";
 import { games } from "../../../configs/SabaConfigs";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
@@ -13,7 +15,6 @@ import SicBoTimeHandler from "./handlers/SicBoTimeHandler";
 import SicBoBetItem from "./SicBoBetItem";
 import SicBoConfigs from "./SicBoConfigs";
 import SicBoDicesStatistic from "./SicBoDicesStatistic";
-import SicBoGuide from "./SicBoGuide";
 import SicBoHistory from "./SicBoHistory";
 import SicBoMajorChoicesStatistic from "./SicBoMajorChoicesStatistic";
 import SicBoOddsItem from "./SicBoOddsItem";
@@ -194,16 +195,16 @@ export default class SicBo extends SocketIOTableGameBase {
             const { result, settlementResult } = this.currentDataLogs[0];
 
             this.setDices(_.values(result));
-
+            const suffix = NoticeUtil.getSuffixSpriteName();
             let resultPrite: cc.SpriteFrame = null;
 
             if (settlementResult[SicBoBetType.anyTriple]) {
-                resultPrite = this.sicboAtlas.getSpriteFrame("Bo3");
+                resultPrite = this.sicboAtlas.getSpriteFrame(`Bo3${suffix}`);
             } else {
                 if (settlementResult[SicBoBetType.big]) {
-                    resultPrite = this.sicboAtlas.getSpriteFrame("big");
+                    resultPrite = this.sicboAtlas.getSpriteFrame(`big${suffix}`);
                 } else {
-                    resultPrite = this.sicboAtlas.getSpriteFrame("small");
+                    resultPrite = this.sicboAtlas.getSpriteFrame(`small${suffix}`);
                 }
             }
 

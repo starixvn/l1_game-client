@@ -153,12 +153,7 @@ export default class MiniKeno extends WebSocketMiniGameBase {
             North: "bac"
         };
         const name = `header_text_${dict[KenoType[type]]}`;
-        let suffix = "";
-        const lang = NoticeUtil.getCurrentLanguage();
-        if (lang !== "vi") {
-            suffix += `_${lang}`;
-        }
-
+        const suffix = NoticeUtil.getSuffixSpriteName();
         const sprite = this.atlas.getSpriteFrame(`${name}${suffix}`);
         return sprite ? sprite : this.atlas.getSpriteFrame(name);
     }

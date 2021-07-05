@@ -183,11 +183,7 @@ export default class FourGuardiansTicketDetail extends cc.Component {
         let jackpotFrame: cc.SpriteFrame = null;
 
         if (!this.fourGuardiansConfig.jackpotEnabled && symbolNumber === this.jackpotSymbolNumber) {
-            let suffix = "";
-            const lang = NoticeUtil.getCurrentLanguage();
-            if (lang !== "vi") {
-                suffix += `_${lang}`;
-            }
+            const suffix = NoticeUtil.getSuffixSpriteName();
             jackpotFrame = this.fourGuardiansAtlasSC1.getSpriteFrame(`item${this.jackpotSymbolNumber}${suffix}`);
         } else {
             jackpotFrame = this.fourGuardiansAtlas.getSpriteFrame(`item${symbolNumber}`);
