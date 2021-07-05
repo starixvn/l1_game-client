@@ -28,7 +28,8 @@ export default class WebViewGuide extends ComponentSystem implements ICreditSyst
     }
 
     initURL(gameId: number, minBet: number, maxBet: number, locale: string) {
-        const url = `${this.domain}/?gId=${gameId}&lang=${locale}&t=blue&minBet=${minBet}&maxBet=${maxBet}`;
+        const languagePath = locale !== "vi-VN" ? "/en" : "";
+        const url = `${this.domain}${languagePath}/?gId=${gameId}&t=blue&minBet=${minBet}&maxBet=${maxBet}`;
         this.url = url;
     }
 
