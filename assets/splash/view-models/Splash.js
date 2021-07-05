@@ -28,12 +28,25 @@ cc.Class({
     onLoad: function () {
         this.isLoadScene = !1;
         this.isLoadConfig = !1;
+        this.initLanguage();
         this.initOneSign();
         sentryLogger.start();
         this.loadAssets();
 
         this.sloganSC1.active = splashConfig.enabledSC1;
         this.sloganSC2.active = !splashConfig.enabledSC1;
+    },
+    initLanguage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let language = "vi";
+        if (urlParams.has("lang")) {
+            const lang = urlParams.get("lang");
+            if (lang !== "vi-VN") {
+                language = "en";
+            }
+        }
+        console.log("init language: " + language);
+        i18n.init(language);
     },
     initOneSign: function () {
         if (this.checkPlugin()) {
