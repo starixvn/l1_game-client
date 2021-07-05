@@ -466,10 +466,12 @@ cc.Class({
         return new Promise((resolve, reject) => {
             if (!this.luckyWheelIcon && cc.RedT.user.availSpins > 0) {
                 GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
-                    const node = cc.instantiate(prefab);
-                    this.node.addChild(node);
-                    this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
-                    this.luckyWheelIcon.init(this.node);
+                    if (!this.luckyWheelIcon) {
+                        const node = cc.instantiate(prefab);
+                        this.node.addChild(node);
+                        this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
+                        this.luckyWheelIcon.init(this.node);
+                    }
                     resolve();
                 });
             } else {
