@@ -183,10 +183,16 @@ export default class FourGuardiansTicketDetail extends cc.Component {
         let jackpotFrame: cc.SpriteFrame = null;
 
         if (!this.fourGuardiansConfig.jackpotEnabled && symbolNumber === this.jackpotSymbolNumber) {
-            const suffix = NoticeUtil.getSuffixSpriteName();
-            jackpotFrame = this.fourGuardiansAtlasSC1.getSpriteFrame(`item${this.jackpotSymbolNumber}${suffix}`);
+            jackpotFrame = this.fourGuardiansAtlasSC1.getSpriteFrame(`item${this.jackpotSymbolNumber}`);
         } else {
-            jackpotFrame = this.fourGuardiansAtlas.getSpriteFrame(`item${symbolNumber}`);
+            const suffix = NoticeUtil.getSuffixSpriteName();
+            let spriteName = ``;
+            if (symbolNumber === this.jackpotSymbolNumber) {
+                spriteName = `item${symbolNumber}${suffix}`;
+            } else {
+                spriteName = `item${symbolNumber}`;
+            }
+            jackpotFrame = this.fourGuardiansAtlas.getSpriteFrame(spriteName);
         }
 
         return jackpotFrame;
