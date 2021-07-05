@@ -33,6 +33,10 @@ export default class WebViewGuide extends ComponentSystem implements ICreditSyst
         this.url = url;
     }
 
+    setURL(url: string) {
+        this.url = url;
+    }
+
     loadWebView() {
         if (this.url) {
             this.webView.url = this.url;

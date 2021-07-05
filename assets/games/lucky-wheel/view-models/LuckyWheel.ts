@@ -1,8 +1,10 @@
 import * as _ from "lodash";
 
+import { getLocale } from "../../../common/auth/SessionManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import LuckyWheelWinning from "./LuckyWheelWinning";
 
 const { ccclass, property } = cc._decorator;
@@ -382,8 +384,12 @@ export default class LuckyWheel extends cc.Component {
     }
 
     onPressedGameGuide() {
-        const gameGuide = cc.instantiate(this.gamGuidePrefab);
-        this.node.addChild(gameGuide);
+        const dialog = cc.instantiate(this.gamGuidePrefab);
+        const locale = getLocale();
+        const guide = dialog.getComponent(WebViewGuide);
+        const languagePath = locale !== "vi-VN" ? "/en" : "";
+        guide.setURL(`https://l2-guide.lumigame.com${languagePath}/?name=luckyWheel&t=blue`);
+        this.node.addChild(dialog);
     }
 
     handleWinningEffect(scoin: number) {
