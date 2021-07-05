@@ -1,3 +1,5 @@
+import i18n from "i18n/runtime-scripts/LanguageData";
+
 import { appContainer } from "../../Application";
 import logger from "../../common/logger";
 import * as authManager from "./../../common/auth/AuthManager";
@@ -52,7 +54,7 @@ cc.Class({
     },
     loadAssets: function () {
         this.updateProgress(0);
-        this.messageLabel.string = "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...";
+        this.messageLabel.string = i18n.t("ui.checking_downloading");
         if (cc.sys.isBrowser && authManager) {
             authManager.preChecking(() => {
                 authManager.checkSSO(this.messageLabel, () => {

@@ -80,11 +80,11 @@ export function checkSSO(labelMessage, onSuccessFunc) {
                     clearTokenOnUrl();
                     onSuccessFunc();
                 } else {
-                    labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
+                    labelMessage.string = i18n.t("ui.login_failed");
                 }
             })
             .catch((error) => {
-                labelMessage.string = "Mất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.";
+                labelMessage.string = i18n.t("ui.connection_lost");
                 sentryLogger.logError(error);
             });
 
