@@ -57,7 +57,16 @@ export function getLocale() {
 export function updateLanguage(data) {
     const language = getLanguage(data);
     console.log(`i18n init language ${data.language} => ${language}`);
+    setLanguage(language);
+}
+
+export function setLanguage(language: string) {
     i18n.init(language);
+    cc.sys.localStorage.setItem(`current_language`, language);
+}
+
+export function getCacheLanguage(): string {
+    return cc.sys.localStorage.getItem(`current_language`) || "vi";
 }
 
 export function getInRoomGameIdKey() {

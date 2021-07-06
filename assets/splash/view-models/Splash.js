@@ -1,6 +1,7 @@
 import i18n from "i18n/runtime-scripts/LanguageData";
 
 import { appContainer } from "../../Application";
+import { getCacheLanguage, setLanguage } from "../../common/auth/SessionManager";
 import logger from "../../common/logger";
 import * as authManager from "./../../common/auth/AuthManager";
 import SplashConfig from "./SplashConfig";
@@ -37,16 +38,15 @@ cc.Class({
         this.sloganSC2.active = !splashConfig.enabledSC1;
     },
     initLanguage() {
+        let language = getCacheLanguage();
         const urlParams = new URLSearchParams(window.location.search);
-        let language = "vi";
         if (urlParams.has("lang")) {
             const lang = urlParams.get("lang");
             if (lang !== "vi-VN") {
                 language = "en";
             }
         }
-        console.log("init language: " + language);
-        i18n.init(language);
+        setLanguage(language);
     },
     initOneSign: function () {
         if (this.checkPlugin()) {
