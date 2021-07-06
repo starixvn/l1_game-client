@@ -231,7 +231,7 @@ window.i18n.languages.en = {
         goodluck_on_wheel: "Try Again",
         hand_id: "Hand ID",
         head: "Head",
-        history: "History",
+        history: "Ticket History",
         hit: "Hit",
         honor: "Hall of Fame",
         hot_number: "Hot Numbers",
