@@ -468,7 +468,7 @@ cc.Class({
                 GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
                     if (!this.luckyWheelIcon) {
                         const node = cc.instantiate(prefab);
-                        this.node.addChild(node);
+                        this.redhat.insertChild(node, 0);
                         this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
                         this.luckyWheelIcon.init(this.node);
                     }
