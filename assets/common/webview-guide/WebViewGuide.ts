@@ -14,9 +14,11 @@ export default class WebViewGuide extends ComponentSystem implements ICreditSyst
     protected url: string;
     private domain: string;
     onLoad() {
-        this.commonDialog.onDidHide = () => {
-            this.node.destroy();
-        };
+        if (this.commonDialog) {
+            this.commonDialog.onDidHide = () => {
+                this.node.destroy();
+            };
+        }
     }
 
     customizeCredit(): void {

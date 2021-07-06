@@ -87,6 +87,11 @@ export default class KenoUtils {
     }
 
     public static getKenoName(kenoType: KenoType): string {
+        const id = KenoUtils.getKenoGameId(kenoType);
+        return GameUtils.getGameNameString(id);
+    }
+
+    public static getKenoGameId(kenoType: KenoType): number {
         const dict = {
             ProViet: games.KenoProViet,
             Max: games.KenoMax,
@@ -98,7 +103,6 @@ export default class KenoUtils {
             South: games.KenoSouth,
             North: games.KenoNorth
         };
-        const id = dict[KenoType[kenoType]].id;
-        return GameUtils.getGameNameString(id);
+        return dict[KenoType[kenoType]].id;
     }
 }

@@ -1,13 +1,14 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import SnappedScrollView from '../../../common/bet-chips/view-models/SnappedScrollView';
-import DraggableItem from '../../../common/draggable-layout/view-models/DraggableItem';
-import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import MiniKeno from '../../mini-keno/view-models/MiniKeno';
-import KenoPageIndicatorItem from './components/KenoPageIndicatorItem';
-import KenoStatusBanner from './components/KenoStatusBanner';
-import MiniKenoPresetBet from './components/MiniKenoPresetBet';
-import KenoUtils from './KenoUtils';
+import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import MiniKeno from "../../mini-keno/view-models/MiniKeno";
+import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
+import KenoStatusBanner from "./components/KenoStatusBanner";
+import MiniKenoGuide from "./components/MiniKenoGuide";
+import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
+import KenoUtils from "./KenoUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -91,6 +92,7 @@ export default class KenoProViet extends cc.Component {
             const node = cc.instantiate(this.kenoPrefab);
             const keno = node.getComponent(MiniKeno);
             keno.kenoType = type;
+            keno.gameId = KenoUtils.getKenoGameId(type);
             keno.favourite.isChecked = index < this.favouriteGames.length;
             keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
             keno.getPreset = () => this.presetBetValue;
@@ -269,6 +271,8 @@ export default class KenoProViet extends cc.Component {
         cc.RedT.audio.playClick();
         const node = cc.instantiate(this.guidePrefab);
         this.miniPanel.node.addChild(node);
+        const guide = node.getComponent(MiniKenoGuide);
+        guide.miniKenos = this.miniKenos;
     }
 
     openHistory() {

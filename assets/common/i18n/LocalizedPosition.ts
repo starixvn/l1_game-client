@@ -6,7 +6,7 @@ class LocalizedPositionData {
     language = "";
 
     @property(cc.Node)
-    node: cc.Node;
+    node: cc.Node = null;
 }
 
 @ccclass

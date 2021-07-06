@@ -104,6 +104,10 @@ export default class GameBase extends cc.Component {
 
     protected _gameId: number;
 
+    public set gameId(value: number) {
+        this._gameId = value;
+    }
+
     public get gameId(): number {
         return this._gameId;
     }
