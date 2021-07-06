@@ -1,7 +1,6 @@
-const { ccclass, property, executeInEditMode } = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
-@executeInEditMode
 export default class AutoSiblingResize extends cc.Component {
     @property(cc.Node)
     target: cc.Node = null;
