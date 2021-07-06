@@ -1,3 +1,4 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import { getLocale } from "../../../common/auth/SessionManager";
@@ -99,8 +100,6 @@ export default class LuckyWheel extends cc.Component {
     wheelTween: cc.Tween;
     wheelInitialized = false;
     buttonTween: cc.Tween;
-
-    goodLuckMessage = "CHÚC MAY MẮN";
 
     private readonly dataObserverKey = "LuckyWheel";
     private readonly defaultRoundNumber = 4;
@@ -312,6 +311,8 @@ export default class LuckyWheel extends cc.Component {
     }
 
     createWheel() {
+        const goodLuckMessage = i18n.t("ui.goodluck_on_wheel").toUpperCase();
+
         this.scoinPresents.forEach((scoin, index) => {
             const pieceNode = cc.instantiate(this.piece);
             const spriteComponent = pieceNode.getComponent(cc.Sprite);
@@ -346,8 +347,7 @@ export default class LuckyWheel extends cc.Component {
                     break;
             }
             spriteComponent.spriteFrame = sprite;
-
-            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin === 0 ? this.goodLuckMessage : `${scoin} Scoin`;
+            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin === 0 ? goodLuckMessage : `${scoin} Scoin`;
 
             this.wheelPieces.addChild(pieceNode);
         });
