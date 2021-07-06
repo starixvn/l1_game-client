@@ -248,7 +248,7 @@ window.i18n.languages.en = {
         lottery_others_notice: "The Winloss is calculated based on the last two digits of the Special Prize.",
         lottery_result: "RNG Lottery Results",
         lucky_wheel_notice:
-            "Note: Scoin is only available for Sedie, with other games, the stakes will be deducted directly from your account balance.",
+            "Note: Scoin is only available for Se Die, with other games, the stakes will be deducted directly from your account balance.",
         maintain_suggest: "Please kindly re-login to continue playing games after the maintenance is complete.",
         maintain_system: "THE SITE IS UNDER MAINTENANCE. PLEASE COME BACK LATER.",
         maintain_time: "Starting from hh: mm mmm dd, yyyy to hh: mm mmm dd, yyyy (GMT+8)",
