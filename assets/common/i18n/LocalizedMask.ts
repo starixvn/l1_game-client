@@ -15,7 +15,8 @@ export default class LocalizedMask extends cc.Mask {
     }
 
     getSpriteFrameByLang(lang: string) {
-        const spriteName = `${this.prefix}_${lang}`;
+        const suffix = lang !== "vi" ? `_${lang}` : "";
+        const spriteName = `${this.prefix}${suffix}`;
         return this.atlas.getSpriteFrame(spriteName);
     }
 }
