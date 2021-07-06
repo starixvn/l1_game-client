@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { lazyInject } from "../../../Application";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
@@ -25,7 +27,6 @@ import BlackjackUmHandler from "./handlers/BlackjackUmHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -183,7 +184,7 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     start() {
         cc.RedT.send({ scene: this.gameName });
-        this.socketSendData("inGame", null);
+        this.socketSendData("inGame");
     }
 
     stopGame() {}
@@ -475,9 +476,16 @@ export default class BlackJack extends SocketIOTableGameBase {
     socketSendData(key: string, data: any) {
         if (data) {
             data.username = cc.RedT.user.name;
+            this.setIntervalReminder();
         }
-        this.socket && this.socket.connected && this.socket.emit(key, data);
-        data && this.setIntervalReminder();
+
+        if (this.socket && this.socket.connected) {
+            if (data) {
+                this.socket.emit(key, data);
+            } else {
+                this.socket.emit(key);
+            }
+        }
     }
 
     rebet() {
