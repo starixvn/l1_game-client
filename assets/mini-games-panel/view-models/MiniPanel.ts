@@ -44,6 +44,12 @@ export default class MiniPanel extends cc.Component {
     @property(GameIconMenu)
     gameMenu: GameIconMenu = null;
 
+    @property(cc.Node)
+    noticeContainer: cc.Node = null;
+
+    @property(cc.Node)
+    guideContainer: cc.Node = null;
+
     public popupMiniGame: any;
     public loading: Loading;
     public dataHandlers: MiniPanelDataHandlers;
@@ -230,9 +236,13 @@ export default class MiniPanel extends cc.Component {
         const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt, isPlaceBet);
 
         notice.init({ text: message } as NoticeData);
-        this.node.addChild(noticePrefab);
+        this.noticeContainer.addChild(noticePrefab);
 
         return notice;
+    }
+
+    showGuide(guide: cc.Node) {
+        this.guideContainer.addChild(guide);
     }
 
     showNotice(noticeData: NoticeData, handleClickButton = null, handleClose = null) {
@@ -250,7 +260,7 @@ export default class MiniPanel extends cc.Component {
             notice.handleClose = handleClose;
         }
 
-        this.node.addChild(noticePrefab);
+        this.noticeContainer.addChild(noticePrefab);
     }
 
     onConnectSocketFailed(gameName, isGameRoom = true) {

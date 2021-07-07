@@ -455,7 +455,7 @@ export default class GameBase extends cc.Component {
         const guide = dialog.getComponent(WebViewGuide);
         const { minBet, maxBet } = this.getBetRange();
         guide.initURL(this.gameId, minBet, maxBet, getLocale());
-        this.currentMiniPanel.node.addChild(dialog);
+        this.currentMiniPanel.showGuide(dialog);
     }
 
     getBetRange() {

@@ -142,28 +142,20 @@ export default class WebSocketTableGameBase extends GameBase {
 
         const text = message ? message : i18n.t("messages.disabledGame");
         const noticeData = { text: text, button: { text: "OK" } } as NoticeData;
-        const notice = this.showNotice(noticeData);
-
-        notice.handleClickButton = () => {
-            this.onCloseGameClick();
-        };
-        notice.handleClose = () => {
-            this.onCloseGameClick();
-        };
+        noticeData.button = { text: "OK" };
+        this.currentMiniPanel.showNotice(
+            noticeData,
+            () => {
+                this.onCloseGameClick();
+            },
+            () => {
+                this.onCloseGameClick();
+            }
+        );
     }
 
     onCloseGameClick() {
         this.closeGame();
-    }
-
-    showNotice(data: NoticeData): Notice {
-        const noticePrefab = cc.instantiate(this.noticePrefab);
-        const notice = noticePrefab.getComponent("Notice") as Notice;
-        data.button = { text: "OK" };
-        notice.init(data);
-        this.miniPanelContainer.addChild(noticePrefab);
-
-        return notice;
     }
 
     closeGame() {
