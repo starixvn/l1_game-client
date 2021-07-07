@@ -387,7 +387,7 @@ export default class LuckyWheel extends cc.Component {
         const dialog = cc.instantiate(this.gamGuidePrefab);
         const locale = getLocale();
         const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(`https://l2-guide.lumigame.com/?name=luckyWheel&t=blue&lang=${locale}`);
+        guide.setURL(`/?name=luckyWheel&t=blue&lang=${locale}`);
         this.node.addChild(dialog);
     }
 

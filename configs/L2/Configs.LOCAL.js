@@ -138,6 +138,7 @@ const configs = {
         url: "https://b015ef787273452c8fce4af733e62d59@sentry.lumigame.com/29",
         env: "LOCAL"
     },
+    guideDomain: "https://l2-guide.lumigame.com",
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
     userServiceUrl: "https://l2-proxy.lumigame.com/user"
 };

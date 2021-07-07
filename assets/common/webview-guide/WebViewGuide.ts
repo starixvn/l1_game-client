@@ -1,10 +1,10 @@
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
-import { ComponentSystem, ICashSystem, ICreditSystem } from "../../System";
+import * as config from "../../configs/Configs";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class WebViewGuide extends ComponentSystem implements ICreditSystem, ICashSystem {
+export default class WebViewGuide extends cc.Component {
     @property(CommonDialog)
     commonDialog: CommonDialog = null;
 
@@ -12,7 +12,7 @@ export default class WebViewGuide extends ComponentSystem implements ICreditSyst
     webView: cc.WebView = null;
 
     protected url: string;
-    private domain: string;
+
     onLoad() {
         if (this.commonDialog) {
             this.commonDialog.onDidHide = () => {
@@ -21,21 +21,15 @@ export default class WebViewGuide extends ComponentSystem implements ICreditSyst
         }
     }
 
-    customizeCredit(): void {
-        this.domain = "https://l1-guide.lumigame.com";
-    }
-
-    customizeCash(): void {
-        this.domain = "https://l2-guide.lumigame.com";
-    }
-
     initURL(gameId: number, minBet: number, maxBet: number, locale: string) {
-        const url = `${this.domain}/?gId=${gameId}&lang=${locale}&t=blue&minBet=${minBet}&maxBet=${maxBet}`;
+        const domain = config.guideDomain;
+        const url = `${domain}/?gId=${gameId}&lang=${locale}&t=blue&minBet=${minBet}&maxBet=${maxBet}`;
         this.url = url;
     }
 
     setURL(url: string) {
-        this.url = url;
+        const domain = config.guideDomain;
+        this.url = `${domain}${url}`;
     }
 
     loadWebView() {
