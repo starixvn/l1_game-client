@@ -382,7 +382,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 816,
+      "width": 879,
       "height": 77
     },
     "_anchorPoint": {
@@ -449,7 +449,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 219,
+      "width": 253.5,
       "height": 60
     },
     "_anchorPoint": {
@@ -461,7 +461,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -118.5,
+        -132.75,
         -0.793,
         0,
         0,
@@ -502,8 +502,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "LỊCH SỬ PHIÊN",
-    "_N$string": "LỊCH SỬ PHIÊN",
+    "_string": "ROUND HISTORY",
+    "_N$string": "ROUND HISTORY",
     "_fontSize": 24,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -530,8 +530,9 @@
       "__id__": 7
     },
     "_enabled": true,
-    "_dataId": "ui.ticket_history",
+    "_dataId": "ui.round_history",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -584,7 +585,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
+        3,
         -0.793,
         0,
         0,
@@ -686,7 +687,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 219,
+      "width": 247.5,
       "height": 60
     },
     "_anchorPoint": {
@@ -698,7 +699,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        118.5,
+        135.75,
         -0.793,
         0,
         0,
@@ -739,8 +740,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "LỊCH SỬ PHIÊN",
-    "_N$string": "LỊCH SỬ PHIÊN",
+    "_string": "TICKET HISTORY",
+    "_N$string": "TICKET HISTORY",
     "_fontSize": 24,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -769,6 +770,7 @@
     "_enabled": true,
     "_dataId": "ui.ticket_history",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -853,7 +855,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 816,
+      "width": 879,
       "height": 77
     },
     "_resize": 1,
@@ -1578,7 +1580,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 230,
+      "width": 236,
       "height": 107
     },
     "_anchorPoint": {
@@ -1631,7 +1633,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "54655651-f0d6-45a4-abc5-272e11d1dc2e"
+      "__uuid__": "8b727a3c-8c72-4c88-a7d1-9a94695dce37"
     },
     "_type": 0,
     "_sizeMode": 2,
@@ -1705,7 +1707,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 125,
+      "width": 183,
       "height": 107
     },
     "_anchorPoint": {
@@ -1773,7 +1775,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "78c9f756-8564-4f0c-b9f3-86ae6d5b0959"
+      "__uuid__": "26bf61ad-df8e-4abd-be36-6e159c37b7c7"
     },
     "_type": 0,
     "_sizeMode": 2,
@@ -2657,7 +2659,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 96,
+      "width": 47,
       "height": 45
     },
     "_anchorPoint": {
@@ -2710,8 +2712,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "THỜI GIAN",
-    "_N$string": "THỜI GIAN",
+    "_string": "TIME",
+    "_N$string": "TIME",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -2740,6 +2742,7 @@
     "_enabled": true,
     "_dataId": "ui.time",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -2783,7 +2786,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 112,
+      "width": 102.5,
       "height": 45
     },
     "_anchorPoint": {
@@ -2836,8 +2839,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "NGƯỜI CHƠI",
-    "_N$string": "NGƯỜI CHƠI",
+    "_string": "NICKNAME",
+    "_N$string": "NICKNAME",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -2866,6 +2869,7 @@
     "_enabled": true,
     "_dataId": "ui.nickname",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -2909,7 +2913,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 53.5,
+      "width": 61.5,
       "height": 45
     },
     "_anchorPoint": {
@@ -2956,6 +2960,7 @@
     "_enabled": true,
     "_dataId": "ui.stake",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -2974,8 +2979,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "CƯỢC",
-    "_N$string": "CƯỢC",
+    "_string": "STAKE",
+    "_N$string": "STAKE",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -3035,7 +3040,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 71.5,
+      "width": 75.5,
       "height": 45
     },
     "_anchorPoint": {
@@ -3082,6 +3087,7 @@
     "_enabled": true,
     "_dataId": "ui.refund",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -3100,8 +3106,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "TRẢ LẠI",
-    "_N$string": "TRẢ LẠI",
+    "_string": "REFUND",
+    "_N$string": "REFUND",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -3172,7 +3178,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 54.29,
+      "width": 64.57,
       "height": 45
     },
     "_anchorPoint": {
@@ -3219,6 +3225,7 @@
     "_enabled": true,
     "_dataId": "ui.total",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -3237,8 +3244,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "TỔNG",
-    "_N$string": "TỔNG",
+    "_string": "TOTAL",
+    "_N$string": "TOTAL",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4373,7 +4380,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 96,
+      "width": 47,
       "height": 45
     },
     "_anchorPoint": {
@@ -4420,6 +4427,7 @@
     "_enabled": true,
     "_dataId": "ui.time",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -4438,8 +4446,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "THỜI GIAN",
-    "_N$string": "THỜI GIAN",
+    "_string": "TIME",
+    "_N$string": "TIME",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4499,7 +4507,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 112,
+      "width": 102.5,
       "height": 45
     },
     "_anchorPoint": {
@@ -4546,6 +4554,7 @@
     "_enabled": true,
     "_dataId": "ui.nickname",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -4564,8 +4573,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "NGƯỜI CHƠI",
-    "_N$string": "NGƯỜI CHƠI",
+    "_string": "NICKNAME",
+    "_N$string": "NICKNAME",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4625,7 +4634,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 53.5,
+      "width": 61.5,
       "height": 45
     },
     "_anchorPoint": {
@@ -4672,6 +4681,7 @@
     "_enabled": true,
     "_dataId": "ui.stake",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -4690,8 +4700,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "CƯỢC",
-    "_N$string": "CƯỢC",
+    "_string": "STAKE",
+    "_N$string": "STAKE",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4751,7 +4761,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 71.5,
+      "width": 75.5,
       "height": 45
     },
     "_anchorPoint": {
@@ -4798,6 +4808,7 @@
     "_enabled": true,
     "_dataId": "ui.refund",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -4816,8 +4827,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "TRẢ LẠI",
-    "_N$string": "TRẢ LẠI",
+    "_string": "REFUND",
+    "_N$string": "REFUND",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4888,7 +4899,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 54.29,
+      "width": 64.57,
       "height": 45
     },
     "_anchorPoint": {
@@ -4941,8 +4952,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "TỔNG",
-    "_N$string": "TỔNG",
+    "_string": "TOTAL",
+    "_N$string": "TOTAL",
     "_fontSize": 20,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -4971,6 +4982,7 @@
     "_enabled": true,
     "_dataId": "ui.total",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {

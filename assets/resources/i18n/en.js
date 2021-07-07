@@ -300,6 +300,7 @@ window.i18n.languages.en = {
         symbol: "Symbol",
         tail: "Tail",
         ticket_history: "Ticket History",
+        round_history: "Round History",
         tie_win: "TIE!",
         time: "Time",
         times: "Times",
