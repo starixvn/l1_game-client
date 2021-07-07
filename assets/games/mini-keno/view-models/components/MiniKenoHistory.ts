@@ -70,10 +70,10 @@ export default class MiniKenoHistory extends GameHistoryBase {
     }
 
     onGameChanged() {
-        this.removeDataObserver(this.gameName);
+        // this.removeDataObserver(this.gameName);
         this.gameName = this.kenoGameDropDownList.selectedItem.value;
-        this.addDataObserver(this.gameName);
-        this.updateRoundLabel();
+        // this.addDataObserver(this.gameName);
+        // this.updateRoundLabel();
         this.pages.resetPageCurrent();
         this.get_data();
     }
