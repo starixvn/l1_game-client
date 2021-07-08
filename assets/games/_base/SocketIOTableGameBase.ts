@@ -18,19 +18,19 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
             this.closeGame();
         } else {
             this.socket.on(this.gameName, (data) => {
-                if (!this.node || !this.node.isValid) {
+                if (!this.isAlive()) {
                     return;
                 }
                 this.onDataGameRoom(data);
             });
             this.socket.on("disconnect", () => {
-                if (!this.node || !this.node.isValid) {
+                if (!this.isAlive()) {
                     return;
                 }
                 this.closeGame();
             });
             this.socket.on("message", (data) => {
-                if (!this.node || !this.node.isValid) {
+                if (!this.isAlive()) {
                     return;
                 }
                 this.currentMiniPanel.onGeneralData(data);
@@ -53,7 +53,7 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     }
 
     onData(data) {
-        if (!this.node || !this.node.isValid) {
+        if (!this.isAlive()) {
             return;
         }
         this.currentMiniPanel.onGeneralData(data);

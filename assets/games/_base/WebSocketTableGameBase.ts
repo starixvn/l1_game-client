@@ -260,7 +260,7 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     protected loadUserData(user) {
-        if (!this.node || !this.node.isValid) {
+        if (!this.isAlive()) {
             return;
         }
 

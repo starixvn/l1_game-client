@@ -38,7 +38,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
     }
 
     closeGame() {
-        if (!this.node || !this.node.isValid) {
+        if (!this.isAlive()) {
             return;
         }
         this.sendRetryMessage();
@@ -48,7 +48,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
     }
 
     onData(data) {
-        if (!this.node || !this.node.isValid) {
+        if (!this.isAlive()) {
             return;
         }
         super.onData(data);

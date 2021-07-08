@@ -742,7 +742,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     setIntervalReminder() {
         this.stopIntervalReminder();
         this.audioNotificationInterval = setInterval(() => {
-            if (!this.node || !this.node.isValid) {
+            if (!this.isAlive()) {
                 return;
             }
             this.playAudioNotification();

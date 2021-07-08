@@ -477,4 +477,8 @@ export default class GameBase extends cc.Component {
             maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxbet)
         };
     }
+
+    public isAlive(): boolean {
+        return this.node && this.node.isValid;
+    }
 }

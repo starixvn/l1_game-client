@@ -77,7 +77,7 @@ export default class KenoProViet extends cc.Component {
 
     onDestroy() {
         this.miniKenos.forEach((keno) => {
-            if (keno.node != null && keno.node.isValid) {
+            if (keno.isAlive()) {
                 keno.node.destroy();
             }
         });
