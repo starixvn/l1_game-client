@@ -1,4 +1,6 @@
-import { getStringDateByTime } from '../../../common/helpers/DateTimeHelper';
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,7 +20,7 @@ export default class LuckyWheelHistoryItem extends cc.Component {
         this.time.string = getStringDateByTime(data.time);
 
         if (data.result === 0) {
-            this.result.string = `Chúc bạn may mắn!`;
+            this.result.string = i18n.t("ui.goodluck");
         } else {
             this.result.string = `${data.result} Scoin`;
         }
