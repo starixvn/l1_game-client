@@ -1,5 +1,4 @@
 import { games } from "../../../configs/SabaConfigs";
-import SabaConfigs = require("../../../configs/SabaConfigs");
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
@@ -206,7 +205,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                 this.resultNode.active = true;
                 this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
 
-                if (this.statistic && this.statistic.node && this.statistic.node.isValid) {
+                if (this.statistic && this.statistic.isAlive()) {
                     this.statistic.updateStatistic(this.currentDataLogs);
                 }
             })

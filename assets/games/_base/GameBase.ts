@@ -2,6 +2,7 @@ import * as _ from "lodash";
 
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import { getLocale } from "../../common/auth/SessionManager";
+import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
@@ -34,7 +35,7 @@ export enum GameState {
 }
 
 @ccclass
-export default class GameBase extends cc.Component {
+export default class GameBase extends BaseComponent {
     @property({ type: BetItem })
     betItems: BetItem[] = [];
 
@@ -476,9 +477,5 @@ export default class GameBase extends cc.Component {
             minBet: minbet,
             maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxbet)
         };
-    }
-
-    public isAlive(): boolean {
-        return this.node && this.node.isValid;
     }
 }

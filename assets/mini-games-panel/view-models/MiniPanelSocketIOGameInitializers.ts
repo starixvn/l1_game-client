@@ -45,7 +45,7 @@ export default class MiniPanelSocketIOGameInitializers {
                         this.main.handleUmMessage(data.um_message);
                     }
                 }
-                if (!this.main.node || !this.main.node.isValid) {
+                if (!this.main.isAlive()) {
                     return;
                 }
                 this.main.loading.node.active = false;

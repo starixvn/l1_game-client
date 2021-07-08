@@ -1,6 +1,7 @@
 import _ = require("lodash");
 
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import BaseComponent from "../../../common/BaseComponent";
 import ItemContentMenu from "../../../common/helpers/Menu/ItemContentMenu";
 import LocalizedLabelWithFormat from "../../../common/i18n/LocalizedLabelWithFormat";
 
@@ -12,7 +13,7 @@ type TotalType = {
 };
 
 @ccclass
-export default class BigSmallStatistic extends cc.Component {
+export default class BigSmallStatistic extends BaseComponent {
     @property(cc.Node)
     background: cc.Node = null;
 

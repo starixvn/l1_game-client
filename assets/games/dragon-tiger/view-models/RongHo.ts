@@ -10,7 +10,6 @@ import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
 import RHRoundResultItem from "./RHRoundResultItem";
 import { RongHoConfigs } from "./RongHoConfigs";
-import RongHoGuide from "./RongHoGuide";
 
 const { ccclass, property } = cc._decorator;
 
@@ -80,7 +79,7 @@ export default class RongHo extends SocketIOMiniGameBase {
     onData(data: any) {
         super.onData(data);
         if (data.history) {
-            if (this.history && this.history.node.isValid) {
+            if (this.history.isAlive()) {
                 this.history.onData(data.history);
             }
         }

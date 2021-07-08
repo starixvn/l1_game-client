@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import * as sessionManager from "../../common/auth/SessionManager";
+import BaseComponent from "../../common/BaseComponent";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Loading from "../../common/loading/view-models/Loading";
@@ -16,7 +17,7 @@ import PopupMinigames from "./popup/PopupMinigames";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class MiniPanel extends cc.Component {
+export default class MiniPanel extends BaseComponent {
     @property(cc.BitmapFont)
     fontCong: cc.BitmapFont = null;
 
@@ -264,7 +265,7 @@ export default class MiniPanel extends cc.Component {
     }
 
     onConnectSocketFailed(gameName, isGameRoom = true) {
-        if (!this.node || !this.node.isValid) {
+        if (!this.isAlive()) {
             return;
         }
         const handleCloseNotice = () => isGameRoom && this.redirectToLobby();

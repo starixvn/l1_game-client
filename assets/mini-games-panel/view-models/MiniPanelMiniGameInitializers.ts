@@ -41,7 +41,7 @@ export default class MiniPanelMiniGameInitializers {
                     this.main.loading && this.main.loading.onProgress(completedCount, total, item);
                 },
                 (err: Error, prefab: any) => {
-                    if (!this.main.node || !this.main.node.isValid) {
+                    if (!this.main.isAlive()) {
                         return;
                     }
                     if (err || prefab === null) {
@@ -96,7 +96,7 @@ export default class MiniPanelMiniGameInitializers {
             );
 
             socket.on("signedIn", () => {
-                if (!this.main.node || !this.main.node.isValid) {
+                if (!this.main.isAlive()) {
                     return;
                 }
                 this.openMiniGame(gameId);
