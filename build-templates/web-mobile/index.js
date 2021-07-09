@@ -199,5 +199,24 @@ function initGA() {
     }
 }
 
+function getCurrentLanguage() {
+    let language = localStorage.getItem("current_language") || "vi";
+    if (window.location.href.includes("lang=")) {
+        const temp = window.location.href.split("lang=");
+        const lang = temp[1].slice(0, 2);
+        if (lang !== "vi") {
+            language = "en";
+        }
+    }
+    return language;
+}
+
+function updateLocalizedImages() {
+    const splashText = document.getElementById("splash-text");
+    const language = getCurrentLanguage();
+    splashText.style.backgroundImage = language !== "vi" ? "url('./splash_text_en.png')" : "url('./splash_text.png')";
+}
+
 initGameEngine();
 initGA();
+updateLocalizedImages();
