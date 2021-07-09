@@ -13,7 +13,7 @@ const numberWithCommas = (number, toFixed = 2, noZeroSuffix = true) => {
 };
 
 const nFormatter = (num, digits = 0) => {
-    var si = [
+    const si = [
         { value: 1, symbol: "" },
         { value: 1e3, symbol: "K" },
         { value: 1e6, symbol: "M" },
@@ -22,8 +22,8 @@ const nFormatter = (num, digits = 0) => {
         { value: 1e15, symbol: "P" },
         { value: 1e18, symbol: "E" }
     ];
-    var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    var i;
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
     for (i = si.length - 1; i > 0; i--) {
         if (num >= si[i].value) {
             break;

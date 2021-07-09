@@ -23,7 +23,7 @@ export default class WebViewGuide extends cc.Component {
 
     initURL(gameId: number, minBet: number, maxBet: number, locale: string) {
         const domain = config.guideDomain;
-        const url = `${domain}/?gId=${gameId}&lang=${locale}&t=blue&minBet=${minBet}&maxBet=${maxBet}`;
+        const url = `${domain}/?gId=${gameId}&lang=${locale}&t=blue&minBet=${minBet}&maxBet=${maxBet}&v=${Date.now()}`;
         this.url = url;
     }
 

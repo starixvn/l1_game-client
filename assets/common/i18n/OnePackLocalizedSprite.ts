@@ -23,7 +23,7 @@ export default class OnePackLocalizedSprite extends LocalizedSprite {
     }
 
     fetchRender() {
-        let sprite = this.getComponent(cc.Sprite);
+        const sprite = this.getComponent(cc.Sprite);
         if (sprite) {
             this.sprite = sprite;
             this.updateSprite(window.i18n.curLang);
