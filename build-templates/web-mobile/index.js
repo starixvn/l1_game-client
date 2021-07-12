@@ -216,7 +216,8 @@ function updateLocalizedImages() {
     const language = getCurrentLanguage();
     const suffixSite = configs.site === "SC2" ? "_sc2" : "_sc1";
     const suffixLang = language !== "vi" ? "_en" : "";
-    splashText.style.backgroundImage = `url(\'./splash_text${suffixSite}${suffixLang}.png\')`;
+    const className = `splash_text${suffixSite}${suffixLang}`;
+    splashText.className += ` ${className}`;
 }
 
 function updateSplashLogo() {

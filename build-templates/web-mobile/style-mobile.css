@@ -159,6 +159,22 @@ p.footer {
     height: 3.4vh;
 }
 
+.splash_text_sc1 {
+    background-image: url("splash_text_sc1.png");
+}
+
+.splash_text_sc1_en {
+    background-image: url("splash_text_sc1_en.png");
+}
+
+.splash_text_sc2 {
+    background-image: url("splash_text_sc2.png");
+}
+
+.splash_text_sc2_en {
+    background-image: url("splash_text_sc2_en.png");
+}
+
 @media only screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
     .splash {
         top: 29.5vh;
