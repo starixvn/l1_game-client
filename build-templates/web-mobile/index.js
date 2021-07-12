@@ -212,11 +212,20 @@ function getCurrentLanguage() {
 }
 
 function updateLocalizedImages() {
-    const splashText = document.getElementById("splash-text");
+    const splashText = document.getElementById("splash_text");
     const language = getCurrentLanguage();
     splashText.style.backgroundImage = language !== "vi" ? "url('./splash_text_en.png')" : "url('./splash_text.png')";
 }
 
+function updateSplashLogo() {
+    const splash = document.getElementById("splash_logo");
+    const splashText = document.getElementById("splash_text");
+    const suffix = configs.site === "SC2" ? "_Vgaming" : "";
+    splash.className = `splash${suffix}`;
+    splashText.className = `splash_text${suffix}`;
+}
+
+updateSplashLogo();
+updateLocalizedImages();
 initGameEngine();
 initGA();
-updateLocalizedImages();

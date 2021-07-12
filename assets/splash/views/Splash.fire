@@ -84,13 +84,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 53
-      },
-      {
         "__id__": 54
       },
       {
         "__id__": 55
+      },
+      {
+        "__id__": 56
       }
     ],
     "_prefab": null,
@@ -1331,6 +1331,9 @@
     "_components": [
       {
         "__id__": 52
+      },
+      {
+        "__id__": 53
       }
     ],
     "_prefab": null,
@@ -1344,8 +1347,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 1398,
+      "height": 786
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1357,7 +1360,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        6.652,
+        0,
         0,
         0,
         0,
@@ -1422,7 +1425,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        63.521,
+        63.521000000000015,
         0,
         0,
         0,
@@ -1456,10 +1459,10 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 0,
+    "_alignFlags": 1,
     "_left": 0,
     "_right": 0,
-    "_top": 0,
+    "_top": 181.47899999999998,
     "_bottom": -115.827,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -2080,9 +2083,7 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_spriteFrame": {
-      "__uuid__": "e674f042-e4fe-440a-9b64-9b7daa338618"
-    },
+    "_spriteFrame": null,
     "_type": 2,
     "_segments": 64,
     "_N$alphaThreshold": 0.1,
@@ -2271,6 +2272,33 @@
     ],
     "playOnLoad": true,
     "_id": "fdUa5l01xFmI+b2u9O/kBJ"
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 30
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_id": "138SBSenJEna57od2SkRRq"
   },
   {
     "__type__": "cc.Canvas",
