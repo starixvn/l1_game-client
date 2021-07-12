@@ -214,7 +214,9 @@ function getCurrentLanguage() {
 function updateLocalizedImages() {
     const splashText = document.getElementById("splash_text");
     const language = getCurrentLanguage();
-    splashText.style.backgroundImage = language !== "vi" ? "url('./splash_text_en.png')" : "url('./splash_text.png')";
+    const suffixSite = configs.site === "SC2" ? "_sc2" : "_sc1";
+    const suffixLang = language !== "vi" ? "_en" : "";
+    splashText.style.backgroundImage = `url(\'./splash_text${suffixSite}${suffixLang}.png\')`;
 }
 
 function updateSplashLogo() {
