@@ -457,6 +457,7 @@ export default class GameBase extends BaseComponent {
         const { minBet, maxBet } = this.getBetRange();
         guide.initURL(this.gameId, minBet, maxBet, getLocale());
         this.currentMiniPanel.showGuide(dialog);
+        guide.loadWebView();
     }
 
     getBetRange() {
