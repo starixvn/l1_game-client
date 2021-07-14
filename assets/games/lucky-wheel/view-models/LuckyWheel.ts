@@ -389,6 +389,7 @@ export default class LuckyWheel extends cc.Component {
         const guide = dialog.getComponent(WebViewGuide);
         guide.setURL(`/?name=luckyWheel&t=blue&lang=${locale}&v=${Date.now()}`);
         this.node.addChild(dialog);
+        guide.loadWebView();
     }
 
     handleWinningEffect(scoin: number) {
