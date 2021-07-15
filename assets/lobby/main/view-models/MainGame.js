@@ -167,8 +167,7 @@ cc.Class({
         if (this.adsBannerContainer.childrenCount > 0) {
             return;
         }
-        const showJackpotBanner =
-            cc.RedT.user.offerGames.includes(SabaConfigs.games.FourGuardians.id) && fourGuardiansConfig.jackpotEnabled;
+        const showJackpotBanner = cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
         this.jackpotToggle.node.parent.active = showJackpotBanner;
 
         const jpBannerController = this.jackpotBannerContainer.getComponent("BannerController");

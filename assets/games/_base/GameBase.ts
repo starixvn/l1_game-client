@@ -10,6 +10,7 @@ import ProcessingWarning from "../../common/processing-warning/view-models/Proce
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
+import { GameInfos } from "../../configs/SabaConfigs";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
@@ -107,6 +108,7 @@ export default class GameBase extends BaseComponent {
 
     public set gameId(value: number) {
         this._gameId = value;
+        this.gameName = GameInfos[value].key;
     }
 
     public get gameId(): number {
@@ -147,10 +149,8 @@ export default class GameBase extends BaseComponent {
     private readonly dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
 
-    init(gameName: string, config: GameConfigBase, miniPanel: MiniPanel) {
-        this.gameName = gameName;
+    setConfig(config: GameConfigBase) {
         this.config = config;
-        this.currentMiniPanel = miniPanel;
     }
 
     initMiniPanel(miniPanel: MiniPanel) {

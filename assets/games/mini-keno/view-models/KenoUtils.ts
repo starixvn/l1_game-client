@@ -1,5 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 
 export enum KenoType {
     ProViet,
@@ -93,16 +93,16 @@ export default class KenoUtils {
 
     public static getKenoGameId(kenoType: KenoType): number {
         const dict = {
-            ProViet: games.KenoProViet,
-            Max: games.KenoMax,
-            Max2: games.KenoMax2,
-            Mini: games.KenoMini,
-            Mini2: games.KenoMini2,
-            East: games.KenoEast,
-            West: games.KenoWest,
-            South: games.KenoSouth,
-            North: games.KenoNorth
+            ProViet: GameIds.KenoProViet,
+            Max: GameIds.KenoMax,
+            Max2: GameIds.KenoMax2,
+            Mini: GameIds.KenoMini,
+            Mini2: GameIds.KenoMini2,
+            East: GameIds.KenoEast,
+            West: GameIds.KenoWest,
+            South: GameIds.KenoSouth,
+            North: GameIds.KenoNorth
         };
-        return dict[KenoType[kenoType]].id;
+        return dict[KenoType[kenoType]];
     }
 }

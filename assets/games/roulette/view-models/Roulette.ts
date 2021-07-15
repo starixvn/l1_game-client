@@ -1,8 +1,9 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BottomControls from "./BottomControls";
 import RouletteBetHandler from "./handlers/RouletteBetHandler";
@@ -17,7 +18,6 @@ import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteStatistic from "./RouletteStatistic";
 import RouletteUtils from "./RouletteUtils";
 import TopControls from "./TopControls";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -97,7 +97,9 @@ export default class Roulette extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.init("Roulette", new RouletteConfigs(), null, 1, games.Roulette.id);
+        this.gameId = GameIds.Roulette;
+        this.setConfig(new RouletteConfigs());
+        this.setMiniPanelScale(1);
     }
 
     initHandlers() {

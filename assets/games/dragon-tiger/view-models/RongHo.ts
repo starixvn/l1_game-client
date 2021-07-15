@@ -1,6 +1,6 @@
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
@@ -60,12 +60,10 @@ export default class RongHo extends SocketIOMiniGameBase {
     public resultAnimating = false;
     private frontCards: NewCard[] = [];
 
-    get gameId() {
-        return games.DragonTiger.id;
-    }
-
     initMiniPanel(miniPanel: MiniPanel) {
-        this.init("DragonTiger", new RongHoConfigs(), miniPanel);
+        super.initMiniPanel(miniPanel);
+        this.gameId = GameIds.DragonTiger;
+        this.setConfig(new RongHoConfigs());
         cc.RedT.setting[this.gameName] = cc.RedT.setting[this.gameName] || {
             bet: "1"
         };

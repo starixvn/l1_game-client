@@ -1,8 +1,8 @@
-import { buildServerUrl } from "../.././common/helpers/UrlHelper";
+import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
 import { lazyInject } from "../../Application";
 import GameUtils from "../../common/GameUtils";
 import * as configs from "../../configs/Configs";
-import { games } from "../../configs/SabaConfigs";
+import { GameInfos } from "../../configs/SabaConfigs";
 import SabaConfigs = require("../../configs/SabaConfigs");
 import SocketIOController from "../../SocketIOController";
 import MiniPanel from "./MiniPanel";
@@ -23,7 +23,7 @@ export default class MiniPanelMiniGameInitializers {
     }
 
     getGameName(id: number): string {
-        return Object.keys(games).find((key) => games[key].id === id);
+        return GameInfos[id].key;
     }
 
     openMiniGame(gameId) {
@@ -51,7 +51,7 @@ export default class MiniPanelMiniGameInitializers {
                     }
 
                     const node = cc.instantiate(prefab);
-                    const componentName = gameId === SabaConfigs.games.KenoProViet.id ? "KenoProViet" : "GameBase";
+                    const componentName = gameId === SabaConfigs.GameIds.KenoProViet ? "KenoProViet" : "GameBase";
                     const gameComponent = node.getComponent(componentName);
                     gameComponent.initMiniPanel(this.main);
                     this.main.addMiniGame(gameComponent, gameId);
@@ -85,7 +85,7 @@ export default class MiniPanelMiniGameInitializers {
             this.openMiniGame(gameId);
         } else {
             const gameName = GameUtils.getGameNameString(gameId);
-            const proxyRoute = configs.serverGameEndPoints[gameId].proxyRoute;
+            const proxyRoute = getProxyRoute(gameId);
             const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
             const socket = this.socketIOController.connectGameSocket(
                 gameServerUrl,

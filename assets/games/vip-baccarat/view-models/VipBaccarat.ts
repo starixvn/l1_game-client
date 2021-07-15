@@ -1,10 +1,10 @@
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../configs/SabaConfigs";
-import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
-import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
+import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
+import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
 import VipBaccaratBetHandler from "./data-handlers/VipBaccaratBetHandler";
 import VipBaccaratFinishHandler from "./data-handlers/VipBaccaratFinishHandler";
 import VipBaccaratLogsHandler from "./data-handlers/VipBaccaratLogsHandler";
@@ -73,7 +73,9 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     }
 
     protected internalInit() {
-        this.init("VipBaccarat", new BaccaratConfigs(), null, 1, games.VipBaccarat.id);
+        this.gameId = GameIds.VipBaccarat;
+        this.setConfig(new BaccaratConfigs());
+        this.setMiniPanelScale(1);
     }
 
     onLoad() {

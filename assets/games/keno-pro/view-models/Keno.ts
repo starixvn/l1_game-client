@@ -1,5 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import KenoBetHandler from "./handlers/KenoBetHandler";
 import KenoFinishHandler from "./handlers/KenoFinishHandler";
@@ -42,7 +42,9 @@ export default class Keno extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.init("KenoProMax", new KenoConfigs(), null, 1, games.KenoProMax.id);
+        this.gameId = GameIds.KenoProMax;
+        this.setConfig(new KenoConfigs());
+        this.setMiniPanelScale(1);
     }
 
     initHandlers() {

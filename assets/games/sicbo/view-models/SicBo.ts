@@ -4,7 +4,7 @@ import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BetItem from "../../_base/view-models/BetItem";
@@ -128,7 +128,9 @@ export default class SicBo extends SocketIOTableGameBase {
     }
 
     protected internalInit() {
-        this.init("SicBo", new SicBoConfigs(), null, 1, games.SicBo.id);
+        this.gameId = GameIds.SicBo;
+        this.setConfig(new SicBoConfigs());
+        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 

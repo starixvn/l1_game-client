@@ -1,4 +1,4 @@
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
@@ -17,10 +17,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BigSmall extends BalancedBettingPoolGameBase {
-    get gameId() {
-        return games.BigSmall.id;
-    }
-
     @property(cc.Prefab)
     miniRoundHistoryPrefab: cc.Prefab = null;
 
@@ -90,7 +86,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     readonly choices = ["small", "big"];
 
     initMiniPanel(miniPanel: MiniPanel) {
-        this.init("taixiu", new BigSmallConfigs(), miniPanel);
+        super.initMiniPanel(miniPanel);
+        this.gameId = GameIds.BigSmall;
+        this.setConfig(new BigSmallConfigs());
     }
 
     onLoad() {

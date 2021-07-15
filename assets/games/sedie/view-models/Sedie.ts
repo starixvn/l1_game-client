@@ -1,6 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
@@ -67,7 +67,9 @@ export default class Sedie extends FreeBetGameBase {
     }
 
     protected internalInit() {
-        this.init("XocXoc", new SedieConfigs(), null, 1, games.XocXoc.id);
+        this.gameId = GameIds.SeDie;
+        this.setConfig(new SedieConfigs());
+        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 

@@ -1,4 +1,4 @@
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
@@ -17,10 +17,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SpecialSeDie extends BalancedBettingPoolGameBase {
-    get gameId() {
-        return games.SpecialSeDie.id;
-    }
-
     @property(cc.Prefab)
     roundHistoryPrefab: cc.Prefab = null;
 
@@ -98,7 +94,9 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     private showStats = true;
 
     initMiniPanel(miniPanel: MiniPanel) {
-        this.init("SpecialSeDie", new SpecialSeDieConfigs(), miniPanel);
+        super.initMiniPanel(miniPanel);
+        this.gameId = GameIds.SpecialSeDie;
+        this.setConfig(new SpecialSeDieConfigs());
     }
 
     onLoad() {

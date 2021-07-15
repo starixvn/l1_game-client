@@ -1,6 +1,7 @@
 import * as _ from "lodash";
+
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
 import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
@@ -80,7 +81,9 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
     }
 
     protected internalInit() {
-        this.init("VipFishPrawnCrab", new VipFishPrawnCrabConfigs(), null, 1, games.VipFishPrawnCrab.id);
+        this.gameId = GameIds.VipFishPrawnCrab;
+        this.setConfig(new VipFishPrawnCrabConfigs());
+        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 

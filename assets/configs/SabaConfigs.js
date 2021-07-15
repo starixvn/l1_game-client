@@ -1,124 +1,109 @@
 const configs = {
-    games: {
-        BigSmall: {
-            id: 1,
-            name: "Tài Xỉu"
+    GameIds: {
+        Lobby: 0,
+        BigSmall: 1,
+        SeDie: 2,
+        FishPrawnCrab: 3,
+        TurboBigSmall: 4,
+        TurboOddEven: 6,
+        DragonTiger: 7,
+        KenoProMax: 8,
+        MiniSedie: 9,
+        Baccarat: 10,
+        KenoProViet: 11,
+        KenoMax: 12,
+        KenoMax2: 13,
+        KenoMini: 14,
+        KenoMini2: 15,
+        KenoEast: 16,
+        KenoWest: 17,
+        KenoSouth: 18,
+        KenoNorth: 19,
+        Roulette: 21,
+        VipSedie: 22,
+        BlackJack: 23,
+        SpecialSeDie: 24,
+        SicBo: 25,
+        VipFishPrawnCrab: 26,
+        VipBaccarat: 27,
+        VipSedieWar: 28,
+        FourGuardians: 29,
+        Lottery: 31,
+        ThreeCards: 35
+    },
+    GameInfos: {
+        0: {
+            key: "main"
         },
-        XocXoc: {
-            id: 2,
-            name: "Xóc Đĩa"
+        1: {
+            key: "taixiu",
+            route: "bigsmall"
         },
-        BauCua: {
-            id: 3,
-            name: "Bầu Cua"
+        2: {
+            key: "XocXoc",
+            route: "sedie"
         },
-        TurboBigSmall: {
-            id: 4,
-            name: "Tài Xỉu Siêu Tốc"
+        3: {
+            key: "BauCua",
+            route: "fishprawncrab"
         },
-        ChanLe: {
-            id: 5,
-            name: "Chẵn Lẻ"
+        4: {
+            key: "TXTurbo",
+            route: "turbobigsmall"
         },
-        TurboOddEven: {
+        6: {
             id: 6,
-            name: "Chẵn Lẻ Siêu Tốc"
+            key: "OETurbo",
+            route: "turbooddeven"
         },
-        DragonTiger: {
-            id: 7,
-            name: "Rồng Hổ"
+        7: {
+            key: "DragonTiger"
         },
-        KenoProMax: {
-            id: 8,
-            name: "Keno Pro Max"
+        8: {
+            key: "KenoProMax"
         },
-        MiniSedie: {
-            id: 9,
-            name: "Xóc Đĩa Mini"
+        9: {
+            key: "MiniSeDie"
         },
-        Baccarat: {
-            id: 10,
-            name: "Cào Baccarat"
+        10: {
+            key: "Baccarat"
         },
-        KenoProViet: {
-            id: 11,
-            name: "Keno Pro Viet"
+        11: {
+            key: "KenoProViet"
         },
-        KenoMax: {
-            id: 12,
-            name: "Keno Max"
+        21: {
+            key: "Roulette"
         },
-        KenoMax2: {
-            id: 13,
-            name: "Keno Max 2"
+        22: {
+            key: "VipSeDie",
+            route: "vsedie"
         },
-        KenoMini: {
-            id: 14,
-            name: "Keno Mini"
+        23: {
+            key: "BlackJack"
         },
-        KenoMini2: {
-            id: 15,
-            name: "Keno Mini 2"
+        24: {
+            key: "SpecialSeDie"
         },
-        KenoEast: {
-            id: 16,
-            name: "Keno Đông"
+        25: {
+            key: "SicBo"
         },
-        KenoWest: {
-            id: 17,
-            name: "Keno Tây"
+        26: {
+            key: "VipFishPrawnCrab"
         },
-        KenoSouth: {
-            id: 18,
-            name: "Keno Nam"
+        27: {
+            key: "VipBaccarat"
         },
-        KenoNorth: {
-            id: 19,
-            name: "Keno Bắc"
+        28: {
+            key: "VipSedieWar"
         },
-        Roulette: {
-            id: 21,
-            name: "Roulette"
+        29: {
+            key: "FourGuardians"
         },
-        VipSedie: {
-            id: 22,
-            name: "Xóc Đĩa VIP"
+        31: {
+            key: "Lottery"
         },
-        BlackJack: {
-            id: 23,
-            name: "Blackjack"
-        },
-        SpecialSeDie: {
-            id: 24,
-            name: "Xóc Đĩa Cân Cửa"
-        },
-        VipFishPrawnCrab: {
-            id: 26,
-            name: "Bầu Cua VIP"
-        },
-        SicBo: {
-            id: 25,
-            name: "Tài Xỉu Sic Bo"
-        },
-        VipBaccarat: {
-            id: 27,
-            name: "Cào Baccarat VIP"
-        },
-        VipSedieWar: {
-            id: 28,
-            name: "Xóc Đĩa Đối Kháng"
-        },
-        FourGuardians: {
-            id: 29,
-            name: "Long Lân Quy Phụng"
-        },
-        Lottery: {
-            id: 31,
-            name: "Xổ Số RNG"
-        },
-        ThreeCards: {
-            id: 35,
-            name: "Ba Lá"
+        35: {
+            key: "ThreeCards"
         }
     },
     gameRoomRegNames: {},

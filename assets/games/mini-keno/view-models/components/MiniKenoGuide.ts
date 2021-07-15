@@ -1,6 +1,6 @@
 import { getLocale } from "../../../../common/auth/SessionManager";
 import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
-import { games } from "../../../../configs/SabaConfigs";
+import { GameIds } from "../../../../configs/SabaConfigs";
 import MiniKeno from "../MiniKeno";
 
 const { ccclass, property } = cc._decorator;
@@ -68,16 +68,16 @@ export default class MiniKenoGuide extends cc.Component {
 
     getGameId(game: string) {
         const dict = {
-            kenoMax: games.KenoMax,
-            kenoMax2: games.KenoMax2,
-            kenoMini: games.KenoMini,
-            kenoMini2: games.KenoMini2,
-            kenoDong: games.KenoEast,
-            kenoTay: games.KenoWest,
-            kenoNam: games.KenoSouth,
-            kenoBac: games.KenoNorth
+            kenoMax: GameIds.KenoMax,
+            kenoMax2: GameIds.KenoMax2,
+            kenoMini: GameIds.KenoMini,
+            kenoMini2: GameIds.KenoMini2,
+            kenoDong: GameIds.KenoEast,
+            kenoTay: GameIds.KenoWest,
+            kenoNam: GameIds.KenoSouth,
+            kenoBac: GameIds.KenoNorth
         };
 
-        return dict[game].id;
+        return dict[game];
     }
 }

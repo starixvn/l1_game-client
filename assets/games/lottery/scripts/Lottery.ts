@@ -1,6 +1,6 @@
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import LotteryBetHandler from "./handlers/LotteryBetHandler";
 import LotteryFinishHandler from "./handlers/LotteryFinishHandler";
@@ -94,7 +94,9 @@ export default class Lottery extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.init("Lottery", new LotteryGameConfig(), null, 1, games.Lottery.id);
+        this.gameId = GameIds.Lottery;
+        this.setConfig(new LotteryGameConfig());
+        this.setMiniPanelScale(1);
     }
 
     onLoad() {

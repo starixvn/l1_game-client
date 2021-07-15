@@ -1,6 +1,6 @@
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import BetItem from "../../_base/view-models/BetItem";
 import VipSedie from "../../vip-sedie/view-models/VipSedie";
 import VipSedieWarFinishHandler from "./handlers/VipSedieWarFinishHandler";
@@ -29,7 +29,9 @@ export default class VipSedieWar extends VipSedie {
     expandableMenu: ExpandableMenu = null;
 
     protected internalInit() {
-        this.init("VipSedieWar", new VipSedieWarConfigs(), null, 1, games.VipSedieWar.id);
+        this.gameId = GameIds.VipSedieWar;
+        this.setConfig(new VipSedieWarConfigs());
+        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 

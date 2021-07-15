@@ -1,9 +1,9 @@
 import * as moment from "moment";
+
 import { zeroPad } from "../../../common/helpers/NumberHelper";
-import * as config from "../../../configs/Configs";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import MiniKenoTimer from "../../mini-keno/view-models/components/MiniKenoTimer";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
-import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import MiniKenoProVietRoundsSelection, { MiniKenoProVietRound } from "./components/MiniKenoProVietRoundsSelection";
 import MiniKenoProVietFinishHandler from "./handlers/MiniKenoProVietFinishHandler";
 import MiniKenoProVietLogsHandler from "./handlers/MiniKenoProVietLogsHandler";
@@ -69,7 +69,8 @@ export default class MiniKenoProViet extends MiniKeno {
     }
 
     public static openVietlottUrl() {
-        window.open(config.kenoVietLotUrl, "_blank", "rel=noopener noreferrer");
+        const kenoVietLotUrl = "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno";
+        window.open(kenoVietLotUrl, "_blank", "rel=noopener noreferrer");
         window.focus();
     }
 

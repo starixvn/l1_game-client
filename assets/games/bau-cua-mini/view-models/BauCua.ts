@@ -1,12 +1,11 @@
 import * as _ from "lodash";
 
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import vipFishPrawnCrabConstants from "../../vip-fish-prawn-crab/view-models/VipFishPrawnCrabConstants";
 import BauCuaBetItem from "./BauCuaBetItem";
 import { BauCuaConfigs } from "./BauCuaConfigs";
-import BauCuaGuide from "./BauCuaGuide";
 import BauCuaHistory from "./BauCuaHistory/BauCuaHistory";
 import BauCuaLogItems from "./BauCuaLogItems";
 import BauCuaOddItem from "./BauCuaOddItem";
@@ -18,10 +17,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BauCua extends SocketIOMiniGameBase {
-    get gameId() {
-        return games.BauCua.id;
-    }
-
     @property({ type: cc.SpriteFrame })
     iconMini: cc.SpriteFrame[] = [];
 
@@ -85,7 +80,9 @@ export default class BauCua extends SocketIOMiniGameBase {
     }
 
     initMiniPanel(miniPanel: MiniPanel) {
-        this.init("BauCua", new BauCuaConfigs(), miniPanel);
+        super.initMiniPanel(miniPanel);
+        this.gameId = GameIds.FishPrawnCrab;
+        this.setConfig(new BauCuaConfigs());
     }
 
     onData(data: any) {

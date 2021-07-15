@@ -1,7 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import { ThreeCardsRoundData } from "./DataDefinition";
@@ -60,7 +60,9 @@ export default class ThreeCards extends SocketIOTableGameBase {
     showResultDuration = 2;
     constructor() {
         super();
-        this.init("ThreeCards", new ThreeCardsConfigs(), null, 1, games.ThreeCards.id);
+        this.gameId = GameIds.ThreeCards;
+        this.setConfig(new ThreeCardsConfigs());
+        this.setMiniPanelScale(1);
     }
 
     initHandlers() {

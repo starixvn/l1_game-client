@@ -1,4 +1,4 @@
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
@@ -14,7 +14,7 @@ export default class LuckyWheelBanner extends cc.Component {
     openSedie() {
         const dialog = this.node.getComponent("CommonDialog");
         dialog.closeDialog();
-        this.miniPanel.openNewGameSocket(null, games.XocXoc.id);
+        this.miniPanel.openNewGameSocket(null, GameIds.SeDie);
     }
 
     onDisable() {

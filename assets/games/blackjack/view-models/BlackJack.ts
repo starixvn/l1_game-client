@@ -9,7 +9,7 @@ import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import { GameState } from "../../_base/GameBase";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
@@ -149,7 +149,8 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.init("BlackJack", null, null, 1, games.BlackJack.id);
+        this.gameId = GameIds.BlackJack;
+        this.setMiniPanelScale(1);
     }
 
     onLoad() {

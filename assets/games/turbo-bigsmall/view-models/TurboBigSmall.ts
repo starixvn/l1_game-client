@@ -1,5 +1,4 @@
-import { games } from "../../../configs/SabaConfigs";
-import SabaConfigs = require("../../../configs/SabaConfigs");
+import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BigSmall from "../../bigsmall/view-models/BigSmall";
 import TurboBigSmallTimeHandler from "./handlers/TurboBigSmallTimeHandler";
@@ -9,14 +8,10 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class TurboBigSmall extends BigSmall {
-    protected gameTitle = SabaConfigs.games.TurboBigSmall.name;
-
-    get gameId() {
-        return games.TurboBigSmall.id;
-    }
-
     initMiniPanel(miniPanel: MiniPanel) {
-        this.init("TXTurbo", new TurboBigSmallConfigs(), miniPanel);
+        super.initMiniPanel(miniPanel);
+        this.gameId = GameIds.TurboBigSmall;
+        this.setConfig(new TurboBigSmallConfigs());
     }
 
     initHandlers() {

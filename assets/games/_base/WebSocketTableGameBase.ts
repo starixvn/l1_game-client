@@ -7,11 +7,9 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
 import NoticeUtil from "../../common/utils/NoticeUtil";
-import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
-import { GameConfigBase } from "./view-models/GameConfigBase";
 import RoomPlayer from "./view-models/RoomPlayer";
 
 const { ccclass, property } = cc._decorator;
@@ -78,10 +76,8 @@ export default class WebSocketTableGameBase extends GameBase {
         cc.RedT.inGame = null;
     }
 
-    init(gameName: string, gameConfigs: GameConfigBase, miniPanel: MiniPanel = null, miniPanelScale = 1, gameId = 0) {
-        super.init(gameName, gameConfigs, miniPanel);
+    setMiniPanelScale(miniPanelScale: number) {
         this.miniPanelScale = miniPanelScale;
-        this._gameId = gameId;
     }
 
     initHandlers() {

@@ -8,7 +8,6 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
     private readonly socketIOController: SocketIOController;
 
     public socket: SocketIOClient.Socket;
-    abstract get gameId(): number;
 
     onLoad() {
         super.onLoad();
