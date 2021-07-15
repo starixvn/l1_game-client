@@ -167,6 +167,7 @@ window.i18n.languages.vi = {
         blackjack_pay: "1 ĂN %{odds}",
         bonus_count_text: "Số lần mở thưởng",
         bust: "Quắc",
+        character_name: "Tên nhân vật",
         checking_downloading: "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...",
         choice_banker: "Nhà Cái",
         choice_banker_even: "Nhà Cái chẵn",
