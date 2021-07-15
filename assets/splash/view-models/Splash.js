@@ -43,9 +43,7 @@ cc.Class({
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("lang")) {
             const lang = urlParams.get("lang");
-            if (lang !== "vi-VN") {
-                language = "en";
-            }
+            language = lang === "vi-VN" ? "vi" : "en";
         }
         setLanguage(language);
     },
