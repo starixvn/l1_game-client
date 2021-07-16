@@ -27,14 +27,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 139
+        "__id__": 143
       },
       {
-        "__id__": 140
+        "__id__": 144
       }
     ],
     "_prefab": {
-      "__id__": 141
+      "__id__": 145
     },
     "_opacity": 255,
     "_color": {
@@ -97,11 +97,11 @@
         "__id__": 3
       },
       {
-        "__id__": 137
+        "__id__": 141
       }
     ],
     "_prefab": {
-      "__id__": 138
+      "__id__": 142
     },
     "_opacity": 255,
     "_color": {
@@ -262,22 +262,25 @@
       },
       {
         "__id__": 129
+      },
+      {
+        "__id__": 132
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 133
+        "__id__": 137
       },
       {
-        "__id__": 134
+        "__id__": 138
       },
       {
-        "__id__": 135
+        "__id__": 139
       }
     ],
     "_prefab": {
-      "__id__": 136
+      "__id__": 140
     },
     "_opacity": 255,
     "_color": {
@@ -427,7 +430,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 199.5,
+      "width": 222.75,
       "height": 50
     },
     "_anchorPoint": {
@@ -480,8 +483,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "HƯỚNG DẪN",
-    "_N$string": "HƯỚNG DẪN",
+    "_string": "UI.GAMERULES",
+    "_N$string": "UI.GAMERULES",
     "_fontSize": 24,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -3279,7 +3282,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 97.5,
+      "width": 138,
       "height": 30
     },
     "_anchorPoint": {
@@ -3332,8 +3335,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Keno Đông",
-    "_N$string": "Keno Đông",
+    "_string": "Gamenames.16",
+    "_N$string": "Gamenames.16",
     "_fontSize": 20,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3629,7 +3632,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 84,
+      "width": 138.5,
       "height": 30
     },
     "_anchorPoint": {
@@ -3682,8 +3685,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Keno Tây",
-    "_N$string": "Keno Tây",
+    "_string": "Gamenames.17",
+    "_N$string": "Gamenames.17",
     "_fontSize": 20,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3979,7 +3982,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 93.5,
+      "width": 138,
       "height": 30
     },
     "_anchorPoint": {
@@ -4045,8 +4048,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Keno Nam",
-    "_N$string": "Keno Nam",
+    "_string": "Gamenames.18",
+    "_N$string": "Gamenames.18",
     "_fontSize": 20,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -4329,7 +4332,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85,
+      "width": 137.5,
       "height": 30
     },
     "_anchorPoint": {
@@ -4395,8 +4398,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "Keno Bắc",
-    "_N$string": "Keno Bắc",
+    "_string": "Gamenames.19",
+    "_N$string": "Gamenames.19",
     "_fontSize": 20,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -4762,7 +4765,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 132
+      "__id__": 136
     },
     "_opacity": 255,
     "_color": {
@@ -4812,19 +4815,6 @@
     "_id": ""
   },
   {
-    "__type__": "cc.WebView",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 129
-    },
-    "_enabled": true,
-    "_useOriginalSize": false,
-    "_url": "",
-    "webviewEvents": [],
-    "_id": ""
-  },
-  {
     "__type__": "3c4eajRgWRDfoabegzB3MZL",
     "_name": "",
     "_objFlags": 0,
@@ -4834,9 +4824,148 @@
     "_enabled": true,
     "commonDialog": null,
     "webView": {
-      "__id__": 130
+      "__id__": 131
+    },
+    "loading": {
+      "__id__": 132
     },
     "_id": ""
+  },
+  {
+    "__type__": "8d7aa4MrZFCuqe+HASMyeZn",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 129
+    },
+    "_enabled": true,
+    "_useOriginalSize": true,
+    "_url": "",
+    "webviewEvents": [],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "loading",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 5
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 133
+      },
+      {
+        "__id__": 134
+      }
+    ],
+    "_prefab": {
+      "__id__": 135
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 255,
+      "height": 270
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        127.39,
+        -63.4,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0.15,
+        0.15,
+        0.15
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 132
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "af049659-6bed-476c-8394-7fba810fdd7b"
+    },
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": {
+      "__uuid__": "e1ca4b77-2ee1-48e3-bd46-4655b55d6580"
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "3171ew6Py1GGK195juQQBhq",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 132
+    },
+    "_enabled": true,
+    "DegreePerSecond": 360,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "ca58a03f-4f31-4160-b9fc-e33b91bde90f"
+    },
+    "fileId": "dd/O8AtoNJ66T8XbMpiLeJ",
+    "sync": false
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5050,7 +5179,7 @@
       "__id__": 44
     },
     "content": {
-      "__id__": 131
+      "__id__": 130
     },
     "title": {
       "__id__": 40
