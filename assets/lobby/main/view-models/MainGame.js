@@ -95,7 +95,7 @@ cc.Class({
         cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
         this.redhat.insertChild(MiniPanel);
         this.dialogNode.removeFromParent();
-        MiniPanel.addChild(this.dialogNode);
+        cc.RedT.MiniPanel.addDialog(this.dialogNode);
 
         this.inRoomGameId = sessionManager.getInRoomGameId();
 
