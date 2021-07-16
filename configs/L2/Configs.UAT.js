@@ -138,7 +138,7 @@ const configs = {
         url: "https://df0ce89a96b045e4ae626c16a143d8f9@sentryuat.sabagame.com/51",
         env: "UAT"
     },
-    guideDomain: "https://uatguides.sabagame.net",
+    guideDomain: "https://guidesuat.sabagame.net",
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
     userServiceUrl: "https://uatproxy.sabagame.net/uat/user"
 };
