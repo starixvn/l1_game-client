@@ -15,9 +15,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
     @property(cc.ProgressBar)
     proressBar: cc.ProgressBar = null;
 
-    @property({ type: cc.SpriteFrame })
-    backgroundFrames: cc.SpriteFrame[] = [];
-
     @property(cc.SpriteAtlas)
     atlas: cc.SpriteAtlas = null;
 
@@ -31,18 +28,19 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
-        this.gameName.spriteFrame = this.getNameSprite(this.miniKeno.kenoType);
+        const kenoType = this.miniKeno.kenoType;
+        this.gameName.spriteFrame = this.getNameSprite(kenoType);
         const dict = {
-            Max: 1,
-            Max2: 1,
-            Mini: 2,
-            Mini2: 2,
-            East: 3,
-            West: 3,
-            South: 3,
-            North: 3
+            Max: "max",
+            Max2: "max",
+            Mini: "mini",
+            Mini2: "mini",
+            East: "EWSN",
+            West: "EWSN",
+            South: "EWSN",
+            North: "EWSN"
         };
-        const backSprite = this.backgroundFrames[dict[KenoType[this.miniKeno.kenoType]]];
+        const backSprite = this.atlas.getSpriteFrame(`progress_bar_${dict[KenoType[kenoType]]}`);
         this.proressBar.barSprite.spriteFrame = backSprite;
         this.proressBar.getComponent(cc.Sprite).spriteFrame = backSprite;
 

@@ -97,6 +97,10 @@ export default class MiniKeno extends WebSocketMiniGameBase {
         this.gameName = `keno${KenoType[this.kenoType]}`;
     }
 
+    public get gameId(): number {
+        return this._gameId;
+    }
+
     onLoad() {
         this.config = new MiniKenoConfig(this.kenoType);
         this.isMiniKeno = this.kenoType === KenoType.Mini || this.kenoType === KenoType.Mini2;

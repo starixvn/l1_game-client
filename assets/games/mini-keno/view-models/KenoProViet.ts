@@ -17,9 +17,6 @@ export default class KenoProViet extends cc.Component {
     @property(cc.Prefab)
     kenoPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    kenoProVietPrefab: cc.Prefab = null;
-
     @property(cc.Node)
     content: cc.Node = null;
 
