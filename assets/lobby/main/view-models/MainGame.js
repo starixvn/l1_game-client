@@ -289,6 +289,15 @@ cc.Class({
             this.signIn();
         }
     },
+    serviceAuthorized: function (Authorized) {
+        this.loading.active = false;
+
+        if (!Authorized) {
+            this.dialog.showSignName();
+        } else {
+            authManager.auth();
+        }
+    },
     onData: function (data) {
         if (void 0 !== data["unauth"]) {
             this.unAuthorized(data["unauth"]);
@@ -402,7 +411,7 @@ cc.Class({
     },
     signIn: function () {
         cc.RedT.IS_LOGIN = true;
-        authManager.auth();
+
         this.header.isSignIn();
         this.dialog.onBack();
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();

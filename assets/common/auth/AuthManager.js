@@ -123,7 +123,7 @@ export function triggerSignIn(main) {
                 if (response.user) {
                     main.handleUserData(response.user);
                 }
-                main.Authorized(response.authorized);
+                main.serviceAuthorized(response.authorized);
             })
             .catch((e) => {
                 sentryLogger.logError(e);
