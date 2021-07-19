@@ -1,5 +1,5 @@
-import GameUtils from '../../../common/GameUtils';
-import BannerItem from './BannerItem';
+import GameUtils from "../../../common/GameUtils";
+import BannerItem from "./BannerItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -47,13 +47,11 @@ export default class BannerController extends cc.Component {
     }
 
     showFirstPage() {
-        this.currentIndex = -1; //show first page
-        this.showNextPage();
+        this.animationMovePage(0, PageDirection.Right);
     }
 
     showLastPage() {
-        this.currentIndex = this.content.childrenCount;
-        this.showPreviouPage();
+        this.animationMovePage(this.content.childrenCount - 1, PageDirection.Left);
     }
 
     onDisable() {
@@ -144,10 +142,25 @@ export default class BannerController extends cc.Component {
     }
 
     showNextPage() {
+        this.animationMovePage(this.currentIndex + 1, PageDirection.Right);
+    }
+    showPreviouPage() {
+        this.animationMovePage(this.currentIndex - 1, PageDirection.Left);
+    }
+
+    animationMovePage(pageIndex: number, direction: PageDirection) {
         this.unschedule(this.autoChange);
 
         const oldPage = this.getCurrentPage();
-        this.currentIndex++;
+        this.currentIndex = pageIndex;
+        if (direction === PageDirection.Right) {
+            this.showPageRightDirection(oldPage);
+        } else {
+            this.showPageLeftDirection(oldPage);
+        }
+    }
+
+    showPageRightDirection(currentPage: cc.Node) {
         if (this.currentIndex >= this.content.childrenCount) {
             if (!this.menuLoop) {
                 this.currentIndex = this.content.childrenCount - 1;
@@ -158,14 +171,10 @@ export default class BannerController extends cc.Component {
             }
         }
 
-        this.showPage(oldPage, this.currentIndex, PageDirection.Right);
+        this.showPage(currentPage, this.currentIndex, PageDirection.Right);
     }
 
-    showPreviouPage() {
-        this.unschedule(this.autoChange);
-
-        const oldPage = this.getCurrentPage();
-        this.currentIndex--;
+    showPageLeftDirection(currentPage: cc.Node) {
         if (this.currentIndex < 0) {
             if (!this.menuLoop) {
                 this.currentIndex = 0;
@@ -176,7 +185,7 @@ export default class BannerController extends cc.Component {
             }
         }
 
-        this.showPage(oldPage, this.currentIndex, PageDirection.Left);
+        this.showPage(currentPage, this.currentIndex, PageDirection.Left);
     }
 
     showPage(oldNode: cc.Node, index: number, pageDirection: PageDirection = PageDirection.Right) {
