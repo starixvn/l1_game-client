@@ -159,8 +159,8 @@ export default class VipSedieWar extends VipSedie {
         super.openGuide();
     }
 
-    getBetRange() {
-        return this.getNormalBetRange();
+    public isUsingMaxStakeLevel() {
+        return false;
     }
 
     openHistory() {

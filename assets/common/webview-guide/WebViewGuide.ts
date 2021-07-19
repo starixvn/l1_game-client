@@ -56,11 +56,11 @@ export default class WebViewGuide extends cc.Component {
         this.loading.active = false;
     }
 
-    initURL(gameId: number, minBet: number, maxBet: number, locale: string) {
+    initURL(gameId: number, locale: string, configStake: { minBet: number; maxBet: number; used: boolean }) {
         const domain = config.guideDomain;
         let url = `${domain}/?gId=${gameId}&lang=${locale}&t=blue&v=${Date.now()}`;
-        if (config.systemType === "SC1") {
-            url += `&minBet=${minBet}&maxBet=${maxBet}`;
+        if (config.systemType === "SC1" && configStake.used) {
+            url += `&minBet=${configStake.minBet}&maxBet=${configStake.maxBet}`;
         }
         this.url = url;
     }

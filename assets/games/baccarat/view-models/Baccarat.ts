@@ -38,8 +38,8 @@ export default class Baccarat extends VipBaccarat {
         this.logsHandler = new BaccaratLogsHandler(this);
     }
 
-    getBetRange() {
-        return this.getNormalBetRange();
+    public isUsingMaxStakeLevel() {
+        return false;
     }
 
     handlePositionMiniRoundHistory() {}

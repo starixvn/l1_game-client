@@ -33,7 +33,7 @@ export default class VipSedie extends Sedie {
         });
     }
 
-    getBetRange() {
-        return this.getVipBetRange();
+    public isUsingMaxStakeLevel() {
+        return true;
     }
 }

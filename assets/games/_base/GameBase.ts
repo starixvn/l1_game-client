@@ -451,17 +451,21 @@ export default class GameBase extends BaseComponent {
         });
     }
 
+    public isUsingMaxStakeLevel() {
+        return false;
+    }
+
     openGuide() {
         const dialog = cc.instantiate(this.guidePrefab);
         const guide = dialog.getComponent(WebViewGuide);
         const { minBet, maxBet } = this.getBetRange();
-        guide.initURL(this.gameId, minBet, maxBet, getLocale());
+        guide.initURL(this.gameId, getLocale(), { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();
     }
 
     getBetRange() {
-        return this.getNormalBetRange();
+        return this.isUsingMaxStakeLevel() ? this.getVipBetRange() : this.getNormalBetRange();
     }
 
     protected getNormalBetRange() {

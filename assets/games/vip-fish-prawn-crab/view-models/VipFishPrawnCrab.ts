@@ -183,8 +183,8 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
         this.gameConfigs.odds && this.oddItems.forEach((item) => item.setValue(this.gameConfigs.odds[item.node.name]));
     }
 
-    getBetRange() {
-        return this.getVipBetRange();
+    public isUsingMaxStakeLevel() {
+        return true;
     }
 
     public highlightLastResult() {
