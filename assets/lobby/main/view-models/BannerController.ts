@@ -80,13 +80,14 @@ export default class BannerController extends cc.Component {
         }
     }
 
-    handleReleaseTouch() {
+    handleReleaseTouch(e) {
         if (!this.started) {
             return;
         }
         this.started = false;
         const node = this.getCurrentPage();
-        const delta = node.x - this.touchOffset.x;
+        const location = e.getLocation();
+        const delta = location.x - this.touchOffset.x;
         if (Math.abs(delta) >= this.node.width * this.dragThreshold) {
             if (delta > 0) {
                 this.showPreviouPage();
@@ -100,7 +101,7 @@ export default class BannerController extends cc.Component {
     }
 
     eventEnd(e) {
-        this.handleReleaseTouch();
+        this.handleReleaseTouch(e);
         const location = e.getLocation();
         const delta = location.x - this.touchOffset.x;
         if (Math.abs(delta) > 10) {
@@ -129,8 +130,8 @@ export default class BannerController extends cc.Component {
 
     eventStart(e) {
         this.started = true;
-        const node = this.getCurrentPage();
-        this.touchOffset = cc.v2(e.getLocation().x - node.position.x, node.position.y);
+        const location = e.getLocation();
+        this.touchOffset = cc.v2(location.x, location.y);
     }
 
     getCurrentPage(): cc.Node {
@@ -144,6 +145,7 @@ export default class BannerController extends cc.Component {
     showNextPage() {
         this.animationMovePage(this.currentIndex + 1, PageDirection.Right);
     }
+
     showPreviouPage() {
         this.animationMovePage(this.currentIndex - 1, PageDirection.Left);
     }
