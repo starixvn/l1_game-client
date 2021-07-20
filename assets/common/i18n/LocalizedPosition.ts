@@ -1,18 +1,17 @@
 const { ccclass, property } = cc._decorator;
 
-@ccclass
-class LocalizedPositionData {
-    @property()
-    language = "";
-
-    @property(cc.Node)
-    node: cc.Node = null;
-}
+const LocalizedPositionData = cc.Class({
+    name: "LocalizedPositionData",
+    properties: {
+        language: "",
+        node: cc.Node
+    }
+});
 
 @ccclass
 export default class LocalizedPosition extends cc.Component {
     @property({ type: LocalizedPositionData })
-    data: LocalizedPositionData[] = [];
+    data = [];
 
     onLoad() {
         const lang = window.i18n.curLang;
