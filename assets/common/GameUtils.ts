@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import * as SabaConfigs from "../configs/SabaConfigs";
+import { GameInfos } from "../configs/SabaConfigs";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
 
@@ -58,16 +59,18 @@ export default class GameUtils {
             openLuckyWheelFunc && openLuckyWheelFunc();
             return;
         }
-        if (SabaConfigs.gameRoomNewSocketIds.includes(gameId)) {
-            miniPanel.openNewGameSocket(null, gameId);
-        } else if (SabaConfigs.gameRoomIds.includes(gameId)) {
-            miniPanel.openGameRoom(null, gameId);
-        } else if (SabaConfigs.gameMiniNewSocketIds.includes(gameId)) {
-            miniPanel.openNewSocketMiniGame(null, gameId);
-            openLuckyWheelFunc && openLuckyWheelFunc();
-        } else {
+
+        const info = GameInfos[gameId];
+        if (info.mainSocket) {
             miniPanel.openGame(null, gameId);
             openLuckyWheelFunc && openLuckyWheelFunc();
+        } else {
+            if (info.mini) {
+                miniPanel.openNewSocketMiniGame(null, gameId);
+                openLuckyWheelFunc && openLuckyWheelFunc();
+            } else {
+                miniPanel.openNewGameSocket(null, gameId);
+            }
         }
     }
 

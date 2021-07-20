@@ -103,7 +103,9 @@ cc.Class({
             authManager.triggerSignIn(this);
         } else {
             authManager.auth();
-            !window.openGameId && this.openInRoomGame(this.inRoomGameId);
+            if (!window.openGameId && this.inRoomGameId) {
+                this.openInRoomGame(this.inRoomGameId);
+            }
         }
 
         if (cc.RedT.IS_LOGIN) {
@@ -437,7 +439,8 @@ cc.Class({
     },
 
     openInRoomGame(gameId) {
-        if (SabaConfigs.gameRoomNewSocketIds.includes(+gameId)) {
+        const info = SabaConfigs.GameInfos[gameId];
+        if (info && !info.mini && !info.mainSocket) {
             cc.RedT.MiniPanel.openNewGameSocket(null, +gameId);
         }
     },

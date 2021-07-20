@@ -3,7 +3,7 @@ import * as socketIo from "socket.io-client";
 
 import { getSession } from "./common/auth/SessionManager";
 import { sentryLogger } from "./common/logger.js";
-import { gameMiniNewSocketIds } from "./configs/SabaConfigs";
+import { GameInfos, gameMiniNewSocketIds } from "./configs/SabaConfigs";
 
 @injectable()
 export default class SocketIOController {
@@ -61,6 +61,12 @@ export default class SocketIOController {
     }
 
     closeMiniGameSockets() {
-        gameMiniNewSocketIds.forEach(this.closeSocket.bind(this));
+        const keys = Object.keys(this.gameSockets);
+        keys.forEach((gameId) => {
+            const info = GameInfos[gameId];
+            if (info.mini) {
+                this.closeSocket(gameId);
+            }
+        });
     }
 }

@@ -37,7 +37,8 @@ const configs = {
         },
         1: {
             key: "taixiu",
-            route: "bigsmall"
+            route: "bigsmall",
+            mini: true
         },
         2: {
             key: "XocXoc",
@@ -45,31 +46,38 @@ const configs = {
         },
         3: {
             key: "BauCua",
-            route: "fishprawncrab"
+            route: "fishprawncrab",
+            mini: true
         },
         4: {
             key: "TXTurbo",
-            route: "turbobigsmall"
+            route: "turbobigsmall",
+            mini: true
         },
         6: {
             id: 6,
             key: "OETurbo",
-            route: "turbooddeven"
+            route: "turbooddeven",
+            mini: true
         },
         7: {
-            key: "DragonTiger"
+            key: "DragonTiger",
+            mini: true
         },
         8: {
             key: "KenoProMax"
         },
         9: {
-            key: "MiniSeDie"
+            key: "MiniSeDie",
+            mini: true
         },
         10: {
             key: "Baccarat"
         },
         11: {
-            key: "KenoProViet"
+            key: "KenoProViet",
+            mini: true,
+            mainSocket: true
         },
         21: {
             key: "Roulette"
@@ -82,7 +90,8 @@ const configs = {
             key: "BlackJack"
         },
         24: {
-            key: "SpecialSeDie"
+            key: "SpecialSeDie",
+            mini: true
         },
         25: {
             key: "SicBo"
@@ -107,9 +116,7 @@ const configs = {
         }
     },
     gameRoomRegNames: {},
-    gameRoomIds: [],
-    gameRoomNewSocketIds: [2, 8, 10, 21, 22, 23, 25, 26, 27, 28, 29, 31, 35],
-    gameMiniNewSocketIds: [24, 9, 1, 3, 4, 6, 7]
+    gameRoomIds: []
 };
 
 module.exports = configs;

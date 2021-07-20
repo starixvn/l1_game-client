@@ -177,32 +177,6 @@ export default class MiniPanel extends BaseComponent {
         this.gameMiniInitializers.openNewSocket(id);
     }
 
-    openGameRoom(e, id) {
-        this.popupMiniGame.hideListGame();
-
-        if (this.currentGameRoomId === id) {
-            return;
-        }
-
-        sessionManager.removeInRoomGameId();
-
-        if (!cc.RedT.isConnected) {
-            const gameName = GameUtils.getGameNameString(id);
-            this.onConnectSocketFailed(gameName);
-            return;
-        }
-
-        if (cc.RedT.IS_LOGIN) {
-            const regName = SabaConfigs.gameRoomRegNames[id];
-            this.loading.node.active = true;
-            cc.RedT.inGame.outRoomGame().then(() => {
-                cc.RedT.send({ g: { reg: regName } });
-            });
-        } else {
-            this.forceKickedOut();
-        }
-    }
-
     openNewGameSocket(event, gameId) {
         this.socketIOGameInitializers.openGame(gameId);
     }
