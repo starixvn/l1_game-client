@@ -140,7 +140,7 @@ window.i18n.languages.en = {
         unauthorized: "Unauthorized.",
         unavailableGame:
             "Game %{gameName} (#%{gameRoundId})\n\nThe game is unavailable at the moment. Please contact CSD for details, thank you.(%{errorCode})",
-        userInsufficientFund: "Your account has Insufficient funds. (%{errorCode})",
+        userInsufficientFund: "Your account has insufficient funds. (%{errorCode})",
         userNotFound: "User was not found.(%{errorCode})",
         userNotFoundPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! User was not found.(%{errorCode})",
         winLimitHit:
