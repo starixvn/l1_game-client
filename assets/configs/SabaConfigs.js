@@ -114,9 +114,7 @@ const configs = {
         35: {
             key: "ThreeCards"
         }
-    },
-    gameRoomRegNames: {},
-    gameRoomIds: []
+    }
 };
 
 module.exports = configs;

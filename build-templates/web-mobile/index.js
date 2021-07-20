@@ -202,11 +202,8 @@ function initGA() {
 function getCurrentLanguage() {
     let language = localStorage.getItem("current_language") || "vi";
 
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("lang")) {
-        const lang = urlParams.get("lang");
-        language = lang === "vi-VN" ? "vi" : "en";
-    }
+    const pathName = window.location.pathname;
+    language = pathName === "vi-VN" ? "vi" : "en";
     return language;
 }
 
