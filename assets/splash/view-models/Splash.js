@@ -40,8 +40,11 @@ cc.Class({
     },
     initLanguage() {
         let language = getCacheLanguage();
-        const pathName = window.location.pathname;
-        language = pathName === "vi-VN" ? "vi" : "en";
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("lang")) {
+            const lang = urlParams.get("lang");
+            language = lang === "vi-VN" ? "vi" : "en";
+        }
         setLanguage(language);
     },
     initOneSign: function () {
