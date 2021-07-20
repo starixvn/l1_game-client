@@ -11,7 +11,8 @@ export const sentryLogger = {
             window.Sentry.init({
                 dsn: configs.sentry.url,
                 environment: configs.sentry.env,
-                maxValueLength: 5000
+                maxValueLength: 5000,
+                ignoreErrors: ["fullscreen error", "exitFullscreen", "start the audio device"]
             });
             sentryLogger.loaded = true;
         }
