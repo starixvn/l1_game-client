@@ -235,7 +235,7 @@ window.i18n.languages.vi = {
         hand_id: "Tay Bài",
         head: "Đầu",
         history: "Lịch Sử",
-        round_history: "Lịch Sử",
+        round_history: "Lịch Sử Phiên",
         hit: "Rút Bài",
         honor: "Vinh Danh",
         hot_number: "Số Hay Trúng",
