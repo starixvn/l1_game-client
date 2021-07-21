@@ -1,9 +1,11 @@
+import i18n from "i18n/runtime-scripts/LanguageData";
+
 import * as authManager from "./common/auth/AuthManager";
 import { buildServerUrl } from "./common/helpers/UrlHelper";
 import logger from "./common/logger";
 import configs from "./configs/Configs";
 import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 const sentryLogger = logger();
 
 module.exports = {

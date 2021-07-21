@@ -1,8 +1,10 @@
 import * as _ from "lodash";
+
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { games } from "../../../configs/SabaConfigs";
+import NoticeUtil from "../../../common/utils/NoticeUtil";
+import { GameIds } from "../../../configs/SabaConfigs";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BetItem from "../../_base/view-models/BetItem";
@@ -13,7 +15,6 @@ import SicBoTimeHandler from "./handlers/SicBoTimeHandler";
 import SicBoBetItem from "./SicBoBetItem";
 import SicBoConfigs from "./SicBoConfigs";
 import SicBoDicesStatistic from "./SicBoDicesStatistic";
-import SicBoGuide from "./SicBoGuide";
 import SicBoHistory from "./SicBoHistory";
 import SicBoMajorChoicesStatistic from "./SicBoMajorChoicesStatistic";
 import SicBoOddsItem from "./SicBoOddsItem";
@@ -52,9 +53,6 @@ export default class SicBo extends SocketIOTableGameBase {
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
 
     @property(cc.Animation)
     openDiskAnimation: cc.Animation = null;
@@ -130,7 +128,9 @@ export default class SicBo extends SocketIOTableGameBase {
     }
 
     protected internalInit() {
-        this.init("SicBo", new SicBoConfigs(), null, 1, games.SicBo.id);
+        this.gameId = GameIds.SicBo;
+        this.setConfig(new SicBoConfigs());
+        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 
@@ -197,16 +197,16 @@ export default class SicBo extends SocketIOTableGameBase {
             const { result, settlementResult } = this.currentDataLogs[0];
 
             this.setDices(_.values(result));
-
+            const suffix = NoticeUtil.getSuffixSpriteName();
             let resultPrite: cc.SpriteFrame = null;
 
             if (settlementResult[SicBoBetType.anyTriple]) {
-                resultPrite = this.sicboAtlas.getSpriteFrame("Bo3");
+                resultPrite = this.sicboAtlas.getSpriteFrame(`Bo3${suffix}`);
             } else {
                 if (settlementResult[SicBoBetType.big]) {
-                    resultPrite = this.sicboAtlas.getSpriteFrame("big");
+                    resultPrite = this.sicboAtlas.getSpriteFrame(`big${suffix}`);
                 } else {
-                    resultPrite = this.sicboAtlas.getSpriteFrame("small");
+                    resultPrite = this.sicboAtlas.getSpriteFrame(`small${suffix}`);
                 }
             }
 
@@ -260,16 +260,6 @@ export default class SicBo extends SocketIOTableGameBase {
         }
 
         super.onDataGameRoom(data);
-    }
-
-    openGuide() {
-        cc.RedT.audio.playClick();
-        this.expandableMenu.collapseMenu();
-
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(SicBoGuide);
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(dialog);
     }
 
     openHistory() {

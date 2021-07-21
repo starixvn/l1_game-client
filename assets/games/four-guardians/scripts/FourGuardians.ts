@@ -1,6 +1,6 @@
 import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SlotGameBase from "../../_slotgame_base/SlotGameBase";
 import SlotGameTopWinner from "../../_slotgame_base/SlotGameTopWinner";
 import FourGuardiansConfig from "./FourGuardiansConfig";
@@ -22,7 +22,8 @@ export default class FourGuardians extends SlotGameBase {
 
     constructor() {
         super();
-        this.init("FourGuardians", null, null, 1, games.FourGuardians.id);
+        this.gameId = GameIds.FourGuardians;
+        this.setMiniPanelScale(1);
     }
 
     onLoad() {

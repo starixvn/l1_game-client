@@ -1,5 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import KenoBetHandler from "./handlers/KenoBetHandler";
 import KenoFinishHandler from "./handlers/KenoFinishHandler";
@@ -27,9 +27,6 @@ export default class Keno extends SocketIOTableGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
     @property(cc.Node)
     chipContainer: cc.Node = null;
 
@@ -45,7 +42,9 @@ export default class Keno extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.init("KenoProMax", new KenoConfigs(), null, 1, games.KenoProMax.id);
+        this.gameId = GameIds.KenoProMax;
+        this.setConfig(new KenoConfigs());
+        this.setMiniPanelScale(1);
     }
 
     initHandlers() {
@@ -63,14 +62,6 @@ export default class Keno extends SocketIOTableGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(KenoUserHistory);
         this.historyComponent.init(this.socket);
-        this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    public pressedShowGuide() {
-        cc.RedT.audio.playClick();
-        const dialog = cc.instantiate(this.guidePrefab);
-        const kenoGuide = dialog.getComponent("KenoGuide");
-        kenoGuide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }
 

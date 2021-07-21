@@ -56,7 +56,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
             const node = cc.instantiate(this.prefabDetail);
             const detailItem: MiniKenoHistoryDetailItem = node.getComponent("MiniKenoHistoryDetailItem");
             detailItem.time.string = formatDateTime(item.time);
-            detailItem.choice.string = GameUtils.getBetChoiceString(item.choice);
+            detailItem.choice.string = GameUtils.getBetChoiceString(item.choice).toUpperCase();
             detailItem.amount.string = numberWithCommas(item.amount);
             this.betDetails.addChild(node);
         });
@@ -149,7 +149,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
             if (settlementResult[key]) {
                 const label = this.resultLabels[index];
                 label.node.active = true;
-                label.string = GameUtils.getBetChoiceString(key);
+                label.string = GameUtils.getBetChoiceString(key).toUpperCase();
                 index++;
             }
         });

@@ -1,9 +1,12 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import DropDownList from "../../../../common/drop-down-list/view-models/DropDownList";
 import DropDownOption from "../../../../common/drop-down-list/view-models/DropDownOption";
+import GameUtils from "../../../../common/GameUtils";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import { GameIds } from "../../../../configs/SabaConfigs";
 import GameHistoryBase from "../../../_base/view-models/GameHistoryBase";
-import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
 import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
 import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
 
@@ -35,29 +38,19 @@ export default class MiniKenoHistory extends GameHistoryBase {
         new DropDownOption("kenoMax2", "Keno Max 2"),
         new DropDownOption("kenoMini", "Keno Mini"),
         new DropDownOption("kenoMini2", "Keno Mini 2"),
-        new DropDownOption("kenoEast", "Keno Đông"),
-        new DropDownOption("kenoWest", "Keno Tây"),
-        new DropDownOption("kenoSouth", "Keno Nam"),
-        new DropDownOption("kenoNorth", "Keno Bắc")
-        // new DropDownOption("kenoProViet", "Keno Pro Viet")
+        new DropDownOption("kenoEast", GameUtils.getGameNameString(GameIds.KenoEast)),
+        new DropDownOption("kenoWest", GameUtils.getGameNameString(GameIds.KenoWest)),
+        new DropDownOption("kenoSouth", GameUtils.getGameNameString(GameIds.KenoSouth)),
+        new DropDownOption("kenoNorth", GameUtils.getGameNameString(GameIds.KenoNorth))
     ];
 
     private readonly betChoices = ["even", "odd", "big", "small", "gold", "wood", "water", "fire", "earth"];
-
-    isKenoProViet() {
-        return this.gameName === "kenoProViet";
-    }
-
-    updateRoundLabel() {
-        this.roundLabel.string = this.isKenoProViet() ? "KỲ VÉ" : "PHIÊN";
-    }
 
     onLoad() {
         super.onLoad();
 
         this.initDropDown();
         this.init(this.kenoGameDropDownList.selectedItem.value);
-        this.updateRoundLabel();
     }
 
     initDropDown() {
@@ -68,10 +61,7 @@ export default class MiniKenoHistory extends GameHistoryBase {
     }
 
     onGameChanged() {
-        this.removeDataObserver(this.gameName);
         this.gameName = this.kenoGameDropDownList.selectedItem.value;
-        this.addDataObserver(this.gameName);
-        this.updateRoundLabel();
         this.pages.resetPageCurrent();
         this.get_data();
     }
@@ -94,29 +84,22 @@ export default class MiniKenoHistory extends GameHistoryBase {
             item.settlementResult = settlementResult;
             item.betLogDetails = betLogDetails;
             item.time.string = getStringDateByTime(betLog.time);
-            item.roundId.string = this.gameName === this.kenoProVietGameName ? MiniKenoProViet.formatProVGameRound(phien) : phien;
+            item.roundId.string = phien;
 
             this.betChoices.forEach((choice) => {
                 item[choice].string = numberWithCommas(betLog[choice]);
             });
 
-            if (this.gameName === this.kenoProVietGameName && !betLog.thanhtoan) {
-                item.total.string = "...";
-                item.total.node.color = cc.Color.WHITE;
-                item.total.node.getComponent(cc.Button).interactable = false;
-                item.win.string = "Đang chờ";
-            } else {
-                const total = result.reduce((total: number, number: number) => total + number, 0);
-                item.total.string = total;
+            const total = result.reduce((total: number, number: number) => total + number, 0);
+            item.total.string = total;
 
-                Object.keys(settlementResult).forEach((key) => {
-                    if (settlementResult[key]) {
-                        item[key].node.color = cc.Color.YELLOW;
-                    }
-                });
-                item.win.string = numberWithCommas(betwin);
-                item.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-            }
+            Object.keys(settlementResult).forEach((key) => {
+                if (settlementResult[key]) {
+                    item[key].node.color = cc.Color.YELLOW;
+                }
+            });
+            item.win.string = numberWithCommas(betwin);
+            item.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
             this.content.addChild(node);
         });
@@ -124,9 +107,9 @@ export default class MiniKenoHistory extends GameHistoryBase {
 
     showHistoryDetail(round, result, settlementResult, betLogDetails) {
         const dialog = cc.instantiate(this.prefabRoundResult);
-        this.historyDetail = dialog.getComponent("MiniKenoHistoryDetail");
+        this.historyDetail = dialog.getComponent(MiniKenoHistoryDetail);
         this.historyDetail.roundId.string = round;
-        this.historyDetail.roundLabel.string = this.isKenoProViet() ? "Kỳ vé:" : "Phiên:";
+        this.historyDetail.roundLabel.string = i18n.t("ui.round");
         this.node.addChild(dialog);
         this.historyDetail.setData(result, settlementResult, betLogDetails);
         this.historyDetail.show();

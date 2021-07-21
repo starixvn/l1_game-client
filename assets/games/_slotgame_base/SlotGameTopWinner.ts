@@ -1,10 +1,11 @@
-import PaginationCommon from './../../common/helpers/Pagination/PaginationCommon';
-import SlotGameTopWinnerItem from './SlotGameTopWinnerItem';
+import BaseComponent from "../../common/BaseComponent";
+import PaginationCommon from "./../../common/helpers/Pagination/PaginationCommon";
+import SlotGameTopWinnerItem from "./SlotGameTopWinnerItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SlotGameTopWinner extends cc.Component {
+export default class SlotGameTopWinner extends BaseComponent {
     @property(PaginationCommon)
     pagination: PaginationCommon = null;
 
@@ -89,7 +90,7 @@ export default class SlotGameTopWinner extends cc.Component {
     }
 
     receivedData(data) {
-        if (!this.node || !this.node.isValid) {
+        if (!this.isAlive()) {
             return;
         }
 

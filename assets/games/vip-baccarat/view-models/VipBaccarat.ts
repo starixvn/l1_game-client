@@ -1,10 +1,10 @@
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../configs/SabaConfigs";
-import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
-import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
+import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
+import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
 import VipBaccaratBetHandler from "./data-handlers/VipBaccaratBetHandler";
 import VipBaccaratFinishHandler from "./data-handlers/VipBaccaratFinishHandler";
 import VipBaccaratLogsHandler from "./data-handlers/VipBaccaratLogsHandler";
@@ -40,9 +40,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
     @property(cc.Label)
     winNoticeLabel: cc.Label = null;
 
@@ -76,7 +73,9 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     }
 
     protected internalInit() {
-        this.init("VipBaccarat", new BaccaratConfigs(), null, 1, games.VipBaccarat.id);
+        this.gameId = GameIds.VipBaccarat;
+        this.setConfig(new BaccaratConfigs());
+        this.setMiniPanelScale(1);
     }
 
     onLoad() {
@@ -108,6 +107,10 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         this.betHandler = new VipBaccaratBetHandler(this);
     }
 
+    public isUsingMaxStakeLevel() {
+        return true;
+    }
+
     openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(VipBaccaratHistory);
@@ -121,13 +124,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         }
 
         super.onDataGameRoom(data);
-    }
-
-    openGuide() {
-        const guideNode = cc.instantiate(this.guidePrefab);
-        const guide = guideNode.getComponent("BaccaratGuide");
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(guideNode);
     }
 
     resetDataAndUI() {

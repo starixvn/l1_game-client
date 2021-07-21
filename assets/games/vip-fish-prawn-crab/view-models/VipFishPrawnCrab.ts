@@ -1,6 +1,7 @@
 import * as _ from "lodash";
+
 import GameUtils from "../../../common/GameUtils";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
 import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
@@ -9,7 +10,6 @@ import VipFishPrawnCrabTimeHandler from "./handlers/VipFishPrawnCrabTimeHandler"
 import VipFishPrawnCrabBetItem from "./VipFishPrawnCrabBetItem";
 import VipFishPrawnCrabConfigs from "./VipFishPrawnCrabConfigs";
 import vipFishPrawnCrabConstants from "./VipFishPrawnCrabConstants";
-import VipFishPrawnCrabGuide from "./VipFishPrawnCrabGuide";
 import VipFishPrawnCrabHistory from "./VipFishPrawnCrabHistory";
 import VipFishPrawnCrabOddItem from "./VipFishPrawnCrabOddItem";
 import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
@@ -22,9 +22,6 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
 
     @property({ type: cc.SpriteFrame })
     characterIcons: cc.SpriteFrame[] = [];
@@ -84,7 +81,9 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
     }
 
     protected internalInit() {
-        this.init("VipFishPrawnCrab", new VipFishPrawnCrabConfigs(), null, 1, games.VipFishPrawnCrab.id);
+        this.gameId = GameIds.VipFishPrawnCrab;
+        this.setConfig(new VipFishPrawnCrabConfigs());
+        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 
@@ -184,11 +183,8 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
         this.gameConfigs.odds && this.oddItems.forEach((item) => item.setValue(this.gameConfigs.odds[item.node.name]));
     }
 
-    openGuide() {
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(VipFishPrawnCrabGuide);
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(dialog);
+    public isUsingMaxStakeLevel() {
+        return true;
     }
 
     public highlightLastResult() {

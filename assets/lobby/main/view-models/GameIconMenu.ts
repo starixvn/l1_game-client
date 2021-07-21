@@ -1,10 +1,11 @@
+import BaseComponent from "../../../common/BaseComponent";
 import GameUtils from "../../../common/GameUtils";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class GameIconMenu extends cc.Component {
+export default class GameIconMenu extends BaseComponent {
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -30,7 +31,7 @@ export default class GameIconMenu extends cc.Component {
             }
         }
 
-        if (this.node === null || !this.node.isValid) {
+        if (!this.isAlive()) {
             return;
         }
         this.onInitialized();

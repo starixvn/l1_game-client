@@ -1,8 +1,11 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
+import { getLocale } from "../../../common/auth/SessionManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import LuckyWheelWinning from "./LuckyWheelWinning";
 
 const { ccclass, property } = cc._decorator;
@@ -97,8 +100,6 @@ export default class LuckyWheel extends cc.Component {
     wheelTween: cc.Tween;
     wheelInitialized = false;
     buttonTween: cc.Tween;
-
-    goodLuckMessage = "CHÚC MAY MẮN";
 
     private readonly dataObserverKey = "LuckyWheel";
     private readonly defaultRoundNumber = 4;
@@ -310,6 +311,8 @@ export default class LuckyWheel extends cc.Component {
     }
 
     createWheel() {
+        const goodLuckMessage = i18n.t("ui.goodluck_on_wheel").toUpperCase();
+
         this.scoinPresents.forEach((scoin, index) => {
             const pieceNode = cc.instantiate(this.piece);
             const spriteComponent = pieceNode.getComponent(cc.Sprite);
@@ -344,8 +347,7 @@ export default class LuckyWheel extends cc.Component {
                     break;
             }
             spriteComponent.spriteFrame = sprite;
-
-            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin === 0 ? this.goodLuckMessage : `${scoin} Scoin`;
+            pieceNode.getChildByName("scoin").getComponent(cc.Label).string = scoin === 0 ? goodLuckMessage : `${scoin} Scoin`;
 
             this.wheelPieces.addChild(pieceNode);
         });
@@ -382,8 +384,12 @@ export default class LuckyWheel extends cc.Component {
     }
 
     onPressedGameGuide() {
-        const gameGuide = cc.instantiate(this.gamGuidePrefab);
-        this.node.addChild(gameGuide);
+        const dialog = cc.instantiate(this.gamGuidePrefab);
+        const locale = getLocale();
+        const guide = dialog.getComponent(WebViewGuide);
+        guide.setURL(`/?name=luckyWheel&t=blue&lang=${locale}&v=${Date.now()}`);
+        this.node.addChild(dialog);
+        guide.loadWebView();
     }
 
     handleWinningEffect(scoin: number) {

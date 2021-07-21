@@ -1,6 +1,5 @@
 import KenoRoundResult from "../../../keno-pro/view-models/history/KenoRoundResult";
-import MiniKenoProViet from "../../../mini-keno-pro-viet/view-models/MiniKenoProViet";
-import KenoUtils, { KenoType } from "../KenoUtils";
+import KenoUtils from "../KenoUtils";
 import MiniKeno from "../MiniKeno";
 import MiniKenoTimer from "./MiniKenoTimer";
 
@@ -24,12 +23,6 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
         this.timer.node.parent.active = true;
 
         this.timer.setTime(time);
-    }
-
-    onClickRound() {
-        if (this.miniKeno.kenoType === KenoType.ProViet) {
-            MiniKenoProViet.openVietlottUrl();
-        }
     }
 
     clear() {

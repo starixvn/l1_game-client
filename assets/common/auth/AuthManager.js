@@ -1,3 +1,5 @@
+import i18n from "i18n/runtime-scripts/LanguageData";
+
 import * as configs from "../../configs/Configs";
 import httpHelper from "../helpers/httpHelper";
 import { buildServerUrl } from "../helpers/UrlHelper";
@@ -5,7 +7,6 @@ import logger from "../logger";
 import NoticeUtil from "../utils/NoticeUtil";
 import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
@@ -79,11 +80,11 @@ export function checkSSO(labelMessage, onSuccessFunc) {
                     clearTokenOnUrl();
                     onSuccessFunc();
                 } else {
-                    labelMessage.string = "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.";
+                    labelMessage.string = i18n.t("ui.login_failed");
                 }
             })
             .catch((error) => {
-                labelMessage.string = "Mất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.";
+                labelMessage.string = i18n.t("ui.connection_lost");
                 sentryLogger.logError(error);
             });
 
@@ -122,7 +123,7 @@ export function triggerSignIn(main) {
                 if (response.user) {
                     main.handleUserData(response.user);
                 }
-                main.Authorized(response.authorized);
+                main.serviceAuthorized(response.authorized);
             })
             .catch((e) => {
                 sentryLogger.logError(e);

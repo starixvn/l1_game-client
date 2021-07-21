@@ -1,5 +1,7 @@
-import { getStringDateByTime } from '../../../common/helpers/DateTimeHelper';
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -57,24 +59,6 @@ export default class BigSmallHistoryItem extends cc.Component {
     }
 
     convertChoiceType(choice: string): string {
-        let betChoice = "";
-
-        switch (choice) {
-            case "big":
-                betChoice = "Tài";
-                break;
-            case "small":
-                betChoice = "Xỉu";
-                break;
-            case "even":
-                betChoice = "Chẵn";
-                break;
-            case "odd":
-                betChoice = "Lẻ";
-                break;
-            default:
-                break;
-        }
-        return betChoice;
+        return i18n.t(`ui.choice_${choice}`);
     }
 }

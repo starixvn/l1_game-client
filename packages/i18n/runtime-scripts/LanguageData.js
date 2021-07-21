@@ -33,6 +33,7 @@ function initPolyglot(data) {
 }
 
 module.exports = {
+    inst: polyInst,
     /**
      * This method allow you to switch language during runtime, language argument should be the same as your data file name
      * such as when language is 'zh', it will load your 'zh.js' data source.
@@ -68,8 +69,6 @@ module.exports = {
         }
     },
 
-    inst: polyInst,
-
     updateSceneRenderers() {
         // very costly iterations
         let rootNodes = cc.director.getScene().children;
@@ -78,9 +77,6 @@ module.exports = {
         for (let i = 0; i < rootNodes.length; ++i) {
             let labels = rootNodes[i].getComponentsInChildren("LocalizedLabel");
             Array.prototype.push.apply(allLocalizedLabels, labels);
-
-            const labelWithFormat = rootNodes[i].getComponentsInChildren("LocalizedLabelWithFormat");
-            Array.prototype.push.apply(allLocalizedLabels, labelWithFormat);
         }
         for (let i = 0; i < allLocalizedLabels.length; ++i) {
             let label = allLocalizedLabels[i];

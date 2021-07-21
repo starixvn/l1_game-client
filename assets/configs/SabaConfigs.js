@@ -1,130 +1,120 @@
 const configs = {
-    games: {
-        BigSmall: {
-            id: 1,
-            name: "Tài Xỉu"
-        },
-        XocXoc: {
-            id: 2,
-            name: "Xóc Đĩa"
-        },
-        BauCua: {
-            id: 3,
-            name: "Bầu Cua"
-        },
-        TurboBigSmall: {
-            id: 4,
-            name: "Tài Xỉu Siêu Tốc"
-        },
-        ChanLe: {
-            id: 5,
-            name: "Chẵn Lẻ"
-        },
-        TurboOddEven: {
-            id: 6,
-            name: "Chẵn Lẻ Siêu Tốc"
-        },
-        DragonTiger: {
-            id: 7,
-            name: "Rồng Hổ"
-        },
-        KenoProMax: {
-            id: 8,
-            name: "Keno Pro Max"
-        },
-        MiniSedie: {
-            id: 9,
-            name: "Xóc Đĩa Mini"
-        },
-        Baccarat: {
-            id: 10,
-            name: "Cào Baccarat"
-        },
-        KenoProViet: {
-            id: 11,
-            name: "Keno Pro Viet"
-        },
-        KenoMax: {
-            id: 12,
-            name: "Keno Max"
-        },
-        KenoMax2: {
-            id: 13,
-            name: "Keno Max 2"
-        },
-        KenoMini: {
-            id: 14,
-            name: "Keno Mini"
-        },
-        KenoMini2: {
-            id: 15,
-            name: "Keno Mini 2"
-        },
-        KenoEast: {
-            id: 16,
-            name: "Keno Đông"
-        },
-        KenoWest: {
-            id: 17,
-            name: "Keno Tây"
-        },
-        KenoSouth: {
-            id: 18,
-            name: "Keno Nam"
-        },
-        KenoNorth: {
-            id: 19,
-            name: "Keno Bắc"
-        },
-        Roulette: {
-            id: 21,
-            name: "Roulette"
-        },
-        VipSedie: {
-            id: 22,
-            name: "Xóc Đĩa VIP"
-        },
-        BlackJack: {
-            id: 23,
-            name: "Blackjack"
-        },
-        SpecialSeDie: {
-            id: 24,
-            name: "Xóc Đĩa Cân Cửa"
-        },
-        VipFishPrawnCrab: {
-            id: 26,
-            name: "Bầu Cua VIP"
-        },
-        SicBo: {
-            id: 25,
-            name: "Tài Xỉu Sic Bo"
-        },
-        VipBaccarat: {
-            id: 27,
-            name: "Cào Baccarat VIP"
-        },
-        VipSedieWar: {
-            id: 28,
-            name: "Xóc Đĩa Đối Kháng"
-        },
-        FourGuardians: {
-            id: 29,
-            name: "Long Lân Quy Phụng"
-        },
-        Lottery: {
-            id: 31,
-            name: "Xổ Số RNG"
-        },
-        ThreeCards: {
-            id: 35,
-            name: "Ba Lá"
-        }
+    GameIds: {
+        Lobby: 0,
+        BigSmall: 1,
+        SeDie: 2,
+        FishPrawnCrab: 3,
+        TurboBigSmall: 4,
+        TurboOddEven: 6,
+        DragonTiger: 7,
+        KenoProMax: 8,
+        MiniSedie: 9,
+        Baccarat: 10,
+        KenoProViet: 11,
+        KenoMax: 12,
+        KenoMax2: 13,
+        KenoMini: 14,
+        KenoMini2: 15,
+        KenoEast: 16,
+        KenoWest: 17,
+        KenoSouth: 18,
+        KenoNorth: 19,
+        Roulette: 21,
+        VipSedie: 22,
+        BlackJack: 23,
+        SpecialSeDie: 24,
+        SicBo: 25,
+        VipFishPrawnCrab: 26,
+        VipBaccarat: 27,
+        VipSedieWar: 28,
+        FourGuardians: 29,
+        Lottery: 31,
+        ThreeCards: 35
     },
-    gameRoomRegNames: {},
-    gameRoomIds: [],
-    gameRoomNewSocketIds: [2, 8, 10, 21, 22, 23, 25, 26, 27, 28, 29, 31, 35],
-    gameMiniNewSocketIds: [24, 9, 1, 3, 4, 6, 7]
+    GameInfos: {
+        0: {
+            key: "main"
+        },
+        1: {
+            key: "taixiu",
+            route: "bigsmall",
+            mini: true
+        },
+        2: {
+            key: "XocXoc",
+            route: "sedie"
+        },
+        3: {
+            key: "BauCua",
+            route: "fishprawncrab",
+            mini: true
+        },
+        4: {
+            key: "TXTurbo",
+            route: "turbobigsmall",
+            mini: true
+        },
+        6: {
+            id: 6,
+            key: "OETurbo",
+            route: "turbooddeven",
+            mini: true
+        },
+        7: {
+            key: "DragonTiger",
+            mini: true
+        },
+        8: {
+            key: "KenoProMax"
+        },
+        9: {
+            key: "MiniSeDie",
+            mini: true
+        },
+        10: {
+            key: "Baccarat"
+        },
+        11: {
+            key: "KenoProViet",
+            mini: true,
+            mainSocket: true
+        },
+        21: {
+            key: "Roulette"
+        },
+        22: {
+            key: "VipSeDie",
+            route: "vsedie"
+        },
+        23: {
+            key: "BlackJack"
+        },
+        24: {
+            key: "SpecialSeDie",
+            mini: true
+        },
+        25: {
+            key: "SicBo"
+        },
+        26: {
+            key: "VipFishPrawnCrab"
+        },
+        27: {
+            key: "VipBaccarat"
+        },
+        28: {
+            key: "VipSedieWar"
+        },
+        29: {
+            key: "FourGuardians"
+        },
+        31: {
+            key: "Lottery"
+        },
+        35: {
+            key: "ThreeCards"
+        }
+    }
 };
 
 module.exports = configs;

@@ -1,5 +1,5 @@
 window.mobilecheck = function () {
-    var check = false;
+    let check = false;
     (function (a) {
         if (
             /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
@@ -15,16 +15,16 @@ window.mobilecheck = function () {
 };
 
 function toggleFullScreen() {
-    var doc = window.document;
-    var docEl = document.documentElement;
+    const doc = window.document;
+    const docEl = document.documentElement;
 
-    var requestFullScreen =
+    const requestFullScreen =
         docEl.webkitEnterFullscreen ||
         docEl.requestFullscreen ||
         docEl.mozRequestFullScreen ||
         docEl.webkitRequestFullScreen ||
         docEl.msRequestFullscreen;
-    var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+    // const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
     if (
         !doc.fullscreenElement &&
@@ -38,8 +38,9 @@ function toggleFullScreen() {
 }
 
 function showIntruction() {
-    var instruction = document.getElementById("myInstruction");
-    var show = window.innerHeight < screen.width - 20;
+    const instruction = document.getElementById("myInstruction");
+    const navBarHeight = getNavigationBarHeight();
+    const show = window.innerHeight < screen.width - navBarHeight;
     instruction.style.display = show ? "block" : "none";
 }
 
@@ -49,26 +50,36 @@ function quickHideAddressBar() {
     }, 0);
 }
 
+function getNavigationBarHeight() {
+    const userAgent = window.navigator.userAgent;
+    let navBarHeight = 20;
+    if (userAgent.match(/ipad/i)) {
+        navBarHeight = 75;
+    }
+    return navBarHeight;
+}
+
 function updateViewport() {
-    var userAgent = window.navigator.userAgent;
+    const userAgent = window.navigator.userAgent;
     if (userAgent.match(/iphone|ipad|ipod/i)) {
         let height = screen.width;
+        const navBarHeight = getNavigationBarHeight();
         if (userAgent.match(/crios/i)) {
-            height -= 20;
+            height -= navBarHeight;
         }
-        let vh = height * 0.01;
+        const vh = height * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
     } else if (userAgent.match(/android/i)) {
         const height = window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
-        let vh = height * 0.01;
+        const vh = height * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
     } else {
         document.documentElement.style.setProperty("--vh", `1%`);
     }
 }
 
-let handleFullScreen = function () {
-    var userAgent = window.navigator.userAgent;
+function handleFullScreen() {
+    const userAgent = window.navigator.userAgent;
     updateViewport();
     if (userAgent.match(/iPad|iPhone|iPod/i)) {
         document.body.style.overflowY = "scroll";
@@ -76,7 +87,7 @@ let handleFullScreen = function () {
         window.addEventListener("resize", function () {
             showIntruction();
             updateViewport();
-            toggleFullScreen();
+            // toggleFullScreen();
             quickHideAddressBar();
         });
         window.addEventListener("scroll", () => {
@@ -85,7 +96,7 @@ let handleFullScreen = function () {
     }
 
     if (userAgent.match(/android/i)) {
-        var focused = false;
+        let focused = false;
         window.onfocus = () => {
             focused = true;
         };
@@ -93,10 +104,10 @@ let handleFullScreen = function () {
             focused = false;
         };
 
-        var fullButton = document.getElementById("buttonFullAndroid");
+        const fullButton = document.getElementById("buttonFullAndroid");
         fullButton.style.display = "block";
         window.onresize = () => {
-            var isFullScreen = screen.height - window.innerHeight < 1;
+            const isFullScreen = screen.height - window.innerHeight < 1;
             fullButton.style.display = isFullScreen || !focused ? "none" : "block";
             updateViewport();
         };
@@ -105,16 +116,17 @@ let handleFullScreen = function () {
             fullButton.style.display = "none";
         };
     }
-};
+}
 
-(function () {
+function initGameEngine() {
+    console.log("initGameEngine");
     // open web debugger console
     if (typeof VConsole !== "undefined") {
         window.vConsole = new VConsole();
     }
 
-    var debug = window._CCSettings.debug;
-    var splash = document.getElementById("splash");
+    const debug = window._CCSettings.debug;
+    const splash = document.getElementById("splash");
     splash.style.display = "block";
 
     function loadScript(moduleName, cb) {
@@ -123,7 +135,7 @@ let handleFullScreen = function () {
             domScript.removeEventListener("load", scriptLoaded, false);
             cb && cb();
         }
-        var domScript = document.createElement("script");
+        const domScript = document.createElement("script");
         domScript.async = true;
         domScript.src = moduleName;
         domScript.addEventListener("load", scriptLoaded, false);
@@ -138,39 +150,84 @@ let handleFullScreen = function () {
         }
     });
     handleFullScreen();
-})();
+}
 
-const domains = ["sabagame.com", "gamesaba.com", "sabagame.net", "gamesaba.net"];
+function initGA() {
+    console.log("initGA");
+    const domains = [
+        "www.sabagame.com",
+        "sabagame.com",
+        "www.gamesaba.com",
+        "gamesaba.com",
+        "www.sabagame.net",
+        "sabagame.net",
+        "www.gamesaba.net",
+        "gamesaba.net"
+    ];
 
-if (
-    domains.some((domain) => {
-        return window.location.hostname.indexOf(domain) >= 0;
-    })
-) {
-    loadScript("https://www.googletagmanager.com/gtag/js?id=UA-161943539-1").then(
-        () => {
-            console.log("Init GA");
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments);
+    if (
+        domains.some((domain) => {
+            return window.location.hostname === domain;
+        })
+    ) {
+        loadScript("https://www.googletagmanager.com/gtag/js?id=UA-161943539-1").then(
+            () => {
+                console.log("Init GA");
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+                gtag("js", new Date());
+                gtag("config", "UA-161943539-1");
+            },
+            (reason) => {
+                console.log("Init GA failed with" + reason);
             }
-            gtag("js", new Date());
-            gtag("config", "UA-161943539-1");
-        },
-        (reason) => {
-            console.log("Init GA failed with" + reason);
-        }
-    );
+        );
+    }
+
+    function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+            let script;
+            script = document.createElement("script");
+            script.src = src;
+            script.async = true;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
 }
 
-function loadScript(src) {
-    return new Promise(function (resolve, reject) {
-        let script;
-        script = document.createElement("script");
-        script.src = src;
-        script.async = true;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-    });
+function getCurrentLanguage() {
+    let language = localStorage.getItem("current_language") || "vi";
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("lang")) {
+        const lang = urlParams.get("lang");
+        language = lang === "vi-VN" ? "vi" : "en";
+    }
+    return language;
 }
+
+function updateLocalizedImages() {
+    const splashText = document.getElementById("splash_text");
+    const language = getCurrentLanguage();
+    const suffixSite = configs.site === "SC2" ? "_sc2" : "_sc1";
+    const suffixLang = language !== "vi" ? "_en" : "";
+    const className = `splash_text${suffixSite}${suffixLang}`;
+    splashText.className += ` ${className}`;
+}
+
+function updateSplashLogo() {
+    const splash = document.getElementById("splash_logo");
+    const splashText = document.getElementById("splash_text");
+    const suffix = configs.site === "SC2" ? "_Vgaming" : "";
+    splash.className = `splash${suffix}`;
+    splashText.className = `splash_text${suffix}`;
+}
+
+updateSplashLogo();
+updateLocalizedImages();
+initGameEngine();
+initGA();

@@ -78,22 +78,22 @@
         "__id__": 8
       },
       {
-        "__id__": 10
+        "__id__": 11
       },
       {
-        "__id__": 12
+        "__id__": 13
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 14
-      },
-      {
-        "__id__": 15
-      },
-      {
         "__id__": 16
+      },
+      {
+        "__id__": 17
+      },
+      {
+        "__id__": 18
       }
     ],
     "_prefab": null,
@@ -378,6 +378,9 @@
     "_components": [
       {
         "__id__": 9
+      },
+      {
+        "__id__": 10
       }
     ],
     "_prefab": null,
@@ -444,8 +447,8 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "HỆ THỐNG ĐANG ĐƯỢC BẢO TRÌ.\nVUI LÒNG QUAY LẠI SAU.",
-    "_N$string": "HỆ THỐNG ĐANG ĐƯỢC BẢO TRÌ.\nVUI LÒNG QUAY LẠI SAU.",
+    "_string": "HỆ THỐNG ĐANG ĐƯỢC BẢO TRÌ.\r\nVUI LÒNG QUAY LẠI SAU.",
+    "_N$string": "HỆ THỐNG ĐANG ĐƯỢC BẢO TRÌ.\r\nVUI LÒNG QUAY LẠI SAU.",
     "_fontSize": 24,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -465,6 +468,19 @@
     "_id": "0eMMfPMy9JzZK93ccLnihS"
   },
   {
+    "__type__": "148dec5uTNPMq+vU3F1WigD",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 8
+    },
+    "_enabled": true,
+    "_dataId": "ui.maintain_system",
+    "format": 1,
+    "suffix": "",
+    "_id": "f1pS5igjtGzZH5Th7GORUO"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "umMessage",
     "_objFlags": 0,
@@ -475,7 +491,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 12
       }
     ],
     "_prefab": null,
@@ -531,7 +547,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 10
+      "__id__": 11
     },
     "_enabled": true,
     "_materials": [
@@ -573,7 +589,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 13
+        "__id__": 14
+      },
+      {
+        "__id__": 15
       }
     ],
     "_prefab": null,
@@ -587,8 +606,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 826,
-      "height": 41
+      "width": 770.4,
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -629,7 +648,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 12
+      "__id__": 13
     },
     "_enabled": true,
     "_materials": [
@@ -644,7 +663,7 @@
     "_N$string": "Sau thời gian bảo trì, bạn hãy đăng nhập lại để có thể tiếp tục chơi game.",
     "_fontSize": 24,
     "_lineHeight": 40,
-    "_enableWrapText": true,
+    "_enableWrapText": false,
     "_N$file": {
       "__uuid__": "3ffe3de6-d3a7-4148-aa63-92c401f9da18"
     },
@@ -656,9 +675,22 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 0,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": "bb+9DrTdtD7KN+2HwHr8il"
+  },
+  {
+    "__type__": "148dec5uTNPMq+vU3F1WigD",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 13
+    },
+    "_enabled": true,
+    "_dataId": "ui.maintain_suggest",
+    "format": 0,
+    "suffix": "",
+    "_id": "fbZ2rslBhIApzs58CGGvKg"
   },
   {
     "__type__": "cc.Canvas",
@@ -686,7 +718,7 @@
     },
     "_enabled": true,
     "message": {
-      "__id__": 11
+      "__id__": 12
     },
     "_id": "c9y+f3VkJBLotPje/FRNPb"
   },

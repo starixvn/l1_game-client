@@ -1,5 +1,5 @@
-import SocketIOGameHistoryBase from '../../../_base/view-models/SocketIOGameHistoryBase';
-import RongHoHistoryItem from './RongHoHistoryItem';
+import SocketIOGameHistoryBase from "../../../_base/view-models/SocketIOGameHistoryBase";
+import RongHoHistoryItem from "./RongHoHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 

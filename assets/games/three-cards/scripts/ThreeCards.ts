@@ -1,7 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import { ThreeCardsRoundData } from "./DataDefinition";
@@ -9,7 +9,6 @@ import ThreeCardsFinishHandler from "./handlers/ThreeCardsFinishHandler";
 import ThreeCardsLogsHandler from "./handlers/ThreeCardsLogsHandler";
 import ThreeCardsTimeHandler from "./handlers/ThreeCardsTimeHandler";
 import { ThreeCardsConfigs } from "./ThreeCardsConfigs";
-import ThreeCardsGuide from "./ThreeCardsGuide";
 import ThreeCardsHistory from "./ThreeCardsHistory";
 import ThreeCardsResultStatistics from "./ThreeCardsResultStatistics";
 import ThreeCardsRoundHistory from "./ThreeCardsRoundHistory";
@@ -20,9 +19,6 @@ const { ccclass, property } = cc._decorator;
 export default class ThreeCards extends SocketIOTableGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
     roundHistoryPrefab: cc.Prefab = null;
@@ -64,7 +60,9 @@ export default class ThreeCards extends SocketIOTableGameBase {
     showResultDuration = 2;
     constructor() {
         super();
-        this.init("ThreeCards", new ThreeCardsConfigs(), null, 1, games.ThreeCards.id);
+        this.gameId = GameIds.ThreeCards;
+        this.setConfig(new ThreeCardsConfigs());
+        this.setMiniPanelScale(1);
     }
 
     initHandlers() {
@@ -233,14 +231,6 @@ export default class ThreeCards extends SocketIOTableGameBase {
         this.betItems.forEach((betItem) => {
             betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
         });
-    }
-
-    openGuide() {
-        cc.RedT.audio.playClick();
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(ThreeCardsGuide);
-        guide.init(this.gameConfigs);
-        this.currentMiniPanel.addDialog(dialog);
     }
 
     openHistory() {

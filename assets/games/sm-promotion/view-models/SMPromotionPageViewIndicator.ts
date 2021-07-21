@@ -1,4 +1,3 @@
-import { SpriteFrame } from "../../../../creator";
 const { ccclass, property } = cc._decorator;
 
 @ccclass

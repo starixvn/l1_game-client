@@ -1,12 +1,16 @@
 import * as _ from "lodash";
 
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
+import { getLocale } from "../../common/auth/SessionManager";
+import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
+import WebViewGuide from "../../common/webview-guide/WebViewGuide";
+import { GameInfos } from "../../configs/SabaConfigs";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
@@ -32,7 +36,7 @@ export enum GameState {
 }
 
 @ccclass
-export default class GameBase extends cc.Component {
+export default class GameBase extends BaseComponent {
     @property({ type: BetItem })
     betItems: BetItem[] = [];
 
@@ -97,6 +101,20 @@ export default class GameBase extends cc.Component {
     @property(cc.Prefab)
     gameAudiosPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    guidePrefab: cc.Prefab = null;
+
+    protected _gameId: number;
+
+    public set gameId(value: number) {
+        this._gameId = value;
+        this.gameName = GameInfos[value].key;
+    }
+
+    public get gameId(): number {
+        return this._gameId;
+    }
+
     public gameState = GameState.None;
     public get isStopGame() {
         return this.gameState === GameState.Stopped;
@@ -131,10 +149,8 @@ export default class GameBase extends cc.Component {
     private readonly dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
 
-    init(gameName: string, config: GameConfigBase, miniPanel: MiniPanel) {
-        this.gameName = gameName;
+    setConfig(config: GameConfigBase) {
         this.config = config;
-        this.currentMiniPanel = miniPanel;
     }
 
     initMiniPanel(miniPanel: MiniPanel) {
@@ -433,5 +449,38 @@ export default class GameBase extends cc.Component {
                 updateCoin: true
             }
         });
+    }
+
+    public isUsingMaxStakeLevel() {
+        return false;
+    }
+
+    openGuide() {
+        const dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(WebViewGuide);
+        const { minBet, maxBet } = this.getBetRange();
+        guide.initURL(this.gameId, getLocale(), { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
+        this.currentMiniPanel.showGuide(dialog);
+        guide.loadWebView();
+    }
+
+    getBetRange() {
+        return this.isUsingMaxStakeLevel() ? this.getVipBetRange() : this.getNormalBetRange();
+    }
+
+    protected getNormalBetRange() {
+        const { minbet, maxbet } = this.gameConfigs;
+        return {
+            minBet: minbet,
+            maxBet: maxbet
+        };
+    }
+
+    protected getVipBetRange() {
+        const { minbet, maxbet } = this.gameConfigs;
+        return {
+            minBet: minbet,
+            maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxbet)
+        };
     }
 }

@@ -1,6 +1,7 @@
-import { getNameCard } from '../../../common/helpers/CardHelper';
-import MiniRoundHistoryTip from '../../../common/mini-round-history/MiniRoundHistoryTip';
-import RongHo from './RongHo';
+import GameUtils from "../../../common/GameUtils";
+import { getNameCard } from "../../../common/helpers/CardHelper";
+import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
+import RongHo from "./RongHo";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,11 +25,12 @@ export default class RHMiniRoundHistoryTip extends MiniRoundHistoryTip {
     public setData(data: any) {
         const result = data.result;
         const winChoice = RongHo.getWinItem(data.settlementResult);
-        const choiceNames = ["RỒNG", "HỔ", "HÒA"];
+        const choiceNames = ["dragon", "tiger", "tie"];
         const choiceColors = [new cc.Color(219, 185, 0), cc.Color.RED, new cc.Color(63, 111, 123)];
 
         this.roundId.string = `#${data.roundId}`;
-        this.result.string = choiceNames[winChoice];
+        const message = GameUtils.getBetChoiceString(choiceNames[winChoice]).toUpperCase();
+        this.result.string = message;
         this.result.node.color = choiceColors[winChoice];
 
         const dragon = result.dragon;

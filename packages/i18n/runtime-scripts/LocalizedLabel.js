@@ -1,4 +1,4 @@
-const i18n = require("./LanguageData");
+import i18n from "i18n/runtime-scripts/LanguageData";
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
@@ -29,13 +29,13 @@ cc.Class({
     },
 
     properties: {
-        dataID: {
+        dataId: {
             get() {
-                return this._dataID;
+                return this._dataId;
             },
             set(val) {
-                if (this._dataID !== val) {
-                    this._dataID = val;
+                if (this._dataId !== val) {
+                    this._dataId = val;
                     if (CC_EDITOR) {
                         this._debouncedUpdateLabel();
                     } else {
@@ -44,7 +44,7 @@ cc.Class({
                 }
             }
         },
-        _dataID: ""
+        _dataId: ""
     },
 
     onLoad() {
@@ -72,7 +72,7 @@ cc.Class({
             cc.error("Failed to update localized label, label component is invalid!");
             return;
         }
-        let localizedString = i18n.t(this.dataID);
+        let localizedString = i18n.t(this.dataId);
 
         if (this.upperCase) {
             localizedString = localizedString.toUpperCase();

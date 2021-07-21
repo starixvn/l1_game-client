@@ -1,3 +1,4 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
@@ -17,47 +18,47 @@ export default class RouletteTicketDetailItem extends cc.Component {
 
     height: number = null;
 
-    betTypes = {
-        straightUp: "Cược đơn",
-        split: "Cược đôi",
-        street: "Cược hàng",
-        triangle: "Cược bộ ba",
-        corner: "Cược góc",
-        fourNumbers: "Cược bộ bốn",
-        line: "Cược 2 hàng",
-        column: "Cược cột",
-        dozen: "Cược tá",
-        redBlack: "Đỏ/Đen",
-        oddEven: "Chẵn/Lẻ",
-        bigSmall: "Tài/Xỉu"
-    };
-
-    choiceNames = {
-        small: "1-18",
-        big: "19-36",
-        odd: "Lẻ",
-        even: "Chẵn",
-        red: "Đỏ",
-        black: "Đen",
-        dozen1: "1-12",
-        dozen2: "13-24",
-        dozen3: "25-36",
-        column1: "Cột 1",
-        column2: "Cột 2",
-        column3: "Cột 3"
-    };
-
     updateContent(type: string, choice: string, amount: number, isWinning: boolean) {
-        this.type.string = this.betTypes[type];
+        const choiceNames = {
+            small: "1-18",
+            big: "19-36",
+            odd: i18n.t("ui.choice_odd"),
+            even: i18n.t("ui.choice_even"),
+            red: i18n.t("ui.choice_red"),
+            black: i18n.t("ui.choice_black"),
+            dozen1: "1-12",
+            dozen2: "13-24",
+            dozen3: "25-36",
+            column1: i18n.t(`ui.column_number`, { num: 1 }),
+            column2: i18n.t(`ui.column_number`, { num: 2 }),
+            column3: i18n.t(`ui.column_number`, { num: 3 })
+        };
+
+        const betTypes = {
+            straightUp: "type_straight_up",
+            split: "type_split",
+            street: "type_street",
+            triangle: "type_triangle",
+            corner: "type_corner",
+            fourNumbers: "type_4number",
+            line: "type_line",
+            column: "type_column",
+            dozen: "type_dozen",
+            redBlack: "type_red_black",
+            oddEven: "type_odd_even",
+            bigSmall: "type_big_small"
+        };
+
+        this.type.string = i18n.t(`ui.${betTypes[type]}`);
         switch (type) {
             case RouletteBetType.BigSmall:
             case RouletteBetType.OddEven:
             case RouletteBetType.RedBlack:
-                this.choice.string = this.choiceNames[choice];
+                this.choice.string = choiceNames[choice];
                 break;
             case RouletteBetType.Dozen:
             case RouletteBetType.Column:
-                this.choice.string = this.choiceNames[type + choice];
+                this.choice.string = choiceNames[type + choice];
                 break;
             case RouletteBetType.Split:
             case RouletteBetType.Street:

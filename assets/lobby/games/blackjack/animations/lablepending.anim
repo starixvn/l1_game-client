@@ -3,43 +3,13 @@
   "_name": "lablepending",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 3,
+  "_duration": 3.0166666666666666,
   "sample": 60,
   "speed": 1,
   "wrapMode": 2,
   "curveData": {
     "paths": {
-      "  Phiên chưa kết thúc ": {
-        "comps": {
-          "cc.Sprite": {
-            "spriteFrame": [
-              {
-                "frame": 0,
-                "value": {
-                  "__uuid__": "738f51ce-0844-45a1-86d7-ae012530142c"
-                }
-              },
-              {
-                "frame": 1,
-                "value": {
-                  "__uuid__": "ed6404dd-8f26-4677-94b3-5a9593f6fccc"
-                }
-              },
-              {
-                "frame": 2,
-                "value": {
-                  "__uuid__": "ed6404dd-8f26-4677-94b3-5a9593f6fccc"
-                }
-              },
-              {
-                "frame": 2.0166666666666666,
-                "value": {
-                  "__uuid__": "738f51ce-0844-45a1-86d7-ae012530142c"
-                }
-              }
-            ]
-          }
-        },
+      "New Node": {
         "props": {
           "scale": [
             {
@@ -89,6 +59,42 @@
                 "x": 1,
                 "y": 1
               }
+            }
+          ]
+        }
+      },
+      "New Node/playnow": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 1.5,
+              "value": true
+            },
+            {
+              "frame": 3.0166666666666666,
+              "value": false
+            }
+          ]
+        }
+      },
+      "New Node/unfinished": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 1.5,
+              "value": false
+            },
+            {
+              "frame": 3.0166666666666666,
+              "value": true
             }
           ]
         }

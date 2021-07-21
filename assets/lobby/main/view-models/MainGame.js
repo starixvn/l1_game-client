@@ -95,7 +95,7 @@ cc.Class({
         cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
         this.redhat.insertChild(MiniPanel);
         this.dialogNode.removeFromParent();
-        MiniPanel.addChild(this.dialogNode);
+        cc.RedT.MiniPanel.addDialog(this.dialogNode);
 
         this.inRoomGameId = sessionManager.getInRoomGameId();
 
@@ -103,7 +103,9 @@ cc.Class({
             authManager.triggerSignIn(this);
         } else {
             authManager.auth();
-            !window.openGameId && this.openInRoomGame(this.inRoomGameId);
+            if (!window.openGameId && this.inRoomGameId) {
+                this.openInRoomGame(this.inRoomGameId);
+            }
         }
 
         if (cc.RedT.IS_LOGIN) {
@@ -167,8 +169,7 @@ cc.Class({
         if (this.adsBannerContainer.childrenCount > 0) {
             return;
         }
-        const showJackpotBanner =
-            cc.RedT.user.offerGames.includes(SabaConfigs.games.FourGuardians.id) && fourGuardiansConfig.jackpotEnabled;
+        const showJackpotBanner = cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
         this.jackpotToggle.node.parent.active = showJackpotBanner;
 
         const jpBannerController = this.jackpotBannerContainer.getComponent("BannerController");
@@ -290,6 +291,15 @@ cc.Class({
             this.signIn();
         }
     },
+    serviceAuthorized: function (Authorized) {
+        this.loading.active = false;
+
+        if (!Authorized) {
+            this.dialog.showSignName();
+        } else {
+            authManager.auth();
+        }
+    },
     onData: function (data) {
         if (void 0 !== data["unauth"]) {
             this.unAuthorized(data["unauth"]);
@@ -353,11 +363,7 @@ cc.Class({
         }
     },
     showNotice: function (noticeData) {
-        var noticePrefab = cc.instantiate(this.NoticePrefab);
-        var notice = noticePrefab.getComponent("Notice");
-        noticeData.button = { text: "OK" };
-        notice.init(noticeData);
-        this.node.addChild(noticePrefab);
+        cc.RedT.MiniPanel.showNotice(noticeData);
     },
     clickNoticeButton: function () {
         if (this.type === sign_out) {
@@ -407,7 +413,7 @@ cc.Class({
     },
     signIn: function () {
         cc.RedT.IS_LOGIN = true;
-        authManager.auth();
+
         this.header.isSignIn();
         this.dialog.onBack();
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
@@ -433,7 +439,8 @@ cc.Class({
     },
 
     openInRoomGame(gameId) {
-        if (SabaConfigs.gameRoomNewSocketIds.includes(+gameId)) {
+        const info = SabaConfigs.GameInfos[gameId];
+        if (info && !info.mini && !info.mainSocket) {
             cc.RedT.MiniPanel.openNewGameSocket(null, +gameId);
         }
     },
@@ -466,10 +473,12 @@ cc.Class({
         return new Promise((resolve, reject) => {
             if (!this.luckyWheelIcon && cc.RedT.user.availSpins > 0) {
                 GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
-                    const node = cc.instantiate(prefab);
-                    this.node.addChild(node);
-                    this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
-                    this.luckyWheelIcon.init(this.node);
+                    if (!this.luckyWheelIcon) {
+                        const node = cc.instantiate(prefab);
+                        this.redhat.insertChild(node, 0);
+                        this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
+                        this.luckyWheelIcon.init(this.node);
+                    }
                     resolve();
                 });
             } else {

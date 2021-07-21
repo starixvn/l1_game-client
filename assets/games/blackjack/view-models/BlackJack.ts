@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { lazyInject } from "../../../Application";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
@@ -7,7 +9,7 @@ import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import { GameState } from "../../_base/GameBase";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
@@ -17,7 +19,6 @@ import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackConfig from "./BlackJackConfig";
-import BlackJackGuide from "./BlackJackGuide";
 import BlackJackHistory from "./BlackJackHistory";
 import BlackJackUtils from "./BlackJackUtils";
 import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
@@ -26,7 +27,6 @@ import BlackjackUmHandler from "./handlers/BlackjackUmHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -113,9 +113,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     @property(cc.Prefab)
     blackjackHistory: cc.Prefab = null;
 
-    @property(cc.Prefab)
-    blackjackGuide: cc.Prefab = null;
-
     @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
 
@@ -152,7 +149,8 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.init("BlackJack", null, null, 1, games.BlackJack.id);
+        this.gameId = GameIds.BlackJack;
+        this.setMiniPanelScale(1);
     }
 
     onLoad() {
@@ -187,7 +185,7 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     start() {
         cc.RedT.send({ scene: this.gameName });
-        this.socketSendData("inGame", null);
+        this.socketSendData("inGame");
     }
 
     stopGame() {}
@@ -479,9 +477,16 @@ export default class BlackJack extends SocketIOTableGameBase {
     socketSendData(key: string, data: any) {
         if (data) {
             data.username = cc.RedT.user.name;
+            this.setIntervalReminder();
         }
-        this.socket && this.socket.connected && this.socket.emit(key, data);
-        data && this.setIntervalReminder();
+
+        if (this.socket && this.socket.connected) {
+            if (data) {
+                this.socket.emit(key, data);
+            } else {
+                this.socket.emit(key);
+            }
+        }
     }
 
     rebet() {
@@ -665,16 +670,6 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.currentMiniPanel.node.addChild(history);
     }
 
-    onGuideClick() {
-        cc.RedT.audio.playClick();
-        this.expandableMenu.collapseMenu();
-
-        const guide = cc.instantiate(this.blackjackGuide);
-        const guideComponent = guide.getComponent(BlackJackGuide);
-        guideComponent.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(guide);
-    }
-
     hideAllButtons() {
         this.smallSplitButton.getComponent(FadeEffectButton).setActive(false);
         this.bigSplitButton.getComponent(FadeEffectButton).setActive(false);
@@ -729,7 +724,8 @@ export default class BlackJack extends SocketIOTableGameBase {
         super.updateDisplayForRemoteConfig();
         this.minBetLabel.string = this.gameConfigs.minbet.toString();
         this.maxBetLabel.string = numberWithCommas(this.gameConfigs.maxbet);
-        this.blackjackOddLabel.string = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
+        const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
+        this.blackjackOddLabel.string = i18n.t("ui.blackjack_pay", { odds });
     }
 
     onDataGameRoom(data) {
@@ -747,7 +743,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     setIntervalReminder() {
         this.stopIntervalReminder();
         this.audioNotificationInterval = setInterval(() => {
-            if (!this.node || !this.node.isValid) {
+            if (!this.isAlive()) {
                 return;
             }
             this.playAudioNotification();

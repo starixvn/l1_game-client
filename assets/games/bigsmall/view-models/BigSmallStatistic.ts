@@ -1,7 +1,9 @@
 import _ = require("lodash");
 
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import BaseComponent from "../../../common/BaseComponent";
 import ItemContentMenu from "../../../common/helpers/Menu/ItemContentMenu";
+import LocalizedLabelWithFormat from "../../../common/i18n/LocalizedLabelWithFormat";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,7 +13,7 @@ type TotalType = {
 };
 
 @ccclass
-export default class BigSmallStatistic extends cc.Component {
+export default class BigSmallStatistic extends BaseComponent {
     @property(cc.Node)
     background: cc.Node = null;
 
@@ -84,16 +86,22 @@ export default class BigSmallStatistic extends cc.Component {
     @property(cc.SpriteFrame)
     blackDot: cc.SpriteFrame = null;
 
-    @property(cc.Label)
-    titleLabel: cc.Label = null;
+    @property(LocalizedLabelWithFormat)
+    gameName: LocalizedLabelWithFormat = null;
 
-    public gameTitle = "";
     protected dataLogs;
     protected readonly betTypes = ["big", "small"];
     protected activeTab = "result";
 
     init(dataLogs: any) {
         this.dataLogs = dataLogs.length > 89 ? _.slice(dataLogs, 0, 89) : dataLogs;
+
+        this.showResultDots();
+        this.drawLinePaintInChart(this.dataLogs);
+    }
+
+    setGameName(gameId: number) {
+        this.gameName.dataId = `gameNames.${gameId}`;
     }
 
     onLoad() {
@@ -101,11 +109,6 @@ export default class BigSmallStatistic extends cc.Component {
         commonDialog.onDidHide = () => {
             this.node.destroy();
         };
-
-        this.titleLabel.string = this.gameTitle.toUpperCase();
-
-        this.showResultDots();
-        this.drawLinePaintInChart(this.dataLogs);
     }
 
     updateStatistic(dataLogs: any) {

@@ -10,20 +10,21 @@ export default class LotteryRoundHistoryTip extends MiniRoundHistoryTip {
     public setData(data: any) {
         this.roundId.string = `#${data.roundId}`;
 
-        let resultString = "";
+        let key = "";
         if (this.type === 0) {
             if (data.settlementResult.others.big) {
-                resultString = `${GameUtils.getBetChoiceString("big")}`;
+                key = `big`;
             } else {
-                resultString = `${GameUtils.getBetChoiceString("small")}`;
+                key = `small`;
             }
         } else {
             if (data.settlementResult.others.even) {
-                resultString = `${GameUtils.getBetChoiceString("even")}`;
+                key = `even`;
             } else {
-                resultString = `${GameUtils.getBetChoiceString("odd")}`;
+                key = `odd`;
             }
         }
+        const resultString = GameUtils.getBetChoiceString(key).toUpperCase();
 
         const special = data.result.special[0].slice(-2);
         this.result.string = `${resultString} (${special})`;

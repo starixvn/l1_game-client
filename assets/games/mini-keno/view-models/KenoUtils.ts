@@ -1,3 +1,6 @@
+import GameUtils from "../../../common/GameUtils";
+import { GameIds } from "../../../configs/SabaConfigs";
+
 export enum KenoType {
     ProViet,
     Max,
@@ -84,18 +87,22 @@ export default class KenoUtils {
     }
 
     public static getKenoName(kenoType: KenoType): string {
-        const dict = {
-            ProViet: "Pro Viet",
-            Max: "Keno Max",
-            Max2: "Keno Max 2",
-            Mini: "Keno Mini",
-            Mini2: "Keno Mini 2",
-            East: "Keno Đông",
-            West: "Keno Tây",
-            South: "Keno Nam",
-            North: "Keno Bắc"
-        };
+        const id = KenoUtils.getKenoGameId(kenoType);
+        return GameUtils.getGameNameString(id);
+    }
 
+    public static getKenoGameId(kenoType: KenoType): number {
+        const dict = {
+            ProViet: GameIds.KenoProViet,
+            Max: GameIds.KenoMax,
+            Max2: GameIds.KenoMax2,
+            Mini: GameIds.KenoMini,
+            Mini2: GameIds.KenoMini2,
+            East: GameIds.KenoEast,
+            West: GameIds.KenoWest,
+            South: GameIds.KenoSouth,
+            North: GameIds.KenoNorth
+        };
         return dict[KenoType[kenoType]];
     }
 }

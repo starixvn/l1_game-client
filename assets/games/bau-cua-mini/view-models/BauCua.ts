@@ -1,27 +1,22 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import { games } from '../../../configs/SabaConfigs';
-import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import SocketIOMiniGameBase from '../../_base/SocketIOMiniGameBase';
-import vipFishPrawnCrabConstants from '../../vip-fish-prawn-crab/view-models/VipFishPrawnCrabConstants';
-import BauCuaBetItem from './BauCuaBetItem';
-import { BauCuaConfigs } from './BauCuaConfigs';
-import BauCuaGuide from './BauCuaGuide';
-import BauCuaHistory from './BauCuaHistory/BauCuaHistory';
-import BauCuaLogItems from './BauCuaLogItems';
-import BauCuaOddItem from './BauCuaOddItem';
-import BauCuaFinishHandler from './handlers/BauCuaFinishHandler';
-import BauCuaLogsHandler from './handlers/BauCuaLogsHandler';
-import BauCuaTimeHandler from './handlers/BauCuaTimeHandler';
+import { GameIds } from "../../../configs/SabaConfigs";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
+import vipFishPrawnCrabConstants from "../../vip-fish-prawn-crab/view-models/VipFishPrawnCrabConstants";
+import BauCuaBetItem from "./BauCuaBetItem";
+import { BauCuaConfigs } from "./BauCuaConfigs";
+import BauCuaHistory from "./BauCuaHistory/BauCuaHistory";
+import BauCuaLogItems from "./BauCuaLogItems";
+import BauCuaOddItem from "./BauCuaOddItem";
+import BauCuaFinishHandler from "./handlers/BauCuaFinishHandler";
+import BauCuaLogsHandler from "./handlers/BauCuaLogsHandler";
+import BauCuaTimeHandler from "./handlers/BauCuaTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BauCua extends SocketIOMiniGameBase {
-    get gameId() {
-        return games.BauCua.id;
-    }
-
     @property({ type: cc.SpriteFrame })
     iconMini: cc.SpriteFrame[] = [];
 
@@ -70,9 +65,6 @@ export default class BauCua extends SocketIOMiniGameBase {
     @property({ type: BauCuaOddItem })
     oddItems: BauCuaOddItem[] = [];
 
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
-
     @property({ type: cc.Node, override: true })
     betChipsContainer: cc.Node = null;
 
@@ -88,7 +80,9 @@ export default class BauCua extends SocketIOMiniGameBase {
     }
 
     initMiniPanel(miniPanel: MiniPanel) {
-        this.init("BauCua", new BauCuaConfigs(), miniPanel);
+        super.initMiniPanel(miniPanel);
+        this.gameId = GameIds.FishPrawnCrab;
+        this.setConfig(new BauCuaConfigs());
     }
 
     onData(data: any) {
@@ -149,14 +143,6 @@ export default class BauCua extends SocketIOMiniGameBase {
         const dialog = cc.instantiate(this.historyDialog);
         this.historyComponent = dialog.getComponent(BauCuaHistory);
         this.historyComponent.init(this.socket);
-        this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    pressedShowGuide() {
-        cc.RedT.audio.playClick();
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(BauCuaGuide);
-        guide.init(this.gameConfigs);
         this.currentMiniPanel.node.addChild(dialog);
     }
 

@@ -1,27 +1,22 @@
-import { games } from '../../../configs/SabaConfigs';
-import MiniPanel from '../../../mini-games-panel/view-models/MiniPanel';
-import BalancedBettingPoolGameBase from '../../_base/BalancedBettingPoolGameBase';
-import GameBaseFinishHandler from '../../_base/handlers/GameBaseFinishHandler';
-import SedieRoundHistory from '../../mini-sedie/viewModels/SedieRoundHistory';
-import SpecialSeDieBetHandler from './handlers/SpecialSeDieBetHandler';
-import SpecialSeDieFinishHandler from './handlers/SpecialSeDieFinishHandler';
-import SpecialSeDieLogsHandler from './handlers/SpecialSeDieLogsHandler';
-import SpecialSeDieStatusHandler from './handlers/SpecialSeDieStatusHandler';
-import SpecialSeDieTimeHandler from './handlers/SpecialSeDieTimeHandler';
-import SpecialSedieBetHistory from './SpecialSedieBetHistory';
-import { SpecialSeDieConfigs } from './SpecialSeDieConfigs';
-import SpecialSeDieGuide from './SpecialSeDieGuide';
-import SpecialSeDieHistory from './SpecialSeDieHistory';
-import SpecialSedieRoundHistory from './SpecialSedieRoundHistory';
+import { GameIds } from "../../../configs/SabaConfigs";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
+import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
+import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
+import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
+import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
+import SpecialSeDieStatusHandler from "./handlers/SpecialSeDieStatusHandler";
+import SpecialSeDieTimeHandler from "./handlers/SpecialSeDieTimeHandler";
+import SpecialSedieBetHistory from "./SpecialSedieBetHistory";
+import { SpecialSeDieConfigs } from "./SpecialSeDieConfigs";
+import SpecialSeDieHistory from "./SpecialSeDieHistory";
+import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SpecialSeDie extends BalancedBettingPoolGameBase {
-    get gameId() {
-        return games.SpecialSeDie.id;
-    }
-
     @property(cc.Prefab)
     roundHistoryPrefab: cc.Prefab = null;
 
@@ -48,9 +43,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
     @property(cc.SpriteFrame)
     dotWhite: cc.SpriteFrame = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
@@ -102,7 +94,9 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     private showStats = true;
 
     initMiniPanel(miniPanel: MiniPanel) {
-        this.init("SpecialSeDie", new SpecialSeDieConfigs(), miniPanel);
+        super.initMiniPanel(miniPanel);
+        this.gameId = GameIds.SpecialSeDie;
+        this.setConfig(new SpecialSeDieConfigs());
     }
 
     onLoad() {
@@ -244,13 +238,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
         this.betItems.forEach((betItem) => {
             betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
         });
-    }
-
-    public openGuide() {
-        const guide = cc.instantiate(this.guidePrefab);
-        const specialSedieGuide = guide.getComponent(SpecialSeDieGuide);
-        specialSedieGuide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(guide);
     }
 
     public openHistory() {

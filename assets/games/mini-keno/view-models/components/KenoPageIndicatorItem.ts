@@ -1,5 +1,6 @@
-import MiniKeno from '../../../../games/mini-keno/view-models/MiniKeno';
-import { KenoType } from '../KenoUtils';
+import NoticeUtil from "../../../../common/utils/NoticeUtil";
+import MiniKeno from "../../../../games/mini-keno/view-models/MiniKeno";
+import { KenoType } from "../KenoUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,11 +15,8 @@ export default class KenoPageIndicatorItem extends cc.Component {
     @property(cc.ProgressBar)
     proressBar: cc.ProgressBar = null;
 
-    @property({ type: cc.SpriteFrame })
-    backgroundFrames: cc.SpriteFrame[] = [];
-
-    @property({ type: cc.SpriteFrame })
-    nameFrames: cc.SpriteFrame[] = [];
+    @property(cc.SpriteAtlas)
+    atlas: cc.SpriteAtlas = null;
 
     // @property(cc.Node)
     // effect: cc.Node = null;
@@ -30,23 +28,42 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
-        this.gameName.spriteFrame = this.nameFrames[this.miniKeno.kenoType];
+        const kenoType = this.miniKeno.kenoType;
+        this.gameName.spriteFrame = this.getNameSprite(kenoType);
         const dict = {
-            Max: 1,
-            Max2: 1,
-            Mini: 2,
-            Mini2: 2,
-            East: 3,
-            West: 3,
-            South: 3,
-            North: 3
+            Max: "max",
+            Max2: "max",
+            Mini: "mini",
+            Mini2: "mini",
+            East: "EWSN",
+            West: "EWSN",
+            South: "EWSN",
+            North: "EWSN"
         };
-        const backSprite = this.backgroundFrames[dict[KenoType[this.miniKeno.kenoType]]];
+        const backSprite = this.atlas.getSpriteFrame(`progress_bar_${dict[KenoType[kenoType]]}`);
         this.proressBar.barSprite.spriteFrame = backSprite;
         this.proressBar.getComponent(cc.Sprite).spriteFrame = backSprite;
 
         this.dataKey = `indicator_${this.miniKeno.gameName}`;
         this.updateImage();
+    }
+
+    getNameSprite(type: KenoType) {
+        const dict = {
+            ProViet: "pro_viet",
+            Max: "max",
+            Max2: "max2",
+            Mini: "mini",
+            Mini2: "mini2",
+            East: "east",
+            West: "west",
+            South: "south",
+            North: "north"
+        };
+        const name = `progress_${dict[KenoType[type]]}_text`;
+        const suffix = NoticeUtil.getSuffixSpriteName();
+        const sprite = this.atlas.getSpriteFrame(`${name}${suffix}`);
+        return sprite ? sprite : this.atlas.getSpriteFrame(name);
     }
 
     onLoad() {

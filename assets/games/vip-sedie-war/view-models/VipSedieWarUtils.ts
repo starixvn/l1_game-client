@@ -1,31 +1,33 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 export default class VipSedieWarUtils {
     public static getBetChoiceString(choice: string): string {
         const dict = {
-            even: "Tổng chẵn",
-            odd: "Tổng lẻ",
+            even: "total_even",
+            odd: "total_odd",
 
-            player: "Nhà Con",
-            banker: "Nhà Cái",
+            player: "choice_player",
+            banker: "choice_banker",
 
-            playerEven: "Nhà Con chẵn",
-            playerOdd: "Nhà Con lẻ",
+            playerEven: "choice_player_even",
+            playerOdd: "choice_player_odd",
 
-            bankerEven: "Nhà Cái chẵn",
-            bankerOdd: "Nhà Cái lẻ",
+            bankerEven: "choice_banker_even",
+            bankerOdd: "choice_banker_odd",
 
-            tie: "Hòa",
-            playerRed3: "Nhà Con 3 đỏ",
-            playerRed4: "Nhà Con 4 đỏ",
-            playerWhite3: "Nhà Con 1 đỏ",
-            playerWhite4: "Nhà Con 4 trắng",
+            tie: "choice_tie",
+            playerRed3: "choice_player_red3",
+            playerRed4: "choice_player_red4",
+            playerWhite3: "choice_player_white3",
+            playerWhite4: "choice_player_white4",
 
-            bankerRed3: "Nhà Cái 3 đỏ",
-            bankerRed4: "Nhà Cái 4 đỏ",
-            bankerWhite3: "Nhà Cái 1 đỏ",
-            bankerWhite4: "Nhà Cái 4 trắng"
+            bankerRed3: "choice_banker_red3",
+            bankerRed4: "choice_banker_red4",
+            bankerWhite3: "choice_banker_white3",
+            bankerWhite4: "choice_banker_white4"
         };
 
-        return dict[choice];
+        return i18n.t(`ui.${dict[choice]}`);
     }
 
     public static setDotsImage(result: any, playerResultNode: cc.Node, bankerResultNode: cc.Node, dotsFrame: cc.SpriteFrame[]) {

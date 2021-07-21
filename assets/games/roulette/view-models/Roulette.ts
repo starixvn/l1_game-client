@@ -1,8 +1,9 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BottomControls from "./BottomControls";
 import RouletteBetHandler from "./handlers/RouletteBetHandler";
@@ -17,7 +18,6 @@ import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteStatistic from "./RouletteStatistic";
 import RouletteUtils from "./RouletteUtils";
 import TopControls from "./TopControls";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -51,9 +51,6 @@ export default class Roulette extends SocketIOTableGameBase {
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guidePrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
@@ -100,7 +97,9 @@ export default class Roulette extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.init("Roulette", new RouletteConfigs(), null, 1, games.Roulette.id);
+        this.gameId = GameIds.Roulette;
+        this.setConfig(new RouletteConfigs());
+        this.setMiniPanelScale(1);
     }
 
     initHandlers() {
@@ -235,7 +234,7 @@ export default class Roulette extends SocketIOTableGameBase {
 
         const leftControlsNode = await this.loadResource("LeftControls", this.leftContainer);
         this.leftControls = leftControlsNode.getComponent(LeftControls);
-        this.leftControls.guideButton.on("click", this.pressedShowGuide, this);
+        this.leftControls.guideButton.on("click", this.openGuide, this);
         this.leftControls.historyButton.on("click", this.pressedShowHistory, this);
         this.leftControls.statisticButton.on("click", this.pressedShowStatistic, this);
         this.leftControls.homeButton.on("click", this.onCloseGameClick, this);
@@ -664,16 +663,11 @@ export default class Roulette extends SocketIOTableGameBase {
         return Object.keys(this.tempBetChoices).length === 0;
     }
 
-    public pressedShowGuide() {
-        this.playClick();
+    public openGuide() {
         if (this.leftControls.expandableMenu) {
             this.leftControls.expandableMenu.collapseMenu();
         }
-
-        const dialog = cc.instantiate(this.guidePrefab);
-        const rouletteGuide = dialog.getComponent("RouletteGuide");
-        rouletteGuide.init(this.gameConfigs);
-        this.currentMiniPanel.node.addChild(dialog);
+        super.openGuide();
     }
 
     public pressedShowStatistic() {

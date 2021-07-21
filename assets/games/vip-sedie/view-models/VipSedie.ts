@@ -1,4 +1,4 @@
-import { games } from "../../../configs/SabaConfigs";
+import { GameIds } from "../../../configs/SabaConfigs";
 import Sedie from "../../sedie/view-models/Sedie";
 import { SedieConfigs } from "../../sedie/view-models/SedieConfigs";
 import VipSedieLogHandler from "./handlers/VipSedieLogHandler";
@@ -18,7 +18,9 @@ export default class VipSedie extends Sedie {
     }
 
     protected internalInit() {
-        this.init("VipSeDie", new SedieConfigs(), null, 1, games.VipSedie.id);
+        this.gameId = GameIds.VipSedie;
+        this.setConfig(new SedieConfigs());
+        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 
@@ -29,5 +31,9 @@ export default class VipSedie extends Sedie {
             this.dots[index].node.position = randomOption.children[index].position;
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
         });
+    }
+
+    public isUsingMaxStakeLevel() {
+        return true;
     }
 }

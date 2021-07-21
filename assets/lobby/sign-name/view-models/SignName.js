@@ -1,8 +1,10 @@
+import i18n from "i18n/runtime-scripts/LanguageData";
+
 import UserService from "../../../common/auth/UserService";
 
 var BrowserUtil = require("BrowserUtil");
 const NameGenerator = require("../../../common/name-generator/NameGenerator");
-const InvalidUserName = "Tên nhân vật không hợp lệ.";
+const InvalidUserNameKey = "ui.name_invalid";
 
 cc.Class({
     extends: cc.Component,
@@ -22,17 +24,16 @@ cc.Class({
         this.onSuccessFunc = onSuccessFunc;
     },
     onLoad() {
-        var self = this;
-        this.keyHandle = function (t) {
+        this.keyHandle = (t) => {
             if (t.keyCode === cc.macro.KEY.tab) {
-                self.changeNextFocusEditBox();
+                this.changeNextFocusEditBox();
                 if (t.preventDefault && t.preventDefault()) {
                     return false;
                 }
                 return undefined;
             } else if (t.keyCode === cc.macro.KEY.enter) {
                 BrowserUtil.focusGame();
-                self.onSignNameClick();
+                this.onSignNameClick();
                 if (t.preventDefault && t.preventDefault()) {
                     return false;
                 }
@@ -92,7 +93,7 @@ cc.Class({
     },
     onSignNameClick: function () {
         if (this.validateUsername(this.username.string)) {
-            this.errorMessage.string = InvalidUserName;
+            this.errorMessage.string = i18n.t(InvalidUserNameKey);
         } else {
             //Ricky: Client SignName
             //cc.RedT.send({ signName: this.username.string });
@@ -103,7 +104,7 @@ cc.Class({
 
     usernameTextChanged: function () {
         if (this.validateUsername(this.username.string)) {
-            this.errorMessage.string = InvalidUserName;
+            this.errorMessage.string = i18n.t(InvalidUserNameKey);
         } else {
             this.errorMessage.string = "";
         }

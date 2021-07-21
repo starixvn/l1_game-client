@@ -1,4 +1,7 @@
-import { numberWithCommas } from './../../../../common/helpers/NumberHelper';
+import { getLocale } from "../../../../common/auth/SessionManager";
+import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
+import { GameIds } from "../../../../configs/SabaConfigs";
+import MiniKeno from "../MiniKeno";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -6,73 +9,26 @@ export default class MiniKenoGuide extends cc.Component {
     @property(cc.Node)
     sideBar: cc.Node = null;
 
-    @property(cc.Node)
-    content: cc.Node = null;
+    @property(WebViewGuide)
+    content: WebViewGuide = null;
 
     @property(cc.Label)
     title: cc.Label = null;
 
-    @property({ type: cc.Label })
-    kenoMaxReplaceNodes: cc.Label[] = [];
-
-    @property({ type: cc.Label })
-    kenoMiniReplaceNodes: cc.Label[] = [];
-
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
-    private readonly kenoMaxGameName = "kenoMax";
-    private readonly kenoMiniGameName = "kenoMini";
-    private readonly mainGameGuides = [this.kenoMaxGameName, this.kenoMiniGameName];
-
-    private gameName = this.kenoMaxGameName;
+    public miniKenos: MiniKeno[] = [];
 
     onLoad() {
-        this.select(this.gameName);
-
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
         commonDialog.onDidHide = () => {
             this.node.destroy();
         };
     }
 
-    receivedData(data) {
-        if (data[this.gameName] && data[this.gameName].gameConfigs) {
-            this.onData(data[this.gameName].gameConfigs);
-        }
-    }
-
-    onData(data) {
-        const { minbet, maxbet, odds, choices_maxbet } = data;
-        const replaceData = {
-            _oddBig: odds.big,
-            _oddSmall: odds.small,
-            _oddEven: odds.even,
-            _oddEarth: odds.earth,
-            _oddFire: odds.fire,
-            _oddWater: odds.water,
-            _oddGold: odds.gold,
-            _oddWood: odds.wood,
-            _minBet: numberWithCommas(minbet),
-            _maxBetBig: numberWithCommas(choices_maxbet.big),
-            _maxBetGold: numberWithCommas(choices_maxbet.gold),
-            _maxBetWood: numberWithCommas(choices_maxbet.wood),
-            _maxBetWater: numberWithCommas(choices_maxbet.water),
-            _maxBetFire: numberWithCommas(choices_maxbet.fire),
-            _maxBetEarth: numberWithCommas(choices_maxbet.earth),
-            _maxBetRound: numberWithCommas(maxbet)
-        };
-
-        switch (this.gameName) {
-            case this.kenoMaxGameName:
-                this.setLabelString(this.kenoMaxReplaceNodes, replaceData);
-
-                break;
-            case this.kenoMiniGameName:
-                this.setLabelString(this.kenoMiniReplaceNodes, replaceData);
-
-                break;
-        }
+    start() {
+        this.select("kenoMax");
     }
 
     setLabelString(nodeLabel: any, replaceData: any) {
@@ -83,24 +39,11 @@ export default class MiniKenoGuide extends cc.Component {
         });
     }
 
-    isMainGameGuide(gameName) {
-        return this.mainGameGuides.indexOf(gameName) > -1;
-    }
-
     selectGame(event, game) {
-        if (this.isMainGameGuide(this.gameName)) {
-            cc.RedT.removeDataObserver(`${this.gameName}Guide}`);
-        }
-        this.gameName = game;
         this.select(game);
     }
 
     select(game: string) {
-        if (this.isMainGameGuide(this.gameName)) {
-            cc.RedT.addDataObserver(`${this.gameName}Guide}`, this.receivedData.bind(this));
-            cc.RedT.send({ g: { [this.gameName]: { getGameConfigs: true } } });
-        }
-
         cc.RedT.audio.playClick();
         Promise.all(
             this.sideBar.children.map((obj) => {
@@ -116,15 +59,25 @@ export default class MiniKenoGuide extends cc.Component {
             })
         );
 
-        Promise.all(
-            this.content.children.map((obj) => {
-                if (obj.name === game) {
-                    obj.active = true;
-                } else {
-                    obj.active = false;
-                }
-                return void 0;
-            })
-        );
+        const id = this.getGameId(game);
+        const minikeno = this.miniKenos.find((keno) => keno.gameId === id);
+        const { minBet, maxBet } = minikeno.getBetRange();
+        this.content.initURL(id, getLocale(), { minBet, maxBet, used: minikeno.isUsingMaxStakeLevel() });
+        this.content.loadWebView();
+    }
+
+    getGameId(game: string) {
+        const dict = {
+            kenoMax: GameIds.KenoMax,
+            kenoMax2: GameIds.KenoMax2,
+            kenoMini: GameIds.KenoMini,
+            kenoMini2: GameIds.KenoMini2,
+            kenoDong: GameIds.KenoEast,
+            kenoTay: GameIds.KenoWest,
+            kenoNam: GameIds.KenoSouth,
+            kenoBac: GameIds.KenoNorth
+        };
+
+        return dict[game];
     }
 }

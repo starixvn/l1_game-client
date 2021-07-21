@@ -1,4 +1,7 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import * as sessionManager from "../../common/auth/SessionManager";
+import BaseComponent from "../../common/BaseComponent";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Loading from "../../common/loading/view-models/Loading";
@@ -11,11 +14,10 @@ import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class MiniPanel extends cc.Component {
+export default class MiniPanel extends BaseComponent {
     @property(cc.BitmapFont)
     fontCong: cc.BitmapFont = null;
 
@@ -42,6 +44,12 @@ export default class MiniPanel extends cc.Component {
 
     @property(GameIconMenu)
     gameMenu: GameIconMenu = null;
+
+    @property(cc.Node)
+    noticeContainer: cc.Node = null;
+
+    @property(cc.Node)
+    guideContainer: cc.Node = null;
 
     public popupMiniGame: any;
     public loading: Loading;
@@ -107,7 +115,7 @@ export default class MiniPanel extends cc.Component {
     }
 
     openResultPage(gameId: number = undefined) {
-        const data = { language: "vi-VN" };
+        const data = { language: sessionManager.getLocale() };
         if (gameId) {
             data["gameId"] = gameId;
         }
@@ -169,32 +177,6 @@ export default class MiniPanel extends cc.Component {
         this.gameMiniInitializers.openNewSocket(id);
     }
 
-    openGameRoom(e, id) {
-        this.popupMiniGame.hideListGame();
-
-        if (this.currentGameRoomId === id) {
-            return;
-        }
-
-        sessionManager.removeInRoomGameId();
-
-        if (!cc.RedT.isConnected) {
-            const gameName = GameUtils.getGameNameString(id);
-            this.onConnectSocketFailed(gameName);
-            return;
-        }
-
-        if (cc.RedT.IS_LOGIN) {
-            const regName = SabaConfigs.gameRoomRegNames[id];
-            this.loading.node.active = true;
-            cc.RedT.inGame.outRoomGame().then(() => {
-                cc.RedT.send({ g: { reg: regName } });
-            });
-        } else {
-            this.forceKickedOut();
-        }
-    }
-
     openNewGameSocket(event, gameId) {
         this.socketIOGameInitializers.openGame(gameId);
     }
@@ -229,9 +211,13 @@ export default class MiniPanel extends cc.Component {
         const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt, isPlaceBet);
 
         notice.init({ text: message } as NoticeData);
-        this.node.addChild(noticePrefab);
+        this.noticeContainer.addChild(noticePrefab);
 
         return notice;
+    }
+
+    showGuide(guide: cc.Node) {
+        this.guideContainer.addChild(guide);
     }
 
     showNotice(noticeData: NoticeData, handleClickButton = null, handleClose = null) {
@@ -249,11 +235,11 @@ export default class MiniPanel extends cc.Component {
             notice.handleClose = handleClose;
         }
 
-        this.node.addChild(noticePrefab);
+        this.noticeContainer.addChild(noticePrefab);
     }
 
     onConnectSocketFailed(gameName, isGameRoom = true) {
-        if (!this.node || !this.node.isValid) {
+        if (!this.isAlive()) {
             return;
         }
         const handleCloseNotice = () => isGameRoom && this.redirectToLobby();

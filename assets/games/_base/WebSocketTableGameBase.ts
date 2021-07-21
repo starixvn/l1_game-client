@@ -1,17 +1,16 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { lazyInject } from "../../Application";
 import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
-import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import NoticeUtil from "../../common/utils/NoticeUtil";
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
-import { GameConfigBase } from "./view-models/GameConfigBase";
 import RoomPlayer from "./view-models/RoomPlayer";
-import NoticeUtil from "../../common/utils/NoticeUtil";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -60,12 +59,6 @@ export default class WebSocketTableGameBase extends GameBase {
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale: number;
 
-    protected _gameId: number;
-
-    public get gameId(): number {
-        return this._gameId;
-    }
-
     constructor() {
         super();
     }
@@ -83,10 +76,8 @@ export default class WebSocketTableGameBase extends GameBase {
         cc.RedT.inGame = null;
     }
 
-    init(gameName: string, gameConfigs: GameConfigBase, miniPanel: MiniPanel = null, miniPanelScale = 1, gameId = 0) {
-        super.init(gameName, gameConfigs, miniPanel);
+    setMiniPanelScale(miniPanelScale: number) {
         this.miniPanelScale = miniPanelScale;
-        this._gameId = gameId;
     }
 
     initHandlers() {
@@ -147,28 +138,20 @@ export default class WebSocketTableGameBase extends GameBase {
 
         const text = message ? message : i18n.t("messages.disabledGame");
         const noticeData = { text: text, button: { text: "OK" } } as NoticeData;
-        const notice = this.showNotice(noticeData);
-
-        notice.handleClickButton = () => {
-            this.onCloseGameClick();
-        };
-        notice.handleClose = () => {
-            this.onCloseGameClick();
-        };
+        noticeData.button = { text: "OK" };
+        this.currentMiniPanel.showNotice(
+            noticeData,
+            () => {
+                this.onCloseGameClick();
+            },
+            () => {
+                this.onCloseGameClick();
+            }
+        );
     }
 
     onCloseGameClick() {
         this.closeGame();
-    }
-
-    showNotice(data: NoticeData): Notice {
-        const noticePrefab = cc.instantiate(this.noticePrefab);
-        const notice = noticePrefab.getComponent("Notice") as Notice;
-        data.button = { text: "OK" };
-        notice.init(data);
-        this.miniPanelContainer.addChild(noticePrefab);
-
-        return notice;
     }
 
     closeGame() {
@@ -273,7 +256,7 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     protected loadUserData(user) {
-        if (!this.node || !this.node.isValid) {
+        if (!this.isAlive()) {
             return;
         }
 

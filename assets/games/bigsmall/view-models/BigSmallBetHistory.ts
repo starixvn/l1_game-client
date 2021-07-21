@@ -1,7 +1,9 @@
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import { getStringDateByTime } from './../../../common/helpers/DateTimeHelper';
-import BigSmall from './BigSmall';
-import BigSmallBetHistoryItem from './BigSmallBetHistoryItem';
+import LocalizedLabelWithFormat from "../../../common/i18n/LocalizedLabelWithFormat";
+
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
+import BigSmall from "./BigSmall";
+import BigSmallBetHistoryItem from "./BigSmallBetHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -48,17 +50,18 @@ export default class BigSmallBetHistory extends cc.Component {
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
+    @property(LocalizedLabelWithFormat)
+    gameName: LocalizedLabelWithFormat = null;
+
     protected main: BigSmall;
     protected roundId = 0;
-    @property(cc.Label)
-    titleLabel: cc.Label = null;
-
-    public gameTitle = "";
-    private readonly betHistoryTitle = "LỊCH SỬ PHIÊN";
 
     init(main: BigSmall, roundId: number) {
         this.main = main;
         this.roundId = roundId;
+
+        this.getRound(this.roundId);
+        this.gameName.dataId = `gameNames.${this.main.gameId}`;
     }
 
     onDisable() {
@@ -70,14 +73,10 @@ export default class BigSmallBetHistory extends cc.Component {
             this.node.scale = 0.8;
         }
 
-        this.getRound(this.roundId);
-
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
         commonDialog.onDidHide = () => {
             this.node.destroy();
         };
-
-        this.titleLabel.string = `${this.betHistoryTitle} ${this.gameTitle.toUpperCase()}`;
     }
 
     onNextClick() {

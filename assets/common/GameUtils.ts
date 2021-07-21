@@ -1,7 +1,9 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import * as SabaConfigs from "../configs/SabaConfigs";
+import { GameInfos } from "../configs/SabaConfigs";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -24,37 +26,7 @@ export default class GameUtils {
     }
 
     public static getBetChoiceString(choice: string): string {
-        const dict = {
-            even: "CHẴN",
-            odd: "LẺ",
-            big: "TÀI",
-            small: "XỈU",
-
-            gold: "KIM",
-            wood: "MỘC",
-            water: "THỦY",
-            fire: "HỎA",
-            earth: "THỔ",
-
-            dragon: "RỒNG",
-            tiger: "HỔ",
-            tie: "HÒA",
-            red3: "3 ĐỎ",
-            red4: "4 ĐỎ",
-            white3: "1 ĐỎ",
-            white4: "4 TRẮNG",
-            red2: "2 ĐỎ",
-
-            red: "ĐỎ",
-            black: "ĐEN",
-
-            diamonds: "RÔ",
-            hearts: "CƠ",
-            spades: "BÍCH",
-            clubs: "CHUỒN"
-        };
-
-        return dict[choice];
+        return i18n.t(`ui.choice_${choice}`);
     }
 
     public static capitalizeWords(str: string) {
@@ -64,7 +36,7 @@ export default class GameUtils {
     }
 
     public static loadResource(path: string): Promise<cc.Prefab> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             cc.loader.loadRes(path, (err, prefab: cc.Prefab) => {
                 resolve(prefab);
             });
@@ -87,16 +59,18 @@ export default class GameUtils {
             openLuckyWheelFunc && openLuckyWheelFunc();
             return;
         }
-        if (SabaConfigs.gameRoomNewSocketIds.includes(gameId)) {
-            miniPanel.openNewGameSocket(null, gameId);
-        } else if (SabaConfigs.gameRoomIds.includes(gameId)) {
-            miniPanel.openGameRoom(null, gameId);
-        } else if (SabaConfigs.gameMiniNewSocketIds.includes(gameId)) {
-            miniPanel.openNewSocketMiniGame(null, gameId);
-            openLuckyWheelFunc && openLuckyWheelFunc();
-        } else {
+
+        const info = GameInfos[gameId];
+        if (info.mainSocket) {
             miniPanel.openGame(null, gameId);
             openLuckyWheelFunc && openLuckyWheelFunc();
+        } else {
+            if (info.mini) {
+                miniPanel.openNewSocketMiniGame(null, gameId);
+                openLuckyWheelFunc && openLuckyWheelFunc();
+            } else {
+                miniPanel.openNewGameSocket(null, gameId);
+            }
         }
     }
 
@@ -140,7 +114,7 @@ export default class GameUtils {
     }
 
     public static getAvatarSprite(avatarId: number): Promise<cc.SpriteFrame> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
                 const frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
                 resolve(frame);

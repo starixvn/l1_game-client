@@ -13,7 +13,7 @@ export default class ThreeCardsRoundHistoryTip extends MiniRoundHistoryTip {
         this.roundId.string = `#${data.roundId}`;
 
         const result = data.result ? "red" : "black";
-        this.result.string = `${GameUtils.getBetChoiceString(result)}`;
+        this.result.string = `${GameUtils.getBetChoiceString(result).toUpperCase()}`;
         this.resultItem.setData(data.detail);
     }
 }
