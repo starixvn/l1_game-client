@@ -139,7 +139,7 @@ export default class WebSocketTableGameBase extends GameBase {
         const text = message ? message : i18n.t("messages.disabledGame");
         const noticeData = { text: text, button: { text: "OK" } } as NoticeData;
         noticeData.button = { text: "OK" };
-        this.currentMiniPanel.showNotice(
+        this.showNotice(
             noticeData,
             () => {
                 this.onCloseGameClick();
@@ -148,6 +148,10 @@ export default class WebSocketTableGameBase extends GameBase {
                 this.onCloseGameClick();
             }
         );
+    }
+
+    showNotice(noticeData: NoticeData, onClickOk: () => void, onClose: () => void) {
+        this.currentMiniPanel.showNotice(noticeData, onClickOk, onClose);
     }
 
     onCloseGameClick() {

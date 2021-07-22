@@ -7,7 +7,6 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Loading from "../../common/loading/view-models/Loading";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
-import * as SabaConfigs from "../../configs/SabaConfigs";
 import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
@@ -220,7 +219,7 @@ export default class MiniPanel extends BaseComponent {
         this.guideContainer.addChild(guide);
     }
 
-    showNotice(noticeData: NoticeData, handleClickButton = null, handleClose = null) {
+    showNotice(noticeData: NoticeData, handleClickButton: () => void = null, handleClose: () => void = null) {
         const noticePrefab = cc.instantiate(this.noticePrefab);
         const notice = noticePrefab.getComponent("Notice") as Notice;
 
