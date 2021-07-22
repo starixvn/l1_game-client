@@ -362,8 +362,8 @@ cc.Class({
             return `${numberWithCommas(red)}`;
         }
     },
-    showNotice: function (noticeData) {
-        cc.RedT.MiniPanel.showNotice(noticeData);
+    showNotice: function (noticeData, onClickButton, onClose) {
+        cc.RedT.MiniPanel.showNotice(noticeData, onClickButton, onClose);
     },
     clickNoticeButton: function () {
         if (this.type === sign_out) {

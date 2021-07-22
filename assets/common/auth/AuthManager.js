@@ -191,12 +191,12 @@ export function reCheckIn() {
                                 const noticeData = {
                                     text: i18n.t("messages.accountClosed")
                                 };
-                                cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
+                                cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
                             } else {
                                 const errorCode = response.apiError.errorCode;
                                 const message = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
                                 const noticeData = { text: message };
-                                cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
+                                cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData);
                             }
                         } else {
                             if (cc.RedT.user) {

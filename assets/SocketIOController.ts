@@ -3,7 +3,7 @@ import * as socketIo from "socket.io-client";
 
 import { getSession } from "./common/auth/SessionManager";
 import { sentryLogger } from "./common/logger.js";
-import { GameInfos, gameMiniNewSocketIds } from "./configs/SabaConfigs";
+import { GameInfos } from "./configs/SabaConfigs";
 
 @injectable()
 export default class SocketIOController {
@@ -23,7 +23,7 @@ export default class SocketIOController {
         });
 
         socket.on("reconnect", () => {
-            sentryLogger.logError(`${gameName} socket reconnect`);
+            // sentryLogger.logError(`${gameName} socket reconnect`);
             socket.sendBuffer = [];
         });
 
@@ -40,7 +40,7 @@ export default class SocketIOController {
         });
 
         socket.on("disconnect", (reason) => {
-            sentryLogger.log(`${gameName} socket disconnect: ${reason}`);
+            // sentryLogger.log(`${gameName} socket disconnect: ${reason}`);
         });
 
         return socket;
