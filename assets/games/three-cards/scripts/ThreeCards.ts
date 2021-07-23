@@ -91,7 +91,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
 
     onBetItemClick(event) {
         // override this method to add roundId and time
-        if (this.isDisableGame || !this.gameConfigs) {
+        if (!this.isReadyBet()) {
             return;
         }
 

@@ -157,6 +157,10 @@ export default class GameBase extends BaseComponent {
         this.currentMiniPanel = miniPanel;
     }
 
+    isReadyBet(): boolean {
+        return !this.isDisableGame && this.gameConfigs !== undefined;
+    }
+
     onLoad() {
         this.setUpHandlers();
         this.initBetChips();
@@ -371,7 +375,7 @@ export default class GameBase extends BaseComponent {
     }
 
     protected bet(betData) {
-        if (this.isDisableGame || !this.gameConfigs) {
+        if (!this.isReadyBet()) {
             return;
         }
 

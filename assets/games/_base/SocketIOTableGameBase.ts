@@ -68,7 +68,7 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     }
 
     onBetItemClick(event) {
-        if (this.isDisableGame || !this.gameConfigs) {
+        if (!this.isReadyBet()) {
             return;
         }
 

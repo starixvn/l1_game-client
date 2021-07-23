@@ -156,7 +156,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
     }
 
     validateBet() {
-        if (this.isDisableGame || !this.gameConfigs) {
+        if (!this.isReadyBet()) {
             return false;
         }
 
