@@ -4,7 +4,7 @@ import { lazyInject } from "../../../Application";
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
-import { GameIds } from "../../../configs/SabaConfigs";
+import { desktopMiniGameScale, GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
@@ -205,7 +205,7 @@ export default class KenoProViet extends cc.Component {
         this.sortedGames = [...this.favouriteGames, ...otherGames];
         this.sortedGames.forEach((type, index) => {
             const keno = this.miniKenos.find((game) => game.kenoType === type);
-            keno.node.position = cc.v2(left + keno.node.width / 2 + index * (keno.node.width + spacing), 0);
+            keno.node.position = cc.v3(left + keno.node.width / 2 + index * (keno.node.width + spacing), 0);
             keno.favourite.isChecked = index < this.favouriteGames.length;
 
             this.indicatorItems[index].init(keno);
@@ -235,7 +235,7 @@ export default class KenoProViet extends cc.Component {
 
     onLoad() {
         if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
+            this.node.scale = desktopMiniGameScale;
         }
         this.initAllKeno();
         this.leftButton.active = false;

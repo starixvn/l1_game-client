@@ -159,7 +159,8 @@ const configs = {
         35: {
             key: "ThreeCards"
         }
-    }
+    },
+    desktopMiniGameScale: 0.8
 };
 
 module.exports = configs;
