@@ -1,34 +1,38 @@
 import NoticeUtil from "../../common/utils/NoticeUtil";
 
-cc.Class({
-    extends: cc.Component,
-    properties: {
-        prefabItem: cc.Prefab,
-        marqueeFont: cc.BitmapFont
-    },
-    init: function (obj) {
-        this.RedT = obj;
-        this.colors = ["#F24647", "#33D3E9", "#F8E49D"];
-    },
-    update: function (t) {
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class NewsContent extends cc.Component {
+    @property(cc.Prefab)
+    prefabItem: cc.Prefab = null;
+
+    @property(cc.BitmapFont)
+    marqueeFont: cc.BitmapFont = null;
+
+    colors = ["#F24647", "#33D3E9", "#F8E49D"];
+
+    update(t) {
         if (this.node.childrenCount === 0) {
             this.reset();
             return;
         }
-        var limitLeft = -this.node.parent.width / 4;
-        for (var i = 0; i < this.node.childrenCount; i++) {
-            var child = this.node.children[i];
+        const limitLeft = -this.node.parent.width / 4;
+        for (let i = 0; i < this.node.childrenCount; i++) {
+            const child = this.node.children[i];
             child.position = cc.v2(child.position.x - 100 * t, 0);
 
             if (child.position.x + child.width < limitLeft) {
                 child.destroy();
             }
         }
-    },
-    reset: function () {
+    }
+
+    reset() {
         this.node.active = false;
-    },
-    onData: function (data) {
+    }
+
+    onData(data) {
         if (!cc.RedT.GAME_IS_SHOWED) {
             return;
         }
@@ -36,8 +40,9 @@ cc.Class({
         if (void 0 !== data) {
             this.addMarqueeMessage(NoticeUtil.getMessageByLocale(data));
         }
-    },
-    addMarqueeMessage: function (message) {
+    }
+
+    addMarqueeMessage(message) {
         const node = new cc.Node();
         node.color = node.color.fromHEX(this.colors[Math.floor(Math.random() * 3)]);
         node.addComponent(cc.Label);
@@ -45,16 +50,16 @@ cc.Class({
         label.font = this.marqueeFont;
         label.string = message;
         label.lineHeight = 47;
-        label.verticalAlign = "top";
+        label.verticalAlign = cc.Label.VerticalAlign.TOP;
         label.fontSize = 16;
         this.addNewsNode(node);
         this.node.active = true;
-    },
+    }
 
     addNewsNode(node) {
-        var count = this.node.childrenCount;
-        var lastItemX = this.node.parent.width / 2 + node.width / 2;
-        var lastNode = this.node.children[count - 1];
+        const count = this.node.childrenCount;
+        let lastItemX = this.node.parent.width / 2 + node.width / 2;
+        const lastNode = this.node.children[count - 1];
 
         this.node.addChild(node);
         if (lastNode) {
@@ -62,4 +67,4 @@ cc.Class({
         }
         node.position = cc.v2(lastItemX, 0);
     }
-});
+}

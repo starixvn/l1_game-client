@@ -1,32 +1,44 @@
-const { default: NoticeUtil } = require("../../common/utils/NoticeUtil");
+import CommonDialog from "../../common/_base/view-models/CommonDialog";
+import NoticeUtil from "../../common/utils/NoticeUtil";
+import MainGame from "../main/view-models/MainGame";
 
-cc.Class({
-    extends: cc.Component,
-    properties: {
-        signNamePrefab: cc.Prefab
-    },
-    init: function (main) {
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class Dialog extends cc.Component {
+    @property(cc.Prefab)
+    signNamePrefab: cc.Prefab = null;
+
+    main: MainGame;
+    currentDialog: CommonDialog;
+    signName: any;
+
+    init(main) {
         this.main = main;
         this.node.active = false;
-    },
-    onClickBack: function () {
+    }
+
+    onClickBack() {
         cc.RedT.audio.playUnClick();
         this.onBack();
-    },
-    onBack: function () {
+    }
+
+    onBack() {
         this.onCloseDialog();
-    },
-    onCloseDialog: function () {
+    }
+
+    onCloseDialog() {
         if (this.currentDialog != null) {
             this.currentDialog.closeDialog();
         } else {
             this.node.active = false;
         }
-    },
+    }
+
     /**
      * Function Show Dialog
      */
-    showSignName: function () {
+    showSignName() {
         if (!this.signName) {
             const node = cc.instantiate(this.signNamePrefab);
             this.node.addChild(node);
@@ -34,11 +46,11 @@ cc.Class({
             this.signName.init(this.handleSignName.bind(this));
         }
         this.node.active = this.signName.node.active = true;
-        this.currentDialog = this.signName.dialogNode.getComponent("CommonDialog");
+        this.currentDialog = this.signName.dialogNode.getComponent(CommonDialog);
         this.currentDialog.addOnDidHide(() => (this.node.active = false));
-    },
+    }
 
-    handleSignName: function (response) {
+    handleSignName(response) {
         if (response.authorized) {
             this.main.handleUserData(response.user);
         } else {
@@ -49,4 +61,4 @@ cc.Class({
 
         this.main.serviceAuthorized(response.authorized);
     }
-});
+}
