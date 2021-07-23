@@ -1,0 +1,58 @@
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class Header extends cc.Component {
+    @property(cc.Sprite)
+    avatar: cc.Sprite = null;
+
+    @property(cc.Node)
+    nodeUsers: cc.Node = null;
+
+    @property(cc.Label)
+    userName: cc.Label = null;
+
+    @property(cc.Label)
+    userRed: cc.Label = null;
+
+    @property(cc.Node)
+    scoinsNode: cc.Node = null;
+
+    @property(cc.Label)
+    scoinsValue: cc.Label = null;
+
+    @property(cc.Prefab)
+    NoticePrefab: cc.Prefab = null;
+
+    onLoad() {
+        if (cc.RedT.IS_LOGIN) {
+            this.isSignIn();
+        } else {
+            this.isSignOut();
+        }
+    }
+
+    isSignIn() {
+        this.nodeUsers.active = true;
+    }
+
+    isSignOut() {
+        this.userName.string = this.userRed.string = "";
+        this.nodeUsers.active = false;
+    }
+
+    setAvatar(avatarId) {
+        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+            if (this && this.avatar) {
+                const frame = atlas.getSpriteFrame(avatarId === 0 ? 1 : avatarId);
+                this.avatar.spriteFrame = frame;
+            }
+        });
+    }
+
+    showScoins(scoins = 0) {
+        this.scoinsNode.active = true;
+        this.scoinsValue.string = numberWithCommas(scoins);
+    }
+}

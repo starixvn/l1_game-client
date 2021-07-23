@@ -1,55 +1,103 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { appContainer } from "../../../Application";
-import baseControll from "../../../BaseController";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import Loading from "../../../common/loading/view-models/Loading";
 import logger from "../../../common/logger";
 import * as SabaConfigs from "../../../configs/SabaConfigs";
 import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
+import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import SplashConfig from "../../../splash/view-models/SplashConfig";
+import Dialog from "../../dialog/Dialog";
+import NewsContent from "../../news/NewsContent";
 import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
+import BannerController from "./BannerController";
+import DynamicAdsBannerController from "./DynamicAdsBannerController";
+import Header from "./Header";
+import LobbyMenu from "./LobbyMenu";
 
+const baseControll = require("BaseController");
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 const sentryLogger = logger();
 
-var header = require("Header"),
-    newsContents = require("NewsContents");
+const { ccclass, property } = cc._decorator;
 
-cc.Class({
-    extends: cc.Component,
-    properties: {
-        PrefabT: {
-            default: [],
-            type: cc.Prefab
-        },
-        header: header,
-        center: cc.Node,
-        mainScroll: cc.Node,
-        bannerContainer: cc.Node,
-        adsBannerContainer: cc.Node,
-        jackpotBannerContainer: cc.Node,
-        adsToggle: cc.Toggle,
-        jackpotToggle: cc.Toggle,
-        scrollContent: cc.Node,
-        news: cc.Node,
-        newsContents: newsContents,
-        redhat: cc.Node,
-        dialogNode: cc.Node,
-        loading: cc.Node,
-        audioBG: cc.AudioSource,
-        NoticePrefab: cc.Prefab
-    },
+@ccclass
+export default class MainGame extends cc.Component {
+    @property({ type: cc.Prefab })
+    PrefabT: cc.Prefab[] = [];
+
+    @property(Header)
+    header: Header = null;
+
+    @property(cc.Node)
+    center: cc.Node = null;
+
+    @property(cc.Node)
+    mainScroll: cc.Node = null;
+
+    @property(cc.Node)
+    bannerContainer: cc.Node = null;
+
+    @property(cc.Node)
+    adsBannerContainer: cc.Node = null;
+
+    @property(cc.Node)
+    jackpotBannerContainer: cc.Node = null;
+
+    @property(cc.Toggle)
+    adsToggle: cc.Toggle = null;
+
+    @property(cc.Toggle)
+    jackpotToggle: cc.Toggle = null;
+
+    @property(cc.Node)
+    scrollContent: cc.Node = null;
+
+    @property(cc.Node)
+    news: cc.Node = null;
+
+    @property(NewsContent)
+    newsContents: NewsContent = null;
+
+    @property(cc.Node)
+    redhat: cc.Node = null;
+
+    @property(cc.Node)
+    dialogNode: cc.Node = null;
+
+    @property(cc.Node)
+    loading: cc.Node = null;
+
+    @property(cc.AudioSource)
+    audioBG: cc.AudioSource = null;
+
+    @property(cc.Prefab)
+    NoticePrefab: cc.Prefab = null;
+
+    private dialog: Dialog;
+    private inRoomGameId: string;
+    private initializedLobby: boolean;
+    private loadingComponent: Loading;
+    private luckyWheelIcon: LuckyWheelIcon;
+    private lobbyMenu: LobbyMenu;
+
     onDestroy() {
         this.dialogNode.destroy();
         cc.RedT.MiniPanel.destroy();
         cc.RedT.inGame = null;
-    },
-    onLoad: function () {
-        this.dialog = this.dialogNode.getComponent("Dialog");
+    }
+
+    onLoad() {
+        this.loadingComponent = this.loading.getComponent(Loading);
+        this.dialog = this.dialogNode.getComponent(Dialog);
         document.cookie = "redT=1702;path=/";
 
         this.initRedT();
@@ -67,14 +115,14 @@ cc.Class({
         this.resumeGameRoomOrSignIn();
         this.onLoadLobby();
         this.scaleCenterForDesktop();
-    },
+    }
 
     initRedT() {
         if (void 0 === cc.RedT) {
             cc.RedT = baseControll;
             cc.RedT.init(this.loading);
         }
-    },
+    }
 
     initAppEvent() {
         cc.game.on(
@@ -91,15 +139,15 @@ cc.Class({
                 cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoin: true } });
             }.bind(this)
         );
-    },
+    }
 
     initMiniPanel() {
-        var MiniPanel = cc.instantiate(this.PrefabT[1]);
-        cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
-        this.redhat.insertChild(MiniPanel);
+        const miniPanelNode = cc.instantiate(this.PrefabT[1]);
+        cc.RedT.MiniPanel = miniPanelNode.getComponent(MiniPanel);
+        this.redhat.insertChild(miniPanelNode, 1);
         this.dialogNode.removeFromParent();
         cc.RedT.MiniPanel.addDialog(this.dialogNode);
-    },
+    }
 
     resumeGameRoomOrSignIn() {
         this.inRoomGameId = sessionManager.getInRoomGameId();
@@ -131,12 +179,14 @@ cc.Class({
         if (!cc.sys.isMobile) {
             this.center.scale = 0.8;
         }
-    },
+    }
+
     onSignIn() {
         if (!this.initializedLobby) {
             this.initLobby();
         }
-    },
+    }
+
     loadLobbyMenuFromStorage() {
         if (!this.initializedLobby) {
             const storage = cc.sys.localStorage.getItem("latestOfferGames");
@@ -145,12 +195,14 @@ cc.Class({
             }
             this.initLobby();
         }
-    },
+    }
+    
     initLobby() {
         this.initLobbyMenu();
         this.initBanners();
         this.initializedLobby = true;
-    },
+    }
+
     initLobbyMenu() {
         let lobbyMenu = this.mainScroll.getComponent("LobbyMenu");
         if (lobbyMenu) {
@@ -166,7 +218,10 @@ cc.Class({
             this.repositionMenu();
         };
         lobbyMenu.initItems();
-    },
+
+        this.lobbyMenu = lobbyMenu;
+    }
+
     initBanners() {
         if (this.adsBannerContainer.childrenCount > 0) {
             return;
@@ -174,8 +229,8 @@ cc.Class({
         const showJackpotBanner = cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
         this.jackpotToggle.node.parent.active = showJackpotBanner;
 
-        const jpBannerController = this.jackpotBannerContainer.getComponent("BannerController");
-        const adsBannerController = this.adsBannerContainer.getComponent("DynamicAdsBannerController");
+        const jpBannerController = this.jackpotBannerContainer.getComponent(BannerController);
+        const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
 
         jpBannerController.onEndingRound = () => {
             this.jackpotToggle.isChecked = false;
@@ -209,8 +264,9 @@ cc.Class({
             }
         };
         adsBannerController.showFirstPage();
-    },
-    switchBanner(showJackpot, reset) {
+    }
+
+    switchBanner(showJackpot: boolean, reset = false) {
         cc.tween(this.node)
             .delay(0.1)
             .call(() => {
@@ -220,8 +276,8 @@ cc.Class({
                 const currentContainer = showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
                 const newContainer = !showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
 
-                const currentController = currentContainer.getComponent("BannerController");
-                const newController = newContainer.getComponent("BannerController");
+                const currentController = currentContainer.getComponent(BannerController);
+                const newController = newContainer.getComponent(BannerController);
 
                 if (currentController.currentIndex > 0 || reset) {
                     newController.showFirstPage();
@@ -230,7 +286,8 @@ cc.Class({
                 }
             })
             .start();
-    },
+    }
+
     repositionMenu() {
         const adsWidth = this.bannerContainer.width;
         const scrollContentWidth = this.scrollContent.width + adsWidth;
@@ -238,29 +295,31 @@ cc.Class({
         const adsWidget = this.bannerContainer.getComponent(cc.Widget);
         if (scrollContentWidth < this.center.width) {
             scrollView.enabled = false;
-            this.scrollContent.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.scrollContent.position.y);
+            this.scrollContent.position = cc.v3(-scrollContentWidth / 2 + adsWidth / 2, this.scrollContent.position.y);
             adsWidget.enabled = false;
-            this.bannerContainer.position = cc.v2(-scrollContentWidth / 2 + adsWidth / 2, this.bannerContainer.position.y);
+            this.bannerContainer.position = cc.v3(-scrollContentWidth / 2 + adsWidth / 2, this.bannerContainer.position.y);
         } else {
             scrollView.enabled = true;
             adsWidget.enabled = true;
-            scrollView.scrollTo(0, 0);
+            scrollView.scrollTo(cc.v2(0, 0), 0);
         }
-    },
+    }
+
     onBannerTypeChanged(e, param) {
         const type = +param;
         const showJackpot = type === 1;
         this.switchBanner(showJackpot, true);
-    },
-    outRoomGame: function () {
+    }
+
+    outRoomGame() {
         //please dont remove this method, it's used in openGameRoom method in MiniPanel.ts file
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             socketIOController.closeMiniGameSockets();
             resolve();
         });
-    },
+    }
 
-    unAuthorized: function (data) {
+    unAuthorized(data) {
         if (this.loading) {
             this.loading.active = false;
         }
@@ -272,8 +331,9 @@ cc.Class({
         } else {
             this.showNotice(data);
         }
-    },
-    Authorized: function (Authorized) {
+    }
+
+    Authorized(Authorized) {
         this.loading.active = false;
 
         if (!Authorized) {
@@ -281,8 +341,9 @@ cc.Class({
         } else {
             this.signIn();
         }
-    },
-    serviceAuthorized: function (Authorized) {
+    }
+
+    serviceAuthorized(Authorized) {
         this.loading.active = false;
 
         if (!Authorized) {
@@ -291,8 +352,9 @@ cc.Class({
             cc.RedT.callAuthentication();
             this.signIn();
         }
-    },
-    onData: function (data) {
+    }
+
+    onData(data) {
         if (void 0 !== data["unauth"]) {
             this.unAuthorized(data["unauth"]);
         }
@@ -312,15 +374,15 @@ cc.Class({
         }
 
         if (void 0 !== data.loading) {
-            this.loading.onData(data.loading);
+            this.loadingComponent.onData(data.loading);
         }
 
         if (!!data.removeIsLoading && this.loading) {
             this.loading.active = false;
         }
-    },
+    }
 
-    handleUserData: function (user) {
+    handleUserData(user) {
         cc.RedT.userData(user);
         this.loadUserData(user);
 
@@ -336,9 +398,9 @@ cc.Class({
                 `Logged In User: ${user.name} at ${new Date()}\nInfo:\n${JSON.stringify(user)} \nBrowser:${userAgent}\nError:${ex}`
             );
         }
-    },
+    }
 
-    formatUserCurrency: function (red, currency) {
+    formatUserCurrency(red, currency = null) {
         const splashConfig = new SplashConfig();
 
         if (splashConfig.enabledSC1) {
@@ -346,27 +408,20 @@ cc.Class({
             if (cc.RedT.user.currency) {
                 userCurrency = cc.RedT.user.currency.toUpperCase();
             } else {
-                userCurrency = currency === undefined ? "" : currency;
+                userCurrency = currency ? currency : "";
             }
 
             return `${numberWithCommas(red)} ${userCurrency}`;
         } else {
             return `${numberWithCommas(red)}`;
         }
-    },
-    showNotice: function (noticeData, onClickButton, onClose) {
+    }
+
+    showNotice(noticeData: any, onClickButton: () => void = null, onClose: () => void = null) {
         cc.RedT.MiniPanel.showNotice(noticeData, onClickButton, onClose);
-    },
-    clickNoticeButton: function () {
-        if (this.type === sign_out) {
-            cc.RedT._socket.close();
-            if (authManager) {
-                authManager.signOut();
-            }
-            this.node.active = false;
-        }
-    },
-    loadUserData: function (data) {
+    }
+
+    loadUserData(data: any) {
         if (void 0 !== data.red && this.header && this.header.userRed) {
             this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
         }
@@ -391,19 +446,22 @@ cc.Class({
         if (data.availSpins) {
             this.renderLuckyWheelIcon();
         }
-    },
-    signOut: function () {
+    }
+
+    signOut() {
         cc.RedT.user = {};
         cc.RedT.IS_LOGIN = false;
         this.AllReset();
         cc.sys.localStorage.removeItem("infoRed8");
         authManager.signOut();
-    },
-    onDisconnected: function () {
+    }
+
+    onDisconnected() {
         this.AllReset();
         cc.sys.localStorage.removeItem("infoRed8");
-    },
-    signIn: function () {
+    }
+
+    signIn() {
         cc.RedT.IS_LOGIN = true;
 
         this.header.isSignIn();
@@ -412,15 +470,17 @@ cc.Class({
         this.onSignIn();
         this.openGameSSO();
         this.getJackpotInfo();
-    },
+    }
+
     getJackpotInfo() {
         cc.RedT.send({
             jackpot: {
                 getPools: true
             }
         });
-    },
-    openGameSSO: function () {
+    }
+
+    openGameSSO() {
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
             GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
@@ -428,45 +488,48 @@ cc.Class({
         } else {
             !this.inRoomGameId && this.openLuckyWheel();
         }
-    },
+    }
 
-    openInRoomGame(gameId) {
+    openInRoomGame(gameId: string) {
         const info = SabaConfigs.GameInfos[gameId];
         if (info) {
             cc.RedT.MiniPanel.openNewSocketTableGame(null, +gameId);
         }
-    },
-    AllReset: function () {
+    }
+
+    AllReset() {
         this.loading.active = false;
         this.newsContents.reset();
-    },
+    }
 
-    playMusic: function () {
+    playMusic() {
         this.audioBG.play();
-    },
-    pauseMusic: function () {
+    }
+
+    pauseMusic() {
         this.audioBG.pause();
-    },
-    resumeMusic: function () {},
-    audioClick: function () {
+    }
+
+    audioClick() {
         cc.RedT.audio.playClick();
-    },
-    audioUnClick: function () {
+    }
+
+    audioUnClick() {
         cc.RedT.audio.playUnClick();
-    },
+    }
 
     onGameResultClick() {
         cc.RedT.MiniPanel.openResultPage();
-    },
+    }
 
     renderLuckyWheelIcon() {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve) => {
             if (!this.luckyWheelIcon && cc.RedT.user.availSpins > 0) {
                 GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
                     if (!this.luckyWheelIcon) {
                         const node = cc.instantiate(prefab);
                         this.redhat.insertChild(node, 0);
-                        this.luckyWheelIcon = node.getComponent("LuckyWheelIcon");
+                        this.luckyWheelIcon = node.getComponent(LuckyWheelIcon);
                         this.luckyWheelIcon.init(this.node);
                     }
                     resolve();
@@ -475,7 +538,7 @@ cc.Class({
                 resolve();
             }
         });
-    },
+    }
 
     openLuckyWheel() {
         if (cc.RedT.user && cc.RedT.user.name) {
@@ -484,4 +547,9 @@ cc.Class({
             });
         }
     }
-});
+
+    onCategoryChanged(e, params) {
+        cc.RedT.audio.playClick();
+        this.lobbyMenu.setCategory(+params);
+    }
+}

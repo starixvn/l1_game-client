@@ -3,6 +3,15 @@ import GameUtils from "../../../common/GameUtils";
 import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 
+export enum GameCategory {
+    All = 0,
+    Dice,
+    Card,
+    Slot,
+
+    Favourite = 99,
+    Other = 100
+}
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -14,12 +23,40 @@ export default class LobbyMenu extends GameIconMenu {
     currentRow: cc.Node = null;
     rowChildrenCount = 0;
     public initializedCallback = () => {};
+    currentCategory = GameCategory.All;
 
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
+    onLoad() {
+        this.loadCategory();
+        super.onLoad();
+    }
+
     getList() {
-        return cc.RedT.user.offerGames;
+        if (this.currentCategory === GameCategory.All) {
+            return cc.RedT.user.offerGames;
+        }
+
+        const dict = {};
+        dict[GameCategory.Dice] = this.lobbyMenuConfig.diceGames;
+        dict[GameCategory.Card] = this.lobbyMenuConfig.cardGames;
+        dict[GameCategory.Slot] = this.lobbyMenuConfig.slotGames;
+        dict[GameCategory.Favourite] = this.getFavoriteList();
+        dict[GameCategory.Other] = this.getOtherList();
+        const list = dict[this.currentCategory];
+        const result = list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
+        console.log("filter category: ", result);
+        return result;
+    }
+
+    getOtherList(): number[] {
+        const temp = [...this.lobbyMenuConfig.diceGames, ...this.lobbyMenuConfig.cardGames, ...this.lobbyMenuConfig.slotGames];
+        return cc.RedT.user.offerGames.filter((i) => !temp.some((j) => j === i));
+    }
+
+    getFavoriteList(): number[] {
+        return JSON.parse(cc.sys.localStorage.getItem("favor_games")) || [];
     }
 
     onInitialized() {
@@ -96,5 +133,27 @@ export default class LobbyMenu extends GameIconMenu {
 
         this.currentColumn.addChild(node);
         this.currentRow = node;
+    }
+
+    saveCategory() {
+        cc.sys.localStorage.setItem("current_game_category", this.currentCategory);
+    }
+
+    loadCategory() {
+        const category = cc.sys.localStorage.getItem("current_game_category");
+        if (category !== "") {
+            this.currentCategory = parseInt(category) || GameCategory.All;
+        }
+    }
+
+    setCategory(category: number) {
+        this.currentCategory = category;
+        this.saveCategory();
+        this.updateIcons();
+    }
+
+    updateIcons() {
+        this.content.destroyAllChildren();
+        this.initItems();
     }
 }
