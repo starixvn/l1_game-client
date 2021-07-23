@@ -50,9 +50,6 @@ export default class MiniSedie extends SocketIOMiniGameBase {
     public resultAnimating = false;
 
     onLoad() {
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
         super.onLoad();
         const node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(SedieRoundHistory);

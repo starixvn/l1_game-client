@@ -1,5 +1,6 @@
 import { lazyInject } from "../../Application";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
+import SabaConfigs = require("../../configs/SabaConfigs");
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 
@@ -16,7 +17,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
         if (!this.isMiniGameInContainer) {
             if (!cc.sys.isMobile) {
-                this.node.scale = 0.8;
+                this.node.scale = SabaConfigs.desktopMiniGameScale;
             }
 
             const draggableItem = this.getComponent(DraggableItem);

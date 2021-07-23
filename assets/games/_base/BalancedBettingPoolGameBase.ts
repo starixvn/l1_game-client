@@ -46,10 +46,6 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
     onLoad() {
         super.onLoad();
 
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
-
         this.initPresetBetBoard();
         this.initBetBoard();
 
