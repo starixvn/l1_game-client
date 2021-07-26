@@ -1,5 +1,6 @@
 import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
+import FavoriteButton from "./FavoriteButton";
 import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 
@@ -46,7 +47,6 @@ export default class LobbyMenu extends GameIconMenu {
         dict[GameCategory.Other] = this.getOtherList();
         const list = dict[this.currentCategory];
         const result = list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
-        console.log("filter category: ", result);
         return result;
     }
 
@@ -57,6 +57,38 @@ export default class LobbyMenu extends GameIconMenu {
 
     getFavoriteList(): number[] {
         return JSON.parse(cc.sys.localStorage.getItem("favor_games")) || [];
+    }
+
+    saveFavoriteList(list: number[]) {
+        cc.sys.localStorage.setItem("favor_games", JSON.stringify(list));
+    }
+
+    addHandleFavorite(node: cc.Node, gameId: number, isFavorite: boolean) {
+        const favoriteButton = node.getComponentInChildren(FavoriteButton);
+        if (!favoriteButton) {
+            return;
+        }
+
+        favoriteButton.setFavorite(isFavorite);
+        favoriteButton.initListener();
+        favoriteButton.onFavoriteChanged = (favorite: boolean) => {
+            if (favorite) {
+                this.addFavoriteGame(gameId);
+            } else {
+                this.removeFavoriteGame(gameId);
+            }
+        };
+    }
+
+    addFavoriteGame(gameId: number) {
+        const list = this.getFavoriteList();
+        list.push(gameId);
+        this.saveFavoriteList(list);
+    }
+
+    removeFavoriteGame(gameId: number) {
+        const list = this.getFavoriteList();
+        this.saveFavoriteList(list.filter((id) => id !== gameId));
     }
 
     onInitialized() {
@@ -71,6 +103,9 @@ export default class LobbyMenu extends GameIconMenu {
             return null;
         }
         const node = cc.instantiate(prefab);
+        const favoriteList = this.getFavoriteList();
+        const isFavorite = favoriteList.includes(id);
+        this.addHandleFavorite(node, id, isFavorite);
 
         const detail = this.lobbyMenuConfig.detail;
         const size = detail[id]?.size || cc.v2(1, 1);
