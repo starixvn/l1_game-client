@@ -1,4 +1,6 @@
 include:
-    - project: "ci/repos-ci/pentagon_l2_game_client_2_4_6"
+    - project: "ci/repos-ci/pentagon_l2_game_client"
       ref: master
       file: "gitlab-ci.yml"
+variables:
+    COCOS_VERSION: 2.4.6
