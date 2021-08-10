@@ -56,7 +56,25 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     getFavoriteList(): number[] {
-        return JSON.parse(cc.sys.localStorage.getItem("favor_games")) || [];
+        const list = JSON.parse(cc.sys.localStorage.getItem("favor_games")) || [];
+        return this.sortForLayout(list);
+    }
+
+    sortForLayout(list: number[]): number[] {
+        const weight = {};
+        list.forEach((id) => {
+            const size = this.getItemSize(id);
+            if (size.y === 2) {
+                weight[id] = 3;
+            } else if (size.x === 2) {
+                weight[id] = 2;
+            } else {
+                weight[id] = 1;
+            }
+        });
+
+        list.sort((a, b) => weight[a] - weight[b]);
+        return list;
     }
 
     saveFavoriteList(list: number[]) {
@@ -97,6 +115,11 @@ export default class LobbyMenu extends GameIconMenu {
         this.initializedCallback();
     }
 
+    getItemSize(id: number): cc.Vec2 {
+        const detail = this.lobbyMenuConfig.detail;
+        return detail[id]?.size || cc.v2(1, 1);
+    }
+
     async addItem(id: number): Promise<cc.Node> {
         const prefab = await GameUtils.loadResource(`lobby/games/${id}`);
         if (!this.isAlive()) {
@@ -107,8 +130,7 @@ export default class LobbyMenu extends GameIconMenu {
         const isFavorite = favoriteList.includes(id);
         this.addHandleFavorite(node, id, isFavorite);
 
-        const detail = this.lobbyMenuConfig.detail;
-        const size = detail[id]?.size || cc.v2(1, 1);
+        const size = this.getItemSize(id);
         if (!this.currentColumn || size.y > 1) {
             this.createNewColumn();
         }
