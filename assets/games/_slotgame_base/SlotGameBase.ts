@@ -1,3 +1,4 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import CallbackAnimation from "../../common/CallbackAnimation";
@@ -22,7 +23,6 @@ import LineSelectionDialog from "./LineSelectionDialog";
 import SlotBoard from "./SlotBoard";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotGameUserSettings from "./SlotGameUserSettings";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export interface LineData {
     payline: number;
@@ -531,10 +531,12 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     onSpinClick() {
         cc.RedT.audio.playClick();
         this.expandableMenu.collapseMenu();
-        this.lineButton.interactable = false;
-        this.stakeButton.interactable = false;
 
-        this.spin();
+        const success = this.spin();
+        if (success) {
+            this.lineButton.interactable = false;
+            this.stakeButton.interactable = false;
+        }
     }
 
     async setDataAndSpin(data: any) {
@@ -543,19 +545,20 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         await this.slotBoard.spin(this.getCustomDuration("spin"), this.isAutoSpinMode());
     }
 
-    spin() {
-        if (this.betChoices.length === 0 || this.isDisableGame || this.isAnimatingResult) {
-            return;
+    spin(): boolean {
+        let success = false;
+        if (this.betChoices.length === 0 || this.isAnimatingResult || !this.isReadyBet()) {
+            return success;
         }
 
         if (!this.checkAvailableBalance()) {
             this.resetStateButtons();
-            return;
+            return success;
         }
 
         if (this.waitingProcessing) {
             this.showProcessingWarning(true);
-            return;
+            return success;
         }
 
         this.stopAllFinishTweens();
@@ -575,6 +578,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.consumeAutoSpinCount();
         }
         this.socket.emit("bet", data);
+        success = true;
+        return success;
     }
 
     setTotalFreeSpins(value: number) {

@@ -29,17 +29,10 @@ export default class BannerController extends cc.Component {
     }
 
     enableTouch() {
-        if (cc.sys.isMobile) {
-            this.content.on(cc.Node.EventType.TOUCH_START, this.eventStart, this, true);
-            this.content.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this, true);
-            this.content.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
-            this.content.on(cc.Node.EventType.TOUCH_CANCEL, this.handleReleaseTouch, this, true);
-        } else {
-            this.content.on(cc.Node.EventType.MOUSE_DOWN, this.eventStart, this, true);
-            this.content.on(cc.Node.EventType.MOUSE_MOVE, this.eventMove, this, true);
-            this.content.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
-            this.content.on(cc.Node.EventType.MOUSE_LEAVE, this.handleReleaseTouch, this, true);
-        }
+        this.content.on(cc.Node.EventType.TOUCH_START, this.eventStart, this, true);
+        this.content.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this, true);
+        this.content.on(cc.Node.EventType.TOUCH_END, this.eventEnd, this, true);
+        this.content.on(cc.Node.EventType.TOUCH_CANCEL, this.handleReleaseTouch, this, true);
     }
 
     onEnable() {

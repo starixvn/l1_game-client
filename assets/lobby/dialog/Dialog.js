@@ -47,6 +47,6 @@ cc.Class({
             this.main.showNotice({ text: text });
         }
 
-        this.main.Authorized(response.authorized);
+        this.main.serviceAuthorized(response.authorized);
     }
 });

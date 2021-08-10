@@ -79,7 +79,7 @@ export default class FreeBetGameBase extends SocketIOTableGameBase {
     }
 
     onBetItemClick(event) {
-        if (this.isDisableGame || !this.gameConfigs) {
+        if (!this.isReadyBet()) {
             return;
         }
 

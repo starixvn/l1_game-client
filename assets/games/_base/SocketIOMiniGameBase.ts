@@ -74,7 +74,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
     public onBetItemClick(e) {
         cc.RedT.audio.playClick();
-        if (this.isDisableGame || !this.gameConfigs) {
+        if (!this.isReadyBet()) {
             return;
         }
         if (this.waitingProcessing) {

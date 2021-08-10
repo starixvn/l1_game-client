@@ -472,7 +472,7 @@ export default class Roulette extends SocketIOTableGameBase {
     }
 
     isDisablePlaceChip(): boolean {
-        if (this.isDisableGame || this.isPlacingChip) {
+        if (!this.isReadyBet() || this.isPlacingChip) {
             return true;
         }
 

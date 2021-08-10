@@ -247,7 +247,7 @@ export default class Lottery extends SocketIOTableGameBase {
 
     onChoiceBet(name: string) {
         this.expandableMenu.collapseMenu();
-        if (this.isDisableGame || !this.gameConfigs) {
+        if (!this.isReadyBet()) {
             return;
         }
 
