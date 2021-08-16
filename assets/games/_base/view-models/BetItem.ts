@@ -38,7 +38,7 @@ export default class BetItem extends cc.Component {
         }
     }
 
-    protected setTotalBet(bet: number) {
+    public setTotalBet(bet: number) {
         if (this.totalBet) {
             this.totalBet.string = bet > 0 ? numberWithCommas(bet) : "";
         }
