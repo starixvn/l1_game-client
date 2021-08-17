@@ -1,4 +1,3 @@
-import BlinkNode from "../../../common/BlinkNode";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 
@@ -32,16 +31,18 @@ export default class BetItem extends cc.Component {
 
     public betCallback = (e) => {};
 
-    public setOwnBet(bet: number) {
-        if (this.ownBet) {
-            this.ownBet.string = bet > 0 ? numberWithCommas(bet) : "";
+    private setMoneyLabel(label: cc.Label, bet: number) {
+        if (label) {
+            label.string = bet > 0 ? numberWithCommas(bet) : "";
         }
     }
 
+    public setOwnBet(bet: number) {
+        this.setMoneyLabel(this.ownBet, bet);
+    }
+
     public setTotalBet(bet: number) {
-        if (this.totalBet) {
-            this.totalBet.string = bet > 0 ? numberWithCommas(bet) : "";
-        }
+        this.setMoneyLabel(this.totalBet, bet);
     }
 
     public onBetClick(e) {
@@ -81,25 +82,16 @@ export default class BetItem extends cc.Component {
         this.setHighlightItems(false);
     }
 
-    public stopAnimation() {
-        this.blinkNode.node.stopAllActions();
-        this.blinkNode.node.opacity = 255;
-    }
-
-    protected get blinkNode() {
-        return this.highlight.getComponent("BlinkNode") as BlinkNode;
-    }
-
     protected setHighlightItems(highlight: boolean, isAnimated = true) {
         this.highlight.active = highlight && isAnimated;
         if (this.highlightBackground) {
             this.highlightBackground.active = highlight && isAnimated;
         }
-        if (this.highlightBorder) {
-            this.highlightBorder.active = highlight;
-        }
         if (this.normalBorder) {
             this.normalBorder.active = !highlight;
+        }
+        if (this.highlightBorder) {
+            this.highlightBorder.active = highlight;
         }
     }
 
@@ -111,17 +103,9 @@ export default class BetItem extends cc.Component {
     }
 
     protected setHighlightItemsOptions(highlight: boolean, isAnimated = true) {
-        this.highlight.active = highlight && isAnimated;
-        if (this.highlightBackground) {
-            this.highlightBackground.active = highlight && isAnimated;
-        }
-
+        this.setHighlightItems(highlight, isAnimated);
         if (this.highlightBorder) {
             this.highlightBorder.active = highlight && !isAnimated;
-        }
-
-        if (this.normalBorder) {
-            this.normalBorder.active = !highlight;
         }
     }
 }
