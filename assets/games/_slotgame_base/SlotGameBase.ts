@@ -210,6 +210,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     showJackpotInfo(show: boolean) {
+        if (!this.jackpotEnabled) {
+            return;
+        }
         this.jackpotPoolInfo.node.active = show;
         this.jackpotPoolLabel.node.parent.active = show;
     }
@@ -523,7 +526,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.updateTotalBetLabel();
         this.updateDisplayPool();
         this.showStakeContainer(false);
-        this.jackpotPoolInfo.setHighlight(this.stake);
+        if (this.jackpotPoolInfo) {
+            this.jackpotPoolInfo.setHighlight(this.stake);
+        }
     }
 
     setBoardFullItems() {
@@ -887,6 +892,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     updatePoolData(data: any) {
+        if (!this.jackpotEnabled) {
+            return;
+        }
         this.jackpotPool[data.pool] = data.amount;
         this.updateDisplayPool();
 
