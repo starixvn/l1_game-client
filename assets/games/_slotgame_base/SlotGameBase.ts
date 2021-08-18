@@ -22,6 +22,8 @@ import SlotGameUmHandler from "./handlers/SlotGameUmHandler";
 import LineSelectionDialog from "./LineSelectionDialog";
 import SlotBoard from "./SlotBoard";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
+import SlotGameHistory from "./SlotGameHistory";
+import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
 
 export interface LineData {
@@ -153,6 +155,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property(cc.Prefab)
     autoSpinDialogPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    deactiveSpinNode: cc.Node = null;
+
     protected betChoices: number[] = [];
     protected stake: number;
     protected ingameHandler: SlotGameIngameHandler;
@@ -172,6 +177,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     public cacheApiError: any = null;
     public isShowAutoSpinSettingDialog = false;
     protected userSettings: SlotGameUserSettings;
+    protected historyComponent: SlotGameHistory;
     private autoSpinCount = 0;
 
     onLoad() {
@@ -180,6 +186,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.initEventForNumberContainer();
         this.initSlotGameConfig();
         this.loadSlotGameConfig();
+        this.showJackpotInfo(this.jackpotEnabled);
 
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
         cc.tween(this.node)
@@ -192,6 +199,14 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         cc.RedT.isSoundGame() ? this.updateSoundStatus(true) : this.updateSoundStatus(false);
 
         cc.RedT.addSoundObserver(`sound_observer_${this.gameId}`, this.updateSoundStatus.bind(this));
+    }
+
+    onDataGameRoom(data) {
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
+
+        super.onDataGameRoom(data);
     }
 
     showJackpotInfo(show: boolean) {
@@ -613,10 +628,12 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     activeSpinButton() {
         this.spinButton.interactable = true;
+        this.deactiveSpinNode.active = false;
     }
 
     deactiveSpinButton() {
         this.spinButton.interactable = false;
+        this.deactiveSpinNode.active = true;
     }
 
     deactiveButtons() {
@@ -752,11 +769,25 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     onClickShowHistory() {
         cc.RedT.audio.playClick();
         this.expandableMenu.collapseMenu();
+
+        const dialog = cc.instantiate(this.historyPrefab);
+        this.historyComponent = dialog.getComponent(SlotGameHistory);
+        this.historyComponent.init(this.socket);
+        this.currentMiniPanel.node.addChild(dialog);
     }
 
     onClickShowTopWinner() {
         cc.RedT.audio.playClick();
         this.expandableMenu.collapseMenu();
+
+        const dialog = cc.instantiate(this.topWinnerPrefab);
+        const topWinnerComponent = dialog.getComponent(SlotGameTopWinner);
+        topWinnerComponent.init(this.socket, this.gameName, this.jackpotEnabled);
+        this.currentMiniPanel.node.addChild(dialog);
+    }
+
+    public get jackpotEnabled() {
+        return false;
     }
 
     onClickShowHallOfFame() {
