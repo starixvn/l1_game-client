@@ -8,10 +8,16 @@ export default class BigWinAnimation extends CallbackAnimation {
     @property(cc.Label)
     amountLabel: cc.Label = null;
 
+    @property
+    delayShowMoney = 2;
+
+    @property
+    durationShowTotal = 0;
+
     private amount = 0;
 
     get textAnimationDuration() {
-        return (this.animation.defaultClip.duration - 2) / this.animation.defaultClip.speed;
+        return (this.animation.defaultClip.duration - this.delayShowMoney - this.durationShowTotal) / this.animation.defaultClip.speed;
     }
 
     setAmount(amount: number) {
