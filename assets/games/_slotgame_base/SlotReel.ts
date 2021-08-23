@@ -45,9 +45,8 @@ export default class SlotReel extends cc.Component {
 
     setReelData(items: number[]) {
         items.forEach((row, index) => {
-            const cloneIndex = this.itemCount + index - this.itemDisplayCount;
-            this.items[index].setItem(row);
-            this.items[cloneIndex].setItem(row);
+            this.getItemTop(index).setItem(row);
+            this.getItemBottom(index).setItem(row);
         });
     }
 
@@ -69,16 +68,24 @@ export default class SlotReel extends cc.Component {
 
     onSpinFinish() {
         for (let i = 0; i < this.itemDisplayCount; i++) {
-            const index = this.itemCount - 1 - i;
-            const copyIndex = this.itemDisplayCount - 1 - i;
-            this.items[index].setItem(this.items[copyIndex].index);
+            const bottomItem = this.getItemBottom(i);
+            const topItem = this.getItemTop(i);
+            bottomItem.setItem(topItem.index);
         }
         this.node.y = 0;
     }
 
-    showWinningEffect(position: number, symbol: number) {
-        const item = this.items[this.itemCount + position - this.itemDisplayCount];
-        const itemCopy = this.items[position];
+    getItemBottom(index: number) {
+        return this.items[this.itemCount + index - this.itemDisplayCount];
+    }
+
+    getItemTop(index: number) {
+        return this.items[index];
+    }
+
+    showWinningEffect(index: number, symbol: number) {
+        const item = this.getItemBottom(index);
+        const itemCopy = this.getItemTop(index);
         const highlight =
             item.index === symbol || (item.index === this.slotGameConfig.wildSymbol && symbol !== this.slotGameConfig.jackpotSymbol);
         item.showWinningEffect(highlight);
@@ -95,7 +102,7 @@ export default class SlotReel extends cc.Component {
 
     showHighlightSpecialSymbols(symbol: number) {
         for (let i = 0; i < this.itemDisplayCount; i++) {
-            const item = this.items[this.itemCount - 1 - i];
+            const item = this.getItemBottom(i);
             if (item.index === symbol) {
                 GameUtils.moveToOtherNode(item.node, this.winningContainer);
                 item.showWinningEffect(true);

@@ -9,6 +9,7 @@ import HoverItemBase from "../../common/HoverItemBase";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { GameState } from "../_base/GameBase";
 import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
+import LineView from "../AHCL/scripts/LineView";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import BonusDialog from "./BonusDialog";
@@ -158,6 +159,25 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property(cc.Node)
     deactiveSpinNode: cc.Node = null;
 
+    @property
+    autoGenerateLines = false;
+
+    @property({
+        type: cc.Prefab,
+        visible: function (this: SlotGameBase) {
+            return this.autoGenerateLines;
+        }
+    })
+    linePrefab: cc.Prefab = null;
+
+    @property({
+        type: cc.Prefab,
+        visible: function (this: SlotGameBase) {
+            return this.autoGenerateLines;
+        }
+    })
+    lightLinePrefab: cc.Prefab = null;
+
     protected betChoices: number[] = [];
     protected stake: number;
     protected ingameHandler: SlotGameIngameHandler;
@@ -291,7 +311,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     setDefaultPositionForMiniMenu() {
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
-        this.currentMiniPanel.miniMenu.position = cc.v2(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
+        this.currentMiniPanel.miniMenu.position = cc.v3(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
     }
 
     initSlotGameConfig() {}
@@ -320,6 +340,34 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     start() {
         super.start();
         this.setBoardFullItems();
+        if (this.autoGenerateLines) {
+            this.createAllLines();
+        }
+    }
+
+    createLineView(child: cc.Node) {
+        const node = new cc.Node();
+        const view = node.addComponent(LineView);
+        view.linePrefab = this.linePrefab;
+        view.lightPrefab = this.lightLinePrefab;
+        view.board = this.slotBoard;
+        view.label = child;
+        node.name = child.name;
+        this.lineContainer.addChild(node);
+        node.active = false;
+        return view;
+    }
+
+    createAllLines() {
+        this.leftNumberContainer.node.children.forEach((child) => {
+            const view = this.createLineView(child);
+            view.isLabelLeft = true;
+        });
+
+        this.rightNumberContainer.node.children.forEach((child) => {
+            const view = this.createLineView(child);
+            view.isLabelLeft = false;
+        });
     }
 
     onEnable() {}
