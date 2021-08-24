@@ -26,6 +26,7 @@ import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
+import SpinButton from "./SpinButton";
 
 export interface LineData {
     payline: number;
@@ -69,9 +70,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property(cc.Button)
     lineButton: cc.Button = null;
 
-    @property(cc.Button)
-    spinButton: cc.Button = null;
-
     @property(cc.Toggle)
     autoSpinToggle: cc.Toggle = null;
 
@@ -92,21 +90,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     @property(cc.Label)
     winningBet: cc.Label = null;
-
-    @property(cc.Label)
-    freeSpinLabel: cc.Label = null;
-
-    @property(cc.Node)
-    normalSpinNode: cc.Node = null;
-
-    @property(cc.Node)
-    freeSpinNode: cc.Node = null;
-
-    @property(cc.Label)
-    autoSpinCountLabel: cc.Label = null;
-
-    @property(cc.Node)
-    textFreeSpinNode: cc.Node = null;
 
     @property(cc.Node)
     effectContainer: cc.Node = null;
@@ -156,8 +139,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property(cc.Prefab)
     autoSpinDialogPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    deactiveSpinNode: cc.Node = null;
+    @property(SpinButton)
+    spinButton: SpinButton = null;
 
     @property
     autoGenerateLines = false;
@@ -542,7 +525,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     setAutoSpinCount(count: number) {
         this.autoSpinCount = count;
-        this.autoSpinCountLabel.string = this.autoSpinCount.toString();
+        this.spinButton.setAutoSpinCount(count);
     }
 
     getCurrentTotalBet() {
@@ -655,38 +638,38 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     updateDisplaySpinButtons() {
-        this.freeSpinLabel.string = `${this.totalFreeSpins}`;
+        this.spinButton.setFreeSpinValue(this.totalFreeSpins);
         const showFreeSpin = this.totalFreeSpins >= 0;
         this.updateModeSpinButton(showFreeSpin);
     }
 
     updateModeSpinButton(isFreeSpin: boolean) {
-        this.freeSpinNode.active = isFreeSpin;
-
-        const showAutoSpin = !isFreeSpin && this.stillAutoSpin() && this.isAutoSpinMode();
-        this.autoSpinCountLabel.node.parent.active = showAutoSpin;
-        this.normalSpinNode.active = !showAutoSpin && !isFreeSpin;
-
         if (isFreeSpin) {
             this.totalBet.string = "0";
-        } else {
-            this.updateTotalBetLabel();
+            this.spinButton.showFreeSpinMode();
+            return;
         }
+        this.updateTotalBetLabel();
+        const showAutoSpin = this.stillAutoSpin() && this.isAutoSpinMode();
+        if (showAutoSpin) {
+            this.spinButton.showAutoSpinMode();
+            return;
+        }
+
+        this.spinButton.showNormalMode();
     }
 
     showActiveFreeSpinButton() {
-        this.textFreeSpinNode.active = true;
+        this.spinButton.showTextSpinInFreeSpin(true);
         this.activeSpinButton();
     }
 
     activeSpinButton() {
-        this.spinButton.interactable = true;
-        this.deactiveSpinNode.active = false;
+        this.spinButton.active();
     }
 
     deactiveSpinButton() {
-        this.spinButton.interactable = false;
-        this.deactiveSpinNode.active = true;
+        this.spinButton.deactive();
     }
 
     deactiveButtons() {

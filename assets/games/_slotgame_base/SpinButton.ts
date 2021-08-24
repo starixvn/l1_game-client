@@ -1,0 +1,60 @@
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class SpinButton extends cc.Component {
+    @property(cc.Button)
+    spinButton: cc.Button = null;
+
+    @property(cc.Node)
+    normalSpinNode: cc.Node = null;
+
+    @property(cc.Label)
+    freeSpinLabel: cc.Label = null;
+
+    @property(cc.Label)
+    autoSpinCountLabel: cc.Label = null;
+
+    @property(cc.Node)
+    textSpinInFreeSpin: cc.Node = null;
+
+    active() {
+        this.spinButton.interactable = true;
+    }
+
+    deactive() {
+        this.spinButton.interactable = false;
+    }
+
+    hideAll() {
+        this.normalSpinNode.active = false;
+        this.freeSpinLabel.node.parent.active = false;
+        this.autoSpinCountLabel.node.parent.active = false;
+    }
+
+    showFreeSpinMode() {
+        this.hideAll();
+        this.freeSpinLabel.node.parent.active = true;
+    }
+
+    showAutoSpinMode() {
+        this.hideAll();
+        this.autoSpinCountLabel.node.parent.active = true;
+    }
+
+    showNormalMode() {
+        this.hideAll();
+        this.normalSpinNode.active = true;
+    }
+
+    setAutoSpinCount(count: number) {
+        this.autoSpinCountLabel.string = count.toString();
+    }
+
+    setFreeSpinValue(value: number) {
+        this.freeSpinLabel.string = value.toString();
+    }
+
+    showTextSpinInFreeSpin(show: boolean) {
+        this.textSpinInFreeSpin.active = show;
+    }
+}

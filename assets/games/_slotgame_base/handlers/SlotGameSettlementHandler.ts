@@ -54,7 +54,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
     async handleFinish(finish: any) {
         this.main.deactiveButtons();
         this.main.waitingSpinResult = false;
-        this.main.textFreeSpinNode.active = false;
+        this.main.spinButton.showTextSpinInFreeSpin(false);
         this.main.isAnimatingResult = true;
 
         this.main.showProcessingWarning(false);
