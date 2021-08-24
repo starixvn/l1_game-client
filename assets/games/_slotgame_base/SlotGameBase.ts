@@ -336,7 +336,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         view.board = this.slotBoard;
         view.label = child;
         node.name = child.name;
-        this.lineContainer.addChild(node);
         node.active = false;
         return view;
     }
@@ -345,11 +344,13 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.leftNumberContainer.node.children.forEach((child) => {
             const view = this.createLineView(child);
             view.isLabelLeft = true;
+            this.lineContainer.addChild(view.node);
         });
 
         this.rightNumberContainer.node.children.forEach((child) => {
             const view = this.createLineView(child);
             view.isLabelLeft = false;
+            this.lineContainer.addChild(view.node);
         });
     }
 
