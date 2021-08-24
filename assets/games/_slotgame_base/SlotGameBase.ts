@@ -593,7 +593,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     async setDataAndSpin(data: any) {
         this.playSound(SlotGameSound.SPIN);
         this.slotBoard.setBoardData(data);
+        this.spinButton.playAnimationSpin();
         await this.slotBoard.spin(this.getCustomDuration("spin"), this.isAutoSpinMode());
+        this.spinButton.playAnimationIdle();
     }
 
     spin(): boolean {

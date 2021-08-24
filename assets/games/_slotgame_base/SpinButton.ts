@@ -17,6 +17,9 @@ export default class SpinButton extends cc.Component {
     @property(cc.Node)
     textSpinInFreeSpin: cc.Node = null;
 
+    @property(cc.Animation)
+    spinAnimation: cc.Animation = null;
+
     active() {
         this.spinButton.interactable = true;
     }
@@ -56,5 +59,25 @@ export default class SpinButton extends cc.Component {
 
     showTextSpinInFreeSpin(show: boolean) {
         this.textSpinInFreeSpin.active = show;
+    }
+
+    protected playAnimation(index: number) {
+        const clips = this.spinAnimation.getClips();
+        if (clips.length === 0 || index >= clips.length) {
+            return;
+        }
+        this.spinAnimation.play(clips[index].name);
+    }
+
+    playAnimationSpin() {
+        if (this.spinAnimation) {
+            this.playAnimation(1);
+        }
+    }
+
+    playAnimationIdle() {
+        if (this.spinAnimation) {
+            this.playAnimation(0);
+        }
     }
 }
