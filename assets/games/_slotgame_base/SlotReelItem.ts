@@ -22,12 +22,16 @@ export default class SlotReelItem extends cc.Component {
             return;
         }
         this.index = index;
+        this.replaceItem(index);
+    }
+
+    private replaceItem(index: number) {
         this.content.removeAllChildren();
         const node = cc.instantiate(this.itemPrefabs[index]);
         this.content.addChild(node);
     }
 
-    showWinningEffect(show = true) {
+    showWinningEffect(show: boolean) {
         this.winningEffect.active = show;
     }
 }
