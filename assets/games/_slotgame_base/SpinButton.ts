@@ -62,6 +62,9 @@ export default class SpinButton extends cc.Component {
     }
 
     protected playAnimation(index: number) {
+        if (!this.spinAnimation) {
+            return;
+        }
         const clips = this.spinAnimation.getClips();
         if (clips.length === 0 || index >= clips.length) {
             return;
@@ -70,14 +73,10 @@ export default class SpinButton extends cc.Component {
     }
 
     playAnimationSpin() {
-        if (this.spinAnimation) {
-            this.playAnimation(1);
-        }
+        this.playAnimation(1);
     }
 
     playAnimationIdle() {
-        if (this.spinAnimation) {
-            this.playAnimation(0);
-        }
+        this.playAnimation(0);
     }
 }
