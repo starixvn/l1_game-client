@@ -59,7 +59,8 @@ export default class LineView extends cc.Component {
 
     runLightOnLine(index: number) {
         const child = this.node.children[index];
-        const duration = (0.3 * child.width) / 150;
+        const speed = 800;
+        const duration = child.width / speed;
 
         this.light.removeFromParent();
         const mask = child.getChildByName("mask");
@@ -90,8 +91,9 @@ export default class LineView extends cc.Component {
             const end = cc.v2(positions[i + 1]);
             const angle = this.calculateAngle(start, end);
             const width = start.sub(end).len();
-            if (lastNode !== undefined && Math.abs(lastNode.angle - angle) < 0.1) {
+            if (lastNode !== undefined && Math.abs(lastNode.angle - angle) < 2) {
                 lastNode.width += width;
+                lastNode.angle = angle;
                 continue;
             }
 
