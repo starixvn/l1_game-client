@@ -219,6 +219,7 @@ window.i18n.languages.vi = {
         cold_number: "Số Ít Trúng",
         column_number: "Cột %{num}",
         confirm: "Đồng Ý",
+        confirm2: "Xác nhận",
         connection_lost: "Mất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.",
         create_nickname: "Tạo tên nhân vật",
         current_scoin: "Tổng Scoin hiện có",
