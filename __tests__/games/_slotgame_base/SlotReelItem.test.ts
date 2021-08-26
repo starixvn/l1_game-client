@@ -7,7 +7,7 @@ import SlotReelItem from "../../../assets/games/_slotgame_base/SlotReelItem";
 describe("Test class SlotReelItem", () => {
     let node: cc.Node;
     let comp: SlotReelItem;
-    let mockShowWinningEffect, mockReplaceItem;
+    let mockShowWinningEffect;
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(SlotReelItem);
@@ -17,7 +17,6 @@ describe("Test class SlotReelItem", () => {
         comp.itemPrefabs.push(new cc.Prefab());
 
         mockShowWinningEffect = jest.spyOn(comp as any, "showWinningEffect");
-        mockReplaceItem = jest.spyOn(comp as any, "replaceItem");
     });
     describe("Test method onLoad", () => {
         it("Case: ", () => {
@@ -47,6 +46,7 @@ describe("Test class SlotReelItem", () => {
         it("Case 2", () => {
             // Arrange
             comp.index = 0;
+            const mockReplaceItem = jest.spyOn(comp as any, "replaceItem");
             // Act
             try {
                 comp.setItem(0);
@@ -54,7 +54,7 @@ describe("Test class SlotReelItem", () => {
 
             // Assert
             expect(comp.index).toEqual(0);
-            expect(mockReplaceItem).not.toHaveBeenCalled();
+            expect(mockReplaceItem).not.toBeCalled();
         });
     });
 
