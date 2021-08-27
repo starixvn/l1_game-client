@@ -1,3 +1,5 @@
+import PaginationCommonItem from "./PaginationCommonItem";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -45,7 +47,7 @@ export default class PaginationCommon extends cc.Component {
     protected distanceYetChaos = 0;
     protected totalPage = 0;
     protected pageRed = 0;
-    protected listComponentPage = [];
+    protected listComponentPage: PaginationCommonItem[] = [];
     protected listNodePage: cc.Node[] = [];
     protected pageNumberCurrent = 1;
 
@@ -54,7 +56,7 @@ export default class PaginationCommon extends cc.Component {
         this.listNodePage = [this.nodePage1, this.nodePage2, this.nodePage3, this.nodePage4, this.nodePage5];
 
         this.listNodePage.forEach((node) => {
-            this.listComponentPage.push(node.getComponent("PaginationCommonItem"));
+            this.listComponentPage.push(node.getComponent(PaginationCommonItem));
         });
         this.control = main;
 
@@ -111,8 +113,8 @@ export default class PaginationCommon extends cc.Component {
         this.listComponentPage.forEach((component, index) => {
             if (index <= this.totalPage && startIndex <= this.totalPage) {
                 isButtonActive = false;
-                component.number.string = startIndex;
                 component.node.page = startIndex;
+                component.number.string = startIndex.toString();
                 startIndex++;
                 component.node.active = true;
 
@@ -122,9 +124,7 @@ export default class PaginationCommon extends cc.Component {
                     component.node.pauseSystemEvents(true);
                 }
 
-                component.number.node.color = isButtonActive ? cc.Color.BLACK : cc.Color.WHITE;
-                component.bg.active = !isButtonActive;
-                component.bgSelect.active = isButtonActive;
+                component.updateHighlight(isButtonActive);
             } else {
                 component.node.active = false;
             }
