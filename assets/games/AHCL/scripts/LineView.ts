@@ -31,10 +31,11 @@ export default class LineView extends cc.Component {
         const index = +this.node.name;
         const linePositions = this.board.linePositons[index - 1];
         const positions = [];
+        const offset = this.label.width / 2;
         if (this.isLabelLeft) {
-            positions.push(labelPos, ...linePositions);
+            positions.push(cc.v2(labelPos.x + offset, labelPos.y), ...linePositions);
         } else {
-            positions.push(...linePositions, labelPos);
+            positions.push(...linePositions, cc.v2(labelPos.x - offset, labelPos.y));
         }
         this.createLines(positions);
 
