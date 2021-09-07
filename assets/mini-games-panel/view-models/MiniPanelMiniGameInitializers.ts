@@ -84,29 +84,34 @@ export default class MiniPanelMiniGameInitializers {
         if (currentSocket && currentSocket.connected) {
             this.openMiniGame(gameId);
         } else {
-            const gameName = GameUtils.getGameNameString(gameId);
-            const proxyRoute = getProxyRoute(gameId);
-            const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
-            const socket = this.socketIOController.connectGameSocket(
-                gameServerUrl,
-                gameName,
-                proxyRoute,
-                this.main.onConnectSocketFailed.bind(this.main),
-                false
-            );
-
+            const socket = this.setUpSocketForGame(gameId, true);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {
                     return;
                 }
                 this.openMiniGame(gameId);
             });
-
-            socket.on("forceDisconnect", () => {
-                socket.disconnect();
-            });
-
-            this.socketIOController.gameSockets[gameId] = socket;
         }
+    }
+
+    setUpSocketForGame(gameId: number, forceNew: boolean): SocketIOClient.Socket {
+        const gameName = GameUtils.getGameNameString(gameId);
+        const proxyRoute = getProxyRoute(gameId);
+        const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
+        const socket = this.socketIOController.connectGameSocket(
+            gameServerUrl,
+            gameName,
+            proxyRoute,
+            this.main.onConnectSocketFailed.bind(this.main),
+            false,
+            forceNew
+        );
+
+        socket.on("forceDisconnect", () => {
+            socket.disconnect();
+        });
+
+        this.socketIOController.gameSockets[gameId] = socket;
+        return socket;
     }
 }

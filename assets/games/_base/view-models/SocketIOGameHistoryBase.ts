@@ -17,7 +17,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
-    private socket: SocketIOClient.Socket;
+    protected socket: SocketIOClient.Socket;
 
     onUpdatedData = () => {};
 

@@ -14,9 +14,15 @@ export default class SocketIOController {
         gameName: string,
         proxyRoute: string,
         onConnectFailed: (gameName, isGameRoom) => void,
-        isGameRoom = true
+        isGameRoom = true,
+        forceNew = true
     ): SocketIOClient.Socket => {
-        const socket = socketIo(socketUri, { forceNew: true, transports: ["websocket"], upgrade: false, path: proxyRoute });
+        const socket = socketIo(socketUri, {
+            forceNew: forceNew,
+            transports: ["websocket"],
+            upgrade: false,
+            path: proxyRoute
+        });
 
         socket.on("connect", () => {
             socket.emit("signin", getSession());

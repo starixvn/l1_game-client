@@ -79,6 +79,46 @@ const configs = {
             mini: true,
             mainSocket: true
         },
+        12: {
+            key: "KenoMax",
+            route: "minikeno",
+            mini: true
+        },
+        13: {
+            key: "KenoMax2",
+            route: "minikeno",
+            mini: true
+        },
+        14: {
+            key: "KenoMini",
+            route: "minikeno",
+            mini: true
+        },
+        15: {
+            key: "KenoMini2",
+            route: "minikeno",
+            mini: true
+        },
+        16: {
+            key: "KenoEast",
+            route: "minikeno",
+            mini: true
+        },
+        17: {
+            key: "KenoWest",
+            route: "minikeno",
+            mini: true
+        },
+        18: {
+            key: "KenoSouth",
+            route: "minikeno",
+            mini: true
+        },
+        19: {
+            key: "KenoNorth",
+            route: "minikeno",
+            mini: true
+        },
         21: {
             key: "Roulette"
         },

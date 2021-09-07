@@ -9,17 +9,21 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
     public socket: SocketIOClient.Socket;
 
+    public isMiniGameInContainer = false;
+
     onLoad() {
         super.onLoad();
 
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
+        if (!this.isMiniGameInContainer) {
+            if (!cc.sys.isMobile) {
+                this.node.scale = 0.8;
+            }
 
-        const draggableItem = this.getComponent(DraggableItem);
-        draggableItem.touchCallback.start = (node) => {
-            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
-        };
+            const draggableItem = this.getComponent(DraggableItem);
+            draggableItem.touchCallback.start = (node) => {
+                this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+            };
+        }
     }
 
     startGame() {
@@ -32,7 +36,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
         }
     }
 
-    protected registerViewGame() {
+    public registerViewGame() {
         this.socket && this.socket.connected && this.socket.emit("inGame");
     }
 

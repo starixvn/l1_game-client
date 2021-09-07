@@ -239,7 +239,7 @@ export default class GameBase extends BaseComponent {
     }
 
     /** Register with game on server */
-    protected registerViewGame() {
+    public registerViewGame() {
         this.sendData({ view: true, get_time: true, getLogs: true });
     }
 

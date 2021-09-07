@@ -1,6 +1,5 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
-import * as SabaConfigs from "../configs/SabaConfigs";
 import { GameInfos } from "../configs/SabaConfigs";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";

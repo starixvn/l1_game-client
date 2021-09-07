@@ -180,6 +180,10 @@ export default class MiniPanel extends BaseComponent {
         this.socketIOGameInitializers.openGame(gameId);
     }
 
+    setUpSocketForGame(gameId: number, forceNew: boolean) {
+        this.gameMiniInitializers.setUpSocketForGame(gameId, forceNew);
+    }
+
     loadGameRoom(name) {
         this.loading.setDefaultPercent();
 

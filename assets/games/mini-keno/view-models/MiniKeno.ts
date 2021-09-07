@@ -2,8 +2,8 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
-import { GameState } from "../../_base/GameBase";
-import WebSocketMiniGameBase from "../../_base/WebSocketMiniGameBase";
+import GameBase, { GameState } from "../../_base/GameBase";
+import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import KenoNumber from "../../keno-pro/view-models/KenoNumber";
 import RoundHistory from "../../keno-pro/view-models/RoundHistory";
 import BetBoard, { BetInfo } from "./../../../common/bet-board/view-models/BetBoard";
@@ -16,12 +16,14 @@ import MiniKenoLogsHandler from "./handlers/MiniKenoLogsHandler";
 import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
 import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
 import { KenoType } from "./KenoUtils";
-import MiniKenoConfig from "./MiniKenoConfig";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniKeno extends WebSocketMiniGameBase {
+export default class MiniKeno extends SocketIOMiniGameBase {
+    @property(cc.Node)
+    background: cc.Node = null;
+
     @property({ type: cc.Enum(KenoType) })
     kenoType: KenoType = KenoType.Max;
 
@@ -79,6 +81,7 @@ export default class MiniKeno extends WebSocketMiniGameBase {
     @property(cc.Button)
     rebet: cc.Button = null;
 
+    public isMiniGameInContainer = true;
     public kenoNumbers: KenoNumber[] = [];
     public onFavoriteChanged = (favourite: boolean, type: number) => {};
     public getPreset = () => {
@@ -92,19 +95,7 @@ export default class MiniKeno extends WebSocketMiniGameBase {
     public statusCallback = (gameName: number, roundId: number, winAmount: number) => {};
     public isMiniKeno: boolean;
 
-    public set gameId(value: number) {
-        this._gameId = value;
-        this.gameName = `keno${KenoType[this.kenoType]}`;
-    }
-
-    public get gameId(): number {
-        return this._gameId;
-    }
-
     onLoad() {
-        this.config = new MiniKenoConfig(this.kenoType);
-        this.isMiniKeno = this.kenoType === KenoType.Mini || this.kenoType === KenoType.Mini2;
-
         this.initComponents();
         this.initHeaderBackground();
         this.enableRebetButton(false);
@@ -275,7 +266,11 @@ export default class MiniKeno extends WebSocketMiniGameBase {
     }
 
     protected sendBet(betAmount, betChoice) {
-        this.bet({ bet: { amount: betAmount, betChoice: betChoice } });
+        this.bet({ amount: betAmount, betChoice: betChoice });
+    }
+
+    public sendData(payload: any) {
+        this.socket && this.socket.connected && this.socket.emit("bet", payload);
     }
 
     protected initComponents() {

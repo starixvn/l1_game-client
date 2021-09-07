@@ -8,7 +8,8 @@ import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
 import KenoStatusBanner from "./components/KenoStatusBanner";
 import MiniKenoGuide from "./components/MiniKenoGuide";
 import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
-import KenoUtils from "./KenoUtils";
+import KenoUtils, { KenoType } from "./KenoUtils";
+import MiniKenoConfig from "./MiniKenoConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -80,16 +81,28 @@ export default class KenoProViet extends cc.Component {
         });
     }
 
+    private setUpSocketAllKeno(list: any[]) {
+        list.forEach((type) => {
+            const gameId = KenoUtils.getKenoGameId(type);
+            this.miniPanel.setUpSocketForGame(gameId, false);
+        });
+    }
+
     private initAllKeno() {
         const content = cc.sys.localStorage.getItem("keno_favourites") || "[]";
         this.favouriteGames = JSON.parse(content);
         const otherGames = _.difference(this.allGames, this.favouriteGames);
         this.sortedGames = [...this.favouriteGames, ...otherGames];
+        this.setUpSocketAllKeno(this.sortedGames);
         this.sortedGames.forEach((type, index) => {
             const node = cc.instantiate(this.kenoPrefab);
             const keno = node.getComponent(MiniKeno);
             keno.kenoType = type;
+            keno.config = new MiniKenoConfig(keno.kenoType);
+            keno.isMiniKeno = keno.kenoType === KenoType.Mini || keno.kenoType === KenoType.Mini2;
+
             keno.gameId = KenoUtils.getKenoGameId(type);
+            keno.initMiniPanel(this.miniPanel);
             keno.favourite.isChecked = index < this.favouriteGames.length;
             keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
             keno.getPreset = () => this.presetBetValue;
@@ -99,6 +112,9 @@ export default class KenoProViet extends cc.Component {
                 }
             };
             this.content.addChild(node);
+            keno.socket.on("signedIn", () => {
+                keno.registerViewGame();
+            });
             this.miniKenos.push(keno);
         });
 

@@ -26,7 +26,7 @@ export default class MiniKenoBetItem extends BetItem {
         this.inputBet.node.parent.active = false;
     }
 
-    protected setOwnBet(bet: number) {
+    public setOwnBet(bet: number) {
         super.setOwnBet(bet);
         this.ownBet.node.active = bet > 0;
     }
