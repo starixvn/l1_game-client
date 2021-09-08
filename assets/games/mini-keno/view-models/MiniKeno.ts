@@ -94,6 +94,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
     public lastBetInfo: BetInfo = null;
     public statusCallback = (gameName: number, roundId: number, winAmount: number) => {};
     public isMiniKeno: boolean;
+    public onDataCallback = (data: any, gameName: string) => {};
 
     onLoad() {
         this.initComponents();
@@ -101,6 +102,11 @@ export default class MiniKeno extends SocketIOMiniGameBase {
         this.enableRebetButton(false);
 
         super.onLoad();
+    }
+
+    onData(data: any) {
+        super.onData(data);
+        this.onDataCallback(data, this.gameName);
     }
 
     onDisable() {

@@ -63,7 +63,7 @@ export default class DropDownList extends cc.Component {
 
     openDropDown() {
         this.options.forEach((option) => {
-            option.value !== this.selectedItem.value && this.addItem(option);
+            option.gameId !== this.selectedItem.gameId && this.addItem(option);
         });
         this.optionContainer.active = true;
     }

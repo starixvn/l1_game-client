@@ -1,3 +1,4 @@
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 
@@ -28,7 +29,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     onLoad() {
         this.pagination.init(this);
 
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
         commonDialog.onDidHide = () => {
             this.node.destroy();
         };

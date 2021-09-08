@@ -22,7 +22,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
     // effect: cc.Node = null;
 
     private highlighted = false;
-    private miniKeno: MiniKeno;
+    public miniKeno: MiniKeno;
     private currentTimeRemaining: number;
 
     init(miniKeno: MiniKeno) {
@@ -44,8 +44,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
         this.proressBar.getComponent(cc.Sprite).spriteFrame = backSprite;
 
         this.updateImage();
-
-        this.miniKeno.socket.on(this.miniKeno.gameName, this.receivedData.bind(this));
     }
 
     getNameSprite(type: KenoType) {
@@ -70,7 +68,7 @@ export default class KenoPageIndicatorItem extends cc.Component {
         this.node.active = false;
     }
 
-    receivedData(data) {
+    setData(data) {
         if (data.um) {
             this.currentTimeRemaining = this.miniKeno.config.betTime;
             this.unschedule(this.updateTime);

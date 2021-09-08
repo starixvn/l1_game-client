@@ -36,17 +36,16 @@ export default class MiniKenoHistory extends SocketIOGameHistoryBase {
 
     private historyDetail: MiniKenoHistoryDetail = null;
     public kenoGameDropDownList: DropDownList;
-    private readonly kenoProVietGameName = "kenoProViet";
 
     private readonly options: DropDownOption[] = [
-        new DropDownOption(GameIds.KenoMax, "kenoMax", "Keno Max"),
-        new DropDownOption(GameIds.KenoMax2, "kenoMax2", "Keno Max 2"),
-        new DropDownOption(GameIds.KenoMini, "kenoMini", "Keno Mini"),
-        new DropDownOption(GameIds.KenoMini2, "kenoMini2", "Keno Mini 2"),
-        new DropDownOption(GameIds.KenoEast, "kenoEast", GameUtils.getGameNameString(GameIds.KenoEast)),
-        new DropDownOption(GameIds.KenoWest, "kenoWest", GameUtils.getGameNameString(GameIds.KenoWest)),
-        new DropDownOption(GameIds.KenoSouth, "kenoSouth", GameUtils.getGameNameString(GameIds.KenoSouth)),
-        new DropDownOption(GameIds.KenoNorth, "kenoNorth", GameUtils.getGameNameString(GameIds.KenoNorth))
+        new DropDownOption(GameIds.KenoMax, "Keno Max"),
+        new DropDownOption(GameIds.KenoMax2, "Keno Max 2"),
+        new DropDownOption(GameIds.KenoMini, "Keno Mini"),
+        new DropDownOption(GameIds.KenoMini2, "Keno Mini 2"),
+        new DropDownOption(GameIds.KenoEast, GameUtils.getGameNameString(GameIds.KenoEast)),
+        new DropDownOption(GameIds.KenoWest, GameUtils.getGameNameString(GameIds.KenoWest)),
+        new DropDownOption(GameIds.KenoSouth, GameUtils.getGameNameString(GameIds.KenoSouth)),
+        new DropDownOption(GameIds.KenoNorth, GameUtils.getGameNameString(GameIds.KenoNorth))
     ];
 
     private readonly betChoices = ["even", "odd", "big", "small", "gold", "wood", "water", "fire", "earth"];
@@ -66,10 +65,7 @@ export default class MiniKenoHistory extends SocketIOGameHistoryBase {
 
     updateSocketChanged() {
         const id = this.kenoGameDropDownList.selectedItem.gameId;
-        const gameName = GameInfos[id].key;
         this.socket = this.socketIOController.gameSockets[id];
-
-        this.socket.off(gameName).on(gameName, this.receivedData.bind(this));
     }
 
     onGameChanged() {
@@ -78,9 +74,11 @@ export default class MiniKenoHistory extends SocketIOGameHistoryBase {
         this.get_data();
     }
 
-    receivedData(data) {
-        if (data.history) {
-            this.onData(data.history);
+    receivedData(dataHistory: any, gameName: string) {
+        const id = this.kenoGameDropDownList.selectedItem.gameId;
+        const currentGameName = GameInfos[id].key;
+        if (gameName === currentGameName) {
+            this.onData(dataHistory);
         }
     }
 

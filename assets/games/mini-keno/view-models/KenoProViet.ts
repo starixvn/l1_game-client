@@ -7,6 +7,7 @@ import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
 import KenoStatusBanner from "./components/KenoStatusBanner";
 import MiniKenoGuide from "./components/MiniKenoGuide";
+import MiniKenoHistory from "./components/MiniKenoHistory";
 import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
 import KenoUtils, { KenoType } from "./KenoUtils";
 import MiniKenoConfig from "./MiniKenoConfig";
@@ -63,10 +64,11 @@ export default class KenoProViet extends cc.Component {
     private contentLayout: cc.Layout;
     private presetBet: MiniKenoPresetBet;
     private presetBetValue = 0;
-    private pageIndicatorDots: KenoPageIndicatorItem[] = [];
+    private indicatorItems: KenoPageIndicatorItem[] = [];
     private miniPanel: MiniPanel;
     private readonly statusQueue: any[] = [];
     private presetBetSettingKey: string;
+    private miniKenoHistory: MiniKenoHistory;
 
     initMiniPanel(miniPanel: MiniPanel) {
         this.miniPanel = miniPanel;
@@ -116,16 +118,28 @@ export default class KenoProViet extends cc.Component {
                 keno.registerViewGame();
             });
             this.miniKenos.push(keno);
+            keno.onDataCallback = (data, gameName) => {
+                this.onData(data, gameName);
+            };
         });
 
         this.contentLayout = this.content.getComponent(cc.Layout);
         this.contentLayout.updateLayout();
         this.contentLayout.enabled = false;
 
-        this.pageIndicatorDots = this.pageIndicator.children.map((child) => child.getComponent(KenoPageIndicatorItem));
-        this.pageIndicatorDots.forEach((dot, index) => {
+        this.indicatorItems = this.pageIndicator.children.map((child) => child.getComponent(KenoPageIndicatorItem));
+        this.indicatorItems.forEach((dot, index) => {
             dot.init(this.miniKenos[index]);
         });
+    }
+
+    onData(data: any, gameName: string) {
+        const indicator = this.indicatorItems.find((item) => item.miniKeno.gameName === gameName);
+        indicator.setData(data);
+
+        if (data.history && this.miniKenoHistory) {
+            this.miniKenoHistory.receivedData(data.history, gameName);
+        }
     }
 
     update(dt) {
@@ -167,7 +181,7 @@ export default class KenoProViet extends cc.Component {
             keno.node.position = cc.v2(left + keno.node.width / 2 + index * (keno.node.width + spacing), 0);
             keno.favourite.isChecked = index < this.favouriteGames.length;
 
-            this.pageIndicatorDots[index].init(keno);
+            this.indicatorItems[index].init(keno);
         });
 
         this.selectedIndex = this.sortedGames.indexOf(updatedType);
@@ -248,7 +262,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     private updatePageIndicator() {
-        this.pageIndicatorDots.forEach((dot, index) => {
+        this.indicatorItems.forEach((dot, index) => {
             const highlight = index === this.selectedIndex || index === this.selectedIndex + 1;
             dot.setHighlight(highlight);
         });
@@ -271,8 +285,8 @@ export default class KenoProViet extends cc.Component {
     }
 
     onPageIndicatorClick(e) {
-        const clickIndex = this.pageIndicatorDots.findIndex((dot) => dot.node === e.target);
-        if (clickIndex === this.pageIndicatorDots.length - 1) {
+        const clickIndex = this.indicatorItems.findIndex((dot) => dot.node === e.target);
+        if (clickIndex === this.indicatorItems.length - 1) {
             this.selectedIndex = clickIndex - 1;
         } else {
             this.selectedIndex = clickIndex;
@@ -291,6 +305,7 @@ export default class KenoProViet extends cc.Component {
     openHistory() {
         cc.RedT.audio.playClick();
         const node = cc.instantiate(this.historyPrefab);
+        this.miniKenoHistory = node.getComponent(MiniKenoHistory);
         this.miniPanel.node.addChild(node);
     }
 
