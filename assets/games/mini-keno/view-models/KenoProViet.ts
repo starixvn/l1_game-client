@@ -150,9 +150,6 @@ export default class KenoProViet extends cc.Component {
             this.close();
         };
         this.content.addChild(node);
-        keno.socket.on("signedIn", () => {
-            keno.registerViewGame();
-        });
         this.miniKenos.push(keno);
     }
 
@@ -250,6 +247,12 @@ export default class KenoProViet extends cc.Component {
 
     onEnable() {
         this.setUpSocketAllKeno(this.sortedGames);
+        this.miniKenos.forEach((keno) => {
+            keno.socket.off("signedIn").on("signedIn", () => {
+                keno.registerViewGame();
+            });
+        });
+
         this.selectedIndex = 0;
         this.snappedScrollView.scrollTo(0);
         this.scrollToSelectedIndex();
