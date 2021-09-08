@@ -15,7 +15,7 @@ const configs = {
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
     guideDomain: "l1guidessit.sgamesuat.com",
-    userServiceUrl: "https://l1sitproxy.sgamesuat.com/user"
+    userServiceUrl: "https://http://l1uatproxy.sgamesuat.com/sit/user"
 };
 
 module.exports = configs;
