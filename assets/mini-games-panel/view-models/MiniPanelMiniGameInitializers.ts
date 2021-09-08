@@ -87,7 +87,7 @@ export default class MiniPanelMiniGameInitializers {
         if (currentSocket && currentSocket.connected) {
             this.openMiniGame(gameId);
         } else {
-            const socket = this.setUpSocketForGame(gameId, true);
+            const socket = this.setUpSocketForGame(gameId, true, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {
                     return;
@@ -97,7 +97,7 @@ export default class MiniPanelMiniGameInitializers {
         }
     }
 
-    setUpSocketForGame(gameId: number, forceNew: boolean): SocketIOClient.Socket {
+    setUpSocketForGame(gameId: number, forceNew: boolean, gameContainer: any): SocketIOClient.Socket {
         const gameName = GameUtils.getGameNameString(gameId);
         const proxyRoute = getProxyRoute(gameId);
         const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
@@ -105,9 +105,16 @@ export default class MiniPanelMiniGameInitializers {
             gameServerUrl,
             gameName,
             proxyRoute,
-            this.main.onConnectSocketFailed.bind(this.main),
+            (name, isGameRoom) => {
+                this.main.onConnectSocketFailed(name, isGameRoom);
+
+                if (gameContainer && gameContainer.hideContainer) {
+                    gameContainer.hideContainer();
+                }
+            },
             false,
-            forceNew
+            forceNew,
+            gameContainer
         );
 
         socket.on("forceDisconnect", () => {

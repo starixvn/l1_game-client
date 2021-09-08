@@ -3,6 +3,8 @@ import * as _ from "lodash";
 import { lazyInject } from "../../../Application";
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import GameUtils from "../../../common/GameUtils";
+import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
@@ -89,11 +91,17 @@ export default class KenoProViet extends cc.Component {
     }
 
     private setUpSocketAllKeno(list: any[]) {
-        list.forEach((type) => {
+        const alternativeName = GameUtils.getGameNameString(GameIds.KenoProViet);
+        list.forEach((type, index) => {
             const gameId = KenoUtils.getKenoGameId(type);
             const socket = this.socketIOController.getSocketGame(gameId);
+            const isMain = index === 0;
             if (!socket) {
-                this.miniPanel.setUpSocketForGame(gameId, false);
+                this.miniPanel.gameMiniInitializers.setUpSocketForGame(gameId, false, {
+                    isMain,
+                    alternativeName,
+                    hideContainer: () => this.close()
+                });
             }
         });
     }
@@ -248,7 +256,8 @@ export default class KenoProViet extends cc.Component {
     }
 
     onDisable() {
-        this.sortedGames.forEach((gameId) => {
+        this.sortedGames.forEach((type) => {
+            const gameId = KenoUtils.getKenoGameId(type);
             this.socketIOController.closeSocket(gameId);
         });
     }
@@ -300,6 +309,10 @@ export default class KenoProViet extends cc.Component {
     close() {
         this.presetBet.forceClose();
         this.node.active = false;
+        this.miniKenos.forEach((keno) => {
+            keno.stopGame();
+        });
+        this.indicatorItems.forEach((item) => item.stop());
     }
 
     onSignIn() {

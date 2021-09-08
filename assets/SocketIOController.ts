@@ -18,8 +18,9 @@ export default class SocketIOController {
         gameName: string,
         proxyRoute: string,
         onConnectFailed: (gameName, isGameRoom) => void,
-        isGameRoom = true,
-        forceNew = true
+        isGameRoom: boolean,
+        forceNew: boolean,
+        gameContainer: any
     ): SocketIOClient.Socket => {
         const socket = socketIo(socketUri, {
             forceNew: forceNew,
@@ -28,25 +29,34 @@ export default class SocketIOController {
             path: proxyRoute
         });
 
+        const needCallCallback = !gameContainer || gameContainer.isMain;
+        let name = gameName;
+        if (gameContainer && gameContainer.alternativeName) {
+            name = gameContainer.alternativeName;
+        }
+
         socket.on("connect", () => {
             socket.emit("signin", getSession());
         });
 
         socket.on("reconnect", () => {
-            // sentryLogger.logError(`${gameName} socket reconnect`);
             socket.sendBuffer = [];
         });
 
         socket.on("connect_failed", () => {
             socket.disconnect();
-            onConnectFailed(gameName, isGameRoom);
+            if (needCallCallback) {
+                onConnectFailed(name, isGameRoom);
+            }
         });
 
         socket.on("connect_error", (error) => {
             console.log(error);
             sentryLogger.logError(error);
             socket.disconnect();
-            onConnectFailed(gameName, isGameRoom);
+            if (needCallCallback) {
+                onConnectFailed(name, isGameRoom);
+            }
         });
 
         return socket;

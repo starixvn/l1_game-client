@@ -68,6 +68,11 @@ export default class KenoPageIndicatorItem extends cc.Component {
         this.node.active = false;
     }
 
+    stop() {
+        this.unschedule(this.updateTime);
+        this.proressBar.progress = 1;
+    }
+
     setData(data) {
         if (data.um) {
             this.currentTimeRemaining = this.miniKeno.config.betTime;
