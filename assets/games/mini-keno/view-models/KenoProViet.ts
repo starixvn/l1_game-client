@@ -1,8 +1,10 @@
 import * as _ from "lodash";
 
+import { lazyInject } from "../../../Application";
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import SocketIOController from "../../../SocketIOController";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
 import KenoStatusBanner from "./components/KenoStatusBanner";
@@ -55,6 +57,9 @@ export default class KenoProViet extends cc.Component {
     @property
     movingStep = 1;
 
+    @lazyInject(SocketIOController)
+    private readonly socketIOController: SocketIOController;
+
     private selectedIndex = 0;
     private childList: cc.Node[] = [];
     private readonly allGames = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -86,7 +91,10 @@ export default class KenoProViet extends cc.Component {
     private setUpSocketAllKeno(list: any[]) {
         list.forEach((type) => {
             const gameId = KenoUtils.getKenoGameId(type);
-            this.miniPanel.setUpSocketForGame(gameId, false);
+            const socket = this.socketIOController.getSocketGame(gameId);
+            if (!socket) {
+                this.miniPanel.setUpSocketForGame(gameId, false);
+            }
         });
     }
 
@@ -237,6 +245,12 @@ export default class KenoProViet extends cc.Component {
         this.selectedIndex = 0;
         this.snappedScrollView.scrollTo(0);
         this.scrollToSelectedIndex();
+    }
+
+    onDisable() {
+        this.sortedGames.forEach((gameId) => {
+            this.socketIOController.closeSocket(gameId);
+        });
     }
 
     private updateArrowVisibility() {

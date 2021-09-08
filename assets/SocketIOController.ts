@@ -9,6 +9,10 @@ import { GameInfos } from "./configs/SabaConfigs";
 export default class SocketIOController {
     public gameSockets = {};
 
+    getSocketGame(gameId: number) {
+        return this.gameSockets[gameId.toString()];
+    }
+
     connectGameSocket = (
         socketUri: string,
         gameName: string,
