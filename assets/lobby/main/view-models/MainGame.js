@@ -102,7 +102,7 @@ cc.Class({
         if (authManager && !cc.RedT.IS_LOGIN && !this.inRoomGameId) {
             authManager.triggerSignIn(this);
         } else {
-            authManager.auth();
+            cc.RedT.callAuthentication();
             if (!window.openGameId && this.inRoomGameId) {
                 this.openInRoomGame(this.inRoomGameId);
             }
@@ -297,7 +297,7 @@ cc.Class({
         if (!Authorized) {
             this.dialog.showSignName();
         } else {
-            authManager.auth();
+            cc.RedT.callAuthentication();
         }
     },
     onData: function (data) {

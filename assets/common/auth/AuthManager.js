@@ -137,19 +137,6 @@ export function triggerSignIn(main) {
     }
 }
 
-export function auth() {
-    if (!!window.authData) {
-        const authentication = {
-            username: window.authData.username,
-            data: window.authData
-        };
-
-        autoTriggerSignInTimeout = setTimeout(() => {
-            cc.RedT.send({ authentication });
-        }, 500);
-    }
-}
-
 export function verifySession(session) {
     let isSessionExpired = true;
 
