@@ -298,6 +298,7 @@ cc.Class({
             this.dialog.showSignName();
         } else {
             cc.RedT.callAuthentication();
+            this.signIn();
         }
     },
     onData: function (data) {
