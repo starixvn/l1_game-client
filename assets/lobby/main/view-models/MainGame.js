@@ -441,8 +441,8 @@ cc.Class({
 
     openInRoomGame(gameId) {
         const info = SabaConfigs.GameInfos[gameId];
-        if (info && !info.mini && !info.mainSocket) {
-            cc.RedT.MiniPanel.openNewGameSocket(null, +gameId);
+        if (info) {
+            cc.RedT.MiniPanel.openNewSocketTableGame(null, +gameId);
         }
     },
     AllReset: function () {

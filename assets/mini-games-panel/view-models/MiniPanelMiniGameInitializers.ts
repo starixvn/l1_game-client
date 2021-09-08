@@ -72,9 +72,12 @@ export default class MiniPanelMiniGameInitializers {
         }
 
         this.main.loading.node.active = true;
+        this.openMiniGame(parseInt(id));
+    }
 
-        id = parseInt(id);
-        this.openMiniGame(id);
+    openMiniContainerGame(id: string) {
+        this.main.loading.node.active = true;
+        this.openMiniGame(parseInt(id));
     }
 
     openNewSocket(gameId) {

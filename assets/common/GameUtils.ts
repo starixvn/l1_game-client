@@ -54,23 +54,30 @@ export default class GameUtils {
     }
 
     public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}) {
-        if (gameId === 0) {
-            openLuckyWheelFunc && openLuckyWheelFunc();
+        const info = GameInfos[gameId];
+
+        if (!info.mini) {
+            miniPanel.openNewSocketTableGame(null, gameId);
             return;
         }
 
-        const info = GameInfos[gameId];
+        openLuckyWheelFunc && openLuckyWheelFunc();
+
+        if (gameId === 0) {
+            return;
+        }
+
         if (info.mainSocket) {
             miniPanel.openGame(null, gameId);
-            openLuckyWheelFunc && openLuckyWheelFunc();
-        } else {
-            if (info.mini) {
-                miniPanel.openNewSocketMiniGame(null, gameId);
-                openLuckyWheelFunc && openLuckyWheelFunc();
-            } else {
-                miniPanel.openNewGameSocket(null, gameId);
-            }
+            return;
         }
+
+        if (info.gameContainer) {
+            miniPanel.openMiniContainerGame(gameId);
+            return;
+        }
+
+        miniPanel.openNewSocketMiniGame(null, gameId);
     }
 
     public static roundFixed(num: number, fixedNumber: number): number {

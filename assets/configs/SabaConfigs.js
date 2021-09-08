@@ -76,8 +76,8 @@ const configs = {
         },
         11: {
             key: "KenoProViet",
-            mini: true,
-            mainSocket: true
+            gameContainer: true,
+            mini: true
         },
         12: {
             key: "KenoMax",

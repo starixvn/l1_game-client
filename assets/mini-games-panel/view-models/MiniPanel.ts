@@ -172,11 +172,15 @@ export default class MiniPanel extends BaseComponent {
         this.gameMiniInitializers.openGame(id);
     }
 
+    openMiniContainerGame(id) {
+        this.gameMiniInitializers.openMiniContainerGame(id);
+    }
+
     openNewSocketMiniGame(e, id) {
         this.gameMiniInitializers.openNewSocket(id);
     }
 
-    openNewGameSocket(event, gameId) {
+    openNewSocketTableGame(event, gameId) {
         this.socketIOGameInitializers.openGame(gameId);
     }
 
