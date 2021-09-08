@@ -233,6 +233,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     onEnable() {
+        this.setUpSocketAllKeno(this.sortedGames);
         this.selectedIndex = 0;
         this.snappedScrollView.scrollTo(0);
         this.scrollToSelectedIndex();
