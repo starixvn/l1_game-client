@@ -97,30 +97,7 @@ export default class KenoProViet extends cc.Component {
         this.sortedGames = [...this.favouriteGames, ...otherGames];
         this.setUpSocketAllKeno(this.sortedGames);
         this.sortedGames.forEach((type, index) => {
-            const node = cc.instantiate(this.kenoPrefab);
-            const keno = node.getComponent(MiniKeno);
-            keno.kenoType = type;
-            keno.config = new MiniKenoConfig(keno.kenoType);
-            keno.isMiniKeno = keno.kenoType === KenoType.Mini || keno.kenoType === KenoType.Mini2;
-
-            keno.gameId = KenoUtils.getKenoGameId(type);
-            keno.initMiniPanel(this.miniPanel);
-            keno.favourite.isChecked = index < this.favouriteGames.length;
-            keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
-            keno.getPreset = () => this.presetBetValue;
-            keno.statusCallback = (a, b, c) => {
-                if (a !== this.sortedGames[this.selectedIndex] && a !== this.sortedGames[this.selectedIndex + 1]) {
-                    this.statusQueue.unshift({ type: a, round: b, win: c });
-                }
-            };
-            this.content.addChild(node);
-            keno.socket.on("signedIn", () => {
-                keno.registerViewGame();
-            });
-            this.miniKenos.push(keno);
-            keno.onDataCallback = (data, gameName) => {
-                this.onData(data, gameName);
-            };
+            this.addKeno(type, index);
         });
 
         this.contentLayout = this.content.getComponent(cc.Layout);
@@ -131,6 +108,36 @@ export default class KenoProViet extends cc.Component {
         this.indicatorItems.forEach((dot, index) => {
             dot.init(this.miniKenos[index]);
         });
+    }
+
+    addKeno(type, index) {
+        const node = cc.instantiate(this.kenoPrefab);
+        const keno = node.getComponent(MiniKeno);
+        keno.kenoType = type;
+        keno.config = new MiniKenoConfig(keno.kenoType);
+        keno.isMiniKeno = keno.kenoType === KenoType.Mini || keno.kenoType === KenoType.Mini2;
+
+        keno.gameId = KenoUtils.getKenoGameId(type);
+        keno.initMiniPanel(this.miniPanel);
+        keno.favourite.isChecked = index < this.favouriteGames.length;
+        keno.onFavoriteChanged = (a, b) => this.onFavoriteChanged(a, b);
+        keno.getPreset = () => this.presetBetValue;
+        keno.statusCallback = (a, b, c) => {
+            if (a !== this.sortedGames[this.selectedIndex] && a !== this.sortedGames[this.selectedIndex + 1]) {
+                this.statusQueue.unshift({ type: a, round: b, win: c });
+            }
+        };
+        keno.onDataCallback = (data, gameName) => {
+            this.onData(data, gameName);
+        };
+        keno.onDisconnectCallback = () => {
+            this.close();
+        };
+        this.content.addChild(node);
+        keno.socket.on("signedIn", () => {
+            keno.registerViewGame();
+        });
+        this.miniKenos.push(keno);
     }
 
     onData(data: any, gameName: string) {
@@ -272,6 +279,10 @@ export default class KenoProViet extends cc.Component {
 
     closeGame() {
         cc.RedT.audio.playClick();
+        this.close();
+    }
+
+    close() {
         this.presetBet.forceClose();
         this.node.active = false;
     }

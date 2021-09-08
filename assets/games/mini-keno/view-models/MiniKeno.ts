@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
-import GameBase, { GameState } from "../../_base/GameBase";
+import { GameState } from "../../_base/GameBase";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import KenoNumber from "../../keno-pro/view-models/KenoNumber";
 import RoundHistory from "../../keno-pro/view-models/RoundHistory";
@@ -82,19 +82,20 @@ export default class MiniKeno extends SocketIOMiniGameBase {
     rebet: cc.Button = null;
 
     public isMiniGameInContainer = true;
+    public isMiniKeno: boolean;
     public kenoNumbers: KenoNumber[] = [];
-    public onFavoriteChanged = (favourite: boolean, type: number) => {};
-    public getPreset = () => {
-        return 0;
-    };
     public roundHistory: RoundHistory;
     public roundResult: MiniKenoRoundResult;
     public betBoard: BetBoard;
     public kenoTimer: MiniKenoTimer;
     public lastBetInfo: BetInfo = null;
+    public onFavoriteChanged = (favourite: boolean, type: number) => {};
+    public getPreset = () => {
+        return 0;
+    };
     public statusCallback = (gameName: number, roundId: number, winAmount: number) => {};
-    public isMiniKeno: boolean;
     public onDataCallback = (data: any, gameName: string) => {};
+    public onDisconnectCallback = () => {};
 
     onLoad() {
         this.initComponents();
@@ -102,6 +103,20 @@ export default class MiniKeno extends SocketIOMiniGameBase {
         this.enableRebetButton(false);
 
         super.onLoad();
+    }
+
+    onDisconnected() {
+        this.closeGame();
+        this.onDisconnectCallback();
+    }
+
+    closeGame() {
+        if (!this.isAlive()) {
+            return;
+        }
+        this.sendRetryMessage();
+        this.socketIOController.closeSocket(this.gameId);
+        this.showProcessingWarning(false);
     }
 
     onData(data: any) {

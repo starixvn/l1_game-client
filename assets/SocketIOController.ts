@@ -45,10 +45,6 @@ export default class SocketIOController {
             onConnectFailed(gameName, isGameRoom);
         });
 
-        socket.on("disconnect", (reason) => {
-            // sentryLogger.log(`${gameName} socket disconnect: ${reason}`);
-        });
-
         return socket;
     };
 

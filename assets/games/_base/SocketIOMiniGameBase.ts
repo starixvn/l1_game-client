@@ -5,7 +5,7 @@ import GameBase from "./GameBase";
 
 export default abstract class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
-    private readonly socketIOController: SocketIOController;
+    public readonly socketIOController: SocketIOController;
 
     public socket: SocketIOClient.Socket;
 
@@ -28,12 +28,20 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
     startGame() {
         super.startGame();
+        this.initSocketListenter();
+    }
+
+    initSocketListenter() {
         this.socket = this.socketIOController.gameSockets[this.gameId];
 
         if (this.socket) {
             this.socket.off(this.gameName).on(this.gameName, this.onData.bind(this));
-            this.socket.off("disconnect").on("disconnect", this.closeGame.bind(this));
+            this.socket.off("disconnect").on("disconnect", this.onDisconnected.bind(this));
         }
+    }
+
+    onDisconnected() {
+        this.closeGame();
     }
 
     public registerViewGame() {

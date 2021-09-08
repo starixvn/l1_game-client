@@ -180,8 +180,8 @@ export default class MiniPanel extends BaseComponent {
         this.socketIOGameInitializers.openGame(gameId);
     }
 
-    setUpSocketForGame(gameId: number, forceNew: boolean) {
-        this.gameMiniInitializers.setUpSocketForGame(gameId, forceNew);
+    setUpSocketForGame(gameId: number, forceNew: boolean): SocketIOClient.Socket {
+        return this.gameMiniInitializers.setUpSocketForGame(gameId, forceNew);
     }
 
     loadGameRoom(name) {
