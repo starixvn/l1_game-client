@@ -268,6 +268,16 @@ export default class KenoProViet extends cc.Component {
             this.socketIOController.closeSocket(gameId);
         });
         this.socketIOController.closeSocket(GameIds.KenoProViet);
+        this.closeGuideAndHistory();
+    }
+
+    closeGuideAndHistory() {
+        ["KenoProVietGuide", "KenoProVietHistory"].forEach((name) => {
+            const node = this.miniPanel.dialog.getChildByName(name);
+            if (node) {
+                node.destroy();
+            }
+        });
     }
 
     private updateArrowVisibility() {
@@ -344,16 +354,18 @@ export default class KenoProViet extends cc.Component {
     openGuide() {
         cc.RedT.audio.playClick();
         const node = cc.instantiate(this.guidePrefab);
-        this.miniPanel.node.addChild(node);
+        this.miniPanel.addDialog(node);
         const guide = node.getComponent(MiniKenoGuide);
         guide.miniKenos = this.miniKenos;
+        node.name = "KenoProVietGuide";
     }
 
     openHistory() {
         cc.RedT.audio.playClick();
         const node = cc.instantiate(this.historyPrefab);
         this.miniKenoHistory = node.getComponent(MiniKenoHistory);
-        this.miniPanel.node.addChild(node);
+        this.miniPanel.addDialog(node);
+        node.name = "KenoProVietHistory";
     }
 
     openPresetBetDialog() {
