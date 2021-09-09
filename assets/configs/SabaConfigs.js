@@ -75,8 +75,9 @@ const configs = {
             key: "Baccarat"
         },
         11: {
-            key: "KenoProViet",
-            gameContainer: true,
+            key: "KenoMax",
+            route: "minikeno",
+            // gameContainer: true,
             mini: true
         },
         12: {

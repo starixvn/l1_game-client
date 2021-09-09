@@ -94,6 +94,9 @@ export default class KenoProViet extends cc.Component {
         const alternativeName = GameUtils.getGameNameString(GameIds.KenoProViet);
         list.forEach((type, index) => {
             const gameId = KenoUtils.getKenoGameId(type);
+            if (gameId === GameIds.KenoMax) {
+                return;
+            }
             const socket = this.socketIOController.getSocketGame(gameId);
             const isMain = index === 0;
             if (!socket) {
@@ -248,6 +251,7 @@ export default class KenoProViet extends cc.Component {
     onEnable() {
         this.setUpSocketAllKeno(this.sortedGames);
         this.miniKenos.forEach((keno) => {
+            keno.grantSocket();
             keno.socket.off("signedIn").on("signedIn", () => {
                 keno.registerViewGame();
             });
@@ -263,6 +267,7 @@ export default class KenoProViet extends cc.Component {
             const gameId = KenoUtils.getKenoGameId(type);
             this.socketIOController.closeSocket(gameId);
         });
+        this.socketIOController.closeSocket(GameIds.KenoProViet);
     }
 
     private updateArrowVisibility() {

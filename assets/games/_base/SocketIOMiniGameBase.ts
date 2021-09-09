@@ -28,12 +28,15 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
     startGame() {
         super.startGame();
+        this.grantSocket();
         this.initSocketListenter();
     }
 
-    initSocketListenter() {
-        this.socket = this.socketIOController.gameSockets[this.gameId];
+    grantSocket() {
+        this.socket = this.socketIOController.getSocketGame(this.gameId);
+    }
 
+    initSocketListenter() {
         if (this.socket) {
             this.socket.off(this.gameName).on(this.gameName, this.onData.bind(this));
             this.socket.off("disconnect").on("disconnect", this.onDisconnected.bind(this));

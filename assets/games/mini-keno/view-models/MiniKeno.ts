@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import { GameIds } from "../../../configs/SabaConfigs";
 import { GameState } from "../../_base/GameBase";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import KenoNumber from "../../keno-pro/view-models/KenoNumber";
@@ -103,6 +104,11 @@ export default class MiniKeno extends SocketIOMiniGameBase {
         this.enableRebetButton(false);
 
         super.onLoad();
+    }
+
+    grantSocket() {
+        const gameId = this.gameId === GameIds.KenoMax ? GameIds.KenoProViet : this.gameId;
+        this.socket = this.socketIOController.getSocketGame(gameId);
     }
 
     onDisconnected() {
