@@ -9402,7 +9402,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 77,
+      "width": 98,
       "height": 28
     },
     "_anchorPoint": {
@@ -9454,8 +9454,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "DÒNG",
-    "_N$string": "DÒNG",
+    "_string": "UI.LINE",
+    "_N$string": "UI.LINE",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -9515,7 +9515,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 77,
+      "width": 103,
       "height": 28
     },
     "_anchorPoint": {
@@ -9567,8 +9567,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CƯỢC",
-    "_N$string": "CƯỢC",
+    "_string": "UI.BET2",
+    "_N$string": "UI.BET2",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -9628,7 +9628,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150,
+      "width": 180,
       "height": 28
     },
     "_anchorPoint": {
@@ -9693,8 +9693,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TỔNG CƯỢC",
-    "_N$string": "TỔNG CƯỢC",
+    "_string": "UI.TOTAL_BET",
+    "_N$string": "UI.TOTAL_BET",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": false,
@@ -9741,7 +9741,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 91,
+      "width": 92,
       "height": 28
     },
     "_anchorPoint": {
@@ -9806,8 +9806,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "THẮNG",
-    "_N$string": "THẮNG",
+    "_string": "UI.WIN",
+    "_N$string": "UI.WIN",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -10893,7 +10893,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -5.0290000000000035,
+        -2.003,
         0,
         0,
         0,
@@ -13241,7 +13241,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 81,
-      "height": 52
+      "height": 78
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -13292,8 +13292,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TỰ QUAY",
-    "_N$string": "TỰ QUAY",
+    "_string": "UI.AUTOSPIN",
+    "_N$string": "UI.AUTOSPIN",
     "_fontSize": 25,
     "_lineHeight": 26,
     "_enableWrapText": true,
@@ -13704,7 +13704,7 @@
         "__id__": 291
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 293
@@ -13896,7 +13896,7 @@
       "__id__": 289
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 295
@@ -14064,8 +14064,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "SIÊU TỐC",
-    "_N$string": "SIÊU TỐC",
+    "_string": "UI.TURBO",
+    "_N$string": "UI.TURBO",
     "_fontSize": 25,
     "_lineHeight": 26,
     "_enableWrapText": true,
@@ -14389,7 +14389,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
-    "_N$isChecked": true,
+    "_N$isChecked": false,
     "toggleGroup": null,
     "checkMark": {
       "__id__": 295
