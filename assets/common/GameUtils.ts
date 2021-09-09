@@ -56,7 +56,7 @@ export default class GameUtils {
     public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}) {
         const info = GameInfos[gameId];
 
-        if (!info.mini) {
+        if (!info.mini && gameId > 0) {
             miniPanel.openNewSocketTableGame(null, gameId);
             return;
         }
