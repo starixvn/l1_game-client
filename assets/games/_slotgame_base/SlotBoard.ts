@@ -23,7 +23,6 @@ export default class SlotBoard extends cc.Component {
 
     protected data: number[] = [];
     public slotGameConfig: SlotGameBaseConfigs;
-    public linePositons;
 
     onLoad() {
         this.winningOverlayNode.active = false;
@@ -38,11 +37,7 @@ export default class SlotBoard extends cc.Component {
         });
     }
 
-    start() {
-        this.linePositons = this.createStaticPositions();
-    }
-
-    createStaticPositions(): cc.Vec2[][] {
+    getItemPositions(index: number): cc.Vec2[] {
         const paylines = [
             [1, 4, 7, 10, 13],
             [0, 3, 6, 9, 12],
@@ -75,19 +70,16 @@ export default class SlotBoard extends cc.Component {
             [2, 3, 8, 9, 14]
         ];
 
-        const result = [];
-        paylines.forEach((payline) => {
-            const pos = [];
-            payline.forEach((position) => {
-                const { col, row } = this.getLocation(position);
-                const item = this.reels[col].getItemBottom(row);
-                const worldPos = item.node.convertToWorldSpaceAR(cc.v2(0, 0));
-                pos.push(worldPos);
-            });
-            result.push(pos);
+        const payline = paylines[index];
+        const pos = [];
+        payline.forEach((position) => {
+            const { col, row } = this.getLocation(position);
+            const item = this.reels[col].getItemBottom(row);
+            const worldPos = item.node.convertToWorldSpaceAR(cc.v2(0, 0));
+            pos.push(worldPos);
         });
 
-        return result;
+        return pos;
     }
 
     setConfig(config: SlotGameBaseConfigs) {

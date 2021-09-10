@@ -20,16 +20,16 @@ export default class LineView extends cc.Component {
     isLabelLeft = true;
 
     private light: cc.Node = null;
-    private initialized = false;
 
-    init() {
-        if (this.initialized || this.board.linePositons.length === 0) {
-            return;
-        }
-        this.initialized = true;
+    onLoad() {
+        this.light = cc.instantiate(this.lightPrefab);
+        this.light.active = false;
+    }
+
+    drawLines() {
         const labelPos = this.label.convertToWorldSpaceAR(cc.v2(0, 0));
-        const index = +this.node.name;
-        const linePositions = this.board.linePositons[index - 1];
+        const lineNum = +this.node.name;
+        const linePositions = this.board.getItemPositions(lineNum - 1);
         const positions = [];
         const offset = this.label.width / 2;
         if (this.isLabelLeft) {
@@ -38,13 +38,10 @@ export default class LineView extends cc.Component {
             positions.push(...linePositions, cc.v2(labelPos.x - offset, labelPos.y));
         }
         this.createLines(positions);
-
-        this.light = cc.instantiate(this.lightPrefab);
-        this.light.active = false;
     }
 
     onEnable() {
-        this.init();
+        this.drawLines();
         this.playLightAnimation();
     }
 
@@ -59,6 +56,9 @@ export default class LineView extends cc.Component {
     }
 
     runLightOnLine(index: number) {
+        if (index >= this.node.children.length) {
+            return;
+        }
         const child = this.node.children[index];
         const speed = 800;
         const duration = child.width / speed;
@@ -88,8 +88,8 @@ export default class LineView extends cc.Component {
     createLines(positions: cc.Vec2[]) {
         let lastNode: cc.Node;
         for (let i = 0; i < positions.length - 1; i++) {
-            const start = cc.v2(positions[i]);
-            const end = cc.v2(positions[i + 1]);
+            const start = this.node.convertToNodeSpaceAR(cc.v2(positions[i]));
+            const end = this.node.convertToNodeSpaceAR(cc.v2(positions[i + 1]));
             const angle = this.calculateAngle(start, end);
             const width = start.sub(end).len();
             if (lastNode !== undefined && Math.abs(lastNode.angle - angle) < 2) {
@@ -98,11 +98,11 @@ export default class LineView extends cc.Component {
                 continue;
             }
 
-            const node = this.createSubLine();
+            const node = this.node.children[i] || this.createSubLine();
             lastNode = node;
 
             node.angle = this.calculateAngle(start, end);
-            node.position = cc.v3(this.node.convertToNodeSpaceAR(positions[i]));
+            node.position = cc.v3(start);
             node.width = width;
         }
     }
