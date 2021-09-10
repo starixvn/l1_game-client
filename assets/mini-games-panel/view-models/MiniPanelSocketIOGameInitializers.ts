@@ -59,7 +59,7 @@ export default class MiniPanelSocketIOGameInitializers {
                 socket.disconnect();
             });
 
-            this.socketIOController.gameSockets[gameId] = socket;
+            this.socketIOController.assignSocket(gameId, socket);
         });
     }
 }

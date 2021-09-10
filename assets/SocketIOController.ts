@@ -7,10 +7,14 @@ import { GameInfos } from "./configs/SabaConfigs";
 
 @injectable()
 export default class SocketIOController {
-    public gameSockets = {};
+    private gameSockets = {};
 
     getSocketGame(gameId: number) {
         return this.gameSockets[gameId.toString()];
+    }
+
+    assignSocket(gameId: number, socket: SocketIOClient.Socket) {
+        this.gameSockets[gameId.toString()] = socket;
     }
 
     connectGameSocket = (

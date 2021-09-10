@@ -82,7 +82,7 @@ export default class MiniPanelMiniGameInitializers {
 
     openNewSocket(gameId) {
         this.main.loading.node.active = true;
-        const currentSocket: SocketIOClient.Socket = this.socketIOController.gameSockets[gameId];
+        const currentSocket: SocketIOClient.Socket = this.socketIOController.getSocketGame(gameId);
 
         if (currentSocket && currentSocket.connected) {
             this.openMiniGame(gameId);
@@ -121,7 +121,7 @@ export default class MiniPanelMiniGameInitializers {
             socket.disconnect();
         });
 
-        this.socketIOController.gameSockets[gameId] = socket;
+        this.socketIOController.assignSocket(gameId, socket);
         return socket;
     }
 }

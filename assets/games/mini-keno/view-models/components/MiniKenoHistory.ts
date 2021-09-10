@@ -65,7 +65,7 @@ export default class MiniKenoHistory extends SocketIOGameHistoryBase {
 
     updateSocketChanged() {
         const id = this.kenoGameDropDownList.selectedItem.gameId;
-        this.socket = this.socketIOController.gameSockets[id];
+        this.socket = this.socketIOController.getSocketGame(id);
     }
 
     onGameChanged() {

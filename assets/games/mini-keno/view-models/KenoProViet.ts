@@ -90,13 +90,17 @@ export default class KenoProViet extends cc.Component {
         });
     }
 
+    assignSocketForGameDefault() {
+        const defaultGameId = GameIds.KenoMax;
+        const kenoProVietSocket = this.socketIOController.getSocketGame(GameIds.KenoProViet);
+        this.socketIOController.assignSocket(defaultGameId, kenoProVietSocket);
+    }
+
     private setUpSocketAllKeno(list: any[]) {
+        this.assignSocketForGameDefault();
         const alternativeName = GameUtils.getGameNameString(GameIds.KenoProViet);
         list.forEach((type, index) => {
             const gameId = KenoUtils.getKenoGameId(type);
-            if (gameId === GameIds.KenoMax) {
-                return;
-            }
             const socket = this.socketIOController.getSocketGame(gameId);
             const isMain = index === 0;
             if (!socket) {
