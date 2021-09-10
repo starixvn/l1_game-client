@@ -2,6 +2,7 @@ const configs = {
     systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
+        "sit.sabagame.com": "sgamesuat.com",
         "l1sit.sgamesuat.com": "sgamesuat.com"
     },
     subDomain: "l1uatproxy",
