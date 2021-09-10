@@ -202,6 +202,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         cc.RedT.isSoundGame() ? this.updateSoundStatus(true) : this.updateSoundStatus(false);
 
         cc.RedT.addSoundObserver(`sound_observer_${this.gameId}`, this.updateSoundStatus.bind(this));
+
+        this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
     }
 
     onDataGameRoom(data) {
