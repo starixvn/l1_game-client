@@ -1480,7 +1480,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 264.5,
+      "width": 347,
       "height": 84
     },
     "_anchorPoint": {
@@ -1547,7 +1547,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 184.5,
+      "width": 267,
       "height": 30
     },
     "_anchorPoint": {
@@ -1599,9 +1599,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "LỊCH SỬ",
-    "_N$string": "LỊCH SỬ",
+    "_string": "UI.HISTORY",
+    "_N$string": "UI.HISTORY",
     "_fontSize": 30,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -1715,7 +1714,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 264.5,
+      "width": 347,
       "height": 84
     },
     "_resize": 1,
@@ -2258,7 +2257,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 163,
+      "width": 110,
       "height": 20
     },
     "_anchorPoint": {
@@ -2310,9 +2309,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "THỜI GIAN",
-    "_N$string": "THỜI GIAN",
+    "_string": "UI.TIME",
+    "_N$string": "UI.TIME",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -2460,7 +2458,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 95,
+      "width": 152,
       "height": 20
     },
     "_anchorPoint": {
@@ -2512,9 +2510,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "PHIÊN",
-    "_N$string": "PHIÊN",
+    "_string": "UI.ROUND",
+    "_N$string": "UI.ROUND",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -2662,7 +2659,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 168,
+      "width": 100,
       "height": 20
     },
     "_anchorPoint": {
@@ -2714,9 +2711,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "MỨC CƯỢC",
-    "_N$string": "MỨC CƯỢC",
+    "_string": "UI.BET",
+    "_N$string": "UI.BET",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -2864,7 +2860,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 191,
+      "width": 126,
       "height": 20
     },
     "_anchorPoint": {
@@ -2916,9 +2912,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "DÒNG CƯỢC",
-    "_N$string": "DÒNG CƯỢC",
+    "_string": "UI.LINES",
+    "_N$string": "UI.LINES",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -3066,7 +3061,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 188,
+      "width": 251,
       "height": 20
     },
     "_anchorPoint": {
@@ -3131,9 +3126,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "TỔNG CƯỢC",
-    "_N$string": "TỔNG CƯỢC",
+    "_string": "UI.TOTALSTAKE",
+    "_N$string": "UI.TOTALSTAKE",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -3268,7 +3262,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 114,
+      "width": 102,
       "height": 20
     },
     "_anchorPoint": {
@@ -3333,9 +3327,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "THẮNG",
-    "_N$string": "THẮNG",
+    "_string": "UI.WIN",
+    "_N$string": "UI.WIN",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -4503,7 +4496,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -4633,6 +4625,20 @@
     },
     "number": {
       "__id__": 119
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -5021,7 +5027,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -5151,6 +5156,20 @@
     },
     "number": {
       "__id__": 133
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -5539,7 +5558,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -5669,6 +5687,20 @@
     },
     "number": {
       "__id__": 147
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -6057,7 +6089,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -6187,6 +6218,20 @@
     },
     "number": {
       "__id__": 161
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -6575,7 +6620,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -6705,6 +6749,20 @@
     },
     "number": {
       "__id__": 175
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -7498,7 +7556,7 @@
     "_id": ""
   },
   {
-    "__type__": "823e2IytwFC04+Zn6Kr7Eo4",
+    "__type__": "3550dPSU5pN+ZZljhaC6Qr+",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -7530,7 +7588,7 @@
     "asset": {
       "__uuid__": "c45c441e-42dc-4fd7-8ec5-f44057ea7c87"
     },
-    "fileId": "fflXUHTy1Kpo50TT44PxJS",
+    "fileId": "",
     "sync": false
   }
 ]
