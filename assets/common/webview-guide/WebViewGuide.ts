@@ -15,6 +15,9 @@ export default class WebViewGuide extends cc.Component {
     @property(cc.Node)
     loading: cc.Node = null;
 
+    @property()
+    themeName = "blue";
+
     protected url: string;
 
     onLoad() {
@@ -58,7 +61,7 @@ export default class WebViewGuide extends cc.Component {
 
     initURL(gameId: number, locale: string, configStake: { minBet: number; maxBet: number; used: boolean }) {
         const domain = config.guideDomain;
-        let url = `${domain}/?gId=${gameId}&lang=${locale}&t=blue&v=${Date.now()}`;
+        let url = `${domain}/?gId=${gameId}&lang=${locale}&t=${this.themeName}&v=${Date.now()}`;
         if (config.systemType === "SC1" && configStake.used) {
             url += `&minBet=${configStake.minBet}&maxBet=${configStake.maxBet}`;
         }
