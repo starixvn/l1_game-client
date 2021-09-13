@@ -26,9 +26,6 @@ export default class SlotGameTicketDetail extends cc.Component {
     @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
 
-    @property
-    scaleItemOnResult = 0.8;
-
     protected readonly jackpotSymbolNumber = 10;
 
     onLoad() {
@@ -48,7 +45,6 @@ export default class SlotGameTicketDetail extends cc.Component {
         for (let row = 0; row < 3; row++) {
             for (let column = 0; column < 5; column++) {
                 const node = new cc.Node();
-                node.scale = this.scaleItemOnResult;
                 const subNode = new cc.Node();
                 node.addChild(subNode);
                 subNode.addComponent(cc.Sprite).spriteFrame = this.setSymbolFrame(board[row + column * 3]);
