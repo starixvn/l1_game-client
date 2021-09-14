@@ -30,9 +30,9 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
         this.pagination.init(this);
 
         const commonDialog = this.mainFrame.getComponent(CommonDialog);
-        commonDialog.onDidHide = () => {
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     onEnable() {

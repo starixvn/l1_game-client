@@ -12,9 +12,9 @@ export default class BaccaratGuide extends cc.Component {
 
     onLoad() {
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     init(configs) {

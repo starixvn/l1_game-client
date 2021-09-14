@@ -35,7 +35,7 @@ cc.Class({
         }
         this.node.active = this.signName.node.active = true;
         this.currentDialog = this.signName.dialogNode.getComponent("CommonDialog");
-        this.currentDialog.onDidHide = () => (this.node.active = false);
+        this.currentDialog.addOnDidHide(() => (this.node.active = false));
     },
 
     handleSignName: function (response) {

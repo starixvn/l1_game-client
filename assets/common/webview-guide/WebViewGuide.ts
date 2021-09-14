@@ -22,9 +22,9 @@ export default class WebViewGuide extends cc.Component {
 
     onLoad() {
         if (this.commonDialog) {
-            this.commonDialog.onDidHide = () => {
+            this.commonDialog.addOnDidHide(() => {
                 this.node.destroy();
-            };
+            });
         }
 
         this.webView.node.on(

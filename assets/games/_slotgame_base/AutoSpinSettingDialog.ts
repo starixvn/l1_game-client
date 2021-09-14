@@ -1,4 +1,4 @@
-import CommonDialog from '../../common/_base/view-models/CommonDialog';
+import CommonDialog from "../../common/_base/view-models/CommonDialog";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,9 +19,9 @@ export default class AutoSpinSettingDialog extends cc.Component {
         const defaultSpin = this.choicesContainer.children[0].name || 10;
         this.autoSpinCount = +defaultSpin;
 
-        this.dialog.onDidHide = () => {
+        this.dialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     onChoiceClick(event: cc.Event, param: string) {

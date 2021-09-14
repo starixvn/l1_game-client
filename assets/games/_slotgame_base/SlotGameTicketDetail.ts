@@ -29,9 +29,9 @@ export default class SlotGameTicketDetail extends cc.Component {
     protected readonly jackpotSymbolNumber = 10;
 
     onLoad() {
-        this.commonDialog.onDidHide = () => {
+        this.commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     setData(data: any) {

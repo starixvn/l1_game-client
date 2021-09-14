@@ -1,6 +1,5 @@
-import LocalizedLabelWithFormat from "../../../common/i18n/LocalizedLabelWithFormat";
-
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import LocalizedLabelWithFormat from "../../../common/i18n/LocalizedLabelWithFormat";
 import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
 import BigSmall from "./BigSmall";
 import BigSmallBetHistoryItem from "./BigSmallBetHistoryItem";
@@ -74,9 +73,9 @@ export default class BigSmallBetHistory extends cc.Component {
         }
 
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     onNextClick() {

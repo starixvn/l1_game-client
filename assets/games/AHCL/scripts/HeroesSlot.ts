@@ -23,9 +23,9 @@ export default class HeroesSlot extends SlotGameBase {
     createAutoSpinDialog(): AutoSpinSettingDialog {
         const dialog = super.createAutoSpinDialog();
         this.bgAutoSpinDialog.active = true;
-        dialog.dialog.onDidHide = () => {
+        dialog.dialog.addOnDidHide(() => {
             this.bgAutoSpinDialog.active = false;
-        };
+        });
         return dialog;
     }
 }

@@ -1,3 +1,5 @@
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -12,10 +14,10 @@ export default class SMPromotionPageView extends cc.Component {
     pageDelayTime = [];
 
     onLoad() {
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
 
         if (cc.sys.isMobile) {
             this.mainFrame.y = this.mainFrame.y + 40;
