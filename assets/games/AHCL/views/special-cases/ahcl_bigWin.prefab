@@ -181,9 +181,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_custom": true,
-    "_file": {
-      "__uuid__": "120c81f6-83a2-47d3-85e2-0bd98d750aee"
-    },
+    "_file": null,
     "_spriteFrame": {
       "__uuid__": "9014af4e-4bab-42ac-850a-018e3225baac"
     },
@@ -192,10 +190,10 @@
     "playOnLoad": true,
     "autoRemoveOnFinish": false,
     "totalParticles": 181,
-    "duration": 1,
+    "duration": 3.5,
     "emissionRate": 90.5,
     "life": 2,
-    "lifeVar": 0,
+    "lifeVar": 2,
     "_startColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -224,12 +222,12 @@
       "b": 0,
       "a": 0
     },
-    "angle": 89,
-    "angleVar": 60,
-    "startSize": 30,
+    "angle": 90,
+    "angleVar": 180,
+    "startSize": 45,
     "startSizeVar": 0,
-    "endSize": 25,
-    "endSizeVar": 15,
+    "endSize": 50,
+    "endSizeVar": 0,
     "startSpin": -200,
     "startSpinVar": 500,
     "endSpin": 500,
@@ -244,15 +242,15 @@
       "x": 150,
       "y": 20
     },
-    "_positionType": 1,
-    "positionType": 1,
+    "_positionType": 0,
+    "positionType": 0,
     "emitterMode": 0,
     "gravity": {
       "__type__": "cc.Vec2",
       "x": 0,
       "y": -800
     },
-    "speed": 930,
+    "speed": 900,
     "speedVar": 0,
     "tangentialAccel": 0,
     "tangentialAccelVar": 0,
@@ -261,8 +259,8 @@
     "rotationIsDir": false,
     "startRadius": 0,
     "startRadiusVar": 0,
-    "endRadius": 0,
-    "endRadiusVar": 0,
+    "endRadius": 800,
+    "endRadiusVar": 800,
     "rotatePerS": 0,
     "rotatePerSVar": 0,
     "_N$preview": true,
@@ -359,9 +357,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_custom": true,
-    "_file": {
-      "__uuid__": "a5cf7bf0-1f32-4096-b511-bed01015e558"
-    },
+    "_file": null,
     "_spriteFrame": {
       "__uuid__": "9014af4e-4bab-42ac-850a-018e3225baac"
     },
@@ -403,7 +399,7 @@
       "a": 0
     },
     "angle": 91,
-    "angleVar": 90,
+    "angleVar": 180,
     "startSize": 30,
     "startSizeVar": 0,
     "endSize": 25,
@@ -932,7 +928,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 433,
+      "width": 0,
       "height": 100
     },
     "_anchorPoint": {
