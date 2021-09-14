@@ -14643,10 +14643,10 @@
         "__id__": 323
       },
       {
-        "__id__": 333
+        "__id__": 325
       },
       {
-        "__id__": 339
+        "__id__": 335
       }
     ],
     "_active": true,
@@ -15325,6 +15325,102 @@
   },
   {
     "__type__": "cc.Node",
+    "_name": "disable",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 308
+    },
+    "_children": [],
+    "_active": false,
+    "_components": [
+      {
+        "__id__": 324
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 150,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 166,
+      "height": 166
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2.4492935982947064e-16,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": -720
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "8cLxrf4b1OmaAI2+a/WutV"
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "Drum<Sprite>",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 323
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "9c27083d-e2e5-424a-8fdd-0a6b377ff9e8"
+    },
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": {
+      "__uuid__": "cbd29357-c22e-4624-90fc-b3ae963498f7"
+    },
+    "_id": "1eKaYDyo1LV6mGgNPWgFXn"
+  },
+  {
+    "__type__": "cc.Node",
     "_name": "freespin",
     "_objFlags": 0,
     "_parent": {
@@ -15332,19 +15428,19 @@
     },
     "_children": [
       {
-        "__id__": 324
-      },
-      {
-        "__id__": 328
+        "__id__": 326
       },
       {
         "__id__": 330
+      },
+      {
+        "__id__": 332
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 332
+        "__id__": 334
       }
     ],
     "_prefab": null,
@@ -15400,19 +15496,19 @@
     "_name": "spin",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 323
+      "__id__": 325
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 325
-      },
-      {
-        "__id__": 326
-      },
-      {
         "__id__": 327
+      },
+      {
+        "__id__": 328
+      },
+      {
+        "__id__": 329
       }
     ],
     "_prefab": null,
@@ -15468,7 +15564,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 324
+      "__id__": 326
     },
     "_enabled": true,
     "spriteFrameSet": [],
@@ -15483,7 +15579,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 324
+      "__id__": 326
     },
     "_enabled": true,
     "_materials": [
@@ -15517,7 +15613,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 324
+      "__id__": 326
     },
     "_enabled": true,
     "spriteFrameSet": [],
@@ -15532,13 +15628,13 @@
     "_name": "freeSpinvalue",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 323
+      "__id__": 325
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 329
+        "__id__": 331
       }
     ],
     "_prefab": null,
@@ -15594,7 +15690,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 328
+      "__id__": 330
     },
     "_enabled": true,
     "_materials": [
@@ -15629,13 +15725,13 @@
     "_name": "txt_freespins",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 323
+      "__id__": 325
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 331
+        "__id__": 333
       }
     ],
     "_prefab": null,
@@ -15691,7 +15787,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 330
+      "__id__": 332
     },
     "_enabled": true,
     "_materials": [
@@ -15725,7 +15821,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 323
+      "__id__": 325
     },
     "_enabled": false,
     "_layoutSize": {
@@ -15761,10 +15857,10 @@
     },
     "_children": [
       {
-        "__id__": 334
+        "__id__": 336
       },
       {
-        "__id__": 337
+        "__id__": 339
       }
     ],
     "_active": false,
@@ -15822,16 +15918,16 @@
     "_name": "txt",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 333
+      "__id__": 335
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 335
+        "__id__": 337
       },
       {
-        "__id__": 336
+        "__id__": 338
       }
     ],
     "_prefab": null,
@@ -15887,7 +15983,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 334
+      "__id__": 336
     },
     "_enabled": true,
     "_materials": [
@@ -15921,7 +16017,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 334
+      "__id__": 336
     },
     "_enabled": true,
     "spriteFrameSet": [],
@@ -15936,13 +16032,13 @@
     "_name": "autoSpinValue",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 333
+      "__id__": 335
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 338
+        "__id__": 340
       }
     ],
     "_prefab": null,
@@ -15998,7 +16094,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 337
+      "__id__": 339
     },
     "_enabled": true,
     "_materials": [
@@ -16027,102 +16123,6 @@
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": "277WUoxixCTYaEi6XHc+5G"
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "disable",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 308
-    },
-    "_children": [],
-    "_active": false,
-    "_components": [
-      {
-        "__id__": 340
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 150,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 166,
-      "height": 166
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        2.4492935982947064e-16,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": -720
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "8cLxrf4b1OmaAI2+a/WutV"
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "Drum<Sprite>",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 339
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "9c27083d-e2e5-424a-8fdd-0a6b377ff9e8"
-    },
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "cbd29357-c22e-4624-90fc-b3ae963498f7"
-    },
-    "_id": "1eKaYDyo1LV6mGgNPWgFXn"
   },
   {
     "__type__": "cc.Animation",
@@ -16161,13 +16161,13 @@
       "__id__": 320
     },
     "freeSpinLabel": {
-      "__id__": 329
+      "__id__": 331
     },
     "autoSpinCountLabel": {
-      "__id__": 338
+      "__id__": 340
     },
     "textSpinInFreeSpin": {
-      "__id__": 324
+      "__id__": 326
     },
     "spinAnimation": {
       "__id__": 341
@@ -16245,7 +16245,7 @@
     "_N$disabledSprite": null,
     "_N$target": null,
     "disableNode": {
-      "__id__": 339
+      "__id__": 323
     },
     "activeNode": null,
     "_id": "1eWWttAmxNB5Bd7TmFO/h9"
