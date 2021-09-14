@@ -7,19 +7,17 @@ export default class CommonDialog extends BounceInEffect {
     @property({ override: true })
     time = 0.4;
 
-    private onDidHideActions = [];
-    private onWillShowActions = [];
+    private readonly onDidHideActions = [];
+    private readonly onWillShowActions = [];
 
     closeDialog(enableSound = true) {
-        this.node.runAction(
-            cc.sequence(
-                cc.spawn(cc.scaleTo(this.time, 0).easing(cc.easeBackIn()), cc.fadeTo(this.time, 0)),
-                cc.callFunc(() => {
-                    this.node.active = false;
-                    this.onDidHide();
-                })
-            )
-        );
+        cc.tween(this.node)
+            .to(this.time, { scale: 0, opacity: 0 }, { easing: "backIn" })
+            .call(() => {
+                this.node.active = false;
+                this.onDidHide();
+            })
+            .start();
 
         enableSound && cc.RedT.audio.playUnClick();
     }
