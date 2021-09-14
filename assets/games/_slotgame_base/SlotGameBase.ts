@@ -496,28 +496,34 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
 
         if (!this.isAnimatingResult && !this.isFreeSpin()) {
-            const node = cc.instantiate(this.autoSpinDialogPrefab);
-            this.currentMiniPanel.addDialog(node);
-            this.isShowAutoSpinSettingDialog = true;
-            const dialog = node.getComponent(AutoSpinSettingDialog);
-            dialog.onConfirmCallback = (autoSpinCount: number) => {
-                this.setAutoSpinCount(autoSpinCount);
-                this.updateModeSpinButton(false);
-                this.hideWinningEffectOnItems();
-                this.stopAllFinishTweens();
-                this.countDownAutoSpin.show(
-                    autoSpinCount,
-                    () => this.spin(),
-                    () => !this.isAutoSpinMode()
-                );
-                this.isShowAutoSpinSettingDialog = false;
-            };
-
-            dialog.onCancelCallback = () => {
-                this.resetStateButtons();
-                this.isShowAutoSpinSettingDialog = false;
-            };
+            this.createAutoSpinDialog();
         }
+    }
+
+    createAutoSpinDialog(): AutoSpinSettingDialog {
+        const node = cc.instantiate(this.autoSpinDialogPrefab);
+        this.currentMiniPanel.addDialog(node);
+        this.isShowAutoSpinSettingDialog = true;
+        const dialog = node.getComponent(AutoSpinSettingDialog);
+        dialog.onConfirmCallback = (autoSpinCount: number) => {
+            this.setAutoSpinCount(autoSpinCount);
+            this.updateModeSpinButton(false);
+            this.hideWinningEffectOnItems();
+            this.stopAllFinishTweens();
+            this.countDownAutoSpin.show(
+                autoSpinCount,
+                () => this.spin(),
+                () => !this.isAutoSpinMode()
+            );
+            this.isShowAutoSpinSettingDialog = false;
+        };
+
+        dialog.onCancelCallback = () => {
+            this.resetStateButtons();
+            this.isShowAutoSpinSettingDialog = false;
+        };
+
+        return dialog;
     }
 
     consumeAutoSpinCount() {

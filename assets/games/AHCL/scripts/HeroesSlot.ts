@@ -1,4 +1,5 @@
 import { GameIds } from "../../../configs/SabaConfigs";
+import AutoSpinSettingDialog from "../../_slotgame_base/AutoSpinSettingDialog";
 import SlotGameBase from "../../_slotgame_base/SlotGameBase";
 import { FourGuardiansSlotConfigs } from "../../four-guardians/scripts/FourGuardiansSlotConfigs";
 
@@ -6,6 +7,9 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class HeroesSlot extends SlotGameBase {
+    @property(cc.Node)
+    bgAutoSpinDialog: cc.Node = null;
+
     constructor() {
         super();
         this.gameId = GameIds.HeroesSlot;
@@ -14,5 +18,14 @@ export default class HeroesSlot extends SlotGameBase {
 
     initSlotGameConfig() {
         this.slotGameConfigs = new FourGuardiansSlotConfigs();
+    }
+
+    createAutoSpinDialog(): AutoSpinSettingDialog {
+        const dialog = super.createAutoSpinDialog();
+        this.bgAutoSpinDialog.active = true;
+        dialog.dialog.onDidHide = () => {
+            this.bgAutoSpinDialog.active = false;
+        };
+        return dialog;
     }
 }
