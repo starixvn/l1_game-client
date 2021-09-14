@@ -19,12 +19,18 @@ export default class SlotReel extends cc.Component {
 
     public slotGameConfig: SlotGameBaseConfigs;
     public winningContainer: cc.Node;
+    private layout: cc.Layout;
+    private itemHeight = 0;
+    private spacingY = 0;
 
     public get itemTypeCount() {
         return this.items[0].itemPrefabs.length || 0;
     }
 
     onLoad() {
+        this.layout = this.node.getComponent(cc.Layout);
+        this.spacingY = this.layout.spacingY;
+
         this.createReel();
     }
 
@@ -38,9 +44,9 @@ export default class SlotReel extends cc.Component {
             item.setItem(random);
         }
 
-        const layout = this.node.getComponent(cc.Layout);
-        layout.updateLayout();
-        layout.enabled = false;
+        this.itemHeight = this.items[0].node.height;
+        this.layout.updateLayout();
+        this.layout.enabled = false;
     }
 
     setReelData(items: number[]) {
@@ -50,9 +56,14 @@ export default class SlotReel extends cc.Component {
         });
     }
 
+    private getMovingOffset(): number {
+        const offsetHeight = 3 * this.itemHeight + 2 * this.spacingY;
+        return -(this.node.height - offsetHeight);
+    }
+
     spin(spinDuration = 1) {
-        const boardHeight = this.node.parent.height;
-        const moving = cc.moveTo(spinDuration, cc.v2(this.node.x, -(this.node.height - boardHeight))).easing(cc.easeInOut(3));
+        const offset = this.getMovingOffset();
+        const moving = cc.moveTo(spinDuration, cc.v2(this.node.x, offset)).easing(cc.easeInOut(3));
         this.node.runAction(
             cc.sequence(
                 moving,
