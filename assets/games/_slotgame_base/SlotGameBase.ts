@@ -808,7 +808,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
     }
 
-    onClickShowGuide() {
+    openGuide() {
+        super.openGuide();
         cc.RedT.audio.playClick();
         this.expandableMenu.collapseMenu();
     }
