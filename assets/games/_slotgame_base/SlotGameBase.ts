@@ -215,7 +215,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     showJackpotInfo(show: boolean) {
-        if (!this.jackpotEnabled) {
+        if (!this.jackpotPoolLabel) {
             return;
         }
         this.jackpotPoolInfo.node.active = show;
