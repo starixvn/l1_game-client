@@ -1,4 +1,3 @@
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -7,15 +6,23 @@ export default class GameNotification extends cc.Component {
     gameId = 1;
 
     @property
-    key = "lobby"
+    key = "lobby";
 
     @property(cc.Node)
     noticeNode: cc.Node = null;
 
-    dataKey = "";
+    private dataKey = "";
+    private isScheduling = false;
+
     onLoad() {
         this.dataKey = `${this.key}_${this.gameId}`;
         cc.RedT.addDataObserver(this.dataKey, this.receivedData.bind(this));
+        this.getData();
+        this.schedule(this.getData, 1, cc.macro.REPEAT_FOREVER, 0);
+        this.isScheduling = true;
+    }
+
+    private getData() {
         cc.RedT.send({
             gameNotifications: {
                 gameId: this.gameId
@@ -27,12 +34,21 @@ export default class GameNotification extends cc.Component {
         cc.RedT.removeDataObserver(this.dataKey);
     }
 
-    receivedData(data) {
+    private receivedData(data) {
         if (data.gameNotifications) {
-            const notification = data.gameNotifications.find(notification => notification.gameId === this.gameId);
+            this.removeSchedule();
+            const notification = data.gameNotifications.find((notification) => notification.gameId === this.gameId);
             if (notification) {
                 this.noticeNode.active = true;
             }
+        }
+    }
+
+    removeSchedule() {
+        if (this.isScheduling) {
+            this.getData();
+            this.unschedule(this.getData);
+            this.isScheduling = false;
         }
     }
 }

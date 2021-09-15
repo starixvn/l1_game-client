@@ -142,7 +142,6 @@ cc.Class({
         }
     },
     onSignIn() {
-        this.getGameNotifications();
         if (!this.initializedLobby) {
             this.initLobby();
         }
@@ -240,16 +239,6 @@ cc.Class({
                 }
             })
             .start();
-    },
-    getGameNotifications() {
-        const list = [23, 29];
-        list.forEach((id) => {
-            cc.RedT.send({
-                gameNotifications: {
-                    gameId: id
-                }
-            });
-        });
     },
     repositionMenu() {
         const adsWidth = this.bannerContainer.width;
