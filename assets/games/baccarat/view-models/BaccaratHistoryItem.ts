@@ -1,4 +1,5 @@
 import _ = require("lodash");
+
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import BaccaratCards from "./BaccaratCards";
@@ -43,7 +44,7 @@ export default class BaccaratHistoryItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    setData(betLog: any, index: number) {
+    setData(betLog: any) {
         const { time, phien, settlementResult, betwin } = betLog;
 
         this.time.string = getStringDateByTime(time);
@@ -62,9 +63,13 @@ export default class BaccaratHistoryItem extends cc.Component {
                 currentItem.string = numberWithCommas(betLog[key]);
             }
         });
+        this.showCards(betLog);
     }
 
-    showCards(betLog: any) {
+    private showCards(betLog: any) {
+        if (!this.playerCards || !this.bankerCards) {
+            return;
+        }
         const playerCards = _.values(betLog.result.player);
         const bankerCards = _.values(betLog.result.banker);
         this.playerCards.init(null, false);
