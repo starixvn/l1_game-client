@@ -10,5 +10,6 @@ export default class VipBaccaratHistory extends SocketIOGameHistoryBase {
         this.node.active = true;
         this.content.addChild(historyItemPrefab);
         item.setData(betLog, index);
+        item.showCards(betLog);
     }
 }

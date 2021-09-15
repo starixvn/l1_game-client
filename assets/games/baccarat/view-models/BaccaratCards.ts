@@ -216,7 +216,7 @@ export default class BaccaratCards extends cc.Component {
             cc.spawn(
                 cc.rotateTo(this.flyCardSecond, angle).easing(cc.easeInOut(2)),
                 cc.scaleTo(this.flyCardSecond, 1).easing(cc.easeInOut(2)),
-                cc.moveTo(this.flyCardSecond, cardPosition).easing(cc.easeInOut(2))
+                cc.moveTo(this.flyCardSecond, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
             )
         );
 
@@ -271,7 +271,7 @@ export default class BaccaratCards extends cc.Component {
                 delayTime += this.openCardSecond;
             } else {
                 this.cardBack.node.active = true;
-                const position = cc.v2(currentCard.position.x - currentCard.width / 2, currentCard.position.y - currentCard.height / 2);
+                const position = cc.v3(currentCard.position.x - currentCard.width / 2, currentCard.position.y - currentCard.height / 2, 0);
                 this.cardBack.node.position = position;
                 this.setActionCardBack();
 

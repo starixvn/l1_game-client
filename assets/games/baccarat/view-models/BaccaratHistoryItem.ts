@@ -43,20 +43,13 @@ export default class BaccaratHistoryItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    setData(betLog, index) {
-        const { time, phien, result, settlementResult, betwin } = betLog;
+    setData(betLog: any, index: number) {
+        const { time, phien, settlementResult, betwin } = betLog;
 
         this.time.string = getStringDateByTime(time);
         this.round.string = phien;
         this.win.string = numberWithCommas(betwin);
         this.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-
-        const playerCards = _.values(result.player);
-        const bankerCards = _.values(result.banker);
-        this.playerCards.init(null, false);
-        this.bankerCards.init(null, false);
-        this.playerCards.showCardsWithoutAnimation(playerCards);
-        this.bankerCards.showCardsWithoutAnimation(bankerCards);
 
         const resultKeys = _.keys(settlementResult);
 
@@ -69,5 +62,14 @@ export default class BaccaratHistoryItem extends cc.Component {
                 currentItem.string = numberWithCommas(betLog[key]);
             }
         });
+    }
+
+    showCards(betLog: any) {
+        const playerCards = _.values(betLog.result.player);
+        const bankerCards = _.values(betLog.result.banker);
+        this.playerCards.init(null, false);
+        this.bankerCards.init(null, false);
+        this.playerCards.showCardsWithoutAnimation(playerCards);
+        this.bankerCards.showCardsWithoutAnimation(bankerCards);
     }
 }
