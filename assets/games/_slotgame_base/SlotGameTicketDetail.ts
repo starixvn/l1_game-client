@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
 import GameUtils from "../../common/GameUtils";
-import SlotGameTicketDetailItem from "./SlotGameTicketDetailtItem";
+import SlotGameTicketDetailItem from "./SlotGameTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
 
