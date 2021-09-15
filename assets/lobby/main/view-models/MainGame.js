@@ -72,7 +72,6 @@ cc.Class({
     initRedT() {
         if (void 0 === cc.RedT) {
             cc.RedT = baseControll;
-            console.log("cc.RedT ready");
             cc.RedT.init(this.loading);
         }
     },
@@ -156,9 +155,6 @@ cc.Class({
             }
             this.initLobby();
         }
-    },
-    onSocketError() {
-        //this.loadLobbyMenuFromStorage();
     },
     initLobby() {
         this.initLobbyMenu();
@@ -463,8 +459,6 @@ cc.Class({
     AllReset: function () {
         this.loading.active = false;
         this.newsContents.reset();
-        //this.header.isSignOut();
-        //this.dialog.onCloseDialog();
     },
 
     playMusic: function () {
