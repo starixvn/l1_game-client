@@ -44,7 +44,7 @@ export default class GameNotification extends cc.Component {
         }
     }
 
-    removeSchedule() {
+    private removeSchedule() {
         if (this.isScheduling) {
             this.getData();
             this.unschedule(this.getData);
