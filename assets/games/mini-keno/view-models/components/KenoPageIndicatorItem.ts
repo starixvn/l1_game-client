@@ -22,9 +22,8 @@ export default class KenoPageIndicatorItem extends cc.Component {
     // effect: cc.Node = null;
 
     private highlighted = false;
-    private miniKeno: MiniKeno;
+    public miniKeno: MiniKeno;
     private currentTimeRemaining: number;
-    private dataKey: string;
 
     init(miniKeno: MiniKeno) {
         this.miniKeno = miniKeno;
@@ -44,7 +43,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
         this.proressBar.barSprite.spriteFrame = backSprite;
         this.proressBar.getComponent(cc.Sprite).spriteFrame = backSprite;
 
-        this.dataKey = `indicator_${this.miniKeno.gameName}`;
         this.updateImage();
     }
 
@@ -68,21 +66,22 @@ export default class KenoPageIndicatorItem extends cc.Component {
 
     onLoad() {
         this.node.active = false;
-        cc.RedT.addDataObserver(this.dataKey, (data) => this.receivedData(data));
     }
 
-    receivedData(data) {
-        const dataGame = data[this.miniKeno.gameName];
-        if (dataGame) {
-            if (dataGame.um) {
-                this.currentTimeRemaining = this.miniKeno.config.betTime;
-                this.unschedule(this.updateTime);
-                this.updateImage();
-            } else if (dataGame.remainingTime) {
-                this.currentTimeRemaining = dataGame.remainingTime - 1;
-                this.unschedule(this.updateTime);
-                this.playTime();
-            }
+    stop() {
+        this.unschedule(this.updateTime);
+        this.proressBar.progress = 1;
+    }
+
+    setData(data) {
+        if (data.um) {
+            this.currentTimeRemaining = this.miniKeno.config.betTime;
+            this.unschedule(this.updateTime);
+            this.updateImage();
+        } else if (data.remainingTime) {
+            this.currentTimeRemaining = data.remainingTime - 1;
+            this.unschedule(this.updateTime);
+            this.playTime();
         }
     }
 
@@ -97,10 +96,6 @@ export default class KenoPageIndicatorItem extends cc.Component {
         if (this.currentTimeRemaining < 0) {
             this.unschedule(this.updateTime);
         }
-    }
-
-    onDestroy() {
-        cc.RedT.removeDataObserver(this.dataKey);
     }
 
     eventOnEnter() {

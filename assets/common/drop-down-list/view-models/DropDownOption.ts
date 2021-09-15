@@ -1,10 +1,10 @@
 export default class DropDownOption {
-    constructor(value: string, text: string) {
-        this.value = value;
+    constructor(gameId: number, text: string) {
+        this.gameId = gameId;
         this.text = text;
     }
 
-    value = "";
+    gameId = 0;
 
     text = "";
 }

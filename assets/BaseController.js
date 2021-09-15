@@ -1,6 +1,5 @@
 import i18n from "i18n/runtime-scripts/LanguageData";
 
-import * as authManager from "./common/auth/AuthManager";
 import { buildServerUrl } from "./common/helpers/UrlHelper";
 import logger from "./common/logger";
 import configs from "./configs/Configs";
@@ -66,6 +65,18 @@ module.exports = {
     _encodeMessage: function (message) {
         return JSON.stringify(message);
     },
+    callAuthentication: function () {
+        if (!!window.authData) {
+            const authentication = {
+                username: window.authData.username,
+                data: window.authData
+            };
+
+            setTimeout(() => {
+                cc.RedT.send({ authentication });
+            }, 500);
+        }
+    },
     _onSocketConnect: function () {
         cc.RedT.isConnected = true;
         if (cc.RedT.inGame && cc.RedT.inGame.loading) {
@@ -73,7 +84,7 @@ module.exports = {
         }
 
         if (cc.RedT.IS_LOGIN) {
-            authManager && authManager.auth();
+            cc.RedT.callAuthentication();
         }
 
         setTimeout(function () {

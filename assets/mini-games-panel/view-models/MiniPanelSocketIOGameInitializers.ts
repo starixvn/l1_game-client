@@ -36,7 +36,10 @@ export default class MiniPanelSocketIOGameInitializers {
                 gameServerUrl,
                 gameName,
                 proxyRoute,
-                this.main.onConnectSocketFailed.bind(this.main)
+                this.main.onConnectSocketFailed.bind(this.main),
+                true,
+                true,
+                null
             );
             socket.on("message", (data) => {
                 if (data.um) {
@@ -56,7 +59,7 @@ export default class MiniPanelSocketIOGameInitializers {
                 socket.disconnect();
             });
 
-            this.socketIOController.gameSockets[gameId] = socket;
+            this.socketIOController.assignSocket(gameId, socket);
         });
     }
 }

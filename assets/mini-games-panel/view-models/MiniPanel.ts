@@ -55,7 +55,7 @@ export default class MiniPanel extends BaseComponent {
     public dataHandlers: MiniPanelDataHandlers;
     public currentGameRoomId: number;
     public skipShowApiErrorGameIds: number[] = [];
-    private gameMiniInitializers: MiniPanelMiniGameInitializers;
+    public gameMiniInitializers: MiniPanelMiniGameInitializers;
     private socketIOGameInitializers: MiniPanelSocketIOGameInitializers;
     private miniGamesCache = {};
 
@@ -172,11 +172,15 @@ export default class MiniPanel extends BaseComponent {
         this.gameMiniInitializers.openGame(id);
     }
 
+    openMiniContainerGame(id) {
+        this.gameMiniInitializers.openMiniContainerGame(id);
+    }
+
     openNewSocketMiniGame(e, id) {
         this.gameMiniInitializers.openNewSocket(id);
     }
 
-    openNewGameSocket(event, gameId) {
+    openNewSocketTableGame(event, gameId) {
         this.socketIOGameInitializers.openGame(gameId);
     }
 
@@ -221,7 +225,7 @@ export default class MiniPanel extends BaseComponent {
 
     showNotice(noticeData: NoticeData, handleClickButton: () => void = null, handleClose: () => void = null) {
         const noticePrefab = cc.instantiate(this.noticePrefab);
-        const notice = noticePrefab.getComponent("Notice") as Notice;
+        const notice = noticePrefab.getComponent(Notice);
 
         noticeData.button = { text: "OK" };
         notice.init(noticeData);

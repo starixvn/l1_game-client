@@ -5,34 +5,49 @@ import GameBase from "./GameBase";
 
 export default abstract class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
-    private readonly socketIOController: SocketIOController;
+    public readonly socketIOController: SocketIOController;
 
     public socket: SocketIOClient.Socket;
+
+    public isMiniGameInContainer = false;
 
     onLoad() {
         super.onLoad();
 
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
+        if (!this.isMiniGameInContainer) {
+            if (!cc.sys.isMobile) {
+                this.node.scale = 0.8;
+            }
 
-        const draggableItem = this.getComponent(DraggableItem);
-        draggableItem.touchCallback.start = (node) => {
-            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
-        };
+            const draggableItem = this.getComponent(DraggableItem);
+            draggableItem.touchCallback.start = (node) => {
+                this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+            };
+        }
     }
 
     startGame() {
         super.startGame();
-        this.socket = this.socketIOController.gameSockets[this.gameId];
+        this.grantSocket();
+        this.initSocketListenter();
+    }
 
+    grantSocket() {
+        this.socket = this.socketIOController.getSocketGame(this.gameId);
+    }
+
+    initSocketListenter() {
         if (this.socket) {
             this.socket.off(this.gameName).on(this.gameName, this.onData.bind(this));
-            this.socket.off("disconnect").on("disconnect", this.closeGame.bind(this));
+            this.socket.off("disconnect").on("disconnect", this.onDisconnected.bind(this));
         }
     }
 
-    protected registerViewGame() {
+    onDisconnected() {
+        this.closeGame();
+    }
+
+    public registerViewGame() {
         this.socket && this.socket.connected && this.socket.emit("inGame");
     }
 

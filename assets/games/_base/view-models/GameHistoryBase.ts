@@ -13,7 +13,7 @@ export default class GameHistoryBase extends cc.Component {
 
     protected gameName: string;
 
-    init(gameName) {
+    setCurrentGameName(gameName) {
         this.gameName = gameName;
     }
 

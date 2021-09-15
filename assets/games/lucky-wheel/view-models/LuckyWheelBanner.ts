@@ -14,7 +14,7 @@ export default class LuckyWheelBanner extends cc.Component {
     openSedie() {
         const dialog = this.node.getComponent("CommonDialog");
         dialog.closeDialog();
-        this.miniPanel.openNewGameSocket(null, GameIds.SeDie);
+        this.miniPanel.openNewSocketTableGame(null, GameIds.SeDie);
     }
 
     onDisable() {

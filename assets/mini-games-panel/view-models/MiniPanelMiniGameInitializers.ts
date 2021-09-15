@@ -72,41 +72,56 @@ export default class MiniPanelMiniGameInitializers {
         }
 
         this.main.loading.node.active = true;
+        this.openMiniGame(parseInt(id));
+    }
 
-        id = parseInt(id);
-        this.openMiniGame(id);
+    openMiniContainerGame(id: string) {
+        this.main.loading.node.active = true;
+        this.openMiniGame(parseInt(id));
     }
 
     openNewSocket(gameId) {
         this.main.loading.node.active = true;
-        const currentSocket: SocketIOClient.Socket = this.socketIOController.gameSockets[gameId];
+        const currentSocket: SocketIOClient.Socket = this.socketIOController.getSocketGame(gameId);
 
         if (currentSocket && currentSocket.connected) {
             this.openMiniGame(gameId);
         } else {
-            const gameName = GameUtils.getGameNameString(gameId);
-            const proxyRoute = getProxyRoute(gameId);
-            const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
-            const socket = this.socketIOController.connectGameSocket(
-                gameServerUrl,
-                gameName,
-                proxyRoute,
-                this.main.onConnectSocketFailed.bind(this.main),
-                false
-            );
-
+            const socket = this.setUpSocketForGame(gameId, true, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {
                     return;
                 }
                 this.openMiniGame(gameId);
             });
-
-            socket.on("forceDisconnect", () => {
-                socket.disconnect();
-            });
-
-            this.socketIOController.gameSockets[gameId] = socket;
         }
+    }
+
+    setUpSocketForGame(gameId: number, forceNew: boolean, gameContainer: any): SocketIOClient.Socket {
+        const gameName = GameUtils.getGameNameString(gameId);
+        const proxyRoute = getProxyRoute(gameId);
+        const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
+        const socket = this.socketIOController.connectGameSocket(
+            gameServerUrl,
+            gameName,
+            proxyRoute,
+            (name, isGameRoom) => {
+                this.main.onConnectSocketFailed(name, isGameRoom);
+
+                if (gameContainer && gameContainer.hideContainer) {
+                    gameContainer.hideContainer();
+                }
+            },
+            false,
+            forceNew,
+            gameContainer
+        );
+
+        socket.on("forceDisconnect", () => {
+            socket.disconnect();
+        });
+
+        this.socketIOController.assignSocket(gameId, socket);
+        return socket;
     }
 }

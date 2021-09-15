@@ -7,40 +7,60 @@ import { GameInfos } from "./configs/SabaConfigs";
 
 @injectable()
 export default class SocketIOController {
-    public gameSockets = {};
+    private gameSockets = {};
+
+    getSocketGame(gameId: number) {
+        return this.gameSockets[gameId.toString()];
+    }
+
+    assignSocket(gameId: number, socket: SocketIOClient.Socket) {
+        this.gameSockets[gameId.toString()] = socket;
+    }
 
     connectGameSocket = (
         socketUri: string,
         gameName: string,
         proxyRoute: string,
         onConnectFailed: (gameName, isGameRoom) => void,
-        isGameRoom = true
+        isGameRoom: boolean,
+        forceNew: boolean,
+        gameContainer: any
     ): SocketIOClient.Socket => {
-        const socket = socketIo(socketUri, { forceNew: true, transports: ["websocket"], upgrade: false, path: proxyRoute });
+        const socket = socketIo(socketUri, {
+            forceNew: forceNew,
+            transports: ["websocket"],
+            upgrade: false,
+            path: proxyRoute
+        });
+
+        const needCallCallback = !gameContainer || gameContainer.isMain;
+        let name = gameName;
+        if (gameContainer && gameContainer.alternativeName) {
+            name = gameContainer.alternativeName;
+        }
 
         socket.on("connect", () => {
             socket.emit("signin", getSession());
         });
 
         socket.on("reconnect", () => {
-            // sentryLogger.logError(`${gameName} socket reconnect`);
             socket.sendBuffer = [];
         });
 
         socket.on("connect_failed", () => {
             socket.disconnect();
-            onConnectFailed(gameName, isGameRoom);
+            if (needCallCallback) {
+                onConnectFailed(name, isGameRoom);
+            }
         });
 
         socket.on("connect_error", (error) => {
             console.log(error);
             sentryLogger.logError(error);
             socket.disconnect();
-            onConnectFailed(gameName, isGameRoom);
-        });
-
-        socket.on("disconnect", (reason) => {
-            // sentryLogger.log(`${gameName} socket disconnect: ${reason}`);
+            if (needCallCallback) {
+                onConnectFailed(name, isGameRoom);
+            }
         });
 
         return socket;
