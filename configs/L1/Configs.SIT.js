@@ -15,7 +15,7 @@ const configs = {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
-    guideDomain: "l1guidessit.sgamesuat.com",
+    guideDomain: "https://l1guidessit.sgamesuat.com",
     userServiceUrl: "https://l1uatproxy.sgamesuat.com/sit/user"
 };
 
