@@ -11,10 +11,10 @@ export default class PaginationCommonItem extends cc.Component {
     @property(cc.Label)
     number: cc.Label = null;
 
-    @property(cc.Color)
+    @property
     textHighlightColor = cc.Color.BLACK;
 
-    @property(cc.Color)
+    @property
     textNormalColor = cc.Color.WHITE;
 
     updateHighlight(highlight: boolean) {

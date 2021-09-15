@@ -11,10 +11,10 @@ export default class LineItem extends cc.Component {
     @property(cc.Label)
     num: cc.Label = null;
 
-    @property(cc.Color)
+    @property
     highlightLabelColor: cc.Color = cc.color(255, 198, 0);
 
-    @property(cc.Color)
+    @property
     normalLabelColor: cc.Color = cc.color(126, 97, 0);
 
     setChecked(checked: boolean) {

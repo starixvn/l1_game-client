@@ -29,17 +29,16 @@ export default class SlotGameHistoryItem extends cc.Component {
     @property(cc.Node)
     jackpotIcon: cc.Node = null;
 
-    @property(cc.Color)
+    @property
     textHighlightColor = cc.Color.YELLOW;
 
-    @property(cc.Color)
+    @property
     textNormalColor = cc.Color.WHITE;
 
-    @property()
+    @property
     enableHighlightBg = false;
 
     @property({
-        type: cc.Color,
         visible: function (this: SlotGameHistoryItem) {
             return this.enableHighlightBg;
         }

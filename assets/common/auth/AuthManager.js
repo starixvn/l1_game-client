@@ -113,8 +113,6 @@ export function signOut() {
     sessionManager.removeSession();
 }
 
-let autoTriggerSignInTimeout = null;
-
 export function triggerSignIn(main) {
     if (!!window.authData) {
         UserService.getInstance()

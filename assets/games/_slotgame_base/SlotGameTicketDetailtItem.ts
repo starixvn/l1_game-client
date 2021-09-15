@@ -3,7 +3,7 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SlotGamethisItem extends cc.Component {
+export default class SlotGameTicketDetailItem extends cc.Component {
     @property(cc.Label)
     order: cc.Label = null;
 
