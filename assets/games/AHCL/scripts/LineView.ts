@@ -20,6 +20,7 @@ export default class LineView extends cc.Component {
     isLabelLeft = true;
 
     private light: cc.Node = null;
+    private subLines = {};
 
     onLoad() {
         this.light = cc.instantiate(this.lightPrefab);
@@ -98,7 +99,11 @@ export default class LineView extends cc.Component {
                 continue;
             }
 
-            const node = this.node.children[i] || this.createSubLine();
+            let node = this.subLines[i];
+            if (!node) {
+                node = this.createSubLine();
+                this.subLines[i] = node;
+            }
             lastNode = node;
 
             node.angle = this.calculateAngle(start, end);
