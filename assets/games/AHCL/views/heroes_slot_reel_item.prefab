@@ -110,8 +110,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 182,
-      "height": 180
+      "width": 205,
+      "height": 205
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -165,7 +165,7 @@
     "defaultAnimation": "winning-effect",
     "_preCacheMode": 1,
     "_cacheMode": 1,
-    "loop": true,
+    "loop": false,
     "premultipliedAlpha": true,
     "timeScale": 1,
     "_accTime": 0,
@@ -176,7 +176,7 @@
     "_animationName": "winning-effect",
     "_animationQueue": [],
     "_headAniInfo": null,
-    "_playTimes": 0,
+    "_playTimes": 1,
     "_isAniComplete": true,
     "_N$skeletonData": {
       "__uuid__": "1b4ae44e-c1a5-4d14-9863-ec619dba0471"
@@ -638,6 +638,9 @@
     },
     "winningEffect": {
       "__id__": 2
+    },
+    "effectSpine": {
+      "__id__": 3
     },
     "_id": ""
   },

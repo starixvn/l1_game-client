@@ -11,6 +11,9 @@ export default class SlotReelItem extends cc.Component {
     @property(cc.Node)
     winningEffect: cc.Node = null;
 
+    @property(sp.Skeleton)
+    effectSpine: sp.Skeleton = null;
+
     public index = -1;
 
     onLoad() {
@@ -33,5 +36,14 @@ export default class SlotReelItem extends cc.Component {
 
     showWinningEffect(show: boolean) {
         this.winningEffect.active = show;
+        if (show) {
+            this.playEffectSpine();
+        }
+    }
+
+    private playEffectSpine() {
+        if (this.effectSpine) {
+            this.effectSpine.setAnimation(0, this.effectSpine.animation, false);
+        }
     }
 }
