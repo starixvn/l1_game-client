@@ -26,11 +26,110 @@ describe("Test class BaccaratHistoryItem", () => {
         comp.small = new cc.Node().addComponent(cc.Label);
     });
     describe("Test method setData", () => {
-        it("Case 1", () => {
+        it("Case 1: betwin = 0", () => {
             // Arrange
             const betLog = {
+                freeBet: false,
                 phien: 716075,
+                banker: 5,
+                bankerPair: 0,
+                betwin: 0,
+                big: 0,
+                name: "lele6001",
+                odds: {
+                    player: 2,
+                    banker: 1.96,
+                    big: 1.54,
+                    small: 2.4,
+                    tie: 8,
+                    playerPair: 11,
+                    bankerPair: 11
+                },
+                player: 0,
+                playerPair: 0,
+                small: 0,
+                tie: 0,
+                time: "2021-09-15T04:17:42.865Z",
+                result: {
+                    player: {
+                        card1: {
+                            card: 0,
+                            type: 1
+                        },
+                        card2: {
+                            card: 5,
+                            type: 1
+                        },
+                        card3: null
+                    },
+                    banker: {
+                        card1: {
+                            card: 8,
+                            type: 2
+                        },
+                        card2: {
+                            card: 11,
+                            type: 3
+                        },
+                        card3: null
+                    }
+                },
+                settlementResult: {
+                    player: true,
+                    banker: false,
+                    big: true,
+                    small: false,
+                    tie: false,
+                    playerPair: true,
+                    bankerPair: false,
+                    natural: true
+                },
+                betLogDetails: []
+            };
+            const resultKeys = _.keys(betLog.settlementResult);
+
+            // Act
+            comp.setData(betLog);
+
+            // Assert
+            expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
+            expect(comp.round.string).toMatch(betLog.phien.toString());
+            expect(comp.win.string).toMatch(betLog.betwin.toString());
+            expect(comp.win.node.color).toEqual(cc.Color.WHITE);
+            _.forEach(resultKeys, (key) => {
+                const currentItem = comp[key];
+                const isWin = betLog.settlementResult[key];
+
+                if (currentItem) {
+                    expect(comp[key].node.color).toEqual(isWin ? cc.Color.YELLOW : cc.Color.WHITE);
+                    expect(comp[key].string).toMatch(numberWithCommas(betLog[key]));
+                }
+            });
+        });
+
+        it("Case 2: betwin > 0", () => {
+            // Arrange
+            const betLog = {
+                freeBet: false,
+                phien: 716075,
+                banker: 5,
+                bankerPair: 5,
                 betwin: 21.8,
+                big: 5,
+                name: "lele6001",
+                odds: {
+                    player: 2,
+                    banker: 1.96,
+                    big: 1.54,
+                    small: 2.4,
+                    tie: 8,
+                    playerPair: 11,
+                    bankerPair: 11
+                },
+                player: 5,
+                playerPair: 5,
+                small: 5,
+                tie: 5,
                 time: "2021-09-15T04:17:42.865Z",
                 result: {
                     player: {
@@ -65,7 +164,8 @@ describe("Test class BaccaratHistoryItem", () => {
                     playerPair: false,
                     bankerPair: false,
                     natural: true
-                }
+                },
+                betLogDetails: []
             };
             const resultKeys = _.keys(betLog.settlementResult);
 
@@ -76,7 +176,7 @@ describe("Test class BaccaratHistoryItem", () => {
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
             expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.win.string).toMatch(betLog.betwin.toString());
-
+            expect(comp.win.node.color).toEqual(cc.Color.YELLOW);
             _.forEach(resultKeys, (key) => {
                 const currentItem = comp[key];
                 const isWin = betLog.settlementResult[key];
