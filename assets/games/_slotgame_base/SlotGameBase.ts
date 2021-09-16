@@ -821,7 +821,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(SlotGameHistory);
         this.historyComponent.init(this.socket);
-        this.currentMiniPanel.node.addChild(dialog);
+        this.currentMiniPanel.addDialog(dialog);
     }
 
     onClickShowTopWinner() {
@@ -831,7 +831,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         const dialog = cc.instantiate(this.topWinnerPrefab);
         const topWinnerComponent = dialog.getComponent(SlotGameTopWinner);
         topWinnerComponent.init(this.socket, this.gameName, this.jackpotEnabled);
-        this.currentMiniPanel.node.addChild(dialog);
+        this.currentMiniPanel.addDialog(dialog);
     }
 
     public get jackpotEnabled() {
