@@ -20,6 +20,9 @@ export default class SpinButton extends cc.Component {
     @property(cc.Animation)
     spinAnimation: cc.Animation = null;
 
+    @property(cc.ParticleSystem)
+    spinParticle: cc.ParticleSystem = null;
+
     active() {
         this.spinButton.interactable = true;
     }
@@ -72,7 +75,14 @@ export default class SpinButton extends cc.Component {
         this.spinAnimation.play(clips[index].name);
     }
 
+    playParticleSpin() {
+        if (this.spinParticle) {
+            this.spinParticle.resetSystem();
+        }
+    }
+
     playAnimationSpin() {
+        this.playParticleSpin();
         this.playAnimation(1);
     }
 
