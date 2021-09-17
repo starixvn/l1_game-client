@@ -8,7 +8,7 @@ export enum AutoScalePolicy {
     MatchHeight = 1,
 
     /** Fits parent's size. */
-    FitContent = 2,
+    FitContent = 2
 }
 
 /** Automatically scales to match parent's size. */
@@ -46,7 +46,7 @@ export class AutoScaleWidget extends cc.Component {
         }
     }
 
-    private updateDisplay(): void {
+    protected updateDisplay(): void {
         if (this.policy === AutoScalePolicy.MatchHeight) {
             this.node.scale = this.node.parent.height / this.node.height;
         } else if (this.policy === AutoScalePolicy.MatchWidth) {
