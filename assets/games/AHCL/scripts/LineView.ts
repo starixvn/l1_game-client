@@ -25,6 +25,7 @@ export default class LineView extends cc.Component {
     onLoad() {
         this.light = cc.instantiate(this.lightPrefab);
         this.light.active = false;
+        this.drawLines();
     }
 
     drawLines() {
@@ -42,7 +43,6 @@ export default class LineView extends cc.Component {
     }
 
     onEnable() {
-        this.drawLines();
         this.playLightAnimation();
     }
 

@@ -11,6 +11,9 @@ export default class SlotBoard extends cc.Component {
     @property(cc.Node)
     winningSymbolsNode: cc.Node = null;
 
+    @property(cc.Node)
+    itemLocationMap: cc.Node = null;
+
     private readonly reels: SlotReel[] = [];
 
     public get reelCount() {
@@ -73,9 +76,8 @@ export default class SlotBoard extends cc.Component {
         const payline = paylines[index];
         const pos = [];
         payline.forEach((position) => {
-            const { col, row } = this.getLocation(position);
-            const item = this.reels[col].getItemBottom(row);
-            const worldPos = item.node.convertToWorldSpaceAR(cc.v2(0, 0));
+            const item = this.itemLocationMap.children[position];
+            const worldPos = item.convertToWorldSpaceAR(cc.v2(0, 0));
             pos.push(worldPos);
         });
 
