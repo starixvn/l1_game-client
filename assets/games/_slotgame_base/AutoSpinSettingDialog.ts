@@ -20,6 +20,7 @@ export default class AutoSpinSettingDialog extends cc.Component {
         this.autoSpinCount = +defaultSpin;
 
         this.dialog.addOnDidHide(() => {
+            this.onDidHide();
             this.node.destroy();
         });
     }
@@ -40,7 +41,7 @@ export default class AutoSpinSettingDialog extends cc.Component {
         this.dialog.closeDialog();
     }
 
-    onDestroy() {
+    private onDidHide() {
         if (this.confirmed) {
             this.onConfirmCallback(this.autoSpinCount);
         } else {
