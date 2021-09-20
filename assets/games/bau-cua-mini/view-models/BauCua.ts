@@ -122,9 +122,9 @@ export default class BauCua extends SocketIOMiniGameBase {
 
             const node = cc.instantiate(this.prefabLogs);
             const nodeComponent = node.getComponent(BauCuaLogItems);
-            _.values(result).forEach((character: number, index: number) => {
+            nodeComponent.setData(result, this.iconMini);
+            Object.values(result).forEach((character: number) => {
                 characterCounts[character] = (characterCounts[character] ?? 0) + 1;
-                nodeComponent.icon[index].spriteFrame = this.iconMini[character];
             });
             this.contentLogs.addChild(node);
         }
