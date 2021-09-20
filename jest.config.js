@@ -8,5 +8,6 @@ module.exports = {
     testPathIgnorePatterns: ["/lib/", "/node_modules/"],
     moduleFileExtensions: ["ts", "js"],
     testMatch: ["**/__tests__/**/*.+(ts)", "**/?(*.)+(spec|test).+(ts)"],
-    transformIgnorePatterns: ["cocos2d-js-for-preview.js"]
+    transformIgnorePatterns: ["cocos2d-js-for-preview.js"],
+    clearMocks: true
 };

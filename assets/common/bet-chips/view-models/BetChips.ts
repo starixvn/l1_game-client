@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+
 import { lazyInject } from "../../../Application";
 import { nFormatter } from "../../../common/helpers/NumberHelper";
 import { ComponentSystem, ICashSystem, ICreditSystem } from "../../../System";
@@ -239,7 +240,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     public placeChipBet(bet: number, destNode: cc.Node, startNode: cc.Node = null, onComplete = () => {}) {
-        let chipPosition: cc.Vec2;
+        let chipPosition: cc.Vec3;
         const isLoginUserPlaceBet = startNode == null;
 
         if (startNode) {
@@ -274,7 +275,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     public moveChipWithCallback({ chipNode, bet, destNode, startNode, onComplete, delayDestroy, duration, fadeDuration = 1 }) {
-        let chipPosition: cc.Vec2;
+        let chipPosition: cc.Vec3;
         const isLoginUserPlaceBet = startNode == null;
         if (startNode) {
             chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
@@ -298,7 +299,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
 
         chipNode.runAction(
             cc.sequence(
-                this.moveChipTo(cc.v2(0, 0), duration),
+                this.moveChipTo(cc.v3(0, 0), duration),
                 cc.delayTime(delayDestroy),
                 cc.callFunc(() => {
                     chipNode.runAction(cc.sequence(cc.fadeOut(fadeDuration), cc.removeSelf(true)));
@@ -332,19 +333,19 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         cc.RedT.isSoundGame() && this.singleChipAudio.play();
     }
 
-    private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec2, flyTime: number = this.chipFlyingTime) {
+    private startMoveChip(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec3, flyTime: number = this.chipFlyingTime) {
         chip.runAction(this.moveChipTo(destBoxInChipBoxSpacePosition, flyTime));
         this.destroyChip(chip, flyTime);
     }
 
-    private moveChipTo(position: cc.Vec2, time: number = this.chipFlyingTime): cc.ActionInterval {
-        return cc.moveTo(time, position).easing(cc.easeSineOut());
+    private moveChipTo(position: cc.Vec3, time: number = this.chipFlyingTime): cc.ActionInterval {
+        return cc.moveTo(time, cc.v2(position.x, position.y)).easing(cc.easeSineOut());
     }
 
-    private getRandomPositionChip(chip: cc.Node, box: cc.Node): cc.Vec2 {
+    private getRandomPositionChip(chip: cc.Node, box: cc.Node): cc.Vec3 {
         const xDest = _.random(Math.floor(chip.width / 4), Math.floor(box.width - chip.width / 2) + 1);
         const yDest = _.random(Math.floor(chip.height / 4), Math.floor(box.height - chip.height / 2) + 1);
-        return cc.v2(xDest, yDest);
+        return cc.v3(xDest, yDest);
     }
 
     public createChipStack(bet: number, options: number[]) {
