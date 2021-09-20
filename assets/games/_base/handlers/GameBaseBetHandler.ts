@@ -1,13 +1,13 @@
 import * as _ from "lodash";
+
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import GameBase from "../GameBase";
 import RoomPlayer from "../view-models/RoomPlayer";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
 
 export default class GameBaseBetHandler implements DataHandler {
     protected playerChips = [];
-    constructor(protected readonly main: GameBase) {}
+    constructor(protected readonly main: any) {}
 
     handle(data: any): boolean {
         if (this.main.isStopGame || this.main.isDisableGame) {
@@ -25,14 +25,14 @@ export default class GameBaseBetHandler implements DataHandler {
         return false;
     }
 
-    handleEndBet(data) {
+    handleEndBet(data: any) {
         if (data.endBet) {
             data.endBet !== -1 && this.main.showAcceptedBet(data.endBet); //endCuoc -1 is error
             this.main.showProcessingWarning(false);
         }
     }
 
-    handleChipInMainRoom(data) {
+    handleChipInMainRoom(data: any) {
         const mainRoomGame = this.main as WebSocketTableGameBase;
         if (mainRoomGame && mainRoomGame.enablePlaceChips) {
             if (data.ownChip) {
@@ -99,13 +99,13 @@ export default class GameBaseBetHandler implements DataHandler {
         }
     }
 
-    updatePlayerSlotDataStorage(data, playerSlot) {
+    updatePlayerSlotDataStorage(data: any, playerSlot: any) {
         playerSlot.setBalance(data.red);
         playerSlot.data.idleCount = 0;
         RoomPlayer.storePlayerToCache(playerSlot.data, this.main.gameName);
     }
 
-    updateOtherDataStorage(data) {
+    updateOtherDataStorage(data: any) {
         const gameRoomMain = this.main as WebSocketTableGameBase;
         const player = gameRoomMain.playerHandler.otherPlayers[data.playerId];
 
@@ -117,7 +117,7 @@ export default class GameBaseBetHandler implements DataHandler {
         }
     }
 
-    placeTotalChips(chips) {
+    placeTotalChips(chips: any) {
         if (!chips) {
             return;
         }

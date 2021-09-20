@@ -44,7 +44,7 @@ export default class SocketIOController {
         });
 
         socket.on("reconnect", () => {
-            socket.sendBuffer = [];
+            // socket.sendBuffer = [];
         });
 
         socket.on("connect_failed", () => {
