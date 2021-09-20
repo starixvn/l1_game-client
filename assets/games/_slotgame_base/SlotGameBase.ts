@@ -413,7 +413,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     onLineSelectionClick() {
         cc.RedT.audio.playClick();
         this.expandableMenu.collapseMenu();
-        this.showStakeContainer(false);
+        this.hideStakeContrainer();
 
         const node = cc.instantiate(this.lineSelectionDialog);
         this.currentMiniPanel.addDialog(node);
@@ -439,23 +439,28 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.expandableMenu.collapseMenu();
 
         const isShowing = this.stakeContainer.node.active && this.stakeContainer.node.scaleY === 1;
-        this.showStakeContainer(!isShowing);
+        if (!isShowing) {
+            this.showStakeContainer();
+        } else {
+            this.hideStakeContrainer();
+        }
     }
 
-    showStakeContainer(show = true) {
+    hideStakeContrainer() {
         const node = this.stakeContainer.node;
-        if (show) {
-            node.active = true;
-            node.scaleY = 0;
-            cc.tween(node).to(0.2, { scaleY: 1 }).start();
-        } else {
-            cc.tween(node)
-                .to(0.2, { scaleY: 0 })
-                .call(() => {
-                    node.active = false;
-                })
-                .start();
-        }
+        cc.tween(node)
+            .to(0.2, { scaleY: 0 })
+            .call(() => {
+                node.active = false;
+            })
+            .start();
+    }
+
+    showStakeContainer() {
+        const node = this.stakeContainer.node;
+        node.active = true;
+        node.scaleY = 0;
+        cc.tween(node).to(0.2, { scaleY: 1 }).start();
     }
 
     checkAvailableBalance(): boolean {
@@ -488,7 +493,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         cc.RedT.audio.playClick();
         this.expandableMenu.collapseMenu();
         this.deactiveButtons();
-        this.showStakeContainer(false);
+        this.hideStakeContrainer();
 
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
             this.resetStateButtons();
@@ -565,7 +570,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     onStakeChanged() {
         this.updateTotalBetLabel();
         this.updateDisplayPool();
-        this.showStakeContainer(false);
+        this.hideStakeContrainer();
         if (this.jackpotPoolInfo) {
             this.jackpotPoolInfo.setHighlight(this.stake);
         }
@@ -624,7 +629,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
 
         this.stopAllFinishTweens();
-        this.showStakeContainer(false);
+        this.hideStakeContrainer();
         this.hideWinningEffectOnItems();
 
         this.lockBet();
