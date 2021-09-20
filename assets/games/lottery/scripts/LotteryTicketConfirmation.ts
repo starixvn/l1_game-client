@@ -1,11 +1,12 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BetBoard from "../../../common/bet-board/view-models/BetBoard";
-import LotteryHelper from "./LotteryHelper";
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import ItemLayout from "./ItemLayout";
 import { ChoiceType } from "./Lottery";
-import CommonDialog from "../../../common/_base/view-models/CommonDialog";
-import GameUtils from "../../../common/GameUtils";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
+import LotteryHelper from "./LotteryHelper";
 
 export interface LotteryTicketInfo {
     choiceType: number;
@@ -56,7 +57,7 @@ export default class LotteryTicketConfirmation extends BetBoard {
 
     onLoad() {
         super.onLoad();
-        this.commonDialog.onDidHide = () => this.node.destroy();
+        this.commonDialog.addOnDidHide(() => this.node.destroy());
     }
 
     protected checkBetLimit(): boolean {

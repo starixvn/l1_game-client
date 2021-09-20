@@ -1,5 +1,5 @@
-import NewCard from "../../../common/new-card/view-models/NewCard";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import NewCard from "../../../common/new-card/view-models/NewCard";
 import { ThreeCardsBetData } from "./DataDefinition";
 import ThreeCardsTicketDetailItem from "./ThreeCardsTicketDetailItem";
 import ThreeCardsWinChoiceView from "./ThreeCardsWinChoiceView";
@@ -27,9 +27,9 @@ export default class ThreeCardsTicketDetail extends cc.Component {
     commonDialog: CommonDialog = null;
 
     onLoad() {
-        this.commonDialog.onDidHide = () => {
+        this.commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     setData(data: ThreeCardsBetData) {

@@ -44,9 +44,9 @@ export default class MiniKenoHistoryDetail extends cc.Component {
         this.resultLabels = this.settleResult.children.map((child) => child.getComponent(cc.Label));
 
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     public setData(result: number[], settlementResult: any, betLogDetails: any[]) {

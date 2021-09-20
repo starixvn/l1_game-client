@@ -11,7 +11,8 @@ export class BaccaratDragonScoreBoardItemData extends DragonScoreBoardItemData {
         public isNaturalWin: boolean = false,
         public isTie: boolean = false,
         public tieCount: number = 0,
-        public isFirstTie = false) {
+        public isFirstTie = false
+    ) {
         super(key, isTie, tieCount, isFirstTie);
     }
 }
@@ -22,10 +23,7 @@ export default class BaccaratDragonScoreBoard extends DragonScoreBoard {
 
     protected buildItem(result: BaccaratDragonScoreBoardItemData) {
         const item = super.buildItem(result) as BaccaratDragonScoreBoardItem;
-        item.playerPair.active = result.isPlayerPair;
-        item.bankerPair.active = result.isBankerPair;
-        item.natural.active = result.isNaturalWin && !result.isFirstTie;
-
+        item.setData(result);
         return item;
     }
 }

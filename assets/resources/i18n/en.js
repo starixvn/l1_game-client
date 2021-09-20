@@ -31,7 +31,8 @@ window.i18n.languages.en = {
         28: "Se Die War",
         29: "Four Guardians",
         31: "RNG Lottery",
-        35: "Three Cards"
+        35: "Three Cards",
+        38: "The Legend of Heroes"
     },
     messages: {
         accountBlacklisted: "Account has been closed. Please contact CSD for details.(%{errorCode})",
@@ -217,6 +218,7 @@ window.i18n.languages.en = {
         cold_number: "Cold Numbers",
         column_number: "Column %{num}",
         confirm: "Confirm",
+        confirm2: "Confirm",
         connection_lost: "The connection is unstable, please check. ",
         create_nickname: "Create Your Nickname",
         current_scoin: "Remaining Scoin",

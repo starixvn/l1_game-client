@@ -31,9 +31,9 @@ export default class VipSedieWarTicketDetail extends cc.Component {
 
     onLoad() {
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     setData(data: any) {

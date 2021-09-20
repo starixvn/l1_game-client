@@ -113,8 +113,6 @@ export function signOut() {
     sessionManager.removeSession();
 }
 
-let autoTriggerSignInTimeout = null;
-
 export function triggerSignIn(main) {
     if (!!window.authData) {
         UserService.getInstance()
@@ -169,28 +167,7 @@ export function reCheckIn() {
                 .auth.reCheckIn(session.ss, session.username)
                 .then((response) => {
                     if (response.isSuccessful) {
-                        session.time = new Date();
-                        sessionManager.storeSessionData(session);
-
-                        if (response.apiError) {
-                            if (response.isDisableAccount) {
-                                setTimeout(signOut, 10000);
-                                const noticeData = {
-                                    text: i18n.t("messages.accountClosed")
-                                };
-                                cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
-                            } else {
-                                const errorCode = response.apiError.errorCode;
-                                const message = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
-                                const noticeData = { text: message };
-                                cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData);
-                            }
-                        } else {
-                            if (cc.RedT.user) {
-                                cc.RedT.user.red = response.balance;
-                                cc.RedT.inGame && cc.RedT.inGame.loadUserData(cc.RedT.user);
-                            }
-                        }
+                        handleResponse(session, response);
                     } else {
                         signOut();
                     }
@@ -200,4 +177,37 @@ export function reCheckIn() {
     } catch (ex) {
         console.log(JSON.stringify(ex));
     }
+}
+
+function handleResponse(session, response) {
+    session.time = new Date();
+    sessionManager.storeSessionData(session);
+
+    if (response.apiError) {
+        if (response.isDisableAccount) {
+            handleDisableAccount();
+        } else {
+            const errorCode = response.apiError.errorCode;
+            const message = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
+            const noticeData = { text: message };
+            cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData);
+        }
+    } else {
+        updateUserBalance(response.balance);
+    }
+}
+
+function updateUserBalance(balance) {
+    if (cc.RedT.user) {
+        cc.RedT.user.red = balance;
+        cc.RedT.inGame && cc.RedT.inGame.loadUserData(cc.RedT.user);
+    }
+}
+
+function handleDisableAccount() {
+    setTimeout(signOut, 10000);
+    const noticeData = {
+        text: i18n.t("messages.accountClosed")
+    };
+    cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
 }

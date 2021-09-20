@@ -1,4 +1,4 @@
-import BetItem from '../../_base/view-models/BetItem';
+import BetItem from "../../_base/view-models/BetItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,7 +27,7 @@ export default class BauCuaBetItem extends BetItem {
         this.xSprite.spriteFrame = spriteFrame;
     }
 
-    updateHighlight(show) {
+    updateHighlight(show: boolean) {
         this.highlightBorder.active = show;
         this.highlight.active = show;
     }

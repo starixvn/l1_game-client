@@ -29,9 +29,27 @@ export default class SlotGameHistoryItem extends cc.Component {
     @property(cc.Node)
     jackpotIcon: cc.Node = null;
 
+    @property
+    textHighlightColor: cc.Color = cc.Color.YELLOW;
+
+    @property
+    textNormalColor: cc.Color = cc.Color.WHITE;
+
+    @property
+    enableHighlightBg: boolean = false;
+
+    @property({
+        visible: function (this: SlotGameHistoryItem) {
+            return this.enableHighlightBg;
+        }
+    })
+    bgHighlightColor: cc.Color = cc.Color.WHITE;
+
     data: any = null;
 
-    public showTicketDetail = (data: any) => {};
+    public showTicketDetail = (data: any) => {
+        // do nohting
+    };
 
     openTicketDetail() {
         this.showTicketDetail(this.data);
@@ -55,11 +73,14 @@ export default class SlotGameHistoryItem extends cc.Component {
         this.win.string = numberWithCommas(win);
         this.data = betLog;
 
-        const highlightColor = win <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-
+        const highlight = win > 0;
+        const highlightColor = highlight ? this.textHighlightColor : this.textNormalColor;
         this.time.node.color = highlightColor;
         this.payLines.node.color = highlightColor;
         this.bet.node.color = highlightColor;
-        this.win.node.color = highlightColor;
+        if (this.enableHighlightBg && highlight) {
+            this.bg.active = true;
+            this.bg.color = this.bgHighlightColor;
+        }
     }
 }

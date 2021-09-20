@@ -61,9 +61,9 @@ export default class SlotGameTopWinner extends BaseComponent {
         this.pagination.init(this);
 
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
 
         this.showBigWinningView(true);
 

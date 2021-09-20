@@ -11,8 +11,6 @@ export function buildServerUrl(ssl, protocol = "http", path = "/", gameId = 0) {
     const serverHostName = configs.serverDomainMapper[window.location.hostname];
 
     const subDomain = configs.subDomain;
-    const info = GameInfos[gameId];
-
     const gamePath = getPath(gameId);
 
     return buildUrl(subDomain, serverHostName, ssl, protocol, gamePath + path, "");

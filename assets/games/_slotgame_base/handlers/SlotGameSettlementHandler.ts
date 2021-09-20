@@ -35,8 +35,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
     }
 
     async handleBonuses(bonuses: any) {
-        this.main.deactiveButtons();
-        this.main.isAnimatingResult = true;
+        this.beforeSpin();
         this.updateFreeSpinCount();
 
         const { roundId, bonus, result } = bonuses;
@@ -51,13 +50,16 @@ export default class SlotGameSettlementHandler implements DataHandler {
         this.main.updateDisplaySpinButtons();
     }
 
-    async handleFinish(finish: any) {
+    beforeSpin() {
         this.main.deactiveButtons();
-        this.main.waitingSpinResult = false;
-        this.main.textFreeSpinNode.active = false;
-        this.main.isAnimatingResult = true;
-
+        this.main.spinButton.showTextSpinInFreeSpin(false);
         this.main.showProcessingWarning(false);
+        this.main.waitingSpinResult = false;
+        this.main.isAnimatingResult = true;
+    }
+
+    async handleFinish(finish: any) {
+        this.beforeSpin();
         const { result, settlementResult, betWin, bigWin, roundId, totalOfFreeSpins, betByFreeSpin } = finish;
         const { winningLines, jackpot, bonus, freeSpins } = settlementResult;
 

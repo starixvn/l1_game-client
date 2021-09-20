@@ -29,9 +29,13 @@ const configs = {
         VipSedieWar: 28,
         FourGuardians: 29,
         Lottery: 31,
-        ThreeCards: 35
+        ThreeCards: 35,
+        HeroesSlot: 38
     },
     GameInfos: {
+        38: {
+            key: "HeroesSlot"
+        },
         0: {
             key: "main"
         },

@@ -4,7 +4,7 @@ import { lazyInject } from "../../Application";
 import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
-import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import SocketIOController from "../../SocketIOController";

@@ -106,9 +106,9 @@ export default class BigSmallStatistic extends BaseComponent {
 
     onLoad() {
         const commonDialog = this.mainFrame.getComponent(CommonDialog);
-        commonDialog.onDidHide = () => {
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     updateStatistic(dataLogs: any) {

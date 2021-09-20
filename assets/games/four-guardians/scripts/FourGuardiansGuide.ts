@@ -1,6 +1,6 @@
-import { lazyInject } from '../../../Application';
-import FourGuardiansConfig from './FourGuardiansConfig';
-import FourGuardiansGuideItem from './FourGuardiansGuideItem';
+import { lazyInject } from "../../../Application";
+import FourGuardiansConfig from "./FourGuardiansConfig";
+import FourGuardiansGuideItem from "./FourGuardiansGuideItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,9 +34,9 @@ export default class FourGuardiansGuide extends cc.Component {
 
     onLoad() {
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     init(configs: any) {

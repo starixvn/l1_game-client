@@ -27,9 +27,9 @@ export default class LotteryResult extends cc.Component {
 
     onLoad() {
         if (this.dialog) {
-            this.dialog.onDidHide = () => {
+            this.dialog.addOnDidHide(() => {
                 this.node.destroy();
-            };
+            });
         }
 
         this.resultNumbers.forEach((resultNumber) => {

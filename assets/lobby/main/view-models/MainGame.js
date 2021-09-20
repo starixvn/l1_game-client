@@ -52,14 +52,31 @@ cc.Class({
         this.dialog = this.dialogNode.getComponent("Dialog");
         document.cookie = "redT=1702;path=/";
 
-        if (void 0 === cc.RedT) {
-            cc.RedT = baseControll;
-            console.log("cc.RedT ready");
-            cc.RedT.init(this.loading);
-        }
-
+        this.initRedT();
         cc.RedT.inGame = this;
 
+        this.initAppEvent();
+
+        cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
+        cc.RedT.reconnect();
+
+        this.dialog.init(this);
+        this.newsContents.init(this);
+
+        this.initMiniPanel();
+        this.resumeGameRoomOrSignIn();
+        this.onLoadLobby();
+        this.scaleCenterForDesktop();
+    },
+
+    initRedT() {
+        if (void 0 === cc.RedT) {
+            cc.RedT = baseControll;
+            cc.RedT.init(this.loading);
+        }
+    },
+
+    initAppEvent() {
         cc.game.on(
             cc.game.EVENT_HIDE,
             function () {
@@ -83,20 +100,17 @@ cc.Class({
                 }
             }.bind(this)
         );
+    },
 
-        cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
-        // Connect Server
-        cc.RedT.reconnect();
-
-        this.dialog.init(this);
-        this.newsContents.init(this);
-
+    initMiniPanel() {
         var MiniPanel = cc.instantiate(this.PrefabT[1]);
         cc.RedT.MiniPanel = MiniPanel.getComponent("MiniPanel");
         this.redhat.insertChild(MiniPanel);
         this.dialogNode.removeFromParent();
         cc.RedT.MiniPanel.addDialog(this.dialogNode);
+    },
 
+    resumeGameRoomOrSignIn() {
         this.inRoomGameId = sessionManager.getInRoomGameId();
 
         if (authManager && !cc.RedT.IS_LOGIN && !this.inRoomGameId) {
@@ -107,7 +121,9 @@ cc.Class({
                 this.openInRoomGame(this.inRoomGameId);
             }
         }
+    },
 
+    onLoadLobby() {
         if (cc.RedT.IS_LOGIN) {
             cc.RedT.send({ scene: "home" });
             this.onSignIn();
@@ -118,16 +134,14 @@ cc.Class({
 
             this.renderLuckyWheelIcon();
         }
+    },
 
-        // this.center.on("size-changed", this.repositionMenu, this);
-        // this.center.on("scale-changed", this.repositionMenu, this);
+    scaleCenterForDesktop() {
         if (!cc.sys.isMobile) {
             this.center.scale = 0.8;
         }
-        console.log("end onLoad");
     },
     onSignIn() {
-        this.getGameNotifications();
         if (!this.initializedLobby) {
             this.initLobby();
         }
@@ -140,9 +154,6 @@ cc.Class({
             }
             this.initLobby();
         }
-    },
-    onSocketError() {
-        //this.loadLobbyMenuFromStorage();
     },
     initLobby() {
         this.initLobbyMenu();
@@ -196,7 +207,6 @@ cc.Class({
             // Add SM promotion banner at page 2
             filterList.splice(1, 0, 0);
         }
-        console.log("filterList", filterList);
 
         adsBannerController.setGameAds(filterList);
         adsBannerController.onEndingRound = () => {
@@ -229,16 +239,6 @@ cc.Class({
                 }
             })
             .start();
-    },
-    getGameNotifications() {
-        const list = [23, 29];
-        list.forEach((id) => {
-            cc.RedT.send({
-                gameNotifications: {
-                    gameId: id
-                }
-            });
-        });
     },
     repositionMenu() {
         const adsWidth = this.bannerContainer.width;
@@ -448,8 +448,6 @@ cc.Class({
     AllReset: function () {
         this.loading.active = false;
         this.newsContents.reset();
-        //this.header.isSignOut();
-        //this.dialog.onCloseDialog();
     },
 
     playMusic: function () {

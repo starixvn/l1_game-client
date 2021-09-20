@@ -74,7 +74,10 @@ export default class BonusDialog extends cc.Component {
                 .delay(delayTime)
                 .call(() => this.showTotalAmount())
                 .delay(this.slotGameConfigs.showTotalBonusAmountDuration - delayTime)
-                .call(() => this.node.destroy())
+                .call(() => {
+                    this.onBonusFinished();
+                    this.node.destroy();
+                })
                 .start();
         }
     }
@@ -108,9 +111,5 @@ export default class BonusDialog extends cc.Component {
                 this.hideTimer();
             })
             .start();
-    }
-
-    onDestroy() {
-        this.onBonusFinished();
     }
 }

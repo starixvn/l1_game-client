@@ -1,7 +1,8 @@
+import * as _ from "lodash";
+
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import LotteryResult from "./LotteryResult";
 import LotteryTicketDetailItem from "./LotteryTicketDetailItem";
-import * as _ from "lodash";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,7 +24,7 @@ export default class LotteryTicketDetail extends cc.Component {
     dialog: CommonDialog = null;
 
     onLoad() {
-        this.dialog.onDidHide = () => this.node.destroy();
+        this.dialog.addOnDidHide(() => this.node.destroy());
     }
 
     setData(data: any) {

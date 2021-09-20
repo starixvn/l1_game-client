@@ -11,10 +11,15 @@ export default class PaginationCommonItem extends cc.Component {
     @property(cc.Label)
     number: cc.Label = null;
 
-    // LIFE-CYCLE CALLBACKS:
+    @property
+    textHighlightColor = cc.Color.BLACK;
 
-    // onLoad () {}
-    start() {}
+    @property
+    textNormalColor = cc.Color.WHITE;
 
-    // update (dt) {}
+    updateHighlight(highlight: boolean) {
+        this.number.node.color = highlight ? this.textHighlightColor : this.textNormalColor;
+        this.bg.active = !highlight;
+        this.bgSelect.active = highlight;
+    }
 }

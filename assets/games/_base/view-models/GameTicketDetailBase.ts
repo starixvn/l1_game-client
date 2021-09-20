@@ -15,9 +15,9 @@ export default class GameTicketDetailBase extends cc.Component {
         this.content.children.forEach((child) => child.destroy());
 
         const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
     }
 
     public setData(betLogDetails: any, settlementResult: any) {

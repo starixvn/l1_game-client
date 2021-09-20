@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import RouletteStatisticItem from "./RouletteStatisticItem";
 import RouletteUtils from "./RouletteUtils";
 
@@ -107,10 +108,10 @@ export default class RouletteStatistic extends cc.Component {
     toggleRuning: boolean = null;
 
     onLoad() {
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.onDidHide = () => {
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
+        commonDialog.addOnDidHide(() => {
             this.node.destroy();
-        };
+        });
 
         this.toggleRuning = true;
     }
