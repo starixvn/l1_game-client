@@ -28,7 +28,7 @@ export default class BigSmallHistoryItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    roundId = 0;
+    roundId: number = 0;
 
     public handleRoundIdClick = (roundId: number) => {};
 
@@ -36,7 +36,7 @@ export default class BigSmallHistoryItem extends cc.Component {
         this.handleRoundIdClick(this.roundId);
     }
 
-    setData(betLog, index) {
+    setData(betLog: any, index: number) {
         const { time, phien, betwin, amount, refund, win, choice, result } = betLog;
         this.time.string = getStringDateByTime(time);
         this.phien.string = phien;
