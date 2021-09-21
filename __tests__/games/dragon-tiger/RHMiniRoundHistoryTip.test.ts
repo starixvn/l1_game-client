@@ -5,6 +5,7 @@
 
 import GameUtils from "../../../assets/common/GameUtils";
 import { getNameCard } from "../../../assets/common/helpers/CardHelper";
+import DragonTigerUtil from "../../../assets/games/dragon-tiger/view-models/DragonTigerUtil";
 import RHMiniRoundHistoryTip from "../../../assets/games/dragon-tiger/view-models/RHMiniRoundHistoryTip";
 
 jest.mock("../../../assets/common/GameUtils", () => ({
@@ -15,7 +16,20 @@ jest.mock("../../../assets/common/GameUtils", () => ({
     }
 }));
 
-jest.mock("../../../assets/common/helpers/CardHelper");
+jest.mock("../../../assets/games/dragon-tiger/view-models/DragonTigerUtil", () => ({
+    default: class {
+        public static getWinItem(settlementResult: any) {
+            const dict = ["dragon", "tiger", "tie"];
+            for (let i = 0; i < dict.length; i++) {
+                if (settlementResult[dict[i]]) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+}));
+
 describe("Test class RHMiniRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: RHMiniRoundHistoryTip;
@@ -44,8 +58,9 @@ describe("Test class RHMiniRoundHistoryTip", () => {
             const result = data.result;
             const dragon = result.dragon;
             const tiger = result.tiger;
+            const winChoice = DragonTigerUtil.getWinItem(data.settlementResult);
             const choiceColors = [new cc.Color(219, 185, 0), cc.Color.RED, new cc.Color(63, 111, 123)];
-            const message = GameUtils.getBetChoiceString(choiceNames[0]).toUpperCase();
+            const message = GameUtils.getBetChoiceString(choiceNames[winChoice]).toUpperCase();
 
             // Act
             comp.setData(data);
@@ -53,7 +68,7 @@ describe("Test class RHMiniRoundHistoryTip", () => {
             // Assert
             expect(comp.roundId.string).toMatch(`#${data.roundId}`);
             expect(comp.result.string).toMatch(message);
-            expect(comp.result.node.color).toEqual(choiceColors[0]);
+            expect(comp.result.node.color).toEqual(choiceColors[winChoice]);
             expect(comp.dragon.string).toMatch(getNameCard(dragon.card));
             expect(comp.tiger.string).toMatch(getNameCard(tiger.card));
             expect(comp.dragonType.spriteFrame).toEqual(comp.cardTypeSprite[dragon.type]);

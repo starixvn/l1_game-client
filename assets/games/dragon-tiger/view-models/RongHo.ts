@@ -10,6 +10,7 @@ import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
 import RHRoundResultItem from "./RHRoundResultItem";
 import { RongHoConfigs } from "./RongHoConfigs";
+import DragonTigerUtil from "./DragonTigerUtil";
 
 const { ccclass, property } = cc._decorator;
 
@@ -180,16 +181,6 @@ export default class RongHo extends SocketIOMiniGameBase {
         });
     }
 
-    public static getWinItem(settlementResult: any): number {
-        const dict = ["dragon", "tiger", "tie"];
-        for (let i = 0; i < dict.length; i++) {
-            if (settlementResult[dict[i]]) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     private highlightWonItem(highlight: boolean, winItem = "") {
         if (highlight) {
             if (winItem !== "") {
@@ -211,7 +202,7 @@ export default class RongHo extends SocketIOMiniGameBase {
         const result = [];
         this.currentDataLogs.forEach((log) => {
             const settlementResult = log.settlementResult;
-            const winItem = RongHo.getWinItem(settlementResult);
+            const winItem = DragonTigerUtil.getWinItem(settlementResult);
             result.push(winItem);
             switch (winItem) {
                 case 0:
@@ -263,7 +254,7 @@ export default class RongHo extends SocketIOMiniGameBase {
             this.showResultCards(true);
 
             const betChoice = ["dragon", "tiger", "tie"];
-            const choiceWin = RongHo.getWinItem(this.currentDataLogs[0].settlementResult);
+            const choiceWin = DragonTigerUtil.getWinItem(this.currentDataLogs[0].settlementResult);
             const winItem = betChoice[choiceWin];
             if (winItem !== "") {
                 this.gameAudios.playShowResultAudio();
