@@ -413,7 +413,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 137.25,
+      "width": 174.75,
       "height": 60
     },
     "_anchorPoint": {
@@ -460,6 +460,7 @@
     "_enabled": true,
     "_dataId": "ui.history",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -477,9 +478,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "HISTORY",
-    "_N$string": "HISTORY",
+    "_string": "UI.HISTORY",
+    "_N$string": "UI.HISTORY",
     "_fontSize": 24,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1133,7 +1133,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 48,
+      "width": 74.86,
       "height": 42
     },
     "_anchorPoint": {
@@ -1185,9 +1185,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "TIME",
-    "_N$string": "TIME",
+    "_string": "UI.TIME",
+    "_N$string": "UI.TIME",
     "_fontSize": 20,
     "_lineHeight": 42,
     "_enableWrapText": true,
@@ -1216,6 +1215,7 @@
     "_enabled": true,
     "_dataId": "ui.time",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1306,6 +1306,7 @@
     "_enabled": true,
     "_dataId": "ui.hand_id",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1323,7 +1324,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "UI.HAND_ID",
     "_N$string": "UI.HAND_ID",
     "_fontSize": 20,
@@ -1385,7 +1385,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 79.43,
+      "width": 188,
       "height": 42
     },
     "_anchorPoint": {
@@ -1437,9 +1437,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "BANKER",
-    "_N$string": "BANKER",
+    "_string": "UI.CHOICE_BANKER",
+    "_N$string": "UI.CHOICE_BANKER",
     "_fontSize": 20,
     "_lineHeight": 42,
     "_enableWrapText": true,
@@ -1468,6 +1467,7 @@
     "_enabled": true,
     "_dataId": "ui.choice_banker",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1563,7 +1563,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "UI.PLAYER",
     "_N$string": "UI.PLAYER",
     "_fontSize": 20,
@@ -1594,6 +1593,7 @@
     "_enabled": true,
     "_dataId": "ui.player",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1637,7 +1637,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 62.86,
+      "width": 101.71,
       "height": 42
     },
     "_anchorPoint": {
@@ -1684,6 +1684,7 @@
     "_enabled": true,
     "_dataId": "ui.stake2",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1701,9 +1702,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "STAKE",
-    "_N$string": "STAKE",
+    "_string": "UI.STAKE2",
+    "_N$string": "UI.STAKE2",
     "_fontSize": 20,
     "_lineHeight": 42,
     "_enableWrapText": true,
@@ -1763,7 +1763,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 39.43,
+      "width": 66.29,
       "height": 42
     },
     "_anchorPoint": {
@@ -1810,6 +1810,7 @@
     "_enabled": true,
     "_dataId": "ui.win",
     "format": 1,
+    "suffix": "",
     "_id": ""
   },
   {
@@ -1827,9 +1828,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "WIN",
-    "_N$string": "WIN",
+    "_string": "UI.WIN",
+    "_N$string": "UI.WIN",
     "_fontSize": 20,
     "_lineHeight": 42,
     "_enableWrapText": true,
@@ -2830,7 +2830,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -2960,6 +2959,20 @@
     },
     "number": {
       "__id__": 73
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -3344,7 +3357,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -3474,6 +3486,20 @@
     },
     "number": {
       "__id__": 87
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -3858,7 +3884,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -3988,6 +4013,20 @@
     },
     "number": {
       "__id__": 101
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -4372,7 +4411,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -4502,6 +4540,20 @@
     },
     "number": {
       "__id__": 115
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -4886,7 +4938,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -5016,6 +5067,20 @@
     },
     "number": {
       "__id__": 129
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -5782,9 +5847,6 @@
     "mainFrame": {
       "__id__": 5
     },
-    "cardPrefab": {
-      "__uuid__": "82924d9b-21bd-4e27-aa46-fcffb736cf4b"
-    },
     "_id": ""
   },
   {
@@ -5795,7 +5857,7 @@
     "asset": {
       "__uuid__": "cac8bb8e-9e9d-474e-af0c-5131e6241a07"
     },
-    "fileId": "fflXUHTy1Kpo50TT44PxJS",
+    "fileId": "",
     "sync": false
   }
 ]
