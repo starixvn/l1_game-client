@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import GameBaseBetHandler from "./GameBaseBetHandler";
 
@@ -11,7 +12,7 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
         const { betChoice, amount } = data;
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
 
-        this.main.betChips.placeChipBet(amount, betItem.chipNode);
+        this.main.betChips.placeChipToChipBox(amount, betItem.chipNode, null, null);
     }
 
     placePlayerChip(data) {
@@ -27,7 +28,7 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
             startNode = this.main.otherPlayers;
             this.updateOtherDataStorage(data);
         }
-        this.main.betChips.placeChipBet(amount, betItem.chipNode, startNode);
+        this.main.betChips.placeChipToChipBox(amount, betItem.chipNode, startNode, null);
         this.playerChips.pop();
     }
 }
