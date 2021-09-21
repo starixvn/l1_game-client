@@ -1,13 +1,14 @@
 import * as _ from "lodash";
 
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
+import GameBase from "../GameBase";
 import RoomPlayer from "../view-models/RoomPlayer";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
 
 export default class GameBaseBetHandler implements DataHandler {
     protected playerChips = [];
-    constructor(protected readonly main: any) {}
+    constructor(protected readonly main: GameBase) {}
 
     handle(data: any): boolean {
         if (this.main.isStopGame || this.main.isDisableGame) {
@@ -47,8 +48,6 @@ export default class GameBaseBetHandler implements DataHandler {
                 this.placeTotalChips(data.chips);
             }
         }
-
-        return true;
     }
 
     handlePlayerChipAction(data: any) {
@@ -74,7 +73,7 @@ export default class GameBaseBetHandler implements DataHandler {
         const bet = data.bet;
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
 
-        this.main.betChips.placeChipBet(bet, betItem.chipNode);
+        this.main.betChips.placeChipToChipBox(bet, betItem.chipNode, null, null);
     }
 
     placePlayerChip(data: any) {
@@ -94,7 +93,7 @@ export default class GameBaseBetHandler implements DataHandler {
                 startNode = gameRoomMain.otherPlayers;
                 this.updateOtherDataStorage(data);
             }
-            this.main.betChips.placeChipBet(bet, betItem.chipNode, startNode);
+            this.main.betChips.placeChipToChipBox(bet, betItem.chipNode, startNode, null);
             this.playerChips.pop();
         }
     }
@@ -126,7 +125,7 @@ export default class GameBaseBetHandler implements DataHandler {
 
         _.forEach(this.main.betItems, (item) => {
             const betItemData = chips[chipsKeys[item.node.name.toLowerCase()]];
-            this.main.betChips.initChips(betItemData, item.chipNode);
+            this.main.betChips.addChipsToChipBox(betItemData, item.chipNode);
         });
     }
 }
