@@ -2,6 +2,7 @@ import GameUtils from "../../../common/GameUtils";
 import { getNameCard } from "../../../common/helpers/CardHelper";
 import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
 import RongHo from "./RongHo";
+import DragonTigerUtil from "./DragonTigerUtil";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,7 +25,7 @@ export default class RHMiniRoundHistoryTip extends MiniRoundHistoryTip {
 
     public setData(data: any) {
         const result = data.result;
-        const winChoice = RongHo.getWinItem(data.settlementResult);
+        const winChoice = DragonTigerUtil.getWinItem(data.settlementResult);
         const choiceNames = ["dragon", "tiger", "tie"];
         const choiceColors = [new cc.Color(219, 185, 0), cc.Color.RED, new cc.Color(63, 111, 123)];
 
