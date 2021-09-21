@@ -1,5 +1,4 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
+import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
@@ -28,7 +27,7 @@ export default class BigSmallHistoryItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    roundId: number = 0;
+    roundId = 0;
 
     public handleRoundIdClick = (roundId: number) => {};
 
@@ -44,7 +43,7 @@ export default class BigSmallHistoryItem extends cc.Component {
         this.refund.string = numberWithCommas(refund);
         this.roundId = phien;
         this.win.string = numberWithCommas(betwin);
-        this.choice.string = this.convertChoiceType(choice);
+        this.choice.string = GameUtils.getBetChoiceString(choice);
         this.result.string = `${result.dice1}-${result.dice2}-${result.dice3}  ${result.dice1 + result.dice2 + result.dice3}`;
 
         if (win) {
@@ -56,9 +55,5 @@ export default class BigSmallHistoryItem extends cc.Component {
             this.time.node.color = cc.Color.WHITE;
             this.choice.node.color = cc.Color.WHITE;
         }
-    }
-
-    convertChoiceType(choice: string): string {
-        return i18n.t(`ui.choice_${choice}`);
     }
 }
