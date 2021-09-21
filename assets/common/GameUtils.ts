@@ -24,6 +24,10 @@ export default class GameUtils {
         return temp.node;
     }
 
+    public static getText(key: string, opt: any = {}) {
+        return i18n.t(key, opt);
+    }
+
     public static getBetChoiceString(choice: string): string {
         return i18n.t(`ui.choice_${choice}`);
     }
