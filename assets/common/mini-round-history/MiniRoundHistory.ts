@@ -22,7 +22,7 @@ export default class MiniRoundHistory extends cc.Component {
     private listener = {
         onEnter: (node: cc.Node) => {
             this.selectedNode = node;
-            this.tip.node.position = cc.v2(node.x, this.tip.node.y);
+            this.tip.node.position = cc.v3(node.x, this.tip.node.y, 0);
             const data = node.getComponent(MiniRoundHistoryItem).data;
             this.tip.setData(data);
             this.tip.show();

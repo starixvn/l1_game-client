@@ -1,5 +1,5 @@
-import MiniRoundHistoryItem from '../../../common/mini-round-history/MiniRoundHistoryItem';
-import RongHo from './RongHo';
+import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
+import RongHo from "./RongHo";
 
 const { ccclass, property } = cc._decorator;
 
