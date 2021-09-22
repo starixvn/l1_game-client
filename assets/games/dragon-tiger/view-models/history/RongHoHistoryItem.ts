@@ -1,6 +1,6 @@
-import { getStringDateByTime } from '../../../../common/helpers/DateTimeHelper';
-import { numberWithCommas } from '../../../../common/helpers/NumberHelper';
-import NewCard from '../../../../common/new-card/view-models/NewCard';
+import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import NewCard from "../../../../common/new-card/view-models/NewCard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,18 +34,7 @@ export default class RongHoHistoryItem extends cc.Component {
         this.win.string = numberWithCommas(betLog.betwin);
         this.win.node.color = betLog.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
-        const result = betLog.result;
-        this.cards[0].setCardOldStyle({
-            rank: result.dragon.card,
-            suit: result.dragon.type
-        });
-        this.cards[1].setCardOldStyle({
-            rank: result.tiger.card,
-            suit: result.tiger.type
-        });
-        this.cards.forEach((card) => {
-            card.faceUp();
-        });
+        this.setCards(betLog.result);
 
         this.betDragon.string = numberWithCommas(betLog.dragon);
         this.betTiger.string = numberWithCommas(betLog.tiger);
@@ -59,5 +48,19 @@ export default class RongHoHistoryItem extends cc.Component {
         } else {
             this.betDraw.node.color = cc.Color.YELLOW;
         }
+    }
+
+    setCards(results: any) {
+        if (this.cards.length < 2) {
+            return null;
+        }
+
+        Object.values(results).forEach((result: any, index) => {
+            this.cards[index].setCardOldStyle({
+                rank: result.card,
+                suit: result.type
+            });
+            this.cards[index].faceUp();
+        });
     }
 }

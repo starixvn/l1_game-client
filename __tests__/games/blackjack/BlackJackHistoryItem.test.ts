@@ -5,6 +5,7 @@
 import GameUtils from "../../../assets/common/GameUtils";
 import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
+import NewCard from "../../../assets/common/new-card/view-models/NewCard";
 import BlackJackHistoryItem from "../../../assets/games/blackjack/view-models/BlackJackHistoryItem";
 
 jest.mock("../../../assets/common/GameUtils", () => ({
@@ -84,23 +85,6 @@ describe("Test class BlackJackHistoryItem", () => {
         });
     });
 
-    // describe("Test method initCards", () => {
-    //     it("Case: ", () => {
-    //         // Arrange
-    //         const card = [
-    //             { rank: "8", suit: 3 },
-    //             { rank: "7", suit: 3 },
-    //             { rank: "4", suit: 1 }
-    //         ];
-    //         const cardsNode = new cc.Node();
-
-    //         // Act
-    //         comp.initCards(card, cardsNode);
-
-    //         // Assert
-    //     });
-    // });
-
     describe("Test method convertResult", () => {
         it("Case 1: result > 21", () => {
             // Arrange
@@ -118,6 +102,40 @@ describe("Test class BlackJackHistoryItem", () => {
 
             // Assert
             expect(resultLabel.string).toMatch(GameUtils.getText(`ui.bust`));
+        });
+
+        it("Case 2: result = 21, array.length === 2 and isSplit = false", () => {
+            // Arrange
+            const resultLabel = new cc.Node().addComponent(cc.Label);
+            const result = 21;
+            const array = [
+                { rank: "Q", suit: 1 },
+                { rank: "A", suit: 3 }
+            ];
+            const isSplit = false;
+
+            // Act
+            comp.convertResult(resultLabel, result, array, isSplit);
+
+            // Assert
+            expect(resultLabel.string).toMatch("BJ");
+        });
+
+        it("Case 3: result < 21", () => {
+            // Arrange
+            const resultLabel = new cc.Node().addComponent(cc.Label);
+            const result = 20;
+            const array = [
+                { rank: "Q", suit: 1 },
+                { rank: "Q", suit: 3 }
+            ];
+            const isSplit = false;
+
+            // Act
+            comp.convertResult(resultLabel, result, array, isSplit);
+
+            // Assert
+            expect(resultLabel.string).toMatch(result.toString());
         });
     });
 });
