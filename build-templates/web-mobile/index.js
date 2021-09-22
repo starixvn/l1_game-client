@@ -37,7 +37,16 @@ function toggleFullScreen() {
     }
 }
 
+function isIOS15() {
+    const userAgent = window.navigator.userAgent;
+    return /OS 15/.test(userAgent);
+}
+
 function showIntruction() {
+    if (isIOS15()) {
+        instruction.style.display = "none";
+        return;
+    }
     const instruction = document.getElementById("myInstruction");
     const navBarHeight = getNavigationBarHeight();
     const show = window.innerHeight < screen.width - navBarHeight;
