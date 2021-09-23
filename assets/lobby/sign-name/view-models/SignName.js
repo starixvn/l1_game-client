@@ -24,6 +24,7 @@ cc.Class({
         this.onSuccessFunc = onSuccessFunc;
     },
     onLoad() {
+        window.skipFullscreen = true;
         this.keyHandle = (t) => {
             if (t.keyCode === cc.macro.KEY.tab) {
                 this.changeNextFocusEditBox();
@@ -42,6 +43,9 @@ cc.Class({
 
             return undefined;
         };
+    },
+    onDestroy() {
+        window.skipFullscreen = false;
     },
     onEnable: function () {
         cc.sys.isBrowser && this.addEvent();

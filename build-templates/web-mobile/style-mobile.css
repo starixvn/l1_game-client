@@ -25,6 +25,10 @@ input::-webkit-inner-spin-button {
     /* <-- Apparently some margin are still there even though it's hidden */
 }
 
+iframe {
+    overflow-x: hidden;
+}
+
 body {
     position: absolute;
     top: 0;
@@ -63,9 +67,14 @@ body {
     -webkit-box-align: center;
     -webkit-box-pack: center;
 
-    /* height: 100%; */
+    width: 100%;
+    z-index: 1;
     height: 100vh !important;
     height: calc(var(--vh, 1vh) * 100) !important;
+}
+
+#Cocos2dGameContainer > div[style*="overflow-x"] {
+    overflow-x: hidden !important;
 }
 
 #buttonFullAndroid {
@@ -101,20 +110,25 @@ p.footer {
         background-size: 100vw 100vh;
     }
 
-    .flash-container {
+    .splash-container {
         height: 100vw;
         width: 100vh;
+        transform: rotate(90deg);
+    }
+
+    .instruction {
+        height: 100vh !important;
         transform: rotate(90deg);
     }
 }
 
 @media only screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
-    .flash-container {
+    .splash-container {
         transform: rotate(0deg);
     }
 }
 
-.flash-container {
+.splash-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -212,7 +226,7 @@ p.footer {
     display: none;
     position: absolute;
     z-index: 9999;
-    height: 110vh;
+    height: 150vh;
     width: 100%;
     padding-top: 10vh;
     background: rgba(0, 0, 0, 1);
