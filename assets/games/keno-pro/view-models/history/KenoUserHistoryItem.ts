@@ -1,7 +1,7 @@
-import { getStringDateByTime } from '../../../../common/helpers/DateTimeHelper';
-import { numberWithCommas } from '../../../../common/helpers/NumberHelper';
-import KenoHistoryItem from '../KenoHistoryItem';
-import KenoUserHistory from './KenoUserHistory';
+import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import KenoHistoryItem from "../KenoHistoryItem";
+import KenoUserHistory from "./KenoUserHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,8 +38,8 @@ export default class KenoUserHistoryItem extends KenoHistoryItem {
         this.node.destroy();
     }
 
-    setData(betLog) {
-        const { time, phien, result, betwin, settlementResult, big, small, odd, even, gold, wood, water, fire, earth } = betLog;
+    setData(betLog: any) {
+        const { time, phien, result, betwin, settlementResult } = betLog;
 
         this.node.active = true;
         this.time.string = getStringDateByTime(time);
@@ -53,25 +53,10 @@ export default class KenoUserHistoryItem extends KenoHistoryItem {
             total += resultItem;
         });
 
-        this.settlementResult = settlementResult;
-        Object.keys(settlementResult).forEach((key) => {
-            if (settlementResult[key]) {
-                this[key].node.color = cc.Color.YELLOW;
-            }
-        });
-
         this.total.string = numberWithCommas(total);
-        this.big.string = numberWithCommas(big);
-        this.small.string = numberWithCommas(small);
-        this.odd.string = numberWithCommas(odd);
-        this.even.string = numberWithCommas(even);
-        this.gold.string = numberWithCommas(gold);
-        this.wood.string = numberWithCommas(wood);
-        this.water.string = numberWithCommas(water);
-        this.fire.string = numberWithCommas(fire);
-        this.earth.string = numberWithCommas(earth);
-
+        this.settlementResult = settlementResult;
         this.totalResult = total;
         this.result = result;
+        this.setBasicData(betLog);
     }
 }
