@@ -252,7 +252,9 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
             cc.sequence(
                 this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
                 cc.callFunc(() => {
-                    onComplete();
+                    if (onComplete) {
+                        onComplete();
+                    }
                 })
             )
         );
