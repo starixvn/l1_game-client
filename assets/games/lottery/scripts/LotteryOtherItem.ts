@@ -24,6 +24,9 @@ export default class LotteryOtherItem extends LotteryChoiceItem {
 
     setName(key: string) {
         this.node.name = key;
+        if (!this.atlas) {
+            return null;
+        }
         this.nameSprite.spriteFrame = this.atlas.getSpriteFrame(`txt_${key}`);
     }
 }
