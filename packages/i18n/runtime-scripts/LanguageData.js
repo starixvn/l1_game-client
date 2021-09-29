@@ -1,4 +1,4 @@
-const Polyglot = require("polyglot.min");
+const Polyglot = require("./polyglot.min");
 
 let polyInst = null;
 if (!window.i18n) {
