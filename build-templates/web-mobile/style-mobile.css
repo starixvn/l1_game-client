@@ -222,6 +222,16 @@ p.footer {
     border-radius: 3px;
 }
 
+.instructionAndroid {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    height: 110vh;
+    width: 100%;
+    padding-top: 10vh;
+    background: rgba(0, 0, 0, 1);
+}
+
 .instruction {
     display: none;
     position: absolute;
