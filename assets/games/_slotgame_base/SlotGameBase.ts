@@ -182,6 +182,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     protected userSettings: SlotGameUserSettings;
     protected historyComponent: SlotGameHistory;
     private autoSpinCount = 0;
+    private showingWinningLine = false;
 
     onLoad() {
         super.onLoad();
@@ -729,8 +730,16 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     initEventForNumberContainer() {
         const callback = {
-            onMove: (e) => this.showLineWhenHover(e),
-            onLeave: (e) => this.hideAllLines()
+            onMove: (e) => {
+                if (!this.showingWinningLine) {
+                    this.showLineWhenHover(e);
+                }
+            },
+            onLeave: (e) => {
+                if (!this.showingWinningLine) {
+                    this.hideAllLines();
+                }
+            }
         };
         this.leftNumberContainer.touchCallback = callback;
         this.rightNumberContainer.touchCallback = callback;
@@ -762,6 +771,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         if (winningLines.length === 0) {
             return;
         }
+
+        this.showingWinningLine = true;
         this.showWinningLinesTween = cc
             .tween(this)
             .delay(delayTime)
@@ -805,6 +816,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         if (this.settleTween) {
             this.settleTween.stop();
         }
+
+        this.showingWinningLine = false;
         if (this.showWinningLinesTween) {
             this.showWinningLinesTween.stop();
         }
