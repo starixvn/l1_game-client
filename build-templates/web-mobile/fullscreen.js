@@ -14,6 +14,11 @@ window.mobilecheck = function () {
     return check;
 };
 
+let focused = true;
+
+const userAgent = window.navigator.userAgent;
+const ios15 = /OS 15/.test(userAgent);
+
 function toggleFullScreen() {
     const doc = window.document;
     const docEl = document.documentElement;
@@ -37,45 +42,56 @@ function toggleFullScreen() {
     }
 }
 
-function isIOS15() {
-    const userAgent = window.navigator.userAgent;
-    return /OS 15/.test(userAgent);
-}
-
-function showIntruction() {
-    if (isIOS15()) {
-        instruction.style.display = "none";
-        return;
-    }
-    const instruction = document.getElementById("myInstruction");
-    const navBarHeight = getNavigationBarHeight();
-    const show = window.innerHeight < screen.width - navBarHeight;
-    instruction.style.display = show ? "block" : "none";
-}
-
-function quickHideAddressBar() {
+function showAddressBar() {
     setTimeout(function () {
-        window.scrollTo(0, 1);
+        window.scroll(0, -1);
+        setTimeout(function () {
+            window.scroll(0, 0);
+        }, 50);
     }, 0);
 }
 
-function getNavigationBarHeight() {
-    const userAgent = window.navigator.userAgent;
-    let navBarHeight = 20;
-    if (userAgent.match(/ipad/i)) {
-        navBarHeight = 75;
+function showIntruction() {
+    const instruction = document.getElementById("myInstruction");
+
+    instruction.style.display = "block";
+    const isPortrait = window.outerWidth < window.outerHeight;
+    if (isPortrait) {
+        showAddressBar();
+        updateViewport();
+        instruction.style.visibility = "hidden";
+        return;
+    }
+
+    const navBarHeight = getMiniNavigationBarHeight();
+    const show = window.innerHeight < screen.width - navBarHeight;
+    if (show && !window.skipFullscreen) {
+        showAddressBar();
+        instruction.style.visibility = "visible";
+    } else {
+        instruction.style.visibility = "hidden";
+        updateViewport();
+    }
+}
+
+function getMiniNavigationBarHeight() {
+    let navBarHeight = 0;
+    const isLandscape = window.outerWidth > window.outerHeight;
+    if (isLandscape) {
+        if (userAgent.match(/ipad/i)) {
+            navBarHeight = 40;
+        } else if (userAgent.match(/crios/i)) {
+            navBarHeight = 20;
+        }
     }
     return navBarHeight;
 }
 
 function updateViewport() {
-    const userAgent = window.navigator.userAgent;
     if (userAgent.match(/iphone|ipad|ipod/i)) {
-        let height = screen.width;
-        const navBarHeight = getNavigationBarHeight();
-        if (userAgent.match(/crios/i)) {
-            height -= navBarHeight;
-        }
+        let height = screen.width; //window.innerHeight;
+        const navBarHeight = getMiniNavigationBarHeight();
+        height -= navBarHeight;
         const vh = height * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
     } else if (userAgent.match(/android/i)) {
@@ -87,32 +103,66 @@ function updateViewport() {
     }
 }
 
+function updateFullScreen() {
+    showIntruction();
+    const gameContainer = document.getElementById("Cocos2dGameContainer");
+    if (gameContainer) {
+        gameContainer.style.top = window.scrollY + "px";
+    }
+}
+
 function handleFullScreen() {
-    const userAgent = window.navigator.userAgent;
-    updateViewport();
     if (userAgent.match(/iPad|iPhone|iPod/i)) {
         document.body.style.overflowY = "scroll";
         showIntruction();
-        window.addEventListener("resize", function () {
+        updateViewport();
+        var timeoutScroll;
+        var timeoutResize;
+
+        const canvas = document.getElementById("GameCanvas");
+        canvas.onfocus = () => {
+            focused = true;
             showIntruction();
-            updateViewport();
-            // toggleFullScreen();
-            quickHideAddressBar();
+        };
+        canvas.onblur = () => {
+            focused = false;
+            showIntruction();
+        };
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") {
+                focused = true;
+            }
+        });
+
+        window.addEventListener("orientationchange", function () {
+            setTimeout(function () {
+                updateFullScreen();
+            }, 100);
+        });
+        window.addEventListener("resize", function () {
+            clearTimeout(timeoutResize);
+            timeoutResize = setTimeout(function () {
+                updateFullScreen();
+            }, 100);
         });
         window.addEventListener("scroll", () => {
-            showIntruction();
+            clearTimeout(timeoutScroll);
+            timeoutScroll = setTimeout(function () {
+                updateFullScreen();
+            }, 100);
         });
+
+        // setInterval(updateFullScreen, 1000);
     }
 
     if (userAgent.match(/android/i)) {
-        let focused = false;
         window.onfocus = () => {
             focused = true;
         };
         window.onblur = () => {
             focused = false;
         };
-
         const fullButton = document.getElementById("buttonFullAndroid");
         fullButton.style.display = "block";
         window.onresize = () => {
@@ -128,7 +178,7 @@ function handleFullScreen() {
 }
 
 function initGameEngine() {
-    console.log("initGameEngine");
+    // console.log("initGameEngine");
     // open web debugger console
     if (typeof VConsole !== "undefined") {
         window.vConsole = new VConsole();

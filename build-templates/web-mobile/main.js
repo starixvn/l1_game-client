@@ -73,15 +73,15 @@ window.boot = function () {
 
             //CHEAT: force height equal screen.width
             const userAgent = window.navigator.userAgent;
-            if (isLandscape && !/OS 15/.test(userAgent)) {
+            if (isLandscape) {
                 h = screen.width;
-                if (userAgent.match(/crios/i)) {
-                    let navBarHeight = 20;
-                    if (userAgent.match(/ipad/i)) {
-                        navBarHeight = 75;
-                    }
-                    h -= navBarHeight;
+                let navBarHeight = 0;
+                if (userAgent.match(/ipad/i)) {
+                    navBarHeight = 40;
+                } else if (userAgent.match(/crios/i)) {
+                    navBarHeight = 20;
                 }
+                h -= navBarHeight;
             }
 
             if (
@@ -110,6 +110,48 @@ window.boot = function () {
                 }, 1000);
             }
         };
+
+        cc.view.convertToLocationInView = function (tx, ty, relatedPos, out) {
+            let result = out || cc.v2();
+            let posLeft = relatedPos.adjustedLeft ? relatedPos.adjustedLeft : relatedPos.left;
+            let posTop = relatedPos.top; //relatedPos.adjustedTop ? relatedPos.adjustedTop : relatedPos.top;
+            let x = this._devicePixelRatio * (tx - posLeft);
+            let y = this._devicePixelRatio * (posTop + relatedPos.height - ty);
+            if (this._isRotated) {
+                result.x = cc.game.canvas.width - y;
+                result.y = x;
+            } else {
+                result.x = x;
+                result.y = y;
+            }
+            return result;
+        };
+
+        cc.internal.inputManager._updateCanvasBoundingRect = function () {
+            var element = cc.game.canvas;
+            var canvasBoundingRect = this._canvasBoundingRect;
+            var docElem = document.documentElement;
+            var leftOffset = window.pageXOffset - docElem.clientLeft;
+            var topOffset = 0; // window.pageYOffset - docElem.clientTop;
+
+            if (element.getBoundingClientRect) {
+                var box = element.getBoundingClientRect();
+                canvasBoundingRect.left = box.left + leftOffset;
+                canvasBoundingRect.top = 0; //box.top + topOffset;
+                canvasBoundingRect.width = box.width;
+                canvasBoundingRect.height = box.height;
+            } else if (element instanceof HTMLCanvasElement) {
+                canvasBoundingRect.left = leftOffset;
+                canvasBoundingRect.top = topOffset;
+                canvasBoundingRect.width = element.width;
+                canvasBoundingRect.height = element.height;
+            } else {
+                canvasBoundingRect.left = leftOffset;
+                canvasBoundingRect.top = topOffset;
+                canvasBoundingRect.width = parseInt(element.style.width);
+                canvasBoundingRect.height = parseInt(element.style.height);
+            }
+        };
     }
 
     const { RESOURCES, INTERNAL, MAIN, START_SCENE } = cc.AssetManager.BuiltinBundleName;
@@ -130,6 +172,7 @@ window.boot = function () {
 
         cc.director.once(cc.Director.EVENT_AFTER_SCENE_LAUNCH, function () {
             splash.style.display = "none";
+            document.body.style.background = "#000";
         });
     }
 
