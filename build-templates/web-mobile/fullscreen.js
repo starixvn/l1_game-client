@@ -14,8 +14,6 @@ window.mobilecheck = function () {
     return check;
 };
 
-let focused = true;
-
 const userAgent = window.navigator.userAgent;
 const ios15 = /OS 15/.test(userAgent);
 
@@ -121,19 +119,11 @@ function handleFullScreen() {
 
         const canvas = document.getElementById("GameCanvas");
         canvas.onfocus = () => {
-            focused = true;
             showIntruction();
         };
         canvas.onblur = () => {
-            focused = false;
             showIntruction();
         };
-
-        document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState === "visible") {
-                focused = true;
-            }
-        });
 
         window.addEventListener("orientationchange", function () {
             setTimeout(function () {
@@ -157,17 +147,11 @@ function handleFullScreen() {
     }
 
     if (userAgent.match(/android/i)) {
-        window.onfocus = () => {
-            focused = true;
-        };
-        window.onblur = () => {
-            focused = false;
-        };
         const fullButton = document.getElementById("buttonFullAndroid");
         fullButton.style.display = "block";
         window.onresize = () => {
             const isFullScreen = screen.height - window.innerHeight < 1;
-            fullButton.style.display = isFullScreen || !focused ? "none" : "block";
+            fullButton.style.display = isFullScreen || window.skipFullscreen ? "none" : "block";
             updateViewport();
         };
         fullButton.onclick = () => {
