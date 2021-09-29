@@ -20,7 +20,7 @@ export default class NewsContent extends cc.Component {
         const limitLeft = -this.node.parent.width / 4;
         for (let i = 0; i < this.node.childrenCount; i++) {
             const child = this.node.children[i];
-            child.position = cc.v2(child.position.x - 100 * t, 0);
+            child.position = cc.v3(child.position.x - 100 * t, 0);
 
             if (child.position.x + child.width < limitLeft) {
                 child.destroy();

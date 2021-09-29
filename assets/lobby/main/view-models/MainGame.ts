@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { appContainer } from "../../../Application";
+import * as baseControl from "../../../BaseController";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import Loading from "../../../common/loading/view-models/Loading";
@@ -21,7 +22,7 @@ import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
 import LobbyMenu from "./LobbyMenu";
 
-const baseControll = require("BaseController");
+// const baseControll = require("BaseController");
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -109,7 +110,6 @@ export default class MainGame extends cc.Component {
         cc.RedT.reconnect();
 
         this.dialog.init(this);
-        this.newsContents.init(this);
 
         this.initMiniPanel();
         this.resumeGameRoomOrSignIn();
@@ -119,7 +119,7 @@ export default class MainGame extends cc.Component {
 
     initRedT() {
         if (void 0 === cc.RedT) {
-            cc.RedT = baseControll;
+            cc.RedT = baseControl;
             cc.RedT.init(this.loading);
         }
     }
@@ -160,7 +160,7 @@ export default class MainGame extends cc.Component {
                 this.openInRoomGame(this.inRoomGameId);
             }
         }
-    },
+    }
 
     onLoadLobby() {
         if (cc.RedT.IS_LOGIN) {
@@ -173,7 +173,7 @@ export default class MainGame extends cc.Component {
 
             this.renderLuckyWheelIcon();
         }
-    },
+    }
 
     scaleCenterForDesktop() {
         if (!cc.sys.isMobile) {
@@ -196,7 +196,7 @@ export default class MainGame extends cc.Component {
             this.initLobby();
         }
     }
-    
+
     initLobby() {
         this.initLobbyMenu();
         this.initBanners();
