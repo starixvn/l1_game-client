@@ -15,8 +15,9 @@ describe("Test class LotteryMiniRoundHistoryItem", () => {
         comp.iconFrames = [new cc.SpriteFrame(), new cc.SpriteFrame()];
     });
     describe("Test method setData", () => {
-        it("Case: big: true", () => {
+        it("Case 1: type = 0 amd big = true", () => {
             // Arrange
+            comp.type = 0;
             const data = {
                 settlementResult: {
                     others: {
@@ -36,14 +37,59 @@ describe("Test class LotteryMiniRoundHistoryItem", () => {
             expect(comp.icon.spriteFrame).toEqual(comp.iconFrames[0]);
         });
 
-        it("Case: big: false", () => {
+        it("Case 2: type = 0 amd big = false", () => {
             // Arrange
+            comp.type = 0;
             const data = {
                 settlementResult: {
                     others: {
                         big: false,
                         even: true,
                         odd: false,
+                        small: true
+                    }
+                }
+            };
+
+            // Act
+            comp.setData(data);
+
+            // Assert
+            expect(comp.data).toEqual(data);
+            expect(comp.icon.spriteFrame).toEqual(comp.iconFrames[1]);
+        });
+
+        it("Case 2: type = 1 amd even = true", () => {
+            // Arrange
+            comp.type = 1;
+            const data = {
+                settlementResult: {
+                    others: {
+                        big: false,
+                        even: true,
+                        odd: false,
+                        small: true
+                    }
+                }
+            };
+
+            // Act
+            comp.setData(data);
+
+            // Assert
+            expect(comp.data).toEqual(data);
+            expect(comp.icon.spriteFrame).toEqual(comp.iconFrames[0]);
+        });
+
+        it("Case 2: type = 1 amd even = false", () => {
+            // Arrange
+            comp.type = 1;
+            const data = {
+                settlementResult: {
+                    others: {
+                        big: false,
+                        even: false,
+                        odd: true,
                         small: true
                     }
                 }
