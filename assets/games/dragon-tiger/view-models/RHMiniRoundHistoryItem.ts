@@ -1,5 +1,4 @@
 import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
-import RongHo from "./RongHo";
 import DragonTigerUtil from "./DragonTigerUtil";
 
 const { ccclass, property } = cc._decorator;
