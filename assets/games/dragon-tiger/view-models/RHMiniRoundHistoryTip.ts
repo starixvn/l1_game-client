@@ -1,7 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import { getNameCard } from "../../../common/helpers/CardHelper";
 import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
-import RongHo from "./RongHo";
 import DragonTigerUtil from "./DragonTigerUtil";
 
 const { ccclass, property } = cc._decorator;

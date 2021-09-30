@@ -1,5 +1,3 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import GameUtils from "../../../common/GameUtils";
 

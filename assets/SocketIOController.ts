@@ -43,9 +43,7 @@ export default class SocketIOController {
             socket.emit("signin", getSession());
         });
 
-        socket.on("reconnect", () => {
-            // socket.sendBuffer = [];
-        });
+        socket.on("reconnect", () => {});
 
         socket.on("connect_failed", () => {
             socket.disconnect();
