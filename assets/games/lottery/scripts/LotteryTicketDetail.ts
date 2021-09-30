@@ -33,7 +33,11 @@ export default class LotteryTicketDetail extends cc.Component {
         betLogDetails.forEach((log) => {
             _.merge(choices, log.choices);
         });
-        this.result.setData(data, false, choices);
+
+        if (this.result) {
+            this.result.setData(data, false, choices);
+        }
+
         this.roundId.string = `#${phien}`;
 
         const total = betLogDetails.length;

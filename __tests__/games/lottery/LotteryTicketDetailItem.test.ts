@@ -5,6 +5,7 @@
 
 import { getStringHourByTime } from "../../../assets/common/helpers/DateTimeHelper";
 import LotteryTicketDetailItem from "../../../assets/games/lottery/scripts/LotteryTicketDetailItem";
+import LotteryTicketDetailSubItem from "../../../assets/games/lottery/scripts/LotteryTicketDetailSubItem";
 
 describe("Test class LotteryTicketDetailItem", () => {
     let node: cc.Node;
@@ -15,8 +16,17 @@ describe("Test class LotteryTicketDetailItem", () => {
         comp.background = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.content = new cc.Node();
+        comp.content.addComponent(cc.Layout);
         comp.subItemSample = new cc.Node();
+        comp.subItemSample.addComponent(LotteryTicketDetailSubItem);
         comp.lineBottom = new cc.Node();
+        const subItem = comp.subItemSample.getComponent(LotteryTicketDetailSubItem);
+        subItem.type = new cc.Node().addComponent(cc.Label);
+        subItem.choice = new cc.Node().addComponent(cc.Label);
+        subItem.ratio = new cc.Node().addComponent(cc.Label);
+        subItem.bet = new cc.Node().addComponent(cc.Label);
+        subItem.win = new cc.Node().addComponent(cc.Label);
+        subItem.lineTop = new cc.Node();
     });
     describe("Test method setData", () => {
         it("Case: ", () => {
