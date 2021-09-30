@@ -29,8 +29,8 @@ describe("Test class LotteryTypeItem", () => {
     describe("Test method updateLabelColor", () => {
         it("Case: ", () => {
             // Arrange
-            const node = new cc.Node();
-            node.addChild(comp.odds.node);
+            const parentNode = new cc.Node();
+            parentNode.addChild(comp.odds.node);
 
             // Act
             comp.updateLabelColor();
