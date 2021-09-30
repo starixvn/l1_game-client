@@ -7,9 +7,6 @@ export default class Header extends cc.Component {
     @property(cc.Sprite)
     avatar: cc.Sprite = null;
 
-    @property(cc.Node)
-    nodeUsers: cc.Node = null;
-
     @property(cc.Label)
     userName: cc.Label = null;
 
@@ -33,13 +30,10 @@ export default class Header extends cc.Component {
         }
     }
 
-    isSignIn() {
-        this.nodeUsers.active = true;
-    }
+    isSignIn() {}
 
     isSignOut() {
         this.userName.string = this.userRed.string = "";
-        this.nodeUsers.active = false;
     }
 
     setAvatar(avatarId) {

@@ -29,21 +29,39 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
     list = [38, 29, 22, 2, 28, 9, 25, 1, 4, 6, 8, 11, 27, 10, 26, 3, 7, 24, 23, 21, 31, 35];
-    diceGames = [
-        GameIds.VipSedie,
+    seDieGames = [
+        //
         GameIds.SeDie,
-        GameIds.VipSedieWar,
         GameIds.MiniSedie,
-        GameIds.SicBo,
-        GameIds.BigSmall,
-        GameIds.TurboBigSmall,
-        GameIds.TurboOddEven,
-        GameIds.VipFishPrawnCrab,
-        GameIds.FishPrawnCrab,
+        GameIds.VipSedie,
+        GameIds.VipSedieWar,
         GameIds.SpecialSeDie
     ];
-    cardGames = [GameIds.VipBaccarat, GameIds.Baccarat, GameIds.DragonTiger, GameIds.BlackJack, GameIds.ThreeCards];
-    slotGames = [GameIds.FourGuardians];
+    casinoGames = [
+        //
+        GameIds.Roulette,
+        GameIds.SicBo,
+        GameIds.VipFishPrawnCrab
+    ];
+    cardGames = [
+        //
+        GameIds.BlackJack,
+        GameIds.DragonTiger,
+        GameIds.Baccarat,
+        GameIds.VipBaccarat,
+        GameIds.ThreeCards
+    ];
+    slotGames = [
+        //
+        GameIds.FourGuardians,
+        GameIds.HeroesSlot
+    ];
+    lotteryGames = [
+        //
+        GameIds.Lottery,
+        GameIds.KenoProMax,
+        GameIds.KenoProViet
+    ];
     miniList = [1, 4, 6, 3, 0, 7, 11, 9];
     detail = {
         29: {

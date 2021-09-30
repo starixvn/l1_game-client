@@ -20,7 +20,7 @@ import * as sessionManager from "./../../../common/auth/SessionManager";
 import BannerController from "./BannerController";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
-import LobbyMenu from "./LobbyMenu";
+import LobbyMenu, { GameCategory } from "./LobbyMenu";
 
 // const baseControll = require("BaseController");
 const socketIOController = appContainer.get(SocketIOController);
@@ -41,8 +41,8 @@ export default class MainGame extends cc.Component {
     @property(cc.Node)
     center: cc.Node = null;
 
-    @property(cc.Node)
-    mainScroll: cc.Node = null;
+    @property(cc.ScrollView)
+    mainScroll: cc.ScrollView = null;
 
     @property(cc.Node)
     bannerContainer: cc.Node = null;
@@ -83,6 +83,9 @@ export default class MainGame extends cc.Component {
     @property(cc.Prefab)
     NoticePrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    categoryContainer: cc.Node = null;
+
     private dialog: Dialog;
     private inRoomGameId: string;
     private initializedLobby: boolean;
@@ -115,6 +118,26 @@ export default class MainGame extends cc.Component {
         this.resumeGameRoomOrSignIn();
         this.onLoadLobby();
         this.scaleCenterForDesktop();
+        this.initCategoryHeader();
+    }
+
+    initCategoryHeader() {
+        const storage = cc.sys.localStorage.getItem("current_game_category");
+        let category = 0;
+        if (storage !== "") {
+            category = parseInt(storage) || GameCategory.All;
+        }
+
+        const node = this.categoryContainer.children.find((child) => child.name === `${category}`);
+        if (node) {
+            node.getComponent(cc.Toggle).check();
+        }
+    }
+
+    onFastScrollClick() {
+        cc.RedT.audio.playClick();
+        const offset = this.mainScroll.getScrollOffset();
+        this.mainScroll.scrollTo(cc.v2(offset.x + this.mainScroll.node.width, offset.y), 0.4);
     }
 
     initRedT() {
@@ -204,11 +227,11 @@ export default class MainGame extends cc.Component {
     }
 
     initLobbyMenu() {
-        let lobbyMenu = this.mainScroll.getComponent("LobbyMenu");
+        let lobbyMenu = this.mainScroll.getComponent(LobbyMenu);
         if (lobbyMenu) {
             return;
         }
-        lobbyMenu = this.mainScroll.addComponent("LobbyMenu");
+        lobbyMenu = this.mainScroll.addComponent(LobbyMenu);
         lobbyMenu.content = this.scrollContent;
         lobbyMenu.miniPanel = cc.RedT.MiniPanel;
         lobbyMenu.initializedCallback = () => {
@@ -291,7 +314,7 @@ export default class MainGame extends cc.Component {
     repositionMenu() {
         const adsWidth = this.bannerContainer.width;
         const scrollContentWidth = this.scrollContent.width + adsWidth;
-        const scrollView = this.mainScroll.getComponent(cc.ScrollView);
+        const scrollView = this.mainScroll;
         const adsWidget = this.bannerContainer.getComponent(cc.Widget);
         if (scrollContentWidth < this.center.width) {
             scrollView.enabled = false;
