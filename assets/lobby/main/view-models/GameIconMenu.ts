@@ -10,6 +10,7 @@ export default class GameIconMenu extends BaseComponent {
     content: cc.Node = null;
 
     public miniPanel: MiniPanel;
+    private initialized = false;
 
     onLoad() {
         if (this.content) {
@@ -24,6 +25,7 @@ export default class GameIconMenu extends BaseComponent {
 
     async initItems() {
         const list = this.getList();
+        console.log("================================", list);
         for (const id of list) {
             const node = await this.addItem(id);
             if (node) {
@@ -31,9 +33,10 @@ export default class GameIconMenu extends BaseComponent {
             }
         }
 
-        if (!this.isAlive()) {
+        if (!this.isAlive() || !this.initialized) {
             return;
         }
+        this.initialized = true;
         this.onInitialized();
     }
 
