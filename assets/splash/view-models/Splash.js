@@ -74,16 +74,14 @@ cc.Class({
             messageLabel = this.messageSC2;
         }
         if (cc.sys.isBrowser && authManager) {
-            authManager.preChecking(() => {
-                authManager.checkSSO(messageLabel, () => {
-                    this.loadScene();
-                    if (window.reCheckInId) {
-                        clearInterval(window.reCheckInId);
-                    }
-                    window.reCheckInId = setInterval(() => {
-                        authManager.reCheckIn();
-                    }, 60 * 1000);
-                });
+            authManager.checkSSO(messageLabel, () => {
+                this.loadScene();
+                if (window.reCheckInId) {
+                    clearInterval(window.reCheckInId);
+                }
+                window.reCheckInId = setInterval(() => {
+                    authManager.reCheckIn();
+                }, 60 * 1000);
             });
         } else {
             this.loadScene();
