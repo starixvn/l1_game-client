@@ -21,6 +21,8 @@ describe("Test class MiniKenoBetItem", () => {
         cc.loader.loadRes(`games/mini-keno/WinningTaiXiu`, (err, prefab: cc.Prefab) => {
             comp.winningPrefab = prefab;
         });
+
+        comp.highlight = new cc.Node();
     });
     describe("Test method onLoad", () => {
         it("Case: ", () => {
@@ -88,7 +90,19 @@ describe("Test class MiniKenoBetItem", () => {
         it("Case: ", () => {
             // Arrange
             const bet = 10;
-            cc.tween(comp.inputBet.node).to(0.1, { scale: 1.5 }).to(0.2, { scale: 1 }, { easing: "backOut" }).start();
+            comp.inputBet.node.stopAllActions = () => {};
+
+            const tween = cc.Tween as any;
+            cc.tween = () => {
+                return tween;
+            };
+            cc.tween().to = (a, b, c?) => {
+                return tween;
+            };
+            cc.tween().start = () => {
+                return tween;
+            };
+
             // Act
             comp.inputBetChanged(bet);
 
@@ -107,6 +121,19 @@ describe("Test class MiniKenoBetItem", () => {
 
             // Assert
             expect(comp.inputBet.node.parent.active).toEqual(false);
+        });
+    });
+
+    describe("Test method resetHighlight", () => {
+        it("Case: ", () => {
+            // Arrange
+
+            // Act
+            comp.resetHighlight();
+
+            // Assert
+            expect(comp.winningEffectNode.active).toEqual(false);
+            expect(comp.highlight.active).toEqual(false);
         });
     });
 });
