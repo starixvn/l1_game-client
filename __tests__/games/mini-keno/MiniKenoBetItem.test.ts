@@ -92,16 +92,10 @@ describe("Test class MiniKenoBetItem", () => {
             const bet = 10;
             comp.inputBet.node.stopAllActions = () => {};
 
-            const tween = cc.Tween as any;
-            cc.tween = () => {
-                return tween;
-            };
-            cc.tween().to = (a, b, c?) => {
-                return tween;
-            };
-            cc.tween().start = () => {
-                return tween;
-            };
+            const temp: any = {};
+            cc.tween = () => temp;
+            cc.tween().to = (a, b, c?) => temp;
+            cc.tween().start = () => temp;
 
             // Act
             comp.inputBetChanged(bet);
