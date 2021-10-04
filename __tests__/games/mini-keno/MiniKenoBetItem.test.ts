@@ -16,12 +16,8 @@ describe("Test class MiniKenoBetItem", () => {
         comp.inputBet = new cc.Node().addComponent(cc.Label);
         const inputBetParentNode = new cc.Node();
         inputBetParentNode.addChild(comp.inputBet.node);
-
         comp.winningEffectNode = new cc.Node();
-        cc.loader.loadRes(`games/mini-keno/WinningTaiXiu`, (err, prefab: cc.Prefab) => {
-            comp.winningPrefab = prefab;
-        });
-
+        comp.winningPrefab = null;
         comp.highlight = new cc.Node();
     });
     describe("Test method onLoad", () => {
