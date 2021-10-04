@@ -51,7 +51,7 @@ export default class RongHoHistoryItem extends cc.Component {
     }
 
     setCards(results: any) {
-        if (this.cards.length == 2) {
+        if (this.cards.length === 2) {
             Object.values(results).forEach((result: any, index) => {
                 this.cards[index].setCardOldStyle({
                     rank: result.card,

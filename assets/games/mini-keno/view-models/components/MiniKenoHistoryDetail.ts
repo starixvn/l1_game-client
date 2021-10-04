@@ -1,8 +1,7 @@
 import * as _ from "lodash";
 
 import GameUtils from "../../../../common/GameUtils";
-import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import KenoNumber from "../../../keno-pro/view-models/KenoNumber";
 import MiniKenoHistoryDetailItem from "./MiniKenoHistoryDetailItem";
 
@@ -43,7 +42,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
         this.kenoNumbers = this.resultNumbers.children.map((child) => child.getComponent(KenoNumber));
         this.resultLabels = this.settleResult.children.map((child) => child.getComponent(cc.Label));
 
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {
             this.node.destroy();
         });
@@ -52,14 +51,25 @@ export default class MiniKenoHistoryDetail extends cc.Component {
     public setData(result: number[], settlementResult: any, betLogDetails: any[]) {
         this.result = result;
         this.settlementResult = settlementResult;
+        this.setDataHistoryDetailItem(betLogDetails);
+    }
+
+    setDataHistoryDetailItem(betLogDetails: any[]) {
         betLogDetails.forEach((item) => {
-            const node = cc.instantiate(this.prefabDetail);
-            const detailItem: MiniKenoHistoryDetailItem = node.getComponent("MiniKenoHistoryDetailItem");
-            detailItem.time.string = formatDateTime(item.time);
-            detailItem.choice.string = GameUtils.getBetChoiceString(item.choice).toUpperCase();
-            detailItem.amount.string = numberWithCommas(item.amount);
-            this.betDetails.addChild(node);
+            const detailItem = this.instantiateDetailItem(this.prefabDetail);
+            if (detailItem) {
+                detailItem.setData(item);
+                this.betDetails.addChild(detailItem.node);
+            }
         });
+    }
+
+    instantiateDetailItem(prefabDetail: cc.Prefab) {
+        if (prefabDetail) {
+            const node = cc.instantiate(this.prefabDetail);
+            return node.getComponent("MiniKenoHistoryDetailItem");
+        }
+        return null;
     }
 
     public show(animated = false, duration = 0, onComplete: () => void = () => {}) {
@@ -75,8 +85,10 @@ export default class MiniKenoHistoryDetail extends cc.Component {
             shuffle = _.shuffle(shuffle);
 
             let i = 0;
-            const sequence = cc.sequence(
-                cc.callFunc(() => {
+
+            const sequence = cc
+                .tween()
+                .call(() => {
                     const index = shuffle[i];
                     this.kenoNumbers[index].setNumber(this.result[index], true);
                     let total = 0;
@@ -86,23 +98,21 @@ export default class MiniKenoHistoryDetail extends cc.Component {
                     this.showSettleResult(this.getSettleResult(total));
                     this.total.string = total.toString();
                     i++;
-                }),
-                cc.delayTime(duration / this.result.length)
-            );
+                })
+                .delay(duration / this.result.length)
+                .start();
 
-            this.node.runAction(
-                cc.sequence(
-                    cc.repeat(sequence, this.result.length),
-                    cc.callFunc(() => {
-                        this.total.node.runAction(cc.sequence(cc.scaleTo(0.1, 1.2), cc.scaleTo(0.1, 1)));
-                        this.resultLabels.forEach((label) => {
-                            label.node.runAction(cc.sequence(cc.scaleTo(0.1, 1.2), cc.scaleTo(0.1, 1)));
-                        });
-                        this.showSettleResult(this.settlementResult);
-                        onComplete();
-                    })
-                )
-            );
+            cc.tween(this.node)
+                .repeat(this.result.length, sequence)
+                .call(() => {
+                    cc.tween(this.total.node).to(0.1, { scale: 1.2 }).to(0.1, { scale: 1 }).start();
+                    this.resultLabels.forEach((label) => {
+                        cc.tween(label.node).to(0.1, { scale: 1.2 }).to(0.1, { scale: 1 }).start();
+                    });
+                    this.showSettleResult(this.settlementResult);
+                    onComplete();
+                })
+                .start();
         } else {
             let total = 0;
             for (let i = 0; i < this.result.length; i++) {
