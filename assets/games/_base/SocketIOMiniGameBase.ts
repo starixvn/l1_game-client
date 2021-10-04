@@ -1,4 +1,5 @@
 import { lazyInject } from "../../Application";
+import AudioManager from "../../common/audio/AudioManager";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
 import SabaConfigs = require("../../configs/SabaConfigs");
 import SocketIOController from "../../SocketIOController";
@@ -93,7 +94,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
     }
 
     public onBetItemClick(e) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         if (!this.isReadyBet()) {
             return;
         }

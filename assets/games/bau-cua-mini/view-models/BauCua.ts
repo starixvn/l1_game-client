@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+import AudioManager from "../../../common/audio/AudioManager";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
@@ -127,11 +128,11 @@ export default class BauCua extends SocketIOMiniGameBase {
     }
 
     pressedShowScoreBoard() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.logNode.active = !this.logNode.active;
     }
     pressedHistoryDialog() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const dialog = cc.instantiate(this.historyDialog);
         this.historyComponent = dialog.getComponent(BauCuaHistory);
         this.historyComponent.init(this.socket);

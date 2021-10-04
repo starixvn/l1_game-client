@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import RouletteMain from "./RouletteMain";
 
 const { ccclass, property } = cc._decorator;
@@ -64,7 +65,7 @@ export default class RouletteMobileMain extends RouletteMain {
     }
 
     switchToQuickBet() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.quickBetButton.active = false;
         this.regularBetButton.active = true;
         this.switchViewBackground.active = true;
@@ -102,7 +103,7 @@ export default class RouletteMobileMain extends RouletteMain {
     switchToRegularBet() {
         this.board.clearHighlight();
 
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.quickBetButton.active = true;
         this.regularBetButton.active = false;
         this.switchViewBackground.active = false;

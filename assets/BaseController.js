@@ -158,43 +158,6 @@ module.exports = {
         var check = cc.sys.localStorage.getItem("AUTO_LOGIN");
         return check === "true";
     },
-    addSoundObserver(key, observer) {
-        this.soundObservers[key] = observer;
-    },
-    removeSoundObserver(key) {
-        delete this.soundObservers[key];
-    },
-    setSoundGame: function (bool) {
-        cc.sys.localStorage.setItem("SOUND_GAME", bool);
-
-        Object.keys(cc.RedT.soundObservers).forEach((key) => {
-            var observer = cc.RedT.soundObservers[key];
-            observer && observer(bool);
-        });
-    },
-    isSoundGame: function () {
-        var check = cc.sys.localStorage.getItem("SOUND_GAME");
-
-        if (check === null || check === undefined) {
-            this.setSoundGame(true);
-            return true;
-        }
-
-        return check === "true";
-    },
-    setSoundBackground: function (bool) {
-        cc.sys.localStorage.setItem("SOUND_BACKGROUND", bool);
-    },
-    isSoundBackground: function () {
-        var check = cc.sys.localStorage.getItem("SOUND_BACKGROUND");
-
-        if (check === null || check === undefined) {
-            this.setSoundBackground(true);
-            return true;
-        }
-
-        return check === "true";
-    },
     userData: function (data) {
         if (void 0 !== data.offerGames && data.offerGames.length > 0) {
             const menuConfig = new LobbyMenuConfig();

@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import BannerItem from "./BannerItem";
 
@@ -218,7 +219,7 @@ export default class BannerController extends cc.Component {
     }
 
     openGame(e, gameId) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         GameUtils.openGame(+gameId, cc.RedT.MiniPanel);
     }
 }

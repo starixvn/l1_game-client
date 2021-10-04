@@ -5,7 +5,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SicBoBetItem extends BetItem {
-    protected setTotalBet(bet: number) {
+    setTotalBet(bet: number) {
         if (this.totalBet) {
             this.totalBet.string = bet > 0 ? numberWithCommas(bet, 1) : "";
         }

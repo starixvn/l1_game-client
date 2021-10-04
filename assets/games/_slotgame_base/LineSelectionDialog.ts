@@ -1,3 +1,4 @@
+import AudioManager from "../../common/audio/AudioManager";
 import LineItem from "./LineItem";
 
 const { ccclass, property } = cc._decorator;
@@ -51,13 +52,13 @@ export default class LineSelectionDialog extends cc.Component {
     }
 
     onCloseDialog() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         this.node.destroy();
     }
 
     selectAllEvenLine() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         this.items.forEach((item, index) => {
             item.setChecked(index % 2 !== 0);
@@ -65,7 +66,7 @@ export default class LineSelectionDialog extends cc.Component {
     }
 
     selectAllOddLine() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         this.items.forEach((item, index) => {
             item.setChecked(index % 2 === 0);
@@ -73,7 +74,7 @@ export default class LineSelectionDialog extends cc.Component {
     }
 
     selectAll() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         this.items.forEach((item) => {
             item.setChecked(true);
@@ -81,7 +82,7 @@ export default class LineSelectionDialog extends cc.Component {
     }
 
     unSelectAll() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         this.items.forEach((item) => {
             item.setChecked(false);
@@ -89,7 +90,7 @@ export default class LineSelectionDialog extends cc.Component {
     }
 
     onConfirmClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.onConfirmCallback(this.getCurrentBetChoices());
         this.node.destroy();
     }

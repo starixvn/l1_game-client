@@ -9338,7 +9338,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Layout",
+    "_name": "categoryContainer",
     "_objFlags": 0,
     "_parent": {
       "__id__": 64
@@ -12853,14 +12853,9 @@
       "__id__": 2
     },
     "_enabled": true,
-    "PrefabT": [
-      {
-        "__uuid__": "a1e26694-d2d0-47f8-a280-d1bffd2e5972"
-      },
-      {
-        "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
-      }
-    ],
+    "miniPanelPrefab": {
+      "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
+    },
     "header": {
       "__id__": 48
     },
@@ -12909,7 +12904,9 @@
     "NoticePrefab": {
       "__uuid__": "783d3aa3-f636-4101-9128-02611882f625"
     },
-    "categoryContainer": null,
+    "categoryContainer": {
+      "__id__": 209
+    },
     "_id": "62CE4mzKZCHrEvA8eP5ADR"
   }
 ]

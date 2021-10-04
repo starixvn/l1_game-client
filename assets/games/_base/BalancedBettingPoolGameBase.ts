@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
+import AudioManager from "../../common/audio/AudioManager";
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
@@ -174,7 +175,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
     }
 
     openPresetBetDialog() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.presetBet.toggle();
     }
 

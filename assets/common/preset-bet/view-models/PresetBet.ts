@@ -1,6 +1,7 @@
-import { lazyInject } from '../../../Application';
-import BetBoardConfig from '../../bet-board/view-models/BetBoardConfig';
-import { nFormatter, numberWithCommas } from '../../helpers/NumberHelper';
+import { lazyInject } from "../../../Application";
+import AudioManager from "../../audio/AudioManager";
+import BetBoardConfig from "../../bet-board/view-models/BetBoardConfig";
+import { nFormatter, numberWithCommas } from "../../helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -48,13 +49,13 @@ export default class PresetBet extends cc.Component {
     }
 
     public clearBet() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.betAmount = 0;
         this.updateBetAmount();
     }
 
     public onClose() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.close();
     }
 
@@ -80,7 +81,7 @@ export default class PresetBet extends cc.Component {
     }
 
     public onItemBetClicked(e) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const amount = +e.target.name;
         this.betAmount = this.betAmount + amount;
         this.updateBetAmount();

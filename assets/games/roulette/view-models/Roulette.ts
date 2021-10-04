@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { GameIds } from "../../../configs/SabaConfigs";
@@ -490,7 +491,7 @@ export default class Roulette extends SocketIOTableGameBase {
     }
 
     playClick() {
-        cc.RedT.isSoundGame() && cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
     }
 
     addToBetChoicesStack(betChoices: any) {

@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { appContainer } from "../../../Application";
 import * as baseControl from "../../../BaseController";
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import Loading from "../../../common/loading/view-models/Loading";
@@ -32,8 +33,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MainGame extends cc.Component {
-    @property({ type: cc.Prefab })
-    PrefabT: cc.Prefab[] = [];
+    @property(cc.Prefab)
+    miniPanelPrefab: cc.Prefab = null;
 
     @property(Header)
     header: Header = null;
@@ -109,7 +110,6 @@ export default class MainGame extends cc.Component {
 
         this.initAppEvent();
 
-        cc.RedT.audio = this.PrefabT[0].data.getComponent("MainAudio");
         cc.RedT.reconnect();
 
         this.dialog.init(this);
@@ -135,7 +135,7 @@ export default class MainGame extends cc.Component {
     }
 
     onFastScrollClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const offset = this.mainScroll.getScrollOffset();
         this.mainScroll.scrollTo(cc.v2(offset.x + this.mainScroll.node.width, offset.y), 0.4);
     }
@@ -165,7 +165,7 @@ export default class MainGame extends cc.Component {
     }
 
     initMiniPanel() {
-        const miniPanelNode = cc.instantiate(this.PrefabT[1]);
+        const miniPanelNode = cc.instantiate(this.miniPanelPrefab);
         cc.RedT.MiniPanel = miniPanelNode.getComponent(MiniPanel);
         this.redhat.insertChild(miniPanelNode, 1);
         this.dialogNode.removeFromParent();
@@ -534,11 +534,7 @@ export default class MainGame extends cc.Component {
     }
 
     audioClick() {
-        cc.RedT.audio.playClick();
-    }
-
-    audioUnClick() {
-        cc.RedT.audio.playUnClick();
+        AudioManager.getInstance().playClick();
     }
 
     onGameResultClick() {
@@ -572,7 +568,7 @@ export default class MainGame extends cc.Component {
     }
 
     onCategoryChanged(e, params) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.lobbyMenu.setCategory(+params);
     }
 }

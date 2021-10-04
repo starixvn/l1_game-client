@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 
 import { lazyInject } from "../../../Application";
+import AudioManager from "../../../common/audio/AudioManager";
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
@@ -297,13 +298,13 @@ export default class KenoProViet extends cc.Component {
     }
 
     public onPrevious() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.selectedIndex -= this.movingStep;
         this.scrollToSelectedIndex();
     }
 
     public onNext() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.selectedIndex += this.movingStep;
         this.scrollToSelectedIndex();
     }
@@ -324,7 +325,7 @@ export default class KenoProViet extends cc.Component {
     openGame() {}
 
     closeGame() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.close();
     }
 
@@ -356,7 +357,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     openGuide() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.guidePrefab);
         this.miniPanel.addDialog(node);
         const guide = node.getComponent(MiniKenoGuide);
@@ -365,7 +366,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     openHistory() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.historyPrefab);
         this.miniKenoHistory = node.getComponent(MiniKenoHistory);
         this.miniPanel.addDialog(node);
@@ -373,7 +374,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     openPresetBetDialog() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.presetBet.toggle();
     }
 }

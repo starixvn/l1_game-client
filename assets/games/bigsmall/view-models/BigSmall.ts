@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
@@ -207,7 +208,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     public openHistory() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(BigSmallHistory);
@@ -221,7 +222,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     public openStatistic() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         const node = cc.instantiate(this.statisticPrefab);
         this.statistic = node.getComponent(BigSmallStatistic);
@@ -231,7 +232,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     openBetHistory(roundId: number) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         const node = cc.instantiate(this.betHistoryPrefab);
         this.betHistory = node.getComponent(BigSmallBetHistory);

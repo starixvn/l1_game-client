@@ -1,3 +1,5 @@
+import AudioManager from "../../common/audio/AudioManager";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -23,7 +25,7 @@ export default class LineItem extends cc.Component {
     }
 
     onStatusChanged() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         this.updateDisplay();
     }
