@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import AudioManager from "../../../common/audio/AudioManager";
 import RouletteStatisticItem from "./RouletteStatisticItem";
 import RouletteUtils from "./RouletteUtils";
 
@@ -296,8 +297,8 @@ export default class RouletteStatistic extends cc.Component {
         this.dozen3Percent.string = `${dozen3}%`;
     }
 
-    private hideStatisticContent() {
-        cc.RedT.audio.playClick();
+    hideStatisticContent() {
+        AudioManager.getInstance().playClick();
 
         this.content.runAction(
             cc.sequence(

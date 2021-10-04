@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import GameBase from "../../_base/GameBase";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import VipSedieWarRoundHistoryItem from "./VipSedieWarRoundHistoryItem";
@@ -90,7 +91,7 @@ export default class VipSedieWarStatistic extends cc.Component {
     }
 
     onModeChanged(e, mode) {
-        cc.RedT.isSoundGame() && cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         const newMode = +mode;
         if (this.currentMode === newMode) {

@@ -1,8 +1,9 @@
+import AudioManager from "../../../common/audio/AudioManager";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameAudios extends cc.Component {
-
     @property(cc.AudioSource)
     startGame: cc.AudioSource = null;
 
@@ -15,27 +16,21 @@ export default class GameAudios extends cc.Component {
     @property(cc.AudioSource)
     showResult: cc.AudioSource = null;
 
-
     playStartGameAudio() {
-        cc.RedT.isSoundGame() && this.startGame.play();
+        AudioManager.getInstance().playSFX(this.startGame.clip);
     }
 
     playEndGameAudio() {
-        cc.RedT.isSoundGame() && this.endGame.play();
+        AudioManager.getInstance().playSFX(this.endGame.clip);
     }
 
     playClockTickAudio() {
-        cc.RedT.isSoundGame() && this.clockTick.play();
+        AudioManager.getInstance().playSFX(this.clockTick.clip);
     }
 
     playShowResultAudio() {
-        cc.RedT.isSoundGame() && this.showResult.play();
+        AudioManager.getInstance().playSFX(this.showResult.clip);
     }
 
-    stopAllAudio() {
-        this.startGame && this.startGame.stop();
-        this.endGame && this.endGame.stop();
-        this.clockTick && this.clockTick.stop();
-        this.showResult && this.showResult.stop();
-    }
+    stopAllAudio() {}
 }

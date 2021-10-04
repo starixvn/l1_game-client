@@ -1,4 +1,5 @@
 import { lazyInject } from "../../../Application";
+import AudioManager from "../../../common/audio/AudioManager";
 import { removeInRoomGameId } from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
@@ -39,12 +40,12 @@ export default class CircleMenu extends GameIconMenu {
         const degree = 360 / count;
         this.content.children.forEach((child, index) => {
             const angle = degree * index;
-            child.position = cc.v2(radius * Math.sin(cc.misc.degreesToRadians(angle)), radius * Math.cos(cc.misc.degreesToRadians(angle)));
+            child.position = cc.v3(radius * Math.sin(cc.misc.degreesToRadians(angle)), radius * Math.cos(cc.misc.degreesToRadians(angle)));
         });
     }
 
     itemPressed(id: number) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         if (id === 0) {
             this.closeGame();
         } else {

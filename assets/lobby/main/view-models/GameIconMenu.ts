@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import BaseComponent from "../../../common/BaseComponent";
 import GameUtils from "../../../common/GameUtils";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
@@ -47,7 +48,7 @@ export default class GameIconMenu extends BaseComponent {
     }
 
     itemPressed(id: number) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         cc.sys.localStorage.setItem(`UserSetting_game_${id}`, "");
         GameUtils.openGame(id, this.miniPanel);
     }

@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import JackpotWinner from "../../../games/four-guardians/scripts/JackpotWinner";
 
 const { ccclass, property } = cc._decorator;
@@ -118,7 +119,7 @@ export default class PopupMinigames extends cc.Component {
     }
 
     toggle() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         if (!this.toggleRuning) {
             this.toggleRuning = true;
             const menuAnimation = this.menuIcon.getComponent(cc.Animation);

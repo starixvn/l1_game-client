@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import AudioManager from "../../../common/audio/AudioManager";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import { GameState } from "../../_base/GameBase";
@@ -201,7 +202,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
     }
 
     public onReBetClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         if (this.isDisabledBet()) {
             return;
         }
@@ -219,7 +220,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
     }
 
     public onBetItemClick(e) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         if (this.isDisabledBet()) {
             this.showMiniWarning(i18n.t("messages.placeBetNextRound"));
@@ -242,7 +243,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
     }
 
     public toggleFavorite() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.onFavoriteChanged(this.favourite.isChecked, this.kenoType);
     }
 

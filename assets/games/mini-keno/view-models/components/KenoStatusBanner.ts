@@ -1,3 +1,4 @@
+import AudioManager from "../../../../common/audio/AudioManager";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
@@ -40,7 +41,7 @@ export default class KenoStatusBanner extends cc.Component {
     show() {
         this.isShowing = true;
         this.node.active = true;
-        this.node.activeInHierarchy && cc.RedT.isSoundGame() && this.animationSound.play();
+        this.node.activeInHierarchy && AudioManager.getInstance().playSFX(this.animationSound.clip);
         this.animation.play();
     }
 }

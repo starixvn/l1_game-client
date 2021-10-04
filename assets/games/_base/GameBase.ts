@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
+import AudioManager from "../../common/audio/AudioManager";
 import { getLocale } from "../../common/auth/SessionManager";
 import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
@@ -219,7 +220,7 @@ export default class GameBase extends BaseComponent {
     }
 
     closeGame() {
-        cc.RedT.audio.playUnClick();
+        AudioManager.getInstance().playClick();
         this.node.active = false;
     }
 

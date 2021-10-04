@@ -1,3 +1,5 @@
+import AudioManager from "./audio/AudioManager";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -47,7 +49,7 @@ export default class ExpandableMenu extends cc.Component {
     }
 
     onMenuClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expanded = !this.expanded;
         this.expanded ? this.expandMenu() : this.collapseMenu();
     }

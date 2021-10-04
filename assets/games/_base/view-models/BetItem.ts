@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 
@@ -46,7 +47,7 @@ export default class BetItem extends cc.Component {
     }
 
     public onBetClick(e) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.betCallback(e);
     }
 

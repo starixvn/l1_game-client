@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import AudioManager from "../../common/audio/AudioManager";
 import * as sessionManager from "../../common/auth/SessionManager";
 import BaseComponent from "../../common/BaseComponent";
 import GameUtils from "../../common/GameUtils";
@@ -167,11 +168,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     playClick() {
-        cc.RedT.audio.playClick();
-    }
-
-    playUnClick() {
-        cc.RedT.audio.playUnClick();
+        AudioManager.getInstance().playClick();
     }
 
     openGame(e, id) {

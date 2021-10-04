@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import { numberPad } from "../../../common/helpers/NumberHelper";
 import GameBase, { GameState } from "../GameBase";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
@@ -141,7 +142,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             context.shakeAnimation.play();
             cc.tween(context)
                 .delay(0.3)
-                .call(() => cc.RedT.isSoundGame() && context.shakeAudio.play())
+                .call(() => AudioManager.getInstance().playSFX(context.shakeAudio.clip))
                 .start();
 
             context.finishShakeThePlate = true;

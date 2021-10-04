@@ -1,3 +1,4 @@
+import AudioManager from "../../../../common/audio/AudioManager";
 import { getLocale } from "../../../../common/auth/SessionManager";
 import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
 import { GameIds } from "../../../../configs/SabaConfigs";
@@ -44,7 +45,7 @@ export default class MiniKenoGuide extends cc.Component {
     }
 
     select(game: string) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         Promise.all(
             this.sideBar.children.map((obj) => {
                 if (obj.name === game) {

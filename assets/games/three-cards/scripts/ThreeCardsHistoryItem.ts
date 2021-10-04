@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
@@ -89,7 +90,7 @@ export default class ThreeCardsHistoryItem extends cc.Component {
     }
 
     openTicketDetail() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.showTicketDetail(this.data);
     }
 }

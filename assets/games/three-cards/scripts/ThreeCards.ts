@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
@@ -233,7 +234,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
     }
 
     openHistory() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(ThreeCardsHistory);
         this.historyComponent.init(this.socket);

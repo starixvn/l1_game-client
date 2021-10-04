@@ -1,4 +1,5 @@
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
+import AudioManager from "../../common/audio/AudioManager";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import MainGame from "../main/view-models/MainGame";
 
@@ -19,7 +20,7 @@ export default class Dialog extends cc.Component {
     }
 
     onClickBack() {
-        cc.RedT.audio.playUnClick();
+        AudioManager.getInstance().playClick();
         this.onBack();
     }
 

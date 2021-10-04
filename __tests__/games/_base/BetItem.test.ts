@@ -1,3 +1,4 @@
+import AudioManager from "../../../assets/common/audio/AudioManager";
 import BetItem from "../../../assets/games/_base/view-models/BetItem";
 
 describe("Test class BetItem", () => {
@@ -6,9 +7,7 @@ describe("Test class BetItem", () => {
     let item: any;
     let label: cc.Label;
     beforeAll(() => {
-        cc.RedT = {};
-        cc.RedT.audio = {};
-        cc.RedT.audio.playClick = () => {};
+        AudioManager.getInstance().playClick = () => {};
 
         node = new cc.Node();
         node.name = "big";

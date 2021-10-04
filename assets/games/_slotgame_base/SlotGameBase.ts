@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
+import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import ExpandableMenu from "../../common/ExpandableMenu";
 import GameUtils from "../../common/GameUtils";
@@ -199,9 +200,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             })
             .start();
 
-        cc.RedT.isSoundGame() ? this.updateSoundStatus(true) : this.updateSoundStatus(false);
-
-        cc.RedT.addSoundObserver(`sound_observer_${this.gameId}`, this.updateSoundStatus.bind(this));
+        const audioManager = AudioManager.getInstance();
+        audioManager.musicEnabled ? this.playMusicBackground(true) : this.playMusicBackground(false);
+        audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
 
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
     }
@@ -216,16 +217,13 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     onDestroy() {
         super.onDestroy();
-        cc.RedT.removeSoundObserver(`sound_observer_${this.gameId}`);
+        const audioManager = AudioManager.getInstance();
+        audioManager.removeSfxChanged(`sound_observer_${this.gameId}`);
     }
 
     protected onGameHide() {
         super.onGameHide();
         this.saveUserSetting();
-    }
-
-    updateSoundStatus(status: boolean) {
-        status ? this.playMusicBackground() : this.playMusicBackground(false);
     }
 
     loadUserSetting() {
@@ -403,7 +401,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onLineSelectionClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
         this.hideStakeContrainer();
 
@@ -427,7 +425,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onStakeButtonClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
 
         const isShowing = this.stakeContainer.node.active && this.stakeContainer.node.scaleY === 1;
@@ -466,7 +464,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onTurboModeChanged(toggle: cc.Toggle) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         const turboWarningName = "turbo_warning";
         this.noticeNode.children.forEach((child) => {
@@ -482,7 +480,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onAutoSpinChanged() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
         this.deactiveButtons();
         this.hideStakeContrainer();
@@ -554,7 +552,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onStakeToggleChanged(event: cc.Event, param: string) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.setStake(this.gameConfigs.stakeLevels[+param]);
         this.onStakeChanged();
     }
@@ -586,7 +584,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onSpinClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
 
         const success = this.spin();
@@ -819,12 +817,12 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     openGuide() {
         super.openGuide();
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
     }
 
     onClickShowHistory() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
 
         const dialog = cc.instantiate(this.historyPrefab);
@@ -834,7 +832,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onClickShowTopWinner() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
 
         const dialog = cc.instantiate(this.topWinnerPrefab);
@@ -848,7 +846,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onClickShowHallOfFame() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
     }
 
@@ -1005,8 +1003,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
     }
 
-    playMusicBackground(status = true) {
-        if (status) {
+    playMusicBackground(play: boolean) {
+        if (play) {
             this.musicBg.play();
         } else {
             this.musicBg.stop();
@@ -1014,8 +1012,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     playSound(type: SlotGameSound) {
-        if (cc.RedT.isSoundGame()) {
-            this.soundSources[type].play();
-        }
+        AudioManager.getInstance().playSFX(this.soundSources[type].clip);
     }
 }

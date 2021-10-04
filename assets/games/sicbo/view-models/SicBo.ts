@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
@@ -254,7 +255,7 @@ export default class SicBo extends SocketIOTableGameBase {
     }
 
     openHistory() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
 
         const dialog = cc.instantiate(this.historyPrefab);

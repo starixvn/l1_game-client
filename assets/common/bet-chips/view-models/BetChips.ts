@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import { lazyInject } from "../../../Application";
 import { nFormatter } from "../../../common/helpers/NumberHelper";
 import { ComponentSystem, ICashSystem, ICreditSystem } from "../../../System";
+import AudioManager from "../../audio/AudioManager";
 import GameUtils from "../../GameUtils";
 import ChipConfig from "./ChipConfig";
 import SnappedScrollView from "./SnappedScrollView";
@@ -135,13 +136,13 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     public onPrevious() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.selectedIndex -= this.movingStep;
         this.scrollToSelectedIndex();
     }
 
     public onNext() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.selectedIndex += this.movingStep;
         this.scrollToSelectedIndex();
     }
@@ -173,7 +174,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
 
     public onClickBet(event) {
         const bet = event.target.name;
-        this.betChipClickAudio.play();
+        AudioManager.getInstance().playSFX(this.betChipClickAudio.clip);
         let i = 0;
         for (; i < this.chipList.length; i++) {
             if (this.chipList[i].name === bet) {
@@ -325,7 +326,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     public playSingleChipsSound() {
-        cc.RedT.isSoundGame() && this.singleChipAudio.play();
+        AudioManager.getInstance().playSFX(this.singleChipAudio.clip);
     }
 
     private moveChipThenDestroy(chip: cc.Node, destBoxInChipBoxSpacePosition: cc.Vec3, flyTime: number) {

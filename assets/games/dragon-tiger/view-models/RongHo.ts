@@ -1,16 +1,17 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
+import DragonTigerUtil from "./DragonTigerUtil";
 import RHFinishDataHandler from "./handlers/RHFinishDataHandler";
 import RHGameTimeHandler from "./handlers/RHGameTimeHandler";
 import RHLogsDataHandler from "./handlers/RHLogsDataHandler";
 import RongHoHistory from "./history/RongHoHistory";
 import RHRoundResultItem from "./RHRoundResultItem";
 import { RongHoConfigs } from "./RongHoConfigs";
-import DragonTigerUtil from "./DragonTigerUtil";
 
 const { ccclass, property } = cc._decorator;
 
@@ -75,7 +76,7 @@ export default class RongHo extends SocketIOMiniGameBase {
     }
 
     public pressedHistoryDialog() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(RongHoHistory);
@@ -84,7 +85,7 @@ export default class RongHo extends SocketIOMiniGameBase {
     }
 
     public pressedShowScoreBoard() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.scoreBoard.active = !this.scoreBoard.active;
     }
 
@@ -270,13 +271,13 @@ export default class RongHo extends SocketIOMiniGameBase {
         this.showResult(false);
         this.drawAnimation.play();
         this.audioDrawCard.setCurrentTime(0.2);
-        this.audioDrawCard.play();
+        AudioManager.getInstance().playSFX(this.audioDrawCard.clip);
         cc.tween(this.node)
             .delay(0.2)
             .call(() => {
                 this.audioDrawCard.stop();
                 this.audioDrawCard.setCurrentTime(0.2);
-                this.audioDrawCard.play();
+                AudioManager.getInstance().playSFX(this.audioDrawCard.clip);
             })
             .delay(0.2)
             .call(() => {
