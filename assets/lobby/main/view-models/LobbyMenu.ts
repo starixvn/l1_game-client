@@ -1,6 +1,5 @@
 import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
-import FavoriteButton from "./FavoriteButton";
 import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 
@@ -93,20 +92,19 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     addHandleFavorite(node: cc.Node, gameId: number, isFavorite: boolean) {
-        const favoriteButton = node.getComponentInChildren(FavoriteButton);
-        if (!favoriteButton) {
-            return;
-        }
-
-        favoriteButton.setFavorite(isFavorite);
-        favoriteButton.initListener();
-        favoriteButton.onFavoriteChanged = (favorite: boolean) => {
-            if (favorite) {
-                this.addFavoriteGame(gameId);
-            } else {
-                this.removeFavoriteGame(gameId);
-            }
-        };
+        // const favoriteButton = node.getComponentInChildren(FavoriteButton);
+        // if (!favoriteButton) {
+        //     return;
+        // }
+        // favoriteButton.setFavorite(isFavorite);
+        // favoriteButton.initListener();
+        // favoriteButton.onFavoriteChanged = (favorite: boolean) => {
+        //     if (favorite) {
+        //         this.addFavoriteGame(gameId);
+        //     } else {
+        //         this.removeFavoriteGame(gameId);
+        //     }
+        // };
     }
 
     addFavoriteGame(gameId: number) {
