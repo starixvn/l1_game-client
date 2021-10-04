@@ -4,9 +4,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class NewsContent extends cc.Component {
-    @property(cc.Prefab)
-    prefabItem: cc.Prefab = null;
-
     @property(cc.BitmapFont)
     marqueeFont: cc.BitmapFont = null;
 
@@ -50,7 +47,6 @@ export default class NewsContent extends cc.Component {
         label.font = this.marqueeFont;
         label.string = message;
         label.lineHeight = 47;
-        label.verticalAlign = cc.Label.VerticalAlign.TOP;
         label.fontSize = 16;
         this.addNewsNode(node);
         this.node.active = true;

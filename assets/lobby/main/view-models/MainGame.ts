@@ -137,7 +137,10 @@ export default class MainGame extends cc.Component {
     onFastScrollClick() {
         AudioManager.getInstance().playClick();
         const offset = this.mainScroll.getScrollOffset();
-        this.mainScroll.scrollTo(cc.v2(offset.x + this.mainScroll.node.width, offset.y), 0.4);
+        const maxOffset = this.mainScroll.getMaxScrollOffset();
+        if (Math.abs(Math.floor(offset.x)) < Math.floor(maxOffset.x)) {
+            this.mainScroll.scrollTo(cc.v2(offset.x + this.mainScroll.node.width, offset.y), 0.4);
+        }
     }
 
     initRedT() {
@@ -199,9 +202,9 @@ export default class MainGame extends cc.Component {
     }
 
     scaleCenterForDesktop() {
-        if (!cc.sys.isMobile) {
-            this.center.scale = 0.8;
-        }
+        // if (!cc.sys.isMobile) {
+        //     this.center.scale = 0.8;
+        // }
     }
 
     onSignIn() {
@@ -567,8 +570,9 @@ export default class MainGame extends cc.Component {
         }
     }
 
-    onCategoryChanged(e, params) {
+    onCategoryChanged(e) {
+        const category = e.node.name;
         AudioManager.getInstance().playClick();
-        this.lobbyMenu.setCategory(+params);
+        this.lobbyMenu.setCategory(+category);
     }
 }
