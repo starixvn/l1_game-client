@@ -10,7 +10,11 @@ export default class BetDetailTip extends cc.Component {
         this.bet.string = numberWithCommas(value);
         this.node.active = true;
         this.node.stopAllActions();
-        this.node.runAction(cc.fadeIn(0.1));
+        cc.tween(this.node)
+            .call(() => {
+                cc.fadeIn(0.1);
+            })
+            .start();
     }
 
     hide() {

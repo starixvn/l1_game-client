@@ -1,4 +1,3 @@
-import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import GameHistoryBase from "../../_base/view-models/GameHistoryBase";
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import RouletteHistoryItem from "./RouletteHistoryItem";
@@ -14,21 +13,15 @@ export default class RouletteHistory extends SocketIOGameHistoryBase {
         const historyItemPrefab = cc.instantiate(this.itemPrefab);
         const item = historyItemPrefab.getComponent(RouletteHistoryItem);
         this.content.addChild(historyItemPrefab);
-
-        item.timeLabel.string = getStringDateByTime(log.time);
-        item.roundLabel.string = log.phien.toString();
-        item.resultLabel.string = log.result.toString();
-
+        item.setData(log);
         GameHistoryBase.handleSomeItemRowData(this, item, log);
     }
 
     showTicketDetail(round: number, time: string, result: number, betLogDetails: any, settlementResult: any) {
         const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
         const ticketDetailComponent = ticketDetailPrefab.getComponent(RouletteTicketDetail);
-
         this.node.addChild(ticketDetailPrefab);
-        ticketDetailComponent.roundLabel.string = round.toString();
-        ticketDetailComponent.resultLabel.string = result.toString();
+        ticketDetailComponent.setRouletteData(round, result);
         ticketDetailComponent.setData(betLogDetails, settlementResult);
         ticketDetailComponent.showbetLogs();
     }

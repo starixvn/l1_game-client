@@ -4,8 +4,6 @@ import { lazyInject } from "../../../../Application";
 import DropDownList from "../../../../common/drop-down-list/view-models/DropDownList";
 import DropDownOption from "../../../../common/drop-down-list/view-models/DropDownOption";
 import GameUtils from "../../../../common/GameUtils";
-import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import { GameIds, GameInfos } from "../../../../configs/SabaConfigs";
 import SocketIOController from "../../../../SocketIOController";
 import SocketIOGameHistoryBase from "../../../_base/view-models/SocketIOGameHistoryBase";

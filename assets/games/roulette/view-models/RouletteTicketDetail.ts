@@ -28,4 +28,9 @@ export default class RouletteTicketDetail extends GameTicketDetailBase {
             groupComponent.createBetLogItem(log, this.settlementResult);
         });
     }
+
+    setRouletteData(round: number, result: number) {
+        this.roundLabel.string = round.toString();
+        this.resultLabel.string = result.toString();
+    }
 }
