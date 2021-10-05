@@ -1,4 +1,5 @@
-import SedieHistoryItemBase from '../../_base/view-models/SedieHistoryItemBase';
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SedieHistoryItemBase from "../../_base/view-models/SedieHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,4 +22,17 @@ export default class MiniSedieHistoryItem extends SedieHistoryItemBase {
 
     @property(cc.Label)
     white4: cc.Label = null;
+
+    setData(betLog: any) {
+        const { settlementResult } = betLog;
+
+        Object.keys(settlementResult).forEach((choice) => {
+            this[choice].string = numberWithCommas(betLog[choice]);
+            if (settlementResult[choice]) {
+                this[choice].node.color = cc.Color.YELLOW;
+            } else {
+                this[choice].node.color = cc.Color.WHITE;
+            }
+        });
+    }
 }
