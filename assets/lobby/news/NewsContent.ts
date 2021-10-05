@@ -47,6 +47,7 @@ export default class NewsContent extends cc.Component {
         label.font = this.marqueeFont;
         label.string = message;
         label.lineHeight = 47;
+        label.verticalAlign = cc.Label.VerticalAlign.CENTER;
         label.fontSize = 16;
         this.addNewsNode(node);
         this.node.active = true;
