@@ -245,12 +245,12 @@ export default class MainGame extends cc.Component {
         lobbyMenu = this.mainScroll.addComponent(LobbyMenu);
         lobbyMenu.content = this.scrollContent;
         lobbyMenu.miniPanel = cc.RedT.MiniPanel;
-        lobbyMenu.initializedCallback = () => {
-            if (this.node === null) {
-                return;
-            }
-            this.repositionMenu();
-        };
+        // lobbyMenu.initializedCallback = () => {
+        //     if (this.node === null) {
+        //         return;
+        //     }
+        //     this.repositionMenu();
+        // };
         lobbyMenu.initItems();
 
         this.lobbyMenu = lobbyMenu;
