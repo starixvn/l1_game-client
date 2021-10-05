@@ -117,7 +117,6 @@ export default class MainGame extends cc.Component {
         this.initMiniPanel();
         this.resumeGameRoomOrSignIn();
         this.onLoadLobby();
-        this.scaleCenterForDesktop();
         this.initCategoryHeader();
     }
 
@@ -199,12 +198,6 @@ export default class MainGame extends cc.Component {
 
             this.renderLuckyWheelIcon();
         }
-    }
-
-    scaleCenterForDesktop() {
-        // if (!cc.sys.isMobile) {
-        //     this.center.scale = 0.8;
-        // }
     }
 
     onSignIn() {
