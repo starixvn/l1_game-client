@@ -1,7 +1,7 @@
 const SpriteFrameSet = cc.Class({
-    name: 'SpriteFrameSet',
+    name: "SpriteFrameSet",
     properties: {
-        language: '',
+        language: "",
         spriteFrame: cc.SpriteFrame
     }
 });
