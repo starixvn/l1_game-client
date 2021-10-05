@@ -5,7 +5,6 @@
 
 import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
-import NewCard from "../../../assets/common/new-card/view-models/NewCard";
 import RongHoHistoryItem from "../../../assets/games/dragon-tiger/view-models/history/RongHoHistoryItem";
 
 describe("Test class RongHoHistoryItem", () => {

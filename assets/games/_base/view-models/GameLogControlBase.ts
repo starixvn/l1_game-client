@@ -91,7 +91,7 @@ export default class GameLogControlBase extends cc.Component {
         maxX = Math.max(maxX, this.nextMark.position.x);
         this.content.width = Math.max(maxX + this.itemSize.width / 2, this.node.width) + 2 * this.padding.width;
 
-        this.content.position = cc.v2(-this.content.width, this.content.position.y);
+        this.content.position = cc.v3(-this.content.width, this.content.position.y, this.content.position.z);
     }
 
     protected addNextMark(rowMax, row, col, nextCol, start) {
@@ -104,7 +104,7 @@ export default class GameLogControlBase extends cc.Component {
         }
         const dot = cc.instantiate(this.itemNext);
         dot.active = false;
-        dot.position = cc.v2(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height);
+        dot.position = cc.v3(start.x + col * this.itemSize.width, start.y - row * this.itemSize.height, 0);
         dot.addComponent(BlinkNode).interval = 0.5;
         this.content.addChild(dot);
         this.nextMark = dot;

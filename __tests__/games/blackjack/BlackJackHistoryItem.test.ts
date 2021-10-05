@@ -5,7 +5,6 @@
 import GameUtils from "../../../assets/common/GameUtils";
 import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
-import NewCard from "../../../assets/common/new-card/view-models/NewCard";
 import BlackJackHistoryItem from "../../../assets/games/blackjack/view-models/BlackJackHistoryItem";
 
 jest.mock("../../../assets/common/GameUtils", () => ({

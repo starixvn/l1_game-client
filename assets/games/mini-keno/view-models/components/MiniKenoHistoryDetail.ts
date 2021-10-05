@@ -78,41 +78,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
         if (animated) {
             this.total.string = "0";
             this.kenoNumbers.forEach((keno) => keno.show(false));
-            let shuffle = [];
-            for (let index = 0; index < this.result.length; index++) {
-                shuffle.push(index);
-            }
-            shuffle = _.shuffle(shuffle);
-
-            let i = 0;
-
-            const sequence = cc
-                .tween()
-                .call(() => {
-                    const index = shuffle[i];
-                    this.kenoNumbers[index].setNumber(this.result[index], true);
-                    let total = 0;
-                    for (let j = 0; j <= i; j++) {
-                        total += this.result[shuffle[j]];
-                    }
-                    this.showSettleResult(this.getSettleResult(total));
-                    this.total.string = total.toString();
-                    i++;
-                })
-                .delay(duration / this.result.length)
-                .start();
-
-            cc.tween(this.node)
-                .repeat(this.result.length, sequence)
-                .call(() => {
-                    cc.tween(this.total.node).to(0.1, { scale: 1.2 }).to(0.1, { scale: 1 }).start();
-                    this.resultLabels.forEach((label) => {
-                        cc.tween(label.node).to(0.1, { scale: 1.2 }).to(0.1, { scale: 1 }).start();
-                    });
-                    this.showSettleResult(this.settlementResult);
-                    onComplete();
-                })
-                .start();
+            this.showSettleResultAnimation(duration, onComplete);
         } else {
             let total = 0;
             for (let i = 0; i < this.result.length; i++) {
@@ -123,6 +89,44 @@ export default class MiniKenoHistoryDetail extends cc.Component {
             this.total.string = total.toString();
             this.showSettleResult(this.settlementResult);
         }
+    }
+
+    private showSettleResultAnimation(duration: number, onComplete: () => void = () => {}) {
+        let shuffle = [];
+        for (let index = 0; index < this.result.length; index++) {
+            shuffle.push(index);
+        }
+        shuffle = _.shuffle(shuffle);
+
+        let i = 0;
+
+        const sequence = cc
+            .tween()
+            .call(() => {
+                const index = shuffle[i];
+                this.kenoNumbers[index].setNumber(this.result[index], true);
+                let total = 0;
+                for (let j = 0; j <= i; j++) {
+                    total += this.result[shuffle[j]];
+                }
+                this.showSettleResult(this.getSettleResult(total));
+                this.total.string = total.toString();
+                i++;
+            })
+            .delay(duration / this.result.length)
+            .start();
+
+        cc.tween(this.node)
+            .repeat(this.result.length, sequence)
+            .call(() => {
+                cc.tween(this.total.node).to(0.1, { scale: 1.2 }).to(0.1, { scale: 1 }).start();
+                this.resultLabels.forEach((label) => {
+                    cc.tween(label.node).to(0.1, { scale: 1.2 }).to(0.1, { scale: 1 }).start();
+                });
+                this.showSettleResult(this.settlementResult);
+                onComplete();
+            })
+            .start();
     }
 
     private getSettleResult(total: number) {

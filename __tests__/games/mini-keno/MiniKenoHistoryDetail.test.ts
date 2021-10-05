@@ -3,13 +3,9 @@
  * Date: 2021-10-04 03:08:03
  */
 
-import GameUtils from "../../../assets/common/GameUtils";
-import { formatDateTime } from "../../../assets/common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import CommonDialog from "../../../assets/common/_base/view-models/CommonDialog";
 import KenoNumber from "../../../assets/games/keno-pro/view-models/KenoNumber";
 import MiniKenoHistoryDetail from "../../../assets/games/mini-keno/view-models/components/MiniKenoHistoryDetail";
-import MiniKenoHistoryDetailItem from "../../../assets/games/mini-keno/view-models/components/MiniKenoHistoryDetailItem";
 
 jest.mock("../../../assets/common/GameUtils", () => ({
     default: class {
@@ -22,9 +18,11 @@ jest.mock("../../../assets/common/GameUtils", () => ({
 describe("Test class MiniKenoHistoryDetail", () => {
     let node: cc.Node;
     let comp: MiniKenoHistoryDetail;
+    let anyComp: any;
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(MiniKenoHistoryDetail);
+        anyComp = comp as any;
         comp.total = new cc.Node().addComponent(cc.Label);
         comp.settleResult = new cc.Node();
         for (let i = 0; i < 3; i++) {
@@ -44,6 +42,14 @@ describe("Test class MiniKenoHistoryDetail", () => {
 
         const kenoNumber = new KenoNumber();
         kenoNumber.numberLabel = new cc.Node().addComponent(cc.Label);
+
+        const temp: any = {};
+        cc.tween = () => temp;
+        cc.tween().to = (a, b, c?) => temp;
+        cc.tween().start = () => temp;
+        cc.tween().call = () => temp;
+        cc.tween().delay = () => temp;
+        cc.tween().repeat = () => temp;
     });
 
     describe("Test method onLoad", () => {
@@ -84,7 +90,7 @@ describe("Test class MiniKenoHistoryDetail", () => {
                     amount: 5
                 }
             ];
-            const anyComp = comp as any;
+
             const setDataHistoryDetailItemSpy = jest.spyOn(anyComp, "setDataHistoryDetailItem");
 
             // Act
@@ -104,7 +110,6 @@ describe("Test class MiniKenoHistoryDetail", () => {
             const resultLabels = comp.settleResult.children.map((child) => child.getComponent(cc.Label));
             const results = [1, 7, 11, 27, 31, 32, 33, 34, 38, 40, 45, 47, 49, 55, 60, 61, 65, 69, 75, 76];
 
-            const anyComp = comp as any;
             const showSettleResultSpy = jest.spyOn(anyComp, "showSettleResult");
 
             let total = 0;
@@ -124,11 +129,6 @@ describe("Test class MiniKenoHistoryDetail", () => {
                 earth: false
             };
 
-            const temp: any = {};
-            cc.tween = () => temp;
-            cc.tween().to = (a, b, c?) => temp;
-            cc.tween().start = () => temp;
-
             // Act
             comp.show(animated, duration, onComplete);
 
@@ -146,13 +146,7 @@ describe("Test class MiniKenoHistoryDetail", () => {
             const onComplete = () => {};
             const resultLabels = comp.settleResult.children.map((child) => child.getComponent(cc.Label));
 
-            const temp: any = {};
-            cc.tween = () => temp;
-            cc.tween().to = (a, b, c?) => temp;
-            cc.tween().start = () => temp;
-            cc.tween().call = () => temp;
-            cc.tween().delay = () => temp;
-            cc.tween().repeat = () => temp;
+            const showSettleResultAnimationSpy = jest.spyOn(anyComp, "showSettleResultAnimation");
 
             // Act
             comp.show(animated, duration, onComplete);
@@ -161,6 +155,7 @@ describe("Test class MiniKenoHistoryDetail", () => {
             expect(comp.node.active).toEqual(true);
             resultLabels.forEach((label) => expect(label.node.active).toEqual(false));
             expect(comp.total.string).toMatch("0");
+            expect(showSettleResultAnimationSpy).toBeCalledWith(duration, onComplete);
         });
     });
 });
