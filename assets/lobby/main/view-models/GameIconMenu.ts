@@ -34,7 +34,7 @@ export default class GameIconMenu extends BaseComponent {
             }
         }
 
-        if (!this.isAlive() || !this.initialized) {
+        if (!this.isAlive() || this.initialized) {
             return;
         }
         this.initialized = true;
