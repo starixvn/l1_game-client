@@ -37,8 +37,8 @@ export function checkSSO(labelMessage, onSuccessFunc) {
         UserService.getInstance()
             .auth.sso(urlParams.get("token"))
             .then((response) => {
-                if (response && response.umInfo && response.umInfo.isUM) {
-                    window.umInfo = settingResponse.umInfo;
+                if (response && response.isUM) {
+                    window.umInfo = response.umInfo;
                     cc.director.loadScene("um");
                     return;
                 }
