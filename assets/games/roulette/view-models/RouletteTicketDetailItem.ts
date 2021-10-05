@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import GameUtils from "../../../common/GameUtils";
 
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { RouletteBetType } from "./Roulette";
+import { RouletteBetType } from "./RouletteCommon";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

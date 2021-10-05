@@ -1,8 +1,8 @@
 const { ccclass, property } = cc._decorator;
 
 import * as _ from "lodash";
+import { RouletteBetType } from "./RouletteCommon";
 import RouletteTicketDetailItem from "./RouletteTicketDetailItem";
-import { RouletteBetType } from "./Roulette";
 
 @ccclass
 export default class RouletteTicketDetailIGroup extends cc.Component {

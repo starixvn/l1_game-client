@@ -1,6 +1,7 @@
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import GameUtils from "../../../common/GameUtils";
-import { RouletteBetInfo, RouletteBetType } from "./Roulette";
+import { RouletteBetInfo } from "./Roulette";
+import { RouletteBetType } from "./RouletteCommon";
 
 export default class RouletteUtils {
     private static readonly redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];

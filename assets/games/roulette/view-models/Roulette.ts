@@ -26,21 +26,6 @@ export interface RouletteBetInfo {
     numbers: number[];
 }
 
-export enum RouletteBetType {
-    StraightUp = "straightUp",
-    Split = "split",
-    Street = "street",
-    Triangle = "triangle",
-    Corner = "corner",
-    FourNumbers = "fourNumbers",
-    Line = "line",
-    Column = "column",
-    Dozen = "dozen",
-    RedBlack = "redBlack",
-    OddEven = "oddEven",
-    BigSmall = "bigSmall"
-}
-
 @ccclass
 export default class Roulette extends SocketIOTableGameBase {
     @property(cc.Node)
