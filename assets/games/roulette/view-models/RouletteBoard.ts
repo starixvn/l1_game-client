@@ -3,7 +3,8 @@ import { lazyInject } from "../../../Application";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 
 import BetDetailTip from "./BetDetailTip";
-import { RouletteBetInfo, RouletteBetType } from "./Roulette";
+import { RouletteBetInfo } from "./Roulette";
+import { RouletteBetType } from "./RouletteCommon";
 import RouletteGroupBetItem from "./RouletteGroupBetItem";
 import RouletteNumber from "./RouletteNumber";
 import RouletteUtils from "./RouletteUtils";
