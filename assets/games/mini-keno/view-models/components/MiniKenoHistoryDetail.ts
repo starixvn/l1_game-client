@@ -67,7 +67,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
     instantiateDetailItem(prefabDetail: cc.Prefab) {
         if (prefabDetail) {
             const node = cc.instantiate(this.prefabDetail);
-            return node.getComponent("MiniKenoHistoryDetailItem");
+            return node.getComponent(MiniKenoHistoryDetailItem);
         }
         return null;
     }

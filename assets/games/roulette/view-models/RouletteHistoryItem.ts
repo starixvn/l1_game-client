@@ -1,8 +1,9 @@
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RouletteHistoryItem extends cc.Component {
-
     @property(cc.Label)
     timeLabel: cc.Label = null;
 
@@ -26,9 +27,15 @@ export default class RouletteHistoryItem extends cc.Component {
     betLogDetails: any = null;
     settlementResult: any = null;
 
-    public showTicketDetail = (round: number, time: string, result: number, betLogDetails: any, settlementResult: any) => { }
+    public showTicketDetail = (round: number, time: string, result: number, betLogDetails: any, settlementResult: any) => {};
 
     openTicketDetail() {
         this.showTicketDetail(this.round, this.time, this.result, this.betLogDetails, this.settlementResult);
+    }
+
+    setData(log: any) {
+        this.timeLabel.string = getStringDateByTime(log.time);
+        this.roundLabel.string = log.phien.toString();
+        this.resultLabel.string = log.result.toString();
     }
 }
