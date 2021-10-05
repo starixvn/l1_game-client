@@ -87,6 +87,9 @@ export default class MainGame extends cc.Component {
     @property(cc.Node)
     categoryContainer: cc.Node = null;
 
+    @property(cc.Node)
+    arrowNode: cc.Node = null;
+
     private dialog: Dialog;
     private inRoomGameId: string;
     private initializedLobby: boolean;
@@ -118,6 +121,16 @@ export default class MainGame extends cc.Component {
         this.resumeGameRoomOrSignIn();
         this.onLoadLobby();
         this.initCategoryHeader();
+        this.initScrollListener();
+    }
+
+    initScrollListener() {
+        this.mainScroll.node.on("scroll-ended", () => {
+            const offset = Math.abs(Math.floor(this.mainScroll.getScrollOffset().x));
+            const maxOffset = Math.floor(this.mainScroll.getMaxScrollOffset().x);
+            const right = offset < maxOffset;
+            this.arrowNode.scale = right ? 1 : -1;
+        });
     }
 
     initCategoryHeader() {
@@ -137,9 +150,11 @@ export default class MainGame extends cc.Component {
         AudioManager.getInstance().playClick();
         const offset = this.mainScroll.getScrollOffset();
         const maxOffset = this.mainScroll.getMaxScrollOffset();
-        if (Math.abs(Math.floor(offset.x)) < Math.floor(maxOffset.x)) {
-            this.mainScroll.scrollTo(cc.v2(offset.x + this.mainScroll.node.width, offset.y), 0.4);
-        }
+
+        const direction = this.arrowNode.scaleX;
+        const delta = this.mainScroll.node.width;
+
+        this.mainScroll.scrollTo(cc.v2(offset.x + direction * delta, offset.y), 0.4);
     }
 
     initRedT() {
