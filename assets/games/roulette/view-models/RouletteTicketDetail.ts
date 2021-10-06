@@ -15,8 +15,8 @@ export default class RouletteTicketDetail extends GameTicketDetailBase {
     @property(cc.Prefab)
     groupPrefab: cc.Prefab = null;
 
-    roundID: number = 2000;
-    result: number = 20;
+    roundID = 2000;
+    result = 20;
 
     public showbetLogs() {
         this.node.active = true;
