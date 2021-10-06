@@ -37,9 +37,7 @@ export function checkSSO(labelMessage, onSuccessFunc) {
         UserService.getInstance()
             .auth.sso(urlParams.get("token"))
             .then((response) => {
-                if (response && response.isUM) {
-                    window.umInfo = response.umInfo;
-                    cc.director.loadScene("um");
+                if (checkUM(response)) {
                     return;
                 }
 
@@ -80,11 +78,24 @@ export function signOut() {
     sessionManager.removeSession();
 }
 
+function checkUM(response) {
+    if (response && response.isUM) {
+        window.umInfo = response.umInfo;
+        cc.director.loadScene("um");
+        return true;
+    }
+
+    return false;
+}
+
 export function triggerSignIn(main) {
     if (!!window.authData) {
         UserService.getInstance()
             .auth.authorize(window.authData.ss, window.authData.username)
             .then((response) => {
+                if (checkUM(response)) {
+                    return;
+                }
                 if (response.user) {
                     main.handleUserData(response.user);
                 }
