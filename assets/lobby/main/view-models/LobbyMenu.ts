@@ -31,8 +31,7 @@ export default class LobbyMenu extends GameIconMenu {
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
     onLoad() {
-        this.loadCategory();
-        super.onLoad();
+        //override super
     }
 
     getList() {
