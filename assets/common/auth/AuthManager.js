@@ -1,8 +1,5 @@
 import i18n from "i18n/runtime-scripts/LanguageData";
 
-import * as configs from "../../configs/Configs";
-import httpHelper from "../helpers/httpHelper";
-import { buildServerUrl } from "../helpers/UrlHelper";
 import logger from "../logger";
 import NoticeUtil from "../utils/NoticeUtil";
 import * as sessionManager from "./SessionManager";
@@ -11,10 +8,9 @@ import UserService from "./UserService";
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
 
-export function preChecking(cb) {
-    const settingUrl = buildServerUrl(configs.ssl, "http", "/api/settings");
-
+export function checkSSO(labelMessage, onSuccessFunc) {
     const urlParams = new URLSearchParams(window.location.search);
+
     if (urlParams.has("isUM") && urlParams.get("isUM") === "true") {
         window.umInfo = {
             isUM: true,
@@ -30,47 +26,21 @@ export function preChecking(cb) {
         return;
     }
 
-    httpHelper.get(
-        settingUrl,
-        function (settingResponse) {
-            try {
-                window.siteSettings = settingResponse;
-                if (settingResponse && settingResponse.umInfo && settingResponse.umInfo.isUM) {
-                    window.umInfo = settingResponse.umInfo;
-                    cc.director.loadScene("um");
-
-                    return settingResponse;
-                }
-
-                const session = sessionManager.getSession();
-                const isSessionExpired = verifySession(session);
-
-                if (isSessionExpired && !urlParams.has("token")) {
-                    signOut();
-
-                    return settingResponse;
-                }
-            } catch (ex) {
-                sentryLogger.logError(ex);
-            }
-
-            cb();
-
-            return void 0;
-        },
-        true
-    );
-}
-
-export function checkSSO(labelMessage, onSuccessFunc) {
-    let isSuccess = false;
-    const urlParams = new URLSearchParams(window.location.search);
-    const authData = sessionManager.getSession();
+    const session = sessionManager.getSession();
+    const isSessionExpired = verifySession(session);
+    if (isSessionExpired && !urlParams.has("token")) {
+        signOut();
+        return;
+    }
 
     if (urlParams.has("token")) {
         UserService.getInstance()
             .auth.sso(urlParams.get("token"))
             .then((response) => {
+                if (checkUM(response)) {
+                    return;
+                }
+
                 if (response.isAuthenticated) {
                     window.authData = response;
                     sentryLogger.setUser(response);
@@ -87,17 +57,12 @@ export function checkSSO(labelMessage, onSuccessFunc) {
                 labelMessage.string = i18n.t("ui.connection_lost");
                 sentryLogger.logError(error);
             });
-
-        isSuccess = true;
-    } else if (authData && authData.isAuthenticated && authData.ss) {
-        isSuccess = true;
-        window.authData = authData;
-        sessionManager.updateLanguage(authData);
-        sentryLogger.setUser(authData);
+    } else if (session && session.isAuthenticated && session.ss) {
+        window.authData = session;
+        sessionManager.updateLanguage(session);
+        sentryLogger.setUser(session);
         onSuccessFunc();
     }
-
-    return isSuccess;
 }
 
 export function clearTokenOnUrl() {
@@ -113,11 +78,24 @@ export function signOut() {
     sessionManager.removeSession();
 }
 
+function checkUM(response) {
+    if (response && response.isUM) {
+        window.umInfo = response.umInfo;
+        cc.director.loadScene("um");
+        return true;
+    }
+
+    return false;
+}
+
 export function triggerSignIn(main) {
     if (!!window.authData) {
         UserService.getInstance()
             .auth.authorize(window.authData.ss, window.authData.username)
             .then((response) => {
+                if (checkUM(response)) {
+                    return;
+                }
                 if (response.user) {
                     main.handleUserData(response.user);
                 }

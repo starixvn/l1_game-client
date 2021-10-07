@@ -81,7 +81,6 @@ cc.Class({
             cc.game.EVENT_HIDE,
             function () {
                 cc.RedT.GAME_IS_SHOWED = false;
-                this.sleepTime = new Date();
             }.bind(this)
         );
 
@@ -90,14 +89,6 @@ cc.Class({
             function () {
                 cc.RedT.GAME_IS_SHOWED = true;
                 cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoin: true } });
-
-                if (cc.sys.isMobile) {
-                    const sleepSecond = (new Date() - this.sleepTime) / 1000;
-
-                    if (sleepSecond > 300) {
-                        cc.RedT.MiniPanel.onForceReload(false);
-                    }
-                }
             }.bind(this)
         );
     },
