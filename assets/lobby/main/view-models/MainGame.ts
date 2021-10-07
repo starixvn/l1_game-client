@@ -128,8 +128,11 @@ export default class MainGame extends cc.Component {
         this.mainScroll.node.on("scroll-ended", () => {
             const offset = Math.abs(Math.floor(this.mainScroll.getScrollOffset().x));
             const maxOffset = Math.floor(this.mainScroll.getMaxScrollOffset().x);
-            const right = offset < maxOffset;
-            this.arrowNode.scale = right ? 1 : -1;
+
+            if (offset <= 1 || offset >= maxOffset) {
+                const right = offset < maxOffset;
+                this.arrowNode.scale = right ? 1 : -1;
+            }
         });
     }
 
