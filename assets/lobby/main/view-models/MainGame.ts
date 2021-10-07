@@ -155,9 +155,26 @@ export default class MainGame extends cc.Component {
         AudioManager.getInstance().playClick();
 
         const offset = Math.abs(this.mainScroll.getScrollOffset().x);
+        const maxOffset = Math.abs(this.mainScroll.getMaxScrollOffset().x);
         const direction = this.arrowNode.scaleX;
         const delta = this.mainScroll.node.width;
-        const newOffset = offset + direction * delta;
+        let newOffset = offset + direction * delta;
+
+        const layout = this.mainScroll.content.getComponent(cc.Layout);
+        const paddingLeft = layout.paddingLeft;
+        const paddingRight = layout.paddingRight;
+        const spacing = layout.spacingX;
+        const itemSize = this.mainScroll.content.children[0].width;
+        const stepWidth = itemSize + spacing;
+
+        if (direction > 0) {
+            const stepCount = Math.floor((newOffset - paddingLeft) / stepWidth);
+            newOffset = paddingLeft + stepCount * stepWidth;
+        } else {
+            const stepCount = Math.floor((maxOffset - paddingRight - newOffset) / stepWidth);
+            newOffset = maxOffset - stepCount * stepWidth;
+        }
+
         this.mainScroll.scrollToOffset(cc.v2(newOffset, 0), 0.4);
     }
 
