@@ -261,6 +261,7 @@ export default class RouletteStatistic extends cc.Component {
             if (index === 0) {
                 itemComponent.firstValue.string = `${red}%`;
                 itemComponent.secondValue.string = `${black}%`;
+                item;
                 itemComponent.updateProgressBar(redCount, blackCount);
             }
 
