@@ -26,7 +26,6 @@ export default class GameIconMenu extends BaseComponent {
 
     async initItems() {
         const list = this.getList();
-        console.log("================================", list);
         for (const id of list) {
             const node = await this.addItem(id);
             if (node) {

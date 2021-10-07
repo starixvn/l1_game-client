@@ -120,7 +120,7 @@ export default class MainGame extends cc.Component {
         this.initMiniPanel();
         this.resumeGameRoomOrSignIn();
         this.onLoadLobby();
-        this.initCategoryHeader();
+
         this.initScrollListener();
     }
 
@@ -136,7 +136,7 @@ export default class MainGame extends cc.Component {
         });
     }
 
-    initCategoryHeader() {
+    activeCategoryFromStorage(): number {
         const storage = cc.sys.localStorage.getItem("current_game_category");
         let category = 0;
         if (storage !== "") {
@@ -147,6 +147,8 @@ export default class MainGame extends cc.Component {
         if (node) {
             node.getComponent(cc.Toggle).check();
         }
+
+        return category;
     }
 
     onFastScrollClick() {
@@ -253,9 +255,16 @@ export default class MainGame extends cc.Component {
         //     }
         //     this.repositionMenu();
         // };
-        lobbyMenu.initItems();
-
+        // lobbyMenu.initItems();
         this.lobbyMenu = lobbyMenu;
+
+        let category = GameCategory.All;
+        if (!window.isSSO) {
+            category = this.activeCategoryFromStorage();
+        }
+
+        this.lobbyMenu.setCategory(category);
+        window.isSSO = false;
     }
 
     initBanners() {
