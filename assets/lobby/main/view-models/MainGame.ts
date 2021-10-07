@@ -148,13 +148,12 @@ export default class MainGame extends cc.Component {
 
     onFastScrollClick() {
         AudioManager.getInstance().playClick();
-        const offset = this.mainScroll.getScrollOffset();
-        const maxOffset = this.mainScroll.getMaxScrollOffset();
 
+        const offset = Math.abs(this.mainScroll.getScrollOffset().x);
         const direction = this.arrowNode.scaleX;
         const delta = this.mainScroll.node.width;
-
-        this.mainScroll.scrollTo(cc.v2(offset.x + direction * delta, offset.y), 0.4);
+        const newOffset = offset + direction * delta;
+        this.mainScroll.scrollToOffset(cc.v2(newOffset, 0), 0.4);
     }
 
     initRedT() {
