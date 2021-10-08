@@ -87,13 +87,6 @@ export default class MiniSedie extends SocketIOMiniGameBase {
         this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
     }
 
-    onData(data: any) {
-        super.onData(data);
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-    }
-
     onEnable() {
         super.onEnable();
         this.showLogs = true;

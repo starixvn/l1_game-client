@@ -140,9 +140,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
     onData(data: any) {
         super.onData(data);
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
 
         if (data.round) {
             this.betHistory && this.betHistory.onData(data.round);

@@ -56,7 +56,6 @@ export default class RongHo extends SocketIOMiniGameBase {
     audioDrawCard: cc.AudioSource = null;
 
     public resultCards = [];
-    public history: RongHoHistory;
 
     public resultAnimating = false;
     private frontCards: NewCard[] = [];
@@ -75,21 +74,12 @@ export default class RongHo extends SocketIOMiniGameBase {
         cc.RedT.setting[this.gameName].bet = bet;
     }
 
-    onData(data: any) {
-        super.onData(data);
-        if (data.history) {
-            if (this.history.isAlive()) {
-                this.history.onData(data.history);
-            }
-        }
-    }
-
     public pressedHistoryDialog() {
         cc.RedT.audio.playClick();
 
         const dialog = cc.instantiate(this.historyPrefab);
-        this.history = dialog.getComponent(RongHoHistory);
-        this.history.init(this.socket);
+        this.historyComponent = dialog.getComponent(RongHoHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.addDialog(dialog);
     }
 

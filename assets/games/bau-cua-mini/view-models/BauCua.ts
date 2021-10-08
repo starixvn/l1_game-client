@@ -84,13 +84,6 @@ export default class BauCua extends SocketIOMiniGameBase {
         this.setConfig(new BauCuaConfigs());
     }
 
-    onData(data: any) {
-        super.onData(data);
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-    }
-
     onEnable() {
         super.onEnable();
         if (this.currentDataLogs && this.currentDataLogs.length > 0) {
