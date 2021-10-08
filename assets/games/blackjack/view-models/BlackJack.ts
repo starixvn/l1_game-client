@@ -136,7 +136,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     ingameHander: DataHandler;
     activeHand: HandPlace = null;
     lastHandBets: any[] = [];
-    historyComponent: BlackJackHistory;
     audioNotificationInterval: any;
 
     public chipOption: number[];

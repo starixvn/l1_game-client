@@ -65,7 +65,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     detailHistoryBoard: DragonScoreBoard;
     showScoreBoardNextDot = false;
     protected miniRoundHistory: VipBaccaratMiniRoundHistory;
-    protected historyComponent: VipBaccaratHistory;
 
     constructor() {
         super();

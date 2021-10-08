@@ -48,7 +48,6 @@ export default class MiniSedie extends SocketIOMiniGameBase {
     public miniRoundHistory: SedieMiniRoundHistory = null;
     private showLogs = true;
     public resultAnimating = false;
-    private historyComponent: MiniSedieHistory;
 
     onLoad() {
         if (!cc.sys.isMobile) {

@@ -180,7 +180,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     public cacheApiError: any = null;
     public isShowAutoSpinSettingDialog = false;
     protected userSettings: SlotGameUserSettings;
-    protected historyComponent: SlotGameHistory;
     private autoSpinCount = 0;
     private showingWinningLine = false;
 

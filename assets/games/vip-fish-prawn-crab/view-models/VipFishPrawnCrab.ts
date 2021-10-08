@@ -72,7 +72,6 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
     ownBetContainer: cc.Node = null;
 
     private statsComponent: VipFishPrawnCrabStats;
-    private historyComponent: VipFishPrawnCrabHistory;
     public finishShakeThePlate = false;
 
     constructor() {

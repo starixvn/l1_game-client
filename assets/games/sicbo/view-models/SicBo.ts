@@ -118,7 +118,6 @@ export default class SicBo extends SocketIOTableGameBase {
     specific6Statistic = 0;
 
     private miniRoundHistory: MiniRoundHistory;
-    private userHistoryComponent: SicBoHistory;
     private dicesStatisticComponent: SicBoDicesStatistic;
     private majorChoicesStatisticComponent: SicBoMajorChoicesStatistic;
 
@@ -255,8 +254,8 @@ export default class SicBo extends SocketIOTableGameBase {
     }
 
     onDataGameRoom(data) {
-        if (data.history && this.userHistoryComponent) {
-            this.userHistoryComponent.onData(data.history);
+        if (data.history) {
+            this.historyComponent.onData(data.history);
         }
 
         super.onDataGameRoom(data);
@@ -267,8 +266,8 @@ export default class SicBo extends SocketIOTableGameBase {
         this.expandableMenu.collapseMenu();
 
         const dialog = cc.instantiate(this.historyPrefab);
-        this.userHistoryComponent = dialog.getComponent(SicBoHistory);
-        this.userHistoryComponent.init(this.socket);
+        this.historyComponent = dialog.getComponent(SicBoHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
 

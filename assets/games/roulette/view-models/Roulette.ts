@@ -76,7 +76,6 @@ export default class Roulette extends SocketIOTableGameBase {
     previousRoundBetChoices: any = {};
     betChoicesStack = [];
     isPlacingChip = false;
-    userHistoryComponent: RouletteHistory;
     statisticComponent: RouletteStatistic;
     readonly chipOption: number[] = [];
 
@@ -361,8 +360,8 @@ export default class Roulette extends SocketIOTableGameBase {
     }
 
     onDataGameRoom(data) {
-        if (data.history && this.userHistoryComponent) {
-            this.userHistoryComponent.onData(data.history);
+        if (data.history) {
+            this.historyComponent.onData(data.history);
         }
 
         super.onDataGameRoom(data);
@@ -672,8 +671,8 @@ export default class Roulette extends SocketIOTableGameBase {
         }
 
         const dialog = cc.instantiate(this.historyPrefab);
-        this.userHistoryComponent = dialog.getComponent(RouletteHistory);
-        this.userHistoryComponent.init(this.socket);
+        this.historyComponent = dialog.getComponent(RouletteHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
 
