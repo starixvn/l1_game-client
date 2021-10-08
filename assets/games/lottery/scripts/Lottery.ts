@@ -86,7 +86,6 @@ export default class Lottery extends SocketIOTableGameBase {
     selectedItems: string[] = [];
     result: LotteryResult = null;
     extraResult: LotteryExtraResult = null;
-    historyComponent: LotteryHistory = null;
     ownBets: any = {};
     stats = {};
     resultTween: cc.Tween;

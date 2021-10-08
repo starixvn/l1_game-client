@@ -55,7 +55,6 @@ export default class ThreeCards extends SocketIOTableGameBase {
 
     roundHistory: ThreeCardsRoundHistory;
     miniRoundHistory: MiniRoundHistory;
-    historyComponent: ThreeCardsHistory;
     openCardsAnimation: cc.Tween = null;
     showResultDuration = 2;
     constructor() {

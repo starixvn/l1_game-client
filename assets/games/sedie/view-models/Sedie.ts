@@ -59,7 +59,6 @@ export default class Sedie extends FreeBetGameBase {
 
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
-    private historyComponent: SedieHistory;
 
     constructor() {
         super();

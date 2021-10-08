@@ -78,7 +78,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     statisticPrefab: cc.Prefab = null;
 
     protected miniRoundHistory: BigSmallMiniRoundHistory;
-    protected historyComponent: BigSmallHistory;
     protected betHistory: BigSmallBetHistory;
     statistic: BigSmallStatistic;
     diceAnimationDuration: number;

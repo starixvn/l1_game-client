@@ -85,7 +85,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
     private roundHistory: SedieRoundHistory = null;
     private miniRoundHistory: SpecialSedieRoundHistory;
-    private historyComponent: SpecialSeDieHistory;
     private betHistory: SpecialSedieBetHistory;
     private readonly choice = {
         odd: "odd",

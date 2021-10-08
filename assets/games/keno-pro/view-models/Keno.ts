@@ -38,7 +38,6 @@ export default class Keno extends SocketIOTableGameBase {
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
-    private historyComponent: KenoUserHistory;
 
     constructor() {
         super();
