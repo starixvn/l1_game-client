@@ -17,6 +17,10 @@ describe("Test class RouletteStatistic", () => {
         anyComp = comp as any;
         comp.mainFrame = new cc.Node();
         comp.mainFrame.addComponent(CommonDialog);
+        comp.zeroPercent = new cc.Node().addComponent(cc.Label);
+        comp.dozen1Percent = new cc.Node().addComponent(cc.Label);
+        comp.dozen2Percent = new cc.Node().addComponent(cc.Label);
+        comp.dozen3Percent = new cc.Node().addComponent(cc.Label);
 
         comp.numberZeroBg = new cc.SpriteFrame();
         comp.numberRedBg = new cc.SpriteFrame();
@@ -378,14 +382,40 @@ describe("Test class RouletteStatistic", () => {
         it("Case: ", () => {
             // Arrange
             const findHotColdNumbersSpy = jest.spyOn(anyComp, "findHotColdNumbers");
-            const calculatePercentSpy = jest.spyOn(anyComp, "calculatePercent");
+            const calculateBasicStaticSpy = jest.spyOn(anyComp, "calculateBasicStatic");
+            const calculateDozensStaticSpy = jest.spyOn(anyComp, "calculateDozensStatic");
+
+            let dozen1Count = 0;
+            let dozen2Count = 0;
+            let zeroCount = 0;
+            comp.result.forEach((number) => {
+                if (number === 0) {
+                    zeroCount += 1;
+                } else {
+                    if (number < 13) {
+                        dozen1Count += 1;
+                    } else if (number < 25) {
+                        dozen2Count += 1;
+                    }
+                }
+            });
+
+            const zeroPercent = _.round((zeroCount / comp.result.length) * 100);
+            const dozen1 = _.round((dozen1Count / comp.result.length) * 100);
+            const dozen2 = _.round((dozen2Count / comp.result.length) * 100);
+            const dozen3 = 100 - (zeroPercent + dozen1 + dozen2);
 
             // Act
             comp.handleStatsPercent();
 
             // Assert
             expect(findHotColdNumbersSpy).toBeCalledWith();
-            expect(calculatePercentSpy).toBeCalledWith();
+            expect(calculateBasicStaticSpy).toBeCalledWith();
+            expect(calculateDozensStaticSpy).toBeCalledWith();
+            expect(comp.zeroPercent.string).toMatch(`${zeroPercent}%`);
+            expect(comp.dozen1Percent.string).toMatch(`${dozen1}%`);
+            expect(comp.dozen2Percent.string).toMatch(`${dozen2}%`);
+            expect(comp.dozen2Percent.string).toMatch(`${dozen3}%`);
         });
     });
 
@@ -413,7 +443,7 @@ describe("Test class RouletteStatistic", () => {
             // Arrange
             const list = [
                 {
-                    number: 30,
+                    number: 12,
                     times: 11
                 }
             ];
@@ -434,7 +464,7 @@ describe("Test class RouletteStatistic", () => {
             // Arrange
             const list = [
                 {
-                    number: 30,
+                    number: 31,
                     times: 11
                 }
             ];
@@ -455,7 +485,7 @@ describe("Test class RouletteStatistic", () => {
             // Arrange
             const list = [
                 {
-                    number: 30,
+                    number: 0,
                     times: 11
                 }
             ];
@@ -472,26 +502,4 @@ describe("Test class RouletteStatistic", () => {
             });
         });
     });
-
-    describe("Test method calculatePercent", () => {
-        it("Case: ", () => {
-            // Arrange
-
-            // Act
-            comp.calculatePercent();
-
-            // Assert
-        });
-    });
-
-    // describe("Test method hideStatisticContent", () => {
-    //     it("Case: ", () => {
-    //         // Arrange
-
-    //         // Act
-    //         comp.hideStatisticContent();
-
-    //         // Assert
-    //     });
-    // });
 });

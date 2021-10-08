@@ -173,7 +173,8 @@ export default class RouletteStatistic extends cc.Component {
             return;
         }
         this.findHotColdNumbers();
-        this.calculatePercent();
+        this.calculateBasicStatic();
+        this.calculateDozensStatic();
     }
 
     findHotColdNumbers() {
@@ -203,16 +204,15 @@ export default class RouletteStatistic extends cc.Component {
         });
     }
 
-    calculatePercent() {
+    private calculateBasicStatic() {
         let redCount = 0;
         let blackCount = 0;
         let oddCount = 0;
         let evenCount = 0;
         let bigCount = 0;
         let smallCount = 0;
-        let dozen1Count = 0;
-        let dozen2Count = 0;
         let zeroCount = 0;
+
         this.result.forEach((number) => {
             if (number === 0) {
                 zeroCount += 1;
@@ -234,7 +234,49 @@ export default class RouletteStatistic extends cc.Component {
                 } else {
                     smallCount += 1;
                 }
+            }
+        });
 
+        const zeroPercent = _.round((zeroCount / this.result.length) * 100);
+
+        const red = _.round((redCount / this.result.length) * 100);
+        const black = 100 - (red + zeroPercent);
+
+        const odd = _.round((oddCount / this.result.length) * 100);
+        const even = 100 - (odd + zeroPercent);
+
+        const big = _.round((bigCount / this.result.length) * 100);
+        const small = 100 - (big + zeroPercent);
+
+        this.statisticPercentNodes &&
+            this.statisticPercentNodes.children.forEach((item, index) => {
+                const itemComponent = item.getComponent(RouletteStatisticItem);
+
+                if (index === 0) {
+                    itemComponent.setData(red, black);
+                    itemComponent.updateProgressBar(redCount, blackCount);
+                }
+
+                if (index === 1) {
+                    itemComponent.setData(even, odd);
+                    itemComponent.updateProgressBar(evenCount, oddCount);
+                }
+
+                if (index === 2) {
+                    itemComponent.setData(small, big);
+                    itemComponent.updateProgressBar(smallCount, bigCount);
+                }
+            });
+    }
+
+    private calculateDozensStatic() {
+        let dozen1Count = 0;
+        let dozen2Count = 0;
+        let zeroCount = 0;
+        this.result.forEach((number) => {
+            if (number === 0) {
+                zeroCount += 1;
+            } else {
                 if (number < 13) {
                     dozen1Count += 1;
                 } else if (number < 25) {
@@ -252,37 +294,9 @@ export default class RouletteStatistic extends cc.Component {
         this.dozen1Percent.string = `${dozen1}%`;
         this.dozen2Percent.string = `${dozen2}%`;
         this.dozen3Percent.string = `${dozen3}%`;
-
-        const red = _.round((redCount / this.result.length) * 100);
-        const black = 100 - (red + zeroPercent);
-
-        const odd = _.round((oddCount / this.result.length) * 100);
-        const even = 100 - (odd + zeroPercent);
-
-        const big = _.round((bigCount / this.result.length) * 100);
-        const small = 100 - (big + zeroPercent);
-
-        this.statisticPercentNodes.children.forEach((item, index) => {
-            const itemComponent = item.getComponent(RouletteStatisticItem);
-
-            if (index === 0) {
-                itemComponent.setData(red, black);
-                itemComponent.updateProgressBar(redCount, blackCount);
-            }
-
-            if (index === 1) {
-                itemComponent.setData(even, odd);
-                itemComponent.updateProgressBar(evenCount, oddCount);
-            }
-
-            if (index === 2) {
-                itemComponent.setData(small, big);
-                itemComponent.updateProgressBar(smallCount, bigCount);
-            }
-        });
     }
 
-    hideStatisticContent() {
+    private hideStatisticContent() {
         cc.RedT.audio.playClick();
 
         this.content.runAction(
