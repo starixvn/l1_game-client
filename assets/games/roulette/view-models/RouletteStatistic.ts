@@ -246,6 +246,13 @@ export default class RouletteStatistic extends cc.Component {
         const zeroPercent = _.round((zeroCount / this.result.length) * 100);
         this.zeroPercent.string = `${zeroPercent}%`;
 
+        const dozen1 = _.round((dozen1Count / this.result.length) * 100);
+        const dozen2 = _.round((dozen2Count / this.result.length) * 100);
+        const dozen3 = 100 - (zeroPercent + dozen1 + dozen2);
+        this.dozen1Percent.string = `${dozen1}%`;
+        this.dozen2Percent.string = `${dozen2}%`;
+        this.dozen3Percent.string = `${dozen3}%`;
+
         const red = _.round((redCount / this.result.length) * 100);
         const black = 100 - (red + zeroPercent);
 
@@ -259,31 +266,20 @@ export default class RouletteStatistic extends cc.Component {
             const itemComponent = item.getComponent(RouletteStatisticItem);
 
             if (index === 0) {
-                itemComponent.firstValue.string = `${red}%`;
-                itemComponent.secondValue.string = `${black}%`;
-                item;
+                itemComponent.setData(red, black);
                 itemComponent.updateProgressBar(redCount, blackCount);
             }
 
             if (index === 1) {
-                itemComponent.firstValue.string = `${even}%`;
-                itemComponent.secondValue.string = `${odd}%`;
+                itemComponent.setData(even, odd);
                 itemComponent.updateProgressBar(evenCount, oddCount);
             }
 
             if (index === 2) {
-                itemComponent.firstValue.string = `${small}%`;
-                itemComponent.secondValue.string = `${big}%`;
+                itemComponent.setData(small, big);
                 itemComponent.updateProgressBar(smallCount, bigCount);
             }
         });
-
-        const dozen1 = _.round((dozen1Count / this.result.length) * 100);
-        const dozen2 = _.round((dozen2Count / this.result.length) * 100);
-        const dozen3 = 100 - (zeroPercent + dozen1 + dozen2);
-        this.dozen1Percent.string = `${dozen1}%`;
-        this.dozen2Percent.string = `${dozen2}%`;
-        this.dozen3Percent.string = `${dozen3}%`;
     }
 
     hideStatisticContent() {

@@ -60,429 +60,429 @@ describe("Test class RouletteStatistic", () => {
         });
     });
 
-    // describe("Test method createResultStatistic", () => {
-    //     it("Case: ", () => {
-    //         // Arrange
-    //         const data = [
-    //             6,
-    //             30,
-    //             7,
-    //             8,
-    //             14,
-    //             7,
-    //             24,
-    //             14,
-    //             13,
-    //             12,
-    //             6,
-    //             29,
-    //             28,
-    //             22,
-    //             14,
-    //             33,
-    //             27,
-    //             11,
-    //             33,
-    //             20,
-    //             28,
-    //             14,
-    //             36,
-    //             35,
-    //             32,
-    //             3,
-    //             36,
-    //             13,
-    //             4,
-    //             30,
-    //             6,
-    //             30,
-    //             7,
-    //             14,
-    //             20,
-    //             15,
-    //             19,
-    //             31,
-    //             23,
-    //             28,
-    //             7,
-    //             16,
-    //             31,
-    //             10,
-    //             16,
-    //             6,
-    //             30,
-    //             4,
-    //             9,
-    //             11,
-    //             9,
-    //             17,
-    //             6,
-    //             1,
-    //             17,
-    //             17,
-    //             7,
-    //             35,
-    //             35,
-    //             15,
-    //             17,
-    //             23,
-    //             19,
-    //             30,
-    //             19,
-    //             7,
-    //             28,
-    //             32,
-    //             14,
-    //             27,
-    //             14,
-    //             15,
-    //             34,
-    //             14,
-    //             12,
-    //             8,
-    //             2,
-    //             36,
-    //             15,
-    //             26,
-    //             28,
-    //             19,
-    //             19,
-    //             9,
-    //             27,
-    //             23,
-    //             33,
-    //             33,
-    //             29,
-    //             32,
-    //             34,
-    //             22,
-    //             25,
-    //             29,
-    //             14,
-    //             11,
-    //             12,
-    //             10,
-    //             3,
-    //             8,
-    //             8,
-    //             3,
-    //             35,
-    //             4,
-    //             33,
-    //             15,
-    //             9,
-    //             35,
-    //             3,
-    //             2,
-    //             15,
-    //             13,
-    //             4,
-    //             1,
-    //             14,
-    //             29,
-    //             24,
-    //             9,
-    //             7,
-    //             2,
-    //             17,
-    //             2,
-    //             6,
-    //             23,
-    //             33,
-    //             21,
-    //             36,
-    //             4,
-    //             1,
-    //             35,
-    //             11,
-    //             12,
-    //             25,
-    //             25,
-    //             22,
-    //             2,
-    //             21,
-    //             2,
-    //             20,
-    //             1,
-    //             31,
-    //             5,
-    //             5,
-    //             22,
-    //             19,
-    //             7,
-    //             11,
-    //             1,
-    //             9,
-    //             29,
-    //             20,
-    //             5,
-    //             14,
-    //             14,
-    //             32,
-    //             11,
-    //             0,
-    //             13,
-    //             11,
-    //             28,
-    //             5,
-    //             28,
-    //             20,
-    //             22,
-    //             22,
-    //             30,
-    //             18,
-    //             9,
-    //             34,
-    //             9,
-    //             12,
-    //             10,
-    //             17,
-    //             24,
-    //             18,
-    //             29,
-    //             17,
-    //             30,
-    //             30,
-    //             34,
-    //             18,
-    //             25,
-    //             12,
-    //             8,
-    //             35,
-    //             8,
-    //             10,
-    //             36,
-    //             7,
-    //             19,
-    //             29,
-    //             16,
-    //             8,
-    //             15,
-    //             1,
-    //             33,
-    //             31,
-    //             5,
-    //             25,
-    //             26,
-    //             0,
-    //             3,
-    //             10,
-    //             25,
-    //             15,
-    //             16,
-    //             7,
-    //             36,
-    //             36,
-    //             30,
-    //             9,
-    //             16,
-    //             18,
-    //             32,
-    //             16,
-    //             34,
-    //             24,
-    //             32,
-    //             9,
-    //             26,
-    //             29,
-    //             21,
-    //             9,
-    //             0,
-    //             24,
-    //             29,
-    //             14,
-    //             24,
-    //             22,
-    //             24,
-    //             27,
-    //             30,
-    //             9,
-    //             14,
-    //             35,
-    //             3,
-    //             15,
-    //             9,
-    //             34,
-    //             9,
-    //             29,
-    //             26,
-    //             35,
-    //             8,
-    //             23,
-    //             33,
-    //             35,
-    //             21,
-    //             3,
-    //             16,
-    //             20,
-    //             12,
-    //             12,
-    //             5,
-    //             9,
-    //             31,
-    //             34,
-    //             16,
-    //             16,
-    //             25,
-    //             16,
-    //             21,
-    //             17,
-    //             33,
-    //             31,
-    //             34,
-    //             30,
-    //             27,
-    //             8,
-    //             7,
-    //             35,
-    //             31,
-    //             36,
-    //             32,
-    //             9,
-    //             11,
-    //             15,
-    //             12,
-    //             6,
-    //             11,
-    //             24,
-    //             8,
-    //             14,
-    //             13,
-    //             27,
-    //             10,
-    //             19,
-    //             35,
-    //             18,
-    //             15,
-    //             31,
-    //             24,
-    //             21,
-    //             22,
-    //             19,
-    //             8,
-    //             23,
-    //             1,
-    //             0,
-    //             22
-    //         ];
-    //         comp.result = data;
+    describe("Test method createResultStatistic", () => {
+        it("Case: ", () => {
+            // Arrange
+            const data = [
+                6,
+                30,
+                7,
+                8,
+                14,
+                7,
+                24,
+                14,
+                13,
+                12,
+                6,
+                29,
+                28,
+                22,
+                14,
+                33,
+                27,
+                11,
+                33,
+                20,
+                28,
+                14,
+                36,
+                35,
+                32,
+                3,
+                36,
+                13,
+                4,
+                30,
+                6,
+                30,
+                7,
+                14,
+                20,
+                15,
+                19,
+                31,
+                23,
+                28,
+                7,
+                16,
+                31,
+                10,
+                16,
+                6,
+                30,
+                4,
+                9,
+                11,
+                9,
+                17,
+                6,
+                1,
+                17,
+                17,
+                7,
+                35,
+                35,
+                15,
+                17,
+                23,
+                19,
+                30,
+                19,
+                7,
+                28,
+                32,
+                14,
+                27,
+                14,
+                15,
+                34,
+                14,
+                12,
+                8,
+                2,
+                36,
+                15,
+                26,
+                28,
+                19,
+                19,
+                9,
+                27,
+                23,
+                33,
+                33,
+                29,
+                32,
+                34,
+                22,
+                25,
+                29,
+                14,
+                11,
+                12,
+                10,
+                3,
+                8,
+                8,
+                3,
+                35,
+                4,
+                33,
+                15,
+                9,
+                35,
+                3,
+                2,
+                15,
+                13,
+                4,
+                1,
+                14,
+                29,
+                24,
+                9,
+                7,
+                2,
+                17,
+                2,
+                6,
+                23,
+                33,
+                21,
+                36,
+                4,
+                1,
+                35,
+                11,
+                12,
+                25,
+                25,
+                22,
+                2,
+                21,
+                2,
+                20,
+                1,
+                31,
+                5,
+                5,
+                22,
+                19,
+                7,
+                11,
+                1,
+                9,
+                29,
+                20,
+                5,
+                14,
+                14,
+                32,
+                11,
+                0,
+                13,
+                11,
+                28,
+                5,
+                28,
+                20,
+                22,
+                22,
+                30,
+                18,
+                9,
+                34,
+                9,
+                12,
+                10,
+                17,
+                24,
+                18,
+                29,
+                17,
+                30,
+                30,
+                34,
+                18,
+                25,
+                12,
+                8,
+                35,
+                8,
+                10,
+                36,
+                7,
+                19,
+                29,
+                16,
+                8,
+                15,
+                1,
+                33,
+                31,
+                5,
+                25,
+                26,
+                0,
+                3,
+                10,
+                25,
+                15,
+                16,
+                7,
+                36,
+                36,
+                30,
+                9,
+                16,
+                18,
+                32,
+                16,
+                34,
+                24,
+                32,
+                9,
+                26,
+                29,
+                21,
+                9,
+                0,
+                24,
+                29,
+                14,
+                24,
+                22,
+                24,
+                27,
+                30,
+                9,
+                14,
+                35,
+                3,
+                15,
+                9,
+                34,
+                9,
+                29,
+                26,
+                35,
+                8,
+                23,
+                33,
+                35,
+                21,
+                3,
+                16,
+                20,
+                12,
+                12,
+                5,
+                9,
+                31,
+                34,
+                16,
+                16,
+                25,
+                16,
+                21,
+                17,
+                33,
+                31,
+                34,
+                30,
+                27,
+                8,
+                7,
+                35,
+                31,
+                36,
+                32,
+                9,
+                11,
+                15,
+                12,
+                6,
+                11,
+                24,
+                8,
+                14,
+                13,
+                27,
+                10,
+                19,
+                35,
+                18,
+                15,
+                31,
+                24,
+                21,
+                22,
+                19,
+                8,
+                23,
+                1,
+                0,
+                22
+            ];
+            comp.result = data;
 
-    //         // Act
-    //         comp.createResultStatistic();
+            // Act
+            comp.createResultStatistic();
 
-    //         // Assert
-    //     });
-    // });
+            // Assert
+        });
+    });
 
-    // describe("Test method handleStatsPercent", () => {
-    //     it("Case: ", () => {
-    //         // Arrange
-    //         const findHotColdNumbersSpy = jest.spyOn(anyComp, "findHotColdNumbers");
-    //         const calculatePercentSpy = jest.spyOn(anyComp, "calculatePercent");
+    describe("Test method handleStatsPercent", () => {
+        it("Case: ", () => {
+            // Arrange
+            const findHotColdNumbersSpy = jest.spyOn(anyComp, "findHotColdNumbers");
+            const calculatePercentSpy = jest.spyOn(anyComp, "calculatePercent");
 
-    //         // Act
-    //         comp.handleStatsPercent();
+            // Act
+            comp.handleStatsPercent();
 
-    //         // Assert
-    //         expect(findHotColdNumbersSpy).toBeCalledWith();
-    //         expect(calculatePercentSpy).toBeCalledWith();
-    //     });
-    // });
+            // Assert
+            expect(findHotColdNumbersSpy).toBeCalledWith();
+            expect(calculatePercentSpy).toBeCalledWith();
+        });
+    });
 
-    // describe("Test method findHotColdNumbers", () => {
-    //     it("Case: ", () => {
-    //         // Arrange
-    //         const updateHotColdNumbersSpy = jest.spyOn(anyComp, "updateHotColdNumbers");
-    //         comp.resultStats.sort((a, b) => {
-    //             return a.times - b.times;
-    //         });
-    //         const coldNumbers = _.slice(comp.resultStats, 0, 4);
-    //         const hotNumbers = _.slice(comp.resultStats, comp.resultStats.length - 4, comp.resultStats.length);
+    describe("Test method findHotColdNumbers", () => {
+        it("Case: ", () => {
+            // Arrange
+            const updateHotColdNumbersSpy = jest.spyOn(anyComp, "updateHotColdNumbers");
+            comp.resultStats.sort((a, b) => {
+                return a.times - b.times;
+            });
+            const coldNumbers = _.slice(comp.resultStats, 0, 4);
+            const hotNumbers = _.slice(comp.resultStats, comp.resultStats.length - 4, comp.resultStats.length);
 
-    //         // Act
-    //         comp.findHotColdNumbers();
+            // Act
+            comp.findHotColdNumbers();
 
-    //         // Assert
-    //         expect(updateHotColdNumbersSpy).toBeCalledWith(comp.hotNumberNodes, hotNumbers);
-    //         expect(updateHotColdNumbersSpy).toBeCalledWith(comp.coldNumberNodes, coldNumbers);
-    //     });
-    // });
+            // Assert
+            expect(updateHotColdNumbersSpy).toBeCalledWith(comp.hotNumberNodes, hotNumbers);
+            expect(updateHotColdNumbersSpy).toBeCalledWith(comp.coldNumberNodes, coldNumbers);
+        });
+    });
 
-    // describe("Test method updateHotColdNumbers", () => {
-    //     it("Case 1: number != 0 and number is in red number list", () => {
-    //         // Arrange
-    //         const list = [
-    //             {
-    //                 number: 30,
-    //                 times: 11
-    //             }
-    //         ];
+    describe("Test method updateHotColdNumbers", () => {
+        it("Case 1: number != 0 and number is in red number list", () => {
+            // Arrange
+            const list = [
+                {
+                    number: 30,
+                    times: 11
+                }
+            ];
 
-    //         // Act
-    //         comp.updateHotColdNumbers(comp.hotNumberNodes, list);
+            // Act
+            comp.updateHotColdNumbers(comp.hotNumberNodes, list);
 
-    //         // Assert
-    //         comp.hotNumberNodes.children.forEach((node, index) => {
-    //             const number = list[index].number;
-    //             expect(node.getChildByName("number").getComponent(cc.Label).string).toMatch(number.toString());
-    //             expect(node.getChildByName("times").getComponent(cc.Label).string).toMatch(list[index].times.toString());
-    //             expect(node.getChildByName("bg_number").getComponent(cc.Sprite).spriteFrame).toEqual(comp.numberRedBg);
-    //         });
-    //     });
+            // Assert
+            comp.hotNumberNodes.children.forEach((node, index) => {
+                const number = list[index].number;
+                expect(node.getChildByName("number").getComponent(cc.Label).string).toMatch(number.toString());
+                expect(node.getChildByName("times").getComponent(cc.Label).string).toMatch(list[index].times.toString());
+                expect(node.getChildByName("bg_number").getComponent(cc.Sprite).spriteFrame).toEqual(comp.numberRedBg);
+            });
+        });
 
-    //     it("Case 2: number != 0 and number is not in red number list", () => {
-    //         // Arrange
-    //         const list = [
-    //             {
-    //                 number: 30,
-    //                 times: 11
-    //             }
-    //         ];
+        it("Case 2: number != 0 and number is not in red number list", () => {
+            // Arrange
+            const list = [
+                {
+                    number: 30,
+                    times: 11
+                }
+            ];
 
-    //         // Act
-    //         comp.updateHotColdNumbers(comp.hotNumberNodes, list);
+            // Act
+            comp.updateHotColdNumbers(comp.hotNumberNodes, list);
 
-    //         // Assert
-    //         comp.hotNumberNodes.children.forEach((node, index) => {
-    //             const number = list[index].number;
-    //             expect(node.getChildByName("number").getComponent(cc.Label).string).toMatch(number.toString());
-    //             expect(node.getChildByName("times").getComponent(cc.Label).string).toMatch(list[index].times.toString());
-    //             expect(node.getChildByName("bg_number").getComponent(cc.Sprite).spriteFrame).toEqual(comp.numberBlackBg);
-    //         });
-    //     });
+            // Assert
+            comp.hotNumberNodes.children.forEach((node, index) => {
+                const number = list[index].number;
+                expect(node.getChildByName("number").getComponent(cc.Label).string).toMatch(number.toString());
+                expect(node.getChildByName("times").getComponent(cc.Label).string).toMatch(list[index].times.toString());
+                expect(node.getChildByName("bg_number").getComponent(cc.Sprite).spriteFrame).toEqual(comp.numberBlackBg);
+            });
+        });
 
-    //     it("Case 3: number = 0 ", () => {
-    //         // Arrange
-    //         const list = [
-    //             {
-    //                 number: 30,
-    //                 times: 11
-    //             }
-    //         ];
+        it("Case 3: number = 0 ", () => {
+            // Arrange
+            const list = [
+                {
+                    number: 30,
+                    times: 11
+                }
+            ];
 
-    //         // Act
-    //         comp.updateHotColdNumbers(comp.hotNumberNodes, list);
+            // Act
+            comp.updateHotColdNumbers(comp.hotNumberNodes, list);
 
-    //         // Assert
-    //         comp.hotNumberNodes.children.forEach((node, index) => {
-    //             const number = list[index].number;
-    //             expect(node.getChildByName("number").getComponent(cc.Label).string).toMatch(number.toString());
-    //             expect(node.getChildByName("times").getComponent(cc.Label).string).toMatch(list[index].times.toString());
-    //             expect(node.getChildByName("bg_number").getComponent(cc.Sprite).spriteFrame).toEqual(comp.numberZeroBg);
-    //         });
-    //     });
-    // });
+            // Assert
+            comp.hotNumberNodes.children.forEach((node, index) => {
+                const number = list[index].number;
+                expect(node.getChildByName("number").getComponent(cc.Label).string).toMatch(number.toString());
+                expect(node.getChildByName("times").getComponent(cc.Label).string).toMatch(list[index].times.toString());
+                expect(node.getChildByName("bg_number").getComponent(cc.Sprite).spriteFrame).toEqual(comp.numberZeroBg);
+            });
+        });
+    });
 
-    // describe("Test method calculatePercent", () => {
-    //     it("Case: ", () => {
-    //         // Arrange
+    describe("Test method calculatePercent", () => {
+        it("Case: ", () => {
+            // Arrange
 
-    //         // Act
-    //         comp.calculatePercent();
+            // Act
+            comp.calculatePercent();
 
-    //         // Assert
-    //     });
-    // });
+            // Assert
+        });
+    });
 
     // describe("Test method hideStatisticContent", () => {
     //     it("Case: ", () => {
