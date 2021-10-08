@@ -117,14 +117,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     resetDataAndUI() {
         super.resetDataAndUI();
 

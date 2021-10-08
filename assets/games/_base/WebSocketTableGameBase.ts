@@ -11,7 +11,6 @@ import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import RoomPlayer from "./view-models/RoomPlayer";
-import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -59,7 +58,6 @@ export default class WebSocketTableGameBase extends GameBase {
 
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale: number;
-    protected historyComponent: SocketIOGameHistoryBase;
 
     constructor() {
         super();

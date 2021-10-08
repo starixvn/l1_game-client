@@ -253,14 +253,6 @@ export default class SicBo extends SocketIOTableGameBase {
         }
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     openHistory() {
         cc.RedT.audio.playClick();
         this.expandableMenu.collapseMenu();

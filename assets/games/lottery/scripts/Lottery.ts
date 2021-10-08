@@ -525,14 +525,6 @@ export default class Lottery extends SocketIOTableGameBase {
         });
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     updateDisplayOwnBets() {
         const currentBoard = this.getCurrentBoard();
         currentBoard.setOwnBet(this.getOwnBetsData());

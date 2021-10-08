@@ -112,7 +112,7 @@ export default class MiniSedie extends SocketIOMiniGameBase {
             const dataLog = this.currentDataLogs[0];
             this.setDots(dataLog.result);
             this.highlightWonItems(dataLog.settlementResult, true);
-            this.dishNode.position = cc.v2(0, 150);
+            this.dishNode.position = cc.v3(0, 150, 0);
             this.dishNode.active = false;
         }
     }
