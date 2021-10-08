@@ -19,7 +19,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class LobbyMenu extends GameIconMenu {
     @property
-    spacing = 25;
+    spacing = 24;
 
     currentColumn: cc.Node = null;
     currentRow: cc.Node = null;
