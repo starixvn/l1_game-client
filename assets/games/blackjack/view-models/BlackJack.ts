@@ -727,14 +727,6 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.blackjackOddLabel.string = i18n.t("ui.blackjack_pay", { odds });
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     playAudioNotification() {
         cc.RedT.isSoundGame() && this.gameNotificationsAudio.play();
     }

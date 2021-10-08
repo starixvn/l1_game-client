@@ -359,14 +359,6 @@ export default class Roulette extends SocketIOTableGameBase {
         };
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     addBetChoiceOnBoard(betInfo: any, bet: any) {
         this.rouletteMain.board.addBetChoice(betInfo, bet);
         this.isPlacingChip = false;

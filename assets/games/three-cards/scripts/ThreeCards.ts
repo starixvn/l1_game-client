@@ -239,12 +239,4 @@ export default class ThreeCards extends SocketIOTableGameBase {
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.addDialog(dialog);
     }
-
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
 }

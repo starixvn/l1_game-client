@@ -206,14 +206,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     showJackpotInfo(show: boolean) {
         if (!this.jackpotPoolLabel) {
             return;

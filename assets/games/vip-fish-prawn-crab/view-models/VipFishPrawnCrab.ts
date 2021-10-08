@@ -170,14 +170,6 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     public updateOddsFromConfigs() {
         this.gameConfigs.odds && this.oddItems.forEach((item) => item.setValue(this.gameConfigs.odds[item.node.name]));
     }

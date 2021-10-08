@@ -137,14 +137,6 @@ export default class Sedie extends FreeBetGameBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     setDots(result) {
         Object.keys(result).forEach((key, index) => {
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;

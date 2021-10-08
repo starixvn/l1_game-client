@@ -25,6 +25,7 @@ import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
 import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
+import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -105,6 +106,7 @@ export default class GameBase extends BaseComponent {
     guidePrefab: cc.Prefab = null;
 
     protected _gameId: number;
+    protected historyComponent: SocketIOGameHistoryBase;
 
     public set gameId(value: number) {
         this._gameId = value;
