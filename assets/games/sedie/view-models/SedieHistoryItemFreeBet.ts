@@ -1,4 +1,4 @@
-import SedieHistoryItem from './SedieHistoryItem';
+import SedieHistoryItem from "./SedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,7 +24,7 @@ export default class SedieHistoryItemFreeBet extends cc.Component {
         };
     }
 
-    handleItems(betLog) {
+    handleItems(betLog: any) {
         this.betLog = betLog;
         this.linkContainerButton.interactable = false;
         if (betLog.freeBet) {
