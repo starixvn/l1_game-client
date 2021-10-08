@@ -72,6 +72,10 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             cc.RedT.userData(data.user);
         }
 
+        if (data.history) {
+            this.historyComponent.onData(data.history);
+        }
+
         !data.notice && this.currentMiniPanel.onGeneralData(data);
     }
 

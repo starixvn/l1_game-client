@@ -33,7 +33,7 @@ export default class FreeBetDetail extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    init(betLog) {
+    init(betLog: any) {
         const { phien, betwin, result, settlementResult } = betLog;
         this.roundId.string = phien;
 
@@ -56,13 +56,14 @@ export default class FreeBetDetail extends cc.Component {
         let totalBet = 0;
         Object.keys(settlementResult).forEach((key) => {
             if (betLog[key]) {
-                const node = cc.instantiate(this.itemPrefab);
-                const item = node.getComponent(FreeBetDetailItem);
-                item.label.string = GameUtils.getBetChoiceString(key);
-                item.value.string = numberWithCommas(betLog[key]);
-                totalBet += betLog[key];
+                if (this.itemPrefab) {
+                    const node = cc.instantiate(this.itemPrefab);
+                    const item = node.getComponent(FreeBetDetailItem);
+                    item.setData(key, betLog[key]);
+                    this.content.addChild(node);
+                }
 
-                this.content.addChild(node);
+                totalBet += betLog[key];
             }
         });
 
