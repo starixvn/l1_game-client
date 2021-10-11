@@ -1,5 +1,5 @@
 import NoticeUtil from "../../../common/utils/NoticeUtil";
-import { SicBoBetType } from "./SicBo";
+import { SicBoBetType } from "./SicBoCommon";
 
 const { ccclass, property } = cc._decorator;
 

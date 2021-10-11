@@ -29,4 +29,12 @@ export default class SicBoTicketDetail extends GameTicketDetailBase {
             this.content.addChild(ticketDetailItem);
         }
     }
+
+    setSicboDetailData(round: number, result: any, dicesSpriteFrames: cc.SpriteFrame[]) {
+        this.roundLabel.string = round.toString();
+        this.dices[0].spriteFrame = dicesSpriteFrames[result.dice1 - 1];
+        this.dices[1].spriteFrame = dicesSpriteFrames[result.dice2 - 1];
+        this.dices[2].spriteFrame = dicesSpriteFrames[result.dice3 - 1];
+        this.total.string = result.dice1 + result.dice2 + result.dice3;
+    }
 }

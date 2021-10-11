@@ -1,8 +1,9 @@
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SicBoHistoryItem extends cc.Component {
-
     @property(cc.Label)
     timeLabel: cc.Label = null;
 
@@ -29,9 +30,18 @@ export default class SicBoHistoryItem extends cc.Component {
     betLogDetails: any = null;
     settlementResult: any = null;
 
-    public showTicketDetail = (round: number, time: string, result: any, betLogDetails: any, settlementResult: any) => { }
+    public showTicketDetail = (round: number, time: string, result: any, betLogDetails: any, settlementResult: any) => {};
 
     openTicketDetail() {
         this.showTicketDetail(this.round, this.time, this.result, this.betLogDetails, this.settlementResult);
+    }
+
+    setData(betLog: any, dicesSpriteFrames: cc.SpriteFrame[]) {
+        this.timeLabel.string = getStringDateByTime(betLog.time);
+        this.roundLabel.string = betLog.phien.toString();
+        this.dices[0].spriteFrame = dicesSpriteFrames[betLog.result.dice1 - 1];
+        this.dices[1].spriteFrame = dicesSpriteFrames[betLog.result.dice2 - 1];
+        this.dices[2].spriteFrame = dicesSpriteFrames[betLog.result.dice3 - 1];
+        this.total.string = betLog.result.dice1 + betLog.result.dice2 + betLog.result.dice3;
     }
 }

@@ -14,6 +14,7 @@ import SicBoFinishHandler from "./handlers/SicBoFinishHandler";
 import SicBoLogsHandler from "./handlers/SicBoLogsHandler";
 import SicBoTimeHandler from "./handlers/SicBoTimeHandler";
 import SicBoBetItem from "./SicBoBetItem";
+import { SicBoBetType } from "./SicBoCommon";
 import SicBoConfigs from "./SicBoConfigs";
 import SicBoDicesStatistic from "./SicBoDicesStatistic";
 import SicBoHistory from "./SicBoHistory";
@@ -21,18 +22,6 @@ import SicBoMajorChoicesStatistic from "./SicBoMajorChoicesStatistic";
 import SicBoOddsItem from "./SicBoOddsItem";
 
 const { ccclass, property } = cc._decorator;
-
-export enum SicBoBetType {
-    big = "big",
-    small = "small",
-    anyTriple = "anyTriple",
-    specific1 = "specific1",
-    specific2 = "specific2",
-    specific3 = "specific3",
-    specific4 = "specific4",
-    specific5 = "specific5",
-    specific6 = "specific6"
-}
 
 @ccclass
 export default class SicBo extends SocketIOTableGameBase {
@@ -166,7 +155,7 @@ export default class SicBo extends SocketIOTableGameBase {
     initDicesStatistic() {
         const dicesStatistic = cc.instantiate(this.dicesStatisticPrefab);
         this.dicesStatisticComponent = dicesStatistic.getComponent(SicBoDicesStatistic);
-        this.dicesStatisticComponent.init(this);
+        this.dicesStatisticComponent.init(this.currentDataLogs);
 
         this.dicesStatisticContainer.addChild(dicesStatistic);
     }

@@ -1,4 +1,5 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import GameUtils from "../../../common/GameUtils";
 
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
@@ -20,13 +21,13 @@ export default class SicBoTicketDetailItem extends cc.Component {
 
     height: number = null;
 
-    updateContent({ time, choice, amount }, settlementResult) {
-        const typeNumberText = i18n.t("ui.type_bet_number");
-        const totalScoreText = i18n.t("ui.total_score");
+    updateContent(log: any, settlementResult: any) {
+        const typeNumberText = GameUtils.getText("ui.type_bet_number");
+        const totalScoreText = GameUtils.getText("ui.total_score");
         const betTypes = {
-            small: i18n.t("ui.type_big_small"),
-            big: i18n.t("ui.type_big_small"),
-            anyTriple: i18n.t("ui.any_triple"),
+            small: GameUtils.getText("ui.type_big_small"),
+            big: GameUtils.getText("ui.type_big_small"),
+            anyTriple: GameUtils.getText("ui.any_triple"),
             specific1: typeNumberText,
             specific2: typeNumberText,
             specific3: typeNumberText,
@@ -50,9 +51,9 @@ export default class SicBoTicketDetailItem extends cc.Component {
         };
 
         const betChoices = {
-            small: i18n.t("ui.choice_small"),
-            big: i18n.t("ui.choice_big"),
-            anyTriple: i18n.t("ui.any_triple"),
+            small: GameUtils.getBetChoiceString("small"),
+            big: GameUtils.getBetChoiceString("big"),
+            anyTriple: GameUtils.getText("ui.any_triple"),
             specific1: "1",
             specific2: "2",
             specific3: "3",
@@ -75,12 +76,12 @@ export default class SicBoTicketDetailItem extends cc.Component {
             total17: "17"
         };
 
-        this.time.string = getStringHourByTime(time);
-        this.type.string = betTypes[choice];
-        this.choice.string = betChoices[choice];
-        this.choice.node.color = settlementResult[choice] ? cc.Color.YELLOW : cc.Color.WHITE;
-        this.amount.string = numberWithCommas(amount);
-        this.amount.node.color = settlementResult[choice] ? cc.Color.YELLOW : cc.Color.WHITE;
+        this.time.string = getStringHourByTime(log.time);
+        this.type.string = betTypes[log.choice];
+        this.choice.string = betChoices[log.choice];
+        this.choice.node.color = settlementResult[log.choice] ? cc.Color.YELLOW : cc.Color.WHITE;
+        this.amount.string = numberWithCommas(log.amount);
+        this.amount.node.color = settlementResult[log.choice] ? cc.Color.YELLOW : cc.Color.WHITE;
         this.height = this.node.height;
     }
 }
