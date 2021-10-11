@@ -125,6 +125,7 @@ export default class MainGame extends cc.Component {
     }
 
     initScrollListener() {
+        this.mainScroll.content.on(cc.Node.EventType.SIZE_CHANGED, this.updateArrowVisibility.bind(this));
         this.mainScroll.node.on("scroll-ended", () => {
             const offset = Math.abs(Math.floor(this.mainScroll.getScrollOffset().x));
             const maxOffset = Math.floor(this.mainScroll.getMaxScrollOffset().x);
@@ -134,6 +135,12 @@ export default class MainGame extends cc.Component {
                 this.arrowNode.scale = right ? 1 : -1;
             }
         });
+    }
+
+    updateArrowVisibility() {
+        const scrollable = this.mainScroll.content.width > this.mainScroll.node.width;
+        this.arrowNode.parent.active = scrollable;
+        this.arrowNode.scale = 1;
     }
 
     activeCategoryFromStorage(): number {
@@ -610,5 +617,6 @@ export default class MainGame extends cc.Component {
         const category = e.node.name;
         AudioManager.getInstance().playClick();
         this.lobbyMenu.setCategory(+category);
+        this.updateArrowVisibility();
     }
 }
