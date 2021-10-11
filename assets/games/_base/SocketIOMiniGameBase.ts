@@ -74,7 +74,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             cc.RedT.userData(data.user);
         }
 
-        if (data.history) {
+        if (data.history && this.historyComponent) {
             this.historyComponent.onData(data.history);
         }
 
