@@ -17,7 +17,7 @@ export default class CircleMenu extends GameIconMenu {
 
     getList() {
         const list = this.lobbyMenuConfig.miniList;
-        return list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
+        return list.filter((i) => i === 0 || cc.RedT.user.offerGames.some((j) => j === i));
     }
 
     async addItem(id: number): Promise<cc.Node> {
