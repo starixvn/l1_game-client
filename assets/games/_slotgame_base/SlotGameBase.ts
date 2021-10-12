@@ -93,6 +93,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     winningBet: cc.Label = null;
 
     @property(cc.Node)
+    winningBetEffect: cc.Node = null;
+
+    @property(cc.Node)
     effectContainer: cc.Node = null;
 
     @property(cc.Node)
@@ -384,15 +387,35 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         winningBet && winningBet.destroy();
     }
 
+    private blinkUserBalance() {
+        cc.tween(this.userBalance.node)
+            .repeat(3, cc.tween().to(0.1, { scale: 1.1 }).to(0.1, { scale: 1 }))
+            .start();
+    }
+
+    private blinkWinningBet() {
+        cc.tween(this.winningBet.node)
+            .repeat(3, cc.tween().to(0.1, { scale: 1.1 }).to(0.1, { scale: 1 }))
+            .start();
+    }
+
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.winningNode, false, bet, this.getCustomDuration("acceptedBet"), 80);
+        this.blinkUserBalance();
     }
 
     showWinningBet(bet: number) {
-        const winningBet = GameUtils.addFlyingText(this.winningNode, true, bet, this.getCustomDuration("win"), 80);
-        winningBet.name = "winningBet";
-        this.updateWinningBetLabel(bet);
+        this.playAnimationWinningBet();
         this.playSound(SlotGameSound.WIN);
+        this.scheduleOnce(() => {
+            this.updateWinningBetLabel(bet);
+            this.blinkWinningBet();
+        }, 0.5);
+    }
+
+    playAnimationWinningBet() {
+        this.winningBetEffect.active = true;
+        const skeleton = this.winningBetEffect.getComponent(sp.Skeleton);
+        skeleton.setAnimation(0, skeleton.animation, false);
     }
 
     updateWinningBetLabel(bet: number) {
@@ -596,6 +619,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     async setDataAndSpin(data: any) {
         this.playSound(SlotGameSound.SPIN);
+        this.winningBet.string = "0";
         this.slotBoard.setBoardData(data);
         this.spinButton.playAnimationSpin();
         await this.slotBoard.spin(this.getCustomDuration("spin"), this.isAutoSpinMode());
