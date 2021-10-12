@@ -1,6 +1,5 @@
-import { shortenName } from "../../../common/helpers/NicknameHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { getStringDateByTime, getStringHourByTime } from "./../../../common/helpers/DateTimeHelper";
+import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
 import SpecialSeDie from "./SpecialSeDie";
 import SpecialSedieBetHistoryItem from "./SpecialSedieBetHistoryItem";
 
@@ -82,22 +81,11 @@ export default class SpecialSedieBetHistory extends cc.Component {
     }
 
     onData(data: any) {
+        const { id, result, even, odd } = data;
+
         this.resetData();
-
-        const { id, time, total, result, even, odd, settlementResult } = data;
-        this.roundId = id;
-        this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
-
-        this.evenBetAmount.string = numberWithCommas(total?.even?.betAmount ?? 0);
-        this.evenRefundAmount.string = numberWithCommas(total?.even?.refund ?? 0);
-        this.oddBetAmount.string = numberWithCommas(total?.odd?.betAmount ?? 0);
-        this.oddRefundAmount.string = numberWithCommas(total?.odd?.refund ?? 0);
-
-        this.evenNode.opacity = settlementResult?.even ? 255 : 100;
-        this.oddNode.opacity = settlementResult?.odd ? 255 : 100;
-
+        this.setBasicData(data);
         this.updateDotsResult(result);
-
         even &&
             even.forEach((user) => {
                 const item = this.addItem(user);
@@ -109,8 +97,21 @@ export default class SpecialSedieBetHistory extends cc.Component {
                 const item = this.addItem(user);
                 this.oddContent.addChild(item);
             });
+        this.nextButton.active = this.main && this.main.currentDataLogs[0].roundId > id;
+    }
 
-        this.nextButton.active = this.main.currentDataLogs[0].roundId > id;
+    setBasicData(data: any) {
+        const { id, time, total, settlementResult } = data;
+        this.roundId = id;
+        this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
+
+        this.evenBetAmount.string = numberWithCommas(total?.even?.betAmount ?? 0);
+        this.evenRefundAmount.string = numberWithCommas(total?.even?.refund ?? 0);
+        this.oddBetAmount.string = numberWithCommas(total?.odd?.betAmount ?? 0);
+        this.oddRefundAmount.string = numberWithCommas(total?.odd?.refund ?? 0);
+
+        this.evenNode.opacity = settlementResult?.even ? 255 : 100;
+        this.oddNode.opacity = settlementResult?.odd ? 255 : 100;
     }
 
     updateDotsResult(result: any) {
@@ -123,14 +124,7 @@ export default class SpecialSedieBetHistory extends cc.Component {
     addItem(data: any) {
         const item = cc.instantiate(this.itemPrefab);
         const itemComponent = item.getComponent(SpecialSedieBetHistoryItem);
-
-        const isLoginUser = data.name === cc.RedT.user.name;
-        itemComponent.highlight.active = isLoginUser;
-        itemComponent.time.string = getStringHourByTime(data.time);
-        itemComponent.username.string = isLoginUser ? data.name : shortenName(data.name);
-        itemComponent.betAmount.string = numberWithCommas(data.amount);
-        itemComponent.refund.string = numberWithCommas(data.refund);
-
+        itemComponent.setData(data);
         return item;
     }
 
