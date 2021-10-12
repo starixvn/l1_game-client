@@ -1,4 +1,3 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import GameUtils from "../../../common/GameUtils";
 
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
@@ -79,9 +78,16 @@ export default class SicBoTicketDetailItem extends cc.Component {
         this.time.string = getStringHourByTime(log.time);
         this.type.string = betTypes[log.choice];
         this.choice.string = betChoices[log.choice];
-        this.choice.node.color = settlementResult[log.choice] ? cc.Color.YELLOW : cc.Color.WHITE;
         this.amount.string = numberWithCommas(log.amount);
-        this.amount.node.color = settlementResult[log.choice] ? cc.Color.YELLOW : cc.Color.WHITE;
+
+        if (settlementResult[log.choice]) {
+            this.choice.node.color = cc.Color.YELLOW;
+            this.amount.node.color = cc.Color.YELLOW;
+        } else {
+            this.choice.node.color = cc.Color.WHITE;
+            this.amount.node.color = cc.Color.WHITE;
+        }
+
         this.height = this.node.height;
     }
 }

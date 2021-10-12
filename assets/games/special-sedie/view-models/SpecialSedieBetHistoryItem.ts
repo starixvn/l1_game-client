@@ -28,5 +28,11 @@ export default class SpecialSedieBetHistoryItem extends cc.Component {
         this.username.string = isLoginUser ? data.name : shortenName(data.name);
         this.betAmount.string = numberWithCommas(data.amount);
         this.refund.string = numberWithCommas(data.refund);
+
+        if (isLoginUser) {
+            this.username.string = data.name;
+        } else {
+            this.username.string = shortenName(data.name);
+        }
     }
 }

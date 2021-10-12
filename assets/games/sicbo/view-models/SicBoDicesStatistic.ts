@@ -1,4 +1,3 @@
-import SicBo from "./SicBo";
 import SicBoRoundResult from "./SicBoRoundResult";
 
 const { ccclass, property } = cc._decorator;

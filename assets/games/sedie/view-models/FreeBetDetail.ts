@@ -1,4 +1,3 @@
-import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import FreeBetDetailItem from "./FreeBetDetailItem";
 
