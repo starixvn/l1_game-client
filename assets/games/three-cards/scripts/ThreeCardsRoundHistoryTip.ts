@@ -14,6 +14,6 @@ export default class ThreeCardsRoundHistoryTip extends MiniRoundHistoryTip {
 
         const result = data.result ? "red" : "black";
         this.result.string = `${GameUtils.getBetChoiceString(result).toUpperCase()}`;
-        this.resultItem.setData(data.detail);
+        this.resultItem && this.resultItem.setData(data.detail);
     }
 }
