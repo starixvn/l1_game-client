@@ -1,5 +1,5 @@
-import MiniRoundHistoryItem from '../../../common/mini-round-history/MiniRoundHistoryItem';
-import RongHo from './RongHo';
+import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
+import DragonTigerUtil from "./DragonTigerUtil";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,7 +14,7 @@ export default class RHMiniRoundHistoryItem extends MiniRoundHistoryItem {
     public setData(data: any) {
         this.data = data;
 
-        const winChoice = RongHo.getWinItem(data.settlementResult);
+        const winChoice = DragonTigerUtil.getWinItem(data.settlementResult);
         this.icon.spriteFrame = this.itemSprites[winChoice];
     }
 }

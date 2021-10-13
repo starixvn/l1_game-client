@@ -1,5 +1,6 @@
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
 import { lazyInject } from "../../Application";
+import AudioManager from "../../common/audio/AudioManager";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import * as configs from "../../configs/Configs";
@@ -13,7 +14,7 @@ export default class MiniPanelSocketIOGameInitializers {
     constructor(private readonly main: MiniPanel) {}
 
     public openGame(gameId) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.main.popupMiniGame.hideListGame();
 
         if (this.main.currentGameRoomId === gameId) {

@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
@@ -65,7 +66,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     detailHistoryBoard: DragonScoreBoard;
     showScoreBoardNextDot = false;
     protected miniRoundHistory: VipBaccaratMiniRoundHistory;
-    protected historyComponent: VipBaccaratHistory;
 
     constructor() {
         super();
@@ -118,14 +118,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     resetDataAndUI() {
         super.resetDataAndUI();
 
@@ -133,7 +125,7 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     }
 
     playGetCardAudio() {
-        this.getCardAudioSource.play();
+        AudioManager.getInstance().playSFX(this.getCardAudioSource.clip);
     }
 
     private initCards() {

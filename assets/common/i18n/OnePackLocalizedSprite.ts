@@ -42,7 +42,9 @@ export default class OnePackLocalizedSprite extends LocalizedSprite {
 
     updateSprite(language) {
         if (!this.sprite) {
-            cc.error("Failed to update localized sprite, sprite component is invalid!");
+            if (this.node.activeInHierarchy) {
+                cc.error("Failed to update localized sprite, sprite component is invalid!");
+            }
             return;
         }
 

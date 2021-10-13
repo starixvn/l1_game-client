@@ -1,41 +1,56 @@
+import AudioManager from "./audio/AudioManager";
+
 const { ccclass, property } = cc._decorator;
+
+enum AudioType {
+    Music = 0,
+    SFX
+}
 
 @ccclass
 export default class HandleGameSound extends cc.Component {
-  @property(cc.Sprite)
-  soundSprite: cc.Sprite = null;
+    @property(cc.Sprite)
+    soundSprite: cc.Sprite = null;
 
-  @property(cc.SpriteFrame)
-  soundOnFrame: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    soundOnFrame: cc.SpriteFrame = null;
 
-  @property(cc.SpriteFrame)
-  soundOffFrame: cc.SpriteFrame = null;
+    @property(cc.SpriteFrame)
+    soundOffFrame: cc.SpriteFrame = null;
 
-  onLoad() {
-    this.node.on('click', this.onClickSoundGame, this);
-    this.initSound();
-  }
+    @property({ type: cc.Enum(AudioType) })
+    type = AudioType.SFX;
 
-  onDestroy() {
-    this.node.off('click', this.onClickSoundGame, this);
-  }
+    onLoad() {
+        this.node.on("click", this.onClickSoundGame, this);
+        this.initSound();
+    }
 
-  initSound() {
-    cc.RedT.isSoundGame() ? this.setSoundGameOn() : this.setSoundGameOff();
-  }
+    onDestroy() {
+        this.node.off("click", this.onClickSoundGame, this);
+    }
 
-  onClickSoundGame() {
-    cc.RedT.audio.playClick();
-    cc.RedT.isSoundGame() ? this.setSoundGameOff() : this.setSoundGameOn();
-  }
+    private getKey(): string {
+        const dict = ["musicEnabled", "sfxEnabled"];
+        return dict[this.type];
+    }
 
-  setSoundGameOn() {
-    this.soundSprite.spriteFrame = this.soundOnFrame;
-    cc.RedT.setSoundGame(true);
-  }
+    initSound() {
+        AudioManager.getInstance()[this.getKey()] ? this.setSoundGameOn() : this.setSoundGameOff();
+    }
 
-  setSoundGameOff() {
-    this.soundSprite.spriteFrame = this.soundOffFrame;
-    cc.RedT.setSoundGame(false);
-  }
+    onClickSoundGame() {
+        AudioManager.getInstance()[this.getKey()] ? this.setSoundGameOff() : this.setSoundGameOn();
+        AudioManager.getInstance().playClick();
+    }
+
+    setSoundGameOn() {
+        this.soundSprite.spriteFrame = this.soundOnFrame;
+        AudioManager.getInstance()[this.getKey()] = true;
+    }
+
+    setSoundGameOff() {
+        this.soundSprite.spriteFrame = this.soundOffFrame;
+        AudioManager.getInstance()[this.getKey()] = false;
+    }
 }

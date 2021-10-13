@@ -20,17 +20,18 @@ export default class MiniKenoWinning extends cc.Component {
     }
 
     onLoad() {
-        this.animation.on(
-            "finished",
-            () => {
-                this.isShowing = false;
-            },
-            this
-        );
+        this.animation &&
+            this.animation.on(
+                "finished",
+                () => {
+                    this.isShowing = false;
+                },
+                this
+            );
     }
 
     show() {
         this.isShowing = true;
-        this.animation.play();
+        this.animation && this.animation.play();
     }
 }

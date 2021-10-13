@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
@@ -38,7 +39,6 @@ export default class Keno extends SocketIOTableGameBase {
 
     public resultAnimating = false;
     public kenoNumbers: KenoNumber[] = [];
-    private historyComponent: KenoUserHistory;
 
     constructor() {
         super();
@@ -57,7 +57,7 @@ export default class Keno extends SocketIOTableGameBase {
     }
 
     public pressedHistoryDialog() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(KenoUserHistory);
@@ -78,14 +78,6 @@ export default class Keno extends SocketIOTableGameBase {
             GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
         });
-    }
-
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
     }
 
     resetDataAndUI() {

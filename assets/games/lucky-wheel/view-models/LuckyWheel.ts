@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
+import AudioManager from "../../../common/audio/AudioManager";
 import { getLocale } from "../../../common/auth/SessionManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import UmWarning from "../../../common/um-warning/UmWarning";
@@ -354,14 +355,14 @@ export default class LuckyWheel extends cc.Component {
     }
 
     showLuckyWheel() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         const dialog = this.node.getComponent("CommonDialog");
         dialog.showDialog();
     }
 
     closeLuckyWheel() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.wheel.angle = this.resultAngle;
         if (this.wheelTween) {
             this.wheelTween.stop();

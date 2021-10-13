@@ -1,8 +1,8 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
+import GameUtils from "../../../common/GameUtils";
 
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { RouletteBetType } from "./Roulette";
+import { RouletteBetType } from "./RouletteCommon";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -22,16 +22,16 @@ export default class RouletteTicketDetailItem extends cc.Component {
         const choiceNames = {
             small: "1-18",
             big: "19-36",
-            odd: i18n.t("ui.choice_odd"),
-            even: i18n.t("ui.choice_even"),
-            red: i18n.t("ui.choice_red"),
-            black: i18n.t("ui.choice_black"),
+            odd: GameUtils.getBetChoiceString("odd"),
+            even: GameUtils.getBetChoiceString("even"),
+            red: GameUtils.getBetChoiceString("red"),
+            black: GameUtils.getBetChoiceString("black"),
             dozen1: "1-12",
             dozen2: "13-24",
             dozen3: "25-36",
-            column1: i18n.t(`ui.column_number`, { num: 1 }),
-            column2: i18n.t(`ui.column_number`, { num: 2 }),
-            column3: i18n.t(`ui.column_number`, { num: 3 })
+            column1: GameUtils.getText(`ui.column_number`, { num: 1 }),
+            column2: GameUtils.getText(`ui.column_number`, { num: 2 }),
+            column3: GameUtils.getText(`ui.column_number`, { num: 3 })
         };
 
         const betTypes = {
@@ -49,7 +49,7 @@ export default class RouletteTicketDetailItem extends cc.Component {
             bigSmall: "type_big_small"
         };
 
-        this.type.string = i18n.t(`ui.${betTypes[type]}`);
+        this.type.string = GameUtils.getText(`ui.${betTypes[type]}`);
         switch (type) {
             case RouletteBetType.BigSmall:
             case RouletteBetType.OddEven:

@@ -1,3 +1,4 @@
+import AudioManager from "../../../../common/audio/AudioManager";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import Sedie from "../Sedie";
 
@@ -26,7 +27,7 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        this.main.betItems.forEach(item => item.setHighlight(false));
+        this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 
     handleInRoundTime() {
@@ -57,7 +58,7 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
             .call(() => this.main.closePlate())
             .delay(0.5)
             .call(() => {
-                cc.RedT.isSoundGame() && this.main.shakeThePlateAudio.play();
+                AudioManager.getInstance().playSFX(this.main.shakeThePlateAudio.clip);
                 this.main.shakeThePlateAnimation.play();
             })
             .start();

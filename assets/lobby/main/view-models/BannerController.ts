@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import BannerItem from "./BannerItem";
 
@@ -17,7 +18,7 @@ export default class BannerController extends cc.Component {
     intervalChangeImage = 4;
 
     protected dragThreshold = 0.25;
-    private currentIndex = 0;
+    public currentIndex = 0;
     private touchOffset = cc.v2(0, 0);
     private started = false;
 
@@ -218,7 +219,7 @@ export default class BannerController extends cc.Component {
     }
 
     openGame(e, gameId) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         GameUtils.openGame(+gameId, cc.RedT.MiniPanel);
     }
 }

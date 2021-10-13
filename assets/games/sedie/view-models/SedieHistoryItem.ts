@@ -1,4 +1,5 @@
-import SedieHistoryItemBase from '../../_base/view-models/SedieHistoryItemBase';
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SedieHistoryItemBase from "../../_base/view-models/SedieHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,5 +37,20 @@ export default class SedieHistoryItem extends SedieHistoryItemBase {
     set betLog(value: any) {
         this._betLog = value;
         this.itemCallback();
+    }
+
+    setData(betLog: any) {
+        const { freeBet, settlementResult } = betLog;
+
+        Object.keys(settlementResult).forEach((choice) => {
+            const historyItem = this[choice];
+            historyItem.string = freeBet ? 0 : numberWithCommas(betLog[choice]);
+
+            if (settlementResult[choice]) {
+                historyItem.node.color = cc.Color.YELLOW;
+            } else {
+                historyItem.node.color = cc.Color.WHITE;
+            }
+        });
     }
 }

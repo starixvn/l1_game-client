@@ -3,23 +3,118 @@ import GameUtils from "../../../common/GameUtils";
 import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 
+export enum GameCategory {
+    All = 0,
+    SeDie,
+    Casino,
+    Card,
+    Slot,
+    Lottery,
+
+    Favourite = 99,
+    Other = 100
+}
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LobbyMenu extends GameIconMenu {
     @property
-    spacing = 20;
+    spacing = 24;
 
     currentColumn: cc.Node = null;
     currentRow: cc.Node = null;
     rowChildrenCount = 0;
     public initializedCallback = () => {};
+    currentCategory = GameCategory.All;
 
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
+    onLoad() {
+        //override super
+    }
+
     getList() {
-        return cc.RedT.user.offerGames;
+        if (this.currentCategory === GameCategory.All) {
+            return cc.RedT.user.offerGames;
+        }
+
+        const dict = {};
+        dict[GameCategory.SeDie] = this.lobbyMenuConfig.seDieGames;
+        dict[GameCategory.Casino] = this.lobbyMenuConfig.casinoGames;
+        dict[GameCategory.Card] = this.lobbyMenuConfig.cardGames;
+        dict[GameCategory.Slot] = this.lobbyMenuConfig.slotGames;
+        dict[GameCategory.Lottery] = this.lobbyMenuConfig.lotteryGames;
+        // dict[GameCategory.Favourite] = this.getFavoriteList();
+        // dict[GameCategory.Other] = this.getOtherList();
+        const list = dict[this.currentCategory];
+        const result = list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
+        return result;
+    }
+
+    getOtherList(): number[] {
+        const temp = [
+            //
+            ...this.lobbyMenuConfig.seDieGames,
+            ...this.lobbyMenuConfig.casinoGames,
+            ...this.lobbyMenuConfig.cardGames,
+            ...this.lobbyMenuConfig.slotGames,
+            ...this.lobbyMenuConfig.lotteryGames
+        ];
+        return cc.RedT.user.offerGames.filter((i) => !temp.some((j) => j === i));
+    }
+
+    getFavoriteList(): number[] {
+        const list = JSON.parse(cc.sys.localStorage.getItem("favor_games")) || [];
+        return this.sortForLayout(list);
+    }
+
+    sortForLayout(list: number[]): number[] {
+        const weight = {};
+        list.forEach((id) => {
+            const size = this.getItemSize(id);
+            if (size.y === 2) {
+                weight[id] = 3;
+            } else if (size.x === 2) {
+                weight[id] = 2;
+            } else {
+                weight[id] = 1;
+            }
+        });
+
+        list.sort((a, b) => weight[a] - weight[b]);
+        return list;
+    }
+
+    saveFavoriteList(list: number[]) {
+        cc.sys.localStorage.setItem("favor_games", JSON.stringify(list));
+    }
+
+    addHandleFavorite(node: cc.Node, gameId: number, isFavorite: boolean) {
+        // const favoriteButton = node.getComponentInChildren(FavoriteButton);
+        // if (!favoriteButton) {
+        //     return;
+        // }
+        // favoriteButton.setFavorite(isFavorite);
+        // favoriteButton.initListener();
+        // favoriteButton.onFavoriteChanged = (favorite: boolean) => {
+        //     if (favorite) {
+        //         this.addFavoriteGame(gameId);
+        //     } else {
+        //         this.removeFavoriteGame(gameId);
+        //     }
+        // };
+    }
+
+    addFavoriteGame(gameId: number) {
+        const list = this.getFavoriteList();
+        list.push(gameId);
+        this.saveFavoriteList(list);
+    }
+
+    removeFavoriteGame(gameId: number) {
+        const list = this.getFavoriteList();
+        this.saveFavoriteList(list.filter((id) => id !== gameId));
     }
 
     onInitialized() {
@@ -28,15 +123,22 @@ export default class LobbyMenu extends GameIconMenu {
         this.initializedCallback();
     }
 
+    getItemSize(id: number): cc.Vec2 {
+        const detail = this.lobbyMenuConfig.detail;
+        return detail[id]?.size || cc.v2(1, 1);
+    }
+
     async addItem(id: number): Promise<cc.Node> {
         const prefab = await GameUtils.loadResource(`lobby/games/${id}`);
         if (!this.isAlive()) {
             return null;
         }
         const node = cc.instantiate(prefab);
+        const favoriteList = this.getFavoriteList();
+        const isFavorite = favoriteList.includes(id);
+        this.addHandleFavorite(node, id, isFavorite);
 
-        const detail = this.lobbyMenuConfig.detail;
-        const size = detail[id]?.size || cc.v2(1, 1);
+        const size = this.getItemSize(id);
         if (!this.currentColumn || size.y > 1) {
             this.createNewColumn();
         }
@@ -96,5 +198,28 @@ export default class LobbyMenu extends GameIconMenu {
 
         this.currentColumn.addChild(node);
         this.currentRow = node;
+    }
+
+    saveCategory() {
+        cc.sys.localStorage.setItem("current_game_category", this.currentCategory);
+    }
+
+    loadCategory() {
+        const category = cc.sys.localStorage.getItem("current_game_category");
+        if (category !== "") {
+            this.currentCategory = parseInt(category) || GameCategory.All;
+        }
+    }
+
+    setCategory(category: number) {
+        this.currentCategory = category;
+        this.saveCategory();
+        this.updateIcons();
+    }
+
+    updateIcons() {
+        this.content.destroyAllChildren();
+        this.currentColumn = null;
+        this.initItems();
     }
 }

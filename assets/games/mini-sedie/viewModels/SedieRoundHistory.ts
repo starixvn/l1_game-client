@@ -48,6 +48,12 @@ export default class SedieRoundHistory extends cc.Component {
     private updateHistory(redData: any) {
         const data = [...redData];
         this.updateStatistic(data);
+        if (this.logControl) {
+            this.setRoundHistoryItemData(data);
+        }
+    }
+
+    private setRoundHistoryItemData(data: any) {
         data.reverse();
         const logData = data.map((d) => (d % 2 === 0 ? 0 : 1));
         this.logControl.setData(logData);

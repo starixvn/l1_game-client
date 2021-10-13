@@ -1,5 +1,6 @@
 import { lazyInject } from "../../../Application";
 import { nFormatter } from "../../../common/helpers/NumberHelper";
+import AudioManager from "../../audio/AudioManager";
 import BetBoardConfig from "./BetBoardConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -57,7 +58,7 @@ export default class BetBoard extends cc.Component {
     }
 
     public onAcceptBet() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         if (this.checkBetLimit()) {
             this.callback.acceptedBet(this.info);
             this.closeBoard();
@@ -74,12 +75,12 @@ export default class BetBoard extends cc.Component {
     }
 
     public onCloseClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.close();
     }
 
     public onClearClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.info.bet = 0;
         this.betChanged();
     }
@@ -105,7 +106,7 @@ export default class BetBoard extends cc.Component {
     }
 
     public onItemBetClicked(e) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const amount = parseInt(e.target.name) || this.info.maxBet;
         this.info.bet += amount;
         this.info.bet = Math.min(this.info.bet, this.info.maxBet);

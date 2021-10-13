@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
+import AudioManager from "../../common/audio/AudioManager";
 import { getLocale } from "../../common/auth/SessionManager";
 import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
@@ -25,6 +26,7 @@ import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
 import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
+import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -105,6 +107,7 @@ export default class GameBase extends BaseComponent {
     guidePrefab: cc.Prefab = null;
 
     protected _gameId: number;
+    protected historyComponent: SocketIOGameHistoryBase;
 
     public set gameId(value: number) {
         this._gameId = value;
@@ -217,7 +220,7 @@ export default class GameBase extends BaseComponent {
     }
 
     closeGame() {
-        cc.RedT.audio.playUnClick();
+        AudioManager.getInstance().playClick();
         this.node.active = false;
     }
 

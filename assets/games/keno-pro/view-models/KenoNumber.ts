@@ -5,13 +5,12 @@ export default class KenoNumber extends cc.Component {
     @property(cc.Label)
     numberLabel: cc.Label = null;
 
-
     setNumber(value: number, isAnimated: boolean) {
         this.numberLabel.string = value.toString();
         this.show(isAnimated);
     }
 
-    showWaiting() { }
+    showWaiting() {}
 
     show(isAnimated = false) {
         this.node.active = true;
@@ -29,7 +28,7 @@ export default class KenoNumber extends cc.Component {
 
     runNumberAnimation() {
         this.node.scale = 0;
-        this.node.runAction(cc.scaleTo(0.3, 1).easing(cc.easeBounceOut()));
+        cc.tween(this.node).to(0.3, { scale: 1 }, { easing: "bounceOut" }).start();
     }
 
     clearNumberAnimation() {

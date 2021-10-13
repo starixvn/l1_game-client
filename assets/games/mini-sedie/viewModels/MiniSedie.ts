@@ -48,12 +48,8 @@ export default class MiniSedie extends SocketIOMiniGameBase {
     public miniRoundHistory: SedieMiniRoundHistory = null;
     private showLogs = true;
     public resultAnimating = false;
-    private historyComponent: MiniSedieHistory;
 
     onLoad() {
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
         super.onLoad();
         const node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(SedieRoundHistory);
@@ -88,13 +84,6 @@ export default class MiniSedie extends SocketIOMiniGameBase {
         this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
     }
 
-    onData(data: any) {
-        super.onData(data);
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-    }
-
     onEnable() {
         super.onEnable();
         this.showLogs = true;
@@ -113,7 +102,7 @@ export default class MiniSedie extends SocketIOMiniGameBase {
             const dataLog = this.currentDataLogs[0];
             this.setDots(dataLog.result);
             this.highlightWonItems(dataLog.settlementResult, true);
-            this.dishNode.position = cc.v2(0, 150);
+            this.dishNode.position = cc.v3(0, 150, 0);
             this.dishNode.active = false;
         }
     }

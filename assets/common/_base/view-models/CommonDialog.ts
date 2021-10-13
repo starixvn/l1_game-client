@@ -1,4 +1,5 @@
 import BounceInEffect from "../../animations/BounceInEffect";
+import AudioManager from "../../audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,7 +20,7 @@ export default class CommonDialog extends BounceInEffect {
             })
             .start();
 
-        enableSound && cc.RedT.audio.playUnClick();
+        enableSound && AudioManager.getInstance().playClick();
     }
 
     showDialog() {

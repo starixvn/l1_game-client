@@ -1,8 +1,9 @@
 const { ccclass, property } = cc._decorator;
 
 import * as _ from "lodash";
+import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
+import { RouletteBetType } from "./RouletteCommon";
 import RouletteTicketDetailItem from "./RouletteTicketDetailItem";
-import { RouletteBetType } from "./Roulette";
 
 @ccclass
 export default class RouletteTicketDetailIGroup extends cc.Component {
@@ -24,6 +25,8 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
     }
 
     createBetLogItem(betLogs: any, settlementResult: any) {
+        this.timeLabel.string = getStringHourByTime(betLogs.time);
+
         let height = 0;
         const orderDictionary = [
             RouletteBetType.StraightUp,
@@ -53,16 +56,23 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
 
             if (_.size(betList) > 0) {
                 Object.keys(betList).forEach((betKey) => {
-                    const betItem = cc.instantiate(this.betItemPrefab);
-                    const betItemComponent = betItem.getComponent(RouletteTicketDetailItem);
-                    this.betChoiceGroupNode.addChild(betItem);
-                    const isWinning = result && result.indexOf(betKey) !== -1;
-                    betItemComponent.updateContent(betType, betKey, betList[betKey], isWinning);
-                    height += betItemComponent.height;
+                    height += this.createTicketDetailItem(betList, result, betKey, betType);
                 });
             }
         });
 
         this.node.height = height;
+    }
+
+    private createTicketDetailItem(betList: any, result: any, betKey: string, betType: string): number {
+        if (!this.betItemPrefab) {
+            return 0;
+        }
+        const betItem = cc.instantiate(this.betItemPrefab);
+        const betItemComponent = betItem.getComponent(RouletteTicketDetailItem);
+        this.betChoiceGroupNode.addChild(betItem);
+        const isWinning = result && result.indexOf(betKey) !== -1;
+        betItemComponent.updateContent(betType, betKey, betList[betKey], isWinning);
+        return betItemComponent.height;
     }
 }

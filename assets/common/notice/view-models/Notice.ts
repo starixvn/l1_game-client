@@ -1,4 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+
+import AudioManager from "../../audio/AudioManager";
+
 const { ccclass, property } = cc._decorator;
 
 export interface NoticeData {
@@ -62,7 +65,7 @@ export default class Notice extends cc.Component {
     }
 
     public onClickButton() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         if (this.handleClickButton) {
             this.handleClickButton();

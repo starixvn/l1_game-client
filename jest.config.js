@@ -5,8 +5,9 @@ module.exports = {
     coverageDirectory: "coverage",
     setupFiles: ["jest-canvas-mock", "<rootDir>/__tests__/utils/cocos2d-js-for-preview.js"],
     testEnvironment: "jsdom",
-    testPathIgnorePatterns: ["/lib/", "/node_modules/"],
+    testPathIgnorePatterns: ["/lib/", "/node_modules/", "/mocks/"],
     moduleFileExtensions: ["ts", "js"],
     testMatch: ["**/__tests__/**/*.+(ts)", "**/?(*.)+(spec|test).+(ts)"],
-    transformIgnorePatterns: ["cocos2d-js-for-preview.js"]
+    transformIgnorePatterns: ["cocos2d-js-for-preview.js"],
+    clearMocks: true
 };

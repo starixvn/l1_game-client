@@ -1,5 +1,6 @@
 import i18n from "i18n/runtime-scripts/LanguageData";
 
+import AudioManager from "../../../common/audio/AudioManager";
 import UserService from "../../../common/auth/UserService";
 
 var BrowserUtil = require("BrowserUtil");
@@ -56,11 +57,11 @@ cc.Class({
         this.clean();
     },
     onEditClick: function () {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.username.focus();
     },
     onGenerateNameClick: function () {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.generateName();
     },
     generateName: function () {

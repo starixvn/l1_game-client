@@ -1,11 +1,13 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import AudioManager from "../../common/audio/AudioManager";
 import * as sessionManager from "../../common/auth/SessionManager";
 import BaseComponent from "../../common/BaseComponent";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Loading from "../../common/loading/view-models/Loading";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
+import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
 import * as authManager from "./../../common/auth/AuthManager";
@@ -49,6 +51,9 @@ export default class MiniPanel extends BaseComponent {
 
     @property(cc.Node)
     guideContainer: cc.Node = null;
+
+    @property(ScaleActiveController)
+    activeController: ScaleActiveController = null;
 
     public popupMiniGame: any;
     public loading: Loading;
@@ -124,6 +129,8 @@ export default class MiniPanel extends BaseComponent {
     addMiniGame(game: any, gameId: number) {
         this.miniGames && this.miniGames.addChild(game.node);
         this.miniGamesCache[gameId] = game;
+
+        this.activeController.addItem(game.node);
     }
 
     getGameMini(gameId): any {
@@ -161,11 +168,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     playClick() {
-        cc.RedT.audio.playClick();
-    }
-
-    playUnClick() {
-        cc.RedT.audio.playUnClick();
+        AudioManager.getInstance().playClick();
     }
 
     openGame(e, id) {

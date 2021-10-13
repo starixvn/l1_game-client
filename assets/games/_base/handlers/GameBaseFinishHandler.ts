@@ -1,8 +1,9 @@
 import * as _ from "lodash";
+
 import GameUtils from "../../../common/GameUtils";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import BetItem from "../BetItem";
 import GameBase from "../GameBase";
+import BetItem from "../view-models/BetItem";
 import RoomPlayer from "../view-models/RoomPlayer";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
@@ -174,8 +175,6 @@ export default class GameBaseFinishHandler implements DataHandler {
             }
             this.main.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
         });
-
-        hasChip && this.main.betChips.playMultiChipsSound();
     }
 
     playWinningEffect(mainRoomGame: WebSocketTableGameBase, playerNode: cc.Node, duration = this.WinningAnimationDuration) {

@@ -1,3 +1,4 @@
+import AudioManager from "../../../../common/audio/AudioManager";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
@@ -20,8 +21,8 @@ export default class KenoStatusBanner extends cc.Component {
 
     public isShowing = false;
 
-    init(gameName, roundId, winAmount) {
-        this.gameName.string = `${gameName}`;
+    init(gameName: string, roundId: number, winAmount: number) {
+        this.gameName.string = gameName;
         this.roundId.string = `#${roundId}`;
         this.winAmount.string = `+${numberWithCommas(winAmount)}`;
     }
@@ -40,7 +41,7 @@ export default class KenoStatusBanner extends cc.Component {
     show() {
         this.isShowing = true;
         this.node.active = true;
-        this.node.activeInHierarchy && cc.RedT.isSoundGame() && this.animationSound.play();
+        this.node.activeInHierarchy && AudioManager.getInstance().playSFX(this.animationSound.clip);
         this.animation.play();
     }
 }

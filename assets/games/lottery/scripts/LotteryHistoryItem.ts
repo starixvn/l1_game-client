@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
@@ -35,7 +36,7 @@ export default class LotteryHistoryItem extends cc.Component {
     protected data: any;
 
     openTicketDetail() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.showTicketDetail(this.data);
     }
 

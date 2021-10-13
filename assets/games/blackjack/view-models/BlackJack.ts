@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../../Application";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
+import AudioManager from "../../../common/audio/AudioManager";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
@@ -136,7 +137,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     ingameHander: DataHandler;
     activeHand: HandPlace = null;
     lastHandBets: any[] = [];
-    historyComponent: BlackJackHistory;
     audioNotificationInterval: any;
 
     public chipOption: number[];
@@ -337,7 +337,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     playAudioCardSliding() {
-        cc.RedT.isSoundGame() && this.cardSlideAudioSource.play();
+        AudioManager.getInstance().playSFX(this.cardSlideAudioSource.clip);
     }
 
     drawingCardToPlayer(card: CardModel, pos: number, onComplete = () => {}) {
@@ -451,7 +451,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     onDealClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         if (!this.canSendRequest()) {
             return;
@@ -529,7 +529,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     onStandClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         if (!this.canSendRequest()) {
             return;
         }
@@ -543,7 +543,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     onHitClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         if (!this.canSendRequest()) {
             return;
         }
@@ -557,7 +557,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     onNewBetClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.collectCardsOnTable();
     }
 
@@ -650,18 +650,18 @@ export default class BlackJack extends SocketIOTableGameBase {
         if (this.waitingProcessing) {
             return;
         }
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.handPlaces.forEach((place) => place.onClearBetClick());
     }
 
     onLobbyClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
 
         this.onCloseGameClick();
     }
 
     onHistoryClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
 
         const history = cc.instantiate(this.blackjackHistory);
@@ -728,16 +728,8 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.blackjackOddLabel.string = i18n.t("ui.blackjack_pay", { odds });
     }
 
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     playAudioNotification() {
-        cc.RedT.isSoundGame() && this.gameNotificationsAudio.play();
+        AudioManager.getInstance().playSFX(this.gameNotificationsAudio.clip);
     }
 
     setIntervalReminder() {
@@ -755,6 +747,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     playSingleChipsSound() {
-        cc.RedT.isSoundGame() && this.singleChipAudio.play();
+        AudioManager.getInstance().playSFX(this.singleChipAudio.clip);
     }
 }

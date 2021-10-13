@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { GameIds } from "../../../configs/SabaConfigs";
@@ -154,7 +155,7 @@ export default class VipSedieWar extends VipSedie {
     }
 
     openGuide() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
         super.openGuide();
     }
@@ -165,7 +166,7 @@ export default class VipSedieWar extends VipSedie {
 
     openHistory() {
         super.openHistory();
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
     }
 }

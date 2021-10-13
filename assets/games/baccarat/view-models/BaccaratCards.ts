@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import NewCard from "../../../common/new-card/view-models/NewCard";
 import BaccaratCard from "./BaccaratCard";
 
@@ -220,13 +221,14 @@ export default class BaccaratCards extends cc.Component {
             )
         );
 
-        cc.RedT.isSoundGame() &&
+        if (AudioManager.getInstance().sfxEnabled) {
             card.runAction(
                 cc.sequence(
                     cc.delayTime(0.2),
                     cc.callFunc(() => this.playGetCardAudio())
                 )
             );
+        }
     }
 
     resetCard(card: cc.Node) {

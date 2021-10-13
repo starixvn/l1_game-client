@@ -1,4 +1,6 @@
 import * as _ from "lodash";
+
+import AudioManager from "../../../common/audio/AudioManager";
 import RouletteResultNumber from "./RouletteResultNumber";
 
 const { ccclass, property } = cc._decorator;
@@ -78,11 +80,11 @@ export default class RouletteWheel extends cc.Component {
     }
 
     playSound(soundId: number, loop = false) {
-        if (!cc.RedT.isSoundGame() || soundId > this.audios.length - 1 || soundId < 0) {
+        if (!AudioManager.getInstance().sfxEnabled || soundId > this.audios.length - 1 || soundId < 0) {
             return;
         }
         this.audios[soundId].loop = loop;
-        this.audios[soundId].play();
+        AudioManager.getInstance().playSFX(this.audios[soundId].clip);
     }
 
     stopSound(soundId: number) {

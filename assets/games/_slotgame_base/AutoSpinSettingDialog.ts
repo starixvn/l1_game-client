@@ -1,4 +1,5 @@
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
+import AudioManager from "../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,17 +27,17 @@ export default class AutoSpinSettingDialog extends cc.Component {
     }
 
     onChoiceClick(event: cc.Event, param: string) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.autoSpinCount = +param;
     }
 
     onCloseClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.dialog.closeDialog();
     }
 
     onConfirmClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.confirmed = true;
         this.dialog.closeDialog();
     }

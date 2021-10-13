@@ -59,7 +59,6 @@ export default class Sedie extends FreeBetGameBase {
 
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
-    private historyComponent: SedieHistory;
 
     constructor() {
         super();
@@ -136,14 +135,6 @@ export default class Sedie extends FreeBetGameBase {
         this.historyComponent = dialog.getComponent(SedieHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
     }
 
     setDots(result) {

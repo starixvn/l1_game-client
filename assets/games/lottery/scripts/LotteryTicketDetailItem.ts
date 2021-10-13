@@ -57,10 +57,10 @@ export default class LotteryTicketDetailItem extends cc.Component {
                 const node = cc.instantiate(this.subItemSample);
                 this.content.addChild(node);
                 node.active = true;
+
                 const subItem = node.getComponent(LotteryTicketDetailSubItem);
                 subItem.setData(choiceDetail);
                 subItem.setHighlight(winAmount > 0);
-
                 subItem.lineTop.active = index > 0;
             });
         });

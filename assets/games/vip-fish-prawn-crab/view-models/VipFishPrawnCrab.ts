@@ -72,7 +72,6 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
     ownBetContainer: cc.Node = null;
 
     private statsComponent: VipFishPrawnCrabStats;
-    private historyComponent: VipFishPrawnCrabHistory;
     public finishShakeThePlate = false;
 
     constructor() {
@@ -169,14 +168,6 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
         this.historyComponent = dialog.getComponent(VipFishPrawnCrabHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
     }
 
     public updateOddsFromConfigs() {

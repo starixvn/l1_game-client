@@ -34,6 +34,7 @@ export function checkSSO(labelMessage, onSuccessFunc) {
     }
 
     if (urlParams.has("token")) {
+        window.isSSO = true;
         UserService.getInstance()
             .auth.sso(urlParams.get("token"))
             .then((response) => {

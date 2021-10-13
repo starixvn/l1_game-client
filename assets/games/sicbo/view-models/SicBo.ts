@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
@@ -118,7 +119,6 @@ export default class SicBo extends SocketIOTableGameBase {
     specific6Statistic = 0;
 
     private miniRoundHistory: MiniRoundHistory;
-    private userHistoryComponent: SicBoHistory;
     private dicesStatisticComponent: SicBoDicesStatistic;
     private majorChoicesStatisticComponent: SicBoMajorChoicesStatistic;
 
@@ -254,21 +254,13 @@ export default class SicBo extends SocketIOTableGameBase {
         }
     }
 
-    onDataGameRoom(data) {
-        if (data.history && this.userHistoryComponent) {
-            this.userHistoryComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     openHistory() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
 
         const dialog = cc.instantiate(this.historyPrefab);
-        this.userHistoryComponent = dialog.getComponent(SicBoHistory);
-        this.userHistoryComponent.init(this.socket);
+        this.historyComponent = dialog.getComponent(SicBoHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
 

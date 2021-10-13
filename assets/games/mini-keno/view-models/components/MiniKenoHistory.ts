@@ -4,8 +4,6 @@ import { lazyInject } from "../../../../Application";
 import DropDownList from "../../../../common/drop-down-list/view-models/DropDownList";
 import DropDownOption from "../../../../common/drop-down-list/view-models/DropDownOption";
 import GameUtils from "../../../../common/GameUtils";
-import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import { GameIds, GameInfos } from "../../../../configs/SabaConfigs";
 import SocketIOController from "../../../../SocketIOController";
 import SocketIOGameHistoryBase from "../../../_base/view-models/SocketIOGameHistoryBase";
@@ -48,8 +46,6 @@ export default class MiniKenoHistory extends SocketIOGameHistoryBase {
         new DropDownOption(GameIds.KenoNorth, GameUtils.getGameNameString(GameIds.KenoNorth))
     ];
 
-    private readonly betChoices = ["even", "odd", "big", "small", "gold", "wood", "water", "fire", "earth"];
-
     onLoad() {
         super.onLoad();
         this.initDropDown();
@@ -83,32 +79,10 @@ export default class MiniKenoHistory extends SocketIOGameHistoryBase {
     }
 
     bindItemRowData(betLog, index) {
-        const { phien, betLogDetails, betwin, result, settlementResult } = betLog;
         const node = cc.instantiate(this.prefabItem);
         const item: MiniKenoHistoryItem = node.getComponent("MiniKenoHistoryItem");
         item.init(this);
-        item.node.active = true;
-        item.result = result;
-        item.settlementResult = settlementResult;
-        item.betLogDetails = betLogDetails;
-        item.time.string = getStringDateByTime(betLog.time);
-        item.roundId.string = phien;
-
-        this.betChoices.forEach((choice) => {
-            item[choice].string = numberWithCommas(betLog[choice]);
-        });
-
-        const total = result.reduce((total: number, number: number) => total + number, 0);
-        item.total.string = total;
-
-        Object.keys(settlementResult).forEach((key) => {
-            if (settlementResult[key]) {
-                item[key].node.color = cc.Color.YELLOW;
-            }
-        });
-        item.win.string = numberWithCommas(betwin);
-        item.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-
+        item.setData(betLog);
         this.content.addChild(node);
     }
 

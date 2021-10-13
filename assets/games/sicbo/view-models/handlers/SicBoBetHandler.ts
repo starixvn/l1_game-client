@@ -22,6 +22,6 @@ export default class SicBoBetHandler extends GameBaseBetHandler {
         const { betChoice, amount } = data;
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
 
-        this.main.betChips.placeChipBet(amount, betItem.chipNode);
+        this.main.betChips.placeChipToChipBox(amount, betItem.chipNode, null, null);
     }
 }

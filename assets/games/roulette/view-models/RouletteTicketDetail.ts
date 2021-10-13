@@ -1,4 +1,3 @@
-import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import RouletteTicketDetailIGroup from "./RouletteTicketDetailIGroup";
 
@@ -23,9 +22,13 @@ export default class RouletteTicketDetail extends GameTicketDetailBase {
         this.betLogDetails.forEach((log) => {
             const group = cc.instantiate(this.groupPrefab);
             const groupComponent = group.getComponent(RouletteTicketDetailIGroup);
-            groupComponent.timeLabel.string = getStringHourByTime(log.time);
             this.content.addChild(group);
             groupComponent.createBetLogItem(log, this.settlementResult);
         });
+    }
+
+    setRouletteData(round: number, result: number) {
+        this.roundLabel.string = round.toString();
+        this.resultLabel.string = result.toString();
     }
 }

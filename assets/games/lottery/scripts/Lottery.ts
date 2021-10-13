@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import { GameIds } from "../../../configs/SabaConfigs";
@@ -86,7 +87,6 @@ export default class Lottery extends SocketIOTableGameBase {
     selectedItems: string[] = [];
     result: LotteryResult = null;
     extraResult: LotteryExtraResult = null;
-    historyComponent: LotteryHistory = null;
     ownBets: any = {};
     stats = {};
     resultTween: cc.Tween;
@@ -230,13 +230,13 @@ export default class Lottery extends SocketIOTableGameBase {
         if (this.resultTween) {
             return null;
         }
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         return super.showMiniWarning(data);
     }
 
     showProcessingWarning(show: boolean) {
         if (show) {
-            cc.RedT.audio.playClick();
+            AudioManager.getInstance().playClick();
         }
         super.showProcessingWarning(show);
     }
@@ -265,7 +265,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onLotteryTypeChanged(toggle: cc.Toggle) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const id = this.lotteryTypeItems.findIndex((item) => item.toggle === toggle);
         this.currentTypeIndex = id;
         this.showChoiceBoard(this.currentTypeIndex);
@@ -489,7 +489,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onStatisticsToggleChanged(toggle: cc.Toggle) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         if (toggle.isChecked) {
             this.requestStatistics();
         } else {
@@ -524,14 +524,6 @@ export default class Lottery extends SocketIOTableGameBase {
                 history.setData(this.currentDataLogs);
             }
         });
-    }
-
-    onDataGameRoom(data) {
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
     }
 
     updateDisplayOwnBets() {
@@ -609,7 +601,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onOpenHistory() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.historyPrefab);
         this.historyComponent = node.getComponent(LotteryHistory);
         this.historyComponent.init(this.socket);
@@ -617,7 +609,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onResultClick() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.currentMiniPanel.openResultPage(this.gameId);
     }
 }

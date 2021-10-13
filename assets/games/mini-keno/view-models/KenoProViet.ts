@@ -1,10 +1,11 @@
 import * as _ from "lodash";
 
 import { lazyInject } from "../../../Application";
+import AudioManager from "../../../common/audio/AudioManager";
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
-import { GameIds } from "../../../configs/SabaConfigs";
+import { desktopMiniGameScale, GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
@@ -205,7 +206,7 @@ export default class KenoProViet extends cc.Component {
         this.sortedGames = [...this.favouriteGames, ...otherGames];
         this.sortedGames.forEach((type, index) => {
             const keno = this.miniKenos.find((game) => game.kenoType === type);
-            keno.node.position = cc.v2(left + keno.node.width / 2 + index * (keno.node.width + spacing), 0);
+            keno.node.position = cc.v3(left + keno.node.width / 2 + index * (keno.node.width + spacing), 0);
             keno.favourite.isChecked = index < this.favouriteGames.length;
 
             this.indicatorItems[index].init(keno);
@@ -235,7 +236,7 @@ export default class KenoProViet extends cc.Component {
 
     onLoad() {
         if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
+            this.node.scale = desktopMiniGameScale;
         }
         this.initAllKeno();
         this.leftButton.active = false;
@@ -297,13 +298,13 @@ export default class KenoProViet extends cc.Component {
     }
 
     public onPrevious() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.selectedIndex -= this.movingStep;
         this.scrollToSelectedIndex();
     }
 
     public onNext() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.selectedIndex += this.movingStep;
         this.scrollToSelectedIndex();
     }
@@ -324,7 +325,7 @@ export default class KenoProViet extends cc.Component {
     openGame() {}
 
     closeGame() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.close();
     }
 
@@ -356,7 +357,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     openGuide() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.guidePrefab);
         this.miniPanel.addDialog(node);
         const guide = node.getComponent(MiniKenoGuide);
@@ -365,7 +366,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     openHistory() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.historyPrefab);
         this.miniKenoHistory = node.getComponent(MiniKenoHistory);
         this.miniPanel.addDialog(node);
@@ -373,7 +374,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     openPresetBetDialog() {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         this.presetBet.toggle();
     }
 }

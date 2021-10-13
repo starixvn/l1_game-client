@@ -1,5 +1,7 @@
 import { lazyInject } from "../../Application";
+import AudioManager from "../../common/audio/AudioManager";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
+import SabaConfigs = require("../../configs/SabaConfigs");
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 
@@ -16,7 +18,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
         if (!this.isMiniGameInContainer) {
             if (!cc.sys.isMobile) {
-                this.node.scale = 0.8;
+                this.node.scale = SabaConfigs.desktopMiniGameScale;
             }
 
             const draggableItem = this.getComponent(DraggableItem);
@@ -72,6 +74,10 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             cc.RedT.userData(data.user);
         }
 
+        if (data.history && this.historyComponent) {
+            this.historyComponent.onData(data.history);
+        }
+
         !data.notice && this.currentMiniPanel.onGeneralData(data);
     }
 
@@ -88,7 +94,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
     }
 
     public onBetItemClick(e) {
-        cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
         if (!this.isReadyBet()) {
             return;
         }

@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { GameIds } from "../../../configs/SabaConfigs";
@@ -24,21 +25,6 @@ const { ccclass, property } = cc._decorator;
 export interface RouletteBetInfo {
     type: string;
     numbers: number[];
-}
-
-export enum RouletteBetType {
-    StraightUp = "straightUp",
-    Split = "split",
-    Street = "street",
-    Triangle = "triangle",
-    Corner = "corner",
-    FourNumbers = "fourNumbers",
-    Line = "line",
-    Column = "column",
-    Dozen = "dozen",
-    RedBlack = "redBlack",
-    OddEven = "oddEven",
-    BigSmall = "bigSmall"
 }
 
 @ccclass
@@ -91,7 +77,6 @@ export default class Roulette extends SocketIOTableGameBase {
     previousRoundBetChoices: any = {};
     betChoicesStack = [];
     isPlacingChip = false;
-    userHistoryComponent: RouletteHistory;
     statisticComponent: RouletteStatistic;
     readonly chipOption: number[] = [];
 
@@ -128,7 +113,7 @@ export default class Roulette extends SocketIOTableGameBase {
                 .call(() => {
                     const wPosition = this.rouletteMain.newMenuPosition.convertToWorldSpaceAR(cc.v2(0, 0));
                     const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
-                    this.currentMiniPanel.miniMenu.position = cc.v2(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
+                    this.currentMiniPanel.miniMenu.position = cc.v3(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
                 })
                 .start();
 
@@ -375,14 +360,6 @@ export default class Roulette extends SocketIOTableGameBase {
         };
     }
 
-    onDataGameRoom(data) {
-        if (data.history && this.userHistoryComponent) {
-            this.userHistoryComponent.onData(data.history);
-        }
-
-        super.onDataGameRoom(data);
-    }
-
     addBetChoiceOnBoard(betInfo: any, bet: any) {
         this.rouletteMain.board.addBetChoice(betInfo, bet);
         this.isPlacingChip = false;
@@ -514,7 +491,7 @@ export default class Roulette extends SocketIOTableGameBase {
     }
 
     playClick() {
-        cc.RedT.isSoundGame() && cc.RedT.audio.playClick();
+        AudioManager.getInstance().playClick();
     }
 
     addToBetChoicesStack(betChoices: any) {
@@ -687,8 +664,8 @@ export default class Roulette extends SocketIOTableGameBase {
         }
 
         const dialog = cc.instantiate(this.historyPrefab);
-        this.userHistoryComponent = dialog.getComponent(RouletteHistory);
-        this.userHistoryComponent.init(this.socket);
+        this.historyComponent = dialog.getComponent(RouletteHistory);
+        this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
     }
 

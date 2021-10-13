@@ -36,7 +36,7 @@ export default class SlotGameHistoryItem extends cc.Component {
     textNormalColor: cc.Color = cc.Color.WHITE;
 
     @property
-    enableHighlightBg: boolean = false;
+    enableHighlightBg = false;
 
     @property({
         visible: function (this: SlotGameHistoryItem) {

@@ -85,7 +85,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
     private roundHistory: SedieRoundHistory = null;
     private miniRoundHistory: SpecialSedieRoundHistory;
-    private historyComponent: SpecialSeDieHistory;
     private betHistory: SpecialSedieBetHistory;
     private readonly choice = {
         odd: "odd",
@@ -141,9 +140,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
     onData(data: any) {
         super.onData(data);
-        if (data.history) {
-            this.historyComponent.onData(data.history);
-        }
 
         if (data.round) {
             this.betHistory && this.betHistory.onData(data.round);
@@ -243,8 +239,9 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     public openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(SpecialSeDieHistory);
-        this.historyComponent.init(this.socket);
-        this.historyComponent.handleBetHistory = (roundId) => {
+        const historyComp = this.historyComponent as SpecialSeDieHistory;
+        historyComp.init(this.socket);
+        historyComp.handleBetHistory = (roundId) => {
             this.openBetHistory(roundId);
         };
         this.currentMiniPanel.node.addChild(dialog);

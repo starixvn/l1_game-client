@@ -11,7 +11,7 @@ export default class GameUtils {
         temp.font = win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
         temp.lineHeight = 130;
         temp.fontSize = 30;
-        temp.node.position = cc.v2(0, startY);
+        temp.node.position = cc.v3(0, startY, 0);
         parent.addChild(temp.node);
         temp.node.runAction(
             cc.sequence(
@@ -22,6 +22,10 @@ export default class GameUtils {
             )
         );
         return temp.node;
+    }
+
+    public static getText(key: string, opt: any = {}) {
+        return i18n.t(key, opt);
     }
 
     public static getBetChoiceString(choice: string): string {
@@ -86,7 +90,7 @@ export default class GameUtils {
     }
 
     public static moveToOtherNode(node: cc.Node, destNode: cc.Node) {
-        const position = destNode.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v2(0, 0)));
+        const position = destNode.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v3(0, 0, 0)));
         node.parent = destNode;
         node.position = position;
     }
