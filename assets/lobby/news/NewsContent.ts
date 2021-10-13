@@ -17,7 +17,7 @@ export default class NewsContent extends cc.Component {
             this.reset();
             return;
         }
-        const limitLeft = -this.content.width / 4;
+        const limitLeft = -5;
         for (let i = 0; i < this.content.childrenCount; i++) {
             const child = this.content.children[i];
             child.position = cc.v3(child.position.x - 100 * t, 0);
