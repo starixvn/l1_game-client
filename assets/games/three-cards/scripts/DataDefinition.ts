@@ -7,10 +7,10 @@ export type ThreeCardsGameResultData = CardModel[];
 export interface ThreeCardsSettlementResultData {
     red: boolean;
     black: boolean;
-    diamond: boolean;
-    heart: boolean;
-    club: boolean;
-    spade: boolean;
+    diamonds: boolean;
+    hearts: boolean;
+    clubs: boolean;
+    spades: boolean;
 }
 
 export interface ThreeCardsOdds {

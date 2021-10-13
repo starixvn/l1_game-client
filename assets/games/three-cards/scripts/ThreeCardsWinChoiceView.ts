@@ -17,6 +17,8 @@ export default class ThreeCardsWinChoiceView extends cc.Component {
     @property
     prefix = "result_icon_";
 
+    onLoad() {}
+
     setData(data: ThreeCardsBetData) {
         const keys = ["diamonds", "hearts", "spades", "clubs"];
         const suffix = ["diamond", "heart", "spade", "club"];
@@ -28,7 +30,7 @@ export default class ThreeCardsWinChoiceView extends cc.Component {
         this.icons.forEach((icon) => (icon.node.active = false));
         keys.forEach((key, i) => {
             if (settlementResult[key]) {
-                this.icons[index].spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffix[i]}`);
+                this.icons[index].spriteFrame = this.atlas && this.atlas.getSpriteFrame(`${this.prefix}${suffix[i]}`);
                 this.icons[index].node.active = true;
                 index++;
             }

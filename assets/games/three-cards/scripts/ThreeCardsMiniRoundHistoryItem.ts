@@ -13,9 +13,9 @@ export default class ThreeCardsMiniRoundHistoryItem extends MiniRoundHistoryItem
     public setData(data: any) {
         this.data = data;
         if (data.result) {
-            this.dot.spriteFrame = this.atlas.getSpriteFrame(`dot_red`);
+            this.dot.spriteFrame = this.atlas && this.atlas.getSpriteFrame(`dot_red`);
         } else {
-            this.dot.spriteFrame = this.atlas.getSpriteFrame(`dot_black`);
+            this.dot.spriteFrame = this.atlas && this.atlas.getSpriteFrame(`dot_black`);
         }
     }
 }
