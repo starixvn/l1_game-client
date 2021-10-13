@@ -4,19 +4,22 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class NewsContent extends cc.Component {
+    @property(cc.Node)
+    content: cc.Node = null;
+
     @property(cc.BitmapFont)
     marqueeFont: cc.BitmapFont = null;
 
     colors = ["#F24647", "#33D3E9", "#F8E49D"];
 
     update(t) {
-        if (this.node.childrenCount === 0) {
+        if (this.content.childrenCount === 0) {
             this.reset();
             return;
         }
-        const limitLeft = -this.node.parent.width / 4;
-        for (let i = 0; i < this.node.childrenCount; i++) {
-            const child = this.node.children[i];
+        const limitLeft = -this.content.width / 4;
+        for (let i = 0; i < this.content.childrenCount; i++) {
+            const child = this.content.children[i];
             child.position = cc.v3(child.position.x - 100 * t, 0);
 
             if (child.position.x + child.width < limitLeft) {
@@ -54,11 +57,11 @@ export default class NewsContent extends cc.Component {
     }
 
     addNewsNode(node) {
-        const count = this.node.childrenCount;
-        let lastItemX = this.node.parent.width / 2 + node.width / 2;
-        const lastNode = this.node.children[count - 1];
+        const count = this.content.childrenCount;
+        let lastItemX = this.content.width / 2 + node.width / 2;
+        const lastNode = this.content.children[count - 1];
 
-        this.node.addChild(node);
+        this.content.addChild(node);
         if (lastNode) {
             lastItemX = Math.max(lastNode.position.x + lastNode.width / 2 + node.width / 2 + 100, lastItemX);
         }
