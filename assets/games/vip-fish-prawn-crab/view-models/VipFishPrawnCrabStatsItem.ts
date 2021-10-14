@@ -5,7 +5,7 @@ export default class VipFishPrawnCrabStatsItem extends cc.Component {
     @property({ type: cc.Sprite })
     icons: cc.Sprite[] = [];
 
-    setData(character: cc.SpriteFrame, highlightCharacter: cc.SpriteFrame, roundIndex: number, index) {
+    setData(normalCharacter: cc.SpriteFrame, highlightCharacter: cc.SpriteFrame, roundIndex: number, index: number) {
         this.icons[index].node.stopAllActions();
 
         if (roundIndex === 0) {
@@ -30,7 +30,7 @@ export default class VipFishPrawnCrabStatsItem extends cc.Component {
                 })
                 .start();
         } else {
-            this.icons[index].spriteFrame = character;
+            this.icons[index].spriteFrame = normalCharacter;
         }
     }
 }

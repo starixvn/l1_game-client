@@ -19,7 +19,7 @@ export default class SedieDish extends cc.Component {
     @property(cc.Animation)
     shakeThePlateAnimation: cc.Animation = null;
 
-    setDots(result, roundId: number) {
+    setDots(result: any, roundId: number) {
         const randomOption = this.randomPosNode.children[roundId % 5];
 
         Object.keys(result).forEach((key, index) => {
@@ -39,7 +39,7 @@ export default class SedieDish extends cc.Component {
                 .to(0.2, { opacity: 0 })
                 .start();
         } else {
-            this.plate.position = cc.v2(50, 150);
+            this.plate.position = cc.v3(50, 150, 0);
             this.plate.opacity = 0;
         }
     }

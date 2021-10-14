@@ -1,3 +1,4 @@
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import VipSedieWarTicketDetailItem from "./VipSedieWarTicketDetailItem";
 import VipSedieWarUtils from "./VipSedieWarUtils";
 
@@ -30,7 +31,7 @@ export default class VipSedieWarTicketDetail extends cc.Component {
     dotsFrame: cc.SpriteFrame[] = [];
 
     onLoad() {
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {
             this.node.destroy();
         });
@@ -43,11 +44,13 @@ export default class VipSedieWarTicketDetail extends cc.Component {
         VipSedieWarUtils.setDotsImage(data.result, this.playerResultNode, this.bankerResultNode, this.dotsFrame);
 
         const details = data.betLogDetails;
-        details.forEach((detail) => {
-            const item = this.addItem();
-            item.setData(detail);
-            item.setHighlightWinChoice(data.settlementResult[detail.choice]);
-        });
+        if (this.itemPrefab) {
+            details.forEach((detail) => {
+                const item = this.addItem();
+                item.setData(detail);
+                item.setHighlightWinChoice(data.settlementResult[detail.choice]);
+            });
+        }
     }
 
     getWinChoices(settlementResult: any): string {

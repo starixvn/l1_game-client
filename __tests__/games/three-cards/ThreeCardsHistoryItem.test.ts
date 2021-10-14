@@ -140,10 +140,10 @@ describe("Test class ThreeCardsHistoryItem", () => {
             settlementResult: {
                 red: true,
                 black: false,
-                diamond: true,
-                heart: false,
-                spade: false,
-                club: true
+                diamonds: true,
+                hearts: false,
+                spades: false,
+                clubs: true
             }
         };
         const keys = ["red", "black", "diamonds", "hearts", "spades", "clubs"];
