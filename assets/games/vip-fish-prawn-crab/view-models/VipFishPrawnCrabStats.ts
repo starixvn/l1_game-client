@@ -53,67 +53,49 @@ export default class VipFishPrawnCrabStats extends cc.Component {
             return;
         }
 
-        const characterCounts = {};
-        let mountainCount = 0;
-        const statsData = [];
         this.characterContent.removeAllChildren();
+        const characterCounts = this.itemPrefab && this.addDataLogs(dataLogs);
 
-        dataLogs.forEach((log, roundIndex) => {
-            const node = cc.instantiate(this.itemPrefab);
-            const itemComponent = node.getComponent(VipFishPrawnCrabStatsItem);
-            const { result, settlementResult } = log;
-
-            mountainCount += settlementResult.mountain ? 1 : 0;
-            statsData.unshift(settlementResult.mountain ? 0 : 1);
-
-            _.values(result).forEach((character: number, index: number) => {
-                characterCounts[character] = (characterCounts[character] ?? 0) + 1;
-                itemComponent.icons[index].node.stopAllActions();
-
-                if (roundIndex === 0) {
-                    itemComponent.icons[index].spriteFrame = this.highlightCharacterIcons[character];
-                    cc.tween(itemComponent.icons[index].node)
-                        .delay(index)
-                        .call(() => {
-                            cc.tween(itemComponent.icons[index].node)
-                                .repeatForever(
-                                    cc
-                                        .tween()
-                                        .to(0.2, { scale: 0.4, opacity: 200 }, { easing: "cubicIn" })
-                                        .delay(0.1)
-                                        .to(0.2, { scale: 0.45, opacity: 255 }, { easing: "cubicOut" })
-                                        .delay(0.1)
-                                        .to(0.2, { scale: 0.4, opacity: 200 }, { easing: "cubicIn" })
-                                        .delay(0.1)
-                                        .to(0.2, { scale: 0.45, opacity: 255 }, { easing: "cubicOut" })
-                                        .delay(3)
-                                )
-                                .start();
-                        })
-                        .start();
-                } else {
-                    itemComponent.icons[index].spriteFrame = this.characterIcons[character];
-                }
-            });
-
-            this.characterContent.addChild(node);
-        });
         this.characterContent.getComponent(cc.Layout).updateLayout();
         this.characterView.getComponent(cc.ScrollView).horizontal = this.characterView.width < this.characterContent.width;
         this.characterContent.getComponent(cc.Widget).updateAlignment();
 
-        const mountainPercent = Math.floor((mountainCount * 100) / dataLogs.length);
-        this.mountainPercent.string = `${mountainPercent}%`;
-        this.oceanPercent.string = `${100 - mountainPercent}%`;
-
-        this.logControl.setData(statsData);
-        this.updateCountLabels(characterCounts);
+        this.calculateBasicPercent(dataLogs);
+        characterCounts && this.updateCountLabels(characterCounts);
     }
 
-    private updateCountLabels(characterCounts) {
+    private updateCountLabels(characterCounts: any) {
         this.characterCountLabels.forEach((label, index) => {
             label.string = characterCounts[index] ?? "0";
         });
+    }
+
+    addDataLogs(dataLogs: any) {
+        const characterCounts = {};
+        dataLogs.forEach((log, roundIndex) => {
+            const node = cc.instantiate(this.itemPrefab);
+            const itemComponent = node.getComponent(VipFishPrawnCrabStatsItem);
+
+            _.values(log.result).forEach((character: number, index: number) => {
+                characterCounts[character] = (characterCounts[character] ?? 0) + 1;
+                itemComponent.setData(this.characterIcons[character], this.highlightCharacterIcons[character], roundIndex, index);
+            });
+
+            this.characterContent.addChild(node);
+        });
+
+        return characterCounts;
+    }
+
+    calculateBasicPercent(dataLogs: any) {
+        let mountainCount = 0;
+
+        dataLogs.forEach((log) => {
+            mountainCount += log.settlementResult.mountain ? 1 : 0;
+        });
+        const mountainPercent = Math.floor((mountainCount * 100) / dataLogs.length);
+        this.mountainPercent.string = `${mountainPercent}%`;
+        this.oceanPercent.string = `${100 - mountainPercent}%`;
     }
 
     changeDisplayMode() {
