@@ -221,7 +221,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     onDestroy() {
         super.onDestroy();
         const audioManager = AudioManager.getInstance();
-        audioManager.removeSfxChanged(`sound_observer_${this.gameId}`);
+        audioManager.removeMusicChanged(`${this.gameId}`);
     }
 
     protected onGameHide() {
