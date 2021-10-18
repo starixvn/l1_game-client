@@ -33,6 +33,9 @@ const configs = {
         HeroesSlot: 38
     },
     GameInfos: {
+        43: {
+            key: "BitcoinMaster"
+        },
         38: {
             key: "HeroesSlot"
         },
