@@ -1,11 +1,11 @@
 import * as _ from "lodash";
 
 import { lazyInject } from "../../../Application";
-import { nFormatter } from "../../../common/helpers/NumberHelper";
 import { ComponentSystem, ICashSystem, ICreditSystem } from "../../../System";
 import AudioManager from "../../audio/AudioManager";
 import GameUtils from "../../GameUtils";
 import ChipConfig from "./ChipConfig";
+import ChipView, { ChipDisplayType } from "./ChipView";
 import SnappedScrollView from "./SnappedScrollView";
 
 const { ccclass, property } = cc._decorator;
@@ -91,18 +91,16 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     createChips() {
-        this.chipValues.forEach((value) => {
+        this.chipValues.forEach((value, index) => {
             const node = cc.instantiate(this.chipPrefab);
             this.chips.addChild(node);
 
-            this.updateChipItem(node, value);
+            const chipView = node.getComponent(ChipView);
+            chipView.setColor(this.chipConfig.getChipColor(value));
+            chipView.setValue(value);
+            chipView.setType(this.getChipDisplayType(index));
 
-            const button = node.getComponent(cc.Button);
-            const event = new cc.Component.EventHandler();
-            event.target = this.node;
-            event.component = "BetChips";
-            event.handler = "onClickBet";
-            button.clickEvents.push(event);
+            node.on("click", this.onClickBet.bind(this));
         });
 
         const layout = this.chips.getComponent(cc.Layout);
@@ -111,17 +109,14 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         layout.enabled = false;
     }
 
-    updateChipItem(node: cc.Node, value: number) {
-        const sprite = node.getComponent(cc.Sprite);
-        sprite.spriteFrame = this.chipAltas.getSpriteFrame(this.chipConfig.getBigChipSpriteName(value));
-        node.name = `${value}`;
-
-        const label = node.children[0].getComponent(cc.Label);
-        label.string = nFormatter(value, 0);
+    getChipDisplayType(index: number) {
+        return index > this.chipValues.length - 3 ? ChipDisplayType.VIP : ChipDisplayType.Normal;
     }
 
     updateLastChip(value: number) {
-        this.updateChipItem(this.chipList[this.chipList.length - 1], value);
+        const chipView = this.chipList[this.chipList.length - 1].getComponent(ChipView);
+        chipView.setValue(value);
+        chipView.setColor(this.chipConfig.getChipColor(value));
     }
 
     onEnable() {
@@ -172,8 +167,8 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         this.updateSelectedChipValue();
     }
 
-    public onClickBet(event) {
-        const bet = event.target.name;
+    public onClickBet(target) {
+        const bet = target.node.name;
         AudioManager.getInstance().playSFX(this.betChipClickAudio.clip);
         let i = 0;
         for (; i < this.chipList.length; i++) {
@@ -380,17 +375,23 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         return chip;
     }
 
-    public createBigChip(bet: number): cc.Node {
+    public createBigChip(value: number): cc.Node {
         const chip = cc.instantiate(this.chipPrefab);
-        this.updateChipItem(chip, bet);
+        const chipView = chip.getComponent(ChipView);
+        chipView.setColor(this.chipConfig.getChipColor(value));
+        chipView.setValue(value);
+        const index = this.chipValues.findIndex((chipValue) => chipValue === value);
+        chipView.setType(this.getChipDisplayType(index));
         return chip;
     }
 
     private updateSelectedBet(targetName: string) {
         this.chips.children.forEach((chip) => {
             chip.stopAllActions();
+
+            const activeNode = chip.getChildByName("active");
             if (chip.name === targetName) {
-                chip.children[1].active = true;
+                activeNode.active = true;
                 chip.zIndex = 2;
                 cc.tween(chip)
                     .to(0.2, {
@@ -399,7 +400,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
                     })
                     .start();
             } else {
-                chip.children[1].active = false;
+                activeNode.active = false;
                 chip.zIndex = 1;
                 cc.tween(chip)
                     .to(0.2, {

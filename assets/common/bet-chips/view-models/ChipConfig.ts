@@ -1,6 +1,6 @@
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 
-import { ICashSystem, ICreditSystem, System } from '../../../System';
+import { ICashSystem, ICreditSystem, System } from "../../../System";
 
 @injectable()
 export default class ChipConfig extends System implements ICreditSystem, ICashSystem {
@@ -10,6 +10,24 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
 
     private chipSpriteDict: any;
     public chipOption: number[];
+
+    chipColor = {
+        0.5: "#656565", //
+        1: "#656565",
+        5: "#3dbf16",
+        10: "#ff8a0d",
+        20: "#8b1dfc",
+        50: "#ed1cd1",
+        100: "#1678fc",
+        200: "#00d8fd",
+        500: "#fc2300",
+        1000: "#1f5594",
+        2000: "#a85b21",
+        3000: "#1b1b1b",
+        5000: "#be000b",
+        10000: "#1b1b1b", //
+        20000: "#be000b" //
+    };
 
     customizeCredit(): void {
         this.chipSpriteDict = {
@@ -52,11 +70,15 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
             .sort((a, b) => b - a); //sort ascending
     }
 
-    getBigChipSpriteName(value: number): string {
-        return `chip_${this.chipSpriteDict[value]}`;
+    getChipColor(value: number): cc.Color {
+        return cc.Color.BLACK.fromHEX(this.chipColor[value]);
     }
 
-    getSmallChipSpriteName(value: number): string {
-        return `small_chip_${this.chipSpriteDict[value]}`;
-    }
+    // getBigChipSpriteName(value: number): string {
+    //     return `chip_${this.chipSpriteDict[value]}`;
+    // }
+
+    // getSmallChipSpriteName(value: number): string {
+    //     return `small_chip_${this.chipSpriteDict[value]}`;
+    // }
 }

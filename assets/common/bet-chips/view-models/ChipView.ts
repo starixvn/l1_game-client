@@ -1,0 +1,55 @@
+import { nFormatter } from "../../helpers/NumberHelper";
+
+const { ccclass, property } = cc._decorator;
+export enum ChipDisplayType {
+    Normal = 0,
+    VIP
+}
+
+@ccclass
+export default class ChipView extends cc.Component {
+    @property(cc.Node)
+    background: cc.Node = null;
+
+    @property(cc.Sprite)
+    center: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    border: cc.Sprite = null;
+
+    @property({ type: cc.SpriteFrame })
+    centerFrames: cc.SpriteFrame[] = [];
+
+    @property({ type: cc.SpriteFrame })
+    borderFrames: cc.SpriteFrame[] = [];
+
+    @property(cc.Label)
+    label: cc.Label = null;
+
+    color = cc.Color.WHITE;
+    type = ChipDisplayType.Normal;
+
+    setColor(color: cc.Color) {
+        this.color = color;
+        this.background.color = color;
+        this.updateView();
+    }
+
+    setType(type: ChipDisplayType) {
+        this.type = type;
+        this.center.spriteFrame = this.centerFrames[type];
+        this.border.spriteFrame = this.borderFrames[type];
+
+        this.updateView();
+    }
+
+    setValue(value: number) {
+        this.label.string = nFormatter(value, 0);
+        this.node.name = value.toString();
+    }
+
+    updateView() {
+        this.center.node.color = this.type === ChipDisplayType.VIP ? this.color : cc.Color.WHITE;
+        this.label.node.color = this.type === ChipDisplayType.VIP ? cc.Color.YELLOW : cc.Color.WHITE;
+    }
+}
