@@ -1,8 +1,8 @@
-import GameBaseBetHandler from '../../../_base/handlers/GameBaseBetHandler';
-import BigSmall from '../BigSmall';
+import GameBaseBetHandler from "../../../_base/handlers/GameBaseBetHandler";
+import BitcoinMaster from "../BitcoinMaster";
 
-export default class BigSmallBetHandler extends GameBaseBetHandler {
-    constructor(protected readonly main: BigSmall) {
+export default class BitcoinMasterHandler extends GameBaseBetHandler {
+    constructor(protected readonly main: BitcoinMaster) {
         super(main);
     }
 

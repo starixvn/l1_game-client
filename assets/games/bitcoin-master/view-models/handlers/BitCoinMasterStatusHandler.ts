@@ -1,8 +1,8 @@
-import { GameBaseStatusHandler } from '../../../_base/handlers/GameBaseStatusHandler';
-import BigSmall from '../BigSmall';
+import { GameBaseStatusHandler } from "../../../_base/handlers/GameBaseStatusHandler";
+import BitcoinMaster from "../BitcoinMaster";
 
-export default class BigSmallStatusHandler extends GameBaseStatusHandler {
-    constructor(protected readonly main: BigSmall) {
+export default class BitcoinMasterStatusHandler extends GameBaseStatusHandler {
+    constructor(protected readonly main: BitcoinMaster) {
         super(main);
     }
 

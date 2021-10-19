@@ -1,10 +1,10 @@
-import GameBaseTimeHandler from '../../../_base/handlers/GameBaseTimeHandler';
-import BigSmall from '../BigSmall';
+import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
+import BitcoinMaster from "../BitcoinMaster";
 
-export default class BigSmallTimeHandler extends GameBaseTimeHandler {
+export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     protected displayResultTime = 58;
 
-    constructor(protected readonly main: BigSmall) {
+    constructor(protected readonly main: BitcoinMaster) {
         super(main);
     }
 
@@ -26,7 +26,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
             if (this.isDisplayResultTime) {
                 cc.RedT.GAME_IS_SHOWED && this.main.showResult();
-                this.main.showWinningAnimation(this.main.currentDataLogs[0]);
+                // this.main.showWinningAnimation(this.main.currentDataLogs[0]);
                 this.main.currentTimeRemaining--;
             } else {
                 super.gameUpdate();

@@ -1,8 +1,8 @@
-import GameBaseFinishHandler from '../../../_base/handlers/GameBaseFinishHandler';
-import BigSmall from '../BigSmall';
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
+import BitcoinMaster from "../BitcoinMaster";
 
-export default class BigSmallFinishHandler extends GameBaseFinishHandler {
-    constructor(protected readonly main: BigSmall) {
+export default class BitcoinMasterFinishHandler extends GameBaseFinishHandler {
+    constructor(protected readonly main: BitcoinMaster) {
         super(main, 3);
     }
 
@@ -11,6 +11,6 @@ export default class BigSmallFinishHandler extends GameBaseFinishHandler {
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.showBalanceBetNotice();
-        this.main.setDices(dataFinish.result);
+        // this.main.setDices(dataFinish.result);
     }
 }
