@@ -32,7 +32,8 @@ window.i18n.languages.en = {
         29: "Four Guardians",
         31: "RNG Lottery",
         35: "Three Cards",
-        38: "The Legend of Heroes"
+        38: "The Legend of Heroes",
+        43: "Bitcoin Master"
     },
     messages: {
         accountBlacklisted: "Account has been closed. Please contact CSD for details.(%{errorCode})",

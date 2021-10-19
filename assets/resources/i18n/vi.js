@@ -32,7 +32,8 @@ window.i18n.languages.vi = {
         29: "Long Lân Quy Phụng",
         31: "Xổ Số RNG",
         35: "3 Lá Đỏ Đen",
-        38: "Anh Hùng Chim Lạc"
+        38: "Anh Hùng Chim Lạc",
+        43: "Bitcoin Master"
     },
     messages: {
         accountBlacklisted: "Tài khoản đã bị đóng. Vui lòng liên hệ bộ phận CSKH để biết chi tiết.(%{errorCode})",
