@@ -13,17 +13,17 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
 
     chipColor = {
         0.5: "#656565", //
-        1: "#656565",
-        5: "#3dbf16",
-        10: "#ff8a0d",
-        20: "#8b1dfc",
-        50: "#ed1cd1",
-        100: "#1678fc",
-        200: "#00d8fd",
-        500: "#fc2300",
-        1000: "#1f5594",
-        2000: "#a85b21",
-        3000: "#1b1b1b",
+        1: "#848484",
+        5: "#2cb400",
+        10: "#ff930d",
+        20: "#962bfa",
+        50: "#ff48e4",
+        100: "#1477ff",
+        200: "#10e3ff",
+        500: "#ff3818",
+        1000: "#1f5594", //
+        2000: "#a85b21", //
+        3000: "#222222",
         5000: "#be000b",
         10000: "#1b1b1b", //
         20000: "#be000b" //
@@ -73,12 +73,4 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
     getChipColor(value: number): cc.Color {
         return cc.Color.BLACK.fromHEX(this.chipColor[value]);
     }
-
-    // getBigChipSpriteName(value: number): string {
-    //     return `chip_${this.chipSpriteDict[value]}`;
-    // }
-
-    // getSmallChipSpriteName(value: number): string {
-    //     return `small_chip_${this.chipSpriteDict[value]}`;
-    // }
 }

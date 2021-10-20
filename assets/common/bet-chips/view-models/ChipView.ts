@@ -23,6 +23,9 @@ export default class ChipView extends cc.Component {
     @property({ type: cc.SpriteFrame })
     borderFrames: cc.SpriteFrame[] = [];
 
+    @property({ type: cc.Node })
+    typeNodes: cc.Node[] = [];
+
     @property(cc.Label)
     label: cc.Label = null;
 
@@ -39,6 +42,10 @@ export default class ChipView extends cc.Component {
         this.type = type;
         this.center.spriteFrame = this.centerFrames[type];
         this.border.spriteFrame = this.borderFrames[type];
+
+        this.typeNodes.forEach((node, index) => {
+            node.active = index === type;
+        });
 
         this.updateView();
     }
