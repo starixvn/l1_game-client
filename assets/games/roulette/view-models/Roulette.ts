@@ -122,6 +122,7 @@ export default class Roulette extends SocketIOTableGameBase {
             this.chipOption.push(...options);
 
             this.rouletteMain.board.chipOption = this.chipOption;
+            this.rouletteMain.board.betChips = this.betChips;
         });
     }
 
@@ -297,7 +298,7 @@ export default class Roulette extends SocketIOTableGameBase {
             }
 
             const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo));
-            const chipNode = RouletteUtils.createChip(this.currentBet, this.betChips.chipAltas, this.betChips.chipConfig);
+            const chipNode = RouletteUtils.createChip(this.currentBet, this.betChips);
 
             this.addBetChoice(betInfo, this.currentBet);
             this.addToBetChoicesStack(betChoices);
@@ -340,7 +341,7 @@ export default class Roulette extends SocketIOTableGameBase {
                     const betInfo = { type: type, numbers: RouletteUtils.parseKeyToNumbers(key) };
                     const bet = betChoices[type][key];
                     const destNode = this.rouletteMain.board.getBetNodeByKey(betInfo.type, key);
-                    const chipNode = RouletteUtils.createChips(bet, this.chipOption, this.betChips.chipAltas, this.betChips.chipConfig);
+                    const chipNode = RouletteUtils.createChips(bet, this.chipOption, this.betChips);
 
                     this.addBetChoice(betInfo, bet);
                     const objectData = {

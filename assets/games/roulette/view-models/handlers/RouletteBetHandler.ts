@@ -83,11 +83,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
                         cc.tween(this.main)
                             .delay(delayTime)
                             .call(() => {
-                                const chipNode = RouletteUtils.createChip(
-                                    +chip,
-                                    this.main.betChips.chipAltas,
-                                    this.main.betChips.chipConfig
-                                );
+                                const chipNode = RouletteUtils.createChip(+chip, this.main.betChips);
                                 const objectData = {
                                     chipNode: chipNode,
                                     bet: bet,

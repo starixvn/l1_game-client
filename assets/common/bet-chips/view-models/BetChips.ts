@@ -92,13 +92,8 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
 
     createChips() {
         this.chipValues.forEach((value, index) => {
-            const node = cc.instantiate(this.chipPrefab);
+            const node = this.createBigChip(value);
             this.chips.addChild(node);
-
-            const chipView = node.getComponent(ChipView);
-            chipView.setColor(this.chipConfig.getChipColor(value));
-            chipView.setValue(value);
-            chipView.setType(this.getChipDisplayType(index));
 
             node.on("click", this.onClickBet.bind(this));
         });
@@ -239,7 +234,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         const isLoginUserPlaceBet = startNode == null;
         this.checkLoginUserPlaceBet(startNode);
         const chipPosition = destNode.convertToNodeSpaceAR(this.getPositonChipOnContainer(startNode, bet));
-        const chipNode = this.createChip(bet);
+        const chipNode = this.createSmallChip(bet);
         chipNode.position = chipPosition;
         const randomPosition = this.getRandomPositionChip(chipNode, destNode);
         destNode.addChild(chipNode);
@@ -312,7 +307,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         _.forEach(chipBets, (chipBet) => {
             const chipCountOfBet = chipsData[chipBet];
             for (let i = 0; i < chipCountOfBet; i++) {
-                const chip = this.createChip(+chipBet);
+                const chip = this.createSmallChip(+chipBet);
                 const randomPosition = this.getRandomPositionChip(chip, chipsBox);
                 chip.position = randomPosition;
                 chipsBox.addChild(chip);
@@ -358,7 +353,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         keys.forEach((chip) => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {
-                const chipNode = this.createChip(+chip);
+                const chipNode = this.createSmallChip(+chip);
                 layoutNode.addChild(chipNode);
             }
         });
@@ -366,12 +361,10 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         return node;
     }
 
-    public createChip(bet: number): cc.Node {
-        const chip = new cc.Node();
+    public createSmallChip(bet: number): cc.Node {
+        const chip = this.createBigChip(bet);
+        chip.scale = 0.2;
         chip.group = "Chip";
-        const chipSprite = chip.addComponent(cc.Sprite);
-        const name = this.chipConfig.getSmallChipSpriteName(bet);
-        chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
         return chip;
     }
 

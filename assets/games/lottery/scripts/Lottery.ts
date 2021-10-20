@@ -540,7 +540,7 @@ export default class Lottery extends SocketIOTableGameBase {
         const chipLocation = currentBoard.getChipLocation(choiceName);
         const chipFlyingDuration = 0.3;
         if (chipLocation) {
-            const chipNode = this.betChips.createChip(bet);
+            const chipNode = this.betChips.createSmallChip(bet);
             const objectData = {
                 chipNode: chipNode,
                 bet: bet,
