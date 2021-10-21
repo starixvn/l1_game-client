@@ -26,7 +26,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
             if (this.isDisplayResultTime) {
                 cc.RedT.GAME_IS_SHOWED && this.main.showResult();
-                // this.main.showWinningAnimation(this.main.currentDataLogs[0]);
+                this.main.showWinningAnimation(this.main.currentDataLogs[0]);
                 this.main.currentTimeRemaining--;
             } else {
                 super.gameUpdate();

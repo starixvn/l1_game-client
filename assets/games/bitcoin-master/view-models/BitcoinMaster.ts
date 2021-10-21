@@ -6,6 +6,7 @@ import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BitcoinMasterChart from "./BitcoinMasterChart";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
+import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
 import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
 import BitcoinMasterStatusHandler from "./handlers/BitCoinMasterStatusHandler";
@@ -102,12 +103,15 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(AnimatedTime)
     currentCandleTime: AnimatedTime = null;
 
+    @property(BitCoinMasterProgressBar)
+    timeProgressBar: BitCoinMasterProgressBar = null;
+
     // protected miniRoundHistory: BigSmallMiniRoundHistory;
     // protected betHistory: BigSmallBetHistory;
     // statistic: BigSmallStatistic;
-    remainingTime = 0;
-
+    private currentTimeRemainingCandle: number;
     readonly choices = ["up", "down", "even", "odd"];
+    remainingTimeGame: number;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -140,8 +144,11 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         }
 
         if (data.remainingTime) {
-            this.remainingTime = data.remainingTime;
+            this.remainingTimeGame = data.remainingTime;
+            this.unschedule(this.setTime);
             this.setCandleTime(data.remainingTime);
+            this.timeProgressBar.init(this);
+            this.timeProgressBar.setData();
         }
 
         // if (data.round) {
@@ -296,37 +303,17 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     setCandleTime(time: number) {
-        this.currentCandleTime.node.stopAllActions();
         const candleLife = 60;
         let candle1 = time > candleLife ? time - candleLife : time;
-        let candle1Count = candle1;
-        let candle2 = time - candle1;
-        let candle2Count = candle2;
-        cc.tween(this.node)
-            .repeat(
-                candle1,
-                cc
-                    .tween()
-                    .delay(1)
-                    .call(() => {
-                        this.setTime(candle1Count);
-                        candle1Count--;
-                    })
-            )
-            .repeat(
-                candle2,
-                cc
-                    .tween()
-                    .delay(1)
-                    .call(() => {
-                        this.setTime(candle2Count);
-                        candle2Count--;
-                    })
-            )
-            .start();
+        this.currentTimeRemainingCandle = candle1;
+        this.schedule(this.setTime, 1);
     }
 
-    setTime(time: number) {
-        this.currentCandleTime.setTime(time.toString());
+    setTime() {
+        this.currentTimeRemainingCandle--;
+        if (this.currentTimeRemainingCandle < 0) {
+            this.currentTimeRemainingCandle = 60;
+        }
+        this.currentCandleTime.setTime(this.currentTimeRemainingCandle.toString());
     }
 }
