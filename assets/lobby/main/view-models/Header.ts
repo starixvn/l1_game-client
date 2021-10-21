@@ -23,17 +23,16 @@ export default class Header extends cc.Component {
     NoticePrefab: cc.Prefab = null;
 
     onLoad() {
-        if (cc.RedT.IS_LOGIN) {
-            this.isSignIn();
-        } else {
-            this.isSignOut();
+        if (!cc.RedT.IS_LOGIN) {
+            this.userName.string = this.userRed.string = "";
+            this.avatar.node.active = false;
+            this.userRed.node.parent.active = false;
         }
     }
 
-    isSignIn() {}
-
-    isSignOut() {
-        this.userName.string = this.userRed.string = "";
+    setBalance(balance: string) {
+        this.userRed.node.parent.active = true;
+        this.userRed.string = balance;
     }
 
     setAvatar(avatarId) {
@@ -41,6 +40,7 @@ export default class Header extends cc.Component {
             if (this && this.avatar) {
                 const frame = atlas.getSpriteFrame(avatarId === 0 ? 1 : avatarId);
                 this.avatar.spriteFrame = frame;
+                this.avatar.node.active = true;
             }
         });
     }

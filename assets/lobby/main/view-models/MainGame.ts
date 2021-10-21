@@ -235,7 +235,7 @@ export default class MainGame extends cc.Component {
             cc.RedT.send({ scene: "home" });
             this.onSignIn();
             this.header.userName.string = cc.RedT.user.name;
-            this.header.userRed.string = this.formatUserCurrency(cc.RedT.user.red);
+            this.header.setBalance(this.formatUserCurrency(cc.RedT.user.red));
             this.header.setAvatar(cc.RedT.user.avatarId);
             (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
 
@@ -492,7 +492,7 @@ export default class MainGame extends cc.Component {
 
     loadUserData(data: any) {
         if (void 0 !== data.red && this.header && this.header.userRed) {
-            this.header.userRed.string = this.formatUserCurrency(data.red, data.currency);
+            this.header.setBalance(this.formatUserCurrency(data.red, data.currency));
         }
 
         if (void 0 !== data.avatarId) {
@@ -533,7 +533,6 @@ export default class MainGame extends cc.Component {
     signIn() {
         cc.RedT.IS_LOGIN = true;
 
-        this.header.isSignIn();
         this.dialog.onBack();
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         this.onSignIn();
