@@ -12,7 +12,7 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
     public chipOption: number[];
 
     chipColor = {
-        0.5: "#656565", //
+        0.5: "#f4e818",
         1: "#848484",
         5: "#2cb400",
         10: "#ff930d",
@@ -21,12 +21,12 @@ export default class ChipConfig extends System implements ICreditSystem, ICashSy
         100: "#1477ff",
         200: "#10e3ff",
         500: "#ff3818",
-        1000: "#1f5594", //
-        2000: "#a85b21", //
+        1000: "#193c66",
+        2000: "#8c6f01",
         3000: "#222222",
         5000: "#be000b",
-        10000: "#1b1b1b", //
-        20000: "#be000b" //
+        10000: "#7b004b",
+        20000: "#007866"
     };
 
     customizeCredit(): void {
