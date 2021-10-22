@@ -106,6 +106,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(BitCoinMasterProgressBar)
     timeProgressBar: BitCoinMasterProgressBar = null;
 
+    @property(cc.Label)
+    descTimeLabel: cc.Label = null;
+
     // protected miniRoundHistory: BigSmallMiniRoundHistory;
     // protected betHistory: BigSmallBetHistory;
     // statistic: BigSmallStatistic;
@@ -123,7 +126,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         super.onLoad();
         this.setValueBetAmount();
         this.initRoundHistory();
-        this.animatedTime.setAnimatedY(10, 0);
+        this.animatedTime.setAnimatedY(20, 0);
         this.animatedTime.setRedTime(this.config.stopBetTime);
     }
 
@@ -316,5 +319,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             this.currentTimeRemainingCandle = 60;
         }
         this.currentCandleTime.setTime(this.currentTimeRemainingCandle.toString());
+    }
+
+    updateDescTimeGeneralInfo(desc: string) {
+        this.descTimeLabel.string = desc;
     }
 }

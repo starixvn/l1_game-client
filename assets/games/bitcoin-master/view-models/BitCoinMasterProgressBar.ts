@@ -21,26 +21,26 @@ export default class BitCoinMasterProgressBar extends cc.Component {
         this.setLinePosition();
     }
 
-    init(main: BitcoinMaster) {
-        this.mainGame = main;
-
-        let offTime = 0;
-        if (this.mainGame.currentTimeRemaining > this.betWaitTimeTotal) {
-            offTime = this.mainGame.config.fullTime - this.mainGame.currentTimeRemaining;
-            this.passedTime = this.betWaitTimeTotal + offTime;
-        } else {
-            offTime = this.betWaitTimeTotal - this.mainGame.currentTimeRemaining;
-            this.passedTime = offTime;
-        }
-
-        this.schedule(this.setData, 1);
-    }
-
     setLinePosition() {
         const leftWidget = this.leftLine.getComponent(cc.Widget);
         leftWidget.left = (45 * this.progressBar.totalLength) / 120 - this.leftLine.width;
         const rightWidget = this.rightLine.getComponent(cc.Widget);
         rightWidget.right = (15 * this.progressBar.totalLength) / 120 - this.rightLine.width;
+    }
+
+    init(main: BitcoinMaster) {
+        this.mainGame = main;
+
+        let offTime = 0;
+        if (this.mainGame.remainingTimeGame > this.betWaitTimeTotal) {
+            offTime = this.mainGame.config.fullTime - this.mainGame.remainingTimeGame;
+            this.passedTime = this.betWaitTimeTotal + offTime;
+        } else {
+            offTime = this.betWaitTimeTotal - this.mainGame.remainingTimeGame;
+            this.passedTime = offTime;
+        }
+
+        this.schedule(this.setData, 1);
     }
 
     setData() {
