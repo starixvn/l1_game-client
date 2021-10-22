@@ -58,31 +58,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
                 this.main.currentTimeRemaining--;
                 // console.log("isDisplayResultTime", this.main.currentTimeRemaining);
             } else {
-                if (this.isInWaitTime) {
-                    this.handleWaitTime();
-                } else {
-                    if (this.isStartingNewGameRound) {
-                        this.handleStartingNewGameRound();
-                    }
-
-                    if (this.isInRoundTime) {
-                        this.handleInRoundTime();
-
-                        const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
-
-                        if (isInLockBetTime) {
-                            if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
-                                this.handleAtLockBetTime();
-                            }
-                            this.handleInLockBetTime();
-                        }
-                    } else {
-                        this.handleInEndTime();
-                    }
-                }
-                this.main.currentTimeRemaining--;
-
-                // console.log("game update:", this.main.currentTimeRemaining);
+                super.gameUpdate();
             }
         }
     }
@@ -116,17 +92,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId - 1);
-    }
-
-    handleInEndTime() {
-        this.main.setGameRound(this.main.roundId);
-        if (this.main.timeWaitNode) {
-            this.main.timeWaitNode.active = false;
-        }
-        if (this.main.animatedTime) {
-            this.main.animatedTime.node.active = false;
-        }
-        clearInterval(this.playTimeInterval);
     }
 
     handleInLockBetTime() {

@@ -7,6 +7,8 @@ import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BitcoinMasterChart from "./BitcoinMasterChart";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
 import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
+import BitcoinMasterUpDownResult from "./BitcoinMasterUpDownResult";
+import BitCoinMasterBetHandler from "./handlers/BitCoinMasterBetHandler";
 import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
 import BitcoinMasterStatusHandler from "./handlers/BitCoinMasterStatusHandler";
@@ -76,11 +78,11 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Label)
     oddBetPercentage: cc.Label = null;
 
-    @property(cc.Node)
-    upDownResultNode: cc.Node = null;
+    @property(BitcoinMasterUpDownResult)
+    upDownResult: BitcoinMasterUpDownResult = null;
 
-    @property(cc.Node)
-    evenOddResultNode: cc.Node = null;
+    @property(cc.Label)
+    evenOddResultLabel: cc.Label = null;
 
     // @property(cc.Label)
     // resultLabel: cc.Label = null;
@@ -166,7 +168,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.timeHandler = new BitcoinMasterTimeHandler(this);
         this.logsHandler = new BitcoinMasterLogsHandler(this);
         this.finishHandler = new BitcoinMasterFinishHandler(this);
-        this.betHandler = new BitcoinMasterTimeHandler(this);
+        this.betHandler = new BitCoinMasterBetHandler(this);
         this.statusHandler = new BitcoinMasterStatusHandler(this);
     }
 
@@ -216,10 +218,13 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         // this.miniRoundHistory.setData(this.currentDataLogs);
     }
 
-    setDices(result) {
-        // Object.keys(result).forEach((key, index) => {
-        //     this.dices[index].spriteFrame = this.diceFrames[result[key] - 1];
-        // });
+    setResult(result: any) {
+        this.upDownResult.setData(result);
+        this.setEvenOddResult(result);
+    }
+
+    setEvenOddResult(result: any) {
+        this.evenOddResultLabel.string = result.close.toString().substr(-4, 1);
     }
 
     showResult() {
@@ -231,60 +236,23 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         }
     }
 
-    showWinningAnimation(data) {
-        // cc.tween(this.node)
-        //     .delay(this.diceAnimationDuration)
-        //     .call(() => {
-        //         this.betItems.forEach((betItem) => {
-        //             betItem.setHighlight(data.settlementResult[betItem.node.name], true);
-        //         });
-        //         this.upDownResultNode.active = true;
-        //         this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
-        //         if (this.statistic && this.statistic.isAlive()) {
-        //             this.statistic.updateStatistic(this.currentDataLogs);
-        //         }
-        //     })
-        //     .start();
-    }
+    showWinningAnimation(data) {}
 
     public openHistory() {
         AudioManager.getInstance().playClick();
-
-        // const dialog = cc.instantiate(this.historyPrefab);
-        // this.historyComponent = dialog.getComponent(BigSmallHistory);
-        // const historyComp = this.historyComponent as BigSmallHistory;
-        // historyComp.init(this.socket);
-        // historyComp.handleBetHistory = (roundId) => {
-        //     this.openBetHistory(roundId);
-        // };
-        // this.currentMiniPanel.node.addChild(dialog);
-        // historyComp.setGameName(this.gameId);
     }
 
     public openStatistic() {
         AudioManager.getInstance().playClick();
-
-        // const node = cc.instantiate(this.statisticPrefab);
-        // this.statistic = node.getComponent(BigSmallStatistic);
-        // this.currentMiniPanel.node.addChild(node);
-        // this.statistic.init(this.currentDataLogs);
-        // this.statistic.setGameName(this.gameId);
     }
 
     openBetHistory(roundId: number) {
         AudioManager.getInstance().playClick();
-
-        // const node = cc.instantiate(this.betHistoryPrefab);
-        // this.betHistory = node.getComponent(BigSmallBetHistory);
-        // this.currentMiniPanel.node.addChild(node);
-        // this.betHistory.init(this, roundId);
     }
 
     resetDataAndUI() {
         super.resetDataAndUI();
         this.statusHandler.currentStatusData = null;
-        this.upDownResultNode.active = false;
-        // this.node.stopAllActions();
         this.betItems.forEach((betItem) => {
             betItem.ownBet.string = "0";
         });

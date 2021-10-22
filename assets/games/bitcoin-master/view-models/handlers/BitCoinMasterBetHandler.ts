@@ -1,7 +1,7 @@
 import GameBaseBetHandler from "../../../_base/handlers/GameBaseBetHandler";
 import BitcoinMaster from "../BitcoinMaster";
 
-export default class BitcoinMasterHandler extends GameBaseBetHandler {
+export default class BitCoinMasterBetHandler extends GameBaseBetHandler {
     constructor(protected readonly main: BitcoinMaster) {
         super(main);
     }

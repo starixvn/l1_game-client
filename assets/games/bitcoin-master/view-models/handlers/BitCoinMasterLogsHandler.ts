@@ -8,7 +8,7 @@ export default class BitcoinMasterLogsHandler extends GameBaseLogsHandler {
 
     buildLogs(dataLogs) {
         if (dataLogs && dataLogs[0] && dataLogs[0].result) {
-            // this.main.setDices(dataLogs[0].result);
+            this.main.setResult(dataLogs[0].result);
         }
         this.main.updateRoundHistory();
     }
