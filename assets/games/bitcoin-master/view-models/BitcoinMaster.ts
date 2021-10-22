@@ -147,6 +147,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             this.remainingTimeGame = data.remainingTime;
             this.unschedule(this.setTime);
             this.setCandleTime(data.remainingTime);
+            console.log("timeProgressBar", data.remainingTime);
             this.timeProgressBar.init(this);
             this.timeProgressBar.setData();
         }
