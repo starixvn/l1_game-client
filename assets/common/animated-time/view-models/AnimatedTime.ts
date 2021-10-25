@@ -42,10 +42,7 @@ export default class AnimatedTime extends cc.Component {
         }
         this.firstChar.string = firstTimeChar;
         this.secondChar.string = secondTimeChar;
-
-        const colorChange = forceChangeColor || (this.timeToChangeColor !== undefined && parseInt(time) <= this.timeToChangeColor);
-        this.firstChar.node.color = colorChange ? this.changedColor : cc.Color.WHITE;
-        this.secondChar.node.color = this.firstChar.node.color;
+        this.setColor(time, forceChangeColor);
     }
 
     protected handleBetTimeAnimation(node: cc.Node) {
@@ -66,5 +63,11 @@ export default class AnimatedTime extends cc.Component {
                 position: cc.v2(node.position.x, 0)
             })
             .start();
+    }
+
+    protected setColor(time: string, forceChangeColor = false) {
+        const colorChange = forceChangeColor || (this.timeToChangeColor !== undefined && parseInt(time) <= this.timeToChangeColor);
+        this.firstChar.node.color = colorChange ? this.changedColor : cc.Color.WHITE;
+        this.secondChar.node.color = this.firstChar.node.color;
     }
 }

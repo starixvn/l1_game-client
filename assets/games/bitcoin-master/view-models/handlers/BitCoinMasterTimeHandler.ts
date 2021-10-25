@@ -4,7 +4,6 @@ import BitcoinMaster from "../BitcoinMaster";
 export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     protected displayResultTime = 119;
     protected startNewGameRoundAtTime = 105;
-    protected waitAtTime = 65;
     protected waitResultTime = 60;
     protected betTime = 45;
 
@@ -13,11 +12,14 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     }
 
     get isInLockBetTime() {
-        return this.main.currentTimeRemaining <= this.main.config.stopBetTime && this.main.currentTimeRemaining > this.waitResultTime;
+        return (
+            this.main.currentTimeRemaining < this.main.config.stopBetTime && this.main.currentTimeRemaining >= this.main.config.minBetTime
+        );
     }
 
     get isInWaitTime() {
-        return this.main.currentTimeRemaining <= this.waitAtTime;
+        console.log("isInWaitTime", this.main.currentTimeRemaining <= this.waitResultTime);
+        return this.main.currentTimeRemaining <= this.waitResultTime;
     }
 
     get isStartingNewGameRound() {
@@ -29,7 +31,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     }
 
     get isInBalanceBetTime() {
-        return this.main.currentTimeRemaining < this.waitResultTime && this.main.currentTimeRemaining >= this.waitResultTime - 2;
+        return this.main.currentTimeRemaining <= this.waitResultTime && this.main.currentTimeRemaining > this.waitResultTime - 2;
     }
 
     get isDisplayResultTime() {
@@ -39,6 +41,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     gameUpdate(): void {
         if (this.isInBalanceBetTime) {
             this.main.balanceBet();
+            this.main.animatedTime && this.main.animatedTime.setTime(this.formatTime(this.main.currentTimeRemaining));
             this.main.currentTimeRemaining--;
         } else {
             this.main.hideBalanceBetNotice();
@@ -83,10 +86,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId - 1);
-    }
-
-    handleInLockBetTime() {
-        super.handleInLockBetTime();
     }
 
     showRoundTime() {

@@ -20,7 +20,8 @@ export default class BitcoinMasterResult extends cc.Component {
     setData(data: any) {
         const marginValue = data.close - data.open;
         this.upDownResultLabel.string = marginValue.toFixed(2).toString();
-        this.upDownResultLabel.node.color = marginValue ? cc.Color.GREEN : cc.Color.RED;
+        const color = cc.Color.WHITE;
+        this.upDownResultLabel.node.color = marginValue ? color.fromHEX("#c4f738") : color.fromHEX("#d0230b");
         this.icon.spriteFrame = marginValue ? this.upIcon : this.downIcon;
 
         this.evenOddResultLabel.string = data.close.toString().substr(-4, 1);

@@ -77,9 +77,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             if (this.isInRoundTime) {
                 this.handleInRoundTime();
 
-                const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
-
-                if (isInLockBetTime) {
+                if (this.isInLockBetTime) {
                     if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
                         this.handleAtLockBetTime();
                     }
@@ -91,6 +89,8 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         }
         this.main.currentTimeRemaining--;
     }
+
+    check;
 
     handleAtLockBetTime() {}
 
