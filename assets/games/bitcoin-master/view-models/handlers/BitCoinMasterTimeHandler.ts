@@ -18,7 +18,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     }
 
     get isInWaitTime() {
-        console.log("isInWaitTime", this.main.currentTimeRemaining <= this.waitResultTime);
         return this.main.currentTimeRemaining <= this.waitResultTime;
     }
 
@@ -27,7 +26,9 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     }
 
     get isInRoundTime() {
-        return this.main.currentTimeRemaining >= this.main.config.minBetTime;
+        return (
+            this.main.currentTimeRemaining >= this.main.config.minBetTime && this.main.currentTimeRemaining < this.startNewGameRoundAtTime
+        );
     }
 
     get isInBalanceBetTime() {
@@ -60,11 +61,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
                 super.gameUpdate();
             }
         }
-    }
-
-    handleStartingNewGameRound() {
-        super.handleStartingNewGameRound();
-        this.main.statusHandler.currentStatusData = null;
     }
 
     handleInRoundTime() {

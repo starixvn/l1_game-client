@@ -105,6 +105,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Label)
     descTimeLabel: cc.Label = null;
 
+    @property(cc.Label)
+    openBitcoinValue: cc.Label = null;
+
     // protected miniRoundHistory: BigSmallMiniRoundHistory;
     // protected betHistory: BigSmallBetHistory;
     // statistic: BigSmallStatistic;
@@ -129,6 +132,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     onEnable() {
         super.onEnable();
         this.initChart();
+        this.result.showResult(false);
     }
 
     onDestroy() {
@@ -146,9 +150,13 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             this.remainingTimeGame = data.remainingTime;
             this.unschedule(this.setTime);
             this.setCandleTime(data.remainingTime);
-            console.log("timeProgressBar", data.remainingTime);
             this.timeProgressBar.init(this);
             this.timeProgressBar.setData();
+        }
+
+        if (data.open) {
+            this.openBitcoinValue.node.active = true;
+            this.openBitcoinValue.string = data.open;
         }
 
         // if (data.round) {
@@ -219,13 +227,25 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     showResult() {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
-
+            this.result.showResult();
             (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
             this.finishShowResult = true;
         }
     }
 
-    showWinningAnimation(data) {}
+    showWinningAnimation(data) {
+        cc.tween(this.node)
+            .call(() => {
+                this.betItems.forEach((betItem) => {
+                    betItem.setHighlight(data.settlementResult[betItem.node.name], true);
+                });
+
+                // if (this.statistic && this.statistic.isAlive()) {
+                //     this.statistic.updateStatistic(this.currentDataLogs);
+                // }
+            })
+            .start();
+    }
 
     public openHistory() {
         AudioManager.getInstance().playClick();
@@ -245,6 +265,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.betItems.forEach((betItem) => {
             betItem.ownBet.string = "0";
         });
+        this.node.stopAllActions();
+        this.result.showResult(false);
+        this.openBitcoinValue.node.active = false;
     }
 
     public updateOddsFromConfigs() {

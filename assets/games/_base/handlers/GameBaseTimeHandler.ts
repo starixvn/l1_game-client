@@ -90,8 +90,6 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         this.main.currentTimeRemaining--;
     }
 
-    check;
-
     handleAtLockBetTime() {}
 
     stopPlayTime(): void {

@@ -6,24 +6,45 @@ export default class BitcoinMasterResult extends cc.Component {
     upDownResultLabel: cc.Label = null;
 
     @property(cc.Sprite)
-    icon: cc.Sprite = null;
+    upDownIcon: cc.Sprite = null;
 
     @property(cc.SpriteFrame)
-    upIcon: cc.SpriteFrame = null;
+    upImage: cc.SpriteFrame = null;
 
     @property(cc.SpriteFrame)
-    downIcon: cc.SpriteFrame = null;
+    downImage: cc.SpriteFrame = null;
 
     @property(cc.Label)
     evenOddResultLabel: cc.Label = null;
 
-    setData(data: any) {
-        const marginValue = data.close - data.open;
-        this.upDownResultLabel.string = marginValue.toFixed(2).toString();
-        const color = cc.Color.WHITE;
-        this.upDownResultLabel.node.color = marginValue ? color.fromHEX("#c4f738") : color.fromHEX("#d0230b");
-        this.icon.spriteFrame = marginValue ? this.upIcon : this.downIcon;
+    @property(cc.Label)
+    closeBitcoinLabel: cc.Label = null;
 
-        this.evenOddResultLabel.string = data.close.toString().substr(-4, 1);
+    showResult(show = true) {
+        this.closeBitcoinLabel.node.active = show;
+        this.upDownResultLabel.node.active = show;
+        this.upDownIcon.node.active = show;
+        this.evenOddResultLabel.node.active = show;
+    }
+
+    setData(data: any) {
+        this.closeBitcoinLabel.string = data.close;
+
+        const color = cc.Color.BLACK;
+        const marginValue = data.close - data.open;
+        if (marginValue === 0) {
+            this.upDownResultLabel.string = "00.00";
+            this.upDownResultLabel.node.color = color;
+            this.upDownIcon.node.active = false;
+        } else {
+            this.upDownResultLabel.string = marginValue.toFixed(2).toString();
+            this.upDownResultLabel.node.color = marginValue ? color.fromHEX("#c4f738") : color.fromHEX("#d0230b");
+            this.upDownIcon.node.active = true;
+            this.upDownIcon.spriteFrame = marginValue ? this.upImage : this.downImage;
+        }
+
+        const evenOddValue = data.close.toString().substr(-4, 1);
+        this.evenOddResultLabel.string = evenOddValue;
+        this.evenOddResultLabel.node.color = evenOddValue % 2 ? color.fromHEX("#d0230b") : color.fromHEX("#bac5ca");
     }
 }
