@@ -69,7 +69,7 @@ export default class PopupMinigames extends cc.Component {
         );
     }
     eventMove(e) {
-        this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
+        this.node.position = cc.v3(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
     }
     getCurrentSize() {
         let listBox = this.list.getBoundingBox();
@@ -105,7 +105,10 @@ export default class PopupMinigames extends cc.Component {
 
         posY = Math.min(maxY - fixTopPadding, posY);
 
-        this.node.runAction(cc.moveTo(0.1, posX, posY).easing(cc.easeSineOut()));
+        cc.tween(this.node)
+            .to(0.1, { position: cc.v3(posX, posY) }, { easing: "sineOut" })
+            .start();
+
         cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
     }
 
@@ -136,7 +139,7 @@ export default class PopupMinigames extends cc.Component {
     }
     showListGame() {
         this.background.active = true;
-        this.background.runAction(cc.fadeTo(0.1, 224));
+        cc.tween(this.background).to(0.1, { opacity: 224 }).start();
         cc.RedT.setting.popupMini.open = true;
         this.list.scale = 1;
 

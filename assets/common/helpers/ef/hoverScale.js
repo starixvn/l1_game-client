@@ -17,10 +17,10 @@ cc.Class({
     },
     eventOnHover: function (e) {
         this.node.stopAllActions();
-        this.node.runAction(cc.scaleTo(this.transDuration, this.pressedScale));
+        cc.tween(this.node).to(this.transDuration, { scale: this.pressedScale }).start();
     },
     eventOffHover: function (e) {
         this.node.stopAllActions();
-        this.node.runAction(cc.scaleTo(this.transDuration, this.initScale));
+        cc.tween(this.node).to(this.transDuration, { scale: this.initScale }).start();
     }
 });
