@@ -422,8 +422,8 @@ export default class Roulette extends SocketIOTableGameBase {
 
         const currentTotal = this.sumValueBetChoices(totalChoices);
         const newTotal = this.sumValueBetChoices(betChoices);
-        if (currentTotal + newTotal > this.gameConfigs.maxbet) {
-            this.showMiniWarning(i18n.t("messages.maxBetNotice", { maxBet: numberWithCommas(this.gameConfigs.maxbet) }));
+        if (currentTotal + newTotal > this.gameConfigs.maxBet) {
+            this.showMiniWarning(i18n.t("messages.maxBetNotice", { maxBet: numberWithCommas(this.gameConfigs.maxBet) }));
             return false;
         }
 
@@ -433,14 +433,14 @@ export default class Roulette extends SocketIOTableGameBase {
     showWarningOnBetChoices(betChoices: any, totalChoices: any, type: any, key: any, isMultiChoices: boolean): boolean {
         const text = isMultiChoices
             ? i18n.t("messages.maxBetOfAnyChoiceReached")
-            : i18n.t("messages.maxBetForChoiceNotice", { maxBet: numberWithCommas(this.gameConfigs.choices_maxbet[type]) });
-        if (betChoices[type][key] > this.gameConfigs.choices_maxbet[type]) {
+            : i18n.t("messages.maxBetForChoiceNotice", { maxBet: numberWithCommas(this.gameConfigs.maxBetPerChoices[type]) });
+        if (betChoices[type][key] > this.gameConfigs.maxBetPerChoices[type]) {
             this.showMiniWarning(text);
             return true;
         }
         if (totalChoices[type] && totalChoices[type][key]) {
             const total = totalChoices[type][key] + betChoices[type][key];
-            if (total > this.gameConfigs.choices_maxbet[type]) {
+            if (total > this.gameConfigs.maxBetPerChoices[type]) {
                 this.showMiniWarning(text);
                 return true;
             }

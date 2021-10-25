@@ -232,7 +232,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
             choice: betChoice,
             bet: 0,
             betItem: e.target,
-            maxBet: this.gameConfigs.choices_maxbet[betChoice]
+            maxBet: this.gameConfigs.maxBetPerChoices[betChoice]
         };
         this.betBoard.show(info);
     }

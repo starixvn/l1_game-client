@@ -477,18 +477,18 @@ export default class GameBase extends BaseComponent {
     }
 
     protected getNormalBetRange() {
-        const { minbet, maxbet } = this.gameConfigs;
+        const { minBet, maxBet } = this.gameConfigs;
         return {
-            minBet: minbet,
-            maxBet: maxbet
+            minBet: minBet,
+            maxBet: maxBet
         };
     }
 
     protected getVipBetRange() {
-        const { minbet, maxbet } = this.gameConfigs;
+        const { minBet, maxBet } = this.gameConfigs;
         return {
-            minBet: minbet,
-            maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxbet)
+            minBet: minBet,
+            maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxBet)
         };
     }
 }

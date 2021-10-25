@@ -247,8 +247,8 @@ export default class BlackJack extends SocketIOTableGameBase {
                 this.handPlaces.forEach((place) => place.highlightPlace(false));
                 handPlace.highlightPlace(true);
 
-                if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxbet) {
-                    this.showMiniWarning(i18n.t("messages.maxStakeHand", { maxBet: numberWithCommas(this.gameConfigs.maxbet) }));
+                if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxBet) {
+                    this.showMiniWarning(i18n.t("messages.maxStakeHand", { maxBet: numberWithCommas(this.gameConfigs.maxBet) }));
                     return;
                 }
 
@@ -722,8 +722,8 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     updateDisplayForRemoteConfig() {
         super.updateDisplayForRemoteConfig();
-        this.minBetLabel.string = this.gameConfigs.minbet.toString();
-        this.maxBetLabel.string = numberWithCommas(this.gameConfigs.maxbet);
+        this.minBetLabel.string = this.gameConfigs.minBet.toString();
+        this.maxBetLabel.string = numberWithCommas(this.gameConfigs.maxBet);
         const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
         this.blackjackOddLabel.string = i18n.t("ui.blackjack_pay", { odds });
     }

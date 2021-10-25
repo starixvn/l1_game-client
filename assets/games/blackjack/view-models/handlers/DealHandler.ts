@@ -158,8 +158,8 @@ export default class DealHandler implements DataHandler {
             const { minBet, maxBet, gameRoundId } = data.invalidBetAmountHands;
             const opt = {
                 gameName: GameUtils.getGameNameString(this.main.gameId),
-                minBet: numberWithCommas(minBet || this.main.gameConfigs.minbet),
-                maxBet: numberWithCommas(maxBet || this.main.gameConfigs.maxbet),
+                minBet: numberWithCommas(minBet || this.main.gameConfigs.minBet),
+                maxBet: numberWithCommas(maxBet || this.main.gameConfigs.maxBet),
                 gameRoundId,
                 errorCode
             };
