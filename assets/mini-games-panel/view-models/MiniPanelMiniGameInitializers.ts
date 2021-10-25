@@ -34,7 +34,7 @@ export default class MiniPanelMiniGameInitializers {
 
         if (!isAlreadyOpened) {
             this.main.loading.setDefaultPercent();
-            cc.loader.loadRes(
+            cc.resources.load(
                 prefabPath,
                 (completedCount, total, item) => {
                     this.main.loading && this.main.loading.onProgress(completedCount, total, item);

@@ -36,7 +36,7 @@ export default class Header extends cc.Component {
     }
 
     setAvatar(avatarId) {
-        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+        cc.resources.load("profile-picture", cc.SpriteAtlas, (err, atlas) => {
             if (this && this.avatar) {
                 const frame = atlas.getSpriteFrame(avatarId === 0 ? 1 : avatarId);
                 this.avatar.spriteFrame = frame;

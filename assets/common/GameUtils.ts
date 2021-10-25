@@ -40,7 +40,7 @@ export default class GameUtils {
 
     public static loadResource(path: string): Promise<cc.Prefab> {
         return new Promise((resolve) => {
-            cc.loader.loadRes(path, (err, prefab: cc.Prefab) => {
+            cc.resources.load(path, (err, prefab: cc.Prefab) => {
                 resolve(prefab);
             });
         });
@@ -125,7 +125,7 @@ export default class GameUtils {
 
     public static getAvatarSprite(avatarId: number): Promise<cc.SpriteFrame> {
         return new Promise((resolve) => {
-            cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+            cc.resources.load("profile-picture", cc.SpriteAtlas, (err, atlas) => {
                 const frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
                 resolve(frame);
             });

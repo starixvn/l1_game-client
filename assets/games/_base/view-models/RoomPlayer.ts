@@ -1,5 +1,5 @@
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import { ComponentSystem, ICashSystem, ICreditSystem } from '../../../System';
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { ComponentSystem, ICashSystem, ICreditSystem } from "../../../System";
 
 const { ccclass, property } = cc._decorator;
 
@@ -77,7 +77,7 @@ export default class RoomPlayer extends ComponentSystem implements ICreditSystem
     }
 
     setAvatar(avatarId) {
-        cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+        cc.resources.load("profile-picture", cc.SpriteAtlas, (err, atlas) => {
             const frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
 
             if (this.avatar) {

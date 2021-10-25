@@ -273,7 +273,7 @@ export default class WebSocketTableGameBase extends GameBase {
         }
 
         if (void 0 !== user.avatarId) {
-            cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+            cc.resources.load("profile-picture", cc.SpriteAtlas, (err, atlas) => {
                 if (this && this.userAvatar) {
                     const avatarId = cc.RedT.user.avatarId;
                     const frame = atlas.getSpriteFrame(avatarId === 0 ? 1 : avatarId);
