@@ -156,7 +156,7 @@ module.exports = {
     userData: function (data) {
         if (void 0 !== data.offerGames && data.offerGames.length > 0) {
             const menuConfig = new LobbyMenuConfig();
-            const offerGames = data.offerGames;
+            const offerGames = data.offerGames.map((game) => game.gameId);
             const list = [];
             menuConfig.list.forEach((id) => {
                 if (offerGames.includes(id)) {

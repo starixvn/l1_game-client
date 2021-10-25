@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 
 import { lazyInject } from "../../../Application";
-import { ComponentSystem, ICashSystem, ICreditSystem } from "../../../System";
 import AudioManager from "../../audio/AudioManager";
 import GameUtils from "../../GameUtils";
 import ChipConfig from "./ChipConfig";
@@ -12,7 +11,7 @@ const { ccclass, property } = cc._decorator;
 type OnChangedBet = (bet: string) => void;
 
 @ccclass
-export default class BetChips extends ComponentSystem implements ICreditSystem, ICashSystem {
+export default class BetChips extends cc.Component {
     @property(cc.Node)
     chips: cc.Node = null;
 
@@ -61,20 +60,8 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         super();
     }
 
-    customizeCredit(): void {
-        this.chipValues = [1, 5, 10, 50, 100, 200, 500, 1000, 2000];
-    }
-
-    customizeCash(): void {
-        this.chipValues = [10, 20, 50, 100, 200, 500, 1000, 5000, 10000, 20000];
-    }
-
     onLoad() {
-        //use chipVaues here ,
-        this.createChips();
-
         this.leftButton.active = false;
-        this.chipList = [...this.chips.children];
         this.snappedScrollView.onScrollEnded = () => {
             const min = this.snappedScrollView.getMinDisplayIndex();
 
@@ -88,6 +75,16 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
             this.updateArrowVisibility();
             this.updateSelectedChipValue();
         };
+    }
+
+    setChipValues(values: number[]) {
+        if (values.length === 0) {
+            return;
+        }
+        this.chipValues = values;
+        this.createChips();
+        this.chipList = [...this.chips.children];
+        this.setCurrentBet(this.chipValues[0].toString());
     }
 
     createChips() {
@@ -122,7 +119,6 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
 
     public init(onChanged: OnChangedBet) {
         this.onChanged = onChanged;
-        this.setCurrentBet(this.chipValues[0].toString());
     }
 
     public onPrevious() {
@@ -406,6 +402,9 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     updateSelectedChipValue() {
+        if (this.chipList.length === 0) {
+            return;
+        }
         const item = this.chipList[this.selectedIndex].name;
         this.setCurrentBet(item);
     }
