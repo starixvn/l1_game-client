@@ -7,7 +7,7 @@ import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BitcoinMasterChart from "./BitcoinMasterChart";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
 import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
-import BitcoinMasterUpDownResult from "./BitcoinMasterUpDownResult";
+import BitcoinMasterResult from "./BitcoinMasterResult";
 import BitCoinMasterBetHandler from "./handlers/BitCoinMasterBetHandler";
 import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
@@ -78,14 +78,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Label)
     oddBetPercentage: cc.Label = null;
 
-    @property(BitcoinMasterUpDownResult)
-    upDownResult: BitcoinMasterUpDownResult = null;
-
-    @property(cc.Label)
-    evenOddResultLabel: cc.Label = null;
-
-    // @property(cc.Label)
-    // resultLabel: cc.Label = null;
+    @property(BitcoinMasterResult)
+    result: BitcoinMasterResult = null;
 
     @property(cc.Label)
     upDownOdds: cc.Label = null;
@@ -219,12 +213,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     setResult(result: any) {
-        this.upDownResult.setData(result);
-        this.setEvenOddResult(result);
-    }
-
-    setEvenOddResult(result: any) {
-        this.evenOddResultLabel.string = result.close.toString().substr(-4, 1);
+        this.result.setData(result);
     }
 
     showResult() {
