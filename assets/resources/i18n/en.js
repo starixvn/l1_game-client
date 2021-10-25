@@ -174,6 +174,7 @@ window.i18n.languages.en = {
         category_slot: "Slot Games",
         character_name: "Nickname",
         checking_downloading: "Checking and downloading the latest update packages...",
+        choice_dealer: "Dealer",
         choice_banker: "Banker",
         choice_banker_even: "Banker - Even",
         choice_banker_odd: "Banker - Odd",

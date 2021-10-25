@@ -176,6 +176,7 @@ window.i18n.languages.vi = {
         category_slot: "Slot Games",
         character_name: "Tên nhân vật",
         checking_downloading: "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...",
+        choice_dealer: "Nhà Cái",
         choice_banker: "Nhà Cái",
         choice_banker_even: "Nhà Cái chẵn",
         choice_banker_odd: "Nhà Cái lẻ",
