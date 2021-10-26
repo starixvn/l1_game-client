@@ -97,7 +97,12 @@ export default class MiniPanel extends BaseComponent {
         this.gameMenu.miniPanel = this;
 
         this.miniGames.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
+        this.miniGames.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
         this.miniGames.on(cc.Node.EventType.CHILD_REORDER, this.onNewLayerCallback.bind(this));
+        this.noticeContainer.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
+        this.noticeContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
+        this.guideContainer.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
+        this.guideContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
     }
 
     onGeneralData(data: any) {
@@ -242,12 +247,10 @@ export default class MiniPanel extends BaseComponent {
 
     addNotice(node: cc.Node) {
         this.noticeContainer.addChild(node);
-        this.onNewLayerCallback();
     }
 
     showGuide(guide: cc.Node) {
         this.guideContainer.addChild(guide);
-        this.onNewLayerCallback();
     }
 
     showNotice(noticeData: NoticeData, handleClickButton: () => void = null, handleClose: () => void = null) {
