@@ -1,3 +1,5 @@
+import BitcoinMasterUtils from "./BitcoinMasterUtils";
+
 const { property, ccclass } = cc._decorator;
 
 @ccclass
@@ -27,12 +29,12 @@ export default class BitcoinMasterUpDownRoundHistoryTip extends cc.Component {
     public setData(data: any) {
         this.roundId.string = `#${data.roundId}`;
         this.result.string = data.result.close;
-        const margin = data.result.close - data.result.open;
-        this.marginValue.string = margin.toFixed(2).toString();
-        if (margin === 0) {
+        const value = BitcoinMasterUtils.getUpDownResult(data.result);
+        this.marginValue.string = BitcoinMasterUtils.absResult(parseFloat(value));
+        if (parseFloat(value) === 0) {
             this.icon.node.active = false;
         }
 
-        this.icon.spriteFrame = margin > 0 ? this.upImage : this.downImage;
+        this.icon.spriteFrame = parseFloat(value) > 0 ? this.upImage : this.downImage;
     }
 }

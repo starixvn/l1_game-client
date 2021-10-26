@@ -15,6 +15,7 @@ import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
 import BitcoinMasterStatusHandler from "./handlers/BitCoinMasterStatusHandler";
 import BitcoinMasterTimeHandler from "./handlers/BitCoinMasterTimeHandler";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -110,6 +111,12 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Label)
     openBitcoinValue: cc.Label = null;
 
+    @property(cc.Node)
+    upDownTooltipNode: cc.Node = null;
+
+    @property(cc.Node)
+    evenOddTooltipNode: cc.Node = null;
+
     protected upDownMiniRoundHistory: BitcoinMasterUpDownMiniRoundHistory;
     protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
     // protected betHistory: BigSmallBetHistory;
@@ -129,9 +136,17 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.setValueBetAmount();
         this.initRoundHistory();
         this.animatedTime.setAnimatedY(20, 0);
-        this.animatedTime.setRedTime(this.config.stopBetTime);
-
+        // this.animatedTime.setRedTime(this.config.stopBetTime);
+GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.bitcoinTip.node, this.upDownTooltipNode);
+        GameUtils.moveToOtherNode(this.evenOddMiniRoundHistory.tip.node, this.evenOddTooltipNode);
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
+            const zIndex = this.node.getSiblingIndex();
+            if (zIndex < this.node.parent.childrenCount - 1) {
+                this.chartWebView.hideWebView();
+            } else {
+                this.chartWebView.showWebView();
+            }
+        });
             const zIndex = this.node.getSiblingIndex();
             if (zIndex < this.node.parent.childrenCount - 1) {
                 this.chartWebView.hideWebView();
@@ -249,6 +264,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
             this.result.showResult();
+            const currentStatusData = this.statusHandler.currentStatusData;
+            currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
+            this.updateRoundHistory();
             (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
             this.finishShowResult = true;
         }

@@ -1,4 +1,6 @@
 import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
+import { BitcoinMasterBetType } from "./BitcoinMasterCommon";
+import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,10 +18,12 @@ export default class BitcoinMasterEvenOddMiniRoundHistoryItem extends MiniRoundH
     @property(cc.Label)
     number: cc.Label = null;
 
-    protected readonly betTypes = ["even", "odd"];
-
     public setData(data: any) {
         this.data = data;
-        this.icon.spriteFrame = data.settlementResult[this.betTypes[0]] ? this.whiteDot : this.redDot;
+        this.icon.spriteFrame = data.settlementResult[BitcoinMasterBetType.even] ? this.whiteDot : this.redDot;
+
+        const color = cc.Color.WHITE;
+        this.number.string = BitcoinMasterUtils.getEvenOddResult(data.result.close);
+        this.number.node.color = data.settlementResult[BitcoinMasterBetType.even] ? color.fromHEX("#3c3939") : color;
     }
 }
