@@ -37,7 +37,7 @@ export default class BitcoinMasterResult extends cc.Component {
         const marginNumber = parseFloat(marginValue);
         if (marginNumber === 0) {
             this.upDownResultLabel.string = "00.00";
-            this.upDownResultLabel.node.color = color;
+            this.upDownResultLabel.node.color = color.fromHEX("#BAC5CA");
             this.upDownIcon.node.active = false;
         } else {
             this.upDownResultLabel.string = BitcoinMasterUtils.absResult(marginNumber);

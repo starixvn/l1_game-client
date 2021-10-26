@@ -13,6 +13,10 @@ export default class BitCoinMasterExpandableMenu extends ExpandableMenu {
     @property(cc.SpriteFrame)
     collapsedIcon: cc.SpriteFrame = null;
 
+    onEnable() {
+        this.collapseMenu(false);
+    }
+
     onMenuClick() {
         super.onMenuClick();
         this.icon.spriteFrame = this.expanded ? this.collapsedIcon : this.expandedIcon;
