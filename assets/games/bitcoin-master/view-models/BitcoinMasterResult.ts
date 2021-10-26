@@ -38,9 +38,9 @@ export default class BitcoinMasterResult extends cc.Component {
             this.upDownIcon.node.active = false;
         } else {
             this.upDownResultLabel.string = marginValue.toFixed(2).toString();
-            this.upDownResultLabel.node.color = marginValue ? color.fromHEX("#c4f738") : color.fromHEX("#d0230b");
+            this.upDownResultLabel.node.color = marginValue > 0 ? color.fromHEX("#c4f738") : color.fromHEX("#d0230b");
             this.upDownIcon.node.active = true;
-            this.upDownIcon.spriteFrame = marginValue ? this.upImage : this.downImage;
+            this.upDownIcon.spriteFrame = marginValue > 0 ? this.upImage : this.downImage;
         }
 
         const evenOddValue = data.close.toString().substr(-4, 1);

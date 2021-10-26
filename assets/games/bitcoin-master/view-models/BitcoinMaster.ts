@@ -13,6 +13,8 @@ import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
 import BitcoinMasterStatusHandler from "./handlers/BitCoinMasterStatusHandler";
 import BitcoinMasterTimeHandler from "./handlers/BitCoinMasterTimeHandler";
+import BitcoinMasterUpDownMiniRoundHistory from "./BitcoinMasterUpDownMiniRoundHistory";
+import BitcoinMasterEvenOddMiniRoundHistory from "./BitcoinMasterEvenOddMiniRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -108,7 +110,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Label)
     openBitcoinValue: cc.Label = null;
 
-    // protected miniRoundHistory: BigSmallMiniRoundHistory;
+    protected upDownMiniRoundHistory: BitcoinMasterUpDownMiniRoundHistory;
+    protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
     // protected betHistory: BigSmallBetHistory;
     // statistic: BigSmallStatistic;
     private currentTimeRemainingCandle: number;
@@ -136,7 +139,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     onDestroy() {
         super.onDestroy();
-        // this.miniRoundHistoryUpDownContainer.isValid && this.miniRoundHistoryUpDownContainer.destroyAllChildren();
+        this.miniRoundHistoryUpDownContainer.isValid && this.miniRoundHistoryUpDownContainer.destroyAllChildren();
+        this.miniRoundHistoryEvenOddContainer.isValid && this.miniRoundHistoryEvenOddContainer.destroyAllChildren();
     }
 
     onData(data: any) {
@@ -207,16 +211,24 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     initRoundHistory() {
-        // const mini = cc.instantiate(this.miniRoundHistoryPrefab);
-        // this.miniRoundHistory = mini.getComponent(BigSmallMiniRoundHistory);
-        // this.miniRoundHistory.handleBetHistory = (roundId) => {
-        //     this.openBetHistory(roundId);
-        // };
-        // this.miniRoundHistoryContainer.addChild(mini);
+        const upDownMini = cc.instantiate(this.miniRoundHistoryUpDownPrefab);
+        this.upDownMiniRoundHistory = upDownMini.getComponent(BitcoinMasterUpDownMiniRoundHistory);
+        this.upDownMiniRoundHistory.handleBetHistory = (roundId) => {
+            this.openBetHistory(roundId);
+        };
+        this.miniRoundHistoryUpDownContainer.addChild(upDownMini);
+
+        const evenOddMini = cc.instantiate(this.miniRoundHistoryEvenOddPrefab);
+        this.evenOddMiniRoundHistory = evenOddMini.getComponent(BitcoinMasterEvenOddMiniRoundHistory);
+        this.evenOddMiniRoundHistory.handleBetHistory = (roundId) => {
+            this.openBetHistory(roundId);
+        };
+        this.miniRoundHistoryEvenOddContainer.addChild(evenOddMini);
     }
 
     updateRoundHistory() {
-        // this.miniRoundHistory.setData(this.currentDataLogs);
+        this.upDownMiniRoundHistory.setData(this.currentDataLogs);
+        this.evenOddMiniRoundHistory.setData(this.currentDataLogs);
     }
 
     setResult(result: any) {
