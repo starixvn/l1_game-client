@@ -1,4 +1,3 @@
-import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../../common/audio/AudioManager";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
@@ -16,6 +15,7 @@ import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
 import BitcoinMasterStatusHandler from "./handlers/BitCoinMasterStatusHandler";
 import BitcoinMasterTimeHandler from "./handlers/BitCoinMasterTimeHandler";
 import GameUtils from "../../../common/GameUtils";
+import BitcoinMasterCandleTimer from "./BitcoinMasterCandleTimer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -99,8 +99,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Label)
     currentBitcoinValue: cc.Label = null;
 
-    @property(AnimatedTime)
-    currentCandleTime: AnimatedTime = null;
+    @property(BitcoinMasterCandleTimer)
+    currentCandleTime: BitcoinMasterCandleTimer = null;
 
     @property(BitCoinMasterProgressBar)
     timeProgressBar: BitCoinMasterProgressBar = null;
@@ -121,7 +121,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
     // protected betHistory: BigSmallBetHistory;
     // statistic: BigSmallStatistic;
-    private currentTimeRemainingCandle: number;
     readonly choices = ["up", "down", "even", "odd"];
     remainingTimeGame: number;
 
@@ -169,10 +168,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
         if (data.remainingTime) {
             this.remainingTimeGame = data.remainingTime;
-            this.unschedule(this.setTime);
-            this.setCandleTime(data.remainingTime);
+            this.currentCandleTime.setCandleTime(this.remainingTimeGame);
             this.timeProgressBar.init(this);
-            this.timeProgressBar.setData();
         }
 
         if (data.open) {
@@ -316,21 +313,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     setCurrencyBitCoinValue(value: number) {
         this.currentBitcoinValue.string = value.toString();
-    }
-
-    setCandleTime(time: number) {
-        const candleLife = 60;
-        let candle1 = time > candleLife ? time - candleLife : time;
-        this.currentTimeRemainingCandle = candle1;
-        this.schedule(this.setTime, 1);
-    }
-
-    setTime() {
-        this.currentTimeRemainingCandle--;
-        if (this.currentTimeRemainingCandle < 0) {
-            this.currentTimeRemainingCandle = 60;
-        }
-        this.currentCandleTime.setTime(this.currentTimeRemainingCandle.toString());
     }
 
     updateDescTimeGeneralInfo(desc: string) {
