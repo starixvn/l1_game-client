@@ -65,7 +65,7 @@ export default class MiniPanelDataHandlers {
     }
 
     handleDataKickedOut(data: any) {
-        removeSession();
+        // removeSession();
 
         if (data.umInfo) {
             cc.RedT.forceKickedOut();

@@ -137,16 +137,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.initRoundHistory();
         this.animatedTime.setAnimatedY(20, 0);
         // this.animatedTime.setRedTime(this.config.stopBetTime);
-GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.bitcoinTip.node, this.upDownTooltipNode);
+        GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.bitcoinTip.node, this.upDownTooltipNode);
         GameUtils.moveToOtherNode(this.evenOddMiniRoundHistory.tip.node, this.evenOddTooltipNode);
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
-            const zIndex = this.node.getSiblingIndex();
-            if (zIndex < this.node.parent.childrenCount - 1) {
-                this.chartWebView.hideWebView();
-            } else {
-                this.chartWebView.showWebView();
-            }
-        });
             const zIndex = this.node.getSiblingIndex();
             if (zIndex < this.node.parent.childrenCount - 1) {
                 this.chartWebView.hideWebView();
