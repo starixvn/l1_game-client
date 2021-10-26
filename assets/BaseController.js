@@ -2,7 +2,6 @@ import i18n from "i18n/runtime-scripts/LanguageData";
 
 import { buildServerUrl } from "./common/helpers/UrlHelper";
 import logger from "./common/logger";
-import configs from "./configs/Configs";
 import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
 
 const sentryLogger = logger();
@@ -25,9 +24,9 @@ module.exports = {
     soundObservers: {},
     userStakeLevel: {},
 
-    connect: function (ssl) {
+    connect: function () {
         if (!this.isConnected && !this.isForceKickedOut) {
-            this._socket = new WebSocket(buildServerUrl(ssl, "ws", "/websocket"));
+            this._socket = new WebSocket(buildServerUrl("ws", "/websocket"));
             this._socket.onopen = this._onSocketConnect;
             this._socket.onclose = this._onSocketDisconnect;
             this._socket.onmessage = this._onSocketData;
@@ -130,7 +129,7 @@ module.exports = {
     },
 
     reconnect: function () {
-        this.connect(configs.ssl);
+        this.connect();
     },
     init: function (loading) {
         this.initPrototype();

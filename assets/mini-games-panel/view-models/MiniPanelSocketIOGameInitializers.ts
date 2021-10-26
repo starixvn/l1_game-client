@@ -3,7 +3,6 @@ import { lazyInject } from "../../Application";
 import AudioManager from "../../common/audio/AudioManager";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
-import * as configs from "../../configs/Configs";
 import SocketIOController from "../../SocketIOController";
 import MiniPanel from "./MiniPanel";
 
@@ -32,7 +31,7 @@ export default class MiniPanelSocketIOGameInitializers {
         this.socketIOController.closeSocket(gameId).then(() => {
             const gameName = GameUtils.getGameNameString(gameId);
             const proxyRoute = getProxyRoute(gameId);
-            const gameServerUrl = buildServerUrl(configs.ssl, "http", "", gameId);
+            const gameServerUrl = buildServerUrl("http", "", gameId);
             const socket = this.socketIOController.connectGameSocket(
                 gameServerUrl,
                 gameName,
