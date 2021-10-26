@@ -41,4 +41,8 @@ export default class WebViewGuide extends LoadWebView {
             this.webView.url = this.url;
         }
     }
+
+    sendDataToIframe(configs: any) {
+        this.webView._impl._iframe.contentWindow.postMessage(JSON.stringify(configs), config.guideDomain);
+    }
 }
