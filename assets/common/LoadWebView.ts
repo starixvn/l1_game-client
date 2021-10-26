@@ -30,11 +30,11 @@ export default class LoadWebView extends cc.Component {
     }
 
     showWebView() {
-        this.webView.setOpacity(255);
+        this.webView._impl.setVisible(true);
     }
 
     hideWebView() {
-        this.webView.setOpacity(0);
+        this.webView._impl.setVisible(false);
     }
 
     showLoading() {
@@ -48,7 +48,7 @@ export default class LoadWebView extends cc.Component {
     loadWebView() {
         if (this.url) {
             this.showLoading();
-            this.hideWebView();
+            // this.hideWebView();
 
             this.webView.url = this.url;
         }

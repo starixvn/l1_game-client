@@ -16,6 +16,8 @@ import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
 
+type NewLayerCallback = () => void;
+
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniPanel extends BaseComponent {
@@ -63,6 +65,19 @@ export default class MiniPanel extends BaseComponent {
     public gameMiniInitializers: MiniPanelMiniGameInitializers;
     private socketIOGameInitializers: MiniPanelSocketIOGameInitializers;
     private miniGamesCache = {};
+    private newLayerCallbacks = {};
+
+    addNewLayerCallback(key: string, callback: NewLayerCallback) {
+        this.newLayerCallbacks[key] = callback;
+    }
+
+    removeNewLayerCallback(key: string) {
+        delete this.newLayerCallbacks[key];
+    }
+
+    onNewLayerCallback() {
+        Object.values(this.newLayerCallbacks).forEach((callback: NewLayerCallback) => callback());
+    }
 
     onLoad() {
         if (void 0 === cc.RedT.util.fontCong) {
@@ -80,6 +95,9 @@ export default class MiniPanel extends BaseComponent {
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
         this.gameMenu.miniPanel = this;
+
+        this.miniGames.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
+        this.miniGames.on(cc.Node.EventType.CHILD_REORDER, this.onNewLayerCallback.bind(this));
     }
 
     onGeneralData(data: any) {
@@ -195,7 +213,7 @@ export default class MiniPanel extends BaseComponent {
             (completedCount, total, item) => {
                 this.loading && this.loading.onProgress(completedCount, total, item);
             },
-            (error, assets) => {
+            (error) => {
                 if (error) {
                     this.loading.node.active = false;
                     this.onForceReload();
@@ -207,8 +225,8 @@ export default class MiniPanel extends BaseComponent {
     }
 
     showErrorNotice(error): Notice {
-        const noticePrefab = cc.instantiate(this.noticePrefab);
-        const notice = noticePrefab.getComponent(Notice);
+        const node = cc.instantiate(this.noticePrefab);
+        const notice = node.getComponent(Notice);
 
         const gameName = GameUtils.getGameNameString(error.gameTypeId);
         const { minBet, maxBet, gameRoundId, errorCode } = error;
@@ -217,18 +235,24 @@ export default class MiniPanel extends BaseComponent {
         const message = NoticeUtil.getLocalizedErrorMessage(errorCode, opt, isPlaceBet);
 
         notice.init({ text: message } as NoticeData);
-        this.noticeContainer.addChild(noticePrefab);
+        this.addNotice(node);
 
         return notice;
     }
 
+    addNotice(node: cc.Node) {
+        this.noticeContainer.addChild(node);
+        this.onNewLayerCallback();
+    }
+
     showGuide(guide: cc.Node) {
         this.guideContainer.addChild(guide);
+        this.onNewLayerCallback();
     }
 
     showNotice(noticeData: NoticeData, handleClickButton: () => void = null, handleClose: () => void = null) {
-        const noticePrefab = cc.instantiate(this.noticePrefab);
-        const notice = noticePrefab.getComponent(Notice);
+        const node = cc.instantiate(this.noticePrefab);
+        const notice = node.getComponent(Notice);
 
         noticeData.button = { text: "OK" };
         notice.init(noticeData);
@@ -241,7 +265,7 @@ export default class MiniPanel extends BaseComponent {
             notice.handleClose = handleClose;
         }
 
-        this.noticeContainer.addChild(noticePrefab);
+        this.addNotice(node);
     }
 
     onConnectSocketFailed(gameName, isGameRoom = true) {

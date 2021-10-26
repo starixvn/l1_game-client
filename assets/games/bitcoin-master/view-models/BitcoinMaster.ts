@@ -6,15 +6,15 @@ import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BitcoinMasterChart from "./BitcoinMasterChart";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
+import BitcoinMasterEvenOddMiniRoundHistory from "./BitcoinMasterEvenOddMiniRoundHistory";
 import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
 import BitcoinMasterResult from "./BitcoinMasterResult";
+import BitcoinMasterUpDownMiniRoundHistory from "./BitcoinMasterUpDownMiniRoundHistory";
 import BitCoinMasterBetHandler from "./handlers/BitCoinMasterBetHandler";
 import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
 import BitcoinMasterStatusHandler from "./handlers/BitCoinMasterStatusHandler";
 import BitcoinMasterTimeHandler from "./handlers/BitCoinMasterTimeHandler";
-import BitcoinMasterUpDownMiniRoundHistory from "./BitcoinMasterUpDownMiniRoundHistory";
-import BitcoinMasterEvenOddMiniRoundHistory from "./BitcoinMasterEvenOddMiniRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -130,6 +130,15 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.initRoundHistory();
         this.animatedTime.setAnimatedY(20, 0);
         this.animatedTime.setRedTime(this.config.stopBetTime);
+
+        this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
+            const zIndex = this.node.getSiblingIndex();
+            if (zIndex < this.node.parent.childrenCount - 1) {
+                this.chartWebView.hideWebView();
+            } else {
+                this.chartWebView.showWebView();
+            }
+        });
     }
 
     onEnable() {
@@ -138,6 +147,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     onDestroy() {
+        this.currentMiniPanel.removeNewLayerCallback(this.gameName);
         super.onDestroy();
         this.miniRoundHistoryUpDownContainer.isValid && this.miniRoundHistoryUpDownContainer.destroyAllChildren();
         this.miniRoundHistoryEvenOddContainer.isValid && this.miniRoundHistoryEvenOddContainer.destroyAllChildren();
