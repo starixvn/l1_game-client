@@ -1,4 +1,5 @@
 import { lazyInject } from "../../../Application";
+import CommonDialog from "../../_base/view-models/CommonDialog";
 import AudioManager from "../../audio/AudioManager";
 import BetBoardConfig from "../../bet-board/view-models/BetBoardConfig";
 import { nFormatter, numberWithCommas } from "../../helpers/NumberHelper";
@@ -28,15 +29,14 @@ export default class PresetBet extends cc.Component {
     private isOpened = false;
 
     onLoad() {
-        this.commonDialog = this.node.getComponent("CommonDialog");
-        this.updateItems();
+        this.commonDialog = this.node.getComponent(CommonDialog);
     }
 
-    updateItems() {
-        const listItem = this.config.presetItems;
+    setItems(items: number[]) {
+        const listItem = items;
         this.itemContainer.children.forEach((child, index) => {
             const value = listItem[index];
-            child.name = value;
+            child.name = value.toString();
 
             const valueString = this.config.shortenValue ? `+${nFormatter(value)}` : `+${value}`;
             child.children[0].getComponent(cc.Label).string = valueString;

@@ -108,6 +108,12 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
         this.betBoard.node.active = false;
     }
 
+    updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        this.betBoard.setItems(this.gameConfigs.chips);
+        this.presetBet.setItems(this.gameConfigs.chips);
+    }
+
     onAcceptedBet(info: BetInfo) {
         const { choice, bet } = info;
 

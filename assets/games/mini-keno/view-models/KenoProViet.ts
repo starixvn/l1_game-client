@@ -219,6 +219,7 @@ export default class KenoProViet extends cc.Component {
     private initPresetBetBoard() {
         const node = cc.instantiate(this.presetBetPrefab);
         this.presetBet = node.getComponent(MiniKenoPresetBet);
+        this.presetBet.setItems(this.miniKenos[0].gameConfigs.chips);
         this.presetBet.onChangedBet = (betAmount: number) => {
             this.changedPresetBet(betAmount);
         };

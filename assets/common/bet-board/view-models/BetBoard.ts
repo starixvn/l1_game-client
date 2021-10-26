@@ -32,25 +32,17 @@ export default class BetBoard extends cc.Component {
         getPreset: () => 0
     };
 
-    onLoad(): void {
-        this.updateItems();
-    }
-
-    updateItems() {
-        const listItem = this.config.items;
+    setItems(items: number[]) {
+        const listItem = items;
         this.itemContainer.children.forEach((child, index) => {
-            const value = listItem[index];
+            const value = listItem[index].toString();
             child.name = value;
 
             let valueString = "";
-            if (!this.config.shortenValue || value === "MAX") {
-                valueString = value;
+            if (!this.config.shortenValue) {
+                valueString = `+${value}`;
             } else {
-                valueString = `${nFormatter(value)}`;
-            }
-
-            if (value !== "MAX") {
-                valueString = `+${valueString}`;
+                valueString = `+${nFormatter(value)}`;
             }
 
             child.children[0].getComponent(cc.Label).string = valueString;

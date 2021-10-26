@@ -357,6 +357,11 @@ export default class MiniKeno extends SocketIOMiniGameBase {
         this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
     }
 
+    updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        this.betBoard.setItems(this.gameConfigs.chips);
+    }
+
     public highlightWonItem(results: any, { isAnimated = true, showWinningEffect = false }) {
         const keys = getLowercaseObjectKeys(results);
         this.betItems.forEach((item) => {
