@@ -1,5 +1,8 @@
+import axios from "axios";
 import i18n from "i18n/runtime-scripts/LanguageData";
 
+import configs from "../../configs/Configs";
+import ChipConfig from "../bet-chips/view-models/ChipConfig";
 import logger from "../logger";
 import NoticeUtil from "../utils/NoticeUtil";
 import * as sessionManager from "./SessionManager";
@@ -7,6 +10,19 @@ import UserService from "./UserService";
 
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
+
+export function getChipSetting() {
+    const request = {
+        session: window.authData.ss,
+        username: window.authData.username,
+        browserUserAgent: window.navigator.userAgent
+    };
+    axios.post(`${configs.userServiceUrl}/settings`, request).then((response) => {
+        if (response.data.chips) {
+            ChipConfig.getInstance().setData(response.data.chips);
+        }
+    });
+}
 
 export function checkSSO(labelMessage, onSuccessFunc) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -65,6 +81,7 @@ function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
 
                 if (response.isAuthenticated) {
                     window.authData = response;
+                    getChipSetting();
                     sentryLogger.setUser(response);
                     window.authData.time = new Date();
                     window.openGameId = urlParams.get("gameId");
@@ -81,6 +98,7 @@ function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
             });
     } else if (session && session.isAuthenticated && session.ss) {
         window.authData = session;
+        getChipSetting();
         sessionManager.updateLanguage(session);
         sentryLogger.setUser(session);
         onSuccessFunc();

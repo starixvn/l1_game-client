@@ -157,6 +157,10 @@ export default class MainGame extends cc.Component {
     onFastScrollClick() {
         AudioManager.getInstance().playClick();
 
+        if (this.mainScroll.content.childrenCount === 0) {
+            return;
+        }
+
         const offset = Math.abs(this.mainScroll.getScrollOffset().x);
         const maxOffset = Math.abs(this.mainScroll.getMaxScrollOffset().x);
         const direction = this.arrowNode.scaleX;
