@@ -1,11 +1,9 @@
-import CommonDialog from "../common/_base/view-models/CommonDialog";
-import * as config from "../configs/Configs";
 import CustomWebView from "./CustomWebView";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class WebViewGuide extends cc.Component {
+export default class LoadWebView extends cc.Component {
     @property(CustomWebView)
     webView: CustomWebView = null;
 
