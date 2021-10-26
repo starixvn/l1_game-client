@@ -34,4 +34,17 @@ export default class WebViewGuide extends LoadWebView {
         const domain = config.guideDomain;
         this.url = `${domain}${url}`;
     }
+
+    loadWebView() {
+        if (this.url) {
+            this.showLoading();
+            this.hideWebView();
+
+            this.webView.url = this.url;
+        }
+    }
+
+    sendDataToIframe(configs: any) {
+        this.webView._impl._iframe.contentWindow.postMessage(JSON.stringify(configs), config.guideDomain);
+    }
 }
