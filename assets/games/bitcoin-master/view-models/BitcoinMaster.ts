@@ -16,6 +16,7 @@ import BitcoinMasterStatusHandler from "./handlers/BitCoinMasterStatusHandler";
 import BitcoinMasterTimeHandler from "./handlers/BitCoinMasterTimeHandler";
 import GameUtils from "../../../common/GameUtils";
 import BitcoinMasterCandleTimer from "./BitcoinMasterCandleTimer";
+import BitcoinMasterHistory from "./BitcoinMasterHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -278,6 +279,14 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     public openHistory() {
         AudioManager.getInstance().playClick();
+        const node = cc.instantiate(this.historyPrefab);
+        this.historyComponent = node.getComponent(BitcoinMasterHistory);
+        this.historyComponent.init(this.socket);
+        this.currentMiniPanel.addDialog(node);
+        // historyComp.handleBetHistory = (roundId) => {
+        //     this.openBetHistory(roundId);
+        // };
+        this.chartWebView.hideWebView();
     }
 
     public openStatistic() {
