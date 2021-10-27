@@ -10,7 +10,6 @@ export default class BitcoinMasterFinishHandler extends GameBaseFinishHandler {
         super.handleFinishData(dataFinish, onFinishHandlingData);
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
-        this.main.showBalanceBetNotice();
         this.main.setResult(dataFinish.result);
     }
 }

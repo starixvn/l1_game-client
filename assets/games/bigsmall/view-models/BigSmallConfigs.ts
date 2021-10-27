@@ -1,4 +1,4 @@
-import { GameConfigBase } from '../../_base/view-models/GameConfigBase';
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
 
 export class BigSmallConfigs implements GameConfigBase {
     minBetTime = 1;

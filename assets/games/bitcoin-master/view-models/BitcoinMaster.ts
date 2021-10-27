@@ -1,11 +1,14 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import GameUtils from "../../../common/GameUtils";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import BitcoinMasterCandleTimer from "./BitcoinMasterCandleTimer";
 import BitcoinMasterChart from "./BitcoinMasterChart";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
 import BitcoinMasterEvenOddMiniRoundHistory from "./BitcoinMasterEvenOddMiniRoundHistory";
+import BitcoinMasterHistory from "./BitcoinMasterHistory";
 import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
 import BitcoinMasterResult from "./BitcoinMasterResult";
 import BitcoinMasterUpDownMiniRoundHistory from "./BitcoinMasterUpDownMiniRoundHistory";
@@ -14,9 +17,6 @@ import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
 import BitcoinMasterStatusHandler from "./handlers/BitCoinMasterStatusHandler";
 import BitcoinMasterTimeHandler from "./handlers/BitCoinMasterTimeHandler";
-import GameUtils from "../../../common/GameUtils";
-import BitcoinMasterCandleTimer from "./BitcoinMasterCandleTimer";
-import BitcoinMasterHistory from "./BitcoinMasterHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -135,7 +135,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         super.onLoad();
         this.setValueBetAmount();
         this.initRoundHistory();
-        this.animatedTime.setAnimatedY(20, 0);
+        this.animatedTime.setAnimatedY(10, 0);
+        this.animatedTime.setRedTime(-1);
         // this.animatedTime.setRedTime(this.config.stopBetTime);
         GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.bitcoinTip.node, this.upDownTooltipNode);
         GameUtils.moveToOtherNode(this.evenOddMiniRoundHistory.tip.node, this.evenOddTooltipNode);
