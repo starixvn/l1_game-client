@@ -27,11 +27,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 99
+        "__id__": 100
       }
     ],
     "_prefab": {
-      "__id__": 100
+      "__id__": 101
     },
     "_opacity": 255,
     "_color": {
@@ -2910,11 +2910,11 @@
     "_active": false,
     "_components": [
       {
-        "__id__": 97
+        "__id__": 98
       }
     ],
     "_prefab": {
-      "__id__": 98
+      "__id__": 99
     },
     "_opacity": 255,
     "_color": {
@@ -2981,14 +2981,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 94
+        "__id__": 95
       },
       {
-        "__id__": 95
+        "__id__": 96
       }
     ],
     "_prefab": {
-      "__id__": 96
+      "__id__": 97
     },
     "_opacity": 255,
     "_color": {
@@ -3149,7 +3149,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Layout",
+    "_name": "result",
     "_objFlags": 0,
     "_parent": {
       "__id__": 72
@@ -3175,10 +3175,13 @@
     "_components": [
       {
         "__id__": 92
+      },
+      {
+        "__id__": 93
       }
     ],
     "_prefab": {
-      "__id__": 93
+      "__id__": 94
     },
     "_opacity": 255,
     "_color": {
@@ -3190,7 +3193,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 64.82,
+      "width": 63.32,
       "height": 20
     },
     "_anchorPoint": {
@@ -3266,7 +3269,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -22.955,
+        -22.205,
         0,
         0,
         0,
@@ -3364,7 +3367,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 6.4,
+      "width": 5.6,
       "height": 20
     },
     "_anchorPoint": {
@@ -3376,8 +3379,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -10.299999999999997,
-        1.634,
+        -9.95,
+        1.955,
         0,
         0,
         0,
@@ -3418,7 +3421,7 @@
     "_dstBlendFactor": 771,
     "_string": "(",
     "_N$string": "(",
-    "_fontSize": 16,
+    "_fontSize": 14,
     "_lineHeight": 20,
     "_enableWrapText": true,
     "_N$file": {
@@ -3486,7 +3489,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0.400000000000003,
+        0.35000000000000053,
         0,
         0,
         0,
@@ -3576,9 +3579,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 196,
+      "g": 247,
+      "b": 56,
       "a": 255
     },
     "_contentSize": {
@@ -3595,7 +3598,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        17.355000000000004,
+        17.305,
         0,
         0,
         0,
@@ -3693,7 +3696,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 5.6,
+      "width": 4.9,
       "height": 20
     },
     "_anchorPoint": {
@@ -3705,8 +3708,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        29.610000000000003,
-        1.634,
+        29.209999999999997,
+        1.955,
         0,
         0,
         0,
@@ -3747,7 +3750,7 @@
     "_dstBlendFactor": 771,
     "_string": ")",
     "_N$string": ")",
-    "_fontSize": 16,
+    "_fontSize": 14,
     "_lineHeight": 20,
     "_enableWrapText": true,
     "_N$file": {
@@ -3786,7 +3789,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 64.82,
+      "width": 63.32,
       "height": 20
     },
     "_resize": 1,
@@ -3801,11 +3804,36 @@
     "_N$paddingRight": 0,
     "_N$paddingTop": 0,
     "_N$paddingBottom": 0,
-    "_N$spacingX": 0,
+    "_N$spacingX": 1,
     "_N$spacingY": 0,
     "_N$verticalDirection": 1,
     "_N$horizontalDirection": 0,
     "_N$affectedByScale": false,
+    "_id": ""
+  },
+  {
+    "__type__": "3252aYctOlA27bp2h0/PczO",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 76
+    },
+    "_enabled": true,
+    "result": {
+      "__id__": 78
+    },
+    "marginValue": {
+      "__id__": 87
+    },
+    "icon": {
+      "__id__": 84
+    },
+    "upImage": {
+      "__uuid__": "c086a33b-587c-4d85-a6ce-628523251962"
+    },
+    "downImage": {
+      "__uuid__": "ae2d89e7-87a3-4281-bf06-3e27476b26a9"
+    },
     "_id": ""
   },
   {
@@ -3904,23 +3932,11 @@
       "__id__": 71
     },
     "_enabled": true,
-    "result": {
-      "__id__": 78
-    },
     "roundId": {
       "__id__": 74
     },
-    "marginValue": {
-      "__id__": 87
-    },
-    "icon": {
-      "__id__": 84
-    },
-    "upImage": {
-      "__uuid__": "c086a33b-587c-4d85-a6ce-628523251962"
-    },
-    "downImage": {
-      "__uuid__": "ae2d89e7-87a3-4281-bf06-3e27476b26a9"
+    "resultDetail": {
+      "__id__": 93
     },
     "_id": ""
   },
@@ -3949,7 +3965,7 @@
     "tip": null,
     "nodeNext": null,
     "bitcoinTip": {
-      "__id__": 97
+      "__id__": 98
     },
     "_id": ""
   },

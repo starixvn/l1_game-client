@@ -24,6 +24,7 @@ export default class BitCoinMasterExpandableMenu extends ExpandableMenu {
 
     collapseMenu(animated = true) {
         this.expanded = false;
+        this.icon.spriteFrame = this.expandedIcon;
 
         if (this.blockInputNode) {
             this.blockInputNode.active = false;
@@ -36,5 +37,10 @@ export default class BitCoinMasterExpandableMenu extends ExpandableMenu {
         }
         this.expandableNode.stopAllActions();
         cc.tween(this.expandableNode).to(0.2, { opacity: 0, scale: 0 }).start();
+    }
+
+    expandMenu() {
+        super.expandMenu();
+        this.icon.spriteFrame = this.collapsedIcon;
     }
 }
