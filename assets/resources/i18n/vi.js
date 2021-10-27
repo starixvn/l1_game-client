@@ -348,6 +348,10 @@ window.i18n.languages.vi = {
         uncheck: "Bỏ Chọn",
         undo: "Giảm",
         win: "Thắng",
-        you_win: "Bạn vừa thắng"
+        you_win: "Bạn vừa thắng",
+        bettingPrice: "Giá Đặt Lệnh",
+        waitResult: "Chờ kết quả",
+        up: "Tăng",
+        down: "Giảm"
     }
 };

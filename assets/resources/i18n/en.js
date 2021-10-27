@@ -346,6 +346,10 @@ window.i18n.languages.en = {
         uncheck: "Uncheck",
         undo: "Undo",
         win: "Win",
-        you_win: "YOU WIN"
+        you_win: "YOU WIN",
+        bettingPrice: "Betting Price",
+        waitResult: "Wait for result",
+        up: "Up",
+        down: "Down"
     }
 };

@@ -29,6 +29,7 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
     bottomLine: cc.Node = null;
 
     public showTicketDetail = (data: any) => {};
+
     protected data: any;
 
     openTicketDetail() {
