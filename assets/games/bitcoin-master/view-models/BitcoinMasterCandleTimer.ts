@@ -3,7 +3,10 @@ import ShortAnimatedTime from "../../../common/animated-time/view-models/ShortAn
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BitcoinMasterCandleTimer extends ShortAnimatedTime {
+export default class BitcoinMasterCandleTimer extends cc.Component {
+    @property(ShortAnimatedTime)
+    animatedTime: ShortAnimatedTime = null;
+
     private currentTimeRemainingCandle = 0;
     private readonly candleLife = 60;
 
@@ -14,14 +17,15 @@ export default class BitcoinMasterCandleTimer extends ShortAnimatedTime {
         this.setLifeTime();
         this.unschedule(this.setLifeTime);
         this.schedule(this.setLifeTime, 1);
+        this.animatedTime.setRedTime(-1);
     }
 
     setLifeTime() {
         if (this.currentTimeRemainingCandle < 1) {
             this.currentTimeRemainingCandle = this.candleLife;
         }
-        console.log("setLifeTime ", this.currentTimeRemainingCandle);
-        this.setTime(this.currentTimeRemainingCandle.toString());
+
+        this.animatedTime.setTime(this.currentTimeRemainingCandle.toString());
         this.currentTimeRemainingCandle--;
     }
 }
