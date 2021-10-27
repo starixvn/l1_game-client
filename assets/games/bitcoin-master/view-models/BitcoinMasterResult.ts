@@ -33,22 +33,21 @@ export default class BitcoinMasterResult extends cc.Component {
         this.closeBitcoinLabel.string = data.close;
 
         const color = cc.Color.BLACK;
-        const marginValue = BitcoinMasterUtils.getUpDownResult(data);
-        const marginNumber = parseFloat(marginValue);
-        if (marginNumber === 0) {
+        const marginValue = parseFloat(BitcoinMasterUtils.getUpDownResult(data));
+        if (marginValue === 0) {
             this.upDownResultLabel.string = "00.00";
             this.upDownResultLabel.node.color = color.fromHEX("#BAC5CA");
             this.upDownIcon.node.active = false;
         } else {
-            this.upDownResultLabel.string = BitcoinMasterUtils.absResult(marginNumber);
-            const isUpResult = marginNumber > 0;
-            this.upDownResultLabel.node.color = isUpResult ? color.fromHEX("#c4f738") : color.fromHEX("#d0230b");
+            this.upDownResultLabel.string = BitcoinMasterUtils.absResult(marginValue);
+            const isUpResult = marginValue > 0;
+            this.upDownResultLabel.node.color = isUpResult ? color.fromHEX("#c4f738") : color.fromHEX("#f3485f");
             this.upDownIcon.node.active = true;
             this.upDownIcon.spriteFrame = isUpResult ? this.upImage : this.downImage;
         }
 
         const evenOddValue = BitcoinMasterUtils.getEvenOddResult(data.close);
         this.evenOddResultLabel.string = evenOddValue;
-        this.evenOddResultLabel.node.color = parseFloat(evenOddValue) % 2 ? color.fromHEX("#d0230b") : color.fromHEX("#bac5ca");
+        this.evenOddResultLabel.node.color = parseFloat(evenOddValue) % 2 ? color.fromHEX("#c4f738") : color.fromHEX("#bac5ca");
     }
 }

@@ -1,4 +1,5 @@
 import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
+import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,10 +14,16 @@ export default class BitcoinMasterUpDownMiniRoundHistoryItem extends MiniRoundHi
     @property(cc.SpriteFrame)
     downDot: cc.SpriteFrame = null;
 
-    protected readonly betTypes = ["up", "down"];
+    @property(cc.SpriteFrame)
+    balanceDot: cc.SpriteFrame = null;
 
     public setData(data: any) {
         this.data = data;
-        this.icon.spriteFrame = data.settlementResult[this.betTypes[0]] ? this.upDot : this.downDot;
+        const marginValue = parseFloat(BitcoinMasterUtils.getUpDownResult(data.result));
+        if (marginValue === 0) {
+            this.icon.spriteFrame = this.balanceDot;
+        } else {
+            this.icon.spriteFrame = marginValue > 0 ? this.upDot : this.downDot;
+        }
     }
 }
