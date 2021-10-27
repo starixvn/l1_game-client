@@ -5,19 +5,23 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class BitcoinMasterCandleTimer extends ShortAnimatedTime {
     private currentTimeRemainingCandle = 0;
+    private readonly candleLife = 60;
 
     setCandleTime(time: number) {
-        const candleLife = 60;
-        let candle1 = time > candleLife ? time - candleLife : time;
-        this.currentTimeRemainingCandle = candle1;
+        const convertTime = time - 1;
+        this.currentTimeRemainingCandle = convertTime > this.candleLife ? convertTime - this.candleLife : convertTime;
+
+        this.setLifeTime();
+        this.unschedule(this.setLifeTime);
         this.schedule(this.setLifeTime, 1);
     }
 
     setLifeTime() {
-        this.currentTimeRemainingCandle--;
-        if (this.currentTimeRemainingCandle < 0) {
-            this.currentTimeRemainingCandle = 60;
+        if (this.currentTimeRemainingCandle < 1) {
+            this.currentTimeRemainingCandle = this.candleLife;
         }
+        console.log("setLifeTime ", this.currentTimeRemainingCandle);
         this.setTime(this.currentTimeRemainingCandle.toString());
+        this.currentTimeRemainingCandle--;
     }
 }
