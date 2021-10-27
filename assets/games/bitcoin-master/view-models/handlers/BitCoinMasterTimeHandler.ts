@@ -42,6 +42,33 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
         super.playTime();
     }
 
+    gameUpdate(): void {
+        if (this.main.gameConfigs) {
+            if (this.isInWaitTime) {
+                this.handleWaitTime();
+            } else {
+                if (this.isStartingNewGameRound) {
+                    this.handleStartingNewGameRound();
+                }
+
+                if (this.isInRoundTime) {
+                    this.handleInRoundTime();
+
+                    if (this.isInLockBetTime) {
+                        if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
+                            this.handleAtLockBetTime();
+                        }
+                        this.handleInLockBetTime();
+                    }
+                } else {
+                    this.handleInEndTime();
+                }
+            }
+        }
+
+        this.main.currentTimeRemaining--;
+    }
+
     resetTime(): void {
         this.showMainTime(false);
     }
