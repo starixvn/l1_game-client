@@ -292,20 +292,23 @@ export default class BetChips extends cc.Component {
         );
     }
 
-    public addChipsToChipBox(chipsData: any, chipsBox: cc.Node) {
+    public addChipsToChipBox(rate: number, chipsData: any, chipsBox: cc.Node) {
         if (!chipsData) {
             return;
         }
 
-        const chipBets = Object.keys(chipsData);
-
-        _.forEach(chipBets, (chipBet) => {
-            const chipCountOfBet = chipsData[chipBet];
+        const values = Object.keys(chipsData);
+        _.forEach(values, (value) => {
+            const chipCountOfBet = chipsData[value];
+            const convertChip = GameUtils.getValueByCurrency(+value, rate);
+            const convertValues = GameUtils.getChipQuantity(convertChip, this.chipValues);
             for (let i = 0; i < chipCountOfBet; i++) {
-                const chip = this.createSmallChip(+chipBet);
-                const randomPosition = this.getRandomPositionChip(chip, chipsBox);
-                chip.position = randomPosition;
-                chipsBox.addChild(chip);
+                Object.keys(convertValues).forEach((chipBet) => {
+                    const chip = this.createSmallChip(+chipBet);
+                    const randomPosition = this.getRandomPositionChip(chip, chipsBox);
+                    chip.position = randomPosition;
+                    chipsBox.addChild(chip);
+                });
             }
         });
     }
@@ -327,8 +330,9 @@ export default class BetChips extends cc.Component {
     }
 
     private getRandomPositionChip(chip: cc.Node, box: cc.Node): cc.Vec3 {
-        const xDest = _.random(Math.floor(chip.width / 4), Math.floor(box.width - chip.width / 2) + 1);
-        const yDest = _.random(Math.floor(chip.height / 4), Math.floor(box.height - chip.height / 2) + 1);
+        const chipBoundingBox = chip.getBoundingBox();
+        const xDest = _.random(Math.floor(chip.width / 4), Math.floor(box.width - chipBoundingBox.width / 2) + 1);
+        const yDest = _.random(Math.floor(chip.height / 4), Math.floor(box.height - chipBoundingBox.height / 2) + 1);
         return cc.v3(xDest, yDest);
     }
 

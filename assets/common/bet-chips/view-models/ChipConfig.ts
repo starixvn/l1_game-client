@@ -10,6 +10,7 @@ export default class ChipConfig {
     private static instance: ChipConfig;
 
     chipColor = {
+        0: "f4e818",
         0.5: "#f4e818",
         1: "#848484",
         5: "#2cb400",
