@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+import GameUtils from "../../../common/GameUtils";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import GameBaseBetHandler from "./GameBaseBetHandler";
 
@@ -27,7 +28,18 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
             startNode = this.main.otherPlayers;
             this.updateOtherDataStorage(data);
         }
-        this.main.betChips.placeChipToChipBox(amount, betItem.chipNode, startNode, null);
+
+        const convertValue = GameUtils.getValueByCurrency(amount);
+        const chipValues = GameUtils.getChipQuantity(convertValue, this.main.betChips.chipValues);
+
+        Object.keys(chipValues).forEach((chipValue) => {
+            let count = chipValues[chipValue];
+            for (; count > 0; count--) {
+                this.main.betChips.placeChipToChipBox(+chipValue, betItem.chipNode, startNode, null);
+            }
+        });
+
+        // this.main.betChips.placeChipToChipBox(amount, betItem.chipNode, startNode, null);
         this.playerChips.pop();
     }
 }

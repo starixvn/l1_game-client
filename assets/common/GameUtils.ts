@@ -57,6 +57,22 @@ export default class GameUtils {
         return values;
     }
 
+    public static getChipQuantity(bet: number, options: number[]): any {
+        const list = [...options].reverse();
+        let total = bet;
+        const values = {};
+        list.forEach((value) => {
+            const count = Math.floor(total / value);
+            values[value] = count;
+            total = total % value;
+        });
+
+        if (total > 0) {
+            values[0] = 1;
+        }
+        return values;
+    }
+
     public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}) {
         const info = GameInfos[gameId];
 
