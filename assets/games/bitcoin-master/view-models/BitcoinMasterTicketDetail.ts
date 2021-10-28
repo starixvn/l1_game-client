@@ -40,8 +40,10 @@ export default class BitcoinMasterTicketDetail extends cc.Component {
             this.content.addChild(node);
             node.active = true;
             const item = node.getComponent(BitcoinMasterTicketDetailItem);
-            item.setData(detail);
-            item.lineBottom.active = index === total - 1;
+            item.setData(detail, result);
+            if (index === total - 1) {
+                item.lineBottom.active = false;
+            }
         });
     }
 }

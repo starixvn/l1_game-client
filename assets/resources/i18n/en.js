@@ -220,6 +220,8 @@ window.i18n.languages.en = {
         choice_white4: "4 White",
         choice_win: "Winning Options",
         choice_wood: "Wood",
+        choice_up: "Up",
+        choice_down: "Down",
         clear: "Clear",
         clear2: "Clear",
         close: "Close",
@@ -348,8 +350,6 @@ window.i18n.languages.en = {
         win: "Win",
         you_win: "YOU WIN",
         bettingPrice: "Betting Price",
-        waitResult: "Wait for result",
-        up: "Up",
-        down: "Down"
+        waitResult: "Wait for result"
     }
 };

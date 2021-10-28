@@ -1,5 +1,6 @@
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import BitcoinMasterHistoryItem from "./BitcoinMasterHistoryItem";
+import BitcoinMasterTicketDetail from "./BitcoinMasterTicketDetail";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,10 +20,10 @@ export default class BitcoinMasterHistory extends SocketIOGameHistoryBase {
     }
 
     showTicketDetail(data: any) {
-        // const node = cc.instantiate(this.ticketDetailPrefab);
-        // const detail = node.getComponent(LotteryTicketDetail);
-        // this.node.addChild(node);
-        // detail.setData(data);
+        const node = cc.instantiate(this.ticketDetailPrefab);
+        const detail = node.getComponent(BitcoinMasterTicketDetail);
+        this.node.addChild(node);
+        detail.setData(data);
     }
 
     onData(data) {

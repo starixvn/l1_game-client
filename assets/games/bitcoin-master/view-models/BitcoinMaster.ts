@@ -142,7 +142,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         GameUtils.moveToOtherNode(this.evenOddMiniRoundHistory.tip.node, this.evenOddTooltipNode);
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
             const zIndex = this.node.getSiblingIndex();
-            if (zIndex < this.node.parent.childrenCount - 1) {
+
+            // need to refactor showSignName in maingame file
+            if (zIndex < this.node.parent.childrenCount - 1 || this.currentMiniPanel.dialog.childrenCount > 1) {
                 this.chartWebView.hideWebView();
             } else {
                 this.chartWebView.showWebView();
@@ -287,7 +289,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         // historyComp.handleBetHistory = (roundId) => {
         //     this.openBetHistory(roundId);
         // };
-        this.chartWebView.hideWebView();
     }
 
     public openStatistic() {

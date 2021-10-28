@@ -16,6 +16,6 @@ export default class BitcoinMasterUpDownRoundHistoryTip extends cc.Component {
 
     public setData(data: any) {
         this.roundId.string = `#${data.roundId}`;
-        this.resultDetail.setData(data);
+        this.resultDetail.setData(data.result);
     }
 }

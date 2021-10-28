@@ -103,6 +103,8 @@ export default class MiniPanel extends BaseComponent {
         this.noticeContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
         this.guideContainer.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
         this.guideContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
+        this.dialog.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
+        this.dialog.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
     }
 
     onGeneralData(data: any) {

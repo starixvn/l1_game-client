@@ -222,6 +222,8 @@ window.i18n.languages.vi = {
         choice_white4: "4 Trắng",
         choice_win: "Cửa Thắng",
         choice_wood: "Mộc",
+        choice_up: "Tăng",
+        choice_down: "Giảm",
         clear: "Xóa",
         clear2: "Hủy",
         close: "Đóng",
@@ -350,8 +352,6 @@ window.i18n.languages.vi = {
         win: "Thắng",
         you_win: "Bạn vừa thắng",
         bettingPrice: "Giá Đặt Lệnh",
-        waitResult: "Chờ kết quả",
-        up: "Tăng",
-        down: "Giảm"
+        waitResult: "Chờ kết quả"
     }
 };

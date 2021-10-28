@@ -27,8 +27,8 @@ export default class BitcoinMasterUpDownResultDetail extends cc.Component {
     downImage: cc.SpriteFrame = null;
 
     public setData(data: any) {
-        this.result.string = `${data.result.close} `;
-        const value = parseFloat(BitcoinMasterUtils.getUpDownResult(data.result));
+        this.result.string = `${data.close} `;
+        const value = parseFloat(BitcoinMasterUtils.getUpDownResult(data));
         this.marginValue.string = BitcoinMasterUtils.absResult(value);
 
         const color = cc.Color.WHITE;
