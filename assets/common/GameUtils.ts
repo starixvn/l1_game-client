@@ -140,10 +140,10 @@ export default class GameUtils {
         return i18n.t(`gameNames.${gameId}`);
     }
 
-    public static getValueByCurrency(value: number, rate?: number): number {
-        if (rate === undefined) {
-            rate = cc.RedT.user.rate;
+    public static getValueByCurrency(value: number, otherRate?: number): number {
+        if (otherRate === undefined) {
+            otherRate = 1;
         }
-        return value / rate;
+        return (value * otherRate) / cc.RedT.user.rate;
     }
 }

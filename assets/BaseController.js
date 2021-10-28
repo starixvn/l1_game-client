@@ -154,7 +154,7 @@ module.exports = {
         return check === "true";
     },
     userData: function (data) {
-        if (void 0 !== data.offerGames && data.offerGames.length > 0) {
+        if (void 0 !== data.offerGames) {
             const menuConfig = new LobbyMenuConfig();
             const offerGames = data.offerGames.map((game) => game.gameId);
             const list = [];
