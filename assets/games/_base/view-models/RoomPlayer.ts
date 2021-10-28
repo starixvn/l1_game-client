@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { ComponentSystem, ICashSystem, ICreditSystem } from "../../../System";
 
@@ -72,15 +73,14 @@ export default class RoomPlayer extends ComponentSystem implements ICreditSystem
     }
 
     displayBalance(balance: number) {
+        const convertValue = GameUtils.getValueByCurrency(balance);
         this.balance.string =
-            balance > this.MAX_BALANCE_DISPLAY ? `${numberWithCommas(this.MAX_BALANCE_DISPLAY)}+` : numberWithCommas(balance);
+            convertValue > this.MAX_BALANCE_DISPLAY ? `${numberWithCommas(this.MAX_BALANCE_DISPLAY)}+` : numberWithCommas(convertValue);
     }
 
     setAvatar(avatarId) {
-        cc.resources.load("profile-picture", cc.SpriteAtlas, (err, atlas) => {
-            const frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
-
-            if (this.avatar) {
+        GameUtils.getAvatarSprite(avatarId).then((frame) => {
+            if (this.avatar && frame) {
                 this.avatar.spriteFrame = frame;
             }
         });

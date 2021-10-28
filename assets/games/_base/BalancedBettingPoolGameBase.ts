@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import AudioManager from "../../common/audio/AudioManager";
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
+import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
 import SocketIOMiniGameBase from "./SocketIOMiniGameBase";
@@ -198,7 +199,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
         this.disableHistoryButton();
         const totalBets = _.values(this.totalBets);
         const balancedBetAmount = Math.min(...[totalBets[0] ?? 0, totalBets[1] ?? 0]);
-        this.betItems.forEach((item) => (item as BalancedBettingPoolBetItem).balanceBet(balancedBetAmount));
+        this.betItems.forEach((item) => (item as BalancedBettingPoolBetItem).balanceBet(GameUtils.getValueByCurrency(balancedBetAmount)));
     }
 
     showBalanceBetNotice() {

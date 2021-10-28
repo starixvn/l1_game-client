@@ -68,7 +68,8 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
     showWinningEffect(playerSlot, data) {
         playerSlot.increaseBalance(data.bet);
-        GameUtils.addFlyingText(playerSlot.node, true, data.bet, 3, 0, 10);
+        const convertValue = GameUtils.getValueByCurrency(data.bet, data.rate || 1);
+        GameUtils.addFlyingText(playerSlot.node, true, convertValue, 3, 0, 10);
         this.playWinningEffect(this.main, playerSlot.node);
     }
 

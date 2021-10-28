@@ -1,6 +1,5 @@
 import * as _ from "lodash";
 
-import { lazyInject } from "../../../Application";
 import AudioManager from "../../audio/AudioManager";
 import GameUtils from "../../GameUtils";
 import ChipConfig from "./ChipConfig";
@@ -45,14 +44,13 @@ export default class BetChips extends cc.Component {
     @property(cc.Prefab)
     chipPrefab: cc.Prefab = null;
 
-    public chipValues: number[];
+    public chipValues: number[] = [];
     public onChanged: OnChangedBet = (bet) => {};
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
 
-    @lazyInject(ChipConfig)
-    public readonly chipConfig: ChipConfig;
+    public chipConfig: ChipConfig;
     private selectedIndex = 0;
     private chipList: cc.Node[] = [];
 
@@ -61,6 +59,7 @@ export default class BetChips extends cc.Component {
     }
 
     onLoad() {
+        this.chipConfig = ChipConfig.getInstance();
         this.leftButton.active = false;
         this.snappedScrollView.onScrollEnded = () => {
             const min = this.snappedScrollView.getMinDisplayIndex();
@@ -359,7 +358,9 @@ export default class BetChips extends cc.Component {
 
     public createSmallChip(bet: number): cc.Node {
         const chip = this.createBigChip(bet);
-        chip.scale = 0.2;
+        const chipView = chip.getComponent(ChipView);
+        chipView.hideValueDisplay();
+        chip.scale = 0.25;
         chip.group = "Chip";
         return chip;
     }

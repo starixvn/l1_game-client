@@ -59,4 +59,8 @@ export default class ChipView extends cc.Component {
         this.center.node.color = this.type === ChipDisplayType.VIP ? this.color : cc.Color.WHITE;
         this.label.node.color = this.type === ChipDisplayType.VIP ? cc.Color.YELLOW : cc.Color.WHITE;
     }
+
+    hideValueDisplay() {
+        this.label.node.active = false;
+    }
 }

@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
@@ -36,9 +37,8 @@ export default class Header extends cc.Component {
     }
 
     setAvatar(avatarId) {
-        cc.resources.load("profile-picture", cc.SpriteAtlas, (err, atlas) => {
-            if (this && this.avatar) {
-                const frame = atlas.getSpriteFrame(avatarId === 0 ? 1 : avatarId);
+        GameUtils.getAvatarSprite(avatarId).then((frame) => {
+            if (this && this.avatar && frame) {
                 this.avatar.spriteFrame = frame;
                 this.avatar.node.active = true;
             }

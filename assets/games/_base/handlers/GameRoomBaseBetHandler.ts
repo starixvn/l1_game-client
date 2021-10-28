@@ -20,7 +20,6 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
         let startNode: cc.Node;
         const playerSlot = this.main.playerHandler.getPlayerSlot(data.playerId);
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
-
         if (playerSlot) {
             this.updatePlayerSlotDataStorage(data, playerSlot);
             startNode = playerSlot.avatar.node;

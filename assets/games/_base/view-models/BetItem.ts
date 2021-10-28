@@ -1,4 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 
@@ -54,7 +55,8 @@ export default class BetItem extends cc.Component {
     public setData(data: any) {
         if (data.totalBets) {
             const totalBetsKeys = getLowercaseObjectKeys(data.totalBets);
-            this.setTotalBet(data.totalBets[totalBetsKeys[this.node.name.toLowerCase()]]);
+            const value = data.totalBets[totalBetsKeys[this.node.name.toLowerCase()]];
+            this.setTotalBet(GameUtils.getValueByCurrency(value));
         }
 
         if (data.ownBets) {

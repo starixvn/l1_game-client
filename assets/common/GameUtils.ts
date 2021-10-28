@@ -125,8 +125,9 @@ export default class GameUtils {
 
     public static getAvatarSprite(avatarId: number): Promise<cc.SpriteFrame> {
         return new Promise((resolve) => {
-            cc.resources.load("profile-picture", cc.SpriteAtlas, (err, atlas) => {
-                const frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
+            cc.resources.load<cc.SpriteAtlas>("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+                const name = avatarId ? avatarId : 1;
+                const frame = atlas.getSpriteFrame(name.toString());
                 resolve(frame);
             });
         });
@@ -137,5 +138,12 @@ export default class GameUtils {
             return "";
         }
         return i18n.t(`gameNames.${gameId}`);
+    }
+
+    public static getValueByCurrency(value: number, rate?: number): number {
+        if (rate === undefined) {
+            rate = cc.RedT.user.rate;
+        }
+        return value / rate;
     }
 }

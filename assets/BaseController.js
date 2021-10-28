@@ -166,6 +166,9 @@ module.exports = {
             this.user.offerGames = list;
             cc.sys.localStorage.setItem("latestOfferGames", JSON.stringify(list));
         }
+        if (data.rate) {
+            this.user.rate = data.rate;
+        }
         if (void 0 !== data.name) {
             this.user.name = data.name;
         }
