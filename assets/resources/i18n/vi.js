@@ -352,6 +352,8 @@ window.i18n.languages.vi = {
         win: "Thắng",
         you_win: "Bạn vừa thắng",
         bettingPrice: "Giá Đặt Lệnh",
-        waitResult: "Chờ kết quả"
+        waitResult: "Chờ kết quả",
+        upDownBetHistory: "Tăng/Giảm",
+        evenUpBetHistory: "Chẵn/Lẻ"
     }
 };

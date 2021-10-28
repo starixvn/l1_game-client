@@ -4,6 +4,7 @@ import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import BitcoinMasterBetHistory from "./BitcoinMasterBetHistory";
 import BitcoinMasterCandleTimer from "./BitcoinMasterCandleTimer";
 import BitcoinMasterChart from "./BitcoinMasterChart";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
@@ -120,7 +121,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     protected upDownMiniRoundHistory: BitcoinMasterUpDownMiniRoundHistory;
     protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
-    // protected betHistory: BigSmallBetHistory;
+    protected betHistory: BitcoinMasterBetHistory;
     // statistic: BigSmallStatistic;
     readonly choices = ["up", "down", "even", "odd"];
     remainingTimeGame: number;
@@ -181,9 +182,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             this.openBitcoinValue.string = data.open;
         }
 
-        // if (data.round) {
-        //     this.betHistory && this.betHistory.onData(data.round);
-        // }
+        if (data.round) {
+            this.betHistory && this.betHistory.onData(data.round);
+        }
     }
 
     initHandlers() {
@@ -284,11 +285,13 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.historyPrefab);
         this.historyComponent = node.getComponent(BitcoinMasterHistory);
-        this.historyComponent.init(this.socket);
+        const historyComp = this.historyComponent as BitcoinMasterHistory;
+        historyComp.init(this.socket);
+        historyComp.handleBetHistory = (roundId) => {
+            this.openBetHistory(roundId);
+        };
+
         this.currentMiniPanel.addDialog(node);
-        // historyComp.handleBetHistory = (roundId) => {
-        //     this.openBetHistory(roundId);
-        // };
     }
 
     public openStatistic() {
@@ -297,6 +300,10 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     openBetHistory(roundId: number) {
         AudioManager.getInstance().playClick();
+        const node = cc.instantiate(this.betHistoryPrefab);
+        this.betHistory = node.getComponent(BitcoinMasterBetHistory);
+        this.currentMiniPanel.addDialog(node);
+        this.betHistory.init(this, roundId);
     }
 
     resetDataAndUI() {
@@ -321,7 +328,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.chartWebView.initURL(window.authData.ss);
         this.chartWebView.loadWebView();
     }
-
     setCurrencyBitCoinValue(value: number) {
         this.currentBitcoinValue.string = value.toString();
     }

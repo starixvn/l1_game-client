@@ -350,6 +350,8 @@ window.i18n.languages.en = {
         win: "Win",
         you_win: "YOU WIN",
         bettingPrice: "Betting Price",
-        waitResult: "Wait for result"
+        waitResult: "Wait for result",
+        upDownBetHistory: "Up/Down",
+        evenUpBetHistory: "Even/Odd"
     }
 };

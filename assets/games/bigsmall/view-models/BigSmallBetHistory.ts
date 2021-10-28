@@ -142,8 +142,6 @@ export default class BigSmallBetHistory extends cc.Component {
         this.updateDotsResult(result);
     }
 
-    updateChoicesData(data) {}
-
     updateDotsResult(result: any) {
         Object.keys(result).forEach((key, index) => {
             const dot = this.dices[index].getComponent(cc.Sprite);

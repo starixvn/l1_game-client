@@ -29,17 +29,24 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
     bottomLine: cc.Node = null;
 
     public showTicketDetail = (data: any) => {};
+    public showBetHistory = (roundId) => {};
 
     protected data: any;
+    protected roundID: number;
 
     openTicketDetail() {
         AudioManager.getInstance().playClick();
         this.showTicketDetail(this.data);
     }
 
+    openBetHistory() {
+        AudioManager.getInstance().playClick();
+        this.showBetHistory(this.roundID);
+    }
+
     setData(data: any, index: number) {
         this.data = data;
-
+        this.roundID = data.phien;
         this.background.active = index % 2 !== 0;
         this.time.string = getStringDateByTime(data.time);
         this.roundId.string = data.phien.toString();

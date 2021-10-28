@@ -1,4 +1,5 @@
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
+import BitcoinMasterBetHistory from "./BitcoinMasterBetHistory";
 import BitcoinMasterHistoryItem from "./BitcoinMasterHistoryItem";
 import BitcoinMasterTicketDetail from "./BitcoinMasterTicketDetail";
 
@@ -9,12 +10,22 @@ export default class BitcoinMasterHistory extends SocketIOGameHistoryBase {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 
+    public handleBetHistory = (roundId) => {};
+
+    openBetHistory(roundId: number) {
+        this.handleBetHistory(roundId);
+    }
+
     bindItemRowData(betLog: any, index: any) {
         const itemNode = cc.instantiate(this.itemPrefab);
         const item = itemNode.getComponent(BitcoinMasterHistoryItem);
         item.setData(betLog, index);
         item.showTicketDetail = (log) => {
             this.showTicketDetail(log);
+        };
+
+        item.showBetHistory = (roundId) => {
+            this.openBetHistory(roundId);
         };
         this.content.addChild(itemNode);
     }
