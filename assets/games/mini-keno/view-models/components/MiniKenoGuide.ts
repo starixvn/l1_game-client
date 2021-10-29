@@ -64,6 +64,7 @@ export default class MiniKenoGuide extends cc.Component {
         const minikeno = this.miniKenos.find((keno) => keno.gameId === id);
         const { minBet, maxBet } = minikeno.getBetRange();
         this.content.initURL(id, getLocale(), { minBet, maxBet, used: minikeno.isUsingMaxStakeLevel() });
+        this.content.sendDataToIframe(minikeno.gameConfigs);
         this.content.loadWebView();
     }
 

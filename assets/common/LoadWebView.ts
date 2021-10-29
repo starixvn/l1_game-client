@@ -13,10 +13,13 @@ export default class LoadWebView extends cc.Component {
     protected url: string;
     public needDisableDivScroll = false;
 
+    protected onWebViewLoaded = () => {};
+
     onLoad() {
         this.webView.node.on(
             "loaded",
             () => {
+                this.onWebViewLoaded();
                 const paddingTime = 0.3;
                 cc.tween(this.node)
                     .delay(paddingTime)
@@ -60,5 +63,11 @@ export default class LoadWebView extends cc.Component {
 
             this.webView.url = this.url;
         }
+    }
+
+    sendDataToIframe(configs: any) {
+        this.onWebViewLoaded = () => {
+            this.webView._impl._iframe.contentWindow.postMessage(JSON.stringify(configs), config.guideDomain);
+        };
     }
 }

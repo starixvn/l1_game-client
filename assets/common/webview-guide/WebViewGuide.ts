@@ -23,7 +23,7 @@ export default class WebViewGuide extends LoadWebView {
 
     initURL(gameId: number, locale: string, configStake: { minBet: number; maxBet: number; used: boolean }) {
         const domain = config.guideDomain;
-        let url = `${domain}/?gId=${gameId}&lang=${locale}&t=${this.themeName}&v=${Date.now()}`;
+        let url = `${domain}/${locale}?gId=${gameId}&t=${this.themeName}&v=${Date.now()}`;
         if (config.systemType === "SC1" && configStake.used) {
             url += `&minBet=${configStake.minBet}&maxBet=${configStake.maxBet}`;
         }
@@ -42,9 +42,5 @@ export default class WebViewGuide extends LoadWebView {
 
             this.webView.url = this.url;
         }
-    }
-
-    sendDataToIframe(configs: any) {
-        this.webView._impl._iframe.contentWindow.postMessage(JSON.stringify(configs), config.guideDomain);
     }
 }
