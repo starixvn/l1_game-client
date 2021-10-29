@@ -35,7 +35,7 @@ export default class BetItem extends cc.Component {
 
     private setMoneyLabel(label: cc.Label, bet: number) {
         if (label) {
-            label.string = bet > 0 ? numberWithCommas(bet) : "";
+            label.string = bet > 0 ? numberWithCommas(bet, 1) : "";
         }
     }
 
