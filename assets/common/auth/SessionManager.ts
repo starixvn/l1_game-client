@@ -31,22 +31,13 @@ export function storeSessionData(data) {
     cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
 }
 
-function getLanguage(data) {
-    let language = "";
-    const locale = data.language;
-    switch (locale) {
-        case "vi-VN":
-            language = "vi";
-            break;
-        case "en-US":
-        case "en-UK":
-            language = "en";
-            break;
-        default:
-            language = "en";
-            break;
-    }
-    return language;
+export function getLanguage(locale) {
+    const dict = {
+        "vi-VN": "vi",
+        "en-US": "en",
+        "en-UK": "en"
+    };
+    return dict[locale] || "en";
 }
 
 export function getLocale() {
@@ -55,7 +46,8 @@ export function getLocale() {
 }
 
 export function updateLanguage(data) {
-    const language = getLanguage(data);
+    const locale = data.language;
+    const language = getLanguage(locale);
     console.log(`i18n init language ${data.language} => ${language}`);
     setLanguage(language);
 }

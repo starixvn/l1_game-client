@@ -2,7 +2,7 @@ import * as _ from "lodash";
 
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
-import { getLocale } from "../../common/auth/SessionManager";
+import { getLanguage, getLocale } from "../../common/auth/SessionManager";
 import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
@@ -467,7 +467,9 @@ export default class GameBase extends BaseComponent {
         const dialog = cc.instantiate(this.guidePrefab);
         const guide = dialog.getComponent(WebViewGuide);
         const { minBet, maxBet } = this.getBetRange();
-        guide.initURL(this.gameId, getLocale(), { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
+        const locale = getLocale();
+        const language = getLanguage(locale);
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();

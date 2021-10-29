@@ -1,5 +1,5 @@
 import AudioManager from "../../../../common/audio/AudioManager";
-import { getLocale } from "../../../../common/auth/SessionManager";
+import { getLanguage, getLocale } from "../../../../common/auth/SessionManager";
 import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
 import { GameIds } from "../../../../configs/SabaConfigs";
 import MiniKeno from "../MiniKeno";
@@ -63,7 +63,9 @@ export default class MiniKenoGuide extends cc.Component {
         const id = this.getGameId(game);
         const minikeno = this.miniKenos.find((keno) => keno.gameId === id);
         const { minBet, maxBet } = minikeno.getBetRange();
-        this.content.initURL(id, getLocale(), { minBet, maxBet, used: minikeno.isUsingMaxStakeLevel() });
+        const locale = getLocale();
+        const language = getLanguage(locale);
+        this.content.initURL(id, language, { minBet, maxBet, used: minikeno.isUsingMaxStakeLevel() });
         this.content.sendDataToIframe(minikeno.gameConfigs);
         this.content.loadWebView();
     }
