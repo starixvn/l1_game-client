@@ -1,0 +1,35 @@
+import BitcoinMasterUtils from "./BitcoinMasterUtils";
+
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class BitcoinMasterGapAmount extends cc.Component {
+    @property(cc.Label)
+    gapAmount: cc.Label = null;
+
+    @property(cc.Sprite)
+    icon: cc.Sprite = null;
+
+    @property(cc.SpriteFrame)
+    upImage: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    downImage: cc.SpriteFrame = null;
+
+    public setData(data: any) {
+        const gapValue = parseFloat(BitcoinMasterUtils.getUpDownResult(data));
+        const color = cc.Color.WHITE;
+
+        if (gapValue === 0) {
+            this.gapAmount.string = "00.00";
+            this.gapAmount.node.color = color.fromHEX("#BAC5CA");
+            this.icon.node.active = false;
+        } else {
+            this.gapAmount.string = BitcoinMasterUtils.absResult(gapValue);
+            const isUpResult = gapValue > 0;
+            this.gapAmount.node.color = isUpResult ? color.fromHEX("#c4f738") : color.fromHEX("#f3485f");
+            this.icon.node.active = true;
+            this.icon.spriteFrame = isUpResult ? this.upImage : this.downImage;
+        }
+    }
+}

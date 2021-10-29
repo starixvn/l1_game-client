@@ -4,3 +4,8 @@ export enum BitcoinMasterBetType {
     even = "even",
     odd = "odd"
 }
+
+export enum BitcoinMasterHeaderMenu {
+    upDown = "upDown",
+    evenOdd = "evenOdd"
+}

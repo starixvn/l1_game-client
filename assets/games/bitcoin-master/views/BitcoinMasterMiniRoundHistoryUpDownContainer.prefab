@@ -27,11 +27,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 100
+        "__id__": 101
       }
     ],
     "_prefab": {
-      "__id__": 101
+      "__id__": 102
     },
     "_opacity": 255,
     "_color": {
@@ -2910,11 +2910,11 @@
     "_active": false,
     "_components": [
       {
-        "__id__": 98
+        "__id__": 99
       }
     ],
     "_prefab": {
-      "__id__": 99
+      "__id__": 100
     },
     "_opacity": 255,
     "_color": {
@@ -2981,14 +2981,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 95
+        "__id__": 96
       },
       {
-        "__id__": 96
+        "__id__": 97
       }
     ],
     "_prefab": {
-      "__id__": 97
+      "__id__": 98
     },
     "_opacity": 255,
     "_color": {
@@ -3178,10 +3178,13 @@
       },
       {
         "__id__": 93
+      },
+      {
+        "__id__": 94
       }
     ],
     "_prefab": {
-      "__id__": 94
+      "__id__": 95
     },
     "_opacity": 255,
     "_color": {
@@ -3193,7 +3196,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 63.32,
+      "width": 70.82000000000001,
       "height": 20
     },
     "_anchorPoint": {
@@ -3269,7 +3272,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -22.205,
+        -25.955000000000005,
         0,
         0,
         0,
@@ -3367,7 +3370,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 5.6,
+      "width": 9.1,
       "height": 20
     },
     "_anchorPoint": {
@@ -3379,7 +3382,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -9.95,
+        -10.950000000000006,
         1.955,
         0,
         0,
@@ -3489,7 +3492,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0.35000000000000053,
+        2.0999999999999934,
         0,
         0,
         0,
@@ -3561,7 +3564,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "margin-value",
+    "_name": "gap-amount",
     "_objFlags": 0,
     "_parent": {
       "__id__": 76
@@ -3598,7 +3601,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        17.305,
+        20.054999999999993,
         0,
         0,
         0,
@@ -3708,7 +3711,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        29.209999999999997,
+        32.959999999999994,
         1.955,
         0,
         0,
@@ -3789,7 +3792,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 63.32,
+      "width": 70.82000000000001,
       "height": 20
     },
     "_resize": 1,
@@ -3822,7 +3825,20 @@
     "result": {
       "__id__": 78
     },
-    "marginValue": {
+    "gapAmountComp": {
+      "__id__": 94
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "644f6Z8SQRMF472RGffo9ry",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 76
+    },
+    "_enabled": true,
+    "gapAmount": {
       "__id__": 87
     },
     "icon": {
@@ -3965,7 +3981,7 @@
     "tip": null,
     "nodeNext": null,
     "bitcoinTip": {
-      "__id__": 98
+      "__id__": 99
     },
     "_id": ""
   },

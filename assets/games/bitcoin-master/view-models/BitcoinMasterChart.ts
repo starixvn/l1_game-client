@@ -7,6 +7,5 @@ const { ccclass } = cc._decorator;
 export default class BitcoinMasterChart extends LoadWebView {
     initURL(sessionID: string) {
         this.url = buildUrlWithPath(`/bitcoinmaster/chart.html?ss=${sessionID}`);
-        console.log("url chart ", this.url);
     }
 }

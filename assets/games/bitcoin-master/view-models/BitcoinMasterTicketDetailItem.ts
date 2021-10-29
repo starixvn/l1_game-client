@@ -2,8 +2,9 @@ import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { BitcoinMasterBetType } from "./BitcoinMasterCommon";
+import BitcoinMasterEvenOddResultDetail from "./BitcoinMasterEvenOddResultDetail";
 import BitcoinMasterUpDownResultDetail from "./BitcoinMasterUpDownResultDetail";
-import BitcoinMasterUtils from "./BitcoinMasterUtils";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -17,8 +18,8 @@ export default class BitcoinMasterTicketDetailItem extends cc.Component {
     @property(BitcoinMasterUpDownResultDetail)
     upDownResult: BitcoinMasterUpDownResultDetail = null;
 
-    @property(cc.Node)
-    evenOddResult: cc.Node = null;
+    @property(BitcoinMasterEvenOddResultDetail)
+    evenOddResult: BitcoinMasterEvenOddResultDetail = null;
 
     @property(cc.Label)
     bet: cc.Label = null;
@@ -44,18 +45,11 @@ export default class BitcoinMasterTicketDetailItem extends cc.Component {
             case BitcoinMasterBetType.up:
             case BitcoinMasterBetType.down:
                 this.upDownResult.setData(result);
-                this.evenOddResult.active = false;
+                this.evenOddResult.node.active = false;
                 break;
             default:
                 this.upDownResult.node.active = false;
-                const evenOddValue = parseInt(BitcoinMasterUtils.getEvenOddResult(result.close));
-                const message =
-                    evenOddValue % 2
-                        ? GameUtils.getBetChoiceString(BitcoinMasterBetType.odd)
-                        : GameUtils.getBetChoiceString(BitcoinMasterBetType.even);
-
-                this.evenOddResult.getChildByName("result").getComponent(cc.Label).string = message;
-                this.evenOddResult.getChildByName("number").getComponent(cc.Label).string = ` (${evenOddValue})`;
+                this.evenOddResult.setData(result.close);
         }
     }
 }

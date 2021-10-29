@@ -1,3 +1,4 @@
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BalancedBettingPoolBetItemBase from "../BalancedBettingPoolBetItemBase";
 import BalancedBettingPoolGameBase from "../BalancedBettingPoolGameBase";
@@ -38,6 +39,7 @@ export default class GameBetHistoryBase extends cc.Component {
 
     protected main: BalancedBettingPoolGameBase;
     protected roundId = 0;
+    protected data: any;
 
     init(main: BalancedBettingPoolGameBase, roundId: number) {
         this.main = main;
@@ -80,12 +82,52 @@ export default class GameBetHistoryBase extends cc.Component {
         return item;
     }
 
-    resetData() {
+    resetBettingUserList() {
         this.leftContent.destroyAllChildren();
         this.rightContent.destroyAllChildren();
     }
 
     onData(data: any) {
-        this.resetData();
+        this.resetBettingUserList();
+    }
+
+    loadBettingUserList(leftBetType: string, rightBetType: string) {
+        if (this.data[leftBetType]) {
+            this.data[leftBetType].forEach((user) => {
+                const item = this.addItem(user);
+                this.leftContent.addChild(item);
+            });
+        }
+
+        if (this.data[rightBetType]) {
+            this.data[rightBetType].forEach((user) => {
+                const item = this.addItem(user);
+                this.rightContent.addChild(item);
+            });
+        }
+
+        const leftChoice = this.data.total[leftBetType];
+        const rightChoice = this.data.total[rightBetType];
+
+        let leftBetAmount = 0;
+        let rightBetAmount = 0;
+        let leftRefund = 0;
+        let rightRefund = 0;
+
+        if (leftChoice) {
+            leftBetAmount = leftChoice.betAmount;
+            leftRefund = leftChoice.refund;
+        }
+
+        if (rightChoice) {
+            rightBetAmount = rightChoice.betAmount;
+            rightRefund = rightChoice.refund;
+        }
+
+        this.leftBetAmount.string = numberWithCommas(leftBetAmount);
+        this.rightBetAmount.string = numberWithCommas(rightBetAmount);
+
+        this.leftRefundAmount.string = numberWithCommas(leftRefund);
+        this.rightRefundAmount.string = numberWithCommas(rightRefund);
     }
 }

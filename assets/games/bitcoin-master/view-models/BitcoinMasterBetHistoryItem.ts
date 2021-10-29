@@ -1,18 +1,6 @@
-const { ccclass, property } = cc._decorator;
+import BalancedBettingPoolBetItemBase from "../../_base/BalancedBettingPoolBetItemBase";
+
+const { ccclass } = cc._decorator;
 
 @ccclass
-export default class BitcoinMasterBetHistoryBetChoiceItem extends cc.Component {
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = "hello";
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start() {}
-
-    // update (dt) {}
-}
+export default class BitcoinMasterBetHistoryBetChoiceItem extends BalancedBettingPoolBetItemBase {}
