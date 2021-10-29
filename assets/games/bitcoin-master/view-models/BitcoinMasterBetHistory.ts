@@ -41,8 +41,10 @@ export default class BitcoinMasterBetHistory extends GameBetHistoryBase {
     onData(data: any) {
         super.onData(data);
         this.data = data;
+        this.roundId = data.id;
         this.roundIdLabel.string = `#${data.id}`;
         this.time.string = getStringDateByTime(data.time);
+        this.nextButton.active = this.main.currentDataLogs[0].roundId > data.id;
         this.activeTab === BitcoinMasterHeaderMenu.upDown ? this.loadUpDownData() : this.loadEvenOddData();
     }
 
@@ -57,7 +59,6 @@ export default class BitcoinMasterBetHistory extends GameBetHistoryBase {
                 menuComponent.unselect();
             }
         }
-
     }
 
     onSelectHeader(event, name) {
