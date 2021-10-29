@@ -84,6 +84,7 @@ export default class BetChips extends cc.Component {
         this.createChips();
         this.chipList = [...this.chips.children];
         this.setCurrentBet(this.chipValues[0].toString());
+        this.snappedScrollView.initCalculatedPercent();
     }
 
     createChips() {
