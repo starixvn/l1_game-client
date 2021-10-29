@@ -233,15 +233,15 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     initRoundHistory() {
         const upDownMini = cc.instantiate(this.miniRoundHistoryUpDownPrefab);
         this.upDownMiniRoundHistory = upDownMini.getComponent(BitcoinMasterUpDownMiniRoundHistory);
-        this.upDownMiniRoundHistory.handleBetHistory = (roundId) => {
-            this.openBetHistory(roundId);
+        this.upDownMiniRoundHistory.handleBetHistory = (roundId, view) => {
+            this.openBetHistory(roundId, view);
         };
         this.miniRoundHistoryUpDownContainer.addChild(upDownMini);
 
         const evenOddMini = cc.instantiate(this.miniRoundHistoryEvenOddPrefab);
         this.evenOddMiniRoundHistory = evenOddMini.getComponent(BitcoinMasterEvenOddMiniRoundHistory);
-        this.evenOddMiniRoundHistory.handleBetHistory = (roundId) => {
-            this.openBetHistory(roundId);
+        this.evenOddMiniRoundHistory.handleBetHistory = (roundId, view) => {
+            this.openBetHistory(roundId, view);
         };
         this.miniRoundHistoryEvenOddContainer.addChild(evenOddMini);
     }
@@ -287,8 +287,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.historyComponent = node.getComponent(BitcoinMasterHistory);
         const historyComp = this.historyComponent as BitcoinMasterHistory;
         historyComp.init(this.socket);
-        historyComp.handleBetHistory = (roundId) => {
-            this.openBetHistory(roundId);
+        historyComp.handleBetHistory = (roundId, view) => {
+            this.openBetHistory(roundId, view);
         };
 
         this.currentMiniPanel.addDialog(node);
@@ -298,12 +298,13 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         AudioManager.getInstance().playClick();
     }
 
-    openBetHistory(roundId: number) {
+    openBetHistory(roundId: number, view) {
         AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.betHistoryPrefab);
         this.betHistory = node.getComponent(BitcoinMasterBetHistory);
         this.currentMiniPanel.addDialog(node);
         this.betHistory.init(this, roundId);
+        this.betHistory.setDefaultView(view);
     }
 
     resetDataAndUI() {

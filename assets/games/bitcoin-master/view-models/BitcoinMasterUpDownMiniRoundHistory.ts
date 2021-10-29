@@ -1,5 +1,6 @@
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
+import { BitcoinMasterHeaderMenu } from "./BitcoinMasterCommon";
 import BitcoinMasterUpDownRoundHistoryTip from "./BitcoinMasterUpDownRoundHistoryTip";
 
 const { property, ccclass } = cc._decorator;
@@ -9,7 +10,7 @@ export default class BitcoinMasterUpDownMiniRoundHistory extends MiniRoundHistor
     @property(BitcoinMasterUpDownRoundHistoryTip)
     bitcoinTip: BitcoinMasterUpDownRoundHistoryTip = null;
 
-    public handleBetHistory = (roundId: number) => {};
+    public handleBetHistory = (roundId: number, view) => {};
 
     onLoad() {
         super.onLoad();
@@ -21,7 +22,7 @@ export default class BitcoinMasterUpDownMiniRoundHistory extends MiniRoundHistor
     }
 
     openBetHistory(roundId: number) {
-        this.handleBetHistory(roundId);
+        this.handleBetHistory(roundId, BitcoinMasterHeaderMenu.upDown);
     }
 
     private listener = {

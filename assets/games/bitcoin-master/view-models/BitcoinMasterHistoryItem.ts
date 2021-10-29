@@ -1,7 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { BitcoinMasterBetType } from "./BitcoinMasterCommon";
+import { BitcoinMasterBetType, BitcoinMasterHeaderMenu } from "./BitcoinMasterCommon";
 
 const { ccclass, property } = cc._decorator;
 
@@ -29,10 +29,11 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
     bottomLine: cc.Node = null;
 
     public showTicketDetail = (data: any) => {};
-    public showBetHistory = (roundId) => {};
+    public showBetHistory = (roundId, view) => {};
 
     protected data: any;
     protected roundID: number;
+    protected view = BitcoinMasterHeaderMenu.upDown;
 
     openTicketDetail() {
         AudioManager.getInstance().playClick();
@@ -41,7 +42,7 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
 
     openBetHistory() {
         AudioManager.getInstance().playClick();
-        this.showBetHistory(this.roundID);
+        this.showBetHistory(this.roundID, this.view);
     }
 
     setData(data: any, index: number) {
@@ -53,6 +54,12 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         this.win.string = numberWithCommas(data.betwin);
         this.totalBet.string = numberWithCommas(this.calculateTotalbet(data));
         this.refund.string = numberWithCommas(data.refund);
+
+        if (data[BitcoinMasterBetType.up] > 0 || data[BitcoinMasterBetType.down] > 0) {
+            this.view = BitcoinMasterHeaderMenu.upDown;
+        } else {
+            this.view = BitcoinMasterHeaderMenu.evenOdd;
+        }
     }
 
     calculateTotalbet(data: any): number {
