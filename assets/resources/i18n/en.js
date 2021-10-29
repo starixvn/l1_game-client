@@ -36,6 +36,7 @@ window.i18n.languages.en = {
         43: "Bitcoin Master"
     },
     messages: {
+        noGameOffer: "Your account is not supported on this game portal. Please contact your upline, thank you.",
         accountBlacklisted: "Account has been closed. Please contact CSD for details.(%{errorCode})",
         accountBlacklistedPlaceBet:
             "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Account has been closed. Please contact CSD for details.(%{errorCode})",

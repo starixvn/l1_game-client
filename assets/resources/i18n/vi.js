@@ -36,6 +36,7 @@ window.i18n.languages.vi = {
         43: "Bitcoin Master"
     },
     messages: {
+        noGameOffer: "Your account is not supported on this game portal. Please contact your upline, thank you.",
         accountBlacklisted: "Tài khoản đã bị đóng. Vui lòng liên hệ bộ phận CSKH để biết chi tiết.(%{errorCode})",
         accountBlacklistedPlaceBet:
             "Game %{gameName} (#%{gameRoundId})\r\n\r\nTài khoản đã bị đóng. Vui lòng liên hệ bộ phận CSKH để biết chi tiết. Đặt cược thất bại!(%{errorCode})",

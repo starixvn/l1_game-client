@@ -251,6 +251,9 @@ export default class MainGame extends cc.Component {
     }
 
     initLobby() {
+        if (cc.RedT.user.offerGames.length === 0) {
+            this.showNotice(i18n.t("noGameOffer"));
+        }
         this.initLobbyMenu();
         this.initBanners();
         this.initializedLobby = true;
