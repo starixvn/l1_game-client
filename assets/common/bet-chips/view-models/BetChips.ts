@@ -304,11 +304,14 @@ export default class BetChips extends cc.Component {
             const convertChip = GameUtils.getValueByCurrency(+value, rate);
             const convertValues = GameUtils.getChipQuantity(convertChip, this.chipValues);
             for (let i = 0; i < chipCountOfBet; i++) {
-                Object.keys(convertValues).forEach((chipBet) => {
-                    const chip = this.createSmallChip(+chipBet);
-                    const randomPosition = this.getRandomPositionChip(chip, chipsBox);
-                    chip.position = randomPosition;
-                    chipsBox.addChild(chip);
+                Object.keys(convertValues).forEach((chipValue) => {
+                    let count = convertValues[chipValue];
+                    for (; count > 0; count--) {
+                        const chip = this.createSmallChip(+chipValue);
+                        const randomPosition = this.getRandomPositionChip(chip, chipsBox);
+                        chip.position = randomPosition;
+                        chipsBox.addChild(chip);
+                    }
                 });
             }
         });
