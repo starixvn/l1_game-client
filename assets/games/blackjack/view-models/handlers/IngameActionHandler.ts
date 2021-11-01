@@ -135,38 +135,26 @@ export default class IngameActionHandler implements DataHandler {
     placeChipsForSplitHand(index: number, amount: number) {
         const destNode = this.main.chipContainers[index];
         destNode.destroyAllChildren();
-        const chipStack = BlackJackUtils.createChipStack(
-            amount,
-            this.main.betChips,
-            this.main.chipOption,
-            this.main.shadowChip,
-            destNode.skewX
-        );
+        const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips, this.main.shadowChip, destNode.skewX);
         chipStack.zIndex = -1;
         destNode.addChild(chipStack);
 
         const worldPositon = destNode.parent.convertToWorldSpaceAR(cc.v2(0, -300));
         const localPosition = destNode.convertToNodeSpaceAR(worldPositon);
-        chipStack.position = localPosition;
+        chipStack.position = cc.v3(localPosition);
         chipStack.runAction(cc.jumpTo(0.5, 0, 0, 250, 1));
         this.main.updateTotalBetLabel();
     }
 
     placeChipsForDoubleHand(index: number, amount: number) {
         const destNode = this.main.chipContainers[index];
-        const chipStack = BlackJackUtils.createChipStack(
-            amount / 2,
-            this.main.betChips,
-            this.main.chipOption,
-            this.main.shadowChip,
-            destNode.skewX
-        );
+        const chipStack = BlackJackUtils.createChipStack(amount / 2, this.main.betChips, this.main.shadowChip, destNode.skewX);
         chipStack.zIndex = -1;
         destNode.addChild(chipStack);
 
         const worldPositon = destNode.parent.convertToWorldSpaceAR(cc.v2(0, -300));
         const localPosition = destNode.convertToNodeSpaceAR(worldPositon);
-        chipStack.position = localPosition;
+        chipStack.position = cc.v3(localPosition);
 
         let destPosition = cc.v2(0, 0);
         if (destNode.childrenCount > 0) {
@@ -181,13 +169,7 @@ export default class IngameActionHandler implements DataHandler {
                 cc.jumpTo(0.5, destPosition, 250, 1),
                 cc.callFunc(() => {
                     destNode.destroyAllChildren();
-                    const chipStack = BlackJackUtils.createChipStack(
-                        amount,
-                        this.main.betChips,
-                        this.main.chipOption,
-                        this.main.shadowChip,
-                        destNode.skewX
-                    );
+                    const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips, this.main.shadowChip, destNode.skewX);
                     chipStack.zIndex = -1;
                     destNode.addChild(chipStack);
                     this.main.handPlaces[index].updateDisplayBetValue(amount);

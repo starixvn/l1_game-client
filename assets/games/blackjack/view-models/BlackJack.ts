@@ -139,7 +139,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     lastHandBets: any[] = [];
     audioNotificationInterval: any;
 
-    public chipOption: number[];
     public configDuration = {
         drawingCardDelay: 0.7,
         delaySwitchHand: 1
@@ -167,11 +166,6 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.rebetButton.getComponent(NewButton).callback.selected = () => this.onRebetClick();
         this.clearButton.getComponent(NewButton).callback.selected = () => this.onClearClick();
         this.dealButton.getComponent(NewButton).callback.selected = () => this.onDealClick();
-
-        const options = [...this.betChips.chipValues];
-        options.reverse();
-        options.push(...this.blackJackConfig.chipOption);
-        this.chipOption = options;
     }
 
     onDestroy() {
@@ -287,7 +281,6 @@ export default class BlackJack extends SocketIOTableGameBase {
                             const chipStack = BlackJackUtils.createChipStack(
                                 handPlace.getBetAmount(),
                                 this.betChips,
-                                this.chipOption,
                                 this.shadowChip,
                                 destNode.skewX
                             );
@@ -632,7 +625,6 @@ export default class BlackJack extends SocketIOTableGameBase {
                 const chipStack = BlackJackUtils.createChipStack(
                     hand.bet,
                     this.betChips,
-                    this.chipOption,
                     this.shadowChip,
                     this.chipContainers[hand.pos - 1].skewX
                 );

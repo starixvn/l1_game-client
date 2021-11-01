@@ -146,12 +146,11 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     }
     handleHandAction(hand: any, betAmount: any, index: number) {
         const winAmount = +hand.betwin - betAmount;
-        const options = this.main.chipOption;
         const destNode = this.main.chipContainers[index];
-        const chipStack = BlackJackUtils.createChipStack(winAmount, this.main.betChips, options, this.main.shadowChip, destNode.skewX);
+        const chipStack = BlackJackUtils.createChipStack(winAmount, this.main.betChips, this.main.shadowChip, destNode.skewX);
         destNode.addChild(chipStack);
         const startPos = chipStack.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
-        chipStack.position = startPos;
+        chipStack.position = cc.v3(startPos);
 
         let destPosition = cc.v2(0, 0);
         if (destNode.childrenCount > 0) {
@@ -170,7 +169,6 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                     const chipStack = BlackJackUtils.createChipStack(
                         +hand.betwin,
                         this.main.betChips,
-                        options,
                         this.main.shadowChip,
                         destNode.skewX
                     );
