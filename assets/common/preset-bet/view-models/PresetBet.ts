@@ -35,7 +35,7 @@ export default class PresetBet extends cc.Component {
     setItems(items: number[]) {
         const listItem = items;
         this.itemContainer.children.forEach((child, index) => {
-            const value = listItem[index];
+            const value = listItem[index]?.toString() || "1";
             child.name = value.toString();
 
             const valueString = this.config.shortenValue ? `+${nFormatter(value)}` : `+${value}`;
