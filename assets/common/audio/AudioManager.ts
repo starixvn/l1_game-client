@@ -24,13 +24,13 @@ export default class AudioManager {
     }
 
     playSFX(clip: cc.AudioClip) {
-        if (this.sfxEnabled) {
+        if (this.sfxEnabled && clip) {
             cc.audioEngine.playEffect(clip, false);
         }
     }
 
     playMusic(clip: cc.AudioClip, loop: boolean) {
-        if (this.musicEnabled) {
+        if (this.musicEnabled && clip) {
             cc.audioEngine.playMusic(clip, loop);
         }
     }
