@@ -12,6 +12,7 @@ import BitcoinMasterEvenOddMiniRoundHistory from "./BitcoinMasterEvenOddMiniRoun
 import BitcoinMasterHistory from "./BitcoinMasterHistory";
 import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
 import BitcoinMasterResult from "./BitcoinMasterResult";
+import BitcoinMasterStatistic from "./BitcoinMasterStatistic";
 import BitcoinMasterUpDownMiniRoundHistory from "./BitcoinMasterUpDownMiniRoundHistory";
 import BitCoinMasterBetHandler from "./handlers/BitCoinMasterBetHandler";
 import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
@@ -95,6 +96,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    statisticNode: cc.Node = null;
+
     @property(BitcoinMasterChart)
     chartWebView: BitcoinMasterChart = null;
 
@@ -122,7 +126,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     protected upDownMiniRoundHistory: BitcoinMasterUpDownMiniRoundHistory;
     protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
     protected betHistory: BitcoinMasterBetHistory;
-    // statistic: BigSmallStatistic;
+    statistic: BitcoinMasterStatistic;
     readonly choices = ["up", "down", "even", "odd"];
     remainingTimeGame: number;
 
@@ -138,7 +142,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.initRoundHistory();
         this.animatedTime.setAnimatedY(10, 0);
         this.animatedTime.setRedTime(-1);
-        // this.animatedTime.setRedTime(this.config.stopBetTime);
         GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.bitcoinTip.node, this.upDownTooltipNode);
         GameUtils.moveToOtherNode(this.evenOddMiniRoundHistory.tip.node, this.evenOddTooltipNode);
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
@@ -146,11 +149,22 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
             // need to refactor showSignName in maingame file
             if (zIndex < this.node.parent.childrenCount - 1 || this.currentMiniPanel.dialog.childrenCount > 1) {
-                this.chartWebView.hideWebView();
+                this.hideChart();
             } else {
-                this.chartWebView.showWebView();
+                this.showChart();
             }
         });
+
+        this.statisticNode.on(cc.Node.EventType.CHILD_ADDED, this.hideChart.bind(this));
+        this.statisticNode.on(cc.Node.EventType.CHILD_REMOVED, this.showChart.bind(this));
+    }
+
+    hideChart() {
+        this.chartWebView.hideWebView();
+    }
+
+    showChart() {
+        this.chartWebView.showWebView();
     }
 
     onEnable() {
@@ -247,6 +261,20 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     updateRoundHistory() {
+        // const miniHistoryData = this.currentDataLogs.map((d) => {
+        //     let count = 0;
+        //     const list = ["red1", "red2", "red3", "red4"];
+        //     list.forEach((i) => {
+        //         if (d.result[i]) {
+        //             count++;
+        //         }
+        //     });
+        //     return {
+        //         roundId: d.roundId || d.id || d.round,
+        //         red: count
+        //     };
+        // });
+        // this.statistic.setData(miniHistoryData);
         this.upDownMiniRoundHistory.setData(this.currentDataLogs);
         this.evenOddMiniRoundHistory.setData(this.currentDataLogs);
     }
@@ -273,10 +301,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
                 this.betItems.forEach((betItem) => {
                     betItem.setHighlight(data.settlementResult[betItem.node.name], true);
                 });
-
-                // if (this.statistic && this.statistic.isAlive()) {
-                //     this.statistic.updateStatistic(this.currentDataLogs);
-                // }
             })
             .start();
     }
@@ -296,6 +320,16 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     public openStatistic() {
         AudioManager.getInstance().playClick();
+        const node = cc.instantiate(this.statisticPrefab);
+        this.statistic = node.getComponent(BitcoinMasterStatistic);
+        const condition = () => {
+            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
+        };
+        this.statistic.init(this);
+        this.statistic.setData(this.currentDataLogs);
+        this.statistic.logControl.init(condition);
+        this.statisticNode.addChild(node);
+        this.chartWebView.hideWebView();
     }
 
     openBetHistory(roundId: number, view) {
