@@ -17,7 +17,7 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
     }
 
     placePlayerChip(data) {
-        const { betChoice, amount } = data;
+        const { betChoice, amount, rate } = data;
         let startNode: cc.Node;
         const playerSlot = this.main.playerHandler.getPlayerSlot(data.playerId);
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
@@ -29,7 +29,7 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
             this.updateOtherDataStorage(data);
         }
 
-        const convertValue = GameUtils.getValueByCurrency(amount);
+        const convertValue = GameUtils.getValueByCurrency(amount, rate);
         const chipValues = GameUtils.getChipQuantity(convertValue, this.main.betChips.chipValues);
 
         Object.keys(chipValues).forEach((chipValue) => {
