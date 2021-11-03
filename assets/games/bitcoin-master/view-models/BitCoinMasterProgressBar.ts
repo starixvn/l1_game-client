@@ -56,7 +56,7 @@ export default class BitCoinMasterProgressBar extends cc.Component {
         } else if (this.time >= betDuration) {
             progress = firstPoint + (secondPart * (this.time - betDuration)) / waitDuration;
         } else {
-            progress = firstPoint * (this.time / 45);
+            progress = firstPoint * (this.time / betDuration);
         }
         this.progressBar.progress = progress;
     }
