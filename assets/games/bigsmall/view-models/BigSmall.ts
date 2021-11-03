@@ -8,7 +8,7 @@ import BigSmallBetHistory from "./BigSmallBetHistory";
 import { BigSmallConfigs } from "./BigSmallConfigs";
 import BigSmallHistory from "./BigSmallHistory";
 import BigSmallMiniRoundHistory from "./BigSmallMiniRoundHistory";
-import BigSmallStatistic from "./BigSmallStatistic";
+import BigSmallDicesStatistic from "./BigSmallDicesStatistic";
 import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
 import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
 import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
@@ -78,10 +78,14 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    positionStatistic: cc.Node = null;
+
     protected miniRoundHistory: BigSmallMiniRoundHistory;
     protected betHistory: BigSmallBetHistory;
-    statistic: BigSmallStatistic;
+    statistic: BigSmallDicesStatistic;
     diceAnimationDuration: number;
+    private showStatistic = true;
 
     readonly choices = ["small", "big"];
 
@@ -96,6 +100,13 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.diceAnimationDuration = this.diceAnimation.defaultClip.duration / this.diceAnimation.defaultClip.speed;
         this.setValueBetAmount();
         this.initRoundHistory();
+        this.initStatistic();
+    }
+
+    onEnable() {
+        super.onEnable();
+        this.showStatistic = true;
+        this.handleShowStatistic(this.showStatistic);
     }
 
     onDestroy() {
@@ -155,6 +166,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     updateRoundHistory() {
         this.miniRoundHistory.setData(this.currentDataLogs);
+        this.statistic.init(this.currentDataLogs, this);
     }
 
     setDices(result) {
@@ -199,10 +211,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
                 this.resultNode.active = true;
                 this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
-
-                if (this.statistic && this.statistic.isAlive()) {
-                    this.statistic.updateStatistic(this.currentDataLogs);
-                }
             })
             .start();
     }
@@ -221,14 +229,19 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         historyComp.setGameName(this.gameId);
     }
 
-    public openStatistic() {
-        AudioManager.getInstance().playClick();
-
+    public initStatistic() {
         const node = cc.instantiate(this.statisticPrefab);
-        this.statistic = node.getComponent(BigSmallStatistic);
-        this.currentMiniPanel.node.addChild(node);
-        this.statistic.init(this.currentDataLogs);
-        this.statistic.setGameName(this.gameId);
+        this.statistic = node.getComponent(BigSmallDicesStatistic);
+        this.positionStatistic.addChild(node);
+    }
+
+    public openStatistic() {
+        this.showStatistic = !this.showStatistic;
+        this.handleShowStatistic(this.showStatistic);
+    }
+
+    public handleShowStatistic(show: boolean) {
+        this.positionStatistic.active = show;
     }
 
     openBetHistory(roundId: number) {
