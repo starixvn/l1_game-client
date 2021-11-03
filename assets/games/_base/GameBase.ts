@@ -296,7 +296,7 @@ export default class GameBase extends BaseComponent {
                 return;
             }
             const node = cc.instantiate(this.processWarningPrefab);
-            this.node.addChild(node);
+            this.noticeNode.addChild(node);
             this.processingWarning = node;
         } else {
             this.unlockBet();
