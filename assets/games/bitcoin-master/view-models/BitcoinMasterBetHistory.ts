@@ -1,7 +1,7 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import ItemContentMenu from "../../../common/helpers/Menu/ItemContentMenu";
 import GameBetHistoryBase from "../../_base/view-models/GameBetHistoryBase";
-import { BitcoinMasterBetType, BitcoinMasterHeaderMenu } from "./BitcoinMasterCommon";
+import { BMBetType, BMHeaderMenu } from "./BitcoinMasterCommon";
 import BitcoinMasterEvenOddResultDetail from "./BitcoinMasterEvenOddResultDetail";
 import BitcoinMasterGapAmount from "./BitcoinMasterGapAmount";
 
@@ -36,7 +36,7 @@ export default class BitcoinMasterBetHistory extends GameBetHistoryBase {
     @property(cc.Node)
     titleNode: cc.Node = null;
 
-    protected activeTab = BitcoinMasterHeaderMenu.upDown;
+    protected activeTab = BMHeaderMenu.UpDown;
 
     onData(data: any) {
         super.onData(data);
@@ -45,10 +45,10 @@ export default class BitcoinMasterBetHistory extends GameBetHistoryBase {
         this.roundIdLabel.string = `#${data.id}`;
         this.time.string = getStringDateByTime(data.time);
         this.nextButton.active = this.main.currentDataLogs[0].roundId > data.id;
-        this.activeTab === BitcoinMasterHeaderMenu.upDown ? this.loadUpDownData() : this.loadEvenOddData();
+        this.activeTab === BMHeaderMenu.UpDown ? this.loadUpDownData() : this.loadEvenOddData();
     }
 
-    setDefaultView(view: BitcoinMasterHeaderMenu) {
+    setDefaultView(view: BMHeaderMenu) {
         this.activeTab = view;
         this.header.children.forEach((header) => {
             const menuComponent = header.getComponent(ItemContentMenu);
@@ -73,14 +73,14 @@ export default class BitcoinMasterBetHistory extends GameBetHistoryBase {
             }
         });
 
-        name === BitcoinMasterHeaderMenu.upDown ? this.loadUpDownData() : this.loadEvenOddData();
+        name === BMHeaderMenu.UpDown ? this.loadUpDownData() : this.loadEvenOddData();
     }
 
     loadUpDownData() {
         this.resetBettingUserList();
 
-        this.generalInfoNode.getChildByName(BitcoinMasterHeaderMenu.upDown).active = true;
-        this.generalInfoNode.getChildByName(BitcoinMasterHeaderMenu.evenOdd).active = false;
+        this.generalInfoNode.getChildByName(BMHeaderMenu.UpDown).active = true;
+        this.generalInfoNode.getChildByName(BMHeaderMenu.EvenOdd).active = false;
 
         const { result } = this.data;
         this.openValue.string = result.open;
@@ -88,27 +88,27 @@ export default class BitcoinMasterBetHistory extends GameBetHistoryBase {
         this.gapAmountComp.setData(result);
 
         this.showUpDownTitle(true);
-        this.loadBettingUserList(BitcoinMasterBetType.up, BitcoinMasterBetType.down);
+        this.loadBettingUserList(BMBetType.Up, BMBetType.Down);
     }
 
     loadEvenOddData() {
         this.resetBettingUserList();
 
-        this.generalInfoNode.getChildByName(BitcoinMasterHeaderMenu.upDown).active = false;
-        this.generalInfoNode.getChildByName(BitcoinMasterHeaderMenu.evenOdd).active = true;
+        this.generalInfoNode.getChildByName(BMHeaderMenu.UpDown).active = false;
+        this.generalInfoNode.getChildByName(BMHeaderMenu.EvenOdd).active = true;
 
         this.evenOddResult.string = this.data.result.close;
         this.evenOddResultDetail.setData(this.data.result.close);
         this.evenOddResultDetail.setColor();
 
         this.showUpDownTitle(false);
-        this.loadBettingUserList(BitcoinMasterBetType.even, BitcoinMasterBetType.odd);
+        this.loadBettingUserList(BMBetType.Even, BMBetType.Odd);
     }
 
     showUpDownTitle(show = true) {
-        this.titleNode.getChildByName(BitcoinMasterBetType.up).active = show;
-        this.titleNode.getChildByName(BitcoinMasterBetType.down).active = show;
-        this.titleNode.getChildByName(BitcoinMasterBetType.even).active = !show;
-        this.titleNode.getChildByName(BitcoinMasterBetType.odd).active = !show;
+        this.titleNode.getChildByName(BMBetType.Up).active = show;
+        this.titleNode.getChildByName(BMBetType.Down).active = show;
+        this.titleNode.getChildByName(BMBetType.Even).active = !show;
+        this.titleNode.getChildByName(BMBetType.Odd).active = !show;
     }
 }

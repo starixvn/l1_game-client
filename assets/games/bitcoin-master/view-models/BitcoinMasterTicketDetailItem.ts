@@ -1,7 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { BitcoinMasterBetType } from "./BitcoinMasterCommon";
+import { BMBetType } from "./BitcoinMasterCommon";
 import BitcoinMasterEvenOddResultDetail from "./BitcoinMasterEvenOddResultDetail";
 import BitcoinMasterUpDownResultDetail from "./BitcoinMasterUpDownResultDetail";
 
@@ -42,8 +42,8 @@ export default class BitcoinMasterTicketDetailItem extends cc.Component {
         this.win.string = numberWithCommas(log.betwin);
 
         switch (log.choice) {
-            case BitcoinMasterBetType.up:
-            case BitcoinMasterBetType.down:
+            case BMBetType.Up:
+            case BMBetType.Down:
                 this.upDownResult.setData(result);
                 this.evenOddResult.node.active = false;
                 break;

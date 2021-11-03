@@ -1,11 +1,21 @@
-export enum BitcoinMasterBetType {
-    up = "up",
-    down = "down",
-    even = "even",
-    odd = "odd"
+export enum BMBetType {
+    Up = "up",
+    Down = "down",
+    Even = "even",
+    Odd = "odd"
 }
 
-export enum BitcoinMasterHeaderMenu {
-    upDown = "upDown",
-    evenOdd = "evenOdd"
+export enum BMHeaderMenu {
+    UpDown = "upDown",
+    EvenOdd = "evenOdd"
+}
+
+export interface BMStatisticData {
+    left: BMStatisticItemData;
+    right: BMStatisticItemData;
+}
+
+export interface BMStatisticItemData {
+    name: string;
+    value: number;
 }

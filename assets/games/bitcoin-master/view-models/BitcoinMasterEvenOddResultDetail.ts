@@ -1,5 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
-import { BitcoinMasterBetType } from "./BitcoinMasterCommon";
+import { BMBetType } from "./BitcoinMasterCommon";
 import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
 const { ccclass, property } = cc._decorator;
@@ -24,10 +24,7 @@ export default class BitcoinMasterEvenOddResultDetail extends cc.Component {
     setData(result: number) {
         const evenOddValue = parseInt(BitcoinMasterUtils.getEvenOddResult(result));
         this.evenOddValue = evenOddValue;
-        const message =
-            evenOddValue % 2
-                ? GameUtils.getBetChoiceString(BitcoinMasterBetType.odd)
-                : GameUtils.getBetChoiceString(BitcoinMasterBetType.even);
+        const message = evenOddValue % 2 ? GameUtils.getBetChoiceString(BMBetType.Odd) : GameUtils.getBetChoiceString(BMBetType.Even);
 
         this.result.string = message;
         this.number.string = ` (${evenOddValue})`;

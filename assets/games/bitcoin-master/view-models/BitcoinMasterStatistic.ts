@@ -3,7 +3,7 @@ import ItemContentMenu from "../../../common/helpers/Menu/ItemContentMenu";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import GameBase from "../../_base/GameBase";
 import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
-import { BitcoinMasterBetType, BitcoinMasterHeaderMenu } from "./BitcoinMasterCommon";
+import { BMBetType, BMHeaderMenu, BMStatisticData } from "./BitcoinMasterCommon";
 import BitcoinMasterRoundHistoryItem from "./BitcoinMasterRoundHistoryItem";
 import BitcoinMasterStatisticPercent from "./BitcoinMasterStatisticPercent";
 import BitcoinMasterUtils from "./BitcoinMasterUtils";
@@ -27,9 +27,9 @@ export default class BitcoinMasterStatistic extends cc.Component {
     @property(CommonDialog)
     dialog: CommonDialog = null;
 
-    protected activeTab = BitcoinMasterHeaderMenu.upDown;
-    protected upDownStatistic: any = null;
-    protected evenOddStatistic: any = null;
+    protected activeTab = BMHeaderMenu.UpDown;
+    protected upDownStatistic: BMStatisticData = { left: { name: "", value: 0 }, right: { name: "", value: 0 } };
+    protected evenOddStatistic: BMStatisticData = { left: { name: "", value: 0 }, right: { name: "", value: 0 } };
     protected data: any = null;
 
     onLoad() {
@@ -49,7 +49,7 @@ export default class BitcoinMasterStatistic extends cc.Component {
             }
         });
 
-        name === BitcoinMasterHeaderMenu.upDown ? this.loadUpDownData() : this.loadEvenOddData();
+        name === BMHeaderMenu.UpDown ? this.loadUpDownData() : this.loadEvenOddData();
     }
 
     init(main: GameBase) {
@@ -68,7 +68,16 @@ export default class BitcoinMasterStatistic extends cc.Component {
         const data = this.data;
         const logData = data.map((d) => {
             const result = parseFloat(BitcoinMasterUtils.getUpDownResult(d.result));
-            return result > 0 ? 1 : 0;
+
+            if (result === 0) {
+                return 0;
+            } else {
+                if (result > 0) {
+                    return 1;
+                } else {
+                    return 2;
+                }
+            }
         });
         this.logControl.setData(logData);
         const items = this.logControl.content.getComponentsInChildren(BitcoinMasterRoundHistoryItem);
@@ -104,20 +113,21 @@ export default class BitcoinMasterStatistic extends cc.Component {
 
         this.data.map((log) => {
             Object.keys(log.settlementResult).forEach((key) => {
-                if (key === BitcoinMasterBetType.up && log.settlementResult[key] === true) {
-                    upCount += 1;
-                }
-
-                if (key === BitcoinMasterBetType.down && log.settlementResult[key] === true) {
-                    downCount += 1;
-                }
-
-                if (key === BitcoinMasterBetType.even && log.settlementResult[key] === true) {
-                    evenCount += 1;
-                }
-
-                if (key === BitcoinMasterBetType.odd && log.settlementResult[key] === true) {
-                    oddCount += 1;
+                if (log.settlementResult[key]) {
+                    switch (key) {
+                        case BMBetType.Up:
+                            upCount += 1;
+                            break;
+                        case BMBetType.Down:
+                            downCount += 1;
+                            break;
+                        case BMBetType.Even:
+                            evenCount += 1;
+                            break;
+                        case BMBetType.Odd:
+                            oddCount += 1;
+                            break;
+                    }
                 }
             });
         });
@@ -131,30 +141,32 @@ export default class BitcoinMasterStatistic extends cc.Component {
     }
 
     setStatisticData(upValue, downValue, evenValue, oddValue) {
-        this.upDownStatistic = {
+        const upDownStatisticData = {
             left: {
-                name: GameUtils.getBetChoiceString(BitcoinMasterBetType.up),
+                name: GameUtils.getBetChoiceString(BMBetType.Up),
                 value: upValue
             },
             right: {
-                name: GameUtils.getBetChoiceString(BitcoinMasterBetType.up),
+                name: GameUtils.getBetChoiceString(BMBetType.Down),
                 value: downValue
             }
         };
+        this.upDownStatistic = upDownStatisticData;
 
-        this.evenOddStatistic = {
+        const evenOddStatisticData = {
             left: {
-                name: GameUtils.getBetChoiceString(BitcoinMasterBetType.even),
+                name: GameUtils.getBetChoiceString(BMBetType.Even),
                 value: evenValue
             },
             right: {
-                name: GameUtils.getBetChoiceString(BitcoinMasterBetType.odd),
+                name: GameUtils.getBetChoiceString(BMBetType.Odd),
                 value: oddValue
             }
         };
+        this.evenOddStatistic = evenOddStatisticData;
     }
 
-    updateStatisticLabels(data: any) {
+    updateStatisticLabels(data: BMStatisticData) {
         this.leftPercent.text.string = data.left.name;
         this.leftPercent.value.string = `${data.left.value}%`;
 

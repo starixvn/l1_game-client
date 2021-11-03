@@ -1,5 +1,5 @@
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
-import { BitcoinMasterHeaderMenu } from "./BitcoinMasterCommon";
+import { BMHeaderMenu } from "./BitcoinMasterCommon";
 import BitcoinMasterHistoryItem from "./BitcoinMasterHistoryItem";
 import BitcoinMasterTicketDetail from "./BitcoinMasterTicketDetail";
 
