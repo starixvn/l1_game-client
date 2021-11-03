@@ -175,6 +175,7 @@ window.i18n.languages.vi = {
         category_lottery: "Quay Số",
         category_sedie: "Xóc Đĩa",
         category_slot: "Slot Games",
+        category_others: "Game Khác",
         character_name: "Tên nhân vật",
         checking_downloading: "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...",
         choice_dealer: "Nhà Cái",

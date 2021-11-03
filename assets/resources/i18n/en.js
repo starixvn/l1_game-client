@@ -173,6 +173,7 @@ window.i18n.languages.en = {
         category_lottery: "Lottery",
         category_sedie: "Se Die",
         category_slot: "Slot Games",
+        category_others: "Others",
         character_name: "Nickname",
         checking_downloading: "Checking and downloading the latest update packages...",
         choice_dealer: "Dealer",

@@ -370,4 +370,10 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     updateDescTimeGeneralInfo(desc: string) {
         this.descTimeLabel.string = desc;
     }
+
+    closeGame() {
+        super.closeGame();
+        this.statisticNode.destroyAllChildren();
+        this.chartWebView.hideWebView();
+    }
 }

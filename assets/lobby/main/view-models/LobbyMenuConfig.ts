@@ -10,21 +10,18 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     smPromotion: boolean;
-    bannerAds = [35, 2, 23, 10];
+    bannerAds = [43, 35, 2, 23];
     bannerAdsInfo = {
-        35: {
+        43: {
             displayTime: 10
+        },
+        35: {
+            displayTime: 5
         },
         2: {
             displayTime: 5
         },
         23: {
-            displayTime: 5
-        },
-        10: {
-            displayTime: 5
-        },
-        0: {
             displayTime: 5
         }
     };
@@ -60,8 +57,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         //
         GameIds.KenoProMax,
         GameIds.KenoProViet,
-        GameIds.Lottery,
-        GameIds.BitcoinMaster
+        GameIds.Lottery
     ];
     miniList = [1, 4, 6, 3, 0, 7, 11, 9];
     detail = {

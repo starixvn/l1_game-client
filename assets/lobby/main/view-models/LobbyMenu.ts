@@ -46,7 +46,7 @@ export default class LobbyMenu extends GameIconMenu {
         dict[GameCategory.Slot] = this.lobbyMenuConfig.slotGames;
         dict[GameCategory.Lottery] = this.lobbyMenuConfig.lotteryGames;
         // dict[GameCategory.Favourite] = this.getFavoriteList();
-        // dict[GameCategory.Other] = this.getOtherList();
+        dict[GameCategory.Other] = this.getOtherList();
         const list = dict[this.currentCategory];
         const result = list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
         return result;
