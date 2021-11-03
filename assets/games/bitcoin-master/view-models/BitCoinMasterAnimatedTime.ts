@@ -4,12 +4,29 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BitCoinMasterAnimatedTime extends AnimatedTime {
-    // private waitin = 60;
-    // public setColor(time: string, forceChangeColor = false) {
-    //     const colorChange =
-    //         forceChangeColor ||
-    //         (this.timeToChangeColor !== undefined && parseInt(time) <= this.timeToChangeColor && parseInt(time) >= this.waitin);
-    //     this.firstChar.node.color = colorChange ? this.changedColor : cc.Color.WHITE;
-    //     this.secondChar.node.color = this.firstChar.node.color;
-    // }
+    @property(cc.Sprite)
+    progressCircleBar: cc.Sprite = null;
+
+    protected placeBet = 45;
+    protected waitingCandleResult = 60;
+    protected showResult = 15;
+
+    updateProgress(time: number, part: number) {
+        switch (part) {
+            case 0:
+                this.updateData(time, this.placeBet);
+                break;
+            case 1:
+                this.updateData(time, this.waitingCandleResult);
+                break;
+            case 2:
+                this.updateData(time, this.showResult);
+                break;
+        }
+    }
+
+    updateData(time, partTime) {
+        const value = time / partTime;
+        this.progressCircleBar.fillRange = -value;
+    }
 }

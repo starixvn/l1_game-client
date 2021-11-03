@@ -1,11 +1,13 @@
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import BitcoinMaster from "../BitcoinMaster";
+import BitCoinMasterAnimatedTime from "../BitCoinMasterAnimatedTime";
 
 export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     protected displayResultTime = 119;
     protected waitResultTimePoint = 60;
     protected balanceDuration = 3;
     protected betTime = 45;
+    animatedTime: BitCoinMasterAnimatedTime;
 
     constructor(protected readonly main: BitcoinMaster) {
         super(main);
@@ -43,6 +45,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     }
 
     gameUpdate(): void {
+        this.animatedTime = this.main.animatedTime as BitCoinMasterAnimatedTime;
         if (this.main.gameConfigs) {
             if (this.isInWaitTime) {
                 this.handleWaitTime();
@@ -102,26 +105,30 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
             this.main.updateDescTimeGeneralInfo("Kết Quả");
             const timeConvert = this.main.currentTimeRemaining - this.main.config.betTime;
-            this.main.animatedTime.setTime(this.formatTime(timeConvert));
+            this.animatedTime.updateProgress(timeConvert, 2);
+            this.animatedTime.setTime(this.formatTime(timeConvert));
         }
     }
 
     handleInEndTime() {
         super.handleInEndTime();
         this.main.updateDescTimeGeneralInfo("Kết Quả");
-        this.main.animatedTime.setTime(this.formatTime(15));
+        this.animatedTime.updateProgress(15, 2);
+        this.animatedTime.setTime(this.formatTime(15));
     }
 
     private handleWaitingCandleResult() {
         this.main.updateDescTimeGeneralInfo("Chờ Kết Quả");
-        this.main.animatedTime.setTime(this.formatTime(this.main.currentTimeRemaining));
+        this.animatedTime.updateProgress(this.main.currentTimeRemaining, 1);
+        this.animatedTime.setTime(this.formatTime(this.main.currentTimeRemaining));
         this.main.showProcessingWarning(false);
     }
 
     private handleBettingPhase() {
         this.main.updateDescTimeGeneralInfo("Đặt Lệnh");
         const timeConvert = this.main.currentTimeRemaining - this.waitResultTimePoint;
-        this.main.animatedTime && this.main.animatedTime.setTime(this.formatTime(timeConvert));
+        this.animatedTime.setTime(this.formatTime(timeConvert));
+        this.animatedTime.updateProgress(timeConvert, 0);
     }
 
     showMainTime(show: boolean) {
