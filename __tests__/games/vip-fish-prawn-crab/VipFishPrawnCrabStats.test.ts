@@ -4,7 +4,6 @@
  */
 
 import VipFishPrawnCrabStats from "../../../assets/games/vip-fish-prawn-crab/view-models/VipFishPrawnCrabStats";
-import GameLogControlBase from "../../../assets/games/_base/view-models/GameLogControlBase";
 
 describe("Test class VipFishPrawnCrabStats", () => {
     let node: cc.Node;
@@ -16,7 +15,6 @@ describe("Test class VipFishPrawnCrabStats", () => {
         comp.oceanPercent = new cc.Node().addComponent(cc.Label);
         comp.characterView = new cc.Node();
         comp.characterView.addComponent(cc.ScrollView);
-        comp.logControl = new cc.Node().addComponent(GameLogControlBase);
         comp.characterContent = new cc.Node();
         comp.characterContent.addComponent(cc.Layout);
         comp.characterContent.addComponent(cc.Widget);
@@ -178,19 +176,6 @@ describe("Test class VipFishPrawnCrabStats", () => {
             // Assert
             expect(comp.mountainPercent.string).toMatch(`${mountainPercent}%`);
             expect(comp.oceanPercent.string).toMatch(`${100 - mountainPercent}%`);
-        });
-    });
-
-    describe("Test method changeDisplayMode", () => {
-        it("Case: ", () => {
-            // Arrange
-
-            // Act
-            comp.changeDisplayMode();
-
-            // Assert(
-            expect(comp.characterView.active).toEqual(false);
-            expect(comp.logControl.node.active).toEqual(true);
         });
     });
 });

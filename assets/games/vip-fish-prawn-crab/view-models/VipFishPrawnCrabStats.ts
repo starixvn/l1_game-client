@@ -53,6 +53,12 @@ export default class VipFishPrawnCrabStats extends cc.Component {
             return;
         }
 
+        const statsData = [];
+        dataLogs.forEach((log) => {
+            statsData.unshift(log.settlementResult.mountain ? 0 : 1);
+        });
+        this.logControl && this.logControl.setData(statsData);
+
         this.characterContent.removeAllChildren();
         const characterCounts = this.itemPrefab && this.addDataLogs(dataLogs);
 
