@@ -261,20 +261,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     updateRoundHistory() {
-        // const miniHistoryData = this.currentDataLogs.map((d) => {
-        //     let count = 0;
-        //     const list = ["red1", "red2", "red3", "red4"];
-        //     list.forEach((i) => {
-        //         if (d.result[i]) {
-        //             count++;
-        //         }
-        //     });
-        //     return {
-        //         roundId: d.roundId || d.id || d.round,
-        //         red: count
-        //     };
-        // });
-        // this.statistic.setData(miniHistoryData);
+        this.statistic.setData(this.currentDataLogs);
         this.upDownMiniRoundHistory.setData(this.currentDataLogs);
         this.evenOddMiniRoundHistory.setData(this.currentDataLogs);
     }
