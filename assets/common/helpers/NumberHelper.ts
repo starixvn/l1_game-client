@@ -60,7 +60,7 @@ const numberTo = (label, end, duration, currency = false) => {
     const range = end - start;
     const stepCount = 20;
     const stepTime = duration / stepCount;
-    const stepValue = Math.floor(range / stepCount);
+    const stepValue = range / stepCount;
     let step = 0;
     label.node.stopAllActions();
     cc.tween(label.node)

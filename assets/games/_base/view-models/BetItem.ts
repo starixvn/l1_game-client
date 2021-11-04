@@ -56,7 +56,7 @@ export default class BetItem extends cc.Component {
         if (data.totalBets) {
             const totalBetsKeys = getLowercaseObjectKeys(data.totalBets);
             const value = data.totalBets[totalBetsKeys[this.node.name.toLowerCase()]];
-            this.setTotalBet(GameUtils.getValueByCurrency(value));
+            this.setTotalBet(GameUtils.getValueByCurrency(value || 0));
         }
 
         if (data.ownBets) {
