@@ -5610,7 +5610,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 94.28,
+      "width": 101.39,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -5772,8 +5772,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Giá Đặt Lệnh",
-    "_N$string": "Giá Đặt Lệnh",
+    "_string": "ui.bettingPrice",
+    "_N$string": "ui.bettingPrice",
     "_fontSize": 16,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -5956,7 +5956,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 58.7,
+      "width": 56.02,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -6118,8 +6118,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Kết Quả",
-    "_N$string": "Kết Quả",
+    "_string": "ui.result",
+    "_N$string": "ui.result",
     "_fontSize": 16,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -7034,7 +7034,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 59.59,
+      "width": 79.16,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -7086,8 +7086,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Đặt lệnh",
-    "_N$string": "Đặt lệnh",
+    "_string": "ui.placeBet",
+    "_N$string": "ui.placeBet",
     "_fontSize": 16,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -7158,7 +7158,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 87.88,
+      "width": 90.7,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -7210,8 +7210,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Chờ kết quả",
-    "_N$string": "Chờ kết quả",
+    "_string": "ui.waitResult",
+    "_N$string": "ui.waitResult",
     "_fontSize": 16,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -7282,7 +7282,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85.52,
+      "width": 64.94,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -7334,8 +7334,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Trả Thưởng",
-    "_N$string": "Trả Thưởng",
+    "_string": "ui.payout",
+    "_N$string": "ui.payout",
     "_fontSize": 16,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -9477,8 +9477,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ĐẶT CỬA",
-    "_N$string": "ĐẶT CỬA",
+    "_string": "UI.INPUT_BET",
+    "_N$string": "UI.INPUT_BET",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -9801,8 +9801,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ĐẶT CỬA",
-    "_N$string": "ĐẶT CỬA",
+    "_string": "UI.INPUT_BET",
+    "_N$string": "UI.INPUT_BET",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -12502,8 +12502,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ĐẶT CỬA",
-    "_N$string": "ĐẶT CỬA",
+    "_string": "UI.INPUT_BET",
+    "_N$string": "UI.INPUT_BET",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -12826,8 +12826,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ĐẶT CỬA",
-    "_N$string": "ĐẶT CỬA",
+    "_string": "UI.INPUT_BET",
+    "_N$string": "UI.INPUT_BET",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -15258,7 +15258,9 @@
     "gameAudiosPrefab": {
       "__uuid__": "3391a89c-0709-40d3-b108-362be76d665d"
     },
-    "guidePrefab": null,
+    "guidePrefab": {
+      "__uuid__": "fa4d55d2-343b-4957-a6cf-ec174f5a91c3"
+    },
     "betBoardContainer": {
       "__id__": 394
     },

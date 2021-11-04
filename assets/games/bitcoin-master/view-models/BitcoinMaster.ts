@@ -148,7 +148,11 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             const zIndex = this.node.getSiblingIndex();
 
             // need to refactor showSignName in maingame file
-            if (zIndex < this.node.parent.childrenCount - 1 || this.currentMiniPanel.dialog.childrenCount > 1) {
+            if (
+                zIndex < this.node.parent.childrenCount - 1 ||
+                this.currentMiniPanel.guideContainer.childrenCount > 0 ||
+                this.currentMiniPanel.dialog.childrenCount > 1
+            ) {
                 this.hideChart();
             } else {
                 this.showChart();
