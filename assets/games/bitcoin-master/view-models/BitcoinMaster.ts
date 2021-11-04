@@ -283,13 +283,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     showWinningAnimation(data) {
-        cc.tween(this.node)
-            .call(() => {
-                this.betItems.forEach((betItem) => {
-                    betItem.setHighlight(data.settlementResult[betItem.node.name], true);
-                });
-            })
-            .start();
+        this.betItems.forEach((betItem) => {
+            betItem.setHighlight(data.settlementResult[betItem.node.name], true);
+        });
     }
 
     public openHistory() {

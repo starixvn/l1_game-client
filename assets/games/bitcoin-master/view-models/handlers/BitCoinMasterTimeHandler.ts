@@ -6,9 +6,10 @@ import BitCoinMasterAnimatedTime from "../BitCoinMasterAnimatedTime";
 export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     protected displayResultTime = 119;
     protected waitResultTimePoint = 60;
-    protected balanceDuration = 3;
+    protected balanceDuration = 2;
     protected betTime = 45;
-    animatedTime: BitCoinMasterAnimatedTime;
+    protected animatedTime: BitCoinMasterAnimatedTime;
+    protected isShowResult = false;
 
     constructor(protected readonly main: BitcoinMaster) {
         super(main);
@@ -53,10 +54,12 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
             } else {
                 if (this.isStartingNewGameRound) {
                     this.handleStartingNewGameRound();
+                    this.isShowResult = false;
                 }
 
                 if (this.isInRoundTime) {
                     this.handleInRoundTime();
+                    this.isShowResult = false;
 
                     if (this.isInLockBetTime) {
                         if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
@@ -91,6 +94,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
         }
 
         if (this.main.currentTimeRemaining <= this.waitResultTimePoint) {
+            this.main.balanceBet();
             this.handleWaitingCandleResult();
         } else {
             this.handleBettingPhase();
@@ -101,8 +105,11 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
         super.handleWaitTime();
 
         if (this.isDisplayResultTime) {
-            cc.RedT.GAME_IS_SHOWED && this.main.showResult();
-            this.main.showWinningAnimation(this.main.currentDataLogs[0]);
+            if (!this.isShowResult) {
+                cc.RedT.GAME_IS_SHOWED && this.main.showResult();
+                this.main.showWinningAnimation(this.main.currentDataLogs[0]);
+                this.isShowResult = true;
+            }
 
             this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.result"));
             const timeConvert = this.main.currentTimeRemaining - this.main.config.betTime;
