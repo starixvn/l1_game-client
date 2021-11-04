@@ -4,9 +4,11 @@ import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import BalancedBettingPoolBetItem from "../../_base/view-models/BalancedBettingPoolBetItem";
 import BitcoinMasterBetHistory from "./BitcoinMasterBetHistory";
 import BitcoinMasterCandleTimer from "./BitcoinMasterCandleTimer";
 import BitcoinMasterChart from "./BitcoinMasterChart";
+import { BMBetType } from "./BitcoinMasterCommon";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
 import BitcoinMasterCurrentCandleValue from "./BitcoinMasterCurrentCandleValue";
 import BitcoinMasterEvenOddMiniRoundHistory from "./BitcoinMasterEvenOddMiniRoundHistory";
@@ -362,5 +364,21 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         super.closeGame();
         this.statisticNode.destroyAllChildren();
         this.chartWebView.hideWebView();
+    }
+
+    balanceBet() {
+        this.disableHistoryButton();
+        const totalBets = this.totalBets;
+        const upDownBalancedBetAmount = Math.min(...[totalBets.up ?? 0, totalBets.down ?? 0]);
+        const evenOddBalancedBetAmount = Math.min(...[totalBets.even ?? 0, totalBets.odd ?? 0]);
+
+        this.betItems.forEach((item) => {
+            const itemComp = item as BalancedBettingPoolBetItem;
+            if (item.node.name === BMBetType.Up || item.node.name === BMBetType.Down) {
+                itemComp.balanceBet(upDownBalancedBetAmount);
+            } else {
+                itemComp.balanceBet(evenOddBalancedBetAmount);
+            }
+        });
     }
 }
