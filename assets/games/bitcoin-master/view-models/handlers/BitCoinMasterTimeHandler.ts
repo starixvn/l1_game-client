@@ -109,7 +109,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
                 this.main.showWinningAnimation(this.main.currentDataLogs[0]);
                 this.isShowResult = true;
             }
-
+            this.main.balanceBet();
             this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.result"));
             const timeConvert = this.main.currentTimeRemaining - this.main.config.betTime;
             this.animatedTime.updateProgress(timeConvert, 2);
@@ -119,6 +119,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
     handleInEndTime() {
         super.handleInEndTime();
+        this.main.balanceBet();
         this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.payout"));
         this.animatedTime.updateProgress(15, 2);
         this.animatedTime.setTime(this.formatTime(15));
