@@ -261,7 +261,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     updateRoundHistory() {
-        this.statistic.setData(this.currentDataLogs);
         this.upDownMiniRoundHistory.setData(this.currentDataLogs);
         this.evenOddMiniRoundHistory.setData(this.currentDataLogs);
     }
@@ -277,6 +276,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             const currentStatusData = this.statusHandler.currentStatusData;
             currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
             this.updateRoundHistory();
+            this.statistic && this.statistic.setData(this.currentDataLogs);
             (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
             this.finishShowResult = true;
         }

@@ -354,6 +354,7 @@ window.i18n.languages.en = {
         waitResult: "Wait for result",
         upDownBetHistory: "Up / Down",
         evenUpBetHistory: "Even / Odd",
-        statistic: "Statistic"
+        statistic: "Statistic",
+        placeBet: "Place bet"
     }
 };

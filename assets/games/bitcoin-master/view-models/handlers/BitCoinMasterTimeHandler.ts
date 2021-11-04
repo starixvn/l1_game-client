@@ -1,3 +1,4 @@
+import GameUtils from "../../../../common/GameUtils";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import BitcoinMaster from "../BitcoinMaster";
 import BitCoinMasterAnimatedTime from "../BitCoinMasterAnimatedTime";
@@ -103,7 +104,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
             cc.RedT.GAME_IS_SHOWED && this.main.showResult();
             this.main.showWinningAnimation(this.main.currentDataLogs[0]);
 
-            this.main.updateDescTimeGeneralInfo("Kết Quả");
+            this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.result"));
             const timeConvert = this.main.currentTimeRemaining - this.main.config.betTime;
             this.animatedTime.updateProgress(timeConvert, 2);
             this.animatedTime.setTime(this.formatTime(timeConvert));
@@ -112,20 +113,20 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
     handleInEndTime() {
         super.handleInEndTime();
-        this.main.updateDescTimeGeneralInfo("Kết Quả");
+        this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.payout"));
         this.animatedTime.updateProgress(15, 2);
         this.animatedTime.setTime(this.formatTime(15));
     }
 
     private handleWaitingCandleResult() {
-        this.main.updateDescTimeGeneralInfo("Chờ Kết Quả");
+        this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.waitResult"));
         this.animatedTime.updateProgress(this.main.currentTimeRemaining, 1);
         this.animatedTime.setTime(this.formatTime(this.main.currentTimeRemaining));
         this.main.showProcessingWarning(false);
     }
 
     private handleBettingPhase() {
-        this.main.updateDescTimeGeneralInfo("Đặt Lệnh");
+        this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.placing_bet"));
         const timeConvert = this.main.currentTimeRemaining - this.waitResultTimePoint;
         this.animatedTime.setTime(this.formatTime(timeConvert));
         this.animatedTime.updateProgress(timeConvert, 0);
@@ -137,5 +138,9 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
     showWaitTime() {
         this.main.timeWaitNode.active = false;
+    }
+
+    handleInLockBetTime() {
+        this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.no_more_bet"));
     }
 }
