@@ -29,6 +29,6 @@ export default class BitcoinMasterResult extends cc.Component {
         const evenOddValue = BitcoinMasterUtils.getEvenOddResult(data.close);
         this.evenOddResultLabel.string = evenOddValue;
         const color = cc.Color.WHITE;
-        this.evenOddResultLabel.node.color = parseFloat(evenOddValue) % 2 ? color.fromHEX("#c4f738") : color.fromHEX("#bac5ca");
+        this.evenOddResultLabel.node.color = parseFloat(evenOddValue) % 2 ? color.fromHEX("#f3485f") : color.fromHEX("#bac5ca");
     }
 }

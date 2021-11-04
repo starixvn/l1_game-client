@@ -59,7 +59,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
                 if (this.isInRoundTime) {
                     this.handleInRoundTime();
-                    this.isShowResult = false;
 
                     if (this.isInLockBetTime) {
                         if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {

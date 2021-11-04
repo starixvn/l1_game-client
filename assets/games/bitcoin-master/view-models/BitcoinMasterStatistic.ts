@@ -34,7 +34,6 @@ export default class BitcoinMasterStatistic extends cc.Component {
 
     onLoad() {
         this.dialog.addOnDidHide(() => this.node.destroy());
-        this.loadUpDownData();
     }
 
     onSelectHeader(event, name) {
@@ -60,8 +59,11 @@ export default class BitcoinMasterStatistic extends cc.Component {
     }
 
     setData(currentDataLogs: any) {
-        this.data = [...currentDataLogs.reverse()];
+        console.log("statistic setData");
+        this.data = [...currentDataLogs];
+        this.data.reverse();
         this.calculateStatisticPercent();
+        this.activeTab === BMHeaderMenu.UpDown ? this.loadUpDownData() : this.loadEvenOddData();
     }
 
     private setUpDownRoundHistoryItemData() {
