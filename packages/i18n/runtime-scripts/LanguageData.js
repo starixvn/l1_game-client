@@ -82,6 +82,11 @@ module.exports = {
             let label = allLocalizedLabels[i];
             if (!label.node.active || label.label == null) continue;
             label.updateLabel();
+
+            const localizedFont = label.getComponent("LocalizedFont");
+            if (localizedFont) {
+                localizedFont.updateFont();
+            }
         }
         // walk all nodes with localize sprite and update
         let allLocalizedSprites = [];

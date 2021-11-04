@@ -35,7 +35,9 @@ export function getLanguage(locale) {
     const dict = {
         "vi-VN": "vi",
         "en-US": "en",
-        "en-UK": "en"
+        "en-UK": "en",
+        "th-TH": "th",
+        "id-ID": "id"
     };
     return dict[locale] || "en";
 }
