@@ -8,6 +8,7 @@ import BitcoinMasterBetHistory from "./BitcoinMasterBetHistory";
 import BitcoinMasterCandleTimer from "./BitcoinMasterCandleTimer";
 import BitcoinMasterChart from "./BitcoinMasterChart";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
+import BitcoinMasterCurrentCandleValue from "./BitcoinMasterCurrentCandleValue";
 import BitcoinMasterEvenOddMiniRoundHistory from "./BitcoinMasterEvenOddMiniRoundHistory";
 import BitcoinMasterHistory from "./BitcoinMasterHistory";
 import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
@@ -102,8 +103,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(BitcoinMasterChart)
     chartWebView: BitcoinMasterChart = null;
 
-    @property(cc.Label)
-    currentBitcoinValue: cc.Label = null;
+    @property(BitcoinMasterCurrentCandleValue)
+    currentBitcoinValue: BitcoinMasterCurrentCandleValue = null;
 
     @property(BitcoinMasterCandleTimer)
     currentCandleTime: BitcoinMasterCandleTimer = null;
@@ -186,7 +187,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     onData(data: any) {
         super.onData(data);
         if (data.close) {
-            this.setCurrencyBitCoinValue(data.close);
+            this.currentBitcoinValue.setData(data.open, data.close);
         }
 
         if (data.remainingTime) {
@@ -349,9 +350,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     initChart() {
         this.chartWebView.initURL(window.authData.ss);
         this.chartWebView.loadWebView();
-    }
-    setCurrencyBitCoinValue(value: number) {
-        this.currentBitcoinValue.string = value.toString();
     }
 
     updateDescTimeGeneralInfo(desc: string) {
