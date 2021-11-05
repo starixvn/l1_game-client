@@ -274,11 +274,10 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     setResult(result: any) {
         this.result.setData(result);
-        // this.updateRoundHistory();
-        // this.statistic && this.statistic.node && this.statistic.setData(this.currentDataLogs);
     }
 
     showResult() {
+        this.disableHistoryButton();
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
             this.result.showResult();
@@ -366,7 +365,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     balanceBet() {
-        this.disableHistoryButton();
         const totalBets = this.totalBets;
         const upDownBalancedBetAmount = Math.min(...[totalBets.up ?? 0, totalBets.down ?? 0]);
         const evenOddBalancedBetAmount = Math.min(...[totalBets.even ?? 0, totalBets.odd ?? 0]);
