@@ -3,7 +3,7 @@ import BitcoinMasterUtils from "./BitcoinMasterUtils";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BitcoinMasterRoundHistoryItem extends cc.Component {
+export default class BitcoinMasterStatisticItem extends cc.Component {
     @property(cc.Sprite)
     sprite: cc.Sprite = null;
 

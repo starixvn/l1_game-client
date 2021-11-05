@@ -4,7 +4,7 @@ import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import GameBase from "../../_base/GameBase";
 import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
 import { BMBetType, BMHeaderMenu, BMStatisticData } from "./BitcoinMasterCommon";
-import BitcoinMasterRoundHistoryItem from "./BitcoinMasterRoundHistoryItem";
+import BitcoinMasterStatisticItem from "./BitcoinMasterStatisticItem";
 import BitcoinMasterStatisticPercent from "./BitcoinMasterStatisticPercent";
 import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
@@ -82,7 +82,7 @@ export default class BitcoinMasterStatistic extends cc.Component {
             }
         });
         this.logControl.setData(logData);
-        const items = this.logControl.content.getComponentsInChildren(BitcoinMasterRoundHistoryItem);
+        const items = this.logControl.content.getComponentsInChildren(BitcoinMasterStatisticItem);
         items.forEach((item, i) => item.setUpDownValue(data[i].result));
     }
 
@@ -93,7 +93,7 @@ export default class BitcoinMasterStatistic extends cc.Component {
             return result % 2 ? 1 : 0;
         });
         this.logControl.setData(logData);
-        const items = this.logControl.content.getComponentsInChildren(BitcoinMasterRoundHistoryItem);
+        const items = this.logControl.content.getComponentsInChildren(BitcoinMasterStatisticItem);
         items.forEach((item, i) => item.setEvenOddValue(data[i].result));
     }
 
