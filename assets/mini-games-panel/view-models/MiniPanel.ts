@@ -202,19 +202,27 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openGame(e, id) {
-        this.gameMiniInitializers.openGame(id);
+        cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
+            this.gameMiniInitializers.openGame(id);
+        });
     }
 
     openMiniContainerGame(id) {
-        this.gameMiniInitializers.openMiniContainerGame(id);
+        cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
+            this.gameMiniInitializers.openMiniContainerGame(id);
+        });
     }
 
     openNewSocketMiniGame(e, id) {
-        this.gameMiniInitializers.openNewSocket(id);
+        cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
+            this.gameMiniInitializers.openNewSocket(id);
+        });
     }
 
     openNewSocketTableGame(event, gameId) {
-        this.socketIOGameInitializers.openGame(gameId);
+        cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.Texture2D, null, () => {
+            this.socketIOGameInitializers.openGame(gameId);
+        });
     }
 
     loadGameRoom(name) {
