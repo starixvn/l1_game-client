@@ -156,17 +156,15 @@ module.exports = {
     userData: function (data) {
         if (void 0 !== data.offerGames) {
             const offerGames = data.offerGames.map((game) => game.gameId);
-            if (offerGames.length > 0) {
-                const menuConfig = new LobbyMenuConfig();
-                const list = [];
-                menuConfig.list.forEach((id) => {
-                    if (offerGames.includes(id)) {
-                        list.push(id);
-                    }
-                });
-                this.user.offerGames = list;
-                cc.sys.localStorage.setItem("latestOfferGames", JSON.stringify(list));
-            }
+            const menuConfig = new LobbyMenuConfig();
+            const list = [];
+            menuConfig.list.forEach((id) => {
+                if (offerGames.includes(id)) {
+                    list.push(id);
+                }
+            });
+            this.user.offerGames = list;
+            cc.sys.localStorage.setItem("latestOfferGames", JSON.stringify(list));
         }
         if (data.rate) {
             this.user.rate = data.rate;
