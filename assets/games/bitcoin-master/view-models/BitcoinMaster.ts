@@ -150,7 +150,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
             const zIndex = this.node.getSiblingIndex();
 
-            // need to refactor showSignName in maingame file
             if (
                 zIndex < this.node.parent.childrenCount - 1 ||
                 this.currentMiniPanel.guideContainer.childrenCount > 0 ||
@@ -275,8 +274,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     setResult(result: any) {
         this.result.setData(result);
-        this.updateRoundHistory();
-        this.statistic && this.statistic.node && this.statistic.setData(this.currentDataLogs);
+        // this.updateRoundHistory();
+        // this.statistic && this.statistic.node && this.statistic.setData(this.currentDataLogs);
     }
 
     showResult() {
