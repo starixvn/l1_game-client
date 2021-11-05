@@ -1,18 +1,10 @@
 const { ccclass, property } = cc._decorator;
 
-const FontData = cc.Class({
-    name: "FontData",
-    properties: {
-        name: "",
-        size: 18
-    }
-});
-
 const LanguageFont = cc.Class({
     name: "LanguageFont",
     properties: {
         language: "",
-        font: FontData
+        name: ""
     }
 });
 
@@ -32,39 +24,26 @@ export default class LocalizedFont extends cc.Component {
 
     initData() {
         this.fontBases = {
-            en: {
-                name: "NotoSerif-Regular",
-                size: 18
-            },
-            th: {
-                name: "NotoSerifThai-Regular",
-                size: 18
-            },
-            sc: {
-                name: "NotoSerifSC-Regular",
-                size: 20
-            },
-            tc: {
-                name: "NotoSerifTC-Regular",
-                size: 20
-            }
+            en: "NotoSerif-Regular",
+            th: "NotoSerifThai-Regular",
+            sc: "NotoSerifSC-Regular",
+            tc: "NotoSerifTC-Regular"
         };
     }
 
     updateFont() {
-        const data = this.getFontDataByLanguage();
+        const name = this.getFontNameByLanguage();
         if (this.label) {
-            this.loadFont(data.name).then((font) => {
+            this.loadFont(name).then((font) => {
                 this.label.font = font;
-                this.label.fontSize = data.size;
             });
         }
     }
 
-    getFontDataByLanguage(): any {
+    getFontNameByLanguage(): any {
         const lang = window.i18n.curLang;
         const overrideFonts = this.overrideFonts.find((data) => data.language === lang);
-        return overrideFonts || this.fontBases[lang] || this.fontBases["en"];
+        return overrideFonts?.name || this.fontBases[lang] || this.fontBases["en"];
     }
 
     loadFont(name: string) {
