@@ -181,7 +181,6 @@ export default class BigSmallStatistic extends BaseComponent {
 
         pointsData = this.handlePointsData(this.dataLogs, pointsData);
         const slicedPointsData = [...pointsData].reverse().slice(0, 20).reverse();
-        console.log(slicedPointsData.length);
 
         this.pointCels.children.forEach((pointCell, i) => {
             const pointsDataOfType = slicedPointsData[i];

@@ -9,6 +9,9 @@ const pathRoot = "image";
 @menu("i18n/OnePackLocalizedSprite")
 export default class LocalizedLoadSprite extends LocalizedSprite {
     @property()
+    gameId = 0;
+
+    @property()
     nameImage = "";
 
     @property({ type: SpriteFrameSet, visible: false, override: true })
@@ -24,21 +27,20 @@ export default class LocalizedLoadSprite extends LocalizedSprite {
         const sprite = this.getComponent(cc.Sprite);
         if (sprite) {
             this.sprite = sprite;
-            this.updateSprite(window.i18n.curLang, this.nameImage);
+            this.updateSprite({ language: window.i18n.curLang, name: this.nameImage, gameId: this.gameId });
             return;
         }
     }
 
-    getSpriteFrameByLang(lang: string, name: string) {
-        console.log(`${pathRoot}/${lang}/${name}`);
+    getSpriteFrameByLang(lang: string, name: string, gameId: number) {
         return new Promise<cc.SpriteFrame>((resolve) => {
-            cc.resources.load<cc.SpriteFrame>(`${pathRoot}/${lang}/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
+            cc.resources.load<cc.SpriteFrame>(`${pathRoot}/${lang}/${gameId}/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
                 resolve(spriteFrame);
             });
         });
     }
 
-    async updateSprite(language, name) {
+    async updateSprite({ language, name, gameId }) {
         if (!this.sprite) {
             if (this.node.activeInHierarchy) {
                 cc.error("Failed to update localized sprite, sprite component is invalid!");
@@ -46,7 +48,7 @@ export default class LocalizedLoadSprite extends LocalizedSprite {
             return;
         }
 
-        const spriteFrame = await this.getSpriteFrameByLang(language, name);
+        const spriteFrame = await this.getSpriteFrameByLang(language, name, gameId);
         this.sprite.spriteFrame = spriteFrame;
     }
 }

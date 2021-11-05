@@ -23,7 +23,9 @@ export default class MiniPanelSocketIOGameInitializers {
         this.main.loading.node.active = true;
         cc.RedT.inGame.outRoomGame().then(() => {
             sessionManager.removeInRoomGameId();
-            this.openNewSocket(gameId);
+            cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.Texture2D, null, () => {
+                this.openNewSocket(gameId);
+            });
         });
     }
 
