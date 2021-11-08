@@ -355,6 +355,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.result.closeBitcoinLabel.node.position = this.movingClosePricePosition;
         this.result.gapAmountComp.gapAmount.node.position = this.movingGapAmountPosition;
         this.result.evenOddResultLabel.node.position = this.movingEvenOddResultPosition;
+        this.enableBetButtons();
     }
 
     public updateOddsFromConfigs() {
@@ -437,5 +438,27 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         node.scale = 0.5;
 
         cc.tween(node).to(duration, { opacity: 255, position: position, scale: 1 }, { easing: "sineOut" }).start();
+    }
+
+    enableBetButtons(enabled: boolean = true, opacity: number = 255) {
+        const upButton = this.selectedUpBetAmountSprite.node.getComponent(cc.Button);
+        const downButton = this.selectedDownBetAmountSprite.node.getComponent(cc.Button);
+        const evenButton = this.selectedEvenBetAmountSprite.node.getComponent(cc.Button);
+        const oddButton = this.selectedOddBetAmountSprite.node.getComponent(cc.Button);
+        upButton.interactable = enabled;
+        downButton.interactable = enabled;
+        evenButton.interactable = enabled;
+        oddButton.interactable = enabled;
+
+        upButton.node.opacity = opacity;
+        downButton.node.opacity = opacity;
+        evenButton.node.opacity = opacity;
+        oddButton.node.opacity = opacity;
+    }
+
+    hideBetButtons() {
+        if (!this.betBoardContainer.children[0].active) {
+            this.enableBetButtons(false, 150);
+        }
     }
 }

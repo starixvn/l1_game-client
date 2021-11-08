@@ -87,6 +87,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
                 this.main.showBalanceBetNotice();
             }
             this.main.balanceBet();
+            this.main.hideBetButtons();
         } else {
             this.main.hideBalanceBetNotice();
             this.main.enableHistoryButton();
@@ -95,6 +96,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
         if (this.main.currentTimeRemaining <= this.waitResultTimePoint) {
             this.main.balanceBet();
             this.handleWaitingCandleResult();
+            this.main.hideBetButtons();
         } else {
             this.handleBettingPhase();
         }
@@ -114,6 +116,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
             const timeConvert = this.main.currentTimeRemaining - this.main.config.betTime;
             this.animatedTime.updateProgress(timeConvert, 2);
             this.animatedTime.setTime(this.formatTime(timeConvert));
+            this.main.hideBetButtons();
         }
     }
 
@@ -123,6 +126,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
         this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.payout"));
         this.animatedTime.updateProgress(15, 2);
         this.animatedTime.setTime(this.formatTime(15));
+        this.main.hideBetButtons();
     }
 
     private handleWaitingCandleResult() {
@@ -130,6 +134,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
         this.animatedTime.updateProgress(this.main.currentTimeRemaining, 1);
         this.animatedTime.setTime(this.formatTime(this.main.currentTimeRemaining));
         this.main.showProcessingWarning(false);
+        this.main.hideBetButtons();
     }
 
     private handleBettingPhase() {
@@ -149,5 +154,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
     handleInLockBetTime() {
         this.main.updateDescTimeGeneralInfo(GameUtils.getText("ui.no_more_bet"));
+        this.main.hideBetButtons();
     }
 }
