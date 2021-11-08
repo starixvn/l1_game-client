@@ -7,6 +7,7 @@ import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import Loading from "../../../common/loading/view-models/Loading";
 import logger from "../../../common/logger";
+import NoticeUtil from "../../../common/utils/NoticeUtil";
 import * as SabaConfigs from "../../../configs/SabaConfigs";
 import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
@@ -14,7 +15,6 @@ import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import SplashConfig from "../../../splash/view-models/SplashConfig";
-import Dialog from "../../dialog/Dialog";
 import NewsContent from "../../news/NewsContent";
 import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
@@ -22,6 +22,7 @@ import BannerController from "./BannerController";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
+import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 
 // const baseControll = require("BaseController");
 const socketIOController = appContainer.get(SocketIOController);
@@ -73,9 +74,6 @@ export default class MainGame extends cc.Component {
     redhat: cc.Node = null;
 
     @property(cc.Node)
-    dialogNode: cc.Node = null;
-
-    @property(cc.Node)
     loading: cc.Node = null;
 
     @property(cc.AudioSource)
@@ -90,22 +88,23 @@ export default class MainGame extends cc.Component {
     @property(cc.Node)
     arrowNode: cc.Node = null;
 
-    private dialog: Dialog;
+    @property(cc.Prefab)
+    signNamePrefab = null;
+
     private inRoomGameId: string;
     private initializedLobby: boolean;
     private loadingComponent: Loading;
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
+    signName: any;
 
     onDestroy() {
-        this.dialogNode.destroy();
         cc.RedT.MiniPanel.destroy();
         cc.RedT.inGame = null;
     }
 
     onLoad() {
         this.loadingComponent = this.loading.getComponent(Loading);
-        this.dialog = this.dialogNode.getComponent(Dialog);
         document.cookie = "redT=1702;path=/";
 
         this.initRedT();
@@ -114,8 +113,6 @@ export default class MainGame extends cc.Component {
         this.initAppEvent();
 
         cc.RedT.reconnect();
-
-        this.dialog.init(this);
 
         this.initMiniPanel();
         this.resumeGameRoomOrSignIn();
@@ -213,8 +210,6 @@ export default class MainGame extends cc.Component {
         const miniPanelNode = cc.instantiate(this.miniPanelPrefab);
         cc.RedT.MiniPanel = miniPanelNode.getComponent(MiniPanel);
         this.redhat.insertChild(miniPanelNode, 1);
-        this.dialogNode.removeFromParent();
-        cc.RedT.MiniPanel.addDialog(this.dialogNode);
     }
 
     resumeGameRoomOrSignIn() {
@@ -406,7 +401,7 @@ export default class MainGame extends cc.Component {
         this.loading.active = false;
 
         if (!Authorized) {
-            this.dialog.showSignName();
+            this.showSignName();
         } else {
             this.signIn();
         }
@@ -416,7 +411,7 @@ export default class MainGame extends cc.Component {
         this.loading.active = false;
 
         if (!Authorized) {
-            this.dialog.showSignName();
+            this.showSignName();
         } else {
             cc.RedT.callAuthentication();
             this.signIn();
@@ -533,7 +528,12 @@ export default class MainGame extends cc.Component {
     signIn() {
         cc.RedT.IS_LOGIN = true;
 
-        this.dialog.onBack();
+        if (this.signName && this.signName.node) {
+            const commonDialog = this.signName.dialogNode.getComponent(CommonDialog);
+            commonDialog.closeDialog(false);
+        }
+
+        cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         this.onSignIn();
         this.openGameSSO();
@@ -617,5 +617,27 @@ export default class MainGame extends cc.Component {
         AudioManager.getInstance().playClick();
         this.lobbyMenu.setCategory(+category);
         this.updateArrowVisibility();
+    }
+
+    showSignName() {
+        if (!this.signName) {
+            const node = cc.instantiate(this.signNamePrefab);
+            this.node.addChild(node);
+            this.signName = node.getComponent("SignName");
+            this.signName.init(this.handleSignName.bind(this));
+            cc.RedT.MiniPanel.addDialog(node);
+        }
+    }
+
+    handleSignName(response) {
+        if (response.authorized) {
+            this.handleUserData(response.user);
+        } else {
+            const errorCode = response.errorCode;
+            const text = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
+            this.showNotice({ text: text });
+        }
+
+        this.serviceAuthorized(response.authorized);
     }
 }

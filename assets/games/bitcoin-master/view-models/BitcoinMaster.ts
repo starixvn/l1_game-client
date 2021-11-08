@@ -166,7 +166,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
                 zIndex < this.node.parent.childrenCount - 1 ||
                 this.currentMiniPanel.noticeContainer.childrenCount > 0 ||
                 this.currentMiniPanel.guideContainer.childrenCount > 0 ||
-                this.currentMiniPanel.dialog.childrenCount > 1
+                this.currentMiniPanel.dialog.childrenCount > 0
             ) {
                 this.hideChart();
             } else {

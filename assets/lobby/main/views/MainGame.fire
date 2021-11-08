@@ -97,21 +97,18 @@
       },
       {
         "__id__": 353
-      },
-      {
-        "__id__": 355
       }
     ],
     "_active": true,
     "_components": [
       {
+        "__id__": 355
+      },
+      {
+        "__id__": 356
+      },
+      {
         "__id__": 357
-      },
-      {
-        "__id__": 358
-      },
-      {
-        "__id__": 359
       }
     ],
     "_prefab": null,
@@ -15572,52 +15569,6 @@
     "_prefab": {
       "__id__": 354
     },
-    "_name": "Dialog",
-    "_active": false,
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": "19XfnOJnJDCbqlY8BfkVhe"
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 353
-    },
-    "asset": {
-      "__uuid__": "2b4f2bd2-1e74-422f-ad40-86ee788ce293"
-    },
-    "fileId": "19jaVgIspGn5x1FxW3dAMg",
-    "sync": true
-  },
-  {
-    "__type__": "cc.Node",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_prefab": {
-      "__id__": 356
-    },
     "_name": "Loading",
     "_active": false,
     "_trs": {
@@ -15647,7 +15598,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 355
+      "__id__": 353
     },
     "asset": {
       "__uuid__": "3b363726-d7d5-449d-a4c5-0c15f31ae04e"
@@ -15746,11 +15697,8 @@
     "redhat": {
       "__id__": 351
     },
-    "dialogNode": {
-      "__id__": 353
-    },
     "loading": {
-      "__id__": 355
+      "__id__": 353
     },
     "audioBG": {
       "__id__": 4
@@ -15763,6 +15711,9 @@
     },
     "arrowNode": {
       "__id__": 329
+    },
+    "signNamePrefab": {
+      "__uuid__": "afa1ee79-90c9-4e49-830e-64765a4acce0"
     },
     "_id": "62CE4mzKZCHrEvA8eP5ADR"
   }

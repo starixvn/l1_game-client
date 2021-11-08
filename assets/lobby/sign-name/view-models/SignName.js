@@ -44,6 +44,11 @@ cc.Class({
 
             return undefined;
         };
+
+        const commonDialog = this.dialogNode.getComponent("CommonDialog");
+        commonDialog.addOnDidHide(() => {
+            this.node.destroy();
+        });
     },
     onDestroy() {
         window.skipFullscreen = false;
