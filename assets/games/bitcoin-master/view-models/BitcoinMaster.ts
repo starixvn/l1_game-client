@@ -72,6 +72,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.SpriteFrame)
     selectedBetAmountUnClickedImage: cc.SpriteFrame = null;
 
+    @property(cc.SpriteFrame)
+    disabledBetButtonImage: cc.SpriteFrame = null;
+
     @property(cc.Prefab)
     betHistoryPrefab: cc.Prefab = null;
 
@@ -355,7 +358,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.result.closeBitcoinLabel.node.position = this.movingClosePricePosition;
         this.result.gapAmountComp.gapAmount.node.position = this.movingGapAmountPosition;
         this.result.evenOddResultLabel.node.position = this.movingEvenOddResultPosition;
-        this.enableBetButtons();
+        this.enableBetButtons(true, this.selectedBetAmountUnClickedImage);
     }
 
     public updateOddsFromConfigs() {
@@ -440,7 +443,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         cc.tween(node).to(duration, { opacity: 255, position: position, scale: 1 }, { easing: "sineOut" }).start();
     }
 
-    enableBetButtons(enabled: boolean = true, opacity: number = 255) {
+    enableBetButtons(enabled: boolean, image: cc.SpriteFrame) {
         const upButton = this.selectedUpBetAmountSprite.node.getComponent(cc.Button);
         const downButton = this.selectedDownBetAmountSprite.node.getComponent(cc.Button);
         const evenButton = this.selectedEvenBetAmountSprite.node.getComponent(cc.Button);
@@ -450,15 +453,15 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         evenButton.interactable = enabled;
         oddButton.interactable = enabled;
 
-        upButton.node.opacity = opacity;
-        downButton.node.opacity = opacity;
-        evenButton.node.opacity = opacity;
-        oddButton.node.opacity = opacity;
+        this.selectedUpBetAmountSprite.spriteFrame = image;
+        this.selectedDownBetAmountSprite.spriteFrame = image;
+        this.selectedEvenBetAmountSprite.spriteFrame = image;
+        this.selectedOddBetAmountSprite.spriteFrame = image;
     }
 
     hideBetButtons() {
         if (!this.betBoardContainer.children[0].active) {
-            this.enableBetButtons(false, 150);
+            this.enableBetButtons(false, this.disabledBetButtonImage);
         }
     }
 }
