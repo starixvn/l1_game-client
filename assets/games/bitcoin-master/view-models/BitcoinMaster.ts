@@ -161,6 +161,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
             if (
                 zIndex < this.node.parent.childrenCount - 1 ||
+                this.currentMiniPanel.noticeContainer.childrenCount > 0 ||
                 this.currentMiniPanel.guideContainer.childrenCount > 0 ||
                 this.currentMiniPanel.dialog.childrenCount > 1
             ) {
@@ -287,9 +288,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             const { settlementResult } = this.currentDataLogs[0];
             this.result.showResult();
             if (this.currentTimeRemaining === this.config.fullTime - 1) {
-                this.moveAnimation(0.6, this.result.closeBitcoinLabel.node, this.closePricePosition, this.movingClosePricePosition);
-                this.moveAnimation(0.6, this.result.gapAmountComp.gapAmount.node, this.gapAmountPosition, this.movingGapAmountPosition);
-                this.moveAnimation(0.6, this.result.evenOddResultLabel.node, this.evenOddResultPosition, this.movingEvenOddResultPosition);
+                this.moveAnimation(0.4, this.result.closeBitcoinLabel.node, this.closePricePosition, this.movingClosePricePosition);
+                this.moveAnimation(0.4, this.result.gapAmountComp.gapAmount.node, this.gapAmountPosition, this.movingGapAmountPosition);
+                this.moveAnimation(0.4, this.result.evenOddResultLabel.node, this.evenOddResultPosition, this.movingEvenOddResultPosition);
             }
             const currentStatusData = this.statusHandler.currentStatusData;
             currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
@@ -402,7 +403,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             this.bettingPrice.node.active = true;
             this.bettingPrice.string = data.open;
             if (this.currentTimeRemaining === 58) {
-                this.moveAnimation(0.4, this.bettingPrice.node, this.bettingPricePosition, this.movingBettingPricePosition);
+                this.moveAnimation(0.2, this.bettingPrice.node, this.bettingPricePosition, this.movingBettingPricePosition);
             }
         }
     }
