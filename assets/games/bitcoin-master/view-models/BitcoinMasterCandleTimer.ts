@@ -11,16 +11,14 @@ export default class BitcoinMasterCandleTimer extends cc.Component {
     private readonly candleLife = 60;
 
     setCandleTime(time: number) {
-        const convertTime = time;
-        this.currentTimeRemainingCandle = convertTime > this.candleLife ? convertTime - this.candleLife : convertTime;
-
+        this.currentTimeRemainingCandle = time > this.candleLife ? time - this.candleLife : time;
         this.setLifeTime();
         this.unschedule(this.setLifeTime);
         this.schedule(this.setLifeTime, 1);
         this.animatedTime.setRedTime(-1);
     }
 
-    setLifeTime() {
+    protected setLifeTime() {
         if (this.currentTimeRemainingCandle < 1) {
             this.currentTimeRemainingCandle = this.candleLife;
         }

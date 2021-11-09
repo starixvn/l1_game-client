@@ -92,42 +92,31 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
     }
 
     loadBettingUserList(leftBetType: string, rightBetType: string) {
-        if (this.data[leftBetType]) {
-            this.data[leftBetType].forEach((user) => {
+        this.loadData(leftBetType, this.leftContent, this.leftBetAmount, this.leftRefundAmount);
+        this.loadData(rightBetType, this.rightContent, this.rightBetAmount, this.rightRefundAmount);
+    }
+
+    loadData(choice: string, containerNode: cc.Node, betAmountLabel: cc.Label, refundLabel: cc.Label) {
+        if (this.data[choice] && this.itemPrefab) {
+            this.data[choice].forEach((user) => {
                 const item = this.addItem(user);
-                this.leftContent.addChild(item);
+                containerNode.addChild(item);
             });
         }
 
-        if (this.data[rightBetType]) {
-            this.data[rightBetType].forEach((user) => {
-                const item = this.addItem(user);
-                this.rightContent.addChild(item);
-            });
+        this.setAmount(this.data.total[choice], betAmountLabel, refundLabel);
+    }
+
+    setAmount(total: any, betAmountLabel: cc.Label, refundLabel: cc.Label) {
+        let betAmount = 0;
+        let refund = 0;
+
+        if (total) {
+            betAmount = total.betAmount;
+            refund = total.refund;
         }
 
-        const leftChoice = this.data.total[leftBetType];
-        const rightChoice = this.data.total[rightBetType];
-
-        let leftBetAmount = 0;
-        let rightBetAmount = 0;
-        let leftRefund = 0;
-        let rightRefund = 0;
-
-        if (leftChoice) {
-            leftBetAmount = leftChoice.betAmount;
-            leftRefund = leftChoice.refund;
-        }
-
-        if (rightChoice) {
-            rightBetAmount = rightChoice.betAmount;
-            rightRefund = rightChoice.refund;
-        }
-
-        this.leftBetAmount.string = numberWithCommas(leftBetAmount);
-        this.rightBetAmount.string = numberWithCommas(rightBetAmount);
-
-        this.leftRefundAmount.string = numberWithCommas(leftRefund);
-        this.rightRefundAmount.string = numberWithCommas(rightRefund);
+        betAmountLabel.string = numberWithCommas(betAmount);
+        refundLabel.string = numberWithCommas(refund);
     }
 }

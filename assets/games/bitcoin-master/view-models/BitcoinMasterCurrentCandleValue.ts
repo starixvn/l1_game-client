@@ -15,8 +15,8 @@ export default class BitcoinMasterCurrentCandleValue extends cc.Component {
     setData(openValue: number, closeValue: number) {
         this.background.active = true;
         const color = cc.Color.WHITE;
-        let differenceValue = closeValue - openValue;
-        this.background.color = differenceValue > 0 ? color.fromHEX("#10c476") : color.fromHEX("#f53d53");
+        const gapAmount = closeValue - openValue;
+        this.background.color = gapAmount > 0 ? color.fromHEX("#10c476") : color.fromHEX("#f53d53");
         this.value.string = closeValue.toString();
     }
 }
