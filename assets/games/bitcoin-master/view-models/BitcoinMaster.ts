@@ -132,6 +132,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     protected upDownMiniRoundHistory: BitcoinMasterUpDownMiniRoundHistory;
     protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
     protected betHistory: BitcoinMasterBetHistory;
+    protected isExistedStatistic = false;
     statistic: BitcoinMasterStatistic;
     readonly choices = ["up", "down", "even", "odd"];
     remainingTimeGame: number;
@@ -174,8 +175,18 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             }
         });
 
-        this.statisticNode.on(cc.Node.EventType.CHILD_ADDED, this.hideChart.bind(this));
-        this.statisticNode.on(cc.Node.EventType.CHILD_REMOVED, this.showChart.bind(this));
+        this.statisticNode.on(cc.Node.EventType.CHILD_ADDED, this.showStatistic.bind(this));
+        this.statisticNode.on(cc.Node.EventType.CHILD_REMOVED, this.hideStatistic.bind(this));
+    }
+
+    hideStatistic() {
+        this.isExistedStatistic = false;
+        this.showChart();
+    }
+
+    showStatistic() {
+        this.isExistedStatistic = true;
+        this.hideChart();
     }
 
     hideChart() {
@@ -324,16 +335,19 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     public openStatistic() {
         AudioManager.getInstance().playClick();
-        const node = cc.instantiate(this.statisticPrefab);
-        this.statistic = node.getComponent(BitcoinMasterStatistic);
-        const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
-        };
-        this.statistic.init(this);
-        this.statistic.setData(this.currentDataLogs);
-        this.statistic.logControl.init(condition);
-        this.statisticNode.addChild(node);
-        this.chartWebView.hideWebView();
+        if (!this.isExistedStatistic) {
+            const node = cc.instantiate(this.statisticPrefab);
+            this.statistic = node.getComponent(BitcoinMasterStatistic);
+            const condition = () => {
+                return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
+            };
+            this.statistic.init(this);
+            this.statistic.setData(this.currentDataLogs);
+            this.statistic.logControl.init(condition);
+            this.statisticNode.addChild(node);
+        } else {
+            this.statistic.dialog.closeDialog();
+        }
     }
 
     openBetHistory(roundId: number, view) {
