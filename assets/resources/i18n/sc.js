@@ -346,6 +346,8 @@ window.i18n.languages.sc = {
         uncheck: "Uncheck",
         undo: "Undo",
         win: "Win",
-        you_win: "YOU WIN"
+        you_win: "YOU WIN",
+        scoreboard_big: "大",
+        scoreboard_small: "小"
     }
 };

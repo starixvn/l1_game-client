@@ -1,10 +1,9 @@
-import NoticeUtil from "../../../common/utils/NoticeUtil";
-import { BigSmallBetType } from "./type";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default abstract class SicBoRoundResult extends cc.Component {
+export default abstract class BigSmallRoundResult extends cc.Component {
     @property(cc.Sprite)
     dice1: cc.Sprite = null;
 
@@ -17,11 +16,11 @@ export default abstract class SicBoRoundResult extends cc.Component {
     @property(cc.SpriteAtlas)
     sicboAtlas: cc.SpriteAtlas = null;
 
-    @property(cc.Sprite)
-    total: cc.Sprite = null;
+    @property(cc.Label)
+    total: cc.Label = null;
 
-    @property(cc.Sprite)
-    result: cc.Sprite = null;
+    @property(cc.Label)
+    result: cc.Label = null;
 
     @property(cc.Sprite)
     highlight: cc.Sprite = null;
@@ -37,13 +36,7 @@ export default abstract class SicBoRoundResult extends cc.Component {
     updateLabels(data: any) {
         const { settlementResult, result } = data;
 
-        this.total.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_${result.dice1 + result.dice2 + result.dice3}`);
-
-        const suffix = NoticeUtil.getSuffixSpriteName();
-        if (settlementResult[BigSmallBetType.big]) {
-            this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_T${suffix}`);
-        } else {
-            this.result.spriteFrame = this.sicboAtlas.getSpriteFrame(`stats_X${suffix}`);
-        }
+        this.total.string = result.dice1 + result.dice2 + result.dice3;
+        this.result.string = i18n.t(`ui.scoreboard_${settlementResult.big ? "big" : "small"}`);
     }
 }

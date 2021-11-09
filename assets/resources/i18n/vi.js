@@ -373,6 +373,8 @@ window.i18n.languages.vi = {
         upDownBetHistory: "Tăng / Giảm",
         evenUpBetHistory: "Chẵn / Lẻ",
         statistic: "Thống Kê",
-        placeBet: "Đặt lệnh"
+        placeBet: "Đặt lệnh",
+        scoreboard_big: "T",
+        scoreboard_small: "X"
     }
 };

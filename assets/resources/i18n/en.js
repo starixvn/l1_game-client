@@ -371,6 +371,8 @@ window.i18n.languages.en = {
         upDownBetHistory: "Up / Down",
         evenUpBetHistory: "Even / Odd",
         statistic: "Statistic",
-        placeBet: "Place bet"
+        placeBet: "Place bet",
+        scoreboard_big: "B",
+        scoreboard_small: "S"
     }
 };
