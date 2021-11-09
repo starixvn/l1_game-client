@@ -58,7 +58,7 @@ export default class BitcoinMasterBetHistory extends GameBalancedBettingHistoryB
             } else {
                 menuComponent.unselect();
             }
-        }
+        });
     }
 
     onSelectHeader(event, name) {
