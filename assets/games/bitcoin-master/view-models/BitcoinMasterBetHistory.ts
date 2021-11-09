@@ -1,6 +1,6 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import ItemContentMenu from "../../../common/helpers/Menu/ItemContentMenu";
-import GameBetHistoryBase from "../../_base/view-models/GameBetHistoryBase";
+import GameBalancedBettingHistoryBase from "../../_base/view-models/GameBalancedBettingHistoryBase";
 import { BMBetType, BMHeaderMenu } from "./BitcoinMasterCommon";
 import BitcoinMasterEvenOddResultDetail from "./BitcoinMasterEvenOddResultDetail";
 import BitcoinMasterGapAmount from "./BitcoinMasterGapAmount";
@@ -8,7 +8,7 @@ import BitcoinMasterGapAmount from "./BitcoinMasterGapAmount";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BitcoinMasterBetHistory extends GameBetHistoryBase {
+export default class BitcoinMasterBetHistory extends GameBalancedBettingHistoryBase {
     @property(cc.Node)
     header: cc.Node = null;
 

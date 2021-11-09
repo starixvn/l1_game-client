@@ -6,7 +6,7 @@ import BalancedBettingPoolGameBase from "../BalancedBettingPoolGameBase";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class GameBetHistoryBase extends cc.Component {
+export default class GameBalancedBettingHistoryBase extends cc.Component {
     @property(cc.Label)
     roundIdLabel: cc.Label = null;
 

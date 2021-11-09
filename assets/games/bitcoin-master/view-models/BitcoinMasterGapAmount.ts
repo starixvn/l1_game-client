@@ -24,6 +24,7 @@ export default class BitcoinMasterGapAmount extends cc.Component {
     public setData(data: any) {
         const gapValue = parseFloat(BitcoinMasterUtils.getUpDownResult(data));
         const color = cc.Color.WHITE;
+        this.gapAmount.node.active = true;
 
         if (gapValue === 0) {
             this.gapAmount.string = "00.00";

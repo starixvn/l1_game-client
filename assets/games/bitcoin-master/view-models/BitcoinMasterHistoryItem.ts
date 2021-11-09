@@ -52,7 +52,7 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         this.time.string = getStringDateByTime(data.time);
         this.roundId.string = data.phien.toString();
         this.win.string = numberWithCommas(data.betwin);
-        this.totalBet.string = numberWithCommas(this.calculateTotalbet(data));
+        this.totalBet.string = numberWithCommas(data.totalAmount);
         this.refund.string = numberWithCommas(data.refund);
 
         if (data[BMBetType.Up] > 0 || data[BMBetType.Down] > 0) {
@@ -60,14 +60,5 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         } else {
             this.view = BMHeaderMenu.EvenOdd;
         }
-    }
-
-    calculateTotalbet(data: any): number {
-        let total = 0;
-        Object.keys(BMBetType).forEach((key) => {
-            total += data[key];
-        });
-
-        return total;
     }
 }
