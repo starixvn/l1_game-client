@@ -25,7 +25,7 @@ export default class BitCoinMasterAnimatedTime extends AnimatedTime {
         }
     }
 
-    updateData(time, partTime) {
+    updateData(time: number, partTime: number) {
         const value = time / partTime;
         this.progressCircleBar.fillRange = -value;
     }
