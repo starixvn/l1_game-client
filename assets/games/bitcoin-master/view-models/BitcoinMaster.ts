@@ -12,6 +12,7 @@ import { BMBetType } from "./BitcoinMasterCommon";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
 import BitcoinMasterCurrentCandleValue from "./BitcoinMasterCurrentCandleValue";
 import BitcoinMasterEvenOddMiniRoundHistory from "./BitcoinMasterEvenOddMiniRoundHistory";
+import BitCoinMasterExpandableMenu from "./BitCoinMasterExpandableMenu";
 import BitcoinMasterHistory from "./BitcoinMasterHistory";
 import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
 import BitcoinMasterResult from "./BitcoinMasterResult";
@@ -128,6 +129,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     @property(cc.Node)
     evenOddTooltipNode: cc.Node = null;
+
+    @property(BitCoinMasterExpandableMenu)
+    menu: BitCoinMasterExpandableMenu = null;
 
     protected upDownMiniRoundHistory: BitcoinMasterUpDownMiniRoundHistory;
     protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
@@ -320,6 +324,11 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         });
     }
 
+    openGuide() {
+        super.openGuide();
+        this.menu.collapseMenu();
+    }
+
     public openHistory() {
         AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.historyPrefab);
@@ -331,6 +340,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         };
 
         this.currentMiniPanel.addDialog(node);
+        this.menu.collapseMenu();
     }
 
     public openStatistic() {
