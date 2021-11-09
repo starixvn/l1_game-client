@@ -378,10 +378,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.node.stopAllActions();
         this.bettingPrice.node.position = this.bettingPricePosition;
         this.bettingPrice.node.active = false;
-        this.result.showResult(false);
-        this.result.closeBitcoinLabel.node.position = this.movingClosePricePosition;
-        this.result.gapAmountComp.gapAmount.node.position = this.movingGapAmountPosition;
-        this.result.evenOddResultLabel.node.position = this.movingEvenOddResultPosition;
+        this.setResultToCurrentBitcoinValuePosition();
         this.enableBetButtons(true, this.selectedBetAmountUnClickedImage);
     }
 
@@ -459,6 +456,14 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         );
     }
 
+    setResultToCurrentBitcoinValuePosition() {
+        if (this.currentTimeRemaining <= 105) {
+            this.result.showResult(false);
+            this.result.closeBitcoinLabel.node.position = this.movingClosePricePosition;
+            this.result.gapAmountComp.gapAmount.node.position = this.movingGapAmountPosition;
+            this.result.evenOddResultLabel.node.position = this.movingEvenOddResultPosition;
+        }
+    }
     moveAnimation(duration: number, node: cc.Node, position: cc.Vec3, movingPosition: cc.Vec3) {
         node.position = movingPosition;
         node.opacity = 0;
