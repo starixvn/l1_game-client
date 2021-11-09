@@ -1,12 +1,17 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import AudioManager from "../../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
+import { GameIds } from "../../../configs/SabaConfigs";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
+import LuckyWheelHistory from "./LuckyWheelHistory";
 import LuckyWheelWinning from "./LuckyWheelWinning";
 
 const { ccclass, property } = cc._decorator;
@@ -22,7 +27,7 @@ export enum LuckyWheelColor {
 }
 
 @ccclass
-export default class LuckyWheel extends cc.Component {
+export default class LuckyWheel extends SocketIOMiniGameBase {
     @property(cc.Node)
     wheel: cc.Node = null;
 
@@ -102,7 +107,6 @@ export default class LuckyWheel extends cc.Component {
     wheelInitialized = false;
     buttonTween: cc.Tween;
 
-    private readonly dataObserverKey = "LuckyWheel";
     private readonly defaultRoundNumber = 4;
 
     colorDictionary = {
@@ -115,41 +119,27 @@ export default class LuckyWheel extends cc.Component {
     };
 
     onLoad() {
-        this.addDataObserver();
-
+        super.onLoad();
         this.buttonTween = cc
             .tween(this.button.node)
             .repeatForever(cc.tween().to(0.5, { scale: 0.92 }, { easing: "sineOutIn" }).to(0.5, { scale: 1 }, { easing: "sineOutIn" }));
     }
 
+    initMiniPanel(miniPanel: MiniPanel) {
+        super.initMiniPanel(miniPanel);
+        this.gameId = GameIds.LuckyWheel;
+    }
+
     onEnable() {
-        this.getData();
-    }
-
-    addDataObserver() {
-        cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
-    }
-
-    onDestroy() {
-        this.removeDataObserver();
-    }
-
-    removeDataObserver() {
-        cc.RedT.removeDataObserver(this.dataObserverKey);
-    }
-
-    receivedData(data) {
-        if (data["luckyWheel"]) {
-            this.onData(data["luckyWheel"]);
-        }
+        super.onEnable();
+        this.requestUpdateUserCoin();
     }
 
     playSpin() {
-        cc.RedT.send({ g: { ["luckyWheel"]: { playSpin: true } } });
+        this.socket.emit("playSpin");
     }
 
-    getData() {
-        cc.RedT.send({ g: { ["luckyWheel"]: { getLogs: true } } });
+    requestUpdateUserCoin() {
         cc.RedT.send({ user: { updateCoin: true } });
     }
 
@@ -176,6 +166,10 @@ export default class LuckyWheel extends cc.Component {
 
         if (void 0 !== data.totalCoins) {
             this.totalScoinLbl.string = numberWithCommas(data.totalCoins);
+        }
+
+        if (data.history && this.historyComponent) {
+            this.historyComponent.onData(data.history);
         }
 
         data.um && this.umNotice.show(data);
@@ -292,7 +286,7 @@ export default class LuckyWheel extends cc.Component {
                     this.handleGoodLuckEffect();
                 } else {
                     this.handleWinningEffect(data.coins);
-                    cc.RedT.send({ user: { updateCoin: true } });
+                    this.requestUpdateUserCoin();
                 }
             })
             .start();
@@ -357,7 +351,7 @@ export default class LuckyWheel extends cc.Component {
     showLuckyWheel() {
         AudioManager.getInstance().playClick();
 
-        const dialog = this.node.getComponent("CommonDialog");
+        const dialog = this.node.getComponent(CommonDialog);
         dialog.showDialog();
     }
 
@@ -368,7 +362,7 @@ export default class LuckyWheel extends cc.Component {
             this.wheelTween.stop();
         }
 
-        const dialog = this.node.getComponent("CommonDialog");
+        const dialog = this.node.getComponent(CommonDialog);
         dialog.closeDialog();
         this.winningEffect.active = false;
         if (cc.RedT.user.scoins) {
@@ -380,8 +374,11 @@ export default class LuckyWheel extends cc.Component {
     }
 
     onPressedHistory() {
-        const history = cc.instantiate(this.historyPrefab);
-        this.node.addChild(history);
+        const node = cc.instantiate(this.historyPrefab);
+        const history = node.getComponent(LuckyWheelHistory);
+        history.init(this.socket);
+        this.historyComponent = history;
+        this.node.addChild(node);
     }
 
     onPressedGameGuide() {

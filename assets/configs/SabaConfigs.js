@@ -1,6 +1,7 @@
 const configs = {
     GameIds: {
         Lobby: 0,
+        LuckyWheel: -1,
         BigSmall: 1,
         SeDie: 2,
         FishPrawnCrab: 3,
@@ -40,6 +41,9 @@ const configs = {
         },
         38: {
             key: "HeroesSlot"
+        },
+        "-1": {
+            key: "LuckyWheel"
         },
         0: {
             key: "main"

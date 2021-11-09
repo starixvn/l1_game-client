@@ -595,7 +595,7 @@ export default class MainGame extends cc.Component {
                         const node = cc.instantiate(prefab);
                         this.redhat.insertChild(node, 0);
                         this.luckyWheelIcon = node.getComponent(LuckyWheelIcon);
-                        this.luckyWheelIcon.init(this.node);
+                        this.luckyWheelIcon.init(cc.RedT.MiniPanel);
                     }
                     resolve();
                 });
