@@ -17,7 +17,7 @@ export default class BitcoinMasterStatusDescription extends cc.Component {
     setNormalDescription(text: string, status: boolean = true) {
         this.desc.string = text;
         const color = cc.Color.WHITE;
-        this.desc.node.color = status ? color.fromHEX("#f7e904") : color.fromHEX("#f90a2b");
+        this.desc.node.color = status ? color.fromHEX("#f7e904") : color.fromHEX("#f9480a");
         this.background.spriteFrame = status ? this.normalImage : this.warningImage;
     }
 }
