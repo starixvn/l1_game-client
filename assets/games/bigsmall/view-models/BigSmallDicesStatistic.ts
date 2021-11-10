@@ -2,17 +2,17 @@ import BigSmallRoundResult from "./BigSmallRoundResult";
 import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
 import GameBase from "../../_base/GameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import { BigSmallBetType, IconButtonChart } from "./type";
+import { IconButtonChart } from "./type";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BigSmallDicesStatistic extends cc.Component {
     @property(cc.Label)
-    PercentageBig: cc.Label = null;
+    percentageTop: cc.Label = null;
 
     @property(cc.Label)
-    PercentageSmall: cc.Label = null;
+    percentageBottom: cc.Label = null;
 
     @property(cc.Prefab)
     roundResultPrefab: cc.Prefab = null;
@@ -50,6 +50,14 @@ export default class BigSmallDicesStatistic extends cc.Component {
         this.logView.init(condition);
     }
 
+    get getChoices(): string[] {
+        return ["big", "small"];
+    }
+
+    get getChoicesDefault(): string {
+        return "big";
+    }
+
     updateData(dataLogs: any[]) {
         this.updatePercentages(dataLogs);
         this.updateRoundResult(dataLogs);
@@ -62,23 +70,23 @@ export default class BigSmallDicesStatistic extends cc.Component {
 
     updatePercentages(dataLogs: any[]) {
         if (dataLogs.length > 0) {
-            let bigTotal = 0,
-                smallTotal = 0;
+            const length = dataLogs.length;
+            const choices = this.getChoices;
+            let totalTop = 0,
+                totalBottom = 0;
 
             dataLogs.forEach((log) => {
                 const { settlementResult } = log;
 
-                bigTotal += settlementResult[BigSmallBetType.big] ? 1 : 0;
-                smallTotal += settlementResult[BigSmallBetType.small] ? 1 : 0;
+                totalTop += settlementResult[choices[0]] ? 1 : 0;
+                totalBottom += settlementResult[choices[1]] ? 1 : 0;
             });
 
-            const length = dataLogs.length;
+            const percentageTop = Math.round((totalTop / length) * 100);
+            const percentageBottom = Math.round((totalBottom / length) * 100);
 
-            const bigPercentage = Math.round((bigTotal / length) * 100);
-            const smallPercentage = Math.round((smallTotal / length) * 100);
-
-            this.PercentageBig.string = `${bigPercentage}%`;
-            this.PercentageSmall.string = `${smallPercentage}%`;
+            this.percentageTop.string = `${percentageTop}%`;
+            this.percentageBottom.string = `${percentageBottom}%`;
         }
     }
 
@@ -101,10 +109,12 @@ export default class BigSmallDicesStatistic extends cc.Component {
 
     renderLogView(dataLogs: any[]) {
         const statsData = [];
+        const choice = this.getChoicesDefault;
         if (dataLogs.length > 0) {
             dataLogs.forEach((log) => {
                 const { settlementResult } = log;
-                statsData.unshift(settlementResult.big ? 0 : 1);
+
+                statsData.unshift(settlementResult[choice] ? 0 : 1);
             });
             this.logView.setData(statsData);
         }

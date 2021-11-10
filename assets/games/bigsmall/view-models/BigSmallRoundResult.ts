@@ -35,8 +35,13 @@ export default abstract class BigSmallRoundResult extends cc.Component {
 
     updateLabels(data: any) {
         const { settlementResult, result } = data;
+        const choice = this.getTextFollowChoice({ settlementResult });
 
         this.total.string = result.dice1 + result.dice2 + result.dice3;
-        this.result.string = i18n.t(`ui.scoreboard_${settlementResult.big ? "big" : "small"}`);
+        this.result.string = i18n.t(`ui.scoreboard_${choice}`);
+    }
+
+    getTextFollowChoice({ settlementResult }): string {
+        return settlementResult.big ? "big" : "small";
     }
 }
