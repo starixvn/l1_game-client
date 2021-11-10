@@ -1,5 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
@@ -394,8 +395,10 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.chartWebView.loadWebView();
     }
 
-    updateDescTimeGeneralInfo(desc: string) {
+    updateDescTimeGeneralInfo(desc: string, color: string = "#F7E904") {
+        const defaultColor = cc.Color.WHITE;
         this.descTimeLabel.string = desc;
+        this.descTimeLabel.node.color = defaultColor.fromHEX(color);
     }
 
     closeGame() {
@@ -426,7 +429,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     setBettingPrice(data: any) {
         if (data.open && !data.close) {
             this.bettingPrice.node.active = true;
-            this.bettingPrice.string = data.open;
+            this.bettingPrice.string = numberWithCommas(data.open);
             if (this.currentTimeRemaining === 58) {
                 this.moveAnimation(0.2, this.bettingPrice.node, this.bettingPricePosition, this.movingBettingPricePosition);
             }
@@ -493,4 +496,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             this.enableBetButtons(false, this.disabledBetButtonImage);
         }
     }
+
+    disableHistoryButton() {}
 }

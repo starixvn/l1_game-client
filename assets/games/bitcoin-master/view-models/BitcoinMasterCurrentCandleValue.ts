@@ -1,3 +1,5 @@
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -17,6 +19,6 @@ export default class BitcoinMasterCurrentCandleValue extends cc.Component {
         const color = cc.Color.WHITE;
         const gapAmount = closeValue - openValue;
         this.background.color = gapAmount > 0 ? color.fromHEX("#10c476") : color.fromHEX("#f53d53");
-        this.value.string = closeValue.toString();
+        this.value.string = numberWithCommas(closeValue);
     }
 }

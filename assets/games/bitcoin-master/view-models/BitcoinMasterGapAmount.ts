@@ -16,6 +16,8 @@ export default class BitcoinMasterGapAmount extends cc.Component {
     @property(cc.SpriteFrame)
     downImage: cc.SpriteFrame = null;
 
+    isUpResult = false;
+
     onEnable() {
         this.gapAmount.node.active = false;
         this.icon.node.active = false;
@@ -32,10 +34,10 @@ export default class BitcoinMasterGapAmount extends cc.Component {
             this.icon.node.active = false;
         } else {
             this.gapAmount.string = BitcoinMasterUtils.absResult(gapValue);
-            const isUpResult = gapValue > 0;
-            this.gapAmount.node.color = isUpResult ? color.fromHEX("#c4f738") : color.fromHEX("#f3485f");
+            this.isUpResult = gapValue > 0;
+            this.gapAmount.node.color = this.isUpResult ? color.fromHEX("#c4f738") : color.fromHEX("#f3485f");
             this.icon.node.active = true;
-            this.icon.spriteFrame = isUpResult ? this.upImage : this.downImage;
+            this.icon.spriteFrame = this.isUpResult ? this.upImage : this.downImage;
         }
     }
 }
