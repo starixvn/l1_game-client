@@ -88,7 +88,8 @@ export default class BetChips extends cc.Component {
     }
 
     createChips() {
-        this.chipValues.forEach((value, index) => {
+        this.chips.destroyAllChildren();
+        this.chipValues.forEach((value) => {
             const node = this.createBigChip(value);
             this.chips.addChild(node);
 
