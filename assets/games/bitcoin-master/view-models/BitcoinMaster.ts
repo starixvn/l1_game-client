@@ -18,6 +18,7 @@ import BitcoinMasterHistory from "./BitcoinMasterHistory";
 import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
 import BitcoinMasterResult from "./BitcoinMasterResult";
 import BitcoinMasterStatistic from "./BitcoinMasterStatistic";
+import BitcoinMasterStatusDescription from "./BitcoinMasterStatusDescription";
 import BitcoinMasterUpDownMiniRoundHistory from "./BitcoinMasterUpDownMiniRoundHistory";
 import BitCoinMasterBetHandler from "./handlers/BitCoinMasterBetHandler";
 import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
@@ -119,8 +120,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(BitCoinMasterProgressBar)
     timeProgressBar: BitCoinMasterProgressBar = null;
 
-    @property(cc.Label)
-    descTimeLabel: cc.Label = null;
+    @property(BitcoinMasterStatusDescription)
+    statusDesc: BitcoinMasterStatusDescription = null;
 
     @property(cc.Label)
     bettingPrice: cc.Label = null;
@@ -393,12 +394,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     initChart() {
         this.chartWebView.initURL(window.authData.ss);
         this.chartWebView.loadWebView();
-    }
-
-    updateDescTimeGeneralInfo(desc: string, color: string = "#F7E904") {
-        const defaultColor = cc.Color.WHITE;
-        this.descTimeLabel.string = desc;
-        this.descTimeLabel.node.color = defaultColor.fromHEX(color);
     }
 
     closeGame() {

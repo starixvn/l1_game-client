@@ -26,9 +26,9 @@ export default class BitcoinMasterResult extends cc.Component {
         this.closeBitcoinLabel.string = numberWithCommas(data.close);
 
         this.gapAmountComp.setData(data);
-        this.gapAmountComp.icon.node.position.x = this.gapAmountComp.isUpResult
-            ? this.gapAmountComp.icon.node.position.y
-            : -this.gapAmountComp.icon.node.position.y;
+        this.gapAmountComp.icon.node.position = this.gapAmountComp.isUpResult
+            ? cc.v3(this.gapAmountComp.icon.node.position.x, this.gapAmountComp.icon.node.position.y, 0)
+            : cc.v3(this.gapAmountComp.icon.node.position.x, -this.gapAmountComp.icon.node.position.y, 0);
 
         const evenOddValue = BitcoinMasterUtils.getEvenOddResult(data.close);
         this.evenOddResultLabel.string = evenOddValue;
