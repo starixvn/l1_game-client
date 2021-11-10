@@ -2,7 +2,7 @@ import BigSmallRoundResult from "./BigSmallRoundResult";
 import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
 import GameBase from "../../_base/GameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import { BigSmallBetType } from "./type";
+import { BigSmallBetType, IconButtonChart } from "./type";
 
 const { ccclass, property } = cc._decorator;
 
@@ -29,6 +29,12 @@ export default class BigSmallDicesStatistic extends cc.Component {
     @property(cc.SpriteFrame)
     diceSpriteFrames: cc.SpriteFrame[] = [];
 
+    @property(cc.SpriteFrame)
+    iconSpriteFrames: cc.SpriteFrame[] = [];
+
+    @property(cc.Sprite)
+    buttonSprite: cc.Sprite = null;
+
     private isShowDiceView = true;
 
     init(currentDataLogs: any, main: GameBase) {
@@ -43,6 +49,7 @@ export default class BigSmallDicesStatistic extends cc.Component {
         this.updateData(currentDataLogs);
         this.logView.init(condition);
     }
+
     updateData(dataLogs: any[]) {
         this.updatePercentages(dataLogs);
         this.updateRoundResult(dataLogs);
@@ -105,7 +112,9 @@ export default class BigSmallDicesStatistic extends cc.Component {
 
     changeDisplayMode() {
         this.isShowDiceView = !this.isShowDiceView;
-
+        this.buttonSprite.spriteFrame = this.isShowDiceView
+            ? this.iconSpriteFrames[IconButtonChart.chartDice]
+            : this.iconSpriteFrames[IconButtonChart.chartDot];
         this.statsScrollView.active = this.isShowDiceView;
         this.logView.node.active = !this.isShowDiceView;
     }
