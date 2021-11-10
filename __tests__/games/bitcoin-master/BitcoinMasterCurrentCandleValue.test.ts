@@ -3,6 +3,7 @@
  * Date: 2021-11-09 08:36:57
  */
 
+import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import BitcoinMasterCurrentCandleValue from "../../../assets/games/bitcoin-master/view-models/BitcoinMasterCurrentCandleValue";
 
 describe("Test class BitcoinMasterCurrentCandleValue", () => {
@@ -40,7 +41,7 @@ describe("Test class BitcoinMasterCurrentCandleValue", () => {
             // Assert
             expect(comp.background.active).toEqual(true);
             expect(comp.background.color).toEqual(gapAmount > 0 ? color.fromHEX("#10c476") : color.fromHEX("#f53d53"));
-            expect(comp.value.string).toMatch(closeValue.toString());
+            expect(comp.value.string).toMatch(numberWithCommas(closeValue));
         });
     });
 });
