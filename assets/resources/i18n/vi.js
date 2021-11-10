@@ -375,6 +375,8 @@ window.i18n.languages.vi = {
         statistic: "Thống Kê",
         placeBet: "Đặt lệnh",
         scoreboard_big: "T",
-        scoreboard_small: "X"
+        scoreboard_small: "X",
+        scoreboard_odd: "L",
+        scoreboard_even: "C"
     }
 };

@@ -373,6 +373,8 @@ window.i18n.languages.en = {
         statistic: "Statistic",
         placeBet: "Place bet",
         scoreboard_big: "B",
-        scoreboard_small: "S"
+        scoreboard_small: "S",
+        scoreboard_odd: "O",
+        scoreboard_even: "E"
     }
 };

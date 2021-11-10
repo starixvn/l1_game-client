@@ -348,6 +348,8 @@ window.i18n.languages.th = {
         win: "Win",
         you_win: "YOU WIN",
         scoreboard_big: "B",
-        scoreboard_small: "S"
+        scoreboard_small: "S",
+        scoreboard_odd: "O",
+        scoreboard_even: "E"
     }
 };

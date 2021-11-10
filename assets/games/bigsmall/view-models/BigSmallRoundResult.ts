@@ -14,7 +14,7 @@ export default abstract class BigSmallRoundResult extends cc.Component {
     dice3: cc.Sprite = null;
 
     @property(cc.SpriteAtlas)
-    sicboAtlas: cc.SpriteAtlas = null;
+    atlas: cc.SpriteAtlas = null;
 
     @property(cc.Label)
     total: cc.Label = null;

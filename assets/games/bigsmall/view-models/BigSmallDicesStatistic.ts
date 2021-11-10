@@ -35,7 +35,7 @@ export default class BigSmallDicesStatistic extends cc.Component {
     @property(cc.Sprite)
     buttonSprite: cc.Sprite = null;
 
-    private isShowDiceView = true;
+    protected isShowDiceView = true;
 
     init(currentDataLogs: any, main: GameBase) {
         const condition = () => {
