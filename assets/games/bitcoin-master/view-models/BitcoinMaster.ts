@@ -378,6 +378,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             betItem.ownBet.string = "0";
         });
         this.node.stopAllActions();
+        this.result.showResult(false);
         this.bettingPrice.node.position = this.bettingPricePosition;
         this.bettingPrice.node.active = false;
         this.setResultToCurrentBitcoinValuePosition();

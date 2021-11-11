@@ -18,11 +18,6 @@ export default class BitcoinMasterGapAmount extends cc.Component {
 
     isUpResult = false;
 
-    onEnable() {
-        this.gapAmount.node.active = false;
-        this.icon.node.active = false;
-    }
-
     public setData(data: any) {
         const gapValue = parseFloat(BitcoinMasterUtils.getUpDownResult(data));
         const color = cc.Color.WHITE;
