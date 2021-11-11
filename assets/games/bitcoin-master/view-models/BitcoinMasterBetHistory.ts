@@ -1,10 +1,10 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import ItemContentMenu from "../../../common/helpers/Menu/ItemContentMenu";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import GameBalancedBettingHistoryBase from "../../_base/view-models/GameBalancedBettingHistoryBase";
 import { BMBetType, BMHeaderMenu } from "./BitcoinMasterCommon";
 import BitcoinMasterEvenOddResultDetail from "./BitcoinMasterEvenOddResultDetail";
 import BitcoinMasterGapAmount from "./BitcoinMasterGapAmount";
+import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -84,8 +84,8 @@ export default class BitcoinMasterBetHistory extends GameBalancedBettingHistoryB
         this.generalInfoNode.getChildByName(BMHeaderMenu.EvenOdd).active = false;
 
         const { result } = this.data;
-        this.openValue.string = numberWithCommas(result.open);
-        this.closeValue.string = numberWithCommas(result.close);
+        this.openValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.open);
+        this.closeValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.close);
         this.gapAmountComp.setData(result);
 
         this.showUpDownTitle(true);
@@ -98,7 +98,7 @@ export default class BitcoinMasterBetHistory extends GameBalancedBettingHistoryB
         this.generalInfoNode.getChildByName(BMHeaderMenu.UpDown).active = false;
         this.generalInfoNode.getChildByName(BMHeaderMenu.EvenOdd).active = true;
 
-        this.evenOddResult.string = numberWithCommas(this.data.result.close);
+        this.evenOddResult.string = BitcoinMasterUtils.formattingBitcoinValue(this.data.result.close);
         this.evenOddResultDetail.setData(this.data.result.close);
         this.evenOddResultDetail.setColor();
 

@@ -1,4 +1,3 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import BitcoinMasterGapAmount from "./BitcoinMasterGapAmount";
 import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
@@ -22,7 +21,7 @@ export default class BitcoinMasterResult extends cc.Component {
     }
 
     setData(data: any) {
-        this.closeBitcoinLabel.string = numberWithCommas(data.close);
+        this.closeBitcoinLabel.string = BitcoinMasterUtils.formattingBitcoinValue(data.close);
         this.gapAmountComp.setData(data);
         this.gapAmountComp.icon.node.position = this.gapAmountComp.isUpResult
             ? cc.v3(this.gapAmountComp.icon.node.position.x, this.gapAmountComp.icon.node.position.y, 0)

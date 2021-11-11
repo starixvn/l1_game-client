@@ -1,6 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
@@ -20,6 +19,7 @@ import BitcoinMasterResult from "./BitcoinMasterResult";
 import BitcoinMasterStatistic from "./BitcoinMasterStatistic";
 import BitcoinMasterStatusDescription from "./BitcoinMasterStatusDescription";
 import BitcoinMasterUpDownMiniRoundHistory from "./BitcoinMasterUpDownMiniRoundHistory";
+import BitcoinMasterUtils from "./BitcoinMasterUtils";
 import BitCoinMasterBetHandler from "./handlers/BitCoinMasterBetHandler";
 import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
@@ -425,7 +425,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     setBettingPrice(data: any) {
         if (data.open && !data.close) {
             this.bettingPrice.node.active = true;
-            this.bettingPrice.string = numberWithCommas(data.open);
+            this.bettingPrice.string = BitcoinMasterUtils.formattingBitcoinValue(data.open);
             if (this.currentTimeRemaining === 58) {
                 this.moveAnimation(0.2, this.bettingPrice.node, this.bettingPricePosition, this.movingBettingPricePosition);
             }

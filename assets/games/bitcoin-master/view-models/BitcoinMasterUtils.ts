@@ -1,3 +1,5 @@
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+
 export default class BitcoinMasterUtils {
     public static getEvenOddResult(value: number): string {
         const result = value.toString().split(".")[0];
@@ -6,10 +8,14 @@ export default class BitcoinMasterUtils {
 
     public static getUpDownResult(result: any): string {
         const marginResult = result.close - result.open;
-        return marginResult.toFixed(2);
+        return this.formattingBitcoinValue(marginResult);
     }
 
     public static absResult(result: number): string {
-        return Math.abs(result).toString();
+        return parseFloat(numberWithCommas(Math.abs(result))).toFixed(2);
+    }
+
+    public static formattingBitcoinValue(result: number): string {
+        return parseFloat(numberWithCommas(result)).toFixed(2);
     }
 }
