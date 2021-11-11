@@ -187,7 +187,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     hideStatistic() {
         this.isExistedStatistic = false;
-        this.showChart();
+        if (this.currentMiniPanel.guideContainer.childrenCount === 0 && this.currentMiniPanel.dialog.childrenCount === 0) {
+            this.showChart();
+        }
     }
 
     showStatistic() {
@@ -329,6 +331,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     openGuide() {
         super.openGuide();
         this.menu.collapseMenu();
+        this.closeStatistic();
     }
 
     public openHistory() {
@@ -343,9 +346,10 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
         this.currentMiniPanel.addDialog(node);
         this.menu.collapseMenu();
+        this.closeStatistic();
     }
 
-    public openStatistic() {
+    public onStatisChanged() {
         AudioManager.getInstance().playClick();
         if (!this.isExistedStatistic) {
             const node = cc.instantiate(this.statisticPrefab);
@@ -362,6 +366,12 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         }
     }
 
+    closeStatistic() {
+        if (this.isExistedStatistic) {
+            this.statistic.dialog.closeDialog();
+        }
+    }
+
     openBetHistory(roundId: number, view) {
         AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.betHistoryPrefab);
@@ -369,6 +379,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.currentMiniPanel.addDialog(node);
         this.betHistory.init(this, roundId);
         this.betHistory.setDefaultView(view);
+        this.closeStatistic();
     }
 
     resetDataAndUI() {
