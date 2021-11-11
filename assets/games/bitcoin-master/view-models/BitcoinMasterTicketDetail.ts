@@ -1,6 +1,6 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BitcoinMasterTicketDetailItem from "./BitcoinMasterTicketDetailItem";
+import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,8 +32,8 @@ export default class BitcoinMasterTicketDetail extends cc.Component {
         const { betLogDetails, phien, result } = data;
 
         this.roundID.string = phien;
-        this.openValue.string = numberWithCommas(result.open);
-        this.closeValue.string = numberWithCommas(result.close);
+        this.openValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.open);
+        this.closeValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.close);
 
         const total = betLogDetails.length;
         betLogDetails.forEach((detail, index) => {
