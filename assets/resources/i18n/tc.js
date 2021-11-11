@@ -349,7 +349,7 @@ window.i18n.languages.tc = {
         you_win: "YOU WIN",
         scoreboard_big: "大",
         scoreboard_small: "小",
-        scoreboard_odd: "O",
-        scoreboard_even: "E"
+        scoreboard_odd: "單",
+        scoreboard_even: "雙"
     }
 };
