@@ -18,7 +18,7 @@ export default class BitcoinMasterCandleTimer extends cc.Component {
         this.animatedTime.setRedTime(-1);
     }
 
-    protected setLifeTime() {
+    setLifeTime() {
         if (this.currentTimeRemainingCandle < 1) {
             this.currentTimeRemainingCandle = this.candleLife;
         }

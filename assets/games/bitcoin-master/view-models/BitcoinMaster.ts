@@ -223,8 +223,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             this.currentCandleValue.setData(data.open, data.close);
         }
 
-        if (data.remainingTime) {
+        if (data.remainingTime && !data.um) {
             this.remainingTimeGame = data.remainingTime;
+            this.currentCandleTime.init(this);
             this.currentCandleTime.setCandleTime(this.remainingTimeGame);
             this.timeProgressBar.init(this);
         }
@@ -505,4 +506,15 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     disableHistoryButton() {}
+
+    disableGame() {
+        super.disableGame();
+        this.currentCandleTime.unschedule(this.currentCandleTime.setLifeTime);
+        this.enableBetButtons(false, this.disabledBetButtonImage);
+    }
+
+    hideUmMessage() {
+        super.hideUmMessage();
+        this.enableBetButtons(true, this.selectedBetAmountUnClickedImage);
+    }
 }
