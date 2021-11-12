@@ -12,7 +12,7 @@ export default class BitcoinMasterUpDownResultDetail extends cc.Component {
     gapAmountComp: BitcoinMasterGapAmount = null;
 
     public setData(data: any) {
-        this.result.string = `${BitcoinMasterUtils.formattingBitcoinValue(data.close)} `;
+        this.result.string = BitcoinMasterUtils.formattingBitcoinValue(data.close);
         this.gapAmountComp.setData(data);
     }
 }

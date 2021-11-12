@@ -12,10 +12,10 @@ export default class BitcoinMasterUtils {
     }
 
     public static absResult(result: number): string {
-        return parseFloat(numberWithCommas(Math.abs(result))).toFixed(2);
+        return numberWithCommas(Math.abs(result).toFixed(2));
     }
 
     public static formattingBitcoinValue(result: number): string {
-        return parseFloat(numberWithCommas(result)).toFixed(2);
+        return numberWithCommas(result.toFixed(2));
     }
 }
