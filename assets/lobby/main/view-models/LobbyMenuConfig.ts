@@ -59,6 +59,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.KenoProViet,
         GameIds.Lottery
     ];
+    othersGames = [GameIds.BitcoinMaster];
     miniList = [1, 4, 6, 3, 0, 7, 11, 9];
     detail = {
         29: {

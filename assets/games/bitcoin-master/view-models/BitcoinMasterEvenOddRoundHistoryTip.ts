@@ -24,6 +24,6 @@ export default class BitcoinMasterEvenOddRoundHistoryTip extends MiniRoundHistor
         }
 
         const betChoice = GameUtils.getBetChoiceString(choiceKey);
-        this.result.string = `${data.result.close} - ${betChoice} (${evenOddValue})`;
+        this.result.string = `${BitcoinMasterUtils.formattingBitcoinValue(data.result.close)} - ${betChoice} (${evenOddValue})`;
     }
 }
