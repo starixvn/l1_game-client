@@ -532,6 +532,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     hideUmMessage() {
         super.hideUmMessage();
-        this.enableBetButtons(true, this.selectedBetAmountUnClickedImage);
+        if (this.currentTimeRemaining < this.config.betTime && this.currentTimeRemaining > this.config.stopBetTime) {
+            this.enableBetButtons(true, this.selectedBetAmountUnClickedImage);
+        }
     }
 }

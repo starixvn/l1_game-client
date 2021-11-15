@@ -89,7 +89,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
                 }
             } else {
                 this.main.hideBalanceBetNotice();
-                this.main.enableHistoryButton();
             }
 
             this.main.balanceBet(false);
@@ -130,7 +129,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
         this.animatedTime.updateProgress(this.main.currentTimeRemaining, 1);
         this.animatedTime.setTime(this.formatTime(this.main.currentTimeRemaining));
         this.main.showProcessingWarning(false);
-        this.main.hideBetButtons();
     }
 
     private handleBettingPhase() {
