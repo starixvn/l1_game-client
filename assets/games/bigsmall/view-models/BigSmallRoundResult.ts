@@ -19,8 +19,8 @@ export default abstract class BigSmallRoundResult extends cc.Component {
     @property(cc.Label)
     total: cc.Label = null;
 
-    @property(cc.Label)
-    result: cc.Label = null;
+    @property(cc.Sprite)
+    result: cc.Sprite = null;
 
     @property(cc.Sprite)
     highlight: cc.Sprite = null;
@@ -35,13 +35,21 @@ export default abstract class BigSmallRoundResult extends cc.Component {
 
     updateLabels(data: any) {
         const { settlementResult, result } = data;
+        const lang = window.i18n.curLang === "vi" ? "" : window.i18n.curLang;
         const choice = this.getTextFollowChoice({ settlementResult });
+        const name = `scoreboard_${choice}`;
 
         this.total.string = result.dice1 + result.dice2 + result.dice3;
-        this.result.string = i18n.t(`ui.scoreboard_${choice}`);
+
+        this.result.spriteFrame = this.getSpriteFrameByLang(name, lang);
     }
 
     getTextFollowChoice({ settlementResult }): string {
         return settlementResult.big ? "big" : "small";
+    }
+
+    getSpriteFrameByLang(name: string, lang: string) {
+        const spriteName = `${name}_${lang}`;
+        return this.atlas.getSpriteFrame(spriteName);
     }
 }
