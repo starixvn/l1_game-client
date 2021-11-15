@@ -350,6 +350,8 @@ window.i18n.languages.th = {
         scoreboard_big: "B",
         scoreboard_small: "S",
         scoreboard_odd: "O",
-        scoreboard_even: "E"
+        scoreboard_even: "E",
+        scoreboard_big_small: "ใหญ่ เล็ก",
+        scoreboard_even_odd: "คู่ คี่"
     }
 };

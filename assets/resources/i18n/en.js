@@ -375,6 +375,8 @@ window.i18n.languages.en = {
         scoreboard_big: "B",
         scoreboard_small: "S",
         scoreboard_odd: "O",
-        scoreboard_even: "E"
+        scoreboard_even: "E",
+        scoreboard_big_small: "Big Small",
+        scoreboard_even_odd: "Even Odd"
     }
 };

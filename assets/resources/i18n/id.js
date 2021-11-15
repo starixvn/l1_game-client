@@ -350,6 +350,8 @@ window.i18n.languages.id = {
         scoreboard_big: "B",
         scoreboard_small: "K",
         scoreboard_odd: "G",
-        scoreboard_even: "G"
+        scoreboard_even: "G",
+        scoreboard_big_small: "Besar Kecil",
+        scoreboard_even_odd: "Genap Ganjil"
     }
 };

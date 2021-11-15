@@ -377,6 +377,8 @@ window.i18n.languages.vi = {
         scoreboard_big: "T",
         scoreboard_small: "X",
         scoreboard_odd: "L",
-        scoreboard_even: "C"
+        scoreboard_even: "C",
+        scoreboard_big_small: "Tài Xỉu",
+        scoreboard_even_odd: "Chẵn Lẻ"
     }
 };

@@ -350,6 +350,8 @@ window.i18n.languages.tc = {
         scoreboard_big: "大",
         scoreboard_small: "小",
         scoreboard_odd: "單",
-        scoreboard_even: "雙"
+        scoreboard_even: "雙",
+        scoreboard_big_small: "大 小",
+        scoreboard_even_odd: "雙 單"
     }
 };
