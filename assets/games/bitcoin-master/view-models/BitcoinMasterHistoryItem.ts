@@ -2,6 +2,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { BMBetType, BMHeaderMenu } from "./BitcoinMasterCommon";
+import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -51,7 +52,7 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         this.background.active = index % 2 !== 0;
         this.time.string = getStringDateByTime(data.time);
         this.roundId.string = data.phien.toString();
-        this.win.string = numberWithCommas(this.calcGrossWinLoss(data));
+        this.win.string = numberWithCommas(this.setGrossWinLoss(data));
         this.totalBet.string = numberWithCommas(data.totalAmount);
         this.refund.string = numberWithCommas(data.refund);
 
@@ -62,11 +63,11 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         }
     }
 
-    calcGrossWinLoss(data: any): number {
-        if (data.betwin > 0) {
-            return data.totalAmount - data.refund + data.betwin;
-        } else {
-            return data.betwin;
-        }
+    setGrossWinLoss(data: any): number {
+        let winloss = 0;
+        data.betLogDetails.forEach((log) => {
+            winloss += BitcoinMasterUtils.calcGrossWinLoss(log);
+        });
+        return winloss;
     }
 }

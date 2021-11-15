@@ -18,4 +18,13 @@ export default class BitcoinMasterUtils {
     public static formattingBitcoinValue(result: number): string {
         return numberWithCommas(result.toFixed(2), 2, false);
     }
+
+    public static calcGrossWinLoss(log: any): number {
+        const { amount, refund, betwin, win } = log;
+        if (win) {
+            return amount - refund + betwin;
+        } else {
+            return 0;
+        }
+    }
 }

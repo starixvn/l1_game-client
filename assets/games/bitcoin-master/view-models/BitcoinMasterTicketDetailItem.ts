@@ -4,6 +4,7 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { BMBetType } from "./BitcoinMasterCommon";
 import BitcoinMasterEvenOddResultDetail from "./BitcoinMasterEvenOddResultDetail";
 import BitcoinMasterUpDownResultDetail from "./BitcoinMasterUpDownResultDetail";
+import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,7 +40,7 @@ export default class BitcoinMasterTicketDetailItem extends cc.Component {
 
         this.bet.string = numberWithCommas(log.amount);
         this.refund.string = numberWithCommas(log.refund);
-        this.win.string = numberWithCommas(log.betwin);
+        this.win.string = numberWithCommas(BitcoinMasterUtils.calcGrossWinLoss(log));
 
         switch (log.choice) {
             case BMBetType.Up:
