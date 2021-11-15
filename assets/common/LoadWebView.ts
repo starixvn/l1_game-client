@@ -11,6 +11,7 @@ export default class LoadWebView extends cc.Component {
     loading: cc.Node = null;
 
     protected url: string;
+    public needDisableDivScroll = false;
 
     onLoad() {
         this.webView.node.on(
@@ -24,6 +25,10 @@ export default class LoadWebView extends cc.Component {
                         this.showWebView();
                     })
                     .start();
+
+                if (this.needDisableDivScroll) {
+                    this.webView.disableDivScroll();
+                }
             },
             this
         );

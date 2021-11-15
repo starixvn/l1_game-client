@@ -10,4 +10,8 @@ export default class CustomWebView extends cc.WebView {
             this._impl._setOpacity(opacity);
         }
     }
+
+    disableDivScroll() {
+        this._impl._div.style.overflow = "hidden";
+    }
 }
