@@ -1,3 +1,5 @@
+import { Socket } from "socket.io-client";
+
 import { lazyInject } from "../../Application";
 import AudioManager from "../../common/audio/AudioManager";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
@@ -9,7 +11,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
     public readonly socketIOController: SocketIOController;
 
-    public socket: SocketIOClient.Socket;
+    public socket: Socket;
 
     public isMiniGameInContainer = false;
 

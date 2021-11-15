@@ -1,3 +1,5 @@
+import { Socket } from "socket.io-client";
+
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
 import { lazyInject } from "../../Application";
 import GameUtils from "../../common/GameUtils";
@@ -81,7 +83,7 @@ export default class MiniPanelMiniGameInitializers {
 
     openNewSocket(gameId) {
         this.main.loading.node.active = true;
-        const currentSocket: SocketIOClient.Socket = this.socketIOController.getSocketGame(gameId);
+        const currentSocket: Socket = this.socketIOController.getSocketGame(gameId);
 
         if (currentSocket && currentSocket.connected) {
             this.openMiniGame(gameId);
@@ -96,7 +98,7 @@ export default class MiniPanelMiniGameInitializers {
         }
     }
 
-    setUpSocketForGame(gameId: number, forceNew: boolean, gameContainer: any): SocketIOClient.Socket {
+    setUpSocketForGame(gameId: number, forceNew: boolean, gameContainer: any): Socket {
         const gameName = GameUtils.getGameNameString(gameId);
         const proxyRoute = getProxyRoute(gameId);
         const gameServerUrl = buildServerUrl("http", "", gameId);

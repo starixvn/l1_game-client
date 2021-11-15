@@ -1,3 +1,5 @@
+import { Socket } from "socket.io-client";
+
 import BaseComponent from "../../common/BaseComponent";
 import PaginationCommon from "./../../common/helpers/Pagination/PaginationCommon";
 import SlotGameTopWinnerItem from "./SlotGameTopWinnerItem";
@@ -45,13 +47,13 @@ export default class SlotGameTopWinner extends BaseComponent {
     @property(cc.Node)
     tabContainer: cc.Node = null;
 
-    private socket: SocketIOClient.Socket;
+    private socket: Socket;
     private gameName: string;
     private jackpotEnabled = false;
 
     topWinnerView = "getBigWinningWinners";
 
-    init(socket: SocketIOClient.Socket, gameName: string, jackpotEnabled = true) {
+    init(socket: Socket, gameName: string, jackpotEnabled = true) {
         this.socket = socket;
         this.gameName = gameName;
         this.jackpotEnabled = jackpotEnabled;
