@@ -82,19 +82,17 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     handleInRoundTime() {
         super.handleInRoundTime();
 
-        if (this.isInBalanceBetTime) {
-            if (this.main.balanceBetNoticeContainer.childrenCount === 0) {
-                this.main.showBalanceBetNotice();
-            }
-            this.main.balanceBet();
-            this.main.hideBetButtons();
-        } else {
-            this.main.hideBalanceBetNotice();
-            this.main.enableHistoryButton();
-        }
-
         if (this.main.currentTimeRemaining <= this.waitResultTimePoint) {
-            this.main.balanceBet();
+            if (this.isInBalanceBetTime) {
+                if (this.main.balanceBetNoticeContainer.childrenCount === 0) {
+                    this.main.showBalanceBetNotice();
+                }
+            } else {
+                this.main.hideBalanceBetNotice();
+                this.main.enableHistoryButton();
+            }
+
+            this.main.balanceBet(false);
             this.handleWaitingCandleResult();
             this.main.hideBetButtons();
         } else {
@@ -105,24 +103,22 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
 
-        if (this.isDisplayResultTime) {
-            if (!this.isShowResult) {
-                cc.RedT.GAME_IS_SHOWED && this.main.showResult();
-                this.main.showWinningAnimation(this.main.currentDataLogs[0]);
-                this.isShowResult = true;
-            }
-            this.main.balanceBet();
-            this.main.statusDesc.setNormalDescription(GameUtils.getText("ui.payout"), false);
-            const timeConvert = this.main.currentTimeRemaining - this.main.config.betTime;
-            this.animatedTime.updateProgress(timeConvert, 2);
-            this.animatedTime.setTime(this.formatTime(timeConvert));
-            this.main.hideBetButtons();
+        if (!this.isShowResult) {
+            cc.RedT.GAME_IS_SHOWED && this.main.showResult();
+            this.main.showWinningAnimation(this.main.currentDataLogs[0]);
+            this.isShowResult = true;
         }
+        this.main.balanceBet(false);
+        this.main.statusDesc.setNormalDescription(GameUtils.getText("ui.payout"), false);
+        const timeConvert = this.main.currentTimeRemaining - this.main.config.betTime;
+        this.animatedTime.updateProgress(timeConvert, 2);
+        this.animatedTime.setTime(this.formatTime(timeConvert));
+        this.main.hideBetButtons();
     }
 
     handleInEndTime() {
         super.handleInEndTime();
-        this.main.balanceBet();
+        this.main.balanceBet(false);
         this.main.statusDesc.setNormalDescription(GameUtils.getText("ui.payout"), false);
         this.animatedTime.updateProgress(15, 2);
         this.animatedTime.setTime(this.formatTime(15));

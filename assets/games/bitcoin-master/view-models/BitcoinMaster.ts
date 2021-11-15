@@ -150,6 +150,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     movingGapAmountPosition: cc.Vec3;
     evenOddResultPosition: cc.Vec3;
     movingEvenOddResultPosition: cc.Vec3;
+    private balancing = false;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -414,10 +415,27 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.chartWebView.hideWebView();
     }
 
-    balanceBet() {
+    balanceBet(animated: boolean) {
         const totalBets = this.totalBets;
         const upDownBalancedBetAmount = Math.min(...[totalBets.up ?? 0, totalBets.down ?? 0]);
         const evenOddBalancedBetAmount = Math.min(...[totalBets.even ?? 0, totalBets.odd ?? 0]);
+
+        if (!animated) {
+            this.betItems.forEach((item) => {
+                if (item.node.name === BMBetType.Up || item.node.name === BMBetType.Down) {
+                    item.setTotalBet(upDownBalancedBetAmount);
+                } else {
+                    item.setTotalBet(evenOddBalancedBetAmount);
+                }
+            });
+            return;
+        }
+
+        if (this.balancing) {
+            return;
+        }
+        this.balancing = true;
+        this.scheduleOnce(() => (this.balancing = false), 1);
 
         this.betItems.forEach((item) => {
             const itemComp = item as BalancedBettingPoolBetItem;
