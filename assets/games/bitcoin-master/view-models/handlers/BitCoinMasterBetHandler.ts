@@ -1,3 +1,4 @@
+import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
 import GameBaseBetHandler from "../../../_base/handlers/GameBaseBetHandler";
 import BitcoinMaster from "../BitcoinMaster";
 
@@ -9,6 +10,16 @@ export default class BitCoinMasterBetHandler extends GameBaseBetHandler {
     handle(data: any): boolean {
         if (data.totalBets) {
             this.main.totalBets = data.totalBets;
+
+            if (
+                this.main.currentTimeRemaining <= this.main.config.betTime &&
+                this.main.currentTimeRemaining >= this.main.config.minBetTime
+            ) {
+                this.main.betItems.forEach((item) => {
+                    const totalBetsKeys = getLowercaseObjectKeys(data.totalBets);
+                    item.setTotalBet(data.totalBets[totalBetsKeys[item.node.name.toLowerCase()]]);
+                });
+            }
         }
 
         if (data.betPercentage) {
@@ -17,6 +28,22 @@ export default class BitCoinMasterBetHandler extends GameBaseBetHandler {
             });
         }
 
-        return super.handle(data);
+        if (this.main.isStopGame || this.main.isDisableGame) {
+            return true;
+        }
+
+        if (data.ownBets) {
+            this.main.betItems.forEach((item) => {
+                const ownBetsKeys = getLowercaseObjectKeys(data.ownBets);
+                const ownBet = data.ownBets[ownBetsKeys[item.node.name.toLowerCase()]];
+                ownBet && item.setOwnBet(ownBet);
+            });
+        }
+
+        this.handleEndBet(data);
+
+        this.handleChipInMainRoom(data);
+
+        return false;
     }
 }
