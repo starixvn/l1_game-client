@@ -43,7 +43,7 @@ export default class LoadWebView extends cc.Component {
     }
 
     destroyDivIframe() {
-        this.webView._impl._div = null;
+        this.webView._impl.destroy();
     }
 
     showLoading() {
