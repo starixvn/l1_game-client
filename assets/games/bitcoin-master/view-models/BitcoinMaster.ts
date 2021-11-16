@@ -150,7 +150,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     movingGapAmountPosition: cc.Vec3;
     evenOddResultPosition: cc.Vec3;
     movingEvenOddResultPosition: cc.Vec3;
-    private balancing = false;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -416,33 +415,37 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     balanceBet(animated: boolean) {
+        if (!animated) {
+            this.setTotalBetAfterBalance();
+            return;
+        }
+
+        const balancedBetAmount = this.getBalancedBetAmount();
+        this.betItems.forEach((item) => {
+            const itemComp = item as BalancedBettingPoolBetItem;
+            if (item.node.name === BMBetType.Up || item.node.name === BMBetType.Down) {
+                itemComp.balanceBet(balancedBetAmount[0]);
+            } else {
+                itemComp.balanceBet(balancedBetAmount[1]);
+            }
+        });
+    }
+
+    getBalancedBetAmount() {
         const totalBets = this.totalBets;
         const upDownBalancedBetAmount = Math.min(...[totalBets.up ?? 0, totalBets.down ?? 0]);
         const evenOddBalancedBetAmount = Math.min(...[totalBets.even ?? 0, totalBets.odd ?? 0]);
 
-        if (!animated) {
-            this.betItems.forEach((item) => {
-                if (item.node.name === BMBetType.Up || item.node.name === BMBetType.Down) {
-                    item.setTotalBet(upDownBalancedBetAmount);
-                } else {
-                    item.setTotalBet(evenOddBalancedBetAmount);
-                }
-            });
-            return;
-        }
+        return [upDownBalancedBetAmount, evenOddBalancedBetAmount];
+    }
 
-        if (this.balancing) {
-            return;
-        }
-        this.balancing = true;
-        this.scheduleOnce(() => (this.balancing = false), 1);
-
+    setTotalBetAfterBalance() {
+        const balancedBetAmount = this.getBalancedBetAmount();
         this.betItems.forEach((item) => {
-            const itemComp = item as BalancedBettingPoolBetItem;
             if (item.node.name === BMBetType.Up || item.node.name === BMBetType.Down) {
-                itemComp.balanceBet(upDownBalancedBetAmount);
+                item.setTotalBet(balancedBetAmount[0]);
             } else {
-                itemComp.balanceBet(evenOddBalancedBetAmount);
+                item.setTotalBet(balancedBetAmount[1]);
             }
         });
     }
@@ -452,7 +455,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     setBettingPrice(data: any) {
-        if (data.open && !data.close) {
+        if ((data.open && !data.close) || (data.result && data.result.open)) {
             this.bettingPrice.node.active = true;
             this.bettingPrice.string = BitcoinMasterUtils.formattingBitcoinValue(data.open);
             if (this.currentTimeRemaining === 58) {

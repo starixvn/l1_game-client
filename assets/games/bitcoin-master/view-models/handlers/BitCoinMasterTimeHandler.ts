@@ -91,7 +91,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
                 this.main.hideBalanceBetNotice();
             }
 
-            this.main.balanceBet(false);
+            this.main.setTotalBetAfterBalance();
             this.handleWaitingCandleResult();
             this.main.hideBetButtons();
         } else {
@@ -107,7 +107,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
             this.main.showWinningAnimation(this.main.currentDataLogs[0]);
             this.isShowResult = true;
         }
-        this.main.balanceBet(false);
+        this.main.setTotalBetAfterBalance();
         this.main.statusDesc.setNormalDescription(GameUtils.getText("ui.payout"), false);
         const timeConvert = this.main.currentTimeRemaining - this.main.config.betTime;
         this.animatedTime.updateProgress(timeConvert, 2);
@@ -117,7 +117,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
     handleInEndTime() {
         super.handleInEndTime();
-        this.main.balanceBet(false);
+        this.main.setTotalBetAfterBalance();
         this.main.statusDesc.setNormalDescription(GameUtils.getText("ui.payout"), false);
         this.animatedTime.updateProgress(15, 2);
         this.animatedTime.setTime(this.formatTime(15));
