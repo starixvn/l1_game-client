@@ -42,6 +42,10 @@ export default class LoadWebView extends cc.Component {
         this.webView._impl.setVisible(false);
     }
 
+    destroyWebview() {
+        this.webView.destroy();
+    }
+
     showLoading() {
         this.loading.active = true;
     }
