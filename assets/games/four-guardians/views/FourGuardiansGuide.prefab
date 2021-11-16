@@ -1399,8 +1399,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 346.5,
-      "height": 60
+      "width": 278,
+      "height": 36
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1437,7 +1437,20 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 34
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "txt_huongdan",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -1451,37 +1464,21 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.GAMERULES",
-    "_N$string": "UI.GAMERULES",
-    "_fontSize": 30,
-    "_lineHeight": 60,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c85dd862-3f44-4d6c-8b6c-29a2912ac388"
+    "_spriteFrame": {
+      "__uuid__": "d4bbe0d4-1506-4531-b788-da348791f327"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 34
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "_dataId": "ui.gameRules",
-    "format": 1,
-    "suffix": "",
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {

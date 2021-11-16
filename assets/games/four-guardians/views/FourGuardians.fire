@@ -23814,8 +23814,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 127,
-      "height": 47
+      "width": 106,
+      "height": 46
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -23867,7 +23867,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "efa2f669-51a0-46be-aa82-3764e097fced"
+      "__uuid__": "824daccf-f4de-4d21-b004-3d60786ccb42"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -23880,13 +23880,11 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "f7eb5689-25f7-4f4e-8d8e-2aeef6b3fcc6"
-    },
+    "_atlas": null,
     "_id": "ebcndXZodGp6pyiRtDDxNc"
   },
   {
-    "__type__": "e07eb7ZtCFH5IdBzWDXvE12",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -23894,11 +23892,9 @@
     },
     "_enabled": true,
     "spriteFrameSet": [],
-    "atlas": {
-      "__uuid__": "f7eb5689-25f7-4f4e-8d8e-2aeef6b3fcc6"
-    },
-    "prefix": "text_spin",
-    "_id": "bfVGFwpS9CvJ/TLvutz18j"
+    "gameId": 29,
+    "nameImage": "text_spin",
+    "_id": "84Gxwe8E1G+J2lF64fdPhZ"
   },
   {
     "__type__": "cc.Node",
@@ -25099,7 +25095,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 99.9,
+      "width": 86.4,
       "height": 20
     },
     "_anchorPoint": {
@@ -25151,8 +25147,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.LINE",
-    "_N$string": "UI.LINE",
+    "_string": "LINES",
+    "_N$string": "LINES",
     "_fontSize": 18,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -25625,8 +25621,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.TOTAL_BET",
-    "_N$string": "UI.TOTAL_BET",
+    "_string": "TOTAL BET",
+    "_N$string": "TOTAL BET",
     "_fontSize": 18,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -26083,8 +26079,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 164,
-      "height": 20
+      "width": 138,
+      "height": 25
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -26121,20 +26117,20 @@
     "_id": "fdI1Rh1GFMPpIJ5+16r/MQ"
   },
   {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 546
     },
     "_enabled": true,
-    "_dataId": "ui.autoSpin",
-    "format": 1,
-    "suffix": "",
-    "_id": "3bFR+1h9pEuLbXjqF5DVay"
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "text_tuquay",
+    "_id": "54PAhtN+lEZYLWxKTzVt9S"
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -26148,25 +26144,22 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.AUTOSPIN",
-    "_N$string": "UI.AUTOSPIN",
-    "_fontSize": 16,
-    "_lineHeight": 20,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "eb4ef915-c857-46a0-94b4-70f17b95f6cc"
+    "_spriteFrame": {
+      "__uuid__": "c6753092-8828-4975-b179-082820b1efe0"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 0,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": "c7q4Jnv6BIzKc6B6KV1vCo"
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": "597f3UZfBFD5f2IQ+uA41e"
   },
   {
     "__type__": "cc.Node",
@@ -26795,8 +26788,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120.8,
-      "height": 20
+      "width": 135,
+      "height": 25
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -26833,20 +26826,20 @@
     "_id": "6cR5QrlU1A44QKfpAMolbR"
   },
   {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 562
     },
     "_enabled": true,
-    "_dataId": "ui.turbo",
-    "format": 1,
-    "suffix": "",
-    "_id": "d0Syd0x+9KDLzplOLFWopR"
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "text_sieutoc",
+    "_id": "78ARQ86zVFopyMyKXz6cSd"
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -26860,25 +26853,22 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.TURBO",
-    "_N$string": "UI.TURBO",
-    "_fontSize": 16,
-    "_lineHeight": 20,
-    "_enableWrapText": false,
-    "_N$file": {
-      "__uuid__": "eb4ef915-c857-46a0-94b4-70f17b95f6cc"
+    "_spriteFrame": {
+      "__uuid__": "6a8378b4-f6e0-42e2-a689-eae39089b554"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 0,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": "37f6Uw/ldE06sxxxZlduNg"
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
+    "_id": "e4bh3Va6pLp4rkiOeFZLpX"
   },
   {
     "__type__": "cc.Node",
@@ -27507,7 +27497,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 111.6,
+      "width": 61.2,
       "height": 20
     },
     "_anchorPoint": {
@@ -27559,8 +27549,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.BET2",
-    "_N$string": "UI.BET2",
+    "_string": "BET",
+    "_N$string": "BET",
     "_fontSize": 18,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -29845,7 +29835,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 121.9,
+      "width": 80.5,
       "height": 23
     },
     "_anchorPoint": {
@@ -29910,8 +29900,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.WIN",
-    "_N$string": "UI.WIN",
+    "_string": "WIN",
+    "_N$string": "WIN",
     "_fontSize": 23,
     "_lineHeight": 23,
     "_enableWrapText": true,
