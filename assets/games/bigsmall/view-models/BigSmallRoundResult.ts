@@ -35,7 +35,7 @@ export default abstract class BigSmallRoundResult extends cc.Component {
 
     updateLabels(data: any) {
         const { settlementResult, result } = data;
-        const lang = window.i18n.curLang === "vi" ? "" : window.i18n.curLang;
+        const lang = window.i18n.curLang === "vi" ? "" : `_${window.i18n.curLang}`;
         const choice = this.getTextFollowChoice({ settlementResult });
         const name = `scoreboard_${choice}`;
 
@@ -49,7 +49,7 @@ export default abstract class BigSmallRoundResult extends cc.Component {
     }
 
     getSpriteFrameByLang(name: string, lang: string) {
-        const spriteName = `${name}_${lang}`;
+        const spriteName = `${name}${lang}`;
         return this.atlas.getSpriteFrame(spriteName);
     }
 }
