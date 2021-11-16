@@ -132,9 +132,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Node)
     evenOddTooltipNode: cc.Node = null;
 
-    @property(BitCoinMasterExpandableMenu)
-    menu: BitCoinMasterExpandableMenu = null;
-
     protected upDownMiniRoundHistory: BitcoinMasterUpDownMiniRoundHistory;
     protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
     protected betHistory: BitcoinMasterBetHistory;
@@ -329,7 +326,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     openGuide() {
         super.openGuide();
-        this.menu.collapseMenu();
         this.closeStatistic();
     }
 
@@ -344,7 +340,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         };
 
         this.currentMiniPanel.addDialog(node);
-        this.menu.collapseMenu();
         this.closeStatistic();
     }
 
