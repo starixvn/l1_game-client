@@ -305,7 +305,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     showResult() {
-        this.disableHistoryButton();
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
             this.result.showResult();
@@ -409,9 +408,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     closeGame() {
-        super.closeGame();
         this.statisticNode.destroyAllChildren();
         this.chartWebView.hideWebView();
+        super.closeGame();
     }
 
     balanceBet(animated: boolean) {
@@ -455,7 +454,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     setBettingPrice(data: any) {
-        if ((data.open && !data.close) || (data.result && data.result.open)) {
+        if (data.open && !data.close) {
             this.bettingPrice.node.active = true;
             this.bettingPrice.string = BitcoinMasterUtils.formattingBitcoinValue(data.open);
             if (this.currentTimeRemaining === 58) {
