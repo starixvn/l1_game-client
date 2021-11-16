@@ -6,7 +6,7 @@ const { ccclass, property } = cc._decorator;
 export default class IOSAutoScaleWidget extends AutoScaleWidget {
     isIOS(): boolean {
         const userAgent = window.navigator.userAgent.toLowerCase();
-        return /ios/.test(userAgent);
+        return /iPad|iPhone/.test(userAgent);
     }
 
     protected updateDisplay(): void {
