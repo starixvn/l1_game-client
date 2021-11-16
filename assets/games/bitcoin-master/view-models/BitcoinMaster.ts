@@ -405,6 +405,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     closeGame() {
         this.statisticNode.destroyAllChildren();
         this.chartWebView.hideWebView();
+        this.chartWebView.destroyDivIframe();
         super.closeGame();
     }
 

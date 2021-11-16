@@ -42,8 +42,8 @@ export default class LoadWebView extends cc.Component {
         this.webView._impl.setVisible(false);
     }
 
-    destroyWebview() {
-        this.webView.destroy();
+    destroyDivIframe() {
+        this.webView._impl._div = null;
     }
 
     showLoading() {
