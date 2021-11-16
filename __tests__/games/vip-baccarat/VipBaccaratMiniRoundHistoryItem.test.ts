@@ -12,9 +12,9 @@ describe("Test class VipBaccaratMiniRoundHistoryItem", () => {
         node = new cc.Node();
         comp = node.addComponent(VipBaccaratMiniRoundHistoryItem);
         comp.icon = new cc.Node().addComponent(cc.Sprite);
-        comp.dotRed = new cc.SpriteFrame();
-        comp.dotBlue = new cc.SpriteFrame();
-        comp.dotGreen = new cc.SpriteFrame();
+        comp.banker = new cc.Sprite();
+        comp.player = new cc.Sprite();
+        comp.tie = new cc.Sprite();
     });
     describe("Test method setData", () => {
         it("Case 1: tie = false and banker = false ", () => {
@@ -38,7 +38,7 @@ describe("Test class VipBaccaratMiniRoundHistoryItem", () => {
 
             // Assert
             expect(comp.data).toEqual(data);
-            expect(comp.icon.spriteFrame).toEqual(comp.dotBlue);
+            expect(comp.icon.spriteFrame).toEqual(comp.player.spriteFrame);
         });
 
         it("Case 2: tie = false and banker = true ", () => {
@@ -62,7 +62,7 @@ describe("Test class VipBaccaratMiniRoundHistoryItem", () => {
 
             // Assert
             expect(comp.data).toEqual(data);
-            expect(comp.icon.spriteFrame).toEqual(comp.dotRed);
+            expect(comp.icon.spriteFrame).toEqual(comp.banker.spriteFrame);
         });
 
         it("Case 3: tie = true ", () => {
@@ -86,7 +86,7 @@ describe("Test class VipBaccaratMiniRoundHistoryItem", () => {
 
             // Assert
             expect(comp.data).toEqual(data);
-            expect(comp.icon.spriteFrame).toEqual(comp.dotGreen);
+            expect(comp.icon.spriteFrame).toEqual(comp.tie.spriteFrame);
         });
     });
 });
