@@ -1184,7 +1184,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "9570d3ca-6f5b-4981-884a-66ed59202dac"
+      "__uuid__": "0a6b5621-ea11-4a25-a66a-6415fcbfb228"
     },
     "_type": 0,
     "_sizeMode": 2,
@@ -1197,13 +1197,11 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": false,
-    "_atlas": {
-      "__uuid__": "f7eb5689-25f7-4f4e-8d8e-2aeef6b3fcc6"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
-    "__type__": "e07eb7ZtCFH5IdBzWDXvE12",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -1211,10 +1209,8 @@
     },
     "_enabled": true,
     "spriteFrameSet": [],
-    "atlas": {
-      "__uuid__": "f7eb5689-25f7-4f4e-8d8e-2aeef6b3fcc6"
-    },
-    "prefix": "top_winner_thang_lon",
+    "gameId": 29,
+    "nameImage": "top_winner_thang_lon",
     "_id": ""
   },
   {
@@ -1509,7 +1505,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "663ead2c-2b04-4ad8-8b8f-ce695ea1fa18"
+      "__uuid__": "79ab9671-aa66-44d6-b00d-a82e94201ef3"
     },
     "_type": 0,
     "_sizeMode": 2,
@@ -1522,13 +1518,11 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": false,
-    "_atlas": {
-      "__uuid__": "f7eb5689-25f7-4f4e-8d8e-2aeef6b3fcc6"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
-    "__type__": "e07eb7ZtCFH5IdBzWDXvE12",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -1536,10 +1530,8 @@
     },
     "_enabled": true,
     "spriteFrameSet": [],
-    "atlas": {
-      "__uuid__": "f7eb5689-25f7-4f4e-8d8e-2aeef6b3fcc6"
-    },
-    "prefix": "top_winner_no_hu",
+    "gameId": 29,
+    "nameImage": "top_winner_no_hu",
     "_id": ""
   },
   {
@@ -1929,7 +1921,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 179.3,
+      "width": 163,
       "height": 22
     },
     "_anchorPoint": {
@@ -1967,7 +1959,20 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 45
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "top_winner_thoi_gian",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -1981,38 +1986,21 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "THỜI GIAN",
-    "_N$string": "THỜI GIAN",
-    "_fontSize": 22,
-    "_lineHeight": 22,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c85dd862-3f44-4d6c-8b6c-29a2912ac388"
+    "_spriteFrame": {
+      "__uuid__": "a3fcee39-1697-4a74-80a8-3d400757341f"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 45
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "_dataId": "ui.time",
-    "format": 1,
-    "suffix": "",
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -2131,7 +2119,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 201.3,
+      "width": 183,
       "height": 22
     },
     "_anchorPoint": {
@@ -2169,7 +2157,20 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 51
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "top_winner_nguoi_choi",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -2183,38 +2184,21 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "NGƯỜI CHƠI",
-    "_N$string": "NGƯỜI CHƠI",
-    "_fontSize": 22,
-    "_lineHeight": 22,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c85dd862-3f44-4d6c-8b6c-29a2912ac388"
+    "_spriteFrame": {
+      "__uuid__": "3e2604b7-970e-4b11-b9e2-cb442b3ade87"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 51
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "_dataId": "ui.player",
-    "format": 1,
-    "suffix": "",
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -2333,8 +2317,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 206.8,
-      "height": 22
+      "width": 189,
+      "height": 31
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2371,7 +2355,20 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 57
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "top_winner_tong_cuoc",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -2385,38 +2382,21 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "TỔNG CƯỢC",
-    "_N$string": "TỔNG CƯỢC",
-    "_fontSize": 22,
-    "_lineHeight": 22,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c85dd862-3f44-4d6c-8b6c-29a2912ac388"
+    "_spriteFrame": {
+      "__uuid__": "9e9164ef-3e74-4f12-8dde-543294ae89d6"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 57
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "_dataId": "ui.totalStake",
-    "format": 1,
-    "suffix": "",
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -2535,8 +2515,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 209,
-      "height": 22
+      "width": 191,
+      "height": 25
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2573,7 +2553,20 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 63
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "top_winner_thang_lon_yellow",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -2587,38 +2580,21 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "THẮNG LỚN",
-    "_N$string": "THẮNG LỚN",
-    "_fontSize": 22,
-    "_lineHeight": 22,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c85dd862-3f44-4d6c-8b6c-29a2912ac388"
+    "_spriteFrame": {
+      "__uuid__": "b4013070-64d8-4d56-ae00-fa5190f7ae7c"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 63
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "_dataId": "ui.bigWin",
-    "format": 1,
-    "suffix": "",
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -2825,7 +2801,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 179.3,
+      "width": 163,
       "height": 22
     },
     "_anchorPoint": {
@@ -2863,7 +2839,20 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 71
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "top_winner_thoi_gian",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -2877,38 +2866,21 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "THỜI GIAN",
-    "_N$string": "THỜI GIAN",
-    "_fontSize": 22,
-    "_lineHeight": 22,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c85dd862-3f44-4d6c-8b6c-29a2912ac388"
+    "_spriteFrame": {
+      "__uuid__": "a3fcee39-1697-4a74-80a8-3d400757341f"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 71
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "_dataId": "ui.time",
-    "format": 1,
-    "suffix": "",
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -3061,7 +3033,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 201.3,
+      "width": 183,
       "height": 22
     },
     "_anchorPoint": {
@@ -3099,7 +3071,20 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 78
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "top_winner_nguoi_choi",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -3113,38 +3098,21 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "NGƯỜI CHƠI",
-    "_N$string": "NGƯỜI CHƠI",
-    "_fontSize": 22,
-    "_lineHeight": 22,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c85dd862-3f44-4d6c-8b6c-29a2912ac388"
+    "_spriteFrame": {
+      "__uuid__": "3e2604b7-970e-4b11-b9e2-cb442b3ade87"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 78
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "_dataId": "ui.player",
-    "format": 1,
-    "suffix": "",
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -3297,8 +3265,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 184.8,
-      "height": 22
+      "width": 167,
+      "height": 26
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3335,7 +3303,20 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 85
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "top_winner_muc_cuoc",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -3349,38 +3330,21 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "MỨC CƯỢC",
-    "_N$string": "MỨC CƯỢC",
-    "_fontSize": 22,
-    "_lineHeight": 22,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c85dd862-3f44-4d6c-8b6c-29a2912ac388"
+    "_spriteFrame": {
+      "__uuid__": "efd53a0f-7814-4ea1-8e41-b77c73f2f9b7"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 85
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "_dataId": "ui.bet",
-    "format": 1,
-    "suffix": "",
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -3533,8 +3497,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 112.2,
-      "height": 22
+      "width": 103,
+      "height": 27
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3571,7 +3535,20 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 92
+    },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 29,
+    "nameImage": "top_winner_no_hu_yellow",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -3585,38 +3562,21 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
-    "_string": "NỔ HŨ",
-    "_N$string": "NỔ HŨ",
-    "_fontSize": 22,
-    "_lineHeight": 22,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c85dd862-3f44-4d6c-8b6c-29a2912ac388"
+    "_spriteFrame": {
+      "__uuid__": "83033570-7c3d-44fc-ab55-9514c2875e45"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 92
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_enabled": true,
-    "_dataId": "ui.jackpot",
-    "format": 1,
-    "suffix": "",
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
@@ -4415,7 +4375,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "VINH DANH",
     "_N$string": "VINH DANH",
     "_fontSize": 30,
@@ -5089,7 +5048,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5359,7 +5318,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5638,7 +5597,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -5900,7 +5859,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 47
+      "height": 59.22
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5951,7 +5910,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -6082,6 +6040,20 @@
     "number": {
       "__id__": 159
     },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
     "_id": ""
   },
   {
@@ -6156,7 +6128,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -6418,7 +6390,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 47
+      "height": 59.22
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6469,7 +6441,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -6600,6 +6571,20 @@
     "number": {
       "__id__": 173
     },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
     "_id": ""
   },
   {
@@ -6674,7 +6659,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -6936,7 +6921,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 47
+      "height": 59.22
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6987,7 +6972,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -7118,6 +7102,20 @@
     "number": {
       "__id__": 187
     },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
     "_id": ""
   },
   {
@@ -7192,7 +7190,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -7454,7 +7452,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 47
+      "height": 59.22
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7505,7 +7503,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -7636,6 +7633,20 @@
     "number": {
       "__id__": 201
     },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
     "_id": ""
   },
   {
@@ -7710,7 +7721,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -7972,7 +7983,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 47
+      "height": 59.22
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8023,7 +8034,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "",
     "_N$string": "",
     "_fontSize": 20,
@@ -8153,6 +8163,20 @@
     },
     "number": {
       "__id__": 215
+    },
+    "textHighlightColor": {
+      "__type__": "cc.Color",
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 255
+    },
+    "textNormalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
     },
     "_id": ""
   },
@@ -9074,7 +9098,7 @@
     "asset": {
       "__uuid__": "f5ce65bc-7220-418e-b1a6-edc791e8d173"
     },
-    "fileId": "fflXUHTy1Kpo50TT44PxJS",
+    "fileId": "",
     "sync": false
   }
 ]
