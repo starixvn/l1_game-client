@@ -86,7 +86,7 @@ export default class BitcoinMasterBetHistory extends GameBalancedBettingHistoryB
         const { result } = this.data;
         this.openValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.open);
         this.closeValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.close);
-        this.gapAmountComp.setData(result);
+        this.gapAmountComp && this.gapAmountComp.setData(result);
 
         this.showUpDownTitle(true);
         this.loadBettingUserList(BMBetType.Up, BMBetType.Down);
@@ -99,8 +99,10 @@ export default class BitcoinMasterBetHistory extends GameBalancedBettingHistoryB
         this.generalInfoNode.getChildByName(BMHeaderMenu.EvenOdd).active = true;
 
         this.evenOddResult.string = BitcoinMasterUtils.formattingBitcoinValue(this.data.result.close);
-        this.evenOddResultDetail.setData(this.data.result.close);
-        this.evenOddResultDetail.setColor();
+        if (this.evenOddResultDetail) {
+            this.evenOddResultDetail.setData(this.data.result.close);
+            this.evenOddResultDetail.setColor();
+        }
 
         this.showUpDownTitle(false);
         this.loadBettingUserList(BMBetType.Even, BMBetType.Odd);
