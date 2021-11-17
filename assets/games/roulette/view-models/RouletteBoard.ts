@@ -43,7 +43,6 @@ export default class RouletteBoard extends cc.Component {
     private betChoices = {};
     private otherBetChoices = {};
 
-    chipOption: number[];
     betChips: BetChips;
 
     public callback = {
@@ -348,14 +347,14 @@ export default class RouletteBoard extends cc.Component {
     placeChipsByKey(type: string, key: string, bet: number, highlight = false, other = false) {
         const childNode = this.getBetNodeByKey(type, key, other);
         childNode.destroyAllChildren();
-        const node = RouletteUtils.createChips(bet, this.chipOption, this.betChips, highlight);
+        const node = RouletteUtils.createChips(bet, this.betChips, highlight);
         childNode.addChild(node);
     }
 
     placeChips(betInfo: RouletteBetInfo, bet: number, highlight = false, other = false) {
         const childNode = this.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo), other);
         childNode.destroyAllChildren();
-        const node = RouletteUtils.createChips(bet, this.chipOption, this.betChips, highlight);
+        const node = RouletteUtils.createChips(bet, this.betChips, highlight);
         childNode.addChild(node);
     }
 

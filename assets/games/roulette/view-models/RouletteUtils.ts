@@ -116,8 +116,8 @@ export default class RouletteUtils {
         return GameUtils.getChipValues(bet, options);
     }
 
-    public static createChips(bet: number, chipOption: number[], betChip: BetChips, highlight = false): cc.Node {
-        const values = this.getChipValues(bet, chipOption);
+    public static createChips(bet: number, betChip: BetChips, highlight = false): cc.Node {
+        const values = GameUtils.getChipQuantity(bet, betChip.chipValues);
         const keys = Object.keys(values).sort((a, b) => +a - +b); // sort ascending by key
         const key = keys.find((k) => values[k] > 0);
         return this.createChip(+key, betChip, highlight);
