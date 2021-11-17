@@ -1,5 +1,6 @@
 import { buildUrlWithPath } from "../../../common/helpers/UrlHelper";
 import LoadWebView from "../../../common/LoadWebView";
+import * as config from "../../../configs/Configs";
 
 const { ccclass } = cc._decorator;
 
@@ -8,6 +9,7 @@ export default class BitcoinMasterChart extends LoadWebView {
     public needDisableDivScroll = true;
 
     initURL(sessionID: string) {
-        this.url = buildUrlWithPath(`/bitcoinmaster/chart.html?ss=${sessionID}`);
+        const env = config.env === "" ? "" : `/${config.env}`;
+        this.url = buildUrlWithPath(`${env}/bitcoinmaster/chart.html?ss=${sessionID}`);
     }
 }
