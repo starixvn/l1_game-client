@@ -6,12 +6,12 @@ import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
-import SpecialSeDieStatusHandler from "./handlers/SpecialSeDieStatusHandler";
 import SpecialSeDieTimeHandler from "./handlers/SpecialSeDieTimeHandler";
 import SpecialSedieBetHistory from "./SpecialSedieBetHistory";
 import { SpecialSeDieConfigs } from "./SpecialSeDieConfigs";
 import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
+import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -153,7 +153,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
         this.logsHandler = new SpecialSeDieLogsHandler(this);
         this.finishHandler = new SpecialSeDieFinishHandler(this);
         this.betHandler = new SpecialSeDieBetHandler(this);
-        this.statusHandler = new SpecialSeDieStatusHandler(this);
+        this.statusHandler = new BalancedBettingPoolStatusHandler(this);
     }
 
     initRoundHistory() {

@@ -3,6 +3,7 @@ import GameUtils from "../../../common/GameUtils";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
+import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BalancedBettingPoolBetItem from "../../_base/view-models/BalancedBettingPoolBetItem";
 import BitcoinMasterBetHistory from "./BitcoinMasterBetHistory";
@@ -22,7 +23,6 @@ import BitcoinMasterUtils from "./BitcoinMasterUtils";
 import BitCoinMasterBetHandler from "./handlers/BitCoinMasterBetHandler";
 import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
-import BitcoinMasterStatusHandler from "./handlers/BitCoinMasterStatusHandler";
 import BitcoinMasterTimeHandler from "./handlers/BitCoinMasterTimeHandler";
 
 const { ccclass, property } = cc._decorator;
@@ -239,7 +239,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.logsHandler = new BitcoinMasterLogsHandler(this);
         this.finishHandler = new BitcoinMasterFinishHandler(this);
         this.betHandler = new BitCoinMasterBetHandler(this);
-        this.statusHandler = new BitcoinMasterStatusHandler(this);
+        this.statusHandler = new BalancedBettingPoolStatusHandler(this);
     }
 
     setValueBetAmount() {
@@ -486,6 +486,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             this.result.showResult(false);
             this.result.closeBitcoinLabel.node.position = this.movingClosePricePosition;
             this.result.gapAmountComp.gapAmount.node.position = this.movingGapAmountPosition;
+            this.result.gapAmountComp.icon.node.position = cc.v3(0, 0, 0);
             this.result.evenOddResultLabel.node.position = this.movingEvenOddResultPosition;
         }
     }

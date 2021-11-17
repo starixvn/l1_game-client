@@ -2,6 +2,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
+import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BigSmallBetHistory from "./BigSmallBetHistory";
 import { BigSmallConfigs } from "./BigSmallConfigs";
@@ -11,7 +12,6 @@ import BigSmallStatistic from "./BigSmallStatistic";
 import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
 import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
 import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
-import BigSmallStatusHandler from "./handlers/BigSmallStatusHandler";
 import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
 
 const { ccclass, property } = cc._decorator;
@@ -118,7 +118,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.logsHandler = new BigSmallLogsHandler(this);
         this.finishHandler = new BigSmallFinishHandler(this);
         this.betHandler = new BigSmallBetHandler(this);
-        this.statusHandler = new BigSmallStatusHandler(this);
+        this.statusHandler = new BalancedBettingPoolStatusHandler(this);
     }
 
     setValueBetAmount() {
