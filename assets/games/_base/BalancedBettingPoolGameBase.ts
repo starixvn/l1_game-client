@@ -47,7 +47,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
     onLoad() {
         super.onLoad();
 
-        this.initPresetBetBoard();
+        this.presetBetPrefab && this.initPresetBetBoard();
         this.initBetBoard();
 
         const draggableItem = this.getComponent(DraggableItem);

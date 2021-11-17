@@ -12,7 +12,6 @@ import { BMBetType } from "./BitcoinMasterCommon";
 import { BitcoinMasterConfigs } from "./BitcoinMasterConfigs";
 import BitcoinMasterCurrentCandleValue from "./BitcoinMasterCurrentCandleValue";
 import BitcoinMasterEvenOddMiniRoundHistory from "./BitcoinMasterEvenOddMiniRoundHistory";
-import BitCoinMasterExpandableMenu from "./BitCoinMasterExpandableMenu";
 import BitcoinMasterHistory from "./BitcoinMasterHistory";
 import BitCoinMasterProgressBar from "./BitCoinMasterProgressBar";
 import BitcoinMasterResult from "./BitcoinMasterResult";
@@ -161,7 +160,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.initRoundHistory();
         this.animatedTime.setAnimatedY(0, 0);
         this.animatedTime.setRedTime(-1);
-        GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.bitcoinTip.node, this.upDownTooltipNode);
+        GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.tip.node, this.upDownTooltipNode);
         GameUtils.moveToOtherNode(this.evenOddMiniRoundHistory.tip.node, this.evenOddTooltipNode);
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
             const zIndex = this.node.getSiblingIndex();
