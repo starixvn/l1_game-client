@@ -3,4 +3,4 @@ import BalancedBettingPoolBetItemBase from "../../_base/BalancedBettingPoolBetIt
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class BitcoinMasterBetHistoryBetChoiceItem extends BalancedBettingPoolBetItemBase {}
+export default class BitcoinMasterBetHistoryItem extends BalancedBettingPoolBetItemBase {}

@@ -57,7 +57,6 @@ export default class LoadWebView extends cc.Component {
     loadWebView() {
         if (this.url) {
             this.showLoading();
-            // this.hideWebView();
 
             this.webView.url = this.url;
         }

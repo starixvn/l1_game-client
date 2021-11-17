@@ -32,7 +32,7 @@ export default class BitcoinMasterStatisticItem extends cc.Component {
             return;
         }
         const number = parseFloat(BitcoinMasterUtils.getEvenOddResult(result.close));
-        let spriteName = number % 2 ? `statistic-dot-odd_${number}` : `statistic-dot-even_${number}`;
+        const spriteName = number % 2 ? `statistic-dot-odd_${number}` : `statistic-dot-even_${number}`;
         this.sprite.spriteFrame = this.atlas.getSpriteFrame(spriteName);
     }
 }

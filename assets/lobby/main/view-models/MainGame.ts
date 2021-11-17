@@ -24,7 +24,6 @@ import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 
-// const baseControll = require("BaseController");
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -268,13 +267,7 @@ export default class MainGame extends cc.Component {
         lobbyMenu = this.mainScroll.addComponent(LobbyMenu);
         lobbyMenu.content = this.scrollContent;
         lobbyMenu.miniPanel = cc.RedT.MiniPanel;
-        // lobbyMenu.initializedCallback = () => {
-        //     if (this.node === null) {
-        //         return;
-        //     }
-        //     this.repositionMenu();
-        // };
-        // lobbyMenu.initItems();
+
         this.lobbyMenu = lobbyMenu;
 
         let category = GameCategory.All;

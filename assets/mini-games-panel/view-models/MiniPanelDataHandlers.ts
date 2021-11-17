@@ -3,7 +3,7 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
-import { removeInRoomGameId, removeSession } from "./../../common/auth/SessionManager";
+import { removeInRoomGameId } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
@@ -65,8 +65,6 @@ export default class MiniPanelDataHandlers {
     }
 
     handleDataKickedOut(data: any) {
-        // removeSession();
-
         if (data.umInfo) {
             cc.RedT.forceKickedOut();
             window.umInfo = data.umInfo;
