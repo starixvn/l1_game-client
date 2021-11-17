@@ -14,6 +14,12 @@ export default class BitcoinMasterResult extends cc.Component {
     @property(cc.Label)
     closeBitcoinLabel: cc.Label = null;
 
+    @property(cc.Node)
+    upIconPos: cc.Node = null;
+
+    @property(cc.Node)
+    downIconPos: cc.Node = null;
+
     showResult(show = true) {
         this.closeBitcoinLabel.node.active = show;
         this.gapAmountComp.gapAmount.node.active = show;
@@ -23,9 +29,7 @@ export default class BitcoinMasterResult extends cc.Component {
     setData(data: any) {
         this.closeBitcoinLabel.string = BitcoinMasterUtils.formattingBitcoinValue(data.close);
         this.gapAmountComp.setData(data);
-        this.gapAmountComp.icon.node.position = this.gapAmountComp.isUpResult
-            ? cc.v3(this.gapAmountComp.icon.node.position.x, this.gapAmountComp.icon.node.position.y, 0)
-            : cc.v3(this.gapAmountComp.icon.node.position.x, -this.gapAmountComp.icon.node.position.y, 0);
+        this.gapAmountComp.icon.node.position = this.gapAmountComp.isUpResult ? this.upIconPos.position : this.downIconPos.position;
 
         const evenOddValue = BitcoinMasterUtils.getEvenOddResult(data.close);
         this.evenOddResultLabel.string = evenOddValue;
