@@ -30,12 +30,9 @@ export default class BigSmallBetHistory extends GameBalancedBettingHistoryBase {
 
     onData(data: any) {
         super.onData(data);
-        this.data = data;
-        this.roundId = data.id;
         this.loadBettingUserList(this.main.choices[1], this.main.choices[0]);
         const { id, time, result } = data;
         this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
-        this.nextButton.active = this.main.currentDataLogs[0].roundId > data.id;
         this.updateDotsResult(result);
     }
 

@@ -41,11 +41,8 @@ export default class BitcoinMasterBetHistory extends GameBalancedBettingHistoryB
 
     onData(data: any) {
         super.onData(data);
-        this.data = data;
-        this.roundId = data.id;
         this.roundIdLabel.string = `#${data.id}`;
         this.time.string = getStringDateByTime(data.time);
-        this.nextButton.active = this.main.currentDataLogs[0].roundId > data.id;
         this.activeTab === BMHeaderMenu.UpDown ? this.loadUpDownData() : this.loadEvenOddData();
     }
 

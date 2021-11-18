@@ -89,6 +89,9 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
 
     onData(data: any) {
         this.resetBettingUserList();
+        this.data = data;
+        this.roundId = data.id;
+        this.nextButton.active = this.main.currentDataLogs[0].roundId > data.id;
     }
 
     loadBettingUserList(leftBetType: string, rightBetType: string) {
