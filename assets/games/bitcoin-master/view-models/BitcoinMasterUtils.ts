@@ -3,7 +3,7 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 export default class BitcoinMasterUtils {
     public static getEvenOddResult(value: number): string {
         const result = value.toString().split(".")[0];
-        return result.substr(-1, 1);
+        return result.slice(-1);
     }
 
     public static getUpDownResult(result: any): string {

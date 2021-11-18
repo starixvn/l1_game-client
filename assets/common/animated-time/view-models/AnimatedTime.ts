@@ -8,6 +8,9 @@ export default class AnimatedTime extends cc.Component {
     @property(cc.Label)
     secondChar: cc.Label = null;
 
+    @property
+    animated = true;
+
     protected timeToChangeColor = 5;
     protected changedColor: cc.Color = cc.Color.RED;
     protected animatedYTop = 70;
@@ -46,23 +49,25 @@ export default class AnimatedTime extends cc.Component {
     }
 
     protected handleBetTimeAnimation(node: cc.Node) {
-        node.opacity = 0;
+        if (this.animated) {
+            node.opacity = 0;
 
-        cc.tween(node)
-            .to(0, {
-                position: cc.v2(node.position.x, this.animatedYTop)
-            })
-            .to(0.2, {
-                position: cc.v2(node.position.x, 0),
-                opacity: 255
-            })
-            .to(0.1, {
-                position: cc.v2(node.position.x, this.animatedYBottom)
-            })
-            .to(0.1, {
-                position: cc.v2(node.position.x, 0)
-            })
-            .start();
+            cc.tween(node)
+                .to(0, {
+                    position: cc.v2(node.position.x, this.animatedYTop)
+                })
+                .to(0.2, {
+                    position: cc.v2(node.position.x, 0),
+                    opacity: 255
+                })
+                .to(0.1, {
+                    position: cc.v2(node.position.x, this.animatedYBottom)
+                })
+                .to(0.1, {
+                    position: cc.v2(node.position.x, 0)
+                })
+                .start();
+        }
     }
 
     protected setColor(time: string, forceChangeColor = false) {

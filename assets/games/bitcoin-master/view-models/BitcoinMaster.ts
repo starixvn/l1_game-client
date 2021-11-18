@@ -508,6 +508,11 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         evenButton.interactable = enabled;
         oddButton.interactable = enabled;
 
+        upButton.node.getChildByName("text").opacity = enabled ? 255 : 180;
+        downButton.node.getChildByName("text").opacity = enabled ? 255 : 180;
+        evenButton.node.getChildByName("text").opacity = enabled ? 255 : 180;
+        oddButton.node.getChildByName("text").opacity = enabled ? 255 : 180;
+
         this.selectedUpBetAmountSprite.spriteFrame = image;
         this.selectedDownBetAmountSprite.spriteFrame = image;
         this.selectedEvenBetAmountSprite.spriteFrame = image;
