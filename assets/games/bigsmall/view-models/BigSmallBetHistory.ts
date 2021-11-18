@@ -1,53 +1,21 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import LocalizedLabelWithFormat from "../../../common/i18n/LocalizedLabelWithFormat";
+import GameBalancedBettingHistoryBase from "../../_base/view-models/GameBalancedBettingHistoryBase";
 import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
 import BigSmall from "./BigSmall";
-import BigSmallBetHistoryItem from "./BigSmallBetHistoryItem";
-
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class BigSmallBetHistory extends cc.Component {
-    @property(cc.Label)
-    roundIdLabel: cc.Label = null;
-
+export default class BigSmallBetHistory extends GameBalancedBettingHistoryBase {
     @property(cc.Sprite)
     dices: cc.Sprite[] = [];
 
     @property(cc.SpriteFrame)
     diceFrames: cc.SpriteFrame[] = [];
 
-    @property(cc.Label)
-    leftBetAmount: cc.Label = null;
-
-    @property(cc.Label)
-    leftRefundAmount: cc.Label = null;
-
-    @property(cc.Label)
-    rightBetAmount: cc.Label = null;
-
-    @property(cc.Label)
-    rightRefundAmount: cc.Label = null;
-
-    @property(cc.Node)
-    leftContent: cc.Node = null;
-
-    @property(cc.Node)
-    rightContent: cc.Node = null;
-
-    @property(cc.Prefab)
-    itemPrefab: cc.Prefab = null;
-
-    @property(cc.Node)
-    nextButton: cc.Node = null;
-
     @property(cc.Node)
     leftResultNode: cc.Node = null;
 
     @property(cc.Node)
     rightResultNode: cc.Node = null;
-
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
 
     @property(LocalizedLabelWithFormat)
     gameName: LocalizedLabelWithFormat = null;
@@ -56,89 +24,17 @@ export default class BigSmallBetHistory extends cc.Component {
     protected roundId = 0;
 
     init(main: BigSmall, roundId: number) {
-        this.main = main;
-        this.roundId = roundId;
-
-        this.getRound(this.roundId);
+        super.init(main, roundId);
         this.gameName.dataId = `gameNames.${this.main.gameId}`;
     }
 
-    onDisable() {
-        this.node.destroy();
-    }
-
-    onLoad() {
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
-
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
-    }
-
-    onNextClick() {
-        this.getRound(this.roundId + 1);
-    }
-
-    onPreviousClick() {
-        this.getRound(this.roundId - 1);
-    }
-
-    getRound(roundId: number) {
-        this.main.socket.emit("getRound", { roundId });
-    }
-
     onData(data: any) {
-        this.resetData();
-
-        const { id, time, result, total, settlementResult } = data;
-        const leftChoice = total[this.main.choices[1]];
-        const rightChoice = total[this.main.choices[0]];
-        const big = data[this.main.choices[1]];
-        const small = data[this.main.choices[0]];
-        let leftBetAmount = 0;
-        let rightBetAmount = 0;
-        let leftRefund = 0;
-        let rightRefund = 0;
-
-        this.roundId = id;
+        super.onData(data);
+        this.data = data;
+        this.roundId = data.id;
+        this.loadBettingUserList(this.main.choices[1], this.main.choices[0]);
+        const { id, time, result } = data;
         this.roundIdLabel.string = `${id} - ${getStringDateByTime(time)}`;
-        this.nextButton.active = this.main.currentDataLogs[0].roundId > id;
-
-        if (leftChoice) {
-            leftBetAmount = leftChoice.betAmount;
-            leftRefund = leftChoice.refund;
-        }
-
-        if (rightChoice) {
-            rightBetAmount = rightChoice.betAmount;
-            rightRefund = rightChoice.refund;
-        }
-
-        this.leftBetAmount.string = numberWithCommas(leftBetAmount);
-        this.rightBetAmount.string = numberWithCommas(rightBetAmount);
-
-        this.leftRefundAmount.string = numberWithCommas(leftRefund);
-        this.rightRefundAmount.string = numberWithCommas(rightRefund);
-
-        this.leftResultNode.opacity = settlementResult[this.main.choices[1]] ? 255 : 100;
-        this.rightResultNode.opacity = settlementResult[this.main.choices[0]] ? 255 : 100;
-
-        if (big) {
-            big.forEach((user) => {
-                const item = this.addItem(user);
-                this.leftContent.addChild(item);
-            });
-        }
-
-        if (small) {
-            small.forEach((user) => {
-                const item = this.addItem(user);
-                this.rightContent.addChild(item);
-            });
-        }
         this.updateDotsResult(result);
     }
 
@@ -147,17 +43,5 @@ export default class BigSmallBetHistory extends cc.Component {
             const dot = this.dices[index].getComponent(cc.Sprite);
             dot.spriteFrame = this.diceFrames[result[key] - 1];
         });
-    }
-
-    addItem(data: any) {
-        const item = cc.instantiate(this.itemPrefab);
-        const itemComponent = item.getComponent(BigSmallBetHistoryItem);
-        itemComponent.setData(data);
-        return item;
-    }
-
-    resetData() {
-        this.leftContent.destroyAllChildren();
-        this.rightContent.destroyAllChildren();
     }
 }
