@@ -77,9 +77,10 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
 
         const convertValue = GameUtils.getValueByCurrency(bet, rate);
         const values = GameUtils.getChipQuantity(convertValue, this.main.betChips.chipValues);
+        const keys = Object.keys(values).sort((a, b) => +b - +a);
 
         let count = 0;
-        Object.keys(values).forEach((chip) => {
+        keys.forEach((chip) => {
             if (values[chip] > 0) {
                 for (let i = 0; i < values[chip]; i++) {
                     const delayTime = count * 0.5;
