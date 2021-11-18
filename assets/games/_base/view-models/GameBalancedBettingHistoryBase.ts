@@ -35,6 +35,12 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
     nextButton: cc.Node = null;
 
     @property(cc.Node)
+    leftResultNode: cc.Node = null;
+
+    @property(cc.Node)
+    rightResultNode: cc.Node = null;
+
+    @property(cc.Node)
     mainFrame: cc.Node = null;
 
     protected main: BalancedBettingPoolGameBase;
@@ -95,8 +101,14 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
     }
 
     loadBettingUserList(leftBetType: string, rightBetType: string) {
+        this.highLightWinningTitle(leftBetType, rightBetType);
         this.loadData(leftBetType, this.leftContent, this.leftBetAmount, this.leftRefundAmount);
         this.loadData(rightBetType, this.rightContent, this.rightBetAmount, this.rightRefundAmount);
+    }
+
+    highLightWinningTitle(leftBetType: string, rightBetType: string) {
+        this.leftResultNode.opacity = this.data.settlementResult[leftBetType] ? 255 : 100;
+        this.rightResultNode.opacity = this.data.settlementResult[rightBetType] ? 255 : 100;
     }
 
     loadData(choice: string, containerNode: cc.Node, betAmountLabel: cc.Label, refundLabel: cc.Label) {

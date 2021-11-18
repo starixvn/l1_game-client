@@ -11,12 +11,6 @@ export default class BigSmallBetHistory extends GameBalancedBettingHistoryBase {
     @property(cc.SpriteFrame)
     diceFrames: cc.SpriteFrame[] = [];
 
-    @property(cc.Node)
-    leftResultNode: cc.Node = null;
-
-    @property(cc.Node)
-    rightResultNode: cc.Node = null;
-
     @property(LocalizedLabelWithFormat)
     gameName: LocalizedLabelWithFormat = null;
 

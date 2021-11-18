@@ -111,4 +111,9 @@ export default class BitcoinMasterBetHistory extends GameBalancedBettingHistoryB
         this.titleNode.getChildByName(BMBetType.Even).active = !show;
         this.titleNode.getChildByName(BMBetType.Odd).active = !show;
     }
+
+    highLightWinningTitle(leftBetType: string, rightBetType: string) {
+        this.titleNode.getChildByName(leftBetType).opacity = this.data.settlementResult[leftBetType] ? 255 : 100;
+        this.titleNode.getChildByName(rightBetType).opacity = this.data.settlementResult[rightBetType] ? 255 : 100;
+    }
 }
