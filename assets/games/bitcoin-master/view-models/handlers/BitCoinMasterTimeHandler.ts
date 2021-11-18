@@ -49,30 +49,23 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     gameUpdate(): void {
         this.animatedTime = this.main.animatedTime as BitCoinMasterAnimatedTime;
         if (this.main.gameConfigs) {
-            if (this.isInWaitTime) {
-                this.handleWaitTime();
-            } else {
-                if (this.isStartingNewGameRound) {
-                    this.handleStartingNewGameRound();
-                    this.isShowResult = false;
-                }
-
-                if (this.isInRoundTime) {
-                    this.handleInRoundTime();
-
-                    if (this.isInLockBetTime) {
-                        if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
-                            this.handleAtLockBetTime();
-                        }
-                        this.handleInLockBetTime();
-                    }
-                } else {
-                    this.handleInEndTime();
-                }
-            }
+            this.handleGameUpdate();
         }
 
         this.main.currentTimeRemaining--;
+    }
+
+    handleGameUpdate() {
+        this.isInWaitTime ? this.handleWaitTime() : this.handleGameNotWaitTime();
+    }
+
+    handleGameNotWaitTime() {
+        if (this.isStartingNewGameRound) {
+            this.handleStartingNewGameRound();
+            this.isShowResult = false;
+        }
+
+        this.isInRoundTime ? this.handleInRoundTime() : this.handleInEndTime();
     }
 
     resetTime(): void {
@@ -81,6 +74,8 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
     handleInRoundTime() {
         super.handleInRoundTime();
+
+        this.isInLockBetTime && this.handleInLockBetTime();
 
         if (this.main.currentTimeRemaining <= this.waitResultTimePoint) {
             if (this.isInBalanceBetTime) {
