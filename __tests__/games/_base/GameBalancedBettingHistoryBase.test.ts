@@ -17,6 +17,9 @@ describe("Test class GameBalancedBettingHistoryBase", () => {
         comp.leftRefundAmount = new cc.Node().addComponent(cc.Label);
         comp.rightBetAmount = new cc.Node().addComponent(cc.Label);
         comp.rightRefundAmount = new cc.Node().addComponent(cc.Label);
+        comp.nextButton = new cc.Node();
+        comp.leftContent = new cc.Node();
+        comp.rightContent = new cc.Node();
     });
 
     describe("Test method resetBettingUserList", () => {

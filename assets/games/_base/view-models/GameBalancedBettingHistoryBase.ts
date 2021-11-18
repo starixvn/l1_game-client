@@ -97,7 +97,7 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
         this.resetBettingUserList();
         this.data = data;
         this.roundId = data.id;
-        this.nextButton.active = this.main.currentDataLogs[0].roundId > data.id;
+        this.nextButton.active = this.main && this.main.currentDataLogs[0].roundId > data.id;
     }
 
     loadBettingUserList(leftBetType: string, rightBetType: string) {
@@ -106,7 +106,7 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
         this.loadData(rightBetType, this.rightContent, this.rightBetAmount, this.rightRefundAmount);
     }
 
-    highLightWinningTitle(leftBetType: string, rightBetType: string) {
+    protected highLightWinningTitle(leftBetType: string, rightBetType: string) {
         this.leftResultNode.opacity = this.data.settlementResult[leftBetType] ? 255 : 100;
         this.rightResultNode.opacity = this.data.settlementResult[rightBetType] ? 255 : 100;
     }

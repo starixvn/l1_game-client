@@ -4,7 +4,6 @@
  */
 
 import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import SpecialSedieBetHistory from "../../../assets/games/special-sedie/view-models/SpecialSedieBetHistory";
 
 describe("Test class SpecialSedieBetHistory", () => {
@@ -14,18 +13,19 @@ describe("Test class SpecialSedieBetHistory", () => {
         node = new cc.Node();
         comp = node.addComponent(SpecialSedieBetHistory);
         comp.roundIdLabel = new cc.Node().addComponent(cc.Label);
-        comp.evenBetAmount = new cc.Node().addComponent(cc.Label);
-        comp.evenRefundAmount = new cc.Node().addComponent(cc.Label);
-        comp.oddBetAmount = new cc.Node().addComponent(cc.Label);
-        comp.oddRefundAmount = new cc.Node().addComponent(cc.Label);
-        comp.evenNode = new cc.Node();
-        comp.oddNode = new cc.Node();
-        comp.evenContent = new cc.Node();
-        comp.oddContent = new cc.Node();
         comp.redDot = new cc.SpriteFrame();
         comp.whiteDot = new cc.SpriteFrame();
         comp.nextButton = new cc.Node();
         comp.dots = new cc.Node();
+        comp.leftContent = new cc.Node();
+        comp.rightContent = new cc.Node();
+        comp.leftResultNode = new cc.Node();
+        comp.rightResultNode = new cc.Node();
+        comp.leftBetAmount = new cc.Node().addComponent(cc.Label);
+        comp.leftRefundAmount = new cc.Node().addComponent(cc.Label);
+        comp.rightBetAmount = new cc.Node().addComponent(cc.Label);
+        comp.rightRefundAmount = new cc.Node().addComponent(cc.Label);
+
         for (var i = 0; i < 4; i++) {
             const dot = new cc.Node().addComponent(cc.Sprite);
             comp.dots.addChild(dot.node);
@@ -64,147 +64,14 @@ describe("Test class SpecialSedieBetHistory", () => {
                 }
             };
             const anyComp = comp as any;
-            const resetDataSpy = jest.spyOn(anyComp, "resetData");
-            const setBasicDataSpy = jest.spyOn(anyComp, "setBasicData");
             const updateDotsResultSpy = jest.spyOn(anyComp, "updateDotsResult");
 
             // Act
             comp.onData(data);
 
             // Assert
-            expect(resetDataSpy).toBeCalledWith();
-            expect(setBasicDataSpy).toBeCalledWith(data);
-            expect(updateDotsResultSpy).toBeCalledWith(data.result);
-        });
-    });
-
-    describe("Test method setBasicData", () => {
-        it("Case: ", () => {
-            // Arrange
-            const data = {
-                time: "2021-10-08T03:23:59.004Z",
-                id: 787997,
-                result: {
-                    red1: true,
-                    red2: true,
-                    red3: true,
-                    red4: true
-                },
-                settlementResult: {
-                    odd: false,
-                    even: true
-                },
-                __v: 0,
-                __archive: {
-                    eventtime: "2021-10-08T03:23:59.004Z"
-                },
-                odd: [
-                    {
-                        thanhtoan: true,
-                        refund: 0,
-                        win: false,
-                        betwin: 0,
-                        uid: "5fbb5cb23be4fa0001c06e63",
-                        name: "Rooney12628",
-                        phien: 787997,
-                        amount: 46,
-                        choice: "odd",
-                        time: "2021-10-08T03:23:29.032Z",
-                        __v: 0,
-                        __archive: {
-                            eventtime: "2021-10-08T03:23:59.004Z"
-                        }
-                    },
-                    {
-                        thanhtoan: true,
-                        refund: 0,
-                        win: false,
-                        betwin: 0,
-                        uid: "5f978aa33d461a0001a1ac95",
-                        name: "Money99295",
-                        phien: 787997,
-                        amount: 44,
-                        choice: "odd",
-                        time: "2021-10-08T03:23:29.000Z",
-                        __v: 0,
-                        __archive: {
-                            eventtime: "2021-10-08T03:23:59.004Z"
-                        }
-                    }
-                ],
-                even: [
-                    {
-                        thanhtoan: true,
-                        refund: 0,
-                        win: true,
-                        betwin: 864,
-                        uid: "5fbb5caa3be4fa0001c06e0f",
-                        name: "Iniesta62409",
-                        phien: 787997,
-                        amount: 900,
-                        choice: "even",
-                        time: "2021-10-08T03:23:29.038Z",
-                        __v: 0,
-                        __archive: {
-                            eventtime: "2021-10-08T03:23:59.004Z"
-                        }
-                    },
-                    {
-                        thanhtoan: true,
-                        refund: 0,
-                        win: true,
-                        betwin: 26.88,
-                        uid: "5fbb5c673be4fa0001c067c6",
-                        name: "Go48792",
-                        phien: 787997,
-                        amount: 28,
-                        choice: "even",
-                        time: "2021-10-08T03:23:29.013Z",
-                        __v: 0,
-                        __archive: {
-                            eventtime: "2021-10-08T03:23:59.004Z"
-                        }
-                    },
-                    {
-                        thanhtoan: true,
-                        refund: 0,
-                        win: true,
-                        betwin: 8.64,
-                        uid: "5f915f868465d10001701d57",
-                        name: "Maradona15696",
-                        phien: 787997,
-                        amount: 9,
-                        choice: "even",
-                        time: "2021-10-08T03:23:29.024Z",
-                        __v: 0,
-                        __archive: {
-                            eventtime: "2021-10-08T03:23:59.004Z"
-                        }
-                    }
-                ],
-                total: {
-                    odd: {
-                        betAmount: 11422,
-                        refund: 0
-                    },
-                    even: {
-                        betAmount: 15465,
-                        refund: 4043
-                    }
-                }
-            };
-
-            // Act
-            comp.setBasicData(data);
-
-            // Assert
             expect(comp.roundIdLabel.string).toMatch(`${data.id} - ${getStringDateByTime(data.time)}`);
-            expect(comp.evenBetAmount.string).toMatch(numberWithCommas(data.total?.even?.betAmount ?? 0));
-            expect(comp.evenRefundAmount.string).toMatch(numberWithCommas(data.total?.even?.refund ?? 0));
-            expect(comp.oddBetAmount.string).toMatch(numberWithCommas(data.total?.odd?.betAmount ?? 0));
-            expect(comp.oddRefundAmount.string).toMatch(numberWithCommas(data.total?.odd?.refund ?? 0));
-            expect(comp.evenNode.opacity).toEqual(data.settlementResult?.even ? 255 : 100);
-            expect(comp.oddNode.opacity).toEqual(data.settlementResult?.odd ? 255 : 100);
+            expect(updateDotsResultSpy).toBeCalledWith(data.result);
         });
     });
 
@@ -226,19 +93,6 @@ describe("Test class SpecialSedieBetHistory", () => {
                 const dot = comp.dots.children[index]?.getComponent(cc.Sprite);
                 dot.spriteFrame = result[key] ? comp.redDot : comp.whiteDot;
             });
-        });
-    });
-
-    describe("Test method resetData", () => {
-        it("Case: ", () => {
-            // Arrange
-
-            // Act
-            comp.resetData();
-
-            // Assert
-            expect(comp.evenContent.childrenCount).toEqual(0);
-            expect(comp.oddContent.childrenCount).toEqual(0);
         });
     });
 });
