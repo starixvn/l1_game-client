@@ -48,18 +48,16 @@ export default class BetChips extends cc.Component {
     lowValueChipSprite: cc.SpriteFrame = null;
 
     public chipValues: number[] = [];
+    public configValues: number[] = [];
     public onChanged: OnChangedBet = (bet) => {};
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
+    public enableStakeLevel = false;
 
     public chipConfig: ChipConfig;
     private selectedIndex = 0;
     private chipList: cc.Node[] = [];
-
-    constructor() {
-        super();
-    }
 
     onLoad() {
         this.chipConfig = ChipConfig.getInstance();
@@ -83,11 +81,25 @@ export default class BetChips extends cc.Component {
         if (values.length === 0) {
             return;
         }
-        this.chipValues = values;
+        this.configValues = values;
+        this.updateChips();
+    }
+
+    updateChips() {
+        this.chipValues = this.getFilterValuesByStakeLevel(this.configValues);
         this.createChips();
         this.chipList = [...this.chips.children];
         this.setCurrentBet(this.chipValues[0].toString());
         this.snappedScrollView.initCalculatedPercent();
+    }
+
+    getFilterValuesByStakeLevel(values: number[]) {
+        if (!cc.RedT.userStakeLevel || !this.enableStakeLevel) {
+            return values;
+        }
+
+        const { minBet, maxBet } = cc.RedT.userStakeLevel;
+        return values.filter((value) => value >= minBet && value <= maxBet);
     }
 
     createChips() {

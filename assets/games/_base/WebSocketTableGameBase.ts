@@ -1,7 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
-import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
@@ -118,12 +117,9 @@ export default class WebSocketTableGameBase extends GameBase {
         let updated = false;
         if (data.maxBet && data.maxBet > 0) {
             cc.RedT.userStakeLevelData(data);
-            if (this.betChips) {
-                const comp = this.betChips.getComponent(HandleUserStakeLevel);
-                if (comp) {
-                    updated = true;
-                    comp.handle();
-                }
+            if (this.betChips && this.betChips.enableStakeLevel) {
+                updated = true;
+                this.betChips.updateChips();
             }
         }
         return updated;

@@ -5,7 +5,6 @@ import AudioManager from "../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../common/auth/SessionManager";
 import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
-import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
@@ -398,6 +397,8 @@ export default class GameBase extends BaseComponent {
             this.betChips.init((bet) => {
                 this.onChangedBetChip(bet);
             });
+
+            this.betChips.enableStakeLevel = this.isUsingMaxStakeLevel();
         }
     }
 
@@ -443,11 +444,6 @@ export default class GameBase extends BaseComponent {
 
         if (this.betChips) {
             this.betChips.setChipValues(this.gameConfigs.chips);
-            const userStakeLevel = this.betChips.getComponent(HandleUserStakeLevel);
-            if (userStakeLevel) {
-                userStakeLevel.gameConfig = this.gameConfigs;
-                userStakeLevel.handle();
-            }
         }
     }
 
