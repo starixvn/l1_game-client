@@ -3044,9 +3044,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "4016dfee-67b7-490e-a268-f3004a4be077"
-    },
     "_type": 0,
     "_sizeMode": 2,
     "_fillType": 0,
@@ -3058,13 +3055,11 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": false,
-    "_atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
-    },
+    "_atlas": null,
     "_id": ""
   },
   {
-    "__type__": "e07eb7ZtCFH5IdBzWDXvE12",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -3072,10 +3067,8 @@
     },
     "_enabled": true,
     "spriteFrameSet": [],
-    "atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
-    },
-    "prefix": "text_big",
+    "gameId": 1,
+    "nameImage": "big_small_text_tai",
     "_id": ""
   },
   {
@@ -3800,21 +3793,6 @@
     "_id": ""
   },
   {
-    "__type__": "e07eb7ZtCFH5IdBzWDXvE12",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 100
-    },
-    "_enabled": true,
-    "spriteFrameSet": [],
-    "atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
-    },
-    "prefix": "text_small",
-    "_id": ""
-  },
-  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -3829,9 +3807,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "446e3936-c725-4292-a300-9624b5fa7b4d"
-    },
     "_type": 0,
     "_sizeMode": 2,
     "_fillType": 0,
@@ -3843,9 +3818,20 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": false,
-    "_atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 100
     },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 1,
+    "nameImage": "big_small_text_xiu",
     "_id": ""
   },
   {
@@ -4593,8 +4579,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.INPUT_BET",
-    "_N$string": "UI.INPUT_BET",
+    "_string": "วางเดิมพัน",
+    "_N$string": "วางเดิมพัน",
     "_fontSize": 25,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -4930,8 +4916,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.INPUT_BET",
-    "_N$string": "UI.INPUT_BET",
+    "_string": "วางเดิมพัน",
+    "_N$string": "วางเดิมพัน",
     "_fontSize": 25,
     "_lineHeight": 40,
     "_enableWrapText": false,

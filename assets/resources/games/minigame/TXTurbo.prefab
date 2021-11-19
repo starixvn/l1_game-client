@@ -3030,21 +3030,6 @@
     "_id": ""
   },
   {
-    "__type__": "e07eb7ZtCFH5IdBzWDXvE12",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 78
-    },
-    "_enabled": true,
-    "spriteFrameSet": [],
-    "atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
-    },
-    "prefix": "text_big",
-    "_id": ""
-  },
-  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -3059,9 +3044,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "4016dfee-67b7-490e-a268-f3004a4be077"
-    },
     "_type": 0,
     "_sizeMode": 2,
     "_fillType": 0,
@@ -3073,9 +3055,20 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": false,
-    "_atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 78
     },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 4,
+    "nameImage": "turbo_big_small_text_tai",
     "_id": ""
   },
   {
@@ -3762,8 +3755,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 167,
-      "height": 104
+      "width": 182,
+      "height": 66
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3800,21 +3793,6 @@
     "_id": ""
   },
   {
-    "__type__": "e07eb7ZtCFH5IdBzWDXvE12",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 100
-    },
-    "_enabled": true,
-    "spriteFrameSet": [],
-    "atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
-    },
-    "prefix": "text_small",
-    "_id": ""
-  },
-  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -3830,7 +3808,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "446e3936-c725-4292-a300-9624b5fa7b4d"
+      "__uuid__": "f3339d30-4257-417e-a26f-0b010ab87c89"
     },
     "_type": 0,
     "_sizeMode": 2,
@@ -3843,9 +3821,20 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": false,
-    "_atlas": {
-      "__uuid__": "e7cea64b-1138-4939-a4b0-e4f025f3097e"
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 100
     },
+    "_enabled": true,
+    "spriteFrameSet": [],
+    "gameId": 4,
+    "nameImage": "turbo_big_small_text_xiu",
     "_id": ""
   },
   {
@@ -4593,8 +4582,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.INPUT_BET",
-    "_N$string": "UI.INPUT_BET",
+    "_string": "PASANG TARUHAN",
+    "_N$string": "PASANG TARUHAN",
     "_fontSize": 25,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -4930,8 +4919,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.INPUT_BET",
-    "_N$string": "UI.INPUT_BET",
+    "_string": "PASANG TARUHAN",
+    "_N$string": "PASANG TARUHAN",
     "_fontSize": 25,
     "_lineHeight": 40,
     "_enableWrapText": false,
