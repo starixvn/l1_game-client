@@ -82,10 +82,6 @@ module.exports = {
             cc.RedT.inGame.loading.active = true;
         }
 
-        if (cc.RedT.IS_LOGIN) {
-            cc.RedT.callAuthentication();
-        }
-
         setTimeout(function () {
             if (cc.RedT.inGame && cc.RedT.inGame.loading) {
                 cc.RedT.inGame.loading.active = false;

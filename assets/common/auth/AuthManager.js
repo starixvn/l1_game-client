@@ -118,6 +118,12 @@ export function triggerSignIn(main) {
                 if (checkUM(response)) {
                     return;
                 }
+
+                if (response.isSuccessful !== undefined && !response.isSuccessful) {
+                    signOut();
+                    return;
+                }
+
                 if (response.user) {
                     main.handleUserData(response.user);
                 }

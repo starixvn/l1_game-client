@@ -16,13 +16,13 @@ import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import SplashConfig from "../../../splash/view-models/SplashConfig";
 import NewsContent from "../../news/NewsContent";
+import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
 import BannerController from "./BannerController";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
-import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -114,7 +114,7 @@ export default class MainGame extends cc.Component {
         cc.RedT.reconnect();
 
         this.initMiniPanel();
-        this.resumeGameRoomOrSignIn();
+        this.callTriggerSignIn();
         this.onLoadLobby();
 
         this.initScrollListener();
@@ -211,13 +211,15 @@ export default class MainGame extends cc.Component {
         this.redhat.insertChild(miniPanelNode, 1);
     }
 
-    resumeGameRoomOrSignIn() {
-        this.inRoomGameId = sessionManager.getInRoomGameId();
-
-        if (authManager && !cc.RedT.IS_LOGIN && !this.inRoomGameId) {
+    callTriggerSignIn() {
+        if (authManager && !cc.RedT.IS_LOGIN) {
             authManager.triggerSignIn(this);
-        } else {
-            cc.RedT.callAuthentication();
+        }
+    }
+
+    resumeLastGameRoom() {
+        this.inRoomGameId = sessionManager.getInRoomGameId();
+        if (this.inRoomGameId) {
             if (!window.openGameId && this.inRoomGameId) {
                 this.openInRoomGame(this.inRoomGameId);
             }
@@ -391,6 +393,7 @@ export default class MainGame extends cc.Component {
     }
 
     Authorized(Authorized) {
+        /*
         this.loading.active = false;
 
         if (!Authorized) {
@@ -398,6 +401,7 @@ export default class MainGame extends cc.Component {
         } else {
             this.signIn();
         }
+        */
     }
 
     serviceAuthorized(Authorized) {
@@ -531,6 +535,7 @@ export default class MainGame extends cc.Component {
         this.onSignIn();
         this.openGameSSO();
         this.getJackpotInfo();
+        this.resumeLastGameRoom();
     }
 
     getJackpotInfo() {

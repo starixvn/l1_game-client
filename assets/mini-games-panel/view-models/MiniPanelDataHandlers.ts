@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
@@ -5,7 +7,6 @@ import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
 import { removeInRoomGameId } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 declare global {
     interface Window {
@@ -46,7 +47,6 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.Authorized) {
-            cc.RedT.IS_LOGIN = true;
             this.main.onSignIn();
         }
 
