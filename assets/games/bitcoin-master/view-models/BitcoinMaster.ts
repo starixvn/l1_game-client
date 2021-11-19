@@ -7,6 +7,7 @@ import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBetti
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BalancedBettingPoolBetItem from "../../_base/view-models/BalancedBettingPoolBetItem";
 import BitcoinMasterBetHistory from "./BitcoinMasterBetHistory";
+import BitcoinMasterBettingPrice from "./BitcoinMasterBettingPrice";
 import BitcoinMasterCandleTimer from "./BitcoinMasterCandleTimer";
 import BitcoinMasterChart from "./BitcoinMasterChart";
 import { BMBetType } from "./BitcoinMasterCommon";
@@ -19,7 +20,6 @@ import BitcoinMasterResult from "./BitcoinMasterResult";
 import BitcoinMasterStatistic from "./BitcoinMasterStatistic";
 import BitcoinMasterStatusDescription from "./BitcoinMasterStatusDescription";
 import BitcoinMasterUpDownMiniRoundHistory from "./BitcoinMasterUpDownMiniRoundHistory";
-import BitcoinMasterUtils from "./BitcoinMasterUtils";
 import BitCoinMasterBetHandler from "./handlers/BitCoinMasterBetHandler";
 import BitcoinMasterFinishHandler from "./handlers/BitCoinMasterFinishHandler";
 import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
@@ -122,8 +122,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(BitcoinMasterStatusDescription)
     statusDesc: BitcoinMasterStatusDescription = null;
 
-    @property(cc.Label)
-    bettingPrice: cc.Label = null;
+    @property(BitcoinMasterBettingPrice)
+    bettingPrice: BitcoinMasterBettingPrice = null;
 
     @property(cc.Node)
     upDownTooltipNode: cc.Node = null;
@@ -138,14 +138,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     statistic: BitcoinMasterStatistic;
     readonly choices = ["up", "down", "even", "odd"];
     remainingTimeGame: number;
-    bettingPricePosition: cc.Vec3;
-    movingBettingPricePosition: cc.Vec3;
-    closePricePosition: cc.Vec3;
-    movingClosePricePosition: cc.Vec3;
-    gapAmountPosition: cc.Vec3;
-    movingGapAmountPosition: cc.Vec3;
-    evenOddResultPosition: cc.Vec3;
-    movingEvenOddResultPosition: cc.Vec3;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -154,7 +146,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     onLoad() {
-        this.storeLabelPosition();
+        this.result.storePosition();
+        this.bettingPrice.storePosition();
         super.onLoad();
         this.setValueBetAmount();
         this.initRoundHistory();
@@ -228,8 +221,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         if (data.round) {
             this.betHistory && this.betHistory.onData(data.round);
         }
-
-        this.setBettingPrice(data);
+        this.currentTimeRemaining === 58 ? this.bettingPrice.setData(data) : this.bettingPrice.setData(data, false);
     }
 
     initHandlers() {
@@ -303,15 +295,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     showResult() {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
-            this.result.showResult();
-            if (this.currentTimeRemaining === this.config.fullTime - 1) {
-                this.moveAnimation(0.4, this.result.closeBitcoinLabel.node, this.closePricePosition, this.movingClosePricePosition);
-                this.moveAnimation(0.4, this.result.gapAmountComp.gapAmount.node, this.gapAmountPosition, this.movingGapAmountPosition);
-                this.moveAnimation(0.4, this.result.evenOddResultLabel.node, this.evenOddResultPosition, this.movingEvenOddResultPosition);
-            }
+            this.currentTimeRemaining === this.config.fullTime - 1 ? this.result.movingResult() : this.result.movingResult(false);
             const currentStatusData = this.statusHandler.currentStatusData;
             currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
-
             (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
             this.finishShowResult = true;
         }
@@ -382,11 +368,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             betItem.ownBet.string = "0";
         });
         this.node.stopAllActions();
-        this.result.showResult(false);
-        this.bettingPrice.node.position = this.bettingPricePosition;
-        this.bettingPrice.node.active = false;
-        this.setResultToCurrentBitcoinValuePosition();
         this.enableBetButtons(true, this.selectedBetAmountUnClickedImage);
+        this.bettingPrice.resetPosition();
+        this.result.resetPosition(this.currentTimeRemaining);
     }
 
     public updateOddsFromConfigs() {
@@ -442,60 +426,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
                 item.setTotalBet(balancedBetAmount[1]);
             }
         });
-    }
-
-    convertCurrentBitcoinPosition(node: cc.Node, destNode: cc.Node): cc.Vec3 {
-        return destNode.parent.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v3(0, 0, 0)));
-    }
-
-    setBettingPrice(data: any) {
-        if (data.open && !data.close) {
-            this.bettingPrice.node.active = true;
-            this.bettingPrice.string = BitcoinMasterUtils.formattingBitcoinValue(data.open);
-            if (this.currentTimeRemaining === 58) {
-                this.moveAnimation(0.2, this.bettingPrice.node, this.bettingPricePosition, this.movingBettingPricePosition);
-            }
-        }
-    }
-
-    storeLabelPosition() {
-        this.bettingPricePosition = this.bettingPrice.node.position;
-        this.movingBettingPricePosition = this.convertCurrentBitcoinPosition(this.currentCandleValue.value.node, this.bettingPrice.node);
-
-        this.closePricePosition = this.result.closeBitcoinLabel.node.position;
-        this.movingClosePricePosition = this.convertCurrentBitcoinPosition(
-            this.currentCandleValue.value.node,
-            this.result.closeBitcoinLabel.node
-        );
-
-        this.gapAmountPosition = this.result.gapAmountComp.gapAmount.node.position;
-        this.movingGapAmountPosition = this.convertCurrentBitcoinPosition(
-            this.currentCandleValue.value.node,
-            this.result.gapAmountComp.node
-        );
-
-        this.evenOddResultPosition = this.result.evenOddResultLabel.node.position;
-        this.movingEvenOddResultPosition = this.convertCurrentBitcoinPosition(
-            this.currentCandleValue.value.node,
-            this.result.evenOddResultLabel.node
-        );
-    }
-
-    setResultToCurrentBitcoinValuePosition() {
-        if (this.currentTimeRemaining <= 105) {
-            this.result.showResult(false);
-            this.result.closeBitcoinLabel.node.position = this.movingClosePricePosition;
-            this.result.gapAmountComp.gapAmount.node.position = this.movingGapAmountPosition;
-            this.result.gapAmountComp.icon.node.position = cc.v3(0, 0, 0);
-            this.result.evenOddResultLabel.node.position = this.movingEvenOddResultPosition;
-        }
-    }
-    moveAnimation(duration: number, node: cc.Node, position: cc.Vec3, movingPosition: cc.Vec3) {
-        node.position = movingPosition;
-        node.opacity = 0;
-        node.scale = 0.5;
-
-        cc.tween(node).to(duration, { opacity: 255, position: position, scale: 1 }, { easing: "sineOut" }).start();
     }
 
     enableBetButtons(enabled: boolean, image: cc.SpriteFrame) {

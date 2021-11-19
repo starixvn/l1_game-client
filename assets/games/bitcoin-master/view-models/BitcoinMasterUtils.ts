@@ -27,4 +27,20 @@ export default class BitcoinMasterUtils {
             return 0;
         }
     }
+
+    public static moveAnimation(duration: number, node: cc.Node, toPosition: cc.Vec3, fromPosition: cc.Vec3) {
+        node.position = fromPosition;
+        node.opacity = 0;
+        node.scale = 0.5;
+        const showTime = 0.2;
+        const moveTime = duration - showTime;
+        cc.tween(node)
+            .to(moveTime, { opacity: 150, position: toPosition, scale: 1 }, { easing: "sineOut" })
+            .to(showTime, { opacity: 255 }, { easing: "sineIn" })
+            .start();
+    }
+
+    public static convertCurrentBitcoinPosition(node: cc.Node, destNode: cc.Node): cc.Vec3 {
+        return destNode.parent.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v3(0, 0, 0)));
+    }
 }

@@ -22,9 +22,9 @@ export default class BitCoinMasterProgressBar extends cc.Component {
 
     setLinePosition() {
         const leftWidget = this.leftLine.getComponent(cc.Widget);
-        leftWidget.left = (40 * this.progressBar.totalLength) / 120 - this.leftLine.width + 5;
+        leftWidget.left = (40 * this.progressBar.totalLength) / 120 - this.leftLine.width + 9;
         const rightWidget = this.rightLine.getComponent(cc.Widget);
-        rightWidget.right = (30 * this.progressBar.totalLength) / 120 - this.rightLine.width + 6;
+        rightWidget.right = (30 * this.progressBar.totalLength) / 120 - this.rightLine.width + 8;
     }
 
     init(main: BitcoinMaster) {
