@@ -1,5 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
-import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { BMBetType } from "./BitcoinMasterCommon";
 import BitcoinMasterEvenOddResultDetail from "./BitcoinMasterEvenOddResultDetail";
@@ -35,13 +35,17 @@ export default class BitcoinMasterTicketDetailItem extends cc.Component {
     lineBottom: cc.Node = null;
 
     setData(log: any, result: any) {
-        this.time.string = getStringDateByTime(log.time);
-        this.choice.string = GameUtils.getBetChoiceString(log.choice);
-
-        this.bet.string = numberWithCommas(log.amount);
-        this.refund.string = numberWithCommas(log.refund);
+        const { time, choice, amount, refund, win } = log;
+        this.time.string = getStringHourByTime(time);
+        this.choice.string = GameUtils.getBetChoiceString(choice);
+        this.bet.string = numberWithCommas(amount);
+        this.refund.string = numberWithCommas(refund);
         this.win.string = numberWithCommas(BitcoinMasterUtils.calcGrossWinLoss(log));
-
+        if (win) {
+            this.choice.node.color = cc.Color.YELLOW;
+            this.bet.node.color = cc.Color.YELLOW;
+            this.refund.node.color = cc.Color.YELLOW;
+        }
         switch (log.choice) {
             case BMBetType.Up:
             case BMBetType.Down:

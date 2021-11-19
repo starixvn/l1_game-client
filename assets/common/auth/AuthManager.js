@@ -10,7 +10,14 @@ const sessionExpiredTimeoutMinutes = 19.8;
 
 export function checkSSO(labelMessage, onSuccessFunc) {
     const urlParams = new URLSearchParams(window.location.search);
+    checkUMSSO(urlParams);
+    checkTimeOut(urlParams);
+    const session = sessionManager.getSession();
+    checkSignOut(urlParams, session);
+    checkHasToken(urlParams, session, onSuccessFunc);
+}
 
+function checkUMSSO(urlParams) {
     if (urlParams.has("isUM") && urlParams.get("isUM") === "true") {
         window.umInfo = {
             isUM: true,
@@ -20,19 +27,24 @@ export function checkSSO(labelMessage, onSuccessFunc) {
         cc.director.loadScene("um");
         return;
     }
+}
 
-    if (urlParams.has("isTimeout") && urlParams.get("isTimeout") === "true") {
-        cc.director.loadScene("sessiontimeout");
-        return;
-    }
-
-    const session = sessionManager.getSession();
+function checkSignOut(urlParams, session) {
     const isSessionExpired = verifySession(session);
     if (isSessionExpired && !urlParams.has("token")) {
         signOut();
         return;
     }
+}
 
+function checkTimeOut(urlParams) {
+    if (urlParams.has("isTimeout") && urlParams.get("isTimeout") === "true") {
+        cc.director.loadScene("sessiontimeout");
+        return;
+    }
+}
+
+function checkHasToken(urlParams, session, onSuccessFunc) {
     if (urlParams.has("token")) {
         window.isSSO = true;
         UserService.getInstance()
