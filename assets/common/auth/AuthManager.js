@@ -74,7 +74,6 @@ function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
                 } else {
                     labelMessage.string = i18n.t("ui.login_failed");
                 }
-                return false;
             })
             .catch((error) => {
                 labelMessage.string = i18n.t("ui.connection_lost");
@@ -85,7 +84,6 @@ function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
         sessionManager.updateLanguage(session);
         sentryLogger.setUser(session);
         onSuccessFunc();
-        return false;
     }
 }
 
