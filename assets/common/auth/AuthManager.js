@@ -10,11 +10,7 @@ const sessionExpiredTimeoutMinutes = 19.8;
 
 export function checkSSO(labelMessage, onSuccessFunc) {
     const urlParams = new URLSearchParams(window.location.search);
-    if (checkUMSSO(urlParams)) {
-        return;
-    }
-
-    if (checkTimeOut(urlParams)) {
+    if (checkUMSSO(urlParams) || checkTimeOut(urlParams)) {
         return;
     }
     const session = sessionManager.getSession();
@@ -22,9 +18,7 @@ export function checkSSO(labelMessage, onSuccessFunc) {
         return;
     }
 
-    if (checkHasToken(urlParams, session, onSuccessFunc, labelMessage)) {
-        return;
-    }
+    checkHasToken(urlParams, session, onSuccessFunc, labelMessage);
 }
 
 function checkUMSSO(urlParams) {
@@ -66,7 +60,7 @@ function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
             .auth.sso(urlParams.get("token"))
             .then((response) => {
                 if (checkUM(response)) {
-                    return true;
+                    return;
                 }
 
                 if (response.isAuthenticated) {
@@ -91,8 +85,6 @@ function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
         sentryLogger.setUser(session);
         onSuccessFunc();
     }
-
-    return false;
 }
 
 export function clearTokenOnUrl() {
