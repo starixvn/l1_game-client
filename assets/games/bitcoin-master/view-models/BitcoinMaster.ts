@@ -362,6 +362,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     resetDataAndUI() {
+        this.bettingPrice.resetPosition();
+        this.result.resetPosition(this.currentTimeRemaining);
         super.resetDataAndUI();
         this.statusHandler.currentStatusData = null;
         this.betItems.forEach((betItem) => {
@@ -369,8 +371,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         });
         this.node.stopAllActions();
         this.enableBetButtons(true, this.selectedBetAmountUnClickedImage);
-        this.bettingPrice.resetPosition();
-        this.result.resetPosition(this.currentTimeRemaining);
     }
 
     public updateOddsFromConfigs() {
