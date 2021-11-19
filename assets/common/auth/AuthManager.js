@@ -3,6 +3,7 @@ import i18n from "i18n/runtime-scripts/LanguageData";
 
 import configs from "../../configs/Configs";
 import ChipConfig from "../bet-chips/view-models/ChipConfig";
+import { buildUrlWithPath } from "../helpers/UrlHelper";
 import logger from "../logger";
 import NoticeUtil from "../utils/NoticeUtil";
 import * as sessionManager from "./SessionManager";
@@ -17,7 +18,9 @@ export function getChipSetting() {
         username: window.authData.username,
         browserUserAgent: window.navigator.userAgent
     };
-    axios.post(`${configs.userServiceUrl}/settings`, request).then((response) => {
+    const path = configs.env === "" ? "/user" : `/${configs.env}/user`;
+    const userServiceUrl = buildUrlWithPath(path);
+    axios.post(`${userServiceUrl}/settings`, request).then((response) => {
         if (response.data.chips) {
             ChipConfig.getInstance().setData(response.data.chips);
         }
