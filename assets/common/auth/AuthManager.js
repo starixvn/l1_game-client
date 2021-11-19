@@ -10,11 +10,21 @@ const sessionExpiredTimeoutMinutes = 19.8;
 
 export function checkSSO(labelMessage, onSuccessFunc) {
     const urlParams = new URLSearchParams(window.location.search);
-    checkUMSSO(urlParams);
-    checkTimeOut(urlParams);
+    if (checkUMSSO(urlParams)) {
+        return;
+    }
+
+    if (checkTimeOut(urlParams)) {
+        return;
+    }
     const session = sessionManager.getSession();
-    checkSignOut(urlParams, session);
-    checkHasToken(urlParams, session, onSuccessFunc);
+    if (checkSignOut(urlParams, session)) {
+        return;
+    }
+
+    if (checkHasToken(urlParams, session, onSuccessFunc, labelMessage)) {
+        return;
+    }
 }
 
 function checkUMSSO(urlParams) {
@@ -25,33 +35,38 @@ function checkUMSSO(urlParams) {
             endTime: new Date()
         };
         cc.director.loadScene("um");
-        return;
+        return true;
     }
+    return false;
 }
 
 function checkSignOut(urlParams, session) {
     const isSessionExpired = verifySession(session);
     if (isSessionExpired && !urlParams.has("token")) {
         signOut();
-        return;
+        return true;
     }
+
+    return false;
 }
 
 function checkTimeOut(urlParams) {
     if (urlParams.has("isTimeout") && urlParams.get("isTimeout") === "true") {
         cc.director.loadScene("sessiontimeout");
-        return;
+        return true;
     }
+
+    return false;
 }
 
-function checkHasToken(urlParams, session, onSuccessFunc) {
+function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
     if (urlParams.has("token")) {
         window.isSSO = true;
         UserService.getInstance()
             .auth.sso(urlParams.get("token"))
             .then((response) => {
                 if (checkUM(response)) {
-                    return;
+                    return true;
                 }
 
                 if (response.isAuthenticated) {
@@ -76,6 +91,8 @@ function checkHasToken(urlParams, session, onSuccessFunc) {
         sentryLogger.setUser(session);
         onSuccessFunc();
     }
+
+    return false;
 }
 
 export function clearTokenOnUrl() {
