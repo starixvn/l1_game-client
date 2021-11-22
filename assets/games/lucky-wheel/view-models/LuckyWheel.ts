@@ -356,15 +356,13 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
         dialog.showDialog();
     }
 
-    closeLuckyWheel() {
-        AudioManager.getInstance().playClick();
+    onDisable() {
+        super.onDisable();
         this.wheel.angle = this.resultAngle;
         if (this.wheelTween) {
             this.wheelTween.stop();
         }
 
-        const dialog = this.node.getComponent(CommonDialog);
-        dialog.closeDialog();
         this.winningEffect.active = false;
         if (cc.RedT.user.scoins) {
             const bannerNode = cc.instantiate(this.bannerPrefab);
