@@ -11,7 +11,7 @@ export default class BitcoinMasterEvenOddRoundHistoryTip extends MiniRoundHistor
 
     public setData(data: any) {
         this.roundId.string = `#${data.roundId}`;
-        this.evenOddDetail.setData(data.result.close);
+        this.evenOddDetail && this.evenOddDetail.setData(data.result.close);
         this.result.string = `${BitcoinMasterUtils.formattingBitcoinValue(data.result.close)} - `;
     }
 }

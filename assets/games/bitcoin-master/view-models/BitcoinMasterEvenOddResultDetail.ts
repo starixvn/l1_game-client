@@ -12,7 +12,7 @@ export default class BitcoinMasterEvenOddResultDetail extends cc.Component {
     @property(cc.Label)
     number: cc.Label = null;
 
-    protected evenOddValue = 0;
+    evenOddValue = 0;
 
     setColor() {
         const color = cc.Color.WHITE;
