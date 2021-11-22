@@ -220,13 +220,14 @@ function handleResponse(session, response) {
             cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData);
         }
     } else {
-        updateUserBalance(response.balance);
+        updateUserBalance(response);
     }
 }
 
-function updateUserBalance(balance) {
+function updateUserBalance(data) {
     if (cc.RedT.user) {
-        cc.RedT.user.red = balance;
+        cc.RedT.user.red = data.balance;
+        cc.RedT.userData(data);
         cc.RedT.inGame && cc.RedT.inGame.loadUserData(cc.RedT.user);
     }
 }
