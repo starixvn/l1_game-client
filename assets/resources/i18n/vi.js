@@ -2,6 +2,7 @@ if (!window.i18n) window.i18n = {};
 if (!window.i18n.languages) window.i18n.languages = {};
 window.i18n.languages.vi = {
     gameNames: {
+        "-1": "Vòng Quay May Mắn",
         1: "Tài Xỉu",
         2: "Xóc Đĩa",
         3: "Bầu Cua",

@@ -2,6 +2,7 @@ if (!window.i18n) window.i18n = {};
 if (!window.i18n.languages) window.i18n.languages = {};
 window.i18n.languages.en = {
     gameNames: {
+        "-1": "Lucky Wheel",
         1: "Big Small",
         2: "Se Die",
         3: "Fish Prawn Crab",
