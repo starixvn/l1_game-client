@@ -63,7 +63,7 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         }
     }
 
-    setGrossWinLoss(data: any): number {
+    protected setGrossWinLoss(data: any): number {
         let winloss = 0;
         data.betLogDetails.forEach((log) => {
             winloss += BitcoinMasterUtils.calcGrossWinLoss(log);

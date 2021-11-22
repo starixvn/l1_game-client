@@ -24,7 +24,6 @@ describe("Test class BitcoinMasterGapAmount", () => {
                 close: 11,
                 open: 11
             };
-            const gapValue = parseFloat(BitcoinMasterUtils.getUpDownResult(data));
             const color = cc.Color.WHITE;
 
             // Act

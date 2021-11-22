@@ -26,33 +26,8 @@ export default class BitcoinMasterResult extends cc.Component {
     @property(cc.Node)
     line: cc.Node = null;
 
-    private movingClosePriceFromPos: cc.Vec3;
-    private closePricePos: cc.Vec3;
-    private movingGapAmountFromPos: cc.Vec3;
-    private gapAmountPos: cc.Vec3;
-    private movingEvenOddResultFromPos: cc.Vec3;
-    private evenOddResultPos: cc.Vec3;
-
     onLoad() {
         this.hideResult();
-    }
-
-    storePosition() {
-        this.closePricePos = this.closeBitcoinLabel.node.position;
-        this.movingClosePriceFromPos = BitcoinMasterUtils.convertCurrentBitcoinPosition(
-            this.currentCandleValue,
-            this.closeBitcoinLabel.node
-        );
-        this.gapAmountPos = this.gapAmountComp.gapAmount.node.position;
-        this.movingGapAmountFromPos = BitcoinMasterUtils.convertCurrentBitcoinPosition(
-            this.currentCandleValue,
-            this.gapAmountComp.gapAmount.node
-        );
-        this.evenOddResultPos = this.evenOddResultLabel.node.position;
-        this.movingEvenOddResultFromPos = BitcoinMasterUtils.convertCurrentBitcoinPosition(
-            this.currentCandleValue,
-            this.evenOddResultLabel.node
-        );
     }
 
     hideResult(opacity = 0) {
@@ -72,8 +47,8 @@ export default class BitcoinMasterResult extends cc.Component {
                     BitcoinMasterUtils.moveAnimation(
                         duration,
                         this.closeBitcoinLabel.node,
-                        this.closePricePos,
-                        this.movingClosePriceFromPos
+                        this.closeBitcoinLabel.node.position,
+                        BitcoinMasterUtils.convertCurrentBitcoinPosition(this.currentCandleValue, this.closeBitcoinLabel.node)
                     );
                 })
                 .delay(duration - 0.3)
@@ -82,12 +57,17 @@ export default class BitcoinMasterResult extends cc.Component {
                 })
                 .start();
 
-            BitcoinMasterUtils.moveAnimation(duration, this.gapAmountComp.gapAmount.node, this.gapAmountPos, this.movingGapAmountFromPos);
+            BitcoinMasterUtils.moveAnimation(
+                duration,
+                this.gapAmountComp.gapAmount.node,
+                this.gapAmountComp.gapAmount.node.position,
+                BitcoinMasterUtils.convertCurrentBitcoinPosition(this.currentCandleValue, this.gapAmountComp.gapAmount.node)
+            );
             BitcoinMasterUtils.moveAnimation(
                 duration,
                 this.evenOddResultLabel.node,
-                this.evenOddResultPos,
-                this.movingEvenOddResultFromPos
+                this.evenOddResultLabel.node.position,
+                BitcoinMasterUtils.convertCurrentBitcoinPosition(this.currentCandleValue, this.evenOddResultLabel.node)
             );
         } else {
             this.hideResult(255);

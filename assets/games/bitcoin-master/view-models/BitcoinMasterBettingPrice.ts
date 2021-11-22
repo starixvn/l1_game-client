@@ -13,14 +13,6 @@ export default class BitcoinMasterBettingPrice extends cc.Component {
     @property(cc.Node)
     currentCandleValue: cc.Node = null;
 
-    private toPosition: cc.Vec3;
-    private fromPosition: cc.Vec3;
-
-    storePosition() {
-        this.toPosition = this.bettingPrice.node.position;
-        this.fromPosition = BitcoinMasterUtils.convertCurrentBitcoinPosition(this.currentCandleValue, this.bettingPrice.node);
-    }
-
     hideBettingPrice(opacity = 0) {
         this.bettingPrice.node.opacity = opacity;
         this.line.opacity = opacity;
@@ -33,7 +25,14 @@ export default class BitcoinMasterBettingPrice extends cc.Component {
             const duration = 0.4;
             if (animated) {
                 cc.tween(this.node)
-                    .call(() => BitcoinMasterUtils.moveAnimation(duration, this.bettingPrice.node, this.toPosition, this.fromPosition))
+                    .call(() =>
+                        BitcoinMasterUtils.moveAnimation(
+                            duration,
+                            this.bettingPrice.node,
+                            this.bettingPrice.node.position,
+                            BitcoinMasterUtils.convertCurrentBitcoinPosition(this.currentCandleValue, this.bettingPrice.node)
+                        )
+                    )
                     .delay(duration - 0.3)
                     .call(() => {
                         cc.tween(this.line).to(0.2, { opacity: 255 }, { easing: "sineOut" }).start();
