@@ -21,20 +21,17 @@ export default class BitcoinMasterBettingPrice extends cc.Component {
         this.fromPosition = BitcoinMasterUtils.convertCurrentBitcoinPosition(this.currentCandleValue, this.bettingPrice.node);
     }
 
-    resetPosition() {
-        this.bettingPrice.node.position = this.toPosition;
-        this.bettingPrice.node.active = false;
-        this.line.active = false;
+    hideBettingPrice(opacity = 0) {
+        this.bettingPrice.node.opacity = opacity;
+        this.line.opacity = opacity;
     }
 
     setData(data: any, animated = true) {
         if (data.open && !data.close) {
-            this.line.active = true;
-            this.bettingPrice.node.active = true;
+            this.hideBettingPrice();
             this.bettingPrice.string = BitcoinMasterUtils.formattingBitcoinValue(data.open);
             const duration = 0.4;
             if (animated) {
-                this.line.opacity = 0;
                 cc.tween(this.node)
                     .call(() => BitcoinMasterUtils.moveAnimation(duration, this.bettingPrice.node, this.toPosition, this.fromPosition))
                     .delay(duration - 0.3)
@@ -42,6 +39,8 @@ export default class BitcoinMasterBettingPrice extends cc.Component {
                         cc.tween(this.line).to(0.2, { opacity: 255 }, { easing: "sineOut" }).start();
                     })
                     .start();
+            } else {
+                this.hideBettingPrice(255);
             }
         }
     }

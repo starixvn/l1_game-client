@@ -137,7 +137,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     protected isExistedStatistic = false;
     statistic: BitcoinMasterStatistic;
     readonly choices = ["up", "down", "even", "odd"];
-    remainingTimeGame: number;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -146,8 +145,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     onLoad() {
-        this.result.storePosition();
-        this.bettingPrice.storePosition();
+        this.result && this.result.storePosition();
+        this.bettingPrice && this.bettingPrice.storePosition();
         super.onLoad();
         this.setValueBetAmount();
         this.initRoundHistory();
@@ -213,15 +212,15 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         }
 
         if (data.remainingTime && !data.um) {
-            this.remainingTimeGame = data.remainingTime;
-            this.currentCandleTime.setCandleTime(this.remainingTimeGame);
+            this.currentCandleTime.init(this);
             this.timeProgressBar.init(this);
         }
 
         if (data.round) {
             this.betHistory && this.betHistory.onData(data.round);
         }
-        this.currentTimeRemaining === 58 ? this.bettingPrice.setData(data) : this.bettingPrice.setData(data, false);
+
+        this.currentTimeRemaining === this.config.minBetTime - 3 ? this.bettingPrice.setData(data) : this.bettingPrice.setData(data, false);
     }
 
     initHandlers() {
@@ -292,10 +291,10 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.result.setData(result);
     }
 
-    showResult() {
+    showResult(animated: boolean) {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
-            this.currentTimeRemaining === this.config.fullTime - 1 ? this.result.movingResult() : this.result.movingResult(false);
+            this.result.playAnimation(animated);
             const currentStatusData = this.statusHandler.currentStatusData;
             currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
             (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
@@ -362,8 +361,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     resetDataAndUI() {
-        this.bettingPrice.resetPosition();
-        this.result.resetPosition(this.currentTimeRemaining);
         super.resetDataAndUI();
         this.statusHandler.currentStatusData = null;
         this.betItems.forEach((betItem) => {
@@ -371,6 +368,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         });
         this.node.stopAllActions();
         this.enableBetButtons(true, this.selectedBetAmountUnClickedImage);
+        this.bettingPrice.hideBettingPrice();
+        this.result.hideResult();
     }
 
     public updateOddsFromConfigs() {

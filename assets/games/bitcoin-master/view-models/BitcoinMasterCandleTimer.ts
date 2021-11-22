@@ -1,4 +1,5 @@
 import ShortAnimatedTime from "../../../common/animated-time/view-models/ShortAnimatedTime";
+import BitcoinMaster from "./BitcoinMaster";
 
 const { ccclass, property } = cc._decorator;
 
@@ -9,6 +10,12 @@ export default class BitcoinMasterCandleTimer extends cc.Component {
 
     private currentTimeRemainingCandle = 0;
     private readonly candleLife = 60;
+    private main: BitcoinMaster;
+
+    init(main: BitcoinMaster) {
+        this.main = main;
+        this.setCandleTime(this.main.currentTimeRemaining + 1);
+    }
 
     setCandleTime(time: number) {
         this.currentTimeRemainingCandle = time > this.candleLife ? time - this.candleLife : time;

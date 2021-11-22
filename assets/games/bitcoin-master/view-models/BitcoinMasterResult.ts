@@ -34,8 +34,7 @@ export default class BitcoinMasterResult extends cc.Component {
     private evenOddResultPos: cc.Vec3;
 
     onLoad() {
-        this.line.active = false;
-        this.showResult(false);
+        this.hideResult();
     }
 
     storePosition() {
@@ -56,27 +55,17 @@ export default class BitcoinMasterResult extends cc.Component {
         );
     }
 
-    resetPosition(currentTimeRemaining) {
-        if (currentTimeRemaining <= 105) {
-            this.showResult(false);
-            this.closeBitcoinLabel.node.position = this.movingClosePriceFromPos;
-            this.gapAmountComp.gapAmount.node.position = this.movingGapAmountFromPos;
-            this.gapAmountComp.icon.node.position = cc.v3(0, 0, 0);
-            this.evenOddResultLabel.node.position = this.movingEvenOddResultFromPos;
-        }
+    hideResult(opacity = 0) {
+        this.closeBitcoinLabel.node.opacity = opacity;
+        this.gapAmountComp.node.opacity = opacity;
+        this.evenOddResultLabel.node.opacity = opacity;
+        this.line.opacity = opacity;
     }
 
-    showResult(show = true) {
-        this.closeBitcoinLabel.node.active = show;
-        this.gapAmountComp.gapAmount.node.active = show;
-        this.evenOddResultLabel.node.active = show;
-        this.line.active = show;
-    }
-
-    movingResult(animated = true) {
-        this.showResult();
+    playAnimation(animated = true) {
         if (animated) {
             const duration = 0.8;
+            this.hideResult();
             cc.tween(this.node)
                 .call(() => {
                     this.line.opacity = 0;
@@ -101,9 +90,7 @@ export default class BitcoinMasterResult extends cc.Component {
                 this.movingEvenOddResultFromPos
             );
         } else {
-            this.closeBitcoinLabel.node.position = this.closePricePos;
-            this.gapAmountComp.gapAmount.node.position = this.gapAmountPos;
-            this.evenOddResultLabel.node.position = this.evenOddResultPos;
+            this.hideResult(255);
         }
     }
 

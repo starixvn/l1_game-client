@@ -9,7 +9,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     protected balanceDuration = 2;
     protected betTime = 45;
     protected animatedTime: BitCoinMasterAnimatedTime;
-    protected isShowResult = false;
 
     constructor(protected readonly main: BitcoinMaster) {
         super(main);
@@ -62,7 +61,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     handleGameNotWaitTime() {
         if (this.isStartingNewGameRound) {
             this.handleStartingNewGameRound();
-            this.isShowResult = false;
         }
 
         this.isInRoundTime ? this.handleInRoundTime() : this.handleInEndTime();
@@ -97,14 +95,15 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
 
-        if (!this.isShowResult) {
-            if (cc.RedT.GAME_IS_SHOWED) {
-                this.main.showResult();
-                this.main.bettingPrice.bettingPrice.node.active = true;
+        if (cc.RedT.GAME_IS_SHOWED) {
+            if (this.main.currentTimeRemaining === this.main.config.fullTime - 1) {
+                this.main.showResult(true);
+                this.main.showWinningAnimation(this.main.currentDataLogs[0]);
+            } else {
+                this.main.showResult(false);
             }
-            this.main.showWinningAnimation(this.main.currentDataLogs[0]);
-            this.isShowResult = true;
         }
+        this.main.bettingPrice.bettingPrice.node.opacity = 255;
         this.main.setTotalBetAfterBalance();
         this.main.statusDesc.setNormalDescription(GameUtils.getText("ui.payout"), false);
         const timeConvert = this.main.currentTimeRemaining - this.main.config.betTime;
