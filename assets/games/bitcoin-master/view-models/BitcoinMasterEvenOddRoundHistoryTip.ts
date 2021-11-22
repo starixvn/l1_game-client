@@ -1,29 +1,17 @@
-import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
-import { BMBetType } from "./BitcoinMasterCommon";
+import BitcoinMasterEvenOddResultDetail from "./BitcoinMasterEvenOddResultDetail";
 import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
-const { ccclass } = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BitcoinMasterEvenOddRoundHistoryTip extends MiniRoundHistoryTip {
+    @property(BitcoinMasterEvenOddResultDetail)
+    evenOddDetail: BitcoinMasterEvenOddResultDetail = null;
+
     public setData(data: any) {
         this.roundId.string = `#${data.roundId}`;
-        const evenOddValue = BitcoinMasterUtils.getEvenOddResult(data.result.close);
-
-        const betChoices = {
-            even: "even",
-            odd: "odd"
-        };
-
-        let choiceKey = "";
-        if (data.settlementResult[BMBetType.Even]) {
-            choiceKey = betChoices[BMBetType.Even];
-        } else if (data.settlementResult[BMBetType.Odd]) {
-            choiceKey = betChoices[BMBetType.Odd];
-        }
-
-        const betChoice = GameUtils.getBetChoiceString(choiceKey);
-        this.result.string = `${BitcoinMasterUtils.formattingBitcoinValue(data.result.close)} - ${betChoice} (${evenOddValue})`;
+        this.evenOddDetail.setData(data.result.close);
+        this.result.string = `${BitcoinMasterUtils.formattingBitcoinValue(data.result.close)} - `;
     }
 }
