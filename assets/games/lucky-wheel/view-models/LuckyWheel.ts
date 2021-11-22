@@ -165,8 +165,8 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
             data.availSpins ? this.buttonTween.start() : this.buttonTween.stop();
         }
 
-        if (void 0 !== data.totalCoins) {
-            this.totalScoinLbl.string = numberWithCommas(data.totalCoins);
+        if (void 0 !== data.scoins) {
+            this.totalScoinLbl.string = numberWithCommas(data.scoins);
         }
 
         if (data.history && this.historyComponent) {
