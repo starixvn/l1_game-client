@@ -295,10 +295,12 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
             this.result.playAnimation(animated);
-            const currentStatusData = this.statusHandler.currentStatusData;
-            currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
-            (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
-            this.finishShowResult = true;
+            if (animated) {
+                const currentStatusData = this.statusHandler.currentStatusData;
+                currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
+                (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
+                this.finishShowResult = true;
+            }
         }
     }
 
