@@ -289,7 +289,7 @@ window.i18n.languages.id = {
         lottery_others_notice: "Winloss dihitung berdasarkan dua digit terakhir dari Hadiah Khusus.",
         choice_big: "Besar",
         choice_small: "Kecil",
-        input_bet: "Pasang Taruhan",
+        input_bet: "Taruhan",
         clear: "Clear",
         close: "Tutup",
         confirm: "Mengonfirmasi",
