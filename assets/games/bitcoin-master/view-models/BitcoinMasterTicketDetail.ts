@@ -29,12 +29,8 @@ export default class BitcoinMasterTicketDetail extends cc.Component {
     }
 
     setData(data: any) {
-        const { betLogDetails, phien, result } = data;
-
-        this.roundID.string = phien;
-        this.openValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.open);
-        this.closeValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.close);
-
+        const { betLogDetails, result } = data;
+        this.setGeneralInfo(data);
         const total = betLogDetails.length;
         betLogDetails.forEach((detail, index) => {
             const node = cc.instantiate(this.ticketItemPrefab);
@@ -46,5 +42,12 @@ export default class BitcoinMasterTicketDetail extends cc.Component {
                 item.lineBottom.active = false;
             }
         });
+    }
+
+    setGeneralInfo(data) {
+        const { phien, result } = data;
+        this.roundID.string = phien;
+        this.openValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.open);
+        this.closeValue.string = BitcoinMasterUtils.formattingBitcoinValue(result.close);
     }
 }
