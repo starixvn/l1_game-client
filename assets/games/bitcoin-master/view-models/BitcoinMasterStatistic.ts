@@ -59,7 +59,6 @@ export default class BitcoinMasterStatistic extends cc.Component {
     }
 
     setData(currentDataLogs: any) {
-        console.log("statistic setData");
         this.data = [...currentDataLogs];
         this.data.reverse();
         this.calculateStatisticPercent();
