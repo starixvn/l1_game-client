@@ -10,7 +10,7 @@ export default class BitcoinMasterStatisticPercent extends cc.Component {
 
     setData(text: string, value: number) {
         this.text.string = text;
-        this.value.string = value.toString();
+        this.value.string = `${value}%`;
     }
 
     setColor(color: cc.Color) {

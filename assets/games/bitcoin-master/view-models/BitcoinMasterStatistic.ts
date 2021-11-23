@@ -27,10 +27,10 @@ export default class BitcoinMasterStatistic extends cc.Component {
     @property(CommonDialog)
     dialog: CommonDialog = null;
 
-    protected activeTab = BMHeaderMenu.UpDown;
-    protected upDownStatistic: BMStatisticData = { left: { name: "", value: 0 }, right: { name: "", value: 0 } };
-    protected evenOddStatistic: BMStatisticData = { left: { name: "", value: 0 }, right: { name: "", value: 0 } };
-    protected data: any = null;
+    activeTab = BMHeaderMenu.UpDown;
+    upDownStatistic: BMStatisticData = { left: { name: "", value: 0 }, right: { name: "", value: 0 } };
+    evenOddStatistic: BMStatisticData = { left: { name: "", value: 0 }, right: { name: "", value: 0 } };
+    data: any = null;
 
     onLoad() {
         this.dialog.addOnDidHide(() => this.node.destroy());
@@ -168,11 +168,8 @@ export default class BitcoinMasterStatistic extends cc.Component {
     }
 
     updateStatisticLabels(data: BMStatisticData) {
-        this.leftPercent.text.string = data.left.name;
-        this.leftPercent.value.string = `${data.left.value}%`;
-
-        this.rightPercent.text.string = data.right.name;
-        this.rightPercent.value.string = `${data.right.value}%`;
+        this.leftPercent.setData(data.left.name, data.left.value);
+        this.rightPercent.setData(data.right.name, data.right.value);
     }
 
     loadUpDownData() {
@@ -180,7 +177,7 @@ export default class BitcoinMasterStatistic extends cc.Component {
         const color = cc.Color.WHITE;
         this.leftPercent.setColor(color.fromHEX("#c4f738"));
         this.rightPercent.setColor(color.fromHEX("#f3485f"));
-        this.setUpDownRoundHistoryItemData();
+        this.logControl && this.setUpDownRoundHistoryItemData();
     }
 
     loadEvenOddData() {
@@ -188,6 +185,6 @@ export default class BitcoinMasterStatistic extends cc.Component {
         const color = cc.Color.WHITE;
         this.leftPercent.setColor(color.fromHEX("#bac5ca"));
         this.rightPercent.setColor(color.fromHEX("#F3485F"));
-        this.setEvenOddRoundHistoryItemData();
+        this.logControl && this.setEvenOddRoundHistoryItemData();
     }
 }
