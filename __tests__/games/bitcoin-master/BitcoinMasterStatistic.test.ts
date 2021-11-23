@@ -114,6 +114,94 @@ describe("Test class BitcoinMasterStatistic", () => {
         });
     });
 
+    describe("Test method setData", () => {
+        it("Case: ", () => {
+            // Arrange
+            const anyComp = comp as any;
+            const calculateStatisticPercentSpy = jest.spyOn(anyComp, "calculateStatisticPercent");
+            const loadUpDownDataSpy = jest.spyOn(anyComp, "loadUpDownData");
+            const currentDataLogs = [
+                {
+                    roundId: 19040,
+                    result: {
+                        time: "2021-11-23T00:35:00.000Z",
+                        open: 56795.8,
+                        close: 56737.7
+                    },
+                    settlementResult: {
+                        odd: true,
+                        even: false,
+                        up: false,
+                        down: true
+                    }
+                },
+                {
+                    roundId: 19041,
+                    result: {
+                        time: "2021-11-23T00:37:00.000Z",
+                        open: 56701.75,
+                        close: 56694.18
+                    },
+                    settlementResult: {
+                        odd: false,
+                        even: true,
+                        up: false,
+                        down: true
+                    }
+                },
+                {
+                    roundId: 19042,
+                    result: {
+                        time: "2021-11-23T00:39:00.000Z",
+                        open: 56709.6,
+                        close: 56681.57
+                    },
+                    settlementResult: {
+                        odd: true,
+                        even: false,
+                        up: false,
+                        down: true
+                    }
+                },
+                {
+                    roundId: 19043,
+                    result: {
+                        time: "2021-11-23T00:41:00.000Z",
+                        open: 56737.82,
+                        close: 56698.63
+                    },
+                    settlementResult: {
+                        odd: false,
+                        even: true,
+                        up: false,
+                        down: true
+                    }
+                },
+                {
+                    roundId: 19044,
+                    result: {
+                        time: "2021-11-23T00:43:00.000Z",
+                        open: 56678.41,
+                        close: 56543.9
+                    },
+                    settlementResult: {
+                        odd: true,
+                        even: false,
+                        up: false,
+                        down: true
+                    }
+                }
+            ];
+
+            // Act
+            comp.setData(currentDataLogs);
+
+            // Assert
+            expect(calculateStatisticPercentSpy).toBeCalledWith();
+            expect(loadUpDownDataSpy).toBeCalledWith();
+        });
+    });
+
     describe("Test method calculateStatisticPercent", () => {
         it("Case: ", () => {
             // Arrange
