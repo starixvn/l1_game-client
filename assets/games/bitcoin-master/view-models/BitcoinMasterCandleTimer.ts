@@ -8,9 +8,9 @@ export default class BitcoinMasterCandleTimer extends cc.Component {
     @property(ShortAnimatedTime)
     animatedTime: ShortAnimatedTime = null;
 
-    private currentTimeRemainingCandle = 0;
+    main: BitcoinMaster;
+    currentTimeRemainingCandle = 0;
     private readonly candleLife = 60;
-    private main: BitcoinMaster;
 
     init(main: BitcoinMaster) {
         this.main = main;
