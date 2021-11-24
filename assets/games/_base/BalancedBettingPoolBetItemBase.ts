@@ -30,6 +30,8 @@ export default class BalancedBettingPoolBetItemBase extends cc.Component {
 
         const convertValue = GameUtils.getValueByCurrency(data.amount, data.rate || 1);
         this.betAmount.string = numberWithCommas(convertValue);
-        this.refund.string = numberWithCommas(data.refund);
+
+        const convertRefund = GameUtils.getValueByCurrency(data.refund, data.rate || 1);
+        this.refund.string = numberWithCommas(convertRefund);
     }
 }

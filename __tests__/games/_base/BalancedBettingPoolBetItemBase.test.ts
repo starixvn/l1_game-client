@@ -48,8 +48,8 @@ describe("Test class BalancedBettingPoolBetItemBase", () => {
             expect(comp.highlight.active).toEqual(isLoginUser);
             expect(comp.time.string).toMatch(getStringHourByTime(data.time));
             expect(comp.username.string).toMatch(data.name);
-            expect(comp.betAmount.string).toMatch(numberWithCommas(data.amount));
-            expect(comp.refund.string).toMatch(numberWithCommas(data.refund));
+            expect(comp.betAmount.string).toMatch(numberWithCommas(data.amount, 2));
+            expect(comp.refund.string).toMatch(numberWithCommas(data.refund, 2));
         });
     });
 });

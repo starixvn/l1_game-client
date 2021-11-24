@@ -1,3 +1,4 @@
+import { guideDomain } from "../configs/Configs";
 import CustomWebView from "./CustomWebView";
 
 const { ccclass, property } = cc._decorator;
@@ -67,7 +68,7 @@ export default class LoadWebView extends cc.Component {
 
     sendDataToIframe(configs: any) {
         this.onWebViewLoaded = () => {
-            this.webView._impl._iframe.contentWindow.postMessage(JSON.stringify(configs), config.guideDomain);
+            this.webView._impl._iframe.contentWindow.postMessage(JSON.stringify(configs), guideDomain);
         };
     }
 }
