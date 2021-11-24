@@ -7,7 +7,7 @@ import { numberWithCommas } from "./helpers/NumberHelper";
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
         const temp = new cc.Node().addComponent(cc.Label);
-        temp.string = (win ? "+" : "-") + numberWithCommas(value);
+        temp.string = (win ? "+" : "-") + numberWithCommas(value, 2);
         temp.font = win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
         temp.lineHeight = 130;
         temp.fontSize = 30;

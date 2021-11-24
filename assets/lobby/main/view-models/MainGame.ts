@@ -470,9 +470,9 @@ export default class MainGame extends cc.Component {
                 userCurrency = currency ? currency : "";
             }
 
-            return `${numberWithCommas(red)} ${userCurrency}`;
+            return `${numberWithCommas(red, 2)} ${userCurrency}`;
         } else {
-            return `${numberWithCommas(red)}`;
+            return `${numberWithCommas(red, 2)}`;
         }
     }
 

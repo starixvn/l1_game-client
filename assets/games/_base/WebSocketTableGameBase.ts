@@ -265,7 +265,7 @@ export default class WebSocketTableGameBase extends GameBase {
         }
 
         if (void 0 !== user.red) {
-            this.userBalance.string = numberWithCommas(user.red);
+            this.userBalance.string = numberWithCommas(user.red, 2);
         }
 
         if (void 0 !== user.avatarId) {

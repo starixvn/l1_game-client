@@ -1,6 +1,6 @@
-import GameUtils from '../../../common/GameUtils';
-import { shortenName } from '../../../common/helpers/NicknameHelper';
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
+import GameUtils from "../../../common/GameUtils";
+import { shortenName } from "../../../common/helpers/NicknameHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,6 +25,6 @@ export default class PlayerInfo extends cc.Component {
     }
 
     setAmount(amount: number) {
-        this.amount.string = numberWithCommas(amount);
+        this.amount.string = numberWithCommas(amount, 2);
     }
 }

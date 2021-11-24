@@ -75,7 +75,7 @@ export default class RoomPlayer extends ComponentSystem implements ICreditSystem
     displayBalance(balance: number) {
         const convertValue = GameUtils.getValueByCurrency(balance);
         this.balance.string =
-            convertValue > this.MAX_BALANCE_DISPLAY ? `${numberWithCommas(this.MAX_BALANCE_DISPLAY)}+` : numberWithCommas(convertValue);
+            convertValue > this.MAX_BALANCE_DISPLAY ? `${numberWithCommas(this.MAX_BALANCE_DISPLAY)}+` : numberWithCommas(convertValue, 2);
     }
 
     setAvatar(avatarId) {
