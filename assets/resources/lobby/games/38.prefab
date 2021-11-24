@@ -27,14 +27,11 @@
         "__id__": 23
       },
       {
-        "__id__": 28
+        "__id__": 29
       }
     ],
     "_active": true,
     "_components": [
-      {
-        "__id__": 48
-      },
       {
         "__id__": 49
       },
@@ -43,10 +40,13 @@
       },
       {
         "__id__": 51
+      },
+      {
+        "__id__": 52
       }
     ],
     "_prefab": {
-      "__id__": 52
+      "__id__": 53
     },
     "_opacity": 255,
     "_color": {
@@ -875,10 +875,13 @@
       },
       {
         "__id__": 26
+      },
+      {
+        "__id__": 27
       }
     ],
     "_prefab": {
-      "__id__": 27
+      "__id__": 28
     },
     "_opacity": 255,
     "_color": {
@@ -891,7 +894,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 196,
-      "height": 67.8
+      "height": 71.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -928,17 +931,6 @@
     "_id": ""
   },
   {
-    "__type__": "ef090rEFWNCoJqimglpeBDM",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 23
-    },
-    "_enabled": true,
-    "overrideSizes": [],
-    "_id": ""
-  },
-  {
     "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
@@ -953,15 +945,13 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ANH HÙNG CHIM LẠC",
-    "_N$string": "ANH HÙNG CHIM LẠC",
-    "_fontSize": 26,
+    "_string": "The Legend of Heroes",
+    "_N$string": "The Legend of Heroes",
+    "_fontSize": 28,
     "_lineHeight": 30,
     "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
-    },
-    "_isSystemFontUsed": false,
+    "_N$file": null,
+    "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_styleFlags": 0,
@@ -974,16 +964,43 @@
     "_id": ""
   },
   {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
+    "__type__": "312c5tSoDZC15WKuvnUppQM",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 23
     },
     "_enabled": true,
-    "_dataId": "gameNames.38",
-    "format": 1,
-    "suffix": "",
+    "overrideFonts": [],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.LabelOutline",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 23
+    },
+    "_enabled": true,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 59,
+      "g": 18,
+      "b": 7,
+      "a": 255
+    },
+    "_width": 2,
+    "_id": ""
+  },
+  {
+    "__type__": "744dcs4DCdNprNhG0xwq6FK",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 23
+    },
+    "_enabled": true,
+    "_dataId": "gameNames.38_break",
     "_id": ""
   },
   {
@@ -1006,20 +1023,20 @@
     },
     "_children": [
       {
-        "__id__": 29
+        "__id__": 30
       },
       {
-        "__id__": 32
+        "__id__": 33
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 46
+        "__id__": 47
       }
     ],
     "_prefab": {
-      "__id__": 47
+      "__id__": 48
     },
     "_opacity": 255,
     "_color": {
@@ -1073,17 +1090,17 @@
     "_name": "label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 28
+      "__id__": 29
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 30
+        "__id__": 31
       }
     ],
     "_prefab": {
-      "__id__": 31
+      "__id__": 32
     },
     "_opacity": 255,
     "_color": {
@@ -1137,7 +1154,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 29
+      "__id__": 30
     },
     "_enabled": true,
     "_materials": [
@@ -1180,20 +1197,20 @@
     "_name": "text",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 28
+      "__id__": 29
     },
     "_children": [
       {
-        "__id__": 33
+        "__id__": 34
       },
       {
-        "__id__": 39
+        "__id__": 40
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 45
+      "__id__": 46
     },
     "_opacity": 255,
     "_color": {
@@ -1247,20 +1264,20 @@
     "_name": "warning",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 32
+      "__id__": 33
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 34
+        "__id__": 35
       },
       {
-        "__id__": 35
+        "__id__": 36
       }
     ],
     "_prefab": {
-      "__id__": 38
+      "__id__": 39
     },
     "_opacity": 255,
     "_color": {
@@ -1314,7 +1331,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 33
+      "__id__": 34
     },
     "_enabled": true,
     "_materials": [
@@ -1346,15 +1363,15 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 33
+      "__id__": 34
     },
     "_enabled": true,
     "spriteFrameSet": [
       {
-        "__id__": 36
+        "__id__": 37
       },
       {
-        "__id__": 37
+        "__id__": 38
       }
     ],
     "_id": ""
@@ -1389,20 +1406,20 @@
     "_name": "playnow",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 32
+      "__id__": 33
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 40
+        "__id__": 41
       },
       {
-        "__id__": 41
+        "__id__": 42
       }
     ],
     "_prefab": {
-      "__id__": 44
+      "__id__": 45
     },
     "_opacity": 255,
     "_color": {
@@ -1456,7 +1473,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 39
+      "__id__": 40
     },
     "_enabled": true,
     "_materials": [
@@ -1488,15 +1505,15 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 39
+      "__id__": 40
     },
     "_enabled": true,
     "spriteFrameSet": [
       {
-        "__id__": 42
+        "__id__": 43
       },
       {
-        "__id__": 43
+        "__id__": 44
       }
     ],
     "_id": ""
@@ -1542,7 +1559,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 28
+      "__id__": 29
     },
     "_enabled": true,
     "_defaultClip": {
@@ -1578,7 +1595,7 @@
     "gameId": 38,
     "key": "lobby",
     "noticeNode": {
-      "__id__": 28
+      "__id__": 29
     },
     "_id": ""
   },
