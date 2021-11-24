@@ -14,9 +14,9 @@ window.i18n.languages.zh_cn = {
         10: "百家乐",
         11: "Keno Pro Viet",
         12: "Keno Max",
-        13: "Keno Max 2",
+        13: "Keno Max2",
         14: "Keno Mini",
-        15: "Keno Mini 2",
+        15: "Keno Mini2",
         16: "Keno East",
         17: "Keno West",
         18: "Keno South",
@@ -32,7 +32,9 @@ window.i18n.languages.zh_cn = {
         29: "四大监管者",
         31: "RNG 彩票",
         35: "斗三张",
-        38: "英雄传说"
+        38: "英雄传说",
+        43: "数字货币大师",
+        "38_break": "英雄传说"
     },
     messages: {
         accountNotExist: "发生了错误。 详情请联系CSD，谢谢。(%{errorCode})",

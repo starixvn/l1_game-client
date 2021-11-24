@@ -14,9 +14,9 @@ window.i18n.languages.th = {
         10: "บาคาร่า",
         11: "Keno Pro Viet",
         12: "Keno Max",
-        13: "Keno Max 2",
+        13: "Keno Max2",
         14: "Keno Mini",
-        15: "Keno Mini 2",
+        15: "Keno Mini2",
         16: "Keno East",
         17: "Keno West",
         18: "Keno South",
@@ -32,7 +32,9 @@ window.i18n.languages.th = {
         29: "โฟร์ การ์เดียนส์",
         31: "RNG ลอตเตอรี่ ",
         35: "ไพ่สามใบ",
-        38: "เดอะ เลเจนด์ ออฟ ฮีโร่"
+        38: "เดอะ เลเจนด์ ออฟ ฮีโร่",
+        43: "บิทคอยน์มาสเตอร์",
+        "38_break": "เดอะ เลเจนด์\nออฟ ฮีโร่"
     },
     messages: {
         accountNotExist: "เกิดข้อผิดพลาด กรุณาติดต่อแอดมินสำหรับรายละเอียดเพิ่มเติม ขอบคุณค่ะ(%{errorCode})",

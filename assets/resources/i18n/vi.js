@@ -15,9 +15,9 @@ window.i18n.languages.vi = {
         10: "Cào Baccarat",
         11: "Keno Pro Viet",
         12: "Keno Max",
-        13: "Keno Max 2",
+        13: "Keno Max2",
         14: "Keno Mini",
-        15: "Keno Mini 2",
+        15: "Keno Mini2",
         16: "Keno Đông",
         17: "Keno Tây",
         18: "Keno Nam",
@@ -34,7 +34,8 @@ window.i18n.languages.vi = {
         31: "Xổ Số RNG",
         35: "3 Lá Đỏ Đen",
         38: "Anh Hùng Chim Lạc",
-        43: "Bitcoin Master"
+        43: "Bitcoin Master",
+        "38_break": "Anh Hùng Chim Lạc"
     },
     messages: {
         accountBlacklisted: "Tài khoản đã bị đóng. Vui lòng liên hệ bộ phận CSKH để biết chi tiết.(%{errorCode})",

@@ -15,9 +15,9 @@ window.i18n.languages.en = {
         10: "Baccarat",
         11: "Keno Pro Viet",
         12: "Keno Max",
-        13: "Keno Max 2",
+        13: "Keno Max2",
         14: "Keno Mini",
-        15: "Keno Mini 2",
+        15: "Keno Mini2",
         16: "Keno East",
         17: "Keno West",
         18: "Keno South",
@@ -34,7 +34,8 @@ window.i18n.languages.en = {
         31: "RNG Lottery",
         35: "Three Cards",
         38: "The Legend of Heroes",
-        43: "Bitcoin Master"
+        43: "Bitcoin Master",
+        "38_break": "The Legend of Heroes"
     },
     messages: {
         accountBlacklisted: "Account has been closed. Please contact CSD for details.(%{errorCode})",

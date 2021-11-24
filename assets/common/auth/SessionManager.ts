@@ -37,7 +37,9 @@ export function getLanguage(locale) {
         "en-US": "en",
         "en-UK": "en",
         "th-TH": "th",
-        "id-ID": "id"
+        "id-ID": "id",
+        "zh-CN": "zh_cn",
+        "zh-TW": "zh_tw"
     };
     return dict[locale] || "en";
 }
