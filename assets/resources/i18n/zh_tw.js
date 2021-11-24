@@ -1,6 +1,6 @@
 if (!window.i18n) window.i18n = {};
 if (!window.i18n.languages) window.i18n.languages = {};
-window.i18n.languages.tc = {
+window.i18n.languages.zh_tw = {
     gameNames: {
         1: "大小",
         2: "色碟",
