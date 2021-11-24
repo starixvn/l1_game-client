@@ -364,6 +364,7 @@ window.i18n.languages.id = {
         down: "",
         upDownBetHistory: "",
         evenUpBetHistory: "",
-        statistic: ""
+        statistic: "",
+        totalRed: "JUMLAH MERAH"
     }
 };

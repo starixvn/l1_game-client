@@ -348,6 +348,7 @@ window.i18n.languages.zh_cn = {
         down: "",
         upDownBetHistory: "",
         evenUpBetHistory: "",
-        statistic: ""
+        statistic: "",
+        totalRed: "总计红"
     }
 };

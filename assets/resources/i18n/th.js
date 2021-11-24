@@ -362,6 +362,7 @@ window.i18n.languages.th = {
         down: "",
         upDownBetHistory: "",
         evenUpBetHistory: "",
-        statistic: ""
+        statistic: "",
+        totalRed: "รวมสีแดง"
     }
 };

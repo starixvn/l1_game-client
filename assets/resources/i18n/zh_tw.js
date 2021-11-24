@@ -348,6 +348,7 @@ window.i18n.languages.zh_tw = {
         down: "",
         upDownBetHistory: "",
         evenUpBetHistory: "",
-        statistic: ""
+        statistic: "",
+        totalRed: "總計紅"
     }
 };
