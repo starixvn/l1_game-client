@@ -1,5 +1,6 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import GameUtils from "../../../common/GameUtils";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import BalancedBettingPoolBetItemBase from "../BalancedBettingPoolBetItemBase";
 import BalancedBettingPoolGameBase from "../BalancedBettingPoolGameBase";
 
@@ -131,7 +132,9 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
             refund = total.refund;
         }
 
-        betAmountLabel.string = numberWithCommas(betAmount);
-        refundLabel.string = numberWithCommas(refund);
+        const convertBetAmount = GameUtils.getValueByCurrency(betAmount || 0);
+        const convertRefund = GameUtils.getValueByCurrency(refund || 0);
+        betAmountLabel.string = numberWithCommas(convertBetAmount);
+        refundLabel.string = numberWithCommas(convertRefund);
     }
 }
