@@ -1,6 +1,6 @@
-import { shortenName } from '../../common/helpers/NicknameHelper';
-import { getStringDateByTime } from './../../common/helpers/DateTimeHelper';
-import { numberWithCommas } from './../../common/helpers/NumberHelper';
+import { shortenName } from "../../common/helpers/NicknameHelper";
+import { getStringDateByTime } from "./../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "./../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,7 +33,7 @@ export default class SlotGameTopWinnerItem extends cc.Component {
             this.amount.string = numberWithCommas(player.bet, 1);
         }
 
-        this.win.string = numberWithCommas(player.winningAmount);
+        this.win.string = numberWithCommas(player.winningAmount, 2);
 
         if (isLoginUser) {
             this.time.node.color = cc.Color.YELLOW;

@@ -67,6 +67,6 @@ export default class FreeBetDetail extends cc.Component {
         });
 
         this.totalBet.string = numberWithCommas(totalBet);
-        this.win.string = numberWithCommas(betwin);
+        this.win.string = numberWithCommas(betwin, 2);
     }
 }

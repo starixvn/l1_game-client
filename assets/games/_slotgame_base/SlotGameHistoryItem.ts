@@ -70,7 +70,7 @@ export default class SlotGameHistoryItem extends cc.Component {
         this.payLines.string = betLog.paylines.length;
         this.bet.string = numberWithCommas(betLog.bet, 1);
         this.totalAmount.string = betLog.freeSpin ? "0" : numberWithCommas(betLog.totalAmount, 1);
-        this.win.string = numberWithCommas(win);
+        this.win.string = numberWithCommas(win, 2);
         this.data = betLog;
 
         const highlight = win > 0;

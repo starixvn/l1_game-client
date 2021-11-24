@@ -16,7 +16,7 @@ export default class MiniKenoWinning extends cc.Component {
 
     init(gameName, roundId, winAmount) {
         this.gameName.string = `${gameName} (#${roundId})`;
-        this.winAmount.string = `+${numberWithCommas(winAmount)}`;
+        this.winAmount.string = `+${numberWithCommas(winAmount, 2)}`;
     }
 
     onLoad() {

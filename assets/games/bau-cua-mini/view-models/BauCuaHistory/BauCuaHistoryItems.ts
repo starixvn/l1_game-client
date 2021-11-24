@@ -56,7 +56,7 @@ export default class BauCuaHistoryItems extends cc.Component {
             }
         });
 
-        this.win.string = numberWithCommas(betwin);
+        this.win.string = numberWithCommas(betwin, 2);
         this.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
     }
 

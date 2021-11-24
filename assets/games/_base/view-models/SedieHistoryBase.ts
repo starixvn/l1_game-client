@@ -1,7 +1,7 @@
-import { getStringDateByTime } from '../../../common/helpers/DateTimeHelper';
-import { numberWithCommas } from '../../../common/helpers/NumberHelper';
-import SedieHistoryItemBase from './SedieHistoryItemBase';
-import SocketIOGameHistoryBase from './SocketIOGameHistoryBase';
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SedieHistoryItemBase from "./SedieHistoryItemBase";
+import SocketIOGameHistoryBase from "./SocketIOGameHistoryBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -42,7 +42,7 @@ export default class SedieHistoryBase extends SocketIOGameHistoryBase {
             item.kqLabel.node.color = cc.Color.BLACK;
         }
 
-        item.win.string = numberWithCommas(betwin);
+        item.win.string = numberWithCommas(betwin, 2);
         return itemNode;
     }
 

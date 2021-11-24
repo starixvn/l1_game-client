@@ -42,7 +42,7 @@ export default class VipSedieWarHistoryItem extends cc.Component {
 
         this.time.string = getStringDateByTime(time);
         this.roundId.string = phien;
-        this.win.string = numberWithCommas(betwin);
+        this.win.string = numberWithCommas(betwin, 2);
         this.bet.string = numberWithCommas(totalAmount);
 
         VipSedieWarUtils.setDotsImage(result, this.playerResultNode, this.bankerResultNode, this.dotsFrame);

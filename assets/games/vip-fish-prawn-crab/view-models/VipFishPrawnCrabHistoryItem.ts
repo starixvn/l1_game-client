@@ -64,7 +64,7 @@ export default class VipFishPrawnCrabHistoryItem extends cc.Component {
             }
         });
 
-        this.win.string = numberWithCommas(betwin);
+        this.win.string = numberWithCommas(betwin, 2);
     }
 
     setAnimalSprites(result: any, animalSprites: cc.SpriteFrame[]) {
