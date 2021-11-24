@@ -221,15 +221,6 @@ export default class MainGame extends cc.Component {
         }
     }
 
-    resumeLastGameRoom() {
-        this.inRoomGameId = sessionManager.getInRoomGameId();
-        if (this.inRoomGameId) {
-            if (!window.openGameId && this.inRoomGameId) {
-                this.openInRoomGame(this.inRoomGameId);
-            }
-        }
-    }
-
     onLoadLobby() {
         if (cc.RedT.IS_LOGIN) {
             cc.RedT.send({ scene: "home" });
@@ -542,7 +533,6 @@ export default class MainGame extends cc.Component {
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         this.onSignIn();
         this.getJackpotInfo();
-        this.resumeLastGameRoom();
     }
 
     getJackpotInfo() {
