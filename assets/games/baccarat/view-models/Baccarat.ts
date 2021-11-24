@@ -38,10 +38,6 @@ export default class Baccarat extends VipBaccarat {
         this.logsHandler = new BaccaratLogsHandler(this);
     }
 
-    public isUsingMaxStakeLevel() {
-        return false;
-    }
-
     handlePositionMiniRoundHistory() {}
 
     openHistory() {

@@ -456,7 +456,7 @@ export default class GameBase extends BaseComponent {
     }
 
     public isUsingMaxStakeLevel() {
-        return false;
+        return true;
     }
 
     openGuide() {

@@ -53,7 +53,7 @@ export default class BetChips extends cc.Component {
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
-    public enableStakeLevel = false;
+    public enableStakeLevel = true;
 
     public chipConfig: ChipConfig;
     private selectedIndex = 0;

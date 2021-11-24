@@ -32,8 +32,4 @@ export default class VipSedie extends Sedie {
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
         });
     }
-
-    public isUsingMaxStakeLevel() {
-        return true;
-    }
 }
