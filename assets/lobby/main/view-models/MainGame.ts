@@ -217,15 +217,6 @@ export default class MainGame extends cc.Component {
         }
     }
 
-    resumeLastGameRoom() {
-        this.inRoomGameId = sessionManager.getInRoomGameId();
-        if (this.inRoomGameId) {
-            if (!window.openGameId && this.inRoomGameId) {
-                this.openInRoomGame(this.inRoomGameId);
-            }
-        }
-    }
-
     onLoadLobby() {
         if (cc.RedT.IS_LOGIN) {
             cc.RedT.send({ scene: "home" });
@@ -535,7 +526,6 @@ export default class MainGame extends cc.Component {
         this.onSignIn();
         this.openGameSSO();
         this.getJackpotInfo();
-        this.resumeLastGameRoom();
     }
 
     getJackpotInfo() {
@@ -551,8 +541,14 @@ export default class MainGame extends cc.Component {
             const gameId = parseInt(window.openGameId);
             GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
             window.openGameId = null;
+            sessionManager.removeInRoomGameId();
         } else {
-            !this.inRoomGameId && this.openLuckyWheel();
+            this.inRoomGameId = sessionManager.getInRoomGameId();
+            if (this.inRoomGameId) {
+                this.openInRoomGame(this.inRoomGameId);
+            } else {
+                this.openLuckyWheel();
+            }
         }
     }
 
