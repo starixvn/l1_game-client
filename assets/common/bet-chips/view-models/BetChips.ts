@@ -47,6 +47,7 @@ export default class BetChips extends cc.Component {
     @property(cc.SpriteFrame)
     lowValueChipSprite: cc.SpriteFrame = null;
 
+    private gameConfigs: any;
     public chipValues: number[] = [];
     public configValues: number[] = [];
     public onChanged: OnChangedBet = (bet) => {};
@@ -77,11 +78,12 @@ export default class BetChips extends cc.Component {
         };
     }
 
-    setChipValues(values: number[]) {
-        if (values.length === 0) {
+    setChipValues(gameConfigs: any) {
+        if (gameConfigs.chips.length === 0) {
             return;
         }
-        this.configValues = values;
+        this.gameConfigs = gameConfigs;
+        this.configValues = gameConfigs.chips;
         this.updateChips();
     }
 
@@ -94,11 +96,17 @@ export default class BetChips extends cc.Component {
     }
 
     getFilterValuesByStakeLevel(values: number[]) {
-        if (!cc.RedT.userStakeLevel || !this.enableStakeLevel) {
-            return values;
+        let minBet = this.gameConfigs.minBet;
+        let maxBet = this.gameConfigs.maxBet;
+
+        if (cc.RedT.userStakeLevel && this.enableStakeLevel) {
+            const minStake = cc.RedT.userStakeLevel.minBet;
+            const maxStake = cc.RedT.userStakeLevel.maxBet;
+
+            minBet = Math.max(minStake, minBet);
+            maxBet = Math.min(maxStake, maxBet);
         }
 
-        const { minBet, maxBet } = cc.RedT.userStakeLevel;
         return values.filter((value) => value >= minBet && value <= maxBet);
     }
 

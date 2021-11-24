@@ -443,7 +443,7 @@ export default class GameBase extends BaseComponent {
         this.updateOddsFromConfigs();
 
         if (this.betChips) {
-            this.betChips.setChipValues(this.gameConfigs.chips);
+            this.betChips.setChipValues(this.gameConfigs);
         }
     }
 
