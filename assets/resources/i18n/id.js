@@ -4,7 +4,7 @@ window.i18n.languages.id = {
     gameNames: {
         1: "Besar Kecil",
         2: "Se Die",
-        3: "Fish Prawn Crab",
+        3: "Ikan Udang Kepiting",
         4: "Besar Kecil Turbo",
         5: "Ganjil Genap",
         6: "Ganjil Genap Turbo ",
