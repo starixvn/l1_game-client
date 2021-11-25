@@ -366,7 +366,7 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
         this.winningEffect.active = false;
         if (cc.RedT.user.scoins) {
             const bannerNode = cc.instantiate(this.bannerPrefab);
-            this.node.parent.addChild(bannerNode);
+            this.currentMiniPanel.addDialog(bannerNode);
         }
 
         this.umNotice.hide();
