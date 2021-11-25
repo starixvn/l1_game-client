@@ -147,7 +147,7 @@ window.i18n.languages.id = {
         userNotFoundPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Pengguna tidak ditemukan.(%{errorCode})",
         sysMaintenancePlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Permainan sedang dalam pemeliharaan.",
         networkErrorPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Kesalahan jaringan.(%{errorCode})",
-        noGameOffer: ""
+        noGameOffer: "Akun Anda tidak didukung di portal game ini. Silakan hubungi upline Anda, terima kasih."
     },
     ui: {
         choice_red2: "2 Merah",
@@ -332,6 +332,7 @@ window.i18n.languages.id = {
         sum_war: "Perang",
         total_even: "Jumlah Genap",
         total_odd: "Jumlah Ganjil",
+        totalRed: "JUMLAH MERAH",
         choice_win: "Opsi Kemenangan",
         maintain_system: "SITUS DALAM PEMELIHARAAN. SILAKAN KEMBALI LAGI.",
         maintain_suggest: "Silakan login kembali untuk melanjutkan permainan setelah maintenance selesai.",
@@ -365,6 +366,11 @@ window.i18n.languages.id = {
         upDownBetHistory: "",
         evenUpBetHistory: "",
         statistic: "",
-        totalRed: "JUMLAH MERAH"
+        refund_break: "Pengembalian\ndana",
+        betChoice2_break: "Pilihan\nTaruhan",
+        nickname_break: "Nama\npanggilan",
+        choice_stag_break: "RUSA\nJANTAN",
+        choice_rooster_break: "AYAM\nJANTAN",
+        betChoice_break: "Pilihan\nTaruhan"
     }
 };

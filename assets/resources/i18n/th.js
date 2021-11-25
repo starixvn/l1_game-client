@@ -145,7 +145,7 @@ window.i18n.languages.th = {
         userNotFoundPlaceBet: "เกม %{gameName} (#%{gameRoundId})\n\nการวางเดิมพันล้มเหลว! ไม่พบชื่อผู้ใช้(%{errorCode})",
         sysMaintenancePlaceBet: "เกม %{gameName} (#%{gameRoundId})\n\nการวางเดิมพันล้มเหลว! เกมอยู่ระหว่างการบำรุงรักษา ",
         networkErrorPlaceBet: "เกม %{gameName} (#%{gameRoundId})\n\nการวางเดิมพันล้มเหลว! เกิดข้อผิดพลาดของเครือข่าย(%{errorCode})",
-        noGameOffer: ""
+        noGameOffer: "บัญชีของคุณไม่ได้รับการรองรับการเข้าถึงข้อมูลของเกม โปรดกรุณาติดต่อทีมงานผู้แนะนำของคุณ ขอบคุณค่ะ "
     },
     ui: {
         choice_red2: "2 แดง",
@@ -330,6 +330,7 @@ window.i18n.languages.th = {
         sum_war: "สงคราม",
         total_even: "รวมคู่",
         total_odd: "รวมคี่",
+        totalRed: "รวมสีแดง",
         choice_win: "ตัวเลือกที่จะชนะ",
         maintain_system: "ระบบปิดปรับปรุง กรุณาเข้ามาใช้งานใหม่อีกครั้ง",
         maintain_suggest: "กรุณาเข้าสู่ระบบใหม่อีกครั้งเพื่อเล่นเกมต่อหลังจากการปิดปรับปรุงเสร็จสิ้นแล้ว",
@@ -363,6 +364,11 @@ window.i18n.languages.th = {
         upDownBetHistory: "",
         evenUpBetHistory: "",
         statistic: "",
-        totalRed: "รวมสีแดง"
+        refund_break: "คืนเงิน",
+        betChoice2_break: "ตัวเลือกเดิมพัน",
+        nickname_break: "ชื่อเล่น",
+        choice_stag_break: "กวาง",
+        choice_rooster_break: "ไก่ชน",
+        betChoice_break: "ตัวเลือกการเดิมพัน"
     }
 };

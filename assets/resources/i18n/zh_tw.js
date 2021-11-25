@@ -133,7 +133,7 @@ window.i18n.languages.zh_tw = {
         userNotFoundPlaceBet: "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！未找到用戶。(%{errorCode})",
         sysMaintenancePlaceBet: "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！遊戲正在維護中。",
         networkErrorPlaceBet: "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！網絡錯誤。(%{errorCode})",
-        noGameOffer: ""
+        noGameOffer: "您的帳戶不支持此遊戲。請聯繫您的上線，謝謝。"
     },
     ui: {
         choice_red2: "2 紅",
@@ -317,6 +317,7 @@ window.i18n.languages.zh_tw = {
         sum_war: "戰爭",
         total_even: "總雙數",
         total_odd: "總單數",
+        totalRed: "總計紅",
         choice_win: "獲勝選項",
         maintain_system: "本網站正在維護中。請稍後再回來。",
         maintain_suggest: "維護完成後請重新登錄繼續玩遊戲。",
@@ -349,6 +350,11 @@ window.i18n.languages.zh_tw = {
         upDownBetHistory: "",
         evenUpBetHistory: "",
         statistic: "",
-        totalRed: "總計紅"
+        refund_break: "退款",
+        betChoice2_break: "投注選擇",
+        nickname_break: "暱稱",
+        choice_stag_break: "麈",
+        choice_rooster_break: "公雞",
+        betChoice_break: "投注選擇"
     }
 };
