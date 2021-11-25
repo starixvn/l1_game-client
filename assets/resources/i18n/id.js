@@ -163,7 +163,7 @@ window.i18n.languages.id = {
         choice_stag: "RUSA JANTAN",
         mountain: "Gunung",
         ocean: "Laut",
-        triple: "Tiga kali lipat",
+        triple: "Tiga Kali",
         single: "Single",
         double: "Dobel",
         any_triple: "Triple apa saja",
