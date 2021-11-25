@@ -33,7 +33,6 @@ export default class PopupMinigames extends cc.Component {
         if (void 0 !== cc.RedT.setting.popupMini.position) {
             this.node.position = cc.RedT.setting.popupMini.position;
         }
-        this.schedule(this.moveToEdge, 0.1, cc.macro.REPEAT_FOREVER);
 
         // init jackpot winner icon
         const jackpot = cc.instantiate(this.jackpotWinnerPrefab);
@@ -69,7 +68,10 @@ export default class PopupMinigames extends cc.Component {
         );
     }
     eventMove(e) {
-        this.node.position = cc.v3(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
+        this.node.position = cc.v3(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y, 0);
+
+        this.unschedule(this.moveToEdge);
+        this.scheduleOnce(this.moveToEdge, 0.5);
     }
     getCurrentSize() {
         let listBox = this.list.getBoundingBox();
@@ -105,10 +107,7 @@ export default class PopupMinigames extends cc.Component {
 
         posY = Math.min(maxY - fixTopPadding, posY);
 
-        cc.tween(this.node)
-            .to(0.1, { position: cc.v3(posX, posY) }, { easing: "sineOut" })
-            .start();
-
+        cc.tween(this.node).to(0.1, { x: posX, y: posY }, { easing: "sineOut" }).start();
         cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
     }
 
