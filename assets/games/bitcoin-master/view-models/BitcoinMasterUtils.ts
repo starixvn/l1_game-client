@@ -6,9 +6,8 @@ export default class BitcoinMasterUtils {
         return result.slice(-1);
     }
 
-    public static getUpDownResult(result: any): string {
-        const marginResult = result.close - result.open;
-        return this.formattingBitcoinValue(marginResult);
+    public static getUpDownResult(result: any): number {
+        return result.close - result.open;
     }
 
     public static absResult(result: number): string {

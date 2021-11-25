@@ -19,7 +19,7 @@ export default class BitcoinMasterUpDownMiniRoundHistoryItem extends MiniRoundHi
 
     public setData(data: any) {
         this.data = data;
-        const marginValue = parseFloat(BitcoinMasterUtils.getUpDownResult(data.result));
+        const marginValue = BitcoinMasterUtils.getUpDownResult(data.result);
         if (marginValue === 0) {
             this.icon.spriteFrame = this.balanceDot;
         } else {

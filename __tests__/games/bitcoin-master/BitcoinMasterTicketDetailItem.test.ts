@@ -95,7 +95,7 @@ describe("Test class BitcoinMasterTicketDetailItem", () => {
                 close: 57308.5
             };
             const color = cc.Color.WHITE;
-            const gapValue = parseFloat(BitcoinMasterUtils.getUpDownResult(result));
+            const gapValue = BitcoinMasterUtils.getUpDownResult(result);
 
             // Act
             comp.setData(log, result);

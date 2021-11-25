@@ -68,7 +68,7 @@ export default class BitcoinMasterStatistic extends cc.Component {
     private setUpDownRoundHistoryItemData() {
         const data = this.data;
         const logData = data.map((d) => {
-            const result = parseFloat(BitcoinMasterUtils.getUpDownResult(d.result));
+            const result = BitcoinMasterUtils.getUpDownResult(d.result);
 
             if (result === 0) {
                 return 0;

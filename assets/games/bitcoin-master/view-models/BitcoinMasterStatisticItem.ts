@@ -15,7 +15,7 @@ export default class BitcoinMasterStatisticItem extends cc.Component {
             return;
         }
 
-        const number = parseFloat(BitcoinMasterUtils.getUpDownResult(result));
+        const number = BitcoinMasterUtils.getUpDownResult(result);
 
         let spriteName = `dot_up`;
         if (number === 0) {
