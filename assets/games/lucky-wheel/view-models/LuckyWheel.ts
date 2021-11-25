@@ -123,7 +123,6 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
         this.buttonTween = cc
             .tween(this.button.node)
             .repeatForever(cc.tween().to(0.5, { scale: 0.92 }, { easing: "sineOutIn" }).to(0.5, { scale: 1 }, { easing: "sineOutIn" }));
-        this.node.zIndex = 999;
     }
 
     initMiniPanel(miniPanel: MiniPanel) {
