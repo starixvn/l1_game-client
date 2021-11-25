@@ -13,7 +13,7 @@ export default class ExpandableMenu extends cc.Component {
     @property(cc.Node)
     blockInputNode: cc.Node = null;
 
-    private expanded = false;
+    protected expanded = false;
 
     onLoad() {
         if (this.defaultExpand) {

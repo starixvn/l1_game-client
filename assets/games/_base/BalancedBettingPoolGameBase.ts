@@ -47,7 +47,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
     onLoad() {
         super.onLoad();
 
-        this.initPresetBetBoard();
+        this.presetBetPrefab && this.initPresetBetBoard();
         this.initBetBoard();
 
         const draggableItem = this.getComponent(DraggableItem);
@@ -193,7 +193,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
         this.hideBalanceBetNotice();
     }
 
-    balanceBet() {
+    balanceBet(animated: boolean) {
         this.disableHistoryButton();
         const totalBets = _.values(this.totalBets);
         const balancedBetAmount = Math.min(...[totalBets[0] ?? 0, totalBets[1] ?? 0]);
@@ -204,7 +204,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
         const balanceBetNotice = cc.instantiate(this.balanceBetNoticePrefab);
         this.balanceBetNoticeContainer.addChild(balanceBetNotice);
         this.disableHistoryButton();
-        this.balanceBet();
+        this.balanceBet(true);
     }
 
     hideBalanceBetNotice() {

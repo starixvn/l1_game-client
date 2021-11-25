@@ -12,9 +12,6 @@ export default class ShortAnimatedTime extends AnimatedTime {
     @property(cc.Label)
     secondMinuteChar: cc.Label = null;
 
-    @property
-    animated = true;
-
     setTime(time: string, forceChangeColor = false) {
         this.node.active = true;
         const timeChars = this.getTimeChars(time);
@@ -50,11 +47,5 @@ export default class ShortAnimatedTime extends AnimatedTime {
 
         timeLabel.string = time;
         this.handleBetTimeAnimation(timeLabel.node);
-    }
-
-    protected handleBetTimeAnimation(node: cc.Node) {
-        if (this.animated) {
-            super.handleBetTimeAnimation(node);
-        }
     }
 }

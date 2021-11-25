@@ -116,11 +116,15 @@ export default class MiniRoundHistory extends cc.Component {
             this.updateOrderNode(data, this.nodeNext.active);
             this.items[0].node.active = !this.nodeNext.active;
             if (this.nodeNext.active) {
-                this.tip.show(false);
+                this.hideTooltip();
             }
         } else {
             this.updateOrderNode(this.dataLogs, false);
             this.items[0].node.active = true;
         }
+    }
+
+    hideTooltip() {
+        this.tip.show(false);
     }
 }

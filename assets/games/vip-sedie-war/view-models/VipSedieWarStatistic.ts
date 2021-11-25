@@ -154,8 +154,11 @@ export default class VipSedieWarStatistic extends cc.Component {
             });
             return count;
         });
-        this.sedieRoundHistory.logControl.items = this.sedieModeItems;
-        this.sedieRoundHistory.setData(historyData);
+
+        if (this.sedieRoundHistory) {
+            this.sedieRoundHistory.logControl.items = this.sedieModeItems;
+            this.sedieRoundHistory.setData(historyData);
+        }
     }
 
     updateWarMode() {
@@ -169,8 +172,10 @@ export default class VipSedieWarStatistic extends cc.Component {
         });
         this.updateWarModeStatistic(historyData);
 
-        this.sedieRoundHistory.logControl.items = this.warModeItems;
-        this.sedieRoundHistory.logControl.setData(historyData.reverse());
+        if (this.sedieRoundHistory) {
+            this.sedieRoundHistory.logControl.items = this.warModeItems;
+            this.sedieRoundHistory.logControl.setData(historyData.reverse());
+        }
     }
 
     getValueValid(list: string[], data: any) {
@@ -240,12 +245,14 @@ export default class VipSedieWarStatistic extends cc.Component {
 
         const historyData = data.map((d) => d.result);
         this.updateTotalModeStatistic(historyData);
-        this.sedieRoundHistory.logControl.items = this.sedieModeItems;
-        this.sedieRoundHistory.logControl.setData(historyData.reverse());
 
-        const redCountData = data.map((d) => d.redCount).reverse();
-        const items = this.sedieRoundHistory.logControl.content.getComponentsInChildren(VipSedieWarRoundHistoryItem);
-        items.forEach((item, i) => item.setValue(redCountData[i]));
+        if (this.sedieRoundHistory) {
+            this.sedieRoundHistory.logControl.items = this.sedieModeItems;
+            this.sedieRoundHistory.logControl.setData(historyData.reverse());
+            const redCountData = data.map((d) => d.redCount).reverse();
+            const items = this.sedieRoundHistory.logControl.content.getComponentsInChildren(VipSedieWarRoundHistoryItem);
+            items.forEach((item, i) => item.setValue(redCountData[i]));
+        }
     }
 
     updateTotalModeStatistic(data: any) {

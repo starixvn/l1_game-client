@@ -51,9 +51,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     resetTime(): void {
-        if (this.main.animatedTime) {
-            this.main.animatedTime.node.active = false;
-        }
+        this.showMainTime(false);
         this.main.currentTimeRemaining = this.main.config.fullTime;
         this.playTime();
     }
@@ -77,9 +75,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             if (this.isInRoundTime) {
                 this.handleInRoundTime();
 
-                const isInLockBetTime = this.main.currentTimeRemaining <= this.main.config.stopBetTime;
-
-                if (isInLockBetTime) {
+                if (this.isInLockBetTime) {
                     if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
                         this.handleAtLockBetTime();
                     }
@@ -103,9 +99,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             this.main.finishShowResult && this.showWaitTime();
         }
 
-        if (this.main.animatedTime) {
-            this.main.animatedTime.node.active = false;
-        }
+        this.showMainTime(false);
 
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId - 1);
@@ -190,10 +184,14 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
             this.main.timeWaitNode.active = false;
         }
 
-        if (this.main.animatedTime) {
-            this.main.animatedTime.node.active = false;
-        }
+        this.showMainTime(false);
         clearInterval(this.playTimeInterval);
+    }
+
+    showMainTime(show: boolean) {
+        if (this.main.animatedTime) {
+            this.main.animatedTime.node.active = show;
+        }
     }
 
     protected formatTime(time: number): string {

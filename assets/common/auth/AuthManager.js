@@ -10,7 +10,18 @@ const sessionExpiredTimeoutMinutes = 19.8;
 
 export function checkSSO(labelMessage, onSuccessFunc) {
     const urlParams = new URLSearchParams(window.location.search);
+    if (checkUMSSO(urlParams) || checkTimeOut(urlParams)) {
+        return;
+    }
+    const session = sessionManager.getSession();
+    if (checkSignOut(urlParams, session)) {
+        return;
+    }
 
+    checkHasToken(urlParams, session, onSuccessFunc, labelMessage);
+}
+
+function checkUMSSO(urlParams) {
     if (urlParams.has("isUM") && urlParams.get("isUM") === "true") {
         window.umInfo = {
             isUM: true,
@@ -18,21 +29,31 @@ export function checkSSO(labelMessage, onSuccessFunc) {
             endTime: new Date()
         };
         cc.director.loadScene("um");
-        return;
+        return true;
     }
+    return false;
+}
 
-    if (urlParams.has("isTimeout") && urlParams.get("isTimeout") === "true") {
-        cc.director.loadScene("sessiontimeout");
-        return;
-    }
-
-    const session = sessionManager.getSession();
+function checkSignOut(urlParams, session) {
     const isSessionExpired = verifySession(session);
     if (isSessionExpired && !urlParams.has("token")) {
         signOut();
-        return;
+        return true;
     }
 
+    return false;
+}
+
+function checkTimeOut(urlParams) {
+    if (urlParams.has("isTimeout") && urlParams.get("isTimeout") === "true") {
+        cc.director.loadScene("sessiontimeout");
+        return true;
+    }
+
+    return false;
+}
+
+function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
     if (urlParams.has("token")) {
         window.isSSO = true;
         UserService.getInstance()
@@ -97,6 +118,12 @@ export function triggerSignIn(main) {
                 if (checkUM(response)) {
                     return;
                 }
+
+                if (response.isSuccessful !== undefined && !response.isSuccessful) {
+                    signOut();
+                    return;
+                }
+
                 if (response.user) {
                     main.handleUserData(response.user);
                 }

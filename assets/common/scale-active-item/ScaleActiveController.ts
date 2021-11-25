@@ -16,9 +16,7 @@ export default class ScaleActiveController extends cc.Component {
     addItem(node: cc.Node) {
         const item = node.getComponent(ActiveItem);
         if (item) {
-            item.onActive = () => {
-                // this.onActive(item);
-            };
+            item.onActive = () => {};
             this.items.push(item);
         }
     }

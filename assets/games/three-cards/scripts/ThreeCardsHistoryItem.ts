@@ -44,12 +44,13 @@ export default class ThreeCardsHistoryItem extends cc.Component {
         this.time.string = getStringDateByTime(betData.time);
         this.round.string = betData.phien;
         this.betWin.string = numberWithCommas(betData.betwin);
-        this.winChoices.setData(betData);
+        this.winChoices && this.winChoices.setData(betData);
         this.bet.string = this.summarizeBet(betData);
-        this.cards.forEach((card, i) => {
-            card.setCard(betData.result[i]);
-            card.faceUp();
-        });
+        this.cards &&
+            this.cards.forEach((card, i) => {
+                card.setCard(betData.result[i]);
+                card.faceUp();
+            });
     }
 
     showBackground(show: boolean) {

@@ -6,6 +6,7 @@
     "scripts": {
         "lint": "eslint \"{src,apps,libs,test,assets, packages}/**/*.ts\" --fix",
         "test": "jest --maxWorkers --colors test",
+        "test:watch": "jest --watch",
         "format": "prettier --write ./assets",
         "test-coverage": "jest --collect-coverage",
         "build": "javascript-obfuscator ./build --output ./build --exclude cocos2d-js-min"

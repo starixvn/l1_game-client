@@ -1,10 +1,9 @@
-import { SicBoBetType } from './SicBo';
-import MiniRoundHistoryItem from '../../../common/mini-round-history/MiniRoundHistoryItem';
+import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
+import { SicBoBetType } from "./SicBoCommon";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default abstract class SicBoRoundHistoryItem extends MiniRoundHistoryItem {
-
     @property(cc.Sprite)
     icon: cc.Sprite = null;
 

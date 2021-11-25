@@ -1,4 +1,4 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
+import GameUtils from "../../../common/GameUtils";
 
 import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
 
@@ -27,8 +27,8 @@ export default class VipBaccaratRoundHistoryTip extends MiniRoundHistoryTip {
             totalBanker += this.setValueCard(item.card + 1);
         });
 
-        const playerText = i18n.t("ui.choice_player");
-        const bankerText = i18n.t("ui.choice_banker");
+        const playerText = GameUtils.getBetChoiceString("player");
+        const bankerText = GameUtils.getBetChoiceString("banker");
         this.result.string = `${playerText}: ${this.setPoint(totalPlayer)} - ${bankerText}: ${this.setPoint(totalBanker)}`;
         this.show();
     }

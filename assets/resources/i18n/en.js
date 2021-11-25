@@ -32,7 +32,8 @@ window.i18n.languages.en = {
         29: "Four Guardians",
         31: "RNG Lottery",
         35: "Three Cards",
-        38: "The Legend of Heroes"
+        38: "The Legend of Heroes",
+        43: "Bitcoin Master"
     },
     messages: {
         accountBlacklisted: "Account has been closed. Please contact CSD for details.(%{errorCode})",
@@ -172,8 +173,10 @@ window.i18n.languages.en = {
         category_lottery: "Lottery",
         category_sedie: "Se Die",
         category_slot: "Slot Games",
+        category_others: "Others",
         character_name: "Nickname",
         checking_downloading: "Checking and downloading the latest update packages...",
+        choice_dealer: "Dealer",
         choice_banker: "Banker",
         choice_banker_even: "Banker - Even",
         choice_banker_odd: "Banker - Odd",
@@ -218,6 +221,8 @@ window.i18n.languages.en = {
         choice_white4: "4 White",
         choice_win: "Winning Options",
         choice_wood: "Wood",
+        choice_up: "Up",
+        choice_down: "Down",
         clear: "Clear",
         clear2: "Clear",
         close: "Close",
@@ -344,6 +349,12 @@ window.i18n.languages.en = {
         uncheck: "Uncheck",
         undo: "Undo",
         win: "Win",
-        you_win: "YOU WIN"
+        you_win: "YOU WIN",
+        bettingPrice: "Betting Price",
+        waitResult: "Wait for result",
+        upDownBetHistory: "Up / Down",
+        evenUpBetHistory: "Even / Odd",
+        statistic: "Statistic",
+        placeBet: "Place bet"
     }
 };

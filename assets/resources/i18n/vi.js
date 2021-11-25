@@ -32,7 +32,8 @@ window.i18n.languages.vi = {
         29: "Long Lân Quy Phụng",
         31: "Xổ Số RNG",
         35: "3 Lá Đỏ Đen",
-        38: "Anh Hùng Chim Lạc"
+        38: "Anh Hùng Chim Lạc",
+        43: "Bitcoin Master"
     },
     messages: {
         accountBlacklisted: "Tài khoản đã bị đóng. Vui lòng liên hệ bộ phận CSKH để biết chi tiết.(%{errorCode})",
@@ -174,8 +175,10 @@ window.i18n.languages.vi = {
         category_lottery: "Quay Số",
         category_sedie: "Xóc Đĩa",
         category_slot: "Slot Games",
+        category_others: "Game Khác",
         character_name: "Tên nhân vật",
         checking_downloading: "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...",
+        choice_dealer: "Nhà Cái",
         choice_banker: "Nhà Cái",
         choice_banker_even: "Nhà Cái chẵn",
         choice_banker_odd: "Nhà Cái lẻ",
@@ -220,6 +223,8 @@ window.i18n.languages.vi = {
         choice_white4: "4 Trắng",
         choice_win: "Cửa Thắng",
         choice_wood: "Mộc",
+        choice_up: "Tăng",
+        choice_down: "Giảm",
         clear: "Xóa",
         clear2: "Hủy",
         close: "Đóng",
@@ -346,6 +351,12 @@ window.i18n.languages.vi = {
         uncheck: "Bỏ Chọn",
         undo: "Giảm",
         win: "Thắng",
-        you_win: "Bạn vừa thắng"
+        you_win: "Bạn vừa thắng",
+        bettingPrice: "Giá Đặt Lệnh",
+        waitResult: "Chờ kết quả",
+        upDownBetHistory: "Tăng / Giảm",
+        evenUpBetHistory: "Chẵn / Lẻ",
+        statistic: "Thống Kê",
+        placeBet: "Đặt lệnh"
     }
 };

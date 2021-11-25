@@ -1,7 +1,7 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
+import GameUtils from "../../../common/GameUtils";
 
 import MiniRoundHistoryTip from "../../../common/mini-round-history/MiniRoundHistoryTip";
-import { SicBoBetType } from "./SicBo";
+import { SicBoBetType } from "./SicBoCommon";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,7 +26,7 @@ export default class SicBoRoundHistoryTip extends MiniRoundHistoryTip {
             }
         }
 
-        const keyText = i18n.t(key).toUpperCase();
+        const keyText = GameUtils.getText(key).toUpperCase();
         this.result.string = `${keyText} (${data.result.dice1}-${data.result.dice2}-${data.result.dice3})`;
         this.show();
     }

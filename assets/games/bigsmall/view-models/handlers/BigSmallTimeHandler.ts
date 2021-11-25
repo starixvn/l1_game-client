@@ -1,5 +1,5 @@
-import GameBaseTimeHandler from '../../../_base/handlers/GameBaseTimeHandler';
-import BigSmall from '../BigSmall';
+import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
+import BigSmall from "../BigSmall";
 
 export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     protected displayResultTime = 58;
@@ -18,7 +18,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     gameUpdate(): void {
         if (this.isInBalanceBetTime) {
-            this.main.balanceBet();
+            this.main.balanceBet(true);
             this.main.currentTimeRemaining--;
         } else {
             this.main.hideBalanceBetNotice();

@@ -45,23 +45,9 @@ export default class LobbyMenu extends GameIconMenu {
         dict[GameCategory.Card] = this.lobbyMenuConfig.cardGames;
         dict[GameCategory.Slot] = this.lobbyMenuConfig.slotGames;
         dict[GameCategory.Lottery] = this.lobbyMenuConfig.lotteryGames;
-        // dict[GameCategory.Favourite] = this.getFavoriteList();
-        // dict[GameCategory.Other] = this.getOtherList();
+        dict[GameCategory.Other] = this.lobbyMenuConfig.othersGames;
         const list = dict[this.currentCategory];
-        const result = list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
-        return result;
-    }
-
-    getOtherList(): number[] {
-        const temp = [
-            //
-            ...this.lobbyMenuConfig.seDieGames,
-            ...this.lobbyMenuConfig.casinoGames,
-            ...this.lobbyMenuConfig.cardGames,
-            ...this.lobbyMenuConfig.slotGames,
-            ...this.lobbyMenuConfig.lotteryGames
-        ];
-        return cc.RedT.user.offerGames.filter((i) => !temp.some((j) => j === i));
+        return list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
     }
 
     getFavoriteList(): number[] {
@@ -90,21 +76,7 @@ export default class LobbyMenu extends GameIconMenu {
         cc.sys.localStorage.setItem("favor_games", JSON.stringify(list));
     }
 
-    addHandleFavorite(node: cc.Node, gameId: number, isFavorite: boolean) {
-        // const favoriteButton = node.getComponentInChildren(FavoriteButton);
-        // if (!favoriteButton) {
-        //     return;
-        // }
-        // favoriteButton.setFavorite(isFavorite);
-        // favoriteButton.initListener();
-        // favoriteButton.onFavoriteChanged = (favorite: boolean) => {
-        //     if (favorite) {
-        //         this.addFavoriteGame(gameId);
-        //     } else {
-        //         this.removeFavoriteGame(gameId);
-        //     }
-        // };
-    }
+    addHandleFavorite(node: cc.Node, gameId: number, isFavorite: boolean) {}
 
     addFavoriteGame(gameId: number) {
         const list = this.getFavoriteList();

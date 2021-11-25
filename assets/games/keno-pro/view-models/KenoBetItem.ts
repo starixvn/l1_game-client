@@ -8,12 +8,8 @@ export default class KenoBetItem extends BetItem {
     @property(cc.Node)
     inActive: cc.Node = null;
 
-    protected setOwnBet(bet: number) {
+    public setOwnBet(bet: number) {
         this.ownBet.string = bet > 0 ? numberWithCommas(bet) : "";
-    }
-
-    protected setTotalBet(bet: number) {
-        this.totalBet.string = bet > 0 ? numberWithCommas(bet) : "";
     }
 
     public setHighlight(highlight: boolean, isAnimated = true) {

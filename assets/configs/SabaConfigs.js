@@ -30,9 +30,14 @@ const configs = {
         FourGuardians: 29,
         Lottery: 31,
         ThreeCards: 35,
-        HeroesSlot: 38
+        HeroesSlot: 38,
+        BitcoinMaster: 43
     },
     GameInfos: {
+        43: {
+            key: "BitcoinMaster",
+            mini: true
+        },
         38: {
             key: "HeroesSlot"
         },

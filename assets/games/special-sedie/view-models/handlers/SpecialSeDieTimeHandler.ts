@@ -27,7 +27,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
     gameUpdate(): void {
         if (this.isInBalanceBetTime) {
-            this.main.balanceBet();
+            this.main.balanceBet(true);
             this.main.currentTimeRemaining--;
         } else {
             this.main.hideBalanceBetNotice();

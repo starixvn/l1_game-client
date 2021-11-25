@@ -12,13 +12,8 @@ export default class VipSedieWarMiniRoundHistoryItem extends MiniRoundHistoryIte
 
     public setData(data: any) {
         this.data = data;
-        const red = data.red;
-        const colors = [
-            cc.color(37, 128, 241),
-            cc.color(253, 101, 0),
-            cc.color(19, 180, 50),
-        ];
+        const colors = [cc.color(37, 128, 241), cc.color(253, 101, 0), cc.color(19, 180, 50)];
         this.icon.node.color = colors[data.type];
-        this.red.string = red;
+        this.red.string = data.red;
     }
 }

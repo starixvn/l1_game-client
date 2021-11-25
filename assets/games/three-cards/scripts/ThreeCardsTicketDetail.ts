@@ -34,12 +34,13 @@ export default class ThreeCardsTicketDetail extends cc.Component {
 
     setData(data: ThreeCardsBetData) {
         this.round.string = data.phien;
-        this.cards.forEach((card, i) => {
-            card.setCard(data.result[i]);
-            card.faceUp();
-        });
-        this.winChoices.setData(data);
-        this.createDetailItems(data);
+        this.cards &&
+            this.cards.forEach((card, i) => {
+                card.setCard(data.result[i]);
+                card.faceUp();
+            });
+        this.winChoices && this.winChoices.setData(data);
+        this.itemPrefab && this.createDetailItems(data);
     }
 
     createDetailItems(data: ThreeCardsBetData) {

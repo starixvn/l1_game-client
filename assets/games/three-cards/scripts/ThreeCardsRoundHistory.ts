@@ -65,6 +65,6 @@ export default class ThreeCardsRoundHistory extends cc.Component {
         });
 
         logControlData.reverse();
-        this.logControl.setData(logControlData);
+        this.logControl && this.logControl.setData(logControlData);
     }
 }
