@@ -152,6 +152,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.animatedTime.setRedTime(-1);
         GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.tip.node, this.upDownTooltipNode);
         GameUtils.moveToOtherNode(this.evenOddMiniRoundHistory.tip.node, this.evenOddTooltipNode);
+
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
             const zIndex = this.node.getSiblingIndex();
 
@@ -192,12 +193,19 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     onEnable() {
+        this.setZIndexMiniGameMenu();
         super.onEnable();
         this.initChart();
     }
 
+    onDisable() {
+        super.onDisable();
+        this.setZIndexMiniGameMenu(false);
+    }
+
     onDestroy() {
         this.currentMiniPanel.removeNewLayerCallback(this.gameName);
+
         super.onDestroy();
         this.miniRoundHistoryUpDownContainer.isValid && this.miniRoundHistoryUpDownContainer.destroyAllChildren();
         this.miniRoundHistoryEvenOddContainer.isValid && this.miniRoundHistoryEvenOddContainer.destroyAllChildren();
@@ -229,6 +237,11 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.finishHandler = new BitcoinMasterFinishHandler(this);
         this.betHandler = new BitCoinMasterBetHandler(this);
         this.statusHandler = new BalancedBettingPoolStatusHandler(this);
+    }
+
+    setZIndexMiniGameMenu(status = true) {
+        this.currentMiniPanel.miniGames.setSiblingIndex(status ? 1 : 0);
+        this.currentMiniPanel.miniMenu.getParent().setSiblingIndex(status ? 0 : 1);
     }
 
     setValueBetAmount() {
