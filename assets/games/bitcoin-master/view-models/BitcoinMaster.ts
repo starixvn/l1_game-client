@@ -168,6 +168,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
                 this.showChart();
             }
         });
+        this.currentMiniPanel.popupMiniGame.list.on(cc.Node.EventType.SCALE_CHANGED, this.handleShowMiniGameMenu.bind(this));
 
         this.statisticNode.on(cc.Node.EventType.CHILD_ADDED, this.showStatistic.bind(this));
         this.statisticNode.on(cc.Node.EventType.CHILD_REMOVED, this.hideStatistic.bind(this));
@@ -246,6 +247,10 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     setZIndexMiniGameMenu(status = true) {
         this.currentMiniPanel.miniGames.setSiblingIndex(status ? 1 : 0);
         this.currentMiniPanel.miniMenu.getParent().setSiblingIndex(status ? 0 : 1);
+    }
+
+    handleShowMiniGameMenu() {
+        this.currentMiniPanel.popupMiniGame.list.scale != 0 ? this.hideChart() : this.showChart();
     }
 
     setValueBetAmount() {
