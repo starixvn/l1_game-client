@@ -20,6 +20,7 @@ import SicBoDicesStatistic from "./SicBoDicesStatistic";
 import SicBoHistory from "./SicBoHistory";
 import SicBoMajorChoicesStatistic from "./SicBoMajorChoicesStatistic";
 import SicBoOddsItem from "./SicBoOddsItem";
+import SicBoResult from "./SicBoResult";
 
 const { ccclass, property } = cc._decorator;
 
@@ -80,8 +81,8 @@ export default class SicBo extends SocketIOTableGameBase {
     @property(cc.Prefab)
     majorChoicesStatisticPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    displayResultNode: cc.Node = null;
+    @property(SicBoResult)
+    resultNode: SicBoResult = null;
 
     @property(cc.Node)
     chipContainer: cc.Node = null;
@@ -183,29 +184,9 @@ export default class SicBo extends SocketIOTableGameBase {
 
     setResult() {
         if (this.currentDataLogs.length > 0) {
-            const { result, settlementResult } = this.currentDataLogs[0];
-
+            const { result } = this.currentDataLogs[0];
             this.setDices(_.values(result));
-            const suffix = NoticeUtil.getSuffixSpriteName();
-            let resultPrite: cc.SpriteFrame = null;
-
-            if (settlementResult[SicBoBetType.anyTriple]) {
-                resultPrite = this.sicboAtlas.getSpriteFrame(`Bo3${suffix}`);
-            } else {
-                if (settlementResult[SicBoBetType.big]) {
-                    resultPrite = this.sicboAtlas.getSpriteFrame(`big${suffix}`);
-                } else {
-                    resultPrite = this.sicboAtlas.getSpriteFrame(`small${suffix}`);
-                }
-            }
-
-            let totalPoints = 0;
-            Object.values(result).forEach((point: number) => {
-                totalPoints += point;
-            });
-
-            this.displayResultNode.children[0].getComponent(cc.Label).string = `${totalPoints} -`;
-            this.displayResultNode.children[1].getComponent(cc.Sprite).spriteFrame = resultPrite;
+            this.resultNode.setData(this.currentDataLogs);
         }
     }
 
