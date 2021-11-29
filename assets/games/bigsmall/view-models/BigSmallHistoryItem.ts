@@ -40,7 +40,7 @@ export default class BigSmallHistoryItem extends cc.Component {
         this.time.string = getStringDateByTime(time);
         this.phien.string = phien;
         this.bet.string = numberWithCommas(amount);
-        this.refund.string = numberWithCommas(refund);
+        this.refund.string = numberWithCommas(refund, 2);
         this.roundId = phien;
         this.win.string = numberWithCommas(betwin, 2);
         this.choice.string = GameUtils.getBetChoiceString(choice);

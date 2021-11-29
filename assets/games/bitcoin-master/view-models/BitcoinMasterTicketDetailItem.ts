@@ -39,8 +39,8 @@ export default class BitcoinMasterTicketDetailItem extends cc.Component {
         this.time.string = getStringHourByTime(time);
         this.choice.string = GameUtils.getBetChoiceString(choice);
         this.bet.string = numberWithCommas(amount);
-        this.refund.string = numberWithCommas(refund);
-        this.win.string = numberWithCommas(BitcoinMasterUtils.calcGrossWinLoss(log));
+        this.refund.string = numberWithCommas(refund, 2);
+        this.win.string = numberWithCommas(BitcoinMasterUtils.calcGrossWinLoss(log), 2);
         if (win) {
             this.choice.node.color = cc.Color.YELLOW;
             this.bet.node.color = cc.Color.YELLOW;
