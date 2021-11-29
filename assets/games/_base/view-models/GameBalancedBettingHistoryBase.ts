@@ -134,7 +134,7 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
 
         const convertBetAmount = GameUtils.getValueByCurrency(betAmount || 0);
         const convertRefund = GameUtils.getValueByCurrency(refund || 0);
-        betAmountLabel.string = numberWithCommas(convertBetAmount, 1);
+        betAmountLabel.string = numberWithCommas(convertBetAmount, 2);
         refundLabel.string = numberWithCommas(convertRefund, 2);
     }
 }
