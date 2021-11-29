@@ -529,7 +529,6 @@ export default class MainGame extends cc.Component {
         }
 
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
-        cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         this.onSignIn();
         this.openGameSSO();
         this.getJackpotInfo();
