@@ -238,6 +238,8 @@ export default class MainGame extends cc.Component {
         if (!this.initializedLobby) {
             this.initLobby();
         }
+
+        this.openGameSSO();
     }
 
     loadLobbyMenuFromStorage() {
@@ -530,7 +532,6 @@ export default class MainGame extends cc.Component {
 
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         this.onSignIn();
-        this.openGameSSO();
         this.getJackpotInfo();
     }
 
