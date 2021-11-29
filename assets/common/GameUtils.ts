@@ -162,4 +162,19 @@ export default class GameUtils {
         }
         return (value * otherRate) / cc.RedT.user.rate;
     }
+
+    public static getFilterValuesByStakeLevel(values: number[], gameConfigs: any) {
+        let minBet = gameConfigs.minBet;
+        let maxBet = gameConfigs.maxBet;
+
+        if (cc.RedT.userStakeLevel) {
+            const minStake = cc.RedT.userStakeLevel.minBet;
+            const maxStake = cc.RedT.userStakeLevel.maxBet;
+
+            minBet = Math.max(minStake, minBet);
+            maxBet = Math.min(maxStake, maxBet);
+        }
+
+        return values.filter((value) => value >= minBet && value <= maxBet);
+    }
 }

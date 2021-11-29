@@ -88,26 +88,11 @@ export default class BetChips extends cc.Component {
     }
 
     updateChips() {
-        this.chipValues = this.getFilterValuesByStakeLevel(this.configValues);
+        this.chipValues = GameUtils.getFilterValuesByStakeLevel(this.configValues, this.gameConfigs);
         this.createChips();
         this.chipList = [...this.chips.children];
         this.setCurrentBet(this.chipValues[0].toString());
         this.snappedScrollView.initCalculatedPercent();
-    }
-
-    getFilterValuesByStakeLevel(values: number[]) {
-        let minBet = this.gameConfigs.minBet;
-        let maxBet = this.gameConfigs.maxBet;
-
-        if (cc.RedT.userStakeLevel && this.enableStakeLevel) {
-            const minStake = cc.RedT.userStakeLevel.minBet;
-            const maxStake = cc.RedT.userStakeLevel.maxBet;
-
-            minBet = Math.max(minStake, minBet);
-            maxBet = Math.min(maxStake, maxBet);
-        }
-
-        return values.filter((value) => value >= minBet && value <= maxBet);
     }
 
     createChips() {

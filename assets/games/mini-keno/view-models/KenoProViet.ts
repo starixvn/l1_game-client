@@ -170,8 +170,8 @@ export default class KenoProViet extends cc.Component {
         }
 
         if (data.gameConfigs && this.presetBet) {
-            this.presetBet.setItems(data.gameConfigs.chips);
-            console.log("set preset bet");
+            const values = GameUtils.getFilterValuesByStakeLevel(data.gameConfigs.chips, data.gameConfigs);
+            this.presetBet.setItems(values);
         }
     }
 
