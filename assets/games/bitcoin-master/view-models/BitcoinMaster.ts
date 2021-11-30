@@ -137,6 +137,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     protected isExistedStatistic = false;
     statistic: BitcoinMasterStatistic;
     readonly choices = ["up", "down", "even", "odd"];
+    isPhone = false;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -171,6 +172,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
         this.statisticNode.on(cc.Node.EventType.CHILD_ADDED, this.showStatistic.bind(this));
         this.statisticNode.on(cc.Node.EventType.CHILD_REMOVED, this.hideStatistic.bind(this));
+
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        this.isPhone = /mobile|android|iphone/.test(userAgent);
     }
 
     hideStatistic() {
@@ -194,14 +198,14 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     onEnable() {
-        cc.sys.isMobile && this.currentMiniPanel.setIconOverMiniGame(false);
+        this.isPhone && this.currentMiniPanel.setIconOverMiniGame(true);
         super.onEnable();
         this.initChart();
     }
 
     onDisable() {
         super.onDisable();
-        cc.sys.isMobile && this.currentMiniPanel.setIconOverMiniGame(true);
+        this.isPhone && this.currentMiniPanel.setIconOverMiniGame(false);
     }
 
     onDestroy() {
