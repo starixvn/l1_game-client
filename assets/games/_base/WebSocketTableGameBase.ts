@@ -109,22 +109,6 @@ export default class WebSocketTableGameBase extends GameBase {
         }
     }
 
-    showMiniWarningLimitBetChanged() {
-        this.showMiniWarning(i18n.t("messages.limitBetChanged"));
-    }
-
-    updateUserStakeLevel(data): boolean {
-        let updated = false;
-        if (data.maxBet && data.maxBet > 0) {
-            cc.RedT.userStakeLevelData(data);
-            if (this.betChips && this.betChips.enableStakeLevel) {
-                updated = true;
-                this.betChips.updateChips();
-            }
-        }
-        return updated;
-    }
-
     showUmMessage(data: any) {
         if (this.isDisableGame) {
             return;

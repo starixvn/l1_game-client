@@ -1,3 +1,4 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
@@ -489,5 +490,21 @@ export default class GameBase extends BaseComponent {
             minBet: minBet,
             maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxBet)
         };
+    }
+
+    showMiniWarningLimitBetChanged() {
+        this.showMiniWarning(i18n.t("messages.limitBetChanged"));
+    }
+
+    updateUserStakeLevel(data): boolean {
+        let updated = false;
+        if (data.maxBet && data.maxBet > 0) {
+            cc.RedT.userStakeLevelData(data);
+            if (this.betChips && this.betChips.enableStakeLevel) {
+                updated = true;
+                this.betChips.updateChips();
+            }
+        }
+        return updated;
     }
 }
