@@ -118,6 +118,20 @@ export default class MiniPanelMiniGameInitializers {
             gameContainer
         );
 
+        socket.on("message", (data) => {
+            if (data.um) {
+                this.socketIOController.closeSocket(gameId);
+                if (data.um_message) {
+                    this.main.handleUmMessage(data.um_message);
+                }
+            }
+            if (!this.main.isAlive()) {
+                return;
+            }
+            this.main.loading.node.active = false;
+            this.main.onGeneralData(data);
+        });
+
         socket.on("forceDisconnect", () => {
             socket.disconnect();
         });
