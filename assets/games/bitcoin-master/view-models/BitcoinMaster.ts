@@ -198,14 +198,14 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     onEnable() {
-        this.isPhone && this.currentMiniPanel.setIconOverMiniGame(true);
+        this.isPhone && this.currentMiniPanel.setIconOverMiniGame(false);
         super.onEnable();
         this.initChart();
     }
 
     onDisable() {
         super.onDisable();
-        this.isPhone && this.currentMiniPanel.setIconOverMiniGame(false);
+        this.isPhone && this.currentMiniPanel.setIconOverMiniGame(true);
     }
 
     onDestroy() {
