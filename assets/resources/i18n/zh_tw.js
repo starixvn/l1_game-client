@@ -252,6 +252,8 @@ window.i18n.languages.zh_tw = {
         bet_double: "加倍",
         blackjack_pay: "付%{odds} 到 1",
         clear2: "清除",
+        min: "最小",
+        max: "最大",
         stake2: "賭注",
         head: "頭",
         tail: "尾",
@@ -355,6 +357,7 @@ window.i18n.languages.zh_tw = {
         nickname_break: "暱稱",
         choice_stag_break: "麈",
         choice_rooster_break: "公雞",
-        betChoice_break: "投注選擇"
+        betChoice_break: "投注選擇",
+        place_bet_break: "下注"
     }
 };

@@ -234,6 +234,8 @@ window.i18n.languages.vi = {
         choice_down: "Giảm",
         clear: "Xóa",
         clear2: "Hủy",
+        min: "Min",
+        max: "Max",
         close: "Đóng",
         cold_number: "Số Ít Trúng",
         column_number: "Cột %{num}",
@@ -435,6 +437,7 @@ window.i18n.languages.vi = {
         nickname_break: "Người Chơi",
         choice_stag_break: "Nai",
         choice_rooster_break: "Gà",
-        betChoice_break: "Lựa Chọn"
+        betChoice_break: "Lựa Chọn",
+        place_bet_break: "Đặt Cược"
     }
 };

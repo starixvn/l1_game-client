@@ -227,6 +227,8 @@ window.i18n.languages.en = {
         choice_down: "Down",
         clear: "Clear",
         clear2: "Clear",
+        min: "Min",
+        max: "Max",
         close: "Close",
         cold_number: "Cold Numbers",
         column_number: "Column %{num}",
@@ -430,6 +432,7 @@ window.i18n.languages.en = {
         nickname_break: "Nickname",
         choice_stag_break: "STAG",
         choice_rooster_break: "ROOSTER",
-        betChoice_break: "Bet Choice"
+        betChoice_break: "Bet Choice",
+        place_bet_break: "Place Bet"
     }
 };

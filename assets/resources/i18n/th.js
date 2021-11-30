@@ -264,6 +264,8 @@ window.i18n.languages.th = {
         bet_double: "2 เท่า",
         blackjack_pay: "จ่าย %{odds} ถึง 1",
         clear2: "ล้าง",
+        min: "ต่ำสุด",
+        max: "สูงสุด",
         stake2: "เงินเดิมพัน",
         head: "หัว",
         tail: "หาง",
@@ -369,6 +371,7 @@ window.i18n.languages.th = {
         nickname_break: "ชื่อเล่น",
         choice_stag_break: "กวาง",
         choice_rooster_break: "ไก่ชน",
-        betChoice_break: "ตัวเลือกการเดิมพัน"
+        betChoice_break: "ตัวเลือกการเดิมพัน",
+        place_bet_break: "วางเดิมพัน"
     }
 };

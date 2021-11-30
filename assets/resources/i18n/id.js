@@ -266,6 +266,8 @@ window.i18n.languages.id = {
         bet_double: "Dobel",
         blackjack_pay: "Bayar %odds} ke 1",
         clear2: "Clear",
+        min: "Min",
+        max: "Maks",
         stake2: "Taruhan ",
         head: "Kepala",
         tail: "Ekor",
@@ -371,6 +373,7 @@ window.i18n.languages.id = {
         nickname_break: "Nama\npanggilan",
         choice_stag_break: "RUSA\nJANTAN",
         choice_rooster_break: "AYAM\nJANTAN",
-        betChoice_break: "Pilihan\nTaruhan"
+        betChoice_break: "Pilihan\nTaruhan",
+        place_bet_break: "Pasang\nTaruhan"
     }
 };
