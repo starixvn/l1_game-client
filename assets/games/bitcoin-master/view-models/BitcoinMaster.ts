@@ -174,7 +174,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.statisticNode.on(cc.Node.EventType.CHILD_REMOVED, this.hideStatistic.bind(this));
 
         const userAgent = window.navigator.userAgent.toLowerCase();
-        this.isPhone = /mobile|android|iphone/.test(userAgent);
+        this.isPhone = /android|iphone/.test(userAgent);
     }
 
     hideStatistic() {
