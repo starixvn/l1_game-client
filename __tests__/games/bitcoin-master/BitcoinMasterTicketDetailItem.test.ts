@@ -25,6 +25,8 @@ describe("Test class BitcoinMasterTicketDetailItem", () => {
     let node: cc.Node;
     let comp: BitcoinMasterTicketDetailItem;
     beforeAll(() => {
+        cc.RedT = {};
+        cc.RedT.user = { rate: 1 };
         node = new cc.Node();
         comp = node.addComponent(BitcoinMasterTicketDetailItem);
         comp.time = new cc.Node().addComponent(cc.Label);
@@ -70,7 +72,7 @@ describe("Test class BitcoinMasterTicketDetailItem", () => {
             expect(comp.choice.string).toMatch(GameUtils.getBetChoiceString(log.choice));
             expect(comp.bet.string).toMatch(numberWithCommas(log.amount));
             expect(comp.refund.string).toMatch(numberWithCommas(log.refund));
-            expect(comp.win.string).toMatch(numberWithCommas(BitcoinMasterUtils.calcGrossWinLoss(log)));
+            expect(comp.win.string).toMatch(numberWithCommas(BitcoinMasterUtils.calcGrossWinLoss(log), 2));
             expect(comp.choice.node.color).toEqual(cc.Color.YELLOW);
             expect(comp.bet.node.color).toEqual(cc.Color.YELLOW);
             expect(comp.refund.node.color).toEqual(cc.Color.YELLOW);
@@ -105,7 +107,7 @@ describe("Test class BitcoinMasterTicketDetailItem", () => {
             expect(comp.choice.string).toMatch(GameUtils.getBetChoiceString(log.choice));
             expect(comp.bet.string).toMatch(numberWithCommas(log.amount));
             expect(comp.refund.string).toMatch(numberWithCommas(log.refund));
-            expect(comp.win.string).toMatch(numberWithCommas(BitcoinMasterUtils.calcGrossWinLoss(log)));
+            expect(comp.win.string).toMatch(numberWithCommas(BitcoinMasterUtils.calcGrossWinLoss(log), 2));
             expect(comp.choice.node.color).toEqual(cc.Color.YELLOW);
             expect(comp.bet.node.color).toEqual(cc.Color.YELLOW);
             expect(comp.refund.node.color).toEqual(cc.Color.YELLOW);

@@ -216,6 +216,6 @@ module.exports = {
         miniKenos.forEach((keno) => keno.updateBetBoard());
 
         const kenoProViet = scene.getComponentInChildren("KenoProViet");
-        kenoProViet.updatePresetBet();
+        kenoProViet && kenoProViet.updatePresetBet();
     }
 };
