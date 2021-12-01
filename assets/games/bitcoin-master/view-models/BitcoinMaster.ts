@@ -1,4 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
@@ -131,6 +132,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Node)
     evenOddTooltipNode: cc.Node = null;
 
+    @property(DraggableItem)
+    dragComp: DraggableItem = null;
+
     protected upDownMiniRoundHistory: BitcoinMasterUpDownMiniRoundHistory;
     protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
     protected betHistory: BitcoinMasterBetHistory;
@@ -242,6 +246,12 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.finishHandler = new BitcoinMasterFinishHandler(this);
         this.betHandler = new BitCoinMasterBetHandler(this);
         this.statusHandler = new BalancedBettingPoolStatusHandler(this);
+    }
+
+    dragMiniGame() {
+        this.dragComp.touchCallback.start = (node) => {
+            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+        };
     }
 
     handleShowMiniGameMenu() {
