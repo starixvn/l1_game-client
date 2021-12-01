@@ -198,7 +198,15 @@ module.exports = {
         }
     },
     userStakeLevelData: function (data) {
+        if (this.userStakeLevel.minBet === data.minBet && this.userStakeLevel.maxBet === data.maxBet) {
+            return;
+        }
+
         this.userStakeLevel.minBet = data.minBet;
         this.userStakeLevel.maxBet = data.maxBet;
+
+        const scene = cc.director.getScene();
+        const betChips = scene.getComponentsInChildren("BetChips");
+        betChips.forEach((betChip) => betChip.updateChips());
     }
 };

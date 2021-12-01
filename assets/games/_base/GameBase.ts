@@ -502,7 +502,6 @@ export default class GameBase extends BaseComponent {
             cc.RedT.userStakeLevelData(data);
             if (this.betChips && this.betChips.enableStakeLevel) {
                 updated = true;
-                this.betChips.updateChips();
             }
         }
         return updated;
