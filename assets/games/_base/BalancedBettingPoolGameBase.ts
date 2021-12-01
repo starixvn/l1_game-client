@@ -49,11 +49,6 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
 
         this.presetBetPrefab && this.initPresetBetBoard();
         this.initBetBoard();
-
-        const draggableItem = this.getComponent(DraggableItem);
-        draggableItem.touchCallback.start = (node) => {
-            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
-        };
     }
 
     onSelectBetChoiceClick(event: cc.Event, choice: string) {

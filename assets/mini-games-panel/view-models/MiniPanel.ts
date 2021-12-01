@@ -298,4 +298,9 @@ export default class MiniPanel extends BaseComponent {
     addDialog(dialogNode: cc.Node) {
         this.dialog.addChild(dialogNode);
     }
+
+    setIconOverMiniGame(over: boolean) {
+        this.miniMenu.getParent().setSiblingIndex(over ? 1 : 0);
+        this.miniGames.setSiblingIndex(!over ? 1 : 0);
+    }
 }

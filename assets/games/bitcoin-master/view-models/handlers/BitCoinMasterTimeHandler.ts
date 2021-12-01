@@ -73,8 +73,6 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     handleInRoundTime() {
         super.handleInRoundTime();
 
-        this.isInLockBetTime && this.handleInLockBetTime();
-
         if (this.main.currentTimeRemaining <= this.waitResultTimePoint) {
             if (this.isInBalanceBetTime) {
                 if (this.main.balanceBetNoticeContainer.childrenCount === 0) {
@@ -90,6 +88,8 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
         } else {
             this.handleBettingPhase();
         }
+
+        this.isInLockBetTime && this.handleInLockBetTime();
     }
 
     handleWaitTime() {

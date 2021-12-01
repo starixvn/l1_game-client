@@ -1,4 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
@@ -131,12 +132,16 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     @property(cc.Node)
     evenOddTooltipNode: cc.Node = null;
 
+    @property(DraggableItem)
+    dragComp: DraggableItem = null;
+
     protected upDownMiniRoundHistory: BitcoinMasterUpDownMiniRoundHistory;
     protected evenOddMiniRoundHistory: BitcoinMasterEvenOddMiniRoundHistory;
     protected betHistory: BitcoinMasterBetHistory;
     protected isExistedStatistic = false;
     statistic: BitcoinMasterStatistic;
     readonly choices = ["up", "down", "even", "odd"];
+    isPhone = false;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -152,6 +157,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.animatedTime.setRedTime(-1);
         GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.tip.node, this.upDownTooltipNode);
         GameUtils.moveToOtherNode(this.evenOddMiniRoundHistory.tip.node, this.evenOddTooltipNode);
+
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
             const zIndex = this.node.getSiblingIndex();
 
@@ -166,9 +172,13 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
                 this.showChart();
             }
         });
+        this.currentMiniPanel.popupMiniGame.list.on(cc.Node.EventType.SCALE_CHANGED, this.handleShowMiniGameMenu.bind(this));
 
         this.statisticNode.on(cc.Node.EventType.CHILD_ADDED, this.showStatistic.bind(this));
         this.statisticNode.on(cc.Node.EventType.CHILD_REMOVED, this.hideStatistic.bind(this));
+
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        this.isPhone = /android|iphone/.test(userAgent);
     }
 
     hideStatistic() {
@@ -192,12 +202,19 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
     }
 
     onEnable() {
+        this.isPhone && this.currentMiniPanel.setIconOverMiniGame(false);
         super.onEnable();
         this.initChart();
     }
 
+    onDisable() {
+        super.onDisable();
+        this.isPhone && this.currentMiniPanel.setIconOverMiniGame(true);
+    }
+
     onDestroy() {
         this.currentMiniPanel.removeNewLayerCallback(this.gameName);
+
         super.onDestroy();
         this.miniRoundHistoryUpDownContainer.isValid && this.miniRoundHistoryUpDownContainer.destroyAllChildren();
         this.miniRoundHistoryEvenOddContainer.isValid && this.miniRoundHistoryEvenOddContainer.destroyAllChildren();
@@ -229,6 +246,16 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.finishHandler = new BitcoinMasterFinishHandler(this);
         this.betHandler = new BitCoinMasterBetHandler(this);
         this.statusHandler = new BalancedBettingPoolStatusHandler(this);
+    }
+
+    dragMiniGame() {
+        this.dragComp.touchCallback.start = (node) => {
+            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+        };
+    }
+
+    handleShowMiniGameMenu() {
+        this.currentMiniPanel.popupMiniGame.list.scale !== 0 ? this.hideChart() : this.showChart();
     }
 
     setValueBetAmount() {

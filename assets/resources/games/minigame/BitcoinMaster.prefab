@@ -24,20 +24,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 400
-      },
-      {
-        "__id__": 401
-      },
-      {
-        "__id__": 402
-      },
-      {
         "__id__": 403
+      },
+      {
+        "__id__": 404
       }
     ],
     "_prefab": {
-      "__id__": 404
+      "__id__": 405
     },
     "_opacity": 255,
     "_color": {
@@ -49,7 +43,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1438,
+      "width": 1298,
       "height": 716
     },
     "_anchorPoint": {
@@ -61,7 +55,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
+        699,
         0,
         0,
         0,
@@ -156,9 +150,19 @@
       }
     ],
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 399
+      },
+      {
+        "__id__": 400
+      },
+      {
+        "__id__": 401
+      }
+    ],
     "_prefab": {
-      "__id__": 399
+      "__id__": 402
     },
     "_opacity": 255,
     "_color": {
@@ -170,7 +174,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1328,
+      "width": 1438,
       "height": 716
     },
     "_anchorPoint": {
@@ -189,9 +193,9 @@
         0,
         0,
         1,
-        1,
-        1,
-        1
+        0.9026425591098748,
+        0.9026425591098748,
+        0.9026425591098748
       ]
     },
     "_eulerAngles": {
@@ -3891,7 +3895,7 @@
     "node": {
       "__id__": 65
     },
-    "_enabled": true,
+    "_enabled": false,
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 13,
@@ -5429,7 +5433,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 102.14,
+      "width": 115.59,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -6629,8 +6633,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Giá Đặt Lệnh",
-    "_N$string": "Giá Đặt Lệnh",
+    "_string": "ui.bettingPrice",
+    "_N$string": "ui.bettingPrice",
     "_fontSize": 18,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -6707,7 +6711,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 63.02,
+      "width": 63.94,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -6869,8 +6873,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Kết Quả",
-    "_N$string": "Kết Quả",
+    "_string": "ui.result",
+    "_N$string": "ui.result",
     "_fontSize": 18,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -7296,7 +7300,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 58.62,
+      "width": 78.99,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -7348,8 +7352,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Đặt lệnh",
-    "_N$string": "Đặt lệnh",
+    "_string": "ui.placeBet",
+    "_N$string": "ui.placeBet",
     "_fontSize": 16,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -7422,7 +7426,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 84.56,
+      "width": 91.26,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -7474,8 +7478,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Chờ kết quả",
-    "_N$string": "Chờ kết quả",
+    "_string": "ui.waitResult",
+    "_N$string": "ui.waitResult",
     "_fontSize": 16,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -7548,7 +7552,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 81.93,
+      "width": 65.1,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -7600,8 +7604,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Trả Thưởng",
-    "_N$string": "Trả Thưởng",
+    "_string": "ui.payout",
+    "_N$string": "ui.payout",
     "_fontSize": 16,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -9157,8 +9161,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ĐẶT CỬA",
-    "_N$string": "ĐẶT CỬA",
+    "_string": "UI.INPUT_BET",
+    "_N$string": "UI.INPUT_BET",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -9481,8 +9485,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ĐẶT CỬA",
-    "_N$string": "ĐẶT CỬA",
+    "_string": "UI.INPUT_BET",
+    "_N$string": "UI.INPUT_BET",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -11600,8 +11604,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ĐẶT CỬA",
-    "_N$string": "ĐẶT CỬA",
+    "_string": "UI.INPUT_BET",
+    "_N$string": "UI.INPUT_BET",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -11924,8 +11928,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ĐẶT CỬA",
-    "_N$string": "ĐẶT CỬA",
+    "_string": "UI.INPUT_BET",
+    "_N$string": "UI.INPUT_BET",
     "_fontSize": 23,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -13223,7 +13227,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 15.27,
+      "width": 0,
       "height": 40
     },
     "_anchorPoint": {
@@ -14431,6 +14435,37 @@
     "sync": false
   },
   {
+    "__type__": "e6206lG649L0YwbLfXGvxbN",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_policy": 2,
+    "_id": ""
+  },
+  {
+    "__type__": "a3c1asqrWxAqLXirvs1BkbN",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.BlockInputEvents",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -14440,26 +14475,6 @@
     },
     "fileId": "0bsZFiCYZH8rUyOjRsNk98",
     "sync": false
-  },
-  {
-    "__type__": "cc.BlockInputEvents",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "_id": ""
-  },
-  {
-    "__type__": "a3c1asqrWxAqLXirvs1BkbN",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "_id": ""
   },
   {
     "__type__": "908cbcjsRhP0Y54V82vIKZQ",
@@ -14636,17 +14651,36 @@
     "evenOddTooltipNode": {
       "__id__": 124
     },
+    "dragComp": {
+      "__id__": 400
+    },
     "_id": ""
   },
   {
-    "__type__": "338b2TEhrJPqaLY150gH4mp",
+    "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "_policy": 2,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 40,
+    "_left": 50,
+    "_right": 50,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 1398,
+    "_originalHeight": 0,
     "_id": ""
   },
   {

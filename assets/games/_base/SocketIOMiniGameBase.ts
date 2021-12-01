@@ -20,11 +20,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             if (!cc.sys.isMobile) {
                 this.node.scale = SabaConfigs.desktopMiniGameScale;
             }
-
-            const draggableItem = this.getComponent(DraggableItem);
-            draggableItem.touchCallback.start = (node) => {
-                this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
-            };
+            this.dragMiniGame();
         }
     }
 
@@ -116,5 +112,12 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
         if (this.socket) {
             this.socket.emit("retry");
         }
+    }
+
+    dragMiniGame() {
+        const draggableItem = this.getComponent(DraggableItem);
+        draggableItem.touchCallback.start = (node) => {
+            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+        };
     }
 }
