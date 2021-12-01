@@ -199,7 +199,7 @@ module.exports = {
     },
     userStakeLevelData: function (data) {
         if (this.userStakeLevel.minBet === data.minBet && this.userStakeLevel.maxBet === data.maxBet) {
-            return;
+            return false;
         }
 
         this.userStakeLevel.minBet = data.minBet;
@@ -217,5 +217,7 @@ module.exports = {
 
         const kenoProViet = scene.getComponentInChildren("KenoProViet");
         kenoProViet && kenoProViet.updatePresetBet();
+
+        return true;
     }
 };

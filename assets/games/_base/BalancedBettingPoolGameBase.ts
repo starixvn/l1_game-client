@@ -3,7 +3,6 @@ import * as _ from "lodash";
 
 import AudioManager from "../../common/audio/AudioManager";
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
-import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
