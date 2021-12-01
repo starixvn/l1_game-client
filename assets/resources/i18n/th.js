@@ -374,6 +374,7 @@ window.i18n.languages.th = {
         choice_stag_break: "กวาง",
         choice_rooster_break: "ไก่ชน",
         betChoice_break: "ตัวเลือกการเดิมพัน",
-        place_bet_break: "วางเดิมพัน"
+        place_bet_break: "วางเดิมพัน",
+        totalStake_shorten: "เดิมพันรวม"
     }
 };
