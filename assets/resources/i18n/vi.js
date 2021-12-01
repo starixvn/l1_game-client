@@ -380,6 +380,7 @@ window.i18n.languages.vi = {
         choice_stag_break: "Nai",
         choice_rooster_break: "Gà",
         betChoice_break: "Lựa Chọn",
-        place_bet_break: "Đặt Cược"
+        place_bet_break: "Đặt Cược",
+        totalStake_shorten: "Tổng Cược"
     }
 };

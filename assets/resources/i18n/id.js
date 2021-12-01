@@ -374,6 +374,7 @@ window.i18n.languages.id = {
         choice_stag_break: "RUSA\nJANTAN",
         choice_rooster_break: "AYAM\nJANTAN",
         betChoice_break: "Pilihan\nTaruhan",
-        place_bet_break: "Pasang\nTaruhan"
+        place_bet_break: "Pasang\nTaruhan",
+        totalStake_shorten: "Taruhan"
     }
 };

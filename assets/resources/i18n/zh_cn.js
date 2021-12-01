@@ -358,6 +358,7 @@ window.i18n.languages.zh_cn = {
         choice_stag_break: "麈",
         choice_rooster_break: "公鸡",
         betChoice_break: "投注选择",
-        place_bet_break: "下注"
+        place_bet_break: "下注",
+        totalStake_shorten: "总赌注"
     }
 };
