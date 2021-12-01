@@ -232,6 +232,8 @@ window.i18n.languages.id = {
         odds: "Ganjil",
         lukcy_winner: "Anda bisa menjadi Pemenang Beruntung! Cepat.",
         play_now: "Main sekarang!",
+        bonus_game: "Bonus Game",
+        total_bonus_win: "Total Bonus Menang",
         free_spin_left: "Free Spin Tersisa",
         choice_red: "Merah",
         choice_black: "Hitam",

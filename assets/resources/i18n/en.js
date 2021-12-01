@@ -231,6 +231,8 @@ window.i18n.languages.en = {
         odds: "Odds",
         lukcy_winner: "You could be the Lukcy Winner! Hurry Up.",
         play_now: "Play Now!",
+        bonus_game: "Bonus Game",
+        total_bonus_win: "Total Bonus Win",
         free_spin_left: "Have Free Spin Left",
         choice_red: "Red",
         choice_black: "Black",

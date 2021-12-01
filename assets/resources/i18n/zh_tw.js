@@ -218,6 +218,8 @@ window.i18n.languages.zh_tw = {
         odds: "賠率",
         lukcy_winner: "你可以成為幸運贏家！趕快。",
         play_now: "現在玩",
+        bonus_game: "獎金遊戲",
+        total_bonus_win: "總獎金贏",
         free_spin_left: "有剩餘免費旋轉",
         choice_red: "紅",
         choice_black: "黑",
