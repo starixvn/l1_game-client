@@ -77,6 +77,7 @@ export default class KenoProViet extends cc.Component {
     private readonly statusQueue: any[] = [];
     private presetBetSettingKey: string;
     private miniKenoHistory: MiniKenoHistory;
+    private gameConfigs: any;
 
     initMiniPanel(miniPanel: MiniPanel) {
         this.miniPanel = miniPanel;
@@ -171,9 +172,15 @@ export default class KenoProViet extends cc.Component {
         }
 
         if (data.gameConfigs && this.presetBet) {
-            const values = GameUtils.getFilterValuesByStakeLevel(data.gameConfigs.chips, data.gameConfigs);
-            this.presetBet.setItems(values);
+            this.gameConfigs = data.gameConfigs;
+
+            this.updatePresetBet();
         }
+    }
+
+    updatePresetBet() {
+        const values = GameUtils.getFilterValuesByStakeLevel(this.gameConfigs.chips, this.gameConfigs);
+        this.presetBet.setItems(values);
     }
 
     update(dt) {

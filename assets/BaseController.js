@@ -208,5 +208,14 @@ module.exports = {
         const scene = cc.director.getScene();
         const betChips = scene.getComponentsInChildren("BetChips");
         betChips.forEach((betChip) => betChip.updateChips());
+
+        const balanceGames = scene.getComponentsInChildren("BalancedBettingPoolGameBase");
+        balanceGames.forEach((balanceGame) => balanceGame.updateBetBoard());
+
+        const miniKenos = scene.getComponentsInChildren("MiniKeno");
+        miniKenos.forEach((keno) => keno.updateBetBoard());
+
+        const kenoProViet = scene.getComponentInChildren("KenoProViet");
+        kenoProViet.updatePresetBet();
     }
 };

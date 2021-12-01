@@ -360,6 +360,10 @@ export default class MiniKeno extends SocketIOMiniGameBase {
 
     updateDisplayForRemoteConfig() {
         super.updateDisplayForRemoteConfig();
+        this.updateBetBoard();
+    }
+
+    updateBetBoard() {
         const values = GameUtils.getFilterValuesByStakeLevel(this.gameConfigs.chips, this.gameConfigs);
         this.betBoard.setItems(values);
     }
