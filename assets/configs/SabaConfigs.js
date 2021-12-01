@@ -10,7 +10,7 @@ const configs = {
         KenoProMax: 8,
         MiniSedie: 9,
         Baccarat: 10,
-        KenoProViet: 11,
+        KenoProViet: 12,
         KenoMax: 12,
         KenoMax2: 13,
         KenoMini: 14,
