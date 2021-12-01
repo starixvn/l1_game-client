@@ -104,8 +104,9 @@ export default class KenoProViet extends cc.Component {
             const gameId = KenoUtils.getKenoGameId(type);
             const socket = this.socketIOController.getSocketGame(gameId);
             const isMain = index === 0;
+            const gameName = GameUtils.getGameNameString(gameId);
             if (!socket) {
-                this.miniPanel.gameMiniInitializers.setUpSocketForGame(gameId, false, {
+                this.miniPanel.gameMiniInitializers.setUpSocketForGame(gameName, gameId, false, {
                     isMain,
                     alternativeName,
                     hideContainer: () => this.close()
