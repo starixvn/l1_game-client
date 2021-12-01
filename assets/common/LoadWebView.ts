@@ -20,7 +20,6 @@ export default class LoadWebView extends cc.Component {
         this.webView.node.on(
             "loaded",
             () => {
-                this.onWebViewLoaded();
                 const paddingTime = 0.3;
                 cc.tween(this.node)
                     .delay(paddingTime)
@@ -40,6 +39,7 @@ export default class LoadWebView extends cc.Component {
 
     showWebView() {
         this.webView._impl.setVisible(true);
+        this.onWebViewLoaded();
     }
 
     hideWebView() {
