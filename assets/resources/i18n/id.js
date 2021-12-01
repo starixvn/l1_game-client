@@ -201,6 +201,8 @@ window.i18n.languages.id = {
         choice_tiger: "Tiger",
         choice_tie: "Seri",
         tie_win: "SERI!",
+        dragon_win: "DRAGON MENANG",
+        tiger_win: "TIGER MENANG",
         result_dragon_tiger: "HASIL (DRAGON | TIGER)",
         all: "Semua",
         evenNumbers: "Bilangan Genap",

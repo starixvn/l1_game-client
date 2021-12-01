@@ -187,6 +187,8 @@ window.i18n.languages.zh_cn = {
         choice_tiger: "虎",
         choice_tie: "平局",
         tie_win: "平局!",
+        dragon_win: "龙赢",
+        tiger_win: "虎赢",
         result_dragon_tiger: "结果（龙 | 虎）",
         all: "全部",
         evenNumbers: "双数",

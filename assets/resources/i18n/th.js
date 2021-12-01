@@ -199,6 +199,8 @@ window.i18n.languages.th = {
         choice_tiger: "เสือ",
         choice_tie: "เสมอ",
         tie_win: "เสมอ!",
+        dragon_win: "มังกรชนะ",
+        tiger_win: "เสือชนะ",
         result_dragon_tiger: "ผลลัพธ์ (มังกร l เสือ)",
         all: "ทั้งหมด",
         evenNumbers: "เลขคู่",

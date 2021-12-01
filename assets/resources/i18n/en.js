@@ -200,6 +200,8 @@ window.i18n.languages.en = {
         choice_tiger: "Tiger",
         choice_tie: "Tie",
         tie_win: "TIE!",
+        dragon_win: "Dragon win",
+        tiger_win: "Tiger win",
         result_dragon_tiger: "RESULT (DRAGON | TIGER)",
         all: "All",
         evenNumbers: "Even Numbers",

@@ -207,6 +207,8 @@ window.i18n.languages.vi = {
         choice_tiger: "Hổ",
         choice_tie: "Hòa",
         tie_win: "HÒA!",
+        dragon_win: "RỒNG THẮNG",
+        tiger_win: "HỔ THẮNG",
         result_dragon_tiger: "Kết Quả (Rồng | Hổ)",
         all: "Tất Cả",
         evenNumbers: "Dòng Chẵn",
