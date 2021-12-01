@@ -8,8 +8,8 @@ export default class LocalizedFontBold extends LocalizedFont {
         this.fontBases = {
             en: "NotoSerif-Bold",
             th: "NotoSerifThai-Bold",
-            zh_cn: "NotoSerifSC-Bold",
-            zh_tw: "NotoSerifTC-Bold"
+            zh_cn: "NotoSerifZHCN-Bold",
+            zh_tw: "NotoSerifZHTW-Bold"
         };
     }
 }
