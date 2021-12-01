@@ -116,8 +116,8 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
 
     updateBetBoard() {
         const values = GameUtils.getFilterValuesByStakeLevel(this.gameConfigs.chips, this.gameConfigs);
-        this.betBoard.setItems(values);
-        this.presetBet.setItems(values);
+        this.betBoard && this.betBoard.setItems(values);
+        this.presetBet && this.presetBet.setItems(values);
     }
 
     onAcceptedBet(info: BetInfo) {
