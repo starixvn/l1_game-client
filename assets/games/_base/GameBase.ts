@@ -485,11 +485,7 @@ export default class GameBase extends BaseComponent {
     }
 
     protected getVipBetRange() {
-        const { minBet, maxBet } = this.gameConfigs;
-        return {
-            minBet: minBet,
-            maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxBet)
-        };
+        return cc.RedT.userStakeLevel;
     }
 
     showMiniWarningLimitBetChanged() {
