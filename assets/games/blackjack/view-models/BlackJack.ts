@@ -232,7 +232,6 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     initHandPlaces() {
         const chipFlyingDuration = 0.5;
-        const maxBet = this.getMaxBet();
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 if (this.waitingProcessing) {
@@ -242,6 +241,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                 this.handPlaces.forEach((place) => place.highlightPlace(false));
                 handPlace.highlightPlace(true);
 
+                const maxBet = this.getMaxBet();
                 if (handPlace.getBetAmount() + this.currentBet > maxBet) {
                     this.showMiniWarning(i18n.t("messages.maxStakeHand", { maxBet: numberWithCommas(maxBet) }));
                     return;
