@@ -379,6 +379,7 @@ window.i18n.languages.en = {
         betChoice_break: "Bet Choice",
         place_bet_break: "Place Bet",
         auto_spin_break: "Auto\nSpin",
-        totalstake_shorten: "Total Stake"
+        betType_break: "Bet Type",
+        totalStake_shorten: "Total Stake"
     }
 };

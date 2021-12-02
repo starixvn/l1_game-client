@@ -364,6 +364,7 @@ window.i18n.languages.zh_cn = {
         betChoice_break: "投注选择",
         place_bet_break: "下注",
         auto_spin_break: "自动旋转",
-        totalstake_shorten: "总赌注"
+        betType_break: "下注",
+        totalStake_shorten: "总赌注"
     }
 };

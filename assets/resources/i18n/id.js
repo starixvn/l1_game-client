@@ -380,6 +380,7 @@ window.i18n.languages.id = {
         betChoice_break: "Pilihan\nTaruhan",
         place_bet_break: "Pasang\nTaruhan",
         auto_spin_break: "Putar\nOtomatis",
-        total_stake_shorten: "Taruhan"
+        betType_break: "Jenis\nTaruhan",
+        totalStake_shorten: "Taruhan"
     }
 };

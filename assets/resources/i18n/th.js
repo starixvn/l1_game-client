@@ -378,6 +378,7 @@ window.i18n.languages.th = {
         betChoice_break: "ตัวเลือกการเดิมพัน",
         place_bet_break: "วางเดิมพัน",
         auto_spin_break: "สปินอัตโนมัติ",
-        total_stake_shorten: "เดิมพันรวม"
+        betType_break: "วางเดิมพัน",
+        totalStake_shorten: "เดิมพันรวม"
     }
 };
