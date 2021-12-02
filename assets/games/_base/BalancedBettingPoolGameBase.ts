@@ -60,7 +60,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
             choice: choice,
             bet: 0,
             betItem: null,
-            maxBet: this.gameConfigs.maxBet
+            maxBet: this.getMaxBet()
         };
         this.betBoard.show(betInfo);
         this.betBoard.node.runAction(
@@ -134,7 +134,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
 
     onChangedBet(info: BetInfo) {
         const { bet, choice } = info;
-        const maxBet = this.gameConfigs.maxBet;
+        const maxBet = this.getMaxBet();
         const betAmount = bet > maxBet ? maxBet : bet;
         const selectedBetAmountLabel = this.selectedBetAmountLabels[choice];
         selectedBetAmountLabel.string = numberWithCommas(betAmount);

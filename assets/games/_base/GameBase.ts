@@ -476,6 +476,14 @@ export default class GameBase extends BaseComponent {
         return this.isUsingMaxStakeLevel() ? this.getVipBetRange() : this.getNormalBetRange();
     }
 
+    getMaxBet(): number {
+        return Math.min(this.gameConfigs.maxBet, cc.RedT.userStakeLevel.maxBet);
+    }
+
+    getMinBet(): number {
+        return Math.max(this.gameConfigs.minBet, cc.RedT.userStakeLevel.minBet);
+    }
+
     protected getNormalBetRange() {
         const { minBet, maxBet } = this.gameConfigs;
         return {

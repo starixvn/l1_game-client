@@ -232,6 +232,7 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     initHandPlaces() {
         const chipFlyingDuration = 0.5;
+        const maxBet = this.getMaxBet();
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 if (this.waitingProcessing) {
@@ -241,8 +242,8 @@ export default class BlackJack extends SocketIOTableGameBase {
                 this.handPlaces.forEach((place) => place.highlightPlace(false));
                 handPlace.highlightPlace(true);
 
-                if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxBet) {
-                    this.showMiniWarning(i18n.t("messages.maxStakeHand", { maxBet: numberWithCommas(this.gameConfigs.maxBet) }));
+                if (handPlace.getBetAmount() + this.currentBet > maxBet) {
+                    this.showMiniWarning(i18n.t("messages.maxStakeHand", { maxBet: numberWithCommas(maxBet) }));
                     return;
                 }
 
@@ -714,8 +715,8 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     updateDisplayForRemoteConfig() {
         super.updateDisplayForRemoteConfig();
-        this.minBetLabel.string = this.gameConfigs.minBet.toString();
-        this.maxBetLabel.string = numberWithCommas(this.gameConfigs.maxBet);
+        this.minBetLabel.string = numberWithCommas(this.getMinBet());
+        this.maxBetLabel.string = numberWithCommas(this.getMaxBet());
         const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
         this.blackjackOddLabel.string = i18n.t("ui.blackjack_pay", { odds });
     }

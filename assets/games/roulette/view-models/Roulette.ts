@@ -417,8 +417,9 @@ export default class Roulette extends SocketIOTableGameBase {
 
         const currentTotal = this.sumValueBetChoices(totalChoices);
         const newTotal = this.sumValueBetChoices(betChoices);
-        if (currentTotal + newTotal > this.gameConfigs.maxBet) {
-            this.showMiniWarning(i18n.t("messages.maxBetNotice", { maxBet: numberWithCommas(this.gameConfigs.maxBet) }));
+        const maxBet = this.getMaxBet();
+        if (currentTotal + newTotal > maxBet) {
+            this.showMiniWarning(i18n.t("messages.maxBetNotice", { maxBet: numberWithCommas(maxBet) }));
             return false;
         }
 
