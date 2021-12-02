@@ -93,9 +93,10 @@ export default class BetChips extends cc.Component {
         this.chipValues = GameUtils.getFilterValuesByStakeLevel(this.configValues, this.gameConfigs);
         this.createChips();
 
-        const currentBet = this.chipValues.findIndex((value) => parseInt(value.toString()) === parseInt(this.currentBetValue))
-            ? this.currentBetValue
-            : this.chipValues[0].toString();
+        const currentBet =
+            this.chipValues.findIndex((value) => parseInt(value.toString()) === parseInt(this.currentBetValue)) !== -1
+                ? this.currentBetValue
+                : this.chipValues[0].toString();
         const needResetScrollOffset = currentBet !== this.currentBetValue;
         this.setCurrentBet(currentBet);
         this.snappedScrollView.initCalculatedPercent();
