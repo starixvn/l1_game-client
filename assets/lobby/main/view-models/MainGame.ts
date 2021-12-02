@@ -639,6 +639,10 @@ export default class MainGame extends cc.Component {
             this.showNotice({ text: text });
         }
 
+        if (response.user) {
+            cc.RedT.userData(response.user);
+        }
+
         this.serviceAuthorized(response.authorized);
     }
 }
