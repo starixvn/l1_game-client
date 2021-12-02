@@ -623,7 +623,6 @@ export default class MainGame extends cc.Component {
     showSignName() {
         if (!this.signName) {
             const node = cc.instantiate(this.signNamePrefab);
-            this.node.addChild(node);
             this.signName = node.getComponent("SignName");
             this.signName.init(this.handleSignName.bind(this));
             cc.RedT.MiniPanel.addDialog(node);
