@@ -213,7 +213,7 @@ window.i18n.languages.th = {
         line: "เส้น",
         honor: "หอเกียรติยศ",
         lines: "เส้น",
-        total_bet: "การเดิมพันทั้งหมด",
+        total_bet: "เดิมพันรวม",
         bonus_count_text: "จำนวนหีบสมบัติ",
         auto_spin_guide_text: "จำนวนของสปินฟรีอัตโนมัติ",
         times: "เวลา",
