@@ -185,10 +185,10 @@ window.i18n.languages.id = {
         column_number: "Kolom %{num}",
         undo: "Kembali",
         rebet: "Rebate",
-        totalStake: "Jumlah Taruhan",
+        totalStake: "Total Taruhan",
         betChoice: "Pilihan Taruhan",
         betType: "Jenis Taruhan",
-        ok: "Mengonfirmasi",
+        ok: "KONFIRMASI",
         choice_earth: "Bumi",
         choice_even: "Genap",
         choice_fire: "Api",
@@ -300,7 +300,7 @@ window.i18n.languages.id = {
         input_bet: "Taruhan",
         clear: "Clear",
         close: "Tutup",
-        confirm: "Mengonfirmasi",
+        confirm: "KONFIRMASI",
         history: "Sejarah Tiket",
         round_history: "Sejarah Babak",
         preset_bet: "Taruhan Preset",
@@ -379,6 +379,7 @@ window.i18n.languages.id = {
         choice_rooster_break: "AYAM\nJANTAN",
         betChoice_break: "Pilihan\nTaruhan",
         place_bet_break: "Pasang\nTaruhan",
-        totalStake_shorten: "Taruhan"
+        auto_spin_break: "Putar\nOtomatis",
+        total_stake_shorten: "Taruhan"
     }
 };

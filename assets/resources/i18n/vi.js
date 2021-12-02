@@ -385,6 +385,7 @@ window.i18n.languages.vi = {
         choice_rooster_break: "Gà",
         betChoice_break: "Lựa Chọn",
         place_bet_break: "Đặt Cược",
-        totalStake_shorten: "Tổng Cược"
+        auto_spin_break: "Tự\nQuay",
+        total_stake_shorten: "เดิมพันรวม"
     }
 };

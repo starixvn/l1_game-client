@@ -363,6 +363,7 @@ window.i18n.languages.zh_tw = {
         choice_rooster_break: "公雞",
         betChoice_break: "投注選擇",
         place_bet_break: "下注",
-        totalStake_shorten: "總賭注"
+        auto_spin_break: "自動旋轉",
+        total_stake_shorten: "總賭注"
     }
 };

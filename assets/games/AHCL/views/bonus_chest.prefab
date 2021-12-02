@@ -30,17 +30,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 12
-      },
-      {
-        "__id__": 13
-      },
-      {
         "__id__": 14
+      },
+      {
+        "__id__": 15
+      },
+      {
+        "__id__": 16
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 17
     },
     "_opacity": 255,
     "_color": {
@@ -330,10 +330,16 @@
       },
       {
         "__id__": 10
+      },
+      {
+        "__id__": 11
+      },
+      {
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 11
+      "__id__": 13
     },
     "_opacity": 0,
     "_color": {
@@ -345,8 +351,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 72.85,
-      "height": 54.4
+      "width": 73.18,
+      "height": 54.92
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -399,11 +405,11 @@
     "_dstBlendFactor": 771,
     "_string": "2500",
     "_N$string": "2500",
-    "_fontSize": 30,
-    "_lineHeight": 40,
+    "_fontSize": 42,
+    "_lineHeight": 42,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "7dce179a-1620-4e9f-ba2e-dc48c2c2fd32"
+      "__uuid__": "6a46995d-538e-4dcf-ad8a-c9815c575296"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -427,12 +433,61 @@
     "_enabled": true,
     "_color": {
       "__type__": "cc.Color",
-      "r": 89,
-      "g": 4,
-      "b": 4,
+      "r": 198,
+      "g": 113,
+      "b": 23,
       "a": 255
     },
-    "_width": 2,
+    "_width": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "05576aY10ZCs4XpEkhUIX+E",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 8
+    },
+    "_enabled": true,
+    "_colors": [
+      {
+        "__type__": "cc.Color",
+        "r": 255,
+        "g": 236,
+        "b": 170,
+        "a": 255
+      },
+      {
+        "__type__": "cc.Color",
+        "r": 255,
+        "g": 251,
+        "b": 238,
+        "a": 255
+      }
+    ],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.LabelShadow",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 8
+    },
+    "_enabled": true,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 82,
+      "g": 16,
+      "b": 16,
+      "a": 255
+    },
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": -3
+    },
+    "_blur": 5,
     "_id": ""
   },
   {
@@ -542,7 +597,7 @@
     },
     "_enabled": true,
     "openChestAnimation": {
-      "__id__": 12
+      "__id__": 14
     },
     "value": {
       "__id__": 9
