@@ -92,16 +92,16 @@ export default class BetBoard extends cc.Component {
 
         this.info = info;
         this.info.bet = info.bet || this.callback.getPreset();
-        this.info.bet = Math.min(this.info.bet, this.info.maxBet);
+        this.info.bet = Math.min(this.info.bet, this.info.maxBet());
         this.node.active = true;
         this.betChanged();
     }
 
     public onItemBetClicked(e) {
         AudioManager.getInstance().playClick();
-        const amount = parseInt(e.target.name) || this.info.maxBet;
+        const amount = parseInt(e.target.name) || this.info.maxBet();
         this.info.bet += amount;
-        this.info.bet = Math.min(this.info.bet, this.info.maxBet);
+        this.info.bet = Math.min(this.info.bet, this.info.maxBet());
         this.betChanged();
     }
 

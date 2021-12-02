@@ -60,7 +60,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
             choice: choice,
             bet: 0,
             betItem: null,
-            maxBet: this.getMaxBet()
+            maxBet: () => this.getMaxBet()
         };
         this.betBoard.show(betInfo);
         this.betBoard.node.runAction(
