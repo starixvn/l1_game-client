@@ -360,7 +360,7 @@ window.i18n.languages.id = {
         category_card: "Permainan kartu",
         category_slot: "Permainan Slot",
         category_lottery: "Lotre",
-        category_others: "",
+        category_others: "Lainnya",
         time: "Waktu",
         win: "Menang",
         round: "Babak",

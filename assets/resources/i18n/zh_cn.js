@@ -344,7 +344,7 @@ window.i18n.languages.zh_cn = {
         category_card: "纸牌游戏",
         category_slot: "老虎机游戏",
         category_lottery: "彩票",
-        category_others: "",
+        category_others: "其他",
         time: "时间",
         win: "赢",
         round: "回合",

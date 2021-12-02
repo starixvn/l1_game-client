@@ -344,7 +344,7 @@ window.i18n.languages.zh_tw = {
         category_card: "紙牌遊戲",
         category_slot: "老虎機遊戲",
         category_lottery: "彩票",
-        category_others: "",
+        category_others: "其他",
         time: "時間",
         win: "贏",
         round: "回合",

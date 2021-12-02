@@ -358,7 +358,7 @@ window.i18n.languages.th = {
         category_card: "เกมไพ่",
         category_slot: "เกมสล็อต",
         category_lottery: "ล็อตเตอรี่",
-        category_others: "",
+        category_others: "อื่นๆ",
         time: "เวลา",
         win: "ชนะ",
         round: "รอบ",
