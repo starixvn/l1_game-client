@@ -75,7 +75,7 @@ export default class PopupMinigames extends cc.Component {
 
     callMoveToEdge() {
         this.unschedule(this.moveToEdge);
-        this.scheduleOnce(this.moveToEdge, 0.5);
+        this.scheduleOnce(this.moveToEdge, 0.2);
     }
 
     getCurrentSize() {
