@@ -35,17 +35,24 @@ export default class BetBoard extends cc.Component {
     setItems(items: number[]) {
         const listItem = items;
         this.itemContainer.children.forEach((child, index) => {
-            const value = listItem[index]?.toString() || "1";
+            const value = listItem[index]?.toString() || "";
             child.name = value;
 
-            let valueString = "";
-            if (!this.config.shortenValue) {
-                valueString = `+${value}`;
-            } else {
-                valueString = `+${nFormatter(value)}`;
-            }
+            const show = value !== "";
+            child.active = show;
 
-            child.children[0].getComponent(cc.Label).string = valueString;
+            const label = child.children[0].getComponent(cc.Label);
+
+            if (show) {
+                let valueString = "";
+                if (!this.config.shortenValue) {
+                    valueString = `+${value}`;
+                } else {
+                    valueString = `+${nFormatter(value)}`;
+                }
+
+                label.string = valueString;
+            }
         });
     }
 
