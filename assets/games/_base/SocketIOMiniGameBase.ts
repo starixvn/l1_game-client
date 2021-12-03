@@ -83,6 +83,12 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
             }
         }
 
+        if (data.userStakeLevel) {
+            if (this.updateUserStakeLevel(data.userStakeLevel)) {
+                this.showMiniWarningLimitBetChanged();
+            }
+        }
+
         !data.notice && this.currentMiniPanel.onGeneralData(data);
     }
 
