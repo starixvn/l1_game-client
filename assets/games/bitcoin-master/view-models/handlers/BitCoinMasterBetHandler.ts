@@ -1,3 +1,4 @@
+import GameUtils from "../../../../common/GameUtils";
 import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
 import GameBaseBetHandler from "../../../_base/handlers/GameBaseBetHandler";
 import BitcoinMaster from "../BitcoinMaster";
@@ -17,7 +18,7 @@ export default class BitCoinMasterBetHandler extends GameBaseBetHandler {
             ) {
                 this.main.betItems.forEach((item) => {
                     const totalBetsKeys = getLowercaseObjectKeys(data.totalBets);
-                    item.setTotalBet(data.totalBets[totalBetsKeys[item.node.name.toLowerCase()]]);
+                    item.setTotalBet(GameUtils.getValueByCurrency(data.totalBets[totalBetsKeys[item.node.name.toLowerCase()]]));
                 });
             }
         }
