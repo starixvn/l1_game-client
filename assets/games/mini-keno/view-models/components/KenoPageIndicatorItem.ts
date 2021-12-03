@@ -59,7 +59,8 @@ export default class KenoPageIndicatorItem extends cc.Component {
             North: "north"
         };
         const name = `progress_${dict[KenoType[type]]}_text`;
-        const suffix = NoticeUtil.getSuffixSpriteName();
+        //const suffix = NoticeUtil.getSuffixSpriteName();
+        const suffix = NoticeUtil.getCurrentLanguage() !== "vi" ? "_en" : "";
         const sprite = this.atlas.getSpriteFrame(`${name}${suffix}`);
         return sprite ? sprite : this.atlas.getSpriteFrame(name);
     }

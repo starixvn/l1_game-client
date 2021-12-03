@@ -91,13 +91,13 @@ export default class MiniKeno extends SocketIOMiniGameBase {
     public betBoard: BetBoard;
     public kenoTimer: MiniKenoTimer;
     public lastBetInfo: BetInfo = null;
-    public onFavoriteChanged = (favourite: boolean, type: number) => {};
+    public onFavoriteChanged = (favourite: boolean, type: number) => { };
     public getPreset = () => {
         return 0;
     };
-    public statusCallback = (gameName: number, roundId: number, winAmount: number) => {};
-    public onDataCallback = (data: any, gameName: string) => {};
-    public onDisconnectCallback = () => {};
+    public statusCallback = (gameName: number, roundId: number, winAmount: number) => { };
+    public onDataCallback = (data: any, gameName: string) => { };
+    public onDisconnectCallback = () => { };
 
     onLoad() {
         this.initComponents();
@@ -175,7 +175,8 @@ export default class MiniKeno extends SocketIOMiniGameBase {
             North: "bac"
         };
         const name = `header_text_${dict[KenoType[type]]}`;
-        const suffix = NoticeUtil.getSuffixSpriteName();
+        //const suffix = NoticeUtil.getSuffixSpriteName();
+        const suffix = NoticeUtil.getCurrentLanguage() !== "vi" ? "_en" : "";
         const sprite = this.atlas.getSpriteFrame(`${name}${suffix}`);
         return sprite ? sprite : this.atlas.getSpriteFrame(name);
     }
