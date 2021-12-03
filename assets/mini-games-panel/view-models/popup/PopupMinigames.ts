@@ -70,9 +70,14 @@ export default class PopupMinigames extends cc.Component {
     eventMove(e) {
         this.node.position = cc.v3(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y, 0);
 
+        this.callMoveToEdge();
+    }
+
+    callMoveToEdge() {
         this.unschedule(this.moveToEdge);
         this.scheduleOnce(this.moveToEdge, 0.5);
     }
+
     getCurrentSize() {
         let listBox = this.list.getBoundingBox();
 
@@ -117,6 +122,7 @@ export default class PopupMinigames extends cc.Component {
         const yChanger = this.ttOffset2.y - (e.touch.getLocationY() - this.ttOffset.y);
         if (xChanger < 5 && xChanger > -5 && yChanger < 5 && yChanger > -5) {
             this.toggle();
+            this.callMoveToEdge();
         }
     }
 
