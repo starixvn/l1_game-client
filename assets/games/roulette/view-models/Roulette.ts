@@ -427,9 +427,12 @@ export default class Roulette extends SocketIOTableGameBase {
     }
 
     showWarningOnBetChoices(betChoices: any, totalChoices: any, type: any, key: any, isMultiChoices: boolean): boolean {
+        const maxBet = this.getMaxBet();
         const text = isMultiChoices
             ? i18n.t("messages.maxBetOfAnyChoiceReached")
-            : i18n.t("messages.maxBetForChoiceNotice", { maxBet: numberWithCommas(this.gameConfigs.maxBetPerChoices[type]) });
+            : i18n.t("messages.maxBetForChoiceNotice", {
+                  maxBet: numberWithCommas(Math.min(this.gameConfigs.maxBetPerChoices[type], maxBet))
+              });
         if (betChoices[type][key] > this.gameConfigs.maxBetPerChoices[type]) {
             this.showMiniWarning(text);
             return true;
