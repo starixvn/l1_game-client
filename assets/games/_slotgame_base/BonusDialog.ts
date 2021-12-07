@@ -64,7 +64,7 @@ export default class BonusDialog extends cc.Component {
     showTotalAmount() {
         this.hideTimer();
         this.totalBonusNode.active = true;
-        this.totalBonusLabel.string = `+${numberWithCommas(this.totalValue)}`;
+        this.totalBonusLabel.string = `+${numberWithCommas(this.totalValue, 2)}`;
     }
 
     checkFinishBonus() {

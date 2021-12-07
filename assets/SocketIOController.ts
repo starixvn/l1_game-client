@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import * as socketIo from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 import { getSession } from "./common/auth/SessionManager";
 import { sentryLogger } from "./common/logger.js";
@@ -13,7 +13,7 @@ export default class SocketIOController {
         return this.gameSockets[gameId.toString()];
     }
 
-    assignSocket(gameId: number, socket: SocketIOClient.Socket) {
+    assignSocket(gameId: number, socket: Socket) {
         this.gameSockets[gameId.toString()] = socket;
     }
 
@@ -25,8 +25,8 @@ export default class SocketIOController {
         isGameRoom: boolean,
         forceNew: boolean,
         gameContainer: any
-    ): SocketIOClient.Socket => {
-        const socket = socketIo(socketUri, {
+    ): Socket => {
+        const socket = io(socketUri, {
             forceNew: forceNew,
             transports: ["websocket"],
             upgrade: false,
@@ -65,7 +65,7 @@ export default class SocketIOController {
     };
 
     async closeSocket(gameId) {
-        const socket: SocketIOClient.Socket = this.gameSockets[gameId];
+        const socket: Socket = this.gameSockets[gameId];
         socket && socket.disconnect();
         delete this.gameSockets[gameId];
     }

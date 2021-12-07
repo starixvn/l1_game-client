@@ -160,7 +160,8 @@ export default class GameBaseFinishHandler implements DataHandler {
                 });
 
                 playerSlot.increaseBalance(winningPlayerData.bet);
-                GameUtils.addFlyingText(playerSlot.node, true, bet, this.WinningAnimationDuration, 0, 10);
+                const convertValue = GameUtils.getValueByCurrency(bet, winningPlayerData.rate || 1);
+                GameUtils.addFlyingText(playerSlot.node, true, convertValue, this.WinningAnimationDuration, 0, 10);
                 this.playWinningEffect(mainRoomGame, playerSlot.node);
             }
         });

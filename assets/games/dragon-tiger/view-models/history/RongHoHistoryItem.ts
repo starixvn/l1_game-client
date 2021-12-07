@@ -31,7 +31,7 @@ export default class RongHoHistoryItem extends cc.Component {
         this.node.active = true;
         this.time.string = getStringDateByTime(betLog.time);
         this.round.string = betLog.phien;
-        this.win.string = numberWithCommas(betLog.betwin);
+        this.win.string = numberWithCommas(betLog.betwin, 2);
         this.win.node.color = betLog.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
         this.setCards(betLog.result);

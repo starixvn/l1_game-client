@@ -1,7 +1,9 @@
+import { Socket } from "socket.io-client";
+
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
 import { lazyInject } from "../../Application";
 import GameUtils from "../../common/GameUtils";
-import { GameInfos } from "../../configs/SabaConfigs";
+import { GameIds, GameInfos } from "../../configs/SabaConfigs";
 import SabaConfigs = require("../../configs/SabaConfigs");
 import SocketIOController from "../../SocketIOController";
 import MiniPanel from "./MiniPanel";
@@ -34,7 +36,7 @@ export default class MiniPanelMiniGameInitializers {
 
         if (!isAlreadyOpened) {
             this.main.loading.setDefaultPercent();
-            cc.loader.loadRes(
+            cc.resources.load(
                 prefabPath,
                 (completedCount, total, item) => {
                     this.main.loading && this.main.loading.onProgress(completedCount, total, item);
@@ -81,12 +83,13 @@ export default class MiniPanelMiniGameInitializers {
 
     openNewSocket(gameId) {
         this.main.loading.node.active = true;
-        const currentSocket: SocketIOClient.Socket = this.socketIOController.getSocketGame(gameId);
+        const currentSocket: Socket = this.socketIOController.getSocketGame(gameId);
 
         if (currentSocket && currentSocket.connected) {
             this.openMiniGame(gameId);
         } else {
-            const socket = this.setUpSocketForGame(gameId, true, null);
+            const gameName = gameId === GameIds.KenoMax ? GameUtils.getGameNameString(11) : GameUtils.getGameNameString(gameId);
+            const socket = this.setUpSocketForGame(gameName, gameId, true, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {
                     return;
@@ -96,8 +99,7 @@ export default class MiniPanelMiniGameInitializers {
         }
     }
 
-    setUpSocketForGame(gameId: number, forceNew: boolean, gameContainer: any): SocketIOClient.Socket {
-        const gameName = GameUtils.getGameNameString(gameId);
+    setUpSocketForGame(gameName: string, gameId: number, forceNew: boolean, gameContainer: any): Socket {
         const proxyRoute = getProxyRoute(gameId);
         const gameServerUrl = buildServerUrl("http", "", gameId);
         const socket = this.socketIOController.connectGameSocket(
@@ -115,6 +117,20 @@ export default class MiniPanelMiniGameInitializers {
             forceNew,
             gameContainer
         );
+
+        socket.on("message", (data) => {
+            if (data.um) {
+                this.socketIOController.closeSocket(gameId);
+                if (data.um_message) {
+                    this.main.handleUmMessage(data.um_message);
+                }
+            }
+            if (!this.main.isAlive()) {
+                return;
+            }
+            this.main.loading.node.active = false;
+            this.main.onGeneralData(data);
+        });
 
         socket.on("forceDisconnect", () => {
             socket.disconnect();

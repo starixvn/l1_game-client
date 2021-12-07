@@ -32,28 +32,27 @@ export default class BetBoard extends cc.Component {
         getPreset: () => 0
     };
 
-    onLoad(): void {
-        this.updateItems();
-    }
-
-    updateItems() {
-        const listItem = this.config.items;
+    setItems(items: number[]) {
+        const listItem = items;
         this.itemContainer.children.forEach((child, index) => {
-            const value = listItem[index];
+            const value = listItem[index]?.toString() || "";
             child.name = value;
 
-            let valueString = "";
-            if (!this.config.shortenValue || value === "MAX") {
-                valueString = value;
-            } else {
-                valueString = `${nFormatter(value)}`;
-            }
+            const show = value !== "";
+            child.active = show;
 
-            if (value !== "MAX") {
-                valueString = `+${valueString}`;
-            }
+            const label = child.children[0].getComponent(cc.Label);
 
-            child.children[0].getComponent(cc.Label).string = valueString;
+            if (show) {
+                let valueString = "";
+                if (!this.config.shortenValue) {
+                    valueString = `+${value}`;
+                } else {
+                    valueString = `+${nFormatter(value)}`;
+                }
+
+                label.string = valueString;
+            }
         });
     }
 
@@ -100,16 +99,16 @@ export default class BetBoard extends cc.Component {
 
         this.info = info;
         this.info.bet = info.bet || this.callback.getPreset();
-        this.info.bet = Math.min(this.info.bet, this.info.maxBet);
+        this.info.bet = Math.min(this.info.bet, this.info.maxBet());
         this.node.active = true;
         this.betChanged();
     }
 
     public onItemBetClicked(e) {
         AudioManager.getInstance().playClick();
-        const amount = parseInt(e.target.name) || this.info.maxBet;
+        const amount = parseInt(e.target.name) || this.info.maxBet();
         this.info.bet += amount;
-        this.info.bet = Math.min(this.info.bet, this.info.maxBet);
+        this.info.bet = Math.min(this.info.bet, this.info.maxBet());
         this.betChanged();
     }
 

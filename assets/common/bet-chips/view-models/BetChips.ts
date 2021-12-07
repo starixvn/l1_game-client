@@ -1,18 +1,16 @@
 import * as _ from "lodash";
 
-import { lazyInject } from "../../../Application";
-import { nFormatter } from "../../../common/helpers/NumberHelper";
-import { ComponentSystem, ICashSystem, ICreditSystem } from "../../../System";
 import AudioManager from "../../audio/AudioManager";
 import GameUtils from "../../GameUtils";
 import ChipConfig from "./ChipConfig";
+import ChipView, { ChipDisplayType } from "./ChipView";
 import SnappedScrollView from "./SnappedScrollView";
 
 const { ccclass, property } = cc._decorator;
 type OnChangedBet = (bet: string) => void;
 
 @ccclass
-export default class BetChips extends ComponentSystem implements ICreditSystem, ICashSystem {
+export default class BetChips extends cc.Component {
     @property(cc.Node)
     chips: cc.Node = null;
 
@@ -46,35 +44,27 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     @property(cc.Prefab)
     chipPrefab: cc.Prefab = null;
 
-    public chipValues: number[];
+    @property(cc.SpriteFrame)
+    lowValueChipSprite: cc.SpriteFrame = null;
+
+    private gameConfigs: any;
+    public chipValues: number[] = [];
+    public configValues: number[] = [];
     public onChanged: OnChangedBet = (bet) => {};
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
+    public enableStakeLevel = true;
 
-    @lazyInject(ChipConfig)
-    public readonly chipConfig: ChipConfig;
+    public chipConfig: ChipConfig;
     private selectedIndex = 0;
     private chipList: cc.Node[] = [];
 
-    constructor() {
-        super();
-    }
-
-    customizeCredit(): void {
-        this.chipValues = [1, 5, 10, 50, 100, 200, 500, 1000, 2000];
-    }
-
-    customizeCash(): void {
-        this.chipValues = [10, 20, 50, 100, 200, 500, 1000, 5000, 10000, 20000];
-    }
+    private currentBetValue = "1";
 
     onLoad() {
-        //use chipVaues here ,
-        this.createChips();
-
+        this.chipConfig = ChipConfig.getInstance();
         this.leftButton.active = false;
-        this.chipList = [...this.chips.children];
         this.snappedScrollView.onScrollEnded = () => {
             const min = this.snappedScrollView.getMinDisplayIndex();
 
@@ -90,19 +80,39 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         };
     }
 
+    setChipValues(gameConfigs: any) {
+        if (gameConfigs.chips.length === 0) {
+            return;
+        }
+        this.gameConfigs = gameConfigs;
+        this.configValues = gameConfigs.chips;
+        this.updateChips();
+    }
+
+    updateChips() {
+        this.chipValues = GameUtils.getFilterValuesByStakeLevel(this.configValues, this.gameConfigs);
+        this.createChips();
+
+        const currentBet =
+            this.chipValues.findIndex((value) => parseInt(value.toString()) === parseInt(this.currentBetValue)) !== -1
+                ? this.currentBetValue
+                : this.chipValues[0].toString();
+        const needResetScrollOffset = currentBet !== this.currentBetValue;
+        this.setCurrentBet(currentBet);
+        this.snappedScrollView.initCalculatedPercent();
+        if (needResetScrollOffset) {
+            this.snappedScrollView.scroll.scrollToPercentHorizontal(0, 0.1);
+        }
+    }
+
     createChips() {
+        this.chipList.forEach((chip) => chip.destroy());
+        this.chipList = [];
         this.chipValues.forEach((value) => {
-            const node = cc.instantiate(this.chipPrefab);
+            const node = this.createBigChip(value);
             this.chips.addChild(node);
-
-            this.updateChipItem(node, value);
-
-            const button = node.getComponent(cc.Button);
-            const event = new cc.Component.EventHandler();
-            event.target = this.node;
-            event.component = "BetChips";
-            event.handler = "onClickBet";
-            button.clickEvents.push(event);
+            node.on("click", this.onClickBet.bind(this));
+            this.chipList.push(node);
         });
 
         const layout = this.chips.getComponent(cc.Layout);
@@ -111,17 +121,14 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         layout.enabled = false;
     }
 
-    updateChipItem(node: cc.Node, value: number) {
-        const sprite = node.getComponent(cc.Sprite);
-        sprite.spriteFrame = this.chipAltas.getSpriteFrame(this.chipConfig.getBigChipSpriteName(value));
-        node.name = `${value}`;
-
-        const label = node.children[0].getComponent(cc.Label);
-        label.string = nFormatter(value, 0);
+    getChipDisplayType(index: number) {
+        return index > this.chipValues.length - 3 ? ChipDisplayType.VIP : ChipDisplayType.Normal;
     }
 
     updateLastChip(value: number) {
-        this.updateChipItem(this.chipList[this.chipList.length - 1], value);
+        const chipView = this.chipList[this.chipList.length - 1].getComponent(ChipView);
+        chipView.setValue(value);
+        chipView.setColor(this.chipConfig.getChipColor(value));
     }
 
     onEnable() {
@@ -132,7 +139,6 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
 
     public init(onChanged: OnChangedBet) {
         this.onChanged = onChanged;
-        this.setCurrentBet(this.chipValues[0].toString());
     }
 
     public onPrevious() {
@@ -172,8 +178,8 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         this.updateSelectedChipValue();
     }
 
-    public onClickBet(event) {
-        const bet = event.target.name;
+    public onClickBet(target) {
+        const bet = target.node.name;
         AudioManager.getInstance().playSFX(this.betChipClickAudio.clip);
         let i = 0;
         for (; i < this.chipList.length; i++) {
@@ -186,6 +192,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     public setCurrentBet(bet: string) {
+        this.currentBetValue = bet;
         this.updateSelectedBet(bet);
         this.onChanged(bet);
     }
@@ -244,7 +251,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         const isLoginUserPlaceBet = startNode == null;
         this.checkLoginUserPlaceBet(startNode);
         const chipPosition = destNode.convertToNodeSpaceAR(this.getPositonChipOnContainer(startNode, bet));
-        const chipNode = this.createChip(bet);
+        const chipNode = this.createSmallChip(bet);
         chipNode.position = chipPosition;
         const randomPosition = this.getRandomPositionChip(chipNode, destNode);
         destNode.addChild(chipNode);
@@ -307,20 +314,26 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         );
     }
 
-    public addChipsToChipBox(chipsData: any, chipsBox: cc.Node) {
+    public addChipsToChipBox(rate: number, chipsData: any, chipsBox: cc.Node) {
         if (!chipsData) {
             return;
         }
 
-        const chipBets = Object.keys(chipsData);
-
-        _.forEach(chipBets, (chipBet) => {
-            const chipCountOfBet = chipsData[chipBet];
+        const values = Object.keys(chipsData);
+        _.forEach(values, (value) => {
+            const chipCountOfBet = chipsData[value];
+            const convertChip = GameUtils.getValueByCurrency(+value, rate);
+            const convertValues = GameUtils.getChipQuantity(convertChip, this.chipValues);
             for (let i = 0; i < chipCountOfBet; i++) {
-                const chip = this.createChip(+chipBet);
-                const randomPosition = this.getRandomPositionChip(chip, chipsBox);
-                chip.position = randomPosition;
-                chipsBox.addChild(chip);
+                Object.keys(convertValues).forEach((chipValue) => {
+                    let count = convertValues[chipValue];
+                    for (; count > 0; count--) {
+                        const chip = this.createSmallChip(+chipValue);
+                        const randomPosition = this.getRandomPositionChip(chip, chipsBox);
+                        chip.position = randomPosition;
+                        chipsBox.addChild(chip);
+                    }
+                });
             }
         });
     }
@@ -342,8 +355,9 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     private getRandomPositionChip(chip: cc.Node, box: cc.Node): cc.Vec3 {
-        const xDest = _.random(Math.floor(chip.width / 4), Math.floor(box.width - chip.width / 2) + 1);
-        const yDest = _.random(Math.floor(chip.height / 4), Math.floor(box.height - chip.height / 2) + 1);
+        const chipBoundingBox = chip.getBoundingBox();
+        const xDest = _.random(Math.floor(chip.width / 4), Math.floor(box.width - chipBoundingBox.width / 2) + 1);
+        const yDest = _.random(Math.floor(chip.height / 4), Math.floor(box.height - chipBoundingBox.height / 2) + 1);
         return cc.v3(xDest, yDest);
     }
 
@@ -363,7 +377,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         keys.forEach((chip) => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {
-                const chipNode = this.createChip(+chip);
+                const chipNode = this.createSmallChip(+chip);
                 layoutNode.addChild(chipNode);
             }
         });
@@ -371,26 +385,44 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
         return node;
     }
 
-    public createChip(bet: number): cc.Node {
-        const chip = new cc.Node();
+    public createSmallChip(bet: number): cc.Node {
+        if (bet === 0) {
+            const node = this.createLowValueChip();
+            node.rotation = _.random(0, 360);
+            return node;
+        }
+        const chip = this.createBigChip(bet);
+        const chipView = chip.getComponent(ChipView);
+        chipView.applyForSmallChip();
+        chip.scale = 0.29;
         chip.group = "Chip";
-        const chipSprite = chip.addComponent(cc.Sprite);
-        const name = this.chipConfig.getSmallChipSpriteName(bet);
-        chipSprite.spriteFrame = this.chipAltas.getSpriteFrame(name);
         return chip;
     }
 
-    public createBigChip(bet: number): cc.Node {
+    private createLowValueChip() {
+        const node = new cc.Node();
+        const sprite = node.addComponent(cc.Sprite);
+        sprite.spriteFrame = this.lowValueChipSprite;
+        return node;
+    }
+
+    public createBigChip(value: number): cc.Node {
         const chip = cc.instantiate(this.chipPrefab);
-        this.updateChipItem(chip, bet);
+        const chipView = chip.getComponent(ChipView);
+        chipView.setColor(this.chipConfig.getChipColor(value));
+        chipView.setValue(value);
+        const index = this.chipValues.findIndex((chipValue) => chipValue === value);
+        chipView.setType(this.getChipDisplayType(index));
         return chip;
     }
 
     private updateSelectedBet(targetName: string) {
         this.chips.children.forEach((chip) => {
             chip.stopAllActions();
+
+            const activeNode = chip.getChildByName("active");
             if (chip.name === targetName) {
-                chip.children[1].active = true;
+                activeNode.active = true;
                 chip.zIndex = 2;
                 cc.tween(chip)
                     .to(0.2, {
@@ -399,7 +431,7 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
                     })
                     .start();
             } else {
-                chip.children[1].active = false;
+                activeNode.active = false;
                 chip.zIndex = 1;
                 cc.tween(chip)
                     .to(0.2, {
@@ -412,6 +444,9 @@ export default class BetChips extends ComponentSystem implements ICreditSystem, 
     }
 
     updateSelectedChipValue() {
+        if (this.chipList.length === 0) {
+            return;
+        }
         const item = this.chipList[this.selectedIndex].name;
         this.setCurrentBet(item);
     }

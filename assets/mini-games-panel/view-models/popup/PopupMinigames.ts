@@ -33,7 +33,6 @@ export default class PopupMinigames extends cc.Component {
         if (void 0 !== cc.RedT.setting.popupMini.position) {
             this.node.position = cc.RedT.setting.popupMini.position;
         }
-        this.schedule(this.moveToEdge, 0.1, cc.macro.REPEAT_FOREVER);
 
         // init jackpot winner icon
         const jackpot = cc.instantiate(this.jackpotWinnerPrefab);
@@ -69,8 +68,16 @@ export default class PopupMinigames extends cc.Component {
         );
     }
     eventMove(e) {
-        this.node.position = cc.v2(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y);
+        this.node.position = cc.v3(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y, 0);
+
+        this.callMoveToEdge();
     }
+
+    callMoveToEdge() {
+        this.unschedule(this.moveToEdge);
+        this.scheduleOnce(this.moveToEdge, 0.2);
+    }
+
     getCurrentSize() {
         let listBox = this.list.getBoundingBox();
 
@@ -105,7 +112,7 @@ export default class PopupMinigames extends cc.Component {
 
         posY = Math.min(maxY - fixTopPadding, posY);
 
-        this.node.runAction(cc.moveTo(0.1, posX, posY).easing(cc.easeSineOut()));
+        cc.tween(this.node).to(0.1, { x: posX, y: posY }, { easing: "sineOut" }).start();
         cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
     }
 
@@ -115,6 +122,7 @@ export default class PopupMinigames extends cc.Component {
         const yChanger = this.ttOffset2.y - (e.touch.getLocationY() - this.ttOffset.y);
         if (xChanger < 5 && xChanger > -5 && yChanger < 5 && yChanger > -5) {
             this.toggle();
+            this.callMoveToEdge();
         }
     }
 
@@ -136,7 +144,7 @@ export default class PopupMinigames extends cc.Component {
     }
     showListGame() {
         this.background.active = true;
-        this.background.runAction(cc.fadeTo(0.1, 224));
+        cc.tween(this.background).to(0.1, { opacity: 224 }).start();
         cc.RedT.setting.popupMini.open = true;
         this.list.scale = 1;
 

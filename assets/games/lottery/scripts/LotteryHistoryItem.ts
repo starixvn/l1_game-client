@@ -46,7 +46,7 @@ export default class LotteryHistoryItem extends cc.Component {
         this.background.active = index % 2 !== 0;
         this.time.string = getStringDateByTime(data.time);
         this.roundId.string = data.phien.toString();
-        this.win.string = numberWithCommas(data.betwin);
+        this.win.string = numberWithCommas(data.betwin, 2);
         this.totalBet.string = numberWithCommas(data.totalAmount);
     }
 }

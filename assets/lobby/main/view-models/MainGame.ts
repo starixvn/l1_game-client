@@ -157,6 +157,10 @@ export default class MainGame extends cc.Component {
     onFastScrollClick() {
         AudioManager.getInstance().playClick();
 
+        if (this.mainScroll.content.childrenCount === 0) {
+            return;
+        }
+
         const offset = Math.abs(this.mainScroll.getScrollOffset().x);
         const maxOffset = Math.abs(this.mainScroll.getMaxScrollOffset().x);
         const direction = this.arrowNode.scaleX;
@@ -234,6 +238,8 @@ export default class MainGame extends cc.Component {
         if (!this.initializedLobby) {
             this.initLobby();
         }
+
+        this.openGameSSO();
     }
 
     loadLobbyMenuFromStorage() {
@@ -247,6 +253,9 @@ export default class MainGame extends cc.Component {
     }
 
     initLobby() {
+        if (cc.RedT.user.offerGames.length === 0) {
+            this.showNotice({ text: i18n.t("messages.noGameOffer") });
+        }
         this.initLobbyMenu();
         this.initBanners();
         this.initializedLobby = true;
@@ -463,9 +472,9 @@ export default class MainGame extends cc.Component {
                 userCurrency = currency ? currency : "";
             }
 
-            return `${numberWithCommas(red)} ${userCurrency}`;
+            return `${numberWithCommas(red, 2)} ${userCurrency}`;
         } else {
-            return `${numberWithCommas(red)}`;
+            return `${numberWithCommas(red, 2)}`;
         }
     }
 
@@ -522,9 +531,7 @@ export default class MainGame extends cc.Component {
         }
 
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
-        cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         this.onSignIn();
-        this.openGameSSO();
         this.getJackpotInfo();
     }
 
@@ -616,7 +623,6 @@ export default class MainGame extends cc.Component {
     showSignName() {
         if (!this.signName) {
             const node = cc.instantiate(this.signNamePrefab);
-            this.node.addChild(node);
             this.signName = node.getComponent("SignName");
             this.signName.init(this.handleSignName.bind(this));
             cc.RedT.MiniPanel.addDialog(node);
@@ -630,6 +636,10 @@ export default class MainGame extends cc.Component {
             const errorCode = response.errorCode;
             const text = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
             this.showNotice({ text: text });
+        }
+
+        if (response.user) {
+            cc.RedT.userData(response.user);
         }
 
         this.serviceAuthorized(response.authorized);

@@ -1,3 +1,5 @@
+import { Socket } from "socket.io-client";
+
 import * as sessionManager from "../../common/auth/SessionManager";
 import WebSocketTableGameBase from "./WebSocketTableGameBase";
 
@@ -5,7 +7,7 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class SocketIOTableGameBase extends WebSocketTableGameBase {
-    protected socket: SocketIOClient.Socket;
+    protected socket: Socket;
 
     onLoad() {
         super.onLoad();
@@ -64,10 +66,8 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         if (data.history) {
             this.historyComponent.onData(data.history);
         }
-
-        super.onDataGameRoom(data);
-
         this.onDataGameRoomGeneral(data);
+        super.onDataGameRoom(data);
         !data.notice && this.currentMiniPanel.onGeneralData(data);
     }
 

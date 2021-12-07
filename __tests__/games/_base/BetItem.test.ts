@@ -7,8 +7,9 @@ describe("Test class BetItem", () => {
     let item: any;
     let label: cc.Label;
     beforeAll(() => {
+        cc.RedT = {};
+        cc.RedT.user = { rate: 1 };
         AudioManager.getInstance().playClick = () => {};
-
         node = new cc.Node();
         node.name = "big";
         betItem = node.addComponent(BetItem);

@@ -29,7 +29,7 @@ export default class SpecialSeDieHistoryItem extends SedieHistoryItemBase {
         this.option.string = GameUtils.getBetChoiceString(choice);
         this.option.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
         this.bet.string = numberWithCommas(amount);
-        this.refund.string = numberWithCommas(refund);
+        this.refund.string = numberWithCommas(refund, 2);
         this.roundId = phien;
         this.win.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
     }

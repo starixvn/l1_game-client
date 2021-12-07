@@ -170,6 +170,7 @@
     "_volume": 1,
     "_mute": false,
     "_loop": false,
+    "_firstlyEnabled": true,
     "playOnLoad": false,
     "preload": false,
     "_id": ""
@@ -263,6 +264,7 @@
     "_volume": 1,
     "_mute": false,
     "_loop": false,
+    "_firstlyEnabled": true,
     "playOnLoad": false,
     "preload": false,
     "_id": ""
@@ -356,6 +358,7 @@
     "_volume": 1,
     "_mute": false,
     "_loop": false,
+    "_firstlyEnabled": true,
     "playOnLoad": false,
     "preload": false,
     "_id": ""
@@ -1590,7 +1593,6 @@
     "chipAltas": {
       "__uuid__": "5f6e1342-0e7f-4dfb-bb65-1eaa8e436895"
     },
-    "defaultChip": "10",
     "snappedScrollView": {
       "__id__": 20
     },
@@ -1605,8 +1607,8 @@
     "chipPrefab": {
       "__uuid__": "d611f1a6-4a22-4aee-8f04-9c4ef88a69e1"
     },
-    "chipAtlas": {
-      "__uuid__": "5f6e1342-0e7f-4dfb-bb65-1eaa8e436895"
+    "lowValueChipSprite": {
+      "__uuid__": "7e378ac3-8aab-4dc5-a4a6-d8c8e45f215e"
     },
     "_id": ""
   },
@@ -1618,7 +1620,7 @@
     "asset": {
       "__uuid__": "8dafed8b-6f31-4971-bc8d-774ce01e4202"
     },
-    "fileId": "99Nuh11cREg6fjf6T65/EH",
+    "fileId": "",
     "sync": false
   }
 ]

@@ -1,3 +1,5 @@
+import { Socket } from "socket.io-client";
+
 import { lazyInject } from "../../Application";
 import AudioManager from "../../common/audio/AudioManager";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
@@ -9,7 +11,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
     public readonly socketIOController: SocketIOController;
 
-    public socket: SocketIOClient.Socket;
+    public socket: Socket;
 
     public isMiniGameInContainer = false;
 
@@ -72,6 +74,19 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
         if (data.history && this.historyComponent) {
             this.historyComponent.onData(data.history);
+        }
+
+        const apiError = data.apiError;
+        if (apiError) {
+            if (this.updateUserStakeLevel(apiError)) {
+                this.showMiniWarningLimitBetChanged();
+            }
+        }
+
+        if (data.userStakeLevel) {
+            if (this.updateUserStakeLevel(data.userStakeLevel)) {
+                this.showMiniWarningLimitBetChanged();
+            }
         }
 
         !data.notice && this.currentMiniPanel.onGeneralData(data);

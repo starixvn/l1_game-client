@@ -7,7 +7,7 @@ import { numberWithCommas } from "./helpers/NumberHelper";
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
         const temp = new cc.Node().addComponent(cc.Label);
-        temp.string = (win ? "+" : "-") + numberWithCommas(value);
+        temp.string = (win ? "+" : "-") + numberWithCommas(value, 2);
         temp.font = win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
         temp.lineHeight = 130;
         temp.fontSize = 30;
@@ -40,7 +40,7 @@ export default class GameUtils {
 
     public static loadResource(path: string): Promise<cc.Prefab> {
         return new Promise((resolve) => {
-            cc.loader.loadRes(path, (err, prefab: cc.Prefab) => {
+            cc.resources.load(path, (err, prefab: cc.Prefab) => {
                 resolve(prefab);
             });
         });
@@ -54,6 +54,22 @@ export default class GameUtils {
             values[value] = count;
             total = total % value;
         });
+        return values;
+    }
+
+    public static getChipQuantity(bet: number, options: number[]): any {
+        const list = [...options].reverse();
+        let total = bet;
+        const values = {};
+        list.forEach((value) => {
+            const count = Math.floor(total / value);
+            values[value] = count;
+            total = total % value;
+        });
+
+        if (total > 0) {
+            values[0] = 1;
+        }
         return values;
     }
 
@@ -125,8 +141,9 @@ export default class GameUtils {
 
     public static getAvatarSprite(avatarId: number): Promise<cc.SpriteFrame> {
         return new Promise((resolve) => {
-            cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
-                const frame = atlas.getSpriteFrame(avatarId ? avatarId : 1);
+            cc.resources.load<cc.SpriteAtlas>("profile-picture", cc.SpriteAtlas, (err, atlas) => {
+                const name = avatarId ? avatarId : 1;
+                const frame = atlas.getSpriteFrame(name.toString());
                 resolve(frame);
             });
         });
@@ -137,5 +154,27 @@ export default class GameUtils {
             return "";
         }
         return i18n.t(`gameNames.${gameId}`);
+    }
+
+    public static getValueByCurrency(value: number, otherRate?: number): number {
+        if (otherRate === undefined) {
+            otherRate = 1;
+        }
+        return (value * otherRate) / cc.RedT.user.rate;
+    }
+
+    public static getFilterValuesByStakeLevel(values: number[], gameConfigs: any): number[] {
+        let minBet = gameConfigs.minBet;
+        let maxBet = gameConfigs.maxBet;
+
+        if (cc.RedT.userStakeLevel) {
+            const minStake = cc.RedT.userStakeLevel.minBet;
+            const maxStake = cc.RedT.userStakeLevel.maxBet;
+
+            minBet = Math.max(minStake, minBet);
+            maxBet = Math.min(maxStake, maxBet);
+        }
+
+        return values.filter((value) => value >= minBet && value <= maxBet);
     }
 }

@@ -1,3 +1,5 @@
+import { Socket } from "socket.io-client";
+
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
@@ -18,11 +20,11 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
-    protected socket: SocketIOClient.Socket;
+    protected socket: Socket;
 
     onUpdatedData = () => {};
 
-    init(socket: SocketIOClient.Socket) {
+    init(socket: Socket) {
         this.socket = socket;
     }
 

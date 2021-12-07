@@ -1,5 +1,6 @@
 import * as _ from "lodash";
-import RoomPlayer from "../view-models/RoomPlayer";
+
+import RoomPlayer, { PlayerData } from "../view-models/RoomPlayer";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
 

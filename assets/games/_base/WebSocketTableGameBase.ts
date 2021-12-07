@@ -1,7 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
-import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
@@ -108,25 +107,6 @@ export default class WebSocketTableGameBase extends GameBase {
                 }
             }
         }
-    }
-
-    showMiniWarningLimitBetChanged() {
-        this.showMiniWarning(i18n.t("messages.limitBetChanged"));
-    }
-
-    updateUserStakeLevel(data): boolean {
-        let updated = false;
-        if (data.maxBet && data.maxBet > 0) {
-            cc.RedT.userStakeLevelData(data);
-            if (this.betChips) {
-                const comp = this.betChips.getComponent(HandleUserStakeLevel);
-                if (comp) {
-                    updated = true;
-                    comp.handle();
-                }
-            }
-        }
-        return updated;
     }
 
     showUmMessage(data: any) {
@@ -269,14 +249,12 @@ export default class WebSocketTableGameBase extends GameBase {
         }
 
         if (void 0 !== user.red) {
-            this.userBalance.string = numberWithCommas(user.red);
+            this.userBalance.string = numberWithCommas(user.red, 2);
         }
 
         if (void 0 !== user.avatarId) {
-            cc.loader.loadRes("profile-picture", cc.SpriteAtlas, (err, atlas) => {
-                if (this && this.userAvatar) {
-                    const avatarId = cc.RedT.user.avatarId;
-                    const frame = atlas.getSpriteFrame(avatarId === 0 ? 1 : avatarId);
+            GameUtils.getAvatarSprite(user.avatarId).then((frame) => {
+                if (this && this.userAvatar && frame) {
                     this.userAvatar.spriteFrame = frame;
                     this.userAvatar.node.parent.active = true;
                 }

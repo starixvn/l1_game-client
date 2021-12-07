@@ -28,8 +28,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
     }
 
     moveChip(betNumber: number, startNode: cc.Node, destNode: cc.Node, duration: number) {
-        const atlas = this.main.rouletteMain.board.chipAltas;
-        const chip = RouletteUtils.createChips(betNumber, this.main.chipOption, atlas, this.main.betChips.chipConfig);
+        const chip = RouletteUtils.createChips(betNumber, this.main.betChips);
         startNode.addChild(chip);
 
         const destWorldPosition = destNode.convertToWorldSpaceAR(cc.v2(0, 0));
@@ -69,7 +68,8 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
     showWinningEffect(playerSlot, data) {
         playerSlot.increaseBalance(data.bet);
-        GameUtils.addFlyingText(playerSlot.node, true, data.bet, 3, 0, 10);
+        const convertValue = GameUtils.getValueByCurrency(data.bet, data.rate || 1);
+        GameUtils.addFlyingText(playerSlot.node, true, convertValue, 3, 0, 10);
         this.playWinningEffect(this.main, playerSlot.node);
     }
 

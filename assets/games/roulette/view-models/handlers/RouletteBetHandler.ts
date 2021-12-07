@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+import GameUtils from "../../../../common/GameUtils";
 import GameBaseBetHandler from "../../../_base/handlers/GameBaseBetHandler";
 import Roulette from "../Roulette";
 import RouletteUtils from "../RouletteUtils";
@@ -68,14 +69,18 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
 
     handleAnimatedChip(data: any, type: any, key: any, startNode: any) {
         const other = data.playerChip;
+        const rate = other.rate;
         const duration = 0.8;
         const remainingTimeToStopBet = this.main.currentTimeRemaining - this.main.config.stopBetTime;
         const destNode = this.main.rouletteMain.board.getBetNodeByKey(type, key, true);
         const bet = other.betChoices[type][key];
-        const values = RouletteUtils.getChipValues(bet, this.main.chipOption);
+
+        const convertValue = GameUtils.getValueByCurrency(bet, rate);
+        const values = GameUtils.getChipQuantity(convertValue, this.main.betChips.chipValues);
+        const keys = Object.keys(values).sort((a, b) => +b - +a);
 
         let count = 0;
-        Object.keys(values).forEach((chip) => {
+        keys.forEach((chip) => {
             if (values[chip] > 0) {
                 for (let i = 0; i < values[chip]; i++) {
                     const delayTime = count * 0.5;
@@ -83,11 +88,7 @@ export default class RouletteBetHandler extends GameBaseBetHandler {
                         cc.tween(this.main)
                             .delay(delayTime)
                             .call(() => {
-                                const chipNode = RouletteUtils.createChip(
-                                    +chip,
-                                    this.main.betChips.chipAltas,
-                                    this.main.betChips.chipConfig
-                                );
+                                const chipNode = RouletteUtils.createChip(+chip, this.main.betChips);
                                 const objectData = {
                                     chipNode: chipNode,
                                     bet: bet,

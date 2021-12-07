@@ -107,10 +107,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         this.betHandler = new VipBaccaratBetHandler(this);
     }
 
-    public isUsingMaxStakeLevel() {
-        return true;
-    }
-
     openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(VipBaccaratHistory);

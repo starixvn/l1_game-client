@@ -34,8 +34,8 @@ export default class BlackJackUtils {
         return [total];
     }
 
-    public static createChipStack(bet: number, betChips: BetChips, options: number[], shadowFrame: cc.SpriteFrame, skewX: number) {
-        const values = GameUtils.getChipValues(bet, options);
+    public static createChipStack(bet: number, betChips: BetChips, shadowFrame: cc.SpriteFrame, skewX: number) {
+        const values = GameUtils.getChipQuantity(bet, betChips.chipValues);
         const node = new cc.Node();
         const chipStack = node.addComponent(ChipStack);
         chipStack.chipSize = 26;
@@ -44,6 +44,7 @@ export default class BlackJackUtils {
 
         const keys = Object.keys(values).sort((a, b) => +b - +a);
         let firstChip = true;
+        console.log("createChipStack", values, bet);
         keys.forEach((chip) => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {

@@ -18,6 +18,6 @@ export default class BalancedBettingPoolBetItem extends BetItem {
     }
 
     public setTotalBet(bet: number) {
-        this.totalBet.string = numberWithCommas(bet);
+        this.totalBet.string = numberWithCommas(bet, 1);
     }
 }

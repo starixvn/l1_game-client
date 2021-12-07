@@ -54,7 +54,7 @@ export default class GameHistoryBase extends cc.Component {
 
     static handleSomeItemRowData(context: any, item: any, log: any) {
         item.amountLabel.string = numberWithCommas(log.totalAmount);
-        item.winLabel.string = numberWithCommas(log.betwin);
+        item.winLabel.string = numberWithCommas(log.betwin, 2);
         item.winLabel.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
         item.time = "";

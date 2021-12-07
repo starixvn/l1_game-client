@@ -24,7 +24,7 @@ export default class KenoStatusBanner extends cc.Component {
     init(gameName: string, roundId: number, winAmount: number) {
         this.gameName.string = gameName;
         this.roundId.string = `#${roundId}`;
-        this.winAmount.string = `+${numberWithCommas(winAmount)}`;
+        this.winAmount.string = `+${numberWithCommas(winAmount, 2)}`;
     }
 
     onLoad() {

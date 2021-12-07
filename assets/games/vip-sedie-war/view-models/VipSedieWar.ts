@@ -160,10 +160,6 @@ export default class VipSedieWar extends VipSedie {
         super.openGuide();
     }
 
-    public isUsingMaxStakeLevel() {
-        return false;
-    }
-
     openHistory() {
         super.openHistory();
         AudioManager.getInstance().playClick();

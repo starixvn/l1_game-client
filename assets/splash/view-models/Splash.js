@@ -100,8 +100,8 @@ cc.Class({
         this.updateProgress(percent);
     },
     onLoaded: function (err, asset) {
-        cc.loader.loadResDir("lobby/games", (e, r, u) => {
-            cc.loader.loadResDir("minipanel/games", (error, resource, urls) => {
+        cc.resources.loadDir("lobby/games", (e, r, u) => {
+            cc.resources.loadDir("minipanel/games", (error, resource, urls) => {
                 cc.director.loadScene("MainGame");
             });
         });

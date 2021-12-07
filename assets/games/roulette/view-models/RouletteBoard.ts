@@ -1,7 +1,6 @@
 import * as _ from "lodash";
-import { lazyInject } from "../../../Application";
-import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 
+import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import BetDetailTip from "./BetDetailTip";
 import { RouletteBetInfo } from "./Roulette";
 import { RouletteBetType } from "./RouletteCommon";
@@ -28,9 +27,6 @@ export default class RouletteBoard extends cc.Component {
     @property(cc.Node)
     otherChipContainer: cc.Node = null;
 
-    @property(cc.SpriteAtlas)
-    chipAltas: cc.SpriteAtlas = null;
-
     @property(cc.Node)
     numberContainer: cc.Node = null;
 
@@ -46,10 +42,8 @@ export default class RouletteBoard extends cc.Component {
 
     private betChoices = {};
     private otherBetChoices = {};
-    @lazyInject(ChipConfig)
-    private readonly chipConfig: ChipConfig;
 
-    chipOption: number[];
+    betChips: BetChips;
 
     public callback = {
         selected: (betInfo: RouletteBetInfo) => {}
@@ -132,7 +126,7 @@ export default class RouletteBoard extends cc.Component {
 
                 const tip = this.getBetDetail(i);
                 tip.show(bet);
-                tip.node.position = this.node.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v2(0, 0)));
+                tip.node.position = cc.v3(this.node.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v2(0, 0))));
                 i++;
             }
         }
@@ -335,10 +329,10 @@ export default class RouletteBoard extends cc.Component {
                 case RouletteBetType.OddEven:
                 case RouletteBetType.BigSmall:
                     const groupItem = this.groupItems.find((child) => child.betType === type && child.node.name === key);
-                    childNode.position = parent.convertToNodeSpaceAR(groupItem.node.convertToWorldSpaceAR(cc.v2(0, 0)));
+                    childNode.position = cc.v3(parent.convertToNodeSpaceAR(groupItem.node.convertToWorldSpaceAR(cc.v2(0, 0))));
                     break;
                 default:
-                    childNode.position = this.getOnBoardChipLocation(type, key);
+                    childNode.position = cc.v3(this.getOnBoardChipLocation(type, key));
                     break;
             }
 
@@ -353,14 +347,14 @@ export default class RouletteBoard extends cc.Component {
     placeChipsByKey(type: string, key: string, bet: number, highlight = false, other = false) {
         const childNode = this.getBetNodeByKey(type, key, other);
         childNode.destroyAllChildren();
-        const node = RouletteUtils.createChips(bet, this.chipOption, this.chipAltas, this.chipConfig, highlight);
+        const node = RouletteUtils.createChips(bet, this.betChips, highlight);
         childNode.addChild(node);
     }
 
     placeChips(betInfo: RouletteBetInfo, bet: number, highlight = false, other = false) {
         const childNode = this.getBetNodeByKey(betInfo.type, RouletteUtils.getKey(betInfo), other);
         childNode.destroyAllChildren();
-        const node = RouletteUtils.createChips(bet, this.chipOption, this.chipAltas, this.chipConfig, highlight);
+        const node = RouletteUtils.createChips(bet, this.betChips, highlight);
         childNode.addChild(node);
     }
 

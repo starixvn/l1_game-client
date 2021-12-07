@@ -1,11 +1,11 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
-import { getLocale } from "../../common/auth/SessionManager";
+import { getLanguage, getLocale } from "../../common/auth/SessionManager";
 import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
-import HandleUserStakeLevel from "../../common/bet-chips/view-models/HandleUserStakeLevel";
 import GameUtils from "../../common/GameUtils";
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
@@ -178,13 +178,13 @@ export default class GameBase extends BaseComponent {
         this.initHandlers();
         this.addHandlers(
             this.umHandler,
+            this.configsHandler,
             this.noticeHandler,
             this.statusHandler,
             this.betHandler,
             this.timeHandler,
             this.errorHandler,
             this.logsHandler,
-            this.configsHandler,
             this.finishHandler
         );
     }
@@ -398,6 +398,8 @@ export default class GameBase extends BaseComponent {
             this.betChips.init((bet) => {
                 this.onChangedBetChip(bet);
             });
+
+            this.betChips.enableStakeLevel = this.isUsingMaxStakeLevel();
         }
     }
 
@@ -442,11 +444,7 @@ export default class GameBase extends BaseComponent {
         this.updateOddsFromConfigs();
 
         if (this.betChips) {
-            const userStakeLevel = this.betChips.getComponent(HandleUserStakeLevel);
-            if (userStakeLevel) {
-                userStakeLevel.gameConfig = this.gameConfigs;
-                userStakeLevel.handle();
-            }
+            this.betChips.setChipValues(this.gameConfigs);
         }
     }
 
@@ -459,14 +457,17 @@ export default class GameBase extends BaseComponent {
     }
 
     public isUsingMaxStakeLevel() {
-        return false;
+        return true;
     }
 
     openGuide() {
         const dialog = cc.instantiate(this.guidePrefab);
         const guide = dialog.getComponent(WebViewGuide);
         const { minBet, maxBet } = this.getBetRange();
-        guide.initURL(this.gameId, getLocale(), { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
+        const locale = getLocale();
+        const language = getLanguage(locale);
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
+        guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();
     }
@@ -475,19 +476,35 @@ export default class GameBase extends BaseComponent {
         return this.isUsingMaxStakeLevel() ? this.getVipBetRange() : this.getNormalBetRange();
     }
 
+    getMaxBet(): number {
+        return Math.min(this.gameConfigs.maxBet, cc.RedT.userStakeLevel.maxBet);
+    }
+
+    getMinBet(): number {
+        return Math.max(this.gameConfigs.minBet, cc.RedT.userStakeLevel.minBet);
+    }
+
     protected getNormalBetRange() {
-        const { minbet, maxbet } = this.gameConfigs;
+        const { minBet, maxBet } = this.gameConfigs;
         return {
-            minBet: minbet,
-            maxBet: maxbet
+            minBet: minBet,
+            maxBet: maxBet
         };
     }
 
     protected getVipBetRange() {
-        const { minbet, maxbet } = this.gameConfigs;
-        return {
-            minBet: minbet,
-            maxBet: Math.min(cc.RedT.userStakeLevel.maxBet, maxbet)
-        };
+        return cc.RedT.userStakeLevel;
+    }
+
+    showMiniWarningLimitBetChanged() {
+        this.showMiniWarning(i18n.t("messages.limitBetChanged"));
+    }
+
+    updateUserStakeLevel(data): boolean {
+        let updated = false;
+        if (data.maxBet && data.minBet) {
+            updated = cc.RedT.userStakeLevelData(data);
+        }
+        return updated;
     }
 }

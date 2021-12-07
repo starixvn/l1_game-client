@@ -154,9 +154,9 @@ module.exports = {
         return check === "true";
     },
     userData: function (data) {
-        if (void 0 !== data.offerGames && data.offerGames.length > 0) {
+        if (void 0 !== data.offerGames) {
+            const offerGames = data.offerGames.map((game) => game.gameId);
             const menuConfig = new LobbyMenuConfig();
-            const offerGames = data.offerGames;
             const list = [];
             menuConfig.list.forEach((id) => {
                 if (offerGames.includes(id)) {
@@ -165,6 +165,9 @@ module.exports = {
             });
             this.user.offerGames = list;
             cc.sys.localStorage.setItem("latestOfferGames", JSON.stringify(list));
+        }
+        if (data.rate) {
+            this.user.rate = data.rate;
         }
         if (void 0 !== data.name) {
             this.user.name = data.name;
@@ -195,7 +198,26 @@ module.exports = {
         }
     },
     userStakeLevelData: function (data) {
+        if (this.userStakeLevel.minBet === data.minBet && this.userStakeLevel.maxBet === data.maxBet) {
+            return false;
+        }
+
         this.userStakeLevel.minBet = data.minBet;
         this.userStakeLevel.maxBet = data.maxBet;
+
+        const scene = cc.director.getScene();
+        const betChips = scene.getComponentsInChildren("BetChips");
+        betChips.forEach((betChip) => betChip.updateChips());
+
+        const balanceGames = scene.getComponentsInChildren("BalancedBettingPoolGameBase");
+        balanceGames.forEach((balanceGame) => balanceGame.updateBetBoard());
+
+        const miniKenos = scene.getComponentsInChildren("MiniKeno");
+        miniKenos.forEach((keno) => keno.updateBetBoard());
+
+        const kenoProViet = scene.getComponentInChildren("KenoProViet");
+        kenoProViet && kenoProViet.updatePresetBet();
+
+        return true;
     }
 };

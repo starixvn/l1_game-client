@@ -49,7 +49,6 @@ export default class DealHandler implements DataHandler {
                 const chipStack = BlackJackUtils.createChipStack(
                     hand.bet,
                     this.main.betChips,
-                    this.main.chipOption,
                     this.main.shadowChip,
                     this.main.chipContainers[pos].skewX
                 );
@@ -158,8 +157,8 @@ export default class DealHandler implements DataHandler {
             const { minBet, maxBet, gameRoundId } = data.invalidBetAmountHands;
             const opt = {
                 gameName: GameUtils.getGameNameString(this.main.gameId),
-                minBet: numberWithCommas(minBet || this.main.gameConfigs.minbet),
-                maxBet: numberWithCommas(maxBet || this.main.gameConfigs.maxbet),
+                minBet: numberWithCommas(minBet || this.main.getMinBet()),
+                maxBet: numberWithCommas(maxBet || this.main.getMaxBet()),
                 gameRoundId,
                 errorCode
             };

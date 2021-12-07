@@ -52,9 +52,9 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         this.background.active = index % 2 !== 0;
         this.time.string = getStringDateByTime(data.time);
         this.roundId.string = data.phien.toString();
-        this.win.string = numberWithCommas(this.setGrossWinLoss(data));
+        this.win.string = numberWithCommas(this.setGrossWinLoss(data), 2);
         this.totalBet.string = numberWithCommas(data.totalAmount);
-        this.refund.string = numberWithCommas(data.refund);
+        this.refund.string = numberWithCommas(data.refund, 2);
 
         if (data[BMBetType.Up] > 0 || data[BMBetType.Down] > 0) {
             this.view = BMHeaderMenu.UpDown;

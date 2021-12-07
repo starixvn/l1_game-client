@@ -139,7 +139,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     lastHandBets: any[] = [];
     audioNotificationInterval: any;
 
-    public chipOption: number[];
     public configDuration = {
         drawingCardDelay: 0.7,
         delaySwitchHand: 1
@@ -167,11 +166,6 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.rebetButton.getComponent(NewButton).callback.selected = () => this.onRebetClick();
         this.clearButton.getComponent(NewButton).callback.selected = () => this.onClearClick();
         this.dealButton.getComponent(NewButton).callback.selected = () => this.onDealClick();
-
-        const options = [...this.betChips.chipValues];
-        options.reverse();
-        options.push(...this.blackJackConfig.chipOption);
-        this.chipOption = options;
     }
 
     onDestroy() {
@@ -247,8 +241,9 @@ export default class BlackJack extends SocketIOTableGameBase {
                 this.handPlaces.forEach((place) => place.highlightPlace(false));
                 handPlace.highlightPlace(true);
 
-                if (handPlace.getBetAmount() + this.currentBet > this.gameConfigs.maxbet) {
-                    this.showMiniWarning(i18n.t("messages.maxStakeHand", { maxBet: numberWithCommas(this.gameConfigs.maxbet) }));
+                const maxBet = this.getMaxBet();
+                if (handPlace.getBetAmount() + this.currentBet > maxBet) {
+                    this.showMiniWarning(i18n.t("messages.maxStakeHand", { maxBet: numberWithCommas(maxBet) }));
                     return;
                 }
 
@@ -287,7 +282,6 @@ export default class BlackJack extends SocketIOTableGameBase {
                             const chipStack = BlackJackUtils.createChipStack(
                                 handPlace.getBetAmount(),
                                 this.betChips,
-                                this.chipOption,
                                 this.shadowChip,
                                 destNode.skewX
                             );
@@ -632,7 +626,6 @@ export default class BlackJack extends SocketIOTableGameBase {
                 const chipStack = BlackJackUtils.createChipStack(
                     hand.bet,
                     this.betChips,
-                    this.chipOption,
                     this.shadowChip,
                     this.chipContainers[hand.pos - 1].skewX
                 );
@@ -722,8 +715,8 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     updateDisplayForRemoteConfig() {
         super.updateDisplayForRemoteConfig();
-        this.minBetLabel.string = this.gameConfigs.minbet.toString();
-        this.maxBetLabel.string = numberWithCommas(this.gameConfigs.maxbet);
+        this.minBetLabel.string = numberWithCommas(this.getMinBet());
+        this.maxBetLabel.string = numberWithCommas(this.getMaxBet());
         const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
         this.blackjackOddLabel.string = i18n.t("ui.blackjack_pay", { odds });
     }

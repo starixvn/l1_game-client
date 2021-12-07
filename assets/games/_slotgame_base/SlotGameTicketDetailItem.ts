@@ -44,7 +44,7 @@ export default class SlotGameTicketDetailItem extends cc.Component {
         this.amount.string = amount;
         this.payout.string = payout;
         this.bet.string = bet !== "" ? numberWithCommas(bet, 1) : "";
-        this.win.string = win !== "" ? numberWithCommas(win) : "";
+        this.win.string = win !== "" ? numberWithCommas(win, 2) : "";
         this.backhground.active = (order - 1) % 2 > 0;
     }
 }

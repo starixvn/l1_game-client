@@ -1,3 +1,4 @@
+import { guideDomain } from "../configs/Configs";
 import CustomWebView from "./CustomWebView";
 
 const { ccclass, property } = cc._decorator;
@@ -12,6 +13,8 @@ export default class LoadWebView extends cc.Component {
 
     protected url: string;
     public needDisableDivScroll = false;
+
+    protected onWebViewLoaded = () => {};
 
     onLoad() {
         this.webView.node.on(
@@ -36,6 +39,7 @@ export default class LoadWebView extends cc.Component {
 
     showWebView() {
         this.webView._impl.setVisible(true);
+        this.onWebViewLoaded();
     }
 
     hideWebView() {
@@ -60,5 +64,11 @@ export default class LoadWebView extends cc.Component {
 
             this.webView.url = this.url;
         }
+    }
+
+    sendDataToIframe(configs: any) {
+        this.onWebViewLoaded = () => {
+            this.webView._impl._iframe.contentWindow.postMessage(JSON.stringify(configs), guideDomain);
+        };
     }
 }

@@ -77,25 +77,24 @@ export default class GameBaseBetHandler implements DataHandler {
     }
 
     placePlayerChip(data: any) {
-        const gameRoomMain = this.main as WebSocketTableGameBase;
-
-        if (gameRoomMain) {
-            const betOption = data.box.toLowerCase();
-            const bet = data.bet;
-            let startNode: cc.Node;
-            const playerSlot = gameRoomMain.playerHandler.getPlayerSlot(data.playerId);
-            const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
-
-            if (playerSlot) {
-                this.updatePlayerSlotDataStorage(data, playerSlot);
-                startNode = playerSlot.avatar.node;
-            } else {
-                startNode = gameRoomMain.otherPlayers;
-                this.updateOtherDataStorage(data);
-            }
-            this.main.betChips.placeChipToChipBox(bet, betItem.chipNode, startNode, null);
-            this.playerChips.pop();
-        }
+        console.error("Please check function placePlayerChip");
+        // const gameRoomMain = this.main as WebSocketTableGameBase;
+        // if (gameRoomMain) {
+        //     const betOption = data.box.toLowerCase();
+        //     const bet = data.bet;
+        //     let startNode: cc.Node;
+        //     const playerSlot = gameRoomMain.playerHandler.getPlayerSlot(data.playerId);
+        //     const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
+        //     if (playerSlot) {
+        //         this.updatePlayerSlotDataStorage(data, playerSlot);
+        //         startNode = playerSlot.avatar.node;
+        //     } else {
+        //         startNode = gameRoomMain.otherPlayers;
+        //         this.updateOtherDataStorage(data);
+        //     }
+        //     this.main.betChips.placeChipToChipBox(bet, betItem.chipNode, startNode, null);
+        //     this.playerChips.pop();
+        // }
     }
 
     updatePlayerSlotDataStorage(data: any, playerSlot: any) {
@@ -116,16 +115,19 @@ export default class GameBaseBetHandler implements DataHandler {
         }
     }
 
-    placeTotalChips(chips: any) {
-        if (!chips) {
+    placeTotalChips(dataChips: any) {
+        if (!dataChips) {
             return;
         }
 
-        const chipsKeys = getLowercaseObjectKeys(chips);
+        Object.keys(dataChips).forEach((rate) => {
+            const chips = dataChips[rate];
+            const chipsKeys = getLowercaseObjectKeys(chips);
 
-        _.forEach(this.main.betItems, (item) => {
-            const betItemData = chips[chipsKeys[item.node.name.toLowerCase()]];
-            this.main.betChips.addChipsToChipBox(betItemData, item.chipNode);
+            _.forEach(this.main.betItems, (item) => {
+                const betItemData = chips[chipsKeys[item.node.name.toLowerCase()]];
+                this.main.betChips.addChipsToChipBox(+rate, betItemData, item.chipNode);
+            });
         });
     }
 }

@@ -45,7 +45,7 @@ export default class BlackJackHistoryItem extends cc.Component {
         this.handId.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.split.active = isSplit;
         this.bet.string = numberWithCommas(log.bet);
-        this.win.string = numberWithCommas(log.betwin);
+        this.win.string = numberWithCommas(log.betwin, 2);
         this.win.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.setDealerCards(log);
         this.setPlayerCards(log, isSplit);

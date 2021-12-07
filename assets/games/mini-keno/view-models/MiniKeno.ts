@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../../common/audio/AudioManager";
+import GameUtils from "../../../common/GameUtils";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import { GameState } from "../../_base/GameBase";
@@ -232,7 +233,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
             choice: betChoice,
             bet: 0,
             betItem: e.target,
-            maxBet: this.gameConfigs.choices_maxbet[betChoice]
+            maxBet: () => this.gameConfigs.maxBetPerChoices[betChoice]
         };
         this.betBoard.show(info);
     }
@@ -355,6 +356,16 @@ export default class MiniKeno extends SocketIOMiniGameBase {
         };
         this.betBoard.node.active = false;
         this.betBoardContainer && this.betBoardContainer.addChild(betBoardNode);
+    }
+
+    updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        this.updateBetBoard();
+    }
+
+    updateBetBoard() {
+        const values = GameUtils.getFilterValuesByStakeLevel(this.gameConfigs.chips, this.gameConfigs);
+        this.betBoard.setItems(values);
     }
 
     public highlightWonItem(results: any, { isAnimated = true, showWinningEffect = false }) {

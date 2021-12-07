@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import AudioManager from "../../../common/audio/AudioManager";
-import { getLocale } from "../../../common/auth/SessionManager";
+import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import UmWarning from "../../../common/um-warning/UmWarning";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
@@ -387,8 +387,9 @@ export default class LuckyWheel extends cc.Component {
     onPressedGameGuide() {
         const dialog = cc.instantiate(this.gamGuidePrefab);
         const locale = getLocale();
+        const language = getLanguage(locale);
         const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(`/?name=luckyWheel&t=blue&lang=${locale}&v=${Date.now()}`);
+        guide.setURL(`/${language}/?name=luckyWheel&t=blue&v=${Date.now()}`);
         this.node.addChild(dialog);
         guide.loadWebView();
     }

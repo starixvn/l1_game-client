@@ -1,3 +1,4 @@
+import GameUtils from "../../common/GameUtils";
 import { getStringHourByTime } from "../../common/helpers/DateTimeHelper";
 import { shortenName } from "../../common/helpers/NicknameHelper";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
@@ -26,7 +27,11 @@ export default class BalancedBettingPoolBetItemBase extends cc.Component {
         this.highlight.active = isLoginUser;
         this.time.string = getStringHourByTime(data.time);
         this.username.string = isLoginUser ? data.name : shortenName(data.name);
-        this.betAmount.string = numberWithCommas(data.amount);
-        this.refund.string = numberWithCommas(data.refund);
+
+        const convertValue = GameUtils.getValueByCurrency(data.amount, data.rate || 1);
+        this.betAmount.string = numberWithCommas(convertValue, 2);
+
+        const convertRefund = GameUtils.getValueByCurrency(data.refund, data.rate || 1);
+        this.refund.string = numberWithCommas(convertRefund, 2);
     }
 }

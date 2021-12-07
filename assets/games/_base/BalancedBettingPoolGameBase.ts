@@ -3,7 +3,7 @@ import * as _ from "lodash";
 
 import AudioManager from "../../common/audio/AudioManager";
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
-import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
+import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
 import SocketIOMiniGameBase from "./SocketIOMiniGameBase";
@@ -60,7 +60,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
             choice: choice,
             bet: 0,
             betItem: null,
-            maxBet: this.gameConfigs.maxbet
+            maxBet: () => this.getMaxBet()
         };
         this.betBoard.show(betInfo);
         this.betBoard.node.runAction(
@@ -108,6 +108,17 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
         this.betBoard.node.active = false;
     }
 
+    updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        this.updateBetBoard();
+    }
+
+    updateBetBoard() {
+        const values = GameUtils.getFilterValuesByStakeLevel(this.gameConfigs.chips, this.gameConfigs);
+        this.betBoard && this.betBoard.setItems(values);
+        this.presetBet && this.presetBet.setItems(values);
+    }
+
     onAcceptedBet(info: BetInfo) {
         const { choice, bet } = info;
 
@@ -123,7 +134,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
 
     onChangedBet(info: BetInfo) {
         const { bet, choice } = info;
-        const maxBet = this.gameConfigs.maxbet;
+        const maxBet = this.getMaxBet();
         const betAmount = bet > maxBet ? maxBet : bet;
         const selectedBetAmountLabel = this.selectedBetAmountLabels[choice];
         selectedBetAmountLabel.string = numberWithCommas(betAmount);
@@ -192,7 +203,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
         this.disableHistoryButton();
         const totalBets = _.values(this.totalBets);
         const balancedBetAmount = Math.min(...[totalBets[0] ?? 0, totalBets[1] ?? 0]);
-        this.betItems.forEach((item) => (item as BalancedBettingPoolBetItem).balanceBet(balancedBetAmount));
+        this.betItems.forEach((item) => (item as BalancedBettingPoolBetItem).balanceBet(GameUtils.getValueByCurrency(balancedBetAmount)));
     }
 
     showBalanceBetNotice() {

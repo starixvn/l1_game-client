@@ -44,7 +44,7 @@ export default class LotteryTicketDetailItem extends cc.Component {
                 const bet = numberWithCommas(values[choiceValue]);
                 const ratio = winCount > 1 ? `${odds[choiceKey]} (x${winCount})` : `${odds[choiceKey]}`;
                 const winAmount = odds[choiceKey] * winCount * values[choiceValue];
-                const win = numberWithCommas(winAmount);
+                const win = numberWithCommas(winAmount, 2);
                 const isOthers = choiceKey === "others";
                 const choiceDetail = {
                     type: LotteryHelper.getNameChoiceKey(choiceKey),
