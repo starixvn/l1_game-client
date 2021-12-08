@@ -205,7 +205,7 @@ window.i18n.languages.vi = {
         you_win: "Bạn vừa thắng",
         scoreboard_five_elements: "Ngũ Hành",
         scoreboard_big_small: "Tài Xỉu",
-        scoreboard_odd_even: "Chẵn Lẻ",
+        scoreboard_even_odd: "Chẵn Lẻ",
         choice_dragon: "Rồng",
         choice_tiger: "Hổ",
         choice_tie: "Hòa",
@@ -220,7 +220,7 @@ window.i18n.languages.vi = {
         line_selection: "Chọn Dòng",
         bet2: "Cược",
         bet: "Mức Cược",
-        turbo: "Siêu\nTốc",
+        turbo: "Siêu Tốc",
         line: "Dòng",
         honor: "Vinh Danh",
         lines: "Dòng Cược",
@@ -386,10 +386,10 @@ window.i18n.languages.vi = {
         nickname_break: "Người Chơi",
         choice_stag_break: "Nai",
         choice_rooster_break: "Gà",
+        auto_spin_break: "Tự Quay",
         betChoice_break: "Lựa Chọn",
         place_bet_break: "Đặt Cược",
-        auto_spin_break: "Tự\nQuay",
-        betType_break: "Đặt Cược",
+        betType_break: "Loại Cược",
         totalStake_shorten: "Tổng Cược"
     }
 };
