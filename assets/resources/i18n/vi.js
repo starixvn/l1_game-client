@@ -300,7 +300,7 @@ window.i18n.languages.vi = {
         prize_sixth: "Sáu",
         prize_special: "Đặc Biệt",
         prize_third: "Ba",
-        placing_bet: "Đang Nhận Cược",
+        placing_bet: "Đặt lệnh",
         no_more_bet: "Dừng nhận cược",
         title_special: "Giải Đặc Biệt phiên trước",
         lottery_others_notice: "Kết quả được tính dựa trên hai số cuối của giải Đặc Biệt.",

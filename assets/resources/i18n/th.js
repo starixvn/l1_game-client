@@ -292,7 +292,7 @@ window.i18n.languages.th = {
         prize_sixth: "ลำดับที่ 6",
         prize_special: "พิเศษ",
         prize_third: "ลำดับที่ 3",
-        placing_bet: "วางเดิมพัน",
+        placing_bet: "Place your bets",
         no_more_bet: "ไม่มีการเดิมพัน",
         title_special: "ผลรางวัลพิเศษรอบที่แล้ว",
         lottery_others_notice: "แพ้-ชนะ คำนวณจากตัวเลขสองหลักสุดท้ายของรางวัลพิเศษ",
