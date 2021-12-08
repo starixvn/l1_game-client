@@ -43,7 +43,7 @@ export default class ThreeCardsHistoryItem extends cc.Component {
 
         this.time.string = getStringDateByTime(betData.time);
         this.round.string = betData.phien;
-        this.betWin.string = numberWithCommas(betData.betwin);
+        this.betWin.string = numberWithCommas(betData.betwin, 2);
         this.winChoices && this.winChoices.setData(betData);
         this.bet.string = this.summarizeBet(betData);
         this.cards &&
