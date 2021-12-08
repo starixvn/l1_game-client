@@ -373,7 +373,6 @@ window.i18n.languages.th = {
         upDownBetHistory: "Up / Down",
         evenUpBetHistory: "Even / Odd",
         statistic: "Statistic",
-        refund_break: "คืนเงิน",
         betChoice2_break: "ตัวเลือกเดิมพัน",
         nickname_break: "ชื่อเล่น",
         choice_stag_break: "กวาง",

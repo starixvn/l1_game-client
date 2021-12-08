@@ -1811,6 +1811,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "87e5c961-a71f-4b24-bbff-c4cbd72513d1"
+    },
     "_type": 0,
     "_sizeMode": 2,
     "_fillType": 0,
@@ -1931,6 +1934,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "c0d6e214-d71f-484b-84e7-3f69f1171807"
+    },
     "_type": 0,
     "_sizeMode": 2,
     "_fillType": 0,
@@ -3258,8 +3264,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 145.13,
-      "height": 56.5
+      "width": 73.36,
+      "height": 31.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3303,7 +3309,7 @@
       "__id__": 92
     },
     "_enabled": true,
-    "_dataId": "ui.refund_break",
+    "_dataId": "ui.refund",
     "format": 1,
     "suffix": "",
     "_id": ""
@@ -3323,8 +3329,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "PENGEMBALIAN\nDANA",
-    "_N$string": "PENGEMBALIAN\nDANA",
+    "_string": "REFUND",
+    "_N$string": "REFUND",
     "_fontSize": 18,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -3547,7 +3553,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 56.7
+      "height": 31.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3671,7 +3677,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 56.7
+      "height": 31.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5070,8 +5076,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 145.13,
-      "height": 56.5
+      "width": 73.36,
+      "height": 31.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5115,7 +5121,7 @@
       "__id__": 149
     },
     "_enabled": true,
-    "_dataId": "ui.refund_break",
+    "_dataId": "ui.refund",
     "format": 1,
     "suffix": "",
     "_id": ""
@@ -5135,8 +5141,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "PENGEMBALIAN\nDANA",
-    "_N$string": "PENGEMBALIAN\nDANA",
+    "_string": "REFUND",
+    "_N$string": "REFUND",
     "_fontSize": 18,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -5359,7 +5365,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 56.7
+      "height": 31.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5483,7 +5489,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 0,
-      "height": 56.7
+      "height": 31.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6192,37 +6198,6 @@
     "roundIdLabel": {
       "__id__": 35
     },
-    "dices": [
-      {
-        "__id__": 39
-      },
-      {
-        "__id__": 42
-      },
-      {
-        "__id__": 45
-      }
-    ],
-    "diceFrames": [
-      {
-        "__uuid__": "3124130b-3998-46e8-b717-5b5716bcc9e2"
-      },
-      {
-        "__uuid__": "a68f4b68-37be-41c2-b9f9-5894c8ceff1b"
-      },
-      {
-        "__uuid__": "4f50253f-ab3f-44e6-a2c5-ceb4b3e7e93a"
-      },
-      {
-        "__uuid__": "e65990fc-bbd4-490c-8c60-605eee4a9b72"
-      },
-      {
-        "__uuid__": "c4546f9a-f588-43ce-ac50-17ae7c3f60fd"
-      },
-      {
-        "__uuid__": "2367067e-0ede-43c0-a458-d5ef38f133e9"
-      }
-    ],
     "leftBetAmount": {
       "__id__": 108
     },
@@ -6256,6 +6231,37 @@
     "mainFrame": {
       "__id__": 5
     },
+    "dices": [
+      {
+        "__id__": 39
+      },
+      {
+        "__id__": 42
+      },
+      {
+        "__id__": 45
+      }
+    ],
+    "diceFrames": [
+      {
+        "__uuid__": "3124130b-3998-46e8-b717-5b5716bcc9e2"
+      },
+      {
+        "__uuid__": "a68f4b68-37be-41c2-b9f9-5894c8ceff1b"
+      },
+      {
+        "__uuid__": "4f50253f-ab3f-44e6-a2c5-ceb4b3e7e93a"
+      },
+      {
+        "__uuid__": "e65990fc-bbd4-490c-8c60-605eee4a9b72"
+      },
+      {
+        "__uuid__": "c4546f9a-f588-43ce-ac50-17ae7c3f60fd"
+      },
+      {
+        "__uuid__": "2367067e-0ede-43c0-a458-d5ef38f133e9"
+      }
+    ],
     "gameName": {
       "__id__": 19
     },

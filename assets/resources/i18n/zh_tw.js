@@ -359,7 +359,6 @@ window.i18n.languages.zh_tw = {
         upDownBetHistory: "Up / Down",
         evenUpBetHistory: "Even / Odd",
         statistic: "Statistic",
-        refund_break: "退款",
         betChoice2_break: "投注選擇",
         nickname_break: "暱稱",
         choice_stag_break: "麈",

@@ -381,7 +381,6 @@ window.i18n.languages.vi = {
         upDownBetHistory: "Tăng / Giảm",
         evenUpBetHistory: "Chẵn / Lẻ",
         statistic: "Thống Kê",
-        refund_break: "Trả Lại",
         betChoice2_break: "Đặt",
         nickname_break: "Người Chơi",
         choice_stag_break: "Nai",
