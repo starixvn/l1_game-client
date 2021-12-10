@@ -465,7 +465,7 @@ export default class GameBase extends BaseComponent {
         const guide = dialog.getComponent(WebViewGuide);
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
-        const language = getLanguage(locale);
+        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
         guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
