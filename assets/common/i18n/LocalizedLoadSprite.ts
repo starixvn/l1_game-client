@@ -6,7 +6,7 @@ const pathRoot = "image";
 
 @ccclass
 @executeInEditMode
-@menu("i18n/OnePackLocalizedSprite")
+@menu("i18n/LocalizedLoadSprite")
 export default class LocalizedLoadSprite extends LocalizedSprite {
     @property()
     gameId = 0;

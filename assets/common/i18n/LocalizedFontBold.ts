@@ -1,8 +1,10 @@
 import LocalizedFont from "./LocalizedFont";
 
-const { ccclass } = cc._decorator;
+const { ccclass, executeInEditMode, menu } = cc._decorator;
 
 @ccclass
+@executeInEditMode
+@menu("i18n/LocalizedFontBold")
 export default class LocalizedFontBold extends LocalizedFont {
     initData() {
         this.fontBases = {

@@ -1,4 +1,4 @@
-const { ccclass, property } = cc._decorator;
+const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 
 const LanguageFont = cc.Class({
     name: "LanguageFont",
@@ -9,6 +9,8 @@ const LanguageFont = cc.Class({
 });
 
 @ccclass
+@executeInEditMode
+@menu("i18n/LocalizedFont")
 export default class LocalizedFont extends cc.Component {
     @property({ type: LanguageFont })
     overrideFonts: LanguageFont[] = [];
