@@ -35,6 +35,7 @@ window.i18n.languages.en = {
         35: "Three Cards",
         38: "The Legend of Heroes",
         43: "Bitcoin Master",
+        "26_break": "VIP Fish Prawn Crab",
         "38_break": "The Legend of Heroes"
     },
     messages: {

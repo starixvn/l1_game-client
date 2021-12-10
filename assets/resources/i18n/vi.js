@@ -35,6 +35,7 @@ window.i18n.languages.vi = {
         35: "3 Lá Đỏ Đen",
         38: "Anh Hùng Chim Lạc",
         43: "Bitcoin Master",
+        "26_break": "Bầu Cua VIP",
         "38_break": "Anh Hùng Chim Lạc"
     },
     messages: {

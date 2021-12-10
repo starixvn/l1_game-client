@@ -34,6 +34,7 @@ window.i18n.languages.id = {
         35: "Tiga Kartu",
         38: "Legenda Pahlawan",
         43: "Bitcoin Master",
+        "26_break": "VIP Ikan\nUdang Kepiting",
         "38_break": "Legenda Pahlawan"
     },
     messages: {

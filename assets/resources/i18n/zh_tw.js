@@ -34,6 +34,7 @@ window.i18n.languages.zh_tw = {
         35: "斗三張",
         38: "英雄傳說",
         43: "數字貨幣大師",
+        "26_break": "VIP 魚蝦蟹",
         "38_break": "英雄傳說"
     },
     messages: {
