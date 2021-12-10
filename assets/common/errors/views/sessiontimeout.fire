@@ -81,10 +81,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 14
+        "__id__": 16
       },
       {
-        "__id__": 15
+        "__id__": 17
       }
     ],
     "_prefab": null,
@@ -369,13 +369,13 @@
         "__id__": 9
       },
       {
-        "__id__": 11
+        "__id__": 12
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 13
+        "__id__": 15
       }
     ],
     "_prefab": null,
@@ -390,7 +390,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 200,
-      "height": 210
+      "height": 233.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -438,6 +438,9 @@
     "_components": [
       {
         "__id__": 10
+      },
+      {
+        "__id__": 11
       }
     ],
     "_prefab": null,
@@ -451,8 +454,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 731.66,
-      "height": 90
+      "width": 804.7,
+      "height": 101.7
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -464,7 +467,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        60,
+        65.85,
         0,
         0,
         0,
@@ -503,14 +506,13 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\n Vui lòng đóng cửa sổ game và thử đăng nhập lại.",
     "_N$string": "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\n Vui lòng đóng cửa sổ game và thử đăng nhập lại.",
     "_fontSize": 24,
     "_lineHeight": 45,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "cafd24ce-1dec-430a-9047-0775cfb46eb6"
+      "__uuid__": "0763b17c-4af5-4b06-aaf9-9ab41eb64775"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -525,6 +527,17 @@
     "_id": "18tBXchZxEhJoEL+ZxCPMI"
   },
   {
+    "__type__": "312c5tSoDZC15WKuvnUppQM",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 9
+    },
+    "_enabled": true,
+    "overrideFonts": [],
+    "_id": "ddipIWEBdByrhD98K0DnuY"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "content-en",
     "_objFlags": 0,
@@ -535,7 +548,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 12
+        "__id__": 13
+      },
+      {
+        "__id__": 14
       }
     ],
     "_prefab": null,
@@ -549,8 +565,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 609.6,
-      "height": 90
+      "width": 687.47,
+      "height": 101.7
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -562,7 +578,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -60,
+        -65.85000000000001,
         0,
         0,
         0,
@@ -591,7 +607,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 11
+      "__id__": 12
     },
     "_enabled": true,
     "_materials": [
@@ -601,14 +617,13 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "Your session has timed out or you have not logged in yet.\n Please close the current windows and try to login again.",
     "_N$string": "Your session has timed out or you have not logged in yet.\n Please close the current windows and try to login again.",
     "_fontSize": 24,
     "_lineHeight": 45,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "3ffe3de6-d3a7-4148-aa63-92c401f9da18"
+      "__uuid__": "0763b17c-4af5-4b06-aaf9-9ab41eb64775"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -623,6 +638,17 @@
     "_id": "2cWWZts/BBVryT8sDs+qMx"
   },
   {
+    "__type__": "312c5tSoDZC15WKuvnUppQM",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 12
+    },
+    "_enabled": true,
+    "overrideFonts": [],
+    "_id": "13i0mRMl1AE7nQZt3za7s4"
+  },
+  {
     "__type__": "cc.Layout",
     "_name": "",
     "_objFlags": 0,
@@ -633,7 +659,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 200,
-      "height": 210
+      "height": 233.4
     },
     "_resize": 1,
     "_N$layoutType": 2,
