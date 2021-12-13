@@ -55,7 +55,7 @@ window.i18n.languages.vi = {
         loseLimitHit:
             "Game %{gameName} (#%{gameRoundId})\n\nĐã đạt giới hạn thua cược! Vui lòng liên hệ với cấp trên, cảm ơn bạn. Đặt cược thất bại!(%{errorCode})",
         limitBetUpdated:
-            "Game %{gameName} (#%{gameRoundId})\n\nHạn mức cược của bạn đã được cập nhật. vui lòng thử lại. Đặt cược thất bại!(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nHạn mức cược của bạn đã được cập nhật, vui lòng thử lại. Đặt cược thất bại!(%{errorCode})",
         limitBetNotDefined:
             "Game %{gameName} (#%{gameRoundId})\n\nHạn mức cược của bạn cho trò chơi này chưa được thiết lập. Vui lòng liên hệ với cấp trên. Đặt cược thất bại!(%{errorCode})",
         accountSuspended:
