@@ -376,6 +376,7 @@ window.i18n.languages.id = {
         upDownBetHistory: "Naik/Turun",
         evenUpBetHistory: "Genap/Ganjil",
         statistic: "Statistik",
+        place_bet2: "Pasang Taruhan",
         betChoice2_break: "Pilihan\nTaruhan",
         nickname_break: "Nama\npanggilan",
         choice_stag_break: "RUSA\nJANTAN",

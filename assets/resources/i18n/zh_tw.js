@@ -360,6 +360,7 @@ window.i18n.languages.zh_tw = {
         upDownBetHistory: "上/下",
         evenUpBetHistory: "雙/單",
         statistic: "統計",
+        place_bet2: "下注",
         betChoice2_break: "投注選擇",
         nickname_break: "暱稱",
         choice_stag_break: "麈",

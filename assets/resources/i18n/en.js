@@ -375,6 +375,7 @@ window.i18n.languages.en = {
         upDownBetHistory: "Up / Down",
         evenUpBetHistory: "Even / Odd",
         statistic: "Statistic",
+        place_bet2: "Place Bet",
         betChoice2_break: "Bet Choice",
         nickname_break: "Nickname",
         choice_stag_break: "STAG",

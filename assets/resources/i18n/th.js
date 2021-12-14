@@ -374,6 +374,7 @@ window.i18n.languages.th = {
         upDownBetHistory: "ขึ้น/ลง",
         evenUpBetHistory: "คู่ /คี่",
         statistic: "สถิติ",
+        place_bet2: "วางเดิมพัน",
         betChoice2_break: "ตัวเลือกเดิมพัน",
         nickname_break: "ชื่อเล่น",
         choice_stag_break: "กวาง",
