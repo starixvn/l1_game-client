@@ -8,6 +8,8 @@ const { ccclass, executeInEditMode, menu } = cc._decorator;
 export default class LocalizedFontBold extends LocalizedFont {
     initData() {
         this.fontBases = {
+            vi: "NotoSerif-Bold",
+            id: "NotoSerif-Bold",
             en: "NotoSerif-Bold",
             th: "NotoSerifThai-Bold",
             zh_cn: "NotoSerifZHCN-Bold",

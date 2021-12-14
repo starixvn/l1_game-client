@@ -26,6 +26,8 @@ export default class LocalizedFont extends cc.Component {
 
     initData() {
         this.fontBases = {
+            vi: "NotoSerif-Regular",
+            id: "NotoSerif-Regular",
             en: "NotoSerif-Regular",
             th: "NotoSerifThai-Regular",
             zh_cn: "NotoSerifZHCN-Regular",
