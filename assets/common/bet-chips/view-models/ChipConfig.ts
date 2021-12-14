@@ -34,6 +34,11 @@ export default class ChipConfig {
     }
 
     getChipColor(value: number): cc.Color {
-        return cc.Color.BLACK.fromHEX(this.chipColor[value]);
+        const hexStr = this.chipColor[value];
+        if (!hexStr) {
+            console.error(`Missing color for chip ${value}`);
+            return cc.Color.BLACK.fromHEX(this.chipColor[0]);
+        }
+        return cc.Color.BLACK.fromHEX(hexStr);
     }
 }

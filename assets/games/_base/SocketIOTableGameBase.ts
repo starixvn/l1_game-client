@@ -63,7 +63,7 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     }
 
     onDataGameRoom(data) {
-        if (data.history) {
+        if (data.history && this.historyComponent) {
             this.historyComponent.onData(data.history);
         }
         this.onDataGameRoomGeneral(data);

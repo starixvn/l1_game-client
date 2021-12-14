@@ -60,8 +60,8 @@ export default class ChipView extends cc.Component {
         this.label.node.color = this.type === ChipDisplayType.VIP ? cc.Color.YELLOW : cc.Color.WHITE;
     }
 
-    applyForSmallChip() {
-        this.label.node.active = false;
+    applyForSmallChip(showValue = false) {
+        this.label.node.active = showValue;
 
         this.typeNodes[0].children.forEach((node) => {
             const sprite = node.getComponent(cc.Sprite);

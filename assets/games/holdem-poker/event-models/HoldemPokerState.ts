@@ -1,0 +1,15 @@
+export enum HoldemPokerState {
+  blank_new = 0,
+  prepare_new,
+  replay_new,
+  ante_bet,
+  aa_bet,
+  all_bet,
+  calling_deal,
+  dealing,
+  dealt,
+  calling_call,
+  calling_x2call,
+  calling_fold,
+  settled,
+}

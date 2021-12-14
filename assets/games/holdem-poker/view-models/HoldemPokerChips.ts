@@ -1,0 +1,237 @@
+import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import ChipStack from "../../../common/chip-stack/views/ChipStack";
+import GameUtils from "../../../common/GameUtils";
+import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
+import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
+import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
+import HoldemPoker from "./HoldemPoker";
+import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
+
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class HoldemPokerChips extends cc.Component {
+    private durationAnimationWinning = 4;
+    private readonly chipScale = 0.5;
+
+    public createChip(betChips: BetChips, amount: number): cc.Node {
+        return betChips.createSmallChip(amount, 1, true);
+    }
+
+    public createChipStack(betAmount: number, betChips: BetChips, shadowFrame: cc.SpriteFrame) {
+        const values = GameUtils.getChipQuantity(betAmount, betChips.chipValues);
+        const node = new cc.Node();
+        const chipStack = node.addComponent(ChipStack);
+
+        const keys = Object.keys(values).sort((a, b) => +b - +a);
+        let firstChip = true;
+        keys.forEach((chip, index) => {
+            if (+chip > 0) {
+                const count = values[chip];
+                for (let i = 0; i < count; i++) {
+                    const chipNode = this.createChip(betChips, +chip);
+                    chipStack.addChip(chipNode);
+
+                    if (firstChip && i === 0) {
+                        firstChip = false;
+                        const shadow = new cc.Node();
+                        shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
+                        chipNode.addChild(shadow);
+                    }
+                }
+            }
+        });
+        node.scaleX = this.chipScale;
+        node.scaleY = 0.75 * this.chipScale;
+        return node;
+    }
+
+    public flyChipToBetPlace(betChips: BetChips, destNode: cc.Node, shadowChip: cc.SpriteFrame, betAmount: number, totalAmount: number) {
+        if (!betAmount) {
+            return;
+        }
+        const chipNode = this.createChip(betChips, betAmount) || this.createChipStack(betAmount, betChips, shadowChip);
+        chipNode.scale = this.chipScale;
+        const startNode = betChips.getChipNode(betAmount) || betChips.node;
+        chipNode.position = cc.v3(destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v2(0, 0))));
+        destNode.addChild(chipNode);
+
+        let destPosition = cc.v2(0, 0);
+        const isHasAnyChip = destNode.childrenCount > 0;
+        if (isHasAnyChip) {
+            const stack = destNode.children[0].getComponent(ChipStack);
+            if (stack) {
+                destPosition = cc.v2(0, stack.getCurrentHeight());
+            }
+        }
+
+        const updateChipStack = () => {
+            this.updateChipStack(betChips, destNode, shadowChip, totalAmount);
+        };
+
+        chipNode.runAction(cc.sequence(cc.jumpTo(0.5, destPosition, 50, 1), cc.callFunc(updateChipStack)));
+    }
+
+    public updateChipStack(betChips: BetChips, destNode: cc.Node, shadowChip: cc.SpriteFrame, totalBet: number) {
+        if (totalBet && totalBet > 0) {
+            destNode.destroyAllChildren();
+            const chipStack = this.createChipStack(totalBet, betChips, shadowChip);
+            chipStack.zIndex = -1;
+            destNode.addChild(chipStack);
+        }
+    }
+
+    public showWinningOption(
+        gameData: HoldemPokerGameData<HoldemPokerChoices>,
+        bettingAreas: HoldemPokerBettingArea[],
+        betChips: BetChips,
+        main: HoldemPoker
+    ) {
+        const winningHands = gameData.finishModel.settlementResult;
+        let totalWin = 0;
+        let totalBet = 0;
+
+        for (const [key, value] of Object.entries(winningHands)) {
+            const betAmount = gameData.placeBetModel.choices[HoldemPokerChoicesConst[key]];
+            totalBet += betAmount;
+            const jumpTime = 0.65;
+            const delayBeforeFly = 0.1;
+            const bettingArea = bettingAreas.filter((a) => a.betChoice === key)[0];
+
+            if (value > 0) {
+                totalWin += +value;
+                if (+value > betAmount) {
+                    const winAmount = value - betAmount;
+                    const destNode = bettingArea.chipNode;
+                    const chipStack = this.createChipStack(winAmount, betChips, main.shadowChip);
+                    destNode.addChild(chipStack);
+                    const startPos = chipStack.parent.convertToNodeSpaceAR(main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
+                    chipStack.position = cc.v3(startPos.x, startPos.y, 0);
+
+                    let destPosition = cc.v2(0, 0);
+                    if (destNode.childrenCount > 0) {
+                        const stack = destNode.children[0].getComponent(ChipStack);
+                        if (stack) {
+                            destPosition = cc.v2(0, stack.getCurrentHeight());
+                        }
+                    }
+                    chipStack.scale = this.chipScale;
+                    chipStack.runAction(
+                        cc.sequence(
+                            cc.jumpTo(jumpTime, destPosition, 100, 1),
+                            cc.delayTime(delayBeforeFly),
+                            cc.callFunc(() => {
+                                destNode.children.length && destNode.destroyAllChildren();
+                                const chipStack = this.createChipStack(+winAmount, betChips, main.shadowChip);
+                                destNode.addChild(chipStack);
+                                this.flyChipToPlayer(chipStack, main.userAvatar.node);
+                            })
+                        )
+                    );
+                }
+                this.flyCurrentChipOnTableToPlayer(bettingAreas, key, main.userAvatar.node, jumpTime);
+            } else {
+                const bettingArea = bettingAreas.filter((a) => a.betChoice === key)[0];
+                this.flyChipToDealer(bettingArea, main.dealerChipTray, jumpTime, delayBeforeFly);
+            }
+        }
+
+        const isWin = totalWin > totalBet;
+        cc.tween(main.node)
+            .delay(totalWin > 0 ? 2.5 : 0)
+            .call(() => {
+                totalWin > 0 && main.showWinningBet(totalWin);
+                isWin && this.playWinningEffect(main, main.userAvatar.node.parent, 5);
+                main.updateUserBalance();
+            })
+            .delay(isWin ? this.durationAnimationWinning : 2.2)
+            .call(() => {
+                main.pokerCardScript.unFocusPlayerCard();
+            })
+            .call(() => {
+                gameData.finishModel.finishAnimationWinning();
+            })
+            .start();
+        main.getConfigs();
+    }
+
+    private flyCurrentChipOnTableToPlayer = (
+        bettingAreas: HoldemPokerBettingArea[],
+        betChoiceName: string,
+        userAvatar: cc.Node,
+        jumpTime: number
+    ) => {
+        const currentChipsOnTable = bettingAreas.filter((a) => a.betChoice === betChoiceName);
+        currentChipsOnTable.forEach((chips) => {
+            chips.chipNode.runAction(
+                cc.sequence(
+                    cc.delayTime(jumpTime),
+                    cc.callFunc(() => {
+                        this.flyChipToPlayer(chips.chipNode, userAvatar);
+                    })
+                )
+            );
+        });
+    };
+
+    private flyChipToPlayer(chipStack: cc.Node, userAvatar: cc.Node) {
+        const delayTime = 0.25;
+        const durationMove = 0.55;
+        const durationFadeOut = 0.45;
+        chipStack.runAction(
+            cc.sequence(
+                cc.delayTime(delayTime),
+                cc.callFunc(() => {
+                    chipStack.children.forEach((chip) => {
+                        const destination = chip.parent.convertToNodeSpaceAR(userAvatar.convertToWorldSpaceAR(cc.v2()));
+                        const playChipsSound = cc.callFunc(() => {
+                            // FIXME: play multi chip audio
+                            // DeviceSetting.getInstance().sounds.play(SoundKeys.chip.multiChip);
+                        });
+                        chip.runAction(
+                            cc.sequence(
+                                cc.spawn(cc.moveTo(durationMove, destination.add(cc.v2(30, -30))), playChipsSound),
+                                cc.fadeOut(durationFadeOut)
+                            )
+                        );
+                    });
+                })
+            )
+        );
+    }
+
+    private flyChipToDealer(bettingArea: HoldemPokerBettingArea, dealerLocation: cc.Node, jumpTime: number, delayBeforeFly: number) {
+        const clonedChip = cc.instantiate(bettingArea.chipNode);
+        bettingArea.node.addChild(clonedChip);
+        bettingArea.chipNode.destroyAllChildren();
+        const destPos = clonedChip.parent.convertToNodeSpaceAR(dealerLocation.convertToWorldSpaceAR(cc.v2(0, 0)));
+        clonedChip.runAction(
+            cc.sequence(
+                cc.spawn(cc.jumpTo(jumpTime, destPos, 100, 1), cc.scaleTo(0.8, 0.5)),
+                cc.delayTime(delayBeforeFly),
+                cc.fadeOut(0.3),
+                cc.callFunc(() => {
+                    clonedChip.destroy();
+                })
+            )
+        );
+    }
+
+    playWinningEffect(mainRoomGame: WebSocketTableGameBase, playerNode: cc.Node, duration = 5.4) {
+        const winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
+        playerNode.addChild(winningEffect);
+        const animation = winningEffect.getComponent(cc.Animation);
+
+        winningEffect.runAction(
+            cc.sequence(
+                cc.callFunc(() => {
+                    animation.play();
+                }),
+                cc.delayTime(duration),
+                cc.callFunc(() => {
+                    winningEffect.destroy();
+                })
+            )
+        );
+    }
+}

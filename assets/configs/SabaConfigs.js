@@ -32,12 +32,20 @@ const configs = {
         Lottery: 31,
         ThreeCards: 35,
         HeroesSlot: 38,
+        CasinoHoldemPoker: 39,
+        TexasHoldemPoker: 42,
         BitcoinMaster: 43
     },
     GameInfos: {
         43: {
             key: "BitcoinMaster",
             mini: true
+        },
+        39: {
+            key: "CasinoHoldemPoker"
+        },
+        42: {
+            key: "CasinoHoldemPoker"
         },
         38: {
             key: "HeroesSlot"
