@@ -386,7 +386,7 @@ window.i18n.languages.th = {
         betType_break: "ชนิดการเดิมพัน",
         totalStake_shorten: "เดิมพันรวม",
         new: "ใหม่",
-        new2: "ใหม่",
+        new2: "ใหม่!",
         Date: "เวลา",
         GameRoundResult: "ผลรอบเกม",
         GameType: "",
