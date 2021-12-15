@@ -222,7 +222,7 @@ window.i18n.languages.zh_cn = {
         odds: "赔率",
         lukcy_winner: "你可以成为幸运赢家！ 赶快。",
         play_now: "现在玩",
-        bonus_game: "奖金游戏",
+        bonus_game: "Bonus Game",
         total_bonus_win: "总奖金赢",
         free_spin_left: "有剩余免费旋转",
         choice_red: "红",

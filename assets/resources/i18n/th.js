@@ -234,7 +234,7 @@ window.i18n.languages.th = {
         odds: "ราคาต่อรอง",
         lukcy_winner: "คุณสามารถเป็นผู้โชคดีได้! เร็วเข้า",
         play_now: "เล่นตอนนี้!",
-        bonus_game: "",
+        bonus_game: "Bonus Game",
         total_bonus_win: "จำนวนทั้งหมดโบนัสที่ชนะ",
         free_spin_left: "มีฟรีสปินเหลืออยู่",
         choice_red: "แดง",
