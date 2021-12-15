@@ -387,6 +387,7 @@ window.i18n.languages.en = {
         betType_break: "Bet Type",
         totalStake_shorten: "Total Stake",
         new: "New",
+        new2: "New!",
         Date: "Date",
         GameRoundResult: "Game Round Result",
         GameType: "Game Type",

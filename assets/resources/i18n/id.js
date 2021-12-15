@@ -388,6 +388,7 @@ window.i18n.languages.id = {
         betType_break: "Jenis\nTaruhan",
         totalStake_shorten: "Taruhan",
         new: "Baru",
+        new2: "Baru!",
         Date: "Waktu",
         GameRoundResult: "Hasil Putaran Game",
         GameType: "",

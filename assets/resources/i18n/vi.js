@@ -394,6 +394,7 @@ window.i18n.languages.vi = {
         betType_break: "Loại Cược",
         totalStake_shorten: "Tổng Cược",
         new: "New",
+        new2: "New!",
         Date: "Thời Gian",
         GameRoundResult: "Kết Quả",
         GameType: "Trò chơi",

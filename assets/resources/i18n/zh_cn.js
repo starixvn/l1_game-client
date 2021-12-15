@@ -372,6 +372,7 @@ window.i18n.languages.zh_cn = {
         betType_break: "投注类型",
         totalStake_shorten: "总赌注",
         new: "新",
+        new2: "新!",
         Date: "时间",
         GameRoundResult: "游戏回合结果",
         GameType: "",
