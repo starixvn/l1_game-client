@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const LocalizedLabel = require("LocalizedLabel");
 
-const { ccclass, property, executeInEditMode, menu } = cc._decorator;
+const { ccclass, property, menu } = cc._decorator;
 
 export enum FormationHandler {
     NONE,
@@ -12,7 +12,6 @@ export enum FormationHandler {
 }
 
 @ccclass
-@executeInEditMode
 @menu("i18n/LocalizedLabelWithFormat")
 export default class LocalizedLabelWithFormat extends LocalizedLabel {
     @property({ type: cc.Enum(FormationHandler) })

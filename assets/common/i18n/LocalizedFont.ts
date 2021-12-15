@@ -1,4 +1,5 @@
-const { ccclass, property, executeInEditMode, menu } = cc._decorator;
+import ColorAssembler2D from "../../../assets/common/ColorAssembler2D";
+const { ccclass, property, menu } = cc._decorator;
 
 const LanguageFont = cc.Class({
     name: "LanguageFont",
@@ -9,18 +10,19 @@ const LanguageFont = cc.Class({
 });
 
 @ccclass
-@executeInEditMode
 @menu("i18n/LocalizedFont")
 export default class LocalizedFont extends cc.Component {
     @property({ type: LanguageFont })
     overrideFonts: LanguageFont[] = [];
 
     label: cc.Label = null;
+    color2D: ColorAssembler2D = null;
     fontBases = {};
 
     onLoad() {
         this.initData();
         this.label = this.node.getComponent(cc.Label);
+        this.color2D = this.node.getComponent(ColorAssembler2D);
         this.updateFont();
     }
 
@@ -40,6 +42,7 @@ export default class LocalizedFont extends cc.Component {
         if (this.label) {
             this.loadFont(name).then((font) => {
                 this.label.font = font;
+                this.color2D && this.color2D.updateColors();
             });
         }
     }
