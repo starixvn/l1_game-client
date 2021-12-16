@@ -1,21 +1,15 @@
-const SpriteFrameSet = require("SpriteFrameSet");
-const LocalizedSprite = require("LocalizedSprite");
-
-const { ccclass, property, executeInEditMode, menu } = cc._decorator;
+const { ccclass, property, menu, executeInEditMode } = cc._decorator;
 const pathRoot = "image";
 
 @ccclass
 @executeInEditMode
 @menu("i18n/LocalizedLoadSprite")
-export default class LocalizedLoadSprite extends LocalizedSprite {
+export default class LocalizedLoadSprite extends cc.Component {
     @property()
     gameId = 0;
 
     @property()
     nameImage = "";
-
-    @property({ type: SpriteFrameSet, visible: false, override: true })
-    spriteFrameSet: SpriteFrameSet[] = [];
 
     protected sprite: cc.Sprite;
 
@@ -23,7 +17,7 @@ export default class LocalizedLoadSprite extends LocalizedSprite {
         this.fetchRender();
     }
 
-    fetchRender() {
+    public fetchRender() {
         const sprite = this.getComponent(cc.Sprite);
         if (sprite) {
             this.sprite = sprite;
@@ -32,7 +26,7 @@ export default class LocalizedLoadSprite extends LocalizedSprite {
         }
     }
 
-    getSpriteFrameByLang(lang: string, name: string, gameId: number) {
+    public getSpriteFrameByLang(lang: string, name: string, gameId: number) {
         return new Promise<cc.SpriteFrame>((resolve) => {
             cc.resources.load<cc.SpriteFrame>(`${pathRoot}/${lang}/${gameId}/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
                 resolve(spriteFrame);
