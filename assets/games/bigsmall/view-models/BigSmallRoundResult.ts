@@ -16,8 +16,8 @@ export default abstract class BigSmallRoundResult extends cc.Component {
     @property(cc.SpriteAtlas)
     atlas: cc.SpriteAtlas = null;
 
-    @property(cc.Label)
-    total: cc.Label = null;
+    @property(cc.Sprite)
+    total: cc.Sprite = null;
 
     @property(cc.Sprite)
     result: cc.Sprite = null;
@@ -39,7 +39,7 @@ export default abstract class BigSmallRoundResult extends cc.Component {
         const choice = this.getTextFollowChoice({ settlementResult });
         const name = `scoreboard_${choice}`;
 
-        this.total.string = result.dice1 + result.dice2 + result.dice3;
+        this.total.spriteFrame = this.atlas.getSpriteFrame(result.dice1 + result.dice2 + result.dice3);
 
         this.result.spriteFrame = this.getSpriteFrameByLang(name, lang);
     }
