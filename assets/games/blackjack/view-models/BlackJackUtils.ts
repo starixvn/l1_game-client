@@ -48,7 +48,13 @@ export default class BlackJackUtils {
         keys.forEach((chip) => {
             const count = values[chip];
             for (let i = 0; i < count; i++) {
-                const chipNode = betChips.createBigChip(+chip);
+                let chipNode: cc.Node;
+                if (+chip === 0) {
+                    chipNode = betChips.createLowValueChip();
+                    chipNode.scale = 1 / betChips.smallChipScale;
+                } else {
+                    chipNode = betChips.createBigChip(+chip);
+                }
                 chipStack.addChip(chipNode);
 
                 if (firstChip && i === 0) {
