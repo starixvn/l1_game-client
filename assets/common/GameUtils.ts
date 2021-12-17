@@ -160,6 +160,13 @@ export default class GameUtils {
 
     public static getValueByCurrency(value: number, otherRate?: number): number {
         if (!otherRate) {
+            otherRate = 1;
+        }
+        return (value * otherRate) / cc.RedT.user.rate;
+    }
+
+    public static getValueByCurrencyForTicket(value: number, otherRate?: number): number {
+        if (!otherRate) {
             const defaultRate = systemType === SystemType.SC1 ? 1 : 1000;
             otherRate = defaultRate;
         }

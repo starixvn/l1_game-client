@@ -28,10 +28,10 @@ export default class BalancedBettingPoolBetItemBase extends cc.Component {
         this.time.string = getStringHourByTime(data.time);
         this.username.string = isLoginUser ? data.name : shortenName(data.name);
 
-        const convertValue = GameUtils.getValueByCurrency(data.amount, data.rate || 1);
+        const convertValue = GameUtils.getValueByCurrencyForTicket(data.amount, data.rate);
         this.betAmount.string = numberWithCommas(convertValue, 2);
 
-        const convertRefund = GameUtils.getValueByCurrency(data.refund, data.rate || 1);
+        const convertRefund = GameUtils.getValueByCurrencyForTicket(data.refund, data.rate);
         this.refund.string = numberWithCommas(convertRefund, 2);
     }
 }
