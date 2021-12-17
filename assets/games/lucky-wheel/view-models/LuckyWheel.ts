@@ -376,7 +376,7 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
         const history = node.getComponent(LuckyWheelHistory);
         history.init(this.socket);
         this.historyComponent = history;
-        this.node.addChild(node);
+        this.currentMiniPanel.addDialog(node);
     }
 
     onPressedGameGuide() {
@@ -384,8 +384,8 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
         const locale = getLocale();
         const language = getLanguage(locale);
         const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(`/${language}/?name=luckyWheel&t=blue&v=${Date.now()}`);
-        this.node.addChild(dialog);
+        guide.setURL(`/${language}/?name=luckyWheel&t=blue&c=0&v=${Date.now()}`);
+        this.currentMiniPanel.addDialog(dialog);
         guide.loadWebView();
     }
 
