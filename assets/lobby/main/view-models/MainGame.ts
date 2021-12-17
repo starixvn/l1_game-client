@@ -100,6 +100,7 @@ export default class MainGame extends cc.Component {
     onDestroy() {
         cc.RedT.MiniPanel.destroy();
         cc.RedT.inGame = null;
+        window.isSSO = false;
     }
 
     onLoad() {
@@ -278,7 +279,6 @@ export default class MainGame extends cc.Component {
         }
 
         this.lobbyMenu.setCategory(category);
-        window.isSSO = false;
     }
 
     initBanners() {
@@ -549,13 +549,14 @@ export default class MainGame extends cc.Component {
             GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
+            return;
+        }
+
+        this.inRoomGameId = sessionManager.getInRoomGameId();
+        if (this.inRoomGameId) {
+            this.openInRoomGame(this.inRoomGameId);
         } else {
-            this.inRoomGameId = sessionManager.getInRoomGameId();
-            if (this.inRoomGameId) {
-                this.openInRoomGame(this.inRoomGameId);
-            } else {
-                this.openLuckyWheel();
-            }
+            window.isSSO && this.openLuckyWheel();
         }
     }
 
