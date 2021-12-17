@@ -1,7 +1,9 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import { systemType } from "../configs/Configs";
 import { GameInfos } from "../configs/SabaConfigs";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
+import { SystemType } from "../System";
 import { numberWithCommas } from "./helpers/NumberHelper";
 
 export default class GameUtils {
@@ -157,8 +159,9 @@ export default class GameUtils {
     }
 
     public static getValueByCurrency(value: number, otherRate?: number): number {
-        if (otherRate === undefined) {
-            otherRate = 1;
+        if (!otherRate) {
+            const defaultRate = systemType === SystemType.SC1 ? 1 : 1000;
+            otherRate = defaultRate;
         }
         return (value * otherRate) / cc.RedT.user.rate;
     }
