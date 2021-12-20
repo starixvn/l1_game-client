@@ -391,6 +391,7 @@ export default class BetChips extends cc.Component {
         if (bet === 0) {
             const node = this.createLowValueChip();
             node.rotation = _.random(0, 360);
+            node.scale = this.smallChipScale;
             return node;
         }
         const chip = this.createBigChip(bet);
@@ -404,6 +405,8 @@ export default class BetChips extends cc.Component {
     public createLowValueChip() {
         const node = new cc.Node();
         const sprite = node.addComponent(cc.Sprite);
+        sprite.sizeMode = cc.Sprite.SizeMode.RAW;
+        sprite.trim = false;
         sprite.spriteFrame = this.lowValueChipSprite;
 
         return node;
