@@ -301,7 +301,7 @@ window.i18n.languages.vi = {
         prize_sixth: "Sáu",
         prize_special: "Đặc Biệt",
         prize_third: "Ba",
-        placing_bet: "Đang nhận cược",
+        placing_bet: "Đang Nhận Cược",
         no_more_bet: "Dừng nhận cược",
         title_special: "Giải Đặc Biệt phiên trước",
         lottery_others_notice: "Kết quả được tính dựa trên hai số cuối của giải Đặc Biệt.",
@@ -375,6 +375,7 @@ window.i18n.languages.vi = {
         win: "Thắng",
         round: "Phiên",
         reconnect: "Kết nối",
+        ok2: "OK",
         bettingPrice: "Giá Đặt Lệnh",
         waitResult: "Chờ kết quả",
         choice_up: "Tăng",
@@ -409,6 +410,10 @@ window.i18n.languages.vi = {
         Over: "Tài",
         Under: "Xỉu",
         "Team Blue": "Đội Xanh",
-        "Team Red": "Đội Đỏ"
+        "Team Red": "Đội Đỏ",
+        GameNotSupported: "Rất tiếc, chức năng này hiện chưa được hỗ trợ.",
+        NoDataAvailable: "Không có dữ liệu",
+        ticket_details: "Chi Tiết Cược",
+        bet_details: "Đặt Cươc"
     }
 };

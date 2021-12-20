@@ -368,6 +368,7 @@ window.i18n.languages.en = {
         win: "Win",
         round: "Round",
         reconnect: "Reconnect",
+        ok2: "OK",
         bettingPrice: "Betting Price",
         waitResult: "Wait for result",
         choice_up: "Up",
@@ -402,6 +403,10 @@ window.i18n.languages.en = {
         Over: "Over",
         Under: "Under",
         "Team Blue": "Team Blue",
-        "Team Red": "Team Red"
+        "Team Red": "Team Red",
+        GameNotSupported: "Sorry! The function is currently not supported for this game.",
+        NoDataAvailable: "No data available",
+        ticket_details: "Ticket details",
+        bet_details: "Bet Details"
     }
 };

@@ -353,6 +353,7 @@ window.i18n.languages.zh_cn = {
         win: "赢",
         round: "回合",
         reconnect: "重新连接",
+        ok2: "好的",
         bettingPrice: "投注价格",
         waitResult: "等待结果",
         choice_up: "上",
@@ -380,13 +381,17 @@ window.i18n.languages.zh_cn = {
         NoteDetail: "数据仅在从当前日期起的最后 7 天内可用。",
         RoundId: "",
         Search: "搜索",
-        "First Half": "",
-        Away: "",
-        Home: "",
-        "Full Time": "",
-        Over: "",
-        Under: "",
-        "Team Blue": "",
-        "Team Red": ""
+        "First Half": "First Half",
+        Away: "Away",
+        Home: "Home",
+        "Full Time": "Full Time",
+        Over: "Over",
+        Under: "Under",
+        "Team Blue": "Team Blue",
+        "Team Red": "Team Red",
+        GameNotSupported: "Sorry! The function is currently not supported for this game.",
+        NoDataAvailable: "No data available",
+        ticket_details: "Ticket details",
+        bet_details: "Bet Details"
     }
 };
