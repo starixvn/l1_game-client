@@ -1,4 +1,5 @@
-import { ComponentSystem, ICashSystem, ICreditSystem, SystemType } from '../System';
+import { SystemType } from "../ISystem";
+import { ComponentSystem, ICashSystem, ICreditSystem } from "../System";
 
 const { ccclass, property } = cc._decorator;
 

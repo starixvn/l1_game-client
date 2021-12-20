@@ -1,6 +1,8 @@
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { systemType } from "../../../configs/Configs";
+import { SystemType } from "../../../ISystem";
 import BalancedBettingPoolBetItemBase from "../BalancedBettingPoolBetItemBase";
 import BalancedBettingPoolGameBase from "../BalancedBettingPoolGameBase";
 
@@ -82,10 +84,11 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
         this.main.socket.emit("getRound", { roundId });
     }
 
-    addItem(data: any) {
+    addItem(data: any, isOldTicketData = false) {
         const item = cc.instantiate(this.itemPrefab);
         const itemComponent = item.getComponent(BalancedBettingPoolBetItemBase);
-        itemComponent.setData(data);
+        const multiplier = this.getMultiplierForTicket(isOldTicketData);
+        itemComponent.setData(data, multiplier);
         return item;
     }
 
@@ -113,17 +116,26 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
     }
 
     loadData(choice: string, containerNode: cc.Node, betAmountLabel: cc.Label, refundLabel: cc.Label) {
+        let isOldTicketData = false;
         if (this.data[choice] && this.itemPrefab) {
             this.data[choice].forEach((user) => {
-                const item = this.addItem(user);
+                if (user.rate === undefined) {
+                    isOldTicketData = true;
+                }
+
+                const item = this.addItem(user, isOldTicketData);
                 containerNode.addChild(item);
             });
         }
 
-        this.setAmount(this.data.total[choice], betAmountLabel, refundLabel);
+        this.setAmount(this.data.total[choice], betAmountLabel, refundLabel, isOldTicketData);
     }
 
-    setAmount(total: any, betAmountLabel: cc.Label, refundLabel: cc.Label) {
+    private getMultiplierForTicket(isOldTicketData = false) {
+        return systemType === SystemType.SC2 && isOldTicketData ? 1000 : 1;
+    }
+
+    setAmount(total: any, betAmountLabel: cc.Label, refundLabel: cc.Label, isOldTicketData = false) {
         let betAmount = 0;
         let refund = 0;
 
@@ -132,8 +144,9 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
             refund = total.refund;
         }
 
-        const convertBetAmount = GameUtils.getValueByCurrency(betAmount || 0);
-        const convertRefund = GameUtils.getValueByCurrency(refund || 0);
+        const multiplier = this.getMultiplierForTicket(isOldTicketData);
+        const convertBetAmount = GameUtils.getValueByCurrency(betAmount || 0, 1 * multiplier);
+        const convertRefund = GameUtils.getValueByCurrency(refund || 0, 1 * multiplier);
         betAmountLabel.string = numberWithCommas(convertBetAmount, 2);
         refundLabel.string = numberWithCommas(convertRefund, 2);
     }

@@ -1,15 +1,7 @@
-import { injectable } from 'inversify';
+import { injectable } from "inversify";
 
-import * as configs from './configs/Configs.js';
-
-interface ISystem {
-    initSystem(): void;
-}
-
-export enum SystemType {
-    SC1 = "SC1",
-    SC2 = "SC2"
-}
+import * as configs from "./configs/Configs.js";
+import { ISystem, SystemType } from "./ISystem";
 
 export interface ICreditSystem extends ISystem {
     customizeCredit(): void;

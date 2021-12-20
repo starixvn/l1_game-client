@@ -41,7 +41,7 @@ describe("Test class BalancedBettingPoolBetItemBase", () => {
             };
 
             // Act
-            comp.setData(data);
+            comp.setData(data, 1);
 
             // Assert
             const isLoginUser = data.name === cc.RedT.user.name;
