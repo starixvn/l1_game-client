@@ -189,6 +189,44 @@ p.footer {
     background-image: url("splash_text_sc2_en.png");
 }
 
+/* Noel Events */
+.background-noel {
+    background: url(./noel2021/pattern.png?v=1) repeat left top;
+    background-size: auto 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100vw;
+}
+
+.light {
+    position: fixed;
+    background: url(./noel2021/light.png) no-repeat;
+    background-size: 31.47vh 8.79vh;
+    width: 31.47vh;
+    height: 8.79vh;
+}
+
+.light-left {
+    left: 0;
+    top: 0;
+}
+
+.light-right {
+    right: 0;
+    top: 0;
+    transform: scaleX(-1);
+}
+
+@media only screen and (min-width: 767px) and (max-width: 1024px) {
+    .light {
+        background-size: 31.47vw 8.79vw;
+        width: 31.47vw;
+        height: 8.79vw;
+    }
+}
+
 @media only screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
     .splash {
         top: 29.5vh;
@@ -198,6 +236,27 @@ p.footer {
     .splash_text {
         top: 25vh;
         background-size: auto 2.5vh;
+    }
+
+    .background-noel {
+        background-size: auto 100vw;
+        width: 100vh;
+        transform: rotate(90deg);
+    }
+
+    .light-container {
+        position: fixed;
+        width: 100vh;
+        height: 100vw;
+        -webkit-transform: translateY(-100vw) rotate(90deg);
+        -ms-transform: translateY(-100vw) rotate(90deg); /* IE9 */
+        -o-transform: translateY(-100vw) rotate(90deg); /* Opera */
+        transform: translateY(-100vw) rotate(90deg);
+        -webkit-transform-origin: left bottom;
+        -moz-transform-origin: left bottom;
+        -ms-transform-origin: left bottom;
+        -o-transform-origin: left bottom;
+        transform-origin: left bottom;
     }
 }
 
