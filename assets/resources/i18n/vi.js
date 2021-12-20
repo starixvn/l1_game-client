@@ -78,7 +78,7 @@ window.i18n.languages.vi = {
         nickNameDistance: "Tên nhân vật phải có từ 3 đến 14 ký tự.",
         nickNameCharacter: "Không gõ dấu tiếng việt, không chứa khoảng trắng và các ký tự đặc biệt.",
         existNickName: "Tên nhân vật đã tồn tại.",
-        placeBetFailed: "Game %{gameName} (#%{gameRoundId})\n\nĐặt cược không thành công. Đặt cược thất bại!(%{errorCode})",
+        placeBetFailed: "Game %{gameName} (#%{gameRoundId})\n\nĐặt cược không thành công!(%{errorCode})",
         endGameFailed:
             "Game %{gameName} (#%{gameRoundId})\n\nPhiên chơi bị lỗi. Vui lòng liên hệ bộ phận CSKH để được hỗ trợ.(%{errorCode})",
         getBalanceFailed: "Không thể cập nhật số tiền trong tài khoản.(%{errorCode})",
