@@ -231,7 +231,7 @@ window.i18n.languages.th = {
         confirm2: "ยืนยัน",
         noOfSymbol: "จำนวน",
         index: "หมายเลข",
-        odds: "ราคาต่อรอง",
+        odds: "อัตราต่อรอง",
         lukcy_winner: "คุณสามารถเป็นผู้โชคดีได้! เร็วเข้า",
         play_now: "เล่นตอนนี้!",
         bonus_game: "Bonus Game",
