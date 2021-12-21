@@ -39,26 +39,26 @@
         "__id__": 22
       },
       {
-        "__id__": 25
+        "__id__": 26
       },
       {
-        "__id__": 28
+        "__id__": 29
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 31
-      },
-      {
         "__id__": 32
       },
       {
         "__id__": 33
+      },
+      {
+        "__id__": 34
       }
     ],
     "_prefab": {
-      "__id__": 34
+      "__id__": 35
     },
     "_opacity": 255,
     "_color": {
@@ -874,10 +874,13 @@
     "_components": [
       {
         "__id__": 23
+      },
+      {
+        "__id__": 24
       }
     ],
     "_prefab": {
-      "__id__": 24
+      "__id__": 25
     },
     "_opacity": 255,
     "_color": {
@@ -889,8 +892,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 228,
-      "height": 64
+      "width": 314,
+      "height": 38
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -942,7 +945,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "37acf361-f61e-497b-a61d-978d36a7ddad"
+      "__uuid__": "0252c5ad-453b-42ac-8228-42fbd01274cc"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -955,9 +958,19 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": {
-      "__uuid__": "5fa04dc6-c05d-4c46-a02e-fb79ed020120"
+    "_atlas": null,
+    "_id": ""
+  },
+  {
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 22
     },
+    "_enabled": true,
+    "gameId": 29,
+    "nameImage": "big_win_thang",
     "_id": ""
   },
   {
@@ -982,11 +995,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 26
+        "__id__": 27
       }
     ],
     "_prefab": {
-      "__id__": 27
+      "__id__": 28
     },
     "_opacity": 255,
     "_color": {
@@ -1040,7 +1053,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 26
     },
     "_enabled": true,
     "_materials": [
@@ -1091,11 +1104,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 29
+        "__id__": 30
       }
     ],
     "_prefab": {
-      "__id__": 30
+      "__id__": 31
     },
     "_opacity": 255,
     "_color": {
@@ -1149,7 +1162,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 28
+      "__id__": 29
     },
     "_enabled": true,
     "_materials": [
@@ -1245,10 +1258,10 @@
     },
     "_enabled": true,
     "animation": {
-      "__id__": 32
+      "__id__": 33
     },
     "amountLabel": {
-      "__id__": 29
+      "__id__": 30
     },
     "delayShowMoney": 2,
     "durationShowTotal": 0,
