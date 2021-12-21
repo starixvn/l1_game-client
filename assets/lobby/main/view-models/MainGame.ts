@@ -393,15 +393,7 @@ export default class MainGame extends cc.Component {
     }
 
     Authorized(Authorized) {
-        /*
-        this.loading.active = false;
-
-        if (!Authorized) {
-            this.showSignName();
-        } else {
-            this.signIn();
-        }
-        */
+        this.getJackpotInfo();
     }
 
     serviceAuthorized(Authorized) {
