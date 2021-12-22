@@ -163,6 +163,17 @@ export default class GameUtils {
         return (value * otherRate) / cc.RedT.user.rate;
     }
 
+    public static getTicketValueByCurrency(value: number, userRate?: number, otherRate?: number): number {
+        if (!otherRate) {
+            otherRate = 1;
+        }
+
+        if (!userRate) {
+            userRate = cc.RedT.user.rate;
+        }
+        return (value * otherRate) / userRate;
+    }
+
     public static getFilterValuesByStakeLevel(values: number[], gameConfigs: any): number[] {
         let minBet = gameConfigs.minBet;
         let maxBet = gameConfigs.maxBet;

@@ -84,11 +84,11 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
         this.main.socket.emit("getRound", { roundId });
     }
 
-    addItem(data: any, isOldTicketData = false) {
+    addItem(data: any, userRate: number, isOldTicketData = false) {
         const item = cc.instantiate(this.itemPrefab);
         const itemComponent = item.getComponent(BalancedBettingPoolBetItemBase);
         const multiplier = this.getMultiplierForTicket(isOldTicketData);
-        itemComponent.setData(data, multiplier);
+        itemComponent.setData(data, userRate, multiplier);
         return item;
     }
 
@@ -123,19 +123,19 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
                     isOldTicketData = true;
                 }
 
-                const item = this.addItem(user, isOldTicketData);
+                const item = this.addItem(user, this.data.playerRate, isOldTicketData);
                 containerNode.addChild(item);
             });
         }
 
-        this.setAmount(this.data.total[choice], betAmountLabel, refundLabel, isOldTicketData);
+        this.setAmount(this.data.total[choice], betAmountLabel, refundLabel, this.data.playerRate, isOldTicketData);
     }
 
     private getMultiplierForTicket(isOldTicketData = false) {
         return systemType === SystemType.SC2 && isOldTicketData ? 1000 : 1;
     }
 
-    setAmount(total: any, betAmountLabel: cc.Label, refundLabel: cc.Label, isOldTicketData = false) {
+    setAmount(total: any, betAmountLabel: cc.Label, refundLabel: cc.Label, userRate: number, isOldTicketData = false) {
         let betAmount = 0;
         let refund = 0;
 
@@ -145,8 +145,8 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
         }
 
         const multiplier = this.getMultiplierForTicket(isOldTicketData);
-        const convertBetAmount = GameUtils.getValueByCurrency(betAmount || 0, 1 * multiplier);
-        const convertRefund = GameUtils.getValueByCurrency(refund || 0, 1 * multiplier);
+        const convertBetAmount = GameUtils.getTicketValueByCurrency(betAmount || 0, userRate, 1 * multiplier);
+        const convertRefund = GameUtils.getTicketValueByCurrency(refund || 0, userRate, 1 * multiplier);
         betAmountLabel.string = numberWithCommas(convertBetAmount, 2);
         refundLabel.string = numberWithCommas(convertRefund, 2);
     }
