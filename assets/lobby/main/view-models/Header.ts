@@ -23,24 +23,47 @@ export default class Header extends cc.Component {
     @property(cc.Prefab)
     NoticePrefab: cc.Prefab = null;
 
+    private data = { name: "", avatar: null, balance: "" };
+
     onLoad() {
-        if (!cc.RedT.IS_LOGIN) {
-            this.userName.string = this.userRed.string = "";
-            this.avatar.node.active = false;
-            this.userRed.node.parent.active = false;
+        this.clearUserInfo();
+    }
+
+    clearUserInfo() {
+        this.userName.string = this.userRed.string = "";
+        this.avatar.node.active = false;
+        this.userRed.node.parent.active = false;
+    }
+
+    updateDisplay() {
+        const { name, avatar, balance } = this.data;
+
+        this.userName.string = name;
+
+        if (avatar) {
+            this.avatar.spriteFrame = avatar;
+            this.avatar.node.active = true;
         }
+
+        this.userRed.node.parent.active = true;
+        this.userRed.string = balance;
+    }
+
+    setUserName(userName: string) {
+        this.data.name = userName;
+        this.updateDisplay();
     }
 
     setBalance(balance: string) {
-        this.userRed.node.parent.active = true;
-        this.userRed.string = balance;
+        this.data.balance = balance;
+        this.updateDisplay();
     }
 
     setAvatar(avatarId) {
         GameUtils.getAvatarSprite(avatarId).then((frame) => {
             if (this && this.avatar && frame) {
-                this.avatar.spriteFrame = frame;
-                this.avatar.node.active = true;
+                this.data.avatar = frame;
+                this.updateDisplay();
             }
         });
     }

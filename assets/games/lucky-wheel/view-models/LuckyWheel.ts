@@ -5,7 +5,6 @@ import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import AudioManager from "../../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import UmWarning from "../../../common/um-warning/UmWarning";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { GameIds } from "../../../configs/SabaConfigs";
@@ -81,9 +80,6 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
 
     @property(cc.Prefab)
     bannerPrefab: cc.Prefab = null;
-
-    @property(UmWarning)
-    umNotice: UmWarning = null;
 
     @property(cc.Node)
     notice: cc.Node = null;

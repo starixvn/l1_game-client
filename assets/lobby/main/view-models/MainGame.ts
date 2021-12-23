@@ -226,7 +226,7 @@ export default class MainGame extends cc.Component {
         if (cc.RedT.IS_LOGIN) {
             cc.RedT.send({ scene: "home" });
             this.onSignIn();
-            this.header.userName.string = cc.RedT.user.name;
+            this.header.setUserName(cc.RedT.user.name);
             this.header.setBalance(this.formatUserCurrency(cc.RedT.user.red));
             this.header.setAvatar(cc.RedT.user.avatarId);
             (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
@@ -488,7 +488,7 @@ export default class MainGame extends cc.Component {
         }
 
         if (void 0 !== data.name) {
-            this.header.userName.string = data.name;
+            this.header.setUserName(data.name);
             sentryLogger.setCharacterName(data.name);
         }
 
