@@ -134,7 +134,8 @@ window.i18n.languages.zh_cn = {
         userNotFoundPlaceBet: "%{gameName} 游戏 (#%{gameRoundId})\n\n下注失败！ 未找到用户。(%{errorCode})",
         sysMaintenancePlaceBet: "%{gameName} 游戏 (#%{gameRoundId})\n\n下注失败！ 游戏正在维护中。",
         networkErrorPlaceBet: "%{gameName} 游戏 (#%{gameRoundId})\n\n下注失败！ 网络错误。(%{errorCode})",
-        noGameOffer: "您的帐户不支持此游戏。请联系您的上线，谢谢。"
+        noGameOffer: "您的帐户不支持此游戏。请联系您的上线，谢谢。",
+        sessionTimeout_break: "您的会话已超时或您尚未登录。\n请关闭当前窗口并再次尝试登录。"
     },
     ui: {
         choice_red2: "2 红",

@@ -154,7 +154,9 @@ window.i18n.languages.vi = {
         userNotFoundPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nKhông tìm thấy người chơi này. Đặt cược thất bại!(%{errorCode})",
         sysMaintenancePlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nHệ thống đang được bảo trì.",
         networkErrorPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nLỗi kết nối mạng. Đặt cược thất bại!(%{errorCode})",
-        noGameOffer: "Tài khoản của bạn không được hỗ trợ trên cổng game này. Vui lòng liên hệ với cấp trên."
+        noGameOffer: "Tài khoản của bạn không được hỗ trợ trên cổng game này. Vui lòng liên hệ với cấp trên.",
+        sessionTimeout_break:
+            "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\nVui lòng đóng cửa sổ game và thử đăng nhập lại."
     },
     ui: {
         choice_red2: "2 Đỏ",

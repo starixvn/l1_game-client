@@ -81,10 +81,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 16
+        "__id__": 17
       },
       {
-        "__id__": 17
+        "__id__": 18
       }
     ],
     "_prefab": null,
@@ -369,13 +369,13 @@
         "__id__": 9
       },
       {
-        "__id__": 12
+        "__id__": 13
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 15
+        "__id__": 16
       }
     ],
     "_prefab": null,
@@ -390,7 +390,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 200,
-      "height": 233.4
+      "height": 216.96
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -441,6 +441,9 @@
       },
       {
         "__id__": 11
+      },
+      {
+        "__id__": 12
       }
     ],
     "_prefab": null,
@@ -454,8 +457,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 804.7,
-      "height": 101.7
+      "width": 1609.41,
+      "height": 216.96
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -467,14 +470,14 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        65.85,
+        1.4210854715202004e-14,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -506,10 +509,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\n Vui lòng đóng cửa sổ game và thử đăng nhập lại.",
-    "_N$string": "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\n Vui lòng đóng cửa sổ game và thử đăng nhập lại.",
-    "_fontSize": 24,
-    "_lineHeight": 45,
+    "_string": "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\nVui lòng đóng cửa sổ game và thử đăng nhập lại.",
+    "_N$string": "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\nVui lòng đóng cửa sổ game và thử đăng nhập lại.",
+    "_fontSize": 48,
+    "_lineHeight": 96,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "0763b17c-4af5-4b06-aaf9-9ab41eb64775"
@@ -538,6 +541,17 @@
     "_id": "ddipIWEBdByrhD98K0DnuY"
   },
   {
+    "__type__": "744dcs4DCdNprNhG0xwq6FK",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 9
+    },
+    "_enabled": true,
+    "_dataId": "messages.sessionTimeout_break",
+    "_id": "40LxxP+alEJ6QZm+iYVMLi"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "content-en",
     "_objFlags": 0,
@@ -545,13 +559,13 @@
       "__id__": 8
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
-        "__id__": 13
+        "__id__": 14
       },
       {
-        "__id__": 14
+        "__id__": 15
       }
     ],
     "_prefab": null,
@@ -607,7 +621,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 12
+      "__id__": 13
     },
     "_enabled": true,
     "_materials": [
@@ -642,7 +656,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 12
+      "__id__": 13
     },
     "_enabled": true,
     "overrideFonts": [],
@@ -659,7 +673,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 200,
-      "height": 233.4
+      "height": 216.96
     },
     "_resize": 1,
     "_N$layoutType": 2,

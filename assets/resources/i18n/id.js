@@ -148,7 +148,8 @@ window.i18n.languages.id = {
         userNotFoundPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Pengguna tidak ditemukan.(%{errorCode})",
         sysMaintenancePlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Permainan sedang dalam pemeliharaan.",
         networkErrorPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Kesalahan jaringan.(%{errorCode})",
-        noGameOffer: "Akun Anda tidak didukung di portal game ini. Silakan hubungi upline Anda, terima kasih."
+        noGameOffer: "Akun Anda tidak didukung di portal game ini. Silakan hubungi upline Anda, terima kasih.",
+        sessionTimeout_break: "Sesi Anda telah habis atau Anda belum masuk.\nHarap tutup jendela saat ini dan coba masuk lagi."
     },
     ui: {
         choice_red2: "2 Merah",

@@ -147,7 +147,9 @@ window.i18n.languages.en = {
         userNotFoundPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! User was not found.(%{errorCode})",
         sysMaintenancePlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! The game is under maintenance.",
         networkErrorPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Network error.(%{errorCode})",
-        noGameOffer: "Your account is not supported on this game portal. Please contact your upline, thank you."
+        noGameOffer: "Your account is not supported on this game portal. Please contact your upline, thank you.",
+        sessionTimeout_break:
+            "Your session has timed out or you have not logged in yet.\nPlease close the current windows and try to login again."
     },
     ui: {
         choice_red2: "2 Red",
