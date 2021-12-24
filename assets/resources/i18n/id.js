@@ -188,7 +188,7 @@ window.i18n.languages.id = {
         undo: "Kembali",
         rebet: "Rebate",
         totalStake: "Jumlah Taruhan",
-        betChoice: "Pilihan Taruhan",
+        betChoice: "Total Taruhan",
         betType: "Jenis Taruhan",
         ok: "Konfirmasi",
         choice_earth: "Bumi",
