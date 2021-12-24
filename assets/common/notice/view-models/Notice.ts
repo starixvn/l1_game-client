@@ -101,6 +101,7 @@ export default class Notice extends cc.Component {
     public setMessage(message: string) {
         if (message) {
             this.message.string = message;
+            this.updateCacheModeFollowLanguage();
         }
     }
 
@@ -114,5 +115,14 @@ export default class Notice extends cc.Component {
         }
     }
 
-    // update (dt) {}
+    updateCacheModeFollowLanguage() {
+        switch (window.i18n.curLang) {
+            case "vi":
+            case "en":
+            case "id":
+                return (this.message.cacheMode = 2);
+            default:
+                break;
+        }
+    }
 }
