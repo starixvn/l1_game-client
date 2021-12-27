@@ -1,4 +1,3 @@
-import GameUtils from "../../common/GameUtils";
 import { shortenName } from "../../common/helpers/NicknameHelper";
 import { getStringDateByTime } from "./../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "./../../common/helpers/NumberHelper";
@@ -34,14 +33,7 @@ export default class SlotGameTopWinnerItem extends cc.Component {
             this.amount.string = numberWithCommas(player.bet, 1);
         }
 
-        let winAmount: number;
-        if (player.rate && player.viewRate) {
-            winAmount = GameUtils.getTicketValueByCurrency(player.winningAmount, player.viewRate, player.rate);
-        } else {
-            winAmount = player.winningAmount;
-        }
-
-        this.win.string = numberWithCommas(winAmount, 2);
+        this.win.string = numberWithCommas(player.winningAmount, 2);
 
         if (isLoginUser) {
             this.time.node.color = cc.Color.YELLOW;
