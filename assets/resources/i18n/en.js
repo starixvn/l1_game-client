@@ -402,6 +402,8 @@ window.i18n.languages.en = {
         total_odd_shorten: "Total Odd",
         new: "New",
         new2: "New!",
+        mini: "mini",
+        game: "game",
         date: "Date",
         gameRoundResult: "Game Round Result",
         gameType: "Game Type",

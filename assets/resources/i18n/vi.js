@@ -404,6 +404,8 @@ window.i18n.languages.vi = {
         total_odd_shorten: "Tổng Lẻ",
         new: "New",
         new2: "New!",
+        mini: "mini",
+        game: "game",
         date: "Thời Gian",
         gameRoundResult: "Kết Quả",
         gameType: "Trò chơi",

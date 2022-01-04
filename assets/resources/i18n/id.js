@@ -400,6 +400,8 @@ window.i18n.languages.id = {
         total_odd_shorten: "Total Ganjil",
         new: "Baru",
         new2: "Baru!",
+        mini: "mini",
+        game: "game",
         date: "Waktu",
         gameRoundResult: "Hasil Putaran Game",
         gameType: "",

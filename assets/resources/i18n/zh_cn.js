@@ -384,6 +384,8 @@ window.i18n.languages.zh_cn = {
         total_odd_shorten: "总单数",
         new: "新",
         new2: "新!",
+        mini: "迷你",
+        game: "游戏",
         date: "时间",
         gameRoundResult: "游戏回合结果",
         gameType: "",
