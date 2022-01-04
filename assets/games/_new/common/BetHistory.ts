@@ -2,25 +2,31 @@ import Connection from "../connection/Connection";
 import { events } from "../connection/SocketIOConnection";
 
 export default class BetHistory extends cc.Component {
-  protected connection: Connection;
-  protected gameName: string;
-  protected currentRoundId: number;
+    protected connection: Connection;
+    protected gameName: string;
+    protected currentRoundId: number;
 
-  setConnection(connection: Connection, gameName: string, currentRoundId?: number) {
-    this.connection = connection;
-    this.gameName = gameName;
-    this.currentRoundId = currentRoundId;
+    private callback: any;
 
-    this.connection.on(gameName, this.onData.bind(this));
-  }
+    setConnection(connection: Connection, gameName: string, currentRoundId?: number) {
+        this.connection = connection;
+        this.gameName = gameName;
+        this.currentRoundId = currentRoundId;
+        this.callback = (data) => this.onData(data);
+        this.connection.on(gameName, this.callback);
+    }
 
-  getHistory(page: number = 1) {
-    this.connection && this.connection.emit(events.getHistory, { page, roundId: this.currentRoundId });
-  }
+    onDestroy() {
+        this.connection.removeListener(this.gameName, this.callback);
+    }
 
-  setId(id: number) {
-    this.currentRoundId = id;
-  }
+    getHistory(page: number = 1) {
+        this.connection && this.connection.emit(events.getHistory, { page, roundId: this.currentRoundId });
+    }
 
-  onData(data: any) {}
+    setId(id: number) {
+        this.currentRoundId = id;
+    }
+
+    onData(data: any) {}
 }
