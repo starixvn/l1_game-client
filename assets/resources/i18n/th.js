@@ -275,6 +275,7 @@ window.i18n.languages.th = {
         min: "ต่ำสุด",
         max: "สูงสุด",
         clear2: "ล้าง",
+        bj: "BJ",
         stake2: "เงินเดิมพัน",
         head: "หัว",
         tail: "หาง",

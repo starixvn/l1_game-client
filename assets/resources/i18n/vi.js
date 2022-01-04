@@ -284,6 +284,7 @@ window.i18n.languages.vi = {
         min: "Min",
         max: "Max",
         clear2: "Hủy",
+        bj: "BJ",
         stake2: "Tiền Cược",
         head: "Đầu",
         tail: "Đuôi",

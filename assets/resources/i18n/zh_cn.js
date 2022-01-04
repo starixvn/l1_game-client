@@ -263,6 +263,7 @@ window.i18n.languages.zh_cn = {
         min: "最小",
         max: "最大",
         clear2: "清除",
+        bj: "21点",
         stake2: "赌注",
         head: "头",
         tail: "尾",

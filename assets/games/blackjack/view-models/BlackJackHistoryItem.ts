@@ -94,7 +94,7 @@ export default class BlackJackHistoryItem extends cc.Component {
         if (result > 21) {
             resultLabel.string = GameUtils.getText(`ui.bust`);
         } else if (result === 21 && array.length === 2 && !isSplit) {
-            resultLabel.string = "BJ";
+            resultLabel.string = GameUtils.getText(`ui.bj`);
         } else {
             resultLabel.string = result.toString();
         }

@@ -277,6 +277,7 @@ window.i18n.languages.en = {
         min: "Min",
         max: "Max",
         clear2: "Clear",
+        bj: "BJ",
         stake2: "Stake",
         head: "Head",
         tail: "Tail",

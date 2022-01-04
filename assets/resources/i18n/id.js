@@ -277,6 +277,7 @@ window.i18n.languages.id = {
         min: "Min",
         max: "Maks",
         clear2: "Clear",
+        bj: "BJ",
         stake2: "Taruhan",
         head: "Kepala",
         tail: "Ekor",
