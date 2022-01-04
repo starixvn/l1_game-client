@@ -76,6 +76,10 @@ export default class HoldemPokerTicketHistory extends BetHistory {
 
     onLoad() {
         this.pages.init(this);
+        const commonDialog = this.getComponent(CommonDialog);
+        commonDialog.addOnDidHide(() => {
+            this.node.destroy();
+        });
     }
 
     showDialog() {
