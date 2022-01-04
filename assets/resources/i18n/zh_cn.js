@@ -373,6 +373,7 @@ window.i18n.languages.zh_cn = {
         place_bet_break: "下注",
         turbo_break: "涡轮",
         betType_break: "投注类型",
+        totalStake_break: "总赌注",
         totalStake_shorten: "总赌注",
         total_even_shorten: "总双数",
         total_odd_shorten: "总单数",

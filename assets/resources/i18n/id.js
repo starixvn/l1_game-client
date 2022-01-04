@@ -389,6 +389,7 @@ window.i18n.languages.id = {
         place_bet_break: "Pasang\nTaruhan",
         turbo_break: "Turbo",
         betType_break: "Jenis\nTaruhan",
+        totalStake_break: "Total\nTaruhan",
         totalStake_shorten: "Taruhan",
         total_even_shorten: "Total Genap",
         total_odd_shorten: "Total Ganjil",

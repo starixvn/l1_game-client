@@ -396,6 +396,7 @@ window.i18n.languages.vi = {
         place_bet_break: "Đặt Cược",
         turbo_break: "Siêu\nTốc",
         betType_break: "Loại Cược",
+        totalStake_break: "Tổng Cược",
         totalStake_shorten: "Tổng Cược",
         total_even_shorten: "Tổng Chẵn",
         total_odd_shorten: "Tổng Lẻ",

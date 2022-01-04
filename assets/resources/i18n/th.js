@@ -387,6 +387,7 @@ window.i18n.languages.th = {
         place_bet_break: "วางเดิมพัน",
         turbo_break: "เทอร์โบ",
         betType_break: "ชนิดการเดิมพัน",
+        totalStake_break: "เดิมพันรวม",
         totalStake_shorten: "เดิมพันรวม",
         total_even_shorten: "รวมคู่",
         total_odd_shorten: "รวมคี่",

@@ -389,6 +389,7 @@ window.i18n.languages.en = {
         place_bet_break: "Place Bet",
         turbo_break: "Turbo",
         betType_break: "Bet Type",
+        totalStake_break: "Total Stake",
         totalStake_shorten: "Total Stake",
         total_even_shorten: "Total Even",
         total_odd_shorten: "Total Odd",
