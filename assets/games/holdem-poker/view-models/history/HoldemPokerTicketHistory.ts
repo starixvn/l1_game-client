@@ -160,7 +160,7 @@ export default class HoldemPokerTicketHistory extends BetHistory {
         const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
         this.ticketDetailComponent = ticketDetailPrefab.getComponent(HoldemPokerTicketDetail);
         this.ticketDetailComponent.renderTitle(roundId, time);
-        this.node.addChild(ticketDetailPrefab);
+        this.root.currentMiniPanel.addDialog(ticketDetailPrefab);
     }
 
     public showTicketDetail(data) {

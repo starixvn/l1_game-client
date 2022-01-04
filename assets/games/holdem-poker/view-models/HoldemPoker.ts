@@ -1,6 +1,9 @@
+import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import NewButton from "../../../common/custom-button/NewButton";
+import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import Notice from "../../../common/notice/view-models/Notice";
 import PrefabLoader from "../../../common/PrefabLoader";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { GameIds } from "../../../configs/SabaConfigs";
 import DataHandler from "../../_base/handlers/DataHandler";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
@@ -8,6 +11,7 @@ import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { BettingAreaEvents } from "../../_new/common/betting-area/BettingArea";
 import { events } from "../../_new/connection/SocketIOConnection";
 import { updateAaOdds, updateAnteOdds, updateMinMax } from "../actions/HoldemPokerConfigActions";
+import { handleMD5, updateMD5 } from "../actions/HoldemPokerMD5Action";
 import { updateStatusGame } from "../actions/HoldemPokerNoticeActions";
 import {
     clearAllBetChips,
@@ -22,16 +26,22 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel
+    updateTotalBetLabel,
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundCounter, updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
 import { showWinningOption } from "../actions/HoldemPokerSettlementActions";
 import { renderTicketDetail } from "../actions/HoldemPokerTicketDetailActions";
 import { handleUM } from "../actions/HoldemPokerUmAction";
-import { collectCart, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
+import {
+    collectCart,
+    rawCardAfterClickCall,
+    rawCardAfterClickDeal,
+    rawCardWhenRejoin,
+} from "../components/cards/view-models/CardWrapper";
 import PokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
+import { HoldemPockerMD5Model } from "../event-models/HoldemPockerMD5Model";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
 import { HoldemPokerAfterDealModel } from "../event-models/HoldemPokerAfterDealModel";
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
@@ -45,18 +55,13 @@ import { HoldemPokerSettlement } from "../event-models/HoldemPokerSettlement";
 import { HoldemPokerStateModel } from "../event-models/HoldemPokerStateModel";
 import { HoldemPokerTicketDetailModel } from "../event-models/HoldemPokerTicketDetailModel";
 import HoldemPokerTicketHistory from "./history/HoldemPokerTicketHistory";
+import HoldemPockerMD5 from "./HoldemPockerMD5";
 import HoldemPokerAaOddsTable from "./HoldemPokerAaOddsTable";
 import HoldemPokerAnteOddsTable from "./HoldemPokerAnteOddsTable";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
 import HoldemPokerChips from "./HoldemPokerChips";
 import HoldemPokerMinMaxTable from "./HoldemPokerMinMaxTable";
 import HoldemPokerPlacingBet from "./HoldemPokerPlacingBet";
-import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
-import HoldemPockerMD5 from "./HoldemPockerMD5";
-import { handleMD5, updateMD5 } from "../actions/HoldemPokerMD5Action";
-import { HoldemPockerMD5Model } from "../event-models/HoldemPockerMD5Model";
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
-import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -144,7 +149,6 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.initPlacingBet();
         this.initBettingAreas();
         this.initButtonStatus();
-        this.initTicketHistory();
 
         this.prefabLoader.forEach((loader) => loader.initialize());
 
@@ -194,6 +198,7 @@ export default class HoldemPoker extends NewGameRoomBase {
 
     private pressedShowHistory() {
         this.playClick();
+        this.initTicketHistory();
         this.betHistoryController.setId(this.gameData.roundCounter.roundId);
         this.betHistoryController.showDialog();
     }
@@ -363,7 +368,9 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     private registerTicketDetailEvents() {
-        this.gameData.ticketDetailModel.on(HoldemPokerTicketDetailModel.Events.CHANGE, renderTicketDetail(this.betHistoryController));
+        this.gameData.ticketDetailModel.on(HoldemPokerTicketDetailModel.Events.CHANGE, (data) => {
+            renderTicketDetail(this.betHistoryController)(data);
+        });
     }
 
     //override group notice poker
