@@ -436,11 +436,10 @@ window.i18n.languages.id = {
         rebet: "Rebet",
         rebetDeal: "Rebet\n& Deal",
         placeYourBet: "Place your bets",
-        call: "call",
-        call2: "call",
+        call: "Call",
+        callChoice: "Call",
         x2Double: "X2 DOUBLE",
         fold: "Fold",
-        fourOfAKind2: "Four of a Kind",
         highCards: "High Card",
         onePair: "Pair",
         twoPairs: "Two Pairs",
@@ -457,7 +456,7 @@ window.i18n.languages.id = {
         new: "New",
         stake: "Stake",
         dealerQualifies: "Dealer qualifies on a pair of 4s or better",
-        md5String: "",
-        md5Key: ""
+        md5String: "MD5 string",
+        md5Key: "Key string"
     }
 };
