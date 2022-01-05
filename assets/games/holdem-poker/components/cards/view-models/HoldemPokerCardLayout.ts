@@ -41,7 +41,7 @@ export default class HoldemPokerCardLayout extends cc.Component {
 
     cardSizeWidth = 76;
 
-    selectedPosY = 0;
+    selectedPosY = 5;
     selectedPosZ = 40;
     public selectedRotationX = 20;
     _selected = undefined;

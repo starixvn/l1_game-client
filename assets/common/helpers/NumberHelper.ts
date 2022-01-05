@@ -93,7 +93,7 @@ export function formatUserCurrency(balance, currency, isCash) {
 export function getInternationalFractionalOdds(value) {
     //TO READ:Imprecise calculations in Javascript
     const odds = +(value - 1).toFixed(2);
-    return `${odds}:1`;
+    return `1:${odds}`;
 }
 
 export { numberWithCommas, getOnlyNumberInString, numberPad, numberTo, zeroPad, nFormatter };

@@ -151,7 +151,7 @@ export default class HoldemPokerPlacingBet {
         const conditions: { condition: boolean; message?: string; hasIcon?: boolean }[] = [
             {
                 condition: this.checkBalance(amount),
-                message: i18n.t("ui.notEnoughMoney")
+                message: i18n.t("messages.notEnoughMoney")
             }
         ];
 
