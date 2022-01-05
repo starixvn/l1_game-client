@@ -6,7 +6,10 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class HoldemPockerMD5 extends cc.Component {
     @property(cc.Label)
-    md5Label: cc.Label = null;
+    md5Text: cc.Label = null;
+
+    @property(cc.Label)
+    md5Value: cc.Label = null;
 
     @property(cc.Button)
     copyButton: cc.Button = null;
@@ -26,7 +29,7 @@ export default class HoldemPockerMD5 extends cc.Component {
         this.copyButton.interactable = enabled;
         const color = cc.Color.WHITE;
         this.copyButton.node.getChildByName("text").color = enabled ? color : color.fromHEX("#a8a8a8");
-        this.md5Label.node.opacity = enabled ? 255 : 150;
+        this.md5Value.node.opacity = enabled ? 255 : 150;
     }
 
     setIsFold(value: boolean) {
@@ -34,14 +37,15 @@ export default class HoldemPockerMD5 extends cc.Component {
     }
 
     updateMD5String(md5: string) {
-        this.md5Label.string = md5;
+        this.md5Value.string = md5;
     }
 
     resetDefaultValue(data: string, isMD5Key: boolean) {
         this.updateMD5String(data);
         this.md5Key = isMD5Key;
+        this.md5Text.string = isMD5Key ? "Key" : "MD5";
         this.enableCopyButton(false);
-        this.md5Label.node.destroyAllChildren();
+        this.md5Value.node.destroyAllChildren();
     }
 
     setMD5String(data: string) {
@@ -57,8 +61,8 @@ export default class HoldemPockerMD5 extends cc.Component {
             return;
         }
 
-        this.md5Label.string = i18n.t("holdEmPoker.md5Key");
-        cc.tween(this.md5Label.node)
+        this.md5Value.string = i18n.t("holdEmPoker.md5Key");
+        cc.tween(this.md5Value.node)
             .delay(2)
             .call(() => {
                 this.createResultDetails(data.formatValue);
@@ -70,19 +74,20 @@ export default class HoldemPockerMD5 extends cc.Component {
 
     createResultDetails(data: any) {
         const { cards, suffix } = data;
-        const layoutComp = this.md5Label.getComponent(cc.Layout);
-        this.md5Label.string = "";
+        const layoutComp = this.md5Value.getComponent(cc.Layout);
+        this.md5Value.string = "";
+        this.md5Text.string = "Key";
         const color = cc.Color.WHITE;
         cards.forEach((card, index) => {
             const prefix = index === 0 ? "[" : "";
             const sufffix = index === cards.length - 1 ? "]" : "";
             const comma = index === cards.length - 1 ? "" : ",";
             const cardLabel = this.createResultLabel(`${prefix}${convertOldRank(card.rank)}${comma}${sufffix}`);
-            cardLabel.node.color = card.suit > 1 ? cc.Color.WHITE : color.fromHEX("#ff7b7b");
-            this.md5Label.node.addChild(cardLabel.node);
+            cardLabel.node.color = card.suit > 1 ? cc.Color.BLACK : color.fromHEX("#E92E2E");
+            this.md5Value.node.addChild(cardLabel.node);
         });
         const suffixLabel = this.createResultLabel(suffix);
-        this.md5Label.node.addChild(suffixLabel.node);
+        this.md5Value.node.addChild(suffixLabel.node);
         layoutComp.updateLayout();
     }
 
@@ -91,6 +96,7 @@ export default class HoldemPockerMD5 extends cc.Component {
         cardLabel.fontSize = 17;
         cardLabel.verticalAlign = cc.Label.VerticalAlign.CENTER;
         cardLabel.string = value;
+        cardLabel.font = this.md5Value.font;
         return cardLabel;
     }
 

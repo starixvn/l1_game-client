@@ -11,6 +11,7 @@ export const handleMD5 = (main: HoldemPoker) => (stateModel: HoldemPokerStateMod
         case HoldemPokerState.all_bet:
         case HoldemPokerState.calling_deal:
         case HoldemPokerState.replay_new:
+        case HoldemPokerState.blank_new:
             main.md5Comp.resetDefaultValue(i18n.t("holdEmPoker.md5String"), false);
             break;
         case HoldemPokerState.calling_call:
@@ -23,7 +24,7 @@ export const handleMD5 = (main: HoldemPoker) => (stateModel: HoldemPokerStateMod
         case HoldemPokerState.prepare_new:
             main.md5Comp.setIsFold(false);
             break;
-        case HoldemPokerState.blank_new:
+
         case HoldemPokerState.dealing:
         case HoldemPokerState.dealt:
         case HoldemPokerState.settled:

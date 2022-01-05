@@ -23,14 +23,14 @@ export class HoldemPokerOwnBet extends EventEmitter {
     totalAmount: number;
 
     changeOwnBets(props: {
-        roundId: number;
         bets: any;
         playerCards: HoldemPokerCardModel[];
         communityCards: HoldemPokerCardModel[];
         combinationResult: any;
+        roundId: number;
         totalAmount: number;
     }) {
-        const { roundId, bets, playerCards, communityCards, combinationResult, totalAmount } = props;
+        const { bets, playerCards, communityCards, combinationResult, roundId, totalAmount } = props;
 
         this.bets = bets;
         this.playerCards = playerCards;
@@ -39,7 +39,7 @@ export class HoldemPokerOwnBet extends EventEmitter {
         this.totalAmount = totalAmount;
 
         this.emit(HoldemPokerOwnBet.Events.OWN_BETS, this);
-        props.roundId && this.updateRoundId(props.roundId);
+        props.roundId && this.updateRoundId(roundId);
     }
 
     updateRoundId(roundId: number) {
