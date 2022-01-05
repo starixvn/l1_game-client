@@ -458,7 +458,7 @@ export default class HoldemPoker extends NewGameRoomBase {
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
         const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
-        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, "/#md5");
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, "&md5=1");
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();
