@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import NewButton from "../../../common/custom-button/NewButton";
 import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
@@ -26,14 +28,19 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel
+    updateTotalBetLabel,
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundCounter, updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
 import { showWinningOption } from "../actions/HoldemPokerSettlementActions";
 import { renderTicketDetail } from "../actions/HoldemPokerTicketDetailActions";
 import { handleUM } from "../actions/HoldemPokerUmAction";
-import { collectCart, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
+import {
+    collectCart,
+    rawCardAfterClickCall,
+    rawCardAfterClickDeal,
+    rawCardWhenRejoin,
+} from "../components/cards/view-models/CardWrapper";
 import PokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
 import { HoldemPockerMD5Model } from "../event-models/HoldemPockerMD5Model";
@@ -57,7 +64,6 @@ import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
 import HoldemPokerChips from "./HoldemPokerChips";
 import HoldemPokerMinMaxTable from "./HoldemPokerMinMaxTable";
 import HoldemPokerPlacingBet from "./HoldemPokerPlacingBet";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -420,11 +426,16 @@ export default class HoldemPoker extends NewGameRoomBase {
         );
     }
 
+    sendRetryMessage(): void {
+        this.connection.emit("retry");
+    }
+
     onFoldClick() {
         this.playClick();
         this.gameData.receiveUIData({
             fold: {}
         });
+        this.lockBet();
         this.connection.emit(events.bet, {
             fold: {}
         });
