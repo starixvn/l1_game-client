@@ -23,5 +23,8 @@ export default class HoldemPokerTicketHistoryItem extends cc.Component {
   @property(cc.Label)
   win: cc.Label = null;
 
-  openTicketDetail() {}
+  @property(cc.Node)
+  showBg: cc.Node = null;
+
+  openTicketDetail() { }
 }

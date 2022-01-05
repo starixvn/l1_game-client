@@ -424,7 +424,7 @@ window.i18n.languages.vi = {
         gameNotSupported: "Rất tiếc, chức năng này hiện chưa được hỗ trợ.",
         noDataAvailable: "Không có dữ liệu",
         ticket_details: "Chi Tiết Cược",
-        bet_details: "Đặt Cươc"
+        bet_details: "Đặt Cược"
     },
     holdEmPoker: {
         ante: "ANTE",

@@ -103,6 +103,7 @@ export default class HoldemPokerTicketHistory extends BetHistory {
     }
 
     onData(data: HistoryDataType) {
+        let index = 0;
         if (!data.history) {
             return;
         }
@@ -112,11 +113,12 @@ export default class HoldemPokerTicketHistory extends BetHistory {
         this.content.children.forEach((child) => child.destroy());
 
         this.historyData.forEach((log) => {
-            this.initItem(log);
+            this.initItem(log, index);
+            index++;
         });
     }
 
-    initItem(log: BetLog) {
+    initItem(log: BetLog, index: number) {
         const historyItemPrefab = cc.instantiate(this.prefabItem);
         const item = historyItemPrefab.getComponent(HoldemPokerTicketHistoryItem);
         this.content.addChild(historyItemPrefab);
@@ -124,6 +126,7 @@ export default class HoldemPokerTicketHistory extends BetHistory {
         item.time.string = getStringDateByTime(log.time);
         item.round.string = log.roundId.toString();
         item.win.string = numberWithCommas(log.betWin);
+        item.showBg.active = index % 2 == 0 ? false : true;
         if (!log.isFold) {
             const resultPlayer = `holdEmPoker.${HandResultConst[log.playerHandId]}`;
             item.player.string = `${i18n.t(resultPlayer)}`.toUpperCase();
