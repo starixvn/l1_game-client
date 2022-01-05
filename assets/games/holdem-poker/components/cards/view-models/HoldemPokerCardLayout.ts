@@ -41,7 +41,7 @@ export default class HoldemPokerCardLayout extends cc.Component {
 
     cardSizeWidth = 76;
 
-    selectedPosY = 36;
+    selectedPosY = 0;
     selectedPosZ = 60;
     public selectedRotationX = 20;
     _selected = undefined;
@@ -104,7 +104,7 @@ export default class HoldemPokerCardLayout extends cc.Component {
                             .tween(child)
                             .to(
                                 0.3,
-                                { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.15 },
+                                { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.05 },
                                 { easing: "sineIn" }
                             )
                     )
