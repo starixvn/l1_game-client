@@ -244,7 +244,7 @@ window.i18n.languages.zh_cn = {
         player_pair: "闲家一对",
         player_win: "闲家赢！",
         choice_banker: "庄家",
-        choice_player: "闲家一对",
+        choice_player: "闲家",
         result_player_banker: "结果（闲家 | 庄家）",
         type_bet_number: "特定号码",
         total_score: "总积分",
