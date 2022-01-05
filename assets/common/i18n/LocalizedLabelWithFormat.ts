@@ -57,12 +57,16 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
 
     titleCase(value: string) {
         const space = " ";
-        const upperCaseFirstWord = value
+        const isBreakLine = value.includes("\n");
+        const result = value
             .split(space)
             .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
             .join(space);
+        if (!isBreakLine) {
+            return result;
+        }
 
-        return upperCaseFirstWord
+        return result
             .split("\n")
             .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
             .join("\n");
