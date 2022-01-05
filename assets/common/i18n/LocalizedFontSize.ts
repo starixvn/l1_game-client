@@ -24,7 +24,7 @@ export default class LocalizedFontSize extends cc.Component {
 
     initData() {
         this.fontBases = {
-            en: 18,
+            en: 16,
             zh_cn: 20,
             zh_tw: 20
         };
