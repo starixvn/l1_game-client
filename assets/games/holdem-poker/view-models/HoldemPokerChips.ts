@@ -116,6 +116,7 @@ export default class HoldemPokerChips extends cc.Component {
                         }
                     }
                     chipStack.scale = this.chipScale;
+
                     chipStack.runAction(
                         cc.sequence(
                             cc.jumpTo(jumpTime, destPosition, 100, 1),
@@ -124,12 +125,13 @@ export default class HoldemPokerChips extends cc.Component {
                                 destNode.children.length && destNode.destroyAllChildren();
                                 const chipStack = this.createChipStack(+winAmount, betChips, main.shadowChip);
                                 destNode.addChild(chipStack);
-                                this.flyChipToPlayer(chipStack, main.userAvatar.node);
+                                // this.flyChipToPlayer(chipStack, main.userAvatar.node);
                             })
                         )
                     );
+
+                    this.flyCurrentChipOnTableToPlayer(bettingAreas, key, main.userAvatar.node, jumpTime);
                 }
-                this.flyCurrentChipOnTableToPlayer(bettingAreas, key, main.userAvatar.node, jumpTime);
             } else {
                 const bettingArea = bettingAreas.filter((a) => a.betChoice === key)[0];
                 this.flyChipToDealer(bettingArea, main.dealerChipTray, jumpTime, delayBeforeFly);
@@ -183,16 +185,13 @@ export default class HoldemPokerChips extends cc.Component {
                 cc.delayTime(delayTime),
                 cc.callFunc(() => {
                     chipStack.children.forEach((chip) => {
-                        const destination = chip.parent.convertToNodeSpaceAR(userAvatar.convertToWorldSpaceAR(cc.v2()));
+                        const destination = chip.parent.convertToNodeSpaceAR(userAvatar.convertToWorldSpaceAR(cc.v2(0, 0)));
                         const playChipsSound = cc.callFunc(() => {
                             // FIXME: play multi chip audio
                             // DeviceSetting.getInstance().sounds.play(SoundKeys.chip.multiChip);
                         });
                         chip.runAction(
-                            cc.sequence(
-                                cc.spawn(cc.moveTo(durationMove, destination.add(cc.v2(30, -30))), playChipsSound),
-                                cc.fadeOut(durationFadeOut)
-                            )
+                            cc.sequence(cc.spawn(cc.moveTo(durationMove, destination), playChipsSound), cc.fadeOut(durationFadeOut))
                         );
                     });
                 })

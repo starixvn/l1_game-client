@@ -169,7 +169,6 @@ export const updateChips = (
 ) => ({ choice, totalAmount }) => {
     const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
     if (bettingArea && bettingArea.chipNode) {
-        // bettingArea.showBetText(false);
         holdemPokerChips.updateChipStack(betChips, bettingArea.chipNode, shadowChip, totalAmount);
     }
 };
