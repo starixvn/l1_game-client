@@ -175,7 +175,7 @@ window.i18n.languages.id = {
         triple: "Tiga Kali",
         single: "Single",
         double: "Dobel",
-        any_triple: "Triple apa saja",
+        any_triple: "Triple Apa Saja",
         payout: "Pembayaran",
         hot_number: "Nomor Panas",
         cold_number: "Nomor Dingin",
