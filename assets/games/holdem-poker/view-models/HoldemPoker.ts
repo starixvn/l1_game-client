@@ -58,6 +58,7 @@ import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
 import HoldemPokerChips from "./HoldemPokerChips";
 import HoldemPokerMinMaxTable from "./HoldemPokerMinMaxTable";
 import HoldemPokerPlacingBet from "./HoldemPokerPlacingBet";
+import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -118,6 +119,15 @@ export default class HoldemPoker extends NewGameRoomBase {
 
     @property(HoldemPockerMD5)
     md5Comp: HoldemPockerMD5 = null;
+
+    @property(cc.AudioSource)
+    gameNotificationsAudio: cc.AudioSource = null;
+
+    @property(cc.AudioSource)
+    singleChipAudio: cc.AudioSource = null;
+
+    @property(cc.AudioSource)
+    startNewRoundAudio: cc.AudioSource = null;
 
     protected colorItem = "#4d2a0e";
     protected colorIconMain = "#4d2a0e";
@@ -265,7 +275,7 @@ export default class HoldemPoker extends NewGameRoomBase {
 
         this.gameData.placeBetModel.on(
             HoldemPokerPlaceBetModel.Events.PLACE_BET_CHIPS,
-            showPlaceBetChips(this.bettingAreas, this.betChips, this.shadowChip, this.holdemPokerChips, this.gameData)
+            showPlaceBetChips(this.bettingAreas, this.betChips, this.shadowChip, this.holdemPokerChips, this.gameData, this)
         );
         this.gameData.placeBetModel.on(HoldemPokerPlaceBetModel.Events.CLEAR_BET_CHIPS, clearBetChips(this.bettingAreas));
         this.gameData.placeBetModel.on(HoldemPokerPlaceBetModel.Events.CLEAR_ALL_BET_CHIPS, clearAllBetChips(this.bettingAreas));
@@ -466,5 +476,13 @@ export default class HoldemPoker extends NewGameRoomBase {
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();
+    }
+
+    playStartGameAudio() {
+        AudioManager.getInstance().playSFX(this.startNewRoundAudio.clip);
+    }
+
+    playSingleChipsSound() {
+        AudioManager.getInstance().playSFX(this.singleChipAudio.clip);
     }
 }

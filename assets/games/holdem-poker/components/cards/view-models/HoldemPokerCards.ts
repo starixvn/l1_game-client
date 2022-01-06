@@ -1,4 +1,5 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import AudioManager from "../../../../../common/audio/AudioManager";
 
 import HoldemPokerArrows from "./HoldemPokerArrows";
 import HoldemPokerCard, { CardAnimation, CardModel } from "./HoldemPokerCard";
@@ -58,8 +59,7 @@ export default class HoldemPokerCards extends cc.Component {
     }
 
     private playAudioCardSliding() {
-        // cc.RedT.isSoundGame() && DeviceSetting.getInstance().sounds.play(SoundKeys.blackjack.cardSlide);
-        // FIXME: add sound card slide
+        AudioManager.getInstance().playSFX(this.cardSlideAudioSource.clip);
     }
 
     private createCard(card: CardModel, scaleX: number, scaleY: number): cc.Node {

@@ -139,10 +139,12 @@ export const showPlaceBetChips = (
     betChips: BetChips,
     shadowChip: cc.SpriteFrame,
     holdemPokerChips: HoldemPokerChips,
-    gameData: HoldemPokerGameData<HoldemPokerChoices>
+    gameData: HoldemPokerGameData<HoldemPokerChoices>,
+    mainGame: HoldemPoker
 ) => ({ currentChoice, currentAmount, totalAmount }) => {
     const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
     if (bettingArea && bettingArea.chipNode) {
+        mainGame.playSingleChipsSound();
         holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, shadowChip, currentAmount, totalAmount);
     }
 };

@@ -122,19 +122,19 @@ export default class HoldemPokerChips extends cc.Component {
                             cc.jumpTo(jumpTime, destPosition, 100, 1),
                             cc.delayTime(delayBeforeFly),
                             cc.callFunc(() => {
-                                destNode.children.length && destNode.destroyAllChildren();
                                 const chipStack = this.createChipStack(+winAmount, betChips, main.shadowChip);
                                 destNode.addChild(chipStack);
-                                // this.flyChipToPlayer(chipStack, main.userAvatar.node);
                             })
                         )
                     );
 
-                    this.flyCurrentChipOnTableToPlayer(bettingAreas, key, main.userAvatar.node, jumpTime);
+                    this.flyCurrentChipOnTableToPlayer(bettingAreas, key, main.userAvatar.node, jumpTime, main);
+                    main.playStartGameAudio();
                 }
             } else {
                 const bettingArea = bettingAreas.filter((a) => a.betChoice === key)[0];
                 this.flyChipToDealer(bettingArea, main.dealerChipTray, jumpTime, delayBeforeFly);
+                main.playStartGameAudio();
             }
         }
 
@@ -161,7 +161,8 @@ export default class HoldemPokerChips extends cc.Component {
         bettingAreas: HoldemPokerBettingArea[],
         betChoiceName: string,
         userAvatar: cc.Node,
-        jumpTime: number
+        jumpTime: number,
+        main: HoldemPoker
     ) => {
         const currentChipsOnTable = bettingAreas.filter((a) => a.betChoice === betChoiceName);
         currentChipsOnTable.forEach((chips) => {

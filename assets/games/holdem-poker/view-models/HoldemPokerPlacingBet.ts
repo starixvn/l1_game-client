@@ -1,14 +1,10 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
-import AudioManager from "../../../common/audio/AudioManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
-import HoldemPokerChoices, {
-    HoldemPokerChoicesConst,
-    HoldemPokerMaxBetChoicesConst,
-} from "../event-models/HoldemPokerChoices";
+import HoldemPokerChoices, { HoldemPokerChoicesConst, HoldemPokerMaxBetChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import { HoldemPokerState } from "../event-models/HoldemPokerState";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
@@ -41,7 +37,6 @@ export default class HoldemPokerPlacingBet {
                 this.gameData.stateModel.state === HoldemPokerState.replay_new ||
                 this.gameData.stateModel.state === HoldemPokerState.calling_deal)
         ) {
-            AudioManager.getInstance().playClick();
             if (this.gameData.isProcessingBet) {
                 this.gameData.emit(HoldemPokerGameData.Events.SHOW_PROCESSING_BET);
             } else if (this.validateBet(betChoice, betAmount) && this.validateAccountBalance(betAmount)) {
