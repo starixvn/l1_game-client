@@ -458,7 +458,7 @@ window.i18n.languages.vi = {
         combination: "Bài Kết Hợp",
         player: "Người Chơi",
         dealer: "Nhà Cái",
-        communityCards: "Community Cards",
+        communityCards: "Bài Chung",
         new: "Ván Mới",
         stake: "Tiền Cược",
         dealerQualifies: "Nhà Cái Đủ Điều Kiện Khi Có Đôi 4 Hoặc Cao Hơn",
