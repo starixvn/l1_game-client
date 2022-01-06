@@ -19,7 +19,6 @@ import {
     clearAllBetChips,
     clearBetChips,
     prepareNewRound,
-    showHideBetText,
     showHideButtons,
     showHideClearIcon,
     showHideTooltip,
@@ -28,19 +27,14 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel,
+    updateTotalBetLabel
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundCounter, updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
 import { showWinningOption } from "../actions/HoldemPokerSettlementActions";
 import { renderTicketDetail } from "../actions/HoldemPokerTicketDetailActions";
 import { handleUM } from "../actions/HoldemPokerUmAction";
-import {
-    collectCart,
-    rawCardAfterClickCall,
-    rawCardAfterClickDeal,
-    rawCardWhenRejoin,
-} from "../components/cards/view-models/CardWrapper";
+import { collectCart, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
 import PokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
 import { HoldemPockerMD5Model } from "../event-models/HoldemPockerMD5Model";
@@ -304,7 +298,6 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, showHideButtons(this));
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, showHideTooltip(this.bettingAreas));
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, showHideClearIcon(this.bettingAreas));
-        this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, showHideBetText(this.bettingAreas));
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.PREPARE_NEW_ROUND, prepareNewRound(this.gameData.placeBetModel));
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, handleMD5(this));
     }

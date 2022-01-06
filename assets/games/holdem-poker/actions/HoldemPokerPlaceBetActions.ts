@@ -111,14 +111,17 @@ export const showHideClearIcon = (bettingAreas: HoldemPokerBettingArea[]) => (st
 export const showOwnBet = (gameData: HoldemPokerGameData<HoldemPokerChoices>, bettingAreas: HoldemPokerBettingArea[]) => () => {
     if (gameData.placeBetModel.choices[HoldemPokerChoicesConst.ante]) {
         bettingAreas[0].showBetValue(true);
+        bettingAreas[0].showBetText(false);
         bettingAreas[0].ownBets = gameData.placeBetModel.choices[HoldemPokerChoicesConst.ante];
     }
     if (gameData.placeBetModel.choices[HoldemPokerChoicesConst.aa]) {
         bettingAreas[1].showBetValue(true);
+        bettingAreas[1].showBetText(false);
         bettingAreas[1].ownBets = gameData.placeBetModel.choices[HoldemPokerChoicesConst.aa];
     }
     if (gameData.placeBetModel.choices[HoldemPokerChoicesConst.call]) {
         bettingAreas[2].showBetValue(true);
+        bettingAreas[2].showBetText(false);
         bettingAreas[2].ownBets = gameData.placeBetModel.choices[HoldemPokerChoicesConst.call];
     }
 };
@@ -166,6 +169,7 @@ export const updateChips = (
 ) => ({ choice, totalAmount }) => {
     const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
     if (bettingArea && bettingArea.chipNode) {
+        // bettingArea.showBetText(false);
         holdemPokerChips.updateChipStack(betChips, bettingArea.chipNode, shadowChip, totalAmount);
     }
 };
@@ -212,38 +216,4 @@ export const updateTotalBetLabel = (totalBetLabel: cc.Label) => (placingModel: H
 
 export const prepareNewRound = (placeBet: HoldemPokerPlaceBetModel) => () => {
     placeBet.prepareNewRound();
-};
-
-export const showHideBetText = (bettingAreas: HoldemPokerBettingArea[]) => (stateModel: HoldemPokerStateModel) => {
-    switch (stateModel.state) {
-        case HoldemPokerState.all_bet:
-            bettingAreas[1].showBetText(false);
-            bettingAreas[0].showBetText(false);
-            bettingAreas[2].showBetText(true);
-            break;
-        case HoldemPokerState.ante_bet:
-            bettingAreas[1].showBetText(true);
-            bettingAreas[0].showBetText(false);
-            bettingAreas[2].showBetText(true);
-            break;
-        case HoldemPokerState.aa_bet:
-            bettingAreas[0].showBetText(true);
-            bettingAreas[1].showBetText(false);
-            bettingAreas[2].showBetText(true);
-            break;
-        case HoldemPokerState.dealt:
-            bettingAreas[0].showBetText(false);
-            bettingAreas[1].showBetText(true);
-            bettingAreas[2].showBetText(true);
-            break;
-        case HoldemPokerState.calling_call:
-        case HoldemPokerState.settled:
-            bettingAreas[2].showBetText(false);
-            break;
-        case HoldemPokerState.prepare_new:
-            bettingAreas[0].showBetText(true);
-            bettingAreas[1].showBetText(true);
-            bettingAreas[2].showBetText(true);
-            break;
-    }
 };
