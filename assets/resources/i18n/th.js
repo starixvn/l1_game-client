@@ -253,7 +253,7 @@ window.i18n.languages.th = {
         choice_spades: "โพดำ",
         banker_pair: "เจ้ามือคู่",
         banker_win: "เจ้ามือชนะ!",
-        player_pair: "ผูู้เล่นคู่",
+        player_pair: "ผู้เล่นคู่",
         player_win: "ผู้เล่นชนะ!",
         choice_banker: "เจ้ามือ",
         choice_player: "ผู้เล่น",
