@@ -1,11 +1,9 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
-import { getStringDateByTime, getStringHourByTime } from "../../../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { convertCard } from "../../components/cards/view-models/CardWrapper";
 import HoldemPokerCard, { CardModel } from "../../components/cards/view-models/HoldemPokerCard";
 import { CombineCardResultLabel } from "../../components/cards/view-models/HoldemPokerCards";
-import { HoldemPokerChoicesConst } from "../../event-models/HoldemPokerChoices";
 import { HoldemPokerTicketDetailModel } from "../../event-models/HoldemPokerTicketDetailModel";
 import HoldemPokerTicketDetailItem from "./HoldemPokerTicketDetailItem";
 import { HandResultConst } from "./HoldemPokerTicketHistory";
@@ -63,30 +61,19 @@ export default class HoldemPokerTicketDetail extends cc.Component {
 
     renderBets(data: HoldemPokerTicketDetailModel) {
         const { bets } = data.ticketDetail;
-        let index = 0;
-        bets.forEach(bet => {
+        bets.forEach((bet, index) => {
             this.heightBetTable += 60;
-            const odds = bet.odds ? bet.odds : "-";
-            this.initItem(bet.betChoice, bet.stake, bet.win, bet.time, odds, index % 2 !== 0);
-            index++;
+            this.handleTicketDetailItem(bet, index);
         });
         this.betTable.node.height = this.heightBetTable;
 
     }
 
-    initItem(betOption: string, stake: number, win: number, time: string, odd: string, showBg: boolean) {
+    handleTicketDetailItem(bet: any, index: number) {
         const detailItemPrefab = cc.instantiate(this.prefabItem);
-        const item = detailItemPrefab.getComponent(HoldemPokerTicketDetailItem);
+        const detailItemControl = detailItemPrefab.getComponent(HoldemPokerTicketDetailItem);
+        detailItemControl.renderTicketDetailitem(bet, index);
         this.content.addChild(detailItemPrefab);
-
-        const bettingOption = `holdEmPoker.${betOption}`;
-        item.bettingOption.string = `${i18n.t(bettingOption)}`;
-        item.stake.string = numberWithCommas(stake);
-        item.win.string = numberWithCommas(win);
-        item.time.string = getStringHourByTime(time);
-        item.odd.string = odd;
-        item.bgRow.active = showBg;
-        item.win.node.color = win <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
     }
 
     renderCards(data: HoldemPokerTicketDetailModel) {
@@ -165,12 +152,6 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         this.playerRank.string = `${i18n.t(playerResult)}`;
         this.dealerRank.string = "-";
     }
-
-    // private getTotalBetWin(bets) {
-    //     return Object.keys(bets.result).reduce((sum, current) => {
-    //         return sum + bets.result[current];
-    //     }, 0);
-    // }
 
     private createCard(card: CardModel, scaleX: number, scaleY: number, isFaceUp = true): cc.Node {
         const node = cc.instantiate(this.pokerCardPrefab);

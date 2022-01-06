@@ -1,9 +1,5 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import AudioManager from "../../../../common/audio/AudioManager";
-import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
 import BetHistory from "../../../_new/common/BetHistory";
 import { events } from "../../../_new/connection/SocketIOConnection";
@@ -112,50 +108,21 @@ export default class HoldemPokerTicketHistory extends BetHistory {
         this.pages.onSet(data.history.page, data.history.pageSize, data.history.total);
         this.content.children.forEach((child) => child.destroy());
 
-        this.historyData.forEach((log) => {
-            this.initItem(log, index);
-            index++;
-        });
+        this.handleHistoryData(this.historyData);
     }
 
-    initItem(log: BetLog, index: number) {
-        const historyItemPrefab = cc.instantiate(this.prefabItem);
-        const item = historyItemPrefab.getComponent(HoldemPokerTicketHistoryItem);
-        this.content.addChild(historyItemPrefab);
-
-        item.time.string = getStringDateByTime(log.time);
-        item.round.string = log.roundId.toString();
-        item.win.string = numberWithCommas(log.betWin);
-        item.showBg.active = index % 2 == 0 ? false : true;
-        if (!log.isFold) {
-            const resultPlayer = `holdEmPoker.${HandResultConst[log.playerHandId]}`;
-            item.player.string = `${i18n.t(resultPlayer)}`.toUpperCase();
-            let dealerResult: string;
-            if (log.isQualified) {
-                dealerResult = `holdEmPoker.${HandResultConst[log.dealerHandId]}`;
-                if (log.isPlayerWin >= 0) {
-                    item.player.node.color = cc.Color.YELLOW;
-                } else {
-                    item.dealer.node.color = cc.Color.YELLOW;
-                }
-            } else {
-                item.player.node.color = cc.Color.YELLOW;
-                dealerResult = `holdEmPoker.${HandResultConst[0]}`;
-            }
-            item.dealer.string = `${i18n.t(dealerResult)}`.toUpperCase();
-        } else {
-            item.player.string = `${i18n.t(`holdEmPoker.fold`)}`;
-            item.dealer.node.color = cc.Color.YELLOW;
-            item.dealer.string = "-";
-        }
-
-        item.stake.string = numberWithCommas(log.stake);
-        item.win.node.color = log.betWin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-        item.openTicketDetail = () => {
-            AudioManager.getInstance().playClick();
-            this.getTicketDetail(log.roundId);
-            this.initTicketDetail(log.roundId, log.time);
-        };
+    handleHistoryData(data: any) {
+        data.forEach((log, index) => {
+            const historyItemPrefab = cc.instantiate(this.prefabItem);
+            const historyControl = historyItemPrefab.getComponent(HoldemPokerTicketHistoryItem);
+            historyControl.renderTicketHistoryItem(log, index);
+            historyControl.openTicketDetail = () => {
+                AudioManager.getInstance().playClick();
+                this.getTicketDetail(log.roundId);
+                this.initTicketDetail(log.roundId, log.time);
+            };
+            this.content.addChild(historyItemPrefab);
+        });
     }
 
     private initTicketDetail(roundId: number, time: Date) {
