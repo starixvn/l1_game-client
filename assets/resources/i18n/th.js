@@ -455,7 +455,7 @@ window.i18n.languages.th = {
         player: "Player",
         dealer: "Dealer",
         communityCards: "Community Cards",
-        new: "New",
+        new: "New Bet",
         stake: "Stake",
         dealerQualifies: "Dealer qualifies on a pair of 4s or better",
         md5String: "MD5 string",

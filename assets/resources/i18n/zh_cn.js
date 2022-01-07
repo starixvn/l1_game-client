@@ -441,7 +441,7 @@ window.i18n.languages.zh_cn = {
         player: "Player",
         dealer: "Dealer",
         communityCards: "Community Cards",
-        new: "New",
+        new: "New Bet",
         stake: "Stake",
         dealerQualifies: "Dealer qualifies on a pair of 4s or better",
         md5String: "MD5 string",
