@@ -90,10 +90,8 @@ export function formatUserCurrency(balance, currency, isCash) {
     const userCurrency = currency ? currency.toUpperCase() : currency === undefined ? "" : currency;
     return `${this.numberWithCommas(balance)} ${isCash ? "" : userCurrency}`;
 }
-export function getInternationalFractionalOdds(value) {
-    //TO READ:Imprecise calculations in Javascript
-    const odds = +(value - 1).toFixed(2);
-    return `1:${odds}`;
+export function getInternationalFractionalOdds(value: number) {
+    return `1:${value}`;
 }
 
 export { numberWithCommas, getOnlyNumberInString, numberPad, numberTo, zeroPad, nFormatter };

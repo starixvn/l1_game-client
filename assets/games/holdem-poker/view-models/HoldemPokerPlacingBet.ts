@@ -129,7 +129,7 @@ export default class HoldemPokerPlacingBet {
             {
                 condition: this.checkMaxBetPerChoice(betChoice, amount),
                 message: i18n.t("messages.maxBetForChoiceNotice2", {
-                    maxBet: numberWithCommas(this.checkMaxBetAndStakePerChoice(betChoice))
+                    maxBet: numberWithCommas(this.getMaxBetAndStakePerChoice(betChoice))
                 })
             },
             {
@@ -198,8 +198,8 @@ export default class HoldemPokerPlacingBet {
         return total > this.gameBase.getUserBalance();
     }
 
-    private checkMaxBetAndStakePerChoice(betChoice: string): number {
-        return Math.min(this.gameData.configs.maxBetChoices[HoldemPokerMaxBetChoicesConst[betChoice]], cc.RedT.userStakeLevel.maxBet);
+    private getMaxBetAndStakePerChoice(betChoice: string): number {
+        return Math.min(this.gameData.configs.maxBetChoices[HoldemPokerMaxBetChoicesConst[betChoice]], this.gameBase.getMaxBet());
     }
 
     private checkMaxBetPerChoice(betChoice: string, amount: number) {
@@ -210,7 +210,7 @@ export default class HoldemPokerPlacingBet {
                 unconfirmedTotal = confirmedUBetPerChoice + amount;
             }
 
-            return this.checkMaxBetAndStakePerChoice(betChoice) < unconfirmedTotal;
+            return this.getMaxBetAndStakePerChoice(betChoice) < unconfirmedTotal;
         }
 
         return false;
