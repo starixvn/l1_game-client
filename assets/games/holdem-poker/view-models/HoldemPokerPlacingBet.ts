@@ -183,7 +183,7 @@ export default class HoldemPokerPlacingBet {
         return !criteria;
     }
 
-    private checkBalance(amount: number, isClickDeal: false) {
+    private checkBalance(amount: number, isClickDeal = false) {
         let total: number;
         if (
             this.gameData.stateModel.state === HoldemPokerState.dealt ||
