@@ -219,6 +219,12 @@ export default class HoldemPoker extends NewGameRoomBase {
         });
     }
 
+    public disabledDealCancelButtons(status: boolean) {
+        const disableButton = "btn-disable";
+        this.dealButton.getChildByName(disableButton).active = status;
+        this.cancelButton.getChildByName(disableButton).active = status;
+    }
+
     private initButtonStatus() {
         const disableButton = "btn-disable";
         this.dealButton.getComponent(NewButton).callback.selected = () =>
@@ -367,7 +373,6 @@ export default class HoldemPoker extends NewGameRoomBase {
 
     private registerNoticeEvents() {
         this.gameData.on(CommonEvents.API_ERROR, updateStatusGame(this.gameData));
-        this.gameData.on(CommonEvents.NOTICE, (text) => this.showMiniWarning(text));
         this.gameData.on(CommonEvents.NOTICE, showSlidingChipWithProcessingFail(this.gameData.stateModel, this.betChips.node));
         this.gameData.on(CommonEvents.UM, handleUM(this));
     }
@@ -381,7 +386,6 @@ export default class HoldemPoker extends NewGameRoomBase {
     //override group notice poker
     showNotice(data): Notice {
         const noticePrefab = cc.instantiate(this.noticePrefab);
-        noticePrefab.group = "New Group 4";
         const notice = noticePrefab.getComponent(Notice);
         data.button = { text: "Ok" };
         notice.init(data);
