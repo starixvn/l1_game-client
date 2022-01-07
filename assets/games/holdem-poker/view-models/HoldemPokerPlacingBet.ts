@@ -118,23 +118,24 @@ export default class HoldemPokerPlacingBet {
         if (this.gameBase.waitingProcessing) {
             return false;
         }
+
         const conditions: { condition: boolean; message?: string; hasIcon?: boolean }[] = [
             {
                 condition: this.checkMinBetPerChoice(betChoice, amount),
                 message: i18n.t("messages.minBetForChoiceNotice", {
-                    maxBet: numberWithCommas(this.gameData.configs.minBet)
+                    maxBet: numberWithCommas(this.gameBase.getMinBet())
                 })
             },
             {
                 condition: this.checkMaxBetPerChoice(betChoice, amount),
                 message: i18n.t("messages.maxBetForChoiceNotice2", {
-                    maxBet: numberWithCommas(this.gameData.configs.maxBetChoices[HoldemPokerMaxBetChoicesConst[betChoice]])
+                    maxBet: numberWithCommas(this.checkMaxBetAndStakePerChoice(betChoice))
                 })
             },
             {
                 condition: this.checkTotalBet(amount),
                 message: i18n.t("messages.maxBetNotice", {
-                    maxBet: numberWithCommas(this.gameData.configs.maxBet)
+                    maxBet: numberWithCommas(this.gameBase.getMaxBet())
                 })
             }
         ];
@@ -196,6 +197,11 @@ export default class HoldemPokerPlacingBet {
 
         return total > this.gameBase.getUserBalance();
     }
+
+    private checkMaxBetAndStakePerChoice(betChoice: string): number {
+        return Math.min(this.gameData.configs.maxBetChoices[HoldemPokerMaxBetChoicesConst[betChoice]], cc.RedT.userStakeLevel.maxBet);
+    }
+
     private checkMaxBetPerChoice(betChoice: string, amount: number) {
         if (this.gameData.configs && this.gameData.configs.maxBetChoices) {
             let unconfirmedTotal = amount;
@@ -204,7 +210,7 @@ export default class HoldemPokerPlacingBet {
                 unconfirmedTotal = confirmedUBetPerChoice + amount;
             }
 
-            return this.gameData.configs.maxBetChoices[HoldemPokerMaxBetChoicesConst[betChoice]] < unconfirmedTotal;
+            return this.checkMaxBetAndStakePerChoice(betChoice) < unconfirmedTotal;
         }
 
         return false;
