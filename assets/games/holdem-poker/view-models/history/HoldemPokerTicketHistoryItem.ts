@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { BetLog, HandResultConst } from "./HoldemPokerTicketHistory";
-import HoldemPokerTicketHistory from "./HoldemPokerTicketHistory";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
@@ -35,7 +34,7 @@ export default class HoldemPokerTicketHistoryItem extends cc.Component {
     this.time.string = getStringDateByTime(log.time);
     this.round.string = log.roundId.toString();
     this.win.string = numberWithCommas(log.betWin);
-    this.showBg.active = index % 2 == 0 ? false : true;
+    this.showBg.active = index % 2 === 0 ? false : true;
     if (!log.isFold) {
       const resultPlayer = `holdEmPoker.${HandResultConst[log.playerHandId]}`;
       this.player.string = `${i18n.t(resultPlayer)}`.toUpperCase();
@@ -53,7 +52,8 @@ export default class HoldemPokerTicketHistoryItem extends cc.Component {
       }
       this.dealer.string = `${i18n.t(dealerResult)}`.toUpperCase();
     } else {
-      this.player.string = `${i18n.t(`holdEmPoker.fold`)}`;
+      let playerResult = `holdEmPoker.fold`;
+      this.player.string = `${i18n.t(playerResult)}`;
       this.dealer.node.color = cc.Color.YELLOW;
       this.dealer.string = "-";
     }

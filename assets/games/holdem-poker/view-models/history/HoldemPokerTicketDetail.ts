@@ -9,6 +9,7 @@ import HoldemPokerTicketDetailItem from "./HoldemPokerTicketDetailItem";
 import { HandResultConst } from "./HoldemPokerTicketHistory";
 
 const { ccclass, property, menu } = cc._decorator;
+
 @ccclass
 @menu("Games/HolemPoker/HoldemPokerTicketHistory")
 export default class HoldemPokerTicketDetail extends cc.Component {
@@ -51,7 +52,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
     @property(cc.Sprite)
     betTable: cc.Sprite = null;
 
-    private heightBetTable: number = 64;
+    private heightBetTable = 64;
 
     renderTitle(roundId: number, time: Date) {
         this.roundId.string = roundId.toString();

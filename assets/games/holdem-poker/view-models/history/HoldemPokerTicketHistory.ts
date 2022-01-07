@@ -8,6 +8,7 @@ import HoldemPokerTicketDetail from "./HoldemPokerTicketDetail";
 import HoldemPokerTicketHistoryItem from "./HoldemPokerTicketHistoryItem";
 
 const { ccclass, property, menu } = cc._decorator;
+
 export interface BetLog {
     dealerHandId: number;
     playerHandId: number;
@@ -86,11 +87,11 @@ export default class HoldemPokerTicketHistory extends BetHistory {
         }
     }
 
-    getHistory(page: number = 1) {
+    getHistory(page = 1) {
         this.connection.emit(events.getHistory, { page });
     }
 
-    getTicketDetail(roundId: number = 1) {
+    getTicketDetail(roundId = 1) {
         this.connection.emit(events.getTicketDetail, { roundId });
     }
 
@@ -99,7 +100,6 @@ export default class HoldemPokerTicketHistory extends BetHistory {
     }
 
     onData(data: HistoryDataType) {
-        let index = 0;
         if (!data.history) {
             return;
         }
