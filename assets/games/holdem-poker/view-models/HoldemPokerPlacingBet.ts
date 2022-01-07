@@ -232,7 +232,7 @@ export default class HoldemPokerPlacingBet {
 
     private checkTotalBet(amount: number) {
         const currentTotal = this.getTotalBet();
-        return currentTotal + amount > this.gameData.configs.maxBet;
+        return currentTotal + amount > this.gameBase.getMaxBet();
     }
 
     private getTotalBet() {
