@@ -41,31 +41,31 @@ window.i18n.languages.en = {
         42: "Texas Hold'em"
     },
     messages: {
-        accountNotExist: "An error has occurred. Please contact CSD for details, thank you.(%{errorCode})",
-        ipRestricted: "Your IP address is restricted.(%{errorCode})",
-        accountBlacklisted: "Account has been closed. Please contact CSD for details.(%{errorCode})",
-        userNotFound: "User was not found.(%{errorCode})",
+        accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
+        ipRestricted: "Your IP address is restricted. (%{errorCode})",
+        accountBlacklisted: "Account has been closed. Please contact CSD for details. (%{errorCode})",
+        userNotFound: "User was not found. (%{errorCode})",
         sysMaintenance: "The game is under maintenance.",
-        networkError: "Network error.(%{errorCode})",
+        networkError: "Network error. (%{errorCode})",
         userInsufficientFund: "Your account has insufficient funds. (%{errorCode})",
         limitBetExceeded:
-            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your stake has exceeded your bet limit settings, please try again.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your stake has exceeded your bet limit settings, please try again. (%{errorCode})",
         playerNotPermittedPlay:
-            "Game %{gameName} (#%{gameRoundId})\n\nGame disabled. Please contact your upline for details, thank you.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nGame disabled. Please contact your upline for details, thank you. (%{errorCode})",
         winLimitHit:
-            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Win limit hit. Please contact your upline, thank you.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Win limit hit. Please contact your upline, thank you. (%{errorCode})",
         loseLimitHit:
-            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Lose limit hit. Please contact your upline, thank you.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Lose limit hit. Please contact your upline, thank you. (%{errorCode})",
         limitBetUpdated:
-            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your bet limit has been updated, please try again.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your bet limit has been updated, please try again. (%{errorCode})",
         limitBetNotDefined:
-            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your bet limit for this game has not been set. Please contact your upline, thank you.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your bet limit for this game has not been set. Please contact your upline, thank you. (%{errorCode})",
         accountSuspended:
-            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Account has been suspended. Please contact your upline for details, thank you.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Account has been suspended. Please contact your upline for details, thank you. (%{errorCode})",
         unavailableGame:
-            "Game %{gameName} (#%{gameRoundId})\n\nThe game is unavailable at the moment. Please contact CSD for details, thank you.(%{errorCode})",
-        errorOccurred: "An error has occurred, please contact CSD for details.(%{errorCode})",
-        errorOccurredFull: "Game %{gameName} (#%{gameRoundId})\n\nAn error has occurred, please contact CSD for details.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nThe game is unavailable at the moment. Please contact CSD for details, thank you. (%{errorCode})",
+        errorOccurred: "An error has occurred, please contact CSD for details. (%{errorCode})",
+        errorOccurredFull: "Game %{gameName} (#%{gameRoundId})\n\nAn error has occurred, please contact CSD for details. (%{errorCode})",
         sessionTimeout:
             "Your session has timed out or you have not logged in yet. Please close the current windows and try to login again.",
         playOnOtherDevice: "Your account is being used to play [game] on another browser or device.",
@@ -80,10 +80,10 @@ window.i18n.languages.en = {
         nickNameDistance: "Nickname must be between 3 and 14 characters long.",
         nickNameCharacter: "Nickname cannot contain spaces, special characters, and non-English characters.",
         existNickName: "Nickname is already taken, please try another one.",
-        placeBetFailed: "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet!(%{errorCode})",
-        endGameFailed: "Game %{gameName} (#%{gameRoundId})\n\nAn error has occurred. Please contact CSD for details.(%{errorCode})",
-        getBalanceFailed: "Cannot update the account balance.(%{errorCode})",
-        enterPortalFailed: "An error has occurred. Please contact CSD for details.(%{errorCode})",
+        placeBetFailed: "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! (%{errorCode})",
+        endGameFailed: "Game %{gameName} (#%{gameRoundId})\n\nAn error has occurred. Please contact CSD for details. (%{errorCode})",
+        getBalanceFailed: "Cannot update the account balance. (%{errorCode})",
+        enterPortalFailed: "An error has occurred. Please contact CSD for details. (%{errorCode})",
         jackpotProcessing: "The data are being processed, the Jackpot winning amount will be added to your account in a few minutes.",
         placeBetNextRound: "Please wait for the next round.",
         cannotPlaceBet: "Cannot bet at the moment. Please wait for a few seconds.",
@@ -132,26 +132,26 @@ window.i18n.languages.en = {
         enableTurboMode: 'Turbo Mode "ON"',
         disableTurboMode: 'Turbo Mode "OFF"',
         noticeTitle: "NOTICE",
-        accountClosed: "Account has been closed. Your session will expire after 10 seconds, please contact CSD for details.(%{errorCode})",
+        accountClosed: "Account has been closed. Your session will expire after 10 seconds, please contact CSD for details. (%{errorCode})",
         disabledGame: "Game is under maintenance, please come back in 10 minutes.",
         errorOccurredPlaceBet:
-            "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! An error has occurred, please contact CSD for details.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! An error has occurred, please contact CSD for details. (%{errorCode})",
         sessionTimeoutPlaceBet:
             "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Your session has timed out or you have not logged in yet. Please close the current windows and try to login again.",
         loginFailedPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Incorrect login name or password.",
         accountLockedPlaceBet:
             "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Account has been closed. Please contact your upline for details, thank you.",
         accountNotExistPlaceBet:
-            "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! An error has occurred. Please contact CSD for details, thank you.(%{errorCode})",
-        ipRestrictedPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Your IP address is restricted.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
+        ipRestrictedPlaceBet: "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Your IP address is restricted. (%{errorCode})",
         accountBlacklistedPlaceBet:
-            "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Account has been closed. Please contact CSD for details.(%{errorCode})",
-        userNotFoundPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! User was not found.(%{errorCode})",
+            "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! Account has been closed. Please contact CSD for details. (%{errorCode})",
+        userNotFoundPlaceBet: "Game %{gameName} (#%{gameRoundId})\n\nFailed to place bet! User was not found. (%{errorCode})",
         sysMaintenancePlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! The game is under maintenance.",
         networkErrorPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Network error.(%{errorCode})",
         noGameOffer: "Your account is not supported on this game portal. Please contact your upline, thank you.",
         sessionTimeout_break:
-            "Your session has timed out or you have not logged in yet.\nPlease close the current windows and try to login again.",
+            "Your session has timed out or you have not logged in yet.\\nPlease close the current windows and try to login again.",
         notEnoughMoneyCardGame: "Your account has insufficient funds to complete the game round.",
         copyMD5Success: "Copy MD5 string successfully!",
         copyKeySuccess: "Copy Key string successully!",

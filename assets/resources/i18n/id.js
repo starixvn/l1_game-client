@@ -40,32 +40,32 @@ window.i18n.languages.id = {
         42: "Texas Hold'em"
     },
     messages: {
-        accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih.(%{errorCode})",
-        ipRestricted: "Alamat IP Anda dibatasi.(%{errorCode})",
+        accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
+        ipRestricted: "Alamat IP Anda dibatasi. (%{errorCode})",
         accountBlacklisted:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Akun telah ditutup. Silakan hubungi CSD untuk lebih lanjut.(%{errorCode})",
-        userNotFound: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Pengguna tidak ditemukan.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Akun telah ditutup. Silakan hubungi CSD untuk lebih lanjut. (%{errorCode})",
+        userNotFound: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Pengguna tidak ditemukan. (%{errorCode})",
         sysMaintenance: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Permainan sedang dalam pemeliharaan.",
-        networkError: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Kesalahan jaringan.(%{errorCode})",
-        userInsufficientFund: "Akun Anda memiliki dana yang tidak mencukupi.(%{errorCode})",
+        networkError: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Kesalahan jaringan. (%{errorCode})",
+        userInsufficientFund: "Akun Anda memiliki dana yang tidak mencukupi. (%{errorCode})",
         limitBetExceeded:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Taruhan Anda telah melampaui batas taruhan Anda, silakan coba lagi.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Taruhan Anda telah melampaui batas taruhan Anda, silakan coba lagi. (%{errorCode})",
         playerNotPermittedPlay:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nPermainan dinonaktifkan. Silakan hubungi upline Anda untuk lebih lanjut, terima kasih.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nPermainan dinonaktifkan. Silakan hubungi upline Anda untuk lebih lanjut, terima kasih. (%{errorCode})",
         winLimitHit:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Batas Kemenganan. Silakan hubungi upline Anda, terima kasih.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Batas Kemenganan. Silakan hubungi upline Anda, terima kasih. (%{errorCode})",
         loseLimitHit:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Batas Kekalahan. Silakan hubungi upline Anda, terima kasih.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Batas Kekalahan. Silakan hubungi upline Anda, terima kasih. (%{errorCode})",
         limitBetUpdated:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Batas taruhan Anda telah diperbarui, silakan coba lagi.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Batas taruhan Anda telah diperbarui, silakan coba lagi. (%{errorCode})",
         limitBetNotDefined:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Batas taruhan Anda untuk game ini belum ditetapkan. Silakan hubungi upline Anda, terima kasih.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Batas taruhan Anda untuk game ini belum ditetapkan. Silakan hubungi upline Anda, terima kasih. (%{errorCode})",
         accountSuspended:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Akun telah ditangguhkan. Silakan hubungi upline Anda untuk lebih lanjut, terima kasih.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Akun telah ditangguhkan. Silakan hubungi upline Anda untuk lebih lanjut, terima kasih. (%{errorCode})",
         unavailableGame:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nPermainan tidak tersedia saat ini. Silakan hubungi CSD untuk lebih lanjut, terima kasih.(%{errorCode})",
-        errorOccurred: "Terjadi kesalahan, hubungi CSD untuk lebih lanjut.(%{errorCode})",
-        errorOccurredFull: "Permainan %{gameName} (#%{gameRoundId})\n\nTerjadi kesalahan, hubungi CSD untuk lebih lanjut.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nPermainan tidak tersedia saat ini. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
+        errorOccurred: "Terjadi kesalahan, hubungi CSD untuk lebih lanjut. (%{errorCode})",
+        errorOccurredFull: "Permainan %{gameName} (#%{gameRoundId})\n\nTerjadi kesalahan, hubungi CSD untuk lebih lanjut. (%{errorCode})",
         sessionTimeout: "Sesi Anda telah habis atau Anda belum masuk. Harap tutup jendela saat ini dan coba masuk lagi.",
         playOnOtherDevice: "Akun Anda sedang digunakan untuk memainkan [game] di browser atau perangkat lain.",
         serverError: "Server mengalami kesalahan.",
@@ -79,11 +79,11 @@ window.i18n.languages.id = {
         nickNameDistance: "Nama panggilan harus antara 3 dan 14 karakter.",
         nickNameCharacter: "Nama panggilan tidak boleh berisi spasi, karakter khusus, dan karakter non-Inggris.",
         existNickName: "Nama panggilan sudah digunakan, silakan coba yang lain.",
-        placeBetFailed: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan!(%{errorCode})",
+        placeBetFailed: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! (%{errorCode})",
         endGameFailed:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nSebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nSebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut. (%{errorCode})",
         getBalanceFailed: "Tidak dapat memperbarui saldo akun.(%{errorCode})",
-        enterPortalFailed: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut.(%{errorCode})",
+        enterPortalFailed: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut. (%{errorCode})",
         jackpotProcessing: "Data sedang diproses, jumlah pemenang Jackpot akan ditambahkan ke akun Anda dalam beberapa menit.",
         placeBetNextRound: "Silakan tunggu putaran berikutnya.",
         cannotPlaceBet: "Tidak bisa bertaruh saat ini. Harap tunggu beberapa detik.",
@@ -133,30 +133,30 @@ window.i18n.languages.id = {
         disableTurboMode: 'Mode Turbo "MATI"',
         noticeTitle: "ULASAN",
         accountClosed:
-            "Akun telah ditutup. Sesi Anda akan kedaluwarsa setelah 10 detik, silakan hubungi CSD untuk detailnya.(%{errorCode})",
+            "Akun telah ditutup. Sesi Anda akan kedaluwarsa setelah 10 detik, silakan hubungi CSD untuk detailnya. (%{errorCode})",
         disabledGame: "Game sedang dalam pemeliharaan, silakan kembali dalam 10 menit.",
         errorOccurredPlaceBet:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Terjadi kesalahan, hubungi CSD untuk lebih lanjut.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Terjadi kesalahan, hubungi CSD untuk lebih lanjut. (%{errorCode})",
         sessionTimeoutPlaceBet:
             "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Sesi Anda telah habis atau Anda belum masuk. Harap tutup jendela saat ini dan coba masuk lagi.",
         loginFailedPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Nama login atau kata sandi salah.",
         accountLockedPlaceBet:
             "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Akun telah ditutup. Silakan hubungi upline Anda untuk lebih lanjut, terima kasih.",
         accountNotExistPlaceBet:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih.(%{errorCode})",
-        ipRestrictedPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Alamat IP Anda dibatasi.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
+        ipRestrictedPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Alamat IP Anda dibatasi. (%{errorCode})",
         accountBlacklistedPlaceBet:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Akun telah ditutup. Silakan hubungi CSD untuk lebih lanjut.(%{errorCode})",
-        userNotFoundPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Pengguna tidak ditemukan.(%{errorCode})",
+            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Akun telah ditutup. Silakan hubungi CSD untuk lebih lanjut. (%{errorCode})",
+        userNotFoundPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Pengguna tidak ditemukan. (%{errorCode})",
         sysMaintenancePlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Permainan sedang dalam pemeliharaan.",
-        networkErrorPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Kesalahan jaringan.(%{errorCode})",
+        networkErrorPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Kesalahan jaringan. (%{errorCode})",
         noGameOffer: "Akun Anda tidak didukung di portal game ini. Silakan hubungi upline Anda, terima kasih.",
-        sessionTimeout_break: "Sesi Anda telah habis atau Anda belum masuk.\nHarap tutup jendela saat ini dan coba masuk lagi.",
-        notEnoughMoneyCardGame: "",
-        copyMD5Success: "",
-        copyKeySuccess: "",
-        maxBetForChoiceNotice2: "",
-        minBetForChoiceNotice: ""
+        sessionTimeout_break: "Sesi Anda telah habis atau Anda belum masuk.\\nHarap tutup jendela saat ini dan coba masuk lagi.",
+        notEnoughMoneyCardGame: "Saldo akun Anda tidak cukup untuk menyelesaikan ronde permainan",
+        copyMD5Success: "Copy MD5 string successfully!",
+        copyKeySuccess: "Copy Key string successully!",
+        maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
+        minBetForChoiceNotice: "Min bet for this option is %{minBet}"
     },
     ui: {
         choice_red2: "2 Merah",
