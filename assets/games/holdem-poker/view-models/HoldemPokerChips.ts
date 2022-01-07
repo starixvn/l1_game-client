@@ -11,7 +11,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class HoldemPokerChips extends cc.Component {
-    private durationAnimationWinning = 4;
+    private readonly durationAnimationWinning = 4;
     private readonly chipScale = 0.5;
 
     public createChip(betChips: BetChips, amount: number): cc.Node {
@@ -157,7 +157,7 @@ export default class HoldemPokerChips extends cc.Component {
         main.getConfigs();
     }
 
-    private flyCurrentChipOnTableToPlayer = (
+    private readonly flyCurrentChipOnTableToPlayer = (
         bettingAreas: HoldemPokerBettingArea[],
         betChoiceName: string,
         userAvatar: cc.Node,
@@ -188,7 +188,7 @@ export default class HoldemPokerChips extends cc.Component {
                     chipStack.children.forEach((chip) => {
                         const destination = chip.parent.convertToNodeSpaceAR(userAvatar.convertToWorldSpaceAR(cc.v2(0, 0)));
                         const playChipsSound = cc.callFunc(() => {
-                            // FIXME: play multi chip audio
+                            // play multi chip audio
                             // DeviceSetting.getInstance().sounds.play(SoundKeys.chip.multiChip);
                         });
                         chip.runAction(

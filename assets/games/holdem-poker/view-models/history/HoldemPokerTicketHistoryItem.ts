@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { BetLog, HandResultConst } from "./HoldemPokerTicketHistory";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
@@ -52,7 +51,7 @@ export default class HoldemPokerTicketHistoryItem extends cc.Component {
       }
       this.dealer.string = `${i18n.t(dealerResult)}`.toUpperCase();
     } else {
-      let playerResult = `holdEmPoker.fold`;
+      const playerResult = `holdEmPoker.fold`;
       this.player.string = `${i18n.t(playerResult)}`;
       this.dealer.node.color = cc.Color.YELLOW;
       this.dealer.string = "-";

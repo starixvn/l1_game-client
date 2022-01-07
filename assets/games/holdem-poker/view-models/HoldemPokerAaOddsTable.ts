@@ -22,7 +22,7 @@ export default class HoldemPokerAaOddsTable extends cc.Component {
     @property(cc.Label)
     pairOfAcesOrHigher: cc.Label = null;
 
-    start() {}
+    start() { }
 
     set RoyalFlush(value: number) {
         this.royalFlush.string = getInternationalFractionalOdds(value);
