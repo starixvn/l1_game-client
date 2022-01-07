@@ -122,7 +122,7 @@ export default class Notice extends cc.Component {
             case "id":
                 return (this.message.cacheMode = 2);
             default:
-                break;
+                return (this.message.cacheMode = 0);
         }
     }
 }

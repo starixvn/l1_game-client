@@ -48,17 +48,15 @@ export default class GameUtils {
 
     public static getChipValues(bet: number, options: number[]): any {
         const chipValue = this.calcChipValue(options, bet);
-        let values = chipValue.values;
-        return values;
+        return chipValue.values;
     }
 
     public static getChipQuantity(bet: number, options: number[]): any {
         const list = [...options].reverse();
         const chipValue = this.calcChipValue(list, bet);
-        let values = chipValue.values;
-        let total = chipValue.chipTotal;
+        const values = chipValue.values;
 
-        if (total > 0) {
+        if (chipValue.chipTotal > 0) {
             values[0] = 1;
         }
         return values;

@@ -7,7 +7,7 @@ export default class ExpandableMenuItem extends cc.Component {
     @property(cc.Button)
     button: cc.Button = null;
 
-    private event: string = "";
+    private event = "";
     private emitter: cc.Node = null;
 
     hasEvent(event: string) {
