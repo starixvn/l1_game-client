@@ -122,7 +122,8 @@ export default class HoldemPokerChips extends cc.Component {
                             cc.jumpTo(jumpTime, destPosition, 100, 1),
                             cc.delayTime(delayBeforeFly),
                             cc.callFunc(() => {
-                                const chipStack = this.createChipStack(+winAmount, betChips, main.shadowChip);
+                                destNode.children.length && destNode.destroyAllChildren();
+                                const chipStack = this.createChipStack(value, betChips, main.shadowChip);
                                 destNode.addChild(chipStack);
                             })
                         )
