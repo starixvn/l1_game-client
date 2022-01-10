@@ -186,7 +186,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {
-        super.addHandlers(this.noticeHandler, this.errorHandler, this.betHandler);
+        super.addHandlers(this.umHandler, this.noticeHandler, this.errorHandler, this.betHandler);
     }
 
     onDataGameRoom(data: any) {
@@ -219,10 +219,16 @@ export default class HoldemPoker extends NewGameRoomBase {
         });
     }
 
-    public disabledDealCancelButtons(status: boolean) {
+    public disabledButtons(status: boolean) {
         const disableButton = "btn-disable";
         this.dealButton.getChildByName(disableButton).active = status;
         this.cancelButton.getChildByName(disableButton).active = status;
+        this.doubleButton.getChildByName(disableButton).active = status;
+        this.reBetButton.getChildByName(disableButton).active = status;
+        this.reBetAndDealButton.getChildByName(disableButton).active = status;
+        this.foldButton.getChildByName(disableButton).active = status;
+        this.doubleAndCallButton.getChildByName(disableButton).active = status;
+        this.newButton.getChildByName(disableButton).active = status;
     }
 
     private initButtonStatus() {
@@ -386,10 +392,11 @@ export default class HoldemPoker extends NewGameRoomBase {
     //override group notice poker
     showNotice(data): Notice {
         const noticePrefab = cc.instantiate(this.noticePrefab);
+        noticePrefab.group = "UI";
         const notice = noticePrefab.getComponent(Notice);
         data.button = { text: "Ok" };
         notice.init(data);
-        this.node.addChild(noticePrefab);
+        this.currentMiniPanel.addNotice(noticePrefab);
 
         return notice;
     }
