@@ -94,10 +94,9 @@ export default class HoldemPokerChips extends cc.Component {
         for (const [key, value] of Object.entries(winningHands)) {
             const betAmount = gameData.placeBetModel.choices[HoldemPokerChoicesConst[key]];
             totalBet += betAmount;
+            const bettingArea = bettingAreas.filter((a) => a.betChoice === key)[0];
             const jumpTime = 0.65;
             const delayBeforeFly = 0.1;
-            const bettingArea = bettingAreas.filter((a) => a.betChoice === key)[0];
-
             if (value > 0) {
                 totalWin += +value;
                 if (+value > betAmount) {
@@ -105,30 +104,7 @@ export default class HoldemPokerChips extends cc.Component {
                     const destNode = bettingArea.chipNode;
                     const chipStack = this.createChipStack(winAmount, betChips, main.shadowChip);
                     destNode.addChild(chipStack);
-                    const startPos = chipStack.parent.convertToNodeSpaceAR(main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
-                    chipStack.position = cc.v3(startPos.x, startPos.y, 0);
-
-                    let destPosition = cc.v2(0, 0);
-                    if (destNode.childrenCount > 0) {
-                        const stack = destNode.children[0].getComponent(ChipStack);
-                        if (stack) {
-                            destPosition = cc.v2(0, stack.getCurrentHeight());
-                        }
-                    }
-                    chipStack.scale = this.chipScale;
-
-                    chipStack.runAction(
-                        cc.sequence(
-                            cc.jumpTo(jumpTime, destPosition, 100, 1),
-                            cc.delayTime(delayBeforeFly),
-                            cc.callFunc(() => {
-                                destNode.children.length && destNode.destroyAllChildren();
-                                const chipStack = this.createChipStack(value, betChips, main.shadowChip);
-                                destNode.addChild(chipStack);
-                            })
-                        )
-                    );
-
+                    this.handleChipStack(chipStack, main, destNode, betChips, value, jumpTime, delayBeforeFly);
                     this.flyCurrentChipOnTableToPlayer(bettingAreas, key, main.userAvatar.node, jumpTime, main);
                     main.playStartGameAudio();
                 }
@@ -139,6 +115,49 @@ export default class HoldemPokerChips extends cc.Component {
             }
         }
 
+        this.playerWinningAffectAction(totalWin, totalBet, gameData, main);
+        main.getConfigs();
+    }
+
+    private handleChipStack(
+        chipStack: cc.Node,
+        main: HoldemPoker,
+        destNode: cc.Node,
+        betChips: BetChips,
+        value: any,
+        jumpTime: number,
+        delayBeforeFly: number
+    ) {
+        const startPos = chipStack.parent.convertToNodeSpaceAR(main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
+        chipStack.position = cc.v3(startPos.x, startPos.y, 0);
+
+        let destPosition = cc.v2(0, 0);
+        if (destNode.childrenCount > 0) {
+            const stack = destNode.children[0].getComponent(ChipStack);
+            if (stack) {
+                destPosition = cc.v2(0, stack.getCurrentHeight());
+            }
+        }
+        chipStack.scale = this.chipScale;
+
+        chipStack.runAction(
+            cc.sequence(
+                cc.jumpTo(jumpTime, destPosition, 100, 1),
+                cc.delayTime(delayBeforeFly),
+                cc.callFunc(() => {
+                    destNode.children.length && destNode.destroyAllChildren();
+                    const chipStack = this.createChipStack(value, betChips, main.shadowChip);
+                    destNode.addChild(chipStack);
+                })
+            )
+        );
+    }
+    private playerWinningAffectAction(
+        totalWin: number,
+        totalBet: number,
+        gameData: HoldemPokerGameData<HoldemPokerChoices>,
+        main: HoldemPoker
+    ) {
         const isWin = totalWin > totalBet;
         cc.tween(main.node)
             .delay(totalWin > 0 ? 2.5 : 0)
@@ -155,7 +174,6 @@ export default class HoldemPokerChips extends cc.Component {
                 gameData.finishModel.finishAnimationWinning();
             })
             .start();
-        main.getConfigs();
     }
 
     private readonly flyCurrentChipOnTableToPlayer = (
