@@ -120,9 +120,13 @@ export default class Notice extends cc.Component {
             case "vi":
             case "en":
             case "id":
-                return (this.message.cacheMode = 2);
+                this.message.cacheMode = 2;
+                break;
             default:
-                return (this.message.cacheMode = 0);
+                this.message.cacheMode = 0;
+                break;
         }
+
+        return this.message.cacheMode;
     }
 }

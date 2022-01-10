@@ -1,10 +1,10 @@
 import { EventEmitter } from "events";
 
 export type DurationsOptions = {
-  wholeRound?: number;
-  placingBet?: number;
-  lockingBet?: number;
-  waitingTime?: number;
+    wholeRound?: number;
+    placingBet?: number;
+    lockingBet?: number;
+    waitingTime?: number;
 };
 
 /**
@@ -30,7 +30,7 @@ export class Durations extends EventEmitter {
     private _remaining: number;
     private overrideEvent: { name: string; remaining: number; duration: number };
     private latestEventName: string;
-    private latestEventCounter: number = 0;
+    private latestEventCounter = 0;
 
     protected wholeRound: number;
     protected placingBet: number; // Include locking bet time

@@ -6,7 +6,6 @@ import { BaseEventHandler } from "../event-handlers/base-handler";
 import { PlaceBetNoticeEventHandler } from "../event-handlers/place-bet-notice-handler";
 import { TimeEventHandler } from "../event-handlers/time-handler";
 import { TotalBetsEventHandler } from "../event-handlers/total-bets-handler";
-import { UMHandler } from "../event-handlers/um-handler";
 import { CommonEvents } from "./common-events";
 import { Durations } from "./durations";
 import { TotalBets } from "./total-bets";
@@ -38,10 +37,6 @@ export class GameData<Choices> extends EventEmitter {
 
     set isProcessingBet(value: boolean) {
         this.processingBetFlag = value;
-
-        // if (!value) {
-        //   this.updateUserBalance();
-        // }
     }
 
     constructor() {
