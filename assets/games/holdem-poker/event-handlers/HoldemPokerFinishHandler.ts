@@ -1,4 +1,3 @@
-import HoldemPokerChoices from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
 

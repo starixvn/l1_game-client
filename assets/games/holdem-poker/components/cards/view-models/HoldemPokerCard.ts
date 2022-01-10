@@ -54,7 +54,7 @@ export default class HoldemPokerCard extends cc.Component {
     private defaultSizeBgH: number = null;
     private card: CardModel = { rank: "A", suit: 3 };
 
-    private suffix = ["heart", "diamond", "club", "spade"];
+    private readonly suffix = ["heart", "diamond", "club", "spade"];
     private picture = {
         j: "j_picture",
         q: "q_picture",

@@ -76,7 +76,7 @@ export default class HoldemPokerCardLayout extends cc.Component {
     }
 
     getNextPosition(forceRenderPosition?: number): cc.Vec3 {
-        const position = forceRenderPosition == undefined ? this.content.childrenCount : forceRenderPosition;
+        const position = forceRenderPosition === undefined ? this.content.childrenCount : forceRenderPosition;
 
         let x = this.cardSizeWidth / 2 + this.ratio * position * this.spacingX;
         let y = 0;

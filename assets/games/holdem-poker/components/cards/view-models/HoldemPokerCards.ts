@@ -54,7 +54,7 @@ export default class HoldemPokerCards extends cc.Component {
 
     get isCollectedCard() {
         return (
-            this.middleCards.getCards().length == 0 && this.playerCards.getCards().length == 0 && this.dealerCards.getCards().length == 0
+            this.middleCards.getCards().length === 0 && this.playerCards.getCards().length === 0 && this.dealerCards.getCards().length === 0
         );
     }
 
@@ -165,27 +165,26 @@ export default class HoldemPokerCards extends cc.Component {
     private showIndicatorCard(
         combineCards: CardModel[],
         cardHands: { row: HandPlace; position: string; whose: string }[],
-        waitingCardRender: number = 0.1
+        waitingCardRender = 0.1
     ) {
         this.schedule(
             () => {
-                for (let index = 0; index < cardHands.length; index++) {
-                    const cardHand = cardHands[index];
+                cardHands.forEach((cardHand) => {
                     const cardsInRow = cardHand.row.getCards();
-                    for (let index = 0; index < cardsInRow.length; index++) {
-                        const card = cardsInRow[index].getComponent(HoldemPokerCard).getCard();
+                    cardsInRow.forEach((cardInRow) => {
+                        const card = cardInRow.getComponent(HoldemPokerCard).getCard();
                         const combineCard = combineCards.find((e) => {
                             return e.rank === card.rank && e.suit === card.suit;
                         });
                         if (combineCard) {
-                            cardsInRow[index]
+                            cardInRow
                                 .getChildByName("card")
                                 .getChildByName("Arrows")
                                 .getComponent(HoldemPokerArrows)
                                 .showArrow(cardHand.position, cardHand.whose);
                         }
-                    }
-                }
+                    });
+                });
             },
             null,
             null,
@@ -282,14 +281,14 @@ export default class HoldemPokerCards extends cc.Component {
         const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
         containerCards.cardLayout.shadow.active = false;
         const cardsNodes = containerCards.getCards();
-        let count = 0;
 
-        if (!cardsNodes.length) return;
+        if (!cardsNodes.length) {
+            return;
+        }
         const destPosition = cardsNodes[0].parent.convertToNodeSpaceAR(worldPosition);
         cardsNodes.forEach((cardNode) => {
             cc.tween(cardNode)
                 .to(0.3, { position: cc.v2(0, 0) })
-                .delay(count * 0.05)
                 .call(() => {
                     const cardComponent = cardNode.getComponent(HoldemPokerCard);
                     cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
