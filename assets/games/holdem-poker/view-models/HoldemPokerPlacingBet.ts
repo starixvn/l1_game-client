@@ -62,21 +62,6 @@ export default class HoldemPokerPlacingBet {
         }
     }
 
-    rebet() {
-        const currentTotal = Object.keys(this.gameData.placeBetModel.previousChoices).reduce((sum, current) => {
-            return sum + this.gameData.placeBetModel.previousChoices[current];
-        }, 0);
-        if (this.validateAccountBalance(currentTotal)) {
-            this.gameData.receiveUIData({
-                rebet: { choices: this.gameData.placeBetModel.previousChoices }
-            });
-        } else {
-            this.gameData.receiveUIData({
-                replayNew: {}
-            });
-        }
-    }
-
     rebetAndDeal() {
         const currentTotal = Object.keys(this.gameData.placeBetModel.previousChoices).reduce((sum, current) => {
             const currentValue =

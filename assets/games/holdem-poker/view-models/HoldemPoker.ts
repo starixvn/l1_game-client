@@ -76,9 +76,6 @@ export default class HoldemPoker extends NewGameRoomBase {
     doubleButton: cc.Node = null;
 
     @property(cc.Node)
-    reBetButton: cc.Node = null;
-
-    @property(cc.Node)
     reBetAndDealButton: cc.Node = null;
 
     @property(cc.Node)
@@ -224,7 +221,6 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.dealButton.getChildByName(disableButton).active = status;
         this.cancelButton.getChildByName(disableButton).active = status;
         this.doubleButton.getChildByName(disableButton).active = status;
-        this.reBetButton.getChildByName(disableButton).active = status;
         this.reBetAndDealButton.getChildByName(disableButton).active = status;
         this.foldButton.getChildByName(disableButton).active = status;
         this.doubleAndCallButton.getChildByName(disableButton).active = status;
@@ -239,8 +235,6 @@ export default class HoldemPoker extends NewGameRoomBase {
             !this.doubleButton.getChildByName(disableButton).active && this.onDoubleClick();
         this.cancelButton.getComponent(NewButton).callback.selected = () =>
             !this.cancelButton.getChildByName(disableButton).active && this.onCancelClick();
-        this.reBetButton.getComponent(NewButton).callback.selected = () =>
-            !this.reBetButton.getChildByName(disableButton).active && this.onRebetClick();
         this.reBetAndDealButton.getComponent(NewButton).callback.selected = () =>
             !this.reBetAndDealButton.getChildByName(disableButton).active && this.onRebetAndDeal();
         this.foldButton.getComponent(NewButton).callback.selected = () =>
@@ -406,13 +400,6 @@ export default class HoldemPoker extends NewGameRoomBase {
         });
     }
 
-    onRebetClick() {
-        this.playClick();
-        this.hideButtonPrepareNewRound();
-        this.md5Comp.resetDefaultValue(i18n.t("holdEmPoker.md5String"), false);
-        collectCart(this.pokerCardScript, () => this.placingBet && this.placingBet.rebet());
-    }
-
     onRebetAndDeal() {
         this.playClick();
         this.hideButtonPrepareNewRound();
@@ -458,7 +445,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     private hideButtonPrepareNewRound() {
-        this.reBetAndDealButton.active = this.reBetButton.active = this.newButton.active = false;
+        this.reBetAndDealButton.active = this.newButton.active = false;
     }
 
     public getConfigs() {

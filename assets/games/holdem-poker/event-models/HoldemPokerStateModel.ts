@@ -98,17 +98,6 @@ export class HoldemPokerStateModel extends EventEmitter {
         this.emit(HoldemPokerStateModel.Events.CHANGE, this);
     }
 
-    rebet(choices) {
-        const hasAABet = !!choices[HoldemPokerChoicesConst.aa];
-        if (hasAABet) {
-            this.state = HoldemPokerState.all_bet;
-            this.emit(HoldemPokerStateModel.Events.CHANGE, this);
-        } else {
-            this.state = HoldemPokerState.ante_bet;
-            this.emit(HoldemPokerStateModel.Events.CHANGE, this);
-        }
-    }
-
     dealing() {
         this.state = HoldemPokerState.dealing;
         this.emit(HoldemPokerStateModel.Events.CHANGE, this);

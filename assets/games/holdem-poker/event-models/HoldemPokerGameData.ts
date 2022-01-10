@@ -114,10 +114,7 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
             this.placeBetModel.resetBets();
             this.stateModel.cancelBet();
         }
-        if (!!data.rebet) {
-            this.placeBetModel.rebet();
-            this.stateModel.rebet(data.rebet.choices);
-        }
+
         if (!!data.rebetAndDeal) {
             this.placeBetModel.rebetAndDeal();
             this.stateModel.deal();
