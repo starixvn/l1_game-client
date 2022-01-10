@@ -1,43 +1,10 @@
 import HoldemPokerArrow from "./HoldemPokerArrow";
+import NewCard from "../../../../../common/new-card/view-models/NewCard";
 
 const { ccclass, property } = cc._decorator;
 
-export interface CardModel {
-    rank: string;
-    suit: number;
-}
-
-export enum CardAnimation {
-    DealerToHand = "chia-bai",
-    DropCard = "thu-bai",
-    DealerOpenCard = "dealer_open_card",
-    DealerDrawingFaceDown = "dealer_drawing_face_down",
-    PullCard = "pull_card"
-}
-
 @ccclass
-export default class HoldemPokerCard extends cc.Component {
-    @property(cc.SpriteAtlas)
-    atlas: cc.SpriteAtlas = null;
-
-    @property(cc.Sprite)
-    image: cc.Sprite = null;
-
-    @property(cc.Animation)
-    animation: cc.Animation = null;
-
-    @property(cc.Node)
-    description: cc.Node = null;
-
-    @property(cc.Sprite)
-    number: cc.Sprite = null;
-
-    @property(cc.Sprite)
-    smallSuite: cc.Sprite = null;
-
-    @property(cc.Sprite)
-    largeSuite: cc.Sprite = null;
-
+export default class HoldemPokerCard extends NewCard {
     @property(cc.Node)
     bgWhiteFaceDown: cc.Node = null;
 
@@ -52,16 +19,6 @@ export default class HoldemPokerCard extends cc.Component {
 
     private defaultSizeBgW: number = null;
     private defaultSizeBgH: number = null;
-    private card: CardModel = { rank: "A", suit: 3 };
-
-    private readonly suffix = ["heart", "diamond", "club", "spade"];
-    private picture = {
-        j: "j_picture",
-        q: "q_picture",
-        k: "k_picture"
-    };
-
-    public onAnimationComplete = () => {};
 
     showArrow(position: string, whose: string) {
         switch (position) {
@@ -81,89 +38,27 @@ export default class HoldemPokerCard extends cc.Component {
     }
 
     onLoad() {
-        this.animation &&
-            this.animation.on(
-                "finished",
-                () => {
-                    this.onAnimationComplete();
-                },
-                this
-            );
+        super.onLoad();
 
         this.defaultSizeBgW = this.image.node.width;
         this.defaultSizeBgH = this.image.node.height;
-    }
-
-    setCard(card: CardModel) {
-        this.card = card;
     }
 
     getCard() {
         return this.card;
     }
 
-    setCardOldStyle(card: CardModel) {
-        this.card.rank = this.convertOldRank(+card.rank);
-        this.card.suit = card.suit;
-    }
-
-    convertOldRank(num: number): string {
-        num++;
-        const dict = {
-            11: "J",
-            12: "Q",
-            13: "K",
-            1: "A"
-        };
-        return dict[num] || num.toString();
-    }
-
     setFaceUp(faceUp: boolean) {
-        if (faceUp) {
-            if (this.card) {
-                this.description.active = true;
-
-                const lowerCaseRank = this.card.rank.toLowerCase();
-                const color = cc.Color.BLACK;
-                const frame = this.atlas.getSpriteFrame(lowerCaseRank);
-                this.number.spriteFrame = frame;
-                this.number.node.color = this.card.suit > 1 ? color : color.fromHEX("#960000");
-                this.smallSuite.spriteFrame = this.atlas.getSpriteFrame(`${this.suffix[this.card.suit]}_small`);
-
-                if (+this.card.rank || this.card.rank === "A") {
-                    this.largeSuite.spriteFrame = this.atlas.getSpriteFrame(this.suffix[this.card.suit]);
-                } else {
-                    this.largeSuite.spriteFrame = this.atlas.getSpriteFrame(this.picture[lowerCaseRank]);
-                }
-                this.borderCard.active = true;
-                this.bgWhiteFaceDown.active = false;
-                this.image.spriteFrame = this.atlas.getSpriteFrame("card_bg");
-            } else {
-                console.warn("Call setFaceUp when this.card null");
-                this.showCardBack();
-            }
-        } else {
-            this.showCardBack();
+        super.setFaceUp(faceUp);
+        if (faceUp && this.card) {
+            this.borderCard.active = true;
+            this.bgWhiteFaceDown.active = false;
         }
     }
 
-    faceUp() {
-        this.setFaceUp(true);
-    }
-
-    faceDown() {
-        this.setFaceUp(false);
-    }
-
-    private showCardBack() {
+    protected showCardBack() {
+        super.showCardBack();
         this.borderCard.active = false;
         this.bgWhiteFaceDown.active = true;
-        this.description.active = false;
-        this.image.spriteFrame = this.atlas.getSpriteFrame("BACK_1");
-    }
-
-    playAnimation(type: CardAnimation, duration: number) {
-        const state = this.animation.playAdditive(type);
-        state.speed = state.duration / duration;
     }
 }
