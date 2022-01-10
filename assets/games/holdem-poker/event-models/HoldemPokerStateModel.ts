@@ -51,7 +51,9 @@ export class HoldemPokerStateModel extends EventEmitter {
         if (this.previousRound) {
             this.state = HoldemPokerState.replay_new;
             this.emit(HoldemPokerStateModel.Events.CHANGE, this);
-        } else this.state = HoldemPokerState.blank_new;
+        } else {
+            this.state = HoldemPokerState.blank_new;
+        }
         this.emit(HoldemPokerStateModel.Events.CHANGE, this);
     }
 

@@ -11,7 +11,7 @@ export class HoldemPokerSettlement extends EventEmitter {
     START_SHOW_CARDS: "startShowCards",
   };
 
-  isWaiting: boolean = false;
+  isWaiting = false;
 
   set waiting(value: boolean) {
     this.isWaiting = value;

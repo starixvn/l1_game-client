@@ -20,8 +20,6 @@ export default class HoldemPokerFinishHandler<Choices> extends HoldemPokerEventH
   protected handle(event: HoldemPokerFinish<Choices>) {
     this.gameData.isProcessingBet = false;
     const { settlementResult } = event.finish;
-    let settlement = new HoldemPokerChoices();
-    settlement = settlementResult;
 
     this.gameData.emit(HoldemPokerGameData.Events.SETTLED, this);
     this.gameData.finishModel.changeSettlementResult(settlementResult);

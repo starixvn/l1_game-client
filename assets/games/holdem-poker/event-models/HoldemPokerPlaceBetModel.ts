@@ -72,7 +72,7 @@ export class HoldemPokerPlaceBetModel extends EventEmitter {
         this.emit(HoldemPokerPlaceBetModel.Events.DEAL, this);
     }
 
-    rebet(isReBetAndDeal?: boolean) {
+    rebet(isReBetAndDeal = true) {
         this.choices = cloneDeep(this.previousChoices);
         this.emit(HoldemPokerPlaceBetModel.Events.PLACE_BET, this);
         this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_GAME_ROUND, this);

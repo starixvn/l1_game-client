@@ -17,7 +17,6 @@ export class HoldemPokerAfterDealModel extends EventEmitter {
     communityCards: HoldemPokerCardModel[];
     combinationResult: HoldemPokerCombinationResult;
     roundId: number;
-    // totalAmount: number;
 
     changeDataAfterDeal(
         playerCards: HoldemPokerCardModel[],
@@ -30,7 +29,6 @@ export class HoldemPokerAfterDealModel extends EventEmitter {
         this.roundId = roundId;
         this.combinationResult = combinationResult;
         this.communityCards = communityCards;
-        // this.totalAmount = totalAmount;
 
         this.emit(HoldemPokerAfterDealModel.Events.CHANGE, this);
     }

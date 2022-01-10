@@ -22,8 +22,6 @@ export default class HoldemPokerAnteOddsTable extends cc.Component {
     @property(cc.Label)
     straightOrLower: cc.Label = null;
 
-    start() { }
-
     set RoyalFlush(value: number) {
         this.royalFlush.string = getInternationalFractionalOdds(value);
     }
