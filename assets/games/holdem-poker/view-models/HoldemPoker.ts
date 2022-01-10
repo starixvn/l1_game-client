@@ -389,18 +389,6 @@ export default class HoldemPoker extends NewGameRoomBase {
         });
     }
 
-    //override group notice poker
-    showNotice(data): Notice {
-        const noticePrefab = cc.instantiate(this.noticePrefab);
-        noticePrefab.group = "UI";
-        const notice = noticePrefab.getComponent(Notice);
-        data.button = { text: "Ok" };
-        notice.init(data);
-        this.currentMiniPanel.addNotice(noticePrefab);
-
-        return notice;
-    }
-
     onDealClick() {
         this.playClick();
         this.placingBet.dealBet();
