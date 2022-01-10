@@ -15,6 +15,7 @@ export const showHideButtons = (main: HoldemPoker) => (stateModel: HoldemPokerSt
         case HoldemPokerState.all_bet:
             main.dealButton.active = main.cancelButton.active = main.doubleButton.active = true;
             main.reBetButton.active = main.reBetAndDealButton.active = main.newButton.active = false;
+            main.disabledButtons(false);
             break;
         case HoldemPokerState.aa_bet:
             main.cancelButton.active = true;
