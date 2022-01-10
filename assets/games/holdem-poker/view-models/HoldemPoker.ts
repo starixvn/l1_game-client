@@ -298,7 +298,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     private registerConfigsEvents() {
         this.gameData.configs.on(HoldemPokerConfigs.Events.CHANGE, (configs: HoldemPokerConfigs) => {
             this.setGameConfigs(configs);
-            updateMinMax(this.minMaxTable)(configs);
+            updateMinMax(this.minMaxTable)(this);
             updateAnteOdds(this.anteOddsTable)(configs);
             updateAaOdds(this.aaOddsTable)(configs);
         });
