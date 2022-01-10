@@ -269,7 +269,7 @@ window.i18n.languages.id = {
         choice_four: "EMPAT",
         choice_five: "LIMA",
         choice_six: "ENAM",
-        new_bet: "Taruhan Baru",
+        new_bet: "New Bet",
         choice_dealer: "Dealer",
         hand_id: "ID Tangan",
         deal: "Deal",
