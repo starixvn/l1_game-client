@@ -22,7 +22,7 @@ export const convertCard = (cards) => {
 export const rawCardAfterClickDeal = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
-    const { playerCards, communityCards, combinationResult } = cardsData;
+    const { playerCards, communityCards } = cardsData;
     const dealerFakeData = [
         { rank: "1", suit: 1 },
         { rank: "1", suit: 1 }
@@ -40,10 +40,14 @@ export const rawCardAfterClickDeal = async (pokerCardsNote: PokerCards, cardsDat
     //=> dealer;
     await pokerCardsNote.drawingCardToDealer(dealerFakeData[1], true, 1);
 
-    for (let index = 0; index < communityCardsConverted.length; index++) {
-        const card = communityCardsConverted[index];
-        await pokerCardsNote.drawingCardToMiddle(card, false);
-    }
+    // for (let index = 0; index < communityCardsConverted.length; index++) {
+    //     const card = communityCardsConverted[index];
+    //     await pokerCardsNote.drawingCardToMiddle(card, false);
+    // }
+    communityCardsConverted.forEach((element) => {
+        await pokerCardsNote.drawingCardToMiddle(element, false);
+    });
+
     pokerCardsNote.focusPlayerCard();
     showIndicator(pokerCardsNote, cardsData, callBack, 0);
 };
@@ -56,20 +60,18 @@ export const rawCardAfterClickCall = async (pokerCardsNote: PokerCards, cardsDat
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
 
-    for (let index = 0; index < communityCardsConverted.length; index++) {
-        const element = communityCardsConverted[index];
+    communityCardsConverted.forEach((element) => {
         await pokerCardsNote.drawingCardToMiddle(element, false);
-    }
+    });
 
-    for (let index = 0; index < dealerCardsConverted.length; index++) {
-        const element = dealerCardsConverted[index];
+    dealerCardsConverted.forEach((element, index) => {
         await pokerCardsNote.faceUpDealerCard(element, index);
-    }
+    });
 
     showIndicator(pokerCardsNote, cardsData, callBack, 1700);
 };
 
-const showIndicator = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function, delayCallBack: number = 2000) => {
+const showIndicator = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function, delayCallBack = 2000) => {
     const { combinationResult } = cardsData;
     const { playerResult, dealerResult, isQualified } = combinationResult;
     const playerCombinationCardsConverted: [
@@ -96,7 +98,7 @@ const showIndicator = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Fu
     }, delayCallBack);
 };
 
-export const collectCart = (pokerCardsNote: PokerCards, callBack?: Function, delayCallBack: number = 0) => {
+export const collectCart = (pokerCardsNote: PokerCards, callBack?: Function, delayCallBack = 0) => {
     const durationCollectCard = 2700;
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
@@ -108,7 +110,7 @@ export const collectCart = (pokerCardsNote: PokerCards, callBack?: Function, del
 };
 export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
     const { combinationResult, communityCards, playerCards } = cardsData;
-    const { playerResult, dealerResult, isQualified } = combinationResult;
+    const { playerResult } = combinationResult;
 
     const playerCombinationCardsConverted: [
         {
@@ -127,18 +129,17 @@ export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any, ca
     const playerCardsConverted = convertCard(playerCards);
     const communityCardsConverted = convertCard(communityCards);
 
-    for (let index = 0; index < playerCardsConverted.length; index++) {
-        const card = playerCardsConverted[index];
-        pokerCardsNote.drawingRejoinPlayerCards(card, false);
-    }
-    for (let index = 0; index < communityCardsConverted.length; index++) {
-        const card = communityCardsConverted[index];
-        pokerCardsNote.drawingRejoinMiddleCards(card, false);
-    }
-    for (let index = 0; index < dealerDataFake.length; index++) {
-        const card = dealerDataFake[index];
-        pokerCardsNote.drawingRejoinDealerCards(card, true);
-    }
+    playerCardsConverted.forEach((element) => {
+        pokerCardsNote.drawingRejoinPlayerCards(element, false);
+    });
+
+    communityCardsConverted.forEach((element) => {
+        pokerCardsNote.drawingRejoinMiddleCards(element, false);
+    });
+
+    dealerDataFake.forEach((element) => {
+        pokerCardsNote.drawingRejoinDealerCards(element, true);
+    });
     pokerCardsNote.showArrowIndicatorCards(playerCombinationCardsConverted, "player");
     pokerCardsNote.showLabelIndicatorCards(playerResult.handResultId, "player");
     pokerCardsNote.focusPlayerCard();

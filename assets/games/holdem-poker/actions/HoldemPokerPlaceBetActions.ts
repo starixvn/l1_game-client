@@ -1,5 +1,6 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { showTooltip } from "../../../common/utils/BrowserUtil";
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import { HoldemPokerPlaceBetModel } from "../event-models/HoldemPokerPlaceBetModel";
@@ -100,10 +101,6 @@ export const showHideClearIcon = (bettingAreas: HoldemPokerBettingArea[]) => (st
         case HoldemPokerState.aa_bet:
             bettingAreas[0].showClearIcon(false);
             bettingAreas[1].showClearIcon(true);
-            break;
-        case HoldemPokerState.calling_deal:
-            bettingAreas[0].showClearIcon(false);
-            bettingAreas[1].showClearIcon(false);
             break;
         default:
             bettingAreas[0].showClearIcon(false);
