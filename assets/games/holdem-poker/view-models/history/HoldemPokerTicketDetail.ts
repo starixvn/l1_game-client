@@ -61,13 +61,13 @@ export default class HoldemPokerTicketDetail extends cc.Component {
     }
 
     renderBets(data: HoldemPokerTicketDetailModel) {
-        const { bets } = data.ticketDetail;
+        const { bets, isFold } = data.ticketDetail;
+        this.heightBetTable = isFold ? 76 : 64;
         bets.forEach((bet, index) => {
             this.heightBetTable += 60;
             this.handleTicketDetailItem(bet, index);
         });
         this.betTable.node.height = this.heightBetTable;
-
     }
 
     handleTicketDetailItem(bet: any, index: number) {
@@ -149,7 +149,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         });
         this.dealerCombinationContainer.getComponent(cc.Label).string = "-";
         this.playerCombinationContainer.getComponent(cc.Label).string = "-";
-        const playerResult = 'holdEmPoker.fold';
+        const playerResult = "holdEmPoker.fold";
         this.playerRank.string = `${i18n.t(playerResult)}`;
         this.dealerRank.string = "-";
     }

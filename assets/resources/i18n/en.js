@@ -446,7 +446,7 @@ window.i18n.languages.en = {
         fold: "Fold",
         highCards: "High Card",
         onePair: "Pair",
-        twoPairs: "Two Pairs",
+        twoPairs: "Two Pair",
         threeKind: "Three of a Kind",
         straight: "Straight",
         doesNotQualify: "Does Not Qualify",
