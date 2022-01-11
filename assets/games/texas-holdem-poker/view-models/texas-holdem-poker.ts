@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import NewButton from "../../../common/custom-button/NewButton";
+import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import PrefabLoader from "../../../common/PrefabLoader";
 import { GameIds } from "../../../configs/SabaConfigs";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
@@ -14,17 +15,14 @@ import {
     showHideTooltip,
     showPlaceBetChips,
     updateAllChips,
-    updateChips,
+    updateChips
 } from "../actions/texas-holdem-poker-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-holdem-poker-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-holdem-poker-settlement-actions";
 import { renderTicketDetail } from "../actions/texas-holdem-poker-ticket-detail-actions";
 import { showUMInfo } from "../actions/texas-holdem-poker-um-actions";
 import { TexasHoldemPokerAfterCallModel } from "../event-models/texas-holdem-poker-call-model";
-import TexasHoldemPokerChoices, {
-    BetActionConst,
-    TexasHoldemPokerChoicesConst,
-} from "../event-models/texas-holdem-poker-choices";
+import TexasHoldemPokerChoices, { BetActionConst, TexasHoldemPokerChoicesConst } from "../event-models/texas-holdem-poker-choices";
 import { TexasHoldemPokerConfigs } from "../event-models/texas-holdem-poker-configs";
 import { TexasHoldemPokerAfterDealModel } from "../event-models/texas-holdem-poker-deal-model";
 import { TexasHoldemPokerFinishModel } from "../event-models/texas-holdem-poker-finish-model";
@@ -39,7 +37,7 @@ import {
     dealFirstThreeCommunityCards,
     dealPlayerAndDealerCards,
     dealSecondCard,
-    dealThirdCardAndFaceUpDealerCards,
+    dealThirdCardAndFaceUpDealerCards
 } from "../texas-cards-component/view-models/cards-wrapper";
 import TexasHoldemPokerCards from "../texas-cards-component/view-models/texas-holdem-poker-cards";
 import { updateLeftOddsTable, updateMinMax, updateRightOddsTable } from "./../actions/texas-holdem-poker-configs-actions";
@@ -47,11 +45,8 @@ import { prepareNewRound, showOwnBet } from "./../actions/texas-holdem-poker-pla
 import { showRejoinOwnBets } from "./../actions/texas-holdem-poker-rejoin-room-actions";
 import { TexasHoldemPokerAfterRiverModel } from "./../event-models/texas-holdem-poker-river-model";
 import { TexasHoldemPokerStateModel } from "./../event-models/texas-holdem-poker-state-model";
-import {
-    dealFourAndFireCardAndFaceUpDealerCards,
-    rawCardWhenRejoin,
-} from "./../texas-cards-component/view-models/cards-wrapper";
-import TexasTicketHistory from "./game-history/texas-ticket-history";
+import { dealFourAndFireCardAndFaceUpDealerCards, rawCardWhenRejoin } from "./../texas-cards-component/view-models/cards-wrapper";
+// import TexasTicketHistory from "./game-history/texas-ticket-history";
 import TexasHoldemPokerBettingArea from "./texas-holdem-poker-betting-area";
 import TexasHoldemPokerChips from "./texas-holdem-poker-chip";
 import TexasHoldemPokerMinMaxTable from "./texas-holdem-poker-min-max-table";
@@ -130,7 +125,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     protected colorItem = "#4d2a0e";
     protected colorIconMain = "#4d2a0e";
     pokerCardScript: TexasHoldemPokerCards = undefined;
-    private betHistoryController: TexasTicketHistory = null;
+    // private betHistoryController: TexasTicketHistory = null;
 
     constructor() {
         super();
@@ -140,7 +135,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     onLoad() {
         this.gameData = new TexasHoldemPokerGameData<TexasHoldemPokerChoices>();
         this.texasHoldemPokerChips = new TexasHoldemPokerChips();
-        this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
+        // this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
 
         super.onLoad();
     }
@@ -151,9 +146,9 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.initMenu();
         this.initPlacingBet();
         this.initButtonStatus();
-        this.initTicketHistory();
+        // this.initTicketHistory();
 
-        this.prefabLoader.forEach((loader) => loader.initialize());
+        // this.prefabLoader.forEach((loader) => loader.initialize());
         this.registerStateEvents();
         this.registerConfigsEvents();
         this.initPokerCardScript();
@@ -235,13 +230,9 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     }
 
     private initMenu() {
-        // const gameRoomMenu = this.gameMenuContainer.getComponent(GameRoomMenu);
-        // gameRoomMenu
-        //     .initialize(this.node, this)
-        //     .addCommonIcon()
-        //     .withShowGuideEvent(this.pressedShowGuide)
-        //     .withShowHistoryEvent(this.pressedShowHistory)
-        //     .withCloseGameEvent(this.closeGame);
+        const gameRoomMenu = this.gameMenuContainer.getComponent(GameRoomMenu);
+        const menuAction = [this.onCloseGameClick, this.pressedShowHistory, this.openGuide];
+        gameRoomMenu.initialize(this.node, this).addCommonIcon().withEvents(menuAction);
     }
 
     private initTicketHistory() {

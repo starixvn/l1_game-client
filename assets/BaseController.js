@@ -164,7 +164,6 @@ module.exports = {
                 }
             });
             this.user.offerGames = list;
-            console.log(list, "list");
             cc.sys.localStorage.setItem("latestOfferGames", JSON.stringify(list));
         }
         if (data.rate) {
