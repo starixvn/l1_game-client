@@ -55,7 +55,7 @@ window.i18n.languages.zh_cn = {
         limitBetNotDefined:
             "%{gameName} 游戏 (#%{gameRoundId})\n\n下注失败！ 您对此游戏的投注限额尚未设置。 请联系您的上线，谢谢。(%{errorCode})",
         accountSuspended: "%{gameName} 游戏 (#%{gameRoundId})\n\n下注失败！ 帐户已被暂停。 详情请联络您的上线，谢谢。(%{errorCode})",
-        unavailableGame: "%{gameName} 游戏 (#%{gameRoundId})\n\n该游戏暂时无法使用。 详情请联系CSD，谢谢。(%{errorCode})",
+        unavailableGame: "%{gameName} 游戏 (#%{gameRoundId})\n\n该游戏暂时无法使用。 详情请联系CSD，谢谢。      (%{errorCode})",
         errorOccurred: "发生错误，请联系 CSD 了解详情。(%{errorCode})",
         errorOccurredFull: "%{gameName} 游戏 (#%{gameRoundId})\n\n发生错误，请联系 CSD 了解详情。(%{errorCode})",
         sessionTimeout: "您的会话已超时或您尚未登录。 请关闭当前窗口并再次尝试登录。",
