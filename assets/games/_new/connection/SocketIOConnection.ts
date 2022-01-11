@@ -38,19 +38,6 @@ export default class SocketIOConnection implements Connection {
     private gameName: string;
     private onConnectFailed: Function;
 
-    // constructor(options: SocketIOConnectionOptions) {
-    //     this.socket = io(options.socketUri, {
-    //         transports: ["websocket"],
-    //         upgrade: false,
-    //         path: options.proxyRoute,
-    //         forceNew: true
-    //     });
-    //     this.gameName = options.gameName;
-    //     this.onConnectFailed = options.onConnectFailed || (() => ({}));
-
-    //     this.registerEvents();
-    // }
-
     setSocket(socket: Socket, gameName: string) {
         this.socket = socket;
         this.gameName = gameName;

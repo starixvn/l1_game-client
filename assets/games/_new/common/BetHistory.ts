@@ -20,7 +20,7 @@ export default class BetHistory extends cc.Component {
         this.connection.removeListener(this.gameName, this.callback);
     }
 
-    getHistory(page: number = 1) {
+    getHistory(page = 1) {
         this.connection && this.connection.emit(events.getHistory, { page, roundId: this.currentRoundId });
     }
 
