@@ -21,7 +21,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         43: {
             displayTime: 5
         },
-        2: {
+        [GameIds.SeDie]: {
             displayTime: 5
         }
     };
@@ -50,42 +50,23 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.ThreeCards,
         GameIds.BitcoinMaster,
         GameIds.CasinoHoldemPoker,
-        GameIds.HiLo
+        GameIds.HiLo,
+        GameIds.TexasHoldemPoker
     ];
-    seDieGames = [
-        //
-        GameIds.VipSedie,
-        GameIds.SeDie,
-        GameIds.VipSedieWar,
-        GameIds.MiniSedie,
-        GameIds.SpecialSeDie
-    ];
-    casinoGames = [
-        //
-        GameIds.SicBo,
-        GameIds.Roulette,
-        GameIds.VipFishPrawnCrab
-    ];
+
+    seDieGames = [GameIds.VipSedie, GameIds.SeDie, GameIds.VipSedieWar, GameIds.MiniSedie, GameIds.SpecialSeDie];
+    casinoGames = [GameIds.SicBo, GameIds.Roulette, GameIds.VipFishPrawnCrab];
     cardGames = [
-        //
         GameIds.VipBaccarat,
         GameIds.Baccarat,
         GameIds.DragonTiger,
         GameIds.ThreeCards,
         GameIds.BlackJack,
-        GameIds.CasinoHoldemPoker
+        GameIds.CasinoHoldemPoker,
+        GameIds.TexasHoldemPoker
     ];
-    slotGames = [
-        //
-        GameIds.HeroesSlot,
-        GameIds.FourGuardians
-    ];
-    lotteryGames = [
-        //
-        GameIds.KenoProMax,
-        GameIds.KenoProViet,
-        GameIds.Lottery
-    ];
+    slotGames = [GameIds.HeroesSlot, GameIds.FourGuardians];
+    lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
     othersGames = [GameIds.BitcoinMaster];
     miniList = [
         GameIds.BigSmall,
@@ -98,10 +79,10 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.MiniSedie
     ];
     detail = {
-        29: {
+        [GameIds.FourGuardians]: {
             size: cc.v2(1, 2)
         },
-        38: {
+        [GameIds.HeroesSlot]: {
             size: cc.v2(1, 2)
         }
     };
