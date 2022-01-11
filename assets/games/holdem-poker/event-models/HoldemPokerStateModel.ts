@@ -23,27 +23,35 @@ export class HoldemPokerStateModel extends EventEmitter {
     placeBet(choice, placeBetModel: HoldemPokerPlaceBetModel) {
         const isFullBet = placeBetModel.choices[HoldemPokerChoicesConst.ante] > 0 && placeBetModel.choices[HoldemPokerChoicesConst.aa] > 0;
         if (choice === HoldemPokerChoicesConst.ante) {
-            if (
-                this.state === HoldemPokerState.blank_new ||
-                this.state === HoldemPokerState.replay_new ||
-                (this.state === HoldemPokerState.calling_deal && !isFullBet)
-            ) {
-                this.state = HoldemPokerState.ante_bet;
-                this.emit(HoldemPokerStateModel.Events.CHANGE, this);
-            } else if (this.state === HoldemPokerState.aa_bet || (this.state === HoldemPokerState.calling_deal && isFullBet)) {
-                this.state = HoldemPokerState.all_bet;
-                this.emit(HoldemPokerStateModel.Events.CHANGE, this);
-            }
+            this.holdemPokerChoiceAnte(isFullBet);
         }
 
         if (choice === HoldemPokerChoicesConst.aa) {
-            if (this.state === HoldemPokerState.blank_new || this.state === HoldemPokerState.replay_new) {
-                this.state = HoldemPokerState.aa_bet;
-                this.emit(HoldemPokerStateModel.Events.CHANGE, this);
-            } else if (this.state === HoldemPokerState.ante_bet || (this.state === HoldemPokerState.calling_deal && isFullBet)) {
-                this.state = HoldemPokerState.all_bet;
-                this.emit(HoldemPokerStateModel.Events.CHANGE, this);
-            }
+            this.holdemPokerChoiceAA(isFullBet);
+        }
+    }
+
+    holdemPokerChoiceAnte(isFullBet: boolean) {
+        if (
+            this.state === HoldemPokerState.blank_new ||
+            this.state === HoldemPokerState.replay_new ||
+            (this.state === HoldemPokerState.calling_deal && !isFullBet)
+        ) {
+            this.state = HoldemPokerState.ante_bet;
+            this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+        } else if (this.state === HoldemPokerState.aa_bet || (this.state === HoldemPokerState.calling_deal && isFullBet)) {
+            this.state = HoldemPokerState.all_bet;
+            this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+        }
+    }
+
+    holdemPokerChoiceAA(isFullBet: boolean) {
+        if (this.state === HoldemPokerState.blank_new || this.state === HoldemPokerState.replay_new) {
+            this.state = HoldemPokerState.aa_bet;
+            this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+        } else if (this.state === HoldemPokerState.ante_bet || (this.state === HoldemPokerState.calling_deal && isFullBet)) {
+            this.state = HoldemPokerState.all_bet;
+            this.emit(HoldemPokerStateModel.Events.CHANGE, this);
         }
     }
 

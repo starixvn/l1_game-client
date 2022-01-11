@@ -453,7 +453,7 @@ window.i18n.languages.vi = {
         straight: "Sảnh",
         doesNotQualify: "Không Thỏa Điều Kiện",
         bettingOption: "Lựa Chọn",
-        cards: "Kết Quả Bài",
+        cards: "Kết Quả",
         card: "Bài",
         combination: "Bài Kết Hợp",
         player: "Người Chơi",
