@@ -60,8 +60,10 @@ export const rawCardAfterClickCall = async (pokerCardsNote: PokerCards, cardsDat
         await pokerCardsNote.drawingCardToMiddle(element, false);
     }
 
-    for (const [index, element] of dealerCardsConverted.entries()) {
+    let index = 0;
+    for (const element of dealerCardsConverted) {
         await pokerCardsNote.faceUpDealerCard(element, index);
+        index++;
     }
 
     showIndicator(pokerCardsNote, cardsData, callBack, 1700);
