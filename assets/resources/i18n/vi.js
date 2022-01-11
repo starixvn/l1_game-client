@@ -443,7 +443,7 @@ window.i18n.languages.vi = {
         rebetDeal: "Cược Lại\n& Chia",
         placeYourBet: "Đặt Cược",
         call: "Theo Bài",
-        callChoice: "Call",
+        callChoice: "CALL",
         x2Double: "X2 Gấp Đôi",
         fold: "Bỏ Bài",
         highCards: "Mậu Thầu",

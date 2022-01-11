@@ -441,7 +441,7 @@ window.i18n.languages.id = {
         rebetDeal: "Rebet\n& Deal",
         placeYourBet: "Pasang taruhan Anda",
         call: "Call",
-        callChoice: "Call",
+        callChoice: "CALL",
         x2Double: "X2 DOUBLE",
         fold: "FOLD",
         highCards: "Kartu Tertinggi",

@@ -441,7 +441,7 @@ window.i18n.languages.en = {
         rebetDeal: "Rebet\n& Deal",
         placeYourBet: "Place your bets",
         call: "Call",
-        callChoice: "Call",
+        callChoice: "CALL",
         x2Double: "X2 DOUBLE",
         fold: "Fold",
         highCards: "High Card",

@@ -40,13 +40,9 @@ export const rawCardAfterClickDeal = async (pokerCardsNote: PokerCards, cardsDat
     //=> dealer;
     await pokerCardsNote.drawingCardToDealer(dealerFakeData[1], true, 1);
 
-    // for (let index = 0; index < communityCardsConverted.length; index++) {
-    //     const card = communityCardsConverted[index];
-    //     await pokerCardsNote.drawingCardToMiddle(card, false);
-    // }
-    communityCardsConverted.forEach((element) => {
+    for (const element of communityCardsConverted) {
         await pokerCardsNote.drawingCardToMiddle(element, false);
-    });
+    }
 
     pokerCardsNote.focusPlayerCard();
     showIndicator(pokerCardsNote, cardsData, callBack, 0);
@@ -60,13 +56,13 @@ export const rawCardAfterClickCall = async (pokerCardsNote: PokerCards, cardsDat
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
 
-    communityCardsConverted.forEach((element) => {
+    for (const element of communityCardsConverted) {
         await pokerCardsNote.drawingCardToMiddle(element, false);
-    });
+    }
 
-    dealerCardsConverted.forEach((element, index) => {
+    for (const [index, element] of dealerCardsConverted.entries()) {
         await pokerCardsNote.faceUpDealerCard(element, index);
-    });
+    }
 
     showIndicator(pokerCardsNote, cardsData, callBack, 1700);
 };
