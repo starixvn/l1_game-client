@@ -451,7 +451,7 @@ window.i18n.languages.vi = {
         twoPairs: "Hai Đôi",
         threeKind: "Sám",
         straight: "Sảnh",
-        doesNotQualify: "Không Thỏa Điều Kiện",
+        doesNotQualify: "Không Đủ Điều Kiện",
         bettingOption: "Lựa Chọn",
         cards: "Kết Quả",
         card: "Bài",

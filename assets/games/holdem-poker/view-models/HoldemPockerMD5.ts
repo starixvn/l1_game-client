@@ -8,8 +8,8 @@ export default class HoldemPockerMD5 extends cc.Component {
     @property(cc.Label)
     md5Text: cc.Label = null;
 
-    @property(cc.Label)
-    md5Value: cc.Label = null;
+    @property(cc.RichText)
+    md5Value: cc.RichText = null;
 
     @property(cc.Button)
     copyButton: cc.Button = null;
@@ -25,7 +25,7 @@ export default class HoldemPockerMD5 extends cc.Component {
         this.resetDefaultValue(i18n.t("holdEmPoker.md5String"), false);
     }
 
-    enableCopyButton(enabled = true) {
+    enableCopyButton(enabled: boolean) {
         this.copyButton.interactable = enabled;
         const color = cc.Color.WHITE;
         this.copyButton.node.getChildByName("text").color = enabled ? color : color.fromHEX("#a8a8a8");
@@ -37,7 +37,7 @@ export default class HoldemPockerMD5 extends cc.Component {
     }
 
     updateMD5String(md5: string) {
-        this.md5Value.string = md5;
+        this.md5Value.string = `<color=#ffffff>${md5}</color>`;
     }
 
     resetDefaultValue(data: string, isMD5Key: boolean) {
@@ -45,12 +45,11 @@ export default class HoldemPockerMD5 extends cc.Component {
         this.md5Key = isMD5Key;
         this.md5Text.string = isMD5Key ? "Key" : "MD5";
         this.enableCopyButton(false);
-        this.md5Value.node.destroyAllChildren();
     }
 
     setMD5String(data: string) {
         this.updateMD5String(data);
-        this.enableCopyButton();
+        this.enableCopyButton(true);
         this.md5CopyString = data;
     }
 
@@ -60,13 +59,12 @@ export default class HoldemPockerMD5 extends cc.Component {
             this.enableCopyButton(false);
             return;
         }
-
-        this.md5Value.string = i18n.t("holdEmPoker.md5Key");
+        this.updateMD5String(i18n.t("holdEmPoker.md5Key"));
         cc.tween(this.md5Value.node)
             .delay(2)
             .call(() => {
                 this.createResultDetails(data.formatValue);
-                this.enableCopyButton();
+                this.enableCopyButton(true);
             })
             .start();
         this.md5CopyString = data.rawValue;
@@ -74,30 +72,21 @@ export default class HoldemPockerMD5 extends cc.Component {
 
     createResultDetails(data: any) {
         const { cards, suffix } = data;
-        const layoutComp = this.md5Value.getComponent(cc.Layout);
         this.md5Value.string = "";
         this.md5Text.string = "Key";
-        const color = cc.Color.WHITE;
+        let resultFormatting = "";
         cards.forEach((card, index) => {
-            const prefix = index === 0 ? "[" : "";
-            const sufffix = index === cards.length - 1 ? "]" : "";
-            const comma = index === cards.length - 1 ? "" : ",";
-            const cardLabel = this.createResultLabel(`${prefix}${convertOldRank(card.rank)}${comma}${sufffix}`);
-            cardLabel.node.color = card.suit > 1 ? cc.Color.BLACK : color.fromHEX("#E92E2E");
-            this.md5Value.node.addChild(cardLabel.node);
+            const startSquareBracket = index === 0 ? `<color=#ffffff>[</color>` : "";
+            const endSquareBracket = index === cards.length - 1 ? `<color=#ffffff>]</color>` : "";
+            const comma = index === cards.length - 1 ? "" : `<color=#ffffff>,</color>`;
+            const cardValue =
+                card.suit > 1
+                    ? `<color=#000000>${convertOldRank(card.rank)}</color>`
+                    : `<color=#E92E2E>${convertOldRank(card.rank)}</color>`;
+            resultFormatting += `${startSquareBracket}${cardValue}${comma}${endSquareBracket}`;
         });
-        const suffixLabel = this.createResultLabel(suffix);
-        this.md5Value.node.addChild(suffixLabel.node);
-        layoutComp.updateLayout();
-    }
-
-    createResultLabel(value: string): cc.Label {
-        const cardLabel = new cc.Node().addComponent(cc.Label);
-        cardLabel.fontSize = 17;
-        cardLabel.verticalAlign = cc.Label.VerticalAlign.CENTER;
-        cardLabel.string = value;
-        cardLabel.font = this.md5Value.font;
-        return cardLabel;
+        const suffixFormatting = `<color=#ffffff>${suffix}</color>`;
+        this.md5Value.string = `${resultFormatting}${suffixFormatting}`;
     }
 
     onClickCopyButton() {
