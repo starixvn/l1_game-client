@@ -199,4 +199,9 @@ export default class GameUtils {
         document.addEventListener("copy", listener);
         document.execCommand("copy");
     }
+
+    public static isIpad(): boolean {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        return /ipad/.test(userAgent);
+    }
 }
