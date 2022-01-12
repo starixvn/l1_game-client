@@ -1,6 +1,5 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { showTooltip } from "../../../common/utils/BrowserUtil";
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import { HoldemPokerPlaceBetModel } from "../event-models/HoldemPokerPlaceBetModel";

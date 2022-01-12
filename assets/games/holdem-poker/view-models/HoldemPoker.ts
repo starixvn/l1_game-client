@@ -3,7 +3,6 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import NewButton from "../../../common/custom-button/NewButton";
 import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
-import Notice from "../../../common/notice/view-models/Notice";
 import PrefabLoader from "../../../common/PrefabLoader";
 import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { GameIds } from "../../../configs/SabaConfigs";
