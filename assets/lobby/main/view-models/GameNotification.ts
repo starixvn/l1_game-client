@@ -15,7 +15,7 @@ export default class GameNotification extends cc.Component {
     private isScheduling = false;
 
     onLoad() {
-        this.dataKey = `${this.key}_${this.gameId}`;
+        this.dataKey = `${this.key}_${this.gameId}_${Date.now()}`;
         cc.RedT.addDataObserver(this.dataKey, this.receivedData.bind(this));
         this.getData();
         this.schedule(this.getData, 1, cc.macro.REPEAT_FOREVER, 0);

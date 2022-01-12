@@ -21,7 +21,9 @@ export default class GameBaseBetHandler implements DataHandler {
 
         this.handleEndBet(data);
 
-        this.handleChipInMainRoom(data);
+        if (this.main.gameConfigs) {
+            this.handleChipInMainRoom(data);
+        }
 
         return false;
     }

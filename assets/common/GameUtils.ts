@@ -157,10 +157,21 @@ export default class GameUtils {
     }
 
     public static getValueByCurrency(value: number, otherRate?: number): number {
-        if (otherRate === undefined) {
+        if (!otherRate) {
             otherRate = 1;
         }
         return (value * otherRate) / cc.RedT.user.rate;
+    }
+
+    public static getTicketValueByCurrency(value: number, userRate?: number, otherRate?: number): number {
+        if (!otherRate) {
+            otherRate = 1;
+        }
+
+        if (!userRate) {
+            userRate = cc.RedT.user.rate;
+        }
+        return (value * otherRate) / userRate;
     }
 
     public static getFilterValuesByStakeLevel(values: number[], gameConfigs: any): number[] {

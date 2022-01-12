@@ -5779,7 +5779,7 @@
     },
     "component": "",
     "_componentId": "d03611cPuFHkLikls8kTeCw",
-    "handler": "closeLuckyWheel",
+    "handler": "closeGame",
     "customEventData": ""
   },
   {
@@ -6348,6 +6348,24 @@
       "__id__": 1
     },
     "_enabled": true,
+    "betItems": [],
+    "processWarningPrefab": null,
+    "miniNoticePrefab": null,
+    "noticeNode": null,
+    "umNotice": {
+      "__id__": 170
+    },
+    "timeWaitNode": null,
+    "timeWaitLabel": null,
+    "animatedTime": null,
+    "gameRound": null,
+    "enableChips": false,
+    "betChipsContainer": null,
+    "betChipsPrefab": null,
+    "enablePlaceChips": false,
+    "dealerChipBox": null,
+    "gameAudiosPrefab": null,
+    "guidePrefab": null,
     "wheel": {
       "__id__": 83
     },
@@ -6407,9 +6425,6 @@
     },
     "bannerPrefab": {
       "__uuid__": "5705a410-e686-426f-9068-0a1f1a6f2f66"
-    },
-    "umNotice": {
-      "__id__": 170
     },
     "notice": {
       "__id__": 172

@@ -152,10 +152,15 @@ export default class MiniPanel extends BaseComponent {
     }
 
     addMiniGame(game: any, gameId: number) {
-        this.miniGames && this.miniGames.addChild(game.node);
-        this.miniGamesCache[gameId] = game;
+        if (gameId === -1) {
+            //lucky wheel, so add to dialogNode
+            this.addDialog(game.node);
+        } else {
+            this.miniGames && this.miniGames.addChild(game.node);
+            this.miniGamesCache[gameId] = game;
 
-        this.activeController.addItem(game.node);
+            this.activeController.addItem(game.node);
+        }
     }
 
     getGameMini(gameId): any {

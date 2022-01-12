@@ -54,7 +54,7 @@ export default class BannerController extends cc.Component {
         const distance = this.node.width * 1.3;
         this.content.children.forEach((child) => {
             child.active = false;
-            child.position = cc.v2(distance, 0);
+            child.position = cc.v3(distance, 0);
             child.stopAllActions();
         });
     }
@@ -118,7 +118,7 @@ export default class BannerController extends cc.Component {
             }
         } else {
             const node = this.getCurrentPage();
-            node.position = cc.v2(delta, node.position.y);
+            node.position = cc.v3(delta, node.position.y);
         }
     }
 
@@ -201,11 +201,13 @@ export default class BannerController extends cc.Component {
         }
 
         const currentNode = this.content.children[index];
-        currentNode.active = true;
-        currentNode.position = cc.v2(direction * distance, currentNode.position.y);
+        if (currentNode) {
+            currentNode.active = true;
+            currentNode.position = cc.v3(direction * distance, currentNode.position.y);
 
-        this.intervalChangeImage = currentNode.getComponent(BannerItem).displayTime;
-        this.moveToCenter(currentNode, 0.6);
+            this.intervalChangeImage = currentNode.getComponent(BannerItem).displayTime;
+            this.moveToCenter(currentNode, 0.6);
+        }
     }
 
     moveToCenter(node: cc.Node, duration: number) {

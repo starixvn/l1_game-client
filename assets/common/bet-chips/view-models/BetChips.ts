@@ -54,6 +54,8 @@ export default class BetChips extends cc.Component {
     public readonly chipFlyingTime: number = 0.8;
     public readonly loginUserChipFlyingTime: number = 0.5;
     public readonly chipDelayFlyingTime: number = 1.25;
+    public smallChipScale = 0.29;
+
     public enableStakeLevel = true;
 
     public chipConfig: ChipConfig;
@@ -389,20 +391,24 @@ export default class BetChips extends cc.Component {
         if (bet === 0) {
             const node = this.createLowValueChip();
             node.rotation = _.random(0, 360);
+            node.scale = this.smallChipScale;
             return node;
         }
         const chip = this.createBigChip(bet);
         const chipView = chip.getComponent(ChipView);
         chipView.applyForSmallChip();
-        chip.scale = 0.29;
+        chip.scale = this.smallChipScale;
         chip.group = "Chip";
         return chip;
     }
 
-    private createLowValueChip() {
+    public createLowValueChip() {
         const node = new cc.Node();
         const sprite = node.addComponent(cc.Sprite);
+        sprite.sizeMode = cc.Sprite.SizeMode.RAW;
+        sprite.trim = false;
         sprite.spriteFrame = this.lowValueChipSprite;
+
         return node;
     }
 

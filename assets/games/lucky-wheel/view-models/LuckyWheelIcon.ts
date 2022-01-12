@@ -1,5 +1,6 @@
-import SafeDraggableItem from '../../../common/draggable-layout/view-models/SafeDraggableItem';
-import LuckyWheel from './LuckyWheel';
+import SafeDraggableItem from "../../../common/draggable-layout/view-models/SafeDraggableItem";
+import { GameIds } from "../../../configs/SabaConfigs";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -8,11 +9,10 @@ export default class LuckyWheelIcon extends SafeDraggableItem {
     @property(cc.Prefab)
     luckyWheelPrefab: cc.Prefab = null;
 
-    private luckyWheelComponent: LuckyWheel;
-    private mainNode: cc.Node;
+    private miniPanel: MiniPanel;
 
-    init(main: cc.Node) {
-        this.mainNode = main;
+    init(main: MiniPanel) {
+        this.miniPanel = main;
     }
 
     onLoad() {
@@ -29,12 +29,6 @@ export default class LuckyWheelIcon extends SafeDraggableItem {
     }
 
     openGame() {
-        if (!this.luckyWheelComponent) {
-            const luckyWheelNode = cc.instantiate(this.luckyWheelPrefab);
-            const luckyWheelComponent = luckyWheelNode.getComponent(LuckyWheel);
-            this.mainNode.addChild(luckyWheelNode);
-            this.luckyWheelComponent = luckyWheelComponent;
-        }
-        this.luckyWheelComponent.showLuckyWheel();
+        this.miniPanel.openNewSocketMiniGame(null, GameIds.LuckyWheel);
     }
 }

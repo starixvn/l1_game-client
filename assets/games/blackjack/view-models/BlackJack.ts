@@ -715,10 +715,20 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     updateDisplayForRemoteConfig() {
         super.updateDisplayForRemoteConfig();
-        this.minBetLabel.string = numberWithCommas(this.getMinBet());
-        this.maxBetLabel.string = numberWithCommas(this.getMaxBet());
+        this.updateDisplayMinMaxBet();
         const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
         this.blackjackOddLabel.string = i18n.t("ui.blackjack_pay", { odds });
+    }
+
+    updateDisplayMinMaxBet() {
+        this.minBetLabel.string = numberWithCommas(this.getMinBet());
+        this.maxBetLabel.string = numberWithCommas(this.getMaxBet());
+    }
+
+    updateUserStakeLevel(data): boolean {
+        const updated = super.updateUserStakeLevel(data);
+        this.updateDisplayMinMaxBet();
+        return updated;
     }
 
     playAudioNotification() {

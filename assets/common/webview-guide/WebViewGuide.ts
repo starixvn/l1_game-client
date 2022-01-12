@@ -24,9 +24,7 @@ export default class WebViewGuide extends LoadWebView {
     initURL(gameId: number, language: string, configStake: { minBet: number; maxBet: number; used: boolean }) {
         const domain = config.guideDomain;
         let url = `${domain}/${language}?gId=${gameId}&t=${this.themeName}&v=${Date.now()}`;
-        if (config.systemType === "SC1" && configStake.used) {
-            url += `&minBet=${configStake.minBet}&maxBet=${configStake.maxBet}`;
-        }
+        url += `&minBet=${configStake.minBet}&maxBet=${configStake.maxBet}`;
         this.url = url;
     }
 

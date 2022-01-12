@@ -22,16 +22,16 @@ export default class BalancedBettingPoolBetItemBase extends cc.Component {
     @property(cc.Node)
     highlight: cc.Node = null;
 
-    setData(data: any) {
+    setData(data: any, userRate: number, multiplier) {
         const isLoginUser = data.name === cc.RedT.user.name;
         this.highlight.active = isLoginUser;
         this.time.string = getStringHourByTime(data.time);
         this.username.string = isLoginUser ? data.name : shortenName(data.name);
 
-        const convertValue = GameUtils.getValueByCurrency(data.amount, data.rate || 1);
+        const convertValue = GameUtils.getTicketValueByCurrency(data.amount, userRate, data.rate || multiplier);
         this.betAmount.string = numberWithCommas(convertValue, 2);
 
-        const convertRefund = GameUtils.getValueByCurrency(data.refund, data.rate || 1);
+        const convertRefund = GameUtils.getTicketValueByCurrency(data.refund, userRate, data.rate || multiplier);
         this.refund.string = numberWithCommas(convertRefund, 2);
     }
 }

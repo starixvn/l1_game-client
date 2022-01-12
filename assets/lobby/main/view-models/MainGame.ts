@@ -100,6 +100,7 @@ export default class MainGame extends cc.Component {
     onDestroy() {
         cc.RedT.MiniPanel.destroy();
         cc.RedT.inGame = null;
+        window.isSSO = false;
     }
 
     onLoad() {
@@ -225,7 +226,7 @@ export default class MainGame extends cc.Component {
         if (cc.RedT.IS_LOGIN) {
             cc.RedT.send({ scene: "home" });
             this.onSignIn();
-            this.header.userName.string = cc.RedT.user.name;
+            this.header.setUserName(cc.RedT.user.name);
             this.header.setBalance(this.formatUserCurrency(cc.RedT.user.red));
             this.header.setAvatar(cc.RedT.user.avatarId);
             (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
@@ -278,7 +279,6 @@ export default class MainGame extends cc.Component {
         }
 
         this.lobbyMenu.setCategory(category);
-        window.isSSO = false;
     }
 
     initBanners() {
@@ -393,15 +393,7 @@ export default class MainGame extends cc.Component {
     }
 
     Authorized(Authorized) {
-        /*
-        this.loading.active = false;
-
-        if (!Authorized) {
-            this.showSignName();
-        } else {
-            this.signIn();
-        }
-        */
+        this.getJackpotInfo();
     }
 
     serviceAuthorized(Authorized) {
@@ -496,7 +488,7 @@ export default class MainGame extends cc.Component {
         }
 
         if (void 0 !== data.name) {
-            this.header.userName.string = data.name;
+            this.header.setUserName(data.name);
             sentryLogger.setCharacterName(data.name);
         }
 
@@ -549,13 +541,14 @@ export default class MainGame extends cc.Component {
             GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
+            return;
+        }
+
+        this.inRoomGameId = sessionManager.getInRoomGameId();
+        if (this.inRoomGameId) {
+            this.openInRoomGame(this.inRoomGameId);
         } else {
-            this.inRoomGameId = sessionManager.getInRoomGameId();
-            if (this.inRoomGameId) {
-                this.openInRoomGame(this.inRoomGameId);
-            } else {
-                this.openLuckyWheel();
-            }
+            window.isSSO && this.openLuckyWheel();
         }
     }
 
@@ -595,7 +588,7 @@ export default class MainGame extends cc.Component {
                         const node = cc.instantiate(prefab);
                         this.redhat.insertChild(node, 0);
                         this.luckyWheelIcon = node.getComponent(LuckyWheelIcon);
-                        this.luckyWheelIcon.init(this.node);
+                        this.luckyWheelIcon.init(cc.RedT.MiniPanel);
                     }
                     resolve();
                 });

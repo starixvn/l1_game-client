@@ -11,6 +11,7 @@ export interface PlayerData {
     avatarId: string;
     type: boolean;
     idleCount: number;
+    rate?: number;
 }
 
 @ccclass
@@ -73,7 +74,7 @@ export default class RoomPlayer extends ComponentSystem implements ICreditSystem
     }
 
     displayBalance(balance: number) {
-        const convertValue = GameUtils.getValueByCurrency(balance);
+        const convertValue = GameUtils.getValueByCurrency(balance, this.data.rate);
         this.balance.string =
             convertValue > this.MAX_BALANCE_DISPLAY ? `${numberWithCommas(this.MAX_BALANCE_DISPLAY)}+` : numberWithCommas(convertValue, 2);
     }

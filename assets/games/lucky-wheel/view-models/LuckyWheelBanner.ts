@@ -1,3 +1,4 @@
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
@@ -12,7 +13,7 @@ export default class LuckyWheelBanner extends cc.Component {
     }
 
     openSedie() {
-        const dialog = this.node.getComponent("CommonDialog");
+        const dialog = this.node.getComponent(CommonDialog);
         dialog.closeDialog();
         this.miniPanel.openNewSocketTableGame(null, GameIds.SeDie);
     }

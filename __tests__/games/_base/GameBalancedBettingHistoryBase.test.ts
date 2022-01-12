@@ -4,7 +4,6 @@
  */
 import GameBalancedBettingHistoryBase from "../../../assets/games/_base/view-models/GameBalancedBettingHistoryBase";
 
-
 describe("Test class GameBalancedBettingHistoryBase", () => {
     let node: cc.Node;
     let comp: GameBalancedBettingHistoryBase;
@@ -56,13 +55,14 @@ describe("Test class GameBalancedBettingHistoryBase", () => {
     describe("Test method setAmount", () => {
         it("Case: ", () => {
             // Arrange
+            const rate = 1;
             const total = {
                 betAmount: 79,
                 refund: 23
             };
 
             // Act
-            comp.setAmount(total, comp.leftBetAmount, comp.leftRefundAmount);
+            comp.setAmount(total, comp.leftBetAmount, comp.leftRefundAmount, rate);
 
             // Assert
             expect(comp.leftBetAmount.string).toMatch("79");

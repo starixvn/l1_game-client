@@ -38,13 +38,17 @@ export default class FreeBetGameBase extends SocketIOTableGameBase {
         }
     }
 
-    loadUserData(user) {
-        super.loadUserData(user);
+    public updateDisplayForRemoteConfig(): void {
+        super.updateDisplayForRemoteConfig();
+        if (cc.RedT.user.scoins) {
+            this.updateDisplayScoinUI(cc.RedT.user.scoins);
+        }
+    }
 
-        if (void 0 !== user.scoins && this.gameConfigs && this.gameConfigs.enableFreeBet) {
-            this.userSCoin.string = numberWithCommas(user.scoins);
-
-            if (!this.isFocusScoin && user.scoins > 0) {
+    updateDisplayScoinUI(scoins) {
+        if (this.gameConfigs && this.gameConfigs.enableFreeBet) {
+            this.userSCoin.string = numberWithCommas(scoins);
+            if (!this.isFocusScoin && scoins > 0) {
                 this.isFocusScoin = true;
                 this.isFreeBet = true;
                 this.scoinNode.active = true;
@@ -55,6 +59,13 @@ export default class FreeBetGameBase extends SocketIOTableGameBase {
                 walletLayout.updateLayout();
                 this.focusWallet(this.isFreeBet);
             }
+        }
+    }
+
+    loadUserData(user) {
+        super.loadUserData(user);
+        if (void 0 !== user.scoins) {
+            this.updateDisplayScoinUI(user.scoins);
         }
     }
 

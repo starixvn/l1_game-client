@@ -25,6 +25,7 @@ describe("Test class BalancedBettingPoolBetItemBase", () => {
     describe("Test method setData", () => {
         it("Case: ", () => {
             // Arrange
+            const rate = 1;
             const data = {
                 amount: 15,
                 betwin: 0,
@@ -41,7 +42,7 @@ describe("Test class BalancedBettingPoolBetItemBase", () => {
             };
 
             // Act
-            comp.setData(data);
+            comp.setData(data, rate, 1);
 
             // Assert
             const isLoginUser = data.name === cc.RedT.user.name;

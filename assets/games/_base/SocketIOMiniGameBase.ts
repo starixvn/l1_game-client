@@ -131,8 +131,10 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
 
     dragMiniGame() {
         const draggableItem = this.getComponent(DraggableItem);
-        draggableItem.touchCallback.start = (node) => {
-            this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
-        };
+        if (draggableItem) {
+            draggableItem.touchCallback.start = () => {
+                this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+            };
+        }
     }
 }
