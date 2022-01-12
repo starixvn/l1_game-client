@@ -6,7 +6,6 @@ import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/Hol
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPoker from "./HoldemPoker";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
-import BettingArea from "../../_new/common/betting-area/BettingArea";
 
 const { ccclass, property } = cc._decorator;
 

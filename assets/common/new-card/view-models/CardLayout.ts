@@ -45,7 +45,7 @@ export default class CardLayout extends cc.Component {
     selectedPosZ = 60;
 
     @property
-    updatedShadowWidth: boolean = true;
+    updatedShadowWidth = true;
 
     cardSizeWidth = 76;
     public selectedRotationX = 20;
