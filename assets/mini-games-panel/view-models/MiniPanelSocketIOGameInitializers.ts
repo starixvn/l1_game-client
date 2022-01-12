@@ -1,17 +1,10 @@
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
-import { lazyInject } from "../../Application";
 import AudioManager from "../../common/audio/AudioManager";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
-import SocketIOController from "../../SocketIOController";
-import MiniPanel from "./MiniPanel";
+import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
-export default class MiniPanelSocketIOGameInitializers {
-    @lazyInject(SocketIOController)
-    private readonly socketIOController: SocketIOController;
-
-    constructor(private readonly main: MiniPanel) {}
-
+export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIOInitializers {
     public openGame(gameId) {
         AudioManager.getInstance().playClick();
         this.main.popupMiniGame.hideListGame();
@@ -41,25 +34,7 @@ export default class MiniPanelSocketIOGameInitializers {
                 true,
                 null
             );
-            socket.on("message", (data) => {
-                if (data.um) {
-                    this.socketIOController.closeSocket(gameId);
-                    if (data.um_message) {
-                        this.main.handleUmMessage(data.um_message);
-                    }
-                }
-                if (!this.main.isAlive()) {
-                    return;
-                }
-                this.main.loading.node.active = false;
-                this.main.onGeneralData(data);
-            });
-
-            socket.on("forceDisconnect", () => {
-                socket.disconnect();
-            });
-
-            this.socketIOController.assignSocket(gameId, socket);
+            this.handleSocket(socket, gameId);
         });
     }
 }

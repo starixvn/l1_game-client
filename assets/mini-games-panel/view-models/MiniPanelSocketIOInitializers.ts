@@ -1,0 +1,32 @@
+import { lazyInject } from "../../Application";
+import SocketIOController from "../../SocketIOController";
+import MiniPanel from "./MiniPanel";
+
+export default class MiniPanelSocketIOInitializers {
+    @lazyInject(SocketIOController)
+    protected readonly socketIOController: SocketIOController;
+
+    constructor(protected readonly main: MiniPanel) {}
+
+    protected handleSocket(socket, gameId) {
+        socket.on("message", (data) => {
+            if (data.um) {
+                this.socketIOController.closeSocket(gameId);
+                if (data.um_message) {
+                    this.main.handleUmMessage(data.um_message);
+                }
+            }
+            if (!this.main.isAlive()) {
+                return;
+            }
+            this.main.loading.node.active = false;
+            this.main.onGeneralData(data);
+        });
+
+        socket.on("forceDisconnect", () => {
+            socket.disconnect();
+        });
+
+        this.socketIOController.assignSocket(gameId, socket);
+    }
+}
