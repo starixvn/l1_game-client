@@ -1,12 +1,9 @@
 import { Socket } from "socket.io-client";
 
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
-import { lazyInject } from "../../Application";
 import GameUtils from "../../common/GameUtils";
 import { GameIds, GameInfos } from "../../configs/SabaConfigs";
 import SabaConfigs = require("../../configs/SabaConfigs");
-import SocketIOController from "../../SocketIOController";
-import MiniPanel from "./MiniPanel";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
 export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInitializers {
