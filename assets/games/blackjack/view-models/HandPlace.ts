@@ -1,7 +1,7 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import CardLayout from "../../../common/new-card/view-models/CardLayout";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJackUtils from "./BlackJackUtils";
-import CardLayout from "./CardLayout";
 
 export interface HandModel {
     id: string;

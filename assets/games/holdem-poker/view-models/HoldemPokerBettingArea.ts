@@ -30,6 +30,9 @@ export default class HoldemPokerBettingArea extends BettingArea {
     @property(cc.Node)
     betText: cc.Node = null;
 
+    @property(cc.Label)
+    winningAmount: cc.Label = null;
+
     private isRunningHighlight: boolean;
     private gameData: HoldemPokerGameData<HoldemPokerChoices> = null;
 
@@ -85,5 +88,9 @@ export default class HoldemPokerBettingArea extends BettingArea {
 
     showBetText(show: boolean) {
         this.betText && (this.betText.active = show);
+    }
+
+    setWinningAmount(value: number) {
+        this.winningAmount && (this.winningAmount.string = numberWithCommas(value));
     }
 }

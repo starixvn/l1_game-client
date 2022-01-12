@@ -6,6 +6,7 @@ import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/Hol
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPoker from "./HoldemPoker";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
+import BettingArea from "../../_new/common/betting-area/BettingArea";
 
 const { ccclass, property } = cc._decorator;
 
@@ -105,7 +106,7 @@ export default class HoldemPokerChips extends cc.Component {
                     const destNode = bettingArea.chipNode;
                     const chipStack = this.createChipStack(winAmount, betChips, main.shadowChip);
                     destNode.addChild(chipStack);
-                    this.handleChipStack(chipStack, main, destNode, betChips, value, jumpTime, delayBeforeFly);
+                    this.handleChipStack(bettingArea, chipStack, main, destNode, betChips, value, jumpTime, delayBeforeFly);
                     this.flyCurrentChipOnTableToPlayer(bettingAreas, key, main.userAvatar.node, jumpTime, main);
                     main.playStartGameAudio();
                 }
@@ -121,6 +122,7 @@ export default class HoldemPokerChips extends cc.Component {
     }
 
     private handleChipStack(
+        bettingArea: HoldemPokerBettingArea,
         chipStack: cc.Node,
         main: HoldemPoker,
         destNode: cc.Node,
@@ -147,6 +149,7 @@ export default class HoldemPokerChips extends cc.Component {
                 cc.delayTime(delayBeforeFly),
                 cc.callFunc(() => {
                     destNode.children.length && destNode.destroyAllChildren();
+
                     const chipStack = this.createChipStack(value, betChips, main.shadowChip);
                     destNode.addChild(chipStack);
                 })

@@ -2,7 +2,7 @@ const { ccclass, property, executeInEditMode } = cc._decorator;
 
 @ccclass
 @executeInEditMode
-export default class CardLayoutBase extends cc.Component {
+export default class CardLayout extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -38,10 +38,16 @@ export default class CardLayoutBase extends cc.Component {
         this.updateLayout();
     }
 
-    cardSizeWidth = 76;
-
+    @property
     selectedPosY = 36;
+
+    @property
     selectedPosZ = 60;
+
+    @property
+    updatedShadowWidth: boolean = true;
+
+    cardSizeWidth = 76;
     public selectedRotationX = 20;
     _selected = undefined;
     shadowWidth = 100;
@@ -71,6 +77,9 @@ export default class CardLayoutBase extends cc.Component {
         width = this.cardSizeWidth + this.ratio * (this.content.childrenCount - 1) * this.spacingX;
         this.content.width = 0; //FIXBUG: do this, to fix bug not call event SIZE_CHANGED
         this.content.width = width;
+        if (this.updatedShadowWidth) {
+            this.shadow.width = width + this.shadowWidth;
+        }
     }
 
     getNextPosition(): cc.Vec3 {
