@@ -153,6 +153,7 @@ export const clearBetChips = (bettingAreas: HoldemPokerBettingArea[]) => ({ curr
     const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
     if (bettingArea && bettingArea.chipNode) {
         bettingArea.chipNode.removeAllChildren();
+        bettingArea.handleWinningAmount(0, false);
     }
 };
 

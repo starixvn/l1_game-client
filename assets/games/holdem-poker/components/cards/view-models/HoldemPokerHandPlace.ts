@@ -1,5 +1,4 @@
 import CardLayout from "../../../../../common/new-card/view-models/CardLayout";
-
 export interface HandModel {
     id: string;
     pos: number;

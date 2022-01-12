@@ -90,7 +90,10 @@ export default class HoldemPokerBettingArea extends BettingArea {
         this.betText && (this.betText.active = show);
     }
 
-    setWinningAmount(value: number) {
-        this.winningAmount && (this.winningAmount.string = numberWithCommas(value));
+    handleWinningAmount(value: number, show: boolean) {
+        if (this.winningAmount) {
+            this.winningAmount.string = `+${numberWithCommas(value)}`;
+            this.winningAmount.node.active = show;
+        }
     }
 }
