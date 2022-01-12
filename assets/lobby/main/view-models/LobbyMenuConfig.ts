@@ -10,18 +10,18 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     smPromotion: boolean;
-    bannerAds = [43, 35, 2, 23];
+    bannerAds = [39, 43, 35, 2];
     bannerAdsInfo = {
-        43: {
+        39: {
             displayTime: 10
+        },
+        43: {
+            displayTime: 5
         },
         35: {
             displayTime: 5
         },
         2: {
-            displayTime: 5
-        },
-        23: {
             displayTime: 5
         }
     };

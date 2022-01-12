@@ -22,6 +22,7 @@ export default class HoldemPokerChips extends cc.Component {
         const values = GameUtils.getChipQuantity(betAmount, betChips.chipValues);
         const node = new cc.Node();
         const chipStack = node.addComponent(ChipStack);
+        chipStack.thickness = 10;
 
         const keys = Object.keys(values).sort((a, b) => +b - +a);
         let firstChip = true;
