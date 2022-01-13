@@ -1,10 +1,10 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import AudioManager from "../../../../../common/audio/AudioManager";
 
+import AudioManager from "../../../../../common/audio/AudioManager";
+import { CardAnimation, CardModel } from "../../../../../common/new-card/view-models/NewCard";
 import HoldemPokerArrows from "./HoldemPokerArrows";
 import HoldemPokerCard from "./HoldemPokerCard";
 import HandPlace from "./HoldemPokerHandPlace";
-import { CardAnimation, CardModel } from "../../../../../common/new-card/view-models/NewCard";
 
 const { ccclass, property } = cc._decorator;
 export const CombineCardResultLabel = [
@@ -257,9 +257,7 @@ export default class HoldemPokerCards extends cc.Component {
         return new Promise((resolve) => {
             cc.tween(cardNode)
                 .call(() => {
-                    cc.tween(this.node).call(() => {
-                        cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
-                    });
+                    cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
                 })
                 .call(() => {
                     this.playAudioCardSliding();
