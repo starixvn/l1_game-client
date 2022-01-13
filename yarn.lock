@@ -1008,27 +1008,17 @@
   resolved "https://npm.lumigame.com/@istanbuljs%2fschema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
-"@javascript-obfuscator/escodegen@2.2.2":
-  version "2.2.2"
-  resolved "https://npm.lumigame.com/@javascript-obfuscator%2fescodegen/-/escodegen-2.2.2.tgz#518aa621f6258fa369eb48b865e54dc58fc44cfa"
-  integrity sha512-0VoGJun/lpGEPv8J8R8fpwt1iAGyctUjHTQoYoCbKY2rcGc6d+NycrqSMo61vRXhZiTnHgud1UF8dOI7UAPdTw==
+"@javascript-obfuscator/escodegen@2.1.1":
+  version "2.1.1"
+  resolved "https://npm.lumigame.com/@javascript-obfuscator%2fescodegen/-/escodegen-2.1.1.tgz#a79c3ab3a13cd87f4921003f0f821a09fc0f5d93"
+  integrity sha512-d5TIrhngNyqphUPgjWRVcepw55+aIrN2YX6BHy+4XOTq3/6AZCFj18Ym0tYSDm8T7+hLN6Culif18cepF/NpDQ==
   dependencies:
-    "@javascript-obfuscator/estraverse" "^5.3.0"
     esprima "^4.0.1"
+    estraverse "^5.2.0"
     esutils "^2.0.2"
     optionator "^0.8.1"
   optionalDependencies:
     source-map "~0.6.1"
-
-"@javascript-obfuscator/estraverse@5.3.0":
-  version "5.3.0"
-  resolved "https://npm.lumigame.com/@javascript-obfuscator%2festraverse/-/estraverse-5.3.0.tgz#eadd3c00ede6a05b75aa585c7b7a3ac58adb1755"
-  integrity sha512-SxIFtV5/wlXYS7G3zLVj7CddLolX8Bm/hr68fiyNL3MyG2k4FwF9B5Z5GTpVLhw2EELYNwyoYBvFlR4gGnQPdw==
-
-"@javascript-obfuscator/estraverse@^5.3.0":
-  version "5.4.0"
-  resolved "https://npm.lumigame.com/@javascript-obfuscator%2festraverse/-/estraverse-5.4.0.tgz#6ddb28617356cfce9046a820f72af029f1bb5287"
-  integrity sha512-CZFX7UZVN9VopGbjTx4UXaXsi9ewoM1buL0kY7j1ftYdSs7p2spv9opxFjHlQ/QGTgh4UqufYqJJ0WKLml7b6w==
 
 "@jest/console@^27.4.6":
   version "27.4.6"
@@ -1633,10 +1623,10 @@ acorn-walk@^7.1.1:
   resolved "https://npm.lumigame.com/acorn-walk/-/acorn-walk-7.2.0.tgz#0de889a601203909b0fbe07b8938dc21d2e967bc"
   integrity sha512-OPdCF6GsMIP+Az+aWfAAOEt2/+iVDKE7oy6lJ098aoe59oAmK76qV6Gw60SbZ8jHuG2wH058GF4pLFbYamYrVA==
 
-acorn@8.5.0:
-  version "8.5.0"
-  resolved "https://npm.lumigame.com/acorn/-/acorn-8.5.0.tgz#4512ccb99b3698c752591e9bb4472e38ad43cee2"
-  integrity sha512-yXbYeFy+jUuYd3/CDcg2NkIYE991XYX/bje7LmjJigUciaeO1JR4XxXgCIV1/Zc/dRuFEyw1L0pbA+qynJkW5Q==
+acorn@8.0.5:
+  version "8.0.5"
+  resolved "https://npm.lumigame.com/acorn/-/acorn-8.0.5.tgz#a3bfb872a74a6a7f661bc81b9849d9cac12601b7"
+  integrity sha512-v+DieK/HJkJOpFBETDJioequtc3PfxsWMaxIdIwujtF7FEV/MAyDQLlm6/zPvr7Mix07mLh6ccVwIsloceodlg==
 
 acorn@^3.0.4:
   version "3.3.0"
@@ -2158,10 +2148,10 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
-chalk@4.1.2, chalk@^4.0.0, chalk@^4.1.0:
-  version "4.1.2"
-  resolved "https://npm.lumigame.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
-  integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
+chalk@4.1.0:
+  version "4.1.0"
+  resolved "https://npm.lumigame.com/chalk/-/chalk-4.1.0.tgz#4e14870a618d9e2edd97dd8345fd9d9dc315646a"
+  integrity sha512-qwx12AxXe2Q5xQ43Ac//I6v5aXTipYrSESdOgzrN+9XjgEpyjpKuvSGaN4qE93f7TQTlerQQ8S+EQ0EyDoVL1A==
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
@@ -2186,7 +2176,20 @@ chalk@^2.0.0, chalk@^2.1.0, chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chance@1.1.8, chance@^1.1.7:
+chalk@^4.0.0, chalk@^4.1.0:
+  version "4.1.2"
+  resolved "https://npm.lumigame.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
+  integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
+
+chance@1.1.7:
+  version "1.1.7"
+  resolved "https://npm.lumigame.com/chance/-/chance-1.1.7.tgz#e99dde5ac16681af787b5ba94c8277c090d6cfe8"
+  integrity sha512-bua/2cZEfzS6qPm0vi3JEvGNbriDLcMj9lKxCQOjUcCJRcyjA7umP0zZm6bKWWlBN04vA0L99QGH/CZQawr0eg==
+
+chance@^1.1.7:
   version "1.1.8"
   resolved "https://npm.lumigame.com/chance/-/chance-1.1.8.tgz#5d6c2b78c9170bf6eb9df7acdda04363085be909"
   integrity sha512-v7fi5Hj2VbR6dJEGRWLmJBA83LJMS47pkAbmROFxHWd9qmE1esHRZW8Clf1Fhzr3rjxnNZVCjOEv/ivFxeIMtg==
@@ -2319,10 +2322,10 @@ combined-stream@^1.0.8:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@8.2.0:
-  version "8.2.0"
-  resolved "https://npm.lumigame.com/commander/-/commander-8.2.0.tgz#37fe2bde301d87d47a53adeff8b5915db1381ca8"
-  integrity sha512-LLKxDvHeL91/8MIyTAD5BFMNtoIwztGPMiM/7Bl8rIPmHCZXRxmSWr91h57dpOpnQ6jIUqEWdXE/uBYMfiVZDA==
+commander@7.1.0:
+  version "7.1.0"
+  resolved "https://npm.lumigame.com/commander/-/commander-7.1.0.tgz#f2eaecf131f10e36e07d894698226e36ae0eb5ff"
+  integrity sha512-pRxBna3MJe6HKnBGsDyMv8ETbptw3axEdYHoqNh7gu5oDcew8fs0xnivZGm06Ogk8zGAJ9VX+OPEr2GXEQK4dg==
 
 common-tags@^1.4.0, common-tags@^1.8.0:
   version "1.8.2"
@@ -2728,13 +2731,13 @@ eslint-plugin-import@^2.25.4:
     resolve "^1.20.0"
     tsconfig-paths "^3.12.0"
 
-eslint-scope@6.0.0:
-  version "6.0.0"
-  resolved "https://npm.lumigame.com/eslint-scope/-/eslint-scope-6.0.0.tgz#9cf45b13c5ac8f3d4c50f46a5121f61b3e318978"
-  integrity sha512-uRDL9MWmQCkaFus8RF5K9/L/2fn+80yoW3jkD53l4shjCh26fCtvJGasxjUqP5OT87SYTxCVA3BwTUzuELx9kA==
+eslint-scope@5.1.1, eslint-scope@^5.0.0, eslint-scope@^5.1.1:
+  version "5.1.1"
+  resolved "https://npm.lumigame.com/eslint-scope/-/eslint-scope-5.1.1.tgz#e786e59a66cb92b3f6c1fb0d508aab174848f48c"
+  integrity sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==
   dependencies:
     esrecurse "^4.3.0"
-    estraverse "^5.2.0"
+    estraverse "^4.1.1"
 
 eslint-scope@^3.7.1:
   version "3.7.3"
@@ -2750,14 +2753,6 @@ eslint-scope@^4.0.0, eslint-scope@^4.0.3:
   integrity sha512-p7VutNr1O/QrxysMo3E45FjYDTeXBy0iTltPFNSqKAIfjDSXC+4dj+qfyuD8bfAXrW/y6lW3O76VaYNPKfpKrg==
   dependencies:
     esrecurse "^4.1.0"
-    estraverse "^4.1.1"
-
-eslint-scope@^5.0.0, eslint-scope@^5.1.1:
-  version "5.1.1"
-  resolved "https://npm.lumigame.com/eslint-scope/-/eslint-scope-5.1.1.tgz#e786e59a66cb92b3f6c1fb0d508aab174848f48c"
-  integrity sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==
-  dependencies:
-    esrecurse "^4.3.0"
     estraverse "^4.1.1"
 
 eslint-utils@^1.3.1:
@@ -2932,6 +2927,11 @@ esrecurse@^4.1.0, esrecurse@^4.3.0:
   integrity sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==
   dependencies:
     estraverse "^5.2.0"
+
+estraverse@5.2.0:
+  version "5.2.0"
+  resolved "https://npm.lumigame.com/estraverse/-/estraverse-5.2.0.tgz#307df42547e6cc7324d3cf03c155d5cdb8c53880"
+  integrity sha512-BxbNGGNm0RyRYvUdHpIwv9IWzeM9XClbOxwoATuFdOE7ZE6wHL+HQ5T8hoPM+zHvmKzzsEqhgy0GrQ5X13afiQ==
 
 estraverse@^4.1.1:
   version "4.3.0"
@@ -3540,7 +3540,12 @@ inversify-inject-decorators@^3.1.0:
   resolved "https://npm.lumigame.com/inversify-inject-decorators/-/inversify-inject-decorators-3.1.0.tgz#d9941080bad77cec8a65ee29d905e4d5d73e1e95"
   integrity sha512-/seBlVp5bXrLQS3DpKEmlgeZL6C7Tf/QITd+IMQrbBBGuCbxb7k3hRAWu9XSreNpFzLgSboz3sClLSEmGwHphw==
 
-inversify@5.1.1, inversify@^5.1.1:
+inversify@5.0.5:
+  version "5.0.5"
+  resolved "https://npm.lumigame.com/inversify/-/inversify-5.0.5.tgz#bd1f8e6d8e0f739331acd8ba9bc954635aae0bbf"
+  integrity sha512-60QsfPz8NAU/GZqXu8hJ+BhNf/C/c+Hp0eDc6XMIJTxBiP36AQyyQKpBkOVTLWBFDQWYVHpbbEuIsHu9dLuJDA==
+
+inversify@^5.1.1:
   version "5.1.1"
   resolved "https://npm.lumigame.com/inversify/-/inversify-5.1.1.tgz#6fbd668c591337404e005a1946bfe0d802c08730"
   integrity sha512-j8grHGDzv1v+8T1sAQ+3boTCntFPfvxLCkNcxB1J8qA0lUN+fAlSyYd+RXKvaPRL4AGyPxViutBEJHNXOyUdFQ==
@@ -3864,33 +3869,33 @@ istanbul-reports@^3.1.3:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-javascript-obfuscator@^2.10.7:
-  version "2.19.1"
-  resolved "https://npm.lumigame.com/javascript-obfuscator/-/javascript-obfuscator-2.19.1.tgz#a15b52757169fa2a105ee786ba554e4a19a91dd7"
-  integrity sha512-NPoC0pUBKHiFJqAm/+hHDM1FzpreUGkzkBTAWDYkA+XI6wZWRqjwlDAjLOwWbjqNwnW/QqkPf35KMAZC/oHtiw==
+javascript-obfuscator@2.10.7:
+  version "2.10.7"
+  resolved "https://npm.lumigame.com/javascript-obfuscator/-/javascript-obfuscator-2.10.7.tgz#4130be156d7c0c34eac6c3763ef34b085cfa7caa"
+  integrity sha512-gIKQGwXez6WTWkKw8t4bex2KBcHtPBFvQ7VWuO43Qc/SfFOH5Yhr3E0+ChtE08ZA+bweDh5kNzznsDWcpYRdjQ==
   dependencies:
-    "@javascript-obfuscator/escodegen" "2.2.2"
-    "@javascript-obfuscator/estraverse" "5.3.0"
+    "@javascript-obfuscator/escodegen" "2.1.1"
     "@nuxtjs/opencollective" "0.3.2"
-    acorn "8.5.0"
+    acorn "8.0.5"
     assert "2.0.0"
-    chalk "4.1.2"
-    chance "1.1.8"
+    chalk "4.1.0"
+    chance "1.1.7"
     class-validator "0.13.1"
-    commander "8.2.0"
-    eslint-scope "6.0.0"
+    commander "7.1.0"
+    eslint-scope "5.1.1"
+    estraverse "5.2.0"
     fast-deep-equal "3.1.3"
-    inversify "5.1.1"
+    inversify "5.0.5"
     js-string-escape "1.0.1"
     md5 "2.3.0"
     mkdirp "1.0.4"
     multimatch "5.0.0"
     process "0.11.10"
     reflect-metadata "0.1.13"
-    source-map-support "0.5.20"
+    source-map-support "0.5.19"
     string-template "1.0.0"
     stringz "2.1.0"
-    tslib "2.3.1"
+    tslib "2.1.0"
 
 jest-canvas-mock@^2.3.1:
   version "2.3.1"
@@ -5709,10 +5714,10 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@0.5.20:
-  version "0.5.20"
-  resolved "https://npm.lumigame.com/source-map-support/-/source-map-support-0.5.20.tgz#12166089f8f5e5e8c56926b377633392dd2cb6c9"
-  integrity sha512-n1lZZ8Ve4ksRqizaBQgxXDgKwttHDhyfQjA6YZZn8+AroHbsIz+JjwxQDxbp+7y5OYCI8t1Yk7etjD9CRd2hIw==
+source-map-support@0.5.19:
+  version "0.5.19"
+  resolved "https://npm.lumigame.com/source-map-support/-/source-map-support-0.5.19.tgz#a98b62f86dcaf4f67399648c085291ab9e8fed61"
+  integrity sha512-Wonm7zOCIJzBGQdB+thsPar0kYuCIzYvxZwlBa87yi/Mdjv7Tip2cyVbLj5o0cFPN4EVkuTwb3GDDyUx2DGnGw==
   dependencies:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
@@ -6083,10 +6088,10 @@ tsconfig-paths@^3.12.0:
     minimist "^1.2.0"
     strip-bom "^3.0.0"
 
-tslib@2.3.1:
-  version "2.3.1"
-  resolved "https://npm.lumigame.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
+tslib@2.1.0:
+  version "2.1.0"
+  resolved "https://npm.lumigame.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
+  integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
 
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
