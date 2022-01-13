@@ -213,7 +213,7 @@ window.i18n.languages.th = {
         tie_win: "เสมอ!",
         dragon_win: "มังกรชนะ",
         tiger_win: "เสือชนะ",
-        result_dragon_tiger: "ผลลัพธ์ (มังกร l เสือ)",
+        result_dragon_tiger: "ผลลัพธ์ (มังกร | เสือ)",
         all: "ทั้งหมด",
         evenNumbers: "เลขคู่",
         oddNumbers: "เลขคี่",
