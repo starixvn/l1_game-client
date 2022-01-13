@@ -78,7 +78,7 @@ export default class HoldemPockerMD5 extends cc.Component {
         cards.forEach((card, index) => {
             const startSquareBracket = index === 0 ? `<color=#ffffff>[</color>` : "";
             const endSquareBracket = index === cards.length - 1 ? `<color=#ffffff>]</color>` : "";
-            const comma = index === cards.length - 1 ? "" : `<color=#ffffff>,</color>`;
+            const comma = index === cards.length - 1 ? "" : `<color=#ffffff>, </color>`;
             const cardValue =
                 card.suit > 1
                     ? `<color=#000000>${convertOldRank(card.rank)}</color>`

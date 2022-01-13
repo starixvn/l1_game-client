@@ -106,7 +106,7 @@ export default class HoldemPokerChips extends cc.Component {
                     const chipStack = this.createChipStack(winAmount, betChips, main.shadowChip);
                     destNode.addChild(chipStack);
                     this.handleChipStack(chipStack, main, destNode, betChips, value, jumpTime, delayBeforeFly);
-                    bettingArea.handleWinningAmount(winAmount, true);
+                    bettingArea.handleWinningAmount(value, true);
                     this.flyCurrentChipOnTableToPlayer(bettingAreas, key, main.userAvatar.node, jumpTime, main);
                     main.playStartGameAudio();
                 }
