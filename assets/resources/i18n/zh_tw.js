@@ -49,8 +49,8 @@ window.i18n.languages.zh_tw = {
         userInsufficientFund: "您的賬戶資金不足。(%{errorCode})",
         limitBetExceeded: "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！您的本金已超出您的投注限額設置，請重試。(%{errorCode})",
         playerNotPermittedPlay: "%{gameName} 遊戲 (#%{gameRoundId})\n\n遊戲禁用。詳情請聯絡您的上線，謝謝。(%{errorCode})",
-        winLimitHit: "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！贏限制命中。請聯繫您的上線，謝謝。(%{errorCode})",
-        loseLimitHit: "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！輸限制命中。請聯繫您的上線，謝謝。(%{errorCode})",
+        winLimitHit: "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！贏限制命中。請聯繫您的上線，謝謝。    (%{errorCode})",
+        loseLimitHit: "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！輸限制命中。請聯繫您的上線，謝謝。    (%{errorCode})",
         limitBetUpdated: "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！您的投注限額已更新，請重試。(%{errorCode})",
         limitBetNotDefined:
             "%{gameName} 遊戲 (#%{gameRoundId})\n\n下注失敗！您對此遊戲的投注限額尚未設置。請聯繫您的上線，謝謝。(%{errorCode})",
