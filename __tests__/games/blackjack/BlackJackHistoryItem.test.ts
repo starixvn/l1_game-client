@@ -117,7 +117,7 @@ describe("Test class BlackJackHistoryItem", () => {
             comp.convertResult(resultLabel, result, array, isSplit);
 
             // Assert
-            expect(resultLabel.string).toMatch("BJ");
+            expect(resultLabel.string).toMatch(GameUtils.getText(`ui.bj`));
         });
 
         it("Case 3: result < 21", () => {
