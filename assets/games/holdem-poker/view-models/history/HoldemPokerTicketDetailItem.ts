@@ -34,6 +34,11 @@ export default class HoldemPokerTicketDetailItem extends cc.Component {
         this.time.string = getStringHourByTime(bet.time);
         this.odd.string = bet.odds ? bet.odds : "-";
         this.bgRow.active = index % 2 !== 0;
-        this.win.node.color = bet.win <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+        if (bet.win > 0) {
+            this.stake.node.color = cc.Color.YELLOW;
+            this.win.node.color = cc.Color.YELLOW;
+            this.odd.node.color = cc.Color.YELLOW;
+            this.bettingOption.node.color = cc.Color.YELLOW;
+        }
     }
 }
