@@ -43,7 +43,7 @@ export default class HoldemPockerMD5 extends cc.Component {
     resetDefaultValue(data: string, isMD5Key: boolean) {
         this.updateMD5String(data);
         this.md5Key = isMD5Key;
-        this.md5Text.string = isMD5Key ? "Key" : "MD5";
+        this.md5Text.string = isMD5Key ? "Key:" : "MD5:";
         this.enableCopyButton(false);
     }
 
@@ -73,7 +73,7 @@ export default class HoldemPockerMD5 extends cc.Component {
     createResultDetails(data: any) {
         const { cards, suffix } = data;
         this.md5Value.string = "";
-        this.md5Text.string = "Key";
+        this.md5Text.string = "Key:";
         let resultFormatting = "";
         cards.forEach((card, index) => {
             const startSquareBracket = index === 0 ? `<color=#ffffff>[</color>` : "";
