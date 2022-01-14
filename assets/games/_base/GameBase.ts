@@ -523,4 +523,8 @@ export default class GameBase extends BaseComponent {
     public playClick() {
         AudioManager.getInstance().playClick();
     }
+
+    getBetChoiceString(choice: string): string {
+        return GameUtils.getBetChoiceString(choice);
+    }
 }

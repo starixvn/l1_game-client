@@ -9,6 +9,7 @@ import VipSedieWarTimeHandler from "./handlers/VipSedieWarTimeHandler";
 import SedieDish from "./SedieDish";
 import { VipSedieWarConfigs } from "./VipSedieWarConfigs";
 import VipSedieWarStatistic from "./VipSedieWarStatistic";
+import VipSedieWarUtils from "./VipSedieWarUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -164,5 +165,9 @@ export default class VipSedieWar extends VipSedie {
         super.openHistory();
         AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
+    }
+
+    getBetChoiceString(choice: string): string {
+        return VipSedieWarUtils.getBetChoiceString(choice);
     }
 }

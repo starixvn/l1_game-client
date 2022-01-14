@@ -99,6 +99,7 @@ window.i18n.languages.vi = {
         cantDoubleHand: "Không thể gấp đôi tiền cược.",
         cantHit: "Không thể rút thêm bài.",
         cardsNotEqual: "Hai lá bài không cùng giá trị.",
+        disallowHedgeBet: "Chỉ có thể đặt cược trên %{betChoice1} hoặc %{betChoice2}.",
         handIsStand: "Tay bài đã dừng",
         invalidPosition: "Vị trí tay bài không đúng",
         handNotActive: "Tay bài chưa tới lượt",

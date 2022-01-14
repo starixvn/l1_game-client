@@ -672,4 +672,14 @@ export default class Roulette extends SocketIOTableGameBase {
     protected formatGameRound(gameRoundId: any) {
         return gameRoundId ? `#${gameRoundId}` : "";
     }
+
+    getBetChoiceString(choice: string): string {
+        const choices = { big: "19 - 36", small: "1 - 18" };
+
+        if (Object.keys(choices).includes(choice)) {
+            return choices[choice];
+        }
+
+        return super.getBetChoiceString(choice);
+    }
 }
