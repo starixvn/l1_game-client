@@ -135,7 +135,6 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     onLoad() {
         this.gameData = new TexasHoldemPokerGameData<TexasHoldemPokerChoices>();
         this.texasHoldemPokerChips = new TexasHoldemPokerChips();
-        // this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
 
         super.onLoad();
     }
@@ -149,6 +148,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         // this.initTicketHistory();
 
         // this.prefabLoader.forEach((loader) => loader.initialize());
+
         this.registerStateEvents();
         this.registerConfigsEvents();
         this.initPokerCardScript();
@@ -161,7 +161,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.registerBetEvents();
         this.registerSettlementEvents();
         this.registerTicketDetailEvents();
-        this.registerNoticeEvents();
+        // this.registerNoticeEvents();
     }
 
     initPokerCardScript() {
@@ -172,6 +172,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
 
     private registerConfigsEvents() {
         this.gameData.configs.on(TexasHoldemPokerConfigs.Events.CHANGE, (configs: TexasHoldemPokerConfigs) => {
+            console.log(configs);
             this.setGameConfigs(configs);
             updateMinMax(this.minMaxTable)(configs);
             updateLeftOddsTable(this.oddsTables[0])(configs);

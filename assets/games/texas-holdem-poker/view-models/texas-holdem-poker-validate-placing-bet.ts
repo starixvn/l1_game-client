@@ -6,7 +6,7 @@ export const validateAccountBalance = (props: {
     chipAmount: number;
     currentBettedAmount: number;
     userBalance: number;
-    showMiniWarningFunc: Function;
+    showMiniWarningFunc: () => void;
 }): boolean => {
     const { chipAmount, currentBettedAmount, userBalance, showMiniWarningFunc } = props;
     const conditions: { condition: boolean; message?: string; hasIcon?: boolean }[] = [
@@ -23,7 +23,7 @@ export const validateAccountBalanceForFullRound = (props: {
     chipAmount: number;
     currentBettedAmount: number;
     userBalance: number;
-    showMiniWarningFunc: Function;
+    showMiniWarningFunc: () => void;
 }): boolean => {
     const { chipAmount, currentBettedAmount, userBalance, showMiniWarningFunc } = props;
     const conditions: { condition: boolean; message?: string; hasIcon?: boolean }[] = [
@@ -37,7 +37,7 @@ export const validateAccountBalanceForFullRound = (props: {
 
 export const showMiniWarning = (
     conditions: { condition: boolean; message?: string; hasIcon?: boolean }[],
-    showMiniWarningFunc: Function
+    showMiniWarningFunc: () => void
 ): boolean => {
     const criteria = conditions.reduce((result, element) => (!result && element.condition ? element : result), undefined);
     if (criteria && criteria.message) {
@@ -58,7 +58,7 @@ export const validateBet = (props: {
     currentBettedAmount: number;
     currentTotalBettedAmount: number;
     betChoice: string;
-    showMiniWarningFunc: Function;
+    showMiniWarningFunc: () => void;
     minBet: number;
     maxBetPerChoice: number;
     maxBetPerRound: number;

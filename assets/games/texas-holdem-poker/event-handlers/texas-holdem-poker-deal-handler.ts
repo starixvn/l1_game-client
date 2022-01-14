@@ -35,7 +35,7 @@ export default class TexasHoldemDealEventHandler<Choices> extends TexasHoldemPok
 
         this.gameData.stateModel.dealing();
         this.gameData.emit(TexasHoldemPokerGameData.Events.CHOICES_RESULT, choices);
-        this.gameData.ownBets.updateRoundId(roundId);
+        // this.gameData.ownBets.updateRoundId(roundId);
         this.gameData.dealModel.changeDataAfterDeal(playerCard, [], combinationResult, roundId);
         this.gameData.placeBetModel.updateTotalBet({ totalBet: totalAmount, choice: choices });
     }

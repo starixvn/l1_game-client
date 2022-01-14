@@ -18,7 +18,7 @@ export class TexasHoldemPokerPlaceBetModel extends HoldemPokerPlaceBetModel {
         });
     }
 
-    updateBetModel(betChoice: string, betEvent: string, choiceRef = TexasHoldemPokerChoicesConst.anteBet, rate: number = 1) {
+    updateBetModel(betChoice: string, betEvent: string, choiceRef = TexasHoldemPokerChoicesConst.anteBet, rate = 1) {
         if (rate <= 0) {
             console.log("rete must > 0");
             return;

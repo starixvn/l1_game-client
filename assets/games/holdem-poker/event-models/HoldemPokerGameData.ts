@@ -80,8 +80,7 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
         this.eventHandlers.forEach((handler) => handler.onReceiveEvent(data));
     }
 
-    protected registerEventHandlers() {
-        super.registerEventHandlers();
+    private handleHandle() {
         const handlers = [
             HoldemPokerConfigsHandler,
             HoldemPokerAfterDealEventHandler,
@@ -93,6 +92,11 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
         ];
 
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
+    }
+
+    protected registerEventHandlers() {
+        super.registerEventHandlers();
+        this.handleHandle();
     }
 
     receiveUIData(data: any) {

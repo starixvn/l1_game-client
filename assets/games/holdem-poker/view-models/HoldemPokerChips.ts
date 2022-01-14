@@ -119,7 +119,7 @@ export default class HoldemPokerChips extends cc.Component {
             } else {
                 const bettingArea = bettingAreas.filter((a) => a.betChoice === key)[0];
                 this.flyChipToDealer(bettingArea, main.dealerChipTray, jumpTime, delayBeforeFly);
-                main.playStartGameAudio();
+                // main.playStartGameAudio();
             }
         }
 
