@@ -222,7 +222,7 @@ export default class HoldemPokerCards extends cc.Component {
         cardComponent.setFaceUp(!faceDown);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = cardHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
-        const nextPosition = cardHand.cardLayout.getNextPosition(forcePositionIndex);
+        const nextPosition = cardHand.cardLayout.getNextPosition();
         const rotationX = cc.v3(0);
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         cardHand.addCard(cardNode);
@@ -247,7 +247,7 @@ export default class HoldemPokerCards extends cc.Component {
         const cardComponent = cardNode.getComponent(HoldemPokerCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = cardHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
-        const nextPosition = cardHand.cardLayout.getNextPosition(forcePositionIndex);
+        const nextPosition = cardHand.cardLayout.getNextPosition();
         const rotationX = cc.v3(0);
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         cardHand.addCard(cardNode);
@@ -257,11 +257,10 @@ export default class HoldemPokerCards extends cc.Component {
         return new Promise((resolve) => {
             cc.tween(cardNode)
                 .call(() => {
+                    this.playAudioCardSliding();
                     cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
                 })
-                .call(() => {
-                    this.playAudioCardSliding();
-                })
+                .delay(pullDuration)
                 .call(() => {
                     cardComponent.playAnimation(faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand, moveDuration);
                 })
