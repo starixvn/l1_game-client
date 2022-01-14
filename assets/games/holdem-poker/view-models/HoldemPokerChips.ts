@@ -107,7 +107,6 @@ export default class HoldemPokerChips extends cc.Component {
                     destNode.addChild(chipStack);
                     this.handleChipStack(chipStack, main, destNode, betChips, value, jumpTime, delayBeforeFly);
                     bettingArea.handleWinningAmount(value, true);
-                    this.flyCurrentChipOnTableToPlayer(bettingAreas, key, main.userAvatar.node, jumpTime, main);
                     main.playStartGameAudio();
                 }
             } else {
@@ -177,49 +176,6 @@ export default class HoldemPokerChips extends cc.Component {
                 gameData.finishModel.finishAnimationWinning();
             })
             .start();
-    }
-
-    private readonly flyCurrentChipOnTableToPlayer = (
-        bettingAreas: HoldemPokerBettingArea[],
-        betChoiceName: string,
-        userAvatar: cc.Node,
-        jumpTime: number,
-        main: HoldemPoker
-    ) => {
-        const currentChipsOnTable = bettingAreas.filter((a) => a.betChoice === betChoiceName);
-        currentChipsOnTable.forEach((chips) => {
-            chips.chipNode.runAction(
-                cc.sequence(
-                    cc.delayTime(jumpTime),
-                    cc.callFunc(() => {
-                        this.flyChipToPlayer(chips.chipNode, userAvatar);
-                    })
-                )
-            );
-        });
-    };
-
-    private flyChipToPlayer(chipStack: cc.Node, userAvatar: cc.Node) {
-        const delayTime = 0.25;
-        const durationMove = 0.55;
-        const durationFadeOut = 0.45;
-        chipStack.runAction(
-            cc.sequence(
-                cc.delayTime(delayTime),
-                cc.callFunc(() => {
-                    chipStack.children.forEach((chip) => {
-                        const destination = chip.parent.convertToNodeSpaceAR(userAvatar.convertToWorldSpaceAR(cc.v2(0, 0)));
-                        const playChipsSound = cc.callFunc(() => {
-                            // play multi chip audio
-                            // DeviceSetting.getInstance().sounds.play(SoundKeys.chip.multiChip);
-                        });
-                        chip.runAction(
-                            cc.sequence(cc.spawn(cc.moveTo(durationMove, destination), playChipsSound), cc.fadeOut(durationFadeOut))
-                        );
-                    });
-                })
-            )
-        );
     }
 
     private flyChipToDealer(bettingArea: HoldemPokerBettingArea, dealerLocation: cc.Node, jumpTime: number, delayBeforeFly: number) {

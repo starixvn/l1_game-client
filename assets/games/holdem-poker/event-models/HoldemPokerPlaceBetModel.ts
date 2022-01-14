@@ -114,8 +114,6 @@ export class HoldemPokerPlaceBetModel extends EventEmitter {
         for (const [key] of Object.entries(this.choices)) {
             this.choices[key] = 0;
         }
-
-        this.emit(HoldemPokerPlaceBetModel.Events.CLEAR_ALL_BET_CHIPS, {});
     }
 
     new() {
