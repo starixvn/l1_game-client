@@ -657,7 +657,7 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     onHistoryClick() {
         AudioManager.getInstance().playClick();
-        this.gameRoomMenu.expandableMenu.collapseMenu();
+        this.gameRoomMenu.collapseMenu();
 
         const history = cc.instantiate(this.blackjackHistory);
         this.historyComponent = history.getComponent(BlackJackHistory);

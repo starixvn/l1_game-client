@@ -58,7 +58,7 @@ export default class HoldemPokerTicketHistoryItem extends cc.Component {
         }
 
         this.stake.string = numberWithCommas(log.stake);
-        this.win.node.color = log.betWin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+        this.win.node.color = cc.Color.YELLOW;
     }
 
     openTicketDetail() {}

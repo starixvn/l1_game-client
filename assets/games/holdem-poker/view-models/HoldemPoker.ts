@@ -200,6 +200,8 @@ export default class HoldemPoker extends NewGameRoomBase {
 
     private pressedShowHistory() {
         this.playClick();
+        const gameRomeMenuControl = this.gameMenuContainer.getComponent(GameRoomMenu);
+        gameRomeMenuControl.collapseMenu();
         this.initTicketHistory();
         this.betHistoryController.setId(this.gameData.roundCounter.roundId);
         this.betHistoryController.showDialog();

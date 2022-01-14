@@ -112,4 +112,8 @@ export default class GameRoomMenu extends cc.Component {
             this.currentMainNode.on(event, callback[index], this.context);
         });
     }
+
+    collapseMenu() {
+        this.expandableMenu.collapseMenu();
+    }
 }
