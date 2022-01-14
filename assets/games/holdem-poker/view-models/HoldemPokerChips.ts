@@ -162,13 +162,11 @@ export default class HoldemPokerChips extends cc.Component {
     ) {
         const isWin = totalWin > totalBet;
         cc.tween(main.node)
-            .delay(totalWin > 0 ? 2.5 : 0)
             .call(() => {
                 totalWin > 0 && main.showWinningBet(totalWin);
                 isWin && this.playWinningEffect(main, main.userAvatar.node.parent, 5);
                 main.updateUserBalance();
             })
-            .delay(isWin ? this.durationAnimationWinning : 2.2)
             .call(() => {
                 main.pokerCardScript.unFocusPlayerCard();
             })

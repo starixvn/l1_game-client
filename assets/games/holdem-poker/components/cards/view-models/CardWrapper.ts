@@ -66,7 +66,7 @@ export const rawCardAfterClickCall = async (pokerCardsNote: PokerCards, cardsDat
         index++;
     }
 
-    showIndicator(pokerCardsNote, cardsData, callBack, 1700);
+    showIndicator(pokerCardsNote, cardsData, callBack, 1000);
 };
 
 const showIndicator = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function, delayCallBack = 2000) => {
@@ -97,7 +97,7 @@ const showIndicator = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Fu
 };
 
 export const collectCart = (pokerCardsNote: PokerCards, callBack?: Function, delayCallBack = 0) => {
-    const durationCollectCard = 2700;
+    const durationCollectCard = 1000;
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
     pokerCardsNote.collectCardsOnTable();
