@@ -13,6 +13,7 @@ const { ccclass, property } = cc._decorator;
 export default class HoldemPokerChips extends cc.Component {
     private readonly durationAnimationWinning = 4;
     private readonly chipScale = 0.5;
+    updateChipStackTween: cc.Tween;
 
     public createChip(betChips: BetChips, amount: number): cc.Node {
         return betChips.createSmallChip(amount, 1, true);
@@ -51,7 +52,7 @@ export default class HoldemPokerChips extends cc.Component {
         if (!betAmount) {
             return;
         }
-        const chipNode = this.createChip(betChips, betAmount) || this.createChipStack(betAmount, betChips, shadowChip);
+        const chipNode = this.createChip(betChips, betAmount);
         chipNode.scale = this.chipScale;
         const startNode = betChips.getChipNode(betAmount) || betChips.node;
         chipNode.position = cc.v3(destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v2(0, 0))));
@@ -66,11 +67,16 @@ export default class HoldemPokerChips extends cc.Component {
             }
         }
 
-        const updateChipStack = () => {
-            this.updateChipStack(betChips, destNode, shadowChip, totalAmount);
-        };
-
-        chipNode.runAction(cc.sequence(cc.jumpTo(0.5, destPosition, 50, 1), cc.callFunc(updateChipStack)));
+        const jumpChipDuration = 0.3;
+        chipNode.runAction(cc.jumpTo(jumpChipDuration, destPosition, 50, 1));
+        this.updateChipStackTween && this.updateChipStackTween.stop();
+        this.updateChipStackTween = cc
+            .tween(this)
+            .delay(jumpChipDuration)
+            .call(() => {
+                this.updateChipStack(betChips, destNode, shadowChip, totalAmount);
+            })
+            .start();
     }
 
     public updateChipStack(betChips: BetChips, destNode: cc.Node, shadowChip: cc.SpriteFrame, totalBet: number) {
