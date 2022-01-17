@@ -80,8 +80,8 @@ export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choic
     private handleHandle() {
         const handlers = [
             TexasHoldemPokerConfigsHandler,
-            // TexasHoldemErrorUIEventHandler,
-            // TexasHoldemAutoSettleEventHandler,
+            TexasHoldemErrorUIEventHandler,
+            TexasHoldemAutoSettleEventHandler,
             TexasHoldemDealEventHandler,
             TexasHoldemCallEventHandler,
             TexasHoldemTurnEventHandler,

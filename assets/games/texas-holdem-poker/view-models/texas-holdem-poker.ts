@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import { events } from "../../_new/connection/SocketIOConnection";
 import NewButton from "../../../common/custom-button/NewButton";
 import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import PrefabLoader from "../../../common/PrefabLoader";
@@ -147,7 +148,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.initButtonStatus();
         // this.initTicketHistory();
 
-        // this.prefabLoader.forEach((loader) => loader.initialize());
+        this.prefabLoader.forEach((loader) => loader.initialize());
 
         this.registerStateEvents();
         this.registerConfigsEvents();
