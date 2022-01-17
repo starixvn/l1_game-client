@@ -207,6 +207,12 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.betHistoryController.showDialog();
     }
 
+    private openGuide() {
+        super.openGuide();
+        const gameRomeMenuControl = this.gameMenuContainer.getComponent(GameRoomMenu);
+        gameRomeMenuControl.collapseMenu();
+    }
+
     private initPlacingBet() {
         this.placingBet = new HoldemPokerPlacingBet(this.gameData, this.bettingAreas, this, () => this.connection);
     }

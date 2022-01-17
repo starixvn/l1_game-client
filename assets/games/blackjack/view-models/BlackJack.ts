@@ -655,6 +655,11 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.onCloseGameClick();
     }
 
+    openGuide() {
+        super.openGuide();
+        this.gameRoomMenu.collapseMenu();
+    }
+
     onHistoryClick() {
         AudioManager.getInstance().playClick();
         this.gameRoomMenu.collapseMenu();

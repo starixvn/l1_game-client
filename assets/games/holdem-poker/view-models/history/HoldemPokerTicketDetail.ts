@@ -106,9 +106,9 @@ export default class HoldemPokerTicketDetail extends cc.Component {
             if (dealerCards.isQualified) {
                 dealerResult = `holdEmPoker.${CombineCardResultLabel[dealerCards.handResultId].dataId}`;
 
-                if (isPlayerWin >= 0) {
+                if (isPlayerWin > 0) {
                     this.playerRank.node.color = cc.Color.YELLOW;
-                } else {
+                } else if (isPlayerWin < 0) {
                     this.dealerRank.node.color = cc.Color.YELLOW;
                 }
             } else {

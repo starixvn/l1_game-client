@@ -40,9 +40,9 @@ export default class HoldemPokerTicketHistoryItem extends cc.Component {
             let dealerResult: string;
             if (log.isQualified) {
                 dealerResult = `holdEmPoker.${HandResultConst[log.dealerHandId]}`;
-                if (log.isPlayerWin >= 0) {
+                if (log.isPlayerWin > 0) {
                     this.player.node.color = cc.Color.YELLOW;
-                } else {
+                } else if (log.isPlayerWin < 0) {
                     this.dealer.node.color = cc.Color.YELLOW;
                 }
             } else {
