@@ -151,7 +151,7 @@ window.i18n.languages.id = {
         sysMaintenancePlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Permainan sedang dalam pemeliharaan.",
         networkErrorPlaceBet: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Kesalahan jaringan. (%{errorCode})",
         noGameOffer: "Akun Anda tidak didukung di portal game ini. Silakan hubungi upline Anda, terima kasih.",
-        sessionTimeout_break: "Sesi Anda telah habis atau Anda belum masuk.\\nHarap tutup jendela saat ini dan coba masuk lagi.",
+        sessionTimeout_break: "Sesi Anda telah habis atau Anda belum masuk.\nHarap tutup jendela saat ini dan coba masuk lagi.",
         notEnoughMoneyCardGame: "Saldo akun Anda tidak cukup untuk menyelesaikan ronde permainan",
         copyMD5Success: "Copy MD5 string successfully!",
         copyKeySuccess: "Copy Key string successully!",

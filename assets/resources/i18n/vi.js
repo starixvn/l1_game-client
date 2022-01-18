@@ -153,7 +153,7 @@ window.i18n.languages.vi = {
         networkErrorPlaceBet: "Game %{gameName} (#%{gameRoundId})\n\nLỗi kết nối mạng. Đặt cược thất bại! (%{errorCode})",
         noGameOffer: "Tài khoản của bạn không được hỗ trợ trên cổng game này. Vui lòng liên hệ với cấp trên.",
         sessionTimeout_break:
-            "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\\nVui lòng đóng cửa sổ game và thử đăng nhập lại.",
+            "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\nVui lòng đóng cửa sổ game và thử đăng nhập lại.",
         notEnoughMoneyCardGame: "Tài khoản của bạn hiện không đủ tiền để hoàn tất ván bài này.",
         copyMD5Success: "Copy chuỗi MD5 thành công!",
         copyKeySuccess: "Copy chuỗi Key thành công!",

@@ -151,7 +151,7 @@ window.i18n.languages.en = {
         networkErrorPlaceBet: "Game %{gameName} (#%{gameRoundId})\r\n\r\nFailed to place bet! Network error.(%{errorCode})",
         noGameOffer: "Your account is not supported on this game portal. Please contact your upline, thank you.",
         sessionTimeout_break:
-            "Your session has timed out or you have not logged in yet.\\nPlease close the current windows and try to login again.",
+            "Your session has timed out or you have not logged in yet.\nPlease close the current windows and try to login again.",
         notEnoughMoneyCardGame: "Your account has insufficient funds to complete the game round.",
         copyMD5Success: "Copy MD5 string successfully!",
         copyKeySuccess: "Copy Key string successully!",

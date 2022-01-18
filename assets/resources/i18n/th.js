@@ -149,7 +149,7 @@ window.i18n.languages.th = {
         sysMaintenancePlaceBet: "เกม %{gameName} (#%{gameRoundId})\n\nการวางเดิมพันล้มเหลว! เกมอยู่ระหว่างการบำรุงรักษา ",
         networkErrorPlaceBet: "เกม %{gameName} (#%{gameRoundId})\n\nการวางเดิมพันล้มเหลว! เกิดข้อผิดพลาดของเครือข่าย (%{errorCode})",
         noGameOffer: "บัญชีของคุณไม่ได้รับการรองรับการเข้าถึงข้อมูลของเกม โปรดกรุณาติดต่อทีมงานผู้แนะนำของคุณ ขอบคุณค่ะ ",
-        sessionTimeout_break: "เซสชั่นของคุณหมดเวลาหรือคุณยังไม่ได้เข้าสู่ระบบ\\nกรุณาปิดหน้าต่างปัจจุบันและลองเข้าสู่ระบบอีกครั้ง",
+        sessionTimeout_break: "เซสชั่นของคุณหมดเวลาหรือคุณยังไม่ได้เข้าสู่ระบบ\nกรุณาปิดหน้าต่างปัจจุบันและลองเข้าสู่ระบบอีกครั้ง",
         notEnoughMoneyCardGame: "บัญชีของคุณมีเงินไม่เพียงพอที่จะจบรอบเกม",
         copyMD5Success: "Copy MD5 string successfully!",
         copyKeySuccess: "Copy Key string successully!",
