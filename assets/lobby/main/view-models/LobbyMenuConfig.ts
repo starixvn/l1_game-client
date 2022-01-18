@@ -25,7 +25,33 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             displayTime: 5
         }
     };
-    list = [38, 29, 22, 2, 28, 9, 25, 1, 4, 6, 8, GameIds.KenoProViet, 27, 10, 26, 3, 7, 24, 23, 21, 31, 35, 43, GameIds.CasinoHoldemPoker];
+    list = [
+        38,
+        29,
+        22,
+        2,
+        28,
+        9,
+        25,
+        1,
+        4,
+        6,
+        8,
+        GameIds.KenoProViet,
+        27,
+        10,
+        26,
+        3,
+        7,
+        24,
+        23,
+        21,
+        31,
+        35,
+        43,
+        GameIds.CasinoHoldemPoker,
+        GameIds.HiLo
+    ];
     seDieGames = [
         //
         GameIds.VipSedie,
@@ -47,7 +73,8 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.DragonTiger,
         GameIds.ThreeCards,
         GameIds.BlackJack,
-        GameIds.CasinoHoldemPoker
+        GameIds.CasinoHoldemPoker,
+        GameIds.HiLo
     ];
     slotGames = [
         //

@@ -34,9 +34,14 @@ const configs = {
         HeroesSlot: 38,
         CasinoHoldemPoker: 39,
         TexasHoldemPoker: 42,
-        BitcoinMaster: 43
+        BitcoinMaster: 43,
+        HiLo: 45
     },
     GameInfos: {
+        45: {
+            key: "HiLo",
+            mini: true
+        },
         43: {
             key: "BitcoinMaster",
             mini: true
