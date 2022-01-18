@@ -76,13 +76,13 @@ export default class MiniPanelDataHandlers {
                         this.main.forceKickedOut();
                     }
                 }, 10000);
+                const errorCode = data.errorCode;
+                const text = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
+                const noticeData = { text: text } as NoticeData;
+                this.main.showNotice(noticeData, this.main.forceKickedOut, this.main.forceKickedOut);
             } else {
                 this.main.forceKickedOut();
             }
-            const errorCode = data.errorCode;
-            const text = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
-            const noticeData = { text: text } as NoticeData;
-            this.main.showNotice(noticeData, this.main.forceKickedOut, this.main.forceKickedOut);
         }
     }
 
