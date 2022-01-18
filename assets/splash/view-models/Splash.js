@@ -1,7 +1,7 @@
 import i18n from "i18n/runtime-scripts/LanguageData";
 
 import { appContainer } from "../../Application";
-import { getCacheLanguage, setLanguage } from "../../common/auth/SessionManager";
+import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/SessionManager";
 import logger from "../../common/logger";
 import * as authManager from "./../../common/auth/AuthManager";
 import SplashConfig from "./SplashConfig";
@@ -42,8 +42,7 @@ cc.Class({
         let language = getCacheLanguage();
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("lang")) {
-            const lang = urlParams.get("lang");
-            language = lang === "vi-VN" ? "vi" : "en";
+            language = getLanguage(urlParams.get("lang") ?? "en-US");
         }
         setLanguage(language);
     },
