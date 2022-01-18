@@ -1,5 +1,4 @@
 import { HoldemPokerGameData } from "../../holdem-poker/event-models/HoldemPokerGameData";
-import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import TexasHoldemErrorUIEventHandler from "../event-handlers/texas-holdem-poker-api-error-ui-handler";
 import TexasHoldemAutoSettleEventHandler from "../event-handlers/texas-holdem-poker-auto-settle-handler";
 import TexasHoldemCallEventHandler from "../event-handlers/texas-holdem-poker-call-handler";
@@ -63,18 +62,6 @@ export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choic
         if (!this.processingBetFlag) {
             this.emit(TexasHoldemPokerGameData.Events.HIDE_PROCESSING_BET);
         }
-    }
-
-    get isProcessingBet() {
-        return this.processingBetFlag;
-    }
-
-    receiveData(data: unknown) {
-        if (!this.eventHandlers.length) {
-            this.registerEventHandlers();
-        }
-
-        this.eventHandlers.forEach((handler) => handler.onReceiveEvent(data));
     }
 
     private handleHandle() {

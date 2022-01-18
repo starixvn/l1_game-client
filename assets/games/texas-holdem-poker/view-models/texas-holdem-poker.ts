@@ -136,7 +136,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     onLoad() {
         this.gameData = new TexasHoldemPokerGameData<TexasHoldemPokerChoices>();
         this.texasHoldemPokerChips = new TexasHoldemPokerChips();
-
+        this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
         super.onLoad();
     }
 
@@ -162,7 +162,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.registerBetEvents();
         this.registerSettlementEvents();
         this.registerTicketDetailEvents();
-        // this.registerNoticeEvents();
+        this.registerNoticeEvents();
     }
 
     initPokerCardScript() {
@@ -371,12 +371,10 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
 
     private registerBetEvents() {
         this.gameData.on(TexasHoldemPokerGameData.Events.CHOICES_RESULT, updatePreviousChoices(this.gameData.placeBetModel));
-
         this.gameData.on(TexasHoldemPokerGameData.Events.SHOW_PROCESSING_BET, () => this.showProcessingWarning(true));
         this.gameData.on(TexasHoldemPokerGameData.Events.HIDE_PROCESSING_BET, () => this.showProcessingWarning(false));
 
         this.gameData.ownBets.on(TexasHoldemPokerOwnBetModel.Events.OWN_BETS, showRejoinOwnBets(this.gameData));
-
         this.gameData.ownBets.on(TexasHoldemPokerOwnBetModel.Events.OWN_BETS, (ownBets: TexasHoldemPokerOwnBetModel) => {
             rawCardWhenRejoin(this.pokerCardScript, ownBets);
         });
