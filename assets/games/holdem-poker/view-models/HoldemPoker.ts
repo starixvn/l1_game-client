@@ -413,6 +413,8 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.md5Comp.resetDefaultValue(i18n.t("holdEmPoker.md5String"), false);
         collectCart(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
         clearAllBetChips(this.bettingAreas)();
+        this.holdemPokerChips.stopWinningEffect();
+        this.clearWinningBet();
     }
 
     onDoubleAndCallClick() {
@@ -451,6 +453,8 @@ export default class HoldemPoker extends NewGameRoomBase {
                 })
         );
         clearAllBetChips(this.bettingAreas)();
+        this.holdemPokerChips.stopWinningEffect();
+        this.clearWinningBet();
     }
 
     private hideButtonPrepareNewRound() {

@@ -14,6 +14,7 @@ export default class HoldemPokerChips extends cc.Component {
     private readonly durationAnimationWinning = 4;
     private readonly chipScale = 0.5;
     updateChipStackTween: cc.Tween;
+    winningEffect: cc.Node;
 
     public createChip(betChips: BetChips, amount: number): cc.Node {
         return betChips.createSmallChip(amount, 1, true);
@@ -200,20 +201,24 @@ export default class HoldemPokerChips extends cc.Component {
     }
 
     playWinningEffect(mainRoomGame: WebSocketTableGameBase, playerNode: cc.Node, duration = 5.4) {
-        const winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
-        playerNode.addChild(winningEffect);
-        const animation = winningEffect.getComponent(cc.Animation);
+        this.winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
+        playerNode.addChild(this.winningEffect);
+        const animation = this.winningEffect.getComponent(cc.Animation);
 
-        winningEffect.runAction(
+        this.winningEffect.runAction(
             cc.sequence(
                 cc.callFunc(() => {
                     animation.play();
                 }),
                 cc.delayTime(duration),
                 cc.callFunc(() => {
-                    winningEffect.destroy();
+                    this.winningEffect.destroy();
                 })
             )
         );
+    }
+
+    stopWinningEffect() {
+        this.winningEffect.destroy();
     }
 }
