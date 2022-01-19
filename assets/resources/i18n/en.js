@@ -439,7 +439,7 @@ window.i18n.languages.en = {
         cancel: "Cancel",
         rebet: "Rebet",
         rebetDeal: "Rebet\n& Deal",
-        placeYourBet: "Place your bets",
+        placeYourBet: "Place your bet",
         call: "Call",
         callChoice: "CALL",
         x2Double: "X2 DOUBLE",
