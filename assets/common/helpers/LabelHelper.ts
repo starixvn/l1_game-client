@@ -1,5 +1,6 @@
 const updateCacheModeFollowLanguage = (message: cc.Label) => {
-    switch (window.i18n.curLang) {
+    const currentLanguage = window?.i18n?.curLang ?? "en";
+    switch (currentLanguage) {
         case "vi":
         case "en":
         case "id":
