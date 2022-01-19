@@ -1,4 +1,4 @@
-import { updateCacheModeFollowLanguage } from "../../../common/helpers/LabelHelper";
+import { getCacheModeFollowLanguage } from "../../../common/helpers/LanguagesHelper";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import VipSedieWarTicketDetailItem from "./VipSedieWarTicketDetailItem";
 import VipSedieWarUtils from "./VipSedieWarUtils";
@@ -41,7 +41,7 @@ export default class VipSedieWarTicketDetail extends cc.Component {
     setData(data: any) {
         this.roundId.string = data.phien;
         this.winChoices.string = this.getWinChoices(data.settlementResult);
-        updateCacheModeFollowLanguage(this.winChoices);
+        this.winChoices.cacheMode && (this.winChoices.cacheMode = getCacheModeFollowLanguage(window.i18n?.curLang ?? "en"));
 
         VipSedieWarUtils.setDotsImage(data.result, this.playerResultNode, this.bankerResultNode, this.dotsFrame);
 
