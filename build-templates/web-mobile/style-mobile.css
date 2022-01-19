@@ -206,8 +206,8 @@ p.footer {
 }
 
 /* Noel Events */
-.background-noel {
-    background: url(./noel2021/pattern.png?v=1) repeat left top;
+.background-tet {
+    background: url(./tet2022/gradient-bg.png?v=1) repeat;
     background-size: auto 100vh;
     position: fixed;
     left: 0;
@@ -216,23 +216,66 @@ p.footer {
     width: 100vw;
 }
 
-.light {
+.background-top {
+    background: url(./tet2022/bg-top.png?v=1) repeat;
+    background-size: auto 27.99vh;
     position: fixed;
-    background: url(./noel2021/light.png) no-repeat;
-    background-size: 31.47vh 8.79vh;
-    width: 31.47vh;
-    height: 8.79vh;
-}
-
-.light-left {
     left: 0;
     top: 0;
+    right: 0;
+    height: 27.99vh;
 }
 
-.light-right {
+.background-flower {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+}
+
+.halftone {
+    background-size: auto 108.3vh;
+    height: 108.3vh;
+}
+.conner {
+    position: fixed;
+}
+
+.conner-top-right {
     right: 0;
     top: 0;
-    transform: scaleX(-1);
+    background: url(./tet2022/flower-right.png) no-repeat;
+    background-size: 31.04vh 31.8vh;
+    height: 31.8vh;
+    width: 31.04vh;
+}
+
+.conner-top-left {
+    left: 0;
+    top: 0;
+    height: 35.4vh;
+    width: 33.33vh;
+    background: url(./tet2022/flower-left.png) no-repeat;
+    background-size: 33.33vh 35.4vh;
+}
+
+.conner-bottom-left {
+    left: 0;
+    bottom: 0;
+    height: 24vh;
+    width: 33.6vh;
+    background: url(./tet2022/lixi-left.png) no-repeat;
+    background-size: 33.6vh 24vh;
+}
+
+.conner-bottom-right {
+    right: 0;
+    bottom: 0;
+    height: 21.2vh;
+    width: 45.5vh;
+    background: url(./tet2022/lixi-right.png) no-repeat;
+    background-size: 45.5vh 21.2vh;
 }
 
 @media only screen and (min-width: 767px) and (max-width: 1024px) {
@@ -260,19 +303,63 @@ p.footer {
         transform: rotate(90deg);
     }
 
-    .light-container {
+    .conner-container,
+    .background-flower,
+    .background-top {
         position: fixed;
-        width: 100vh;
+        width: calc(100vh - 70px);
         height: 100vw;
         -webkit-transform: translateY(-100vw) rotate(90deg);
-        -ms-transform: translateY(-100vw) rotate(90deg); /* IE9 */
-        -o-transform: translateY(-100vw) rotate(90deg); /* Opera */
+        -ms-transform: translateY(-100vw) rotate(90deg);
+        -o-transform: translateY(-100vw) rotate(90deg);
         transform: translateY(-100vw) rotate(90deg);
         -webkit-transform-origin: left bottom;
         -moz-transform-origin: left bottom;
         -ms-transform-origin: left bottom;
         -o-transform-origin: left bottom;
         transform-origin: left bottom;
+    }
+
+    .conner-top-left {
+        height: 35.4vw;
+        width: 33.33vw;
+        background-size: 33.33vw 35.4vw;
+    }
+
+    .conner-top-right {
+        background-size: 31.04vw 31.8vw;
+        height: 31.8vw;
+        width: 31.04vw;
+    }
+
+    .conner-bottom-left {
+        height: 24vw;
+        width: 33.6vw;
+        background-size: 33.6vw 24vw;
+    }
+
+    .conner-bottom-right {
+        height: 21.2vw;
+        width: 45.5vw;
+        background-size: 45.5vw 21.2vw;
+    }
+
+    .background-top {
+        background-size: auto 27.99vw;
+        background-repeat: repeat-x;
+    }
+
+    .background-flower {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vh;
+    }
+
+    .halftone {
+        background-size: auto 108.3vw;
+        height: 108.3vw;
     }
 }
 

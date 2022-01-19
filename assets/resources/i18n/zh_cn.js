@@ -406,7 +406,8 @@ window.i18n.languages.zh_cn = {
         gameNotSupported: "Sorry! The function is currently not supported for this game.",
         noDataAvailable: "No data available",
         ticket_details: "Ticket details",
-        bet_details: "Bet Details"
+        bet_details: "Bet Details",
+        new_year: "Happy New Year"
     },
     holdEmPoker: {
         ante: "ANTE",
