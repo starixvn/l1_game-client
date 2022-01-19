@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../audio/AudioManager";
+import { updateCacheModeFollowLanguage } from "../../helpers/LabelHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -101,7 +102,7 @@ export default class Notice extends cc.Component {
     public setMessage(message: string) {
         if (message) {
             this.message.string = message;
-            this.updateCacheModeFollowLanguage();
+            updateCacheModeFollowLanguage(this.message);
         }
     }
 
@@ -113,20 +114,5 @@ export default class Notice extends cc.Component {
         } else {
             this.buttonNode.active = false;
         }
-    }
-
-    updateCacheModeFollowLanguage() {
-        switch (window.i18n.curLang) {
-            case "vi":
-            case "en":
-            case "id":
-                this.message.cacheMode = 2;
-                break;
-            default:
-                this.message.cacheMode = 0;
-                break;
-        }
-
-        return this.message.cacheMode;
     }
 }
