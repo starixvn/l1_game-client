@@ -270,7 +270,7 @@ function updateLocalizedImages() {
     const language = getCurrentLanguage();
     const suffixSite = configs.site === "SC2" ? "_sc2" : "_sc1";
     const suffixLang = language;
-    const className = `splash_text${suffixSite}${suffixLang}`;
+    const className = `splash_text${suffixSite}_${suffixLang}`;
     splashText.className += ` ${className}`;
 }
 
