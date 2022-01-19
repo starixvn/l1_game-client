@@ -1,4 +1,4 @@
-import ExpandableMenu from "../../../common/ExpandableMenu";
+import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 
 const { ccclass, property } = cc._decorator;
 

@@ -82,17 +82,30 @@ module.exports = {
             let label = allLocalizedLabels[i];
             if (!label.node.active || label.label == null) continue;
             label.updateLabel();
+
+            const localizedFont = label.getComponent("LocalizedFont");
+            if (localizedFont) {
+                localizedFont.updateFont();
+            }
         }
         // walk all nodes with localize sprite and update
         let allLocalizedSprites = [];
+        let localizedLoadComponent = [];
         for (let i = 0; i < rootNodes.length; ++i) {
             let sprites = rootNodes[i].getComponentsInChildren("LocalizedSprite");
+            let localizedSprites = rootNodes[i].getComponentsInChildren("LocalizedLoadSprite");
             Array.prototype.push.apply(allLocalizedSprites, sprites);
+            Array.prototype.push.apply(localizedLoadComponent, localizedSprites);
         }
         for (let i = 0; i < allLocalizedSprites.length; ++i) {
             let sprite = allLocalizedSprites[i];
             if (!sprite.node.active) continue;
             sprite.updateSprite(window.i18n.curLang);
+        }
+
+        // customize LocalizedLoadSprite
+        for (let i = 0; i < localizedLoadComponent.length; ++i) {
+            localizedLoadComponent[i].fetchRender();
         }
     }
 };

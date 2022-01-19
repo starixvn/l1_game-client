@@ -387,7 +387,7 @@ export default class BetChips extends cc.Component {
         return node;
     }
 
-    public createSmallChip(bet: number): cc.Node {
+    public createSmallChip(bet: number, scale = 0.29, showValue = false): cc.Node {
         if (bet === 0) {
             const node = this.createLowValueChip();
             node.rotation = _.random(0, 360);
@@ -396,8 +396,8 @@ export default class BetChips extends cc.Component {
         }
         const chip = this.createBigChip(bet);
         const chipView = chip.getComponent(ChipView);
-        chipView.applyForSmallChip();
-        chip.scale = this.smallChipScale;
+        chipView.applyForSmallChip(showValue);
+        chip.scale = scale;
         chip.group = "Chip";
         return chip;
     }

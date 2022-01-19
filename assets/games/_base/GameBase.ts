@@ -164,6 +164,13 @@ export default class GameBase extends BaseComponent {
         return !this.isDisableGame && this.gameConfigs !== undefined;
     }
 
+    getUserBalance(): number {
+        if (!cc.RedT || !cc.RedT.user) {
+            return 0;
+        }
+        return cc.RedT.user.red;
+    }
+
     onLoad() {
         this.setUpHandlers();
         this.initBetChips();
@@ -220,7 +227,7 @@ export default class GameBase extends BaseComponent {
     }
 
     closeGame() {
-        AudioManager.getInstance().playClick();
+        this.playClick();
         this.node.active = false;
     }
 
@@ -440,6 +447,11 @@ export default class GameBase extends BaseComponent {
         this.gameConfigs.odds && this.betItems.forEach((item) => item.setOdd(this.gameConfigs.odds[item.node.name]));
     }
 
+    setGameConfigs(gameConfigs: any) {
+        this.gameConfigs = gameConfigs;
+        this.updateDisplayForRemoteConfig();
+    }
+
     public updateDisplayForRemoteConfig() {
         this.updateOddsFromConfigs();
 
@@ -465,7 +477,7 @@ export default class GameBase extends BaseComponent {
         const guide = dialog.getComponent(WebViewGuide);
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
-        const language = getLanguage(locale);
+        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
         guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
@@ -506,5 +518,9 @@ export default class GameBase extends BaseComponent {
             updated = cc.RedT.userStakeLevelData(data);
         }
         return updated;
+    }
+
+    public playClick() {
+        AudioManager.getInstance().playClick();
     }
 }

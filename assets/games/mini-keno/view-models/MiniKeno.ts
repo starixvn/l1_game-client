@@ -175,7 +175,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
             North: "bac"
         };
         const name = `header_text_${dict[KenoType[type]]}`;
-        const suffix = NoticeUtil.getSuffixSpriteName();
+        const suffix = NoticeUtil.getCurrentLanguage() !== "vi" ? "_en" : "";
         const sprite = this.atlas.getSpriteFrame(`${name}${suffix}`);
         return sprite ? sprite : this.atlas.getSpriteFrame(name);
     }

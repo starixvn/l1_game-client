@@ -6,7 +6,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
-import ExpandableMenu from "../../../common/ExpandableMenu";
+import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
@@ -114,8 +114,8 @@ export default class BlackJack extends SocketIOTableGameBase {
     @property(cc.Prefab)
     blackjackHistory: cc.Prefab = null;
 
-    @property(ExpandableMenu)
-    expandableMenu: ExpandableMenu = null;
+    @property(GameRoomMenu)
+    gameRoomMenu: GameRoomMenu = null;
 
     @property(cc.SpriteFrame)
     shadowChip: cc.SpriteFrame = null;
@@ -173,7 +173,9 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.stopIntervalReminder();
     }
 
-    onEnable() {}
+    onEnable() {
+        this.initMenu();
+    }
 
     onDisable() {}
 
@@ -343,7 +345,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         const nextPosition = handPlace.cardLayout.getNextPosition();
         const rotationX = handPlace.selected ? this.dealerHand.cardLayout.selectedRotationX : 0;
         const scaleY = handPlace.selected ? 1.15 : 1;
-        cardNode.position = startLocalPos;
+        cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         handPlace.addCard(cardNode);
 
         const pullDuration = 0.2;
@@ -370,7 +372,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         const startLocalPos = this.dealerHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = this.dealerHand.cardLayout.getNextPosition();
         const rotationX = 0;
-        cardNode.position = startLocalPos;
+        cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         this.dealerHand.addCard(cardNode);
 
         const pullDuration = 0.2;
@@ -653,9 +655,14 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.onCloseGameClick();
     }
 
+    openGuide() {
+        super.openGuide();
+        this.gameRoomMenu.collapseMenu();
+    }
+
     onHistoryClick() {
         AudioManager.getInstance().playClick();
-        this.expandableMenu.collapseMenu();
+        this.gameRoomMenu.collapseMenu();
 
         const history = cc.instantiate(this.blackjackHistory);
         this.historyComponent = history.getComponent(BlackJackHistory);
@@ -709,7 +716,7 @@ export default class BlackJack extends SocketIOTableGameBase {
             .setActive(!this.activeHand.isStand && this.activeHand.canSplit && !this.doubleButton.active);
 
         if (this.doubleButton.active || this.bigSplitButton.active || this.smallSplitButton.active) {
-            this.expandableMenu && this.expandableMenu.collapseMenu(false);
+            this.gameRoomMenu.expandableMenu && this.gameRoomMenu.expandableMenu.collapseMenu(false);
         }
     }
 
@@ -751,5 +758,10 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     playSingleChipsSound() {
         AudioManager.getInstance().playSFX(this.singleChipAudio.clip);
+    }
+
+    private initMenu() {
+        const menuAction = [this.onLobbyClick, this.onHistoryClick, this.openGuide];
+        this.gameRoomMenu.initialize(this.node, this).addCommonIcon().withEvents(menuAction);
     }
 }

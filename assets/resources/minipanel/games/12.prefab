@@ -27,9 +27,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 8
-      },
-      {
         "__id__": 9
       },
       {
@@ -37,10 +34,13 @@
       },
       {
         "__id__": 11
+      },
+      {
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -53,7 +53,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 152,
-      "height": 167
+      "height": 158.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -129,7 +129,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        7.5,
+        3.25,
         0,
         0,
         0,
@@ -210,10 +210,13 @@
     "_components": [
       {
         "__id__": 6
+      },
+      {
+        "__id__": 7
       }
     ],
     "_prefab": {
-      "__id__": 7
+      "__id__": 8
     },
     "_opacity": 255,
     "_color": {
@@ -225,8 +228,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 148,
-      "height": 40
+      "width": 140.03,
+      "height": 31.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -277,16 +280,12 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_useOriginalSize": false,
     "_string": "KENO PRO VIET",
     "_N$string": "KENO PRO VIET",
-    "_fontSize": 20,
-    "_lineHeight": 40,
+    "_fontSize": 18,
+    "_lineHeight": 25,
     "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "cafd24ce-1dec-430a-9047-0775cfb46eb6"
-    },
-    "_isSystemFontUsed": false,
+    "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_batchAsBitmap": false,
     "_styleFlags": 0,
@@ -296,6 +295,17 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "a8acfDXW6RBdZj4RLwzEfA7",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 5
+    },
+    "_enabled": true,
+    "overrideFonts": [],
     "_id": ""
   },
   {
@@ -402,7 +412,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 152,
-      "height": 167
+      "height": 158.5
     },
     "_resize": 1,
     "_N$layoutType": 2,
@@ -442,7 +452,7 @@
     "asset": {
       "__uuid__": "b0eea0f1-f89b-48f9-af40-3b57042caa1e"
     },
-    "fileId": "30ezjqdRRHTKIs8PmkyaD1",
+    "fileId": "",
     "sync": false
   }
 ]

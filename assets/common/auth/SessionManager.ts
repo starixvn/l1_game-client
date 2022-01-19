@@ -1,5 +1,13 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+declare global {
+    export interface Window {
+        i18n: {
+            languages: any;
+            curLang: string;
+        };
+    }
+}
 export interface Session {
     username: string;
     language: string;
@@ -35,7 +43,11 @@ export function getLanguage(locale) {
     const dict = {
         "vi-VN": "vi",
         "en-US": "en",
-        "en-UK": "en"
+        "en-UK": "en",
+        "th-TH": "th",
+        "id-ID": "id",
+        "zh-CN": "zh_cn",
+        "zh-TW": "zh_tw"
     };
     return dict[locale] || "en";
 }

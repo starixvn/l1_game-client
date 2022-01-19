@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const LocalizedLabel = require("LocalizedLabel");
 
-const { ccclass, property, executeInEditMode, menu } = cc._decorator;
+const { ccclass, property, menu } = cc._decorator;
 
 export enum FormationHandler {
     NONE,
@@ -12,7 +12,6 @@ export enum FormationHandler {
 }
 
 @ccclass
-@executeInEditMode
 @menu("i18n/LocalizedLabelWithFormat")
 export default class LocalizedLabelWithFormat extends LocalizedLabel {
     @property({ type: cc.Enum(FormationHandler) })
@@ -58,10 +57,19 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
 
     titleCase(value: string) {
         const space = " ";
-        return value
+        const isBreakLine = value.includes("\n");
+        const result = value
             .split(space)
             .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
             .join(space);
+        if (!isBreakLine) {
+            return result;
+        }
+
+        return result
+            .split("\n")
+            .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+            .join("\n");
     }
 
     upperCase(value: string) {

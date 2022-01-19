@@ -47,30 +47,31 @@ export default class GameUtils {
     }
 
     public static getChipValues(bet: number, options: number[]): any {
-        let total = bet;
-        const values = {};
-        options.forEach((value) => {
-            const count = Math.floor(total / value);
-            values[value] = count;
-            total = total % value;
-        });
-        return values;
+        const chipValue = this.calcChipValue(options, bet);
+        return chipValue.values;
     }
 
     public static getChipQuantity(bet: number, options: number[]): any {
         const list = [...options].reverse();
-        let total = bet;
-        const values = {};
-        list.forEach((value) => {
-            const count = Math.floor(total / value);
-            values[value] = count;
-            total = total % value;
-        });
+        const chipValue = this.calcChipValue(list, bet);
+        const values = chipValue.values;
 
-        if (total > 0) {
+        if (chipValue.chipTotal > 0) {
             values[0] = 1;
         }
         return values;
+    }
+
+    private static calcChipValue(list, total) {
+        const values = {};
+        let chipTotal = total;
+        list.forEach((value) => {
+            const count = Math.floor(chipTotal / value);
+            values[value] = count;
+            chipTotal = chipTotal % value;
+        });
+
+        return { values, chipTotal };
     }
 
     public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}) {
@@ -187,5 +188,20 @@ export default class GameUtils {
         }
 
         return values.filter((value) => value >= minBet && value <= maxBet);
+    }
+
+    public static copyToClipboard(data: string): void {
+        const listener = (e: ClipboardEvent) => {
+            e.clipboardData.setData("text/plain", data);
+            e.preventDefault();
+            document.removeEventListener("copy", listener);
+        };
+        document.addEventListener("copy", listener);
+        document.execCommand("copy");
+    }
+
+    public static isIpad(): boolean {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        return /ipad/.test(userAgent);
     }
 }

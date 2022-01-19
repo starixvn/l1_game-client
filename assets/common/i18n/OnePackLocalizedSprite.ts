@@ -1,10 +1,9 @@
 const SpriteFrameSet = require("SpriteFrameSet");
 const LocalizedSprite = require("LocalizedSprite");
 
-const { ccclass, property, executeInEditMode, menu } = cc._decorator;
+const { ccclass, property, menu } = cc._decorator;
 
 @ccclass
-@executeInEditMode
 @menu("i18n/OnePackLocalizedSprite")
 export default class OnePackLocalizedSprite extends LocalizedSprite {
     @property(cc.SpriteAtlas)

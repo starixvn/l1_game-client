@@ -9,8 +9,7 @@ export default class GameBaseConfigsHandler implements DataHandler {
             return false;
         }
 
-        this.main.gameConfigs = data.gameConfigs;
-        this.main.updateDisplayForRemoteConfig();
+        this.main.setGameConfigs(data.gameConfigs);
         return true;
     }
 }

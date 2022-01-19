@@ -86,4 +86,12 @@ const zeroPad = (num: number, places: number) => {
     return Array(+(zero > 0 && zero)).join("0") + num;
 };
 
+export function formatUserCurrency(balance, currency, isCash) {
+    const userCurrency = currency ? currency.toUpperCase() : currency === undefined ? "" : currency;
+    return `${this.numberWithCommas(balance)} ${isCash ? "" : userCurrency}`;
+}
+export function getInternationalFractionalOdds(value: number) {
+    return `1:${value}`;
+}
+
 export { numberWithCommas, getOnlyNumberInString, numberPad, numberTo, zeroPad, nFormatter };

@@ -1,12 +1,12 @@
 import { AutoScaleWidget } from "./AutoScaleWidget";
+import GameUtils from "./GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class IpadAutoScaleWidget extends AutoScaleWidget {
     isIpad(): boolean {
-        const userAgent = window.navigator.userAgent.toLowerCase();
-        return /ipad/.test(userAgent);
+        return GameUtils.isIpad();
     }
 
     protected updateDisplay(): void {

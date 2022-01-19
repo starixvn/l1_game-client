@@ -11,7 +11,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
     constructor(protected readonly main: GameBase) {}
 
-    protected timeout: number;
+    protected timeout: any;
 
     handle(data: any): boolean {
         if (data.status) {

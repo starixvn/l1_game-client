@@ -3,7 +3,7 @@ import * as _ from "lodash";
 
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
-import ExpandableMenu from "../../common/ExpandableMenu";
+import ExpandableMenu from "../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import HoverItemBase from "../../common/HoverItemBase";

@@ -1,19 +1,12 @@
 import { Socket } from "socket.io-client";
 
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
-import { lazyInject } from "../../Application";
 import GameUtils from "../../common/GameUtils";
 import { GameIds, GameInfos } from "../../configs/SabaConfigs";
 import SabaConfigs = require("../../configs/SabaConfigs");
-import SocketIOController from "../../SocketIOController";
-import MiniPanel from "./MiniPanel";
+import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
-export default class MiniPanelMiniGameInitializers {
-    @lazyInject(SocketIOController)
-    private readonly socketIOController: SocketIOController;
-
-    constructor(private readonly main: MiniPanel) {}
-
+export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInitializers {
     showGame(node: cc.Node) {
         if (node) {
             node.active = true;
@@ -118,25 +111,7 @@ export default class MiniPanelMiniGameInitializers {
             gameContainer
         );
 
-        socket.on("message", (data) => {
-            if (data.um) {
-                this.socketIOController.closeSocket(gameId);
-                if (data.um_message) {
-                    this.main.handleUmMessage(data.um_message);
-                }
-            }
-            if (!this.main.isAlive()) {
-                return;
-            }
-            this.main.loading.node.active = false;
-            this.main.onGeneralData(data);
-        });
-
-        socket.on("forceDisconnect", () => {
-            socket.disconnect();
-        });
-
-        this.socketIOController.assignSocket(gameId, socket);
+        this.handleSocket(socket, gameId);
         return socket;
     }
 }

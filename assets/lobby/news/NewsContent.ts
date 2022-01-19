@@ -7,10 +7,20 @@ export default class NewsContent extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(cc.BitmapFont)
-    marqueeFont: cc.BitmapFont = null;
+    @property(cc.Font)
+    marqueeFont: cc.Font = null;
 
     colors = ["#F24647", "#33D3E9", "#F8E49D"];
+    fonts = {};
+
+    initData() {
+        this.fonts = {
+            en: "NotoSerif-Regular",
+            th: "NotoSerifThai-Regular",
+            zh_cn: "NotoSerifZHCN-Regular",
+            zh_tw: "NotoSerifZHTW-Regular"
+        };
+    }
 
     update(t) {
         if (this.content.childrenCount === 0) {
@@ -38,6 +48,7 @@ export default class NewsContent extends cc.Component {
         }
 
         if (void 0 !== data) {
+            this.initData();
             this.addMarqueeMessage(NoticeUtil.getMessageByLocale(data));
         }
     }
@@ -47,7 +58,10 @@ export default class NewsContent extends cc.Component {
         node.color = node.color.fromHEX(this.colors[Math.floor(Math.random() * 3)]);
         node.addComponent(cc.Label);
         const label = node.getComponent(cc.Label);
-        label.font = this.marqueeFont;
+        const nameFont = this.getFontNameByLanguage();
+        this.loadFont(nameFont).then((font) => {
+            label.font = font;
+        });
         label.string = message;
         label.lineHeight = 47;
         label.verticalAlign = cc.Label.VerticalAlign.CENTER;
@@ -66,5 +80,18 @@ export default class NewsContent extends cc.Component {
             lastItemX = Math.max(lastNode.position.x + lastNode.width / 2 + node.width / 2 + 100, lastItemX);
         }
         node.position = cc.v2(lastItemX, 0);
+    }
+
+    getFontNameByLanguage(): any {
+        const lang = window.i18n.curLang;
+        return this.fonts[lang] || this.fonts["en"];
+    }
+
+    loadFont(name: string) {
+        return new Promise<cc.Font>((resolve, reject) => {
+            cc.resources.load<cc.Font>(`fonts/${name}`, cc.Font, (err, font) => {
+                resolve(font);
+            });
+        });
     }
 }
