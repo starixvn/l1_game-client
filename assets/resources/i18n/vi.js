@@ -460,7 +460,7 @@ window.i18n.languages.vi = {
         dealer: "Nhà Cái",
         communityCards: "Bài Chung",
         new: "Ván Mới",
-        stake: "Tiền Cược",
+        stake: "Cược",
         dealerQualifies: "Nhà Cái Đủ Điều Kiện Khi Có Đôi 4 Hoặc Cao Hơn",
         md5String: "Chuỗi MD5",
         md5Key: "Chuỗi Key"
