@@ -27,65 +27,43 @@
           ]
         }
       },
-      "Tai": {
+      "Xi ngau 2": {
         "props": {
-          "scale": [
+          "y": [
             {
               "frame": 0,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 0.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.08,
-                "y": 1.08
-              }
+              "value": 1.811
             },
             {
               "frame": 1,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 1.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.08,
-                "y": 1.08
-              }
+              "value": 9.185
             },
             {
               "frame": 2,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
+              "value": 1.811
             }
           ]
         }
       },
-      "Xiu": {
+      "Xi ngau 3": {
         "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": 52.931
+            },
+            {
+              "frame": 1,
+              "value": 45.558
+            },
+            {
+              "frame": 2,
+              "value": 52.931
+            }
+          ],
           "scale": [
             {
               "frame": 0,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.08,
-                "y": 1.08
-              }
-            },
-            {
-              "frame": 0.5,
               "value": {
                 "__type__": "cc.Vec2",
                 "x": 1,
@@ -96,24 +74,16 @@
               "frame": 1,
               "value": {
                 "__type__": "cc.Vec2",
-                "x": 1.08,
-                "y": 1.08
-              }
-            },
-            {
-              "frame": 1.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
+                "x": 0.96,
+                "y": 0.96
               }
             },
             {
               "frame": 2,
               "value": {
                 "__type__": "cc.Vec2",
-                "x": 1.08,
-                "y": 1.08
+                "x": 1,
+                "y": 1
               }
             }
           ]
@@ -121,120 +91,30 @@
       },
       "Xi ngau 1": {
         "props": {
-          "y": [
+          "position": [
             {
               "frame": 0,
-              "value": -11.648
+              "value": [
+                38.019,
+                -40.923,
+                0
+              ]
             },
             {
               "frame": 1,
-              "value": -20.858
+              "value": [
+                30.645,
+                -34.471,
+                0
+              ]
             },
             {
               "frame": 2,
-              "value": -11.648
-            }
-          ]
-        }
-      },
-      "Xi ngau 2": {
-        "props": {
-          "scale": [
-            {
-              "frame": 0,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.08,
-                "y": 1.08
-              }
-            },
-            {
-              "frame": 1,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.12,
-                "y": 1.12
-              }
-            },
-            {
-              "frame": 2,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.08,
-                "y": 1.08
-              }
-            }
-          ],
-          "y": [
-            {
-              "frame": 0,
-              "value": 24.978
-            },
-            {
-              "frame": 1,
-              "value": 28.56
-            },
-            {
-              "frame": 2,
-              "value": 24.978
-            }
-          ]
-        }
-      },
-      "Xi ngau 3": {
-        "props": {
-          "scale": [
-            {
-              "frame": 0,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.12,
-                "y": 1.12
-              }
-            },
-            {
-              "frame": 1,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.08,
-                "y": 1.08
-              }
-            },
-            {
-              "frame": 2,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.12,
-                "y": 1.12
-              }
-            }
-          ],
-          "y": [
-            {
-              "frame": 0,
-              "value": 63.354
-            },
-            {
-              "frame": 1,
-              "value": 58.748
-            },
-            {
-              "frame": 2,
-              "value": 63.354
-            }
-          ],
-          "x": [
-            {
-              "frame": 0,
-              "value": 20.79
-            },
-            {
-              "frame": 1,
-              "value": 24.372
-            },
-            {
-              "frame": 2,
-              "value": 20.79
+              "value": [
+                38.019,
+                -40.923,
+                0
+              ]
             }
           ]
         }
