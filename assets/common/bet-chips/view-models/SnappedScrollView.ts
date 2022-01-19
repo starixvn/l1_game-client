@@ -16,12 +16,14 @@ export default class SnappedScrollView extends cc.Component {
     private readonly calculatedPercent: number[] = [];
     private minDisplayIndex = 0;
 
-    public scroll: cc.ScrollView;
-    private scrollBegan = false;
-
-    onLoad() {
-        this.scroll = this.getComponent(cc.ScrollView);
+    private _scroll: cc.ScrollView;
+    get scroll() {
+        if (!this._scroll) {
+            this._scroll = this.getComponent(cc.ScrollView);
+        }
+        return this._scroll;
     }
+    private scrollBegan = false;
 
     initCalculatedPercent() {
         const count = this.scroll.content.childrenCount;
