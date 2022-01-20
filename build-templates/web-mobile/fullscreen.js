@@ -242,13 +242,25 @@ function initGA() {
     }
 }
 
-function getCurrentLanguage() {
-    let language = localStorage.getItem("current_language") || "vi";
+function getLanguageURLparams(locale) {
+    const dict = {
+        "vi-VN": "vi",
+        "en-US": "en",
+        "en-UK": "en",
+        "th-TH": "th",
+        "id-ID": "id",
+        "zh-CN": "zh_cn",
+        "zh-TW": "zh_tw"
+    };
+    return dict[locale] || "en";
+}
 
+function getCurrentLanguage() {
+    let language = localStorage.getItem("current_language") || "en";
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("lang")) {
         const lang = urlParams.get("lang");
-        language = lang === "vi-VN" ? "vi" : "en";
+        language = getLanguageURLparams(lang);
     }
     return language;
 }
@@ -257,8 +269,8 @@ function updateLocalizedImages() {
     const splashText = document.getElementById("splash_text");
     const language = getCurrentLanguage();
     const suffixSite = configs.site === "SC2" ? "_sc2" : "_sc1";
-    const suffixLang = language !== "vi" ? "_en" : "";
-    const className = `splash_text${suffixSite}${suffixLang}`;
+    const suffixLang = language;
+    const className = `splash_text${suffixSite}_${suffixLang}`;
     splashText.className += ` ${className}`;
 }
 
