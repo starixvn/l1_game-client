@@ -108,10 +108,11 @@ export default class HiLoBetBoard extends cc.Component {
     }
 
     public onClickBet(target) {
-        const bet = target.node.name;
+        const betControl = target.node.getComponent(HiLoBetChipItem);
+        const bet = betControl.number.string;
         let i = 0;
         for (; i < this.chipList.length; i++) {
-            if (this.chipList[i].name === bet) {
+            if (this.chipList[i].getComponent(HiLoBetChipItem).number.string === bet) {
                 break;
             }
         }
@@ -158,14 +159,16 @@ export default class HiLoBetBoard extends cc.Component {
         if (this.chipList.length === 0) {
             return;
         }
-        const item = this.chipList[this.selectedIndex].name;
+        const item = this.chipList[this.selectedIndex];
         this.setCurrentBet(item);
     }
 
-    public setCurrentBet(bet: string) {
-        this.currentBetValue = bet;
-        this.updateSelectedBet(bet);
-        this.onChanged(bet);
+    public setCurrentBet(bet: cc.Node) {
+        const control = bet.getComponent(HiLoBetChipItem);
+        this.currentBetValue = control.number.string;
+        control.selectedBg.node.active = true;
+        //this.updateSelectedBet(bet);
+        this.onChanged(control.number.string);
     }
 
     private updateSelectedBet(targetName: string) {
