@@ -1,28 +1,21 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+import { EventEmitter } from "events";
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
-@ccclass
-export default class NewClass extends cc.Component {
-
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-
+export class HiLoRoundCounter extends EventEmitter {
+    constructor() {
+        super();
+        this.setMaxListeners(0);
     }
 
-    // update (dt) {}
+    static Events = {
+        CHANGE: "roundId:change"
+    };
+
+    roundId: number;
+
+    change(roundId: number) {
+        this.roundId = roundId;
+        this.emit(HiLoRoundCounter.Events.CHANGE, this);
+    }
 }

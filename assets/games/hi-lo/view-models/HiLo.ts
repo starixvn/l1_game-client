@@ -1,4 +1,9 @@
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
+import { HiLoChoices } from "../events-models/HiLoChoices";
+import HiLoGameData from "../events-models/HiLoGameData";
+import { HiLoRoundCounter } from "../events-models/HiLoRoundCounter";
+import HiLoBetModel from "../events-models/HiLoBetModel";
+import { updateRoundId } from "../actions/HiLoRoundCounterAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -31,9 +36,27 @@ export default class HiLo extends NewMiniGameBase {
     @property(cc.Button)
     playButton: cc.Button = null;
 
+    private gameData: HiLoGameData<HiLoChoices> = null;
+
     onLoad() {
+        this.gameData = new HiLoGameData<HiLoChoices>();
         super.onLoad();
         this.showHideTopArea();
+        this.initBetBoard();
+        this.registerBetEvents();
+    }
+
+    private registerBetEvents() {
+        this.gameData.betModel.on(HiLoBetModel.Events.CHANGE, (betModel: HiLoBetModel) => {});
+        this.gameData.betModel.on(HiLoBetModel.Events.CHANGE, () => {
+            this.gameData.roundCounter.change(this.gameData.betModel.roundId);
+        });
+    }
+
+    private registerAfterDealEvents() {}
+
+    private registerRoundCounterEvents() {
+        this.gameData.roundCounter.on(HiLoRoundCounter.Events.CHANGE, updateRoundId(this.gameRound));
     }
 
     openHistory() {
@@ -44,5 +67,8 @@ export default class HiLo extends NewMiniGameBase {
         this.topNode.active = !this.topNode.active;
     }
 
-    initBetBoard() {}
+    initBetBoard() {
+        const betBoard = cc.instantiate(this.betBoardPrefab);
+        this.betBoardContainer.addChild(betBoard);
+    }
 }
