@@ -1,3 +1,5 @@
+import { Function } from "lodash";
+
 import PokerCards from "./HoldemPokerCards";
 
 export const convertOldRank = (num: number): string => {
@@ -48,7 +50,7 @@ export const rawCardAfterClickDeal = async (pokerCardsNote: PokerCards, cardsDat
     showIndicator(pokerCardsNote, cardsData, callBack, 0);
 };
 
-export const rawCardAfterClickCall = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
+export const rawCardAfterClickCall = async (pokerCardsNote: PokerCards, cardsData: any, showResultMD5?: Function, callBack?: Function) => {
     const { communityCards, dealerCards } = cardsData;
     const communityCardsConverted = convertCard(communityCards.slice(-2));
     const dealerCardsConverted = convertCard(dealerCards);
@@ -66,6 +68,7 @@ export const rawCardAfterClickCall = async (pokerCardsNote: PokerCards, cardsDat
         index++;
     }
 
+    showResultMD5 && showResultMD5();
     showIndicator(pokerCardsNote, cardsData, callBack, 1000);
 };
 

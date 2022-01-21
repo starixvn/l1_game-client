@@ -1,5 +1,4 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
+import AudioManager from "../../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import NewButton from "../../../common/custom-button/NewButton";
 import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
@@ -26,14 +25,19 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel
+    updateTotalBetLabel,
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundCounter, updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
 import { showWinningOption } from "../actions/HoldemPokerSettlementActions";
 import { renderTicketDetail } from "../actions/HoldemPokerTicketDetailActions";
 import { handleUM } from "../actions/HoldemPokerUmAction";
-import { collectCart, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
+import {
+    collectCart,
+    rawCardAfterClickCall,
+    rawCardAfterClickDeal,
+    rawCardWhenRejoin,
+} from "../components/cards/view-models/CardWrapper";
 import PokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
 import { HoldemPockerMD5Model } from "../event-models/HoldemPockerMD5Model";
@@ -57,7 +61,6 @@ import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
 import HoldemPokerChips from "./HoldemPokerChips";
 import HoldemPokerMinMaxTable from "./HoldemPokerMinMaxTable";
 import HoldemPokerPlacingBet from "./HoldemPokerPlacingBet";
-import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -207,7 +210,7 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.betHistoryController.showDialog();
     }
 
-    private openGuide() {
+    openGuide() {
         super.openGuide();
         const gameRomeMenuControl = this.gameMenuContainer.getComponent(GameRoomMenu);
         gameRomeMenuControl.collapseMenu();
@@ -369,9 +372,16 @@ export default class HoldemPoker extends NewGameRoomBase {
         );
 
         this.gameData.settlement.on(HoldemPokerSettlement.Events.START_SHOW_CARDS, () => {
-            rawCardAfterClickCall(this.pokerCardScript, this.gameData.callModel, () => {
-                this.gameData.settlement.finishShowCards();
-            });
+            rawCardAfterClickCall(
+                this.pokerCardScript,
+                this.gameData.callModel,
+                () => {
+                    this.md5Comp.createResultDetails(this.gameData.md5Model.md5);
+                },
+                () => {
+                    this.gameData.settlement.finishShowCards();
+                }
+            );
         });
         this.gameData.finishModel.on(HoldemPokerFinishModel.Events.SHOWED_ANIMATION, () => {
             this.gameData.stateModel.afterCall();
@@ -410,7 +420,6 @@ export default class HoldemPoker extends NewGameRoomBase {
     onRebetAndDeal() {
         this.playClick();
         this.hideButtonPrepareNewRound();
-        this.md5Comp.resetDefaultValue(i18n.t("holdEmPoker.md5String"), false);
         collectCart(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
         clearAllBetChips(this.bettingAreas)();
         this.holdemPokerChips.stopWinningEffect();
