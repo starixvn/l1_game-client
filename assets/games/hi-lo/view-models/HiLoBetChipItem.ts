@@ -12,7 +12,7 @@ export default class HiLoBetChipItem extends cc.Component {
         this.number.string = value.toString();
     }
 
-    public setSelectedBg() {
-        this.selectedBg.node.active = true;
+    public setSelectedBg(isSelected: boolean) {
+        this.selectedBg.node.active = isSelected;
     }
 }

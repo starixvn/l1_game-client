@@ -83,7 +83,7 @@ export default class HiLoBetBoard extends cc.Component {
                 ? this.currentBetValue
                 : this.chipValues[0].toString();
         const needResetScrollOffset = currentBet !== this.currentBetValue;
-        this.setCurrentBet(currentBet);
+        //this.setCurrentBet(currentBet);
         this.snappedScrollView.initCalculatedPercent();
         if (needResetScrollOffset) {
             this.snappedScrollView.scroll.scrollToPercentHorizontal(0, 0.1);
@@ -166,16 +166,14 @@ export default class HiLoBetBoard extends cc.Component {
     public setCurrentBet(bet: cc.Node) {
         const control = bet.getComponent(HiLoBetChipItem);
         this.currentBetValue = control.number.string;
-        control.selectedBg.node.active = true;
-        //this.updateSelectedBet(bet);
+        this.updateSelectedBet(control);
         this.onChanged(control.number.string);
     }
 
-    private updateSelectedBet(targetName: string) {
+    private updateSelectedBet(bet: HiLoBetChipItem) {
         this.betAmounts.children.forEach((chip) => {
-            if (chip.name === targetName) {
-                chip.getComponent(HiLoBetChipItem).setSelectedBg();
-            }
+            const isSelected = chip.getComponent(HiLoBetChipItem).number === bet.number ? true : false;
+            chip.getComponent(HiLoBetChipItem).setSelectedBg(isSelected);
         });
     }
 }
