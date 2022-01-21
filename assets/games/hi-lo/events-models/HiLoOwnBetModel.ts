@@ -16,7 +16,7 @@ export default class HiLoOwnBetModel extends EventEmitter {
     result: HiLoCardModel[];
     nextAmount: HiLoStakeModel;
 
-    changeOwnBet(roundId: number, result: HiLoCardModel[], nextAmount: HiLoStakeModel) {
+    change(roundId: number, result: HiLoCardModel[], nextAmount: HiLoStakeModel) {
         this.result = result;
         this.nextAmount = nextAmount;
         this.roundId = roundId;

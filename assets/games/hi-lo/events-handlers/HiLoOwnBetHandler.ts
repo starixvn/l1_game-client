@@ -23,6 +23,6 @@ export class HiLoOwnBetHandler<Choices> extends HiLoEventHandler<HiLoBetType<Cho
         nextAmountModel.lowerAmount = nextAmounts.l;
         const resultCards = result.map((c) => new HiLoCardModel(c.rank, c.suit));
 
-        this.gameData.betModel.changeOwnBet(roundId, resultCards, nextAmountModel);
+        this.gameData.ownBetModel.change(roundId, resultCards, nextAmountModel);
     }
 }

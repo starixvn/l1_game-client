@@ -18,17 +18,17 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
     };
 
     readonly roundCounter: HiLoRoundCounter;
-    readonly betModel: HiLoOwnBetModel;
+    readonly ownBetModel: HiLoOwnBetModel;
     readonly configs: HiLoConfigs;
-    readonly dealModel: HiLoResultModel;
-    readonly collectModel: HiLoStatusModel;
+    readonly resultModel: HiLoResultModel;
+    readonly statusModel: HiLoStatusModel;
 
     constructor() {
         super();
         this.roundCounter = new HiLoRoundCounter();
-        this.betModel = new HiLoOwnBetModel();
-        this.dealModel = new HiLoResultModel();
-        this.collectModel = new HiLoStatusModel();
+        this.ownBetModel = new HiLoOwnBetModel();
+        this.resultModel = new HiLoResultModel();
+        this.statusModel = new HiLoStatusModel();
     }
 
     receiveData(data: unknown) {
@@ -44,10 +44,5 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
         const handlers = [HiLoConfigsHandler, HiLoOwnBetHandler, HiLoResultHandler, HiLoStatusHandler];
 
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
-    }
-
-    receiveUIData(data: any) {
-        if (!!data.ownBets) {
-        }
     }
 }

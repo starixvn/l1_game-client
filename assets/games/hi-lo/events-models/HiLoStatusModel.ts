@@ -13,7 +13,7 @@ export class HiLoStatusModel extends EventEmitter {
     win: boolean;
     collectBetAmount: number;
 
-    changeStatus(win: boolean, collectBetAmount: number) {
+    change(win: boolean, collectBetAmount: number) {
         this.win = win;
         this.collectBetAmount = collectBetAmount;
 

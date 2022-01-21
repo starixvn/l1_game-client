@@ -15,6 +15,6 @@ export class HiLoStatusHandler<Choices> extends HiLoEventHandler<HiLoStatusType<
     protected handle(event: HiLoStatusType<Choices>) {
         const { win, bet } = event.status;
 
-        this.gameData.collectModel.changeStatus(win, bet);
+        this.gameData.statusModel.change(win, bet);
     }
 }

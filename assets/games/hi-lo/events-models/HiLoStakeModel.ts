@@ -17,5 +17,7 @@ export class HiLoStakeModel extends EventEmitter {
         this.higherAmount = higherAmount;
         this.betWin = higherAmount;
         this.lowerAmount = higherAmount;
+
+        this.emit(HiLoStakeModel.Events.CHANGE, this);
     }
 }
