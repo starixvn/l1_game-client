@@ -140,7 +140,8 @@ window.i18n.languages.zh_cn = {
         sessionTimeout_break: "您的会话已超时或您尚未登录\n 请关闭当前窗口并再次尝试登录。",
         notEnoughMoneyCardGame: "您的帐户资金不足，无法完成游戏回合。",
         copyMD5Success: "Copy MD5 string successfully!",
-        copyKeySuccess: "Copy Key string successully!",
+        copyKeySuccess: "Copy string result successfully!",
+        copy_success: "Copy successful!",
         maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
         minBetForChoiceNotice: "Min bet for this option is %{minBet}"
     },
@@ -446,6 +447,6 @@ window.i18n.languages.zh_cn = {
         stake: "Stake",
         dealerQualifies: "Dealer qualifies on a pair of 4s or better",
         md5String: "MD5 string",
-        md5Key: "Key string"
+        md5Key: "string result"
     }
 };

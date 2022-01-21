@@ -156,7 +156,8 @@ window.i18n.languages.vi = {
             "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\nVui lòng đóng cửa sổ game và thử đăng nhập lại.",
         notEnoughMoneyCardGame: "Tài khoản của bạn hiện không đủ tiền để hoàn tất ván bài này.",
         copyMD5Success: "Copy chuỗi MD5 thành công!",
-        copyKeySuccess: "Copy chuỗi Key thành công!",
+        copyKeySuccess: "Copy chuỗi kết quả thành công!",
+        copy_success: "Copy thành công!",
         maxBetForChoiceNotice2: "Tiền cược tối đa của lựa chọn là %{maxBet}",
         minBetForChoiceNotice: "Tiền cược tối thiểu của lựa chọn là %{minBet}"
     },

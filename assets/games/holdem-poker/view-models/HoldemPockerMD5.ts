@@ -23,6 +23,8 @@ export default class HoldemPockerMD5 extends cc.Component {
     private md5CopyString: string = null;
 
     onLoad() {
+        const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
+        hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
         this.enableCopyButton(false);
     }
@@ -78,12 +80,9 @@ export default class HoldemPockerMD5 extends cc.Component {
     }
 
     setCaptionAndHintForMD5(isMD5Key: boolean) {
-        const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
         if (isMD5Key) {
-            hintLabel.string = i18n.t("messages.copyKeySuccess");
             this.md5Text.string = i18n.t("ui.result");
         } else {
-            hintLabel.string = i18n.t("messages.copyMD5Success");
             this.md5Text.string = i18n.t("holdEmPoker.md5String");
         }
     }
