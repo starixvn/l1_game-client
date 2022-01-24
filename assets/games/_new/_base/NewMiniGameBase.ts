@@ -7,8 +7,8 @@ const { ccclass, property } = cc._decorator;
 export default class NewMiniGameBase extends SocketIOMiniGameBase {
     protected connection: SocketIOConnection;
 
-    onLoad() {
-        super.onLoad();
+    startGame() {
+        super.startGame();
         this.initConnection();
     }
 

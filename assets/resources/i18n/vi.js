@@ -38,7 +38,8 @@ window.i18n.languages.vi = {
         "26_break": "Bầu Cua VIP",
         "38_break": "Anh Hùng Chim Lạc",
         39: "Casino Hold'em",
-        42: "Texas Hold'em"
+        42: "Texas Hold'em",
+        45: "Cao Thấp"
     },
     messages: {
         accountNotExist: "Đã xảy ra lỗi. Vui lòng liên hệ bộ phận CSKH để biết chi tiết, cảm ơn bạn. (%{errorCode})",

@@ -216,7 +216,6 @@ export default class MiniPanel extends BaseComponent {
     openNewSocketMiniGame(e, id) {
         cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
             this.gameMiniInitializers.openNewSocket(id);
-            // this.gameMiniInitializers.openNewSocket(45);
         });
     }
 

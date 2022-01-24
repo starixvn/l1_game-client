@@ -9,6 +9,10 @@ import { updateHigherLowerStakes, updateAllStakes } from "../actions/HiLoDealAct
 import HiLoStakes from "./HiLoStakes";
 import HiLoBettingArea from "./HiLoBettingArea";
 import { BettingAreaEvents } from "./HiLoBettingArea";
+import { Durations } from "../../_new/_base/game-data-management/models/durations";
+import { updateClockTime } from "../actions/HiLoCountdownTimerAction";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import { GameIds } from "../../../configs/SabaConfigs";
 
 const { ccclass, property } = cc._decorator;
 
@@ -57,6 +61,13 @@ export default class HiLo extends NewMiniGameBase {
 
     private gameData: HiLoGameData<HiLoChoices> = null;
     private betAmount: number = 0;
+    private isStopSchedule = false;
+
+    initMiniPanel(miniPanel: MiniPanel) {
+        super.initMiniPanel(miniPanel);
+        this.gameId = GameIds.HiLo;
+        // this.setConfig(new BigSmallConfigs());
+    }
 
     onLoad() {
         this.gameData = new HiLoGameData<HiLoChoices>();
@@ -67,6 +78,23 @@ export default class HiLo extends NewMiniGameBase {
         this.registerResultEvents();
         this.registerRoundCounterEvents();
         this.registerBettingAreaEvents();
+        this.registerDurationsEvents();
+        this.initializeBetBoard();
+    }
+
+    onEnable() {
+        super.onEnable();
+        this.isStopSchedule = false;
+    }
+
+    onDisable() {
+        super.onDisable();
+
+        this.gameData.isProcessingBet = false;
+
+        if (this.gameData) {
+            this.gameData.durations.reset();
+        }
     }
 
     private registerBettingAreaEvents() {
@@ -94,6 +122,47 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData.roundCounter.on(HiLoRoundCounter.Events.CHANGE, updateRoundId(this.gameRound));
     }
 
+    private registerDurationsEvents() {
+        this.gameData.durations.on(Durations.Events.LOCKING_BET, updateClockTime(this.animatedTime));
+        // this.gameData.durations.on(Durations.Events.LOCKING_BET, hideSettlementResultNode(this.settlement));
+
+        // this.gameData.durations.on(Durations.Events.PLACING_BET, updateClockTime(this.clock));
+        // this.gameData.durations.on(Durations.Events.PLACING_BET, hideSettlementResultNode(this.settlement));
+        // this.gameData.durations.on(Durations.Events.PLACING_BET, changeToNormalTheme(this.bettingAreas));
+
+        // this.gameData.durations.on(Durations.Events.WAITING, hideClock(this.clock));
+        // this.gameData.durations.on(Durations.Events.WAITING, updateWaitingLabel(this.settlement));
+        // this.gameData.durations.on(Durations.Events.WAITING, this.triggerAt(2, showSettlementResult(this.settlement)));
+
+        // this.gameData.durations.on(Durations.Events.SHOW_ANIMATION, startBlinkNote(this.scoreBoard));
+        // this.gameData.durations.on(Durations.Events.SHOW_ANIMATION, hideWaitingLabel(this.settlement));
+        // this.gameData.durations.on(Durations.Events.BEGIN_SHOW_ANIMATION, showAnimation(this.settlement));
+        // this.gameData.durations.on(Durations.Events.SHOW_ANIMATION, hideClock(this.clock));
+
+        // this.gameData.durations.on(Durations.Events.BEGIN_PLACING_BET, this.guideMessage.showPlaceYourBetMessage.bind(this.guideMessage));
+        // this.gameData.durations.on(Durations.Events.BEGIN_LOCKING_BET, this.guideMessage.showNoMoreBetMessage.bind(this.guideMessage));
+
+        // this.gameData.durations.on(
+        //     Durations.Events.BEGIN_PLACING_BET,
+        //     getGameConfigs(() => this.connection)
+        // );
+
+        // this.gameData.durations.on(Durations.Events.BEGIN_PLACING_BET, () => {
+        //     this.deviceSetting.sounds.play(SoundKeys.newRound);
+        // });
+
+        // this.gameData.durations.on(
+        //     Durations.Events.WAITING,
+        //     this.triggerAt(2, () => (this.gameData.isProcessingBet = false))
+        // );
+
+        // this.gameData.durations.on(Durations.Events.TIMEOUT, hideClock(this.clock));
+        // this.gameData.durations.on(Durations.Events.TIMEOUT, hideSettlementResultNode(this.settlement));
+        // this.gameData.durations.on(Durations.Events.TIMEOUT, changeToNormalTheme(this.bettingAreas));
+    }
+
+    private initializeBetBoard() {}
+
     onPlacingBet(betChoice: string) {
         if (!this.connection) {
             return;
@@ -115,7 +184,7 @@ export default class HiLo extends NewMiniGameBase {
         this.betBoardContainer.addChild(betBoard);
     }
 
-    showHidePlayGameButton(status: boolean) {
+    showPlayGameButton(status: boolean) {
         this.playButton.node.active = status;
     }
 
@@ -126,6 +195,9 @@ export default class HiLo extends NewMiniGameBase {
         }
         this.gameData.isProcessingBet = true;
         this.connection.emit(HiLoEvents.bet, { amount: this.betAmount });
+        this.disableAllBetOption(false);
+        this.disableCollectButton(false);
+        this.showPlayGameButton(false);
     }
 
     onCollectClick() {
@@ -135,7 +207,17 @@ export default class HiLo extends NewMiniGameBase {
         }
         this.gameData.isProcessingBet = true;
         this.connection.emit(HiLoEvents.collect, {});
+        this.disableAllBetOption(true);
+        this.disableCollectButton(true);
     }
 
-    disableAllBetOption() {}
+    disableAllBetOption(status: boolean) {
+        this.bettingAreas.forEach((area) => {
+            area.disableBetChoice(status);
+        });
+    }
+
+    disableCollectButton(status: boolean) {
+        this.collectButton && (this.collectButton.node.getChildByName("disabled-layer").active = status);
+    }
 }
