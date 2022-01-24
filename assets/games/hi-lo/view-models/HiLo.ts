@@ -60,7 +60,7 @@ export default class HiLo extends NewMiniGameBase {
     stakesComp: HiLoStakes = null;
 
     private gameData: HiLoGameData<HiLoChoices> = null;
-    private betAmount: number = 0;
+    private betAmount: number = 10;
     private isStopSchedule = false;
 
     initMiniPanel(miniPanel: MiniPanel) {
@@ -85,6 +85,14 @@ export default class HiLo extends NewMiniGameBase {
     onEnable() {
         super.onEnable();
         this.isStopSchedule = false;
+    }
+
+    onData(data: unknown) {
+        super.onData(data);
+
+        if (this.gameData) {
+            this.gameData.receiveData(data);
+        }
     }
 
     onDisable() {

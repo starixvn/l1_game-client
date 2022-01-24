@@ -8,6 +8,7 @@ import { HiLoResultHandler } from "../events-handlers/HiLoResultHandler";
 import { HiLoResultModel } from "./HiLoResultModel";
 import { HiLoStatusModel } from "./HiLoStatusModel";
 import { HiLoStatusHandler } from "../events-handlers/HiLoStatusHandler";
+import { TimeEventHandler } from "../../_new/_base/game-data-management/event-handlers/time-handler";
 
 export default class HiLoGameData<Choices> extends GameData<Choices> {
     static Events = {
@@ -31,17 +32,9 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
         this.statusModel = new HiLoStatusModel();
     }
 
-    receiveData(data: unknown) {
-        if (!this.eventHandlers.length) {
-            this.registerEventHandlers();
-        }
-
-        this.eventHandlers.forEach((handler) => handler.onReceiveEvent(data));
-    }
-
     protected registerEventHandlers() {
         super.registerEventHandlers();
-        const handlers = [HiLoConfigsHandler, HiLoOwnBetHandler, HiLoResultHandler, HiLoStatusHandler];
+        const handlers = [TimeEventHandler, HiLoConfigsHandler, HiLoOwnBetHandler, HiLoResultHandler, HiLoStatusHandler];
 
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }

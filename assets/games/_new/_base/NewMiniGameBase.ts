@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import SocketIOConnection from "../connection/SocketIOConnection";
 
@@ -10,6 +11,11 @@ export default class NewMiniGameBase extends SocketIOMiniGameBase {
     startGame() {
         super.startGame();
         this.initConnection();
+    }
+
+    start() {
+        cc.game.on(cc.game.EVENT_SHOW, this.onEnable, this);
+        cc.game.on(cc.game.EVENT_HIDE, this.onDisable, this);
     }
 
     initConnection() {
