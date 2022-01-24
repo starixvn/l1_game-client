@@ -137,7 +137,7 @@ window.i18n.languages.zh_cn = {
         sysMaintenancePlaceBet: "%{gameName} 游戏 (#%{gameRoundId})\n\n下注失败！ 游戏正在维护中。",
         networkErrorPlaceBet: "%{gameName} 游戏 (#%{gameRoundId})\n\n下注失败！ 网络错误。(%{errorCode})",
         noGameOffer: "您的帐户不支持此游戏。请联系您的上线，谢谢。",
-        sessionTimeout_break: "您的会话已超时或您尚未登录\n 请关闭当前窗口并再次尝试登录。",
+        sessionTimeout_break: "您的会话已超时或您尚未登录。\n请关闭当前窗口并再次尝试登录。",
         notEnoughMoneyCardGame: "您的帐户资金不足，无法完成游戏回合。",
         copyMD5Success: "Copy MD5 string successfully!",
         copyKeySuccess: "Copy string result successfully!",
