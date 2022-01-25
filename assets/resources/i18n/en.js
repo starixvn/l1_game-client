@@ -154,7 +154,8 @@ window.i18n.languages.en = {
             "Your session has timed out or you have not logged in yet.\nPlease close the current windows and try to login again.",
         notEnoughMoneyCardGame: "Your account has insufficient funds to complete the game round.",
         copyMD5Success: "Copy MD5 string successfully!",
-        copyKeySuccess: "Copy Key string successully!",
+        copyKeySuccess: "Copy string result successfully!",
+        copy_success: "Copy successful!",
         maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
         minBetForChoiceNotice: "Min bet for this option is %{minBet}"
     },
@@ -462,7 +463,7 @@ window.i18n.languages.en = {
         stake: "Stake",
         dealerQualifies: "Dealer qualifies on a pair of 4s or better",
         md5String: "MD5 string",
-        md5Key: "Key string"
+        md5Key: "string result"
     },
 
     texasPoker: {

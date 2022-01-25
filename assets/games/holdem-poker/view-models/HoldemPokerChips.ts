@@ -212,13 +212,15 @@ export default class HoldemPokerChips extends cc.Component {
                 }),
                 cc.delayTime(duration),
                 cc.callFunc(() => {
-                    this.winningEffect.destroy();
+                    this.stopWinningEffect();
                 })
             )
         );
     }
 
     stopWinningEffect() {
-        this.winningEffect.destroy();
+        if (this.winningEffect && this.winningEffect.isValid) {
+            this.winningEffect.destroy();
+        }
     }
 }
