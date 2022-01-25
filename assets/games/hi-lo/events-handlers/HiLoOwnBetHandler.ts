@@ -17,12 +17,12 @@ export class HiLoOwnBetHandler<Choices> extends HiLoEventHandler<HiLoBetType<Cho
 
     protected handle(event: HiLoBetType<Choices>) {
         const { roundId, result, nextAmounts } = event.ownBets;
-
-        const nextAmountModel = new HiLoStakeModel();
-        nextAmountModel.higherAmount = nextAmounts.h;
-        nextAmountModel.lowerAmount = nextAmounts.l;
-        const resultCards = result.map((c) => new HiLoCardModel(c.rank, c.suit));
-
-        this.gameData.ownBetModel.change(roundId, resultCards, nextAmountModel);
+        if (roundId && nextAmounts && result) {
+            const nextAmountModel = new HiLoStakeModel();
+            nextAmountModel.higherAmount = nextAmounts.h;
+            nextAmountModel.lowerAmount = nextAmounts.l;
+            const resultCards = result.map((c) => new HiLoCardModel(c.rank, c.suit));
+            this.gameData.ownBetModel.change(roundId, resultCards, nextAmountModel);
+        }
     }
 }

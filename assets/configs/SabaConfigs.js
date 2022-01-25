@@ -39,7 +39,7 @@ const configs = {
     },
     GameInfos: {
         45: {
-            key: "HiLo",
+            key: "Hilo",
             mini: true
         },
         43: {

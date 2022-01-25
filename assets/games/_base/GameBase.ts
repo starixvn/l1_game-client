@@ -213,11 +213,11 @@ export default class GameBase extends BaseComponent {
     onData(data: any) {
         for (let index = 0; index < this.dataHandlers.length; index++) {
             const handler = this.dataHandlers[index];
-            if (index === 0 && handler.handle(data)) {
+            if (index === 0 && handler && handler.handle(data)) {
                 //um handler
                 break;
             } else {
-                handler.handle(data);
+                handler && handler.handle(data);
             }
         }
     }
@@ -289,7 +289,7 @@ export default class GameBase extends BaseComponent {
         const typingLabel = this.gameRound.node.parent.getComponent(TypingLabel);
 
         if (typingLabel) {
-            if (this.timeHandler.isStartingNewGameRound) {
+            if (this.timeHandler && this.timeHandler.isStartingNewGameRound) {
                 typingLabel.playTypingEffect();
             } else {
                 typingLabel.adjustWidth();
@@ -439,7 +439,7 @@ export default class GameBase extends BaseComponent {
     }
 
     protected clearIntervalAndTimeout() {
-        this.timeHandler.stopPlayTime();
+        this.timeHandler && this.timeHandler.stopPlayTime();
         this.statusHandler.clearTimeout();
     }
 

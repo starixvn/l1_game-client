@@ -25,6 +25,6 @@ export class HiLoResultHandler<Choices> extends HiLoEventHandler<HiLoResultType<
         nextAmountModel.lowerAmount = nextAmounts.l;
         const resultCards = result.map((c) => new HiLoCardModel(c.rank, c.suit));
 
-        this.gameData.resultModel.changeResult(resultCards, nextAmountModel, remainingTime);
+        this.gameData.resultModel.changeResult(resultCards, nextAmountModel, remainingTime, betWin);
     }
 }

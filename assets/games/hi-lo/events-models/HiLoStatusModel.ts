@@ -11,11 +11,11 @@ export class HiLoStatusModel extends EventEmitter {
     };
 
     win: boolean;
-    collectBetAmount: number;
+    betAmount: number;
 
-    change(win: boolean, collectBetAmount: number) {
+    change(win: boolean, betAmount: number) {
         this.win = win;
-        this.collectBetAmount = collectBetAmount;
+        this.betAmount = betAmount;
 
         this.emit(HiLoStatusModel.Events.CHANGE, this);
     }

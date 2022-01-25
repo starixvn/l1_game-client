@@ -1,26 +1,8 @@
-import { EventEmitter } from "events";
-
-export default class HiLoConfigs extends EventEmitter {
-    constructor() {
-        super();
-        this.setMaxListeners(0);
-    }
-
-    static Events = {
-        CHANGE: "configs:change"
-    };
-
-    maxBet: number;
-    minBet: number;
-    chips: number[];
-
-    change(configs: HiLoConfigs) {
-        const { maxBet, minBet, chips } = configs;
-
-        this.maxBet = maxBet || this.maxBet;
-        this.minBet = minBet || this.minBet;
-        this.chips = chips || this.chips;
-
-        this.emit(HiLoConfigs.Events.CHANGE, configs);
-    }
+import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
+export default class HiLoConfigs implements GameConfigBase {
+    minBetTime = 0;
+    fullTime = 120;
+    betTime = 120;
+    stopBetTime = 0;
+    waitTime = 0;
 }

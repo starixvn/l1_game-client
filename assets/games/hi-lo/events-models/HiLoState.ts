@@ -1,5 +1,6 @@
 export enum HiLoState {
-    start = 0,
+    start_round = 0,
+    change_turn,
     in_turn,
     settled
 }

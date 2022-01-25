@@ -1,5 +1,5 @@
 import HiLoEventHandler from "./HiLoEventHandler";
-import HiLoConfigs from "../events-models/HiLoConfigs";
+import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
 export type ConfigsType<Choices> = {
     gameConfigs: {
         maxBet: number;
@@ -8,7 +8,7 @@ export type ConfigsType<Choices> = {
     };
 };
 
-export class HiLoConfigsHandler<Choices> extends HiLoEventHandler<ConfigsType<Choices>, Choices> {
+export class HiLoGameConfigsHandler<Choices> extends HiLoEventHandler<ConfigsType<Choices>, Choices> {
     protected verifyEvent(event: ConfigsType<Choices>) {
         return event.gameConfigs != null;
     }
@@ -18,7 +18,7 @@ export class HiLoConfigsHandler<Choices> extends HiLoEventHandler<ConfigsType<Ch
         this.gameData.configs.change(configs);
     }
 
-    private transformToGameConfigs(event: ConfigsType<Choices>): HiLoConfigs {
+    private transformToGameConfigs(event: ConfigsType<Choices>): HiLoGameConfigs {
         const { maxBet, minBet, chips } = event.gameConfigs;
 
         return Object.assign({}, this.gameData.configs, {
