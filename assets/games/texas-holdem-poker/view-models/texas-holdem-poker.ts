@@ -173,7 +173,6 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
 
     private registerConfigsEvents() {
         this.gameData.configs.on(TexasHoldemPokerConfigs.Events.CHANGE, (configs: TexasHoldemPokerConfigs) => {
-            console.log(configs);
             this.setGameConfigs(configs);
             updateMinMax(this.minMaxTable)(configs);
             updateLeftOddsTable(this.oddsTables[0])(configs);

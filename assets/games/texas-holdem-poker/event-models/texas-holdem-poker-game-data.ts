@@ -64,7 +64,7 @@ export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choic
         }
     }
 
-    private handleHandle() {
+    protected handleHandler() {
         const handlers = [
             TexasHoldemPokerConfigsHandler,
             TexasHoldemErrorUIEventHandler,
@@ -82,8 +82,8 @@ export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choic
     }
 
     protected registerEventHandlers() {
-        super.registerEventHandlers();
-        this.handleHandle();
+        this.registerBaseEventHandlers();
+        this.handleHandler();
     }
     receiveUIData(data: any) {
         if (!!data.bet) {

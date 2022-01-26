@@ -1,11 +1,30 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import HoldemPokerArrows from "../../../holdem-poker/components/cards/view-models/HoldemPokerArrows";
+import HoldemPokerHandPlace from "../../../holdem-poker/components/cards/view-models/HoldemPokerHandPlace";
 
 import { CardAnimation } from "../../event-models/texas-holdem-poker-constant";
-import TexasHoldemPokerCard, { CardModel } from "./texas-holdem-poker-card";
-import TexasHoldemPokerCardsPosition from "./texas-holdem-poker-cards-position";
-import TexasHoldemPokerIndicatorSymbols from "./texas-holdem-poker-indicator-symbols";
+import { CardModel } from "../../../../common/new-card/view-models/NewCard";
+import HoldemPokerCard from "../../../holdem-poker/components/cards/view-models/HoldemPokerCard";
+// import HandPlace from "../../../blackjack/view-models/HandPlace";
+// import TexasHoldemPokerCardsPosition from "./texas-holdem-poker-cards-position";
+// import TexasHoldemPokerIndicatorSymbols from "./texas-holdem-poker-indicator-symbols";
 
 const { ccclass, property } = cc._decorator;
+
+export const CombineCardResultLabel = [
+    { key: 0, dataId: "doesNotQualify" },
+    { key: 1, dataId: "highCards" },
+    { key: 2, dataId: "onePair" },
+    { key: 3, dataId: "twoPairs" },
+    { key: 4, dataId: "threeKind" },
+    { key: 5, dataId: "straight" },
+    { key: 6, dataId: "flush" },
+    { key: 7, dataId: "fullHouse" },
+    { key: 8, dataId: "fourOfAKind" },
+    { key: 9, dataId: "straightFlush" },
+    { key: 10, dataId: "royalFlush" }
+];
+
 @ccclass
 export default class TexasHoldemPokerCards extends cc.Component {
     @property(cc.Prefab)
@@ -14,14 +33,14 @@ export default class TexasHoldemPokerCards extends cc.Component {
     @property(cc.Node)
     cardBox: cc.Node = null;
 
-    @property(TexasHoldemPokerCardsPosition)
-    dealerCards: TexasHoldemPokerCardsPosition = null;
+    @property(HoldemPokerHandPlace)
+    dealerCards: HoldemPokerHandPlace = null;
 
-    @property(TexasHoldemPokerCardsPosition)
-    middleCards: TexasHoldemPokerCardsPosition = null;
+    @property(HoldemPokerHandPlace)
+    middleCards: HoldemPokerHandPlace = null;
 
-    @property(TexasHoldemPokerCardsPosition)
-    playerCards: TexasHoldemPokerCardsPosition = null;
+    @property(HoldemPokerHandPlace)
+    playerCards: HoldemPokerHandPlace = null;
 
     @property(cc.Node)
     combineDealerCardResult: cc.Node = null;
@@ -64,8 +83,8 @@ export default class TexasHoldemPokerCards extends cc.Component {
 
     private createCard(card: CardModel, scaleX: number, scaleY: number): cc.Node {
         const node = cc.instantiate(this.cardPrefab);
-        const cardComponent = node.getComponent(TexasHoldemPokerCard);
-        cardComponent.setCard(card);
+        const cardComponent = node.getComponent(HoldemPokerCard);
+        cardComponent.setCardOldStyle(card);
         node.scaleX = scaleX;
         node.scaleY = scaleY;
         return node;
@@ -106,16 +125,16 @@ export default class TexasHoldemPokerCards extends cc.Component {
         await this.faceUpCard(cardData, this.dealerCards, indexCard);
     }
 
-    private faceUpCard(cardInfo: CardModel, cardHand: TexasHoldemPokerCardsPosition, indexCard: number): Promise<void> {
+    private faceUpCard(cardInfo: CardModel, cardHand: HoldemPokerHandPlace, indexCard: number): Promise<void> {
         const selectedCard = cardHand.getCards()[indexCard];
         if (!selectedCard) return;
         const duration = 0.6;
-        const cardComponent = selectedCard.getComponent(TexasHoldemPokerCard);
+        const cardComponent = selectedCard.getComponent(HoldemPokerCard);
 
         return new Promise((resolve) => {
             cc.tween(selectedCard)
                 .call(() => {
-                    cardComponent.setCard(cardInfo);
+                    cardComponent.setCardOldStyle(cardInfo);
                     cardComponent.playAnimation(CardAnimation.DealerOpenCard, duration);
                 })
                 .delay(duration)
@@ -126,17 +145,17 @@ export default class TexasHoldemPokerCards extends cc.Component {
 
     private dealCardWithoutAnimation(
         cardInfo: CardModel,
-        cardHand: TexasHoldemPokerCardsPosition,
+        cardHand: HoldemPokerHandPlace,
         faceDown: boolean,
         forcePositionIndex?: number
     ): Promise<void> {
         const cardNode = this.createCard(cardInfo, 0.9, 0.9);
         cardNode.active = false;
-        const cardComponent = cardNode.getComponent(TexasHoldemPokerCard);
+        const cardComponent = cardNode.getComponent(HoldemPokerCard);
         cardComponent.setFaceUp(!faceDown);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = cardHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
-        const nextPosition = cardHand.cardLayout.getNextPosition(forcePositionIndex);
+        const nextPosition = cardHand.cardLayout.getNextPosition();
         const rotationX = cc.v3(0);
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         cardHand.addCard(cardNode);
@@ -156,17 +175,12 @@ export default class TexasHoldemPokerCards extends cc.Component {
         });
     }
 
-    private dealCard(
-        cardInfo: CardModel,
-        cardHand: TexasHoldemPokerCardsPosition,
-        faceDown: boolean,
-        forcePositionIndex?: number
-    ): Promise<void> {
-        const cardNode = this.createCard(cardInfo, 0, 0);
-        const cardComponent = cardNode.getComponent(TexasHoldemPokerCard);
+    private dealCard(cardInfo: CardModel, cardHand: HoldemPokerHandPlace, faceDown: boolean, forcePositionIndex?: number): Promise<void> {
+        const cardNode = this.createCard(cardInfo, 1, 1);
+        const cardComponent = cardNode.getComponent(HoldemPokerCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = cardHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
-        const nextPosition = cardHand.cardLayout.getNextPosition(forcePositionIndex);
+        const nextPosition = cardHand.cardLayout.getNextPosition();
         const rotationX = cc.v3(0);
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         cardHand.addCard(cardNode);
@@ -176,12 +190,11 @@ export default class TexasHoldemPokerCards extends cc.Component {
 
         return new Promise((resolve) => {
             cc.tween(cardNode)
-                .parallel(
-                    cc.tween(this.node).call(() => {
-                        cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
-                    }),
-                    cc.scaleTo(0.1, 0.9, 0.9)
-                )
+                .call(() => {
+                    this.playAudioCardSliding();
+                    cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
+                })
+                .delay(pullDuration)
                 .call(() => {
                     this.playAudioCardSliding();
                 })
@@ -197,7 +210,7 @@ export default class TexasHoldemPokerCards extends cc.Component {
         });
     }
 
-    private collectCards(containerCards: TexasHoldemPokerCardsPosition) {
+    private collectCards(containerCards: HoldemPokerHandPlace) {
         const delayBeforeFlyToDealer = 0.4;
         const durationFlyToDealer = 0.3;
         const durationJumpToBoxCard = 0.5;
@@ -230,7 +243,7 @@ export default class TexasHoldemPokerCards extends cc.Component {
             cc.tween(cardNode)
                 .to(0.3, { position: cc.v2(0, 0) })
                 .call(() => {
-                    const cardComponent = cardNode.getComponent(TexasHoldemPokerCard);
+                    const cardComponent = cardNode.getComponent(HoldemPokerCard);
                     cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
                 })
                 .parallel(cc.jumpTo(durationJumpToBoxCard, destination, 100, 1), cc.rotate3DTo(0.1, cc.v3(25, -5, 0)), cc.scaleTo(0.1, 0.8))
@@ -265,7 +278,7 @@ export default class TexasHoldemPokerCards extends cc.Component {
             case "player":
                 this.showIndicatorCard(combineCard, [
                     { row: this.playerCards, position: "top", whose: "player" },
-                    { row: this.middleCards, position: "bottom", whose: "player" }
+                    { row: this.middleCards, position: "bot", whose: "player" }
                 ]);
                 break;
             case "dealer":
@@ -294,28 +307,22 @@ export default class TexasHoldemPokerCards extends cc.Component {
 
     private updateLabel(combineCardResult: cc.Node, labelId: number) {
         const label = combineCardResult.getChildByName("text").getComponent(cc.Label);
-        label.string = this.handRanking[labelId];
+        const result = `holdEmPoker.${CombineCardResultLabel[labelId].dataId}`;
+        label.string = `${i18n.t(result)}`;
         combineCardResult.active = true;
     }
 
     public hideAllIndicator() {
         this.playerCards
             .getCards()
-            .forEach((c) =>
-                c.getChildByName("card").getChildByName("symbols").getComponent(TexasHoldemPokerIndicatorSymbols).hideAllArrow()
-            );
+            .forEach((c) => c.getChildByName("card").getChildByName("Arrows").getComponent(HoldemPokerArrows).hideAllArrow());
         this.dealerCards
             .getCards()
-            .forEach((c) =>
-                c.getChildByName("card").getChildByName("symbols").getComponent(TexasHoldemPokerIndicatorSymbols).hideAllArrow()
-            );
+            .forEach((c) => c.getChildByName("card").getChildByName("Arrows").getComponent(HoldemPokerArrows).hideAllArrow());
         this.middleCards
             .getCards()
-            .forEach((c) =>
-                c.getChildByName("card").getChildByName("symbols").getComponent(TexasHoldemPokerIndicatorSymbols).hideAllArrow()
-            );
+            .forEach((c) => c.getChildByName("card").getChildByName("Arrows").getComponent(HoldemPokerArrows).hideAllArrow());
     }
-
     public hideAllLabelIndicatorCards() {
         this.combinePlayerCardResult.active = false;
         this.combineDealerCardResult.active = false;
@@ -323,28 +330,27 @@ export default class TexasHoldemPokerCards extends cc.Component {
 
     private showIndicatorCard(
         combineCards: CardModel[],
-        cardHands: { row: TexasHoldemPokerCardsPosition; position: string; whose: string }[],
-        waitingCardRender: number = 0.1
+        cardHands: { row: HoldemPokerHandPlace; position: string; whose: string }[],
+        waitingCardRender = 0.1
     ) {
         this.schedule(
             () => {
-                for (let index = 0; index < cardHands.length; index++) {
-                    const cardHand = cardHands[index];
+                cardHands.forEach((cardHand) => {
                     const cardsInRow = cardHand.row.getCards();
-                    for (let index = 0; index < cardsInRow.length; index++) {
-                        const card = cardsInRow[index].getComponent(TexasHoldemPokerCard).getCard();
+                    cardsInRow.forEach((cardInRow) => {
+                        const card = cardInRow.getComponent(HoldemPokerCard).getCard();
                         const combineCard = combineCards.find((e) => {
                             return e.rank === card.rank && e.suit === card.suit;
                         });
                         if (combineCard) {
-                            cardsInRow[index]
+                            cardInRow
                                 .getChildByName("card")
-                                .getChildByName("symbols")
-                                .getComponent(TexasHoldemPokerIndicatorSymbols)
-                                .showSymbol(cardHand.position, cardHand.whose);
+                                .getChildByName("Arrows")
+                                .getComponent(HoldemPokerArrows)
+                                .showArrow(cardHand.position, cardHand.whose);
                         }
-                    }
-                }
+                    });
+                });
             },
             null,
             null,
