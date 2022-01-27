@@ -198,7 +198,7 @@ window.i18n.languages.th = {
         betType: "ชนิดการเดิมพัน",
         ok: "ยืนยัน",
         choice_earth: "โลก",
-        choice_even: "คุู่",
+        choice_even: "คู่",
         choice_fire: "ไฟ",
         choice_gold: "ทอง",
         choice_odd: "คี่",
