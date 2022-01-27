@@ -1,10 +1,9 @@
 import HiLoEventHandler from "./HiLoEventHandler";
 import { HiLoStakeModel } from "../events-models/HiLoStakeModel";
-import { HiLoCardModel } from "../events-models/HiLoCardModel";
 
 export type HiLoResultType<Choices> = {
     result: {
-        betWin: number;
+        betwin: number;
         result: Array<Record<string, number>>;
         nextAmounts: { h: number; l: number };
         remainingTime: number;
@@ -17,14 +16,17 @@ export class HiLoResultHandler<Choices> extends HiLoEventHandler<HiLoResultType<
     }
 
     protected handle(event: HiLoResultType<Choices>) {
-        const { betWin, result, nextAmounts, remainingTime } = event.result;
+        this.gameData.mainGame.showProcessingWarning(false);
 
+        const { betwin, result, nextAmounts, remainingTime } = event.result;
         const nextAmountModel = new HiLoStakeModel();
-        nextAmountModel.betWin = betWin;
+        nextAmountModel.betWin = betwin;
         nextAmountModel.higherAmount = nextAmounts.h;
         nextAmountModel.lowerAmount = nextAmounts.l;
-        const resultCards = result.map((c) => new HiLoCardModel(c.rank, c.suit));
-
-        this.gameData.resultModel.changeResult(resultCards, nextAmountModel, remainingTime, betWin);
+        const resultCards = result.map((c) => {
+            return { rank: c.rank.toString(), suit: c.suit };
+        });
+        this.gameData.resultModel.change(resultCards, nextAmountModel, remainingTime);
+        this.gameData.stateModel.deal();
     }
 }

@@ -1,11 +1,6 @@
-import NewCard from "../../../common/new-card/view-models/NewCard";
+import NewCard, { CardModel } from "../../../common/new-card/view-models/NewCard";
 
 const { ccclass, property } = cc._decorator;
-
-export interface CardModel {
-    rank: string;
-    suit: number;
-}
 
 @ccclass
 export default class HiLoResult extends cc.Component {
@@ -14,9 +9,6 @@ export default class HiLoResult extends cc.Component {
 
     @property(cc.Node)
     cardContainer: cc.Node = null;
-
-    @property(cc.Node)
-    cardBack: cc.Node = null;
 
     @property(cc.Prefab)
     cardPrefab: cc.Prefab = null;
@@ -35,7 +27,6 @@ export default class HiLoResult extends cc.Component {
     }
 
     resetNewRound() {
-        this.cardBack.active = true;
         this.cardComponent.faceDown();
     }
 }

@@ -13,8 +13,11 @@ export class HiLoStatusHandler<Choices> extends HiLoEventHandler<HiLoStatusType<
     }
 
     protected handle(event: HiLoStatusType<Choices>) {
+        this.gameData.mainGame.showProcessingWarning(false);
+
         const { win, bet } = event.status;
 
         this.gameData.statusModel.change(win, bet);
+        this.gameData.stateModel.collect();
     }
 }

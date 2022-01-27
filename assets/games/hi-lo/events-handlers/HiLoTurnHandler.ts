@@ -13,6 +13,8 @@ export class HiLoTurnHandler<Choices> extends HiLoEventHandler<HiLoTurnType<Choi
     }
 
     protected handle(event: HiLoTurnType<Choices>) {
+        this.gameData.mainGame.showProcessingWarning(false);
+
         const { roundId, order } = event.bet;
 
         this.gameData.turnModel.change(roundId, order);

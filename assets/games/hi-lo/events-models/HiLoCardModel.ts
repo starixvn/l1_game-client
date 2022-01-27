@@ -1,8 +1,8 @@
 export class HiLoCardModel {
-    rank: number;
+    rank: string;
     suit: number;
 
-    constructor(rank: number, suit: number) {
+    constructor(rank: string, suit: number) {
         this.rank = rank;
         this.suit = suit;
     }

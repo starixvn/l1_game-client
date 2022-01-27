@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { HiLoCardModel } from "./HiLoCardModel";
+import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import { HiLoStakeModel } from "./HiLoStakeModel";
 
 export class HiLoResultModel extends EventEmitter {
@@ -12,17 +12,15 @@ export class HiLoResultModel extends EventEmitter {
         CHANGE: "result:change"
     };
 
-    result: HiLoCardModel[];
+    result: CardModel[];
     nextAmount: HiLoStakeModel;
     remainingTime: number;
-    betWin: number;
 
-    changeResult(result: HiLoCardModel[], nextAmount: HiLoStakeModel, remainingTime: number, betWin: number) {
+    change(result: CardModel[], nextAmount: HiLoStakeModel, remainingTime: number) {
         this.result = result;
         this.nextAmount = nextAmount;
         this.remainingTime = remainingTime;
-        this.betWin = betWin;
 
-        this.emit(HiLoResultModel.Events.CHANGE);
+        this.emit(HiLoResultModel.Events.CHANGE, this);
     }
 }

@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { HiLoCardModel } from "./HiLoCardModel";
+import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import { HiLoStakeModel } from "./HiLoStakeModel";
 
 export default class HiLoOwnBetModel extends EventEmitter {
@@ -13,10 +13,10 @@ export default class HiLoOwnBetModel extends EventEmitter {
     };
 
     roundId: number;
-    result: HiLoCardModel[];
+    result: CardModel[];
     nextAmount: HiLoStakeModel;
 
-    change(roundId: number, result: HiLoCardModel[], nextAmount: HiLoStakeModel) {
+    change(roundId: number, result: CardModel[], nextAmount: HiLoStakeModel) {
         this.result = result;
         this.nextAmount = nextAmount;
         this.roundId = roundId;

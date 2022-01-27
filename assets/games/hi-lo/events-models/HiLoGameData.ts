@@ -12,6 +12,7 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import HiLoGameConfigs from "./HiLoGameConfigs";
 import { HiLoTurnModel } from "./HiLoTurnModel";
 import { HiLoStateModel } from "./HiLoStateModel";
+import HiLo from "../view-models/HiLo";
 
 export default class HiLoGameData<Choices> extends GameData<Choices> {
     static Events = {
@@ -28,8 +29,9 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
     readonly statusModel: HiLoStatusModel;
     readonly turnModel: HiLoTurnModel;
     readonly stateModel: HiLoStateModel;
+    mainGame: HiLo;
 
-    constructor() {
+    constructor(mainGame: HiLo) {
         super();
         this.roundCounter = new HiLoRoundCounter();
         this.ownBetModel = new HiLoOwnBetModel();
@@ -39,6 +41,7 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
         this.stateModel = new HiLoStateModel();
         this.configs = new HiLoGameConfigs();
         this.durations = new Durations();
+        this.mainGame = mainGame;
     }
 
     protected registerEventHandlers() {
@@ -49,8 +52,12 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
     }
 
     receiveUIData(data: any) {
+        if (!!data.prepareNewRound) {
+            this.stateModel.prepareNewRound();
+        }
+
         if (!!data.bet) {
-            this.stateModel.startRound();
+            this.stateModel.bet();
         }
 
         if (!!data.deal) {

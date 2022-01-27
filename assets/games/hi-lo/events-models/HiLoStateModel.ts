@@ -5,28 +5,27 @@ export class HiLoStateModel extends EventEmitter {
     constructor() {
         super();
         this.setMaxListeners(0);
-        this.state = HiLoState.start_round;
+        this.state = HiLoState.BLANK_NEW;
     }
 
     static Events = {
-        CHANGE: "change",
-        SETTLE: "settle"
+        CHANGE: "change"
     };
 
     state: number;
 
-    startRound() {
-        this.state = HiLoState.start_round;
+    prepareNewRound() {
+        this.state = HiLoState.BLANK_NEW;
         this.emit(HiLoStateModel.Events.CHANGE, this);
     }
 
     deal() {
-        this.state = HiLoState.change_turn;
+        this.state = HiLoState.IN_TURN;
         this.emit(HiLoStateModel.Events.CHANGE, this);
     }
 
     collect() {
-        this.state = HiLoState.settled;
+        this.state = HiLoState.SETTLED;
         this.emit(HiLoStateModel.Events.CHANGE, this);
     }
 }
