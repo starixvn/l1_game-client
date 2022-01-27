@@ -16,7 +16,7 @@ export default class HiLoBettingArea extends cc.Component {
         this.node.emit(BettingAreaEvents.PLACING_BET, this.betChoice);
     }
 
-    disableBetChoice(status: boolean) {
-        this.disableLayer && (this.disableLayer.active = status);
+    enableBetChoice(status: boolean) {
+        this.disableLayer && (this.disableLayer.active = !status);
     }
 }

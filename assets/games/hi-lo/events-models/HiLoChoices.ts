@@ -5,7 +5,7 @@ export class HiLoChoices {
 }
 
 export const HiloChoicesConst = {
-    hi: "hi",
-    lo: "lo",
+    higher: "h",
+    lower: "l",
     collect: "collect"
 };

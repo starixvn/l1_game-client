@@ -1,36 +1,39 @@
 import { HiLoState } from "../events-models/HiLoState";
 import { HiLoStateModel } from "../events-models/HiLoStateModel";
 import HiLo from "../view-models/HiLo";
-import { HiLoResultModel } from "../events-models/HiLoResultModel";
-import HiLoResult from "../view-models/HiLoResult";
+import { HiloChoicesConst } from "../events-models/HiLoChoices";
 
-export const handleAllButtons = (mainGame: HiLo) => (stateModel: HiLoStateModel) => {
+export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) => {
     switch (stateModel.state) {
         case HiLoState.BLANK_NEW:
-            mainGame.playButton.node.active = true;
-            mainGame.disableAllBetOption(true);
-            mainGame.disableCollectButton(true);
-            mainGame.showUserLoseMessage(false, false);
+            mainGame.showPlayGameButton(true);
+            mainGame.enableAllBetOption(false);
+            mainGame.enableCollectButton(false);
+            mainGame.stakesComp.setBetWin(mainGame.betAmount);
+            mainGame.stakesComp.resetHigherLowerStakes();
+            mainGame.resultComp.resetNewRound();
             break;
         case HiLoState.IN_TURN:
+            mainGame.showPlayGameButton(false);
+            const currentResult = mainGame.gameData.resultModel.result[mainGame.gameData.resultModel.result.length - 1];
+            mainGame.bettingAreas.forEach((area) => {
+                if (
+                    (currentResult.rank === "A" && area.betChoice === HiloChoicesConst.higher) ||
+                    (currentResult.rank === "2" && area.betChoice === HiloChoicesConst.lower)
+                ) {
+                    area.enableBetChoice(false);
+                } else {
+                    area.enableBetChoice(true);
+                }
+            });
+            mainGame.enableCollectButton(true);
+            break;
         case HiLoState.SETTLED:
-            mainGame.playButton.node.active = false;
-            mainGame.disableAllBetOption(false);
-            mainGame.disableCollectButton(false);
+            mainGame.showPlayGameButton(false);
+            mainGame.enableAllBetOption(false);
+            mainGame.enableCollectButton(false);
             break;
         default:
             break;
-    }
-};
-
-export const resetBetWin = (mainGame: HiLo) => (stateModel: HiLoStateModel) => {
-    if (stateModel.state == HiLoState.BLANK_NEW) {
-        mainGame.stakesComp.setBetWin(mainGame.betAmount);
-    }
-};
-
-export const hideResultCard = (resultComp: HiLoResult) => (stateModel: HiLoStateModel) => {
-    if (stateModel.state == HiLoState.BLANK_NEW) {
-        resultComp.resetNewRound();
     }
 };

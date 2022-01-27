@@ -50,22 +50,4 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
 
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
-
-    receiveUIData(data: any) {
-        if (!!data.prepareNewRound) {
-            this.stateModel.prepareNewRound();
-        }
-
-        if (!!data.bet) {
-            this.stateModel.bet();
-        }
-
-        if (!!data.deal) {
-            this.stateModel.deal();
-        }
-
-        if (!!data.collect) {
-            this.stateModel.collect();
-        }
-    }
 }

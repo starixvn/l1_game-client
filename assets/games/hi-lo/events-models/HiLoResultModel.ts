@@ -12,14 +12,16 @@ export class HiLoResultModel extends EventEmitter {
         CHANGE: "result:change"
     };
 
+    roundId: number;
     result: CardModel[];
     nextAmount: HiLoStakeModel;
     remainingTime: number;
 
-    change(result: CardModel[], nextAmount: HiLoStakeModel, remainingTime: number) {
+    change(roundId: number, result: CardModel[], nextAmount: HiLoStakeModel, remainingTime: number) {
         this.result = result;
         this.nextAmount = nextAmount;
         this.remainingTime = remainingTime;
+        this.roundId = roundId;
 
         this.emit(HiLoResultModel.Events.CHANGE, this);
     }

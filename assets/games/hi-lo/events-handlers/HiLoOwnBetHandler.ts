@@ -1,11 +1,11 @@
 import HiLoEventHandler from "./HiLoEventHandler";
-import { HiLoStakeModel } from "../events-models/HiLoStakeModel";
 
 export type HiLoBetType<Choices> = {
     ownBets: {
         roundId: number;
         result: Array<Record<string, number>>;
         nextAmounts: { h: number; l: number };
+        remainingTime: number;
     };
 };
 
@@ -15,20 +15,8 @@ export class HiLoOwnBetHandler<Choices> extends HiLoEventHandler<HiLoBetType<Cho
     }
 
     protected handle(event: HiLoBetType<Choices>) {
-        this.gameData.mainGame.showProcessingWarning(false);
-        const { roundId, result, nextAmounts } = event.ownBets;
-        if (roundId && nextAmounts && result) {
-            const nextAmountModel = new HiLoStakeModel();
-            nextAmountModel.higherAmount = nextAmounts.h;
-            nextAmountModel.lowerAmount = nextAmounts.l;
-            const resultCards = result.map((c) => {
-                return {
-                    rank: c.rank.toString(),
-                    suit: c.suit
-                };
-            });
-            this.gameData.ownBetModel.change(roundId, resultCards, nextAmountModel);
-            this.gameData.stateModel.deal();
+        if (event.ownBets.roundId) {
+            this.updateResultData(event.ownBets);
         } else {
             this.gameData.stateModel.prepareNewRound();
         }
