@@ -1,5 +1,4 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
+import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
 import { events } from "../../_new/connection/SocketIOConnection";
 import NewButton from "../../../common/custom-button/NewButton";
 import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
@@ -53,6 +52,9 @@ import TexasHoldemPokerChips from "./texas-holdem-poker-chip";
 import TexasHoldemPokerMinMaxTable from "./texas-holdem-poker-min-max-table";
 import TexasHoldemPokerOddsTable from "./texas-holdem-poker-odds-table";
 import TexasHoldemPokerPlacingBet from "./texas-holdem-poker-placing-bet";
+import HoldemPockerMD5 from "../../holdem-poker/view-models/HoldemPockerMD5";
+import AudioManager from "../../../common/audio/AudioManager";
+import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -120,6 +122,21 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
+    @property(HoldemPockerMD5)
+    md5Comp: HoldemPockerMD5 = null;
+
+    @property(cc.AudioSource)
+    gameNotificationsAudio: cc.AudioSource = null;
+
+    @property(cc.AudioSource)
+    singleChipAudio: cc.AudioSource = null;
+
+    @property(cc.AudioSource)
+    startNewRoundAudio: cc.AudioSource = null;
+
     private placingBet: TexasHoldemPokerPlacingBet = null;
     protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
     private texasHoldemPokerChips: TexasHoldemPokerChips;
@@ -163,6 +180,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.registerSettlementEvents();
         this.registerTicketDetailEvents();
         this.registerNoticeEvents();
+        this.registerMD5Event();
     }
 
     initPokerCardScript() {
@@ -388,6 +406,12 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.gameData.on(CommonEvents.UM, showUMInfo(this));
     }
 
+    private registerMD5Event() {
+        this.gameData.md5Model.on(HoldemPockerMD5Model.Events.CHANGE, (md5: HoldemPockerMD5Model) => {
+            updateMD5(this.md5Comp)(md5);
+        });
+    }
+
     onDealClick() {
         this.playClick();
         this.placingBet.handleClickDeal();
@@ -475,5 +499,9 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
 
     private hideButtonPrepareNewRound() {
         this.reBetAndDealButton.active = this.reBetButton.active = this.newButton.active = false;
+    }
+
+    playStartGameAudio() {
+        AudioManager.getInstance().playSFX(this.startNewRoundAudio.clip);
     }
 }

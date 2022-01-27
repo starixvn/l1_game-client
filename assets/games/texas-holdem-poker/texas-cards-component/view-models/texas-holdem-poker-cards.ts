@@ -5,9 +5,7 @@ import HoldemPokerHandPlace from "../../../holdem-poker/components/cards/view-mo
 import { CardAnimation } from "../../event-models/texas-holdem-poker-constant";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import HoldemPokerCard from "../../../holdem-poker/components/cards/view-models/HoldemPokerCard";
-// import HandPlace from "../../../blackjack/view-models/HandPlace";
-// import TexasHoldemPokerCardsPosition from "./texas-holdem-poker-cards-position";
-// import TexasHoldemPokerIndicatorSymbols from "./texas-holdem-poker-indicator-symbols";
+import AudioManager from "../../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -77,8 +75,7 @@ export default class TexasHoldemPokerCards extends cc.Component {
     }
 
     private playAudioCardSliding() {
-        // cc.RedT.isSoundGame() && DeviceSetting.getInstance().sounds.play(SoundKeys.blackjack.cardSlide);
-        // FIXME: add sound card slide
+        AudioManager.getInstance().playSFX(this.cardSlideAudioSource.clip);
     }
 
     private createCard(card: CardModel, scaleX: number, scaleY: number): cc.Node {

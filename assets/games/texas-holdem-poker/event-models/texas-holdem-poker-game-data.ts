@@ -1,3 +1,4 @@
+import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
 import { HoldemPokerGameData } from "../../holdem-poker/event-models/HoldemPokerGameData";
 import TexasHoldemErrorUIEventHandler from "../event-handlers/texas-holdem-poker-api-error-ui-handler";
 import TexasHoldemAutoSettleEventHandler from "../event-handlers/texas-holdem-poker-auto-settle-handler";
@@ -22,6 +23,7 @@ import { TexasHoldemPokerSettlement } from "./texas-holdem-poker-settlement";
 import { TexasHoldemPokerStateModel } from "./texas-holdem-poker-state-model";
 import { TexasHoldemPokerTicketDetailModel } from "./texas-holdem-poker-ticket-detail-model";
 import { TexasHoldemPokerAfterTurnModel } from "./texas-holdem-poker-turn-model";
+import HoldemPockerMD5Handler from "../../holdem-poker/event-handlers/HoldemPockerMD5Handler";
 
 export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choices> {
     readonly configs: TexasHoldemPokerConfigs;
@@ -37,6 +39,7 @@ export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choic
     readonly turnModel: TexasHoldemPokerAfterTurnModel;
     readonly riverModel: TexasHoldemPokerAfterRiverModel;
     readonly autoSettleModel: TexasHoldemPokerAutoSettleModel;
+    readonly md5Model: HoldemPockerMD5Model;
 
     constructor() {
         super();
@@ -54,6 +57,7 @@ export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choic
         this.ownBets = new TexasHoldemPokerOwnBetModel();
         this.finishModel = new TexasHoldemPokerFinishModel();
         this.ticketDetailModel = new TexasHoldemPokerTicketDetailModel();
+        this.md5Model = new HoldemPockerMD5Model();
     }
 
     // Override isProcessingBet
@@ -74,7 +78,8 @@ export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choic
             TexasHoldemTurnEventHandler,
             TexasHoldemRiverEventHandler,
             TexasHoldemPokerOwnBetHandler,
-            TexasHoldemPokerFinishHandler
+            TexasHoldemPokerFinishHandler,
+            HoldemPockerMD5Handler
             // TexasTicketDetailEventHandler
         ];
 

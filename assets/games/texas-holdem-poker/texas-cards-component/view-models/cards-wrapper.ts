@@ -1,6 +1,7 @@
+import { convertCard } from "./../../../holdem-poker/components/cards/view-models/CardWrapper";
 import PokerCards from "./texas-holdem-poker-cards";
 
-export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
+export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
     const { playerCards } = cardsData;
@@ -19,10 +20,9 @@ export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cards
 
     pokerCardsNote.focusPlayerCard();
     showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
-    //callBack();
 };
 
-export const dealFirstThreeCommunityCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
+export const dealFirstThreeCommunityCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
     const { communityCards } = cardsData;
@@ -35,7 +35,7 @@ export const dealFirstThreeCommunityCards = async (pokerCardsNote: PokerCards, c
     showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
 };
 
-export const dealSecondCard = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
+export const dealSecondCard = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
     const { communityCards } = cardsData;
@@ -52,8 +52,8 @@ export const dealSecondCard = async (pokerCardsNote: PokerCards, cardsData: any,
 export const dealThirdCardAndFaceUpDealerCards = async (
     pokerCardsNote: PokerCards,
     cardsData: any,
-    callBack?: Function,
-    numberCommunityCards: number = -1
+    callBack?: () => void,
+    numberCommunityCards = -1
 ) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
@@ -74,7 +74,7 @@ export const dealThirdCardAndFaceUpDealerCards = async (
     showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 2000);
 };
 
-export const dealFourAndFireCardAndFaceUpDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
+export const dealFourAndFireCardAndFaceUpDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
     const { communityCards, dealerCards, step } = cardsData;
@@ -94,7 +94,7 @@ export const dealFourAndFireCardAndFaceUpDealerCards = async (pokerCardsNote: Po
     showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 1700);
 };
 
-export const collectCards = (pokerCardsNote: PokerCards, callBack?: Function, delayCallBack: number = 0) => {
+export const collectCards = (pokerCardsNote: PokerCards, callBack?: () => void, delayCallBack = 0) => {
     const durationCollectCard = 2700;
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
@@ -105,12 +105,12 @@ export const collectCards = (pokerCardsNote: PokerCards, callBack?: Function, de
     }, waitingCollectCard);
 };
 
-const showIndicatorSymbols = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function, delayCallBack: number = 2000) => {
+const showIndicatorSymbols = (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void, delayCallBack = 2000) => {
     const { combinationResult } = cardsData;
     const { player, dealer } = combinationResult;
 
-    pokerCardsNote.showIndicatorSymbolOfCards(player.combinationCards, "player");
-    dealer && pokerCardsNote.showIndicatorSymbolOfCards(dealer.combinationCards, "dealer");
+    pokerCardsNote.showIndicatorSymbolOfCards(convertCard(player.combinationCards), "player");
+    dealer && pokerCardsNote.showIndicatorSymbolOfCards(convertCard(dealer.combinationCards), "dealer");
 
     dealer && pokerCardsNote.showLabelIndicatorCards(dealer.id, "dealer");
     pokerCardsNote.showLabelIndicatorCards(player.id, "player");
@@ -120,7 +120,7 @@ const showIndicatorSymbols = (pokerCardsNote: PokerCards, cardsData: any, callBa
     }, delayCallBack);
 };
 
-export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
+export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any) => {
     const { combinationResult, communityCards, playerCards } = cardsData;
     const { player } = combinationResult;
 
@@ -141,7 +141,7 @@ export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any, ca
         const card = dealerDataFake[index];
         pokerCardsNote.drawingRejoinDealerCards(card, true);
     }
-    pokerCardsNote.showIndicatorSymbolOfCards(player.combinationCards, "player");
+    pokerCardsNote.showIndicatorSymbolOfCards(convertCard(player.combinationCards), "player");
     pokerCardsNote.showLabelIndicatorCards(player.id, "player");
     pokerCardsNote.focusPlayerCard();
 };
