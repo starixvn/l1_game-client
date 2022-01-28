@@ -27,6 +27,7 @@ export default class HoldemPockerMD5 extends cc.Component {
         hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
         this.enableCopyButton(false);
+        this.showHint = this.showHint.bind(this);
     }
 
     enableCopyButton(enabled: boolean) {
@@ -71,8 +72,8 @@ export default class HoldemPockerMD5 extends cc.Component {
     }
 
     onClickCopyButton() {
-        GameUtils.copyToClipboard(this.md5CopyString);
-        this.showHint();
+        
+        GameUtils.copyToClipboard(this.md5CopyString, this.showHint);
     }
 
     showHint() {

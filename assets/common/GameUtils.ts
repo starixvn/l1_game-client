@@ -190,14 +190,19 @@ export default class GameUtils {
         return values.filter((value) => value >= minBet && value <= maxBet);
     }
 
-    public static copyToClipboard(data: string): void {
-        const listener = (e: ClipboardEvent) => {
-            e.clipboardData.setData("text/plain", data);
-            e.preventDefault();
-            document.removeEventListener("copy", listener);
-        };
-        document.addEventListener("copy", listener);
-        document.execCommand("copy");
+    public static copyToClipboard(data: string, callback): void {
+        // const listener = (e: ClipboardEvent) => {
+        //     e.clipboardData.setData("text/plain", data);
+        //     e.preventDefault();
+        //     document.removeEventListener("copy", listener);
+        // };
+        // document.addEventListener("copy", listener);
+        // document.execCommand("copy");
+        navigator.clipboard.writeText(data).then(() => {
+            if (callback) {
+                callback();
+            }
+        });
     }
 
     public static isIpad(): boolean {
