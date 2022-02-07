@@ -22,7 +22,7 @@ export const resetCountdowmTimer = (mainGame: HiLo) => () => {
 export const updateCountdownTimer = (mainGame: HiLo) => (resultModel: HiLoResultModel) => {
     const durations = {
         lockingBet: 0,
-        placingBet: 0,
+        placingBet: mainGame.config.betTime,
         wholeRound: resultModel.remainingTime
     };
     mainGame.gameData.durations.initialize(durations);

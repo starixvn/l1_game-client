@@ -167,7 +167,9 @@ export default class HiLo extends NewMiniGameBase {
 
     private registerDurationsEvents() {
         this.gameData.durations.on(Durations.Events.PLACING_BET, updateClockTime(this.animatedTime));
-        this.gameData.durations.on(Durations.Events.TIMEOUT, resetCountdowmTimer(this));
+        this.gameData.durations.on(Durations.Events.TIMEOUT, () => {
+            this.resetCountdownTimer();
+        });
     }
 
     private registerStateEvents() {
@@ -289,7 +291,7 @@ export default class HiLo extends NewMiniGameBase {
     resetCountdownTimer() {
         const durations = {
             lockingBet: 0,
-            placingBet: 0,
+            placingBet: this.config.betTime,
             wholeRound: this.config.fullTime
         };
         this.gameData.durations.initialize(durations);
