@@ -231,14 +231,14 @@ export default class HiLo extends NewMiniGameBase {
             this.userLose.scale = status ? 0 : 1;
             if (status) {
                 cc.tween(this.userLose)
-                    .to(0.3, { opacity: 255, scale: 1 }, { easing: "easeOut" })
+                    .to(0.3, { opacity: 255, scale: 1 }, { easing: "sineOut" })
                     .delay(this.userLoseMessageDuration)
                     .call(() => {
-                        cc.tween(this.userLose).to(0.1, { opacity: 0, scale: 0 }, { easing: "easeIn" }).start();
+                        cc.tween(this.userLose).to(0.1, { opacity: 0, scale: 0 }, { easing: "sineIn" }).start();
                     })
                     .start();
             } else {
-                cc.tween(this.userLose).to(0.3, { opacity: 0, scale: 0 }, { easing: "easeIn" }).start();
+                cc.tween(this.userLose).to(0.3, { opacity: 0, scale: 0 }, { easing: "sineIn" }).start();
             }
         } else {
             if (status) {

@@ -10,13 +10,13 @@ export type HiLoBetType<Choices> = {
 };
 
 export class HiLoOwnBetHandler<Choices> extends HiLoEventHandler<HiLoBetType<Choices>, Choices> {
-    protected verifyEvent(event: HiLoBetType<Choices>) {
-        return !!event.ownBets;
+    protected verifyEvent(data: HiLoBetType<Choices>) {
+        return !!data.ownBets;
     }
 
-    protected handle(event: HiLoBetType<Choices>) {
-        if (event.ownBets.roundId) {
-            this.updateResultData(event.ownBets);
+    protected handle(data: HiLoBetType<Choices>) {
+        if (data.ownBets.roundId) {
+            this.updateResultData(data.ownBets);
         } else {
             this.gameData.stateModel.prepareNewRound();
         }

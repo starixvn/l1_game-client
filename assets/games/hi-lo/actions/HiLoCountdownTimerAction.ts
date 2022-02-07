@@ -6,6 +6,7 @@ import { HiLoResultModel } from "../events-models/HiLoResultModel";
 export const updateClockTime =
     (clock: AnimatedTime) =>
     ({ globalRemaining }) => {
+        console.log("remaining time", globalRemaining);
         if (!clock.node.active) {
             clock.node.active = true;
         }

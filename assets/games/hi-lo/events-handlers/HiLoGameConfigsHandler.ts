@@ -9,17 +9,17 @@ export type ConfigsType<Choices> = {
 };
 
 export class HiLoGameConfigsHandler<Choices> extends HiLoEventHandler<ConfigsType<Choices>, Choices> {
-    protected verifyEvent(event: ConfigsType<Choices>) {
-        return event.gameConfigs != null;
+    protected verifyEvent(data: ConfigsType<Choices>) {
+        return data.gameConfigs != null;
     }
 
-    protected handle(event: ConfigsType<Choices>) {
-        const configs = this.transformToGameConfigs(event);
+    protected handle(data: ConfigsType<Choices>) {
+        const configs = this.transformToGameConfigs(data);
         this.gameData.configs.change(configs);
     }
 
-    private transformToGameConfigs(event: ConfigsType<Choices>): HiLoGameConfigs {
-        const { maxBet, minBet, chips } = event.gameConfigs;
+    private transformToGameConfigs(data: ConfigsType<Choices>): HiLoGameConfigs {
+        const { maxBet, minBet, chips } = data.gameConfigs;
 
         return Object.assign({}, this.gameData.configs, {
             maxBet,

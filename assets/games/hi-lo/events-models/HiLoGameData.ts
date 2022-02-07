@@ -7,8 +7,6 @@ import { HiLoResultHandler } from "../events-handlers/HiLoResultHandler";
 import { HiLoResultModel } from "./HiLoResultModel";
 import { HiLoStatusModel } from "./HiLoStatusModel";
 import { HiLoStatusHandler } from "../events-handlers/HiLoStatusHandler";
-import { TimeEventHandler } from "../../_new/_base/game-data-management/event-handlers/time-handler";
-import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import HiLoGameConfigs from "./HiLoGameConfigs";
 import { HiLoTurnModel } from "./HiLoTurnModel";
 import { HiLoStateModel } from "./HiLoStateModel";
@@ -40,14 +38,11 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
         this.turnModel = new HiLoTurnModel();
         this.stateModel = new HiLoStateModel();
         this.configs = new HiLoGameConfigs();
-        this.durations = new Durations();
         this.mainGame = mainGame;
     }
 
     protected registerEventHandlers() {
-        super.registerEventHandlers();
         const handlers = [HiLoGameConfigsHandler, HiLoOwnBetHandler, HiLoResultHandler, HiLoStatusHandler];
-
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
 }

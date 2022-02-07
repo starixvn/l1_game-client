@@ -8,14 +8,14 @@ export type HiLoTurnType<Choices> = {
 };
 
 export class HiLoTurnHandler<Choices> extends HiLoEventHandler<HiLoTurnType<Choices>, Choices> {
-    protected verifyEvent(event: HiLoTurnType<Choices>) {
-        return !!event.bet;
+    protected verifyEvent(data: HiLoTurnType<Choices>) {
+        return !!data.bet;
     }
 
-    protected handle(event: HiLoTurnType<Choices>) {
+    protected handle(data: HiLoTurnType<Choices>) {
         this.gameData.mainGame.showProcessingWarning(false);
 
-        const { roundId, order } = event.bet;
+        const { roundId, order } = data.bet;
 
         this.gameData.turnModel.change(roundId, order);
     }

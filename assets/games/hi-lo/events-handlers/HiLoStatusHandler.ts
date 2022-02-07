@@ -8,14 +8,14 @@ export type HiLoStatusType<Choices> = {
 };
 
 export class HiLoStatusHandler<Choices> extends HiLoEventHandler<HiLoStatusType<Choices>, Choices> {
-    protected verifyEvent(event: HiLoStatusType<Choices>) {
-        return !!event.status;
+    protected verifyEvent(data: HiLoStatusType<Choices>) {
+        return !!data.status;
     }
 
-    protected handle(event: HiLoStatusType<Choices>) {
+    protected handle(data: HiLoStatusType<Choices>) {
         this.gameData.mainGame.showProcessingWarning(false);
 
-        const { win, bet } = event.status;
+        const { win, bet } = data.status;
 
         this.gameData.statusModel.change(win, bet);
         this.gameData.stateModel.collect();

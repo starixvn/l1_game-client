@@ -11,12 +11,12 @@ export type HiLoResultType<Choices> = {
 };
 
 export class HiLoResultHandler<Choices> extends HiLoEventHandler<HiLoResultType<Choices>, Choices> {
-    protected verifyEvent(event: HiLoResultType<Choices>) {
-        return !!event.result;
+    protected verifyEvent(data: HiLoResultType<Choices>) {
+        return !!data.result;
     }
 
-    protected handle(event: HiLoResultType<Choices>) {
+    protected handle(data: HiLoResultType<Choices>) {
         this.gameData.mainGame.showProcessingWarning(false);
-        this.updateResultData(event.result);
+        this.updateResultData(data.result);
     }
 }
