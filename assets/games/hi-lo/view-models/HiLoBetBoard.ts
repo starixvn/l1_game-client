@@ -1,7 +1,5 @@
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import GameUtils from "../../../common/GameUtils";
-import GameBase from "../../_base/GameBase";
-import HiLo from "./HiLo";
 import HiLoBetChipItem from "./HiLoBetChipItem";
 
 const { ccclass, property } = cc._decorator;
@@ -11,6 +9,9 @@ type OnChangedBet = (bet: string) => void;
 export default class HiLoBetBoard extends cc.Component {
     @property(cc.Node)
     betAmounts: cc.Node = null;
+
+    @property(cc.Node)
+    disableLayer: cc.Node = null;
 
     @property(cc.Node)
     prevButton: cc.Node = null;
@@ -61,6 +62,12 @@ export default class HiLoBetBoard extends cc.Component {
         };
     }
 
+    disableBetBoard(status: boolean) {
+        this.disableLayer.active = status;
+        this.prevButton.active = !status;
+        this.nextButton.active = !status;
+    }
+
     setChipValues(gameConfigs: any) {
         if (gameConfigs.chips.length === 0) {
             return;
@@ -80,7 +87,7 @@ export default class HiLoBetBoard extends cc.Component {
                 ? this.currentBetValue
                 : this.chipValues[0].toString();
         const needResetScrollOffset = currentBet !== this.currentBetValue;
-        //this.setCurrentBet(currentBet);
+
         this.snappedScrollView.initCalculatedPercent();
         if (needResetScrollOffset) {
             this.snappedScrollView.scroll.scrollToPercentHorizontal(0, 0.1);
@@ -172,6 +179,5 @@ export default class HiLoBetBoard extends cc.Component {
             const isSelected = chip.getComponent(HiLoBetChipItem).number === bet.number ? true : false;
             chip.getComponent(HiLoBetChipItem).setSelectedBg(isSelected);
         });
-        //this.currBet.string = bet.number.string;
     }
 }

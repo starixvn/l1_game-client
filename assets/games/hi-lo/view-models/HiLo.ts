@@ -81,7 +81,6 @@ export default class HiLo extends NewMiniGameBase {
     randomCardDuration = 1.5;
     settleAnimation = 1;
     turnOrder = 0;
-    betAmount: number = 10;
     betBoardComp: HiLoBetBoard;
 
     initMiniPanel(miniPanel: MiniPanel) {
@@ -102,7 +101,6 @@ export default class HiLo extends NewMiniGameBase {
         this.registerTurnEvents();
         this.registerStateEvents();
         this.registerGameConfigsEvents();
-        this.initializeBetBoard();
         this.initBetBoard();
         this.addCountdownTimerSchedule();
         this.topNode.active = true;
@@ -181,8 +179,6 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData.configs.on(HiLoGameConfigs.Events.CHANGE, updateGameConfigs(this));
     }
 
-    private initializeBetBoard() {}
-
     onPlacingBet(betChoice: string) {
         this.emitEventConnection(HiLoEvents.deal, { betChoice: betChoice });
         this.resetCountdownTimer();
@@ -213,6 +209,10 @@ export default class HiLo extends NewMiniGameBase {
         const betBoard = cc.instantiate(this.betBoardPrefab);
         this.betBoardComp = betBoard.getComponent(HiLoBetBoard);
         this.betBoardContainer.addChild(betBoard);
+        this.betBoardComp.init((bet) => {
+            this.onChangedBetChip(bet);
+            this.stakesComp.betWin.string = bet.toString();
+        });
     }
 
     showPlayGameButton(status: boolean) {
@@ -221,7 +221,7 @@ export default class HiLo extends NewMiniGameBase {
 
     onPlayClick() {
         this.playClick();
-        this.emitEventConnection(HiLoEvents.bet, { amount: this.betAmount });
+        this.emitEventConnection(HiLoEvents.bet, { amount: this.currentBet });
     }
 
     onCollectClick() {

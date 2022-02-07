@@ -191,7 +191,6 @@ export default class BetChips extends cc.Component {
         }
         this.selectedIndex = i;
         this.scrollToSelectedIndex();
-        console.log("test");
     }
 
     public setCurrentBet(bet: string) {
