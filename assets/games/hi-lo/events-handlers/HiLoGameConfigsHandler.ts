@@ -14,17 +14,6 @@ export class HiLoGameConfigsHandler<Choices> extends HiLoEventHandler<ConfigsTyp
     }
 
     protected handle(data: ConfigsType<Choices>) {
-        const configs = this.transformToGameConfigs(data);
-        this.gameData.configs.change(configs);
-    }
-
-    private transformToGameConfigs(data: ConfigsType<Choices>): HiLoGameConfigs {
-        const { maxBet, minBet, chips } = data.gameConfigs;
-
-        return Object.assign({}, this.gameData.configs, {
-            maxBet,
-            minBet,
-            chips
-        });
+        this.gameData.configs.change(data.gameConfigs);
     }
 }

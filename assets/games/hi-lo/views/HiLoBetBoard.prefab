@@ -31,10 +31,13 @@
     "_components": [
       {
         "__id__": 35
+      },
+      {
+        "__id__": 36
       }
     ],
     "_prefab": {
-      "__id__": 36
+      "__id__": 37
     },
     "_opacity": 255,
     "_color": {
@@ -822,8 +825,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "fec62uujFBHoqXu2Sd1x4Yh",
-    "handler": "onNext",
+    "_componentId": "f5b8aw6gAJKkquQQZ2nwhx2",
+    "handler": "onClickNextButton",
     "customEventData": ""
   },
   {
@@ -1219,8 +1222,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "fec62uujFBHoqXu2Sd1x4Yh",
-    "handler": "onPrevious",
+    "_componentId": "f5b8aw6gAJKkquQQZ2nwhx2",
+    "handler": "onClickPrevButton",
     "customEventData": ""
   },
   {
@@ -1311,6 +1314,34 @@
     "_atlas": {
       "__uuid__": "1625c29c-7dac-418f-bbb0-8c7fc26269a6"
     },
+    "_id": ""
+  },
+  {
+    "__type__": "f5b8aw6gAJKkquQQZ2nwhx2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "betAmounts": {
+      "__id__": 4
+    },
+    "prevButton": {
+      "__id__": 26
+    },
+    "nextButton": {
+      "__id__": 16
+    },
+    "numberBetPrefab": {
+      "__uuid__": "4e6729f8-f66c-48c7-b9d2-14174935b236"
+    },
+    "snappedScrollView": {
+      "__id__": 11
+    },
+    "currBet": null,
+    "movingStep": 1,
+    "displaySize": 6,
     "_id": ""
   },
   {

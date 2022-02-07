@@ -19,6 +19,9 @@ import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
 import HiLoResult from "./HiLoResult";
 import GameUtils from "../../../common/GameUtils";
 import _ = require("lodash");
+import HiLoBetBoard from "./HiLoBetBoard";
+import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
+import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -78,6 +81,7 @@ export default class HiLo extends NewMiniGameBase {
     settleAnimation = 1;
     turnOrder = 0;
     betAmount: number = 10;
+    betBoardComp: HiLoBetBoard;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -89,7 +93,6 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData = new HiLoGameData<HiLoChoices>(this);
         super.onLoad();
         this.showHideTopArea();
-        this.initBetBoard();
         this.registerResultEvents();
         this.registerStatusEvents();
         this.registerRoundCounterEvents();
@@ -97,7 +100,9 @@ export default class HiLo extends NewMiniGameBase {
         this.registerDurationsEvents();
         this.registerTurnEvents();
         this.registerStateEvents();
+        this.registerGameConfigsEvents();
         this.initializeBetBoard();
+        this.initBetBoard();
         this.addCountdownTimerSchedule();
         this.topNode.active = true;
     }
@@ -169,6 +174,10 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData.stateModel.on(HiLoStateModel.Events.CHANGE, handleGameState(this));
     }
 
+    private registerGameConfigsEvents() {
+        this.gameData.configs.on(HiLoGameConfigs.Events.CHANGE, updateGameConfigs(this));
+    }
+
     private initializeBetBoard() {}
 
     onPlacingBet(betChoice: string) {
@@ -198,6 +207,7 @@ export default class HiLo extends NewMiniGameBase {
 
     initBetBoard() {
         const betBoard = cc.instantiate(this.betBoardPrefab);
+        this.betBoardComp = betBoard.getComponent(HiLoBetBoard);
         this.betBoardContainer.addChild(betBoard);
     }
 

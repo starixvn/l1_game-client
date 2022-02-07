@@ -10,17 +10,11 @@ export default class HiLoGameConfigs extends EventEmitter {
         CHANGE: "configs:change"
     };
 
-    maxBet: number;
-    minBet: number;
-    chips: number[];
+    gameConfigs: any;
 
-    change(configs: HiLoGameConfigs) {
-        const { maxBet, minBet, chips } = configs;
+    change(configs: any) {
+        this.gameConfigs = configs;
 
-        this.maxBet = maxBet || this.maxBet;
-        this.minBet = minBet || this.minBet;
-        this.chips = chips || this.chips;
-
-        this.emit(HiLoGameConfigs.Events.CHANGE, configs);
+        this.emit(HiLoGameConfigs.Events.CHANGE, this);
     }
 }

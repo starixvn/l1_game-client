@@ -24,9 +24,6 @@ export default class HiLoBetBoard extends cc.Component {
     @property(SnappedScrollView)
     snappedScrollView: SnappedScrollView = null;
 
-    @property(cc.Label)
-    currBet: cc.Label = null;
-
     @property
     movingStep = 1;
 
@@ -34,16 +31,14 @@ export default class HiLoBetBoard extends cc.Component {
     displaySize = 6;
 
     public onChanged: OnChangedBet = (bet) => {};
-    public chipValues: number[] = [];
 
     private selectedIndex = 0;
     private chipList: cc.Node[] = [];
     private currentBetValue = "1";
-    private gameConfigs = {
-        chips: [1, 5, 10, 20, 50, 100, 500],
-        maxBet: 2000,
-        minBet: 1
-    };
+
+    public configValues: number[] = [];
+    public chipValues: number[] = [];
+    public gameConfigs: any;
 
     public init(onChanged: OnChangedBet) {
         this.onChanged = onChanged;
@@ -64,20 +59,19 @@ export default class HiLoBetBoard extends cc.Component {
             this.updateArrowVisibility();
             this.updateSelectedChipValue();
         };
-        this.setChipValues(this.gameConfigs);
     }
 
     setChipValues(gameConfigs: any) {
         if (gameConfigs.chips.length === 0) {
             return;
         }
-        // this.gameConfigs = gameConfigs;
-        // this.configValues = gameConfigs.chips;
+        this.gameConfigs = gameConfigs;
+        this.configValues = gameConfigs.chips;
         this.updateChips();
     }
 
     updateChips() {
-        //this.chipValues = GameUtils.getFilterValuesByStakeLevel(this.configValues, this.gameConfigs);
+        this.chipValues = GameUtils.getFilterValuesByStakeLevel(this.configValues, this.gameConfigs);
         this.chipValues = this.gameConfigs.chips;
         this.createChips();
 
