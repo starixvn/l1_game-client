@@ -11,12 +11,15 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             mainGame.showPlayGameButton(true);
             mainGame.enableAllBetOption(false);
             mainGame.enableCollectButton(false);
+            mainGame.resetCountdownTimer();
             mainGame.stakesComp.setBetWin(mainGame.betAmount);
             mainGame.stakesComp.resetHigherLowerStakes();
             mainGame.resultComp.resetNewRound();
+            mainGame.isStopSchedule = true;
             break;
         case HiLoState.IN_TURN:
             mainGame.showPlayGameButton(false);
+            mainGame.isStopSchedule = false;
             const currentResult = mainGame.gameData.resultModel.result[mainGame.gameData.resultModel.result.length - 1];
             mainGame.bettingAreas.forEach((area) => {
                 if (
@@ -34,6 +37,8 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             mainGame.showPlayGameButton(false);
             mainGame.enableAllBetOption(false);
             mainGame.enableCollectButton(false);
+            mainGame.resetCountdownTimer();
+            mainGame.isStopSchedule = true;
             break;
         default:
             break;

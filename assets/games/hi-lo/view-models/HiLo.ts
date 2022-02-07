@@ -75,7 +75,7 @@ export default class HiLo extends NewMiniGameBase {
     resultComp: HiLoResult = null;
 
     gameData: HiLoGameData<HiLoChoices> = null;
-    private isStopSchedule = false;
+    isStopSchedule = false;
     userLoseMessageDuration = 1.5;
     randomCardDuration = 1.5;
     settleAnimation = 1;
@@ -105,6 +105,7 @@ export default class HiLo extends NewMiniGameBase {
         this.initBetBoard();
         this.addCountdownTimerSchedule();
         this.topNode.active = true;
+        this.animatedTime.setAnimatedY(15, 0);
     }
 
     onEnable() {
@@ -224,6 +225,7 @@ export default class HiLo extends NewMiniGameBase {
 
     onCollectClick() {
         this.playClick();
+        this.resetCountdownTimer();
         this.emitEventConnection(HiLoEvents.collect, {});
     }
 
