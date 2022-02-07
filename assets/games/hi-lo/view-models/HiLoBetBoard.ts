@@ -24,6 +24,9 @@ export default class HiLoBetBoard extends cc.Component {
     @property(SnappedScrollView)
     snappedScrollView: SnappedScrollView = null;
 
+    @property(cc.Label)
+    currBet: cc.Label = null;
+
     @property
     movingStep = 1;
 
@@ -175,5 +178,6 @@ export default class HiLoBetBoard extends cc.Component {
             const isSelected = chip.getComponent(HiLoBetChipItem).number === bet.number ? true : false;
             chip.getComponent(HiLoBetChipItem).setSelectedBg(isSelected);
         });
+        //this.currBet.string = bet.number.string;
     }
 }
