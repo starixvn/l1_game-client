@@ -2,6 +2,7 @@ import { HiLoState } from "../events-models/HiLoState";
 import { HiLoStateModel } from "../events-models/HiLoStateModel";
 import HiLo from "../view-models/HiLo";
 import { HiloChoicesConst } from "../events-models/HiLoChoices";
+import { HiLoResultModel } from "../events-models/HiLoResultModel";
 
 export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) => {
     switch (stateModel.state) {

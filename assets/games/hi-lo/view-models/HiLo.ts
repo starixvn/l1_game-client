@@ -7,17 +7,18 @@ import { HiLoResultModel } from "../events-models/HiLoResultModel";
 import { updateStakes, updateTurnOrder, updateCard, handleResultSettle } from "../actions/HiLoDealAction";
 import HiLoStakes from "./HiLoStakes";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
-import { updateClockTime, hideClock } from "../actions/HiLoCountdownTimerAction";
+import { updateClockTime, resetCountdowmTimer, updateCountdownTimer } from "../actions/HiLoCountdownTimerAction";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { GameIds } from "../../../configs/SabaConfigs";
 import HiLoConfigs from "../events-models/HiLoConfigs";
 import { HiLoTurnModel } from "../events-models/HiLoTurnModel";
 import { HiLoStateModel } from "../events-models/HiLoStateModel";
-import { handleGameState, hideResultCard } from "../actions/HiLoBetAction";
+import { handleGameState } from "../actions/HiLoBetAction";
 import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
 import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
 import HiLoResult from "./HiLoResult";
 import GameUtils from "../../../common/GameUtils";
+import _ = require("lodash");
 
 const { ccclass, property } = cc._decorator;
 
@@ -133,21 +134,21 @@ export default class HiLo extends NewMiniGameBase {
     private registerBettingAreaEvents() {
         this.bettingAreas.forEach((area) => {
             area.node.on(BettingAreaEvents.PLACING_BET, this.onPlacingBet, this);
-            area.node.on(BettingAreaEvents.PLACING_BET, this.resetTurnTimeConfig, this);
         });
     }
 
     private registerResultEvents() {
-        this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, updateStakes(this.stakesComp));
-        this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, updateCard(this.resultComp));
-        this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, () => {
+        this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, (resultModel) => {
             this.gameData.roundCounter.change(this.gameData.resultModel.roundId);
+            updateStakes(this.stakesComp)(resultModel);
+            updateCard(this.resultComp)(resultModel);
+            updateCountdownTimer(this)(resultModel);
         });
     }
 
     private registerStatusEvents() {
-        this.gameData.statusModel.on(HiLoStatusModel.Events.CHANGE, () => {
-            handleResultSettle(this)(this.gameData.statusModel);
+        this.gameData.statusModel.on(HiLoStatusModel.Events.CHANGE, (statusModel) => {
+            handleResultSettle(this)(statusModel);
         });
     }
 
@@ -160,17 +161,8 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     private registerDurationsEvents() {
-        this.gameData.durations.on(Durations.Events.LOCKING_BET, updateClockTime(this.animatedTime));
-
         this.gameData.durations.on(Durations.Events.PLACING_BET, updateClockTime(this.animatedTime));
-
-        this.gameData.durations.on(Durations.Events.SHOW_ANIMATION, hideClock(this.animatedTime));
-
-        this.gameData.durations.on(Durations.Events.TIMEOUT, hideClock(this.animatedTime));
-        this.gameData.durations.on(Durations.Events.TIMEOUT, () => {
-            // this.enableAllBetOption(false);
-            // this.enableCollectButton(false);
-        });
+        this.gameData.durations.on(Durations.Events.TIMEOUT, resetCountdowmTimer(this));
     }
 
     private registerStateEvents() {
@@ -180,10 +172,10 @@ export default class HiLo extends NewMiniGameBase {
     private initializeBetBoard() {}
 
     onPlacingBet(betChoice: string) {
-        this.emitConnection(HiLoEvents.deal, { betChoice: betChoice });
+        this.emitEventConnection(HiLoEvents.deal, { betChoice: betChoice });
     }
 
-    protected emitConnection(eventName, data) {
+    protected emitEventConnection(eventName, data) {
         if (!this.connection || !this.isReadyBet()) {
             return;
         }
@@ -194,15 +186,6 @@ export default class HiLo extends NewMiniGameBase {
             this.lockBet();
             this.connection.emit(eventName, data);
         }
-    }
-
-    resetTurnTimeConfig() {
-        const durations = {
-            lockingBet: this.config.stopBetTime,
-            placingBet: this.config.betTime,
-            wholeRound: this.config.fullTime
-        };
-        this.gameData.durations.initialize(durations);
     }
 
     openHistory() {
@@ -224,13 +207,12 @@ export default class HiLo extends NewMiniGameBase {
 
     onPlayClick() {
         this.playClick();
-        this.emitConnection(HiLoEvents.bet, { amount: this.betAmount });
-        this.resetTurnTimeConfig();
+        this.emitEventConnection(HiLoEvents.bet, { amount: this.betAmount });
     }
 
     onCollectClick() {
         this.playClick();
-        this.emitConnection(HiLoEvents.collect, {});
+        this.emitEventConnection(HiLoEvents.collect, {});
     }
 
     enableAllBetOption(status: boolean) {
@@ -271,7 +253,35 @@ export default class HiLo extends NewMiniGameBase {
 
     showWinningBet(bet: number) {
         // TODO: overide effect
-        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
+        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, 1);
         winningBet.name = "winningBet";
+    }
+
+    showAcceptedBet(bet: number) {
+        // TODO: overide effect
+        GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
+    }
+
+    resetDataAndUI() {
+        if (this.animatedTime) {
+            this.resetCountdownTimer();
+        }
+
+        if (this.timeWaitNode) {
+            this.timeWaitNode.active = false;
+        }
+
+        if (this.statusHandler) {
+            this.statusHandler.currentStatusData = null;
+        }
+    }
+
+    resetCountdownTimer() {
+        const durations = {
+            lockingBet: 0,
+            placingBet: 0,
+            wholeRound: this.config.fullTime
+        };
+        this.gameData.durations.initialize(durations);
     }
 }
