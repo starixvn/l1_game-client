@@ -7,7 +7,7 @@ export default class HiLoEventHandler<Event, Choices> extends BaseEventHandler<E
 
     protected updateResultData(data: any) {
         this.gameData.mainGame.showProcessingWarning(false);
-        const { roundId, betwin, result, nextAmounts, remainingTime } = data;
+        const { roundId, betwin, result, nextAmounts, remainingTime, totalTurns } = data;
         const nextAmountModel = new HiLoStakeModel();
         betwin && (nextAmountModel.betWin = betwin);
         if (nextAmounts) {
@@ -18,7 +18,7 @@ export default class HiLoEventHandler<Event, Choices> extends BaseEventHandler<E
         const resultCards = result.map((c) => {
             return { rank: c.rank.toString(), suit: c.suit };
         });
-        this.gameData.resultModel.change(roundId, resultCards, nextAmountModel, remainingTime);
+        this.gameData.resultModel.change(roundId, resultCards, nextAmountModel, remainingTime, totalTurns);
         this.gameData.stateModel.deal();
         this.gameData.durations.remaining = remainingTime;
     }

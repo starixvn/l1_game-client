@@ -15,7 +15,6 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             mainGame.stakesComp.setBetWin(mainGame.betAmount);
             mainGame.stakesComp.resetHigherLowerStakes();
             mainGame.resultComp.resetNewRound();
-            mainGame.isStopSchedule = true;
             break;
         case HiLoState.IN_TURN:
             mainGame.showPlayGameButton(false);
@@ -31,14 +30,14 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
                     area.enableBetChoice(true);
                 }
             });
-            mainGame.enableCollectButton(true);
+            mainGame.enableCollectButton(mainGame.gameData.resultModel.totalTurns > 0);
             break;
         case HiLoState.SETTLED:
             mainGame.showPlayGameButton(false);
             mainGame.enableAllBetOption(false);
             mainGame.enableCollectButton(false);
+
             mainGame.resetCountdownTimer();
-            mainGame.isStopSchedule = true;
             break;
         default:
             break;

@@ -21,7 +21,6 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
     };
 
     readonly roundCounter: HiLoRoundCounter;
-    readonly ownBetModel: HiLoOwnBetModel;
     readonly configs: HiLoGameConfigs;
     readonly resultModel: HiLoResultModel;
     readonly statusModel: HiLoStatusModel;
@@ -32,7 +31,6 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
     constructor(mainGame: HiLo) {
         super();
         this.roundCounter = new HiLoRoundCounter();
-        this.ownBetModel = new HiLoOwnBetModel();
         this.resultModel = new HiLoResultModel();
         this.statusModel = new HiLoStatusModel();
         this.turnModel = new HiLoTurnModel();

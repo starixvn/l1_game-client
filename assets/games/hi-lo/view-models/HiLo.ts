@@ -22,6 +22,7 @@ import _ = require("lodash");
 import HiLoBetBoard from "./HiLoBetBoard";
 import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
 import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
+import { numberPad } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -105,7 +106,6 @@ export default class HiLo extends NewMiniGameBase {
         this.initBetBoard();
         this.addCountdownTimerSchedule();
         this.topNode.active = true;
-        this.animatedTime.setAnimatedY(15, 0);
     }
 
     onEnable() {
@@ -185,6 +185,7 @@ export default class HiLo extends NewMiniGameBase {
 
     onPlacingBet(betChoice: string) {
         this.emitEventConnection(HiLoEvents.deal, { betChoice: betChoice });
+        this.resetCountdownTimer();
     }
 
     protected emitEventConnection(eventName, data) {
@@ -291,11 +292,7 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     resetCountdownTimer() {
-        const durations = {
-            lockingBet: 0,
-            placingBet: this.config.betTime,
-            wholeRound: this.config.fullTime
-        };
-        this.gameData.durations.initialize(durations);
+        this.animatedTime.setTime(numberPad(120, 2));
+        this.isStopSchedule = true;
     }
 }
