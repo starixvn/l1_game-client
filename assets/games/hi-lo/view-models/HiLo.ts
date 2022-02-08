@@ -75,6 +75,9 @@ export default class HiLo extends NewMiniGameBase {
     @property(HiLoResult)
     resultComp: HiLoResult = null;
 
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
     gameData: HiLoGameData<HiLoChoices> = null;
     isStopSchedule = false;
     userLoseMessageDuration = 1.5;
@@ -103,6 +106,7 @@ export default class HiLo extends NewMiniGameBase {
         this.registerGameConfigsEvents();
         this.initBetBoard();
         this.addCountdownTimerSchedule();
+        //this.registerTicketHistory();
         this.topNode.active = true;
     }
 
@@ -199,6 +203,8 @@ export default class HiLo extends NewMiniGameBase {
 
     openHistory() {
         this.playClick();
+        const dialog = cc.instantiate(this.historyPrefab);
+        this.currentMiniPanel.addDialog(dialog);
     }
 
     showHideTopArea() {
