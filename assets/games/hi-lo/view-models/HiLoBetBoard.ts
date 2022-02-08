@@ -79,7 +79,6 @@ export default class HiLoBetBoard extends cc.Component {
 
     updateChips() {
         this.chipValues = GameUtils.getFilterValuesByStakeLevel(this.configValues, this.gameConfigs);
-        this.chipValues = this.gameConfigs.chips;
         this.createChips();
 
         const currentBet =
@@ -87,7 +86,7 @@ export default class HiLoBetBoard extends cc.Component {
                 ? this.currentBetValue
                 : this.chipValues[0].toString();
         const needResetScrollOffset = currentBet !== this.currentBetValue;
-
+        this.setCurrentBet(currentBet);
         this.snappedScrollView.initCalculatedPercent();
         if (needResetScrollOffset) {
             this.snappedScrollView.scroll.scrollToPercentHorizontal(0, 0.1);
@@ -112,11 +111,10 @@ export default class HiLoBetBoard extends cc.Component {
     }
 
     public onClickBet(target) {
-        const betControl = target.node.getComponent(HiLoBetChipItem);
-        const bet = betControl.number.string;
+        const bet = target.node.name;
         let i = 0;
         for (; i < this.chipList.length; i++) {
-            if (this.chipList[i].getComponent(HiLoBetChipItem).number.string === bet) {
+            if (this.chipList[i].name === bet) {
                 break;
             }
         }
@@ -163,20 +161,18 @@ export default class HiLoBetBoard extends cc.Component {
         if (this.chipList.length === 0) {
             return;
         }
-        const item = this.chipList[this.selectedIndex];
+        const item = this.chipList[this.selectedIndex].name;
         this.setCurrentBet(item);
     }
 
-    public setCurrentBet(bet: cc.Node) {
-        const control = bet.getComponent(HiLoBetChipItem);
-        this.currentBetValue = control.number.string;
-        this.updateSelectedBet(control);
-        this.onChanged(control.number.string);
+    public setCurrentBet(bet: string) {
+        this.updateSelectedBet(bet);
+        this.onChanged(bet);
     }
 
-    private updateSelectedBet(bet: HiLoBetChipItem) {
+    private updateSelectedBet(targetName: string) {
         this.betAmounts.children.forEach((chip) => {
-            const isSelected = chip.getComponent(HiLoBetChipItem).number === bet.number ? true : false;
+            const isSelected = targetName === chip.name ? true : false;
             chip.getComponent(HiLoBetChipItem).setSelectedBg(isSelected);
         });
     }
