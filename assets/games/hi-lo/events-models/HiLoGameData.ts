@@ -2,13 +2,11 @@ import { GameData } from "../../_new/_base/game-data-management/models/game-data
 import { HiLoGameConfigsHandler } from "../events-handlers/HiLoGameConfigsHandler";
 import { HiLoRoundCounter } from "./HiLoRoundCounter";
 import { HiLoOwnBetHandler } from "../events-handlers/HiLoOwnBetHandler";
-import HiLoOwnBetModel from "./HiLoOwnBetModel";
 import { HiLoResultHandler } from "../events-handlers/HiLoResultHandler";
 import { HiLoResultModel } from "./HiLoResultModel";
 import { HiLoStatusModel } from "./HiLoStatusModel";
 import { HiLoStatusHandler } from "../events-handlers/HiLoStatusHandler";
 import HiLoGameConfigs from "./HiLoGameConfigs";
-import { HiLoTurnModel } from "./HiLoTurnModel";
 import { HiLoStateModel } from "./HiLoStateModel";
 import HiLo from "../view-models/HiLo";
 
@@ -24,7 +22,6 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
     readonly configs: HiLoGameConfigs;
     readonly resultModel: HiLoResultModel;
     readonly statusModel: HiLoStatusModel;
-    readonly turnModel: HiLoTurnModel;
     readonly stateModel: HiLoStateModel;
     mainGame: HiLo;
 
@@ -33,7 +30,6 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
         this.roundCounter = new HiLoRoundCounter();
         this.resultModel = new HiLoResultModel();
         this.statusModel = new HiLoStatusModel();
-        this.turnModel = new HiLoTurnModel();
         this.stateModel = new HiLoStateModel();
         this.configs = new HiLoGameConfigs();
         this.mainGame = mainGame;

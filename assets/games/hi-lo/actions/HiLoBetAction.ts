@@ -6,15 +6,13 @@ import { HiloChoicesConst } from "../events-models/HiLoChoices";
 export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) => {
     const highestRank = "A";
     const lowestRank = "2";
+
     switch (stateModel.state) {
         case HiLoState.BLANK_NEW:
+            mainGame.resetDataAndUI();
             mainGame.showPlayGameButton(true);
-            mainGame.enableAllBetOption(false);
-            mainGame.enableCollectButton(false);
-            mainGame.resetCountdownTimer();
-            mainGame.stakesComp.setBetWin(mainGame.currentBet);
-            mainGame.stakesComp.resetHigherLowerStakes();
-            mainGame.resultComp.resetNewRound();
+            mainGame.stakesComp.resetStakes(mainGame.currentBet);
+            mainGame.resultComp.faceDownCard();
             mainGame.betBoardComp.disableBetBoard(false);
             break;
         case HiLoState.IN_TURN:
@@ -35,11 +33,9 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             mainGame.betBoardComp.disableBetBoard(true);
             break;
         case HiLoState.SETTLED:
+            mainGame.resetDataAndUI();
             mainGame.showPlayGameButton(false);
-            mainGame.enableAllBetOption(false);
-            mainGame.enableCollectButton(false);
-            mainGame.resetCountdownTimer();
-            mainGame.betBoardComp.disableBetBoard(false);
+            mainGame.betBoardComp.disableBetBoard(true);
             break;
         default:
             break;

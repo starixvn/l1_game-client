@@ -35,7 +35,6 @@ export default class SocketIOController {
             path: proxyRoute
         };
 
-        debugger;
         if (enableMsgpackParser) {
             socketOptions.parser = MsgpackParser;
         }

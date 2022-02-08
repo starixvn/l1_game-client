@@ -13,22 +13,15 @@ export default class HiLoStakes extends cc.Component {
     @property(cc.Label)
     lowerAmount: cc.Label = null;
 
-    updateHigherLowerStakes(data: HiLoStakeModel) {
+    updateStakes(data: HiLoStakeModel) {
         this.higherAmount.string = numberWithCommas(data.higherAmount);
         this.lowerAmount.string = numberWithCommas(data.lowerAmount);
+        data.betWin && (this.betWin.string = numberWithCommas(data.betWin));
     }
 
-    updateAllStakes(data: HiLoStakeModel) {
-        this.updateHigherLowerStakes(data);
-        this.setBetWin(data.betWin);
-    }
-
-    resetHigherLowerStakes() {
+    resetStakes(betAmount: number) {
         this.higherAmount.string = "";
         this.lowerAmount.string = "";
-    }
-
-    setBetWin(amount: number) {
-        this.betWin.string = numberWithCommas(amount);
+        this.betWin.string = numberWithCommas(betAmount);
     }
 }

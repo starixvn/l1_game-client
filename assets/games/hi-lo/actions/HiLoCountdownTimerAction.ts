@@ -14,10 +14,6 @@ export const updateClockTime =
         clock.setRedTime(10);
     };
 
-export const resetCountdowmTimer = (mainGame: HiLo) => () => {
-    mainGame.resetCountdownTimer();
-};
-
 export const updateCountdownTimer = (mainGame: HiLo) => (resultModel: HiLoResultModel) => {
     const durations = {
         lockingBet: 0,

@@ -26,7 +26,7 @@ export default class HiLoResult extends cc.Component {
         this.cardComponent.faceUp();
     }
 
-    resetNewRound() {
+    faceDownCard() {
         this.cardComponent.faceDown();
     }
 }
