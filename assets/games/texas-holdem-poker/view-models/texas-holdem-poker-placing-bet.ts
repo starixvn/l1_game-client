@@ -158,27 +158,27 @@ export default class TexasHoldemPokerPlacingBet {
         });
     }
 
-    rebet() {
-        const currentTotal = Object.keys(this.gameData.placeBetModel.previousChoices).reduce((sum, current) => {
-            return sum + this.gameData.placeBetModel.previousChoices[current];
-        }, 0);
-        if (
-            validateAccountBalance({
-                chipAmount: 0,
-                currentBettedAmount: currentTotal,
-                userBalance: this.gameBase.getUserBalance(),
-                showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
-            })
-        ) {
-            this.gameData.receiveUIData({
-                rebet: { choices: this.gameData.placeBetModel.previousChoices }
-            });
-        } else {
-            this.gameData.receiveUIData({
-                replayNew: {}
-            });
-        }
-    }
+    // rebet() {
+    //     const currentTotal = Object.keys(this.gameData.placeBetModel.previousChoices).reduce((sum, current) => {
+    //         return sum + this.gameData.placeBetModel.previousChoices[current];
+    //     }, 0);
+    //     if (
+    //         validateAccountBalance({
+    //             chipAmount: 0,
+    //             currentBettedAmount: currentTotal,
+    //             userBalance: this.gameBase.getUserBalance(),
+    //             showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
+    //         })
+    //     ) {
+    //         this.gameData.receiveUIData({
+    //             rebet: { choices: this.gameData.placeBetModel.previousChoices }
+    //         });
+    //     } else {
+    //         this.gameData.receiveUIData({
+    //             replayNew: {}
+    //         });
+    //     }
+    // }
 
     rebetAndDeal() {
         const currentTotal = Object.keys(this.gameData.placeBetModel.previousChoices).reduce((sum, current) => {

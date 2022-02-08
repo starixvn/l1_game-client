@@ -469,7 +469,7 @@ window.i18n.languages.en = {
         md5Key: "string result"
     },
     texasPoker: {
-        Odds: "ODDS",
+        OddsTitle: "Call/Turn/River",
         straight: "Straight",
         royalFlush: "Royal Flush",
         straightFlush: "Straight Flush",
@@ -490,8 +490,8 @@ window.i18n.languages.en = {
         clear: "Clear",
         straightOrHigher: "Straight or higher:",
         lowerThanStraight: "Lower than Straight:",
-        leftTableOddIntro: "if player's hand beats\n the dealer's hand:",
-        leftTableOddTitle: "*Ante Bet:",
+        leftTableOddIntro: "If player's hand beats\n the dealer's hand:",
+        leftTableOddTitle: "Ante Bet:",
         check: "Check",
         pay: "Pay",
         push: "Push",
