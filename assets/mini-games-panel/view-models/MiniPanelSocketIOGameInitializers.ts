@@ -3,6 +3,7 @@ import AudioManager from "../../common/audio/AudioManager";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
+import { enableMsgpackParserOnGame } from "../../configs/Configs";
 
 export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIOInitializers {
     public openGame(gameId) {
@@ -32,7 +33,8 @@ export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIO
                 this.main.onConnectSocketFailed.bind(this.main),
                 true,
                 true,
-                null
+                null,
+                enableMsgpackParserOnGame?.[gameId]
             );
             this.handleSocket(socket, gameId);
         });

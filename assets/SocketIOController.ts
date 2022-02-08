@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
-import { io, Socket } from "socket.io-client";
+import { io, Socket, ManagerOptions, SocketOptions } from "socket.io-client";
+import MsgpackParser from "socket.io-msgpack-parser";
 
 import { getSession } from "./common/auth/SessionManager";
 import { sentryLogger } from "./common/logger.js";
@@ -24,14 +25,22 @@ export default class SocketIOController {
         onConnectFailed: (gameName, isGameRoom) => void,
         isGameRoom: boolean,
         forceNew: boolean,
-        gameContainer: any
+        gameContainer: any,
+        enableMsgpackParser = false
     ): Socket => {
-        const socket = io(socketUri, {
+        const socketOptions: Partial<ManagerOptions & SocketOptions> = {
             forceNew: forceNew,
             transports: ["websocket"],
             upgrade: false,
             path: proxyRoute
-        });
+        };
+
+        debugger;
+        if (enableMsgpackParser) {
+            socketOptions.parser = MsgpackParser;
+        }
+
+        const socket = io(socketUri, socketOptions);
 
         const needCallCallback = !gameContainer || gameContainer.isMain;
         let name = gameName;

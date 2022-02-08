@@ -3,8 +3,8 @@ import { Socket } from "socket.io-client";
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
 import GameUtils from "../../common/GameUtils";
 import { GameIds, GameInfos } from "../../configs/SabaConfigs";
-import SabaConfigs = require("../../configs/SabaConfigs");
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
+import { enableMsgpackParserOnGame } from "../../configs/Configs";
 
 export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInitializers {
     showGame(node: cc.Node) {
@@ -45,7 +45,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                     }
 
                     const node = cc.instantiate(prefab);
-                    const componentName = gameId === SabaConfigs.GameIds.KenoProViet ? "KenoProViet" : "GameBase";
+                    const componentName = gameId === GameIds.KenoProViet ? "KenoProViet" : "GameBase";
                     const gameComponent = node.getComponent(componentName);
                     gameComponent.initMiniPanel(this.main);
                     this.main.addMiniGame(gameComponent, gameId);
@@ -95,6 +95,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     setUpSocketForGame(gameName: string, gameId: number, forceNew: boolean, gameContainer: any): Socket {
         const proxyRoute = getProxyRoute(gameId);
         const gameServerUrl = buildServerUrl("http", "", gameId);
+        console.log(enableMsgpackParserOnGame);
         const socket = this.socketIOController.connectGameSocket(
             gameServerUrl,
             gameName,
@@ -108,7 +109,8 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             },
             false,
             forceNew,
-            gameContainer
+            gameContainer,
+            enableMsgpackParserOnGame?.[gameId]
         );
 
         this.handleSocket(socket, gameId);
