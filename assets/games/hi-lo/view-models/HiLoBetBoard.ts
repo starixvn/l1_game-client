@@ -66,6 +66,9 @@ export default class HiLoBetBoard extends cc.Component {
         this.disableLayer.active = status;
         this.prevButton.active = !status;
         this.nextButton.active = !status;
+        if (this.selectedIndex <= 0) {
+            this.prevButton.active = false;
+        }
     }
 
     setChipValues(gameConfigs: any) {
@@ -86,6 +89,7 @@ export default class HiLoBetBoard extends cc.Component {
                 ? this.currentBetValue
                 : this.chipValues[0].toString();
         const needResetScrollOffset = currentBet !== this.currentBetValue;
+        this.prevButton.active = false;
         this.setCurrentBet(currentBet);
         this.snappedScrollView.initCalculatedPercent();
         if (needResetScrollOffset) {
