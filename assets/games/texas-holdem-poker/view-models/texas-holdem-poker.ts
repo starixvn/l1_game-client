@@ -75,9 +75,6 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     doubleButton: cc.Node = null;
 
     @property(cc.Node)
-    reBetButton: cc.Node = null;
-
-    @property(cc.Node)
     reBetAndDealButton: cc.Node = null;
 
     @property(cc.Node)
@@ -235,9 +232,6 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.checkRiverButton.getComponent(NewButton).callback.selected = () =>
             !this.checkRiverButton.getChildByName(disableButton).active && this.onCheckRiverClick();
 
-        // this.reBetButton.getComponent(NewButton).callback.selected = () =>
-        //     !this.reBetButton.getChildByName(disableButton).active && this.onRebetClick();
-
         this.reBetAndDealButton.getComponent(NewButton).callback.selected = () =>
             !this.reBetAndDealButton.getChildByName(disableButton).active && this.onRebetAndDeal();
 
@@ -338,7 +332,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
 
         this.gameData?.settlement.on(TexasHoldemPokerSettlement.Events.START_AUTO_CHECK, () => {
             this.turnButton.active = this.checkTurnButton.active = this.riverButton.active = this.checkRiverButton.active = false;
-            this.reBetAndDealButton.active = this.reBetButton.active = this.newButton.active = false;
+            this.reBetAndDealButton.active = this.newButton.active = false;
             dealFourAndFireCardAndFaceUpDealerCards(this.pokerCardScript, this.gameData.autoSettleModel, () => {
                 this.gameData?.settlement.finishShowCards();
             });
@@ -467,16 +461,13 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.placingBet.handleClickButtonNoneBet(TexasHoldemPokerChoicesConst.checkRiver);
     }
 
-    // onRebetClick() {
-    //     this.playClick();
-    //     this.hideButtonPrepareNewRound();
-    //     collectCards(this.pokerCardScript, () => this.placingBet && this.placingBet.rebet());
-    // }
-
     onRebetAndDeal() {
         this.playClick();
         this.hideButtonPrepareNewRound();
         collectCards(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
+        clearAllBetChips(this.bettingAreas)();
+        this.texasHoldemPokerChips.stopWinningEffect();
+        this.clearWinningBet();
     }
 
     onNewButtonClick() {
@@ -490,6 +481,9 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
                     new: {}
                 })
         );
+        clearAllBetChips(this.bettingAreas)();
+        this.texasHoldemPokerChips.stopWinningEffect();
+        this.clearWinningBet();
     }
 
     onFoldClick() {
@@ -498,7 +492,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     }
 
     private hideButtonPrepareNewRound() {
-        this.reBetAndDealButton.active = this.reBetButton.active = this.newButton.active = false;
+        this.reBetAndDealButton.active = this.newButton.active = false;
     }
 
     playStartGameAudio() {

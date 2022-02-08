@@ -13,25 +13,25 @@ export const showHideButtons = (main: TexasHoldemPoker) => (stateModel: TexasHol
     switch (stateModel.state) {
         case TexasHoldemPokerState.ante_bet:
             main.dealButton.active = main.cancelButton.active = main.doubleButton.active = true;
-            main.reBetButton.active = main.reBetAndDealButton.active = main.newButton.active = false;
+            main.reBetAndDealButton.active = main.newButton.active = false;
             break;
         case TexasHoldemPokerState.blank_new:
             main.dealButton.active = main.cancelButton.active = main.doubleButton.active = false;
-            main.reBetAndDealButton.active = main.reBetButton.active = main.newButton.active = false;
+            main.reBetAndDealButton.active = main.newButton.active = false;
             break;
         case TexasHoldemPokerState.prepare_new:
-            main.reBetAndDealButton.active = main.reBetButton.active = main.newButton.active = true;
+            main.reBetAndDealButton.active = main.newButton.active = true;
             main.callButton.active = main.foldButton.active = false;
             main.dealButton.active = main.doubleButton.active = main.cancelButton.active = false;
             break;
         case TexasHoldemPokerState.replay_new:
-            main.reBetAndDealButton.active = main.reBetButton.active = true;
+            main.reBetAndDealButton.active = true;
             main.callButton.active = main.foldButton.active = false;
             main.dealButton.active = main.doubleButton.active = main.cancelButton.active = main.newButton.active = false;
             break;
         case TexasHoldemPokerState.calling_deal:
             main.dealButton.active = main.doubleButton.active = main.cancelButton.active = false;
-            main.reBetAndDealButton.active = main.reBetButton.active = main.newButton.active = false;
+            main.reBetAndDealButton.active = main.newButton.active = false;
             break;
         case TexasHoldemPokerState.dealing:
             break;
