@@ -9,6 +9,8 @@ import { HiLoStatusHandler } from "../events-handlers/HiLoStatusHandler";
 import HiLoGameConfigs from "./HiLoGameConfigs";
 import { HiLoStateModel } from "./HiLoStateModel";
 import HiLo from "../view-models/HiLo";
+import HiLoTicketHistoryModel from "./HiLoTicketHistoryModel";
+import { HiLoTicketHistoryHandler } from "../events-handlers/HiLoTicketHistoryHandler";
 
 export default class HiLoGameData<Choices> extends GameData<Choices> {
     static Events = {
@@ -23,6 +25,7 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
     readonly resultModel: HiLoResultModel;
     readonly statusModel: HiLoStatusModel;
     readonly stateModel: HiLoStateModel;
+    readonly ticketHistory: HiLoTicketHistoryModel;
     mainGame: HiLo;
 
     constructor(mainGame: HiLo) {
@@ -32,11 +35,12 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
         this.statusModel = new HiLoStatusModel();
         this.stateModel = new HiLoStateModel();
         this.configs = new HiLoGameConfigs();
+        this.ticketHistory = new HiLoTicketHistoryModel();
         this.mainGame = mainGame;
     }
 
     protected registerEventHandlers() {
-        const handlers = [HiLoGameConfigsHandler, HiLoOwnBetHandler, HiLoResultHandler, HiLoStatusHandler];
+        const handlers = [HiLoTicketHistoryHandler, HiLoGameConfigsHandler, HiLoOwnBetHandler, HiLoResultHandler, HiLoStatusHandler];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
 }

@@ -22,13 +22,17 @@ import HiLoBetBoard from "./HiLoBetBoard";
 import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
 import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 import { numberPad } from "../../../common/helpers/NumberHelper";
+import HiLoTicketHistoryModel from "../events-models/HiLoTicketHistoryModel";
+import { updateTicketHistory } from "../actions/HiLoTicketHistoryAction";
+import HiLoTicketHistory from "./HiLoTicketHistory";
 
 const { ccclass, property } = cc._decorator;
 
 export const HiLoEvents = {
     bet: "bet",
     collect: "collect",
-    deal: "deal"
+    deal: "deal",
+    history: "getHistory"
 };
 @ccclass
 export default class HiLo extends NewMiniGameBase {
@@ -83,6 +87,7 @@ export default class HiLo extends NewMiniGameBase {
     randomCardDuration = 1.5;
     settleAnimation = 1;
     betBoardComp: HiLoBetBoard;
+    ticketHistoryComp: HiLoTicketHistory;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -103,7 +108,7 @@ export default class HiLo extends NewMiniGameBase {
         this.registerGameConfigsEvents();
         this.initBetBoard();
         this.addCountdownTimerSchedule();
-        //this.registerTicketHistory();
+        this.registerTicketHistoryEvent();
         this.topNode.active = true;
     }
 
@@ -176,6 +181,10 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData.configs.on(HiLoGameConfigs.Events.CHANGE, updateGameConfigs(this));
     }
 
+    private registerTicketHistoryEvent() {
+        this.gameData.ticketHistory.on(HiLoTicketHistoryModel.Events.CHANGE, updateTicketHistory(this));
+    }
+
     onPlacingBet(betChoice: string) {
         this.emitEventConnection(HiLoEvents.deal, { betChoice: betChoice });
         this.resetCountdownTimer();
@@ -196,8 +205,14 @@ export default class HiLo extends NewMiniGameBase {
 
     openHistory() {
         this.playClick();
+        this.initHistory();
         const dialog = cc.instantiate(this.historyPrefab);
+        this.ticketHistoryComp = dialog.getComponent(HiLoTicketHistory);
         this.currentMiniPanel.addDialog(dialog);
+    }
+
+    private initHistory(page = 1) {
+        this.emitEventConnection(HiLoEvents.history, { page });
     }
 
     showHideTopArea() {
