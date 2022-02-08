@@ -10,7 +10,7 @@ export default class TexasHoldemPokerOdds extends cc.Component {
     @property(cc.Label)
     oddValue: cc.Label = null;
 
-    @property({ type: cc.String })
+    @property()
     key = "";
 
     set OddValue(value: number) {

@@ -1,15 +1,8 @@
 import { cloneDeep } from "lodash";
-
 import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
 
-/* import * as _ from "lodash";
-import { HoldemPokerCardModel } from "../event-models/HoldemPokerCardModel";
-import HoldemPokerChoices from "../event-models/HoldemPokerChoices";
-import { CardResult, HoldemPokerCombinationResult } from "../event-models/HoldemPokerCombinationResult";
-import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData"; */
-/* import TexasHoldemPokerOwnBet from "../event-models/texas-holdem-poker-own-bet-model";
- */ export type TexasHoldemPokerOwnBetType = {
+export type TexasHoldemPokerOwnBetType = {
     ownBets: {
         roundId: number;
         bets: Record<string, number>;

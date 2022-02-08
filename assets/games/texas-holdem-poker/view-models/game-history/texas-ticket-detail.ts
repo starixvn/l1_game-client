@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { TexasHoldemPokerTicketDetailModel } from "../../event-models/texas-holdem-poker-ticket-detail-model";
-import TexasHoldemPokerCard, { CardModel } from "../../texas-cards-component/view-models/texas-holdem-poker-card";
+// import TexasHoldemPokerCard, { CardModel } from "../../texas-cards-component/view-models/texas-holdem-poker-card";
 import TexasTicketDetailItem, { TicketDetailItem } from "./texas-ticket-detail-item";
 
 const { ccclass, property, menu } = cc._decorator;
@@ -218,13 +218,13 @@ export default class TexasTicketDetail extends cc.Component {
     }
 
     private createCard(card: CardModel, scaleX: number, scaleY: number, isFaceUp = true): cc.Node {
-        const node = cc.instantiate(this.pokerCardPrefab);
-        const cardComponent = node.getComponent(TexasHoldemPokerCard);
-        cardComponent.setCard(card);
-        cardComponent.setCardHistory(isFaceUp);
-        node.scaleX = scaleX;
-        node.scaleY = scaleY;
-        return node;
+        // const node = cc.instantiate(this.pokerCardPrefab);
+        // const cardComponent = node.getComponent(TexasHoldemPokerCard);
+        // cardComponent.setCard(card);
+        // cardComponent.setCardHistory(isFaceUp);
+        // node.scaleX = scaleX;
+        // node.scaleY = scaleY;
+        // return node;
     }
 
     onDisable() {

@@ -49,9 +49,6 @@ export default class TexasHoldemPokerCards extends cc.Component {
     @property(cc.Node)
     cardDropPlace: cc.Node = null;
 
-    @property(cc.Node)
-    takeCardsPlace: cc.Node = null;
-
     @property(cc.AudioSource)
     cardSlideAudioSource: cc.AudioSource = null;
 
@@ -209,7 +206,6 @@ export default class TexasHoldemPokerCards extends cc.Component {
 
     private collectCards(containerCards: HoldemPokerHandPlace) {
         const delayBeforeFlyToDealer = 0.4;
-        const durationFlyToDealer = 0.3;
         const durationJumpToBoxCard = 0.5;
 
         const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
@@ -220,20 +216,14 @@ export default class TexasHoldemPokerCards extends cc.Component {
 
         if (!cardsNodes.length) return;
         const destPosition = cardsNodes[0].parent.convertToNodeSpaceAR(worldPosition);
-        const takeCardPlace = this.takeCardsPlace;
-        const dealerTakeCardPosition = takeCardPlace.getPosition();
 
-        const flyCardToDealer = (cardNode: cc.Node) => {
-            const destination = cardNode.parent.convertToNodeSpaceAR(
-                takeCardPlace.convertToWorldSpaceAR(cc.v2(dealerTakeCardPosition.x, dealerTakeCardPosition.y + cardHeight))
-            );
-
+        const flyCardToDropPlace = (cardNode: cc.Node) => {
             cc.tween(cardNode)
-                .to(durationFlyToDealer, { position: cc.v3(destination.x, destination.y, takeCardPlace.z) })
                 .call(() => cardNode.removeAllChildren())
                 .removeSelf()
                 .start();
         };
+
         cardsNodes.forEach((cardNode) => {
             cardHeight += increment;
             const destination = cc.v2(destPosition.x, destPosition.y + cardHeight);
@@ -245,7 +235,7 @@ export default class TexasHoldemPokerCards extends cc.Component {
                 })
                 .parallel(cc.jumpTo(durationJumpToBoxCard, destination, 100, 1), cc.rotate3DTo(0.1, cc.v3(25, -5, 0)), cc.scaleTo(0.1, 0.8))
                 .delay(delayBeforeFlyToDealer)
-                .call(() => flyCardToDealer(cardNode))
+                .call(() => flyCardToDropPlace(cardNode))
                 .start();
         });
     }
