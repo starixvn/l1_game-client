@@ -17,9 +17,16 @@ export default class HiLoResult extends cc.Component {
     resultContainer: cc.Node = null;
 
     private itemHeight = 0;
+    private spinNumber = 0;
     private resultCardComp: NewCard;
     private animationCards: NewCard[] = [];
     private animationCardValues: CardModel[] = [
+        { rank: "J", suit: 3 },
+        { rank: "4", suit: 1 },
+        { rank: "10", suit: 0 },
+        { rank: "6", suit: 2 },
+        { rank: "9", suit: 1 },
+        { rank: "2", suit: 3 },
         { rank: "3", suit: 1 },
         { rank: "8", suit: 2 },
         { rank: "K", suit: 0 },
@@ -34,6 +41,8 @@ export default class HiLoResult extends cc.Component {
 
     onLoad() {
         this.createReel();
+        this.resultContainer.zIndex = this.spinNumber / 2 ? 0 : 1;
+        this.randomContainer.zIndex = this.spinNumber / 2 ? 0 : 1;
     }
 
     createReel() {
@@ -95,21 +104,44 @@ export default class HiLoResult extends cc.Component {
     }
 
     spin(spinDuration: number, animated: boolean) {
-        this.cardReel.position = cc.v3(0, 0, 0);
+        this.spinNumber += 1;
         this.animationCards.forEach((card, index) => {
             card.faceUp();
         });
 
-        const offset = -(this.cardReel.height - this.itemHeight);
         if (animated) {
+            let resultDuration = 0;
+            if (this.spinNumber % 2 != 0) {
+                this.randomContainer.opacity = 0;
+                resultDuration = 0.3;
+                cc.tween(this.resultContainer)
+                    .to(resultDuration, { position: cc.v3(this.resultContainer.x, -this.resultContainer.height, 0) }, { easing: "sineIn" })
+                    .start();
+            }
             cc.tween(this.cardReel)
+                .delay(this.spinNumber % 2 != 0 ? resultDuration : 0)
                 .call(() => {
-                    this.animationCards[this.animationCards.length - 1].faceUp();
+                    this.randomContainer.opacity = 255;
+                    this.randomContainer.position = cc.v3(0, 0, 0);
+                    const offset = this.randomContainer.height;
+                    this.resultContainer.position = cc.v3(0, this.resultContainer.height, 0);
+                    cc.tween(this.randomContainer)
+                        .to(spinDuration, { position: cc.v3(this.randomContainer.x, -offset, 0) }, { easing: "sineOut" })
+                        .start();
                 })
-                .to(spinDuration, { position: cc.v3(this.cardReel.x, offset, 0) }, { easing: "sineIn" })
+                .delay((spinDuration / this.animationCards.length) * (this.animationCards.length - 2) + resultDuration)
+                .call(() => {
+                    cc.tween(this.resultContainer)
+                        .to(
+                            spinDuration / this.animationCards.length,
+                            { position: cc.v3(this.resultContainer.x, 0, 0) },
+                            { easing: "sineIn" }
+                        )
+                        .start();
+                })
                 .start();
         } else {
-            this.cardReel.position = cc.v3(this.cardReel.x, offset, 0);
+            // this.cardReel.position = cc.v3(this.cardReel.x, offset, 0);
         }
     }
 }

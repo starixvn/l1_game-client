@@ -77,9 +77,11 @@ export default class HiLo extends NewMiniGameBase {
 
     gameData: HiLoGameData<HiLoChoices> = null;
     isStopSchedule = false;
-    userLoseMessageDuration = 1.5;
-    spinCardDuration = 1.5;
-    settleAnimation = 1;
+    loseMessageEffectDuration = 1.5;
+    newRoundAfterLossDelayTime = 2.5;
+    winningEffectDuration = 1;
+    deductingAmountEffectDuration = 1;
+    spinCardsEffectDuration = 1.5;
     betBoardComp: HiLoBetBoard;
     ticketHistoryComp: HiLoTicketHistory;
 
@@ -248,35 +250,29 @@ export default class HiLo extends NewMiniGameBase {
         this.collectButton && (this.collectButton.node.getChildByName("disabled-layer").active = !status);
     }
 
-    showUserLoseMessage(status: boolean, animated = true) {
+    showUserLoseMessage(animated = true) {
         if (animated) {
-            this.userLose.opacity = status ? 0 : 255;
-            this.userLose.scale = status ? 0 : 1;
-            if (status) {
-                cc.tween(this.userLose)
-                    .to(0.3, { opacity: 255, scale: 1 }, { easing: "sineOut" })
-                    .delay(this.userLoseMessageDuration)
-                    .call(() => {
-                        cc.tween(this.userLose).to(0.1, { opacity: 0, scale: 0 }, { easing: "sineIn" }).start();
-                    })
-                    .start();
-            } else {
-                cc.tween(this.userLose).to(0.3, { opacity: 0, scale: 0 }, { easing: "sineIn" }).start();
-            }
+            this.userLose.opacity = 0;
+            this.userLose.scale = 0;
+            const showMessageDuration = 0.3;
+            const hideMessageDuration = 0.1;
+            cc.tween(this.userLose)
+                .delay(this.spinCardsEffectDuration - showMessageDuration)
+                .to(showMessageDuration, { opacity: 255, scale: 1 }, { easing: "sineOut" })
+                .delay(this.loseMessageEffectDuration)
+                .call(() => {
+                    cc.tween(this.userLose).to(hideMessageDuration, { opacity: 0, scale: 0 }, { easing: "sineIn" }).start();
+                })
+                .start();
         } else {
-            if (status) {
-                this.userLose.opacity = 255;
-                this.userLose.scale = 1;
-            } else {
-                this.userLose.opacity = 0;
-                this.userLose.scale = 0;
-            }
+            this.userLose.opacity = 255;
+            this.userLose.scale = 1;
         }
     }
 
     showWinningBet(bet: number) {
         // TODO: overide effect
-        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, 1);
+        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, this.winningEffectDuration);
         winningBet.name = "winningBet";
     }
 

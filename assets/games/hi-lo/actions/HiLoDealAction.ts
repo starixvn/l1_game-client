@@ -1,7 +1,6 @@
 import HiLoStakes from "../view-models/HiLoStakes";
 import HiLo from "../view-models/HiLo";
 import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
-import HiLoResult from "../view-models/HiLoResult";
 import { HiLoResultModel } from "../events-models/HiLoResultModel";
 import main = require("../../../../packages/i18n/main");
 
@@ -11,13 +10,13 @@ export const updateStakes = (stakeComp: HiLoStakes) => (resultModel: HiLoResultM
 
 export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) => {
     if (!statusModel.win) {
-        mainGame.showUserLoseMessage(true);
+        mainGame.showUserLoseMessage();
     }
 
     mainGame.enableAllBetOptions(false);
     mainGame.enableCollectButton(false);
     cc.tween(mainGame)
-        .delay(mainGame.settleAnimation)
+        .delay(statusModel.win ? mainGame.winningEffectDuration : mainGame.loseMessageEffectDuration + mainGame.spinCardsEffectDuration)
         .call(() => {
             mainGame.gameData.stateModel.prepareNewRound();
         })
@@ -27,9 +26,9 @@ export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) =
 export const updateCard = (mainGame: HiLo) => (resultModel: HiLoResultModel) => {
     if (resultModel.result.length > 0) {
         if (resultModel.remainingTime > mainGame.config.betTime) {
-            mainGame.resultComp.spin(mainGame.spinCardDuration, true);
+            mainGame.resultComp.spin(mainGame.spinCardsEffectDuration, true);
         } else {
-            mainGame.resultComp.spin(mainGame.spinCardDuration, false);
+            mainGame.resultComp.spin(mainGame.spinCardsEffectDuration, false);
         }
         mainGame.resultComp.updateResult(resultModel.result[resultModel.result.length - 1]);
     }
