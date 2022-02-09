@@ -14,14 +14,14 @@ export default class HiLoStakes extends cc.Component {
     lowerAmount: cc.Label = null;
 
     updateStakes(data: HiLoStakeModel) {
-        this.higherAmount.string = numberWithCommas(data.higherAmount);
-        this.lowerAmount.string = numberWithCommas(data.lowerAmount);
-        data.betWin && (this.betWin.string = numberWithCommas(data.betWin));
+        this.higherAmount.string = numberWithCommas(data.higherAmount, 2);
+        this.lowerAmount.string = numberWithCommas(data.lowerAmount, 2);
+        data.betWin && (this.betWin.string = numberWithCommas(data.betWin, 2));
     }
 
     resetStakes(betAmount: number) {
         this.higherAmount.string = "";
         this.lowerAmount.string = "";
-        this.betWin.string = numberWithCommas(betAmount);
+        this.betWin.string = numberWithCommas(betAmount, 2);
     }
 }

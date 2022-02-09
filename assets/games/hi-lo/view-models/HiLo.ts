@@ -57,12 +57,6 @@ export default class HiLo extends NewMiniGameBase {
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    resultAnimation: cc.Node = null;
-
-    @property(cc.Node)
-    cardContainer: cc.Node = null;
-
     @property(cc.Button)
     playButton: cc.Button = null;
 
@@ -84,7 +78,7 @@ export default class HiLo extends NewMiniGameBase {
     gameData: HiLoGameData<HiLoChoices> = null;
     isStopSchedule = false;
     userLoseMessageDuration = 1.5;
-    randomCardDuration = 1.5;
+    spinCardDuration = 1.5;
     settleAnimation = 1;
     betBoardComp: HiLoBetBoard;
     ticketHistoryComp: HiLoTicketHistory;
@@ -151,7 +145,7 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, (resultModel) => {
             this.gameData.roundCounter.change(this.gameData.resultModel.roundId);
             updateStakes(this.stakesComp)(resultModel);
-            updateCard(this.resultComp)(resultModel);
+            updateCard(this)(resultModel);
             updateCountdownTimer(this)(resultModel);
         });
     }

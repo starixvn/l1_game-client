@@ -12,7 +12,7 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             mainGame.resetDataAndUI();
             mainGame.showPlayGameButton(true);
             mainGame.stakesComp.resetStakes(mainGame.currentBet);
-            mainGame.resultComp.faceDownCard();
+            mainGame.resultComp.faceDownCards();
             mainGame.betBoardComp.disableBetBoard(false);
             break;
         case HiLoState.IN_TURN:
