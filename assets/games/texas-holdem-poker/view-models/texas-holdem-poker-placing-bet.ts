@@ -1,17 +1,10 @@
 import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
-import TexasHoldemPokerChoices, {
-  BetActionConst,
-  TexasHoldemPokerChoicesConst,
-} from "../event-models/texas-holdem-poker-choices";
+import TexasHoldemPokerChoices, { BetActionConst, TexasHoldemPokerChoicesConst } from "../event-models/texas-holdem-poker-choices";
 import { TexasHoldemPokerState } from "../event-models/texas-holdem-poker-constant";
 import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
-import {
-  validateAccountBalance,
-  validateAccountBalanceForFullRound,
-  validateBet,
-} from "./texas-holdem-poker-validate-placing-bet";
+import { validateAccountBalance, validateAccountBalanceForFullRound, validateBet } from "./texas-holdem-poker-validate-placing-bet";
 
 export default class TexasHoldemPokerPlacingBet {
     private readonly gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
@@ -47,9 +40,11 @@ export default class TexasHoldemPokerPlacingBet {
                         betChoice: betChoice,
                         showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes),
                         minBet: this.gameData.configs.minBet,
-                        maxBetPerChoice: this.gameData.configs.maxBetChoices[betChoice],
-                        maxBetPerRound: this.gameData.configs.maxBet,
-                        waitingProcessing: this.gameBase.waitingProcessing
+                        maxBetPerChoice: this.gameData.placeBetModel.choices[betChoice],
+                        maxBetPerRound: this.gameBase.getMaxBet(),
+                        waitingProcessing: this.gameBase.waitingProcessing,
+                        getMaxBetAndStakePerChoice: this.getMaxBetAndStakePerChoice.bind(this),
+                        minBetPerRound: this.gameBase.getMinBet()
                     }) &&
                     validateAccountBalance({
                         chipAmount: betAmount,
@@ -75,9 +70,11 @@ export default class TexasHoldemPokerPlacingBet {
                 betChoice: betChoice,
                 showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes),
                 minBet: this.gameData.configs.minBet,
-                maxBetPerChoice: this.gameData.configs.maxBetChoices[betChoice],
-                maxBetPerRound: this.gameData.configs.maxBet,
-                waitingProcessing: this.gameBase.waitingProcessing
+                maxBetPerChoice: this.gameData.placeBetModel.choices[betChoice],
+                maxBetPerRound: this.gameBase.getMaxBet(),
+                waitingProcessing: this.gameBase.waitingProcessing,
+                getMaxBetAndStakePerChoice: this.getMaxBetAndStakePerChoice.bind(this),
+                minBetPerRound: this.gameBase.getMinBet()
             }) &&
             validateAccountBalance({
                 chipAmount: betAmount,
@@ -107,8 +104,10 @@ export default class TexasHoldemPokerPlacingBet {
                 showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes),
                 minBet: this.gameData.configs.minBet,
                 maxBetPerChoice: this.gameData.configs.maxBetChoices[betChoice],
-                maxBetPerRound: this.gameData.configs.maxBet,
-                waitingProcessing: this.gameBase.waitingProcessing
+                maxBetPerRound: this.gameBase.getMaxBet(),
+                waitingProcessing: this.gameBase.waitingProcessing,
+                getMaxBetAndStakePerChoice: this.getMaxBetAndStakePerChoice.bind(this),
+                minBetPerRound: this.gameBase.getMinBet()
             }) &&
             validateAccountBalance({
                 chipAmount: betAmount,
@@ -158,28 +157,6 @@ export default class TexasHoldemPokerPlacingBet {
         });
     }
 
-    // rebet() {
-    //     const currentTotal = Object.keys(this.gameData.placeBetModel.previousChoices).reduce((sum, current) => {
-    //         return sum + this.gameData.placeBetModel.previousChoices[current];
-    //     }, 0);
-    //     if (
-    //         validateAccountBalance({
-    //             chipAmount: 0,
-    //             currentBettedAmount: currentTotal,
-    //             userBalance: this.gameBase.getUserBalance(),
-    //             showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
-    //         })
-    //     ) {
-    //         this.gameData.receiveUIData({
-    //             rebet: { choices: this.gameData.placeBetModel.previousChoices }
-    //         });
-    //     } else {
-    //         this.gameData.receiveUIData({
-    //             replayNew: {}
-    //         });
-    //     }
-    // }
-
     rebetAndDeal() {
         const currentTotal = Object.keys(this.gameData.placeBetModel.previousChoices).reduce((sum, current) => {
             return sum + this.gameData.placeBetModel.previousChoices[current];
@@ -205,5 +182,9 @@ export default class TexasHoldemPokerPlacingBet {
                 replayNew: {}
             });
         }
+    }
+
+    private getMaxBetAndStakePerChoice(betChoice: string): number {
+        return Math.min(this.gameData.configs.maxBetChoices[TexasHoldemPokerChoicesConst[betChoice]], this.gameBase.getMaxBet());
     }
 }

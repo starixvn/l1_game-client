@@ -6,13 +6,13 @@ export const validateAccountBalance = (props: {
     chipAmount: number;
     currentBettedAmount: number;
     userBalance: number;
-    showMiniWarningFunc: () => void;
+    showMiniWarningFunc: (data: any) => void;
 }): boolean => {
     const { chipAmount, currentBettedAmount, userBalance, showMiniWarningFunc } = props;
     const conditions: { condition: boolean; message?: string; hasIcon?: boolean }[] = [
         {
             condition: isNotEnoughMoney(userBalance, chipAmount, currentBettedAmount),
-            message: i18n.t("common.notEnoughMoney")
+            message: i18n.t("messages.notEnoughMoney")
         }
     ];
 
@@ -23,13 +23,13 @@ export const validateAccountBalanceForFullRound = (props: {
     chipAmount: number;
     currentBettedAmount: number;
     userBalance: number;
-    showMiniWarningFunc: () => void;
+    showMiniWarningFunc: (data: any) => void;
 }): boolean => {
     const { chipAmount, currentBettedAmount, userBalance, showMiniWarningFunc } = props;
     const conditions: { condition: boolean; message?: string; hasIcon?: boolean }[] = [
         {
             condition: isNotEnoughMoneyFullRound(userBalance, chipAmount, currentBettedAmount),
-            message: i18n.t("texasPoker.notEnoughMoney")
+            message: i18n.t("messages.notEnoughMoneyCardGame")
         }
     ];
     return showMiniWarning(conditions, showMiniWarningFunc);
@@ -37,7 +37,7 @@ export const validateAccountBalanceForFullRound = (props: {
 
 export const showMiniWarning = (
     conditions: { condition: boolean; message?: string; hasIcon?: boolean }[],
-    showMiniWarningFunc: () => void
+    showMiniWarningFunc: (data: any) => void
 ): boolean => {
     const criteria = conditions.reduce((result, element) => (!result && element.condition ? element : result), undefined);
     if (criteria && criteria.message) {
@@ -47,10 +47,10 @@ export const showMiniWarning = (
     return !criteria;
 };
 
-const isNotEnoughMoney = (userBalance: number, amount: number, currentBettedAmount: number = 0): boolean => {
+const isNotEnoughMoney = (userBalance: number, amount: number, currentBettedAmount = 0): boolean => {
     return +amount + +currentBettedAmount > userBalance;
 };
-const isNotEnoughMoneyFullRound = (userBalance: number, amount: number, currentBettedAmount: number = 0): boolean => {
+const isNotEnoughMoneyFullRound = (userBalance: number, amount: number, currentBettedAmount = 0): boolean => {
     return (+amount + +currentBettedAmount) * 3 > userBalance;
 };
 export const validateBet = (props: {
@@ -58,40 +58,57 @@ export const validateBet = (props: {
     currentBettedAmount: number;
     currentTotalBettedAmount: number;
     betChoice: string;
-    showMiniWarningFunc: () => void;
+    showMiniWarningFunc: (data: any) => void;
     minBet: number;
     maxBetPerChoice: number;
     maxBetPerRound: number;
     waitingProcessing: boolean;
+    getMaxBetAndStakePerChoice: (betChoice: string) => number;
+    minBetPerRound: number;
 }): boolean => {
     const {
         chipAmount,
         currentBettedAmount = 0,
-        betChoice,
         showMiniWarningFunc,
         minBet,
         maxBetPerChoice,
         maxBetPerRound,
         currentTotalBettedAmount,
-        waitingProcessing
+        waitingProcessing,
+        getMaxBetAndStakePerChoice,
+        minBetPerRound,
+        betChoice
     } = props;
 
-    const period = "common.period";
     if (waitingProcessing) {
         return false;
     }
-    const conditions: { condition: boolean; message?: string; hasIcon?: boolean }[] = [
+    const conditions: {
+        condition: boolean;
+        message?: string;
+        hasIcon?: boolean;
+        getMaxBetAndStakePerChoice?: (betChoice: string) => number;
+        minBetPerRound?: number;
+        maxBetPerRound?: number;
+        betChoice?: string;
+    }[] = [
         {
             condition: checkMinBetPerChoice(minBet, currentBettedAmount, chipAmount),
-            message: `${i18n.t("common.minBetChoice")} ${numberWithCommas(minBet)}${i18n.t(period)}`
+            message: i18n.t("messages.minBetForChoiceNotice", {
+                maxBet: numberWithCommas(minBetPerRound)
+            })
         },
         {
-            condition: checkMaxBetPerChoice(maxBetPerChoice, currentBettedAmount, chipAmount, betChoice),
-            message: `${i18n.t("common.maxBetChoice")} ${numberWithCommas(maxBetPerChoice)}${i18n.t(period)}`
+            condition: checkMaxBetPerChoice(maxBetPerChoice, currentBettedAmount, chipAmount, getMaxBetAndStakePerChoice, betChoice),
+            message: i18n.t("messages.maxBetForChoiceNotice2", {
+                maxBet: numberWithCommas(getMaxBetAndStakePerChoice(betChoice))
+            })
         },
         {
             condition: checkTotalBet(maxBetPerRound, chipAmount, currentTotalBettedAmount),
-            message: `${i18n.t("common.totalMaxBet")} ${numberWithCommas(maxBetPerRound)}${i18n.t(period)}`
+            message: i18n.t("messages.maxBetNotice", {
+                maxBet: numberWithCommas(maxBetPerRound)
+            })
         }
     ];
 
@@ -104,16 +121,22 @@ export const validateBet = (props: {
     return !criteria;
 };
 
-const checkMinBetPerChoice = (minBet: number, amount: number, currentBettedAmount: number = 0) => {
+const checkMinBetPerChoice = (minBet: number, amount: number, currentBettedAmount = 0) => {
     if (minBet) {
         return minBet > +currentBettedAmount + +amount;
     }
 
     return false;
 };
-const checkMaxBetPerChoice = (maxBetChoices: number, amount: number, currentBettedAmount: number = 0, betChoice: string) => {
-    if (maxBetChoices) {
-        return maxBetChoices < +currentBettedAmount + +amount;
+const checkMaxBetPerChoice = (
+    maxBetPerChoice: number,
+    amount: number,
+    currentBettedAmount = 0,
+    getMaxBetAndStakePerChoice: (betChoice: string) => number,
+    betChoice: string
+) => {
+    if (maxBetPerChoice) {
+        return getMaxBetAndStakePerChoice(betChoice) < +currentBettedAmount + +amount;
     }
 
     return false;

@@ -22,10 +22,6 @@ export class TexasHoldemPokerStateModel extends EventEmitter {
     state: number;
     previousRound: boolean;
 
-    clearBet() {}
-
-    afterCall() {}
-
     placeBet(choice, placeBetModel: TexasHoldemPokerPlaceBetModel) {
         if (choice === TexasPokerMaxBetChoicesConst.ante) {
             this.previousState = cloneDeep(this.state);
@@ -145,7 +141,7 @@ export class TexasHoldemPokerStateModel extends EventEmitter {
         this.emit(TexasHoldemPokerStateModel.Events.CHANGE, this);
     }
 
-    rejoinTable(communityCardLength: Number) {
+    rejoinTable(communityCardLength: number) {
         switch (communityCardLength) {
             case 4:
                 this.turnSuccess();
@@ -159,7 +155,7 @@ export class TexasHoldemPokerStateModel extends EventEmitter {
         }
     }
 
-    receiveError(props: {}) {
+    receiveError(props: any) {
         this.handleUpdateUIState(props);
     }
     private handleUpdateUIState(props) {
@@ -170,4 +166,8 @@ export class TexasHoldemPokerStateModel extends EventEmitter {
             this.emit(TexasHoldemPokerStateModel.Events.FORCE_UPDATE_BALANCE, this);
         }, 1000);
     }
+    clearBet: () => void;
+    afterCall: () => void;
+    holdemPokerChoiceAnte: (isFullBet: boolean) => void;
+    holdemPokerChoiceAA: (isFullBet: boolean) => void;
 }

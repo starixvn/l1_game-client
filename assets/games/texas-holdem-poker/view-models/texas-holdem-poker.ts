@@ -175,7 +175,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.registerAfterRiverEvents();
         this.registerBetEvents();
         this.registerSettlementEvents();
-        this.registerTicketDetailEvents();
+        // this.registerTicketDetailEvents();
         this.registerNoticeEvents();
         this.registerMD5Event();
     }
@@ -391,9 +391,9 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         });
     }
 
-    private registerTicketDetailEvents() {
-        this.gameData.ticketDetailModel.on(TexasHoldemPokerTicketDetailModel.Events.CHANGE, renderTicketDetail(this.betHistoryController));
-    }
+    // private registerTicketDetailEvents() {
+    //     this.gameData.ticketDetailModel.on(TexasHoldemPokerTicketDetailModel.Events.CHANGE, renderTicketDetail(this.betHistoryController));
+    // }
 
     private registerNoticeEvents() {
         this.gameData.on(CommonEvents.NOTICE, (text) => this.showMiniWarning(text));

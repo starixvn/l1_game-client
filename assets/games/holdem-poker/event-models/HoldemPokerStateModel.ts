@@ -133,4 +133,10 @@ export class HoldemPokerStateModel extends EventEmitter {
         this.state = HoldemPokerState.replay_new;
         this.emit(HoldemPokerStateModel.Events.CHANGE, this);
     }
+    turnSuccess: () => void;
+    rivering: () => void;
+    checkRiver: () => void;
+    riveSuccess: () => void;
+    rejoinTable: (communityCardLength: number) => void;
+    receiveError: (props: any) => void;
 }
