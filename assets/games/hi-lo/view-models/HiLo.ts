@@ -21,7 +21,7 @@ import _ = require("lodash");
 import HiLoBetBoard from "./HiLoBetBoard";
 import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
 import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
-import { numberPad } from "../../../common/helpers/NumberHelper";
+import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelper";
 import HiLoTicketHistoryModel from "../events-models/HiLoTicketHistoryModel";
 import { updateTicketHistory } from "../actions/HiLoTicketHistoryAction";
 import HiLoTicketHistory from "./HiLoTicketHistory";
@@ -74,6 +74,12 @@ export default class HiLo extends NewMiniGameBase {
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
+
+    @property(cc.BitmapFont)
+    fontCong: cc.BitmapFont = null;
+
+    @property(cc.BitmapFont)
+    fontTru: cc.BitmapFont = null;
 
     gameData: HiLoGameData<HiLoChoices> = null;
     isStopSchedule = false;
@@ -130,6 +136,14 @@ export default class HiLo extends NewMiniGameBase {
             this.gameData.durations.reset();
         }
     }
+
+    protected initHandlers() {
+        super.initHandlers();
+        this.timeHandler = null;
+        this.statusHandler = null;
+    }
+
+    protected clearIntervalAndTimeout() {}
 
     private addCountdownTimerSchedule() {
         this.schedule(() => {
@@ -271,14 +285,31 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     showWinningBet(bet: number) {
-        // TODO: overide effect
-        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, this.winningEffectDuration);
+        const winningBet = this.addFlyingText(this.noticeNode, true, bet, this.winningEffectDuration);
         winningBet.name = "winningBet";
     }
 
     showAcceptedBet(bet: number) {
-        // TODO: overide effect
-        GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
+        this.addFlyingText(this.noticeNode, false, bet, 1);
+    }
+
+    addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
+        const temp = new cc.Node().addComponent(cc.Label);
+        temp.string = (win ? "+" : "-") + numberWithCommas(value, 2);
+        temp.font = win ? this.fontCong : cc.RedT.util.fontTru;
+        temp.lineHeight = 130;
+        temp.fontSize = 60;
+        temp.node.position = cc.v3(0, startY, 0);
+        parent.addChild(temp.node);
+        temp.node.runAction(
+            cc.sequence(
+                cc.moveTo(duration, cc.v2(0, startY + destY)),
+                cc.callFunc(function () {
+                    this.node.destroy();
+                }, temp)
+            )
+        );
+        return temp.node;
     }
 
     resetDataAndUI() {

@@ -18,9 +18,4 @@ export default class NewMiniGameBase extends SocketIOMiniGameBase {
         this.connection = new SocketIOConnection();
         this.connection.setSocket(this.socket, this.gameName);
     }
-
-    protected initHandlers() {
-        super.initHandlers();
-        this.timeHandler = null;
-    }
 }

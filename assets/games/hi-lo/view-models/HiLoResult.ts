@@ -16,8 +16,6 @@ export default class HiLoResult extends cc.Component {
     @property(cc.Node)
     resultContainer: cc.Node = null;
 
-    private itemHeight = 0;
-    private spinNumber = 0;
     private resultCardComp: NewCard;
     private animationCards: NewCard[] = [];
     private animationCardValues: CardModel[] = [
@@ -41,8 +39,6 @@ export default class HiLoResult extends cc.Component {
 
     onLoad() {
         this.createReel();
-        this.resultContainer.zIndex = this.spinNumber / 2 ? 0 : 1;
-        this.randomContainer.zIndex = this.spinNumber / 2 ? 0 : 1;
     }
 
     createReel() {
@@ -63,7 +59,6 @@ export default class HiLoResult extends cc.Component {
         for (const card of this.animationCardValues) {
             const cardNode = this.createCard();
             this.randomContainer.addChild(cardNode);
-            this.itemHeight = cardNode.height * cardNode.scaleY;
             const cardComp = cardNode.getComponent(NewCard);
             cardComp.faceDown();
             this.setCard(cardComp, card);
@@ -104,22 +99,12 @@ export default class HiLoResult extends cc.Component {
     }
 
     spin(spinDuration: number, animated: boolean) {
-        this.spinNumber += 1;
         this.animationCards.forEach((card, index) => {
             card.faceUp();
         });
 
         if (animated) {
-            let resultDuration = 0;
-            if (this.spinNumber % 2 != 0) {
-                this.randomContainer.opacity = 0;
-                resultDuration = 0.3;
-                cc.tween(this.resultContainer)
-                    .to(resultDuration, { position: cc.v3(this.resultContainer.x, -this.resultContainer.height, 0) }, { easing: "sineIn" })
-                    .start();
-            }
             cc.tween(this.cardReel)
-                .delay(this.spinNumber % 2 != 0 ? resultDuration : 0)
                 .call(() => {
                     this.randomContainer.opacity = 255;
                     this.randomContainer.position = cc.v3(0, 0, 0);
@@ -129,7 +114,7 @@ export default class HiLoResult extends cc.Component {
                         .to(spinDuration, { position: cc.v3(this.randomContainer.x, -offset, 0) }, { easing: "sineOut" })
                         .start();
                 })
-                .delay((spinDuration / this.animationCards.length) * (this.animationCards.length - 2) + resultDuration)
+                .delay((spinDuration / this.animationCards.length) * (this.animationCards.length - 2.32))
                 .call(() => {
                     cc.tween(this.resultContainer)
                         .to(
@@ -141,7 +126,7 @@ export default class HiLoResult extends cc.Component {
                 })
                 .start();
         } else {
-            // this.cardReel.position = cc.v3(this.cardReel.x, offset, 0);
+            this.resultContainer.position = cc.v3(0, 0, 0);
         }
     }
 }
