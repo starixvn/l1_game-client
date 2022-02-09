@@ -32,7 +32,7 @@ export class TexasHoldemPokerPlaceBetModel extends HoldemPokerPlaceBetModel {
         });
     }
 
-    updateTotalBet(props: { totalBet: number; choice: {} }) {
+    updateTotalBet(props: { totalBet: number; choice: any }) {
         for (const [key, value] of Object.entries(props.choice)) {
             this.choices[key] = value;
             this.emit(TexasHoldemPokerPlaceBetModel.Events.UPDATE_CHIPS, {
@@ -44,5 +44,5 @@ export class TexasHoldemPokerPlaceBetModel extends HoldemPokerPlaceBetModel {
         this.emit(TexasHoldemPokerPlaceBetModel.Events.PLACE_BET, this);
     }
 
-    updateBetsInfo(choices) {}
+    updateBetsInfo: (choices) => void;
 }

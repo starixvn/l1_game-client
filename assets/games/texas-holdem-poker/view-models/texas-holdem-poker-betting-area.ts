@@ -17,9 +17,6 @@ export default class TexasHoldemPokerBettingArea extends BettingArea {
     chipWin: cc.Node = null;
 
     @property(cc.Node)
-    winAmount: cc.Node = null;
-
-    @property(cc.Node)
     tooltipPlaceBet: cc.Node = null;
 
     @property(cc.Node)
@@ -27,6 +24,9 @@ export default class TexasHoldemPokerBettingArea extends BettingArea {
 
     @property(cc.Node)
     betHightLight: cc.Node = null;
+
+    @property(cc.Label)
+    winningAmount: cc.Label = null;
 
     private gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
 
@@ -54,6 +54,13 @@ export default class TexasHoldemPokerBettingArea extends BettingArea {
     set ownBets(value: number) {
         if (this.ownBetsLabel) {
             this.ownBetsLabel.string = numberWithCommas(value);
+        }
+    }
+
+    handleWinningAmount(value: number, show: boolean) {
+        if (this.winningAmount) {
+            this.winningAmount.string = `+${numberWithCommas(value)}`;
+            this.winningAmount.node.active = show;
         }
     }
 }

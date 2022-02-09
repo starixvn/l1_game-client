@@ -9,7 +9,7 @@ export default class TexasHoldemPokerMinMaxTable extends cc.Component {
 
     @property(cc.Label)
     max: cc.Label = null;
-    start() {}
+    start: () => void;
 
     set Min(value: number) {
         this.min.string = numberWithCommas(value);

@@ -19,7 +19,7 @@ import {
 } from "../actions/texas-holdem-poker-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-holdem-poker-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-holdem-poker-settlement-actions";
-import { renderTicketDetail } from "../actions/texas-holdem-poker-ticket-detail-actions";
+// import { renderTicketDetail } from "../actions/texas-holdem-poker-ticket-detail-actions";
 import { showUMInfo } from "../actions/texas-holdem-poker-um-actions";
 import { TexasHoldemPokerAfterCallModel } from "../event-models/texas-holdem-poker-call-model";
 import TexasHoldemPokerChoices, { BetActionConst, TexasHoldemPokerChoicesConst } from "../event-models/texas-holdem-poker-choices";
@@ -30,7 +30,7 @@ import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-gam
 import { TexasHoldemPokerOwnBetModel } from "../event-models/texas-holdem-poker-own-bet-model";
 import { TexasHoldemPokerPlaceBetModel } from "../event-models/texas-holdem-poker-place-bet-model";
 import { TexasHoldemPokerSettlement } from "../event-models/texas-holdem-poker-settlement";
-import { TexasHoldemPokerTicketDetailModel } from "../event-models/texas-holdem-poker-ticket-detail-model";
+// import { TexasHoldemPokerTicketDetailModel } from "../event-models/texas-holdem-poker-ticket-detail-model";
 import { TexasHoldemPokerAfterTurnModel } from "../event-models/texas-holdem-poker-turn-model";
 import {
     collectCards,
@@ -184,7 +184,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.pokerCardScript = this.node.getChildByName("poker-cards-script").getComponent(TexasHoldemPokerCards);
     }
 
-    onGameHide() {}
+    onGameHide: () => void;
 
     private registerConfigsEvents() {
         this.gameData.configs.on(TexasHoldemPokerConfigs.Events.CHANGE, (configs: TexasHoldemPokerConfigs) => {

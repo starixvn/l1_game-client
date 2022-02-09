@@ -93,14 +93,15 @@ export default class HoldemPokerChips extends cc.Component {
         gameData: HoldemPokerGameData<HoldemPokerChoices>,
         bettingAreas: HoldemPokerBettingArea[],
         betChips: BetChips,
-        main: HoldemPoker
+        main: HoldemPoker,
+        choicesConst: any
     ) {
         const winningHands = gameData.finishModel.settlementResult;
         let totalWin = 0;
         let totalBet = 0;
 
         for (const [key, value] of Object.entries(winningHands)) {
-            const betAmount = gameData.placeBetModel.choices[HoldemPokerChoicesConst[key]];
+            const betAmount = gameData.placeBetModel.choices[choicesConst[key]];
             totalBet += betAmount;
             const bettingArea = bettingAreas.filter((a) => a.betChoice === key)[0];
             const jumpTime = 0.65;

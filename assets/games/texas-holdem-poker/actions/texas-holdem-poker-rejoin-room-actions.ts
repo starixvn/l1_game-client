@@ -9,8 +9,7 @@ export const updatePreviousChoices = (placeBetModel: TexasHoldemPokerPlaceBetMod
     placeBetModel.deal({ anteBet: anteBet });
 };
 
-export const showRejoinOwnBets = (gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices>) => (
-    ownBets: TexasHoldemPokerOwnBetModel
-) => {
-    ownBets.bets && gameData.placeBetModel.rejoinTable(ownBets.bets);
-};
+export const showRejoinOwnBets =
+    (gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices>) => (ownBets: TexasHoldemPokerOwnBetModel) => {
+        ownBets.bets && gameData.placeBetModel.rejoinTable(ownBets.bets);
+    };

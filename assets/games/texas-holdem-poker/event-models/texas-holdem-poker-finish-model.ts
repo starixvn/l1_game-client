@@ -1,27 +1,25 @@
 import { EventEmitter } from "events";
-/* import HoldemPokerChoices from "./HoldemPokerChoices";
- */
 export class TexasHoldemPokerFinishModel extends EventEmitter {
-  constructor() {
-    super();
-    this.setMaxListeners(0);
-  }
+    constructor() {
+        super();
+        this.setMaxListeners(0);
+    }
 
-  static Events = {
-    CHANGE_SETTLEMENT: "settlement:change",
-    SHOWED_CARDS: "cards:showed",
-    SHOWED_ANIMATION: "animation:showed",
-  };
+    static Events = {
+        CHANGE_SETTLEMENT: "settlement:change",
+        SHOWED_CARDS: "cards:showed",
+        SHOWED_ANIMATION: "animation:showed"
+    };
 
-  settlementResult: any;
+    settlementResult: any;
 
-  changeSettlementResult(settlementResult: any) {
-    this.settlementResult = settlementResult;
+    changeSettlementResult(settlementResult: any) {
+        this.settlementResult = settlementResult;
 
-    this.emit(TexasHoldemPokerFinishModel.Events.CHANGE_SETTLEMENT, this);
-  }
+        this.emit(TexasHoldemPokerFinishModel.Events.CHANGE_SETTLEMENT, this);
+    }
 
-  finishAnimationWinning() {
-    this.emit(TexasHoldemPokerFinishModel.Events.SHOWED_ANIMATION, this);
-  }
+    finishAnimationWinning() {
+        this.emit(TexasHoldemPokerFinishModel.Events.SHOWED_ANIMATION, this);
+    }
 }
