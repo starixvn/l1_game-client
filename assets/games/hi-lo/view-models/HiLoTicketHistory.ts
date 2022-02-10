@@ -2,6 +2,7 @@ import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommo
 import HiLoTicketHistoryItem from "./HiLoTicketHistoryItem";
 import { events } from "../../_new/connection/SocketIOConnection";
 import BetHistory from "../../_new/common/BetHistory";
+import HiLoTicketDetail from "./HiLoTicketDetail";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,6 +16,9 @@ export default class HiLoTicketHistory extends BetHistory {
 
     @property(cc.Node)
     content: cc.Node = null;
+
+    @property(cc.Prefab)
+    ticketDetailPrefab: cc.Prefab = null;
 
     onLoad() {
         this.pages.init(this);
@@ -46,8 +50,16 @@ export default class HiLoTicketHistory extends BetHistory {
             const itemNode = cc.instantiate(this.ticketHistoryItemPrefab);
             const control = itemNode.getComponent(HiLoTicketHistoryItem);
             control.renderTicketItem(item.time, item.id, item.amount, item.betwin);
+            control.openTicketDetail = () => {
+                this.initTicketDetail(item.betLogDetails);
+            };
             this.content.addChild(itemNode);
         });
-        console.log(this.content.children.length);
+    }
+
+    initTicketDetail(betLogDetails: []) {
+        const ticketDetailNode = cc.instantiate(this.ticketDetailPrefab);
+        this.node.addChild(ticketDetailNode);
+        const detailControl = ticketDetailNode.getComponent(HiLoTicketDetail);
     }
 }

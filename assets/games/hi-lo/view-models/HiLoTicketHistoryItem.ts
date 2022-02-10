@@ -23,4 +23,6 @@ export default class HiLoTicketHistoryItem extends cc.Component {
         this.stake.string = amount.toString();
         this.win.string = numberWithCommas(betwin);
     }
+
+    openTicketDetail() {}
 }
