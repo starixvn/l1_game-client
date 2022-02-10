@@ -29,11 +29,11 @@ export default class EffectAppearanceLabel extends cc.Component {
         this.decorator.opacity = 0;
     }
 
-    private getContentWidth(): number {
+    protected getContentWidth(): number {
         return this.label ? this.label.node.width : this.richText ? this.richText.node.width : 0;
     }
 
-    private playAnimation() {
+    protected playAnimation() {
         this.mask.node.width = 0;
         this.decorator.opacity = 255;
         this.decorator.position = cc.v3(0, this.decorator.position.y, this.decorator.position.z);
