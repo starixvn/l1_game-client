@@ -508,5 +508,18 @@ window.i18n.languages.vi = {
         dealerQualifies: "Nhà Cái Đủ Điều Kiện Khi Có Đôi 4 Hoặc Cao Hơn",
         md5String: "Chuỗi MD5",
         md5Key: "Chuỗi Key"
+    },
+    hiLo: {
+        collect: "Ăn Non",
+        sorryMessage: "Thật tiếc, bạn đã thua.",
+        click: "Bấm",
+        toStart: "to start.",
+        turn: "Bước",
+        baseCard: "Bài",
+        resultCard: "Kết Quả",
+        startRound: "Bắt đầu phiên",
+        endRound: "Kết thúc phiên",
+        high: "Cao",
+        low: "Thấp"
     }
 };

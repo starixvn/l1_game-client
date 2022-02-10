@@ -467,7 +467,6 @@ window.i18n.languages.en = {
         md5String: "MD5 string",
         md5Key: "string result"
     },
-
     texasPoker: {
         Odds: "ODDS",
         straight: "Straight",
@@ -501,5 +500,18 @@ window.i18n.languages.en = {
         fold: "Fold",
         new: "New",
         notEnoughMoney: "Your account has insufficient funds to complete the game round"
+    },
+    hiLo: {
+        collect: "Collect",
+        sorryMessage: "Sorry, you lost the game.",
+        click: "Click",
+        toStart: "để bắt đầu.",
+        turn: "Turn",
+        baseCard: "Base Card",
+        resultCard: "Result Card",
+        startRound: "Start Round",
+        endRound: "End Round",
+        high: "High",
+        low: "Low"
     }
 };

@@ -449,5 +449,18 @@ window.i18n.languages.zh_cn = {
         dealerQualifies: "庄家有资格获得一对4S 或更好的",
         md5String: "MD5 串",
         md5Key: "Key 串"
+    },
+    hiLo: {
+        collect: "Collect",
+        sorryMessage: "Sorry, you lost the game.",
+        click: "Click",
+        toStart: "để bắt đầu.",
+        turn: "Turn",
+        baseCard: "Base Card",
+        resultCard: "Result Card",
+        startRound: "Start Round",
+        endRound: "End Round",
+        high: "High",
+        low: "Low"
     }
 };
