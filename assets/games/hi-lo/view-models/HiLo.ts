@@ -4,7 +4,7 @@ import HiLoGameData from "../events-models/HiLoGameData";
 import { HiLoRoundCounter } from "../events-models/HiLoRoundCounter";
 import { updateRoundId } from "../actions/HiLoRoundCounterAction";
 import { HiLoResultModel } from "../events-models/HiLoResultModel";
-import { updateStakes, updateCard, handleSettle } from "../actions/HiLoDealAction";
+import { updateStakes, updateCard, handleSettle, updateStatistic } from "../actions/HiLoDealAction";
 import HiLoStakes from "./HiLoStakes";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { updateClockTime, updateCountdownTimer } from "../actions/HiLoCountdownTimerAction";
@@ -16,7 +16,6 @@ import { handleGameState } from "../actions/HiLoBetAction";
 import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
 import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
 import HiLoResult from "./HiLoResult";
-import GameUtils from "../../../common/GameUtils";
 import _ = require("lodash");
 import HiLoBetBoard from "./HiLoBetBoard";
 import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
@@ -25,6 +24,7 @@ import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelpe
 import HiLoTicketHistoryModel from "../events-models/HiLoTicketHistoryModel";
 import { updateTicketHistory } from "../actions/HiLoTicketHistoryAction";
 import HiLoTicketHistory from "./HiLoTicketHistory";
+import HiLoStatistic from "./HiLoStatistic";
 
 const { ccclass, property } = cc._decorator;
 
@@ -90,6 +90,7 @@ export default class HiLo extends NewMiniGameBase {
     spinCardsEffectDuration = 1.5;
     betBoardComp: HiLoBetBoard;
     ticketHistoryComp: HiLoTicketHistory;
+    statisticComp: HiLoStatistic;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -101,6 +102,7 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData = new HiLoGameData<HiLoChoices>(this);
         super.onLoad();
         this.showHideTopArea();
+        this.initStatistic();
         this.registerResultEvents();
         this.registerStatusEvents();
         this.registerRoundCounterEvents();
@@ -163,6 +165,7 @@ export default class HiLo extends NewMiniGameBase {
             updateStakes(this.stakesComp)(resultModel);
             updateCard(this)(resultModel);
             updateCountdownTimer(this)(resultModel);
+            updateStatistic(this)(resultModel);
         });
     }
 
@@ -229,6 +232,13 @@ export default class HiLo extends NewMiniGameBase {
 
     showHideTopArea() {
         this.topNode.active = !this.topNode.active;
+    }
+
+    initStatistic() {
+        const node = cc.instantiate(this.statisticPrefab);
+        this.statisticComp = node.getComponent(HiLoStatistic);
+        this.statisticContainer.addChild(node);
+        this.statisticContainer.active = false;
     }
 
     initBetBoard() {
@@ -330,6 +340,7 @@ export default class HiLo extends NewMiniGameBase {
         this.enableAllBetOptions(false);
         this.enableCollectButton(false);
         this.resetCountdownTimer();
+        this.gameRound.string = "";
     }
 
     resetCountdownTimer() {

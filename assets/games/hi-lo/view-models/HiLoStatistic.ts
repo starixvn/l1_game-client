@@ -1,18 +1,49 @@
+import NewCard, { CardModel } from "../../../common/new-card/view-models/NewCard";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class HiLoStatistic extends cc.Component {
-    @property(cc.Label)
-    label: cc.Label = null;
+    @property(cc.Prefab)
+    cardPrefab: cc.Prefab = null;
 
-    @property
-    text: string = "hello";
+    @property(cc.Node)
+    statisticContainer: cc.Node = null;
 
-    // LIFE-CYCLE CALLBACKS:
+    cardList: NewCard[] = [];
 
-    // onLoad () {}
+    onLoad() {
+        this.clearCards();
+    }
 
-    start() {}
+    clearCards() {
+        // this.statisticContainer.destroyAllChildren();
+    }
 
-    // update (dt) {}
+    updateCards(cards: CardModel[]) {
+        if (this.statisticContainer.childrenCount == cards.length - 1) {
+            const cardNode = this.createCard(cards[cards.length - 1]);
+            cc.tween(cardNode).to(0.3, { opacity: 255 }, { easing: "sineInOut" }).start();
+        } else {
+            this.clearCards();
+            cards.forEach((card) => {
+                const cardNode = this.createCard(card);
+                cardNode.opacity = 255;
+            });
+        }
+    }
+
+    createCard(card: CardModel): cc.Node {
+        const cardNode = cc.instantiate(this.cardPrefab);
+        cardNode.width = 118;
+        cardNode.height = 142;
+        cardNode.opacity = 0;
+        this.statisticContainer.addChild(cardNode);
+        const cardComp = cardNode.getComponent(NewCard);
+        cardComp.setCard(card);
+        cardComp.faceUp();
+        this.cardList.push(cardComp);
+
+        return cardNode;
+    }
 }

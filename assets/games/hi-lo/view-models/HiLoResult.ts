@@ -60,7 +60,6 @@ export default class HiLoResult extends cc.Component {
             const cardNode = this.createCard();
             this.randomContainer.addChild(cardNode);
             const cardComp = cardNode.getComponent(NewCard);
-            cardComp.faceDown();
             this.setCard(cardComp, card);
             this.animationCards.push(cardComp);
         }
