@@ -59,11 +59,11 @@ export default class HoldemPokerCards extends cc.Component {
         );
     }
 
-    private playAudioCardSliding() {
+    protected playAudioCardSliding() {
         AudioManager.getInstance().playSFX(this.cardSlideAudioSource.clip);
     }
 
-    private createCard(card: CardModel, scaleX: number, scaleY: number): cc.Node {
+    protected createCard(card: CardModel, scaleX: number, scaleY: number): cc.Node {
         const node = cc.instantiate(this.cardPrefab);
         const cardComponent = node.getComponent(HoldemPokerCard);
         cardComponent.setCard(card);
@@ -139,7 +139,7 @@ export default class HoldemPokerCards extends cc.Component {
         }
     }
 
-    private updateLabel(combineCardResult: cc.Node, labelId: number) {
+    protected updateLabel(combineCardResult: cc.Node, labelId: number) {
         const label = combineCardResult.getChildByName("text").getComponent(cc.Label);
         const result = `holdEmPoker.${CombineCardResultLabel[labelId].dataId}`;
         label.string = `${i18n.t(result)}`;
@@ -163,7 +163,7 @@ export default class HoldemPokerCards extends cc.Component {
         this.combineDealerCardResult.active = false;
     }
 
-    private showIndicatorCard(
+    protected showIndicatorCard(
         combineCards: CardModel[],
         cardHands: { row: HandPlace; position: string; whose: string }[],
         waitingCardRender = 0.1
@@ -193,7 +193,7 @@ export default class HoldemPokerCards extends cc.Component {
         );
     }
 
-    private faceUpCard(cardInfo: CardModel, cardHand: HandPlace, indexCard: number): Promise<void> {
+    protected faceUpCard(cardInfo: CardModel, cardHand: HandPlace, indexCard: number): Promise<void> {
         const selectedCard = cardHand.getCards()[indexCard];
         const duration = 0.6;
         const cardComponent = selectedCard.getComponent(HoldemPokerCard);
@@ -210,7 +210,7 @@ export default class HoldemPokerCards extends cc.Component {
         });
     }
 
-    private dealCardWithoutAnimation(
+    protected dealCardWithoutAnimation(
         cardInfo: CardModel,
         cardHand: HandPlace,
         faceDown: boolean,
@@ -242,7 +242,7 @@ export default class HoldemPokerCards extends cc.Component {
         });
     }
 
-    private dealCard(cardInfo: CardModel, cardHand: HandPlace, faceDown: boolean, forcePositionIndex?: number): Promise<void> {
+    protected dealCard(cardInfo: CardModel, cardHand: HandPlace, faceDown: boolean, forcePositionIndex?: number): Promise<void> {
         const cardNode = this.createCard(cardInfo, 1, 1);
         const cardComponent = cardNode.getComponent(HoldemPokerCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
@@ -273,7 +273,7 @@ export default class HoldemPokerCards extends cc.Component {
         });
     }
 
-    private collectCards(containerCards: HandPlace) {
+    protected collectCards(containerCards: HandPlace) {
         const durationJumpToBoxCard = 0.5;
 
         const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));

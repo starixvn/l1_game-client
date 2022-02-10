@@ -3,6 +3,9 @@ export default class TexasHoldemPokerChoices {
     callBet: number;
     turnBet: number;
     riverBet: number;
+    ante: number;
+    aa: number;
+    call: number;
 }
 
 export const TexasHoldemPokerChoicesConst = {

@@ -1,20 +1,6 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import HoldemPokerMinMaxTable from "../../holdem-poker/view-models/HoldemPokerMinMaxTable";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
-export default class TexasHoldemPokerMinMaxTable extends cc.Component {
-    @property(cc.Label)
-    min: cc.Label = null;
-
-    @property(cc.Label)
-    max: cc.Label = null;
-    start: () => void;
-
-    set Min(value: number) {
-        this.min.string = numberWithCommas(value);
-    }
-    set Max(value: number) {
-        this.max.string = numberWithCommas(value);
-    }
-}
+export default class TexasHoldemPokerMinMaxTable extends HoldemPokerMinMaxTable {}

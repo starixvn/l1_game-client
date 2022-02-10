@@ -125,8 +125,8 @@ export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any) =>
     const { player } = combinationResult;
 
     const dealerDataFake = [
-        { rank: 6, suit: 3 },
-        { rank: 6, suit: 3 }
+        { rank: "6", suit: 3 },
+        { rank: "6", suit: 3 }
     ];
 
     for (let index = 0; index < playerCards.length; index++) {

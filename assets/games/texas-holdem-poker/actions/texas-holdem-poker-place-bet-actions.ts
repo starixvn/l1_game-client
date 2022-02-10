@@ -168,6 +168,7 @@ export const showOwnBet =
             const bettingArea = bettingAreas.find((e) => e.betChoice === choice);
             bettingArea.ownBets = ownBetValue;
             bettingArea.showBetValue(true);
+            bettingArea.showBetText(false);
         };
         if (gameData.placeBetModel.choices[TexasHoldemPokerChoicesConst.anteBet]) {
             renderOwnBet(
@@ -202,6 +203,7 @@ export const showOwnBet =
 export const clearUIData = (bettingAreas: TexasHoldemPokerBettingArea[]) => () => {
     for (const [key] of Object.entries(bettingAreas)) {
         bettingAreas[key].showBetValue(false);
+        bettingAreas[key].showBetText(true);
     }
 };
 

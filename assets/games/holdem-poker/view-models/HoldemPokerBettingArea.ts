@@ -34,7 +34,7 @@ export default class HoldemPokerBettingArea extends BettingArea {
     winningAmount: cc.Label = null;
 
     private isRunningHighlight: boolean;
-    private gameData: HoldemPokerGameData<HoldemPokerChoices> = null;
+    protected gameData: HoldemPokerGameData<HoldemPokerChoices> = null;
 
     init(gameData: HoldemPokerGameData<HoldemPokerChoices>) {
         this.gameData = gameData;
