@@ -2,7 +2,6 @@ import HiLoStakes from "../view-models/HiLoStakes";
 import HiLo from "../view-models/HiLo";
 import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
 import { HiLoResultModel } from "../events-models/HiLoResultModel";
-import main = require("../../../../packages/i18n/main");
 
 export const updateStakes = (stakeComp: HiLoStakes) => (resultModel: HiLoResultModel) => {
     stakeComp.updateStakes(resultModel.nextAmount);
@@ -19,8 +18,12 @@ export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) =
     mainGame.enableAllBetOptions(false);
     mainGame.enableCollectButton(false);
 
+    const delayTime = statusModel.win
+        ? mainGame.winningEffectDuration
+        : mainGame.loseMessageEffectDuration + mainGame.spinCardsEffectDuration;
+
     cc.tween(mainGame)
-        .delay(statusModel.win ? mainGame.winningEffectDuration : mainGame.loseMessageEffectDuration + mainGame.spinCardsEffectDuration)
+        .delay(delayTime)
         .call(() => {
             mainGame.gameData.stateModel.prepareNewRound();
         })
