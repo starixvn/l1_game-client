@@ -1,20 +1,15 @@
 import HiLoEventHandler from "./HiLoEventHandler";
 
 export type TicketHistoryType<Choices> = {
-    history: {
-        betLogs: [];
-        page: number;
-        pageSize: number;
-        total: number;
-    };
+    history: {};
 };
 
-export class HiLoTicketHistoryHandler<Choices> extends HiLoEventHandler<ConfigsType<Choices>, Choices> {
+export class HiLoTicketHistoryHandler<Choices> extends HiLoEventHandler<TicketHistoryType<Choices>, Choices> {
     protected verifyEvent(data: TicketHistoryType<Choices>) {
         return data.history != null;
     }
 
     protected handle(data: TicketHistoryType<Choices>) {
-        this.gameData.ticketHistory.change(data.history.betLogs);
+        this.gameData.ticketHistory.change(data.history);
     }
 }

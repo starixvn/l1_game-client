@@ -216,13 +216,15 @@ export default class HiLo extends NewMiniGameBase {
     openHistory() {
         this.playClick();
         this.initHistory();
-        const dialog = cc.instantiate(this.historyPrefab);
-        this.ticketHistoryComp = dialog.getComponent(HiLoTicketHistory);
-        this.currentMiniPanel.addDialog(dialog);
     }
 
-    private initHistory(page = 1) {
-        this.emitEventConnection(HiLoEvents.history, { page });
+    private initHistory(pages = 1) {
+        //this.connection.emit(HiLoEvents.history, { pages });
+        const dialog = cc.instantiate(this.historyPrefab);
+        this.ticketHistoryComp = dialog.getComponent(HiLoTicketHistory);
+        this.ticketHistoryComp.setConnection(this.connection, this.gameName, this.gameData.roundCounter.roundId);
+        this.ticketHistoryComp.get_data();
+        this.currentMiniPanel.addDialog(dialog);
     }
 
     showHideTopArea() {

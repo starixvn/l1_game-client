@@ -40,7 +40,7 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
     }
 
     protected registerEventHandlers() {
-        const handlers = [HiLoTicketHistoryHandler, HiLoGameConfigsHandler, HiLoOwnBetHandler, HiLoResultHandler, HiLoStatusHandler];
+        const handlers = [HiLoGameConfigsHandler, HiLoOwnBetHandler, HiLoResultHandler, HiLoStatusHandler];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
 }
