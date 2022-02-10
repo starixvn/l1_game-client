@@ -95,7 +95,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     setUpSocketForGame(gameName: string, gameId: number, forceNew: boolean, gameContainer: any): Socket {
         const proxyRoute = getProxyRoute(gameId);
         const gameServerUrl = buildServerUrl("http", "", gameId);
-        console.log(enableMsgpackParserOnGame);
+        
         const socket = this.socketIOController.connectGameSocket(
             gameServerUrl,
             gameName,
