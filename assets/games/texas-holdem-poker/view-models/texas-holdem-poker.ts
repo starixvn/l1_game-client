@@ -19,7 +19,6 @@ import {
 } from "../actions/texas-holdem-poker-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-holdem-poker-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-holdem-poker-settlement-actions";
-// import { renderTicketDetail } from "../actions/texas-holdem-poker-ticket-detail-actions";
 import { showUMInfo } from "../actions/texas-holdem-poker-um-actions";
 import { TexasHoldemPokerAfterCallModel } from "../event-models/texas-holdem-poker-call-model";
 import TexasHoldemPokerChoices, { BetActionConst, TexasHoldemPokerChoicesConst } from "../event-models/texas-holdem-poker-choices";
@@ -30,7 +29,7 @@ import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-gam
 import { TexasHoldemPokerOwnBetModel } from "../event-models/texas-holdem-poker-own-bet-model";
 import { TexasHoldemPokerPlaceBetModel } from "../event-models/texas-holdem-poker-place-bet-model";
 import { TexasHoldemPokerSettlement } from "../event-models/texas-holdem-poker-settlement";
-// import { TexasHoldemPokerTicketDetailModel } from "../event-models/texas-holdem-poker-ticket-detail-model";
+import { TexasHoldemPokerTicketDetailModel } from "../event-models/texas-holdem-poker-ticket-detail-model";
 import { TexasHoldemPokerAfterTurnModel } from "../event-models/texas-holdem-poker-turn-model";
 import {
     collectCards,
@@ -46,7 +45,6 @@ import { showRejoinOwnBets } from "./../actions/texas-holdem-poker-rejoin-room-a
 import { TexasHoldemPokerAfterRiverModel } from "./../event-models/texas-holdem-poker-river-model";
 import { TexasHoldemPokerStateModel } from "./../event-models/texas-holdem-poker-state-model";
 import { dealFourAndFireCardAndFaceUpDealerCards, rawCardWhenRejoin } from "./../texas-cards-component/view-models/cards-wrapper";
-// import TexasTicketHistory from "./game-history/texas-ticket-history";
 import TexasHoldemPokerBettingArea from "./texas-holdem-poker-betting-area";
 import TexasHoldemPokerChips from "./texas-holdem-poker-chip";
 import TexasHoldemPokerMinMaxTable from "./texas-holdem-poker-min-max-table";
@@ -55,6 +53,8 @@ import TexasHoldemPokerPlacingBet from "./texas-holdem-poker-placing-bet";
 import HoldemPockerMD5 from "../../holdem-poker/view-models/HoldemPockerMD5";
 import AudioManager from "../../../common/audio/AudioManager";
 import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
+import HoldemPokerTicketHistory from "../../holdem-poker/view-models/history/HoldemPokerTicketHistory";
+import { renderTicketDetail } from "../../holdem-poker/actions/HoldemPokerTicketDetailActions";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -134,13 +134,19 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     @property(cc.AudioSource)
     startNewRoundAudio: cc.AudioSource = null;
 
-    private placingBet: TexasHoldemPokerPlacingBet = null;
+    @property(cc.Node)
+    doubleAndCallButton: cc.Node = null;
+
+    @property()
+    protected anteOddsTable: any = null;
+
+    protected placingBet: TexasHoldemPokerPlacingBet = null;
     protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
-    private texasHoldemPokerChips: TexasHoldemPokerChips;
+    protected texasHoldemPokerChips: TexasHoldemPokerChips;
     protected colorItem = "#4d2a0e";
     protected colorIconMain = "#4d2a0e";
     pokerCardScript: TexasHoldemPokerCards = undefined;
-    // private betHistoryController: TexasTicketHistory = null;
+    protected betHistoryController: HoldemPokerTicketHistory = null;
 
     constructor() {
         super();
@@ -160,7 +166,6 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.initMenu();
         this.initPlacingBet();
         this.initButtonStatus();
-        // this.initTicketHistory();
 
         this.prefabLoader.forEach((loader) => loader.initialize());
 
@@ -175,7 +180,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.registerAfterRiverEvents();
         this.registerBetEvents();
         this.registerSettlementEvents();
-        // this.registerTicketDetailEvents();
+        this.registerTicketDetailEvents();
         this.registerNoticeEvents();
         this.registerMD5Event();
     }
@@ -249,30 +254,27 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     }
 
     private initTicketHistory() {
-        // const dialog = cc.instantiate(this.historyPrefab);
-        // this.betHistoryController = dialog.getComponent(TexasTicketHistory);
-        // this.betHistoryController.init(this);
-        // this.betHistoryController.setConnection(this.connection, this.gameName, this.gameData.ownBetModel.roundId);
-        // this.betHistoryController.node.active = false;
-        // this.globalMenuContainer.addChild(dialog);
+        const dialog = cc.instantiate(this.historyPrefab);
+        this.betHistoryController = dialog.getComponent(HoldemPokerTicketHistory);
+        this.betHistoryController.init(this as any);
+        this.betHistoryController.setConnection(this.connection, this.gameName, this.gameData.roundCounter.roundId);
+        this.betHistoryController.node.active = false;
+        this.currentMiniPanel.addDialog(dialog);
     }
 
     private pressedShowHistory() {
-        // this.playClick();
-        // this.betHistoryController.setId(this.gameData.ownBetModel.roundId);
-        // this.betHistoryController.showDialog();
+        this.playClick();
+        const gameRomeMenuControl = this.gameMenuContainer.getComponent(GameRoomMenu);
+        gameRomeMenuControl.collapseMenu();
+        this.initTicketHistory();
+        this.betHistoryController.setId(this.gameData.roundCounter.roundId);
+        this.betHistoryController.showDialog();
     }
 
-    private pressedShowGuide() {
-        // this.playClick();
-        // const gameGuide = this.globalMenuContainer.getChildByName(this.guidePrefab.data.name);
-        // if (gameGuide) {
-        //     gameGuide.removeFromParent(true);
-        //     gameGuide.destroy();
-        // }
-        // const guideNode = cc.instantiate(this.guidePrefab);
-        // guideNode.getComponent(TexasHoldemPokerGameGuide).init(this.gameData.configs);
-        // this.globalMenuContainer.addChild(guideNode);
+    openGuide() {
+        super.openGuide();
+        const gameRomeMenuControl = this.gameMenuContainer.getComponent(GameRoomMenu);
+        gameRomeMenuControl.collapseMenu();
     }
 
     private initPlacingBet() {
@@ -391,9 +393,9 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         });
     }
 
-    // private registerTicketDetailEvents() {
-    //     this.gameData.ticketDetailModel.on(TexasHoldemPokerTicketDetailModel.Events.CHANGE, renderTicketDetail(this.betHistoryController));
-    // }
+    private registerTicketDetailEvents() {
+        this.gameData.ticketDetailModel.on(TexasHoldemPokerTicketDetailModel.Events.CHANGE, renderTicketDetail(this.betHistoryController));
+    }
 
     private registerNoticeEvents() {
         this.gameData.on(CommonEvents.NOTICE, (text) => this.showMiniWarning(text));

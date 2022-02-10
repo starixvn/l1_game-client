@@ -80,11 +80,11 @@ export default class TexasTicketHistory extends BetHistory {
         }
     }
 
-    getHistory(page: number = 1) {
+    getHistory(page = 1) {
         this.connection.emit(events.getHistory, { page });
     }
 
-    getTicketDetail(roundId: number = 1) {
+    getTicketDetail(roundId = 1) {
         this.connection.emit(events.getTicketDetail, { roundId });
     }
 
