@@ -24,7 +24,7 @@ import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelpe
 import HiLoTicketHistoryModel from "../events-models/HiLoTicketHistoryModel";
 import { updateTicketHistory } from "../actions/HiLoTicketHistoryAction";
 import HiLoTicketHistory from "./HiLoTicketHistory";
-import HiLoStatistic from "./HiLoStatistic";
+import HiLoTopArea from "./HiLoTopArea";
 
 const { ccclass, property } = cc._decorator;
 
@@ -46,16 +46,10 @@ export default class HiLo extends NewMiniGameBase {
     betBoardPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    topNode: cc.Node = null;
-
-    @property(cc.Node)
-    guideNode: cc.Node = null;
-
-    @property(cc.Node)
-    statisticContainer: cc.Node = null;
+    topArea: cc.Node = null;
 
     @property(cc.Prefab)
-    statisticPrefab: cc.Prefab = null;
+    topAreaPrefab: cc.Prefab = null;
 
     @property(cc.Button)
     playButton: cc.Button = null;
@@ -90,7 +84,7 @@ export default class HiLo extends NewMiniGameBase {
     spinCardsEffectDuration = 1.5;
     betBoardComp: HiLoBetBoard;
     ticketHistoryComp: HiLoTicketHistory;
-    statisticComp: HiLoStatistic;
+    topAreaComp: HiLoTopArea;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -102,7 +96,7 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData = new HiLoGameData<HiLoChoices>(this);
         super.onLoad();
         this.showHideTopArea();
-        this.initStatistic();
+        this.initTopArea();
         this.registerResultEvents();
         this.registerStatusEvents();
         this.registerRoundCounterEvents();
@@ -113,7 +107,7 @@ export default class HiLo extends NewMiniGameBase {
         this.initBetBoard();
         this.addCountdownTimerSchedule();
         this.registerTicketHistoryEvent();
-        this.topNode.active = true;
+        this.topArea.active = true;
     }
 
     onEnable() {
@@ -231,14 +225,13 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     showHideTopArea() {
-        this.topNode.active = !this.topNode.active;
+        this.topArea.active = !this.topArea.active;
     }
 
-    initStatistic() {
-        const node = cc.instantiate(this.statisticPrefab);
-        this.statisticComp = node.getComponent(HiLoStatistic);
-        this.statisticContainer.addChild(node);
-        this.statisticContainer.active = false;
+    initTopArea() {
+        const node = cc.instantiate(this.topAreaPrefab);
+        this.topAreaComp = node.getComponent(HiLoTopArea);
+        this.topArea.addChild(node);
     }
 
     initBetBoard() {

@@ -17,7 +17,7 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     clearCards() {
-        // this.statisticContainer.destroyAllChildren();
+        this.statisticContainer.destroyAllChildren();
     }
 
     updateCards(cards: CardModel[]) {

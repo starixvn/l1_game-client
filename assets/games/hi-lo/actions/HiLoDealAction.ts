@@ -40,15 +40,15 @@ export const updateCard = (mainGame: HiLo) => (resultModel: HiLoResultModel) => 
 
 export const updateStatistic = (mainGame: HiLo) => (resultModel: HiLoResultModel) => {
     if (resultModel.result.length > 0) {
-        mainGame.guideNode.active = false;
-        mainGame.statisticContainer.active = true;
+        mainGame.topAreaComp.showGuideInfo(false);
         if (mainGame.gameData.resultModel.totalTurns === 0) {
-            mainGame.statisticComp.clearCards();
+            mainGame.topAreaComp.statisticComp.clearCards();
         }
-        cc.tween(mainGame.statisticContainer)
+
+        cc.tween(mainGame.topArea)
             .delay(mainGame.spinCardsEffectDuration)
             .call(() => {
-                mainGame.statisticComp.updateCards(resultModel.result);
+                mainGame.topAreaComp.statisticComp.updateCards(resultModel.result);
             })
             .start();
     }
