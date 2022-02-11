@@ -113,6 +113,9 @@ export default class HiLo extends NewMiniGameBase {
     onEnable() {
         super.onEnable();
         this.isStopSchedule = false;
+        if (!this.gameData.roundCounter.roundId) {
+            this.topAreaComp.lightEffect.playAnimation();
+        }
     }
 
     onData(data: unknown) {
@@ -156,7 +159,7 @@ export default class HiLo extends NewMiniGameBase {
     private registerResultEvents() {
         this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, (resultModel) => {
             this.gameData.roundCounter.change(this.gameData.resultModel.roundId);
-            updateStakes(this.stakesComp)(resultModel);
+            updateStakes(this)(resultModel);
             updateCard(this)(resultModel);
             updateCountdownTimer(this)(resultModel);
             updateStatistic(this)(resultModel);

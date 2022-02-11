@@ -1,10 +1,14 @@
-import HiLoStakes from "../view-models/HiLoStakes";
 import HiLo from "../view-models/HiLo";
 import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
 import { HiLoResultModel } from "../events-models/HiLoResultModel";
 
-export const updateStakes = (stakeComp: HiLoStakes) => (resultModel: HiLoResultModel) => {
-    stakeComp.updateStakes(resultModel.nextAmount);
+export const updateStakes = (mainGame: HiLo) => (resultModel: HiLoResultModel) => {
+    cc.tween(mainGame.stakesComp)
+        .delay(mainGame.spinCardsEffectDuration)
+        .call(() => {
+            mainGame.stakesComp.updateStakes(resultModel.nextAmount);
+        })
+        .start();
 };
 
 export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) => {

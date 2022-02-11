@@ -33,13 +33,17 @@ export default class EffectAppearanceLabel extends cc.Component {
         return this.label ? this.label.node.width : this.richText ? this.richText.node.width : 0;
     }
 
-    protected playAnimation() {
+    protected calculateDistance(): number {
+        const padding = 20;
+        return this.getContentWidth() + padding;
+    }
+
+    public playAnimation() {
         this.mask.node.width = 0;
         this.decorator.opacity = 255;
         this.decorator.position = cc.v3(0, this.decorator.position.y, this.decorator.position.z);
 
-        const padding = 20;
-        const width = this.getContentWidth() + padding;
+        const width = this.calculateDistance();
         const duration = width / this.speed;
 
         this.decorator.stopAllActions();

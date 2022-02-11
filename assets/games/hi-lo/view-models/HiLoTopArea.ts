@@ -1,5 +1,5 @@
-import EffectLight from "./EffectLight";
 import HiLoStatistic from "./HiLoStatistic";
+import LightEffect from "./LightEffect";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -13,8 +13,8 @@ export default class HiLoTopArea extends cc.Component {
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
-    @property(EffectLight)
-    decoration: EffectLight = null;
+    @property(LightEffect)
+    lightEffect: LightEffect = null;
 
     statisticComp: HiLoStatistic;
 
@@ -26,7 +26,7 @@ export default class HiLoTopArea extends cc.Component {
     showGuideInfo(status: boolean) {
         this.guideNode.active = status;
         this.statisticContainer.active = !status;
-        status && this.decoration.playAnimation();
+        status && this.lightEffect.playAnimation();
     }
 
     initStatistic() {
