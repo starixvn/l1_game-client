@@ -43,7 +43,7 @@ export default class HiLoTicketHistory extends BetHistory {
         this.renderTicketHisroty(data.history);
     }
 
-    renderTicketHisroty(data) {
+    renderTicketHisroty(data: any) {
         this.pages.onSet(data.page, data.pageSize, data.total);
         //this.content.children.forEach((child) => child.destroy());
         data.betLogs.forEach((item) => {
@@ -61,5 +61,6 @@ export default class HiLoTicketHistory extends BetHistory {
         const ticketDetailNode = cc.instantiate(this.ticketDetailPrefab);
         this.node.addChild(ticketDetailNode);
         const detailControl = ticketDetailNode.getComponent(HiLoTicketDetail);
+        detailControl.setData(betLogDetails);
     }
 }

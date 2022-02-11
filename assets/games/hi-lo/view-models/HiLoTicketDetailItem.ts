@@ -1,3 +1,6 @@
+import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
+import HiLoCardChoiceView from "./HiLoCardChoiceView";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -11,11 +14,11 @@ export default class HiLoTicketDetailItem extends cc.Component {
     @property(cc.Label)
     betChoice: cc.Label = null;
 
-    @property(cc.Label)
-    baseCard: cc.Label = null;
+    @property(HiLoCardChoiceView)
+    baseCard: HiLoCardChoiceView = null;
 
-    @property(cc.Label)
-    resultCard: cc.Label = null;
+    @property(HiLoCardChoiceView)
+    resultCard: HiLoCardChoiceView = null;
 
     @property(cc.Label)
     stake: cc.Label = null;
@@ -23,5 +26,13 @@ export default class HiLoTicketDetailItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    renderTicketDetailItem(logDetail: any) {}
+    renderTicketDetailItem(logDetail: any) {
+        this.time.string = getStringHourByTime(logDetail.time);
+        this.turn.string = logDetail.order;
+        this.betChoice.string = logDetail.choice === "h" ? "High" : "Low";
+        this.baseCard.setData(logDetail.cards[0].rank, logDetail.cards[0].suit);
+        this.resultCard.setData(logDetail.cards[1].rank, logDetail.cards[1].suit);
+        this.stake.string = logDetail.amount.toString();
+        this.win.string = logDetail.betwin.toString();
+    }
 }
