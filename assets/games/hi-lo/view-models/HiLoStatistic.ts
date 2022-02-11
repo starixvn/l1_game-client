@@ -38,6 +38,7 @@ export default class HiLoStatistic extends cc.Component {
         cardNode.width = 118;
         cardNode.height = 142;
         cardNode.opacity = 0;
+        cardNode.scale = 0.4;
         this.statisticContainer.addChild(cardNode);
         const cardComp = cardNode.getComponent(NewCard);
         cardComp.setCard(card);
