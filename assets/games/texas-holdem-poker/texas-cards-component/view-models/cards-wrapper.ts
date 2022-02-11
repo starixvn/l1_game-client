@@ -53,13 +53,13 @@ export const dealThirdCardAndFaceUpDealerCards = async (
     pokerCardsNote: PokerCards,
     cardsData: any,
     callBack?: () => void,
-    numberCommunityCards = -1
+    showResultMD5?: () => void
 ) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
     const { communityCards, dealerCards } = cardsData;
 
-    const communityCardsNew = communityCards.slice(numberCommunityCards);
+    const communityCardsNew = communityCards.slice(-1);
 
     for (let index = 0; index < communityCardsNew.length; index++) {
         const element = communityCardsNew[index];
@@ -71,6 +71,7 @@ export const dealThirdCardAndFaceUpDealerCards = async (
         await pokerCardsNote.faceUpDealerCard(element, index);
     }
 
+    showResultMD5 && showResultMD5();
     showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 2000);
 };
 

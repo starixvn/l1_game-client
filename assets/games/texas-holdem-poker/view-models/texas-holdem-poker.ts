@@ -327,9 +327,16 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         );
 
         this.gameData?.settlement.on(TexasHoldemPokerSettlement.Events.START_SHOW_CARDS, () => {
-            dealThirdCardAndFaceUpDealerCards(this.pokerCardScript, this.gameData.riverModel, () => {
-                this.gameData?.settlement.finishShowCards();
-            });
+            dealThirdCardAndFaceUpDealerCards(
+                this.pokerCardScript,
+                this.gameData.riverModel,
+                () => {
+                    this.gameData?.settlement.finishShowCards();
+                },
+                () => {
+                    this.md5Comp.createResultDetails(this.gameData.md5Model.md5);
+                }
+            );
         });
 
         this.gameData?.settlement.on(TexasHoldemPokerSettlement.Events.START_AUTO_CHECK, () => {

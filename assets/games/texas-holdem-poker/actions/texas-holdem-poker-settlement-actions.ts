@@ -14,6 +14,6 @@ export const showWinningOption =
         main: TexasHoldemPoker
     ) =>
     () => {
-        holdemPokerChips.showWinningOption(gameData, bettingAreas, slidingChips, main, TexasHoldemPokerChoicesConst);
+        holdemPokerChips.showWinningOption(gameData, bettingAreas, slidingChips, main as any, TexasHoldemPokerChoicesConst);
         gameData.settlement.waiting = false;
     };
