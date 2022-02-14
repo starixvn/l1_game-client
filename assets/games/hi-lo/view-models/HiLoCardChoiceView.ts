@@ -15,7 +15,7 @@ export default class HiLoCardChoiceView extends cc.Component {
 
     setData(rank: string, suit: number) {
         const keys = [0, 1, 2, 3];
-        const suffix = ["diamond", "heart", "spade", "club"];
+        const suffix = ["diamond", "heart", "club", "spade"];
         keys.forEach((key, i) => {
             if (suit === key) {
                 this.suit.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffix[i]}`);

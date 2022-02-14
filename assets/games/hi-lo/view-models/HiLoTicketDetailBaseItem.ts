@@ -1,3 +1,4 @@
+import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import HiLoTicketDetailItem from "./HiLoTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
@@ -8,9 +9,9 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
     round: cc.Label = null;
 
     setData(data: any, isFirst: boolean) {
-        this.time = data.time;
+        this.time.string = isFirst ? getStringHourByTime(data.time) : getStringHourByTime(data.endTime);
         this.round.string = isFirst ? "Start Round" : "End Round";
-        this.stake.string = data.stake;
-        this.win.string = data.betwin;
+        this.stake.string = isFirst ? data.amount : "";
+        this.win.string = isFirst ? "" : data.betwin;
     }
 }
