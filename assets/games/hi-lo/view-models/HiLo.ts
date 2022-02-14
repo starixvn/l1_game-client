@@ -108,7 +108,7 @@ export default class HiLo extends NewMiniGameBase {
         this.initBetBoard();
         this.addCountdownTimerSchedule();
         this.registerTicketHistoryEvent();
-        this.topArea.active = true;
+        this.topArea.opacity = 255;
     }
 
     onEnable() {
@@ -229,7 +229,8 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     showHideTopArea() {
-        this.topArea.active = !this.topArea.active;
+        const topOpacity = this.topArea.opacity;
+        this.topArea.opacity = topOpacity > 0 ? 0 : 255;
     }
 
     initTopArea() {
