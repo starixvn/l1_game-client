@@ -37,7 +37,6 @@ export default class HiLoStatistic extends cc.Component {
             if (cards.length > this.itemSize) {
                 this.updateContentPosition(this.getOffsetX(1));
             }
-            this.layout.updateLayout();
         } else {
             this.clearCards();
             if (cards.length > this.itemSize) {
@@ -47,8 +46,8 @@ export default class HiLoStatistic extends cc.Component {
             cards.forEach((card) => {
                 this.createCard(card);
             });
-            this.layout.updateLayout();
         }
+        this.layout && this.layout.updateLayout();
     }
 
     private getOffsetX(itemNumbers: number): number {
