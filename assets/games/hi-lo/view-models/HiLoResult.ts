@@ -10,7 +10,6 @@ export default class HiLoResult extends cc.Component {
     @property(cc.Node)
     cardReel: cc.Node = null;
 
-    private reelLayout: cc.Layout = null;
     private cardList: NewCard[] = [];
     private cardWidth = 118;
     private cardHeight = 150;
@@ -53,16 +52,6 @@ export default class HiLoResult extends cc.Component {
     }
 
     createReel() {
-        this.reelLayout = this.cardReel.getComponent(cc.Layout);
-        this.reelLayout.updateLayout();
-        this.createCards();
-    }
-
-    updateResult(result: CardModel) {
-        this.setCard(this.cardList[this.cardList.length - 1], result);
-    }
-
-    createCards() {
         this.cardReel && this.cardReel.destroyAllChildren();
         for (const card of this.animationCardValues) {
             const cardNode = this.createCard();
@@ -71,7 +60,7 @@ export default class HiLoResult extends cc.Component {
             this.setCard(cardComp, card);
             this.cardList.push(cardComp);
         }
-        this.reelLayout.updateLayout();
+        this.cardReel.getComponent(cc.Layout).updateLayout();
     }
 
     createCard(): cc.Node {
@@ -82,6 +71,11 @@ export default class HiLoResult extends cc.Component {
         node.scaleY = this.cardScaleY;
         node.scaleZ = this.cardScaleZ;
         return node;
+    }
+
+    updateResult(result: CardModel) {
+        const resultComp = this.cardList[this.cardList.length - 1];
+        this.setCard(resultComp, result);
     }
 
     setCard(cardComponent: NewCard, data: CardModel) {
