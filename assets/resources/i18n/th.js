@@ -129,6 +129,7 @@ window.i18n.languages.th = {
         limitBetChanged: "วงเงินเดิมพันของคุณเพิ่งมีการเปลี่ยนแปลง",
         enableTurboMode: 'โหมดเทอร์โบ "เปิด"',
         disableTurboMode: 'โหมดเทอร์โบ "ปิด"',
+        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
         noticeTitle: "ประกาศ",
         accountClosed:
             "บัญชีถูกปิดระงับใช้งาน เซสชั่นของคุณจะหมดอายุหลังจาก 10 วินาที โปรดติดต่อแดมมินสำหรับรายละเอียดเพิ่มเติม (%{errorCode})",

@@ -122,6 +122,7 @@ window.i18n.languages.zh_tw = {
         limitBetChanged: "您的投注限額剛剛更改。",
         enableTurboMode: "渦輪模式“開啟”",
         disableTurboMode: "渦輪模式“關閉”",
+        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
         noticeTitle: "注意",
         accountClosed: "帳戶已關閉。您的會話將在 10 秒後過期，詳情請聯繫 CSD。(%{errorCode})",
         disabledGame: "遊戲正在維護中，請在10分鐘後回來。",

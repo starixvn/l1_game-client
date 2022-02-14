@@ -131,6 +131,7 @@ window.i18n.languages.id = {
         limitBetChanged: "Batas taruhan Anda baru saja diubah.",
         enableTurboMode: 'Mode Turbo "ON"',
         disableTurboMode: 'Mode Turbo "MATI"',
+        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
         noticeTitle: "ULASAN",
         accountClosed:
             "Akun telah ditutup. Sesi Anda akan kedaluwarsa setelah 10 detik, silakan hubungi CSD untuk detailnya. (%{errorCode})",

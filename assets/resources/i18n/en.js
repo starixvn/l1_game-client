@@ -131,7 +131,7 @@ window.i18n.languages.en = {
         limitBetChanged: "Your bet limit has just been changed.",
         enableTurboMode: 'Turbo Mode "ON"',
         disableTurboMode: 'Turbo Mode "OFF"',
-        disallowHedgeBet: "Chỉ có thể đặt cược trên %{betChoice1} hoặc %{betChoice2}.",
+        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
         noticeTitle: "NOTICE",
         accountClosed: "Account has been closed. Your session will expire after 10 seconds, please contact CSD for details. (%{errorCode})",
         disabledGame: "Game is under maintenance, please come back in 10 minutes.",
