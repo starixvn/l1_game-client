@@ -16,7 +16,7 @@ export default class HiLoResult extends cc.Component {
     private cardScaleX = 1.23;
     private cardScaleY = 1.5;
     private cardScaleZ = 1.23;
-    private animationCardValues: CardModel[] = [
+    private randomCardValues: CardModel[] = [
         { rank: "J", suit: 3 },
         { rank: "4", suit: 1 },
         { rank: "10", suit: 0 },
@@ -53,7 +53,7 @@ export default class HiLoResult extends cc.Component {
 
     createReel() {
         this.cardReel && this.cardReel.destroyAllChildren();
-        for (const card of this.animationCardValues) {
+        for (const card of this.randomCardValues) {
             const cardNode = this.createCard();
             this.cardReel.addChild(cardNode);
             const cardComp = cardNode.getComponent(NewCard);
