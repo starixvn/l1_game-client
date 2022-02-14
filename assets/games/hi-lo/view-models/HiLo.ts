@@ -215,11 +215,6 @@ export default class HiLo extends NewMiniGameBase {
         }
     }
 
-    openGuide() {
-        const guideNode = cc.instantiate(this.guidePrefab);
-        this.currentMiniPanel.addDialog(guideNode);
-    }
-
     openHistory() {
         this.playClick();
         this.initHistory();
