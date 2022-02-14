@@ -17,10 +17,14 @@ export default class HiLoTicketDetail extends cc.Component {
     @property(cc.Node)
     detailTable: cc.Node = null;
 
+    @property(cc.Label)
+    roundId: cc.Label = null;
+
     private tableHeight = 80;
     private contentHeight = 0;
 
     setData(data: any) {
+        this.roundId.string = data.id;
         const betLogDetails = data.betLogDetails;
         const startRound = this.renderDetailBase(data, true);
         this.content.addChild(startRound);

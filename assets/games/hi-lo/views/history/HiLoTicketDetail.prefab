@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "HoldemPokerTicketDetail",
+    "_name": "HiLoTicketDetail",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -373,8 +373,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 92.29,
-      "height": 22.68
+      "width": 102.55,
+      "height": 25.2
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -385,7 +385,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -469.997,
+        -464.091,
         279.169,
         0,
         0,
@@ -440,8 +440,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 50.32,
-      "height": 22.68
+      "width": 44.73,
+      "height": 25.2
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -492,10 +492,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "#1234",
-    "_N$string": "#1234",
-    "_fontSize": 18,
-    "_lineHeight": 18,
+    "_string": "1234",
+    "_N$string": "1234",
+    "_fontSize": 20,
+    "_lineHeight": 20,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
@@ -661,8 +661,8 @@
     "_dstBlendFactor": 771,
     "_string": "ui.roundId",
     "_N$string": "ui.roundId",
-    "_fontSize": 18,
-    "_lineHeight": 18,
+    "_fontSize": 20,
+    "_lineHeight": 20,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
@@ -692,7 +692,7 @@
     "_alignFlags": 1,
     "_left": 329.153,
     "_right": 0,
-    "_top": 102.49100000000006,
+    "_top": 101.231,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -2038,8 +2038,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.BETCHOICE",
-    "_N$string": "UI.BETCHOICE",
+    "_string": "ui.betChoice",
+    "_N$string": "ui.betChoice",
     "_fontSize": 24,
     "_lineHeight": 24,
     "_enableWrapText": true,
@@ -2785,8 +2785,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.STAKE",
-    "_N$string": "UI.STAKE",
+    "_string": "ui.stake",
+    "_N$string": "ui.stake",
     "_fontSize": 24,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -3034,8 +3034,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.WIN",
-    "_N$string": "UI.WIN",
+    "_string": "ui.win",
+    "_N$string": "ui.win",
     "_fontSize": 24,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -3760,6 +3760,9 @@
     },
     "detailTable": {
       "__id__": 27
+    },
+    "roundId": {
+      "__id__": 10
     },
     "_id": ""
   },
