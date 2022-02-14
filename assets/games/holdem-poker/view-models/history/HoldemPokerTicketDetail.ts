@@ -52,7 +52,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
     @property(cc.Sprite)
     betTable: cc.Sprite = null;
 
-    private heightBetTable = 64;
+    protected heightBetTable = 64;
 
     renderTitle(roundId: number, time: Date) {
         this.roundId.string = roundId.toString();
@@ -73,7 +73,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
     handleTicketDetailItem(bet: any, index: number) {
         const detailItemPrefab = cc.instantiate(this.prefabItem);
         const detailItemControl = detailItemPrefab.getComponent(HoldemPokerTicketDetailItem);
-        detailItemControl.renderTicketDetailitem(bet, index);
+        detailItemControl.renderTicketDetailItem(bet, index);
         this.content.addChild(detailItemPrefab);
     }
 
@@ -121,7 +121,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         }
     }
 
-    private renderCardsUIEqualCall(playerCombination: any, dealerCombination: any, dealerCards: any) {
+    protected renderCardsUIEqualCall(playerCombination: any, dealerCombination: any, dealerCards: any) {
         playerCombination.forEach((element) => {
             this.playerCombinationContainer.node.addChild(this.createCard(element, 0.75, 0.75));
             this.playerCombinationContainer.updateLayout();
@@ -138,7 +138,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         });
     }
 
-    private renderCardsUIEqualFold() {
+    protected renderCardsUIEqualFold() {
         const dealerFakeData = [
             { rank: "1", suit: 1 },
             { rank: "1", suit: 1 }
@@ -154,7 +154,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         this.dealerRank.string = "-";
     }
 
-    private createCard(card: CardModel, scaleX: number, scaleY: number, isFaceUp = true): cc.Node {
+    protected createCard(card: CardModel, scaleX: number, scaleY: number, isFaceUp = true): cc.Node {
         const node = cc.instantiate(this.pokerCardPrefab);
         const cardComponent = node.getComponent(HoldemPokerCard);
         cardComponent.setCard(card);

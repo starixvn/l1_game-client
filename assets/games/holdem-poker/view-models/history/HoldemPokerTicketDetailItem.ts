@@ -25,7 +25,7 @@ export default class HoldemPokerTicketDetailItem extends cc.Component {
     @property(cc.Node)
     bgRow: cc.Node = null;
 
-    renderTicketDetailitem(bet: any, index: number) {
+    renderTicketDetailItem(bet: any, index: number) {
         const bettingOption = bet.betChoice === "call" ? `holdEmPoker.${bet.betChoice}Choice` : `holdEmPoker.${bet.betChoice}`;
         console.log(bettingOption);
         this.bettingOption.string = `${i18n.t(bettingOption)}`;

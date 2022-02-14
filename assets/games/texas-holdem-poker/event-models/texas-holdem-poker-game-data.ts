@@ -79,8 +79,8 @@ export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choic
             TexasHoldemRiverEventHandler,
             TexasHoldemPokerOwnBetHandler,
             TexasHoldemPokerFinishHandler,
-            HoldemPockerMD5Handler
-            // TexasTicketDetailEventHandler
+            HoldemPockerMD5Handler,
+            TexasTicketDetailEventHandler
         ];
 
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));

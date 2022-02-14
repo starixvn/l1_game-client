@@ -19,7 +19,6 @@ import {
 } from "../actions/texas-holdem-poker-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-holdem-poker-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-holdem-poker-settlement-actions";
-import { showUMInfo } from "../actions/texas-holdem-poker-um-actions";
 import { TexasHoldemPokerAfterCallModel } from "../event-models/texas-holdem-poker-call-model";
 import TexasHoldemPokerChoices, { BetActionConst, TexasHoldemPokerChoicesConst } from "../event-models/texas-holdem-poker-choices";
 import { TexasHoldemPokerConfigs } from "../event-models/texas-holdem-poker-configs";
@@ -53,8 +52,9 @@ import TexasHoldemPokerPlacingBet from "./texas-holdem-poker-placing-bet";
 import HoldemPockerMD5 from "../../holdem-poker/view-models/HoldemPockerMD5";
 import AudioManager from "../../../common/audio/AudioManager";
 import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
-import HoldemPokerTicketHistory from "../../holdem-poker/view-models/history/HoldemPokerTicketHistory";
-import { renderTicketDetail } from "../../holdem-poker/actions/HoldemPokerTicketDetailActions";
+import TexasTicketHistory from "./game-history/texas-ticket-history";
+import { renderTicketDetail } from "./../actions/texas-holdem-poker-ticket-detail-actions";
+import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -134,19 +134,13 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     @property(cc.AudioSource)
     startNewRoundAudio: cc.AudioSource = null;
 
-    @property(cc.Node)
-    doubleAndCallButton: cc.Node = null;
-
-    @property()
-    protected anteOddsTable: any = null;
-
     protected placingBet: TexasHoldemPokerPlacingBet = null;
     protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
     protected texasHoldemPokerChips: TexasHoldemPokerChips;
     protected colorItem = "#4d2a0e";
     protected colorIconMain = "#4d2a0e";
     pokerCardScript: TexasHoldemPokerCards = undefined;
-    protected betHistoryController: HoldemPokerTicketHistory = null;
+    protected betHistoryController: TexasTicketHistory = null;
 
     constructor() {
         super();
@@ -255,7 +249,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
 
     private initTicketHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
-        this.betHistoryController = dialog.getComponent(HoldemPokerTicketHistory);
+        this.betHistoryController = dialog.getComponent(TexasTicketHistory);
         this.betHistoryController.init(this as any);
         this.betHistoryController.setConnection(this.connection, this.gameName, this.gameData.roundCounter.roundId);
         this.betHistoryController.node.active = false;
@@ -401,12 +395,14 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     }
 
     private registerTicketDetailEvents() {
-        this.gameData.ticketDetailModel.on(TexasHoldemPokerTicketDetailModel.Events.CHANGE, renderTicketDetail(this.betHistoryController));
+        this.gameData.ticketDetailModel.on(TexasHoldemPokerTicketDetailModel.Events.CHANGE, (data) => {
+            renderTicketDetail(this.betHistoryController)(data);
+        });
     }
 
     private registerNoticeEvents() {
         this.gameData.on(CommonEvents.NOTICE, (text) => this.showMiniWarning(text));
-        this.gameData.on(CommonEvents.UM, showUMInfo(this));
+        this.gameData.on(CommonEvents.UM, handleUM(this));
     }
 
     private registerMD5Event() {
