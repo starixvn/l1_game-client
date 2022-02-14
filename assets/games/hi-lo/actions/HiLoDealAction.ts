@@ -38,6 +38,7 @@ export const updateCard = (mainGame: HiLo) => (resultModel: HiLoResultModel) => 
     if (resultModel.result.length > 0) {
         if (resultModel.remainingTime > mainGame.config.betTime) {
             mainGame.resultComp.spin(mainGame.spinCardsEffectDuration, true);
+            mainGame.isSpin = true;
         } else {
             mainGame.resultComp.spin(mainGame.spinCardsEffectDuration, false);
         }
@@ -53,7 +54,7 @@ export const updateStatistic = (mainGame: HiLo) => (resultModel: HiLoResultModel
         }
 
         cc.tween(mainGame.topArea)
-            .delay(mainGame.spinCardsEffectDuration)
+            .delay(mainGame.isSpin ? mainGame.spinCardsEffectDuration : 0)
             .call(() => {
                 mainGame.topAreaComp.statisticComp.updateCards(resultModel.result);
             })

@@ -77,6 +77,7 @@ export default class HiLo extends NewMiniGameBase {
 
     gameData: HiLoGameData<HiLoChoices> = null;
     isStopSchedule = false;
+    isSpin = false;
     loseMessageEffectDuration = 1.5;
     newRoundAfterLossDelayTime = 2.5;
     winningEffectDuration = 1;
@@ -113,6 +114,7 @@ export default class HiLo extends NewMiniGameBase {
     onEnable() {
         super.onEnable();
         this.isStopSchedule = false;
+        this.isSpin = false;
         if (!this.gameData.roundCounter.roundId) {
             this.topAreaComp.lightEffect.playAnimation();
         }
@@ -219,7 +221,6 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     private initHistory(pages = 1) {
-        //this.connection.emit(HiLoEvents.history, { pages });
         const dialog = cc.instantiate(this.historyPrefab);
         this.ticketHistoryComp = dialog.getComponent(HiLoTicketHistory);
         this.ticketHistoryComp.setConnection(this.connection, this.gameName, this.gameData.roundCounter.roundId);
