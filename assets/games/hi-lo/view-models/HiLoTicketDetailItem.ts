@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import HiLoCardChoiceView from "./HiLoCardChoiceView";
 
@@ -29,7 +31,7 @@ export default class HiLoTicketDetailItem extends cc.Component {
     renderTicketDetailItem(logDetail: any) {
         this.time.string = getStringHourByTime(logDetail.time);
         this.turn.string = logDetail.order;
-        this.betChoice.string = logDetail.choice === "h" ? "High" : "Low";
+        this.betChoice.string = logDetail.choice === "h" ? `${i18n.t(`hiLo.high`)}` : `${i18n.t(`hiLo.low`)}`;
         this.baseCard.setData(logDetail.cards[0].rank, logDetail.cards[0].suit);
         this.resultCard.setData(logDetail.cards[1].rank, logDetail.cards[1].suit);
         this.stake.string = logDetail.amount.toString();

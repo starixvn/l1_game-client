@@ -22,6 +22,9 @@ export default class HiLoTicketHistoryItem extends cc.Component {
         this.roundId.string = id.toString();
         this.stake.string = amount.toString();
         this.win.string = numberWithCommas(betwin);
+        if (betwin > 0) {
+            this.stake.node.color = cc.Color.YELLOW;
+        }
     }
 
     openTicketDetail() {}

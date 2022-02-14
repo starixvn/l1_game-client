@@ -21,6 +21,9 @@ export default class HiLoCardChoiceView extends cc.Component {
                 this.suit.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffix[i]}`);
             }
         });
+        if (suit === 0 || suit === 1) {
+            this.rank.node.color = new cc.Color(255, 4, 4);
+        }
         this.rank.string = rank;
     }
 }

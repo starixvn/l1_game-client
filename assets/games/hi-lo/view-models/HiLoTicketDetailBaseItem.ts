@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import HiLoTicketDetailItem from "./HiLoTicketDetailItem";
 
@@ -9,9 +11,18 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
     round: cc.Label = null;
 
     setData(data: any, isFirst: boolean) {
-        this.time.string = isFirst ? getStringHourByTime(data.time) : getStringHourByTime(data.endTime);
-        this.round.string = isFirst ? "Start Round" : "End Round";
-        this.stake.string = isFirst ? data.amount : "";
-        this.win.string = isFirst ? "" : data.betwin;
+        if (isFirst) {
+            this.time.string = getStringHourByTime(data.time);
+            this.round.string = `${i18n.t(`hiLo.startRound`)}`;
+            this.stake.string = data.amount;
+            this.win.string = "";
+            this.stake.node.color = cc.Color.YELLOW;
+        } else {
+            this.time.string = getStringHourByTime(data.endTime);
+            this.round.string = `${i18n.t(`hiLo.endRound`)}`;
+            this.stake.string = "";
+            this.win.string = data.betwin;
+            this.win.node.color = cc.Color.YELLOW;
+        }
     }
 }
