@@ -36,13 +36,13 @@ export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) =
 
 export const updateCard = (mainGame: HiLo) => (resultModel: HiLoResultModel) => {
     if (resultModel.result.length > 0) {
+        mainGame.resultComp.updateResult(resultModel.result[resultModel.result.length - 1]);
         if (resultModel.remainingTime > mainGame.config.betTime) {
             mainGame.resultComp.spin(mainGame.spinCardsEffectDuration, true);
             mainGame.isSpin = true;
         } else {
             mainGame.resultComp.spin(mainGame.spinCardsEffectDuration, false);
         }
-        mainGame.resultComp.updateResult(resultModel.result[resultModel.result.length - 1]);
     }
 };
 

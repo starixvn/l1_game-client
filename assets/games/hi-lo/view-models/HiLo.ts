@@ -76,11 +76,11 @@ export default class HiLo extends NewMiniGameBase {
     gameData: HiLoGameData<HiLoChoices> = null;
     isStopSchedule = false;
     isSpin = false;
-    loseMessageEffectDuration = 1.5;
-    newRoundAfterLossDelayTime = 2.5;
-    winningEffectDuration = 1;
-    deductingAmountEffectDuration = 1;
-    spinCardsEffectDuration = 1.5;
+    readonly loseMessageEffectDuration = 1.5;
+    readonly newRoundAfterLossDelayTime = 2.5;
+    readonly winningEffectDuration = 1;
+    readonly deductingAmountEffectDuration = 1;
+    readonly spinCardsEffectDuration = 2;
     betBoardComp: HiLoBetBoard;
     ticketHistoryComp: HiLoTicketHistory;
     topAreaComp: HiLoTopArea;
