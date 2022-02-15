@@ -191,13 +191,6 @@ export default class GameUtils {
     }
 
     public static copyToClipboard(data: string, callback): void {
-        // const listener = (e: ClipboardEvent) => {
-        //     e.clipboardData.setData("text/plain", data);
-        //     e.preventDefault();
-        //     document.removeEventListener("copy", listener);
-        // };
-        // document.addEventListener("copy", listener);
-        // document.execCommand("copy");
         navigator.clipboard.writeText(data).then(() => {
             if (callback) {
                 callback();
