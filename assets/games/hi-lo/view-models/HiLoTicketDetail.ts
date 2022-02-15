@@ -15,6 +15,9 @@ export default class HiLoTicketDetail extends cc.Component {
     content: cc.Node = null;
 
     @property(cc.Node)
+    view: cc.Node = null;
+
+    @property(cc.Node)
     detailTable: cc.Node = null;
 
     @property(cc.Label)
@@ -38,7 +41,13 @@ export default class HiLoTicketDetail extends cc.Component {
         const endRound = this.renderDetailBase(data, false);
         this.content.addChild(endRound);
         this.content.height = this.contentHeight;
-        this.detailTable.height = this.tableHeight + this.contentHeight;
+        if (this.contentHeight >= 500) {
+            this.view.height = 504;
+            this.detailTable.height = this.tableHeight + 504;
+        } else {
+            this.view.height = this.contentHeight + 4;
+            this.detailTable.height = this.tableHeight + this.contentHeight;
+        }
     }
 
     renderDetailBase(data: any, isFirst: boolean): cc.Node {
