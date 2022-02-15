@@ -11,7 +11,6 @@ export const updateClockTime =
         }
 
         clock.setTime(numberPad(globalRemaining, 2));
-        clock.setRedTime(10);
     };
 
 export const updateCountdownTimer = (mainGame: HiLo) => (resultModel: HiLoResultModel) => {

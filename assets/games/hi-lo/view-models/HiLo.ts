@@ -95,7 +95,6 @@ export default class HiLo extends NewMiniGameBase {
     onLoad() {
         this.gameData = new HiLoGameData<HiLoChoices>(this);
         super.onLoad();
-        this.showHideTopArea();
         this.initTopArea();
         this.registerResultEvents();
         this.registerStatusEvents();
@@ -107,6 +106,7 @@ export default class HiLo extends NewMiniGameBase {
         this.initBetBoard();
         this.addCountdownTimerSchedule();
         this.topArea.opacity = 255;
+        this.animatedTime.setRedTime(10);
     }
 
     onEnable() {
@@ -222,7 +222,7 @@ export default class HiLo extends NewMiniGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
-    showHideTopArea() {
+    onStatisticClick() {
         const topOpacity = this.topArea.opacity;
         this.topArea.opacity = topOpacity > 0 ? 0 : 255;
     }
@@ -275,7 +275,7 @@ export default class HiLo extends NewMiniGameBase {
             const showMessageDuration = 0.3;
             const hideMessageDuration = 0.1;
             cc.tween(this.userLose)
-                .delay(this.spinCardsEffectDuration - showMessageDuration)
+                .delay(this.spinCardsEffectDuration)
                 .to(showMessageDuration, { opacity: 255, scale: 1 }, { easing: "sineOut" })
                 .delay(this.loseMessageEffectDuration)
                 .call(() => {
