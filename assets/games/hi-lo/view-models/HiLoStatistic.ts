@@ -32,7 +32,7 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     updateCards(cards: CardModel[]) {
-        if (this.statisticContainer.childrenCount == cards.length - 1) {
+        if (this.statisticContainer.childrenCount === cards.length - 1) {
             this.createCard(cards[cards.length - 1]);
             if (cards.length > this.itemSize) {
                 this.updateContentPosition(this.getOffsetX(1));
