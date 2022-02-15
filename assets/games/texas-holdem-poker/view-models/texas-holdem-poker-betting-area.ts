@@ -6,9 +6,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class TexasHoldemPokerBettingArea extends HoldemPokerBettingArea {
-    @property(cc.Node)
-    chipWin: cc.Node = null;
-
     protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
 
     init(gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices>) {
