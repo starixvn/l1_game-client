@@ -73,8 +73,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.DragonTiger,
         GameIds.ThreeCards,
         GameIds.BlackJack,
-        GameIds.CasinoHoldemPoker,
-        GameIds.HiLo
+        GameIds.CasinoHoldemPoker
     ];
     slotGames = [
         //
