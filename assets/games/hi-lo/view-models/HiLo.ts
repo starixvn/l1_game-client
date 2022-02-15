@@ -21,8 +21,6 @@ import HiLoBetBoard from "./HiLoBetBoard";
 import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
 import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelper";
-import HiLoTicketHistoryModel from "../events-models/HiLoTicketHistoryModel";
-import { updateTicketHistory } from "../actions/HiLoTicketHistoryAction";
 import HiLoTicketHistory from "./HiLoTicketHistory";
 import HiLoTopArea from "./HiLoTopArea";
 
@@ -107,7 +105,6 @@ export default class HiLo extends NewMiniGameBase {
         this.registerGameConfigsEvents();
         this.initBetBoard();
         this.addCountdownTimerSchedule();
-        this.registerTicketHistoryEvent();
         this.topArea.opacity = 255;
     }
 
@@ -190,10 +187,6 @@ export default class HiLo extends NewMiniGameBase {
 
     private registerGameConfigsEvents() {
         this.gameData.configs.on(HiLoGameConfigs.Events.CHANGE, updateGameConfigs(this));
-    }
-
-    private registerTicketHistoryEvent() {
-        this.gameData.ticketHistory.on(HiLoTicketHistoryModel.Events.CHANGE, updateTicketHistory(this));
     }
 
     onPlacingBet(betChoice: string) {
