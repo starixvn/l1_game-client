@@ -59,8 +59,8 @@ export default class BetChips extends cc.Component {
     public enableStakeLevel = true;
 
     public chipConfig: ChipConfig;
-    private selectedIndex = 0;
-    private chipList: cc.Node[] = [];
+    public selectedIndex = 0;
+    public chipList: cc.Node[] = [];
 
     private currentBetValue = "1";
 
@@ -422,7 +422,7 @@ export default class BetChips extends cc.Component {
         return chip;
     }
 
-    private updateSelectedBet(targetName: string) {
+    updateSelectedBet(targetName: string) {
         this.chips.children.forEach((chip) => {
             chip.stopAllActions();
 
