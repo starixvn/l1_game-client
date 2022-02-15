@@ -513,7 +513,7 @@ window.i18n.languages.vi = {
         collect: "Ăn Non",
         sorryMessage: "Thật tiếc, bạn đã thua.",
         click: "Bấm",
-        toStart: "to start.",
+        toStart: "để bắt đầu.",
         turn: "Bước",
         baseCard: "Bài",
         resultCard: "Kết Quả",

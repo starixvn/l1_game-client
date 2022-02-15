@@ -470,7 +470,7 @@ window.i18n.languages.id = {
         collect: "Collect",
         sorryMessage: "Sorry, you lost the game.",
         click: "Click",
-        toStart: "để bắt đầu.",
+        toStart: "to start.",
         turn: "Turn",
         baseCard: "Base Card",
         resultCard: "Result Card",

@@ -244,7 +244,7 @@ export default class HiLo extends NewMiniGameBase {
         this.betBoardContainer.addChild(betBoard);
         this.betBoardComp.init((bet) => {
             this.onChangedBetChip(bet);
-            this.stakesComp.betWin.string = bet.toString();
+            this.stakesComp.betWin.string = numberWithCommas(bet.toString(), 2);
         });
     }
 
