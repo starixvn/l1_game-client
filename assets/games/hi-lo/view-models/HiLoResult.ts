@@ -96,6 +96,7 @@ export default class HiLoResult extends cc.Component {
         const offset = this.cardReel.height - this.cardHeight * this.cardScaleY;
         if (animated) {
             this.cardReel.position = cc.v3(0, 0, 0);
+            this.cardReel.stopAllActions();
             cc.tween(this.cardReel)
                 .to(spinDuration, { position: cc.v3(this.cardReel.x, -offset, 0) }, { easing: "sineInOut" })
                 .start();

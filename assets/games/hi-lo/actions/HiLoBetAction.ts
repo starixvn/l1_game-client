@@ -17,20 +17,31 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             break;
         case HiLoState.IN_TURN:
             mainGame.showPlayGameButton(false);
+            mainGame.betBoardComp.disableBetBoard(true);
             mainGame.isStopSchedule = false;
             const currentResult = mainGame.gameData.resultModel.result[mainGame.gameData.resultModel.result.length - 1];
-            mainGame.bettingAreas.forEach((area) => {
-                if (
-                    (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) ||
-                    (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower)
-                ) {
-                    area.enableBetChoice(false);
-                } else {
-                    area.enableBetChoice(true);
-                }
-            });
-            mainGame.enableCollectButton(mainGame.gameData.resultModel.totalTurns > 0);
-            mainGame.betBoardComp.disableBetBoard(true);
+
+            cc.tween(mainGame)
+                .call(() => {
+                    mainGame.enableAllBetOptions(false);
+                    mainGame.enableCollectButton(false);
+                })
+                .delay(mainGame.getDelayTimeWhenSpinCard())
+                .call(() => {
+                    mainGame.bettingAreas.forEach((area) => {
+                        if (
+                            (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) ||
+                            (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower)
+                        ) {
+                            area.enableBetChoice(false);
+                        } else {
+                            area.enableBetChoice(true);
+                        }
+                    });
+                    mainGame.enableCollectButton(mainGame.gameData.resultModel.totalTurns > 0);
+                })
+                .start();
+
             break;
         case HiLoState.SETTLED:
             mainGame.resetDataAndUI();

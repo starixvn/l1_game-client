@@ -54,7 +54,7 @@ export const updateStatistic = (mainGame: HiLo) => (resultModel: HiLoResultModel
         }
 
         cc.tween(mainGame.topArea)
-            .delay(mainGame.isSpin ? mainGame.spinCardsEffectDuration : 0)
+            .delay(mainGame.getDelayTimeWhenSpinCard())
             .call(() => {
                 mainGame.topAreaComp.statisticComp.updateCards(resultModel.result);
             })

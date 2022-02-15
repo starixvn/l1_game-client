@@ -329,12 +329,15 @@ export default class HiLo extends NewMiniGameBase {
 
         this.enableAllBetOptions(false);
         this.enableCollectButton(false);
-        this.resetCountdownTimer();
         this.gameRound.string = "";
     }
 
     resetCountdownTimer() {
         this.animatedTime.setTime(numberPad(this.config.betTime, 2));
         this.isStopSchedule = true;
+    }
+
+    getDelayTimeWhenSpinCard(): number {
+        return this.isSpin ? this.spinCardsEffectDuration : 0;
     }
 }
