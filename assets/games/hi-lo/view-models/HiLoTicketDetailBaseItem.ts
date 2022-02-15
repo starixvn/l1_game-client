@@ -12,14 +12,16 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
 
     setData(data: any, isFirst: boolean) {
         if (isFirst) {
+            const startRound = "hiLo.startRound";
             this.time.string = getStringHourByTime(data.time);
-            this.round.string = `${i18n.t(`hiLo.startRound`)}`;
+            this.round.string = `${i18n.t(startRound)}`;
             this.stake.string = data.amount;
             this.win.string = "";
             this.stake.node.color = cc.Color.YELLOW;
         } else {
+            const endRound = "hiLo.endRound";
             this.time.string = getStringHourByTime(data.endTime);
-            this.round.string = `${i18n.t(`hiLo.endRound`)}`;
+            this.round.string = `${i18n.t(endRound)}`;
             this.stake.string = "";
             this.win.string = data.betwin;
             this.win.node.color = cc.Color.YELLOW;

@@ -29,9 +29,11 @@ export default class HiLoTicketDetailItem extends cc.Component {
     win: cc.Label = null;
 
     renderTicketDetailItem(logDetail: any) {
+        const high = "hiLo.high";
+        const low = "hiLo.low";
         this.time.string = getStringHourByTime(logDetail.time);
         this.turn.string = logDetail.order;
-        this.betChoice.string = logDetail.choice === "h" ? `${i18n.t(`hiLo.high`)}` : `${i18n.t(`hiLo.low`)}`;
+        this.betChoice.string = logDetail.choice === "h" ? `${i18n.t(high)}` : `${i18n.t(low)}`;
         this.baseCard.setData(logDetail.cards[0].rank, logDetail.cards[0].suit);
         this.resultCard.setData(logDetail.cards[1].rank, logDetail.cards[1].suit);
         this.stake.string = logDetail.amount.toString();
