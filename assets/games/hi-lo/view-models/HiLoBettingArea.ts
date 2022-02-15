@@ -7,7 +7,7 @@ export const BettingAreaEvents = {
 @ccclass
 export default class HiLoBettingArea extends cc.Component {
     @property(cc.String)
-    betChoice: string = "";
+    betChoice = "";
 
     @property(cc.Node)
     disableLayer: cc.Node = null;

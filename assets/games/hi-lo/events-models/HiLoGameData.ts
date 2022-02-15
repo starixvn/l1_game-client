@@ -10,7 +10,6 @@ import HiLoGameConfigs from "./HiLoGameConfigs";
 import { HiLoStateModel } from "./HiLoStateModel";
 import HiLo from "../view-models/HiLo";
 import HiLoTicketHistoryModel from "./HiLoTicketHistoryModel";
-import { HiLoTicketHistoryHandler } from "../events-handlers/HiLoTicketHistoryHandler";
 
 export default class HiLoGameData<Choices> extends GameData<Choices> {
     static Events = {

@@ -15,11 +15,11 @@ export default class HiLoStatistic extends cc.Component {
 
     private layout: cc.Layout;
     private spaceX: number;
-    private itemSize = 10;
-    private cardWidth = 118;
-    private cardHeight = 142;
-    private cardScaleX = 0.36;
-    private cardScaleY = 0.4;
+    private readonly itemSize = 10;
+    private readonly cardWidth = 118;
+    private readonly cardHeight = 142;
+    private readonly cardScaleX = 0.36;
+    private readonly cardScaleY = 0.4;
 
     onLoad() {
         this.clearCards();

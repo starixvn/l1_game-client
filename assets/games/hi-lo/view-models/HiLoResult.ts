@@ -10,13 +10,13 @@ export default class HiLoResult extends cc.Component {
     @property(cc.Node)
     cardReel: cc.Node = null;
 
-    private cardList: NewCard[] = [];
-    private cardWidth = 118;
-    private cardHeight = 150;
-    private cardScaleX = 1.23;
-    private cardScaleY = 1.5;
-    private cardScaleZ = 1.23;
-    private randomCardValues: CardModel[] = [
+    private readonly cardList: NewCard[] = [];
+    private readonly cardWidth = 118;
+    private readonly cardHeight = 150;
+    private readonly cardScaleX = 1.23;
+    private readonly cardScaleY = 1.5;
+    private readonly cardScaleZ = 1.23;
+    private readonly randomCardValues: CardModel[] = [
         { rank: "J", suit: 3 },
         { rank: "4", suit: 1 },
         { rank: "10", suit: 0 },
