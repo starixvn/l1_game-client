@@ -1,4 +1,4 @@
-import { convertCard } from "./../../../holdem-poker/components/cards/view-models/CardWrapper";
+import { convertCard } from "../../../holdem-poker/components/cards/view-models/CardWrapper";
 import PokerCards from "./texas-holdem-poker-cards";
 
 export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {

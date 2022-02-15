@@ -36,14 +36,14 @@ import {
     dealPlayerAndDealerCards,
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards
-} from "../texas-cards-component/view-models/cards-wrapper";
-import TexasHoldemPokerCards from "../texas-cards-component/view-models/texas-holdem-poker-cards";
+} from "../cards-component/view-models/cards-wrapper";
+import TexasHoldemPokerCards from "../cards-component/view-models/texas-holdem-poker-cards";
 import { updateLeftOddsTable, updateMinMax, updateRightOddsTable } from "./../actions/texas-holdem-poker-configs-actions";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-holdem-poker-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-holdem-poker-rejoin-room-actions";
 import { TexasHoldemPokerAfterRiverModel } from "./../event-models/texas-holdem-poker-river-model";
 import { TexasHoldemPokerStateModel } from "./../event-models/texas-holdem-poker-state-model";
-import { dealFourAndFireCardAndFaceUpDealerCards, rawCardWhenRejoin } from "./../texas-cards-component/view-models/cards-wrapper";
+import { dealFourAndFireCardAndFaceUpDealerCards, rawCardWhenRejoin } from "../cards-component/view-models/cards-wrapper";
 import TexasHoldemPokerBettingArea from "./texas-holdem-poker-betting-area";
 import TexasHoldemPokerChips from "./texas-holdem-poker-chip";
 import TexasHoldemPokerMinMaxTable from "./texas-holdem-poker-min-max-table";
@@ -55,6 +55,7 @@ import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
 import TexasTicketHistory from "./game-history/texas-ticket-history";
 import { renderTicketDetail } from "./../actions/texas-holdem-poker-ticket-detail-actions";
 import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
+import { updateStatusGame } from "../../holdem-poker/actions/HoldemPokerNoticeActions";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -401,6 +402,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     }
 
     private registerNoticeEvents() {
+        this.gameData.on(CommonEvents.API_ERROR, updateStatusGame(this.gameData));
         this.gameData.on(CommonEvents.NOTICE, (text) => this.showMiniWarning(text));
         this.gameData.on(CommonEvents.UM, handleUM(this));
     }

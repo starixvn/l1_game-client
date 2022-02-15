@@ -47,6 +47,9 @@ export default class CardLayout extends cc.Component {
     @property
     updatedShadowWidth = true;
 
+    @property
+    cardViewScaleY = 1.15;
+
     cardSizeWidth = 76;
     public selectedRotationX = 20;
     _selected = undefined;
@@ -112,7 +115,12 @@ export default class CardLayout extends cc.Component {
                             .tween(child)
                             .to(
                                 0.3,
-                                { rotationX: this.selectedRotationX, y: this.selectedPosY, z: this.selectedPosZ, scaleY: 1.15 },
+                                {
+                                    rotationX: this.selectedRotationX,
+                                    y: this.selectedPosY,
+                                    z: this.selectedPosZ,
+                                    scaleY: this.cardViewScaleY
+                                },
                                 { easing: "sineIn" }
                             )
                     )
