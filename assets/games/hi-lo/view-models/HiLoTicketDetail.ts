@@ -20,15 +20,14 @@ export default class HiLoTicketDetail extends cc.Component {
     @property(cc.Label)
     roundId: cc.Label = null;
 
-    private tableHeight = 80;
-    private contentHeight = 0;
+    private readonly tableHeight = 80;
+    private contentHeight = 100;
 
     setData(data: any) {
         this.roundId.string = data.id;
         const betLogDetails = data.betLogDetails;
         const startRound = this.renderDetailBase(data, true);
         this.content.addChild(startRound);
-        this.contentHeight = 50;
         betLogDetails.forEach((logDetail) => {
             const ticketDetailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const detailControl = ticketDetailItem.getComponent(HiLoTicketDetailItem);
@@ -38,7 +37,6 @@ export default class HiLoTicketDetail extends cc.Component {
         });
         const endRound = this.renderDetailBase(data, false);
         this.content.addChild(endRound);
-        this.contentHeight += 50;
         this.content.height = this.contentHeight;
         this.detailTable.height = this.tableHeight + this.contentHeight;
     }
