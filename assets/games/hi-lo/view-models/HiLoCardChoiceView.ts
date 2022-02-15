@@ -1,3 +1,5 @@
+import { CardModel } from "../../../common/new-card/view-models/NewCard";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -13,17 +15,17 @@ export default class HiLoCardChoiceView extends cc.Component {
 
     prefix = "result_highlight_";
 
-    setData(rank: string, suit: number) {
+    setData(card: CardModel) {
         const keys = [0, 1, 2, 3];
-        const suffix = ["diamond", "heart", "club", "spade"];
+        const suffix = ["heart", "diamond", "club", "spade"];
         keys.forEach((key, i) => {
-            if (suit === key) {
+            if (card.suit === key) {
                 this.suit.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffix[i]}`);
             }
         });
-        if (suit === 0 || suit === 1) {
+        if (card.suit === 0 || card.suit === 1) {
             this.rank.node.color = new cc.Color(255, 4, 4);
         }
-        this.rank.string = rank;
+        this.rank.string = card.rank;
     }
 }

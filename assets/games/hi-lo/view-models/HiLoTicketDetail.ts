@@ -1,3 +1,4 @@
+import { BetLog } from "./HiLoBetData";
 import HiLoTicketDetailBaseItem from "./HiLoTicketDetailBaseItem";
 import HiLoTicketDetailItem from "./HiLoTicketDetailItem";
 
@@ -26,8 +27,8 @@ export default class HiLoTicketDetail extends cc.Component {
     private readonly tableHeight = 80;
     private contentHeight = 100;
 
-    setData(data: any) {
-        this.roundId.string = data.id;
+    setData(data: BetLog) {
+        this.roundId.string = data.id.toString();
         const betLogDetails = data.betLogDetails;
         const startRound = this.renderDetailBase(data, true);
         this.content.addChild(startRound);
@@ -50,7 +51,7 @@ export default class HiLoTicketDetail extends cc.Component {
         }
     }
 
-    renderDetailBase(data: any, isFirst: boolean): cc.Node {
+    renderDetailBase(data: BetLog, isFirst: boolean): cc.Node {
         const basedetailItem = cc.instantiate(this.detailBaseItemPrefab);
         const control = basedetailItem.getComponent(HiLoTicketDetailBaseItem);
         control.setData(data, isFirst);

@@ -3,6 +3,7 @@ import HiLoTicketHistoryItem from "./HiLoTicketHistoryItem";
 import { events } from "../../_new/connection/SocketIOConnection";
 import BetHistory from "../../_new/common/BetHistory";
 import HiLoTicketDetail from "./HiLoTicketDetail";
+import { BetLog, TicketHistoryData } from "./HiLoBetData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -46,12 +47,12 @@ export default class HiLoTicketHistory extends BetHistory {
         this.renderTicketHisroty(data.history);
     }
 
-    renderTicketHisroty(data: any) {
+    renderTicketHisroty(data: TicketHistoryData) {
         this.pages.onSet(data.page, data.pageSize, data.total);
         data.betLogs.forEach((item) => {
             const itemNode = cc.instantiate(this.ticketHistoryItemPrefab);
             const control = itemNode.getComponent(HiLoTicketHistoryItem);
-            control.renderTicketItem(item.time, item.id, item.amount, item.betwin);
+            control.renderTicketItem(item);
             control.openTicketDetail = () => {
                 this.initTicketDetail(item);
             };
@@ -59,7 +60,7 @@ export default class HiLoTicketHistory extends BetHistory {
         });
     }
 
-    initTicketDetail(data: any) {
+    initTicketDetail(data: BetLog) {
         const ticketDetailNode = cc.instantiate(this.ticketDetailPrefab);
         this.node.addChild(ticketDetailNode);
         const detailControl = ticketDetailNode.getComponent(HiLoTicketDetail);

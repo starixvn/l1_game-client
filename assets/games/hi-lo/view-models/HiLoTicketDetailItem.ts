@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
+import { BetLogDetail } from "./HiLoBetData";
 import HiLoCardChoiceView from "./HiLoCardChoiceView";
 
 const { ccclass, property } = cc._decorator;
@@ -28,14 +29,14 @@ export default class HiLoTicketDetailItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    renderTicketDetailItem(logDetail: any) {
+    renderTicketDetailItem(logDetail: BetLogDetail) {
         const high = "hiLo.high";
         const low = "hiLo.low";
         this.time.string = getStringHourByTime(logDetail.time);
-        this.turn.string = logDetail.order;
+        this.turn.string = logDetail.order.toString();
         this.betChoice.string = logDetail.choice === "h" ? `${i18n.t(high)}` : `${i18n.t(low)}`;
-        this.baseCard.setData(logDetail.cards[0].rank, logDetail.cards[0].suit);
-        this.resultCard.setData(logDetail.cards[1].rank, logDetail.cards[1].suit);
+        this.baseCard.setData(logDetail.cards[0]);
+        this.resultCard.setData(logDetail.cards[1]);
         this.stake.string = logDetail.amount.toString();
         this.win.string = logDetail.betwin.toString();
     }
