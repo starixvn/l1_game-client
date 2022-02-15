@@ -19,14 +19,17 @@ export default class HiLoTopArea extends cc.Component {
     statisticComp: HiLoStatistic;
 
     onLoad() {
-        this.showGuideInfo(true);
         this.initStatistic();
+        this.showGuideInfo(true);
     }
 
     showGuideInfo(status: boolean) {
         this.guideNode.active = status;
         this.statisticContainer.active = !status;
-        status && this.lightEffect.playAnimation();
+        if (status) {
+            this.lightEffect.playAnimation();
+            this.statisticComp.statisticContainer && this.statisticComp.clearCards();
+        }
     }
 
     initStatistic() {

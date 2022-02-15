@@ -23,6 +23,7 @@ import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelper";
 import HiLoTicketHistory from "./HiLoTicketHistory";
 import HiLoTopArea from "./HiLoTopArea";
+import { HiLoState } from "../events-models/HiLoState";
 
 const { ccclass, property } = cc._decorator;
 
@@ -112,8 +113,9 @@ export default class HiLo extends NewMiniGameBase {
         super.onEnable();
         this.isStopSchedule = false;
         this.isSpin = false;
-        if (!this.gameData.roundCounter.roundId) {
-            this.topAreaComp.lightEffect.playAnimation();
+
+        if (this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
+            this.topAreaComp.showGuideInfo(true);
         }
     }
 
