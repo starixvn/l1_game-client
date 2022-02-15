@@ -7,7 +7,7 @@ import { HiLoResultModel } from "../events-models/HiLoResultModel";
 import { updateStakes, updateCard, handleSettle, updateStatistic } from "../actions/HiLoDealAction";
 import HiLoStakes from "./HiLoStakes";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
-import { updateClockTime, updateCountdownTimer } from "../actions/HiLoCountdownTimerAction";
+import { updateClockTime, updateRemainingTime } from "../actions/HiLoCountdownTimerAction";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { GameIds } from "../../../configs/SabaConfigs";
 import HiLoConfigs from "../events-models/HiLoConfigs";
@@ -161,7 +161,6 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, (resultModel) => {
             updateStakes(this)(resultModel);
             updateCard(this)(resultModel);
-            updateCountdownTimer(this)(resultModel);
             updateStatistic(this)(resultModel);
         });
     }
@@ -177,7 +176,7 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     private registerDurationsEvents() {
-        this.gameData.durations.on(Durations.Events.PLACING_BET, updateClockTime(this.animatedTime));
+        this.gameData.durations.on(Durations.Events.CHANGE_REMAINING_TIME, updateClockTime(this));
         this.gameData.durations.on(Durations.Events.TIMEOUT, () => {
             this.resetCountdownTimer();
         });
