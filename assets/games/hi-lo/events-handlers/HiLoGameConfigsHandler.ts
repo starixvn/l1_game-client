@@ -1,5 +1,4 @@
 import HiLoEventHandler from "./HiLoEventHandler";
-import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
 export type ConfigsType<Choices> = {
     gameConfigs: {
         maxBet: number;

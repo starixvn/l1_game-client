@@ -21,5 +21,6 @@ export default class HiLoEventHandler<Event, Choices> extends BaseEventHandler<E
         this.gameData.resultModel.change(roundId, resultCards, nextAmountModel, remainingTime, totalTurns);
         this.gameData.stateModel.deal();
         this.gameData.durations.remaining = remainingTime;
+        this.gameData.roundCounter.change(roundId);
     }
 }

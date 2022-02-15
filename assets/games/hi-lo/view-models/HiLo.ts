@@ -160,7 +160,6 @@ export default class HiLo extends NewMiniGameBase {
 
     private registerResultEvents() {
         this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, (resultModel) => {
-            this.gameData.roundCounter.change(this.gameData.resultModel.roundId);
             updateStakes(this)(resultModel);
             updateCard(this)(resultModel);
             updateCountdownTimer(this)(resultModel);
