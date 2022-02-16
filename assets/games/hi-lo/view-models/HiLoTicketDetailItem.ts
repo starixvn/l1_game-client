@@ -38,7 +38,7 @@ export default class HiLoTicketDetailItem extends cc.Component {
         this.betChoice.string = logDetail.choice === "h" ? `${i18n.t(high)}` : `${i18n.t(low)}`;
         this.baseCard.setData(logDetail.cards[0]);
         this.resultCard.setData(logDetail.cards[1]);
-        this.stake.string = numberWithCommas(logDetail.amount);
-        this.win.string = numberWithCommas(logDetail.betwin);
+        this.stake.string = numberWithCommas(logDetail.amount, 2);
+        this.win.string = numberWithCommas(logDetail.betwin, 2);
     }
 }

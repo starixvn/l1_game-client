@@ -26,6 +26,8 @@ export default class HiLoTicketDetail extends cc.Component {
 
     private readonly tableHeight = 80;
     private contentHeight = 100;
+    private readonly maxHeightContent = 500;
+    private readonly heightPerRow = 50;
 
     setData(data: BetLog) {
         this.roundId.string = data.id.toString();
@@ -36,16 +38,16 @@ export default class HiLoTicketDetail extends cc.Component {
             const ticketDetailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const detailControl = ticketDetailItem.getComponent(HiLoTicketDetailItem);
             detailControl.renderTicketDetailItem(logDetail);
-            this.contentHeight += 50;
+            this.contentHeight += this.heightPerRow;
             this.content.addChild(ticketDetailItem);
         });
         const endRound = this.renderDetailBase(data, false);
         this.content.addChild(endRound);
-        if (this.contentHeight >= 500) {
-            this.view.height = 504;
-            this.detailTable.height = this.tableHeight + 504;
+        if (this.contentHeight >= this.maxHeightContent) {
+            this.view.height = this.maxHeightContent;
+            this.detailTable.height = this.tableHeight + this.maxHeightContent;
         } else {
-            this.view.height = this.contentHeight + 4;
+            this.view.height = this.contentHeight;
             this.detailTable.height = this.tableHeight + this.contentHeight;
         }
     }

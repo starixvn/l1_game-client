@@ -16,11 +16,10 @@ export default class HiLoCardChoiceView extends cc.Component {
     prefix = "result_highlight_";
 
     setData(card: CardModel) {
-        const keys = [0, 1, 2, 3];
-        const suffix = ["heart", "diamond", "club", "spade"];
-        keys.forEach((key, i) => {
-            if (card.suit === key) {
-                this.suit.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffix[i]}`);
+        const suffixs = ["heart", "diamond", "club", "spade"];
+        suffixs.forEach((suffix, i) => {
+            if (card.suit === i) {
+                this.suit.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffix}`);
             }
         });
         if (card.suit === 0 || card.suit === 1) {

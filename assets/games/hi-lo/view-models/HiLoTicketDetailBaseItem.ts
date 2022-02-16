@@ -16,7 +16,7 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
             const startRound = "hiLo.startRound";
             this.time.string = getStringHourByTime(data.time);
             this.round.string = `${i18n.t(startRound)}`;
-            this.stake.string = numberWithCommas(data.amount);
+            this.stake.string = numberWithCommas(data.amount, 2);
             this.win.string = "";
             this.stake.node.color = cc.Color.YELLOW;
         } else {
@@ -24,7 +24,7 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
             this.time.string = getStringHourByTime(data.endTime);
             this.round.string = `${i18n.t(endRound)}`;
             this.stake.string = "";
-            this.win.string = numberWithCommas(data.betwin);
+            this.win.string = numberWithCommas(data.betwin, 2);
             this.win.node.color = cc.Color.YELLOW;
         }
     }
