@@ -435,12 +435,13 @@ export default class GameBase extends BaseComponent {
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {
-        this.dataHandlers.push(...handlers);
+        const filterHandlers = handlers.filter((handler) => handler != null);
+        filterHandlers && this.dataHandlers.push(...filterHandlers);
     }
 
     protected clearIntervalAndTimeout() {
         this.timeHandler && this.timeHandler.stopPlayTime();
-        this.statusHandler.clearTimeout();
+        this.statusHandler && this.statusHandler.clearTimeout();
     }
 
     public updateOddsFromConfigs() {

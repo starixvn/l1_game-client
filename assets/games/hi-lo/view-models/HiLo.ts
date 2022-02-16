@@ -7,7 +7,7 @@ import { HiLoResultModel } from "../events-models/HiLoResultModel";
 import { updateStakes, updateCard, handleSettle, updateStatistic } from "../actions/HiLoDealAction";
 import HiLoStakes from "./HiLoStakes";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
-import { updateClockTime, updateRemainingTime } from "../actions/HiLoCountdownTimerAction";
+import { updateClockTime } from "../actions/HiLoCountdownTimerAction";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { GameIds } from "../../../configs/SabaConfigs";
 import HiLoConfigs from "../events-models/HiLoConfigs";
@@ -141,8 +141,6 @@ export default class HiLo extends NewMiniGameBase {
         this.timeHandler = null;
         this.statusHandler = null;
     }
-
-    protected clearIntervalAndTimeout() {}
 
     private addCountdownTimerSchedule() {
         this.schedule(() => {
