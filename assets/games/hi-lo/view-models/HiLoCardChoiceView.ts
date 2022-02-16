@@ -17,11 +17,7 @@ export default class HiLoCardChoiceView extends cc.Component {
 
     setData(card: CardModel) {
         const suffixs = ["heart", "diamond", "club", "spade"];
-        suffixs.forEach((suffix, i) => {
-            if (card.suit === i) {
-                this.suit.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffix}`);
-            }
-        });
+        this.suit.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${suffixs[card.suit]}`);
         if (card.suit === 0 || card.suit === 1) {
             this.rank.node.color = new cc.Color(255, 4, 4);
         }
