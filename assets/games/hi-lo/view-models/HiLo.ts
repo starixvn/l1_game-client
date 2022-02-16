@@ -105,13 +105,13 @@ export default class HiLo extends NewMiniGameBase {
         this.registerGameConfigsEvents();
         this.initBetBoard();
         this.addCountdownTimerSchedule();
-        this.topArea.opacity = 255;
         this.animatedTime.setRedTime(10);
     }
 
     onEnable() {
         super.onEnable();
         this.isStopSchedule = false;
+        this.topArea.opacity = 255;
 
         if (this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
             this.topAreaComp.showGuideInfo(true);
@@ -170,6 +170,7 @@ export default class HiLo extends NewMiniGameBase {
         updateStakes(this)(model);
         updateCard(this)(model);
         updateStatistic(this)(model);
+        this.betBoardComp && this.betBoardComp.setCurrentBet(model.amount.toString());
     }
 
     private registerStatusEvents() {

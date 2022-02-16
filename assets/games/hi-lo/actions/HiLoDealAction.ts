@@ -4,7 +4,7 @@ import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
 
 export const updateStakes = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
     cc.tween(mainGame.stakesComp)
-        .delay(mainGame.spinCardsEffectDuration)
+        .delay(mainGame.getDelayTimeWhenSpinCard(model))
         .call(() => {
             mainGame.stakesComp.updateStakes(model.nextAmount);
         })
@@ -15,15 +15,16 @@ export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) =
     mainGame.enableAllBetOptions(false);
     mainGame.enableCollectButton(false);
 
-    let delayTime = 0;
+    let newRoundDelayTime = 0;
     if (statusModel.win) {
-        delayTime = mainGame.winningEffectDuration;
+        newRoundDelayTime = mainGame.winningEffectDuration;
         mainGame.showWinningBet(statusModel.bet);
         mainGame.updateUserBalance();
     } else {
-        delayTime = mainGame.loseMessageEffectDuration + mainGame.spinCardsEffectDuration;
+        newRoundDelayTime = mainGame.loseMessageEffectDuration + mainGame.spinCardsEffectDuration;
+        const loseMessageDelayTime = 0.3;
         cc.tween(mainGame)
-            .delay(mainGame.spinCardsEffectDuration)
+            .delay(loseMessageDelayTime)
             .call(() => {
                 mainGame.showUserLoseMessage();
             })
@@ -31,7 +32,7 @@ export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) =
     }
 
     cc.tween(mainGame)
-        .delay(delayTime)
+        .delay(newRoundDelayTime)
         .call(() => {
             mainGame.gameData.stateModel.prepareNewRound();
         })
