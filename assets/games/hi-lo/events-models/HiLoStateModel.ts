@@ -19,6 +19,11 @@ export class HiLoStateModel extends EventEmitter {
         this.emit(HiLoStateModel.Events.CHANGE, this);
     }
 
+    bet() {
+        this.state = HiLoState.START_TURN;
+        this.emit(HiLoStateModel.Events.CHANGE, this);
+    }
+
     deal() {
         this.state = HiLoState.IN_TURN;
         this.emit(HiLoStateModel.Events.CHANGE, this);

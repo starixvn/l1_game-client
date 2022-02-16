@@ -1,29 +1,7 @@
-import { EventEmitter } from "events";
-import { CardModel } from "../../../common/new-card/view-models/NewCard";
-import { HiLoStakeModel } from "./HiLoStakeModel";
+import { HiLoOwnBetsModel } from "./HiLoOwnBetsModel";
 
-export class HiLoResultModel extends EventEmitter {
-    constructor() {
-        super();
-        this.setMaxListeners(0);
-    }
-
+export class HiLoResultModel extends HiLoOwnBetsModel {
     static Events = {
         CHANGE: "result:change"
     };
-
-    roundId: number;
-    result: CardModel[];
-    nextAmount: HiLoStakeModel;
-    remainingTime: number;
-    totalTurns: number;
-
-    change(roundId: number, result: CardModel[], nextAmount: HiLoStakeModel, remainingTime: number, totalTurns: number) {
-        this.result = result;
-        this.nextAmount = nextAmount;
-        this.remainingTime = remainingTime;
-        this.roundId = roundId;
-        this.totalTurns = totalTurns;
-        this.emit(HiLoResultModel.Events.CHANGE, this);
-    }
 }

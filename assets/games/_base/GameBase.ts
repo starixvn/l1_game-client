@@ -435,8 +435,8 @@ export default class GameBase extends BaseComponent {
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {
-        const filterHandlers = handlers.filter((handler) => handler != null);
-        filterHandlers && this.dataHandlers.push(...filterHandlers);
+        const filterHandlers = handlers.filter((handler) => handler !== null);
+        this.dataHandlers.push(...filterHandlers);
     }
 
     protected clearIntervalAndTimeout() {

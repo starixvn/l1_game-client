@@ -9,6 +9,7 @@ import { HiLoStatusHandler } from "../events-handlers/HiLoStatusHandler";
 import HiLoGameConfigs from "./HiLoGameConfigs";
 import { HiLoStateModel } from "./HiLoStateModel";
 import HiLo from "../view-models/HiLo";
+import { HiLoOwnBetsModel } from "./HiLoOwnBetsModel";
 
 export default class HiLoGameData<Choices> extends GameData<Choices> {
     static Events = {
@@ -20,19 +21,19 @@ export default class HiLoGameData<Choices> extends GameData<Choices> {
 
     readonly roundCounter: HiLoRoundCounter;
     readonly configs: HiLoGameConfigs;
+    readonly ownBetsModel: HiLoOwnBetsModel;
     readonly resultModel: HiLoResultModel;
     readonly statusModel: HiLoStatusModel;
     readonly stateModel: HiLoStateModel;
-    mainGame: HiLo;
 
     constructor(mainGame: HiLo) {
         super();
         this.roundCounter = new HiLoRoundCounter();
+        this.ownBetsModel = new HiLoOwnBetsModel();
         this.resultModel = new HiLoResultModel();
         this.statusModel = new HiLoStatusModel();
         this.stateModel = new HiLoStateModel();
         this.configs = new HiLoGameConfigs();
-        this.mainGame = mainGame;
     }
 
     protected registerEventHandlers() {

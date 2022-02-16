@@ -24,6 +24,7 @@ import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelpe
 import HiLoTicketHistory from "./HiLoTicketHistory";
 import HiLoTopArea from "./HiLoTopArea";
 import { HiLoState } from "../events-models/HiLoState";
+import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -95,6 +96,7 @@ export default class HiLo extends NewMiniGameBase {
         this.gameData = new HiLoGameData<HiLoChoices>(this);
         super.onLoad();
         this.initTopArea();
+        this.registerOwnBetEvents();
         this.registerResultEvents();
         this.registerStatusEvents();
         this.registerRoundCounterEvents();
@@ -155,11 +157,21 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     private registerResultEvents() {
-        this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, (resultModel) => {
-            updateStakes(this)(resultModel);
-            updateCard(this)(resultModel);
-            updateStatistic(this)(resultModel);
+        this.gameData.resultModel.on(HiLoResultModel.Events.CHANGE, (model) => {
+            this.updateBasicData(model);
         });
+    }
+
+    private registerOwnBetEvents() {
+        this.gameData.ownBetsModel.on(HiLoOwnBetsModel.Events.CHANGE, (model) => {
+            this.updateBasicData(model);
+        });
+    }
+
+    private updateBasicData(model: HiLoOwnBetsModel) {
+        updateStakes(this)(model);
+        updateCard(this)(model);
+        updateStatistic(this)(model);
     }
 
     private registerStatusEvents() {
