@@ -24,7 +24,7 @@ export class HiLoOwnBetsModel extends EventEmitter {
 
     roundId: number;
     result: CardModel[];
-    nextAmount: HiLoStakeModel;
+    nextAmounts: HiLoStakeModel;
     remainingTime: number;
     betwin: number;
     totalTurns: number;
@@ -34,7 +34,7 @@ export class HiLoOwnBetsModel extends EventEmitter {
         const { roundId, betwin, result, nextAmounts, remainingTime, totalTurns, amount } = data;
         const nextAmountModel = new HiLoStakeModel();
         nextAmounts && nextAmountModel.change(nextAmounts.h, nextAmounts.l, betwin);
-        this.nextAmount = nextAmountModel;
+        this.nextAmounts = nextAmountModel;
         this.remainingTime = remainingTime;
         this.roundId = roundId;
         this.totalTurns = totalTurns;

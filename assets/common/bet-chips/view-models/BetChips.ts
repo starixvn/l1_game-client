@@ -47,7 +47,7 @@ export default class BetChips extends cc.Component {
     @property(cc.SpriteFrame)
     lowValueChipSprite: cc.SpriteFrame = null;
 
-    private gameConfigs: any;
+    public gameConfigs: any;
     public chipValues: number[] = [];
     public configValues: number[] = [];
     public onChanged: OnChangedBet = (bet) => {};

@@ -29,7 +29,6 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             mainGame.betBoardComp.disableBetBoard(true);
             break;
         default:
-            mainGame.resetDataAndUI();
             break;
     }
 };
@@ -43,20 +42,22 @@ export const handleBaseResult = (mainGame: HiLo, model: HiLoOwnBetsModel) => {
     mainGame.enableCollectButton(false);
     mainGame.betBoardComp.disableBetBoard(true);
     mainGame.isStopSchedule = false;
-    cc.tween(mainGame)
-        .delay(mainGame.getDelayTimeWhenSpinCard(model))
-        .call(() => {
-            mainGame.bettingAreas.forEach((area) => {
-                let isSpecialCase = false;
-                if (
-                    (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) ||
-                    (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower)
-                ) {
-                    isSpecialCase = true;
-                }
-                area.enableBetChoice(!isSpecialCase);
-            });
-            mainGame.enableCollectButton(model.totalTurns > 0);
-        })
-        .start();
+    if (model.nextAmounts.higherAmount) {
+        cc.tween(mainGame)
+            .delay(mainGame.getDelayTimeWhenSpinCard(model))
+            .call(() => {
+                mainGame.bettingAreas.forEach((area) => {
+                    let isSpecialCase = false;
+                    if (
+                        (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) ||
+                        (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower)
+                    ) {
+                        isSpecialCase = true;
+                    }
+                    area.enableBetChoice(!isSpecialCase);
+                });
+                mainGame.enableCollectButton(model.totalTurns > 0);
+            })
+            .start();
+    }
 };

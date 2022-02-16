@@ -6,7 +6,7 @@ export const updateStakes = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
     cc.tween(mainGame.stakesComp)
         .delay(mainGame.getDelayTimeWhenSpinCard(model))
         .call(() => {
-            mainGame.stakesComp.updateStakes(model.nextAmount);
+            mainGame.stakesComp.updateStakes(model.nextAmounts);
         })
         .start();
 };
