@@ -30,8 +30,7 @@ const { ccclass, property } = cc._decorator;
 export const HiLoEvents = {
     bet: "bet",
     collect: "collect",
-    deal: "deal",
-    history: "getHistory"
+    deal: "deal"
 };
 @ccclass
 export default class HiLo extends NewMiniGameBase {

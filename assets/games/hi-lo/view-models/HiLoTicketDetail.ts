@@ -41,7 +41,6 @@ export default class HiLoTicketDetail extends cc.Component {
         });
         const endRound = this.renderDetailBase(data, false);
         this.content.addChild(endRound);
-        this.content.height = this.contentHeight;
         if (this.contentHeight >= 500) {
             this.view.height = 504;
             this.detailTable.height = this.tableHeight + 504;

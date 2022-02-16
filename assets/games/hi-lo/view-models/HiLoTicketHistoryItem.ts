@@ -21,8 +21,8 @@ export default class HiLoTicketHistoryItem extends cc.Component {
     renderTicketItem(item: BetLog) {
         this.time.string = getStringDateByTime(item.time);
         this.roundId.string = item.id.toString();
-        this.stake.string = item.amount.toString();
-        this.win.string = numberWithCommas(item.betwin);
+        this.stake.string = numberWithCommas(item.amount);
+        this.win.string = numberWithCommas(item.betwin, 2);
         if (item.betwin > 0) {
             this.stake.node.color = cc.Color.YELLOW;
         }

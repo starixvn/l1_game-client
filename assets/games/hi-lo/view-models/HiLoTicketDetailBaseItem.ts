@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import HiLoTicketDetailItem from "./HiLoTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
@@ -15,7 +16,7 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
             const startRound = "hiLo.startRound";
             this.time.string = getStringHourByTime(data.time);
             this.round.string = `${i18n.t(startRound)}`;
-            this.stake.string = data.amount;
+            this.stake.string = numberWithCommas(data.amount);
             this.win.string = "";
             this.stake.node.color = cc.Color.YELLOW;
         } else {
@@ -23,7 +24,7 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
             this.time.string = getStringHourByTime(data.endTime);
             this.round.string = `${i18n.t(endRound)}`;
             this.stake.string = "";
-            this.win.string = data.betwin;
+            this.win.string = numberWithCommas(data.betwin);
             this.win.node.color = cc.Color.YELLOW;
         }
     }
