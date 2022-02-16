@@ -30,22 +30,13 @@ export default class HiLoResult extends cc.Component {
         { rank: "9", suit: 3 },
         { rank: "A", suit: 2 },
         { rank: "7", suit: 1 },
-        { rank: "9", suit: 0 },
-        { rank: "6", suit: 1 },
-        { rank: "Q", suit: 0 },
-        { rank: "6", suit: 2 },
-        { rank: "Q", suit: 2 },
-        { rank: "K", suit: 3 },
-        { rank: "2", suit: 0 },
-        { rank: "8", suit: 1 },
-        { rank: "J", suit: 1 },
-        { rank: "4", suit: 3 },
-        { rank: "10", suit: 2 },
-        { rank: "7", suit: 3 },
         { rank: "5", suit: 1 },
         { rank: "3", suit: 2 },
         { rank: "A", suit: 1 }
     ];
+    private currentResult: CardModel;
+    private topReel: NewCard;
+    private bottomReel: NewCard;
 
     onLoad() {
         this.createReel();
@@ -57,10 +48,13 @@ export default class HiLoResult extends cc.Component {
             const cardNode = this.createCard();
             this.cardReel.addChild(cardNode);
             const cardComp = cardNode.getComponent(NewCard);
+            cardComp.faceDown();
             this.setCard(cardComp, card);
             this.cardList.push(cardComp);
         }
         this.cardReel.getComponent(cc.Layout).updateLayout();
+        this.topReel = this.cardList[this.cardList.length - 1];
+        this.bottomReel = this.cardList[0];
     }
 
     createCard(): cc.Node {
@@ -74,8 +68,8 @@ export default class HiLoResult extends cc.Component {
     }
 
     updateResult(result: CardModel) {
-        const resultComp = this.cardList[this.cardList.length - 1];
-        this.setCard(resultComp, result);
+        this.currentResult = result;
+        this.setCard(this.topReel, result);
     }
 
     setCard(cardComponent: NewCard, data: CardModel) {
@@ -99,6 +93,10 @@ export default class HiLoResult extends cc.Component {
             this.cardReel.stopAllActions();
             cc.tween(this.cardReel)
                 .to(spinDuration, { position: cc.v3(this.cardReel.x, -offset, 0) }, { easing: "sineInOut" })
+                .delay(spinDuration)
+                .call(() => {
+                    this.setCard(this.bottomReel, this.currentResult);
+                })
                 .start();
         } else {
             this.cardReel.position = cc.v3(this.cardReel.x, -offset, 0);

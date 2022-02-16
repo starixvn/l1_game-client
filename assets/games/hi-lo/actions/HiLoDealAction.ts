@@ -35,11 +35,7 @@ export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) =
 
 export const updateCard = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
     mainGame.resultComp.updateResult(model.result[model.result.length - 1]);
-    if (model.remainingTime > mainGame.config.betTime) {
-        mainGame.resultComp.spin(mainGame.spinCardsEffectDuration, true);
-    } else {
-        mainGame.resultComp.spin(mainGame.spinCardsEffectDuration, false);
-    }
+    mainGame.resultComp.spin(mainGame.spinCardsEffectDuration, model.remainingTime > mainGame.config.betTime);
 };
 
 export const updateStatistic = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
