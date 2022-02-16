@@ -13,19 +13,23 @@ export const updateStakes = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
 };
 
 export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) => {
-    if (!statusModel.win) {
-        mainGame.showUserLoseMessage();
-    } else {
-        mainGame.showWinningBet(statusModel.bet);
-        mainGame.updateUserBalance();
-    }
-
     mainGame.enableAllBetOptions(false);
     mainGame.enableCollectButton(false);
 
-    const delayTime = statusModel.win
-        ? mainGame.winningEffectDuration
-        : mainGame.loseMessageEffectDuration + mainGame.spinCardsEffectDuration;
+    let delayTime = 0;
+    if (statusModel.win) {
+        delayTime = mainGame.winningEffectDuration;
+        mainGame.showWinningBet(statusModel.bet);
+        mainGame.updateUserBalance();
+    } else {
+        delayTime = mainGame.loseMessageEffectDuration + mainGame.spinCardsEffectDuration;
+        cc.tween(mainGame)
+            .delay(mainGame.spinCardsEffectDuration)
+            .call(() => {
+                mainGame.showUserLoseMessage();
+            })
+            .start();
+    }
 
     cc.tween(mainGame)
         .delay(delayTime)

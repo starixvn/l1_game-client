@@ -329,14 +329,6 @@ export default class HiLo extends NewMiniGameBase {
             this.resetCountdownTimer();
         }
 
-        if (this.timeWaitNode) {
-            this.timeWaitNode.active = false;
-        }
-
-        if (this.statusHandler) {
-            this.statusHandler.currentStatusData = null;
-        }
-
         this.enableAllBetOptions(false);
         this.enableCollectButton(false);
         this.gameRound.string = "";
