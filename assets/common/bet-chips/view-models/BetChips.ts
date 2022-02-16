@@ -111,7 +111,7 @@ export default class BetChips extends cc.Component {
         this.chipList.forEach((chip) => chip.destroy());
         this.chipList = [];
         this.chipValues.forEach((value) => {
-            const node = this.createBigChip(value);
+            const node = this.createChipNode(value);
             this.chips.addChild(node);
             node.on("click", this.onClickBet.bind(this));
             this.chipList.push(node);
@@ -121,6 +121,11 @@ export default class BetChips extends cc.Component {
         layout.enabled = true;
         layout.updateLayout();
         layout.enabled = false;
+    }
+
+    createChipNode(value: number): cc.Node {
+        const node = this.createBigChip(value);
+        return node;
     }
 
     getChipDisplayType(index: number) {

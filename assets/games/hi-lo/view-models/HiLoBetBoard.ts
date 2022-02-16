@@ -20,21 +20,10 @@ export default class HiLoBetBoard extends BetChips {
         }
     }
 
-    createChips() {
-        this.chipList.forEach((chip) => chip.destroy());
-        this.chipList = [];
-        this.chipValues.forEach((value) => {
-            const node = cc.instantiate(this.numberBetPrefab);
-            node.getComponent(HiLoBetChipItem).renderBetChipItem(value);
-            this.chips.addChild(node);
-            node.on("click", this.onClickBet.bind(this));
-            this.chipList.push(node);
-        });
-
-        const layout = this.chips.getComponent(cc.Layout);
-        layout.enabled = true;
-        layout.updateLayout();
-        layout.enabled = false;
+    createChipNode(value: number): cc.Node {
+        const node = cc.instantiate(this.numberBetPrefab);
+        node.getComponent(HiLoBetChipItem).renderBetChipItem(value);
+        return node;
     }
 
     updateSelectedBet(targetName: string) {

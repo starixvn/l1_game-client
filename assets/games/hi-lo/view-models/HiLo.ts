@@ -220,7 +220,7 @@ export default class HiLo extends NewMiniGameBase {
         this.initHistory();
     }
 
-    private initHistory(pages = 1) {
+    private initHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.ticketHistoryComp = dialog.getComponent(HiLoTicketHistory);
         this.ticketHistoryComp.setConnection(this.connection, this.gameName, this.gameData.roundCounter.roundId);
