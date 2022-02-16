@@ -76,7 +76,6 @@ export default class HiLo extends NewMiniGameBase {
 
     gameData: HiLoGameData<HiLoChoices> = null;
     isStopSchedule = false;
-    isSpin = false;
     readonly loseMessageEffectDuration = 1.5;
     readonly newRoundAfterLossDelayTime = 2.5;
     readonly winningEffectDuration = 1;
@@ -113,7 +112,6 @@ export default class HiLo extends NewMiniGameBase {
     onEnable() {
         super.onEnable();
         this.isStopSchedule = false;
-        this.isSpin = false;
 
         if (this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
             this.topAreaComp.showGuideInfo(true);
@@ -164,7 +162,7 @@ export default class HiLo extends NewMiniGameBase {
 
     private registerOwnBetEvents() {
         this.gameData.ownBetsModel.on(HiLoOwnBetsModel.Events.CHANGE, (model) => {
-            this.updateBasicData(model);
+            model.result.length > 0 && this.updateBasicData(model);
         });
     }
 
@@ -339,7 +337,7 @@ export default class HiLo extends NewMiniGameBase {
         this.isStopSchedule = true;
     }
 
-    getDelayTimeWhenSpinCard(): number {
-        return this.isSpin ? this.spinCardsEffectDuration : 0;
+    getDelayTimeWhenSpinCard(model: HiLoOwnBetsModel): number {
+        return model.remainingTime > this.config.betTime ? this.spinCardsEffectDuration : 0;
     }
 }

@@ -45,7 +45,7 @@ export const handleBaseResult = (mainGame: HiLo, model: HiLoOwnBetsModel) => {
             mainGame.enableAllBetOptions(false);
             mainGame.enableCollectButton(false);
         })
-        .delay(mainGame.getDelayTimeWhenSpinCard())
+        .delay(mainGame.getDelayTimeWhenSpinCard(model))
         .call(() => {
             mainGame.bettingAreas.forEach((area) => {
                 if (
