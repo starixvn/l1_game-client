@@ -29,6 +29,7 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             mainGame.betBoardComp.disableBetBoard(true);
             break;
         default:
+            mainGame.resetDataAndUI();
             break;
     }
 };
@@ -38,24 +39,22 @@ export const handleBaseResult = (mainGame: HiLo, model: HiLoOwnBetsModel) => {
     const lowestRank = "2";
     const currentResult = model.result[model.result.length - 1];
     mainGame.showPlayGameButton(false);
+    mainGame.enableAllBetOptions(false);
+    mainGame.enableCollectButton(false);
     mainGame.betBoardComp.disableBetBoard(true);
     mainGame.isStopSchedule = false;
     cc.tween(mainGame)
-        .call(() => {
-            mainGame.enableAllBetOptions(false);
-            mainGame.enableCollectButton(false);
-        })
         .delay(mainGame.getDelayTimeWhenSpinCard(model))
         .call(() => {
             mainGame.bettingAreas.forEach((area) => {
+                let isSpecialCase = false;
                 if (
                     (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) ||
                     (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower)
                 ) {
-                    area.enableBetChoice(false);
-                } else {
-                    area.enableBetChoice(true);
+                    isSpecialCase = true;
                 }
+                area.enableBetChoice(!isSpecialCase);
             });
             mainGame.enableCollectButton(model.totalTurns > 0);
         })

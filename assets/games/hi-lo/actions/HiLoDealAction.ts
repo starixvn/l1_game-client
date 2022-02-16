@@ -15,20 +15,14 @@ export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) =
     mainGame.enableAllBetOptions(false);
     mainGame.enableCollectButton(false);
 
-    let newRoundDelayTime = 0;
+    let newRoundDelayTime;
     if (statusModel.win) {
         newRoundDelayTime = mainGame.winningEffectDuration;
         mainGame.showWinningBet(statusModel.bet);
         mainGame.updateUserBalance();
     } else {
         newRoundDelayTime = mainGame.loseMessageEffectDuration + mainGame.spinCardsEffectDuration;
-        const loseMessageDelayTime = 0.3;
-        cc.tween(mainGame)
-            .delay(loseMessageDelayTime)
-            .call(() => {
-                mainGame.showUserLoseMessage();
-            })
-            .start();
+        mainGame.showUserLoseMessage();
     }
 
     cc.tween(mainGame)

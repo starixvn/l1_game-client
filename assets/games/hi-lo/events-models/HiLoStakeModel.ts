@@ -13,10 +13,10 @@ export class HiLoStakeModel extends EventEmitter {
     betWin: number;
     lowerAmount: number;
 
-    change(higherAmount: number, betWin: number, lowerAmount: number) {
+    change(higherAmount: number, lowerAmount: number, betWin: number) {
         this.higherAmount = higherAmount;
-        this.betWin = higherAmount;
-        this.lowerAmount = higherAmount;
+        this.betWin = betWin;
+        this.lowerAmount = lowerAmount;
 
         this.emit(HiLoStakeModel.Events.CHANGE, this);
     }
