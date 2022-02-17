@@ -9,11 +9,6 @@ export default class NewMiniGameBase extends SocketIOMiniGameBase {
         this.initConnection();
     }
 
-    start() {
-        cc.game.on(cc.game.EVENT_SHOW, this.onEnable, this);
-        cc.game.on(cc.game.EVENT_HIDE, this.onDisable, this);
-    }
-
     initConnection() {
         this.connection = new SocketIOConnection();
         this.connection.setSocket(this.socket, this.gameName);

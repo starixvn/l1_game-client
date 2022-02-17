@@ -34,8 +34,8 @@ export default class HiLoResult extends cc.Component {
         { rank: "3", suit: 2 },
         { rank: "A", suit: 1 }
     ];
-    private topReel: NewCard;
-    private bottomReel: NewCard;
+    private topCard: NewCard;
+    private bottomCard: NewCard;
 
     onLoad() {
         this.createReel();
@@ -52,8 +52,8 @@ export default class HiLoResult extends cc.Component {
             this.cardList.push(cardComp);
         }
         this.cardReel.getComponent(cc.Layout).updateLayout();
-        this.topReel = this.cardList[this.cardList.length - 1];
-        this.bottomReel = this.cardList[0];
+        this.topCard = this.cardList[this.cardList.length - 1];
+        this.bottomCard = this.cardList[0];
     }
 
     createCard(): cc.Node {
@@ -67,9 +67,9 @@ export default class HiLoResult extends cc.Component {
     }
 
     updateResult(result: CardModel[]) {
-        this.setCard(this.topReel, result[result.length - 1]);
-        if (result.length - 1 !== 0) {
-            this.setCard(this.bottomReel, result[result.length - 2]);
+        this.setCard(this.topCard, result[result.length - 1]);
+        if (result.length > 1) {
+            this.setCard(this.bottomCard, result[result.length - 2]);
         }
     }
 

@@ -25,10 +25,16 @@ export default class HiLoStatistic extends cc.Component {
     private readonly cardHeight = 142;
     private readonly cardScaleX = 0.36;
     private readonly cardScaleY = 0.4;
+    private readonly cardMoveLeftDuration = 0.3;
+    private highlightWidget: cc.Widget;
+    private highlightWidgetLeft: number;
 
     onLoad() {
         this.layout = this.statisticContainer.getComponent(cc.Layout);
         this.spaceX = this.layout.spacingX;
+        this.highlight.active = false;
+        this.highlightWidget = this.highlight.getComponent(cc.Widget);
+        this.highlightWidgetLeft = this.highlightWidget.left;
     }
 
     onEnable() {
@@ -37,6 +43,8 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     clearCards() {
+        this.highlight.active = false;
+        this.highlightWidget && (this.highlightWidget.left = this.highlightWidgetLeft);
         this.statisticContainer.destroyAllChildren();
     }
 
@@ -49,11 +57,35 @@ export default class HiLoStatistic extends cc.Component {
             this.createCard(cards[cards.length - 1]);
         }
 
+        this.updatePositionHighlight(cards.length);
+
         if (cards.length > this.itemSize) {
             this.updateContentPosition(this.getOffsetX(cards.length - this.itemSize));
         }
 
         this.layout && this.layout.updateLayout();
+    }
+
+    updatePositionHighlight(cardsNumber: number) {
+        let delayTime = 0;
+        let calcCardsNumber = cardsNumber - 1;
+        this.highlight.active = true;
+
+        if (cardsNumber > this.itemSize) {
+            delayTime = this.cardMoveLeftDuration;
+            calcCardsNumber = this.itemSize - 1;
+            this.highlight.active = false;
+        }
+
+        cc.tween(this.highlight)
+            .delay(delayTime)
+            .call(() => {
+                this.highlight.active = true;
+                this.highlightWidget.left =
+                    calcCardsNumber * this.cardWidth * this.cardScaleX + calcCardsNumber * this.spaceX + this.highlightWidgetLeft;
+                this.highlightWidget.updateAlignment();
+            })
+            .start();
     }
 
     private getOffsetX(itemNumbers: number): number {
@@ -63,7 +95,7 @@ export default class HiLoStatistic extends cc.Component {
     protected updateContentPosition(offsetX: number) {
         cc.tween(this.statisticContainer)
             .to(
-                0.3,
+                this.cardMoveLeftDuration,
                 { position: cc.v3(offsetX, this.statisticContainer.position.y, this.statisticContainer.position.z) },
                 { easing: "sineOut" }
             )
