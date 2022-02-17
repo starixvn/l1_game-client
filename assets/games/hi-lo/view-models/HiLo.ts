@@ -114,7 +114,7 @@ export default class HiLo extends NewMiniGameBase {
         this.topArea.opacity = 255;
 
         if (this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
-            this.topAreaComp.showGuideInfo(true);
+            this.topAreaComp && this.topAreaComp.showGuideInfo(true);
         }
     }
 
@@ -246,9 +246,10 @@ export default class HiLo extends NewMiniGameBase {
         this.betBoardContainer.addChild(betBoard);
         this.betBoardComp.init((bet) => {
             this.onChangedBetChip(bet);
-            if (numberWithCommas(bet.toString(), 2) > numberWithCommas(this.stakesComp.betWin.string, 2)) {
-                this.stakesComp.betWin.string = numberWithCommas(bet.toString(), 2);
-            }
+            this.stakesComp.betWin.string = numberWithCommas(bet.toString(), 2);
+            // if (numberWithCommas(bet.toString(), 2) > numberWithCommas(this.stakesComp.betWin.string, 2)) {
+            //     this.stakesComp.betWin.string = numberWithCommas(bet.toString(), 2);
+            // }
         });
     }
 
@@ -326,10 +327,14 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     resetDataAndUI() {
+        this.resetUIPrepareNewRound();
+        this.topAreaComp && this.topAreaComp.statisticComp.clearCards();
+    }
+
+    resetUIPrepareNewRound() {
         if (this.animatedTime) {
             this.resetCountdownTimer();
         }
-
         this.enableAllBetOptions(false);
         this.enableCollectButton(false);
         this.gameRound.string = "";

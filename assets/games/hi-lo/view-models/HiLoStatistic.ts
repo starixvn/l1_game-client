@@ -1,4 +1,5 @@
 import NewCard, { CardModel } from "../../../common/new-card/view-models/NewCard";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,6 +13,9 @@ export default class HiLoStatistic extends cc.Component {
 
     @property(cc.ScrollView)
     statsScrollView: cc.ScrollView = null;
+
+    @property(cc.Node)
+    highlight: cc.Node = null;
 
     private layout: cc.Layout;
     private spaceX: number;
@@ -28,7 +32,6 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     onEnable() {
-        this.clearCards();
         this.statisticContainer.getComponent(cc.Widget).left = 0;
         this.containerPosX = this.statisticContainer.position.x;
     }
@@ -39,7 +42,7 @@ export default class HiLoStatistic extends cc.Component {
 
     updateCards(cards: CardModel[]) {
         if (this.statisticContainer.childrenCount === 0) {
-            cards.forEach((card, index) => {
+            cards.forEach((card) => {
                 this.createCard(card);
             });
         } else {

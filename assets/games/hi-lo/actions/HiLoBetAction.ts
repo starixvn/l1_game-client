@@ -9,7 +9,7 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
 
     switch (stateModel.state) {
         case HiLoState.BLANK_NEW:
-            mainGame.resetDataAndUI();
+            mainGame.resetUIPrepareNewRound();
             mainGame.showPlayGameButton(true);
             mainGame.stakesComp.resetStakes(mainGame.currentBet);
             mainGame.resultComp.faceDownCards();
@@ -24,7 +24,7 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             break;
 
         case HiLoState.SETTLED:
-            mainGame.resetDataAndUI();
+            mainGame.resetUIPrepareNewRound();
             mainGame.showPlayGameButton(false);
             mainGame.betBoardComp.disableBetBoard(true);
             break;
