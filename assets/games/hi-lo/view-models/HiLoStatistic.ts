@@ -27,31 +27,35 @@ export default class HiLoStatistic extends cc.Component {
         this.spaceX = this.layout.spacingX;
     }
 
+    onEnable() {
+        this.statisticContainer.getComponent(cc.Widget).left = 0;
+    }
+
     clearCards() {
         this.statisticContainer.destroyAllChildren();
     }
 
     updateCards(cards: CardModel[]) {
-        if (this.statisticContainer.childrenCount === cards.length - 1) {
+        const isNeedOneCard = this.statisticContainer.childrenCount === cards.length - 1;
+        if (isNeedOneCard) {
             this.createCard(cards[cards.length - 1]);
-            if (cards.length > this.itemSize) {
-                this.updateContentPosition(this.getOffsetX(1));
-            }
         } else {
             this.clearCards();
-            if (cards.length > this.itemSize) {
-                const itemNumbers = cards.length - this.itemSize;
-                this.updateContentPosition(this.getOffsetX(itemNumbers));
-            }
-            cards.forEach((card) => {
+            cards.forEach((card, index) => {
                 this.createCard(card);
             });
         }
+
+        if (cards.length > this.itemSize) {
+            const itemsNeedMoveLeft = isNeedOneCard ? 1 : cards.length - this.itemSize;
+            this.updateContentPosition(this.getOffsetX(itemsNeedMoveLeft));
+        }
+
         this.layout && this.layout.updateLayout();
     }
 
     private getOffsetX(itemNumbers: number): number {
-        return this.statisticContainer.position.x - itemNumbers * this.cardWidth * this.cardScaleX + itemNumbers * this.spaceX;
+        return this.statisticContainer.position.x - itemNumbers * this.cardWidth * this.cardScaleX - itemNumbers * this.spaceX;
     }
 
     protected updateContentPosition(offsetX: number) {
