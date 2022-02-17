@@ -15,6 +15,7 @@ export default class HiLoStatistic extends cc.Component {
 
     private layout: cc.Layout;
     private spaceX: number;
+    private containerPosX;
     private readonly itemSize = 10;
     private readonly cardWidth = 118;
     private readonly cardHeight = 142;
@@ -22,13 +23,14 @@ export default class HiLoStatistic extends cc.Component {
     private readonly cardScaleY = 0.4;
 
     onLoad() {
-        this.clearCards();
         this.layout = this.statisticContainer.getComponent(cc.Layout);
         this.spaceX = this.layout.spacingX;
     }
 
     onEnable() {
+        this.clearCards();
         this.statisticContainer.getComponent(cc.Widget).left = 0;
+        this.containerPosX = this.statisticContainer.position.x;
     }
 
     clearCards() {
@@ -36,26 +38,23 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     updateCards(cards: CardModel[]) {
-        const isNeedOneCard = this.statisticContainer.childrenCount === cards.length - 1;
-        if (isNeedOneCard) {
-            this.createCard(cards[cards.length - 1]);
-        } else {
-            this.clearCards();
+        if (this.statisticContainer.childrenCount === 0) {
             cards.forEach((card, index) => {
                 this.createCard(card);
             });
+        } else {
+            this.createCard(cards[cards.length - 1]);
         }
 
         if (cards.length > this.itemSize) {
-            const itemsNeedMoveLeft = isNeedOneCard ? 1 : cards.length - this.itemSize;
-            this.updateContentPosition(this.getOffsetX(itemsNeedMoveLeft));
+            this.updateContentPosition(this.getOffsetX(cards.length - this.itemSize));
         }
 
         this.layout && this.layout.updateLayout();
     }
 
     private getOffsetX(itemNumbers: number): number {
-        return this.statisticContainer.position.x - itemNumbers * this.cardWidth * this.cardScaleX - itemNumbers * this.spaceX;
+        return this.containerPosX - itemNumbers * this.cardWidth * this.cardScaleX - itemNumbers * this.spaceX;
     }
 
     protected updateContentPosition(offsetX: number) {
