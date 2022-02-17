@@ -34,7 +34,6 @@ export default class HiLoResult extends cc.Component {
         { rank: "3", suit: 2 },
         { rank: "A", suit: 1 }
     ];
-    private currentResult: CardModel;
     private topReel: NewCard;
     private bottomReel: NewCard;
 
@@ -67,9 +66,11 @@ export default class HiLoResult extends cc.Component {
         return node;
     }
 
-    updateResult(result: CardModel) {
-        this.currentResult = result;
-        this.setCard(this.topReel, result);
+    updateResult(result: CardModel[]) {
+        this.setCard(this.topReel, result[result.length - 1]);
+        if (result.length - 1 !== 0) {
+            this.setCard(this.bottomReel, result[result.length - 2]);
+        }
     }
 
     setCard(cardComponent: NewCard, data: CardModel) {
@@ -87,19 +88,17 @@ export default class HiLoResult extends cc.Component {
         this.cardList.forEach((card, index) => {
             card.faceUp();
         });
+
         const offset = this.cardReel.height - this.cardHeight * this.cardScaleY;
         if (animated) {
             this.cardReel.position = cc.v3(0, 0, 0);
             this.cardReel.stopAllActions();
             cc.tween(this.cardReel)
-                .to(spinDuration, { position: cc.v3(this.cardReel.x, -offset, 0) }, { easing: "sineInOut" })
-                .delay(spinDuration)
-                .call(() => {
-                    this.setCard(this.bottomReel, this.currentResult);
-                })
+                .to(spinDuration, { position: cc.v3(0, -offset, 0) }, { easing: "sineInOut" })
+
                 .start();
         } else {
-            this.cardReel.position = cc.v3(this.cardReel.x, -offset, 0);
+            this.cardReel.position = cc.v3(0, -offset, 0);
         }
     }
 }
