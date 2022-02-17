@@ -440,7 +440,7 @@ window.i18n.languages.id = {
         deal: "Deal",
         double: "DOUBLE",
         cancel: "BATAL",
-        rebet: "Rebet",
+        rebet: "Rebate",
         rebetDeal: "Rebet\n& Deal",
         placeYourBet: "Pasang taruhan Anda",
         call: "Call",
@@ -453,8 +453,8 @@ window.i18n.languages.id = {
         threeKind: "Three of a Kind",
         straight: "Straight",
         doesNotQualify: "Tidak terkualifikasi",
-        bettingOption: "Option",
-        cards: "Card Results",
+        bettingOption: "Opsi",
+        cards: "Hasil Kartu",
         card: "KARTU",
         combination: "KOMBINASI",
         player: "Pemain",
@@ -462,8 +462,8 @@ window.i18n.languages.id = {
         communityCards: "Kartu komunitas",
         new: "New Bet",
         stake: "Taruhan",
-        dealerQualifies: "Dealer qualifies on a pair of 4s or better",
-        md5String: "",
-        md5Key: ""
+        dealerQualifies: "Dealer memenuhi syarat pada sepasang 4s atau lebih baik",
+        md5String: "MD5 Tali",
+        md5Key: "Key Tali"
     }
 };
