@@ -15,6 +15,9 @@ export default class HiLoTicketDetail extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
+    @property(cc.ScrollView)
+    scrollView: cc.ScrollView = null;
+
     @property(cc.Node)
     view: cc.Node = null;
 
@@ -44,10 +47,10 @@ export default class HiLoTicketDetail extends cc.Component {
         const endRound = this.renderDetailBase(data, false);
         this.content.addChild(endRound);
         if (this.contentHeight >= this.maxHeightContent) {
-            this.view.height = this.maxHeightContent;
+            this.view.height = this.scrollView.node.height = this.maxHeightContent;
             this.detailTable.height = this.tableHeight + this.maxHeightContent;
         } else {
-            this.view.height = this.contentHeight;
+            this.view.height = this.scrollView.node.height = this.contentHeight;
             this.detailTable.height = this.tableHeight + this.contentHeight;
         }
     }
