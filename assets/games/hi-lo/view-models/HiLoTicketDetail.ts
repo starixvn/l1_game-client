@@ -28,8 +28,8 @@ export default class HiLoTicketDetail extends cc.Component {
     roundId: cc.Label = null;
 
     private readonly tableHeight = 80;
-    private contentHeight = 100;
-    private readonly maxHeightContent = 500;
+    private contentHeight = 104;
+    private readonly maxHeightContent = 504;
     private readonly heightPerRow = 50;
 
     setData(data: BetLog) {
