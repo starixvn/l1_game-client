@@ -259,6 +259,7 @@ export default class HiLo extends NewMiniGameBase {
 
     onPlayClick() {
         this.playClick();
+        this.gameRound.string = "";
         this.emitEventConnection(HiLoEvents.bet, { amount: this.currentBet });
     }
 
@@ -329,6 +330,7 @@ export default class HiLo extends NewMiniGameBase {
     resetDataAndUI() {
         this.resetUIPrepareNewRound();
         this.topAreaComp && this.topAreaComp.statisticComp.clearCards();
+        this.topAreaComp && this.topAreaComp.showGuideInfo(true);
     }
 
     resetUIPrepareNewRound() {
@@ -337,7 +339,6 @@ export default class HiLo extends NewMiniGameBase {
         }
         this.enableAllBetOptions(false);
         this.enableCollectButton(false);
-        this.gameRound.string = "";
     }
 
     resetCountdownTimer() {

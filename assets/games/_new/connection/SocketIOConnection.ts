@@ -51,11 +51,11 @@ export default class SocketIOConnection implements Connection {
     }
 
     on(eventName: string, eventHandler: Function) {
-        this.socket.on(eventName, eventHandler);
+        this.socket && this.socket.on(eventName, eventHandler);
     }
 
     once(eventName: string, eventHandler: Function) {
-        this.socket.once(eventName, eventHandler);
+        this.socket && this.socket.once(eventName, eventHandler);
     }
 
     removeListener(eventName: string, handler?: Function) {

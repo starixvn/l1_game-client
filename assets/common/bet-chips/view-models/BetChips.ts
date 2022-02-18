@@ -124,8 +124,7 @@ export default class BetChips extends cc.Component {
     }
 
     createChipNode(value: number): cc.Node {
-        const node = this.createBigChip(value);
-        return node;
+        return this.createBigChip(value);
     }
 
     getChipDisplayType(index: number) {

@@ -1,4 +1,5 @@
-import NewCard, { CardModel } from "../../../common/new-card/view-models/NewCard";
+import { CardModel } from "../../../common/new-card/view-models/NewCard";
+import HiLoCard from "../components/view-models/HiLoCard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -10,7 +11,7 @@ export default class HiLoResult extends cc.Component {
     @property(cc.Node)
     cardReel: cc.Node = null;
 
-    private readonly cardList: NewCard[] = [];
+    private readonly cardList: HiLoCard[] = [];
     private readonly cardWidth = 118;
     private readonly cardHeight = 150;
     private readonly cardScaleX = 1.23;
@@ -34,8 +35,8 @@ export default class HiLoResult extends cc.Component {
         { rank: "3", suit: 2 },
         { rank: "A", suit: 1 }
     ];
-    private topCard: NewCard;
-    private bottomCard: NewCard;
+    private topCard: HiLoCard;
+    private bottomCard: HiLoCard;
 
     onLoad() {
         this.createReel();
@@ -46,7 +47,7 @@ export default class HiLoResult extends cc.Component {
         for (const card of this.randomCardValues) {
             const cardNode = this.createCard();
             this.cardReel.addChild(cardNode);
-            const cardComp = cardNode.getComponent(NewCard);
+            const cardComp = cardNode.getComponent(HiLoCard);
             cardComp.faceDown();
             this.setCard(cardComp, card);
             this.cardList.push(cardComp);
@@ -73,7 +74,7 @@ export default class HiLoResult extends cc.Component {
         }
     }
 
-    setCard(cardComponent: NewCard, data: CardModel) {
+    setCard(cardComponent: HiLoCard, data: CardModel) {
         cardComponent.setCard(data);
         cardComponent.faceUp();
     }
