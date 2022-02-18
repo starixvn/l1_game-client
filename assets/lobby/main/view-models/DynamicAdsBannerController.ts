@@ -25,7 +25,9 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     createAdsItem(id: number) {
-        const spriteFrame = this.bannerAtlas.getSpriteFrame(id.toString());
+        const language = window.i18n.curLang != "vi" ? `_${window.i18n.curLang}` : "";
+        const getSpriteLanguage = this.getSpriteFrame(`${id.toString()}${language}`);
+        const spriteFrame = getSpriteLanguage ? getSpriteLanguage : this.getSpriteFrame(id.toString());
         if (spriteFrame) {
             const item = cc.instantiate(this.adsItemPrefab);
             this.createBasicItem(id, spriteFrame, item);
@@ -56,5 +58,9 @@ export default class DynamicAdsBannerController extends BannerController {
 
     onLoad() {
         // override to delay enableTouch
+    }
+
+    private getSpriteFrame(name: string) {
+        return this.bannerAtlas.getSpriteFrame(name);
     }
 }
