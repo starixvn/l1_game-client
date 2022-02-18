@@ -9,11 +9,8 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
 
     switch (stateModel.state) {
         case HiLoState.BLANK_NEW:
-            mainGame.resetUIPrepareNewRound();
-            mainGame.showPlayGameButton(true);
+            mainGame.resetUIBlankNewState();
             mainGame.stakesComp.resetStakes(mainGame.currentBet);
-            mainGame.resultComp.faceDownCards();
-            mainGame.betBoardComp.disableBetBoard(false);
             break;
         case HiLoState.START_TURN:
             handleBaseResult(mainGame, mainGame.gameData.ownBetsModel);

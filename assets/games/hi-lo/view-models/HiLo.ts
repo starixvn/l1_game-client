@@ -25,6 +25,7 @@ import HiLoTicketHistory from "./HiLoTicketHistory";
 import HiLoTopArea from "./HiLoTopArea";
 import { HiLoState } from "../events-models/HiLoState";
 import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
+import HiLoUmHandler from "../events-handlers/HiLoUmHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -140,6 +141,7 @@ export default class HiLo extends NewMiniGameBase {
         super.initHandlers();
         this.timeHandler = null;
         this.statusHandler = null;
+        this.umHandler = new HiLoUmHandler(this);
     }
 
     private addCountdownTimerSchedule() {
@@ -338,6 +340,13 @@ export default class HiLo extends NewMiniGameBase {
         }
         this.enableAllBetOptions(false);
         this.enableCollectButton(false);
+    }
+
+    resetUIBlankNewState() {
+        this.resetUIPrepareNewRound();
+        this.showPlayGameButton(true);
+        this.resultComp.faceDownCards();
+        this.betBoardComp.disableBetBoard(false);
     }
 
     resetCountdownTimer() {
