@@ -10,15 +10,15 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     smPromotion: boolean;
-    bannerAds = [39, 43, 35, 2];
+    bannerAds = [GameIds.HiLo, GameIds.CasinoHoldemPoker, GameIds.BitcoinMaster, GameIds.SeDie];
     bannerAdsInfo = {
-        39: {
+        45: {
             displayTime: 10
         },
-        43: {
+        39: {
             displayTime: 5
         },
-        35: {
+        43: {
             displayTime: 5
         },
         2: {
@@ -26,29 +26,29 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
     list = [
-        38,
-        29,
-        22,
-        2,
-        28,
-        9,
-        25,
-        1,
-        4,
-        6,
-        8,
+        GameIds.HeroesSlot,
+        GameIds.FourGuardians,
+        GameIds.VipSedie,
+        GameIds.SeDie,
+        GameIds.VipSedieWar,
+        GameIds.MiniSedie,
+        GameIds.SicBo,
+        GameIds.BigSmall,
+        GameIds.TurboBigSmall,
+        GameIds.TurboOddEven,
+        GameIds.KenoProMax,
         GameIds.KenoProViet,
-        27,
-        10,
-        26,
-        3,
-        7,
-        24,
-        23,
-        21,
-        31,
-        35,
-        43,
+        GameIds.VipBaccarat,
+        GameIds.Baccarat,
+        GameIds.VipFishPrawnCrab,
+        GameIds.FishPrawnCrab,
+        GameIds.DragonTiger,
+        GameIds.SpecialSeDie,
+        GameIds.BlackJack,
+        GameIds.Roulette,
+        GameIds.Lottery,
+        GameIds.ThreeCards,
+        GameIds.BitcoinMaster,
         GameIds.CasinoHoldemPoker,
         GameIds.HiLo
     ];
