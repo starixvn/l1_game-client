@@ -310,7 +310,7 @@ export default class HiLo extends NewMiniGameBase {
     addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
         const temp = new cc.Node().addComponent(cc.Label);
         temp.string = (win ? "+" : "-") + numberWithCommas(value, 2);
-        temp.font = win ? this.fontCong : cc.RedT.util.fontTru;
+        temp.font = win ? this.fontCong : this.fontTru;
         temp.lineHeight = 130;
         temp.fontSize = 60;
         temp.node.position = cc.v3(0, startY, 0);

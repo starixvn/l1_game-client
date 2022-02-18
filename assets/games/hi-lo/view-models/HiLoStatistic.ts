@@ -49,13 +49,10 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     updateCards(cards: CardModel[]) {
-        if (this.statisticContainer.childrenCount === 0) {
-            cards.forEach((card) => {
-                this.createCard(card);
-            });
-        } else {
-            this.createCard(cards[cards.length - 1]);
-        }
+        this.clearCards();
+        cards.forEach((card) => {
+            this.createCard(card);
+        });
 
         this.updatePositionHighlight(cards.length);
 

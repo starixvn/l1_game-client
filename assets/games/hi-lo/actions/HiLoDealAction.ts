@@ -40,10 +40,6 @@ export const updateCard = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
 
 export const updateStatistic = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
     mainGame.topAreaComp.showGuideInfo(false);
-    if (model.totalTurns === 0) {
-        mainGame.topAreaComp.statisticComp.clearCards();
-    }
-
     cc.tween(mainGame.topArea)
         .delay(mainGame.getDelayTimeWhenSpinCard(model))
         .call(() => {
