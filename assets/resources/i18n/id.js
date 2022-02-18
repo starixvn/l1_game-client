@@ -154,11 +154,11 @@ window.i18n.languages.id = {
         noGameOffer: "Akun Anda tidak didukung di portal game ini. Silakan hubungi upline Anda, terima kasih.",
         sessionTimeout_break: "Sesi Anda telah habis atau Anda belum masuk.\nHarap tutup jendela saat ini dan coba masuk lagi.",
         notEnoughMoneyCardGame: "Saldo akun Anda tidak cukup untuk menyelesaikan ronde permainan",
-        copyMD5Success: "Copy MD5 string successfully!",
-        copyKeySuccess: "Copy string result successfully!",
-        copy_success: "Copy successful!",
-        maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
-        minBetForChoiceNotice: "Min bet for this option is %{minBet}"
+        copyMD5Success: "String MD5 berhasil disalin!",
+        copyKeySuccess: "String Key berhasil disalin!",
+        copy_success: "Salin berhasil!",
+        maxBetForChoiceNotice2: "Taruhan maksimum untuk opsi ini adalah %{maxBet}",
+        minBetForChoiceNotice: "Taruhan minimum untuk opsi ini adalah %{minBet}"
     },
     ui: {
         choice_red2: "2 Merah",

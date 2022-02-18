@@ -129,7 +129,6 @@ window.i18n.languages.th = {
         limitBetChanged: "วงเงินเดิมพันของคุณเพิ่งมีการเปลี่ยนแปลง",
         enableTurboMode: 'โหมดเทอร์โบ "เปิด"',
         disableTurboMode: 'โหมดเทอร์โบ "ปิด"',
-        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
         noticeTitle: "ประกาศ",
         accountClosed:
             "บัญชีถูกปิดระงับใช้งาน เซสชั่นของคุณจะหมดอายุหลังจาก 10 วินาที โปรดติดต่อแดมมินสำหรับรายละเอียดเพิ่มเติม (%{errorCode})",
@@ -152,11 +151,12 @@ window.i18n.languages.th = {
         noGameOffer: "บัญชีของคุณไม่ได้รับการรองรับการเข้าถึงข้อมูลของเกม โปรดกรุณาติดต่อทีมงานผู้แนะนำของคุณ ขอบคุณค่ะ ",
         sessionTimeout_break: "เซสชั่นของคุณหมดเวลาหรือคุณยังไม่ได้เข้าสู่ระบบ\nกรุณาปิดหน้าต่างปัจจุบันและลองเข้าสู่ระบบอีกครั้ง",
         notEnoughMoneyCardGame: "บัญชีของคุณมีเงินไม่เพียงพอที่จะจบรอบเกม",
-        copyMD5Success: "Copy MD5 string successfully!",
-        copyKeySuccess: "Copy string result successfully!",
-        copy_success: "Copy successful!",
-        maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
-        minBetForChoiceNotice: "Min bet for this option is %{minBet}"
+        copyMD5Success: "คัดลอกสตริง MD5 สำเร็จ!",
+        copyKeySuccess: "คัดลอกสตริงคีย์สำเร็จ!",
+        maxBetForChoiceNotice2: "เดิมพันสูงสุดสำหรับตัวเลือกนี้คือ %{maxBet}",
+        minBetForChoiceNotice: "เดิมพันขั้นต่ำสำหรับตัวเลือกนี้คือ %{minBet}",
+        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
+        copy_success: "Copy successful!"
     },
     ui: {
         choice_red2: "2 แดง",
