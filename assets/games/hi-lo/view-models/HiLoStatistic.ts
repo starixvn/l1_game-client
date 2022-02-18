@@ -16,7 +16,7 @@ export default class HiLoStatistic extends cc.Component {
 
     private layout: cc.Layout;
     private spaceX: number;
-    private containerPosX;
+    private containerPosX: number;
     private readonly itemSize = 10;
     private readonly cardWidth = 118;
     private readonly cardHeight = 142;
