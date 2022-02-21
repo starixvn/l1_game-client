@@ -10,7 +10,6 @@ export default class HoldemPokerUmHandler extends GameBaseUmDataHandler {
         if (!data.um) {
             return false;
         }
-        this.main.isGoingToDisabled = true;
         this.main.showUmMessage(data);
         this.main.disableGame();
 

@@ -1,6 +1,6 @@
+import { GameState } from "../../_base/GameBase";
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmDataHandler";
 import HiLo from "../view-models/HiLo";
-import { GameState } from "../../_base/GameBase";
 
 export default class HiLoUmHandler extends GameBaseUmDataHandler {
     constructor(protected readonly main: HiLo) {
@@ -14,7 +14,6 @@ export default class HiLoUmHandler extends GameBaseUmDataHandler {
             this.main.resetUIBlankNewState();
             return false;
         }
-        this.main.isGoingToDisabled = true;
         this.main.showUmMessage(data);
         this.main.disableGame();
 
