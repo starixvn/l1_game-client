@@ -63,6 +63,7 @@ export default class BetChips extends cc.Component {
     public chipList: cc.Node[] = [];
 
     private currentBetValue = "1";
+    protected needResetCurrentChip = true;
 
     onLoad() {
         this.chipConfig = ChipConfig.getInstance();
@@ -138,6 +139,13 @@ export default class BetChips extends cc.Component {
     }
 
     onEnable() {
+        this.resetCurrentChip();
+    }
+
+    resetCurrentChip() {
+        if (!this.needResetCurrentChip) {
+            return;
+        }
         this.selectedIndex = 0;
         this.snappedScrollView.scrollTo(0);
         this.scrollToSelectedIndex();
