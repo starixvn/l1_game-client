@@ -63,7 +63,7 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     private getOffsetX(itemNumbers: number): number {
-        return this.containerPosX - itemNumbers * this.cardWidth * this.cardScaleX - itemNumbers * this.spaceX;
+        return -this.statsScrollView.node.width / 2 - itemNumbers * (this.cardWidth * this.cardScaleX + this.spaceX);
     }
 
     protected updateContentPosition(offsetX: number) {
