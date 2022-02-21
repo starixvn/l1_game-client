@@ -94,8 +94,8 @@ export default class HiLo extends NewMiniGameBase {
 
     onLoad() {
         this.gameData = new HiLoGameData<HiLoChoices>(this);
-        super.onLoad();
         this.initTopArea();
+        super.onLoad();
         this.registerOwnBetEvents();
         this.registerResultEvents();
         this.registerStatusEvents();
@@ -115,7 +115,7 @@ export default class HiLo extends NewMiniGameBase {
         this.topArea.opacity = 255;
 
         if (this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
-            this.topAreaComp && this.topAreaComp.showGuideInfo(true);
+            this.topAreaComp.showGuideInfo(true);
         }
     }
 
@@ -345,8 +345,8 @@ export default class HiLo extends NewMiniGameBase {
 
     resetDataAndUI() {
         this.resetUIPrepareNewRound();
-        this.topAreaComp && this.topAreaComp.statisticComp.clearCards();
-        this.topAreaComp && this.topAreaComp.showGuideInfo(true);
+        this.topAreaComp.statisticComp.clearCards();
+        this.topAreaComp.showGuideInfo(true);
     }
 
     resetUIPrepareNewRound() {
