@@ -172,7 +172,10 @@ export default class HiLo extends NewMiniGameBase {
         updateStakes(this)(model);
         updateCard(this)(model);
         updateStatistic(this)(model);
-        this.betBoardComp && this.betBoardComp.setCurrentBet(model.amount.toString());
+
+        if (this.betBoardComp && this.betBoardComp.chipValues.includes(model.amount)) {
+            this.betBoardComp.setCurrentBet(model.amount.toString());
+        }
     }
 
     private registerStatusEvents() {
