@@ -1,6 +1,7 @@
 import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import NoIntervalTimeHandler from "../../_base/handlers/NoIntervalTimeHandler";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
 import { handleGameState } from "../actions/HiLoBetAction";
@@ -138,8 +139,8 @@ export default class HiLo extends NewMiniGameBase {
 
     protected initHandlers() {
         super.initHandlers();
-        this.timeHandler = null;
         this.statusHandler = null;
+        this.timeHandler = new NoIntervalTimeHandler(this);
         this.umHandler = new HiLoUmHandler(this);
     }
 
