@@ -54,6 +54,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
 import TexasTicketHistory from "./game-history/texas-ticket-history";
 import { renderTicketDetail } from "./../actions/texas-holdem-poker-ticket-detail-actions";
+import { handleMD5 } from "./../actions/texas-holdem-poker-md5-action";
 import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
 import { updateStatusGame } from "../../holdem-poker/actions/HoldemPokerNoticeActions";
 
@@ -360,6 +361,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.gameData.stateModel.on(TexasHoldemPokerStateModel.Events.CHANGE, showHideTooltip(this.bettingAreas));
         this.gameData.stateModel.on(TexasHoldemPokerStateModel.Events.PREPARE_NEW_ROUND, prepareNewRound(this.gameData.placeBetModel));
         this.gameData.stateModel.on(TexasHoldemPokerStateModel.Events.FORCE_UPDATE_BALANCE, () => this.updateUserBalance());
+        this.gameData.stateModel.on(TexasHoldemPokerStateModel.Events.CHANGE, handleMD5(this));
     }
 
     private registerAfterDealEvents() {

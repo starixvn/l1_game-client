@@ -11,7 +11,6 @@ export default class MicroUIAction extends cc.Component {
     public connectGameData(gameData: any) {
         this.gameData = gameData;
     }
-
     protected handleUI() {}
     start() {
         this.handleUI();
