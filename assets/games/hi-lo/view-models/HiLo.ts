@@ -351,6 +351,7 @@ export default class HiLo extends NewMiniGameBase {
         this.showPlayGameButton(true);
         this.resultComp.faceDownCards();
         this.betBoardComp.disableBetBoard(false);
+        this.gameRound.string = "";
     }
 
     resetCountdownTimer() {
