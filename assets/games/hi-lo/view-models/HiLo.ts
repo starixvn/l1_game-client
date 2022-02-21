@@ -1,31 +1,30 @@
-import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
-import { HiLoChoices } from "../events-models/HiLoChoices";
-import HiLoGameData from "../events-models/HiLoGameData";
-import { HiLoRoundCounter } from "../events-models/HiLoRoundCounter";
-import { updateRoundId } from "../actions/HiLoRoundCounterAction";
-import { HiLoResultModel } from "../events-models/HiLoResultModel";
-import { updateStakes, updateCard, handleSettle, updateStatistic } from "../actions/HiLoDealAction";
-import HiLoStakes from "./HiLoStakes";
-import { Durations } from "../../_new/_base/game-data-management/models/durations";
-import { updateClockTime } from "../actions/HiLoCountdownTimerAction";
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import { GameIds } from "../../../configs/SabaConfigs";
-import HiLoConfigs from "../events-models/HiLoConfigs";
-import { HiLoStateModel } from "../events-models/HiLoStateModel";
-import { handleGameState } from "../actions/HiLoBetAction";
-import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
-import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
-import HiLoResult from "./HiLoResult";
-import _ = require("lodash");
-import HiLoBetBoard from "./HiLoBetBoard";
-import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
-import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { GameIds } from "../../../configs/SabaConfigs";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import { Durations } from "../../_new/_base/game-data-management/models/durations";
+import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
+import { handleGameState } from "../actions/HiLoBetAction";
+import { updateClockTime } from "../actions/HiLoCountdownTimerAction";
+import { handleSettle, updateCard, updateStakes, updateStatistic } from "../actions/HiLoDealAction";
+import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
+import { updateRoundId } from "../actions/HiLoRoundCounterAction";
+import HiLoUmHandler from "../events-handlers/HiLoUmHandler";
+import { HiLoChoices } from "../events-models/HiLoChoices";
+import HiLoConfigs from "../events-models/HiLoConfigs";
+import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
+import HiLoGameData from "../events-models/HiLoGameData";
+import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
+import { HiLoResultModel } from "../events-models/HiLoResultModel";
+import { HiLoRoundCounter } from "../events-models/HiLoRoundCounter";
+import { HiLoState } from "../events-models/HiLoState";
+import { HiLoStateModel } from "../events-models/HiLoStateModel";
+import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
+import HiLoBetBoard from "./HiLoBetBoard";
+import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
+import HiLoResult from "./HiLoResult";
+import HiLoStakes from "./HiLoStakes";
 import HiLoTicketHistory from "./HiLoTicketHistory";
 import HiLoTopArea from "./HiLoTopArea";
-import { HiLoState } from "../events-models/HiLoState";
-import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
-import HiLoUmHandler from "../events-handlers/HiLoUmHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -178,6 +177,10 @@ export default class HiLo extends NewMiniGameBase {
     private registerStatusEvents() {
         this.gameData.statusModel.on(HiLoStatusModel.Events.CHANGE, (statusModel) => {
             handleSettle(this)(statusModel);
+        });
+
+        this.gameData.statusModel.on(HiLoStatusModel.Events.COLLECT_FAILED, () => {
+            this.showProcessingWarning(false);
         });
     }
 

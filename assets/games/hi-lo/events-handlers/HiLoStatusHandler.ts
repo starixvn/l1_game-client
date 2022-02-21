@@ -5,15 +5,27 @@ export type HiLoStatusType<Choices> = {
         win: boolean;
         bet: number;
     };
+
+    isCollect: number;
 };
 
 export class HiLoStatusHandler<Choices> extends HiLoEventHandler<HiLoStatusType<Choices>, Choices> {
     protected verifyEvent(data: HiLoStatusType<Choices>) {
-        return !!data.status;
+        return !!data.status || !!data.isCollect;
     }
 
     protected handle(data: HiLoStatusType<Choices>) {
-        const { win, bet } = data.status;
+        if (data.status) {
+            this.successfulCollect(data.status);
+        }
+
+        if (data.isCollect === -1) {
+            this.gameData.statusModel.collectFailed();
+        }
+    }
+
+    private successfulCollect(status: any) {
+        const { win, bet } = status;
 
         this.gameData.statusModel.change(win, bet);
         this.gameData.stateModel.collect();

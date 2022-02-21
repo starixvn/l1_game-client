@@ -7,7 +7,8 @@ export class HiLoStatusModel extends EventEmitter {
     }
 
     static Events = {
-        CHANGE: "collect:change"
+        CHANGE: "collect:change",
+        COLLECT_FAILED: "collect:failed"
     };
 
     win: boolean;
@@ -18,5 +19,9 @@ export class HiLoStatusModel extends EventEmitter {
         this.bet = bet;
 
         this.emit(HiLoStatusModel.Events.CHANGE, this);
+    }
+
+    collectFailed() {
+        this.emit(HiLoStatusModel.Events.COLLECT_FAILED);
     }
 }
