@@ -1,4 +1,3 @@
-import { GameState } from "../../_base/GameBase";
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmDataHandler";
 import HiLo from "../view-models/HiLo";
 
@@ -9,9 +8,6 @@ export default class HiLoUmHandler extends GameBaseUmDataHandler {
 
     handle(data: any): boolean {
         if (!data.um) {
-            this.main.hideUmMessage();
-            this.main.gameState = GameState.Started;
-            this.main.resetUIBlankNewState();
             return false;
         }
         this.main.showUmMessage(data);

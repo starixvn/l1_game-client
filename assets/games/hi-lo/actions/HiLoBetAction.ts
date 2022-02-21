@@ -1,8 +1,8 @@
+import { HiloChoicesConst } from "../events-models/HiLoChoices";
+import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
 import { HiLoState } from "../events-models/HiLoState";
 import { HiLoStateModel } from "../events-models/HiLoStateModel";
 import HiLo from "../view-models/HiLo";
-import { HiloChoicesConst } from "../events-models/HiLoChoices";
-import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
 
 export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) => {
     mainGame.showProcessingWarning(false);
