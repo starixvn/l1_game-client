@@ -173,8 +173,12 @@ export default class HiLo extends NewMiniGameBase {
         updateCard(this)(model);
         updateStatistic(this)(model);
 
-        if (this.betBoardComp && this.betBoardComp.chipValues.includes(model.amount)) {
-            this.betBoardComp.setCurrentBet(model.amount.toString());
+        if (this.betBoardComp) {
+            if (this.betBoardComp.chipValues.includes(+model.amount)) {
+                this.betBoardComp.setCurrentBet(model.amount.toString());
+            } else {
+                this.betBoardComp.clearAllHighlight();
+            }
         }
     }
 
@@ -257,6 +261,10 @@ export default class HiLo extends NewMiniGameBase {
             this.onChangedBetChip(bet);
             if (bet && this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
                 this.stakesComp.betWin.string = numberWithCommas(bet.toString(), 2);
+            }
+
+            if (this.gameData.stateModel.state !== HiLoState.BLANK_NEW) {
+                this.betBoardComp.clearAllHighlight();
             }
         });
     }

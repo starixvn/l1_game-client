@@ -434,30 +434,32 @@ export default class BetChips extends cc.Component {
         return chip;
     }
 
+    clearAllHighlight() {
+        this.chips.children.forEach((chip) => {
+            chip.stopAllActions();
+            this.highlightChip(chip, false);
+        });
+    }
+
+    highlightChip(chip: cc.Node, highlight: boolean) {
+        const activeNode = chip.getChildByName("active");
+        activeNode.active = highlight;
+        chip.zIndex = highlight ? 2 : 1;
+        const scaleChip = highlight ? 1.15 : 1;
+        const posY = highlight ? 12 : 0;
+        cc.tween(chip)
+            .to(0.2, {
+                scale: scaleChip,
+                position: cc.v2(chip.position.x, posY)
+            })
+            .start();
+    }
+
     updateSelectedBet(targetName: string) {
         this.chips.children.forEach((chip) => {
             chip.stopAllActions();
-
-            const activeNode = chip.getChildByName("active");
-            if (chip.name === targetName) {
-                activeNode.active = true;
-                chip.zIndex = 2;
-                cc.tween(chip)
-                    .to(0.2, {
-                        scale: 1.15,
-                        position: cc.v2(chip.position.x, 12)
-                    })
-                    .start();
-            } else {
-                activeNode.active = false;
-                chip.zIndex = 1;
-                cc.tween(chip)
-                    .to(0.2, {
-                        scale: 1,
-                        position: cc.v2(chip.position.x, 0)
-                    })
-                    .start();
-            }
+            const highlight = chip.name === targetName;
+            this.highlightChip(chip, highlight);
         });
     }
 

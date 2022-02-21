@@ -30,8 +30,12 @@ export default class HiLoBetBoard extends BetChips {
 
     updateSelectedBet(targetName: string) {
         this.chips.children.forEach((chip) => {
-            const isSelected = targetName === chip.name ? true : false;
+            const isSelected = targetName === chip.name;
             chip.getComponent(HiLoBetChipItem).setSelectedBg(isSelected);
         });
+    }
+
+    highlightChip(chip: cc.Node, highlight: boolean) {
+        chip.getComponent(HiLoBetChipItem).setSelectedBg(highlight);
     }
 }
