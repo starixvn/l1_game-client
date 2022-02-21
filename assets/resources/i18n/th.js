@@ -235,7 +235,7 @@ window.i18n.languages.th = {
         autoSpin: "ออโต้สปิน",
         autoSpin2: "ออโต้สปิน",
         spin: "สปิน",
-        jackpot_short: "แจ็คพอต",
+        jackpot_short: "Jackpot",
         jackpot: "แจ็คพอต",
         symbol: "เครื่องหมาย",
         confirm2: "ยืนยัน",

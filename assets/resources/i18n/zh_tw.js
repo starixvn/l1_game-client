@@ -223,7 +223,7 @@ window.i18n.languages.zh_tw = {
         autoSpin: "自動旋轉",
         autoSpin2: "自動旋轉",
         spin: "旋轉",
-        jackpot_short: "頭獎",
+        jackpot_short: "Jackpot",
         jackpot: "頭獎",
         symbol: "象徵",
         confirm2: "確認",
