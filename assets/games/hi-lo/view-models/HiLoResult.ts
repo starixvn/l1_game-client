@@ -68,10 +68,10 @@ export default class HiLoResult extends cc.Component {
     }
 
     updateResult(result: CardModel[]) {
-        this.setCard(this.topCard, result[result.length - 1]);
-        if (result.length > 1) {
-            this.setCard(this.bottomCard, result[result.length - 2]);
+        if (result.length === 0) {
+            return;
         }
+        this.setCard(this.topCard, result[result.length - 1]);
     }
 
     setCard(cardComponent: HiLoCard, data: CardModel) {
@@ -86,8 +86,10 @@ export default class HiLoResult extends cc.Component {
     }
 
     spin(spinDuration: number, animated: boolean) {
-        this.cardList.forEach((card, index) => {
-            card.faceUp();
+        this.cardList.forEach((card) => {
+            if (card !== this.bottomCard) {
+                card.faceUp();
+            }
         });
 
         const offset = this.cardReel.height - this.cardHeight * this.cardScaleY;
@@ -96,10 +98,18 @@ export default class HiLoResult extends cc.Component {
             this.cardReel.stopAllActions();
             cc.tween(this.cardReel)
                 .to(spinDuration, { position: cc.v3(0, -offset, 0) }, { easing: "sineInOut" })
-
+                .call(() => {
+                    this.syncBottomCard();
+                })
                 .start();
         } else {
             this.cardReel.position = cc.v3(0, -offset, 0);
+            this.syncBottomCard();
         }
+    }
+
+    syncBottomCard() {
+        this.setCard(this.bottomCard, this.topCard.card);
+        this.bottomCard.faceUp();
     }
 }
