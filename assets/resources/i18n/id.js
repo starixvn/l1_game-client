@@ -131,7 +131,6 @@ window.i18n.languages.id = {
         limitBetChanged: "Batas taruhan Anda baru saja diubah.",
         enableTurboMode: 'Mode Turbo "ON"',
         disableTurboMode: 'Mode Turbo "MATI"',
-        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
         noticeTitle: "ULASAN",
         accountClosed:
             "Akun telah ditutup. Sesi Anda akan kedaluwarsa setelah 10 detik, silakan hubungi CSD untuk detailnya. (%{errorCode})",
@@ -156,9 +155,10 @@ window.i18n.languages.id = {
         notEnoughMoneyCardGame: "Saldo akun Anda tidak cukup untuk menyelesaikan ronde permainan",
         copyMD5Success: "String MD5 berhasil disalin!",
         copyKeySuccess: "String Key berhasil disalin!",
-        copy_success: "Salin berhasil!",
         maxBetForChoiceNotice2: "Taruhan maksimum untuk opsi ini adalah %{maxBet}",
-        minBetForChoiceNotice: "Taruhan minimum untuk opsi ini adalah %{minBet}"
+        minBetForChoiceNotice: "Taruhan minimum untuk opsi ini adalah %{minBet}",
+        disallowHedgeBet: "Dapat bertaruh pada {choice_1} atau {choice_2}.",
+        copy_success: "Salin berhasil!"
     },
     ui: {
         choice_red2: "2 Merah",

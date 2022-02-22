@@ -99,7 +99,6 @@ window.i18n.languages.vi = {
         cantDoubleHand: "Không thể gấp đôi tiền cược.",
         cantHit: "Không thể rút thêm bài.",
         cardsNotEqual: "Hai lá bài không cùng giá trị.",
-        disallowHedgeBet: "Chỉ có thể đặt cược trên %{betChoice1} hoặc %{betChoice2}.",
         handIsStand: "Tay bài đã dừng",
         invalidPosition: "Vị trí tay bài không đúng",
         handNotActive: "Tay bài chưa tới lượt",
@@ -157,10 +156,11 @@ window.i18n.languages.vi = {
             "Phiên đăng nhập của bạn đã hết hạn, hoặc bạn chưa có đăng nhập.\nVui lòng đóng cửa sổ game và thử đăng nhập lại.",
         notEnoughMoneyCardGame: "Tài khoản của bạn hiện không đủ tiền để hoàn tất ván bài này.",
         copyMD5Success: "Copy chuỗi MD5 thành công!",
-        copyKeySuccess: "Copy chuỗi kết quả thành công!",
-        copy_success: "Copy chuỗi kết quả thành công!",
+        copyKeySuccess: "Copy chuỗi Key thành công!",
         maxBetForChoiceNotice2: "Tiền cược tối đa của lựa chọn là %{maxBet}",
-        minBetForChoiceNotice: "Tiền cược tối thiểu của lựa chọn là %{minBet}"
+        minBetForChoiceNotice: "Tiền cược tối thiểu của lựa chọn là %{minBet}",
+        disallowHedgeBet: "Chỉ có thể đặt cược trên %{betChoice1} hoặc %{betChoice2}.",
+        copy_success: "Copy thành công!"
     },
     ui: {
         choice_red2: "2 Đỏ",

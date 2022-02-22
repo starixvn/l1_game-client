@@ -155,7 +155,7 @@ window.i18n.languages.th = {
         copyKeySuccess: "คัดลอกสตริงคีย์สำเร็จ!",
         maxBetForChoiceNotice2: "เดิมพันสูงสุดสำหรับตัวเลือกนี้คือ %{maxBet}",
         minBetForChoiceNotice: "เดิมพันขั้นต่ำสำหรับตัวเลือกนี้คือ %{minBet}",
-        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
+        disallowHedgeBet: "สามารถเดิมพันได้ทั้ง {choice_1} หรือ {choice_2}",
         copy_success: "Copy successful!"
     },
     ui: {

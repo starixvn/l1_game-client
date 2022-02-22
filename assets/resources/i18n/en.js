@@ -131,7 +131,6 @@ window.i18n.languages.en = {
         limitBetChanged: "Your bet limit has just been changed.",
         enableTurboMode: 'Turbo Mode "ON"',
         disableTurboMode: 'Turbo Mode "OFF"',
-        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
         noticeTitle: "NOTICE",
         accountClosed: "Account has been closed. Your session will expire after 10 seconds, please contact CSD for details. (%{errorCode})",
         disabledGame: "Game is under maintenance, please come back in 10 minutes.",
@@ -155,10 +154,11 @@ window.i18n.languages.en = {
             "Your session has timed out or you have not logged in yet.\nPlease close the current windows and try to login again.",
         notEnoughMoneyCardGame: "Your account has insufficient funds to complete the game round.",
         copyMD5Success: "Copy MD5 string successfully!",
-        copyKeySuccess: "Copy string result successfully!",
-        copy_success: "Copy successful!",
+        copyKeySuccess: "Copy Key string successfully!",
         maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
-        minBetForChoiceNotice: "Min bet for this option is %{minBet}"
+        minBetForChoiceNotice: "Min bet for this option is %{minBet}",
+        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
+        copy_success: "Copy successful!"
     },
     ui: {
         choice_red2: "2 Red",
