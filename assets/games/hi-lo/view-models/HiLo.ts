@@ -174,11 +174,13 @@ export default class HiLo extends NewMiniGameBase {
         updateStatistic(this)(model);
 
         if (this.betBoardComp) {
-            if (this.betBoardComp.chipValues.includes(+model.amount)) {
+            const exist = this.betBoardComp.chipValues.includes(model.amount);
+            if (exist && this.currentBet !== model.amount) {
                 this.betBoardComp.setCurrentBet(model.amount.toString());
-            } else {
-                this.betBoardComp.clearAllHighlight();
             }
+            // else {
+            //     this.betBoardComp.clearAllHighlight();
+            // }
         }
     }
 

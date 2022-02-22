@@ -187,7 +187,7 @@ export default class GameUtils {
             maxBet = Math.min(maxStake, maxBet);
         }
 
-        return values.filter((value) => value >= minBet && value <= maxBet);
+        return values.map((a) => +a).filter((value) => value >= minBet && value <= maxBet);
     }
 
     public static copyToClipboard(data: string, callback): void {
