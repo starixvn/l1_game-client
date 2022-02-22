@@ -173,7 +173,7 @@ window.i18n.languages.en = {
         choice_rooster: "ROOSTER",
         choice_stag: "STAG",
         mountain: "Mountain",
-        ocean: "ocean",
+        ocean: "Ocean",
         triple: "Triple",
         single: "Single",
         double: "Double",
