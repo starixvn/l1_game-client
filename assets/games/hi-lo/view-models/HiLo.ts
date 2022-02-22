@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
@@ -75,6 +76,9 @@ export default class HiLo extends NewMiniGameBase {
     @property(cc.BitmapFont)
     fontTru: cc.BitmapFont = null;
 
+    @property(cc.AudioClip)
+    collectAudioClip: cc.AudioClip = null;
+
     gameData: HiLoGameData<HiLoChoices> = null;
     isStopSchedule = false;
     readonly loseMessageEffectDuration = 1.5;
@@ -135,6 +139,8 @@ export default class HiLo extends NewMiniGameBase {
         if (this.gameData) {
             this.gameData.durations.reset();
         }
+
+        AudioManager.getInstance().stopAllSFX();
     }
 
     protected initHandlers() {
@@ -285,7 +291,6 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     onCollectClick() {
-        this.playClick();
         this.resetCountdownTimer();
         this.emitEventConnection(HiLoEvents.collect, {});
     }

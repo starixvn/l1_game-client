@@ -29,8 +29,5 @@ export class HiLoStatusHandler<Choices> extends HiLoEventHandler<HiLoStatusType<
 
         this.gameData.statusModel.change(win, bet);
         this.gameData.stateModel.collect();
-        if (!cc.RedT.GAME_IS_SHOWED) {
-            return;
-        }
     }
 }

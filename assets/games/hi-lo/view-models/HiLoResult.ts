@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import { getRandomCard } from "../../../common/helpers/CardHelper";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import HiLoCard from "../components/view-models/HiLoCard";
@@ -12,6 +13,12 @@ export default class HiLoResult extends cc.Component {
     @property(cc.Node)
     cardReel: cc.Node = null;
 
+    @property(cc.AudioClip)
+    spinAudioClip: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    spinStopAudioClip: cc.AudioClip = null;
+
     protected readonly cardCount = 16;
     private readonly cardList: HiLoCard[] = [];
     private readonly cardWidth = 118;
@@ -22,6 +29,7 @@ export default class HiLoResult extends cc.Component {
     private readonly cardModels: CardModel[] = [];
     private topCard: HiLoCard;
     private bottomCard: HiLoCard;
+    private spinAudioId: number;
 
     onLoad() {
         this.initCardModels();
@@ -77,6 +85,18 @@ export default class HiLoResult extends cc.Component {
         });
     }
 
+    playSpinAudio() {
+        this.spinAudioId = AudioManager.getInstance().playSFX(this.spinAudioClip);
+    }
+
+    playSpinStopAudio() {
+        AudioManager.getInstance().playSFX(this.spinStopAudioClip);
+    }
+
+    stopSpinAudio() {
+        AudioManager.getInstance().stopSFX(this.spinAudioId);
+    }
+
     spin(spinDuration: number, animated: boolean) {
         this.cardList.forEach((card) => {
             if (card !== this.bottomCard) {
@@ -92,10 +112,13 @@ export default class HiLoResult extends cc.Component {
         if (animated) {
             this.cardReel.position = cc.v3(0, 0, 0);
             this.cardReel.stopAllActions();
+            this.playSpinAudio();
             cc.tween(this.cardReel)
                 .to(spinDuration, { position: cc.v3(0, -offset, 0) }, { easing: "sineInOut" })
                 .call(() => {
+                    this.stopSpinAudio();
                     this.syncBottomCard();
+                    this.playSpinStopAudio();
                 })
                 .start();
         } else {

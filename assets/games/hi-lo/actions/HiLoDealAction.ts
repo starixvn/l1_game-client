@@ -1,12 +1,13 @@
-import HiLo from "../view-models/HiLo";
-import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
+import AudioManager from "../../../common/audio/AudioManager";
 import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
+import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
+import HiLo from "../view-models/HiLo";
 
 export const updateStakes = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
     cc.tween(mainGame.stakesComp)
         .delay(mainGame.getDelayTimeWhenSpinCard(model))
         .call(() => {
-            mainGame.stakesComp.updateStakes(model.nextAmounts);
+            model.nextAmounts && mainGame.stakesComp.updateStakes(model.nextAmounts);
         })
         .start();
 };
@@ -17,6 +18,7 @@ export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) =
 
     let newRoundDelayTime;
     if (statusModel.win) {
+        AudioManager.getInstance().playSFX(mainGame.collectAudioClip);
         newRoundDelayTime = mainGame.winningEffectDuration;
         mainGame.showWinningBet(statusModel.bet);
         mainGame.updateUserBalance();

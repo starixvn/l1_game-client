@@ -23,10 +23,19 @@ export default class AudioManager {
         }
     }
 
-    playSFX(clip: cc.AudioClip) {
+    playSFX(clip: cc.AudioClip): number {
         if (this.sfxEnabled && clip) {
-            cc.audioEngine.playEffect(clip, false);
+            return cc.audioEngine.playEffect(clip, false);
         }
+        return -1;
+    }
+
+    stopSFX(audioId: number) {
+        cc.audioEngine.stopEffect(audioId);
+    }
+
+    stopAllSFX() {
+        cc.audioEngine.stopAllEffects();
     }
 
     playMusic(clip: cc.AudioClip, loop: boolean) {
