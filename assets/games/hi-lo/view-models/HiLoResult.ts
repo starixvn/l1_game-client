@@ -1,3 +1,4 @@
+import { getRandomCard } from "../../../common/helpers/CardHelper";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import HiLoCard from "../components/view-models/HiLoCard";
 
@@ -11,40 +12,31 @@ export default class HiLoResult extends cc.Component {
     @property(cc.Node)
     cardReel: cc.Node = null;
 
+    protected readonly cardCount = 16;
     private readonly cardList: HiLoCard[] = [];
     private readonly cardWidth = 118;
     private readonly cardHeight = 150;
     private readonly cardScaleX = 1.23;
     private readonly cardScaleY = 1.5;
     private readonly cardScaleZ = 1.23;
-    private readonly randomCardValues: CardModel[] = [
-        { rank: "J", suit: 3 },
-        { rank: "4", suit: 1 },
-        { rank: "10", suit: 0 },
-        { rank: "6", suit: 2 },
-        { rank: "9", suit: 1 },
-        { rank: "2", suit: 3 },
-        { rank: "3", suit: 1 },
-        { rank: "8", suit: 2 },
-        { rank: "K", suit: 0 },
-        { rank: "5", suit: 2 },
-        { rank: "9", suit: 3 },
-        { rank: "A", suit: 2 },
-        { rank: "7", suit: 1 },
-        { rank: "5", suit: 1 },
-        { rank: "3", suit: 2 },
-        { rank: "A", suit: 1 }
-    ];
+    private readonly cardModels: CardModel[] = [];
     private topCard: HiLoCard;
     private bottomCard: HiLoCard;
 
     onLoad() {
+        this.initCardModels();
         this.createReel();
+    }
+
+    initCardModels() {
+        for (let i = 0; i < this.cardCount; i++) {
+            this.cardModels.push(getRandomCard());
+        }
     }
 
     createReel() {
         this.cardReel && this.cardReel.destroyAllChildren();
-        for (const card of this.randomCardValues) {
+        for (const card of this.cardModels) {
             const cardNode = this.createCard();
             this.cardReel.addChild(cardNode);
             const cardComp = cardNode.getComponent(HiLoCard);
@@ -89,6 +81,10 @@ export default class HiLoResult extends cc.Component {
         this.cardList.forEach((card) => {
             if (card !== this.bottomCard) {
                 card.faceUp();
+            }
+
+            if (card !== this.topCard && card !== this.bottomCard) {
+                this.setCard(card, getRandomCard());
             }
         });
 
