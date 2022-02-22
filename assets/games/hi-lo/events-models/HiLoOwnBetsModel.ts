@@ -1,4 +1,5 @@
 import { EventEmitter } from "events";
+
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import { HiLoStakeModel } from "./HiLoStakeModel";
 
@@ -32,9 +33,16 @@ export class HiLoOwnBetsModel extends EventEmitter {
 
     change(data: BetType, eventName: string) {
         const { roundId, betwin, result, nextAmounts, remainingTime, totalTurns, amount } = data;
-        const nextAmountModel = new HiLoStakeModel();
-        nextAmounts && nextAmountModel.change(nextAmounts.h, nextAmounts.l, betwin);
-        this.nextAmounts = nextAmountModel;
+        if (nextAmounts) {
+            this.nextAmounts = {
+                betWin: betwin,
+                higherAmount: nextAmounts.h,
+                lowerAmount: nextAmounts.l
+            };
+        } else {
+            this.nextAmounts = null;
+        }
+
         this.remainingTime = remainingTime;
         this.roundId = roundId;
         this.totalTurns = totalTurns;
