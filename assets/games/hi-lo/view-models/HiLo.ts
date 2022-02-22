@@ -175,12 +175,11 @@ export default class HiLo extends NewMiniGameBase {
 
         if (this.betBoardComp) {
             const exist = this.betBoardComp.chipValues.includes(model.amount);
-            if (exist && this.currentBet !== model.amount) {
+            if (exist) {
                 this.betBoardComp.setCurrentBet(model.amount.toString());
+            } else {
+                this.betBoardComp.clearAllHighlight();
             }
-            // else {
-            //     this.betBoardComp.clearAllHighlight();
-            // }
         }
     }
 
@@ -266,7 +265,10 @@ export default class HiLo extends NewMiniGameBase {
             }
 
             if (this.gameData.stateModel.state !== HiLoState.BLANK_NEW) {
-                this.betBoardComp.clearAllHighlight();
+                const exist = this.betBoardComp.chipValues.includes(+bet);
+                if (!exist) {
+                    this.betBoardComp.clearAllHighlight();
+                }
             }
         });
     }
