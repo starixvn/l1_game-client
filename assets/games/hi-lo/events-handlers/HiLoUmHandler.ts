@@ -1,3 +1,4 @@
+import { GameState } from "../../_base/GameBase";
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmDataHandler";
 import HiLo from "../view-models/HiLo";
 
@@ -10,8 +11,11 @@ export default class HiLoUmHandler extends GameBaseUmDataHandler {
         if (!data.um) {
             return false;
         }
-        this.main.showUmMessage(data);
-        this.main.disableGame();
+
+        if (this.main.gameState !== GameState.Disabled) {
+            this.main.showUmMessage(data);
+            this.main.disableGame();
+        }
 
         return true;
     }
