@@ -213,6 +213,7 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     onPlacingBet(betChoice: string) {
+        this.playClick();
         this.emitEventConnection(HiLoEvents.deal, { betChoice: betChoice });
         this.resetCountdownTimer();
     }
