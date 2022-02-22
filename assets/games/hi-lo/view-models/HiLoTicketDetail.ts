@@ -19,17 +19,14 @@ export default class HiLoTicketDetail extends cc.Component {
     scrollView: cc.ScrollView = null;
 
     @property(cc.Node)
-    view: cc.Node = null;
-
-    @property(cc.Node)
     detailTable: cc.Node = null;
 
     @property(cc.Label)
     roundId: cc.Label = null;
 
     private readonly tableHeight = 80;
-    private contentHeight = 104;
-    private readonly maxHeightContent = 504;
+    private contentHeight = 110;
+    private readonly maxHeightContent = 510;
     private readonly heightPerRow = 50;
 
     setData(data: BetLog) {
@@ -47,10 +44,10 @@ export default class HiLoTicketDetail extends cc.Component {
         const endRound = this.renderDetailBase(data, false);
         this.content.addChild(endRound);
         if (this.contentHeight >= this.maxHeightContent) {
-            this.view.height = this.scrollView.node.height = this.maxHeightContent;
+            this.scrollView.node.height = this.maxHeightContent;
             this.detailTable.height = this.tableHeight + this.maxHeightContent;
         } else {
-            this.view.height = this.scrollView.node.height = this.contentHeight;
+            this.scrollView.node.height = this.contentHeight;
             this.detailTable.height = this.tableHeight + this.contentHeight;
         }
     }
