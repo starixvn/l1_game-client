@@ -412,7 +412,7 @@ window.i18n.languages.zh_tw = {
         new_year: "Happy New Year"
     },
     holdEmPoker: {
-        ante: "底注",
+        ante: "ANTE",
         aa: "AA",
         royalFlush: "同花大順",
         straightFlush: "同花順",
