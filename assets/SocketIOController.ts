@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { io, Socket, ManagerOptions, SocketOptions } from "socket.io-client";
-import MsgpackParser = require("socket.io-msgpack-parser");
+import * as MsgpackParser from "socket.io-msgpack-parser";
 
 import { getSession } from "./common/auth/SessionManager";
 import { sentryLogger } from "./common/logger.js";
