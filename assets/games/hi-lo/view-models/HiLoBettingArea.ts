@@ -22,7 +22,7 @@ export default class HiLoBettingArea extends cc.Component {
 
     enableBetChoice(status: boolean) {
         cc.tween(this.node)
-            .delay(0.6)
+            .delay(0.5)
             .call(() => {
                 this.disableLayer.active = !status;
             })
