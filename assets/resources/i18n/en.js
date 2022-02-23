@@ -154,10 +154,11 @@ window.i18n.languages.en = {
             "Your session has timed out or you have not logged in yet.\nPlease close the current windows and try to login again.",
         notEnoughMoneyCardGame: "Your account has insufficient funds to complete the game round.",
         copyMD5Success: "Copy MD5 string successfully!",
-        copyKeySuccess: "Copy string result successfully!",
-        copy_success: "Copy successful!",
+        copyKeySuccess: "Copy Key string successfully!",
         maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
-        minBetForChoiceNotice: "Min bet for this option is %{minBet}"
+        minBetForChoiceNotice: "Min bet for this option is %{minBet}",
+        disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
+        copy_success: "Copy successful!"
     },
     ui: {
         choice_red2: "2 Red",
@@ -172,7 +173,7 @@ window.i18n.languages.en = {
         choice_rooster: "ROOSTER",
         choice_stag: "STAG",
         mountain: "Mountain",
-        ocean: "ocean",
+        ocean: "Ocean",
         triple: "Triple",
         single: "Single",
         double: "Double",

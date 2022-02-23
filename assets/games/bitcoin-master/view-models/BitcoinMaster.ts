@@ -199,6 +199,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     showChart() {
         this.node.active && this.chartWebView.showWebView();
+        this.dragComp.onTouchEnd(null);
     }
 
     onEnable() {

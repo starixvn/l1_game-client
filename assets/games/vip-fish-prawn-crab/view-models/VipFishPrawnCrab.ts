@@ -1,3 +1,4 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import GameUtils from "../../../common/GameUtils";
@@ -193,5 +194,15 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
                 }
             });
         }
+    }
+
+    getBetChoiceString(choice: string): string {
+        const choices = ["ocean", "mountain"];
+
+        if (choices.includes(choice)) {
+            return i18n.t(`ui.${choice}`);
+        }
+
+        return super.getBetChoiceString(choice);
     }
 }

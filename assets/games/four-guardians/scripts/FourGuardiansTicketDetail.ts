@@ -1,5 +1,4 @@
 import { lazyInject } from "../../../Application";
-import NoticeUtil from "../../../common/utils/NoticeUtil";
 import SlotGameTicketDetail from "../../_slotgame_base/SlotGameTicketDetail";
 import FourGuardiansConfig from "./FourGuardiansConfig";
 
@@ -23,7 +22,11 @@ export default class FourGuardiansTicketDetail extends SlotGameTicketDetail {
         if (!this.fourGuardiansConfig.jackpotEnabled && symbolNumber === this.jackpotSymbolNumber) {
             jackpotFrame = this.atlasForSC1.getSpriteFrame(`item${this.jackpotSymbolNumber}`);
         } else {
-            const suffix = NoticeUtil.getSuffixSpriteName();
+            const lang = window.i18n.curLang;
+            let suffix = "";
+            if (lang !== "vi") {
+                suffix += `_en`;
+            }
             let spriteName;
             if (symbolNumber === this.jackpotSymbolNumber) {
                 spriteName = `item${symbolNumber}${suffix}`;

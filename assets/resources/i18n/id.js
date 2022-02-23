@@ -153,11 +153,12 @@ window.i18n.languages.id = {
         noGameOffer: "Akun Anda tidak didukung di portal game ini. Silakan hubungi upline Anda, terima kasih.",
         sessionTimeout_break: "Sesi Anda telah habis atau Anda belum masuk.\nHarap tutup jendela saat ini dan coba masuk lagi.",
         notEnoughMoneyCardGame: "Saldo akun Anda tidak cukup untuk menyelesaikan ronde permainan",
-        copyMD5Success: "Copy MD5 string successfully!",
-        copyKeySuccess: "Copy string result successfully!",
-        copy_success: "Copy successful!",
-        maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
-        minBetForChoiceNotice: "Min bet for this option is %{minBet}"
+        copyMD5Success: "String MD5 berhasil disalin!",
+        copyKeySuccess: "String Key berhasil disalin!",
+        maxBetForChoiceNotice2: "Taruhan maksimum untuk opsi ini adalah %{maxBet}",
+        minBetForChoiceNotice: "Taruhan minimum untuk opsi ini adalah %{minBet}",
+        disallowHedgeBet: "Dapat bertaruh pada {choice_1} atau {choice_2}.",
+        copy_success: "Salin berhasil!"
     },
     ui: {
         choice_red2: "2 Merah",
@@ -439,7 +440,7 @@ window.i18n.languages.id = {
         deal: "Deal",
         double: "DOUBLE",
         cancel: "BATAL",
-        rebet: "Rebet",
+        rebet: "Rebate",
         rebetDeal: "Rebet\n& Deal",
         placeYourBet: "Pasang taruhan Anda",
         call: "Call",
@@ -452,8 +453,8 @@ window.i18n.languages.id = {
         threeKind: "Three of a Kind",
         straight: "Straight",
         doesNotQualify: "Tidak terkualifikasi",
-        bettingOption: "Option",
-        cards: "Card Results",
+        bettingOption: "Opsi",
+        cards: "Hasil Kartu",
         card: "KARTU",
         combination: "KOMBINASI",
         player: "Pemain",
@@ -461,8 +462,8 @@ window.i18n.languages.id = {
         communityCards: "Kartu komunitas",
         new: "New Bet",
         stake: "Taruhan",
-        dealerQualifies: "Dealer qualifies on a pair of 4s or better",
-        md5String: "",
-        md5Key: ""
+        dealerQualifies: "Dealer memenuhi syarat pada sepasang 4s atau lebih baik",
+        md5String: "MD5 Tali",
+        md5Key: "Key Tali"
     }
 };
