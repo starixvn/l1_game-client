@@ -16,7 +16,6 @@ export default class HiLoStatistic extends cc.Component {
 
     private layout: cc.Layout;
     private spaceX: number;
-    private containerPosX: number;
     private readonly itemSize = 10;
     private readonly cardWidth = 118;
     private readonly cardHeight = 142;
@@ -30,7 +29,6 @@ export default class HiLoStatistic extends cc.Component {
 
     onEnable() {
         this.statisticContainer.getComponent(cc.Widget).left = 0;
-        this.containerPosX = this.statisticContainer.position.x;
     }
 
     clearCards() {

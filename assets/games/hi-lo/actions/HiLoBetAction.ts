@@ -40,7 +40,7 @@ export const handleBaseResult = (mainGame: HiLo, model: HiLoOwnBetsModel) => {
     mainGame.enableCollectButton(false);
     mainGame.betBoardComp.disableBetBoard(true);
     mainGame.isStopSchedule = false;
-    if (model.nextAmounts.higherAmount) {
+    if (model.nextAmounts) {
         cc.tween(mainGame)
             .delay(mainGame.getDelayTimeWhenSpinCard(model))
             .call(() => {
