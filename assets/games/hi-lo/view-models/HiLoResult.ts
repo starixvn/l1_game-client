@@ -30,6 +30,7 @@ export default class HiLoResult extends cc.Component {
     private topCard: HiLoCard;
     private bottomCard: HiLoCard;
     private spinAudioId: number;
+    spinAnimation: cc.Tween;
 
     onLoad() {
         this.initCardModels();
@@ -48,7 +49,6 @@ export default class HiLoResult extends cc.Component {
             const cardNode = this.createCard();
             this.cardReel.addChild(cardNode);
             const cardComp = cardNode.getComponent(HiLoCard);
-            cardComp.faceDown();
             this.setCard(cardComp, card);
             this.cardList.push(cardComp);
         }
@@ -113,7 +113,8 @@ export default class HiLoResult extends cc.Component {
             this.cardReel.position = cc.v3(0, 0, 0);
             this.cardReel.stopAllActions();
             this.playSpinAudio();
-            cc.tween(this.cardReel)
+            this.spinAnimation = cc
+                .tween(this.cardReel)
                 .to(spinDuration, { position: cc.v3(0, -offset, 0) }, { easing: "sineInOut" })
                 .call(() => {
                     this.stopSpinAudio();
