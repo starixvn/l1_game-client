@@ -26,8 +26,8 @@ import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
 import HiLoResult from "./HiLoResult";
 import HiLoStakes from "./HiLoStakes";
 import HiLoTicketHistory from "./HiLoTicketHistory";
-import HiLoTopArea from "./HiLoTopArea";
 import GameUtils from "../../../common/GameUtils";
+import HiLoStatistic from "./HiLoStatistic";
 
 const { ccclass, property } = cc._decorator;
 
@@ -48,10 +48,10 @@ export default class HiLo extends NewMiniGameBase {
     betBoardPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    topArea: cc.Node = null;
+    statisticArea: cc.Node = null;
 
     @property(cc.Prefab)
-    topAreaPrefab: cc.Prefab = null;
+    statisticPrefab: cc.Prefab = null;
 
     @property(cc.Button)
     playButton: cc.Button = null;
@@ -83,7 +83,7 @@ export default class HiLo extends NewMiniGameBase {
     readonly spinCardsEffectDuration = 1;
     betBoardComp: HiLoBetBoard;
     ticketHistoryComp: HiLoTicketHistory;
-    topAreaComp: HiLoTopArea;
+    statisticComp: HiLoStatistic;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -111,10 +111,9 @@ export default class HiLo extends NewMiniGameBase {
     onEnable() {
         super.onEnable();
         this.isStopSchedule = false;
-        this.topArea.opacity = 255;
+        this.statisticArea.opacity = 255;
 
         if (this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
-            this.topAreaComp.showGuideInfo(true);
             if (this.betBoardComp.chipValues && this.betBoardComp.chipValues[0]) {
                 this.betBoardComp.setCurrentBet(this.betBoardComp.chipValues[0].toString());
             }
@@ -250,14 +249,14 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     onStatisticClick() {
-        const topOpacity = this.topArea.opacity;
-        this.topArea.opacity = topOpacity > 0 ? 0 : 255;
+        const topOpacity = this.statisticArea.opacity;
+        this.statisticArea.opacity = topOpacity > 0 ? 0 : 255;
     }
 
     initTopArea() {
-        const node = cc.instantiate(this.topAreaPrefab);
-        this.topAreaComp = node.getComponent(HiLoTopArea);
-        this.topArea.addChild(node);
+        const node = cc.instantiate(this.statisticPrefab);
+        this.statisticComp = node.getComponent(HiLoStatistic);
+        this.statisticArea.addChild(node);
     }
 
     initBetBoard() {
@@ -287,6 +286,7 @@ export default class HiLo extends NewMiniGameBase {
     onPlayClick() {
         this.playClick();
         this.gameRound.string = "";
+        this.statisticComp.clearCards();
         this.emitEventConnection(HiLoEvents.bet, { amount: this.currentBet });
     }
 
@@ -336,8 +336,7 @@ export default class HiLo extends NewMiniGameBase {
 
     resetDataAndUI() {
         this.resetUIPrepareNewRound();
-        this.topAreaComp.statisticComp.clearCards();
-        this.topAreaComp.showGuideInfo(true);
+        this.statisticComp.clearCards();
     }
 
     resetUIPrepareNewRound() {

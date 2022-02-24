@@ -38,11 +38,10 @@ export const updateCard = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
 };
 
 export const updateStatistic = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
-    mainGame.topAreaComp.showGuideInfo(false);
-    cc.tween(mainGame.topArea)
+    cc.tween(mainGame.statisticArea)
         .delay(mainGame.getDelayTimeWhenSpinCard(model))
         .call(() => {
-            mainGame.topAreaComp.statisticComp.updateCards(model.result);
+            mainGame.statisticComp.updateCards(model.result);
         })
         .start();
 };
