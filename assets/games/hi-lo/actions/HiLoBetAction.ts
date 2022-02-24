@@ -51,12 +51,13 @@ export const handleBaseResult = (mainGame: HiLo, model: HiLoOwnBetsModel) => {
             .delay(mainGame.getDelayTimeWhenSpinCard(model))
             .call(() => {
                 mainGame.bettingAreas.forEach((area) => {
-                    let isSpecialCase = false;
-                    if (
-                        (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) ||
-                        (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower)
-                    ) {
-                        isSpecialCase = true;
+                    let isSpecialCase = true;
+                    if (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) {
+                        mainGame.stakesComp.setHigherAmount("");
+                    } else if (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower) {
+                        mainGame.stakesComp.setLowerAmount("");
+                    } else {
+                        isSpecialCase = false;
                     }
                     area.enableBetChoice(!isSpecialCase);
                 });
