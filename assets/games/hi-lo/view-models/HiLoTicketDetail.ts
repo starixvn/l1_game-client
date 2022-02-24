@@ -1,4 +1,5 @@
-import { BetLog } from "./HiLoBetData";
+import GameUtils from "../../../common/GameUtils";
+import { BetLog, BetLogDetail } from "./HiLoBetData";
 import HiLoTicketDetailBaseItem from "./HiLoTicketDetailBaseItem";
 import HiLoTicketDetailItem from "./HiLoTicketDetailItem";
 
@@ -28,21 +29,11 @@ export default class HiLoTicketDetail extends cc.Component {
     private contentHeight = 110;
     private readonly maxHeightContent = 510;
     private readonly heightPerRow = 50;
+    comp: cc.Node;
 
-    setData(data: BetLog) {
-        this.roundId.string = data.id.toString();
-        const betLogDetails = data.betLogDetails;
-        const startRound = this.renderDetailBase(data, true);
-        this.content.addChild(startRound);
-        betLogDetails.forEach((logDetail) => {
-            const ticketDetailItem = cc.instantiate(this.ticketDetailItemPrefab);
-            const detailControl = ticketDetailItem.getComponent(HiLoTicketDetailItem);
-            detailControl.renderTicketDetailItem(logDetail);
-            this.contentHeight += this.heightPerRow;
-            this.content.addChild(ticketDetailItem);
-        });
-        const endRound = this.renderDetailBase(data, false);
-        this.content.addChild(endRound);
+    calculateHeights(betLogDetails: BetLogDetail[]) {
+        this.contentHeight += betLogDetails.length * this.heightPerRow;
+
         if (this.contentHeight >= this.maxHeightContent) {
             this.scrollView.node.height = this.maxHeightContent;
             this.detailTable.height = this.tableHeight + this.maxHeightContent;
@@ -52,8 +43,28 @@ export default class HiLoTicketDetail extends cc.Component {
         }
     }
 
+    updateContentTicketDetail(data: BetLog) {
+        this.roundId.string = data.id.toString();
+        const betLogDetails = data.betLogDetails;
+        const startRound = this.renderDetailBase(data, true);
+        this.content.addChild(startRound);
+        betLogDetails.forEach((logDetail) => {
+            const ticketDetailItem = GameUtils.createNodeFromPrefab(this.ticketDetailItemPrefab);
+            const detailControl = ticketDetailItem.getComponent(HiLoTicketDetailItem);
+            detailControl.renderTicketDetailItem(logDetail);
+            this.content.addChild(ticketDetailItem);
+        });
+        const endRound = this.renderDetailBase(data, false);
+        this.content.addChild(endRound);
+    }
+
+    setData(data: BetLog) {
+        this.updateContentTicketDetail(data);
+        this.calculateHeights(data.betLogDetails);
+    }
+
     renderDetailBase(data: BetLog, isFirst: boolean): cc.Node {
-        const basedetailItem = cc.instantiate(this.detailBaseItemPrefab);
+        const basedetailItem = GameUtils.createNodeFromPrefab(this.detailBaseItemPrefab);
         const control = basedetailItem.getComponent(HiLoTicketDetailBaseItem);
         control.setData(data, isFirst);
         return basedetailItem;

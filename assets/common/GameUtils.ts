@@ -202,4 +202,8 @@ export default class GameUtils {
         const userAgent = window.navigator.userAgent.toLowerCase();
         return /ipad/.test(userAgent);
     }
+
+    public static createNodeFromPrefab(prefab: cc.Prefab) {
+        return cc.instantiate(prefab);
+    }
 }
