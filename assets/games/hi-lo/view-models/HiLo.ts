@@ -27,6 +27,7 @@ import HiLoResult from "./HiLoResult";
 import HiLoStakes from "./HiLoStakes";
 import HiLoTicketHistory from "./HiLoTicketHistory";
 import HiLoTopArea from "./HiLoTopArea";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -69,12 +70,6 @@ export default class HiLo extends NewMiniGameBase {
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
-
-    @property(cc.BitmapFont)
-    fontCong: cc.BitmapFont = null;
-
-    @property(cc.BitmapFont)
-    fontTru: cc.BitmapFont = null;
 
     @property(cc.AudioClip)
     collectAudioClip: cc.AudioClip = null;
@@ -331,31 +326,12 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     showWinningBet(bet: number) {
-        const winningBet = this.addFlyingText(this.noticeNode, true, bet, this.winningEffectDuration);
+        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, this.winningEffectDuration);
         winningBet.name = "winningBet";
     }
 
     showAcceptedBet(bet: number) {
-        this.addFlyingText(this.noticeNode, false, bet, 1);
-    }
-
-    addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
-        const temp = new cc.Node().addComponent(cc.Label);
-        temp.string = (win ? "+" : "-") + numberWithCommas(value, 2);
-        temp.font = win ? this.fontCong : this.fontTru;
-        temp.lineHeight = 130;
-        temp.fontSize = 60;
-        temp.node.position = cc.v3(0, startY, 0);
-        parent.addChild(temp.node);
-        temp.node.runAction(
-            cc.sequence(
-                cc.moveTo(duration, cc.v2(0, startY + destY)),
-                cc.callFunc(function () {
-                    this.node.destroy();
-                }, temp)
-            )
-        );
-        return temp.node;
+        GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
     }
 
     resetDataAndUI() {
