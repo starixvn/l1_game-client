@@ -85,7 +85,7 @@ export default class HiLo extends NewMiniGameBase {
     readonly newRoundAfterLossDelayTime = 2.5;
     readonly winningEffectDuration = 1;
     readonly deductingAmountEffectDuration = 1;
-    readonly spinCardsEffectDuration = 2;
+    readonly spinCardsEffectDuration = 1;
     betBoardComp: HiLoBetBoard;
     ticketHistoryComp: HiLoTicketHistory;
     topAreaComp: HiLoTopArea;
