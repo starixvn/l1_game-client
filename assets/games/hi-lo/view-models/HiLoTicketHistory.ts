@@ -64,6 +64,6 @@ export default class HiLoTicketHistory extends BetHistory {
         const ticketDetailNode = cc.instantiate(this.ticketDetailPrefab);
         this.node.addChild(ticketDetailNode);
         const detailControl = ticketDetailNode.getComponent(HiLoTicketDetail);
-        detailControl.setData(data);
+        detailControl.renderTicketDetail(data);
     }
 }

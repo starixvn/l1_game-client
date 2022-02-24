@@ -26,7 +26,7 @@ export default class HiLoTicketDetail extends cc.Component {
     roundId: cc.Label = null;
 
     private readonly tableHeight = 80;
-    private contentHeight = 110;
+    public contentHeight = 110;
     private readonly maxHeightContent = 510;
     private readonly heightPerRow = 50;
     comp: cc.Node;
@@ -58,7 +58,7 @@ export default class HiLoTicketDetail extends cc.Component {
         this.content.addChild(endRound);
     }
 
-    setData(data: BetLog) {
+    renderTicketDetail(data: BetLog) {
         this.updateContentTicketDetail(data);
         this.calculateHeights(data.betLogDetails);
     }

@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { BetLog, BetLogDetail } from "./HiLoBetData";
 import HiLoTicketDetailItem from "./HiLoTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
@@ -11,7 +12,7 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
     @property(cc.Label)
     round: cc.Label = null;
 
-    setData(data: any, isFirst: boolean) {
+    setData(data: BetLog, isFirst: boolean) {
         if (isFirst) {
             const startRound = "hiLo.startRound";
             this.time.string = getStringHourByTime(data.time);

@@ -14,7 +14,7 @@ jest.mock("../../../assets/common/GameUtils", () => ({
 describe("HiLoTicketdetail", () => {
     let node: cc.Node;
     let comp: HiLoTicketDetail;
-    beforeEach(() => {
+    beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoTicketDetail);
         comp.content = new cc.Node();
@@ -55,19 +55,19 @@ describe("HiLoTicketdetail", () => {
                 id: 1966,
                 amount: 100,
                 betwin: 233.44,
-                betLogDetails: [createLogDetail(1)]
+                betLogDetails: [createLogDetail(1)],
+                endTime: ""
             };
         });
 
         it("should set roundId.string base on data", () => {
             // Arrange
-            const expectedValue = "1966";
 
             // Act
             comp.updateContentTicketDetail(betLog);
 
             // Assert
-            expect(comp.roundId.string).toStrictEqual(expectedValue);
+            expect(comp.roundId.string).toStrictEqual(betLog.id.toString());
         });
         it("should add start round to content", () => {
             // Arrange
@@ -100,16 +100,17 @@ describe("HiLoTicketdetail", () => {
 
                 // Act
                 comp.calculateHeights(betLogDetails);
+
                 // Assert
                 expect(comp.scrollView.node.height).toEqual(510);
-
                 expect(comp.detailTable.height).toEqual(590);
             });
         });
 
         describe("when contentHeight = this.maxHeightContent", () => {
-            beforeEach(() => {
+            it("should set scrollView.node.height = maxHeightContent, should set correct detailTable.height", () => {
                 // Arrange
+                comp.contentHeight = 110;
                 const betLogDetails = [
                     createLogDetail(1),
                     createLogDetail(2),
@@ -123,35 +124,24 @@ describe("HiLoTicketdetail", () => {
 
                 // Act
                 comp.calculateHeights(betLogDetails);
-            });
 
-            it("should set scrollView.node.height = maxHeightContent", () => {
-                // Assert
+                //Assert
                 expect(comp.scrollView.node.height).toEqual(510);
-            });
-
-            it("should set correct detailTable.height", () => {
-                // Assert
                 expect(comp.detailTable.height).toEqual(590);
             });
         });
 
         describe("when contentHeight < this.maxHeightContent", () => {
-            beforeEach(() => {
+            it("should set scrollView.node.height = maxHeightContent, should set correct detailTable.height", () => {
                 // Arrange
                 const betLogDetails = [createLogDetail(1), createLogDetail(2), createLogDetail(3)];
+                comp.contentHeight = 110;
 
                 // Act
                 comp.calculateHeights(betLogDetails);
-            });
 
-            it("should set scrollView.node.height = maxHeightContent", () => {
                 // Assert
                 expect(comp.scrollView.node.height).toEqual(260);
-            });
-
-            it("should set correct detailTable.height", () => {
-                // Assert
                 expect(comp.detailTable.height).toEqual(340);
             });
         });
@@ -160,7 +150,7 @@ describe("HiLoTicketdetail", () => {
     describe("renderDetailBase", () => {
         it("should set Data to HiLoTicketDetailBaseItem", () => {
             // Arrange
-
+            comp.renderDetailBase = HiLoTicketDetail.prototype.renderDetailBase;
             const spyFunction = jest.fn();
             mockFuntions.createNodeFromPrefab = () => {
                 const node = new cc.Node();
@@ -169,13 +159,43 @@ describe("HiLoTicketdetail", () => {
                 return node;
             };
 
-            const betLog: BetLog = { time: "2022-02-17T04:28:11.289Z", id: 1966, amount: 100, betwin: 233.44, betLogDetails: [] };
+            const betLog: BetLog = {
+                time: "2022-02-17T04:28:11.289Z",
+                id: 1966,
+                amount: 100,
+                betwin: 233.44,
+                betLogDetails: [],
+                endTime: ""
+            };
 
             //Act
             comp.renderDetailBase(betLog, false);
 
             //Assert
             expect(spyFunction).toHaveBeenCalledWith(betLog, false);
+        });
+    });
+
+    describe("renderTicketDetail", () => {
+        it("should update data for content, calculate height for content and table", () => {
+            // Arrange
+            const betLog: BetLog = {
+                time: "2022-02-17T04:28:11.289Z",
+                id: 1966,
+                amount: 100,
+                betwin: 233.44,
+                betLogDetails: [createLogDetail(1)],
+                endTime: ""
+            };
+            comp.updateContentTicketDetail = jest.fn();
+            comp.calculateHeights = jest.fn();
+
+            // Act
+            comp.renderTicketDetail(betLog);
+
+            // Assert
+            expect(comp.updateContentTicketDetail).toBeCalledWith(betLog);
+            expect(comp.calculateHeights).toBeCalledWith(betLog.betLogDetails);
         });
     });
 });

@@ -12,6 +12,7 @@ export interface BetLog {
     time: string;
     amount: number;
     betwin: number;
+    endTime: string;
     betLogDetails: BetLogDetail[];
 }
 

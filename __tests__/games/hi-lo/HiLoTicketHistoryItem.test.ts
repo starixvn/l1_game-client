@@ -23,7 +23,8 @@ describe("Test class HiLoTicketHistoryItem", () => {
                 id: 1966,
                 amount: 100,
                 betwin: 233.44,
-                betLogDetails: []
+                betLogDetails: [],
+                endTime: ""
             };
 
             //Act
@@ -43,7 +44,8 @@ describe("Test class HiLoTicketHistoryItem", () => {
                 id: 1966,
                 amount: 100,
                 betwin: 0,
-                betLogDetails: []
+                betLogDetails: [],
+                endTime: ""
             };
 
             //Act
