@@ -66,7 +66,6 @@ describe("Test class GameBaseStatusHandler", () => {
             const win = true;
             const bet = 10;
             jest.spyOn(global, "setTimeout");
-            jest.spyOn(gameBaseStatusHandler, "showStatus");
 
             // Act
             gameBaseStatusHandler.status(win, bet);
