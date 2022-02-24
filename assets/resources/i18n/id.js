@@ -157,7 +157,7 @@ window.i18n.languages.id = {
         copyKeySuccess: "String Key berhasil disalin!",
         maxBetForChoiceNotice2: "Taruhan maksimum untuk opsi ini adalah %{maxBet}",
         minBetForChoiceNotice: "Taruhan minimum untuk opsi ini adalah %{minBet}",
-        disallowHedgeBet: "Dapat bertaruh pada {choice_1} atau {choice_2}.",
+        disallowHedgeBet: "Dapat bertaruh pada %{betChoice1} atau %{betChoice2}.",
         copy_success: "Salin berhasil!"
     },
     ui: {

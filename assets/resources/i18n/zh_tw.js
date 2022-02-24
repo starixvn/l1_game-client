@@ -143,7 +143,7 @@ window.i18n.languages.zh_tw = {
         copyKeySuccess: "複製Key字符串成功！",
         maxBetForChoiceNotice2: "此選項的最大賭注是 %{maxBet}",
         minBetForChoiceNotice: "此選項的最小賭注是 %{minBet}",
-        disallowHedgeBet: "可以下注 {choice_1} 或 {choice_2}。",
+        disallowHedgeBet: "可以下注 %{betChoice1} 或 %{betChoice2}。",
         copy_success: "複製成功！"
     },
     ui: {
