@@ -13,9 +13,6 @@ export const updateStakes = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
 };
 
 export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) => {
-    mainGame.enableAllBetOptions(false);
-    mainGame.enableCollectButton(false);
-
     let newRoundDelayTime;
     if (statusModel.win) {
         AudioManager.getInstance().playSFX(mainGame.collectAudioClip);

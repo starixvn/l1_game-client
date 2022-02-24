@@ -15,6 +15,7 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             break;
         case HiLoState.START_TURN:
             handleBaseResult(mainGame, mainGame.gameData.ownBetsModel);
+            mainGame.showPlayGameButton(false);
             break;
 
         case HiLoState.IN_TURN:
@@ -22,7 +23,14 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             break;
 
         case HiLoState.SETTLED:
-            mainGame.resetUIPrepareNewRound();
+            const disabledDelayTime = mainGame.gameData.statusModel.win ? 0 : mainGame.spinCardsEffectDuration;
+            cc.tween(mainGame)
+                .delay(disabledDelayTime)
+                .call(() => {
+                    mainGame.resetUIPrepareNewRound();
+                })
+                .start();
+
             mainGame.showPlayGameButton(false);
             mainGame.betBoardComp.disableBetBoard(true);
             break;
@@ -35,9 +43,7 @@ export const handleBaseResult = (mainGame: HiLo, model: HiLoOwnBetsModel) => {
     const highestRank = "A";
     const lowestRank = "2";
     const currentResult = model.result[model.result.length - 1];
-    mainGame.showPlayGameButton(false);
-    mainGame.enableAllBetOptions(false);
-    mainGame.enableCollectButton(false);
+
     mainGame.betBoardComp.disableBetBoard(true);
     mainGame.isStopSchedule = false;
     if (model.nextAmounts) {
