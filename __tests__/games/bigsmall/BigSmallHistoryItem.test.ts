@@ -3,13 +3,7 @@ import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelp
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import BigSmallHistoryItem from "../../../assets/games/bigsmall/view-models/BigSmallHistoryItem";
 
-jest.mock("../../../assets/common/GameUtils", () => ({
-    default: class {
-        public static getBetChoiceString(params) {
-            return params;
-        }
-    }
-}));
+jest.mock("../../../assets/common/GameUtils", () => jest.requireActual("../../mocks/MockedGameUtils"));
 
 describe("Test class BigSmallHistoryItem", () => {
     let node: cc.Node;
