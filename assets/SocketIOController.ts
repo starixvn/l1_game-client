@@ -37,6 +37,7 @@ export default class SocketIOController {
 
         if (enableMsgpackParser) {
             socketOptions.parser = MsgpackParser;
+            console.log(`msgpack is enabled on ${gameName}`);
         }
 
         const socket = io(socketUri, socketOptions);
@@ -67,6 +68,10 @@ export default class SocketIOController {
             if (needCallCallback) {
                 onConnectFailed(name, isGameRoom);
             }
+        });
+
+        socket.on("disconnect", (reason) => {
+            sentryLogger.log(reason);
         });
 
         return socket;
