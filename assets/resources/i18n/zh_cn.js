@@ -224,7 +224,7 @@ window.i18n.languages.zh_cn = {
         autoSpin2: "自动旋转",
         spin: "旋转",
         jackpot_short: "Jackpot",
-        jackpot: "头奖",
+        jackpot: "Jackpot",
         symbol: "象征",
         confirm2: "确认",
         noOfSymbol: "数量",
