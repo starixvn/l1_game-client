@@ -21,8 +21,9 @@ export default class HiLoBettingArea extends cc.Component {
     }
 
     enableBetChoice(status: boolean) {
+        const delayTime = status ? 0 : 0.5;
         cc.tween(this.node)
-            .delay(0.5)
+            .delay(delayTime)
             .call(() => {
                 this.disableLayer.active = !status;
             })
