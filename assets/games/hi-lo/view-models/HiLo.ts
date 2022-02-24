@@ -270,6 +270,7 @@ export default class HiLo extends NewMiniGameBase {
         this.betBoardComp = betBoard.getComponent(HiLoBetBoard);
         this.betBoardContainer.addChild(betBoard);
         this.betBoardComp.init((bet) => {
+            const isChanged = this.currentBet !== +bet;
             this.onChangedBetChip(bet);
             if (bet && this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
                 this.stakesComp.betWin.string = numberWithCommas(bet.toString(), 2);
@@ -277,7 +278,7 @@ export default class HiLo extends NewMiniGameBase {
 
             if (this.gameData.stateModel.state !== HiLoState.BLANK_NEW) {
                 const exist = this.betBoardComp.chipValues.includes(+bet);
-                if (!exist) {
+                if (!exist || isChanged) {
                     this.betBoardComp.clearAllHighlight();
                 }
             }
