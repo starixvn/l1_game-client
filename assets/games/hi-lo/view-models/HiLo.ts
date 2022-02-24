@@ -120,6 +120,9 @@ export default class HiLo extends NewMiniGameBase {
 
         if (this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
             this.topAreaComp.showGuideInfo(true);
+            if (this.betBoardComp.chipValues && this.betBoardComp.chipValues[0]) {
+                this.betBoardComp.setCurrentBet(this.betBoardComp.chipValues[0].toString());
+            }
         }
     }
 
