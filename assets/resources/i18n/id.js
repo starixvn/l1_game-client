@@ -331,7 +331,7 @@ window.i18n.languages.id = {
         lucky_wheel_notice:
             "Catatan: Scoin hanya tersedia untuk Se Die, dengan permainan lain, taruhannya akan dipotong langsung dari saldo akun Anda.",
         award: "Hadiah",
-        goodluck: "Semoga lain kali lebih beruntung!",
+        goodluck: "Semoga Lebih Beruntung!",
         current_wheel_spin: "Jumlah Putaran",
         current_scoin: "Sisa Scoin",
         goodluck_on_wheel: "Coba lagi",
@@ -423,8 +423,8 @@ window.i18n.languages.id = {
         teamRed: "Team Red",
         gameNotSupported: "Sorry! The function is currently not supported for this game.",
         noDataAvailable: "No data available",
-        ticket_details: "Ticket details",
-        bet_details: "Bet Details",
+        ticket_details: "Detail Tiket",
+        bet_details: "Detail Bet",
         new_year: "Happy New Year"
     },
     holdEmPoker: {

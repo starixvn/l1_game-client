@@ -407,8 +407,8 @@ window.i18n.languages.zh_tw = {
         teamRed: "Team Red",
         gameNotSupported: "Sorry! The function is currently not supported for this game.",
         noDataAvailable: "No data available",
-        ticket_details: "Ticket details",
-        bet_details: "Bet Details",
+        ticket_details: "票詳情",
+        bet_details: "投注詳情",
         new_year: "Happy New Year"
     },
     holdEmPoker: {
