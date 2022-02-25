@@ -11,8 +11,6 @@ export default class HiLoBetBoard extends BetChips {
     @property(cc.Prefab)
     numberBetPrefab: cc.Prefab = null;
 
-    protected needResetCurrentChip = false;
-
     disableBetBoard(status: boolean) {
         this.disableLayer.active = status;
         this.leftButton.active = !status;
@@ -37,5 +35,9 @@ export default class HiLoBetBoard extends BetChips {
 
     highlightChip(chip: cc.Node, highlight: boolean) {
         chip.getComponent(HiLoBetChipItem).setSelectedBg(highlight);
+    }
+
+    setNeedResetCurrentChip(status: boolean) {
+        this.needResetCurrentChip = status;
     }
 }
