@@ -9,7 +9,8 @@ import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
 import { handleGameState } from "../actions/HiLoBetAction";
 import { updateClockTime } from "../actions/HiLoCountdownTimerAction";
 import {
-    handleSettle,
+    checkStatusLost,
+    handleStatusWon,
     updateButtonCollectAndBetChoices,
     updateCard,
     updateStakes,
@@ -182,7 +183,8 @@ export default class HiLo extends NewMiniGameBase {
         await updateCard(this)(model);
         updateStakes(this)(model);
         updateStatistic(this)(model);
-        updateButtonCollectAndBetChoices(this, model);
+        updateButtonCollectAndBetChoices(this)(model);
+        checkStatusLost(this)(this.gameData.statusModel);
 
         if (this.betBoardComp) {
             this.betBoardComp.setNeedResetCurrentChip(false);
@@ -196,8 +198,8 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     private registerStatusEvents() {
-        this.gameData.statusModel.on(HiLoStatusModel.Events.CHANGE, (statusModel) => {
-            handleSettle(this)(statusModel);
+        this.gameData.statusModel.on(HiLoStatusModel.Events.WON, (statusModel) => {
+            handleStatusWon(this)(statusModel);
         });
 
         this.gameData.statusModel.on(HiLoStatusModel.Events.COLLECT_FAILED, () => {
@@ -308,29 +310,30 @@ export default class HiLo extends NewMiniGameBase {
         this.collectButton && (this.collectButton.node.getChildByName("disabled-layer").active = !status);
     }
 
-    showUserLoseMessage(animated = true) {
-        if (animated) {
+    showUserLoseMessage(): Promise<void> {
+        return new Promise((resolve) => {
             this.userLose.opacity = 0;
             this.userLose.scale = 0;
             const showMessageDuration = 0.3;
             const hideMessageDuration = 0.1;
             cc.tween(this.userLose)
-                .delay(this.spinCardsEffectDuration)
                 .to(showMessageDuration, { opacity: 255, scale: 1 }, { easing: "sineOut" })
                 .delay(this.loseMessageEffectDuration)
                 .call(() => {
+                    resolve();
                     cc.tween(this.userLose).to(hideMessageDuration, { opacity: 0, scale: 0 }, { easing: "sineIn" }).start();
                 })
                 .start();
-        } else {
-            this.userLose.opacity = 255;
-            this.userLose.scale = 1;
-        }
+        });
     }
 
-    showWinningBet(bet: number) {
+    async showWinningBet(bet: number) {
         const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, this.winningEffectDuration, 0, 150);
         winningBet.name = "winningBet";
+
+        return new Promise((resolve) => {
+            cc.tween({}).delay(this.winningEffectDuration).call(resolve).start();
+        });
     }
 
     showAcceptedBet(bet: number) {

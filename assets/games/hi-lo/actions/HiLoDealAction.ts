@@ -8,24 +8,21 @@ export const updateStakes = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
     model.nextAmounts && mainGame.stakesComp.updateStakes(model.nextAmounts);
 };
 
-export const handleSettle = (mainGame: HiLo) => (statusModel: HiLoStatusModel) => {
-    let newRoundDelayTime;
-    if (statusModel.win) {
-        AudioManager.getInstance().playSFX(mainGame.collectAudioClip);
-        newRoundDelayTime = mainGame.winningEffectDuration;
-        mainGame.showWinningBet(statusModel.bet);
-        mainGame.updateUserBalance();
-    } else {
-        newRoundDelayTime = mainGame.loseMessageEffectDuration + mainGame.spinCardsEffectDuration;
-        mainGame.showUserLoseMessage();
-    }
+export const handleStatusWon = (mainGame: HiLo) => async (statusModel: HiLoStatusModel) => {
+    AudioManager.getInstance().playSFX(mainGame.collectAudioClip);
+    mainGame.updateUserBalance();
+    mainGame.resetUIPrepareNewRound();
+    await mainGame.showWinningBet(statusModel.bet);
+    mainGame.gameData.stateModel.prepareNewRound();
+};
 
-    cc.tween(mainGame)
-        .delay(newRoundDelayTime)
-        .call(() => {
-            mainGame.gameData.stateModel.prepareNewRound();
-        })
-        .start();
+export const checkStatusLost = (mainGame: HiLo) => async (statusModel: HiLoStatusModel) => {
+    if (statusModel.isSettled && !statusModel.win) {
+        await mainGame.showUserLoseMessage();
+        mainGame.gameData.stateModel.prepareNewRound();
+
+        statusModel.reset();
+    }
 };
 
 export const updateCard = (mainGame: HiLo) => async (model: HiLoOwnBetsModel) => {
@@ -37,7 +34,7 @@ export const updateStatistic = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => 
     mainGame.statisticComp.updateCards(model.result);
 };
 
-export const updateButtonCollectAndBetChoices = (mainGame: HiLo, model: HiLoOwnBetsModel) => {
+export const updateButtonCollectAndBetChoices = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
     const highestRank = "A";
     const lowestRank = "2";
     const currentResult = model.result[model.result.length - 1];

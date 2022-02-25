@@ -17,14 +17,6 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             break;
 
         case HiLoState.SETTLED:
-            const disabledDelayTime = mainGame.gameData.statusModel.win ? 0 : mainGame.spinCardsEffectDuration;
-            cc.tween(mainGame)
-                .delay(disabledDelayTime)
-                .call(() => {
-                    mainGame.resetUIPrepareNewRound();
-                })
-                .start();
-
             mainGame.showPlayGameButton(false);
             mainGame.betBoardComp.disableBetBoard(true);
             break;
