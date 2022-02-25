@@ -326,12 +326,12 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     showWinningBet(bet: number) {
-        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, this.winningEffectDuration);
+        const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, this.winningEffectDuration, 0, 150);
         winningBet.name = "winningBet";
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
+        GameUtils.addFlyingText(this.noticeNode, false, bet, this.winningEffectDuration, 0, 150);
     }
 
     resetDataAndUI() {
