@@ -83,35 +83,39 @@ export default class HiLoResult extends cc.Component {
         AudioManager.getInstance().stopSFX(this.spinAudioId);
     }
 
-    spin(spinDuration: number, animated: boolean) {
-        this.cardList.forEach((card) => {
-            if (card !== this.bottomCard) {
-                card.faceUp();
-            }
+    spin(spinDuration: number, animated: boolean): Promise<void> {
+        return new Promise((resolve) => {
+            this.cardList.forEach((card) => {
+                if (card !== this.bottomCard) {
+                    card.faceUp();
+                }
 
-            if (card !== this.topCard && card !== this.bottomCard) {
-                this.setCard(card, getRandomCard());
+                if (card !== this.topCard && card !== this.bottomCard) {
+                    this.setCard(card, getRandomCard());
+                }
+            });
+
+            const offset = this.cardReel.height - this.cardHeight;
+            if (animated) {
+                this.cardReel.position = cc.v3(0, 0, 0);
+                this.cardReel.stopAllActions();
+                this.playSpinAudio();
+                this.spinAnimation = cc
+                    .tween(this.cardReel)
+                    .to(spinDuration, { position: cc.v3(0, -offset, 0) }, { easing: "sineInOut" })
+                    .call(() => {
+                        this.stopSpinAudio();
+                        this.playSpinStopAudio();
+                        this.syncBottomCard();
+                        resolve();
+                    })
+                    .start();
+            } else {
+                this.cardReel.position = cc.v3(0, -offset, 0);
+                this.syncBottomCard();
+                resolve();
             }
         });
-
-        const offset = this.cardReel.height - this.cardHeight;
-        if (animated) {
-            this.cardReel.position = cc.v3(0, 0, 0);
-            this.cardReel.stopAllActions();
-            this.playSpinAudio();
-            this.spinAnimation = cc
-                .tween(this.cardReel)
-                .to(spinDuration, { position: cc.v3(0, -offset, 0) }, { easing: "sineInOut" })
-                .call(() => {
-                    this.stopSpinAudio();
-                    this.syncBottomCard();
-                    this.playSpinStopAudio();
-                })
-                .start();
-        } else {
-            this.cardReel.position = cc.v3(0, -offset, 0);
-            this.syncBottomCard();
-        }
     }
 
     syncBottomCard() {

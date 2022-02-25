@@ -1,6 +1,6 @@
-import HiLoEventHandler from "./HiLoEventHandler";
 import { BetType } from "../events-models/HiLoOwnBetsModel";
 import { HiLoResultModel } from "../events-models/HiLoResultModel";
+import HiLoEventHandler from "./HiLoEventHandler";
 
 export type HiLoResultType<Choices> = {
     result: BetType;
@@ -13,7 +13,7 @@ export class HiLoResultHandler<Choices> extends HiLoEventHandler<HiLoResultType<
 
     protected handle(data: HiLoResultType<Choices>) {
         this.gameData.resultModel.change(data.result, HiLoResultModel.Events.CHANGE);
-        this.gameData.stateModel.deal();
+        this.gameData.stateModel.inTurn();
         this.gameData.durations.remaining = data.result.remainingTime;
         this.gameData.roundCounter.change(data.result.roundId);
     }

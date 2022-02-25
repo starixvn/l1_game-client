@@ -8,7 +8,13 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
 import { handleGameState } from "../actions/HiLoBetAction";
 import { updateClockTime } from "../actions/HiLoCountdownTimerAction";
-import { handleSettle, updateCard, updateStakes, updateStatistic } from "../actions/HiLoDealAction";
+import {
+    handleSettle,
+    updateButtonCollectAndBetChoices,
+    updateCard,
+    updateStakes,
+    updateStatistic,
+} from "../actions/HiLoDealAction";
 import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 import { updateRoundId } from "../actions/HiLoRoundCounterAction";
 import HiLoUmHandler from "../events-handlers/HiLoUmHandler";
@@ -166,15 +172,16 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     private registerOwnBetEvents() {
-        this.gameData.ownBetsModel.on(HiLoOwnBetsModel.Events.CHANGE, (model) => {
-            model.result.length > 0 && this.updateBasicData(model);
+        this.gameData.ownBetsModel.on(HiLoOwnBetsModel.Events.CHANGE, (model: HiLoOwnBetsModel) => {
+            this.updateBasicData(model);
         });
     }
 
-    private updateBasicData(model: HiLoOwnBetsModel) {
+    private async updateBasicData(model: HiLoOwnBetsModel) {
+        await updateCard(this)(model);
         updateStakes(this)(model);
-        updateCard(this)(model);
         updateStatistic(this)(model);
+        updateButtonCollectAndBetChoices(this, model);
 
         if (this.betBoardComp) {
             const exist = this.betBoardComp.chipValues.includes(model.amount);
@@ -354,9 +361,5 @@ export default class HiLo extends NewMiniGameBase {
     resetCountdownTimer() {
         this.animatedTime.setTime(numberPad(this.config.betTime, 2));
         this.isStopSchedule = true;
-    }
-
-    getDelayTimeWhenSpinCard(model: HiLoOwnBetsModel): number {
-        return model.remainingTime > this.config.betTime ? this.spinCardsEffectDuration : 0;
     }
 }
