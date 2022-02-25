@@ -1,4 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import GameUtils from "../../../common/GameUtils";
 import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
@@ -25,9 +26,8 @@ import HiLoBetBoard from "./HiLoBetBoard";
 import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
 import HiLoResult from "./HiLoResult";
 import HiLoStakes from "./HiLoStakes";
-import HiLoTicketHistory from "./HiLoTicketHistory";
-import GameUtils from "../../../common/GameUtils";
 import HiLoStatistic from "./HiLoStatistic";
+import HiLoTicketHistory from "./HiLoTicketHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -353,6 +353,8 @@ export default class HiLo extends NewMiniGameBase {
         this.resultComp.faceDownCards();
         this.betBoardComp.disableBetBoard(false);
         this.gameRound.string = "";
+        this.stakesComp.resetStakes(this.currentBet);
+        this.betBoardComp.setCurrentBet(this.currentBet.toString());
     }
 
     resetCountdownTimer() {

@@ -1,4 +1,5 @@
 import { EventEmitter } from "events";
+
 import { HiLoState } from "./HiLoState";
 
 export class HiLoStateModel extends EventEmitter {
