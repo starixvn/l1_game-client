@@ -17,10 +17,9 @@ export default class HiLoStatistic extends cc.Component {
     private layout: cc.Layout;
     private spaceX: number;
     private readonly itemSize = 10;
-    private readonly cardWidth = 118;
-    private readonly cardHeight = 142;
-    private readonly cardScaleX = 0.36;
-    private readonly cardScaleY = 0.4;
+    private readonly cardWidth = 145;
+    private readonly cardScaleX = 0.29;
+    private readonly cardScaleY = 0.29;
 
     onLoad() {
         this.layout = this.statisticContainer.getComponent(cc.Layout);
@@ -76,8 +75,6 @@ export default class HiLoStatistic extends cc.Component {
 
     createCard(card: CardModel): cc.Node {
         const cardNode = cc.instantiate(this.cardPrefab);
-        cardNode.width = this.cardWidth;
-        cardNode.height = this.cardHeight;
         cardNode.scaleX = this.cardScaleX;
         cardNode.scaleY = this.cardScaleY;
         this.statisticContainer.addChild(cardNode);

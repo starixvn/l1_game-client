@@ -20,12 +20,8 @@ export default class HiLoResult extends cc.Component {
     spinStopAudioClip: cc.AudioClip = null;
 
     protected readonly cardCount = 16;
+    private cardHeight = 213;
     private readonly cardList: HiLoCard[] = [];
-    private readonly cardWidth = 118;
-    private readonly cardHeight = 150;
-    private readonly cardScaleX = 1.23;
-    private readonly cardScaleY = 1.5;
-    private readonly cardScaleZ = 1.23;
     private readonly cardModels: CardModel[] = [];
     private topCard: HiLoCard;
     private bottomCard: HiLoCard;
@@ -46,7 +42,7 @@ export default class HiLoResult extends cc.Component {
     createReel() {
         this.cardReel && this.cardReel.destroyAllChildren();
         for (const card of this.cardModels) {
-            const cardNode = this.createCard();
+            const cardNode = cc.instantiate(this.cardPrefab);
             this.cardReel.addChild(cardNode);
             const cardComp = cardNode.getComponent(HiLoCard);
             this.setCard(cardComp, card);
@@ -55,16 +51,6 @@ export default class HiLoResult extends cc.Component {
         this.cardReel.getComponent(cc.Layout).updateLayout();
         this.topCard = this.cardList[this.cardList.length - 1];
         this.bottomCard = this.cardList[0];
-    }
-
-    createCard(): cc.Node {
-        const node = cc.instantiate(this.cardPrefab);
-        node.width = this.cardWidth;
-        node.height = this.cardHeight;
-        node.scaleX = this.cardScaleX;
-        node.scaleY = this.cardScaleY;
-        node.scaleZ = this.cardScaleZ;
-        return node;
     }
 
     updateResult(result: CardModel[]) {
@@ -108,7 +94,7 @@ export default class HiLoResult extends cc.Component {
             }
         });
 
-        const offset = this.cardReel.height - this.cardHeight * this.cardScaleY;
+        const offset = this.cardReel.height - this.cardHeight;
         if (animated) {
             this.cardReel.position = cc.v3(0, 0, 0);
             this.cardReel.stopAllActions();
