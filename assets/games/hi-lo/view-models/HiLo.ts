@@ -118,6 +118,7 @@ export default class HiLo extends NewMiniGameBase {
                 this.betBoardComp.setCurrentBet(this.betBoardComp.chipValues[0].toString());
             }
         }
+        this.resultComp.spinAnimation && this.resultComp.spinAnimation.stop();
     }
 
     onData(data: unknown) {
@@ -138,7 +139,6 @@ export default class HiLo extends NewMiniGameBase {
         }
 
         AudioManager.getInstance().stopAllSFX();
-        this.resultComp.spinAnimation && this.resultComp.spinAnimation.stop();
     }
 
     protected initHandlers() {
