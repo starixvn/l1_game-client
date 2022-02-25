@@ -4,6 +4,7 @@ import { events } from "../../_new/connection/SocketIOConnection";
 import BetHistory from "../../_new/common/BetHistory";
 import HiLoTicketDetail from "./HiLoTicketDetail";
 import { BetLog, TicketHistoryData } from "./HiLoBetData";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -44,13 +45,13 @@ export default class HiLoTicketHistory extends BetHistory {
         this.pages.onSet(data.history.page, data.history.pageSize, data.history.total);
         this.content.children.forEach((child) => child.destroy());
 
-        this.renderTicketHisroty(data.history);
+        this.renderTicketHistory(data.history);
     }
 
-    renderTicketHisroty(data: TicketHistoryData) {
+    renderTicketHistory(data: TicketHistoryData) {
         this.pages.onSet(data.page, data.pageSize, data.total);
         data.betLogs.forEach((item) => {
-            const itemNode = cc.instantiate(this.ticketHistoryItemPrefab);
+            const itemNode = GameUtils.createNodeFromPrefab(this.ticketHistoryItemPrefab);
             const control = itemNode.getComponent(HiLoTicketHistoryItem);
             control.renderTicketItem(item);
             control.openTicketDetail = () => {
@@ -61,7 +62,7 @@ export default class HiLoTicketHistory extends BetHistory {
     }
 
     initTicketDetail(data: BetLog) {
-        const ticketDetailNode = cc.instantiate(this.ticketDetailPrefab);
+        const ticketDetailNode = GameUtils.createNodeFromPrefab(this.ticketDetailPrefab);
         this.node.addChild(ticketDetailNode);
         const detailControl = ticketDetailNode.getComponent(HiLoTicketDetail);
         detailControl.renderTicketDetail(data);

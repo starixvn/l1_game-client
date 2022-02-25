@@ -1,7 +1,7 @@
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 
 export interface TicketHistoryData {
-    betLogs: [];
+    betLogs: BetLog[];
     page: number;
     pageSize: number;
     total: number;
