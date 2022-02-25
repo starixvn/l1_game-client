@@ -118,7 +118,7 @@ export default class HiLo extends NewMiniGameBase {
                 this.betBoardComp.setCurrentBet(this.betBoardComp.chipValues[0].toString());
             }
         }
-        this.resultComp.spinAnimation && this.resultComp.spinAnimation.stop();
+        this.resultComp && this.resultComp.stopSpinCardAnimation();
     }
 
     onData(data: unknown) {

@@ -132,4 +132,11 @@ export default class HiLoResult extends cc.Component {
         this.setCard(this.bottomCard, this.topCard.card);
         this.bottomCard.faceUp();
     }
+
+    stopSpinCardAnimation() {
+        if (this.spinAnimation) {
+            this.spinAnimation.stop();
+            this.cardReel.position = cc.v3(0, 0, 0);
+        }
+    }
 }
