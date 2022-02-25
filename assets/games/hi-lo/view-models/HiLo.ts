@@ -111,7 +111,6 @@ export default class HiLo extends NewMiniGameBase {
     onEnable() {
         super.onEnable();
         this.isStopSchedule = false;
-        this.statisticArea.opacity = 255;
 
         if (this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
             if (this.betBoardComp.chipValues && this.betBoardComp.chipValues[0]) {
@@ -246,11 +245,6 @@ export default class HiLo extends NewMiniGameBase {
         this.ticketHistoryComp.setConnection(this.connection, this.gameName, this.gameData.roundCounter.roundId);
         this.ticketHistoryComp.get_data();
         this.currentMiniPanel.addDialog(dialog);
-    }
-
-    onStatisticClick() {
-        const topOpacity = this.statisticArea.opacity;
-        this.statisticArea.opacity = topOpacity > 0 ? 0 : 255;
     }
 
     initTopArea() {
