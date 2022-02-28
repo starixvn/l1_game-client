@@ -470,7 +470,18 @@ window.i18n.languages.vi = {
         md5String: "Chuỗi MD5",
         md5Key: "Chuỗi Key"
     },
-
+    hiLo: {
+        collect: "Ăn Non",
+        sorryMessage: "Thật tiếc, bạn đã thua.",
+        play: "Bắt đầu",
+        turn: "Bước",
+        baseCard: "Bài",
+        resultCard: "Kết Quả",
+        startRound: "Bắt đầu phiên",
+        endRound: "Kết thúc phiên",
+        high: "Cao",
+        low: "Thấp"
+    },
     texasPoker: {
         ante: "ANTE",
         aa: "AA",
@@ -509,17 +520,5 @@ window.i18n.languages.vi = {
         dealerQualifies: "Nhà Cái Đủ Điều Kiện Khi Có Đôi 4 Hoặc Cao Hơn",
         md5String: "Chuỗi MD5",
         md5Key: "Chuỗi Key"
-    },
-    hiLo: {
-        collect: "Ăn Non",
-        sorryMessage: "Thật tiếc, bạn đã thua.",
-        play: "Bắt đầu",
-        turn: "Bước",
-        baseCard: "Bài",
-        resultCard: "Kết Quả",
-        startRound: "Bắt đầu phiên",
-        endRound: "Kết thúc phiên",
-        high: "Cao",
-        low: "Thấp"
     }
 };
