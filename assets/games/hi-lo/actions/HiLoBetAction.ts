@@ -20,7 +20,5 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
             mainGame.showPlayGameButton(false);
             mainGame.betBoardComp.disableBetBoard(true);
             break;
-        default:
-            break;
     }
 };
