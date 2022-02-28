@@ -8,15 +8,18 @@ jest.mock("../../../../assets/games/hi-lo/view-models/HiLo", () => ({
         return {
             resetUIBlankNewState: jest.fn(),
             showProcessingWarning: jest.fn(),
+            showPlayGameButton: jest.fn(),
 
             stakesComp: {
                 resetStakes: jest.fn()
             },
 
             betBoardComp: {
-                setCurrentBet: jest.fn()
+                setCurrentBet: jest.fn(),
+                disableBetBoard: jest.fn()
             },
-            currentBet: 1
+            currentBet: 1,
+            isStopSchedule: false
         };
     })
 }));
@@ -39,15 +42,71 @@ describe("HiLoBetAction", () => {
 
     describe("handleGameState", () => {
         describe("HiLoState.BLANK_NEW", () => {
-            it("should call resetUIBlankNewState", () => {
+            beforeEach(() => {
                 // Arrange
                 stateModel.state = HiLoState.BLANK_NEW;
 
                 // Act
                 handleGameState(mainGame)(stateModel);
+            });
 
+            it("should call showProcessingWarning false", () => {
+                // Assert
+                expect(mainGame.showProcessingWarning).toBeCalledWith(false);
+            });
+            it("should call resetUIBlankNewState", () => {
                 // Assert
                 expect(mainGame.resetUIBlankNewState).toBeCalledTimes(1);
+            });
+        });
+
+        describe("HiLoState.IN_TURN", () => {
+            beforeEach(() => {
+                // Arrange
+                stateModel.state = HiLoState.IN_TURN;
+
+                // Act
+                handleGameState(mainGame)(stateModel);
+            });
+
+            it("should call showProcessingWarning false", () => {
+                // Assert
+                expect(mainGame.showProcessingWarning).toBeCalledWith(false);
+            });
+            it("should call showPlayGameButton false", () => {
+                // Assert
+                expect(mainGame.showPlayGameButton).toBeCalledWith(false);
+            });
+            it("should call betBoardComp disableBetBoard true", () => {
+                // Assert
+                expect(mainGame.betBoardComp.disableBetBoard).toBeCalledWith(true);
+            });
+            it("should set isStopSchedule false", () => {
+                // Assert
+                expect(mainGame.isStopSchedule).toEqual(false);
+            });
+        });
+
+        describe("HiLoState.SETTLED", () => {
+            beforeEach(() => {
+                // Arrange
+                stateModel.state = HiLoState.SETTLED;
+
+                // Act
+                handleGameState(mainGame)(stateModel);
+            });
+
+            it("should call showProcessingWarning false", () => {
+                // Assert
+                expect(mainGame.showProcessingWarning).toBeCalledWith(false);
+            });
+            it("should call showPlayGameButton false", () => {
+                // Assert
+                expect(mainGame.showPlayGameButton).toBeCalledWith(false);
+            });
+            it("should call betBoardComp disableBetBoard true", () => {
+                // Assert
+                expect(mainGame.betBoardComp.disableBetBoard).toBeCalledWith(true);
             });
         });
     });
