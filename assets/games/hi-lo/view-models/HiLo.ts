@@ -14,7 +14,7 @@ import {
     updateButtonCollectAndBetChoices,
     updateCard,
     updateStakes,
-    updateStatistic,
+    updateStatistic
 } from "../actions/HiLoDealAction";
 import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 import { updateRoundId } from "../actions/HiLoRoundCounterAction";
@@ -190,7 +190,7 @@ export default class HiLo extends NewMiniGameBase {
             this.betBoardComp.setNeedResetCurrentChip(false);
             const exist = this.betBoardComp.chipValues.includes(model.amount);
             if (exist) {
-                this.betBoardComp.setCurrentBet(model.amount.toString());
+                this.betBoardComp.setSelectedIndexAndScroll(model.amount.toString());
             } else {
                 this.betBoardComp.clearAllHighlight();
             }
@@ -269,17 +269,9 @@ export default class HiLo extends NewMiniGameBase {
         this.betBoardComp = betBoard.getComponent(HiLoBetBoard);
         this.betBoardContainer.addChild(betBoard);
         this.betBoardComp.init((bet) => {
-            const isChanged = this.currentBet !== +bet;
             this.onChangedBetChip(bet);
             if (bet && this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
                 this.stakesComp.betWin.string = numberWithCommas(bet.toString(), 2);
-            }
-
-            if (this.gameData.stateModel.state !== HiLoState.BLANK_NEW) {
-                const exist = this.betBoardComp.chipValues.includes(+bet);
-                if (!exist || isChanged) {
-                    this.betBoardComp.clearAllHighlight();
-                }
             }
         });
     }

@@ -195,6 +195,10 @@ export default class BetChips extends cc.Component {
     public onClickBet(target) {
         const bet = target.node.name;
         AudioManager.getInstance().playSFX(this.betChipClickAudio.clip);
+        this.setSelectedIndexAndScroll(bet);
+    }
+
+    setSelectedIndexAndScroll(bet: string) {
         let i = 0;
         for (; i < this.chipList.length; i++) {
             if (this.chipList[i].name === bet) {
