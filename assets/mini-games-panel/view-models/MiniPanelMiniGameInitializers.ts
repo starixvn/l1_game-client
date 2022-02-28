@@ -2,9 +2,9 @@ import { Socket } from "socket.io-client";
 
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
 import GameUtils from "../../common/GameUtils";
+import { enableMsgpackParserOnGame } from "../../configs/Configs";
 import { GameIds, GameInfos } from "../../configs/SabaConfigs";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
-import { enableMsgpackParserOnGame } from "../../configs/Configs";
 
 export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInitializers {
     showGame(node: cc.Node) {
@@ -95,23 +95,24 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     setUpSocketForGame(gameName: string, gameId: number, forceNew: boolean, gameContainer: any): Socket {
         const proxyRoute = getProxyRoute(gameId);
         const gameServerUrl = buildServerUrl("http", "", gameId);
-        
-        const socket = this.socketIOController.connectGameSocket(
-            gameServerUrl,
+
+        const option = {
+            socketUri: gameServerUrl,
             gameName,
             proxyRoute,
-            (name, isGameRoom) => {
+            onConnectFailed: (name, isGameRoom) => {
                 this.main.onConnectSocketFailed(name, isGameRoom);
 
                 if (gameContainer && gameContainer.hideContainer) {
                     gameContainer.hideContainer();
                 }
             },
-            false,
+            isGameRoom: false,
             forceNew,
             gameContainer,
-            enableMsgpackParserOnGame?.[gameId]
-        );
+            enableMsgpackParser: enableMsgpackParserOnGame?.[gameId]
+        };
+        const socket = this.socketIOController.connectGameSocket(option);
 
         this.handleSocket(socket, gameId);
         return socket;

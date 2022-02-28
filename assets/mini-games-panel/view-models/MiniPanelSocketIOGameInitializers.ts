@@ -2,8 +2,8 @@ import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper"
 import AudioManager from "../../common/audio/AudioManager";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
-import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 import { enableMsgpackParserOnGame } from "../../configs/Configs";
+import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
 export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIOInitializers {
     public openGame(gameId) {
@@ -26,16 +26,18 @@ export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIO
             const gameName = GameUtils.getGameNameString(gameId);
             const proxyRoute = getProxyRoute(gameId);
             const gameServerUrl = buildServerUrl("http", "", gameId);
-            const socket = this.socketIOController.connectGameSocket(
-                gameServerUrl,
+
+            const option = {
+                socketUri: gameServerUrl,
                 gameName,
                 proxyRoute,
-                this.main.onConnectSocketFailed.bind(this.main),
-                true,
-                true,
-                null,
-                enableMsgpackParserOnGame?.[gameId]
-            );
+                onConnectFailed: this.main.onConnectSocketFailed.bind(this.main),
+                isGameRoom: true,
+                forceNew: true,
+                gameContainer: null,
+                enableMsgpackParser: enableMsgpackParserOnGame?.[gameId]
+            };
+            const socket = this.socketIOController.connectGameSocket(option);
             this.handleSocket(socket, gameId);
         });
     }

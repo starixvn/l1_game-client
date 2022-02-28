@@ -20,7 +20,7 @@ export default class HiLoResult extends cc.Component {
     spinStopAudioClip: cc.AudioClip = null;
 
     protected readonly cardCount = 16;
-    private cardHeight = 213;
+    private readonly cardHeight = 213;
     private readonly cardList: HiLoCard[] = [];
     private readonly cardModels: CardModel[] = [];
     private topCard: HiLoCard;

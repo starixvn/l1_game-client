@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { io, Socket, ManagerOptions, SocketOptions } from "socket.io-client";
+import { io, ManagerOptions, Socket, SocketOptions } from "socket.io-client";
 import * as MsgpackParser from "socket.io-msgpack-parser";
 
 import { getSession } from "./common/auth/SessionManager";
@@ -18,16 +18,17 @@ export default class SocketIOController {
         this.gameSockets[gameId.toString()] = socket;
     }
 
-    connectGameSocket = (
-        socketUri: string,
-        gameName: string,
-        proxyRoute: string,
-        onConnectFailed: (gameName, isGameRoom) => void,
-        isGameRoom: boolean,
-        forceNew: boolean,
-        gameContainer: any,
-        enableMsgpackParser = false
-    ): Socket => {
+    connectGameSocket = (option: {
+        socketUri: string;
+        gameName: string;
+        proxyRoute: string;
+        onConnectFailed: (gameName, isGameRoom) => void;
+        isGameRoom: boolean;
+        forceNew: boolean;
+        gameContainer: any;
+        enableMsgpackParser: boolean;
+    }): Socket => {
+        const { socketUri, gameName, proxyRoute, onConnectFailed, isGameRoom, forceNew, gameContainer, enableMsgpackParser } = option;
         const socketOptions: Partial<ManagerOptions & SocketOptions> = {
             forceNew: forceNew,
             transports: ["websocket"],
