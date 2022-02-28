@@ -467,8 +467,7 @@ window.i18n.languages.th = {
     hiLo: {
         collect: "Collect",
         sorryMessage: "Sorry, you lost the game.",
-        click: "Click",
-        toStart: "to start.",
+        play: "Play",
         turn: "Turn",
         baseCard: "Base Card",
         resultCard: "Result Card",
