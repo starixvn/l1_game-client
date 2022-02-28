@@ -1,5 +1,11 @@
 import AudioManager from "../../../../assets/common/audio/AudioManager";
-import { handleStatusWon, updateStakes } from "../../../../assets/games/hi-lo/actions/HiLoDealAction";
+import {
+    checkStatusLost,
+    handleStatusWon,
+    updateCard,
+    updateStakes,
+    updateStatistic,
+} from "../../../../assets/games/hi-lo/actions/HiLoDealAction";
 import { HiLoOwnBetsModel } from "../../../../assets/games/hi-lo/events-models/HiLoOwnBetsModel";
 import { HiLoStakeModel } from "../../../../assets/games/hi-lo/events-models/HiLoStakeModel";
 import { HiLoStateModel } from "../../../../assets/games/hi-lo/events-models/HiLoStateModel";
@@ -17,16 +23,27 @@ jest.mock("../../../../assets/games/hi-lo/view-models/HiLo", () => ({
             updateUserBalance: jest.fn(),
             resetUIPrepareNewRound: jest.fn(),
             showWinningBet: jest.fn().mockResolvedValue((value: number) => {}),
+            showUserLoseMessage: jest.fn().mockResolvedValue((value: number) => {}),
 
             stakesComp: {
                 updateStakes: jest.fn()
+            },
+            statisticComp: {
+                updateCards: jest.fn()
             },
 
             betBoardComp: {
                 setCurrentBet: jest.fn(),
                 disableBetBoard: jest.fn()
             },
+            resultComp: {
+                updateResult: jest.fn(),
+                spin: jest.fn()
+            },
+
             currentBet: 1,
+            spinCardsEffectDuration: 1,
+            config: { betTime: 1 },
             isStopSchedule: false,
 
             gameData: {
@@ -45,6 +62,14 @@ jest.mock("../../../../assets/games/hi-lo/events-models/HiLoStateModel", () => {
         })
     };
 });
+
+jest.mock("../../../../assets/games/hi-lo/events-models/HiLoStatusModel", () => ({
+    HiLoStatusModel: () => ({
+        isSettled: false,
+        win: false,
+        reset: jest.fn()
+    })
+}));
 
 describe("HiLoDealAction", () => {
     let mainGame: HiLo;
@@ -131,6 +156,103 @@ describe("HiLoDealAction", () => {
 
             // Assert
             expect(mainGame.gameData.stateModel.prepareNewRound).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe("checkStatusLost", () => {
+        beforeAll(() => {
+            // Arrange
+            statusModel = new HiLoStatusModel();
+        });
+
+        it("should do nothing when isSettled false", () => {
+            // Arrange
+            statusModel.isSettled = false;
+
+            // Act
+            checkStatusLost(mainGame)(statusModel);
+
+            // Assert
+            expect(mainGame.showUserLoseMessage).not.toBeCalled();
+        });
+
+        it("should do nothing when win true", () => {
+            // Arrange
+            statusModel.win = true;
+
+            // Act
+            checkStatusLost(mainGame)(statusModel);
+
+            // Assert
+            expect(mainGame.showUserLoseMessage).not.toBeCalled();
+        });
+
+        it("should call showUserLoseMessage when win false, isSettled true", () => {
+            // Arrange
+            statusModel.isSettled = true;
+            statusModel.win = false;
+            mainGame = new HiLo();
+
+            // Act
+            checkStatusLost(mainGame)(statusModel);
+
+            // Assert
+            expect(mainGame.showUserLoseMessage).toBeCalledTimes(1);
+        });
+
+        it("should not call mainGame.gameData.stateModel.prepareNewRound immediately when win false, isSettled true", () => {
+            // Arrange
+            statusModel.isSettled = true;
+            statusModel.win = false;
+            mainGame = new HiLo();
+
+            // Act
+            checkStatusLost(mainGame)(statusModel);
+
+            // Assert
+            expect(mainGame.gameData.stateModel.prepareNewRound).not.toBeCalled();
+            expect(statusModel.reset).not.toBeCalled();
+        });
+
+        it("should call mainGame.gameData.stateModel.prepareNewRound after showUserLoseMessage when win false, isSettled true", async () => {
+            // Arrange
+            statusModel.isSettled = true;
+            statusModel.win = false;
+            mainGame = new HiLo();
+
+            // Act
+            await checkStatusLost(mainGame)(statusModel);
+
+            // Assert
+            expect(mainGame.gameData.stateModel.prepareNewRound).toBeCalledTimes(1);
+            expect(statusModel.reset).toBeCalledTimes(1);
+        });
+    });
+
+    describe("updateCard", () => {
+        beforeEach(() => {
+            // Act
+            updateCard(mainGame)(ownBetsModel);
+        });
+        it("should call resultComp updateResult", () => {
+            // Assert
+            expect(mainGame.resultComp.updateResult).toBeCalledWith(ownBetsModel.result);
+        });
+        it("should call resultComp spin", () => {
+            // Assert
+            expect(mainGame.resultComp.spin).toBeCalledWith(
+                mainGame.spinCardsEffectDuration,
+                ownBetsModel.remainingTime > mainGame.config.betTime
+            );
+        });
+    });
+
+    describe("updateStatistic", () => {
+        it("should call statisticComp updateCards", () => {
+            // Act
+            updateStatistic(mainGame)(ownBetsModel);
+            // Assert
+            expect(mainGame.statisticComp.updateCards).toBeCalledWith(ownBetsModel.result);
         });
     });
 });
