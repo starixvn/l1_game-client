@@ -83,6 +83,10 @@ export default class BetChips extends cc.Component {
         };
     }
 
+    setNeedResetCurrentChip(status: boolean) {
+        this.needResetCurrentChip = status;
+    }
+
     setChipValues(gameConfigs: any) {
         if (gameConfigs.chips.length === 0) {
             return;

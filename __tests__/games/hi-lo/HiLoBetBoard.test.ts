@@ -21,6 +21,7 @@ function createChipList() {
 describe("HiLoBetBoard", () => {
     let node: cc.Node;
     let comp: HiLoBetBoard;
+    let prefabNode: cc.Node;
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoBetBoard);
@@ -28,10 +29,10 @@ describe("HiLoBetBoard", () => {
         comp.leftButton = new cc.Node();
         comp.rightButton = new cc.Node();
         mockFuntions.createNodeFromPrefab = () => {
-            const node = new cc.Node();
+            prefabNode = new cc.Node();
             //HiLoBetChipItem.prototype.setSelectedBg = jest.fn();
-            node.addComponent(HiLoBetChipItem);
-            return node;
+            prefabNode.addComponent(HiLoBetChipItem);
+            return prefabNode;
         };
         comp.chips = createChipList();
     });
@@ -88,10 +89,26 @@ describe("HiLoBetBoard", () => {
             const value = 1;
 
             // Act
-            comp.createChipNode(value);
+            const actualValue = comp.createChipNode(value);
 
             //Assert
-            expect(fnBetChip).toBeCalledWith(value);
+            expect(actualValue).toStrictEqual(prefabNode);
+        });
+    });
+
+    describe("highlightChip", () => {
+        it("should set background for selected chip", () => {
+            // Arrange
+            const chip: cc.Node = new cc.Node();
+            chip.addComponent(HiLoBetChipItem);
+            const fnBetChip = jest.fn();
+            HiLoBetChipItem.prototype.setSelectedBg = fnBetChip;
+
+            // Act
+            comp.highlightChip(chip, true);
+
+            //Assert
+            expect(fnBetChip).toBeCalledWith(true);
         });
     });
 });

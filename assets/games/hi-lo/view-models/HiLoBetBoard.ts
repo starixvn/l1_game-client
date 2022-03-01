@@ -37,8 +37,4 @@ export default class HiLoBetBoard extends BetChips {
     highlightChip(chip: cc.Node, highlight: boolean) {
         chip.getComponent(HiLoBetChipItem).setSelectedBg(highlight);
     }
-
-    setNeedResetCurrentChip(status: boolean) {
-        this.needResetCurrentChip = status;
-    }
 }
