@@ -1,4 +1,5 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import GameUtils from "../../../common/GameUtils";
 import HiLoBetChipItem from "./HiLoBetChipItem";
 
 const { ccclass, property } = cc._decorator;
@@ -21,7 +22,7 @@ export default class HiLoBetBoard extends BetChips {
     }
 
     createChipNode(value: number): cc.Node {
-        const node = cc.instantiate(this.numberBetPrefab);
+        const node = GameUtils.createNodeFromPrefab(this.numberBetPrefab);
         node.getComponent(HiLoBetChipItem).renderBetChipItem(value);
         return node;
     }
