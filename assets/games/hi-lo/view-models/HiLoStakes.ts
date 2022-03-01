@@ -16,7 +16,7 @@ export default class HiLoStakes extends cc.Component {
     updateStakes(data: HiLoStakeModel) {
         this.setAmount(this.higherAmount, numberWithCommas(data.higherAmount, 2), true);
         this.setAmount(this.lowerAmount, numberWithCommas(data.lowerAmount, 2), true);
-        data.betWin && numberTo(this.betWin, data.betWin, 2, true);
+        data.betWin && this.setAmount(this.betWin, numberWithCommas(data.betWin, 2), true);
     }
 
     setAmount(amountLabel: cc.Label, value: string, animated = false) {

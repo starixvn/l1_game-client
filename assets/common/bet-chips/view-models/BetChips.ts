@@ -172,8 +172,11 @@ export default class BetChips extends cc.Component {
     }
 
     private updateArrowVisibility() {
-        this.leftButton.active = true;
-        this.rightButton.active = true;
+        if (this.needResetCurrentChip) {
+            this.leftButton.active = true;
+            this.rightButton.active = true;
+        }
+
         if (this.selectedIndex <= 0) {
             this.selectedIndex = 0;
             this.leftButton.active = false;

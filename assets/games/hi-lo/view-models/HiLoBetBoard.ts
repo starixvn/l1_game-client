@@ -16,9 +16,7 @@ export default class HiLoBetBoard extends BetChips {
         this.disableLayer.active = status;
         this.leftButton.active = !status;
         this.rightButton.active = !status;
-        if (this.selectedIndex <= 0) {
-            this.leftButton.active = false;
-        }
+        this.disablePrevNextButtons(status);
     }
 
     createChipNode(value: number): cc.Node {
@@ -36,5 +34,13 @@ export default class HiLoBetBoard extends BetChips {
 
     highlightChip(chip: cc.Node, highlight: boolean) {
         chip.getComponent(HiLoBetChipItem).setSelectedBg(highlight);
+    }
+
+    disablePrevNextButtons(status: boolean) {
+        this.leftButton.active = !status;
+        this.rightButton.active = !status;
+        if (this.selectedIndex <= 0) {
+            this.leftButton.active = false;
+        }
     }
 }
