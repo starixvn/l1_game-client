@@ -1,4 +1,4 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { numberTo, numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { HiLoStakeModel } from "../events-models/HiLoStakeModel";
 const { ccclass, property } = cc._decorator;
 
@@ -14,22 +14,27 @@ export default class HiLoStakes extends cc.Component {
     lowerAmount: cc.Label = null;
 
     updateStakes(data: HiLoStakeModel) {
-        this.setHigherAmount(numberWithCommas(data.higherAmount, 2));
-        this.setLowerAmount(numberWithCommas(data.lowerAmount, 2));
-        data.betWin && (this.betWin.string = numberWithCommas(data.betWin, 2));
+        this.setAmount(this.higherAmount, numberWithCommas(data.higherAmount, 2), true);
+        this.setAmount(this.lowerAmount, numberWithCommas(data.lowerAmount, 2), true);
+        data.betWin && numberTo(this.betWin, data.betWin, 1, true);
     }
 
-    setHigherAmount(value: string) {
-        this.higherAmount.string = value;
-    }
-
-    setLowerAmount(value: string) {
-        this.lowerAmount.string = value;
+    setAmount(amountLabel: cc.Label, value: string, animated = false) {
+        if (animated) {
+            cc.tween(amountLabel.node)
+                .to(0.3, { scale: 1.2 }, { easing: "linear" })
+                .call(() => {
+                    amountLabel.string = value;
+                })
+                .start();
+        } else {
+            amountLabel.string = value;
+        }
     }
 
     resetStakes(betAmount: number) {
-        this.setHigherAmount("");
-        this.setLowerAmount("");
+        this.setAmount(this.higherAmount, "");
+        this.setAmount(this.lowerAmount, "");
         this.betWin.string = numberWithCommas(betAmount, 2);
     }
 }

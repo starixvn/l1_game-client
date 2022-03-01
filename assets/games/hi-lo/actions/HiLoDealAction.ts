@@ -41,9 +41,9 @@ export const updateButtonCollectAndBetChoices = (mainGame: HiLo) => (model: HiLo
     mainGame.bettingAreas.forEach((area) => {
         let isSpecialCase = true;
         if (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) {
-            mainGame.stakesComp.setHigherAmount("");
+            mainGame.stakesComp.setAmount(mainGame.stakesComp.higherAmount, "");
         } else if (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower) {
-            mainGame.stakesComp.setLowerAmount("");
+            mainGame.stakesComp.setAmount(mainGame.stakesComp.lowerAmount, "");
         } else {
             isSpecialCase = false;
         }
