@@ -158,6 +158,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         GameUtils.moveToOtherNode(this.upDownMiniRoundHistory.tip.node, this.upDownTooltipNode);
         GameUtils.moveToOtherNode(this.evenOddMiniRoundHistory.tip.node, this.evenOddTooltipNode);
 
+        this.currentMiniPanel.chartsWebView[this.gameName] = this.chartWebView;
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
             const zIndex = this.node.getSiblingIndex();
 
@@ -172,7 +173,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
                 this.showChart();
             }
         });
-        this.currentMiniPanel.popupMiniGame.list.on(cc.Node.EventType.SCALE_CHANGED, this.handleShowMiniGameMenu.bind(this));
 
         this.statisticNode.on(cc.Node.EventType.CHILD_ADDED, this.showStatistic.bind(this));
         this.statisticNode.on(cc.Node.EventType.CHILD_REMOVED, this.hideStatistic.bind(this));
@@ -206,6 +206,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.isPhone && this.currentMiniPanel.setIconOverMiniGame(false);
         super.onEnable();
         this.initChart();
+        this.showChart();
     }
 
     onDisable() {
@@ -215,6 +216,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     onDestroy() {
         this.currentMiniPanel.removeNewLayerCallback(this.gameName);
+        this.currentMiniPanel.removeChartsWebView(this.gameName);
 
         super.onDestroy();
         this.miniRoundHistoryUpDownContainer.isValid && this.miniRoundHistoryUpDownContainer.destroyAllChildren();
@@ -253,10 +255,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.dragComp.touchCallback.start = (node) => {
             this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
         };
-    }
-
-    handleShowMiniGameMenu() {
-        this.currentMiniPanel.popupMiniGame.list.scale !== 0 ? this.hideChart() : this.showChart();
     }
 
     setValueBetAmount() {
