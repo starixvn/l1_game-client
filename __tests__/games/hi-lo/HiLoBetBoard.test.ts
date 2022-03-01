@@ -54,14 +54,14 @@ describe("HiLoBetBoard", () => {
         it("should disable bet board", () => {
             //Arrange
             const status = true;
-            comp.selectedIndex = 1;
+            comp.selectedIndex = 0;
 
             //Act
             comp.disableBetBoard(status);
 
             //Assert
             expect(comp.disableLayer.active).toEqual(status);
-            expect(comp.leftButton.active).toEqual(!status);
+            expect(comp.leftButton.active).toEqual(false);
             expect(comp.rightButton.active).toEqual(!status);
         });
     });

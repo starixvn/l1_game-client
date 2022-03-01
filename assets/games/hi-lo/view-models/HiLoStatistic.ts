@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import HiLoCard from "../components/view-models/HiLoCard";
 
@@ -74,7 +75,7 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     createCard(card: CardModel): cc.Node {
-        const cardNode = cc.instantiate(this.cardPrefab);
+        const cardNode = GameUtils.createNodeFromPrefab(this.cardPrefab);
         cardNode.scaleX = this.cardScaleX;
         cardNode.scaleY = this.cardScaleY;
         this.statisticContainer.addChild(cardNode);
