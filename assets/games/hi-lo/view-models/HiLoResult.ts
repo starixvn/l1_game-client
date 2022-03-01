@@ -2,6 +2,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import { getRandomCard } from "../../../common/helpers/CardHelper";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import HiLoCard from "../components/view-models/HiLoCard";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,7 +23,7 @@ export default class HiLoResult extends cc.Component {
     protected readonly cardCount = 16;
     private readonly cardHeight = 213;
     private readonly cardList: HiLoCard[] = [];
-    private readonly cardModels: CardModel[] = [];
+    readonly cardModels: CardModel[] = [];
     private topCard: HiLoCard;
     private bottomCard: HiLoCard;
     private spinAudioId: number;
@@ -42,7 +43,7 @@ export default class HiLoResult extends cc.Component {
     createReel() {
         this.cardReel && this.cardReel.destroyAllChildren();
         for (const card of this.cardModels) {
-            const cardNode = cc.instantiate(this.cardPrefab);
+            const cardNode = GameUtils.createNodeFromPrefab(this.cardPrefab);
             this.cardReel.addChild(cardNode);
             const cardComp = cardNode.getComponent(HiLoCard);
             this.setCard(cardComp, card);

@@ -180,7 +180,9 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     private async updateBasicData(model: HiLoOwnBetsModel) {
+        this.setInteractableButtons(false);
         await updateCard(this)(model);
+        this.setInteractableButtons(true);
         updateStakes(this)(model);
         updateStatistic(this)(model);
         updateButtonCollectAndBetChoices(this)(model);
@@ -300,6 +302,13 @@ export default class HiLo extends NewMiniGameBase {
 
     enableCollectButton(status: boolean) {
         this.collectButton && (this.collectButton.node.getChildByName("disabled-layer").active = !status);
+    }
+
+    setInteractableButtons(status: boolean) {
+        this.collectButton && (this.collectButton.interactable = status);
+        this.bettingAreas.forEach((area) => {
+            area.node.getComponent(cc.Button).interactable = status;
+        });
     }
 
     showUserLoseMessage(): Promise<void> {
