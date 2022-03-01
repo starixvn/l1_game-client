@@ -20,16 +20,14 @@ export default class HiLoStakes extends cc.Component {
     }
 
     setAmount(amountLabel: cc.Label, value: string, animated = false) {
-        if (animated) {
-            cc.tween(amountLabel.node)
-                .to(0.3, { scale: 1.2 }, { easing: "linear" })
-                .call(() => {
-                    amountLabel.string = value;
-                })
+        amountLabel.string = value;
+        animated &&
+            cc
+                .tween(amountLabel.node)
+                .to(0.2, { scale: 1.05 }, { easing: "easeIn" })
+                .delay(0.1)
+                .to(0.2, { scale: 1 }, { easing: "easeOut" })
                 .start();
-        } else {
-            amountLabel.string = value;
-        }
     }
 
     resetStakes(betAmount: number) {
