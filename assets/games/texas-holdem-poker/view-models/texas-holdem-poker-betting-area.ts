@@ -1,16 +1,18 @@
 import HoldemPokerBettingArea from "../../holdem-poker/view-models/HoldemPokerBettingArea";
-import TexasHoldemPokerChoices from "../event-models/texas-holdem-poker-choices";
+import { TexasHoldemPokerChoicesType } from "../type";
 import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class TexasHoldemPokerBettingArea extends HoldemPokerBettingArea {
-    protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
+    protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType> = null;
 
-    init(gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices>) {
+    init(gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType>) {
         this.gameData = gameData;
     }
 
-    onLoad() {}
+    onLoad() {
+        //onload
+    }
 }

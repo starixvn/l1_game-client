@@ -12,7 +12,7 @@ import TexasTicketDetailEventHandler from "../event-handlers/texas-holdem-poker-
 import TexasHoldemTurnEventHandler from "../event-handlers/texas-holdem-poker-turn-handler";
 import { TexasHoldemPokerAutoSettleModel } from "./texas-holdem-poker-auto-settle-model";
 import { TexasHoldemPokerAfterCallModel } from "./texas-holdem-poker-call-model";
-import { TexasHoldemPokerChoicesConst } from "./texas-holdem-poker-choices";
+import { TexasHoldemPokerChoicesConst } from "../contants";
 import { TexasHoldemPokerConfigs } from "./texas-holdem-poker-configs";
 import { TexasHoldemPokerAfterDealModel } from "./texas-holdem-poker-deal-model";
 import { TexasHoldemPokerFinishModel } from "./texas-holdem-poker-finish-model";
@@ -93,7 +93,7 @@ export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choic
     receiveUIData(data: any) {
         if (!!data.bet) {
             this.placeBetModel.placeBet(data.bet.choice, data.bet.amount);
-            this.stateModel.placeBet(data.bet.choice, this.placeBetModel);
+            this.stateModel.placeBet(data.bet.choice);
         }
         if (!!data.deal) {
             this.stateModel.deal();

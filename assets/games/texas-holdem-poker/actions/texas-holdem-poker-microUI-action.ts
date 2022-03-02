@@ -1,4 +1,4 @@
-import TexasHoldemPokerChoices from "../event-models/texas-holdem-poker-choices";
+import { TexasHoldemPokerChoicesType } from "../type";
 import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
 
 const { ccclass, property } = cc._decorator;
@@ -7,11 +7,13 @@ export default class MicroUIAction extends cc.Component {
     @property(cc.Node)
     nodeTree: cc.Node = null;
 
-    protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
+    protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType> = null;
     public connectGameData(gameData: any) {
         this.gameData = gameData;
     }
-    protected handleUI() {}
+    protected handleUI() {
+        //handle
+    }
     start() {
         this.handleUI();
     }

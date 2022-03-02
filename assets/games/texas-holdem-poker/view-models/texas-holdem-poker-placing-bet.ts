@@ -1,17 +1,18 @@
 import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
-import TexasHoldemPokerChoices, { BetActionConst, TexasHoldemPokerChoicesConst } from "../event-models/texas-holdem-poker-choices";
-import { TexasHoldemPokerState } from "../event-models/texas-holdem-poker-constant";
+import { TexasHoldemPokerChoicesType } from "../type";
+import { TexasHoldemPokerChoicesConst, BetAction } from "../contants";
+import { TexasHoldemPokerState } from "../type";
 import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
 import { validateAccountBalance, validateAccountBalanceForFullRound, validateBet } from "./texas-holdem-poker-validate-placing-bet";
 
 export default class TexasHoldemPokerPlacingBet {
-    private readonly gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
+    private readonly gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType> = null;
     private readonly gameBase: GameBase = null;
     private readonly getConnection: () => Connection;
 
-    constructor(gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices>, gameBase: GameBase, getConnection: () => Connection) {
+    constructor(gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType>, gameBase: GameBase, getConnection: () => Connection) {
         this.gameData = gameData;
         this.gameBase = gameBase;
         this.getConnection = getConnection;
@@ -140,7 +141,7 @@ export default class TexasHoldemPokerPlacingBet {
                 deal: {}
             });
             this.getConnection().emit(events.bet, {
-                action: BetActionConst.deal,
+                action: BetAction.deal,
                 anteBet: this.gameData.placeBetModel.choices.anteBet
             });
         }
@@ -174,7 +175,7 @@ export default class TexasHoldemPokerPlacingBet {
                 rebetAndDeal: {}
             });
             this.getConnection().emit(events.bet, {
-                action: BetActionConst.deal,
+                action: BetAction.deal,
                 ...this.gameData.placeBetModel.choices
             });
         } else {

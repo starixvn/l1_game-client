@@ -1,7 +1,6 @@
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import HoldemPokerTicketDetailItem from "../../../holdem-poker/view-models/history/HoldemPokerTicketDetailItem";
 
-const { ccclass, property, menu } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 export type TicketDetailItem = {
     bettingOption: string;
@@ -11,5 +10,7 @@ export type TicketDetailItem = {
 };
 @ccclass
 export default class TexasTicketDetailItem extends HoldemPokerTicketDetailItem {
-    renderTicketDetailItem(bet: any, index: number) {}
+    protected getBettingOptionName(bet: any) {
+        return `texasPoker.${bet.betChoice}`;
+    }
 }

@@ -6,9 +6,4 @@ const { ccclass } = cc._decorator;
 @ccclass
 export default class TexasTicketHistory extends HoldemPokerTicketHistory {
     protected ticketDetailComponent: TexasTicketDetail = null;
-
-    public showTicketDetail(data: any) {
-        this.ticketDetailComponent.renderBets(data);
-        this.ticketDetailComponent.renderCards(data);
-    }
 }

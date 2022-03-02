@@ -20,7 +20,8 @@ import {
 import { updatePreviousChoices } from "../actions/texas-holdem-poker-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-holdem-poker-settlement-actions";
 import { TexasHoldemPokerAfterCallModel } from "../event-models/texas-holdem-poker-call-model";
-import TexasHoldemPokerChoices, { BetActionConst, TexasHoldemPokerChoicesConst } from "../event-models/texas-holdem-poker-choices";
+import { TexasHoldemPokerChoicesType } from "../type";
+import { TexasHoldemPokerChoicesConst, BetAction } from "../contants";
 import { TexasHoldemPokerConfigs } from "../event-models/texas-holdem-poker-configs";
 import { TexasHoldemPokerAfterDealModel } from "../event-models/texas-holdem-poker-deal-model";
 import { TexasHoldemPokerFinishModel } from "../event-models/texas-holdem-poker-finish-model";
@@ -137,7 +138,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     startNewRoundAudio: cc.AudioSource = null;
 
     protected placingBet: TexasHoldemPokerPlacingBet = null;
-    protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices> = null;
+    protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType> = null;
     protected texasHoldemPokerChips: TexasHoldemPokerChips;
     protected colorItem = "#4d2a0e";
     protected colorIconMain = "#4d2a0e";
@@ -150,7 +151,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
     }
 
     onLoad() {
-        this.gameData = new TexasHoldemPokerGameData<TexasHoldemPokerChoices>();
+        this.gameData = new TexasHoldemPokerGameData<TexasHoldemPokerChoicesType>();
         this.texasHoldemPokerChips = new TexasHoldemPokerChips();
         this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
         super.onLoad();
@@ -438,7 +439,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.placingBet.handleClickButton(
             TexasHoldemPokerChoicesConst.callBet,
             this.gameData.placeBetModel.choices[TexasHoldemPokerChoicesConst.anteBet] * 2,
-            BetActionConst.doubleCall
+            BetAction.doubleCall
         );
     }
 
@@ -447,7 +448,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.placingBet.handleClickButton(
             TexasHoldemPokerChoicesConst.turnBet,
             this.gameData.placeBetModel.choices[TexasHoldemPokerChoicesConst.anteBet],
-            BetActionConst.betTurn
+            BetAction.betTurn
         );
     }
 
@@ -461,7 +462,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         this.placingBet.handleClickButton(
             TexasHoldemPokerChoicesConst.riverBet,
             this.gameData.placeBetModel.choices[TexasHoldemPokerChoicesConst.anteBet],
-            BetActionConst.betRiver
+            BetAction.betRiver
         );
     }
 

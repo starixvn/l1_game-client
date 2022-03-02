@@ -70,9 +70,13 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         this.betTable.node.height = this.heightBetTable;
     }
 
+    protected getComponentDetailItem(node: cc.Node): HoldemPokerTicketDetailItem {
+        return node.getComponent(HoldemPokerTicketDetailItem);
+    }
+
     handleTicketDetailItem(bet: any, index: number) {
         const detailItemPrefab = cc.instantiate(this.prefabItem);
-        const detailItemControl = detailItemPrefab.getComponent(HoldemPokerTicketDetailItem);
+        const detailItemControl = this.getComponentDetailItem(detailItemPrefab);
         detailItemControl.renderTicketDetailItem(bet, index);
         this.content.addChild(detailItemPrefab);
     }

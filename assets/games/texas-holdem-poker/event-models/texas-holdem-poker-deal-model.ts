@@ -1,14 +1,5 @@
 import { EventEmitter } from "events";
-
-export class CardModel {
-    rank: number;
-    suit: number;
-
-    constructor(rank: number, suit: number) {
-        this.rank = rank;
-        this.suit = suit;
-    }
-}
+import { CardModel } from "../type";
 
 export class TexasHoldemPokerAfterDealModel extends EventEmitter {
     constructor() {

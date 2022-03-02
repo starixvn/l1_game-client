@@ -1,9 +1,10 @@
-import { TexasHoldemPokerState } from './../event-models/texas-holdem-poker-constant';
-import { TexasHoldemPokerGameData } from "./../event-models/texas-holdem-poker-game-data";
 import * as _ from "lodash";
-import TexasHoldemPokerChoices from "../event-models/texas-holdem-poker-choices";
 
-export const updateStatusGame = (gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices>) => () => {
+import { TexasHoldemPokerState } from "../type";
+import { TexasHoldemPokerGameData } from "./../event-models/texas-holdem-poker-game-data";
+import { TexasHoldemPokerChoicesType } from "../type";
+
+export const updateStatusGame = (gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType>) => () => {
     if (gameData.stateModel.state === TexasHoldemPokerState.calling_call) {
         gameData.placeBetModel.rejoinTable(gameData.placeBetModel.previousChoices);
         gameData.stateModel.afterDeal();

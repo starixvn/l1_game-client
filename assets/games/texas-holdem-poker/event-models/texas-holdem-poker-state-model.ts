@@ -1,8 +1,8 @@
 import { EventEmitter } from "events";
 import { cloneDeep } from "lodash";
 
-import { TexasHoldemPokerState, TexasPokerMaxBetChoicesConst } from "./texas-holdem-poker-constant";
-import { TexasHoldemPokerPlaceBetModel } from "./texas-holdem-poker-place-bet-model";
+import { TexasHoldemPokerState } from "../type";
+import {TexasPokerMaxBetChoices} from "../contants"
 
 export class TexasHoldemPokerStateModel extends EventEmitter {
     constructor() {
@@ -22,8 +22,8 @@ export class TexasHoldemPokerStateModel extends EventEmitter {
     state: number;
     previousRound: boolean;
 
-    placeBet(choice, placeBetModel: TexasHoldemPokerPlaceBetModel) {
-        if (choice === TexasPokerMaxBetChoicesConst.ante) {
+    placeBet(choice) {
+        if (choice === TexasPokerMaxBetChoices.ante) {
             this.previousState = cloneDeep(this.state);
             this.state = TexasHoldemPokerState.ante_bet;
             this.emit(TexasHoldemPokerStateModel.Events.CHANGE, this);

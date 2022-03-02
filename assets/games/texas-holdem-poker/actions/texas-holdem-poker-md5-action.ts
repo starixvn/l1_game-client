@@ -1,5 +1,5 @@
-import { HoldemPockerMD5Model } from './../../holdem-poker/event-models/HoldemPockerMD5Model';
-import { TexasHoldemPokerState } from "./../event-models/texas-holdem-poker-constant";
+import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
+import { TexasHoldemPokerState } from "../type";
 import { TexasHoldemPokerStateModel } from "./../event-models/texas-holdem-poker-state-model";
 import TexasHoldemPoker from "../view-models/texas-holdem-poker";
 import HoldemPockerMD5 from "../../holdem-poker/view-models/HoldemPockerMD5";

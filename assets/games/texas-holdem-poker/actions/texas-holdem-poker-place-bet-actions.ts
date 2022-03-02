@@ -1,13 +1,15 @@
-import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import TexasHoldemPokerChoices, { TexasHoldemPokerChoicesConst } from "../event-models/texas-holdem-poker-choices";
-import { TexasHoldemPokerState } from "../event-models/texas-holdem-poker-constant";
+
+import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import {TexasHoldemPokerChoicesType} from "../type";
+import { TexasHoldemPokerState } from "../type";
 import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
 import { TexasHoldemPokerPlaceBetModel } from "../event-models/texas-holdem-poker-place-bet-model";
 import { TexasHoldemPokerStateModel } from "../event-models/texas-holdem-poker-state-model";
 import TexasHoldemPoker from "../view-models/texas-holdem-poker";
 import TexasHoldemPokerBettingArea from "../view-models/texas-holdem-poker-betting-area";
 import TexasHoldemPokerChips from "../view-models/texas-holdem-poker-chip";
+import { TexasHoldemPokerChoicesConst } from "../contants";
 
 export const showHideButtons = (main: TexasHoldemPoker) => (stateModel: TexasHoldemPokerStateModel) => {
     switch (stateModel.state) {
@@ -68,7 +70,7 @@ export const showPlaceBetChips =
         slidingChips: BetChips,
         shadowChip: cc.SpriteFrame,
         texasHoldemPokerChips: TexasHoldemPokerChips,
-        gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices>
+        gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType>
     ) =>
     ({ currentChoice, currentAmount, totalAmount }) => {
         const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
@@ -163,7 +165,7 @@ export const showHideTooltip = (bettingAreas: TexasHoldemPokerBettingArea[]) => 
 };
 
 export const showOwnBet =
-    (gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoices>, bettingAreas: TexasHoldemPokerBettingArea[]) => () => {
+    (gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType>, bettingAreas: TexasHoldemPokerBettingArea[]) => () => {
         const renderOwnBet = (bettingAreas: TexasHoldemPokerBettingArea[], choice: string, ownBetValue) => {
             const bettingArea = bettingAreas.find((e) => e.betChoice === choice);
             bettingArea.ownBets = ownBetValue;

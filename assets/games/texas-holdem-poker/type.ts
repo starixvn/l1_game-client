@@ -1,8 +1,4 @@
-export const TexasPokerMaxBetChoicesConst = {
-    ante: "anteBet",
-    call: "callBet"
-};
-
+export type CardModel = { rank: number; suit: number };
 export enum TexasHoldemPokerState {
     blank_new = 0,
     prepare_new,
@@ -34,3 +30,13 @@ export enum CardAnimation {
     DealerDrawingFaceDown = "dealer_drawing_face_down",
     PullCard = "pull_card"
 }
+
+export type TexasHoldemPokerChoicesType = {
+    anteBet: number;
+    callBet: number;
+    turnBet: number;
+    riverBet: number;
+    ante: number;
+    aa: number;
+    call: number;
+};
