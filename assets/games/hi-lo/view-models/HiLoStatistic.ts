@@ -51,7 +51,6 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     updatePositionHighlight() {
-        console.log("updatePositionHighlight");
         const cardComps = this.statisticContainer.getComponentsInChildren(HiLoCard);
         cardComps.forEach((comp, index) => {
             comp.highlight.active = index === cardComps.length - 1;
