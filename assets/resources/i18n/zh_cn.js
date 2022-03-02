@@ -258,7 +258,7 @@ window.i18n.languages.zh_cn = {
         choice_five: "五",
         choice_six: "六",
         new_bet: "新赌注",
-        choice_dealer: "发牌者",
+        choice_dealer: "庄家",
         hand_id: "手ID",
         deal: "发牌",
         split: "分牌",
