@@ -290,6 +290,7 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     onCollectClick() {
+        this.setInteractableButtons(false);
         this.resetCountdownTimer();
         this.emitEventConnection(HiLoEvents.collect, {});
     }
