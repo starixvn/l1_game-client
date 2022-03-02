@@ -55,7 +55,7 @@ describe("Test class RongHoHistoryItem", () => {
                 },
                 betLogDetails: []
             };
-            const setCards = jest.spyOn(anyComp, "setCards");
+            jest.spyOn(anyComp, "setCards");
 
             // Act
             comp.setData(betLog);

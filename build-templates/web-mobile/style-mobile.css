@@ -287,12 +287,12 @@ p.footer {
 }
 
 @media only screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
-    .splash {
+    .splash, .splash_Vgaming {
         top: 29.5vh;
         background-size: auto 10vh;
     }
 
-    .splash_text {
+    .splash_text, .splash_text_Vgaming {
         top: 25vh;
         background-size: auto 2.5vh;
     }

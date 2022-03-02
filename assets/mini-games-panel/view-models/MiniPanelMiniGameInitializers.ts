@@ -2,8 +2,8 @@ import { Socket } from "socket.io-client";
 
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
 import GameUtils from "../../common/GameUtils";
+import { enableMsgpackParserOnGame } from "../../configs/Configs";
 import { GameIds, GameInfos } from "../../configs/SabaConfigs";
-import SabaConfigs = require("../../configs/SabaConfigs");
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
 export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInitializers {
@@ -45,7 +45,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                     }
 
                     const node = cc.instantiate(prefab);
-                    const componentName = gameId === SabaConfigs.GameIds.KenoProViet ? "KenoProViet" : "GameBase";
+                    const componentName = gameId === GameIds.KenoProViet ? "KenoProViet" : "GameBase";
                     const gameComponent = node.getComponent(componentName);
                     gameComponent.initMiniPanel(this.main);
                     this.main.addMiniGame(gameComponent, gameId);
@@ -95,21 +95,24 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     setUpSocketForGame(gameName: string, gameId: number, forceNew: boolean, gameContainer: any): Socket {
         const proxyRoute = getProxyRoute(gameId);
         const gameServerUrl = buildServerUrl("http", "", gameId);
-        const socket = this.socketIOController.connectGameSocket(
-            gameServerUrl,
+
+        const option = {
+            socketUri: gameServerUrl,
             gameName,
             proxyRoute,
-            (name, isGameRoom) => {
+            onConnectFailed: (name, isGameRoom) => {
                 this.main.onConnectSocketFailed(name, isGameRoom);
 
                 if (gameContainer && gameContainer.hideContainer) {
                     gameContainer.hideContainer();
                 }
             },
-            false,
+            isGameRoom: false,
             forceNew,
-            gameContainer
-        );
+            gameContainer,
+            enableMsgpackParser: enableMsgpackParserOnGame?.[gameId]
+        };
+        const socket = this.socketIOController.connectGameSocket(option);
 
         this.handleSocket(socket, gameId);
         return socket;

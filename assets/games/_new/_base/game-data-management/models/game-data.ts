@@ -14,7 +14,7 @@ export class GameData<Choices> extends EventEmitter {
     protected processingBetFlag = false;
     private underMaintenanceFlag = false;
 
-    readonly durations: Durations;
+    durations: Durations;
     readonly totalBets: TotalBets<Choices>;
     readonly eventHandlers: BaseEventHandler<any, Choices>[] = [];
     readonly userHandler: UserHandler;

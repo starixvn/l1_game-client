@@ -465,5 +465,17 @@ window.i18n.languages.id = {
         dealerQualifies: "Dealer memenuhi syarat pada sepasang 4s atau lebih baik",
         md5String: "MD5 Tali",
         md5Key: "Key Tali"
+    },
+    hiLo: {
+        collect: "Collect",
+        sorryMessage: "Sorry, you lost the game.",
+        play: "Play",
+        turn: "Turn",
+        baseCard: "Base Card",
+        resultCard: "Result Card",
+        startRound: "Start Round",
+        endRound: "End Round",
+        high: "High",
+        low: "Low"
     }
 };

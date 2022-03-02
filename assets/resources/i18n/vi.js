@@ -38,7 +38,8 @@ window.i18n.languages.vi = {
         "26_break": "Bầu Cua VIP",
         "38_break": "Anh Hùng Chim Lạc",
         39: "Casino Hold'em",
-        42: "Texas Hold'em"
+        42: "Texas Hold'em",
+        45: "Cao Thấp"
     },
     messages: {
         accountNotExist: "Đã xảy ra lỗi. Vui lòng liên hệ bộ phận CSKH để biết chi tiết, cảm ơn bạn. (%{errorCode})",
@@ -507,5 +508,17 @@ window.i18n.languages.vi = {
         dealerQualifies: "Nhà Cái Đủ Điều Kiện Khi Có Đôi 4 Hoặc Cao Hơn",
         md5String: "Chuỗi MD5",
         md5Key: "Chuỗi Key"
+    },
+    hiLo: {
+        collect: "Ăn Non",
+        sorryMessage: "Thật tiếc, bạn đã thua.",
+        play: "Bắt đầu",
+        turn: "Bước",
+        baseCard: "Bài",
+        resultCard: "Kết Quả",
+        startRound: "Bắt đầu phiên",
+        endRound: "Kết thúc phiên",
+        high: "Cao",
+        low: "Thấp"
     }
 };

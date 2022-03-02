@@ -47,7 +47,7 @@ export default class BetChips extends cc.Component {
     @property(cc.SpriteFrame)
     lowValueChipSprite: cc.SpriteFrame = null;
 
-    private gameConfigs: any;
+    public gameConfigs: any;
     public chipValues: number[] = [];
     public configValues: number[] = [];
     public onChanged: OnChangedBet = (bet) => {};
@@ -59,10 +59,11 @@ export default class BetChips extends cc.Component {
     public enableStakeLevel = true;
 
     public chipConfig: ChipConfig;
-    private selectedIndex = 0;
-    private chipList: cc.Node[] = [];
+    public selectedIndex = 0;
+    public chipList: cc.Node[] = [];
 
     private currentBetValue = "1";
+    protected needResetCurrentChip = true;
 
     onLoad() {
         this.chipConfig = ChipConfig.getInstance();
@@ -82,6 +83,10 @@ export default class BetChips extends cc.Component {
         };
     }
 
+    setNeedResetCurrentChip(status: boolean) {
+        this.needResetCurrentChip = status;
+    }
+
     setChipValues(gameConfigs: any) {
         if (gameConfigs.chips.length === 0) {
             return;
@@ -98,7 +103,7 @@ export default class BetChips extends cc.Component {
         const currentBet =
             this.chipValues.findIndex((value) => parseInt(value.toString()) === parseInt(this.currentBetValue)) !== -1
                 ? this.currentBetValue
-                : this.chipValues[0].toString();
+                : this.chipValues[0] && this.chipValues[0].toString();
         const needResetScrollOffset = currentBet !== this.currentBetValue;
         this.setCurrentBet(currentBet);
         this.snappedScrollView.initCalculatedPercent();
@@ -111,7 +116,7 @@ export default class BetChips extends cc.Component {
         this.chipList.forEach((chip) => chip.destroy());
         this.chipList = [];
         this.chipValues.forEach((value) => {
-            const node = this.createBigChip(value);
+            const node = this.createChipNode(value);
             this.chips.addChild(node);
             node.on("click", this.onClickBet.bind(this));
             this.chipList.push(node);
@@ -121,6 +126,10 @@ export default class BetChips extends cc.Component {
         layout.enabled = true;
         layout.updateLayout();
         layout.enabled = false;
+    }
+
+    createChipNode(value: number): cc.Node {
+        return this.createBigChip(value);
     }
 
     getChipDisplayType(index: number) {
@@ -134,6 +143,13 @@ export default class BetChips extends cc.Component {
     }
 
     onEnable() {
+        this.resetCurrentChip();
+    }
+
+    resetCurrentChip() {
+        if (!this.needResetCurrentChip) {
+            return;
+        }
         this.selectedIndex = 0;
         this.snappedScrollView.scrollTo(0);
         this.scrollToSelectedIndex();
@@ -156,8 +172,11 @@ export default class BetChips extends cc.Component {
     }
 
     private updateArrowVisibility() {
-        this.leftButton.active = true;
-        this.rightButton.active = true;
+        if (this.needResetCurrentChip) {
+            this.leftButton.active = true;
+            this.rightButton.active = true;
+        }
+
         if (this.selectedIndex <= 0) {
             this.selectedIndex = 0;
             this.leftButton.active = false;
@@ -183,6 +202,10 @@ export default class BetChips extends cc.Component {
     public onClickBet(target) {
         const bet = target.node.name;
         AudioManager.getInstance().playSFX(this.betChipClickAudio.clip);
+        this.setSelectedIndexAndScroll(bet);
+    }
+
+    setSelectedIndexAndScroll(bet: string) {
         let i = 0;
         for (; i < this.chipList.length; i++) {
             if (this.chipList[i].name === bet) {
@@ -422,30 +445,32 @@ export default class BetChips extends cc.Component {
         return chip;
     }
 
-    private updateSelectedBet(targetName: string) {
+    clearAllHighlight() {
         this.chips.children.forEach((chip) => {
             chip.stopAllActions();
+            this.highlightChip(chip, false);
+        });
+    }
 
-            const activeNode = chip.getChildByName("active");
-            if (chip.name === targetName) {
-                activeNode.active = true;
-                chip.zIndex = 2;
-                cc.tween(chip)
-                    .to(0.2, {
-                        scale: 1.15,
-                        position: cc.v2(chip.position.x, 12)
-                    })
-                    .start();
-            } else {
-                activeNode.active = false;
-                chip.zIndex = 1;
-                cc.tween(chip)
-                    .to(0.2, {
-                        scale: 1,
-                        position: cc.v2(chip.position.x, 0)
-                    })
-                    .start();
-            }
+    highlightChip(chip: cc.Node, highlight: boolean) {
+        const activeNode = chip.getChildByName("active");
+        activeNode.active = highlight;
+        chip.zIndex = highlight ? 2 : 1;
+        const scaleChip = highlight ? 1.15 : 1;
+        const posY = highlight ? 12 : 0;
+        cc.tween(chip)
+            .to(0.2, {
+                scale: scaleChip,
+                position: cc.v2(chip.position.x, posY)
+            })
+            .start();
+    }
+
+    updateSelectedBet(targetName: string) {
+        this.chips.children.forEach((chip) => {
+            chip.stopAllActions();
+            const highlight = chip.name === targetName;
+            this.highlightChip(chip, highlight);
         });
     }
 

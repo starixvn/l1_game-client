@@ -38,7 +38,8 @@ window.i18n.languages.en = {
         "26_break": "VIP Fish Prawn Crab",
         "38_break": "The Legend of Heroes",
         39: "Casino Hold'em",
-        42: "Texas Hold'em"
+        42: "Texas Hold'em",
+        45: "Hi-Lo"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
@@ -466,7 +467,6 @@ window.i18n.languages.en = {
         md5String: "MD5 string",
         md5Key: "string result"
     },
-
     texasPoker: {
         Odds: "ODDS",
         straight: "Straight",
@@ -500,5 +500,17 @@ window.i18n.languages.en = {
         fold: "Fold",
         new: "New",
         notEnoughMoney: "Your account has insufficient funds to complete the game round"
+    },
+    hiLo: {
+        collect: "Collect",
+        sorryMessage: "Sorry, you lost the game.",
+        play: "Play",
+        turn: "Turn",
+        baseCard: "Base Card",
+        resultCard: "Result Card",
+        startRound: "Start Round",
+        endRound: "End Round",
+        high: "High",
+        low: "Low"
     }
 };

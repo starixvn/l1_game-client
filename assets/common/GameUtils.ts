@@ -187,17 +187,10 @@ export default class GameUtils {
             maxBet = Math.min(maxStake, maxBet);
         }
 
-        return values.filter((value) => value >= minBet && value <= maxBet);
+        return values.map((a) => +a).filter((value) => value >= minBet && value <= maxBet);
     }
 
     public static copyToClipboard(data: string, callback): void {
-        // const listener = (e: ClipboardEvent) => {
-        //     e.clipboardData.setData("text/plain", data);
-        //     e.preventDefault();
-        //     document.removeEventListener("copy", listener);
-        // };
-        // document.addEventListener("copy", listener);
-        // document.execCommand("copy");
         navigator.clipboard.writeText(data).then(() => {
             if (callback) {
                 callback();
@@ -208,5 +201,9 @@ export default class GameUtils {
     public static isIpad(): boolean {
         const userAgent = window.navigator.userAgent.toLowerCase();
         return /ipad/.test(userAgent);
+    }
+
+    public static createNodeFromPrefab(prefab: cc.Prefab) {
+        return cc.instantiate(prefab);
     }
 }

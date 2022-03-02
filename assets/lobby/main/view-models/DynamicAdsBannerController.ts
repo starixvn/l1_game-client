@@ -25,7 +25,7 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     createAdsItem(id: number) {
-        const language = window.i18n.curLang != "vi" ? `_${window.i18n.curLang}` : "";
+        const language = window.i18n.curLang !== "vi" ? `_${window.i18n.curLang}` : "";
         const getSpriteLanguage = this.getSpriteFrame(`${id.toString()}${language}`);
         const spriteFrame = getSpriteLanguage ? getSpriteLanguage : this.getSpriteFrame(id.toString());
         if (spriteFrame) {

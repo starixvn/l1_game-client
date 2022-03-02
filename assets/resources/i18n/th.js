@@ -463,5 +463,17 @@ window.i18n.languages.th = {
         dealerQualifies: "Dealer qualifies on a pair of 4s or better",
         md5String: "MD5 string",
         md5Key: "MD5 string"
+    },
+    hiLo: {
+        collect: "Collect",
+        sorryMessage: "Sorry, you lost the game.",
+        play: "Play",
+        turn: "Turn",
+        baseCard: "Base Card",
+        resultCard: "Result Card",
+        startRound: "Start Round",
+        endRound: "End Round",
+        high: "High",
+        low: "Low"
     }
 };
