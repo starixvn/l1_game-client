@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { BetLog, BetLogDetail } from "./HiLoBetData";
+import { BetLog } from "./HiLoBetData";
 import HiLoTicketDetailItem from "./HiLoTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;

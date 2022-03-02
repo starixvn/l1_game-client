@@ -1,4 +1,4 @@
-import { numberTo, numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { HiLoStakeModel } from "../events-models/HiLoStakeModel";
 const { ccclass, property } = cc._decorator;
 

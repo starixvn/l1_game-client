@@ -20,13 +20,13 @@ export default class HiLoResult extends cc.Component {
     @property(cc.AudioClip)
     spinStopAudioClip: cc.AudioClip = null;
 
-    protected readonly cardCount = 16;
+    private readonly cardCount = 16;
     private readonly cardHeight = 213;
-    private readonly cardList: HiLoCard[] = [];
-    readonly cardModels: CardModel[] = [];
-    private topCard: HiLoCard;
-    private bottomCard: HiLoCard;
     private spinAudioId: number;
+    cardList: HiLoCard[] = [];
+    cardModels: CardModel[] = [];
+    topCard: HiLoCard;
+    bottomCard: HiLoCard;
     spinAnimation: cc.Tween;
 
     onLoad() {
@@ -41,7 +41,7 @@ export default class HiLoResult extends cc.Component {
     }
 
     createReel() {
-        this.cardReel && this.cardReel.destroyAllChildren();
+        this.cardReel.destroyAllChildren();
         for (const card of this.cardModels) {
             const cardNode = GameUtils.createNodeFromPrefab(this.cardPrefab);
             this.cardReel.addChild(cardNode);
@@ -72,30 +72,21 @@ export default class HiLoResult extends cc.Component {
         });
     }
 
-    playSpinAudio() {
+    private playSpinAudio() {
         this.spinAudioId = AudioManager.getInstance().playSFX(this.spinAudioClip);
     }
 
-    playSpinStopAudio() {
+    private playSpinStopAudio() {
         AudioManager.getInstance().playSFX(this.spinStopAudioClip);
     }
 
-    stopSpinAudio() {
+    private stopSpinAudio() {
         AudioManager.getInstance().stopSFX(this.spinAudioId);
     }
 
     spin(spinDuration: number, animated: boolean): Promise<void> {
         return new Promise((resolve) => {
-            this.cardList.forEach((card) => {
-                if (card !== this.bottomCard) {
-                    card.faceUp();
-                }
-
-                if (card !== this.topCard && card !== this.bottomCard) {
-                    this.setCard(card, getRandomCard());
-                }
-            });
-
+            this.openCardsAndSetRandomCardValue();
             const offset = this.cardReel.height - this.cardHeight;
             if (animated) {
                 this.cardReel.position = cc.v3(0, 0, 0);
@@ -115,6 +106,18 @@ export default class HiLoResult extends cc.Component {
                 this.cardReel.position = cc.v3(0, -offset, 0);
                 this.syncBottomCard();
                 resolve();
+            }
+        });
+    }
+
+    openCardsAndSetRandomCardValue() {
+        this.cardList.forEach((card) => {
+            if (card !== this.bottomCard) {
+                card.faceUp();
+            }
+
+            if (card !== this.topCard && card !== this.bottomCard) {
+                this.setCard(card, getRandomCard());
             }
         });
     }
