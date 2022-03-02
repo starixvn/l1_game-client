@@ -66,6 +66,9 @@ export default class HiLo extends NewMiniGameBase {
     @property(cc.Button)
     collectButton: cc.Button = null;
 
+    @property(cc.Animation)
+    collectAnimation: cc.Animation = null;
+
     @property(HiLoStakes)
     stakesComp: HiLoStakes = null;
 
@@ -290,6 +293,7 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     onCollectClick() {
+        this.collectAnimation.play("annon_pressed");
         this.setInteractableButtons(false);
         this.resetCountdownTimer();
         this.emitEventConnection(HiLoEvents.collect, {});
@@ -353,6 +357,7 @@ export default class HiLo extends NewMiniGameBase {
         }
         this.enableAllBetOptions(false);
         this.enableCollectButton(false);
+        this.collectAnimation.play("idle");
     }
 
     resetUIBlankNewState() {
