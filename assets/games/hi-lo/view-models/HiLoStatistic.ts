@@ -15,8 +15,8 @@ export default class HiLoStatistic extends cc.Component {
     @property(cc.ScrollView)
     statsScrollView: cc.ScrollView = null;
 
-    private layout: cc.Layout;
-    private spaceX: number;
+    layout: cc.Layout;
+    public spaceX: number;
     private readonly itemSize = 10;
     private readonly cardWidth = 145;
     private readonly cardScaleX = 0.29;
@@ -51,12 +51,10 @@ export default class HiLoStatistic extends cc.Component {
     }
 
     updatePositionHighlight() {
+        console.log("updatePositionHighlight");
         const cardComps = this.statisticContainer.getComponentsInChildren(HiLoCard);
         cardComps.forEach((comp, index) => {
-            comp.highlight.active = false;
-            if (index === cardComps.length - 1) {
-                comp.highlight.active = true;
-            }
+            comp.highlight.active = index === cardComps.length - 1;
         });
     }
 
@@ -64,7 +62,7 @@ export default class HiLoStatistic extends cc.Component {
         return -this.statsScrollView.node.width / 2 - itemNumbers * (this.cardWidth * this.cardScaleX + this.spaceX);
     }
 
-    protected updateContentPosition(offsetX: number) {
+    updateContentPosition(offsetX: number) {
         cc.tween(this.statisticContainer)
             .to(
                 0.3,
