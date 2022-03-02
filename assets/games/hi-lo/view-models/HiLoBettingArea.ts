@@ -15,22 +15,12 @@ export default class HiLoBettingArea extends cc.Component {
     @property(cc.Animation)
     animation: cc.Animation = null;
 
-    private tween: cc.Tween;
-
     placingBet() {
         this.animation.play("pressed");
         this.node.emit(BettingAreaEvents.PLACING_BET, this.betChoice);
     }
 
     enableBetChoice(status: boolean) {
-        const delayTime = status ? 0 : 0.2;
-        this.tween && this.tween.stop();
-        this.tween = cc
-            .tween(this.node)
-            .delay(delayTime)
-            .call(() => {
-                this.disableLayer.active = !status;
-            })
-            .start();
+        this.disableLayer.active = !status;
     }
 }
