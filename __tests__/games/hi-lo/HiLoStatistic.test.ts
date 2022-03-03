@@ -1,7 +1,6 @@
 import { CardModel } from "../../../assets/common/new-card/view-models/NewCard";
 import HiLoCard from "../../../assets/games/hi-lo/components/view-models/HiLoCard";
 import HiLoStatistic from "../../../assets/games/hi-lo/view-models/HiLoStatistic";
-import { t } from "../../../packages/i18n/runtime-scripts/LanguageData";
 import { mockFuntions } from "../../mocks/TestUtils";
 jest.mock("../../../assets/common/GameUtils", () => ({
     default: class {
