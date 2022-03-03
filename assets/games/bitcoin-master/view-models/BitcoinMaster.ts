@@ -427,9 +427,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.betItems.forEach((item) => {
             const itemComp = item as BalancedBettingPoolBetItem;
             if (item.node.name === BMBetType.Up || item.node.name === BMBetType.Down) {
-                itemComp.balanceBet(balancedBetAmount[0]);
+                itemComp.balanceBet(GameUtils.getValueByCurrency(balancedBetAmount[0]));
             } else {
-                itemComp.balanceBet(balancedBetAmount[1]);
+                itemComp.balanceBet(GameUtils.getValueByCurrency(balancedBetAmount[1]));
             }
         });
     }
