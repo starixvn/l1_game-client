@@ -36,11 +36,6 @@ describe("HiLoStatistic", () => {
         comp.statisticContainer = new cc.Node();
         comp.statsScrollView = node.addComponent(cc.ScrollView);
         comp.layout = comp.statisticContainer.addComponent(cc.Layout);
-        mockFuntions.createNodeFromPrefab = () => {
-            prefabNode = new cc.Node();
-            prefabNode.addComponent(HiLoCard);
-            return prefabNode;
-        };
     });
 
     describe("updateCards", () => {
@@ -87,23 +82,6 @@ describe("HiLoStatistic", () => {
 
         it("should called updateLayout", () => {
             expect(comp.layout.updateLayout).toBeCalled();
-        });
-    });
-
-    describe("createCard", () => {
-        it("should create cards", () => {
-            // Arrange
-            const cardScaleX = 0.29;
-            const cardScaleY = 0.29;
-            const card = createCardModel();
-            HiLoCard.prototype.setCard = jest.fn();
-            HiLoCard.prototype.faceUp = jest.fn();
-
-            // Act
-            const node = comp.createCard(card);
-
-            // Assert
-            expect(prefabNode).toStrictEqual(node);
         });
     });
 
@@ -163,6 +141,42 @@ describe("HiLoStatistic", () => {
         it("should set highlight for last card", () => {
             // Assert
             expect(cardComps[cardComps.length - 1].highlight.active).toEqual(true);
+        });
+    });
+
+    describe("createCard", () => {
+        let card: CardModel;
+        const hiLocard = new HiLoCard();
+        beforeEach(() => {
+            // Arrange
+            comp.createCard = HiLoStatistic.prototype.createCard;
+            card = createCardModel();
+            const node = new cc.Node();
+            hiLocard.faceUp = jest.fn();
+            hiLocard.setCard = jest.fn();
+            mockFuntions.createNodeFromPrefab = () => {
+                prefabNode = new cc.Node();
+                prefabNode.getComponent = () => hiLocard;
+                return prefabNode;
+            };
+
+            // Act
+            comp.createCard(card);
+        });
+
+        it("should add card into statisticContainer", () => {
+            // Assert
+            expect(comp.statisticContainer.children.length).toEqual(1);
+        });
+
+        it("should called setCard function", () => {
+            // Assert
+            expect(hiLocard.setCard).toBeCalledWith(card);
+        });
+
+        it("should called faceUp function", () => {
+            // Assert
+            expect(hiLocard.faceUp).toBeCalled();
         });
     });
 });
