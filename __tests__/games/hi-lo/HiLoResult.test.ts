@@ -218,21 +218,36 @@ describe("HiLoResult", () => {
     });
 
     describe("openCardsAndSetRandomCardValue", () => {
-        it("should call faceUp if card except bottomCard", () => {
+        let card1: HiLoCard;
+        let card2: HiLoCard;
+        let card3: HiLoCard;
+        beforeEach(() => {
             // Arrange
             comp.openCardsAndSetRandomCardValue = HiLoResult.prototype.openCardsAndSetRandomCardValue;
-            const cardComp = new HiLoCard();
-            comp.cardList = [cardComp, cardComp, cardComp];
-            comp.topCard = cardComp[comp.cardList.length - 1];
-            comp.bottomCard = cardComp[0];
+            card1 = new HiLoCard();
+            card2 = new HiLoCard();
+            card3 = new HiLoCard();
+            comp.cardList = [card1, card2, card3];
+            comp.topCard = comp.cardList[comp.cardList.length - 1];
+            comp.bottomCard = comp.cardList[0];
             comp.setCard = jest.fn();
 
             // Act
             comp.openCardsAndSetRandomCardValue();
+        });
+        describe("when card is not the bottomCard", () => {
+            it("should call faceUp", () => {
+                // Assert
+                expect(card3.faceUp).toBeCalledTimes(1);
+                expect(card2.faceUp).toBeCalledTimes(1);
+            });
+        });
 
-            // Assert
-            expect(cardComp.faceUp).toBeCalledTimes(3);
-            expect(comp.setCard).toBeCalledTimes(3);
+        describe("when card is neither topCard nor bottomCard", () => {
+            it("should call setCard", () => {
+                // Assert
+                expect(comp.setCard).toBeCalledTimes(1);
+            });
         });
     });
 
