@@ -29,18 +29,14 @@ export default class HiLoBettingArea extends cc.Component {
         this.disableLayer.active = !status;
     }
 
-    updateStake(value: number, animated = true) {
-        this.stakeAmount.string = numberWithCommas(value, 2);
-        animated &&
-            cc
-                .tween(this.stakeAmount.node)
+    updateStake(value: number, isNeedResetValue: boolean, animated = true) {
+        this.stakeAmount.string = isNeedResetValue ? "" : numberWithCommas(value, 2);
+        if (!isNeedResetValue && animated) {
+            cc.tween(this.stakeAmount.node)
                 .to(0.2, { scale: 1.05 }, { easing: "easeIn" })
                 .delay(0.1)
                 .to(0.2, { scale: 1 }, { easing: "easeOut" })
                 .start();
-    }
-
-    resetAmount() {
-        this.stakeAmount.string = "";
+        }
     }
 }

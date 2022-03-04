@@ -39,45 +39,54 @@ describe("HiLoBettingArea", () => {
     });
 
     describe("updateStake", () => {
-        it("should set stake amount not animation", () => {
-            // Arrange
-            const value = 11;
-            const animated = false;
+        describe("when rank is either A or 2", () => {
+            it("should set stake amount is null", () => {
+                // Arrange
+                const value = 11;
+                const isSpecialCase = true;
+                const animated = false;
 
-            // Act
-            comp.updateStake(value, animated);
+                // Act
+                comp.updateStake(value, isSpecialCase, animated);
 
-            // Assert
-            expect(comp.stakeAmount.string).toMatch(numberWithCommas(value, 2));
+                // Assert
+                expect(comp.stakeAmount.string).toMatch("");
+            });
         });
 
-        it("should set stake amount with animation", () => {
-            // Arrange
-            const value = 11;
-            const animated = true;
-            const temp: any = {};
-            cc.tween = () => temp;
-            cc.tween().to = (a, b, c?) => temp;
-            cc.tween().delay = (a) => temp;
-            cc.tween().start = () => temp;
+        describe("when rank is neither A nor 2", () => {
+            it("should set stake amount value", () => {
+                // Arrange
+                const value = 11;
+                const isSpecialCase = false;
+                const animated = false;
 
-            // Act
-            comp.updateStake(value, animated);
+                // Act
+                comp.updateStake(value, isSpecialCase, animated);
 
-            // Assert
-            expect(comp.stakeAmount.string).toMatch(numberWithCommas(value, 2));
+                // Assert
+                expect(comp.stakeAmount.string).toMatch(numberWithCommas(value, 2));
+            });
         });
-    });
 
-    describe("resetAmount", () => {
-        it("should set stake amount is null", () => {
-            // Arrange
+        describe("when has animation and rank is neither A or 2", () => {
+            it("should set stake amount", () => {
+                // Arrange
+                const value = 11;
+                const animated = true;
+                const isSpecialCase = false;
+                const temp: any = {};
+                cc.tween = () => temp;
+                cc.tween().to = (a, b, c?) => temp;
+                cc.tween().delay = (a) => temp;
+                cc.tween().start = () => temp;
 
-            // Act
-            comp.resetAmount();
+                // Act
+                comp.updateStake(value, isSpecialCase, animated);
 
-            // Assert
-            expect(comp.stakeAmount.string).toMatch("");
+                // Assert
+                expect(comp.stakeAmount.string).toMatch(numberWithCommas(value, 2));
+            });
         });
     });
 });

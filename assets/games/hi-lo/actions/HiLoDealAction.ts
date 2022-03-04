@@ -42,11 +42,10 @@ export const updateStakesAndButtons = (mainGame: HiLo) => (model: HiLoOwnBetsMod
             (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) ||
             (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower)
         ) {
-            area.resetAmount();
             isSpecialCase = true;
         }
         area.enableBetChoice(!isSpecialCase);
-        model.nextAmounts && area.updateStake(model.nextAmounts[area.betChoice]);
+        model.nextAmounts && area.updateStake(model.nextAmounts[area.betChoice], isSpecialCase);
     });
     mainGame.betWin.string = numberWithCommas(model.betwin, 2);
     mainGame.enableCollectButton(model.totalTurns > 0);
