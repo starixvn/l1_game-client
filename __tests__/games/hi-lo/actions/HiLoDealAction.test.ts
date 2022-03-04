@@ -67,8 +67,8 @@ jest.mock("../../../../assets/games/hi-lo/view-models/HiLoBettingArea", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
             enableBetChoice: jest.fn(),
-            updateStake: jest.fn(),
-            resetAmount: jest.fn()
+            updateStakeAmount: jest.fn(),
+            resetStakeAmount: jest.fn()
         };
     })
 }));
@@ -282,28 +282,30 @@ describe("HiLoDealAction", () => {
             expect(mainGame.betWin.string).toMatch(numberWithCommas(ownBetsModel.betwin, 2));
         });
 
-        it("should call updateStake if nextAmounts has value", () => {
-            // Arrange
-            ownBetsModel.nextAmounts = { h: 12, l: 10 };
-            const updateStakeSpy = jest.spyOn(bettingAreaComp, "updateStake");
+        describe("when nextAmounts has value and rank is neither A nor 2", () => {
+            it("should call updateStakeAmount", () => {
+                // Arrange
+                ownBetsModel.nextAmounts = { h: 12, l: 10 };
+                const updateStakeAmountSpy = jest.spyOn(bettingAreaComp, "updateStakeAmount");
 
-            // Act
-            updateStakesAndButtons(mainGame)(ownBetsModel);
+                // Act
+                updateStakesAndButtons(mainGame)(ownBetsModel);
 
-            // Assert
-            expect(updateStakeSpy).toBeCalledTimes(2);
+                // Assert
+                expect(updateStakeAmountSpy).toBeCalledTimes(2);
+            });
         });
 
         it("should not call updateStake if nextAmounts is null", () => {
             // Arrange
             ownBetsModel.nextAmounts = null;
-            const updateStakeSpy = jest.spyOn(bettingAreaComp, "updateStake");
+            const updateStakeAmountSpy = jest.spyOn(bettingAreaComp, "updateStakeAmount");
 
             // Act
             updateStakesAndButtons(mainGame)(ownBetsModel);
 
             // Assert
-            expect(updateStakeSpy).not.toBeCalled();
+            expect(updateStakeAmountSpy).not.toBeCalled();
         });
     });
 });

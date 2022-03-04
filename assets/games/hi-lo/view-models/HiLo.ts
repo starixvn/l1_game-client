@@ -294,7 +294,7 @@ export default class HiLo extends NewMiniGameBase {
 
     resetStakesAndBetWin() {
         this.bettingAreas.forEach((area) => {
-            area.updateStake(0, true);
+            area.resetStakeAmount();
         });
         this.betWin.string = numberWithCommas(this.currentBet, 2);
     }
