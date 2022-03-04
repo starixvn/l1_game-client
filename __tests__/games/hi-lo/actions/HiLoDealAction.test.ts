@@ -39,6 +39,7 @@ jest.mock("../../../../assets/games/hi-lo/view-models/HiLo", () => ({
                 updateResult: jest.fn(),
                 spin: jest.fn()
             },
+            betWin: new cc.Node().addComponent(cc.Label),
 
             currentBet: 1,
             spinCardsEffectDuration: 1,
@@ -248,7 +249,6 @@ describe("HiLoDealAction", () => {
             // Arrange
             bettingAreaComp = new HiLoBettingArea();
             mainGame.bettingAreas = [bettingAreaComp, bettingAreaComp];
-            mainGame.betWin = new cc.Node().addComponent(cc.Label);
             ownBetsModel.result = [
                 { suit: 1, rank: "4" },
                 { suit: 0, rank: "8" }
