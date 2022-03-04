@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
-import { HiLoStakeModel } from "./HiLoStakeModel";
+import { HiLoNextAmountModel } from "./HiLoNextAmountModel";
 
 export type BetType = {
     roundId: number;
@@ -25,7 +25,7 @@ export class HiLoOwnBetsModel extends EventEmitter {
 
     roundId: number;
     result: CardModel[];
-    nextAmounts: HiLoStakeModel;
+    nextAmounts: HiLoNextAmountModel;
     remainingTime: number;
     betwin: number;
     totalTurns: number;
@@ -35,9 +35,8 @@ export class HiLoOwnBetsModel extends EventEmitter {
         const { roundId, betwin, result, nextAmounts, remainingTime, totalTurns, amount } = data;
         if (nextAmounts) {
             this.nextAmounts = {
-                betWin: betwin,
-                higherAmount: nextAmounts.h,
-                lowerAmount: nextAmounts.l
+                h: nextAmounts.h,
+                l: nextAmounts.l
             };
         } else {
             this.nextAmounts = null;
@@ -47,6 +46,7 @@ export class HiLoOwnBetsModel extends EventEmitter {
         this.roundId = roundId;
         this.totalTurns = totalTurns;
         this.amount = amount;
+        this.betwin = betwin;
 
         this.result = result.map((c) => {
             return { rank: c.rank.toString(), suit: c.suit };

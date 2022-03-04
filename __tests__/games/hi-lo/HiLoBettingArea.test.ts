@@ -1,3 +1,4 @@
+import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import HiLoBettingArea, { BettingAreaEvents } from "../../../assets/games/hi-lo/view-models/HiLoBettingArea";
 
 describe("HiLoBettingArea", () => {
@@ -8,6 +9,7 @@ describe("HiLoBettingArea", () => {
         comp = node.addComponent(HiLoBettingArea);
         comp.disableLayer = new cc.Node();
         comp.animation = new cc.Animation();
+        comp.stakeAmount = new cc.Node().addComponent(cc.Label);
     });
 
     describe("placingBet", () => {
@@ -33,6 +35,49 @@ describe("HiLoBettingArea", () => {
 
             // Assert
             expect(comp.disableLayer.active).toEqual(false);
+        });
+    });
+
+    describe("updateStake", () => {
+        it("should set stake amount not animation", () => {
+            // Arrange
+            const value = 11;
+            const animated = false;
+
+            // Act
+            comp.updateStake(value, animated);
+
+            // Assert
+            expect(comp.stakeAmount.string).toMatch(numberWithCommas(value, 2));
+        });
+
+        it("should set stake amount with animation", () => {
+            // Arrange
+            const value = 11;
+            const animated = true;
+            const temp: any = {};
+            cc.tween = () => temp;
+            cc.tween().to = (a, b, c?) => temp;
+            cc.tween().delay = (a) => temp;
+            cc.tween().start = () => temp;
+
+            // Act
+            comp.updateStake(value, animated);
+
+            // Assert
+            expect(comp.stakeAmount.string).toMatch(numberWithCommas(value, 2));
+        });
+    });
+
+    describe("resetAmount", () => {
+        it("should set stake amount is null", () => {
+            // Arrange
+
+            // Act
+            comp.resetAmount();
+
+            // Assert
+            expect(comp.stakeAmount.string).toMatch("");
         });
     });
 });

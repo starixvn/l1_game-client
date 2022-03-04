@@ -1,12 +1,9 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { HiloChoicesConst } from "../events-models/HiLoChoices";
 import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
 import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
 import HiLo from "../view-models/HiLo";
-
-export const updateStakes = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
-    model.nextAmounts && mainGame.stakesComp.updateStakes(model.nextAmounts);
-};
 
 export const handleStatusWon = (mainGame: HiLo) => async (statusModel: HiLoStatusModel) => {
     AudioManager.getInstance().playSFX(mainGame.collectAudioClip);
@@ -34,21 +31,23 @@ export const updateStatistic = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => 
     mainGame.statisticComp.updateCards(model.result);
 };
 
-export const updateButtonCollectAndBetChoices = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
+export const updateStakesAndButtons = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
     const highestRank = "A";
     const lowestRank = "2";
     const currentResult = model.result[model.result.length - 1];
 
     mainGame.bettingAreas.forEach((area) => {
-        let isSpecialCase = true;
-        if (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) {
-            mainGame.stakesComp.setAmount(mainGame.stakesComp.higherAmount, "");
-        } else if (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower) {
-            mainGame.stakesComp.setAmount(mainGame.stakesComp.lowerAmount, "");
-        } else {
-            isSpecialCase = false;
+        let isSpecialCase = false;
+        if (
+            (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) ||
+            (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower)
+        ) {
+            area.resetAmount();
+            isSpecialCase = true;
         }
         area.enableBetChoice(!isSpecialCase);
+        model.nextAmounts && area.updateStake(model.nextAmounts[area.betChoice]);
     });
+    mainGame.betWin.string = numberWithCommas(model.betwin, 2);
     mainGame.enableCollectButton(model.totalTurns > 0);
 };
