@@ -27,9 +27,6 @@ describe("HiLoCountdownTimerAction", () => {
             // Arrange
             mainGame.animatedTime.setTime = jest.fn();
         });
-        // it("should called setTime function", () => {
-        //     expect(mainGame.animatedTime.setTime).toBeCalledWith(numberPad(remaining, 2));
-        // });
 
         describe("when clock is not active", () => {
             it("should active clock", () => {
