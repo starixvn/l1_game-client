@@ -11,11 +11,11 @@ export default class ProcessingWarning extends cc.Component {
 
     private waitTime = 5;
     private title = "";
-    private countDownId: number;
+    private countDownId: any;
 
     onEnable() {
         this.titleLabel.string = this.title = i18n.t("messages.betProcessing");
-        const waitTime = this.waitTime;
+        let waitTime = this.waitTime;
 
         this.countDownId = setInterval(function () {
             waitTime--;
