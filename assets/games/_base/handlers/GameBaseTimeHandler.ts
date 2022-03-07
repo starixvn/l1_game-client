@@ -1,8 +1,9 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import { numberPad } from "../../../common/helpers/NumberHelper";
-import GameBase, { GameState } from "../GameBase";
+import GameBase from "../GameBase";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
+import { GameState } from "../GameState";
 
 export interface IGameBaseTimeHandler extends DataHandler {
     playTimeInterval: number;

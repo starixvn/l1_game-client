@@ -5,43 +5,102 @@
 
 import HiLoUmHandler from "../../../../assets/games/hi-lo/events-handlers/HiLoUmHandler";
 import HiLo from "../../../../assets/games/hi-lo/view-models/HiLo";
-import { GameState } from "../../../../assets/games/_base/GameBase";
+import { GameState } from "../../../../assets/games/_base/GameState";
 
 jest.mock("../../../../assets/games/hi-lo/view-models/HiLo", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
-            gameState: GameState.Disabled,
             showUmMessage: jest.fn(),
             disableGame: jest.fn()
         };
     })
 }));
 jest.mock("../../../../assets/games/_base/GameBase", () => ({}));
-jest.mock("../../../../assets/games/_base/handlers/GameBaseUmDataHandler", () => ({
-    default: jest.fn().mockImplementation(() => {
-        return {
-            handle: jest.fn()
-        };
-    })
-}));
 
 describe("HiLoUmHandler", () => {
     let umHandler: HiLoUmHandler;
     let main: HiLo;
     beforeAll(() => {
+        main = new HiLo();
         umHandler = new HiLoUmHandler(main);
     });
     describe("handle", () => {
-        it("should return false", () => {
-            // Arrange
-            const data = {
-                remainingTime: 20
-            };
+        describe("when data return remainingTime", () => {
+            it("should return false", () => {
+                // Arrange
+                const data = {
+                    remainingTime: 80
+                };
 
-            // Act
-            umHandler.handle(data);
+                // Act
+                umHandler.handle(data);
 
-            // Assert
+                // Assert
+                expect(umHandler.handle(data)).toEqual(false);
+            });
+        });
+
+        describe("when data has um=true and gameState=GameState.Started ", () => {
+            beforeEach(() => {
+                main.gameState = 1;
+            });
+            it("should call showUmMessage", () => {
+                // Arrange
+                const data = {
+                    um: true
+                };
+
+                // Act
+                umHandler.handle(data);
+
+                // Assert
+                expect(main.showUmMessage).toBeCalledTimes(1);
+                expect(main.showUmMessage).toBeCalledWith(data);
+            });
+
+            it("should call disableGame", () => {
+                // Arrange
+                const data = {
+                    um: true
+                };
+
+                // Act
+                umHandler.handle(data);
+
+                // Assert
+                expect(main.disableGame).toBeCalledTimes(1);
+            });
+        });
+
+        describe("when data has um=true and gameState=GameState.Disabled ", () => {
+            beforeEach(() => {
+                main.gameState = 3;
+            });
+            it("should not call showUmMessage", () => {
+                // Arrange
+                const data = {
+                    um: true
+                };
+
+                // Act
+                umHandler.handle(data);
+
+                // Assert
+                expect(main.showUmMessage).not.toBeCalled();
+            });
+
+            it("should not call disableGame", () => {
+                // Arrange
+                const data = {
+                    um: true
+                };
+
+                // Act
+                umHandler.handle(data);
+
+                // Assert
+                expect(main.disableGame).not.toBeCalled();
+            });
         });
     });
 });

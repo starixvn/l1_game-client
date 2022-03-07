@@ -1,7 +1,7 @@
 import { numberPad } from "../../../../common/helpers/NumberHelper";
-import { GameState } from "../../../_base/GameBase";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import MiniSedie from "../MiniSedie";
+import { GameState } from "../../../_base/GameState";
 
 export default class MiniSedieTimeHandler extends GameBaseTimeHandler {
     constructor(protected readonly main: MiniSedie) {

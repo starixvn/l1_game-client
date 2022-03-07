@@ -27,16 +27,9 @@ import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
+import { GameState } from "./GameState";
 
 const { ccclass, property } = cc._decorator;
-
-export enum GameState {
-    None = 0,
-    Started,
-    Stopped,
-    Disabled
-}
-
 @ccclass
 export default class GameBase extends BaseComponent {
     @property({ type: BetItem })

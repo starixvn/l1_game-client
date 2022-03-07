@@ -1,5 +1,5 @@
-import { GameState } from "../GameBase";
 import GameBaseTimeHandler from "./GameBaseTimeHandler";
+import { GameState } from "../GameState";
 
 export default class NoIntervalTimeHandler extends GameBaseTimeHandler {
     handle(data: any): boolean {

@@ -11,7 +11,6 @@ import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { GameIds } from "../../../configs/SabaConfigs";
-import { GameState } from "../../_base/GameBase";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
@@ -28,6 +27,7 @@ import BlackjackUmHandler from "./handlers/BlackjackUmHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
+import { GameState } from "../../_base/GameState";
 
 const { ccclass, property } = cc._decorator;
 

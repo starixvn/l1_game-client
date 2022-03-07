@@ -6,31 +6,47 @@ import { HiLoOwnBetsModel, BetType } from "../../../../assets/games/hi-lo/events
 
 describe("HiLoOwnBetsModel", () => {
     let ownbetsModel: HiLoOwnBetsModel;
+    let data: BetType;
+    let eventName: string;
+
     beforeAll(() => {
+        data = {
+            roundId: 39447,
+            result: [
+                {
+                    suit: 3,
+                    rank: 9
+                }
+            ],
+            amount: 1,
+            betwin: 1,
+            totalTurns: 0,
+            nextAmounts: null,
+            remainingTime: 121
+        };
         ownbetsModel = new HiLoOwnBetsModel();
+        eventName = HiLoOwnBetsModel.Events.CHANGE;
     });
     describe("change", () => {
+        describe("when nextAmounts has null", () => {
+            it("should set null", () => {
+                // Arrange
+
+                // Act
+                ownbetsModel.change(data, eventName);
+
+                // Assert
+                expect(ownbetsModel.nextAmounts).toEqual(null);
+            });
+        });
+
         describe("when nextAmounts has value", () => {
             it("should set value", () => {
                 // Arrange
-                const data: BetType = {
-                    roundId: 39447,
-                    result: [
-                        {
-                            suit: 3,
-                            rank: 9
-                        }
-                    ],
-                    amount: 1,
-                    betwin: 1,
-                    totalTurns: 0,
-                    nextAmounts: {
-                        h: 2.27,
-                        l: 1.63
-                    },
-                    remainingTime: 121
+                data.nextAmounts = {
+                    h: 2.27,
+                    l: 1.63
                 };
-                const eventName = HiLoOwnBetsModel.Events.CHANGE;
 
                 // Act
                 ownbetsModel.change(data, eventName);
@@ -41,39 +57,85 @@ describe("HiLoOwnBetsModel", () => {
             });
         });
 
-        describe("when nextAmounts has null", () => {
-            it("should set null", () => {
-                // Arrange
-                const data: BetType = {
-                    roundId: 39447,
-                    result: [
-                        {
-                            suit: 3,
-                            rank: 9
-                        }
-                    ],
-                    amount: 1,
-                    betwin: 1,
-                    totalTurns: 0,
-                    nextAmounts: null,
-                    remainingTime: 121
-                };
-                const eventName = HiLoOwnBetsModel.Events.CHANGE;
+        it("should set remainingTime", () => {
+            // Arrange
 
-                // Act
-                ownbetsModel.change(data, eventName);
+            // Act
+            ownbetsModel.change(data, eventName);
 
-                // Assert
-                expect(ownbetsModel.nextAmounts).toEqual(null);
-            });
+            // Assert
+            expect(ownbetsModel.remainingTime).toEqual(data.remainingTime);
         });
-        // it("Case: ", () => {
-        //     // Arrange
 
-        //     // Act
-        //     ownbetsModel.change();
+        it("should set remainingTime", () => {
+            // Arrange
 
-        //     // Assert
-        // });
+            // Act
+            ownbetsModel.change(data, eventName);
+
+            // Assert
+            expect(ownbetsModel.remainingTime).toEqual(data.remainingTime);
+        });
+
+        it("should set roundId", () => {
+            // Arrange
+
+            // Act
+            ownbetsModel.change(data, eventName);
+
+            // Assert
+            expect(ownbetsModel.roundId).toEqual(data.roundId);
+        });
+
+        it("should set totalTurns", () => {
+            // Arrange
+
+            // Act
+            ownbetsModel.change(data, eventName);
+
+            // Assert
+            expect(ownbetsModel.totalTurns).toEqual(data.totalTurns);
+        });
+
+        it("should set amount", () => {
+            // Arrange
+
+            // Act
+            ownbetsModel.change(data, eventName);
+
+            // Assert
+            expect(ownbetsModel.amount).toEqual(data.amount);
+        });
+
+        it("should set betwin", () => {
+            // Arrange
+
+            // Act
+            ownbetsModel.change(data, eventName);
+
+            // Assert
+            expect(ownbetsModel.betwin).toEqual(data.betwin);
+        });
+
+        it("should set result", () => {
+            // Arrange
+
+            // Act
+            ownbetsModel.change(data, eventName);
+
+            // Assert
+            expect(ownbetsModel.result).toEqual([{ rank: "9", suit: 3 }]);
+        });
+
+        it("should call emit event", () => {
+            // Arrange
+            ownbetsModel.emit = jest.fn();
+
+            // Act
+            ownbetsModel.change(data, eventName);
+
+            // Assert
+            expect(ownbetsModel.emit).toBeCalled();
+        });
     });
 });
