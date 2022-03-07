@@ -16,7 +16,7 @@ jest.mock("../../../../assets/games/hi-lo/view-models/HiLo", () => ({
         };
     })
 }));
-jest.mock("../../../../assets/games/_base/GameBase");
+jest.mock("../../../../assets/games/_base/GameBase", () => ({}));
 jest.mock("../../../../assets/games/_base/handlers/GameBaseUmDataHandler", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
