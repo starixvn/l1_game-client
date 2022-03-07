@@ -1,8 +1,8 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
-import {TexasHoldemPokerChoicesType} from "../type";
-import { TexasHoldemPokerState } from "../type";
+import {TexasHoldemPokerChoicesType} from "../texas-type";
+import { TexasHoldemPokerState } from "../texas-type";
 import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
 import { TexasHoldemPokerPlaceBetModel } from "../event-models/texas-holdem-poker-place-bet-model";
 import { TexasHoldemPokerStateModel } from "../event-models/texas-holdem-poker-state-model";

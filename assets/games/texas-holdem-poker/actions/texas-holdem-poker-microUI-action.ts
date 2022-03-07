@@ -1,4 +1,4 @@
-import { TexasHoldemPokerChoicesType } from "../type";
+import { TexasHoldemPokerChoicesType } from "../texas-type";
 import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
 
 const { ccclass, property } = cc._decorator;

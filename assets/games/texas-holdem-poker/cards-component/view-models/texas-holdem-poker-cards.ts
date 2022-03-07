@@ -1,5 +1,5 @@
 import HoldemPokerHandPlace from "../../../holdem-poker/components/cards/view-models/HoldemPokerHandPlace";
-import { CardAnimation } from "../../type";
+import { CardAnimation } from "../../texas-type";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import HoldemPokerCard from "../../../holdem-poker/components/cards/view-models/HoldemPokerCard";
 import HoldemPokerCards from "../../../holdem-poker/components/cards/view-models/HoldemPokerCards";

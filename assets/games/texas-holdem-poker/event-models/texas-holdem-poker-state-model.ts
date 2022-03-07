@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { cloneDeep } from "lodash";
 
-import { TexasHoldemPokerState } from "../type";
+import { TexasHoldemPokerState } from "../texas-type";
 import {TexasPokerMaxBetChoices} from "../contants"
 
 export class TexasHoldemPokerStateModel extends EventEmitter {

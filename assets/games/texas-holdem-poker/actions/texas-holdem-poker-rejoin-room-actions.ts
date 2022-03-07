@@ -1,4 +1,4 @@
-import { TexasHoldemPokerChoicesType } from "../type";
+import { TexasHoldemPokerChoicesType } from "../texas-type";
 import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
 import { TexasHoldemPokerOwnBetModel } from "../event-models/texas-holdem-poker-own-bet-model";
 import { TexasHoldemPokerPlaceBetModel } from "../event-models/texas-holdem-poker-place-bet-model";

@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { CardModel } from "../type";
+import { CardModel } from "../texas-type";
 
 export class TexasHoldemPokerAfterTurnModel extends EventEmitter {
     constructor() {
