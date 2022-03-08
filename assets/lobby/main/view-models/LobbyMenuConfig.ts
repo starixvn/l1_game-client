@@ -86,6 +86,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             size: cc.v2(1, 2)
         }
     };
+    newGames = [GameIds.HiLo, GameIds.TexasHoldemPoker];
 
     customizeCredit(): void {
         this.smPromotion = true;

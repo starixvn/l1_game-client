@@ -23,6 +23,7 @@ import BannerController from "./BannerController";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
+import CategoryItem from "./CategoryItem";
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -91,7 +92,7 @@ export default class MainGame extends cc.Component {
     signNamePrefab = null;
 
     private inRoomGameId: string;
-    private initializedLobby: boolean;
+    private initializedLobby = false;
     private loadingComponent: Loading;
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
@@ -153,6 +154,33 @@ export default class MainGame extends cc.Component {
         }
 
         return category;
+    }
+
+    activeBgNewOnCategory() {
+        const newGames = lobbyMenuConfig.newGames;
+        const isTextNewAll = lobbyMenuConfig.list.some((r) => newGames.includes(r)),
+            isTextNewSeDie = lobbyMenuConfig.seDieGames.some((r) => newGames.includes(r)),
+            isTextNewCasino = lobbyMenuConfig.casinoGames.some((r) => newGames.includes(r)),
+            isTextNewCard = lobbyMenuConfig.cardGames.some((r) => newGames.includes(r)),
+            isTextNewSlot = lobbyMenuConfig.slotGames.some((r) => newGames.includes(r)),
+            isTextNewLottery = lobbyMenuConfig.lotteryGames.some((r) => newGames.includes(r)),
+            isTextNewOther = lobbyMenuConfig.othersGames.some((r) => newGames.includes(r));
+
+        const categoryTextNew = [
+            { [GameCategory.All]: isTextNewAll },
+            { [GameCategory.SeDie]: isTextNewSeDie },
+            { [GameCategory.Casino]: isTextNewCasino },
+            { [GameCategory.Card]: isTextNewCard },
+            { [GameCategory.Slot]: isTextNewSlot },
+            { [GameCategory.Lottery]: isTextNewLottery },
+            { [GameCategory.Other]: isTextNewOther }
+        ];
+
+        categoryTextNew.forEach((category) => {
+            const categoryNode = this.categoryContainer.children.find((child) => child.name === `${Object.keys(category)[0]}`);
+            const newNode = categoryNode.getComponent(CategoryItem);
+            newNode.newNode.active = Object.values(category)[0];
+        });
     }
 
     onFastScrollClick() {
@@ -277,6 +305,7 @@ export default class MainGame extends cc.Component {
         if (!window.isSSO) {
             category = this.activeCategoryFromStorage();
         }
+        this.activeBgNewOnCategory();
 
         this.lobbyMenu.setCategory(category);
     }
