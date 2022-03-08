@@ -76,9 +76,7 @@ export default class SpinButton extends cc.Component {
     }
 
     playParticleSpin() {
-        if (this.spinParticle) {
-            this.spinParticle.resetSystem();
-        }
+        this.spinParticle && this.spinParticle.resetSystem();
     }
 
     playAnimationSpin() {
