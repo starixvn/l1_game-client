@@ -19,18 +19,18 @@ import {
 } from "../actions/texas-holdem-poker-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-holdem-poker-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-holdem-poker-settlement-actions";
-import { TexasHoldemPokerAfterCallModel } from "../event-models/texas-holdem-poker-call-model";
+import TexasHoldemPokerAfterCallModel from "../event-models/texas-holdem-poker-call-model";
 import { TexasHoldemPokerChoicesType } from "../texas-type";
 import { TexasHoldemPokerChoicesConst, BetAction } from "../contants";
-import { TexasHoldemPokerConfigs } from "../event-models/texas-holdem-poker-configs";
-import { TexasHoldemPokerAfterDealModel } from "../event-models/texas-holdem-poker-deal-model";
-import { TexasHoldemPokerFinishModel } from "../event-models/texas-holdem-poker-finish-model";
-import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
-import { TexasHoldemPokerOwnBetModel } from "../event-models/texas-holdem-poker-own-bet-model";
-import { TexasHoldemPokerPlaceBetModel } from "../event-models/texas-holdem-poker-place-bet-model";
-import { TexasHoldemPokerSettlement } from "../event-models/texas-holdem-poker-settlement";
-import { TexasHoldemPokerTicketDetailModel } from "../event-models/texas-holdem-poker-ticket-detail-model";
-import { TexasHoldemPokerAfterTurnModel } from "../event-models/texas-holdem-poker-turn-model";
+import TexasHoldemPokerConfigs from "../event-models/texas-holdem-poker-configs";
+import TexasHoldemPokerAfterDealModel from "../event-models/texas-holdem-poker-deal-model";
+import TexasHoldemPokerFinishModel from "../event-models/texas-holdem-poker-finish-model";
+import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
+import TexasHoldemPokerOwnBetModel from "../event-models/texas-holdem-poker-own-bet-model";
+import TexasHoldemPokerPlaceBetModel from "../event-models/texas-holdem-poker-place-bet-model";
+import TexasHoldemPokerSettlement from "../event-models/texas-holdem-poker-settlement";
+import TexasHoldemPokerTicketDetailModel from "../event-models/texas-holdem-poker-ticket-detail-model";
+import TexasHoldemPokerAfterTurnModel from "../event-models/texas-holdem-poker-turn-model";
 import {
     collectCards,
     dealFirstThreeCommunityCards,
@@ -42,8 +42,8 @@ import TexasHoldemPokerCards from "../cards-component/view-models/texas-holdem-p
 import { updateLeftOddsTable, updateMinMax, updateRightOddsTable } from "./../actions/texas-holdem-poker-configs-actions";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-holdem-poker-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-holdem-poker-rejoin-room-actions";
-import { TexasHoldemPokerAfterRiverModel } from "./../event-models/texas-holdem-poker-river-model";
-import { TexasHoldemPokerStateModel } from "./../event-models/texas-holdem-poker-state-model";
+import TexasHoldemPokerAfterRiverModel from "./../event-models/texas-holdem-poker-river-model";
+import TexasHoldemPokerStateModel from "./../event-models/texas-holdem-poker-state-model";
 import { dealFourAndFireCardAndFaceUpDealerCards, rawCardWhenRejoin } from "../cards-component/view-models/cards-wrapper";
 import TexasHoldemPokerBettingArea from "./texas-holdem-poker-betting-area";
 import TexasHoldemPokerChips from "./texas-holdem-poker-chip";

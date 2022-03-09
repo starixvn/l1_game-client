@@ -1,3 +1,3 @@
 import { HoldemPokerConfigs } from "../../holdem-poker/event-models/HoldemPokerConfigs";
 
-export class TexasHoldemPokerConfigs extends HoldemPokerConfigs {}
+export default class TexasHoldemPokerConfigs extends HoldemPokerConfigs {}

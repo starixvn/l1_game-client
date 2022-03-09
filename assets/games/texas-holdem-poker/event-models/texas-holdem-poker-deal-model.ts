@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { CardModel } from "../texas-type";
 
-export class TexasHoldemPokerAfterDealModel extends EventEmitter {
+export default class TexasHoldemPokerAfterDealModel extends EventEmitter {
     constructor() {
         super();
         this.setMaxListeners(0);

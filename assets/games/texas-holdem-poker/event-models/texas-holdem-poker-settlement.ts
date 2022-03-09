@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 
-export class TexasHoldemPokerSettlement extends EventEmitter {
+export default class TexasHoldemPokerSettlement extends EventEmitter {
     constructor() {
         super();
         this.setMaxListeners(0);

@@ -1,4 +1,4 @@
-import { TexasHoldemPokerTicketDetailModel } from "./../../event-models/texas-holdem-poker-ticket-detail-model";
+import TexasHoldemPokerTicketDetailModel from "./../../event-models/texas-holdem-poker-ticket-detail-model";
 import HoldemPokerTicketDetail from "../../../holdem-poker/view-models/history/HoldemPokerTicketDetail";
 import TexasTicketDetailItem from "./texas-ticket-detail-item";
 

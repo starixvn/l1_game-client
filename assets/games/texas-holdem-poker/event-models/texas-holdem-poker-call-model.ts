@@ -2,7 +2,7 @@ import { EventEmitter } from "events";
 
 import { HoldemPokerCardModel } from "../../holdem-poker/event-models/HoldemPokerCardModel";
 
-export class TexasHoldemPokerAfterCallModel extends EventEmitter {
+export default class TexasHoldemPokerAfterCallModel extends EventEmitter {
     constructor() {
         super();
         this.setMaxListeners(0);

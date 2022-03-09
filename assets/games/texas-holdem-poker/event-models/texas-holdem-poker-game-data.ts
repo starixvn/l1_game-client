@@ -10,22 +10,22 @@ import TexasHoldemPokerOwnBetHandler from "../event-handlers/texas-holdem-poker-
 import TexasHoldemRiverEventHandler from "../event-handlers/texas-holdem-poker-river-handler";
 import TexasTicketDetailEventHandler from "../event-handlers/texas-holdem-poker-ticket-detail-handler";
 import TexasHoldemTurnEventHandler from "../event-handlers/texas-holdem-poker-turn-handler";
-import { TexasHoldemPokerAutoSettleModel } from "./texas-holdem-poker-auto-settle-model";
-import { TexasHoldemPokerAfterCallModel } from "./texas-holdem-poker-call-model";
+import TexasHoldemPokerAutoSettleModel from "./texas-holdem-poker-auto-settle-model";
+import TexasHoldemPokerAfterCallModel from "./texas-holdem-poker-call-model";
 import { TexasHoldemPokerChoicesConst } from "../contants";
-import { TexasHoldemPokerConfigs } from "./texas-holdem-poker-configs";
-import { TexasHoldemPokerAfterDealModel } from "./texas-holdem-poker-deal-model";
-import { TexasHoldemPokerFinishModel } from "./texas-holdem-poker-finish-model";
-import { TexasHoldemPokerOwnBetModel } from "./texas-holdem-poker-own-bet-model";
-import { TexasHoldemPokerPlaceBetModel } from "./texas-holdem-poker-place-bet-model";
-import { TexasHoldemPokerAfterRiverModel } from "./texas-holdem-poker-river-model";
-import { TexasHoldemPokerSettlement } from "./texas-holdem-poker-settlement";
-import { TexasHoldemPokerStateModel } from "./texas-holdem-poker-state-model";
-import { TexasHoldemPokerTicketDetailModel } from "./texas-holdem-poker-ticket-detail-model";
-import { TexasHoldemPokerAfterTurnModel } from "./texas-holdem-poker-turn-model";
+import TexasHoldemPokerConfigs from "./texas-holdem-poker-configs";
+import TexasHoldemPokerAfterDealModel from "./texas-holdem-poker-deal-model";
+import TexasHoldemPokerFinishModel from "./texas-holdem-poker-finish-model";
+import TexasHoldemPokerOwnBetModel from "./texas-holdem-poker-own-bet-model";
+import TexasHoldemPokerPlaceBetModel from "./texas-holdem-poker-place-bet-model";
+import TexasHoldemPokerAfterRiverModel from "./texas-holdem-poker-river-model";
+import TexasHoldemPokerSettlement from "./texas-holdem-poker-settlement";
+import TexasHoldemPokerStateModel from "./texas-holdem-poker-state-model";
+import TexasHoldemPokerTicketDetailModel from "./texas-holdem-poker-ticket-detail-model";
+import TexasHoldemPokerAfterTurnModel from "./texas-holdem-poker-turn-model";
 import HoldemPockerMD5Handler from "../../holdem-poker/event-handlers/HoldemPockerMD5Handler";
 
-export class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choices> {
+export default class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choices> {
     readonly configs: TexasHoldemPokerConfigs;
     readonly placeBetModel: TexasHoldemPokerPlaceBetModel;
     readonly stateModel: TexasHoldemPokerStateModel;

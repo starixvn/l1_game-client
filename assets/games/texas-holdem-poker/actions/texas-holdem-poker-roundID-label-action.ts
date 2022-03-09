@@ -1,4 +1,4 @@
-import { TexasHoldemPokerOwnBetModel } from "../event-models/texas-holdem-poker-own-bet-model";
+import TexasHoldemPokerOwnBetModel from "../event-models/texas-holdem-poker-own-bet-model";
 import MicroUIAction from "./texas-holdem-poker-microUI-action";
 
 const { ccclass } = cc._decorator;

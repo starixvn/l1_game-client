@@ -1,5 +1,5 @@
 import TexasHoldemPokerChoices from "../event-models/texas-holdem-poker-choices";
-import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
+import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
 
 export type TexasHoldemDeal<Choices> = {

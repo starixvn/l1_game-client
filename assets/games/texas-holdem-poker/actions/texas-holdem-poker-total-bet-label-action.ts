@@ -1,5 +1,5 @@
 import { updateTotalBetLabel } from "./texas-holdem-poker-place-bet-actions";
-import { TexasHoldemPokerPlaceBetModel } from "./../event-models/texas-holdem-poker-place-bet-model";
+import TexasHoldemPokerPlaceBetModel from "./../event-models/texas-holdem-poker-place-bet-model";
 import MicroUIAction from "./texas-holdem-poker-microUI-action";
 
 const { ccclass } = cc._decorator;

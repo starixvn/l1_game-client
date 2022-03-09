@@ -1,4 +1,4 @@
-import { TexasHoldemPokerConfigs } from "../event-models/texas-holdem-poker-configs";
+import TexasHoldemPokerConfigs from "../event-models/texas-holdem-poker-configs";
 import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
 
 export type ConfigsType<Choices> = {

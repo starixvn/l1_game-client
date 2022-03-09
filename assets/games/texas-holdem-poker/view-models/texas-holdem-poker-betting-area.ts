@@ -1,6 +1,6 @@
 import HoldemPokerBettingArea from "../../holdem-poker/view-models/HoldemPokerBettingArea";
 import { TexasHoldemPokerChoicesType } from "../texas-type";
-import { TexasHoldemPokerGameData } from "../event-models/texas-holdem-poker-game-data";
+import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 
 const { ccclass } = cc._decorator;
 

@@ -1,4 +1,4 @@
-import { TexasHoldemPokerConfigs } from "../event-models/texas-holdem-poker-configs";
+import TexasHoldemPokerConfigs from "../event-models/texas-holdem-poker-configs";
 import TexasHoldemPokerMinMaxTable from "../view-models/texas-holdem-poker-min-max-table";
 import TexasHoldemPokerOddsTable from "../view-models/texas-holdem-poker-odds-table";
 
