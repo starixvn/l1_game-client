@@ -1,3 +1,4 @@
+import { CardModel } from './../texas-type';
 import { cloneDeep } from "lodash";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
@@ -6,13 +7,13 @@ export type TexasHoldemPokerOwnBetType = {
     ownBets: {
         roundId: number;
         bets: Record<string, number>;
-        player: Array<Record<string, number>>;
-        communityCards: Array<Record<string, number>>;
+        player:  CardModel[];
+        communityCards:  CardModel[];
         combinationResult: {
             player: {
                 id: number;
-                combinationCards: Array<Record<string, number>>;
-                cards: Array<Record<string, number>>;
+                combinationCards:  CardModel[];
+                cards:  CardModel[];
             };
         };
         totalAmount: number;

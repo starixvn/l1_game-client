@@ -47,7 +47,9 @@ export default class NewCard extends cc.Component {
         k: "k_picture"
     };
 
-    public onAnimationComplete = () => {};
+    public onAnimationComplete = () => {
+        // onAnimationComplete
+    };
 
     onLoad() {
         this.animation &&

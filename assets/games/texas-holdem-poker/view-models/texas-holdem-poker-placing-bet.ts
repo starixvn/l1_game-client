@@ -2,7 +2,7 @@ import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
 import { TexasHoldemPokerChoicesType } from "../texas-type";
-import { TexasHoldemPokerChoicesConst, BetAction } from "../contants";
+import { TexasHoldemPokerChoicesConst, BetAction } from "../texas-contants";
 import { TexasHoldemPokerState } from "../texas-type";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 import { validateAccountBalance, validateAccountBalanceForFullRound, validateBet } from "./texas-holdem-poker-validate-placing-bet";

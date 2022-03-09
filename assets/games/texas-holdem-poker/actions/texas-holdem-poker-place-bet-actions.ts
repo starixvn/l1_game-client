@@ -9,7 +9,7 @@ import TexasHoldemPokerStateModel from "../event-models/texas-holdem-poker-state
 import TexasHoldemPoker from "../view-models/texas-holdem-poker";
 import TexasHoldemPokerBettingArea from "../view-models/texas-holdem-poker-betting-area";
 import TexasHoldemPokerChips from "../view-models/texas-holdem-poker-chip";
-import { TexasHoldemPokerChoicesConst } from "../contants";
+import { TexasHoldemPokerChoicesConst } from "../texas-contants";
 
 export const showHideButtons = (main: TexasHoldemPoker) => (stateModel: TexasHoldemPokerStateModel) => {
     switch (stateModel.state) {

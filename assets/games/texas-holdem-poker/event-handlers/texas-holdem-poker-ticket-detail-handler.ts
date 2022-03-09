@@ -1,3 +1,4 @@
+import { CardModel } from './../texas-type';
 import HoldemPokerTicketDetailEventHandler from "../../holdem-poker/event-handlers/HoldemPokerTicketDetailHandler";
 
 export type TexasTicketDetail<Choices> = {
@@ -5,16 +6,16 @@ export type TexasTicketDetail<Choices> = {
         bets: any;
         dealer: {
             handId: number;
-            combination: Array<Record<string, number>>;
-            cards: Array<Record<string, number>>;
+            combination:  CardModel[];
+            cards:  CardModel[];
             isQualified: boolean;
         };
         player: {
             handId: number;
-            combination: Array<Record<string, number>>;
-            cards: Array<Record<string, number>>;
+            combination:  CardModel[];
+            cards:  CardModel[];
         };
-        communityCards: Array<Record<string, number>>;
+        communityCards:  CardModel[];
         isFold: boolean;
         isPlayerWin: number;
     };

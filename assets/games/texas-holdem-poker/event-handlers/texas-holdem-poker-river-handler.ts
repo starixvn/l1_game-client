@@ -1,20 +1,21 @@
+import { CardModel } from "./../texas-type";
 import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
 import TexasHoldemPokerChoices from "../event-models/texas-holdem-poker-choices";
 
 export type TexasHoldemRiver<Choices> = {
     river: {
-        dealer: Array<Record<string, number>>;
-        communityCards: Array<Record<string, number>>;
+        dealer: CardModel[];
+        communityCards: CardModel[];
         combinationResult: {
             player: {
                 id: number;
-                combinationCards: Array<Record<string, number>>;
-                cards: Array<Record<string, number>>;
+                combinationCards: CardModel[];
+                cards: CardModel[];
             };
             dealer: {
                 id: number;
-                combinationCards: Array<Record<string, number>>;
-                cards: Array<Record<string, number>>;
+                combinationCards: CardModel[];
+                cards: CardModel[];
             };
         };
         choices: Record<string, number>;
@@ -32,14 +33,6 @@ export default class TexasHoldemRiverEventHandler<Choices> extends TexasHoldemPo
         this.gameData.isProcessingBet = false;
         const { communityCards, combinationResult, totalAmount, dealer } = event.river;
 
-        const convertedDealerCard = dealer.map((e) => {
-            return { rank: e.rank, suit: e.suit };
-        });
-
-        const convertedCommunityCards = communityCards.map((e) => {
-            return { rank: e.rank, suit: e.suit };
-        });
-
         const choices = new TexasHoldemPokerChoices();
         choices.anteBet = event.river.choices.ante;
         choices.callBet = event.river.choices.call;
@@ -47,6 +40,6 @@ export default class TexasHoldemRiverEventHandler<Choices> extends TexasHoldemPo
         choices.riverBet = event.river.choices.river;
 
         this.gameData.placeBetModel.updateTotalBet({ totalBet: totalAmount, choice: choices });
-        this.gameData.riverModel.updateModel(convertedDealerCard, convertedCommunityCards, combinationResult, totalAmount);
+        this.gameData.riverModel.updateModel(dealer, communityCards, combinationResult, totalAmount);
     }
 }

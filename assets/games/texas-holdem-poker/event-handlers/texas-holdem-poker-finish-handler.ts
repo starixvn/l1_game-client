@@ -20,7 +20,7 @@ export default class TexasHoldemPokerFinishHandler<Choices> extends TexasHoldemP
     protected handle(event: TexasHoldemPokerFinish) {
         this.gameData.isProcessingBet = false;
         const { settlementResult } = event.finish;
-        const settlementResultConverted = {};
+        const settlementResultConverted: any = {};
 
         settlementResultConverted["anteBet"] = cloneDeep(settlementResult["ante"]);
         settlementResultConverted["callBet"] = cloneDeep(settlementResult["call"]);

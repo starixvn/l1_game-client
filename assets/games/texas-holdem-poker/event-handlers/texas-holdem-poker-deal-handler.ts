@@ -1,16 +1,17 @@
+import { CardModel } from './../texas-type';
 import TexasHoldemPokerChoices from "../event-models/texas-holdem-poker-choices";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
 
 export type TexasHoldemDeal<Choices> = {
     deal: {
-        player: Array<Record<string, number>>;
-        communityCards: Array<Record<string, number>>;
+        player:  CardModel[];
+        communityCards:  CardModel[];
         combinationResult: {
             player: {
                 id: number;
-                combinationCards: Array<Record<string, number>>;
-                cards: Array<Record<string, number>>;
+                combinationCards:  CardModel[];
+                cards:  CardModel[];
             };
         };
         choices: Record<string, number>;

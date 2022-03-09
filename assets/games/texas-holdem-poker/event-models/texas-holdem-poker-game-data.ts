@@ -12,7 +12,7 @@ import TexasTicketDetailEventHandler from "../event-handlers/texas-holdem-poker-
 import TexasHoldemTurnEventHandler from "../event-handlers/texas-holdem-poker-turn-handler";
 import TexasHoldemPokerAutoSettleModel from "./texas-holdem-poker-auto-settle-model";
 import TexasHoldemPokerAfterCallModel from "./texas-holdem-poker-call-model";
-import { TexasHoldemPokerChoicesConst } from "../contants";
+import { TexasHoldemPokerChoicesConst } from "../texas-contants";
 import TexasHoldemPokerConfigs from "./texas-holdem-poker-configs";
 import TexasHoldemPokerAfterDealModel from "./texas-holdem-poker-deal-model";
 import TexasHoldemPokerFinishModel from "./texas-holdem-poker-finish-model";

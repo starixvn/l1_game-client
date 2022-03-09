@@ -21,7 +21,7 @@ import { updatePreviousChoices } from "../actions/texas-holdem-poker-rejoin-room
 import { showWinningOption } from "../actions/texas-holdem-poker-settlement-actions";
 import TexasHoldemPokerAfterCallModel from "../event-models/texas-holdem-poker-call-model";
 import { TexasHoldemPokerChoicesType } from "../texas-type";
-import { TexasHoldemPokerChoicesConst, BetAction } from "../contants";
+import { TexasHoldemPokerChoicesConst, BetAction } from "../texas-contants";
 import TexasHoldemPokerConfigs from "../event-models/texas-holdem-poker-configs";
 import TexasHoldemPokerAfterDealModel from "../event-models/texas-holdem-poker-deal-model";
 import TexasHoldemPokerFinishModel from "../event-models/texas-holdem-poker-finish-model";
