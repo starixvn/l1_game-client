@@ -1,4 +1,4 @@
-import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
+import TexasHoldemPokerEventHandler from "./texas-holdem-poker-event-handler";
 
 export type TexasHoldemAPIError = {
     apiError: {
@@ -12,7 +12,7 @@ export type TexasHoldemAPIError = {
     betChoice: string;
 };
 
-export default class TexasHoldemErrorUIEventHandler<Choices> extends TexasHoldemPokerHandler<TexasHoldemAPIError, Choices> {
+export default class TexasHoldemErrorUIEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemAPIError, Choices> {
     protected verifyEvent(event: TexasHoldemAPIError) {
         return !!event.apiError;
     }

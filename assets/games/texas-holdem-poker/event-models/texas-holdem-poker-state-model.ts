@@ -159,7 +159,9 @@ export default class TexasHoldemPokerStateModel extends EventEmitter {
         this.handleUpdateUIState(props);
     }
     private handleUpdateUIState(props) {
-        if (!props.apiError) return;
+        if (!props.apiError) {
+            return;
+        }
         this.state = cloneDeep(this.previousState);
         setTimeout(() => {
             this.emit(TexasHoldemPokerStateModel.Events.CHANGE, this);

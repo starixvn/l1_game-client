@@ -11,18 +11,18 @@ import TexasHoldemRiverEventHandler from "../event-handlers/texas-holdem-poker-r
 import TexasTicketDetailEventHandler from "../event-handlers/texas-holdem-poker-ticket-detail-handler";
 import TexasHoldemTurnEventHandler from "../event-handlers/texas-holdem-poker-turn-handler";
 import TexasHoldemPokerAutoSettleModel from "./texas-holdem-poker-auto-settle-model";
-import TexasHoldemPokerAfterCallModel from "./texas-holdem-poker-call-model";
+import TexasHoldemPokerCallModel from "./texas-holdem-poker-call-model";
 import { TexasHoldemPokerChoicesConst } from "../texas-contants";
 import TexasHoldemPokerConfigs from "./texas-holdem-poker-configs";
 import TexasHoldemPokerAfterDealModel from "./texas-holdem-poker-deal-model";
 import TexasHoldemPokerFinishModel from "./texas-holdem-poker-finish-model";
 import TexasHoldemPokerOwnBetModel from "./texas-holdem-poker-own-bet-model";
 import TexasHoldemPokerPlaceBetModel from "./texas-holdem-poker-place-bet-model";
-import TexasHoldemPokerAfterRiverModel from "./texas-holdem-poker-river-model";
+import TexasHoldemPokerRiverModel from "./texas-holdem-poker-river-model";
 import TexasHoldemPokerSettlement from "./texas-holdem-poker-settlement";
 import TexasHoldemPokerStateModel from "./texas-holdem-poker-state-model";
 import TexasHoldemPokerTicketDetailModel from "./texas-holdem-poker-ticket-detail-model";
-import TexasHoldemPokerAfterTurnModel from "./texas-holdem-poker-turn-model";
+import TexasHoldemPokerTurnModel from "./texas-holdem-poker-turn-model";
 import HoldemPockerMD5Handler from "../../holdem-poker/event-handlers/HoldemPockerMD5Handler";
 
 export default class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameData<Choices> {
@@ -35,9 +35,9 @@ export default class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameDa
     readonly settlement: TexasHoldemPokerSettlement;
     readonly ticketDetailModel: TexasHoldemPokerTicketDetailModel;
 
-    readonly callModel: TexasHoldemPokerAfterCallModel;
-    readonly turnModel: TexasHoldemPokerAfterTurnModel;
-    readonly riverModel: TexasHoldemPokerAfterRiverModel;
+    readonly callModel: TexasHoldemPokerCallModel;
+    readonly turnModel: TexasHoldemPokerTurnModel;
+    readonly riverModel: TexasHoldemPokerRiverModel;
     readonly autoSettleModel: TexasHoldemPokerAutoSettleModel;
     readonly md5Model: HoldemPockerMD5Model;
 
@@ -51,9 +51,9 @@ export default class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameDa
         this.autoSettleModel = new TexasHoldemPokerAutoSettleModel();
 
         this.dealModel = new TexasHoldemPokerAfterDealModel();
-        this.callModel = new TexasHoldemPokerAfterCallModel();
-        this.turnModel = new TexasHoldemPokerAfterTurnModel();
-        this.riverModel = new TexasHoldemPokerAfterRiverModel();
+        this.callModel = new TexasHoldemPokerCallModel();
+        this.turnModel = new TexasHoldemPokerTurnModel();
+        this.riverModel = new TexasHoldemPokerRiverModel();
         this.ownBets = new TexasHoldemPokerOwnBetModel();
         this.finishModel = new TexasHoldemPokerFinishModel();
         this.ticketDetailModel = new TexasHoldemPokerTicketDetailModel();

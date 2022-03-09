@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { CardModel } from "../texas-type";
 
-export default class TexasHoldemPokerAfterTurnModel extends EventEmitter {
+export default class TexasHoldemPokerTurnModel extends EventEmitter {
     constructor() {
         super();
         this.setMaxListeners(0);
@@ -20,6 +20,6 @@ export default class TexasHoldemPokerAfterTurnModel extends EventEmitter {
         this.combinationResult = combinationResult;
         this.communityCards = communityCards;
         this.totalAmount = totalAmount;
-        this.emit(TexasHoldemPokerAfterTurnModel.Events.CHANGE, this);
+        this.emit(TexasHoldemPokerTurnModel.Events.CHANGE, this);
     }
 }

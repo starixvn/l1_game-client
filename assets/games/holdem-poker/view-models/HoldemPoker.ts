@@ -1,9 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import NewButton from "../../../common/custom-button/NewButton";
 import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import PrefabLoader from "../../../common/PrefabLoader";
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { GameIds } from "../../../configs/SabaConfigs";
 import DataHandler from "../../_base/handlers/DataHandler";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";

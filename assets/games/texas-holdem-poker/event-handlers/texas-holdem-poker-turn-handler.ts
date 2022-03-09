@@ -1,5 +1,5 @@
 import { CardModel } from './../texas-type';
-import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
+import TexasHoldemPokerEventHandler from "./texas-holdem-poker-event-handler";
 import TexasHoldemPokerChoices from "../event-models/texas-holdem-poker-choices";
 
 export type TexasHoldemTurn<Choices> = {
@@ -19,7 +19,7 @@ export type TexasHoldemTurn<Choices> = {
   };
 };
 
-export default class TexasHoldemCallEventHandler<Choices> extends TexasHoldemPokerHandler<TexasHoldemTurn<Choices>, Choices> {
+export default class TexasHoldemCallEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemTurn<Choices>, Choices> {
   protected verifyEvent(event: TexasHoldemTurn<Choices>) {
     return !!event.turn;
   }

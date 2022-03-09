@@ -3,13 +3,13 @@ import { TexasHoldemPokerChoicesType } from "../texas-type";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 import TexasHoldemPoker from "../view-models/texas-holdem-poker";
 import TexasHoldemPokerBettingArea from "../view-models/texas-holdem-poker-betting-area";
-import TexasHoldemPokerChips from "../view-models/texas-holdem-poker-chip";
+import TexasHoldemPokerChip from "../view-models/texas-holdem-poker-chip";
 import { TexasHoldemPokerChoicesConst } from "../texas-contants";
 
 export const showWinningOption =
     (
         bettingAreas: TexasHoldemPokerBettingArea[],
-        holdemPokerChips: TexasHoldemPokerChips,
+        holdemPokerChips: TexasHoldemPokerChip,
         slidingChips: BetChips,
         gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType>,
         main: TexasHoldemPoker

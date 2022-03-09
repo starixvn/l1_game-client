@@ -1,9 +1,8 @@
 import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
-import { TexasHoldemPokerChoicesType } from "../texas-type";
+import { TexasHoldemPokerChoicesType, TexasHoldemPokerState } from "../texas-type";
 import { TexasHoldemPokerChoicesConst, BetAction } from "../texas-contants";
-import { TexasHoldemPokerState } from "../texas-type";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 import { validateAccountBalance, validateAccountBalanceForFullRound, validateBet } from "./texas-holdem-poker-validate-placing-bet";
 
@@ -54,14 +53,17 @@ export default class TexasHoldemPokerPlacingBet {
                         showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
                     });
                 validateResult && this.gameData.receiveUIData({ bet: { choice: betChoice, amount: betAmount } });
+                return true;
             }
         }
     }
+
     private getTotalBet() {
         return Object.keys(this.gameData.placeBetModel.choices).reduce((sum, current) => {
             return sum + this.gameData.placeBetModel.choices[current];
         }, 0);
     }
+
     doubleBet(betChoice: string, betAmount: number) {
         if (
             validateBet({

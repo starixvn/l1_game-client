@@ -1,26 +1,26 @@
-import { CardModel } from './../texas-type';
+import { CardModel } from "./../texas-type";
 import { cloneDeep } from "lodash";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
-import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
+import TexasHoldemPokerEventHandler from "./texas-holdem-poker-event-handler";
 
 export type TexasHoldemPokerOwnBetType = {
     ownBets: {
         roundId: number;
         bets: Record<string, number>;
-        player:  CardModel[];
-        communityCards:  CardModel[];
+        player: CardModel[];
+        communityCards: CardModel[];
         combinationResult: {
             player: {
                 id: number;
-                combinationCards:  CardModel[];
-                cards:  CardModel[];
+                combinationCards: CardModel[];
+                cards: CardModel[];
             };
         };
         totalAmount: number;
     };
 };
 
-export default class TexasHoldemPokerOwnBetHandler<Choices> extends TexasHoldemPokerHandler<TexasHoldemPokerOwnBetType, Choices> {
+export default class TexasHoldemPokerOwnBetHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemPokerOwnBetType, Choices> {
     protected verifyEvent(event: TexasHoldemPokerOwnBetType) {
         return !!event.ownBets;
     }
@@ -29,13 +29,23 @@ export default class TexasHoldemPokerOwnBetHandler<Choices> extends TexasHoldemP
         this.gameData.isProcessingBet = false;
         const { bets, combinationResult, communityCards, roundId, player, totalAmount } = event.ownBets;
 
-        if (!bets) return;
+        if (!bets) {
+            return;
+        }
         const betsConverted = {};
 
-        if (bets["ante"]) betsConverted["anteBet"] = cloneDeep(bets["ante"]);
-        if (bets["call"]) betsConverted["callBet"] = cloneDeep(bets["call"]);
-        if (bets["river"]) betsConverted["riverBet"] = cloneDeep(bets["river"]);
-        if (bets["turn"]) betsConverted["turnBet"] = cloneDeep(bets["turn"]);
+        if (bets["ante"]) {
+            betsConverted["anteBet"] = cloneDeep(bets["ante"]);
+        }
+        if (bets["call"]) {
+            betsConverted["callBet"] = cloneDeep(bets["call"]);
+        }
+        if (bets["river"]) {
+            betsConverted["riverBet"] = cloneDeep(bets["river"]);
+        }
+        if (bets["turn"]) {
+            betsConverted["turnBet"] = cloneDeep(bets["turn"]);
+        }
 
         const convertedCommunityCards = communityCards.map((e) => {
             return { rank: e.rank, suit: e.suit };

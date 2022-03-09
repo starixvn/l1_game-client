@@ -1,14 +1,13 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
-import { TexasHoldemPokerChoicesType } from "../texas-type";
-import { TexasHoldemPokerState } from "../texas-type";
+import { TexasHoldemPokerChoicesType, TexasHoldemPokerState } from "../texas-type";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerPlaceBetModel from "../event-models/texas-holdem-poker-place-bet-model";
 import TexasHoldemPokerStateModel from "../event-models/texas-holdem-poker-state-model";
 import TexasHoldemPoker from "../view-models/texas-holdem-poker";
 import TexasHoldemPokerBettingArea from "../view-models/texas-holdem-poker-betting-area";
-import TexasHoldemPokerChips from "../view-models/texas-holdem-poker-chip";
+import TexasHoldemPokerChip from "../view-models/texas-holdem-poker-chip";
 import { TexasHoldemPokerChoicesConst } from "../texas-contants";
 
 export const showHideButtons = (main: TexasHoldemPoker) => (stateModel: TexasHoldemPokerStateModel) => {
@@ -59,6 +58,7 @@ export const showHideButtons = (main: TexasHoldemPoker) => (stateModel: TexasHol
         case TexasHoldemPokerState.calling_rivering:
         case TexasHoldemPokerState.calling_check_river:
             main.riverButton.active = main.checkRiverButton.active = false;
+            break;
         case TexasHoldemPokerState.settled:
             main.riverButton.active = main.checkRiverButton.active = false;
             break;
@@ -69,7 +69,7 @@ export const showPlaceBetChips =
         bettingAreas: TexasHoldemPokerBettingArea[],
         slidingChips: BetChips,
         shadowChip: cc.SpriteFrame,
-        texasHoldemPokerChips: TexasHoldemPokerChips,
+        texasHoldemPokerChips: TexasHoldemPokerChip,
         gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType>
     ) =>
     ({ currentChoice, currentAmount, totalAmount }) => {
@@ -102,7 +102,7 @@ export const updateChips =
         bettingAreas: TexasHoldemPokerBettingArea[],
         slidingChips: BetChips,
         shadowChip: cc.SpriteFrame,
-        texasHoldemPokerChips: TexasHoldemPokerChips
+        texasHoldemPokerChips: TexasHoldemPokerChip
     ) =>
     ({ choice, totalAmount }) => {
         const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
@@ -116,7 +116,7 @@ export const updateAllChips =
         bettingAreas: TexasHoldemPokerBettingArea[],
         slidingChips: BetChips,
         shadowChip: cc.SpriteFrame,
-        texasHoldemPokerChips: TexasHoldemPokerChips
+        texasHoldemPokerChips: TexasHoldemPokerChip
     ) =>
     (placeBetModel: TexasHoldemPokerPlaceBetModel) => {
         if (placeBetModel.choices[TexasHoldemPokerChoicesConst.anteBet] !== 0) {

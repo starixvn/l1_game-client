@@ -19,7 +19,7 @@ import {
 } from "../actions/texas-holdem-poker-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-holdem-poker-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-holdem-poker-settlement-actions";
-import TexasHoldemPokerAfterCallModel from "../event-models/texas-holdem-poker-call-model";
+import TexasHoldemPokerCallModel from "../event-models/texas-holdem-poker-call-model";
 import { TexasHoldemPokerChoicesType } from "../texas-type";
 import { TexasHoldemPokerChoicesConst, BetAction } from "../texas-contants";
 import TexasHoldemPokerConfigs from "../event-models/texas-holdem-poker-configs";
@@ -30,7 +30,7 @@ import TexasHoldemPokerOwnBetModel from "../event-models/texas-holdem-poker-own-
 import TexasHoldemPokerPlaceBetModel from "../event-models/texas-holdem-poker-place-bet-model";
 import TexasHoldemPokerSettlement from "../event-models/texas-holdem-poker-settlement";
 import TexasHoldemPokerTicketDetailModel from "../event-models/texas-holdem-poker-ticket-detail-model";
-import TexasHoldemPokerAfterTurnModel from "../event-models/texas-holdem-poker-turn-model";
+import TexasHoldemPokerTurnModel from "../event-models/texas-holdem-poker-turn-model";
 import {
     collectCards,
     dealFirstThreeCommunityCards,
@@ -42,11 +42,11 @@ import TexasHoldemPokerCards from "../cards-component/view-models/texas-holdem-p
 import { updateLeftOddsTable, updateMinMax, updateRightOddsTable } from "./../actions/texas-holdem-poker-configs-actions";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-holdem-poker-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-holdem-poker-rejoin-room-actions";
-import TexasHoldemPokerAfterRiverModel from "./../event-models/texas-holdem-poker-river-model";
+import TexasHoldemPokerRiverModel from "./../event-models/texas-holdem-poker-river-model";
 import TexasHoldemPokerStateModel from "./../event-models/texas-holdem-poker-state-model";
 import { dealFourAndFireCardAndFaceUpDealerCards, rawCardWhenRejoin } from "../cards-component/view-models/cards-wrapper";
 import TexasHoldemPokerBettingArea from "./texas-holdem-poker-betting-area";
-import TexasHoldemPokerChips from "./texas-holdem-poker-chip";
+import TexasHoldemPokerChip from "./texas-holdem-poker-chip";
 import TexasHoldemPokerMinMaxTable from "./texas-holdem-poker-min-max-table";
 import TexasHoldemPokerOddsTable from "./texas-holdem-poker-odds-table";
 import TexasHoldemPokerPlacingBet from "./texas-holdem-poker-placing-bet";
@@ -139,7 +139,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
 
     protected placingBet: TexasHoldemPokerPlacingBet = null;
     protected gameData: TexasHoldemPokerGameData<TexasHoldemPokerChoicesType> = null;
-    protected texasHoldemPokerChips: TexasHoldemPokerChips;
+    protected texasHoldemPokerChips: TexasHoldemPokerChip;
     protected colorItem = "#4d2a0e";
     protected colorIconMain = "#4d2a0e";
     pokerCardScript: TexasHoldemPokerCards = undefined;
@@ -152,7 +152,7 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
 
     onLoad() {
         this.gameData = new TexasHoldemPokerGameData<TexasHoldemPokerChoicesType>();
-        this.texasHoldemPokerChips = new TexasHoldemPokerChips();
+        this.texasHoldemPokerChips = new TexasHoldemPokerChip();
         this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
         super.onLoad();
     }
@@ -371,18 +371,18 @@ export default class TexasHoldemPoker extends NewGameRoomBase {
         });
     }
     private registerAfterCallEvents() {
-        this.gameData.callModel.on(TexasHoldemPokerAfterCallModel.Events.CHANGE, (callModel: TexasHoldemPokerAfterCallModel) => {
+        this.gameData.callModel.on(TexasHoldemPokerCallModel.Events.CHANGE, (callModel: TexasHoldemPokerCallModel) => {
             dealFirstThreeCommunityCards(this.pokerCardScript, callModel, () => this.gameData.stateModel.callSuccess());
         });
     }
     private registerAfterTurnEvents() {
-        this.gameData.turnModel.on(TexasHoldemPokerAfterTurnModel.Events.CHANGE, (turnModel: TexasHoldemPokerAfterTurnModel) => {
+        this.gameData.turnModel.on(TexasHoldemPokerTurnModel.Events.CHANGE, (turnModel: TexasHoldemPokerTurnModel) => {
             dealSecondCard(this.pokerCardScript, turnModel, () => this.gameData.stateModel.turnSuccess());
         });
     }
 
     private registerAfterRiverEvents() {
-        this.gameData.riverModel.on(TexasHoldemPokerAfterRiverModel.Events.CHANGE, () => {
+        this.gameData.riverModel.on(TexasHoldemPokerRiverModel.Events.CHANGE, () => {
             this.gameData.settlement.waiting = true;
         });
     }

@@ -1,6 +1,13 @@
 import { convertCard } from "../../../holdem-poker/components/cards/view-models/CardWrapper";
 import PokerCards from "./texas-holdem-poker-cards";
 
+const handleCommunityCards = async (pokerCardsNote, communityCards) => {
+    for (const element of communityCards) {
+        await pokerCardsNote.drawingCardToMiddle(element, false);
+    }
+
+    return pokerCardsNote;
+};
 export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
@@ -26,11 +33,7 @@ export const dealFirstThreeCommunityCards = async (pokerCardsNote: PokerCards, c
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
     const { communityCards } = cardsData;
-
-    for (let index = 0; index < communityCards.length; index++) {
-        const card = communityCards[index];
-        await pokerCardsNote.drawingCardToMiddle(card, false);
-    }
+    pokerCardsNote = await handleCommunityCards(pokerCardsNote, communityCards);
 
     showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
 };
@@ -40,11 +43,7 @@ export const dealSecondCard = async (pokerCardsNote: PokerCards, cardsData: any,
     pokerCardsNote.hideAllIndicator();
     const { communityCards } = cardsData;
     const communityCardsNew = communityCards.slice(-1);
-
-    for (let index = 0; index < communityCardsNew.length; index++) {
-        const element = communityCardsNew[index];
-        await pokerCardsNote.drawingCardToMiddle(element, false);
-    }
+    pokerCardsNote = await handleCommunityCards(pokerCardsNote, communityCardsNew);
 
     showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
 };
@@ -60,11 +59,7 @@ export const dealThirdCardAndFaceUpDealerCards = async (
     const { communityCards, dealerCards } = cardsData;
 
     const communityCardsNew = communityCards.slice(-1);
-
-    for (let index = 0; index < communityCardsNew.length; index++) {
-        const element = communityCardsNew[index];
-        await pokerCardsNote.drawingCardToMiddle(element, false);
-    }
+    pokerCardsNote = await handleCommunityCards(pokerCardsNote, communityCardsNew);
 
     for (let index = 0; index < dealerCards.length; index++) {
         const element = dealerCards[index];
@@ -82,10 +77,7 @@ export const dealFourAndFireCardAndFaceUpDealerCards = async (pokerCardsNote: Po
 
     const communityCardsNew = communityCards.slice(step === "call" ? -2 : -1);
 
-    for (let index = 0; index < communityCardsNew.length; index++) {
-        const element = communityCardsNew[index];
-        await pokerCardsNote.drawingCardToMiddle(element, false);
-    }
+    pokerCardsNote = await handleCommunityCards(pokerCardsNote, communityCardsNew);
 
     for (let index = 0; index < dealerCards.length; index++) {
         const element = dealerCards[index];
@@ -130,18 +122,18 @@ export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any) =>
         { rank: "6", suit: 3 }
     ];
 
-    for (let index = 0; index < playerCards.length; index++) {
-        const card = playerCards[index];
+    for (const card of playerCards) {
         pokerCardsNote.drawingRejoinPlayerCards(card, false);
     }
-    for (let index = 0; index < communityCards.length; index++) {
-        const card = communityCards[index];
+
+    for (const card of communityCards) {
         pokerCardsNote.drawingRejoinMiddleCards(card, false);
     }
-    for (let index = 0; index < dealerDataFake.length; index++) {
-        const card = dealerDataFake[index];
-        pokerCardsNote.drawingRejoinDealerCards(card, true);
+
+    for (const card of dealerDataFake) {
+        pokerCardsNote.drawingRejoinDealerCards(card, false);
     }
+
     pokerCardsNote.showIndicatorSymbolOfCards(convertCard(player.combinationCards), "player");
     pokerCardsNote.showLabelIndicatorCards(player.id, "player");
     pokerCardsNote.focusPlayerCard();

@@ -1,5 +1,5 @@
 import TexasHoldemPokerConfigs from "../event-models/texas-holdem-poker-configs";
-import TexasHoldemPokerHandler from "./texas-holdem-poker-event-handler";
+import TexasHoldemPokerEventHandler from "./texas-holdem-poker-event-handler";
 
 export type ConfigsType<Choices> = {
     gameConfigs: {
@@ -11,7 +11,7 @@ export type ConfigsType<Choices> = {
     };
 };
 
-export default class TexasHoldemPokerConfigsHandler<Choices> extends TexasHoldemPokerHandler<ConfigsType<Choices>, Choices> {
+export default class TexasHoldemPokerConfigsHandler<Choices> extends TexasHoldemPokerEventHandler<ConfigsType<Choices>, Choices> {
     protected verifyEvent(event: ConfigsType<Choices>) {
         return event.gameConfigs != null;
     }

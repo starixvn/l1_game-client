@@ -2,7 +2,7 @@ import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import GameUtils from "../../../common/GameUtils";
 import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
-import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
+import HoldemPokerChoices from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPoker from "./HoldemPoker";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
@@ -11,7 +11,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class HoldemPokerChips extends cc.Component {
-    private readonly durationAnimationWinning = 4;
     private readonly chipScale = 0.5;
     updateChipStackTween: cc.Tween;
     winningEffect: cc.Node;
