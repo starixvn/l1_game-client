@@ -9,14 +9,6 @@ import HiLoGameData from "../../../../assets/games/hi-lo/events-models/HiLoGameD
 import { HiLoChoices } from "../../../../assets/games/hi-lo/events-models/HiLoChoices";
 import HiLo from "../../../../assets/games/hi-lo/view-models/HiLo";
 
-jest.mock("../../../../assets/games/hi-lo/events-models/HiLoGameConfigs", () => ({
-    default: jest.fn().mockImplementation(() => {
-        return {
-            change: jest.fn()
-        };
-    })
-}));
-
 jest.mock("../../../../assets/games/hi-lo/events-models/HiLoGameData", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
