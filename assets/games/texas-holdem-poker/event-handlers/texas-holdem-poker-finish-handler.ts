@@ -1,5 +1,6 @@
 import { cloneDeep } from "lodash";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
+import { cloneDeepChoiceData } from "../texas-helper";
 import TexasHoldemPokerEventHandler from "./texas-holdem-poker-event-handler";
 
 export type TexasHoldemPokerFinish = {
@@ -20,12 +21,8 @@ export default class TexasHoldemPokerFinishHandler<Choices> extends TexasHoldemP
     protected handle(event: TexasHoldemPokerFinish) {
         this.gameData.isProcessingBet = false;
         const { settlementResult } = event.finish;
-        const settlementResultConverted: any = {};
 
-        settlementResultConverted["anteBet"] = cloneDeep(settlementResult["ante"]);
-        settlementResultConverted["callBet"] = cloneDeep(settlementResult["call"]);
-        settlementResultConverted["riverBet"] = cloneDeep(settlementResult["river"]);
-        settlementResultConverted["turnBet"] = cloneDeep(settlementResult["turn"]);
+        const settlementResultConverted = cloneDeepChoiceData(settlementResult);
 
         this.gameData.emit(TexasHoldemPokerGameData.Events.SETTLED, this);
         this.gameData.finishModel.changeSettlementResult(settlementResultConverted);

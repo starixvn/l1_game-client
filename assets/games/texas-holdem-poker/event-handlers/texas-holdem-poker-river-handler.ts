@@ -1,8 +1,8 @@
 import { CardModel } from "./../texas-type";
 import TexasHoldemPokerEventHandler from "./texas-holdem-poker-event-handler";
-import TexasHoldemPokerChoices from "../event-models/texas-holdem-poker-choices";
+import { convertChoices } from "../texas-helper";
 
-export type TexasHoldemRiver<Choices> = {
+export type TexasHoldemRiver = {
     river: {
         dealer: CardModel[];
         communityCards: CardModel[];
@@ -24,22 +24,18 @@ export type TexasHoldemRiver<Choices> = {
     };
 };
 
-export default class TexasHoldemRiverEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemRiver<Choices>, Choices> {
-    protected verifyEvent(event: TexasHoldemRiver<Choices>) {
+export default class TexasHoldemRiverEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemRiver, Choices> {
+    protected verifyEvent(event: TexasHoldemRiver) {
         return !!event.river;
     }
 
-    protected handle(event: TexasHoldemRiver<Choices>) {
+    protected handle(event: TexasHoldemRiver) {
         this.gameData.isProcessingBet = false;
-        const { communityCards, combinationResult, totalAmount, dealer } = event.river;
+        const { communityCards, combinationResult, totalAmount, dealer, choices } = event.river;
 
-        const choices = new TexasHoldemPokerChoices();
-        choices.anteBet = event.river.choices.ante;
-        choices.callBet = event.river.choices.call;
-        choices.turnBet = event.river.choices.turn;
-        choices.riverBet = event.river.choices.river;
+        const choiceProcess = convertChoices({ ante: choices.ante, call: choices.call, turn: choices.turn, river: choices.river });
 
-        this.gameData.placeBetModel.updateTotalBet({ totalBet: totalAmount, choice: choices });
+        this.gameData.placeBetModel.updateTotalBet({ totalBet: totalAmount, choice: choiceProcess });
         this.gameData.riverModel.updateModel(dealer, communityCards, combinationResult, totalAmount);
     }
 }

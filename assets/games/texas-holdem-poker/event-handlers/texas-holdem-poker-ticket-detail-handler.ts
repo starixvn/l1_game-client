@@ -1,7 +1,7 @@
 import { CardModel } from './../texas-type';
 import HoldemPokerTicketDetailEventHandler from "../../holdem-poker/event-handlers/HoldemPokerTicketDetailHandler";
 
-export type TexasTicketDetail<Choices> = {
+export type TexasTicketDetail = {
     ticketDetail: {
         bets: any;
         dealer: {
@@ -22,11 +22,11 @@ export type TexasTicketDetail<Choices> = {
 };
 
 export default class TexasTicketDetailEventHandler<Choices> extends HoldemPokerTicketDetailEventHandler<Choices> {
-    protected verifyEvent(event: TexasTicketDetail<Choices>) {
+    protected verifyEvent(event: TexasTicketDetail) {
         return !!event.ticketDetail;
     }
 
-    protected handle(event: TexasTicketDetail<Choices>) {
+    protected handle(event: TexasTicketDetail) {
         super.handle(event);
     }
 }
