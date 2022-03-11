@@ -23,15 +23,6 @@ export default class TexasHoldemPokerFinishHandler<Choices> extends TexasHoldemP
         const { settlementResult } = event.finish;
 
         const settlementResultConverted = cloneDeepChoiceData(settlementResult);
-        // const settlementResultConverted: any = {};
-
-        // settlementResultConverted["anteBet"] = cloneDeep(settlementResult["ante"]);
-        // settlementResultConverted["callBet"] = cloneDeep(settlementResult["call"]);
-        // settlementResultConverted["riverBet"] = cloneDeep(settlementResult["river"]);
-        // settlementResultConverted["turnBet"] = cloneDeep(settlementResult["turn"]);
-
-        // console.log(settlementResultConverted, "settlementResultConverted");
-        // console.log(settlementResultConvertedTEst);
 
         this.gameData.emit(TexasHoldemPokerGameData.Events.SETTLED, this);
         this.gameData.finishModel.changeSettlementResult(settlementResultConverted);

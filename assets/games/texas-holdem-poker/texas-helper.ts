@@ -10,19 +10,19 @@ type Choices = {
 
 export const convertChoices = (inputChoices: Choices) => {
     const choices = new TexasHoldemPokerChoices();
-    if (inputChoices.ante) {
+    if (!!inputChoices.ante) {
         choices.anteBet = inputChoices.ante;
     }
 
-    if (inputChoices.call) {
+    if (!!inputChoices.call) {
         choices.callBet = inputChoices.call;
     }
 
-    if (inputChoices.turn) {
+    if (!!inputChoices.turn) {
         choices.turnBet = inputChoices.turn;
     }
 
-    if (inputChoices.river) {
+    if (!!inputChoices.river) {
         choices.riverBet = inputChoices.river;
     }
 
@@ -31,17 +31,10 @@ export const convertChoices = (inputChoices: Choices) => {
 
 export const cloneDeepChoiceData = (data: Record<string, number>) => {
     const result: any = {};
-    if (data["ante"]) {
-        result["anteBet"] = cloneDeep(data["ante"]);
-    }
-    if (data["call"]) {
-        result["callBet"] = cloneDeep(data["call"]);
-    }
-    if (data["river"]) {
-        result["riverBet"] = cloneDeep(data["river"]);
-    }
-    if (data["turn"]) {
-        result["turnBet"] = cloneDeep(data["turn"]);
-    }
+    result["anteBet"] = cloneDeep(data["ante"]);
+    result["callBet"] = cloneDeep(data["call"]);
+    result["riverBet"] = cloneDeep(data["river"]);
+    result["turnBet"] = cloneDeep(data["turn"]);
+
     return result;
 };
