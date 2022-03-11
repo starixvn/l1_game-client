@@ -1,7 +1,8 @@
-import { CardModel } from "./../texas-type";
+import { CardModel } from "../texas-type";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerEventHandler from "./texas-holdem-poker-event-handler";
 import { convertChoices } from "../texas-helper";
+import TexasHoldemPokerChoices from "../event-models/texas-holdem-poker-choices";
 
 export type TexasHoldemDeal = {
     deal: {
@@ -20,7 +21,7 @@ export type TexasHoldemDeal = {
     };
 };
 
-export default class TexasHoldemDealEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemDeal, Choices> {
+export default class TexasHoldemPokerDealEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemDeal, Choices> {
     protected verifyEvent(event: TexasHoldemDeal) {
         return !!event.deal;
     }
@@ -30,7 +31,7 @@ export default class TexasHoldemDealEventHandler<Choices> extends TexasHoldemPok
         const choiceProcess = convertChoices({ ante: choices.ante });
 
         this.gameData.stateModel.dealing();
-        this.gameData.emit(TexasHoldemPokerGameData.Events.CHOICES_RESULT, choices);
+        this.gameData.emit(TexasHoldemPokerGameData.Events.CHOICES_RESULT, choiceProcess);
         this.gameData.ownBets.updateRoundId(roundId);
         this.gameData.dealModel.changeDataAfterDeal(player, [], combinationResult, roundId);
         this.gameData.placeBetModel.updateTotalBet({ totalBet: totalAmount, choice: choiceProcess });

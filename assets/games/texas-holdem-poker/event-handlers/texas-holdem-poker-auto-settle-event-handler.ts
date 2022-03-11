@@ -1,4 +1,4 @@
-import { CardModel } from "./../texas-type";
+import { CardModel } from "../texas-type";
 import TexasHoldemPokerEventHandler from "./texas-holdem-poker-event-handler";
 
 export type TexasHoldemAutoSettle = {
@@ -22,7 +22,7 @@ export type TexasHoldemAutoSettle = {
     };
 };
 
-export default class TexasHoldemAutoSettleEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemAutoSettle, Choices> {
+export default class TexasHoldemPokerAutoSettleEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemAutoSettle, Choices> {
     protected verifyEvent(event: TexasHoldemAutoSettle) {
         return !!event.autoSettle;
     }

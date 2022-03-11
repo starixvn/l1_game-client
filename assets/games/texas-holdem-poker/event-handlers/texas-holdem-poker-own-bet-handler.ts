@@ -1,4 +1,4 @@
-import { CardModel } from "./../texas-type";
+import { CardModel } from "../texas-type";
 import { cloneDeep } from "lodash";
 import TexasHoldemPokerGameData from "../event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerEventHandler from "./texas-holdem-poker-event-handler";
@@ -33,8 +33,25 @@ export default class TexasHoldemPokerOwnBetHandler<Choices> extends TexasHoldemP
         if (!bets) {
             return;
         }
+        // const betsConverted = {};
+
+        // if (bets["ante"]) {
+        //     betsConverted["anteBet"] = cloneDeep(bets["ante"]);
+        // }
+        // if (bets["call"]) {
+        //     betsConverted["callBet"] = cloneDeep(bets["call"]);
+        // }
+        // if (bets["river"]) {
+        //     betsConverted["riverBet"] = cloneDeep(bets["river"]);
+        // }
+        // if (bets["turn"]) {
+        //     betsConverted["turnBet"] = cloneDeep(bets["turn"]);
+        // }
+
+        // console.log(betsConverted, "betsConverted");
 
         const betsConverted = cloneDeepChoiceData(bets);
+        // console.log(betsConvertedTest);
         this.gameData.emit(TexasHoldemPokerGameData.Events.CHOICES_RESULT, betsConverted);
         this.gameData.stateModel.rejoinTable(communityCards.length);
         this.gameData.ownBets.changeOwnBets({

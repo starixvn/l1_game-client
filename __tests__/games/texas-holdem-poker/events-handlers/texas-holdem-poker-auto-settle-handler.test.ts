@@ -1,6 +1,6 @@
-import TexasHoldemAutoSettleEventHandler, {
+import TexasHoldemPokerAutoSettleEventHandler, {
     TexasHoldemAutoSettle
-} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-holdem-poker-auto-settle-handler";
+} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-holdem-poker-auto-settle-event-handler";
 import TexasHoldemPokerGameData from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerSettlement from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-settlement";
 import TexasHoldemPokerAutoSettleModel from "./../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-auto-settle-model";
@@ -27,7 +27,7 @@ describe("TexasHoldemAutoSettleEventHandler", () => {
     let data: TexasHoldemAutoSettle;
     let dataAfterHandle: any;
     beforeAll(() => {
-        autoSettleHandler = new TexasHoldemAutoSettleEventHandler(gameData);
+        autoSettleHandler = new TexasHoldemPokerAutoSettleEventHandler(gameData);
         autoSettleHandler.gameData = new TexasHoldemPokerGameData();
         autoSettleHandler.gameData.autoSettleModel = new TexasHoldemPokerAutoSettleModel();
         autoSettleHandler.gameData.settlement = new TexasHoldemPokerSettlement();

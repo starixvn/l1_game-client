@@ -23,7 +23,7 @@ export const convertChoices = (inputChoices: Choices) => {
     }
 
     if (inputChoices.river) {
-        choices.turnBet = inputChoices.river;
+        choices.riverBet = inputChoices.river;
     }
 
     return choices;

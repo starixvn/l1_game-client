@@ -12,7 +12,7 @@ export type TexasHoldemAPIError = {
     betChoice: string;
 };
 
-export default class TexasHoldemErrorUIEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemAPIError, Choices> {
+export default class TexasHoldemPokerErrorUIEventHandler<Choices> extends TexasHoldemPokerEventHandler<TexasHoldemAPIError, Choices> {
     protected verifyEvent(event: TexasHoldemAPIError) {
         return !!event.apiError;
     }

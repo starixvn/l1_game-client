@@ -1,15 +1,15 @@
 import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
 import { HoldemPokerGameData } from "../../holdem-poker/event-models/HoldemPokerGameData";
-import TexasHoldemErrorUIEventHandler from "../event-handlers/texas-holdem-poker-api-error-ui-handler";
-import TexasHoldemAutoSettleEventHandler from "../event-handlers/texas-holdem-poker-auto-settle-handler";
-import TexasHoldemCallEventHandler from "../event-handlers/texas-holdem-poker-call-handler";
+import TexasHoldemPokerErrorUIEventHandler from "../event-handlers/texas-holdem-poker-error-ui-event-handler";
+import TexasHoldemPokerAutoSettleEventHandler from "../event-handlers/texas-holdem-poker-auto-settle-event-handler";
+import TexasHoldemPokerCallEventHandler from "../event-handlers/texas-holdem-poker-call-event-handler";
 import TexasHoldemPokerConfigsHandler from "../event-handlers/texas-holdem-poker-configs-handler";
-import TexasHoldemDealEventHandler from "../event-handlers/texas-holdem-poker-deal-handler";
+import TexasHoldemPokerDealEventHandler from "../event-handlers/texas-holdem-poker-deal-event-handler";
 import TexasHoldemPokerFinishHandler from "../event-handlers/texas-holdem-poker-finish-handler";
 import TexasHoldemPokerOwnBetHandler from "../event-handlers/texas-holdem-poker-own-bet-handler";
-import TexasHoldemRiverEventHandler from "../event-handlers/texas-holdem-poker-river-handler";
-import TexasTicketDetailEventHandler from "../event-handlers/texas-holdem-poker-ticket-detail-handler";
-import TexasHoldemTurnEventHandler from "../event-handlers/texas-holdem-poker-turn-handler";
+import TexasHoldemPokerRiverEventHandler from "../event-handlers/texas-holdem-poker-river-event-handler";
+import TexasHoldemPokerTicketDetailEventHandler from "../event-handlers/texas-holdem-poker-ticket-detail-event-handler";
+import TexasHoldemPokerTurnEventHandler from "../event-handlers/texas-holdem-poker-turn-event-handler";
 import TexasHoldemPokerAutoSettleModel from "./texas-holdem-poker-auto-settle-model";
 import TexasHoldemPokerCallModel from "./texas-holdem-poker-call-model";
 import { TexasHoldemPokerChoicesConst } from "../texas-contants";
@@ -71,16 +71,16 @@ export default class TexasHoldemPokerGameData<Choices> extends HoldemPokerGameDa
     protected handleHandler() {
         const handlers = [
             TexasHoldemPokerConfigsHandler,
-            TexasHoldemErrorUIEventHandler,
-            TexasHoldemAutoSettleEventHandler,
-            TexasHoldemDealEventHandler,
-            TexasHoldemCallEventHandler,
-            TexasHoldemTurnEventHandler,
-            TexasHoldemRiverEventHandler,
+            TexasHoldemPokerErrorUIEventHandler,
+            TexasHoldemPokerAutoSettleEventHandler,
+            TexasHoldemPokerDealEventHandler,
+            TexasHoldemPokerCallEventHandler,
+            TexasHoldemPokerTurnEventHandler,
+            TexasHoldemPokerRiverEventHandler,
             TexasHoldemPokerOwnBetHandler,
             TexasHoldemPokerFinishHandler,
             HoldemPockerMD5Handler,
-            TexasTicketDetailEventHandler
+            TexasHoldemPokerTicketDetailEventHandler
         ];
 
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));

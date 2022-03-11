@@ -1,6 +1,6 @@
-import TexasHoldemCallEventHandler, {
+import TexasHoldemPokerCallEventHandler, {
     TexasHoldemCall
-} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-holdem-poker-call-handler";
+} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-holdem-poker-call-event-handler";
 import TexasHoldemPokerCallModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-call-model";
 import TexasHoldemPokerGameData from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerPlaceBetModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-place-bet-model";
@@ -27,7 +27,7 @@ describe("TexasHoldemCallEventHandler", () => {
     let gameData: TexasHoldemPokerGameData<any>;
     let data: TexasHoldemCall;
     beforeAll(() => {
-        callHandlerHandler = new TexasHoldemCallEventHandler(gameData);
+        callHandlerHandler = new TexasHoldemPokerCallEventHandler(gameData);
         callHandlerHandler.gameData = new TexasHoldemPokerGameData();
         callHandlerHandler.gameData.placeBetModel = new TexasHoldemPokerPlaceBetModel();
         callHandlerHandler.gameData.callModel = new TexasHoldemPokerCallModel();

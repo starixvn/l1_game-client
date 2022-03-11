@@ -1,6 +1,6 @@
-import TexasHoldemErrorUIEventHandler, {
+import TexasHoldemPokerErrorUIEventHandler, {
     TexasHoldemAPIError
-} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-holdem-poker-api-error-ui-handler";
+} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-holdem-poker-error-ui-event-handler";
 import TexasHoldemPokerGameData from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-game-data";
 import TexasHoldemPokerStateModel from "./../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-state-model";
 
@@ -25,7 +25,7 @@ describe("TexasHoldemErrorUIEventHandler", () => {
     let gameData: TexasHoldemPokerGameData<any>;
     let data: TexasHoldemAPIError;
     beforeAll(() => {
-        errorHandler = new TexasHoldemErrorUIEventHandler(gameData);
+        errorHandler = new TexasHoldemPokerErrorUIEventHandler(gameData);
         errorHandler.gameData = new TexasHoldemPokerGameData();
         errorHandler.gameData.stateModel = new TexasHoldemPokerStateModel();
         data = {
