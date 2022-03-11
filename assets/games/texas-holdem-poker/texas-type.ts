@@ -1,5 +1,5 @@
 export type CardModel = { rank: number; suit: number };
-export enum TexasHoldemPokerState {
+export enum TexasState {
     blank_new = 0,
     prepare_new,
     replay_new,
@@ -31,7 +31,7 @@ export enum CardAnimation {
     PullCard = "pull_card"
 }
 
-export type TexasHoldemPokerChoicesType = {
+export type TexasChoicesType = {
     anteBet: number;
     callBet: number;
     turnBet: number;

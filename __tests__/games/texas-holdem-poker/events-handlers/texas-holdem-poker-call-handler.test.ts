@@ -1,12 +1,10 @@
-import TexasHoldemPokerCallEventHandler, {
-    TexasHoldemCall
-} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-holdem-poker-call-event-handler";
-import TexasHoldemPokerCallModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-call-model";
-import TexasHoldemPokerGameData from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-game-data";
-import TexasHoldemPokerPlaceBetModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-place-bet-model";
+import TexasCallHandler, { TexasHoldemCall } from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-call-handler";
+import TexasCallModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-call-model";
+import TexasGameDataModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model";
+import TexasPlaceBetModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-place-bet-model";
 import { convertChoices } from "../../../../assets/games/texas-holdem-poker/texas-helper";
 
-jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-game-data", () => ({
+jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
             constructor: jest.fn()
@@ -14,7 +12,7 @@ jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-holdem
     })
 }));
 
-jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-place-bet-model", () => ({
+jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-place-bet-model", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
             updateTotalBet: jest.fn()
@@ -24,13 +22,13 @@ jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-holdem
 
 describe("TexasHoldemCallEventHandler", () => {
     let callHandlerHandler: any;
-    let gameData: TexasHoldemPokerGameData<any>;
+    let gameData: TexasGameDataModel<any>;
     let data: TexasHoldemCall;
     beforeAll(() => {
-        callHandlerHandler = new TexasHoldemPokerCallEventHandler(gameData);
-        callHandlerHandler.gameData = new TexasHoldemPokerGameData();
-        callHandlerHandler.gameData.placeBetModel = new TexasHoldemPokerPlaceBetModel();
-        callHandlerHandler.gameData.callModel = new TexasHoldemPokerCallModel();
+        callHandlerHandler = new TexasCallHandler(gameData);
+        callHandlerHandler.gameData = new TexasGameDataModel();
+        callHandlerHandler.gameData.placeBetModel = new TexasPlaceBetModel();
+        callHandlerHandler.gameData.callModel = new TexasCallModel();
         data = {
             call: {
                 choices: {

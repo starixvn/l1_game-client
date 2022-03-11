@@ -1,4 +1,4 @@
-import TexasHoldemPokerChoices from "./event-models/texas-holdem-poker-choices";
+import TexasChoicesModel from "./event-models/texas-choices-model";
 import { cloneDeep } from "lodash";
 
 type Choices = {
@@ -9,7 +9,7 @@ type Choices = {
 };
 
 export const convertChoices = (inputChoices: Choices) => {
-    const choices = new TexasHoldemPokerChoices();
+    const choices = new TexasChoicesModel();
     if (!!inputChoices.ante) {
         choices.anteBet = inputChoices.ante;
     }

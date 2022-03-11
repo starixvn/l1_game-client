@@ -1,9 +1,9 @@
-export const TexasPokerMaxBetChoices = {
+export const TexasMaxBetChoices = {
     ante: "anteBet",
     call: "callBet"
 };
 
-export const TexasHoldemPokerChoicesConst = {
+export const TexasChoicesConst = {
     anteBet: "anteBet",
     callBet: "callBet",
     turnBet: "turnBet",

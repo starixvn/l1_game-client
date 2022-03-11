@@ -1,11 +1,11 @@
-import TexasHoldemPokerAutoSettleEventHandler, {
+import TexasAutoSettleHandler, {
     TexasHoldemAutoSettle
-} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-holdem-poker-auto-settle-event-handler";
-import TexasHoldemPokerGameData from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-game-data";
-import TexasHoldemPokerSettlement from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-settlement";
-import TexasHoldemPokerAutoSettleModel from "./../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-auto-settle-model";
+} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-auto-settle-handler";
+import TexasGameDataModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model";
+import TexasSettlementModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-settlement-model";
+import TexasAutoSettleModel from "./../../../../assets/games/texas-holdem-poker/event-models/texas-auto-settle-model";
 
-jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-game-data", () => ({
+jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
             constructor: jest.fn()
@@ -13,7 +13,7 @@ jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-holdem
     })
 }));
 
-jest.mock("./../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-state-model", () => ({
+jest.mock("./../../../../assets/games/texas-holdem-poker/event-models/texas-state-model", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
             updateModel: jest.fn()
@@ -23,14 +23,14 @@ jest.mock("./../../../../assets/games/texas-holdem-poker/event-models/texas-hold
 
 describe("TexasHoldemAutoSettleEventHandler", () => {
     let autoSettleHandler: any;
-    let gameData: TexasHoldemPokerGameData<any>;
+    let gameData: TexasGameDataModel<any>;
     let data: TexasHoldemAutoSettle;
     let dataAfterHandle: any;
     beforeAll(() => {
-        autoSettleHandler = new TexasHoldemPokerAutoSettleEventHandler(gameData);
-        autoSettleHandler.gameData = new TexasHoldemPokerGameData();
-        autoSettleHandler.gameData.autoSettleModel = new TexasHoldemPokerAutoSettleModel();
-        autoSettleHandler.gameData.settlement = new TexasHoldemPokerSettlement();
+        autoSettleHandler = new TexasAutoSettleHandler(gameData);
+        autoSettleHandler.gameData = new TexasGameDataModel();
+        autoSettleHandler.gameData.autoSettleModel = new TexasAutoSettleModel();
+        autoSettleHandler.gameData.settlement = new TexasSettlementModel();
         data = {
             autoSettle: {
                 dealer: [

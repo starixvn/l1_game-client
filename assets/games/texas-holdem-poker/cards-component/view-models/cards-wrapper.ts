@@ -1,5 +1,5 @@
 import { convertCard } from "../../../holdem-poker/components/cards/view-models/CardWrapper";
-import PokerCards from "./texas-holdem-poker-cards";
+import PokerCards from "./texas-cards";
 
 const handleCommunityCards = async (pokerCardsNote, communityCards) => {
     for (const element of communityCards) {

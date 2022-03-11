@@ -1,10 +1,8 @@
-import TexasHoldemPokerErrorUIEventHandler, {
-    TexasHoldemAPIError
-} from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-holdem-poker-error-ui-event-handler";
-import TexasHoldemPokerGameData from "../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-game-data";
-import TexasHoldemPokerStateModel from "./../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-state-model";
+import TexasErrorHandler, { TexasHoldemAPIError } from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-error-handler";
+import TexasGameDataModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model";
+import TexasStateModel from "./../../../../assets/games/texas-holdem-poker/event-models/texas-state-model";
 
-jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-game-data", () => ({
+jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
             constructor: jest.fn()
@@ -12,7 +10,7 @@ jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-holdem
     })
 }));
 
-jest.mock("./../../../../assets/games/texas-holdem-poker/event-models/texas-holdem-poker-state-model", () => ({
+jest.mock("./../../../../assets/games/texas-holdem-poker/event-models/texas-state-model", () => ({
     default: jest.fn().mockImplementation(() => {
         return {
             receiveError: jest.fn()
@@ -22,12 +20,12 @@ jest.mock("./../../../../assets/games/texas-holdem-poker/event-models/texas-hold
 
 describe("TexasHoldemErrorUIEventHandler", () => {
     let errorHandler: any;
-    let gameData: TexasHoldemPokerGameData<any>;
+    let gameData: TexasGameDataModel<any>;
     let data: TexasHoldemAPIError;
     beforeAll(() => {
-        errorHandler = new TexasHoldemPokerErrorUIEventHandler(gameData);
-        errorHandler.gameData = new TexasHoldemPokerGameData();
-        errorHandler.gameData.stateModel = new TexasHoldemPokerStateModel();
+        errorHandler = new TexasErrorHandler(gameData);
+        errorHandler.gameData = new TexasGameDataModel();
+        errorHandler.gameData.stateModel = new TexasStateModel();
         data = {
             apiError: {
                 errorCode: 3001,

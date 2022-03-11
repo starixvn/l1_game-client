@@ -1,4 +1,4 @@
-import TexasHoldemPokerTicketDetailModel from "./../../event-models/texas-holdem-poker-ticket-detail-model";
+import TexasTicketDetailModel from "./../../event-models/texas-ticket-detail-model";
 import HoldemPokerTicketDetail from "../../../holdem-poker/view-models/history/HoldemPokerTicketDetail";
 import TexasTicketDetailItem from "./texas-ticket-detail-item";
 
@@ -6,11 +6,11 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class TexasTicketDetail extends HoldemPokerTicketDetail {
-    renderBets(data: TexasHoldemPokerTicketDetailModel) {
+    renderBets(data: TexasTicketDetailModel) {
         super.renderBets(data);
     }
 
-    renderCards(data: TexasHoldemPokerTicketDetailModel) {
+    renderCards(data: TexasTicketDetailModel) {
         super.renderCards(data);
     }
 
