@@ -1,3 +1,4 @@
+import { callData } from "./../_base/index";
 import TexasCallHandler, { TexasHoldemCall } from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-call-handler";
 import TexasCallModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-call-model";
 import TexasGameDataModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model";
@@ -29,67 +30,7 @@ describe("TexasHoldemCallEventHandler", () => {
         callHandlerHandler.gameData = new TexasGameDataModel();
         callHandlerHandler.gameData.placeBetModel = new TexasPlaceBetModel();
         callHandlerHandler.gameData.callModel = new TexasCallModel();
-        data = {
-            call: {
-                choices: {
-                    ante: 5,
-                    call: 10
-                },
-                combinationResult: {
-                    player: {
-                        id: 2,
-                        combinationCards: [
-                            {
-                                rank: 9,
-                                suit: 3
-                            },
-                            {
-                                rank: 9,
-                                suit: 0
-                            }
-                        ],
-                        cards: [
-                            {
-                                rank: 9,
-                                suit: 3
-                            },
-                            {
-                                rank: 9,
-                                suit: 0
-                            },
-                            {
-                                rank: 3,
-                                suit: 1
-                            },
-                            {
-                                rank: 2,
-                                suit: 3
-                            },
-                            {
-                                rank: 1,
-                                suit: 0
-                            }
-                        ]
-                    }
-                },
-
-                communityCards: [
-                    {
-                        rank: 3,
-                        suit: 1
-                    },
-                    {
-                        rank: 1,
-                        suit: 0
-                    },
-                    {
-                        rank: 9,
-                        suit: 0
-                    }
-                ],
-                totalAmount: 15
-            }
-        };
+        data = callData;
     });
 
     describe("verifyEvent", () => {

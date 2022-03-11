@@ -1,6 +1,6 @@
 import TexasErrorHandler, { TexasHoldemAPIError } from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-error-handler";
 import TexasGameDataModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model";
-import TexasStateModel from "./../../../../assets/games/texas-holdem-poker/event-models/texas-state-model";
+import TexasStateModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-state-model";
 
 jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model", () => ({
     default: jest.fn().mockImplementation(() => {
