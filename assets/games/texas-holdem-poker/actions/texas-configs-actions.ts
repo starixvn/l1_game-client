@@ -1,8 +1,8 @@
 import TexasConfigsModel from "../event-models/texas-configs-model";
-import TexasHoldemPokerMinMaxTable from "../view-models/texas-min-max";
+import TexasMinMax from "../view-models/texas-min-max";
 import TexasOddsTable from "../view-models/texas-odds-table";
 
-export const updateMinMax = (minMaxTable: TexasHoldemPokerMinMaxTable) => (configs: TexasConfigsModel) => {
+export const updateMinMax = (minMaxTable: TexasMinMax) => (configs: TexasConfigsModel) => {
     minMaxTable.Min = configs.minBet;
     minMaxTable.Max = configs.maxBet;
 };

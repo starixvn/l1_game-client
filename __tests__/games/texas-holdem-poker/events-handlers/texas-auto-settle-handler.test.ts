@@ -1,4 +1,4 @@
-import { autoSettleData } from './../_base/index';
+import { autoSettleData } from "./../_base/index";
 import TexasAutoSettleHandler, {
     TexasHoldemAutoSettle
 } from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-auto-settle-handler";
