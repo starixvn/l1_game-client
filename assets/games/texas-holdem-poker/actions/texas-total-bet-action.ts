@@ -5,7 +5,7 @@ import TexasMicroUIAction from "./texas-microUI-action";
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class TexasTotalBetLabelAction extends TexasMicroUIAction {
+export default class TexasTotalBetAction extends TexasMicroUIAction {
     handleUI() {
         const totalBetLabel = this.nodeTree.getComponent(cc.Label);
         this.gameData.placeBetModel.on(TexasPlaceBetModel.Events.PLACE_BET, updateTotalBetLabel(totalBetLabel));

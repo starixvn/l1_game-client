@@ -32,27 +32,9 @@ export default class TexasPlacingBet {
                 if (this.gameBase.waitingProcessing) {
                     return false;
                 }
-                const validateResult =
-                    validateBet({
-                        chipAmount: betAmount,
-                        currentBettedAmount: this.gameData.placeBetModel.choices[betChoice],
-                        currentTotalBettedAmount: this.getTotalBet(),
-                        betChoice: betChoice,
-                        showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes),
-                        minBet: this.gameData.configs.minBet,
-                        maxBetPerChoice: this.gameData.placeBetModel.choices[betChoice],
-                        maxBetPerRound: this.gameBase.getMaxBet(),
-                        waitingProcessing: this.gameBase.waitingProcessing,
-                        getMaxBetAndStakePerChoice: this.getMaxBetAndStakePerChoice.bind(this),
-                        minBetPerRound: this.gameBase.getMinBet()
-                    }) &&
-                    validateAccountBalance({
-                        chipAmount: betAmount,
-                        currentBettedAmount: this.gameData.placeBetModel.choices[betChoice],
-                        userBalance: this.gameBase.getUserBalance(),
-                        showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
-                    });
-                validateResult && this.gameData.receiveUIData({ bet: { choice: betChoice, amount: betAmount } });
+                if (this.validateBetting(betAmount, betChoice)) {
+                    this.gameData.receiveUIData({ bet: { choice: betChoice, amount: betAmount } });
+                }
                 return true;
             }
         }
@@ -65,27 +47,7 @@ export default class TexasPlacingBet {
     }
 
     doubleBet(betChoice: string, betAmount: number) {
-        if (
-            validateBet({
-                chipAmount: betAmount,
-                currentBettedAmount: this.gameData.placeBetModel.choices[betChoice],
-                currentTotalBettedAmount: this.getTotalBet(),
-                betChoice: betChoice,
-                showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes),
-                minBet: this.gameData.configs.minBet,
-                maxBetPerChoice: this.gameData.placeBetModel.choices[betChoice],
-                maxBetPerRound: this.gameBase.getMaxBet(),
-                waitingProcessing: this.gameBase.waitingProcessing,
-                getMaxBetAndStakePerChoice: this.getMaxBetAndStakePerChoice.bind(this),
-                minBetPerRound: this.gameBase.getMinBet()
-            }) &&
-            validateAccountBalance({
-                chipAmount: betAmount,
-                currentBettedAmount: this.gameData.placeBetModel.choices[betChoice],
-                userBalance: this.gameBase.getUserBalance(),
-                showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
-            })
-        ) {
+        if (this.validateBetting(betAmount, betChoice)) {
             this.gameData.receiveUIData({ double: { choice: betChoice } });
         }
     }
@@ -189,5 +151,29 @@ export default class TexasPlacingBet {
 
     private getMaxBetAndStakePerChoice(betChoice: string): number {
         return Math.min(this.gameData.configs.maxBetChoices[TexasChoicesConst[betChoice]], this.gameBase.getMaxBet());
+    }
+
+    protected validateBetting(betAmount: number, betChoice: string) {
+        return (
+            validateBet({
+                chipAmount: betAmount,
+                currentBettedAmount: this.gameData.placeBetModel.choices[betChoice],
+                currentTotalBettedAmount: this.getTotalBet(),
+                betChoice: betChoice,
+                showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes),
+                minBet: this.gameData.configs.minBet,
+                maxBetPerChoice: this.gameData.configs.maxBetChoices[betChoice],
+                maxBetPerRound: this.gameBase.getMaxBet(),
+                waitingProcessing: this.gameBase.waitingProcessing,
+                getMaxBetAndStakePerChoice: this.getMaxBetAndStakePerChoice.bind(this),
+                minBetPerRound: this.gameBase.getMinBet()
+            }) &&
+            validateAccountBalance({
+                chipAmount: betAmount,
+                currentBettedAmount: this.gameData.placeBetModel.choices[betChoice],
+                userBalance: this.gameBase.getUserBalance(),
+                showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
+            })
+        );
     }
 }

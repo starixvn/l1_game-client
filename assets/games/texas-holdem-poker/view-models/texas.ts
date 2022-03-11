@@ -36,7 +36,9 @@ import {
     dealFirstThreeCommunityCards,
     dealPlayerAndDealerCards,
     dealSecondCard,
-    dealThirdCardAndFaceUpDealerCards
+    dealThirdCardAndFaceUpDealerCards,
+    dealFourAndFireCardAndFaceUpDealerCards,
+    rawCardWhenRejoin
 } from "../cards-component/view-models/cards-wrapper";
 import TexasCards from "../cards-component/view-models/texas-cards";
 import { updateLeftOddsTable, updateMinMax, updateRightOddsTable } from "./../actions/texas-configs-actions";
@@ -44,7 +46,6 @@ import { prepareNewRound, showOwnBet } from "./../actions/texas-place-bet-action
 import { showRejoinOwnBets } from "./../actions/texas-rejoin-room-actions";
 import TexasRiverModel from "./../event-models/texas-river-model";
 import TexasStateModel from "./../event-models/texas-state-model";
-import { dealFourAndFireCardAndFaceUpDealerCards, rawCardWhenRejoin } from "../cards-component/view-models/cards-wrapper";
 import TexasBettingArea from "./texas-betting-area";
 import TexasChips from "./texas-chips";
 import TexasMinMax from "./texas-min-max";

@@ -6,7 +6,7 @@ import HoldemPokerCards from "../../../holdem-poker/components/cards/view-models
 
 const { ccclass } = cc._decorator;
 @ccclass
-export default class TexasHoldemPokerCards extends HoldemPokerCards {
+export default class TexasCards extends HoldemPokerCards {
     protected createCard(card: CardModel, scaleX: number, scaleY: number): cc.Node {
         const node = cc.instantiate(this.cardPrefab);
         const cardComponent = node.getComponent(HoldemPokerCard);
@@ -34,24 +34,5 @@ export default class TexasHoldemPokerCards extends HoldemPokerCards {
                 .call(() => resolve())
                 .start();
         });
-    }
-
-    public showIndicatorSymbolOfCards(combineCard: CardModel[], whose: string) {
-        switch (whose) {
-            case "player":
-                this.showIndicatorCard(combineCard, [
-                    { row: this.playerCards, position: "top", whose: "player" },
-                    { row: this.middleCards, position: "bot", whose: "player" }
-                ]);
-                break;
-            case "dealer":
-                this.showIndicatorCard(combineCard, [
-                    { row: this.dealerCards, position: "top", whose: "dealer" },
-                    { row: this.middleCards, position: "top", whose: "dealer" }
-                ]);
-                break;
-            default:
-                break;
-        }
     }
 }

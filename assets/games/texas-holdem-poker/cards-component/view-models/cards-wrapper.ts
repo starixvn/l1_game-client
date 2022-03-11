@@ -102,8 +102,8 @@ const showIndicatorSymbols = (pokerCardsNote: PokerCards, cardsData: any, callBa
     const { combinationResult } = cardsData;
     const { player, dealer } = combinationResult;
 
-    pokerCardsNote.showIndicatorSymbolOfCards(convertCard(player.combinationCards), "player");
-    dealer && pokerCardsNote.showIndicatorSymbolOfCards(convertCard(dealer.combinationCards), "dealer");
+    pokerCardsNote.showArrowIndicatorCards(convertCard(player.combinationCards), "player");
+    dealer && pokerCardsNote.showArrowIndicatorCards(convertCard(dealer.combinationCards), "dealer");
 
     dealer && pokerCardsNote.showLabelIndicatorCards(dealer.id, "dealer");
     pokerCardsNote.showLabelIndicatorCards(player.id, "player");
@@ -134,7 +134,7 @@ export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any) =>
         pokerCardsNote.drawingRejoinDealerCards(card, false);
     }
 
-    pokerCardsNote.showIndicatorSymbolOfCards(convertCard(player.combinationCards), "player");
+    pokerCardsNote.showArrowIndicatorCards(convertCard(player.combinationCards), "player");
     pokerCardsNote.showLabelIndicatorCards(player.id, "player");
     pokerCardsNote.focusPlayerCard();
 };

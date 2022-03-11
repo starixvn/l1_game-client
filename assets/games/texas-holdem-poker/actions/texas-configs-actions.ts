@@ -14,6 +14,8 @@ export const updateRightOddsTable = (oddsTable: TexasOddsTable) => (configs: Tex
 export const updateLeftOddsTable = (oddsTable: TexasOddsTable) => (configs: TexasConfigsModel) => {
     for (const [key, value] of Object.entries(configs.odds)) {
         const oddOption = oddsTable.oddOptions.find((e) => e.key === key);
-        if (oddOption) oddOption.OddValue = value;
+        if (oddOption) {
+            oddOption.OddValue = value;
+        }
     }
 };
