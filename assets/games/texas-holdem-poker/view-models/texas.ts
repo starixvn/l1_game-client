@@ -187,7 +187,9 @@ export default class Texas extends NewGameRoomBase {
         this.pokerCardScript = this.node.getChildByName("poker-cards-script").getComponent(TexasCards);
     }
 
-    onGameHide: () => void;
+    onGameHide() {
+        // onGameHide
+    }
 
     private registerConfigsEvents() {
         this.gameData.configs.on(TexasConfigsModel.Events.CHANGE, (configs: TexasConfigsModel) => {
