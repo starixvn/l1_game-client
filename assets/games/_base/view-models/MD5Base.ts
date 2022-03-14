@@ -1,8 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
-import { convertOldRank } from "../components/cards/view-models/CardWrapper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -40,9 +38,9 @@ export default class MD5Base extends cc.Component {
         this.setMD5String("");
     }
 
-    setMD5String(data: string) {
-        this.setCaptionAndHintForMD5(false);
-        this.md5Value.string = data === "" ? "" : `<color=#ffffff>${data}</color>`;
+    setMD5String(data: any) {
+        this.setCaptionAndHintForMD5(!!data.rawValue);
+        this.md5Value.string = data.hashValue || data.rawValue === "" ? "" : `<color=#ffffff>${data.hashValue || data.rawValue}</color>`;
         this.setCopyString(data);
     }
 
@@ -50,26 +48,6 @@ export default class MD5Base extends cc.Component {
         this.md5CopyString = text;
         this.enableCopyButton(text.length > 0);
     }
-
-    /*createResultDetails(data: any) {
-        const { cards, suffix } = data.formatValue;
-        this.setCaptionAndHintForMD5(true);
-        this.setCopyString(data.rawValue);
-
-        let resultFormatting = "";
-        cards.forEach((card, index) => {
-            const startSquareBracket = index === 0 ? `<color=#ffffff>[</color>` : "";
-            const endSquareBracket = index === cards.length - 1 ? `<color=#ffffff>]</color>` : "";
-            const comma = index === cards.length - 1 ? "" : index === 1 || index === 3 ? `<color=#ffffff>, </color>` : " ";
-            const cardValue =
-                card.suit > 1
-                    ? `<color=#000000>${convertOldRank(card.rank)}</color>`
-                    : `<color=#E92E2E>${convertOldRank(card.rank)}</color>`;
-            resultFormatting += `${startSquareBracket}${cardValue}${comma}${endSquareBracket}`;
-        });
-        const suffixFormatting = `<color=#ffffff>${suffix}</color>`;
-        this.md5Value.string = `${resultFormatting}${suffixFormatting}`;
-    }*/
 
     onClickCopyButton() {
         GameUtils.copyToClipboard(this.md5CopyString, this.showHint);
