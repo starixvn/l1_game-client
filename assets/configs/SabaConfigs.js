@@ -35,7 +35,8 @@ const configs = {
         CasinoHoldemPoker: 39,
         TexasHoldemPoker: 42,
         BitcoinMaster: 43,
-        HiLo: 45
+        HiLo: 45,
+        NightClub: 46
     },
     GameInfos: {
         45: {
@@ -178,6 +179,9 @@ const configs = {
         },
         35: {
             key: "ThreeCards"
+        },
+        46: {
+            key: "NightClub"
         }
     },
     desktopMiniGameScale: 0.8
