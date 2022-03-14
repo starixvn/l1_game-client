@@ -48,9 +48,9 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.BitcoinMaster,
         GameIds.CasinoHoldemPoker,
         GameIds.HiLo,
-        GameIds.TexasHoldemPoker
+        GameIds.TexasHoldemPoker,
+        GameIds.NightClub
     ];
-
     seDieGames = [GameIds.VipSedie, GameIds.SeDie, GameIds.VipSedieWar, GameIds.MiniSedie, GameIds.SpecialSeDie];
     casinoGames = [
         GameIds.SicBo,
