@@ -13,6 +13,6 @@ export default class NightClubSpinButton extends SpinButton {
     }
 
     playEffectSpine() {
-        this.effectSkeleton && this.effectSkeleton.setAnimation(0, this.effectSkeleton.animation, false);
+        this.effectSkeleton && this.effectSkeleton.setAnimation(0, "btn_quay_vfx", false);
     }
 }

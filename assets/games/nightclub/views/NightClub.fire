@@ -9650,7 +9650,7 @@
         "__id__": 247
       },
       {
-        "__id__": 248
+        "__id__": 249
       }
     ],
     "_prefab": null,
@@ -9986,7 +9986,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "button_quay_quickspin",
+    "defaultAnimation": "button_quay_slowspin",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": true,
@@ -9997,7 +9997,7 @@
     "_frameCache": null,
     "_curFrame": null,
     "_skeletonCache": null,
-    "_animationName": "button_quay_quickspin",
+    "_animationName": "button_quay_slowspin",
     "_animationQueue": [],
     "_headAniInfo": null,
     "_playTimes": 0,
@@ -10194,7 +10194,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "button_quay_vfx",
+    "defaultAnimation": "",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": true,
@@ -11289,35 +11289,6 @@
     "_id": "d8GWNGm41DwL5oWP5TW/I0"
   },
   {
-    "__type__": "a9f4cRBLTJCnqhhIlzK0Qup",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 210
-    },
-    "_enabled": true,
-    "spinButton": {
-      "__id__": 248
-    },
-    "normalSpinNode": {
-      "__id__": 221
-    },
-    "freeSpinLabel": {
-      "__id__": 231
-    },
-    "autoSpinCountLabel": {
-      "__id__": 243
-    },
-    "textSpinInFreeSpin": {
-      "__id__": 227
-    },
-    "spinAnimation": {
-      "__id__": 246
-    },
-    "spinParticle": null,
-    "_id": "abzvmzLaNPzKDUQusJi78E"
-  },
-  {
     "__type__": "f8022VsoFVNMbVfjiK619U9",
     "_name": "",
     "_objFlags": 0,
@@ -11331,7 +11302,7 @@
     "zoomScale": 1.1,
     "clickEvents": [
       {
-        "__id__": 249
+        "__id__": 248
       }
     ],
     "_N$interactable": true,
@@ -11399,9 +11370,41 @@
       "__id__": 2
     },
     "component": "",
-    "_componentId": "42970JaV6FNCoYGpmijc0CO",
+    "_componentId": "37756pZb+RChqgyCao5Orb1",
     "handler": "onSpinClick",
     "customEventData": ""
+  },
+  {
+    "__type__": "bbc35shPBJKpYxR1FpKssl2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 210
+    },
+    "_enabled": true,
+    "spinButton": {
+      "__id__": 247
+    },
+    "normalSpinNode": {
+      "__id__": 221
+    },
+    "freeSpinLabel": {
+      "__id__": 231
+    },
+    "autoSpinCountLabel": {
+      "__id__": 243
+    },
+    "textSpinInFreeSpin": {
+      "__id__": 227
+    },
+    "spinAnimation": {
+      "__id__": 246
+    },
+    "spinParticle": null,
+    "effectSkeleton": {
+      "__id__": 220
+    },
+    "_id": "87+qBkCgRBt7As04HQlDS+"
   },
   {
     "__type__": "cc.Node",
@@ -20804,7 +20807,7 @@
       "__uuid__": "9393d323-55bb-4e91-906f-71c4218cdab4"
     },
     "spinButton": {
-      "__id__": 247
+      "__id__": 249
     },
     "autoGenerateLines": true,
     "linePrefab": {
