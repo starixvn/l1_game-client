@@ -39,7 +39,8 @@ window.i18n.languages.en = {
         "38_break": "The Legend of Heroes",
         39: "Casino Hold'em",
         42: "Texas Hold'em",
-        45: "Hi-Lo"
+        45: "Hi-Lo",
+        46: "Night Club"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
