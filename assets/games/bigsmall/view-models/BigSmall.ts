@@ -13,6 +13,8 @@ import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
 import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
 import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
 import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
+import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -270,5 +272,17 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         if (this.gameConfigs.odds) {
             this.odds.string = `1:${this.gameConfigs.odds[this.choices[0]]}`;
         }
+    }
+
+    public openMD5Guide() {
+        const dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(WebViewGuide);
+        const { minBet, maxBet } = this.getBetRange();
+        const locale = getLocale();
+        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, "&md5=1");
+        guide.sendDataToIframe(this.gameConfigs);
+        this.currentMiniPanel.showGuide(dialog);
+        guide.loadWebView();
     }
 }

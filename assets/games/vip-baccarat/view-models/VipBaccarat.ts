@@ -13,6 +13,8 @@ import VipBaccaratTimeDataHandler from "./data-handlers/VipBaccaratTimeDataHandl
 import VipBaccaratCards from "./VipBaccaratCards";
 import VipBaccaratHistory from "./VipBaccaratHistory";
 import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
+import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -158,5 +160,17 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         this.miniRoundHistory = mini.getComponent(VipBaccaratMiniRoundHistory);
         this.miniRoundHistory.init(condition);
         this.miniRoundHistoryContainer.addChild(mini);
+    }
+
+    public openMD5Guide() {
+        const dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(WebViewGuide);
+        const { minBet, maxBet } = this.getBetRange();
+        const locale = getLocale();
+        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, "&md5=1");
+        guide.sendDataToIframe(this.gameConfigs);
+        this.currentMiniPanel.showGuide(dialog);
+        guide.loadWebView();
     }
 }
