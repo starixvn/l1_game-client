@@ -35,13 +35,13 @@ export default class MD5Base extends cc.Component {
     }
 
     clearMD5() {
-        this.setMD5String("");
+        this.updateMD5String("");
     }
 
-    setMD5String(data: any) {
+    updateMD5String(data: any) {
         this.setCaptionAndHintForMD5(!!data.rawValue);
-        this.md5Value.string = data.hashValue || data.rawValue === "" ? "" : `<color=#ffffff>${data.hashValue || data.rawValue}</color>`;
-        this.setCopyString(data);
+        this.md5Value.string = `<color=#ffffff>${data.hashValue || data.rawValue}</color>`;
+        this.setCopyString(data.hashValue || data.rawValue);
     }
 
     setCopyString(text: string) {
