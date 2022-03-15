@@ -131,7 +131,7 @@ export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any) =>
     }
 
     for (const card of dealerDataFake) {
-        pokerCardsNote.drawingRejoinDealerCards(card, false);
+        pokerCardsNote.drawingRejoinDealerCards(card, true);
     }
 
     pokerCardsNote.showArrowIndicatorCards(convertCard(player.combinationCards), "player");
