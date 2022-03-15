@@ -1,4 +1,6 @@
+import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
@@ -159,5 +161,17 @@ export default class MiniSedie extends SocketIOMiniGameBase {
         this.historyComponent = dialog.getComponent(MiniSedieHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
+    }
+
+    public openMD5Guide() {
+        const dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(WebViewGuide);
+        const { minBet, maxBet } = this.getBetRange();
+        const locale = getLocale();
+        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, "&md5=1");
+        guide.sendDataToIframe(this.gameConfigs);
+        this.currentMiniPanel.showGuide(dialog);
+        guide.loadWebView();
     }
 }

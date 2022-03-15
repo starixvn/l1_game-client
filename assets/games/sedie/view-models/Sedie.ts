@@ -11,6 +11,8 @@ import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
+import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -183,5 +185,17 @@ export default class Sedie extends FreeBetGameBase {
         this.betItems.forEach((betItem) => {
             betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
         });
+    }
+
+    public openMD5Guide() {
+        const dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(WebViewGuide);
+        const { minBet, maxBet } = this.getBetRange();
+        const locale = getLocale();
+        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, "&md5=1");
+        guide.sendDataToIframe(this.gameConfigs);
+        this.currentMiniPanel.showGuide(dialog);
+        guide.loadWebView();
     }
 }
