@@ -1,4 +1,5 @@
 import SlotReelItem from "../../_slotgame_base/SlotReelItem";
+import NightClubSubReelItem from "./NightClubSubReelItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,6 +18,8 @@ export default class NightClubReelItem extends SlotReelItem {
                 const anim = show ? "highlight" : "idle";
                 spine.setAnimation(0, anim, true);
             }
+            const control = spine.node.getComponent(NightClubSubReelItem);
+            control && control.setHighlight(show);
         });
     }
 }
