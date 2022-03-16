@@ -3,38 +3,12 @@
   "_name": "Xocdiavip",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 2,
+  "_duration": 1.35,
   "sample": 60,
   "speed": 1,
   "wrapMode": 2,
   "curveData": {
     "paths": {
-      "anh sang vip": {
-        "props": {
-          "opacity": [
-            {
-              "frame": 0,
-              "value": 255
-            },
-            {
-              "frame": 0.3333333333333333,
-              "value": 128
-            },
-            {
-              "frame": 0.6666666666666666,
-              "value": 255
-            },
-            {
-              "frame": 1,
-              "value": 128
-            },
-            {
-              "frame": 1.35,
-              "value": 255
-            }
-          ]
-        }
-      },
       "vang": {
         "props": {
           "scale": [
@@ -96,48 +70,48 @@
               "frame": 0.5,
               "value": {
                 "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
+                "x": 0.9,
+                "y": 0.9
               }
             },
             {
               "frame": 1.0833333333333333,
               "value": {
                 "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
+                "x": 0.9,
+                "y": 0.9
               }
             },
             {
               "frame": 1.15,
               "value": {
                 "__type__": "cc.Vec2",
-                "x": 1.04,
-                "y": 1.04
+                "x": 0.94,
+                "y": 0.94
               }
             },
             {
               "frame": 1.2166666666666666,
               "value": {
                 "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
+                "x": 0.9,
+                "y": 0.9
               }
             },
             {
               "frame": 1.2833333333333334,
               "value": {
                 "__type__": "cc.Vec2",
-                "x": 1.04,
-                "y": 1.04
+                "x": 0.94,
+                "y": 0.94
               }
             },
             {
               "frame": 1.35,
               "value": {
                 "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
+                "x": 0.9,
+                "y": 0.9
               }
             }
           ],
@@ -163,8 +137,8 @@
             {
               "frame": 0.5,
               "value": [
-                43.023,
-                -32.117,
+                30.585,
+                -26.5,
                 0
               ]
             }
@@ -431,174 +405,20 @@
               ]
             },
             {
+              "frame": 0.65,
+              "value": [
+                54.27,
+                54.656,
+                0
+              ]
+            },
+            {
               "frame": 0.6666666666666666,
               "value": [
                 48.981,
                 51.151,
                 0
               ]
-            }
-          ]
-        }
-      },
-      "anh sang trang loe 3": {
-        "props": {
-          "scale": [
-            {
-              "frame": 1,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0,
-                "y": 0
-              }
-            },
-            {
-              "frame": 1.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 2,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0,
-                "y": 0
-              }
-            }
-          ],
-          "opacity": [
-            {
-              "frame": 1,
-              "value": 0
-            },
-            {
-              "frame": 1.5,
-              "value": 255
-            },
-            {
-              "frame": 2,
-              "value": 0
-            }
-          ],
-          "angle": [
-            {
-              "frame": 1,
-              "value": 0
-            },
-            {
-              "frame": 2,
-              "value": -359
-            }
-          ]
-        }
-      },
-      "anh sang trang loe 2": {
-        "props": {
-          "scale": [
-            {
-              "frame": 0.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0,
-                "y": 0
-              }
-            },
-            {
-              "frame": 1,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 1.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0,
-                "y": 0
-              }
-            }
-          ],
-          "opacity": [
-            {
-              "frame": 0.5,
-              "value": 0
-            },
-            {
-              "frame": 1,
-              "value": 255
-            },
-            {
-              "frame": 1.5,
-              "value": 0
-            }
-          ],
-          "angle": [
-            {
-              "frame": 0.5,
-              "value": 0
-            },
-            {
-              "frame": 1.5,
-              "value": -359
-            }
-          ]
-        }
-      },
-      "anh sang trang loe": {
-        "props": {
-          "scale": [
-            {
-              "frame": 0,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0,
-                "y": 0
-              }
-            },
-            {
-              "frame": 0.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 1,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0,
-                "y": 0
-              }
-            }
-          ],
-          "opacity": [
-            {
-              "frame": 0,
-              "value": 0
-            },
-            {
-              "frame": 0.5,
-              "value": 255
-            },
-            {
-              "frame": 1,
-              "value": 0
-            }
-          ],
-          "angle": [
-            {
-              "frame": 0,
-              "value": 0
-            },
-            {
-              "frame": 1,
-              "value": -359
             }
           ]
         }

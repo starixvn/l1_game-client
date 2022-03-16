@@ -143,7 +143,7 @@ window.i18n.languages.zh_cn = {
         copyKeySuccess: "复制Key字符串成功！",
         maxBetForChoiceNotice2: "此选项的最大赌注是 %{maxBet}",
         minBetForChoiceNotice: "此选项的最小赌注是 %{minBet}",
-        disallowHedgeBet: "可以下注 {choice_1} 或 {choice_2}。",
+        disallowHedgeBet: "可以下注 %{betChoice1} 或 %{betChoice2}。",
         copy_success: "复制成功！"
     },
     ui: {
@@ -224,7 +224,7 @@ window.i18n.languages.zh_cn = {
         autoSpin2: "自动旋转",
         spin: "旋转",
         jackpot_short: "Jackpot",
-        jackpot: "头奖",
+        jackpot: "Jackpot",
         symbol: "象征",
         confirm2: "确认",
         noOfSymbol: "数量",
@@ -258,7 +258,7 @@ window.i18n.languages.zh_cn = {
         choice_five: "五",
         choice_six: "六",
         new_bet: "新赌注",
-        choice_dealer: "发牌者",
+        choice_dealer: "庄家",
         hand_id: "手ID",
         deal: "发牌",
         split: "分牌",
@@ -407,8 +407,8 @@ window.i18n.languages.zh_cn = {
         teamRed: "Team Red",
         gameNotSupported: "Sorry! The function is currently not supported for this game.",
         noDataAvailable: "No data available",
-        ticket_details: "Ticket details",
-        bet_details: "Bet Details",
+        ticket_details: "票详情",
+        bet_details: "投注详情",
         new_year: "Happy New Year"
     },
     holdEmPoker: {
