@@ -7,12 +7,16 @@ export default class NightClubSpinButton extends SpinButton {
     @property(sp.Skeleton)
     effectSkeleton: sp.Skeleton = null;
 
+    @property(sp.Skeleton)
+    iconSpinSkeleton: sp.Skeleton = null;
+
     playAnimationSpin() {
         this.playEffectSpine();
         this.playAnimation(1);
     }
 
     playEffectSpine() {
-        this.effectSkeleton && this.effectSkeleton.setAnimation(0, "btn_quay_vfx", false);
+        this.effectSkeleton && this.effectSkeleton.setAnimation(0, "button_quay_vfx", false);
+        this.iconSpinSkeleton && this.iconSpinSkeleton.setAnimation(0, "button_quay_quickspin", false);
     }
 }
