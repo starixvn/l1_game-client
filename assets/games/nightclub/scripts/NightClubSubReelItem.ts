@@ -15,6 +15,6 @@ export default class NightClubSubReelItem extends cc.Component {
         const animName = status ? "anim_highlight" : "anim_idle";
         this.particle08.setAnimation(0, animName, true);
         this.particle04.setAnimation(0, animName, true);
-        this.halo.setAnimation(0, animName, true);
+        this.halo && this.halo.setAnimation(0, animName, true);
     }
 }

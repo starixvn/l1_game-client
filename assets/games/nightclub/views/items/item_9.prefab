@@ -24,7 +24,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 15
+      "__id__": 16
     },
     "_opacity": 255,
     "_color": {
@@ -83,25 +83,16 @@
     "_children": [
       {
         "__id__": 3
-      },
-      {
-        "__id__": 6
-      },
-      {
-        "__id__": 9
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 12
-      },
-      {
-        "__id__": 13
+        "__id__": 14
       }
     ],
     "_prefab": {
-      "__id__": 14
+      "__id__": 15
     },
     "_opacity": 255,
     "_color": {
@@ -152,20 +143,90 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "particle_08",
+    "_name": "winningEffect",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
+    },
+    "_children": [
+      {
+        "__id__": 4
+      },
+      {
+        "__id__": 7
+      },
+      {
+        "__id__": 10
+      }
+    ],
+    "_active": false,
+    "_components": [],
+    "_prefab": {
+      "__id__": 13
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "particle_08",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 3
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 4
+        "__id__": 5
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 6
     },
     "_opacity": 255,
     "_color": {
@@ -198,7 +259,7 @@
         1,
         0.8,
         0.8,
-        1
+        0.8
       ]
     },
     "_eulerAngles": {
@@ -219,7 +280,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 3
+      "__id__": 4
     },
     "_enabled": true,
     "_materials": [
@@ -229,7 +290,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "anim_idle",
+    "defaultAnimation": "anim_hightlight",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": true,
@@ -240,7 +301,7 @@
     "_frameCache": null,
     "_curFrame": null,
     "_skeletonCache": null,
-    "_animationName": "anim_idle",
+    "_animationName": "anim_hightlight",
     "_animationQueue": [],
     "_headAniInfo": null,
     "_playTimes": 0,
@@ -264,7 +325,7 @@
     "asset": {
       "__uuid__": "9a4ae5d2-3fa9-47f3-b48b-b4e320cbe54f"
     },
-    "fileId": "63/0E+kfBIxJ7vHqvOVPtK",
+    "fileId": "bfUzBq9URMt7e3OSm25ssq",
     "sync": false
   },
   {
@@ -272,17 +333,17 @@
     "_name": "particle_04",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 2
+      "__id__": 3
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 7
+        "__id__": 8
       }
     ],
     "_prefab": {
-      "__id__": 8
+      "__id__": 9
     },
     "_opacity": 255,
     "_color": {
@@ -315,7 +376,7 @@
         1,
         0.4,
         0.4,
-        1
+        0.4
       ]
     },
     "_eulerAngles": {
@@ -336,7 +397,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 6
+      "__id__": 7
     },
     "_enabled": true,
     "_materials": [
@@ -346,7 +407,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "anim_idle",
+    "defaultAnimation": "anim_hightlight",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": true,
@@ -357,7 +418,7 @@
     "_frameCache": null,
     "_curFrame": null,
     "_skeletonCache": null,
-    "_animationName": "anim_idle",
+    "_animationName": "anim_hightlight",
     "_animationQueue": [],
     "_headAniInfo": null,
     "_playTimes": 0,
@@ -381,7 +442,7 @@
     "asset": {
       "__uuid__": "9a4ae5d2-3fa9-47f3-b48b-b4e320cbe54f"
     },
-    "fileId": "36gC3v79xDTo+JFmxehtEq",
+    "fileId": "eb0AcJ1edMGbvNnRCoos1p",
     "sync": false
   },
   {
@@ -389,17 +450,17 @@
     "_name": "halo",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 2
+      "__id__": 3
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 10
+        "__id__": 11
       }
     ],
     "_prefab": {
-      "__id__": 11
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -453,7 +514,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 9
+      "__id__": 10
     },
     "_enabled": true,
     "_materials": [
@@ -463,7 +524,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "anim_idle",
+    "defaultAnimation": "anim_hightlight",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": true,
@@ -474,7 +535,7 @@
     "_frameCache": null,
     "_curFrame": null,
     "_skeletonCache": null,
-    "_animationName": "anim_idle",
+    "_animationName": "anim_hightlight",
     "_animationQueue": [],
     "_headAniInfo": null,
     "_playTimes": 0,
@@ -498,7 +559,18 @@
     "asset": {
       "__uuid__": "9a4ae5d2-3fa9-47f3-b48b-b4e320cbe54f"
     },
-    "fileId": "68tAhkD7dAcqxUuouuTI2q",
+    "fileId": "eeVGat2K5Fp7AIU7AOnREX",
+    "sync": false
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "9a4ae5d2-3fa9-47f3-b48b-b4e320cbe54f"
+    },
+    "fileId": "91J9IwkOlAIp0rTCXabclC",
     "sync": false
   },
   {
@@ -541,25 +613,6 @@
     "_N$debugMesh": false,
     "_N$useTint": false,
     "_N$enableBatch": true,
-    "_id": ""
-  },
-  {
-    "__type__": "6f755en/jRBQYjSXZEOCGK7",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "particle08": {
-      "__id__": 4
-    },
-    "particle04": {
-      "__id__": 7
-    },
-    "halo": {
-      "__id__": 10
-    },
     "_id": ""
   },
   {

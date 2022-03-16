@@ -178,7 +178,7 @@
     "_file": null,
     "_spriteFrame": null,
     "_texture": null,
-    "_stopped": false,
+    "_stopped": true,
     "playOnLoad": true,
     "autoRemoveOnFinish": false,
     "totalParticles": 1000,
@@ -524,7 +524,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "thang_bigwin",
+    "defaultAnimation": "thang_bigwin_bg",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": true,
@@ -535,13 +535,13 @@
     "_frameCache": null,
     "_curFrame": null,
     "_skeletonCache": null,
-    "_animationName": "thang_bigwin",
+    "_animationName": "thang_bigwin_bg",
     "_animationQueue": [],
     "_headAniInfo": null,
     "_playTimes": 0,
     "_isAniComplete": true,
     "_N$skeletonData": {
-      "__uuid__": "f8001c0c-3e3f-408a-8041-6c805d855e7e"
+      "__uuid__": "1d49b54d-3b82-4afd-9482-5f6a62bde83d"
     },
     "_N$_defaultCacheMode": 0,
     "_N$debugSlots": false,
@@ -570,7 +570,7 @@
       "__id__": 1
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 12
