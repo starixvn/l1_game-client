@@ -1,6 +1,9 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
+import { MenuDirectionType } from "../../../common/expandable-menu/view-models/MenuDirectionType";
+import { t } from "../../../../packages/i18n/runtime-scripts/LanguageData";
+import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,9 +19,21 @@ export default class MD5Base extends cc.Component {
     copyButton: cc.Button = null;
 
     @property(cc.Node)
+    expandableNode: cc.Node = null;
+
+    @property(cc.Node)
     hintCopyNode: cc.Node = null;
 
+    @property(cc.Node)
+    blockInputNode: cc.Node = null;
+
+    @property
+    defaultExpand = false;
+
     private md5CopyString: string = null;
+    readonly duration: number = 0.5;
+    protected isExpanded = false;
+    blockDirection = MenuDirectionType.RIGHT;
 
     onLoad() {
         const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
@@ -26,6 +41,12 @@ export default class MD5Base extends cc.Component {
         this.setCaptionAndHintForMD5(false);
         this.enableCopyButton(false);
         this.showHint = this.showHint.bind(this);
+
+        if (this.defaultExpand) {
+            this.expandBlock();
+        } else {
+            this.collapseBlock(false);
+        }
     }
 
     enableCopyButton(enabled: boolean) {
@@ -63,5 +84,81 @@ export default class MD5Base extends cc.Component {
         } else {
             this.md5Text.string = i18n.t("holdEmPoker.md5String");
         }
+    }
+
+    setDirection(direction: MenuDirectionType) {
+        this.blockDirection = direction;
+    }
+
+    collapseBlock(animated = true) {
+        this.isExpanded = false;
+
+        if (this.blockInputNode) {
+            this.blockInputNode.active = false;
+        }
+
+        if (!animated) {
+            this.expandableNode.opacity = 0;
+            this.expandableNode.scaleX = 0;
+            return;
+        }
+        this.handleDirectionWhenCollapedBlock();
+    }
+
+    expandBlock() {
+        this.isExpanded = true;
+        if (this.blockInputNode) {
+            this.blockInputNode.active = true;
+        }
+        this.handleDirectionWhenExpandableBlock();
+    }
+
+    onMenuClick() {
+        AudioManager.getInstance().playClick();
+        this.isExpanded = !this.isExpanded;
+        this.isExpanded ? this.expandBlock() : this.collapseBlock();
+    }
+
+    handleDirectionWhenExpandableBlock() {
+        this.expandableNode.stopAllActions();
+        switch (this.blockDirection) {
+            case MenuDirectionType.LEFT:
+                break;
+            case MenuDirectionType.RIGHT:
+                cc.tween(this.expandableNode).to(0.2, { opacity: 255, scale: 1 }).start();
+                break;
+            case MenuDirectionType.TOP:
+                break;
+            case MenuDirectionType.BOTTOM:
+                break;
+            default:
+                break;
+        }
+    }
+
+    handleDirectionWhenCollapedBlock() {
+        this.expandableNode.stopAllActions();
+        switch (this.blockDirection) {
+            case MenuDirectionType.LEFT:
+                break;
+            case MenuDirectionType.RIGHT:
+                cc.tween(this.expandableNode).to(0.2, { opacity: 0, scaleX: 0 }).start();
+                break;
+            case MenuDirectionType.TOP:
+                break;
+            case MenuDirectionType.BOTTOM:
+                break;
+            default:
+                break;
+        }
+    }
+
+    setWidgetForBlockInput(target: cc.Node) {
+        const blockInputWidget = this.blockInputNode.getComponent(cc.Widget);
+        blockInputWidget.target = target;
+        blockInputWidget.top = 0;
+        blockInputWidget.bottom = 0;
+        blockInputWidget.left = 0;
+        blockInputWidget.right = 0;
     }
 }
