@@ -97,7 +97,8 @@ export default class TexasPlacingBet {
             chipAmount: 0,
             currentBettedAmount: this.gameData.placeBetModel.choices.anteBet,
             userBalance: this.gameBase.getUserBalance(),
-            showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
+            showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes),
+            maxBetPerRound: this.gameBase.getMaxBet()
         });
         if (validateResult) {
             this.gameData.isProcessingBet = true;
@@ -131,7 +132,8 @@ export default class TexasPlacingBet {
                 chipAmount: 0,
                 currentBettedAmount: currentTotal,
                 userBalance: this.gameBase.getUserBalance(),
-                showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
+                showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes),
+                maxBetPerRound: this.gameBase.getMaxBet()
             })
         ) {
             this.gameData.isProcessingBet = true;

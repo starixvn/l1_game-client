@@ -24,12 +24,19 @@ export const validateAccountBalanceForFullRound = (props: {
     currentBettedAmount: number;
     userBalance: number;
     showMiniWarningFunc: (data: any) => void;
+    maxBetPerRound: number;
 }): boolean => {
-    const { chipAmount, currentBettedAmount, userBalance, showMiniWarningFunc } = props;
+    const { chipAmount, currentBettedAmount, userBalance, showMiniWarningFunc, maxBetPerRound } = props;
     const conditions: { condition: boolean; message?: string; hasIcon?: boolean }[] = [
         {
             condition: isNotEnoughMoneyFullRound(userBalance, chipAmount, currentBettedAmount),
             message: i18n.t("messages.notEnoughMoneyCardGame")
+        },
+        {
+            condition: isInvalidMaxRound(maxBetPerRound, chipAmount, currentBettedAmount),
+            message: i18n.t("messages.maxBetNotice", {
+                maxBet: numberWithCommas(maxBetPerRound)
+            })
         }
     ];
     return showMiniWarning(conditions, showMiniWarningFunc);
@@ -47,12 +54,16 @@ export const showMiniWarning = (
     return !criteria;
 };
 
-const isNotEnoughMoney = (userBalance: number, amount: number, currentBettedAmount = 0): boolean => {
-    return +amount + +currentBettedAmount > userBalance;
+const isNotEnoughMoney = (userBalance: number, chipAmount: number, currentBettedAmount = 0): boolean => {
+    return +chipAmount + +currentBettedAmount > userBalance;
 };
-const isNotEnoughMoneyFullRound = (userBalance: number, amount: number, currentBettedAmount = 0): boolean => {
-    return (+amount + +currentBettedAmount) * 3 > userBalance;
+const isNotEnoughMoneyFullRound = (userBalance: number, chipAmount: number, currentBettedAmount = 0): boolean => {
+    return (+chipAmount + +currentBettedAmount) * 3 > userBalance;
 };
+const isInvalidMaxRound = (maxBetPerRound: number, chipAmount: number, currentBettedAmount = 0): boolean => {
+    return (+chipAmount + +currentBettedAmount) * 3 > maxBetPerRound;
+};
+
 export const validateBet = (props: {
     chipAmount: number;
     currentBettedAmount: number;
@@ -93,13 +104,13 @@ export const validateBet = (props: {
         betChoice?: string;
     }[] = [
         {
-            condition: checkMinBetPerChoice(minBet, currentBettedAmount, chipAmount),
+            condition: checkMinBetPerChoice(minBet, chipAmount, currentBettedAmount),
             message: i18n.t("messages.minBetForChoiceNotice", {
                 maxBet: numberWithCommas(minBetPerRound)
             })
         },
         {
-            condition: checkMaxBetPerChoice(maxBetPerChoice, currentBettedAmount, chipAmount, getMaxBetAndStakePerChoice, betChoice),
+            condition: checkMaxBetPerChoice(maxBetPerChoice, chipAmount, currentBettedAmount, getMaxBetAndStakePerChoice, betChoice),
             message: i18n.t("messages.maxBetForChoiceNotice2", {
                 maxBet: numberWithCommas(getMaxBetAndStakePerChoice(betChoice))
             })
@@ -121,27 +132,27 @@ export const validateBet = (props: {
     return !criteria;
 };
 
-const checkMinBetPerChoice = (minBet: number, amount: number, currentBettedAmount = 0) => {
+const checkMinBetPerChoice = (minBet: number, chipAmount: number, currentBettedAmount = 0) => {
     if (minBet) {
-        return minBet > +currentBettedAmount + +amount;
+        return minBet > +currentBettedAmount + +chipAmount;
     }
 
     return false;
 };
 const checkMaxBetPerChoice = (
     maxBetPerChoice: number,
-    amount: number,
+    chipAmount: number,
     currentBettedAmount = 0,
     getMaxBetAndStakePerChoice: (betChoice: string) => number,
     betChoice: string
 ) => {
     if (maxBetPerChoice) {
-        return getMaxBetAndStakePerChoice(betChoice) < +currentBettedAmount + +amount;
+        return getMaxBetAndStakePerChoice(betChoice) < +currentBettedAmount + +chipAmount;
     }
 
     return false;
 };
 
-const checkTotalBet = (maxTotalBet, amount: number, totalBettedAmount) => {
-    return totalBettedAmount + amount > maxTotalBet;
+const checkTotalBet = (maxTotalBet: number, chipAmount: number, currentTotalBettedAmount: number) => {
+    return currentTotalBettedAmount + chipAmount > maxTotalBet;
 };
