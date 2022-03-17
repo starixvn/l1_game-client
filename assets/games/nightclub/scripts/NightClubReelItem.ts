@@ -1,5 +1,4 @@
 import SlotReelItem from "../../_slotgame_base/SlotReelItem";
-import NightClubSubReelItem from "./NightClubSubReelItem";
 
 const { ccclass, property } = cc._decorator;
 
