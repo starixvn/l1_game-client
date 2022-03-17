@@ -11,6 +11,7 @@ import ProcessingWarning from "../../common/processing-warning/view-models/Proce
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
+import { enableMD5 } from "../../configs/Configs";
 import { GameInfos } from "../../configs/SabaConfigs";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import DataHandler from "./handlers/DataHandler";
@@ -177,6 +178,10 @@ export default class GameBase extends BaseComponent {
         this.resetDataAndUI();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
+        const isShowMD5 = enableMD5.gameIds.includes(this.gameId);
+        if (!isShowMD5 && this.md5Base) {
+            this.md5Base.node.active = false;
+        }
     }
 
     setUpHandlers() {

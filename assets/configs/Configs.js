@@ -17,6 +17,9 @@ const configs = {
     guideDomain: "https://l1-guide-1.lumigame.com",
     enableMsgpackParserOnGame: {
         45: false
+    },
+    enableMD5: {
+        gameIds: [2, 9, 22]
     }
 };
 
