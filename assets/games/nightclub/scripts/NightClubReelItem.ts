@@ -17,7 +17,7 @@ export default class NightClubReelItem extends SlotReelItem {
                 const anim = show ? "highlight" : "idle";
                 spine.setAnimation(0, anim, true);
             }
-            const node = spine.node.getChildByName("winningEffect");
+            const node = child.getChildByName("winningEffect");
             if (node) {
                 node.active = show;
             }

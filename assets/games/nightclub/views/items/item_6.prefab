@@ -19,6 +19,9 @@
     "_children": [
       {
         "__id__": 2
+      },
+      {
+        "__id__": 5
       }
     ],
     "_active": true,
@@ -80,19 +83,15 @@
     "_parent": {
       "__id__": 1
     },
-    "_children": [
+    "_children": [],
+    "_active": true,
+    "_components": [
       {
         "__id__": 3
       }
     ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 11
-      }
-    ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 4
     },
     "_opacity": 255,
     "_color": {
@@ -142,24 +141,77 @@
     "_id": ""
   },
   {
+    "__type__": "sp.Skeleton",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "7afd064b-113f-480e-b793-8817d19f63c3"
+      }
+    ],
+    "paused": false,
+    "defaultSkin": "default",
+    "defaultAnimation": "idle",
+    "_preCacheMode": 1,
+    "_cacheMode": 1,
+    "loop": true,
+    "premultipliedAlpha": true,
+    "timeScale": 1,
+    "_accTime": 0,
+    "_playCount": 0,
+    "_frameCache": null,
+    "_curFrame": null,
+    "_skeletonCache": null,
+    "_animationName": "idle",
+    "_animationQueue": [],
+    "_headAniInfo": null,
+    "_playTimes": 0,
+    "_isAniComplete": true,
+    "_N$skeletonData": {
+      "__uuid__": "115c2515-e77c-4412-bd85-3d34873dd3d8"
+    },
+    "_N$_defaultCacheMode": 1,
+    "_N$debugSlots": false,
+    "_N$debugBones": false,
+    "_N$debugMesh": false,
+    "_N$useTint": false,
+    "_N$enableBatch": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "d86fb762-c1af-4272-ae01-4a789778a5d3"
+    },
+    "fileId": "9f7vEAgm5DWY48bXfVCRPH",
+    "sync": false
+  },
+  {
     "__type__": "cc.Node",
     "_name": "winningEffect",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 2
+      "__id__": 1
     },
     "_children": [
       {
-        "__id__": 4
+        "__id__": 6
       },
       {
-        "__id__": 7
+        "__id__": 9
       }
     ],
     "_active": false,
     "_components": [],
     "_prefab": {
-      "__id__": 10
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -184,15 +236,15 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        0,
+        -3.299,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
-        1
+        0.99999,
+        0.99999,
+        0.99999
       ]
     },
     "_eulerAngles": {
@@ -213,17 +265,17 @@
     "_name": "particle_08",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 3
+      "__id__": 5
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 5
+        "__id__": 7
       }
     ],
     "_prefab": {
-      "__id__": 6
+      "__id__": 8
     },
     "_opacity": 255,
     "_color": {
@@ -277,7 +329,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 4
+      "__id__": 6
     },
     "_enabled": true,
     "_materials": [
@@ -322,7 +374,7 @@
     "asset": {
       "__uuid__": "d86fb762-c1af-4272-ae01-4a789778a5d3"
     },
-    "fileId": "77FIEJ3pxJSJUNaORu/rWi",
+    "fileId": "18+sl01ztIL40OtRD3qGoV",
     "sync": false
   },
   {
@@ -330,17 +382,17 @@
     "_name": "particle_04",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 3
+      "__id__": 5
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 8
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 9
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -394,7 +446,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 7
+      "__id__": 9
     },
     "_enabled": true,
     "_materials": [
@@ -439,7 +491,7 @@
     "asset": {
       "__uuid__": "d86fb762-c1af-4272-ae01-4a789778a5d3"
     },
-    "fileId": "ba+9ZA3QhJLaghsUJGpn0t",
+    "fileId": "837QpHPxFNRKgHWswrSpgi",
     "sync": false
   },
   {
@@ -450,60 +502,7 @@
     "asset": {
       "__uuid__": "d86fb762-c1af-4272-ae01-4a789778a5d3"
     },
-    "fileId": "f2e6YHPp5BW4+Ff+sgkbGT",
-    "sync": false
-  },
-  {
-    "__type__": "sp.Skeleton",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "7afd064b-113f-480e-b793-8817d19f63c3"
-      }
-    ],
-    "paused": false,
-    "defaultSkin": "default",
-    "defaultAnimation": "idle",
-    "_preCacheMode": 1,
-    "_cacheMode": 1,
-    "loop": true,
-    "premultipliedAlpha": true,
-    "timeScale": 1,
-    "_accTime": 0,
-    "_playCount": 0,
-    "_frameCache": null,
-    "_curFrame": null,
-    "_skeletonCache": null,
-    "_animationName": "idle",
-    "_animationQueue": [],
-    "_headAniInfo": null,
-    "_playTimes": 0,
-    "_isAniComplete": true,
-    "_N$skeletonData": {
-      "__uuid__": "115c2515-e77c-4412-bd85-3d34873dd3d8"
-    },
-    "_N$_defaultCacheMode": 1,
-    "_N$debugSlots": false,
-    "_N$debugBones": false,
-    "_N$debugMesh": false,
-    "_N$useTint": false,
-    "_N$enableBatch": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "d86fb762-c1af-4272-ae01-4a789778a5d3"
-    },
-    "fileId": "9f7vEAgm5DWY48bXfVCRPH",
+    "fileId": "bcorhxSa1K7LzO4h4aqvr7",
     "sync": false
   },
   {
