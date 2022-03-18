@@ -7,6 +7,8 @@ export enum TexasState {
     calling_deal,
     dealing,
     dealt,
+    swap_card,
+    hold_card,
     calling_call,
     calling_called,
     calling_x2call,

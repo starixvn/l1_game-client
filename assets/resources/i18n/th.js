@@ -508,6 +508,8 @@ window.i18n.languages.th = {
         total: "Total",
         fold: "Fold",
         new: "New",
+        swap: "Swap Card",
+        hold: "Hold Card",
         notEnoughMoney: "Your account has insufficient funds to complete the game round"
     }
 };

@@ -38,7 +38,7 @@ import {
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards,
     dealFourAndFireCardAndFaceUpDealerCards,
-    rawCardWhenRejoin
+    rawCardWhenRejoin,
 } from "../cards-component/view-models/cards-wrapper";
 import TexasCards from "../cards-component/view-models/texas-cards";
 import { updateLeftOddsTable, updateMinMax, updateRightOddsTable } from "./../actions/texas-configs-actions";
@@ -59,6 +59,7 @@ import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
 import { handleMD5 } from "./../actions/texas-md5-action";
 import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
 import { updateStatusGame } from "../../holdem-poker/actions/HoldemPokerNoticeActions";
+import TexasSwapCards from "../cards-component/view-models/texas-swap-cards";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -108,6 +109,12 @@ export default class Texas extends NewGameRoomBase {
     @property(cc.Node)
     newButton: cc.Node = null;
 
+    @property(cc.Node)
+    swapButton: cc.Node = null;
+
+    @property(cc.Node)
+    holdButton: cc.Node = null;
+
     @property(cc.SpriteFrame)
     shadowChip: cc.SpriteFrame = null;
 
@@ -119,6 +126,9 @@ export default class Texas extends NewGameRoomBase {
 
     @property(cc.Node)
     dealerChipTray: cc.Node = null;
+
+    @property(cc.Node)
+    texasSwapCards: cc.Node = null;
 
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
@@ -245,6 +255,12 @@ export default class Texas extends NewGameRoomBase {
 
         this.foldButton.getComponent(NewButton).callback.selected = () =>
             !this.foldButton.getChildByName(disableButton).active && this.onFoldClick();
+
+        this.swapButton.getComponent(NewButton).callback.selected = () =>
+            !this.swapButton.getChildByName(disableButton).active && this.onSwapClick();
+
+        this.holdButton.getComponent(NewButton).callback.selected = () =>
+            !this.holdButton.getChildByName(disableButton).active && this.onHoldClick();
     }
 
     private initMenu() {
@@ -498,6 +514,18 @@ export default class Texas extends NewGameRoomBase {
 
     onFoldClick() {
         this.playClick();
+        this.placingBet.handleClickButtonNoneBet(TexasChoicesConst.fold);
+    }
+
+    async onSwapClick() {
+        this.playClick();
+        const componentSwap = this.texasSwapCards.getComponent(TexasSwapCards);
+        await componentSwap.swapCards();
+    }
+
+    onHoldClick() {
+        this.playClick();
+        // this.gameData.stateModel.holdCard();
         this.placingBet.handleClickButtonNoneBet(TexasChoicesConst.fold);
     }
 

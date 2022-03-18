@@ -60,6 +60,20 @@ export default class TexasStateModel extends EventEmitter {
         this.emit(TexasStateModel.Events.CHANGE, this);
     }
 
+    swapCard() {
+        this.previousState = cloneDeep(this.state);
+        this.state = TexasState.swap_card;
+        this.previousRound = true;
+        this.emit(TexasStateModel.Events.CHANGE, this);
+    }
+
+    holdCard() {
+        this.previousState = cloneDeep(this.state);
+        this.state = TexasState.hold_card;
+        this.previousRound = true;
+        this.emit(TexasStateModel.Events.CHANGE, this);
+    }
+
     call() {
         this.previousState = cloneDeep(this.state);
         this.state = TexasState.calling_call;

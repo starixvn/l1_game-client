@@ -10,7 +10,9 @@ export const TexasChoicesConst = {
     riverBet: "riverBet",
     checkTurn: "checkTurn",
     checkRiver: "checkRiver",
-    fold: "fold"
+    fold: "fold",
+    swapCard: "swapCard",
+    holdCard: "holdCard"
 };
 
 export const BetAction = {

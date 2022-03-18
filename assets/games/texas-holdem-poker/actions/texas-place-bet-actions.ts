@@ -38,6 +38,7 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
             break;
         case TexasState.dealt:
             main.callButton.active = main.foldButton.active = true;
+            // main.swapButton.active = main.holdButton.active = main.doubleButton.active = true;
             break;
         case TexasState.calling_call:
         case TexasState.calling_fold:
@@ -62,15 +63,14 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
         case TexasState.settled:
             main.riverButton.active = main.checkRiverButton.active = false;
             break;
+        case TexasState.swap_card:
+        case TexasState.hold_card:
+            main.callButton.active = main.foldButton.active = true;
+            break;
     }
 };
 export const showPlaceBetChips =
-    (
-        bettingAreas: TexasBettingArea[],
-        slidingChips: BetChips,
-        shadowChip: cc.SpriteFrame,
-        texasHoldemPokerChips: TexasHoldemPokerChip,
-    ) =>
+    (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasHoldemPokerChips: TexasHoldemPokerChip) =>
     ({ currentChoice, currentAmount, totalAmount }) => {
         const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
         if (bettingArea && bettingArea.chipNode) {
