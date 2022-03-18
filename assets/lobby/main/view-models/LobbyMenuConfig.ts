@@ -25,6 +25,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     list = [
         GameIds.HeroesSlot,
         GameIds.FourGuardians,
+        GameIds.NightClub,
         GameIds.VipSedie,
         GameIds.SeDie,
         GameIds.VipSedieWar,
@@ -89,6 +90,9 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             size: cc.v2(1, 2)
         },
         [GameIds.HeroesSlot]: {
+            size: cc.v2(1, 2)
+        },
+        46: {
             size: cc.v2(1, 2)
         }
     };

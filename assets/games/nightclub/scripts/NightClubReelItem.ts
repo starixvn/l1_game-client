@@ -12,7 +12,7 @@ export default class NightClubReelItem extends SlotReelItem {
 
     showWinningEffect(show: boolean) {
         this.content.children.forEach((child) => {
-            const spine = child.getComponentInChildren(sp.Skeleton);
+            const spine = child.getChildByName("icon").getComponent(sp.Skeleton);
             if (spine) {
                 const anim = show ? "highlight" : "idle";
                 spine.setAnimation(0, anim, true);
