@@ -7,8 +7,12 @@ import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
+export type MD5Type = {
+    rawValue: string;
+    hashValue: string;
+  };
 @ccclass
-export default class MD5Base extends cc.Component {
+export default class MD5Component extends cc.Component {
     @property(cc.Label)
     md5Text: cc.Label = null;
 
@@ -55,11 +59,7 @@ export default class MD5Base extends cc.Component {
         this.copyButton.node.getChildByName("text").color = enabled ? color : color.fromHEX("#a8a8a8");
     }
 
-    clearMD5() {
-        this.updateMD5String("");
-    }
-
-    updateMD5String(data: any) {
+    updateMD5String(data: MD5Type) {
         this.setCaptionAndHintForMD5(!!data.rawValue);
         this.md5Value.string = `<color=#ffffff>${data.hashValue || data.rawValue}</color>`;
         this.setCopyString(data.hashValue || data.rawValue);

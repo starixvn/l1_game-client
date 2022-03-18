@@ -9,7 +9,7 @@ export default class GameBaseMd5Handler implements DataHandler {
             return false;
         }
 
-        this.main.md5Base.updateMD5String(data.md5);
+        this.main.md5Component.updateMD5String(data.md5);
 
         return true;
     }

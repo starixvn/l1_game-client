@@ -1,6 +1,5 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
-
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../common/auth/SessionManager";
@@ -28,7 +27,7 @@ import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
 import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
-import MD5Base from "./view-models/MD5Base";
+import MD5Component from "./view-models/MD5Component";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 import { GameState } from "./GameState";
 
@@ -59,8 +58,8 @@ export default class GameBase extends BaseComponent {
     @property({ type: AnimatedTime })
     animatedTime: AnimatedTime = null;
 
-    @property({ type: MD5Base })
-    md5Base: MD5Base = null;
+    @property({ type: MD5Component })
+    md5Component: MD5Component = null;
 
     @property(cc.Label)
     gameRound: cc.Label = null;
@@ -179,8 +178,8 @@ export default class GameBase extends BaseComponent {
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
         const isShowMD5 = enableMD5.gameIds.includes(this.gameId);
-        if (!isShowMD5 && this.md5Base) {
-            this.md5Base.node.active = false;
+        if (!isShowMD5 && this.md5Component) {
+            this.md5Component.node.active = false;
         }
     }
 
