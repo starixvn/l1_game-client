@@ -24,7 +24,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 16
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -88,11 +88,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 14
+        "__id__": 11
       }
     ],
     "_prefab": {
-      "__id__": 15
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -154,15 +154,12 @@
       },
       {
         "__id__": 7
-      },
-      {
-        "__id__": 10
       }
     ],
     "_active": false,
     "_components": [],
     "_prefab": {
-      "__id__": 13
+      "__id__": 10
     },
     "_opacity": 255,
     "_color": {
@@ -219,7 +216,7 @@
       "__id__": 3
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 5
@@ -238,8 +235,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 25.95,
-      "height": 33.76
+      "width": 300,
+      "height": 300
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -290,7 +287,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "anim_hightlight",
+    "defaultAnimation": "anim_highlight",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": true,
@@ -301,13 +298,13 @@
     "_frameCache": null,
     "_curFrame": null,
     "_skeletonCache": null,
-    "_animationName": "anim_hightlight",
+    "_animationName": "anim_highlight",
     "_animationQueue": [],
     "_headAniInfo": null,
     "_playTimes": 0,
     "_isAniComplete": true,
     "_N$skeletonData": {
-      "__uuid__": "6b838e78-42aa-4ddf-8fa4-cce804c575fe"
+      "__uuid__": "51616ceb-8ac5-4f07-a2c8-c9a943d0aabd"
     },
     "_N$_defaultCacheMode": 0,
     "_N$debugSlots": false,
@@ -355,8 +352,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 25.95,
-      "height": 33.76
+      "width": 300,
+      "height": 300
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -407,7 +404,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "anim_hightlight",
+    "defaultAnimation": "anim_highlight",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": true,
@@ -418,13 +415,13 @@
     "_frameCache": null,
     "_curFrame": null,
     "_skeletonCache": null,
-    "_animationName": "anim_hightlight",
+    "_animationName": "anim_highlight",
     "_animationQueue": [],
     "_headAniInfo": null,
     "_playTimes": 0,
     "_isAniComplete": true,
     "_N$skeletonData": {
-      "__uuid__": "6b838e78-42aa-4ddf-8fa4-cce804c575fe"
+      "__uuid__": "51616ceb-8ac5-4f07-a2c8-c9a943d0aabd"
     },
     "_N$_defaultCacheMode": 0,
     "_N$debugSlots": false,
@@ -443,123 +440,6 @@
       "__uuid__": "9a4ae5d2-3fa9-47f3-b48b-b4e320cbe54f"
     },
     "fileId": "eb0AcJ1edMGbvNnRCoos1p",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "halo",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 3
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 11
-      }
-    ],
-    "_prefab": {
-      "__id__": 12
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 141.31,
-      "height": 142.31
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        5,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "sp.Skeleton",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 10
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "7afd064b-113f-480e-b793-8817d19f63c3"
-      }
-    ],
-    "paused": false,
-    "defaultSkin": "default",
-    "defaultAnimation": "anim_hightlight",
-    "_preCacheMode": 0,
-    "_cacheMode": 0,
-    "loop": true,
-    "premultipliedAlpha": true,
-    "timeScale": 1,
-    "_accTime": 0,
-    "_playCount": 0,
-    "_frameCache": null,
-    "_curFrame": null,
-    "_skeletonCache": null,
-    "_animationName": "anim_hightlight",
-    "_animationQueue": [],
-    "_headAniInfo": null,
-    "_playTimes": 0,
-    "_isAniComplete": true,
-    "_N$skeletonData": {
-      "__uuid__": "072df2d4-60e9-4c3c-8ed9-19eb15b3d708"
-    },
-    "_N$_defaultCacheMode": 0,
-    "_N$debugSlots": false,
-    "_N$debugBones": false,
-    "_N$debugMesh": false,
-    "_N$useTint": false,
-    "_N$enableBatch": false,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "9a4ae5d2-3fa9-47f3-b48b-b4e320cbe54f"
-    },
-    "fileId": "eeVGat2K5Fp7AIU7AOnREX",
     "sync": false
   },
   {
