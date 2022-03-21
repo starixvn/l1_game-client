@@ -27,7 +27,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     miniRoundHistoryContainer: cc.Node = null;
 
     @property(cc.Animation)
-    diceAnimation: cc.Animation = null;
+    shakeThePlateAnimation: cc.Animation = null;
 
     @property(cc.Node)
     diceContainer: cc.Node = null;
@@ -83,11 +83,14 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Node)
     positionStatistic: cc.Node = null;
 
+    @property(cc.Node)
+    thePlate: cc.Node = null;
+
     protected miniRoundHistory: BigSmallMiniRoundHistory;
     protected betHistory: BigSmallBetHistory;
     statistic: BigSmallDicesStatistic;
-    diceAnimationDuration: number;
     private showStatistic = true;
+    public resultAnimating = false;
 
     readonly choices = ["small", "big"];
 
@@ -98,11 +101,11 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     onLoad() {
-        super.onLoad();
-        this.diceAnimationDuration = this.diceAnimation.defaultClip.duration / this.diceAnimation.defaultClip.speed;
+        super.onLoad();     
         this.setValueBetAmount();
         this.initRoundHistory();
         this.initStatistic();
+        this.animatedTime.setAnimatedY(30, -5);
     }
 
     onEnable() {
@@ -180,41 +183,27 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     showResult() {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
-
-            cc.tween(this.node)
+            cc.tween(this.thePlate)
                 .call(() => {
-                    this.diceAnimation.node.active = true;
-                    this.diceContainer.active = false;
-                    this.diceAnimation.play();
-
-                    const currentStatusData = this.statusHandler.currentStatusData;
-                    currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
+                    this.hideBalanceBetNotice();
                 })
-                .delay(this.diceAnimationDuration)
+                .to(0.3, { position: cc.v2(50, 100) }, { easing: "sineInOut" })
                 .call(() => {
-                    this.diceAnimation.node.active = false;
-                    this.diceContainer.active = true;
                     this.updateRoundHistory();
+                    this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
+                    (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
+                    this.finishShowResult = true;
                 })
+                .to(0.2, { opacity: 0 })
                 .start();
-
-            (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
-            this.finishShowResult = true;
         }
     }
 
-    showWinningAnimation(data) {
-        cc.tween(this.node)
-            .delay(this.diceAnimationDuration)
-            .call(() => {
-                this.betItems.forEach((betItem) => {
-                    betItem.setHighlight(data.settlementResult[betItem.node.name], true);
-                });
-
-                this.resultNode.active = true;
-                this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
-            })
-            .start();
+    showWinningAnimation(data: any) {
+        const currentStatusData = this.statusHandler.currentStatusData;
+        currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
+        this.resultNode.active = true;
+        this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
     }
 
     public openHistory() {
@@ -257,17 +246,19 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
+        this.resetThePlate();
         this.statusHandler.currentStatusData = null;
-        this.diceAnimation.stop();
-        this.diceAnimation.node.active = false;
-        this.diceContainer.active = false;
-        this.resultNode.active = false;
-        this.node.stopAllActions();
         this.betItems.forEach((betItem) => {
             betItem.ownBet.string = "0";
         });
+        this.resultNode.active = false;
     }
 
+    resetThePlate() {
+        this.thePlate.position = cc.v2(0, 0);
+        this.thePlate.opacity = 255;
+        this.thePlate.active = true;
+    }
     public updateOddsFromConfigs() {
         if (this.gameConfigs.odds) {
             this.odds.string = `1:${this.gameConfigs.odds[this.choices[0]]}`;
