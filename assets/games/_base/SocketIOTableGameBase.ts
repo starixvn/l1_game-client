@@ -13,7 +13,6 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         super.onLoad();
 
         sessionManager.storeInRoomGameId(this.gameId);
-        this.currentMiniPanel.currentGameRoomId = this.gameId;
 
         this.socket = this.socketIOController.getSocketGame(this.gameId);
         if (!this.socket) {
