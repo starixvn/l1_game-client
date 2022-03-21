@@ -343,6 +343,7 @@ window.i18n.languages.zh_cn = {
         maintain_system: "本网站正在维护中。 请稍后再回来。",
         maintain_suggest: "维护完成后请重新登录继续玩游戏。",
         maintain_time: "从 %{startTime} 到 %{endTime} (GMT+8)",
+        first_visit_message: "If this is your first visit, downloading may take a while.",
         checking_downloading: "正在检查和下载最新的更新包...",
         login_failed: "无法加载游戏数据。 请关闭当前窗口并重试。",
         connection_lost: "连接不稳定，请检查。",

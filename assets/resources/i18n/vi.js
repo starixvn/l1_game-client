@@ -361,6 +361,7 @@ window.i18n.languages.vi = {
         maintain_system: "HỆ THỐNG ĐANG ĐƯỢC BẢO TRÌ.\r\nVUI LÒNG QUAY LẠI SAU.",
         maintain_suggest: "Sau thời gian bảo trì, bạn hãy đăng nhập lại để có thể tiếp tục chơi game.",
         maintain_time: "Thời gian bảo trì từ %{startTime} đến %{endTime} (GMT+8).",
+        first_visit_message: "Lần truy cập đầu tiên, việc tải dữ liệu sẽ mất chút thời gian.",
         checking_downloading: "Đang Kiểm Tra Và Tải Gói Cập Nhật Game Mới Nhất...",
         login_failed: "Đăng nhập thất bại, bạn hãy làm lại thao tác đăng nhập từ đầu.",
         connection_lost: "Mất kết nối hoặc kết nối không ổn định. Vui lòng kiểm tra và thử lại.",

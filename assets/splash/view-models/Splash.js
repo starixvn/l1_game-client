@@ -1,10 +1,9 @@
-import i18n from "i18n/runtime-scripts/LanguageData";
-
 import { appContainer } from "../../Application";
 import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/SessionManager";
 import logger from "../../common/logger";
 import * as authManager from "./../../common/auth/AuthManager";
 import SplashConfig from "./SplashConfig";
+import RandonWaitingMessage from "./RandonWaitingMessage";
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
@@ -12,8 +11,7 @@ const sentryLogger = logger();
 cc.Class({
     extends: cc.Component,
     properties: {
-        messageSC1: cc.Label,
-        messageSC2: cc.Label,
+        messageComp: RandonWaitingMessage,
         manifestUrl: {
             default: null,
             type: cc.Asset
@@ -65,15 +63,8 @@ cc.Class({
     },
     loadAssets: function () {
         this.updateProgress(0);
-        let messageLabel;
-        if (splashConfig.enabledSC1) {
-            messageLabel = this.messageSC1;
-            messageLabel.string = i18n.t("ui.checking_downloading");
-        } else {
-            messageLabel = this.messageSC2;
-        }
         if (cc.sys.isBrowser && authManager) {
-            authManager.checkSSO(messageLabel, () => {
+            authManager.checkSSO(this.messageComp, () => {
                 this.loadScene();
                 if (window.reCheckInId) {
                     clearInterval(window.reCheckInId);

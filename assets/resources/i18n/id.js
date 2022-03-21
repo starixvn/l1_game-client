@@ -358,6 +358,7 @@ window.i18n.languages.id = {
         maintain_system: "SITUS DALAM PEMELIHARAAN. SILAKAN KEMBALI LAGI.",
         maintain_suggest: "Silakan login kembali untuk melanjutkan permainan setelah maintenance selesai.",
         maintain_time: "Mulai dari %{startTime} hingga %{endTime} (GMT+8)",
+        first_visit_message: "If this is your first visit, downloading may take a while.",
         checking_downloading: "Memeriksa dan mengunduh paket pembaruan terbaru...",
         login_failed: "Gagal memuat data game. Harap tutup jendela saat ini dan coba lagi.",
         connection_lost: "Koneksi tidak stabil, silakan periksa.",

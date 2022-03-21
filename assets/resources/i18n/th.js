@@ -356,6 +356,7 @@ window.i18n.languages.th = {
         maintain_system: "ระบบปิดปรับปรุง กรุณาเข้ามาใช้งานใหม่อีกครั้ง",
         maintain_suggest: "กรุณาเข้าสู่ระบบใหม่อีกครั้งเพื่อเล่นเกมต่อหลังจากการปิดปรับปรุงเสร็จสิ้นแล้ว",
         maintain_time: "เริ่มต้นจาก % {startTime} ถึง % {endTime} (GMT+8)",
+        first_visit_message: "If this is your first visit, downloading may take a while.",
         checking_downloading: "กำลังตรวจสอบและกำลังดาวน์โหลดเกมของการอัพเดทล่าสุด",
         login_failed: "การดาวน์โหลดล้มเหลว กรุณาลองปิดหน้าต่างแล้วลองใหม่อีกครั้ง",
         connection_lost: "การเชื่อมต่อขัดข้อง กรุณาตรวจสอบอีกครั้ง",

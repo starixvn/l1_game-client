@@ -343,6 +343,7 @@ window.i18n.languages.zh_tw = {
         maintain_system: "本網站正在維護中。請稍後再回來。",
         maintain_suggest: "維護完成後請重新登錄繼續玩遊戲。",
         maintain_time: "從 %{startTime} 到 %{endTime} (GMT+8)",
+        first_visit_message: "If this is your first visit, downloading may take a while.",
         checking_downloading: "正在檢查和下載最新的更新包...",
         login_failed: "無法加載遊戲數據。請關閉當前窗口並重試。",
         connection_lost: "連接不穩定，請檢查。",
