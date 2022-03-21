@@ -17,10 +17,7 @@ export default class TexasDealModel extends EventEmitter {
     roundId: number;
 
     changeDataAfterDeal(playerCards: CardModel[], communityCards: CardModel[], combinationResult: any, roundId: number) {
-        this.playerCards = playerCards;
         this.roundId = roundId;
-        this.combinationResult = combinationResult;
-        this.communityCards = communityCards || this.communityCards;
         this.emit(TexasDealModel.Events.CHANGE, this);
     }
 }

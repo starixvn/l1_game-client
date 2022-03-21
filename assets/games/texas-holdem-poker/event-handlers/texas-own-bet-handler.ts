@@ -17,6 +17,7 @@ export type TexasHoldemPokerOwnBetType = {
             };
         };
         totalAmount: number;
+        hasSwappedOrHold: boolean;
     };
 };
 
@@ -27,21 +28,22 @@ export default class TexasOwnBetHandler<Choices> extends TexasEventHandler<Texas
 
     protected handle(event: TexasHoldemPokerOwnBetType) {
         this.gameData.isProcessingBet = false;
-        const { bets, combinationResult, communityCards, roundId, player, totalAmount } = event.ownBets;
+        const { bets, combinationResult, communityCards, roundId, player, totalAmount, hasSwappedOrHold } = event.ownBets;
 
         if (!bets) {
             return;
         }
         const betsConverted = cloneDeepChoiceData(bets);
         this.gameData.emit(TexasGameDataModel.Events.CHOICES_RESULT, betsConverted);
-        this.gameData.stateModel.rejoinTable(communityCards.length);
+        this.gameData.stateModel.rejoinTable(communityCards.length, hasSwappedOrHold);
         this.gameData.ownBets.changeOwnBets({
             totalAmount: totalAmount,
             combinationResult: combinationResult,
             communityCards: communityCards,
             bets: betsConverted,
             playerCards: player,
-            roundId: roundId
+            roundId: roundId,
+            hasSwappedOrHold: hasSwappedOrHold
         });
     }
 }

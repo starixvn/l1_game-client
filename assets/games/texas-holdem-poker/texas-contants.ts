@@ -11,12 +11,14 @@ export const TexasChoicesConst = {
     checkTurn: "checkTurn",
     checkRiver: "checkRiver",
     fold: "fold",
-    swapCard: "swapCard",
-    holdCard: "holdCard"
+    swap: "swap",
+    hold: "hold"
 };
 
 export const BetAction = {
     deal: "deal",
+    swap: "swap",
+    hold: "hold",
     call: "call",
     doubleCall: "doubleCall",
     fold: "fold",

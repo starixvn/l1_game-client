@@ -31,8 +31,8 @@ export default class TexasSwapCards extends cc.Component {
     @property(cc.Node)
     desRightControl2: cc.Node = null;
 
-    private readonly timeShowUp = 0.1;
-    private readonly timeSwap = 0.6;
+    private readonly timeShowUp = 0.2;
+    private readonly timeSwap = 0.3;
 
     protected onLoad(): void {
         this.node.active = true;
@@ -63,24 +63,22 @@ export default class TexasSwapCards extends cc.Component {
     }
 
     moveTopRotationCard3D(delayTime: number) {
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             cc.tween(this)
                 .call(() => {
                     this.changeStatusCardRoot(false);
                     this.changeStatusCard3D(true);
-                })
-                .call(() => {
                     this.cards3DTmp.getComponent(TexasShowUpCards).moveYAndRotationCard(30, 50, 40);
                 })
                 .delay(delayTime)
                 .call(() => {
-                    resolve(1);
+                    resolve();
                 })
                 .start();
         });
     }
 
-    moveBezierCard(delayTime: number) {
+    moveBezierCard(duration: number) {
         const dealerClone = this.dealerTmp;
         const playerClone = this.playerTmp;
         const bezierLeft = [
@@ -95,28 +93,28 @@ export default class TexasSwapCards extends cc.Component {
             cc.v2(dealerClone.x, dealerClone.y)
         ];
 
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             cc.tween(this)
                 .call(() => {
                     this.changeStatusCard3D(false);
                     this.changeStatusCard2D(true);
                     this.dealerTmp.runAction(
-                        cc.sequence(cc.scaleTo(0.1, 0.75, 0.75), cc.spawn(cc.bezierTo(delayTime / 2, bezierLeft), cc.scaleTo(0.1, 1, 1)))
+                        cc.sequence(cc.scaleTo(0.1, 0.75, 0.75), cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(0.1, 1, 1)))
                     );
                     this.playerTmp.runAction(
-                        cc.sequence(cc.scaleTo(0.1, 1, 1), cc.spawn(cc.bezierTo(delayTime / 2, bezierRight), cc.scaleTo(0.75, 0.75)))
+                        cc.sequence(cc.scaleTo(0.1, 1, 1), cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(0.75, 0.75)))
                     );
                 })
-                .delay(delayTime)
+                .delay(duration)
                 .call(() => {
-                    resolve(1);
+                    resolve();
                 })
                 .start();
         });
     }
 
     hideCard2D(delayTime: number) {
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             cc.tween(this)
                 .call(() => {
                     this.changeStatusCard2D(false);
@@ -130,7 +128,7 @@ export default class TexasSwapCards extends cc.Component {
                 })
 
                 .call(() => {
-                    resolve(1);
+                    resolve();
                 })
                 .start();
         });

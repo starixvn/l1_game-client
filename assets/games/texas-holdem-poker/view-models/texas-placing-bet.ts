@@ -112,6 +112,16 @@ export default class TexasPlacingBet {
         }
     }
 
+    handleClickOnChoice(betChoice: string) {
+        this.gameData.isProcessingBet = true;
+        const stateUI = {};
+        stateUI[betChoice] = {};
+        this.gameData.receiveUIData(stateUI);
+        this.getConnection().emit(events.bet, {
+            action: betChoice
+        });
+    }
+
     handleClickButtonNoneBet(betAction: string, payload?: any) {
         this.gameData.isProcessingBet = true;
         const stateUI = {};

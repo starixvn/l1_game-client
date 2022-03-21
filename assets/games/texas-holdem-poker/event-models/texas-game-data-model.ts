@@ -1,3 +1,4 @@
+import { TexasSwap } from "./../event-handlers/texas-swap-handler";
 import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
 import { HoldemPokerGameData } from "../../holdem-poker/event-models/HoldemPokerGameData";
 import TexasErrorHandler from "../event-handlers/texas-error-handler";
@@ -5,6 +6,7 @@ import TexasAutoSettleHandler from "../event-handlers/texas-auto-settle-handler"
 import TexasCallHandler from "../event-handlers/texas-call-handler";
 import TexasConfigsHandler from "../event-handlers/texas-configs-handler";
 import TexasDealHandler from "../event-handlers/texas-deal-handler";
+import TexasSwapHandler from "../event-handlers/texas-swap-handler";
 import TexasFinishHandler from "../event-handlers/texas-finish-handler";
 import TexasOwnBetHandler from "../event-handlers/texas-own-bet-handler";
 import TexasRiverHandler from "../event-handlers/texas-river-handler";
@@ -24,12 +26,17 @@ import TexasStateModel from "./texas-state-model";
 import TexasTicketDetailModel from "./texas-ticket-detail-model";
 import TexasTurnModel from "./texas-turn-model";
 import HoldemPockerMD5Handler from "../../holdem-poker/event-handlers/HoldemPockerMD5Handler";
+import TexasSwapModel from "./texas-swap-model";
+import TexasHoldModel from "./texas-hold-model";
+import TexasHoldHandler from "../event-handlers/texas-hold-handler";
 
 export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Choices> {
     readonly configs: TexasConfigsModel;
     readonly placeBetModel: TexasPlaceBetModel;
     readonly stateModel: TexasStateModel;
     readonly dealModel: TexasDealModel;
+    readonly swapModel: TexasSwapModel;
+    readonly holdModel: TexasHoldModel;
     readonly ownBets: TexasOwnBetModel;
     readonly finishModel: TexasFinishModel;
     readonly settlement: TexasSettlementModel;
@@ -51,6 +58,8 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
         this.autoSettleModel = new TexasAutoSettleModel();
 
         this.dealModel = new TexasDealModel();
+        this.swapModel = new TexasSwapModel();
+        this.holdModel = new TexasHoldModel();
         this.callModel = new TexasCallModel();
         this.turnModel = new TexasTurnModel();
         this.riverModel = new TexasRiverModel();
@@ -74,6 +83,8 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
             TexasErrorHandler,
             TexasAutoSettleHandler,
             TexasDealHandler,
+            TexasSwapHandler,
+            TexasHoldHandler,
             TexasCallHandler,
             TexasTurnHandler,
             TexasRiverHandler,
@@ -98,6 +109,14 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
         if (!!data.deal) {
             this.stateModel.deal();
         }
+
+        if (!!data.swap) {
+            this.stateModel.swap();
+        }
+        if (!!data.hold) {
+            this.stateModel.hold();
+        }
+
         if (!!data.double) {
             this.placeBetModel.double(data.double.choice);
         }

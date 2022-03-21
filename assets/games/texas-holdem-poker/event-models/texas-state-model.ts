@@ -60,16 +60,44 @@ export default class TexasStateModel extends EventEmitter {
         this.emit(TexasStateModel.Events.CHANGE, this);
     }
 
-    swapCard() {
+    swapping() {
         this.previousState = cloneDeep(this.state);
-        this.state = TexasState.swap_card;
+        this.state = TexasState.swapping;
         this.previousRound = true;
         this.emit(TexasStateModel.Events.CHANGE, this);
     }
 
-    holdCard() {
+    swap() {
         this.previousState = cloneDeep(this.state);
-        this.state = TexasState.hold_card;
+        this.state = TexasState.swap;
+        this.previousRound = true;
+        this.emit(TexasStateModel.Events.CHANGE, this);
+    }
+
+    swapSuccess() {
+        this.previousState = cloneDeep(this.state);
+        this.state = TexasState.swapped;
+        this.previousRound = true;
+        this.emit(TexasStateModel.Events.CHANGE, this);
+    }
+
+    hold() {
+        this.previousState = cloneDeep(this.state);
+        this.state = TexasState.hold;
+        this.previousRound = true;
+        this.emit(TexasStateModel.Events.CHANGE, this);
+    }
+
+    holding() {
+        this.previousState = cloneDeep(this.state);
+        this.state = TexasState.holding;
+        this.previousRound = true;
+        this.emit(TexasStateModel.Events.CHANGE, this);
+    }
+
+    holdSuccess() {
+        this.previousState = cloneDeep(this.state);
+        this.state = TexasState.held;
         this.previousRound = true;
         this.emit(TexasStateModel.Events.CHANGE, this);
     }
@@ -155,7 +183,7 @@ export default class TexasStateModel extends EventEmitter {
         this.emit(TexasStateModel.Events.CHANGE, this);
     }
 
-    rejoinTable(communityCardLength: number) {
+    rejoinTable(communityCardLength: number, hasSwappedOrHold: boolean) {
         switch (communityCardLength) {
             case 4:
                 this.turnSuccess();
@@ -164,7 +192,12 @@ export default class TexasStateModel extends EventEmitter {
                 this.callSuccess();
                 break;
             case 0:
-                this.afterDeal();
+                if (hasSwappedOrHold) {
+                    this.swapSuccess();
+                } else {
+                    this.afterDeal();
+                }
+
                 break;
         }
     }

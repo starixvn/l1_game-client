@@ -1,3 +1,4 @@
+import { holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
 import { events } from "../../_new/connection/SocketIOConnection";
 import NewButton from "../../../common/custom-button/NewButton";
@@ -39,6 +40,7 @@ import {
     dealThirdCardAndFaceUpDealerCards,
     dealFourAndFireCardAndFaceUpDealerCards,
     rawCardWhenRejoin,
+    swapPlayerAndDealerCards
 } from "../cards-component/view-models/cards-wrapper";
 import TexasCards from "../cards-component/view-models/texas-cards";
 import { updateLeftOddsTable, updateMinMax, updateRightOddsTable } from "./../actions/texas-configs-actions";
@@ -60,6 +62,8 @@ import { handleMD5 } from "./../actions/texas-md5-action";
 import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
 import { updateStatusGame } from "../../holdem-poker/actions/HoldemPokerNoticeActions";
 import TexasSwapCards from "../cards-component/view-models/texas-swap-cards";
+import TexasSwapModel from "../event-models/texas-swap-model";
+import TexasHoldModel from "../event-models/texas-hold-model";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -183,6 +187,8 @@ export default class Texas extends NewGameRoomBase {
         this.registerBettingAreasEvents();
         this.registerPlaceBetEvents();
         this.registerAfterDealEvents();
+        this.registerAfterSwapEvents();
+        this.registerAfterHoldEvents();
         this.registerAfterCallEvents();
         this.registerAfterTurnEvents();
         this.registerAfterRiverEvents();
@@ -389,6 +395,19 @@ export default class Texas extends NewGameRoomBase {
             dealPlayerAndDealerCards(this.pokerCardScript, dealModel, () => this.gameData.stateModel.afterDeal());
         });
     }
+
+    private registerAfterSwapEvents() {
+        this.gameData.swapModel.on(TexasSwapModel.Events.CHANGE, (swapModel: TexasSwapModel) => {
+            swapPlayerAndDealerCards(this.pokerCardScript, swapModel, this.texasSwapCards, () => this.gameData.stateModel.swapSuccess());
+        });
+    }
+
+    private registerAfterHoldEvents() {
+        this.gameData.holdModel.on(TexasHoldModel.Events.CHANGE, (holdModel: TexasHoldModel) => {
+            holdPlayerAndDealerCards(this.pokerCardScript, holdModel, () => this.gameData.stateModel.holdSuccess());
+        });
+    }
+
     private registerAfterCallEvents() {
         this.gameData.callModel.on(TexasCallModel.Events.CHANGE, (callModel: TexasCallModel) => {
             dealFirstThreeCommunityCards(this.pokerCardScript, callModel, () => this.gameData.stateModel.callSuccess());
@@ -519,14 +538,12 @@ export default class Texas extends NewGameRoomBase {
 
     async onSwapClick() {
         this.playClick();
-        const componentSwap = this.texasSwapCards.getComponent(TexasSwapCards);
-        await componentSwap.swapCards();
+        this.placingBet.handleClickOnChoice(TexasChoicesConst.swap);
     }
 
     onHoldClick() {
         this.playClick();
-        // this.gameData.stateModel.holdCard();
-        this.placingBet.handleClickButtonNoneBet(TexasChoicesConst.fold);
+        this.placingBet.handleClickOnChoice(TexasChoicesConst.hold);
     }
 
     private hideButtonPrepareNewRound() {

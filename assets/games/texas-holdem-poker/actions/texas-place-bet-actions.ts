@@ -37,8 +37,7 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
         case TexasState.dealing:
             break;
         case TexasState.dealt:
-            main.callButton.active = main.foldButton.active = true;
-            // main.swapButton.active = main.holdButton.active = main.doubleButton.active = true;
+            main.swapButton.active = main.holdButton.active = true;
             break;
         case TexasState.calling_call:
         case TexasState.calling_fold:
@@ -63,8 +62,12 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
         case TexasState.settled:
             main.riverButton.active = main.checkRiverButton.active = false;
             break;
-        case TexasState.swap_card:
-        case TexasState.hold_card:
+        case TexasState.swap:
+        case TexasState.hold:
+            main.swapButton.active = main.holdButton.active = main.doubleButton.active = false;
+            break;
+        case TexasState.swapped:
+        case TexasState.held:
             main.callButton.active = main.foldButton.active = true;
             break;
     }

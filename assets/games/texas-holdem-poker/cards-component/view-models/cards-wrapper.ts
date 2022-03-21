@@ -1,5 +1,6 @@
 import { convertCard } from "../../../holdem-poker/components/cards/view-models/CardWrapper";
 import PokerCards from "./texas-cards";
+import TexasSwapCards from "./texas-swap-cards";
 
 const handleCommunityCards = async (pokerCardsNote, communityCards) => {
     for (const element of communityCards) {
@@ -11,22 +12,64 @@ const handleCommunityCards = async (pokerCardsNote, communityCards) => {
 export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
-    const { playerCards } = cardsData;
+    // const { playerCards } = cardsData;
+
     const dealerFakeData = [
         { rank: "1", suit: 1 },
         { rank: "1", suit: 1 }
     ];
 
-    pokerCardsNote.drawingCardToPlayer(playerCards[0], false, 0);
+    const playerFakeData = [
+        { rank: "1", suit: 1 },
+        { rank: "1", suit: 1 }
+    ];
+
+    pokerCardsNote.drawingCardToPlayer(playerFakeData[0], true, 0);
 
     await pokerCardsNote.drawingCardToDealer(dealerFakeData[0], true, 0);
 
-    await pokerCardsNote.drawingCardToPlayer(playerCards[1], false, 1);
+    await pokerCardsNote.drawingCardToPlayer(playerFakeData[1], true, 1);
 
     await pokerCardsNote.drawingCardToDealer(dealerFakeData[1], true, 1);
 
+    callBack && callBack();
+    // pokerCardsNote.focusPlayerCard();
+    // showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
+};
+
+const handleFaceUpPlayerCard = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
+    const { playerCards } = cardsData;
+    for (let index = 0; index < playerCards.length; index++) {
+        const element = playerCards[index];
+        await pokerCardsNote.faceUpPlayerCard(element, index);
+    }
+
     pokerCardsNote.focusPlayerCard();
     showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
+};
+
+export const swapPlayerAndDealerCards = async (
+    pokerCardsNote: PokerCards,
+    cardsData: any,
+    texasSwapCards: cc.Node,
+    callBack?: () => void
+) => {
+    const componentSwap = texasSwapCards.getComponent(TexasSwapCards);
+    await componentSwap.swapCards();
+
+    await handleFaceUpPlayerCard(pokerCardsNote, cardsData, callBack);
+
+    // for (let index = 0; index < playerCards.length; index++) {
+    //     const element = playerCards[index];
+    //     await pokerCardsNote.faceUpPlayerCard(element, index);
+    // }
+
+    // pokerCardsNote.focusPlayerCard();
+    // showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
+};
+
+export const holdPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
+    await handleFaceUpPlayerCard(pokerCardsNote, cardsData, callBack);
 };
 
 export const dealFirstThreeCommunityCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
@@ -114,8 +157,22 @@ const showIndicatorSymbols = (pokerCardsNote: PokerCards, cardsData: any, callBa
 };
 
 export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any) => {
-    const { combinationResult, communityCards, playerCards } = cardsData;
-    const { player } = combinationResult;
+    const { combinationResult, communityCards, hasSwappedOrHold } = cardsData;
+    let player = {
+        id: 0,
+        combinationCards: [],
+        cards: []
+    };
+    let playerCards = [];
+    if (hasSwappedOrHold) {
+        playerCards = cardsData.playerCards;
+        player = combinationResult.player;
+    } else {
+        playerCards = [
+            { rank: "6", suit: 3 },
+            { rank: "6", suit: 3 }
+        ];
+    }
 
     const dealerDataFake = [
         { rank: "6", suit: 3 },
@@ -123,7 +180,7 @@ export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any) =>
     ];
 
     for (const card of playerCards) {
-        pokerCardsNote.drawingRejoinPlayerCards(card, false);
+        pokerCardsNote.drawingRejoinPlayerCards(card, hasSwappedOrHold ? false : true);
     }
 
     for (const card of communityCards) {
@@ -134,7 +191,9 @@ export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any) =>
         pokerCardsNote.drawingRejoinDealerCards(card, true);
     }
 
-    pokerCardsNote.showArrowIndicatorCards(convertCard(player.combinationCards), "player");
-    pokerCardsNote.showLabelIndicatorCards(player.id, "player");
-    pokerCardsNote.focusPlayerCard();
+    if (hasSwappedOrHold) {
+        pokerCardsNote.showArrowIndicatorCards(convertCard(player.combinationCards), "player");
+        pokerCardsNote.showLabelIndicatorCards(player.id, "player");
+        pokerCardsNote.focusPlayerCard();
+    }
 };
