@@ -40,7 +40,7 @@ window.i18n.languages.en = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Night Club"
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
