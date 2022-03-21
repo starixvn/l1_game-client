@@ -7,6 +7,7 @@ export default class SedieLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs) {
+        this.main.loading.active = false;
         this.main.updateRoundHistory();
     }
 }

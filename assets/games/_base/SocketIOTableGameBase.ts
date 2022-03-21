@@ -13,7 +13,10 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         super.onLoad();
 
         sessionManager.storeInRoomGameId(this.gameId);
+        this.initForSocket();
+    }
 
+    initForSocket() {
         this.socket = this.socketIOController.getSocketGame(this.gameId);
         if (!this.socket) {
             this.closeGame();
@@ -39,12 +42,12 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         }
     }
 
-    start() {
+    public registerViewGame() {
         this.socket && this.socket.connected && this.socket.emit("inGame");
     }
 
     onDestroy() {
-        super.destroy();
+        super.onDestroy();
         this.socketIOController.closeSocket(this.gameId);
     }
 

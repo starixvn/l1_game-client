@@ -91,6 +91,17 @@ export default class Sedie extends FreeBetGameBase {
         GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
     }
 
+    onEnable() {
+        super.onEnable();
+        this.loading.active = true;
+    }
+
+    onData(data: any) {
+        if (this.node.active) {
+            super.onData(data);
+        }
+    }
+
     initHandlers() {
         super.initHandlers();
 
@@ -172,16 +183,29 @@ export default class Sedie extends FreeBetGameBase {
                 .to(0.2, { opacity: 0 })
                 .start();
         } else {
-            this.thePlate.position = cc.v2(50, 150);
+            this.thePlate.position = cc.v3(50, 150);
             this.thePlate.opacity = 0;
         }
     }
 
-    closePlate() {
-        cc.tween(this.thePlate)
-            .to(0, { opacity: 255 })
-            .to(0.5, { position: cc.v2(0, 0) })
-            .start();
+    closePlate(animated = true) {
+        if (animated) {
+            cc.tween(this.thePlate)
+                .to(0, { opacity: 255 })
+                .to(0.5, { position: cc.v2(0, 0) })
+                .start();
+        } else {
+            this.thePlate.opacity = 255;
+            this.thePlate.position = cc.v3(0, 0);
+        }
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+        this.thePlate && this.thePlate.stopAllActions();
+        this.closePlate(false);
+        this.shakeThePlateAnimation.stop();
+        this.chipContainer.children.forEach((child) => child.destroyAllChildren());
     }
 
     highlightLastResult() {

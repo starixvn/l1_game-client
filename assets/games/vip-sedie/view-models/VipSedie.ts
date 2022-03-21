@@ -32,4 +32,11 @@ export default class VipSedie extends Sedie {
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
         });
     }
+
+    onDestroy() {
+        cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
+        cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+        cc.RedT.inGame = null;
+        this.socketIOController.closeSocket(this.gameId);
+    }
 }

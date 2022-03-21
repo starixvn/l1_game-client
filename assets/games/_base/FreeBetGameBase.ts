@@ -1,12 +1,12 @@
 import { Socket } from "socket.io-client";
 
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
-import SocketIOTableGameBase from "./SocketIOTableGameBase";
+import MultiOrientationGame from "./MultiOrientationGame";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class FreeBetGameBase extends SocketIOTableGameBase {
+export default class FreeBetGameBase extends MultiOrientationGame {
     @property(cc.Label)
     userSCoin: cc.Label = null;
 
