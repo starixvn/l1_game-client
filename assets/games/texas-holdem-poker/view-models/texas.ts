@@ -335,6 +335,9 @@ export default class Texas extends NewGameRoomBase {
         this.gameData.placeBetModel.on(TexasPlaceBetModel.Events.CALL, showOwnBet(this.gameData, this.bettingAreas));
         this.gameData.placeBetModel.on(TexasPlaceBetModel.Events.TURN, showOwnBet(this.gameData, this.bettingAreas));
         this.gameData.placeBetModel.on(TexasPlaceBetModel.Events.RIVER, showOwnBet(this.gameData, this.bettingAreas));
+        this.gameData.placeBetModel.on(TexasPlaceBetModel.Events.UPDATE_GAME_ROUND, () => {
+            this.gameRound.string = "";
+        });
     }
 
     private registerSettlementEvents() {

@@ -34,6 +34,7 @@ export default class TexasOwnBetHandler<Choices> extends TexasEventHandler<Texas
             return;
         }
         const betsConverted = cloneDeepChoiceData(bets);
+        this.gameData.ownBets.updateRoundId(roundId);
         this.gameData.emit(TexasGameDataModel.Events.CHOICES_RESULT, betsConverted);
         this.gameData.stateModel.rejoinTable(communityCards.length, hasSwappedOrHold);
         this.gameData.ownBets.changeOwnBets({

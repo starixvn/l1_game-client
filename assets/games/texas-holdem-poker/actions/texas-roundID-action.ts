@@ -10,4 +10,7 @@ export default class TexasRoundIDAction extends TexasMicroUIAction {
             this.nodeTree.getComponent(cc.Label).string = `#${roundId}`;
         });
     }
+    clearRoundID() {
+        this.nodeTree.getComponent(cc.Label).string = "";
+    }
 }
