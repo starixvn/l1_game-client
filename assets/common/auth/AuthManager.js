@@ -92,13 +92,13 @@ function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
                     clearTokenOnUrl();
                     onSuccessFunc();
                 } else {
-                    messageComp.hideMessageList();
-                    messageComp.setErrorMessage(i18n.t("ui.login_failed"));
+                    messageComp.resetMessage();
+                    messageComp.setMessage(i18n.t("ui.login_failed"));
                 }
             })
             .catch((error) => {
-                messageComp.hideMessageList();
-                messageComp.setErrorMessage(i18n.t("ui.connection_lost"));
+                messageComp.resetMessage();
+                messageComp.setMessage(i18n.t("ui.connection_lost"));
                 sentryLogger.logError(error);
             });
     } else if (session && session.isAuthenticated && session.ss) {
