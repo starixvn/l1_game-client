@@ -483,7 +483,7 @@ window.i18n.languages.vi = {
         low: "Thấp"
     },
     texasPoker: {
-        OddsTitle: "Call/Turn/River",
+        OddsTitle: "Call / Turn / River",
         straight: "Sảnh",
         royalFlush: "Sảnh Rồng",
         straightFlush: "Thùng Phá Sảnh",

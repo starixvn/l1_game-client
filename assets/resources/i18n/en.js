@@ -481,7 +481,7 @@ window.i18n.languages.en = {
         low: "Low"
     },
     texasPoker: {
-        OddsTitle: "Call/Turn/River",
+        OddsTitle: "Call / Turn / River",
         straight: "Straight",
         royalFlush: "Royal Flush",
         straightFlush: "Straight Flush",

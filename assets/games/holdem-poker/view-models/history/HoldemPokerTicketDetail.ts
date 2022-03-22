@@ -1,3 +1,4 @@
+import { length } from "./../../../../../packages/i18n/runtime-scripts/creator.d";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
@@ -62,10 +63,11 @@ export default class HoldemPokerTicketDetail extends cc.Component {
 
     renderBets(data: HoldemPokerTicketDetailModel) {
         const { bets, isFold } = data.ticketDetail;
+        const totalRow = bets.length;
         this.heightBetTable = isFold ? 76 : 64;
         bets.forEach((bet, index) => {
             this.heightBetTable += 60;
-            this.handleTicketDetailItem(bet, index);
+            this.handleTicketDetailItem(bet, index, totalRow);
         });
         this.betTable.node.height = this.heightBetTable;
     }
@@ -74,10 +76,10 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         return node.getComponent(HoldemPokerTicketDetailItem);
     }
 
-    handleTicketDetailItem(bet: any, index: number) {
+    handleTicketDetailItem(bet: any, index: number, totalRow: number) {
         const detailItemPrefab = cc.instantiate(this.prefabItem);
         const detailItemControl = this.getComponentDetailItem(detailItemPrefab);
-        detailItemControl.renderTicketDetailItem(bet, index);
+        detailItemControl.renderTicketDetailItem(bet, index, totalRow);
         this.content.addChild(detailItemPrefab);
     }
 

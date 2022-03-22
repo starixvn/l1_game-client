@@ -1,6 +1,6 @@
 import HoldemPokerTicketDetailItem from "../../../holdem-poker/view-models/history/HoldemPokerTicketDetailItem";
 
-const { ccclass } = cc._decorator;
+const { property, ccclass } = cc._decorator;
 
 export type TicketDetailItem = {
     bettingOption: string;
