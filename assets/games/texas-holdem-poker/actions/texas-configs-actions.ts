@@ -7,11 +7,7 @@ export const updateMinMax = (minMaxTable: TexasMinMax) => (configs: TexasConfigs
     minMaxTable.Max = configs.maxBet;
 };
 
-export const updateRightOddsTable = (oddsTable: TexasOddsTable) => (configs: TexasConfigsModel) => {
-    oddsTable.oddOptions.forEach((e) => (e.OddValue = configs.odds["call"]));
-};
-
-export const updateLeftOddsTable = (oddsTable: TexasOddsTable) => (configs: TexasConfigsModel) => {
+export const updateLeftRightOddsTable = (oddsTable: TexasOddsTable) => (configs: TexasConfigsModel) => {
     for (const [key, value] of Object.entries(configs.odds)) {
         const oddOption = oddsTable.oddOptions.find((e) => e.key === key);
         if (oddOption) {

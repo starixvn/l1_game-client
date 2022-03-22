@@ -12,7 +12,6 @@ const handleCommunityCards = async (pokerCardsNote, communityCards) => {
 export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
-    // const { playerCards } = cardsData;
 
     const dealerFakeData = [
         { rank: "1", suit: 1 },
@@ -58,14 +57,6 @@ export const swapPlayerAndDealerCards = async (
     await componentSwap.swapCards();
 
     await handleFaceUpPlayerCard(pokerCardsNote, cardsData, callBack);
-
-    // for (let index = 0; index < playerCards.length; index++) {
-    //     const element = playerCards[index];
-    //     await pokerCardsNote.faceUpPlayerCard(element, index);
-    // }
-
-    // pokerCardsNote.focusPlayerCard();
-    // showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
 };
 
 export const holdPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
@@ -131,7 +122,7 @@ export const dealFourAndFireCardAndFaceUpDealerCards = async (pokerCardsNote: Po
 };
 
 export const collectCards = (pokerCardsNote: PokerCards, callBack?: () => void, delayCallBack = 0) => {
-    const durationCollectCard = 2700;
+    const durationCollectCard = 1000;
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
     pokerCardsNote.collectCardsOnTable();

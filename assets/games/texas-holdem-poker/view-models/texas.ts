@@ -43,7 +43,7 @@ import {
     swapPlayerAndDealerCards
 } from "../cards-component/view-models/cards-wrapper";
 import TexasCards from "../cards-component/view-models/texas-cards";
-import { updateLeftOddsTable, updateMinMax, updateRightOddsTable } from "./../actions/texas-configs-actions";
+import { updateLeftRightOddsTable, updateMinMax } from "./../actions/texas-configs-actions";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-rejoin-room-actions";
 import TexasRiverModel from "./../event-models/texas-river-model";
@@ -53,7 +53,6 @@ import TexasChips from "./texas-chips";
 import TexasMinMax from "./texas-min-max";
 import TexasOddsTable from "./texas-odds-table";
 import TexasPlacingBet from "./texas-placing-bet";
-import HoldemPockerMD5 from "../../holdem-poker/view-models/HoldemPockerMD5";
 import AudioManager from "../../../common/audio/AudioManager";
 import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
 import TexasTicketHistory from "./game-history/texas-ticket-history";
@@ -61,9 +60,9 @@ import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
 import { handleMD5 } from "./../actions/texas-md5-action";
 import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
 import { updateStatusGame } from "../../holdem-poker/actions/HoldemPokerNoticeActions";
-import TexasSwapCards from "../cards-component/view-models/texas-swap-cards";
 import TexasSwapModel from "../event-models/texas-swap-model";
 import TexasHoldModel from "../event-models/texas-hold-model";
+import TexasMD5 from "./texas-MD5";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -140,8 +139,8 @@ export default class Texas extends NewGameRoomBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
-    @property(HoldemPockerMD5)
-    md5Comp: HoldemPockerMD5 = null;
+    @property(TexasMD5)
+    md5Comp: TexasMD5 = null;
 
     @property(cc.AudioSource)
     gameNotificationsAudio: cc.AudioSource = null;
@@ -211,8 +210,8 @@ export default class Texas extends NewGameRoomBase {
         this.gameData.configs.on(TexasConfigsModel.Events.CHANGE, (configs: TexasConfigsModel) => {
             this.setGameConfigs(configs);
             updateMinMax(this.minMaxTable)(configs);
-            updateLeftOddsTable(this.oddsTables[0])(configs);
-            updateRightOddsTable(this.oddsTables[1])(configs);
+            updateLeftRightOddsTable(this.oddsTables[0])(configs);
+            updateLeftRightOddsTable(this.oddsTables[1])(configs);
         });
     }
 
