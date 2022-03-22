@@ -92,12 +92,12 @@ function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
                     clearTokenOnUrl();
                     onSuccessFunc();
                 } else {
-                    messageComp.resetMessage();
+                    messageComp.reset();
                     messageComp.setMessage(i18n.t("ui.login_failed"));
                 }
             })
             .catch((error) => {
-                messageComp.resetMessage();
+                messageComp.reset();
                 messageComp.setMessage(i18n.t("ui.connection_lost"));
                 sentryLogger.logError(error);
             });

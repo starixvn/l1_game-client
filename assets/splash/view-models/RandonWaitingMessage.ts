@@ -49,7 +49,7 @@ export default class RandonWaitingMessage extends cc.Component {
             .start();
     }
 
-    resetMessage() {
+    reset() {
         this.messageTween.stop();
         this.messageLabel.node.opacity = 255;
         this.messageLabel.node.position = cc.v3(0, 0, 0);
