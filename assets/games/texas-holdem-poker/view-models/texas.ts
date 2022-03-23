@@ -3,7 +3,6 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
 import { events } from "../../_new/connection/SocketIOConnection";
 import NewButton from "../../../common/custom-button/NewButton";
-import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import PrefabLoader from "../../../common/PrefabLoader";
 import { GameIds } from "../../../configs/SabaConfigs";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
@@ -64,6 +63,7 @@ import { updateStatusGame } from "../../holdem-poker/actions/HoldemPokerNoticeAc
 import TexasSwapModel from "../event-models/texas-swap-model";
 import TexasHoldModel from "../event-models/texas-hold-model";
 import TexasMD5 from "./texas-MD5";
+import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -152,6 +152,9 @@ export default class Texas extends NewGameRoomBase {
     @property(cc.AudioSource)
     startNewRoundAudio: cc.AudioSource = null;
 
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
+
     protected placingBet: TexasPlacingBet = null;
     protected gameData: TexasGameDataModel<TexasChoicesType> = null;
     protected TexasChipss: TexasChips;
@@ -160,7 +163,6 @@ export default class Texas extends NewGameRoomBase {
     pokerCardScript: TexasCards = undefined;
     protected betHistoryController: TexasTicketHistory = null;
     protected isSwapCard = true;
-    private bgMusic: number;
     private readonly listSong = ["song1", "song2", "song3", "song4", "song5", "song6", "song7"];
 
     constructor() {
@@ -172,14 +174,22 @@ export default class Texas extends NewGameRoomBase {
         this.gameData = new TexasGameDataModel<TexasChoicesType>();
         this.TexasChipss = new TexasChips();
         this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
-        this.playBgAudio();
+        const audioManager = AudioManager.getInstance();
+        audioManager.addMusicChanged(`${this.gameId}`, (enable: boolean) => {
+            this.playBgAudio(enable);
+        });
         super.onLoad();
+    }
+
+    onDestroy() {
+        super.onDestroy();
+        const audioManager = AudioManager.getInstance();
+        audioManager.removeMusicChanged(`${this.gameId}`);
     }
 
     onCloseGameClick() {
         super.onCloseGameClick();
         this.stopBgAudio();
-        cc.audioEngine.stopAllEffects();
     }
 
     private getRandomNameSong() {
@@ -189,24 +199,29 @@ export default class Texas extends NewGameRoomBase {
     private loadResourceAudio(song: string) {
         cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: any) => {
             if (this.node && this.node.isValid) {
-                this.bgMusic = cc.audioEngine.playEffect(audioClip, false);
-                cc.audioEngine.setFinishCallback(this.bgMusic, this.playBgAudio.bind(this));
+                const bgMusicId = AudioManager.getInstance().playMusic(audioClip, false);
+                cc.audioEngine.setFinishCallback(bgMusicId, () => {
+                    this.playBgAudio(true);
+                });
             }
         });
     }
 
     private stopBgAudio() {
-        this.bgMusic && AudioManager.getInstance().stopSFX(this.bgMusic);
+        AudioManager.getInstance().stopMusic();
     }
 
-    private playBgAudio() {
-        this.loadResourceAudio(this.getRandomNameSong());
+    private playBgAudio(play: boolean) {
+        if (play) {
+            this.loadResourceAudio(this.getRandomNameSong());
+        } else {
+            this.stopBgAudio();
+        }
     }
 
     start() {
         super.start();
 
-        this.initMenu();
         this.initPlacingBet();
         this.initButtonStatus();
 
@@ -300,12 +315,6 @@ export default class Texas extends NewGameRoomBase {
             !this.holdButton.getChildByName(disableButton).active && this.onHoldClick();
     }
 
-    private initMenu() {
-        const gameRoomMenu = this.gameMenuContainer.getComponent(GameRoomMenu);
-        const menuAction = [this.pressedShowHistory, this.openGuide];
-        gameRoomMenu.initialize(this.node, this).addCommonIcon().withEvents(menuAction);
-    }
-
     private initTicketHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.betHistoryController = dialog.getComponent(TexasTicketHistory);
@@ -317,8 +326,7 @@ export default class Texas extends NewGameRoomBase {
 
     private pressedShowHistory() {
         this.playClick();
-        const gameRomeMenuControl = this.gameMenuContainer.getComponent(GameRoomMenu);
-        gameRomeMenuControl.collapseMenu();
+        this.expandableMenu.collapseMenu();
         this.initTicketHistory();
         this.betHistoryController.setId(this.gameData.roundCounter.roundId);
         this.betHistoryController.showDialog();
@@ -326,8 +334,7 @@ export default class Texas extends NewGameRoomBase {
 
     openGuide() {
         super.openGuide();
-        const gameRomeMenuControl = this.gameMenuContainer.getComponent(GameRoomMenu);
-        gameRomeMenuControl.collapseMenu();
+        this.expandableMenu.collapseMenu();
     }
 
     private initPlacingBet() {

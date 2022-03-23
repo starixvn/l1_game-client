@@ -6,7 +6,7 @@ const { ccclass } = cc._decorator;
 @ccclass
 export default class TexasMD5 extends HoldemPockerMD5 {
     protected readonly suffixIcon = ["♥", "♦", "♣", "♠"];
-    private readonly limitSting = 26;
+    private readonly limitSting = 357;
 
     createResultDetails(data: any) {
         const { cards, suffix } = data.formatValue;
@@ -27,6 +27,6 @@ export default class TexasMD5 extends HoldemPockerMD5 {
         const suffixFormatting = `<color=#ffffff>{#${suffix}}</color>`;
         const md5String = `${resultFormatting}_${suffixFormatting}`;
         console.log(md5String);
-        this.md5Value.string = `${resultFormatting}_${suffixFormatting}`.substring(0, 357) + "...";
+        this.md5Value.string = `${resultFormatting}_${suffixFormatting}`.substring(0, this.limitSting) + "...";
     }
 }
