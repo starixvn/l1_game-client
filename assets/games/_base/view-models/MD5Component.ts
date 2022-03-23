@@ -34,6 +34,9 @@ export default class MD5Component extends cc.Component {
     @property
     defaultExpand = false;
 
+    @property
+    valueMd5Length = 21;
+
     private md5CopyString: string = null;
     readonly duration: number = 0.5;
     protected isExpanded = false;
@@ -43,7 +46,6 @@ export default class MD5Component extends cc.Component {
         const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
         hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
-        this.enableCopyButton(false);
         this.showHint = this.showHint.bind(this);
 
         if (this.defaultExpand) {
@@ -53,21 +55,16 @@ export default class MD5Component extends cc.Component {
         }
     }
 
-    enableCopyButton(enabled: boolean) {
-        this.copyButton.interactable = enabled;
-        const color = cc.Color.WHITE;
-        this.copyButton.node.getChildByName("text").color = enabled ? color : color.fromHEX("#a8a8a8");
-    }
-
     updateMD5String(data: MD5Type) {
         this.setCaptionAndHintForMD5(!!data.rawValue);
-        this.md5Value.string = `<color=#ffffff>${data.hashValue || data.rawValue}</color>`;
+        const value = data.hashValue || data.rawValue;
+        const formatValue = value.slice(0, this.valueMd5Length) + "...";
+        this.md5Value.string = `<color=#ffffff>${formatValue}</color>`;
         this.setCopyString(data.hashValue || data.rawValue);
     }
 
     setCopyString(text: string) {
         this.md5CopyString = text;
-        this.enableCopyButton(text.length > 0);
     }
 
     onClickCopyButton() {
