@@ -429,7 +429,10 @@ window.i18n.languages.vi = {
         noDataAvailable: "Không có dữ liệu",
         ticket_details: "Chi Tiết Cược",
         bet_details: "Đặt Cược",
-        new_year: "Phúc Lộc An Khang"
+        new_year: "Phúc Lộc An Khang",
+        md5_result: "KẾT QUẢ",
+        md5_string: "CHUỖI MD5",
+        md5_copy: "COPY"
     },
     holdEmPoker: {
         ante: "ANTE",

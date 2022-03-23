@@ -424,7 +424,10 @@ window.i18n.languages.th = {
         noDataAvailable: "No data available",
         ticket_details: "รายละเอียดตั๋วเดิมพัน",
         bet_details: "รายละเอียดการเดิมพัน",
-        new_year: "Happy New Year"
+        new_year: "Happy New Year",
+        md5_result: "ผลลัพธ์",
+        md5_string: "MD5 STRING",
+        md5_copy: "COPY"
     },
     holdEmPoker: {
         ante: "ANTE",

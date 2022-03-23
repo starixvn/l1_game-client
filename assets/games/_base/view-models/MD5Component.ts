@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 export type MD5Type = {
     rawValue: string;
     hashValue: string;
-  };
+};
 @ccclass
 export default class MD5Component extends cc.Component {
     @property(cc.Label)
@@ -77,9 +77,9 @@ export default class MD5Component extends cc.Component {
 
     setCaptionAndHintForMD5(isMD5Key: boolean) {
         if (isMD5Key) {
-            this.md5Text.string = i18n.t("ui.result");
+            this.md5Text.string = i18n.t("ui.md5_result");
         } else {
-            this.md5Text.string = i18n.t("holdEmPoker.md5String");
+            this.md5Text.string = i18n.t("ui.md5_string");
         }
     }
 
