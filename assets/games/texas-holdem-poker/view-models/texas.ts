@@ -1,4 +1,5 @@
 import { holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
 import { events } from "../../_new/connection/SocketIOConnection";
 import NewButton from "../../../common/custom-button/NewButton";
@@ -158,6 +159,9 @@ export default class Texas extends NewGameRoomBase {
     protected colorIconMain = "#4d2a0e";
     pokerCardScript: TexasCards = undefined;
     protected betHistoryController: TexasTicketHistory = null;
+    protected isSwapCard = true;
+    private bgMusic: number;
+    private readonly listSong = ["song1", "song2", "song3", "song4", "song5", "song6", "song7"];
 
     constructor() {
         super();
@@ -168,7 +172,35 @@ export default class Texas extends NewGameRoomBase {
         this.gameData = new TexasGameDataModel<TexasChoicesType>();
         this.TexasChipss = new TexasChips();
         this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
+        this.playBgAudio();
         super.onLoad();
+    }
+
+    onCloseGameClick() {
+        super.onCloseGameClick();
+        this.stopBgAudio();
+        cc.audioEngine.stopAllEffects();
+    }
+
+    private getRandomNameSong() {
+        return this.listSong[Math.floor(Math.random() * this.listSong.length)];
+    }
+
+    private loadResourceAudio(song: string) {
+        cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: any) => {
+            if (this.node && this.node.isValid) {
+                this.bgMusic = cc.audioEngine.playEffect(audioClip, false);
+                cc.audioEngine.setFinishCallback(this.bgMusic, this.playBgAudio.bind(this));
+            }
+        });
+    }
+
+    private stopBgAudio() {
+        this.bgMusic && AudioManager.getInstance().stopSFX(this.bgMusic);
+    }
+
+    private playBgAudio() {
+        this.loadResourceAudio(this.getRandomNameSong());
     }
 
     start() {
@@ -270,7 +302,7 @@ export default class Texas extends NewGameRoomBase {
 
     private initMenu() {
         const gameRoomMenu = this.gameMenuContainer.getComponent(GameRoomMenu);
-        const menuAction = [this.onCloseGameClick, this.pressedShowHistory, this.openGuide];
+        const menuAction = [this.pressedShowHistory, this.openGuide];
         gameRoomMenu.initialize(this.node, this).addCommonIcon().withEvents(menuAction);
     }
 
@@ -341,6 +373,10 @@ export default class Texas extends NewGameRoomBase {
 
     private registerSettlementEvents() {
         this.gameData.on(TexasGameDataModel.Events.SETTLED, () => this.gameData.stateModel.settle());
+        this.gameData.on(
+            TexasGameDataModel.Events.SETTLED,
+            () => () => !this.isSwapCard && this.showMiniWarning(i18n.t("texasPoker.swapCardOff"))
+        );
         this.gameData.finishModel.on(TexasFinishModel.Events.CHANGE_SETTLEMENT, () => {
             this.gameData?.settlement.startSettlement();
         });
@@ -394,7 +430,7 @@ export default class Texas extends NewGameRoomBase {
 
     private registerAfterDealEvents() {
         this.gameData.dealModel.on(TexasDealModel.Events.CHANGE, (dealModel: TexasDealModel) => {
-            dealPlayerAndDealerCards(this.pokerCardScript, dealModel, () => this.gameData.stateModel.afterDeal());
+            dealPlayerAndDealerCards(this.pokerCardScript, dealModel, () => this.gameData.stateModel.afterDeal(), this.isSwapCard);
         });
     }
 
@@ -429,6 +465,10 @@ export default class Texas extends NewGameRoomBase {
 
     private registerBetEvents() {
         this.gameData.on(TexasGameDataModel.Events.CHOICES_RESULT, updatePreviousChoices(this.gameData.placeBetModel));
+        this.gameData.on(
+            TexasGameDataModel.Events.CHOICES_RESULT,
+            () => this.isSwapCard && this.showMiniWarning(i18n.t("texasPoker.swapCardOn"))
+        );
         this.gameData.on(TexasGameDataModel.Events.SHOW_PROCESSING_BET, () => this.showProcessingWarning(true));
         this.gameData.on(TexasGameDataModel.Events.HIDE_PROCESSING_BET, () => this.showProcessingWarning(false));
 

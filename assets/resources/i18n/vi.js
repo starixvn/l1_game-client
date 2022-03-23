@@ -515,6 +515,8 @@ window.i18n.languages.vi = {
         new: "Ván Mới",
         swap: "Hoán Đổi Bài",
         hold: "Giữ Bài",
-        notEnoughMoney: "Bạn hiện không có đủ tiền để cược."
+        notEnoughMoney: "Bạn hiện không có đủ tiền để cược.",
+        swapCardOn: "Bật tính năng “Hoán Đổi Bài”",
+        swapCardOff: "Tắt tính năng “Hoán Đổi Bài”"
     }
 };

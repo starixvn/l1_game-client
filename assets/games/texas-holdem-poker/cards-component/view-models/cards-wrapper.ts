@@ -9,7 +9,7 @@ const handleCommunityCards = async (pokerCardsNote, communityCards) => {
 
     return pokerCardsNote;
 };
-export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
+export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void, isSwapCard: boolean) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
 
@@ -18,22 +18,34 @@ export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cards
         { rank: "1", suit: 1 }
     ];
 
-    const playerFakeData = [
-        { rank: "1", suit: 1 },
-        { rank: "1", suit: 1 }
-    ];
+    if (isSwapCard) {
+        const playerFakeData = [
+            { rank: "1", suit: 1 },
+            { rank: "1", suit: 1 }
+        ];
 
-    pokerCardsNote.drawingCardToPlayer(playerFakeData[0], true, 0);
+        pokerCardsNote.drawingCardToPlayer(playerFakeData[0], true, 0);
 
-    await pokerCardsNote.drawingCardToDealer(dealerFakeData[0], true, 0);
+        await pokerCardsNote.drawingCardToDealer(dealerFakeData[0], true, 0);
 
-    await pokerCardsNote.drawingCardToPlayer(playerFakeData[1], true, 1);
+        await pokerCardsNote.drawingCardToPlayer(playerFakeData[1], true, 1);
 
-    await pokerCardsNote.drawingCardToDealer(dealerFakeData[1], true, 1);
+        await pokerCardsNote.drawingCardToDealer(dealerFakeData[1], true, 1);
 
-    callBack && callBack();
-    // pokerCardsNote.focusPlayerCard();
-    // showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
+        callBack && callBack();
+    } else {
+        const { playerCards } = cardsData;
+        pokerCardsNote.drawingCardToPlayer(playerCards[0], false, 0);
+
+        await pokerCardsNote.drawingCardToDealer(dealerFakeData[0], true, 0);
+
+        await pokerCardsNote.drawingCardToPlayer(playerCards[1], false, 1);
+
+        await pokerCardsNote.drawingCardToDealer(dealerFakeData[1], true, 1);
+
+        pokerCardsNote.focusPlayerCard();
+        showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
+    }
 };
 
 const handleFaceUpPlayerCard = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {

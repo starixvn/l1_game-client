@@ -510,6 +510,8 @@ window.i18n.languages.th = {
         new: "New",
         swap: "Swap Card",
         hold: "Hold Card",
-        notEnoughMoney: "Your account has insufficient funds to complete the game round"
+        notEnoughMoney: "Your account has insufficient funds to complete the game round",
+        swapCardOn: "Bật tính năng “Hoán Đổi Bài”",
+        swapCardOff: "Tắt tính năng “Hoán Đổi Bài”"
     }
 };
