@@ -56,23 +56,32 @@ export default class HoldemPockerMD5 extends cc.Component {
         this.setCaptionAndHintForMD5(true);
         this.setCopyString(data.rawValue);
 
-        let resultFormatting = "";
-        cards.forEach((card, index) => {
-            const startSquareBracket = index === 0 ? `<color=#ffffff>[</color>` : "";
-            const endSquareBracket = index === cards.length - 1 ? `<color=#ffffff>]</color>` : "";
-            const comma = index === cards.length - 1 ? "" : index === 1 || index === 3 ? `<color=#ffffff>, </color>` : " ";
-            const cardValue =
-                card.suit > 1
-                    ? `<color=#000000>${convertOldRank(card.rank)}</color>`
-                    : `<color=#E92E2E>${convertOldRank(card.rank)}</color>`;
-            resultFormatting += `${startSquareBracket}${cardValue}${comma}${endSquareBracket}`;
-        });
+        const resultFormatting = this.formatMD5String(cards, "[", "]");
         const suffixFormatting = `<color=#ffffff>${suffix}</color>`;
         this.md5Value.string = `${resultFormatting}${suffixFormatting}`;
     }
 
+    formatMD5String(cards: any, startString: string, endString: string) {
+        let resultFormatting = "";
+        cards.forEach((card, index) => {
+            const start = index === 0 ? `<color=#ffffff>${startString}</color>` : "";
+            const end = index === cards.length - 1 ? `<color=#ffffff>${endString}</color>` : "";
+            const comma = index === cards.length - 1 ? "" : index === 1 || index === 3 ? `<color=#ffffff>, </color>` : " ";
+            const cardValue =
+                card.suit > 1
+                    ? `<color=#000000>${this.convertRankCard(card)}</color>`
+                    : `<color=#E92E2E>${this.convertRankCard(card)}</color>`;
+            resultFormatting += `${start}${cardValue}${comma}${end}`;
+        });
+
+        return resultFormatting;
+    }
+
+    convertRankCard(card: any) {
+        return convertOldRank(card.rank);
+    }
+
     onClickCopyButton() {
-        
         GameUtils.copyToClipboard(this.md5CopyString, this.showHint);
     }
 

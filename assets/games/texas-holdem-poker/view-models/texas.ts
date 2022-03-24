@@ -65,10 +65,34 @@ import TexasSwapModel from "../event-models/texas-swap-model";
 import TexasHoldModel from "../event-models/texas-hold-model";
 import TexasMD5 from "./texas-MD5";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
+import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
+import RoomPlayer from "../../_base/view-models/RoomPlayer";
+import BetItem from "../../_base/view-models/BetItem";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Texas extends NewGameRoomBase {
+    @property({ visible: false, override: true })
+    betItems: BetItem[] = [];
+
+    @property({ visible: false, override: true })
+    players: RoomPlayer[] = [];
+
+    @property({ visible: false, override: true })
+    timeWaitNode: cc.Node = null;
+
+    @property({ visible: false, override: true })
+    timeWaitLabel: cc.Label = null;
+
+    @property({ visible: false, override: true })
+    animatedTime: AnimatedTime = null;
+
+    @property({ visible: false, override: true })
+    otherPlayers: cc.Node = null;
+
+    @property({ visible: false, override: true })
+    gameAudiosPrefab: cc.Prefab = null;
+
     @property({ type: [PrefabLoader] })
     protected prefabLoader: PrefabLoader[] = [];
 
@@ -77,9 +101,6 @@ export default class Texas extends NewGameRoomBase {
 
     @property({ type: [TexasMicroUIAction] })
     protected microUIAction: TexasMicroUIAction[] = [];
-
-    @property(cc.Node)
-    gameMenuContainer: cc.Node = null;
 
     @property(cc.Node)
     doubleButton: cc.Node = null;
@@ -161,7 +182,7 @@ export default class Texas extends NewGameRoomBase {
     protected TexasChipss: TexasChips;
     protected colorItem = "#4d2a0e";
     protected colorIconMain = "#4d2a0e";
-    pokerCardScript: TexasCards = undefined;
+    protected pokerCardScript: TexasCards = undefined;
     protected betHistoryController: TexasTicketHistory = null;
     protected isSwapCard = true;
 
