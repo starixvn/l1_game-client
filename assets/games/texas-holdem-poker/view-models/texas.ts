@@ -68,6 +68,7 @@ import ExpandableMenu from "../../../common/expandable-menu/view-models/Expandab
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BetItem from "../../_base/view-models/BetItem";
+import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -177,6 +178,9 @@ export default class Texas extends NewGameRoomBase {
     @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
 
+    @property(HandleActionSwap)
+    swapMenu: HandleActionSwap = null;
+
     protected placingBet: TexasPlacingBet = null;
     protected gameData: TexasGameDataModel<TexasChoicesType> = null;
     protected TexasChipss: TexasChips;
@@ -185,6 +189,7 @@ export default class Texas extends NewGameRoomBase {
     protected pokerCardScript: TexasCards = undefined;
     protected betHistoryController: TexasTicketHistory = null;
     protected isSwapCard = true;
+    private isDisableSwapIcon = false;
 
     constructor() {
         super();
@@ -218,9 +223,11 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private loadResourceAudio(song: string) {
-        cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: any) => {
+        cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
             if (this.node && this.node.isValid) {
                 const bgMusicId = AudioManager.getInstance().playMusic(audioClip, false);
+                cc.audioEngine.setVolume(bgMusicId, 0.7);
+                console.log(cc.audioEngine.getVolume(bgMusicId));
                 cc.audioEngine.setFinishCallback(bgMusicId, () => {
                     this.playBgAudio(true);
                 });
@@ -262,6 +269,7 @@ export default class Texas extends NewGameRoomBase {
         this.registerTicketDetailEvents();
         this.registerNoticeEvents();
         this.registerMD5Event();
+        this.showMiniWarning(i18n.t("texasPoker.swapCardOn"));
     }
 
     initPokerCardScript() {
@@ -371,10 +379,9 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private registerPlaceBetEvents() {
-        this.gameData.placeBetModel.on(
-            TexasPlaceBetModel.Events.PLACE_BET_CHIPS,
-            showPlaceBetChips(this.bettingAreas, this.betChips, this.shadowChip, this.TexasChipss)
-        );
+        this.gameData.placeBetModel.on(TexasPlaceBetModel.Events.PLACE_BET_CHIPS, () => {
+            showPlaceBetChips(this.bettingAreas, this.betChips, this.shadowChip, this.TexasChipss);
+        });
 
         this.gameData.placeBetModel.on(TexasPlaceBetModel.Events.CLEAR_BET_CHIPS, clearBetChips(this.bettingAreas));
         this.gameData.placeBetModel.on(TexasPlaceBetModel.Events.CLEAR_ALL_BET_CHIPS, clearAllBetChips(this.bettingAreas));
@@ -398,11 +405,12 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private registerSettlementEvents() {
-        this.gameData.on(TexasGameDataModel.Events.SETTLED, () => this.gameData.stateModel.settle());
-        this.gameData.on(
-            TexasGameDataModel.Events.SETTLED,
-            () => () => !this.isSwapCard && this.showMiniWarning(i18n.t("texasPoker.swapCardOff"))
-        );
+        this.gameData.on(TexasGameDataModel.Events.SETTLED, () => {
+            this.gameData.stateModel.settle();
+            this.swapMenu.setEnable();
+            this.disableIconSwap = false;
+        });
+
         this.gameData.finishModel.on(TexasFinishModel.Events.CHANGE_SETTLEMENT, () => {
             this.gameData?.settlement.startSettlement();
         });
@@ -455,9 +463,14 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private registerAfterDealEvents() {
-        this.gameData.dealModel.on(TexasDealModel.Events.CHANGE, (dealModel: TexasDealModel) => {
-            dealPlayerAndDealerCards(this.pokerCardScript, dealModel, this.isSwapCard, () => this.gameData.stateModel.afterDeal());
+        this.gameData.dealModel.on(TexasDealModel.Events.CHANGE, () => {
+            dealPlayerAndDealerCards(this.pokerCardScript, () => this.actionAfterDeal());
         });
+    }
+
+    private actionAfterDeal() {
+        this.gameData.stateModel.afterDeal();
+        !this.isSwapCard && this.placingBet.handleClickOnChoice(TexasChoicesConst.hold);
     }
 
     private registerAfterSwapEvents() {
@@ -491,16 +504,14 @@ export default class Texas extends NewGameRoomBase {
 
     private registerBetEvents() {
         this.gameData.on(TexasGameDataModel.Events.CHOICES_RESULT, updatePreviousChoices(this.gameData.placeBetModel));
-        this.gameData.on(
-            TexasGameDataModel.Events.CHOICES_RESULT,
-            () => this.isSwapCard && this.showMiniWarning(i18n.t("texasPoker.swapCardOn"))
-        );
         this.gameData.on(TexasGameDataModel.Events.SHOW_PROCESSING_BET, () => this.showProcessingWarning(true));
         this.gameData.on(TexasGameDataModel.Events.HIDE_PROCESSING_BET, () => this.showProcessingWarning(false));
 
         this.gameData.ownBets.on(TexasOwnBetModel.Events.OWN_BETS, showRejoinOwnBets(this.gameData));
         this.gameData.ownBets.on(TexasOwnBetModel.Events.OWN_BETS, (ownBets: TexasOwnBetModel) => {
             rawCardWhenRejoin(this.pokerCardScript, ownBets);
+            this.disableIconSwap = true;
+            this.swapMenu.setDisable();
         });
     }
 
@@ -524,6 +535,8 @@ export default class Texas extends NewGameRoomBase {
 
     onDealClick() {
         this.playClick();
+        this.disableIconSwap = true;
+        this.swapMenu.setDisable();
         this.placingBet.handleClickDeal();
     }
 
@@ -576,6 +589,8 @@ export default class Texas extends NewGameRoomBase {
 
     onRebetAndDeal() {
         this.playClick();
+        this.disableIconSwap = true;
+        this.swapMenu.setDisable();
         this.hideButtonPrepareNewRound();
         collectCards(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
         clearAllBetChips(this.bettingAreas)();
@@ -624,5 +639,19 @@ export default class Texas extends NewGameRoomBase {
 
     sendRetryMessage(): void {
         this.connection.emit("retry");
+    }
+
+    set disableIconSwap(value: boolean) {
+        this.isDisableSwapIcon = value;
+    }
+
+    onIconSwapClick() {
+        if (!this.isDisableSwapIcon) {
+            this.isSwapCard = !this.isSwapCard;
+            this.swapMenu.setSwapStatus(!this.isSwapCard);
+            this.isSwapCard
+                ? this.showMiniWarning(i18n.t("texasPoker.swapCardOn"))
+                : this.showMiniWarning(i18n.t("texasPoker.swapCardOff"));
+        }
     }
 }

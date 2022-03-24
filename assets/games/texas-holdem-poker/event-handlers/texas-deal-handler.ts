@@ -30,9 +30,9 @@ export default class TexasDealHandler<Choices> extends TexasEventHandler<TexasDe
         const choiceProcess = convertChoices({ ante: choices.ante });
 
         this.gameData.stateModel.dealing();
-        this.gameData.emit(TexasGameDataModel.Events.CHOICES_RESULT, choiceProcess);
         this.gameData.ownBets.updateRoundId(roundId);
         this.gameData.dealModel.changeDataAfterDeal([], [], [], roundId);
         this.gameData.placeBetModel.updateTotalBet({ totalBet: totalAmount, choice: choiceProcess });
+        this.gameData.emit(TexasGameDataModel.Events.CHOICES_RESULT, choiceProcess);
     }
 }
