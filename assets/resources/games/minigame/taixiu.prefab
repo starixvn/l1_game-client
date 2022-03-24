@@ -8559,7 +8559,7 @@
         "__id__": 239
       },
       {
-        "__id__": 247
+        "__id__": 248
       }
     ],
     "_active": true,
@@ -8640,7 +8640,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 246
+      "__id__": 247
     },
     "_opacity": 255,
     "_color": {
@@ -8908,12 +8908,23 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 253
+      "__id__": 246
     },
     "component": "",
     "_componentId": "1a32fGRHFlAxq0iN6BOGVHv",
     "handler": "onMenuClick",
     "customEventData": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "482eaa2d-9795-41f5-9d51-9b1d47aba69f"
+    },
+    "fileId": "f2fMGFaxhIOpGnKQvXHFj+",
+    "sync": false
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -8935,7 +8946,7 @@
     },
     "_children": [
       {
-        "__id__": 248
+        "__id__": 249
       },
       {
         "__id__": 265
@@ -8998,11 +9009,11 @@
     "_name": "md5_bg",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 247
+      "__id__": 248
     },
     "_children": [
       {
-        "__id__": 249
+        "__id__": 250
       }
     ],
     "_active": true,
@@ -9066,11 +9077,11 @@
     "_name": "effectLabel",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 248
+      "__id__": 249
     },
     "_children": [
       {
-        "__id__": 250
+        "__id__": 251
       },
       {
         "__id__": 256
@@ -9137,11 +9148,11 @@
     "_name": "mask",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 249
+      "__id__": 250
     },
     "_children": [
       {
-        "__id__": 251
+        "__id__": 252
       }
     ],
     "_active": true,
@@ -9205,17 +9216,17 @@
     "_name": "md5-value",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 250
+      "__id__": 251
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 252
+        "__id__": 253
       }
     ],
     "_prefab": {
-      "__id__": 253
+      "__id__": 246
     },
     "_opacity": 255,
     "_color": {
@@ -9269,7 +9280,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 251
+      "__id__": 252
     },
     "_enabled": true,
     "_fontFamily": "Arial",
@@ -9286,22 +9297,11 @@
     "_id": ""
   },
   {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "482eaa2d-9795-41f5-9d51-9b1d47aba69f"
-    },
-    "fileId": "f2fMGFaxhIOpGnKQvXHFj+",
-    "sync": false
-  },
-  {
     "__type__": "cc.Mask",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 250
+      "__id__": 251
     },
     "_enabled": true,
     "_materials": [
@@ -9332,7 +9332,7 @@
     "_name": "decor",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 249
+      "__id__": 250
     },
     "_children": [
       {
@@ -9514,12 +9514,12 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 249
+      "__id__": 250
     },
     "_enabled": true,
     "label": null,
     "richText": {
-      "__id__": 252
+      "__id__": 253
     },
     "mask": {
       "__id__": 254
@@ -9546,7 +9546,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 248
+      "__id__": 249
     },
     "_enabled": true,
     "_materials": [
@@ -9591,7 +9591,7 @@
     "_name": "copy-button",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 247
+      "__id__": 248
     },
     "_children": [
       {
@@ -10161,7 +10161,7 @@
     "sync": false
   },
   {
-    "__type__": "1a32fGRHFlAxq0iN6BOGVHv",
+    "__type__": "61b29eLUcZD3q2AjPOaMsBr",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -10177,14 +10177,17 @@
     "copyButton": {
       "__id__": 278
     },
+    "iconToggle": null,
+    "bgButtonCollapse": null,
+    "bgButtonExpand": null,
     "expandableNode": {
-      "__id__": 247
+      "__id__": 248
     },
     "hintCopyNode": {
       "__id__": 283
     },
-    "blockInputNode": null,
     "defaultExpand": true,
+    "valueMd5Length": 21,
     "_id": ""
   },
   {
@@ -10631,9 +10634,7 @@
     "animatedTime": {
       "__id__": 84
     },
-    "md5Component": {
-      "__id__": 282
-    },
+    "md5Component": null,
     "gameRound": {
       "__id__": 34
     },
@@ -10756,6 +10757,9 @@
     },
     "thePlate": {
       "__id__": 72
+    },
+    "md5Comp": {
+      "__id__": 282
     },
     "_id": ""
   },
