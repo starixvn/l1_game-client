@@ -511,8 +511,8 @@ window.i18n.languages.en = {
         total: "Total",
         fold: "Fold",
         new: "New",
-        swap: "Swap Card",
-        hold: "Hold Card",
+        swap: "Swap Cards",
+        hold: "Hold Cards",
         notEnoughMoney: "Your account has insufficient funds to complete the game round",
         swapCardOn: "Bật tính năng “Hoán Đổi Bài”",
         swapCardOff: "Tắt tính năng “Hoán Đổi Bài”"

@@ -9,7 +9,7 @@ const handleCommunityCards = async (pokerCardsNote, communityCards) => {
 
     return pokerCardsNote;
 };
-export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void, isSwapCard: boolean) => {
+export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void, isSwapCard?: boolean) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
 
@@ -24,7 +24,7 @@ export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cards
             { rank: "1", suit: 1 }
         ];
 
-        pokerCardsNote.drawingCardToPlayer(playerFakeData[0], true, 0);
+        await pokerCardsNote.drawingCardToPlayer(playerFakeData[0], true, 0);
 
         await pokerCardsNote.drawingCardToDealer(dealerFakeData[0], true, 0);
 
@@ -35,7 +35,7 @@ export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cards
         callBack && callBack();
     } else {
         const { playerCards } = cardsData;
-        pokerCardsNote.drawingCardToPlayer(playerCards[0], false, 0);
+        await pokerCardsNote.drawingCardToPlayer(playerCards[0], false, 0);
 
         await pokerCardsNote.drawingCardToDealer(dealerFakeData[0], true, 0);
 
