@@ -86,6 +86,7 @@ export default class TexasPlacingBet {
             this.gameData.receiveUIData({
                 deal: {}
             });
+            this.gameBase.lockBet();
             this.getConnection().emit(events.bet, {
                 action: BetAction.deal,
                 anteBet: this.gameData.placeBetModel.choices.anteBet
@@ -131,6 +132,7 @@ export default class TexasPlacingBet {
             this.gameData.receiveUIData({
                 rebetAndDeal: {}
             });
+            this.gameBase.lockBet();
             this.getConnection().emit(events.bet, {
                 action: BetAction.deal,
                 ...this.gameData.placeBetModel.choices

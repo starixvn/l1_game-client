@@ -269,7 +269,6 @@ export default class Texas extends NewGameRoomBase {
         this.registerTicketDetailEvents();
         this.registerNoticeEvents();
         this.registerMD5Event();
-        this.showMiniWarning(i18n.t("texasPoker.swapCardOn"));
     }
 
     initPokerCardScript() {
