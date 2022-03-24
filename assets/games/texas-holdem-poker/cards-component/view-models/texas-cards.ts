@@ -19,7 +19,7 @@ export default class TexasCards extends HoldemPokerCards {
     protected faceUpCard(cardInfo: CardModel, cardHand: HoldemPokerHandPlace, indexCard: number): Promise<void> {
         const selectedCard = cardHand.getCards()[indexCard];
         if (!selectedCard) {
-            return;
+            return null;
         }
         const duration = 0.6;
         const cardComponent = selectedCard.getComponent(HoldemPokerCard);

@@ -38,6 +38,7 @@ export default class TexasPlacingBet {
                 return true;
             }
         }
+        return true;
     }
 
     private getTotalBet() {
@@ -60,27 +61,7 @@ export default class TexasPlacingBet {
     }
 
     handleClickButton(betChoice: string, betAmount: number, betAction: string, payload?: any) {
-        const validateResult =
-            validateBet({
-                chipAmount: betAmount,
-                currentBettedAmount: this.gameData.placeBetModel.choices[betChoice],
-                currentTotalBettedAmount: this.getTotalBet(),
-                betChoice: betChoice,
-                showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes),
-                minBet: this.gameData.configs.minBet,
-                maxBetPerChoice: this.gameData.configs.maxBetChoices[betChoice],
-                maxBetPerRound: this.gameBase.getMaxBet(),
-                waitingProcessing: this.gameBase.waitingProcessing,
-                getMaxBetAndStakePerChoice: this.getMaxBetAndStakePerChoice.bind(this),
-                minBetPerRound: this.gameBase.getMinBet()
-            }) &&
-            validateAccountBalance({
-                chipAmount: betAmount,
-                currentBettedAmount: this.gameData.placeBetModel.choices[betChoice],
-                userBalance: this.gameBase.getUserBalance(),
-                showMiniWarningFunc: (mes) => this.gameBase.showMiniWarning(mes)
-            });
-        if (validateResult) {
+        if (this.validateBetting(betAmount, betChoice)) {
             this.gameData.isProcessingBet = true;
             const stateUI = {};
             stateUI[betAction] = {};

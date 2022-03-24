@@ -1,4 +1,3 @@
-import { TexasSwap } from "./../event-handlers/texas-swap-handler";
 import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
 import { HoldemPokerGameData } from "../../holdem-poker/event-models/HoldemPokerGameData";
 import TexasErrorHandler from "../event-handlers/texas-error-handler";
@@ -101,6 +100,7 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
         this.registerBaseEventHandlers();
         this.handleHandler();
     }
+
     receiveUIData(data: any) {
         if (!!data.bet) {
             this.placeBetModel.placeBet(data.bet.choice, data.bet.amount);
@@ -109,26 +109,37 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
         if (!!data.deal) {
             this.stateModel.deal();
         }
-
         if (!!data.swap) {
             this.stateModel.swap();
         }
         if (!!data.hold) {
             this.stateModel.hold();
         }
-
-        if (!!data.double) {
-            this.placeBetModel.double(data.double.choice);
-        }
         if (!!data.cancel) {
             this.placeBetModel.resetBets();
             this.stateModel.cancelBet();
         }
+        if (!!data.fold) {
+            this.stateModel.fold();
+        }
 
+        this.checkDouble(data);
+        this.checkTurn(data);
+        this.checkRiver(data);
+        this.checkRebet(data);
+        this.checkNew(data);
+    }
+
+    protected checkDouble(data: any) {
+        if (!!data.double) {
+            this.placeBetModel.double(data.double.choice);
+        }
         if (!!data.doubleCall) {
             this.placeBetModel.doubleAndCall();
             this.stateModel.call();
         }
+    }
+    protected checkTurn(data: any) {
         if (!!data.betTurn) {
             this.placeBetModel.updateBetModel(TexasChoicesConst.turnBet, TexasPlaceBetModel.Events.TURN);
             this.stateModel.turning();
@@ -136,6 +147,8 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
         if (!!data.checkTurn) {
             this.stateModel.checkTurn();
         }
+    }
+    protected checkRiver(data: any) {
         if (!!data.betRiver) {
             this.placeBetModel.updateBetModel(TexasChoicesConst.riverBet, TexasPlaceBetModel.Events.RIVER);
             this.stateModel.rivering();
@@ -143,6 +156,8 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
         if (!!data.checkRiver) {
             this.stateModel.checkRiver();
         }
+    }
+    protected checkRebet(data: any) {
         if (!!data.rebet) {
             this.placeBetModel.rebet();
             this.stateModel.rebet();
@@ -151,6 +166,9 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
             this.placeBetModel.rebetAndDeal();
             this.stateModel.deal();
         }
+    }
+
+    protected checkNew(data: any) {
         if (!!data.new) {
             this.placeBetModel.new();
             this.stateModel.resetState();
@@ -158,9 +176,6 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
         if (!!data.replayNew) {
             this.placeBetModel.replayNew();
             this.stateModel.replayNew();
-        }
-        if (!!data.fold) {
-            this.stateModel.fold();
         }
     }
 }

@@ -9,7 +9,7 @@ const handleCommunityCards = async (pokerCardsNote, communityCards) => {
 
     return pokerCardsNote;
 };
-export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void, isSwapCard?: boolean) => {
+export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, cardsData: any, isSwapCard: boolean, callBack?: () => void) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
 

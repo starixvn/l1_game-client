@@ -1,4 +1,3 @@
-import { length } from "./../../../../../packages/i18n/runtime-scripts/creator.d";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";

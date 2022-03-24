@@ -1,3 +1,4 @@
+import { ListSong } from "./../texas-contants";
 import { holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
@@ -163,7 +164,6 @@ export default class Texas extends NewGameRoomBase {
     pokerCardScript: TexasCards = undefined;
     protected betHistoryController: TexasTicketHistory = null;
     protected isSwapCard = true;
-    private readonly listSong = ["song1", "song2", "song3", "song4", "song5", "song6", "song7"];
 
     constructor() {
         super();
@@ -193,7 +193,7 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private getRandomNameSong() {
-        return this.listSong[Math.floor(Math.random() * this.listSong.length)];
+        return ListSong[Math.floor(Math.random() * ListSong.length)];
     }
 
     private loadResourceAudio(song: string) {
@@ -224,9 +224,7 @@ export default class Texas extends NewGameRoomBase {
 
         this.initPlacingBet();
         this.initButtonStatus();
-
         this.prefabLoader.forEach((loader) => loader.initialize());
-
         this.registerStateEvents();
         this.registerConfigsEvents();
         this.initPokerCardScript();
@@ -324,7 +322,7 @@ export default class Texas extends NewGameRoomBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
-    private pressedShowHistory() {
+    pressedShowHistory() {
         this.playClick();
         this.expandableMenu.collapseMenu();
         this.initTicketHistory();
@@ -437,7 +435,7 @@ export default class Texas extends NewGameRoomBase {
 
     private registerAfterDealEvents() {
         this.gameData.dealModel.on(TexasDealModel.Events.CHANGE, (dealModel: TexasDealModel) => {
-            dealPlayerAndDealerCards(this.pokerCardScript, dealModel, () => this.gameData.stateModel.afterDeal(), this.isSwapCard);
+            dealPlayerAndDealerCards(this.pokerCardScript, dealModel, this.isSwapCard, () => this.gameData.stateModel.afterDeal());
         });
     }
 
@@ -601,5 +599,9 @@ export default class Texas extends NewGameRoomBase {
 
     playStartGameAudio() {
         AudioManager.getInstance().playSFX(this.startNewRoundAudio.clip);
+    }
+
+    sendRetryMessage(): void {
+        this.connection.emit("retry");
     }
 }
