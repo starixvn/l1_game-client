@@ -11,8 +11,6 @@ import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
-import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

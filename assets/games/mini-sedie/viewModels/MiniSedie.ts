@@ -1,6 +1,4 @@
-import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";

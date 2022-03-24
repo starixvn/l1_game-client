@@ -13,8 +13,6 @@ import VipBaccaratTimeDataHandler from "./data-handlers/VipBaccaratTimeDataHandl
 import VipBaccaratCards from "./VipBaccaratCards";
 import VipBaccaratHistory from "./VipBaccaratHistory";
 import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
-import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

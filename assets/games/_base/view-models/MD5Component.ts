@@ -23,13 +23,19 @@ export default class MD5Component extends cc.Component {
     copyButton: cc.Button = null;
 
     @property(cc.Node)
+    iconToggle: cc.Node = null;
+
+    @property(cc.Node)
+    bgButtonCollapse: cc.Node = null;
+
+    @property(cc.Node)
+    bgButtonExpand: cc.Node = null;
+
+    @property(cc.Node)
     expandableNode: cc.Node = null;
 
     @property(cc.Node)
     hintCopyNode: cc.Node = null;
-
-    @property(cc.Node)
-    blockInputNode: cc.Node = null;
 
     @property
     defaultExpand = false;
@@ -89,24 +95,11 @@ export default class MD5Component extends cc.Component {
 
     collapseBlock(animated = true) {
         this.isExpanded = false;
-
-        if (this.blockInputNode) {
-            this.blockInputNode.active = false;
-        }
-
-        if (!animated) {
-            this.expandableNode.opacity = 0;
-            this.expandableNode.scaleX = 0;
-            return;
-        }
         this.handleDirectionWhenCollapedBlock();
     }
 
     expandBlock() {
         this.isExpanded = true;
-        if (this.blockInputNode) {
-            this.blockInputNode.active = true;
-        }
         this.handleDirectionWhenExpandableBlock();
     }
 
@@ -118,44 +111,21 @@ export default class MD5Component extends cc.Component {
 
     handleDirectionWhenExpandableBlock() {
         this.expandableNode.stopAllActions();
-        switch (this.blockDirection) {
-            case MenuDirectionType.LEFT:
-                break;
-            case MenuDirectionType.RIGHT:
-                cc.tween(this.expandableNode).to(0.2, { opacity: 255, scale: 1 }).start();
-                break;
-            case MenuDirectionType.TOP:
-                break;
-            case MenuDirectionType.BOTTOM:
-                break;
-            default:
-                break;
-        }
+        this.iconToggle.scaleX = 1;
+        this.bgButtonCollapse.active = false;
+        this.bgButtonExpand.active = true;
+        cc.tween(this.expandableNode)
+            .to(0.2, { position: { value: cc.v2(-10, 0), easing: "sineIn" } })
+            .start();
     }
 
     handleDirectionWhenCollapedBlock() {
         this.expandableNode.stopAllActions();
-        switch (this.blockDirection) {
-            case MenuDirectionType.LEFT:
-                break;
-            case MenuDirectionType.RIGHT:
-                cc.tween(this.expandableNode).to(0.2, { opacity: 0, scaleX: 0 }).start();
-                break;
-            case MenuDirectionType.TOP:
-                break;
-            case MenuDirectionType.BOTTOM:
-                break;
-            default:
-                break;
-        }
-    }
-
-    setWidgetForBlockInput(target: cc.Node) {
-        const blockInputWidget = this.blockInputNode.getComponent(cc.Widget);
-        blockInputWidget.target = target;
-        blockInputWidget.top = 0;
-        blockInputWidget.bottom = 0;
-        blockInputWidget.left = 0;
-        blockInputWidget.right = 0;
+        this.iconToggle.scaleX = -1;
+        this.bgButtonCollapse.active = true;
+        this.bgButtonExpand.active = false;
+        cc.tween(this.expandableNode)
+            .to(0.2, { position: { value: cc.v2(-this.expandableNode.width, 0), easing: "sineIn" } })
+            .start();
     }
 }

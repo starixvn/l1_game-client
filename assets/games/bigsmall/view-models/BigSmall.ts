@@ -13,8 +13,6 @@ import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
 import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
 import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
 import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
-import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -101,7 +99,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     onLoad() {
-        super.onLoad();     
+        super.onLoad();
         this.setValueBetAmount();
         this.initRoundHistory();
         this.initStatistic();
