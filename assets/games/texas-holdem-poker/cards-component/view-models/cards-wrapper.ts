@@ -1,4 +1,5 @@
 import { convertCard } from "../../../holdem-poker/components/cards/view-models/CardWrapper";
+import { dealerFakeData } from "../../texas-contants";
 import PokerCards from "./texas-cards";
 import TexasSwapCards from "./texas-swap-cards";
 
@@ -10,28 +11,35 @@ const handleCommunityCards = async (pokerCardsNote, communityCards) => {
     return pokerCardsNote;
 };
 export const dealPlayerAndDealerCards = async (pokerCardsNote: PokerCards, callBack?: () => void) => {
-    pokerCardsNote.hideAllLabelIndicatorCards();
-    pokerCardsNote.hideAllIndicator();
-
-    const dealerFakeData = [
-        { rank: "1", suit: 1 },
-        { rank: "1", suit: 1 }
-    ];
-
     const playerFakeData = [
         { rank: "1", suit: 1 },
         { rank: "1", suit: 1 }
     ];
 
-    await pokerCardsNote.drawingCardToPlayer(playerFakeData[0], true, 0);
+    await handleDealingCards(pokerCardsNote, playerFakeData, true);
+
+    callBack && callBack();
+};
+
+export const dealPlayerAndDealerCardsWithoutSwap = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
+    const { playerCards } = cardsData;
+    await handleDealingCards(pokerCardsNote, playerCards, false);
+
+    pokerCardsNote.focusPlayerCard();
+    showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 0);
+};
+
+const handleDealingCards = async (pokerCardsNote: PokerCards, playerCards: any, isFaceDown: boolean) => {
+    pokerCardsNote.hideAllLabelIndicatorCards();
+    pokerCardsNote.hideAllIndicator();
+
+    await pokerCardsNote.drawingCardToPlayer(playerCards[0], isFaceDown, 0);
 
     await pokerCardsNote.drawingCardToDealer(dealerFakeData[0], true, 0);
 
-    await pokerCardsNote.drawingCardToPlayer(playerFakeData[1], true, 1);
+    await pokerCardsNote.drawingCardToPlayer(playerCards[1], isFaceDown, 1);
 
     await pokerCardsNote.drawingCardToDealer(dealerFakeData[1], true, 1);
-
-    callBack && callBack();
 };
 
 const handleFaceUpPlayerCard = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {

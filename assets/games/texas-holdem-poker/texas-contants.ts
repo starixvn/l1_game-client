@@ -29,3 +29,12 @@ export const BetAction = {
 };
 
 export const ListSong = ["song1", "song2", "song3", "song4", "song5", "song6", "song7"];
+
+export const dealerFakeData = [
+    { rank: "1", suit: 1 },
+    { rank: "1", suit: 1 }
+];
+
+export const suffixIcon = ["♥", "♦", "♣", "♠"];
+
+export const limitMD5String = 357;
