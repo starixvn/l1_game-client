@@ -22,14 +22,14 @@ export default class MD5Component extends cc.Component {
     @property(cc.Button)
     copyButton: cc.Button = null;
 
-    @property(cc.Node)
-    iconToggle: cc.Node = null;
+    // @property(cc.Node)
+    // iconToggle: cc.Node = null;
 
-    @property(cc.Node)
-    bgButtonCollapse: cc.Node = null;
+    // @property(cc.Node)
+    // bgButtonCollapse: cc.Node = null;
 
-    @property(cc.Node)
-    bgButtonExpand: cc.Node = null;
+    // @property(cc.Node)
+    // bgButtonExpand: cc.Node = null;
 
     @property(cc.Node)
     expandableNode: cc.Node = null;
@@ -111,21 +111,21 @@ export default class MD5Component extends cc.Component {
 
     handleDirectionWhenExpandableBlock() {
         this.expandableNode.stopAllActions();
-        this.iconToggle.scaleX = 1;
-        this.bgButtonCollapse.active = false;
-        this.bgButtonExpand.active = true;
-        cc.tween(this.expandableNode)
-            .to(0.2, { position: { value: cc.v2(-10, 0), easing: "sineIn" } })
-            .start();
+        // this.iconToggle.scaleX = 1;
+        // this.bgButtonCollapse.active = false;
+        // this.bgButtonExpand.active = true;
+        // cc.tween(this.expandableNode)
+        //     .to(0.2, { position: { value: cc.v2(-10, 0), easing: "sineIn" } })
+        //     .start();
     }
 
     handleDirectionWhenCollapedBlock() {
         this.expandableNode.stopAllActions();
-        this.iconToggle.scaleX = -1;
-        this.bgButtonCollapse.active = true;
-        this.bgButtonExpand.active = false;
-        cc.tween(this.expandableNode)
-            .to(0.2, { position: { value: cc.v2(-this.expandableNode.width, 0), easing: "sineIn" } })
-            .start();
+        // this.iconToggle.scaleX = -1;
+        // this.bgButtonCollapse.active = true;
+        // this.bgButtonExpand.active = false;
+        // cc.tween(this.expandableNode)
+        //     .to(0.2, { position: { value: cc.v2(-this.expandableNode.width, 0), easing: "sineIn" } })
+        //     .start();
     }
 }

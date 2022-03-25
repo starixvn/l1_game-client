@@ -7,8 +7,9 @@ export default class BigSmallMd5 extends MD5Component {
         this.setCaptionAndHintForMD5(!!data.rawValue);
         const newMd5Value = (data.hashValue || data.rawValue).slice(0, this.valueMd5Length) + "...";
         if (!!data.rawValue) {
-            const resultFormatting = newMd5Value.split("_");
-            this.md5Value.string = `<size=30>${resultFormatting[0]}</>${"_"}${resultFormatting[1]}`;
+            const diceValue = newMd5Value.slice(1, 4);
+            const resultMd5 = newMd5Value.slice(5, newMd5Value.length);
+            this.md5Value.string = `<size=30>${diceValue}</>${""}${resultMd5}`;
         }
         if (!!data.hashValue) {
             this.md5Value.string = `<color=#ffffff>${newMd5Value}</color>`;
