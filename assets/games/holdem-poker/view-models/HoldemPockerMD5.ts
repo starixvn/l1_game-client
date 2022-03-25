@@ -69,8 +69,8 @@ export default class HoldemPockerMD5 extends cc.Component {
             const comma = index === cards.length - 1 ? "" : index === 1 || index === 3 ? `<color=#ffffff>, </color>` : " ";
             const cardValue =
                 card.suit > 1
-                    ? `<color=#000000>${this.convertRankCard(card)}</color>`
-                    : `<color=#E92E2E>${this.convertRankCard(card)}</color>`;
+                    ? `<color=#050f04>${this.convertRankCard(card)}</color>`
+                    : `<color=#ff2626>${this.convertRankCard(card)}</color>`;
             resultFormatting += `${start}${cardValue}${comma}${end}`;
         });
 

@@ -35,7 +35,7 @@ export default class EffectAppearanceLabel extends cc.Component {
 
     protected calculateDistance(): number {
         const padding = 20;
-        return this.getContentWidth() + padding;
+        return this.getContentWidth() / 2 + padding;
     }
 
     public playAnimation() {
