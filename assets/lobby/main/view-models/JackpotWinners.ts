@@ -1,4 +1,5 @@
 import PlayerInfo from "./PlayerInfo";
+import NotificationService from "../../../common/auth/NotificationService";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,13 +44,7 @@ export default class JackpotWinners extends cc.Component {
     }
 
     requestData() {
-        cc.RedT.send({
-            jackpot: {
-                getWinners: {
-                    limit: 3 // optional
-                }
-            }
-        });
+        NotificationService.getInstance().emitEvent("getWinners", { limit: 3 });
     }
 
     handleNoUserAd(status = true) {

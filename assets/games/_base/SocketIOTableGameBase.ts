@@ -41,7 +41,6 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     }
 
     start() {
-        cc.RedT.send({ scene: this.gameName });
         this.socket && this.socket.connected && this.socket.emit("inGame");
     }
 

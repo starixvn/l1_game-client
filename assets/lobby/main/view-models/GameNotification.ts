@@ -1,3 +1,4 @@
+import NotificationService from "../../../common/auth/NotificationService";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -13,25 +14,25 @@ export default class GameNotification extends cc.Component {
 
     private dataKey = "";
     private isScheduling = false;
+    notificationService: NotificationService;
 
     onLoad() {
         this.dataKey = `${this.key}_${this.gameId}_${Date.now()}`;
-        cc.RedT.addDataObserver(this.dataKey, this.receivedData.bind(this));
+        this.notificationService = NotificationService.getInstance();
+        this.notificationService.addDataObserver(this.dataKey, this.receivedData.bind(this));
         this.getData();
         this.schedule(this.getData, 1, cc.macro.REPEAT_FOREVER, 0);
         this.isScheduling = true;
     }
 
     private getData() {
-        cc.RedT.send({
-            gameNotifications: {
-                gameId: this.gameId
-            }
+        this.notificationService.emitEvent("game-notification", {
+            gameId: this.gameId
         });
     }
 
     onDestroy() {
-        cc.RedT.removeDataObserver(this.dataKey);
+        this.notificationService.removeDataObserver(this.dataKey);
     }
 
     private receivedData(data) {

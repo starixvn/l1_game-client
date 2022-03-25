@@ -3,11 +3,14 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { appContainer } from "../../../Application";
 import * as baseControl from "../../../BaseController";
 import AudioManager from "../../../common/audio/AudioManager";
+import MusicPlayer from "../../../common/audio/MusicPlayer";
+import NotificationService from "../../../common/auth/NotificationService";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import Loading from "../../../common/loading/view-models/Loading";
 import logger from "../../../common/logger";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import configs = require("../../../configs/Configs");
 import * as SabaConfigs from "../../../configs/SabaConfigs";
 import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
@@ -20,12 +23,10 @@ import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
 import BannerController from "./BannerController";
+import CategoryItem from "./CategoryItem";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
-import CategoryItem from "./CategoryItem";
-import MusicPlayer from "../../../common/audio/MusicPlayer";
-import configs = require("../../../configs/Configs");
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -115,7 +116,7 @@ export default class MainGame extends cc.Component {
 
         this.initAppEvent();
 
-        cc.RedT.reconnect();
+        NotificationService.getInstance().connect();
 
         this.initMiniPanel();
         this.callTriggerSignIn();
@@ -229,7 +230,6 @@ export default class MainGame extends cc.Component {
             cc.game.EVENT_SHOW,
             function () {
                 cc.RedT.GAME_IS_SHOWED = true;
-                cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoin: true } });
             }.bind(this)
         );
     }
@@ -248,7 +248,6 @@ export default class MainGame extends cc.Component {
 
     onLoadLobby() {
         if (cc.RedT.IS_LOGIN) {
-            cc.RedT.send({ scene: "home" });
             this.onSignIn();
             this.header.setUserName(cc.RedT.user.name);
             this.header.setBalance(this.formatUserCurrency(cc.RedT.user.red));
@@ -417,17 +416,12 @@ export default class MainGame extends cc.Component {
         }
     }
 
-    Authorized(Authorized) {
-        this.getJackpotInfo();
-    }
-
     serviceAuthorized(Authorized) {
         this.loading.active = false;
 
         if (!Authorized) {
             this.showSignName();
         } else {
-            cc.RedT.callAuthentication();
             this.signIn();
         }
     }
@@ -439,10 +433,6 @@ export default class MainGame extends cc.Component {
 
         if (void 0 !== data.user) {
             this.handleUserData(data.user);
-        }
-
-        if (void 0 !== data.Authorized) {
-            this.Authorized(data.Authorized);
         }
 
         cc.RedT.MiniPanel.onGeneralData(data);
@@ -549,15 +539,6 @@ export default class MainGame extends cc.Component {
 
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         this.onSignIn();
-        this.getJackpotInfo();
-    }
-
-    getJackpotInfo() {
-        cc.RedT.send({
-            jackpot: {
-                getPools: true
-            }
-        });
     }
 
     openGameSSO() {

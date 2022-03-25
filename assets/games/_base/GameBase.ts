@@ -253,9 +253,7 @@ export default class GameBase extends BaseComponent {
     }
 
     /** Register with game on server */
-    public registerViewGame() {
-        this.sendData({ view: true, get_time: true, getLogs: true });
-    }
+    public registerViewGame() {}
 
     onSignIn() {
         if (!this.node.active) {
@@ -263,14 +261,6 @@ export default class GameBase extends BaseComponent {
         }
 
         this.registerViewGame();
-    }
-
-    sendData(payload: any) {
-        cc.RedT.send({
-            g: {
-                [this.gameName]: payload
-            }
-        });
     }
 
     showAcceptedBet(bet: number) {

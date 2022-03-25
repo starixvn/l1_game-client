@@ -180,8 +180,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     onDisable() {}
 
     start() {
-        cc.RedT.send({ scene: this.gameName });
-        this.socketSendData("inGame");
+        this.socketSendData("inGame", {});
     }
 
     stopGame() {}
