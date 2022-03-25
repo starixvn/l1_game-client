@@ -27,7 +27,7 @@ export function getChipSetting() {
     });
 }
 
-export function checkSSO(labelMessage, onSuccessFunc) {
+export function checkSSO(messageComp, onSuccessFunc) {
     const urlParams = new URLSearchParams(window.location.search);
     if (checkUMSSO(urlParams) || checkTimeOut(urlParams)) {
         return;
@@ -37,7 +37,7 @@ export function checkSSO(labelMessage, onSuccessFunc) {
         return;
     }
 
-    checkHasToken(urlParams, session, onSuccessFunc, labelMessage);
+    checkHasToken(urlParams, session, onSuccessFunc, messageComp);
 }
 
 function checkUMSSO(urlParams) {
@@ -72,7 +72,7 @@ function checkTimeOut(urlParams) {
     return false;
 }
 
-function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
+function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
     if (urlParams.has("token")) {
         window.isSSO = true;
         UserService.getInstance()
@@ -92,11 +92,13 @@ function checkHasToken(urlParams, session, onSuccessFunc, labelMessage) {
                     clearTokenOnUrl();
                     onSuccessFunc();
                 } else {
-                    labelMessage.string = i18n.t("ui.login_failed");
+                    messageComp.reset();
+                    messageComp.setMessage(i18n.t("ui.login_failed"));
                 }
             })
             .catch((error) => {
-                labelMessage.string = i18n.t("ui.connection_lost");
+                messageComp.reset();
+                messageComp.setMessage(i18n.t("ui.connection_lost"));
                 sentryLogger.logError(error);
             });
     } else if (session && session.isAuthenticated && session.ss) {

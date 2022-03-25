@@ -359,6 +359,7 @@ window.i18n.languages.en = {
         maintain_system: "THE SITE IS UNDER MAINTENANCE. PLEASE COME BACK LATER.",
         maintain_suggest: "Please kindly re-login to continue playing games after the maintenance is complete.",
         maintain_time: "Starting from %{startTime} to %{endTime} (GMT+8)",
+        first_visit_message: "If this is your first visit, downloading may take a while.",
         checking_downloading: "Checking and downloading the latest update packages...",
         login_failed: "Failed to load game data. Please close the current windows and try again.",
         connection_lost: "The connection is unstable, please check. ",

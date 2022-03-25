@@ -155,7 +155,7 @@ window.i18n.languages.th = {
         copyKeySuccess: "คัดลอกสตริงคีย์สำเร็จ!",
         maxBetForChoiceNotice2: "เดิมพันสูงสุดสำหรับตัวเลือกนี้คือ %{maxBet}",
         minBetForChoiceNotice: "เดิมพันขั้นต่ำสำหรับตัวเลือกนี้คือ %{minBet}",
-        disallowHedgeBet: "สามารถเดิมพันได้ทั้ง {choice_1} หรือ {choice_2}",
+        disallowHedgeBet: "สามารถเดิมพันได้ทั้ง %{betChoice1} หรือ %{betChoice2}",
         copy_success: "Copy successful!"
     },
     ui: {
@@ -236,7 +236,7 @@ window.i18n.languages.th = {
         autoSpin2: "ออโต้สปิน",
         spin: "สปิน",
         jackpot_short: "Jackpot",
-        jackpot: "แจ็คพอต",
+        jackpot: "Jackpot",
         symbol: "เครื่องหมาย",
         confirm2: "ยืนยัน",
         noOfSymbol: "จำนวน",
@@ -329,7 +329,7 @@ window.i18n.languages.th = {
         lucky_wheel_notice:
             "หมายเหตุ: Scoin มีให้สำหรับ Se Die เท่านั้น สำหรับเกมอื่นๆ เงินเดิมพันจะถูกหักออกจากยอดเงินในบัญชีของคุณโดยตรง",
         award: "รางวัลพิเศษ",
-        goodluck: "ขอให้โชคดีในการเดิมพันในครั้งถัดไป",
+        goodluck: "ขอให้โชคดีในครั้งถัดไป!",
         current_wheel_spin: "จำนวนสปิน",
         current_scoin: "เหรียญที่คงเหลือ",
         goodluck_on_wheel: "ลองใหม่อีกครั้ง",
@@ -356,6 +356,7 @@ window.i18n.languages.th = {
         maintain_system: "ระบบปิดปรับปรุง กรุณาเข้ามาใช้งานใหม่อีกครั้ง",
         maintain_suggest: "กรุณาเข้าสู่ระบบใหม่อีกครั้งเพื่อเล่นเกมต่อหลังจากการปิดปรับปรุงเสร็จสิ้นแล้ว",
         maintain_time: "เริ่มต้นจาก % {startTime} ถึง % {endTime} (GMT+8)",
+        first_visit_message: "If this is your first visit, downloading may take a while.",
         checking_downloading: "กำลังตรวจสอบและกำลังดาวน์โหลดเกมของการอัพเดทล่าสุด",
         login_failed: "การดาวน์โหลดล้มเหลว กรุณาลองปิดหน้าต่างแล้วลองใหม่อีกครั้ง",
         connection_lost: "การเชื่อมต่อขัดข้อง กรุณาตรวจสอบอีกครั้ง",
@@ -421,8 +422,8 @@ window.i18n.languages.th = {
         teamRed: "Team Red",
         gameNotSupported: "Sorry! The function is currently not supported for this game.",
         noDataAvailable: "No data available",
-        ticket_details: "Ticket details",
-        bet_details: "Bet Details",
+        ticket_details: "รายละเอียดตั๋วเดิมพัน",
+        bet_details: "รายละเอียดการเดิมพัน",
         new_year: "Happy New Year"
     },
     holdEmPoker: {
@@ -451,8 +452,8 @@ window.i18n.languages.th = {
         threeKind: "ไพ่ตอง ",
         straight: "สเตรท",
         doesNotQualify: "ไม่ผ่านเกณฑ์",
-        bettingOption: "Option",
-        cards: "Card Results",
+        bettingOption: "ตัวเลือก",
+        cards: "ผลรวมของการ์ด",
         card: "ไพ่",
         combination: "นับแต้มรวม",
         player: "ผู้เล่น",
@@ -460,9 +461,9 @@ window.i18n.languages.th = {
         communityCards: "ไพ่ชุมชน",
         new: "New Bet",
         stake: "เดิมพัน",
-        dealerQualifies: "Dealer qualifies on a pair of 4s or better",
-        md5String: "MD5 string",
-        md5Key: "MD5 string"
+        dealerQualifies: "ดีลเลอร์มีคุณสมบัติของทั้ง 4 คู่ หรือที่ดีกว่า",
+        md5String: "MD5 สตริง",
+        md5Key: "Key สตริง"
     },
     hiLo: {
         collect: "Collect",

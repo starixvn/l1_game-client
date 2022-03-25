@@ -139,16 +139,16 @@ p.footer {
 
 .splash {
     position: relative;
-    top: 35vh;
+    top: 36.25vh;
     background: url(./logo_saba.png) no-repeat center;
-    background-size: auto 20.35vh;
+    background-size: auto 17.81vh;
     width: auto;
-    height: 20.35vh;
+    height: 17.81vh;
 }
 
 .splash_text {
     position: relative;
-    top: 38.5vh;
+    top: 41.09vh;
     background: no-repeat center;
     background-size: auto 5.09vh;
     width: auto;
@@ -157,7 +157,7 @@ p.footer {
 
 .splash_Vgaming {
     position: relative;
-    top: 23.09vh;
+    top: 23vh;
     background: url(./logo_vgaming.png) no-repeat center;
     background-size: auto 37.65vh;
     width: auto;
@@ -166,7 +166,7 @@ p.footer {
 
 .splash_text_Vgaming {
     position: absolute;
-    top: 63.23vh;
+    top: 65vh;
     background: no-repeat center;
     background-size: auto 3.4vh;
     width: 100%;
@@ -203,6 +203,22 @@ p.footer {
 
 .splash_text_sc2_en {
     background-image: url("splash_text_sc2_en.png");
+}
+
+.splash_text_sc2_th {
+    background-image: url("splash_text_sc2_th.png");
+}
+
+.splash_text_sc2_id {
+    background-image: url("splash_text_sc2_id.png");
+}
+
+.splash_text_sc2_zh_cn {
+    background-image: url("splash_text_sc2_zh_cn.png");
+}
+
+.splash_text_sc2_zh_tw {
+    background-image: url("splash_text_sc2_zh_tw.png");
 }
 
 /* Noel Events */
@@ -287,79 +303,24 @@ p.footer {
 }
 
 @media only screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
-    .splash, .splash_Vgaming {
-        top: 29.5vh;
-        background-size: auto 10vh;
+    .splash {
+        top: 33vh;
+        background-size: auto 9.3vh;
     }
 
-    .splash_text, .splash_text_Vgaming {
-        top: 25vh;
+    .splash_text {
+        top: 30vh;
+        background-size: auto 2.8vh;
+    }
+
+    .splash_Vgaming {
+        top: 21.5vh;
+        background-size: auto 19.6vh;
+    }
+
+    .splash_text_Vgaming {
+        top: 51vh;
         background-size: auto 2.5vh;
-    }
-
-    .background-noel {
-        background-size: auto 100vw;
-        width: 100vh;
-        transform: rotate(90deg);
-    }
-
-    .conner-container,
-    .background-flower,
-    .background-top {
-        position: fixed;
-        width: calc(100vh - 70px);
-        height: 100vw;
-        -webkit-transform: translateY(-100vw) rotate(90deg);
-        -ms-transform: translateY(-100vw) rotate(90deg);
-        -o-transform: translateY(-100vw) rotate(90deg);
-        transform: translateY(-100vw) rotate(90deg);
-        -webkit-transform-origin: left bottom;
-        -moz-transform-origin: left bottom;
-        -ms-transform-origin: left bottom;
-        -o-transform-origin: left bottom;
-        transform-origin: left bottom;
-    }
-
-    .conner-top-left {
-        height: 35.4vw;
-        width: 33.33vw;
-        background-size: 33.33vw 35.4vw;
-    }
-
-    .conner-top-right {
-        background-size: 31.04vw 31.8vw;
-        height: 31.8vw;
-        width: 31.04vw;
-    }
-
-    .conner-bottom-left {
-        height: 24vw;
-        width: 33.6vw;
-        background-size: 33.6vw 24vw;
-    }
-
-    .conner-bottom-right {
-        height: 21.2vw;
-        width: 45.5vw;
-        background-size: 45.5vw 21.2vw;
-    }
-
-    .background-top {
-        background-size: auto 27.99vw;
-        background-repeat: repeat-x;
-    }
-
-    .background-flower {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 100vh;
-    }
-
-    .halftone {
-        background-size: auto 108.3vw;
-        height: 108.3vw;
     }
 }
 

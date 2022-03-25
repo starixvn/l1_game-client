@@ -143,7 +143,7 @@ window.i18n.languages.zh_tw = {
         copyKeySuccess: "複製Key字符串成功！",
         maxBetForChoiceNotice2: "此選項的最大賭注是 %{maxBet}",
         minBetForChoiceNotice: "此選項的最小賭注是 %{minBet}",
-        disallowHedgeBet: "可以下注 {choice_1} 或 {choice_2}。",
+        disallowHedgeBet: "可以下注 %{betChoice1} 或 %{betChoice2}。",
         copy_success: "複製成功！"
     },
     ui: {
@@ -224,7 +224,7 @@ window.i18n.languages.zh_tw = {
         autoSpin2: "自動旋轉",
         spin: "旋轉",
         jackpot_short: "Jackpot",
-        jackpot: "頭獎",
+        jackpot: "Jackpot",
         symbol: "象徵",
         confirm2: "確認",
         noOfSymbol: "數量",
@@ -258,7 +258,7 @@ window.i18n.languages.zh_tw = {
         choice_five: "五",
         choice_six: "六",
         new_bet: "新賭注",
-        choice_dealer: "發牌者",
+        choice_dealer: "莊家",
         hand_id: "手ID",
         deal: "發牌",
         split: "分牌",
@@ -343,6 +343,7 @@ window.i18n.languages.zh_tw = {
         maintain_system: "本網站正在維護中。請稍後再回來。",
         maintain_suggest: "維護完成後請重新登錄繼續玩遊戲。",
         maintain_time: "從 %{startTime} 到 %{endTime} (GMT+8)",
+        first_visit_message: "If this is your first visit, downloading may take a while.",
         checking_downloading: "正在檢查和下載最新的更新包...",
         login_failed: "無法加載遊戲數據。請關閉當前窗口並重試。",
         connection_lost: "連接不穩定，請檢查。",
@@ -407,8 +408,8 @@ window.i18n.languages.zh_tw = {
         teamRed: "Team Red",
         gameNotSupported: "Sorry! The function is currently not supported for this game.",
         noDataAvailable: "No data available",
-        ticket_details: "Ticket details",
-        bet_details: "Bet Details",
+        ticket_details: "票詳情",
+        bet_details: "投注詳情",
         new_year: "Happy New Year"
     },
     holdEmPoker: {

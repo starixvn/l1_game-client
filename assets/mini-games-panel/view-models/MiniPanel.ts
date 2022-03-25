@@ -6,6 +6,7 @@ import BaseComponent from "../../common/BaseComponent";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Loading from "../../common/loading/view-models/Loading";
+import LoadWebView from "../../common/LoadWebView";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
@@ -66,6 +67,7 @@ export default class MiniPanel extends BaseComponent {
     private socketIOGameInitializers: MiniPanelSocketIOGameInitializers;
     private miniGamesCache = {};
     private newLayerCallbacks = {};
+    public chartsWebView = {};
 
     addNewLayerCallback(key: string, callback: NewLayerCallback) {
         this.newLayerCallbacks[key] = callback;
@@ -73,6 +75,10 @@ export default class MiniPanel extends BaseComponent {
 
     removeNewLayerCallback(key: string) {
         delete this.newLayerCallbacks[key];
+    }
+
+    removeChartsWebView(key: string) {
+        delete this.chartsWebView[key];
     }
 
     onNewLayerCallback() {
@@ -216,6 +222,9 @@ export default class MiniPanel extends BaseComponent {
     openNewSocketMiniGame(e, id) {
         cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
             this.gameMiniInitializers.openNewSocket(id);
+            Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
+                chartWebView && chartWebView.hideWebView();
+            });
         });
     }
 
