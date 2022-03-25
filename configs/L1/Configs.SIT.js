@@ -23,7 +23,9 @@ const configs = {
         2: true,
         4: true,
         9: true,
-        22: true
+        10: true,
+        22: true,
+        27: true
     },
     enableMD5: {
         gameIds: [1, 4, 2, 9, 22, 10, 27]
