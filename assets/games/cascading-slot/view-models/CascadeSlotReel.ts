@@ -14,7 +14,7 @@ export default class CascadeSlotReel extends cc.Component {
     @property
     itemSize = 145;
 
-    itemDisplayCount = 3;
+    itemDisplayCount = 5;
 
     private items: CascadeSlotReelItem[] = [];
     private readonly speed = 145 / 0.1;
@@ -48,6 +48,7 @@ export default class CascadeSlotReel extends cc.Component {
         await this.fallOut();
         await GameUtils.delayTime(delay);
         this.setItemData(data);
+        this.setStartPositionForItems();
         await this.fallIn();
     }
 
@@ -64,6 +65,11 @@ export default class CascadeSlotReel extends cc.Component {
     setItemData(data: number[]) {
         this.items.forEach((item, index) => {
             item.setItem(data[index]);
+        });
+    }
+
+    setStartPositionForItems() {
+        this.items.forEach((item, index) => {
             item.node.y = this.getItemPosY(this.itemDisplayCount + index);
         });
     }
@@ -98,7 +104,7 @@ export default class CascadeSlotReel extends cc.Component {
         await GameUtils.delayTime(hideDuration);
     }
 
-    async removeItems(list: number[]) {
+    async removeItemsByIndex(list: number[]) {
         for (let i = 0; i < list.length; i++) {
             if (i < list.length - 1) {
                 this.removeItem(list[i]);
@@ -111,14 +117,15 @@ export default class CascadeSlotReel extends cc.Component {
     }
 
     addItems(data: number[]) {
-        data.forEach((value, index) => {
-            if (this.items.length >= this.itemDisplayCount) {
+        let i = 0;
+        data.forEach((value) => {
+            if (value === null) {
                 return;
             }
-
             const item = this.addItem();
             item.setItem(value);
-            item.node.y = this.getItemPosY(this.itemDisplayCount + index);
+            item.node.y = this.getItemPosY(this.itemDisplayCount + i);
+            i++;
         });
     }
 }

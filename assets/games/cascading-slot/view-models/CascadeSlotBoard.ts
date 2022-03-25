@@ -1,4 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
+import { CascadingSlotFinishData } from "../models/CascadingSlotFinishModel";
 import CascadeSlotReel from "./CascadeSlotReel";
 
 const { ccclass, property } = cc._decorator;
@@ -16,7 +17,7 @@ export default class CascadeSlotBoard extends cc.Component {
     private reels: CascadeSlotReel[] = [];
     private data: GenerationData[];
 
-    private readonly itemDisplayCount = 3;
+    private readonly itemDisplayCount = 5;
 
     onLoad() {
         this.node.children.forEach((child) => {
@@ -44,11 +45,11 @@ export default class CascadeSlotBoard extends cc.Component {
         const shuffleData = _.shuffle(data);
     }
 
-    setBoardData(data: GenerationData[]) {}
+    async setSettlement(data: CascadingSlotFinishData) {}
 
     async spinGenrations(data: GenerationData[]) {
         let i = 0;
-        await this.spinGenration(data[i]);
+        await this.spinResult(data[i].symbols);
 
         while (i < data.length - 1) {
             const removedSymbols = data[i].removedSymbols;
@@ -65,15 +66,15 @@ export default class CascadeSlotBoard extends cc.Component {
         //show total win here
     }
 
-    async spinGenration(generation: GenerationData) {
+    async spinResult(symbols: number[][]) {
         const delay = 0.1;
         for (let i = 0; i < this.reels.length; i++) {
             await GameUtils.delayTime(delay);
             const waitToChangeItem = delay * (this.reels.length - 1 - i);
             if (i < this.reels.length - 1) {
-                this.reels[i].spin(generation.symbols[i], waitToChangeItem);
+                this.reels[i].spin(symbols[i], waitToChangeItem);
             } else {
-                await this.reels[i].spin(generation.symbols[i], waitToChangeItem);
+                await this.reels[i].spin(symbols[i], waitToChangeItem);
             }
         }
     }
@@ -83,10 +84,10 @@ export default class CascadeSlotBoard extends cc.Component {
             this.reels.map(async (reel, index) => {
                 const items = data[index]
                     .map((item, index) => {
-                        return item !== 0 ? index : -1;
+                        return item !== null ? index : -1;
                     })
                     .filter((value) => value > -1);
-                await reel.removeItems(items);
+                await reel.removeItemsByIndex(items);
             })
         );
     }

@@ -1,3 +1,8 @@
+import { result } from "lodash";
+
+import { handleSettle } from "../actions/CascadingSlotSettlementAction";
+import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
+import CascadingSlotGameData from "../models/CascadingSlotGameData";
 import CascadeSlotBoard from "./CascadeSlotBoard";
 
 const { ccclass, property } = cc._decorator;
@@ -44,69 +49,97 @@ export default class CascadingSlotBase extends cc.Component {
     @property(CascadeSlotBoard)
     board: CascadeSlotBoard = null;
 
-    private isAutoSpin = false;
-    private isSpinning = false;
+    protected gameData: CascadingSlotGameData<void>;
+    protected isAutoSpin = false;
+    protected isSpinning = false;
 
     async onSpinClick() {
         this.spin();
     }
 
     spin() {
-        const data = [
-            {
-                symbols: [
-                    [0, 1, 2],
-                    [0, 1, 4],
-                    [0, 1, 3],
-                    [0, 1, 5],
-                    [0, 1, 6]
-                ],
-                removedSymbols: [
-                    [0, 1, 0],
-                    [1, 1, 1],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    [0, 0, 0]
-                ]
-            },
-            {
-                symbols: [
-                    [7, 6, 6],
-                    [8, 8, 4],
-                    [0, 1, 3],
-                    [0, 1, 5],
-                    [0, 1, 6]
-                ],
-                removedSymbols: [
-                    [0, 1, 0],
-                    [0, 1, 0],
-                    [1, 0, 0],
-                    [1, 1, 0],
-                    [1, 1, 1]
-                ]
-            },
-            {
-                symbols: [
-                    [0, 1, 2],
-                    [0, 1, 4],
-                    [0, 1, 3],
-                    [0, 1, 5],
-                    [0, 1, 6]
-                ],
-                removedSymbols: [
-                    [0, 1, 0],
-                    [0, 1, 1],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    [0, 0, 0]
-                ]
-            }
-        ];
-        this.board.spinGenrations(data);
+        // const data = [
+        //     {
+        //         symbols: [
+        //             [0, 1, 2],
+        //             [0, 1, 4],
+        //             [0, 1, 3],
+        //             [0, 1, 5],
+        //             [0, 1, 6]
+        //         ],
+        //         removedSymbols: [
+        //             [0, 1, 0],
+        //             [1, 1, 1],
+        //             [0, 0, 0],
+        //             [0, 0, 0],
+        //             [0, 0, 0]
+        //         ]
+        //     },
+        //     {
+        //         symbols: [
+        //             [7, 6, 6],
+        //             [8, 8, 4],
+        //             [0, 1, 3],
+        //             [0, 1, 5],
+        //             [0, 1, 6]
+        //         ],
+        //         removedSymbols: [
+        //             [0, 1, 0],
+        //             [0, 1, 0],
+        //             [1, 0, 0],
+        //             [1, 1, 0],
+        //             [1, 1, 1]
+        //         ]
+        //     },
+        //     {
+        //         symbols: [
+        //             [0, 1, 2],
+        //             [0, 1, 4],
+        //             [0, 1, 3],
+        //             [0, 1, 5],
+        //             [0, 1, 6]
+        //         ],
+        //         removedSymbols: [
+        //             [0, 1, 0],
+        //             [0, 1, 1],
+        //             [0, 0, 0],
+        //             [0, 0, 0],
+        //             [0, 0, 0]
+        //         ]
+        //     }
+        // ];
+        // this.board.spinGenrations(data);
+
+        const data: CascadingSlotFinishData = {
+            roundId: 0,
+            result: "8,8,8,3,8,9,8,8,8,9,5,9,8,10,10,9,5,8,10,7,10,6,7,8,10,7,7,6,7,7", // 30 items on board
+            win: 30,
+            bigWin: true,
+            freeSpins: 0,
+            tumbles: [
+                {
+                    icons: {},
+                    win: 30,
+                    settlement: {
+                        explode: "8,8,8,,8,,8,8,8,,,,8,,,,,8,,,,,,8,,,,,,", // 30 icons
+                        new: "4,5,9,,1,2,3,6,9,,,3,1,,,,,,,,,,,,,,,,," // 30 icons
+                    },
+                    result: ""
+                }
+            ]
+        };
+        handleSettle(this)(data);
     }
 
-    protected onLoad(): void {
+    onLoad() {
+        // super.onLoad();
         this.registerKeyEvents();
+    }
+
+    initGameDataEvents() {
+        this.gameData = new CascadingSlotGameData(this);
+
+        this.gameData.finishModel.on(CascadingSlotFinishModel.Events.SETTLE, handleSettle(this));
     }
 
     registerKeyEvents() {
@@ -120,18 +153,14 @@ export default class CascadingSlotBase extends cc.Component {
     }
 
     onKeyDown(event: cc.Event.EventKeyboard) {
-        switch (event.keyCode) {
-            case cc.macro.KEY.space:
-                this.enableAutoSpin();
-                break;
+        if (event.keyCode === cc.macro.KEY.space) {
+            this.enableAutoSpin();
         }
     }
 
     onKeyUp(event: cc.Event.EventKeyboard) {
-        switch (event.keyCode) {
-            case cc.macro.KEY.space:
-                this.disableAutoSpin();
-                break;
+        if (event.keyCode === cc.macro.KEY.space) {
+            this.disableAutoSpin();
         }
     }
 
