@@ -83,12 +83,12 @@ export default class HoldemPokerTicketDetail extends cc.Component {
     }
 
     renderCards(data: HoldemPokerTicketDetailModel) {
-        const { playerCards, dealerCards, isFold, communityCards, isPlayerWin } = data.ticketDetail;
+        const { playerCards, dealerCards, isFold, communityCards, isPlayerWin, isSwappedOrHold } = data.ticketDetail;
         const playerCardsConverted = convertCard(playerCards.cards);
         const communityCardsConverted = convertCard(communityCards);
 
         playerCardsConverted.forEach((element) => {
-            this.playerCardsContainer.node.addChild(this.createCard(element, 0.75, 0.75));
+            this.playerCardsContainer.node.addChild(this.createCard(element, 0.75, 0.75, this.checkFaceDownPlayerCard(isSwappedOrHold)));
             this.playerCardsContainer.updateLayout();
         });
 
@@ -98,7 +98,6 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         });
 
         if (!isFold) {
-            let dealerResult: string;
             const playerCombinationConverted = convertCard(playerCards.combinationCards);
             const dealerCombinationConverted = convertCard(dealerCards.combinationCards);
             const dealerCardsConverted = convertCard(dealerCards.cards);
@@ -108,22 +107,31 @@ export default class HoldemPokerTicketDetail extends cc.Component {
             const playerResult = `holdEmPoker.${CombineCardResultLabel[playerCards.handResultId].dataId}`;
             this.playerRank.string = `${i18n.t(playerResult)}`;
 
-            if (dealerCards.isQualified) {
-                dealerResult = `holdEmPoker.${CombineCardResultLabel[dealerCards.handResultId].dataId}`;
-
-                if (isPlayerWin > 0) {
-                    this.playerRank.node.color = cc.Color.YELLOW;
-                } else if (isPlayerWin < 0) {
-                    this.dealerRank.node.color = cc.Color.YELLOW;
-                }
-            } else {
-                this.playerRank.node.color = cc.Color.YELLOW;
-                dealerResult = `holdEmPoker.${HandResultConst[0]}`;
-            }
-            this.dealerRank.string = `${i18n.t(dealerResult)}`;
+            this.dealerRank.string = `${i18n.t(this.renderDealerRank(dealerCards, isPlayerWin))}`;
         } else {
             this.renderCardsUIEqualFold();
         }
+    }
+
+    protected checkFaceDownPlayerCard(isSwappedOrHold) {
+        return true;
+    }
+
+    protected renderDealerRank(dealerCards: any, isPlayerWin: number) {
+        let dealerResult: string;
+        if (dealerCards.isQualified) {
+            dealerResult = `holdEmPoker.${CombineCardResultLabel[dealerCards.handResultId].dataId}`;
+
+            if (isPlayerWin > 0) {
+                this.playerRank.node.color = cc.Color.YELLOW;
+            } else if (isPlayerWin < 0) {
+                this.dealerRank.node.color = cc.Color.YELLOW;
+            }
+        } else {
+            this.playerRank.node.color = cc.Color.YELLOW;
+            dealerResult = `holdEmPoker.${HandResultConst[0]}`;
+        }
+        return dealerResult;
     }
 
     protected renderCardsUIEqualCall(playerCombination: any, dealerCombination: any, dealerCards: any) {

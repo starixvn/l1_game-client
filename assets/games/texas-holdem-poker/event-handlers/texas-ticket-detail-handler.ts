@@ -1,4 +1,4 @@
-import { CardModel } from '../texas-type';
+import { CardModel } from "../texas-type";
 import HoldemPokerTicketDetailEventHandler from "../../holdem-poker/event-handlers/HoldemPokerTicketDetailHandler";
 
 export type TexasTicketDetail = {
@@ -6,18 +6,19 @@ export type TexasTicketDetail = {
         bets: any;
         dealer: {
             handId: number;
-            combination:  CardModel[];
-            cards:  CardModel[];
+            combination: CardModel[];
+            cards: CardModel[];
             isQualified: boolean;
         };
         player: {
             handId: number;
-            combination:  CardModel[];
-            cards:  CardModel[];
+            combination: CardModel[];
+            cards: CardModel[];
         };
-        communityCards:  CardModel[];
+        communityCards: CardModel[];
         isFold: boolean;
         isPlayerWin: number;
+        isSwappedOrHold: boolean;
     };
 };
 

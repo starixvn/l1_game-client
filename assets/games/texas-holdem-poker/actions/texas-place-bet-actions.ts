@@ -7,7 +7,7 @@ import TexasPlaceBetModel from "../event-models/texas-place-bet-model";
 import TexasStateModel from "../event-models/texas-state-model";
 import Texas from "../view-models/texas";
 import TexasBettingArea from "../view-models/texas-betting-area";
-import TexasHoldemPokerChip from "../view-models/texas-chips";
+import TexasChips from "../view-models/texas-chips";
 import { TexasChoicesConst } from "../texas-contants";
 
 export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) => {
@@ -72,14 +72,20 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
             break;
     }
 };
-export const showPlaceBetChips =
-    (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasHoldemPokerChips: TexasHoldemPokerChip) =>
-    ({ currentChoice, currentAmount, totalAmount }) => {
-        const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
-        if (bettingArea && bettingArea.chipNode) {
-            texasHoldemPokerChips.flyChipToBetPlace(slidingChips, bettingArea.chipNode, shadowChip, currentAmount, totalAmount);
-        }
-    };
+export const showPlaceBetChips = (
+    bettingAreas: TexasBettingArea[],
+    slidingChips: BetChips,
+    shadowChip: cc.SpriteFrame,
+    texasChips: TexasChips,
+    currentChoice: string,
+    currentAmount: number,
+    totalAmount: number
+) => {
+    const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
+    if (bettingArea && bettingArea.chipNode) {
+        texasChips.flyChipToBetPlace(slidingChips, bettingArea.chipNode, shadowChip, currentAmount, totalAmount);
+    }
+};
 
 export const clearBetChips =
     (bettingAreas: TexasBettingArea[]) =>
@@ -100,23 +106,23 @@ export const clearAllBetChips = (bettingAreas: TexasBettingArea[]) => () => {
 };
 
 export const updateChips =
-    (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasHoldemPokerChips: TexasHoldemPokerChip) =>
+    (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasChips: TexasChips) =>
     ({ choice, totalAmount }) => {
         const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
         if (bettingArea && bettingArea.chipNode) {
-            texasHoldemPokerChips.updateChipStack(slidingChips, bettingArea.chipNode, shadowChip, totalAmount);
+            texasChips.updateChipStack(slidingChips, bettingArea.chipNode, shadowChip, totalAmount);
         }
     };
 
 export const updateAllChips =
-    (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasHoldemPokerChips: TexasHoldemPokerChip) =>
+    (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasChips: TexasChips) =>
     (placeBetModel: TexasPlaceBetModel) => {
         if (placeBetModel.choices[TexasChoicesConst.anteBet] !== 0) {
             updateChips(
                 bettingAreas,
                 slidingChips,
                 shadowChip,
-                texasHoldemPokerChips
+                texasChips
             )({ choice: TexasChoicesConst.anteBet, totalAmount: placeBetModel.choices[TexasChoicesConst.anteBet] });
         }
         if (placeBetModel.choices[TexasChoicesConst.callBet] !== 0) {
@@ -124,7 +130,7 @@ export const updateAllChips =
                 bettingAreas,
                 slidingChips,
                 shadowChip,
-                texasHoldemPokerChips
+                texasChips
             )({ choice: TexasChoicesConst.callBet, totalAmount: placeBetModel.choices[TexasChoicesConst.callBet] });
         }
         if (placeBetModel.choices[TexasChoicesConst.turnBet] !== 0) {
@@ -132,7 +138,7 @@ export const updateAllChips =
                 bettingAreas,
                 slidingChips,
                 shadowChip,
-                texasHoldemPokerChips
+                texasChips
             )({ choice: TexasChoicesConst.turnBet, totalAmount: placeBetModel.choices[TexasChoicesConst.turnBet] });
         }
     };

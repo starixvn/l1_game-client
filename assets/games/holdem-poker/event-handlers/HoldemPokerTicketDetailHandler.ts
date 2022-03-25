@@ -19,6 +19,7 @@ export type HoldemPokerTicketDetail<Choices> = {
         communityCards: Array<Record<string, number>>;
         isFold: boolean;
         isPlayerWin: number;
+        isSwappedOrHold?: boolean;
     };
 };
 
@@ -31,7 +32,7 @@ export default class HoldemPokerTicketDetailEventHandler<Choices> extends Holdem
     }
 
     protected handle(event: HoldemPokerTicketDetail<Choices>) {
-        const { player, isFold, bets, dealer, isPlayerWin } = event.ticketDetail;
+        const { player, isFold, bets, dealer, isPlayerWin, isSwappedOrHold } = event.ticketDetail;
         const playerCards = new HandTicketDetail();
         playerCards.handResultId = player.handId;
         playerCards.cards = player.cards.map((c) => new HoldemPokerCardModel(c.rank, c.suit));
@@ -47,6 +48,14 @@ export default class HoldemPokerTicketDetailEventHandler<Choices> extends Holdem
 
         const communityCards = event.ticketDetail.communityCards.map((c) => new HoldemPokerCardModel(c.rank, c.suit));
 
-        this.gameData.ticketDetailModel.changeTicketDetail({ dealerCards, communityCards, playerCards, bets, isFold, isPlayerWin });
+        this.gameData.ticketDetailModel.changeTicketDetail({
+            dealerCards,
+            communityCards,
+            playerCards,
+            bets,
+            isFold,
+            isPlayerWin,
+            isSwappedOrHold
+        });
     }
 }
