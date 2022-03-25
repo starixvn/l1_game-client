@@ -13,8 +13,6 @@ import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
 import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
 import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
 import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
-import BigSmallMd5 from "./BigSmallMD5";
-import BigSmallMD5Handler from "./handlers/BigSmallMD5Handler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -86,9 +84,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Node)
     thePlate: cc.Node = null;
 
-    @property(BigSmallMd5)
-    md5Comp: BigSmallMd5 = null;
-
     protected miniRoundHistory: BigSmallMiniRoundHistory;
     protected betHistory: BigSmallBetHistory;
     statistic: BigSmallDicesStatistic;
@@ -138,7 +133,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.finishHandler = new BigSmallFinishHandler(this);
         this.betHandler = new BigSmallBetHandler(this);
         this.statusHandler = new BalancedBettingPoolStatusHandler(this);
-        this.md5Handler = new BigSmallMD5Handler(this);
     }
 
     setValueBetAmount() {
