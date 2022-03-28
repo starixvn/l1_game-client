@@ -66,6 +66,7 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
             break;
         case TexasState.settled:
             main.riverButton.active = main.checkRiverButton.active = false;
+            main.swapButton.active = main.holdButton.active = false;
             break;
         case TexasState.swap:
         case TexasState.hold:

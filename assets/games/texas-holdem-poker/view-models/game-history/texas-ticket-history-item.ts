@@ -4,7 +4,7 @@ import HoldemPokerTicketHistoryItem from "../../../holdem-poker/view-models/hist
 const { ccclass } = cc._decorator;
 @ccclass
 export default class TexasTicketHistoryItem extends HoldemPokerTicketHistoryItem {
-    renderDealerResult(log: BetLog) {
+    handleDealerResult(log: BetLog) {
         const dealerResult = `holdEmPoker.${HandResultConst[log.dealerHandId]}`;
         if (log.isPlayerWin > 0) {
             this.player.node.color = cc.Color.YELLOW;

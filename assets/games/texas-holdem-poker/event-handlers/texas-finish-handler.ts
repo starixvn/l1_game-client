@@ -9,6 +9,7 @@ export type TexasFinish = {
             ante: number;
             call: number;
         };
+        isAutoSettle?: boolean;
     };
 };
 
@@ -19,7 +20,8 @@ export default class TexasFinishHandler<Choices> extends TexasEventHandler<Texas
 
     protected handle(event: TexasFinish) {
         this.gameData.isProcessingBet = false;
-        const { settlementResult } = event.finish;
+        const { settlementResult, isAutoSettle } = event.finish;
+        isAutoSettle && (this.gameData.settlement.autoSettle = true);
 
         const settlementResultConverted = cloneDeepChoiceData(settlementResult);
 

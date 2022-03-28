@@ -69,6 +69,7 @@ import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BetItem from "../../_base/view-models/BetItem";
 import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
+import TexasAutoSettleModel from "../event-models/texas-auto-settle-model";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -278,7 +279,7 @@ export default class Texas extends NewGameRoomBase {
     private registerConfigsEvents() {
         this.gameData.configs.on(TexasConfigsModel.Events.CHANGE, (configs: TexasConfigsModel) => {
             this.setGameConfigs(configs);
-            updateMinMax(this.minMaxTable)(configs);
+            updateMinMax(this.minMaxTable)(this);
             updateLeftRightOddsTable(this.oddsTables[0])(configs);
             updateLeftRightOddsTable(this.oddsTables[1])(configs);
         });
@@ -426,6 +427,7 @@ export default class Texas extends NewGameRoomBase {
 
     private registerSettlementEvents() {
         this.gameData.on(TexasGameDataModel.Events.SETTLED, () => {
+            console.log("SETTLED");
             this.gameData.stateModel.settle();
             this.handleDisableSwap(false);
         });
@@ -455,6 +457,7 @@ export default class Texas extends NewGameRoomBase {
         this.gameData?.settlement.on(TexasSettlementModel.Events.START_AUTO_CHECK, () => {
             this.turnButton.active = this.checkTurnButton.active = this.riverButton.active = this.checkRiverButton.active = false;
             this.reBetAndDealButton.active = this.newButton.active = false;
+            this.holdButton.active = this.swapButton.active = false;
             dealFourAndFireCardAndFaceUpDealerCards(this.pokerCardScript, this.gameData.autoSettleModel, () => {
                 this.gameData?.settlement.finishShowCards();
             });
@@ -462,9 +465,6 @@ export default class Texas extends NewGameRoomBase {
 
         this.gameData?.finishModel.on(TexasFinishModel.Events.SHOWED_ANIMATION, () => {
             this.gameData?.stateModel.riveSuccess();
-        });
-
-        this.gameData?.finishModel.on(TexasFinishModel.Events.SHOWED_ANIMATION, () => {
             this.gameData.settlement.autoSettle = false;
         });
     }

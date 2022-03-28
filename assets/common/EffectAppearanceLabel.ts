@@ -25,14 +25,12 @@ export default class EffectAppearanceLabel extends cc.Component {
         }
     }
 
-    private readonly SCALE_SIZE = 0.5;
-
     onLoad() {
         this.decorator.opacity = 0;
     }
 
     protected getContentWidth(): number {
-        return this.label ? this.label.node.width : this.richText ? this.richText.node.width * this.SCALE_SIZE : 0;
+        return this.label ? this.label.node.width : this.richText ? this.richText.node.width * this.richText.node.scaleX : 0;
     }
 
     protected calculateDistance(): number {

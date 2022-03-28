@@ -37,7 +37,7 @@ export default class HoldemPokerTicketHistoryItem extends cc.Component {
         if (!log.isFold) {
             const resultPlayer = `holdEmPoker.${HandResultConst[log.playerHandId]}`;
             this.player.string = `${i18n.t(resultPlayer)}`;
-            this.dealer.string = `${i18n.t(this.renderDealerResult(log))}`;
+            this.dealer.string = `${i18n.t(this.handleDealerResult(log))}`;
         } else {
             const playerResult = `holdEmPoker.fold`;
             this.player.string = `${i18n.t(playerResult)}`;
@@ -49,7 +49,7 @@ export default class HoldemPokerTicketHistoryItem extends cc.Component {
         this.win.node.color = cc.Color.YELLOW;
     }
 
-    renderDealerResult(log: BetLog) {
+    handleDealerResult(log: BetLog) {
         let dealerResult: string;
         if (log.isQualified) {
             dealerResult = `holdEmPoker.${HandResultConst[log.dealerHandId]}`;
