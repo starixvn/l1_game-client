@@ -18,5 +18,6 @@ export default class BonusItem extends cc.Component {
         if (value > 0) {
             this.value.string = numberWithCommas(value);
         }
+        this.value.node.active = true;
     }
 }

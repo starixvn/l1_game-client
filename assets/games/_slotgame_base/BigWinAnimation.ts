@@ -1,10 +1,9 @@
-import CallbackAnimation from "../../common/CallbackAnimation";
 import GameUtils from "../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BigWinAnimation extends CallbackAnimation {
+export default class BigWinAnimation extends cc.Component {
     @property(cc.Label)
     amountLabel: cc.Label = null;
 
@@ -14,18 +13,19 @@ export default class BigWinAnimation extends CallbackAnimation {
     @property
     durationShowTotal = 0;
 
-    private amount = 0;
+    amount = 0;
 
-    get textAnimationDuration() {
-        return (this.animation.defaultClip.duration - this.delayShowMoney - this.durationShowTotal) / this.animation.defaultClip.speed;
-    }
+    // get textAnimationDuration() {
+    //     return (this.animation.defaultClip.duration - this.delayShowMoney - this.durationShowTotal) / this.animation.defaultClip.speed;
+    // }
 
-    setAmount(amount: number) {
+    setAmount(amount: number, showBigWinValue: number) {
         this.amount = amount;
+        GameUtils.floatToNumber(this.amountLabel, this.amount, showBigWinValue);
     }
 
-    play() {
-        this.animation.play();
-        GameUtils.floatToNumber(this.amountLabel, this.amount, this.textAnimationDuration);
-    }
+    // play() {
+    //     this.animation.play();
+
+    // }
 }

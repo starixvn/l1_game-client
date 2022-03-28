@@ -18,6 +18,8 @@ export default class HeroesSlot extends SlotGameBase {
 
     initSlotGameConfig() {
         this.slotGameConfigs = new FourGuardiansSlotConfigs();
+        this.slotGameConfigs.turboMode.showBigWinValueDuration = 2.02;
+        this.slotGameConfigs.normalMode.showBigWinValueDuration = 2.02;
     }
 
     createAutoSpinDialog(): AutoSpinSettingDialog {

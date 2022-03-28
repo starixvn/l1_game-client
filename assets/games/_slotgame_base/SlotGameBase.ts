@@ -899,6 +899,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         switch (type) {
             case "bigwin":
                 return info.bigWinDuration;
+            case "showBigWinValue":
+                return info.showBigWinValueDuration;
             case "freespin":
                 return info.freespinDuration;
             case "bonus":
@@ -921,11 +923,13 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.playSound(SlotGameSound.BIG_WIN);
 
         const effect = cc.instantiate(this.effectBigWin);
+        const callbackAnim = effect.getComponent(CallbackAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("bigwin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setDuration(this.getCustomDuration("bigwin"));
-        bigWinAnimation.setAmount(betWin);
+        const showBigWinValueTime = this.getCustomDuration("showBigWinValue");
+        bigWinAnimation.setAmount(betWin, showBigWinValueTime);
         cc.tween(this)
-            .delay(bigWinAnimation.textAnimationDuration)
+            .delay(showBigWinValueTime)
             .call(() => this.updateWinningBetLabel(betWin))
             .start();
         await this.showEffect(effect);
