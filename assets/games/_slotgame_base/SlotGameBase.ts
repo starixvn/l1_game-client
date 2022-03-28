@@ -28,6 +28,7 @@ import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
 import SpinButton from "./SpinButton";
+import SlotGameBaseNoticeHandler from "./handlers/SlotGameBaseNoticeHandler";
 
 export interface LineData {
     payline: number;
@@ -320,6 +321,27 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
     }
 
+    registerKeyEvents() {
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    }
+
+    removeKeyEvents() {
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    }
+
+    onKeyDown(event: cc.Event.EventKeyboard) {
+        if (event.keyCode === cc.macro.KEY.space) {
+            //this.enableAutoSpin();
+        }
+    }
+
+    onKeyUp(event: cc.Event.EventKeyboard) {
+        if (event.keyCode === cc.macro.KEY.space) {
+            //this.disableAutoSpin();
+        }
+    }
     createLineView(child: cc.Node) {
         const node = new cc.Node();
         const view = node.addComponent(LineView);
@@ -358,6 +380,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     setUpHandlers() {
         this.initHandlers();
+        this.noticeHandler = new SlotGameBaseNoticeHandler(this);
         this.umHandler = new SlotGameUmHandler(this);
         this.ingameHandler = new SlotGameIngameHandler(this);
         this.settlementHandler = new SlotGameSettlementHandler(this);
