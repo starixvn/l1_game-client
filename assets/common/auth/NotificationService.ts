@@ -1,6 +1,7 @@
 import { io, Socket } from "socket.io-client";
 import { buildUrl } from "../helpers/UrlHelper";
 import { sentryLogger } from "../logger";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export default class NotificationService {
     public static getInstance(): NotificationService {
@@ -83,6 +84,12 @@ export default class NotificationService {
             this.socket.emit(eventName, data);
         } catch (err) {
             sentryLogger.logError(err);
+            if (cc.RedT.inGame && cc.RedT.inGame.loading) {
+                cc.RedT.inGame.loading.active = false;
+                cc.RedT.inGame.showNotice({
+                    text: i18n.t("messages.connectionFailed")
+                });
+            }
         }
     }
 

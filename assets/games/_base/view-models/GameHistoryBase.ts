@@ -23,7 +23,6 @@ export default class GameHistoryBase extends cc.Component {
 
     onEnable() {
         this.addDataObserver(this.gameName);
-        this.get_data();
     }
 
     addDataObserver(gameName: string) {
@@ -44,10 +43,6 @@ export default class GameHistoryBase extends cc.Component {
         if (data[this.gameName] && data[this.gameName].history) {
             this.onData(data[this.gameName].history);
         }
-    }
-
-    get_data(page = 1) {
-        cc.RedT.send({ g: { [this.gameName]: { getHistory: { page: page } } } });
     }
 
     onData(data) {}
