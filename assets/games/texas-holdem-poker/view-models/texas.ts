@@ -249,7 +249,6 @@ export default class Texas extends NewGameRoomBase {
 
         this.initPlacingBet();
         this.initButtonStatus();
-        this.prefabLoader.forEach((loader) => loader.initialize());
         this.registerStateEvents();
         this.registerConfigsEvents();
         this.initPokerCardScript();
@@ -294,6 +293,23 @@ export default class Texas extends NewGameRoomBase {
         if (this.gameData) {
             this.gameData.receiveData(data);
         }
+    }
+
+    public disabledButtons(status: boolean) {
+        const disableButton = "btn-disable";
+        this.dealButton.getChildByName(disableButton).active = status;
+        this.cancelButton.getChildByName(disableButton).active = status;
+        this.doubleButton.getChildByName(disableButton).active = status;
+        this.callButton.getChildByName(disableButton).active = status;
+        this.turnButton.getChildByName(disableButton).active = status;
+        this.checkTurnButton.getChildByName(disableButton).active = status;
+        this.riverButton.getChildByName(disableButton).active = status;
+        this.checkRiverButton.getChildByName(disableButton).active = status;
+        this.reBetAndDealButton.getChildByName(disableButton).active = status;
+        this.newButton.getChildByName(disableButton).active = status;
+        this.foldButton.getChildByName(disableButton).active = status;
+        this.swapButton.getChildByName(disableButton).active = status;
+        this.holdButton.getChildByName(disableButton).active = status;
     }
 
     private initButtonStatus() {
@@ -529,7 +545,7 @@ export default class Texas extends NewGameRoomBase {
 
     private registerNoticeEvents() {
         this.gameData.on(CommonEvents.API_ERROR, updateStatusGame(this.gameData));
-        this.gameData.on(CommonEvents.NOTICE, (text) => this.showMiniWarning(text));
+        this.gameData.on(CommonEvents.NOTICE, () => this.disabledButtons(false));
         this.gameData.on(CommonEvents.UM, handleUM(this));
     }
 

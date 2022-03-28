@@ -5,15 +5,7 @@ import { convertChoices } from "../texas-helper";
 
 export type TexasDeal = {
     deal: {
-        // player: CardModel[];
         communityCards: CardModel[];
-        // combinationResult: {
-        //     player: {
-        //         id: number;
-        //         combinationCards: CardModel[];
-        //         cards: CardModel[];
-        //     };
-        // };
         choices: Record<string, number>;
         roundId: number;
         totalAmount: number;

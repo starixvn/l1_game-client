@@ -37,4 +37,4 @@ export const dealerFakeData = [
 
 export const suffixIcon = ["♥", "♦", "♣", "♠"];
 
-export const limitMD5String = 351;
+export const limitMD5String = 352;
