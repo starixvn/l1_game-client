@@ -53,11 +53,7 @@ export default class JackpotWinners extends cc.Component {
     }
 
     onReceivedData(data: any) {
-        if (!data.jackpotWinners || data.jackpotWinners.length === 0) {
-            return;
-        }
-
         this.handleNoUserAd(false);
-        this.setData(data.jackpotWinners);
+        this.setData(data);
     }
 }

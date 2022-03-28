@@ -12,36 +12,35 @@ export default class GameNotification extends cc.Component {
     @property(cc.Node)
     noticeNode: cc.Node = null;
 
-    private dataKey = "";
+    private keyType = "";
+    private dataKey = "gameNotification";
     private isScheduling = false;
     notificationService: NotificationService;
 
     onLoad() {
-        this.dataKey = `${this.key}_${this.gameId}_${Date.now()}`;
+        this.keyType = `${this.key}_${this.gameId}_${Date.now()}`;
         this.notificationService = NotificationService.getInstance();
-        this.notificationService.addDataObserver(this.dataKey, this.receivedData.bind(this));
+        this.notificationService.addDataObserver(this.dataKey, this.keyType, this.receivedData.bind(this));
         this.getData();
         this.schedule(this.getData, 1, cc.macro.REPEAT_FOREVER, 0);
         this.isScheduling = true;
     }
 
     private getData() {
-        this.notificationService.emitEvent("game-notification", {
+        this.notificationService.emitEvent("gameNotification", {
             gameId: this.gameId
         });
     }
 
     onDestroy() {
-        this.notificationService.removeDataObserver(this.dataKey);
+        this.notificationService.removeDataObserver(this.dataKey, this.keyType);
     }
 
     private receivedData(data) {
-        if (data.gameNotifications) {
-            this.removeSchedule();
-            const notification = data.gameNotifications.find((notification) => notification.gameId === this.gameId);
-            if (notification) {
-                this.noticeNode.active = true;
-            }
+        this.removeSchedule();
+        const notification = data.find((notification) => notification.gameId === this.gameId);
+        if (notification) {
+            this.noticeNode.active = true;
         }
     }
 

@@ -136,6 +136,7 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
     }
 
     requestUpdateUserCoin() {
+        // TODO: using user service
         cc.RedT.send({ user: { updateCoin: true } });
     }
 

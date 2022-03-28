@@ -437,9 +437,10 @@ export default class MainGame extends cc.Component {
 
         cc.RedT.MiniPanel.onGeneralData(data);
 
-        if (void 0 !== data.marqueeMsg && this.newsContents) {
-            this.newsContents.onData(data.marqueeMsg);
-        }
+        // TODO: remove this
+        // if (void 0 !== data.marqueeMsg && this.newsContents) {
+        //     this.newsContents.onData(data.marqueeMsg);
+        // }
 
         if (void 0 !== data.loading) {
             this.loadingComponent.onData(data.loading);
@@ -447,6 +448,12 @@ export default class MainGame extends cc.Component {
 
         if (!!data.removeIsLoading && this.loading) {
             this.loading.active = false;
+        }
+    }
+
+    handleMarqueeMsg(msg) {
+        if (this.newsContents) {
+            this.newsContents.onData(msg);
         }
     }
 

@@ -53,20 +53,20 @@ export default class NotificationService {
             this.socket.disconnect();
         });
 
-        this.socket.on("game-notification", (data) => {
-            this.onGameNotificationData(data);
+        this.socket.on("gameNotification", (data) => {
+            this.onData(data, "gameNotification");
         });
 
         this.socket.on("marquee", (data) => {
             this.onMarqueeData(data);
         });
 
-        this.socket.on("getPools", (data) => {
-            // xu ly data
+        this.socket.on("jackpotPools", (data) => {
+            this.onData(data, "jackpotPools");
         });
 
         this.socket.on("getWinners", (data) => {
-            // xu ly data
+            this.onData(data, "getWinners");
         });
     }
 
@@ -78,22 +78,29 @@ export default class NotificationService {
         }
     }
 
-    onGameNotificationData(data) {
+    onData(data, dataKey: string) {
         Object.keys(this.dataObservers).forEach((key) => {
-            var observer = this.dataObservers[key];
-            observer && observer(data);
+            if (key === dataKey) {
+                Object.keys(this.dataObservers[key]).forEach((keyType) => {
+                    var observer = this.dataObservers[key][keyType];
+                    observer && observer(data);
+                });
+            }
         });
     }
 
     onMarqueeData(data) {
-        cc.RedT.inGame && cc.RedT.inGame.onData(data);
+        cc.RedT.inGame && cc.RedT.inGame.handleMarqueeMsg(data);
     }
 
-    addDataObserver(key, observer) {
-        this.dataObservers[key] = observer;
+    addDataObserver(dataKey, keyType, observer) {
+        if (!this.dataObservers[dataKey]) {
+            this.dataObservers[dataKey] = {};
+        }
+        this.dataObservers[dataKey][keyType] = observer;
     }
 
-    removeDataObserver(key) {
-        delete this.dataObservers[key];
+    removeDataObserver(dataKey, keyType) {
+        delete this.dataObservers[dataKey][keyType];
     }
 }
