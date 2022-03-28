@@ -67,14 +67,17 @@ export default class HoldemPockerMD5 extends cc.Component {
             const start = index === 0 ? `<color=#ffffff>${startString}</color>` : "";
             const end = index === cards.length - 1 ? `<color=#ffffff>${endString}</color>` : "";
             const comma = index === cards.length - 1 ? "" : index === 1 || index === 3 ? `<color=#ffffff>, </color>` : " ";
-            const cardValue =
-                card.suit > 1
-                    ? `<color=#050f04>${this.convertRankCard(card)}</color>`
-                    : `<color=#ff2626>${this.convertRankCard(card)}</color>`;
+            const cardValue = this.formatCardValue(card);
             resultFormatting += `${start}${cardValue}${comma}${end}`;
         });
 
         return resultFormatting;
+    }
+
+    formatCardValue(card: any) {
+        return card.suit > 1
+            ? `<color=#000000>${this.convertRankCard(card)}</color>`
+            : `<color=#E92E2E>${this.convertRankCard(card)}</color>`;
     }
 
     convertRankCard(card: any) {

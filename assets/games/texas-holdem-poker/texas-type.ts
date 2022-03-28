@@ -46,3 +46,11 @@ export type TexasChoicesType = {
     aa: number;
     call: number;
 };
+
+export type MD5RawValue = {
+    formatValue: {
+        cards: CardModel[];
+        suffix: string;
+    };
+    rawValue: string;
+};
