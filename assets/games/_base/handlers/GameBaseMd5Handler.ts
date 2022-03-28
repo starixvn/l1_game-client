@@ -5,11 +5,9 @@ export default class GameBaseMd5Handler implements DataHandler {
     constructor(protected readonly main: GameBase) {}
 
     handle(data: any): boolean {
-        if (!data.md5) {
-            return false;
+        if (data.md5 || data.resultHash) {
+            this.main.md5Component && this.main.md5Component.updateMD5String(data.md5 || data.resultHash);
         }
-
-        this.main.md5Component.updateMD5String(data.md5);
 
         return true;
     }
