@@ -5,6 +5,7 @@ import * as baseControl from "../../../BaseController";
 import AudioManager from "../../../common/audio/AudioManager";
 import MusicPlayer from "../../../common/audio/MusicPlayer";
 import NotificationService from "../../../common/auth/NotificationService";
+import UserService from "../../../common/auth/UserService";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import Loading from "../../../common/loading/view-models/Loading";
@@ -230,6 +231,7 @@ export default class MainGame extends cc.Component {
             cc.game.EVENT_SHOW,
             function () {
                 cc.RedT.GAME_IS_SHOWED = true;
+                cc.RedT.IS_LOGIN && UserService.getBalance();
             }.bind(this)
         );
     }
@@ -431,20 +433,7 @@ export default class MainGame extends cc.Component {
             this.unAuthorized(data["unauth"]);
         }
 
-        if (void 0 !== data.user) {
-            this.handleUserData(data.user);
-        }
-
         cc.RedT.MiniPanel.onGeneralData(data);
-
-        // TODO: remove this
-        // if (void 0 !== data.marqueeMsg && this.newsContents) {
-        //     this.newsContents.onData(data.marqueeMsg);
-        // }
-
-        if (void 0 !== data.loading) {
-            this.loadingComponent.onData(data.loading);
-        }
 
         if (!!data.removeIsLoading && this.loading) {
             this.loading.active = false;

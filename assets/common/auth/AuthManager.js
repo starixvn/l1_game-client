@@ -226,7 +226,7 @@ function handleResponse(session, response) {
     }
 }
 
-function updateUserBalance(data) {
+export function updateUserBalance(data) {
     if (cc.RedT.user) {
         cc.RedT.user.red = data.balance;
         cc.RedT.userData(data);

@@ -16,6 +16,7 @@ import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
+import UserService from "../../common/auth/UserService";
 
 type NewLayerCallback = () => void;
 
@@ -119,11 +120,6 @@ export default class MiniPanel extends BaseComponent {
         }
 
         this.dataHandlers.handleData(data);
-        // open result page
-        if (data.gameResult) {
-            const { redirectUrl } = data.gameResult;
-            this.redirectToResultPage(redirectUrl);
-        }
     }
 
     handleUmMessage(data) {
@@ -150,11 +146,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openResultPage(gameId: number = undefined) {
-        const data = { language: sessionManager.getLocale() };
-        if (gameId) {
-            data["gameId"] = gameId;
-        }
-        cc.RedT.send({ gameResult: data });
+        UserService.getGameResult(gameId);
     }
 
     addMiniGame(game: any, gameId: number) {

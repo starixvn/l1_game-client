@@ -68,6 +68,14 @@ export default class NotificationService {
         this.socket.on("getWinners", (data) => {
             this.onData(data, "getWinners");
         });
+
+        this.socket.on("kickedOut", (data) => {
+            // TODO:
+        });
+
+        this.socket.on("auth", (data) => {
+            this.onAuthData(data);
+        });
     }
 
     emitEvent(eventName, data) {
@@ -87,6 +95,12 @@ export default class NotificationService {
                 });
             }
         });
+    }
+
+    onAuthData(data) {
+        if (!data.authorized) {
+            cc.RedT.inGame && cc.RedT.inGame.unAuthorized(data);
+        }
     }
 
     onMarqueeData(data) {
