@@ -7,6 +7,7 @@ import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
 import { removeInRoomGameId } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
+import NotificationService from "../../common/auth/NotificationService";
 
 declare global {
     interface Window {
@@ -66,7 +67,7 @@ export default class MiniPanelDataHandlers {
 
     handleDataKickedOut(data: any) {
         if (data.umInfo) {
-            cc.RedT.forceKickedOut();
+            NotificationService.getInstance().forceKickedOut();
             window.umInfo = data.umInfo;
             cc.director.loadScene("um");
         } else {

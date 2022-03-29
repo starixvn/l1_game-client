@@ -13,82 +13,99 @@ export default class NotificationService {
     }
 
     private static instance: NotificationService;
-    socket: Socket;
-    isConnected = false;
-    dataObservers = {};
+    private isConnected = false;
+    private isForceKickedOut = false;
+    private socket: Socket;
+    private dataObservers = {};
 
     connect() {
-        const socketOptions = {
-            forceNew: true,
-            transports: ["websocket"],
-            upgrade: false,
-            path: "/notification/socket.io",
-            auth: {
-                ss: window.authData.ss,
-                username: window.authData.username
-            }
-        };
+        if (!this.isConnected && !this.isForceKickedOut) {
+            const socketOptions = {
+                forceNew: false,
+                transports: ["websocket"],
+                upgrade: false,
+                path: "/notification/socket.io",
+                auth: {
+                    ss: window.authData.ss,
+                    username: window.authData.username
+                }
+            };
 
-        this.socket = io(buildUrl(), socketOptions);
+            this.socket = io(buildUrl(), socketOptions);
 
-        this.socket.on("connect", () => {
-            this.isConnected = true;
-        });
+            this.socket.on("connect", () => {
+                this.isConnected = true;
+            });
 
-        this.socket.on("connect_failed", () => {
-            this.socket.disconnect();
-        });
+            this.socket.on("connect_failed", () => {
+                this.socket.disconnect();
+            });
 
-        this.socket.on("connect_error", (error) => {
-            this.isConnected = false;
-            sentryLogger.logError(error);
-            this.socket.disconnect();
-        });
+            this.socket.on("connect_error", (error) => {
+                sentryLogger.logError(error);
+                this.socket.disconnect();
+            });
 
-        this.socket.on("disconnect", (reason) => {
-            sentryLogger.log(reason);
-            this.isConnected = false;
-        });
+            this.socket.on("disconnect", (reason) => {
+                this.isConnected = false;
+                if (cc.RedT.inGame) {
+                    if (cc.RedT.IS_LOGIN) {
+                        cc.RedT.inGame.onDisconnected();
+                    }
+                }
+                this.reconnect();
+            });
 
-        this.socket.on("forceDisconnect", () => {
-            this.socket.disconnect();
-        });
+            this.socket.on("forceDisconnect", () => {
+                this.isConnected = false;
+                this.socket.disconnect();
+            });
 
-        this.socket.on("gameNotification", (data) => {
-            this.onData(data, "gameNotification");
-        });
+            this.socket.on("gameNotification", (data) => {
+                this.onData(data, "gameNotification");
+            });
 
-        this.socket.on("marquee", (data) => {
-            this.onMarqueeData(data);
-        });
+            this.socket.on("marquee", (data) => {
+                this.onMarqueeData(data);
+            });
 
-        this.socket.on("jackpotPools", (data) => {
-            this.onData(data, "jackpotPools");
-        });
+            this.socket.on("jackpotPools", (data) => {
+                this.onData(data, "jackpotPools");
+            });
 
-        this.socket.on("getWinners", (data) => {
-            this.onData(data, "getWinners");
-        });
+            this.socket.on("getWinners", (data) => {
+                this.onData(data, "getWinners");
+            });
 
-        this.socket.on("jackpotWinner", (data) => {
-            this.onData(data, "jackpotWinner");
-        });
+            this.socket.on("jackpotWinner", (data) => {
+                this.onData(data, "jackpotWinner");
+            });
 
-        this.socket.on("jackpotWinners", (data) => {
-            this.onData(data, "jackpotWinners");
-        });
+            this.socket.on("jackpotWinners", (data) => {
+                this.onData(data, "jackpotWinners");
+            });
 
-        this.socket.on("kickedOut", (data) => {
-            this.onKickdOutData(data);
-        });
+            this.socket.on("kickedOut", (data) => {
+                this.onKickdOutData(data);
+            });
 
-        this.socket.on("reload", (data) => {
-            cc.RedT.MiniPanel.onForceReload();
-        });
+            this.socket.on("reload", (data) => {
+                cc.RedT.MiniPanel.onForceReload();
+            });
 
-        this.socket.on("auth", (data) => {
-            this.onAuthData(data);
-        });
+            this.socket.on("auth", (data) => {
+                this.onAuthData(data);
+            });
+        }
+    }
+
+    reconnect() {
+        this.connect();
+    }
+
+    forceKickedOut() {
+        this.isForceKickedOut = true;
+        this.socket && this.socket.disconnect();
     }
 
     emitEvent(eventName, data) {
@@ -121,7 +138,6 @@ export default class NotificationService {
             cc.RedT.MiniPanel.onSignIn();
         } else {
             cc.RedT.inGame && cc.RedT.inGame.unAuthorized(data);
-            cc.RedT.MiniPanel.forceKickedOut();
         }
     }
 
@@ -133,14 +149,14 @@ export default class NotificationService {
         cc.RedT.MiniPanel.dataHandlers.handleDataKickedOut(data);
     }
 
-    addDataObserver(dataType, dataKey, observer) {
+    addDataObserver(dataType: string, dataKey: string, observer) {
         if (!this.dataObservers[dataType]) {
             this.dataObservers[dataType] = {};
         }
         this.dataObservers[dataType][dataKey] = observer;
     }
 
-    removeDataObserver(dataKey, keyType) {
-        delete this.dataObservers[dataKey][keyType];
+    removeDataObserver(dataType: string, dataKey: string) {
+        delete this.dataObservers[dataType][dataKey];
     }
 }

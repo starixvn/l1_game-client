@@ -16,6 +16,7 @@ import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
 import UserService from "../../common/auth/UserService";
+import NotificationService from "../../common/auth/NotificationService";
 
 type NewLayerCallback = () => void;
 
@@ -190,7 +191,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     forceKickedOut() {
-        cc.RedT.forceKickedOut();
+        NotificationService.getInstance().forceKickedOut();
         authManager.signOut();
     }
 
