@@ -14,7 +14,7 @@ export default class UserService {
     }
 
     public static getGameResult(gameId: number = undefined) {
-        let request = this.getRequestOptions();
+        const request = this.getRequestOptions();
         request["language"] = sessionManager.getLocale();
         if (gameId) {
             request["gameId"] = gameId;
@@ -26,7 +26,7 @@ export default class UserService {
     }
 
     public static getBalance() {
-        let request = this.getRequestOptions();
+        const request = this.getRequestOptions();
         axios.post(`${this.getUserServiceUrl()}/auth/balance`, request).then((response) => {
             updateUserBalance(response.data);
         });
