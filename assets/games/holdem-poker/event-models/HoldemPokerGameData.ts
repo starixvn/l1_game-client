@@ -17,7 +17,7 @@ import { HoldemPokerRoundCounter } from "./HoldemPokerRoundCounter";
 import { HoldemPokerSettlement } from "./HoldemPokerSettlement";
 import { HoldemPokerStateModel } from "./HoldemPokerStateModel";
 import { HoldemPokerTicketDetailModel } from "./HoldemPokerTicketDetailModel";
-import { HoldemPockerMD5Model } from "./HoldemPockerMD5Model";
+import { HoldemPokerMD5Model } from "./HoldemPokerMD5Model";
 import HoldemPockerMD5Handler from "../event-handlers/HoldemPockerMD5Handler";
 
 export class HoldemPokerGameData<Choices> extends GameData<Choices> {
@@ -39,7 +39,7 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
     readonly finishModel: HoldemPokerFinishModel;
     readonly settlement: HoldemPokerSettlement;
     readonly ticketDetailModel: HoldemPokerTicketDetailModel;
-    readonly md5Model: HoldemPockerMD5Model;
+    readonly md5Model: HoldemPokerMD5Model;
     //end base for Poker
 
     readonly roundCounter: HoldemPokerRoundCounter;
@@ -57,7 +57,7 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
         this.roundCounter = new HoldemPokerRoundCounter();
         this.settlement = new HoldemPokerSettlement();
         this.ticketDetailModel = new HoldemPokerTicketDetailModel();
-        this.md5Model = new HoldemPockerMD5Model();
+        this.md5Model = new HoldemPokerMD5Model();
     }
 
     // Override isProcessingBet

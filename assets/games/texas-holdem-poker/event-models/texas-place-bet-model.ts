@@ -21,9 +21,9 @@ export default class TexasPlaceBetModel extends HoldemPokerPlaceBetModel {
 
     updateBetModel(betChoice: string, betEvent: string, choiceRef = TexasChoicesConst.anteBet, rate = 1) {
         if (rate <= 0) {
-            console.log("rete must > 0");
             return;
         }
+        
         const betValue = this.choices[choiceRef] * rate;
         this.choices[betChoice] = betValue;
         this.emit(betEvent, this);

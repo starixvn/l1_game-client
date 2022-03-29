@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 
-export class HoldemPockerMD5Model extends EventEmitter {
+export class HoldemPokerMD5Model extends EventEmitter {
     constructor() {
         super();
         this.setMaxListeners(0);
@@ -16,6 +16,6 @@ export class HoldemPockerMD5Model extends EventEmitter {
     change(data: any) {
         this.md5 = data;
         this.md5CopyString = typeof data === "string" ? data : data.rawValue || this.md5;
-        this.emit(HoldemPockerMD5Model.Events.CHANGE, this);
+        this.emit(HoldemPokerMD5Model.Events.CHANGE, this);
     }
 }

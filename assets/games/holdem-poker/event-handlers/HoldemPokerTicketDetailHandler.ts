@@ -2,7 +2,7 @@ import { HoldemPokerCardModel } from "../event-models/HoldemPokerCardModel";
 import { HandTicketDetail } from "../event-models/HoldemPokerCombinationResult";
 import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
 
-export type HoldemPokerTicketDetail<Choices> = {
+export type HoldemPokerTicketDetail = {
     ticketDetail: {
         bets: any;
         dealer: {
@@ -23,15 +23,12 @@ export type HoldemPokerTicketDetail<Choices> = {
     };
 };
 
-export default class HoldemPokerTicketDetailEventHandler<Choices> extends HoldemPokerEventHandler<
-    HoldemPokerTicketDetail<Choices>,
-    Choices
-> {
-    protected verifyEvent(event: HoldemPokerTicketDetail<Choices>) {
+export default class HoldemPokerTicketDetailEventHandler<Choices> extends HoldemPokerEventHandler<HoldemPokerTicketDetail, Choices> {
+    protected verifyEvent(event: HoldemPokerTicketDetail) {
         return !!event.ticketDetail;
     }
 
-    protected handle(event: HoldemPokerTicketDetail<Choices>) {
+    protected handle(event: HoldemPokerTicketDetail) {
         const { player, isFold, bets, dealer, isPlayerWin, isSwappedOrHold } = event.ticketDetail;
         const playerCards = new HandTicketDetail();
         playerCards.handResultId = player.handId;

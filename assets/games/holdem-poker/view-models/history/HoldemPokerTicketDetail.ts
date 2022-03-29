@@ -107,7 +107,8 @@ export default class HoldemPokerTicketDetail extends cc.Component {
             const playerResult = `holdEmPoker.${CombineCardResultLabel[playerCards.handResultId].dataId}`;
             this.playerRank.string = `${i18n.t(playerResult)}`;
 
-            this.dealerRank.string = `${i18n.t(this.renderDealerRank(dealerCards, isPlayerWin))}`;
+            this.dealerRank.string = `${i18n.t(this.getDealerResult(dealerCards))}`;
+            this.handleColorNodePlayerDealer(dealerCards, isPlayerWin);
         } else {
             this.renderCardsUIEqualFold();
         }
@@ -117,11 +118,18 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         return true;
     }
 
-    protected renderDealerRank(dealerCards: any, isPlayerWin: number) {
+    getDealerResult(dealerCards) {
         let dealerResult: string;
         if (dealerCards.isQualified) {
             dealerResult = `holdEmPoker.${CombineCardResultLabel[dealerCards.handResultId].dataId}`;
+        } else {
+            dealerResult = `holdEmPoker.${HandResultConst[0]}`;
+        }
+        return dealerResult;
+    }
 
+    handleColorNodePlayerDealer(dealerCards, isPlayerWin) {
+        if (dealerCards.isQualified) {
             if (isPlayerWin > 0) {
                 this.playerRank.node.color = cc.Color.YELLOW;
             } else if (isPlayerWin < 0) {
@@ -129,9 +137,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
             }
         } else {
             this.playerRank.node.color = cc.Color.YELLOW;
-            dealerResult = `holdEmPoker.${HandResultConst[0]}`;
         }
-        return dealerResult;
     }
 
     protected renderCardsUIEqualCall(playerCombination: any, dealerCombination: any, dealerCards: any) {

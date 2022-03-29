@@ -1,7 +1,7 @@
 import { ListSong } from "./../texas-contants";
 import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
+import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
 import { events } from "../../_new/connection/SocketIOConnection";
 import NewButton from "../../../common/custom-button/NewButton";
 import PrefabLoader from "../../../common/PrefabLoader";
@@ -549,7 +549,7 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private registerMD5Event() {
-        this.gameData.md5Model.on(HoldemPockerMD5Model.Events.CHANGE, (md5: HoldemPockerMD5Model) => {
+        this.gameData.md5Model.on(HoldemPokerMD5Model.Events.CHANGE, (md5: HoldemPokerMD5Model) => {
             updateMD5(this.md5Comp)(md5);
         });
     }
@@ -639,7 +639,7 @@ export default class Texas extends NewGameRoomBase {
         this.placingBet.handleClickButtonNoneBet(TexasChoicesConst.fold);
     }
 
-    async onSwapClick() {
+    onSwapClick() {
         this.playClick();
         this.placingBet.handleClickOnChoice(TexasChoicesConst.swap);
     }

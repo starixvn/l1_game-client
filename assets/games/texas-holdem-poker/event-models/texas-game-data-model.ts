@@ -1,4 +1,4 @@
-import { HoldemPockerMD5Model } from "./../../holdem-poker/event-models/HoldemPockerMD5Model";
+import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
 import { HoldemPokerGameData } from "../../holdem-poker/event-models/HoldemPokerGameData";
 import TexasErrorHandler from "../event-handlers/texas-error-handler";
 import TexasAutoSettleHandler from "../event-handlers/texas-auto-settle-handler";
@@ -45,7 +45,7 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
     readonly turnModel: TexasTurnModel;
     readonly riverModel: TexasRiverModel;
     readonly autoSettleModel: TexasAutoSettleModel;
-    readonly md5Model: HoldemPockerMD5Model;
+    readonly md5Model: HoldemPokerMD5Model;
 
     constructor() {
         super();
@@ -65,7 +65,7 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
         this.ownBets = new TexasOwnBetModel();
         this.finishModel = new TexasFinishModel();
         this.ticketDetailModel = new TexasTicketDetailModel();
-        this.md5Model = new HoldemPockerMD5Model();
+        this.md5Model = new HoldemPokerMD5Model();
     }
 
     // Override isProcessingBet

@@ -1,3 +1,4 @@
+import { TexasChoices } from "./../texas-contants";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
@@ -175,18 +176,12 @@ export const showOwnBet = (gameData: TexasGameDataModel<TexasChoicesType>, betti
         bettingArea.showBetValue(true);
         bettingArea.showBetText(false);
     };
-    if (gameData.placeBetModel.choices[TexasChoicesConst.anteBet]) {
-        renderOwnBet(bettingAreas, TexasChoicesConst.anteBet, gameData.placeBetModel.choices[TexasChoicesConst.anteBet]);
-    }
-    if (gameData.placeBetModel.choices[TexasChoicesConst.callBet]) {
-        renderOwnBet(bettingAreas, TexasChoicesConst.callBet, gameData.placeBetModel.choices[TexasChoicesConst.callBet]);
-    }
-    if (gameData.placeBetModel.choices[TexasChoicesConst.turnBet]) {
-        renderOwnBet(bettingAreas, TexasChoicesConst.turnBet, gameData.placeBetModel.choices[TexasChoicesConst.turnBet]);
-    }
-    if (gameData.placeBetModel.choices[TexasChoicesConst.riverBet]) {
-        renderOwnBet(bettingAreas, TexasChoicesConst.riverBet, gameData.placeBetModel.choices[TexasChoicesConst.riverBet]);
-    }
+
+    TexasChoices.forEach((choice: string) => {
+        if (gameData.placeBetModel.choices[choice]) {
+            renderOwnBet(bettingAreas, choice, gameData.placeBetModel.choices[choice]);
+        }
+    });
 };
 
 export const clearUIData = (bettingAreas: TexasBettingArea[]) => () => {

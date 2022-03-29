@@ -33,7 +33,7 @@ import { handleUM } from "../actions/HoldemPokerUmAction";
 import { collectCart, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
 import PokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
-import { HoldemPockerMD5Model } from "../event-models/HoldemPockerMD5Model";
+import { HoldemPokerMD5Model } from "../event-models/HoldemPokerMD5Model";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
 import { HoldemPokerAfterDealModel } from "../event-models/HoldemPokerAfterDealModel";
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
@@ -308,7 +308,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     private registerMD5Event() {
-        this.gameData.md5Model.on(HoldemPockerMD5Model.Events.CHANGE, (md5: HoldemPockerMD5Model) => {
+        this.gameData.md5Model.on(HoldemPokerMD5Model.Events.CHANGE, (md5: HoldemPokerMD5Model) => {
             updateMD5(this.md5Comp)(md5);
         });
     }

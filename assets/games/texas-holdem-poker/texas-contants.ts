@@ -38,3 +38,5 @@ export const dealerFakeData = [
 export const suffixIcon = ["♥", "♦", "♣", "♠"];
 
 export const limitMD5String = 352;
+
+export const TexasChoices = ["anteBet", "callBet", "turnBet", "riverBet"];
