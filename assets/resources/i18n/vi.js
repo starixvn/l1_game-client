@@ -468,7 +468,7 @@ window.i18n.languages.vi = {
         stake: "Cược",
         dealerQualifies: "Nhà Cái Đủ Điều Kiện Khi Có Đôi 4 Hoặc Cao Hơn",
         md5String: "Chuỗi MD5",
-        md5Key: "Chuỗi Key"
+        md5Key: "Kết quả"
     },
     hiLo: {
         collect: "Ăn Non",

@@ -448,8 +448,8 @@ window.i18n.languages.zh_cn = {
         new: "新赌注",
         stake: "赌注",
         dealerQualifies: "庄家有资格获得一对4S 或更好的",
-        md5String: "MD5 串",
-        md5Key: "Key 串"
+        md5String: "MD5 Key",
+        md5Key: "Result"
     },
     hiLo: {
         collect: "Collect",

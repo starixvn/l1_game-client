@@ -13,6 +13,7 @@ export default class HoldemPokerMinMaxTable extends cc.Component {
     set Min(value: number) {
         this.min.string = numberWithCommas(value);
     }
+    
     set Max(value: number) {
         this.max.string = numberWithCommas(value);
     }

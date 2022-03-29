@@ -465,8 +465,8 @@ window.i18n.languages.en = {
         new: "New Bet",
         stake: "Stake",
         dealerQualifies: "Dealer qualifies on a pair of 4s or better",
-        md5String: "MD5 string",
-        md5Key: "string result"
+        md5String: "MD5 Key",
+        md5Key: "Result"
     },
     hiLo: {
         collect: "Collect",

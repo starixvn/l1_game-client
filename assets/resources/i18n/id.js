@@ -464,8 +464,8 @@ window.i18n.languages.id = {
         new: "New Bet",
         stake: "Taruhan",
         dealerQualifies: "Dealer memenuhi syarat pada sepasang 4s atau lebih baik",
-        md5String: "MD5 Tali",
-        md5Key: "Key Tali"
+        md5String: "MD5 Key",
+        md5Key: "Result"
     },
     hiLo: {
         collect: "Collect",

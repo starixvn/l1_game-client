@@ -69,7 +69,6 @@ import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BetItem from "../../_base/view-models/BetItem";
 import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
-import TexasAutoSettleModel from "../event-models/texas-auto-settle-model";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

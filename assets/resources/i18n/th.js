@@ -462,8 +462,8 @@ window.i18n.languages.th = {
         new: "New Bet",
         stake: "เดิมพัน",
         dealerQualifies: "ดีลเลอร์มีคุณสมบัติของทั้ง 4 คู่ หรือที่ดีกว่า",
-        md5String: "MD5 สตริง",
-        md5Key: "Key สตริง"
+        md5String: "MD5 Key",
+        md5Key: "Result"
     },
     hiLo: {
         collect: "Collect",
