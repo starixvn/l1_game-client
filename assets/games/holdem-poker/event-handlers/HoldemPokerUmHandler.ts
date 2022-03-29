@@ -1,8 +1,8 @@
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmDataHandler";
-import HoldemPoker from "../view-models/HoldemPoker";
+import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 
 export default class HoldemPokerUmHandler extends GameBaseUmDataHandler {
-    constructor(protected readonly main: HoldemPoker) {
+    constructor(protected readonly main: WebSocketTableGameBase) {
         super(main);
     }
 

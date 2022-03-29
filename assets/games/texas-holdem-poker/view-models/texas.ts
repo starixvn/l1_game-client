@@ -1,4 +1,3 @@
-import { ListSong } from "../texas-constants";
 import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
@@ -23,7 +22,7 @@ import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
 import TexasCallModel from "../event-models/texas-call-model";
 import { TexasChoicesType } from "../texas-type";
-import { TexasChoicesConst, BetAction } from "../texas-constants";
+import { TexasChoicesConst, BetAction, ListSong } from "../texas-constants";
 import TexasConfigsModel from "../event-models/texas-configs-model";
 import TexasDealModel from "../event-models/texas-deal-model";
 import TexasFinishModel from "../event-models/texas-finish-model";
@@ -60,7 +59,6 @@ import TexasTicketHistory from "./game-history/texas-ticket-history";
 import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
 import { handleMD5 } from "./../actions/texas-md5-action";
 import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
-import { updateStatusGame } from "../../holdem-poker/actions/HoldemPokerNoticeActions";
 import TexasSwapModel from "../event-models/texas-swap-model";
 import TexasHoldModel from "../event-models/texas-hold-model";
 import TexasMD5 from "./texas-MD5";
@@ -69,6 +67,8 @@ import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BetItem from "../../_base/view-models/BetItem";
 import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
+import TexasUmHandler from "../event-handlers/texas-um-handler";
+import { updateStatusGame } from "../actions/texas-notice-actions";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -188,6 +188,7 @@ export default class Texas extends NewGameRoomBase {
     protected betHistoryController: TexasTicketHistory = null;
     protected isSwapCard = true;
     private statusShowSwapIcon = false;
+    private disableButton = "btn-disable";
 
     constructor() {
         super();
@@ -275,6 +276,12 @@ export default class Texas extends NewGameRoomBase {
         // onGameHide
     }
 
+    initHandlers() {
+        super.initHandlers();
+
+        this.umHandler = new TexasUmHandler(this);
+    }
+
     private registerConfigsEvents() {
         this.gameData.configs.on(TexasConfigsModel.Events.CHANGE, (configs: TexasConfigsModel) => {
             this.setGameConfigs(configs);
@@ -285,7 +292,7 @@ export default class Texas extends NewGameRoomBase {
     }
 
     protected addHandlers(): void {
-        super.addHandlers(this.noticeHandler, this.errorHandler, this.betHandler);
+        super.addHandlers(this.umHandler, this.noticeHandler, this.errorHandler, this.betHandler);
     }
 
     onDataGameRoom(data: any) {
@@ -296,62 +303,60 @@ export default class Texas extends NewGameRoomBase {
     }
 
     public disabledButtons(status: boolean) {
-        const disableButton = "btn-disable";
-        this.dealButton.getChildByName(disableButton).active = status;
-        this.cancelButton.getChildByName(disableButton).active = status;
-        this.doubleButton.getChildByName(disableButton).active = status;
-        this.callButton.getChildByName(disableButton).active = status;
-        this.turnButton.getChildByName(disableButton).active = status;
-        this.checkTurnButton.getChildByName(disableButton).active = status;
-        this.riverButton.getChildByName(disableButton).active = status;
-        this.checkRiverButton.getChildByName(disableButton).active = status;
-        this.reBetAndDealButton.getChildByName(disableButton).active = status;
-        this.newButton.getChildByName(disableButton).active = status;
-        this.foldButton.getChildByName(disableButton).active = status;
-        this.swapButton.getChildByName(disableButton).active = status;
-        this.holdButton.getChildByName(disableButton).active = status;
+        this.dealButton.getChildByName(this.disableButton).active = status;
+        this.cancelButton.getChildByName(this.disableButton).active = status;
+        this.doubleButton.getChildByName(this.disableButton).active = status;
+        this.callButton.getChildByName(this.disableButton).active = status;
+        this.turnButton.getChildByName(this.disableButton).active = status;
+        this.checkTurnButton.getChildByName(this.disableButton).active = status;
+        this.riverButton.getChildByName(this.disableButton).active = status;
+        this.checkRiverButton.getChildByName(this.disableButton).active = status;
+        this.reBetAndDealButton.getChildByName(this.disableButton).active = status;
+        this.newButton.getChildByName(this.disableButton).active = status;
+        this.foldButton.getChildByName(this.disableButton).active = status;
+        this.swapButton.getChildByName(this.disableButton).active = status;
+        this.holdButton.getChildByName(this.disableButton).active = status;
     }
 
     private initButtonStatus() {
-        const disableButton = "btn-disable";
         this.dealButton.getComponent(NewButton).callback.selected = () =>
-            !this.dealButton.getChildByName(disableButton).active && this.onDealClick();
+            !this.dealButton.getChildByName(this.disableButton).active && this.onDealClick();
 
         this.cancelButton.getComponent(NewButton).callback.selected = () =>
-            !this.cancelButton.getChildByName(disableButton).active && this.onClearClick();
+            !this.cancelButton.getChildByName(this.disableButton).active && this.onClearClick();
 
         this.doubleButton.getComponent(NewButton).callback.selected = () =>
-            !this.doubleButton.getChildByName(disableButton).active && this.onDoubleClick();
+            !this.doubleButton.getChildByName(this.disableButton).active && this.onDoubleClick();
 
         this.callButton.getComponent(NewButton).callback.selected = () =>
-            !this.callButton.getChildByName(disableButton).active && this.onDoubleAndCallClick();
+            !this.callButton.getChildByName(this.disableButton).active && this.onDoubleAndCallClick();
 
         this.turnButton.getComponent(NewButton).callback.selected = () =>
-            !this.turnButton.getChildByName(disableButton).active && this.onTurnClick();
+            !this.turnButton.getChildByName(this.disableButton).active && this.onTurnClick();
 
         this.checkTurnButton.getComponent(NewButton).callback.selected = () =>
-            !this.checkTurnButton.getChildByName(disableButton).active && this.onCheckTurnClick();
+            !this.checkTurnButton.getChildByName(this.disableButton).active && this.onCheckTurnClick();
 
         this.riverButton.getComponent(NewButton).callback.selected = () =>
-            !this.riverButton.getChildByName(disableButton).active && this.onRiverClick();
+            !this.riverButton.getChildByName(this.disableButton).active && this.onRiverClick();
 
         this.checkRiverButton.getComponent(NewButton).callback.selected = () =>
-            !this.checkRiverButton.getChildByName(disableButton).active && this.onCheckRiverClick();
+            !this.checkRiverButton.getChildByName(this.disableButton).active && this.onCheckRiverClick();
 
         this.reBetAndDealButton.getComponent(NewButton).callback.selected = () =>
-            !this.reBetAndDealButton.getChildByName(disableButton).active && this.onRebetAndDeal();
+            !this.reBetAndDealButton.getChildByName(this.disableButton).active && this.onRebetAndDeal();
 
         this.newButton.getComponent(NewButton).callback.selected = () =>
-            !this.newButton.getChildByName(disableButton).active && this.onNewButtonClick();
+            !this.newButton.getChildByName(this.disableButton).active && this.onNewButtonClick();
 
         this.foldButton.getComponent(NewButton).callback.selected = () =>
-            !this.foldButton.getChildByName(disableButton).active && this.onFoldClick();
+            !this.foldButton.getChildByName(this.disableButton).active && this.onFoldClick();
 
         this.swapButton.getComponent(NewButton).callback.selected = () =>
-            !this.swapButton.getChildByName(disableButton).active && this.onSwapClick();
+            !this.swapButton.getChildByName(this.disableButton).active && this.onSwapClick();
 
         this.holdButton.getComponent(NewButton).callback.selected = () =>
-            !this.holdButton.getChildByName(disableButton).active && this.onHoldClick();
+            !this.holdButton.getChildByName(this.disableButton).active && this.onHoldClick();
     }
 
     private initTicketHistory() {
@@ -387,6 +392,11 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private onPlacingBet(betChoice: string) {
+        if (betChoice === TexasChoicesConst.anteBet) {
+            this.dealButton.getChildByName(this.disableButton).active = false;
+            this.doubleButton.getChildByName(this.disableButton).active = false;
+            this.cancelButton.getChildByName(this.disableButton).active = false;
+        }
         this.placingBet.placeBet(betChoice, this.currentBet);
     }
 

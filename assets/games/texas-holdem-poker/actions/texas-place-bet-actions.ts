@@ -1,4 +1,4 @@
-import { TexasChoices } from "../texas-constants";
+import { TexasChoices, TexasChoicesConst } from "../texas-constants";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
@@ -9,7 +9,6 @@ import TexasStateModel from "../event-models/texas-state-model";
 import Texas from "../view-models/texas";
 import TexasBettingArea from "../view-models/texas-betting-area";
 import TexasChips from "../view-models/texas-chips";
-import { TexasChoicesConst } from "../texas-constants";
 
 export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) => {
     switch (stateModel.state) {
