@@ -39,9 +39,9 @@ export default class UserService {
 
     private static getRequestOptions(): object {
         return {
-            session: window.authData.ss,
-            username: window.authData.username,
-            browserUserAgent: window.navigator.userAgent
+            session: window?.authData?.ss,
+            username: window?.authData?.username,
+            browserUserAgent: window?.navigator?.userAgent
         };
     }
 }

@@ -13,90 +13,57 @@ export default class NotificationService {
     }
 
     private static instance: NotificationService;
-    private isConnected = false;
-    private isForceKickedOut = false;
     private socket: Socket;
     private dataObservers = {};
 
     connect() {
-        if (!this.isConnected && !this.isForceKickedOut) {
-            const socketOptions = {
-                forceNew: false,
-                transports: ["websocket"],
-                upgrade: false,
-                path: "/notification/socket.io",
-                auth: {
-                    ss: window.authData.ss,
-                    username: window.authData.username
-                }
-            };
-
-            this.socket = io(buildUrl(), socketOptions);
-
-            this.socket.on("connect", () => {
-                this.isConnected = true;
-            });
-
-            this.socket.on("connect_failed", () => {
-                this.socket.disconnect();
-            });
-
-            this.socket.on("connect_error", (error) => {
-                sentryLogger.logError(error);
-                this.socket.disconnect();
-            });
-
-            this.socket.on("disconnect", (reason) => {
-                this.isConnected = false;
-                if (cc.RedT.inGame) {
-                    if (cc.RedT.IS_LOGIN) {
-                        cc.RedT.inGame.onDisconnected();
-                    }
-                }
-                this.reconnect();
-            });
-
-            this.socket.on("forceDisconnect", () => {
-                this.isConnected = false;
-                this.socket.disconnect();
-            });
-
-            this.socket.on("gameNotification", (data) => {
-                this.onData(data, "gameNotification");
-            });
-
-            this.socket.on("marquee", (data) => {
-                this.onMarqueeData(data);
-            });
-
-            this.socket.on("jackpotPools", (data) => {
-                this.onData(data, "jackpotPools");
-            });
-
-            this.socket.on("getWinners", (data) => {
-                this.onData(data, "getWinners");
-            });
-
-            this.socket.on("jackpotWinner", (data) => {
-                this.onData(data, "jackpotWinner");
-            });
-
-            this.socket.on("jackpotWinners", (data) => {
-                this.onData(data, "jackpotWinners");
-            });
-
-            this.socket.on("kickedOut", (data) => {
-                this.onKickdOutData(data);
-            });
-
-            this.socket.on("reload", (data) => {
-                cc.RedT.MiniPanel.onForceReload();
-            });
-
-            this.socket.on("auth", (data) => {
-                this.onAuthData(data);
-            });
+        if (this.socket) {
+            return;
         }
+
+        const socketOptions = {
+            forceNew: false,
+            transports: ["websocket"],
+            upgrade: false,
+            path: "/notification/socket.io",
+            auth: {
+                ss: window.authData.ss,
+                username: window.authData.username
+            }
+        };
+
+        this.socket = io(buildUrl(), socketOptions);
+
+        this.socket.on("connect_failed", () => {
+            this.socket.disconnect();
+        });
+
+        this.socket.on("connect_error", (error) => {
+            sentryLogger.logError(error);
+            this.socket.disconnect();
+        });
+
+        this.socket.on("disconnect", (reason) => {
+            this.reconnect();
+        });
+
+        const messageList = [
+            "gameNotification",
+            "marquee",
+            "jackpotPools",
+            "getWinners",
+            "jackpotWinner",
+            "jackpotWinners",
+            "kickedOut",
+            "reload",
+            "auth"
+        ];
+
+        messageList.forEach((message) => {
+            this.socket.on(message, (data) => {
+                this.onData(data, message);
+            });
+        });
     }
 
     reconnect() {
@@ -104,7 +71,6 @@ export default class NotificationService {
     }
 
     forceKickedOut() {
-        this.isForceKickedOut = true;
         this.socket && this.socket.disconnect();
     }
 
@@ -131,22 +97,6 @@ export default class NotificationService {
                 });
             }
         });
-    }
-
-    onAuthData(data) {
-        if (data.authorized) {
-            cc.RedT.MiniPanel.onSignIn();
-        } else {
-            cc.RedT.inGame && cc.RedT.inGame.unAuthorized(data);
-        }
-    }
-
-    onMarqueeData(data) {
-        cc.RedT.inGame && cc.RedT.inGame.handleMarqueeMsg(data);
-    }
-
-    onKickdOutData(data) {
-        cc.RedT.MiniPanel.dataHandlers.handleDataKickedOut(data);
     }
 
     addDataObserver(dataType: string, dataKey: string, observer) {

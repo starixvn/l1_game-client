@@ -14,9 +14,7 @@ export default class JackpotWinners extends cc.Component {
     @property(cc.Node)
     noUserNode: cc.Node = null;
 
-    private readonly dataKey = "jackpot_winners";
-    private readonly dataType = "jackpotWinners";
-    notificationService: NotificationService;
+    private readonly dataKey = "jackpotWinners";
 
     setData(data: any) {
         data.forEach((playerData, index) => {
@@ -29,8 +27,7 @@ export default class JackpotWinners extends cc.Component {
     }
 
     onLoad() {
-        this.notificationService = NotificationService.getInstance();
-        this.notificationService.addDataObserver(this.dataType, this.dataKey, (data) => this.onReceivedData(data));
+        NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.onReceivedData.bind(this));
         cc.tween(this)
             .repeatForever(
                 cc
@@ -45,11 +42,11 @@ export default class JackpotWinners extends cc.Component {
     }
 
     onDestroy() {
-        this.notificationService.removeDataObserver(this.dataType, this.dataKey);
+        NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 
     requestData() {
-        this.notificationService.emitEvent("getWinners", { limit: 3 });
+        NotificationService.getInstance().emitEvent("getWinners", { limit: 3 });
     }
 
     handleNoUserAd(status = true) {

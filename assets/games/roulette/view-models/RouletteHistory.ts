@@ -1,4 +1,3 @@
-import GameHistoryBase from "../../_base/view-models/GameHistoryBase";
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import RouletteHistoryItem from "./RouletteHistoryItem";
 import RouletteTicketDetail from "./RouletteTicketDetail";
@@ -14,7 +13,7 @@ export default class RouletteHistory extends SocketIOGameHistoryBase {
         const item = historyItemPrefab.getComponent(RouletteHistoryItem);
         this.content.addChild(historyItemPrefab);
         item.setData(log);
-        GameHistoryBase.handleSomeItemRowData(this, item, log);
+        this.handleSomeItemRowData(this, item, log);
     }
 
     showTicketDetail(round: number, time: string, result: number, betLogDetails: any, settlementResult: any) {

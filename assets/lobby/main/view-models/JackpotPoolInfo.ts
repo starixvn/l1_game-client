@@ -10,17 +10,14 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
 
     private time = 0;
     private readonly dataType = "jackpotPools";
-    private readonly dataKey = `jackpot_pools${this.uuid}`;
-    notificationService: NotificationService;
+    private readonly dataKey = `jackpotPools${this.uuid}`;
 
     onLoad() {
-        this.notificationService = NotificationService.getInstance();
-        this.notificationService.addDataObserver(this.dataType, this.dataKey, (data: any) => this.onReceivedData(data));
-        this.requestData();
+        NotificationService.getInstance().addDataObserver(this.dataType, this.dataKey, this.onReceivedData.bind(this)));
     }
 
     onDestroy() {
-        this.notificationService.removeDataObserver(this.dataType, this.dataKey);
+        NotificationService.getInstance().removeDataObserver(this.dataType, this.dataKey);
     }
 
     update(dt: number) {
@@ -35,7 +32,7 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
     }
 
     requestData() {
-        this.notificationService.emitEvent("getPools", {});
+        NotificationService.getInstance().emitEvent("getPools", {});
     }
 
     onReceivedData(data: any) {

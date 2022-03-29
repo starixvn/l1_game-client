@@ -228,7 +228,7 @@ export default class MainGame extends cc.Component {
             cc.game.EVENT_SHOW,
             function () {
                 cc.RedT.GAME_IS_SHOWED = true;
-                cc.RedT.IS_LOGIN && UserService.getBalance();
+                UserService.getBalance();
             }.bind(this)
         );
     }
@@ -401,20 +401,6 @@ export default class MainGame extends cc.Component {
         });
     }
 
-    unAuthorized(data) {
-        if (this.loading) {
-            this.loading.active = false;
-        }
-
-        if (void 0 !== data["message"]) {
-            this.showNotice({
-                text: data.isSessionExpired || data.noPassword ? i18n.t("messages.sessionExpired") : i18n.t("messages.errorOccurred")
-            });
-        } else {
-            this.showNotice(data);
-        }
-    }
-
     serviceAuthorized(Authorized) {
         this.loading.active = false;
 
@@ -422,20 +408,6 @@ export default class MainGame extends cc.Component {
             this.showSignName();
         } else {
             this.signIn();
-        }
-    }
-
-    onData(data) {
-        cc.RedT.MiniPanel.onGeneralData(data);
-
-        if (!!data.removeIsLoading && this.loading) {
-            this.loading.active = false;
-        }
-    }
-
-    handleMarqueeMsg(marqueeMsg) {
-        if (void 0 !== marqueeMsg && this.newsContents) {
-            this.newsContents.onData(marqueeMsg);
         }
     }
 

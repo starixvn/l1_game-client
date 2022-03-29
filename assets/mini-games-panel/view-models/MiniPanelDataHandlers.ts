@@ -87,6 +87,20 @@ export default class MiniPanelDataHandlers {
         }
     }
 
+    handleAuth(data: any) {
+        if (data.authorized) {
+            cc.RedT.MiniPanel.onSignIn();
+        } else {
+            if (data.umInfo) {
+                NotificationService.getInstance().forceKickedOut();
+                window.umInfo = data.umInfo;
+                cc.director.loadScene("um");
+            } else {
+                this.main.forceKickedOut();
+            }
+        }
+    }
+
     handleDataApiError(apiErrorData: any) {
         const error = apiErrorData.apiError;
         const gameId = error.gameTypeId;

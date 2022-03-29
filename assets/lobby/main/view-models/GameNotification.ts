@@ -15,25 +15,23 @@ export default class GameNotification extends cc.Component {
     private dataKey = "";
     private readonly dataType = "gameNotification";
     private isScheduling = false;
-    notificationService: NotificationService;
 
     onLoad() {
         this.dataKey = `${this.key}_${this.gameId}_${Date.now()}`;
-        this.notificationService = NotificationService.getInstance();
-        this.notificationService.addDataObserver(this.dataType, this.dataKey, this.receivedData.bind(this));
+        NotificationService.getInstance().addDataObserver(this.dataType, this.dataKey, this.receivedData.bind(this));
         this.getData();
         this.schedule(this.getData, 1, cc.macro.REPEAT_FOREVER, 0);
         this.isScheduling = true;
     }
 
     private getData() {
-        this.notificationService.emitEvent("gameNotification", {
+        NotificationService.getInstance().emitEvent("gameNotification", {
             gameId: this.gameId
         });
     }
 
     onDestroy() {
-        this.notificationService.removeDataObserver(this.dataType, this.dataKey);
+        NotificationService.getInstance().removeDataObserver(this.dataType, this.dataKey);
     }
 
     private receivedData(data) {

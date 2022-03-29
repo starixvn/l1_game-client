@@ -1,6 +1,8 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../common/audio/AudioManager";
+import NotificationService from "../../common/auth/NotificationService";
+import UserService from "../../common/auth/UserService";
 import BaseComponent from "../../common/BaseComponent";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
@@ -15,8 +17,6 @@ import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
-import UserService from "../../common/auth/UserService";
-import NotificationService from "../../common/auth/NotificationService";
 
 type NewLayerCallback = () => void;
 
@@ -69,6 +69,9 @@ export default class MiniPanel extends BaseComponent {
     private miniGamesCache = {};
     private newLayerCallbacks = {};
     public chartsWebView = {};
+    private kickedOutKey = "kickedOut";
+    private reloadKey = "reload";
+    private authKey = "auth";
 
     addNewLayerCallback(key: string, callback: NewLayerCallback) {
         this.newLayerCallbacks[key] = callback;
@@ -112,6 +115,18 @@ export default class MiniPanel extends BaseComponent {
         this.guideContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
         this.dialog.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
         this.dialog.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
+
+        NotificationService.getInstance().addDataObserver(this.kickedOutKey, this.kickedOutKey, (data) =>
+            this.dataHandlers.handleDataKickedOut(data)
+        );
+        NotificationService.getInstance().addDataObserver(this.authKey, this.authKey, (data) => this.dataHandlers.handleAuth(data));
+        NotificationService.getInstance().addDataObserver(this.reloadKey, this.reloadKey, this.onForceReload.bind(this));
+    }
+
+    onDestroy() {
+        NotificationService.getInstance().removeDataObserver(this.kickedOutKey, this.kickedOutKey);
+        NotificationService.getInstance().removeDataObserver(this.authKey, this.authKey);
+        NotificationService.getInstance().removeDataObserver(this.reloadKey, this.reloadKey);
     }
 
     onGeneralData(data: any) {

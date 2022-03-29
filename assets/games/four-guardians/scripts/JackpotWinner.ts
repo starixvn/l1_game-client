@@ -16,13 +16,10 @@ export default class JackpotWinner extends cc.Component {
     @property(cc.Label)
     gameName: cc.Label = null;
 
-    private readonly dataKey = "JackpotWinner";
-    private readonly dataType = "jackpotWinner";
+    private readonly dataKey = "jackpotWinner";
     popupMiniGame: PopupMinigames = null;
-    notificationService: NotificationService;
 
     onLoad() {
-        this.notificationService = NotificationService.getInstance();
         this.addDataObserver();
         this.resetJackPotWinner();
     }
@@ -34,11 +31,7 @@ export default class JackpotWinner extends cc.Component {
     }
 
     addDataObserver() {
-        this.notificationService.addDataObserver(this.dataType, this.dataKey, this.receivedData.bind(this));
-    }
-
-    receivedData(data) {
-        this.onData(data);
+        NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.onData.bind(this));
     }
 
     onDestroy() {
@@ -46,7 +39,7 @@ export default class JackpotWinner extends cc.Component {
     }
 
     removeDataObserver() {
-        this.notificationService.removeDataObserver(this.dataType, this.dataKey);
+        NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 
     onData(data: any) {

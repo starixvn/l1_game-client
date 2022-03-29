@@ -3,6 +3,7 @@ import { Socket } from "socket.io-client";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -59,4 +60,20 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     }
 
     abstract bindItemRowData(betLog, index);
+
+    handleSomeItemRowData(context: any, item: any, log: any) {
+        item.amountLabel.string = numberWithCommas(log.totalAmount);
+        item.winLabel.string = numberWithCommas(log.betwin, 2);
+        item.winLabel.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+
+        item.time = "";
+        item.round = log.phien;
+        item.result = log.result;
+        item.betLogDetails = log.betLogDetails;
+        item.settlementResult = log.settlementResult;
+
+        item.showTicketDetail = (round, time, result, betLogDetails, settlementResult) => {
+            context.showTicketDetail(round, time, result, betLogDetails, settlementResult);
+        };
+    }
 }
