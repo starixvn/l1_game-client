@@ -1,32 +1,27 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
-export class HoldemPokerSettlement extends EventEmitter {
-  constructor() {
-    super();
-    this.setMaxListeners(0);
-  }
+export class HoldemPokerSettlement extends EventEmitterBase {
+    static Events = {
+        START_SETTLEMENT: "startSettlement",
+        START_SHOW_CARDS: "startShowCards"
+    };
 
-  static Events = {
-    START_SETTLEMENT: "startSettlement",
-    START_SHOW_CARDS: "startShowCards",
-  };
+    isWaiting = false;
 
-  isWaiting = false;
-
-  set waiting(value: boolean) {
-    this.isWaiting = value;
-  }
-
-  startSettlement() {
-    if (this.isWaiting) {
-      this.emit(HoldemPokerSettlement.Events.START_SHOW_CARDS, this);
+    set waiting(value: boolean) {
+        this.isWaiting = value;
     }
-    if (!this.isWaiting) {
-      this.emit(HoldemPokerSettlement.Events.START_SETTLEMENT, this);
-    }
-  }
 
-  finishShowCards() {
-    this.emit(HoldemPokerSettlement.Events.START_SETTLEMENT, this);
-  }
+    startSettlement() {
+        if (this.isWaiting) {
+            this.emit(HoldemPokerSettlement.Events.START_SHOW_CARDS, this);
+        }
+        if (!this.isWaiting) {
+            this.emit(HoldemPokerSettlement.Events.START_SETTLEMENT, this);
+        }
+    }
+
+    finishShowCards() {
+        this.emit(HoldemPokerSettlement.Events.START_SETTLEMENT, this);
+    }
 }

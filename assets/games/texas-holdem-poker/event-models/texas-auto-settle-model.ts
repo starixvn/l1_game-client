@@ -1,12 +1,7 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { CardModel } from "../texas-type";
 
-export default class TexasAutoSettleModel extends EventEmitter {
-    constructor() {
-        super();
-        this.setMaxListeners(0);
-    }
-
+export default class TexasAutoSettleModel extends EventEmitterBase {
     static Events = {
         CHANGE: "afterRiver:change"
     };

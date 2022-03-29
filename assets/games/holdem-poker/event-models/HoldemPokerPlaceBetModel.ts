@@ -1,12 +1,11 @@
-import { EventEmitter } from "events";
 import { cloneDeep } from "lodash";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "./HoldemPokerChoices";
 
-export class HoldemPokerPlaceBetModel extends EventEmitter {
+export class HoldemPokerPlaceBetModel extends EventEmitterBase {
     constructor() {
         super();
-        this.setMaxListeners(0);
         this.choices = new HoldemPokerChoices();
         this.previousChoices = new HoldemPokerChoices();
     }

@@ -5,7 +5,6 @@ import { TexasChoicesConst } from "../texas-contants";
 export default class TexasPlaceBetModel extends HoldemPokerPlaceBetModel {
     constructor() {
         super();
-        this.setMaxListeners(0);
         this.choices = new TexasChoicesModel();
         this.previousChoices = new TexasChoicesModel();
     }
@@ -23,7 +22,7 @@ export default class TexasPlaceBetModel extends HoldemPokerPlaceBetModel {
         if (rate <= 0) {
             return;
         }
-        
+
         const betValue = this.choices[choiceRef] * rate;
         this.choices[betChoice] = betValue;
         this.emit(betEvent, this);

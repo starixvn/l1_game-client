@@ -1,14 +1,9 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 import { HoldemPokerCardModel } from "./HoldemPokerCardModel";
 import { HoldemPokerCombinationResult } from "./HoldemPokerCombinationResult";
 
-export class HoldemPokerAfterDealModel extends EventEmitter {
-    constructor() {
-        super();
-        this.setMaxListeners(0);
-    }
-
+export class HoldemPokerAfterDealModel extends EventEmitterBase {
     static Events = {
         CHANGE: "afterDeal:change"
     };

@@ -1,11 +1,6 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
-export class HoldemPokerMD5Model extends EventEmitter {
-    constructor() {
-        super();
-        this.setMaxListeners(0);
-    }
-
+export class HoldemPokerMD5Model extends EventEmitterBase {
     static Events = {
         CHANGE: "md5:change"
     };

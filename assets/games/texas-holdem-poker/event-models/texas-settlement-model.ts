@@ -1,11 +1,6 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
-export default class TexasSettlementModel extends EventEmitter {
-    constructor() {
-        super();
-        this.setMaxListeners(0);
-    }
-
+export default class TexasSettlementModel extends EventEmitterBase {
     static Events = {
         START_SETTLEMENT: "startSettlement",
         START_SHOW_CARDS: "startShowCards",

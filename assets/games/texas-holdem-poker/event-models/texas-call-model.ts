@@ -1,13 +1,8 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 import { HoldemPokerCardModel } from "../../holdem-poker/event-models/HoldemPokerCardModel";
 
-export default class TexasCallModel extends EventEmitter {
-    constructor() {
-        super();
-        this.setMaxListeners(0);
-    }
-
+export default class TexasCallModel extends EventEmitterBase {
     static Events = {
         CHANGE: "afterCall:change"
     };

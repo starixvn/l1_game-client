@@ -1,13 +1,12 @@
-import { EventEmitter } from "events";
 import { cloneDeep } from "lodash";
 
 import { TexasState } from "../texas-type";
 import { TexasMaxBetChoices } from "../texas-contants";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
-export default class TexasStateModel extends EventEmitter {
+export default class TexasStateModel extends EventEmitterBase {
     constructor() {
         super();
-        this.setMaxListeners(0);
         this.state = TexasState.ante_bet;
         this.previousState = TexasState.blank_new;
         this.previousRound = false;

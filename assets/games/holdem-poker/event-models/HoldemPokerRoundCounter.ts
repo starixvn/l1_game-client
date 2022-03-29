@@ -1,19 +1,14 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
-export class HoldemPokerRoundCounter extends EventEmitter {
-  constructor() {
-    super();
-    this.setMaxListeners(0);
-  }
+export class HoldemPokerRoundCounter extends EventEmitterBase {
+    static Events = {
+        CHANGE: "roundId:change"
+    };
 
-  static Events = {
-    CHANGE: "roundId:change",
-  };
+    roundId: number;
 
-  roundId: number;
-
-  change(roundId: number) {
-    this.roundId = roundId;
-    this.emit(HoldemPokerRoundCounter.Events.CHANGE, this);
-  }
+    change(roundId: number) {
+        this.roundId = roundId;
+        this.emit(HoldemPokerRoundCounter.Events.CHANGE, this);
+    }
 }
