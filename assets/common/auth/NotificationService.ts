@@ -70,6 +70,14 @@ export default class NotificationService {
             this.onData(data, "getWinners");
         });
 
+        this.socket.on("jackpotWinner", (data) => {
+            this.onData(data, "jackpotWinner");
+        });
+
+        this.socket.on("jackpotWinners", (data) => {
+            this.onData(data, "jackpotWinners");
+        });
+
         this.socket.on("kickedOut", (data) => {
             // TODO:
         });
@@ -93,11 +101,11 @@ export default class NotificationService {
         }
     }
 
-    onData(data, dataKey: string) {
-        Object.keys(this.dataObservers).forEach((key) => {
-            if (key === dataKey) {
-                Object.keys(this.dataObservers[key]).forEach((keyType) => {
-                    var observer = this.dataObservers[key][keyType];
+    onData(data, dataType: string) {
+        Object.keys(this.dataObservers).forEach((type) => {
+            if (type === dataType) {
+                Object.keys(this.dataObservers[type]).forEach((key) => {
+                    var observer = this.dataObservers[type][key];
                     observer && observer(data);
                 });
             }
@@ -114,11 +122,11 @@ export default class NotificationService {
         cc.RedT.inGame && cc.RedT.inGame.handleMarqueeMsg(data);
     }
 
-    addDataObserver(dataKey, keyType, observer) {
-        if (!this.dataObservers[dataKey]) {
-            this.dataObservers[dataKey] = {};
+    addDataObserver(dataType, dataKey, observer) {
+        if (!this.dataObservers[dataType]) {
+            this.dataObservers[dataType] = {};
         }
-        this.dataObservers[dataKey][keyType] = observer;
+        this.dataObservers[dataType][dataKey] = observer;
     }
 
     removeDataObserver(dataKey, keyType) {

@@ -12,15 +12,15 @@ export default class GameNotification extends cc.Component {
     @property(cc.Node)
     noticeNode: cc.Node = null;
 
-    private keyType = "";
-    private dataKey = "gameNotification";
+    private dataKey = "";
+    private readonly dataType = "gameNotification";
     private isScheduling = false;
     notificationService: NotificationService;
 
     onLoad() {
-        this.keyType = `${this.key}_${this.gameId}_${Date.now()}`;
+        this.dataKey = `${this.key}_${this.gameId}_${Date.now()}`;
         this.notificationService = NotificationService.getInstance();
-        this.notificationService.addDataObserver(this.dataKey, this.keyType, this.receivedData.bind(this));
+        this.notificationService.addDataObserver(this.dataType, this.dataKey, this.receivedData.bind(this));
         this.getData();
         this.schedule(this.getData, 1, cc.macro.REPEAT_FOREVER, 0);
         this.isScheduling = true;
@@ -33,7 +33,7 @@ export default class GameNotification extends cc.Component {
     }
 
     onDestroy() {
-        this.notificationService.removeDataObserver(this.dataKey, this.keyType);
+        this.notificationService.removeDataObserver(this.dataType, this.dataKey);
     }
 
     private receivedData(data) {

@@ -429,10 +429,6 @@ export default class MainGame extends cc.Component {
     }
 
     onData(data) {
-        if (void 0 !== data["unauth"]) {
-            this.unAuthorized(data["unauth"]);
-        }
-
         cc.RedT.MiniPanel.onGeneralData(data);
 
         if (!!data.removeIsLoading && this.loading) {
@@ -440,9 +436,9 @@ export default class MainGame extends cc.Component {
         }
     }
 
-    handleMarqueeMsg(msg) {
-        if (this.newsContents) {
-            this.newsContents.onData(msg);
+    handleMarqueeMsg(marqueeMsg) {
+        if (void 0 !== marqueeMsg && this.newsContents) {
+            this.newsContents.onData(marqueeMsg);
         }
     }
 

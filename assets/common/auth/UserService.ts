@@ -10,36 +10,34 @@ export default class UserService {
     private static readonly instance: UserServiceClient;
 
     public static getInstance(): UserServiceClient {
-        const path = Configs.env === "" ? "/user" : `/${Configs.env}/user`;
-        const userServiceUrl = buildUrlWithPath(path);
-        return this.instance ?? new UserServiceClient(userServiceUrl);
+        return this.instance ?? new UserServiceClient(this.getUserServiceUrl());
     }
 
     public static getGameResult(gameId: number = undefined) {
-        let request = this.createRequestOptions();
+        let request = this.getRequestOptions();
         request["language"] = sessionManager.getLocale();
         if (gameId) {
             request["gameId"] = gameId;
         }
 
-        axios.post(`${this.createUserServiceUrl()}/game-result/access-url`, request).then((response) => {
+        axios.post(`${this.getUserServiceUrl()}/game-result/access-url`, request).then((response) => {
             cc.RedT.MiniPanel.redirectToResultPage(response.data.gameResult.redirectUrl);
         });
     }
 
     public static getBalance() {
-        let request = this.createRequestOptions();
-        axios.post(`${this.createUserServiceUrl()}/auth/balance`, request).then((response) => {
+        let request = this.getRequestOptions();
+        axios.post(`${this.getUserServiceUrl()}/auth/balance`, request).then((response) => {
             updateUserBalance(response.data);
         });
     }
 
-    private static createUserServiceUrl(): string {
+    private static getUserServiceUrl(): string {
         const path = Configs.env === "" ? "/user" : `/${Configs.env}/user`;
         return buildUrlWithPath(path);
     }
 
-    private static createRequestOptions(): object {
+    private static getRequestOptions(): object {
         return {
             session: window.authData.ss,
             username: window.authData.username,
