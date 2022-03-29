@@ -8,7 +8,6 @@ import NotificationService from "../../../common/auth/NotificationService";
 import UserService from "../../../common/auth/UserService";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import Loading from "../../../common/loading/view-models/Loading";
 import logger from "../../../common/logger";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import configs = require("../../../configs/Configs");
@@ -97,7 +96,6 @@ export default class MainGame extends cc.Component {
 
     private inRoomGameId: string;
     private initializedLobby = false;
-    private loadingComponent: Loading;
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
     signName: any;
@@ -109,7 +107,6 @@ export default class MainGame extends cc.Component {
     }
 
     onLoad() {
-        this.loadingComponent = this.loading.getComponent(Loading);
         document.cookie = "redT=1702;path=/";
 
         this.initRedT();

@@ -79,7 +79,11 @@ export default class NotificationService {
         });
 
         this.socket.on("kickedOut", (data) => {
-            // TODO:
+            this.onKickdOutData(data);
+        });
+
+        this.socket.on("reload", (data) => {
+            cc.RedT.MiniPanel.onForceReload();
         });
 
         this.socket.on("auth", (data) => {
@@ -113,13 +117,20 @@ export default class NotificationService {
     }
 
     onAuthData(data) {
-        if (!data.authorized) {
+        if (data.authorized) {
+            cc.RedT.MiniPanel.onSignIn();
+        } else {
             cc.RedT.inGame && cc.RedT.inGame.unAuthorized(data);
+            cc.RedT.MiniPanel.forceKickedOut();
         }
     }
 
     onMarqueeData(data) {
         cc.RedT.inGame && cc.RedT.inGame.handleMarqueeMsg(data);
+    }
+
+    onKickdOutData(data) {
+        cc.RedT.MiniPanel.dataHandlers.handleDataKickedOut(data);
     }
 
     addDataObserver(dataType, dataKey, observer) {

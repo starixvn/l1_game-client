@@ -59,12 +59,6 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     }
 
     openGame(id) {
-        if (!cc.RedT.isConnected) {
-            const gameName = GameUtils.getGameNameString(id);
-            this.main.onConnectSocketFailed(gameName, false);
-            return;
-        }
-
         this.main.loading.node.active = true;
         this.openMiniGame(parseInt(id));
     }

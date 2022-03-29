@@ -9,7 +9,6 @@ const sentryLogger = logger();
 module.exports = {
     IS_LOGIN: false,
     IS_SOUND: true,
-    isConnected: false,
     GAME_IS_SHOWED: true,
     _socket: null,
     loading: null,
@@ -25,7 +24,7 @@ module.exports = {
     userStakeLevel: {},
 
     connect: function () {
-        if (!this.isConnected && !this.isForceKickedOut) {
+        if (!this.isForceKickedOut) {
             this._socket = new WebSocket(buildServerUrl("ws", "/websocket"));
             this._socket.onopen = this._onSocketConnect;
             this._socket.onclose = this._onSocketDisconnect;
@@ -42,7 +41,6 @@ module.exports = {
         this._socket.close();
     },
     disconnect: function () {
-        this.isConnected = !1;
         this._socket.close();
     },
     send: function (message) {
@@ -77,7 +75,6 @@ module.exports = {
         }
     },
     _onSocketConnect: function () {
-        cc.RedT.isConnected = true;
         if (cc.RedT.inGame && cc.RedT.inGame.loading) {
             cc.RedT.inGame.loading.active = true;
         }
@@ -89,7 +86,6 @@ module.exports = {
         }, 3000);
     },
     _onSocketDisconnect: function () {
-        cc.RedT.isConnected = false;
         if (cc.RedT.inGame) {
             if (cc.RedT.IS_LOGIN) {
                 cc.RedT.inGame.onDisconnected();
@@ -100,9 +96,7 @@ module.exports = {
         }
         cc.RedT.reconnect();
     },
-    _onSocketError: function (message) {
-        cc.RedT.isConnected = false;
-    },
+    _onSocketError: function (message) {},
     _onSocketData: function (message) {
         var data = message.data;
         data = cc.RedT._decodeMessage(data);
