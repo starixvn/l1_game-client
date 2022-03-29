@@ -689,7 +689,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     updateDisplaySpinButtons() {
         this.spinButton.setFreeSpinValue(this.totalFreeSpins);
-        const showFreeSpin = this.totalFreeSpins > 0;
+        const showFreeSpin = this.totalFreeSpins >= 0;
         this.updateModeSpinButton(showFreeSpin);
     }
 

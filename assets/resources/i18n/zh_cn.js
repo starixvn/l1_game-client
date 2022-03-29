@@ -37,7 +37,8 @@ window.i18n.languages.zh_cn = {
         "26_break": "VIP 鱼虾蟹",
         "38_break": "英雄传说",
         39: "Casino Hold'em",
-        42: "Texas Hold'em"
+        42: "Texas Hold'em",
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "发生了错误。 详情请联系CSD，谢谢。(%{errorCode})",

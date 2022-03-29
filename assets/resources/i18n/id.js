@@ -37,7 +37,8 @@ window.i18n.languages.id = {
         "26_break": "VIP Ikan\nUdang Kepiting",
         "38_break": "Legenda Pahlawan",
         39: "Casino Hold'em",
-        42: "Texas Hold'em"
+        42: "Texas Hold'em",
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",

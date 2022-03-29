@@ -37,7 +37,8 @@ window.i18n.languages.th = {
         "26_break": "VIP  ปลา กุ้ง ปู",
         "38_break": "เดอะ เลเจนด์\nออฟ ฮีโร่",
         39: "Casino Hold'em",
-        42: "Texas Hold'em"
+        42: "Texas Hold'em",
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "เกิดข้อผิดพลาด กรุณาติดต่อแอดมินสำหรับรายละเอียดเพิ่มเติม ขอบคุณค่ะ (%{errorCode})",

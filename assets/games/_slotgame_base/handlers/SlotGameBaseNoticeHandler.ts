@@ -21,6 +21,7 @@ export default class SlotGameBaseNoticeHandler extends GameBaseNoticeHandler {
         if (errorCode === "SB1929") {
             this.main.setTotalFreeSpins(0);
             this.main.updateDisplaySpinButtons();
+            this.main.spinButton.showNormalMode();
         }
 
         const text = NoticeUtil.getLocalizedErrorMessage(errorCode, {});
