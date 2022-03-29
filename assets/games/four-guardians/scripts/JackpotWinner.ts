@@ -35,10 +35,6 @@ export default class JackpotWinner extends cc.Component {
     }
 
     onDestroy() {
-        this.removeDataObserver();
-    }
-
-    removeDataObserver() {
         NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 
