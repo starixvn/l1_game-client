@@ -1,4 +1,4 @@
-import { TexasChoices } from "./../texas-contants";
+import { TexasChoices } from "../texas-constants";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
@@ -9,7 +9,7 @@ import TexasStateModel from "../event-models/texas-state-model";
 import Texas from "../view-models/texas";
 import TexasBettingArea from "../view-models/texas-betting-area";
 import TexasChips from "../view-models/texas-chips";
-import { TexasChoicesConst } from "../texas-contants";
+import { TexasChoicesConst } from "../texas-constants";
 
 export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) => {
     switch (stateModel.state) {
@@ -79,6 +79,7 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
             break;
     }
 };
+
 export const showPlaceBetChips = (
     bettingAreas: TexasBettingArea[],
     slidingChips: BetChips,
@@ -124,30 +125,16 @@ export const updateChips =
 export const updateAllChips =
     (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasChips: TexasChips) =>
     (placeBetModel: TexasPlaceBetModel) => {
-        if (placeBetModel.choices[TexasChoicesConst.anteBet] !== 0) {
-            updateChips(
-                bettingAreas,
-                slidingChips,
-                shadowChip,
-                texasChips
-            )({ choice: TexasChoicesConst.anteBet, totalAmount: placeBetModel.choices[TexasChoicesConst.anteBet] });
-        }
-        if (placeBetModel.choices[TexasChoicesConst.callBet] !== 0) {
-            updateChips(
-                bettingAreas,
-                slidingChips,
-                shadowChip,
-                texasChips
-            )({ choice: TexasChoicesConst.callBet, totalAmount: placeBetModel.choices[TexasChoicesConst.callBet] });
-        }
-        if (placeBetModel.choices[TexasChoicesConst.turnBet] !== 0) {
-            updateChips(
-                bettingAreas,
-                slidingChips,
-                shadowChip,
-                texasChips
-            )({ choice: TexasChoicesConst.turnBet, totalAmount: placeBetModel.choices[TexasChoicesConst.turnBet] });
-        }
+        TexasChoices.forEach((choice: string) => {
+            if (placeBetModel.choices[choice] !== 0) {
+                updateChips(
+                    bettingAreas,
+                    slidingChips,
+                    shadowChip,
+                    texasChips
+                )({ choice: choice, totalAmount: placeBetModel.choices[choice] });
+            }
+        });
     };
 
 export const showHideTooltip = (bettingAreas: TexasBettingArea[]) => (stateModel: TexasStateModel) => {

@@ -13,7 +13,7 @@ import TexasTicketDetailHandler from "../event-handlers/texas-ticket-detail-hand
 import TexasTurnHandler from "../event-handlers/texas-turn-handler";
 import TexasAutoSettleModel from "./texas-auto-settle-model";
 import TexasCallModel from "./texas-call-model";
-import { TexasChoicesConst } from "../texas-contants";
+import { TexasChoicesConst } from "../texas-constants";
 import TexasConfigsModel from "./texas-configs-model";
 import TexasDealModel from "./texas-deal-model";
 import TexasFinishModel from "./texas-finish-model";

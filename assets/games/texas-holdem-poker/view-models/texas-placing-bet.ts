@@ -2,7 +2,7 @@ import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
 import { TexasChoicesType, TexasState } from "../texas-type";
-import { TexasChoicesConst, BetAction } from "../texas-contants";
+import { TexasChoicesConst, BetAction } from "../texas-constants";
 import TexasGameDataModel from "../event-models/texas-game-data-model";
 import { validateAccountBalance, validateAccountBalanceForFullRound, validateBet } from "./texas-validate-placing-bet";
 

@@ -1,6 +1,6 @@
 import { HoldemPokerPlaceBetModel } from "../../holdem-poker/event-models/HoldemPokerPlaceBetModel";
 import TexasChoicesModel from "./texas-choices-model";
-import { TexasChoicesConst } from "../texas-contants";
+import { TexasChoicesConst } from "../texas-constants";
 
 export default class TexasPlaceBetModel extends HoldemPokerPlaceBetModel {
     constructor() {

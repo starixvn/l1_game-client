@@ -1,4 +1,4 @@
-import { limitMD5String, suffixIcon } from "./../texas-contants";
+import { limitMD5String, suffixIcon } from "../texas-constants";
 import { convertOldRank } from "./../../holdem-poker/components/cards/view-models/CardWrapper";
 import HoldemPockerMD5 from "../../holdem-poker/view-models/HoldemPockerMD5";
 import { CardModel, MD5RawValue } from "../texas-type";

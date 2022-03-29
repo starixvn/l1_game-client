@@ -1,5 +1,5 @@
 import { convertCard } from "../../../holdem-poker/components/cards/view-models/CardWrapper";
-import { dealerFakeData } from "../../texas-contants";
+import { dealerFakeData } from "../../texas-constants";
 import PokerCards from "./texas-cards";
 import TexasSwapCards from "./texas-swap-cards";
 

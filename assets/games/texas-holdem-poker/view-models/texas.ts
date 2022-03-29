@@ -1,4 +1,4 @@
-import { ListSong } from "./../texas-contants";
+import { ListSong } from "../texas-constants";
 import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
@@ -23,7 +23,7 @@ import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
 import TexasCallModel from "../event-models/texas-call-model";
 import { TexasChoicesType } from "../texas-type";
-import { TexasChoicesConst, BetAction } from "../texas-contants";
+import { TexasChoicesConst, BetAction } from "../texas-constants";
 import TexasConfigsModel from "../event-models/texas-configs-model";
 import TexasDealModel from "../event-models/texas-deal-model";
 import TexasFinishModel from "../event-models/texas-finish-model";
@@ -426,7 +426,6 @@ export default class Texas extends NewGameRoomBase {
 
     private registerSettlementEvents() {
         this.gameData.on(TexasGameDataModel.Events.SETTLED, () => {
-            console.log("SETTLED");
             this.gameData.stateModel.settle();
             this.handleDisableSwap(false);
         });

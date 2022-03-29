@@ -1,7 +1,7 @@
 import { cloneDeep } from "lodash";
 
 import { TexasState } from "../texas-type";
-import { TexasMaxBetChoices } from "../texas-contants";
+import { TexasMaxBetChoices } from "../texas-constants";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 export default class TexasStateModel extends EventEmitterBase {

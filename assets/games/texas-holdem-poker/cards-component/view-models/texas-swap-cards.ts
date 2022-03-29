@@ -38,18 +38,18 @@ export default class TexasSwapCards extends cc.Component {
         this.node.active = true;
     }
 
-    protected activeNodeCards(status: boolean) {
+    protected activeCardsOrigin(status: boolean) {
         this.dealerCard.active = status;
         this.playCard.active = status;
     }
 
     async swapCards() {
-        await this.moveTopRotationCard3D(this.timeShowUp);
-        await this.moveBezierCard(this.timeSwap);
-        await this.hideCard2D(this.timeShowUp);
+        await this.switchCard3DTmp(this.timeShowUp);
+        await this.moveBezierCard2DTmp(this.timeSwap);
+        await this.switchCardOrigin(this.timeShowUp);
     }
 
-    changeStatusCard3D(state: boolean) {
+    changeStatusCard3DTmp(state: boolean) {
         this.cards3DTmp.node.active = state;
     }
 
@@ -58,16 +58,12 @@ export default class TexasSwapCards extends cc.Component {
         this.playerTmp.active = status;
     }
 
-    changeStatusCardRoot(state: boolean) {
-        this.activeNodeCards(state);
-    }
-
-    moveTopRotationCard3D(delayTime: number) {
+    switchCard3DTmp(delayTime: number) {
         return new Promise<void>((resolve) => {
             cc.tween(this)
                 .call(() => {
-                    this.changeStatusCardRoot(false);
-                    this.changeStatusCard3D(true);
+                    this.activeCardsOrigin(false);
+                    this.changeStatusCard3DTmp(true);
                     this.cards3DTmp.getComponent(TexasShowUpCards).moveYAndRotationCard(30, 50, 40);
                 })
                 .delay(delayTime)
@@ -78,7 +74,7 @@ export default class TexasSwapCards extends cc.Component {
         });
     }
 
-    moveBezierCard(duration: number) {
+    moveBezierCard2DTmp(duration: number) {
         const dealerClone = this.dealerTmp;
         const playerClone = this.playerTmp;
         const bezierLeft = [
@@ -96,7 +92,7 @@ export default class TexasSwapCards extends cc.Component {
         return new Promise<void>((resolve) => {
             cc.tween(this)
                 .call(() => {
-                    this.changeStatusCard3D(false);
+                    this.changeStatusCard3DTmp(false);
                     this.changeStatusCard2D(true);
                     this.dealerTmp.runAction(
                         cc.sequence(cc.scaleTo(0.1, 0.75, 0.75), cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(0.1, 1, 1)))
@@ -113,18 +109,18 @@ export default class TexasSwapCards extends cc.Component {
         });
     }
 
-    hideCard2D(delayTime: number) {
+    switchCardOrigin(delayTime: number) {
         return new Promise<void>((resolve) => {
             cc.tween(this)
                 .call(() => {
                     this.changeStatusCard2D(false);
-                    this.changeStatusCard3D(true);
+                    this.changeStatusCard3DTmp(true);
                     this.cards3DTmp.getComponent(TexasShowUpCards).moveYAndRotationCard(0, 0, 0);
                 })
                 .delay(delayTime)
                 .call(() => {
-                    this.changeStatusCard3D(false);
-                    this.changeStatusCardRoot(true);
+                    this.changeStatusCard3DTmp(false);
+                    this.activeCardsOrigin(true);
                 })
 
                 .call(() => {

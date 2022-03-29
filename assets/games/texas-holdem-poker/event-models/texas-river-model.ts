@@ -1,4 +1,3 @@
-import { EventEmitter } from "events";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { CardModel } from "../texas-type";
 
