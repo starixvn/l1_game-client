@@ -69,9 +69,9 @@ export default class MiniPanel extends BaseComponent {
     private miniGamesCache = {};
     private newLayerCallbacks = {};
     public chartsWebView = {};
-    private kickedOutKey = "kickedOut";
-    private reloadKey = "reload";
-    private authKey = "auth";
+    private readonly kickedOutKey = "kickedOut";
+    private readonly reloadKey = "reload";
+    private readonly authKey = "auth";
 
     addNewLayerCallback(key: string, callback: NewLayerCallback) {
         this.newLayerCallbacks[key] = callback;

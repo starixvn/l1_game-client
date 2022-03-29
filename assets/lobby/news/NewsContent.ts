@@ -13,7 +13,7 @@ export default class NewsContent extends cc.Component {
 
     private readonly colors = ["#F24647", "#33D3E9", "#F8E49D"];
     private fonts = {};
-    private dataKey = "marquee";
+    private readonly dataKey = "marquee";
 
     onLoad(): void {
         NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.onData.bind(this));
