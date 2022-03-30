@@ -1,8 +1,9 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
+import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import { convertCard } from "../../components/cards/view-models/CardWrapper";
-import HoldemPokerCard, { CardModel } from "../../components/cards/view-models/HoldemPokerCard";
+import HoldemPokerCard from "../../components/cards/view-models/HoldemPokerCard";
 import { CombineCardResultLabel } from "../../components/cards/view-models/HoldemPokerCards";
 import { HoldemPokerTicketDetailModel } from "../../event-models/HoldemPokerTicketDetailModel";
 import HoldemPokerTicketDetailItem from "./HoldemPokerTicketDetailItem";
@@ -84,14 +85,9 @@ export default class HoldemPokerTicketDetail extends cc.Component {
 
     renderCards(data: HoldemPokerTicketDetailModel) {
         const { playerCards, dealerCards, isFold, communityCards, isPlayerWin, isSwappedOrHold } = data.ticketDetail;
-        const playerCardsConverted = convertCard(playerCards.cards);
+
         const communityCardsConverted = convertCard(communityCards);
-
-        playerCardsConverted.forEach((element) => {
-            this.playerCardsContainer.node.addChild(this.createCard(element, 0.75, 0.75, this.checkFaceDownPlayerCard(isSwappedOrHold)));
-            this.playerCardsContainer.updateLayout();
-        });
-
+        this.renderCardPlayer(playerCards, isSwappedOrHold);
         communityCardsConverted.forEach((element) => {
             this.communityCardsContainer.node.addChild(this.createCard(element, 0.75, 0.75));
             this.communityCardsContainer.updateLayout();
@@ -114,8 +110,25 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         }
     }
 
-    protected checkFaceDownPlayerCard(isSwappedOrHold) {
+    protected checkFaceDownPlayerCard(isSwappedOrHold: boolean) {
         return true;
+    }
+
+    protected renderCardPlayer(playerCards, isSwappedOrHold) {
+        let cards = [];
+        if (playerCards.cards.length > 0) {
+            cards = playerCards.cards;
+        } else {
+            cards = [
+                { rank: "1", suit: 1 },
+                { rank: "1", suit: 1 }
+            ];
+        }
+        const playerCardsConverted = convertCard(cards);
+        playerCardsConverted.forEach((element) => {
+            this.playerCardsContainer.node.addChild(this.createCard(element, 0.75, 0.75, this.checkFaceDownPlayerCard(isSwappedOrHold)));
+            this.playerCardsContainer.updateLayout();
+        });
     }
 
     getDealerResult(dealerCards) {

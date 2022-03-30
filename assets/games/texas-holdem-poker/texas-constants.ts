@@ -36,3 +36,4 @@ export const dealerFakeData = [
 ];
 
 export const TexasChoices = ["anteBet", "callBet", "turnBet", "riverBet"];
+export const disableButtonText = "btn-disable";

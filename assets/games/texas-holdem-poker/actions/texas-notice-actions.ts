@@ -1,5 +1,3 @@
-import * as _ from "lodash";
-
 import { TexasState, TexasChoicesType } from "../texas-type";
 import TexasGameDataModel from "./../event-models/texas-game-data-model";
 
