@@ -181,10 +181,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     public waitingSpinResult = false;
     public cacheApiError: any = null;
     public isShowAutoSpinSettingDialog = false;
+    public isKeyDownSpace = false;
     protected userSettings: SlotGameUserSettings;
     private autoSpinCount = 0;
     private showingWinningLine = false;
-    private isKeyDownSpace = false;
 
     onLoad() {
         super.onLoad();
