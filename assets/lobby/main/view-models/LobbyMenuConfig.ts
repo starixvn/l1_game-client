@@ -12,13 +12,10 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     smPromotion: boolean;
     bannerAds = [GameIds.HiLo, GameIds.CasinoHoldemPoker, GameIds.BitcoinMaster, GameIds.SeDie];
     bannerAdsInfo = {
-        45: {
+        [GameIds.HiLo]: {
             displayTime: 10
         },
-        39: {
-            displayTime: 5
-        },
-        43: {
+        [GameIds.CasinoHoldemPoker]: {
             displayTime: 5
         },
         [GameIds.SeDie]: {
