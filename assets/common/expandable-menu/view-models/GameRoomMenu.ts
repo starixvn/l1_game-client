@@ -10,17 +10,14 @@ export class MenuItem {
     emitter: cc.Node;
 }
 
-const commonMenuFunction = {
-    closeGame: "close-game",
-    openHistory: "open-history",
-    openGuide: "open-guide"
-};
+@ccclass("Item")
+export class Item {
+    @property()
+    iconName = "";
 
-const commonMenuIcons = {
-    lobby: "lobby-icon",
-    history: "history-icon",
-    guide: "gameguide-icon"
-};
+    @property()
+    eventName = "";
+}
 
 @ccclass
 export default class GameRoomMenu extends cc.Component {
@@ -42,11 +39,8 @@ export default class GameRoomMenu extends cc.Component {
     @property({ type: cc.Enum(MenuDirectionType) })
     direction = MenuDirectionType.BOTTOM;
 
-    @property({ type: cc.String, min: 3 })
-    iconList: string[] = [commonMenuIcons.lobby, commonMenuIcons.history, commonMenuIcons.guide];
-
-    @property({ type: cc.String, min: 3 })
-    eventsList: string[] = [commonMenuFunction.closeGame, commonMenuFunction.openHistory, commonMenuFunction.openGuide];
+    @property({ type: Item })
+    items: Item[] = [];
 
     public menuList: MenuItem[] = [];
     currentMainNode: cc.Node = null;
@@ -72,15 +66,10 @@ export default class GameRoomMenu extends cc.Component {
     }
 
     addCommonIcon() {
-        const menuNumber = Math.min(this.iconList.length, this.eventsList.length);
-
-        this.iconList.forEach((image, index) => {
-            if (index >= menuNumber) {
-                return;
-            }
+        this.items.forEach((item) => {
             const menu = {
-                icon: this.getIcon(image),
-                event: this.eventsList[index],
+                icon: this.getIcon(item.iconName),
+                event: item.eventName,
                 emitter: this.currentMainNode
             };
             this.addItem(menu);
@@ -108,8 +97,8 @@ export default class GameRoomMenu extends cc.Component {
     }
 
     withEvents(callback: any) {
-        this.eventsList.forEach((event, index) => {
-            this.currentMainNode.on(event, callback[index], this.context);
+        this.items.forEach((item, index) => {
+            this.currentMainNode.on(item.eventName, callback[index], this.context);
         });
     }
 
