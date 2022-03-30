@@ -17,7 +17,8 @@ const configs = {
     },
     guideDomain: "https://l1guidessit.sgamesuat.com",
     enableMsgpackParserOnGame: {
-        45: true
+        45: true,
+        42: true
     }
 };
 
