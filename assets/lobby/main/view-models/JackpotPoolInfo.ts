@@ -13,7 +13,8 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
     private readonly dataKey = `jackpotPools${this.uuid}`;
 
     onLoad() {
-        NotificationService.getInstance().addDataObserver(this.dataType, this.dataKey, this.onReceivedData.bind(this)));
+        NotificationService.getInstance().addDataObserver(this.dataType, this.dataKey, this.onReceivedData.bind(this));
+        this.requestData();
     }
 
     onDestroy() {
