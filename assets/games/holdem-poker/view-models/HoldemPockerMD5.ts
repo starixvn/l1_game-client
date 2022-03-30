@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
-import { convertOldRank } from "../components/cards/view-models/CardWrapper";
+import { FormatMD5Result } from "../../_casino/MD5Format";
 
 const { ccclass, property } = cc._decorator;
 
@@ -55,33 +55,18 @@ export default class HoldemPockerMD5 extends cc.Component {
         const { cards, suffix } = data.formatValue;
         this.setCaptionAndHintForMD5(true);
         this.setCopyString(data.rawValue);
-
-        const resultFormatting = this.formatMD5String(cards, "[", "]");
-        const suffixFormatting = `<color=#ffffff>${suffix}</color>`;
-        this.md5Value.string = `${resultFormatting}${suffixFormatting}`;
+        this.setMD5Value(cards, suffix);
     }
 
-    formatMD5String(cards: any, startString: string, endString: string) {
-        let resultFormatting = "";
-        cards.forEach((card, index) => {
-            const start = index === 0 ? `<color=#ffffff>${startString}</color>` : "";
-            const end = index === cards.length - 1 ? `<color=#ffffff>${endString}</color>` : "";
-            const comma = index === cards.length - 1 ? "" : index === 1 || index === 3 ? `<color=#ffffff>, </color>` : " ";
-            const cardValue = this.formatCardValue(card);
-            resultFormatting += `${start}${cardValue}${comma}${end}`;
+    setMD5Value(cards, suffix) {
+        this.md5Value.string = FormatMD5Result({
+            cards,
+            suffix,
+            firstCharacter: "[",
+            endCharacter: "]",
+            suitBlack: "#000000",
+            suitRed: "#E92E2E"
         });
-
-        return resultFormatting;
-    }
-
-    formatCardValue(card: any) {
-        return card.suit > 1
-            ? `<color=#000000>${this.convertRankCard(card)}</color>`
-            : `<color=#E92E2E>${this.convertRankCard(card)}</color>`;
-    }
-
-    convertRankCard(card: any) {
-        return convertOldRank(card.rank);
     }
 
     onClickCopyButton() {

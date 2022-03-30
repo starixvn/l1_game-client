@@ -1,17 +1,8 @@
 import { Function } from "lodash";
+import { convertOldRank } from "../../../../../common/new-card/view-models/NewCard";
 
 import PokerCards from "./HoldemPokerCards";
 
-export const convertOldRank = (num: number): string => {
-    num++;
-    const dict = {
-        11: "J",
-        12: "Q",
-        13: "K",
-        1: "A"
-    };
-    return dict[num] || num.toString();
-};
 export const convertCard = (cards) => {
     return cards.map((e) => {
         return {
