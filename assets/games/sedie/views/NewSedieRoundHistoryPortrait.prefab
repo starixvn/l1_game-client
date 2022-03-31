@@ -95,9 +95,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 193
-      },
-      {
         "__id__": 194
       }
     ],
@@ -5501,10 +5498,13 @@
       },
       {
         "__id__": 191
+      },
+      {
+        "__id__": 192
       }
     ],
     "_prefab": {
-      "__id__": 192
+      "__id__": 193
     },
     "_opacity": 255,
     "_color": {
@@ -5516,7 +5516,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
+      "width": 537.2,
       "height": 138
     },
     "_anchorPoint": {
@@ -5528,7 +5528,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -58,
+        61.400000000000006,
         0,
         0,
         0,
@@ -5587,7 +5587,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 546,
+      "width": 538,
       "height": 138
     },
     "_anchorPoint": {
@@ -5599,8 +5599,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        122.20400000000001,
-        68.98,
+        -0.4000000000000341,
+        69,
         0,
         0,
         0,
@@ -5857,7 +5857,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 646.0000000000001,
+      "width": 323,
       "height": 139
     },
     "_anchorPoint": {
@@ -5869,7 +5869,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        71.43200000000002,
+        -10,
         0,
         0,
         0,
@@ -5939,8 +5939,8 @@
     "alignMode": 2,
     "_target": null,
     "_alignFlags": 40,
-    "_left": -80.06800000000005,
-    "_right": -222.93200000000007,
+    "_left": 0,
+    "_right": 20,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -6008,7 +6008,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        335.1360000000001,
+        161.5,
         0,
         0,
         0,
@@ -6079,7 +6079,7 @@
     "_target": null,
     "_alignFlags": 32,
     "_left": 0,
-    "_right": -173.63600000000005,
+    "_right": 0,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -6228,10 +6228,10 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 45,
-    "_left": -0.7960000000000065,
-    "_right": -245.20399999999995,
-    "_top": 0.01999999999999602,
-    "_bottom": -0.01999999999999602,
+    "_left": -0.8,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -6297,7 +6297,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -139,
+        -257.6,
         0,
         0,
         0,
@@ -6819,6 +6819,33 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 154
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 40,
+    "_left": 127.79999999999998,
+    "_right": 5,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 300,
+    "_originalHeight": 0,
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -6861,38 +6888,6 @@
     "_atlas": {
       "__uuid__": "dddb9517-d7e1-47f2-8805-28822a88e960"
     },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Layout",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "_layoutSize": {
-      "__type__": "cc.Size",
-      "width": 670,
-      "height": 142
-    },
-    "_resize": 0,
-    "_N$layoutType": 1,
-    "_N$cellSize": {
-      "__type__": "cc.Size",
-      "width": 40,
-      "height": 40
-    },
-    "_N$startAxis": 0,
-    "_N$paddingLeft": 2,
-    "_N$paddingRight": 2,
-    "_N$paddingTop": 0,
-    "_N$paddingBottom": 0,
-    "_N$spacingX": 2,
-    "_N$spacingY": 0,
-    "_N$verticalDirection": 1,
-    "_N$horizontalDirection": 0,
-    "_N$affectedByScale": false,
     "_id": ""
   },
   {
