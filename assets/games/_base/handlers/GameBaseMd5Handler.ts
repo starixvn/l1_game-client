@@ -7,8 +7,9 @@ export default class GameBaseMd5Handler implements DataHandler {
     handle(data: any): boolean {
         if (data.md5 || data.resultHash) {
             this.main.md5Component && this.main.md5Component.updateMD5String(data.md5 || data.resultHash);
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

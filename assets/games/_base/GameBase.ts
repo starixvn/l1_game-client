@@ -10,7 +10,7 @@ import ProcessingWarning from "../../common/processing-warning/view-models/Proce
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
-import { enableMD5 } from "../../configs/Configs";
+import { enableMD5OnGame } from "../../configs/Configs";
 import { GameInfos } from "../../configs/SabaConfigs";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import DataHandler from "./handlers/DataHandler";
@@ -177,7 +177,7 @@ export default class GameBase extends BaseComponent {
         this.resetDataAndUI();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
-        const isShowMD5 = enableMD5.gameIds.includes(this.gameId);
+        const isShowMD5 = enableMD5OnGame.includes(this.gameId);
         if (!isShowMD5 && this.md5Component) {
             this.md5Component.node.active = false;
         }
@@ -239,6 +239,9 @@ export default class GameBase extends BaseComponent {
         this.gameState = GameState.Stopped;
         this.clearIntervalAndTimeout();
         this.resetDataAndUI();
+        if (this.md5Component) {
+            this.md5Component.resetMd5Value();
+        }
     }
 
     disableGame() {

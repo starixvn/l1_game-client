@@ -2,7 +2,6 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import { MenuDirectionType } from "../../../common/expandable-menu/view-models/MenuDirectionType";
-import { t } from "../../../../packages/i18n/runtime-scripts/LanguageData";
 import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
@@ -41,10 +40,14 @@ export default class MD5Component extends cc.Component {
     defaultExpand = false;
 
     @property
-    valueMd5Length = 21;
+    lengthOfMd5 = 21;
+
+    @property
+    delayShowRawValue = 0;
 
     private md5CopyString: string = null;
     readonly duration: number = 0.5;
+    readonly delayShowHashValue: number = 0.8;
     protected isExpanded = false;
     blockDirection = MenuDirectionType.RIGHT;
 
@@ -53,7 +56,6 @@ export default class MD5Component extends cc.Component {
         hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
         this.showHint = this.showHint.bind(this);
-
         if (this.defaultExpand) {
             this.expandBlock();
         } else {
@@ -62,11 +64,21 @@ export default class MD5Component extends cc.Component {
     }
 
     updateMD5String(data: MD5Type) {
-        this.setCaptionAndHintForMD5(!!data.rawValue);
-        const value = data.hashValue || data.rawValue;
-        const formatValue = value.slice(0, this.valueMd5Length) + "...";
-        this.md5Value.string = `<color=#ffffff>${formatValue}</color>`;
-        this.setCopyString(data.hashValue || data.rawValue);
+        const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
+        cc.tween(this.node)
+            .delay(delayTime)
+            .call(() => {
+                this.setCaptionAndHintForMD5(!!data.rawValue);
+                const value = data.hashValue || data.rawValue;
+                const formatValue = value.slice(0, this.lengthOfMd5) + "...";
+                this.md5Value.string = `<color=#ffffff>${formatValue}</color>`;
+                this.setCopyString(data.hashValue || data.rawValue);
+            })
+            .start();
+    }
+
+    resetMd5Value() {
+        this.md5Value.string = "";
     }
 
     setCopyString(text: string) {

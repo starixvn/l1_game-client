@@ -3,7 +3,7 @@ import BigSmall from "../BigSmall";
 
 export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     protected shakeThePlateTime = 52;
-    protected displayResultTime = 59;
+    protected displayResultTime = 60;
 
     constructor(protected readonly main: BigSmall) {
         super(main);

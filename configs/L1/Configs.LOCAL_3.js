@@ -23,12 +23,10 @@ const configs = {
         4: true,
         9: true,
         10: false,
-        22: true,
+        22: false,
         27: true
     },
-    enableMD5: {
-        gameIds: [1, 4, 2, 9, 22, 10, 27]
-    }
+    enableMD5OnGame: [1, 4, 2, 9, 22, 10, 27]
 };
 
 module.exports = configs;
