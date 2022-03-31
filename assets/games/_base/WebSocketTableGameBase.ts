@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
+import AudioManager from "../../common/audio/AudioManager";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
@@ -48,6 +49,9 @@ export default class WebSocketTableGameBase extends GameBase {
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
 
+    @property(cc.AudioSource)
+    musicBg: cc.AudioSource = null;
+
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
 
@@ -68,6 +72,7 @@ export default class WebSocketTableGameBase extends GameBase {
         this.loadMiniPanel();
         this.loadUserData(cc.RedT.user);
         this.players.forEach((player) => (player.node.active = false));
+        this.musicBg && this.musicBg.isValid && AudioManager.getInstance().stopMusic();
     }
 
     onDestroy() {

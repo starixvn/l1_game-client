@@ -98,7 +98,7 @@ export default class TexasSwapCards extends cc.Component {
                         cc.sequence(cc.scaleTo(0.1, 0.75, 0.75), cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(0.1, 1, 1)))
                     );
                     this.playerTmp.runAction(
-                        cc.sequence(cc.scaleTo(0.1, 1, 1), cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(0.75, 0.75)))
+                        cc.sequence(cc.scaleTo(0.1, 1, 1), cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(0.1, 0.75, 0.75)))
                     );
                 })
                 .delay(duration * 2)

@@ -22,7 +22,7 @@ import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
 import TexasCallModel from "../event-models/texas-call-model";
 import { TexasChoicesType } from "../texas-type";
-import { TexasChoicesConst, BetAction, ListSong, disableButtonText } from "../texas-constants";
+import { TexasChoicesConst, BetAction, disableButtonText } from "../texas-constants";
 import TexasConfigsModel from "../event-models/texas-configs-model";
 import TexasDealModel from "../event-models/texas-deal-model";
 import TexasFinishModel from "../event-models/texas-finish-model";
@@ -200,7 +200,7 @@ export default class Texas extends NewGameRoomBase {
         this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
         const audioManager = AudioManager.getInstance();
         audioManager.addMusicChanged(`${this.gameId}`, (enable: boolean) => {
-            this.playBgAudio(enable);
+            this.playMusicBackground(enable);
         });
         super.onLoad();
     }
@@ -216,32 +216,8 @@ export default class Texas extends NewGameRoomBase {
         this.stopBgAudio();
     }
 
-    private getRandomNameSong() {
-        return ListSong[Math.floor(Math.random() * ListSong.length)];
-    }
-
-    private loadResourceAudio(song: string) {
-        cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
-            if (this.node && this.node.isValid) {
-                const bgMusicId = AudioManager.getInstance().playMusic(audioClip, false);
-                cc.audioEngine.setVolume(bgMusicId, 0.7);
-                cc.audioEngine.setFinishCallback(bgMusicId, () => {
-                    this.playBgAudio(true);
-                });
-            }
-        });
-    }
-
     private stopBgAudio() {
         AudioManager.getInstance().stopMusic();
-    }
-
-    private playBgAudio(play: boolean) {
-        if (play) {
-            this.loadResourceAudio(this.getRandomNameSong());
-        } else {
-            this.stopBgAudio();
-        }
     }
 
     start() {
@@ -686,5 +662,13 @@ export default class Texas extends NewGameRoomBase {
     private handleDisableSwap(isDisable: boolean) {
         this.disableIconSwap = isDisable;
         isDisable ? this.swapMenu.setDisable() : this.swapMenu.setEnable();
+    }
+
+    playMusicBackground(play: boolean) {
+        if (play) {
+            this.musicBg.play();
+        } else {
+            this.musicBg.stop();
+        }
     }
 }

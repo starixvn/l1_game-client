@@ -4,6 +4,7 @@ import logger from "../../common/logger";
 import * as authManager from "./../../common/auth/AuthManager";
 import SplashConfig from "./SplashConfig";
 import RandonWaitingMessage from "./RandonWaitingMessage";
+import MusicPlayer from "../../common/audio/MusicPlayer";
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
@@ -93,6 +94,8 @@ cc.Class({
         cc.resources.loadDir("lobby/games", (e, r, u) => {
             cc.resources.loadDir("minipanel/games", (error, resource, urls) => {
                 cc.director.loadScene("MainGame");
+                const music = new MusicPlayer();
+                music.init(this.node);
             });
         });
     },
