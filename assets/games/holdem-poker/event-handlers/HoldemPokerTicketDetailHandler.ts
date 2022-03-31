@@ -33,12 +33,12 @@ export default class HoldemPokerTicketDetailEventHandler<Choices> extends Holdem
         const playerCards = new HandTicketDetail();
         playerCards.handResultId = player.handId;
         playerCards.cards = player.cards.map((c) => new HoldemPokerCardModel(c.rank, c.suit));
-        playerCards.combinationCards = player.combination.map((c) => new HoldemPokerCardModel(c.rank, c.suit));
+        playerCards.combinationCards = player?.combination?.map((c) => new HoldemPokerCardModel(c.rank, c.suit)) ?? [];
 
         const dealerCards = new HandTicketDetail();
         if (!isFold) {
             dealerCards.cards = dealer.cards.map((c) => new HoldemPokerCardModel(c.rank, c.suit));
-            dealerCards.combinationCards = dealer.combination.map((c) => new HoldemPokerCardModel(c.rank, c.suit));
+            dealerCards.combinationCards = dealer?.combination?.map((c) => new HoldemPokerCardModel(c.rank, c.suit)) ?? [];
             dealerCards.handResultId = dealer.handId;
             dealerCards.isQualified = dealer.isQualified;
         }
