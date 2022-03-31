@@ -47,7 +47,7 @@ export default class GameRoomMenu extends cc.Component {
     expandableMenu: ExpandableMenu = null;
     context: any = null;
 
-    onLoad() {
+    initExpandableMenu() {
         const gameMenu = cc.instantiate(this.expandableMenuPrefab);
         this.expandableMenu = gameMenu.getComponent(ExpandableMenu);
         this.expandableMenu.setWidgetForBlockInput(this.canvasNode);
@@ -62,10 +62,13 @@ export default class GameRoomMenu extends cc.Component {
     initialize(currentMainNode: cc.Node, context: unknown) {
         this.currentMainNode = currentMainNode;
         this.context = context;
+
+        this.initExpandableMenu();
+        this.renderItems();
         return this;
     }
 
-    addCommonIcon() {
+    private renderItems() {
         this.items.forEach((item) => {
             const menu = {
                 icon: this.getIcon(item.iconName),

@@ -32,7 +32,12 @@ export default class MultiOrientationControl extends cc.Component {
 
     onLoad() {
         this.socket = this.socketIOController.getSocketGame(this.gameId);
+        this.initChangeOrientationCallback();
         this.updateGames();
+    }
+
+    initChangeOrientationCallback() {
+        this.games.forEach((game) => (game.changeOrirentationCallback = this.changeOrientation.bind(this)));
     }
 
     onDestroy() {

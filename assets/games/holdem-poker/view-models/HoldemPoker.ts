@@ -191,7 +191,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     private initMenu() {
         const gameRoomMenu = this.gameMenuContainer.getComponent(GameRoomMenu);
         const menuAction = [this.onCloseGameClick, this.pressedShowHistory, this.openGuide];
-        gameRoomMenu.initialize(this.node, this).addCommonIcon().withEvents(menuAction);
+        gameRoomMenu.initialize(this.node, this).withEvents(menuAction);
     }
 
     private pressedShowHistory() {

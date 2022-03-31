@@ -648,12 +648,6 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.handPlaces.forEach((place) => place.onClearBetClick());
     }
 
-    onLobbyClick() {
-        AudioManager.getInstance().playClick();
-
-        this.onCloseGameClick();
-    }
-
     openGuide() {
         super.openGuide();
         this.gameRoomMenu.collapseMenu();
@@ -760,7 +754,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     private initMenu() {
-        const menuAction = [this.onLobbyClick, this.onHistoryClick, this.openGuide];
-        this.gameRoomMenu.initialize(this.node, this).addCommonIcon().withEvents(menuAction);
+        const menuAction = [this.onCloseGameClick, this.onHistoryClick, this.openGuide];
+        this.gameRoomMenu.initialize(this.node, this).withEvents(menuAction);
     }
 }

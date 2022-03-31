@@ -9,4 +9,10 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
     onDestroy() {
         this.clearIntervalAndTimeout();
     }
+
+    changeOrirentationCallback = () => {};
+
+    onClickChangeOrientation() {
+        this.changeOrirentationCallback();
+    }
 }
