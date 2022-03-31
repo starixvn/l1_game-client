@@ -1,6 +1,5 @@
 import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
 import { HoldemPokerGameData } from "../../holdem-poker/event-models/HoldemPokerGameData";
-import TexasErrorHandler from "../event-handlers/texas-error-handler";
 import TexasAutoSettleHandler from "../event-handlers/texas-auto-settle-handler";
 import TexasCallHandler from "../event-handlers/texas-call-handler";
 import TexasConfigsHandler from "../event-handlers/texas-configs-handler";
@@ -79,7 +78,6 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
     protected handleHandler() {
         const handlers = [
             TexasConfigsHandler,
-            TexasErrorHandler,
             TexasAutoSettleHandler,
             TexasDealHandler,
             TexasSwapHandler,

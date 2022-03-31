@@ -137,7 +137,6 @@ export class HoldemPokerStateModel extends EventEmitterBase {
     checkRiver: () => void;
     riveSuccess: () => void;
     rejoinTable: (communityCardLength: number, hasSwappedOrHold: boolean) => void;
-    receiveError: (props: any) => void;
     swapping: () => void;
     swap: () => void;
     swapSuccess: () => void;

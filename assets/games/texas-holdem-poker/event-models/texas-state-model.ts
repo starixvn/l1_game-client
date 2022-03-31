@@ -201,19 +201,6 @@ export default class TexasStateModel extends EventEmitterBase {
         }
     }
 
-    receiveError(props: any) {
-        this.handleUpdateUIState(props);
-    }
-    private handleUpdateUIState(props) {
-        if (!props.apiError) {
-            return;
-        }
-        this.state = cloneDeep(this.previousState);
-        setTimeout(() => {
-            this.emit(TexasStateModel.Events.CHANGE, this);
-            this.emit(TexasStateModel.Events.FORCE_UPDATE_BALANCE, this);
-        }, 1000);
-    }
     clearBet: () => void;
     afterCall: () => void;
     holdemPokerChoiceAnte: (isFullBet: boolean) => void;
