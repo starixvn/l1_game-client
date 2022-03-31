@@ -74,7 +74,16 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     slotGames = [GameIds.HeroesSlot, GameIds.FourGuardians];
     lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
     othersGames = [GameIds.BitcoinMaster];
-    miniList = [GameIds.Lobby, GameIds.DragonTiger, GameIds.MiniSedie];
+    miniList = [
+        GameIds.BigSmall,
+        GameIds.TurboBigSmall,
+        GameIds.TurboOddEven,
+        GameIds.FishPrawnCrab,
+        GameIds.Lobby,
+        GameIds.DragonTiger,
+        GameIds.HiLo,
+        GameIds.MiniSedie
+    ];
     detail = {
         [GameIds.FourGuardians]: {
             size: cc.v2(1, 2)
