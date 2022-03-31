@@ -81,13 +81,17 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
             this.showProcessingWarning(true);
         } else {
             this.lockBet();
-            const betData = {
-                amount: this.currentBet,
-                betChoice: event.target.name,
-                username: cc.RedT.user.name
-            };
+            const betData = this.createCommonBetData();
+            betData["betChoice"] = event.target.name;
             this.socket && this.socket.connected && this.socket.emit("bet", betData);
         }
+    }
+
+    createCommonBetData() {
+        return {
+            amount: this.currentBet,
+            username: cc.RedT.user.name
+        };
     }
 
     onCloseGameClick() {
