@@ -104,7 +104,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
             this.playerRank.string = `${i18n.t(playerResult)}`;
 
             this.dealerRank.string = `${i18n.t(this.getDealerResult(dealerCards))}`;
-            this.handleColorNodePlayerDealer(dealerCards, isPlayerWin);
+            this.handleColorNodePlayerDealer({ dealerCards, isPlayerWin });
         } else {
             this.renderCardsUIEqualFold();
         }
@@ -141,7 +141,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         return dealerResult;
     }
 
-    handleColorNodePlayerDealer(dealerCards, isPlayerWin) {
+    handleColorNodePlayerDealer({ dealerCards, isPlayerWin }) {
         if (dealerCards.isQualified) {
             if (isPlayerWin > 0) {
                 this.playerRank.node.color = cc.Color.YELLOW;
