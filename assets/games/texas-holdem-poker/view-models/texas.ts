@@ -1,14 +1,23 @@
-import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
-import { events } from "../../_new/connection/SocketIOConnection";
+
+import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
+import AudioManager from "../../../common/audio/AudioManager";
 import NewButton from "../../../common/custom-button/NewButton";
+import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import PrefabLoader from "../../../common/PrefabLoader";
 import { GameIds } from "../../../configs/SabaConfigs";
+import BetItem from "../../_base/view-models/BetItem";
+import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { BettingAreaEvents } from "../../_new/common/betting-area/BettingArea";
+import { events } from "../../_new/connection/SocketIOConnection";
+import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
+import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
+import { collectCards } from "../../holdem-poker/components/cards/view-models/CardWrapper";
+import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
 import TexasMicroUIAction from "../actions/texas-microUI-action";
+import { updateStatusGame } from "../actions/texas-notice-actions";
 import {
     clearAllBetChips,
     clearBetChips,
@@ -16,59 +25,54 @@ import {
     showHideTooltip,
     showPlaceBetChips,
     updateAllChips,
-    updateChips
+    updateChips,
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
+import {
+    dealFirstThreeCommunityCards,
+    dealFourAndFireCardAndFaceUpDealerCards,
+    dealPlayerAndDealerCards,
+    dealSecondCard,
+    dealThirdCardAndFaceUpDealerCards,
+    rawCardWhenRejoin,
+    swapPlayerAndDealerCards,
+} from "../cards-component/view-models/cards-wrapper";
+import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
+import TexasCards from "../cards-component/view-models/texas-cards";
+import TexasUmHandler from "../event-handlers/texas-um-handler";
 import TexasCallModel from "../event-models/texas-call-model";
-import { TexasChoicesType } from "../texas-type";
-import { TexasChoicesConst, BetAction, disableButtonText } from "../texas-constants";
 import TexasConfigsModel from "../event-models/texas-configs-model";
 import TexasDealModel from "../event-models/texas-deal-model";
 import TexasFinishModel from "../event-models/texas-finish-model";
 import TexasGameDataModel from "../event-models/texas-game-data-model";
+import TexasHoldModel from "../event-models/texas-hold-model";
 import TexasOwnBetModel from "../event-models/texas-own-bet-model";
 import TexasPlaceBetModel from "../event-models/texas-place-bet-model";
 import TexasSettlementModel from "../event-models/texas-settlement-model";
+import TexasSwapModel from "../event-models/texas-swap-model";
 import TexasTicketDetailModel from "../event-models/texas-ticket-detail-model";
 import TexasTurnModel from "../event-models/texas-turn-model";
-import {
-    collectCards,
-    dealFirstThreeCommunityCards,
-    dealPlayerAndDealerCards,
-    dealSecondCard,
-    dealThirdCardAndFaceUpDealerCards,
-    dealFourAndFireCardAndFaceUpDealerCards,
-    rawCardWhenRejoin,
-    swapPlayerAndDealerCards
-} from "../cards-component/view-models/cards-wrapper";
-import TexasCards from "../cards-component/view-models/texas-cards";
+import { BetAction, disableButtonText, TexasChoicesConst } from "../texas-constants";
+import { TexasChoicesType } from "../texas-type";
 import { updateLeftRightOddsTable, updateMinMax } from "./../actions/texas-configs-actions";
+import { handleMD5 } from "./../actions/texas-md5-action";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-rejoin-room-actions";
+import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
+import {
+    dealPlayerAndDealerCardsWithoutSwap,
+    holdPlayerAndDealerCards,
+} from "./../cards-component/view-models/cards-wrapper";
 import TexasRiverModel from "./../event-models/texas-river-model";
 import TexasStateModel from "./../event-models/texas-state-model";
+import TexasTicketHistory from "./game-history/texas-ticket-history";
 import TexasBettingArea from "./texas-betting-area";
 import TexasChips from "./texas-chips";
+import TexasMD5 from "./texas-MD5";
 import TexasMinMax from "./texas-min-max";
 import TexasOddsTable from "./texas-odds-table";
 import TexasPlacingBet from "./texas-placing-bet";
-import AudioManager from "../../../common/audio/AudioManager";
-import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
-import TexasTicketHistory from "./game-history/texas-ticket-history";
-import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
-import { handleMD5 } from "./../actions/texas-md5-action";
-import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
-import TexasSwapModel from "../event-models/texas-swap-model";
-import TexasHoldModel from "../event-models/texas-hold-model";
-import TexasMD5 from "./texas-MD5";
-import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
-import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
-import RoomPlayer from "../../_base/view-models/RoomPlayer";
-import BetItem from "../../_base/view-models/BetItem";
-import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
-import TexasUmHandler from "../event-handlers/texas-um-handler";
-import { updateStatusGame } from "../actions/texas-notice-actions";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

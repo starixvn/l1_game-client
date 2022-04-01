@@ -1,6 +1,6 @@
 import { Function } from "lodash";
-import { convertOldRank } from "../../../../../common/new-card/view-models/NewCard";
 
+import { convertOldRank } from "../../../../../common/new-card/view-models/NewCard";
 import PokerCards from "./HoldemPokerCards";
 
 export const convertCard = (cards) => {
@@ -90,15 +90,11 @@ const showIndicator = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Fu
     }, delayCallBack);
 };
 
-export const collectCart = (pokerCardsNote: PokerCards, callBack?: Function, delayCallBack = 0) => {
-    const durationCollectCard = 1000;
+export const collectCards = async (pokerCardsNote: PokerCards, callBack?: Function, delayCallBack = 0) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
-    pokerCardsNote.collectCardsOnTable();
-    const waitingCollectCard = pokerCardsNote.isCollectedCard ? delayCallBack : durationCollectCard;
-    setTimeout(() => {
-        callBack && callBack();
-    }, waitingCollectCard);
+    await pokerCardsNote.collectCardsOnTable();
+    callBack && callBack();
 };
 export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
     const { combinationResult, communityCards, playerCards } = cardsData;

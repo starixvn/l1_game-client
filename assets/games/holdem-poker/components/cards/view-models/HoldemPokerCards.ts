@@ -81,11 +81,11 @@ export default class HoldemPokerCards extends cc.Component {
     }
 
     public focusPlayerCard() {
-        this.playerCards.Selected = true;
+        this.playerCards.SetSelected(true);
     }
 
     public unFocusPlayerCard() {
-        this.playerCards.Selected = false;
+        this.playerCards.SetSelected(false);
     }
 
     public drawingRejoinMiddleCards(cardData: CardModel, faceDown: boolean, forcePositionIndex?: number) {
@@ -278,47 +278,40 @@ export default class HoldemPokerCards extends cc.Component {
     }
 
     protected collectCards(containerCards: HandPlace) {
-        const durationJumpToBoxCard = 0.5;
+        return new Promise<void>((resolve) => {
+            const durationJumpToBoxCard = 2.5;
 
-        const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
-        containerCards.cardLayout.shadow.active = false;
-        const cardsNodes = containerCards.getCards();
+            const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
+            containerCards.cardLayout.shadow.active = false;
+            const cardsNodes = containerCards.getCards();
 
-        if (!cardsNodes.length) {
-            return;
-        }
-        const destPosition = cardsNodes[0].parent.convertToNodeSpaceAR(worldPosition);
-        cardsNodes.forEach((cardNode) => {
-            cc.tween(cardNode)
-                .to(0.3, { position: cc.v2(0, 0) })
-                .call(() => {
-                    const cardComponent = cardNode.getComponent(HoldemPokerCard);
-                    cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
-                })
-                .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
-                .delay(0.2)
-                .call(() => cardNode.destroy())
-                .start();
+            if (!cardsNodes.length) {
+                resolve();
+                return;
+            }
+            const destPosition = cardsNodes[0].parent.convertToNodeSpaceAR(worldPosition);
+            cardsNodes.forEach((cardNode) => {
+                cc.tween(cardNode)
+                    .to(0.3, { position: cc.v2(0, 0) })
+                    .call(() => {
+                        const cardComponent = cardNode.getComponent(HoldemPokerCard);
+                        cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
+                    })
+                    .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
+                    .delay(0.2)
+                    .call(() => {
+                        cardNode.destroy();
+                        resolve();
+                    })
+                    .start();
+            });
         });
     }
 
-    public collectCardsOnTable() {
-        const getDurationUnselectCard = () => {
-            if (this.playerCards.Selected) {
-                this.playerCards.Selected = false;
-                return 0.5;
-            }
-            return 0;
-        };
-        this.schedule(
-            () => {
-                this.collectCards(this.playerCards);
-                this.collectCards(this.middleCards);
-                this.collectCards(this.dealerCards);
-            },
-            null,
-            null,
-            getDurationUnselectCard()
-        );
+    public async collectCardsOnTable() {
+        if (this.playerCards.Selected) {
+            await this.playerCards.SetSelected(false);
+        }
+        await Promise.all([this.collectCards(this.playerCards), this.collectCards(this.middleCards), this.collectCards(this.dealerCards)]);
     }
 }

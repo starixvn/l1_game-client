@@ -1,4 +1,5 @@
 import CardLayout from "../../../../../common/new-card/view-models/CardLayout";
+
 export interface HandModel {
     id: string;
     pos: number;
@@ -25,9 +26,9 @@ export default class HoldemPokerHandPlace extends cc.Component {
         return this._selected;
     }
 
-    set Selected(value) {
+    async SetSelected(value) {
         this._selected = value;
-        this.updateDisplay();
+        await this.updateDisplay();
     }
 
     private data: HandModel = null;
@@ -40,9 +41,9 @@ export default class HoldemPokerHandPlace extends cc.Component {
         return this.data.id;
     }
 
-    updateDisplay() {
+    async updateDisplay() {
         this.cardLayout.shadow.active = this._selected;
-        this.cardLayout.changeCardView(this._selected);
+        await this.cardLayout.changeCardView(this._selected);
     }
 
     setData(data: HandModel) {

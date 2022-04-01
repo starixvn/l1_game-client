@@ -127,17 +127,6 @@ export const dealFourAndFireCardAndFaceUpDealerCards = async (pokerCardsNote: Po
     showIndicatorSymbols(pokerCardsNote, cardsData, callBack, 1700);
 };
 
-export const collectCards = (pokerCardsNote: PokerCards, callBack?: () => void, delayCallBack = 0) => {
-    const durationCollectCard = 1000;
-    pokerCardsNote.hideAllLabelIndicatorCards();
-    pokerCardsNote.hideAllIndicator();
-    pokerCardsNote.collectCardsOnTable();
-    const waitingCollectCard = pokerCardsNote.isCollectedCard ? delayCallBack : durationCollectCard;
-    setTimeout(() => {
-        callBack && callBack();
-    }, waitingCollectCard);
-};
-
 const showIndicatorSymbols = (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void, delayCallBack = 2000) => {
     const { combinationResult } = cardsData;
     const { player, dealer } = combinationResult;

@@ -98,22 +98,22 @@ export default class CardLayout extends cc.Component {
         return cc.v3(x, y, z);
     }
 
-    changeCardView(selected: boolean) {
-        const needChange = this._selected !== selected;
-        if (this._selected !== undefined && !needChange) {
-            return;
-        }
-        this._selected = selected;
-        if (selected) {
-            this.content.children.forEach((child, index) => {
-                child.is3DNode = true;
-                cc.tween(child)
-                    .delay(0.1 * (this.content.childrenCount - 1 - index))
-                    .parallel(
-                        cc.tween(child).by(0.3, { x: this.movingOffsetX }),
-                        cc
-                            .tween(child)
-                            .to(
+    changeCardView(selected: boolean): Promise<void> {
+        return new Promise<void>((resolve) => {
+            const needChange = this._selected !== selected;
+            if (this._selected !== undefined && !needChange) {
+                resolve();
+                return;
+            }
+            this._selected = selected;
+            if (selected) {
+                this.content.children.forEach((child, index) => {
+                    child.is3DNode = true;
+                    cc.tween(child)
+                        .delay(0.1 * (this.content.childrenCount - 1 - index))
+                        .parallel(
+                            cc.tween(child).by(0.3, { x: this.movingOffsetX }),
+                            cc.tween(child).to(
                                 0.3,
                                 {
                                     rotationX: this.selectedRotationX,
@@ -123,26 +123,29 @@ export default class CardLayout extends cc.Component {
                                 },
                                 { easing: "sineIn" }
                             )
-                    )
-                    .start();
-            });
-        } else {
-            this.content.children.forEach((child, index) => {
-                child.is3DNode = true;
-                const isLastChild = index === this.content.childrenCount - 1;
-                cc.tween(child)
-                    .delay(0.1 * index)
-                    .parallel(
-                        cc.tween(child).by(0.3, { x: -this.movingOffsetX }),
-                        cc.tween(child).to(0.3, { rotationX: 0, y: 0, z: 0, scaleY: 1 })
-                    )
-                    .call(() => {
-                        if (isLastChild) {
-                            this.updateLayout();
-                        }
-                    })
-                    .start();
-            });
-        }
+                        )
+                        .call(() => resolve())
+                        .start();
+                });
+            } else {
+                this.content.children.forEach((child, index) => {
+                    child.is3DNode = true;
+                    const isLastChild = index === this.content.childrenCount - 1;
+                    cc.tween(child)
+                        .delay(0.1 * index)
+                        .parallel(
+                            cc.tween(child).by(0.3, { x: -this.movingOffsetX }),
+                            cc.tween(child).to(0.3, { rotationX: 0, y: 0, z: 0, scaleY: 1 })
+                        )
+                        .call(() => {
+                            if (isLastChild) {
+                                this.updateLayout();
+                            }
+                            resolve();
+                        })
+                        .start();
+                });
+            }
+        });
     }
 }
