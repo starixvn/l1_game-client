@@ -279,7 +279,7 @@ export default class HoldemPokerCards extends cc.Component {
 
     protected collectCards(containerCards: HandPlace) {
         return new Promise<void>((resolve) => {
-            const durationJumpToBoxCard = 2.5;
+            const durationJumpToBoxCard = 0.5;
 
             const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
             containerCards.cardLayout.shadow.active = false;
