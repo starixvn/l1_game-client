@@ -24,6 +24,7 @@ import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import CategoryItem from "./CategoryItem";
+import MusicPlayer from "../../../common/audio/MusicPlayer";
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -118,6 +119,7 @@ export default class MainGame extends cc.Component {
         this.initMiniPanel();
         this.callTriggerSignIn();
         this.onLoadLobby();
+        MusicPlayer.getInstance().init();
 
         this.initScrollListener();
     }

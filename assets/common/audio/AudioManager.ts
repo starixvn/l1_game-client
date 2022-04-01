@@ -11,7 +11,7 @@ export default class AudioManager {
 
     private static instance: AudioManager;
 
-    private readonly soundObservers = { music: {}, sfx: {} };
+    readonly soundObservers = { music: {}, sfx: {} };
 
     public init() {
         this.initDefaultStorage();

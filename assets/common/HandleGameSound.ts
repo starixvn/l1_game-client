@@ -21,6 +21,8 @@ export default class HandleGameSound extends cc.Component {
     @property({ type: cc.Enum(AudioType) })
     type = AudioType.SFX;
 
+    isFirst = false;
+
     onLoad() {
         this.node.on("click", this.onClickSoundGame, this);
         this.initSound();
@@ -37,11 +39,12 @@ export default class HandleGameSound extends cc.Component {
 
     initSound() {
         AudioManager.getInstance()[this.getKey()] ? this.setSoundGameOn() : this.setSoundGameOff();
+        // AudioManager.getInstance()[this.getKey()] ? this.setsSpriteFrame(true) : this.setsSpriteFrame(false);
     }
 
     onClickSoundGame() {
         AudioManager.getInstance()[this.getKey()] ? this.setSoundGameOff() : this.setSoundGameOn();
-        AudioManager.getInstance().playClick();
+        // this.setsSpriteFrame(AudioManager.getInstance()[this.getKey()]);
     }
 
     setSoundGameOn() {
@@ -53,4 +56,11 @@ export default class HandleGameSound extends cc.Component {
         this.soundSprite.spriteFrame = this.soundOffFrame;
         AudioManager.getInstance()[this.getKey()] = false;
     }
+
+    // setsSpriteFrame(isSoundOn: boolean) {
+    //     if (isSoundOn) {
+    //         this.soundSprite.spriteFrame = this.soundOnFrame;
+    //     } else {
+    //     }
+    // }
 }

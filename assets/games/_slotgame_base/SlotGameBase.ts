@@ -134,9 +134,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property(JackpotPoolInfoBase)
     jackpotPoolInfo: JackpotPoolInfoBase = null;
 
-    @property(cc.AudioSource)
-    musicBg: cc.AudioSource = null;
-
     @property({ type: cc.AudioSource })
     soundSources: cc.AudioSource[] = [];
 

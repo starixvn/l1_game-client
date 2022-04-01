@@ -203,9 +203,12 @@ export default class Texas extends NewGameRoomBase {
         this.texasChips = new TexasChips();
         this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
         const audioManager = AudioManager.getInstance();
+
+        this.playMusicBackground(cc.sys.localStorage.getItem("SOUND_BACKGROUND"));
         audioManager.addMusicChanged(`${this.gameId}`, (enable: boolean) => {
             this.playMusicBackground(enable);
         });
+
         super.onLoad();
     }
 
@@ -217,11 +220,7 @@ export default class Texas extends NewGameRoomBase {
 
     onCloseGameClick() {
         super.onCloseGameClick();
-        this.stopBgAudio();
-    }
-
-    private stopBgAudio() {
-        AudioManager.getInstance().stopMusic();
+        this.playMusicBackground(false);
     }
 
     start() {

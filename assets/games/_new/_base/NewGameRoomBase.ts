@@ -1,7 +1,7 @@
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import SocketIOConnection from "../connection/SocketIOConnection";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class NewGameRoomBase extends SocketIOTableGameBase {
