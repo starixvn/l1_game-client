@@ -30,7 +30,7 @@ import { updateRoundCounter, updateRoundId } from "../actions/HoldemPokerRoundCo
 import { showWinningOption } from "../actions/HoldemPokerSettlementActions";
 import { renderTicketDetail } from "../actions/HoldemPokerTicketDetailActions";
 import { handleUM } from "../actions/HoldemPokerUmAction";
-import { collectCart, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
+import { collectCards, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
 import PokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
 import { HoldemPokerMD5Model } from "../event-models/HoldemPokerMD5Model";
@@ -413,7 +413,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     onRebetAndDeal() {
         this.playClick();
         this.hideButtonPrepareNewRound();
-        collectCart(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
+        collectCards(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
         clearAllBetChips(this.bettingAreas)();
         this.holdemPokerChips.stopWinningEffect();
         this.clearWinningBet();
@@ -446,7 +446,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     onNewButtonClick() {
         this.playClick();
         this.hideButtonPrepareNewRound();
-        collectCart(
+        collectCards(
             this.pokerCardScript,
             () =>
                 this.gameData &&
