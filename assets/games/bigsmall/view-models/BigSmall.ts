@@ -33,8 +33,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property({ type: cc.Sprite })
     dices: cc.Sprite[] = [];
 
-    @property({ type: cc.SpriteFrame })
-    diceFrames: cc.SpriteFrame[] = [];
+    @property({ type: cc.SpriteAtlas })
+    diceAtlas: cc.SpriteAtlas = null;
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
@@ -174,7 +174,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     setDices(result) {
         Object.keys(result).forEach((key, index) => {
-            this.dices[index].spriteFrame = this.diceFrames[result[key] - 1];
+            const randomDice = Math.floor(Math.random() * 2) + 1;
+            const dice = `${result[key]}-goc-${randomDice}`;
+            this.dices[index].spriteFrame = this.diceAtlas.getSpriteFrame(dice);
         });
     }
 
