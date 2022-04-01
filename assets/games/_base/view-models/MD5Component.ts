@@ -3,10 +3,12 @@ import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import { MenuDirectionType } from "../../../common/expandable-menu/view-models/MenuDirectionType";
 import AudioManager from "../../../common/audio/AudioManager";
+import { enableMD5OnGame } from "../../../configs/Configs";
 
 const { ccclass, property } = cc._decorator;
 
 export type MD5Type = {
+    extraInfos: any;
     rawValue: string;
     hashValue: string;
 };
@@ -69,12 +71,16 @@ export default class MD5Component extends cc.Component {
             .delay(delayTime)
             .call(() => {
                 this.setCaptionAndHintForMD5(!!data.rawValue);
-                const value = data.hashValue || data.rawValue;
-                const formatValue = value.slice(0, this.lengthOfMd5) + "...";
-                this.md5Value.string = `<color=#ffffff>${formatValue}</color>`;
+                this.generateMD5Result(data);
                 this.setCopyString(data.hashValue || data.rawValue);
             })
             .start();
+    }
+
+    generateMD5Result(data: MD5Type) {
+        const value = data.hashValue || data.rawValue;
+        const formatValue = value.slice(0, this.lengthOfMd5) + "...";
+        this.md5Value.string = `<color=#ffffff>${formatValue}</color>`;
     }
 
     resetMd5Value() {
@@ -94,11 +100,7 @@ export default class MD5Component extends cc.Component {
     }
 
     setCaptionAndHintForMD5(isMD5Key: boolean) {
-        if (isMD5Key) {
-            this.md5Text.string = i18n.t("ui.md5_result");
-        } else {
-            this.md5Text.string = i18n.t("ui.md5_string");
-        }
+        this.md5Text.string = i18n.t(isMD5Key ? "ui.md5_result" : "ui.md5_string");
     }
 
     setDirection(direction: MenuDirectionType) {
@@ -139,5 +141,12 @@ export default class MD5Component extends cc.Component {
         // cc.tween(this.expandableNode)
         //     .to(0.2, { position: { value: cc.v2(-this.expandableNode.width, 0), easing: "sineIn" } })
         //     .start();
+    }
+
+    hide(gameId: number) {
+        const isShowMD5 = enableMD5OnGame.includes(gameId);
+        if (!isShowMD5 && this.node) {
+            this.node.active = false;
+        }
     }
 }

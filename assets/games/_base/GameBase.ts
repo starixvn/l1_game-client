@@ -175,12 +175,9 @@ export default class GameBase extends BaseComponent {
         this.initGameAudios();
         this.setGameRound(0);
         this.resetDataAndUI();
+        this.hideMD5Component();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
-        const isShowMD5 = enableMD5OnGame.includes(this.gameId);
-        if (!isShowMD5 && this.md5Component) {
-            this.md5Component.node.active = false;
-        }
     }
 
     setUpHandlers() {
@@ -332,6 +329,10 @@ export default class GameBase extends BaseComponent {
     unlockBet() {
         this.waitingProcessing = false;
         this.unschedule(this.sendRetryMessage);
+    }
+
+    hideMD5Component() {
+        this.md5Component && this.md5Component.hide(this.gameId);
     }
 
     showUmMessage(data: any) {
