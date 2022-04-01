@@ -181,18 +181,19 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     showResult() {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
+
             cc.tween(this.thePlate)
                 .call(() => {
                     this.hideBalanceBetNotice();
                 })
-                .to(0.3, { position: cc.v2(50, 100) }, { easing: "sineInOut" })
+                .to(0.4, { position: cc.v2(100, -120) }, { easing: "sineInOut" })
                 .call(() => {
                     this.updateRoundHistory();
                     this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
                     (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
                     this.finishShowResult = true;
                 })
-                .to(0.2, { opacity: 0 })
+                .to(0.4, { opacity: 0 })
                 .start();
         }
     }

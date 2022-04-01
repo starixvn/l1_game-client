@@ -71,8 +71,8 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     shakeThePlate() {
         cc.tween(this.main.thePlate)
-            .to(0, { opacity: 255 })
-            .to(0.3, { position: cc.v2(0, 0) })
+            //.to(0, { opacity: 255 })
+            //.to(0.3, { position: cc.v2(0, 0) })
             .call(() => {
                 this.main.shakeThePlateAnimation.play();
             })
