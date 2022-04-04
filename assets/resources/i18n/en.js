@@ -429,7 +429,7 @@ window.i18n.languages.en = {
         bet_details: "Bet Details",
         new_year: "Happy New Year",
         md5_result: "RESULT",
-        md5_string: "MD5 Key",
+        md5_string: "MD5 KEY",
         md5_copy: "COPY"
     },
     holdEmPoker: {
