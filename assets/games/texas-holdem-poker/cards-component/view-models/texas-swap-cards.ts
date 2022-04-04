@@ -75,11 +75,11 @@ export default class TexasSwapCards extends cc.Component {
     }
 
     moveBezierCard2DTmp(duration: number) {
-        const dealerScaleX = this.dealerTmp.scaleX;
-        const dealerScaleY = this.dealerTmp.scaleY;
-        const dealerClone = { x: this.dealerTmp.x, y: this.dealerTmp.y };
-        const playerClone = { x: this.playerTmp.x, y: this.playerTmp.y };
-        const dealerScaleClone = { x: dealerScaleX, y: dealerScaleY };
+        const dealerTmpScaleX = this.dealerTmp.scaleX;
+        const dealerTmpScaleY = this.dealerTmp.scaleY;
+        const dealerTmpClone = { x: this.dealerTmp.x, y: this.dealerTmp.y };
+        const playerTmpClone = { x: this.playerTmp.x, y: this.playerTmp.y };
+        const dealerTmpScaleClone = { x: dealerTmpScaleX, y: dealerTmpScaleY };
 
         const bezierLeft = [
             cc.v2(this.desLeftControl1.x, this.desLeftControl1.y),
@@ -100,20 +100,20 @@ export default class TexasSwapCards extends cc.Component {
                     this.changeStatusCard2D(true);
                     this.dealerTmp.runAction(
                         cc.sequence(
-                            cc.scaleTo(0.1, dealerScaleX, dealerScaleY),
+                            cc.scaleTo(0.1, dealerTmpScaleX, dealerTmpScaleY),
                             cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(0.1, 1, 1))
                         )
                     );
                     this.playerTmp.runAction(
                         cc.sequence(
                             cc.scaleTo(0.1, 1, 1),
-                            cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(0.1, dealerScaleX, dealerScaleY))
+                            cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(0.1, dealerTmpScaleX, dealerTmpScaleY))
                         )
                     );
                 })
                 .delay(duration * 2)
                 .call(() => {
-                    this.resetCard2DTmp({ dealerClone, playerClone, dealerScaleClone });
+                    this.resetCard2DTmp({ dealerClone: dealerTmpClone, playerClone: playerTmpClone, dealerScaleClone: dealerTmpScaleClone });
                     resolve();
                 })
                 .start();
