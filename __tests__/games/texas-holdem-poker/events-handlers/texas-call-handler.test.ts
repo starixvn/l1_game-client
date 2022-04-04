@@ -69,17 +69,5 @@ describe("TexasHoldemCallEventHandler", () => {
             expect(changeDataBetSpy).toBeCalledTimes(1);
             expect(changeDataBetSpy).toBeCalledWith(data.call.communityCards, data.call.combinationResult, data.call.totalAmount);
         });
-        it("should call callHandler.updateTotalBet", () => {
-            // Arrange
-            const changeTotalBetSpy = jest.spyOn(callHandlerHandler.gameData.placeBetModel, "updateTotalBet");
-            const source = { totalBet: data.call.totalAmount, choice: convertChoices(data.call.choices) };
-
-            // Act
-            callHandlerHandler.handle(data);
-
-            // Assert
-            expect(changeTotalBetSpy).toBeCalledTimes(1);
-            expect(changeTotalBetSpy).toBeCalledWith(source);
-        });
     });
 });

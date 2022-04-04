@@ -9,6 +9,7 @@ type MD5Result = {
     suitRed: string;
     isShowIconSuit?: boolean;
     length?: number;
+    roundId?: string;
 };
 type CardModel = { rank: number; suit: number };
 
@@ -41,8 +42,8 @@ const formatCardSuit = ({ card, suitBlack, suitRed }) => {
     return card.suit > 1 ? `<color=${suitBlack}>${convertRankSuit(card)}</color>` : `<color=${suitRed}>${convertRankSuit(card)}</color>`;
 };
 
-const getSuffix = ({ suffix, isShowIconSuit }) => {
-    return isShowIconSuit ? `<color=#ffffff>{#${suffix}}</color>` : `<color=#ffffff>${suffix}</color>`;
+const getSuffix = ({ suffix, isShowIconSuit, roundId }) => {
+    return isShowIconSuit ? `<color=#ffffff>{#${roundId}${suffix}}</color>` : `<color=#ffffff>${suffix}</color>`;
 };
 
 export const FormatMD5Result = ({
@@ -53,10 +54,11 @@ export const FormatMD5Result = ({
     suitBlack = "#000000",
     suitRed = "#E92E2E",
     isShowIconSuit: isShowIconSuit,
-    length
+    length,
+    roundId = ""
 }: MD5Result): string => {
     const resultFormatting = formatString({ cards, firstCharacter, endCharacter, suitBlack, suitRed, isShowIconSuit: isShowIconSuit });
-    const suffixFormatting = getSuffix({ suffix, isShowIconSuit: isShowIconSuit });
+    const suffixFormatting = getSuffix({ suffix, isShowIconSuit: isShowIconSuit, roundId });
     if (length > 0) {
         return `${resultFormatting}_${suffixFormatting}`.substring(0, length) + "...";
     }

@@ -27,7 +27,7 @@ export default class HoldemPokerChips extends cc.Component {
 
         const keys = Object.keys(values).sort((a, b) => +b - +a);
         let firstChip = true;
-        keys.forEach((chip, index) => {
+        keys.forEach((chip) => {
             if (+chip > 0) {
                 const count = values[chip];
                 for (let i = 0; i < count; i++) {
@@ -168,19 +168,11 @@ export default class HoldemPokerChips extends cc.Component {
         main: HoldemPoker
     ) {
         const isWin = totalWin > totalBet;
-        cc.tween(main.node)
-            .call(() => {
-                totalWin > 0 && main.showWinningBet(totalWin);
-                isWin && this.playWinningEffect(main, main.userAvatar.node.parent, 5);
-                main.updateUserBalance();
-            })
-            .call(() => {
-                main.pokerCardScript.unFocusPlayerCard();
-            })
-            .call(() => {
-                gameData.finishModel.finishAnimationWinning();
-            })
-            .start();
+        totalWin > 0 && main.showWinningBet(totalWin);
+        isWin && this.playWinningEffect(main, main.userAvatar.node.parent, 5);
+        main.updateUserBalance();
+        main.pokerCardScript.unFocusPlayerCard();
+        gameData.finishModel.finishAnimationWinning();
     }
 
     private flyChipToDealer(bettingArea: HoldemPokerBettingArea, dealerLocation: cc.Node, jumpTime: number, delayBeforeFly: number) {

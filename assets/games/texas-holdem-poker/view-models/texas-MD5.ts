@@ -6,7 +6,7 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class TexasMD5 extends HoldemPockerMD5 {
-    setMD5Value(cards: CardModel[], suffix: string) {
+    setMD5Value(cards: CardModel[], suffix: string, roundId: string) {
         this.md5Value.string = FormatMD5Result({
             cards,
             suffix,
@@ -15,7 +15,8 @@ export default class TexasMD5 extends HoldemPockerMD5 {
             suitBlack: "#050f04",
             suitRed: "#ff2626",
             isShowIconSuit: true,
-            length: 352
+            length: 352,
+            roundId
         });
     }
 }

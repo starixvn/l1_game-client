@@ -160,8 +160,7 @@ export default class MainGame extends cc.Component {
 
     activeBgNewOnCategory() {
         const newGames = lobbyMenuConfig.newGames;
-        const isTextNewAll = lobbyMenuConfig.list.some((r) => newGames.includes(r)),
-            isTextNewSeDie = lobbyMenuConfig.seDieGames.some((r) => newGames.includes(r)),
+        const isTextNewSeDie = lobbyMenuConfig.seDieGames.some((r) => newGames.includes(r)),
             isTextNewCasino = lobbyMenuConfig.casinoGames.some((r) => newGames.includes(r)),
             isTextNewCard = lobbyMenuConfig.cardGames.some((r) => newGames.includes(r)),
             isTextNewSlot = lobbyMenuConfig.slotGames.some((r) => newGames.includes(r)),
@@ -169,7 +168,6 @@ export default class MainGame extends cc.Component {
             isTextNewOther = lobbyMenuConfig.othersGames.some((r) => newGames.includes(r));
 
         const categoryTextNew = [
-            { [GameCategory.All]: isTextNewAll },
             { [GameCategory.SeDie]: isTextNewSeDie },
             { [GameCategory.Casino]: isTextNewCasino },
             { [GameCategory.Card]: isTextNewCard },

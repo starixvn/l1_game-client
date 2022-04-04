@@ -117,7 +117,7 @@ export const updateChips =
     ({ choice, totalAmount }) => {
         const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
         if (bettingArea && bettingArea.chipNode) {
-            texasChips.updateChipStack(slidingChips, bettingArea.chipNode, shadowChip, totalAmount);
+            texasChips.flyChipToBetPlace(slidingChips, bettingArea.chipNode, shadowChip, totalAmount, totalAmount);
         }
     };
 

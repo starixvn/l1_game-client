@@ -1,6 +1,5 @@
 import { CardModel } from "../texas-type";
 import TexasEventHandler from "./texas-event-handler";
-import { convertChoices } from "../texas-helper";
 
 export type TexasHoldemCall = {
     call: {
@@ -24,10 +23,7 @@ export default class TexasCallHandler<Choices> extends TexasEventHandler<TexasHo
     }
 
     protected handle(event: TexasHoldemCall) {
-        const { communityCards, combinationResult, totalAmount, choices } = event.call;
-
-        const choiceProcess = convertChoices({ ante: choices.ante, call: choices.call });
-        this.gameData.placeBetModel.updateTotalBet({ totalBet: totalAmount, choice: choiceProcess });
+        const { communityCards, combinationResult, totalAmount } = event.call;
 
         this.gameData.callModel.changeDataAfterCall(communityCards, combinationResult, totalAmount);
     }

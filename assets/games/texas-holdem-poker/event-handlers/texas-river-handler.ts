@@ -1,6 +1,5 @@
 import { CardModel } from "../texas-type";
 import TexasEventHandler from "./texas-event-handler";
-import { convertChoices } from "../texas-helper";
 
 export type TexasHoldemRiver = {
     river: {
@@ -31,16 +30,8 @@ export default class TexasRiverHandler<Choices> extends TexasEventHandler<TexasH
 
     protected handle(event: TexasHoldemRiver) {
         this.gameData.isProcessingBet = false;
-        const { communityCards, combinationResult, totalAmount, dealer, choices } = event.river;
+        const { communityCards, combinationResult, totalAmount, dealer } = event.river;
 
-        const choiceProcess = convertChoices({
-            ante: choices.ante,
-            call: choices.call,
-            turn: choices.turn,
-            river: choices.river
-        });
-
-        this.gameData.placeBetModel.updateTotalBet({ totalBet: totalAmount, choice: choiceProcess });
         this.gameData.riverModel.updateModel(dealer, communityCards, combinationResult, totalAmount);
     }
 }

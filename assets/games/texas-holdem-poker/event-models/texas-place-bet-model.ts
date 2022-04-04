@@ -31,18 +31,4 @@ export default class TexasPlaceBetModel extends HoldemPokerPlaceBetModel {
             totalAmount: betValue
         });
     }
-
-    updateTotalBet(props: { totalBet: number; choice: any }) {
-        for (const [key, value] of Object.entries(props.choice)) {
-            this.choices[key] = value;
-            this.emit(TexasPlaceBetModel.Events.UPDATE_CHIPS, {
-                choice: key,
-                totalAmount: value
-            });
-        }
-
-        this.emit(TexasPlaceBetModel.Events.PLACE_BET, this);
-    }
-
-    updateBetsInfo: (choices) => void;
 }

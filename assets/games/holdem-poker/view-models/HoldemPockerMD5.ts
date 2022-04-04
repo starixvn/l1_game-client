@@ -52,20 +52,21 @@ export default class HoldemPockerMD5 extends cc.Component {
     }
 
     createResultDetails(data: any) {
-        const { cards, suffix } = data.formatValue;
+        const { cards, suffix, roundId } = data.formatValue;
         this.setCaptionAndHintForMD5(true);
         this.setCopyString(data.rawValue);
-        this.setMD5Value(cards, suffix);
+        this.setMD5Value(cards, suffix, roundId);
     }
 
-    setMD5Value(cards, suffix) {
+    setMD5Value(cards, suffix, roundId) {
         this.md5Value.string = FormatMD5Result({
             cards,
             suffix,
             firstCharacter: "[",
             endCharacter: "]",
             suitBlack: "#000000",
-            suitRed: "#E92E2E"
+            suitRed: "#E92E2E",
+            roundId
         });
     }
 
