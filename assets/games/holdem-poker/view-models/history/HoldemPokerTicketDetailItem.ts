@@ -42,7 +42,7 @@ export default class HoldemPokerTicketDetailItem extends cc.Component {
 
     renderTicketDetailItem(bet: any, index: number, totalRow: number) {
         const bettingOption = this.getBettingOptionName(bet);
-        this.bettingOption.string = `${i18n.t(bettingOption)}`;
+        this.bettingOption.string = `${i18n.t(bettingOption).toUpperCase()}`;
         this.stake.string = numberWithCommas(bet.stake);
         this.win.string = numberWithCommas(bet.win);
         this.time.string = getStringHourByTime(bet.time);
