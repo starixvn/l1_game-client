@@ -58,7 +58,9 @@ export default class BetChips extends cc.Component {
 
     public enableStakeLevel = true;
 
-    public chipConfig: ChipConfig;
+    public get chipConfig() {
+        return ChipConfig.getInstance();
+    }
     public selectedIndex = 0;
     public chipList: cc.Node[] = [];
 
@@ -66,7 +68,7 @@ export default class BetChips extends cc.Component {
     protected needResetCurrentChip = true;
 
     onLoad() {
-        this.chipConfig = ChipConfig.getInstance();
+        // this.chipConfig = ChipConfig.getInstance();
         this.leftButton.active = false;
         this.snappedScrollView.onScrollEnded = () => {
             const min = this.snappedScrollView.getMinDisplayIndex();
