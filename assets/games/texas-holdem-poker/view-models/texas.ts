@@ -5,6 +5,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import NewButton from "../../../common/custom-button/NewButton";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import PrefabLoader from "../../../common/PrefabLoader";
+import TutorialMain from "../../../common/tutorial/TutorialMain";
 import { GameIds } from "../../../configs/SabaConfigs";
 import BetItem from "../../_base/view-models/BetItem";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
@@ -25,7 +26,7 @@ import {
     showHideTooltip,
     showPlaceBetChips,
     updateAllChips,
-    updateChips
+    updateChips,
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
@@ -36,7 +37,7 @@ import {
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards
+    swapPlayerAndDealerCards,
 } from "../cards-component/view-models/cards-wrapper";
 import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
 import TexasCards from "../cards-component/view-models/texas-cards";
@@ -60,7 +61,10 @@ import { handleMD5 } from "./../actions/texas-md5-action";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-rejoin-room-actions";
 import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
-import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
+import {
+    dealPlayerAndDealerCardsWithoutSwap,
+    holdPlayerAndDealerCards,
+} from "./../cards-component/view-models/cards-wrapper";
 import TexasRiverModel from "./../event-models/texas-river-model";
 import TexasStateModel from "./../event-models/texas-state-model";
 import TexasTicketHistory from "./game-history/texas-ticket-history";
@@ -182,6 +186,9 @@ export default class Texas extends NewGameRoomBase {
     @property(HandleActionSwap)
     swapMenu: HandleActionSwap = null;
 
+    @property(cc.Prefab)
+    interactiveGuidePrefab: cc.Prefab = null;
+
     protected placingBet: TexasPlacingBet = null;
     protected gameData: TexasGameDataModel<TexasChoicesType> = null;
     protected texasChips: TexasChips;
@@ -224,6 +231,32 @@ export default class Texas extends NewGameRoomBase {
         this.registerTicketDetailEvents();
         this.registerNoticeEvents();
         this.registerMD5Event();
+        this.initInteractiveGuide();
+    }
+
+    initInteractiveGuide() {
+        const storageKey = "texas_interactive_guide";
+        const storage = cc.sys.localStorage.getItem(storageKey);
+        const data = storage
+            ? JSON.parse(storage)
+            : {
+                  enabled: true
+              };
+
+        if (!data.enabled || !this.interactiveGuidePrefab) {
+            return;
+        }
+
+        const node = cc.instantiate(this.interactiveGuidePrefab);
+        this.node.addChild(node);
+        const tutorialMain = node.getComponent(TutorialMain);
+        // tutorialMain.setTimeConfig([15, 5, 5, 5]);
+        tutorialMain.setTimeConfig([2, 2, 2, 2]);
+        tutorialMain.toggleCallback = (dontShow: boolean) => {
+            data.enabled = !dontShow;
+            cc.sys.localStorage.setItem(storageKey, JSON.stringify(data));
+        };
+        tutorialMain.show();
     }
 
     initPokerCardScript() {
