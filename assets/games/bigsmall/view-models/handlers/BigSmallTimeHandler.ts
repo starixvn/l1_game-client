@@ -1,5 +1,6 @@
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import BigSmall from "../BigSmall";
+import { DishAnimation } from "../BigSmall";
 
 export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     protected shakeThePlateTime = 52;
@@ -71,10 +72,8 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     shakeThePlate() {
         cc.tween(this.main.thePlate)
-            //.to(0, { opacity: 255 })
-            //.to(0.3, { position: cc.v2(0, 0) })
             .call(() => {
-                this.main.shakeThePlateAnimation.play();
+                this.main.shakeThePlateAnimation.playAdditive(DishAnimation.ShakeDish);
             })
             .start();
     }

@@ -426,7 +426,7 @@ window.i18n.languages.th = {
         bet_details: "รายละเอียดการเดิมพัน",
         new_year: "Happy New Year",
         md5_result: "ผลลัพธ์",
-        md5_string: "MD5 STRING",
+        md5_string: "MD5 KEY",
         md5_copy: "COPY"
     },
     holdEmPoker: {

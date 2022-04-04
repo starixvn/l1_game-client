@@ -16,6 +16,11 @@ import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 
+export enum DishAnimation {
+    OpenDish = "DishOpenAnimation",
+    ShakeDish = "DishShakingAnimation"
+}
+
 @ccclass
 export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Prefab)
@@ -188,14 +193,15 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                 .call(() => {
                     this.hideBalanceBetNotice();
                 })
-                .to(0.4, { position: cc.v2(100, -120) }, { easing: "sineInOut" })
+                .call(() => {
+                    this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
+                })
                 .call(() => {
                     this.updateRoundHistory();
                     this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
                     (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
                     this.finishShowResult = true;
                 })
-                .to(0.4, { opacity: 0 })
                 .start();
         }
     }

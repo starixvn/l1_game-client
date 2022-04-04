@@ -1,0 +1,150 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "DishOpenAnimation",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.4833333333333334,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 0,
+  "curveData": {
+    "paths": {
+      "mockup 3/Normal": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": []
+          }
+        },
+        "props": {
+          "opacity": []
+        }
+      },
+      "mockup 3/bowl": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 1.0833333333333333,
+              "value": 255
+            },
+            {
+              "frame": 1.4833333333333334,
+              "value": 0
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.11666666666666667,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.99,
+                "y": 0.99
+              }
+            },
+            {
+              "frame": 0.35,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.01,
+                "y": 1.01
+              }
+            },
+            {
+              "frame": 0.65,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.04,
+                "y": 1.04
+              }
+            },
+            {
+              "frame": 1.1333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ],
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 0.25,
+              "value": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 0.5,
+              "value": [
+                8.519,
+                -18.866,
+                0
+              ]
+            },
+            {
+              "frame": 1.1,
+              "value": [
+                146.808,
+                -88.984,
+                0
+              ]
+            },
+            {
+              "frame": 1.1333333333333333,
+              "value": [
+                152.158,
+                -92.551,
+                0
+              ]
+            },
+            {
+              "frame": 1.1666666666666667,
+              "value": [
+                148.476,
+                -88.908,
+                0
+              ]
+            },
+            {
+              "frame": 1.4833333333333334,
+              "value": [
+                146.808,
+                -88.984,
+                0
+              ]
+            }
+          ]
+        }
+      },
+      "mockup 3/shadow": {
+        "props": {
+          "opacity": [],
+          "scale": [],
+          "position": []
+        }
+      }
+    }
+  },
+  "events": []
+}
