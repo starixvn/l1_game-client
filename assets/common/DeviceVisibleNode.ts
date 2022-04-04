@@ -9,6 +9,6 @@ export default class DeviceVisibleNode extends cc.Component {
     showOnMobile = true;
 
     onLoad() {
-        this.node.active = (cc.sys.isMobile && this.showOnMobile) || (!cc.sys.isMobile && this.showOnDesktop);
+        // this.node.active = (cc.sys.isMobile && this.showOnMobile) || (!cc.sys.isMobile && this.showOnDesktop);
     }
 }

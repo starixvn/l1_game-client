@@ -1,4 +1,4 @@
-import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { getStringDate, getStringDateByTime, getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import SedieHistoryItemBase from "./SedieHistoryItemBase";
 import SocketIOGameHistoryBase from "./SocketIOGameHistoryBase";
@@ -21,8 +21,13 @@ export default class SedieHistoryBase extends SocketIOGameHistoryBase {
 
         const { time, phien, result, betwin, win } = betLog;
 
-        item.time.string = getStringDateByTime(time);
-        item.time.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
+        if (item.time && item.time.node.children.length === 0) {
+            item.time.string = getStringDateByTime(time);
+            item.time.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
+        } else if (item.date && item.hour) {
+            item.date.string = getStringDate(time);
+            item.hour.string = getStringHourByTime(time);
+        }
 
         item.phien.string = phien;
 

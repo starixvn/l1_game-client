@@ -12,4 +12,8 @@ const getStringHourByTime = (t) => {
     return moment(new Date(t)).format("HH:mm:ss");
 };
 
-export { getStringDateByTime, formatDateTime, getStringHourByTime };
+const getStringDate = (t) => {
+    return moment(new Date(t)).format("DD/MM/YYYY");
+};
+
+export { getStringDateByTime, formatDateTime, getStringHourByTime, getStringDate };

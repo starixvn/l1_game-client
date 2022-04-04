@@ -19,4 +19,10 @@ export default class SedieHistoryItemBase extends cc.Component {
 
     @property(cc.Label)
     win: cc.Label = null;
+
+    @property(cc.Label)
+    date: cc.Label = null;
+
+    @property(cc.Label)
+    hour: cc.Label = null;
 }
