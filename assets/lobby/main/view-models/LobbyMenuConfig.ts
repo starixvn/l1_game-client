@@ -10,10 +10,13 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     smPromotion: boolean;
-    bannerAds = [GameIds.HiLo, GameIds.CasinoHoldemPoker, GameIds.BitcoinMaster, GameIds.SeDie];
+    bannerAds = [GameIds.TexasHoldemPoker, GameIds.HiLo, GameIds.CasinoHoldemPoker, GameIds.SeDie];
     bannerAdsInfo = {
-        [GameIds.HiLo]: {
+        [GameIds.TexasHoldemPoker]: {
             displayTime: 10
+        },
+        [GameIds.HiLo]: {
+            displayTime: 5
         },
         [GameIds.CasinoHoldemPoker]: {
             displayTime: 5

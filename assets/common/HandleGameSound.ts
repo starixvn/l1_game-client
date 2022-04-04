@@ -39,12 +39,10 @@ export default class HandleGameSound extends cc.Component {
 
     initSound() {
         AudioManager.getInstance()[this.getKey()] ? this.setSoundGameOn() : this.setSoundGameOff();
-        // AudioManager.getInstance()[this.getKey()] ? this.setsSpriteFrame(true) : this.setsSpriteFrame(false);
     }
 
     onClickSoundGame() {
         AudioManager.getInstance()[this.getKey()] ? this.setSoundGameOff() : this.setSoundGameOn();
-        // this.setsSpriteFrame(AudioManager.getInstance()[this.getKey()]);
     }
 
     setSoundGameOn() {
@@ -56,11 +54,4 @@ export default class HandleGameSound extends cc.Component {
         this.soundSprite.spriteFrame = this.soundOffFrame;
         AudioManager.getInstance()[this.getKey()] = false;
     }
-
-    // setsSpriteFrame(isSoundOn: boolean) {
-    //     if (isSoundOn) {
-    //         this.soundSprite.spriteFrame = this.soundOnFrame;
-    //     } else {
-    //     }
-    // }
 }
