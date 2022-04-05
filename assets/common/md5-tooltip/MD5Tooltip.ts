@@ -32,7 +32,7 @@ export default class MD5Tooltip extends cc.Component {
         this.tip.show();
     }
 
-    showHideToolTip(isShow: boolean) {
-        this.tip.show(isShow);
+    hideToolTip() {
+        this.tip.show();
     }
 }

@@ -85,7 +85,6 @@ export default class MD5Component extends cc.Component {
         const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
         setTimeout(() => {
             cc.tween(this.node)
-                .delay(delayTime)
                 .call(() => {
                     this.handleMD5Data(data);
                 })
@@ -127,7 +126,7 @@ export default class MD5Component extends cc.Component {
     }
 
     handleTooltip(data: MD5Type) {
-        this.md5Tooltip.showHideToolTip(!!data.rawValue);
+        !!data.hashValue && this.md5Tooltip.hideToolTip();
         this.md5Tooltip.setData(data.rawValue);
     }
 
