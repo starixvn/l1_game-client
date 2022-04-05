@@ -1,8 +1,7 @@
-import { TexasState, TexasChoicesType, TexasStateString } from "../texas-type";
+import { TexasState, TexasChoicesType } from "../texas-type";
 import TexasGameDataModel from "./../event-models/texas-game-data-model";
 
 export const updateStatusGame = (gameData: TexasGameDataModel<TexasChoicesType>) => () => {
-    console.log(TexasStateString[gameData.stateModel.state], "gameData.stateModel.state");
     if (gameData.stateModel.state === TexasState.calling_call) {
         gameData.placeBetModel.rejoinTable(gameData.placeBetModel.previousChoices);
         gameData.stateModel.holdSuccess();

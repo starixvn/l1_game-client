@@ -32,7 +32,7 @@ export default class TexasSwapCards extends cc.Component {
     desRightControl2: cc.Node = null;
 
     private readonly timeShowUp = 0.3;
-    private readonly timeSwap = 0.4;
+    private readonly timeSwap = 1;
 
     protected onLoad(): void {
         this.node.active = true;
@@ -64,10 +64,11 @@ export default class TexasSwapCards extends cc.Component {
                 .call(() => {
                     this.activeCardsOrigin(false);
                     this.changeStatusCard3DTmp(true);
-                    this.cards3DTmp.getComponent(TexasShowUpCards).moveYAndRotationCard(30, 50, 40);
+                    this.cards3DTmp.getComponent(TexasShowUpCards).moveYAndRotationCard(30, 50, 40, "sineIn");
                 })
                 .delay(delayTime)
                 .call(() => {
+                    this.changeStatusCard3DTmp(false);
                     resolve();
                 })
                 .start();
@@ -92,28 +93,23 @@ export default class TexasSwapCards extends cc.Component {
             cc.v2(this.desRightControl1.x, this.desRightControl1.y),
             cc.v2(this.dealerTmp.x, this.dealerTmp.y)
         ];
+        this.changeStatusCard2D(true);
 
         return new Promise<void>((resolve) => {
             cc.tween(this)
                 .call(() => {
-                    this.changeStatusCard3DTmp(false);
-                    this.changeStatusCard2D(true);
-                    this.dealerTmp.runAction(
-                        cc.sequence(
-                            cc.scaleTo(0.1, dealerTmpScaleX, dealerTmpScaleY),
-                            cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(0.1, 1, 1))
-                        )
-                    );
+                    this.dealerTmp.runAction(cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(duration / 2, 1, 1)));
                     this.playerTmp.runAction(
-                        cc.sequence(
-                            cc.scaleTo(0.1, 1, 1),
-                            cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(0.1, dealerTmpScaleX, dealerTmpScaleY))
-                        )
+                        cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(duration / 2, dealerTmpScaleX, dealerTmpScaleY))
                     );
                 })
-                .delay(duration * 2)
+                .delay(duration)
                 .call(() => {
-                    this.resetCard2DTmp({ dealerClone: dealerTmpClone, playerClone: playerTmpClone, dealerScaleClone: dealerTmpScaleClone });
+                    this.resetCard2DTmp({
+                        dealerClone: dealerTmpClone,
+                        playerClone: playerTmpClone,
+                        dealerScaleClone: dealerTmpScaleClone
+                    });
                     resolve();
                 })
                 .start();
@@ -121,19 +117,19 @@ export default class TexasSwapCards extends cc.Component {
     }
 
     switchCardOrigin(delayTime: number) {
+        this.changeStatusCard2D(false);
+        this.changeStatusCard3DTmp(true);
+
         return new Promise<void>((resolve) => {
             cc.tween(this)
                 .call(() => {
-                    this.changeStatusCard2D(false);
-                    this.changeStatusCard3DTmp(true);
-                    this.cards3DTmp.getComponent(TexasShowUpCards).moveYAndRotationCard(0, 0, 0);
+                    this.cards3DTmp.getComponent(TexasShowUpCards).moveYAndRotationCard(0, 0, 0, "sineOut");
                 })
                 .delay(delayTime)
                 .call(() => {
-                    this.changeStatusCard3DTmp(false);
                     this.activeCardsOrigin(true);
+                    this.changeStatusCard3DTmp(false);
                 })
-
                 .call(() => {
                     resolve();
                 })
@@ -143,8 +139,8 @@ export default class TexasSwapCards extends cc.Component {
 
     resetCard2DTmp({ dealerClone, playerClone, dealerScaleClone }) {
         this.dealerTmp.setPosition(dealerClone.x, dealerClone.y);
-        this.playerTmp.setPosition(playerClone.x, playerClone.y);
         this.dealerTmp.setScale(dealerScaleClone.x, dealerScaleClone.y);
+        this.playerTmp.setPosition(playerClone.x, playerClone.y);
         this.playerTmp.scale = 1;
     }
 }

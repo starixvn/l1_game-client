@@ -64,239 +64,239 @@ describe("HiLoResult", () => {
         });
     });
 
-    describe("initCardModels", () => {
-        it("should create card list", () => {
-            // Arrange
-            comp.initCardModels = HiLoResult.prototype.initCardModels;
+    // describe("initCardModels", () => {
+    //     it("should create card list", () => {
+    //         // Arrange
+    //         comp.initCardModels = HiLoResult.prototype.initCardModels;
 
-            // Act
-            comp.initCardModels();
+    //         // Act
+    //         comp.initCardModels();
 
-            // Assert
-            expect(comp.cardModels.length).toEqual(16);
-        });
-    });
+    //         // Assert
+    //         expect(comp.cardModels.length).toEqual(16);
+    //     });
+    // });
 
-    describe("createReel", () => {
-        beforeEach(() => {
-            // Arrange
-            comp.createReel = HiLoResult.prototype.createReel;
-            comp.setCard = jest.fn();
-        });
-        it("card reel should have 16 cards", () => {
-            // Act
-            comp.createReel();
+    // describe("createReel", () => {
+    //     beforeEach(() => {
+    //         // Arrange
+    //         comp.createReel = HiLoResult.prototype.createReel;
+    //         comp.setCard = jest.fn();
+    //     });
+    //     it("card reel should have 16 cards", () => {
+    //         // Act
+    //         comp.createReel();
 
-            // Assert
-            expect(comp.cardReel.childrenCount).toEqual(comp.cardModels.length);
-        });
+    //         // Assert
+    //         expect(comp.cardReel.childrenCount).toEqual(comp.cardModels.length);
+    //     });
 
-        it("card list model should have 16 card model", () => {
-            // Arrange
-            comp.cardList = [];
-            comp.createReel = HiLoResult.prototype.createReel;
+    //     it("card list model should have 16 card model", () => {
+    //         // Arrange
+    //         comp.cardList = [];
+    //         comp.createReel = HiLoResult.prototype.createReel;
 
-            // Act
-            comp.createReel();
+    //         // Act
+    //         comp.createReel();
 
-            // Assert
-            expect(comp.cardList.length).toEqual(16);
-        });
+    //         // Assert
+    //         expect(comp.cardList.length).toEqual(16);
+    //     });
 
-        it("should have a top card", () => {
-            // Arrange
+    //     it("should have a top card", () => {
+    //         // Arrange
 
-            // Act
-            comp.createReel();
+    //         // Act
+    //         comp.createReel();
 
-            // Assert
-            expect(comp.topCard).toEqual(comp.cardList[15]);
-        });
+    //         // Assert
+    //         expect(comp.topCard).toEqual(comp.cardList[15]);
+    //     });
 
-        it("should have a bottom card", () => {
-            // Arrange
+    //     it("should have a bottom card", () => {
+    //         // Arrange
 
-            // Act
-            comp.createReel();
+    //         // Act
+    //         comp.createReel();
 
-            // Assert
-            expect(comp.bottomCard).toEqual(comp.cardList[0]);
-        });
-    });
+    //         // Assert
+    //         expect(comp.bottomCard).toEqual(comp.cardList[0]);
+    //     });
+    // });
 
-    describe("updateResult", () => {
-        it("should not have any action", () => {
-            // Arrange
-            const result: CardModel[] = [];
-            comp.setCard = jest.fn();
+    // describe("updateResult", () => {
+    //     it("should not have any action", () => {
+    //         // Arrange
+    //         const result: CardModel[] = [];
+    //         comp.setCard = jest.fn();
 
-            // Act
-            comp.updateResult(result);
+    //         // Act
+    //         comp.updateResult(result);
 
-            // Assert
-        });
+    //         // Assert
+    //     });
 
-        it("should call setCard", () => {
-            // Arrange
-            const result: CardModel[] = [createCardModel(), createCardModel()];
-            comp.topCard = new cc.Node().addComponent(HiLoCard);
-            jest.spyOn(comp, "setCard");
+    //     it("should call setCard", () => {
+    //         // Arrange
+    //         const result: CardModel[] = [createCardModel(), createCardModel()];
+    //         comp.topCard = new cc.Node().addComponent(HiLoCard);
+    //         jest.spyOn(comp, "setCard");
 
-            // Act
-            comp.updateResult(result);
+    //         // Act
+    //         comp.updateResult(result);
 
-            // Assert
-            expect(comp.setCard).toBeCalledWith(comp.topCard, result[result.length - 1]);
-        });
-    });
+    //         // Assert
+    //         expect(comp.setCard).toBeCalledWith(comp.topCard, result[result.length - 1]);
+    //     });
+    // });
 
-    describe("setCard", () => {
-        it("should call setCard", () => {
-            // Arrange
-            comp.setCard = HiLoResult.prototype.setCard;
-            const cardComponent = new HiLoCard();
-            const data = createCardModel();
+    // describe("setCard", () => {
+    //     it("should call setCard", () => {
+    //         // Arrange
+    //         comp.setCard = HiLoResult.prototype.setCard;
+    //         const cardComponent = new HiLoCard();
+    //         const data = createCardModel();
 
-            // Act
-            comp.setCard(cardComponent, data);
+    //         // Act
+    //         comp.setCard(cardComponent, data);
 
-            // Assert
-            expect(cardComponent.setCard).toBeCalled();
-            expect(cardComponent.faceUp).toBeCalled();
-        });
-    });
+    //         // Assert
+    //         expect(cardComponent.setCard).toBeCalled();
+    //         expect(cardComponent.faceUp).toBeCalled();
+    //     });
+    // });
 
-    describe("faceDownCards", () => {
-        it("should set facedown for all cards", () => {
-            // Arrange
-            const cardCom = new HiLoCard();
-            comp.cardList = [cardCom, cardCom];
+    // describe("faceDownCards", () => {
+    //     it("should set facedown for all cards", () => {
+    //         // Arrange
+    //         const cardCom = new HiLoCard();
+    //         comp.cardList = [cardCom, cardCom];
 
-            // Act
-            comp.faceDownCards();
+    //         // Act
+    //         comp.faceDownCards();
 
-            // Assert
-            expect(cardCom.faceDown).toBeCalledTimes(comp.cardList.length);
-        });
-    });
+    //         // Assert
+    //         expect(cardCom.faceDown).toBeCalledTimes(comp.cardList.length);
+    //     });
+    // });
 
-    describe("spin", () => {
-        it("should set position for cardReel with animation", async () => {
-            // Arrange
-            const spinDuration = 1;
-            const animated = true;
-            const tmp: any = {};
-            cc.tween = () => tmp;
-            cc.tween().to = (a, b, c?) => tmp;
-            cc.tween().call = (a) => tmp;
-            cc.tween().start = () => tmp;
-            comp.cardReel.stopAllActions = jest.fn();
-            comp.openCardsAndSetRandomCardValue = jest.fn();
+    // describe("spin", () => {
+    //     it("should set position for cardReel with animation", async () => {
+    //         // Arrange
+    //         const spinDuration = 1;
+    //         const animated = true;
+    //         const tmp: any = {};
+    //         cc.tween = () => tmp;
+    //         cc.tween().to = (a, b, c?) => tmp;
+    //         cc.tween().call = (a) => tmp;
+    //         cc.tween().start = () => tmp;
+    //         comp.cardReel.stopAllActions = jest.fn();
+    //         comp.openCardsAndSetRandomCardValue = jest.fn();
 
-            // Act
-            comp.spin(spinDuration, animated);
+    //         // Act
+    //         comp.spin(spinDuration, animated);
 
-            // Assert
-            expect(comp.cardReel.position).toEqual(cc.v3(0, 0, 0));
-        });
+    //         // Assert
+    //         expect(comp.cardReel.position).toEqual(cc.v3(0, 0, 0));
+    //     });
 
-        it("should set position for cardReel not animation", async () => {
-            // Arrange
-            const spinDuration = 1;
-            const animated = false;
-            comp.openCardsAndSetRandomCardValue = jest.fn();
-            comp.syncBottomCard = jest.fn();
-            const offset = comp.cardReel.height - 213;
+    //     it("should set position for cardReel not animation", async () => {
+    //         // Arrange
+    //         const spinDuration = 1;
+    //         const animated = false;
+    //         comp.openCardsAndSetRandomCardValue = jest.fn();
+    //         comp.syncBottomCard = jest.fn();
+    //         const offset = comp.cardReel.height - 213;
 
-            // Act
-            comp.spin(spinDuration, animated);
+    //         // Act
+    //         comp.spin(spinDuration, animated);
 
-            // Assert
-            expect(comp.cardReel.position).toEqual(cc.v3(0, -offset, 0));
-            expect(comp.syncBottomCard).toBeCalled();
-        });
-    });
+    //         // Assert
+    //         expect(comp.cardReel.position).toEqual(cc.v3(0, -offset, 0));
+    //         expect(comp.syncBottomCard).toBeCalled();
+    //     });
+    // });
 
-    describe("openCardsAndSetRandomCardValue", () => {
-        let card1: HiLoCard;
-        let card2: HiLoCard;
-        let card3: HiLoCard;
-        beforeEach(() => {
-            // Arrange
-            comp.openCardsAndSetRandomCardValue = HiLoResult.prototype.openCardsAndSetRandomCardValue;
-            card1 = new HiLoCard();
-            card2 = new HiLoCard();
-            card3 = new HiLoCard();
-            comp.cardList = [card1, card2, card3];
-            comp.topCard = comp.cardList[comp.cardList.length - 1];
-            comp.bottomCard = comp.cardList[0];
-            comp.setCard = jest.fn();
+    // describe("openCardsAndSetRandomCardValue", () => {
+    //     let card1: HiLoCard;
+    //     let card2: HiLoCard;
+    //     let card3: HiLoCard;
+    //     beforeEach(() => {
+    //         // Arrange
+    //         comp.openCardsAndSetRandomCardValue = HiLoResult.prototype.openCardsAndSetRandomCardValue;
+    //         card1 = new HiLoCard();
+    //         card2 = new HiLoCard();
+    //         card3 = new HiLoCard();
+    //         comp.cardList = [card1, card2, card3];
+    //         comp.topCard = comp.cardList[comp.cardList.length - 1];
+    //         comp.bottomCard = comp.cardList[0];
+    //         comp.setCard = jest.fn();
 
-            // Act
-            comp.openCardsAndSetRandomCardValue();
-        });
-        describe("when card is not the bottomCard", () => {
-            it("should call faceUp", () => {
-                // Assert
-                expect(card3.faceUp).toBeCalledTimes(1);
-                expect(card2.faceUp).toBeCalledTimes(1);
-            });
-        });
+    //         // Act
+    //         comp.openCardsAndSetRandomCardValue();
+    //     });
+    //     describe("when card is not the bottomCard", () => {
+    //         it("should call faceUp", () => {
+    //             // Assert
+    //             expect(card3.faceUp).toBeCalledTimes(1);
+    //             expect(card2.faceUp).toBeCalledTimes(1);
+    //         });
+    //     });
 
-        describe("when card is neither topCard nor bottomCard", () => {
-            it("should call setCard", () => {
-                // Assert
-                expect(comp.setCard).toBeCalledTimes(1);
-            });
-        });
-    });
+    //     describe("when card is neither topCard nor bottomCard", () => {
+    //         it("should call setCard", () => {
+    //             // Assert
+    //             expect(comp.setCard).toBeCalledTimes(1);
+    //         });
+    //     });
+    // });
 
-    describe("syncBottomCard", () => {
-        beforeEach(() => {
-            // Arrange
-            comp.syncBottomCard = HiLoResult.prototype.syncBottomCard;
-            comp.setCard = jest.fn();
-            const cardComp = new HiLoCard();
-            comp.topCard = cardComp;
-            comp.bottomCard = cardComp;
+    // describe("syncBottomCard", () => {
+    //     beforeEach(() => {
+    //         // Arrange
+    //         comp.syncBottomCard = HiLoResult.prototype.syncBottomCard;
+    //         comp.setCard = jest.fn();
+    //         const cardComp = new HiLoCard();
+    //         comp.topCard = cardComp;
+    //         comp.bottomCard = cardComp;
 
-            // Act
-            comp.syncBottomCard();
-        });
-        it("should call setCard", () => {
-            // Assert
-            expect(comp.setCard).toBeCalled();
-        });
+    //         // Act
+    //         comp.syncBottomCard();
+    //     });
+    //     it("should call setCard", () => {
+    //         // Assert
+    //         expect(comp.setCard).toBeCalled();
+    //     });
 
-        it("should call faceUp", () => {
-            // Arrange
-            const faceUpSpy = jest.spyOn(comp.bottomCard, "faceUp");
+    //     it("should call faceUp", () => {
+    //         // Arrange
+    //         const faceUpSpy = jest.spyOn(comp.bottomCard, "faceUp");
 
-            // Assert
-            expect(faceUpSpy).toBeCalled();
-        });
-    });
+    //         // Assert
+    //         expect(faceUpSpy).toBeCalled();
+    //     });
+    // });
 
-    describe("stopSpinCardAnimation", () => {
-        it("should set position for cardReel", () => {
-            // Arrange
-            comp.spinAnimation.stop = jest.fn();
+    // describe("stopSpinCardAnimation", () => {
+    //     it("should set position for cardReel", () => {
+    //         // Arrange
+    //         comp.spinAnimation.stop = jest.fn();
 
-            // Act
-            comp.stopSpinCardAnimation();
+    //         // Act
+    //         comp.stopSpinCardAnimation();
 
-            // Assert
-            expect(comp.cardReel.position).toEqual(cc.v3(0, 0, 0));
-        });
+    //         // Assert
+    //         expect(comp.cardReel.position).toEqual(cc.v3(0, 0, 0));
+    //     });
 
-        it("not have spinAnimation", () => {
-            // Arrange
-            comp.spinAnimation = null;
+    //     it("not have spinAnimation", () => {
+    //         // Arrange
+    //         comp.spinAnimation = null;
 
-            // Act
-            comp.stopSpinCardAnimation();
+    //         // Act
+    //         comp.stopSpinCardAnimation();
 
-            // Assert
-        });
-    });
+    //         // Assert
+    //     });
+    // });
 });
