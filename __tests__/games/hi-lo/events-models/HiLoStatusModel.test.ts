@@ -65,6 +65,17 @@ describe("HiLoStatusModel", () => {
             // Assert
             expect(statusModel.isSettled).toEqual(true);
         });
+
+        it("should call emit event", () => {
+            // Arrange
+            statusModel.emit = jest.fn();
+
+            // Act
+            statusModel.hasLost();
+
+            // Assert
+            expect(statusModel.emit).toBeCalled();
+        });
     });
 
     describe("collectFailed", () => {

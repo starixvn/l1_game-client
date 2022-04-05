@@ -147,165 +147,182 @@ describe("HiLoDealAction", () => {
         });
     });
 
-    // describe("checkStatusLost", () => {
-    //     beforeAll(() => {
-    //         // Arrange
-    //         statusModel = new HiLoStatusModel();
-    //     });
+    describe("handleStatusLost", () => {
+        beforeAll(() => {
+            // Arrange
+            statusModel = new HiLoStatusModel();
+        });
 
-    //     it("should do nothing when isSettled false", () => {
-    //         // Arrange
-    //         statusModel.isSettled = false;
+        it("should do nothing when isSettled false", () => {
+            // Arrange
+            statusModel.isSettled = false;
 
-    //         // Act
-    //         checkStatusLost(mainGame)(statusModel);
+            // Act
+            handleStatusLost(mainGame)(statusModel);
 
-    //         // Assert
-    //         expect(mainGame.showUserLoseMessage).not.toBeCalled();
-    //     });
+            // Assert
+            expect(mainGame.showUserLoseMessage).not.toBeCalled();
+        });
 
-    //     it("should do nothing when win true", () => {
-    //         // Arrange
-    //         statusModel.win = true;
+        it("should do nothing when win true", () => {
+            // Arrange
+            statusModel.win = true;
 
-    //         // Act
-    //         checkStatusLost(mainGame)(statusModel);
+            // Act
+            handleStatusLost(mainGame)(statusModel);
 
-    //         // Assert
-    //         expect(mainGame.showUserLoseMessage).not.toBeCalled();
-    //     });
+            // Assert
+            expect(mainGame.showUserLoseMessage).not.toBeCalled();
+        });
 
-    //     it("should call showUserLoseMessage when win false, isSettled true", () => {
-    //         // Arrange
-    //         statusModel.isSettled = true;
-    //         statusModel.win = false;
-    //         mainGame = new HiLo();
+        it("should do nothing when shouldHandleStatus false", () => {
+            // Arrange
+            mainGame.shouldHandleStatus = false;
 
-    //         // Act
-    //         checkStatusLost(mainGame)(statusModel);
+            // Act
+            handleStatusLost(mainGame)(statusModel);
 
-    //         // Assert
-    //         expect(mainGame.showUserLoseMessage).toBeCalledTimes(1);
-    //     });
+            // Assert
+            expect(mainGame.showUserLoseMessage).not.toBeCalled();
+        });
 
-    //     it("should not call mainGame.gameData.stateModel.prepareNewRound immediately when win false, isSettled true", () => {
-    //         // Arrange
-    //         statusModel.isSettled = true;
-    //         statusModel.win = false;
-    //         mainGame = new HiLo();
+        it("should call showUserLoseMessage when win false, isSettled true and shouldHandleStatus true", () => {
+            // Arrange
+            statusModel.isSettled = true;
+            statusModel.win = false;
+            mainGame = new HiLo();
+            mainGame.shouldHandleStatus = true;
 
-    //         // Act
-    //         checkStatusLost(mainGame)(statusModel);
+            // Act
+            handleStatusLost(mainGame)(statusModel);
 
-    //         // Assert
-    //         expect(mainGame.gameData.stateModel.prepareNewRound).not.toBeCalled();
-    //         expect(statusModel.reset).not.toBeCalled();
-    //     });
+            // Assert
+            expect(mainGame.showUserLoseMessage).toBeCalledTimes(1);
+            expect(mainGame.shouldHandleStatus).toEqual(false);
+        });
 
-    //     it("should call mainGame.gameData.stateModel.prepareNewRound after showUserLoseMessage when win false, isSettled true", async () => {
-    //         // Arrange
-    //         statusModel.isSettled = true;
-    //         statusModel.win = false;
-    //         mainGame = new HiLo();
+        it("should not call mainGame.gameData.stateModel.prepareNewRound immediately when win false, isSettled true and shouldHandleStatus true", () => {
+            // Arrange
+            statusModel.isSettled = true;
+            statusModel.win = false;
+            mainGame = new HiLo();
+            mainGame.shouldHandleStatus = true;
 
-    //         // Act
-    //         await checkStatusLost(mainGame)(statusModel);
+            // Act
+            handleStatusLost(mainGame)(statusModel);
 
-    //         // Assert
-    //         expect(mainGame.gameData.stateModel.prepareNewRound).toBeCalledTimes(1);
-    //         expect(statusModel.reset).toBeCalledTimes(1);
-    //     });
-    // });
+            // Assert
+            expect(mainGame.gameData.stateModel.prepareNewRound).not.toBeCalled();
+            expect(statusModel.reset).not.toBeCalled();
+            expect(mainGame.shouldHandleStatus).toEqual(false);
+        });
 
-    // describe("updateCard", () => {
-    //     beforeEach(() => {
-    //         // Act
-    //         updateCard(mainGame)(ownBetsModel);
-    //     });
-    //     it("should call resultComp updateResult", () => {
-    //         // Assert
-    //         expect(mainGame.resultComp.updateResult).toBeCalledWith(ownBetsModel.result);
-    //     });
-    //     it("should call resultComp spin", () => {
-    //         // Assert
-    //         expect(mainGame.resultComp.spin).toBeCalledWith(
-    //             mainGame.spinCardsEffectDuration,
-    //             ownBetsModel.remainingTime > mainGame.config.betTime
-    //         );
-    //     });
-    // });
+        it("should call mainGame.gameData.stateModel.prepareNewRound after showUserLoseMessage when win false, isSettled true", async () => {
+            // Arrange
+            statusModel.isSettled = true;
+            statusModel.win = false;
+            mainGame = new HiLo();
+            mainGame.shouldHandleStatus = true;
 
-    // describe("updateStatistic", () => {
-    //     it("should call statisticComp updateCards", () => {
-    //         // Act
-    //         updateStatistic(mainGame)(ownBetsModel);
-    //         // Assert
-    //         expect(mainGame.statisticComp.updateCards).toBeCalledWith(ownBetsModel.result);
-    //     });
-    // });
+            // Act
+            await handleStatusLost(mainGame)(statusModel);
 
-    // describe("updateStakesAndButtons", () => {
-    //     beforeEach(() => {
-    //         // Arrange
-    //         bettingAreaComp = new HiLoBettingArea();
-    //         mainGame.bettingAreas = [bettingAreaComp, bettingAreaComp];
-    //         ownBetsModel.result = [
-    //             { suit: 1, rank: "4" },
-    //             { suit: 0, rank: "8" }
-    //         ];
-    //         ownBetsModel.betwin = 8;
-    //         ownBetsModel.totalTurns = 1;
-    //     });
+            // Assert
+            expect(mainGame.gameData.stateModel.prepareNewRound).toBeCalledTimes(1);
+            expect(statusModel.reset).toBeCalledTimes(1);
+            expect(mainGame.shouldHandleStatus).toEqual(false);
+        });
+    });
 
-    //     it("should call enableBetChoice and enableCollectButton", () => {
-    //         // Arrange
-    //         ownBetsModel.nextAmounts = { h: 12, l: 10 };
-    //         const enableBetChoiceSpy = jest.spyOn(bettingAreaComp, "enableBetChoice");
-    //         const enableCollectButtonSpy = jest.spyOn(mainGame, "enableCollectButton");
+    describe("updateCard", () => {
+        beforeEach(() => {
+            // Act
+            updateCard(mainGame)(ownBetsModel);
+        });
+        it("should call resultComp updateResult", () => {
+            // Assert
+            expect(mainGame.resultComp.updateResult).toBeCalledWith(ownBetsModel.result);
+        });
+        it("should call resultComp spin", () => {
+            // Assert
+            expect(mainGame.resultComp.spin).toBeCalledWith(
+                mainGame.spinCardsEffectDuration,
+                ownBetsModel.remainingTime > mainGame.config.betTime
+            );
+        });
+    });
 
-    //         // Act
-    //         updateStakesAndButtons(mainGame)(ownBetsModel);
+    describe("updateStatistic", () => {
+        it("should call statisticComp updateCards", () => {
+            // Act
+            updateStatistic(mainGame)(ownBetsModel);
+            // Assert
+            expect(mainGame.statisticComp.updateCards).toBeCalledWith(ownBetsModel.result);
+        });
+    });
 
-    //         // Assert
-    //         expect(enableBetChoiceSpy).toBeCalledTimes(2);
-    //         expect(enableCollectButtonSpy).toBeCalledTimes(1);
-    //     });
+    describe("updateStakesAndButtons", () => {
+        beforeEach(() => {
+            // Arrange
+            bettingAreaComp = new HiLoBettingArea();
+            mainGame.bettingAreas = [bettingAreaComp, bettingAreaComp];
+            ownBetsModel.result = [
+                { suit: 1, rank: "4" },
+                { suit: 0, rank: "8" }
+            ];
+            ownBetsModel.betwin = 8;
+            ownBetsModel.totalTurns = 1;
+        });
 
-    //     it("should set betWin", () => {
-    //         // Arrange
-    //         ownBetsModel.nextAmounts = { h: 12, l: 10 };
+        it("should call enableBetChoice and enableCollectButton", () => {
+            // Arrange
+            ownBetsModel.nextAmounts = { h: 12, l: 10 };
+            const enableBetChoiceSpy = jest.spyOn(bettingAreaComp, "enableBetChoice");
+            const enableCollectButtonSpy = jest.spyOn(mainGame, "enableCollectButton");
 
-    //         // Act
-    //         updateStakesAndButtons(mainGame)(ownBetsModel);
+            // Act
+            updateStakesAndButtons(mainGame)(ownBetsModel);
 
-    //         // Assert
-    //         expect(mainGame.betWin.string).toMatch(numberWithCommas(ownBetsModel.betwin, 2));
-    //     });
+            // Assert
+            expect(enableBetChoiceSpy).toBeCalledTimes(2);
+            expect(enableCollectButtonSpy).toBeCalledTimes(1);
+        });
 
-    //     describe("when nextAmounts has value and rank is neither A nor 2", () => {
-    //         it("should call updateStakeAmount", () => {
-    //             // Arrange
-    //             ownBetsModel.nextAmounts = { h: 12, l: 10 };
-    //             const updateStakeAmountSpy = jest.spyOn(bettingAreaComp, "updateStakeAmount");
+        it("should set betWin", () => {
+            // Arrange
+            ownBetsModel.nextAmounts = { h: 12, l: 10 };
 
-    //             // Act
-    //             updateStakesAndButtons(mainGame)(ownBetsModel);
+            // Act
+            updateStakesAndButtons(mainGame)(ownBetsModel);
 
-    //             // Assert
-    //             expect(updateStakeAmountSpy).toBeCalledTimes(2);
-    //         });
-    //     });
+            // Assert
+            expect(mainGame.betWin.string).toMatch(numberWithCommas(ownBetsModel.betwin, 2));
+        });
 
-    //     it("should not call updateStake if nextAmounts is null", () => {
-    //         // Arrange
-    //         ownBetsModel.nextAmounts = null;
-    //         const updateStakeAmountSpy = jest.spyOn(bettingAreaComp, "updateStakeAmount");
+        describe("when nextAmounts has value and rank is neither A nor 2", () => {
+            it("should call updateStakeAmount", () => {
+                // Arrange
+                ownBetsModel.nextAmounts = { h: 12, l: 10 };
+                const updateStakeAmountSpy = jest.spyOn(bettingAreaComp, "updateStakeAmount");
 
-    //         // Act
-    //         updateStakesAndButtons(mainGame)(ownBetsModel);
+                // Act
+                updateStakesAndButtons(mainGame)(ownBetsModel);
 
-    //         // Assert
-    //         expect(updateStakeAmountSpy).not.toBeCalled();
-    //     });
-    // });
+                // Assert
+                expect(updateStakeAmountSpy).toBeCalledTimes(2);
+            });
+        });
+
+        it("should not call updateStake if nextAmounts is null", () => {
+            // Arrange
+            ownBetsModel.nextAmounts = null;
+            const updateStakeAmountSpy = jest.spyOn(bettingAreaComp, "updateStakeAmount");
+
+            // Act
+            updateStakesAndButtons(mainGame)(ownBetsModel);
+
+            // Assert
+            expect(updateStakeAmountSpy).not.toBeCalled();
+        });
+    });
 });
