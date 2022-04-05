@@ -111,7 +111,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.setValueBetAmount();
         this.initRoundHistory();
         this.initStatistic();
-        this.animatedTime.setAnimatedY(30, -5);
     }
 
     onEnable() {
