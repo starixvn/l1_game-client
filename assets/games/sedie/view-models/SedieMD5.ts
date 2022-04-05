@@ -28,17 +28,25 @@ export default class SedieMD5 extends MD5Component {
 
     generateChips(extraInfos: ExtraInfos) {
         const totalRed = Object.values(extraInfos).filter((value) => value === true).length;
+        let chips = "";
         switch (totalRed) {
             case 0:
-                return `${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`;
+                chips = `${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`;
+                break;
             case 1:
-                return `${this.CHIP_RED} ${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`;
+                chips = `${this.CHIP_RED} ${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`;
+                break;
             case 2:
-                return `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`;
+                chips = `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`;
+                break;
             case 3:
-                return `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_WHITE}`;
+                chips = `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_WHITE}`;
+                break;
             case 4:
-                return `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED}`;
+                chips = `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED}`;
+                break;
         }
+        
+        return chips;
     }
 }

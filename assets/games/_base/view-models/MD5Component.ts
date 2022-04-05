@@ -67,19 +67,20 @@ export default class MD5Component extends cc.Component {
 
     updateMD5String(data: MD5Type) {
         const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
-        cc.tween(this.node)
-            .delay(delayTime)
-            .call(() => {
-                this.setCaptionAndHintForMD5(!!data.rawValue);
-                this.generateMD5Result(data);
-                this.setCopyString(data.hashValue || data.rawValue);
-            })
-            .start();
+        setTimeout(() => {
+            cc.tween(this.node)
+                .call(() => {
+                    this.setCaptionAndHintForMD5(!!data.rawValue);
+                    this.generateMD5Result(data);
+                    this.setCopyString(data.hashValue || data.rawValue);
+                })
+                .start();
+        }, delayTime * 1000);
     }
 
     generateMD5Result(data: MD5Type) {
         const value = data.hashValue || data.rawValue;
-        const formatValue = value.slice(0, this.lengthOfMd5) + "...";
+        const formatValue = value.length > 32 ? value.slice(0, this.lengthOfMd5) + "..." : value;
         this.md5Value.string = `<color=#ffffff>${formatValue}</color>`;
     }
 

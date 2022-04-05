@@ -23,7 +23,7 @@ const configs = {
         4: true,
         9: true,
         10: false,
-        22: false,
+        22: true,
         27: true
     },
     enableMD5OnGame: [1, 4, 2, 9, 22, 10, 27]
