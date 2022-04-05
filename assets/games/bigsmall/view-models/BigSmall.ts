@@ -89,6 +89,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Node)
     thePlate: cc.Node = null;
 
+    @property(cc.Node)
+    bgTimer: cc.Node = null;
+
     protected miniRoundHistory: BigSmallMiniRoundHistory;
     protected betHistory: BigSmallBetHistory;
     statistic: BigSmallDicesStatistic;
@@ -209,9 +212,19 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     showWinningAnimation(data: any) {
         const currentStatusData = this.statusHandler.currentStatusData;
         currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
-        this.resultNode.active = true;
-        cc.tween(this.resultNode).delay(0.5).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
+
+        //cc.tween(this.resultNode).delay(1).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
+
+        setTimeout(() => {
+            cc.tween(this.node)
+                .call(() => {
+                    this.resultNode.active = true;
+                    cc.tween(this.resultNode).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
+                })
+                .start();
+        }, 500);
         this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
+        console.log("Show winning result");
     }
 
     public openHistory() {

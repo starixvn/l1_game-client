@@ -46,8 +46,17 @@ export default class BigSmallDicesStatistic extends cc.Component {
             );
         };
 
-        this.updateData(currentDataLogs);
-        this.logView.init(condition);
+        setTimeout(() => {
+            cc.tween(this.node)
+                .call(() => {
+                    this.updateData(currentDataLogs);
+                    this.logView.init(condition);
+                })
+                .start();
+        }, 1000);
+
+        //this.updateData(currentDataLogs);
+        // this.logView.init(condition);
     }
 
     get getChoices(): string[] {

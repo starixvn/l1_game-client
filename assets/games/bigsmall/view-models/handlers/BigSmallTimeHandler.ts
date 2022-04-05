@@ -58,6 +58,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
         if (this.main.currentTimeRemaining <= this.main.config.betTime) {
             this.showRoundTime();
+            cc.tween(this.main.bgTimer).to(0.5, { opacity: 255 }).start();
         }
     }
 
@@ -82,5 +83,8 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     handleInLockBetTime() {
         super.handleInLockBetTime();
         this.main.betItems.forEach((item) => item.setHighlight(false));
+        setTimeout(() => {
+            cc.tween(this.main.bgTimer).to(0.3, { opacity: 0 }).start();
+        }, 5000);
     }
 }
