@@ -26,7 +26,7 @@ import {
     showHideTooltip,
     showPlaceBetChips,
     updateAllChips,
-    updateChips
+    updateChips,
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
@@ -37,7 +37,7 @@ import {
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards
+    swapPlayerAndDealerCards,
 } from "../cards-component/view-models/cards-wrapper";
 import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
 import TexasCards from "../cards-component/view-models/texas-cards";
@@ -61,7 +61,10 @@ import { handleMD5 } from "./../actions/texas-md5-action";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-rejoin-room-actions";
 import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
-import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
+import {
+    dealPlayerAndDealerCardsWithoutSwap,
+    holdPlayerAndDealerCards,
+} from "./../cards-component/view-models/cards-wrapper";
 import TexasRiverModel from "./../event-models/texas-river-model";
 import TexasStateModel from "./../event-models/texas-state-model";
 import TexasTicketHistory from "./game-history/texas-ticket-history";
@@ -231,7 +234,6 @@ export default class Texas extends NewGameRoomBase {
         this.registerTicketDetailEvents();
         this.registerNoticeEvents();
         this.registerMD5Event();
-        this.initInteractiveGuide();
     }
 
     initInteractiveGuide() {
@@ -546,6 +548,9 @@ export default class Texas extends NewGameRoomBase {
         this.gameData.on(TexasGameDataModel.Events.SHOW_PROCESSING_BET, () => this.showProcessingWarning(true));
         this.gameData.on(TexasGameDataModel.Events.HIDE_PROCESSING_BET, () => this.showProcessingWarning(false));
 
+        this.gameData.ownBets.on(TexasOwnBetModel.Events.EMPTY, () => {
+            this.initInteractiveGuide();
+        });
         this.gameData.ownBets.on(TexasOwnBetModel.Events.OWN_BETS, showRejoinOwnBets(this.gameData));
         this.gameData.ownBets.on(TexasOwnBetModel.Events.OWN_BETS, (ownBets: TexasOwnBetModel) => {
             rawCardWhenRejoin(this.pokerCardScript, ownBets);

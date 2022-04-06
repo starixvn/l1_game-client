@@ -1,5 +1,4 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-
 import { HoldemPokerCardModel } from "./HoldemPokerCardModel";
 import HoldemPokerChoices from "./HoldemPokerChoices";
 import { HoldemPokerCombinationResult } from "./HoldemPokerCombinationResult";
@@ -7,7 +6,8 @@ import { HoldemPokerCombinationResult } from "./HoldemPokerCombinationResult";
 export class HoldemPokerOwnBet extends EventEmitterBase {
     static Events = {
         OWN_BETS: "ownBets",
-        ROUNDID_CHANGE: "texasPokerRoundId"
+        ROUNDID_CHANGE: "texasPokerRoundId",
+        EMPTY: "empty"
     };
 
     roundId: number;

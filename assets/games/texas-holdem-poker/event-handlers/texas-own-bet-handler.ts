@@ -1,7 +1,7 @@
-import { CardModel } from "../texas-type";
 import TexasGameDataModel from "../event-models/texas-game-data-model";
-import TexasEventHandler from "./texas-event-handler";
 import { cloneDeepChoiceData } from "../texas-helper";
+import { CardModel } from "../texas-type";
+import TexasEventHandler from "./texas-event-handler";
 
 export type TexasHoldemPokerOwnBetType = {
     ownBets: {
@@ -31,6 +31,7 @@ export default class TexasOwnBetHandler<Choices> extends TexasEventHandler<Texas
         const { bets, combinationResult, communityCards, roundId, player, totalAmount, hasSwappedOrHold } = event.ownBets;
 
         if (!bets) {
+            this.gameData.ownBets.receiveEmpty();
             return;
         }
         const betsConverted = cloneDeepChoiceData(bets);

@@ -29,4 +29,8 @@ export default class TexasOwnBetModel extends HoldemPokerOwnBet {
         this.hasSwappedOrHold = hasSwappedOrHold;
         this.emit(TexasOwnBetModel.Events.OWN_BETS, this);
     }
+
+    receiveEmpty() {
+        this.emit(TexasOwnBetModel.Events.EMPTY, this);
+    }
 }
