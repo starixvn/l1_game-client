@@ -107,8 +107,8 @@ export default class HoldemPokerCards extends cc.Component {
         await this.faceUpCard(cardData, this.dealerCards, indexCard);
     }
 
-    async faceUpPlayerCard(cardData: CardModel, indexCard: number) {
-        await this.faceUpCard(cardData, this.playerCards, indexCard);
+     faceUpPlayerCard(cardData: CardModel, indexCard: number) {
+         this.faceUpCard(cardData, this.playerCards, indexCard);
     }
 
     showArrowIndicatorCards(combineCard: CardModel[], whose: string) {

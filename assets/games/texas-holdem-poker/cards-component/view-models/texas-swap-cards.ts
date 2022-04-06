@@ -98,9 +98,9 @@ export default class TexasSwapCards extends cc.Component {
         return new Promise<void>((resolve) => {
             cc.tween(this)
                 .call(() => {
-                    this.dealerTmp.runAction(cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(duration / 2, 1, 1)));
+                    this.dealerTmp.runAction(cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(duration * 0.8, 1, 1)));
                     this.playerTmp.runAction(
-                        cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(duration / 2, dealerTmpScaleX, dealerTmpScaleY))
+                        cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(duration * 0.8, dealerTmpScaleX, dealerTmpScaleY))
                     );
                 })
                 .delay(duration)

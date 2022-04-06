@@ -1,4 +1,4 @@
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class TutorialItem extends cc.Component {
@@ -6,8 +6,12 @@ export default class TutorialItem extends cc.Component {
     protected readonly transitionTime = 0.3;
 
     callback = {
-        next: () => {},
-        previous: () => {}
+        next: () => {
+            // next
+        },
+        previous: () => {
+            //previous
+        }
     };
 
     onClickNext() {

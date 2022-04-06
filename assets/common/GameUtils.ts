@@ -111,7 +111,6 @@ export default class GameUtils {
         node.parent = destNode;
         node.position = position;
     }
-
     public static floatToNumber(label: cc.Label, end: number, duration: number, start?: number, noZeroSuffix = true) {
         start = start || parseFloat(label.string.replace(/,/g, "")) || 0;
         const range = Math.abs(end - start);

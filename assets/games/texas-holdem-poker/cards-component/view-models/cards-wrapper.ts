@@ -41,8 +41,7 @@ const handleDealingCards = async (pokerCardsNote: PokerCards, playerCards: any, 
 
     await pokerCardsNote.drawingCardToDealer(dealerFakeData[1], true, 1);
 };
-
-const handleFaceUpPlayerCard = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
+export const handleFaceUpPlayerCard = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: () => void) => {
     const { playerCards } = cardsData;
     for (let index = 0; index < playerCards.length; index++) {
         const element = playerCards[index];

@@ -517,6 +517,22 @@ window.i18n.languages.vi = {
         hold: "Giữ Bài",
         notEnoughMoney: "Bạn hiện không có đủ tiền để cược.",
         swapCardOn: "Bật tính năng “Hoán Đổi Bài”",
-        swapCardOff: "Tắt tính năng “Hoán Đổi Bài”"
+        swapCardOff: "Tắt tính năng “Hoán Đổi Bài”",
+        guideTitle: "Giới thiệu Texas Hold’em MD5",
+        guideIntro:
+            "<color=#fff000>Đỉnh Cao Xanh Chín</color> với tính năng <color=#fff000>MD5</color> và <color=#fff000>Hoán Đổi Bài</color>",
+        guideContentSlide1:
+            "- Chuỗi Kết Quả (chuỗi 9 lá bài) được tạo ngẫu nhiên trước bởi hệ thống và mã hóa thành Chuỗi MD5. Tính năng MD5 cho phép người chơi sử dụng bất kì website tra cứu nào đều cùng cho ra một kết quả duy nhất.",
+        guideContent1Slide1: "- Người Chơi có thể hoán đổi hai lá bài tẩy với Nhà Cái, trước khi các lá bài tẩy của Người Chơi được lật. ",
+        guideContent2Slide1:
+            "- Kiểm tra sự minh bạch bằng cách đối chiếu thứ tự bài trong Chuỗi Kết Quả và tra cứu sự đồng nhất với Chuỗi MD5. Vui lòng xem thêm thông tin Tra Cứu MD5 trong phần Hướng Dẫn.",
+        guideContentSlide2: "Tính năng tùy chọn, có thể <color=#fff000>Bật/Tắt</color> chức năng Hoán Đổi Bài trước khi phiên bắt đầu.",
+        guideContentSlide3:
+            "Chọn <color=#fff000>“Hoán Đổi Bài”</color> nếu bạn muốn đổi bài với Nhà Cái, hoặc <color=#fff000>“Giữ Bài”</color> nếu giữ lại các lá bài được chia!",
+        guideContentSlide4: "Show hiệu ứng hoán đổi bài và lật 2 lá của Player",
+        guideSmg: " Show msg :",
+        guideContentEnd: "Vào game & trải nghiêm ngay thôi, bạn còn chờ gì nữa!",
+        skip: "Bỏ Qua",
+        notShow: "Không hiển thị lại"
     }
 };

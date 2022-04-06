@@ -16,7 +16,12 @@ export default class TutorialMain extends cc.Component {
     currentIndex = -1;
     timeConfig: number[] = [];
 
-    toggleCallback = (value: boolean) => {};
+    toggleCallback = (value: boolean) => {
+        // toggleCallback
+    };
+    endSlideCallBack = () => {
+        // endSlideCallBack
+    };
 
     onClickNext() {
         this.playClick();
@@ -63,7 +68,7 @@ export default class TutorialMain extends cc.Component {
     hide() {
         const currentItem = this.getItem(this.currentIndex);
         currentItem.hide();
-
+        this.endSlideCallBack && this.endSlideCallBack();
         this.node.destroy();
     }
 

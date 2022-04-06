@@ -26,7 +26,7 @@ import {
     showHideTooltip,
     showPlaceBetChips,
     updateAllChips,
-    updateChips,
+    updateChips
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
@@ -37,7 +37,7 @@ import {
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards,
+    swapPlayerAndDealerCards
 } from "../cards-component/view-models/cards-wrapper";
 import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
 import TexasCards from "../cards-component/view-models/texas-cards";
@@ -61,10 +61,7 @@ import { handleMD5 } from "./../actions/texas-md5-action";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-rejoin-room-actions";
 import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
-import {
-    dealPlayerAndDealerCardsWithoutSwap,
-    holdPlayerAndDealerCards,
-} from "./../cards-component/view-models/cards-wrapper";
+import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import TexasRiverModel from "./../event-models/texas-river-model";
 import TexasStateModel from "./../event-models/texas-state-model";
 import TexasTicketHistory from "./game-history/texas-ticket-history";
@@ -189,6 +186,9 @@ export default class Texas extends NewGameRoomBase {
     @property(cc.Prefab)
     interactiveGuidePrefab: cc.Prefab = null;
 
+    @property(cc.Label)
+    totalBetValue: cc.Label = null;
+
     protected placingBet: TexasPlacingBet = null;
     protected gameData: TexasGameDataModel<TexasChoicesType> = null;
     protected texasChips: TexasChips;
@@ -246,15 +246,18 @@ export default class Texas extends NewGameRoomBase {
         if (!data.enabled || !this.interactiveGuidePrefab) {
             return;
         }
-
+        this.handleStatusAnteBettingAreas(false);
         const node = cc.instantiate(this.interactiveGuidePrefab);
         this.node.addChild(node);
         const tutorialMain = node.getComponent(TutorialMain);
-        // tutorialMain.setTimeConfig([15, 5, 5, 5]);
-        tutorialMain.setTimeConfig([2, 2, 2, 2]);
+        tutorialMain.setTimeConfig([15, 5, 5, 5]);
         tutorialMain.toggleCallback = (dontShow: boolean) => {
             data.enabled = !dontShow;
             cc.sys.localStorage.setItem(storageKey, JSON.stringify(data));
+        };
+
+        tutorialMain.endSlideCallBack = () => {
+            this.handleStatusAnteBettingAreas(true);
         };
         tutorialMain.show();
     }
@@ -265,6 +268,17 @@ export default class Texas extends NewGameRoomBase {
 
     onGameHide() {
         // onGameHide
+    }
+
+    handleStatusAnteBettingAreas(status: boolean) {
+        if (status) {
+            this.totalBetValue.string = "0";
+        } else {
+            this.totalBetValue.string = "";
+        }
+
+        this.bettingAreas[0].showTooltip(status);
+        this.bettingAreas[0].showBetText(status);
     }
 
     initHandlers() {
