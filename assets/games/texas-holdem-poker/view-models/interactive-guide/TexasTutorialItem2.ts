@@ -17,19 +17,16 @@ export default class TexasTutorialItem2 extends TutorialItem {
     info: cc.RichText = null;
 
     menuMain: cc.Node;
-   
 
     hide() {
         super.hide();
         this.menuMain.opacity = 0;
-      
     }
 
     show() {
         super.show();
         const parent = this.getParentNode();
         const tutorialMain = parent.getComponent(TexasTurorialMain);
-      
 
         this.menuMain = tutorialMain.menuMain;
         this.menuMain.opacity = 255;

@@ -44,18 +44,6 @@ export default class TexasTurorialMain extends TutorialMain {
     @property(cc.Node)
     menuMain: cc.Node = null;
 
-    @property(cc.Node)
-    swapMain: cc.Node = null;
-
-    @property(cc.Node)
-    holMain: cc.Node = null;
-
-    @property(cc.Node)
-    callMain: cc.Node = null;
-
-    @property(cc.Node)
-    cancelMain: cc.Node = null;
-
     onLoad() {
         super.onLoad();
         this.md5Main.opacity = 0;
