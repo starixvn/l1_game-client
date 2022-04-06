@@ -528,7 +528,7 @@ window.i18n.languages.vi = {
             "- Kiểm tra sự minh bạch bằng cách đối chiếu thứ tự bài trong Chuỗi Kết Quả và tra cứu sự đồng nhất với Chuỗi MD5. Vui lòng xem thêm thông tin Tra Cứu MD5 trong phần Hướng Dẫn.",
         guideContentSlide2: "Tính năng tùy chọn, có thể <color=#fff000>Bật/Tắt</color> chức năng Hoán Đổi Bài trước khi phiên bắt đầu.",
         guideContentSlide3:
-            "Chọn <color=#fff000>“Hoán Đổi Bài”</color> nếu bạn muốn đổi bài với Nhà Cái, hoặc <color=#fff000>“Giữ Bài”</color> nếu giữ lại các lá bài được chia!",
+            "Chọn <color=#fff000>“Hoán Đổi Bài”</color> nếu bạn muốn đổi bài với Nhà Cái, hoặc <color=#fff000>“Giữ Bài”</color> nếu muốn giữ lại các lá bài được chia!",
         guideContentSlide4: "Show hiệu ứng hoán đổi bài và lật 2 lá của Player",
         guideSmg: " Show msg :",
         guideContentEnd: "Vào game & trải nghiêm ngay thôi, bạn còn chờ gì nữa!",

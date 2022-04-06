@@ -54,7 +54,7 @@ import TexasSettlementModel from "../event-models/texas-settlement-model";
 import TexasSwapModel from "../event-models/texas-swap-model";
 import TexasTicketDetailModel from "../event-models/texas-ticket-detail-model";
 import TexasTurnModel from "../event-models/texas-turn-model";
-import { BetAction, disableButtonText, TexasChoicesConst } from "../texas-constants";
+import { BetAction, disableButtonText, TexasChoicesConst, TimerShowInteractiveGuide } from "../texas-constants";
 import { TexasChoicesType } from "../texas-type";
 import { updateLeftRightOddsTable, updateMinMax } from "./../actions/texas-configs-actions";
 import { handleMD5 } from "./../actions/texas-md5-action";
@@ -237,11 +237,14 @@ export default class Texas extends NewGameRoomBase {
     initInteractiveGuide() {
         const storageKey = "texas_interactive_guide";
         const storage = cc.sys.localStorage.getItem(storageKey);
-        const data = storage
-            ? JSON.parse(storage)
-            : {
-                  enabled: true
-              };
+        // const data = storage
+        //     ? JSON.parse(storage)
+        //     : {
+        //           enabled: true
+        //       };
+        const data = {
+            enabled: true
+        };
 
         if (!data.enabled || !this.interactiveGuidePrefab) {
             return;
@@ -250,7 +253,7 @@ export default class Texas extends NewGameRoomBase {
         const node = cc.instantiate(this.interactiveGuidePrefab);
         this.node.addChild(node);
         const tutorialMain = node.getComponent(TutorialMain);
-        tutorialMain.setTimeConfig([15, 5, 5, 5]);
+        tutorialMain.setTimeConfig(TimerShowInteractiveGuide);
         tutorialMain.toggleCallback = (dontShow: boolean) => {
             data.enabled = !dontShow;
             cc.sys.localStorage.setItem(storageKey, JSON.stringify(data));

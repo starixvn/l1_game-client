@@ -33,6 +33,9 @@ export default class TexasSwapCards extends cc.Component {
 
     private readonly timeShowUp = 0.3;
     private readonly timeSwap = 1;
+    tweenCard3DTmp: cc.Tween;
+    tweenCard2DTmp: cc.Tween;
+    tweenCardOrigin: cc.Tween;
 
     protected onLoad(): void {
         this.node.active = true;
@@ -47,6 +50,14 @@ export default class TexasSwapCards extends cc.Component {
         await this.switchCard3DTmp(this.timeShowUp);
         await this.moveBezierCard2DTmp(this.timeSwap);
         await this.switchCardOrigin(this.timeShowUp);
+
+        return this;
+    }
+
+    resetAllTween() {
+        this.tweenCard3DTmp && this.tweenCard3DTmp.stop();
+        this.tweenCard2DTmp && this.tweenCard2DTmp.stop();
+        this.tweenCardOrigin && this.tweenCardOrigin.stop();
     }
 
     changeStatusCard3DTmp(state: boolean) {
@@ -60,7 +71,8 @@ export default class TexasSwapCards extends cc.Component {
 
     switchCard3DTmp(delayTime: number) {
         return new Promise<void>((resolve) => {
-            cc.tween(this)
+            this.tweenCard3DTmp = cc
+                .tween(this)
                 .call(() => {
                     this.activeCardsOrigin(false);
                     this.changeStatusCard3DTmp(true);
@@ -96,7 +108,8 @@ export default class TexasSwapCards extends cc.Component {
         this.changeStatusCard2D(true);
 
         return new Promise<void>((resolve) => {
-            cc.tween(this)
+            this.tweenCard2DTmp = cc
+                .tween(this)
                 .call(() => {
                     this.dealerTmp.runAction(cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(duration * 0.8, 1, 1)));
                     this.playerTmp.runAction(
@@ -121,7 +134,8 @@ export default class TexasSwapCards extends cc.Component {
         this.changeStatusCard3DTmp(true);
 
         return new Promise<void>((resolve) => {
-            cc.tween(this)
+            this.tweenCardOrigin = cc
+                .tween(this)
                 .call(() => {
                     this.cards3DTmp.getComponent(TexasShowUpCards).moveYAndRotationCard(0, 0, 0, "sineOut");
                 })

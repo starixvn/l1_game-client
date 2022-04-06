@@ -35,12 +35,43 @@ export default class TexasTutorialItem4 extends TutorialItem {
     @property(cc.Node)
     cardPlayer2: cc.Node = null;
 
-    // onDestroy() {
-    //     this.handleFaceDownCard();
-    // }
+    componentSwap: TexasSwapCards;
+    actionSwapCard: cc.Tween;
+    dealerTmpClone: any;
+    playerTmpClone: any;
+    dealerTmpScaleClone: any;
+    cardPlayer1Clone: any;
+    cardPlayer2Clone: any;
+
+    hide() {
+        this.node.stopAllActions();
+        this.cardPlayer1.stopAllActions();
+        this.cardPlayer2.stopAllActions();
+        this.resetCard2DTmp();
+        this.componentSwap.resetAllTween();
+        this.componentSwap.node.active = false;
+        this.componentSwap.node.stopAllActions();
+
+        super.hide();
+    }
+
+    resetCard2DTmp() {
+        this.componentSwap.dealerTmp.setPosition(this.dealerTmpClone.x, this.dealerTmpClone.y);
+        this.componentSwap.dealerTmp.setScale(this.dealerTmpScaleClone.x, this.dealerTmpScaleClone.y);
+        this.componentSwap.playerTmp.setPosition(this.playerTmpClone.x, this.playerTmpClone.y);
+        this.componentSwap.playerTmp.scale = 1;
+    }
 
     async show() {
         super.show();
+        this.componentSwap = this.swapNode.getComponent(TexasSwapCards);
+        this.componentSwap.node.active = true;
+        const dealerTmpScaleX = this.componentSwap.dealerTmp.scaleX;
+        const dealerTmpScaleY = this.componentSwap.dealerTmp.scaleY;
+        this.dealerTmpClone = { x: this.componentSwap.dealerTmp.x, y: this.componentSwap.dealerTmp.y };
+        this.playerTmpClone = { x: this.componentSwap.playerTmp.x, y: this.componentSwap.playerTmp.y };
+        this.dealerTmpScaleClone = { x: dealerTmpScaleX, y: dealerTmpScaleY };
+
         this.handleFaceDownCard();
         this.hideCardMainNode();
 
@@ -49,14 +80,15 @@ export default class TexasTutorialItem4 extends TutorialItem {
 
         const durationOpenCard = 0.6;
         this.opacityButtonSwapHold();
-        const componentSwap = this.swapNode.getComponent(TexasSwapCards);
-        await componentSwap.swapCards();
+
+        await this.componentSwap.swapCards();
+
         this.handleOpenCard(durationOpenCard);
 
         this.handleShowTextInfo(durationOpenCard, () => {
             this.activeButton(false);
             this.opacityButtonCallCancel();
-            cc.tween(this.infoNode).to(0.2, { opacity: 255 }).start();
+            cc.tween(this.infoNode).to(0.2, { opacity: 255 }).tag(1).start();
         });
     }
 
@@ -73,12 +105,14 @@ export default class TexasTutorialItem4 extends TutorialItem {
     }
 
     opacityButtonSwapHold() {
-        cc.tween(this.node)
+        this.actionSwapCard = cc
+            .tween(this.node)
             .delay(0.1)
             .call(() => {
                 cc.tween(this.btnSwap).to(0.1, { opacity: 0 }).start();
                 cc.tween(this.btnHold).to(0.1, { opacity: 0 }).start();
             })
+            .tag(2)
             .start();
     }
 
@@ -89,6 +123,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
                 cc.tween(this.btnCall).to(0.1, { opacity: 255 }).start();
                 cc.tween(this.btnCancel).to(0.1, { opacity: 255 }).start();
             })
+            .tag(3)
             .start();
     }
 
@@ -134,6 +169,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
                 componentCardPlayer1.playAnimation(CardAnimation.DealerOpenCard, durationOpenCard);
             })
             .delay(durationOpenCard)
+            .tag(4)
             .start();
 
         cc.tween(this.cardPlayer2)
@@ -142,6 +178,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
                 componentCardPlayer2.playAnimation(CardAnimation.DealerOpenCard, durationOpenCard);
             })
             .delay(durationOpenCard)
+            .tag(5)
             .start();
     }
 
@@ -155,6 +192,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
             .call(() => {
                 callBack();
             })
+            .tag(6)
             .start();
     }
 
