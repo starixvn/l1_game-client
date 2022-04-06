@@ -84,11 +84,7 @@ export default class MD5Component extends cc.Component {
     updateMD5String(data: MD5Type) {
         const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
         setTimeout(() => {
-            cc.tween(this.node)
-                .call(() => {
-                    this.handleMD5Data(data);
-                })
-                .start();
+            this.handleMD5Data(data);
         }, delayTime * 1000);
     }
 
