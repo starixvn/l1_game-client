@@ -36,9 +36,10 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
             if (this.isDisplayResultTime) {
                 cc.RedT.GAME_IS_SHOWED && this.main.showResult();
-                this.main.showWinningAnimation(this.main.currentDataLogs[0]);
+                setTimeout(() => {
+                    this.main.showWinningAnimation(this.main.currentDataLogs[0]);
+                }, 1000);
                 this.main.currentTimeRemaining--;
-                console.log("ShowWinningAnimation");
             } else {
                 super.gameUpdate();
             }

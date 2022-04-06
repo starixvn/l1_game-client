@@ -199,8 +199,10 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                     this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
                 })
                 .call(() => {
-                    this.updateRoundHistory();
-                    this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
+                    setTimeout(() => {
+                        this.updateRoundHistory();
+                        this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
+                    }, 1000);
                     (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
                     this.finishShowResult = true;
                 })
@@ -211,19 +213,14 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     showWinningAnimation(data: any) {
         const currentStatusData = this.statusHandler.currentStatusData;
         currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
+        cc.tween(this.node)
+            .call(() => {
+                this.resultNode.active = true;
+                cc.tween(this.resultNode).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
+            })
+            .start();
 
-        //cc.tween(this.resultNode).delay(1).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
-
-        setTimeout(() => {
-            cc.tween(this.node)
-                .call(() => {
-                    this.resultNode.active = true;
-                    cc.tween(this.resultNode).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
-                })
-                .start();
-        }, 500);
         this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
-        console.log("Show winning result");
     }
 
     public openHistory() {
