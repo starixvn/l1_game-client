@@ -91,6 +91,9 @@ export default class TexasPlacingBet {
                 action: BetAction.deal,
                 anteBet: this.gameData.placeBetModel.choices.anteBet
             });
+        } else {
+            this.gameData.stateModel.resetState();
+            this.gameData.placeBetModel.resetBets();
         }
     }
 
