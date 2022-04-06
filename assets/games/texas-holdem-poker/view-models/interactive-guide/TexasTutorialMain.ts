@@ -44,6 +44,18 @@ export default class TexasTurorialMain extends TutorialMain {
     @property(cc.Node)
     menuMain: cc.Node = null;
 
+    @property(cc.Node)
+    swapMain: cc.Node = null;
+
+    @property(cc.Node)
+    holMain: cc.Node = null;
+
+    @property(cc.Node)
+    callMain: cc.Node = null;
+
+    @property(cc.Node)
+    cancelMain: cc.Node = null;
+
     onLoad() {
         super.onLoad();
         this.md5Main.opacity = 0;
@@ -52,23 +64,23 @@ export default class TexasTurorialMain extends TutorialMain {
     }
 
     onClickNext() {
-        super.onClickNext();
         const index = this.currentIndex + 1;
         if (index < this.items.length) {
             this.setOpacityButtonNextPre(index);
             this.dotSlideSprite[index].spriteFrame = this.dotSlideSpriteFrame[0];
             this.dotSlideSprite[index - 1].spriteFrame = this.dotSlideSpriteFrame[1];
         }
+        super.onClickNext();
     }
 
     onClickPrevious() {
-        super.onClickPrevious();
         const index = this.currentIndex - 1;
         if (index > -1) {
             this.setOpacityButtonNextPre(index);
             this.dotSlideSprite[index].spriteFrame = this.dotSlideSpriteFrame[0];
             this.dotSlideSprite[index + 1].spriteFrame = this.dotSlideSpriteFrame[1];
         }
+        super.onClickPrevious();
     }
 
     setOpacityButtonNextPre(indexCurrent: number) {

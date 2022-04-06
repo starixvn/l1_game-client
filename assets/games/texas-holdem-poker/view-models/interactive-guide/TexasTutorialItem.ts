@@ -13,9 +13,12 @@ export default class TexasTutorialItem extends TutorialItem {
     info: cc.RichText = null;
 
     md5Main: cc.Node;
+    md5Node: cc.Node;
     hide() {
         super.hide();
         this.md5Main.opacity = 0;
+        this.md5Node.opacity = 255;
+        
     }
 
     show() {
@@ -23,6 +26,7 @@ export default class TexasTutorialItem extends TutorialItem {
 
         const parent = this.getParentNode();
         const tutorialMain = parent.getComponent(TexasTurorialMain);
+        this.md5Node = tutorialMain.md5Node;
         this.md5Main = tutorialMain.md5Main;
         this.showOpacity(this.md5Main);
         this.info.string = i18n.t("texasPoker.guideIntro");

@@ -156,7 +156,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
     }
 
     hideCardMainNode() {
-        const parent = this.node.parent.parent;
+        const parent = this.getParentNode();
         const tutorialMain = parent.getComponent(TexasTurorialMain);
         tutorialMain.playerCards[0].node.active = false;
         tutorialMain.playerCards[1].node.active = false;
