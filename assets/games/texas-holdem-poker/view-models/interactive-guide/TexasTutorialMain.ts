@@ -41,25 +41,23 @@ export default class TexasTurorialMain extends TutorialMain {
     }
 
     onClickNext() {
+        super.onClickNext();
         const index = this.currentIndex + 1;
         if (index < this.items.length) {
             this.setOpacityButtonNextPre(index);
             this.dotSlideSprite[index].spriteFrame = this.dotSlideSpriteFrame[0];
             this.dotSlideSprite[index - 1].spriteFrame = this.dotSlideSpriteFrame[1];
         }
-
-        super.onClickNext();
     }
 
     onClickPrevious() {
+        super.onClickPrevious();
         const index = this.currentIndex - 1;
         if (index > -1) {
             this.setOpacityButtonNextPre(index);
             this.dotSlideSprite[index].spriteFrame = this.dotSlideSpriteFrame[0];
             this.dotSlideSprite[index + 1].spriteFrame = this.dotSlideSpriteFrame[1];
         }
-
-        super.onClickPrevious();
     }
 
     setOpacityButtonNextPre(indexCurrent: number) {

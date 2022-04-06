@@ -33,7 +33,10 @@ export default class TutorialItem extends cc.Component {
             .to(this.transitionTime, { opacity: 0 })
             .call(() => {
                 this.node.active = false;
+                this.onHidden();
             })
             .start();
     }
+
+    onHidden() {}
 }

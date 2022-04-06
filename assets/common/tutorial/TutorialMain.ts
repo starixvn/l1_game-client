@@ -24,6 +24,8 @@ export default class TutorialMain extends cc.Component {
     };
 
     onClickNext() {
+        console.log("onClickNext ", Math.floor(Date.now() / 1000));
+
         this.playClick();
         const index = this.currentIndex + 1;
         if (index < this.items.length) {
