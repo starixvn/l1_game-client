@@ -26,7 +26,7 @@ import {
     showHideTooltip,
     showPlaceBetChips,
     updateAllChips,
-    updateChips,
+    updateChips
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
@@ -37,7 +37,7 @@ import {
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards,
+    swapPlayerAndDealerCards
 } from "../cards-component/view-models/cards-wrapper";
 import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
 import TexasCards from "../cards-component/view-models/texas-cards";
@@ -61,10 +61,7 @@ import { handleMD5 } from "./../actions/texas-md5-action";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-rejoin-room-actions";
 import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
-import {
-    dealPlayerAndDealerCardsWithoutSwap,
-    holdPlayerAndDealerCards,
-} from "./../cards-component/view-models/cards-wrapper";
+import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import TexasRiverModel from "./../event-models/texas-river-model";
 import TexasStateModel from "./../event-models/texas-state-model";
 import TexasTicketHistory from "./game-history/texas-ticket-history";
@@ -239,14 +236,11 @@ export default class Texas extends NewGameRoomBase {
     initInteractiveGuide() {
         const storageKey = "texas_interactive_guide";
         const storage = cc.sys.localStorage.getItem(storageKey);
-        // const data = storage
-        //     ? JSON.parse(storage)
-        //     : {
-        //           enabled: true
-        //       };
-        const data = {
-            enabled: true
-        };
+        const data = storage
+            ? JSON.parse(storage)
+            : {
+                  enabled: true
+              };
 
         if (!data.enabled || !this.interactiveGuidePrefab) {
             return;
