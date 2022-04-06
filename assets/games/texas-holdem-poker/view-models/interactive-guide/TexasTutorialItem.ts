@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import TutorialItem from "../../../../common/tutorial/TutorialItem";
+import TexasTurorialMain from "./TexasTutorialMain";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,11 +12,19 @@ export default class TexasTutorialItem extends TutorialItem {
     @property(cc.RichText)
     info: cc.RichText = null;
 
-    swapButton: cc.Node = null;
+    md5Main: cc.Node;
+    hide() {
+        super.hide();
+        this.md5Main.opacity = 0;
+    }
 
     show() {
         super.show();
 
+        const parent = this.getParentNode();
+        const tutorialMain = parent.getComponent(TexasTurorialMain);
+        this.md5Main = tutorialMain.md5Main;
+        this.showOpacity(this.md5Main);
         this.info.string = i18n.t("texasPoker.guideIntro");
     }
 }

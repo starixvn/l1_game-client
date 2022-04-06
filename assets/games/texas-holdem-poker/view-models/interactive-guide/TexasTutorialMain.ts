@@ -35,8 +35,19 @@ export default class TexasTurorialMain extends TutorialMain {
     @property(cc.Node)
     btnPrev: cc.Node = null;
 
+    @property(cc.Node)
+    md5Node: cc.Node = null;
+
+    @property(cc.Node)
+    md5Main: cc.Node = null;
+
+    @property(cc.Node)
+    menuMain: cc.Node = null;
+
     onLoad() {
         super.onLoad();
+        this.md5Main.opacity = 0;
+        this.menuMain.opacity = 0;
         this.setOpacityButtonNextPre(-1);
     }
 

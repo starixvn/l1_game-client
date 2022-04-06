@@ -39,4 +39,11 @@ export default class TutorialItem extends cc.Component {
     }
 
     onHidden() {}
+    showOpacity(node: cc.Node) {
+        cc.tween(node).to(this.transitionTime, { opacity: 255 }).start();
+    }
+
+    getParentNode() {
+        return this.node.parent.parent.parent;
+    }
 }
