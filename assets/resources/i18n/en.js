@@ -500,7 +500,7 @@ window.i18n.languages.en = {
         call: "Call",
         ante: "Ante",
         clear: "Clear",
-        straightOrHigher: "Straight or Better",
+        straightOrHigher: "Straight or Higher",
         lowerThanStraight: "Three of a Kind or Lower",
         leftTableOddTitle: "Ante",
         check: "Check",

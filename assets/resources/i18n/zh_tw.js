@@ -483,7 +483,7 @@ window.i18n.languages.zh_tw = {
         call: "Call",
         ante: "Ante",
         clear: "Clear",
-        straightOrHigher: "Straight or higher",
+        straightOrHigher: "Straight or Higher",
         lowerThanStraight: "Lower than Straight",
         leftTableOddTitle: "Ante",
         check: "Check",
