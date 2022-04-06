@@ -531,7 +531,7 @@ window.i18n.languages.vi = {
             "Chọn <color=#fff000>“Hoán Đổi Bài”</color> nếu bạn muốn đổi bài với Nhà Cái, hoặc <color=#fff000>“Giữ Bài”</color> nếu muốn giữ lại các lá bài được chia!",
         guideContentSlide4: "Show hiệu ứng hoán đổi bài và lật 2 lá của Player",
         guideSmg: " Show msg :",
-        guideContentEnd: "Vào game & trải nghiêm ngay thôi, bạn còn chờ gì nữa!",
+        guideContentEnd: "Vào game & trải nghiệm ngay thôi, bạn còn chờ gì nữa!",
         skip: "Bỏ Qua",
         notShow: "Không hiển thị lại"
     }
