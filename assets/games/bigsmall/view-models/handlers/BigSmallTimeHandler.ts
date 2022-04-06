@@ -66,6 +66,8 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
         this.main.thePlate.opacity = 0;
+        this.main.resultNode.active = true;
+        cc.tween(this.main.bgTimer).to(0.3, { opacity: 0 }).start();
     }
 
     showWaitTime() {
@@ -84,8 +86,5 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     handleInLockBetTime() {
         super.handleInLockBetTime();
         this.main.betItems.forEach((item) => item.setHighlight(false));
-        setTimeout(() => {
-            cc.tween(this.main.bgTimer).to(0.3, { opacity: 0 }).start();
-        }, 5000);
     }
 }
