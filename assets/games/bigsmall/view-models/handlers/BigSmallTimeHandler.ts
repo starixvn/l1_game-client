@@ -1,3 +1,4 @@
+import AudioManager from "../../../../common/audio/AudioManager";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import BigSmall from "../BigSmall";
 import { DishAnimation } from "../BigSmall";
@@ -79,6 +80,9 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
         cc.tween(this.main.thePlate)
             .call(() => {
                 this.main.shakeThePlateAnimation.playAdditive(DishAnimation.ShakeDish);
+                setTimeout(() => {
+                    AudioManager.getInstance().playSFX(this.main.shakeDishAudio.clip);
+                }, 900);
             })
             .start();
     }

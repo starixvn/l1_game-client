@@ -92,6 +92,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     @property(cc.Node)
     bgTimer: cc.Node = null;
 
+    @property(cc.AudioSource)
+    shakeDishAudio: cc.AudioSource = null;
+
     protected miniRoundHistory: BigSmallMiniRoundHistory;
     protected betHistory: BigSmallBetHistory;
     statistic: BigSmallDicesStatistic;
