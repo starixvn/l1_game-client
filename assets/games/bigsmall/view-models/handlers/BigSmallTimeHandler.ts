@@ -4,7 +4,7 @@ import BigSmall, { DishAnimation } from "../BigSmall";
 
 export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     protected shakeThePlateTime = 52;
-    protected displayResultTime = 60;
+    protected displayResultTime = 59;
 
     constructor(protected readonly main: BigSmall) {
         super(main);
@@ -60,7 +60,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
         if (this.main.currentTimeRemaining <= this.main.config.betTime) {
             this.showRoundTime();
-            cc.tween(this.main.bgTimer).to(0.5, { opacity: 255 }).start();
+            cc.tween(this.main.bgTimer).to(0.3, { opacity: 255 }).start();
         }
     }
 
