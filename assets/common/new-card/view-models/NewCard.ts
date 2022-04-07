@@ -137,7 +137,9 @@ export default class NewCard extends cc.Component {
     }
 
     resetCardNode() {
-        this.image.node.position = cc.v3(0, 0, 0);
-        this.image.node.eulerAngles = cc.v3(0, 0, 0);
+        const cardContainer = this.animation.node.getChildByName("card");
+        cardContainer.position = cc.v3(0, 0, 0);
+        cardContainer.eulerAngles = cc.v3(0, 0, 0);
+        cardContainer.scaleX = 0.5;
     }
 }
