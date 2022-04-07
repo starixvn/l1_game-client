@@ -25,9 +25,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
 
     componentSwap: TexasSwapCards;
     actionSwapCard: cc.Tween;
-    dealerTmpClone: any;
-    playerTmpClone: any;
-    dealerTmpScaleClone: any;
+
     cardPlayer1Clone: any;
     cardPlayer2Clone: any;
 
@@ -39,12 +37,6 @@ export default class TexasTutorialItem4 extends TutorialItem {
 
     onLoad() {
         this.cloneNode();
-
-        const dealerTmpScaleX = this.componentSwap.dealerTmp.scaleX;
-        const dealerTmpScaleY = this.componentSwap.dealerTmp.scaleY;
-        this.dealerTmpClone = { x: this.componentSwap.dealerTmp.x, y: this.componentSwap.dealerTmp.y };
-        this.playerTmpClone = { x: this.componentSwap.playerTmp.x, y: this.componentSwap.playerTmp.y };
-        this.dealerTmpScaleClone = { x: dealerTmpScaleX, y: dealerTmpScaleY };
     }
 
     onHidden() {
@@ -56,7 +48,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
         this.node.stopAllActions();
         this.cardPlayer1.stopAllActions();
         this.cardPlayer2.stopAllActions();
-        this.resetSwapCardComponent();
+        this.componentSwap.reset();
 
         this.infoNode.stopAllActions();
         this.infoNode.opacity = 0;
@@ -67,22 +59,13 @@ export default class TexasTutorialItem4 extends TutorialItem {
         this.mainBtnFoldNode.stopAllActions();
         this.showSwapAndHoldButton(true);
         this.handleFaceDownCard();
-    }
-
-    resetSwapCardComponent() {
-        this.componentSwap.dealerTmp.setPosition(this.dealerTmpClone.x, this.dealerTmpClone.y);
-        this.componentSwap.dealerTmp.setScale(this.dealerTmpScaleClone.x, this.dealerTmpScaleClone.y);
-        this.componentSwap.playerTmp.setPosition(this.playerTmpClone.x, this.playerTmpClone.y);
-        this.componentSwap.playerTmp.scale = 1;
-        this.componentSwap.resetAllTween();
-        this.componentSwap.node.stopAllActions();
+        this.showCardsInMainGuide(true);
     }
 
     async show() {
         super.show();
 
         this.handleFaceDownCard();
-        this.hideCardMainNode();
         this.infoNode.opacity = 0;
         this.showSwapAndHoldButton(true);
 
@@ -91,6 +74,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
 
         this.sleep(delayDuration).then(async () => {
             this.opacityButtonSwapHold();
+            this.showCardsInMainGuide(false);
             await this.componentSwap.swapCards();
             this.handleOpenCard(durationOpenCard);
 
@@ -168,13 +152,13 @@ export default class TexasTutorialItem4 extends TutorialItem {
             .start();
     }
 
-    hideCardMainNode() {
+    showCardsInMainGuide(show: boolean) {
         const parent = this.getParentNode();
         const tutorialMain = parent.getComponent(TexasTurorialMain);
-        tutorialMain.playerCards[0].node.active = false;
-        tutorialMain.playerCards[1].node.active = false;
-        tutorialMain.dealerCards[0].node.active = false;
-        tutorialMain.dealerCards[1].node.active = false;
+        tutorialMain.playerCards[0].node.active = show;
+        tutorialMain.playerCards[1].node.active = show;
+        tutorialMain.dealerCards[0].node.active = show;
+        tutorialMain.dealerCards[1].node.active = show;
     }
 
     handleOpenCard(durationOpenCard: number) {
@@ -218,7 +202,12 @@ export default class TexasTutorialItem4 extends TutorialItem {
     handleFaceDownCard() {
         const componentCardPlayer1 = this.cardPlayer1.getComponent(HoldemPokerCard);
         const componentCardPlayer2 = this.cardPlayer2.getComponent(HoldemPokerCard);
+        componentCardPlayer1.stopAnimation();
+        componentCardPlayer1.resetCardNode();
         componentCardPlayer1.setFaceUp(false);
+
+        componentCardPlayer2.stopAnimation();
+        componentCardPlayer2.resetCardNode();
         componentCardPlayer2.setFaceUp(false);
     }
 }

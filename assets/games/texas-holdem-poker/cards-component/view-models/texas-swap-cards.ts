@@ -37,8 +37,18 @@ export default class TexasSwapCards extends cc.Component {
     tweenCard2DTmp: cc.Tween;
     tweenCardOrigin: cc.Tween;
 
+    dealerTmpClone: any;
+    playerTmpClone: any;
+    dealerTmpScaleClone: any;
+
     protected onLoad(): void {
         this.node.active = true;
+
+        const dealerTmpScaleX = this.dealerTmp.scaleX;
+        const dealerTmpScaleY = this.dealerTmp.scaleY;
+        this.dealerTmpClone = { x: this.dealerTmp.x, y: this.dealerTmp.y };
+        this.playerTmpClone = { x: this.playerTmp.x, y: this.playerTmp.y };
+        this.dealerTmpScaleClone = { x: dealerTmpScaleX, y: dealerTmpScaleY };
     }
 
     protected activeCardsOrigin(status: boolean) {
@@ -55,9 +65,24 @@ export default class TexasSwapCards extends cc.Component {
     }
 
     resetAllTween() {
+        this.node.stopAllActions();
         this.tweenCard3DTmp && this.tweenCard3DTmp.stop();
         this.tweenCard2DTmp && this.tweenCard2DTmp.stop();
         this.tweenCardOrigin && this.tweenCardOrigin.stop();
+
+        this.dealerTmp.stopAllActions();
+        this.playerTmp.stopAllActions();
+    }
+
+    reset() {
+        this.resetAllTween();
+        this.dealerTmp.setPosition(this.dealerTmpClone.x, this.dealerTmpClone.y);
+        this.dealerTmp.setScale(this.dealerTmpScaleClone.x, this.dealerTmpScaleClone.y);
+        this.playerTmp.setPosition(this.playerTmpClone.x, this.playerTmpClone.y);
+        this.playerTmp.scale = 1;
+
+        this.changeStatusCard3DTmp(false);
+        this.changeStatusCard2D(false);
     }
 
     changeStatusCard3DTmp(state: boolean) {

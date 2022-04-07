@@ -131,4 +131,13 @@ export default class NewCard extends cc.Component {
         const state = this.animation.playAdditive(type);
         state.speed = state.duration / duration;
     }
+
+    stopAnimation() {
+        this.animation.stop();
+    }
+
+    resetCardNode() {
+        this.image.node.position = cc.v3(0, 0, 0);
+        this.image.node.eulerAngles = cc.v3(0, 0, 0);
+    }
 }
