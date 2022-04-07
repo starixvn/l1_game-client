@@ -1,4 +1,5 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
@@ -178,7 +179,14 @@ export const updateChips =
     ({ choice, totalAmount }) => {
         const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
         if (bettingArea && bettingArea.chipNode) {
-            holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, shadowChip, totalAmount, totalAmount);
+            const values = GameUtils.getChipQuantity(totalAmount, betChips.chipValues);
+            const keys = Object.keys(values).sort((a, b) => +b - +a);
+            keys.forEach((chipValue) => {
+                const count = values[chipValue];
+                for (let i = 0; i < count; i++) {
+                    holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, shadowChip, +chipValue, totalAmount);
+                }
+            });
         }
     };
 
