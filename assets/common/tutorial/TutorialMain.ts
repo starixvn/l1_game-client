@@ -104,7 +104,12 @@ export default class TutorialMain extends cc.Component {
 
         if (index > -1 && index < this.items.length) {
             const time = this.timeConfig[index];
-            this.scheduleOnce(this.onClickNext.bind(this), time);
+            const isLast = index === this.items.length - 1;
+            if (isLast) {
+                this.scheduleOnce(this.hide.bind(this), time);
+            } else {
+                this.scheduleOnce(this.onClickNext.bind(this), time);
+            }
         }
     }
 
