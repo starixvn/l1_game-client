@@ -21,7 +21,7 @@ export default class TexasTurorialMain extends TutorialMain {
     callButton: cc.Node = null;
 
     @property(cc.Node)
-    cancelButton: cc.Node = null;
+    foldButton: cc.Node = null;
 
     @property(cc.Sprite)
     dotSlideSprite: cc.Sprite[] = [];
@@ -74,14 +74,17 @@ export default class TexasTurorialMain extends TutorialMain {
     setOpacityButtonNextPre(indexCurrent: number) {
         if (indexCurrent <= 0) {
             this.btnPrev.opacity = 50;
+            this.btnPrev.getComponent(cc.Button).interactable = false;
             return;
         }
 
         if (indexCurrent === this.items.length - 1) {
             this.btnNext.opacity = 50;
+            this.btnNext.getComponent(cc.Button).interactable = false;
             return;
         }
-
+        this.btnPrev.getComponent(cc.Button).interactable = true;
+        this.btnNext.getComponent(cc.Button).interactable = true;
         this.btnPrev.opacity = 255;
         this.btnNext.opacity = 255;
     }

@@ -29,10 +29,12 @@ export default class HandleActionSwap extends cc.Component {
 
     setDisable() {
         this.changeOpacity(100);
+        this.node.getComponent(cc.Button).interactable = false;
     }
 
     setEnable() {
         this.changeOpacity(255);
+        this.node.getComponent(cc.Button).interactable = true;
     }
 
     changeOpacity(value: number) {

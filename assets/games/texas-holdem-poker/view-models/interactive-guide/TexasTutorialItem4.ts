@@ -12,18 +12,6 @@ export default class TexasTutorialItem4 extends TutorialItem {
     swapNode: cc.Node = null;
 
     @property(cc.Node)
-    btnSwap: cc.Node = null;
-
-    @property(cc.Node)
-    btnHold: cc.Node = null;
-
-    @property(cc.Node)
-    btnCancel: cc.Node = null;
-
-    @property(cc.Node)
-    btnCall: cc.Node = null;
-
-    @property(cc.Node)
     infoNode: cc.Node = null;
 
     @property(cc.Node)
@@ -43,8 +31,15 @@ export default class TexasTutorialItem4 extends TutorialItem {
     cardPlayer1Clone: any;
     cardPlayer2Clone: any;
 
+    mainBtnSwapNode: cc.Node;
+    mainBtnHoldNode: cc.Node;
+    mainBtnCallNode: cc.Node;
+    mainBtnFoldNode: cc.Node;
+    timeout: any;
+
     onHidden() {
         this.resetActions();
+        this.timeout && clearTimeout(this.timeout);
     }
 
     resetActions() {
@@ -56,11 +51,12 @@ export default class TexasTutorialItem4 extends TutorialItem {
         this.infoNode.stopAllActions();
         this.infoNode.opacity = 0;
 
-        this.btnSwap.stopAllActions();
-        this.btnHold.stopAllActions();
-        this.btnCall.stopAllActions();
-        this.btnCancel.stopAllActions();
+        this.mainBtnSwapNode.stopAllActions();
+        this.mainBtnHoldNode.stopAllActions();
+        this.mainBtnCallNode.stopAllActions();
+        this.mainBtnFoldNode.stopAllActions();
         this.showSwapAndHoldButton(true);
+        this.handleFaceDownCard();
     }
 
     resetSwapCardComponent() {
@@ -75,6 +71,40 @@ export default class TexasTutorialItem4 extends TutorialItem {
 
     async show() {
         super.show();
+
+        this.cloneNode();
+        this.handleFaceDownCard();
+        this.hideCardMainNode();
+        this.infoNode.opacity = 0;
+        this.showSwapAndHoldButton(true);
+
+        const durationOpenCard = 0.6;
+        const delayDuration = 1000;
+
+        this.sleep(delayDuration).then(async () => {
+            this.opacityButtonSwapHold();
+            await this.componentSwap.swapCards();
+            this.handleOpenCard(durationOpenCard);
+
+            this.handleShowTextInfo(durationOpenCard, () => {
+                this.showSwapAndHoldButton(false);
+                this.opacityButtonCallCancel();
+                cc.tween(this.infoNode).to(0.2, { opacity: 255 }).start();
+            });
+        });
+    }
+
+    sleep(time: number) {
+        return new Promise((resolve) => (this.timeout = setTimeout(resolve, time)));
+    }
+
+    cloneNode() {
+        const parent = this.getParentNode();
+        const tutorialMain = parent.getComponent(TexasTurorialMain);
+        this.mainBtnCallNode = tutorialMain.callButton;
+        this.mainBtnFoldNode = tutorialMain.foldButton;
+        this.mainBtnHoldNode = tutorialMain.holdButton;
+        this.mainBtnSwapNode = tutorialMain.swapButton;
         this.componentSwap = this.swapNode.getComponent(TexasSwapCards);
         this.componentSwap.node.active = true;
         const dealerTmpScaleX = this.componentSwap.dealerTmp.scaleX;
@@ -82,36 +112,17 @@ export default class TexasTutorialItem4 extends TutorialItem {
         this.dealerTmpClone = { x: this.componentSwap.dealerTmp.x, y: this.componentSwap.dealerTmp.y };
         this.playerTmpClone = { x: this.componentSwap.playerTmp.x, y: this.componentSwap.playerTmp.y };
         this.dealerTmpScaleClone = { x: dealerTmpScaleX, y: dealerTmpScaleY };
-
-        this.handleFaceDownCard();
-        this.hideCardMainNode();
-
-        this.infoNode.opacity = 0;
-        this.showSwapAndHoldButton(true);
-
-        const durationOpenCard = 0.6;
-        this.opacityButtonSwapHold();
-
-        await this.componentSwap.swapCards();
-
-        this.handleOpenCard(durationOpenCard);
-
-        this.handleShowTextInfo(durationOpenCard, () => {
-            this.showSwapAndHoldButton(false);
-            this.opacityButtonCallCancel();
-            cc.tween(this.infoNode).to(0.2, { opacity: 255 }).start();
-        });
     }
 
     showSwapAndHoldButton(showSwapHold: boolean) {
-        this.btnSwap.opacity = showSwapHold ? 255 : 0;
-        this.btnSwap.active = showSwapHold;
-        this.btnHold.opacity = showSwapHold ? 255 : 0;
-        this.btnHold.active = showSwapHold;
-        this.btnCancel.opacity = !showSwapHold ? 255 : 0;
-        this.btnCancel.active = !showSwapHold;
-        this.btnCall.opacity = !showSwapHold ? 255 : 0;
-        this.btnCall.active = !showSwapHold;
+        this.mainBtnSwapNode.opacity = showSwapHold ? 255 : 0;
+        this.mainBtnSwapNode.active = showSwapHold;
+        this.mainBtnHoldNode.opacity = showSwapHold ? 255 : 0;
+        this.mainBtnHoldNode.active = showSwapHold;
+        this.mainBtnCallNode.opacity = !showSwapHold ? 255 : 0;
+        this.mainBtnCallNode.active = !showSwapHold;
+        this.mainBtnFoldNode.opacity = !showSwapHold ? 255 : 0;
+        this.mainBtnFoldNode.active = !showSwapHold;
         this.playerResult.active = !showSwapHold;
     }
 
@@ -120,8 +131,8 @@ export default class TexasTutorialItem4 extends TutorialItem {
             .tween(this.node)
             .delay(0.1)
             .call(() => {
-                cc.tween(this.btnSwap).to(0.1, { opacity: 0 }).start();
-                cc.tween(this.btnHold).to(0.1, { opacity: 0 }).start();
+                cc.tween(this.mainBtnSwapNode).to(0.1, { opacity: 0 }).start();
+                cc.tween(this.mainBtnHoldNode).to(0.1, { opacity: 0 }).start();
             })
             .start();
     }
@@ -130,8 +141,8 @@ export default class TexasTutorialItem4 extends TutorialItem {
         cc.tween(this.node)
             .delay(0.1)
             .call(() => {
-                cc.tween(this.btnCall).to(0.1, { opacity: 255 }).start();
-                cc.tween(this.btnCancel).to(0.1, { opacity: 255 }).start();
+                cc.tween(this.mainBtnCallNode).to(0.1, { opacity: 255 }).start();
+                cc.tween(this.mainBtnFoldNode).to(0.1, { opacity: 255 }).start();
             })
             .start();
     }

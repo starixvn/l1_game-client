@@ -189,6 +189,15 @@ export default class Texas extends NewGameRoomBase {
     @property(cc.Label)
     totalBetValue: cc.Label = null;
 
+    @property(cc.Node)
+    cardTray: cc.Node = null;
+
+    @property(cc.Node)
+    cardBox: cc.Node = null;
+
+    @property(cc.Node)
+    interactiveGuide: cc.Node = null;
+
     protected placingBet: TexasPlacingBet = null;
     protected gameData: TexasGameDataModel<TexasChoicesType> = null;
     protected texasChips: TexasChips;
@@ -245,9 +254,9 @@ export default class Texas extends NewGameRoomBase {
         if (!data.enabled || !this.interactiveGuidePrefab) {
             return;
         }
-        this.handleStatusAnteBettingAreas(false);
+        this.handleStatusNodeMain(false);
         const node = cc.instantiate(this.interactiveGuidePrefab);
-        this.node.addChild(node);
+        this.interactiveGuide.addChild(node);
         const tutorialMain = node.getComponent(TutorialMain);
         tutorialMain.setTimeConfig(TimerShowInteractiveGuide);
         tutorialMain.toggleCallback = (dontShow: boolean) => {
@@ -256,7 +265,7 @@ export default class Texas extends NewGameRoomBase {
         };
 
         tutorialMain.endSlideCallBack = () => {
-            this.handleStatusAnteBettingAreas(true);
+            this.handleStatusNodeMain(true);
         };
         tutorialMain.show();
     }
@@ -269,11 +278,21 @@ export default class Texas extends NewGameRoomBase {
         // onGameHide
     }
 
-    handleStatusAnteBettingAreas(status: boolean) {
+    handleStatusNodeMain(status: boolean) {
         if (status) {
             this.totalBetValue.string = "0";
+            this.cardBox.opacity = 255;
+            this.cardTray.opacity = 255;
+            this.bettingAreas.forEach((bet) => {
+                bet.node.opacity = 255;
+            });
         } else {
             this.totalBetValue.string = "";
+            this.cardBox.opacity = 150;
+            this.cardTray.opacity = 150;
+            this.bettingAreas.forEach((bet) => {
+                bet.node.opacity = 25;
+            });
         }
 
         this.bettingAreas[0].showTooltip(status);

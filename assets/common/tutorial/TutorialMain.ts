@@ -59,6 +59,10 @@ export default class TutorialMain extends cc.Component {
         this.initItems();
     }
 
+    onDisable() {
+        this.endSlideCallBack && this.endSlideCallBack();
+    }
+
     show() {
         this.showItem(0);
     }

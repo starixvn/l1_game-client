@@ -29,16 +29,18 @@ export default class TutorialItem extends cc.Component {
     }
 
     hide() {
+        this.onHidden();
         cc.tween(this.node)
             .to(this.transitionTime, { opacity: 0 })
             .call(() => {
                 this.node.active = false;
-                this.onHidden();
             })
             .start();
     }
 
-    onHidden() {}
+    onHidden() {
+        //onHidden
+    }
     showOpacity(node: cc.Node) {
         cc.tween(node).to(this.transitionTime, { opacity: 255 }).start();
     }
