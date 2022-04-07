@@ -98,7 +98,7 @@ export default class TutorialMain extends cc.Component {
     }
 
     protected showItem(index: number): void {
-        this.unschedule(this.onClickNext);
+        this.unscheduleAllCallbacks();
         const currentItem = this.getItem(this.currentIndex);
         if (currentItem) {
             currentItem.hide();
@@ -109,7 +109,7 @@ export default class TutorialMain extends cc.Component {
 
         if (index > -1 && index < this.items.length) {
             const time = this.timeConfig[index];
-            this.scheduleOnce(this.onClickNext, time);
+            this.scheduleOnce(this.onClickNext.bind(this), time);
         }
     }
 
