@@ -44,17 +44,20 @@ export default class TexasTurorialMain extends TutorialMain {
     @property(cc.Node)
     menuMain: cc.Node = null;
 
+    @property(cc.SpriteFrame)
+    nextPreSpriteFrame: cc.SpriteFrame[] = [];
+
     onLoad() {
         super.onLoad();
         this.md5Main.opacity = 0;
         this.menuMain.opacity = 0;
-        this.setOpacityButtonNextPre(-1);
+        this.setStatusButtonNextPre(-1);
     }
 
     onClickNext() {
         const index = this.currentIndex + 1;
         if (index < this.items.length) {
-            this.setOpacityButtonNextPre(index);
+            this.setStatusButtonNextPre(index);
             this.dotSlideSprite[index].spriteFrame = this.dotSlideSpriteFrame[0];
             this.dotSlideSprite[index - 1].spriteFrame = this.dotSlideSpriteFrame[1];
         }
@@ -64,28 +67,28 @@ export default class TexasTurorialMain extends TutorialMain {
     onClickPrevious() {
         const index = this.currentIndex - 1;
         if (index > -1) {
-            this.setOpacityButtonNextPre(index);
+            this.setStatusButtonNextPre(index);
             this.dotSlideSprite[index].spriteFrame = this.dotSlideSpriteFrame[0];
             this.dotSlideSprite[index + 1].spriteFrame = this.dotSlideSpriteFrame[1];
         }
         super.onClickPrevious();
     }
 
-    setOpacityButtonNextPre(indexCurrent: number) {
+    setStatusButtonNextPre(indexCurrent: number) {
         if (indexCurrent <= 0) {
-            this.btnPrev.opacity = 50;
-            this.btnPrev.getComponent(cc.Button).interactable = false;
+            this.btnPrev.getChildByName("Background").getComponent(cc.Sprite).spriteFrame = this.nextPreSpriteFrame[0];
+            this.btnPrev.getComponent(cc.Button).enabled = false;
             return;
         }
 
         if (indexCurrent === this.items.length - 1) {
-            this.btnNext.opacity = 50;
-            this.btnNext.getComponent(cc.Button).interactable = false;
+            this.btnNext.getChildByName("Background").getComponent(cc.Sprite).spriteFrame = this.nextPreSpriteFrame[0];
+            this.btnNext.getComponent(cc.Button).enabled = false;
             return;
         }
-        this.btnPrev.getComponent(cc.Button).interactable = true;
-        this.btnNext.getComponent(cc.Button).interactable = true;
-        this.btnPrev.opacity = 255;
-        this.btnNext.opacity = 255;
+        this.btnPrev.getChildByName("Background").getComponent(cc.Sprite).spriteFrame = this.nextPreSpriteFrame[1];
+        this.btnPrev.getChildByName("Background").getComponent(cc.Sprite).spriteFrame = this.nextPreSpriteFrame[1];
+        this.btnPrev.getComponent(cc.Button).enabled = true;
+        this.btnNext.getComponent(cc.Button).enabled = true;
     }
 }
