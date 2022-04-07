@@ -190,12 +190,6 @@ export default class Texas extends NewGameRoomBase {
     totalBetValue: cc.Label = null;
 
     @property(cc.Node)
-    cardTray: cc.Node = null;
-
-    @property(cc.Node)
-    cardBox: cc.Node = null;
-
-    @property(cc.Node)
     interactiveGuide: cc.Node = null;
 
     protected placingBet: TexasPlacingBet = null;
@@ -281,18 +275,8 @@ export default class Texas extends NewGameRoomBase {
     handleStatusNodeMain(status: boolean) {
         if (status) {
             this.totalBetValue.string = "0";
-            this.cardBox.opacity = 255;
-            this.cardTray.opacity = 255;
-            this.bettingAreas.forEach((bet) => {
-                bet.node.opacity = 255;
-            });
         } else {
             this.totalBetValue.string = "";
-            this.cardBox.opacity = 150;
-            this.cardTray.opacity = 150;
-            this.bettingAreas.forEach((bet) => {
-                bet.node.opacity = 25;
-            });
         }
 
         this.bettingAreas[0].showTooltip(status);
