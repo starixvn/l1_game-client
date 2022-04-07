@@ -15,8 +15,7 @@ export default class SedieHistoryPortraitItem extends SedieHistoryItem {
     @property(cc.Node)
     lineBottom: cc.Node = null;
 
-    private heightEachBetOption = 28;
-    private positionBetOption = -25;
+    private heightEachBetOption = 35;
 
     setData(betLog: any) {
         const { freeBet, settlementResult, odds } = betLog;
@@ -41,13 +40,8 @@ export default class SedieHistoryPortraitItem extends SedieHistoryItem {
         this.setSizeAndPosition(this.betOption);
     }
     setSizeAndPosition(betOption: cc.Node) {
-        betOption.children.forEach((item, index) => {
-            item.y = (index + 1) * this.positionBetOption;
-        });
         if (betOption.children.length >= 2) {
             this.node.height = 70 + (this.betOption.children.length - 2) * this.heightEachBetOption;
-            this.lineBottom.y = (this.node.height * -1) / 2;
-            this.betOption.y = this.node.height / 2;
         }
     }
 }
