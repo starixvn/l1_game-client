@@ -19,15 +19,19 @@ export default class TutorialMain extends cc.Component {
     toggleCallback = (value: boolean) => {
         // toggleCallback
     };
+
     endSlideCallBack = () => {
         // endSlideCallBack
     };
 
     onClickNext() {
+        // console.log("onClickNext  ", Math.floor(Date.now() / 1000));
         this.playClick();
         const index = this.currentIndex + 1;
         if (index < this.items.length) {
             this.showItem(index);
+        } else {
+            this.hide();
         }
     }
 
@@ -93,7 +97,7 @@ export default class TutorialMain extends cc.Component {
     }
 
     protected showItem(index: number): void {
-        this.unschedule(this.onClickNext.bind(this));
+        this.unschedule(this.onClickNext);
         const currentItem = this.getItem(this.currentIndex);
         if (currentItem) {
             currentItem.hide();
@@ -104,12 +108,7 @@ export default class TutorialMain extends cc.Component {
 
         if (index > -1 && index < this.items.length) {
             const time = this.timeConfig[index];
-            const isLast = index === this.items.length - 1;
-            if (isLast) {
-                this.scheduleOnce(this.hide.bind(this), time);
-            } else {
-                this.scheduleOnce(this.onClickNext.bind(this), time);
-            }
+            this.scheduleOnce(this.onClickNext, time);
         }
     }
 

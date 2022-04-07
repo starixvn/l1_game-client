@@ -37,6 +37,16 @@ export default class TexasTutorialItem4 extends TutorialItem {
     mainBtnFoldNode: cc.Node;
     timeout: any;
 
+    onLoad() {
+        this.cloneNode();
+
+        const dealerTmpScaleX = this.componentSwap.dealerTmp.scaleX;
+        const dealerTmpScaleY = this.componentSwap.dealerTmp.scaleY;
+        this.dealerTmpClone = { x: this.componentSwap.dealerTmp.x, y: this.componentSwap.dealerTmp.y };
+        this.playerTmpClone = { x: this.componentSwap.playerTmp.x, y: this.componentSwap.playerTmp.y };
+        this.dealerTmpScaleClone = { x: dealerTmpScaleX, y: dealerTmpScaleY };
+    }
+
     onHidden() {
         this.resetActions();
         this.timeout && clearTimeout(this.timeout);
@@ -65,14 +75,12 @@ export default class TexasTutorialItem4 extends TutorialItem {
         this.componentSwap.playerTmp.setPosition(this.playerTmpClone.x, this.playerTmpClone.y);
         this.componentSwap.playerTmp.scale = 1;
         this.componentSwap.resetAllTween();
-        this.componentSwap.node.active = false;
         this.componentSwap.node.stopAllActions();
     }
 
     async show() {
         super.show();
 
-        this.cloneNode();
         this.handleFaceDownCard();
         this.hideCardMainNode();
         this.infoNode.opacity = 0;
@@ -106,12 +114,6 @@ export default class TexasTutorialItem4 extends TutorialItem {
         this.mainBtnHoldNode = tutorialMain.holdButton;
         this.mainBtnSwapNode = tutorialMain.swapButton;
         this.componentSwap = this.swapNode.getComponent(TexasSwapCards);
-        this.componentSwap.node.active = true;
-        const dealerTmpScaleX = this.componentSwap.dealerTmp.scaleX;
-        const dealerTmpScaleY = this.componentSwap.dealerTmp.scaleY;
-        this.dealerTmpClone = { x: this.componentSwap.dealerTmp.x, y: this.componentSwap.dealerTmp.y };
-        this.playerTmpClone = { x: this.componentSwap.playerTmp.x, y: this.componentSwap.playerTmp.y };
-        this.dealerTmpScaleClone = { x: dealerTmpScaleX, y: dealerTmpScaleY };
     }
 
     showSwapAndHoldButton(showSwapHold: boolean) {
