@@ -25,8 +25,7 @@ import {
     showHideButtons,
     showHideTooltip,
     showPlaceBetChips,
-    updateAllChips,
-    updateChips
+    updateAllChips
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
@@ -71,6 +70,7 @@ import TexasMD5 from "./texas-MD5";
 import TexasMinMax from "./texas-min-max";
 import TexasOddsTable from "./texas-odds-table";
 import TexasPlacingBet from "./texas-placing-bet";
+import { updateChips } from "../../holdem-poker/actions/HoldemPokerPlaceBetActions";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

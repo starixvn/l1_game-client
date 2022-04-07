@@ -9,6 +9,7 @@ import TexasStateModel from "../event-models/texas-state-model";
 import Texas from "../view-models/texas";
 import TexasBettingArea from "../view-models/texas-betting-area";
 import TexasChips from "../view-models/texas-chips";
+import { updateChips } from "../../holdem-poker/actions/HoldemPokerPlaceBetActions";
 
 export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) => {
     switch (stateModel.state) {
@@ -110,15 +111,6 @@ export const clearAllBetChips = (bettingAreas: TexasBettingArea[]) => () => {
     clearBetChips(bettingAreas)({ currentChoice: TexasChoicesConst.riverBet });
     clearUIData(bettingAreas)();
 };
-
-export const updateChips =
-    (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasChips: TexasChips) =>
-    ({ choice, totalAmount }) => {
-        const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
-        if (bettingArea && bettingArea.chipNode) {
-            texasChips.flyChipToBetPlace(slidingChips, bettingArea.chipNode, shadowChip, totalAmount, totalAmount);
-        }
-    };
 
 export const updateAllChips =
     (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasChips: TexasChips) =>
