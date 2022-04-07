@@ -56,7 +56,7 @@ export default class MD5Component extends cc.Component {
 
     private md5CopyString: string = null;
     readonly duration: number = 0.5;
-    readonly delayShowHashValue: number = 0.8;
+    readonly delayShowHashValue: number = 1;
     protected isExpanded = false;
     blockDirection = MenuDirectionType.RIGHT;
     protected md5Tooltip: MD5Tooltip = null;

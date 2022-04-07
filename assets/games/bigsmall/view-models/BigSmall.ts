@@ -187,6 +187,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.dices[0].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice1}-goc-2`);
         this.dices[1].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice2}-goc-1`);
         this.dices[2].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice3}-goc-1`);
+        this.resultLabel.string = dice1 + dice2 + dice3;
     }
 
     showResult() {
@@ -218,7 +219,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         cc.tween(this.node)
             .call(() => {
                 this.resultNode.active = true;
-                this.resultLabel.string = data.result.dice1 + data.result.dice2 + data.result.dice3;
                 cc.tween(this.resultNode).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
             })
             .start();

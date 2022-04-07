@@ -66,14 +66,20 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-        this.main.thePlate.opacity = 0;
-        this.main.resultNode.active = true;
-        cc.tween(this.main.bgTimer).to(0.3, { opacity: 0 }).start();
+        //this.main.thePlate.opacity = 0;
+        this.main.bgTimer.opacity = 0;
+        cc.tween(this.main.resultNode)
+            .call(() => {
+                this.main.resultNode.active = true;
+                this.main.resultNode.opacity = 255;
+            })
+            .start();
     }
 
     showWaitTime() {
         this.main.timeWaitNode.active = true;
         this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.shakeThePlateTime - 1);
+        this.main.thePlate.opacity = 0;
     }
 
     shakeThePlate() {
