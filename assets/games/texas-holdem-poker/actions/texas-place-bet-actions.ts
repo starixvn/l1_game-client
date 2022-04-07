@@ -28,7 +28,6 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
             main.disabledButtons(false);
             break;
         case TexasState.replay_new:
-            main.reBetAndDealButton.active = true;
             main.callButton.active = main.foldButton.active = false;
             main.dealButton.active = main.doubleButton.active = main.cancelButton.active = main.newButton.active = false;
             main.disabledButtons(false);

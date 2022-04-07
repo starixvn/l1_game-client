@@ -39,6 +39,8 @@ export default class TutorialMain extends cc.Component {
         const index = this.currentIndex - 1;
         if (index > -1) {
             this.showItem(index);
+        } else {
+            this.currentIndex = 0;
         }
     }
 
