@@ -86,7 +86,7 @@ export default class HoldemPokerChips extends cc.Component {
         chipNode.runAction(cc.jumpTo(jumpChipDuration, destPosition, 50, 1));
         this.updateChipStackTween && this.updateChipStackTween.stop();
         this.updateChipStackTween = cc
-            .tween(this)
+            .tween(chipNode)
             .delay(jumpChipDuration)
             .call(() => {
                 const chipsQuantity = this.convertChips(totalAmount, betChips.chipValues);
