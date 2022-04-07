@@ -13,6 +13,7 @@ import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
+import { Orientation } from "../../_base/Orientation";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -103,6 +104,9 @@ export default class Sedie extends FreeBetGameBase {
     onEnable() {
         super.onEnable();
         this.loading.active = true;
+        if (this.orientation === Orientation.Portrait) {
+            this.currentMiniPanel.miniMenu.active = false;
+        }
     }
 
     onData(data: any) {

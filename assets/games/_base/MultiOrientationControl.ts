@@ -3,13 +3,9 @@ import { Socket } from "socket.io-client";
 import { lazyInject } from "../../Application";
 import SocketIOController from "../../SocketIOController";
 import MultiOrientationGame from "./MultiOrientationGame";
+import { Orientation } from "./Orientation";
 
 const { ccclass, property } = cc._decorator;
-
-enum Orientation {
-    Landscape = 0,
-    Portrait
-}
 
 @ccclass
 export default class MultiOrientationControl extends cc.Component {
