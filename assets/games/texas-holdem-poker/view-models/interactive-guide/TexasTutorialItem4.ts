@@ -64,7 +64,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
 
     async show() {
         super.show();
-
+        this.showCardsInMainGuide(false);
         this.handleFaceDownCard();
         this.infoNode.opacity = 0;
         this.showSwapAndHoldButton(true);
