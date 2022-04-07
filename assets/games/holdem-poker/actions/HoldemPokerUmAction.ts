@@ -1,9 +1,6 @@
-import HoldemPoker from "../view-models/HoldemPoker";
+import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 
-export const handleUM = (main: HoldemPoker) => (message: string) => {
-  const doActions = () => {
+export const handleUM = (main: WebSocketTableGameBase) => (message: string) => {
     main.showUmMessage({ um_message: message });
     main.stopGame();
-  };
-  doActions();
 };

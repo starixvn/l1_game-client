@@ -41,7 +41,6 @@ export default class HoldemPokerAfterDealEventHandler<Choices> extends HoldemPok
 
         this.gameData.stateModel.dealing();
         this.gameData.emit(HoldemPokerGameData.Events.CHOICES_RESULT, event.deal.choices);
-        this.gameData.placeBetModel.updateBetsInfo(event.deal.choices);
         this.gameData.dealModel.changeDataAfterDeal(playerCards, communityCards, combinationResult, roundId, totalAmount);
     }
 }

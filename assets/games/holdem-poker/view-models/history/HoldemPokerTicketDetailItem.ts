@@ -25,15 +25,29 @@ export default class HoldemPokerTicketDetailItem extends cc.Component {
     @property(cc.Node)
     bgRow: cc.Node = null;
 
-    renderTicketDetailitem(bet: any, index: number) {
-        const bettingOption = bet.betChoice === "call" ? `holdEmPoker.${bet.betChoice}Choice` : `holdEmPoker.${bet.betChoice}`;
-        console.log(bettingOption);
-        this.bettingOption.string = `${i18n.t(bettingOption)}`;
+    @property(cc.Node)
+    bgRowLatest: cc.Node = null;
+
+    protected getBettingOptionName(bet: any) {
+        return bet.betChoice === "call" ? `holdEmPoker.${bet.betChoice}Choice` : `holdEmPoker.${bet.betChoice}`;
+    }
+
+    protected setBgItem(index: number, countBets: number) {
+        if (index % 2 && index === countBets - 1) {
+            this.bgRowLatest.active = true;
+        } else {
+            this.bgRow.active = index % 2 !== 0;
+        }
+    }
+
+    renderTicketDetailItem(bet: any, index: number, totalRow: number) {
+        const bettingOption = this.getBettingOptionName(bet);
+        this.bettingOption.string = `${i18n.t(bettingOption).toUpperCase()}`;
         this.stake.string = numberWithCommas(bet.stake);
         this.win.string = numberWithCommas(bet.win);
         this.time.string = getStringHourByTime(bet.time);
         this.odd.string = bet.odds ? bet.odds : "-";
-        this.bgRow.active = index % 2 !== 0;
+        this.setBgItem(index, totalRow);
         if (bet.win > 0) {
             this.stake.node.color = cc.Color.YELLOW;
             this.win.node.color = cc.Color.YELLOW;

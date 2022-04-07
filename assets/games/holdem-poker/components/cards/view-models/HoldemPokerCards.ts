@@ -59,11 +59,11 @@ export default class HoldemPokerCards extends cc.Component {
         );
     }
 
-    private playAudioCardSliding() {
+    protected playAudioCardSliding() {
         AudioManager.getInstance().playSFX(this.cardSlideAudioSource.clip);
     }
 
-    private createCard(card: CardModel, scaleX: number, scaleY: number): cc.Node {
+    protected createCard(card: CardModel, scaleX: number, scaleY: number): cc.Node {
         const node = cc.instantiate(this.cardPrefab);
         const cardComponent = node.getComponent(HoldemPokerCard);
         cardComponent.setCard(card);
@@ -81,11 +81,11 @@ export default class HoldemPokerCards extends cc.Component {
     }
 
     public focusPlayerCard() {
-        this.playerCards.Selected = true;
+        this.playerCards.SetSelected(true);
     }
 
     public unFocusPlayerCard() {
-        this.playerCards.Selected = false;
+        this.playerCards.SetSelected(false);
     }
 
     public drawingRejoinMiddleCards(cardData: CardModel, faceDown: boolean, forcePositionIndex?: number) {
@@ -105,6 +105,10 @@ export default class HoldemPokerCards extends cc.Component {
 
     async faceUpDealerCard(cardData: CardModel, indexCard: number) {
         await this.faceUpCard(cardData, this.dealerCards, indexCard);
+    }
+
+     faceUpPlayerCard(cardData: CardModel, indexCard: number) {
+         this.faceUpCard(cardData, this.playerCards, indexCard);
     }
 
     showArrowIndicatorCards(combineCard: CardModel[], whose: string) {
@@ -139,7 +143,7 @@ export default class HoldemPokerCards extends cc.Component {
         }
     }
 
-    private updateLabel(combineCardResult: cc.Node, labelId: number) {
+    protected updateLabel(combineCardResult: cc.Node, labelId: number) {
         const label = combineCardResult.getChildByName("text").getComponent(cc.Label);
         const result = `holdEmPoker.${CombineCardResultLabel[labelId].dataId}`;
         label.string = `${i18n.t(result)}`;
@@ -163,7 +167,7 @@ export default class HoldemPokerCards extends cc.Component {
         this.combineDealerCardResult.active = false;
     }
 
-    private showIndicatorCard(
+    protected showIndicatorCard(
         combineCards: CardModel[],
         cardHands: { row: HandPlace; position: string; whose: string }[],
         waitingCardRender = 0.1
@@ -193,7 +197,7 @@ export default class HoldemPokerCards extends cc.Component {
         );
     }
 
-    private faceUpCard(cardInfo: CardModel, cardHand: HandPlace, indexCard: number): Promise<void> {
+    protected faceUpCard(cardInfo: CardModel, cardHand: HandPlace, indexCard: number): Promise<void> {
         const selectedCard = cardHand.getCards()[indexCard];
         const duration = 0.6;
         const cardComponent = selectedCard.getComponent(HoldemPokerCard);
@@ -210,7 +214,7 @@ export default class HoldemPokerCards extends cc.Component {
         });
     }
 
-    private dealCardWithoutAnimation(
+    protected dealCardWithoutAnimation(
         cardInfo: CardModel,
         cardHand: HandPlace,
         faceDown: boolean,
@@ -242,7 +246,7 @@ export default class HoldemPokerCards extends cc.Component {
         });
     }
 
-    private dealCard(cardInfo: CardModel, cardHand: HandPlace, faceDown: boolean, forcePositionIndex?: number): Promise<void> {
+    protected dealCard(cardInfo: CardModel, cardHand: HandPlace, faceDown: boolean, forcePositionIndex?: number): Promise<void> {
         const cardNode = this.createCard(cardInfo, 1, 1);
         const cardComponent = cardNode.getComponent(HoldemPokerCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
@@ -273,48 +277,41 @@ export default class HoldemPokerCards extends cc.Component {
         });
     }
 
-    private collectCards(containerCards: HandPlace) {
-        const durationJumpToBoxCard = 0.5;
+    protected collectCards(containerCards: HandPlace) {
+        return new Promise<void>((resolve) => {
+            const durationJumpToBoxCard = 0.5;
 
-        const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
-        containerCards.cardLayout.shadow.active = false;
-        const cardsNodes = containerCards.getCards();
+            const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
+            containerCards.cardLayout.shadow.active = false;
+            const cardsNodes = containerCards.getCards();
 
-        if (!cardsNodes.length) {
-            return;
-        }
-        const destPosition = cardsNodes[0].parent.convertToNodeSpaceAR(worldPosition);
-        cardsNodes.forEach((cardNode) => {
-            cc.tween(cardNode)
-                .to(0.3, { position: cc.v2(0, 0) })
-                .call(() => {
-                    const cardComponent = cardNode.getComponent(HoldemPokerCard);
-                    cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
-                })
-                .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
-                .delay(0.2)
-                .call(() => cardNode.destroy())
-                .start();
+            if (!cardsNodes.length) {
+                resolve();
+                return;
+            }
+            const destPosition = cardsNodes[0].parent.convertToNodeSpaceAR(worldPosition);
+            cardsNodes.forEach((cardNode) => {
+                cc.tween(cardNode)
+                    .to(0.3, { position: cc.v2(0, 0) })
+                    .call(() => {
+                        const cardComponent = cardNode.getComponent(HoldemPokerCard);
+                        cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
+                    })
+                    .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
+                    .delay(0.2)
+                    .call(() => {
+                        cardNode.destroy();
+                        resolve();
+                    })
+                    .start();
+            });
         });
     }
 
-    public collectCardsOnTable() {
-        const getDurationUnselectCard = () => {
-            if (this.playerCards.Selected) {
-                this.playerCards.Selected = false;
-                return 0.5;
-            }
-            return 0;
-        };
-        this.schedule(
-            () => {
-                this.collectCards(this.playerCards);
-                this.collectCards(this.middleCards);
-                this.collectCards(this.dealerCards);
-            },
-            null,
-            null,
-            getDurationUnselectCard()
-        );
+    public async collectCardsOnTable() {
+        if (this.playerCards.Selected) {
+            await this.playerCards.SetSelected(false);
+        }
+        await Promise.all([this.collectCards(this.playerCards), this.collectCards(this.middleCards), this.collectCards(this.dealerCards)]);
     }
 }

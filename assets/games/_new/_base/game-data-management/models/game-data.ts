@@ -49,6 +49,10 @@ export class GameData<Choices> extends EventEmitter {
     }
 
     protected registerEventHandlers() {
+        this.registerBaseEventHandlers();
+    }
+
+    protected registerBaseEventHandlers() {
         const handlers = [APIErrorHandler, TimeEventHandler, TotalBetsEventHandler, PlaceBetNoticeEventHandler];
 
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));

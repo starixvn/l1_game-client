@@ -10,18 +10,18 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     smPromotion: boolean;
-    bannerAds = [GameIds.HiLo, GameIds.CasinoHoldemPoker, GameIds.BitcoinMaster, GameIds.SeDie];
+    bannerAds = [GameIds.TexasHoldemPoker, GameIds.HiLo, GameIds.CasinoHoldemPoker, GameIds.SeDie];
     bannerAdsInfo = {
-        45: {
+        [GameIds.TexasHoldemPoker]: {
             displayTime: 10
         },
-        39: {
+        [GameIds.HiLo]: {
             displayTime: 5
         },
-        43: {
+        [GameIds.CasinoHoldemPoker]: {
             displayTime: 5
         },
-        2: {
+        [GameIds.SeDie]: {
             displayTime: 5
         }
     };
@@ -50,42 +50,32 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.ThreeCards,
         GameIds.BitcoinMaster,
         GameIds.CasinoHoldemPoker,
-        GameIds.HiLo
+        GameIds.HiLo,
+        GameIds.TexasHoldemPoker
     ];
-    seDieGames = [
-        //
-        GameIds.VipSedie,
-        GameIds.SeDie,
-        GameIds.VipSedieWar,
-        GameIds.MiniSedie,
-        GameIds.SpecialSeDie
-    ];
+
+    seDieGames = [GameIds.VipSedie, GameIds.SeDie, GameIds.VipSedieWar, GameIds.MiniSedie, GameIds.SpecialSeDie];
     casinoGames = [
-        //
         GameIds.SicBo,
-        GameIds.Roulette,
-        GameIds.VipFishPrawnCrab
+        GameIds.BigSmall,
+        GameIds.TurboBigSmall,
+        GameIds.TurboOddEven,
+        GameIds.VipFishPrawnCrab,
+        GameIds.FishPrawnCrab,
+        GameIds.Roulette
     ];
     cardGames = [
-        //
         GameIds.VipBaccarat,
         GameIds.Baccarat,
         GameIds.DragonTiger,
         GameIds.ThreeCards,
         GameIds.BlackJack,
-        GameIds.CasinoHoldemPoker
+        GameIds.CasinoHoldemPoker,
+        GameIds.HiLo,
+        GameIds.TexasHoldemPoker
     ];
-    slotGames = [
-        //
-        GameIds.HeroesSlot,
-        GameIds.FourGuardians
-    ];
-    lotteryGames = [
-        //
-        GameIds.KenoProMax,
-        GameIds.KenoProViet,
-        GameIds.Lottery
-    ];
+    slotGames = [GameIds.HeroesSlot, GameIds.FourGuardians];
+    lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
     othersGames = [GameIds.BitcoinMaster];
     miniList = [
         GameIds.BigSmall,
@@ -98,13 +88,14 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.MiniSedie
     ];
     detail = {
-        29: {
+        [GameIds.FourGuardians]: {
             size: cc.v2(1, 2)
         },
-        38: {
+        [GameIds.HeroesSlot]: {
             size: cc.v2(1, 2)
         }
     };
+    newGames = [GameIds.TexasHoldemPoker];
 
     customizeCredit(): void {
         this.smPromotion = true;

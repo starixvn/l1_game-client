@@ -28,7 +28,7 @@ export class HiLoStatusHandler<Choices> extends HiLoEventHandler<HiLoStatusType<
         const { win, bet } = status;
 
         if (win) {
-            this.gameData.statusModel.hasWon(win, bet);
+            this.gameData.statusModel.hasWon(bet);
         } else {
             this.gameData.statusModel.hasLost();
         }

@@ -21,6 +21,8 @@ export default class HandleGameSound extends cc.Component {
     @property({ type: cc.Enum(AudioType) })
     type = AudioType.SFX;
 
+    isFirst = false;
+
     onLoad() {
         this.node.on("click", this.onClickSoundGame, this);
         this.initSound();
@@ -41,7 +43,6 @@ export default class HandleGameSound extends cc.Component {
 
     onClickSoundGame() {
         AudioManager.getInstance()[this.getKey()] ? this.setSoundGameOff() : this.setSoundGameOn();
-        AudioManager.getInstance().playClick();
     }
 
     setSoundGameOn() {

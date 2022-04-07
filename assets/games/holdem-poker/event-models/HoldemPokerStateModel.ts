@@ -1,13 +1,12 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 import { HoldemPokerChoicesConst } from "./HoldemPokerChoices";
 import { HoldemPokerPlaceBetModel } from "./HoldemPokerPlaceBetModel";
 import { HoldemPokerState } from "./HoldemPokerState";
 
-export class HoldemPokerStateModel extends EventEmitter {
+export class HoldemPokerStateModel extends EventEmitterBase {
     constructor() {
         super();
-        this.setMaxListeners(0);
         this.state = HoldemPokerState.blank_new;
         this.previousRound = false;
     }
@@ -133,4 +132,15 @@ export class HoldemPokerStateModel extends EventEmitter {
         this.state = HoldemPokerState.replay_new;
         this.emit(HoldemPokerStateModel.Events.CHANGE, this);
     }
+    turnSuccess: () => void;
+    rivering: () => void;
+    checkRiver: () => void;
+    riveSuccess: () => void;
+    rejoinTable: (communityCardLength: number, hasSwappedOrHold: boolean) => void;
+    swapping: () => void;
+    swap: () => void;
+    swapSuccess: () => void;
+    hold: () => void;
+    holding: () => void;
+    holdSuccess: () => void;
 }

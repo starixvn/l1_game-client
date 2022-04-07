@@ -8,14 +8,7 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
 import { handleGameState } from "../actions/HiLoBetAction";
 import { updateClockTime } from "../actions/HiLoCountdownTimerAction";
-import {
-    checkStatusLost,
-    handleStatusWon,
-    updateButtonCollectAndBetChoices,
-    updateCard,
-    updateStakes,
-    updateStatistic
-} from "../actions/HiLoDealAction";
+import { handleStatusLost, handleStatusWon, updateStakesAndButtons, updateCard, updateStatistic } from "../actions/HiLoDealAction";
 import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 import { updateRoundId } from "../actions/HiLoRoundCounterAction";
 import HiLoUmHandler from "../events-handlers/HiLoUmHandler";
@@ -32,9 +25,9 @@ import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
 import HiLoBetBoard from "./HiLoBetBoard";
 import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
 import HiLoResult from "./HiLoResult";
-import HiLoStakes from "./HiLoStakes";
 import HiLoStatistic from "./HiLoStatistic";
 import HiLoTicketHistory from "./HiLoTicketHistory";
+import HiLoBetHandler from "../events-handlers/HiLoBetHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -66,8 +59,8 @@ export default class HiLo extends NewMiniGameBase {
     @property(cc.Button)
     collectButton: cc.Button = null;
 
-    @property(HiLoStakes)
-    stakesComp: HiLoStakes = null;
+    @property(cc.Label)
+    betWin: cc.Label = null;
 
     @property(cc.Node)
     userLose: cc.Node = null;
@@ -91,6 +84,7 @@ export default class HiLo extends NewMiniGameBase {
     betBoardComp: HiLoBetBoard;
     ticketHistoryComp: HiLoTicketHistory;
     statisticComp: HiLoStatistic;
+    shouldHandleStatus = false;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
@@ -153,6 +147,7 @@ export default class HiLo extends NewMiniGameBase {
         this.statusHandler = null;
         this.timeHandler = new NoIntervalTimeHandler(this);
         this.umHandler = new HiLoUmHandler(this);
+        this.betHandler = new HiLoBetHandler(this);
     }
 
     private addCountdownTimerSchedule() {
@@ -183,10 +178,12 @@ export default class HiLo extends NewMiniGameBase {
         this.setInteractableButtons(false);
         await updateCard(this)(model);
         this.setInteractableButtons(true);
-        updateStakes(this)(model);
         updateStatistic(this)(model);
-        updateButtonCollectAndBetChoices(this)(model);
-        checkStatusLost(this)(this.gameData.statusModel);
+        updateStakesAndButtons(this)(model);
+        if (!model.nextAmounts) {
+            this.shouldHandleStatus = true;
+            handleStatusLost(this)(this.gameData.statusModel);
+        }
 
         if (this.betBoardComp) {
             this.betBoardComp.setNeedResetCurrentChip(false);
@@ -202,6 +199,10 @@ export default class HiLo extends NewMiniGameBase {
     private registerStatusEvents() {
         this.gameData.statusModel.on(HiLoStatusModel.Events.WON, (statusModel) => {
             handleStatusWon(this)(statusModel);
+        });
+
+        this.gameData.statusModel.on(HiLoStatusModel.Events.LOST, (statusModel) => {
+            handleStatusLost(this)(statusModel);
         });
 
         this.gameData.statusModel.on(HiLoStatusModel.Events.COLLECT_FAILED, () => {
@@ -273,7 +274,7 @@ export default class HiLo extends NewMiniGameBase {
         this.betBoardComp.init((bet) => {
             this.onChangedBetChip(bet);
             if (bet && this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
-                this.stakesComp.betWin.string = numberWithCommas(bet.toString(), 2);
+                this.betWin.string = numberWithCommas(bet.toString(), 2);
             }
         });
     }
@@ -299,6 +300,13 @@ export default class HiLo extends NewMiniGameBase {
         this.bettingAreas.forEach((area) => {
             area.enableBetChoice(status);
         });
+    }
+
+    resetStakesAndBetWin() {
+        this.bettingAreas.forEach((area) => {
+            area.resetStakeAmount();
+        });
+        this.betWin.string = numberWithCommas(this.currentBet, 2);
     }
 
     enableCollectButton(status: boolean) {
@@ -361,7 +369,7 @@ export default class HiLo extends NewMiniGameBase {
         this.resultComp.faceDownCards();
         this.betBoardComp.disableBetBoard(false);
         this.gameRound.string = "";
-        this.stakesComp.resetStakes(this.currentBet);
+        this.resetStakesAndBetWin();
         this.betBoardComp.setCurrentBet(this.currentBet.toString());
     }
 

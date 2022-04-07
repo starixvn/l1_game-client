@@ -1,26 +1,21 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import HoldemPokerChoices from "./HoldemPokerChoices";
 
-export class HoldemPokerFinishModel extends EventEmitter {
-  constructor() {
-    super();
-    this.setMaxListeners(0);
-  }
+export class HoldemPokerFinishModel extends EventEmitterBase {
+    static Events = {
+        CHANGE_SETTLEMENT: "settlement:change",
+        SHOWED_CARDS: "cards:showed",
+        SHOWED_ANIMATION: "animation:showed"
+    };
 
-  static Events = {
-    CHANGE_SETTLEMENT: "settlement:change",
-    SHOWED_CARDS: "cards:showed",
-    SHOWED_ANIMATION: "animation:showed",
-  };
+    settlementResult: HoldemPokerChoices;
 
-  settlementResult: HoldemPokerChoices;
+    changeSettlementResult(settlementResult: HoldemPokerChoices) {
+        this.settlementResult = settlementResult;
+        this.emit(HoldemPokerFinishModel.Events.CHANGE_SETTLEMENT, this);
+    }
 
-  changeSettlementResult(settlementResult: HoldemPokerChoices) {
-    this.settlementResult = settlementResult;
-    this.emit(HoldemPokerFinishModel.Events.CHANGE_SETTLEMENT, this);
-  }
-
-  finishAnimationWinning() {
-    this.emit(HoldemPokerFinishModel.Events.SHOWED_ANIMATION, this);
-  }
+    finishAnimationWinning() {
+        this.emit(HoldemPokerFinishModel.Events.SHOWED_ANIMATION, this);
+    }
 }

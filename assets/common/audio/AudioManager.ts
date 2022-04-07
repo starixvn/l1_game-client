@@ -11,7 +11,7 @@ export default class AudioManager {
 
     private static instance: AudioManager;
 
-    private readonly soundObservers = { music: {}, sfx: {} };
+    readonly soundObservers = { music: {}, sfx: {} };
 
     public init() {
         this.initDefaultStorage();
@@ -40,8 +40,13 @@ export default class AudioManager {
 
     playMusic(clip: cc.AudioClip, loop: boolean) {
         if (this.musicEnabled && clip) {
-            cc.audioEngine.playMusic(clip, loop);
+            return cc.audioEngine.playMusic(clip, loop);
         }
+        return -1;
+    }
+
+    stopMusic() {
+        cc.audioEngine.stopMusic();
     }
 
     private initDefaultStorage() {

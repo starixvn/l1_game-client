@@ -4,6 +4,7 @@ import logger from "../../common/logger";
 import * as authManager from "./../../common/auth/AuthManager";
 import SplashConfig from "./SplashConfig";
 import RandonWaitingMessage from "./RandonWaitingMessage";
+import MusicPlayer from "../../common/audio/MusicPlayer";
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();

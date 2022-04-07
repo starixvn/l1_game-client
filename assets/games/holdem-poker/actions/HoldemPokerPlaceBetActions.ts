@@ -35,7 +35,12 @@ export const showHideButtons = (main: HoldemPoker) => (stateModel: HoldemPokerSt
             break;
         case HoldemPokerState.replay_new:
             main.doubleAndCallButton.active = main.foldButton.active = false;
-            main.dealButton.active = main.doubleButton.active = main.cancelButton.active = main.reBetAndDealButton.active = main.newButton.active = false;
+            main.dealButton.active =
+                main.doubleButton.active =
+                main.cancelButton.active =
+                main.reBetAndDealButton.active =
+                main.newButton.active =
+                    false;
             break;
         case HoldemPokerState.calling_deal:
             main.disabledButtons(true);
@@ -134,28 +139,32 @@ export const clearUIData = (bettingAreas: HoldemPokerBettingArea[]) => () => {
     }
 };
 
-export const showPlaceBetChips = (
-    bettingAreas: HoldemPokerBettingArea[],
-    betChips: BetChips,
-    shadowChip: cc.SpriteFrame,
-    holdemPokerChips: HoldemPokerChips,
-    gameData: HoldemPokerGameData<HoldemPokerChoices>,
-    mainGame: HoldemPoker
-) => ({ currentChoice, currentAmount, totalAmount }) => {
-    const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
-    if (bettingArea && bettingArea.chipNode) {
-        mainGame.playSingleChipsSound();
-        holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, shadowChip, currentAmount, totalAmount);
-    }
-};
+export const showPlaceBetChips =
+    (
+        bettingAreas: HoldemPokerBettingArea[],
+        betChips: BetChips,
+        shadowChip: cc.SpriteFrame,
+        holdemPokerChips: HoldemPokerChips,
+        gameData: HoldemPokerGameData<HoldemPokerChoices>,
+        mainGame: HoldemPoker
+    ) =>
+    ({ currentChoice, currentAmount, totalAmount }) => {
+        const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
+        if (bettingArea && bettingArea.chipNode) {
+            mainGame.playSingleChipsSound();
+            holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, shadowChip, currentAmount, totalAmount);
+        }
+    };
 
-export const clearBetChips = (bettingAreas: HoldemPokerBettingArea[]) => ({ currentChoice }) => {
-    const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
-    if (bettingArea && bettingArea.chipNode) {
-        bettingArea.chipNode.removeAllChildren();
-        bettingArea.handleWinningAmount(0, false);
-    }
-};
+export const clearBetChips =
+    (bettingAreas: HoldemPokerBettingArea[]) =>
+    ({ currentChoice }) => {
+        const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
+        if (bettingArea && bettingArea.chipNode) {
+            bettingArea.chipNode.removeAllChildren();
+            bettingArea.handleWinningAmount(0, false);
+        }
+    };
 
 export const clearAllBetChips = (bettingAreas: HoldemPokerBettingArea[]) => () => {
     clearBetChips(bettingAreas)({ currentChoice: HoldemPokerChoicesConst.ante });
@@ -164,42 +173,36 @@ export const clearAllBetChips = (bettingAreas: HoldemPokerBettingArea[]) => () =
     clearUIData(bettingAreas)();
 };
 
-export const updateChips = (
-    bettingAreas: HoldemPokerBettingArea[],
-    betChips: BetChips,
-    shadowChip: cc.SpriteFrame,
-    holdemPokerChips: HoldemPokerChips
-) => ({ choice, totalAmount }) => {
-    const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
-    if (bettingArea && bettingArea.chipNode) {
-        holdemPokerChips.updateChipStack(betChips, bettingArea.chipNode, shadowChip, totalAmount);
-    }
-};
+export const updateChips =
+    (bettingAreas: HoldemPokerBettingArea[], betChips: BetChips, shadowChip: cc.SpriteFrame, holdemPokerChips: HoldemPokerChips) =>
+    ({ choice, totalAmount }) => {
+        const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
+        if (bettingArea && bettingArea.chipNode) {
+            holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, shadowChip, totalAmount, totalAmount);
+        }
+    };
 
-export const updateAllChips = (
-    bettingAreas: HoldemPokerBettingArea[],
-    betChips: BetChips,
-    shadowChip: cc.SpriteFrame,
-    holdemPokerChips: HoldemPokerChips
-) => (placeBetModel: HoldemPokerPlaceBetModel) => {
-    if (placeBetModel.choices[HoldemPokerChoicesConst.ante] !== 0) {
-        updateChips(
-            bettingAreas,
-            betChips,
-            shadowChip,
-            holdemPokerChips
-        )({ choice: HoldemPokerChoicesConst.ante, totalAmount: placeBetModel.choices[HoldemPokerChoicesConst.ante] });
-    }
+export const updateAllChips =
+    (bettingAreas: HoldemPokerBettingArea[], betChips: BetChips, shadowChip: cc.SpriteFrame, holdemPokerChips: HoldemPokerChips) =>
+    (placeBetModel: HoldemPokerPlaceBetModel) => {
+        if (placeBetModel.choices[HoldemPokerChoicesConst.ante] !== 0) {
+            updateChips(
+                bettingAreas,
+                betChips,
+                shadowChip,
+                holdemPokerChips
+            )({ choice: HoldemPokerChoicesConst.ante, totalAmount: placeBetModel.choices[HoldemPokerChoicesConst.ante] });
+        }
 
-    if (placeBetModel.choices[HoldemPokerChoicesConst.aa] !== 0) {
-        updateChips(
-            bettingAreas,
-            betChips,
-            shadowChip,
-            holdemPokerChips
-        )({ choice: HoldemPokerChoicesConst.aa, totalAmount: placeBetModel.choices[HoldemPokerChoicesConst.aa] });
-    }
-};
+        if (placeBetModel.choices[HoldemPokerChoicesConst.aa] !== 0) {
+            updateChips(
+                bettingAreas,
+                betChips,
+                shadowChip,
+                holdemPokerChips
+            )({ choice: HoldemPokerChoicesConst.aa, totalAmount: placeBetModel.choices[HoldemPokerChoicesConst.aa] });
+        }
+    };
 
 export const updateTotalBetLabel = (totalBetLabel: cc.Label) => (placingModel: HoldemPokerPlaceBetModel) => {
     let total = 0;

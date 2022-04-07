@@ -7,7 +7,7 @@ module.exports = {
     testEnvironment: "jsdom",
     testPathIgnorePatterns: ["/lib/", "/node_modules/", "/mocks/"],
     moduleFileExtensions: ["ts", "js"],
-    testMatch: ["**/__tests__/**/*.+(ts)", "**/?(*.)+(spec|test).+(ts)"],
+    testMatch: ["**/__tests__/**/?(*.)+(spec|test).+(ts)"],
     transformIgnorePatterns: ["cocos2d-js-for-preview.js"],
     clearMocks: true
 };

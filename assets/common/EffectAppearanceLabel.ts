@@ -11,9 +11,6 @@ export default class EffectAppearanceLabel extends cc.Component {
     @property(cc.Mask)
     mask: cc.Mask = null;
 
-    @property(cc.Node)
-    decorator: cc.Node = null;
-
     @property
     speed = 400;
 
@@ -25,12 +22,8 @@ export default class EffectAppearanceLabel extends cc.Component {
         }
     }
 
-    onLoad() {
-        this.decorator.opacity = 0;
-    }
-
     protected getContentWidth(): number {
-        return this.label ? this.label.node.width : this.richText ? this.richText.node.width : 0;
+        return this.label ? this.label.node.width : this.richText ? this.richText.node.width * this.richText.node.scaleX : 0;
     }
 
     protected calculateDistance(): number {
@@ -40,17 +33,9 @@ export default class EffectAppearanceLabel extends cc.Component {
 
     public playAnimation() {
         this.mask.node.width = 0;
-        this.decorator.opacity = 255;
-        this.decorator.position = cc.v3(0, this.decorator.position.y, this.decorator.position.z);
 
         const width = this.calculateDistance();
         const duration = width / this.speed;
-
-        this.decorator.stopAllActions();
         cc.tween(this.mask.node).to(duration, { width: width }).start();
-        cc.tween(this.decorator)
-            .to(duration, { position: cc.v3(width, this.decorator.position.y, this.decorator.position.z) })
-            .to(0.1, { opacity: 0 })
-            .start();
     }
 }

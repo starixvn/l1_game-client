@@ -15,6 +15,17 @@ export enum CardAnimation {
     PullCard = "pull_card"
 }
 
+export const convertOldRank = (num: number): string => {
+    num++;
+    const dict = {
+        11: "J",
+        12: "Q",
+        13: "K",
+        1: "A"
+    };
+    return dict[num] || num.toString();
+};
+
 @ccclass
 export default class NewCard extends cc.Component {
     @property(cc.SpriteAtlas)
@@ -47,7 +58,9 @@ export default class NewCard extends cc.Component {
         k: "k_picture"
     };
 
-    public onAnimationComplete = () => {};
+    public onAnimationComplete = () => {
+        // onAnimationComplete
+    };
 
     onLoad() {
         this.animation &&
@@ -65,19 +78,8 @@ export default class NewCard extends cc.Component {
     }
 
     setCardOldStyle(card: CardModel) {
-        this.card.rank = this.convertOldRank(+card.rank);
+        this.card.rank = convertOldRank(+card.rank);
         this.card.suit = card.suit;
-    }
-
-    convertOldRank(num: number): string {
-        num++;
-        const dict = {
-            11: "J",
-            12: "Q",
-            13: "K",
-            1: "A"
-        };
-        return dict[num] || num.toString();
     }
 
     setFaceUp(faceUp: boolean) {
@@ -128,5 +130,16 @@ export default class NewCard extends cc.Component {
     playAnimation(type: CardAnimation, duration: number) {
         const state = this.animation.playAdditive(type);
         state.speed = state.duration / duration;
+    }
+
+    stopAnimation() {
+        this.animation.stop();
+    }
+
+    resetCardNode() {
+        const cardContainer = this.animation.node.getChildByName("card");
+        cardContainer.position = cc.v3(0, 0, 0);
+        cardContainer.eulerAngles = cc.v3(0, 0, 0);
+        cardContainer.scaleX = 0.5;
     }
 }

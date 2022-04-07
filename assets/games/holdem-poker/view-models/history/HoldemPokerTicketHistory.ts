@@ -64,8 +64,8 @@ export default class HoldemPokerTicketHistory extends BetHistory {
 
     historyData: BetLog[] = null;
 
-    private root: HoldemPoker;
-    private ticketDetailComponent: HoldemPokerTicketDetail = null;
+    protected root: HoldemPoker;
+    protected ticketDetailComponent: HoldemPokerTicketDetail = null;
 
     init(root: HoldemPoker) {
         this.root = root;

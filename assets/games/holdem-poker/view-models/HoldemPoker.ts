@@ -1,9 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import NewButton from "../../../common/custom-button/NewButton";
 import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import PrefabLoader from "../../../common/PrefabLoader";
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { GameIds } from "../../../configs/SabaConfigs";
 import DataHandler from "../../_base/handlers/DataHandler";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
@@ -25,22 +23,17 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel,
+    updateTotalBetLabel
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundCounter, updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
 import { showWinningOption } from "../actions/HoldemPokerSettlementActions";
 import { renderTicketDetail } from "../actions/HoldemPokerTicketDetailActions";
 import { handleUM } from "../actions/HoldemPokerUmAction";
-import {
-    collectCart,
-    rawCardAfterClickCall,
-    rawCardAfterClickDeal,
-    rawCardWhenRejoin,
-} from "../components/cards/view-models/CardWrapper";
+import { collectCards, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
 import PokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
-import { HoldemPockerMD5Model } from "../event-models/HoldemPockerMD5Model";
+import { HoldemPokerMD5Model } from "../event-models/HoldemPokerMD5Model";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
 import { HoldemPokerAfterDealModel } from "../event-models/HoldemPokerAfterDealModel";
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
@@ -315,7 +308,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     private registerMD5Event() {
-        this.gameData.md5Model.on(HoldemPockerMD5Model.Events.CHANGE, (md5: HoldemPockerMD5Model) => {
+        this.gameData.md5Model.on(HoldemPokerMD5Model.Events.CHANGE, (md5: HoldemPokerMD5Model) => {
             updateMD5(this.md5Comp)(md5);
         });
     }
@@ -420,7 +413,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     onRebetAndDeal() {
         this.playClick();
         this.hideButtonPrepareNewRound();
-        collectCart(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
+        collectCards(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
         clearAllBetChips(this.bettingAreas)();
         this.holdemPokerChips.stopWinningEffect();
         this.clearWinningBet();
@@ -453,7 +446,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     onNewButtonClick() {
         this.playClick();
         this.hideButtonPrepareNewRound();
-        collectCart(
+        collectCards(
             this.pokerCardScript,
             () =>
                 this.gameData &&
@@ -472,18 +465,6 @@ export default class HoldemPoker extends NewGameRoomBase {
 
     public getConfigs() {
         this.connection.emit(events.getGameConfigs);
-    }
-
-    public openMD5Guide() {
-        const dialog = cc.instantiate(this.guidePrefab);
-        const guide = dialog.getComponent(WebViewGuide);
-        const { minBet, maxBet } = this.getBetRange();
-        const locale = getLocale();
-        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
-        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, "&md5=1");
-        guide.sendDataToIframe(this.gameConfigs);
-        this.currentMiniPanel.showGuide(dialog);
-        guide.loadWebView();
     }
 
     playStartGameAudio() {

@@ -16,6 +16,10 @@ export default class ChipStack extends cc.Component {
         this.node.addChild(chipNode);
     }
 
+    getChipNumber() {
+        return this.node.childrenCount;
+    }
+
     getCurrentHeight(): number {
         return this.node.childrenCount * this.thickness;
     }

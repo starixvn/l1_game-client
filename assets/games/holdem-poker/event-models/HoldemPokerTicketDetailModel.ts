@@ -1,11 +1,6 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
-export class HoldemPokerTicketDetailModel extends EventEmitter {
-    constructor() {
-        super();
-        this.setMaxListeners(0);
-    }
-
+export class HoldemPokerTicketDetailModel extends EventEmitterBase {
     static Events = {
         CHANGE: "ticketDetail:change"
     };

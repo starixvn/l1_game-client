@@ -1,12 +1,9 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { HiloChoicesConst } from "../events-models/HiLoChoices";
 import { HiLoOwnBetsModel } from "../events-models/HiLoOwnBetsModel";
 import { HiLoStatusModel } from "../events-models/HiLoStatusModel";
 import HiLo from "../view-models/HiLo";
-
-export const updateStakes = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
-    model.nextAmounts && mainGame.stakesComp.updateStakes(model.nextAmounts);
-};
 
 export const handleStatusWon = (mainGame: HiLo) => async (statusModel: HiLoStatusModel) => {
     AudioManager.getInstance().playSFX(mainGame.collectAudioClip);
@@ -16,8 +13,9 @@ export const handleStatusWon = (mainGame: HiLo) => async (statusModel: HiLoStatu
     mainGame.gameData.stateModel.prepareNewRound();
 };
 
-export const checkStatusLost = (mainGame: HiLo) => async (statusModel: HiLoStatusModel) => {
-    if (statusModel.isSettled && !statusModel.win) {
+export const handleStatusLost = (mainGame: HiLo) => async (statusModel: HiLoStatusModel) => {
+    if (statusModel.isSettled && !statusModel.win && mainGame.shouldHandleStatus) {
+        mainGame.shouldHandleStatus = false;
         mainGame.resetUIPrepareNewRound();
         await mainGame.showUserLoseMessage();
         mainGame.gameData.stateModel.prepareNewRound();
@@ -34,21 +32,25 @@ export const updateStatistic = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => 
     mainGame.statisticComp.updateCards(model.result);
 };
 
-export const updateButtonCollectAndBetChoices = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
+export const updateStakesAndButtons = (mainGame: HiLo) => (model: HiLoOwnBetsModel) => {
     const highestRank = "A";
     const lowestRank = "2";
     const currentResult = model.result[model.result.length - 1];
 
     mainGame.bettingAreas.forEach((area) => {
-        let isSpecialCase = true;
-        if (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) {
-            mainGame.stakesComp.setAmount(mainGame.stakesComp.higherAmount, "");
-        } else if (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower) {
-            mainGame.stakesComp.setAmount(mainGame.stakesComp.lowerAmount, "");
-        } else {
-            isSpecialCase = false;
+        let isSpecialCase = false;
+        if (
+            (currentResult.rank === highestRank && area.betChoice === HiloChoicesConst.higher) ||
+            (currentResult.rank === lowestRank && area.betChoice === HiloChoicesConst.lower)
+        ) {
+            area.resetStakeAmount();
+            isSpecialCase = true;
         }
         area.enableBetChoice(!isSpecialCase);
+        if (!isSpecialCase && model.nextAmounts) {
+            area.updateStakeAmount(model.nextAmounts[area.betChoice]);
+        }
     });
+    mainGame.betWin.string = numberWithCommas(model.betwin, 2);
     mainGame.enableCollectButton(model.totalTurns > 0);
 };

@@ -8,7 +8,6 @@ import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import HoverItemBase from "../../common/HoverItemBase";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
-import { GameState } from "../_base/GameBase";
 import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
 import LineView from "../AHCL/scripts/LineView";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
@@ -28,6 +27,7 @@ import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
 import SpinButton from "./SpinButton";
+import { GameState } from "../_base/GameState";
 
 export interface LineData {
     payline: number;
@@ -133,9 +133,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     @property(JackpotPoolInfoBase)
     jackpotPoolInfo: JackpotPoolInfoBase = null;
-
-    @property(cc.AudioSource)
-    musicBg: cc.AudioSource = null;
 
     @property({ type: cc.AudioSource })
     soundSources: cc.AudioSource[] = [];

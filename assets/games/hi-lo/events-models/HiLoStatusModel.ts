@@ -17,17 +17,18 @@ export class HiLoStatusModel extends EventEmitter {
 
     isSettled = false;
 
-    hasWon(win: boolean, bet: number) {
-        this.win = win;
+    hasWon(bet: number) {
         this.bet = bet;
+        this.win = true;
         this.isSettled = true;
         this.emit(HiLoStatusModel.Events.WON, this);
     }
 
     hasLost() {
-        this.win = false;
         this.bet = 0;
+        this.win = false;
         this.isSettled = true;
+        this.emit(HiLoStatusModel.Events.LOST, this);
     }
 
     collectFailed() {

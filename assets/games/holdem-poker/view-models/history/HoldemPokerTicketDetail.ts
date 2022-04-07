@@ -1,8 +1,9 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
+import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import { convertCard } from "../../components/cards/view-models/CardWrapper";
-import HoldemPokerCard, { CardModel } from "../../components/cards/view-models/HoldemPokerCard";
+import HoldemPokerCard from "../../components/cards/view-models/HoldemPokerCard";
 import { CombineCardResultLabel } from "../../components/cards/view-models/HoldemPokerCards";
 import { HoldemPokerTicketDetailModel } from "../../event-models/HoldemPokerTicketDetailModel";
 import HoldemPokerTicketDetailItem from "./HoldemPokerTicketDetailItem";
@@ -52,7 +53,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
     @property(cc.Sprite)
     betTable: cc.Sprite = null;
 
-    private heightBetTable = 64;
+    protected heightBetTable = 64;
 
     renderTitle(roundId: number, time: Date) {
         this.roundId.string = roundId.toString();
@@ -62,38 +63,37 @@ export default class HoldemPokerTicketDetail extends cc.Component {
 
     renderBets(data: HoldemPokerTicketDetailModel) {
         const { bets, isFold } = data.ticketDetail;
+        const totalRow = bets.length;
         this.heightBetTable = isFold ? 76 : 64;
         bets.forEach((bet, index) => {
             this.heightBetTable += 60;
-            this.handleTicketDetailItem(bet, index);
+            this.handleTicketDetailItem(bet, index, totalRow);
         });
         this.betTable.node.height = this.heightBetTable;
     }
 
-    handleTicketDetailItem(bet: any, index: number) {
+    protected getComponentDetailItem(node: cc.Node): HoldemPokerTicketDetailItem {
+        return node.getComponent(HoldemPokerTicketDetailItem);
+    }
+
+    handleTicketDetailItem(bet: any, index: number, totalRow: number) {
         const detailItemPrefab = cc.instantiate(this.prefabItem);
-        const detailItemControl = detailItemPrefab.getComponent(HoldemPokerTicketDetailItem);
-        detailItemControl.renderTicketDetailitem(bet, index);
+        const detailItemControl = this.getComponentDetailItem(detailItemPrefab);
+        detailItemControl.renderTicketDetailItem(bet, index, totalRow);
         this.content.addChild(detailItemPrefab);
     }
 
     renderCards(data: HoldemPokerTicketDetailModel) {
-        const { playerCards, dealerCards, isFold, communityCards, isPlayerWin } = data.ticketDetail;
-        const playerCardsConverted = convertCard(playerCards.cards);
+        const { playerCards, dealerCards, isFold, communityCards, isPlayerWin, isSwappedOrHold } = data.ticketDetail;
+
         const communityCardsConverted = convertCard(communityCards);
-
-        playerCardsConverted.forEach((element) => {
-            this.playerCardsContainer.node.addChild(this.createCard(element, 0.75, 0.75));
-            this.playerCardsContainer.updateLayout();
-        });
-
+        this.renderCardPlayer(playerCards, isSwappedOrHold);
         communityCardsConverted.forEach((element) => {
             this.communityCardsContainer.node.addChild(this.createCard(element, 0.75, 0.75));
             this.communityCardsContainer.updateLayout();
         });
 
         if (!isFold) {
-            let dealerResult: string;
             const playerCombinationConverted = convertCard(playerCards.combinationCards);
             const dealerCombinationConverted = convertCard(dealerCards.combinationCards);
             const dealerCardsConverted = convertCard(dealerCards.cards);
@@ -103,25 +103,57 @@ export default class HoldemPokerTicketDetail extends cc.Component {
             const playerResult = `holdEmPoker.${CombineCardResultLabel[playerCards.handResultId].dataId}`;
             this.playerRank.string = `${i18n.t(playerResult)}`;
 
-            if (dealerCards.isQualified) {
-                dealerResult = `holdEmPoker.${CombineCardResultLabel[dealerCards.handResultId].dataId}`;
-
-                if (isPlayerWin > 0) {
-                    this.playerRank.node.color = cc.Color.YELLOW;
-                } else if (isPlayerWin < 0) {
-                    this.dealerRank.node.color = cc.Color.YELLOW;
-                }
-            } else {
-                this.playerRank.node.color = cc.Color.YELLOW;
-                dealerResult = `holdEmPoker.${HandResultConst[0]}`;
-            }
-            this.dealerRank.string = `${i18n.t(dealerResult)}`;
+            this.dealerRank.string = `${i18n.t(this.getDealerResult(dealerCards))}`;
+            this.handleColorNodePlayerDealer({ dealerCards, isPlayerWin });
         } else {
             this.renderCardsUIEqualFold();
         }
     }
 
-    private renderCardsUIEqualCall(playerCombination: any, dealerCombination: any, dealerCards: any) {
+    protected checkFaceDownPlayerCard(isSwappedOrHold: boolean) {
+        return true;
+    }
+
+    protected renderCardPlayer(playerCards, isSwappedOrHold) {
+        let cards = [];
+        if (playerCards.cards.length > 0) {
+            cards = playerCards.cards;
+        } else {
+            cards = [
+                { rank: "1", suit: 1 },
+                { rank: "1", suit: 1 }
+            ];
+        }
+        const playerCardsConverted = convertCard(cards);
+        playerCardsConverted.forEach((element) => {
+            this.playerCardsContainer.node.addChild(this.createCard(element, 0.75, 0.75, this.checkFaceDownPlayerCard(isSwappedOrHold)));
+            this.playerCardsContainer.updateLayout();
+        });
+    }
+
+    getDealerResult(dealerCards) {
+        let dealerResult: string;
+        if (dealerCards.isQualified) {
+            dealerResult = `holdEmPoker.${CombineCardResultLabel[dealerCards.handResultId].dataId}`;
+        } else {
+            dealerResult = `holdEmPoker.${HandResultConst[0]}`;
+        }
+        return dealerResult;
+    }
+
+    handleColorNodePlayerDealer({ dealerCards, isPlayerWin }) {
+        if (dealerCards.isQualified) {
+            if (isPlayerWin > 0) {
+                this.playerRank.node.color = cc.Color.YELLOW;
+            } else if (isPlayerWin < 0) {
+                this.dealerRank.node.color = cc.Color.YELLOW;
+            }
+        } else {
+            this.playerRank.node.color = cc.Color.YELLOW;
+        }
+    }
+
+    protected renderCardsUIEqualCall(playerCombination: any, dealerCombination: any, dealerCards: any) {
         playerCombination.forEach((element) => {
             this.playerCombinationContainer.node.addChild(this.createCard(element, 0.75, 0.75));
             this.playerCombinationContainer.updateLayout();
@@ -138,7 +170,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         });
     }
 
-    private renderCardsUIEqualFold() {
+    protected renderCardsUIEqualFold() {
         const dealerFakeData = [
             { rank: "1", suit: 1 },
             { rank: "1", suit: 1 }
@@ -154,7 +186,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
         this.dealerRank.string = "-";
     }
 
-    private createCard(card: CardModel, scaleX: number, scaleY: number, isFaceUp = true): cc.Node {
+    protected createCard(card: CardModel, scaleX: number, scaleY: number, isFaceUp = true): cc.Node {
         const node = cc.instantiate(this.pokerCardPrefab);
         const cardComponent = node.getComponent(HoldemPokerCard);
         cardComponent.setCard(card);

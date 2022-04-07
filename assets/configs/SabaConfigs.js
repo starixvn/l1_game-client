@@ -50,7 +50,7 @@ const configs = {
             key: "CasinoHoldemPoker"
         },
         42: {
-            key: "CasinoHoldemPoker"
+            key: "TexasHoldemPoker"
         },
         38: {
             key: "HeroesSlot"

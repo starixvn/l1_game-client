@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
-import { convertOldRank } from "../components/cards/view-models/CardWrapper";
+import { FormatMD5Result } from "../../_casino/MD5Format";
 
 const { ccclass, property } = cc._decorator;
 
@@ -52,27 +52,25 @@ export default class HoldemPockerMD5 extends cc.Component {
     }
 
     createResultDetails(data: any) {
-        const { cards, suffix } = data.formatValue;
+        const { cards, suffix, roundId } = data.formatValue;
         this.setCaptionAndHintForMD5(true);
         this.setCopyString(data.rawValue);
+        this.setMD5Value(cards, suffix, roundId);
+    }
 
-        let resultFormatting = "";
-        cards.forEach((card, index) => {
-            const startSquareBracket = index === 0 ? `<color=#ffffff>[</color>` : "";
-            const endSquareBracket = index === cards.length - 1 ? `<color=#ffffff>]</color>` : "";
-            const comma = index === cards.length - 1 ? "" : index === 1 || index === 3 ? `<color=#ffffff>, </color>` : " ";
-            const cardValue =
-                card.suit > 1
-                    ? `<color=#000000>${convertOldRank(card.rank)}</color>`
-                    : `<color=#E92E2E>${convertOldRank(card.rank)}</color>`;
-            resultFormatting += `${startSquareBracket}${cardValue}${comma}${endSquareBracket}`;
+    setMD5Value(cards, suffix, roundId) {
+        this.md5Value.string = FormatMD5Result({
+            cards,
+            suffix,
+            firstCharacter: "[",
+            endCharacter: "]",
+            suitBlack: "#000000",
+            suitRed: "#E92E2E",
+            roundId
         });
-        const suffixFormatting = `<color=#ffffff>${suffix}</color>`;
-        this.md5Value.string = `${resultFormatting}${suffixFormatting}`;
     }
 
     onClickCopyButton() {
-        
         GameUtils.copyToClipboard(this.md5CopyString, this.showHint);
     }
 

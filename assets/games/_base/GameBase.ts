@@ -27,16 +27,9 @@ import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
+import { GameState } from "./GameState";
 
 const { ccclass, property } = cc._decorator;
-
-export enum GameState {
-    None = 0,
-    Started,
-    Stopped,
-    Disabled
-}
-
 @ccclass
 export default class GameBase extends BaseComponent {
     @property({ type: BetItem })
@@ -479,6 +472,18 @@ export default class GameBase extends BaseComponent {
         const locale = getLocale();
         const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
         guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
+        guide.sendDataToIframe(this.gameConfigs);
+        this.currentMiniPanel.showGuide(dialog);
+        guide.loadWebView();
+    }
+
+    protected openMD5Guide() {
+        const dialog = cc.instantiate(this.guidePrefab);
+        const guide = dialog.getComponent(WebViewGuide);
+        const { minBet, maxBet } = this.getBetRange();
+        const locale = getLocale();
+        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, "&md5=1");
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();
