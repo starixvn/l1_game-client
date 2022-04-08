@@ -3,6 +3,9 @@ import AudioManager from "./AudioManager";
 export default class MusicPlayer {
     private readonly ListSong = ["song1", "song2", "song3", "song4", "song5", "song6"];
     isLoadBgMusic = false;
+    bgMusicId: any;
+    readonly volumeDefault = 0.7;
+    readonly nameMusicChanged = "lobby";
 
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
@@ -35,9 +38,9 @@ export default class MusicPlayer {
     loadResourceAudio(song: string) {
         !this.isLoadBgMusic &&
             cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
-                const bgMusicId = AudioManager.getInstance().playMusic(audioClip, false);
-                cc.audioEngine.setVolume(bgMusicId, 0.7);
-                cc.audioEngine.setFinishCallback(bgMusicId, () => {
+                this.bgMusicId = AudioManager.getInstance().playMusic(audioClip, false);
+                cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
+                cc.audioEngine.setFinishCallback(this.bgMusicId, () => {
                     this.isLoadBgMusic = false;
                     this.playBgAudio(true);
                 });
@@ -46,8 +49,18 @@ export default class MusicPlayer {
 
     init() {
         const audioManager = AudioManager.getInstance();
-        audioManager.addMusicChanged("lobby", (enable: boolean) => {
+        audioManager.addMusicChanged(this.nameMusicChanged, (enable: boolean) => {
             this.playBgAudio(enable);
         });
+    }
+
+    stopMusicBgJoinRoom() {
+        let volume = this.volumeDefault;
+        const step = 0.15;
+        const intervalVol = setInterval(() => {
+            cc.audioEngine.setVolume(this.bgMusicId, volume);
+            volume = volume - step;
+            volume <= 0 && clearInterval(intervalVol);
+        }, 100);
     }
 }

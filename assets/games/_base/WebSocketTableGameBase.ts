@@ -62,6 +62,7 @@ export default class WebSocketTableGameBase extends GameBase {
 
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale = 1;
+    readonly delayTurnOffMusicBg = 4;
 
     constructor() {
         super();
@@ -78,9 +79,13 @@ export default class WebSocketTableGameBase extends GameBase {
 
     initMusicBackground() {
         if (this.musicBg && this.musicBg.getComponent(cc.AudioSource)) {
-            AudioManager.getInstance().stopMusic();
-            AudioManager.getInstance().removeMusicChanged("lobby");
-            MusicPlayer.getInstance().isLoadBgMusic = false;
+            const musicPlayer = MusicPlayer.getInstance();
+            musicPlayer.stopMusicBgJoinRoom();
+            this.scheduleOnce(() => {
+                AudioManager.getInstance().stopMusic();
+                AudioManager.getInstance().removeMusicChanged(musicPlayer.nameMusicChanged);
+                musicPlayer.isLoadBgMusic = false;
+            }, this.delayTurnOffMusicBg);
         }
     }
 
