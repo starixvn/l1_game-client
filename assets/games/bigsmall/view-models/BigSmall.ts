@@ -119,6 +119,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     onEnable() {
         super.onEnable();
         this.showStatistic = true;
+        this.md5Component.delayShowRawValue = 1;
         this.handleShowStatistic(this.showStatistic);
     }
 
